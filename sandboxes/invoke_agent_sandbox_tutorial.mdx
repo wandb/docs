@@ -1,0 +1,179 @@
+---
+title: "Tutorial: Invoke an agent in a sandbox"
+description: "Learn how to invoke a LangChain agent within a W&B Sandbox environment"
+---
+
+In this tutorial, you'll learn how to invoke an agent within a W&B Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes an agent using the LangChain library.
+
+<Note>
+This tutorial uses Claude as the language model for the agent, which requires an Anthropic API key. You can use any model that is compatible with LangChain. Ensure to adjust the code and environment variables accordingly.
+</Note>
+
+{/* This allows you to test and iterate on your agent's behavior in a safe and isolated environment, without affecting your local setup. */}
+
+## Requisites
+
+{/* ### (Recommended) Create a Python virtual environment
+
+Create and activate a Python virtual environment to keep your dependencies organized and avoid conflicts with other projects. Run the following commands in your terminal:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+```  */}
+
+### Install W&B Python SDK
+
+Install the W&B Python SDK. You can do this using `pip`:
+
+```bash 
+pip install wandb
+```
+### Store API keys in environment variables
+
+Store your Anthropic API key in an environment variable named `ANTHROPIC_API_KEY` to run this tutorial.
+
+```bash
+export ANTHROPIC_API_KEY="your_anthropic_api_key_here"
+```
+
+If you have not done so already, store your W&B API key. Run the `wandb login` CLI command and follow the prompts to log in to your W&B account:
+
+```bash
+wandb login
+```
+
+See [`wandb login`](/models/ref/cli/wandb-login) reference documenation for more information on how W&B searches for credentials.
+
+## Copy agent code
+
+<Accordion title="LangChain agent code">
+
+Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial, then run the above code snippet to see how to invoke a LangChain agent within a W&B Sandbox environment.
+
+```python title="demo.py"
+# Taken from https://docs.langchain.com/oss/python/langchain/quickstart
+import os
+from dataclasses import dataclass
+
+from langchain.agents import create_agent
+from langchain.chat_models import init_chat_model
+from langchain.tools import tool, ToolRuntime
+from langgraph.checkpoint.memory import InMemorySaver
+from langchain.agents.structured_output import ToolStrategy
+
+# Get API key from environment
+api_key = os.getenv("ANTHROPIC_API_KEY")
+if not api_key:
+    raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+
+
+# Define system prompt
+SYSTEM_PROMPT = """You are an expert weather forecaster, who speaks in puns.
+
+You have access to two tools:
+
+- get_weather_for_location: use this to get the weather for a specific location
+- get_user_location: use this to get the user's location
+
+If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean wherever they are, use the get_user_location tool to find their location."""
+
+# Define context schema
+@dataclass
+class Context:
+    """Custom runtime context schema."""
+    user_id: str
+
+# Define tools
+@tool
+def get_weather_for_location(city: str) -> str:
+    """Get weather for a given city."""
+    return f"It's always sunny in {city}!"
+
+@tool
+def get_user_location(runtime: ToolRuntime[Context]) -> str:
+    """Retrieve user information based on user ID."""
+    user_id = runtime.context.user_id
+    return "Florida" if user_id == "1" else "SF"
+
+# Configure model
+model = init_chat_model(
+    "claude-sonnet-4-6",
+    temperature=0
+)
+
+# Define response format
+@dataclass
+class ResponseFormat:
+    """Response schema for the agent."""
+    # A punny response (always required)
+    punny_response: str
+    # Any interesting information about the weather if available
+    weather_conditions: str | None = None
+
+# Set up memory
+checkpointer = InMemorySaver()
+
+# Create agent
+agent = create_agent(
+    model=model,
+    system_prompt=SYSTEM_PROMPT,
+    tools=[get_user_location, get_weather_for_location],
+    context_schema=Context,
+    response_format=ToolStrategy(ResponseFormat),
+    checkpointer=checkpointer
+)
+
+# Run agent
+config = {"configurable": {"thread_id": "1"}}
+
+response = agent.invoke(
+    {"messages": [{"role": "user", "content": "what is the weather outside?"}]},
+    config=config,
+    context=Context(user_id="1")
+)
+
+print(response['structured_response'])
+
+# Note that we can continue the conversation using the same `thread_id`.
+response = agent.invoke(
+    {"messages": [{"role": "user", "content": "thank you!"}]},
+    config=config,
+    context=Context(user_id="1")
+)
+
+print(response['structured_response'])
+```
+</Accordion>
+
+
+## Create a sandbox and run the agent script
+
+```python
+import os
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+script = Path("demo.py").read_bytes()
+
+print("Starting sandbox...")
+with Sandbox.run(
+    container_image="python:3.13",
+    network=NetworkOptions(egress_mode="internet"),
+    max_lifetime_seconds=3600,
+    environment_variables={"ANTHROPIC_API_KEY": os.environ["ANTHROPIC_API_KEY"]},
+) as sandbox:
+    sandbox.write_file("demo.py", script).result()
+
+    # Install dependencies
+    print("Installing dependencies...")
+    sandbox.exec(["pip", "install", "langchain", "langgraph", "langchain_anthropic"], check=True).result()
+
+    # Run the script
+    print("Running script...")
+    result = sandbox.exec(["python", "demo.py"], check=True).result()
+    print("Script output:")
+    print(result)
+
+    print(f"Exit code: {result.returncode}")
+```

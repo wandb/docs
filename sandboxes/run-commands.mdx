@@ -1,0 +1,96 @@
+---
+title: Run commands
+description: Learn how to run commands in a W&B Sandbox and read output and exit codes.
+---
+
+Use the sandboxes you create to run shell commands in an isolated environment. This page shows how to run commands, check output and exit codes, and reuse the same sandbox for multiple steps.
+
+## Run commands in a sandbox
+
+There are two common patterns for executing commands in a sandbox:
+
+1. [Run a single command](#run-a-single-command) and let the sandbox stop when the command finishes.
+2. [Run multiple commands](#run-multiple-commands-sequentially-in-the-same-sandbox) in the same sandbox.
+
+### Run a single command
+
+To run a single command, pass the command directly to `Sandbox.run()`. The sandbox stops automatically when the command finishes and is no longer available for additional work.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+sandbox.wait_until_complete(timeout=3600.0)
+print(f"Exit code: {sandbox.returncode}")
+```
+
+### Run multiple commands sequentially in the same sandbox
+
+Use the same sandbox for workflows that require multiple steps, such as installing dependencies, writing files, running a script, and reading results.
+
+To run multiple commands in the same sandbox, start the sandbox without a command. Then use `Sandbox.exec()` to run commands in the running sandbox.
+
+The following code snippet starts a sandbox without a main command, then runs two commands sequentially in the same sandbox: first it installs PyTorch, then it runs a training script:
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["pip", "install", "torch"], check=True).result()
+    print(result.stdout)
+
+    result = sandbox.exec(["python", "train.py"], check=True).result()
+    print(result.stdout)
+```
+
+The `Sandbox.exec()` method runs a command inside a running sandbox and returns a `Process` object that you can use to wait for completion, read output, and inspect the exit code.
+
+For more information about `Sandbox.exec()` and its parameters, see the [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) reference documentation.
+
+{/* See the [Read output and exit codes](#read-output-and-exit-codes) section below for more details on how to read command output and exit codes from the result object returned by `Sandbox.exec()`. */}
+
+You can also explictly define a long runnig main process to keep the sandbox alive while the command runs. This is useful if you want to run a command that takes a long time to execute, such as training a machine learning model.
+
+The following code snippet starts a sandbox with the command `sleep infinity`, which keeps the sandbox running indefinitely. Then it runs a Python training script inside the sandbox using `Sandbox.exec()`. The sandbox stays active while the training script runs, and you can run additional commands in the same sandbox if needed.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+## Read output and exit codes
+
+`Sandbox.exec()` returns a `Process` object. Call `Process.result()` to wait for the command to finish and get its result. `Process.result()` includes the standard output (`stdout`), standard error (`stderr`), and exit code (`returncode`).
+
+Use the exit code to determine whether the command succeeded. By convention, an exit code of 0 indicates success.
+
+For example, the following code snippet runs a Python command that prints the standard output (`stdout`) and the exit code (`returncode`). After the command finishes, it prints the standard output, standard error, and exit code to the console.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["python", "-c", "print('hello')"]).result()
+    print(result.stdout)      # "hello\\n"
+    print(result.returncode)  # 0
+```
+
+## Check for sandbox execution errors
+
+Specify `check=True` (`Sandbox.exec(check=True)`) to raise an error if the command exits with a non-zero exit code. A [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) is raised if the command exits with a non-zero code:
+
+
+```python
+from wandb.sandbox import Sandbox
+from cwsandbox import SandboxExecutionError
+
+with Sandbox.run() as sandbox:
+    try:
+        sandbox.exec(["python", "might_fail.py"], check=True).result()
+    except SandboxExecutionError as e:
+        print(f"Command failed with exit code {e.exec_result.returncode}")
+        print(e.exec_result.stderr)
+```

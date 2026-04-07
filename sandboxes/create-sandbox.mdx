@@ -1,0 +1,79 @@
+---
+title: Create sandboxes
+description: Learn how to create and manage sandboxes.
+---
+
+Create sandboxes to run code in isolated environments. Each sandbox runs in its own container with its own [filesystem](./file-accesssandbox), network, and process space.
+
+Use `Sandbox` to create a single sandbox. Use `Session` to create and manage multiple sandboxes that share the same configuration.
+
+<Info>
+By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to `Sandbox.run()` or `SandboxDefaults()`. W&B supports public container images only.
+</Info>
+
+## Create a single sandbox
+
+Use `Sandbox.run()` to create and start a sandbox. This method returns a `Sandbox` object that you can use to interact with the environment.
+
+The following example creates a sandbox with the default container image (`python:3.11`) and network configuration:
+
+```python
+from wandb.sandbox import Sandbox, NetworkOptions
+
+with Sandbox.run(
+    network=NetworkOptions(egress_mode="internet"),
+) as sandbox:
+    print(sandbox)
+```
+
+W&B recommends using a context manager to ensure that the sandbox is stopped automatically when it exits the block. To learn how to run commands inside a sandbox, see [Run commands](./run-commandssandbox). To learn about sandbox lifecycle and states, see [Lifecycle](./lifecyclesandbox).
+
+## Start a sandbox without a main command
+
+Call `Sandbox.run()` without a command when you want to create a sandbox first and run work inside it later.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+This pattern is useful for interactive and multi-step workflows. To learn how to run commands inside a sandbox, see [Run commands](./run-commands).
+
+## Start a sandbox with a main command
+
+You can also pass a command to `Sandbox.run()`. In that case, the command becomes the sandbox's main process.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+```
+
+Use this pattern when the sandbox is meant to run a single job from start to finish. When the main process exits, the sandbox enters a terminal state such as COMPLETED or FAILED. To learn more, see [Lifecycle](./lifecycle).
+
+## Create multiple sandboxes with a session
+
+Use `Session` when you need multiple sandboxes with shared configuration. A session lets you define common defaults once and create multiple sandboxes from the same session.
+
+When the session closes, all sandboxes created by that session are stopped automatically.
+
+```python
+from wandb.sandbox import Session, SandboxDefaults
+
+defaults = SandboxDefaults(
+    container_image="python:3.11",
+    max_lifetime_seconds=300,
+    tags=("batch-job",),
+)
+
+with Session(defaults) as session:
+    sb1 = session.sandbox()
+    sb2 = session.sandbox()
+
+    print(sb1)
+    print(sb2)
+```
+
+Use sessions for workflows such as batch jobs, fan-out tasks, or test environments where multiple sandboxes should share the same setup.
