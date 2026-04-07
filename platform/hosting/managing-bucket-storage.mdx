@@ -1,0 +1,56 @@
+---
+title: Manage bucket storage and costs
+description: Understand how W&B uses object storage, how deletion maps to bucket bytes, and how to reduce usage on self-managed, Dedicated Cloud, and bring-your-own-bucket deployments.
+---
+
+When you use [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector), [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), or [W&B Self-Managed](/platform/hosting/hosting-options/self-managed), your team often pays cloud storage providers directly. This page explains what occupies your bucket, how W&B removes objects after deletion in the app or API, and what you should expect in practice.
+
+## What uses bucket space
+
+W&B stores several categories of data in your configured object storage. The [BYOB overview](/platform/hosting/data-security/secure-storage-connector#data-stored-in-the-central-database-vs-buckets) lists examples, including experiment files and metrics, artifact files, media files, run files, and exported history in Parquet form. Together these drive bucket size and cost.
+
+## How W&B removes data from storage
+
+Deletion in the W&B App or [Public API](/models/ref/python/public-api/api) updates W&B metadata first. **Removing a run, artifact, or file from the product does not guarantee an immediate drop in reported bucket usage.** Object storage cleanup runs as background work that can lag, especially on busy instances.
+
+### Artifacts
+
+Deleted artifacts are soft-deleted, then processed by artifact garbage collection. Self-managed deployments must set `GORILLA_ARTIFACT_GC_ENABLED` and meet provider requirements such as versioning or soft delete. See [Delete an artifact](/models/artifacts/delete-artifacts) and [Configure environment variables](/platform/hosting/env-vars).
+
+### Run data and run files
+
+After runs or run-associated files are deleted, permanent removal of the underlying stored objects is controlled separately from artifacts. On Dedicated Cloud and Self-Managed deployments, `GORILLA_DATA_RETENTION_PERIOD` sets how long **deleted run data** is retained before it can be removed from storage. **This setting does not delete artifacts.** See [Configure environment variables](/platform/hosting/env-vars), [Data retention policy](/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy) for Dedicated Cloud, and [Delete runs](/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) for how run and file deletion relates to storage.
+
+## What to expect from background cleanup
+
+Garbage collection and related jobs that free object storage are **best-effort**. W&B does **not** guarantee that a given object disappears from your bucket within a specific time after you delete content in the UI or API. For projects with a large number of files per run, such as when logging many media files per run, expect **longer delays** before storage usage is released.
+
+Monitor your bucket in your cloud provider and contact [W&B Support](mailto:support@wandb.ai) or your account team if cleanup appears stuck relative to your expectations.
+
+## Reduce bucket usage
+
+Use supported product flows first:
+
+- [Delete runs in the W&B App](/models/runs/delete-runs#ui) or [with Python](/models/runs/delete-runs#python) when you no longer need them.
+- [Delete artifacts](/models/artifacts/delete-artifacts) you no longer need, and use [Artifact TTL](/models/artifacts/ttl) where it fits your workflow.
+
+If you must **reclaim space immediately**, operators with access to the bucket may delete specific object keys directly in cloud storage. Be aware of the following:
+
+- Objects you remove will **no longer be available to download** through W&B.
+- You should delete **only** keys you intend to remove. Incorrect deletes can break access to data the app still references.
+- If your bucket uses **object versioning** or **provider soft delete** (for example on Google Cloud Storage), storage charges can persist until non-current versions or soft-deleted objects expire under your cloud lifecycle rules.
+
+For high-level usage in W&B Multi-tenant Cloud, organization admins can review storage-related usage from organization settings. See [Billing settings](/platform/app/settings-page/billing-settings).
+
+## Troubleshooting
+
+If deletions do not appear correctly in the W&B App after you use the Public API, **upgrade the W&B Python SDK** to a current release and retry. Very large per-run file counts can increase how long background cleanup takes across the instance.
+
+For scripted cleanup patterns that match your deployment, contact [W&B Support](mailto:support@wandb.ai) or your account team.
+
+## Related documentation
+
+- [Delete runs](/models/runs/delete-runs#delete-runs)
+- [Delete an artifact](/models/artifacts/delete-artifacts)
+- [Configure environment variables](/platform/hosting/env-vars)
+- [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector)
