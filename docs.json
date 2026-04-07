@@ -4989,5 +4989,11 @@
       "destination": "/platform/hosting/self-managed/operator"
     }
   ],
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "canonical": "https://docs.wandb.ai"
+    }
+  },
   "baseUrl": "https://docs.wandb.ai"
 }
