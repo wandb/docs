@@ -91,6 +91,37 @@ Pour accéder à un Workspace depuis l’UI :
 
 Pour plus d’informations sur les Workspaces, consultez [Voir les résultats des expériences](https://docs.wandb.ai/models/track/workspaces).
 
+<div id="associate-traces-with-a-specific-wb-run">
+  ## Associer des traces à un run W&amp;B spécifique
+</div>
+
+Par défaut, Weave détecte automatiquement les traces et les associe au `wandb.run` actif. Si vous devez associer des traces à un run spécifique autre que le `wandb.run` global, utilisez `set_wandb_run_context`. Vous pouvez associer des traces à un run et à une étape spécifiques en définissant les valeurs des arguments `run_id` et `step` de la méthode :
+
+```python lines highlight={6}
+import weave
+
+client = weave.init("<your-team-name>/<your-project-name>")
+
+# Associer toutes les traces suivantes à un run spécifique.
+client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
+
+@weave.op
+def my_function(x):
+    return x * 2
+
+my_function(10)  # Cette trace est liée à "my-run-id" à l'étape 5.
+```
+
+Le `run_id` est l&#39;ID court du run (par exemple, `38m4t5ja`), et non le chemin complet `entity/project/run_id`. Vous pouvez trouver l&#39;ID court d&#39;un run dans l&#39;URL du run (`https://wandb.ai/team/project/runs/<run_id>`) ou en [accédant à `wandb.run.id` dans le code](/fr/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name).
+
+Pour annuler cette redéfinition et revenir au `wandb.run` global, appelez `clear_wandb_run_context` :
+
+```python lines
+client.clear_wandb_run_context()
+
+my_function(20)  # Cette trace utilise le wandb.run global (s'il existe).
+```
+
 <div id="reference-wb-artifacts-in-a-weave-trace">
   ## Référencer des artifacts W&amp;B dans une trace Weave
 </div>

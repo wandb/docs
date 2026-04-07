@@ -1,0 +1,11 @@
+```python
+"""
+サマリーメトリクスをW&Bに明示的にログする。
+"""
+import wandb
+import random 
+
+with wandb.init(project="<project>") as run:
+    # 1から10のランダムな整数値でカスタムサマリーメトリクスをログする
+    run.summary["<metric_name>"] = random.randint(1, 10)
+```

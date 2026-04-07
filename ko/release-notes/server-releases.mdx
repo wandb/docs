@@ -14,6 +14,13 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.79.1" description="2026년 4월 1일">
+  ## 수정 사항
+
+  * 새 run, 특히 새 프로젝트의 run에서 404 `run not found` 오류가 발생하던 bug를 수정했습니다.
+  * audit logs가 1000일치를 초과하는 deployment에서 audit logs를 쿼리하지 못할 수 있던 bug를 수정했습니다.
+</Update>
+
 <Update label="v0.79.0" description="2026년 3월 24일">
   W&amp;B Server 0.79.0에는 이미지 확대/축소 및 이동, 서비스 계정과 API 키 관리 개선, 그리고 성능 개선이 추가되었습니다. Inference에는 MiniMax M2.5와 MiniMaxAI M2.5 모델이 추가되었습니다. 이제 Weave monitors는 모든 오퍼레이션의 점수화를 지원하며, Weave UI에는 프롬프트 태그와 alias 관리 개선, Claude agent용 채팅 뷰, 이모지 피드백 반응 또는 노트 내용별 필터링 등이 추가되었습니다.
 
@@ -51,7 +58,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ### 레지스트리
 
-  * 시스템 과부하 위험을 줄이기 위해 artifact 생성에 대한 새로운 요청 속도 제한이 추가되었습니다.
+  * 시스템 과부하 위험을 줄이기 위해 아티팩트 생성에 대한 새로운 요청 속도 제한이 추가되었습니다.
 
   ### Weave
 
@@ -70,7 +77,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * 실제 크기 이미지가 gallery 모드에서 겹치던 bug를 수정했습니다.
   * 긴 캡션이 있는 bounding box의 정렬 불일치를 수정했습니다.
   * 패널 및 hover 오버레이의 그림자를 제거했습니다.
-  * 이제 패널 검색 결과에 맞춤형 chart가 포함됩니다.
+  * 이제 패널 검색 결과에 맞춤형 차트가 포함됩니다.
 </Update>
 
 <Update label="v0.78.2" description="2026년 3월 10일">
@@ -78,12 +85,12 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 수정 사항
 
-  이전에 해결된 중요한 보안 수정 사항의 회귀를 수정했습니다. 이 문제로 인해 artifact에 대한 무단 access가 허용될 수 있습니다. 이 회귀는 v0.78.0 및 v0.78.1에 존재합니다. 이 버전은 설치하거나 이 버전으로 업그레이드하지 마세요. 대신 수정 사항이 포함된 v0.78.2를 설치하세요.
+  권한이 없는 사용자가 아티팩트에 액세스할 수 있게 하는, 이전에 해결된 치명적인 보안 수정 사항의 회귀를 수정했습니다. 이 회귀는 v0.78.0 및 v0.78.1에 존재합니다. 이 버전들은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 v0.78.2를 설치하세요.
 </Update>
 
 <Update label="v0.78.1" description="2026년 3월 5일">
   <Warning>
-    이 릴리스는 권한이 없는 사용자가 artifact에 접근할 수 있게 하는 치명적인 보안 문제의 영향을 받습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
+    이 릴리스는 권한이 없는 사용자가 아티팩트에 접근할 수 있게 하는 치명적인 보안 문제의 영향을 받습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
   </Warning>
 
   ## 수정 사항

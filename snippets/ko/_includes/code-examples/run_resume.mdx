@@ -1,0 +1,14 @@
+```python
+"""
+run이 일시 중지되거나, 중단되거나, 실패한 경우 재개 동작을 설정합니다.
+
+이 기능은 중단될 수 있는 장시간 실행되는 실험에 유용합니다. 모든 재개 옵션 목록은
+wandb.init(resume=)의 레퍼런스 문서를 참조하세요.
+"""
+import wandb
+
+# 재개 동작을 사용하여 W&B run 초기화
+with wandb.init(project="<project>", resume="<resume_option>") as run:
+    # 트레이닝 및 logging 코드를 여기에 작성하세요
+    pass
+```
