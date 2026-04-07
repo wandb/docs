@@ -1,6 +1,5 @@
 ---
 title: W&B Sandboxes
-description: "Placeholder."
 mode: wide
 ---
 
@@ -14,13 +13,13 @@ W&B Sandboxes is built on top of the CoreWeave Sandbox library. For the underlyi
 
 A *sandbox* is a single isolated compute environment. You create it, run commands inside it, and stop it when it is done. Each sandbox runs in its own container with its own filesystem, network, and process space. 
 
-A sandbox goes through [several states in its lifecycle](./lifecycle). When a container is running, you can [execute commands](./run-commands) inside it.
+A sandbox goes through [several states in its lifecycle](/sandboxes/lifecycle). When a container is running, you can [execute commands](/sandboxes/run-commands) inside it.
 
-[Read, write, and mount read-only](./file-access) files to and from the sandbox. Common examples include reading in a Python script to execute, writing out logs or results, or mounting a directory of data read-only for the sandbox to access.
+[Read, write, and mount read-only](/sandboxes/file-access) files to and from the sandbox. Common examples include reading in a Python script to execute, writing out logs or results, or mounting a directory of data read-only for the sandbox to access.
 
 Use the [W&B Secrets Manager](/platform/secrets#manage-secrets) with the W&B Python SDK to access sensitive information such as API keys and tokens in a sandbox.
 
-Use a *session* to manage multiple sandboxes that share configuration. When a session closes, all of its sandboxes are stopped automatically. See [Manage multiple sandboxes](./create-sandbox#create-multiple-sandboxes-with-a-session) for more details.
+Use a *session* to manage multiple sandboxes that share configuration. When a session closes, all of its sandboxes are stopped automatically. See [Manage multiple sandboxes](/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session) for more details.
 
 You can define reusable sandbox configurations using the `SandboxDefaults` class.
 
@@ -42,12 +41,12 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-The sandbox automatically stops when the context manager (the `with` block) exits. For more information on sandbox lifecycle and states, see [Lifecycle of sandboxes](./lifecycle-sandboxes).
+The sandbox automatically stops when the context manager (the `with` block) exits. For more information on sandbox lifecycle and states, see [Lifecycle of sandboxes](/sandboxes/lifecycle).
 
 
 ## Tutorials and examples
 
 For more in-depth examples, see:
 
-* [W&B Sandbox tutorial](./invoke_agent_sandbox_tutorial)
-* [Train a PyTorch model in a sandbox tutorial](./mltrain_in_sandbox_tutorial)
+* [W&B Sandbox tutorial](/sandboxes/invoke_agent_sandbox_tutorial)
+* [Train a PyTorch model in a sandbox tutorial](/sandboxes/mltrain_in_sandbox_tutorial)

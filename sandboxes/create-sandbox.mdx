@@ -3,7 +3,7 @@ title: Create sandboxes
 description: Learn how to create and manage sandboxes.
 ---
 
-Create sandboxes to run code in isolated environments. Each sandbox runs in its own container with its own [filesystem](./file-accesssandbox), network, and process space.
+Create sandboxes to run code in isolated environments. Each sandbox runs in its own container with its own [filesystem](./file-access), network, and process space.
 
 Use `Sandbox` to create a single sandbox. Use `Session` to create and manage multiple sandboxes that share the same configuration.
 
@@ -26,7 +26,7 @@ with Sandbox.run(
     print(sandbox)
 ```
 
-W&B recommends using a context manager to ensure that the sandbox is stopped automatically when it exits the block. To learn how to run commands inside a sandbox, see [Run commands](./run-commandssandbox). To learn about sandbox lifecycle and states, see [Lifecycle](./lifecyclesandbox).
+W&B recommends using a context manager to ensure that the sandbox is stopped automatically when it exits the block. To learn how to run commands inside a sandbox, see [Run commands](./run-commands). To learn about sandbox lifecycle and states, see [Lifecycle](./lifecycle).
 
 ## Start a sandbox without a main command
 
