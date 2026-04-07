@@ -57,13 +57,13 @@ Un **Administrateur de l’organisation** ou un **administrateur de la facturati
 
 Au cours d’une période de facturation donnée, les alertes de dépenses notifient par e-mail les administrateurs de l’organisation et de la facturation lorsque votre organisation atteint un ou plusieurs seuils de dépense personnalisables, exprimés en USD. Vous pouvez configurer jusqu’à 5 alertes de dépenses distinctes par catégorie :
 
-| Catégorie      | Description                                                                                                                                                                                                                                                                      |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stockage       | Frais liés à l’[utilisation](#usage-alerts) du stockage de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                            |
-| Heures comptabilisées | Frais liés à l’[utilisation](#usage-alerts) d’entraînement de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                         |
-| Weave          | Frais liés à l’[utilisation](#usage-alerts) de Weave par votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Weave est actif dans le déploiement.                                                   |
-| Inférence      | Frais liés à l’[utilisation](#usage-alerts) de l’Inférence de votre organisation pendant la période de facturation. Voir [Tarification de l’inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inférence est active dans le déploiement.                           |
-| Entraînement   | Frais liés à l’[utilisation](#usage-alerts) de Serverless RL de votre organisation pendant la période de facturation. Voir [Tarification du RL serverless](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si W&amp;B Training est actif dans le déploiement. |
+| Catégorie             | Description                                                                                                                                                                                                                                                                              |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stockage              | Frais liés à l’[utilisation](#usage-alerts) du stockage de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                                    |
+| Heures comptabilisées | Frais liés à l’[utilisation](#usage-alerts) d’entraînement de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                                 |
+| Weave                 | Frais liés à l’[utilisation](#usage-alerts) de Weave par votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Weave est actif dans le déploiement.                                                           |
+| Inférence             | Frais liés à l’[utilisation](#usage-alerts) de l’Inférence de votre organisation pendant la période de facturation. Voir [Tarification de l’inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inférence est active dans le déploiement.                        |
+| Entraînement          | Frais liés à l’[utilisation](#usage-alerts) de Serverless RL de votre organisation pendant la période de facturation. Voir [Tarification du RL serverless](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si W&amp;B Training est actif dans le déploiement. |
 
 Les messages sont envoyés depuis `support@wandb.com`.
 
@@ -76,6 +76,10 @@ Avec le [plan Pro](https://wandb.ai/site/pricing/) :
 
 * Seul l’**administrateur de la facturation** reçoit des alertes de dépenses.
 * Par défaut, les alertes de dépenses sont configurées à $200, $450, $700 et $1000.
+
+<Note>
+  Vous n’êtes pas facturé pour les heures comptabilisées, qui sont illimitées pour tous les plans. Les heures comptabilisées sont affichées sur la page **Utilisation** à des fins de suivi.
+</Note>
 
 <div id="view-spending-alerts">
   #### Afficher les alertes de dépenses

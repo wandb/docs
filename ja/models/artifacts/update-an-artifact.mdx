@@ -1,9 +1,9 @@
 ---
-description: W&B Run の内外で既存の Artifact を更新します。
+description: run がアクティブな間、または Public API のみを使用して既存の artifact を更新します。
 title: Artifact を更新する
 ---
 
-artifact の `description`、`metadata`、`alias` を更新するには、設定したい値を指定します。W&amp;B サーバー上の artifact を更新するには、`save()` method を call します。artifact は W&amp;B Run 中でも Run の外でも更新できます。
+artifact の `description`、`metadata`、`alias` を更新するには、設定したい値を指定します。W&amp;B Public API ([`wandb.Api`](/ja/models/ref/python/public-api/api)) を使用して、以前 W&amp;B にログした run を更新します。artifact が最初に初期化され、引き続きアクティブな場合は、artifact を更新するために `wandb.Run.save()` を使用します。
 
 <Note>
   **Artifact.save() または wandb.Run.log&#95;artifact() を使用するタイミング**
@@ -12,7 +12,7 @@ artifact の `description`、`metadata`、`alias` を更新するには、設定
   * 新しい artifact を作成して特定の run に関連付けるには、`wandb.Run.log_artifact()` を使用します。
 </Note>
 
-run の外で artifact を更新するには、W&amp;B Public API ([`wandb.Api`](/ja/models/ref/python/public-api/api)) を使用します。run 中に artifact を更新するには、Artifact API ([`wandb.Artifact`](/ja/models/ref/python/experiments/artifact)) を使用します。
+artifact を更新するには、W&amp;B Public API ([`wandb.Api`](/ja/models/ref/python/public-api/api)) を使用します。run がアクティブな間に artifact を更新するには、wandb.Artifact クラス ([`wandb.Artifact`](/ja/models/ref/python/experiments/artifact)) を使用します。
 
 <Warning>
   Model Registry 内のモデルにリンクされた artifact の alias は更新できません。
@@ -32,8 +32,8 @@ run の外で artifact を更新するには、W&amp;B Public API ([`wandb.Api`]
     ```
   </Tab>
 
-  <Tab title="Outside of a run">
-    次のコード例は、`wandb.Api` API を使用して artifact の description を更新する方法を示しています。
+  <Tab title="W&B Public API">
+    次の例は、[`wandb.Api`](/ja/models/ref/python/public-api/api) を使用して artifact を更新します。
 
     ```python
     import wandb
