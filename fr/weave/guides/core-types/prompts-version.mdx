@@ -44,7 +44,7 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 * *votre-nom-d&#39;équipe*: entité W&amp;B (nom d’utilisateur ou nom d’équipe)
 * *votre-nom-de-projet*: projet W&amp;B
 * *nom&#95;objet*: nom de l’objet
-* *version&#95;objet*: soit un hachage de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l’alias `:latest`.
+* *version&#95;objet*: soit un hachage de version, un index de version comme `v0` ou `v1`, soit un alias comme `:latest` ou `:production`. Tous les objets ont l’alias `:latest`.
 
 Par exemple, l’URI pleinement qualifié d’un prompt Weave ressemble à ceci :
 
@@ -61,7 +61,7 @@ Pour récupérer un prompt, créez une référence à son nom et à sa version, 
 Vous pouvez créer des refs de différentes façons :
 
 * `weave.ref(<name>)` : récupère la version `:latest` d&#39;un prompt. Nécessite d&#39;appeler `weave.init(...)`.
-* `weave.ref(<name>:<version>)` :  récupère la version spécifiée d&#39;un prompt. Nécessite d&#39;appeler `weave.init(...)`.
+* `weave.ref(<name>:<alias_or_version>)` : récupère un prompt par alias, hash de version ou index de version. Nécessite d&#39;appeler `weave.init(...)`.
 * `weave.ref(<fully_qualified_ref_uri>)` : récupère le prompt situé à l&#39;[URI de référence pleinement qualifié](#construct-a-fully-qualified-ref-uri) indiquée. Ne nécessite pas d&#39;appeler `weave.init(...)`.
 
 L&#39;exemple suivant charge la version `support_prompt:v3` pour que vous puissiez l&#39;utiliser dans votre application :
@@ -74,21 +74,21 @@ weave.init("your-team-name/your-project-name")
 prompt = weave.ref("support_prompt:v3").get()
 ```
 
-<div id="use-prompt-versions-in-production">
-  ## Utilisez des versions de prompt en production
+<div id="use-prompts-in-production">
+  ## Utiliser des prompts en production
 </div>
 
-Lorsque vous déployez des prompts dans des systèmes de production, fixez une version de prompt spécifique au lieu de référencer la dernière version. Dans votre application de production, chargez cette version avec `weave.ref(<name>:<version>).get()`.
+Lorsque vous déployez des prompts dans des systèmes de production, utilisez un [alias](#add-prompt-tags-and-aliases) comme `production` au lieu d’un index de version ou de la dernière version. Dans votre application de production, chargez le prompt avec `weave.ref(<name>:<alias>).get()`.
 
-Le fait de fixer une version garantit que le comportement en production reste stable, même si de nouvelles versions de prompt sont publiées par la suite.
+L’utilisation d’un alias garantit que le comportement en production reste stable et prévisible. Lorsque vous êtes prêt à promouvoir une nouvelle version, basculez l’alias vers cette version, puis tous les consommateurs récupèrent automatiquement ce changement.
 
-Voici un flux de travail courant :
+Un flux de travail courant se présente ainsi :
 
-1. Développez et testez une nouvelle version de prompt.
-2. Évaluez le nouveau prompt sur des jeux de données ou des suites d&#39;évaluation.
-3. Mettez à jour le système de production pour référencer la nouvelle version.
+1. Développez et testez une nouvelle version du prompt.
+2. Évaluez le nouveau prompt sur des jeux de données ou des suites d’évaluation.
+3. Déplacez l’alias `production` vers la nouvelle version avec `client.set_aliases(new_ref, "production")`.
 
-Cette approche permet aux équipes d&#39;itérer sur les prompts en toute sécurité, sans modifier de façon inattendue le comportement en production.
+Cette approche permet aux équipes d’itérer en toute sécurité sur les prompts, sans modifier de façon inattendue le comportement en production.
 
 ## <a id="view-prompts" aria-label="Afficher et comparer les versions de prompt" />Afficher et comparer les versions de prompt
 
@@ -101,7 +101,7 @@ Pour afficher les versions du prompt dans l’UI :
 
 ![UI de Prompt Assets, montrant les versions du prompt sélectionné.](/weave/guides/core-types/imgs/prompt-object.png)
 
-5. (Facultatif) Vous pouvez comparer des versions de prompt en cochant les cases à côté des prompts listés, puis en cliquant sur le bouton **Compare** dans la barre d’outils du tableau. Cela vous permet de voir les différences entre vos prompts.
+1. (Facultatif) Vous pouvez comparer des versions de prompt en cochant les cases à côté des prompts listés, puis en cliquant sur le bouton **Compare** dans la barre d’outils du tableau. Cela vous permet de voir les différences entre vos prompts.
 
 ![UI Compare prompts montrant les différences entre deux versions de prompt.](/weave/guides/core-types/imgs/prompt-comparison.png)
 
