@@ -46,11 +46,12 @@ See the `Sandbox` class reference documentation for a full list of parameters an
 Save a file from the sandbox to your local environment using the `Sandbox.read_file()` method.
 
 ```python
+from pathlib import Path
 from wandb.sandbox import Sandbox
 
 with Sandbox.run() as sandbox:
     # Demo creates a file in the sandbox to read back
-    sandbox.exec(["echo", "Hello, world.", ">", "hello.txt"]).result()
+    sandbox.exec(["sh", "-c", "echo 'Hello, world.' > hello.txt"]).result()
 
     # Save the file on local machine (not sandbox)
     content = sandbox.read_file("hello.txt").result()  # b"Hello, world.\n"

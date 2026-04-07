@@ -20,7 +20,7 @@ To run a single command, pass the command directly to `Sandbox.run()`. The sandb
 from wandb.sandbox import Sandbox
 
 sandbox = Sandbox.run("python", "train.py")
-sandbox.wait_until_complete(timeout=3600.0)
+sandbox.wait_until_complete(timeout=3600.0).result()
 print(f"Exit code: {sandbox.returncode}")
 ```
 
@@ -47,9 +47,7 @@ The `Sandbox.exec()` method runs a command inside a running sandbox and returns 
 
 For more information about `Sandbox.exec()` and its parameters, see the [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) reference documentation.
 
-{/* See the [Read output and exit codes](#read-output-and-exit-codes) section below for more details on how to read command output and exit codes from the result object returned by `Sandbox.exec()`. */}
-
-You can also explictly define a long runnig main process to keep the sandbox alive while the command runs. This is useful if you want to run a command that takes a long time to execute, such as training a machine learning model.
+You can also explicitly define a long runnig main process to keep the sandbox alive while the command runs. This is useful if you want to run a command that takes a long time to execute, such as training a machine learning model.
 
 The following code snippet starts a sandbox with the command `sleep infinity`, which keeps the sandbox running indefinitely. Then it runs a Python training script inside the sandbox using `Sandbox.exec()`. The sandbox stays active while the training script runs, and you can run additional commands in the same sandbox if needed.
 
