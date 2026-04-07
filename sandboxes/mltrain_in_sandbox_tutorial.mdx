@@ -2,7 +2,9 @@
 title: "Tutorial: Train a PyTorch model"
 ---
 
-## Requisites
+In this tutorial you'll learn how to train a simple PyTorch model in a W&B Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that trains a simple neural network on the UCI Zoo dataset.
+
+## Prerequisites
 
 {/* ### (Recommended) Create a Python virtual environment
 
@@ -177,7 +179,7 @@ Copy and paste the following code into a Python file and run it. Save it in the 
 from pathlib import Path
 from wandb.sandbox import Sandbox, NetworkOptions
 
-config = Path("hyperparameters.yaml").read_bytes()
+hyperparameters = Path("hyperparameters.yaml").read_bytes()
 
 mounted_files = [
     {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
@@ -191,7 +193,7 @@ with Sandbox.run(
     network=NetworkOptions(egress_mode="internet"),
     max_lifetime_seconds=3600
 ) as sandbox:
-    sandbox.write_file("hyperparameters.yaml", config).result()
+    sandbox.write_file("hyperparameters.yaml", hyperparameters).result()
 
     # Install dependencies
     print("Installing dependencies...")
@@ -199,9 +201,7 @@ with Sandbox.run(
 
     # Run the script
     print("Running script...")
-    process = sandbox.exec(["python", "train.py", "--config", "hyperparameters.yaml"])
-
-    result = process.result()
+    result = sandbox.exec(["python", "train.py", "--config", "hyperparameters.yaml"]).result()
     print(result.stdout)
     print(result.stderr)
     print(f"Exit code: {result.returncode}")
