@@ -3,9 +3,9 @@ title: Create sandboxes
 description: Learn how to create and manage sandboxes.
 ---
 
-Create sandboxes to run code in isolated environments. Each sandbox runs in its own container with its own [filesystem](./file-access), network, and process space.
+Create sandboxes with W&B. Each sandbox runs in its own container with its own [filesystem](/sandboxes/file-access), network, and process space.
 
-Use `Sandbox` to create a single sandbox. Use `Session` to create and manage multiple sandboxes that share the same configuration.
+Use [`Sandbox`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox) to create a single sandbox. Use [`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session) to create and manage multiple sandboxes that share the same configuration.
 
 <Info>
 By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to `Sandbox.run()` or `SandboxDefaults()`. W&B supports public container images only.
@@ -26,9 +26,9 @@ with Sandbox.run(
     print(sandbox)
 ```
 
-W&B recommends using a context manager to ensure that the sandbox is stopped automatically when it exits the block. To learn how to run commands inside a sandbox, see [Run commands](./run-commands). To learn about sandbox lifecycle and states, see [Lifecycle](./lifecycle).
+W&B recommends using a context manager to ensure that the sandbox is stopped automatically when it exits the block. To learn how to run commands inside a sandbox, see [Run commands](/sandboxes/run-commands). To learn about sandbox lifecycle and states, see [Lifecycle](/sandboxes/lifecycle).
 
-## Start a sandbox without a main command
+### Start a sandbox without a main command
 
 Call `Sandbox.run()` without a command when you want to create a sandbox first and run work inside it later.
 
@@ -39,9 +39,9 @@ with Sandbox.run() as sandbox:
     print(sandbox)
 ```
 
-This pattern is useful for interactive and multi-step workflows. To learn how to run commands inside a sandbox, see [Run commands](./run-commands).
+This pattern is useful for interactive and multi-step workflows. To learn how to run commands inside a sandbox, see [Run commands](/sandboxes/run-commands).
 
-## Start a sandbox with a main command
+### Start a sandbox with a main command
 
 You can also pass a command to `Sandbox.run()`. In that case, the command becomes the sandbox's main process.
 
@@ -51,13 +51,15 @@ from wandb.sandbox import Sandbox
 sandbox = Sandbox.run("python", "train.py")
 ```
 
-Use this pattern when the sandbox is meant to run a single job from start to finish. When the main process exits, the sandbox enters a terminal state such as COMPLETED or FAILED. To learn more, see [Lifecycle](./lifecycle).
+Use this pattern when the sandbox is meant to run a single job from start to finish. When the main process exits, the sandbox enters a terminal state such as COMPLETED or FAILED. To learn more, see [Lifecycle](/sandboxes/lifecycle).
 
 ## Create multiple sandboxes with a session
 
-Use `Session` when you need multiple sandboxes with shared configuration. A session lets you define common defaults once and create multiple sandboxes from the same session.
+Use `Session` to manage multiple sandboxes. When the session closes, all sandboxes created by that session are stopped automatically.
 
-When the session closes, all sandboxes created by that session are stopped automatically.
+You can optionally pass a [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) object to the session to define reusable default configuration for all sandboxes created by that session. For example, you can specify a default container image, network configuration, or maximum lifetime for all sandboxes in the session.
+
+The following code snippet shows how to create a session with default configuration and use it to create two sandboxes:
 
 ```python
 from wandb.sandbox import Session, SandboxDefaults
@@ -75,5 +77,3 @@ with Session(defaults) as session:
     print(sb1)
     print(sb2)
 ```
-
-Use sessions for workflows such as batch jobs, fan-out tasks, or test environments where multiple sandboxes should share the same setup.
