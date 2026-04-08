@@ -25,6 +25,10 @@
     "href": "https://docs.wandb.ai/"
   },
   "favicon": "/favicon.png",
+  "banner": {
+    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
+    "dismissible": true
+  },
   "background": {
     "decoration": "gradient"
   },
@@ -68,7 +72,6 @@
         "tabs": [
           {
             "tab": "Platform",
-            "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               {
                 "group": "Welcome to W&B",
@@ -168,6 +171,7 @@
                           "platform/hosting/data-security/data-encryption"
                         ]
                       },
+                      "platform/hosting/managing-bucket-storage",
                       "platform/hosting/env-vars"
                     ]
                   },
@@ -224,7 +228,6 @@
           },
           {
             "tab": "W&B Models",
-            "icon": "/icons/cropped-models.svg",
             "pages": [
               "models",
               "models/quickstart",
@@ -746,7 +749,6 @@
           },
           {
             "tab": "W&B Weave",
-            "icon": "/icons/cropped-weave.svg",
             "pages": [
               "weave",
               {
@@ -849,6 +851,7 @@
                       },
                       "weave/guides/tracking/redact-pii",
                       "weave/guides/evaluation/monitors",
+                      "weave/guides/evaluation/automations",
                       "weave/guides/evaluation/guardrails",
                       "weave/guides/tracking/otel"
                     ]
@@ -892,6 +895,7 @@
                           "weave/guides/integrations/smolagents",
                           "weave/guides/integrations/pydantic_ai",
                           "weave/guides/integrations/google_adk",
+                          "weave/guides/integrations/vercel_ai_sdk",
                           "weave/guides/integrations/agno",
                           "weave/guides/integrations/koog",
                           "weave/guides/integrations/autogen",
@@ -1077,7 +1081,6 @@
           },
           {
             "tab": "W&B Inference",
-            "icon": "/icons/cropped-inference.svg",
             "pages": [
               "inference",
               "inference/prerequisites",
@@ -1117,7 +1120,6 @@
           },
           {
             "tab": "W&B Training",
-            "icon": "/icons/cropped-training.svg",
             "pages": [
               "training",
               "training/prerequisites",
@@ -1148,14 +1150,12 @@
           },
           {
             "tab": "Support",
-            "icon": "/icons/cropped-reports.svg",
             "pages": [
               "support"
             ]
           },
           {
             "tab": "W&B Launch",
-            "icon": "/icons/cropped-launch.svg",
             "hidden": true,
             "pages": [
               "platform/launch",
@@ -1302,7 +1302,6 @@
         "tabs": [
           {
             "tab": "Platform",
-            "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               "ja/index",
               "ja/get-started",
@@ -1457,7 +1456,6 @@
           },
           {
             "tab": "W&B Models",
-            "icon": "/icons/cropped-models.svg",
             "pages": [
               "ja/models",
               "ja/models/quickstart",
@@ -2037,7 +2035,6 @@
           },
           {
             "tab": "W&B Weave",
-            "icon": "/icons/cropped-weave.svg",
             "pages": [
               "ja/weave",
               {
@@ -2359,7 +2356,6 @@
           },
           {
             "tab": "W&B Inference",
-            "icon": "/icons/cropped-inference.svg",
             "pages": [
               "ja/inference",
               "ja/inference/prerequisites",
@@ -2397,7 +2393,6 @@
           },
           {
             "tab": "W&B Training",
-            "icon": "/icons/cropped-training.svg",
             "pages": [
               "ja/training",
               "ja/training/prerequisites",
@@ -2424,7 +2419,6 @@
           },
           {
             "tab": "W&B Launch",
-            "icon": "/icons/cropped-launch.svg",
             "hidden": true,
             "pages": [
               "ja/platform/launch",
@@ -2504,7 +2498,6 @@
         "tabs": [
           {
             "tab": "Platform",
-            "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               "ko/index",
               "ko/get-started",
@@ -2659,7 +2652,6 @@
           },
           {
             "tab": "W&B Models",
-            "icon": "/icons/cropped-models.svg",
             "pages": [
               "ko/models",
               "ko/models/quickstart",
@@ -3239,7 +3231,6 @@
           },
           {
             "tab": "W&B Weave",
-            "icon": "/icons/cropped-weave.svg",
             "pages": [
               "ko/weave",
               {
@@ -3561,7 +3552,6 @@
           },
           {
             "tab": "W&B Inference",
-            "icon": "/icons/cropped-inference.svg",
             "pages": [
               "ko/inference",
               "ko/inference/prerequisites",
@@ -3599,7 +3589,6 @@
           },
           {
             "tab": "W&B Training",
-            "icon": "/icons/cropped-training.svg",
             "pages": [
               "ko/training",
               "ko/training/prerequisites",
@@ -3626,7 +3615,6 @@
           },
           {
             "tab": "W&B Launch",
-            "icon": "/icons/cropped-launch.svg",
             "hidden": true,
             "pages": [
               "ko/platform/launch",
@@ -5001,5 +4989,11 @@
       "destination": "/platform/hosting/self-managed/operator"
     }
   ],
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "canonical": "https://docs.wandb.ai"
+    }
+  },
   "baseUrl": "https://docs.wandb.ai"
 }

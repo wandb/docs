@@ -37,7 +37,7 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 - _your-team-name_: W&B entity (username or team name)
 - _your-project-name_: W&B project
 - _object_name_: object name
-- _object_version_: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias.
+- _object_version_: either a version hash, a version index like `v0` or `v1`, or an alias like `:latest` or `:production`. All objects have the `:latest` alias.
 
 For example, a fully qualified Weave prompt URI looks like this:
 
@@ -52,12 +52,10 @@ To retrieve a prompt, create a reference to its name and version, then call `.ge
 You can construct refs with a few different styles:
 
 - `weave.ref(<name>)`: Retrieves the `:latest` version of a prompt. Requires calling `weave.init(...)`.
-- `weave.ref(<name>:<version>)`:  Retrieves the specified version of a prompt. Requires calling `weave.init(...)`.
+- `weave.ref(<name>:<alias_or_version>)`: Retrieves a prompt by alias, version hash, or version index. Requires calling `weave.init(...)`.
 - `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init(...)`.
 
-
 The following example loads the `support_prompt:v3` version so you can use it in your application:
-
 ```python lines
 import weave
 
@@ -66,17 +64,17 @@ weave.init("your-team-name/your-project-name")
 prompt = weave.ref("support_prompt:v3").get()
 ```
 
-## Use prompt versions in production
+## Use prompts in production
 
-When deploying prompts in production systems, pin a specific prompt version rather than referencing the latest version. In your production application, load that version with `weave.ref(<name>:<version>).get()`.
+When deploying prompts in production systems, use an [alias](#add-prompt-tags-and-aliases) like `production` rather than a version index or latest version. In your production application, load the prompt with `weave.ref(<name>:<alias>).get()`.
 
-Pinning a version ensures that production behavior remains stable even if new prompt versions are published later.
+Using an alias ensures that production behavior remains stable and predictable. When you're ready to promote a new version, move the alias to that version and then all consumers automatically pick up the change.
 
 A common workflow looks like this:
 
 1. Develop and test a new prompt version.
 2. Evaluate the new prompt against datasets or evaluation suites.
-3. Update the production system to reference the new version.
+3. Move the `production` alias to the new version with `client.set_aliases(new_ref, "production")`.
 
 This approach allows teams to safely iterate on prompts without unexpectedly changing production behavior.
 
@@ -91,7 +89,7 @@ To view versions of the prompt in the UI:
 
 ![UI of Prompt Assets, showing the versions of the selected prompt.](/weave/guides/core-types/imgs/prompt-object.png)
 
-5. (Optional) You can compare versions of prompts by clicking the checkboxes beside the listed prompts and then clicking the **Compare** button in the table toolbar. This allows you to see the diff between your prompts.
+1. (Optional) You can compare versions of prompts by clicking the checkboxes beside the listed prompts and then clicking the **Compare** button in the table toolbar. This allows you to see the diff between your prompts.
 
 ![The Compare prompts UI showing a diff between two different prompt versions.](/weave/guides/core-types/imgs/prompt-comparison.png)
 
