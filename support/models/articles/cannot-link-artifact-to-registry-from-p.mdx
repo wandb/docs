@@ -1,0 +1,39 @@
+---
+title: "Why can't I link my artifact to the registry?"
+keywords: ["Artifacts"]
+---
+
+If you cannot link an artifact to a W&B Registry, the most common cause is that the artifact was logged with a personal entity instead of a team entity. Only artifacts logged within an organization's team can be linked to the organization's registry.
+
+## Fix: log artifacts with a team entity
+
+Specify your team as the `entity` when you initialize a run:
+
+```python
+import wandb
+
+with wandb.init(entity="<team_entity>", project="<project_name>") as run:
+    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    # Add files and log the artifact
+```
+
+If you do not specify `entity`, the run uses your default entity, which may be your personal account.
+
+## Find your team entity
+
+Your team entity is the same as your team name. Confirm it by navigating to your team's W&B profile page. The URL has the form `https://wandb.ai/<team>`, where `<team>` is your team entity.
+
+## Already logged with a personal entity?
+
+If an artifact was already logged to your personal entity, you need to re-log it to a team entity within your organization.
+
+For more information, see [Link a version to a collection](/models/registry/link_version/).
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}
