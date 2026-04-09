@@ -1432,7 +1432,7 @@ Teams 목록을 조회합니다.
 
 팀을 생성할 때 `storageBucket` 객체를 포함하면 팀 수준의 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)을 구성할 수 있습니다. 이를 생략하면 팀은 기본 저장소 또는 인스턴스 수준 저장소를 사용합니다. BYOB 가이드를 참고해 bucket을 프로비저닝하고(정책, CORS, 자격 증명) 공급자별 저장소 주소 형식을 확인하세요. `storageBucket` 객체에는 다음 하위 필드가 있습니다:
 
-* **필수**: `name` (bucket 이름), `provider` (다음 중 하나: `coreweave`, `aws`, `gcp`, `azure`, `minio`). 대소문자를 구분합니다.
+* **필수**: `name` (bucket 이름), `provider` (`COREWEAVE`, `AWS`, `AZURE`, `GCP`, `MINIO` 중 하나). 값은 대소문자를 구분하므로 표시된 대로 대문자를 사용하세요.
 * **선택**: `path` (bucket 내 경로 접두사), `kmsKeyId` (암호화용 KMS 키, 예: AWS), `awsExternalId` (AWS 교차 계정 액세스), `azureTenantId` (Azure 테넌트 ID), `azureClientId` (Azure 관리 ID 클라이언트 ID).
 
 W&amp;B는 팀을 생성하기 전에 bucket이 존재하고 접근 가능한지 검증합니다. 검증에 실패하면 SCIM 요청이 실패하고 팀은 생성되지 않습니다.
@@ -1482,7 +1482,7 @@ W&amp;B는 팀을 생성하기 전에 bucket이 존재하고 접근 가능한지
       ],
       "storageBucket": {
         "name": "wandb-coreweave-bucket",
-        "provider": "coreweave",
+        "provider": "COREWEAVE",
         "path": "ml-training/experiments"
       }
     }
@@ -1507,7 +1507,7 @@ W&amp;B는 팀을 생성하기 전에 bucket이 존재하고 접근 가능한지
       ],
       "storageBucket": {
         "name": "my-company-wandb-data",
-        "provider": "s3",
+        "provider": "AWS",
         "path": "ml-team/experiments",
         "kmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012",
         "awsExternalId": "wandb-external-id-abc123"
@@ -1516,7 +1516,29 @@ W&amp;B는 팀을 생성하기 전에 bucket이 존재하고 접근 가능한지
     ```
   </Tab>
 
-  <Tab title="GCS">
+  <Tab title="Azure">
+    ```bash
+    POST /scim/Groups
+    Content-Type: application/scim+json
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "research-team",
+      "members": [],
+      "storageBucket": {
+        "name": "wandbstorage",
+        "provider": "AZURE",
+        "path": "research/artifacts",
+        "azureTenantId": "12345678-1234-1234-1234-123456789012",
+        "azureClientId": "87654321-4321-4321-4321-210987654321"
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="GCP">
     ```bash
     POST /scim/Groups
     Content-Type: application/scim+json
@@ -1538,30 +1560,8 @@ W&amp;B는 팀을 생성하기 전에 bucket이 존재하고 접근 가능한지
       ],
       "storageBucket": {
         "name": "my-gcs-bucket",
-        "provider": "gcs",
+        "provider": "GCP",
         "path": "data-science/runs"
-      }
-    }
-    ```
-  </Tab>
-
-  <Tab title="Azure">
-    ```bash
-    POST /scim/Groups
-    Content-Type: application/scim+json
-    ```
-
-    ```json
-    {
-      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
-      "displayName": "research-team",
-      "members": [],
-      "storageBucket": {
-        "name": "wandbstorage",
-        "provider": "azure",
-        "path": "research/artifacts",
-        "azureTenantId": "12345678-1234-1234-1234-123456789012",
-        "azureClientId": "87654321-4321-4321-4321-210987654321"
       }
     }
     ```
