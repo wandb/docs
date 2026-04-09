@@ -3,15 +3,5 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
+      # Check for updates to GitHub Actions every weekday
       interval: "daily"
-    commit-message:
-      prefix: "ci"
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    labels:
-      - "dependencies"
-      - "auto-generated"
-    commit-message:
-      prefix: "chore"
