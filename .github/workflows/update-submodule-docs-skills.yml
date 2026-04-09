@@ -40,7 +40,7 @@ jobs:
         base: main
         commit-message: "chore: Update docs-skills submodule to ${{ steps.check-changes.outputs.new_sha }}"
         title: "Update docs-skills submodule to ${{ steps.check-changes.outputs.new_sha }}"
-        draft: true
+        draft: false
         body: |
           Updates the `.claude` submodule ([coreweave/docs-skills](https://github.com/coreweave/docs-skills)) to the latest upstream commit.
 
