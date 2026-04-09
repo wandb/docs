@@ -65,7 +65,7 @@ import weave
 
 ## Audio streaming and storage example
 
-Now we will setup a call to OpenAI's completions endpoint with audio modality enabled. First create the OpenAI client and initiate a Weave project.
+Now we will set up a call to OpenAI's completions endpoint with audio modality enabled. First create the OpenAI client and initiate a Weave project.
 
 ```python lines
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -814,7 +814,7 @@ class StreamingWavWriter:
         return self.buffer
 ```
 
-## Realtime Audio Model
+## Realtime audio model
 
 The realtime (RT) audio model uses a websocket to send events to OpenAI's Realtime audio API. This works as follows:
 

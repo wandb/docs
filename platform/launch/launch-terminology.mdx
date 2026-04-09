@@ -16,15 +16,15 @@ There are three main kinds of job definitions:
 
 | Job types | Definition | How to run this job type | 
 | ---------- | --------- | -------------- |
-|Artifact-based (or code-based) jobs| Code and other assets are saved as a W&B artifact.| To run artifact-based jobs, Launch agent must be configured with a builder. |
-|Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, Launch agent must be configured with a builder and git repository credentials. |
+|Artifact-based (or code-based) jobs| Code and other assets are saved as a W&B artifact.| To run artifact-based jobs, configure the Launch agent with a builder. |
+|Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, configure the Launch agent with a builder and git repository credentials. |
 |Image-based jobs|Code and other assets are baked into a Docker image. | To run image-based jobs, Launch agent might need to be configured with image repository credentials. | 
 
 <Note>
 While Launch jobs can perform activities not related to model training--for example, deploy a model to a Triton inference server--all jobs must call `wandb.init` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
 </Note>
 
-Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, jobs can be configured and sent to a [launch queue](#launch-queue) to be executed on a variety of [target resources](#target-resources).
+Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, you can configure and send jobs to a [launch queue](#launch-queue) for execution on a variety of [target resources](#target-resources).
 
 ### Launch queue
 Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out. (FIFO). There is no practical limit to the number of queues you can have, but a good guideline is one queue per target resource. Jobs can be enqueued with the W&B App UI, W&B CLI or Python SDK. You can then configure one or more Launch agents to pull items from the queue and execute them on the queue's target resource.
@@ -44,7 +44,7 @@ Each target resource accepts a different set of configuration parameters called 
 ### Launch agent
 Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute. When a launch agent receives a job, it first builds or pulls the image from the job definition then runs it on the target resource.
 
-One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.
+One agent may poll multiple queues, however you must configure the agent properly to support all of the backing target resources for each queue it polls.
 
 ### Launch agent environment
 The agent environment is the environment where a launch agent is running, polling for jobs.

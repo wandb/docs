@@ -11,7 +11,7 @@ This is an interactive notebook. You can run it locally or use the links below:
 
 # Integrating with Weave: Production Dashboard
 
-The GenAI tooling landscape is rapidly evolving - new frameworks, tools, and applications are emerging all the time. Weave aims to be a one-stop-shop for all your GenAI monitoring and evaluation needs. This also means that sometimes it is necessary to integrate with existing platforms or extend Weave to fit the specific needs of your project or organization.
+The GenAI tooling landscape is rapidly evolving - new frameworks, tools, and applications are emerging all the time. Weave aims to be a one-stop-shop for all your GenAI monitoring and evaluation needs. This also means that sometimes you need to integrate with existing platforms or extend Weave to fit the specific needs of your project or organization.
 
 In this cookbook, we'll demonstrate how to leverage Weave's powerful APIs and functions to create a custom dashboard for production monitoring as an extension to the Traces view in Weave. We'll focus on:
 
@@ -187,7 +187,7 @@ df_costs
 
 ## 2.4 Gathering inputs and generating visualizations
 
-Next, we can generate the visualizations using plotly. This is the most basic dashboard, but you can customize it as you like! For a more complex example, check out a Streamlit example [here](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py).
+Next, we can generate the visualizations using plotly. This is the most basic dashboard, but you can customize it as you like! For a more complex example, see a Streamlit example [here](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py).
 
 ```python lines
 import plotly.express as px
@@ -237,5 +237,5 @@ In this cookbook, we demonstrated how to create a custom production monitoring d
   - Easy download of the data in CSV, TSV, JSONL, JSON formats - see [here](/weave/reference/service-api) for more details.
   - Easy export using programmatic access to the data - see "Use Python" section in the export panel as described in this cookbook. See [here](/weave/guides/tracking/tracing#querying-and-exporting-calls) for more details.
 
-This custom dashboard extends Weave's native Traces view, allowing for tailored monitoring of LLM applications in production. If you're interested in viewing a more complex dashboard, check out a Streamlit example where you can add your own Weave project URL [in this repo](https://github.com/NiWaRe/agent-dev-collection).
+This custom dashboard extends Weave's native Traces view, allowing for tailored monitoring of LLM applications in production. If you're interested in viewing a more complex dashboard, see a Streamlit example where you can add your own Weave project URL [in this repo](https://github.com/NiWaRe/agent-dev-collection).
 

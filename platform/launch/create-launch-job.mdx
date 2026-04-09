@@ -151,7 +151,7 @@ See the [example above](#git-jobs) for a demonstration of how to use the `--buil
 
 The Dockerfile is a text file that contains instructions for building a Docker image. By default, Launch uses a default Dockerfile that installs the `requirements.txt` file. To use a custom Dockerfile, specify the path to the file with the `--dockerfile` argument of `wandb launch`.
 
-The Dockerfile path is specified relative to the build context. For example, if the build context is `jobs/hello_world`, and the Dockerfile is located in the `jobs/hello_world` directory, the `--dockerfile` argument should be set to `Dockerfile.wandb`. See the [example above](#git-jobs) for a demonstration of how to use the `--dockerfile` argument with the official W&B Launch jobs repository.
+Specify the Dockerfile path relative to the build context. For example, if the build context is `jobs/hello_world`, and the Dockerfile is located in the `jobs/hello_world` directory, set the `--dockerfile` argument to `Dockerfile.wandb`. See the [example above](#git-jobs) for a demonstration of how to use the `--dockerfile` argument with the official W&B Launch jobs repository.
 
 ### Requirements file
 

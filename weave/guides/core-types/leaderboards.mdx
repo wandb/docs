@@ -11,10 +11,10 @@ Leaderboards are ideal for:
 - Coordinating shared evaluation workflows
 
 <Note>
-Leaderboard creation is only available for the Weave UI and Weave Python SDK. TypeScript users can create and manage leaderboards using the [Weave UI](#using-the-ui).
+Leaderboard creation is only available for the Weave UI and Weave Python SDK. If you use TypeScript, you can create and manage leaderboards using the [Weave UI](#using-the-ui).
 </Note>
 
-## Create a Leaderboard
+## Create a leaderboard
 
 You can create a leaderboard via the [Weave UI](#ui) or [programmatically](#python).
 
@@ -34,8 +34,8 @@ To create and customize leaderboards directly in the Weave UI:
 Each column in a leaderboard represents a metric from a specific evaluation. To configure a column, you specify:
 
 - **Evaluation**: Select an evaluation run from the dropdown (must be previously created).
-- **Scorer**: Choose a scoring function (e.g., `jaccard_similarity`, `simple_accuracy`) used in that evaluation.
-- **Metric**: Choose a summary metric to display (e.g., `mean`, `true_fraction`, etc.).
+- **Scorer**: Select a scoring function (e.g., `jaccard_similarity`, `simple_accuracy`) used in that evaluation.
+- **Metric**: Select a summary metric to display (e.g., `mean`, `true_fraction`, etc.).
 
 To add more columns, click **Add Column**.
 
@@ -216,7 +216,7 @@ print(results)
 
 After the script finishes running, view the leaderboard:
 
-1. In the **Weave UI**, go to the **Leaders** tab. If it's not visible, click **More**, then select **Leaders**.
+1. In the **Weave UI**, navigate to the **Leaders** tab. If it's not visible, click **More**, then select **Leaders**.
 2. Click on the name of your leaderboard—e.g. `Summarization Model Comparison`.
 
 In the leaderboard table, each row represents a given model (`model_humanlike`, `model_vanilla`, `model_messy`). The `mean` column shows the average Jaccard similarity between the model's output and the reference summaries.

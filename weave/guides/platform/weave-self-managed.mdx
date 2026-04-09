@@ -825,7 +825,7 @@ Navigate to your W&B instance URL in a web browser.
 
 In the W&B Console:
 
-1. Go to **Top Right Menu** → **Organization Dashboard**
+1. Navigate to **Top Right Menu** → **Organization Dashboard**
 2. Verify that **Weave access** is enabled
 
 #### 7.3 Test Weave functionality
@@ -855,7 +855,7 @@ After running this, check your W&B UI for traces at the traces page in your orga
 
 ## Troubleshooting
 
-### ClickHouse Keeper Issues
+### ClickHouse Keeper issues
 
 **Problem**: Keeper pods stuck in `Pending` state
 
@@ -911,7 +911,7 @@ Common issues:
 - Port conflicts
 - Configuration errors in ch-keeper.yaml
 
-### ClickHouse Server Issues
+### ClickHouse server issues
 
 **Problem**: ClickHouse cannot connect to S3
 
@@ -950,7 +950,7 @@ kubectl logs -n clickhouse chi-wandb-weavecluster-0-0-0 | grep -i keeper
 
 If the connection fails, the Keeper hostnames in ch-server.yaml likely don't match your actual Keeper deployment. See "Understanding Keeper Naming" in Step 4 for the naming pattern.
 
-### Weave Trace Issues
+### Weave trace issues
 
 **Problem**: `weave-trace` pod fails to start
 

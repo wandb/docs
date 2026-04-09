@@ -31,7 +31,7 @@ In addition, examples use user IDs such as `abc` and `def`. Real requests and re
 
 ## Authentication
 
-Choose to authenticate using a user identity or a service account, after reviewing the key differences.
+Select whether to authenticate using a user identity or a service account, after reviewing the key differences.
 
 ### Key differences
 - Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
@@ -120,7 +120,7 @@ The response includes details about the user's activity in the organization:
 - **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user has never been active.
 
 The definition of "active" differs by deployment type:
-- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
+- **Dedicated Cloud / Self-Managed**: A user is active if they log in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
 - **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
 
 </Tab>
@@ -204,7 +204,7 @@ The response includes details about each user's activity in the organization:
 - **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user has never been active.
 
 The definition of "active" differs by deployment type:
-- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
+- **Dedicated Cloud / Self-Managed**: A user is active if they log in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
 - **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
 
 </Tab>

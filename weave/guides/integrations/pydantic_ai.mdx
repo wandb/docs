@@ -25,7 +25,7 @@ Then, [configure OTEL tracing in Weave](#configure-otel-tracing-in-weave).
 To send traces from PydanticAI to Weave, configure OTEL with a `TracerProvider` and an `OTLPSpanExporter`. Set the exporter to the [correct endpoint and HTTP headers for authentication and project identification](#required-configuration).
 
 <Warning>
-It is recommended that you store sensitive environment variables like your API key and project info in an environment file (e.g., `.env`), and load them using `os.environ`. This keeps your credentials secure and out of your codebase.
+Store sensitive environment variables like your API key and project info in an environment file (for example, `.env`), and load them using `os.environ`. This keeps your credentials secure and out of your codebase.
 </Warning>
 
 ### Required configuration

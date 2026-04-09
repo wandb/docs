@@ -41,7 +41,7 @@ resp = client.chat.completions.create(
 print(resp.choices[0].message.content)
 ```
 
-Check out this [getting started notebook](https://wandb.me/lora_nb) for an interactive demonstration of how to create a LoRA and upload it to W&B as an artifact.
+See this [getting started notebook](https://wandb.me/lora_nb) for an interactive demonstration of how to create a LoRA and upload it to W&B as an artifact.
 
 ## Prerequisites
 
@@ -104,7 +104,7 @@ Once your LoRA has been added to your project as an artifact, use the artifact's
 model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
 ```
 
-## Supported Base Models
+## Supported base models
 
 Inference currently supports the following LLMs (use the exact strings in `wandb.base_model`). More models coming soon:
 

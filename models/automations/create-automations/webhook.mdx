@@ -17,7 +17,7 @@ A team admin can add a webhook for the team.
 If the webhook requires a Bearer token or its payload requires a sensitive string, [create a secret that contains it](/platform/secrets/#add-a-secret) before creating the webhook. You can configure at most one access token and one other secret for a webhook. Your webhook's authentication and authorization requirements are determined by the webhook's service.
 </Note>
 
-1. Log in to W&B and go to **Team Settings** page.
+1. Log in to W&B and navigate to the **Team Settings** page.
 1. In the **Webhooks** section, click **New webhook**.
 1. Provide a name for the webhook. 
 1. Provide the endpoint URL for the webhook.
@@ -48,7 +48,7 @@ A Registry admin can create automations in that registry. Registry automations a
 1. Click the name of a registry to view its details, 
 1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. 
 
-1. Choose the [event](/models/automations/automation-events/#registry-events) to watch for.
+1. Select the [event](/models/automations/automation-events/#registry-events) to watch for.
 
     Fill in any additional fields that appear. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
@@ -62,14 +62,14 @@ A Registry admin can create automations in that registry. Registry automations a
 <Tab title="Project">
 A W&B admin can create automations in a project.
 
-1. Log in to W&B and go to the project page.
+1. Log in to W&B and navigate to the project page.
 1. In the project sidebar, click **Automations**, then click **Create automation**.
 
     Or, from a line plot in the workspace, you can quickly create a [run metric automation](/models/automations/automation-events/#run-events) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
     <Frame>
     <img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location"  />
     </Frame>
-1. Choose the [event](/models/automations/automation-events/#project) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
+1. Select the [event](/models/automations/automation-events/#project) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
@@ -183,7 +183,7 @@ Use template strings to dynamically pass context from W&B to GitHub Actions and 
 
 - Watch the videos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases), which guide you to create automations for model evaluation and deployment. 
 
-- Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook.
+- Review a W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw), which illustrates how to use a Github Actions webhook automation for Model CI. See this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook.
 </Tab>
 <Tab title="Microsoft Teams notification">
 This example payload shows how to notify your Teams channel using a webhook:

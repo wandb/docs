@@ -27,7 +27,7 @@ This section shows how to configure your identity provider (IdP) for OIDC. Selec
 <Tab title="Cognito">
 Follow the procedure below to set up AWS Cognito for authorization: 
 
-1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
+1. First, log in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
 
     <Frame>
     <img src="/images/hosting/setup_aws_cognito.png" alt="AWS Cognito setup"  />
@@ -125,7 +125,7 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 Next, [Set up SSO in W&B](#set-up-sso-in-w%26b).
 </Tab>
 <Tab title="Entra">
-Azure AD (Entra ID) supports two OIDC configuration modes for W&B. Choose the configuration that matches your security requirements:
+Azure AD (Entra ID) supports two OIDC configuration modes for W&B. Select the configuration that matches your security requirements:
 
 - [Public Client](#public-client): Uses PKCE without a client secret. Simpler to configure, suitable for most deployments.
 - [Confidential Client](#confidential-client): Uses PKCE with a client secret for enhanced security. Required if you need to set the `GORILLA_OIDC_SECRET` environment variable.
@@ -192,7 +192,7 @@ Use this configuration if you need to authenticate using a client secret.
    - Select **Certificates & secrets** from the left sidebar.
    - Click **New client secret**.
    - Add a description for the secret.
-   - Choose an expiration period.
+   - Select an expiration period.
    - Click **Add**. <Warning>Copy and save the secret **Value** immediately (not the Secret ID)</Warning>.
    <Frame>
    <img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value"  />
@@ -226,7 +226,7 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
 If your IdP requires a OIDC Client Secret, specify it by passing the [environment variables](/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`.
-- In the W&B App, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `GORILLA_OIDC_SECRET` to the `extraENV` section as shown below.
+- In the W&B App, navigate to **System Console** > **Settings** > **Advanced** > **User Spec** and add `GORILLA_OIDC_SECRET` to the `extraENV` section as shown below.
 - In Helm, configure `values.global.extraEnv` as shown below.
     ```yaml
     values:

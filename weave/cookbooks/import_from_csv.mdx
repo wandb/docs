@@ -28,7 +28,7 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 ```
 
-To understand the decisions for import in this cookbook, one should know that Weave traces have parent-child relationships that are 1:Many and continuous. Meaning a single parent may have multiple children, but that parent may itself be a children of another parent.
+To understand the decisions for import in this cookbook, you should know that Weave traces have parent-child relationships that are 1:Many and continuous. Meaning a single parent may have multiple children, but that parent may itself be a children of another parent.
 
 We therefore use `conversation_id` as the parent identifier, and the `turn_index` as the child identifier to provide us complete conversation logging.
 
@@ -278,4 +278,4 @@ weave.publish(dset)
 ![image.png](/images/screenshots/csv-4.png)
 </Frame>
 
-To learn more about evaluations, check out our [Quickstart](/weave/tutorial-rag) on using your newly created dataset to evaluate your RAG application!
+To learn more about evaluations, see our [Quickstart](/weave/tutorial-rag) on using your newly created dataset to evaluate your RAG application!
