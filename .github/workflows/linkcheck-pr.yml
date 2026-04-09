@@ -195,7 +195,56 @@ jobs:
           else
             echo "✗ lychee.toml not found in working directory!"
           fi
+          if [ -f lychee-pr-inputs.txt ]; then
+            echo ""
+            echo "=== Lychee input paths (from --files-from) ==="
+            wc -l lychee-pr-inputs.txt
+          fi
           echo "=================================="
+
+      - name: Write lychee input file list
+        id: lychee-inputs-file
+        # Same conditions as Link Checker. Use git diff to write paths instead of
+        # passing thousands of files through the workflow expression into args
+        # (avoids: Argument list too long / ARG_MAX).
+        if: |
+          steps.pr-context.outputs.pr_closed != 'true' &&
+          ((github.event_name == 'pull_request' &&
+            github.event.pull_request.head.repo.fork == true &&
+            steps.fork-docs-check.outputs.any_changed == 'true') ||
+           (github.event_name == 'deployment_status' &&
+            steps.changed-files.outputs.any_changed == 'true') ||
+           github.event_name == 'workflow_dispatch')
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ steps.pr-context.outputs.head_sha || github.event.pull_request.head.sha }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          OUT="lychee-pr-inputs.txt"
+          : > "$OUT"
+
+          filter_to_docs() {
+            grep -E '\.(md|mdx)$' || true
+          }
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            base=$(git merge-base HEAD "origin/${DEFAULT_BRANCH}")
+            git diff --name-only --diff-filter=d "$base" HEAD | filter_to_docs > "$OUT"
+          elif [ -n "$BASE_SHA" ] && [ -n "$HEAD_SHA" ]; then
+            git diff --name-only --diff-filter=d "$BASE_SHA" "$HEAD_SHA" | filter_to_docs > "$OUT"
+          else
+            echo "linkcheck-pr: could not determine base/head refs for input list" >&2
+            exit 1
+          fi
+
+          # Match previous args fallback: workflow_dispatch used '.' when no paths matched
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ ! -s "$OUT" ]; then
+            echo '.' > "$OUT"
+          fi
+
+          echo "lychee-pr-inputs.txt: $(wc -l < "$OUT" | tr -d ' ') path(s)"
 
       - name: Link Checker
         id: lychee
@@ -223,10 +272,12 @@ jobs:
           # Use deployment URL (from Mintlify preview) or fallback to production
           # Same-repo PRs: Wait for deployment and use preview URL
           # Fork PRs: Run immediately and check against production (no preview available)
+          # Inputs come from lychee-pr-inputs.txt (see "Write lychee input file list") so
+          # we do not pass every path on the shell argv (ARG_MAX on large PRs).
           args: >-
             --config lychee.toml
             --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
-            ${{ steps.fork-docs-check.outputs.all_changed_files || steps.changed-files.outputs.all_changed_files || '.' }}
+            --files-from lychee-pr-inputs.txt
 
       - name: Skip comment for fork PR
         if: |
