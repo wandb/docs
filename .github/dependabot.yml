@@ -11,6 +11,7 @@ updates:
     schedule:
       interval: "daily"
     labels:
-      - "submodule"
+      - "dependencies"
+      - "auto-generated"
     commit-message:
       prefix: "chore"
