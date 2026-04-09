@@ -17,7 +17,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
 
 Use this page to understand when a sandbox is ready, how to wait for state changes, and how to stop a sandbox.
 
-The next sections provide details on sandbox states, waiting for a sandbox to start or complete, and stopping a sandbox. For more information on creating sandboxes and running commands, see [Create sandboxes](/sandboxes/create-sandbox) and [Run commands](/sandboxes/run-commands).
+The next sections provide details on sandbox states, waiting for a sandbox to complete, and stopping a sandbox. For more information on creating sandboxes and running commands, see [Create sandboxes](/sandboxes/create-sandbox) and [Run commands](/sandboxes/run-commands).
 
 ## Sandbox states
 
@@ -34,23 +34,6 @@ The following table summarizes the states of a sandbox:
 
 A sandbox can accept most operations only after it reaches RUNNING. After it enters a terminal state, it is no longer available for additional work.
 
-## Wait for a sandbox to start
-
-Use `Sandbox.wait()` when you want to confirm that the sandbox starts (sandbox reached RUNNING state) successfully before performing other operations, or when you want to separate startup errors from later command errors.
-
-For example, you might want to wait for the sandbox to fail early if there is a problem with the container image, network configuration, or other startup parameters before you upload files, install dependencies, or run a training script.
-
-The following code snippet shows how to wait for a sandbox to start:
-
-```python
-import wandb
-from wandb.sandbox import Sandbox, NetworkOptions
-
-with Sandbox.run() as sandbox:
-    sandbox.wait()  # block until the sandbox is running
-    result = sandbox.exec(["python", "-c", "print('hello from sandbox')"]).result()
-    print(result.stdout)
-```
 
 ## Wait for a sandbox to complete
 

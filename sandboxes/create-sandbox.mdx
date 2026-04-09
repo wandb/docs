@@ -5,28 +5,37 @@ description: Learn how to create and manage sandboxes.
 
 Create sandboxes with W&B. Each sandbox runs in its own container with its own [filesystem](/sandboxes/file-access), network, and process space.
 
-Use [`Sandbox`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox) to create a single sandbox. Use [`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session) to create and manage multiple sandboxes that share the same configuration.
 
 <Info>
 By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to `Sandbox.run()` or `SandboxDefaults()`. W&B supports public container images only.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run(container_image="python:3.15") as sandbox:
+    sandbox.exec(["python", "--version"]).result()
+```
+
 </Info>
 
 ## Create a single sandbox
 
 Use `Sandbox.run()` to create and start a sandbox. This method returns a `Sandbox` object that you can use to interact with the environment.
 
-The following example creates a sandbox with the default container image (`python:3.11`) and network configuration:
+<Tip>
+W&B recommends using a context manager (`with` statement) to ensure that the sandbox is stopped automatically when it exits the block, even if an error occurs.
+</Tip>
+
+The following example creates a sandbox with the default container image (`python:3.11`):
 
 ```python
-from wandb.sandbox import Sandbox, NetworkOptions
+from wandb.sandbox import Sandbox
 
-with Sandbox.run(
-    network=NetworkOptions(egress_mode="internet"),
-) as sandbox:
+with Sandbox.run() as sandbox:
     print(sandbox)
 ```
 
-W&B recommends using a context manager to ensure that the sandbox is stopped automatically when it exits the block. To learn how to run commands inside a sandbox, see [Run commands](/sandboxes/run-commands). To learn about sandbox lifecycle and states, see [Lifecycle](/sandboxes/lifecycle).
+To learn how to run commands inside a sandbox, see [Run commands](/sandboxes/run-commands). To learn about sandbox lifecycle and states, see [Lifecycle](/sandboxes/lifecycle).
 
 ### Start a sandbox without a main command
 

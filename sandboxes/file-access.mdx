@@ -1,5 +1,5 @@
 ---
-title: File access
+title: File operations
 description: Learn how to read, write, and mount files in W&B Sandboxes.
 ---
 
@@ -21,7 +21,7 @@ Read and write files when you want to transfer smaller files between your local 
 {/* creating, updating, modifying, or saving data  */}
 {/* transfers a file into the sandbox. Use it to upload inputs your sandbox code needs (scripts, configs, data files). */}
 
-Transfer a file from your local environment to the sandbox using the `Sandbox.write_file()` method. 
+Transfer a file from your local environment to the sandbox using the [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) method. 
 
 
 ```python
@@ -36,14 +36,14 @@ with Sandbox.run() as sandbox:
     sandbox.write_file("hello.txt", text_file.read_bytes()).result()
 ```
 
-See the `Sandbox` class reference documentation for a full list of parameters and options for [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
+See the [`Sandbox`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox) class reference documentation for a full list of parameters and options for [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
 
 ## Read a file from the sandbox
 
 {/* accessing, viewing, or loading data from a storage medium */}
 {/* transfers a file out of the sandbox. Use it to download outputs your sandbox code generated (models, results, logs). */}
 
-Save a file from the sandbox to your local environment using the `Sandbox.read_file()` method.
+Save a file from the sandbox to your local environment using the [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) method.
 
 ```python
 from pathlib import Path

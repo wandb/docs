@@ -36,10 +36,10 @@ The following code snippet starts a sandbox without a main command, then runs tw
 from wandb.sandbox import Sandbox
 
 with Sandbox.run() as sandbox:
-    result = sandbox.exec(["pip", "install", "torch"], check=True).result()
+    result = sandbox.exec(["pip", "install", "torch"]).result()
     print(result.stdout)
 
-    result = sandbox.exec(["python", "train.py"], check=True).result()
+    result = sandbox.exec(["python", "train.py"]).result()
     print(result.stdout)
 ```
 
@@ -61,7 +61,7 @@ with Sandbox.run("sleep", "infinity") as sandbox:
 
 ## Read output and exit codes
 
-`Sandbox.exec()` returns a `Process` object. Call `Process.result()` to wait for the command to finish and get its result. `Process.result()` includes the standard output (`stdout`), standard error (`stderr`), and exit code (`returncode`).
+`Sandbox.exec()` returns a [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) object. Call `Process.result()` to wait for the command to finish and get its result. `Process.result()` includes the standard output (`stdout`), standard error (`stderr`), and exit code (`returncode`).
 
 Use the exit code to determine whether the command succeeded. By convention, an exit code of 0 indicates success.
 
