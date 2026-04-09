@@ -1301,7 +1301,6 @@
         "tabs": [
           {
             "tab": "Plateforme",
-            "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               {
                 "group": "Bienvenue sur W&B",
@@ -1458,7 +1457,6 @@
           },
           {
             "tab": "W&B Models",
-            "icon": "/icons/cropped-models.svg",
             "pages": [
               "fr/models",
               "fr/models/quickstart",
@@ -1980,7 +1978,6 @@
           },
           {
             "tab": "W&B Weave",
-            "icon": "/icons/cropped-weave.svg",
             "pages": [
               "fr/weave",
               {
@@ -2127,6 +2124,7 @@
                           "fr/weave/guides/integrations/smolagents",
                           "fr/weave/guides/integrations/pydantic_ai",
                           "fr/weave/guides/integrations/google_adk",
+                          "fr/weave/guides/integrations/vercel_ai_sdk",
                           "fr/weave/guides/integrations/agno",
                           "fr/weave/guides/integrations/koog",
                           "fr/weave/guides/integrations/autogen",
@@ -2312,7 +2310,6 @@
           },
           {
             "tab": "W&B Inference",
-            "icon": "/icons/cropped-inference.svg",
             "pages": [
               "fr/inference",
               "fr/inference/prerequisites",
@@ -2352,7 +2349,6 @@
           },
           {
             "tab": "W&B Training",
-            "icon": "/icons/cropped-training.svg",
             "pages": [
               "fr/training",
               "fr/training/prerequisites",
@@ -2383,14 +2379,12 @@
           },
           {
             "tab": "Assistance",
-            "icon": "/icons/cropped-reports.svg",
             "pages": [
               "fr/support"
             ]
           },
           {
             "tab": "W&B Launch",
-            "icon": "/icons/cropped-launch.svg",
             "hidden": true,
             "pages": [
               "fr/platform/launch",
@@ -3360,6 +3354,7 @@
                           "ja/weave/guides/integrations/smolagents",
                           "ja/weave/guides/integrations/pydantic_ai",
                           "ja/weave/guides/integrations/google_adk",
+                          "ja/weave/guides/integrations/vercel_ai_sdk",
                           "ja/weave/guides/integrations/agno",
                           "ja/weave/guides/integrations/koog",
                           "ja/weave/guides/integrations/autogen",
@@ -3614,7 +3609,6 @@
           },
           {
             "tab": "サポート",
-            "icon": "/icons/cropped-reports.svg",
             "pages": [
               "ja/support"
             ]
@@ -4590,6 +4584,7 @@
                           "ko/weave/guides/integrations/smolagents",
                           "ko/weave/guides/integrations/pydantic_ai",
                           "ko/weave/guides/integrations/google_adk",
+                          "ko/weave/guides/integrations/vercel_ai_sdk",
                           "ko/weave/guides/integrations/agno",
                           "ko/weave/guides/integrations/koog",
                           "ko/weave/guides/integrations/autogen",
@@ -4844,7 +4839,6 @@
           },
           {
             "tab": "지원팀",
-            "icon": "/icons/cropped-reports.svg",
             "pages": [
               "ko/support"
             ]

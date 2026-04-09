@@ -280,7 +280,7 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
 
     # Créez des instances pour différents modèles
     llama_model = InferenceModel(model_name="meta-llama/Llama-3.1-8B-Instruct")
-    deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3-0324")
+    deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3.1")
 
     # Comparez leurs réponses
     test_question = "Explique l’informatique quantique en un paragraphe pour un lycéen."
@@ -321,7 +321,7 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
 
     // Créez des instances pour différents modèles
     const llamaModel = createModel('meta-llama/Llama-3.1-8B-Instruct');
-    const deepseekModel = createModel('deepseek-ai/DeepSeek-V3-0324');
+    const deepseekModel = createModel('deepseek-ai/DeepSeek-V3.1');
 
     // Comparez leurs réponses
     const testQuestion = 'Explique l’informatique quantique en un paragraphe pour un lycéen.';
@@ -509,7 +509,7 @@ Ajoutez le code suivant au script que vous avez utilisé dans la section précé
     // Comparer plusieurs modèles - une fonctionnalité clé du framework d'évaluation de Weave
     const modelsToCompare = [
       { model: llamaModel, name: 'meta-llama/Llama-3.1-8B-Instruct' },
-      { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3-0324' },
+      { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3.1' },
     ];
 
     for (const { model, name } of modelsToCompare) {

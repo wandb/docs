@@ -57,12 +57,12 @@ title: billing 설정 관리
 
 특정 청구 기간 동안 지출 알림은 조직이 USD 기준의 사용자 지정 가능한 지출 임계값에 하나 이상 도달하면 조직 관리자와 청구 관리자에게 이메일로 알립니다. 카테고리별로 서로 다른 지출 알림을 최대 5개까지 설정할 수 있습니다:
 
-| Category      | Description                                                                                                                                                                              |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Category  | Description                                                                                                                                                                              |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 저장소       | 청구 기간 동안 조직의 저장소 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                             |
-| 추적 시간 | 청구 기간 동안 조직의 트레이닝 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                            |
-| Weave         | 청구 기간 동안 조직의 Weave [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요. 배포에서 Weave가 활성화된 경우에만 표시됩니다.                                                              |
-| Inference     | 청구 기간 동안 조직의 Inference [사용](#usage-alerts)에 대한 요금입니다. [Inference Pricing](https://wandb.ai/site/pricing/inference/)을 참조하세요. 배포에서 Inference가 활성화된 경우에만 표시됩니다.                             |
+| 추적 시간     | 청구 기간 동안 조직의 트레이닝 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                            |
+| Weave     | 청구 기간 동안 조직의 Weave [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요. 배포에서 Weave가 활성화된 경우에만 표시됩니다.                                                              |
+| Inference | 청구 기간 동안 조직의 Inference [사용](#usage-alerts)에 대한 요금입니다. [Inference Pricing](https://wandb.ai/site/pricing/inference/)을 참조하세요. 배포에서 Inference가 활성화된 경우에만 표시됩니다.                             |
 | 트레이닝      | 청구 기간 동안 조직의 Serverless RL [사용](#usage-alerts)에 대한 요금입니다. [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)을 참조하세요. 배포에서 W&amp;B Training이 활성화된 경우에만 표시됩니다. |
 
 메시지는 `support@wandb.com`에서 발송됩니다.
@@ -76,6 +76,10 @@ title: billing 설정 관리
 
 * **청구 관리자**만 지출 알림을 받습니다.
 * 기본적으로 지출 알림은 $200, $450, $700, $1000으로 설정됩니다.
+
+<Note>
+  추적 시간에는 요금이 청구되지 않으며, 모든 플랜에서 무제한으로 제공됩니다. 추적 시간은 모니터링 목적으로 **Usage** 페이지에 표시됩니다.
+</Note>
 
 <div id="view-spending-alerts">
   #### 지출 알림 보기

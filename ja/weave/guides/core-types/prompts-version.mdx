@@ -44,7 +44,7 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 * *your-team-name*: W&amp;B entity (ユーザー名またはチーム名)
 * *your-project-name*: W&amp;Bプロジェクト
 * *object&#95;name*: オブジェクト名
-* *object&#95;version*: バージョンハッシュ、`v0` や `v1` のような文字列、または `:latest` のようなエイリアスのいずれかです。すべてのオブジェクトには `:latest` エイリアスがあります。
+* *object&#95;version*: バージョンハッシュ、`v0` や `v1` のようなバージョンインデックス、または `:latest` や `:production` のようなエイリアスのいずれかです。すべてのオブジェクトには `:latest` エイリアスがあります。
 
 たとえば、完全修飾の Weave プロンプト URI は次のようになります。
 
@@ -61,7 +61,7 @@ weave:///your-team-name/your-project-name/object/support_prompt:v3
 ref はいくつかの方法で作成できます。
 
 * `weave.ref(<name>)`: プロンプトの `:latest` バージョンを取得します。`weave.init(...)` の呼び出しが必要です。
-* `weave.ref(<name>:<version>)`: 指定したバージョンのプロンプトを取得します。`weave.init(...)` の呼び出しが必要です。
+* `weave.ref(<name>:<alias_or_version>)`: エイリアス、バージョンハッシュ、またはバージョンインデックスでプロンプトを取得します。`weave.init(...)` の呼び出しが必要です。
 * `weave.ref(<fully_qualified_ref_uri>)`: 指定した[完全修飾された ref URI](#construct-a-fully-qualified-ref-uri)にあるプロンプトを取得します。`weave.init(...)` を呼び出す必要はありません。
 
 次の例では、アプリケーションで使用できるように `support_prompt:v3` を読み込みます。
@@ -74,34 +74,34 @@ weave.init("your-team-name/your-project-name")
 prompt = weave.ref("support_prompt:v3").get()
 ```
 
-<div id="use-prompt-versions-in-production">
-  ## 本番環境でプロンプトのバージョンを使う
+<div id="use-prompts-in-production">
+  ## 本番環境でプロンプトを使用する
 </div>
 
-本番システムにプロンプトをデプロイする場合は、最新バージョンを参照するのではなく、特定のプロンプトのバージョンを固定してください。本番アプリケーションでは、`weave.ref(<name>:<version>).get()` を使ってそのバージョンを読み込みます。
+本番システムにプロンプトをデプロイする際は、バージョンインデックスや最新バージョンではなく、`production` のような [エイリアス](#add-prompt-tags-and-aliases) を使用します。本番アプリケーションでは、`weave.ref(<name>:<alias>).get()` でプロンプトを読み込みます。
 
-バージョンを固定しておくと、あとから新しいプロンプトのバージョンが公開されても、本番環境の動作を安定した状態に保てます。
+エイリアス を使用すると、本番環境の動作を安定的かつ予測可能に保てます。新しいバージョンを本番に昇格する準備ができたら、そのバージョンに エイリアス を移動します。すると、すべての利用側でその変更が自動的に反映されます。
 
 一般的なワークフローは次のとおりです。
 
-1. 新しいプロンプトのバージョンを開発してテストします。
-2. 新しいプロンプトをデータセットまたは評価スイートに対して評価します。
-3. 本番システムが新しいバージョンを参照するように更新します。
+1. 新しいバージョンのプロンプトを開発してテストします。
+2. データセットまたは評価スイートに対して新しいプロンプトを評価します。
+3. `client.set_aliases(new_ref, "production")` を使用して、`production` エイリアス を新しいバージョンに移動します。
 
-この方法により、チームは本番環境の動作を意図せず変えることなく、安全にプロンプトを反復的に改善できます。
+この方法により、チームは本番環境の動作を意図せず変更することなく、安全にプロンプトを繰り返し改善できます。
 
 ## <a id="view-prompts" aria-label="プロンプトのバージョンを表示して比較する" />プロンプトのバージョンを表示して比較する
 
 UIでプロンプトのバージョンを表示するには、次の手順に従います。
 
 1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
-2. Weave プロジェクトのサイドバーで **Assets** をクリックします。Assets ページが開きます。
+2. Weave のプロジェクトのサイドバーで **Assets** をクリックします。Assets ページが開きます。
 3. Assets ページで **Prompts** をクリックします。プロジェクト内のプロンプトが一覧表示された Prompts ページが開きます。
 4. **Versions** 列で、表示したいプロンプトの **(x) Versions** をクリックします。プロンプトのバージョン一覧が開きます。
 
 ![選択したプロンプトのバージョンを示す Prompt Assets の UI。](/weave/guides/core-types/imgs/prompt-object.png)
 
-5. (任意) 一覧に表示されたプロンプトの横にあるチェックボックスを選択し、表のツールバーにある **Compare** ボタンをクリックすると、プロンプトのバージョンを比較できます。これにより、プロンプト間の差分を確認できます。
+1. (任意) 一覧に表示されたプロンプトの横にあるチェックボックスを選択し、表のツールバーにある **Compare** ボタンをクリックすると、プロンプトのバージョンを比較できます。これにより、プロンプト間の差分を確認できます。
 
 ![2 つの異なるプロンプト バージョン間の差分を示す Compare prompts UI。](/weave/guides/core-types/imgs/prompt-comparison.png)
 
