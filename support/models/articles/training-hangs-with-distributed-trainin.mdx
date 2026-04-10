@@ -1,0 +1,52 @@
+---
+title: "Why does my training hang with distributed training?"
+keywords: ["Experiments", "Run Crashes"]
+---
+
+There are two common reasons training hangs when using W&B with distributed training:
+
+1. **Hanging at the beginning of training**: W&B's multiprocessing can interfere with the multiprocessing from distributed training frameworks.
+2. **Hanging at the end of training**: The W&B process does not know when it needs to exit.
+
+## Fix hanging at the start
+
+Enable W&B Service, which is the default for W&B SDK `0.13.0` and above. If you are on an older version, upgrade your SDK:
+
+```shell
+pip install --upgrade wandb
+```
+
+For W&B SDK `0.12.5` through `0.12.x`, enable W&B Service explicitly:
+
+```python
+def main():
+    wandb.require("service")
+    # rest of your script
+```
+
+For W&B SDK `0.12.4` and below, set the `WANDB_START_METHOD` environment variable:
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+## Fix hanging at the end
+
+Call `wandb.finish()` at the end of your training script to tell W&B that the run is complete:
+
+```python
+wandb.finish()
+```
+
+This ensures all data is uploaded and the W&B process exits cleanly.
+
+For more information, see [Distributed training](/models/track/log/distributed-training/).
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/support/models/tags/run-crashes)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}
