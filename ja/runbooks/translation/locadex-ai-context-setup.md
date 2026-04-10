@@ -26,14 +26,15 @@
 
 **配置場所:**
 
-| 内容                                      | 場所                                            | メモ                                                              |
-| --------------------------------------- | --------------------------------------------- | --------------------------------------------------------------- |
-| **Glossary** (用語、定義、ロケールごとの翻訳)          | Locadex コンソール → AI Context → Glossary       | 用語を一貫して使用し、プロダクト名や機能名に「翻訳しない」を適用するために使用します。CSV で一括アップロードできます。   |
-| **Locale Context** (言語固有の指示)            | Locadex コンソール → AI Context → Locale Context | 例: 韓国語では、アルファベットとハングルの間のスペースや書式ルールを指定します。                       |
-| **Style Controls** (トーン、対象読者、プロジェクト説明)  | Locadex コンソール → AI Context → Style Controls | プロジェクト全体に適用され、すべてのロケールに反映されます。                                  |
-| **翻訳するファイル/ロケール**                       | Git → `gt.config.json`                        | `locales`、`defaultLocale`、`files`。Glossary やプロンプトはリポジトリには含めません。 |
+| 内容                                     | 場所                                                           | メモ                                                              |
+| -------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------- |
+| **Glossary** (用語、定義、ロケールごとの翻訳)         | Locadex コンソール → AI Context → Glossary                        | 用語を一貫して使用し、プロダクト名や機能名に「翻訳しない」を適用するために使用します。CSV で一括アップロードできます。   |
+| **Locale Context** (言語固有の指示)           | Locadex コンソール → AI Context → Locale Context                  | 例: 韓国語では、アルファベットとハングルの間のスペースや書式ルールを指定します。                       |
+| **Style Controls** (トーン、対象読者、プロジェクト説明) | Locadex コンソール → AI Context → Style Controls                  | プロジェクト全体に適用され、すべてのロケールに反映されます。                                  |
+| **翻訳するファイル/ロケール**                      | Git → `gt.config.json`                                       | `locales`、`defaultLocale`、`files`。Glossary やプロンプトはリポジトリには含めません。 |
+| **ベンダー問題ログ (Locadex のバグ)**             | Git → [locadex-vendor-issues.md](./locadex-vendor-issues.md) | Locadex に報告する翻訳上の不具合をトラッキングします (例: ローカライズされた MDX で URL が壊れる問題)。 |
 
-つまり、**自動翻訳の制御は Locadex コンソール で行います** (Glossary、Locale Context、Style Controls) 。**ファイルとロケールの設定は Git に残します** (`gt.config.json`) 。`gt.config.json` のオプションの `dictionary` キーは、ドキュメント MDX の Glossary 用ではなく、アプリ UI 文字列 (例: gt-next/gt-react) 用です。ドキュメントの用語は console で管理します。
+つまり、**自動翻訳の制御は Locadex コンソール で行います** (Glossary、Locale Context、Style Controls) 。**ファイルとロケールの設定は Git に残します** (`gt.config.json`) 。`gt.config.json` のオプションの `dictionary` キーは、ドキュメント MDX の Glossary 用ではなく、アプリ UI 文字列 (例: gt-next/gt-react) 用です。ドキュメントの用語は コンソール で管理します。
 
 <div id="context-and-constraints">
   ## コンテキストと制約事項
