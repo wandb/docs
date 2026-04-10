@@ -29,21 +29,19 @@ Install the W&B Python SDK. You can do this using `pip`:
 ```bash 
 pip install wandb
 ```
-### Store API keys in environment variables
 
-Store your OpenAI API key in an environment variable named `OPENAI_API_KEY` to run this tutorial.
+### Log in and authenticate with W&B
 
-```bash
-export OPENAI_API_KEY="your_openai_api_key_here"
-```
-
-If you have not done so already, store your W&B API key. Run the `wandb login` CLI command and follow the prompts to log in to your W&B account:
+Run the `wandb login` CLI command and follow the prompts to log in to your W&B account:
 
 ```bash
 wandb login
 ```
 
-See [`wandb login`](/models/ref/cli/wandb-login) reference documentation for more information on how W&B searches for credentials.
+### Store API keys in Secret Manager
+
+Store your OpenAI API key in the [W&B Secret Manager](/platform/secrets) as `OPENAI_API_KEY`. See [Manage secrets](/platform/secrets) for information about creating and managing secrets in your W&B account.
+
 
 ## Copy agent code
 
@@ -200,12 +198,12 @@ print(result)
 
 ## Create a sandbox and run the agent script
 
+Copy and paste the following code into a Python file and run it. Save it in the same directory as the `demo.py` file you created in the previous step.
 
-
-```python
+```python title="train_in_sandbox.py"
 import os
 from pathlib import Path
-from wandb.sandbox import Sandbox, NetworkOptions
+from wandb.sandbox import Sandbox, NetworkOptions, Secret
 
 script = Path("demo.py").read_bytes()
 
@@ -214,7 +212,7 @@ with Sandbox.run(
     container_image="python:3.13",
     network=NetworkOptions(egress_mode="internet"),
     max_lifetime_seconds=3600,
-    environment_variables={"OPENAI_API_KEY": os.environ["OPENAI_API_KEY"]},
+    secrets=[Secret(name="OPENAI_API_KEY")]
 ) as sandbox:
     sandbox.write_file("demo.py", script).result()
 
