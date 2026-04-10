@@ -7,50 +7,50 @@ mode: wide
 W&B Sandboxes is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-W&B Sandboxes gives you on-demand, isolated compute environments that you can create, use, and throw away from Python. No cluster management, no Kubernetes YAML.
-
-Sandboxes authenticate using your existing W&B credentials. To use W&B or Weave inside a sandbox, pass your API key using the [Secrets Manager](/platform/secrets#manage-secrets) or environment variables.
+W&B Sandboxes gives you on-demand, isolated compute environments that you can create, use, and discard using Python. No cluster management, no Kubernetes YAML.
 
 W&B Sandboxes is built on top of the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox/client/overview).
 
 ## How it works
 
-A *sandbox* is a single isolated compute environment. You create it, run commands inside it, and stop it when it is done. Each sandbox runs in its own container with its own filesystem, network, and process space. 
+A *sandbox* is a single isolated compute environment. You [create](/sandboxes/create-sandbox) it, [run commands inside it](/sandboxes/run-commands), and stop it when it is done. Each sandbox runs in its own container with its own filesystem, network, and process space.
+
+[Sandboxes authenticate](/sandboxes/secrets/) using your existing W&B credentials. Use the [W&B Secrets Manager](/platform/secrets#manage-secrets) with the W&B Python SDK to access sensitive information such as API keys and tokens in a sandbox.
 
 A sandbox goes through [several states in its lifecycle](/sandboxes/lifecycle). When a container is running, you can [execute commands](/sandboxes/run-commands) inside it.
 
 [Read, write, and mount read-only](/sandboxes/file-access) files to and from the sandbox. Common examples include reading in a Python script to execute, writing out logs or results, or mounting a directory of data read-only for the sandbox to access.
 
-Use the [W&B Secrets Manager](/platform/secrets#manage-secrets) with the W&B Python SDK to access sensitive information such as API keys and tokens in a sandbox.
-
 Use a *session* to manage multiple sandboxes that share configuration. When a session closes, all of its sandboxes are stopped automatically. See [Manage multiple sandboxes](/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session) for more details.
-
-You can define reusable sandbox configurations using the `SandboxDefaults` class.
 
 ## Basic usage
 
-The following code snippet shows how to create a sandbox, run a command inside it, and print the output.
+{/* The following code snippet shows how to create a sandbox, run a command inside it, and print the output. */}
+
+Copy and paste the following code snippet into a Python file and run it. You should see the output `Hello from W&B Sandboxes!` printed to the console.
 
 <Tip>
-Copy and paste the following code snippet into a Python file and run it. You should see the output `Hello from W&B Sandboxes!` printed to the console.
+Ensure you are logged in to W&B before running the code snippet below. Use the `wandb login` CLI command and follow the prompts to log in to your W&B account. For more information on how W&B searches for credentials, see the [`wandb login`](/models/ref/cli/wandb-login) reference documentation.
 </Tip>
 
-First you create a sandbox with `Sandbox.run()`. Next, you run the command `echo "Hello from W&B Sandboxes!"` inside the sandbox using the Sandbox class object's `exec()` method. Finally, you print the output to the console.
+1. Create a sandbox with [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run). 
+2. Run the command `echo "Hello from W&B Sandboxes!"` inside the sandbox using the [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) method. 
+3. Print the output to the console using the `Process` object returned by `Sandbox.exec()`.
 
-```python
+```python show lines title="hello_sandbox.py"
 from wandb.sandbox import Sandbox
 
 with Sandbox.run() as sandbox:
-    result = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
-    print(result.stdout)
+    process = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
+    print(process.stdout)
 ```
 
 The sandbox automatically stops when the context manager (the `with` block) exits. For more information on sandbox lifecycle and states, see [Lifecycle of sandboxes](/sandboxes/lifecycle).
 
 
-## Tutorials and examples
+## W&B Sandboxes tutorials
 
 For more in-depth examples, see:
 
-* [W&B Sandbox tutorial](/sandboxes/invoke_agent_sandbox_tutorial)
-* [Train a PyTorch model in a sandbox tutorial](/sandboxes/mltrain_in_sandbox_tutorial)
+* [Invoke an agent in a W&B Sandbox tutorial](/sandboxes/invoke_agent_sandbox_tutorial)
+* [Train a PyTorch model in a W&B Sandbox tutorial](/sandboxes/mltrain_in_sandbox_tutorial)

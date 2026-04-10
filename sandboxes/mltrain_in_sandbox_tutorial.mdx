@@ -2,9 +2,11 @@
 title: "Tutorial: Train a PyTorch model"
 ---
 
-In this tutorial you'll learn how to train a simple PyTorch model in a sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that trains a simple neural network on the UCI Zoo dataset.
+In this tutorial you will train a PyTorch model in a W&B Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that trains a simple neural network on the UCI Zoo dataset.
 
 ## Prerequisites
+
+Before you get started, make sure you have the following:
 
 {/* ### (Recommended) Create a Python virtual environment
 
@@ -23,9 +25,9 @@ Install the W&B Python SDK. You can do this using `pip`:
 pip install wandb
 ```
 
-### Store API keys in environment variables
+## Authenticate with W&B
 
-If you have not done so already, store your W&B API key. Run the `wandb login` CLI command and follow the prompts to log in to your W&B account:
+If you have not done so already, log in to W&B. Use the `wandb login` CLI command and follow the prompts to log in to your W&B account:
 
 ```bash
 wandb login
@@ -34,6 +36,8 @@ wandb login
 See [`wandb login`](/models/ref/cli/wandb-login) reference documentation for more information on how W&B searches for credentials.
 
 ### Copy the training script and dependencies
+
+Expand the following dropdown to acess the code required for this tutorial. Copy and paste the code into three separate files in the same directory as this tutorial. In the next section, you will run a script that reads in these files and trains a PyTorch model within a W&B Sandbox environment.
 
 <Accordion title="PyTorch training model script">
 
