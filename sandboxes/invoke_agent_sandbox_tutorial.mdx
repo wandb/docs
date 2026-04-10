@@ -1,9 +1,9 @@
 ---
 title: "Tutorial: Invoke an agent in a sandbox"
-description: "Learn how to invoke OpenAI agent within a sandbox environment"
+description: "Learn how to invoke OpenAI agent within a W&B Sandbox environment"
 ---
 
-In this tutorial, you'll learn how to invoke an agent within a sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes a simple OpenAI agent that uses tool calls to answer user questions about the weather.
+In this tutorial, you will invoke an agent within a W&B Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes a simple OpenAI agent that uses tool calls to answer user questions about the weather.
 
 <Note>
 This tutorial uses OpenAI as the language model for the agent, which requires an OpenAI API key.
@@ -32,7 +32,7 @@ pip install wandb
 
 ### Log in and authenticate with W&B
 
-Run the `wandb login` CLI command and follow the prompts to log in to your W&B account:
+Run the [`wandb login`](/models/ref/cli/wandb-login) CLI command and follow the prompts to log in to your W&B account:
 
 ```bash
 wandb login
