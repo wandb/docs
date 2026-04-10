@@ -482,6 +482,108 @@ def extract_body_preview(body: str, max_len: int = BODY_PREVIEW_MAX_LENGTH) -> s
     return text
 
 
+def _card_text_from_frontmatter_field(
+    frontmatter: Dict[str, Any],
+    key: str,
+) -> Optional[str]:
+    """
+    Extract a usable Card preview string from a single front matter field.
+
+    Returns ``None`` when the field is missing, not a string, or empty
+    after processing so the caller can fall through to the next candidate.
+
+    Processing (applied only to ``str`` values):
+
+    1. Remove one outer pair of wrapping quotes when the first and last
+       characters are both ``"`` or both ``'``.
+    2. Collapse internal newlines (and surrounding whitespace) to a
+       single space so the value is safe for single-line Card bodies.
+
+    No other transformation (no ``plain_text``, no truncation) is applied.
+
+    Parameters
+    ----------
+    frontmatter : dict
+        Parsed YAML front matter for the article.
+    key : str
+        The front matter key to read (for example ``"docengineDescription"``
+        or ``"description"``).
+
+    Returns
+    -------
+    str or None
+        The processed string, or ``None`` if the field is absent, not a
+        string, or empty after processing.
+    """
+    value = frontmatter.get(key)
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        return None
+
+    # Strip one outer pair of matching quotes.
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+        value = value[1:-1]
+
+    # Collapse newlines (and surrounding whitespace) to a single space.
+    value = re.sub(r"\s*\n\s*", " ", value)
+
+    return value if value else None
+
+
+def resolve_body_preview(
+    frontmatter: Dict[str, Any],
+    body: str,
+) -> str:
+    """
+    Resolve the Card preview text for an article.
+
+    Uses a three-level hierarchy:
+
+    1. ``docengineDescription`` front matter field (highest priority).
+       Lets writers control the Card preview independently of SEO.
+    2. ``description`` front matter field.  Mintlify also renders this as
+       the page's ``<meta name="description">`` tag, so setting it
+       affects both the Card text and SEO metadata.
+    3. Auto-generated body snippet via ``extract_body_preview`` (existing
+       behavior: ``plain_text`` conversion and 120-character truncation).
+
+    For levels 1 and 2, only outer wrapping quotes are stripped and
+    internal newlines are collapsed to a single space.  No other
+    processing is applied.
+
+    Parameters
+    ----------
+    frontmatter : dict
+        Parsed YAML front matter for the article.
+    body : str
+        The raw article body text (Markdown/MDX content).
+
+    Returns
+    -------
+    str
+        The Card preview string.
+
+    Example
+    -------
+    >>> resolve_body_preview({"docengineDescription": "Custom text."}, "Body.")
+    'Custom text.'
+    >>> resolve_body_preview({"description": "SEO and card."}, "Body.")
+    'SEO and card.'
+    >>> resolve_body_preview({}, "Body content here.")
+    'Body content here.'
+    """
+    text = _card_text_from_frontmatter_field(frontmatter, "docengineDescription")
+    if text is not None:
+        return text
+
+    text = _card_text_from_frontmatter_field(frontmatter, "description")
+    if text is not None:
+        return text
+
+    return extract_body_preview(body)
+
+
 # ---------------------------------------------------------------------------
 # Slug generation
 # ---------------------------------------------------------------------------
@@ -817,7 +919,13 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
           ``_normalize_keywords`` (see that function for string and type
           coercion).
         - ``featured`` (bool): Whether the article has ``featured: true``.
-        - ``body_preview`` (str): Truncated plain-text preview of the body.
+        - ``body_preview`` (str): Card preview text, resolved by
+          ``resolve_body_preview``: uses ``docengineDescription`` front
+          matter if present, then ``description``, then falls back to
+          ``extract_body_preview(body)`` (plain-text conversion and
+          120-character truncation).  Frontmatter overrides are not
+          passed through ``plain_text`` or truncation; only outer
+          wrapping quotes are stripped and newlines are collapsed.
         - ``page_path`` (str): The URL path without leading slash
           (for example ``support/models/articles/my-article``).
         - ``mdx_path`` (str): Repo-relative path to the MDX file using forward
@@ -854,7 +962,7 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
             raw_keywords = []
         keywords = _normalize_keywords(raw_keywords, mdx_file)
         featured = frontmatter.get("featured", False)
-        body_preview = extract_body_preview(body)
+        body_preview = resolve_body_preview(frontmatter, body)
         file_stem = mdx_file.stem
 
         # Build Badge link data for each keyword so templates can render

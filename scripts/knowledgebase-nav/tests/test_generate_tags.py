@@ -531,6 +531,209 @@ class TestBodyPreview:
 
 
 # ===========================================================================
+# Tests: _card_text_from_frontmatter_field
+# ===========================================================================
+
+class TestCardTextFromFrontmatterField:
+    """Tests for the _card_text_from_frontmatter_field helper."""
+
+    def test_returns_none_when_key_missing(self):
+        """A missing key should return None so the resolver falls through."""
+        assert generate_tags._card_text_from_frontmatter_field({}, "description") is None
+
+    def test_returns_none_when_value_is_none(self):
+        """An explicit None value should return None."""
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": None}, "description"
+        ) is None
+
+    def test_returns_none_for_non_string_int(self):
+        """An integer value should return None (no coercion)."""
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": 42}, "description"
+        ) is None
+
+    def test_returns_none_for_non_string_list(self):
+        """A list value should return None (no coercion)."""
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": ["a", "b"]}, "description"
+        ) is None
+
+    def test_returns_none_for_non_string_bool(self):
+        """A boolean value should return None (no coercion)."""
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": True}, "description"
+        ) is None
+
+    def test_strips_outer_double_quotes(self):
+        """Wrapping double quotes should be removed."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": '"Hello world."'}, "description"
+        )
+        assert result == "Hello world."
+
+    def test_strips_outer_single_quotes(self):
+        """Wrapping single quotes should be removed."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": "'Hello world.'"}, "description"
+        )
+        assert result == "Hello world."
+
+    def test_does_not_strip_mismatched_quotes(self):
+        """Mismatched outer quotes should not be stripped."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": "\"Hello world.'"}, "description"
+        )
+        assert result == "\"Hello world.'"
+
+    def test_does_not_strip_inner_quotes(self):
+        """Quotes inside the string should be preserved."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": 'She said "hello" today.'}, "description"
+        )
+        assert result == 'She said "hello" today.'
+
+    def test_returns_none_when_empty_after_quote_strip(self):
+        """A value that is just a pair of quotes should return None."""
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": '""'}, "description"
+        ) is None
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": "''"}, "description"
+        ) is None
+
+    def test_returns_none_for_empty_string(self):
+        """An empty string should return None."""
+        assert generate_tags._card_text_from_frontmatter_field(
+            {"description": ""}, "description"
+        ) is None
+
+    def test_collapses_newlines_to_single_space(self):
+        """Internal newlines should be collapsed to a single space."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": "Line one.\nLine two.\nLine three."}, "description"
+        )
+        assert result == "Line one. Line two. Line three."
+
+    def test_collapses_newlines_with_surrounding_whitespace(self):
+        """Whitespace around newlines should collapse too."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": "Hello  \n  world."}, "description"
+        )
+        assert result == "Hello world."
+
+    def test_preserves_single_line_string(self):
+        """A normal single-line string passes through unchanged."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": "Simple description."}, "description"
+        )
+        assert result == "Simple description."
+
+    def test_short_string_no_strip(self):
+        """A single character should not be processed as quotes."""
+        result = generate_tags._card_text_from_frontmatter_field(
+            {"description": "X"}, "description"
+        )
+        assert result == "X"
+
+
+# ===========================================================================
+# Tests: resolve_body_preview
+# ===========================================================================
+
+class TestResolveBodyPreview:
+    """Tests for the resolve_body_preview function."""
+
+    def test_docengine_description_takes_priority(self):
+        """docengineDescription should win over description and body."""
+        fm = {
+            "docengineDescription": "From docengine.",
+            "description": "From description.",
+        }
+        result = generate_tags.resolve_body_preview(fm, "Body text here.")
+        assert result == "From docengine."
+
+    def test_description_used_when_no_docengine(self):
+        """description should be used when docengineDescription is absent."""
+        fm = {"description": "From description."}
+        result = generate_tags.resolve_body_preview(fm, "Body text here.")
+        assert result == "From description."
+
+    def test_body_fallback_when_neither_field(self):
+        """Falls back to extract_body_preview when no override fields exist."""
+        result = generate_tags.resolve_body_preview({}, "Short body.")
+        assert result == "Short body."
+
+    def test_body_fallback_when_both_fields_empty(self):
+        """Empty strings in both fields should fall through to body."""
+        fm = {"docengineDescription": "", "description": ""}
+        result = generate_tags.resolve_body_preview(fm, "Fallback body.")
+        assert result == "Fallback body."
+
+    def test_description_used_when_docengine_is_none(self):
+        """Explicit None for docengineDescription falls through to description."""
+        fm = {"docengineDescription": None, "description": "SEO text."}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == "SEO text."
+
+    def test_description_used_when_docengine_is_non_string(self):
+        """Non-string docengineDescription falls through to description."""
+        fm = {"docengineDescription": 123, "description": "Fallback desc."}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == "Fallback desc."
+
+    def test_body_used_when_description_is_non_string(self):
+        """Non-string description falls through to body."""
+        fm = {"description": ["not", "a", "string"]}
+        result = generate_tags.resolve_body_preview(fm, "Body text.")
+        assert result == "Body text."
+
+    def test_body_preview_truncation_preserved(self):
+        """Body fallback still truncates at 120 characters."""
+        long_body = "A" * 200
+        result = generate_tags.resolve_body_preview({}, long_body)
+        assert result == "A" * 120 + " ..."
+
+    def test_docengine_not_truncated(self):
+        """Frontmatter overrides should not be truncated."""
+        long_text = "B" * 200
+        fm = {"docengineDescription": long_text}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == long_text
+
+    def test_description_not_truncated(self):
+        """description override should not be truncated."""
+        long_text = "C" * 200
+        fm = {"description": long_text}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == long_text
+
+    def test_docengine_outer_quotes_stripped(self):
+        """Outer quotes on docengineDescription are stripped."""
+        fm = {"docengineDescription": '"Quoted text."'}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == "Quoted text."
+
+    def test_description_outer_quotes_stripped(self):
+        """Outer quotes on description are stripped."""
+        fm = {"description": "'Quoted text.'"}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == "Quoted text."
+
+    def test_docengine_newlines_collapsed(self):
+        """Newlines in docengineDescription are collapsed."""
+        fm = {"docengineDescription": "Line one.\nLine two."}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == "Line one. Line two."
+
+    def test_docengine_only_quotes_falls_through(self):
+        """docengineDescription that is just quotes falls through to description."""
+        fm = {"docengineDescription": '""', "description": "Actual text."}
+        result = generate_tags.resolve_body_preview(fm, "Body.")
+        assert result == "Actual text."
+
+
+# ===========================================================================
 # Tests: tag_slug
 # ===========================================================================
 
@@ -696,6 +899,56 @@ class TestCrawlArticles:
         assert articles[0]["keywords"] == []
         assert articles[0]["tag_links"] == []
         assert any("int" in str(x.message).lower() for x in w)
+
+    def test_crawl_body_preview_from_docengine_description(self, tmp_path):
+        """docengineDescription in front matter overrides the body preview."""
+        articles_dir = tmp_path / "support" / "widgets" / "articles"
+        articles_dir.mkdir(parents=True)
+        (articles_dir / "test.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: "Test"
+            keywords: ["Alpha"]
+            docengineDescription: "Custom card text from docengine."
+            ---
+
+            This body text should not appear in the preview.
+        """), encoding="utf-8")
+
+        articles = generate_tags.crawl_articles(tmp_path, "widgets")
+        assert articles[0]["body_preview"] == "Custom card text from docengine."
+
+    def test_crawl_body_preview_from_description_fallback(self, tmp_path):
+        """description is used for body_preview when docengineDescription is absent."""
+        articles_dir = tmp_path / "support" / "widgets" / "articles"
+        articles_dir.mkdir(parents=True)
+        (articles_dir / "test.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: "Test"
+            keywords: ["Alpha"]
+            description: "SEO and card text."
+            ---
+
+            This body text should not appear in the preview.
+        """), encoding="utf-8")
+
+        articles = generate_tags.crawl_articles(tmp_path, "widgets")
+        assert articles[0]["body_preview"] == "SEO and card text."
+
+    def test_crawl_body_preview_body_fallback(self, tmp_path):
+        """Without description fields, body_preview uses the body snippet."""
+        articles_dir = tmp_path / "support" / "widgets" / "articles"
+        articles_dir.mkdir(parents=True)
+        (articles_dir / "test.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: "Test"
+            keywords: ["Alpha"]
+            ---
+
+            Short body text.
+        """), encoding="utf-8")
+
+        articles = generate_tags.crawl_articles(tmp_path, "widgets")
+        assert articles[0]["body_preview"] == "Short body text."
 
 
 # ===========================================================================
