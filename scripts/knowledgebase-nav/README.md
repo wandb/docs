@@ -98,13 +98,52 @@ Featured articles appear in the "Featured articles" section at the top of the pr
 
 3. There is no hard limit on how many articles can be featured per product, but we recommend keeping it to 3-5 for a clean layout.
 
+### Customizing Card preview text
+
+By default, the generator creates Card preview text by stripping Markdown and MDX from the article body and truncating to 120 characters. You can override this with front matter fields so the Card shows exactly the text you want.
+
+The generator resolves preview text using a three-level hierarchy:
+
+1. **`docengineDescription`** (highest priority). Use this when you want to control the Card preview independently of SEO. This field is not used by Mintlify for anything else.
+2. **`description`**. If `docengineDescription` is not set, the generator uses this field. Note that Mintlify also renders `description` as the page's `<meta name="description">` tag for search engines. Setting it affects both the Card preview and the SEO metadata. Use `docengineDescription` instead when you want the Card text to differ from the SEO description.
+3. **Auto-generated body snippet**. If neither field is set, the generator falls back to the existing behavior: convert the article body to plain text and truncate to 120 characters.
+
+The Card preview appears in three places:
+
+- Tag page Cards (for example, `support/models/tags/experiments.mdx`).
+- Featured article Cards on the product index page (for example, `support/models.mdx`).
+- Featured article Cards on the root support landing page (`support.mdx`).
+
+**Processing rules.** When using `docengineDescription` or `description`, the generator applies only minimal processing:
+
+- Outer wrapping quotes (`"` or `'`) are stripped. YAML sometimes preserves them depending on how you quote the value.
+- Internal newlines are collapsed to a single space. YAML block scalars (`|`, `>`) can produce multiline strings, but Card bodies must be single-line. If you need precise control over the text, use a single-line quoted string in front matter.
+- No other processing is applied. The value is not passed through Markdown stripping, HTML entity decoding, or truncation.
+
+**MDX safety.** Override text is emitted directly inside `<Card>` components without sanitization. Avoid characters or strings that break MDX parsing, such as unmatched `<`, raw `</Card>`, or unescaped `{`.
+
+**Example:**
+
+```yaml
+---
+title: "How do I reset my API key?"
+keywords: ["Security", "Administrator"]
+docengineDescription: "Step-by-step instructions for resetting your W&B API key from the user settings page."
+description: "Reset your W&B API key."
+---
+```
+
+In this example, the Card preview shows the `docengineDescription` value. The `description` value is used only by Mintlify for SEO. If `docengineDescription` were removed, the Card preview would show the `description` value instead.
+
 ### Front matter quick reference
 
-| Field      | Required | Default         | Description                                                                                                                                                                                                                                                                                                                                                                                             |
-|------------|----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `title`    | Expected | `""` if omitted | Article title. Used in Cards and listings. The generator does not fail if it is missing.                                                                                                                                                                                                                                                                                                                |
-| `keywords` | Expected | `[]` if omitted | YAML list of tag names. Each should match an entry in `config.yaml` (case-sensitive). Controls which tag pages the article appears on. If the list is empty or missing, the article is not listed under any tag. If you accidentally use a single string (for example `keywords: "Security"`), the generator treats it as one tag and emits a warning. Other non-list types are ignored with a warning. |
-| `featured` | No       | `false`         | Set to `true` to feature the article on the product index page.                                                                                                                                                                                                                                                                                                                                         |
+| Field                  | Required | Default         | Description                                                                                                                                                                                                                                                                                                                                                                                             |
+|------------------------|----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `title`                | Expected | `""` if omitted | Article title. Used in Cards and listings. The generator does not fail if it is missing.                                                                                                                                                                                                                                                                                                                |
+| `keywords`             | Expected | `[]` if omitted | YAML list of tag names. Each should match an entry in `config.yaml` (case-sensitive). Controls which tag pages the article appears on. If the list is empty or missing, the article is not listed under any tag. If you accidentally use a single string (for example `keywords: "Security"`), the generator treats it as one tag and emits a warning. Other non-list types are ignored with a warning. |
+| `featured`             | No       | `false`         | Set to `true` to feature the article on the product index page.                                                                                                                                                                                                                                                                                                                                         |
+| `docengineDescription` | No       | `""` if omitted | Card preview text for tag pages, featured sections, and the support landing page. Takes priority over `description` and the auto-generated body snippet. Use this when you want to set Card text independently of the SEO description. Outer wrapping quotes are stripped and newlines are collapsed to a single space.                                                                                  |
+| `description`          | No       | `""` if omitted | Card preview text if `docengineDescription` is not set. Mintlify also uses this field for the page's `<meta name="description">` SEO tag, so setting it affects both the Card preview and search engine metadata. Use `docengineDescription` to decouple the two. Same processing rules: outer quotes stripped, newlines collapsed.                                                                     |
 
 ### Running the generator locally
 
