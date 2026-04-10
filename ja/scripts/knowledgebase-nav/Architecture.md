@@ -168,12 +168,15 @@ flowchart LR
 * **`plain_text`** は、Markdown (水平線を含む) 、リンク、URL、HTML / MDX タグなどを除去し、プレビューをプレーンテキストのまま保ちます (entity デコード後に U+00A0 をスペースへ変換し、スマートクォートを ASCII に正規化し、許可リストでは識別子用に `_` と `=` を保持します) 。
 * **`extract_body_preview`** は `plain_text` を適用し、`BODY_PREVIEW_MAX_LENGTH` まで切り詰め、必要に応じて `BODY_PREVIEW_SUFFIX` を追加します。
 
+- **`_card_text_from_frontmatter_field`** は、単一のフロントマター キー (`docengineDescription` または `description`) から使用可能な文字列を抽出します。フィールドが存在しない場合、文字列ではない場合、または処理後に空になる場合は `None` を返します。処理では、外側の引用符 1 組を取り除き、内部の改行を 1 つのスペースにまとめます。
+- **`resolve_body_preview`** は、3 段階の優先順位に従って Card のプレビュー テキストを決定します。まず `docengineDescription`、次に `description`、最後に `extract_body_preview(body)` を使用します。フロントマター のオーバーライドには、`plain_text` も切り詰めも適用されません。
+
 <div id="slugs-and-crawling">
   ### スラッグとクロール
 </div>
 
 * **`tag_slug`** は、表示用キーワードをファイル名または URL セグメント (小文字・ハイフン区切り) にマッピングします。
-* **`crawl_articles`** は `support/<slug>/articles/*.mdx` をたどって、記事の dict (`title`、`keywords`、`featured`、`body_preview`、`page_path`、`tag_links` など) を生成します。
+* **`crawl_articles`** は `support/<slug>/articles/*.mdx` をたどって、記事の dict (`title`、`keywords`、`featured`、`body_preview`、`page_path`、`tag_links` など) を生成します。`body_preview` フィールドは、`docengineDescription`、`description`、または記事本文から `resolve_body_preview` によって決定されます。
 
 <div id="tag-aggregation-and-featured-content">
   ### タグ集約と注目コンテンツ

@@ -168,12 +168,15 @@ flowchart LR
 * **`plain_text`**는 Markdown(수평선 포함), 링크, URL, HTML 또는 MDX 태그 등을 제거해 미리보기가 평문으로 유지되도록 합니다(entity 디코딩 후 U+00A0은 공백으로 바꾸고, 타이포그래피 따옴표는 ASCII로 매핑하며, 식별자를 위해 허용 목록에 `_`와 `=`는 유지).
 * **`extract_body_preview`**는 `plain_text`를 적용하고, `BODY_PREVIEW_MAX_LENGTH`로 자른 뒤, 필요하면 `BODY_PREVIEW_SUFFIX`를 추가합니다.
 
+- **`_card_text_from_frontmatter_field`**는 단일 프런트매터 키(`docengineDescription` 또는 `description`)에서 사용할 수 있는 문자열을 추출합니다. 필드가 없거나 문자열이 아니거나 처리 후 비어 있으면 `None`을 반환합니다. 처리 과정에서는 바깥쪽을 감싸는 따옴표 한 쌍을 제거하고, 내부 줄바꿈은 단일 공백으로 합칩니다.
+- **`resolve_body_preview`**는 3단계 우선순위에 따라 Card 미리보기 텍스트를 결정합니다. 먼저 `docengineDescription`, 그다음 `description`, 마지막으로 `extract_body_preview(body)`를 사용합니다. 프런트매터 Override에는 `plain_text`나 길이 자르기를 적용하지 않습니다.
+
 <div id="slugs-and-crawling">
   ### 슬러그와 크롤링
 </div>
 
 * **`tag_slug`**는 표시용 키워드를 파일 이름 또는 URL 세그먼트(소문자, 하이픈 사용)에 매핑합니다.
-* **`crawl_articles`**는 `support/<slug>/articles/*.mdx`를 순회하며 아티클 dict(`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links` 등)를 생성합니다.
+* **`crawl_articles`**는 `support/<slug>/articles/*.mdx`를 순회하며 아티클 dict(`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links` 등)를 생성합니다. `body_preview` 필드는 `docengineDescription`, `description` 또는 아티클 본문을 바탕으로 `resolve_body_preview`에서 결정됩니다.
 
 <div id="tag-aggregation-and-featured-content">
   ### 태그 집계와 추천 콘텐츠
