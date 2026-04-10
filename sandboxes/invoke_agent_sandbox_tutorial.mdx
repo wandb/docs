@@ -3,7 +3,7 @@ title: "Tutorial: Invoke an agent in a sandbox"
 description: "Learn how to invoke OpenAI agent within a sandbox environment"
 ---
 
-In this tutorial, you'll learn how to invoke an agent within a sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes an agent using the LangChain library.
+In this tutorial, you'll learn how to invoke an agent within a sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes a simple OpenAI agent that uses tool calls to answer user questions about the weather.
 
 <Note>
 This tutorial uses OpenAI as the language model for the agent, which requires an OpenAI API key.
@@ -47,7 +47,7 @@ Store your OpenAI API key in the [W&B Secret Manager](/platform/secrets) as `OPE
 
 <Accordion title="OpenAI agent code">
 
-Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial, then run the above code snippet to see how to invoke a LangChain agent within a sandbox environment.
+Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial, then run the above code snippet to see how to invoke an OpenAI agent within a sandbox environment.
 
 ```python title="demo.py"
 import json
