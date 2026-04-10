@@ -22,16 +22,17 @@
   ## 작업 개요
 </div>
 
-이 런북에서는 (1) 기존 `wandb_docs_translation` 도구와 (2) `main`에 있는 수동 번역 한국어 콘텐츠(이후 일본어 포함)에서 번역 메모리와 용어를 추출하는 방법, 그리고 자동 번역이 이 컨텍스트를 활용하도록 Locadex/General Translation 플랫폼을 설정하는 방법을 설명합니다. 목표는 제품명과 기술 용어에 대해 일관된 용어를 사용하고, “번역하지 않음” 규칙이 올바르게 적용되도록 하는 것입니다.
+이 runbook에서는 (1) 기존 `wandb_docs_translation` 도구와 (2) `main`에 있는 수동 번역 한국어 콘텐츠(이후 일본어 포함)에서 번역 메모리와 용어를 추출하는 방법, 그리고 자동 번역이 이 컨텍스트를 활용하도록 Locadex/General Translation 플랫폼을 설정하는 방법을 설명합니다. 목표는 제품명과 기술 용어에 대해 일관된 용어를 사용하고, “번역하지 않음” 규칙이 올바르게 적용되도록 하는 것입니다.
 
 **구성 위치:**
 
-| What                                   | Where                                         | Notes                                                                 |
-| -------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------- |
-| **Glossary** (용어, 정의, 로캘별 번역)          | Locadex console → AI Context → Glossary       | 일관된 용어 사용과 제품/기능 이름에 대한 “번역하지 않음” 규칙을 적용합니다. CSV로 일괄 업로드할 수 있습니다.     |
-| **Locale Context** (언어별 지침)            | Locadex console → AI Context → Locale Context | 예: 한국어의 경우 알파벳과 한글 사이 띄어쓰기, 서식 규칙                                     |
-| **Style Controls** (톤, 대상 독자, 프로젝트 설명) | Locadex console → AI Context → Style Controls | 프로젝트 전체에 적용되며 모든 로캘에 공통으로 적용됩니다.                                      |
-| **번역할 파일/로캘**                          | Git → `gt.config.json`                        | `locales`, `defaultLocale`, `files`. 리포지토리에는 glossary나 프롬프트를 두지 않습니다. |
+| What                                   | Where                                                        | Notes                                                                 |
+| -------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------- |
+| **Glossary** (용어, 정의, 로캘별 번역)          | Locadex console → AI Context → Glossary                      | 일관된 용어 사용과 제품/기능 이름에 대한 “번역하지 않음” 규칙을 적용합니다. CSV로 일괄 업로드할 수 있습니다.     |
+| **Locale Context** (언어별 지침)            | Locadex console → AI Context → Locale Context                | 예: 한국어의 경우 알파벳과 한글 사이 띄어쓰기, 서식 규칙                                     |
+| **Style Controls** (톤, 대상 독자, 프로젝트 설명) | Locadex console → AI Context → Style Controls                | 프로젝트 전체에 적용되며 모든 로캘에 공통으로 적용됩니다.                                      |
+| **번역할 파일/로캘**                          | Git → `gt.config.json`                                       | `locales`, `defaultLocale`, `files`. 리포지토리에는 glossary나 프롬프트를 두지 않습니다. |
+| **벤더 이슈 로그 (Locadex 버그)**              | Git → [locadex-vendor-issues.md](./locadex-vendor-issues.md) | Locadex에 보고할 번역 결함을 추적합니다(예: 현지화된 MDX에서 URL이 깨지는 문제).                 |
 
 즉, **자동 번역은 Locadex console에서 제어합니다** (Glossary, Locale Context, Style Controls). **파일 및 로캘 설정은 Git에 유지합니다** (`gt.config.json`). `gt.config.json`의 선택적 `dictionary` 키는 문서 MDX glossary용이 아니라 앱 UI 문자열(예: gt-next/gt-react)용이며, 문서 용어는 console에서 관리합니다.
 

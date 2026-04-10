@@ -33,11 +33,14 @@ Phase 4. Sync tab-page Badges:
     For each support article, rewrites only ``<Badge>`` links to
     ``/support/<product>/tags/...`` so they match ``keywords`` in front matter.
     Tech writers do not maintain those Badges by hand. Badges are wrapped in
-    MDX comment markers (``_BADGE_START`` / ``_BADGE_END``) so the generator
-    can find them without regex matching on subsequent runs. Articles that
-    predate the markers are migrated automatically on the first run. Runs
-    after tag pages are generated so articles are not modified if earlier
-    phases fail.
+    MDX comment markers located by ``_BADGE_START_RE`` / ``_BADGE_END_RE``:
+    any ``{/* ... */}`` comment containing ``AUTO-GENERATED: tab badges``
+    anywhere inside it (case-insensitive, colon optional) is the start;
+    ``END AUTO-GENERATED: tab badges`` marks the end. Authors can add notes
+    anywhere inside these comments without breaking the generator. Articles
+    that predate the markers are migrated automatically on the first run.
+    Runs after tag pages are generated so articles are not modified if
+    earlier phases fail.
 
 Phase 5. Update docs.json navigation (meta-generator pattern):
     Reads the existing docs.json, finds or creates hidden support tabs for
@@ -45,11 +48,16 @@ Phase 5. Update docs.json navigation (meta-generator pattern):
     the file back while preserving all unrelated navigation entries.
 
 Phase 6. Update support.mdx (meta-generator pattern):
-    Refreshes article and tag counts on the root support landing page
-    (count lines are wrapped in ``{/* auto-generated counts */}`` markers
-    so writers can add other content in each Card body), and regenerates
-    the featured-articles section from articles that have
-    ``featured: true`` in front matter.
+    Refreshes article and tag counts on the root support landing page.
+    Count lines are wrapped in ``{/* AUTO-GENERATED: counts */}`` /
+    ``{/* END AUTO-GENERATED: counts */}`` markers (located by
+    ``_COUNTS_START_RE`` / ``_COUNTS_END_RE``) so writers can add other
+    content in the Card body. The featured-articles section is regenerated
+    between ``{/* AUTO-GENERATED: featured articles */}`` /
+    ``{/* END AUTO-GENERATED: featured articles */}`` markers (located by
+    ``_FEATURED_START_RE`` / ``_FEATURED_END_RE``). All markers use
+    flexible matching: keyword anywhere in the comment, case-insensitive,
+    colon optional.
 
 Inputs
 ------
@@ -63,9 +71,10 @@ Outputs
 - Updated support article MDX files at support/<product>/articles/*.mdx
   (only ``<Badge>`` components whose Markdown link targets
   ``/support/<product>/tags/...`` are rewritten from ``keywords``; other
-  Badges and body text are left alone. Managed Badges are wrapped in
-  ``_BADGE_START`` / ``_BADGE_END`` marker comments. If no such Badges
-  exist yet, a blank line, markers, and tab Badges are appended when
+  Badges and body text are left alone. Managed Badges are located via
+  ``_BADGE_START_RE`` / ``_BADGE_END_RE`` — authors can add notes inside
+  the marker comments without breaking the generator. If no markers exist
+  yet, a blank line, canonical markers, and tab Badges are appended when
   ``keywords`` is non-empty)
 - Tag page MDX files at support/<product>/tags/<tag-slug>.mdx
 - Product index MDX files at support/<product>.mdx
@@ -127,6 +136,56 @@ _PLAIN_TEXT_TYPOGRAPHIC_TO_ASCII = str.maketrans(
 # The W&B docs site uses a multi-language navigation structure under
 # navigation.languages[]; we only modify the English ("en") entry.
 DOCS_JSON_NAV_LANGUAGE = "en"
+
+# ---------------------------------------------------------------------------
+# MDX auto-generated marker constants
+#
+# Each section of managed content is wrapped in a pair of MDX comment markers
+# (``{/* ... */}``).  Canonical forms are used when *writing* markers so the
+# output is deterministic.  Regex forms are used when *reading* markers so
+# authors can add notes inside the comment without breaking the generator.
+#
+# Matching rules applied by every regex form:
+#   • The keyword can appear anywhere inside the comment (before, after, or
+#     surrounded by author notes).
+#   • Matching is case-insensitive, so ``auto-generated`` and
+#     ``Auto-Generated`` are both recognized.
+#   • The colon after "generated" is optional, so both
+#     ``AUTO-GENERATED: tab badges`` and ``AUTO-GENERATED tab badges`` match.
+#   • The tempered greedy token  (?:(?!\*/)[\s\S])*  matches any character
+#     that is not the start of  */  so a pattern can never accidentally cross
+#     from one MDX comment into the next.
+#
+# The canonical forms always include the colon and use the original casing, so
+# generator output is deterministic regardless of what was in the source file.
+# ---------------------------------------------------------------------------
+
+# Tempered greedy token: matches any character that is not the start of */,
+# so a pattern using it can never cross from one {/* ... */} comment into the next.
+_TGT = r'(?:(?!\*/)[\s\S])*'
+
+
+def _make_markers(keyword: str):
+    """Return (start, end, start_re, end_re) for a managed MDX comment section."""
+    start = f"{{/* AUTO-GENERATED: {keyword} */}}"
+    end = f"{{/* END AUTO-GENERATED: {keyword} */}}"
+    start_re = re.compile(
+        r'\{/\*' + _TGT + r'AUTO-GENERATED:? ' + re.escape(keyword) + _TGT + r'\*/\}',
+        re.IGNORECASE,
+    )
+    end_re = re.compile(
+        r'\{/\*' + _TGT + r'END AUTO-GENERATED:? ' + re.escape(keyword) + _TGT + r'\*/\}',
+        re.IGNORECASE,
+    )
+    return start, end, start_re, end_re
+
+
+# Tab badges (Phase 4)
+_BADGE_START, _BADGE_END, _BADGE_START_RE, _BADGE_END_RE = _make_markers("tab badges")
+# Article/tag counts in support.mdx Cards (Phase 6)
+_COUNTS_START, _COUNTS_END, _COUNTS_START_RE, _COUNTS_END_RE = _make_markers("counts")
+# Featured articles block in support.mdx (Phase 6)
+_FEATURED_START, _FEATURED_END, _FEATURED_START_RE, _FEATURED_END_RE = _make_markers("featured articles")
 
 
 # ---------------------------------------------------------------------------
@@ -280,11 +339,14 @@ def _extract_body(body_and_footer: str) -> str:
     """
     Return the article body, excluding the auto-managed badge footer.
 
-    Uses ``_BADGE_START`` as the boundary: everything before it is the
-    body.  A trailing ``---`` line (the cosmetic horizontal rule writers
-    sometimes place before badges) is stripped, but ``---`` has no
-    special delimiter role; horizontal rules elsewhere in the body are
-    preserved.
+    Uses ``_BADGE_START_RE`` as the boundary: everything before the first
+    match is the body.  The regex matches any ``{/* ... */}`` comment that
+    contains ``AUTO-GENERATED: tab badges`` anywhere inside it, so authors
+    can freely add notes anywhere in the marker comment without affecting
+    extraction.  A trailing ``---``
+    line (the cosmetic horizontal rule writers sometimes place before
+    badges) is stripped, but ``---`` has no special delimiter role;
+    horizontal rules elsewhere in the body are preserved.
 
     Parameters
     ----------
@@ -296,9 +358,9 @@ def _extract_body(body_and_footer: str) -> str:
     str
         The body text with leading/trailing whitespace stripped.
     """
-    marker_pos = body_and_footer.find(_BADGE_START)
-    if marker_pos != -1:
-        body = body_and_footer[:marker_pos]
+    m = _BADGE_START_RE.search(body_and_footer)
+    if m is not None:
+        body = body_and_footer[:m.start()]
     else:
         body = body_and_footer
 
@@ -727,10 +789,6 @@ def _keywords_list_for_footer(
     return _normalize_keywords(frontmatter.get("keywords", []), article_path)
 
 
-_BADGE_START = "{/* ---- AUTO-GENERATED: tab badges ----\n  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.\n  Do not edit between these markers by hand.\n---- */}"
-_BADGE_END = "{/* ---- END AUTO-GENERATED: tab badges ---- */}"
-
-
 def _tab_badge_pattern(product_slug: str) -> re.Pattern[str]:
     """
     Match a Mintlify ``<Badge>`` whose inner Markdown link targets this
@@ -763,8 +821,8 @@ def build_keyword_footer_mdx(product_slug: str, keywords: List[str]) -> str:
     Build text to append when an article has no tab Badges yet.
 
     Wraps the Badges in marker comments so future runs can find and
-    replace them without regex matching.  Returns empty when
-    ``keywords`` is empty.
+    replace them via ``_BADGE_START_RE`` / ``_BADGE_END_RE``.  Returns
+    empty when ``keywords`` is empty.
     """
     if not keywords:
         return ""
@@ -780,9 +838,15 @@ def _replace_tab_badges_in_body(
     """
     Replace or remove only tab-page Badges; append a default footer if needed.
 
-    Prefers marker comments (``_BADGE_START`` / ``_BADGE_END``) when present:
-    everything between the markers (inclusive) is replaced with the new
-    marked block, or removed when ``keywords`` is empty.
+    Prefers marker comments (``_BADGE_START_RE`` / ``_BADGE_END_RE``) when
+    present: everything between the markers (inclusive) is replaced with the
+    new marked block, or removed when ``keywords`` is empty.  The start
+    pattern matches any ``{/* ... */}`` comment that contains
+    ``AUTO-GENERATED: tab badges`` anywhere inside it; the end pattern
+    matches any comment containing ``END AUTO-GENERATED: tab badges``.
+    Authors can freely add notes anywhere in the marker comments without
+    breaking this replacement.  The canonical ``_BADGE_START`` / ``_BADGE_END`` literals
+    are always written on output.
 
     Falls back to regex matching for articles that have not yet been
     migrated to markers: finds ``<Badge>`` elements whose link path is
@@ -793,16 +857,15 @@ def _replace_tab_badges_in_body(
     non-empty, appends ``build_keyword_footer_mdx`` (blank line plus
     marked Badges) to the trimmed body.
     """
-    start_idx = body_and_footer.find(_BADGE_START)
-    end_idx = body_and_footer.find(_BADGE_END)
+    start_m = _BADGE_START_RE.search(body_and_footer)
+    end_m = _BADGE_END_RE.search(body_and_footer)
 
-    if start_idx != -1 and end_idx != -1:
-        end_idx += len(_BADGE_END)
+    if start_m is not None and end_m is not None:
         if keywords:
             new_block = f"{_BADGE_START}\n{build_tab_badges_mdx(product_slug, keywords)}\n{_BADGE_END}"
         else:
             new_block = ""
-        return body_and_footer[:start_idx] + new_block + body_and_footer[end_idx:]
+        return body_and_footer[:start_m.start()] + new_block + body_and_footer[end_m.end():]
 
     # Migration path: find bare tab Badges and wrap them in markers.
     pattern = _tab_badge_pattern(product_slug)
@@ -1473,10 +1536,6 @@ def update_docs_json(
 # Phase 6: Update support.mdx (counts and featured articles)
 # ---------------------------------------------------------------------------
 
-_FEATURED_START = "{/* ---- AUTO-GENERATED: featured articles ----"
-_FEATURED_END = "{/* ---- END AUTO-GENERATED: featured articles ---- */}"
-
-
 def _build_featured_section_mdx(
     all_featured: Dict[str, Tuple[str, List[Dict[str, Any]]]],
 ) -> str:
@@ -1492,18 +1551,9 @@ def _build_featured_section_mdx(
     Returns
     -------
     str
-        The MDX content between (but not including) the start and end
-        markers.  Includes the hint comment for tech writers.
+        The complete featured-articles block, including start and end markers.
     """
-    hint = (
-        "{/* ---- AUTO-GENERATED: featured articles ----\n"
-        "  This section is managed by scripts/knowledgebase-nav/generate_tags.py.\n"
-        "  To feature an article, add \"featured: true\" to its front matter.\n"
-        "  To remove it, set \"featured: false\" or remove the field.\n"
-        "  Do not edit the content between these markers by hand.\n"
-        "---- */}"
-    )
-    parts = [hint]
+    parts = [_FEATURED_START]
 
     if all_featured:
         parts.append("\n## Featured articles")
@@ -1540,10 +1590,14 @@ def update_support_featured(
     """
     Replace the featured-articles section of support.mdx between markers.
 
-    Looks for ``_FEATURED_START`` and ``_FEATURED_END`` in support.mdx
-    and replaces everything between them (inclusive) with a freshly
-    generated block.  If the markers are missing, emits a warning and
-    leaves the file unchanged.
+    Locates the start marker via ``_FEATURED_START_RE`` (any ``{/* ... */}``
+    comment containing ``AUTO-GENERATED: featured articles``) and the end
+    marker via ``_FEATURED_END_RE`` (any comment containing ``END
+    AUTO-GENERATED: featured articles``), then replaces everything between
+    them (inclusive) with a freshly generated block.  Authors can add notes
+    anywhere inside the marker comments without affecting this replacement.
+    If the markers are missing, emits a warning and leaves the file
+    unchanged.
 
     Parameters
     ----------
@@ -1555,19 +1609,18 @@ def update_support_featured(
     support_path = repo_root / "support.mdx"
     content = support_path.read_text(encoding="utf-8")
 
-    start_idx = content.find(_FEATURED_START)
-    end_idx = content.find(_FEATURED_END)
+    start_m = _FEATURED_START_RE.search(content)
+    end_m = _FEATURED_END_RE.search(content)
 
-    if start_idx == -1 or end_idx == -1:
+    if start_m is None or end_m is None:
         warnings.warn(
             "Could not find featured-article markers in support.mdx. "
             "Skipping featured section update."
         )
         return
 
-    end_idx += len(_FEATURED_END)
     new_block = _build_featured_section_mdx(all_featured)
-    new_content = content[:start_idx] + new_block + content[end_idx:]
+    new_content = content[:start_m.start()] + new_block + content[end_m.end():]
 
     if new_content != content:
         support_path.write_text(new_content, encoding="utf-8")
@@ -1645,25 +1698,22 @@ def update_support_index(
 
         new_count_line = f"  {article_count} {article_word} &middot; {tag_count} {tag_word}"
 
-        _COUNTS_OPEN = r"[ \t]+\{/\* auto-generated counts \*/\}\n"
-        _COUNTS_CLOSE = r"\n[ \t]+\{/\* end auto-generated counts \*/\}"
-
         # Prefer the marker-wrapped format; fall back to bare count line
         # for migration.
         pattern = (
             r'(<Card[^>]*href="/support/' + re.escape(slug) + r'"[^>]*>\n)'
-            + _COUNTS_OPEN
+            + r'[ \t]+' + _COUNTS_START_RE.pattern + r'\n'
             + r'[ \t]+\d+ articles? &middot; \d+ tags?'
-            + _COUNTS_CLOSE
+            + r'\n[ \t]+' + _COUNTS_END_RE.pattern
         )
         replacement = (
             r'\g<1>'
-            + "  {/* auto-generated counts */}\n"
+            + f"  {_COUNTS_START}\n"
             + new_count_line
-            + "\n  {/* end auto-generated counts */}"
+            + f"\n  {_COUNTS_END}"
         )
 
-        new_content, count = re.subn(pattern, replacement, content)
+        new_content, count = re.subn(pattern, replacement, content, flags=re.IGNORECASE)
         if count == 0:
             # Migration: bare count line without markers.
             pattern = (
@@ -1672,9 +1722,9 @@ def update_support_index(
             )
             replacement = (
                 r'\g<1>'
-                + "  {/* auto-generated counts */}\n"
+                + f"  {_COUNTS_START}\n"
                 + new_count_line
-                + "\n  {/* end auto-generated counts */}"
+                + f"\n  {_COUNTS_END}"
             )
             new_content, count = re.subn(pattern, replacement, content)
 

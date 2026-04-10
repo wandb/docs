@@ -167,13 +167,15 @@ Les fonctions sont regroupées ci-dessous selon leur ordre d’apparition dans l
 
 * **`plain_text`** supprime le Markdown (y compris les règles horizontales), les liens, les URL, les balises HTML ou MDX et autres éléments similaires afin que les aperçus restent en texte brut (U+00A0 remplacé par une espace après le décodage des entités, guillemets typographiques convertis en ASCII, la liste d’autorisation conserve `_` et `=` pour les identifiants).
 * **`extract_body_preview`** applique `plain_text`, tronque à `BODY_PREVIEW_MAX_LENGTH` et ajoute `BODY_PREVIEW_SUFFIX` si nécessaire.
+* **`_card_text_from_frontmatter_field`** extrait une chaîne exploitable à partir d’une seule clé de front matter (`docengineDescription` ou `description`) : renvoie `None` lorsque le champ est absent, n’est pas une chaîne ou est vide après traitement. Le traitement supprime une paire externe de guillemets et remplace les sauts de ligne internes par un seul espace.
+* **`resolve_body_preview`** détermine le texte d’aperçu de la carte à l’aide d’une hiérarchie à trois niveaux : `docengineDescription` d’abord, puis `description`, puis `extract_body_preview(body)`. Les surcharges du front matter ne passent ni par `plain_text` ni par la troncature.
 
 <div id="slugs-and-crawling">
   ### Slugs et parcours
 </div>
 
 * **`tag_slug`** associe un mot-clé affiché à un nom de fichier ou à un segment d’URL (en minuscules, avec des traits d’union).
-* **`crawl_articles`** parcourt `support/<slug>/articles/*.mdx` et construit des dicts d’articles (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, entre autres).
+* **`crawl_articles`** parcourt `support/<slug>/articles/*.mdx` et construit des dicts d’articles (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, entre autres). Le champ `body_preview` est résolu par `resolve_body_preview` à partir de `docengineDescription`, `description` ou du corps de l’article.
 
 <div id="tag-aggregation-and-featured-content">
   ### Agrégation des tags et contenu à la une
