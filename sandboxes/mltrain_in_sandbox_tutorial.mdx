@@ -179,8 +179,8 @@ Copy and paste the following code into a Python file and run it. Save it in the 
 from pathlib import Path
 from wandb.sandbox import Sandbox, NetworkOptions
 
-hyperparameters = Path("hyperparameters.yaml").read_bytes()
-
+# Files to mount to the sandbox. Specify the path inside the
+# sandbox and the content of each file as bytes as a dictionary
 mounted_files = [
     {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
     {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
@@ -193,7 +193,7 @@ with Sandbox.run(
     network=NetworkOptions(egress_mode="internet"),
     max_lifetime_seconds=3600
 ) as sandbox:
-    sandbox.write_file("hyperparameters.yaml", hyperparameters).result()
+    sandbox.write_file("hyperparameters.yaml", Path("hyperparameters.yaml").read_bytes()).result()
 
     # Install dependencies
     print("Installing dependencies...")
@@ -215,10 +215,10 @@ with Sandbox.run(
 
 The previous code snippet does the following:
 
-1. (Lines 6 - 9) Mount files to the sandbox at startup. The `mounted_files` parameter in `Sandbox.run()` allows you to specify a list of files to mount into the sandbox at startup. Each file is represented as a dictionary with two keys: `mount_path`, which specifies the path where the file will be mounted inside the sandbox, and `file_content`, which contains the content of the file as bytes. In this example, you mount `train.py` and `requirements.txt` into the sandbox.
-2. (Line 12) Start the sandbox with the specified configuration. You use a context manager (`with` statement) to ensure that the sandbox is properly stopped after use. The sandbox is configured to use the `python:3.13` container image, have internet access, and a maximum lifetime of 3600 seconds (1 hour).
-3. (Line 18) Write the `hyperparameters.yaml` file to the sandbox. You read the content of the `hyperparameters.yaml` file and write it to the sandbox using the `write_file()` method. This allows the training script to access the hyperparameters when it runs.
+1. (Lines 6 - 9) Lists the files to mount to the sandbox: `train.py` and `requirements.txt`. 
+2. (Line 12) Start the sandbox. The sandbox is configured to use the `python:3.13` container image, have internet access, and a maximum lifetime of 3600 seconds (1 hour).
+3. (Line 18) Write the `hyperparameters.yaml` file to the sandbox. This allows the training script (`train.py`) to access the hyperparameters when it runs.
 4. (Line 22) Install dependencies. You run the command `pip install -r requirements.txt` inside the sandbox to install the necessary dependencies for the training script.
-5. (Line 26) Run the training script. You execute the command `python train.py --config hyperparameters.yaml` inside the sandbox to start the training process. The script trains a simple PyTorch model on the UCI Zoo dataset and saves the trained model to a file named `zoo_wandb.pth`.
+5. (Line 26) Run the training script. You execute the command `python train.py --config hyperparameters.yaml` inside the sandbox to start the training process. The script trains a PyTorch model on the UCI Zoo dataset and saves the trained model to a file named `zoo_wandb.pth`.
 6. (Lines 27-29) Print the output and exit code. After the training script finishes executing, you print the standard output, standard error, and exit code to the console for debugging and verification purposes.
 7. (Lines 33-34) Download the generated model file. You read the `zoo_wandb.pth` file from the sandbox using the `read_file()` method and save it locally.

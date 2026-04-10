@@ -20,8 +20,10 @@ To run a single command, pass the command directly to `Sandbox.run()`. The sandb
 from wandb.sandbox import Sandbox
 
 sandbox = Sandbox.run("python", "train.py")
-sandbox.wait_until_complete(timeout=3600.0).result()
-print(f"Exit code: {sandbox.returncode}")
+result = sandbox.wait_until_complete(timeout=3600.0).result()
+print(f"Exit code: {result.returncode}")
+print(f"Standard output: {result.stdout}")
+print(f"Standard error: {result.stderr}")
 ```
 
 ### Run multiple commands sequentially in the same sandbox
