@@ -52,7 +52,9 @@ This pattern is useful for interactive and multi-step workflows. To learn how to
 
 ### Start a sandbox with a main command
 
-You can also pass a command to `Sandbox.run()`. In that case, the command becomes the sandbox's main process.
+You can also pass a command to `Sandbox.run()`. Use this pattern when the sandbox is meant to run a single job from start to finish. When the main process exits, the sandbox enters a terminal state such as COMPLETED or FAILED.
+
+The command you provide to `Sandbox.run()` starts as the sandbox's main process.
 
 ```python
 from wandb.sandbox import Sandbox
@@ -60,7 +62,17 @@ from wandb.sandbox import Sandbox
 sandbox = Sandbox.run("python", "train.py")
 ```
 
-Use this pattern when the sandbox is meant to run a single job from start to finish. When the main process exits, the sandbox enters a terminal state such as COMPLETED or FAILED. To learn more, see [Lifecycle](/sandboxes/lifecycle).
+`Sandbox.run()` returns a `Sandbox` object that you can use to monitor the command and wait for it to finish. For example, to wait for the command to complete and retrieve its result:
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+
+# Optionally wait for the command to complete and get the result
+result = sandbox.wait_until_complete().result()
+```
+
 
 ## Create multiple sandboxes with a session
 
