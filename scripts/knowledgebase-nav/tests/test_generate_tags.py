@@ -407,6 +407,180 @@ class TestParseFrontmatter:
         assert body == "One sentence."
         assert "Badge" not in body
 
+    def test_parse_frontmatter_custom_start_marker_content(self, tmp_path):
+        """
+        A start marker with author notes inside the comment — both before
+        and after the keyword — should still be recognised and excluded
+        from the body.
+        """
+        mdx = tmp_path / "test.mdx"
+        mdx.write_text(textwrap.dedent("""\
+            ---
+            title: "Custom Marker"
+            keywords: ["Alpha"]
+            ---
+
+            Body text here.
+
+            {/* Note: AUTO-GENERATED: tab badges — do not edit this section.
+              Last reviewed: 2024-01-01
+            */}
+            <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
+            {/* END AUTO-GENERATED: tab badges */}
+        """), encoding="utf-8")
+
+        _, body = generate_tags.parse_frontmatter(mdx)
+        assert body == "Body text here."
+        assert "Note:" not in body
+        assert "Badge" not in body
+
+
+# ===========================================================================
+# Tests: _replace_tab_badges_in_body (flexible marker matching)
+# ===========================================================================
+
+class TestReplaceTabBadgesFlexibleMarkers:
+    """Tests that _replace_tab_badges_in_body handles custom marker content."""
+
+    def test_replaces_badges_with_content_before_keyword_in_start_marker(self):
+        """
+        When the start marker has content before the keyword (not just after),
+        the generator should still find and replace the managed block.
+        The output uses canonical marker literals regardless of what was
+        in the original.
+        """
+        body = textwrap.dedent("""\
+            Article body.
+
+            {/* Note: AUTO-GENERATED: tab badges — managed automatically. */}
+            <Badge stroke shape="pill" color="orange" size="md">[OldTag](/support/widgets/tags/oldtag)</Badge>
+            {/* END AUTO-GENERATED: tab badges */}
+        """).rstrip()
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Alpha"])
+
+        assert generate_tags._BADGE_START in result
+        assert generate_tags._BADGE_END in result
+        assert "[Alpha]" in result
+        assert "[OldTag]" not in result
+        assert "Note:" not in result
+
+    def test_replaces_badges_with_multiline_custom_markers(self):
+        """
+        Multiline markers with author notes before and after the keyword
+        are fully replaced with canonical output.
+        """
+        body = textwrap.dedent("""\
+            Article body.
+
+            {/* ---- AUTO-GENERATED: tab badges ----
+              Author note: please do not edit.
+            */}
+            <Badge stroke shape="pill" color="orange" size="md">[OldTag](/support/widgets/tags/oldtag)</Badge>
+            {/* ---- END AUTO-GENERATED: tab badges
+              End of managed section.
+            */}
+        """).rstrip()
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+
+        assert generate_tags._BADGE_START in result
+        assert generate_tags._BADGE_END in result
+        assert "[Beta]" in result
+        assert "[OldTag]" not in result
+        assert "Author note" not in result
+        assert "End of managed section" not in result
+
+    def test_removes_block_with_custom_markers_when_keywords_empty(self):
+        """
+        When keywords is empty, a block with custom marker content should
+        be removed entirely, leaving no marker text in the output.
+        """
+        body = textwrap.dedent("""\
+            Body.
+
+            {/* Some note. AUTO-GENERATED: tab badges */}
+            <Badge stroke shape="pill" color="orange" size="md">[Tag](/support/widgets/tags/tag)</Badge>
+            {/* END AUTO-GENERATED: tab badges — end */}
+        """).rstrip()
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", [])
+
+        assert "AUTO-GENERATED" not in result
+        assert "Badge" not in result
+        assert "Body." in result
+
+    def test_does_not_cross_comment_boundary(self):
+        """
+        An unrelated {/* ... */} comment before the badge marker must not
+        be consumed as part of the start marker match.
+        """
+        body = textwrap.dedent("""\
+            {/* An unrelated comment */}
+
+            Some body text.
+
+            {/* AUTO-GENERATED: tab badges */}
+            <Badge stroke shape="pill" color="orange" size="md">[Old](/support/widgets/tags/old)</Badge>
+            {/* END AUTO-GENERATED: tab badges */}
+        """).rstrip()
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Alpha"])
+
+        assert "unrelated comment" in result
+        assert "[Alpha]" in result
+        assert "[Old]" not in result
+
+    def test_canonical_markers_still_match(self):
+        """
+        The canonical (unmodified) marker format continues to match so
+        existing articles written by prior generator runs are not broken.
+        """
+        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"])
+        body = f"Body.\n\n{generate_tags._BADGE_START}\n{badges}\n{generate_tags._BADGE_END}"
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+
+        assert "[Beta]" in result
+        assert "[Alpha]" not in result
+
+    def test_case_insensitive_markers(self):
+        """
+        Marker keywords are matched case-insensitively, so an author can write
+        ``auto-generated: tab badges`` or ``Auto-Generated tab badges`` and the
+        generator will still locate and replace the managed block.
+        """
+        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"])
+        body = (
+            "Body.\n\n"
+            "{/* auto-generated: tab badges */}\n"
+            + badges + "\n"
+            "{/* end auto-generated: tab badges */}"
+        )
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+
+        assert "[Beta]" in result
+        assert "[Alpha]" not in result
+
+    def test_no_colon_markers(self):
+        """
+        The colon after 'generated' is optional, so ``AUTO-GENERATED tab badges``
+        (no colon) is recognised as the start marker.
+        """
+        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"])
+        body = (
+            "Body.\n\n"
+            "{/* AUTO-GENERATED tab badges */}\n"
+            + badges + "\n"
+            "{/* END AUTO-GENERATED tab badges */}"
+        )
+
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+
+        assert "[Beta]" in result
+        assert "[Alpha]" not in result
+
 
 # ===========================================================================
 # Tests: plain_text and extract_body_preview
@@ -1280,6 +1454,325 @@ class TestUpdateSupportIndex:
         with pytest.raises(FileNotFoundError, match="support.mdx not found"):
             generate_tags.update_support_index(tmp_path, {})
 
+    def test_counts_keyword_mid_open_marker(self, tmp_path):
+        """
+        An open-counts marker where the keyword appears mid-comment
+        (not at the start) is still recognised and updated.
+        """
+        (tmp_path / "support.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+              {/* Note: auto-generated counts — do not edit */}
+              0 articles &middot; 0 tags
+              {/* end auto-generated counts */}
+            </Card>
+        """), encoding="utf-8")
+
+        generate_tags.update_support_index(
+            tmp_path,
+            {"widgets": {"article_count": 5, "tag_count": 2}},
+        )
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "5 articles &middot; 2 tags" in content
+        assert "0 articles" not in content
+
+    def test_counts_keyword_mid_close_marker(self, tmp_path):
+        """
+        A close-counts marker with extra text around the keyword is still
+        recognised and the count line is updated.
+        """
+        (tmp_path / "support.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+              {/* auto-generated counts */}
+              0 articles &middot; 0 tags
+              {/* end auto-generated counts — managed by generator */}
+            </Card>
+        """), encoding="utf-8")
+
+        generate_tags.update_support_index(
+            tmp_path,
+            {"widgets": {"article_count": 10, "tag_count": 3}},
+        )
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "10 articles &middot; 3 tags" in content
+        # Use the full original count string to avoid matching "0 articles"
+        # as a substring of "10 articles".
+        assert "0 articles &middot; 0 tags" not in content
+
+    def test_counts_does_not_cross_comment_boundary(self, tmp_path):
+        """
+        An unrelated {/* ... */} comment outside the counts block is not
+        consumed or altered by the counts update.  The structural Card-anchored
+        pattern only matches the counts marker when it appears directly after
+        the <Card> opening tag, so we place the unrelated comment after the
+        end-counts marker (still inside the card) to verify it is preserved.
+        """
+        (tmp_path / "support.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+              {/* auto-generated counts */}
+              0 articles &middot; 0 tags
+              {/* end auto-generated counts */}
+              {/* some other note */}
+            </Card>
+        """), encoding="utf-8")
+
+        generate_tags.update_support_index(
+            tmp_path,
+            {"widgets": {"article_count": 7, "tag_count": 4}},
+        )
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "some other note" in content
+        assert "7 articles &middot; 4 tags" in content
+
+    def test_counts_case_insensitive_open_marker(self, tmp_path):
+        """
+        The open-counts marker is matched case-insensitively, so an author
+        can write ``{/* Auto-Generated counts */}`` and the generator will
+        still update the count line.
+        """
+        (tmp_path / "support.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+              {/* Auto-Generated counts */}
+              0 articles &middot; 0 tags
+              {/* End Auto-Generated counts */}
+            </Card>
+        """), encoding="utf-8")
+
+        generate_tags.update_support_index(
+            tmp_path,
+            {"widgets": {"article_count": 5, "tag_count": 2}},
+        )
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "5 articles &middot; 2 tags" in content
+
+    def test_counts_colon_in_marker(self, tmp_path):
+        """
+        The colon after 'generated' is optional; a marker written as
+        ``{/* auto-generated: counts */}`` (with colon) is still recognised.
+        """
+        (tmp_path / "support.mdx").write_text(textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+              {/* auto-generated: counts */}
+              0 articles &middot; 0 tags
+              {/* end auto-generated: counts */}
+            </Card>
+        """), encoding="utf-8")
+
+        generate_tags.update_support_index(
+            tmp_path,
+            {"widgets": {"article_count": 3, "tag_count": 1}},
+        )
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "3 articles &middot; 1 tag" in content
+
+
+# ===========================================================================
+# Tests: update_support_featured (flexible marker matching)
+# ===========================================================================
+
+
+class TestUpdateSupportFeatured:
+    """Tests for update_support_featured with flexible marker recognition."""
+
+    def _make_support_mdx(self, tmp_path, start_marker, end_marker, body=""):
+        """Write a support.mdx with the given marker strings and optional body."""
+        content = textwrap.dedent(f"""\
+            ---
+            title: Support
+            ---
+
+            {start_marker}
+            {body}{end_marker}
+        """)
+        (tmp_path / "support.mdx").write_text(content, encoding="utf-8")
+
+    def test_canonical_markers_replaced(self, tmp_path):
+        """
+        The canonical marker format written by the generator is found and
+        replaced on subsequent runs.
+        """
+        self._make_support_mdx(
+            tmp_path,
+            start_marker=(
+                "{/* ---- AUTO-GENERATED: featured articles ----\n"
+                "  Managed by generate_tags.py.\n"
+                "---- */}"
+            ),
+            end_marker="{/* ---- END AUTO-GENERATED: featured articles ---- */}",
+        )
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "AUTO-GENERATED: featured articles" in content
+        assert "END AUTO-GENERATED: featured articles" in content
+
+    def test_keyword_mid_start_marker_matched(self, tmp_path):
+        """
+        A start marker where the keyword appears mid-comment (not at the
+        start) is still recognised and replaced.
+        """
+        self._make_support_mdx(
+            tmp_path,
+            start_marker="{/* Note: AUTO-GENERATED: featured articles — managed. */}",
+            end_marker="{/* END AUTO-GENERATED: featured articles */}",
+        )
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        content = (tmp_path / "support.mdx").read_text()
+        # Canonical markers are written on output
+        assert "AUTO-GENERATED: featured articles" in content
+        assert "Note:" not in content
+
+    def test_keyword_mid_end_marker_matched(self, tmp_path):
+        """
+        An end marker with extra text around the keyword is still recognised.
+        """
+        self._make_support_mdx(
+            tmp_path,
+            start_marker="{/* AUTO-GENERATED: featured articles */}",
+            end_marker="{/* END AUTO-GENERATED: featured articles — do not edit */}",
+        )
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "END AUTO-GENERATED: featured articles" in content
+        assert "do not edit" not in content
+
+    def test_does_not_cross_comment_boundary(self, tmp_path):
+        """
+        An unrelated {/* ... */} comment before the start marker must not
+        be absorbed into the match.
+        """
+        content = textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            {/* An unrelated comment */}
+
+            Some prose.
+
+            {/* AUTO-GENERATED: featured articles */}
+            {/* END AUTO-GENERATED: featured articles */}
+        """)
+        (tmp_path / "support.mdx").write_text(content, encoding="utf-8")
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        result = (tmp_path / "support.mdx").read_text()
+        assert "unrelated comment" in result
+        assert "Some prose." in result
+
+    def test_missing_markers_warns(self, tmp_path):
+        """
+        When neither marker is present, a warning is emitted and the file
+        is left unchanged.
+        """
+        original = textwrap.dedent("""\
+            ---
+            title: Support
+            ---
+
+            No markers here.
+        """)
+        (tmp_path / "support.mdx").write_text(original, encoding="utf-8")
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            generate_tags.update_support_featured(tmp_path, {})
+            assert any("featured-article markers" in str(x.message) for x in w)
+
+        assert (tmp_path / "support.mdx").read_text() == original
+
+    def test_multiline_custom_markers_replaced(self, tmp_path):
+        """
+        Multiline markers with author notes before and after the keyword
+        are fully matched and replaced with canonical output.
+        """
+        self._make_support_mdx(
+            tmp_path,
+            start_marker=(
+                "{/* ---- AUTO-GENERATED: featured articles ----\n"
+                "  Author note: regenerated on every PR.\n"
+                "  Last updated: see git log.\n"
+                "---- */}"
+            ),
+            end_marker=(
+                "{/* ---- END AUTO-GENERATED: featured articles\n"
+                "  End of managed section.\n"
+                "---- */}"
+            ),
+        )
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "Author note" not in content
+        assert "End of managed section" not in content
+        assert "AUTO-GENERATED: featured articles" in content
+        assert "END AUTO-GENERATED: featured articles" in content
+
+    def test_case_insensitive_markers_replaced(self, tmp_path):
+        """
+        Marker keywords are matched case-insensitively, so lowercase or
+        mixed-case variants are recognised and replaced with canonical output.
+        """
+        self._make_support_mdx(
+            tmp_path,
+            start_marker="{/* auto-generated: featured articles */}",
+            end_marker="{/* end auto-generated: featured articles */}",
+        )
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "AUTO-GENERATED: featured articles" in content
+        assert "END AUTO-GENERATED: featured articles" in content
+
+    def test_no_colon_markers_replaced(self, tmp_path):
+        """
+        The colon after 'generated' is optional; markers without it are still
+        recognised and replaced with canonical output (which includes the colon).
+        """
+        self._make_support_mdx(
+            tmp_path,
+            start_marker="{/* AUTO-GENERATED featured articles */}",
+            end_marker="{/* END AUTO-GENERATED featured articles */}",
+        )
+
+        generate_tags.update_support_featured(tmp_path, {})
+
+        content = (tmp_path / "support.mdx").read_text()
+        assert "AUTO-GENERATED: featured articles" in content
+        assert "END AUTO-GENERATED: featured articles" in content
+
 
 # ===========================================================================
 # Tests: keyword footer sync
@@ -1301,7 +1794,7 @@ class TestKeywordFooter:
         assert "[Code Capture](/support/weave/tags/code-capture)</Badge>" in s
         assert '<Badge stroke shape="pill" color="orange" size="md">' in s
         assert "AUTO-GENERATED: tab badges" in s
-        assert s.endswith("{/* ---- END AUTO-GENERATED: tab badges ---- */}")
+        assert s.endswith("{/* END AUTO-GENERATED: tab badges */}")
 
     def test_build_keyword_footer_preserves_keyword_order(self):
         """Badge order follows the keywords list order, not alphabetical."""
@@ -1327,7 +1820,7 @@ class TestKeywordFooter:
         assert "Body only." in out
         assert "/support/widgets/tags/alpha" in out
         assert "AUTO-GENERATED: tab badges" in out
-        assert out.endswith("{/* ---- END AUTO-GENERATED: tab badges ---- */}")
+        assert out.endswith("{/* END AUTO-GENERATED: tab badges */}")
 
     def test_sync_idempotent_when_footer_matches(self, tmp_path):
         """If the marked footer already matches front matter, the file is not rewritten."""
@@ -1341,12 +1834,9 @@ class TestKeywordFooter:
 
             ---
 
-            {/* ---- AUTO-GENERATED: tab badges ----
-              Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
-              Do not edit between these markers by hand.
-            ---- */}
+            {/* AUTO-GENERATED: tab badges */}
             <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
-            {/* ---- END AUTO-GENERATED: tab badges ---- */}""")
+            {/* END AUTO-GENERATED: tab badges */}""")
         p = tmp_path / "a.mdx"
         p.write_text(content, encoding="utf-8")
         assert generate_tags.sync_support_article_footer(p, "widgets") is False
@@ -1365,19 +1855,16 @@ class TestKeywordFooter:
 
                 ---
 
-                {/* ---- AUTO-GENERATED: tab badges ----
-                  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
-                  Do not edit between these markers by hand.
-                ---- */}
+                {/* AUTO-GENERATED: tab badges */}
                 <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
-                {/* ---- END AUTO-GENERATED: tab badges ---- */}
+                {/* END AUTO-GENERATED: tab badges */}
 
                 """),
             encoding="utf-8",
         )
         assert generate_tags.sync_support_article_footer(p, "widgets") is False
         out = p.read_text()
-        assert out.endswith("---- */}\n\n")
+        assert out.endswith("{/* END AUTO-GENERATED: tab badges */}\n\n")
 
     def test_sync_fixes_wrong_href(self, tmp_path):
         """Wrong tag slug in a tab-page Badge href is replaced (path must match tab pattern)."""
@@ -1421,7 +1908,7 @@ class TestKeywordFooter:
         assert generate_tags.sync_support_article_footer(p, "widgets") is True
         out = p.read_text()
         assert "/support/widgets/tags/alpha" in out
-        assert out.endswith("---- */}\n\n")
+        assert out.endswith("{/* END AUTO-GENERATED: tab badges */}\n\n")
 
     def test_sync_without_horizontal_rule_updates_tab_badges(self, tmp_path):
         """Tab Badges are synced even when the --- line was removed."""
@@ -1461,12 +1948,9 @@ class TestKeywordFooter:
 
                 ---
 
-                {/* ---- AUTO-GENERATED: tab badges ----
-                  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
-                  Do not edit between these markers by hand.
-                ---- */}
+                {/* AUTO-GENERATED: tab badges */}
                 <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
-                {/* ---- END AUTO-GENERATED: tab badges ---- */}
+                {/* END AUTO-GENERATED: tab badges */}
                 """),
             encoding="utf-8",
         )
