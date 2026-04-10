@@ -67,6 +67,7 @@ exclude = [
   # Known persistent timeouts, bans, or unwanted crawler targets
   '(http|https)://.*\.?auth0\.com',
   'https://cognito-idp.us-east-1.amazonaws.com',
+  'https://archive.ics.uci.edu',
 
   # Social and community sites commonly rate-limiting or banning bots
   '(http|https)://.*\.?discord\.com',

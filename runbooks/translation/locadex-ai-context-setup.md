@@ -24,6 +24,7 @@ This runbook describes how to capture translation-memory and terminology from (1
 | **Locale Context** (language-specific instructions) | Locadex console → AI Context → Locale Context | e.g. Korean: spacing between alphabets and Hangul, formatting rules. |
 | **Style Controls** (tone, audience, project description) | Locadex console → AI Context → Style Controls | Project-wide; applies to all locales. |
 | **Which files/locales to translate** | Git → `gt.config.json` | `locales`, `defaultLocale`, `files`. No glossary or prompts in repo. |
+| **Vendor issue log (Locadex bugs)** | Git → [locadex-vendor-issues.md](./locadex-vendor-issues.md) | Track translation defects to report to Locadex (for example mangled URLs in localized MDX). |
 
 So: **steer auto-translation in the Locadex console** (Glossary, Locale Context, Style Controls). **File and locale setup stay in Git** (`gt.config.json`). The optional `dictionary` key in `gt.config.json` is for app UI strings (e.g. gt-next/gt-react), not for docs MDX glossary; docs terminology is managed in the console.
 
