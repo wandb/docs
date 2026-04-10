@@ -1443,18 +1443,9 @@ def _build_featured_section_mdx(
     Returns
     -------
     str
-        The MDX content between (but not including) the start and end
-        markers.  Includes the hint comment for tech writers.
+        The complete featured-articles block, including start and end markers.
     """
-    hint = (
-        "{/* ---- AUTO-GENERATED: featured articles ----\n"
-        "  This section is managed by scripts/knowledgebase-nav/generate_tags.py.\n"
-        "  To feature an article, add \"featured: true\" to its front matter.\n"
-        "  To remove it, set \"featured: false\" or remove the field.\n"
-        "  Do not edit the content between these markers by hand.\n"
-        "---- */}"
-    )
-    parts = [hint]
+    parts = [_FEATURED_START]
 
     if all_featured:
         parts.append("\n## Featured articles")
