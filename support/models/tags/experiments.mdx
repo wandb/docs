@@ -1,6 +1,6 @@
 ---
 title: "Experiments"
-tag: "36"
+tag: "39"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -49,6 +49,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I add Plotly or Bokeh Charts into Tables?" href="/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into" arrow="true" horizontal>
   Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and incl ...
+</Card>
+<Card title="How do I fix `Rate limit exceeded` errors when logging metrics?" href="/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  If you receive an HTTP 429 Rate limit exceeded error when calling wandb.log(), you are exceeding the rate limit quota fo ...
 </Card>
 <Card title="How do I get the random run name in my script?" href="/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
   Call a run object's .save() method to save the current run. Retrieve the name using the run object's name attribute.
@@ -103,6 +106,12 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Why can't I sort or filter metrics with certain characters?" href="/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
   Metric names in W&B must follow GraphQL naming conventions to ensure they can be properly sorted and filtered in the UI. ...
+</Card>
+<Card title="Why does my process hang when using Hydra with W&B?" href="/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  If your process hangs when started with Hydra, this is likely caused by a multiprocessing conflict between Hydra and W&B ...
+</Card>
+<Card title="Why does my training hang with distributed training?" href="/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  There are two common reasons training hangs when using W&B with distributed training: 1. Hanging at the beginning of tra ...
 </Card>
 <Card title="Why is nothing showing up in my graphs?" href="/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
   If the message "No visualization data logged yet" appears, the script has not executed the first wandb.log call. This si ...
