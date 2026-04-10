@@ -25,6 +25,10 @@
     "href": "https://docs.wandb.ai/"
   },
   "favicon": "/favicon.png",
+  "banner": {
+    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
+    "dismissible": true
+  },
   "background": {
     "decoration": "gradient"
   },
@@ -4998,5 +5002,11 @@
       "destination": "/platform/hosting/self-managed/operator"
     }
   ],
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "canonical": "https://docs.wandb.ai"
+    }
+  },
   "baseUrl": "https://docs.wandb.ai"
 }

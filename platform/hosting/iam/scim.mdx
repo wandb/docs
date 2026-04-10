@@ -1240,7 +1240,7 @@ GET /scim/Groups
 
 You can configure team-level [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) during team creation by including a `storageBucket` object. If omitted, the team uses default or instance-level storage. Provision the bucket (policy, CORS, credentials) and determine the storage address format per provider using the BYOB guide. The `storageBucket` object has the following sub-fields:
 
-- **Required**: `name` (bucket name), `provider` (one of 'coreweave`, `aws`, `gcp`, `azure`, `minio`). Case-sensitive.
+- **Required**: `name` (bucket name), `provider` (one of `COREWEAVE`, `AWS`, `AZURE`, `GCP`, or `MINIO`). The value is case-sensitive; use uppercase as shown.
 - **Optional**: `path` (path prefix within the bucket), `kmsKeyId` (KMS key for encryption, for example for AWS), `awsExternalId` (AWS cross-account access), `azureTenantId` (Azure tenant ID), `azureClientId` (Azure managed identity client ID).
 
 W&B validates that the bucket exists and is reachable before creating the team. If validation fails, the SCIM request fails and the team is not created.
@@ -1269,6 +1269,7 @@ POST /scim/Groups
 }
 ```
 </Tab>
+
 <Tab title="CoreWeave">
 ```bash
 POST /scim/Groups
@@ -1287,12 +1288,13 @@ Content-Type: application/scim+json
   ],
   "storageBucket": {
     "name": "wandb-coreweave-bucket",
-    "provider": "coreweave",
+    "provider": "COREWEAVE",
     "path": "ml-training/experiments"
   }
 }
 ```
 </Tab>
+
 <Tab title="AWS S3">
 ```bash
 POST /scim/Groups
@@ -1311,7 +1313,7 @@ Content-Type: application/scim+json
   ],
   "storageBucket": {
     "name": "my-company-wandb-data",
-    "provider": "s3",
+    "provider": "AWS",
     "path": "ml-team/experiments",
     "kmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012",
     "awsExternalId": "wandb-external-id-abc123"
@@ -1319,7 +1321,30 @@ Content-Type: application/scim+json
 }
 ```
 </Tab>
-<Tab title="GCS">
+
+<Tab title="Azure">
+```bash
+POST /scim/Groups
+Content-Type: application/scim+json
+```
+
+```json
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+  "displayName": "research-team",
+  "members": [],
+  "storageBucket": {
+    "name": "wandbstorage",
+    "provider": "AZURE",
+    "path": "research/artifacts",
+    "azureTenantId": "12345678-1234-1234-1234-123456789012",
+    "azureClientId": "87654321-4321-4321-4321-210987654321"
+  }
+}
+```
+</Tab>
+
+<Tab title="GCP">
 ```bash
 POST /scim/Groups
 Content-Type: application/scim+json
@@ -1341,33 +1366,13 @@ Content-Type: application/scim+json
   ],
   "storageBucket": {
     "name": "my-gcs-bucket",
-    "provider": "gcs",
+    "provider": "GCP",
     "path": "data-science/runs"
   }
 }
 ```
 </Tab>
-<Tab title="Azure">
-```bash
-POST /scim/Groups
-Content-Type: application/scim+json
-```
 
-```json
-{
-  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
-  "displayName": "research-team",
-  "members": [],
-  "storageBucket": {
-    "name": "wandbstorage",
-    "provider": "azure",
-    "path": "research/artifacts",
-    "azureTenantId": "12345678-1234-1234-1234-123456789012",
-    "azureClientId": "87654321-4321-4321-4321-210987654321"
-  }
-}
-```
-</Tab>
 
 <Tab title="Response">
 ```bash
