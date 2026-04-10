@@ -1,0 +1,33 @@
+---
+title: "왜 `.call()`은 예외를 발생시키지 않나요?"
+keywords: ["트레이스 데이터"]
+---
+
+기본적으로 Weave의 [`.call()`](/ko/weave/guides/tracking/tracing#creating-calls) 메서드는 예외를 발생시키는 대신 예외를 캡처해 `call.exception`에 저장합니다. 이는 정상적인 동작입니다.
+
+실행 중에 예외를 발생시켜야 한다면 `__should_raise` 매개변수를 설정하세요:
+
+```python
+result, call = my_op.call(__should_raise=True)
+```
+
+`__should_raise=True`가 없으면 op 실행 중 발생하는 모든 예외는 별도 알림 없이 캡처되어 저장됩니다. 오류를 확인하려면 `call.exception`을 확인하세요:
+
+```python
+result, call = my_op.call()
+if call.exception:
+    print(f"Op failed with: {call.exception}")
+```
+
+자세한 내용은 [제한 사항 및 예상되는 동작](/ko/weave/details/limits)을 참조하세요.
+
+***
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  프론트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py 스크립트가 관리합니다.
+  이 마커 사이의 내용은 직접 편집하지 마십시오.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge>
+
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

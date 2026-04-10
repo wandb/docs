@@ -1,0 +1,52 @@
+---
+title: "Workspace가 느리게 로드되는 이유는 무엇인가요?"
+keywords: ["Workspaces", "메트릭"]
+---
+
+프로젝트에 메트릭, Runs 또는 패널이 많으면 Workspaces 로딩이 느려질 수 있습니다. 다음은 일반적인 원인과 해결 방법입니다.
+
+<div id="too-many-metrics">
+  ### 메트릭이 너무 많음
+</div>
+
+Workspace가 갑자기 느려졌다면, 최근 Runs에서 의도치 않게 수천 개의 새 메트릭을 로깅했는지 확인하세요. 그렇다면 해당 Runs를 삭제하고, 원하는 메트릭만 포함하도록 다시 생성하는 것을 고려하세요.
+
+5,000개에서 100,000개의 메트릭을 로깅하는 Runs의 경우 [manual workspace](/ko/models/app/features/panels/#workspace-modes)로 전환하세요. 수동 모드에서는 시각화에 필요한 메트릭에 대해서만 선택적으로 패널을 추가할 수 있습니다. 플롯되지 않은 메트릭도 계속 수집되고 저장됩니다.
+
+<div id="too-many-panels">
+  ### 패널이 너무 많을 때
+</div>
+
+자동 Workspace에 로깅된 키에 대한 패널이 너무 많이 포함되어 있으면 로드 속도가 느려질 수 있습니다. 이를 해결하려면 다음 단계를 따르세요.
+
+1. Workspace를 수동 모드로 재설정하세요.
+2. [Quick add](/ko/models/app/features/panels/#quick-add)를 사용해 필요한 메트릭에 대한 패널만 선택적으로 추가하세요.
+
+<Note>
+  사용하지 않는 패널을 하나씩 삭제해도 성능에는 거의 영향이 없습니다. 대신 Workspace를 재설정한 다음, 필요한 패널만 선택적으로 다시 추가하세요.
+</Note>
+
+<div id="too-many-sections">
+  ### 섹션이 너무 많음
+</div>
+
+섹션이 수백 개에 이르면 성능에 영향을 줄 수 있습니다. 접미사 대신 접두사 기준으로 섹션을 만들도록 Workspace 설정을 사용하는 것을 고려하세요. 이렇게 하면 더 적은 수의, 더 상위 수준 그룹으로 구성할 수 있습니다.
+
+<div id="too-many-runs">
+  ### Runs가 너무 많은 경우
+</div>
+
+단일 프로젝트의 총 Runs 수를 SaaS Cloud에서는 100,000개 미만으로, Dedicated Cloud 또는 Self-Managed에서는 10,000개 미만으로 유지하세요. 프로젝트가 이 한도를 초과하면 [자주 사용하지 않는 Runs를 이동](/ko/models/runs/manage-runs/)하여 아카이브 프로젝트로 옮기는 것을 고려하세요.
+
+자세한 내용은 [Experiments limits and performance](/ko/models/track/limits/)를 참조하세요.
+
+***
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 직접 수정하지 마세요.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Workspaces](/ko/support/models/tags/workspaces)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/ko/support/models/tags/metrics)</Badge>
+
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

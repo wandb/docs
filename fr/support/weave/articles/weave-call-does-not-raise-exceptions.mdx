@@ -1,0 +1,33 @@
+---
+title: "Pourquoi `.call()` ne lève-t-elle pas d’exceptions ?"
+keywords: ["Données de trace"]
+---
+
+Par défaut, la méthode [`.call()`](/fr/weave/guides/tracking/tracing#creating-calls) de Weave capture les exceptions et les stocke dans `call.exception` au lieu de les lever. C’est le comportement attendu.
+
+Si vous avez besoin que des exceptions soient levées pendant l’exécution, définissez le paramètre `__should_raise` :
+
+```python
+result, call = my_op.call(__should_raise=True)
+```
+
+Sans `__should_raise=True`, toute exception qui se produit pendant l’opération est capturée et stockée de manière silencieuse. Vérifiez `call.exception` pour inspecter l’erreur :
+
+```python
+result, call = my_op.call()
+if call.exception:
+    print(f"Op failed with: {call.exception}")
+```
+
+Pour plus d&#39;informations, voir [Limites et comportements attendus](/fr/weave/details/limits).
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas le contenu entre ces marqueurs manuellement.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

@@ -1,0 +1,33 @@
+---
+title: "Pourquoi mon processus se bloque-t-il lorsque j'utilise Hydra avec W&B ?"
+keywords: ["Experiments", "Plantages d’exécution"]
+---
+
+Si votre processus se bloque lorsqu&#39;il est lancé avec Hydra, cela est probablement dû à un conflit de multiprocessing entre Hydra et W&amp;B.
+
+Pour corriger cela, modifiez le protocole de multiprocessing de W&amp;B en `"thread"`. Vous pouvez le faire de l&#39;une des deux manières suivantes :
+
+**Option 1**: Passez un paramètre settings à `wandb.init()` :
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+
+**Option 2** : définissez une variable d’environnement globale :
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+Pour plus d&#39;informations, voir le [guide d’intégration de Hydra](/fr/models/integrations/hydra/) et le [guide de dépannage de l’entraînement distribué](/fr/models/track/log/distributed-training/).
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Crashs de run](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

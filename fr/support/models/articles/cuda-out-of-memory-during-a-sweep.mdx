@@ -1,0 +1,56 @@
+---
+title: "Comment puis-je corriger `Cuda out of memory` lors d’un sweep ?"
+keywords: ["Sweeps", "Plantages de run"]
+---
+
+Si vous voyez `Cuda out of memory` lors d’un sweep, refactorisez votre code pour utiliser une exécution par processus. Réécrivez votre code sous forme de script Python et lancez l’agent de sweep depuis la CLI au lieu du SDK Python.
+
+1. Ajoutez votre logique d&#39;entraînement à un script Python (par exemple, `train.py`) :
+
+   ```python
+   if __name__ == "__main__":
+       train()
+   ```
+
+2. Indiquez le script dans votre configuration YAML de sweep :
+
+   ```yaml
+   program: train.py
+   method: bayes
+   metric:
+     name: validation_loss
+     goal: maximize
+   parameters:
+     learning_rate:
+       min: 0.0001
+       max: 0.1
+     optimizer:
+       values: ["adam", "sgd"]
+   ```
+
+3. Initialisez le sweep avec la CLI :
+
+   ```shell
+   wandb sweep config.yaml
+   ```
+
+4. Démarrez l&#39;agent de sweep avec la CLI, en remplaçant `sweep_ID` par l&#39;ID renvoyé à l&#39;étape précédente :
+
+   ```shell
+   wandb agent sweep_ID
+   ```
+
+L&#39;utilisation de l&#39;agent via la CLI (`wandb agent`) au lieu du SDK Python (`wandb.agent`) garantit que chaque run s’exécute dans un processus distinct avec sa propre allocation mémoire, ce qui évite l’accumulation de mémoire CUDA entre les runs.
+
+Pour plus d&#39;informations, voir [dépannage de Sweeps](/fr/models/sweeps/troubleshoot-sweeps/).
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Plantages de runs](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}
