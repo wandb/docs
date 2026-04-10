@@ -7,7 +7,7 @@ Les modèles de raisonnement, comme [GPT OSS 20B d’OpenAI](https://huggingface
 
 Vous pouvez déterminer si un modèle prend en charge le raisonnement en consultant la section Fonctionnalités prises en charge de sa page de catalogue dans l’UI.
 
-Vous trouverez les informations de raisonnement dans le champ `reasoning_content` des réponses. Ce champ n’est pas présent dans les sorties des autres modèles.
+Vous trouverez les informations de raisonnement dans le champ `reasoning` des réponses. La valeur de ce champ est `null` dans les réponses des modèles sans raisonnement.
 
 <Tabs>
   <Tab title="Python">
@@ -26,7 +26,7 @@ Vous trouverez les informations de raisonnement dans le champ `reasoning_content
         ],
     )
 
-    print(response.choices[0].message.reasoning_content)
+    print(response.choices[0].message.reasoning)
     print("--------------------------------")
     print(response.choices[0].message.content)
     ```
@@ -41,7 +41,7 @@ Vous trouverez les informations de raisonnement dans le champ `reasoning_content
         "model": "openai/gpt-oss-20b",
         "messages": [
           { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ],
+        ]
       }'
     ```
   </Tab>

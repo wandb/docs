@@ -1,0 +1,40 @@
+---
+title: "스윕 실행 중 `anaconda 400 error`를 어떻게 해결하나요?"
+keywords: ["Sweeps", "메트릭"]
+---
+
+다음 오류는 일반적으로 최적화하려는 메트릭을 로그하지 않았을 때 발생합니다:
+
+```
+wandb: ERROR Error while calling W&B API: anaconda 400 error:
+{"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
+```
+
+이 문제를 해결하려면 스윕 설정에 지정된 정확한 메트릭을 로깅하고 있는지 확인하세요. 예를 들어, 스윕 설정에 다음과 같이 지정되어 있다면:
+
+```yaml
+metric:
+  name: validation_loss
+  goal: minimize
+```
+
+그런 다음 트레이닝 코드에서 다음을 호출해야 합니다:
+
+```python
+wandb.log({"validation_loss": value})
+```
+
+메트릭 이름은 스윕 설정과 `wandb.log` 호출에서 정확히 일치해야 합니다.
+
+자세한 내용은 [Sweeps 문제 해결](/ko/models/sweeps/troubleshoot-sweeps/) 및 [스윕 설정 정의](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.
+
+***
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter의 keywords를 기준으로 scripts/knowledgebase-nav/generate_tags.py에서 관리합니다.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[스윕](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+
+{/* ---- 끝 AUTO-GENERATED: tab badges ---- */}

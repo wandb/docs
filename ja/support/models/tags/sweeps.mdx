@@ -1,6 +1,6 @@
 ---
 title: "Sweeps"
-tag: "16"
+tag: "19"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -41,8 +41,20 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   sweep でモデルをログする効果的な方法の 1 つは、sweep 用のモデル artifact を作成することです。各バージョンは ...
 </Card>
 
-<Card title="Sweeps でコード logging を有効にするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
-  sweeps でコード logging を有効にするには、W&amp;B Run を初期化した後に wandb.log&#95;code() を追加します。これは、たとえ ...
+<Card title="Sweeps でコード ログする を有効にするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
+  sweeps でコード ログする を有効にするには、W&amp;B Run を初期化した後に wandb.log&#95;code() を追加します。これは、たとえ ...
+</Card>
+
+<Card title="sweep 中に `CommError, Run does not exist` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  sweep 中に CommError, Run does not exist と ERROR Error uploading の両方が表示される場合、最も可能性が高い原因は、使用している ...
+</Card>
+
+<Card title="sweep 中に `Cuda out of memory` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  sweep 中に Cuda out of memory が表示される場合は、プロセスベースの実行を使用するようにコードをリファクタリングしてください。コードを次のように書き換えます ...
+</Card>
+
+<Card title="sweep 中に `anaconda 400 error` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  次のエラーは通常、最適化しているメトリクスをログしていない場合に発生します。これを修正するには、適切に ...
 </Card>
 
 <Card title="sweeps でカスタム CLI command を使用するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
@@ -61,10 +73,10 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   1 回の run で複数のメトリクスを最適化するには、各メトリクスの加重和を使用します。新しい結合メトリクスをログし ...
 </Card>
 
-<Card title="sweep の実行中に Python ファイルを編集するとどうなりますか？" href="/ja/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
-  sweep の実行中: sweep で使用している train.py スクリプトが変更されても、sweep は引き続き元の t ...
+<Card title="sweep の実行中に Python ファイルを編集するとどうなりますか?" href="/ja/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
+  sweep の実行中: sweep で使用している train.py スクリプトが変更されても、sweep は元の train.py を引き続き使用します ...
 </Card>
 
-<Card title="`Est. Runs` 列とは何ですか？" href="/ja/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
-  W&amp;B では、離散的な検索空間で W&amp;B Sweep を作成する際に、生成される Runs の推定数が表示されます。この合計は ...
+<Card title="`Est. Runs` 列とは何ですか?" href="/ja/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
+  W&amp;B では、離散的な探索空間で W&amp;B Sweep を作成する際に生成される Runs の推定数を表示します。この合計は ...
 </Card>

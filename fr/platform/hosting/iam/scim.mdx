@@ -1402,7 +1402,7 @@ Récupérez la liste des équipes.
 
 Vous pouvez configurer [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector) au niveau de l’équipe lors de sa création en incluant un objet `storageBucket`. S&#39;il est omis, l’équipe utilise le stockage par défaut ou le stockage au niveau de l&#39;instance. Provisionnez le bucket (stratégie, CORS, identifiants) et déterminez, à l&#39;aide du guide BYOB, le format d&#39;adresse de stockage selon le fournisseur. L&#39;objet `storageBucket` comporte les sous-champs suivants :
 
-* **Requis**: `name` (nom du bucket), `provider` (l&#39;une des valeurs suivantes : &#39;coreweave`, `aws`, `gcp`, `azure`, `minio`). Sensible à la casse.
+* **Requis**: `name` (nom du bucket), `provider` (l&#39;une des valeurs suivantes : `COREWEAVE`, `AWS`, `AZURE`, `GCP` ou `MINIO`). La valeur est sensible à la casse ; utilisez les majuscules comme indiqué.
 * **Facultatif**: `path` (préfixe de chemin dans le bucket), `kmsKeyId` (clé KMS pour le chiffrement, par exemple pour AWS), `awsExternalId` (accès AWS inter-comptes), `azureTenantId` (ID du locataire Azure), `azureClientId` (ID client de l&#39;identité managée Azure).
 
 W&amp;B valide que le bucket existe et est accessible avant de créer l’équipe. Si la validation échoue, la requête SCIM échoue et l’équipe n&#39;est pas créée.
@@ -1452,7 +1452,7 @@ Ces exemples montrent comment créer une équipe sans stockage personnalisé et 
       ],
       "storageBucket": {
         "name": "wandb-coreweave-bucket",
-        "provider": "coreweave",
+        "provider": "COREWEAVE",
         "path": "ml-training/experiments"
       }
     }
@@ -1477,7 +1477,7 @@ Ces exemples montrent comment créer une équipe sans stockage personnalisé et 
       ],
       "storageBucket": {
         "name": "my-company-wandb-data",
-        "provider": "s3",
+        "provider": "AWS",
         "path": "ml-team/experiments",
         "kmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012",
         "awsExternalId": "wandb-external-id-abc123"
@@ -1486,7 +1486,29 @@ Ces exemples montrent comment créer une équipe sans stockage personnalisé et 
     ```
   </Tab>
 
-  <Tab title="GCS">
+  <Tab title="Azure">
+    ```bash
+    POST /scim/Groups
+    Content-Type: application/scim+json
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "research-team",
+      "members": [],
+      "storageBucket": {
+        "name": "wandbstorage",
+        "provider": "AZURE",
+        "path": "research/artifacts",
+        "azureTenantId": "12345678-1234-1234-1234-123456789012",
+        "azureClientId": "87654321-4321-4321-4321-210987654321"
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="GCP">
     ```bash
     POST /scim/Groups
     Content-Type: application/scim+json
@@ -1508,30 +1530,8 @@ Ces exemples montrent comment créer une équipe sans stockage personnalisé et 
       ],
       "storageBucket": {
         "name": "my-gcs-bucket",
-        "provider": "gcs",
+        "provider": "GCP",
         "path": "data-science/runs"
-      }
-    }
-    ```
-  </Tab>
-
-  <Tab title="Azure">
-    ```bash
-    POST /scim/Groups
-    Content-Type: application/scim+json
-    ```
-
-    ```json
-    {
-      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
-      "displayName": "research-team",
-      "members": [],
-      "storageBucket": {
-        "name": "wandbstorage",
-        "provider": "azure",
-        "path": "research/artifacts",
-        "azureTenantId": "12345678-1234-1234-1234-123456789012",
-        "azureClientId": "87654321-4321-4321-4321-210987654321"
       }
     }
     ```

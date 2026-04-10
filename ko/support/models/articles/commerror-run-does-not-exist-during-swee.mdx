@@ -1,0 +1,31 @@
+---
+title: "스윕 중 `CommError, Run does not exist`를 해결하려면 어떻게 해야 하나요?"
+keywords: ["Sweeps", "Runs"]
+---
+
+스윕 중에 `CommError, Run does not exist`와 `ERROR Error uploading`가 모두 표시되면, 가장 가능성이 큰 원인은 코드에서 run ID를 수동으로 설정하고 있기 때문입니다:
+
+```python
+wandb.init(id="some-string")
+```
+
+W&amp;B는 Sweeps로 생성된 run에 대해 무작위의 고유 ID를 자동으로 생성하므로 W&amp;B Sweeps에서는 run ID를 설정할 수 없습니다. Run ID는 프로젝트 내에서 고유해야 합니다.
+
+이 문제를 해결하려면 `wandb.init()`에서 `id` 매개변수를 제거하세요. 테이블과 그래프에 표시되는 맞춤형 이름을 설정하려면 대신 `name` 매개변수를 사용하세요:
+
+```python
+wandb.init(name="a helpful readable run name")
+```
+
+자세한 내용은 [Sweeps 문제 해결](/ko/models/sweeps/troubleshoot-sweeps/)을 참고하세요.
+
+***
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리합니다.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

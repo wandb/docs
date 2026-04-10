@@ -1,0 +1,56 @@
+---
+title: "Comment puis-je corriger les erreurs `Rate limit exceeded` quand je consigne des métriques ?"
+keywords: ["Métriques", "Experiments"]
+---
+
+Si vous recevez une erreur HTTP `429 Rate limit exceeded` lors de l&#39;appel à `wandb.log()`, c&#39;est que vous dépassez le quota de limites de débit de votre projet. W&amp;B applique des limites de débit par projet, et les plans payants ont des limites plus élevées que les plans gratuits.
+
+<div id="how-to-stay-under-the-rate-limit">
+  ## Comment rester sous la limite de débit
+</div>
+
+1. **Mettez à jour votre SDK W&amp;B** : la dernière version inclut des mécanismes optimisés pour réessayer les requêtes et gérer l’utilisation du quota.
+
+   ```shell
+   pip install --upgrade wandb
+   ```
+
+2. **Réduisez la fréquence de journalisation** : consignez les métriques moins souvent. Par exemple, consignez-les toutes les N époques au lieu de le faire à chaque époque :
+
+   ```python
+   for epoch in range(100):
+       if epoch % 5 == 0:
+           wandb.log({"acc": accuracy, "loss": loss})
+   ```
+
+3. **Synchronisez les données manuellement** : si vous atteignez la limite de débit, W&amp;B stocke localement les données de votre run. Vous pouvez les synchroniser plus tard avec :
+
+   ```shell
+   wandb sync <run-file-path>
+   ```
+
+<div id="rate-limit-headers">
+  ## En-têtes de limite de débit
+</div>
+
+Lorsqu&#39;une limite de débit est appliquée, la réponse inclut les en-têtes suivants :
+
+| En-tête               | Description                                                    |
+| --------------------- | -------------------------------------------------------------- |
+| `RateLimit-Remaining` | Quota restant dans la fenêtre en cours (échelle de 0 à 1000)   |
+| `RateLimit-Reset`     | Nombre de secondes avant la réinitialisation du quota en cours |
+
+Si `RateLimit-Remaining` vaut `0`, attendez le nombre de secondes indiqué dans `RateLimit-Reset` avant de réessayer.
+
+Pour plus d&#39;informations, voir [limites et performances d&#39;Experiments](/fr/models/track/limits/).
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

@@ -1,0 +1,47 @@
+---
+title: "Pourquoi ne puis-je pas lier mon artefact au registre ?"
+keywords: ["Artifacts"]
+---
+
+Si vous ne parvenez pas à lier un artefact à un registre W&amp;B, la cause la plus fréquente est que l’artefact a été enregistré sous une entité personnelle plutôt que sous une entité d’équipe. Seuls les artefacts enregistrés dans l’équipe d’une organisation peuvent être liés au registre de cette organisation.
+
+<div id="fix-log-artifacts-with-a-team-entity">
+  ## Correctif : consignez les artefacts avec une entité d’équipe
+</div>
+
+Indiquez votre équipe comme `entity` lors de l’initialisation d’un run :
+
+```python
+import wandb
+
+with wandb.init(entity="<team_entity>", project="<project_name>") as run:
+    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    # Ajouter des fichiers et enregistrer l'artefact
+```
+
+Si vous ne spécifiez pas `entity`, le run utilise votre entité par défaut, qui peut correspondre à votre compte personnel.
+
+<div id="find-your-team-entity">
+  ## Trouvez l’entité d’équipe
+</div>
+
+Votre entité d’équipe est la même que le nom de votre équipe. Pour le confirmer, accédez à la page de profil W&amp;B de votre équipe. L’URL a la forme `https://wandb.ai/<team>`, où `<team>` correspond à votre entité d’équipe.
+
+<div id="already-logged-with-a-personal-entity">
+  ## Déjà enregistré dans une entité personnelle ?
+</div>
+
+Si un artefact a déjà été enregistré dans votre entité personnelle, vous devez l’enregistrer à nouveau dans une entité d’équipe de votre organisation.
+
+Pour plus d&#39;informations, voir [Lier une version à une collection](/fr/models/registry/link_version/).
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas ce contenu à la main entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}
