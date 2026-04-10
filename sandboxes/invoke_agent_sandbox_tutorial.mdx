@@ -1,14 +1,14 @@
 ---
 title: "Tutorial: Invoke an agent in a sandbox"
-description: "Learn how to invoke a LangChain agent within a sandbox environment"
+description: "Learn how to invoke OpenAI agent within a sandbox environment"
 ---
 
 In this tutorial, you'll learn how to invoke an agent within a sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes an agent using the LangChain library.
 
 <Note>
-This tutorial uses Claude as the language model for the agent, which requires an Anthropic API key. You can use any model that is compatible with LangChain. Ensure to adjust the code and environment variables accordingly.
+This tutorial uses OpenAI as the language model for the agent, which requires an OpenAI API key.
 </Note>
-
+    
 {/* This allows you to test and iterate on your agent's behavior in a safe and isolated environment, without affecting your local setup. */}
 
 ## Prerequisites
@@ -31,10 +31,10 @@ pip install wandb
 ```
 ### Store API keys in environment variables
 
-Store your Anthropic API key in an environment variable named `ANTHROPIC_API_KEY` to run this tutorial.
+Store your OpenAI API key in an environment variable named `OPENAI_API_KEY` to run this tutorial.
 
 ```bash
-export ANTHROPIC_API_KEY="your_anthropic_api_key_here"
+export OPENAI_API_KEY="your_openai_api_key_here"
 ```
 
 If you have not done so already, store your W&B API key. Run the `wandb login` CLI command and follow the prompts to log in to your W&B account:
@@ -47,26 +47,22 @@ See [`wandb login`](/models/ref/cli/wandb-login) reference documentation for mor
 
 ## Copy agent code
 
-<Accordion title="LangChain agent code">
+<Accordion title="OpenAI agent code">
 
 Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial, then run the above code snippet to see how to invoke a LangChain agent within a sandbox environment.
 
 ```python title="demo.py"
-# Taken from https://docs.langchain.com/oss/python/langchain/quickstart
+import json
 import os
-from dataclasses import dataclass
 
-from langchain.agents import create_agent
-from langchain.chat_models import init_chat_model
-from langchain.tools import tool, ToolRuntime
-from langgraph.checkpoint.memory import InMemorySaver
-from langchain.agents.structured_output import ToolStrategy
+from openai import OpenAI
 
 # Get API key from environment
-api_key = os.getenv("ANTHROPIC_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
-    raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+    raise ValueError("OPENAI_API_KEY environment variable not set")
 
+client = OpenAI(api_key=api_key)
 
 # Define system prompt
 SYSTEM_PROMPT = """You are an expert weather forecaster, who speaks in puns.
@@ -78,76 +74,133 @@ You have access to two tools:
 
 If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean wherever they are, use the get_user_location tool to find their location."""
 
-# Define context schema
-@dataclass
-class Context:
-    """Custom runtime context schema."""
-    user_id: str
+# Define tools as JSON schemas for function calling
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather_for_location",
+            "description": "Get weather for a given city.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {"type": "string", "description": "The city to get weather for."}
+                },
+                "required": ["city"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_user_location",
+            "description": "Retrieve the user's location based on their user ID.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+            },
+        },
+    },
+]
 
-# Define tools
-@tool
+# Response format as a JSON schema for structured output
+RESPONSE_FORMAT = {
+    "type": "json_schema",
+    "json_schema": {
+        "name": "weather_response",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "punny_response": {
+                    "type": "string",
+                    "description": "A punny response (always required)",
+                },
+                "weather_conditions": {
+                    "type": ["string", "null"],
+                    "description": "Any interesting information about the weather if available",
+                },
+            },
+            "required": ["punny_response", "weather_conditions"],
+            "additionalProperties": False,
+        },
+    },
+}
+
+
+# Tool implementations
 def get_weather_for_location(city: str) -> str:
-    """Get weather for a given city."""
     return f"It's always sunny in {city}!"
 
-@tool
-def get_user_location(runtime: ToolRuntime[Context]) -> str:
-    """Retrieve user information based on user ID."""
-    user_id = runtime.context.user_id
+
+def get_user_location(user_id: str) -> str:
     return "Florida" if user_id == "1" else "SF"
 
-# Configure model
-model = init_chat_model(
-    "claude-sonnet-4-6",
-    temperature=0
-)
 
-# Define response format
-@dataclass
-class ResponseFormat:
-    """Response schema for the agent."""
-    # A punny response (always required)
-    punny_response: str
-    # Any interesting information about the weather if available
-    weather_conditions: str | None = None
+TOOL_DISPATCH = {
+    "get_weather_for_location": lambda args, _ctx: get_weather_for_location(args["city"]),
+    "get_user_location": lambda _args, ctx: get_user_location(ctx["user_id"]),
+}
 
-# Set up memory
-checkpointer = InMemorySaver()
 
-# Create agent
-agent = create_agent(
-    model=model,
-    system_prompt=SYSTEM_PROMPT,
-    tools=[get_user_location, get_weather_for_location],
-    context_schema=Context,
-    response_format=ToolStrategy(ResponseFormat),
-    checkpointer=checkpointer
-)
+def run_agent(messages: list[dict], context: dict) -> dict:
+    """Run the agent loop: call the model, execute any tool calls, repeat until done."""
+    while True:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            temperature=0,
+            messages=messages,
+            tools=TOOLS,
+            response_format=RESPONSE_FORMAT,
+        )
 
-# Run agent
-config = {"configurable": {"thread_id": "1"}}
+        choice = response.choices[0]
+        message = choice.message
 
-response = agent.invoke(
-    {"messages": [{"role": "user", "content": "what is the weather outside?"}]},
-    config=config,
-    context=Context(user_id="1")
-)
+        # If the model wants to call tools, execute them and loop
+        if message.tool_calls:
+            # Append the assistant message (with tool_calls) to history
+            messages.append(message.to_dict())
 
-print(response['structured_response'])
+            for tool_call in message.tool_calls:
+                fn_name = tool_call.function.name
+                fn_args = json.loads(tool_call.function.arguments)
+                result = TOOL_DISPATCH[fn_name](fn_args, context)
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": result,
+                })
+            continue
 
-# Note that we can continue the conversation using the same `thread_id`.
-response = agent.invoke(
-    {"messages": [{"role": "user", "content": "thank you!"}]},
-    config=config,
-    context=Context(user_id="1")
-)
+        # No tool calls — final answer
+        messages.append(message.to_dict())
+        return json.loads(message.content)
 
-print(response['structured_response'])
+
+# --- Run the agent ---
+
+conversation: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
+context = {"user_id": "1"}
+
+# First turn
+conversation.append({"role": "user", "content": "what is the weather outside?"})
+result = run_agent(conversation, context)
+print(result)
+# {'punny_response': "Florida is still having a 'sun-derful' day! ...", 'weather_conditions': "It's always sunny in Florida!"}
+
+# Second turn (conversation history is preserved)
+conversation.append({"role": "user", "content": "thank you!"})
+result = run_agent(conversation, context)
+print(result)
+# {'punny_response': "You're 'thund-erfully' welcome! ...", 'weather_conditions': None}
 ```
 </Accordion>
 
 
 ## Create a sandbox and run the agent script
+
+
 
 ```python
 import os
@@ -161,13 +214,13 @@ with Sandbox.run(
     container_image="python:3.13",
     network=NetworkOptions(egress_mode="internet"),
     max_lifetime_seconds=3600,
-    environment_variables={"ANTHROPIC_API_KEY": os.environ["ANTHROPIC_API_KEY"]},
+    environment_variables={"OPENAI_API_KEY": os.environ["OPENAI_API_KEY"]},
 ) as sandbox:
     sandbox.write_file("demo.py", script).result()
 
     # Install dependencies
     print("Installing dependencies...")
-    sandbox.exec(["pip", "install", "langchain", "langgraph", "langchain_anthropic"], check=True).result()
+    sandbox.exec(["pip", "install", "openai"], check=True).result()
 
     # Run the script
     print("Running script...")
