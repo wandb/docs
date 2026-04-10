@@ -1,6 +1,6 @@
 ---
 title: "Metrics"
-tag: "16"
+tag: "19"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -22,6 +22,12 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How can I overwrite the logs from previous steps?" href="/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
   To overwrite logs from previous steps, use forking and rewind.
+</Card>
+<Card title="How do I fix `Rate limit exceeded` errors when logging metrics?" href="/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  If you receive an HTTP 429 Rate limit exceeded error when calling wandb.log(), you are exceeding the rate limit quota fo ...
+</Card>
+<Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  The following error usually occurs when you do not log the metric that you are optimizing: To fix this, make sure you ar ...
 </Card>
 <Card title="How often are system metrics collected?" href="/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
   Metrics collect by default every 10 seconds. For higher resolution metrics, email contact@wandb.com.
@@ -46,6 +52,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Why can't I sort or filter metrics with certain characters?" href="/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
   Metric names in W&B must follow GraphQL naming conventions to ensure they can be properly sorted and filtered in the UI. ...
+</Card>
+<Card title="Why does my workspace load slowly?" href="/support/models/articles/workspace-loads-slowly-with-many-metric" arrow="true" horizontal>
+  Workspaces can load slowly when a project has a large number of metrics, runs, or panels. Here are common causes and fix ...
 </Card>
 <Card title="Why is nothing showing up in my graphs?" href="/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
   If the message "No visualization data logged yet" appears, the script has not executed the first wandb.log call. This si ...
