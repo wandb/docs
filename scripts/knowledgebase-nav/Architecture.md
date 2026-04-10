@@ -141,11 +141,13 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 - **`plain_text`** strips Markdown (including horizontal rules), links, URLs, HTML or MDX tags, and similar so previews stay plain text (U+00A0 to space after entity decode, typographic quotes mapped to ASCII, allowlist keeps `_` and `=` for identifiers).
 - **`extract_body_preview`** applies `plain_text`, truncates to `BODY_PREVIEW_MAX_LENGTH`, and adds `BODY_PREVIEW_SUFFIX` when needed.
+- **`_card_text_from_frontmatter_field`** extracts a usable string from a single front matter key (`docengineDescription` or `description`): returns `None` when the field is missing, not a string, or empty after processing. Processing strips one outer pair of wrapping quotes and collapses internal newlines to a single space.
+- **`resolve_body_preview`** resolves the Card preview text using a three-level hierarchy: `docengineDescription` first, then `description`, then `extract_body_preview(body)`. Frontmatter overrides are not passed through `plain_text` or truncation.
 
 ### Slugs and crawling
 
 - **`tag_slug`** maps a display keyword to a filename or URL segment (lowercase, hyphenated).
-- **`crawl_articles`** walks `support/<slug>/articles/*.mdx` and builds article dicts (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, and others).
+- **`crawl_articles`** walks `support/<slug>/articles/*.mdx` and builds article dicts (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, and others). The `body_preview` field is resolved by `resolve_body_preview` from `docengineDescription`, `description`, or the article body.
 
 ### Tag aggregation and featured content
 
