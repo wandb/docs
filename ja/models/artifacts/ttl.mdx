@@ -201,8 +201,8 @@ artifact.save()
 W&amp;B Python SDK または W&amp;B App UI を使用して、特定の artifact バージョンに設定された TTL ポリシーを無効にします。
 
 {/* <Note>
-  TTL が無効になっている Artifacts は、artifact collection の TTL を継承しません。artifact の TTL を削除して collection レベルの TTL を継承する方法については、(## TTL ポリシーを継承) を参照してください。
-  </Note> */}
+    TTL が無効になっている Artifacts は、artifact collection の TTL を継承しません。artifact の TTL を削除して collection レベルの TTL を継承する方法については、(## TTL ポリシーを継承) を参照してください。
+    </Note> */}
 
 <Tabs>
   <Tab title="Python SDK">
@@ -210,7 +210,7 @@ W&amp;B Python SDK または W&amp;B App UI を使用して、特定の artifact
     2. artifact の `ttl` 属性を `None` に設定します。
     3. [`save`](/ja/models/ref/python/experiments/run#save) method を使用して artifact を更新します。
 
-    次の code snippet は、artifact の TTL ポリシーを無効化する方法を示しています。
+    次の コードスニペット は、artifact の TTL ポリシーを無効化する方法を示しています。
 
     ```python
     artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
@@ -225,7 +225,7 @@ W&amp;B Python SDK または W&amp;B App UI を使用して、特定の artifact
     3. artifact のリストから、対象の artifact type を展開します。
     4. TTL ポリシーを編集する artifact バージョンを選択します。
     5. **Version** タブをクリックします。
-    6. **Link to registry** ボタンの横にあるミートボール UI アイコンをクリックします。
+    6. **Link to registry** ボタンの横にある **アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックします。
     7. ドロップダウンから **Edit TTL policy** を選択します。
     8. 表示されるモーダルで、TTL ポリシーのドロップダウンから **Deactivate** を選択します。
     9. **Update TTL** ボタンを選択して変更を保存します。

@@ -85,16 +85,16 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 機能
 
   * Registry の **Settings** から、所有者を Admin ロールを持つ別のユーザーに変更できるようになりました。ユーザーの **Role** メニューから **Owner** を選択します。
-  * 同じプロジェクト内で、run を別のグループに移動できるようになりました。run リスト内の run にカーソルを合わせ、縦に並んだ 3 点メニューをクリックして、**Move to another group** を選択します。
+  * 同じプロジェクト内で、run を別のグループに移動できるようになりました。run リスト内の run にカーソルを合わせ、**action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューをクリックして、**Move to another group** を選択します。
   * 折れ線グラフの **Log Scale setting** をデフォルトで有効にするかどうかを、Workspace またはセクションのレベルで設定できるようになりました。
-    * Workspace の動作を設定するには、Workspace の action `...` メニューをクリックし、**Line plots** をクリックしてから、X 軸または Y 軸の **Log scale** を切り替えます。
+    * Workspace の動作を設定するには、Workspace の **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**折れ線グラフ** をクリックしてから、X 軸または Y 軸の **Log scale** を切り替えます。
     * セクションの動作を設定するには、セクションの歯車アイコンをクリックしてから、X 軸または Y 軸の **Log scale** を切り替えます。
 </Update>
 
 <Update label="v0.63.0" description="2024年12月10日">
   ## 機能
 
-  **[W&amp;B Weave](https://wandb.ai/site/weave/) が、AWS 上の専用クラウドで一般提供 (GA) になりました。Teams で 生成 AI アプリ を安心して構築し、本番環境に導入したい場合は、W&amp;B の担当チームにお問い合わせください。**
+  **[W&amp;B Weave](https://wandb.ai/site/weave/) が、AWS 上の専用クラウドで一般提供 (GA) になりました。チーム で 生成 AI アプリ を安心して構築し、本番環境に導入したい場合は、W&amp;B の担当チームにお問い合わせください。**
 
   <Frame>
     ![Weave UI](https://github.com/user-attachments/assets/22786cbc-7d69-4505-b329-78cb87734d19)
@@ -104,7 +104,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * W&amp;B Models が ***Azure public cloud*** とシームレスに統合されるようになりました。Azure サブスクリプションから直接 Azure リージョンに専用クラウドインスタンスを作成し、Azure ISV リソースとして管理できるようになりました。[このインテグレーションはプライベートプレビューです](https://wandb.ai/site/partners/azure)。
   * 分散 run でラベル (例: node) ごとにログとメトリクスを区別できるよう、run settings object 内で x&#95;label (例: node-0) を割り当てられるようになりました。これにより、Workspace で可視化する際に、ラベルごとにシステムメトリクスとコンソールログをグループ化できます。
-  * ***近日公開*** 今週のパッチ version で、インスタンス内のすべての Teams にまたがる W&amp;B ワークロードの自動化に、組織レベルのサービスアカウントを使用できるようになります。サービスアカウントの access スコープをより細かく制御したい場合は、既存のチームレベルのサービスアカウントも引き続き使用できます。
+  * ***近日公開*** 今週のパッチ version で、インスタンス内のすべての チーム にまたがる W&amp;B ワークロードの自動化に、組織レベルのサービスアカウントを使用できるようになります。サービスアカウントの access スコープをより細かく制御したい場合は、既存のチームレベルのサービスアカウントも引き続き使用できます。
     * 組織レベルのサービスアカウントが Registry を操作できるようになります。これらのサービスアカウントは invite modal を使って Registry に招待でき、それぞれの組織ロールとともに members table に表示されます。
 
   ## 修正
@@ -273,7 +273,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.51.0" description="2024年3月20日">
   ## 機能
 
-  * Workspaceバーのオーバーフローメニューで「新しいビューとして保存」をクリックすると、任意のWorkspaceで複数のビューを保存できるようになりました。
+  * Workspaceバーの**アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューで「新しいビューとして保存」をクリックすると、任意のWorkspaceで複数のビューを保存できるようになりました。
     詳細は、[保存済みWorkspaceビュー](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views)を参照してください。
 
     <Frame>

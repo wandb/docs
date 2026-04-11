@@ -73,7 +73,7 @@ Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App
     1. Accédez au projet qui contient la version d&#39;artefact que vous souhaitez supprimer.
     2. Sélectionnez l&#39;onglet **Artifacts**.
     3. Dans la liste des types d&#39;artefact, sélectionnez le type d&#39;artefact qui contient la version que vous souhaitez supprimer.
-    4. Cliquez sur les trois points horizontaux (`...`) à côté de la version d&#39;artefact que vous souhaitez supprimer.
+    4. Cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** à côté de la version d&#39;artefact que vous souhaitez supprimer.
     5. Dans le menu déroulant, choisissez **Supprimer la version**.
   </Tab>
 
@@ -158,22 +158,22 @@ for artifact in run.logged_artifacts():
 ```
 
 <div id="delete-an-artifact-collection">
-  ## Supprimer une collection d&#39;artifacts
+  ## Supprimer une collection d&#39;artefact
 </div>
 
 <Tabs>
   <Tab title="W&B App" value="ui">
-    Pour supprimer une collection d&#39;artifacts :
+    Pour supprimer une collection d&#39;artefact :
 
-    1. Accédez à la collection d&#39;artifacts que vous souhaitez supprimer.
-    2. Sélectionnez les trois points horizontaux (`...`) à côté du nom de la collection d&#39;artifacts.
+    1. Accédez à la collection d&#39;artefact que vous souhaitez supprimer.
+    2. Sélectionnez le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** à côté du nom de la collection d&#39;artefact.
     3. Dans le menu déroulant, sélectionnez **Delete**.
   </Tab>
 
   <Tab title="W&B Python SDK" value="sdk">
-    Supprimez une collection d&#39;artifacts par programmation à l&#39;aide de la méthode [wandb.Artifact.delete()](/fr/models/ref/python/experiments/artifact#delete).
+    Supprimez une collection d&#39;artefact par programmation à l&#39;aide de la méthode [wandb.Artifact.delete()](/fr/models/ref/python/experiments/artifact#delete).
 
-    Indiquez le chemin complet de la collection d&#39;artifacts dans `wandb.Api.artifact_collection(name="")`. Le chemin complet est au format `<entity>/<project>/<artifact_collection_name>`.
+    Indiquez le chemin complet de la collection d&#39;artefact dans `wandb.Api.artifact_collection(name="")`. Le chemin complet est au format `<entity>/<project>/<artifact_collection_name>`.
 
     ```python
     import wandb
