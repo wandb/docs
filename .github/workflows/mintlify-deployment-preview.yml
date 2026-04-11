@@ -160,6 +160,13 @@ jobs:
             core.info(`Total changed files: ${totalFiles}`);
             core.info(`Added: ${added.length}, Modified: ${modified.length}, Renamed: ${renamed.length}, Removed: ${removed.length}`);
             
+            // Mintlify page previews only apply to published .mdx routes (not plain .md or scripts/).
+            function isDocPageWithPreview(filepath) {
+              if (filepath.startsWith('scripts/')) return false;
+              if (filepath.endsWith('.md')) return false;
+              return filepath.endsWith('.mdx');
+            }
+            
             // Helper function to detect if a file is an image
             function isImageFile(filepath) {
               const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.bmp'];
@@ -220,7 +227,7 @@ jobs:
               const toShow = files.slice(0, maxShow);
               toShow.forEach(file => {
                 if (showPreview) {
-                  if (file.endsWith('.mdx') || file.endsWith('.md')) {
+                  if (isDocPageWithPreview(file)) {
                     const title = titleFromPath(file);
                     const url = urlFromPath(file);
                     table += `| \`${file}\` | [${title}](${url}) |\n`;
@@ -259,7 +266,7 @@ jobs:
               hasChanges = true;
               body += `### 🔄 Renamed/Moved (${renamed.length} total)\n\n`;
               
-              const pagesRenamed = renamed.filter(r => r.new.endsWith('.mdx') || r.new.endsWith('.md'));
+              const pagesRenamed = renamed.filter(r => isDocPageWithPreview(r.new));
               const imagesRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && isImageFile(r.new));
               const otherRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && !imagesRenamed.some(i => i.new === r.new));
               
@@ -322,7 +329,7 @@ jobs:
               hasChanges = true;
               body += `### ✨ Added (${added.length} total)\n\n`;
               
-              const pagesAdded = added.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const pagesAdded = added.filter(f => isDocPageWithPreview(f));
               const imagesAdded = added.filter(f => !pagesAdded.includes(f) && isImageFile(f));
               const otherAdded = added.filter(f => !pagesAdded.includes(f) && !imagesAdded.includes(f));
               
@@ -360,7 +367,7 @@ jobs:
               hasChanges = true;
               body += `### 📝 Changed (${modified.length} total)\n\n`;
               
-              const pagesModified = modified.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const pagesModified = modified.filter(f => isDocPageWithPreview(f));
               const imagesModified = modified.filter(f => !pagesModified.includes(f) && isImageFile(f));
               const otherModified = modified.filter(f => !pagesModified.includes(f) && !imagesModified.includes(f));
               
@@ -398,7 +405,7 @@ jobs:
               hasChanges = true;
               body += `### 🗑️ Deleted (${removed.length} total)\n\n`;
               
-              const pagesRemoved = removed.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const pagesRemoved = removed.filter(f => isDocPageWithPreview(f));
               const imagesRemoved = removed.filter(f => !pagesRemoved.includes(f) && isImageFile(f));
               const otherRemoved = removed.filter(f => !pagesRemoved.includes(f) && !imagesRemoved.includes(f));
               
