@@ -35,10 +35,10 @@ keywords: ["メトリクス", "Experiments"]
 
 レート制限に達すると、レスポンスには次のヘッダーが含まれます。
 
-| Header                | 説明                               |
-| --------------------- | -------------------------------- |
-| `RateLimit-Remaining` | 現在のウィンドウで残っているクォータ (0〜1000 の範囲)  |
-| `RateLimit-Reset`     | 現在のクォータがリセットされるまでの秒数             |
+| Header                | 説明                              |
+| --------------------- | ------------------------------- |
+| `RateLimit-Remaining` | 現在のウィンドウで残っているクォータ (0〜1000 の範囲) |
+| `RateLimit-Reset`     | 現在のクォータがリセットされるまでの秒数            |
 
 `RateLimit-Remaining` が `0` の場合は、再試行する前に `RateLimit-Reset` で指定された秒数だけ待機してください。
 
@@ -46,11 +46,8 @@ keywords: ["メトリクス", "Experiments"]
 
 ***
 
-{/* ---- AUTO-GENERATED: tab badges ----
-  フロントマターのキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
-  これらのマーカーの間は手動で編集しないでください。
-  ---- */}
+{/* AUTO-GENERATED: tab badges */}
 
 <Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- END AUTO-GENERATED: tab badges ---- */}
+{/* END AUTO-GENERATED: tab badges */}
