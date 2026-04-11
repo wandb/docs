@@ -29,7 +29,6 @@ Locadex also applies options that affect Mintlify behavior (for example static i
 ### What Locadex does not localize
 
 - **Raster and vector graphics**: Image files are not swapped for locale-specific artwork. Diagrams and screenshots stay as referenced unless you add localized assets and update paths yourself.
-  > **Note**: Currently, due to known limitations in Locadex, Mermaid diagrams are partially translated.
 - **Excluded prose files**: Paths listed under `files.mdx.exclude` in `gt.config.json` are not auto-translated. That includes standard repo files such as `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, and similar, plus any pattern the team adds there.
 - **English source of truth**: Writers continue to author and merge changes in English. Localized files are outputs of automation plus any manual edits you choose to make.
 
@@ -39,20 +38,22 @@ After Locadex is connected to the repository (GitHub app, project, and branch se
 
 1. You merge an **English-only** documentation pull request into `main`.
 2. Locadex detects eligible changes (per its integration rules) and starts or updates a **translation round**.
-3. If a Locadex pull request is already open against `main`, Locadex **updates that PR** with new commits for the latest English changes. If no Locadex PR is open, Locadex **opens a new PR** with localized updates. Refer to [#2430](https://github.com/wandb/docs/pull/2430) for an example of a Locadex PR.
+3. If a Locadex pull request is already open against `main`, Locadex **closes that PR** and makes a new one with all of the changes from the closed PR plus the newly-merged English-language changes. If no Locadex PR is open, Locadex **opens a new PR** with localized updates. Refer to [#2430](https://github.com/wandb/docs/pull/2430) for an example of a Locadex PR.
 4. The docs team **reviews** the Locadex PR (depending on the situation, using spot checks, LLM-assisted review, or native speaker review).
+
+    If you find mistakes in the Locadex PR, commit corrections into the PR branch. This will steer Locadex for future translation rounds.
 5. When the Locadex PR is **merged to `main`**, Mintlify serves the updated localized sites together with English. Merging that PR publishes the updated translated docs.
 
 ```mermaid
 graph TD
   mergeEn["Merge English PR to main"] --> detect["Locadex detects eligible changes"]
   detect --> branch{"Locadex opens a PR?"}
-  branch -->|"Yes"| updatePr["Update existing Locadex PR"]
+  branch -->|"Yes"| updatePr["Close existing Locadex PR and open a new one"]
   branch -->|"No"| createPr["Open new Locadex PR"]
   updatePr --> review["Review Locadex PR"]
   createPr --> review
   review --> mergeLoc["Merge Locadex PR to main"]
-  mergeLoc --> published["Translated docs available with English"]
+  mergeLoc --> published["Translated docs available in sync with English"]
 ```
 
 ### Writer checklist after your English PR merges
