@@ -1,6 +1,6 @@
 ---
 title: "Experiments"
-tag: "36"
+tag: "39"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -18,7 +18,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="W&B は `multiprocessing` ライブラリを使用しますか？" href="/ja/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
-  はい。W&amp;B は multiprocessing ライブラリを使用します。次のようなエラーメッセージは、問題の可能性を示しています: これを解決す ...
+  はい。W&amp;B は マルチプロセッシング ライブラリを使用します。次のようなエラーメッセージは、問題の可能性を示しています: これを解決す ...
 </Card>
 
 <Card title="ログすることはトレーニングをブロックしますか？" href="/ja/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
@@ -45,7 +45,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   WANDB&#95;DIR= または wandb.init(dir= ): トレーニングスクリプト用に作成される wandb フォルダーの場所を制御します。デフォルトは ...
 </Card>
 
-<Card title="ログした chart やメディアを W&B UI で整理するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
+<Card title="ログした チャート やメディアを W&B UI で整理するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
   / 文字は W&amp;B UI でログされたパネルを区切ります。デフォルトでは、ログされた項目の名で / より前の部分が de ...
 </Card>
 
@@ -57,12 +57,16 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Files タブには最大 10,000 個のファイルが表示されます。すべてのファイルをダウンロードするには、Public API を使用します:
 </Card>
 
-<Card title="multiprocessing、たとえば分散トレーニングで wandb を使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-use-wandb-with-multiprocessing" arrow="true" horizontal>
+<Card title="マルチプロセッシング、たとえば分散トレーニングで wandb を使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-use-wandb-with-multiprocessing" arrow="true" horizontal>
   トレーニングプログラムが複数のプロセスを使用する場合は、w ... のプロセスから wandb method を呼び出さないようにプログラムを構成します
 </Card>
 
 <Card title="Plotly または Bokeh の Charts を Tables に追加するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into" arrow="true" horizontal>
   Plotly または Bokeh の figure を tables に直接インテグレーションすることはサポートされていません。代わりに、figure を HTML にエクスポートして incl ...
+</Card>
+
+<Card title="メトリクスのログ時に `Rate limit exceeded` エラーが発生した場合、どうすれば修正できますか？" href="/ja/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  `wandb.log()` の呼び出し時に HTTP 429 Rate limit exceeded エラーを受け取った場合、レート制限のクォータを超過しています fo ...
 </Card>
 
 <Card title="スクリプトでランダムな run 名を取得するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
@@ -78,7 +82,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="凡例付きのプロットに複数の線を表示するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
-  `wandb.plot.line_series()` を使用して複数線の custom chart を作成します。線グラフを表示するには、プロジェクトページにアクセスします。さらに ...
+  `wandb.plot.line_series()` を使用して複数線の custom チャート を作成します。線グラフを表示するには、プロジェクトページにアクセスします。さらに ...
 </Card>
 
 <Card title="人が読める run 名にプログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
@@ -89,20 +93,20 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   run に明示的な名前が付けられていない場合、W&amp;B はプロジェクト内で識別するためにランダムな名前を割り当てます。ランダム名の例は ...
 </Card>
 
-<Card title="InitStartError: wandb process との通信エラー" href="/ja/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
-  このエラーは、ライブラリがサーバーにデータを同期する process の起動中に問題を検出したことを示します。こ ...
+<Card title="InitStartError: wandb プロセス との通信エラー" href="/ja/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  このエラーは、ライブラリがサーバーにデータを同期する プロセス の起動中に問題を検出したことを示します。こ ...
 </Card>
 
 <Card title="メトリクスをオフラインで保存して、あとで W&B に Sync できますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドに Sync する process を開始します。オフラインで使用するには、2 つの環境変数を設定します ...
+  デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドに Sync する プロセス を開始します。オフラインで使用するには、2 つの環境変数を設定します ...
 </Card>
 
 <Card title="UI では run の状態が `crashed` ですが、自分のマシンではまだ実行中です。データを復旧するにはどうすればよいですか？" href="/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
   トレーニング中にマシンとの接続が失われた可能性が高いです。`wandb sync PATH_TO_RUN` を実行してデータを復旧します (/models/ref/ ...
 </Card>
 
-<Card title="wandb.init はトレーニング process に対して何をしますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  トレーニングスクリプトで `wandb.init()` が実行されると、API call によってサーバー上に run オブジェクトが作成されます。新しい process が開始され、st ...
+<Card title="wandb.init はトレーニング プロセス に対して何をしますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  トレーニングスクリプトで `wandb.init()` が実行されると、API call によってサーバー上に run オブジェクトが作成されます。新しい プロセス が開始され、st ...
 </Card>
 
 <Card title="クラス属性を wandb.Run.log() に渡すとどうなりますか？" href="/ja/support/models/articles/what-happens-if-i-pass-a-class-attribute" arrow="true" horizontal>
@@ -118,7 +122,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="バッチごとにログしたいメトリクスと、エポックごとにのみログしたいメトリクスがある場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  各バッチで特定のメトリクスをログし、プロットを標準化するには、必要な x-axis の値をメトリクスと一緒にログします。次では ...
+  各バッチで特定のメトリクスをログし、プロットを標準化するには、目的の x-axis の値もメトリクスとあわせてログします。記事では ...
 </Card>
 
 <Card title="wandb.init のモードの違いは何ですか？" href="/ja/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
@@ -135,6 +139,14 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="特定の文字を含むメトリクスをソートまたはフィルターできないのはなぜですか？" href="/ja/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
   W&amp;B のメトリクス名は、UI で正しくソートおよびフィルターできるよう、GraphQL の命名規則に従う必要があります。 ...
+</Card>
+
+<Card title="W&B と併用して Hydra を使用するとプロセスがハングするのはなぜですか？" href="/ja/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  Hydra で開始したプロセスがハングする場合、これは Hydra と W&amp;B の間のマルチプロセッシングの競合が原因である可能性があります ...
+</Card>
+
+<Card title="分散トレーニングでトレーニングがハングするのはなぜですか？" href="/ja/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  分散トレーニングで W&amp;B を使用するときにトレーニングがハングする一般的な理由は 2 つあります。1. トレーニングの開始時にハングする場合 ...
 </Card>
 
 <Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>

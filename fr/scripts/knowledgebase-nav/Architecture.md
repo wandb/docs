@@ -154,11 +154,11 @@ Les fonctions sont regroupées ci-dessous selon leur ordre d’apparition dans l
   ### Structure des articles et pieds de page
 </div>
 
-* **`parse_frontmatter`**, **`_extract_body`** séparent le front matter YAML du corps principal. `_extract_body` utilise `_BADGE_START` comme délimitation et supprime, à des fins esthétiques, une ligne `---` finale.
+* **`parse_frontmatter`**, **`_extract_body`** séparent le front matter YAML du corps principal. `_extract_body` utilise `_BADGE_START_RE` pour repérer la délimitation et supprime, à des fins esthétiques, une ligne `---` finale.
 * **`_split_frontmatter_raw`** découpe le MDX brut en bloc de front matter et en contenu restant pour la réécriture du pied de page.
 * **`_normalize_keywords`** convertit le front matter `keywords` en liste de chaînes de caractères (liste YAML ; une chaîne unique devient un tag avec un avertissement ; les autres types déclenchent un avertissement et deviennent une liste vide).
 * **`_keywords_list_for_footer`** renvoie les `keywords` normalisés pour générer le pied de page (délègue à **`_normalize_keywords`**).
-* **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implémentent une synchronisation ciblée des badges d’onglet. Les badges gérés sont encadrés par les commentaires marqueurs `_BADGE_START` / `_BADGE_END` ; la fonction repère les marqueurs lorsqu’ils sont présents et, sinon, utilise une regex pour les articles antérieurs à l’ajout de ces marqueurs. Les nouveaux pieds de page ajoutent une ligne vide, les marqueurs et les badges.
+* **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implémentent une synchronisation ciblée des badges d’onglet. Les badges gérés sont repérés via `_BADGE_START_RE` / `_BADGE_END_RE` ; la fonction utilise une regex comme solution de repli pour les articles antérieurs à l’ajout de ces marqueurs. Les nouveaux pieds de page ajoutent une ligne vide, des marqueurs canoniques et des badges.
 * **`sync_support_article_footer`**, **`sync_all_support_article_footers`** écrivent les fichiers d’article lorsque les badges d’onglet ne sont plus synchronisés avec `keywords`.
 
 <div id="body-previews-card-snippets">
@@ -167,13 +167,15 @@ Les fonctions sont regroupées ci-dessous selon leur ordre d’apparition dans l
 
 * **`plain_text`** supprime le Markdown (y compris les règles horizontales), les liens, les URL, les balises HTML ou MDX et autres éléments similaires afin que les aperçus restent en texte brut (U+00A0 remplacé par une espace après le décodage des entités, guillemets typographiques convertis en ASCII, la liste d’autorisation conserve `_` et `=` pour les identifiants).
 * **`extract_body_preview`** applique `plain_text`, tronque à `BODY_PREVIEW_MAX_LENGTH` et ajoute `BODY_PREVIEW_SUFFIX` si nécessaire.
+* **`_card_text_from_frontmatter_field`** extrait une chaîne exploitable à partir d’une seule clé de front matter (`docengineDescription` ou `description`) : renvoie `None` lorsque le champ est absent, n’est pas une chaîne ou est vide après traitement. Le traitement supprime une paire externe de guillemets et remplace les sauts de ligne internes par un seul espace.
+* **`resolve_body_preview`** détermine le texte d’aperçu de la carte à l’aide d’une hiérarchie à trois niveaux : `docengineDescription` d’abord, puis `description`, puis `extract_body_preview(body)`. Les surcharges du front matter ne passent ni par `plain_text` ni par la troncature.
 
 <div id="slugs-and-crawling">
   ### Slugs et parcours
 </div>
 
 * **`tag_slug`** associe un mot-clé affiché à un nom de fichier ou à un segment d’URL (en minuscules, avec des traits d’union).
-* **`crawl_articles`** parcourt `support/<slug>/articles/*.mdx` et construit des dicts d’articles (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, entre autres).
+* **`crawl_articles`** parcourt `support/<slug>/articles/*.mdx` et construit des dicts d’articles (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, entre autres). Le champ `body_preview` est résolu par `resolve_body_preview` à partir de `docengineDescription`, `description` ou du corps de l’article.
 
 <div id="tag-aggregation-and-featured-content">
   ### Agrégation des tags et contenu à la une
@@ -196,8 +198,8 @@ Les fonctions sont regroupées ci-dessous selon leur ordre d’apparition dans l
 </div>
 
 * **`update_docs_json`** met à jour ou crée des onglets masqués `Support: <display_name>` sous `navigation.languages` lorsque `language` vaut `en`, en définissant `pages` sur l’index du produit ainsi que sur les chemins de tags triés.
-* **`update_support_index`** met à jour les lignes de décompte sur les cartes produit dans le fichier racine `support.mdx`. Privilégie les marqueurs `{/* auto-generated counts */}` ; utilise une regex comme solution de repli pour la migration.
-* **`update_support_featured`** régénère la section des Articles à la une entre les marqueurs `_FEATURED_START` / `_FEATURED_END` dans le fichier racine `support.mdx`.
+* **`update_support_index`** met à jour les lignes de décompte sur les cartes produit dans le fichier racine `support.mdx`. Localise les marqueurs via `_COUNTS_START_RE` / `_COUNTS_END_RE` ; utilise un motif simple de ligne de décompte comme solution de repli pour la migration.
+* **`update_support_featured`** régénère la section des Articles à la une dans le fichier racine `support.mdx`, en localisant le bloc via `_FEATURED_START_RE` / `_FEATURED_END_RE`.
 
 <div id="cli">
   ### CLI
@@ -211,8 +213,10 @@ Les fonctions sont regroupées ci-dessous selon leur ordre d’apparition dans l
 
 * **`BODY_PREVIEW_MAX_LENGTH`** et **`BODY_PREVIEW_SUFFIX`** contrôlent la longueur de l’aperçu de la carte et l’ellipse.
 * **`DOCS_JSON_NAV_LANGUAGE`** vaut `"en"` et limite les modifications de navigation à l’arborescence anglaise uniquement.
-* **`_BADGE_START`** / **`_BADGE_END`** sont les marqueurs de commentaire MDX qui encadrent les badges d’onglet gérés sur chaque page d’article.
-* **`_FEATURED_START`** / **`_FEATURED_END`** sont les marqueurs de commentaire MDX qui encadrent la section des articles mis en avant dans le fichier racine `support.mdx`.
+* **`_make_markers(keyword)`** génère les quatre constantes ci-dessous pour chaque section gérée : des chaînes de début et de fin canoniques pour l’écriture, ainsi que des objets `re.Pattern` compilés pour la lecture.
+* **`_BADGE_START`** / **`_BADGE_END`** — chaînes canoniques `{/* AUTO-GENERATED: tab badges */}` écrites dans les fichiers d’article. **`_BADGE_START_RE`** / **`_BADGE_END_RE`** — motifs utilisés pour repérer le bloc (insensible à la casse, deux-points facultatif, mot-clé placé n’importe où dans le commentaire).
+* **`_COUNTS_START`** / **`_COUNTS_END`** — chaînes canoniques `{/* AUTO-GENERATED: counts */}` écrites dans `support.mdx`. **`_COUNTS_START_RE`** / **`_COUNTS_END_RE`** — motifs utilisés dans le motif structurel ancré sur la carte qui repère et remplace les lignes de décompte.
+* **`_FEATURED_START`** / **`_FEATURED_END`** — chaînes canoniques `{/* AUTO-GENERATED: featured articles */}` écrites dans `support.mdx`. **`_FEATURED_START_RE`** / **`_FEATURED_END_RE`** — motifs utilisés pour repérer le bloc des articles à la une.
 
 <div id="design-choices">
   ## Choix de conception
@@ -220,9 +224,9 @@ Les fonctions sont regroupées ci-dessous selon leur ordre d’apparition dans l
 
 * **Script monolithique** : un seul fichier regroupe toute la logique afin que le flux de travail et les contributeurs disposent d’un point unique pour lire et modifier le comportement.
 * **Mots-clés autorisés** : `config.yaml` répertorie les tags valides par produit ; les tags inconnus génèrent quand même des pages, mais produisent des avertissements afin qu’aucun contenu ne soit jamais ignoré en silence.
-* **Gestion des badges d’onglet** : seuls les éléments `<Badge>` liés à `/support/<product>/tags/...` sont dérivés de `keywords`. Ils sont encapsulés dans des commentaires marqueurs afin que le générateur n’ait pas besoin d’utiliser une correspondance regex après la migration. La ligne `---` entre le corps et les badges est purement cosmétique ; `_extract_body` utilise `_BADGE_START` comme délimitation et ne supprime un `---` final qu’à des fins de nettoyage.
+* **Gestion des badges d’onglet** : seuls les éléments `<Badge>` liés à `/support/<product>/tags/...` sont dérivés de `keywords`. Ils sont encapsulés dans des commentaires marqueurs localisés par `_BADGE_START_RE` / `_BADGE_END_RE`. La ligne `---` entre le corps et les badges est purement cosmétique ; `_extract_body` utilise `_BADGE_START_RE` comme délimitation et ne supprime un `---` final qu’à des fins de nettoyage.
 * **Nettoyage des tags obsolètes** : les pages de tags qui ne correspondent plus à aucun mot-clé d’article sont supprimées après la génération, avant la mise à jour de `docs.json`. Cela évite les entrées orphelines dans le répertoire des tags et dans la navigation.
-* **Édition basée sur des marqueurs** : toutes les sections générées automatiquement (badges d’onglet d’article, lignes de comptage dans `support.mdx` et Articles à la une) utilisent des marqueurs de commentaire MDX. Cela rend les zones gérées visibles pour les rédacteurs et permet au générateur de remplacer précisément le contenu sans recourir à des ancres regex fragiles. Chaque paire de marqueurs prévoit un chemin de migration qui encapsule le contenu brut lors de la première exécution.
+* **Édition basée sur des marqueurs** : toutes les sections générées automatiquement (badges d’onglet d’article, lignes de décompte dans `support.mdx` et Articles à la une) utilisent des marqueurs de commentaire MDX générés par `_make_markers`. La correspondance est insensible à la casse, avec un deux-points facultatif, et le mot-clé peut apparaître n’importe où dans le commentaire, afin que les auteurs puissent annoter librement les marqueurs sans casser le générateur. Chaque paire de marqueurs prévoit un chemin de migration qui encapsule le contenu brut lors de la première exécution.
 * **Tests Golden** : comparent les pages de tags générées, les pages d’index de produit, les fichiers d’articles (y compris les marqueurs de pied de page), les onglets d’assistance dans `docs.json` et le `support.mdx` racine à l’arborescence versionnée afin que toute dérive de sortie apparaisse sous la forme d’un diff unifié.
 
 <div id="related-reading">

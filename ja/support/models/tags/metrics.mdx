@@ -1,6 +1,6 @@
 ---
 title: "メトリクス"
-tag: "16"
+tag: "19"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -27,6 +27,14 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="前の step のログを上書きするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
   前の step のログを上書きするには、forking と rewind を使用します。
+</Card>
+
+<Card title="メトリクスのログ記録時に `Rate limit exceeded` エラーを修正するにはどうすればよいですか？" href="/ja/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  wandb.log() の呼び出し時に HTTP 429 Rate limit exceeded エラーを受け取る場合、... の rate limit クォータを超過しています
+</Card>
+
+<Card title="sweep 中の `anaconda 400 error` を修正するにはどうすればよいですか？" href="/ja/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  次のエラーは通常、最適化しているメトリクスをログしていない場合に発生します。これを修正するには、... していることを確認してください
 </Card>
 
 <Card title="システムメトリクスはどのくらいの頻度で収集されますか？" href="/ja/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
@@ -61,10 +69,14 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   W&amp;B のメトリクス名は、UI で正しく sort およびフィルターできるように、GraphQL の命名規則に従う必要があります。...
 </Card>
 
+<Card title="Workspace の読み込みが遅いのはなぜですか？" href="/ja/support/models/articles/workspace-loads-slowly-with-many-metric" arrow="true" horizontal>
+  project に多数のメトリクス、Runs、またはパネルがあると、Workspace の読み込みが遅くなることがあります。よくある原因と対処法を以下に示します ...
+</Card>
+
 <Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
-  「No visualization data logged yet」というメッセージが表示される場合、スクリプトで最初のwandb.log callがまだ実行されていません。これは ...
+  「No visualization data logged yet」というメッセージが表示される場合、スクリプトで最初の wandb.log call がまだ実行されていません。これは ...
 </Card>
 
 <Card title="同じメトリクスが複数回表示されるのはなぜですか？" href="/ja/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
-  異なるデータタイプを同じキーでログすると、データベース上ではそれぞれ別々に扱われます。その結果、... のエントリが複数作成されます
+  同じ key でさまざまなデータ タイプをログすると、データベース内でそれらは分割されます。その結果、... が複数表示されます
 </Card>

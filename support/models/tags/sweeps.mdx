@@ -1,6 +1,6 @@
 ---
 title: "Sweeps"
-tag: "16"
+tag: "19"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -34,6 +34,15 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I enable code logging with Sweeps?" href="/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
   To enable code logging for sweeps, add wandb.log_code() after initializing the W&B Run. This action is necessary even wh ...
+</Card>
+<Card title="How do I fix `CommError, Run does not exist` during a sweep?" href="/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  If you see both CommError, Run does not exist and ERROR Error uploading during a sweep, the most likely cause is that yo ...
+</Card>
+<Card title="How do I fix `Cuda out of memory` during a sweep?" href="/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  If you see Cuda out of memory during a sweep, refactor your code to use process-based execution. Rewrite your code as a  ...
+</Card>
+<Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  The following error usually occurs when you do not log the metric that you are optimizing: To fix this, make sure you ar ...
 </Card>
 <Card title="How do I use custom CLI commands with sweeps?" href="/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
   You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments. In the example  ...

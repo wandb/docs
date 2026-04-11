@@ -67,6 +67,7 @@ exclude = [
   # Known persistent timeouts, bans, or unwanted crawler targets
   '(http|https)://.*\.?auth0\.com',
   'https://cognito-idp.us-east-1.amazonaws.com',
+  'https://archive.ics.uci.edu',
 
   # Social and community sites commonly rate-limiting or banning bots
   '(http|https)://.*\.?discord\.com',
@@ -105,6 +106,8 @@ exclude = [
   '(http|https)://www\.wmdp\.ai',
   # YouTube embed URLs - often return 404/403 to crawlers but work in browser
   '(http|https)://www\.youtube\.com/embed/',
+  # SVG/MathML xmlns values (for example snippets/_includes/github-source-link.mdx)
+  '(http|https)://www\.w3\.org/',
 ]
 
 # File/directory paths to exclude from checking
@@ -113,4 +116,6 @@ exclude_path = [
   ".github",
   "node_modules",
   "scripts",
+  # Plain Markdown (README, AGENTS, runbooks); Mintlify pages are .mdx
+  ".*\\.md$",
 ]

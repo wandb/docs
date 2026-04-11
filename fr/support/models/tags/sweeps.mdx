@@ -1,6 +1,6 @@
 ---
 title: "Sweeps"
-tag: "16"
+tag: "19"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -45,6 +45,18 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Pour activer la journalisation du code pour les sweeps, ajoutez wandb.log&#95;code() après avoir initialisé le W&amp;B Run. Cette action est nécessaire même lo ...
 </Card>
 
+<Card title="Comment corriger `CommError, Run does not exist` pendant un sweep ?" href="/fr/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  Si vous voyez à la fois CommError, Run does not exist et ERROR Error uploading pendant un sweep, la cause la plus probable est que vo ...
+</Card>
+
+<Card title="Comment corriger `Cuda out of memory` pendant un sweep ?" href="/fr/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  Si vous voyez Cuda out of memory pendant un sweep, refactorisez votre code pour utiliser une exécution basée sur des processus. Réécrivez votre code comme u  ...
+</Card>
+
+<Card title="Comment corriger une `anaconda 400 error` pendant un sweep ?" href="/fr/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  L&#39;erreur suivante se produit généralement lorsque vous n&#39;enregistrez pas la métrique que vous optimisez : Pour corriger cela, assurez-vous que vous  ...
+</Card>
+
 <Card title="Comment utiliser des commandes CLI personnalisées avec les sweeps ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
   Vous pouvez utiliser W&amp;B Sweeps avec des commandes CLI personnalisées si la configuration d&#39;entraînement transmet des arguments de ligne de commande. Dans l&#39;exemple  ...
 </Card>
@@ -61,10 +73,10 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Pour optimiser plusieurs métriques dans un seul run, utilisez une somme pondérée des métriques individuelles. Enregistrez la nouvelle métrique combinée  ...
 </Card>
 
-<Card title="Que se passe-t-il si je modifie mes fichiers Python pendant qu’un sweep est en cours ?" href="/fr/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
-  Pendant qu’un sweep est en cours : si le script train.py utilisé par le sweep est modifié, le sweep continue d’utiliser le script d’entraînement original ...
+<Card title="Que se passe-t-il si je modifie mes fichiers Python pendant l'exécution d'un sweep ?" href="/fr/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
+  Pendant l&#39;exécution d&#39;un sweep : si le script train.py utilisé par le sweep est modifié, le sweep continue d&#39;utiliser le fichier original ...
 </Card>
 
-<Card title="Qu’est-ce que la colonne `Est. Runs` ?" href="/fr/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
-  W&amp;B fournit une estimation du nombre de Runs générés lors de la création d’un W&amp;B Sweep avec un espace de recherche discret. Ce total repré ...
+<Card title="Qu'est-ce que la colonne `Est. Runs` ?" href="/fr/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
+  W&amp;B fournit une estimation du nombre de Runs générés lors de la création d&#39;un W&amp;B Sweep avec un espace de recherche discret. Ce total re ...
 </Card>

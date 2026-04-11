@@ -1,6 +1,6 @@
 ---
 title: "Experiments"
-tag: "36"
+tag: "39"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -21,8 +21,8 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Oui, W&amp;B utilise la bibliothèque multiprocessing. Un message d’erreur comme le suivant indique un problème possible : Pour résoudre ce ...
 </Card>
 
-<Card title="Est-ce que la journalisation bloque mon entraînement ?" href="/fr/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
-  &quot;La fonction de journalisation est-elle paresseuse ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution loc ...
+<Card title="Est-ce que le journal bloque mon entraînement ?" href="/fr/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
+  &quot;La fonction de journal est-elle paresseuse ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution loc ...
 </Card>
 
 <Card title="Votre outil suit-il ou stocke-t-il les données d’entraînement ?" href="/fr/support/models/articles/does-your-tool-track-or-store-training-d" arrow="true" horizontal>
@@ -45,8 +45,8 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   WANDB&#95;DIR= ou wandb.init(dir= ) : contrôle l’emplacement du dossier wandb créé pour votre script d’entraînement. La valeur par défaut est ...
 </Card>
 
-<Card title="Comment puis-je organiser mes graphiques et médias enregistrés dans l’UI W&B ?" href="/fr/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
-  Le caractère / sépare les panneaux enregistrés dans l’UI W&amp;B. Par défaut, la partie du nom de l’élément enregistré avant le / de ...
+<Card title="Comment puis-je organiser mes graphiques et médias enregistrés dans l’interface utilisateur W&B ?" href="/fr/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
+  Le caractère / sépare les panneaux enregistrés dans l’interface utilisateur W&amp;B. Par défaut, la partie du nom de l’élément enregistré avant le / de ...
 </Card>
 
 <Card title="Comment puis-je enregistrer le commit git associé à mon run ?" href="/fr/support/models/articles/how-can-i-save-the-git-commit-associated" arrow="true" horizontal>
@@ -65,6 +65,10 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   L’intégration directe de figures Plotly ou Bokeh dans des tableaux n’est pas prise en charge. Exportez plutôt les figures en HTML et incl ...
 </Card>
 
+<Card title="Comment puis-je corriger les erreurs `Rate limit exceeded` lors du journal des métriques ?" href="/fr/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  Si vous recevez une erreur HTTP 429 Rate limit exceeded lors de l’appel à wandb.log(), vous dépassez le quota de limite de débit ...
+</Card>
+
 <Card title="Comment puis-je obtenir le nom aléatoire d’un run dans mon script ?" href="/fr/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
   Appelez la méthode .save() d’un objet run pour enregistrer le run en cours. Récupérez ensuite le nom via l’attribut name de l’objet run.
 </Card>
@@ -81,11 +85,11 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Créez un graphique personnalisé à plusieurs lignes avec wandb.plot.line&#95;series(). Accédez à la page du projet pour afficher le graphique linéaire. Pour  ...
 </Card>
 
-<Card title="Comment puis-je accéder par programmation au nom de l'exécution lisible par un humain ?" href="/fr/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
+<Card title="Comment puis-je accéder par programmation au nom du run lisible par un humain ?" href="/fr/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
   L’attribut .name d’un wandb.Run est accessible comme suit :
 </Card>
 
-<Card title="Je n’ai pas nommé mon run. D’où vient le nom de l'exécution ?" href="/fr/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
+<Card title="Je n’ai pas nommé mon run. D’où vient le nom du run ?" href="/fr/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
   Si un run n’est pas explicitement nommé, W&amp;B lui attribue un nom aléatoire pour l’identifier dans votre projet. Voici quelques exemples de noms aléatoires ...
 </Card>
 
@@ -97,7 +101,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel vers le cloud. Pour une utilisation hors ligne, définissez deux variables d’environneme ...
 </Card>
 
-<Card title="L’état de mon run est `crashed` dans l’UI, mais il est toujours en cours d’exécution sur ma machine. Que dois-je faire pour récupérer mes données ?" href="/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+<Card title="L’état de mon run est `crashed` dans l’interface utilisateur, mais il est toujours en cours d’exécution sur ma machine. Que dois-je faire pour récupérer mes données ?" href="/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
   Vous avez probablement perdu la connexion à votre machine pendant l’entraînement. Récupérez les données en exécutant wandb sync PATH&#95;TO&#95;RUN (/models/ref/ ...
 </Card>
 
@@ -110,22 +114,22 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Que se passe-t-il lorsque je journalise des millions d’étapes dans W&B ? Comment cela est-il affiché dans le navigateur ?" href="/fr/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
-  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l’UI. Pour les lignes dépassant 1 000 points, le backend enre ...
+  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l’interface utilisateur. Pour les lignes dépassant 1 000 points, le backend enre ...
 </Card>
 
 <Card title="Et si je veux intégrer W&B à mon projet, sans téléverser d’images ni de médias ?" href="/fr/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
   W&amp;B prend en charge les projets qui ne journalisent que des scalaires en permettant de spécifier explicitement les fichiers ou les données à téléverser. Reportez-vous à ce ...
 </Card>
 
-<Card title="Et si je veux journaliser certaines métriques sur les batchs et d’autres métriques uniquement sur les époques ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  Pour journaliser des métriques spécifiques à chaque batch et standardiser les graphiques, journalisez les valeurs x-axis souhaitées en même temps que les métriques. Dans le ...
+<Card title="Que faire si je veux journaliser certaines métriques par lot et d’autres métriques uniquement par époque ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  Pour journaliser des métriques spécifiques à chaque lot et standardiser les graphiques, journalisez les valeurs souhaitées pour l’axe x en même temps que les métriques. Dans le ...
 </Card>
 
 <Card title="Quelle est la différence entre les modes de wandb.init ?" href="/fr/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
   Ces modes sont disponibles : online (par défaut) : le client envoie les données au serveur wandb. offline : le client stocke les données  ...
 </Card>
 
-<Card title="Pourquoi est-ce que je vois moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+<Card title="Pourquoi est-ce que je vois moins de points de données que je n’en ai journalisés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
   Lors de la visualisation des métriques par rapport à un axe X autre que Step, il est normal de voir moins de points de données. Les métriques doivent être enregistrées au mêm ...
 </Card>
 
@@ -134,7 +138,15 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Pourquoi ne puis-je pas trier ou filtrer les métriques contenant certains caractères ?" href="/fr/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
-  Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin de pouvoir être correctement triés et filtrés dans l’UI. ...
+  Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin de pouvoir être correctement triés et filtrés dans l’interface utilisateur. ...
+</Card>
+
+<Card title="Pourquoi mon processus se bloque-t-il lors de l’utilisation de Hydra avec W&B ?" href="/fr/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  Si votre processus se bloque lorsqu’il est démarré avec Hydra, cela est probablement dû à un conflit de multiprocessing entre Hydra et W&amp;B ...
+</Card>
+
+<Card title="Pourquoi mon entraînement se bloque-t-il en entraînement distribué ?" href="/fr/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  Il existe deux raisons courantes pour lesquelles l’entraînement se bloque lors de l’utilisation de W&amp;B avec l’entraînement distribué : 1. Blocage au début de l’entra ...
 </Card>
 
 <Card title="Pourquoi rien ne s’affiche-t-il dans mes graphiques ?" href="/fr/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>

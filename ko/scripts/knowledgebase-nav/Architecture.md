@@ -151,15 +151,15 @@ flowchart LR
 * **`load_config`**는 `config.yaml`을 읽어 유효성을 검사합니다(각 제품에 필수 키가 있어야 함).
 
 <div id="article-structure-and-footers">
-  ### 문서 구조 및 푸터
+  ### 아티클 구조 및 푸터
 </div>
 
-* **`parse_frontmatter`**, **`_extract_body`**는 YAML 프런트매터와 본문을 분리합니다. `_extract_body`는 `_BADGE_START`를 경계로 사용하고, 끝의 `---` 줄은 서식상 정리 차원에서 제거합니다.
+* **`parse_frontmatter`**, **`_extract_body`**는 YAML 프런트매터와 본문을 분리합니다. `_extract_body`는 `_BADGE_START_RE`를 사용해 경계를 찾고, 끝의 `---` 줄은 서식상 정리 차원에서 제거합니다.
 * **`_split_frontmatter_raw`**는 원시 MDX를 프런트매터 블록과 푸터 재작성을 위한 나머지 부분으로 분리합니다.
 * **`_normalize_keywords`**는 프런트매터의 `keywords`를 문자열 목록으로 변환합니다(YAML 목록; 단일 문자열은 경고와 함께 하나의 태그가 되고, 다른 유형은 경고를 남긴 뒤 빈 목록이 됩니다).
 * **`_keywords_list_for_footer`**는 푸터 생성에 사용할 정규화된 `keywords`를 반환합니다(**`_normalize_keywords`**에 위임).
-* **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`**는 탭 Badge를 필요한 부분만 정밀하게 동기화합니다. 관리되는 Badge는 `_BADGE_START` / `_BADGE_END` 마커 주석으로 감싸며, 이 함수는 마커가 있으면 이를 기준으로 매칭하고 마커가 도입되기 전 문서에는 정규식을 대체 수단으로 사용합니다. 새 푸터에는 빈 줄, 마커, Badge를 차례로 추가합니다.
-* **`sync_support_article_footer`**, **`sync_all_support_article_footers`**는 탭 Badge가 `keywords`와 일치하지 않을 때 문서 파일을 업데이트합니다.
+* **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`**는 탭 Badge를 필요한 부분만 정밀하게 동기화합니다. 관리되는 Badge는 `_BADGE_START_RE` / `_BADGE_END_RE`를 통해 찾으며, 이 함수는 마커가 도입되기 전 아티클에는 정규식을 대체 수단으로 사용합니다. 새 푸터에는 빈 줄, 표준 마커, Badge를 차례로 추가합니다.
+* **`sync_support_article_footer`**, **`sync_all_support_article_footers`**는 탭 Badge가 `keywords`와 일치하지 않을 때 아티클 파일을 업데이트합니다.
 
 <div id="body-previews-card-snippets">
   ### 본문 미리보기(Card 스니펫)
@@ -168,12 +168,15 @@ flowchart LR
 * **`plain_text`**는 Markdown(수평선 포함), 링크, URL, HTML 또는 MDX 태그 등을 제거해 미리보기가 평문으로 유지되도록 합니다(entity 디코딩 후 U+00A0은 공백으로 바꾸고, 타이포그래피 따옴표는 ASCII로 매핑하며, 식별자를 위해 허용 목록에 `_`와 `=`는 유지).
 * **`extract_body_preview`**는 `plain_text`를 적용하고, `BODY_PREVIEW_MAX_LENGTH`로 자른 뒤, 필요하면 `BODY_PREVIEW_SUFFIX`를 추가합니다.
 
+- **`_card_text_from_frontmatter_field`**는 단일 프런트매터 키(`docengineDescription` 또는 `description`)에서 사용할 수 있는 문자열을 추출합니다. 필드가 없거나 문자열이 아니거나 처리 후 비어 있으면 `None`을 반환합니다. 처리 과정에서는 바깥쪽을 감싸는 따옴표 한 쌍을 제거하고, 내부 줄바꿈은 단일 공백으로 합칩니다.
+- **`resolve_body_preview`**는 3단계 우선순위에 따라 Card 미리보기 텍스트를 결정합니다. 먼저 `docengineDescription`, 그다음 `description`, 마지막으로 `extract_body_preview(body)`를 사용합니다. 프런트매터 Override에는 `plain_text`나 길이 자르기를 적용하지 않습니다.
+
 <div id="slugs-and-crawling">
   ### 슬러그와 크롤링
 </div>
 
 * **`tag_slug`**는 표시용 키워드를 파일 이름 또는 URL 세그먼트(소문자, 하이픈 사용)에 매핑합니다.
-* **`crawl_articles`**는 `support/<slug>/articles/*.mdx`를 순회하며 아티클 dict(`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links` 등)를 생성합니다.
+* **`crawl_articles`**는 `support/<slug>/articles/*.mdx`를 순회하며 아티클 dict(`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links` 등)를 생성합니다. `body_preview` 필드는 `docengineDescription`, `description` 또는 아티클 본문을 바탕으로 `resolve_body_preview`에서 결정됩니다.
 
 <div id="tag-aggregation-and-featured-content">
   ### 태그 집계와 추천 콘텐츠
@@ -196,8 +199,8 @@ flowchart LR
 </div>
 
 * **`update_docs_json`**은 `language`가 `en`인 `navigation.languages` 아래에 숨겨진 `Support: <display_name>` 탭을 업데이트하거나 생성하고, `pages`를 product 인덱스와 정렬된 태그 경로로 설정합니다.
-* **`update_support_index`**는 루트 `support.mdx`의 product 카드에 있는 개수 줄을 업데이트합니다. `{/* auto-generated counts */}` 마커를 우선 사용하며, 마이그레이션 시에는 정규식을 대체 수단으로 사용합니다.
-* **`update_support_featured`**는 루트 `support.mdx`에서 `_FEATURED_START` / `_FEATURED_END` 마커 사이의 추천 아티클 섹션을 다시 생성합니다.
+* **`update_support_index`**는 루트 `support.mdx`의 product 카드에 있는 개수 줄을 업데이트합니다. `_COUNTS_START_RE` / `_COUNTS_END_RE`를 통해 마커를 찾고, 마이그레이션 시에는 단순 개수 줄 패턴을 대체 수단으로 사용합니다.
+* **`update_support_featured`**는 루트 `support.mdx`의 추천 아티클 섹션을 다시 생성하며, `_FEATURED_START_RE` / `_FEATURED_END_RE`를 통해 블록을 찾습니다.
 
 <div id="cli">
   ### CLI
@@ -210,9 +213,11 @@ flowchart LR
 </div>
 
 * **`BODY_PREVIEW_MAX_LENGTH`** 및 **`BODY_PREVIEW_SUFFIX`**는 Card 미리보기 길이와 말줄임표를 제어합니다.
-* **`DOCS_JSON_NAV_LANGUAGE`**는 `"en"`이며 내비게이션 편집 범위를 영어 트리로만 한정합니다.
-* **`_BADGE_START`** / **`_BADGE_END`**는 각 문서 페이지에서 관리되는 탭 Badge를 감싸는 MDX 주석 마커입니다.
-* **`_FEATURED_START`** / **`_FEATURED_END`**는 루트 `support.mdx`의 추천 문서 섹션을 감싸는 MDX 주석 마커입니다.
+* **`DOCS_JSON_NAV_LANGUAGE`**는 `"en"`이며, 내비게이션 편집 범위를 영어 트리로만 제한합니다.
+* **`_make_markers(keyword)`**는 관리되는 각 섹션마다 아래의 네 가지 상수를 생성합니다. 즉, 쓰기용 정규 시작/종료 문자열과 읽기용으로 컴파일된 `re.Pattern` 객체입니다.
+* **`_BADGE_START`** / **`_BADGE_END`** — 아티클 파일에 기록되는 정규 `{/* AUTO-GENERATED: tab badges */}` 문자열입니다. **`_BADGE_START_RE`** / **`_BADGE_END_RE`** — 블록을 찾는 데 사용되는 패턴입니다(대소문자 구분 없음, 콜론은 선택 사항, 키워드는 주석 내 어느 위치에나 있을 수 있음).
+* **`_COUNTS_START`** / **`_COUNTS_END`** — `support.mdx`에 기록되는 정규 `{/* AUTO-GENERATED: counts */}` 문자열입니다. **`_COUNTS_START_RE`** / **`_COUNTS_END_RE`** — count 줄을 찾아 바꾸는 Card 기준 구조적 패턴 내부에서 사용되는 패턴입니다.
+* **`_FEATURED_START`** / **`_FEATURED_END`** — `support.mdx`에 기록되는 정규 `{/* AUTO-GENERATED: featured articles */}` 문자열입니다. **`_FEATURED_START_RE`** / **`_FEATURED_END_RE`** — featured articles 블록을 찾는 데 사용되는 패턴입니다.
 
 <div id="design-choices">
   ## 설계 선택
@@ -220,9 +225,9 @@ flowchart LR
 
 * **모놀리식 스크립트**: 하나의 파일에 모든 로직을 담아, 워크플로와 기여자가 동작을 읽고 수정할 수 있는 단일한 위치를 제공합니다.
 * **허용된 키워드**: `config.yaml`에는 제품별로 유효한 태그가 나열되며, 알 수 없는 태그도 여전히 페이지를 생성하지만 경고를 출력하므로 콘텐츠가 조용히 누락되는 일은 없습니다.
-* **탭 Badge 소유권**: `/support/<product>/tags/...`로 연결되는 `<Badge>` 요소만 `keywords`에서 파생됩니다. 이 요소들은 마커 주석으로 감싸져 있으므로, 마이그레이션 후에는 생성기가 regex 매칭을 할 필요가 없습니다. 본문과 Badge 사이의 `---` 줄은 꾸밈용일 뿐이며, `_extract_body`는 `_BADGE_START`를 경계로 사용하고 끝에 붙은 `---`만 정리 차원에서 제거합니다.
+* **탭 Badge 소유권**: `/support/<product>/tags/...`로 연결되는 `<Badge>` 요소만 `keywords`에서 파생됩니다. 이 요소들은 `_BADGE_START_RE` / `_BADGE_END_RE`로 찾는 마커 주석으로 감싸집니다. 본문과 Badge 사이의 `---` 줄은 꾸밈용일 뿐이며, `_extract_body`는 `_BADGE_START_RE`를 경계로 사용하고 끝에 붙은 `---`만 정리 차원에서 제거합니다.
 * **오래된 태그 정리**: 더 이상 어떤 아티클 키워드와도 대응하지 않는 태그 페이지는 `docs.json`이 업데이트되기 전에, 생성 후 삭제됩니다. 이렇게 하면 태그 디렉터리와 내비게이션에 고아 항목이 남지 않습니다.
-* **마커 기반 편집**: 모든 자동 생성 섹션(아티클 탭 Badge, `support.mdx`의 개수 줄, 추천 아티클)은 MDX 주석 마커를 사용합니다. 이렇게 하면 작성자가 관리되는 영역을 확인할 수 있고, 생성기는 취약한 regex 앵커 없이도 콘텐츠를 정확하게 교체할 수 있습니다. 각 마커 쌍에는 첫 실행 시 마커 없이 있는 콘텐츠를 감싸는 마이그레이션 경로가 있습니다.
+* **마커 기반 편집**: 모든 자동 생성 섹션(아티클 탭 Badge, `support.mdx`의 개수 줄, 추천 아티클)은 `_make_markers`가 생성한 MDX 주석 마커를 사용합니다. 매칭은 대소문자를 구분하지 않으며 콜론은 선택 사항이고, 키워드는 주석 내부 어디에나 나타날 수 있으므로 작성자는 생성기를 깨뜨리지 않고 마커에 자유롭게 주석을 달 수 있습니다. 각 마커 쌍에는 첫 실행 시 마커 없이 있는 콘텐츠를 감싸는 마이그레이션 경로가 있습니다.
 * **골든 테스트**: 생성된 태그 페이지, 제품 인덱스 페이지, 아티클 파일(푸터 마커 포함), `docs.json`의 지원팀 탭, 루트 `support.mdx`를 커밋된 트리와 비교해 출력 드리프트가 통합 diff로 드러나도록 합니다.
 
 <div id="related-reading">
