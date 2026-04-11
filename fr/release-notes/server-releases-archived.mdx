@@ -85,9 +85,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   ## Fonctionnalités
 
   * Depuis les **Settings** d’un registre, vous pouvez désormais remplacer le propriétaire par un autre utilisateur ayant le rôle Admin. Sélectionnez **Owner** dans le menu **Role** de l’utilisateur.
-  * Vous pouvez désormais déplacer un run vers un autre groupe dans le même projet. Survolez un run dans la liste des runs, cliquez sur le menu à trois points verticaux, puis choisissez **Move to another group**.
+  * Vous pouvez désormais déplacer un run vers un autre groupe dans le même projet. Survolez un run dans la liste des runs, cliquez sur le menu **d’action (<Icon icon="ellipsis-vertical" iconType="solid" />)**, puis choisissez **Move to another group**.
   * Vous pouvez désormais configurer si le **réglage Log Scale** des graphiques en courbes est activé par défaut au niveau du Workspace ou de la section.
-    * Pour configurer le comportement d’un Workspace, cliquez sur le menu d’action `...` du Workspace, cliquez sur **Line plots**, puis basculez **Log scale** pour l’axe X ou Y.
+    * Pour configurer le comportement d’un Workspace, cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** du Workspace, cliquez sur **Line plots**, puis basculez **Log scale** pour l’axe X ou Y.
     * Pour configurer le comportement d’une section, cliquez sur l’icône d’engrenage de la section, puis basculez **Log scale** pour l’axe X ou Y.
 </Update>
 
@@ -273,7 +273,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <Update label="v0.51.0" description="20 mars 2024">
   ## Fonctionnalités
 
-  * Vous pouvez désormais enregistrer plusieurs vues pour n’importe quel workspace en cliquant sur &quot;Save as a new view&quot; dans le menu de dépassement de la barre du workspace.
+  * Vous pouvez désormais enregistrer plusieurs vues pour n’importe quel workspace en cliquant sur &quot;Save as a new view&quot; dans le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la barre du workspace.
     Voir [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) pour en savoir plus.
 
     <Frame>
@@ -286,12 +286,12 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Les valeurs des variables de template utilisées pour un run exécuté par Launch, par exemple le type et la quantité de GPU, sont désormais affichées dans la liste des runs de la file d&#39;attente. Cela permet de voir plus facilement quels runs demandent quelles ressources.
   * Le clonage d’un run avec Launch présélectionne désormais les overrides, la file d&#39;attente et les valeurs des variables de template utilisées par le run cloné.
   * Les administrateurs d’instance verront désormais un onglet `Teams` dans le tableau de bord de l’organisation. Il peut être utilisé pour rejoindre une équipe spécifique si nécessaire, que ce soit pour surveiller l’activité de l’équipe conformément aux directives de l’organisation ou pour aider l’équipe lorsque les administrateurs d’équipe ne sont pas disponibles.
-  * L’API SCIM User renvoie désormais l’attribut `groups` dans l’endpoint GET, y compris l’identifiant des groupes / équipes auxquels un utilisateur appartient.
+  * L’API SCIM User renvoie désormais l’attribut `groups` dans le point de terminaison GET, y compris l’identifiant des groupes / équipes auxquels un utilisateur appartient.
   * Toutes les instances Cloud dédié sur Google Cloud sont désormais gérées à l’aide du nouvel [opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator/). Le nouveau service Parquet Store est également désormais disponible.
-    Parquet store permet un stockage performant et économique des données d’historique de run au format parquet dans le blob storage. Les instances Cloud dédié sur AWS et Azure sont déjà gérées à l’aide de l’opérateur et incluent le parquet store.
+    Parquet store permet un stockage performant et économique des données d’historique de run au format parquet dans le stockage de blobs. Les instances Cloud dédié sur AWS et Azure sont déjà gérées à l’aide de l’opérateur et incluent le parquet store.
   * Les instances Cloud dédié sur AWS ont été mises à jour pour utiliser la dernière version du stockage de données relationnelles, et l’infrastructure de calcul a été mise à niveau vers une génération plus récente offrant de meilleures performances.
 
-  > **Avis important** : Nous demandons vivement à tous les clients qui utilisent des webhooks avec Automations d’ajouter un enregistrement A valide pour leurs endpoints, car nous allons interdire l’utilisation d’URL de webhook basées sur des adresses IP à partir de la prochaine version. Cette mesure vise à se protéger contre la vulnérabilité SSRF et d’autres vecteurs de menace associés.
+  > **Avis important** : Nous demandons vivement à tous les clients qui utilisent des webhooks avec Automations d’ajouter un enregistrement A valide pour leurs points de terminaison, car nous allons interdire l’utilisation d’URL de webhook basées sur des adresses IP à partir de la prochaine version. Cette mesure vise à se protéger contre la vulnérabilité SSRF et d’autres vecteurs de menace associés.
 
   ## Correctifs
 

@@ -85,9 +85,9 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   ## 기능
 
   * Registry의 **Settings**에서 이제 소유자를 Admin 역할을 가진 다른 사용자로 변경할 수 있습니다. 해당 사용자의 **Role** 메뉴에서 **Owner**를 선택하세요.
-  * 이제 동일한 프로젝트 내에서 run을 다른 그룹으로 이동할 수 있습니다. run 목록에서 run 위에 마우스를 올리고 세로 점 3개 메뉴를 클릭한 다음 **Move to another group**을 선택하세요.
+  * 이제 동일한 프로젝트 내에서 run을 다른 그룹으로 이동할 수 있습니다. run 목록에서 run 위에 마우스를 올리고 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 클릭한 다음 **Move to another group**을 선택하세요.
   * 이제 워크스페이스 또는 섹션 수준에서 선형 플롯의 **Log Scale setting**이 기본적으로 활성화될지 여부를 구성할 수 있습니다.
-    * 워크스페이스에 대한 동작을 구성하려면 워크스페이스에 대한 `...` 작업 메뉴를 클릭하고 **Line plots**를 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 토글하세요.
+    * 워크스페이스에 대한 동작을 구성하려면 워크스페이스에 대한 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭하고 **Line plots**를 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 토글하세요.
     * 섹션에 대한 동작을 구성하려면 섹션의 톱니바퀴 아이콘을 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 토글하세요.
 </Update>
 
@@ -102,7 +102,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   이번 릴리스에는 다음과 같은 추가 업데이트가 포함됩니다:
 
-  * W&amp;B Models가 이제 ***Azure 퍼블릭 클라우드***&#xC640; 원활하게 연동됩니다. Azure 구독에서 직접 Azure 리전에 Dedicated Cloud 인스턴스를 생성하고, 이를 Azure ISV 리소스로 관리할 수 있게 되었습니다. [이 인테그레이션은 현재 비공개 프리뷰 단계입니다](https://wandb.ai/site/partners/azure).
+  * W&amp;B Models가 이제 ***Azure 퍼블릭 클라우드***&#xC640; 원활하게 연동됩니다. Azure 구독에서 직접 Azure 리전에 Dedicated Cloud 인스턴스를 생성하고, 이를 Azure ISV 리소스로 관리할 수 있게 되었습니다. [이 인테그레이션은 현재 프라이빗 프리뷰 단계입니다](https://wandb.ai/site/partners/azure).
   * 분산 runs에서 레이블(예: node)에 따라 로그와 메트릭을 구분할 수 있도록, run 설정 객체에서 x&#95;label(예: node-0)을 지정할 수 있는 기능을 추가했습니다. 이를 통해 워크스페이스에서 레이블별로 시스템 메트릭과 콘솔 로그를 그룹화해 시각화할 수 있습니다.
   * ***이번 주 패치 릴리스에서 곧 제공될 기능으로***, 인스턴스 내 모든 팀에 걸친 W&amp;B 워크로드 자동화를 위해 조직 수준 서비스 계정을 사용할 수 있게 됩니다. 서비스 계정의 액세스 범위를 더 세밀하게 제어하고 싶다면 기존 팀 수준 서비스 계정도 계속 사용할 수 있습니다.
     * 조직 수준 서비스 계정이 Registry와 상호작용할 수 있도록 했습니다. 이러한 서비스 계정은 초대 모달을 통해 Registry에 초대할 수 있으며, 해당 조직 역할과 함께 멤버 테이블에 표시됩니다.
@@ -273,13 +273,13 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 <Update label="v0.51.0" description="2024년 3월 20일">
   ## 기능
 
-  * 이제 Workspace 바의 오버플로 메뉴에서 &quot;Save as a new view&quot;를 클릭하여 어떤 워크스페이스든 여러 개의 뷰를 저장할 수 있습니다.\
-    자세한 내용은 [Saved workspace views](https://docs.wandb.ai/ko/models/app/pages/workspaces#create-saved-workspace-views)를 참고하세요.
+  * 이제 워크스페이스 바의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴에서 &quot;Save as a new view&quot;를 클릭하여 어떤 워크스페이스든 여러 개의 뷰를 저장할 수 있습니다.
+    자세한 내용은 [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views)를 참고하세요.
 
     <Frame>
       ![저장된 뷰를 보여주는 이미지](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
     </Frame>
-  * 민감하거나 기밀 데이터와 관련된 AI 워크플로에 협업해야 하는 경우, 이제 [프로젝트의 visibility scope를 Restricted로 설정](/ko/platform/hosting/iam/access-management/restricted-projects/)할 수 있습니다.\
+  * 민감하거나 기밀 데이터와 관련된 AI 워크플로에 협업해야 하는 경우, 이제 [프로젝트의 visibility scope를 Restricted로 설정](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/)할 수 있습니다.
     팀 내에서 **restricted project**를 생성할 때 팀 구성원 중 특정 멤버만 추가할 수 있습니다. 다른 프로젝트 visibility scope와 달리, 팀의 모든 멤버가 restricted project에 자동으로 접근 권한을 갖지는 않습니다.
   * **Run Overview 페이지 성능 향상**: 로딩 시 속도가 이제 91% 빨라졌고, 검색 기능은 99.9% 향상되었습니다. 또한 Config 및 Summary 데이터에 대해 정규식(RegEx) 검색을 사용할 수 있습니다.
   * **Artifacts Lineage DAG의 새로운 UX**는 동일 레벨에서 5개 이상의 노드를 클러스터링하고, 노드 세부 정보를 확인하기 위한 미리보기 창을 제공하며, 그래프 로딩 시간도 크게 단축합니다.
@@ -287,7 +287,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * Launch에서 run을 클론하면, 클론된 run에 사용된 overrides, 큐, 템플릿 변수 값이 미리 선택됩니다.
   * 인스턴스 관리자는 이제 조직 대시보드에서 `Teams` 탭을 볼 수 있습니다. 이 탭을 사용해 필요 시 특정 팀에 참여할 수 있으며, 조직 지침에 따라 팀 활동을 모니터링하거나 팀 관리자 부재 시 팀을 지원하는 데 활용할 수 있습니다.
   * SCIM User API는 이제 GET 엔드포인트의 일부로 `groups` 속성을 반환하며, 여기에는 사용자가 속한 그룹/팀의 ID가 포함됩니다.
-  * Google Cloud의 모든 Dedicated Cloud 인스턴스는 이제 새로운 [W&amp;B Kubernetes Operator](/ko/platform/hosting/operator/)를 사용해 관리됩니다. 이에 따라 새로운 Parquet Store 서비스도 사용 가능합니다.\
+  * Google Cloud의 모든 Dedicated Cloud 인스턴스는 이제 새로운 [W&amp;B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/)를 사용해 관리됩니다. 이에 따라 새로운 Parquet Store 서비스도 사용 가능합니다.
     Parquet Store는 blob 스토리지에 Parquet 형식으로 run history 데이터를 저장하여 높은 성능과 비용 효율성을 제공합니다. AWS 및 Azure의 Dedicated Cloud 인스턴스는 이미 operator로 관리되고 있으며 Parquet Store를 포함합니다.
   * AWS의 Dedicated Cloud 인스턴스는 최신 버전의 관계형 데이터 스토리지를 사용하도록 업데이트되었으며, 컴퓨트 인프라는 더 나은 성능의 최신 세대로 업그레이드되었습니다.
 
@@ -295,7 +295,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 수정 사항
 
-  * 선 그래프에서 expressions 탭이 렌더링되지 않던 문제를 수정했습니다.
+  * 선형 플롯에서 expressions 탭이 렌더링되지 않던 문제를 수정했습니다.
   * 차트 및 Runs 테이블에서 Sweeps로 그룹화할 때 Sweeps의 표시 이름을 사용하도록 수정했습니다.
   * job 버전을 선택할 때 자동으로 Runs 페이지로 이동하도록 수정했습니다.
 </Update>
