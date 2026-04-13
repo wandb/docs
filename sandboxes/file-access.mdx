@@ -1,0 +1,94 @@
+---
+title: File operations
+description: Learn how to read, write, and mount files in W&B Sandboxes.
+---
+
+Use file operations to share data between your local environment and a sandbox. You can read files from a sandbox, write files to it, or mount local files and directories into it.
+
+For example, you can write a Python script to a sandbox, run it, and read the output file back to your local environment. You can also mount a directory of training data into a sandbox for a machine learning job.
+
+<Tip>
+**Choose the right file access method**
+
+Mount files or directories when you want the sandbox to access local data without copying it.
+
+Read and write files when you want to transfer smaller files between your local environment and the sandbox, or when you want to save sandbox output locally.
+</Tip>
+
+## Write a file to the sandbox
+
+
+{/* creating, updating, modifying, or saving data  */}
+{/* transfers a file into the sandbox. Use it to upload inputs your sandbox code needs (scripts, configs, data files). */}
+
+Transfer a file from your local environment to the sandbox using the [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) method. 
+
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+# Path of the local file you want to write to the sandbox
+text_file = Path("hello.txt")
+
+with Sandbox.run() as sandbox:
+    # Write a file to the sandbox
+    sandbox.write_file("hello.txt", text_file.read_bytes()).result()
+```
+
+See the [`Sandbox`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox) class reference documentation for a full list of parameters and options for [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
+
+## Read a file from the sandbox
+
+{/* accessing, viewing, or loading data from a storage medium */}
+{/* transfers a file out of the sandbox. Use it to download outputs your sandbox code generated (models, results, logs). */}
+
+Save a file from the sandbox to your local environment using the [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) method.
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    # Demo creates a file in the sandbox to read back
+    sandbox.exec(["sh", "-c", "echo 'Hello, world.' > hello.txt"]).result()
+
+    # Save the file on local machine (not sandbox)
+    content = sandbox.read_file("hello.txt").result()  # b"Hello, world.\n"
+    Path("hello.txt").write_bytes(content)
+```
+
+See the `Sandbox` class reference documentation for a full list of parameters and options for [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file).
+
+
+## Mount files
+
+Mount files or directories to share large files or datasets between your local environment and the sandbox without copying them. Mounted files are available in the sandbox at the path you specify.
+
+<Info>
+Mounted files are read-only in the sandbox. If you need to modify files in the sandbox, use `Sandbox.write_file()` instead.
+</Info>
+
+In the following code snippet, local files `train.py` and `requirements.txt` are mounted to the sandbox root directory. After you mount the files, you can use them like any other files in the sandbox. The sandbox installs dependencies from `requirements.txt` and then runs `train.py`.
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+mounted_files = [
+    {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
+    {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
+        ] 
+
+print("Starting sandbox...")
+with Sandbox.run(mounted_files=mounted_files) as sandbox:
+
+    # The mounted files are available in the sandbox at the specified mount paths
+    print("Installing dependencies...")
+    result = sandbox.exec(["pip", "install", "-r", "requirements.txt"], check=True).result()
+    print(result.stdout)
+
+    print("Running script...")
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```

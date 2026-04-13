@@ -1,0 +1,230 @@
+---
+title: "Tutorial: Invoke an agent in a sandbox"
+description: "Learn how to invoke OpenAI agent within a W&B Sandbox environment"
+---
+
+In this tutorial, you will invoke an agent within a W&B Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes a simple OpenAI agent that uses tool calls to answer user questions about the weather.
+
+<Note>
+This tutorial uses OpenAI as the language model for the agent, which requires an OpenAI API key.
+</Note>
+    
+{/* This allows you to test and iterate on your agent's behavior in a safe and isolated environment, without affecting your local setup. */}
+
+## Prerequisites
+
+{/* ### (Recommended) Create a Python virtual environment
+
+Create and activate a Python virtual environment to keep your dependencies organized and avoid conflicts with other projects. Run the following commands in your terminal:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+```  */}
+
+### Install W&B Python SDK
+
+Install the W&B Python SDK. You can do this using `pip`:
+
+```bash 
+pip install wandb
+```
+
+### Log in and authenticate with W&B
+
+Run the [`wandb login`](/models/ref/cli/wandb-login) CLI command and follow the prompts to log in to your W&B account:
+
+```bash
+wandb login
+```
+
+### Store API keys in Secret Manager
+
+Store your OpenAI API key in the [W&B Secret Manager](/platform/secrets) as `OPENAI_API_KEY`. See [Manage secrets](/platform/secrets) for information about creating and managing secrets in your W&B account.
+
+
+## Copy agent code
+
+<Accordion title="OpenAI agent code">
+
+Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial, then run the above code snippet to see how to invoke an OpenAI agent within a sandbox environment.
+
+```python title="demo.py"
+import json
+import os
+
+from openai import OpenAI
+
+# Get API key from environment
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("OPENAI_API_KEY environment variable not set")
+
+client = OpenAI(api_key=api_key)
+
+# Define system prompt
+SYSTEM_PROMPT = """You are an expert weather forecaster, who speaks in puns.
+
+You have access to two tools:
+
+- get_weather_for_location: use this to get the weather for a specific location
+- get_user_location: use this to get the user's location
+
+If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean wherever they are, use the get_user_location tool to find their location."""
+
+# Define tools as JSON schemas for function calling
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather_for_location",
+            "description": "Get weather for a given city.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {"type": "string", "description": "The city to get weather for."}
+                },
+                "required": ["city"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_user_location",
+            "description": "Retrieve the user's location based on their user ID.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+            },
+        },
+    },
+]
+
+# Response format as a JSON schema for structured output
+RESPONSE_FORMAT = {
+    "type": "json_schema",
+    "json_schema": {
+        "name": "weather_response",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "punny_response": {
+                    "type": "string",
+                    "description": "A punny response (always required)",
+                },
+                "weather_conditions": {
+                    "type": ["string", "null"],
+                    "description": "Any interesting information about the weather if available",
+                },
+            },
+            "required": ["punny_response", "weather_conditions"],
+            "additionalProperties": False,
+        },
+    },
+}
+
+
+# Tool implementations
+def get_weather_for_location(city: str) -> str:
+    return f"It's always sunny in {city}!"
+
+
+def get_user_location(user_id: str) -> str:
+    return "Florida" if user_id == "1" else "SF"
+
+
+TOOL_DISPATCH = {
+    "get_weather_for_location": lambda args, _ctx: get_weather_for_location(args["city"]),
+    "get_user_location": lambda _args, ctx: get_user_location(ctx["user_id"]),
+}
+
+
+def run_agent(messages: list[dict], context: dict) -> dict:
+    """Run the agent loop: call the model, execute any tool calls, repeat until done."""
+    while True:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            temperature=0,
+            messages=messages,
+            tools=TOOLS,
+            response_format=RESPONSE_FORMAT,
+        )
+
+        choice = response.choices[0]
+        message = choice.message
+
+        # If the model wants to call tools, execute them and loop
+        if message.tool_calls:
+            # Append the assistant message (with tool_calls) to history
+            messages.append(message.to_dict())
+
+            for tool_call in message.tool_calls:
+                fn_name = tool_call.function.name
+                fn_args = json.loads(tool_call.function.arguments)
+                result = TOOL_DISPATCH[fn_name](fn_args, context)
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": result,
+                })
+            continue
+
+        # No tool calls — final answer
+        messages.append(message.to_dict())
+        return json.loads(message.content)
+
+
+# --- Run the agent ---
+
+conversation: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
+context = {"user_id": "1"}
+
+# First turn
+conversation.append({"role": "user", "content": "what is the weather outside?"})
+result = run_agent(conversation, context)
+print(result)
+# {'punny_response': "Florida is still having a 'sun-derful' day! ...", 'weather_conditions': "It's always sunny in Florida!"}
+
+# Second turn (conversation history is preserved)
+conversation.append({"role": "user", "content": "thank you!"})
+result = run_agent(conversation, context)
+print(result)
+# {'punny_response': "You're 'thund-erfully' welcome! ...", 'weather_conditions': None}
+```
+</Accordion>
+
+
+## Create a sandbox and run the agent script
+
+Copy and paste the following code into a Python file and run it. Save it in the same directory as the `demo.py` file you created in the previous step.
+
+```python title="train_in_sandbox.py"
+import os
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions, Secret
+
+script = Path("demo.py").read_bytes()
+
+print("Starting sandbox...")
+with Sandbox.run(
+    container_image="python:3.13",
+    network=NetworkOptions(egress_mode="internet"),
+    max_lifetime_seconds=3600,
+    secrets=[Secret(name="OPENAI_API_KEY")]
+) as sandbox:
+    sandbox.write_file("demo.py", script).result()
+
+    # Install dependencies
+    print("Installing dependencies...")
+    sandbox.exec(["pip", "install", "openai"], check=True).result()
+
+    # Run the script
+    print("Running script...")
+    result = sandbox.exec(["python", "demo.py"], check=True).result()
+    print("Script output:")
+    print(result)
+
+    print(f"Exit code: {result.returncode}")
+```
