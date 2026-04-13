@@ -4,7 +4,7 @@ The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is 
 
 1. Edit the desired files.
 1. Create a pull request proposing your changes.
-1. Confirm changes don’t break the docs, which will be tested by CI.
+1. Confirm that all CI checks pass to ensure that your changes don’t break the docs.
 1. Respond to feedback from the W&B docs team and CI checks.
 
 After this, someone from the docs team will merge the PR and it will go live in a matter of minutes!
