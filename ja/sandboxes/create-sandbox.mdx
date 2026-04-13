@@ -1,0 +1,107 @@
+---
+title: サンドボックスを作成する
+description: サンドボックスの作成と管理の方法を説明します。
+---
+
+W&amp;B でサンドボックスを作成できます。各サンドボックスは、独自の[ファイルシステム](/ja/sandboxes/file-access)、ネットワーク、プロセス空間を持つ専用のコンテナー内で実行されます。
+
+<Info>
+  デフォルトでは、サンドボックスは `python:3.11` をベースイメージとして使用します。別のイメージを使用するには、[`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) または [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) に `container_image` を渡してください。W&amp;B はパブリックなコンテナーイメージのみをサポートします。
+
+  ```python
+  from wandb.sandbox import Sandbox
+
+  with Sandbox.run(container_image="python:3.15") as sandbox:
+      sandbox.exec(["python", "--version"]).result()
+  ```
+</Info>
+
+<div id="create-a-single-sandbox">
+  ## 単一のサンドボックスを作成する
+</div>
+
+[`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) を使用して、サンドボックスを作成し、起動します。このメソッドは、環境とやり取りするために使用できる `Sandbox` オブジェクトを返します。
+
+<Tip>
+  W&amp;B では、ブロックを抜けるときにサンドボックスが自動的に停止されるよう、
+  コンテキストマネージャー (`with` ステートメント) を使用することを推奨しています。エラーが
+  発生した場合でも同様です。
+</Tip>
+
+次の例では、デフォルトのコンテナーイメージ (`python:3.11`) を使用してサンドボックスを作成します。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+サンドボックス内でコマンドを実行する方法については、[コマンドの実行](/ja/sandboxes/run-commands)を参照してください。サンドボックスのライフサイクルと状態については、[サンドボックスのライフサイクル](/ja/sandboxes/lifecycle)を参照してください。
+
+<div id="start-a-sandbox-without-a-main-command">
+  ### メイン コマンドを指定せずにサンドボックスを開始する
+</div>
+
+先にサンドボックスを作成し、後からその中で処理を実行する場合は、コマンドを指定せずに `Sandbox.run()` を呼び出します。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+このパターンは、対話型かつ複数ステップのワークフローに便利です。サンドボックス内でコマンドを run する方法については、[コマンドを run する](/ja/sandboxes/run-commands)を参照してください。
+
+<div id="start-a-sandbox-with-a-main-command">
+  ### メインコマンドを指定して サンドボックス を開始する
+</div>
+
+`Sandbox.run()` にコマンドを渡すこともできます。サンドボックス で 1 つのジョブを開始から終了まで実行させる場合は、このパターンを使用してください。メインプロセスが終了すると、サンドボックス は [COMPLETED or FAILED](/ja/sandboxes/lifecycle) などの終了状態に入ります。
+
+`Sandbox.run()` に渡したコマンドは、サンドボックス のメインプロセスとして起動されます。
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+```
+
+`Sandbox.run()` は、コマンドを監視し、完了を待機するために使用できる `Sandbox` オブジェクトを返します。たとえば、コマンドの完了を待って結果を取得するには、次のようにします。
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+
+# 必要に応じてコマンドの完了を待機し、結果を取得する
+result = sandbox.wait_until_complete().result()
+```
+
+<div id="create-multiple-sandboxes-with-a-session">
+  ## セッションで複数のサンドボックスを作成する
+</div>
+
+[`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session) を使用すると、複数のサンドボックスを作成して管理できます。セッションが閉じられると (たとえば `with` ブロックを終了したとき) 、そのセッションで作成されたすべてのサンドボックスは自動的に停止します。
+
+必要に応じて、[`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) オブジェクトをセッションに渡して、そのセッションで作成されるすべてのサンドボックスに適用する再利用可能なデフォルト設定を定義できます。たとえば、セッション内のすべてのサンドボックスに対して、デフォルトのコンテナーイメージ、ネットワーク設定、または最大有効期間を指定できます。
+
+次のコードスニペットは、デフォルト設定 (`SandboxDefaults`) を使用する 2 つのサンドボックスを作成するセッションを作成します。
+
+```python
+from wandb.sandbox import Session, SandboxDefaults
+
+defaults = SandboxDefaults(
+    container_image="python:3.11",
+    max_lifetime_seconds=300,
+    tags=("batch-job",),
+)
+
+with Session(defaults) as session:
+    sandbox1 = session.sandbox()
+    sandbox2 = session.sandbox()
+
+    print(sandbox1)
+    print(sandbox2)
+```

@@ -1,0 +1,105 @@
+---
+title: コマンドを実行する
+description: サンドボックス環境でコマンドを実行し、出力と終了コードを確認する方法を学びます。
+---
+
+W&amp;B で作成したサンドボックス内で、シェルコマンド、スクリプト、その他のプロセスを実行できます。このページでは、コマンドの実行方法、出力と終了コードの確認方法、および同じサンドボックスを複数のステップで再利用する方法について説明します。
+
+<div id="run-commands-in-a-sandbox">
+  ## サンドボックスでコマンドを実行する
+</div>
+
+サンドボックスでコマンドを実行する一般的な方法は、次の 2 つです。
+
+1. [単一のコマンドを実行する](#run-a-single-command)。コマンドの完了後、サンドボックスは停止します。
+2. 同じサンドボックスで [複数のコマンドを実行する](#run-multiple-commands-sequentially-in-the-same-sandbox)。
+
+<div id="run-a-single-command">
+  ### 1 つのコマンドを実行する
+</div>
+
+1 つのコマンドを実行するには、コマンドを `Sandbox.run()` に直接渡します。コマンドが終了すると、サンドボックス は自動的に停止し、追加の処理には使用できなくなります。
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+result = sandbox.wait_until_complete(timeout=3600.0).result()
+print(f"Exit code: {result.returncode}")
+print(f"Standard output: {result.stdout}")
+print(f"Standard error: {result.stderr}")
+```
+
+<div id="run-multiple-commands-sequentially-in-the-same-sandbox">
+  ### 同じサンドボックス内で複数のコマンドを順番に実行する
+</div>
+
+依存関係のインストール、ファイルの書き込み、スクリプトの実行、結果の読み取りなど、複数のステップを必要とするワークフローでは、同じサンドボックスを使用します。
+
+同じサンドボックス内で複数のコマンドを実行するには、まずコマンドを指定せずにサンドボックスを起動します。次に、`Sandbox.exec()` を使用して、実行中のサンドボックス内でコマンドを実行します。
+
+次のコードスニペットでは、メインコマンドを指定せずにサンドボックスを起動し、その後、同じサンドボックス内で 2 つのコマンドを順番に実行します。最初に PyTorch をインストールし、次にトレーニングスクリプトを実行します。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["pip", "install", "torch"]).result()
+    print(result.stdout)
+
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+`Sandbox.exec()` メソッドは、実行中のサンドボックス内でコマンドを実行し、完了の待機、出力の読み取り、終了コードの確認に使用できる `Process` オブジェクトを返します。
+
+`Sandbox.exec()` とそのパラメーターの詳細については、[`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) のリファレンスドキュメントを参照してください。
+
+コマンドの実行中もサンドボックスを維持するために、長時間実行されるメインプロセスを明示的に定義することもできます。これは、機械学習モデルのトレーニングのように、実行に時間がかかるコマンドを実行したい場合に便利です。
+
+次のコードスニペットでは、`sleep infinity` コマンドでサンドボックスを起動し、サンドボックスを無期限に実行し続けます。次に、`Sandbox.exec()` を使用してサンドボックス内で Python のトレーニングスクリプトを実行します。トレーニングスクリプトの実行中はサンドボックスがアクティブなまま維持され、必要に応じて同じサンドボックス内で追加のコマンドを実行できます。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+<div id="read-output-and-exit-codes">
+  ## 出力と終了コードを確認する
+</div>
+
+`Sandbox.exec()` は [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) オブジェクトを返します。`Process.result()` を呼び出すと、コマンドの完了を待機して結果を取得できます。`Process.result()` には、標準出力 (`stdout`)、標準エラー (`stderr`)、終了コード (`returncode`) が含まれます。
+
+終了コードを使用して、コマンドが成功したかどうかを判断できます。慣例として、終了コードが 0 の場合は成功を示します。
+
+たとえば、次のコードスニペットは、標準出力 (`stdout`) と終了コード (`returncode`) を出力する Python コマンドを実行します。コマンドの完了後、標準出力、標準エラー、終了コードがコンソールに出力されます。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["python", "-c", "print('hello')"]).result()
+    print(result.stdout)      # "hello\\n"
+    print(result.returncode)  # 0
+```
+
+<div id="check-for-sandbox-execution-errors">
+  ## サンドボックス実行エラーを確認する
+</div>
+
+コマンドが 0 以外の終了コードで終了した場合にエラーを発生させるには、`check=True` (`Sandbox.exec(check=True)`) を指定します。コマンドが 0 以外の終了コードで終了すると、[`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) が発生します。
+
+```python
+from wandb.sandbox import Sandbox
+from cwsandbox import SandboxExecutionError
+
+with Sandbox.run() as sandbox:
+    try:
+        sandbox.exec(["python", "might_fail.py"], check=True).result()
+    except SandboxExecutionError as e:
+        print(f"コマンドが終了コード {e.exec_result.returncode} で失敗しました")
+        print(e.exec_result.stderr)
+```

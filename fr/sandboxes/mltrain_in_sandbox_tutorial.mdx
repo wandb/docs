@@ -1,0 +1,236 @@
+---
+title: "Tutoriel : entraîner un modèle PyTorch"
+---
+
+Dans ce tutoriel, vous allez entraîner un modèle PyTorch dans un environnement Sandbox de W&amp;B. Pour ce faire, vous démarrerez un sandbox avec les variables d’environnement appropriées, installerez les dépendances nécessaires et exécuterez un script Python qui entraîne un réseau de neurones simple sur le dataset UCI Zoo.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Avant de commencer, assurez-vous de disposer des éléments suivants :
+
+{/* ### (Recommandé) Créer un environnement virtuel Python
+
+  Créez et activez un environnement virtuel Python pour organiser vos dépendances et éviter les conflits avec d’autres projets. Exécutez les commandes suivantes dans votre terminal :
+
+  ```bash
+  python -m venv venv
+  source venv/bin/activate  # Sous Windows, utilisez `venv\Scripts\activate`
+  ```  */}
+
+<div id="install-wb-python-sdk">
+  ### Installer le SDK Python de W&amp;B
+</div>
+
+Installez le SDK Python de W&amp;B. Vous pouvez le faire avec `pip` :
+
+```bash
+pip install wandb
+```
+
+<div id="log-in-and-authenticate-with-wb">
+  ## Connectez-vous et authentifiez-vous auprès de W&amp;B
+</div>
+
+Si ce n’est pas déjà fait, connectez-vous à W&amp;B. Utilisez la commande CLI `wandb login` et suivez les instructions pour vous connecter à votre compte W&amp;B :
+
+```bash
+wandb login
+```
+
+Consultez la documentation de référence de [`wandb login`](/fr/models/ref/cli/wandb-login) pour plus d’informations sur la manière dont W&amp;B recherche les informations d’identification.
+
+<div id="copy-the-training-script-and-dependencies">
+  ### Copiez le script d&#39;entraînement et les dépendances
+</div>
+
+Développez le menu déroulant ci-dessous pour accéder au code requis pour ce tutoriel. Copiez-collez le code dans trois fichiers distincts situés dans le même répertoire que ce tutoriel. Dans la section suivante, vous exécuterez un script qui lit ces fichiers et entraîne un modèle PyTorch dans un environnement W&amp;B Sandbox.
+
+<Accordion title="Script d’entraînement du modèle PyTorch">
+  Copiez-collez le code suivant dans un fichier nommé `requirements.txt`. Ce fichier contient les dépendances du script d’entraînement.
+
+  ```txt title="requirements.txt"
+  torch
+  pandas
+  ucimlrepo
+  scikit-learn
+  pyyaml
+  ```
+
+  Copiez-collez le code suivant dans un fichier YAML nommé `hyperparameters.yaml`. Ce fichier contient les hyperparamètres du script d’entraînement.
+
+  ```yaml title="hyperparameters.yaml"
+  learning_rate: 0.1
+  epochs: 1000
+  model_type: Multivariate_neural_network_classifier
+  ```
+
+  Copiez-collez le code suivant dans un fichier nommé `train.py`. Ce script entraîne un modèle PyTorch simple sur le jeu de données UCI Zoo et enregistre le modèle entraîné dans un fichier nommé `zoo_wandb.pth`.
+
+  ```python title="train.py"
+  import argparse
+  import torch
+  from torch import nn
+  import yaml
+  import pandas as pd
+  from ucimlrepo import fetch_ucirepo
+
+  from sklearn.model_selection import train_test_split
+
+  class NeuralNetwork(nn.Module):
+      def __init__(self):
+          super().__init__()
+          self.linear_stack = nn.Sequential(
+              nn.Linear(in_features=16 , out_features=16),
+              nn.Sigmoid(),
+              nn.Linear(in_features=16, out_features=7)
+          )
+
+      def forward(self, x):
+          logits = self.linear_stack(x)
+          return logits
+
+  def main(args):
+      # Charger les hyperparamètres à partir du fichier de configuration fourni
+      with open(args.config, 'r') as f:
+          hyperparameter_config = yaml.safe_load(f)
+
+      # récupérer le jeu de données
+      zoo = fetch_ucirepo(id=111)
+
+      # données (sous forme de dataframes pandas)
+      X = zoo.data.features
+      y = zoo.data.targets
+
+      print("features: ", X.shape, "type: ", type(X))
+      print("labels: ", y.shape, "type: ", type(y))
+
+      ## Traiter les données
+      # Le type des données doit correspondre à celui du modèle ; le dtype par défaut de nn.Linear est torch.float32
+      dataset = torch.tensor(X.values).type(torch.float32)
+
+      # Convertir en tenseur et formater les labels de 0 à 6 pour l’indexation
+      labels = torch.tensor(y.values)  - 1
+
+      print("dataset: ", dataset.shape, "dtype: ",dataset.dtype)
+      print("labels: ", labels.shape, "dtype: ",labels.dtype)
+
+      torch.save(dataset, "zoo_dataset.pt")
+      torch.save(labels, "zoo_labels.pt")
+
+      # Décrire comment nous divisons le jeu de données d’entraînement pour référence ultérieure et reproductibilité.
+      config = {
+          "random_state" : 42,
+          "test_size" : 0.25,
+          "shuffle" : True
+      }
+
+      # Diviser le jeu de données en ensembles d’entraînement et de test
+      X_train, X_test, y_train, y_test = train_test_split(
+          dataset,labels,
+          random_state=config["random_state"],
+          test_size=config["test_size"],
+          shuffle=config["shuffle"]
+      )
+
+      # Enregistrer les fichiers localement
+      torch.save(X_train, "zoo_dataset_X_train.pt")
+      torch.save(y_train, "zoo_labels_y_train.pt")
+
+      torch.save(X_test, "zoo_dataset_X_test.pt")
+      torch.save(y_test, "zoo_labels_y_test.pt")
+
+
+      ## Définir le modèle
+      model = NeuralNetwork()
+      loss_fn = nn.CrossEntropyLoss()
+      optimizer = torch.optim.SGD(model.parameters(), lr=hyperparameter_config["learning_rate"])
+      print(model)
+
+      # Définir une valeur de perte initiale fictive pour la comparaison dans la boucle d’entraînement
+      prev_best_loss = 1e10
+
+      # Boucle d’entraînement
+      for e in range(hyperparameter_config["epochs"] + 1):
+          pred = model(X_train)
+          loss = loss_fn(pred, y_train.squeeze(1))
+
+          loss.backward()
+          optimizer.step()
+          optimizer.zero_grad()
+
+          # Enregistrer le modèle si la perte s’améliore
+          if (e % 100 == 0) and (loss <= prev_best_loss):
+              print("epoch: ", e, "loss:", loss.item())
+
+              # Stocker la nouvelle meilleure perte
+              prev_best_loss = loss
+
+      print("Saving model...")
+      PATH = 'zoo_wandb.pth'
+      torch.save(model.state_dict(), PATH)
+
+  if __name__ == "__main__":
+      parser = argparse.ArgumentParser(description="Train a simple neural network on the zoo dataset.")
+      parser.add_argument("--config", type=str, required=True, help="Path to the hyperparameter configuration file.")
+      args = parser.parse_args()
+      main(args)
+  ```
+</Accordion>
+
+<div id="create-the-sandbox-and-run-the-training-script">
+  ## Créez le sandbox et exécutez le script d&#39;entraînement
+</div>
+
+L&#39;extrait de code suivant montre comment créer un sandbox, y copier le script d&#39;entraînement et les dépendances, exécuter le script d&#39;entraînement, puis télécharger le fichier de modèle généré. La section suivante fournit une explication du code, ligne par ligne.
+
+Copiez-collez le code suivant dans un fichier Python et exécutez-le. Enregistrez-le dans le même répertoire que les fichiers `train.py`, `requirements.txt` et `hyperparameters.yaml` que vous avez créés à l&#39;étape précédente.
+
+```python Show lines title="train_in_sandbox.py"
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+# Fichiers à monter dans le sandbox. Indiquez le chemin à l'intérieur du
+# sandbox et le contenu de chaque fichier sous forme d'octets dans un dictionnaire
+mounted_files = [
+    {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
+    {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
+        ] 
+
+print("Starting sandbox...")
+with Sandbox.run(
+    mounted_files=mounted_files,
+    container_image="python:3.13",
+    network=NetworkOptions(egress_mode="internet"),
+    max_lifetime_seconds=3600
+) as sandbox:
+    sandbox.write_file("hyperparameters.yaml", Path("hyperparameters.yaml").read_bytes()).result()
+
+    # Installer les dépendances
+    print("Installing dependencies...")
+    sandbox.exec(["pip", "install", "-r", "requirements.txt"], check=True).result()
+
+    # Exécuter le script
+    print("Running script...")
+    result = sandbox.exec(["python", "train.py", "--config", "hyperparameters.yaml"]).result()
+    print(result.stdout)
+    print(result.stderr)
+    print(f"Exit code: {result.returncode}")
+
+    # Enregistrer le fichier de modèle généré localement
+    print("Downloading zoo_wandb.pth...")
+    model_data = sandbox.read_file("zoo_wandb.pth").result()
+    Path("zoo_wandb.pth").write_bytes(model_data)
+    print("Saved zoo_wandb.pth")
+```
+
+L’extrait de code précédent effectue les opérations suivantes :
+
+1. (Lignes 6 - 9) Liste les fichiers à monter dans le sandbox : `train.py` et `requirements.txt`.
+2. (Ligne 12) Démarre le sandbox. Celui-ci est configuré pour utiliser l’image de conteneur `python:3.13`, disposer d’un accès à Internet et avoir une durée de vie maximale de 3600 secondes (1 heure).
+3. (Ligne 18) Écrit le fichier `hyperparameters.yaml` dans le sandbox. Cela permet au script d’entraînement (`train.py`) d’accéder aux hyperparamètres lors de son exécution.
+4. (Ligne 22) Installe les dépendances. Vous exécutez la commande `pip install -r requirements.txt` dans le sandbox afin d’installer les dépendances nécessaires au script d’entraînement.
+5. (Ligne 26) Exécute le script d’entraînement. Vous exécutez la commande `python train.py --config hyperparameters.yaml` dans le sandbox pour lancer le processus d’entraînement. Le script entraîne un modèle PyTorch sur le jeu de données UCI Zoo et enregistre le modèle entraîné dans un fichier nommé `zoo_wandb.pth`.
+6. (Lignes 27-29) Affiche la sortie et le code de sortie. Une fois l’exécution du script d’entraînement terminée, vous affichez la sortie standard, l’erreur standard et le code de sortie dans la console à des fins de débogage et de vérification.
+7. (Lignes 33-34) Télécharge le fichier de modèle généré. Vous lisez le fichier `zoo_wandb.pth` depuis le sandbox à l’aide de la méthode `read_file()` et l’enregistrez localement.

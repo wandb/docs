@@ -1,0 +1,105 @@
+---
+title: Exécuter des commandes
+description: Découvrez comment exécuter des commandes dans un sandbox, puis lire la sortie et les codes de sortie.
+---
+
+Exécutez des commandes shell, des scripts et d’autres processus dans les sandboxes que vous créez avec W&amp;B. Cette page explique comment exécuter des commandes, consulter la sortie et les codes de sortie, et réutiliser la même sandbox pour plusieurs étapes.
+
+<div id="run-commands-in-a-sandbox">
+  ## Exécuter des commandes dans un sandbox
+</div>
+
+Il existe deux façons courantes d’exécuter des commandes dans un sandbox :
+
+1. [Exécuter une seule commande](#run-a-single-command) et laisser le sandbox s’arrêter une fois la commande terminée.
+2. [Exécuter plusieurs commandes](#run-multiple-commands-sequentially-in-the-same-sandbox) dans le même sandbox.
+
+<div id="run-a-single-command">
+  ### Exécuter une seule commande
+</div>
+
+Pour exécuter une seule commande, transmettez-la directement à `Sandbox.run()`. Le sandbox s&#39;arrête automatiquement lorsque la commande se termine et n&#39;est plus disponible pour exécuter d&#39;autres tâches.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+result = sandbox.wait_until_complete(timeout=3600.0).result()
+print(f"Exit code: {result.returncode}")
+print(f"Standard output: {result.stdout}")
+print(f"Standard error: {result.stderr}")
+```
+
+<div id="run-multiple-commands-sequentially-in-the-same-sandbox">
+  ### Exécuter plusieurs commandes à la suite dans le même sandbox
+</div>
+
+Utilisez le même sandbox pour les flux de travail qui comportent plusieurs étapes, comme l&#39;installation de dépendances, la création de fichiers, l&#39;exécution d&#39;un script et la lecture des résultats.
+
+Pour exécuter plusieurs commandes dans le même sandbox, démarrez le sandbox sans commande. Utilisez ensuite `Sandbox.exec()` pour exécuter des commandes dans le sandbox en cours d&#39;exécution.
+
+L&#39;extrait de code suivant démarre un sandbox sans commande principale, puis exécute deux commandes à la suite dans le même sandbox : il installe d&#39;abord PyTorch, puis exécute un script d&#39;entraînement :
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["pip", "install", "torch"]).result()
+    print(result.stdout)
+
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+La méthode `Sandbox.exec()` exécute une commande dans un sandbox en cours d’exécution et renvoie un objet `Process` que vous pouvez utiliser pour attendre la fin de l’exécution, lire la sortie et vérifier le code de sortie.
+
+Pour plus d’informations sur `Sandbox.exec()` et ses paramètres, voir la documentation de référence [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec).
+
+Vous pouvez également définir explicitement un processus principal de longue durée pour maintenir le sandbox actif pendant l’exécution de la commande. Cela est utile si vous souhaitez exécuter une commande qui prend beaucoup de temps, comme l’entraînement d’un modèle de machine learning.
+
+L’extrait de code suivant démarre un sandbox avec la commande `sleep infinity`, qui maintient le sandbox actif indéfiniment. Il exécute ensuite un script Python d’entraînement dans le sandbox à l’aide de `Sandbox.exec()`. Le sandbox reste actif pendant l’exécution du script d’entraînement, et vous pouvez exécuter des commandes supplémentaires dans le même sandbox si nécessaire.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+<div id="read-output-and-exit-codes">
+  ## Lire la sortie et les codes de sortie
+</div>
+
+`Sandbox.exec()` renvoie un objet [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process). Appelez `Process.result()` pour attendre la fin de la commande et obtenir son résultat. `Process.result()` inclut la sortie standard (`stdout`), la sortie d&#39;erreur standard (`stderr`) et le code de sortie (`returncode`).
+
+Utilisez le code de sortie pour déterminer si la commande a réussi. Par convention, un code de sortie de 0 indique un succès.
+
+Par exemple, l&#39;extrait de code suivant exécute une commande Python qui affiche la sortie standard (`stdout`) et le code de sortie (`returncode`). Une fois la commande terminée, il affiche la sortie standard, la sortie d&#39;erreur standard et le code de sortie dans la console.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["python", "-c", "print('hello')"]).result()
+    print(result.stdout)      # "hello\\n"
+    print(result.returncode)  # 0
+```
+
+<div id="check-for-sandbox-execution-errors">
+  ## Vérifiez les erreurs d’exécution du sandbox
+</div>
+
+Spécifiez `check=True` (`Sandbox.exec(check=True)`) pour lever une erreur si la commande se termine avec un code de sortie non nul. Une [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) est levée si la commande se termine avec un code de sortie non nul :
+
+```python
+from wandb.sandbox import Sandbox
+from cwsandbox import SandboxExecutionError
+
+with Sandbox.run() as sandbox:
+    try:
+        sandbox.exec(["python", "might_fail.py"], check=True).result()
+    except SandboxExecutionError as e:
+        print(f"La commande a échoué avec le code de sortie {e.exec_result.returncode}")
+        print(e.exec_result.stderr)
+```

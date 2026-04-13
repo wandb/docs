@@ -1,0 +1,240 @@
+---
+title: "Tutoriel : appeler un agent dans un Sandbox"
+description: "Découvrez comment appeler un agent OpenAI dans un environnement W&B Sandbox"
+---
+
+Dans ce tutoriel, vous appellerez un agent dans un environnement W&amp;B Sandbox. Pour ce faire, vous démarrerez un Sandbox avec les variables d’environnement appropriées, installerez les dépendances nécessaires et exécuterez un script Python qui crée et appelle un simple agent OpenAI utilisant des appels à des outils pour répondre aux questions des utilisateurs sur la météo.
+
+<Note>
+  Ce tutoriel utilise OpenAI comme modèle de langage pour l’agent, ce qui nécessite
+  une clé API OpenAI.
+</Note>
+
+{/* Cela vous permet de tester et d’ajuster le comportement de votre agent dans un environnement sûr et isolé, sans affecter votre configuration locale. */}
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+{/* ### (Recommandé) Créer un environnement virtuel Python
+
+  Créez et activez un environnement virtuel Python pour organiser vos dépendances et éviter les conflits avec d’autres projets. Exécutez les commandes suivantes dans votre terminal :
+
+  ```bash
+  python -m venv venv
+  source venv/bin/activate  # Sous Windows, utilisez `venv\Scripts\activate`
+  ```  */}
+
+<div id="install-wb-python-sdk">
+  ### Installer le SDK Python de W&amp;B
+</div>
+
+Installez le SDK Python de W&amp;B. Vous pouvez le faire à l’aide de `pip` :
+
+```bash
+pip install wandb
+```
+
+<div id="log-in-and-authenticate-with-wb">
+  ### Connectez-vous et authentifiez-vous auprès de W&amp;B
+</div>
+
+Exécutez la commande CLI [`wandb login`](/fr/models/ref/cli/wandb-login) et suivez les instructions pour vous connecter à votre compte W&amp;B :
+
+```bash
+wandb login
+```
+
+<div id="store-api-keys-in-secret-manager">
+  ### Stocker les clés API dans Secret Manager
+</div>
+
+Stockez votre clé API OpenAI dans le [W&amp;B Secret Manager](/fr/platform/secrets) sous le nom `OPENAI_API_KEY`. Voir [Manage secrets](/fr/platform/secrets) pour plus d&#39;informations sur la création et la gestion des secrets dans votre compte W&amp;B.
+
+<div id="copy-agent-code">
+  ## Copier le code de l’agent
+</div>
+
+<Accordion title="Code de l’agent OpenAI">
+  Copiez-collez le code suivant dans un fichier nommé `demo.py` dans le même répertoire que ce tutoriel, puis exécutez l&#39;extrait de code ci-dessus pour voir comment appeler un agent OpenAI dans un environnement sandbox.
+
+  ```python title="demo.py"
+  import json
+  import os
+
+  from openai import OpenAI
+
+  # Obtenir la clé API depuis l'environnement
+  api_key = os.getenv("OPENAI_API_KEY")
+  if not api_key:
+      raise ValueError("La variable d'environnement OPENAI_API_KEY n'est pas définie")
+
+  client = OpenAI(api_key=api_key)
+
+  # Définir le prompt système
+  SYSTEM_PROMPT = """Vous êtes un météorologue expert qui s'exprime en jeux de mots.
+
+  Vous avez accès à deux outils :
+
+  - get_weather_for_location : utilisez cet outil pour obtenir la météo d'un emplacement spécifique
+  - get_user_location : utilisez cet outil pour obtenir la localisation de l'utilisateur
+
+  Si un utilisateur vous demande la météo, assurez-vous de connaître l'emplacement. Si vous pouvez déduire de la question qu'il s'agit de l'endroit où il se trouve, utilisez l'outil get_user_location pour trouver sa localisation."""
+
+  # Définir les outils sous forme de schémas JSON pour l'appel de fonctions
+  TOOLS = [
+      {
+          "type": "function",
+          "function": {
+              "name": "get_weather_for_location",
+              "description": "Obtenir la météo pour une ville donnée.",
+              "parameters": {
+                  "type": "object",
+                  "properties": {
+                      "city": {"type": "string", "description": "La ville pour laquelle obtenir la météo."}
+                  },
+                  "required": ["city"],
+              },
+          },
+      },
+      {
+          "type": "function",
+          "function": {
+              "name": "get_user_location",
+              "description": "Récupérer la localisation de l'utilisateur en fonction de son identifiant utilisateur.",
+              "parameters": {
+                  "type": "object",
+                  "properties": {},
+              },
+          },
+      },
+  ]
+
+  # Format de réponse sous forme de schéma JSON pour une sortie structurée
+  RESPONSE_FORMAT = {
+      "type": "json_schema",
+      "json_schema": {
+          "name": "weather_response",
+          "strict": True,
+          "schema": {
+              "type": "object",
+              "properties": {
+                  "punny_response": {
+                      "type": "string",
+                      "description": "Une réponse en jeu de mots (toujours requise)",
+                  },
+                  "weather_conditions": {
+                      "type": ["string", "null"],
+                      "description": "Toute information intéressante sur la météo, si disponible",
+                  },
+              },
+              "required": ["punny_response", "weather_conditions"],
+              "additionalProperties": False,
+          },
+      },
+  }
+
+
+  # Implémentations des outils
+  def get_weather_for_location(city: str) -> str:
+      return f"Il fait toujours beau à {city} !"
+
+
+  def get_user_location(user_id: str) -> str:
+      return "Florida" if user_id == "1" else "SF"
+
+
+  TOOL_DISPATCH = {
+      "get_weather_for_location": lambda args, _ctx: get_weather_for_location(args["city"]),
+      "get_user_location": lambda _args, ctx: get_user_location(ctx["user_id"]),
+  }
+
+
+  def run_agent(messages: list[dict], context: dict) -> dict:
+      """Exécute la boucle de l'agent : appelle le modèle, exécute les appels d'outils, et répète jusqu'à la fin."""
+      while True:
+          response = client.chat.completions.create(
+              model="gpt-4o",
+              temperature=0,
+              messages=messages,
+              tools=TOOLS,
+              response_format=RESPONSE_FORMAT,
+          )
+
+          choice = response.choices[0]
+          message = choice.message
+
+          # Si le modèle souhaite appeler des outils, les exécuter et reboucler
+          if message.tool_calls:
+              # Ajouter le message de l'assistant (avec tool_calls) à l'historique
+              messages.append(message.to_dict())
+
+              for tool_call in message.tool_calls:
+                  fn_name = tool_call.function.name
+                  fn_args = json.loads(tool_call.function.arguments)
+                  result = TOOL_DISPATCH[fn_name](fn_args, context)
+                  messages.append({
+                      "role": "tool",
+                      "tool_call_id": tool_call.id,
+                      "content": result,
+                  })
+              continue
+
+          # Aucun appel d'outil — réponse finale
+          messages.append(message.to_dict())
+          return json.loads(message.content)
+
+
+  # --- Exécuter l'agent ---
+
+  conversation: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
+  context = {"user_id": "1"}
+
+  # Premier tour
+  conversation.append({"role": "user", "content": "quel temps fait-il dehors ?"})
+  result = run_agent(conversation, context)
+  print(result)
+  # {'punny_response': "Florida is still having a 'sun-derful' day! ...", 'weather_conditions': "Il fait toujours beau en Floride !"}
+
+  # Deuxième tour (l'historique de la conversation est conservé)
+  conversation.append({"role": "user", "content": "merci !"})
+  result = run_agent(conversation, context)
+  print(result)
+  # {'punny_response': "You're 'thund-erfully' welcome! ...", 'weather_conditions': None}
+  ```
+</Accordion>
+
+<div id="create-a-sandbox-and-run-the-agent-script">
+  ## Créez un Sandbox et exécutez le script de l’agent
+</div>
+
+Copiez-collez le code suivant dans un fichier Python, puis exécutez-le. Enregistrez-le dans le même répertoire que le fichier `demo.py` que vous avez créé à l’étape précédente.
+
+```python title="train_in_sandbox.py"
+import os
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions, Secret
+
+script = Path("demo.py").read_bytes()
+
+print("Starting sandbox...")
+with Sandbox.run(
+    container_image="python:3.13",
+    network=NetworkOptions(egress_mode="internet"),
+    max_lifetime_seconds=3600,
+    secrets=[Secret(name="OPENAI_API_KEY")]
+) as sandbox:
+    sandbox.write_file("demo.py", script).result()
+
+    # Installer les dépendances
+    print("Installing dependencies...")
+    sandbox.exec(["pip", "install", "openai"], check=True).result()
+
+    # Exécuter le script
+    print("Running script...")
+    result = sandbox.exec(["python", "demo.py"], check=True).result()
+    print("Script output:")
+    print(result)
+
+    print(f"Exit code: {result.returncode}")
+```

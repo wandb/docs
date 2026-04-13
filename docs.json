@@ -1149,7 +1149,7 @@
           },
           {
             "tab": "W&B Sandboxes",
-            "pages" : [
+            "pages": [
               "sandboxes",
               "sandboxes/lifecycle",
               "sandboxes/create-sandbox",
@@ -1159,7 +1159,7 @@
               "sandboxes/mltrain_in_sandbox_tutorial",
               "sandboxes/invoke_agent_sandbox_tutorial"
             ]
-          },          
+          },
           {
             "tab": "Support",
             "pages": [
@@ -2391,6 +2391,19 @@
             ]
           },
           {
+            "tab": "Sandboxes W&B",
+            "pages": [
+              "fr/sandboxes",
+              "fr/sandboxes/lifecycle",
+              "fr/sandboxes/create-sandbox",
+              "fr/sandboxes/run-commands",
+              "fr/sandboxes/file-access",
+              "fr/sandboxes/secrets",
+              "fr/sandboxes/mltrain_in_sandbox_tutorial",
+              "fr/sandboxes/invoke_agent_sandbox_tutorial"
+            ]
+          },
+          {
             "tab": "Assistance",
             "pages": [
               "fr/support"
@@ -2439,7 +2452,7 @@
                 ]
               },
               {
-                "group": "FAQ Launch",
+                "group": "FAQ de Launch",
                 "pages": [
                   "fr/platform/launch/launch-faq",
                   "fr/platform/launch/launch-faq/best_practices_launch_effectively",
@@ -3621,6 +3634,19 @@
             ]
           },
           {
+            "tab": "W&B Sandboxes",
+            "pages": [
+              "ja/sandboxes",
+              "ja/sandboxes/lifecycle",
+              "ja/sandboxes/create-sandbox",
+              "ja/sandboxes/run-commands",
+              "ja/sandboxes/file-access",
+              "ja/sandboxes/secrets",
+              "ja/sandboxes/mltrain_in_sandbox_tutorial",
+              "ja/sandboxes/invoke_agent_sandbox_tutorial"
+            ]
+          },
+          {
             "tab": "サポート",
             "pages": [
               "ja/support"
@@ -3638,7 +3664,7 @@
                 "pages": [
                   "ja/platform/launch/set-up-launch",
                   {
-                    "group": "コンピュート リソースを設定する",
+                    "group": "コンピュートリソースを設定する",
                     "pages": [
                       "ja/platform/launch/setup-launch-docker",
                       "ja/platform/launch/setup-launch-kubernetes",
@@ -3661,7 +3687,7 @@
                 ]
               },
               {
-                "group": "詳細",
+                "group": "高度なトピック",
                 "pages": [
                   "ja/platform/launch/sweeps-on-launch",
                   "ja/platform/launch/launch-queue-observability",
@@ -3691,7 +3717,7 @@
                 ]
               },
               {
-                "group": "Launch Library API リファレンス",
+                "group": "Launch ライブラリ API リファレンス",
                 "pages": [
                   "ja/platform/launch/launch-library/launch",
                   "ja/platform/launch/launch-library/launch_add",
@@ -4851,7 +4877,20 @@
             ]
           },
           {
-            "tab": "지원팀",
+            "tab": "W&B Sandboxes",
+            "pages": [
+              "ko/sandboxes",
+              "ko/sandboxes/lifecycle",
+              "ko/sandboxes/create-sandbox",
+              "ko/sandboxes/run-commands",
+              "ko/sandboxes/file-access",
+              "ko/sandboxes/secrets",
+              "ko/sandboxes/mltrain_in_sandbox_tutorial",
+              "ko/sandboxes/invoke_agent_sandbox_tutorial"
+            ]
+          },
+          {
+            "tab": "지원",
             "pages": [
               "ko/support"
             ]
@@ -4864,7 +4903,7 @@
               "ko/platform/launch/walkthrough",
               "ko/platform/launch/launch-terminology",
               {
-                "group": "Launch 설정",
+                "group": "Launch 설정하기",
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
@@ -4931,7 +4970,7 @@
             ]
           },
           {
-            "tab": "지원팀: W&B Models",
+            "tab": "지원: W&B Models",
             "hidden": true,
             "pages": [
               "ko/support/models",
@@ -4971,7 +5010,7 @@
             ]
           },
           {
-            "tab": "지원팀: W&B Weave",
+            "tab": "지원: W&B Weave",
             "hidden": true,
             "pages": [
               "ko/support/weave",
@@ -4986,7 +5025,7 @@
             ]
           },
           {
-            "tab": "지원팀: W&B Inference",
+            "tab": "지원: W&B Inference",
             "hidden": true,
             "pages": [
               "ko/support/inference",

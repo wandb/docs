@@ -1,0 +1,111 @@
+---
+title: Cycle de vie d’un sandbox
+description: Découvrez les états d’un sandbox, l’attente, la fin d’exécution et l’arrêt.
+---
+
+Un sandbox passe par une série d’états au cours de sa durée de vie. Ces états déterminent les opérations disponibles et les actions que le sandbox peut effectuer.
+
+Dans la plupart des cas, un sandbox commence dans l’état `PENDING`, passe à `CREATING` pendant l’approvisionnement du conteneur, puis entre dans l’état `RUNNING` lorsque le conteneur est prêt.
+
+L’état `RUNNING` est celui dans lequel vous pouvez effectuer la plupart des opérations, par exemple exécuter des commandes avec `Sandbox.exec()`. Lorsque le processus principal du sandbox se termine, le sandbox entre dans un état terminal tel que `COMPLETED` (si le code de sortie est 0) ou `FAILED` (si une erreur s’est produite). Un sandbox peut aussi être `TERMINATED` s’il est arrêté de l’extérieur ou s’il dépasse sa durée de vie maximale.
+
+```text
+PENDING -> CREATING -> RUNNING -> COMPLETED
+                               -> FAILED
+                               -> TERMINATED
+```
+
+Utilisez cette page pour comprendre quand un sandbox est prêt, comment attendre un changement d’état et comment arrêter un sandbox.
+
+Les sections suivantes détaillent les états des sandboxes, la façon d’attendre qu’un sandbox démarre ou se termine, et l’arrêt d’un sandbox. Pour plus d’informations sur la création de sandboxes et l’exécution de commandes, voir [Créer des sandboxes](/fr/sandboxes/create-sandbox) et [Exécuter des commandes](/fr/sandboxes/run-commands).
+
+<div id="sandbox-states">
+  ## États du sandbox
+</div>
+
+Le tableau suivant résume les états d&#39;un sandbox :
+
+| État       | Description                                                         |
+| ---------- | ------------------------------------------------------------------- |
+| PENDING    | Démarrage accepté, en attente de planification                      |
+| CREATING   | Le conteneur est en cours de provisionnement                        |
+| RUNNING    | Le conteneur est en cours d&#39;exécution, prêt pour les opérations |
+| COMPLETED  | Le processus principal s&#39;est terminé avec le code 0             |
+| FAILED     | Erreur au démarrage ou à l&#39;exécution                            |
+| TERMINATED | Arrêté de force de l&#39;extérieur ou durée de vie dépassée         |
+
+Un sandbox ne peut accepter la plupart des opérations qu&#39;après avoir atteint l&#39;état RUNNING. Une fois dans un état terminal, il n&#39;est plus disponible pour des tâches supplémentaires.
+
+<div id="wait-for-a-sandbox-to-complete">
+  ## Attendre la fin d’un sandbox
+</div>
+
+Utilisez [`Sandbox.wait_until_complete()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#wait_until_complete) lorsque le processus principal du sandbox représente l’intégralité de la charge de travail et que vous souhaitez attendre la fin de cette tâche.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("python", "train.py") as sandbox:
+    sandbox.wait_until_complete(timeout=3600.0).result()  # bloque jusqu'à ce que le processus principal se termine ou que le délai expire
+    print(f"Exit code: {sandbox.returncode}")
+```
+
+Ce schéma est utile lorsque vous démarrez un sandbox avec une commande principale telle que `Sandbox.run("python", "train.py")` et souhaitez que le cycle de vie du sandbox corresponde à l’exécution de cette commande.
+
+Lorsque le processus principal se termine, le sandbox passe à un état terminal. Une exécution réussie se termine généralement par COMPLETED. Si le processus échoue, le sandbox peut passer à FAILED.
+
+<div id="explicit-lifecycle-control">
+  ## Contrôle explicite du cycle de vie
+</div>
+
+Utilisez des méthodes telles que `Sandbox.wait()` ou `Sandbox.stop()` pour contrôler explicitement le cycle de vie du sandbox.
+
+Dans la plupart des cas, vous n’avez pas besoin d’appeler ces méthodes directement. Des opérations telles que `Sandbox.exec()`, `Sandbox.read_file()` et `Sandbox.write_file()` attendent automatiquement que le sandbox soit prêt, et le gestionnaire de contexte (`with Sandbox.run() as sandbox:`) arrête automatiquement le sandbox à la fin du bloc.
+
+{/* Cependant, vous pouvez utiliser ces méthodes lorsque vous avez besoin d’un contrôle plus fin sur le cycle de vie, par exemple pour déboguer des problèmes de démarrage ou pour distinguer les échecs de démarrage des erreurs survenant dans des commandes ultérieures. */}
+
+<div id="wait-for-a-sandbox-to-start">
+  ### Attendre qu’un sandbox démarre
+</div>
+
+Utilisez `Sandbox.wait()` pour attendre explicitement que le sandbox atteigne l’état RUNNING. Cela est utile pour diagnostiquer les problèmes de démarrage ou lorsque vous souhaitez distinguer les échecs de démarrage des erreurs survenant dans des commandes ultérieures.
+
+Par exemple, l’extrait de code suivant crée un sandbox et attend qu’il démarre avant d’exécuter une commande :
+
+```python
+import wandb
+from wandb.sandbox import Sandbox, NetworkOptions
+
+with Sandbox.run() as sandbox:
+    sandbox.wait()  # bloquer jusqu'à ce que le sandbox soit en cours d'exécution
+    result = sandbox.exec(["python", "-c", "print('hello from sandbox')"]).result()
+    print(result.stdout)
+```
+
+<div id="stop-a-sandbox">
+  ### Arrêter le sandbox
+</div>
+
+Utilisez [`Sandbox.stop()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#stop) lorsque vous n&#39;avez plus besoin du sandbox, pour mettre fin à un processus de longue durée ou pour libérer des ressources avant que le sandbox n&#39;atteigne sa durée de vie maximale.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("sleep", "infinity")
+
+# ... utiliser le sandbox ...
+
+sandbox.stop().result()
+```
+
+Vous pouvez également contrôler le comportement lors de l’arrêt avec des options supplémentaires :
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    sandbox.stop(
+        graceful_shutdown_seconds=30.0,  # Attendre avant de forcer l'arrêt du sandbox.
+        missing_ok=True,                 # Ne pas lever d'erreur si le sandbox est déjà arrêté.
+    ).result()
+```

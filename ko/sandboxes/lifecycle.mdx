@@ -1,0 +1,111 @@
+---
+title: 샌드박스 라이프사이클
+description: 샌드박스 상태, 대기, 완료 및 중지에 관해 알아보세요.
+---
+
+샌드박스는 수명 주기 동안 일련의 상태를 거칩니다. 이러한 상태에 따라 어떤 오퍼레이션을 사용할 수 있는지와 샌드박스가 어떤 액션을 수행할 수 있는지가 결정됩니다.
+
+대부분의 경우 샌드박스는 `PENDING`에서 시작하고, 컨테이너가 프로비저닝되는 동안 `CREATING`으로 이동한 다음, 컨테이너가 준비되면 `RUNNING` 상태가 됩니다.
+
+`RUNNING` 상태에서는 `Sandbox.exec()`로 명령을 실행하는 것과 같은 대부분의 오퍼레이션을 수행할 수 있습니다. 샌드박스의 기본 프로세스가 종료되면 샌드박스는 `COMPLETED`(종료 코드가 0인 경우) 또는 `FAILED`(오류가 발생한 경우)와 같은 종료 상태로 전환됩니다. 또한 외부에서 강제 종료되거나 최대 수명을 초과하면 샌드박스가 `TERMINATED` 상태가 될 수도 있습니다.
+
+```text
+PENDING -> CREATING -> RUNNING -> COMPLETED
+                               -> FAILED
+                               -> TERMINATED
+```
+
+이 페이지에서는 샌드박스가 언제 준비되는지, 상태 변경을 어떻게 기다리는지, 그리고 샌드박스를 어떻게 중지하는지 설명합니다.
+
+다음 섹션에서는 샌드박스 상태, 샌드박스가 시작되거나 완료될 때까지 기다리는 방법, 그리고 샌드박스를 중지하는 방법을 자세히 설명합니다. 샌드박스 생성 및 명령 실행에 대한 자세한 내용은 [Create sandboxes](/ko/sandboxes/create-sandbox) 및 [Run commands](/ko/sandboxes/run-commands)를 참조하세요.
+
+<div id="sandbox-states">
+  ## 샌드박스 상태
+</div>
+
+다음 표는 샌드박스의 상태를 요약합니다:
+
+| State      | Description                    |
+| ---------- | ------------------------------ |
+| PENDING    | 시작 요청이 수락되었으며, 스케줄링을 기다리는 중    |
+| CREATING   | 컨테이너를 프로비저닝하는 중                |
+| RUNNING    | 컨테이너가 실행 중이며, 오퍼레이션을 수행할 준비가 됨 |
+| COMPLETED  | 메인 프로세스가 종료 코드 0으로 종료됨         |
+| FAILED     | 시작 또는 런타임 오류                   |
+| TERMINATED | 외부에서 종료되었거나 수명이 초과됨            |
+
+샌드박스는 RUNNING 상태에 도달한 후에만 대부분의 오퍼레이션을 수락할 수 있습니다. 종료 상태에 들어가면 추가 작업에는 더 이상 사용할 수 없습니다.
+
+<div id="wait-for-a-sandbox-to-complete">
+  ## 샌드박스 완료까지 기다리기
+</div>
+
+샌드박스의 메인 프로세스가 전체 워크로드를 담당하고 해당 작업이 완료될 때까지 기다리려는 경우 [`Sandbox.wait_until_complete()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#wait_until_complete)를 사용하세요.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("python", "train.py") as sandbox:
+    sandbox.wait_until_complete(timeout=3600.0).result()  # 메인 프로세스가 종료되거나 타임아웃에 도달할 때까지 블로킹
+    print(f"Exit code: {sandbox.returncode}")
+```
+
+이 패턴은 `Sandbox.run("python", "train.py")`와 같은 메인 명령로 샌드박스를 시작하고, 샌드박스의 라이프사이클이 해당 명령의 실행에 맞춰지도록 하려는 경우에 유용합니다.
+
+메인 프로세스가 종료되면 샌드박스는 종료 상태에 들어갑니다. 성공적인 run은 일반적으로 COMPLETED로 끝납니다. 프로세스가 실패하면 샌드박스는 FAILED 상태에 들어갈 수 있습니다.
+
+<div id="explicit-lifecycle-control">
+  ## 명시적 라이프사이클 제어
+</div>
+
+`Sandbox.wait()` 또는 `Sandbox.stop()`과 같은 방법을 사용해 샌드박스의 라이프사이클을 명시적으로 제어하세요.
+
+대부분의 경우 이러한 방법을 직접 호출할 필요는 없습니다. `Sandbox.exec()`, `Sandbox.read_file()`, `Sandbox.write_file()`와 같은 오퍼레이션은 준비될 때까지 자동으로 기다리며, 컨텍스트 관리자(`with Sandbox.run() as sandbox:`)는 블록을 벗어날 때 샌드박스를 자동으로 중지합니다.
+
+{/* 하지만 시작 문제를 디버깅하거나 이후 명령의 오류와 시작 실패를 구분해야 하는 등 라이프사이클을 더 세밀하게 제어해야 할 때는 이러한 방법을 사용할 수 있습니다. */}
+
+<div id="wait-for-a-sandbox-to-start">
+  ### 샌드박스가 시작될 때까지 기다리기
+</div>
+
+`Sandbox.wait()`를 사용하면 샌드박스가 RUNNING 상태에 도달할 때까지 명시적으로 기다릴 수 있습니다. 이 방법은 시작 문제를 디버깅하거나, 시작 실패와 이후 명령에서 발생하는 오류를 구분하려는 경우에 유용합니다.
+
+예를 들어, 다음 코드 스니펫은 샌드박스를 생성한 뒤 시작될 때까지 기다렸다가 명령을 실행합니다.
+
+```python
+import wandb
+from wandb.sandbox import Sandbox, NetworkOptions
+
+with Sandbox.run() as sandbox:
+    sandbox.wait()  # 샌드박스가 실행될 때까지 대기
+    result = sandbox.exec(["python", "-c", "print('hello from sandbox')"]).result()
+    print(result.stdout)
+```
+
+<div id="stop-a-sandbox">
+  ### 샌드박스 중지
+</div>
+
+샌드박스가 더 이상 필요 없거나, 오래 실행 중인 프로세스를 종료하려거나, 샌드박스가 최대 수명에 도달하기 전에 리소스를 정리해야 할 때는 [`Sandbox.stop()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#stop)를 사용하세요.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("sleep", "infinity")
+
+# ... 샌드박스를 사용합니다 ...
+
+sandbox.stop().result()
+```
+
+추가 옵션으로 종료 방식을 제어할 수도 있습니다:
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    sandbox.stop(
+        graceful_shutdown_seconds=30.0,  # 샌드박스를 강제 종료하기 전에 대기합니다.
+        missing_ok=True,                 # 이미 중지된 경우 오류를 발생시키지 않습니다.
+    ).result()
+```

@@ -1,0 +1,236 @@
+---
+title: "튜토리얼: PyTorch 모델 학습"
+---
+
+이 튜토리얼에서는 W&amp;B 샌드박스 환경에서 PyTorch 모델을 학습합니다. 이를 위해 적절한 환경 변수를 사용해 샌드박스를 시작하고, 필요한 의존성을 설치한 다음, UCI Zoo 데이터셋으로 단순한 신경망을 학습하는 Python 스크립트를 실행합니다.
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+시작하기 전에 다음 사항이 준비되어 있는지 확인하세요.
+
+{/* ### (권장) Python 가상 환경 만들기
+
+  의존성을 정리하고 다른 프로젝트와의 충돌을 방지하려면 Python 가상 환경을 만들고 활성화하세요. 터미널에서 다음 명령어를 실행하세요:
+
+  ```bash
+  python -m venv venv
+  source venv/bin/activate  # Windows에서는 `venv\Scripts\activate`를 사용하세요
+  ```  */}
+
+<div id="install-wb-python-sdk">
+  ### W&amp;B Python SDK 설치
+</div>
+
+W&amp;B Python SDK를 설치하세요. `pip`으로 다음과 같이 설치할 수 있습니다:
+
+```bash
+pip install wandb
+```
+
+<div id="log-in-and-authenticate-with-wb">
+  ## W&amp;B에 로그인하고 인증하세요
+</div>
+
+아직 로그인하지 않았다면 W&amp;B에 로그인하세요. `wandb login` CLI 명령을 사용한 다음, 표시되는 안내에 따라 W&amp;B 계정에 로그인하세요:
+
+```bash
+wandb login
+```
+
+W&amp;B가 자격 증명을 찾는 방법에 대한 자세한 내용은 [`wandb login`](/ko/models/ref/cli/wandb-login) 레퍼런스 문서를 참조하세요.
+
+<div id="copy-the-training-script-and-dependencies">
+  ### 트레이닝 스크립트와 의존성 복사하기
+</div>
+
+이 튜토리얼에 필요한 코드를 보려면 아래 드롭다운을 펼치세요. 코드를 복사해 이 튜토리얼과 같은 디렉터리에 있는 서로 다른 세 개의 파일에 붙여넣으세요. 다음 섹션에서는 이 파일들을 읽어 W&amp;B Sandbox 환경에서 PyTorch 모델을 트레이닝하는 스크립트를 실행합니다.
+
+<Accordion title="PyTorch 트레이닝 모델 스크립트">
+  다음 코드를 `requirements.txt` 파일에 복사하여 붙여넣으세요. 이 파일에는 트레이닝 스크립트에 필요한 의존성이 들어 있습니다.
+
+  ```txt title="requirements.txt"
+  torch
+  pandas
+  ucimlrepo
+  scikit-learn
+  pyyaml
+  ```
+
+  다음 코드를 `hyperparameters.yaml` 파일에 복사하여 붙여넣으세요. 이 파일에는 트레이닝 스크립트의 하이퍼파라미터가 들어 있습니다.
+
+  ```yaml title="hyperparameters.yaml"
+  learning_rate: 0.1
+  epochs: 1000
+  model_type: Multivariate_neural_network_classifier
+  ```
+
+  다음 코드를 `train.py` 파일에 복사하여 붙여넣으세요. 이 스크립트는 UCI Zoo 데이터셋으로 단순한 PyTorch 모델을 트레이닝하고, 트레이닝된 모델을 `zoo_wandb.pth` 파일에 저장합니다.
+
+  ```python title="train.py"
+  import argparse
+  import torch
+  from torch import nn
+  import yaml
+  import pandas as pd
+  from ucimlrepo import fetch_ucirepo
+
+  from sklearn.model_selection import train_test_split
+
+  class NeuralNetwork(nn.Module):
+      def __init__(self):
+          super().__init__()
+          self.linear_stack = nn.Sequential(
+              nn.Linear(in_features=16 , out_features=16),
+              nn.Sigmoid(),
+              nn.Linear(in_features=16, out_features=7)
+          )
+
+      def forward(self, x):
+          logits = self.linear_stack(x)
+          return logits
+
+  def main(args):
+      # 제공된 설정 파일에서 하이퍼파라미터를 로드합니다
+      with open(args.config, 'r') as f:
+          hyperparameter_config = yaml.safe_load(f)
+
+      # 데이터셋을 가져옵니다
+      zoo = fetch_ucirepo(id=111)
+
+      # 데이터(pandas 데이터프레임 형식)
+      X = zoo.data.features
+      y = zoo.data.targets
+
+      print("features: ", X.shape, "type: ", type(X))
+      print("labels: ", y.shape, "type: ", type(y))
+
+      ## 데이터 처리
+      # 데이터 유형은 모델의 데이터 유형과 일치해야 하며, nn.Linear의 기본 dtype은 torch.float32입니다
+      dataset = torch.tensor(X.values).type(torch.float32)
+
+      # 텐서로 변환하고 인덱싱할 수 있도록 레이블을 0~6 범위로 맞춥니다
+      labels = torch.tensor(y.values)  - 1
+
+      print("dataset: ", dataset.shape, "dtype: ",dataset.dtype)
+      print("labels: ", labels.shape, "dtype: ",labels.dtype)
+
+      torch.save(dataset, "zoo_dataset.pt")
+      torch.save(labels, "zoo_labels.pt")
+
+      # 나중에 참고하고 재현성을 보장할 수 있도록 트레이닝 데이터셋 분할 방식을 설명합니다.
+      config = {
+          "random_state" : 42,
+          "test_size" : 0.25,
+          "shuffle" : True
+      }
+
+      # 데이터셋을 트레이닝 세트와 테스트 세트로 분할합니다
+      X_train, X_test, y_train, y_test = train_test_split(
+          dataset,labels,
+          random_state=config["random_state"],
+          test_size=config["test_size"],
+          shuffle=config["shuffle"]
+      )
+
+      # 파일을 로컬에 저장합니다
+      torch.save(X_train, "zoo_dataset_X_train.pt")
+      torch.save(y_train, "zoo_labels_y_train.pt")
+
+      torch.save(X_test, "zoo_dataset_X_test.pt")
+      torch.save(y_test, "zoo_labels_y_test.pt")
+
+
+      ## 모델 정의
+      model = NeuralNetwork()
+      loss_fn = nn.CrossEntropyLoss()
+      optimizer = torch.optim.SGD(model.parameters(), lr=hyperparameter_config["learning_rate"])
+      print(model)
+
+      # 트레이닝 루프에서 비교할 초기 더미 loss 값을 설정합니다
+      prev_best_loss = 1e10
+
+      # 트레이닝 루프
+      for e in range(hyperparameter_config["epochs"] + 1):
+          pred = model(X_train)
+          loss = loss_fn(pred, y_train.squeeze(1))
+
+          loss.backward()
+          optimizer.step()
+          optimizer.zero_grad()
+
+          # loss가 개선되면 모델을 체크포인트로 저장합니다
+          if (e % 100 == 0) and (loss <= prev_best_loss):
+              print("epoch: ", e, "loss:", loss.item())
+
+              # 새로운 최적 loss를 저장합니다
+              prev_best_loss = loss
+
+      print("Saving model...")
+      PATH = 'zoo_wandb.pth'
+      torch.save(model.state_dict(), PATH)
+
+  if __name__ == "__main__":
+      parser = argparse.ArgumentParser(description="Train a simple neural network on the zoo dataset.")
+      parser.add_argument("--config", type=str, required=True, help="Path to the hyperparameter configuration file.")
+      args = parser.parse_args()
+      main(args)
+  ```
+</Accordion>
+
+<div id="create-the-sandbox-and-run-the-training-script">
+  ## 샌드박스를 생성하고 트레이닝 스크립트를 실행하세요
+</div>
+
+다음 코드 스니펫에서는 샌드박스를 생성하고, 그 안에 트레이닝 스크립트와 의존성을 복사한 뒤, 트레이닝 스크립트를 실행하고, 생성된 모델 파일을 다운로드하는 방법을 보여줍니다. 다음 섹션에서는 코드를 한 줄씩 설명합니다.
+
+다음 코드를 Python 파일에 복사하여 붙여넣고 실행하세요. 이전 단계에서 만든 `train.py`, `requirements.txt`, `hyperparameters.yaml` 파일과 같은 디렉터리에 저장하세요.
+
+```python Show lines title="train_in_sandbox.py"
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+# 샌드박스에 마운트할 파일. 샌드박스 내부 경로와
+# 각 파일의 내용을 바이트 형태의 딕셔너리로 지정
+mounted_files = [
+    {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
+    {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
+        ] 
+
+print("Starting sandbox...")
+with Sandbox.run(
+    mounted_files=mounted_files,
+    container_image="python:3.13",
+    network=NetworkOptions(egress_mode="internet"),
+    max_lifetime_seconds=3600
+) as sandbox:
+    sandbox.write_file("hyperparameters.yaml", Path("hyperparameters.yaml").read_bytes()).result()
+
+    # 의존성 설치
+    print("Installing dependencies...")
+    sandbox.exec(["pip", "install", "-r", "requirements.txt"], check=True).result()
+
+    # 스크립트 실행
+    print("Running script...")
+    result = sandbox.exec(["python", "train.py", "--config", "hyperparameters.yaml"]).result()
+    print(result.stdout)
+    print(result.stderr)
+    print(f"Exit code: {result.returncode}")
+
+    # 생성된 모델 파일을 로컬에 저장
+    print("Downloading zoo_wandb.pth...")
+    model_data = sandbox.read_file("zoo_wandb.pth").result()
+    Path("zoo_wandb.pth").write_bytes(model_data)
+    print("Saved zoo_wandb.pth")
+```
+
+이전 코드 스니펫은 다음을 수행합니다:
+
+1. (6 - 9행) 샌드박스에 마운트할 파일인 `train.py` 및 `requirements.txt`를 나열합니다.
+2. (12행) 샌드박스를 시작합니다. 샌드박스는 `python:3.13` 컨테이너 이미지를 사용하고, 인터넷 액세스가 가능하며, 최대 수명은 3600초(1시간)로 설정되어 있습니다.
+3. (18행) `hyperparameters.yaml` 파일을 샌드박스에 씁니다. 이렇게 하면 트레이닝 스크립트(`train.py`)가 실행될 때 하이퍼파라미터에 액세스할 수 있습니다.
+4. (22행) 의존성을 설치합니다. 트레이닝 스크립트에 필요한 의존성을 설치하기 위해 샌드박스 내부에서 `pip install -r requirements.txt` 명령을 실행합니다.
+5. (26행) 트레이닝 스크립트를 실행합니다. 트레이닝을 시작하기 위해 샌드박스 내부에서 `python train.py --config hyperparameters.yaml` 명령을 실행합니다. 이 스크립트는 UCI Zoo 데이터셋으로 PyTorch 모델을 트레이닝하고, 트레이닝된 모델을 `zoo_wandb.pth`라는 이름의 파일로 저장합니다.
+6. (27-29행) 출력과 종료 코드를 출력합니다. 트레이닝 스크립트 실행이 끝나면 디버깅 및 확인을 위해 표준 출력, 표준 오류, 종료 코드를 콘솔에 출력합니다.
+7. (33-34행) 생성된 모델 파일을 다운로드합니다. `read_file()` 방법을 사용해 샌드박스에서 `zoo_wandb.pth` 파일을 조회하고 로컬에 저장합니다.

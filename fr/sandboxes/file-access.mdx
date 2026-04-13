@@ -1,0 +1,100 @@
+---
+title: Opérations sur les fichiers
+description: Découvrez comment lire, écrire et monter des fichiers dans les W&B Sandboxes.
+---
+
+Utilisez les opérations sur les fichiers pour partager des données entre votre environnement local et un sandbox. Vous pouvez lire des fichiers depuis un sandbox, y écrire des fichiers ou y monter des fichiers et répertoires locaux.
+
+Par exemple, vous pouvez écrire un script Python dans un sandbox, l’exécuter, puis récupérer le fichier de sortie dans votre environnement local. Vous pouvez également monter un répertoire de données d’entraînement dans un sandbox pour une tâche de machine learning.
+
+<Tip>
+  **Choisissez la méthode d’accès aux fichiers appropriée**
+
+  Montez des fichiers ou des répertoires lorsque vous voulez que le sandbox accède à des données locales sans les copier.
+
+  Lisez et écrivez des fichiers lorsque vous voulez transférer de petits fichiers entre votre environnement local et le sandbox, ou lorsque vous voulez enregistrer localement la sortie du sandbox.
+</Tip>
+
+<div id="write-a-file-to-the-sandbox">
+  ## Écrire un fichier dans la sandbox
+</div>
+
+{/* création, mise à jour, modification ou sauvegarde de données  */}
+
+{/* transfère un fichier vers le sandbox. Utilisez cette méthode pour téléverser les fichiers d’entrée dont votre code dans le sandbox a besoin (scripts, configurations, fichiers de données). */}
+
+Transférez un fichier de votre environnement local vers le sandbox à l’aide de la méthode [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+# Chemin du fichier local que vous souhaitez écrire dans le sandbox
+text_file = Path("hello.txt")
+
+with Sandbox.run() as sandbox:
+    # Écrire un fichier dans le sandbox
+    sandbox.write_file("hello.txt", text_file.read_bytes()).result()
+```
+
+Voir la documentation de référence de la classe [`Sandbox`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox) pour obtenir la liste complète des paramètres et des options de [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
+
+<div id="read-a-file-from-the-sandbox">
+  ## Lire un fichier depuis le sandbox
+</div>
+
+{/* accès à des données, consultation ou chargement depuis un support de stockage */}
+
+{/* transfère un fichier hors du sandbox. Utilisez-le pour télécharger les fichiers de sortie générés par votre code dans le sandbox (modèles, résultats, journaux). */}
+
+Enregistrez un fichier du sandbox sur votre environnement local à l’aide de la méthode [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file).
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    # La démo crée un fichier dans le sandbox pour le lire ensuite
+    sandbox.exec(["sh", "-c", "echo 'Hello, world.' > hello.txt"]).result()
+
+    # Enregistrer le fichier sur la machine locale (pas dans le sandbox)
+    content = sandbox.read_file("hello.txt").result()  # b"Hello, world.\n"
+    Path("hello.txt").write_bytes(content)
+```
+
+Voir la documentation de référence de la classe `Sandbox` pour consulter la liste complète des paramètres et des options de [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file).
+
+<div id="mount-files">
+  ## Monter des fichiers
+</div>
+
+Montez des fichiers ou des répertoires pour partager des fichiers volumineux ou des jeux de données entre votre environnement local et le sandbox sans les copier. Les fichiers montés sont disponibles dans le sandbox au chemin que vous indiquez.
+
+<Info>
+  Les fichiers montés sont en lecture seule dans le sandbox. Si vous devez modifier des fichiers dans le
+  sandbox, utilisez plutôt `Sandbox.write_file()`.
+</Info>
+
+Dans l&#39;extrait de code suivant, les fichiers locaux `train.py` et `requirements.txt` sont montés dans le répertoire racine du sandbox. Une fois les fichiers montés, vous pouvez les utiliser comme n&#39;importe quel autre fichier dans le sandbox. Le sandbox installe les dépendances à partir de `requirements.txt`, puis exécute `train.py`.
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+mounted_files = [
+    {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
+    {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
+        ] 
+
+print("Démarrage du sandbox...")
+with Sandbox.run(mounted_files=mounted_files) as sandbox:
+
+    # Les fichiers montés sont disponibles dans le sandbox aux chemins de montage spécifiés
+    print("Installation des dépendances...")
+    result = sandbox.exec(["pip", "install", "-r", "requirements.txt"], check=True).result()
+    print(result.stdout)
+
+    print("Exécution du script...")
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```

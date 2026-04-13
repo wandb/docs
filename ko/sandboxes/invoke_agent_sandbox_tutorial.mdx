@@ -1,0 +1,240 @@
+---
+title: "튜토리얼: 샌드박스에서 에이전트 호출하기"
+description: "W&B Sandbox 환경에서 OpenAI 에이전트를 호출하는 방법을 알아보세요"
+---
+
+이 튜토리얼에서는 W&amp;B Sandbox 환경에서 에이전트를 호출합니다. 이를 위해 적절한 환경 변수를 사용해 샌드박스를 시작하고, 필요한 의존성을 설치한 다음, 도구 Call을 사용해 날씨에 대한 사용자 질문에 답하는 단순한 OpenAI 에이전트를 생성하고 호출하는 Python 스크립트를 실행합니다.
+
+<Note>
+  이 튜토리얼에서는 에이전트의 언어 모델로 OpenAI를 사용하며, 이를 위해
+  OpenAI API 키가 필요합니다.
+</Note>
+
+{/* 이를 통해 로컬 설정에 영향을 주지 않고 안전하게 격리된 환경에서 에이전트의 동작을 테스트하고 반복적으로 개선할 수 있습니다. */}
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+{/* ### (권장) Python 가상 환경 만들기
+
+  의존성을 체계적으로 관리하고 다른 프로젝트와의 충돌을 방지하려면 Python 가상 환경을 생성한 후 활성화하세요. 터미널에서 다음 명령어를 실행하세요:
+
+  ```bash
+  python -m venv venv
+  source venv/bin/activate  # Windows에서는 `venv\Scripts\activate`를 사용하세요
+  ```  */}
+
+<div id="install-wb-python-sdk">
+  ### W&amp;B Python SDK 설치
+</div>
+
+W&amp;B Python SDK를 설치하세요. `pip`를 사용하면 됩니다:
+
+```bash
+pip install wandb
+```
+
+<div id="log-in-and-authenticate-with-wb">
+  ### W&amp;B 로그인 및 인증
+</div>
+
+[`wandb login`](/ko/models/ref/cli/wandb-login) CLI 명령을 실행한 다음, 안내에 따라 W&amp;B 계정에 로그인하세요:
+
+```bash
+wandb login
+```
+
+<div id="store-api-keys-in-secret-manager">
+  ### Secret Manager에 API 키 저장
+</div>
+
+OpenAI API 키를 `OPENAI_API_KEY`로 [W&amp;B Secret Manager](/ko/platform/secrets)에 저장하세요. W&amp;B 계정에서 시크릿을 생성하고 관리하는 방법은 [시크릿 관리](/ko/platform/secrets)를 참조하세요.
+
+<div id="copy-agent-code">
+  ## 에이전트 코드 복사하기
+</div>
+
+<Accordion title="OpenAI 에이전트 코드">
+  다음 코드를 이 튜토리얼과 같은 디렉토리에 `demo.py` 파일로 복사하여 붙여넣은 다음, 위의 코드 스니펫을 실행하여 샌드박스 환경에서 OpenAI 에이전트를 호출하는 방법을 확인하세요.
+
+  ```python title="demo.py"
+  import json
+  import os
+
+  from openai import OpenAI
+
+  # 환경에서 API 키 조회
+  api_key = os.getenv("OPENAI_API_KEY")
+  if not api_key:
+      raise ValueError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다")
+
+  client = OpenAI(api_key=api_key)
+
+  # system 프롬프트 정의
+  SYSTEM_PROMPT = """당신은 말장난으로 말하는 기상 예보 전문가입니다.
+
+  두 가지 도구를 사용할 수 있습니다:
+
+  - get_weather_for_location: 특정 위치의 날씨를 조회할 때 사용합니다
+  - get_user_location: 사용자의 위치를 조회할 때 사용합니다
+
+  사용자가 날씨를 물어보면 위치를 반드시 파악하세요. 질문에서 사용자가 현재 있는 곳을 의미한다고 판단되면 get_user_location 도구를 사용하여 위치를 확인하세요."""
+
+  # 함수 호출을 위한 JSON 스키마로 도구 정의
+  TOOLS = [
+      {
+          "type": "function",
+          "function": {
+              "name": "get_weather_for_location",
+              "description": "지정된 도시의 날씨를 조회합니다.",
+              "parameters": {
+                  "type": "object",
+                  "properties": {
+                      "city": {"type": "string", "description": "날씨를 조회할 도시입니다."}
+                  },
+                  "required": ["city"],
+              },
+          },
+      },
+      {
+          "type": "function",
+          "function": {
+              "name": "get_user_location",
+              "description": "사용자 ID를 기반으로 사용자의 위치를 조회합니다.",
+              "parameters": {
+                  "type": "object",
+                  "properties": {},
+              },
+          },
+      },
+  ]
+
+  # 구조화된 출력을 위한 JSON 스키마로 응답 형식 정의
+  RESPONSE_FORMAT = {
+      "type": "json_schema",
+      "json_schema": {
+          "name": "weather_response",
+          "strict": True,
+          "schema": {
+              "type": "object",
+              "properties": {
+                  "punny_response": {
+                      "type": "string",
+                      "description": "말장난이 담긴 응답 (항상 필수)",
+                  },
+                  "weather_conditions": {
+                      "type": ["string", "null"],
+                      "description": "날씨에 관한 흥미로운 정보 (있는 경우)",
+                  },
+              },
+              "required": ["punny_response", "weather_conditions"],
+              "additionalProperties": False,
+          },
+      },
+  }
+
+
+  # 도구 구현
+  def get_weather_for_location(city: str) -> str:
+      return f"It's always sunny in {city}!"
+
+
+  def get_user_location(user_id: str) -> str:
+      return "Florida" if user_id == "1" else "SF"
+
+
+  TOOL_DISPATCH = {
+      "get_weather_for_location": lambda args, _ctx: get_weather_for_location(args["city"]),
+      "get_user_location": lambda _args, ctx: get_user_location(ctx["user_id"]),
+  }
+
+
+  def run_agent(messages: list[dict], context: dict) -> dict:
+      """에이전트 루프 실행: 모델을 호출하고, 도구 Call을 실행하며, 완료될 때까지 반복합니다."""
+      while True:
+          response = client.chat.completions.create(
+              model="gpt-4o",
+              temperature=0,
+              messages=messages,
+              tools=TOOLS,
+              response_format=RESPONSE_FORMAT,
+          )
+
+          choice = response.choices[0]
+          message = choice.message
+
+          # 모델이 도구를 호출하려는 경우 실행하고 루프 반복
+          if message.tool_calls:
+              # 어시스턴트 메시지(tool_calls 포함)를 이력에 추가
+              messages.append(message.to_dict())
+
+              for tool_call in message.tool_calls:
+                  fn_name = tool_call.function.name
+                  fn_args = json.loads(tool_call.function.arguments)
+                  result = TOOL_DISPATCH[fn_name](fn_args, context)
+                  messages.append({
+                      "role": "tool",
+                      "tool_call_id": tool_call.id,
+                      "content": result,
+                  })
+              continue
+
+          # 도구 Call 없음 — 최종 답변
+          messages.append(message.to_dict())
+          return json.loads(message.content)
+
+
+  # --- 에이전트 실행 ---
+
+  conversation: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
+  context = {"user_id": "1"}
+
+  # 첫 번째 턴
+  conversation.append({"role": "user", "content": "밖에 날씨가 어때?"})
+  result = run_agent(conversation, context)
+  print(result)
+  # {'punny_response': "Florida is still having a 'sun-derful' day! ...", 'weather_conditions': "It's always sunny in Florida!"}
+
+  # 두 번째 턴 (대화 이력 유지됨)
+  conversation.append({"role": "user", "content": "감사합니다!"})
+  result = run_agent(conversation, context)
+  print(result)
+  # {'punny_response': "You're 'thund-erfully' welcome! ...", 'weather_conditions': None}
+  ```
+</Accordion>
+
+<div id="create-a-sandbox-and-run-the-agent-script">
+  ## 샌드박스를 만들고 에이전트 스크립트를 실행하세요
+</div>
+
+다음 코드를 Python 파일에 복사하여 붙여넣고 실행하세요. 이전 단계에서 만든 `demo.py` 파일과 같은 디렉터리에 저장하세요.
+
+```python title="train_in_sandbox.py"
+import os
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions, Secret
+
+script = Path("demo.py").read_bytes()
+
+print("Starting sandbox...")
+with Sandbox.run(
+    container_image="python:3.13",
+    network=NetworkOptions(egress_mode="internet"),
+    max_lifetime_seconds=3600,
+    secrets=[Secret(name="OPENAI_API_KEY")]
+) as sandbox:
+    sandbox.write_file("demo.py", script).result()
+
+    # 의존성 설치
+    print("Installing dependencies...")
+    sandbox.exec(["pip", "install", "openai"], check=True).result()
+
+    # 스크립트 실행
+    print("Running script...")
+    result = sandbox.exec(["python", "demo.py"], check=True).result()
+    print("Script output:")
+    print(result)
+
+    print(f"Exit code: {result.returncode}")
+```

@@ -1,0 +1,106 @@
+---
+title: 샌드박스 만들기
+description: 샌드박스를 만들고 관리하는 방법을 알아보세요.
+---
+
+W&amp;B에서 샌드박스를 만들 수 있습니다. 각 샌드박스는 자체 [파일 시스템](/ko/sandboxes/file-access), 네트워크, 프로세스 공간을 갖춘 별도의 컨테이너에서 실행됩니다.
+
+<Info>
+  기본적으로 샌드박스는 `python:3.11`을 기본 이미지로 사용합니다. 다른 이미지를 사용하려면 [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) 또는 [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults)에 `container_image`를 전달하세요. W&amp;B는 공개 컨테이너 이미지만 지원합니다.
+
+  ```python
+  from wandb.sandbox import Sandbox
+
+  with Sandbox.run(container_image="python:3.15") as sandbox:
+      sandbox.exec(["python", "--version"]).result()
+  ```
+</Info>
+
+<div id="create-a-single-sandbox">
+  ## 단일 샌드박스 생성
+</div>
+
+[`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run)을 사용하여 샌드박스를 생성하고 시작하세요. 이 방법은 환경과 상호작용하는 데 사용할 수 있는 `Sandbox` 객체를 반환합니다.
+
+<Tip>
+  W&amp;B는 오류가 발생하더라도 블록을 벗어날 때 샌드박스가 자동으로
+  중지되도록 컨텍스트 관리자(`with` 문)를 사용할 것을 권장합니다.
+</Tip>
+
+다음 예제에서는 기본 컨테이너 이미지(`python:3.11`)를 사용해 샌드박스를 생성합니다:
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+샌드박스에서 명령을 실행하는 방법은 [명령 실행](/ko/sandboxes/run-commands)을 참조하세요. 샌드박스의 라이프사이클과 상태에 대해서는 [샌드박스 라이프사이클](/ko/sandboxes/lifecycle)을 참조하세요.
+
+<div id="start-a-sandbox-without-a-main-command">
+  ### 메인 명령 없이 샌드박스 시작하기
+</div>
+
+먼저 샌드박스를 만들고 나중에 그 안에서 작업을 실행하려면, 명령을 지정하지 않고 `Sandbox.run()`을 호출하세요.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+이 패턴은 대화형 및 다단계 워크플로에 유용합니다. 샌드박스 내에서 명령을 실행하는 방법은 [명령 실행](/ko/sandboxes/run-commands)를 참조하세요.
+
+<div id="start-a-sandbox-with-a-main-command">
+  ### 메인 명령으로 샌드박스 시작하기
+</div>
+
+`Sandbox.run()`에 명령을 전달할 수도 있습니다. 샌드박스가 처음부터 끝까지 단일 작업만 실행하도록 설계된 경우에는 이 패턴을 사용하세요. 메인 프로세스가 종료되면 샌드박스는 [COMPLETED or FAILED](/ko/sandboxes/lifecycle)와 같은 최종 상태로 전환됩니다.
+
+`Sandbox.run()`에 전달한 명령은 샌드박스의 메인 프로세스로 실행됩니다.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+```
+
+`Sandbox.run()`은 명령의 상태를 모니터링하고 완료될 때까지 기다리는 데 사용할 수 있는 `Sandbox` 객체를 반환합니다. 예를 들어, 명령이 완료될 때까지 기다린 다음 결과를 가져오려면 다음과 같이 하세요:
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+
+# 선택적으로 명령이 완료될 때까지 기다린 후 결과를 조회합니다
+result = sandbox.wait_until_complete().result()
+```
+
+<div id="create-multiple-sandboxes-with-a-session">
+  ## 세션을 사용해 여러 샌드박스 만들기
+</div>
+
+[`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session)을 사용해 여러 샌드박스를 생성하고 관리하세요. 세션이 닫히면(예: `with` 블록을 종료할 때) 해당 세션에서 생성한 모든 샌드박스가 자동으로 중지됩니다.
+
+선택적으로 [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) 객체를 세션에 전달해, 해당 세션에서 생성하는 모든 샌드박스에 재사용 가능한 기본 설정을 정의할 수 있습니다. 예를 들어, 세션의 모든 샌드박스에 적용할 기본 컨테이너 이미지, 네트워크 설정 또는 최대 수명을 지정할 수 있습니다.
+
+다음 코드 스니펫은 기본 설정(`SandboxDefaults`)을 사용하는 두 개의 샌드박스를 생성하는 세션을 만듭니다.
+
+```python
+from wandb.sandbox import Session, SandboxDefaults
+
+defaults = SandboxDefaults(
+    container_image="python:3.11",
+    max_lifetime_seconds=300,
+    tags=("batch-job",),
+)
+
+with Session(defaults) as session:
+    sandbox1 = session.sandbox()
+    sandbox2 = session.sandbox()
+
+    print(sandbox1)
+    print(sandbox2)
+```
