@@ -67,7 +67,7 @@ For example, the following code snippet creates a sandbox and waits for it to st
 
 ```python
 import wandb
-from wandb.sandbox import Sandbox, NetworkOptions
+from wandb.sandbox import Sandbox
 
 with Sandbox.run() as sandbox:
     sandbox.wait()  # block until the sandbox is running

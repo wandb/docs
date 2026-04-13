@@ -9,13 +9,15 @@ W&B Sandboxes is in active development and in private preview. Contact W&B Suppo
 
 W&B Sandboxes gives you on-demand, isolated compute environments that you can create, use, and discard using Python. No cluster management, no Kubernetes YAML.
 
-W&B Sandboxes is built on top of the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox/client/overview).
+W&B Sandboxes is built on top of the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox).
 
 ## How it works
 
 A *sandbox* is a single isolated compute environment. You [create](/sandboxes/create-sandbox) it, [run commands inside it](/sandboxes/run-commands), and stop it when it is done. Each sandbox runs in its own container with its own filesystem, network, and process space.
 
-[Sandboxes authenticate](/sandboxes/secrets/) using your existing W&B credentials. Use the [W&B Secrets Manager](/platform/secrets#manage-secrets) with the W&B Python SDK to access sensitive information such as API keys and tokens in a sandbox.
+
+W&B authenticates your identity when you create and manage sandboxes. To use W&B or Weave inside a sandbox, pass your API key using the [W&B Secrets Manager](/platform/secrets#manage-access-to-secrets) or environment variables. See [Secrets](/sandboxes/secrets) for more information about using secrets in sandboxes.
+
 
 A sandbox goes through [several states in its lifecycle](/sandboxes/lifecycle). When a container is running, you can [execute commands](/sandboxes/run-commands) inside it.
 

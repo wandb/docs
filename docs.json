@@ -1157,8 +1157,8 @@
               "sandboxes/run-commands",
               "sandboxes/file-access",
               "sandboxes/secrets",
-              "sandboxes/mltrain_in_sandbox_tutorial",
-              "sandboxes/invoke_agent_sandbox_tutorial"
+              "sandboxes/mltrain-in-sandbox-tutorial",
+              "sandboxes/invoke-agent-sandbox-tutorial"
             ]
           },          
           {
