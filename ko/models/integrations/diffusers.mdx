@@ -47,14 +47,14 @@ autolog(init=dict(project="diffusers_logging"))
 
 2. `autolog`를 사용하여 W&B Run 을 초기화하고, [지원되는 모든 파이프라인 호출](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)로부터 입력과 출력을 자동으로 추적합니다.
 
-    `autolog()` 함수를 호출할 때 [`wandb.init()`](/models/ref/python/functions/init) 에 필요한 파라미터 사전을 받는 `init` 파라미터를 함께 사용할 수 있습니다.
+    `autolog()` 함수를 호출할 때 [`wandb.init()`](/ko/models/ref/python/functions/init) 에 필요한 파라미터 사전을 받는 `init` 파라미터를 함께 사용할 수 있습니다.
 
     `autolog()`를 호출하면 W&B Run 이 초기화되고, [지원되는 모든 파이프라인 호출](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)로부터 입력과 출력을 자동으로 추적합니다.
 
-    - 각 파이프라인 호출은 Workspace 내의 개별 [Table](/models/tables/)로 추적되며, 파이프라인 호출과 관련된 설정은 해당 run 의 설정 내 워크플로우 리스트에 추가됩니다.
-    - 프롬프트, 네거티브 프롬프트, 그리고 생성된 미디어는 [`wandb.Table`](/models/tables/)에 로그됩니다.
+    - 각 파이프라인 호출은 Workspace 내의 개별 [Table](/ko/models/tables/)로 추적되며, 파이프라인 호출과 관련된 설정은 해당 run 의 설정 내 워크플로우 리스트에 추가됩니다.
+    - 프롬프트, 네거티브 프롬프트, 그리고 생성된 미디어는 [`wandb.Table`](/ko/models/tables/)에 로그됩니다.
     - 시드(seed) 및 파이프라인 아키텍처를 포함하여 실험과 관련된 모든 기타 설정은 run 의 설정 섹션에 저장됩니다.
-    - 각 파이프라인 호출에 대해 생성된 미디어는 run 의 [미디어 패널](/models/track/log/media/)에도 로그됩니다.
+    - 각 파이프라인 호출에 대해 생성된 미디어는 run 의 [미디어 패널](/ko/models/track/log/media/)에도 로그됩니다.
 
     <Note>
     [지원되는 파이프라인 호출 목록](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)을 확인할 수 있습니다. 이 인테그레이션에 대한 새로운 기능을 요청하거나 버그를 리포트하려면 [W&B GitHub 이슈 페이지](https://github.com/wandb/wandb/issues)에 이슈를 생성해 주세요.
@@ -155,7 +155,7 @@ run.finish()
     </Frame>
 
 <Note>
-IPython 노트북 환경에서 파이프라인 호출 후 코드를 실행할 때는 명시적으로 [`wandb.Run.finish()`](/models/ref/python/functions/finish) 를 호출해야 합니다. 파이썬 스크립트를 실행할 때는 필요하지 않습니다.
+IPython 노트북 환경에서 파이프라인 호출 후 코드를 실행할 때는 명시적으로 [`wandb.Run.finish()`](/ko/models/ref/python/functions/finish) 를 호출해야 합니다. 파이썬 스크립트를 실행할 때는 필요하지 않습니다.
 </Note>
 
 ### 멀티 파이프라인 워크플로우 추적

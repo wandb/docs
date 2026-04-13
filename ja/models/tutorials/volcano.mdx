@@ -27,7 +27,7 @@ title: Volcano を使用したマルチノード Launch ジョブの実行
 
 設定（configuration）セクションに、[volcano job](https://volcano.sh/en/docs/vcjob/) のテンプレートを入力します。このキューから Launch されるすべての Runs は、このジョブ仕様を使用して作成されます。必要に応じてこの設定を変更し、ジョブをカスタマイズできます。
 
-この設定ブロックには、Kubernetes ジョブ仕様、Volcano ジョブ仕様、または Launch したいその他のカスタムリソース定義（CRD）を指定できます。[設定ブロック内のマクロ](/platform/launch/set-up-launch/) を使用して、このスペックの内容を動的に設定することも可能です。
+この設定ブロックには、Kubernetes ジョブ仕様、Volcano ジョブ仕様、または Launch したいその他のカスタムリソース定義（CRD）を指定できます。[設定ブロック内のマクロ](/ja/platform/launch/set-up-launch/) を使用して、このスペックの内容を動的に設定することも可能です。
 
 このチュートリアルでは、[Volcano の PyTorch プラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin) を利用したマルチノード PyTorch トレーニング用の設定を使用します。以下の設定を YAML または JSON としてコピー＆ペーストしてください。
 

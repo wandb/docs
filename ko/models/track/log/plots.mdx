@@ -3,7 +3,7 @@ title: Experiments 에서 플롯 생성 및 추적하기
 description: 기계학습 Experiments 에서 차트를 생성하고 추적합니다.
 ---
 
-`wandb.plot`의 메소드를 사용하면 트레이닝 중 시간에 따라 변하는 차트를 포함하여 `wandb.Run.log()`로 차트를 추적할 수 있습니다. 커스텀 차트 프레임워크에 대해 자세히 알아보려면 [커스텀 차트 가이드](/models/app/features/custom-charts/walkthrough/)를 확인하세요.
+`wandb.plot`의 메소드를 사용하면 트레이닝 중 시간에 따라 변하는 차트를 포함하여 `wandb.Run.log()`로 차트를 추적할 수 있습니다. 커스텀 차트 프레임워크에 대해 자세히 알아보려면 [커스텀 차트 가이드](/ko/models/app/features/custom-charts/walkthrough/)를 확인하세요.
 
 ### 기본 차트
 
@@ -234,7 +234,7 @@ with wandb.init() as run:
 
 ### 인터랙티브 커스텀 차트
 
-완전한 커스터마이징을 위해 내장된 [Custom Chart 프리셋](/models/app/features/custom-charts/walkthrough/)을 수정하거나 새 프리셋을 생성한 다음 차트를 저장하세요. 차트 ID를 사용하여 스크립트에서 해당 커스텀 프리셋으로 데이터를 직접 로그할 수 있습니다.
+완전한 커스터마이징을 위해 내장된 [Custom Chart 프리셋](/ko/models/app/features/custom-charts/walkthrough/)을 수정하거나 새 프리셋을 생성한 다음 차트를 저장하세요. 차트 ID를 사용하여 스크립트에서 해당 커스텀 프리셋으로 데이터를 직접 로그할 수 있습니다.
 
 ```python
 import wandb
@@ -263,7 +263,7 @@ with wandb.init() as run:
 
 ### Matplotlib 및 Plotly 플롯
 
-`wandb.plot()`을 사용하는 W&B [Custom Charts](/models/app/features/custom-charts/walkthrough/) 대신 [matplotlib](https://matplotlib.org/) 및 [Plotly](https://plotly.com/)로 생성된 차트를 로그할 수 있습니다.
+`wandb.plot()`을 사용하는 W&B [Custom Charts](/ko/models/app/features/custom-charts/walkthrough/) 대신 [matplotlib](https://matplotlib.org/) 및 [Plotly](https://plotly.com/)로 생성된 차트를 로그할 수 있습니다.
 
 ```python
 import wandb

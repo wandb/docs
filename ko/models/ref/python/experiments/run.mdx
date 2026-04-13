@@ -10,13 +10,13 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `Run`
 W&B에 의해 로그 기록되는 계산 단위입니다. 일반적으로 이는 하나의 ML 실험(experiment)입니다.
 
-새로운 run을 생성하려면 [`wandb.init()`](https://docs.wandb.ai/ref/python/init/)을 호출하세요. `wandb.init()`은 새로운 run을 시작하고 `wandb.Run` 오브젝트를 반환합니다. 각 run은 고유 ID(run ID)와 연결됩니다. W&B는 run을 자동으로 종료하기 위해 컨텍스트(`with` 문) 매니저를 사용할 것을 권장합니다.
+새로운 run을 생성하려면 [`wandb.init()`](/ko/ref/python/init/)을 호출하세요. `wandb.init()`은 새로운 run을 시작하고 `wandb.Run` 오브젝트를 반환합니다. 각 run은 고유 ID(run ID)와 연결됩니다. W&B는 run을 자동으로 종료하기 위해 컨텍스트(`with` 문) 매니저를 사용할 것을 권장합니다.
 
-분산 트레이닝 실험의 경우, 프로세스당 하나의 run을 사용하여 각 프로세스를 개별적으로 추적하거나, 모든 프로세스를 단일 run으로 추적할 수 있습니다. 자세한 내용은 [분산 트레이닝 실험 로그 기록](https://docs.wandb.ai/guides/track/log/distributed-training)을 참조하세요.
+분산 트레이닝 실험의 경우, 프로세스당 하나의 run을 사용하여 각 프로세스를 개별적으로 추적하거나, 모든 프로세스를 단일 run으로 추적할 수 있습니다. 자세한 내용은 [분산 트레이닝 실험 로그 기록](/ko/guides/track/log/distributed-training)을 참조하세요.
 
-`wandb.Run.log()`를 사용하여 데이터를 run에 로그할 수 있습니다. `wandb.Run.log()`를 사용하여 로그하는 모든 내용은 해당 run으로 전송됩니다. 자세한 정보는 [실험 생성하기](https://docs.wandb.ai/guides/track/create-an-experiment/) 또는 [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API 참조 페이지를 확인하세요.
+`wandb.Run.log()`를 사용하여 데이터를 run에 로그할 수 있습니다. `wandb.Run.log()`를 사용하여 로그하는 모든 내용은 해당 run으로 전송됩니다. 자세한 정보는 [실험 생성하기](/ko/guides/track/create-an-experiment/) 또는 [`wandb.init`](/ko/ref/python/init/) API 참조 페이지를 확인하세요.
 
-[`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) 네임스페이스에는 또 다른 `Run` 오브젝트가 있습니다. 이 오브젝트는 이미 생성된 run들과 상호작용할 때 사용합니다.
+[`wandb.apis.public`](/ko/ref/python/public-api/api/) 네임스페이스에는 또 다른 `Run` 오브젝트가 있습니다. 이 오브젝트는 이미 생성된 run들과 상호작용할 때 사용합니다.
 
 **Attributes:**
 
@@ -103,7 +103,7 @@ run과 연결된 job 유형의 이름입니다.
 
 W&B 앱의 run Overview 페이지에서 run의 job 유형을 확인할 수 있습니다.
 
-이를 사용하여 run을 "training", "evaluation", "inference"와 같은 job 유형별로 분류할 수 있습니다. 이는 특히 동일한 프로젝트 내에 서로 다른 job 유형을 가진 여러 run이 있을 때 W&B UI에서 run을 정리하고 필터링하는 데 유용합니다. 자세한 내용은 [Run 정리하기](https://docs.wandb.ai/guides/runs/#organize-runs)를 참조하세요.
+이를 사용하여 run을 "training", "evaluation", "inference"와 같은 job 유형별로 분류할 수 있습니다. 이는 특히 동일한 프로젝트 내에 서로 다른 job 유형을 가진 여러 run이 있을 때 W&B UI에서 run을 정리하고 필터링하는 데 유용합니다. 자세한 내용은 [Run 정리하기](/ko/guides/runs/#organize-runs)를 참조하세요.
 
 **Returns:**
  - `str`: job_type 프로퍼티 값.
@@ -429,7 +429,7 @@ log(
 
 run 데이터를 업로드합니다.
 
-`log`를 사용하여 스칼라, 이미지, 비디오, 히스토그램, 플롯, 테이블 등 run의 데이터를 로그합니다. 코드 조각, 모범 사례 등에 대해서는 [오브젝트 및 미디어 로그 기록](https://docs.wandb.ai/guides/track/log)을 참조하세요.
+`log`를 사용하여 스칼라, 이미지, 비디오, 히스토그램, 플롯, 테이블 등 run의 데이터를 로그합니다. 코드 조각, 모범 사례 등에 대해서는 [오브젝트 및 미디어 로그 기록](/ko/guides/track/log)을 참조하세요.
 
 기본 사용법:
 
@@ -442,9 +442,9 @@ with wandb.init() as run:
 
 위의 코드 조각은 loss와 accuracy를 run의 history에 저장하고 이러한 메트릭에 대한 요약(summary) 값을 업데이트합니다.
 
-로그된 데이터는 [wandb.ai](https://wandb.ai)의 워크스페이스에서, 또는 [자체 호스팅 인스턴스](https://docs.wandb.ai/guides/hosting)의 W&B 앱에서 로컬로 시각화할 수 있으며, [Public API](https://docs.wandb.ai/guides/track/public-api-guide)를 사용하여 Jupyter 노트북 등에서 로컬로 시각화하고 탐색하기 위해 데이터를 내보낼 수 있습니다.
+로그된 데이터는 [wandb.ai](https://wandb.ai)의 워크스페이스에서, 또는 [자체 호스팅 인스턴스](/ko/guides/hosting)의 W&B 앱에서 로컬로 시각화할 수 있으며, [Public API](/ko/guides/track/public-api-guide)를 사용하여 Jupyter 노트북 등에서 로컬로 시각화하고 탐색하기 위해 데이터를 내보낼 수 있습니다.
 
-로그되는 값은 스칼라일 필요가 없습니다. 이미지, 오디오, 비디오 등 [W&B가 지원하는 모든 데이터 유형](https://docs.wandb.ai/ref/python/data-types/)을 로그할 수 있습니다. 예를 들어, `wandb.Table`을 사용하여 구조화된 데이터를 로그할 수 있습니다. 자세한 내용은 [테이블 로그 기록, 데이터 시각화 및 쿼리](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) 튜토리얼을 참조하세요.
+로그되는 값은 스칼라일 필요가 없습니다. 이미지, 오디오, 비디오 등 [W&B가 지원하는 모든 데이터 유형](/ko/ref/python/data-types/)을 로그할 수 있습니다. 예를 들어, `wandb.Table`을 사용하여 구조화된 데이터를 로그할 수 있습니다. 자세한 내용은 [테이블 로그 기록, 데이터 시각화 및 쿼리](/ko/guides/models/tables/tables-walkthrough) 튜토리얼을 참조하세요.
 
 W&B는 이름에 슬래시(`/`)가 포함된 메트릭을 마지막 슬래시 이전의 텍스트를 사용하여 섹션별로 정리합니다. 예를 들어, 다음 코드는 "train"과 "validate"라는 두 개의 섹션을 생성합니다.
 
@@ -465,7 +465,7 @@ with wandb.init() as run:
 
 `run.log()`는 초당 몇 번 이상 호출하도록 설계되지 않았습니다. 최적의 성능을 위해 로그 기록을 N회 반복마다 한 번으로 제한하거나, 여러 반복에 걸쳐 데이터를 수집하여 단일 단계에서 로그를 기록하세요.
 
-기본적으로 `log`를 호출할 때마다 새로운 "step"이 생성됩니다. step은 항상 증가해야 하며, 이전 step으로 로그를 기록하는 것은 불가능합니다. 차트에서 모든 메트릭을 X축으로 사용할 수 있습니다. 자세한 내용은 [커스텀 로그 축](https://docs.wandb.ai/guides/track/log/customize-logging-axes/)을 참조하세요.
+기본적으로 `log`를 호출할 때마다 새로운 "step"이 생성됩니다. step은 항상 증가해야 하며, 이전 step으로 로그를 기록하는 것은 불가능합니다. 차트에서 모든 메트릭을 X축으로 사용할 수 있습니다. 자세한 내용은 [커스텀 로그 축](/ko/guides/track/log/customize-logging-axes/)을 참조하세요.
 
 많은 경우, W&B step을 트레이닝 단계보다는 타임스탬프처럼 취급하는 것이 좋습니다.
 

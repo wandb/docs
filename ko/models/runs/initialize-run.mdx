@@ -2,11 +2,11 @@
 title: Runs 초기화
 ---
 
-[`wandb.init()`](/models/ref/python/functions/init)을 사용하여 W&B Run 을 초기화합니다. 
+[`wandb.init()`](/ko/models/ref/python/functions/init)을 사용하여 W&B Run 을 초기화합니다. 
 
 기본적으로 W&B는 `wandb.init()`을 호출할 때 각 Python 프로세스에 한 번에 하나의 활성 run 만 있다고 가정합니다. `wandb.init()`을 다시 호출하면, W&B는 동일한 run 을 반환하거나 새 run 을 시작하기 전에 이전 run 을 종료합니다. 동일한 프로세스에서 `wandb.init()`의 다중 호출을 처리하는 방식은 환경(노트북 vs. 비노트북) 및 `reinit` 설정에 따라 달라집니다. 
 
-동일한 프로세스에서 여러 개의 활성 Runs 를 관리하는 방법은 [한 프로세스 내의 여러 runs](/models/runs/initialize-run#multiple-runs-in-one-process)를 참조하세요.
+동일한 프로세스에서 여러 개의 활성 Runs 를 관리하는 방법은 [한 프로세스 내의 여러 runs](/ko/models/runs/initialize-run#multiple-runs-in-one-process)를 참조하세요.
 
 <Note>
 W&B는 `wandb.init()`을 호출할 때 `with` 블록을 사용할 것을 권장합니다. 이렇게 하면 블록이 끝날 때 W&B가 run 을 올바르게 종료하고 모든 데이터를 업로드합니다.
@@ -58,12 +58,12 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 
 | | 설명 | run 생성 여부 | 예시 유스 케이스 |
 |----------------|----------------|----------------| -----------------|
-| `create_new` | 기존의 활성 runs 를 종료하지 않고 `wandb.init()`으로 새 run 을 생성합니다. W&B는 전역 `wandb.Run`을 새 runs 로 자동으로 전환하지 않습니다. 각 run 오브젝트를 직접 유지해야 합니다. 자세한 내용은 아래의 [한 프로세스 내의 여러 runs 예시](/models/runs/initialize-run/#example-multiple-runs-in-one-process)를 참조하세요. | 예 | 동시 프로세스를 생성하고 관리하는 데 이상적입니다. 예를 들어, "보조" runs 를 시작하거나 종료하는 동안 활성 상태를 유지하는 "기본" run 이 있는 경우입니다. |
+| `create_new` | 기존의 활성 runs 를 종료하지 않고 `wandb.init()`으로 새 run 을 생성합니다. W&B는 전역 `wandb.Run`을 새 runs 로 자동으로 전환하지 않습니다. 각 run 오브젝트를 직접 유지해야 합니다. 자세한 내용은 아래의 [한 프로세스 내의 여러 runs 예시](/ko/models/runs/initialize-run/#example-multiple-runs-in-one-process)를 참조하세요. | 예 | 동시 프로세스를 생성하고 관리하는 데 이상적입니다. 예를 들어, "보조" runs 를 시작하거나 종료하는 동안 활성 상태를 유지하는 "기본" run 이 있는 경우입니다. |
 | `finish_previous` | `wandb.init()`으로 새 run 을 생성하기 전에 `run.finish()`를 사용하여 모든 활성 runs 를 종료합니다. 비노트북 환경의 기본 행동입니다. | 예 | 순차적인 하위 프로세스를 별도의 개별 runs 로 나누고 싶을 때 이상적입니다. |
 | `return_previous` | 종료되지 않은 가장 최근의 run 을 반환합니다. 노트북 환경의 기본 행동입니다. | 아니오 | |
 
 <Note>
-W&B는 Hugging Face Trainer, Keras 콜백, PyTorch Lightning과 같이 단일 전역 run 을 가정하는 [W&B 인테그레이션](/models/integrations)에 대해 `create_new` 모드를 지원하지 않습니다. 이러한 인테그레이션을 사용하는 경우 각 하위 실험을 별도의 프로세스에서 실행해야 합니다.
+W&B는 Hugging Face Trainer, Keras 콜백, PyTorch Lightning과 같이 단일 전역 run 을 가정하는 [W&B 인테그레이션](/ko/models/integrations)에 대해 `create_new` 모드를 지원하지 않습니다. 이러한 인테그레이션을 사용하는 경우 각 하위 실험을 별도의 프로세스에서 실행해야 합니다.
 </Note>
 
 ### `reinit` 지정하기

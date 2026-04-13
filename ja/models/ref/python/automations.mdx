@@ -12,32 +12,32 @@ W&B Automations API を使用すると、ML パイプライン内のイベント
 
 | クラス | 説明 |
 |-------|-------------|
-| [`Automation`](/models/ref/python/automations/automation/) | 設定内容を含む、保存済みのオートメーションインスタンスを表します。 |
-| [`NewAutomation`](/models/ref/python/automations/newautomation/) | 新しいオートメーションを作成するためのビルダー・クラスです。 |
+| [`Automation`](/ja/models/ref/python/automations/automation/) | 設定内容を含む、保存済みのオートメーションインスタンスを表します。 |
+| [`NewAutomation`](/ja/models/ref/python/automations/newautomation/) | 新しいオートメーションを作成するためのビルダー・クラスです。 |
 
 ### イベント (トリガー)
 
 | イベント | 説明 |
 |-------|-------------|
-| [`OnRunMetric`](/models/ref/python/automations/onrunmetric/) | run の メトリクス が定義された条件（閾値、変化など）を満たしたときにトリガーされます。 |
-| [`OnCreateArtifact`](/models/ref/python/automations/oncreateartifact/) | コレクション内に新しい アーティファクト が作成されたときにトリガーされます。 |
-| [`OnLinkArtifact`](/models/ref/python/automations/onlinkartifact/) | アーティファクト がレジストリにリンクされたときにトリガーされます。 |
-| [`OnAddArtifactAlias`](/models/ref/python/automations/onaddartifactalias/) | アーティファクト に エイリアス が追加されたときにトリガーされます。 |
+| [`OnRunMetric`](/ja/models/ref/python/automations/onrunmetric/) | run の メトリクス が定義された条件（閾値、変化など）を満たしたときにトリガーされます。 |
+| [`OnCreateArtifact`](/ja/models/ref/python/automations/oncreateartifact/) | コレクション内に新しい アーティファクト が作成されたときにトリガーされます。 |
+| [`OnLinkArtifact`](/ja/models/ref/python/automations/onlinkartifact/) | アーティファクト がレジストリにリンクされたときにトリガーされます。 |
+| [`OnAddArtifactAlias`](/ja/models/ref/python/automations/onaddartifactalias/) | アーティファクト に エイリアス が追加されたときにトリガーされます。 |
 
 ### アクション
 
 | アクション | 説明 |
 |--------|-------------|
-| [`SendNotification`](/models/ref/python/automations/sendnotification/) | Slack やその他の統合 チャンネル を通じて通知を送信します。 |
-| [`SendWebhook`](/models/ref/python/automations/sendwebhook/) | 外部サービスに HTTP webhook リクエストを送信します。 |
-| [`DoNothing`](/models/ref/python/automations/donothing/) | オートメーション 設定 のテストに使用するプレースホルダー・アクションです。 |
+| [`SendNotification`](/ja/models/ref/python/automations/sendnotification/) | Slack やその他の統合 チャンネル を通じて通知を送信します。 |
+| [`SendWebhook`](/ja/models/ref/python/automations/sendwebhook/) | 外部サービスに HTTP webhook リクエストを送信します。 |
+| [`DoNothing`](/ja/models/ref/python/automations/donothing/) | オートメーション 設定 のテストに使用するプレースホルダー・アクションです。 |
 
 ### フィルター
 
 | フィルター | 説明 |
 |--------|-------------|
-| [`MetricThresholdFilter`](/models/ref/python/automations/metricthresholdfilter/) | メトリクス の値を閾値と比較し、それに基づいて run をフィルタリングします。 |
-| [`MetricChangeFilter`](/models/ref/python/automations/metricchangefilter/) | 時間の経過に伴う メトリクス 値の変化に基づいて run をフィルタリングします。 |
+| [`MetricThresholdFilter`](/ja/models/ref/python/automations/metricthresholdfilter/) | メトリクス の値を閾値と比較し、それに基づいて run をフィルタリングします。 |
+| [`MetricChangeFilter`](/ja/models/ref/python/automations/metricchangefilter/) | 時間の経過に伴う メトリクス 値の変化に基づいて run をフィルタリングします。 |
 
 ## 一般的なユースケース
 
@@ -93,4 +93,4 @@ automation = api.create_automation(
 )
 ```
 
-Automations API の使用方法に関する詳細は、[Automations ガイド](/models/automations/) を参照してください。
+Automations API の使用方法に関する詳細は、[Automations ガイド](/ja/models/automations/) を参照してください。

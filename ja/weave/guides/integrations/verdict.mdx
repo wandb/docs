@@ -41,7 +41,7 @@ print(output)
 
 ## 呼び出しメタデータの追跡
 
-Verdict パイプライン の呼び出しから メタデータ を追跡するには、[`weave.attributes`](/weave/reference/python-sdk#function-attributes) コンテキストマネージャを使用できます。このコンテキストマネージャを使用すると、パイプライン の実行や評価バッチなど、特定の コード ブロックに対してカスタム メタデータ を設定できます。
+Verdict パイプライン の呼び出しから メタデータ を追跡するには、[`weave.attributes`](/ja/weave/reference/python-sdk#function-attributes) コンテキストマネージャを使用できます。このコンテキストマネージャを使用すると、パイプライン の実行や評価バッチなど、特定の コード ブロックに対してカスタム メタデータ を設定できます。
 
 ```python lines {7,14}
 import weave
@@ -157,7 +157,7 @@ result = pipeline.run(data)
 
 ## Models と Evaluations
 
-複数の パイプライン コンポーネントを持つ AI システムを整理し評価することは困難な場合があります。[`weave.Model`](/weave/guides/core-types/models) を使用すると、プロンプト、パイプライン 設定、評価 パラメータ などの実験の詳細をキャプチャして整理でき、異なるイテレーションの比較が容易になります。
+複数の パイプライン コンポーネントを持つ AI システムを整理し評価することは困難な場合があります。[`weave.Model`](/ja/weave/guides/core-types/models) を使用すると、プロンプト、パイプライン 設定、評価 パラメータ などの実験の詳細をキャプチャして整理でき、異なるイテレーションの比較が容易になります。
 
 次の例では、Verdict パイプライン を `WeaveModel` でラップする方法を示します。
 
@@ -208,7 +208,7 @@ print(prediction)
 
 ### Evaluations
 
-Evaluations（評価）は、評価 パイプライン 自体のパフォーマンスを測定するのに役立ちます。[`weave.Evaluation`](/weave/guides/core-types/evaluations) クラスを使用することで、特定のタスクや データセット に対して Verdict パイプライン がどの程度良好に機能するかをキャプチャできます。
+Evaluations（評価）は、評価 パイプライン 自体のパフォーマンスを測定するのに役立ちます。[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使用することで、特定のタスクや データセット に対して Verdict パイプライン がどの程度良好に機能するかをキャプチャできます。
 
 ```python lines {8}
 import asyncio

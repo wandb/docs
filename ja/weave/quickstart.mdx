@@ -30,8 +30,8 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
 コードの追跡を開始し、Weave にトレースをログ記録するには、以下の手順に従います。
 
 1. `weave` ライブラリをコードにインポートします。
-2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&B の [Teams](/platform/app/settings-page/teams) および [Projects](/platform/hosting/iam/org_team_struct#project) に送信します。チームを設定しない場合、トレースは [デフォルトチーム](/platform/app/settings-page/user-settings/#default-team) に送信されます。指定したプロジェクトがチーム内に存在しない場合、Weave が自動的に作成します。
-3. 追跡したい特定の関数に [`@weave.op()` デコレータ](/weave/guides/tracking/ops) を追加します。Weave はサポートされている LLM へのコールを自動的に追跡しますが、Weave デコレータを追加することで、特定の関数の入力、出力、およびコードを追跡できるようになります。TypeScript では、`weave.op(your_function)` という構文を使用します。
+2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&B の [Teams](/ja/platform/app/settings-page/teams) および [Projects](/ja/platform/hosting/iam/org_team_struct#project) に送信します。チームを設定しない場合、トレースは [デフォルトチーム](/ja/platform/app/settings-page/user-settings/#default-team) に送信されます。指定したプロジェクトがチーム内に存在しない場合、Weave が自動的に作成します。
+3. 追跡したい特定の関数に [`@weave.op()` デコレータ](/ja/weave/guides/tracking/ops) を追加します。Weave はサポートされている LLM へのコールを自動的に追跡しますが、Weave デコレータを追加することで、特定の関数の入力、出力、およびコードを追跡できるようになります。TypeScript では、`weave.op(your_function)` という構文を使用します。
 
 以下のサンプルコードは、OpenAI にリクエストを送信し（[OpenAI APIキー](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key) が必要）、Weave がそのリクエストのトレーシング情報を記録します。このリクエストでは、OpenAI モデルに対して入力から恐竜の名前を抽出し、それぞれの恐竜の食性（草食か肉食か）を特定するように指示します。
 
@@ -153,10 +153,10 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 
 ## Traces についての詳細
 
-- [関数のデコレートと呼び出し情報の取得方法](/weave/guides/tracking/tracing) について詳しく学ぶ。
-- [Playground](/weave/guides/tools/playground) を試して、ログ記録されたトレースで異なるモデルをテストする。
-- [インテグレーションを探索する](/weave/guides/integrations/)。Weave は、OpenAI、Anthropic、その他多くの LLM ライブラリへのコールを自動的に追跡します。お使いの LLM ライブラリが現在インテグレーションに含まれていない場合でも、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへのコールを簡単に追跡できます。
+- [関数のデコレートと呼び出し情報の取得方法](/ja/weave/guides/tracking/tracing) について詳しく学ぶ。
+- [Playground](/ja/weave/guides/tools/playground) を試して、ログ記録されたトレースで異なるモデルをテストする。
+- [インテグレーションを探索する](/ja/weave/guides/integrations/)。Weave は、OpenAI、Anthropic、その他多くの LLM ライブラリへのコールを自動的に追跡します。お使いの LLM ライブラリが現在インテグレーションに含まれていない場合でも、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへのコールを簡単に追跡できます。
 
 ## 次のステップ
 
-[アプリケーションの評価を開始する](/weave/tutorial-eval) 方法を確認し、次に [RAG アプリケーションを評価する](/weave/tutorial-rag) 方法を確認してください。
+[アプリケーションの評価を開始する](/ja/weave/tutorial-eval) 方法を確認し、次に [RAG アプリケーションを評価する](/ja/weave/tutorial-rag) 方法を確認してください。

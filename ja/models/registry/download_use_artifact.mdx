@@ -40,7 +40,7 @@ with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
     download_path = fetched_artifact.download()  
 ```
 
-`wandb.Run.use_artifact()` メソッドは、[run](/models/runs/) を作成すると同時に、ダウンロードした Artifact をその run のインプットとしてマークします。
+`wandb.Run.use_artifact()` メソッドは、[run](/ja/models/runs/) を作成すると同時に、ダウンロードした Artifact をその run のインプットとしてマークします。
 Artifact を run のインプットとしてマークすることで、W&B はその Artifact の リネージ を追跡できるようになります。
 
 run を作成したくない場合は、`wandb.Api()` オブジェクト を使用して Artifact に アクセス できます。
@@ -86,7 +86,7 @@ with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
 </details>
 
 
-パラメータと戻り値の型については、API リファレンスの [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) および [`Artifact.download()`](/models/ref/python/experiments/artifact#download) を参照してください。
+パラメータと戻り値の型については、API リファレンスの [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) および [`Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) を参照してください。
 
 <Note>
 **複数の組織に所属する個人エンティティのユーザー**

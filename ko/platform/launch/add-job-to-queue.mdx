@@ -5,7 +5,7 @@ title: 큐에 Job 추가
 다음 페이지는 Launch queue에 Launch 작업을 추가하는 방법을 설명합니다.
 
 <Note>
-본인 또는 팀의 다른 멤버가 이미 Launch queue를 구성했는지 확인하세요. 자세한 내용은 [Launch 설정](/platform/launch/set-up-launch/) 페이지를 참조하세요.
+본인 또는 팀의 다른 멤버가 이미 Launch queue를 구성했는지 확인하세요. 자세한 내용은 [Launch 설정](/ko/platform/launch/set-up-launch/) 페이지를 참조하세요.
 </Note>
 
 ## Queue에 작업 추가하기
@@ -26,7 +26,7 @@ W&B App을 사용하여 Queue에 작업을 추가합니다.
     <img src="/images/launch/view_jobs.png" alt="Jobs 목록"  />
 </Frame>
 4. 작업 이름 옆의 **Launch** 버튼을 선택합니다. 페이지 오른쪽에 모달이 나타납니다.
-5. **Job version** 드롭다운에서 사용하려는 Launch 작업의 버전을 선택합니다. Launch 작업은 다른 [W&B Artifact](/models/artifacts/create-a-new-artifact-version/)와 마찬가지로 버전이 관리됩니다. 작업을 실행하는 데 사용된 소프트웨어 의존성이나 소스 코드를 수정하면 동일한 Launch 작업의 다른 버전이 생성됩니다.
+5. **Job version** 드롭다운에서 사용하려는 Launch 작업의 버전을 선택합니다. Launch 작업은 다른 [W&B Artifact](/ko/models/artifacts/create-a-new-artifact-version/)와 마찬가지로 버전이 관리됩니다. 작업을 실행하는 데 사용된 소프트웨어 의존성이나 소스 코드를 수정하면 동일한 Launch 작업의 다른 버전이 생성됩니다.
 6. **Overrides** 섹션에서 Launch 작업에 설정된 모든 입력에 대해 새로운 값을 제공합니다. 일반적인 override에는 새로운 entrypoint 코맨드, 인수(arguments), 또는 새 W&B run의 `wandb.Run.config`에 있는 값들이 포함됩니다.
   <Frame>
     <img src="/images/launch/create_starter_queue_gs.png" alt="Queue 설정"  />
@@ -44,7 +44,7 @@ W&B App을 사용하여 Queue에 작업을 추가합니다.
 11. **Launch now** 버튼을 선택합니다.
 </Tab>
 <Tab title="W&B CLI">
-`wandb launch` 코맨드를 사용하여 queue에 작업을 추가합니다. 하이퍼파라미터 override가 포함된 JSON 설정을 생성합니다. 예를 들어, [Quickstart](/platform/launch/walkthrough/) 가이드의 스크립트를 사용하여 다음과 같은 override가 포함된 JSON 파일을 생성합니다.
+`wandb launch` 코맨드를 사용하여 queue에 작업을 추가합니다. 하이퍼파라미터 override가 포함된 JSON 설정을 생성합니다. 예를 들어, [Quickstart](/ko/platform/launch/walkthrough/) 가이드의 스크립트를 사용하여 다음과 같은 override가 포함된 JSON 파일을 생성합니다.
 
 ```json title="config.json"
 {

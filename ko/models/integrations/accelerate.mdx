@@ -38,7 +38,7 @@ accelerator.end_training()
 1. Accelerator 클래스를 초기화할 때 `log_with="wandb"`를 전달합니다.
 2. [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) 메소드를 호출하고 다음 항목들을 전달합니다:
 - `project_name`을 통한 프로젝트 이름
-- `init_kwargs`에 중첩된 딕셔너리 형태로 [`wandb.init()`](/models/ref/python/functions/init)에 전달할 파라미터들
+- `init_kwargs`에 중첩된 딕셔너리 형태로 [`wandb.init()`](/ko/models/ref/python/functions/init)에 전달할 파라미터들
 - `config`를 통해 wandb run에 로그로 남기고 싶은 기타 실험 설정 정보
 3. `.log` 메소드를 사용하여 Weights & Biases에 로그를 기록합니다. `step` 인수는 선택 사항입니다.
 4. 트레이닝이 끝나면 `.end_training`을 호출합니다.

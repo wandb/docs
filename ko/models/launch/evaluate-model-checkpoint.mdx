@@ -9,16 +9,16 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-이 페이지에서는 CoreWeave가 관리하는 인프라를 사용하여 W&B Models에 있는 모델 체크포인트에 대해 일련의 평가 벤치마크를 실행하는 [LLM Evaluation Jobs](/models/launch) 사용 방법을 설명합니다. 공개적으로 액세스 가능한 URL에서 서빙되는 호스팅된 API 모델을 평가하려면 [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model)을 대신 참조하세요.
+이 페이지에서는 CoreWeave가 관리하는 인프라를 사용하여 W&B Models에 있는 모델 체크포인트에 대해 일련의 평가 벤치마크를 실행하는 [LLM Evaluation Jobs](/ko/models/launch) 사용 방법을 설명합니다. 공개적으로 액세스 가능한 URL에서 서빙되는 호스팅된 API 모델을 평가하려면 [Evaluate an API-hosted model](/ko/models/launch/evaluate-hosted-model)을 대신 참조하세요.
 
 ## 사전 요구 사항
-1. LLM Evaluation Jobs에 대한 [요구 사항 및 제한 사항](/models/launch#more-details)을 검토하세요.
-1. 특정 벤치마크를 실행하려면 Teams 관리자가 필요한 API 키를 [team-scoped secrets](/platform/secrets#add-a-secret)로 추가해야 합니다. 모든 Teams 멤버는 평가 작업을 구성할 때 해당 시크릿을 지정할 수 있습니다. 요구 사항은 [Evaluation model catalog](/models/launch/evaluations)를 참조하세요.
+1. LLM Evaluation Jobs에 대한 [요구 사항 및 제한 사항](/ko/models/launch#more-details)을 검토하세요.
+1. 특정 벤치마크를 실행하려면 Teams 관리자가 필요한 API 키를 [team-scoped secrets](/ko/platform/secrets#add-a-secret)로 추가해야 합니다. 모든 Teams 멤버는 평가 작업을 구성할 때 해당 시크릿을 지정할 수 있습니다. 요구 사항은 [Evaluation model catalog](/ko/models/launch/evaluations)를 참조하세요.
     - **OpenAPI API 키**: OpenAI 모델을 사용하여 점수를 매기는 벤치마크에서 사용됩니다. 벤치마크를 선택한 후 **Scorer API key** 필드가 나타나면 필수입니다. 시크릿 이름은 `OPENAI_API_KEY`여야 합니다.
     - **Hugging Face 사용자 엑세스 토큰**: 하나 이상의 게이트(gated) Hugging Face 데이터셋에 대한 엑세스가 필요한 `lingoly` 및 `lingoly2`와 같은 특정 벤치마크에 필요합니다. 벤치마크를 선택한 후 **Hugging Face Token** 필드가 나타나면 필수입니다. API 키는 관련 데이터셋에 대한 엑세스 권한이 있어야 합니다. [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) 및 [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)에 대한 Hugging Face 문서를 참조하세요.
-1. 평가 결과를 위한 새로운 [W&B Projects](/models/track/project-page)를 생성합니다. 왼쪽 탐색 창에서 **Create new project**를 클릭합니다.
+1. 평가 결과를 위한 새로운 [W&B Projects](/ko/models/track/project-page)를 생성합니다. 왼쪽 탐색 창에서 **Create new project**를 클릭합니다.
 1. 모델을 VLLM 호환 형식으로 패키징하고 W&B Models에 Artifacts로 저장합니다. 다른 유형의 Artifacts를 벤치마킹하려고 하면 실패합니다. 한 가지 방법은 이 페이지 하단의 [Example: Prepare a model](#example-prepare-your-model)을 참조하세요.
-1. 특정 벤치마크의 작동 방식과 구체적인 요구 사항을 이해하기 위해 해당 문서를 검토하세요. 편의를 위해 [Available evaluation benchmarks](/models/launch/evaluations) 레퍼런스에 관련 링크가 포함되어 있습니다.
+1. 특정 벤치마크의 작동 방식과 구체적인 요구 사항을 이해하기 위해 해당 문서를 검토하세요. 편의를 위해 [Available evaluation benchmarks](/ko/models/launch/evaluations) 레퍼런스에 관련 링크가 포함되어 있습니다.
 
 ## 모델 평가하기
 다음 단계에 따라 평가 작업을 설정하고 시작하세요:

@@ -90,7 +90,7 @@ run_config_overrides = launch.load_wandb_config()
 Launch SDK는 job 코드의 설정 파일에 저장된 입력값을 관리하는 방법도 제공합니다. 이는 [torchtune](https://github.com/meta-pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) 예시나 [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)와 같이 많은 딥러닝 및 대규모 언어 모델 유스 케이스에서 흔히 사용되는 패턴입니다.
 
 <Note>
-[Sweeps on Launch](/platform/launch/sweeps-on-launch/)는 설정 파일 입력값을 sweep 파라미터로 사용하는 것을 지원하지 않습니다. Sweep 파라미터는 `Run.config` 오브젝트를 통해 제어되어야 합니다.
+[Sweeps on Launch](/ko/platform/launch/sweeps-on-launch/)는 설정 파일 입력값을 sweep 파라미터로 사용하는 것을 지원하지 않습니다. Sweep 파라미터는 `Run.config` 오브젝트를 통해 제어되어야 합니다.
 </Note>
 
 `launch.manage_config_file` 함수를 사용하여 설정 파일을 Launch job의 입력으로 추가하면, job을 런칭할 때 설정 파일 내의 값을 편집할 수 있는 권한을 얻게 됩니다.

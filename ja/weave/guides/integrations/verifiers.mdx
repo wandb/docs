@@ -34,7 +34,7 @@ uv add verifiers @ git+https://github.com/willccbb/verifiers.git
 uv pip install weave wandb
 ```
 
-Weave は、デフォルトでこのライブラリに対して [暗黙的なパッチ適用（implicit patching）](/weave/guides/integrations#automatic-implicit-patching) を有効にします。これにより、パッチ関数を明示的に呼び出すことなく、Verifiers で Weave を使用できます。
+Weave は、デフォルトでこのライブラリに対して [暗黙的なパッチ適用（implicit patching）](/ja/weave/guides/integrations#automatic-implicit-patching) を有効にします。これにより、パッチ関数を明示的に呼び出すことなく、Verifiers で Weave を使用できます。
 
 ### ロールアウトのトレースと評価
 
@@ -124,7 +124,7 @@ export NCCL_CUMEM_HOST_ENABLE=0
 これらの変数は、デバイスメモリ割り当てのための CUDA Unified Memory (CuMem) を無効にします。
 </Note>
 
-トレーニングが開始されると、UI で run 中にログ記録された [トレースを確認](/weave/guides/tools/weave-in-workspaces) できます。
+トレーニングが開始されると、UI で run 中にログ記録された [トレースを確認](/ja/weave/guides/tools/weave-in-workspaces) できます。
 
 トレースでは、`Environment.a_generate` および `Rubric.score_rollouts` メソッドの `logprobs` が除外されます。これにより、トレーニング用のオリジナルデータはそのままに、ペイロードサイズを小さく抑えています。
 

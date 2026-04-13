@@ -76,7 +76,7 @@ YAML ファイルまたは Python スクリプトで、`parameters` をトップ
 連続的な探索空間内を探索する場合、グリッド検索は永久に実行されます。
 
 #### ランダム検索 (Random search)
-分布に基づいて、各反復でハイパーパラメーター値のランダムなセットを選択します。ランダム検索は、コマンドライン、Python スクリプト内、または [W&B App](/models/sweeps/sweeps-ui/) からプロセスを停止しない限り、永久に実行されます。
+分布に基づいて、各反復でハイパーパラメーター値のランダムなセットを選択します。ランダム検索は、コマンドライン、Python スクリプト内、または [W&B App](/ja/models/sweeps/sweeps-ui/) からプロセスを停止しない限り、永久に実行されます。
 
 ランダム検索（`method: random`）を選択した場合は、metric キーで分布空間を指定してください。
 
@@ -85,7 +85,7 @@ YAML ファイルまたは Python スクリプトで、`parameters` をトップ
 
 {/* さまざまなベイズ最適化手法があります。W&Bは、ハイパーパラメーターとモデルメトリクスの関係をモデル化するためにガウス過程を使用します。詳細については、この論文を参照してください。 [LINK] */}
 
-ベイズ探索は、コマンドライン、Python スクリプト内、または [W&B App](/models/sweeps/sweeps-ui/) からプロセスを停止しない限り、永久に実行されます。
+ベイズ探索は、コマンドライン、Python スクリプト内、または [W&B App](/ja/models/sweeps/sweeps-ui/) からプロセスを停止しない限り、永久に実行されます。
 
 ### ランダム検索とベイズ探索の分布オプション
 `parameter` キーの中にハイパーパラメーターの名前をネストします。次に、`distribution` キーを指定し、値の分布を指定します。
@@ -143,12 +143,12 @@ bracket スケジュールを作成するには、`min_iter` または `max_iter
 | `strict`   | 元の Hyperband 論文により忠実に、より積極的に Run を整理する「厳密（strict）」モードを有効にします。デフォルトは false です。 |
 
 <Note>
-Hyperband は数分に一度、終了すべき [Runs](/models/ref/python/experiments/run) をチェックします。Run や反復が短い場合、Run の終了タイムスタンプが指定した bracket と異なる場合があります。
+Hyperband は数分に一度、終了すべき [Runs](/ja/models/ref/python/experiments/run) をチェックします。Run や反復が短い場合、Run の終了タイムスタンプが指定した bracket と異なる場合があります。
 </Note>
 
 ## `command` 
 
-{/* [`wandb agent`](/models/ref/cli/wandb-agent) で作成されたエージェントは、デフォルトで次の形式のコマンドを受け取ります。 */}
+{/* [`wandb agent`](/ja/models/ref/cli/wandb-agent) で作成されたエージェントは、デフォルトで次の形式のコマンドを受け取ります。 */}
 
 `command` キー内のネストされた値を使用して、形式と内容を変更できます。ファイル名などの固定コンポーネントを直接含めることができます。
 

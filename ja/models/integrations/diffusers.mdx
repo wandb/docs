@@ -42,14 +42,14 @@ autolog(init=dict(project="diffusers_logging"))
 
 2. `autolog` を使用して W&B Run を初期化し、[サポートされているすべてのパイプライン呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72) からの入力と出力を自動的に追跡します。
 
-    `autolog()` 関数は `init` パラメータ を使用して呼び出すことができます。これには [`wandb.init()`](/models/ref/python/functions/init) で必要な パラメータ の 辞書 を渡します。
+    `autolog()` 関数は `init` パラメータ を使用して呼び出すことができます。これには [`wandb.init()`](/ja/models/ref/python/functions/init) で必要な パラメータ の 辞書 を渡します。
 
     `autolog()` を呼び出すと、W&B Run が初期化され、[サポートされているすべてのパイプライン呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72) からの入力と出力が自動的に追跡されます。
 
-    - 各パイプライン呼び出しは、Workspace 内の独自の [テーブル](/models/tables/) に追跡され、パイプライン呼び出しに関連付けられた 設定 は、その Run の 設定 内の ワークフロー リストに追加されます。
-    - プロンプト、ネガティブプロンプト、および生成されたメディアは [`wandb.Table`](/models/tables/) に ログ 記録されます。
+    - 各パイプライン呼び出しは、Workspace 内の独自の [テーブル](/ja/models/tables/) に追跡され、パイプライン呼び出しに関連付けられた 設定 は、その Run の 設定 内の ワークフロー リストに追加されます。
+    - プロンプト、ネガティブプロンプト、および生成されたメディアは [`wandb.Table`](/ja/models/tables/) に ログ 記録されます。
     - シードやパイプライン アーキテクチャー を含む、実験に関連するその他すべての 設定 は、Run の config セクションに保存されます。
-    - 各パイプライン呼び出しで生成されたメディアは、Run 内の [メディアパネル](/models/track/log/media/) にも ログ 記録されます。
+    - 各パイプライン呼び出しで生成されたメディアは、Run 内の [メディアパネル](/ja/models/track/log/media/) にも ログ 記録されます。
 
     <Note>
     [サポートされているパイプライン呼び出しのリスト](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72) を確認できます。このインテグレーションの新機能のリクエストや、関連するバグの報告が必要な場合は、[W&B GitHub issues ページ](https://github.com/wandb/wandb/issues) で issue を作成してください。
@@ -151,7 +151,7 @@ run.finish()
     </Frame>
 
 <Note>
-IPython ノートブック 環境で コード を実行する場合、パイプラインを呼び出した後に明示的に [`wandb.Run.finish()`](/models/ref/python/functions/finish) を呼び出す必要があります。Python スクリプト を実行する場合には、これは必要ありません。
+IPython ノートブック 環境で コード を実行する場合、パイプラインを呼び出した後に明示的に [`wandb.Run.finish()`](/ja/models/ref/python/functions/finish) を呼び出す必要があります。Python スクリプト を実行する場合には、これは必要ありません。
 </Note>
 
 ### マルチパイプライン ワークフロー の追跡

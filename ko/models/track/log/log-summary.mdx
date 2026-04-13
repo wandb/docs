@@ -22,7 +22,7 @@ with wandb.init(config=args) as run:
           best_accuracy = test_accuracy
 ```
 
-트레이닝이 완료된 후에도 기존 W&B Run 의 summary 속성을 업데이트할 수 있습니다. [W&B Public API](/models/ref/python/public-api/) 를 사용하여 summary 속성을 업데이트하세요:
+트레이닝이 완료된 후에도 기존 W&B Run 의 summary 속성을 업데이트할 수 있습니다. [W&B Public API](/ko/models/ref/python/public-api/) 를 사용하여 summary 속성을 업데이트하세요:
 
 ```python
 api = wandb.Api()

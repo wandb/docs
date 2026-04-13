@@ -4,10 +4,10 @@ title: ' thoughtful_thought
   Launch 용어 및 개념'
 ---
 
-W&B Launch를 사용하면 [jobs](#launch-job)를 [queues](#launch-queue)에 인큐하여 Runs를 생성할 수 있습니다. Jobs는 W&B가 도구화된 Python 스크립트입니다. Queues는 [target resource](#target-resources)에서 실행할 jobs의 목록을 보유합니다. [Agents](#launch-agent)는 queues에서 jobs를 가져와 target resources에서 해당 jobs를 실행합니다. W&B는 [runs](/models/runs/)를 트래킹하는 것과 유사한 방식으로 Launch jobs를 트래킹합니다.
+W&B Launch를 사용하면 [jobs](#launch-job)를 [queues](#launch-queue)에 인큐하여 Runs를 생성할 수 있습니다. Jobs는 W&B가 도구화된 Python 스크립트입니다. Queues는 [target resource](#target-resources)에서 실행할 jobs의 목록을 보유합니다. [Agents](#launch-agent)는 queues에서 jobs를 가져와 target resources에서 해당 jobs를 실행합니다. W&B는 [runs](/ko/models/runs/)를 트래킹하는 것과 유사한 방식으로 Launch jobs를 트래킹합니다.
 
 ### Launch job
-Launch job은 완료해야 할 태스크를 나타내는 특정 유형의 [W&B Artifact](/models/artifacts/)입니다. 예를 들어, 일반적인 Launch jobs에는 모델 트레이닝이나 모델 평가 트리거링 등이 포함됩니다. Job 정의에는 다음이 포함됩니다:
+Launch job은 완료해야 할 태스크를 나타내는 특정 유형의 [W&B Artifact](/ko/models/artifacts/)입니다. 예를 들어, 일반적인 Launch jobs에는 모델 트레이닝이나 모델 평가 트리거링 등이 포함됩니다. Job 정의에는 다음이 포함됩니다:
 
 - Python 코드 및 기타 파일 에셋 (최소 하나 이상의 실행 가능한 entrypoint 포함).
 - 입력(설정 파라미터) 및 출력(로그된 메트릭)에 대한 정보.
@@ -35,10 +35,10 @@ Launch queue가 jobs를 실행하도록 설정된 컴퓨팅 환경을 *target re
 
 W&B Launch는 다음 target resources를 지원합니다:
 
-- [Docker](/platform/launch/setup-launch-docker/)
-- [Kubernetes](/platform/launch/setup-launch-kubernetes/)
-- [AWS SageMaker](/platform/launch/setup-launch-sagemaker/)
-- [Google Cloud Vertex AI](/platform/launch/setup-vertex/)
+- [Docker](/ko/platform/launch/setup-launch-docker/)
+- [Kubernetes](/ko/platform/launch/setup-launch-kubernetes/)
+- [AWS SageMaker](/ko/platform/launch/setup-launch-sagemaker/)
+- [Google Cloud Vertex AI](/ko/platform/launch/setup-vertex/)
 
 각 target resource는 *resource configurations*라고 불리는 서로 다른 설정 파라미터 세트를 허용합니다. Resource configurations는 각 Launch queue에서 정의된 기본값을 따르지만, 각 job에 의해 개별적으로 재정의(override)될 수 있습니다. 자세한 내용은 각 target resource에 대한 문서를 참조하세요.
 

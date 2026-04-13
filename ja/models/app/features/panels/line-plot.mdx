@@ -10,12 +10,12 @@ description: メトリクス の可視化、軸のカスタマイズ、プロッ
 </Frame>
 
 <Tip>
- [CoreWeave](https://coreweave.com) インフラストラクチャー上で実行される [Runs](/models/runs) については、 [CoreWeave Mission Control](https://www.coreweave.com/mission-control) が計算インフラを監視します。エラーが発生した場合、W&B はプロジェクトの Workspace 内の Run のプロットにインフラストラクチャー情報を反映します。詳細は [Visualize CoreWeave infrastructure alerts](/models/runs#visualize-coreweave-infrastructure-alerts) を参照してください。
+ [CoreWeave](https://coreweave.com) インフラストラクチャー上で実行される [Runs](/ja/models/runs) については、 [CoreWeave Mission Control](https://www.coreweave.com/mission-control) が計算インフラを監視します。エラーが発生した場合、W&B はプロジェクトの Workspace 内の Run のプロットにインフラストラクチャー情報を反映します。詳細は [Visualize CoreWeave infrastructure alerts](/ja/models/runs#visualize-coreweave-infrastructure-alerts) を参照してください。
 </Tip>
 
 ## 折れ線グラフの設定を編集する
 
-このセクションでは、個別の折れ線グラフパネル、セクション内のすべての折れ線グラフパネル、または Workspace 内のすべての折れ線グラフパネルの設定を編集する方法を説明します。折れ線グラフの設定に関する包括的な詳細は、 [Line plot reference](/models/app/features/panels/line-plot/reference) を参照してください。
+このセクションでは、個別の折れ線グラフパネル、セクション内のすべての折れ線グラフパネル、または Workspace 内のすべての折れ線グラフパネルの設定を編集する方法を説明します。折れ線グラフの設定に関する包括的な詳細は、 [Line plot reference](/ja/models/app/features/panels/line-plot/reference) を参照してください。
 
 ### 個別の折れ線グラフ
 個別の折れ線グラフの設定は、セクションや Workspace の折れ線グラフ設定よりも優先されます。折れ線グラフをカスタマイズするには：
@@ -31,20 +31,20 @@ description: メトリクス の可視化、軸のカスタマイズ、プロッ
 * **Legend**: パネルの凡例の外観と内容をカスタマイズします。
 * **Expressions**: 軸に対してカスタム計算式を追加します。
 
-各設定の詳細については、 [Line plot reference](/models/app/features/panels/line-plot/reference) を参照してください。
+各設定の詳細については、 [Line plot reference](/ja/models/app/features/panels/line-plot/reference) を参照してください。
 
 ### セクション内のすべての折れ線グラフ
 
 セクション内のすべての折れ線グラフのデフォルト設定をカスタマイズし、Workspace の設定を上書きするには：
 1. セクションのギアアイコンをクリックして設定を開きます。
-1. 表示されるドロワー内で、 **Data** または **Display preferences** タブを選択して、セクションのデフォルト設定を構成します。各 **Data** 設定の詳細については、 [Line plot reference](/models/app/features/panels/line-plot/reference) を参照してください。表示設定の詳細については、 [Configure section layout](../#configure-section-layout) を参照してください。
+1. 表示されるドロワー内で、 **Data** または **Display preferences** タブを選択して、セクションのデフォルト設定を構成します。各 **Data** 設定の詳細については、 [Line plot reference](/ja/models/app/features/panels/line-plot/reference) を参照してください。表示設定の詳細については、 [Configure section layout](../#configure-section-layout) を参照してください。
 
 ### Workspace 内のすべての折れ線グラフ
 Workspace 内のすべての折れ線グラフのデフォルト設定をカスタマイズするには：
 1. **Settings** というラベルの付いたギアアイコンがある Workspace の設定をクリックします。
 1. **Line plots** をクリックします。
 1. 表示されるドロワー内で、 **Data** または **Display preferences** タブを選択して、 Workspace のデフォルト設定を構成します。
-    - 各 **Data** 設定の詳細については、 [Line plot reference](/models/app/features/panels/line-plot/reference) を参照してください。
+    - 各 **Data** 設定の詳細については、 [Line plot reference](/ja/models/app/features/panels/line-plot/reference) を参照してください。
     - 各 **Display preferences** セクションの詳細については、 [Workspace display preferences](../#configure-workspace-layout) を参照してください。 Workspace レベルでは、折れ線グラフのデフォルトの **Zooming** （ズーム）の振る舞いを設定できます。この設定は、一致する X軸キーを持つ折れ線グラフ間でズームを同期させるかどうかを制御します。デフォルトでは無効になっています。
 
 
@@ -134,7 +134,7 @@ with wandb.init() as run:
         run.log({"accuracy": acc, "custom_x": i * 10})
 ```
 
-詳細については、 [Customize log axes](/models/track/log/customize-logging-axes#customize-log-axes) を参照してください。
+詳細については、 [Customize log axes](/ja/models/track/log/customize-logging-axes#customize-log-axes) を参照してください。
 
 
 ## ズーム
@@ -155,11 +155,11 @@ with wandb.init() as run:
 
 ## Run メトリクス通知を作成する
 
-[Automations](/models/automations/) を使用して、 Run メトリクスが指定した条件を満たしたときにチームに通知します。オートメーションは Slack チャンネルへの投稿や Webhook の実行が可能です。
+[Automations](/ja/models/automations/) を使用して、 Run メトリクスが指定した条件を満たしたときにチームに通知します。オートメーションは Slack チャンネルへの投稿や Webhook の実行が可能です。
 
-折れ線グラフから、表示されているメトリクスに対して [run metrics notification](/models/automations/automation-events/#run-events) を素早く作成できます。
+折れ線グラフから、表示されているメトリクスに対して [run metrics notification](/ja/models/automations/automation-events/#run-events) を素早く作成できます。
 
 1. パネルの上にマウスを置き、ベルのアイコンをクリックします。
 1. 基本設定または詳細設定コントロールを使用してオートメーションを構成します。例えば、オートメーションの範囲を制限するために Run フィルターを適用したり、絶対的な閾値を設定したりします。
 
-[Automations](/models/automations/) について詳しくはこちら。
+[Automations](/ja/models/automations/) について詳しくはこちら。

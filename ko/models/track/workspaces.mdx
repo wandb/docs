@@ -6,7 +6,7 @@ description: 대화형 시각화 도구를 통해 Run 데이터를 탐색할 수
 W&B Workspace 는 차트를 맞춤 설정하고 모델 결과를 탐색할 수 있는 개인용 샌드박스입니다. W&B Workspace 는 *Tables*와 *Panel sections*로 구성됩니다:
 
 * **Tables**: 프로젝트에 기록된 모든 Runs가 프로젝트 테이블에 나열됩니다. Runs를 켜거나 끄고, 색상을 변경하며, 테이블을 확장하여 각 Run에 대한 노트, 설정(config), 요약 메트릭을 확인할 수 있습니다.
-* **Panel sections**: 하나 이상의 [panels](/models/app/features/panels/)를 포함하는 섹션입니다. 새로운 패널을 생성하고 정리하며, Workspace 의 스냅샷을 저장하기 위해 Reports 로 내보낼 수 있습니다.
+* **Panel sections**: 하나 이상의 [panels](/ko/models/app/features/panels/)를 포함하는 섹션입니다. 새로운 패널을 생성하고 정리하며, Workspace 의 스냅샷을 저장하기 위해 Reports 로 내보낼 수 있습니다.
 
 <Frame>
     <img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace table and panels"  />
@@ -65,7 +65,7 @@ Workspace URL을 직접 공유하여 팀원들과 맞춤형 Workspace 를 공유
 이 기능은 [Enterprise](https://wandb.ai/site/pricing/) 라이선스가 필요합니다.
 </Note>
 
-_Workspace templates_를 사용하면 [새 Workspace에 대한 기본 설정](#workspace-templates) 대신 기존 Workspace 와 동일한 설정을 사용하여 빠르게 Workspace 를 생성할 수 있습니다. 현재 Workspace template은 사용자 정의 [line plot settings](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)을 정의할 수 있습니다.
+_Workspace templates_를 사용하면 [새 Workspace에 대한 기본 설정](#workspace-templates) 대신 기존 Workspace 와 동일한 설정을 사용하여 빠르게 Workspace 를 생성할 수 있습니다. 현재 Workspace template은 사용자 정의 [line plot settings](/ko/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)을 정의할 수 있습니다.
 
 ### 기본 Workspace 설정
 기본적으로 새 Workspace 는 라인 플롯에 대해 다음 기본 설정을 사용합니다:
@@ -110,7 +110,7 @@ _Workspace templates_를 사용하면 [새 Workspace에 대한 기본 설정](#w
 
 ### Workspace template 설정하기
 1. 아무 Workspace 나 열거나 새로 생성합니다.
-1. 기본 설정에 따라 Workspace 의 [line plot settings](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)을 구성합니다.
+1. 기본 설정에 따라 Workspace 의 [line plot settings](/ko/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)을 구성합니다.
 1. 설정을 Workspace template에 저장합니다:
     1. Workspace 상단에서 **Undo** 및 **Redo** 화살표 아이콘 근처의 액션 메뉴 `...`를 클릭합니다.
     2. **Save personal workspace template**을 클릭합니다.
@@ -201,4 +201,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-포괄적인 Workspace API 예제는 [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)를 참조하세요. 엔드 투 엔드 튜토리얼은 [Programmatic Workspaces](/ko/models/tutorials/workspaces) 튜토리얼을 확인하세요.
+포괄적인 Workspace API 예제는 [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)를 참조하세요. 엔드 투 엔드 튜토리얼은 [Programmatic Workspaces](/ko/models/tutorials/workspaces/) 튜토리얼을 확인하세요.

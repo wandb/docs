@@ -46,7 +46,7 @@ from wandb.integration.openai import autolog
 autolog({"project": "gpt5"})
 ```
 
-オプションとして、`wandb.init()` が受け付ける 引数 を含んだ 辞書 を `autolog` に渡すことができます。これには、プロジェクト名、チーム名、Entity などが含まれます。[`wandb.init()`](/models/ref/python/functions/init) の詳細については、API リファレンス ガイド を参照してください。
+オプションとして、`wandb.init()` が受け付ける 引数 を含んだ 辞書 を `autolog` に渡すことができます。これには、プロジェクト名、チーム名、Entity などが含まれます。[`wandb.init()`](/ja/models/ref/python/functions/init) の詳細については、API リファレンス ガイド を参照してください。
 
 ### 2. OpenAI API を呼び出す
 これで、OpenAI API への各呼び出しが自動的に W&B に ログ 記録されるようになります。
@@ -68,7 +68,7 @@ response = openai.ChatCompletion.create(**chat_request_kwargs)
 
 ### 3. OpenAI API の入力とレスポンスを確認する
 
-**ステップ 1** で `autolog` によって生成された W&B [run](/models/runs/) リンクをクリックします。これにより、W&B App のプロジェクト Workspace にリダイレクトされます。
+**ステップ 1** で `autolog` によって生成された W&B [run](/ja/models/runs/) リンクをクリックします。これにより、W&B App のプロジェクト Workspace にリダイレクトされます。
 
 作成した run を選択して、トレーステーブル、トレースタイムライン、および使用された OpenAI LLM の モデル アーキテクチャー を表示します。
 

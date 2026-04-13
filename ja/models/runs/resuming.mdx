@@ -50,7 +50,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="m
 <Warning>
 複数の プロセス が同時に同じ `id` を使用すると、予期しない結果が生じます。
 
-複数の プロセス を管理する方法の詳細については、[分散トレーニング実験のログ記録](/models/track/log/distributed-training/) を参照してください。
+複数の プロセス を管理する方法の詳細については、[分散トレーニング実験のログ記録](/ja/models/track/log/distributed-training/) を参照してください。
 </Warning>
 
 ## 既存の run を上書きせずに再開する
@@ -114,9 +114,9 @@ sh run_experiment.sh akj172
 
 
 ## プリエンプティブルな Sweeps run の再開
-中断された [sweep](/models/sweeps/) run を自動的にキューに戻します。これは、SLURM ジョブのプリエンプティブルキュー、EC2 スポットインスタンス、Google Cloud プリエンプティブル VM など、プリエンプション（中断）が発生する可能性のある計算 環境 で sweep agent を実行する場合に特に便利です。
+中断された [sweep](/ja/models/sweeps/) run を自動的にキューに戻します。これは、SLURM ジョブのプリエンプティブルキュー、EC2 スポットインスタンス、Google Cloud プリエンプティブル VM など、プリエンプション（中断）が発生する可能性のある計算 環境 で sweep agent を実行する場合に特に便利です。
 
-[`mark_preempting`](/models/ref/python/experiments/run#mark_preempting) 関数を使用して、中断された sweep run を自動的に再キューイングします。例：
+[`mark_preempting`](/ja/models/ref/python/experiments/run#mark_preempting) 関数を使用して、中断された sweep run を自動的に再キューイングします。例：
 
 ```python
 with wandb.init() as run:

@@ -46,7 +46,7 @@ trainer = Trainer(logger=wandb_logger)
 | `tags` | W&B 태그 (List[str], 선택 사항) |
 | `log_artifacts` | 체크포인트를 wandb에 로그할지 여부, 기본값: `false` (bool, 선택 사항) |
 | `rank_zero_only` | rank-zero 프로세스에서만 로그를 기록할지 여부. Artifacts를 로그할 때는 모든 rank에서 로그를 기록하는 것이 강력히 권장됩니다. rank 1 이상인 프로세스의 Artifacts는 저장되지 않으며, 이로 인해 관련 정보가 누락될 수 있습니다. 예를 들어 Deepspeed ZeRO를 사용할 때 모든 rank의 Artifacts가 없으면 체크포인트에서 복구하는 것이 불가능할 수 있습니다. 기본값: `True` (bool, 선택 사항) |
-| `init_kwargs` | wandb `config` 등 `wandb.init()`에 전달할 파라미터. `wandb.init()`에서 허용하는 파라미터는 [`wandb.init()` 파라미터](/models/ref/python/functions/init)를 참조하세요. |
+| `init_kwargs` | wandb `config` 등 `wandb.init()`에 전달할 파라미터. `wandb.init()`에서 허용하는 파라미터는 [`wandb.init()` 파라미터](/ko/models/ref/python/functions/init)를 참조하세요. |
 
 전형적인 사용 예시는 다음과 같습니다:
 

@@ -52,7 +52,7 @@ Weave は、`weave.init()` を呼び出した後、[ChatNVIDIA](https://python.l
   <Tab title="Python">
 関数を `@weave.op` でラップすると、入力、出力、およびアプリケーションロジックのキャプチャが開始され、データがアプリ内をどのように流れるかをデバッグできるようになります。ops は深くネストさせることができ、追跡したい関数の ツリー を構築できます。これにより、実験中に git にコミットされていないアドホックな詳細をキャプチャするために、コード の バージョン管理 も自動的に開始されます。
 
-単に [`@weave.op`](/weave/guides/tracking/ops) デコレータを付けた関数を作成し、その中で [ChatNVIDIA python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) を呼び出すだけです。
+単に [`@weave.op`](/ja/weave/guides/tracking/ops) デコレータを付けた関数を作成し、その中で [ChatNVIDIA python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) を呼び出すだけです。
 
 以下の例では、2つの関数を op でラップしています。これにより、RAG アプリにおける検索ステップのような中間ステップが、アプリの 振る舞い にどのように影響しているかを確認できます。
 
@@ -121,9 +121,9 @@ Weave に移動し、UI で `get_pokemon_data` をクリックすると、その
 
 <Tabs>
   <Tab title="Python">
-多くの動的な要素がある場合、実験の整理は困難になります。[`Model`](/weave/guides/core-types/models) クラスを使用することで、システムプロンプトや使用している モデル など、アプリの実験的な詳細をキャプチャして整理できます。これにより、アプリの異なるイテレーションの整理や比較が容易になります。
+多くの動的な要素がある場合、実験の整理は困難になります。[`Model`](/ja/weave/guides/core-types/models) クラスを使用することで、システムプロンプトや使用している モデル など、アプリの実験的な詳細をキャプチャして整理できます。これにより、アプリの異なるイテレーションの整理や比較が容易になります。
 
-コード の バージョン管理 や入力/出力のキャプチャに加えて、[`Model`](/weave/guides/core-types/models) はアプリケーションの 振る舞い を制御する構造化された パラメータ をキャプチャするため、どの パラメータ が最適だったかを簡単に見つけることができます。また、Weave Models は `serve` や [`Evaluations`](/weave/guides/core-types/evaluations) と併用することも可能です。
+コード の バージョン管理 や入力/出力のキャプチャに加えて、[`Model`](/ja/weave/guides/core-types/models) はアプリケーションの 振る舞い を制御する構造化された パラメータ をキャプチャするため、どの パラメータ が最適だったかを簡単に見つけることができます。また、Weave Models は `serve` や [`Evaluations`](/ja/weave/guides/core-types/evaluations) と併用することも可能です。
 
 以下の例では、`model` と `system_message` を使って実験できます。これらいずれかを変更するたびに、`GrammarCorrectorModel` の新しい バージョン が作成されます。
 

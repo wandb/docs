@@ -15,17 +15,17 @@ Run 이 충돌하거나 커스텀 트리거가 발생했을 때 Slack 또는 이
 </Frame>
 
 <Note>
-W&B Alerts 를 사용하려면 코드에 `run.alert()` 를 추가해야 합니다. 코드를 수정하지 않고도, [Automations](/models/automations/) 을 통해 W&B 의 이벤트(예: [artifact](/models/artifacts/) 버전 생성 또는 [run metric](/models/runs/) 이 임계값에 도달하거나 변경될 때)를 기반으로 Slack 에 알림을 보내는 다른 방법을 제공합니다.
+W&B Alerts 를 사용하려면 코드에 `run.alert()` 를 추가해야 합니다. 코드를 수정하지 않고도, [Automations](/ko/models/automations/) 을 통해 W&B 의 이벤트(예: [artifact](/ko/models/artifacts/) 버전 생성 또는 [run metric](/ko/models/runs/) 이 임계값에 도달하거나 변경될 때)를 기반으로 Slack 에 알림을 보내는 다른 방법을 제공합니다.
 
 예를 들어, Automations 을 사용하면 새 버전이 생성될 때 Slack 채널에 알림을 보내거나, Artifact 에 `production` 에일리어스가 추가될 때 자동화된 테스트 웹훅을 실행하거나, Run 의 `loss` 가 허용 범위 내에 있을 때만 검증 작업을 시작할 수 있습니다.
 
-[Automations 개요](/models/automations/) 를 읽어보거나 [automation 생성하기](/models/automations/create-automations/) 를 확인해 보세요.
+[Automations 개요](/ko/models/automations/) 를 읽어보거나 [automation 생성하기](/ko/models/automations/create-automations/) 를 확인해 보세요.
 </Note>
 
 <Note>
 다음 가이드는 Multi-tenant Cloud 의 알림에만 적용됩니다.
 
-프라이빗 클라우드 또는 W&B 전용 클라우드에서 [W&B Server](/platform/hosting/) 를 사용하는 경우, [W&B Server에서 Slack 알림 구성하기](/platform/hosting/monitoring-usage/slack-alerts) 를 참조하여 Slack 알림을 설정하세요.
+프라이빗 클라우드 또는 W&B 전용 클라우드에서 [W&B Server](/ko/platform/hosting/) 를 사용하는 경우, [W&B Server에서 Slack 알림 구성하기](/ko/platform/hosting/monitoring-usage/slack-alerts) 를 참조하여 Slack 알림을 설정하세요.
 </Note>
 
 알림을 설정하려면 다음 섹션에 자세히 설명된 단계를 따르세요:

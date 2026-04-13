@@ -63,7 +63,7 @@ response = model.generate_content(
 
 関数を `@weave.op` でラップすると、 入出力とアプリのロジックのキャプチャが開始され、 アプリ内での データの流れをデバッグできるようになります。 ops は深くネストさせることができ、 トラックしたい関数の ツリー を構築できます。 これにより、 実験 中の コード の バージョン管理 も自動的に開始され、 git にコミットされていないアドホックな詳細もキャプチャされます。
 
-単に [`@weave.op`](/weave/guides/tracking/ops) でデコレートした関数を作成するだけです。
+単に [`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートした関数を作成するだけです。
 
 以下の例では、 都市の観光スポットを推薦する `@weave.op` でラップされた関数 `recommend_places_to_visit` を定義しています。
 

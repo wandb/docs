@@ -15,18 +15,18 @@ W&B Public APIは、W&Bに保存されたデータの照会、エクスポート
 
 | コンポーネント | 説明 |
 |-----------|-------------|
-| [`Api`](/models/ref/python/public-api/api/) | Public APIのメインエントリポイント。組織内の Runs 、 Projects 、 Artifacts を照会します。 |
-| [`Runs`](/models/ref/python/public-api/runs/) | 個々のトレーニング Runs へのアクセスと管理（履歴、 ログ 、 メトリクス を含む）。 |
-| [`Artifacts`](/models/artifacts/) | モデルの Artifacts 、 Datasets 、およびその他のバージョン管理されたファイルの照会とダウンロード。 |
-| [`Sweeps`](/models/sweeps/) | ハイパーパラメーター Sweeps のデータへのアクセスと最適化結果の分析。 |
-| [`Projects`](/models/ref/python/public-api/projects/) | Projects の管理と、プロジェクトレベルの メタデータ および 設定 へのアクセス。 |
-| [`Reports`](/models/reports/create-a-report/) | W&B Reports へのプログラムによるアクセスと管理。 |
-| [`Team`](/models/ref/python/public-api/team) | チーム情報の照会とチームレベルのリソース管理。 |
-| [`User`](/models/ref/python/public-api/user) | ユーザープロファイルとユーザー固有のデータへのアクセス。 |
-| [`Files`](/models/ref/python/public-api/files/) | Runs に関連付けられたファイルのダウンロードと管理。 |
+| [`Api`](/ja/models/ref/python/public-api/api/) | Public APIのメインエントリポイント。組織内の Runs 、 Projects 、 Artifacts を照会します。 |
+| [`Runs`](/ja/models/ref/python/public-api/runs/) | 個々のトレーニング Runs へのアクセスと管理（履歴、 ログ 、 メトリクス を含む）。 |
+| [`Artifacts`](/ja/models/artifacts/) | モデルの Artifacts 、 Datasets 、およびその他のバージョン管理されたファイルの照会とダウンロード。 |
+| [`Sweeps`](/ja/models/sweeps/) | ハイパーパラメーター Sweeps のデータへのアクセスと最適化結果の分析。 |
+| [`Projects`](/ja/models/ref/python/public-api/projects/) | Projects の管理と、プロジェクトレベルの メタデータ および 設定 へのアクセス。 |
+| [`Reports`](/ja/models/reports/create-a-report/) | W&B Reports へのプログラムによるアクセスと管理。 |
+| [`Team`](/ja/models/ref/python/public-api/team) | チーム情報の照会とチームレベルのリソース管理。 |
+| [`User`](/ja/models/ref/python/public-api/user) | ユーザープロファイルとユーザー固有のデータへのアクセス。 |
+| [`Files`](/ja/models/ref/python/public-api/files/) | Runs に関連付けられたファイルのダウンロードと管理。 |
 | `History` | トレーニング中に記録された詳細な時系列 メトリクス へのアクセス（Run.historyを参照）。 |
 | [`Automations`](./automations/) | 自動化された ワークフロー とアクションの管理。 |
-| [`Integrations`](/models/integrations) | サードパーティ製 インテグレーション の 設定 と管理。 |
+| [`Integrations`](/ja/models/integrations) | サードパーティ製 インテグレーション の 設定 と管理。 |
 
 ## 一般的なユースケース
 
@@ -132,4 +132,4 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-レジストリ、コレクション、または Artifact の照会方法の詳細については、[レジストリアイテムの検索](/models/registry/search_registry) を参照してください。
+レジストリ、コレクション、または Artifact の照会方法の詳細については、[レジストリアイテムの検索](/ja/models/registry/search_registry) を参照してください。

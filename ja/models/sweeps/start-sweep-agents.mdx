@@ -3,9 +3,9 @@ title: sweep agent を開始する
 description: 1つ以上のマシンで W&B Sweep Agent を開始または停止します。
 ---
 
-1 つまたは複数のマシン上の、1 つまたは複数のエージェントで Sweeps を開始します。 sweep agent は、 [sweep を初期化](/models/sweeps/initialize-sweeps) した際に定義された sweep configuration を使用して、異なる ハイパーパラメーター の組み合わせを探索します。 W&B は、 sweep agent が試行する ハイパーパラメーター の組み合わせごとに、新しい Run を作成します。
+1 つまたは複数のマシン上の、1 つまたは複数のエージェントで Sweeps を開始します。 sweep agent は、 [sweep を初期化](/ja/models/sweeps/initialize-sweeps) した際に定義された sweep configuration を使用して、異なる ハイパーパラメーター の組み合わせを探索します。 W&B は、 sweep agent が試行する ハイパーパラメーター の組み合わせごとに、新しい Run を作成します。
 
-sweep の一時停止、再開、停止、またはキャンセル方法については、 [Sweeps の管理](/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
+sweep の一時停止、再開、停止、またはキャンセル方法については、 [Sweeps の管理](/ja/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
 
 <Note>
 続行する前に、以下を確認してください：
@@ -36,7 +36,7 @@ wandb agent sweep_id
 ```
 </Tab>
 <Tab title="Python script or notebook">
-sweep を開始するには、 [`wandb.agent()`](/models/ref/python/functions/agent) を使用します。 sweep を初期化したときに W&B から返された sweep ID と、 トレーニングスクリプト のエントリポイントとなる関数の名前を指定します。
+sweep を開始するには、 [`wandb.agent()`](/ja/models/ref/python/functions/agent) を使用します。 sweep を初期化したときに W&B から返された sweep ID と、 トレーニングスクリプト のエントリポイントとなる関数の名前を指定します。
 
 以下の コードスニペット をコピーして貼り付け、 `<sweep_id>` を実際の sweep ID に、 `<function_name>` をトレーニング関数の名前に置き換えてください。
 
@@ -44,7 +44,7 @@ sweep を開始するには、 [`wandb.agent()`](/models/ref/python/functions/ag
 wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
 ```
 
-この方法を使用する場合の トレーニングスクリプト のセットアップ例については、「コードに W&B を追加する」の [Python script or notebook タブ](/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
+この方法を使用する場合の トレーニングスクリプト のセットアップ例については、「コードに W&B を追加する」の [Python script or notebook タブ](/ja/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
 
 <Warning>
 **マルチプロセッシング**
@@ -69,11 +69,11 @@ if __name__ == '__main__':
 ランダム探索および ベイズ探索 は永続的に実行されます。 コマンドライン 、 Python スクリプト 内、または [Sweeps UI](./visualize-sweep-results) から プロセス を停止する必要があります。
 </Warning>
 
-sweep agent が試行すべき Run の回数を指定します。以下の コードスニペット は、 CLI 、 Jupyter Notebook 、および Python スクリプト 内で、 [W&B Runs](/models/ref/python/experiments/run) の最大数を設定する方法を示しています。
+sweep agent が試行すべき Run の回数を指定します。以下の コードスニペット は、 CLI 、 Jupyter Notebook 、および Python スクリプト 内で、 [W&B Runs](/ja/models/ref/python/experiments/run) の最大数を設定する方法を示しています。
 
 <Tabs>
 <Tab title="CLI">
-まず、 [`wandb sweep`](/models/ref/cli/wandb-sweep) コマンド で sweep を初期化します。詳細については、 [Sweeps の初期化](./initialize-sweeps) を参照してください。
+まず、 [`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンド で sweep を初期化します。詳細については、 [Sweeps の初期化](./initialize-sweeps) を参照してください。
 
 ```
 wandb sweep config.yaml

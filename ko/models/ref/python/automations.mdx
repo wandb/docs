@@ -12,32 +12,32 @@ W&B Automations API를 사용하면 ML 파이프라인의 이벤트에 반응하
 
 | Class | 설명 |
 |-------|-------------|
-| [`Automation`](/models/ref/python/automations/automation/) | 설정 정보가 포함된 저장된 자동화 인스턴스를 나타냅니다. |
-| [`NewAutomation`](/models/ref/python/automations/newautomation/) | 새로운 자동화를 생성하기 위한 빌더 클래스입니다. |
+| [`Automation`](/ko/models/ref/python/automations/automation/) | 설정 정보가 포함된 저장된 자동화 인스턴스를 나타냅니다. |
+| [`NewAutomation`](/ko/models/ref/python/automations/newautomation/) | 새로운 자동화를 생성하기 위한 빌더 클래스입니다. |
 
 ### Events (Triggers)
 
 | Event | 설명 |
 |-------|-------------|
-| [`OnRunMetric`](/models/ref/python/automations/onrunmetric/) | run 메트릭이 정의된 조건(임계값, 변경 등)을 충족할 때 트리거됩니다. |
-| [`OnCreateArtifact`](/models/ref/python/automations/oncreateartifact/) | 컬렉션에 새로운 아티팩트가 생성될 때 트리거됩니다. |
-| [`OnLinkArtifact`](/models/ref/python/automations/onlinkartifact/) | 아티팩트가 레지스트리에 링크될 때 트리거됩니다. |
-| [`OnAddArtifactAlias`](/models/ref/python/automations/onaddartifactalias/) | 아티팩트에 에일리어스가 추가될 때 트리거됩니다. |
+| [`OnRunMetric`](/ko/models/ref/python/automations/onrunmetric/) | run 메트릭이 정의된 조건(임계값, 변경 등)을 충족할 때 트리거됩니다. |
+| [`OnCreateArtifact`](/ko/models/ref/python/automations/oncreateartifact/) | 컬렉션에 새로운 아티팩트가 생성될 때 트리거됩니다. |
+| [`OnLinkArtifact`](/ko/models/ref/python/automations/onlinkartifact/) | 아티팩트가 레지스트리에 링크될 때 트리거됩니다. |
+| [`OnAddArtifactAlias`](/ko/models/ref/python/automations/onaddartifactalias/) | 아티팩트에 에일리어스가 추가될 때 트리거됩니다. |
 
 ### Actions
 
 | Action | 설명 |
 |--------|-------------|
-| [`SendNotification`](/models/ref/python/automations/sendnotification/) | Slack 또는 기타 연동된 채널을 통해 알림을 보냅니다. |
-| [`SendWebhook`](/models/ref/python/automations/sendwebhook/) | 외부 서비스로 HTTP 웹훅 요청을 보냅니다. |
-| [`DoNothing`](/models/ref/python/automations/donothing/) | 자동화 설정을 테스트하기 위한 플레이스홀더 액션입니다. |
+| [`SendNotification`](/ko/models/ref/python/automations/sendnotification/) | Slack 또는 기타 연동된 채널을 통해 알림을 보냅니다. |
+| [`SendWebhook`](/ko/models/ref/python/automations/sendwebhook/) | 외부 서비스로 HTTP 웹훅 요청을 보냅니다. |
+| [`DoNothing`](/ko/models/ref/python/automations/donothing/) | 자동화 설정을 테스트하기 위한 플레이스홀더 액션입니다. |
 
 ### Filters
 
 | Filter | 설명 |
 |--------|-------------|
-| [`MetricThresholdFilter`](/models/ref/python/automations/metricthresholdfilter/) | 임계값 대비 메트릭 값 비교를 기반으로 run을 필터링합니다. |
-| [`MetricChangeFilter`](/models/ref/python/automations/metricchangefilter/) | 시간에 따른 메트릭 값의 변화를 기반으로 run을 필터링합니다. |
+| [`MetricThresholdFilter`](/ko/models/ref/python/automations/metricthresholdfilter/) | 임계값 대비 메트릭 값 비교를 기반으로 run을 필터링합니다. |
+| [`MetricChangeFilter`](/ko/models/ref/python/automations/metricchangefilter/) | 시간에 따른 메트릭 값의 변화를 기반으로 run을 필터링합니다. |
 
 ## Common Use Cases
 
@@ -93,4 +93,4 @@ automation = api.create_automation(
 )
 ```
 
-Automations API 사용에 대한 자세한 내용은 [Automations Guide](/models/automations/)를 참조하세요.
+Automations API 사용에 대한 자세한 내용은 [Automations Guide](/ko/models/automations/)를 참조하세요.

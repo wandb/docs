@@ -26,7 +26,7 @@ API 키는 해당 머신을 W&B에 인증합니다. 사용자 프로필에서 AP
 
 <Tabs>
 <Tab title="Command Line">
-1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/) 를 해당 API 키로 설정합니다.
+1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/) 를 해당 API 키로 설정합니다.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -78,7 +78,7 @@ add = components.create_component_from_func(add)
 
 ## 컨테이너에 환경 변수 전달
 
-컨테이너에 [환경 변수](/models/track/environment-variables/) 를 명시적으로 전달해야 할 수도 있습니다. 양방향 연결을 위해 `WANDB_KUBEFLOW_URL` 환경 변수를 Kubeflow Pipelines 인스턴스의 베이스 URL로 설정해야 합니다. 예를 들어, `https://kubeflow.mysite.com` 과 같습니다.
+컨테이너에 [환경 변수](/ko/models/track/environment-variables/) 를 명시적으로 전달해야 할 수도 있습니다. 양방향 연결을 위해 `WANDB_KUBEFLOW_URL` 환경 변수를 Kubeflow Pipelines 인스턴스의 베이스 URL로 설정해야 합니다. 예를 들어, `https://kubeflow.mysite.com` 과 같습니다.
 
 ```python
 import os
@@ -117,7 +117,7 @@ W&B로 로그된 Kubeflow Pipelines UI의 임의의 Run 을 클릭합니다.
 
 ### 웹 앱 UI를 통해
 
-웹 앱 UI는 Kubeflow Pipelines의 `Visualizations` 탭과 동일한 콘텐츠를 제공하지만 더 넓은 공간을 활용할 수 있습니다. [여기에서 웹 앱 UI에 대해 자세히 알아보세요](/models/app).
+웹 앱 UI는 Kubeflow Pipelines의 `Visualizations` 탭과 동일한 콘텐츠를 제공하지만 더 넓은 공간을 활용할 수 있습니다. [여기에서 웹 앱 UI에 대해 자세히 알아보세요](/ko/models/app).
 
 <Frame>
     <img src="/images/integrations/kubeflow_pipelines.png" alt="Run details"  />
@@ -129,7 +129,7 @@ W&B로 로그된 Kubeflow Pipelines UI의 임의의 Run 을 클릭합니다.
 
 ### Public API를 통해 (프로그래밍 방식 엑세스)
 
-* 프로그래밍 방식의 엑세스는 [Public API 문서](/models/ref/python/public-api/) 를 참조하세요.
+* 프로그래밍 방식의 엑세스는 [Public API 문서](/ko/models/ref/python/public-api/) 를 참조하세요.
 
 ### Kubeflow Pipelines에서 W&B로의 개념 매핑
 
@@ -137,10 +137,10 @@ Kubeflow Pipelines 개념과 W&B 간의 매핑은 다음과 같습니다.
 
 | Kubeflow Pipelines | W&B | W&B 내 위치 |
 | ------------------ | --- | --------------- |
-| Input Scalar | [`config`](/models/) | [Overview 탭](/models/runs/#overview-tab) |
-| Output Scalar | [`summary`](/models/) | [Overview 탭](/models/runs/#overview-tab) |
-| Input Artifact | Input Artifact | [Artifacts 탭](/models/runs/#artifacts-tab) |
-| Output Artifact | Output Artifact | [Artifacts 탭](/models/runs/#artifacts-tab) |
+| Input Scalar | [`config`](/ko/models/) | [Overview 탭](/ko/models/runs/#overview-tab) |
+| Output Scalar | [`summary`](/ko/models/) | [Overview 탭](/ko/models/runs/#overview-tab) |
+| Input Artifact | Input Artifact | [Artifacts 탭](/ko/models/runs/#artifacts-tab) |
+| Output Artifact | Output Artifact | [Artifacts 탭](/ko/models/runs/#artifacts-tab) |
 
 ## 세밀한 로깅
 
@@ -172,7 +172,7 @@ def train_model(
 
 ### 암시적인 wandb 인테그레이션 사용
 
-[지원되는 프레임워크 인테그레이션](/models/integrations) 을 사용하는 경우, 콜백을 직접 전달할 수도 있습니다.
+[지원되는 프레임워크 인테그레이션](/ko/models/integrations) 을 사용하는 경우, 콜백을 직접 전달할 수도 있습니다.
 
 ```python
 @wandb_log

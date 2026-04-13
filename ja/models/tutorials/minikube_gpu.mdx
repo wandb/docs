@@ -9,7 +9,7 @@ GPU ワークロードをスケジュールおよび実行できる Minikube ク
 
 クラウドマシン上に minikube クラスターをセットアップしたい場合は、W&B はご利用のクラウドプロバイダーを使用して GPU サポート付きの Kubernetes クラスターを作成することをお勧めします。例えば、AWS、Google Cloud、Azure、Coreweave、およびその他のクラウドプロバイダーには、GPU サポート付きの Kubernetes クラスターを作成するためのツールが用意されています。
 
-単一の GPU を搭載したマシン上で GPU スケジューリングのために minikube クラスターをセットアップしたい場合は、W&B は [Launch Docker queue](/platform/launch/setup-launch-docker/) の使用をお勧めします。このチュートリアルを読み進めることも可能ですが、GPU スケジューリングの有用性はそれほど高くありません。
+単一の GPU を搭載したマシン上で GPU スケジューリングのために minikube クラスターをセットアップしたい場合は、W&B は [Launch Docker queue](/ja/platform/launch/setup-launch-docker/) の使用をお勧めします。このチュートリアルを読み進めることも可能ですが、GPU スケジューリングの有用性はそれほど高くありません。
 </Note>
 
 ## 背景
@@ -84,7 +84,7 @@ spec:
 </Tab>
 </Tabs>
 
-キューの設定に関する詳細は、[Set up Launch on Kubernetes](/platform/launch/setup-launch-kubernetes/) および [Advanced queue setup guide](/platform/launch/setup-queue-advanced/) を参照してください。
+キューの設定に関する詳細は、[Set up Launch on Kubernetes](/ja/platform/launch/setup-launch-kubernetes/) および [Advanced queue setup guide](/ja/platform/launch/setup-queue-advanced/) を参照してください。
 
 `${image_uri}` と `{{gpus}}` 文字列は、キュー設定で使用できる2種類の変数テンプレートの例です。`${image_uri}` テンプレートは、エージェントによって起動されるジョブのイメージ URI に置き換えられます。`{{gpus}}` テンプレートは、ジョブを送信する際に Launch UI、CLI、または SDK からオーバーライドできるテンプレート変数を作成するために使用されます。これらの値はジョブ仕様内に配置され、ジョブが使用するイメージと GPU リソースを制御する正しいフィールドを修正します。
 

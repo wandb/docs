@@ -46,8 +46,8 @@ LoRA를 생성하고 이를 W&B에 아티팩트로 업로드하는 과정의 인
 
 다음이 필요합니다:
 
-* [W&B API 키](/models/integrations/add-wandb-to-any-library#create-an-api-key)
-* [W&B Projects](/models/track/project-page)
+* [W&B API 키](/ko/models/integrations/add-wandb-to-any-library#create-an-api-key)
+* [W&B Projects](/ko/models/track/project-page)
 * `openai` 및 `wandb` 패키지가 설치된 **Python 3.8+**:
   `pip install wandb openai`
 
@@ -117,4 +117,4 @@ model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest
 Serverless LoRA Inference는 간단하고 비용 효율적입니다. 상시 가동되는 서버나 전용 GPU 인스턴스 대신, 스토리지와 실제 실행하는 추론에 대해서만 비용을 지불하면 됩니다.
 
 - [**Storage**](https://wandb.ai/site/pricing/) - LoRA 가중치를 저장하는 비용은 저렴하며, 특히 자체 GPU 인프라를 유지하는 것과 비교할 때 매우 경제적입니다.
-- **Inference usage** - LoRA 아티팩트를 사용하는 호출은 [표준 모델 추론](/inference/usage-limits#account-tiers-and-default-usage-caps)과 동일한 요율로 청구됩니다. 커스텀 LoRA 서빙에 대한 추가 수수료는 없습니다.
+- **Inference usage** - LoRA 아티팩트를 사용하는 호출은 [표준 모델 추론](/ko/inference/usage-limits#account-tiers-and-default-usage-caps)과 동일한 요율로 청구됩니다. 커스텀 LoRA 서빙에 대한 추가 수수료는 없습니다.

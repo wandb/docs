@@ -10,7 +10,7 @@ title: SCIM을 사용하여 Users, 그룹 및 역할 관리
 
 SCIM (System for Cross-domain Identity Management) API를 사용하면 인스턴스 또는 조직 관리자가 W&B 조직 내의 Users, Groups 및 커스텀 역할을 관리할 수 있습니다. SCIM 그룹은 W&B Teams에 매핑됩니다.
 
-W&B의 SCIM API는 Okta를 포함한 주요 ID 제공업체와 호환되어 사용자 프로비저닝 및 프로비저닝 해제를 자동화할 수 있습니다. Okta 및 기타 ID 제공업체와의 SSO 설정에 대해서는 [SSO 문서](/platform/hosting/iam/sso/)를 참조하세요.
+W&B의 SCIM API는 Okta를 포함한 주요 ID 제공업체와 호환되어 사용자 프로비저닝 및 프로비저닝 해제를 자동화할 수 있습니다. Okta 및 기타 ID 제공업체와의 SSO 설정에 대해서는 [SSO 문서](/ko/platform/hosting/iam/sso/)를 참조하세요.
 
 SCIM API와 상호작용하는 방법을 보여주는 실용적인 Python 예제는 [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) 저장소를 방문하세요.
 
@@ -21,7 +21,7 @@ SCIM API와 상호작용하는 방법을 보여주는 실용적인 Python 예제
 - **서비스 계정 인증**: 조직 서비스 계정으로 API에 엑세스할 수 있습니다.
 
 <Note>
-여러 개의 Enterprise [Multi-tenant SaaS](/platform/hosting/hosting-options/multi_tenant_cloud) 조직의 관리자인 경우, API 키를 사용한 SCIM API 요청이 올바른 조직에 적용되도록 대상 조직을 설정해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭하고 **Default API organization** 설정을 확인하세요.
+여러 개의 Enterprise [Multi-tenant SaaS](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 조직의 관리자인 경우, API 키를 사용한 SCIM API 요청이 올바른 조직에 적용되도록 대상 조직을 설정해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭하고 **Default API organization** 설정을 확인하세요.
 
 선택한 호스팅 옵션에 따라 이 페이지의 예제에 사용된 `<host-url>` 자리표시자 값이 결정됩니다.
 
@@ -49,7 +49,7 @@ Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ```
 
 ### 서비스 계정
-자동화 또는 인테그레이션을 위해서는 조직 범위의 서비스 계정을 사용하세요. HTTP `Authorization` 헤더를 `Basic <base64(:API-KEY)>`로 구성합니다 (앞의 콜론과 비어 있는 사용자 이름에 주의하세요). 서비스 계정 API 키는 조직 대시보드의 **Service account** 탭에서 찾을 수 있습니다. [조직 범위 서비스 계정](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts)을 참조하세요.
+자동화 또는 인테그레이션을 위해서는 조직 범위의 서비스 계정을 사용하세요. HTTP `Authorization` 헤더를 `Basic <base64(:API-KEY)>`로 구성합니다 (앞의 콜론과 비어 있는 사용자 이름에 주의하세요). 서비스 계정 API 키는 조직 대시보드의 **Service account** 탭에서 찾을 수 있습니다. [조직 범위 서비스 계정](/ko/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts)을 참조하세요.
 
 예를 들어, API 키 `sa-p@55w0rd`로 인증하는 경우:
 ```bash
@@ -120,7 +120,7 @@ GET /scim/Users/abc
 
 "활동 중(active)"의 정의는 배포 유형에 따라 다릅니다:
 - **Dedicated Cloud / Self-Managed**: 사용자가 로그인하거나, W&B 앱의 페이지를 열거나, runs를 로그하거나, SDK를 사용하거나, 어떤 방식으로든 W&B 서버와 상호작용하면 활동 중인 것으로 간주됩니다.
-- **Multi-tenant Cloud**: 사용자가 2025년 5월 8일 이후 조직 범위 내에서 감사 가능한 작업을 수행하면 활동 중인 것으로 간주됩니다. 전체 목록은 [감사 로그 작업](/platform/hosting/monitoring-usage/audit-logging#actions)을 참조하세요.
+- **Multi-tenant Cloud**: 사용자가 2025년 5월 8일 이후 조직 범위 내에서 감사 가능한 작업을 수행하면 활동 중인 것으로 간주됩니다. 전체 목록은 [감사 로그 작업](/ko/platform/hosting/monitoring-usage/audit-logging#actions)을 참조하세요.
 
 </Tab>
 </Tabs>
@@ -641,7 +641,7 @@ PATCH /scim/Users
 <Note>
 - 사용자 활성화는 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정에 대해서는 활성화가 지원되지 않습니다. 서비스 계정은 W&B Team 설정에서 관리하세요.
 
-- 사용자 활성화는 [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)에서 지원되지 않습니다. 사용자의 엑세스를 복구하려면 조직에 다시 추가해야 합니다. [사용자 생성](#create-user-request-multi-tenant)을 참조하세요. Multi-tenant Cloud에서는 사용자의 계정이 조직에 의해 관리되지 않습니다. 사용자를 활성화하려고 시도하면 HTTP `400` 오류가 발생합니다:
+- 사용자 활성화는 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 지원되지 않습니다. 사용자의 엑세스를 복구하려면 조직에 다시 추가해야 합니다. [사용자 생성](#create-user-request-multi-tenant)을 참조하세요. Multi-tenant Cloud에서는 사용자의 계정이 조직에 의해 관리되지 않습니다. 사용자를 활성화하려고 시도하면 HTTP `400` 오류가 발생합니다:
     ```json
     {
         "schemas": [

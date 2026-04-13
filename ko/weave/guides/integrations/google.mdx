@@ -63,7 +63,7 @@ response = model.generate_content(
 
 함수를 `@weave.op`로 래핑하면 입력, 출력 및 앱 로직 캡처가 시작되어 앱을 통해 데이터가 흐르는 방식을 디버그할 수 있습니다. op를 깊게 중첩하고 추적하려는 함수 트리를 구축할 수 있습니다. 또한 실험을 진행하면서 git에 커밋되지 않은 세부 사항을 캡처하기 위해 코드의 버전 관리도 자동으로 시작합니다.
 
-[`@weave.op`](/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 만들기만 하면 됩니다.
+[`@weave.op`](/ko/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 만들기만 하면 됩니다.
 
 아래 예시에서 `recommend_places_to_visit` 함수는 도시의 방문 장소를 추천하는 `@weave.op` 래핑 함수입니다.
 

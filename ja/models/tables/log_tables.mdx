@@ -2,9 +2,9 @@
 title: テーブルをログする
 ---
 
-W&B Tables を使用して、表形式のデータを可視化しログに記録します。W&B Table は 2 次元のデータグリッドであり、各列は単一のデータ型を持ちます。各行は、W&B [run](/models/runs/) にログ記録された 1 つ以上のデータポイントを表します。W&B Tables は、プリミティブ型や数値型だけでなく、ネストされたリスト、辞書、リッチメディア型もサポートしています。
+W&B Tables を使用して、表形式のデータを可視化しログに記録します。W&B Table は 2 次元のデータグリッドであり、各列は単一のデータ型を持ちます。各行は、W&B [run](/ja/models/runs/) にログ記録された 1 つ以上のデータポイントを表します。W&B Tables は、プリミティブ型や数値型だけでなく、ネストされたリスト、辞書、リッチメディア型もサポートしています。
 
-W&B Table は W&B における特殊な [データ型](/models/ref/python/data-types/) であり、[Artifacts](/models/artifacts/) オブジェクトとしてログ記録されます。
+W&B Table は W&B における特殊な [データ型](/ja/models/ref/python/data-types/) であり、[Artifacts](/ja/models/artifacts/) オブジェクトとしてログ記録されます。
 
 W&B Python SDK を使用して [Table オブジェクトを作成しログに記録](#create-and-log-a-new-table) します。Table オブジェクトを作成する際、テーブルの列とデータ、および [モード](#table-logging-modes) を指定します。モードは、機械学習の実験中にテーブルがどのようにログ記録され、更新されるかを決定します。
 
@@ -15,7 +15,7 @@ W&B Python SDK を使用して [Table オブジェクトを作成しログに記
 ## テーブルの作成とログ記録
 
 1. `wandb.init()` で新しい run を初期化します。
-2. [`wandb.Table`](/models/ref/python/data-types/table) クラスを使用して Table オブジェクトを作成します。`columns` パラメータと `data` パラメータにそれぞれテーブルの列とデータを指定します。オプションの `log_mode` パラメータを、`IMMUTABLE`（デフォルト）、`MUTABLE`、または `INCREMENTAL` の 3 つのモードのいずれかに設定することをお勧めします。詳細については、次セクションの [テーブルのロギングモード](#ロギングモード) を参照してください。
+2. [`wandb.Table`](/ja/models/ref/python/data-types/table) クラスを使用して Table オブジェクトを作成します。`columns` パラメータと `data` パラメータにそれぞれテーブルの列とデータを指定します。オプションの `log_mode` パラメータを、`IMMUTABLE`（デフォルト）、`MUTABLE`、または `INCREMENTAL` の 3 つのモードのいずれかに設定することをお勧めします。詳細については、次セクションの [テーブルのロギングモード](#ロギングモード) を参照してください。
 3. `run.log()` を使用してテーブルを W&B にログ記録します。
 
 次の例は、`a` と `b` の 2 つの列と、`["a1", "b1"]` および `["a2", "b2"]` の 2 行のデータを持つテーブルを作成してログに記録する方法を示しています。
@@ -39,7 +39,7 @@ with wandb.init(project="table-demo") as run:
 
 ## ロギングモード
 
-[`wandb.Table`](/models/ref/python/data-types/table) の `log_mode` パラメータは、機械学習の実験中にテーブルがどのようにログ記録され、更新されるかを決定します。`log_mode` パラメータは、`IMMUTABLE`、`MUTABLE`、および `INCREMENTAL` の 3 つの引数のいずれかを受け取ります。各モードは、テーブルのログ記録方法、変更方法、および W&B App でのレンダリング方法に異なる影響を与えます。
+[`wandb.Table`](/ja/models/ref/python/data-types/table) の `log_mode` パラメータは、機械学習の実験中にテーブルがどのようにログ記録され、更新されるかを決定します。`log_mode` パラメータは、`IMMUTABLE`、`MUTABLE`、および `INCREMENTAL` の 3 つの引数のいずれかを受け取ります。各モードは、テーブルのログ記録方法、変更方法、および W&B App でのレンダリング方法に異なる影響を与えます。
 
 以下に、3 つのロギングモードの概要、主な違い、およびそれぞれの一般的なユースケースを示します。
 

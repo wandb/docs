@@ -27,7 +27,7 @@ title: Volcano를 사용하여 multinode Launch 작업 실행하기
 
 설정(configuration) 섹션에 [volcano job](https://volcano.sh/en/docs/vcjob/) 템플릿을 입력합니다. 이 큐에서 Launch 되는 모든 Runs 는 이 작업 명세(job specification)를 사용하여 생성되므로, 필요에 따라 이 설정을 수정하여 작업을 커스터마이징할 수 있습니다.
 
-이 설정 블록은 Kubernetes 작업 명세, Volcano 작업 명세 또는 Launch 하려는 기타 커스텀 리소스 정의(CRD)를 수용할 수 있습니다. [설정 블록의 매크로](/platform/launch/set-up-launch/)를 사용하여 이 명세의 내용을 동적으로 설정할 수 있습니다.
+이 설정 블록은 Kubernetes 작업 명세, Volcano 작업 명세 또는 Launch 하려는 기타 커스텀 리소스 정의(CRD)를 수용할 수 있습니다. [설정 블록의 매크로](/ko/platform/launch/set-up-launch/)를 사용하여 이 명세의 내용을 동적으로 설정할 수 있습니다.
 
 이 튜토리얼에서는 [volcano의 pytorch 플러그인](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin)을 사용하는 멀티노드 PyTorch 트레이닝용 설정을 사용합니다. 다음 설정을 YAML 또는 JSON으로 복사하여 붙여넣을 수 있습니다:
 

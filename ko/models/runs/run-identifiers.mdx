@@ -4,7 +4,7 @@ description: run 의 고유 식별자(ID)와 run 이름을 확인하는 방법, 
   정의하는 방법에 대해 알아보세요.
 ---
 
-W&B Run을 초기화하면, W&B는 해당 run에 [run ID라고 알려진 고유 식별자](/models/runs/run-identifiers#run-id)를 할당합니다. 또한 각 run은 사용자가 정의할 수 있는 읽기 쉬운 [고유하지 않은 run name](/models/runs/run-identifiers#run-name)을 가집니다.
+W&B Run을 초기화하면, W&B는 해당 run에 [run ID라고 알려진 고유 식별자](/ko/models/runs/run-identifiers#run-id)를 할당합니다. 또한 각 run은 사용자가 정의할 수 있는 읽기 쉬운 [고유하지 않은 run name](/ko/models/runs/run-identifiers#run-name)을 가집니다.
 
 ## Run ID
 
@@ -86,11 +86,11 @@ with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
     <img src="/images/runs/unique-run-id.png" alt="Run ID 위치"  />
 </Frame>
 
-run을 [초기화할 때](/models/runs/run-identifiers#create-a-custom-run-name) 이름을 짓거나 나중에 [이름을 변경](/models/runs/run-identifiers#rename-a-run)할 수 있습니다.
+run을 [초기화할 때](/ko/models/runs/run-identifiers#create-a-custom-run-name) 이름을 짓거나 나중에 [이름을 변경](/ko/models/runs/run-identifiers#rename-a-run)할 수 있습니다.
 
 ### 사용자 정의 run name 생성
 
-[`wandb.init()`](/models/ref/python/functions/init) 메소드에 `name` 파라미터를 전달하여 run의 이름을 지정하세요.
+[`wandb.init()`](/ko/models/ref/python/functions/init) 메소드에 `name` 파라미터를 전달하여 run의 이름을 지정하세요.
 
 ```python 
 import wandb
@@ -106,7 +106,7 @@ Python SDK를 사용하여 프로그래밍 방식으로 또는 W&B App에서 대
 <Tabs>
 <Tab title="Python SDK">
 
-W&B에 로그된 run에 엑세스하려면 [`wandb.Api.Run`](/models/ref/python/public-api/api#method-api-run)을 사용하세요. 이 메소드는 run name을 업데이트하는 데 사용할 수 있는 [run 오브젝트](/models/ref/python/public-api/run#property-run-name)를 반환합니다. 변경 사항을 유지하려면 `wandb.Api.Run.update()` 메소드를 호출하세요.
+W&B에 로그된 run에 엑세스하려면 [`wandb.Api.Run`](/ko/models/ref/python/public-api/api#method-api-run)을 사용하세요. 이 메소드는 run name을 업데이트하는 데 사용할 수 있는 [run 오브젝트](/ko/models/ref/python/public-api/run#property-run-name)를 반환합니다. 변경 사항을 유지하려면 `wandb.Api.Run.update()` 메소드를 호출하세요.
 
 꺽쇠괄호(`< >`)로 묶인 값들을 실제 값으로 교체하세요.
 
@@ -174,7 +174,7 @@ W&B App에서 run의 display name을 변경합니다:
 
 </Tab>
 <Tab title="Report">
-[리포트](/models/reports/edit-a-report/) 내의 run set에서 run 이름을 변경하려면:
+[리포트](/ko/models/reports/edit-a-report/) 내의 run set에서 run 이름을 변경하려면:
 
 1. 연필 아이콘을 클릭하여 리포트 에디터를 엽니다.
 1. run set에서 이름을 변경할 run을 찾습니다. 리포트 이름 위에 마우스를 올리고 세 개의 수직 점을 클릭한 다음 **Edit run name**을 클릭합니다.

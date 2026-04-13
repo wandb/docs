@@ -24,7 +24,7 @@ with wandb.init() as run:
     <img src="/images/experiments/standard_axes.png" alt="step を x 軸として使用する折れ線グラフパネル。"  />
 </Frame>
 
-状況によっては、対数スケールの x 軸など、別の x 軸に対してメトリクスをログ記録する方が適切な場合があります。[`define_metric()`](/models/ref/python/experiments/run/#define_metric) メソッドを使用すると、ログ記録する任意のメトリクスをカスタム x 軸として使用できます。
+状況によっては、対数スケールの x 軸など、別の x 軸に対してメトリクスをログ記録する方が適切な場合があります。[`define_metric()`](/ja/models/ref/python/experiments/run/#define_metric) メソッドを使用すると、ログ記録する任意のメトリクスをカスタム x 軸として使用できます。
 
 y 軸として表示したいメトリクスを `name` パラメータで指定します。`step_metric` パラメータには、x 軸として使用したいメトリクスを指定します。カスタムメトリクスをログ記録する際は、辞書のキーと値のペアとして、x 軸と y 軸の両方の値を指定してください。
 

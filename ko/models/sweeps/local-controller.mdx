@@ -17,7 +17,7 @@ description: W&B 클라우드 호스팅 서비스를 사용하는 대신, 로컬
 pip install wandb sweeps 
 ```
 
-다음 예제들은 파이썬 스크립트나 Jupyter Notebook에 설정 파일과 트레이닝 루프가 이미 정의되어 있다고 가정합니다. 설정 파일을 정의하는 방법에 대한 자세한 내용은 [Define sweep configuration](/models/sweeps/define-sweep-configuration/)을 참조하세요.
+다음 예제들은 파이썬 스크립트나 Jupyter Notebook에 설정 파일과 트레이닝 루프가 이미 정의되어 있다고 가정합니다. 설정 파일을 정의하는 방법에 대한 자세한 내용은 [Define sweep configuration](/ko/models/sweeps/define-sweep-configuration/)을 참조하세요.
 
 ### 커맨드라인에서 로컬 컨트롤러 실행하기
 
@@ -42,13 +42,13 @@ controller:
 wandb sweep config.yaml
 ```
 
-`wandb sweep`은 스윕 ID를 생성합니다. 스윕을 초기화한 후, [`wandb controller`](/models/ref/python/functions/controller)로 컨트롤러를 시작합니다:
+`wandb sweep`은 스윕 ID를 생성합니다. 스윕을 초기화한 후, [`wandb controller`](/ko/models/ref/python/functions/controller)로 컨트롤러를 시작합니다:
 
 ```bash
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-로컬 컨트롤러 사용을 지정했다면, 하나 이상의 Sweep 에이전트를 시작하여 스윕을 실행합니다. 평소와 같이 W&B Sweep을 시작하세요. 자세한 내용은 [Start sweep agents](/models/sweeps/start-sweep-agents/)를 참조하세요.
+로컬 컨트롤러 사용을 지정했다면, 하나 이상의 Sweep 에이전트를 시작하여 스윕을 실행합니다. 평소와 같이 W&B Sweep을 시작하세요. 자세한 내용은 [Start sweep agents](/ko/models/sweeps/start-sweep-agents/)를 참조하세요.
 
 ```bash
 wandb sweep sweep_ID
@@ -58,7 +58,7 @@ wandb sweep sweep_ID
 
 다음 코드조각은 W&B Python SDK를 사용하여 로컬 컨트롤러를 지정하고 사용하는 방법을 보여줍니다.
 
-Python SDK에서 컨트롤러를 사용하는 가장 간단한 방법은 스윕 ID를 [`wandb.controller`](/models/ref/python/functions/controller) 메소드에 전달하는 것입니다. 그런 다음 반환된 오브젝트의 `run` 메소드를 사용하여 스윕 작업을 시작합니다:
+Python SDK에서 컨트롤러를 사용하는 가장 간단한 방법은 스윕 ID를 [`wandb.controller`](/ko/models/ref/python/functions/controller) 메소드에 전달하는 것입니다. 그런 다음 반환된 오브젝트의 `run` 메소드를 사용하여 스윕 작업을 시작합니다:
 
 ```python
 sweep = wandb.controller(sweep_id)

@@ -6,9 +6,9 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-このページでは、 [LLM Evaluation Jobs](/models/launch) が提供する評価ベンチマークをカテゴリ別にリストアップしています。
+このページでは、 [LLM Evaluation Jobs](/ja/models/launch) が提供する評価ベンチマークをカテゴリ別にリストアップしています。
 
-特定のベンチマークを実行するには、チーム管理者が [チームスコープの secret](/platform/secrets#add-a-secret) として必要な API キーを追加する必要があります。チームメンバーは、評価ジョブを設定する際にその secret を指定できます。
+特定のベンチマークを実行するには、チーム管理者が [チームスコープの secret](/ja/platform/secrets#add-a-secret) として必要な API キーを追加する必要があります。チームメンバーは、評価ジョブを設定する際にその secret を指定できます。
     - **OpenAI Model Scorer** カラムが `true` のベンチマークは、スコアリングに OpenAI モデルを使用します。組織またはチームの管理者は、OpenAI API キーをチーム secret として追加する必要があります。この要件があるベンチマークで評価ジョブを設定する場合は、 **Scorer API key** フィールドにその secret を設定してください。
     - **Gated Hugging Face Dataset** カラムにリンクがあるベンチマークは、ゲート付きの Hugging Face データセットへのアクセスが必要です。組織またはチームの管理者は、Hugging Face でデータセットへのアクセスをリクエストし、Hugging Face ユーザーアクセストークンを作成して、そのアクセスキーをチーム secret として設定する必要があります。この要件があるベンチマークを設定する場合は、 **Hugging Face Token** フィールドにその secret を設定してください。
 
@@ -202,6 +202,6 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 ## 次のステップ
 
-- [モデルのチェックポイントを評価する](/models/launch/evaluate-model-checkpoint)
-- [ホストされた API モデルを評価する](/models/launch/evaluate-hosted-model)
+- [モデルのチェックポイントを評価する](/ja/models/launch/evaluate-model-checkpoint)
+- [ホストされた API モデルを評価する](/ja/models/launch/evaluate-hosted-model)
 - 特定のベンチマークの詳細については [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/) を参照してください。

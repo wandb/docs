@@ -6,9 +6,9 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-이 페이지는 [LLM Evaluation Jobs](/models/launch)에서 카테고리별로 제공하는 평가 벤치마크 목록을 안내합니다.
+이 페이지는 [LLM Evaluation Jobs](/ko/models/launch)에서 카테고리별로 제공하는 평가 벤치마크 목록을 안내합니다.
 
-특정 벤치마크를 실행하려면 팀 관리자가 필요한 API 키를 [팀 범위 secret](/platform/secrets#add-a-secret)으로 추가해야 합니다. 모든 팀 멤버는 평가 job을 구성할 때 이 secret을 지정할 수 있습니다.
+특정 벤치마크를 실행하려면 팀 관리자가 필요한 API 키를 [팀 범위 secret](/ko/platform/secrets#add-a-secret)으로 추가해야 합니다. 모든 팀 멤버는 평가 job을 구성할 때 이 secret을 지정할 수 있습니다.
     - 벤치마크의 **OpenAI Model Scorer** 열에 `true`가 표시된 경우, 해당 벤치마크는 점수 산정을 위해 OpenAI 모델을 사용합니다. 조직 또는 팀 관리자는 OpenAI API 키를 팀 secret으로 추가해야 합니다. 이 요구 사항이 있는 벤치마크로 평가 job을 구성할 때는 **Scorer API key** 필드를 해당 secret으로 설정하세요.
     - 벤치마크의 **Gated Hugging Face Dataset** 열에 링크가 있는 경우, 해당 벤치마크는 액세스가 제한된(gated) Hugging Face 데이터셋에 대한 권한이 필요합니다. 조직 또는 팀 관리자는 Hugging Face에서 데이터셋에 대한 엑세스를 요청하고, Hugging Face 사용자 엑세스 토큰을 생성한 후, 엑세스 키를 포함한 팀 secret을 구성해야 합니다. 이 요구 사항이 있는 벤치마크를 구성할 때는 **Hugging Face Token** 필드를 해당 secret으로 설정하세요.
 
@@ -202,6 +202,6 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 ## 다음 단계
 
-- [모델 체크포인트 평가](/models/launch/evaluate-model-checkpoint)
-- [호스팅된 API 모델 평가](/models/launch/evaluate-hosted-model)
+- [모델 체크포인트 평가](/ko/models/launch/evaluate-model-checkpoint)
+- [호스팅된 API 모델 평가](/ko/models/launch/evaluate-hosted-model)
 - 특정 벤치마크에 대한 자세한 내용은 [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/)에서 확인하세요.

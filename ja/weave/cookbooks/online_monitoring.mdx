@@ -38,7 +38,7 @@ streamlit をインストールし、[このプロダクションダッシュボ
 まず、Weave クライアントを初期化し、各 モデル のコストを追加する関数を設定します。
 
 - 多くの標準的な モデル の標準コストが含まれていますが、独自のカスタムコストやカスタム モデル を簡単に追加することもできます。以下では、いくつかの モデル にカスタムコストを追加し、残りは標準コストを使用する方法を示します。
-- コストは、Weave でトラッキングされた各コール（call）のトークンに基づいて計算されます。多くの LLM ベンダーライブラリでは、トークン使用量を自動的にトラッキングしますが、任意のコールに対してカスタムのトークン数を返すことも可能です。カスタム モデル のトークンカウントとコスト計算の定義方法については、こちらのクックブックを参照してください - [custom cost cookbook](/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave)
+- コストは、Weave でトラッキングされた各コール（call）のトークンに基づいて計算されます。多くの LLM ベンダーライブラリでは、トークン使用量を自動的にトラッキングしますが、任意のコールに対してカスタムのトークン数を返すことも可能です。カスタム モデル のトークンカウントとコスト計算の定義方法については、こちらのクックブックを参照してください - [custom cost cookbook](/ja/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave)
 
 ```python lines
 PROJECT_NAME = "wandb-smle/weave-cookboook-demo"
@@ -86,7 +86,7 @@ Weave からコール（call）データを取得するには、2つのオプシ
 Weave から データ にアクセスする最初のオプションは、フィルタリングされたコールのリストを取得し、必要なデータをコールごとに抽出することです。そのためには、`calls_query_stream` API を使用して Weave からコールの ログ データを取得できます：
 
 - `calls_query_stream` API: Weave からコールの ログ データを取得できる API です。
-- `filter` 辞書: コール データを取得するためのフィルタ パラメータ が含まれます。詳細は [こちら](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) を参照してください。
+- `filter` 辞書: コール データを取得するためのフィルタ パラメータ が含まれます。詳細は [こちら](/ja/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) を参照してください。
 - `expand_columns` リスト: コール データ内で展開するカラムを指定します。
 - `sort_by` リスト: コール データのソート パラメータ を含みます。
 - `include_costs` ブール値: コール データにコストを含めるかどうかを指定します。
@@ -231,10 +231,10 @@ plot_model_cost_distribution(df_costs)
 このクックブックでは、Weave の API と関数を使用してカスタムのプロダクションモニタリング ダッシュボード を作成する方法をデモしました。Weave は現在、データの簡単な入力のための迅速な インテグレーション と、カスタム プロセス のためのデータ抽出に重点を置いています。
 
 - **データ入力：**
-  - [@weave-op()](/weave/quickstart#2-log-a-trace-to-a-new-project) デコレータによる フレームワーク に依存しない トレース と、CSV からのコールのインポート機能（関連する [import cookbook](/weave/cookbooks/import_from_csv) を参照）。
-  - 様々な プログラミングフレームワーク や言語から Weave に ログ を記録するためのサービス API エンドポイント。詳細は [こちら](https://docs.wandb.ai/weave/reference/service-api/calls/call-start) を参照。
+  - [@weave-op()](/ja/weave/quickstart#2-log-a-trace-to-a-new-project) デコレータによる フレームワーク に依存しない トレース と、CSV からのコールのインポート機能（関連する [import cookbook](/ja/weave/cookbooks/import_from_csv) を参照）。
+  - 様々な プログラミングフレームワーク や言語から Weave に ログ を記録するためのサービス API エンドポイント。詳細は [こちら](/ja/weave/reference/service-api/calls/call-start) を参照。
 - **データ出力：**
-  - CSV、TSV、JSONL、JSON 形式での簡単なデータダウンロード。詳細は [こちら](/weave/reference/service-api) を参照。
-  - プログラムによる データアクセス を使用した簡単なエクスポート。このクックブックで説明されているエクスポート パネル の "Use Python" セクションを参照してください。詳細は [こちら](/weave/guides/tracking/tracing#querying-and-exporting-calls) を参照してください。
+  - CSV、TSV、JSONL、JSON 形式での簡単なデータダウンロード。詳細は [こちら](/ja/weave/reference/service-api) を参照。
+  - プログラムによる データアクセス を使用した簡単なエクスポート。このクックブックで説明されているエクスポート パネル の "Use Python" セクションを参照してください。詳細は [こちら](/ja/weave/guides/tracking/tracing#querying-and-exporting-calls) を参照してください。
 
 このカスタム ダッシュボード は Weave ネイティブの トレース ビューを拡張し、プロダクション環境における LLM アプリケーション のカスタマイズされたモニタリングを可能にします。より複雑な ダッシュボード を見たい場合は、自身の Weave プロジェクト の URL を追加できる [このリポジトリ](https://github.com/NiWaRe/agent-dev-collection) の Streamlit の例をチェックしてください。

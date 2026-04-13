@@ -9,11 +9,11 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
 W&B には Keras 用の 3 つのコールバックがあり、`wandb` v0.13.4 から利用可能です。レガシーな `WandbCallback` については、ページ下部をご覧ください。
 
-- **`WandbMetricsLogger`** : このコールバックは [実験管理](/models/track/) に使用します。トレーニングと検証のメトリクス、およびシステムメトリクスを W&B にログ記録します。
+- **`WandbMetricsLogger`** : このコールバックは [実験管理](/ja/models/track/) に使用します。トレーニングと検証のメトリクス、およびシステムメトリクスを W&B にログ記録します。
 
-- **`WandbModelCheckpoint`** : モデルのチェックポイントを W&B [アーティファクト](/models/artifacts/) にログ記録するために使用します。
+- **`WandbModelCheckpoint`** : モデルのチェックポイントを W&B [アーティファクト](/ja/models/artifacts/) にログ記録するために使用します。
 
-- **`WandbEvalCallback`**: このベースコールバックは、インタラクティブな可視化のためにモデルの予測を W&B [テーブル](/models/tables/) にログ記録します。
+- **`WandbEvalCallback`**: このベースコールバックは、インタラクティブな可視化のためにモデルの予測を W&B [テーブル](/ja/models/tables/) にログ記録します。
 
 これらの新しいコールバックは以下の特徴を持ちます：
 
@@ -203,7 +203,7 @@ model.fit(
 ```
 
 <Note>
-W&B の [アーティファクトページ](/models/artifacts/explore-and-traverse-an-artifact-graph/) には、デフォルトで **Workspace** ページではなくテーブルログが含まれます。
+W&B の [アーティファクトページ](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) には、デフォルトで **Workspace** ページではなくテーブルログが含まれます。
 </Note>
 
 ### `WandbEvalCallback` リファレンス

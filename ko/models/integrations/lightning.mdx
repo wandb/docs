@@ -64,7 +64,7 @@ API 키는 사용자의 장비를 W&B에 인증합니다. 사용자 프로필에
 
 <Tabs>
 <Tab title="Command Line">
-1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/)를 해당 API 키로 설정합니다.
+1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 해당 API 키로 설정합니다.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -289,7 +289,7 @@ for epoch in range(num_epochs):
 
 ## 메트릭의 최소/최대값 로깅
 
-wandb의 [`define_metric`](/models/ref/python/experiments/run#define_metric) 함수를 사용하여 W&B 요약 메트릭에 해당 메트릭의 최소값, 최대값, 평균값 또는 최적값을 표시할지 여부를 정의할 수 있습니다. `define_metric`을 사용하지 않으면 마지막으로 로깅된 값이 요약 메트릭에 나타납니다. 자세한 내용은 `define_metric` [참조 문서](/models/ref/python/experiments/run#define_metric) 및 [가이드](/models/track/log/customize-logging-axes/)를 확인하십시오.
+wandb의 [`define_metric`](/ko/models/ref/python/experiments/run#define_metric) 함수를 사용하여 W&B 요약 메트릭에 해당 메트릭의 최소값, 최대값, 평균값 또는 최적값을 표시할지 여부를 정의할 수 있습니다. `define_metric`을 사용하지 않으면 마지막으로 로깅된 값이 요약 메트릭에 나타납니다. 자세한 내용은 `define_metric` [참조 문서](/ko/models/ref/python/experiments/run#define_metric) 및 [가이드](/ko/models/track/log/customize-logging-axes/)를 확인하십시오.
 
 W&B 요약 메트릭에서 최대 검증 정확도를 추적하도록 하려면 트레이닝 시작 시점에 한 번만 `wandb.define_metric`을 호출하십시오:
 
@@ -323,7 +323,7 @@ fabric.log_dict({"val_accuracy": val_accuracy})
 
 ## 모델 체크포인트 생성
 
-모델 체크포인트를 W&B [Artifacts](/models/artifacts/)로 저장하려면, Lightning의 [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) 콜백을 사용하고 `WandbLogger`에서 `log_model` 인수를 설정하십시오.
+모델 체크포인트를 W&B [Artifacts](/ko/models/artifacts/)로 저장하려면, Lightning의 [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) 콜백을 사용하고 `WandbLogger`에서 `log_model` 인수를 설정하십시오.
 
 <Tabs>
 <Tab title="PyTorch Logger">
@@ -338,7 +338,7 @@ fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
 </Tab>
 </Tabs>
 
-_latest_ 및 _best_ 에일리어스는 W&B [Artifact](/models/artifacts/)에서 모델 체크포인트를 쉽게 가져올 수 있도록 자동으로 설정됩니다:
+_latest_ 및 _best_ 에일리어스는 W&B [Artifact](/ko/models/artifacts/)에서 모델 체크포인트를 쉽게 가져올 수 있도록 자동으로 설정됩니다:
 
 ```python
 # 아티팩트 패널에서 참조를 가져올 수 있습니다.
@@ -381,11 +381,11 @@ optimizer.load_state_dict(full_checkpoint["optimizer"])
 </Tab>
 </Tabs>
 
-로깅된 모델 체크포인트는 [W&B Artifacts](/models/artifacts/) UI를 통해 볼 수 있으며, 전체 모델 이력(model lineage)을 포함합니다 (UI에서의 모델 체크포인트 예시는 [여기](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)에서 확인 가능합니다).
+로깅된 모델 체크포인트는 [W&B Artifacts](/ko/models/artifacts/) UI를 통해 볼 수 있으며, 전체 모델 이력(model lineage)을 포함합니다 (UI에서의 모델 체크포인트 예시는 [여기](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)에서 확인 가능합니다).
 
 최고의 모델 체크포인트를 북마크하고 팀 전체에서 중앙 관리하려면 [W&B Model Registry](/models)에 연결할 수 있습니다.
 
-여기에서 태스크별로 최고의 모델을 정리하고, 모델 생명주기를 관리하며, ML 생명주기 전반에 걸친 쉬운 추적 및 감사를 촉진하고, 웹훅이나 잡(jobs)을 통해 다운스트림 작업을 [자동화](/models/automations/)할 수 있습니다.
+여기에서 태스크별로 최고의 모델을 정리하고, 모델 생명주기를 관리하며, ML 생명주기 전반에 걸친 쉬운 추적 및 감사를 촉진하고, 웹훅이나 잡(jobs)을 통해 다운스트림 작업을 [자동화](/ko/models/automations/)할 수 있습니다.
 
 ## 이미지, 텍스트 등 로깅
 
@@ -574,7 +574,7 @@ def main():
 
 ### 추가 코드 없이 통합 시 로깅되는 것은 무엇인가요?
 
-모델 체크포인트를 W&B에 저장하여 향후 run에서 확인하거나 다운로드하여 사용할 수 있습니다. 또한 GPU 사용량 및 네트워크 I/O와 같은 [시스템 메트릭](/models/ref/python/experiments/system-metrics), 하드웨어 및 OS 정보와 같은 환경 정보, [코드 상태](/models/app/features/panels/code/)(git 커밋 및 diff 패치, 노트북 내용 및 세션 기록 포함), 표준 출력(stdout)에 출력되는 모든 내용을 캡처합니다.
+모델 체크포인트를 W&B에 저장하여 향후 run에서 확인하거나 다운로드하여 사용할 수 있습니다. 또한 GPU 사용량 및 네트워크 I/O와 같은 [시스템 메트릭](/ko/models/ref/python/experiments/system-metrics), 하드웨어 및 OS 정보와 같은 환경 정보, [코드 상태](/ko/models/app/features/panels/code/)(git 커밋 및 diff 패치, 노트북 내용 및 세션 기록 포함), 표준 출력(stdout)에 출력되는 모든 내용을 캡처합니다.
 
 ### 트레이닝 설정에서 `wandb.run`을 사용해야 하는 경우는 어떻게 하나요?
 

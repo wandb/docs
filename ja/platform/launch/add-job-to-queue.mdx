@@ -5,7 +5,7 @@ title: キューにジョブを追加
 このページでは、Launch キューに Launch ジョブを追加する方法について説明します。
 
 <Note>
-あなた、またはチームの誰かがすでに Launch キューを設定していることを確認してください。詳細については、 [Launch のセットアップ](/platform/launch/set-up-launch/) ページを参照してください。
+あなた、またはチームの誰かがすでに Launch キューを設定していることを確認してください。詳細については、 [Launch のセットアップ](/ja/platform/launch/set-up-launch/) ページを参照してください。
 </Note>
 
 ## キューにジョブを追加する
@@ -26,7 +26,7 @@ W&B App を使用してキューにジョブを追加します。
     <img src="/images/launch/view_jobs.png" alt="Jobs listing"  />
 </Frame>
 4. ジョブ名の横にある **Launch** ボタンを選択します。ページの右側にモーダルが表示されます。
-5. **Job version** ドロップダウンから、使用する Launch ジョブのバージョンを選択します。Launch ジョブは他の [W&B Artifact](/models/artifacts/create-a-new-artifact-version/) と同様にバージョン管理されます。ジョブの実行に使用されるソフトウェアの依存関係やソースコードに変更を加えると、同じ Launch ジョブの異なるバージョンが作成されます。
+5. **Job version** ドロップダウンから、使用する Launch ジョブのバージョンを選択します。Launch ジョブは他の [W&B Artifact](/ja/models/artifacts/create-a-new-artifact-version/) と同様にバージョン管理されます。ジョブの実行に使用されるソフトウェアの依存関係やソースコードに変更を加えると、同じ Launch ジョブの異なるバージョンが作成されます。
 6. **Overrides** セクション内で、Launch ジョブに設定されている入力に対して新しい値を指定します。一般的なオーバーライドには、新しい entrypoint コマンド、引数、または新しい W&B run の `wandb.Run.config` の値が含まれます。
   <Frame>
     <img src="/images/launch/create_starter_queue_gs.png" alt="Queue configuration"  />
@@ -44,7 +44,7 @@ W&B App を使用してキューにジョブを追加します。
 11. **Launch now** ボタンを選択します。
 </Tab>
 <Tab title="W&B CLI">
-`wandb launch` コマンドを使用してキューにジョブを追加します。ハイパーパラメーターをオーバーライドする JSON 設定ファイルを作成します。例えば、 [クイックスタート](/platform/launch/walkthrough/) ガイドのスクリプトを使用して、以下のオーバーライドを含む JSON ファイルを作成します。
+`wandb launch` コマンドを使用してキューにジョブを追加します。ハイパーパラメーターをオーバーライドする JSON 設定ファイルを作成します。例えば、 [クイックスタート](/ja/platform/launch/walkthrough/) ガイドのスクリプトを使用して、以下のオーバーライドを含む JSON ファイルを作成します。
 
 ```json title="config.json"
 {

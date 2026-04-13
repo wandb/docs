@@ -12,7 +12,7 @@ Weave をコードに統合すると、[Python](https://github.com/anthropics/an
 
 ## トレース (Traces)
 
-コードに `weave.init("your-team-name/your-project-name")` を追加すると、Weave は Anthropic SDK の トレース を自動的にキャプチャします。`weave.init()` の 引数 としてチーム名を指定しない場合、Weave は出力を [デフォルトの W&B entity](/platform/app/settings-page/user-settings/#default-team) にログ記録します。プロジェクト名を指定しない場合、Weave の初期化は失敗します。
+コードに `weave.init("your-team-name/your-project-name")` を追加すると、Weave は Anthropic SDK の トレース を自動的にキャプチャします。`weave.init()` の 引数 としてチーム名を指定しない場合、Weave は出力を [デフォルトの W&B entity](/ja/platform/app/settings-page/user-settings/#default-team) にログ記録します。プロジェクト名を指定しない場合、Weave の初期化は失敗します。
 
 以下の例は、Anthropic への基本的な呼び出しに Weave を統合する方法を示しています。
 
@@ -76,7 +76,7 @@ console.log(message.content);
 
 ## 独自の op でラップする
 
-Weave の op は、実験を進める際に行われる コード の バージョン管理 を自動化し、その入力と出力をキャプチャします。[`@weave.op()`](https://wandb.github.io/weave/guides/tracking/ops) (Python) でデコレートするか、[`weave.op()`](/weave/reference/typescript-sdk/functions/op) (TypeScript) でラップして [`Anthropic.messages.create`](https://docs.anthropic.com/en/api/messages-examples) を呼び出すことで、Weave が入力と出力を追跡します。
+Weave の op は、実験を進める際に行われる コード の バージョン管理 を自動化し、その入力と出力をキャプチャします。[`@weave.op()`](https://wandb.github.io/weave/guides/tracking/ops) (Python) でデコレートするか、[`weave.op()`](/ja/weave/reference/typescript-sdk/functions/op) (TypeScript) でラップして [`Anthropic.messages.create`](https://docs.anthropic.com/en/api/messages-examples) を呼び出すことで、Weave が入力と出力を追跡します。
 
 以下の例は、関数を追跡する方法を示しています。
 
@@ -163,9 +163,9 @@ console.log(await generateJoke('車'));
 `weave.Model` クラスは Weave Python SDK でのみ利用可能です。TypeScript の場合は、`weave.op()` ラッパーを使用して、構造化された パラメータ を持つ関数を追跡してください。
 </Note>
 
-多くの要素が動いている場合、実験の整理は困難です。[`Model`](/weave/guides/core-types/models) クラスを使用することで、システムプロンプトや使用している モデル など、アプリケーションの実験的な詳細をキャプチャして整理できます。これにより、アプリケーションの異なるイテレーションの整理と比較が容易になります。
+多くの要素が動いている場合、実験の整理は困難です。[`Model`](/ja/weave/guides/core-types/models) クラスを使用することで、システムプロンプトや使用している モデル など、アプリケーションの実験的な詳細をキャプチャして整理できます。これにより、アプリケーションの異なるイテレーションの整理と比較が容易になります。
 
-コード の バージョン管理 や入力/出力のキャプチャに加えて、[`Model`](/weave/guides/core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャします。これにより、どの パラメータ が最適かを判断するのに役立ちます。また、Weave Models は `serve` や [`Evaluation`](/weave/guides/core-types/evaluations) と併用することも可能です。
+コード の バージョン管理 や入力/出力のキャプチャに加えて、[`Model`](/ja/weave/guides/core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャします。これにより、どの パラメータ が最適かを判断するのに役立ちます。また、Weave Models は `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と併用することも可能です。
 
 以下の例では、`model` と `temperature` を使用して実験を行うことができます。
 

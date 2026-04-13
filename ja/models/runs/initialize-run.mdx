@@ -2,11 +2,11 @@
 title: run の初期化
 ---
 
-[`wandb.init()`](/models/ref/python/functions/init) を使用して W&B Run を初期化します。
+[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&B Run を初期化します。
 
 デフォルトでは、W&B は `wandb.init()` を呼び出す際、各 Python プロセスにアクティブな Run が一度に 1 つだけ存在することを想定しています。再度 `wandb.init()` を呼び出すと、W&B は同じ Run を返すか、あるいは古い Run を終了させてから新しい Run を開始します。同じプロセス内での複数の `wandb.init()` 呼び出しを W&B がどのように処理するかは、環境（ノートブックかそれ以外か）および `reinit` 設定によって異なります。
 
-同一プロセス内で複数のアクティブな Run を管理する方法については、[1つのプロセス内での複数の Run](/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
+同一プロセス内で複数のアクティブな Run を管理する方法については、[1つのプロセス内での複数の Run](/ja/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
 
 <Note>
 W&B では、`wandb.init()` を呼び出す際に `with` ブロックを使用することを推奨しています。これにより、ブロックが終了したときに W&B が Run を適切に完了させ、すべてのデータをアップロードすることが保証されます。
@@ -57,12 +57,12 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 
 | | 説明 | Run を作成するか？ | ユースケースの例 |
 |----------------|----------------|----------------| -----------------|
-| `create_new` | 既存のアクティブな Run を終了させずに、`wandb.init()` で新しい Run を作成します。W&B はグローバルな `wandb.Run` を新しい Run に自動的に切り替えません。各 Run オブジェクトを自身で保持する必要があります。詳細は、以下の [1つのプロセス内での複数 Run の例](/models/runs/initialize-run/#example-multiple-runs-in-one-process) を参照してください。 | はい | 並行プロセスの作成と管理に最適です。例えば、「セカンダリ」Run を開始または終了させる間、アクティブなまま維持する「プライマリ」Run などです。 |
+| `create_new` | 既存のアクティブな Run を終了させずに、`wandb.init()` で新しい Run を作成します。W&B はグローバルな `wandb.Run` を新しい Run に自動的に切り替えません。各 Run オブジェクトを自身で保持する必要があります。詳細は、以下の [1つのプロセス内での複数 Run の例](/ja/models/runs/initialize-run/#example-multiple-runs-in-one-process) を参照してください。 | はい | 並行プロセスの作成と管理に最適です。例えば、「セカンダリ」Run を開始または終了させる間、アクティブなまま維持する「プライマリ」Run などです。 |
 | `finish_previous` | `wandb.init()` で新しい Run を作成する前に、すべてのアクティブな Run を `run.finish()` で終了させます。ノートブック以外の環境でのデフォルトの振る舞いです。 | はい | 連続するサブプロセスを個別の Run に分割したい場合に最適です。 |
 | `return_previous` | 終了していない最新の Run を返します。ノートブック環境でのデフォルトの振る舞いです。 | いいえ | |
 
 <Note>
-W&B は、Hugging Face Trainer、Keras コールバック、PyTorch Lightning など、単一のグローバル Run を想定している [W&B Integrations](/models/integrations) における `create_new` モードをサポートしていません。これらのインテグレーションを使用する場合は、各サブ実験を別々のプロセスで実行する必要があります。
+W&B は、Hugging Face Trainer、Keras コールバック、PyTorch Lightning など、単一のグローバル Run を想定している [W&B Integrations](/ja/models/integrations) における `create_new` モードをサポートしていません。これらのインテグレーションを使用する場合は、各サブ実験を別々のプロセスで実行する必要があります。
 </Note>
 
 ### `reinit` の指定方法

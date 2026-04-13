@@ -41,7 +41,7 @@ print(output)
 
 ## 호출 메타데이터 추적
 
-Verdict 파이프라인 호출에서 메타데이터를 추적하려면 [`weave.attributes`](/weave/reference/python-sdk#function-attributes) 컨텍스트 매니저를 사용할 수 있습니다. 이 컨텍스트 매니저를 사용하면 파이프라인 run이나 평가 배치와 같은 특정 코드 블록에 대해 커스텀 메타데이터를 설정할 수 있습니다.
+Verdict 파이프라인 호출에서 메타데이터를 추적하려면 [`weave.attributes`](/ko/weave/reference/python-sdk#function-attributes) 컨텍스트 매니저를 사용할 수 있습니다. 이 컨텍스트 매니저를 사용하면 파이프라인 run이나 평가 배치와 같은 특정 코드 블록에 대해 커스텀 메타데이터를 설정할 수 있습니다.
 
 ```python lines {7,14}
 import weave
@@ -157,7 +157,7 @@ result = pipeline.run(data)
 
 ## Models 및 Evaluations
 
-여러 파이프라인 구성 요소가 있는 AI 시스템을 구성하고 평가하는 것은 어려울 수 있습니다. [`weave.Model`](/weave/guides/core-types/models)을 사용하면 프롬프트, 파이프라인 설정 및 평가 파라미터와 같은 실험 세부 정보를 캡처하고 정리하여 서로 다른 버전 간의 비교를 더 쉽게 할 수 있습니다.
+여러 파이프라인 구성 요소가 있는 AI 시스템을 구성하고 평가하는 것은 어려울 수 있습니다. [`weave.Model`](/ko/weave/guides/core-types/models)을 사용하면 프롬프트, 파이프라인 설정 및 평가 파라미터와 같은 실험 세부 정보를 캡처하고 정리하여 서로 다른 버전 간의 비교를 더 쉽게 할 수 있습니다.
 
 다음 예시는 Verdict 파이프라인을 `WeaveModel`로 래핑하는 방법을 보여줍니다:
 
@@ -208,7 +208,7 @@ print(prediction)
 
 ### Evaluations
 
-Evaluations는 평가 파이프라인 자체의 성능을 측정하는 데 도움을 줍니다. [`weave.Evaluation`](/weave/guides/core-types/evaluations) 클래스를 사용하면 특정 작업이나 데이터셋에 대해 Verdict 파이프라인이 얼마나 잘 작동하는지 캡처할 수 있습니다:
+Evaluations는 평가 파이프라인 자체의 성능을 측정하는 데 도움을 줍니다. [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용하면 특정 작업이나 데이터셋에 대해 Verdict 파이프라인이 얼마나 잘 작동하는지 캡처할 수 있습니다:
 
 ```python lines {8}
 import asyncio

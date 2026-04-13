@@ -3,7 +3,7 @@ title: DSPy
 description: W&B를 사용하여 DSPy 프로그램을 추적하고 최적화하세요.
 ---
 
-W&B와 DSPy를 함께 사용하여 언어 모델 프로그램을 트래킹하고 최적화하세요. W&B는 다음과 같은 기능을 제공함으로써 [Weave DSPy integration](/weave/guides/integrations/dspy)을 보완합니다:
+W&B와 DSPy를 함께 사용하여 언어 모델 프로그램을 트래킹하고 최적화하세요. W&B는 다음과 같은 기능을 제공함으로써 [Weave DSPy integration](/ko/weave/guides/integrations/dspy)을 보완합니다:
 
 - 시간에 따른 평가 메트릭 (Evaluation metrics) 트래킹
 - 프로그램 시그니처의 진화를 확인하기 위한 W&B Tables
@@ -34,7 +34,7 @@ DSPy 모듈을 최적화할 때 포괄적인 관측성을 확보하려면 W&B와
     pip install wandb weave dspy
     ```
 
-1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/)를 설정하고 로그인합니다:
+1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 설정하고 로그인합니다:
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -65,7 +65,7 @@ wandb.login()
 </Tab>
 </Tabs>
 
-W&B가 처음이신가요? [퀵스타트 가이드](/models/quickstart/)를 확인해 보세요.
+W&B가 처음이신가요? [퀵스타트 가이드](/ko/models/quickstart/)를 확인해 보세요.
 
 ## 프로그램 최적화 트래킹 (실험적 기능)
 
@@ -121,7 +121,7 @@ with wandb.init(project=project_name) as run:
     <img src="/images/integrations/dspy_run_page.png" alt="W&B에서의 DSPy 최적화 run"  />
 </Frame>
 
-DSPy를 사용한 Weave 트레이싱, 평가 및 최적화에 대한 자세한 내용은 [Weave DSPy integration 가이드](/weave/guides/integrations/dspy)를 참조하세요.
+DSPy를 사용한 Weave 트레이싱, 평가 및 최적화에 대한 자세한 내용은 [Weave DSPy integration 가이드](/ko/weave/guides/integrations/dspy)를 참조하세요.
 
 ## W&B Tables에 예측값 로그하기
 
@@ -155,7 +155,7 @@ optimized_program = optimizer.compile(program, trainset=train_data)
 - `prediction`: 모델 출력
 - `is_correct`: 평가 결과
 
-자세한 내용은 [W&B Tables 가이드](/models/tables/visualize-tables/) 및 [Tables 튜토리얼](/ko/models/tutorials/tables)에서 확인할 수 있습니다.
+자세한 내용은 [W&B Tables 가이드](/ko/models/tables/visualize-tables/) 및 [Tables 튜토리얼](/ko/models/tutorials/tables)에서 확인할 수 있습니다.
 
 ## DSPy 프로그램 저장 및 버전 관리
 

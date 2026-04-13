@@ -85,7 +85,7 @@ WandbLogger.sync(
 | wait_for_job_success | OpenAI のファインチューニングジョブは、開始してから完了までに通常時間がかかります。ジョブが完了次第すぐにメトリクスが W&B にログ記録されるように、この設定は 60 秒ごとにステータスが `succeeded` に変わったかを確認します。成功が検出されると、メトリクスが自動的に W&B に同期されます。デフォルトで True に設定されています。 |
 | model_artifact_name | ログ記録されるモデルアーティファクトの名前です。デフォルトは `"model-metadata"` です。 |
 | model_artifact_type | ログ記録されるモデルアーティファクトのタイプです。デフォルトは `"model"` です。 |
-| \*\*kwargs_wandb_init | [`wandb.init()`](/models/ref/python/functions/init) に直接渡される追加の引数です。 |
+| \*\*kwargs_wandb_init | [`wandb.init()`](/ja/models/ref/python/functions/init) に直接渡される追加の引数です。 |
 
 ## データセットのバージョン管理と可視化
 
@@ -110,7 +110,7 @@ WandbLogger.sync(
 
 OpenAI はファインチューニング済みモデルの ID を提供します。モデルの重みに直接アクセスすることはできませんが、 `WandbLogger` はモデルの詳細（ハイパーパラメーター、データファイル ID など）と `fine_tuned_model` ID を含む `model_metadata.json` ファイルを作成し、 W&B Artifacts としてログ記録します。
 
-このモデル（メタデータ）アーティファクトは、さらに [W&B Registry](/models/registry/) のモデルにリンクさせることができます。
+このモデル（メタデータ）アーティファクトは、さらに [W&B Registry](/ja/models/registry/) のモデルにリンクさせることができます。
 
 <Frame>
     <img src="/images/integrations/openai_model_metadata.png" alt="OpenAI model metadata"  />

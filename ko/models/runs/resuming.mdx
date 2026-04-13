@@ -46,7 +46,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="m
 <Warning>
 여러 프로세스가 동시에 동일한 `id`를 사용하면 예기치 않은 결과가 발생할 수 있습니다.
 
-여러 프로세스를 관리하는 방법에 대한 자세한 내용은 [분산 트레이닝 실험 로그 기록](/models/track/log/distributed-training/) 가이드를 참조하세요.
+여러 프로세스를 관리하는 방법에 대한 자세한 내용은 [분산 트레이닝 실험 로그 기록](/ko/models/track/log/distributed-training/) 가이드를 참조하세요.
 </Warning>
 
 ## 기존 run을 덮어쓰지 않고 run 재개
@@ -110,9 +110,9 @@ sh run_experiment.sh akj172
 
 
 ## 선점 가능한(preemptible) Sweeps run 재개
-중단된 [sweep](/models/sweeps/) run을 자동으로 다시 큐에 넣습니다. 이는 SLURM 작업의 선점형 큐, EC2 스팟 인스턴스 또는 Google Cloud 선점형 VM과 같이 선점될 수 있는 컴퓨팅 환경에서 스윕 에이전트를 실행할 때 특히 유용합니다.
+중단된 [sweep](/ko/models/sweeps/) run을 자동으로 다시 큐에 넣습니다. 이는 SLURM 작업의 선점형 큐, EC2 스팟 인스턴스 또는 Google Cloud 선점형 VM과 같이 선점될 수 있는 컴퓨팅 환경에서 스윕 에이전트를 실행할 때 특히 유용합니다.
 
-중단된 sweep run을 자동으로 다시 큐에 넣으려면 [`mark_preempting`](/models/ref/python/experiments/run#mark_preempting) 함수를 사용하세요. 예시:
+중단된 sweep run을 자동으로 다시 큐에 넣으려면 [`mark_preempting`](/ko/models/ref/python/experiments/run#mark_preempting) 함수를 사용하세요. 예시:
 
 ```python
 with wandb.init() as run:

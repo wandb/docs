@@ -42,7 +42,7 @@ def run_experiment(cfg):
 
 ## マルチプロセッシングのトラブルシューティング
 
-プロセス 開始時にフリーズする場合、[こちらの既知の問題](/models/track/log/distributed-training/) が原因である可能性があります。これを解決するには、`wandb.init()` に追加の settings パラメータ を渡して W&B のマルチプロセッシングプロトコルを変更してみてください。
+プロセス 開始時にフリーズする場合、[こちらの既知の問題](/ja/models/track/log/distributed-training/) が原因である可能性があります。これを解決するには、`wandb.init()` に追加の settings パラメータ を渡して W&B のマルチプロセッシングプロトコルを変更してみてください。
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -56,7 +56,7 @@ $ export WANDB_START_METHOD=thread
 
 ## ハイパーパラメーターの最適化
 
-[W&B Sweeps](/models/sweeps/) は、高度な拡張性を備えた ハイパーパラメーター 探索 プラットフォーム です。最小限の コード 変更で W&B Experiments に関する興味深い洞察と 可視化 を提供します。Sweeps は Hydra プロジェクト とシームレスに統合され、追加のコーディングは不要です。必要なのは、通常通り スイープ するさまざまな パラメータ を記述した 設定 ファイルだけです。
+[W&B Sweeps](/ja/models/sweeps/) は、高度な拡張性を備えた ハイパーパラメーター 探索 プラットフォーム です。最小限の コード 変更で W&B Experiments に関する興味深い洞察と 可視化 を提供します。Sweeps は Hydra プロジェクト とシームレスに統合され、追加のコーディングは不要です。必要なのは、通常通り スイープ するさまざまな パラメータ を記述した 設定 ファイルだけです。
 
 簡単な `sweep.yaml` ファイルの例は以下の通りです。
 
