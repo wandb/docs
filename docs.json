@@ -1150,7 +1150,7 @@
           },
           {
             "tab": "W&B Sandboxes",
-            "pages" : [
+            "pages": [
               "sandboxes",
               "sandboxes/lifecycle",
               "sandboxes/create-sandbox",
@@ -1160,7 +1160,7 @@
               "sandboxes/mltrain-in-sandbox-tutorial",
               "sandboxes/invoke-agent-sandbox-tutorial"
             ]
-          },          
+          },
           {
             "tab": "Support",
             "pages": [
