@@ -39,7 +39,7 @@ wandb launch [OPTIONS]
 | `--config`, `-c` | Path to JSON file (must end in '.json') or JSON string which will be passed as a launch config. Dictation how the launched run will be configured. |
 | `--set-var`, `-v` | Set template variable values for queues with allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var key2=value2` |
 | `--queue`, `-q` | Name of run queue to push to. If none, launches single run directly. If supplied without an argument (`--queue`), defaults to queue 'default'. Else, if name supplied, specified run queue must exist under the project and entity supplied. |
-| `--async` | Flag to run the job asynchronously. Defaults to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This option is incompatible with --queue; asynchronous options when running with an agent should be set on wandb launch-agent. (default: False) |
+| `--async` | Flag to run the job asynchronously. Defaults to false, in other words, unless --async is set, wandb launch will wait for the job to finish. This option is incompatible with --queue; asynchronous options when running with an agent should be set on wandb launch-agent. (default: False) |
 | `--resource-args`, `-R` | Path to JSON file (must end in '.json') or JSON string which will be passed as resource args to the compute resource. The exact content which should be provided is different for each execution backend. See documentation for layout of this file. |
-| `--dockerfile`, `-D` | Path to the Dockerfile used to build the job, relative to the job's root |
-| `--priority`, `-P` | When --queue is passed, set the priority of the job. Launch jobs with higher priority are served first. The order, from highest to lowest priority, is: critical, high, medium, low |
+| `--dockerfile`, `-D` | Path to the Dockerfile used to build the job, relative to the job's root. |
+| `--priority`, `-P` | When --queue is passed, set the priority of the job. Launch jobs with higher priority are served first. The order, from highest to lowest priority, is: critical, high, medium, low. |

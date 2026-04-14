@@ -18,6 +18,24 @@ Save data logged to W&B locally without uploading it to the cloud.
 
 Use `wandb online` or `wandb sync` to upload offline runs.
 
+For example, to run a script in offline mode to log data locally without syncing to the cloud:
+
+```bash
+$ wandb offline && python train.py
+```
+
+To run a script in offline mode:
+
+```bash
+$ wandb offline && python train.py
+```
+
+At a later time, sync all offline runs to the cloud:
+
+```bash
+$ wandb sync --sync-all
+```
+
 ## Usage
 
 ```bash

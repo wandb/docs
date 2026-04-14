@@ -1,0 +1,29 @@
+---
+title: "wandb beta core start"
+---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-core-start.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
+
+import WandbBetaCoreStart from "/snippets/en/_includes/cli/wandb-beta-core-start.mdx";
+
+<WandbBetaCoreStart/>
+
+  The snippet will be auto-detected on the next regeneration.
+*/}
+
+Start a detached wandb-core service.
+
+## Usage
+
+```bash
+wandb beta core start [OPTIONS]
+```
+
+## Options
+
+| Option | Description |
+| :--- | :--- |
+| `--idle-timeout` | Shut down wandb-core after this much idle time with no connected clients. Uses Go duration syntax, for example 30s, 10m, or 0 to disable idle shutdown. (default: 10m) |
