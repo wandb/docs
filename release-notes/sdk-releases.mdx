@@ -15,6 +15,12 @@ This version drops compatibility with Server versions older than 0.63.0 for Dedi
 ## Added
 
 - `wandb beta core start|stop` commands run a detached `wandb-core` service and reuse it across multiple processes via the `WANDB_SERVICE` environment variable.
+- The `@wandb_log` decorator adds support for Kubeflow Pipelines v2 (`kfp>=2.0.0`).
+- Set the property `wandb.Settings(allow_media_symlink=true)` to link to media files to the run directory rather than copying them. This improves performance and saves disk space. A symbolic link is used if the filesystem supports it. If the filesystem does not support symbolic links, such as in Windows, a hard link is used instead. The SDK does not check whether the media file was modified locally before uploading it.
+- Use method `run.pin_config_keys(keys)` to programmatically pin specific config keys for display in the **References** section on the **Run Overview**.
+- `Sweep.agent().Runs()` and `Sweep.agents().Runs()` methods return details about the sweep's runs running on a given agent or all agents.
+- On Google TPU infrastructure, the SDK attempts to collect new metricsk such as `tensorcore_util`, `duty_cycle_pct`, `hbm_capacity_total`, `hbm_capacity_usage`, and `tensorcore_util`, and latency distributions. See [TPU monitoring library: Supported metrics](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library#list-all-supported-metric-names) in the Google Cloud documentation.
+- On Nvidia Hopper+ GPUs (H100 and newer), NVML GPU Performance Monitoring profiling metrics are collected, providing visibility into SM utilization, tensor/FP pipeline activity, DRAM bandwidth, and PCIe/NVLink throughput without running the DCGM daemon.
 - `wandb beta leet` TUI updates:
     - Support for displaying tags and notes in the run overview.
     - Support for filtering runs by metadata in multi-run workspace mode using the `f` keyboard shortcut.
@@ -29,14 +35,6 @@ This version drops compatibility with Server versions older than 0.63.0 for Dedi
         - `clear-signal`: sienna/blue/gray theme with the colors interleaved for maximum differentiation between adjacent series.
 
         Configure with `wandb beta leet config`.
-
-- The `@wandb_log` decorator adds support for Kubeflow Pipelines v2 (`kfp>=2.0.0`).
-- Set the property `wandb.Settings(allow_media_symlink=true)` to link to media files to the run directory rather than copying them. This improves performance and saves disk space. A symbolic link is used if the filesystem supports it. If the filesystem does not support symbolic links, such as in Windows, a hard link is used instead. The SDK does not check whether the media file was modified locally before uploading it.
-- Use method `run.pin_config_keys(keys)` to programmatically pin specific config keys for display in the **References** section on the **Run Overview**.
-- `Sweep.agent().Runs()` and `Sweep.agents().Runs()` methods return details about the sweep's runs running on a given agent or all agents.
-- On Google TPU infrastructure, the SDK attempts to collect new metricsk such as `tensorcore_util`, `duty_cycle_pct`, `hbm_capacity_total`, `hbm_capacity_usage`, and `tensorcore_util`, and latency distributions. See [TPU monitoring library: Supported metrics](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library#list-all-supported-metric-names) in the Google Cloud documentation.
-- On Nvidia Hopper+ GPUs (H100 and newer), NVML GPU Performance Monitoring profiling metrics are collected, providing visibility into SM utilization, tensor/FP pipeline activity, DRAM bandwidth, and PCIe/NVLink throughput without running the DCGM daemon.
-
 
 ## Changed
 
