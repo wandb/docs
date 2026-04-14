@@ -14,7 +14,33 @@ import WandbServerStart from "/snippets/en/_includes/cli/wandb-server-start.mdx"
   The snippet will be auto-detected on the next regeneration.
 */}
 
-Start a local W&B server
+Start a local W&B Server instance in a Docker container.
+
+Pull and run the wandb/local Docker image. Map the specified host port to port 8080 in the container and mount a persistent Docker volume named "wandb" to store data.
+
+Configure the "base_url" setting to point to the local server so that subsequent W&B client calls use it. Prompt for login if no API key is found.
+
+Requires Docker to be installed and running on the host machine.
+
+This command starts only the W&B Models UI. It is provided only for local testing. In production, the W&B Kubernetes Operator is the recommended way to deploy W&B Server. See https://docs.wandb.ai/platform/hosting/self-managed/operator.
+
+For example, to start a local W&B server on the default port (8080):
+
+```bash
+$ wandb server start
+```
+
+To start the server on port 9090:
+
+```bash
+$ wandb server start -p 9090
+```
+
+To start the server in the foreground:
+
+```bash
+$ wandb server start --no-daemon
+```
 
 ## Usage
 
@@ -26,6 +52,6 @@ wandb server start [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--port`, `-p` | The host port to bind W&B server on (default: 8080) |
-| `--env`, `-e` | Env vars to pass to wandb/local (default: []) |
-| `--daemon` | Run or don't run in daemon mode (default: True) |
+| `--port`, `-p` | The host port to bind W&B server on. (default: 8080) |
+| `--env`, `-e` | Environment variables to pass to wandb/local Docker image. (default: []) |
+| `--daemon` | Run the server in the background. Use --no-daemon to run in the foreground. (default: True) |
