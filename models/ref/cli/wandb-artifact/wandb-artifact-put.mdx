@@ -14,7 +14,43 @@ import WandbArtifactPut from "/snippets/en/_includes/cli/wandb-artifact-put.mdx"
   The snippet will be auto-detected on the next regeneration.
 */}
 
-Upload an artifact to wandb
+Upload an artifact to W&B.
+
+Upload a file, directory, or URL reference as a versioned artifact.
+
+The PATH can be a local file, a local directory, or a URL (containing `://`) to log as a reference artifact.
+
+If `--name` is not specified, the artifact name defaults to the basename of the path. If the project cannot be parsed from the name, you are prompted to enter one.
+
+For example, to upload all files in a local directory ./data/training as a dataset artifact in W&B:
+
+```bash
+$ wandb artifact put --type dataset ./data/training
+```
+
+To upload model.pt to the "foobar" project and assign "trained-model" as the artifact name:
+
+```bash
+$ wandb artifact put --name foobar/trained-model --type model ./model.pt
+```
+
+To tag the artifact with both "latest" and "v2.0" so it can be referenced by either alias:
+
+```bash
+$ wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+```
+
+To record an Amazon S3 path as a reference without downloading or re-uploading the data:
+
+```bash
+$ wandb artifact put --type dataset s3://my-bucket/datasets/training
+```
+
+To attach a human-readable description to a dataset artifact for documentation:
+
+```bash
+$ wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
+```
 
 ## Usage
 
@@ -32,11 +68,11 @@ wandb artifact put PATH [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--name`, `-n` | The name of the artifact to push: project/artifact_name |
-| `--description`, `-d` | A description of this artifact |
-| `--type`, `-t` | The type of the artifact (default: dataset) |
-| `--alias`, `-a` | An alias to apply to this artifact (default: ['latest']) |
-| `--id` | The run you want to upload to. |
+| `--name`, `-n` | Artifact name in project/artifact_name format. Defaults to the basename of the path. |
+| `--description`, `-d` | A description of this artifact. |
+| `--type`, `-t` | The type of the artifact. Defaults to 'dataset'. (default: dataset) |
+| `--alias`, `-a` | An alias to apply to this artifact. Can be specified multiple times. Defaults to 'latest'. (default: ['latest']) |
+| `--id` | Upload to an existing run with this ID. |
 | `--resume` | Resume the last run from your current directory. |
 | `--skip_cache` | Skip caching while uploading artifact files. (default: False) |
-| `--policy` | Set the storage policy while uploading artifact files. (default: mutable) |
+| `--policy` | Set the storage policy for artifact files. Either 'mutable' (default) or 'immutable'. (default: mutable) |

@@ -21,7 +21,7 @@ wandb login [KEY] [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--cloud` | Login to the cloud instead of local (default: False) |
-| `--host`, `--base-url` | Login to a specific instance of W&B |
-| `--relogin` | Force relogin if already logged in. |
-| `--verify` | Verify login credentials (default: False) |
+| `--cloud` | Log in to the W&B public cloud (https://api.wandb.ai). Mutually exclusive with --host. (default: False) |
+| `--host`, `--base-url` | Log in to a specific W&B server instance by URL (e.g. https://my-wandb.example.com). Mutually exclusive with --cloud. |
+| `--relogin` | Force a new login prompt, ignoring any existing credentials. |
+| `--verify` | Verify the API key with W&B after storing it. If verification is successful, display the source of the credentials and the default team. (default: False) |
