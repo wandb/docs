@@ -7,6 +7,52 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.26.0" description="April 13, 2026">
+## Notable Changes
+
+This version drops compatibility with Server versions older than 0.63.0 for Dedicated Cloud and Self-Managed W&B deployments.
+
+## Added
+
+- `wandb beta core start|stop` commands run a detached `wandb-core` service and reuse it across multiple processes via the `WANDB_SERVICE` environment variable.
+- The `@wandb_log` decorator adds support for Kubeflow Pipelines v2 (`kfp>=2.0.0`).
+- Set the property `wandb.Settings(allow_media_symlink=true)` to link to media files to the run directory rather than copying them. This improves performance and saves disk space. A symbolic link is used if the filesystem supports it. If the filesystem does not support symbolic links, such as in Windows, a hard link is used instead. The SDK does not check whether the media file was modified locally before uploading it.
+- Use method `run.pin_config_keys(keys)` to programmatically pin specific config keys for display in the **References** section on the **Run Overview** page.
+- `Sweep.agent().Runs()` and `Sweep.agents().Runs()` methods return details about the sweep's runs running on a given agent or all agents.
+- On Google TPU infrastructure, the SDK attempts to collect new metrics such as `tensorcore_util` and latency distributions, in addition to `duty_cycle_pct` and `hbm_capacity_total`/`hbm_capacity_usage`. See [TPU monitoring library: Supported metrics](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library#list-all-supported-metric-names) in the Google Cloud documentation.
+- On Nvidia Hopper+ GPUs (H100 and newer), NVML GPU Performance Monitoring profiling metrics are collected, providing visibility into SM utilization, tensor/FP pipeline activity, DRAM bandwidth, and PCIe/NVLink throughput without running the DCGM daemon.
+- `wandb beta leet` TUI updates:
+    - Support for displaying tags and notes in the run overview.
+    - Support for filtering runs by metadata in multi-run workspace mode using the `f` keyboard shortcut.
+    - Support for displaying `wandb.Image` data as ANSI thumbnails, with grid layout, X-axis scrubbing, full-screen mode, and keyboard or pointer navigation.
+    - Cycle through the following display modes in an individual chart using the `y` keyboard shortcut:
+        - Press once to turn on log-scale display for the Y-axis.
+        - For system metrics like GPU utilization expressed as percentages, press again to turn off log-scale display and turn on bucketed heatmap mode.
+        - Press again to go back to the default display mode.
+    - New standalone system monitor mode: `wandb beta leet symon`.
+    - New colorblind-friendly color schemes:
+        - `dusk-shore`: sienna/blue/gray gradient, suitable for per-plot single-run mode.
+        - `clear-signal`: sienna/blue/gray theme with the colors interleaved for maximum differentiation between adjacent series.
+
+        Configure with `wandb beta leet config`.
+
+## Changed
+
+- JSON serialization and deserialization now use `orjson` for improved performance.
+- Improved observability of system metrics in `wandb beta leet` TUI with multi-series overlays, inspection, and live/history zoom.
+- Reduced the likelihood of run base color collisions in `wandb beta leet`. Now, a workspace-scoped run color allocator preserves hashed palette affinity, resolving collisions with nearby HSL variants.
+
+## Fixed
+
+- Fixed a bug where if no upstream tracking branch was set, the SDK would not create a `git diff` `.patch` file between the local branch and the nearest upstream branch. To opt in to this fix, pass property `wandb.Settings(disable_git_fork_point=False)`. See [Settings()](/models/ref/python/experiments/settings).
+- Fixed a bug where `update_automation()` could silently drop event filters, such as alias conditions on `OnAddArtifactAlias`, when a new event is provided.
+- Fixed a bug that could cause artifact client ID collisions in forked child processes by reseeding the fast ID generator after `fork()`.
+- Fixed a bug where the environment variable `WANDB__EXTRA_HTTP_HEADERS` was not applied to presigned object-store upload and download requests.
+- Fixed a deadlock in `artifact.download()` for artifacts with many large files.
+- Fixed a bug where `User.generate_api_key()` could fail to fetch the list of existing API key names.
+
+</Update>
+
 <Update label="0.25.1" description="March 10, 2026">
 ## Added
 

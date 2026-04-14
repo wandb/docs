@@ -14,7 +14,25 @@ import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
   The snippet will be auto-detected on the next regeneration.
 */}
 
-Enable W&B.
+Re-enable W&B after it was deactivated with `wandb disabled`.
+
+Set the mode to `online` to restore full W&B functionality, including cloud syncing and artifact storage.
+
+Does not upload data logged while W&B was set to `disabled`, but allows new data to be logged and synced.
+
+To switch between online and offline modes without fully deactivating W&B, use `wandb online` or `wandb offline` instead.
+
+For example, to restore W&B functionality after deactivating it with `wandb disabled`:
+
+```bash
+$ wandb enabled
+```
+
+To run a training script with W&B logging and syncing restored:
+
+```bash
+$ python train.py # Log and sync data to W&B
+```
 
 ## Usage
 
@@ -26,4 +44,4 @@ wandb enabled [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--service` | Enable W&B service (default: True) |
+| `--service` | No effect. Accepted for backwards compatibility. (default: True) |
