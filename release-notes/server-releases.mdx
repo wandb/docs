@@ -12,6 +12,13 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.79.2" description="April 10, 2026">
+## Fixes
+
+- Fixed a bug that could delay ingestion of metrics.
+
+</Update>
+
 <Update label="v0.79.1" description="April 1, 2026">
 ## Fixes
 
@@ -21,7 +28,7 @@ This page includes release notes for supported releases of W&B Server.
 
 <Update label="v0.79.0" description="March 24, 2026">
 
-W&B Server 0.79.0 adds zooming and panning for images, improved management of service accounts and API keys, and performance improvements. Inference adds models MiniMax M2.5 and MiniMaxAI M2.5. Weave monitors now support scoring all operations, and the Weave UI adds enhanced management of prompt tags and aliases, chat view for Claude agents, filtering by emoji feedback reactions or note contents, and more.
+W&B Server 0.79.0 adds zooming and panning for images, improved management of service accounts and API keys, and performance improvements. Weave monitors now support scoring all operations, and the Weave UI adds enhanced management of prompt tags and aliases, chat view for Claude agents, filtering by emoji feedback reactions or note contents, and more.
 
 ## Support and end of life
 
@@ -106,7 +113,6 @@ W&B Server 0.78.0 strengthens security and access defaults, adds tools to compar
 - In **Models**, create multi-metric plots efficiently with regular expressions, pin important runs, compare experiments against a baseline, and streamline workspaces using enhanced workspace templates.
 - **Registry** includes enhanced search, redesigned cards, clearer and more responsive lineage graphs, and more.
 - In **Weave**, the **Trace Analytics** dashboard helps you spot bottlenecks and budget drivers from the Project Overview page. Saved views now support customized Traces, Evaluations, and Leaderboards. Weave Playground adds support for LoRA (Low-Rank Adaptation) and new models.
-- **Inference** includes new models.
 
 <Warning>
 This release is impacted by a critical security issue that allows unauthorized access to an artifact. Do not install or upgrade to this version. Instead, install [v0.78.2](#v0-78-2), which includes the fix.
@@ -146,7 +152,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - [Create panels with multiple metrics](/models/app/features/panels/line-plot#multi-metric-line-plot) in bulk to quickly organize your workspace and spot patterns across large metric sets. For example, you can overlay gradient metrics across model layers or position specific layers side-by-side. [Watch a video demonstration](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
 - [Workspace templates](/models/app/features/cascade-settings#workspace-layout-options) have new settings. You can now configure your workspace template to hide empty sections, sort panels in a section alphabetically, or adjust how automatic panel sorting in a section works. See [Workspace layout options](/models/app/features/cascade-settings#workspace-layout-options).
 - The **Sweeps** table now includes a column with the **Sweep ID**.
-- Admins can now customize usage and spend alerts for your organization. View usage and spending and set up email notifications for storage, tracked hours, Weave, Inference, and Training in your organization settings under the new **Usage & Alerts** tab. See [Plan usage](/platform/app/settings-page/billing-settings#plan-usage).
+- Admins can now customize usage and spend alerts for your organization. View usage and spending and set up email notifications for storage, tracked hours, Weave, and Training in your organization settings under the new **Usage & Alerts** tab. See [Plan usage](/platform/app/settings-page/billing-settings#plan-usage).
 
 ### Registry
 
@@ -162,10 +168,6 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     - You can now click the name of a collection to quickly view its artifact versions.
     - For convenience, you can now star a registry from its **Settings** page.
 
-### Inference
-
-- The model `Moonshot AI Kimi K2.5` is now available. See [Model Catalog](/inference/models).
-
 ### Weave
 
 - The **Project Overview** page now includes a **Trace Analytics** dashboard with request counts, latency percentiles (P50/P95/P99), token usage by model, and cost breakdown. Spot which models are burning through your budget, or find the slow requests dragging down your P95. Click a time bucket to jump straight to the relevant traces, to quickly identify the cause of a latency spike.
@@ -174,7 +176,6 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     ![Trace Analytics dashboard on Project Overview](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)
     </Frame>
 
-- **Weave Playground** now supports **[LoRA](/inference/lora)**, so you can test your fine-tuned LoRA adapters efficiently. Click the **Try in Playground** button on a LoRA artifact page.
 - Claude Opus 4.6 is now available in **Weave Playground**.
 - You can now re-order columns in **Traces** and **Evaluations** tables.
     - Drag and drop leaf columns directly in the table or move entire sections around from the column management menu.
@@ -456,7 +457,7 @@ Part of this change is included in Server v0.75: the left sidebar now indicates 
 </Update>
 
 <Update label="v0.74.0" description="October 8, 2025">
-W&B v0.74 delivers SCIM API improvements for enterprise identity management, including automated group sync with Okta, streamlined user role configuration, and more. In Dedicated Cloud, a powerful new full-screen image browser helps you inspect and compare images within and between runs. Weave enhancements include in-Playground LLM judge evaluations, better visibility into multi-turn Thread tool calls, DSPy improvements, and a new integration with the Verifiers library for Reinforcement Learning workflows. W&B Inference adds support for the [Z.AI](https://z.ai/) GLM v4.5 hybrid reasoning model.
+W&B v0.74 delivers SCIM API improvements for enterprise identity management, including automated group sync with Okta, streamlined user role configuration, and more. In Dedicated Cloud, a powerful new full-screen image browser helps you inspect and compare images within and between runs. Weave enhancements include in-Playground LLM judge evaluations, better visibility into multi-turn Thread tool calls, DSPy improvements, and a new integration with the Verifiers library for Reinforcement Learning workflows.
 
 ## Support and end of life
 - W&B Server v0.60 has reached end of life.
@@ -484,9 +485,6 @@ W&B v0.74 delivers SCIM API improvements for enterprise identity management, inc
 - If your Weave code calls `wandb.init()`, it no longer needs to explicitly call `weave.init()`.
 - New convenience method [`delete_all_object_versions`](/weave/reference/python-sdk/trace/weave_client).
 - The output from an OpenAI streaming endpoint call now includes a new field, `time_to_first_token`, expressed in milliseconds.
-
-### Inference
-- [W&B Inference](/inference) adds support for the [Z.AI GLM](https://z.ai/blog/glm-4.5) hybrid reasoning model. v4.5 is supported.
 
 ## Fixes
 - Fixed display problems in bounding boxes with captions.
@@ -607,11 +605,6 @@ With W&B Server 0.71, Registry is turned on by default for all organizations. Fo
   - Document view for Langchain and ChromaDB.
   - Chat view rendering for LangChain.
   - A new export format for OpenAI.
-- Added new hosted open weight models for [W&B Inference](https://wandb.ai/inference):
-    - `Qwen3-235B-A22B-Thinking-2507`
-    - `Qwen/Qwen3-Coder-480B-A35B-Instruct`
-    - `Qwen/Qwen3-235B-A22B-Instruct-2507`
-    - `Kimi-K2-Instruct`
 - Added support to the TypeScript SDK for creating and publishing prompts. [Learn more](/weave/guides/core-types/prompts).
 - The new `Content` class allows you safely to upload data of any MIME type, with automatic Base-64 encoding, automatic metadata extraction, and more.
 
