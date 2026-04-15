@@ -76,6 +76,10 @@ For more on decorating functions and methods with `@weave.op`, see [Create calls
 
 You can use the `weave.op`'s `accumulator` parameter to customize how yielded values are combined from generator functions, for example, to join streamed text tokens into a single string. The accumulator is a two-argument function that Weave calls once per yielded value, building up a result incrementally.
 
+<Note>
+The `accumulator` parameter is not available for the TypeScript.
+</Note>
+
 The following example demonstrates a custom accumulator that appends each yielded value to a list, so Weave records that list as the call output after the generator is fully consumed.
 
 ```python
