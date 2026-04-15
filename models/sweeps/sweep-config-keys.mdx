@@ -6,7 +6,7 @@ description: "Reference for all W&B Sweep configuration keys including method, m
 
 A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search such as the parameters to search through ([`parameter`](./sweep-config-keys#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key), and more. 
 
-The proceeding table lists top-level sweep configuration keys and a brief description. See the respective sections for more information about each key. 
+The following table lists top-level sweep configuration keys and a brief description. See the respective sections for more information about each key. 
 
 
 | Top-level keys | Description |
@@ -51,7 +51,7 @@ Use the `metric` top-level sweep configuration key to specify the name, the goal
 ## `parameters`
 In your YAML file or Python script, specify `parameters` as a top level key. Within the `parameters` key, provide the name of a hyperparameter you want to optimize. Common hyperparameters include: learning rate, batch size, epochs, optimizers, and more. For each hyperparameter you define in your sweep configuration, specify one or more search constraints. 
 
-The proceeding table shows supported hyperparameter search constraints. Based on your hyperparameter and use case, use one of the search constraints below to tell your sweep agent where (in the case of a distribution) or what (`value`, `values`, and so forth) to search or use.
+The following table shows supported hyperparameter search constraints. Based on your hyperparameter and use case, use one of the search constraints below to tell your sweep agent where (in the case of a distribution) or what (`value`, `values`, and so forth) to search or use.
 
 
 | Search constraint | Description   |
@@ -97,7 +97,7 @@ Bayesian search runs forever unless you stop the process from the command line, 
 ### Distribution options for random and Bayesian search
 Within the `parameter` key, nest the name of the hyperparameter. Next, specify the `distribution` key and specify a distribution for the value.
 
-The proceeding tables lists distributions W&B supports.
+The following table lists distributions W&B supports.
 
 | Value for `distribution` key  | Description            |
 | ------------------------ | ------------------------------------ |
