@@ -10,13 +10,13 @@ description: Learn how to run commands in a sandbox environment and read output 
 
 Based on your use case, use one of these patterns to run commands in a sandbox:
 
-* [Single-command sandbox](#run-a-single-command): Start the sandbox with a main command if that command is the entire workload. To wait for the sandbox to reach a terminal state, call `Sandbox.wait_until_complete()`. Use this pattern for batch jobs, tests, or training runs.
-* [Multi-command sandbox](#run-multiple-commands-sequentially): Start the sandbox without a main command when you need to run several commands in the same environment. In sequence, start each command with `Sandbox.exec()` and wait for the call to complete. Use this pattern to install dependencies, write files, run scripts, and read results in the sandbox.
+* [Single command](#run-a-single-command): Pass the command to `Sandbox.run()` and call `Sandbox.wait_until_complete()` to block until it finishes. Best for batch jobs, tests, or training runs. 
+* [Multiple commands](#run-multiple-commands-sequentially): Call `Sandbox.run()` with no arguments, then use `Sandbox.exec()` for each step. Best for workflows that combine setup, execution, and result retrieval.
 
 
 ### Run a single command
 
-To run a single command as the sandbox's main process, pass the command to `Sandbox.run()`. Then call `Sandbox.wait_until_complete()` to wait for the command to finish and for the sandbox to reach a terminal state.
+Pass the command to `Sandbox.run()`, then call `Sandbox.wait_until_complete()` to wait for the sandbox to reach a terminal state.
 
 The following example starts a sandbox that runs `python train.py`, then waits up to 3600 seconds for the sandbox to complete.
 

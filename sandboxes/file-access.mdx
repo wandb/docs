@@ -36,12 +36,9 @@ with Sandbox.run() as sandbox:
     sandbox.write_file("hello.txt", text_file.read_bytes()).result()
 ```
 
-See the [`Sandbox`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox) class reference documentation for a full list of parameters and options for [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
+See the `Sandbox` class reference documentation for a full list of parameters and options for [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file).
 
 ## Read a file from the sandbox
-
-{/* accessing, viewing, or loading data from a storage medium */}
-{/* transfers a file out of the sandbox. Use it to download outputs your sandbox code generated (models, results, logs). */}
 
 Save a file from the sandbox to your local environment using the [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) method.
 
@@ -61,9 +58,9 @@ with Sandbox.run() as sandbox:
 See the `Sandbox` class reference documentation for a full list of parameters and options for [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file).
 
 
-## Mount files
+## Mount a file or directory
 
-Mount files or directories to share large files or datasets between your local environment and the sandbox without copying them. Mounted files are available in the sandbox at the path you specify.
+Use mounted files to provide local files to the sandbox at creation time. Unlike `Sandbox.write_file()`, which transfers files to a running sandbox, mounted files are available as soon as the sandbox starts. Mounted files appear in the sandbox at the path you specify.
 
 <Info>
 Mounted files are read-only in the sandbox. If you need to modify files in the sandbox, use `Sandbox.write_file()` instead.
