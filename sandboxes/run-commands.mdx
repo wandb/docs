@@ -1,19 +1,17 @@
 ---
-title: Run commands
+title: Run commands in a sandbox
 description: Learn how to run commands in a sandbox environment and read output and exit codes.
 ---
 
-Run shell commands, scripts, and other processes in sandboxes you create with W&B.
+[Run commands in a sandbox](#run-commands-in-a-sandbox), [read their output and exit code](#read-output-and-exit-codes), and [check for errors](#check-for-errors).
 
-
-This page shows how to run commands, check output and exit codes, and reuse the same sandbox for multiple steps.
 
 ## Run commands in a sandbox
 
 Based on your use case, use one of these patterns to run commands in a sandbox:
 
-* [Single-command sandbox](#run-a-single-command): Start the sandbox with a main command if that command is the entire workload. Then call `Sandbox.wait_until_complete()` to wait for the sandbox to reach a terminal state. Use this pattern for batch jobs, tests, or training runs.
-* [Multi-command sandbox](#run-multiple-commands-sequentially): Start the sandbox without a main command when you need to run several commands in the same environment. Then use `Sandbox.exec()` for each step and wait on each `Sandbox.exec()` call. Use this pattern for workflows that include installing dependencies, writing files, running a script, and reading results within the same sandbox.
+* [Single-command sandbox](#run-a-single-command): Start the sandbox with a main command if that command is the entire workload. To wait for the sandbox to reach a terminal state, call `Sandbox.wait_until_complete()`. Use this pattern for batch jobs, tests, or training runs.
+* [Multi-command sandbox](#run-multiple-commands-sequentially): Start the sandbox without a main command when you need to run several commands in the same environment. In sequence, start each command with `Sandbox.exec()` and wait for the call to complete. Use this pattern to install dependencies, write files, run scripts, and read results in the sandbox.
 
 
 ### Run a single command
@@ -32,9 +30,9 @@ print(f"Exit code: {sandbox.returncode}")
 
 ### Run multiple commands sequentially
 
-Use the same sandbox for workflows that require multiple steps, such as installing dependencies, writing files, running a script, and reading results.
+Run multiple commands in the same sandbox for workflows with multiple steps. For example, install dependencies, write files, run scripts, and read results.
 
-To run multiple commands in the same sandbox, start the sandbox without a main command. Then use `Sandbox.exec()` to run each command in the running sandbox.
+To run multiple commands in a sandbox, start the sandbox without a main command. Use a series of `Sandbox.exec()` to run each command and wait for it to complete.
 
 The following example starts a sandbox without a main command, then runs two commands sequentially in the same sandbox.
 
@@ -49,9 +47,9 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-`Sandbox.exec()` runs a command in a running sandbox and returns a `Process` object. You can use the returned object to wait for the command to finish, read output, and inspect the exit code.
+`Sandbox.exec()` runs a command in the sandbox and returns a `Process` object. You can use the returned object to wait for the command to finish, read output, and inspect the exit code.
 
-For more information about `Sandbox.exec()` and its parameters, see the [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) reference documentation.
+For more information about `Sandbox.exec()` and its parameters, see [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) in the CoreWeave Sandboxes reference documentation.
 
 #### Keep the sandbox running for additional commands 
 
@@ -71,7 +69,7 @@ with Sandbox.run("sleep", "infinity") as sandbox:
 
 `Sandbox.exec()` returns a [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) object. Call `Process.result()` to wait for the command to finish and get its result. `Process.result()` includes the standard output (`stdout`), standard error (`stderr`), and exit code (`returncode`).
 
-Use the exit code to determine whether the command succeeded. By convention, an exit code of 0 indicates success.
+Use the exit code to determine whether the command succeeded. By convention, an exit code of 0 indicates success. The possible exit codes and their meanings depend on the command.
 
 For example, the following code snippet runs a Python command that prints the standard output (`stdout`) and the exit code (`returncode`). After the command finishes, it prints the standard output, standard error, and exit code to the console.
 
@@ -86,8 +84,7 @@ with Sandbox.run() as sandbox:
 
 ## Check for sandbox execution errors
 
-Specify `check=True` (`Sandbox.exec(check=True)`) to raise an error if the command exits with a non-zero exit code. A [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) is raised if the command exits with a non-zero code:
-
+Specify `check=True` (`Sandbox.exec(check=True)`) to raise an error if the command exits with a non-zero exit code. A [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) is raised if the command exits with a non-zero code. This example runs a script `might_fail.py` and checks the result.
 
 ```python
 from wandb.sandbox import Sandbox, SandboxExecutionError

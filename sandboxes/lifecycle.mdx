@@ -1,21 +1,19 @@
 ---
 title: Sandbox lifecycle
-description: Learn about sandbox states, waiting, completion, and stopping.
+description: Learn about the lifecycle of a W&B Sandbox, including its states, how to wait for state changes, and how to stop a sandbox.
 ---
 
-A sandbox moves through a series of states during its lifetime. These states determine which operations are available and what actions the sandbox can make.
+A W&B Sandbox goes through several staes in its lifecycle. The sandboxe's state determines what actions you can 
 
 In most cases, a sandbox starts in `PENDING`, moves to `CREATING` while the container is provisioned, and then enters `RUNNING` when the container is up.
 
-The RUNNING state is when you can perform most operations, such as running commands with `Sandbox.exec()`. When the main process of the sandbox exits, the sandbox enters a terminal state such as `COMPLETED` (if the exit code is 0) or `FAILED` (if there was an error). A sandbox can also be `TERMINATED` if it is externally killed or if it exceeds its maximum lifetime.
+The `RUNNING` state is when you can perform most operations, such as running commands with `Sandbox.exec()`. When the main process of the sandbox exits, the sandbox enters a terminal state such as `COMPLETED` (if the exit code is 0) or `FAILED` (if there was an error). A sandbox can also be `TERMINATED` if it is externally killed or if it exceeds its maximum lifetime.
 
 ```text
 PENDING -> CREATING -> RUNNING -> COMPLETED
                                -> FAILED
                                -> TERMINATED
 ```
-
-Use this page to understand when a sandbox is ready, how to wait for state changes, and how to stop a sandbox.
 
 The next sections provide details on sandbox states, waiting for a sandbox to start or complete, and stopping a sandbox. For more information on creating sandboxes and running commands, see [Create sandboxes](/sandboxes/create-sandbox) and [Run commands](/sandboxes/run-commands).
 

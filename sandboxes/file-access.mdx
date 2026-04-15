@@ -69,7 +69,7 @@ Mount files or directories to share large files or datasets between your local e
 Mounted files are read-only in the sandbox. If you need to modify files in the sandbox, use `Sandbox.write_file()` instead.
 </Info>
 
-In the following code snippet, local files `train.py` and `requirements.txt` are mounted to the sandbox root directory. After you mount the files, you can use them like any other files in the sandbox. The sandbox installs dependencies from `requirements.txt` and then runs `train.py`.
+In the following code snippet, local files `train.py` and `requirements.txt` are mounted to the sandbox root directory. The sandbox installs dependencies from `requirements.txt` and then runs `train.py`.
 
 ```python
 from pathlib import Path

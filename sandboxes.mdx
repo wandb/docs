@@ -1,20 +1,20 @@
 ---
 title: W&B Sandboxes
+description: Learn about W&B Sandboxes, on-demand isolated compute environments that you can create, use, and discard with the W&B Python SDK.
 mode: wide
 ---
 
+W&B Sandboxes gives you on-demand, isolated compute environments that you can create, use, and discard using Python.
+
 <Warning>
-W&B Sandboxes is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+W&B Sandboxes is in private preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
 </Warning>
 
-W&B Sandboxes gives you on-demand, isolated compute environments that you can create, use, and discard using Python. No cluster management, no Kubernetes YAML.
-
-W&B Sandboxes is built on top of the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox).
+W&B Sandboxes is built using the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox).
 
 ## How it works
 
 A *sandbox* is a single isolated compute environment. You [create](/sandboxes/create-sandbox) it, [run commands inside it](/sandboxes/run-commands), and stop it when it is done. Each sandbox runs in its own container with its own filesystem, network, and process space.
-
 
 W&B authenticates your identity when you create and manage sandboxes. To use W&B or Weave inside a sandbox, pass your API key using the [W&B Secrets Manager](/platform/secrets#manage-access-to-secrets) or environment variables. See [Secrets](/sandboxes/secrets) for more information about using secrets in sandboxes.
 
@@ -26,8 +26,6 @@ A sandbox goes through [several states in its lifecycle](/sandboxes/lifecycle). 
 Use a *session* to manage multiple sandboxes that share configuration. When a session closes, all of its sandboxes are stopped automatically. See [Manage multiple sandboxes](/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session) for more details.
 
 ## Basic usage
-
-{/* The following code snippet shows how to create a sandbox, run a command inside it, and print the output. */}
 
 Copy and paste the following code snippet into a Python file and run it. You should see the output `Hello from W&B Sandboxes!` printed to the console.
 

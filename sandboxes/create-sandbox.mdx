@@ -1,13 +1,14 @@
 ---
 title: Create sandboxes
-description: Learn how to create and manage sandboxes.
+description: Learn how to create W&B Sandboxes.
 ---
 
 Create sandboxes with W&B. Each sandbox runs in its own container with its own [filesystem](/sandboxes/file-access), network, and process space.
 
-
 <Info>
 By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) or [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults). W&B supports public container images only.
+
+The following code snippet creates a sandbox with the `python:3.15` image and runs `python --version` inside it. 
 
 ```python
 from wandb.sandbox import Sandbox
@@ -15,10 +16,9 @@ from wandb.sandbox import Sandbox
 with Sandbox.run(container_image="python:3.15") as sandbox:
     sandbox.exec(["python", "--version"]).result()
 ```
-
 </Info>
 
-## Create a single sandbox
+## Create a sandbox
 
 Use [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) to create and start a sandbox. This method returns a `Sandbox` object that you can use to interact with the environment.
 
