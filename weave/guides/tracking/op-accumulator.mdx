@@ -1,0 +1,130 @@
+---
+title: "Customize generator output capture"
+description: "Use the accumulator parameter to control how Weave records the combined output of generator ops"
+---
+
+When a `@weave.op` wraps a generator function, Weave accumulates all yielded values into a single output to record in the trace. By default this produces a list, but you can use the `accumulator` parameter to customize how those yielded values are combined — for example, to join streamed text tokens into a single string.
+
+<Note>
+The `accumulator` parameter applies only to generator ops. For general guidance on tracing generator functions, see [Trace generator functions](/weave/guides/tracking/trace-generator-func).
+</Note>
+
+## How it works
+
+An accumulator is a two-argument function that Weave calls once per yielded value, building up a result incrementally. Pass it to `@weave.op()`:
+
+<Tabs>
+  <Tab title="Python">
+
+    ```python
+    @weave.op(accumulator=my_accumulator)
+    def my_gen() -> Generator[str, None, None]:
+        ...
+    ```
+
+    Weave calls your accumulator function each time the generator yields a value:
+
+    - **First yield**: `acc` is `None`. Initialize the accumulated state and return it.
+    - **Each subsequent yield**: `acc` is the value you returned previously. Merge `value` into it and return the updated state.
+    - **After exhaustion**: Weave records the final return value as the op's output in the trace.
+
+    ```python
+    def my_accumulator(acc, value):
+        if acc is None:
+            # Initialize on first yield
+            ...
+        # Merge value into acc and return updated state
+        ...
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+
+  </Tab>
+</Tabs>
+
+## Examples
+
+The following examples show the two most common accumulation patterns.
+
+### Join streamed text
+
+When your op streams text tokens, use an accumulator to join them into a single string. This is a common pattern for LLM streaming, where each yielded chunk is part of a larger response.
+
+<Tabs>
+  <Tab title="Python">
+
+    ```python
+    from typing import Generator, Optional
+    import weave
+
+    weave.init("my-project")
+
+    def join_strings(acc: Optional[str], value: str) -> str:
+        if acc is None:
+            return value
+        return acc + value
+
+    @weave.op(accumulator=join_strings)
+    def stream_tokens(tokens: list[str]) -> Generator[str, None, None]:
+        yield from tokens
+
+    # Consume the generator to trigger tracing
+    result = list(stream_tokens(["Hello", ", ", "world", "!"]))
+    # Weave records output as "Hello, world!" in the trace
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+
+  </Tab>
+</Tabs>
+
+### Collect values into a list
+
+To capture all yielded values as a list:
+
+<Tabs>
+  <Tab title="Python">
+
+    ```python
+    from typing import Any, Generator, Optional
+    import weave
+
+    weave.init("my-project")
+
+    def list_accumulator(acc: Optional[list], value: Any) -> list:
+        if acc is None:
+            acc = []
+        acc.append(value)
+        return acc
+
+    @weave.op(accumulator=list_accumulator)
+    def generate_numbers(n: int) -> Generator[int, None, None]:
+        yield from range(n)
+
+    result = list(generate_numbers(5))
+    # Weave records output as [0, 1, 2, 3, 4] in the trace
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+
+  </Tab>
+</Tabs>
+
+<Warning>
+You must fully consume the generator for Weave to record the accumulated output. Use `list()`, a `for` loop, or another consuming pattern before the trace closes.
+</Warning>

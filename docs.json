@@ -780,6 +780,7 @@
                         "group": "Advanced Ops",
                         "pages": [
                           "weave/guides/tracking/trace-generator-func",
+                          "weave/guides/tracking/op-accumulator",
                           "weave/tutorial-tracing_2",
                           "weave/guides/tracking/threads",
                           "weave/guides/tracking/ops",
