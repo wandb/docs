@@ -1,21 +1,31 @@
 ---
-title: "wandb artifact cache"
+title: wandb artifact cache
 ---
 
-Manage the local artifact cache.
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-Cache downloaded artifact files locally to avoid redundant downloads.
 
-Use subcommands to inspect and reclaim disk space used by the cache.
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3054" />
+
+
 
 ## Usage
 
 ```bash
-wandb artifact cache COMMAND [ARGS]...
+cache [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Commands
+## Description
+
+Manage the local artifact cache.
+
+    Cache downloaded artifact files locally to avoid redundant downloads.
+
+    Use subcommands to inspect and reclaim disk space used by the cache.
+
+## Subcommands
 
 | Command | Description |
-| :--- | :--- |
-| [cleanup](/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup) | Reduce the local artifact cache size. |
+|---------|-------------|
+| [`wandb artifact cache cleanup`](wandb-artifact-cache/wandb-artifact-cache-cleanup) | Reduce the local artifact cache size. |
+

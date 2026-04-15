@@ -1,27 +1,93 @@
 ---
-title: "wandb login"
+title: wandb login
 ---
-import WandbLogin from "/snippets/en/_includes/cli/wandb-login.mdx";
 
-<WandbLogin/>
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L263" />
+
+
 
 ## Usage
 
 ```bash
-wandb login [KEY] [OPTIONS]
+login [OPTIONS] [KEY]...
 ```
+
+## Description
+
+Authenticate your machine with W&B.
+
+    Store an API key locally for authenticating with W&B services.
+    By default, credentials are stored without server-side verification.
+
+    If no API key is provided as an argument, the command looks for
+    credentials in the following order:
+
+        1. The WANDB_API_KEY environment variable
+
+        2. The api_key setting in a system or workspace settings file (use
+            `wandb status` to see which settings file is used)
+
+        3. The .netrc file (~/.netrc, ~/_netrc, or the NETRC env var path)
+
+        4. An interactive prompt (if a TTY is available)
+
+    For self-hosted or dedicated cloud deployments, specify the server
+    URL with `--host`, or set the WANDB_BASE_URL environment variable.
+
+    For example, to log in interactively (prompts for API key):
+
+```bash
+wandb login
+```
+
+    To log in with an explicit API key (WANDB_API_KEY_EXAMPLE):
+
+```bash
+wandb login WANDB_API_KEY_EXAMPLE
+```
+
+    To log in and verify the API key is valid:
+
+```bash
+wandb login --verify
+```
+
+    To log in to the W&B public cloud instead of a configured self-hosted instance:
+
+```bash
+wandb login --cloud
+```
+
+    To log in to a self-hosted W&B instance:
+
+```bash
+wandb login --host https://my-wandb-server.example.com
+```
+
+    To force a new login prompt even if already authenticated:
+
+```bash
+wandb login --relogin
+```
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `KEY` | No description available | No |
+| Name | Default | Type |
+|------|---------|------|
+| `key` | STR | False |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--cloud` | Log in to the W&B public cloud (https://api.wandb.ai). Mutually exclusive with --host. (default: False) |
-| `--host`, `--base-url` | Log in to a specific W&B server instance by URL (e.g. https://my-wandb.example.com). Mutually exclusive with --cloud. |
-| `--relogin` | Force a new login prompt, ignoring any existing credentials. |
-| `--verify` | Verify the API key with W&B after storing it. If verification is successful, display the source of the credentials and the default team. (default: False) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--cloud` | BOOL Flag | Log in to the W&B public cloud (https://api.wandb.ai). Mutually exclusive with --host. **Default**: False |
+| `--host, --base-url` | STR | Log in to a specific W&B server instance by URL (e.g. https://my-wandb.example.com). Mutually exclusive with --cloud. **Default**: None |
+| `--relogin` | BOOL Flag | Force a new login prompt, ignoring any existing credentials. **Default**: None |
+| `--verify` | BOOL Flag | Verify the API key with W&B after storing it. If verification is successful, display the source of the credentials and the default team. **Default**: False |
+
