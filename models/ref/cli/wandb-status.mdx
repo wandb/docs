@@ -14,7 +14,15 @@ import WandbStatus from "/snippets/en/_includes/cli/wandb-status.mdx";
   The snippet will be auto-detected on the next regeneration.
 */}
 
-Show configuration settings
+Display the current W&B configuration settings.
+
+Print all active W&B settings as formatted JSON, including the base URL, API key, project, entity, and other resolved values.
+
+For example, to show current settings:
+
+```bash
+$ wandb status
+```
 
 ## Usage
 
@@ -26,4 +34,4 @@ wandb status [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--settings` | Show the current settings (default: True) |
+| `--settings` | Display the current settings. (default: True) |

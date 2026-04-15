@@ -14,7 +14,23 @@ import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
   The snippet will be auto-detected on the next regeneration.
 */}
 
-List all artifacts in a wandb project
+List all artifacts in a W&B project.
+
+Display the latest version of each artifact collection in a project. Show the type, last updated time, size, and name.
+
+The PATH consists of the entity and project (entity/project) to list artifacts from.
+
+For example, to list all artifacts in a project called "foobar" under the "team-awesome" entity:
+
+```bash
+$ wandb artifact ls team-awesome/foobar
+```
+
+To list only artifacts of type "model" in the same project:
+
+```bash
+$ wandb artifact ls --type model team-awesome/foobar
+```
 
 ## Usage
 
@@ -32,4 +48,4 @@ wandb artifact ls PATH [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--type`, `-t` | The type of artifacts to list |
+| `--type`, `-t` | Filter artifacts by type. |

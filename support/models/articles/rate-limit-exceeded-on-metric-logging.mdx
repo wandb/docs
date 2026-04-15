@@ -1,0 +1,47 @@
+---
+title: "How do I fix `Rate limit exceeded` errors when logging metrics?"
+keywords: ["Metrics", "Experiments"]
+---
+
+If you receive an HTTP `429 Rate limit exceeded` error when calling `wandb.log()`, you are exceeding the rate limit quota for your project. W&B applies rate limits per project, and paid plans have higher limits than free plans.
+
+## How to stay under the rate limit
+
+1. **Update your W&B SDK**: The latest version includes optimized mechanisms for retrying requests and managing quota usage.
+
+   ```shell
+   pip install --upgrade wandb
+   ```
+
+2. **Reduce logging frequency**: Log metrics less often. For example, log every N epochs instead of every epoch:
+
+   ```python
+   for epoch in range(100):
+       if epoch % 5 == 0:
+           wandb.log({"acc": accuracy, "loss": loss})
+   ```
+
+3. **Sync data manually**: If you are rate limited, W&B stores your run data locally. You can sync it later with:
+
+   ```shell
+   wandb sync <run-file-path>
+   ```
+
+## Rate limit headers
+
+When rate limited, the response includes these headers:
+
+| Header | Description |
+| --- | --- |
+| `RateLimit-Remaining` | Quota remaining in the current window (0–1000 scale) |
+| `RateLimit-Reset` | Seconds until the current quota resets |
+
+If `RateLimit-Remaining` is `0`, wait for the number of seconds in `RateLimit-Reset` before retrying.
+
+For more information, see [Experiments limits and performance](/models/track/limits/).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* END AUTO-GENERATED: tab badges */}
