@@ -26,8 +26,8 @@ The following example starts a sandbox that runs `python train.py`, then waits u
 from wandb.sandbox import Sandbox
 
 sandbox = Sandbox.run("python", "train.py")
-result = sandbox.wait_until_complete(timeout=3600.0).result()
-print(f"Exit code: {result.returncode}")
+sandbox.wait_until_complete(timeout=3600.0).result()
+print(f"Exit code: {sandbox.returncode}")
 ```
 
 ### Run multiple commands sequentially

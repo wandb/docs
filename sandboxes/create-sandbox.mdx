@@ -69,8 +69,8 @@ from wandb.sandbox import Sandbox
 
 sandbox = Sandbox.run("python", "train.py")
 
-# Optionally wait for the command to complete and get the result
-result = sandbox.wait_until_complete().result()
+# Optionally wait for the command to complete
+sandbox.wait_until_complete().result()
 ```
 
 
@@ -79,6 +79,8 @@ result = sandbox.wait_until_complete().result()
 Use [`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session) to create and manage multiple sandboxes. When the session closes (for example, when exiting a `with` block), all sandboxes created by that session are stopped automatically.
 
 You can optionally pass a [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) object to a session to define reusable default configuration for all sandboxes created by that session. For example, you can specify a default container image, network configuration, or maximum lifetime for all sandboxes in the session.
+
+`session.sandbox()` returns an unstarted sandbox. It auto-starts when you call `Sandbox.exec()`, `Sandbox.read_file()`, or any other operation.
 
 The following code snippet creates a session that creates two sandboxes that use a default configuration (`SandboxDefaults`):
 

@@ -41,14 +41,25 @@ Use [`Sandbox.wait_until_complete()`](https://docs.coreweave.com/products/corewe
 ```python
 from wandb.sandbox import Sandbox
 
-with Sandbox.run("python", "train.py") as sandbox:
-    sandbox.wait_until_complete(timeout=3600.0).result()  # block until the main process exits or timeout is reached
-    print(f"Exit code: {sandbox.returncode}")
+sandbox = Sandbox.run("python", "train.py")
+sandbox.wait_until_complete(timeout=3600.0).result()  # block until the main process exits or timeout is reached
+print(f"Exit code: {sandbox.returncode}")
 ```
 
 This pattern is useful when you start a sandbox with a main command such as `Sandbox.run("python", "train.py")` and want the sandbox lifecycle to match that command's execution.
 
 When the main process exits, the sandbox enters a terminal state. A successful run typically ends in COMPLETED. If the process fails, the sandbox may enter FAILED.
+
+If you need to run commands interactively instead, use a context manager with `Sandbox.exec()`:
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+# sandbox automatically stopped on exit
+```
 
 ## Explicit lifecycle control
 
