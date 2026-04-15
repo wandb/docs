@@ -1,29 +1,28 @@
 ---
 title: "Logs"
-description: "W&B Models support articles about logging configuration, debug logs, and log management."
 tag: "7"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Does logging block my training?" href="/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
-  "Is the logging function lazy? I don't want to depend on the network to send results to your servers while executing loc ...
+  No, wandb.log writes to a local file and a separate process syncs data asynchronously.
 </Card>
 <Card title="How can I overwrite the logs from previous steps?" href="/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
-  To overwrite logs from previous steps, use forking and rewind.
+  Use forking and rewind to overwrite logs from previous steps in a W&B run.
 </Card>
 <Card title="How do I log a list of values?" href="/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
-  These examples show logging losses a couple of different ways using wandb.Run.log(). For more, see the documentation on  ...
+  Log a list of values using wandb.log with dictionaries or wandb.Table for structured data.
 </Card>
 <Card title="How do I log runs launched by continuous integration or internal tools?" href="/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  To launch automated tests or internal tools that log to W&B, create a Service Account on the team settings page. This ac ...
+  Use a service account API key for CI and automated jobs, and set WANDB_USERNAME to attribute runs.
 </Card>
 <Card title="How do I log to the right wandb user on a shared machine?" href="/support/models/articles/how-do-i-log-to-the-right-wandb-user-on-" arrow="true" horizontal>
-  When using a shared machine, ensure that runs log to the correct WandB account by setting the WANDB_API_KEY environment  ...
+  Set the WANDB_API_KEY environment variable to authenticate as the correct user on shared machines.
 </Card>
 <Card title="How do I turn off logging?" href="/support/models/articles/how-do-i-turn-off-logging" arrow="true" horizontal>
-  The command wandb offline sets the environment variable WANDB_MODE=offline, preventing data from syncing to the remote W ...
+  Run wandb offline to set WANDB_MODE=offline and stop syncing data to the W&B server.
 </Card>
 <Card title="Which files should I check when my code crashes?" href="/support/models/articles/which-files-should-i-check-when-my-code-" arrow="true" horizontal>
-  For the affected run, check debug.log and debug-internal.log in wandb/run- _ - /logs in the directory where your code is ...
+  Check debug.log and debug-internal.log in the wandb run directory to diagnose crashes.
 </Card>

@@ -1,14 +1,13 @@
 ---
 title: "Storage"
-description: "W&B Models support articles about artifact storage costs and storage meter updates."
 tag: "2"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="How much storage does each artifact version use?" href="/support/models/articles/how-much-storage-does-each-artifact-vers" arrow="true" horizontal>
-  Only files that change between two artifact versions incur storage costs. Consider an image artifact named animals that  ...
+  Only files that changed between artifact versions use additional storage due to deduplication.
 </Card>
 <Card title="Why does the storage meter not update after deleting runs?" href="/support/models/articles/why-does-the-storage-meter-not-update-af" arrow="true" horizontal>
-  The storage meter does not update immediately after deleting runs due to processing delays. The backend system requires  ...
+  The storage meter has a processing delay after deletions. Wait for the backend to sync changes.
 </Card>

@@ -1,44 +1,43 @@
 ---
 title: "Environment Variables"
-description: "W&B Models support articles about configuring W&B behavior with environment variables."
 tag: "12"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Can I run wandb offline?" href="/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
-  If training occurs on an offline machine, use the following steps to upload results to the servers: 1. Set the environme ...
+  Yes, set WANDB_MODE=offline to log locally, then use wandb sync to upload results later.
 </Card>
 <Card title="Do environment variables overwrite the parameters passed to wandb.init()?" href="/support/models/articles/do-environment-variables-overwrite-the-p" arrow="true" horizontal>
-  Arguments passed to wandb.init override environment variables. To set a default directory other than the system default  ...
+  No, arguments passed to wandb.init() override environment variables.
 </Card>
 <Card title="How can I define the local location for `wandb` files?" href="/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
-  WANDB_DIR= or wandb.init(dir= ): Controls the location of the wandb folder created for your training script. Defaults to ...
+  Use environment variables like WANDB_DIR, WANDB_ARTIFACT_DIR, and others to control where W&B stores local files.
 </Card>
 <Card title="How do I handle the 'Failed to query for notebook' error?" href="/support/models/articles/how-do-i-handle-the-failed-to-query-for-" arrow="true" horizontal>
-  If you encounter the error message "Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_N ...
+  Set the WANDB_NOTEBOOK_NAME environment variable to resolve the 'Failed to query for notebook name' error.
 </Card>
 <Card title="How do I silence W&B info messages?" href="/support/models/articles/how-do-i-silence-wb-info-messages" arrow="true" horizontal>
-  To suppress log messages in your notebook such as this: Set the log level to logging.ERROR to only show errors, suppress ...
+  Set the wandb logger level to logging.ERROR to suppress info-level log messages.
 </Card>
 <Card title="How do I stop wandb from writing to my terminal or my Jupyter notebook output?" href="/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t" arrow="true" horizontal>
-  Set the environment variable WANDB_SILENT to true.
+  Set the WANDB_SILENT environment variable to true to suppress terminal and notebook output.
 </Card>
 <Card title="How do I switch between accounts on the same machine?" href="/support/models/articles/how-do-i-switch-between-accounts-on-the-" arrow="true" horizontal>
-  To manage two W&B accounts from the same machine, store both API keys in a file. Use the following code in your reposito ...
+  Store multiple API keys in a file and set WANDB_API_KEY to switch between W&B accounts.
 </Card>
 <Card title="How does wandb stream logs and writes to disk?" href="/support/models/articles/how-does-wandb-stream-logs-and-writes-to" arrow="true" horizontal>
-  W&B queues events in memory and writes them to disk asynchronously to manage failures and support the WANDB_MODE=offline ...
+  W&B queues events in memory and writes them asynchronously to a local .wandb datastore file.
 </Card>
 <Card title="Is it possible to save metrics offline and sync them to W&B later?" href="/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  By default, wandb.init starts a process that syncs metrics in real time to the cloud. For offline use, set two environme ...
+  Set WANDB_MODE=offline to log metrics locally, then use wandb sync to upload them later.
 </Card>
 <Card title="What does wandb.init do to my training process?" href="/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  When wandb.init() runs in a training script, an API call creates a run object on the servers. A new process starts to st ...
+  wandb.init creates a run on the server and starts a background process to stream metrics.
 </Card>
 <Card title="What happens if internet connection is lost while I'm training a model?" href="/support/models/articles/what-happens-if-internet-connection-is-l" arrow="true" horizontal>
-  If the library cannot connect to the internet, it enters a retry loop and continues to attempt to stream metrics until t ...
+  W&B retries syncing until the network is restored. Use offline mode and wandb sync for no-internet machines.
 </Card>
 <Card title="Where are artifacts downloaded, and how can I control that?" href="/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
-  By default, artifacts download to the artifacts/ folder. To change the location: Pass it to wandb.Artifact().download: S ...
+  Artifacts download to the artifacts/ folder by default. Change it with a parameter or environment variable.
 </Card>
