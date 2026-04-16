@@ -1,0 +1,106 @@
+---
+title: Create sandboxes
+description: Learn how to create W&B Sandboxes.
+---
+
+<Warning>
+W&B Sandboxes is in private preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
+</Warning>
+
+Create sandboxes with W&B. Each sandbox runs in its own container with its own [filesystem](/sandboxes/file-access), network, and process space.
+
+<Info>
+By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) or [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults). W&B supports public container images only.
+
+The following code snippet creates a sandbox with the `python:3.15` image and runs `python --version` inside it. 
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run(container_image="python:3.15") as sandbox:
+    sandbox.exec(["python", "--version"]).result()
+```
+</Info>
+
+## Create a sandbox
+
+Use [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) to create and start a sandbox. This method returns a `Sandbox` object that you can use to interact with the environment.
+
+<Tip>
+W&B recommends using a context manager (`with` statement) to ensure that the sandbox is stopped automatically when it exits the block, even if an error occurs.
+</Tip>
+
+The following example creates a sandbox with the default container image (`python:3.11`):
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+To learn how to run commands inside a sandbox, see [Run commands](/sandboxes/run-commands). To learn about sandbox lifecycle and states, see [Sandbox lifecycle](/sandboxes/lifecycle).
+
+### Start a sandbox without a main command
+
+Call `Sandbox.run()` without a command when you want to create a sandbox first and run work inside it later.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    print(sandbox)
+```
+
+This pattern is useful for interactive and multi-step workflows. To learn how to run commands inside a sandbox, see [Run commands](/sandboxes/run-commands).
+
+### Start a sandbox with a main command
+
+You can also pass a command to `Sandbox.run()`. Use this pattern when the sandbox is meant to run a single job from start to finish. When the main process exits, the sandbox enters a terminal state such as [COMPLETED or FAILED](/sandboxes/lifecycle).
+
+The command you provide to `Sandbox.run()` starts as the sandbox's main process.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+```
+
+`Sandbox.run()` returns a `Sandbox` object that you can use to monitor the command and wait for it to finish. For example, to wait for the command to complete and retrieve its result:
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+
+# Optionally wait for the command to complete
+sandbox.wait_until_complete().result()
+```
+
+
+## Create multiple sandboxes with a session
+
+Use [`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session) to create and manage multiple sandboxes. When the session closes (for example, when exiting a `with` block), all sandboxes created by that session are stopped automatically.
+
+You can optionally pass a [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) object to a session to define reusable default configuration for all sandboxes created by that session. For example, you can specify a default container image, network configuration, or maximum lifetime for all sandboxes in the session.
+
+`session.sandbox()` returns an unstarted sandbox. It auto-starts when you call `Sandbox.exec()`, `Sandbox.read_file()`, or any other operation.
+
+The following code snippet creates a session that creates two sandboxes that use a default configuration (`SandboxDefaults`):
+
+```python
+from wandb.sandbox import Session, SandboxDefaults
+
+defaults = SandboxDefaults(
+    container_image="python:3.11",
+    max_lifetime_seconds=300,
+    tags=("batch-job",),
+)
+
+with Session(defaults) as session:
+    sandbox1 = session.sandbox()
+    sandbox2 = session.sandbox()
+
+    print(sandbox1)
+    print(sandbox2)
+```
