@@ -61,6 +61,25 @@ curl -L 'https://trace.wandb.ai/call/read' \
 </Tab>
 </Tabs>
 
+## Chat-style rendering in the Trace view
+
+When you [open a trace](/weave/guides/tracking/trace-tree) and select a call in the trace tree, the **Call** tab shows inputs and outputs for that op. For many LLM calls, Weave recognizes common provider request and response shapes and renders them as a **chat-style layout** (conversation bubbles) instead of only raw JSON.
+
+This applies to a single call inside the Trace view. For multi-turn sessions and the Threads chat pane, see [Chat view behavior](/weave/guides/tracking/threads#chat-view-behavior).
+
+### When chat-style rendering appears
+
+Weave looks for structured message data in the logged inputs and outputs. Examples include:
+
+- **OpenAI Chat Completions-style requests**: A `messages` array whose elements include `role` and `content`, similar to the payload passed to `client.chat.completions.create(...)`. When you use [OpenAI tracing](/weave/guides/integrations/openai), those calls are logged in this shape automatically.
+- **Matching responses**: Response objects that carry assistant text in fields such as `choices` and nested `message` content, consistent with Chat Completions API responses.
+
+Other integrations that log compatible chat completion inputs and outputs (for example [Hugging Face Inference Client](/weave/guides/integrations/huggingface) `chat_completion` calls) can also render as chat in the UI.
+
+### When you see raw JSON instead
+
+If inputs and outputs do not match a recognized pattern, the Call tab shows structured JSON. To improve readability while keeping the underlying data, use [`weave.Markdown`](#customize-rendered-traces-with-weavemarkdown) with `postprocess_inputs` and `postprocess_output` on `@weave.op` functions, as described in the next section.
+
 ## Customize rendered traces with `weave.Markdown`
 
 Use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
