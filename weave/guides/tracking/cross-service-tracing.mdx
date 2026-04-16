@@ -1,0 +1,240 @@
+---
+title: "Trace calls across services"
+description: "Link traces across multiple independent services or processes into a single trace tree in W&B Weave."
+---
+
+By default, each service or process that calls `weave.init()` maintains an independent call context. Calls made in one service appear as separate, unrelated root traces in the Weave UI, even when those services are coordinating to fulfill a single request. This guide shows you how to connect traces across services so they appear as a single unified trace tree. It is intended for Python developers building multi-service systems who want end-to-end visibility into a single request across process or network boundaries.
+
+<Warning>
+This guide describes a workaround that relies on internal Weave APIs that are not part of the stable public interface and may change in future releases. A native, first-class API for cross-service tracing is planned. Use this approach with the understanding that it may require updates when you upgrade the Weave SDK.
+</Warning>
+
+## How it works
+
+Weave uses a call context—a trace ID and a call ID—to determine which calls belong to the same trace and how they nest under one another. When you want a call in a downstream service to appear as a child of a call in an upstream service, you must:
+
+1. Extract the trace ID and call ID from the active call in the upstream service.
+2. Transmit those two values to the downstream service alongside your request payload (for example, in HTTP headers, gRPC metadata, or a message queue field).
+3. In the downstream service, set the call context to a placeholder parent before executing any ops.
+
+The result is that calls from all participating services appear under the same trace in the Weave UI, with the correct parent-child relationships.
+
+## Prerequisites
+
+Before you begin, make sure the following conditions are met.
+
+- All services must have the W&B Weave Python SDK installed (`pip install weave`).
+- Each service must call `weave.init()` independently.
+- All services must log to the same W&B project.
+
+## Extract the call context in the upstream service
+
+Inside any `@weave.op`-decorated function, call `weave.get_current_call()` to get the active call object. Extract its `trace_id` and `id` (the call ID) before making the downstream call.
+
+```python
+import weave
+
+weave.init("your-entity/your-project")
+
+@weave.op
+def top_level_op(value: int) -> int:
+    # Get the current call context
+    current_call = weave.get_current_call()
+    trace_id = current_call.trace_id
+    call_id = current_call.id
+
+    # Pass trace_id and call_id to your downstream service.
+    # The transport mechanism is up to you: HTTP headers,
+    # gRPC metadata, a message queue field, and so on.
+    result = call_downstream_service(
+        value,
+        trace_id=trace_id,
+        parent_id=call_id,
+    )
+    return result
+```
+
+`weave.get_current_call()` returns `None` if called outside a `@weave.op` function. Always call it from within an op.
+
+After this step, you have the two values — `trace_id` and `call_id` — that the downstream service needs to attach its calls to the correct location in the trace tree.
+
+## Pass the context to the downstream service
+
+How you transmit `trace_id` and `parent_id` depends on your communication protocol. Some common patterns:
+
+- **HTTP**: Add them as custom request headers, for example `X-Weave-Trace-Id` and `X-Weave-Parent-Id`.
+- **gRPC**: Include them in the request metadata.
+- **Message queues**: Add them as fields in the message envelope.
+
+The downstream service receives these values and uses them to set the call context before executing any ops, as described in the next section.
+
+After this step, the downstream service has the `trace_id` and `parent_id` values it needs to reconstruct the call context.
+
+## Set the parent call context in the downstream service
+
+In the downstream service, use the following `with_parent_call` context manager before calling any ops. This sets a placeholder parent call in the Weave call stack so that subsequent op calls in this context appear as children of the upstream call.
+
+```python
+from contextlib import contextmanager
+
+import weave
+from weave.trace.weave_client import Call
+from weave.trace.context import call_context
+
+weave.init("your-entity/your-project")
+
+@contextmanager
+def with_parent_call(trace_id: str, parent_id: str):
+    """Set a placeholder parent call so downstream ops appear
+    nested under the upstream call in the Weave trace tree.
+
+    Note: This context manager uses internal Weave APIs
+    (call_context.set_call_stack) that are not part of the
+    stable public interface.
+    """
+    parent = Call(
+        op_name="__parent__",
+        trace_id=trace_id,
+        parent_id=None,
+        id=parent_id,
+        inputs={},
+    )
+    token = call_context.set_call_stack([parent])
+    try:
+        yield
+    finally:
+        call_context.reset_call_stack(token)
+
+
+@weave.op
+def downstream_op(value: int) -> int:
+    return value * 2
+
+
+def handle_request(value: int, trace_id: str, parent_id: str) -> int:
+    with with_parent_call(trace_id=trace_id, parent_id=parent_id):
+        return downstream_op(value)
+```
+
+When the downstream service handles a request, it calls `handle_request` with the `trace_id` and `parent_id` received from the upstream service. Any ops called within the `with_parent_call` block become children of the upstream call.
+
+After this step, the downstream service is configured to emit calls that appear nested under the correct upstream call in the Weave UI.
+
+## Complete example
+
+The following example simulates three services communicating through in-process function calls. In a real deployment, replace the direct function calls with your actual inter-service communication (HTTP, gRPC, message queue, and so on).
+
+```python
+from contextlib import contextmanager
+import multiprocessing as mp
+from multiprocessing.connection import Connection
+import weave
+from weave.trace.weave_client import Call
+from weave.trace.context import call_context
+
+
+# --- Shared helper ----------------------------------------------------------
+
+@contextmanager
+def with_parent_call(trace_id: str, parent_id: str):
+    """Set a placeholder parent call in the Weave call stack.
+
+    Note: This uses internal Weave APIs not part of the stable
+    public interface.
+    """
+    parent = Call(
+        op_name="__parent__",
+        trace_id=trace_id,
+        parent_id=None,
+        id=parent_id,
+        inputs={},
+    )
+    token = call_context.set_call_stack([parent])
+    try:
+        yield
+    finally:
+        call_context.reset_call_stack(token)
+
+
+# --- Bottom-level service ---------------------------------------------------
+
+def run_bottom_service(conn: Connection) -> None:
+    weave.init("your-entity/your-project")
+
+    @weave.op
+    def bottom_op(value: int) -> int:
+        return value + 1
+
+    for trace_id, parent_id, value in iter(conn.recv, None):
+        with with_parent_call(trace_id=trace_id, parent_id=parent_id):
+            result = bottom_op(value)
+        conn.send(result)
+
+
+# --- Middle-level service ---------------------------------------------------
+
+def run_middle_service(conn: Connection, bottom_conn: Connection) -> None:
+    weave.init("your-entity/your-project")
+
+    @weave.op
+    def middle_op(value: int) -> int:
+        current_call = weave.get_current_call()
+        bottom_conn.send((current_call.trace_id, current_call.id, value))
+        return bottom_conn.recv() * 2
+
+    for trace_id, parent_id, value in iter(conn.recv, None):
+        with with_parent_call(trace_id=trace_id, parent_id=parent_id):
+            result = middle_op(value)
+        conn.send(result)
+
+
+# --- Top-level service (entry point) ----------------------------------------
+
+def run_top_service() -> None:
+    weave.init("your-entity/your-project")
+
+    # Start sub-processes to simulate independent services
+    bottom_parent, bottom_child = mp.Pipe()
+    middle_parent, middle_child = mp.Pipe()
+
+    bottom_proc = mp.Process(target=run_bottom_service, args=(bottom_child,))
+    middle_proc = mp.Process(
+        target=run_middle_service, args=(middle_child, bottom_parent)
+    )
+    bottom_proc.start()
+    middle_proc.start()
+
+    @weave.op
+    def top_op(value: int) -> int:
+        current_call = weave.get_current_call()
+        # Send call context to the middle service along with the request
+        middle_parent.send((current_call.trace_id, current_call.id, value))
+        result_a = middle_parent.recv()
+        middle_parent.send((current_call.trace_id, current_call.id, value + 1))
+        result_b = middle_parent.recv()
+        return result_a + result_b
+
+    result = top_op(42)
+    print(f"Result: {result}")
+
+    # Shut down sub-processes
+    middle_parent.send(None)
+    bottom_parent.send(None)
+    middle_proc.join()
+    bottom_proc.join()
+
+
+if __name__ == "__main__":
+    run_top_service()
+```
+
+After running this example, open the Weave UI and navigate to your project's **Traces** page. You see a single trace containing all calls from the three services, nested under `top_op`.
+
+## Limitations
+
+Be aware of the following constraints before using this approach in production.
+
+- This workaround uses internal Weave APIs (`call_context.set_call_stack`, `call_context.reset_call_stack`) that may change without notice.
+- A `Call` object constructed as a placeholder does not correspond to a real logged call. The placeholder is only used to establish call context and does not appear in the trace tree itself.
+- Passing call context between services is the responsibility of your implementation. Weave does not automatically propagate context across process or network boundaries.
+- This approach is Python-only. Cross-service tracing is not currently supported in the TypeScript SDK.

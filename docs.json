@@ -780,6 +780,7 @@
                           "weave/guides/tracking/trace-generator-func",
                           "weave/tutorial-tracing_2",
                           "weave/guides/tracking/threads",
+                          "weave/guides/tracking/cross-service-tracing",
                           "weave/guides/tracking/ops",
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
