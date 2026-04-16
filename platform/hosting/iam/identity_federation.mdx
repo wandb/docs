@@ -47,8 +47,11 @@ As part of the workflow to exchange the JWT for a W&B access token and then acce
 * The `iss` claim in the JWT should be equal to the issuer URL configured at the organization level.
 * The `sub` claim in the JWT should be equal to the user's email address as configured in the W&B organization.
 * Typically, the `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow.
-  - Some organizations have different requirements for customizing the `aud` value. Specify a custom audience using the environment variable `FEDERATED_AUTH_AUDIENCES` to a string with a comma-separated list of values.
-  - To skip audience valudation on [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances, you can set  the environment variable `FEDERATED_AUTH_AUDIENCES` to `wandb`.
+
+    On [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances:
+    - To skip audience validation, you can set  the environment variable `FEDERATED_AUTH_AUDIENCES` to `wandb`.
+    - Some organizations have specific requirements for the audience. To customize the `aud` value, set the environment variable `FEDERATED_AUTH_AUDIENCES` to a string with a comma-separated list of audience values.
+  
 * The `exp` claim in the JWT is checked to see if the token is valid or has expired and needs to be refreshed.
 
 ## External service accounts
