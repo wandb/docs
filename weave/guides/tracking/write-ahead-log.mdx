@@ -1,0 +1,62 @@
+---
+title: "Write-ahead log"
+description: "Improve the resilience of Weave trace data capture with the write-ahead log"
+---
+
+By default, the Weave client buffers API requests in memory before sending them to the server. If the process exits unexpectedly, the server becomes temporarily unavailable, or a container runs out of memory, any buffered data is lost.
+
+Weave's write-ahead log (WAL) addresses this by persisting requests to disk before sending them. When you enable the WAL, the client writes each API request to a local JSONL file first, then flushes the file to the server. If a process crashes or the server is unreachable, the data remains on disk and is automatically sent when the client runs again.
+
+<Note>
+The write-ahead log is currently opt-in. It will be enabled by default in a future release.
+</Note>
+
+## Enable the write-ahead log
+
+Set the `WEAVE_ENABLE_WAL` environment variable to `true`:
+
+```bash
+export WEAVE_ENABLE_WAL=true
+```
+
+You can also set it in Python before calling `weave.init()`:
+
+```python
+import os
+os.environ["WEAVE_ENABLE_WAL"] = "true"
+```
+
+No other code changes are required. The WAL works transparently with existing Weave tracing code.
+
+## How it works
+
+When the WAL is enabled:
+
+1. Each call to the Weave API (object creates, call starts, call ends, and so on) is appended to a JSONL file on disk instead of being held only in memory.
+2. Each process writes to its own log file, so parallel processes do not conflict.
+3. A background sender reads the log files and flushes their contents to the Weave server.
+4. After the data is successfully sent, the log file is removed.
+
+Log files are stored in `.weave/wal/` within your working directory, organized by entity and project. Each file contains the raw API requests as JSON objects, one per line.
+
+When the client starts, it checks for existing log files from previous runs. If any are found, the sender flushes them along with any new data. This means data written by a process that crashed is recovered automatically the next time the client runs.
+
+## Environment variables
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `WEAVE_ENABLE_WAL` | `bool` | `false` | Enable the write-ahead log. When set to `true`, API requests are persisted to disk before being sent to the server. |
+| `WEAVE_DISABLE_WAL_SENDER` | `bool` | `false` | Disable the WAL sender. When set to `true`, requests are written to disk but not flushed to the server. Useful for debugging. |
+
+All available variables are listed on the [environment variables](/weave/guides/core-types/env-vars) reference page.
+
+## When to use the write-ahead log
+
+The WAL is especially useful in environments where processes may be interrupted or the server may be temporarily unavailable:
+
+- **Container orchestration**: Pods that may be evicted or OOM-killed before background threads finish uploading traces.
+- **Distributed training**: Multiple processes writing traces in parallel, where any single process may fail.
+- **Unreliable networks**: Environments where connectivity to the Weave server is intermittent.
+- **Batch jobs**: Long-running jobs where losing trace data from a crash would be costly.
+
+For short-lived environments like serverless functions, also consider calling `weave.flush()` or `weave.finish()` before the process exits to ensure all data is uploaded. See [Trace data loss in worker processes](/support/weave/articles/trace-data-loss-in-worker-processes) for more information.
