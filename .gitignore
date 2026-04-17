@@ -15,9 +15,6 @@
 go.mod
 go.sum
 
-# Cursor editor local state (per-developer), but share repo-wide settings
-.cursor/*
-!.cursor/settings.json
 
 .DS_Store
 .env.local
