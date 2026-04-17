@@ -20,13 +20,13 @@ W&amp;B を使用してトレーニングメトリクスを記録するだけで
 Verifiers を Weave と統合するには、まず `uv` を使って Verifiers ライブラリをインストールします ([ライブラリの作者が推奨しています](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)) 。ライブラリのインストールには、次のいずれかのコマンドを使用してください。
 
 ```bash
-# ローカル開発およびAPIベースのモデル向けにコアライブラリをインストール
+# ローカル開発および API ベースのモデル向けにコアライブラリをインストールします
 uv add verifiers
 
-# PyTorchおよびGPUサポートを含むすべてのオプション依存関係を備えた完全版ライブラリをインストール
+# PyTorch および GPU サポートを含む、すべてのオプション依存関係を含むライブラリの完全版をインストールします
 uv add 'verifiers[all]' && uv pip install flash-attn --no-build-isolation
 
-# 未リリースの最新機能および修正を含む最新版ライブラリをGitHubから直接インストール
+# 未リリースの最新機能や修正を含む、ライブラリの最新版を GitHub から直接インストールします
 uv add verifiers @ git+https://github.com/willccbb/verifiers.git
 ```
 
@@ -88,7 +88,7 @@ results = env.evaluate(
 
 Weave は、トレーニング中のモデルのパフォーマンスを可視化できるため、RL のファインチューニングワークフローで強力なツールになります。W&amp;B と併用すると、包括的な可観測性が得られます。W&amp;B はトレーニングのメトリクスやパフォーマンスチャートをトラッキングし、Weave はトレーニングプロセス中の各インタラクションの詳細なトレースを取得します。
 
-`verifiers` リポジトリには、使い始めるのに役立つ、すぐに実行できる[例](https://github.com/PrimeIntellect-ai/verifiers)が含まれています。
+`verifiers` repository には、使い始めるのに役立つ、すぐに実行できる[例](https://github.com/PrimeIntellect-ai/verifiers)が含まれています。
 
 次の RL トレーニングパイプラインの例では、ローカルの推論サーバーを実行し、GSM8K データセットを使用してモデルをトレーニングします。モデルは数学の問題に対する答えを返し、トレーニングループは出力をスコアリングして、それに応じてモデルを更新します。W&amp;B は損失、報酬、精度などのトレーニングメトリクスをログし、Weave は入力、出力、推論過程、スコアリングを取得します。
 
@@ -108,7 +108,7 @@ uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 vf-install gsm8k --from-repo
 ```
 
-3. モデルをトレーニングします。次のコマンドは、それぞれ推論サーバーとトレーニングループを起動します。このワークフロー例では、デフォルトで `report_to=wandb` が設定されているため、`wandb.init` を別途呼び出す必要はありません。W&amp;B にメトリクスをログするには、このマシンを認証するよう求められます。
+3. モデルをトレーニングします。次のコマンドは、それぞれ推論サーバーとトレーニングループを起動します。このワークフロー例では、デフォルトで `report_to=wandb` が設定されているため、`wandb.init()` を別途呼び出す必要はありません。W&amp;B にメトリクスをログするには、このマシンを認証するよう求められます。
 
 ```bash
 # 推論サーバーを起動する

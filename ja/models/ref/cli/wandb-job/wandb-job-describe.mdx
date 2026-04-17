@@ -1,36 +1,30 @@
 ---
-title: "wandb job describe"
+title: wandb job describe
 ---
 
-{/*
-  このコマンドに導入用コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-job-describe.mdx
-  2. そのファイルに導入用コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbJobDescribe from "/snippets/_includes/cli/wandb-job-describe.mdx";
-
-  <WandbJobDescribe/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-Launch ジョブの説明。Launch ジョブは、entity/project/job-name:alias-or-version の形式で指定します。
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2172" />
 
 <div id="usage">
   ## 使用方法
 </div>
 
 ```bash
-wandb job describe JOB
+describe [OPTIONS] JOB
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+Launch ジョブの説明。Launch ジョブは、entity/project/job-name:alias-or-version の形式
+で指定します。
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数    | 説明       | 必須 |
-| :---- | :------- | :- |
-| `JOB` | 説明はありません | はい |
+| 名     | デフォルト | タイプ  |
+| ----- | ----- | ---- |
+| `job` | STR   | True |

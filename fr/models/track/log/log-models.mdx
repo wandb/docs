@@ -50,7 +50,8 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 Vous pouvez facultativement fournir un nom pour l&#39;artifact de modèle via le paramètre `name`. Si `name` n&#39;est pas spécifié, W&amp;B utilisera le nom de base du chemin d&#39;entrée, précédé de l&#39;ID du run, comme nom.
 
 <Note>
-  Notez le `name` que vous, ou W&amp;B, attribuez au modèle. Vous aurez besoin du nom du modèle pour récupérer son chemin avec la méthode [`wandb.Run.use_model()`](/fr/models/ref/python/experiments/run#use_model).
+  Notez le `name` que vous, ou W&amp;B, attribuez au modèle. Vous aurez besoin du nom du modèle pour récupérer son chemin avec la
+  méthode [`wandb.Run.use_model()`](/fr/models/ref/python/experiments/run#use_model).
 </Note>
 
 Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Référence de l&#39;API pour les paramètres.
@@ -103,7 +104,7 @@ Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Réf
       run.log_model(path=full_path, name="MNIST")
   ```
 
-  Lorsque vous appelez `log_model`, un artifact de modèle nommé `MNIST` est créé et le fichier `model.h5` y est ajouté. Votre terminal ou notebook affichera des informations indiquant où trouver des informations sur le run auquel le modèle a été journalisé.
+  Lorsque vous appelez `wandb.Run.log_model()`, un artifact de modèle nommé `MNIST` est créé et le fichier `model.h5` y est ajouté. Votre terminal ou notebook affichera des informations indiquant où trouver des informations sur le run auquel le modèle a été enregistré.
 
   ```python
   View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -134,12 +135,12 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin des fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l&#39;extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
+La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin des fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l’extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
 
 <details>
   <summary>Exemple : Télécharger et utiliser un modèle enregistré</summary>
 
-  Par exemple, dans l&#39;extrait de code suivant, un utilisateur a appelé l&#39;API `use_model`. Il a indiqué le nom de l&#39;artifact de modèle à récupérer, ainsi qu&#39;une version/un alias. Il a ensuite stocké dans la variable `downloaded_model_path` le chemin renvoyé par l&#39;API.
+  Par exemple, dans l’extrait de code suivant, un utilisateur a appelé l’API `use_model`. Il a indiqué le nom de l’artifact de modèle à récupérer, ainsi qu’une version/un alias. Il a ensuite stocké dans la variable `downloaded_model_path` le chemin renvoyé par l’API.
 
   ```python
   import wandb
@@ -151,9 +152,9 @@ La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) ren
 
   # Initialiser un run
   with wandb.init(project=project, entity=entity) as run:
-      # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artifact téléchargé
-      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+      # Accéder au modèle et le télécharger. Renvoie le chemin vers l’artifact téléchargé
+      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}")
   ```
 </details>
 
-Voir [`use_model`](/fr/models/ref/python/experiments/run#use_model) dans la Référence de l&#39;API pour les paramètres et le type de retour.
+Voir [`use_model`](/fr/models/ref/python/experiments/run#use_model) dans la Référence de l’API pour les paramètres et le type de retour.

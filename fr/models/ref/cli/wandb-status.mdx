@@ -1,36 +1,38 @@
 ---
-title: "wandb status"
+title: wandb status
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier d’extrait : /snippets/_includes/cli/wandb-status.mdx
-  2. Ajoutez votre contenu d’introduction à ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbStatus from "/snippets/_includes/cli/wandb-status.mdx";
-
-  <WandbStatus/>
-
-  L’extrait sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Afficher les paramètres de configuration
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3436" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb status [OPTIONS]
+status [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Affiche les paramètres actuels de la configuration W&amp;B.
+
+Affiche tous les paramètres W&amp;B actifs au format JSON, y compris
+l’URL de base, la clé API, le projet, l’entité et d’autres valeurs résolues.
+
+Par exemple, pour afficher les paramètres actuels :
+
+```bash
+wandb status
+```
 
 <div id="options">
   ## Options
 </div>
 
-| Option       | Description                                        |
-| :----------- | :------------------------------------------------- |
-| `--settings` | Affiche les paramètres actuels (par défaut : True) |
+| Flag         | Type            | Description                                           |
+| ------------ | --------------- | ----------------------------------------------------- |
+| `--settings` | indicateur BOOL | Affiche les paramètres actuels. **Par défaut** : True |

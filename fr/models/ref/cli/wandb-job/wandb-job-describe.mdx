@@ -1,36 +1,30 @@
 ---
-title: "wandb job describe"
+title: wandb job describe
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-job-describe.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbJobDescribe from "/snippets/_includes/cli/wandb-job-describe.mdx";
-
-  <WandbJobDescribe/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Décrivez un job Launch. Indiquez le job Launch sous la forme : entité/projet/nom-du-job:alias-ou-version
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2172" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb job describe JOB
+describe [OPTIONS] JOB
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Décrivez un job Launch. Indiquez le job Launch sous la forme
+de : entité/projet/nom-du-job:alias-ou-version.
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument | Description                   | Requis |
-| :------- | :---------------------------- | :----- |
-| `JOB`    | Aucune description disponible | Oui    |
+| Nom   | Par défaut | Type |
+| ----- | ---------- | ---- |
+| `job` | STR        | True |

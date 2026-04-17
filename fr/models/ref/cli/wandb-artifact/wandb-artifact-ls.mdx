@@ -1,44 +1,56 @@
 ---
-title: "wandb artifact ls"
+title: wandb artifact ls
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-artifact-ls.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez entièrement ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbArtifactLs from "/snippets/_includes/cli/wandb-artifact-ls.mdx";
-
-  <WandbArtifactLs/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Lister tous les artifacts d’un projet wandb
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3006" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb artifact ls PATH [OPTIONS]
+ls [OPTIONS] PATH
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Répertorie tous les artefacts d’un projet W&amp;B.
+
+Affiche la dernière version de chaque collection d’artefacts d’un
+projet. Indique le type, la date de dernière mise à jour, la taille et le nom.
+
+Le PATH est constitué de l’entité et du projet (entité/projet) à partir
+desquels vous voulez lister les artefacts.
+
+Par exemple, pour lister tous les artefacts d’un projet appelé &quot;foobar&quot; dans
+l’entité &quot;team-awesome&quot; :
+
+```bash
+wandb artifact ls team-awesome/foobar
+```
+
+Pour lister uniquement les artefacts de type &quot;model&quot; dans le même projet :
+
+```bash
+wandb artifact ls --type model team-awesome/foobar
+```
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument | Description                   | Requis |
-| :------- | :---------------------------- | :----- |
-| `PATH`   | Aucune description disponible | Oui    |
+| Nom    | Par défaut | Type |
+| ------ | ---------- | ---- |
+| `path` | STR        | True |
 
 <div id="options">
   ## Options
 </div>
 
-| Option         | Description                    |
-| :------------- | :----------------------------- |
-| `--type`, `-t` | Le type d’Artifacts à afficher |
+| Option       | Type | Description                                            |
+| ------------ | ---- | ------------------------------------------------------ |
+| `--type, -t` | STR  | Filtrer les artefacts par type. **Par défaut** : aucun |

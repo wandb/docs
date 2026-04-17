@@ -1,36 +1,55 @@
 ---
-title: "wandb désactivé"
+title: wandb disabled
 ---
 
-{/*
-  Pour ajouter un texte d’introduction à cette commande :
-  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-disabled.mdx
-  2. Ajoutez votre texte d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbDisabled from "/snippets/_includes/cli/wandb-disabled.mdx";
-
-  <WandbDisabled/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Désactivez W&amp;B.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3461" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb disabled [OPTIONS]
+disabled [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Désactive les fonctionnalités de W&amp;B.
+
+Lorsque W&amp;B est en mode `disabled`, aucune donnée n’est journalisée ni synchronisée.
+
+Utilisez `wandb enable` pour rétablir les fonctionnalités de W&amp;B.
+
+Utilisez `wandb offline` pour arrêter la synchronisation avec le cloud tout en continuant à journaliser les données
+localement.
+
+Par exemple, pour désactiver W&amp;B afin que le script train.py s’exécute sans journaliser ni
+synchroniser de données vers W&amp;B :
+
+```bash
+wandb disabled
+```
+
+Ensuite, entraînez le modèle sans journalisation ni synchronisation vers W&amp;B :
+
+```bash
+python train.py  # Ne journalise ni ne synchronise les données vers W&B
+```
+
+Restaurez les fonctionnalités de W&amp;B lorsque vous êtes prêt à reprendre la journalisation et la synchronisation :
+
+```bash
+wandb enabled
+```
 
 <div id="options">
   ## Options
 </div>
 
-| Option      | Description                                      |
-| :---------- | :----------------------------------------------- |
-| `--service` | Désactive le service W&amp;B (par défaut : True) |
+| Flag        | Type               | Description                                                                       |
+| ----------- | ------------------ | --------------------------------------------------------------------------------- |
+| `--service` | Indicateur booléen | Sans effet. Accepté pour des raisons de rétrocompatibilité. **Par défaut** : True |

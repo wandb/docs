@@ -1,26 +1,29 @@
 ---
-title: "wandb server stop"
+title: wandb server stop
 ---
 
-{/*
-  이 명령어에 대한 소개 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-server-stop.mdx
-  2. 해당 파일에 소개 콘텐츠를 추가합니다
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남깁니다:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-  import WandbServerStop from "/snippets/_includes/cli/wandb-server-stop.mdx";
-
-  <WandbServerStop/>
-
-  다음에 다시 생성할 때 스니펫이 자동으로 감지됩니다.
-  */}
-
-로컬 W&amp;B 서버 중지하기
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2792" />
 
 <div id="usage">
   ## 사용
 </div>
+
+```bash
+stop [OPTIONS]
+```
+
+<div id="description">
+  ## 설명
+</div>
+
+실행 중인 로컬 W&amp;B 서버를 중지합니다.
+
+`wandb server start`로 시작된 `wandb-local`이라는 이름의 도커 컨테이너를 중지합니다.
+이 기능을 사용하려면 Docker가 설치되어 있어야 합니다.
+
+예를 들어, 로컬 W&amp;B 서버를 중지하려면 다음과 같이 하세요.
 
 ```bash
 wandb server stop

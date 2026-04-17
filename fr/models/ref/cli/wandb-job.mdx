@@ -1,23 +1,31 @@
 ---
-title: "wandb job"
+title: wandb job
 ---
 
-Commandes pour gérer et consulter les jobs W&amp;B
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2125" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb job COMMAND [ARGS]...
+job [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## Commandes
+<div id="description">
+  ## Description
 </div>
 
-| Commande                                                 | Description                                                     |
-| :------------------------------------------------------- | :-------------------------------------------------------------- |
-| [create](/fr/models/ref/cli/wandb-job/wandb-job-create)     | Créer un job à partir d&#39;une source, sans run wandb associé. |
-| [describe](/fr/models/ref/cli/wandb-job/wandb-job-describe) | Décrire un job Launch.                                          |
-| [list](/fr/models/ref/cli/wandb-job/wandb-job-list)         | Lister les jobs d&#39;un projet                                 |
+Commandes pour gérer et consulter les jobs W&amp;B.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande             | Description                                                     |
+| -------------------- | --------------------------------------------------------------- |
+| `wandb job create`   | Créer un job à partir d&#39;une source, sans run wandb associé. |
+| `wandb job describe` | Décrire un job Launch. Fournir le job Launch sous la forme      |
+| `wandb job list`     | Lister les jobs d&#39;un projet                                 |

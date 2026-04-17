@@ -1,25 +1,47 @@
 ---
-title: "wandb verify"
+title: wandb verify
 ---
 
-import WandbVerify from "/snippets/ko/_includes/cli/wandb-verify.mdx";
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-<WandbVerify />
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3534" />
 
 <div id="usage">
   ## 사용
 </div>
 
 ```bash
-wandb verify [OPTIONS]
+verify [OPTIONS]
 ```
 
+<div id="description">
+  ## 설명
+</div>
+
+셀프 호스팅 W&amp;B 인스턴스에 대해 인테그레이션 검사를 실행합니다.
+
+셀프 호스팅 또는 Dedicated Cloud W&amp;B 배포가 올바르게 설정되어
+정상적으로 운영되는지 검증합니다. 이 명령은 퍼블릭 W&amp;B
+클라우드(api.wandb.ai)에 대해 실행하지 마세요.
+
+중요한 검사 중 하나라도 실패하면 `code 1`로 종료합니다.
+
+예를 들어, 현재 설정된 W&amp;B 인스턴스를 확인하려면:
+
+```bash
+wandb verify --host https://my-wandb-instance.com
+```
+
+특정 셀프 호스팅 인스턴스를 확인하려면:
+
+```bash
+wandb verify --host https://my-wandb-server.example.com
+```
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션       | 설명                      |
-| :------- | :---------------------- |
-| `--host` | 특정 W&amp;B 인스턴스를 테스트합니다 |
+| 플래그      | 유형  | 설명                                                               |
+| -------- | --- | ---------------------------------------------------------------- |
+| `--host` | STR | 특정 W&amp;B 인스턴스 URL을 지정합니다. 기본적으로 설정된 기본 URL을 사용합니다. **기본값**: 없음 |

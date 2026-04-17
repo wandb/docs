@@ -24,12 +24,13 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
 
     wandb_logger = WandbLogger(log_model="all")
     trainer = Trainer(logger=wandb_logger)
+
     ```
 
     <Note>
-      **Utilisation de wandb.log() :** Le `WandbLogger` envoie les journaux vers W&amp;B en utilisant le `global_step` du Trainer. Si vous effectuez des appels supplémentaires à `wandb.log` directement dans votre code, **n&#39;utilisez pas** l&#39;argument `step` dans `wandb.log()`.
+      **Utilisation de wandb.log() :** Le `WandbLogger` envoie les journaux vers W&amp;B en utilisant le `global_step` du Trainer. Si vous effectuez des appels supplémentaires à `wandb.log()` directement dans votre code, **n&#39;utilisez pas** l&#39;argument `step` dans `wandb.log()`.
 
-      À la place, enregistrez le `global_step` du Trainer comme vos autres métriques :
+      À la place, journalisez le `global_step` du Trainer comme vos autres métriques :
 
       ```python
       wandb.log({"accuracy":0.99, "trainer/global_step": step})
@@ -46,6 +47,7 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
     fabric = L.Fabric(loggers=[wandb_logger])
     fabric.launch()
     fabric.log_dict({"important_metric": important_metric})
+
     ```
   </Tab>
 </Tabs>
@@ -53,6 +55,9 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
 <Frame>
   <img src="/images/integrations/n6P7K4M.gif" alt="Tableaux de bord interactifs" />
 </Frame>
+
+```
+```
 
 <div id="sign-up-and-create-an-api-key">
   ### Inscrivez-vous et créez une clé API
@@ -180,7 +185,7 @@ Vous trouverez ci-dessous quelques-uns des paramètres les plus utilisés dans `
 </Tabs>
 
 <div id="log-additional-config-parameters">
-  ## Journalisez des paramètres de configuration supplémentaires
+  ## Journaliser des paramètres de configuration supplémentaires
 </div>
 
 ```python
@@ -224,7 +229,7 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
             """méthode utilisée pour définir les paramètres du modèle"""
             super().__init__()
 
-            # les images mnist ont la forme (1, 28, 28) (canaux, largeur, hauteur)
+            # les images MNIST ont la forme (1, 28, 28) (canaux, largeur, hauteur)
             self.layer_1 = Linear(28 * 28, n_layer_1)
             self.layer_2 = Linear(n_layer_1, n_layer_2)
             self.layer_3 = Linear(n_layer_2, n_classes)
@@ -232,11 +237,11 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
             self.loss = CrossEntropyLoss()
             self.lr = lr
 
-            # enregistre les hyperparamètres dans self.hparams (journalisés automatiquement par W&B)
+            # enregistrer les hyperparamètres dans self.hparams (journalisés automatiquement par W&B)
             self.save_hyperparameters()
 
         def forward(self, x):
-            """méthode utilisée pour l'inférence, de l'entrée vers la sortie"""
+            """méthode utilisée pour l’inférence, de l’entrée à la sortie"""
 
             # (b, 1, 28, 28) -> (b, 1*28*28)
             batch_size, channels, width, height = x.size()
@@ -249,7 +254,7 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
             return x
 
         def training_step(self, batch, batch_idx):
-            """doit renvoyer une perte pour un seul lot"""
+            """doit renvoyer une perte à partir d’un seul lot"""
             _, loss, acc = self._get_preds_loss_accuracy(batch)
 
             # Journaliser la perte et la métrique
@@ -267,11 +272,11 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
             return preds
 
         def configure_optimizers(self):
-            """définit l'optimiseur du modèle"""
+            """définit l’optimiseur du modèle"""
             return Adam(self.parameters(), lr=self.lr)
 
         def _get_preds_loss_accuracy(self, batch):
-            """fonction utilitaire, car les étapes train/valid/test sont similaires"""
+            """fonction utilitaire, car les étapes d’entraînement, de validation et de test sont similaires"""
             x, y = batch
             logits = self(x)
             preds = torch.argmax(logits, dim=1)
@@ -297,28 +302,32 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
     model, optimizer = fabric.setup(model, optimizer)
 
     train_dataloader = fabric.setup_dataloaders(
-        torch.utils.data.DataLoader(train_dataset, batch_size=batch_size)
+    torch.utils.data.DataLoader(train_dataset, batch_size=batch_size)
     )
 
     model.train()
     for epoch in range(num_epochs):
-        for batch in train_dataloader:
-            optimizer.zero_grad()
-            loss = model(batch)
-            loss.backward()
-            optimizer.step()
-            fabric.log_dict({"loss": loss})
+    for batch in train_dataloader:
+    optimizer.zero_grad()
+    loss = model(batch)
+    loss.backward()
+    optimizer.step()
+    fabric.log_dict({"loss": loss})
+
     ```
   </Tab>
 </Tabs>
+
+```
+```
 
 <div id="log-the-minmax-of-a-metric">
   ## Journaliser les valeurs min/max d’une métrique
 </div>
 
-Avec la fonction [`define_metric`](/fr/models/ref/python/experiments/run#define_metric) de wandb, vous pouvez définir si vous souhaitez que votre métrique de synthèse W&amp;B affiche la valeur minimale, maximale, moyenne ou la meilleure valeur pour cette métrique. Si `define`&#95;`metric` &#95; n’est pas utilisé, la dernière valeur enregistrée apparaîtra dans vos métriques de synthèse. Voir la [documentation de référence de `define_metric` ici](/fr/models/ref/python/experiments/run#define_metric) et le [guide ici](/fr/models/track/log/customize-logging-axes/) pour en savoir plus.
+Avec la fonction [`define_metric`](/fr/models/ref/python/experiments/run#define_metric) de wandb, vous pouvez définir si vous souhaitez que votre métrique de synthèse W&amp;B affiche la valeur minimale, maximale, moyenne ou la meilleure valeur pour cette métrique. Si `define`&#95;`metric` &#95; n’est pas utilisé, la dernière valeur journalisée apparaîtra dans vos métriques de synthèse. Voir la [documentation de référence de `define_metric` ici](/fr/models/ref/python/experiments/run#define_metric) et le [guide ici](/fr/models/track/log/customize-logging-axes/) pour en savoir plus.
 
-Pour indiquer à W&amp;B de suivre la précision de validation maximale dans la métrique de synthèse W&amp;B, appelez `wandb.define_metric` une seule fois, au début de l’entraînement :
+Pour indiquer à W&amp;B de suivre la précision de validation maximale dans la métrique de synthèse W&amp;B, appelez `wandb.define_metric()` une seule fois, au début de l’entraînement :
 
 <Tabs>
   <Tab title="Logger PyTorch">
@@ -336,6 +345,7 @@ Pour indiquer à W&amp;B de suivre la précision de validation maximale dans la 
             self.log("val_loss", loss)
             self.log("val_accuracy", acc)
             return preds
+
     ```
   </Tab>
 
@@ -357,41 +367,23 @@ Pour enregistrer des points de contrôle du modèle en tant qu’Artifacts W&amp
 utilisez le callback Lightning [`ModelCheckpoint`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html) et définissez l’argument `log_model` dans `WandbLogger`.
 
 <Tabs>
-  <Tab title="Logger PyTorch">
-    ```python
-    trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
-    ```
-  </Tab>
-
-  <Tab title="Logger Fabric">
-    ```python
-    fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
-    ```
-  </Tab>
+  <Tab title="Logger PyTorch">`python trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback]) `</Tab>
+  <Tab title="Logger Fabric">`python fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback]) `</Tab>
 </Tabs>
 
 Les alias *latest* et *best* sont automatiquement définis pour vous permettre de récupérer facilement un point de contrôle du modèle depuis un [Artifact](/fr/models/artifacts/) W&amp;B :
 
 ```python
-# la référence peut être récupérée dans le panneau des Artifacts
+# la référence peut être récupérée dans le panneau des artifacts
 # "VERSION" peut être une version (ex : "v2") ou un alias ("latest" ou "best")
 checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 ```
 
 <Tabs>
-  <Tab title="Via Logger">
-    ```python
-    # télécharger le point de contrôle en local (s'il n'est pas déjà en cache)
-    wandb_logger.download_artifact(checkpoint_reference, artifact_type="model")
-    ```
-  </Tab>
+  <Tab title="Via Logger">`python # télécharger le point de contrôle en local (s'il n'est pas déjà en cache) wandb_logger.download_artifact(checkpoint_reference, artifact_type="model") `</Tab>
 
   <Tab title="Via wandb">
-    ```python
-    # télécharger le point de contrôle en local (s'il n'est pas déjà en cache)
-    run = wandb.init(project="MNIST")
-    artifact = run.use_artifact(checkpoint_reference, type="model")
-    artifact_dir = artifact.download()
+    ```python # télécharger le point de contrôle en local (s'il n'est pas déjà en cache) run = wandb.init(project="MNIST") artifact = run.use_artifact(checkpoint_reference, type="model") artifact_dir = artifact.download()
     ```
   </Tab>
 </Tabs>
@@ -411,41 +403,49 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 
     model.load_state_dict(full_checkpoint["model"])
     optimizer.load_state_dict(full_checkpoint["optimizer"])
+
     ```
   </Tab>
 </Tabs>
 
-Les points de contrôle de modèle que vous enregistrez sont visibles dans l&#39;UI [W&amp;B Artifacts](/fr/models/artifacts/) et incluent la traçabilité complète du modèle (voir un exemple de point de contrôle de modèle dans l&#39;UI [ici](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+Les points de contrôle de modèle que vous journalisez sont visibles dans l&#39;UI [W&amp;B Artifacts](/fr/models/artifacts/) et incluent la traçabilité complète du modèle (voir un exemple de point de contrôle de modèle dans l&#39;UI [ici](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
 
 Pour mettre vos meilleurs points de contrôle de modèle en favoris et les centraliser pour votre équipe, vous pouvez les lier au [registre de modèles W&amp;B](/fr/models).
 
 Vous pouvez y organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, faciliter leur suivi et leur audit tout au long du cycle de vie du ML, et [automatiser](/fr/models/automations/) les actions en aval avec des webhooks ou des jobs.
 
+```
+```
+
 <div id="log-images-text-and-more">
   ## Journaliser des images, du texte et plus encore
 </div>
 
-`WandbLogger` fournit les méthodes `log_image`, `log_text` et `log_table` pour journaliser des médias.
+Le `WandbLogger` fournit les méthodes `log_image`, `log_text` et `log_table` pour la journalisation de médias.
 
-Vous pouvez aussi appeler directement `wandb.log` ou `trainer.logger.experiment.log` pour journaliser d&#39;autres types de médias comme Audio, les molécules, les nuages de points, les objets 3D, etc.
+Vous pouvez aussi appeler directement `wandb.log()` ou `trainer.logger.experiment.log()` pour journaliser d&#39;autres types de médias, comme Audio, des molécules, des nuages de points, des objets 3D, et bien plus encore.
 
 <Tabs>
   <Tab title="Journaliser des images">
     ```python
-    # utiliser des tenseurs, des tableaux numpy ou des images PIL
+    # utiliser des tenseurs, des tableaux NumPy ou des images PIL
     wandb_logger.log_image(key="samples", images=[img1, img2])
 
     # ajouter des légendes
+
     wandb_logger.log_image(key="samples", images=[img1, img2], caption=["tree", "person"])
 
     # utiliser un chemin de fichier
+
     wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 
     # utiliser .log dans le trainer
+
     trainer.logger.experiment.log(
-        {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
-        step=current_trainer_global_step,
+    {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
+    step=current_trainer_global_step,
     )
+
     ```
   </Tab>
 
@@ -458,7 +458,7 @@ Vous pouvez aussi appeler directement `wandb.log` ou `trainer.logger.experiment.
     # utiliser les colonnes et les données
     wandb_logger.log_text(key="my_samples", columns=columns, data=my_data)
 
-    # utiliser un dataframe pandas
+    # utiliser un DataFrame pandas
     wandb_logger.log_text(key="my_samples", dataframe=my_dataframe)
     ```
   </Tab>
@@ -469,18 +469,21 @@ Vous pouvez aussi appeler directement `wandb.log` ou `trainer.logger.experiment.
     columns = ["caption", "image", "sound"]
 
     # les données doivent être une liste de listes
+
     my_data = [
-        ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
-        ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
+    ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
+    ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
     ]
 
     # journaliser le tableau
+
     wandb_logger.log_table(key="my_samples", columns=columns, data=data)
+
     ```
   </Tab>
 </Tabs>
 
-Vous pouvez utiliser le système de callbacks de Lightning pour contrôler quand vous journalisez dans W&amp;B via `WandbLogger`. Dans cet exemple, nous journalisons un échantillon de nos images de validation et de nos prédictions :
+Vous pouvez utiliser le système de callbacks de Lightning pour contrôler quand vous journalisez vers W&amp;B via `WandbLogger` ; dans cet exemple, nous journalisons un échantillon de nos images de validation et de nos prédictions :
 
 ```python
 import torch
@@ -488,7 +491,7 @@ import wandb
 import lightning.pytorch as pl
 from lightning.pytorch.loggers import WandbLogger
 
-# or
+# ou
 # from wandb.integration.lightning.fabric import WandbLogger
 
 
@@ -499,9 +502,9 @@ class LogPredictionSamplesCallback(Callback):
         """Called when the validation batch ends."""
 
         # `outputs` provient de `LightningModule.validation_step`
-        # ce qui correspond ici aux prédictions de notre modèle
+        # ce qui correspond aux prédictions de notre modèle dans ce cas
 
-        # Let's log 20 sample image predictions from the first batch
+        # Journalisons 20 exemples de prédictions d'images du premier batch
         if batch_idx == 0:
             n = 20
             x, y = batch
@@ -511,10 +514,10 @@ class LogPredictionSamplesCallback(Callback):
                 for y_i, y_pred in zip(y[:n], outputs[:n])
             ]
 
-            # Option 1: log images with `WandbLogger.log_image`
+            # Option 1 : journaliser les images avec `WandbLogger.log_image`
             wandb_logger.log_image(key="sample_images", images=images, caption=captions)
 
-            # Option 2: log images and predictions as a W&B Table
+            # Option 2 : journaliser les images et les prédictions sous forme de W&B Table
             columns = ["image", "ground truth", "prediction"]
             data = [
                 [wandb.Image(x_i), y_i, y_pred] or x_i,

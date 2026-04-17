@@ -50,7 +50,7 @@ Liste d&#39;une ou plusieurs références explicites sur le plan sémantique, ou
 
 de « surnoms » d&#39;identification, attribués à une version d&#39;artifact.
 
-Les alias sont des références modifiables que vous pouvez utiliser par programmation. Modifiez l&#39;alias d&#39;un artifact dans l&#39;interface de l’application W&B ou par programmation. Voir [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) pour plus d&#39;informations.
+Les alias sont des références modifiables que vous pouvez utiliser par programmation. Modifiez l&#39;alias d&#39;un artifact dans l&#39;interface de l’application W&amp;B ou par programmation. Voir [Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version) pour plus d&#39;informations.
 
 **Retourne :**
 
@@ -545,18 +545,18 @@ add_reference(
 
 Ajoutez à l&#39;artifact une référence désignée par un URI.
 
-Contrairement aux fichiers ou répertoires que vous ajoutez à un artifact, les références ne sont pas téléversées vers W&amp;B. Pour plus d&#39;informations, voir [Suivre des fichiers externes](https://docs.wandb.ai/guides/artifacts/track-external-files).
+Contrairement aux fichiers ou répertoires que vous ajoutez à un artifact, les références ne sont pas téléversées vers W&amp;B. Pour plus d&#39;informations, voir [Suivre des fichiers externes](https://docs.wandb.ai/models/artifacts/track-external-files).
 
 Par défaut, les schémas suivants sont pris en charge :
 
-* http(s) : la taille et l&#39;empreinte du fichier sont déduites des en-têtes de réponse `Content-Length` et `ETag` renvoyés par le serveur.
+* http(s) : la taille et le digest du fichier sont déduites des en-têtes de réponse `Content-Length` et `ETag` renvoyés par le serveur.
 * s3 : la somme de contrôle et la taille sont récupérées à partir des métadonnées de l&#39;objet. Si la gestion des versions du bucket est activée, l&#39;ID de version est également suivi.
 * gs : la somme de contrôle et la taille sont récupérées à partir des métadonnées de l&#39;objet. Si la gestion des versions du bucket est activée, l&#39;ID de version est également suivi.
 * https, domaine correspondant à `*.blob.core.windows.net`
 * Azure : la somme de contrôle et la taille sont récupérées à partir des métadonnées du blob. Si la gestion des versions du compte de stockage est activée, l&#39;ID de version est également suivi.
 * file : la somme de contrôle et la taille sont récupérées à partir du système de fichiers. Ce schéma est utile si vous avez un partage NFS ou un autre volume monté en externe contenant des fichiers que vous souhaitez suivre sans nécessairement les téléverser.
 
-Pour tout autre schéma, l&#39;empreinte est simplement un hachage de l&#39;URI et la taille reste vide.
+Pour tout autre schéma, le digest est simplement un hachage de l&#39;URI et la taille reste vide.
 
 **Arguments :**
 
@@ -573,7 +573,6 @@ Les entrées de manifeste ajoutées.
 * `ArtifactFinalizedError` : vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Artifact.checkout`
 

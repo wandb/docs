@@ -32,9 +32,10 @@ W&amp;B SDK の Settings クラスです。
 
 ```python
 __init__(
+    allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107d3d240>,
+    anonymous: 'object' = <object object at 0x109961240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -48,6 +49,7 @@ __init__(
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
+    disable_git_fork_point: 'bool' = True,
     disable_job_creation: 'bool' = True,
     docker: 'str | None' = None,
     email: 'str | None' = None,
@@ -158,7 +160,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 98605,
+    x_stats_pid: 'int' = 38335,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -182,6 +184,13 @@ __init__(
 ```
 
 **引数:**
+
+* `allow_media_symlink` (bool): メディアファイルを run ディレクトリにシンボリックリンクするかどうか。
+  True の場合、メディアファイルはコピーされる代わりに
+  run ディレクトリにシンボリックリンクまたはハードリンクされます。これにより、
+  ログがより高速になり、ディスク使用量を削減できる場合があります。ただし、
+  W&amp;B サーバーにアップロードする前に元のファイルを削除または変更すると、
+  その内容がアップロードされたデータに反映されます。
 
 * `allow_offline_artifacts` (bool): オフラインモードで表アーティファクトを同期できるようにするフラグです。
   以前の動作に戻すには、False に設定します。
@@ -245,6 +254,13 @@ __init__(
 * `disable_code` (bool): コードの取得を無効にするかどうか。
 
 * `disable_git` (bool): Git の状態の取得を無効にするかどうか。
+
+* `disable_git_fork_point` (bool): リモートブランチから fork point を推定する処理を無効にするかどうか。
+  True に設定すると、設定されている場合、SDK は upstream
+  ブランチの最新コミットを使用します。設定されていない場合は、diff パッチの生成をスキップします。
+  False に設定すると、SDK は、設定されている場合は upstream ブランチの最新コミットの使用を試みます。
+  設定されていない場合は、すべてのリモートブランチから最も近いコミットを検索します。
+  これは、upstream ブランチが多数あるリポジトリではパフォーマンスに影響する可能性があります。
 
 * `disable_job_creation` (bool): W&amp;B Launch のジョブ artifact の作成を無効にするかどうか。
 
@@ -335,8 +351,8 @@ __init__(
     失敗します。
   * &quot;auto&quot;: 同じマシン上で直近に失敗した run から自動的に再開します。
 
-* `resume_from` (`Optional[RunMoment]`): 以前の run の実行を再開する起点を指定します。
-  この起点は、run ID、メトリクス、およびその値で定義されます。
+* `resume_from` (`Optional[RunMoment]`): 以前の run の実行において、再開元となる時点を指定します。
+  この時点は、run ID、メトリクス、およびその値で定義されます。
   現在サポートされているメトリクスは &#39;&#95;step&#39; のみです。
 
 * `root_dir` (str): すべてのrun関連パスの基準となるルートディレクトリです。
@@ -415,7 +431,7 @@ __init__(
 
 * `x_service_wait` (float): wandb-core の内部サービスの起動を待機する時間 (秒) 。
 
-* `x_skip_transaction_log` (bool) : run イベントをトランザクションログに保存しないようにするかどうか。
+* `x_skip_transaction_log` (bool): run イベントをトランザクションログに保存しないようにするかどうか。
   これは online run でのみ有効です。ディスクに書き込まれる
   データ量を減らすために使用できます。
   ただし、復旧可能性に関する保証が失われるため、
@@ -443,7 +459,7 @@ __init__(
 * `x_stats_disk_paths` (Optional[Sequence]): ディスク使用量を監視する対象のシステムパス。
 
 * `x_stats_cpu_count` (Optional[int]): システムの CPU 数。
-  設定すると、run メタデータで自動検出された値を上書きします。
+  If set, overrides the auto-detected value in the run metadata.
 
 * `x_stats_cpu_logical_count` (Optional[int]): 論理 CPU 数。
   設定すると、run メタデータで自動検出された値を上書きします。
@@ -462,7 +478,7 @@ __init__(
   `True` の場合、システム モニターは PID `x_stats_pid` のプロセスとそのすべての子孫プロセスの RSS、CPU%、およびスレッド数を集計します。
   これによりパフォーマンス上のオーバーヘッドが発生する可能性があるため、デフォルトでは無効になっています。
 
-* `x_sync_dir_suffix` (str): run のディレクトリ名 (`sync&#95;dir`) に追加するサフィックスです。
+* `x_sync_dir_suffix` (str): run のディレクトリ名 (`sync_dir`) に追加するサフィックスです。
   これは、名前の競合を避けるために `wandb.init()` で設定します。
   設定すると、デフォルト名にダッシュ区切りで連結されます。
 
@@ -474,10 +490,10 @@ __init__(
 
 ### <kbd>プロパティ</kbd> `Settings.app_url`
 
-W&amp;B UI の URL です。通常は https://wandb.ai です。
+W&amp;B UI の URL です。通常は [https://wandb.ai](https://wandb.ai) です。
 
 これは、プログラムから W&amp;B API にアクセスするために使用する
-`base_url` (https://api.wandb.ai など) とは異なります。
+`base_url` ([https://api.wandb.ai](https://api.wandb.ai) など) とは異なります。
 
 **戻り値:**
 

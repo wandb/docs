@@ -20,7 +20,7 @@ Ce guide vous montre comment installer Verifiers, W&amp;B et Weave, et fournit d
 Pour intégrer Verifiers avec Weave, commencez par installer la bibliothèque Verifiers avec `uv` ([comme le recommandent les auteurs de la bibliothèque](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Utilisez l’une des commandes suivantes pour installer la bibliothèque :
 
 ```bash
-# Installe la bibliothèque principale pour le développement local et les modèles basés sur API
+# Installe la bibliothèque principale pour le développement local et les modèles basés sur des API
 uv add verifiers
 
 # Installe la version complète de la bibliothèque avec toutes les dépendances facultatives, y compris PyTorch et la prise en charge GPU
@@ -71,7 +71,7 @@ rubric = vf.Rubric(funcs=[correct_answer, parser.get_format_reward_func()], weig
 
 env = vf.SingleTurnEnv(
     dataset=dataset,
-    system_prompt="Réfléchis étape par étape, puis réponds.",
+    system_prompt="Think step-by-step, then answer.",
     parser=parser,
     rubric=rubric,
 )
@@ -108,10 +108,10 @@ uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 vf-install gsm8k --from-repo
 ```
 
-3. Entraînez votre modèle. Les commandes suivantes lancent respectivement le serveur d’inférence et la boucle d’entraînement. Dans cet exemple de flux de travail, `report_to=wandb` est défini par défaut, vous n’avez donc pas besoin d’appeler `wandb.init` séparément. Vous serez invité à authentifier cette machine pour consigner des métriques sur W&amp;B.
+3. Entraînez votre modèle. Les commandes suivantes lancent respectivement le serveur d’inférence et la boucle d’entraînement. Dans cet exemple de flux de travail, `report_to=wandb` est défini par défaut, vous n’avez donc pas besoin d’appeler `wandb.init()` séparément. Vous serez invité à authentifier cette machine pour consigner des métriques sur W&amp;B.
 
 ```bash
-# Lance le serveur d'Inférence
+# Lance le serveur d'inférence
 CUDA_VISIBLE_DEVICES=0 vf-vllm --model willcb/Qwen3-0.6B --enforce-eager --disable-log-requests
 
 # Lance la boucle d'entraînement
