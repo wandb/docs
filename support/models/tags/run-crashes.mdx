@@ -6,32 +6,32 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="How can I fix an error like `AttributeError: module 'wandb' has no attribute ...`?" href="/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
-  If you encounter an error like AttributeError: module 'wandb' has no attribute 'init' or AttributeError: module 'wandb'  ...
+  Fix the wandb AttributeError by reinstalling wandb and removing any local wandb directory that conflicts with the package.
 </Card>
 <Card title="How do I fix `Cuda out of memory` during a sweep?" href="/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
-  If you see Cuda out of memory during a sweep, refactor your code to use process-based execution. Rewrite your code as a  ...
+  Refactor your sweep to use process-based execution by running the agent from the CLI.
 </Card>
 <Card title="How do I kill a job with wandb?" href="/support/models/articles/how-do-i-kill-a-job-with-wandb" arrow="true" horizontal>
-  Press Ctrl+D on the keyboard to stop a script instrumented with W&B.
+  Press Ctrl+D to stop a running script that is instrumented with W&B.
 </Card>
 <Card title="How do I resolve a run initialization timeout error in wandb?" href="/support/models/articles/how-do-i-resolve-a-run-initialization-ti" arrow="true" horizontal>
-  To resolve a run initialization timeout error, follow these steps: Retry initialization: Attempt to restart the run. Che ...
+  Fix timeout errors by checking your network, updating wandb, or increasing WANDB_INIT_TIMEOUT.
 </Card>
 <Card title="If wandb crashes, will it possibly crash my training run?" href="/support/models/articles/if-wandb-crashes-will-it-possibly-crash-" arrow="true" horizontal>
-  It is critical to avoid interference with training runs. W&B operates in a separate process, ensuring that training cont ...
+  No. W&B runs in a separate process, so a crash in W&B will not affect your training run.
 </Card>
 <Card title="InitStartError: Error communicating with wandb process" href="/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
-  This error indicates that the library encounters an issue launching the process that synchronizes data to the server. Th ...
+  Resolve this error by changing the start_method setting to 'fork' or 'thread' for your platform.
 </Card>
 <Card title="My run's state is `crashed` on the UI but is still running on my machine. What do I do to get my data back?" href="/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
-  You likely lost connection to your machine during training. Recover data by running wandb sync PATH_TO_RUN (/models/ref/ ...
+  Use wandb sync to recover data from a run that shows as crashed due to a lost connection.
 </Card>
 <Card title="Why does my process hang when using Hydra with W&B?" href="/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
-  If your process hangs when started with Hydra, this is likely caused by a multiprocessing conflict between Hydra and W&B ...
+  Fix Hydra and W&B multiprocessing conflicts by setting the start method to thread.
 </Card>
 <Card title="Why does my training hang with distributed training?" href="/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
-  There are two common reasons training hangs when using W&B with distributed training: 1. Hanging at the beginning of tra ...
+  Fix training hangs at the start or end of distributed training by enabling W&B Service and calling wandb.finish().
 </Card>
 <Card title="Why is a run marked crashed in W&B when it’s training fine locally?" href="/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
-  This indicates a connection problem. If the server loses internet access and data stops syncing to W&B, the system marks ...
+  A lost internet connection causes W&B to mark the run as crashed after retries fail.
 </Card>

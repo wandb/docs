@@ -6,14 +6,14 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Trace data is truncated" href="/support/weave/articles/trace-data-is-truncated" arrow="true" horizontal>
-  Sometimes, large trace data is partially cut off in the Weave UI. This problem occurs because default trace output is a  ...
+  Prevent Weave trace data from being cut off by returning serializable dictionaries from your ops.
 </Card>
 <Card title="Trace data loss in worker processes" href="/support/weave/articles/trace-data-loss-in-worker-processes" arrow="true" horizontal>
-  Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using ...
+  Prevent Weave trace data loss in worker processes by calling flush or finish before exit.
 </Card>
 <Card title="Trace pages load slowly" href="/support/weave/articles/trace-pages-load-slowly" arrow="true" horizontal>
-  If trace pages are loading slowly, reduce the number of rows displayed to improve load time. The default value is 50. Yo ...
+  Improve Weave trace page load times by reducing the number of rows displayed per page.
 </Card>
 <Card title="Why doesn't `.call()` raise exceptions?" href="/support/weave/articles/weave-call-does-not-raise-exceptions" arrow="true" horizontal>
-  By default, Weave's .call() method captures exceptions and stores them in call.exception instead of raising them. This i ...
+  Learn why Weave's .call() captures exceptions silently and how to enable raising them.
 </Card>

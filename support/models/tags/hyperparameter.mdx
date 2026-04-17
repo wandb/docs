@@ -6,11 +6,11 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Best practices to organize hyperparameter searches" href="/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
-  Set unique tags with wandb.init(tags='your_tag'). This allows efficient filtering of project runs by selecting the corre ...
+  Use unique tags with wandb.init to organize and filter hyperparameter search runs.
 </Card>
 <Card title="Can I rerun a grid search?" href="/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
-  If a grid search completes but some W&B Runs need re-execution due to crashes, delete the specific W&B Runs to re-run. T ...
+  Delete failed runs and resume the sweep to re-run specific parameter combinations.
 </Card>
 <Card title="What is the `Est. Runs` column?" href="/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
-  W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total re ...
+  Est. Runs shows the total number of possible parameter combinations in a discrete sweep search space.
 </Card>

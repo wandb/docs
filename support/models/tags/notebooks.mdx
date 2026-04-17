@@ -6,11 +6,11 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Do 'Run Finished' alerts work in notebooks?" href="/support/models/articles/do-run-finished-alerts-work-in-notebooks" arrow="true" horizontal>
-  No. Run Finished alerts (activated with the Run Finished setting in User Settings) operate only with Python scripts and  ...
+  No, Run Finished alerts only work with Python scripts. Use run.alert() in notebooks instead.
 </Card>
 <Card title="How do I handle the 'Failed to query for notebook' error?" href="/support/models/articles/how-do-i-handle-the-failed-to-query-for-" arrow="true" horizontal>
-  If you encounter the error message "Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_N ...
+  Set the WANDB_NOTEBOOK_NAME environment variable to resolve the 'Failed to query for notebook name' error.
 </Card>
 <Card title="How do I silence W&B info messages?" href="/support/models/articles/how-do-i-silence-wb-info-messages" arrow="true" horizontal>
-  To suppress log messages in your notebook such as this: Set the log level to logging.ERROR to only show errors, suppress ...
+  Set the wandb logger level to logging.ERROR to suppress info-level log messages.
 </Card>
