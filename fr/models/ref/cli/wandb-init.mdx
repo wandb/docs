@@ -1,0 +1,39 @@
+---
+title: "wandb init"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction pour cette commande :
+  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-init.mdx
+  2. Ajoutez votre contenu d’introduction à ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+
+  import WandbInit from "/snippets/_includes/cli/wandb-init.mdx";
+
+  <WandbInit/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Configurer un répertoire avec Weights &amp; Biases
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb init [OPTIONS]
+```
+
+
+<div id="options">
+  ## Options
+</div>
+
+| Option            | Description                                                               |
+| :---------------- | :------------------------------------------------------------------------ |
+| `--project`, `-p` | Le projet à utiliser.                                                     |
+| `--entity`, `-e`  | L&#39;entité à laquelle associer le projet.                               |
+| `--reset`         | Réinitialiser les paramètres (par défaut : False)                         |
+| `--mode`, `-m`    | Peut être « online », « offline » ou « disabled ». Par défaut : `online`. |

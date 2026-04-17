@@ -1,59 +1,74 @@
 ---
-title: wandb beta sync
+title: "wandb beta sync"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-sync.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドに導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-beta-sync.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbBetaSync from "/snippets/en/_includes/cli/wandb-beta-sync.mdx";
+  import WandbBetaSync from "/snippets/_includes/cli/wandb-beta-sync.mdx";
 
-<WandbBetaSync/>
+  <WandbBetaSync/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-PATHS で指定された .wandb ファイルをアップロードします。
+PATHS で指定した .wandb ファイルをアップロードします。
 
-これは `wandb sync` のベータ版再実装です。機能が完全ではなく、動作が保証されているわけでもありません。また、今後の wandb のリリースにおいて、後方互換性のない形で変更される可能性があります。
+これは `wandb sync` のベータ版の再実装です。機能はまだ完全ではなく、動作も保証されていません。また、wandb のどの version でも、後方互換性のない変更が行われる可能性があります。
 
-PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリー、および run ディレクトリーを含む "wandb" ディレクトリーを指定できます。
+PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリ、または run ディレクトリを含む &quot;wandb&quot; ディレクトリを指定できます。
 
-例えば、ディレクトリー内のすべての Runs を同期するには：
+たとえば、ディレクトリ内のすべての run を Sync するには:
 
+```bash
 wandb beta sync ./wandb
+```
 
-特定の run を同期するには：
+特定の run をSyncするには:
 
+```bash
 wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
 
-または同等の方法として：
+あるいは次のようにも書けます：
 
+```bash
 wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
 
-## 使用法
+<div id="usage">
+  ## 使用法
+</div>
 
 ```bash
 wandb beta sync [PATHS] [OPTIONS]
 ```
 
-## 引数
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATHS` | 説明なし | いいえ |
+<div id="arguments">
+  ## 引数
+</div>
 
-## オプション
+| 引数      | 説明       | 必須  |
+| :------ | :------- | :-- |
+| `PATHS` | 説明はありません | いいえ |
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--live` | ログが記録されている最中の run を同期します。run を生成しているプロセスが正常に終了せずにクラッシュした場合、この処理はハングする可能性があります。(デフォルト: False) |
-| `-e`, `--entity` | 同期されるすべての Runs に使用する Entity の上書き設定。(デフォルト: ) |
-| `-p`, `--project` | 同期されるすべての Runs に使用する Project の上書き設定。(デフォルト: ) |
-| `--id` | 同期されるすべての Runs に使用する run ID の上書き設定。これを設定して複数のファイル（同じ Entity および Project）を同期する場合、ファイルは開始時間の順に同期されます。これは、同じ run の再開された複数のフラグメントを同期することを目的としています。(デフォルト: ) |
-| `--skip-synced` | このコマンドですでに同期済みの Runs をスキップします。(デフォルト: True) |
-| `--dry-run` | 何もアップロードせずに、実行される内容を表示します。(デフォルト: False) |
-| `-v`, `--verbose` | より詳細な情報を表示します。(デフォルト: False) |
-| `-n` | 一度に同期する Runs の最大数。同じ run の一部である複数のファイルを同期する場合、この設定に関係なく、ファイルは開始時間の順に逐次同期されます。これは、レジュームされた Runs や --id パラメータを使用した場合に発生します。(デフォルト: 5) |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション             | 説明                                                                                                                                                                      |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--live`          | まだログ中の run を Sync します。run を生成しているプロセスが異常終了した場合、ハングすることがあります。 (デフォルト: False)                                                                                             |
+| `-e`, `--entity`  | Sync するすべての run に使用する entity のオーバーライドです。 (デフォルト: )                                                                                                                      |
+| `-p`, `--project` | Sync するすべての run に使用するプロジェクトのオーバーライドです。 (デフォルト: )                                                                                                                        |
+| `--id`            | Sync するすべての run に使用する run ID のオーバーライドです。これを設定して複数のファイルを (同じ entity とプロジェクトで) Sync する場合、ファイルは開始時刻順に Sync されます。これは、同じ run の再開後の複数のフラグメントを Sync するケースを想定したものです。 (デフォルト: )  |
+| `--job-type`      | Sync するすべての run に使用するジョブタイプのオーバーライドです。 (デフォルト: )                                                                                                                        |
+| `--replace-tags`  | `'old1=new1,old2=new2'` の形式で tags 名を変更します。 (デフォルト: )                                                                                                                    |
+| `--skip-synced`   | この command ですでに Sync 済みの run をスキップします。 (デフォルト: True)                                                                                                                    |
+| `--dry-run`       | 何も upload せずに、実行された場合の内容を表示します。 (デフォルト: False)                                                                                                                          |
+| `-v`, `--verbose` | より詳細な情報を表示します。 (デフォルト: False)                                                                                                                                           |
+| `-n`              | 一度に Sync する run の最大数です。同じ run の一部である複数のファイルを Sync する場合、ファイルはこの設定に関係なく、開始時刻順に順次 Sync されます。これは、run を再開した場合や `--id` パラメーターを使用した場合に発生します。 (デフォルト: 5)                        |

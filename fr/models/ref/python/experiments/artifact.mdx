@@ -1,0 +1,1019 @@
+---
+title: Artifact
+namespace: python_sdk_actions
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py" />
+
+
+## <kbd>class</kbd> `Artifact`
+
+Composant flexible et léger pour la gestion des versions des jeux de données et des modèles.
+
+Créez un W&amp;B Artifact vide. Remplissez le contenu d’un Artifact avec des méthodes commençant par `add`. Une fois que l’Artifact contient tous les fichiers souhaités, vous pouvez appeler `run.log_artifact()` pour l’enregistrer.
+
+### <kbd>méthode</kbd> `Artifact.__init__`
+
+```python
+__init__(
+    name: 'str',
+    type: 'str',
+    description: 'str | None' = None,
+    metadata: 'dict[str, Any] | None' = None,
+    incremental: 'bool' = False,
+    use_as: 'str | None' = None,
+    storage_region: 'str | None' = None
+) → None
+```
+
+**Arguments :**
+
+* `name` (str):  Un nom facile à lire pour l&#39;artifact. Utilisez ce nom pour identifier un artifact spécifique dans l&#39;interface de l&#39;application W&amp;B ou par programmation. Vous pouvez référencer un artifact de manière interactive avec l&#39;API publique `use_artifact`. Un nom peut contenir des lettres, des chiffres, des traits de soulignement, des traits d&#39;union et des points. Le nom doit être unique dans un projet.
+* `type` (str):  Le type de l&#39;artifact. Utilisez le type d&#39;un artifact pour organiser et différencier les Artifacts. Vous pouvez utiliser n&#39;importe quelle chaîne contenant des lettres, des chiffres, des traits de soulignement, des traits d&#39;union et des points. Les types courants incluent `dataset` ou `model`. Incluez `model` dans votre chaîne de type si vous souhaitez lier l&#39;artifact au registre de modèles W&amp;B. Notez que certains types sont réservés à un usage interne et ne peuvent pas être définis par les utilisateurs. Ces types incluent `job` et les types qui commencent par `wandb-`.
+* `description (str | None) = None`:  Une description de l&#39;artifact. Pour les Artifacts de type Model ou Dataset, ajoutez la documentation de votre carte de modèle ou de jeu de données standardisée pour l&#39;équipe. Consultez la description d&#39;un artifact par programmation avec l&#39;attribut `Artifact.description` ou dans l&#39;interface de l&#39;application W&amp;B. W&amp;B affiche la description au format markdown dans l&#39;application W&amp;B.
+* `metadata (dict[str, Any] | None) = None`:  Informations supplémentaires sur un artifact. Spécifiez les métadonnées sous la forme d&#39;un dictionnaire de paires clé-valeur. Vous ne pouvez pas spécifier plus de 100 clés au total.
+* `incremental`:  Utilisez plutôt la méthode `Artifact.new_draft()` pour modifier un artifact existant.
+* `use_as`:  Obsolète.
+
+**Retourne :**
+Un objet `Artifact`.
+
+***
+
+
+### <kbd>propriété</kbd> Artifact.aliases
+
+Liste d&#39;une ou plusieurs références explicites sur le plan sémantique, ou
+
+de « surnoms » d&#39;identification, attribués à une version d&#39;artifact.
+
+Les alias sont des références modifiables que vous pouvez utiliser par programmation. Modifiez l&#39;alias d&#39;un artifact dans l&#39;interface de l’application W&B ou par programmation. Voir [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) pour plus d&#39;informations.
+
+**Retourne :**
+
+* `list[str]`: La valeur de la propriété aliases.
+
+***
+
+### <kbd>propriété</kbd> Artifact.collection
+
+La collection à partir de laquelle cet artifact est récupéré.
+
+Une collection est un groupe ordonné de versions d&#39;artifact. Si cet artifact est récupéré à partir d&#39;une collection à laquelle il est lié, cette propriété renvoie cette collection. Sinon, elle renvoie la collection d&#39;où provient la version de l&#39;artifact.
+
+La collection dont provient un artifact est appelée la séquence source.
+
+**Retourne :**
+
+* `ArtifactCollection` : La valeur de la propriété collection.
+
+***
+
+### <kbd>propriété</kbd> Artifact.commit_hash
+
+Le hachage renvoyé après l’enregistrement de cet artifact.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `commit_hash`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.created_at
+
+Horodatage indiquant quand l&#39;artifact a été créé.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété created&#95;at.
+
+***
+
+### <kbd>propriété</kbd> Artifact.description
+
+Description de l&#39;artifact.
+
+**Retourne :**
+
+* `str | None` : La valeur de la propriété description.
+
+***
+
+### <kbd>propriété</kbd> Artifact.digest
+
+Le digest logique de l&#39;artifact.
+
+Le digest correspond à la somme de contrôle du contenu de l&#39;artifact. Si un artifact a le même digest que la version `latest` actuelle, alors `log_artifact` est sans effet.
+
+**Retourne :**
+
+* `str` : La valeur de propriété du digest.
+
+***
+
+### <kbd>propriété</kbd> Artifact.entity
+
+Le nom de l’entité à laquelle appartient la collection d’artifacts.
+
+Si l’artifact est un lien, l’entité sera celle de l’artifact lié.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété entité.
+
+***
+
+### <kbd>propriété</kbd> Artifact.file_count
+
+Le nombre de fichiers (références comprises).
+
+**Retourne :**
+
+* `int` : La valeur de la propriété file&#95;count.
+
+***
+
+### <kbd>propriété</kbd> Artifact.history_step
+
+L’étape la plus proche ayant enregistré des métriques dans l’historique du run source de cet artifact.
+
+**Exemples :**
+
+```python
+run = artifact.logged_by()
+if run and (artifact.history_step is not None):
+     history = run.sample_history(
+         min_step=artifact.history_step,
+         max_step=artifact.history_step + 1,
+         keys=["my_metric"],
+     )
+```
+
+**Retourne :**
+
+* `int | None` : La valeur de la propriété history&#95;step.
+
+***
+
+
+### <kbd>propriété</kbd> Artifact.id
+
+L’ID de l’artifact.
+
+**Retourne :**
+
+* `str | None` : La valeur de la propriété `id`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.is_link
+
+Indicateur booléen indiquant si l&#39;artifact est un artifact de lien.
+
+True : l&#39;artifact est un artifact de lien vers un artifact source. False : l&#39;artifact est un artifact source.
+
+**Retourne :**
+
+* `bool` : la valeur de propriété `is_link`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.linked_artifacts
+
+Renvoie la liste de tous les artifacts liés à un artifact source.
+
+Si cet artifact est un artifact de lien (`artifact.is_link == True`), cette propriété renvoie une liste vide.
+
+Limité à 500 résultats.
+
+**Retourne :**
+
+* `list[Artifact]` : la valeur de la propriété `linked_artifacts`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.manifest
+
+Le manifeste de l&#39;artifact.
+
+Le manifeste répertorie l’ensemble de son contenu et ne peut plus être modifié une fois l&#39;artifact enregistré.
+
+**Retourne :**
+
+* `ArtifactManifest` : La valeur de la propriété manifeste.
+
+***
+
+### <kbd>propriété</kbd> Artifact.metadata
+
+Métadonnées de l’Artifact définies par l’utilisateur.
+
+Données structurées associées à l’Artifact.
+
+**Retourne :**
+
+* `dict` : La valeur de la propriété metadata.
+
+***
+
+### <kbd>propriété</kbd> Artifact.name
+
+Le nom et la version de l’artifact.
+
+Une chaîne au format `{collection}:{alias}`. Si cette propriété est récupérée avant qu’un artifact ne soit enregistré, le nom ne contiendra pas d’alias. Si l’artifact est un lien, le nom sera celui de l’artifact lié.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `name`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.project
+
+Le nom du projet auquel appartient la collection d&#39;artifacts.
+
+Si l&#39;artifact est un lien, le projet sera celui de l&#39;artifact lié.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `project`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.qualified_name
+
+L’entité/le projet/le nom de l’artifact.
+
+Si l’artifact est un lien, le nom qualifié sera celui du chemin de l’artifact lié.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété qualified&#95;name.
+
+***
+
+### <kbd>propriété</kbd> Artifact.size
+
+La taille totale de l&#39;artifact, en octets.
+
+Inclut toutes les références suivies par cet artifact.
+
+**Retourne :**
+
+* `int` : La valeur de la propriété `size`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_artifact
+
+Renvoie l&#39;artifact source, c&#39;est-à-dire l&#39;artifact original enregistré.
+
+Si cet artifact est un artifact source (`artifact.is_link == False`), il se renvoie lui-même.
+
+**Retourne :**
+
+* `Artifact` : La valeur de propriété `source_artifact`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_collection
+
+La collection d&#39;origine de l&#39;artifact.
+
+La collection d&#39;origine est la collection à partir de laquelle l&#39;artifact a été enregistré.
+
+**Retourne :**
+
+* `ArtifactCollection` : La valeur de propriété source&#95;collection.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_entity
+
+Le nom de l’entité de l’Artifact source.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété source&#95;entity.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_name
+
+Le nom et la version de l&#39;artifact source.
+
+Une chaîne au format `{source_collection}:{alias}`. Avant que l&#39;artifact ne soit enregistré, elle contient uniquement le nom, puisque la version n&#39;est pas encore connue.
+
+**Retourne :**
+
+* `str` : La valeur de propriété de `source_name`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_project
+
+Le nom du projet de l&#39;artifact d&#39;origine.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `source_project`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_qualified_name
+
+Le triplet source&#95;entity/source&#95;project/source&#95;name de l&#39;artifact source.
+
+**Retourne :**
+
+* `str`: La valeur de la propriété source&#95;qualified&#95;name.
+
+***
+
+### <kbd>propriété</kbd> Artifact.source_version
+
+La version de l&#39;artifact source.
+
+Une chaîne au format `v{number}`.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété source&#95;version.
+
+***
+
+### <kbd>propriété</kbd> Artifact.state
+
+Le statut de l&#39;artifact. L’une des valeurs suivantes : &quot;PENDING&quot;, &quot;COMMITTED&quot; ou &quot;DELETED&quot;.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété state.
+
+***
+
+### <kbd>propriété</kbd> Artifact.tags
+
+Liste d’un ou de plusieurs tags attribués à cette version d’artifact.
+
+**Retourne :**
+
+* `list[str]`: La valeur de la propriété tags.
+
+***
+
+### <kbd>propriété</kbd> Artifact.ttl
+
+La politique de durée de vie (TTL) d&#39;un artifact.
+
+Les Artifacts sont supprimés peu après l&#39;expiration de la durée définie par une politique TTL. Si elle est définie sur `None`, l&#39;artifact désactive les politiques TTL et ne sera pas planifié pour être supprimé, même s&#39;il existe une valeur TTL par défaut pour l&#39;équipe. Un artifact hérite de la politique TTL par défaut de l&#39;équipe si l&#39;administrateur de l&#39;équipe définit une valeur TTL par défaut et qu&#39;aucune politique personnalisée n&#39;est définie sur l&#39;artifact.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError` : Impossible de récupérer la TTL héritée si l&#39;artifact n&#39;a pas été enregistré ou sauvegardé.
+
+**Retourne :**
+
+* `timedelta | None` : La valeur de propriété `ttl`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.type
+
+Le type de l&#39;artifact. Les types courants sont notamment `dataset` ou `model`.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété type.
+
+***
+
+### <kbd>propriété</kbd> Artifact.updated_at
+
+L’heure à laquelle l’artifact a été mis à jour pour la dernière fois.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `updated_at`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.url
+
+Construit l’URL de l’artifact.
+
+**Retourne :**
+
+* `str`:  L’URL de l’artifact.
+
+**Retourne :**
+
+* `str`: La valeur de la propriété `url`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.use_as
+
+Obsolète.
+
+**Retourne :**
+
+* `str | None` : La valeur de la propriété `use_as`.
+
+***
+
+### <kbd>propriété</kbd> Artifact.version
+
+La version de l&#39;artifact.
+
+Une chaîne au format `v{number}`. S&#39;il s&#39;agit d&#39;un artifact de type lien, la version proviendra de la collection liée.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété version.
+
+***
+
+### <kbd>méthode</kbd> `Artifact.add`
+
+```python
+add(
+    obj: 'WBValue',
+    name: 'StrPath',
+    overwrite: 'bool' = False
+) → ArtifactManifestEntry
+```
+
+Ajoute `obj` de type wandb.WBValue à l&#39;artifact.
+
+**Arguments :**
+
+* `obj`:  L&#39;objet à ajouter. Prend actuellement en charge l&#39;un des types suivants : Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D
+* `name`:  Le chemin dans l&#39;artifact auquel ajouter l&#39;objet.
+* `overwrite`:  Si True, remplace les objets existants ayant le même chemin de fichier, le cas échéant.
+
+**Retourne :**
+L&#39;entrée de manifeste ajoutée
+
+**Exceptions levées :**
+
+* `ArtifactFinalizedError`:  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.add_dir`
+
+```python
+add_dir(
+    local_path: 'str',
+    name: 'str | None' = None,
+    skip_cache: 'bool | None' = False,
+    policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+    merge: 'bool' = False
+) → None
+```
+
+Ajouter un répertoire local à l&#39;artifact.
+
+**Arguments :**
+
+* `local_path`:  Le chemin du répertoire local.
+* `name`:  Le nom du sous-répertoire dans un artifact. Le nom que vous indiquez apparaît dans l&#39;UI de l&#39;application W&amp;B, sous le `type` de l&#39;artifact. Par défaut, il correspond à la racine de l&#39;artifact.
+* `skip_cache`:  Si défini sur `True`, W&amp;B ne copiera ni ne déplacera les fichiers vers le cache pendant l&#39;upload
+* `policy`:  Par défaut, &quot;mutable&quot;.
+  * mutable: Crée une copie temporaire du fichier pour éviter toute corruption pendant l&#39;upload.
+  * immutable: Désactive la protection et suppose que l&#39;utilisateur ne supprimera ni ne modifiera le fichier.
+* `merge`:  Si `False` (par défaut), lève une ValueError si un fichier a déjà été ajouté lors d&#39;un précédent appel à add&#95;dir et que son contenu a changé. Si `True`, écrase les fichiers existants dont le contenu a changé. Ajoute toujours les nouveaux fichiers et ne supprime jamais de fichiers. Pour remplacer un répertoire entier, passez un nom lors de l&#39;ajout du répertoire avec `add_dir(local_path, name=my_prefix)`  et appelez `remove(my_prefix)` pour supprimer le répertoire, puis ajoutez-le de nouveau.
+
+**Exceptions levées :**
+
+* `ArtifactFinalizedError`:  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Journalisez plutôt une nouvelle version de l&#39;artifact.
+* `ValueError`:  La stratégie doit être &quot;mutable&quot; ou &quot;immutable&quot;
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.add_file`
+
+```python
+add_file(
+    local_path: 'str',
+    name: 'str | None' = None,
+    is_tmp: 'bool | None' = False,
+    skip_cache: 'bool | None' = False,
+    policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+    overwrite: 'bool' = False
+) → ArtifactManifestEntry
+```
+
+Ajoutez un fichier local à l&#39;artifact.
+
+**Arguments :**
+
+* `local_path`:  Le chemin du fichier à ajouter.
+* `name`:  Le chemin à utiliser dans l&#39;artifact pour le fichier ajouté. La valeur par défaut est le nom de base du fichier.
+* `is_tmp`:  Si la valeur est true, le fichier est renommé de manière déterministe pour éviter les collisions.
+* `skip_cache`:  Si la valeur est `True`, ne copiez pas les fichiers dans le cache après le téléversement.
+* `policy`:  Par défaut, la valeur est définie sur &quot;mutable&quot;. Si elle est définie sur &quot;mutable&quot;, créez une copie temporaire du fichier pour éviter toute corruption pendant le téléversement. Si elle est définie sur &quot;immutable&quot;, désactivez la protection et supposez que l&#39;utilisateur ne supprimera pas et ne modifiera pas le fichier.
+* `overwrite`:  Si la valeur est `True`, remplacez le fichier s&#39;il existe déjà.
+
+**Retourne :**
+L&#39;entrée de manifeste ajoutée.
+
+**Exceptions levées :**
+
+* `ArtifactFinalizedError`:  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Créez plutôt une nouvelle version de l&#39;artifact.
+* `ValueError`:  La stratégie doit être &quot;mutable&quot; ou &quot;immutable&quot;
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.add_reference`
+
+```python
+add_reference(
+    uri: 'ArtifactManifestEntry | str',
+    name: 'StrPath | None' = None,
+    checksum: 'bool' = True,
+    max_objects: 'int | None' = None
+) → Sequence[ArtifactManifestEntry]
+```
+
+Ajoutez à l&#39;artifact une référence désignée par un URI.
+
+Contrairement aux fichiers ou répertoires que vous ajoutez à un artifact, les références ne sont pas téléversées vers W&amp;B. Pour plus d&#39;informations, voir [Suivre des fichiers externes](https://docs.wandb.ai/guides/artifacts/track-external-files).
+
+Par défaut, les schémas suivants sont pris en charge :
+
+* http(s) : la taille et l&#39;empreinte du fichier sont déduites des en-têtes de réponse `Content-Length` et `ETag` renvoyés par le serveur.
+* s3 : la somme de contrôle et la taille sont récupérées à partir des métadonnées de l&#39;objet. Si la gestion des versions du bucket est activée, l&#39;ID de version est également suivi.
+* gs : la somme de contrôle et la taille sont récupérées à partir des métadonnées de l&#39;objet. Si la gestion des versions du bucket est activée, l&#39;ID de version est également suivi.
+* https, domaine correspondant à `*.blob.core.windows.net`
+* Azure : la somme de contrôle et la taille sont récupérées à partir des métadonnées du blob. Si la gestion des versions du compte de stockage est activée, l&#39;ID de version est également suivi.
+* file : la somme de contrôle et la taille sont récupérées à partir du système de fichiers. Ce schéma est utile si vous avez un partage NFS ou un autre volume monté en externe contenant des fichiers que vous souhaitez suivre sans nécessairement les téléverser.
+
+Pour tout autre schéma, l&#39;empreinte est simplement un hachage de l&#39;URI et la taille reste vide.
+
+**Arguments :**
+
+* `uri` : le chemin URI de la référence à ajouter. Le chemin URI peut être un objet renvoyé par `Artifact.get_entry` pour stocker une référence vers l&#39;entrée d&#39;un autre artifact.
+* `name` : le chemin au sein de l&#39;artifact où placer le contenu de cette référence.
+* `checksum` : indique s&#39;il faut calculer ou non une somme de contrôle pour la ou les ressources situées à l&#39;URI de référence. Le calcul de la somme de contrôle est fortement recommandé, car il permet une validation automatique de l&#39;intégrité. Le désactiver accélère la création de l&#39;artifact, mais les répertoires de référence ne seront pas parcourus, de sorte que les objets du répertoire ne seront pas enregistrés dans l&#39;artifact. Nous vous recommandons de définir `checksum=False` lors de l&#39;ajout d&#39;objets de référence ; dans ce cas, une nouvelle version ne sera créée que si l&#39;URI de référence change.
+* `max_objects` : le nombre maximal d&#39;objets à prendre en compte lors de l&#39;ajout d&#39;une référence pointant vers un répertoire ou un préfixe de stockage de bucket. Par défaut, le nombre maximal d&#39;objets autorisé pour Amazon S3, GCS, Azure et les fichiers locaux est de 10,000,000. Les autres schémas d&#39;URI n&#39;ont pas de limite.
+
+**Retourne :**
+Les entrées de manifeste ajoutées.
+
+**Exceptions levées :**
+
+* `ArtifactFinalizedError` : vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.checkout`
+
+```python
+checkout(root: 'str | None' = None) → str
+```
+
+Remplace le répertoire racine spécifié par le contenu de l&#39;artifact.
+
+AVERTISSEMENT : cette opération supprimera tous les fichiers dans `root` qui ne sont pas inclus dans l&#39;artifact.
+
+**Arguments :**
+
+* `root` : le répertoire à remplacer par les fichiers de cet artifact.
+
+**Retourne :**
+Le chemin vers le contenu extrait.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError` : si l&#39;artifact n&#39;est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.delete`
+
+```python
+delete(delete_aliases: 'bool' = False) → None
+```
+
+Supprime un artifact et ses fichiers.
+
+Si cette méthode est appelée sur un artifact lié, seul le lien est supprimé, et l’artifact source n’est pas affecté.
+
+Utilisez `Artifact.unlink()` au lieu de `Artifact.delete()` pour supprimer le lien entre un artifact source et une collection.
+
+**Arguments :**
+
+* `delete_aliases`:  Si défini sur `True`, supprime tous les alias associés à l’artifact. Si `False`, lève une exception si l’artifact possède déjà des alias. Ce paramètre est ignoré si l’artifact est récupéré depuis une collection à laquelle il est lié.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l’artifact n’est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.download`
+
+```python
+download(
+    root: 'StrPath | None' = None,
+    allow_missing_references: 'bool' = False,
+    skip_cache: 'bool | None' = None,
+    path_prefix: 'StrPath | None' = None,
+    multipart: 'bool | None' = None
+) → FilePathStr
+```
+
+Télécharge le contenu de l&#39;artifact dans le répertoire racine spécifié.
+
+Les fichiers existants dans `root` ne sont pas modifiés. Supprimez explicitement `root` avant d&#39;appeler `download` si vous voulez que son contenu corresponde exactement à celui de l&#39;artifact.
+
+**Arguments :**
+
+* `root`:  Le répertoire dans lequel W&amp;B stocke les fichiers de l&#39;artifact.
+* `allow_missing_references`:  Si défini sur `True`, tous les chemins de référence invalides seront ignorés lors du téléchargement des fichiers référencés.
+* `skip_cache`:  Si défini sur `True`, le cache de l&#39;artifact sera ignoré lors du téléchargement, et W&amp;B téléchargera chaque fichier dans le répertoire racine par défaut ou dans le répertoire de téléchargement spécifié.
+* `path_prefix`:  Si spécifié, seuls les fichiers dont le chemin commence par le préfixe indiqué seront téléchargés. Utilise le format Unix (barres obliques `/`).
+* `multipart`:  Si défini sur `None` (par défaut), l&#39;artifact sera téléchargé en parallèle à l&#39;aide d&#39;un téléchargement multipart si la taille d&#39;un fichier individuel dépasse 2 Go. Si défini sur `True` ou `False`, l&#39;artifact sera téléchargé en parallèle ou en série, quelle que soit la taille du fichier.
+
+**Retourne :**
+Le chemin du contenu téléchargé.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l&#39;artifact n&#39;est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.file`
+
+```python
+file(root: 'str | None' = None) → StrPath
+```
+
+Télécharge un artifact contenant un seul fichier dans le répertoire spécifié par `root`.
+
+**Arguments :**
+
+* `root` :  Le répertoire racine dans lequel stocker le fichier. Valeur par défaut : `./artifacts/self.name/`.
+
+**Retourne :**
+Le chemin complet du fichier téléchargé.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError` :  Si l&#39;artifact n&#39;est pas enregistré.
+* `ValueError` :  Si l&#39;artifact contient plus d&#39;un fichier.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.files`
+
+```python
+files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+```
+
+Parcourez tous les fichiers stockés dans cet artifact.
+
+**Arguments :**
+
+* `names` :  Les chemins des fichiers, relatifs à la racine de l&#39;artifact, que vous souhaitez lister.
+* `per_page` :  Le nombre de fichiers à renvoyer par requête.
+
+**Retourne :**
+Un itérateur contenant des objets `File`.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError` :  Si l&#39;artifact n&#39;est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.finalize`
+
+```python
+finalize() → None
+```
+
+Finalisez la version de l&#39;artifact.
+
+Vous ne pouvez pas modifier une version d&#39;artifact une fois qu&#39;elle est finalisée, car l&#39;artifact est enregistré en tant que version d&#39;artifact spécifique. Créez une nouvelle version d&#39;artifact pour y enregistrer davantage de données. Un artifact est automatiquement finalisé lorsque vous l&#39;enregistrez avec `log_artifact`.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.get`
+
+```python
+get(name: 'str') → WBValue | None
+```
+
+Obtient l&#39;objet WBValue situé à l&#39;emplacement relatif `name` dans l&#39;artifact.
+
+**Arguments :**
+
+* `name`:  Le nom relatif dans l&#39;artifact à récupérer.
+
+**Retourne :**
+Objet W&amp;B pouvant être enregistré avec `run.log()` et visualisé dans l&#39;UI W&amp;B.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  si l&#39;artifact n&#39;est pas enregistré ou si le run est hors ligne.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.get_added_local_path_name`
+
+```python
+get_added_local_path_name(local_path: 'str') → str | None
+```
+
+Obtenir le nom relatif dans l&#39;artifact d’un fichier ajouté à partir d’un chemin local du système de fichiers.
+
+**Arguments :**
+
+* `local_path`:  Le chemin local à convertir en nom relatif dans l&#39;artifact.
+
+**Retourne :**
+Le nom relatif dans l&#39;artifact.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.get_entry`
+
+```python
+get_entry(name: 'StrPath') → ArtifactManifestEntry
+```
+
+Récupère l’entrée portant le nom indiqué.
+
+**Arguments :**
+
+* `name`:  Le nom relatif de l’artifact à récupérer
+
+**Retourne :**
+Un objet `W&B`.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  si l’artifact n’est pas enregistré ou si le run est hors ligne.
+* `KeyError`:  si l’artifact ne contient pas d’entrée portant le nom indiqué.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.get_path`
+
+```python
+get_path(name: 'StrPath') → ArtifactManifestEntry
+```
+
+Obsolète. Utilisez `get_entry(name)`.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.is_draft`
+
+```python
+is_draft() → bool
+```
+
+Vérifie si l’artifact n’est pas enregistré.
+
+**Retourne :**
+Booléen. `False` si l’artifact est enregistré. `True` si l’artifact n’est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.json_encode`
+
+```python
+json_encode() → dict[str, Any]
+```
+
+Retourne l&#39;artifact encodé au format JSON.
+
+**Retourne :**
+Un `dict` avec des clés de type `string` représentant les attributs de l&#39;artifact.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.link`
+
+```python
+link(target_path: 'str', aliases: 'Iterable[str] | None' = None) → Artifact
+```
+
+Liez cet artifact à une collection.
+
+**Arguments :**
+
+* `target_path`:  Chemin de la collection. Il se compose du préfixe &quot;wandb-registry-&quot;, ainsi que du nom du registre et du nom de la collection : `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
+* `aliases`:  Ajoutez un ou plusieurs alias à l&#39;artifact lié. L&#39;alias &quot;latest&quot; est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l&#39;artifact n&#39;est pas enregistré.
+
+**Retourne :**
+L&#39;artifact lié.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.logged_by`
+
+```python
+logged_by() → Run | None
+```
+
+Obtient le run W&amp;B qui a enregistré l&#39;artifact à l&#39;origine.
+
+**Retourne :**
+Le nom du run W&amp;B qui a enregistré l&#39;artifact à l&#39;origine.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l&#39;artifact n&#39;a pas été enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.new_draft`
+
+```python
+new_draft() → Artifact
+```
+
+Créez un nouvel artifact brouillon avec le même contenu que cet artifact validé.
+
+La modification d’un artifact existant crée une nouvelle version d’artifact appelée « artifact incrémentiel ». L’artifact renvoyé peut être enrichi ou modifié, puis enregistré comme nouvelle version.
+
+**Retourne :**
+Un objet `Artifact`.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l’artifact n’est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.new_file`
+
+```python
+new_file(
+    name: 'str',
+    mode: 'str' = 'x',
+    encoding: 'str | None' = None
+) → Iterator[IO]
+```
+
+Ouvrez un nouveau fichier temporaire et ajoutez-le à l&#39;artifact.
+
+**Arguments :**
+
+* `name` :  Le nom du nouveau fichier à ajouter à l&#39;artifact.
+* `mode` :  Le mode d&#39;accès à utiliser pour ouvrir le nouveau fichier.
+* `encoding` :  L&#39;encodage utilisé pour ouvrir le nouveau fichier.
+
+**Retourne :**
+Un nouvel objet fichier dans lequel vous pouvez écrire. Une fois fermé, le fichier est automatiquement ajouté à l&#39;artifact.
+
+**Exceptions levées :**
+
+* `ArtifactFinalizedError` :  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.remove`
+
+```python
+remove(item: 'StrPath | ArtifactManifestEntry') → None
+```
+
+Supprime un élément de l&#39;artifact.
+
+**Arguments :**
+
+* `item`:  Élément à supprimer. Il peut s&#39;agir d&#39;une entrée de manifeste spécifique ou du nom d&#39;un chemin relatif à l&#39;artifact. Si l&#39;élément correspond à un répertoire, tous les éléments de ce répertoire seront supprimés.
+
+**Exceptions levées :**
+
+* `ArtifactFinalizedError`:  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
+* `FileNotFoundError`:  Si l&#39;élément est introuvable dans l&#39;artifact.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.save`
+
+```python
+save(
+    project: 'str | None' = None,
+    settings: 'wandb.Settings | None' = None
+) → None
+```
+
+Enregistrez toutes les modifications apportées à l&#39;artifact.
+
+Si vous êtes actuellement dans un run, ce run consignera cet artifact dans le journal. Sinon, un run de type &quot;auto&quot; est créé pour suivre cet artifact.
+
+**Arguments :**
+
+* `project`:  Projet à utiliser pour l&#39;artifact si aucun run n&#39;est déjà actif dans le contexte.
+* `settings`:  Objet de paramètres à utiliser lors de l&#39;initialisation d&#39;un run automatique. Principalement utilisé dans une infrastructure de test.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.unlink`
+
+```python
+unlink() → None
+```
+
+Dissociez cet artifact s&#39;il est lié en tant que membre d&#39;une collection d&#39;artifacts.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l&#39;artifact n&#39;est pas enregistré.
+* `ValueError`:  Si l&#39;artifact n&#39;est lié à aucune collection.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.used_by`
+
+```python
+used_by() → list[Run]
+```
+
+Obtenir la liste des runs ayant utilisé cet artifact et les artifacts qui lui sont liés.
+
+**Retourne :**
+Une liste d&#39;objets `Run`.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError` : Si l&#39;artifact n&#39;est pas enregistré.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.verify`
+
+```python
+verify(root: 'str | None' = None) → None
+```
+
+Vérifier que le contenu d’un artifact correspond au manifeste.
+
+Une somme de contrôle est calculée pour tous les fichiers du répertoire, puis ces sommes sont comparées à celles du manifeste de l’artifact. Les références ne sont pas vérifiées.
+
+**Arguments :**
+
+* `root`:  Le répertoire à vérifier. Si `None`, l’artifact sera téléchargé dans &#39;./artifacts/self.name/&#39;.
+
+**Exceptions levées :**
+
+* `ArtifactNotLoggedError`:  Si l’artifact n’est pas enregistré.
+* `ValueError`:  Si la vérification échoue.
+
+***
+
+
+### <kbd>méthode</kbd> `Artifact.wait`
+
+```python
+wait(timeout: 'int | None' = None) → Artifact
+```
+
+Si nécessaire, attendez que cet artifact ait fini d’être enregistré.
+
+**Arguments :**
+
+* `timeout` : le temps d’attente, en secondes.
+
+**Retourne :**
+Un objet `Artifact`.

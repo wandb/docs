@@ -1,0 +1,274 @@
+---
+title: fastai
+description: "Intégrez W&B à fastai à l’aide du WandbCallback pour suivre les expériences, journaliser des métriques et visualiser la performance du modèle."
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+Vous pouvez intégrer **fastai** à W&amp;B à l’aide de la classe `WandbCallback`. Consultez cette [documentation interactive avec exemples](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA) pour plus de détails.
+
+<div id="sign-up-and-create-an-api-key">
+  ## Inscrivez-vous et créez une clé API
+</div>
+
+Une clé API sert à authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil utilisateur.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer localement la bibliothèque `wandb` et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` sur votre clé API.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb`, puis connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-the-wandbcallback-to-the-learner-or-fit-method">
+  ## Ajoutez le `WandbCallback` au `learner` ou à la méthode `fit`
+</div>
+
+```python
+import wandb
+from fastai.callback.wandb import *
+
+# démarrer la journalisation d'un run wandb
+wandb.init(project="my_project")
+
+# Pour journaliser uniquement pendant une phase d'entraînement
+learn.fit(..., cbs=WandbCallback())
+
+# Pour journaliser en continu sur toutes les phases d'entraînement
+learn = learner(..., cbs=WandbCallback())
+```
+
+<Note>
+  Si vous utilisez la version 1 de Fastai, consultez la [documentation Fastai v1](/fr/models/integrations/fastai/v1/).
+</Note>
+
+<div id="wandbcallback-arguments">
+  ## Arguments de WandbCallback
+</div>
+
+`WandbCallback` accepte les arguments suivants :
+
+| Args                              | Description                                                                                                                                                                                                                                                                                                |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| log                               | Indique s’il faut journaliser les `gradients`, les `parameters`, `all` ou `None` du modèle (par défaut). Les pertes et les métriques sont toujours journalisées.                                                                                                                                           |
+| log&#95;preds                     | indique si vous souhaitez journaliser des échantillons de prédictions (par défaut : `True`).                                                                                                                                                                                                               |
+| log&#95;preds&#95;every&#95;epoch | indique s’il faut journaliser les prédictions à chaque époque ou seulement à la fin (par défaut : `False`)                                                                                                                                                                                                 |
+| log&#95;model                     | indique si vous souhaitez journaliser votre modèle (par défaut : False). Cela nécessite également `SaveModelCallback`                                                                                                                                                                                      |
+| model&#95;name                    | Le nom du `file` à journaliser, remplace `SaveModelCallback`                                                                                                                                                                                                                                               |
+| log&#95;dataset                   | <ul><li><code>False</code> (par défaut)</li><li><code>True</code> journalise le dossier référencé par learn.dls.path.</li><li>un chemin peut être défini explicitement pour indiquer quel dossier journaliser.</li></ul><p><em>Remarque : le sous-dossier &quot;models&quot; est toujours ignoré.</em></p> |
+| dataset&#95;name                  | nom du jeu de données journalisé (par défaut : `nom du dossier`).                                                                                                                                                                                                                                          |
+| valid&#95;dl                      | `DataLoaders` contenant les éléments utilisés pour les échantillons de prédictions (par défaut : des éléments aléatoires de `learn.dls.valid`.                                                                                                                                                             |
+| n&#95;preds                       | nombre de prédictions journalisées (36 par défaut).                                                                                                                                                                                                                                                        |
+| seed                              | utilisé pour définir les échantillons aléatoires.                                                                                                                                                                                                                                                          |
+
+Pour les flux de travail personnalisés, vous pouvez journaliser manuellement vos jeux de données et modèles :
+
+* `log_dataset(path, name=None, metadata={})`
+* `log_model(path, name=None, metadata={})`
+
+*Remarque : tout sous-dossier &quot;models&quot; sera ignoré.*
+
+<div id="distributed-training">
+  ## Entraînement distribué
+</div>
+
+`fastai` prend en charge l&#39;entraînement distribué à l&#39;aide du gestionnaire de contexte `distrib_ctx`. W&amp;B le prend automatiquement en charge et vous permet de suivre vos expériences multi-GPU sans configuration supplémentaire.
+
+Voici un exemple minimal :
+
+<Tabs>
+  <Tab title="Script">
+    ```python
+    import wandb
+    from fastai.vision.all import *
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
+
+    wandb.require(experiment="service")
+    path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+
+    def train():
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        wandb.init("fastai_ddp", entity="capecape")
+        cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(sync_bn=False):
+            learn.fit(1)
+
+    if __name__ == "__main__":
+        train()
+    ```
+
+    Ensuite, dans votre terminal, exécutez :
+
+    ```shell
+    $ torchrun --nproc_per_node 2 train.py
+    ```
+
+    Dans ce cas, la machine dispose de 2 GPU.
+  </Tab>
+
+  <Tab title="Python notebook">
+    Vous pouvez désormais exécuter l&#39;entraînement distribué directement dans un notebook.
+
+    ```python
+    import wandb
+    from fastai.vision.all import *
+
+    from accelerate import notebook_launcher
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
+
+    wandb.require(experiment="service")
+    path = untar_data(URLs.PETS) / "images"
+
+    def train():
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        wandb.init("fastai_ddp", entity="capecape")
+        cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(in_notebook=True, sync_bn=False):
+            learn.fit(1)
+
+    notebook_launcher(train, num_processes=2)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-only-on-the-main-process">
+  ### Journalisez uniquement depuis le processus principal
+</div>
+
+Dans les exemples ci-dessus, `wandb` lance un run par processus. À la fin de l&#39;entraînement, vous aurez donc deux runs. Cela peut parfois prêter à confusion, et vous pouvez vouloir journaliser uniquement depuis le processus principal. Pour ce faire, vous devez déterminer manuellement dans quel processus vous vous trouvez et éviter de créer des runs (en appelant `wandb.init` dans tous les autres processus).
+
+<Tabs>
+  <Tab title="Script">
+    ```python
+    import wandb
+    from fastai.vision.all import *
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
+
+    wandb.require(experiment="service")
+    path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+
+    def train():
+        cb = []
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        if rank_distrib() == 0:
+            run = wandb.init("fastai_ddp", entity="capecape")
+            cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(sync_bn=False):
+            learn.fit(1)
+
+    if __name__ == "__main__":
+        train()
+    ```
+
+    dans votre terminal, exécutez :
+
+    ```
+    $ torchrun --nproc_per_node 2 train.py
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```python
+    import wandb
+    from fastai.vision.all import *
+
+    from accelerate import notebook_launcher
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
+
+    wandb.require(experiment="service")
+    path = untar_data(URLs.PETS) / "images"
+
+    def train():
+        cb = []
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        if rank_distrib() == 0:
+            run = wandb.init("fastai_ddp", entity="capecape")
+            cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(in_notebook=True, sync_bn=False):
+            learn.fit(1)
+
+    notebook_launcher(train, num_processes=2)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="examples">
+  ## Exemples
+</div>
+
+* [Visualiser, suivre et comparer des modèles Fastai](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA) : Un guide pas à pas très détaillé.
+* [Segmentation d’images sur CamVid](https://colab.research.google.com/drive/1IWrhwcJoncCKHm6VXsNwOr9Yukhz3B49?usp=sharing) : Un exemple d’utilisation de l’intégration.

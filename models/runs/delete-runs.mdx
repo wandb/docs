@@ -52,26 +52,17 @@ The following diagram illustrates the complete run deletion process, including t
 ```mermaid
 graph TB
     Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
-    
     RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
-    
     DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
-    
     DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
-    
     CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
-    
     HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
     HasRegistry -->|No| DirectDelete
-    
     RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
-    
     ConfirmRegistry -->|No| DeleteRunOnly
     ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
-    
     DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
     DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
-    
     style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
     style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
     style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000

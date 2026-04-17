@@ -1,0 +1,114 @@
+---
+title: Image
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py" />
+
+
+## <kbd>class</kbd> `Image`
+
+Une classe pour consigner des images dans W&amp;B. 
+
+### <kbd>méthode</kbd> `Image.__init__`
+
+```python
+__init__(
+    data_or_path: 'ImageDataOrPathType',
+    mode: 'str | None' = None,
+    caption: 'str | None' = None,
+    grouping: 'int | None' = None,
+    classes: 'Classes | Sequence[dict] | None' = None,
+    boxes: 'dict[str, BoundingBoxes2D] | dict[str, dict] | None' = None,
+    masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
+    file_type: 'str | None' = None,
+    normalize: 'bool' = True
+) → None
+```
+
+Initialiser un objet `wandb.Image`.
+
+Cette classe prend en charge différents formats de données d’image et normalise automatiquement les valeurs de pixels dans la plage [0, 255] lorsque nécessaire, afin d’assurer la compatibilité avec le backend W&amp;B.
+
+* Les données dans la plage [0, 1] sont multipliées par 255 et converties en uint8 * Les données dans la plage [-1, 1] sont remises à l’échelle de [-1, 1] à [0, 255] en faisant correspondre
+  -1 à 0 et 1 à 255, puis converties en uint8 * Les données hors de [-1, 1] mais pas dans [0, 255] sont ramenées à [0, 255] et  converties en uint8 (avec un avertissement si des valeurs se trouvent hors de [0, 255]) * Les données déjà dans [0, 255] sont converties en uint8 sans modification
+
+**Arguments :**
+
+* `data_or_path`:  Accepte un tableau NumPy/un tenseur pytorch contenant des données d’image,  un objet image PIL ou un chemin vers un fichier image. Si un tableau NumPy  ou un tenseur pytorch est fourni,  les données d’image seront enregistrées dans le type de fichier indiqué.  Si les valeurs ne se trouvent pas dans la plage [0, 255] ou si toutes les valeurs sont dans la plage [0, 1],  les valeurs de pixels de l’image seront normalisées dans la plage [0, 255]  sauf si `normalize` est défini sur `False`.
+  * le tenseur pytorch doit être au format (channel, height, width)
+  * le tableau NumPy doit être au format (height, width, channel)
+* `mode`:  Le mode PIL de l’image. Les plus courants sont &quot;L&quot;, &quot;RGB&quot;, &quot;RGBA&quot;.
+* `Documentation complète de Pillow pour plus d’informations https`: //pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
+* `caption`:  Libellé d’affichage de l’image.
+* `grouping`:  Le numéro de regroupement de l’image.
+* `classes`:  Une liste d’informations de classe pour l’image,  utilisée pour étiqueter les boîtes englobantes et les masques d’image.
+* `boxes`:  Un dictionnaire contenant les informations sur les boîtes englobantes de l’image.
+* `voir https`: //docs.wandb.ai/ref/python/data-types/boundingboxes2d/
+* `masks`:  Un dictionnaire contenant les informations de masque pour l’image.
+* `voir https`: //docs.wandb.ai/ref/python/data-types/imagemask/
+* `file_type`:  Le type de fichier utilisé pour enregistrer l’image.  Ce paramètre n’a aucun effet si `data_or_path` est un chemin vers un fichier image.
+* `normalize`:  Si `True`, normalise les valeurs de pixels de l’image afin qu’elles se situent dans la plage [0, 255].  La normalisation est appliquée uniquement si `data_or_path` est un tableau numpy ou un tenseur pytorch.
+
+**Exemples :**
+Créer une wandb.Image à partir d’un tableau numpy
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+Créer un wandb.Image à partir d&#39;une PILImage
+
+```python
+import numpy as np
+from PIL import Image as PILImage
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(
+             low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+Enregistrer en .jpg plutôt qu’en .png (par défaut)
+
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(
+             pixels, caption=f"random field {i}", file_type="jpg"
+         )
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+***
+
+
+### <kbd>propriété</kbd> Image.image
+
+***

@@ -1,0 +1,86 @@
+---
+title: "Comment puis-je résoudre les erreurs du serveur (500, 503) dans W&B Inference ?"
+keywords: ["Inférence"]
+---
+
+Les erreurs du serveur indiquent des problèmes temporaires avec le service W&amp;B Inference.
+
+<div id="error-types">
+  ## Types d’erreurs
+</div>
+
+<div id="500-internal-server-error">
+  ### 500 - Erreur interne du serveur
+</div>
+
+**Message :** &quot;Le serveur a rencontré une erreur lors du traitement de votre requête&quot;
+
+Il s’agit d’une erreur interne temporaire du côté du serveur.
+
+<div id="503-service-overloaded">
+  ### 503 - Service surchargé
+</div>
+
+**Message :** « Le moteur est actuellement surchargé. Veuillez réessayer plus tard. »
+
+Le service connaît actuellement un trafic élevé.
+
+<div id="how-to-handle-server-errors">
+  ## Comment gérer les erreurs du serveur
+</div>
+
+1. **Attendez avant de réessayer**
+   * Erreurs 500 : attendez 30 à 60 secondes
+   * Erreurs 503 : attendez 60 à 120 secondes
+
+2. **Utilisez un backoff exponentiel**
+   ```python
+   import time
+   import openai
+
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. **Définissez des délais d&#39;attente adaptés**
+   * Augmentez les valeurs de délai d&#39;attente de votre client HTTP
+   * Envisagez des opérations asynchrones pour une meilleure gestion
+
+<div id="when-to-contact-support">
+  ## Quand contacter l’assistance
+</div>
+
+Contactez l’assistance si :
+
+* Les erreurs persistent pendant plus de 10 minutes
+* Vous constatez des séries d’échecs à des moments précis
+* Les messages d’erreur contiennent des détails supplémentaires
+
+Fournissez :
+
+* Les messages et codes d’erreur
+* L’heure à laquelle les erreurs se sont produites
+* Votre extrait de code (supprimez les clés API)
+* Les noms de l’entité et du projet W&amp;B
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

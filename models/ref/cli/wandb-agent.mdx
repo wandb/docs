@@ -2,7 +2,7 @@
 title: wandb agent
 ---
 
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1992" />
@@ -73,4 +73,3 @@ wandb agent --forward-signals wbyz9876
 | `--entity, -e` | STR | Set the entity to scope the project to. **Default**: None |
 | `--count` | INT | Maximum number of runs this agent will execute. Continues until the sweep completes if not set. **Default**: None |
 | `--forward-signals, -f` | BOOL Flag | Forward signals (e.g. SIGINT/SIGTERM) to child runs so they can shut down cleanly. **Default**: False |
-

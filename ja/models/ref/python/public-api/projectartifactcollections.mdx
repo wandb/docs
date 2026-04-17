@@ -1,0 +1,23 @@
+---
+title: ProjectArtifactCollections
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `ProjectArtifactCollections`
+
+プロジェクト内の artifact collection。
+
+**引数:**
+
+* `client`:  W&amp;B のクエリに使用するクライアントインスタンス。
+* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
+* `project`:  artifact collection をクエリする対象のプロジェクト名。
+* `filters`:  クエリに適用するフィルターのマッピング (任意) 。
+* `order`:  結果の並び順を指定する文字列 (任意) 。`order` の先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
+* `per_page`:  1 ページあたりに取得する artifact collection の数。デフォルトは 50 です。 

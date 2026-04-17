@@ -1,0 +1,72 @@
+---
+title: Gérer le stockage des buckets et les coûts
+description: Comprenez comment W&B utilise le stockage d’objets, comment la suppression se répercute sur les octets du bucket et comment réduire l’utilisation dans les déploiements W&B Autogéré, Cloud dédié et Utiliser votre propre bucket.
+---
+
+Lorsque vous utilisez [Utiliser votre propre bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector), [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed), votre équipe paie souvent directement les fournisseurs de stockage cloud. Cette page explique ce qui occupe de l’espace dans votre bucket, comment W&amp;B supprime les objets après leur suppression dans l’application ou via l’API, et ce à quoi vous pouvez vous attendre en pratique.
+
+<div id="what-uses-bucket-space">
+  ## Ce qui occupe l’espace du bucket
+</div>
+
+W&amp;B stocke plusieurs catégories de données dans le stockage d’objets que vous avez configuré. L’[Aperçu de BYOB](/fr/platform/hosting/data-security/secure-storage-connector#data-stored-in-the-central-database-vs-buckets) donne des exemples, notamment les fichiers d’expérience et les métriques, les fichiers d’artefacts, les fichiers multimédias, les fichiers de run et l’historique exporté au format Parquet. L’ensemble de ces éléments détermine la taille et le coût du bucket.
+
+<div id="how-wb-removes-data-from-storage">
+  ## Comment W&amp;B supprime les données du stockage
+</div>
+
+La suppression dans l’application W&amp;B ou l’[API publique](/fr/models/ref/python/public-api/api) met d’abord à jour les métadonnées W&amp;B. **Supprimer un run, un artefact ou un fichier du produit ne garantit pas une diminution immédiate de l’utilisation du bucket indiquée.** Le nettoyage du stockage d’objets s’effectue en arrière-plan et peut prendre du retard, en particulier sur les instances très sollicitées.
+
+<div id="artifacts">
+  ### Artefacts
+</div>
+
+Les artefacts supprimés font d’abord l’objet d’une suppression réversible, puis sont traités par le garbage collection des artefacts. Les déploiements autogérés doivent définir `GORILLA_ARTIFACT_GC_ENABLED` et respecter les exigences du fournisseur, comme la gestion des versions ou la suppression réversible. Voir [Supprimer un artefact](/fr/models/artifacts/delete-artifacts) et [Configurer les variables d&#39;environnement](/fr/platform/hosting/env-vars).
+
+<div id="run-data-and-run-files">
+  ### Données et fichiers de run
+</div>
+
+Après la suppression de runs ou de fichiers associés à des runs, la suppression définitive des objets stockés sous-jacents est gérée séparément des artefacts. Dans les déploiements Cloud dédié et Autogéré, `GORILLA_DATA_RETENTION_PERIOD` définit pendant combien de temps les **données de run supprimées** sont conservées avant de pouvoir être supprimées du stockage. **Ce paramètre ne supprime pas les artefacts.** Voir [Configurer les variables d’environnement](/fr/platform/hosting/env-vars), [Politique de conservation des données](/fr/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy) pour Cloud dédié, et [Supprimer les runs](/fr/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) pour comprendre le lien entre la suppression des runs et des fichiers et le stockage.
+
+<div id="what-to-expect-from-background-cleanup">
+  ## À quoi vous attendre du nettoyage en arrière-plan
+</div>
+
+La récupération de l’espace et les jobs associés qui libèrent du stockage d’objets sont effectués **dans la mesure du possible**. W&amp;B ne **garantit pas** qu’un objet donné disparaîtra de votre bucket dans un délai précis après la suppression de contenu dans l’interface utilisateur ou l’API. Pour les projets comportant un grand nombre de fichiers par run, par exemple lorsque vous journalisez de nombreux fichiers multimédias par run, attendez-vous à des **délais plus longs** avant la libération de l’utilisation du stockage.
+
+Surveillez votre bucket auprès de votre fournisseur de cloud et contactez [W&amp;B Support](mailto:support@wandb.ai) ou votre équipe de compte si le nettoyage semble bloqué par rapport à vos attentes.
+
+<div id="reduce-bucket-usage">
+  ## Réduire l’utilisation du bucket
+</div>
+
+Commencez par utiliser les méthodes prises en charge par le produit :
+
+* [Supprimer des runs dans l’application W&amp;B](/fr/models/runs/delete-runs#ui) ou [avec Python](/fr/models/runs/delete-runs#python) lorsque vous n’en avez plus besoin.
+* [Supprimer des artefacts](/fr/models/artifacts/delete-artifacts) dont vous n’avez plus besoin, et utilisez [Artifact TTL](/fr/models/artifacts/ttl) lorsque cela s’intègre à votre flux de travail.
+
+Si vous devez **récupérer de l’espace immédiatement**, les opérateurs ayant accès au bucket peuvent supprimer directement des clés d’objet spécifiques dans le stockage cloud. Gardez à l’esprit les points suivants :
+
+* Les objets que vous supprimez **ne pourront plus être téléchargés** via W&amp;B.
+* Supprimez **uniquement** les clés que vous souhaitez retirer. Des suppressions incorrectes peuvent empêcher l’accès à des données auxquelles l’application fait toujours référence.
+* Si votre bucket utilise la **gestion des versions des objets** ou la **suppression réversible côté fournisseur** (par exemple dans Google Cloud Storage), des frais de stockage peuvent continuer à s’appliquer jusqu’à l’expiration des versions non courantes ou des objets supprimés de manière réversible, conformément aux règles de cycle de vie de votre cloud.
+
+Pour une vue d’ensemble de l’utilisation dans le Cloud mutualisé de W&amp;B, les Administrateurs de l’organisation peuvent consulter l’utilisation liée au stockage dans les paramètres de l’organisation. Voir [Billing settings](/fr/platform/app/settings-page/billing-settings).
+
+<div id="troubleshooting">
+  ## Dépannage
+</div>
+
+Si les suppressions ne s’affichent pas correctement dans l’application W&amp;B après avoir utilisé l’API publique, **mettez à niveau le SDK Python W&amp;B** vers une version actuelle, puis réessayez. Un très grand nombre de fichiers par run peut rallonger le temps nécessaire au nettoyage en arrière-plan à l’échelle de l’instance.
+
+Pour les schémas de nettoyage scripté adaptés à votre déploiement, contactez [W&amp;B Support](mailto:support@wandb.ai) ou votre équipe de compte.
+
+<div id="related-documentation">
+  ## Documentation connexe
+</div>
+
+* [Supprimer des runs](/fr/models/runs/delete-runs#delete-runs)
+* [Supprimer un artefact](/fr/models/artifacts/delete-artifacts)
+* [Configurer les variables d&#39;environnement](/fr/platform/hosting/env-vars)
+* [Utiliser votre propre bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector)

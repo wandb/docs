@@ -1,0 +1,37 @@
+---
+title: "wandb purge-cache"
+---
+
+{/*
+  Pour ajouter un texte d’introduction à cette commande :
+  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-purge-cache.mdx
+  2. Ajoutez votre texte d’introduction à ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaires et ne conservez que les deux lignes ci-dessous :
+
+  import WandbPurgeCache from "/snippets/_includes/cli/wandb-purge-cache.mdx";
+
+  <WandbPurgeCache/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Supprime du cache local de W&amp;B les journaux, l’historique des runs et les artifacts.
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb purge-cache [OPTIONS]
+```
+
+
+<div id="options">
+  ## Options
+</div>
+
+| Option    | Description                                                                                                                                                                   |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--age`   | Supprime les éléments datant de plus de la période spécifiée (par ex., &#39;10s&#39;, &#39;5m&#39;, &#39;8h&#39;, &#39;7d&#39;, &#39;6M&#39;, &#39;1y&#39;) (par défaut : 0d) |
+| `--force` | Ne demande pas de confirmation avant de supprimer des fichiers. (par défaut : False)                                                                                          |

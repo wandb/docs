@@ -1,40 +1,48 @@
 ---
-title: wandb launch-sweep
+title: "wandb launch-sweep"
 ---
 
 {/*
-  이 커맨드에 대한 도입 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-launch-sweep.mdx
-  2. 해당 파일에 도입 콘텐츠를 추가하세요
-  3. 이 주석 블록 전체를 삭제하고 아래의 두 줄만 남겨두세요:
+  이 명령어의 소개 콘텐츠를 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-launch-sweep.mdx
+  2. 해당 파일에 소개 콘텐츠를 추가합니다
+  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남깁니다:
 
-import WandbLaunchSweep from "/snippets/en/_includes/cli/wandb-launch-sweep.mdx";
+  import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
 
-<WandbLaunchSweep/>
+  <WandbLaunchSweep/>
 
-  스니펫은 다음 재생성 시 자동으로 감지됩니다.
-*/}
+  다음번 재생성 시 스니펫이 자동으로 감지됩니다.
+  */}
 
-W&B Launch Sweep 을 실행합니다 (Experimental).
+W&amp;B Launch sweep을 실행합니다 (실험 기능).
 
-## Usage
+
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
 wandb launch-sweep [CONFIG] [OPTIONS]
 ```
 
-## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `CONFIG` | 설명 없음 | No |
+<div id="arguments">
+  ## 인수
+</div>
 
-## Options
+| 인수       | 설명           | 필수  |
+| :------- | :----------- | :-- |
+| `CONFIG` | 제공된 설명이 없습니다 | 아니요 |
 
-| Option | Description |
-| :--- | :--- |
-| `--queue`, `-q` | Sweep 을 푸시할 큐의 이름 |
-| `--project`, `-p` | 에이전트가 모니터링할 Project 이름. 입력 시, 설정 파일을 통해 전달된 프로젝트 값을 재정의합니다. |
-| `--entity`, `-e` | 사용할 Entity. 기본값은 현재 로그인된 사용자입니다. |
-| `--resume_id`, `-r` | 8자리의 Sweep ID를 전달하여 Launch Sweep 을 재개합니다. 큐 지정이 필요합니다. |
-| `--prior_run`, `-R` | 이 Sweep 에 추가할 기존 Run 의 ID |
+<div id="options">
+  ## 옵션
+</div>
+
+| Option              | 설명                                                    |
+| :------------------ | :---------------------------------------------------- |
+| `--queue`, `-q`     | sweep를 보낼 큐 이름                                        |
+| `--project`, `-p`   | agent가 감시할 프로젝트 이름입니다. 지정하면 설정 파일로 전달된 프로젝트 값을 재정의합니다 |
+| `--entity`, `-e`    | 사용할 entity입니다. 기본값은 현재 로그인한 사용자입니다                    |
+| `--resume_id`, `-r` | 8자 sweep ID를 전달해 Launch sweep를 재개합니다. 큐가 필요합니다        |
+| `--prior_run`, `-R` | 이 sweep에 추가할 기존 run의 ID                               |

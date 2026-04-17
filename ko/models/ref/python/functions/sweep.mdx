@@ -1,40 +1,40 @@
 ---
-title: ' thoughtful
-
-  sweep()'
+title: sweep()
 namespace: python_sdk_actions
-python_object_type: function
+python_object_type: 함수
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
 
-### <kbd>function</kbd> `sweep`
+
+### <kbd>함수</kbd> `sweep`
 
 ```python
 sweep(
-    sweep: Union[dict, Callable],
-    entity: Optional[str] = None,
-    project: Optional[str] = None,
-    prior_runs: Optional[List[str]] = None
+    sweep: 'dict | Callable',
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    prior_runs: 'list[str] | None' = None
 ) → str
 ```
 
-하이퍼파라미터 스윕을 초기화합니다.
+하이퍼파라미터 sweep를 초기화합니다.
 
-다양한 조합을 테스트하여 기계학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 탐색합니다.
+다양한 조합을 테스트하여 머신 러닝 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
 
-반환되는 고유 식별자인 `sweep_id`를 기록해 두세요. 다음 단계에서 이 `sweep_id`를 스윕 에이전트에게 제공해야 합니다.
+반환되는 고유 식별자 `sweep_id`를 기록해 두세요. 나중 단계에서 이 `sweep_id`를 sweep agent에 제공합니다.
 
-스윕을 정의하는 방법은 [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)에서 확인할 수 있습니다.
+sweep를 정의하는 방법에 대한 자세한 내용은 [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)를 참조하세요.
 
-**인수:**
+**매개변수:**
 
-- `sweep`: 하이퍼파라미터 탐색을 위한 설정 (또는 설정 생성기)입니다. 호출 가능한 객체(callable)를 제공하는 경우, 해당 객체는 인수를 받지 않아야 하며 W&B 스윕 구성 사양을 준수하는 사전(dictionary)을 반환해야 합니다.
-- `entity`: 스윕에 의해 생성된 W&B Runs를 보낼 사용자 이름 또는 팀 이름입니다. 지정하는 엔티티가 이미 존재해야 합니다. 엔티티를 지정하지 않으면 Run은 기본 엔티티(보통 사용자 이름)로 전송됩니다.
-- `project`: 스윕에서 생성된 W&B Runs가 전송될 프로젝트의 이름입니다. 프로젝트를 지정하지 않으면 Run은 'Uncategorized'로 표시된 프로젝트로 전송됩니다.
-- `prior_runs`: 이 스윕에 추가할 기존 Runs의 ID 목록입니다.
+* `sweep`:  하이퍼파라미터 검색의 설정입니다.  (또는 설정 generator).  callable을 제공하는 경우, 해당 callable이 인수를 받지 않고 W&amp;B sweep config 사양을 준수하는 dictionary를 반환하도록 하세요.
+* `entity`:  sweep에서 생성된 W&amp;B  run을 보낼 사용자 이름 또는 팀 이름입니다.  지정한 entity가 이미 존재하는지 확인하세요. entity를 지정하지 않으면  run은 기본 entity로 전송되며,  일반적으로 사용자 이름이 사용됩니다.
+* `project`:  sweep에서 생성된 W&amp;B run이 전송되는 프로젝트 이름입니다. 프로젝트를 지정하지 않으면  run은 &#39;Uncategorized&#39;라는 이름의 프로젝트로 전송됩니다.
+* `prior_runs`:  이 sweep에 추가할 기존 run ID입니다.
 
-**반환 값:**
+**반환값:**
 
-- `str`: 스윕의 고유 식별자입니다.
+* `str`:  sweep의 고유 식별자입니다.

@@ -1,0 +1,47 @@
+---
+title: MetricChangeFilter
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+## <kbd>class</kbd> `MetricChangeFilter`
+
+Filtre qui compare une **variation** de la valeur d’une métrique à un seuil défini par l’utilisateur.
+
+La variation est calculée sur des fenêtres « tumbling », c.-à-d. comme la différence
+entre la fenêtre actuelle et la fenêtre précédente, sans chevauchement.
+
+### <kbd>méthode</kbd> `MetricChangeFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'None' = None,
+    threshold: 'Annotated | Annotated',
+    prior_window: 'int' = None,
+    change_type: 'ChangeType',
+    change_dir: 'ChangeDir'
+) → None
+```
+
+**Arguments :**
+
+* `name` (str):
+* `agg` (Optional[Agg]):
+* `window` (int):
+* `cmp` (None): Ignoré.
+* `threshold` (Union[Annotated, Annotated]):
+* `prior_window` (int): Taille de la fenêtre d’agrégation de la métrique « précédente » (ignorée si `agg` est `None`).
+  Si elle est omise, sa taille correspond par défaut à celle de la fenêtre actuelle.
+* `change_type` (ChangeType):
+* `change_dir` (ChangeDir):
+
+**Retourne :**
+Un objet `MetricChangeFilter`.

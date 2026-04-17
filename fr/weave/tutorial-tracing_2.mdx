@@ -1,0 +1,176 @@
+---
+title: "Tracer des fonctions imbriquées"
+description: "Découvrez comment suivre des structures d'appels profondément imbriquées avec le Tracing de W&B"
+---
+
+Les applications basées sur des LLM peuvent contenir plusieurs appels à des LLM, une logique supplémentaire de traitement des données et de validation qu&#39;il est important de surveiller. Vous pouvez suivre ces fonctions imbriquées et leurs relations parent-enfant dans Weave à l&#39;aide du décorateur `@weave.op()` (Python), ou les encapsuler avec `weave.op()` (TypeScript).
+
+Nous vous recommandons de décorer les fonctions et sous-fonctions de la manière la plus granulaire possible afin de capturer le flux d&#39;exécution complet de l&#39;application. Cela peut vous aider à mieux comprendre et à façonner le comportement de votre application.
+
+Le code suivant s&#39;appuie sur l&#39;[exemple de démarrage rapide](/fr/weave/quickstart) et ajoute une logique pour compter les éléments renvoyés par le LLM et les encapsuler dans une fonction de niveau supérieur. En outre, l&#39;exemple utilise `weave.op()` pour tracer chaque fonction, son ordre d&#39;appel et sa relation parent-enfant :
+
+<Tabs>
+  <Tab title="Python">
+    ```python {1,7,26,32,42}
+    import weave
+    import json
+    from openai import OpenAI
+
+    client = OpenAI()
+
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """Extract any dinosaur `name`, their `common_name`, \
+    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    @weave.op()
+    def count_dinos(dino_data: dict) -> int:
+        # compter le nombre d'éléments dans la liste renvoyée
+        k = list(dino_data.keys())[0]
+        return len(dino_data[k])
+
+    @weave.op()
+    def dino_tracker(sentence: str) -> dict:
+        # extraire des dinosaures à l'aide d'un LLM
+        dino_data = extract_dinos(sentence)
+
+        # compter le nombre de dinosaures renvoyés
+        dino_data = json.loads(dino_data)
+        n_dinos = count_dinos(dino_data)
+        return {"n_dinosaurs": n_dinos, "dinosaurs": dino_data}
+
+    weave.init('jurassic-park')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = dino_tracker(sentence)
+    print(result)
+    ```
+
+    **Fonctions imbriquées**
+
+    Lorsque vous exécutez le code ci-dessus, la page **Traces** affiche les entrées et les sorties des deux fonctions imbriquées (`extract_dinos` et `count_dinos`), ainsi que la trace OpenAI enregistrée automatiquement.
+
+    ![Page Traces de Weave avec fonctions imbriquées, montrant le panneau central de l'arborescence de trace et le panneau de détails pour l'Appel sélectionné](/images/tutorial_tracing_2_nested_dinos.png)
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    import OpenAI from 'openai';
+    import * as weave from 'weave';
+
+    const openai = new OpenAI();
+
+    const extractDinos = weave.op(async (sentence: string) => {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content:
+              'Extract any dinosaur `name`, their `common_name`, names and whether its `diet` is a herbivore or carnivore, in JSON format.',
+          },
+          {role: 'user', content: sentence},
+        ],
+        response_format: {type: 'json_object'},
+      });
+      return response.choices[0].message.content;
+    });
+
+    const countDinos = weave.op(async (dinoData: string) => {
+      const parsed = JSON.parse(dinoData);
+      return Object.keys(parsed).length;
+    });
+
+    const dinoTracker = weave.op(async (sentence: string) => {
+      const dinoData = await extractDinos(sentence);
+      const nDinos = await countDinos(dinoData);
+      return {nDinos, dinoData};
+    });
+
+    async function main() {
+      await weave.init('jurassic-park');
+
+      const sentence = `I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike),
+            both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant
+            Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.`;
+
+      const result = await dinoTracker(sentence);
+      console.log(result);
+    }
+
+    main();
+
+    ```
+
+    **Fonctions imbriquées**
+
+    Lorsque vous exécutez le code ci-dessus, la page **Traces** affiche les entrées et les sorties des deux fonctions imbriquées (`extract_dinos` et `count_dinos`), ainsi que la trace OpenAI enregistrée automatiquement.
+
+    {/* TODO: Update to TS screenshot */}
+
+    ![Page Traces de Weave avec fonctions imbriquées, montrant le panneau central de l'arborescence de trace et le panneau de détails pour l'Appel sélectionné](/images/tutorial_tracing_2_nested_dinos.png)
+  </Tab>
+</Tabs>
+
+<div id="tracking-metadata">
+  ## Suivi des métadonnées
+</div>
+
+Vous pouvez suivre des métadonnées à l’aide du gestionnaire de contexte `weave.attributes`, en lui passant un dictionnaire contenant les métadonnées à suivre au moment de l’appel.
+
+Pour reprendre notre exemple précédent :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {1,10-11}
+    import weave
+
+    weave.init('jurassic-park')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    # suivre les métadonnées avec la fonction définie précédemment
+    with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
+        result = dino_tracker(sentence)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Nous vous recommandons de suivre les métadonnées au moment de l’exécution, comme les ID utilisateur et le statut de l’environnement de votre code (développement, staging ou production).
+
+  Pour suivre les paramètres système, comme un prompt système, nous vous recommandons d’utiliser [Weave Models](/fr/weave/guides/core-types/models).
+</Note>
+
+Pour plus d’informations sur l’utilisation des attributs, voir [Définir et journaliser les attributs](/fr/weave/guides/tools/attributes).
+
+<div id="whats-next">
+  ## Et ensuite ?
+</div>
+
+* Suivez le [tutoriel sur la gestion des versions des applications](/fr/weave/tutorial-weave_models) pour enregistrer, gérer les versions et organiser les modifications ad hoc des prompts, des modèles et des applications.

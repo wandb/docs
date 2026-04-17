@@ -1,39 +1,47 @@
 ---
-title: wandb restore
+title: "wandb restore"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-restore.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドに導入用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-restore.mdx
+  2. そのファイルに導入用コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbRestore from "/snippets/en/_includes/cli/wandb-restore.mdx";
+  import WandbRestore from "/snippets/_includes/cli/wandb-restore.mdx";
 
-<WandbRestore/>
+  <WandbRestore/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  スニペットは次回の再生成時に自動的に検出されます。
+  */}
 
-Run のコード、設定（config）、および Docker の状態を復元します。 `wandb.save()` や `wandb.init(save_code=True)` でコードが保存されていなかった場合は、最新のコミットからコードを取得します。
+run のコード、設定、Docker の状態を復元します。コードが `wandb.save()` または `wandb.init(save_code=True)` で保存されていない場合は、最新のコミットから取得します。
 
-## Usage
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb restore RUN [OPTIONS]
 ```
 
-## Arguments
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `RUN` | 説明はありません | はい |
+<div id="arguments">
+  ## 引数
+</div>
 
-## Options
+| 引数    | 説明   | 必須 |
+| :---- | :--- | :- |
+| `RUN` | 説明なし | はい |
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--no-git` | git の状態を復元しない（デフォルト: False） |
-| `--branch` | ブランチを作成するか、デタッチドヘッドでチェックアウトするか（デフォルト: True） |
-| `--project`, `-p` | アップロード先の Projects 。 |
-| `--entity`, `-e` | リストのスコープ対象となる Entities 。 |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション             | 説明                                                        |
+| :---------------- | :-------------------------------------------------------- |
+| `--no-git`        | git の状態を復元しません (デフォルト: False)                             |
+| `--branch`        | ブランチを作成するか、detached HEAD をチェックアウトするかを指定します (デフォルト: True)  |
+| `--project`, `-p` | アップロード先のプロジェクト。                                           |
+| `--entity`, `-e`  | 一覧のスコープを設定する entity。                                      |

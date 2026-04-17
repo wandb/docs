@@ -1,64 +1,158 @@
 ---
-title: OpenAI エージェント SDK
-description: OpenAI Agents SDK で W&B Weave を使用して、エージェント アプリケーションの追跡と監視を行います
+title: "OpenAI Agents SDK"
+description: "OpenAI Agents SDK で W&B Weave を使用して、エージェントアプリケーションをトラッキングおよび監視します"
 ---
 
-[OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python) は、マルチエージェントのワークフローを構築するための軽量で強力なフレームワークです。 W&B Weave を OpenAI Agents SDK と併用することで、エージェントアプリケーションの追跡と監視が可能になります。
+OpenAI Agents SDK で W&amp;B Weave を使用して、エージェントアプリケーションをトレースおよび監視できます。
 
-## インストール
+<Tabs>
+  <Tab title="Python">
+    [OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python) は、マルチエージェントのワークフローを構築するための、軽量かつ強力なフレームワークです。
 
-`pip` を使用して、必要な依存関係をインストールします。
+    ## インストール
 
-```bash
-pip install weave openai-agents
-```
+    `pip` を使って必要な依存関係をインストールします。
 
-## はじめに
+    ```bash
+    pip install weave openai-agents
+    ```
 
-OpenAI Agents SDK で Weave を使用するには、以下の手順が必要です。
+    ## はじめに
 
-- プロジェクト名で Weave を初期化する
-- Weave のトレースプロセッサをエージェントに追加する
-- 通常通りエージェントを作成して実行する
+    OpenAI Agents SDK を Weave で使用するには、次の手順を行います。
 
-以下のコードサンプルでは、OpenAI Agent を作成し、追跡可能性（トレース）のために Weave と統合しています。まず、 Weave プロジェクトを初期化し、実行トレースをキャプチャするために `WeaveTracingProcessor` をセットアップします。次に、天候情報を表すための `Weather` データモデルを作成します。 `get_weather` 関数は、エージェントが使用できるツールとしてデコレートされ、サンプルの天気予報を返します。 `Hello world` という名前のエージェントは、基本的な指示と気象ツールへのアクセス権を持って構成されています。 `main` 関数は非同期でエージェントを実行し、サンプル入力（「東京の天気はどうですか？」）を与えて最終的な結果を出力します。
+    * プロジェクト名を指定して Weave を初期化します。
+    * エージェントに Weave のトレースプロセッサを追加します。
+    * 通常どおりエージェントを作成して実行します。
 
-```python lines
-from pydantic import BaseModel
-from agents import Agent, Runner, function_tool
-import agents
-import weave
-import asyncio
+    次のコードサンプルでは、OpenAI Agent を作成し、トレースできるように Weave と統合しています。Weave プロジェクトを初期化し、実行トレースを収集するように `WeaveTracingProcessor` を設定します。`Weather` データモデルは天気情報を表します。`get_weather` 関数は、エージェントが使用できるツールとしてデコレートされ、サンプルの天気レポートを返します。`Hello world` という名前のエージェントは、基本的な指示と天気ツールへのアクセスを設定してあります。`main` 関数は、サンプル入力 (`What's the weather in Tokyo?`) を使ってエージェントを非同期で実行し、最終応答を出力します。
 
-# Weaveプロジェクトを初期化
-weave.init("openai-agents")
+    ```python lines
+    from pydantic import BaseModel
+    from agents import Agent, Runner, function_tool
+    import agents
+    import weave
+    import asyncio
 
-class Weather(BaseModel):
-    city: str
-    temperature_range: str
-    conditions: str
+    weave.init("openai-agents")
 
-# エージェントが使用するツールを定義
-@function_tool
-def get_weather(city: str) -> Weather:
-    return Weather(city=city, temperature_range="14-20C", conditions="Sunny with wind.")
+    class Weather(BaseModel):
+        city: str
+        temperature_range: str
+        conditions: str
 
-# エージェントの設定
-agent = Agent(
-    name="Hello world",
-    instructions="You are a helpful agent.",
-    tools=[get_weather]
-)
+    @function_tool
+    def get_weather(city: str) -> Weather:
+        return Weather(city=city, temperature_range="14-20C", conditions="Sunny with wind.")
 
-async def main():
-    # エージェントを実行し結果を取得
-    result = await Runner.run(agent, input="What's the weather in Tokyo?")    
-    print(result.final_output)
+    agent = Agent(
+        name="Hello world",
+        instructions="You are a helpful agent.",
+        tools=[get_weather]
+    )
 
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+    async def main():
+        result = await Runner.run(agent, input="What's the weather in Tokyo?")    
+        print(result.final_output)
 
-## トレースの表示
+    if __name__ == "__main__":
+        asyncio.run(main())
+    ```
 
-上記のコードサンプルを実行すると、 Weave ダッシュボードへのリンクが生成されます。エージェントの実行中に何が起きたかを確認するには、そのリンクにアクセスしてエージェントの トレース を確認してください。
+    ## トレースを表示
+
+    上記のコードサンプルを実行すると、Weave ダッシュボードへのリンクが生成されます。リンクを開くと、agent run のトレースを確認できます。
+  </Tab>
+
+  <Tab title="TypeScript">
+    [OpenAI Agents Node SDK](https://github.com/openai/openai-node) は、マルチエージェントのワークフローを構築するための、軽量で強力なフレームワークです。
+
+    ## インストール
+
+    `npm` を使用して、必要な依存関係をインストールします。
+
+    ```bash
+    npm install weave @openai/agents zod
+    ```
+
+    ## はじめに
+
+    ほとんどの Node.js 環境では、手動インストルメンテーションは必要ありません。
+    Weave は、モジュールの読み込み時に `@openai/agents` を自動的にインストルメントします。
+
+    自動インストルメンテーションは、モジュールローダーフックを登録することで動作します。
+
+    * **CommonJS プロジェクト:** 追加の設定は不要です。
+    * **ESM プロジェクト:** インストルメンテーションが他のモジュールより先に読み込まれるよう、Node は `--import=weave/instrument` フラグを付けて起動する必要があります。
+
+    プロジェクトの設定方法や、使用しているタイプの見分け方についてサポートが必要な場合は、[TypeScript SDK: Third-Party Integration Guide](/ja/weave/guides/integrations/js) を参照してください。
+
+    次のコードサンプルでは、OpenAI Agent を作成し、トレース可能にするために Weave と統合します。Weave プロジェクトの初期化にある `your-team-name/your-project-name` は、ご利用の entity とプロジェクトに置き換えてください。このサンプルでは、サンプルの天気レポートを返す `get_weather` ツールを定義し、続いて基本的な指示と天気ツールへのアクセス権を持つ `Hello world` という名前の agent を設定します。`main` 関数は、サンプル入力 (`What's the weather in Tokyo?`) で agent を実行し、最終的なレスポンスをログします。
+
+    ```typescript lines
+    import * as weave from "weave";
+    import { Agent, run, tool } from "@openai/agents";
+    import { z } from "zod";
+
+    const getWeather = tool({
+      name: "get_weather",
+      description: "Get the current weather for a given city.",
+      parameters: z.object({
+        city: z.string().describe("The name of the city"),
+      }),
+      async execute({ city }) {
+        return `${city}: 14-20C, Sunny with wind.`;
+      },
+    });
+
+    async function main() {
+      // プロジェクト情報に合わせて更新してください。
+      await weave.init("your-team-name/your-project-name");
+
+      const agent = new Agent({
+        name: "Hello world",
+        instructions: "You are a helpful agent.",
+        tools: [getWeather],
+      });
+
+      const result = await run(agent, [
+        { role: "user", content: "What's the weather in Tokyo?" },
+      ]);
+      console.log(result.finalOutput);
+    }
+
+    main();
+    ```
+
+    CommonJS では、自動インストルメンテーションを行うには、`import * as weave from "weave"` 文を `import { Agent, run, tool } from "@openai/agents"` よりも**前**に記述する必要があります。コード上この順序にできない場合は、以下の手動インストルメンテーションを使用してください。
+
+    ### 手動インストルメンテーション
+
+    手動インストルメンテーションが必要なのは、次のようにモジュールローダーフックを実行できない場合に限られます。
+
+    * 依存関係を単一ファイルにバンドルするバンドラー。
+    * Node CLI フラグを渡せない環境。
+    * ローダーフックを経由しない動的なモジュール読み込みパターン。
+
+    このような場合は、`instrumentOpenAIAgents()` を使用してインストルメンテーションを明示的に登録できます。
+
+    ```typescript lines
+    import * as weave from "weave";
+
+    await weave.init("openai-agents");
+    await weave.instrumentOpenAIAgents();
+    ```
+
+    トレースプロセッサを完全に制御したい場合 (カスタムプロセッサの設定や条件付き登録を行う場合など) は、手動で作成して登録します:
+
+    ```typescript lines
+    import { addTraceProcessor } from "@openai/agents";
+    import { createOpenAIAgentsTracingProcessor } from "weave";
+
+    ...
+
+    const processor = createOpenAIAgentsTracingProcessor();
+    addTraceProcessor(processor);
+    ```
+  </Tab>
+</Tabs>

@@ -1,27 +1,28 @@
 ---
-title: LiteLLM
-description: LiteLLM を介して行われた LLM コールを自動的に追跡し、ログを記録します
+title: "LiteLLM"
+description: "LiteLLM 経由で行われた LLM 呼び出しを自動的にトラッキングしてログします"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_litellm.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_litellm.ipynb" aria-label="Google Colab で開く">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
 </a>
 
-Weave は、 `weave.init()` を呼び出した後、 LiteLLM を介して行われる LLM 呼び出しを自動的に追跡し、 ログ を記録します。
+`weave.init()` の呼び出し後、Weave は LiteLLM 経由で行われた LLM 呼び出しを自動的にトラッキングしてログします。
 
-## Traces
+<div id="traces">
+  ## トレース
+</div>
 
-開発中および プロダクション の両方において、 LLM アプリケーション の トレース を中央の データベース に保存することは重要です。 これらの トレース は、 デバッグ や、 アプリケーション を改善するための データセット として活用できます。
+開発中でも本番環境でも、LLM アプリケーションのトレースを一元的なデータベースに保存しておくことが重要です。これらのトレースはデバッグに使用するほか、アプリケーションの改善に役立つデータセットとしても活用できます。
 
-> **注意:** LiteLLM を使用する場合、 `from litellm import completion` ではなく、 `import litellm` を使用して ライブラリ をインポートし、 `litellm.completion` で補完機能を呼び出すようにしてください。 これにより、 すべての関数と パラメータ が正しく参照されます。
+> **注:** LiteLLM を使用する場合は、`from litellm import completion` ではなく、必ず `import litellm` を使ってライブラリをインポートし、`litellm.completion` で completion 関数を呼び出してください。これにより、すべての関数とパラメーターが正しく参照されます。
 
-Weave は LiteLLM の トレース を自動的に取得します。 通常通り ライブラリ を使用できます。 まずは `weave.init()` を呼び出すことから始めましょう：
+Weave は LiteLLM のトレースを自動的に取得します。このライブラリは通常どおり使用でき、まず `weave.init()` を呼び出して開始します。
 
 ```python lines {4}
 import litellm
 import weave
 
-# Weaveを初期化
 weave.init("weave_litellm_integration")
 
 openai_response = litellm.completion(
@@ -39,11 +40,14 @@ claude_response = litellm.completion(
 print(claude_response.choices[0].message.content)
 ```
 
-これで Weave は、 LiteLLM を通じて行われるすべての LLM 呼び出しを追跡し、 ログ に記録します。 Weave のウェブインターフェースで トレース を確認できます。
+Weave で、LiteLLM を通じて行われるすべての LLM 呼び出しがトラッキングおよびログするようになりました。Weave の Web インターフェースでトレースを確認できます.
 
-## 独自の op でラップする
 
-Weave の op を使用すると、 実験 に伴い コード を自動的に バージョン管理 し、 入出力を取得することで、 結果 の再現性を高めることができます。 `@weave.op()` デコレータを付けた関数を作成し、 その中で LiteLLM の `completion` 関数を呼び出すだけで、 Weave が入出力を追跡します。 以下に例を示します：
+<div id="wrapping-with-your-own-ops">
+  ## 独自の ops でラップする
+</div>
+
+Weave の op は、実験中のコードを自動的にバージョン管理し、入力と出力を記録することで、結果の再現性を高めます。`@weave.op()` でデコレートした関数を作成し、その中で LiteLLM の completion 関数を呼び出すだけで、Weave が入力と出力をトラッキングしてくれます。以下はその例です。
 
 ```python lines {4,6}
 import litellm
@@ -53,7 +57,6 @@ weave.init("weave_litellm_integration")
 
 @weave.op()
 def translate(text: str, target_language: str, model: str) -> str:
-    # LiteLLMを呼び出すopを作成
     response = litellm.completion(
         model=model,
         messages=[{"role": "user", "content": f"Translate '{text}' to {target_language}"}],
@@ -65,13 +68,16 @@ print(translate("Hello, how are you?", "French", "gpt-3.5-turbo"))
 print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
 ```
 
-## 実験を容易にするための `Model` の作成
 
-多くの要素が動的に変化する状況では、 実験 の整理が難しくなります。 `Model` クラスを使用すると、 システムプロンプトや使用している モデル などの アプリケーション の 実験 詳細を取得し、 整理することができます。 これにより、 アプリケーション の異なる反復（イテレーション）の整理や比較が容易になります。
+<div id="create-a-model-for-easier-experimentation">
+  ## 試行錯誤をしやすくするために `Model` を作成する
+</div>
 
-コード の バージョン管理 や入出力の取得に加えて、 Models は アプリケーション の 振る舞い を制御する構造化された パラメータ を取得するため、 どの パラメータ が最適であったかを簡単に見つけ出すことができます。 また、 Weave の Models は `serve` や Evaluations と併用することも可能です。
+構成要素が多いと、実験内容を整理するのは難しくなります。`Model` クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリの異なるバージョンを整理して比較しやすくなります。
 
-以下の例では、 異なる モデル や temperature（温度）を試すことができます：
+コードのバージョン管理や入出力の記録に加えて、Models はアプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も効果的だったかを簡単に確認できます。さらに、Weave Models は `serve` や評価でも使用できます。
+
+以下の例では、さまざまなモデルと temperature を試せます。
 
 ```python lines {4,6,10}
 import litellm
@@ -96,23 +102,26 @@ class TranslatorModel(weave.Model):
         )
         return response.choices[0].message.content
 
-# 異なるモデルでインスタンスを作成
+# 異なるモデルでインスタンスを作成する
 gpt_translator = TranslatorModel(model="gpt-3.5-turbo", temperature=0.3)
 claude_translator = TranslatorModel(model="claude-3-5-sonnet-20240620", temperature=0.1)
 
-# 翻訳に異なるモデルを使用
+# 翻訳に異なるモデルを使用する
 english_text = "Hello, how are you today?"
 
-print("GPT-3.5 Translation to French:")
+print("GPT-3.5 フランス語への翻訳:")
 print(gpt_translator.predict(english_text, "French"))
 
-print("\nClaude-3.5 Sonnet Translation to Spanish:")
+print("\nClaude-3.5 Sonnet スペイン語への翻訳:")
 print(claude_translator.predict(english_text, "Spanish"))
 ```
 
-## 関数呼び出し (Function Calling)
 
-LiteLLM は、 対応している モデル で関数呼び出しをサポートしています。 Weave はこれらの関数呼び出しを自動的に追跡します。
+<div id="function-calling">
+  ## 関数呼び出し
+</div>
+
+LiteLLM は、互換性のあるモデルで関数呼び出しをサポートしています。Weave はこれらの関数呼び出しを自動的にトラッキングします。
 
 ```python lines {4}
 import litellm
@@ -148,6 +157,6 @@ response = litellm.completion(
 print(response)
 ```
 
-プロンプトで使用された関数を自動的に取得し、 それらを バージョン管理 された状態で保持します。
+プロンプトで使用した関数は自動的に記録され、バージョン管理された状態で保持されます。
 
 [![litellm.gif](/weave/guides/integrations/imgs/litellm.gif)](https://wandb.ai/a-sh0ts/weave_litellm_integration/weave/calls)

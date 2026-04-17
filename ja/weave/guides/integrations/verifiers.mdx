@@ -1,46 +1,50 @@
 ---
-title: ベリファイア
-description: Weave を使用して Verifiers RL 環境や LLM agent のトレーニングを追跡・デバッグし、多層的な会話、評価ロールアウト、モデルのパフォーマンスメトリクスをキャプチャすることで、強化学習ワークフローの包括的なオブザーバビリティを実現します。
+title: Verifiers
+description: "Weave で Verifiers の RL 環境と LLM エージェントのトレーニングをトラッキングし、複数ラウンドの会話や評価ロールアウトを記録します。"
 ---
 
-[Verifiers](https://github.com/willccbb/verifiers) は、強化学習（RL）環境の構築と LLM エージェントのトレーニングのためのモジュール式コンポーネントライブラリです。Verifiers で構築された環境は、LLM の評価、合成データパイプライン、あらゆる OpenAI 互換エンドポイントのエージェントハーネス、および RL トレーニングとして機能します。
+[Verifiers](https://github.com/willccbb/verifiers) は、強化学習 (RL) 環境の作成や LLM エージェントのトレーニングに使う、モジュール型コンポーネントのライブラリです。Verifiers で構築した環境は、LLM の評価、合成データパイプライン、任意の OpenAI 互換 endpoint 向けのエージェントハーネス、RL トレーニングに利用できます。
 
-W&B を使用してトレーニングメトリクスを記録するだけでなく、Weave を Verifiers の RL ワークフローに統合することで、トレーニング中のモデルのパフォーマンスに関するオブザーバビリティ（可観測性）を得ることができます。Weave は各ステップの入力、出力、タイムスタンプを記録するため、各ターンでデータがどのように変換されるかを確認したり、複雑なマルチラウンドの会話をデバッグしたり、トレーニング結果を最適化したりすることができます。
+W&amp;B を使用してトレーニングメトリクスを記録するだけでなく、Verifiers の RL ワークフローに Weave を統合することで、トレーニング中のモデルの挙動を可視化できます。Weave は各 step の inputs、outputs、タイムスタンプを記録するため、各ターンでデータがどのように変換されるかを確認し、複雑な複数ラウンドの会話をデバッグし、トレーニング結果を最適化できます。
 
-また、Weave と Verifiers を組み合わせて 評価（Evaluations）を実行することも可能です。
+また、Weave と Verifiers を組み合わせて使用して、評価を実行することもできます。
 
-このガイドでは、Verifiers、W&B、Weave のインストール方法を説明し、Verifiers を Weave および W&B と共に使用する 2 つの例を紹介します。
+このガイドでは、Verifiers、W&amp;B、Weave のインストール方法を説明し、Verifiers を Weave および W&amp;B と組み合わせて使う 2 つの例を紹介します。
 
 ![verifiers wandb run page](/images/weave/verifiers.gif)
 
-## はじめに
+<div id="getting-started">
+  ## はじめに
+</div>
 
-Verifiers と Weave を統合するには、まず `uv` を使用して Verifiers ライブラリをインストールします（[ライブラリの作者によって推奨されています](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)）。以下のコマンドのいずれかを使用してライブラリをインストールしてください。
+Verifiers を Weave と統合するには、まず `uv` を使って Verifiers ライブラリをインストールします ([ライブラリの作者が推奨しています](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)) 。ライブラリのインストールには、次のいずれかのコマンドを使用してください。
 
 ```bash
-# ローカル開発および API ベースのモデル向けのコアライブラリをインストール
+# ローカル開発およびAPIベースのモデル向けにコアライブラリをインストール
 uv add verifiers
 
-# PyTorch や GPU サポートを含む、すべてのオプションの依存関係を含むフルバージョンをインストール
+# PyTorchおよびGPUサポートを含むすべてのオプション依存関係を備えた完全版ライブラリをインストール
 uv add 'verifiers[all]' && uv pip install flash-attn --no-build-isolation
 
-# GitHub から直接最新バージョンをインストール（未リリースの最新機能や修正を含む）
+# 未リリースの最新機能および修正を含む最新版ライブラリをGitHubから直接インストール
 uv add verifiers @ git+https://github.com/willccbb/verifiers.git
 ```
 
-次に、Weave と W&B をインストールします。
+次に、Weave と W&amp;B をインストールします。
 
 ```bash
 uv pip install weave wandb
 ```
 
-Weave は、デフォルトでこのライブラリに対して [暗黙的なパッチ適用（implicit patching）](/weave/guides/integrations#automatic-implicit-patching) を有効にします。これにより、パッチ関数を明示的に呼び出すことなく、Verifiers で Weave を使用できます。
+Weave では、デフォルトでこのライブラリに対して[暗黙的なパッチ適用](/ja/weave/guides/integrations#automatic-implicit-patching)が有効になっています。これにより、明示的な call / calls パッチ関数がなくても、Verifiers と Weave を使用できます.
 
-### ロールアウトのトレースと評価
+<div id="trace-rollouts-and-evaluate">
+  ### ロールアウトをトレースして評価する
+</div>
 
-必要なライブラリをインストールしたら、Weave と Verifiers を併用してコールの トレース（Traces）や 評価（Evaluations）を実行できます。
+必要なライブラリをインストールしたら、Weave と Verifiers を組み合わせて使用し、call / calls をトレースして評価を実行できます。
 
-以下のサンプルスクリプトは、Verifiers で評価を実行し、その結果を Weave に ログ（log）する方法を示しています。このスクリプトは、[GSM8K データセット](https://huggingface.co/datasets/openai/gsm8k) を使用して LLM が数学の問題を解く能力をテストします。GPT-4 に 2 つの数学の問題を解かせ、各回答から数値を抽出し、Verifiers を評価フレームワークとして使用してその試行を採点します。
+次のサンプルスクリプトでは、Verifiers で評価を実行し、その結果を Weave にログする方法を示します。このスクリプトでは、[GSM8Kデータセット](https://huggingface.co/datasets/openai/gsm8k) を使って、数学の問題を解く LLM の能力を検証します。GPT-4 に 2 つの数学の問題を解かせ、各レスポンスから数値を抽出した後、Verifiers を評価フレームワークとして使ってその試行を採点します。
 
 サンプルを実行し、Weave で結果を確認してください。
 
@@ -52,7 +56,7 @@ import weave
 
 os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
 
-# Weave を初期化
+# Weave を初期化する
 weave.init("verifiers_demo")
 
 # 最小限のシングルターン環境
@@ -78,17 +82,19 @@ results = env.evaluate(
 )
 ```
 
-### 実験管理とトレースを用いたモデルのファインチューン
+<div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
+  ### 実験管理とトレースを使用してモデルをファインチューニングする
+</div>
 
-Weave は、トレーニング中のモデルの挙動に関する洞察を提供することで、RL のファインチューンワークフローにおける強力なツールとなります。W&B と併用することで、包括的なオブザーバビリティが得られます。W&B はトレーニングメトリクスとパフォーマンスチャートを追跡し、Weave はトレーニングプロセス中の各インタラクションの詳細な トレース（Traces）をキャプチャします。
+Weave は、トレーニング中のモデルのパフォーマンスを可視化できるため、RL のファインチューニングワークフローで強力なツールになります。W&amp;B と併用すると、包括的な可観測性が得られます。W&amp;B はトレーニングのメトリクスやパフォーマンスチャートをトラッキングし、Weave はトレーニングプロセス中の各インタラクションの詳細なトレースを取得します。
 
-`verifiers` リポジトリには、すぐに実行できる [例](https://github.com/willccbb/verifiers/tree/main/examples/grpo) が用意されています。
+`verifiers` リポジトリには、使い始めるのに役立つ、すぐに実行できる[例](https://github.com/PrimeIntellect-ai/verifiers)が含まれています。
 
-以下の RL トレーニングパイプラインの例では、ローカルの推論サーバーを実行し、GSM8K データセットを使用してモデルをトレーニングします。モデルは数学の問題に対する回答を返し、トレーニングループは出力をスコアリングしてそれに応じてモデルを更新します。W&B は損失、報酬、精度などのトレーニングメトリクスを記録し、Weave は入力、出力、推論過程、およびスコアリングをキャプチャします。
+次の RL トレーニングパイプラインの例では、ローカルの推論サーバーを実行し、GSM8K データセットを使用してモデルをトレーニングします。モデルは数学の問題に対する答えを返し、トレーニングループは出力をスコアリングして、それに応じてモデルを更新します。W&amp;B は損失、報酬、精度などのトレーニングメトリクスをログし、Weave は入力、出力、推論過程、スコアリングを取得します。
 
-このパイプラインを使用するには：
+このパイプラインを使用するには:
 
-1. ソースからフレームワークをインストールします。以下のコマンドで GitHub から Verifiers ライブラリと必要な依存関係をインストールします。
+1. ソースからフレームワークをインストールします。次のコマンドでは、GitHub から Verifiers ライブラリと必要な依存関係をインストールします。
 
 ```bash
 git clone https://github.com/willccbb/verifiers
@@ -96,38 +102,40 @@ cd verifiers
 uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 ```
 
-2. 既成の環境をインストールします。以下のコマンドで、事前設定済みの GSM8K トレーニング環境をインストールします。
+2. 既成の環境をインストールします。次のコマンドで、事前設定済みの GSM8K トレーニング環境をインストールできます。
 
 ```bash
 vf-install gsm8k --from-repo
 ```
 
-3. モデルをトレーニングします。以下のコマンドは、それぞれ推論サーバーとトレーニングループを ローンチ（Launch）します。このサンプルワークフローではデフォルトで `report_to=wandb` が設定されているため、別途 `wandb.init` を呼び出す必要はありません。W&B にメトリクスを記録するために、このマシンの認証を求められます。
+3. モデルをトレーニングします。次のコマンドは、それぞれ推論サーバーとトレーニングループを起動します。このワークフロー例では、デフォルトで `report_to=wandb` が設定されているため、`wandb.init` を別途呼び出す必要はありません。W&amp;B にメトリクスをログするには、このマシンを認証するよう求められます。
 
 ```bash
-# 推論サーバーを実行
+# 推論サーバーを起動する
 CUDA_VISIBLE_DEVICES=0 vf-vllm --model willcb/Qwen3-0.6B --enforce-eager --disable-log-requests
 
-# トレーニングループを実行
+# トレーニングループを起動する
 CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs/zero3.yaml examples/grpo/train_gsm8k.py
 ```
 
 <Note>
-この例は 2xH100 で正常にテストされました。安定性を高めるために、以下の環境変数を設定しています。
+  この例は 2xH100 での動作を確認しており、安定性を高めるために以下の環境変数を設定しました。
 
-```bash
-# ローンチ前に、両方のシェル（サーバーとトレーナー）で実行
-export NCCL_CUMEM_ENABLE=0
-export NCCL_CUMEM_HOST_ENABLE=0
-```
+  ```bash
+  # 起動前に両方のシェル（server と trainer）で設定
+  export NCCL_CUMEM_ENABLE=0
+  export NCCL_CUMEM_HOST_ENABLE=0
+  ```
 
-これらの変数は、デバイスメモリ割り当てのための CUDA Unified Memory (CuMem) を無効にします。
+  これらの変数は、デバイスメモリ割り当てにおける CUDA Unified Memory (CuMem) を無効にします。
 </Note>
 
-トレーニングが開始されると、UI で run 中にログ記録された [トレースを確認](/weave/guides/tools/weave-in-workspaces) できます。
+トレーニングが始まると、run 中にログされた[トレース](/ja/weave/guides/tools/weave-in-workspaces)を UI で表示できます。
 
-トレースでは、`Environment.a_generate` および `Rubric.score_rollouts` メソッドの `logprobs` が除外されます。これにより、トレーニング用のオリジナルデータはそのままに、ペイロードサイズを小さく抑えています。
+トレースでは、`Environment.a_generate` および `Rubric.score_rollouts` method の `logprobs` は省略されます。これにより、トレーニング用の元のデータはそのまま保持しつつ、ペイロードを小さくできます。
 
-## 関連項目
+<div id="see-also">
+  ## 関連項目
+</div>
 
-Verifiers は W&B Models との強力なインテグレーションを備えています。詳細は [Monitoring](https://verifiers.readthedocs.io/en/latest/training.html#monitoring) を参照してください。
+Verifiers は W&amp;B Models とネイティブにインテグレーションされています。詳しくは、[Verifiers repository](https://github.com/PrimeIntellect-ai/verifiers)を参照してください。

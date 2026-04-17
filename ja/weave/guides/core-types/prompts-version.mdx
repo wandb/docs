@@ -1,0 +1,212 @@
+---
+title: "プロンプトのバージョンを保存してトラッキングする"
+description: "LLMアプリケーション用のプロンプトのバージョンを取得して管理する"
+---
+
+[プロンプトを作成して公開](/ja/weave/guides/core-types/prompts.mdx)した後、コード内や本番環境で特定のバージョンを参照、取得、使用できます。
+
+`weave.publish` でプロンプトを公開すると、W&amp;B Weave は不変バージョンを作成します。各バージョンは名前とバージョンで参照でき、`weave.ref(...).get()` を使ってコード内で取得でき、Weave UI で確認できます。
+
+<div id="prompt-versions">
+  # プロンプトのバージョン
+</div>
+
+Weave のプロンプトは、**バージョン付きオブジェクト**として保存されます。これにより、評価、Experiments、本番システムが、実行時に使用した正確なプロンプトのバージョンを参照できるようにしつつ、プロンプトを安全に反復改善できます。
+
+プロンプトのバージョンには、Weave の object ref を使ってアクセスします。このページでは、プロンプトのバージョンがどのように作成されるか、コードで特定のバージョンを取得する方法、そして Weave UI でバージョンを確認・比較する方法を説明します。
+
+<div id="how-prompt-versions-are-created">
+  ## プロンプトのバージョンがどのように作成されるか
+</div>
+
+Weave はプロンプトのすべてのバージョンを自動的に追跡し、プロンプトがどのように変化していくかの完全な履歴を作成します。このバージョン管理システムは、プロンプトエンジニアリングのワークフローで重要な役割を果たします。これにより、安全に試行錯誤しながら、どの変更がパフォーマンスを改善または悪化させたかを追跡し、必要に応じて以前のバージョンに簡単にロールバックできます。同じ名前で内容の異なるプロンプトを公開するたびに、Weave は過去のすべてのバージョンを保持したまま新しいバージョンを作成します。
+
+各バージョンは不変です。いったん作成されると、そのバージョンの内容は変更できません。プロンプトを更新して再度公開すると、Weave は以前のバージョンを保持したまま新しいバージョンを作成します。
+
+バージョン管理により、次のことが可能になります。
+
+* 過去の実験を再現する。
+* プロンプトの変更を安全に繰り返し改善する。
+* プロンプトの更新を制御された形でロールアウトする。
+
+<div id="construct-a-fully-qualified-ref-uri">
+  ## 完全修飾された ref URI を作成する
+</div>
+
+Weave オブジェクトは、完全修飾された ref URI を使って一意に識別できます。
+
+完全修飾された Weave object ref URI は、次のようになります。
+
+```text
+weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
+```
+
+* *your-team-name*: W&amp;B entity (ユーザー名またはチーム名)
+* *your-project-name*: W&amp;Bプロジェクト
+* *object&#95;name*: オブジェクト名
+* *object&#95;version*: バージョンハッシュ、`v0` や `v1` のようなバージョンインデックス、または `:latest` や `:production` のようなエイリアスのいずれかです。すべてのオブジェクトには `:latest` エイリアスがあります。
+
+たとえば、完全修飾の Weave プロンプト URI は次のようになります。
+
+```text
+weave:///your-team-name/your-project-name/object/support_prompt:v3
+```
+
+<div id="retrieve-a-prompt-version-in-code">
+  ## コードでプロンプトのバージョンを取得する
+</div>
+
+プロンプトを取得するには、その名とバージョンへの参照を作成し、`.get()` を呼び出して読み込みます。ref は保存済みのオブジェクトを指し、`.get()` はそのオブジェクトを取得して、アプリケーションで使用できるようにします。
+
+ref はいくつかの方法で作成できます。
+
+* `weave.ref(<name>)`: プロンプトの `:latest` バージョンを取得します。`weave.init(...)` の呼び出しが必要です。
+* `weave.ref(<name>:<alias_or_version>)`: エイリアス、バージョンハッシュ、またはバージョンインデックスでプロンプトを取得します。`weave.init(...)` の呼び出しが必要です。
+* `weave.ref(<fully_qualified_ref_uri>)`: 指定した[完全修飾された ref URI](#construct-a-fully-qualified-ref-uri)にあるプロンプトを取得します。`weave.init(...)` を呼び出す必要はありません。
+
+次の例では、アプリケーションで使用できるように `support_prompt:v3` を読み込みます。
+
+```python lines
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+prompt = weave.ref("support_prompt:v3").get()
+```
+
+<div id="use-prompts-in-production">
+  ## 本番環境でプロンプトを使用する
+</div>
+
+本番システムにプロンプトをデプロイする際は、バージョンインデックスや最新バージョンではなく、`production` のような [エイリアス](#add-prompt-tags-and-aliases) を使用します。本番アプリケーションでは、`weave.ref(<name>:<alias>).get()` でプロンプトを読み込みます。
+
+エイリアス を使用すると、本番環境の動作を安定的かつ予測可能に保てます。新しいバージョンを本番に昇格する準備ができたら、そのバージョンに エイリアス を移動します。すると、すべての利用側でその変更が自動的に反映されます。
+
+一般的なワークフローは次のとおりです。
+
+1. 新しいバージョンのプロンプトを開発してテストします。
+2. データセットまたは評価スイートに対して新しいプロンプトを評価します。
+3. `client.set_aliases(new_ref, "production")` を使用して、`production` エイリアス を新しいバージョンに移動します。
+
+この方法により、チームは本番環境の動作を意図せず変更することなく、安全にプロンプトを繰り返し改善できます。
+
+## <a id="view-prompts" aria-label="プロンプトのバージョンを表示して比較する" />プロンプトのバージョンを表示して比較する
+
+UIでプロンプトのバージョンを表示するには、次の手順に従います。
+
+1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
+2. Weave のプロジェクトのサイドバーで **Assets** をクリックします。Assets ページが開きます。
+3. Assets ページで **Prompts** をクリックします。プロジェクト内のプロンプトが一覧表示された Prompts ページが開きます。
+4. **Versions** 列で、表示したいプロンプトの **(x) Versions** をクリックします。プロンプトのバージョン一覧が開きます。
+
+![選択したプロンプトのバージョンを示す Prompt Assets の UI。](/weave/guides/core-types/imgs/prompt-object.png)
+
+1. (任意) 一覧に表示されたプロンプトの横にあるチェックボックスを選択し、表のツールバーにある **Compare** ボタンをクリックすると、プロンプトのバージョンを比較できます。これにより、プロンプト間の差分を確認できます。
+
+![2 つの異なるプロンプト バージョン間の差分を示す Compare prompts UI。](/weave/guides/core-types/imgs/prompt-comparison.png)
+
+<div id="add-prompt-tags-and-aliases">
+  ## プロンプトのタグとエイリアスを追加する
+</div>
+
+エイリアスとタグを使用して、プロンプトのバージョンを整理できます。これらのラベルは、特定のバージョンの識別や参照に役立ちます。
+
+* エイリアス: 1 つのプロンプトのバージョンに対応する一意の名前です。エイリアスはいつでも別のバージョンを指すように変更できるため、本番やステージングのような固定参照に便利です。
+* タグ: バージョンに付与する説明用のラベルです。1 つのバージョンに複数のタグを付けることができます。reviewed や passed-eval のように、タグを使用してバージョンを分類したりフィルターしたりできます。
+
+UI でプロンプトのエイリアスとタグを設定するには、次の手順に従います。
+
+1. Weave プロジェクトのサイドバーで、**Assets** をクリックします。Assets ページが開きます。
+2. Assets ページで、**Prompts** をクリックします。表では、割り当て済みの `Aliases` と `Tags` を確認できます。
+3. Prompts の表で、変更するプロンプトのリンクをクリックします。
+4. 選択したプロンプトの詳細パネルでは、タイトルバーにプロンプト名と特定のバージョンが表示されます。更新するプロンプトのバージョンを選択します。
+5. パネルのツールバーで、コントロールを使用して、この特定のバージョンに割り当てられたエイリアスとタグを追加または削除します。
+
+![Prompts ページのプロンプト詳細パネルで選択したプロンプトのバージョン。Aliases と Tags のコントロールが表示されています。](/weave/guides/core-types/imgs/prompt-alias-tags.png)
+
+<div id="modify-tags-and-aliases-in-code">
+  ### コードでタグとエイリアスを変更する
+</div>
+
+タグとエイリアスは、次のような作業でもコードから管理できます。
+
+* タグやエイリアスをインラインで付けてプロンプトを公開する。
+* 特定のバージョンにエイリアスを向け、解決してプロンプトを読み込む。
+* バージョンに対してタグやエイリアスを追加、削除、一覧表示する。
+
+次のコード例では、3 つのバージョンを持つプロンプト `my-prompt` をプロジェクトに追加し、各バージョンにさまざまなタグとエイリアスを設定します。`'your-team-name/your-project-name'` は実際のプロジェクトに合わせて更新してください。
+
+<CodeGroup>
+  ```python Python lines
+  import weave
+
+  // TODO: 'your-team-name/your-project-name' を正しい値に設定します。
+  client = weave.init('your-team-name/your-project-name')
+
+  # プロンプトの 2 つのバージョンを公開します。
+  v0_ref = weave.publish(
+      weave.StringPrompt("Answer the user's question: {question}"),
+      name="my-prompt",
+  )
+  v1_ref = weave.publish(
+      weave.StringPrompt("Answer the user's question helpfully and concisely: {question}"),
+      name="my-prompt",
+  )
+
+  # --- エイリアス: 特定のバージョンを指す名前付きポインタ。 ---
+
+  # バージョンにエイリアスを設定します。
+  client.set_aliases(v0_ref, "staging")
+  client.set_aliases(v1_ref, "production")
+
+  # バージョンのエイリアスを取得します。
+  client.get_aliases(v1_ref)  # ["production", "latest"]
+
+  # 別のバージョンに設定してエイリアスを移動します。
+  client.set_aliases(v0_ref, "production")  # v1 から自動的に解除されます。
+
+  # エイリアスを解決してオブジェクトを読み込みます。
+  prompt = weave.ref("my-prompt:production").get()
+
+  # プロジェクト内のすべてのエイリアスを一覧表示します。
+  client.list_aliases()
+
+  # エイリアスを削除します。
+  client.remove_aliases(v0_ref, "production")
+
+  # --- タグ: 特定のバージョンに付くラベル。 ---
+
+  # バージョンにタグを追加します。
+  client.add_tags(v0_ref, ["reviewed", "passed-eval"])
+  client.add_tags(v1_ref, ["reviewed", "needs-improvement"])
+
+  # バージョンのタグを取得します。
+  client.get_tags(v0_ref)  # ["passed-eval", "reviewed"]
+
+  # プロジェクト内の重複しないすべてのタグを一覧表示します。
+  client.list_tags()
+
+  # バージョンからタグを削除します。
+  client.remove_tags(v1_ref, ["needs-improvement"])
+
+  # --- 組み合わせ: 両方を 1 回の呼び出しで取得します。 ---
+
+  tags, aliases = client.get_tags_and_aliases(v0_ref)
+
+  # --- タグとエイリアスをインラインで付けて公開します。 ---
+
+  ref = weave.publish(
+      weave.StringPrompt("Be brief: {question}"),
+      name="my-prompt",
+      tags=["reviewed"],
+      aliases=["production"],
+  )
+
+  ```
+
+  ```plaintext TypeScript lines
+  この機能は、TypeScript SDK ではまだ利用できません。
+  ```
+</CodeGroup>
+
+この例を実行すると、Weave は Weave ダッシュボード内のオブジェクトへのリンクを出力します。リンクをたどってプロンプトを確認してください。

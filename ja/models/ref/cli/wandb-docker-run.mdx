@@ -1,25 +1,25 @@
 ---
-title: wandb docker-run
+title: "wandb docker-run"
 ---
-import WandbDockerRun from "/snippets/en/_includes/cli/wandb-docker-run.mdx";
 
- medical_thought
-<WandbDockerRun/>
+import WandbDockerRun from "/snippets/ja/_includes/cli/wandb-docker-run.mdx";
 
-`docker run` をラップし、 `WANDB_API_KEY` と `WANDB_DOCKER` 環境変数を追加します。
+<WandbDockerRun />
 
-また、システムに `nvidia-docker` 実行ファイルが存在し、かつ `--runtime` が設定されていない場合、ランタイムを `nvidia` に設定します。
 
-詳細については `docker run --help` を参照してください。
-
-## Usage
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
 wandb docker-run [DOCKER_RUN_ARGS]
 ```
 
-## Arguments
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | 説明なし | いいえ |
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数                | 説明            | 必須  |
+| :---------------- | :------------ | :-- |
+| `DOCKER_RUN_ARGS` | 利用可能な説明はありません | いいえ |

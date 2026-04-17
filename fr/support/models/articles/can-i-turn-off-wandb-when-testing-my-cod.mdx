@@ -1,0 +1,18 @@
+---
+title: "Puis-je désactiver wandb lorsque je teste mon code ?"
+keywords: ["Artifacts"]
+---
+
+Utilisez `wandb.init(mode="disabled")` ou définissez `WANDB_MODE=disabled` pour que W&amp;B n&#39;effectue aucune opération (NOOP) lors des tests.
+
+<Note>
+  L&#39;utilisation de `wandb.init(mode="disabled")` n&#39;empêche pas W&amp;B d&#39;enregistrer des artifacts dans `WANDB_CACHE_DIR`.
+</Note>
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

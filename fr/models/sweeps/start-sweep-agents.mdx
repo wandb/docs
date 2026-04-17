@@ -1,0 +1,117 @@
+---
+description: Démarrez ou arrêtez un agent de balayage W&B sur une ou plusieurs machines.
+title: Démarrer un agent de balayage
+---
+
+Démarrez un balayage sur un ou plusieurs agents, sur une ou plusieurs machines. Les agents de balayage utilisent la configuration de balayage définie lorsque vous [initialisez un balayage](/fr/models/sweeps/initialize-sweeps) pour explorer différentes combinaisons d&#39;hyperparamètres. W&amp;B crée un nouveau run pour chaque combinaison d&#39;hyperparamètres essayée par l&#39;agent de balayage.
+
+Voir [Gérer les balayages](/fr/models/sweeps/pause-resume-and-cancel-sweeps) pour savoir comment mettre en pause, reprendre, arrêter ou annuler un balayage.
+
+<Note>
+  Avant de continuer, assurez-vous de :
+
+  * Configurer votre script d&#39;entraînement pour créer et suivre des combinaisons d&#39;hyperparamètres avec W&amp;B. Pour plus d&#39;informations, voir [Ajouter W&amp;B à votre code](./add-w-and-b-to-your-code#training-script-with-w%26b-python-sdk).
+  * Avoir défini un [fichier de configuration](./define-sweep-configuration) pour votre balayage.
+</Note>
+
+Les extraits de code suivants montrent comment démarrer un agent avec la CLI et dans un notebook Jupyter ou un script Python. Pour les deux méthodes, fournissez l&#39;ID du balayage que W&amp;B renvoie lorsque vous initialisez le balayage. L&#39;ID du balayage se présente sous la forme suivante :
+
+```bash
+entity/project/sweep_ID
+```
+
+Où :
+
+* `entity` : votre nom d&#39;utilisateur W&amp;B ou le nom de votre équipe.
+* `project` : le nom du projet dans lequel vous souhaitez que W&amp;B stocke la sortie du run. Si le projet n&#39;est pas spécifié, W&amp;B place le run dans un projet appelé &quot;Uncategorized&quot;.
+* `sweep_ID` : l&#39;ID unique pseudo-aléatoire généré par W&amp;B.
+
+<Tabs>
+  <Tab title="CLI">
+    Utilisez la commande `wandb agent` pour démarrer un balayage. Indiquez l&#39;ID du balayage renvoyé par W&amp;B lorsque vous avez initialisé le balayage.
+
+    Copiez-collez l&#39;extrait de code ci-dessous et remplacez `sweep_id` par votre ID du balayage :
+
+    ```bash
+    wandb agent sweep_id
+    ```
+
+    Pour un arrêt propre lorsque vous interrompez l&#39;agent (par exemple avec Ctrl+C), utilisez `wandb agent --forward-signals sweep_id` afin que le run en cours reçoive le signal et puisse s&#39;arrêter correctement. Voir [Signal handling and sweep runs](/fr/models/sweeps/signal-handling-sweep-runs) pour plus de détails.
+  </Tab>
+
+  <Tab title="Script Python ou notebook">
+    Utilisez [`wandb.agent()`](/fr/models/ref/python/functions/agent) pour démarrer un balayage. Indiquez l&#39;ID du balayage renvoyé par W&amp;B lorsque vous avez initialisé le balayage, ainsi que le nom de la fonction qui sert de point d&#39;entrée à votre script d&#39;entraînement.
+
+    Copiez-collez l&#39;extrait de code ci-dessous et remplacez `<sweep_id>` par votre ID du balayage et `<function_name>` par le nom de votre fonction d&#39;entraînement :
+
+    ```python
+    wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
+    ```
+
+    Le transfert des signaux de l&#39;agent vers le run d&#39;entraînement est uniquement pris en charge lorsque vous utilisez la CLI (`wandb agent --forward-signals`). Il n&#39;est pas pris en charge pour `wandb.agent()` en Python, car la fonction d&#39;entraînement s&#39;exécute dans un thread, et non dans un processus enfant. Voir [Signal handling and sweep runs](/fr/models/sweeps/signal-handling-sweep-runs) pour plus de détails.
+
+    Voir l&#39;[onglet Script Python ou notebook](/fr/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) dans Add W&amp;B to your code pour un exemple de configuration de votre script d&#39;entraînement si vous utilisez cette méthode.
+
+    <Warning>
+      **Multiprocessing**
+
+      Vous devez encapsuler vos appels `wandb.agent()` et `wandb.sweep()` dans `if __name__ == '__main__':` si vous utilisez `multiprocessing` de la bibliothèque standard Python ou le package `pytorch.multiprocessing` de PyTorch. Par exemple :
+
+      ```python
+      if __name__ == '__main__':
+          wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+      ```
+
+      Encapsuler votre code selon cette convention garantit qu&#39;il n&#39;est exécuté que lorsque le script est lancé directement, et non lorsqu&#39;il est importé comme module dans un processus worker.
+
+      Voir [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) ou [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) pour plus d&#39;informations sur le multiprocessing. Voir https://realpython.com/if-name-main-python/ pour plus d&#39;informations sur la convention `if __name__ == '__main__':`.
+    </Warning>
+  </Tab>
+</Tabs>
+
+<div id="limit-the-number-of-runs-a-sweep-agent-tries">
+  ### Limiter le nombre de runs qu&#39;un agent de balayage tente
+</div>
+
+<Warning>
+  Les recherches aléatoires et bayésiennes s&#39;exécutent indéfiniment. Vous devez arrêter le processus depuis la ligne de commande, dans votre script Python ou dans l&#39;[interface utilisateur de Sweeps](./visualize-sweep-results).
+</Warning>
+
+Spécifiez le nombre de runs qu&#39;un agent de balayage doit tenter. Les extraits de code suivants montrent comment définir un nombre maximal de [W&amp;B Runs](/fr/models/ref/python/experiments/run) avec la CLI et dans un notebook Jupyter ou un script Python.
+
+<Tabs>
+  <Tab title="CLI">
+    Commencez par initialiser votre balayage avec la commande [`wandb sweep`](/fr/models/ref/cli/wandb-sweep). Pour plus d&#39;informations, voir [Initialiser les balayages](./initialize-sweeps).
+
+    ```
+    wandb sweep config.yaml
+    ```
+
+    Ensuite, passez une valeur entière à l&#39;indicateur count pour définir le nombre maximal de runs à tenter.
+
+    ```python
+    NUM=10
+    SWEEPID="dtzl1o7u"
+    wandb agent --count $NUM $SWEEPID
+    ```
+  </Tab>
+
+  <Tab title="Script Python ou notebook">
+    Commencez par initialiser votre balayage. Pour plus d&#39;informations, voir [Initialiser les balayages](./initialize-sweeps).
+
+    ```
+    sweep_id = wandb.sweep(sweep_config)
+    ```
+
+    Ensuite, démarrez le job de balayage. Fournissez l&#39;ID du balayage généré lors de l&#39;initialisation du balayage. Passez une valeur entière au paramètre count pour définir le nombre maximal de runs à tenter.
+
+    ```python
+    sweep_id, count = "dtzl1o7u", 10
+    wandb.agent(sweep_id, count=count)
+    ```
+
+    <Warning>
+      Si vous démarrez un nouveau run après la fin de l&#39;agent de balayage, dans le même script ou notebook, vous devez appeler `wandb.teardown()` avant de démarrer ce nouveau run.
+    </Warning>
+  </Tab>
+</Tabs>

@@ -1,33 +1,39 @@
 ---
-title: wandb local
+title: "wandb local"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-local.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドの導入文を追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-local.mdx
+  2. そのファイルに導入文を追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbLocal from "/snippets/en/_includes/cli/wandb-local.mdx";
+  import WandbLocal from "/snippets/_includes/cli/wandb-local.mdx";
 
-<WandbLocal/>
+  <WandbLocal/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  このスニペットは、次回の再生成時に自動検出されます。
+  */}
 
-ローカルの W&B コンテナを起動します (非推奨です。 `wandb server --help` を参照してください)
+ローカルの W&amp;B コンテナーを起動します (非推奨。wandb server --help を参照) 
 
-## 使用法
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb local [OPTIONS]
 ```
 
-## オプション
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--port`, `-p` | W&B local をバインドするホストポート (デフォルト: 8080) |
-| `--env`, `-e` | wandb/local に渡す環境変数 (デフォルト: []) |
-| `--daemon` | デーモンモードで実行するかどうか (デフォルト: True) |
-| `--upgrade` | 最新の バージョン にアップグレードする (デフォルト: False) |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション          | 説明                                           |
+| :------------- | :------------------------------------------- |
+| `--port`, `-p` | W&amp;B local をバインドするホスト側のポート (デフォルト: 8080)  |
+| `--env`, `-e`  | wandb/local に渡す環境変数 (デフォルト: [])              |
+| `--daemon`     | デーモンモードで実行するかどうか (デフォルト: True)               |
+| `--upgrade`    | 最新バージョンにアップグレードするかどうか (デフォルト: False)         |

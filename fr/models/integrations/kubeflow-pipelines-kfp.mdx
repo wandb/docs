@@ -1,0 +1,216 @@
+---
+description: "Intégrez W&B à Kubeflow Pipelines pour suivre les expériences et visualiser les métriques à travers les composants du pipeline ML."
+title: Kubeflow Pipelines (kfp)
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)est une plateforme permettant de créer et de déployer des flux de travail de machine learning (ML) portables et évolutifs basés sur des conteneurs Docker.
+
+Cette intégration permet aux utilisateurs d’appliquer des décorateurs aux composants fonctionnels Python de kfp afin de journaliser automatiquement les paramètres et les Artifacts dans W&amp;B.
+
+Cette fonctionnalité est disponible à partir de `wandb==0.12.11` et nécessite `kfp<2.0.0`
+
+<div id="sign-up-and-create-an-api-key">
+  ## Inscrivez-vous et créez une clé API
+</div>
+
+Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil utilisateur.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil utilisateur dans l’angle supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer la bibliothèque `wandb` localement et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="decorate-your-components">
+  ## Décorez vos composants
+</div>
+
+Ajoutez le décorateur `@wandb_log` et créez vos composants comme d&#39;habitude. Cela journalisera automatiquement dans W&amp;B les paramètres d&#39;entrée/sortie et les artifacts chaque fois que vous exécutez votre pipeline.
+
+```python
+from kfp import components
+from wandb.integration.kfp import wandb_log
+
+
+@wandb_log
+def add(a: float, b: float) -> float:
+    return a + b
+
+
+add = components.create_component_from_func(add)
+```
+
+<div id="pass-environment-variables-to-containers">
+  ## Transmettre des variables d&#39;environnement aux conteneurs
+</div>
+
+Vous devrez peut-être transmettre explicitement des [variables d&#39;environnement](/fr/models/track/environment-variables/) à vos conteneurs. Pour une liaison bidirectionnelle, vous devez également définir la variable d&#39;environnement `WANDB_KUBEFLOW_URL` avec l&#39;URL de base de votre instance Kubeflow Pipelines. Par exemple, `https://kubeflow.mysite.com`.
+
+```python
+import os
+from kubernetes.client.models import V1EnvVar
+
+
+def add_wandb_env_variables(op):
+    env = {
+        "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
+        "WANDB_BASE_URL": os.getenv("WANDB_BASE_URL"),
+    }
+
+    for name, value in env.items():
+        op = op.add_env_variable(V1EnvVar(name, value))
+    return op
+
+
+@dsl.pipeline(name="example-pipeline")
+def example_pipeline(param1: str, param2: int):
+    conf = dsl.get_pipeline_conf()
+    conf.add_op_transformer(add_wandb_env_variables)
+```
+
+<div id="access-your-data-programmatically">
+  ## Accédez à vos données de manière programmatique
+</div>
+
+<div id="via-the-kubeflow-pipelines-ui">
+  ### Via l’UI de Kubeflow Pipelines
+</div>
+
+Cliquez sur n’importe quel run dans l’UI de Kubeflow Pipelines qui a été enregistré avec W&amp;B.
+
+* Consultez les détails des entrées et des sorties dans les onglets `Input/Output` et `ML Metadata`.
+* Consultez l’application web W&amp;B depuis l’onglet `Visualizations`.
+
+<Frame>
+  <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B dans l’UI de Kubeflow" />
+</Frame>
+
+<div id="via-the-web-app-ui">
+  ### Via l’interface de l’application web
+</div>
+
+L’interface de l’application web affiche le même contenu que l’onglet `Visualizations` dans Kubeflow Pipelines, mais avec davantage d’espace. [En savoir plus sur l’interface de l’application web ici](/fr/models/app).
+
+<Frame>
+  <img src="/images/integrations/kubeflow_pipelines.png" alt="Détails du run" />
+</Frame>
+
+<Frame>
+  <img src="/images/integrations/kubeflow_via_app.png" alt="DAG du pipeline" />
+</Frame>
+
+<div id="via-the-public-api-for-programmatic-access">
+  ### Via l’API publique (pour un accès programmatique)
+</div>
+
+* Pour un accès programmatique, [voir notre API publique](/fr/models/ref/python/public-api/).
+
+<div id="concept-mapping-from-kubeflow-pipelines-to-wb">
+  ### Correspondance des concepts entre Kubeflow Pipelines et W&amp;B
+</div>
+
+Voici la correspondance des concepts de Kubeflow Pipelines avec W&amp;B
+
+| Kubeflow Pipelines | W&amp;B               | Emplacement dans W&amp;B                            |
+| ------------------ | --------------------- | --------------------------------------------------- |
+| Scalaire d’entrée  | [`config`](/fr/models/)  | [onglet Vue d’ensemble](/fr/models/runs/#overview-tab) |
+| Scalaire de sortie | [`summary`](/fr/models/) | [onglet Vue d’ensemble](/fr/models/runs/#overview-tab) |
+| Artifact d’entrée  | Artifact d’entrée     | [onglet Artifacts](/fr/models/runs/#artifacts-tab)     |
+| Artifact de sortie | Artifact de sortie    | [onglet Artifacts](/fr/models/runs/#artifacts-tab)     |
+
+<div id="fine-grain-logging">
+  ## Journalisation granulaire
+</div>
+
+Si vous voulez un contrôle plus fin de la journalisation, vous pouvez ajouter quelques appels à `wandb.log` et `wandb.log_artifact` dans le composant.
+
+<div id="with-explicit-wandblog_artifacts-calls">
+  ### Avec des appels explicites à `wandb.log_artifacts`
+</div>
+
+Dans l’exemple ci-dessous, nous entraînons un modèle. Le décorateur `@wandb_log` suivra automatiquement les entrées et sorties pertinentes. Si vous souhaitez également journaliser le processus d’entraînement, vous pouvez l’ajouter explicitement comme suit :
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    with wandb.init() as run:
+        ...
+        for epoch in epochs:
+            for batch_idx, (data, target) in enumerate(train_dataloader):
+                ...
+                if batch_idx % log_interval == 0:
+                    run.log(
+                        {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                    )
+            ...
+            run.log_artifact(model_artifact)
+```
+
+<div id="with-implicit-wandb-integrations">
+  ### Avec les intégrations implicites de wandb
+</div>
+
+Si vous utilisez une [intégration framework que nous prenons en charge](/fr/models/integrations), vous pouvez aussi transmettre directement le callback :
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    from pytorch_lightning.loggers import WandbLogger
+    from pytorch_lightning import Trainer
+
+    trainer = Trainer(logger=WandbLogger())
+    ...  # lancer l'entraînement
+```

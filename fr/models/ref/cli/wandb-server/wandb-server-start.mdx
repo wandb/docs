@@ -1,0 +1,38 @@
+---
+title: "wandb server start"
+---
+
+{/*
+  Pour ajouter une introduction à cette commande :
+  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-server-start.mdx
+  2. Ajoutez votre introduction à ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+
+  import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
+
+  <WandbServerStart/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Démarrer un serveur W&amp;B local
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb server start [OPTIONS]
+```
+
+
+<div id="options">
+  ## Options
+</div>
+
+| Option         | Description                                                                 |
+| :------------- | :-------------------------------------------------------------------------- |
+| `--port`, `-p` | Le port hôte auquel associer serveur W&amp;B (par défaut : 8080)             |
+| `--env`, `-e`  | Variables d&#39;environnement à transmettre à wandb/local (par défaut : []) |
+| `--daemon`     | Activer ou non le mode démon (par défaut : True)                            |

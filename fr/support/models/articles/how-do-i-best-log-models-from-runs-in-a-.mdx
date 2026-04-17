@@ -1,0 +1,18 @@
+---
+title: "Comment puis-je enregistrer au mieux des modèles à partir de runs dans un balayage ?"
+keywords: ["Artifacts", "Sweeps"]
+---
+
+Une approche efficace pour enregistrer des modèles dans un [balayage](/fr/models/sweeps/) consiste à créer un artifact de modèle pour le balayage. Chaque version représente un run différent du balayage. Procédez comme suit :
+
+```python
+wandb.Artifact(name="sweep_name", type="model")
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets */}

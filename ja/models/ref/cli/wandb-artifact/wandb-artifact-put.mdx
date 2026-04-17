@@ -1,43 +1,51 @@
 ---
-title: wandb artifact put
+title: "wandb artifact put"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-put.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドの導入内容を追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-put.mdx
+  2. そのファイルに導入内容を追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbArtifactPut from "/snippets/en/_includes/cli/wandb-artifact-put.mdx";
+  import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
 
-<WandbArtifactPut/>
+  <WandbArtifactPut/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-Artifact を wandb にアップロードします。
+artifact を wandb にアップロードする
 
-## 使用法
+
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
 wandb artifact put PATH [OPTIONS]
 ```
 
-## Arguments
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATH` | 説明はありません | はい |
+<div id="arguments">
+  ## 引数
+</div>
 
-## Options
+| 引数     | 説明   | 必須 |
+| :----- | :--- | :- |
+| `PATH` | 説明なし | はい |
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--name`, `-n` | プッシュする Artifact の名前: project/artifact_name |
-| `--description`, `-d` | この Artifact の説明 |
-| `--type`, `-t` | Artifact のタイプ (デフォルト: dataset) |
-| `--alias`, `-a` | この Artifact に適用するエイリアス (デフォルト: ['latest']) |
-| `--id` | アップロード先となる run。 |
-| `--resume` | 現在のディレクトリーから最後の run を再開します。 |
-| `--skip_cache` | Artifact ファイルのアップロード中にキャッシングをスキップします。(デフォルト: False) |
-| `--policy` | Artifact ファイルのアップロード中のストレージポリシーを設定します。(デフォルト: mutable) |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション                 | 説明                                                      |
+| :-------------------- | :------------------------------------------------------ |
+| `--name`, `-n`        | プッシュするartifactの名: `project/artifact_name`               |
+| `--description`, `-d` | このartifactの説明                                           |
+| `--type`, `-t`        | artifactのタイプ (デフォルト: データセット)                            |
+| `--alias`, `-a`       | このartifactに適用するエイリアス (デフォルト: [&#39;latest&#39;])        |
+| `--id`                | アップロード先のrun。                                            |
+| `--resume`            | 現在のディレクトリから直前のrunを再開します。                                |
+| `--skip_cache`        | artifactファイルのアップロード中はキャッシュを使用しません。 (デフォルト: False)       |
+| `--policy`            | artifactファイルのアップロード時のストレージポリシーを設定します。 (デフォルト: mutable)  |

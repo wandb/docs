@@ -1,0 +1,20 @@
+---
+title: "`.log()` と `.summary` の違いは何ですか？"
+keywords: ["グラフ"]
+---
+
+`.summary` は表に表示され、`.log()` は後でプロットできるようにすべての値を保存します。
+
+たとえば、accuracy が変化するたびに `run.log()` を呼び出します。デフォルトでは、そのメトリクスに対して手動で設定していない限り、`run.log()` は `.summary` の値を更新します。
+
+散布図と平行座標プロットは `.summary` の値を使用し、折れ線グラフは `run.log()` で記録されたすべての値を表示します。
+
+一部のユーザーは、最後にログされた accuracy ではなく、最適な accuracy を反映するように `.summary` を手動で設定することを好みます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[チャート](/ja/support/models/tags/charts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

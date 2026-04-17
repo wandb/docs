@@ -1,33 +1,39 @@
 ---
-title: wandb init
+title: "wandb init"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-init.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドに導入用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-init.mdx
+  2. そのファイルに導入用コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbInit from "/snippets/en/_includes/cli/wandb-init.mdx";
+  import WandbInit from "/snippets/_includes/cli/wandb-init.mdx";
 
-<WandbInit/>
+  <WandbInit/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-ディレクトリーに Weights & Biases の設定を行います。
+Weights &amp; Biases 用のディレクトリを設定する
 
-## 使用法
+
+<div id="usage">
+  ## 使用法
+</div>
 
 ```bash
 wandb init [OPTIONS]
 ```
 
-## オプション
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | 使用する Projects を指定します。 |
-| `--entity`, `-e` | Projects のスコープ対象となる Entities を指定します。 |
-| `--reset` | 設定 をリセットします (デフォルト: False) |
-| `--mode`, `-m` | "online", "offline", または "disabled" を指定できます。デフォルトは online です。 |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション             | 説明                                                                                        |
+| :---------------- | :---------------------------------------------------------------------------------------- |
+| `--project`, `-p` | 使用するプロジェクト。                                                                               |
+| `--entity`, `-e`  | プロジェクトのスコープを設定するentity。                                                                   |
+| `--reset`         | 設定をリセットする (デフォルト: False)                                                                  |
+| `--mode`, `-m`    | &quot;online&quot;、&quot;offline&quot;、または &quot;disabled&quot; を指定できます。デフォルトは online です。 |

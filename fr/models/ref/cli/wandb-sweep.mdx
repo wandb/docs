@@ -1,0 +1,55 @@
+---
+title: "wandb sweep"
+---
+
+{/*
+  Pour ajouter une introduction à cette commande :
+  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-sweep.mdx
+  2. Ajoutez votre introduction dans ce fichier
+  3. Supprimez entièrement ce bloc de commentaires et conservez uniquement les deux lignes ci-dessous :
+
+  import WandbSweep from "/snippets/_includes/cli/wandb-sweep.mdx";
+
+  <WandbSweep/>
+
+  Le snippet sera détecté automatiquement à la prochaine régénération.
+  */}
+
+Initialisez un balayage d’hyperparamètres. Recherchez les hyperparamètres qui optimisent la fonction de coût d’un modèle de machine learning en testant différentes combinaisons.
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument                  | Description                   | Requis |
+| :------------------------ | :---------------------------- | :----- |
+| `CONFIG_YAML_OR_SWEEP_ID` | Aucune description disponible | Oui    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option              | Description                                                                                                                                                                                                                                                                                        |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project`, `-p`   | Nom du projet auquel sont envoyés les runs W&amp;B créés à partir du balayage. Si aucun projet n&#39;est spécifié, le run est envoyé vers un projet intitulé Uncategorized.                                                                                                                        |
+| `--entity`, `-e`    | Nom d&#39;utilisateur ou nom d&#39;équipe auquel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité indiquée existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, généralement votre nom d&#39;utilisateur. |
+| `--controller`      | Exécuter le contrôleur local (par défaut : False)                                                                                                                                                                                                                                                  |
+| `--verbose`         | Afficher une sortie détaillée (par défaut : False)                                                                                                                                                                                                                                                 |
+| `--name`            | Nom du balayage. L&#39;ID du balayage est utilisé si aucun nom n&#39;est spécifié.                                                                                                                                                                                                                 |
+| `--program`         | Définir le programme du balayage                                                                                                                                                                                                                                                                   |
+| `--update`          | Mettre à jour le balayage en attente                                                                                                                                                                                                                                                               |
+| `--stop`            | Terminer un balayage pour empêcher le démarrage de nouveaux runs et laisser les runs en cours se terminer. (par défaut : False)                                                                                                                                                                    |
+| `--cancel`          | Annuler un balayage pour arrêter tous les runs en cours et empêcher le démarrage de nouveaux runs. (par défaut : False)                                                                                                                                                                            |
+| `--pause`           | Mettre en pause un balayage pour empêcher temporairement le démarrage de nouveaux runs. (par défaut : False)                                                                                                                                                                                       |
+| `--resume`          | Reprendre un balayage pour relancer le démarrage de nouveaux runs. (par défaut : False)                                                                                                                                                                                                            |
+| `--prior_run`, `-R` | ID d&#39;un run existant à ajouter à ce balayage                                                                                                                                                                                                                                                   |

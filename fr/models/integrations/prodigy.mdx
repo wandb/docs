@@ -1,0 +1,40 @@
+---
+description: "Intégrez W&B à Prodigy pour suivre les flux de travail d'annotation, consigner les métriques d'entraînement et gérer des Datasets étiquetés."
+title: Prodigy
+---
+
+[Prodigy](https://prodi.gy/) est un outil d&#39;annotation qui permet de créer des données d&#39;entraînement et d&#39;évaluation pour les modèles de machine learning, ainsi que pour l&#39;analyse des erreurs, l&#39;inspection et le nettoyage des données. Les [W&amp;B Tables](/fr/models/tables/tables-walkthrough/) vous permettent de consigner, visualiser, analyser et partager des Datasets (et bien plus encore !) dans W&amp;B.
+
+[L&#39;intégration de W&amp;B avec Prodigy](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py) ajoute des fonctionnalités simples et faciles à utiliser pour téléverser directement votre jeu de données annoté avec Prodigy vers W&amp;B afin de l&#39;utiliser avec Tables.
+
+Exécutez quelques lignes de code, comme celles-ci :
+
+```python
+import wandb
+from wandb.integration.prodigy import upload_dataset
+
+with wandb.init(project="prodigy"):
+    upload_dataset("news_headlines_ner")
+```
+
+et obtenez des tableaux visuels et interactifs, faciles à partager, comme celui-ci :
+
+<Frame>
+  <img src="/images/integrations/prodigy_interactive_visual.png" alt="tableau d’annotation Prodigy" />
+</Frame>
+
+&quot;
+
+<div id="quickstart">
+  ## Démarrage rapide
+</div>
+
+Utilisez `wandb.integration.prodigy.upload_dataset` pour importer votre jeu de données Prodigy annoté directement depuis la base de données Prodigy locale vers W&amp;B au format [Table](/fr/models/ref/python/data-types/table). Pour plus d’informations sur Prodigy, y compris l’installation et la configuration, veuillez vous référer à la [documentation Prodigy](https://prodi.gy/docs/).
+
+W&amp;B tentera automatiquement de convertir les images et les champs d’entités nommées en [`wandb.Image`](/fr/models/ref/python/data-types/image) et [`wandb.Html`](/fr/models/ref/python/data-types/html) respectivement. Des colonnes supplémentaires peuvent être ajoutées au tableau obtenu pour inclure ces visualisations.
+
+<div id="read-through-a-detailed-example">
+  ## Lire un exemple détaillé
+</div>
+
+Explorez [Visualiser les Datasets Prodigy avec W&amp;B Tables](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc) pour découvrir des exemples de visualisations générées avec l’intégration Prodigy de W&amp;B.

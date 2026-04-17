@@ -1,0 +1,69 @@
+---
+title: Termes et concepts de Launch
+description: "Découvrez les principaux concepts de W&B Launch, notamment les jobs, les files d'attente, les ressources cibles, les agents et les environnements d'agent."
+---
+
+Avec W&amp;B Launch, vous placez des [jobs](#launch-job) dans des [files d&#39;attente](#launch-queue) pour créer des runs. Les jobs sont des scripts Python instrumentés avec W&amp;B. Les files d&#39;attente contiennent une liste de jobs à exécuter sur une [ressource cible](#target-resources). Les [agents](#launch-agent) récupèrent les jobs depuis les files d&#39;attente et les exécutent sur des ressources cibles. W&amp;B suit les jobs Launch de la même manière que les [runs](/fr/models/runs/).
+
+<div id="launch-job">
+  ### Job Launch
+</div>
+
+Un job Launch est un type spécifique de [W&amp;B Artifact](/fr/models/artifacts/) qui représente une tâche à accomplir. Par exemple, parmi les jobs Launch courants, on trouve l&#39;entraînement d&#39;un modèle ou le déclenchement d&#39;une évaluation de modèle. Les définitions de job incluent :
+
+* Du code Python et d&#39;autres ressources de fichier, y compris au moins un point d&#39;entrée exécutable.
+* Des informations sur l&#39;entrée (paramètre de configuration) et la sortie (métriques enregistrées).
+* Des informations sur l&#39;environnement (par exemple, `requirements.txt`, `Dockerfile` de base).
+
+Il existe trois grands types de définitions de job :
+
+| Types de job                                  | Définition                                                                                                                              | Comment exécuter ce type de job                                                                                                         |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Jobs basés sur des Artifacts (ou sur le code) | Le code et les autres ressources sont enregistrés sous forme d&#39;artifact W&amp;B.                                                    | Pour exécuter des jobs basés sur des artifacts, l&#39;agent Launch doit être configuré avec un builder.                                 |
+| Jobs basés sur Git                            | Le code et les autres ressources sont clonés à partir d&#39;un commit, d&#39;une branche ou d&#39;un tag spécifiques dans un dépôt Git. | Pour exécuter des jobs basés sur Git, l&#39;agent Launch doit être configuré avec un builder et des identifiants de dépôt Git.          |
+| Jobs basés sur des images                     | Le code et les autres ressources sont intégrés dans une image Docker.                                                                   | Pour exécuter des jobs basés sur des images, l&#39;agent Launch peut devoir être configuré avec des identifiants de dépôt d&#39;images. |
+
+<Note>
+  Bien que les jobs Launch puissent effectuer des activités sans lien avec l&#39;entraînement de modèle — par exemple, déployer un modèle sur un serveur d&#39;inférence Triton — tous les jobs doivent appeler `wandb.init` pour se terminer correctement. Cela crée un run à des fins de suivi dans un Workspace W&amp;B.
+</Note>
+
+Retrouvez les jobs que vous avez créés dans la W&amp;B App, sous l&#39;onglet `Jobs` de l&#39;espace de travail du projet. À partir de là, les jobs peuvent être configurés et envoyés vers une [launch queue](#launch-queue) pour être exécutés sur diverses [ressources cibles](#target-resources).
+
+<div id="launch-queue">
+  ### Launch queue
+</div>
+
+Les *files d’attente* Launch sont des listes ordonnées de jobs à exécuter sur une ressource cible spécifique. Les files d’attente Launch fonctionnent selon le principe du premier entré, premier sorti (FIFO). Il n’existe pas de limite pratique au nombre de files d’attente que vous pouvez avoir, mais il est généralement recommandé d’avoir une file d’attente par ressource cible. Les jobs peuvent être mis en file d’attente avec la W&amp;B App UI, le W&amp;B CLI ou le SDK Python. Vous pouvez ensuite configurer un ou plusieurs agents Launch pour extraire des éléments de la file d’attente et les exécuter sur la ressource cible de cette dernière.
+
+<div id="target-resources">
+  ### Ressources cibles
+</div>
+
+L’environnement de calcul sur lequel une Launch queue est configurée pour exécuter des jobs est appelé *ressource cible*.
+
+W&amp;B Launch prend en charge les ressources cibles suivantes :
+
+* [Docker](/fr/platform/launch/setup-launch-docker/)
+* [Kubernetes](/fr/platform/launch/setup-launch-kubernetes/)
+* [AWS SageMaker](/fr/platform/launch/setup-launch-sagemaker/)
+* [Google Cloud Vertex AI](/fr/platform/launch/setup-vertex/)
+
+Chaque ressource cible utilise un ensemble différent de paramètres de configuration appelés *configurations de ressource*. Les configurations de ressource reprennent par défaut les valeurs définies pour chaque Launch queue, mais peuvent être remplacées indépendamment pour chaque job. Voir la documentation de chaque ressource cible pour plus de détails.
+
+<div id="launch-agent">
+  ### agent Launch
+</div>
+
+Les agents Launch sont des programmes légers et persistants qui vérifient régulièrement les files d&#39;attente Launch à la recherche de jobs à exécuter. Lorsqu&#39;un agent Launch reçoit un job, il commence par créer l&#39;image à partir de la définition du job ou par la récupérer, puis l&#39;exécute sur la ressource cible.
+
+Un agent peut interroger plusieurs files d&#39;attente, mais il doit être correctement configuré pour prendre en charge toutes les ressources cibles sous-jacentes de chaque file d&#39;attente qu&#39;il interroge.
+
+<div id="launch-agent-environment">
+  ### Environnement de l&#39;agent Launch
+</div>
+
+L&#39;environnement de l&#39;agent correspond à l&#39;environnement dans lequel un agent Launch s&#39;exécute et interroge la file d&#39;attente à la recherche de jobs.
+
+<Note>
+  L&#39;environnement d&#39;exécution de l&#39;agent est indépendant de la ressource cible d&#39;une file d&#39;attente. En d&#39;autres termes, les agents peuvent être déployés n&#39;importe où, à condition d&#39;être configurés de manière adéquate pour accéder aux ressources cibles requises.
+</Note>

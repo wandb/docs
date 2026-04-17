@@ -1,0 +1,58 @@
+---
+title: "워커 프로세스에서 트레이스 데이터 손실"
+keywords: ["Trace Data", "Performance"]
+---
+
+Weave는 애플리케이션 성능에 미치는 영향을 최소화하기 위해 백그라운드 스레드에서 트레이스 데이터를 업로드합니다. 하지만 multiprocessing 또는 task queue 시스템, 혹은 Celery와 같은 워커 프로세스를 사용할 때 백그라운드 스레드가 트레이스 업로드를 끝내기 전에 워커 프로세스가 종료되면 Weave에서 트레이스 데이터가 손실됩니다.
+
+워커 프로세스에서 데이터 손실을 방지하려면 워커 작업이 완료되기 전에 `client.flush()` 또는 `client.finish()`를 호출해 백그라운드 업로드가 완료되도록 해야 합니다. 이는 [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run), 또는 실행 직후 종료되는 노트북과 같은 수명이 짧은 환경에서 작업할 때 도움이 됩니다.
+
+이 메서드들은 용도가 서로 다릅니다:
+
+* `weave.flush()`: 단순하게, 별도 출력 없이 플러시합니다. Weave를 워커 프로세스나 CI 환경에 통합한 경우 권장됩니다.
+* `weave.finish()`: 진행률 표시줄이나 상태 콜백을 통해 진행 상황 피드백을 제공합니다. 대화형 스크립트나 노트북에 권장됩니다.
+
+두 메서드 모두 모든 백그라운드 업로드가 완료될 때까지 차단하므로, 워커 프로세스가 종료될 때 트레이스 데이터가 손실되지 않도록 보장합니다.
+
+다음 예제는 `client.finish()`를 보여줍니다:
+
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+
+    try:
+        # 트레이스를 생성하는 태스크 로직
+        result = your_processing_function(input_data)
+
+        # 태스크가 완료되기 전에 모든 트레이스가 업로드되도록 합니다
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
+
+종료할 때 `weave.finish()`가 자동으로 호출되도록 `with` 컨텍스트 관리자를 사용할 수도 있습니다:
+
+```python
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+`weave.flush()`를 사용하면 애플리케이션 성능도 개선할 수 있습니다. 자세한 내용은 [Flushing](/ko/support/weave/articles/long-eval-clean-up-times)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

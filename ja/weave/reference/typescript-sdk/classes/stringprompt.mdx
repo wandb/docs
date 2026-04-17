@@ -1,177 +1,249 @@
 ---
-title: 'Class: StringPrompt'
-description: TypeScript SDK リファレンス
+title: "クラス: StringPrompt"
+description: "TypeScript SDK リファレンス"
 ---
 
 [weave](../) / StringPrompt
 
-## 階層構造
+<div id="hierarchy">
+  ## 階層
+</div>
 
-- `Prompt`
+* `Prompt`
 
   ↳ `StringPrompt`
 
-## 目次
+<div id="table-of-contents">
+  ## 目次
+</div>
 
-### コンストラクタ
+<div id="constructors">
+  ### コンストラクタ
+</div>
 
-- [constructor](./stringprompt#constructor)
+* [constructor](./stringprompt#constructor)
 
-### プロパティ
+<div id="properties">
+  ### プロパティ
+</div>
 
-- [\_\_savedRef](./stringprompt#__savedref)
-- [content](./stringprompt#content)
+* [&#95;&#95;savedRef](./stringprompt#__savedref)
+* [content](./stringprompt#content)
 
-### アクセサ
+<div id="accessors">
+  ### アクセサー
+</div>
 
-- [description](./stringprompt#description)
-- [name](./stringprompt#name)
+* [説明](./stringprompt#description)
+* [名](./stringprompt#name)
 
-### メソッド
+<div id="methods">
+  ### メソッド
+</div>
 
-- [format](./stringprompt#format)
-- [saveAttrs](./stringprompt#saveattrs)
-- [get](./stringprompt#get)
+* [format](./stringprompt#format)
+* [saveAttrs](./stringprompt#saveattrs)
+* [get](./stringprompt#get)
 
 ## コンストラクタ
 
-### constructor
+<div id="constructor">
+  ### コンストラクター
+</div>
 
 • **new StringPrompt**(`parameters`): [`StringPrompt`](./stringprompt)
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
+| 名            | タイプ                      |
+| :----------- | :----------------------- |
 | `parameters` | `StringPromptParameters` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 [`StringPrompt`](./stringprompt)
 
-#### オーバーライド
+<div id="overrides">
+  #### オーバーライド
+</div>
 
 Prompt.constructor
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[prompt.ts:17](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L17)
+[prompt.ts:17](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L17)
 
 ## プロパティ
 
-### \_\_savedRef
+<div id="__savedref">
+  ### __savedRef
+</div>
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+• `任意` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### 継承元
+<div id="inherited-from">
+  #### 継承元
+</div>
 
-Prompt.\_\_savedRef
+Prompt.&#95;&#95;savedRef
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
 
-___
+***
 
-### content
+<div id="content">
+  ### content
+</div>
 
 • **content**: `string`
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[prompt.ts:15](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L15)
+[prompt.ts:15](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L15)
 
-## アクセサ
+## アクセサー
 
-### description
+<div id="description">
+  ### description
+</div>
 
-• `get` **description**(): `undefined` \| `string`
+• `get` **description**(): `undefined` | `string`
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
-`undefined` \| `string`
+`undefined` | `string`
 
-#### 継承元
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 Prompt.description
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
 
-___
+***
 
-### name
+<div id="name">
+  ### 名
+</div>
 
 • `get` **name**(): `string`
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `string`
 
-#### 継承元
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 Prompt.name
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
 
 ## メソッド
 
-### format
+<div id="format">
+  ### format
+</div>
 
 ▸ **format**(`values?`): `string`
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `values` | `Record`\<`string`, `any`\> |
+| 名        | タイプ                             |
+| :------- | :------------------------------ |
+| `values` | `Record`&lt;`string`, `any`&gt; |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `string`
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[prompt.ts:22](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L22)
+[prompt.ts:22](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L22)
 
-___
+***
 
-### saveAttrs
+<div id="saveattrs">
+  ### saveAttrs
+</div>
 
 ▸ **saveAttrs**(): `Object`
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Object`
 
-#### 継承元
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 Prompt.saveAttrs
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
 
-___
+***
 
-### get
+<div id="get">
+  ### get
+</div>
 
-▸ **get**(`client`, `uri`): `Promise`\<[`StringPrompt`](./stringprompt)\>
+▸ **get**(`client`, `uri`): `Promise`&lt;[`StringPrompt`](./stringprompt)&gt;
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
+| 名        | タイプ                            |
+| :------- | :----------------------------- |
 | `client` | [`WeaveClient`](./weaveclient) |
-| `uri` | `string` |
+| `uri`    | `string`                       |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
-`Promise`\<[`StringPrompt`](./stringprompt)\>
+`Promise`&lt;[`StringPrompt`](./stringprompt)&gt;
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義元
+</div>
 
-[prompt.ts:26](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L26)
+[prompt.ts:26](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L26)

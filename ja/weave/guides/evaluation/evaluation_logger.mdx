@@ -1,616 +1,699 @@
 ---
-title: コードから評価データを ログ に記録する
-description: Python または TypeScript のコードから評価データを、柔軟かつ段階的にログ記録する方法
+title: "コードから評価データをログする"
+description: "Python および TypeScript のコードから評価データを柔軟かつ段階的にログする方法"
 ---
 
-`EvaluationLogger` は、Python または TypeScript のコードから評価データを直接ログに記録するための、柔軟でインクリメンタルな方法を提供します。Weave の内部データ型に関する深い知識は必要ありません。ロガーをインスタンス化し、そのメソッド（`log_prediction`、`log_score`、`log_summary`）を使用して評価ステップを記録するだけです。
+`EvaluationLogger` を使うと、Python または TypeScript のコードから評価データを直接、柔軟かつ段階的にログできます。Weave の内部データ型に関する深い知識は必要ありません。ロガーをインスタンス化し、そのメソッド (`log_prediction`、`log_score`、`log_summary`) を使用して評価の各 step を記録するだけです。
 
-このアプローチは、データセット全体や基礎となるすべてのスコアラーが事前に定義されていないような、複雑なワークフローにおいて特に役立ちます。
+この方法は、データセット全体やすべての scorer を最初に定義できない複雑な workflow で特に役立ちます。
 
-定義済みの `Dataset` と `Scorer` オブジェクトのリストを必要とする標準的な `Evaluation` オブジェクトとは対照的に、`EvaluationLogger` では、個々の予測とそれに関連するスコアを、利用可能になった時点でインクリメンタルに記録できます。
+あらかじめ定義した `Dataset` と `Scorer` オブジェクトの list が必要な標準の `Evaluation` オブジェクトとは異なり、`EvaluationLogger` では個々の予測とそれに関連するスコアを、利用可能になった時点で段階的にログできます。
 
 <Info>
-**より構造化された評価をお好みですか？**
+  **より構造化された評価をご希望ですか？**
 
-定義済みのデータセットとスコアラーを備えた、より規範的な評価フレームワークを好む場合は、[Weave の標準評価フレームワーク](../core-types/evaluations) を参照してください。
+  事前定義されたデータセットと scorer を備えた、より定型的な評価フレームワークを使用したい場合は、[Weave の標準 Evaluation フレームワーク](../core-types/evaluations)を参照してください。
 
-`EvaluationLogger` が柔軟性を提供するのに対し、標準フレームワークは構造とガイドラインを提供します。
+  `EvaluationLogger` は柔軟性を重視している一方、標準フレームワークは構造とガイダンスを提供します。
 </Info>
 
-## 基本的なワークフロー
+<div id="basic-workflow">
+  ## 基本的なワークフロー
+</div>
 
-1. **ロガーの初期化**: `EvaluationLogger` のインスタンスを作成します。オプションで `model` や `dataset` に関するメタデータを提供できます。省略した場合はデフォルト値が使用されます。
-    <Note>
-    LLM 呼び出し（OpenAI など）のトークン使用量とコストを把握するには、**LLM を呼び出す前に** `EvaluationLogger` を初期化してください。
-    LLM を先に呼び出してから予測をログに記録した場合、トークンとコストのデータは取得されません。
-    </Note>
-2. **予測のログ記録**: システムからの各入力/出力ペアに対して `log_prediction` を呼び出します。
-3. **スコアのログ記録**: 返された `ScoreLogger` を使用して、予測に対する `log_score` を行います。1 つの予測に対して複数のスコアをサポートしています。
-4. **予測の終了**: 予測のスコアをログに記録した後は、必ず `finish()` を呼び出して確定させてください。
-5. **サマリーのログ記録**: すべての予測が処理された後、`log_summary` を呼び出してスコアを集計し、オプションでカスタムメトリクスを追加します。
+1. *ロガーを初期化する:* `EvaluationLogger` のインスタンスを作成し、必要に応じて `model` と `dataset` に関するメタデータを指定します。省略した場合はデフォルトが使用されます。
+   <Note>
+     LLM call (例: OpenAI) のトークン使用量とコストを記録するには、**LLMを呼び出す前に `EvaluationLogger` を初期化してください**。
+     先にLLMを呼び出してから予測をログしても、トークンとコストのデータは記録されません。
+   </Note>
+2. *予測をログする:* システムの各入力/出力ペアに対して `log_prediction` を呼び出します。
+3. *スコアをログする:* 返された `ScoreLogger` を使用して、その予測に対する `log_score` を呼び出します。1つの予測に対して複数のスコアをログできます。
+4. *予測を完了する:* 予測を確定するため、スコアをログしたら必ず `finish()` を呼び出します。
+5. *サマリーをログする:* すべての予測の処理が完了したら、`log_summary` を呼び出してスコアを集計し、必要に応じてカスタムメトリクスを追加します。
 
 <Warning>
-予測に対して `finish()` を呼び出した後は、その予測にスコアを記録することはできません。
+  予測に対して `finish()` を呼び出した後は、その予測にそれ以上スコアをログできません。
 </Warning>
 
-説明したワークフローを示す Python コードについては、[基本的な例](#基本的な例) を参照してください。
+説明したワークフローを示す Python コードについては、[基本例](#basic-example)を参照してください。
 
-## 基本的な例
+<div id="basic-example">
+  ## 基本例
+</div>
 
-次の例では、`EvaluationLogger` を使用して、既存のコード内で予測とスコアをインラインでログに記録する方法を示します。
-
-<Tabs>
-<Tab title="Python">
-`user_model` 関数が定義され、入力リストに適用されます。各例について：
-
-- 入力と出力が `log_prediction` を使用してログに記録されます。
-- 単純な正解スコア（`correctness_score`）が `log_score` 経由でログに記録されます。
-- `finish()` によってその予測のログ記録が完了します。
-最後に、`log_summary` が集計メトリクスを記録し、Weave での自動スコアサマリーをトリガーします。
-
-```python lines
-import weave
-from openai import OpenAI
-from weave import EvaluationLogger
-
-weave.init('your-team/your-project')
-
-# トークン追跡を確実にするため、モデルを呼び出す前に EvaluationLogger を初期化します
-eval_logger = EvaluationLogger(
-    model="my_model",
-    dataset="my_dataset"
-)
-
-# 入力データの例（任意のデータ構造を使用できます）
-eval_samples = [
-    {'inputs': {'a': 1, 'b': 2}, 'expected': 3},
-    {'inputs': {'a': 2, 'b': 3}, 'expected': 5},
-    {'inputs': {'a': 3, 'b': 4}, 'expected': 7},
-]
-
-# OpenAI を使用したモデルロジックの例
-@weave.op
-def user_model(a: int, b: int) -> int:
-    oai = OpenAI()
-    response = oai.chat.completions.create(
-        messages=[{"role": "user", "content": f"What is {a}+{b}?"}],
-        model="gpt-4o-mini"
-    )
-    # レスポンスを何らかの方法で使用します（ここでは簡単のため a + b を返します）
-    return a + b
-
-# サンプルを反復処理し、予測してログに記録します
-for sample in eval_samples:
-    inputs = sample["inputs"]
-    model_output = user_model(**inputs) # 入力を kwargs として渡します
-
-    # 予測の入力と出力をログに記録します
-    pred_logger = eval_logger.log_prediction(
-        inputs=inputs,
-        output=model_output
-    )
-
-    # この予測のスコアを計算してログに記録します
-    expected = sample["expected"]
-    correctness_score = model_output == expected
-    pred_logger.log_score(
-        scorer="correctness", # スコアラーのシンプルな文字列名
-        score=correctness_score
-    )
-
-    # この特定の予測のログ記録を終了します
-    pred_logger.finish()
-
-# 評価全体の最終サマリーをログに記録します。
-# Weave は上記でログに記録された 'correctness' スコアを自動的に集計します。
-summary_stats = {"subjective_overall_score": 0.8}
-eval_logger.log_summary(summary_stats)
-
-print("Evaluation logging complete. View results in the Weave UI.")
-```
-</Tab>
-<Tab title="TypeScript">
-TypeScript SDK は 2 つの API パターンを提供します。
-
-1. **Fire-and-forget API**（ほとんどの場合に推奨）：同期的な非ブロッキング ログ記録のために、`await` なしで `logPrediction()` を使用します。
-2. **Awaitable API**：処理を進める前に操作が完了したことを確認する必要がある場合に、`await` 付きで `logPredictionAsync()` を使用します。
-
-以下の理由から **fire-and-forget** を推奨します：
-- **高スループット**：各ログ操作を待たずに、複数の予測を並列で処理できます。
-- **最小限のコード変更**：既存の async/await フローを再構築することなく、評価ログを追加できます。
-- **シンプルさ**：ほとんどの評価シナリオにおいて、ボイラープレートコードが少なく、構文がクリーンになります。
-
-`logSummary()` は、結果を集計する前に保留中のすべての操作が完了するのを自動的に待機するため、fire-and-forget パターンは安全です。
-
-次の例では、fire-and-forget パターンを使用してモデルの予測を評価します。評価ロガーを設定し、3 つのテストサンプルでシンプルなモデルを実行し、await を使用せずに予測をログに記録します。
-
-```typescript lines {36,50}
-import weave, {EvaluationLogger} from 'weave';
-import OpenAI from 'openai';
-
-await weave.init('your-team/your-project');
-
-// トークン追跡を確実にするため、モデルを呼び出す前に EvaluationLogger を初期化します
-const evalLogger = new EvaluationLogger({
-  name: 'my-eval',
-  model: 'my_model',
-  dataset: 'my_dataset'
-});
-
-// 入力データの例
-const evalSamples = [
-  {inputs: {a: 1, b: 2}, expected: 3},
-  {inputs: {a: 2, b: 3}, expected: 5},
-  {inputs: {a: 3, b: 4}, expected: 7},
-];
-
-// OpenAI を使用したモデルロジックの例
-const userModel = weave.op(async function userModel(a: number, b: number): Promise<number> {
-  const oai = new OpenAI();
-  const response = await oai.chat.completions.create({
-    messages: [{role: 'user', content: `What is ${a}+${b}?`}],
-    model: 'gpt-4o-mini'
-  });
-  return a + b;
-});
-
-// サンプルを反復処理し、予測し、fire-and-forget パターンでログに記録します
-for (const sample of evalSamples) {
-  const {inputs} = sample;
-  const modelOutput = await userModel(inputs.a, inputs.b);
-
-  // Fire-and-forget: logPrediction に await は不要です
-  const scoreLogger = evalLogger.logPrediction(inputs, modelOutput);
-
-  // この予測のスコアを計算してログに記録します
-  const correctnessScore = modelOutput === sample.expected;
-
-  // Fire-and-forget: logScore に await は不要です
-  scoreLogger.logScore('correctness', correctnessScore);
-
-  // Fire-and-forget: finish に await は不要です
-  scoreLogger.finish();
-}
-
-// logSummary は内部で保留中のすべての操作が完了するのを待ちます
-const summaryStats = {subjective_overall_score: 0.8};
-await evalLogger.logSummary(summaryStats);
-
-console.log('Evaluation logging complete. View results in the Weave UI.');
-```
-
-エラーハンドリングや逐次的な依存関係を管理する場合など、各操作が完了してから次に進む必要がある場合は、awaitable API を使用してください。
-
-次の例では、`await` なしの `logPrediction()` を呼び出す代わりに、`await` 付きの `logPredictionAsync()` を使用して、各操作が完了してから次へ進むようにしています。
-
-```typescript lines
-// logPrediction の代わりに logPredictionAsync を使用します
-const scoreLogger = await evalLogger.logPredictionAsync(inputs, modelOutput);
-
-// 各操作を await します
-await scoreLogger.logScore('correctness', correctnessScore);
-await scoreLogger.finish();
-```
-</Tab>
-</Tabs>
-
-## 高度な使用法
-
-`EvaluationLogger` は、より複雑な評価シナリオに対応するために、基本的なワークフローを超えた柔軟なパターンを提供します。このセクションでは、自動リソース管理のためのコンテキストマネージャーの使用、モデル実行とログ記録の分離、リッチメディアデータの処理、複数のモデル評価の並列比較などの高度なテクニックについて説明します。
-
-### コンテキストマネージャーの使用
-
-`EvaluationLogger` は、予測とスコアの両方でコンテキストマネージャー（`with` ステートメント）をサポートしています。これにより、コードがよりクリーンになり、リソースの自動クリーンアップが可能になり、LLM 判定の呼び出しなどのネストされた操作の追跡が改善されます。
-
-この文脈で `with` ステートメントを使用すると、以下の利点があります：
-- コンテキストを抜けるときに `finish()` が自動的に呼び出される
-- ネストされた LLM 呼び出しのトークン/コスト追跡が改善される
-- 予測コンテキスト内でのモデル実行後に出力を設定できる
+次の例では、`EvaluationLogger` を使用して、既存のコード内で予測とスコアを直接ログする方法を示します。
 
 <Tabs>
-<Tab title="Python">
-```python lines {16,24,31,40}
-import openai
-import weave
+  <Tab title="Python">
+    `user_model` モデル関数を定義し、入力のリストに適用します。各例について:
 
-weave.init("nested-evaluation-example")
-oai = openai.OpenAI()
+    * 入力と出力は `log_prediction` を使用してログします。
+    * 単純な正確性スコア (`correctness_score`) は `log_score` を使ってログします。
+    * `finish()` はその予測のログ記録を完了します。
+      最後に、`log_summary` は集計メトリクスを記録し、Weave での自動スコア要約をトリガーします。
 
-# ロガーの初期化
-ev = weave.EvaluationLogger(
-    model="gpt-4o-mini",
-    dataset="joke_dataset"
-)
+    ```python lines
+    import weave
+    from openai import OpenAI
+    from weave import EvaluationLogger
 
-user_prompt = "Tell me a joke"
+    weave.init('your-team/your-project')
 
-# 予測にコンテキストマネージャーを使用 - finish() を呼び出す必要はありません
-with ev.log_prediction(inputs={"user_prompt": user_prompt}) as pred:
-    # コンテキスト内でモデル呼び出しを行います
-    result = oai.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": user_prompt}],
+    # トークントラッキングを確実にするため、モデルを呼び出す前にEvaluationLoggerを初期化する
+    eval_logger = EvaluationLogger(
+        model="my_model",
+        dataset="my_dataset"
     )
 
-    # モデル呼び出し後に出力を設定します
-    pred.output = result.choices[0].message.content
+    # 入力データの例（任意のデータ構造を使用できます）
+    eval_samples = [
+        {'inputs': {'a': 1, 'b': 2}, 'expected': 3},
+        {'inputs': {'a': 2, 'b': 3}, 'expected': 5},
+        {'inputs': {'a': 3, 'b': 4}, 'expected': 7},
+    ]
 
-    # シンプルなスコアをログに記録します
-    pred.log_score("correctness", 1.0)
-    pred.log_score("ambiguity", 0.3)
-    
-    # LLM 判定が必要なスコアにはネストされたコンテキストマネージャーを使用します
-    with pred.log_score("llm_judge") as score:
-        judge_result = oai.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "Rate how funny the joke is from 1-5"},
-                {"role": "user", "content": pred.output},
-            ],
+    # OpenAIを使用したモデルロジックの例
+    @weave.op
+    def user_model(a: int, b: int) -> int:
+        oai = OpenAI()
+        response = oai.chat.completions.create(
+            messages=[{"role": "user", "content": f"What is {a}+{b}?"}],
+            model="gpt-4o-mini"
         )
-        # 計算後にスコア値を設定します
-        score.value = judge_result.choices[0].message.content
+        # レスポンスを何らかの形で使用する（ここでは簡略化のためa + bを返すだけ）
+        return a + b
 
-# 'with' ブロックを抜けるときに finish() が自動的に呼び出されます
+    # サンプルを反復処理し、予測してログする
+    for sample in eval_samples:
+        inputs = sample["inputs"]
+        model_output = user_model(**inputs) # 引数をkwargsとして渡す
 
-ev.log_summary({"avg_score": 1.0})
-```
+        # 予測の入力と出力をログする
+        pred_logger = eval_logger.log_prediction(
+            inputs=inputs,
+            output=model_output
+        )
 
-このパターンにより、すべてのネストされた操作が追跡され、親の予測に帰属することが保証され、Weave UI で正確なトークン使用量とコストデータが得られます。
-</Tab>
-<Tab title="TypeScript">
-TypeScript には Python のコンテキストマネージャーのような `with` ステートメントのパターンはありません。代わりに、明示的な `finish()` 呼び出しを伴う fire-and-forget パターンを使用してください。
+        # この予測のスコアを計算してログする
+        expected = sample["expected"]
+        correctness_score = model_output == expected
+        pred_logger.log_score(
+            scorer="correctness", # スコアラーのシンプルな文字列名
+            score=correctness_score
+        )
 
-次の例では、予測をログに記録し、シンプルなスコアと LLM 判定スコアを追加してから、`finish()` で予測を確定させます。
+        # この予測のロギングを完了する
+        pred_logger.finish()
 
-```typescript lines {43}
-import weave from 'weave';
-import OpenAI from 'openai';
-import {EvaluationLogger} from 'weave/evaluationLogger';
+    # 評価全体の最終サマリーをログする。
+    # Weaveは上記でログされた'correctness'スコアを自動集計する。
+    summary_stats = {"subjective_overall_score": 0.8}
+    eval_logger.log_summary(summary_stats)
 
-await weave.init('your-team/your-project');
-const oai = new OpenAI();
+    print("評価のロギングが完了しました。Weave UIで結果を確認してください。")
+    ```
+  </Tab>
 
-// ロガーの初期化
-const ev = new EvaluationLogger({
-  name: 'joke-eval',
-  model: 'gpt-4o-mini',
-  dataset: 'joke_dataset',
-});
+  <Tab title="TypeScript">
+    TypeScript SDK には、2 つの API パターンがあります。
 
-const userPrompt = 'Tell me a joke';
+    1. **Fire-and-forget API** (ほとんどのケースで推奨) : 同期的かつノンブロッキングにログするには、`await` を付けずに `logPrediction()` を使用します
+    2. **Awaitable API**: 続行する前に処理の完了を確実にしたい場合は、`await` とともに `logPredictionAsync()` を使用します
 
-// モデル出力を取得
-const result = await oai.chat.completions.create({
-  model: 'gpt-4o-mini',
-  messages: [{role: 'user', content: userPrompt}],
-});
+    以下のような場合は **fire-and-forget** を推奨します。
 
-const modelOutput = result.choices[0].message.content;
+    * **高スループット**: 各ログ処理の完了を待たずに、複数の予測を並列で処理できます
+    * **コード変更を最小限に抑えられる**: 既存の async/await フローを組み替えることなく、評価ログを追加できます
+    * **シンプル**: ほとんどの評価シナリオで、定型コードが少なく、構文もすっきりします
 
-// 出力とともに予測をログに記録
-const pred = ev.logPrediction({user_prompt: userPrompt}, modelOutput);
+    fire-and-forget パターンが安全なのは、`logSummary()` が結果を集計する前に、保留中のすべての処理が完了するまで自動的に待機するためです。
 
-// シンプルなスコアをログに記録
-pred.logScore('correctness', 1.0);
-pred.logScore('ambiguity', 0.3);
+    次の例では、fire-and-forget パターンを使ってモデルの予測を評価します。評価ロガーをセットアップし、3 つのテストサンプルでシンプルなモデルを実行した後、`await` を使わずに予測をログします。
 
-// LLM 判定スコアの場合、呼び出しを行って結果をログに記録
-const judgeResult = await oai.chat.completions.create({
-  model: 'gpt-4o-mini',
-  messages: [
-    {role: 'system', content: 'Rate how funny the joke is from 1-5'},
-    {role: 'user', content: modelOutput || ''},
-  ],
-});
-pred.logScore('llm_judge', judgeResult.choices[0].message.content);
+    ```typescript lines {36,50}
+    import weave, {EvaluationLogger} from 'weave';
+    import OpenAI from 'openai';
 
-// スコアリングが完了したら明示的に finish を呼び出します
-pred.finish();
+    await weave.init('your-team/your-project');
 
-await ev.logSummary({avg_score: 1.0});
-```
+    // トークントラッキングを確実にするため、モデルを呼び出す前にEvaluationLoggerを初期化する
+    const evalLogger = new EvaluationLogger({
+      name: 'my-eval',
+      model: 'my_model',
+      dataset: 'my_dataset'
+    });
 
-<Note>
-TypeScript にはコンテキストマネージャーによる自動クリーンアップはありませんが、`logSummary()` は結果を集計する前に、未完了の予測を自動的に終了させます。明示的に `finish()` を呼び出したくない場合は、この動作を利用できます。
-</Note>
-</Tab>
-</Tabs>
+    // 入力データの例
+    const evalSamples = [
+      {inputs: {a: 1, b: 2}, expected: 3},
+      {inputs: {a: 2, b: 3}, expected: 5},
+      {inputs: {a: 3, b: 4}, expected: 7},
+    ];
 
-### ログ記録の前に出力を取得する
+    // OpenAIを使用したモデルロジックの例
+    const userModel = weave.op(async function userModel(a: number, b: number): Promise<number> {
+      const oai = new OpenAI();
+      const response = await oai.chat.completions.create({
+        messages: [{role: 'user', content: `What is ${a}+${b}?`}],
+        model: 'gpt-4o-mini'
+      });
+      return a + b;
+    });
 
-最初にモデルの出力を計算し、後で予測とスコアを個別にログに記録することができます。これにより、評価ロジックとログ記録ロジックをより適切に分離できます。
+    // サンプルを反復処理し、fire-and-forgetパターンで予測とログを実行する
+    for (const sample of evalSamples) {
+      const {inputs} = sample;
+      const modelOutput = await userModel(inputs.a, inputs.b);
 
-<Tabs>
-<Tab title="Python">
-```python lines
-# トークン追跡を確実にするため、モデルを呼び出す前に EvaluationLogger を初期化します
-ev = EvaluationLogger(
-    model="example_model",
-    dataset="example_dataset"
-)
+      // Fire-and-forget: logPredictionにawaitは不要
+      const scoreLogger = evalLogger.logPrediction(inputs, modelOutput);
 
-# モデル出力（例：OpenAI 呼び出し）は、トークン追跡のためにロガー初期化後に行う必要があります
-outputs = [your_output_generator(**inputs) for inputs in your_dataset]
-preds = [ev.log_prediction(inputs, output) for inputs, output in zip(your_dataset, outputs)]
-for pred, output in zip(preds, outputs):
-    pred.log_score(scorer="greater_than_5_scorer", score=output > 5)
-    pred.log_score(scorer="greater_than_7_scorer", score=output > 7)
-    pred.finish()
+      // この予測のスコアを計算してログする
+      const correctnessScore = modelOutput === sample.expected;
 
-ev.log_summary()
-```
-</Tab>
-<Tab title="TypeScript">
-複数の予測を並列で処理する場合、fire-and-forget パターンが非常に有効です。
+      // Fire-and-forget: logScoreにawaitは不要
+      scoreLogger.logScore('correctness', correctnessScore);
 
-次の例では、`EvaluationLogger` の複数の同時インスタンスを作成することで、評価を並列でバッチ処理しています。
-
-```typescript lines
-// トークン追跡を確実にするため、モデルを呼び出す前に EvaluationLogger を初期化します
-const ev = new EvaluationLogger({
-  name: 'parallel-eval',
-  model: 'example_model',
-  dataset: 'example_dataset'
-});
-
-// トークン追跡のため、OpenAI 呼び出しなどのモデル出力はロガー初期化後に行う必要があります
-const outputs = await Promise.all(
-  yourDataset.map(inputs => yourOutputGenerator(inputs))
-);
-
-// Fire-and-forget: await せずにすべての予測を処理します
-const preds = yourDataset.map((inputs, i) =>
-  ev.logPrediction(inputs, outputs[i])
-);
-
-preds.forEach((pred, i) => {
-  const output = outputs[i];
-  // Fire-and-forget: await は不要です
-  pred.logScore('greater_than_5_scorer', output > 5);
-  pred.logScore('greater_than_7_scorer', output > 7);
-  pred.finish();
-});
-
-// logSummary は保留中のすべての操作を待ちます
-await ev.logSummary();
-```
-
-fire-and-forget パターンを使用すると、計算リソースが許す限り、いくらでも評価を並列で処理できます。
-</Tab>
-</Tabs>
-
-### リッチメディアのログ記録
-
-入力、出力、スコアには、画像、動画、音声、構造化テーブルなどのリッチメディアを含めることができます。`log_prediction` または `log_score` メソッドに辞書やメディアオブジェクトを渡すだけです。
-
-<Tabs>
-<Tab title="Python">
-```python lines
-import io
-import wave
-import struct
-from PIL import Image
-import random
-from typing import Any
-import weave
-
-def generate_random_audio_wave_read(duration=2, sample_rate=44100):
-    n_samples = duration * sample_rate
-    amplitude = 32767  # 16ビット最大振幅
-
-    buffer = io.BytesIO()
-
-    # wave データをバッファに書き込む
-    with wave.open(buffer, 'wb') as wf:
-        wf.setnchannels(1)
-        wf.setsampwidth(2)  # 16ビット
-        wf.setframerate(sample_rate)
-
-        for _ in range(n_samples):
-            sample = random.randint(-amplitude, amplitude)
-            wf.writeframes(struct.pack('<h', sample))
-
-    # バッファを最初から読み取れるように巻き戻す
-    buffer.seek(0)
-
-    # Wave_read オブジェクトを返す
-    return wave.open(buffer, 'rb')
-
-rich_media_dataset = [
-    {
-        'image': Image.new(
-            "RGB",
-            (100, 100),
-            color=(
-                random.randint(0, 255),
-                random.randint(0, 255),
-                random.randint(0, 255),
-            ),
-        ),
-        "audio": generate_random_audio_wave_read(),
-    }
-    for _ in range(5)
-]
-
-@weave.op
-def your_output_generator(image: Image.Image, audio) -> dict[str, Any]:
-    return {
-        "result": random.randint(0, 10),
-        "image": image,
-        "audio": audio,
+      // Fire-and-forget: finishにawaitは不要
+      scoreLogger.finish();
     }
 
-ev = EvaluationLogger(model="example_model", dataset="example_dataset")
+    // logSummaryは内部で保留中のすべての操作が完了するまで待機する
+    const summaryStats = {subjective_overall_score: 0.8};
+    await evalLogger.logSummary(summaryStats);
 
-for inputs in rich_media_dataset:
-    output = your_output_generator(**inputs)
-    pred = ev.log_prediction(inputs, output)
-    pred.log_score(scorer="greater_than_5_scorer", score=output["result"] > 5)
-    pred.log_score(scorer="greater_than_7_scorer", score=output["result"] > 7)
+    console.log('評価のログが完了しました。Weave UIで結果を確認してください。');
+    ```
 
-ev.log_summary()
-```
-</Tab>
-<Tab title="TypeScript">
-TypeScript SDK は `weaveImage` 関数と `weaveAudio` 関数を使用した画像と音声のログ記録をサポートしています。次の例では、画像ファイルと音声ファイルを読み込み、モデルで処理し、スコアとともに結果をログに記録します。
+    各操作が完了してから次に進む必要がある場合、たとえばエラー処理や順次依存する処理を扱うときは、await 可能な API を使用します。
 
-```typescript lines
-import weave, {EvaluationLogger} from 'weave';
-import * as fs from 'fs';
+    次の例では、`logPrediction()` を `await` なしで呼び出す代わりに、`await` を付けて `logPredictionAsync()` を使用し、各操作が完了してから次の操作に進むようにしています。
 
-await weave.init('your-team/your-project');
+    ```typescript lines
+    // logPrediction の代わりに logPredictionAsync を使用する
+    const scoreLogger = await evalLogger.logPredictionAsync(inputs, modelOutput);
 
-// ファイルから画像と音声を読み込む
-const richMediaDataset = [
-  {
-    image: weave.weaveImage({data: fs.readFileSync('sample1.png')}),
-    audio: weave.weaveAudio({data: fs.readFileSync('sample1.wav')}),
-  },
-  {
-    image: weave.weaveImage({data: fs.readFileSync('sample2.png')}),
-    audio: weave.weaveAudio({data: fs.readFileSync('sample2.wav')}),
-  },
-];
-
-// メディアを処理して結果を返すモデル
-const yourOutputGenerator = weave.op(
-  async (inputs: {image: any; audio: any}) => {
-    const result = Math.floor(Math.random() * 10);
-    return {
-      result,
-      image: inputs.image,
-      audio: inputs.audio,
-    };
-  },
-  {name: 'yourOutputGenerator'}
-);
-
-const ev = new EvaluationLogger({
-  name: 'rich-media-eval',
-  model: 'example_model',
-  dataset: 'example_dataset',
-});
-
-for (const inputs of richMediaDataset) {
-  const output = await yourOutputGenerator(inputs);
-
-  // 入力と出力の両方にリッチメディアを含む予測をログに記録
-  const pred = ev.logPrediction(inputs, output);
-  pred.logScore('greater_than_5_scorer', output.result > 5);
-  pred.logScore('greater_than_7_scorer', output.result > 7);
-  pred.finish();
-}
-
-await ev.logSummary();
-```
-
-</Tab>
+    // 各操作を await する
+    await scoreLogger.logScore('correctness', correctnessScore);
+    await scoreLogger.finish();
+    ```
+  </Tab>
 </Tabs>
 
-### 複数の評価をログに記録して比較する
+<div id="advanced-usage">
+  ## 高度な使い方
+</div>
 
-`EvaluationLogger` を使用すると、複数の評価をログに記録して比較できます。
+`EvaluationLogger` は、基本的なワークフローを超えて、より複雑な評価シナリオに対応できる柔軟なパターンを提供します。このセクションでは、コンテキストマネージャーを使った自動的なリソース管理、モデル実行とログすることの分離、リッチメディアデータの活用、複数のモデル評価の比較表示などの高度な手法を紹介します。
 
-1. 下記のサンプルコードを実行します。
-2. Weave UI で、`Evals` タブに移動します。
-3. 比較したい評価（evals）を選択します。
-4. **Compare** ボタンをクリックします。比較ビューでは、以下のことができます。
-   - 追加または削除する評価の選択
-   - 表示または非表示にするメトリクスの選択
-   - 特定の例をページ送りして、同じデータセットの同じ入力に対して異なるモデルがどのように機能したかを確認
+<div id="using-context-managers">
+  ### コンテキストマネージャーの使用
+</div>
 
-   比較の詳細については、[Comparisons](../tools/comparison) を参照してください。
+`EvaluationLogger` は、予測とスコアの両方でコンテキストマネージャー (`with` 文) をサポートしています。これにより、コードをよりすっきり書けるほか、リソースの自動クリーンアップや、LLM judge の call のようなネストされた処理をより適切にトラッキングできます。
+
+このコンテキストで `with` 文を使用すると、次の利点があります。
+
+* コンテキストを抜けるときに `finish()` が自動的に呼び出される
+* ネストされた LLM call のトークン数やコストをより適切にトラッキングできる
+* 予測コンテキスト内で、モデル実行後に出力を設定できる
 
 <Tabs>
-<Tab title="Python">
-```python lines
-import weave
+  <Tab title="Python">
+    ```python lines {16,24,31,40}
+    import openai
+    import weave
 
-models = [
-    "model1",
-    "model2",
-     {"name": "model3", "metadata": {"coolness": 9001}}
-]
+    weave.init("nested-evaluation-example")
+    oai = openai.OpenAI()
 
-for model in models:
-    # トークンをキャプチャするため、モデルを呼び出す前に EvalLogger を初期化する必要があります
-    ev = EvaluationLogger(
-        name="comparison-eval",
-        model=model, 
-        dataset="example_dataset",
-        scorers=["greater_than_3_scorer", "greater_than_5_scorer", "greater_than_7_scorer"],
-        eval_attributes={"experiment_id": "exp_123"}
+    # ロガーを初期化
+    ev = weave.EvaluationLogger(
+        model="gpt-4o-mini",
+        dataset="joke_dataset"
     )
-    for inputs in your_dataset:
-        output = your_output_generator(**inputs)
-        pred = ev.log_prediction(inputs=inputs, output=output)
-        pred.log_score(scorer="greater_than_3_scorer", score=output > 3)
+
+    user_prompt = "Tell me a joke"
+
+    # prediction でコンテキストマネージャーを使用 - finish() を呼び出す必要はありません
+    with ev.log_prediction(inputs={"user_prompt": user_prompt}) as pred:
+        # コンテキスト内でモデルを呼び出す
+        result = oai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": user_prompt}],
+        )
+
+        # モデル呼び出し後に出力を設定
+        pred.output = result.choices[0].message.content
+
+        # シンプルなスコアをログする
+        pred.log_score("correctness", 1.0)
+        pred.log_score("ambiguity", 0.3)
+        
+        # LLM call が必要なスコアには、ネストしたコンテキストマネージャーを使用
+        with pred.log_score("llm_judge") as score:
+            judge_result = oai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "Rate how funny the joke is from 1-5"},
+                    {"role": "user", "content": pred.output},
+                ],
+            )
+            # 計算後にスコア値を設定
+            score.value = judge_result.choices[0].message.content
+
+    # 'with' ブロックを抜けると finish() が自動的に呼び出されます
+
+    ev.log_summary({"avg_score": 1.0})
+    ```
+
+    このパターンにより、ネストされたすべての処理がトラッキングされて親の予測に紐付けられるため、Weave UI で正確なトークン使用量とコストデータを確認できます。
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript には、コンテキストマネージャー向けの Python の `with` 文パターンはありません。代わりに、明示的に `finish()` を呼び出す fire-and-forget パターンを使用します。
+
+    次の例では、予測をログし、シンプルなスコアと LLM judge スコアを追加してから、`finish()` で予測を終了します。
+
+    ```typescript lines {43}
+    import weave from 'weave';
+    import OpenAI from 'openai';
+    import {EvaluationLogger} from 'weave/evaluationLogger';
+
+    await weave.init('your-team/your-project');
+    const oai = new OpenAI();
+
+    // ロガーを初期化
+    const ev = new EvaluationLogger({
+      name: 'joke-eval',
+      model: 'gpt-4o-mini',
+      dataset: 'joke_dataset',
+    });
+
+    const userPrompt = 'Tell me a joke';
+
+    // モデル出力を取得
+    const result = await oai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{role: 'user', content: userPrompt}],
+    });
+
+    const modelOutput = result.choices[0].message.content;
+
+    // 出力付きで prediction をログ
+    const pred = ev.logPrediction({user_prompt: userPrompt}, modelOutput);
+
+    // シンプルなスコアをログする
+    pred.logScore('correctness', 1.0);
+    pred.logScore('ambiguity', 0.3);
+
+    // LLM judge スコアについては、call を行って結果をログする
+    const judgeResult = await oai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {role: 'system', content: 'Rate how funny the joke is from 1-5'},
+        {role: 'user', content: modelOutput || ''},
+      ],
+    });
+    pred.logScore('llm_judge', judgeResult.choices[0].message.content);
+
+    // スコア付けが終わったら明示的に finish を呼び出す
+    pred.finish();
+
+    await ev.logSummary({avg_score: 1.0});
+    ```
+
+    <Note>
+      TypeScript にはコンテキストマネージャーによる自動クリーンアップはありませんが、`logSummary()` は結果を集計する前に、未完了の予測を自動的にすべて終了します。`finish()` を明示的に呼び出したくない場合は、この動作を利用できます。
+    </Note>
+  </Tab>
+</Tabs>
+
+<div id="link-to-an-existing-dataset">
+  ### 既存のデータセットにリンクする
+</div>
+
+生のデータセットを `log_prediction` に `inputs` として渡すと、Weave は評価の run ごとにデータを再取り込みします。そのため重複データが保存され、データセットが大きい場合や、多数の評価で再利用する場合には容量の無駄になる可能性があります。
+
+この重複を避けるには、評価を実行する前にデータセットを Weave に公開し、その公開済みデータセットの行を `inputs` として渡してください。Weave はデータを再取り込みする代わりに、公開済みの行への参照を内部参照として解決します。これにより、標準の [評価フレームワーク](../core-types/evaluations) と同様に、各予測が Weave UI 内の特定のデータセット行にリンクされるようになります。
+
+次の例では、データセットを公開して `EvaluationLogger` からそれにリンクし、その後は他のデータセットと同様に取得して反復処理します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import weave
+    from weave import EvaluationLogger
+
+    weave.init("your-team-name/your-project-name")
+
+    # データセットを公開する（必要なのは一度だけ）
+    dataset = weave.Dataset(
+        name="my_eval_dataset",
+        rows=[
+          {"question": "What is the capitol of France?", "expected": "Paris"},
+          {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+          {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+        ],
+    )
+    weave.publish(dataset)
+
+    # 公開済みデータセットを取得する
+    dataset = weave.ref("my_eval_dataset").get()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    import weave, {EvaluationLogger, Dataset} from 'weave';
+
+    await weave.init('your-team-name/your-project-name');
+
+    // データセットを公開する（必要なのは一度だけ）
+    const dataset = new Dataset({
+      name: 'my_eval_dataset',
+      rows: [
+        {"question": "What is the capitol of France?", "expected": "Paris"},
+        {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+        {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+      ],
+    });
+    const datasetRef = await dataset.save();
+
+    // 公開済みデータセットを取得する
+    const published = await datasetRef.get();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="get-outputs-before-logging">
+  ### ログする前に出力を取得する
+</div>
+
+まずモデルの出力を計算し、その後で予測とスコアを別々にログできます。これにより、評価ロジックとログするロジックをより明確に分離できます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    # トークンをトラッキングできるよう、モデルを呼び出す前に EvaluationLogger を初期化します
+    ev = EvaluationLogger(
+        model="example_model",
+        dataset="example_dataset"
+    )
+
+    # トークンをトラッキングするため、モデルの出力（例: OpenAI の call）はロガーの初期化後に行う必要があります
+    outputs = [your_output_generator(**inputs) for inputs in your_dataset]
+    preds = [ev.log_prediction(inputs, output) for inputs, output in zip(your_dataset, outputs)]
+    for pred, output in zip(preds, outputs):
         pred.log_score(scorer="greater_than_5_scorer", score=output > 5)
         pred.log_score(scorer="greater_than_7_scorer", score=output > 7)
         pred.finish()
 
     ev.log_summary()
-```
-</Tab>
-<Tab title="TypeScript">
-```typescript lines
-import weave from 'weave';
-import {EvaluationLogger} from 'weave/evaluationLogger';
-import {WeaveObject} from 'weave/weaveObject';
+    ```
+  </Tab>
 
-await weave.init('your-team/your-project');
+  <Tab title="TypeScript">
+    複数の予測を並列に処理する場合、fire-and-forget パターンは特に効果的です。
 
-const models = [
-  'model1',
-  'model2',
-  new WeaveObject({name: 'model3', metadata: {coolness: 9001}})
-];
+    次の例では、`EvaluationLogger` の複数の同時実行インスタンスを作成し、評価を並列にバッチ処理します。
 
-for (const model of models) {
-  // トークンをキャプチャするため、モデルを呼び出す前に EvalLogger を初期化する必要があります
-  const ev = new EvaluationLogger({
-    name: 'comparison-eval',
-    model: model,
-    dataset: 'example_dataset',
-    description: 'Model comparison evaluation',
-    scorers: ['greater_than_3_scorer', 'greater_than_5_scorer', 'greater_than_7_scorer'],
-    attributes: {experiment_id: 'exp_123'}
-  });
+    ```typescript lines
+    // トークンをトラッキングできるよう、モデルを呼び出す前に EvaluationLogger を初期化します
+    const ev = new EvaluationLogger({
+      name: 'parallel-eval',
+      model: 'example_model',
+      dataset: 'example_dataset'
+    });
 
-  for (const inputs of yourDataset) {
-    const output = await yourOutputGenerator(inputs);
+    // トークンをトラッキングするため、モデルの出力（OpenAI の call など）はロガーの初期化後に行う必要があります
+    const outputs = await Promise.all(
+      yourDataset.map(inputs => yourOutputGenerator(inputs))
+    );
 
-    // クリーンで効率的なログ記録のための fire-and-forget パターン
-    const pred = ev.logPrediction(inputs, output);
-    pred.logScore('greater_than_3_scorer', output > 3);
-    pred.logScore('greater_than_5_scorer', output > 5);
-    pred.logScore('greater_than_7_scorer', output > 7);
-    pred.finish();
-  }
+    // Fire-and-forget: await せずにすべての予測を処理します
+    const preds = yourDataset.map((inputs, i) =>
+      ev.logPrediction(inputs, outputs[i])
+    );
 
-  await ev.logSummary();
-}
-```
-</Tab>
+    preds.forEach((pred, i) => {
+      const output = outputs[i];
+      // Fire-and-forget: await は不要です
+      pred.logScore('greater_than_5_scorer', output > 5);
+      pred.logScore('greater_than_7_scorer', output > 7);
+      pred.finish();
+    });
+
+    // logSummary は保留中のすべての操作が完了するまで待機します
+    await ev.logSummary();
+    ```
+
+    fire-and-forget パターンを使用すると、計算リソースが許す限り多くの評価を並列に処理できます。
+  </Tab>
 </Tabs>
-<Frame>
-![Evals タブ](/weave/guides/evaluation/img/evals_tab.png)
-</Frame>
 
-<Frame>
-![比較ビュー](/weave/guides/evaluation/img/comparison.png)
-</Frame>
-## 使用上のヒント
+<div id="log-rich-media">
+  ### リッチメディアをログする
+</div>
+
+入力、出力、スコアには、画像、動画、オーディオ、構造化テーブルなどのリッチメディアを含めることができます。`log_prediction` または `log_score` メソッドに `dict` またはメディアオブジェクトを渡すだけです。
 
 <Tabs>
-<Tab title="Python">
-- 各予測の直後に速やかに `finish()` を呼び出してください。
-- `log_summary` を使用して、単一の予測に関連付けられていないメトリクス（例：全体のレイテンシ）をキャプチャします。
-- リッチメディアのログ記録は定性分析に最適です。
-</Tab>
-<Tab title="TypeScript">
-- **自動終了動作**: 明確にするために各予測で明示的に `finish()` を呼び出すことを推奨しますが、`logSummary()` は未完了の予測を自動的に終了させます。ただし、スクリプトが `finish()` を呼び出すと、それ以上スコアを記録することはできません。
-- **設定オプション**: `name`、`description`、`dataset`、`model`、`scorers`、`attributes` などの設定オプションを使用して、Weave UI で評価を整理およびフィルタリングします。
-</Tab>
+  <Tab title="Python">
+    ```python lines
+    import io
+    import wave
+    import struct
+    from PIL import Image
+    import random
+    from typing import Any
+    import weave
+
+    def generate_random_audio_wave_read(duration=2, sample_rate=44100):
+        n_samples = duration * sample_rate
+        amplitude = 32767  # 16ビットの最大振幅
+
+        buffer = io.BytesIO()
+
+        # バッファに wave データを書き込む
+        with wave.open(buffer, 'wb') as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)  # 16ビット
+            wf.setframerate(sample_rate)
+
+            for _ in range(n_samples):
+                sample = random.randint(-amplitude, amplitude)
+                wf.writeframes(struct.pack('<h', sample))
+
+        # 読み取れるようにバッファを先頭に巻き戻す
+        buffer.seek(0)
+
+        # Wave_read オブジェクトを返す
+        return wave.open(buffer, 'rb')
+
+    rich_media_dataset = [
+        {
+            'image': Image.new(
+                "RGB",
+                (100, 100),
+                color=(
+                    random.randint(0, 255),
+                    random.randint(0, 255),
+                    random.randint(0, 255),
+                ),
+            ),
+            "audio": generate_random_audio_wave_read(),
+        }
+        for _ in range(5)
+    ]
+
+    @weave.op
+    def your_output_generator(image: Image.Image, audio) -> dict[str, Any]:
+        return {
+            "result": random.randint(0, 10),
+            "image": image,
+            "audio": audio,
+        }
+
+    ev = EvaluationLogger(model="example_model", dataset="example_dataset")
+
+    for inputs in rich_media_dataset:
+        output = your_output_generator(**inputs)
+        pred = ev.log_prediction(inputs, output)
+        pred.log_score(scorer="greater_than_5_scorer", score=output["result"] > 5)
+        pred.log_score(scorer="greater_than_7_scorer", score=output["result"] > 7)
+
+    ev.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript SDK は、`weaveImage` 関数と `weaveAudio` 関数を使って画像とオーディオをログすることをサポートしています。次の例では、画像ファイルとオーディオファイルを読み込み、それらをモデルで処理し、スコア付きで結果をログします。
+
+    ```typescript lines
+    import weave, {EvaluationLogger} from 'weave';
+    import * as fs from 'fs';
+
+    await weave.init('your-team/your-project');
+
+    // ファイルから画像とオーディオを読み込む
+    const richMediaDataset = [
+      {
+        image: weave.weaveImage({data: fs.readFileSync('sample1.png')}),
+        audio: weave.weaveAudio({data: fs.readFileSync('sample1.wav')}),
+      },
+      {
+        image: weave.weaveImage({data: fs.readFileSync('sample2.png')}),
+        audio: weave.weaveAudio({data: fs.readFileSync('sample2.wav')}),
+      },
+    ];
+
+    // メディアを処理して結果を返すモデル
+    const yourOutputGenerator = weave.op(
+      async (inputs: {image: any; audio: any}) => {
+        const result = Math.floor(Math.random() * 10);
+        return {
+          result,
+          image: inputs.image,
+          audio: inputs.audio,
+        };
+      },
+      {name: 'yourOutputGenerator'}
+    );
+
+    const ev = new EvaluationLogger({
+      name: 'rich-media-eval',
+      model: 'example_model',
+      dataset: 'example_dataset',
+    });
+
+    for (const inputs of richMediaDataset) {
+      const output = await yourOutputGenerator(inputs);
+
+      // 入力と出力の両方にリッチメディアを含む予測をログする
+      const pred = ev.logPrediction(inputs, output);
+      pred.logScore('greater_than_5_scorer', output.result > 5);
+      pred.logScore('greater_than_7_scorer', output.result > 7);
+      pred.finish();
+    }
+
+    await ev.logSummary();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-and-compare-multiple-evaluations">
+  ### 複数の評価をログして比較する
+</div>
+
+`EvaluationLogger` を使用すると、複数の評価をログして比較できます。
+
+1. 以下のコードサンプルを実行します。
+2. Weave UI で `Evals` タブにアクセスします。
+3. 比較したい eval を選択します。
+4. **Compare** ボタンをクリックします。Compare ビューでは、次のことができます。
+
+   * 追加または削除する Evals を選択する
+   * 表示または非表示にするメトリクスを選択する
+   * 特定の例をページで切り替えながら、同じデータセット内の同じ入力に対して各モデルがどのような結果を返したかを確認する
+
+   比較の詳細については、[Comparisons](../tools/comparison) を参照してください
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    models = [
+        "model1",
+        "model2",
+         {"name": "model3", "metadata": {"coolness": 9001}}
+    ]
+
+    for model in models:
+        # トークンを取得するため、モデルの call の前に EvalLogger を初期化する必要があります
+        ev = EvaluationLogger(
+            name="comparison-eval",
+            model=model, 
+            dataset="example_dataset",
+            scorers=["greater_than_3_scorer", "greater_than_5_scorer", "greater_than_7_scorer"],
+            eval_attributes={"experiment_id": "exp_123"}
+        )
+        for inputs in your_dataset:
+            output = your_output_generator(**inputs)
+            pred = ev.log_prediction(inputs=inputs, output=output)
+            pred.log_score(scorer="greater_than_3_scorer", score=output > 3)
+            pred.log_score(scorer="greater_than_5_scorer", score=output > 5)
+            pred.log_score(scorer="greater_than_7_scorer", score=output > 7)
+            pred.finish()
+
+        ev.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import weave from 'weave';
+    import {EvaluationLogger} from 'weave/evaluationLogger';
+    import {WeaveObject} from 'weave/weaveObject';
+
+    await weave.init('your-team/your-project');
+
+    const models = [
+      'model1',
+      'model2',
+      new WeaveObject({name: 'model3', metadata: {coolness: 9001}})
+    ];
+
+    for (const model of models) {
+      // トークンを取得するため、モデルの call の前に EvalLogger を初期化する必要があります
+      const ev = new EvaluationLogger({
+        name: 'comparison-eval',
+        model: model,
+        dataset: 'example_dataset',
+        description: 'モデル比較の評価',
+        scorers: ['greater_than_3_scorer', 'greater_than_5_scorer', 'greater_than_7_scorer'],
+        attributes: {experiment_id: 'exp_123'}
+      });
+
+      for (const inputs of yourDataset) {
+        const output = await yourOutputGenerator(inputs);
+
+        // シンプルで効率的にログするための fire-and-forget パターン
+        const pred = ev.logPrediction(inputs, output);
+        pred.logScore('greater_than_3_scorer', output > 3);
+        pred.logScore('greater_than_5_scorer', output > 5);
+        pred.logScore('greater_than_7_scorer', output > 7);
+        pred.finish();
+      }
+
+      await ev.logSummary();
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![Evals タブ](/weave/guides/evaluation/img/evals_tab.png)
+</Frame>
+
+<Frame>
+  ![Compare ビュー](/weave/guides/evaluation/img/comparison.png)
+</Frame>
+
+<div id="usage-tips">
+  ## 使用上のヒント
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    * 各予測の後は、すぐに `finish()` を呼び出してください。
+    * `log_summary` を使用して、個々の予測に紐づかないメトリクス (例: 全体のレイテンシ) を記録します。
+    * リッチメディアのログ記録は、定性的な分析に最適です。
+  </Tab>
+
+  <Tab title="TypeScript">
+    * **自動終了の動作**: わかりやすさのため、各予測で `finish()` を明示的に呼び出すことを推奨しますが、`logSummary()` は未終了の予測を自動的に終了します。ただし、スクリプトで `finish()` を呼び出した後は、それ以上スコアをログできません。
+    * **設定オプション**: `name`、`description`、`dataset`、`model`、`scorers`、`attributes` などの設定オプションを使用すると、Weave UI で評価を整理してフィルターできます。
+  </Tab>
 </Tabs>

@@ -1,0 +1,159 @@
+---
+title: Journaliser les modèles
+description: "Journalisez des Artifacts de modèle dans un run W&B, puis récupérez-les ultérieurement à l’aide des méthodes SDK log_model et use_model."
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
+
+<div id="log-models">
+  # Journaliser les modèles
+</div>
+
+Le guide suivant explique comment journaliser des modèles dans un run W&amp;B et interagir avec ceux-ci.
+
+<Note>
+  Les API suivantes sont utiles pour suivre les modèles dans le cadre de votre flux de travail de suivi des expériences. Utilisez les API répertoriées sur cette page pour journaliser des modèles dans un run et accéder aux métriques, tableaux, médias et autres objets.
+
+  W&amp;B vous recommande d&#39;utiliser [W&amp;B Artifacts](/fr/models/artifacts/) si vous souhaitez :
+
+  * Créer et suivre différentes versions de données sérialisées autres que les modèles, comme des jeux de données, des prompts, etc.
+  * Explorer les [graphes de lignage](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) d&#39;un modèle ou de tout autre objet suivi dans W&amp;B.
+  * Interagir avec les Artifacts de modèle créés par ces méthodes, par exemple en [mettant à jour leurs propriétés](/fr/models/artifacts/update-an-artifact/) (métadonnées, alias et descriptions)
+
+  Pour en savoir plus sur W&amp;B Artifacts et les cas d&#39;usage avancés de gestion des versions, consultez la documentation [Artifacts](/fr/models/artifacts/).
+</Note>
+
+<div id="log-a-model-to-a-run">
+  ## Journaliser un modèle dans un run
+</div>
+
+Utilisez [`log_model`](/fr/models/ref/python/experiments/run#log_model) pour journaliser un artifact de modèle contenant le contenu du répertoire que vous spécifiez. La méthode [`log_model`](/fr/models/ref/python/experiments/run#log_model) marque également l&#39;artifact de modèle obtenu comme sortie du run W&amp;B.
+
+Vous pouvez suivre les dépendances d&#39;un modèle et les relations qui lui sont associées si vous le marquez comme entrée ou sortie d&#39;un run W&amp;B. Consultez la traçabilité du modèle dans l&#39;interface de l&#39;application W&amp;B. Voir la page [Explorer et parcourir les graphes d&#39;artifacts](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) du chapitre [Artifacts](/fr/models/artifacts/) pour plus d&#39;informations.
+
+Indiquez dans le paramètre `path` le chemin où vos fichiers de modèle sont enregistrés. Le chemin peut correspondre à un fichier local, à un répertoire ou à une [URI de référence](/fr/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) pointant vers un bucket externe, par exemple `s3://bucket/path`.
+
+Veillez à remplacer les valeurs entre `<>` par les vôtres.
+
+```python
+import wandb
+
+# Initialiser un run W&B
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Journaliser le modèle
+    run.log_model(path="<path-to-model>", name="<name>")
+```
+
+Vous pouvez facultativement fournir un nom pour l&#39;artifact de modèle via le paramètre `name`. Si `name` n&#39;est pas spécifié, W&amp;B utilisera le nom de base du chemin d&#39;entrée, précédé de l&#39;ID du run, comme nom.
+
+<Note>
+  Notez le `name` que vous, ou W&amp;B, attribuez au modèle. Vous aurez besoin du nom du modèle pour récupérer son chemin avec la méthode [`wandb.Run.use_model()`](/fr/models/ref/python/experiments/run#use_model).
+</Note>
+
+Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Référence de l&#39;API pour les paramètres.
+
+<details>
+  <summary>Exemple : journaliser un modèle dans un run</summary>
+
+  ```python
+  import os
+  import wandb
+  from tensorflow import keras
+  from tensorflow.keras import layers
+
+  config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
+
+  # Initialiser un run W&B
+  with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
+
+      # Hyperparamètres
+      loss = run.config["loss"]
+      optimizer = run.config["optimizer"]
+      metrics = ["accuracy"]
+      num_classes = 10
+      input_shape = (28, 28, 1)
+
+      # Algorithme d'entraînement
+      model = keras.Sequential(
+          [
+              layers.Input(shape=input_shape),
+              layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Flatten(),
+              layers.Dropout(0.5),
+              layers.Dense(num_classes, activation="softmax"),
+          ]
+      )
+
+      # Configurer le modèle pour l'entraînement
+      model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+
+      # Enregistrer le modèle
+      model_filename = "model.h5"
+      local_filepath = "./"
+      full_path = os.path.join(local_filepath, model_filename)
+      model.save(filepath=full_path)
+
+      # Journaliser le modèle dans le run W&B
+      run.log_model(path=full_path, name="MNIST")
+  ```
+
+  Lorsque vous appelez `log_model`, un artifact de modèle nommé `MNIST` est créé et le fichier `model.h5` y est ajouté. Votre terminal ou notebook affichera des informations indiquant où trouver des informations sur le run auquel le modèle a été journalisé.
+
+  ```python
+  View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
+  Synced 5 W&B file(s), 0 media file(s), 1 artifact file(s) and 0 other file(s)
+  Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
+  ```
+</details>
+
+<div id="download-and-use-a-logged-model">
+  ## Télécharger et utiliser un modèle enregistré
+</div>
+
+Utilisez la fonction [`use_model`](/fr/models/ref/python/experiments/run#use_model) pour accéder aux fichiers de modèle et les télécharger s’ils ont été enregistrés auparavant dans un run W&amp;B.
+
+Indiquez le nom de l’artifact de modèle dans lequel sont stockés les fichiers de modèle que vous souhaitez récupérer. Le nom que vous indiquez doit correspondre à celui d’un artifact de modèle enregistré existant.
+
+Si vous n’avez pas défini `name` lorsque vous avez enregistré les fichiers avec `log_model`, le nom attribué par défaut est le nom de base du chemin d’entrée, précédé de l’ID du run.
+
+Veillez à remplacer les valeurs entre `<>` par les vôtres :
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artifact téléchargé
+    downloaded_model_path = run.use_model(name="<your-model-name>")
+```
+
+La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin des fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l&#39;extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
+
+<details>
+  <summary>Exemple : Télécharger et utiliser un modèle enregistré</summary>
+
+  Par exemple, dans l&#39;extrait de code suivant, un utilisateur a appelé l&#39;API `use_model`. Il a indiqué le nom de l&#39;artifact de modèle à récupérer, ainsi qu&#39;une version/un alias. Il a ensuite stocké dans la variable `downloaded_model_path` le chemin renvoyé par l&#39;API.
+
+  ```python
+  import wandb
+
+  entity = "luka"
+  project = "NLP_Experiments"
+  alias = "latest"  # surnom sémantique ou identifiant de la version du modèle
+  model_artifact_name = "fine-tuned-model"
+
+  # Initialiser un run
+  with wandb.init(project=project, entity=entity) as run:
+      # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artifact téléchargé
+      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+  ```
+</details>
+
+Voir [`use_model`](/fr/models/ref/python/experiments/run#use_model) dans la Référence de l&#39;API pour les paramètres et le type de retour.

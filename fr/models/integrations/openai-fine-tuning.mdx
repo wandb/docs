@@ -1,0 +1,209 @@
+---
+description: "Effectuez le fine-tuning de modèles OpenAI avec W&B pour journaliser les métriques d'entraînement, surveiller les jobs et comparer les performances du modèle au fil du temps."
+title: Fine-tuning OpenAI
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://wandb.me/openai-colab" />
+
+Enregistrez dans W&amp;B les métriques et la configuration de fine-tuning de votre modèle OpenAI GPT-3.5 ou GPT-4. Exploitez l&#39;écosystème W&amp;B pour suivre vos expériences, modèles et jeux de données de fine-tuning, et partager vos résultats avec vos collègues.
+
+<Note>
+  Voir la [documentation OpenAI](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) pour obtenir la liste des modèles que vous pouvez soumettre à un fine-tuning.
+</Note>
+
+Voir la section [Intégration W&amp;B](https://developers.openai.com/cookbook/examples/third_party/gpt_finetuning_with_wandb) dans la documentation OpenAI pour plus d&#39;informations sur l&#39;intégration de W&amp;B avec OpenAI pour le fine-tuning.
+
+<div id="install-or-update-openai-python-api">
+  ## Installer ou mettre à jour OpenAI Python API
+</div>
+
+L’intégration W&amp;B OpenAI Fine-tuning fonctionne avec OpenAI à partir de la version 1.0. Voir la documentation PyPI pour accéder à la dernière version de la bibliothèque [OpenAI Python API](https://pypi.org/project/openai/).
+
+Pour installer OpenAI Python API, exécutez :
+
+```python
+pip install openai
+```
+
+Si l’API Python d’OpenAI est déjà installée, vous pouvez la mettre à jour avec :
+
+```python
+pip install -U openai
+```
+
+<div id="sync-your-openai-fine-tuning-results">
+  ## Synchronisez les résultats de votre fine-tuning OpenAI
+</div>
+
+Intégrez W&amp;B à l&#39;API de fine-tuning d&#39;OpenAI pour enregistrer dans W&amp;B les métriques et la configuration de votre fine-tuning. Pour ce faire, utilisez la classe `WandbLogger` du module `wandb.integration.openai.fine_tuning`.
+
+```python
+from wandb.integration.openai.fine_tuning import WandbLogger
+
+# Logique de fine-tuning
+
+WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
+```
+
+<Frame>
+  <img src="/images/integrations/open_ai_auto_scan.png" alt="Fonctionnalité d’analyse automatique d’OpenAI" />
+</Frame>
+
+<div id="sync-your-fine-tunes">
+  ### Synchronisez vos fine-tunings
+</div>
+
+Synchronisez vos résultats depuis votre script
+
+```python
+from wandb.integration.openai.fine_tuning import WandbLogger
+
+# commande en une ligne
+WandbLogger.sync()
+
+# passage de paramètres facultatifs
+WandbLogger.sync(
+    fine_tune_job_id=None,
+    num_fine_tunes=None,
+    project="OpenAI-Fine-Tune",
+    entity=None,
+    overwrite=False,
+    model_artifact_name="model-metadata",
+    model_artifact_type="model",
+    **kwargs_wandb_init
+)
+```
+
+<div id="reference">
+  ### Référence
+</div>
+
+| Argument                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fine&#95;tune&#95;job&#95;id     | Il s’agit de l’ID OpenAI Fine-Tune que vous obtenez lorsque vous créez votre job de fine-tuning avec `client.fine_tuning.jobs.create`. Si cet argument vaut None (valeur par défaut), tous les jobs OpenAI de fine-tuning qui n’ont pas encore été synchronisés le seront avec W&amp;B.                                                                                                                                                                         |
+| openai&#95;client                | Passez un client OpenAI initialisé à `sync`. Si aucun client n’est fourni, il est initialisé par le logger lui-même. Par défaut, sa valeur est None.                                                                                                                                                                                                                                                                                                            |
+| num&#95;fine&#95;tunes           | Si aucun ID n’est fourni, tous les fine-tunings non synchronisés seront enregistrés dans W&amp;B. Cet argument vous permet de sélectionner le nombre de fine-tunings récents à synchroniser. Si num&#95;fine&#95;tunes vaut 5, les 5 fine-tunings les plus récents sont sélectionnés.                                                                                                                                                                             |
+| project                          | nom du projet W&amp;B dans lequel seront enregistrés vos métriques, modèles, données, etc. de fine-tuning. Par défaut, le nom du projet est &quot;OpenAI-Fine-Tune.&quot;                                                                                                                                                                                                                                                                                         |
+| entity                           | Nom d’utilisateur W&amp;B ou nom d’équipe vers lequel vous envoyez les runs. Par défaut, votre entité par défaut est utilisée, généralement votre nom d’utilisateur.                                                                                                                                                                                                                                                                                            |
+| overwrite                        | Force la journalisation et écrase le run wandb existant du même job de fine-tuning. Par défaut, cette valeur est False.                                                                                                                                                                                                                                                                                                                                         |
+| wait&#95;for&#95;job&#95;success | Une fois qu’un job OpenAI de fine-tuning est lancé, il prend généralement un certain temps. Pour garantir que vos métriques soient enregistrées dans W&amp;B dès que le job de fine-tuning est terminé, ce paramètre vérifie toutes les 60 secondes si le statut du job de fine-tuning passe à `succeeded`. Dès que le job de fine-tuning est détecté comme réussi, les métriques sont automatiquement synchronisées avec W&amp;B. La valeur par défaut est True. |
+| model&#95;artifact&#95;name      | Le nom de l&#39;artifact de modèle enregistré. La valeur par défaut est `"model-metadata"`.                                                                                                                                                                                                                                                                                                                                                                       |
+| model&#95;artifact&#95;type      | Le type de l&#39;artifact de modèle enregistré. La valeur par défaut est `"model"`.                                                                                                                                                                                                                                                                                                                                                                               |
+| **kwargs&#95;wandb&#95;init      | Tout argument supplémentaire transmis directement à [`wandb.init()`](/fr/models/ref/python/functions/init)                                                                                                                                                                                                                                                                                                                                                         |
+
+<div id="dataset-versioning-and-visualization">
+  ## Gestion des versions et visualisation des jeux de données
+</div>
+
+<div id="versioning">
+  ### Gestion des versions
+</div>
+
+Les données d&#39;entraînement et de validation que vous téléversez dans OpenAI pour le Fine-tuning sont automatiquement enregistrées dans W&amp;B Artifacts afin de faciliter la gestion des versions. Ci-dessous, vous voyez une vue du fichier d&#39;entraînement dans Artifacts. Vous pouvez y voir le run W&amp;B qui a enregistré ce fichier, la date à laquelle il a été enregistré, la version du jeu de données correspondante, les métadonnées et la traçabilité du DAG, des données d&#39;entraînement jusqu&#39;au modèle entraîné.
+
+<Frame>
+  <img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts avec des jeux de données d'entraînement" />
+</Frame>
+
+<div id="visualization">
+  ### Visualisation
+</div>
+
+Les jeux de données s’affichent dans W&amp;B Tables, ce qui vous permet de les explorer, d’y effectuer des recherches et d’interagir avec eux. Consultez ci-dessous les exemples d’entraînement visualisés avec W&amp;B Tables.
+
+<Frame>
+  <img src="/images/integrations/openai_data_visualization.png" alt="Données OpenAI" />
+</Frame>
+
+<div id="the-fine-tuned-model-and-model-versioning">
+  ## Le modèle affiné et la gestion des versions des modèles
+</div>
+
+OpenAI vous fournit un ID du modèle affiné. Comme nous n&#39;avons pas accès aux poids du modèle, `WandbLogger` crée un fichier `model_metadata.json` contenant tous les détails du modèle (hyperparamètres, ID des fichiers de données, etc.), ainsi que l&#39;ID `fine&#95;tuned&#95;model``, puis l&#39;enregistre en tant qu&#39;Artifact W&amp;B.
+
+Cet Artifact de modèle (métadonnées) peut ensuite être lié à un modèle dans le [W&amp;B Registry](/fr/models/registry/).
+
+<Frame>
+  <img src="/images/integrations/openai_model_metadata.png" alt="Métadonnées du modèle OpenAI" />
+</Frame>
+
+<div id="frequently-asked-questions">
+  ## Questions fréquentes
+</div>
+
+<div id="how-do-i-share-my-fine-tune-results-with-my-team-in-wb">
+  ### Comment puis-je partager les résultats de mon fine-tuning avec mon équipe dans W&amp;B ?
+</div>
+
+Enregistrez vos jobs de fine-tuning sur votre compte Teams avec :
+
+```python
+WandbLogger.sync(entity="YOUR_TEAM_NAME")
+```
+
+<div id="how-can-i-organize-my-runs">
+  ### Comment puis-je organiser mes runs ?
+</div>
+
+Vos runs W&amp;B sont automatiquement organisés et peuvent être filtrés/triés en fonction de n&#39;importe quel paramètre de configuration, comme le type de job, le modèle de base, le taux d&#39;apprentissage, le nom du fichier d&#39;entraînement et tout autre hyperparamètre.
+
+De plus, vous pouvez renommer vos runs, ajouter des notes ou créer des tags pour les regrouper.
+
+Une fois que tout vous convient, vous pouvez enregistrer votre Workspace et l&#39;utiliser pour créer un report, en important des données depuis vos runs et vos Artifacts enregistrés (fichiers d&#39;entraînement et de validation).
+
+<div id="how-can-i-access-my-fine-tuned-model">
+  ### Comment puis-je accéder à mon modèle affiné ?
+</div>
+
+L’ID du modèle affiné est enregistré dans W&amp;B, dans les Artifacts (`model_metadata.json`), ainsi que dans la configuration.
+
+```python
+import wandb
+    
+with wandb.init(project="OpenAI-Fine-Tune", entity="YOUR_TEAM_NAME") as run:
+    ft_artifact = run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
+    artifact_dir = ft_artifact.download()
+```
+
+où `VERSION` correspond à l’un des éléments suivants :
+
+* un numéro de version comme `v2`
+* l’ID du fine-tuning, par exemple `ft-xxxxxxxxx`
+* un alias ajouté automatiquement, comme `latest`, ou ajouté manuellement
+
+Vous pouvez ensuite accéder à l’ID de `fine_tuned_model` en lisant le fichier téléchargé `model_metadata.json`.
+
+<div id="what-if-a-fine-tune-was-not-synced-successfully">
+  ### Que faire si un fine-tuning ne s’est pas synchronisé correctement ?
+</div>
+
+Si un fine-tuning n’a pas été enregistré correctement dans W&amp;B, vous pouvez utiliser `overwrite=True` et passer l’ID du job de fine-tuning :
+
+```python
+WandbLogger.sync(
+    fine_tune_job_id="FINE_TUNE_JOB_ID",
+    overwrite=True,
+)
+```
+
+<div id="can-i-track-my-datasets-and-models-with-wb">
+  ### Puis-je suivre mes jeux de données et mes modèles avec W&amp;B ?
+</div>
+
+Les données d’entraînement et de validation sont automatiquement enregistrées dans W&amp;B sous forme d’Artifacts. Les métadonnées, y compris l’ID du modèle affiné, sont également enregistrées sous forme d’Artifacts.
+
+Vous pouvez toujours piloter le pipeline à l’aide d’API wandb de bas niveau comme `wandb.Artifact`, `wandb.Run.log`, etc. Cela vous permet d’assurer une traçabilité complète de vos données et de vos modèles.
+
+<Frame>
+  <img src="/images/integrations/open_ai_faq_can_track.png" alt="FAQ OpenAI sur le suivi" />
+</Frame>
+
+<div id="resources">
+  ## Ressources
+</div>
+
+* La [documentation OpenAI sur le Fine-tuning](https://platform.openai.com/docs/guides/fine-tuning/) est très complète et contient de nombreux conseils utiles
+* [Colab de démonstration](https://wandb.me/openai-colab)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&amp;B](https://wandb.me/openai-report) Report

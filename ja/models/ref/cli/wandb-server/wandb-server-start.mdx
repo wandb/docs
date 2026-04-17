@@ -1,39 +1,38 @@
 ---
-title: ' thoughtful mini beige dots tea
-
-  # wandb server start
-
-
-  `wandb server start` コマンドを使用して、W&B サーバー のローカルインスタ
-
-  '
+title: "wandb server start"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-server-start.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドに導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-server-start.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbServerStart from "/snippets/en/_includes/cli/wandb-server-start.mdx";
+  import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
 
-<WandbServerStart/>
+  <WandbServerStart/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-ローカルの W&B サーバー を起動します。
+ローカルのW&amp;Bサーバーを起動する
 
-## 使用法
+
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
 wandb server start [OPTIONS]
 ```
 
-## オプション
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--port`, `-p` | W&B サーバー をバインドするホストポート（デフォルト：8080） |
-| `--env`, `-e` | wandb/local に渡す環境変数（デフォルト：[]） |
-| `--daemon` | デーモンモードで実行するかどうか（デフォルト：True） |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション          | 説明                                           |
+| :------------- | :------------------------------------------- |
+| `--port`, `-p` | W&amp;Bサーバー をバインドするホストのポート (デフォルト: 8080)  |
+| `--env`, `-e`  | wandb/local に渡す環境変数 (デフォルト: [])              |
+| `--daemon`     | デーモンモードで実行するかどうか (デフォルト: True)               |

@@ -1,36 +1,44 @@
 ---
-title: wandb コントローラ
+title: "wandb controller"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-controller.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドの導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-controller.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbController from "/snippets/en/_includes/cli/wandb-controller.mdx";
+  import WandbController from "/snippets/_includes/cli/wandb-controller.mdx";
 
-<WandbController/>
+  <WandbController/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-W&B ローカル Sweep controller を実行します。
+W&amp;B のローカル sweep コントローラーを実行する
 
-## Usage（使用法）
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb controller SWEEP_ID [OPTIONS]
 ```
 
-## Arguments（引数）
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数         | 説明   | 必須 |
+| :--------- | :--- | :- |
 | `SWEEP_ID` | 説明なし | はい |
 
-## Options（オプション）
+<div id="options">
+  ## オプション
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--verbose` | 詳細な出力を表示（デフォルト: False） |
+| オプション       | 説明                         |
+| :---------- | :------------------------- |
+| `--verbose` | 詳細出力を表示します (デフォルト: False)  |

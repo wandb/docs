@@ -1,0 +1,161 @@
+---
+title: Groq
+description: "Suivez et surveillez l’inférence LPU de Groq avec Weave, en capturant les appels de modèle, les métriques de performance et les enchaînements de fonctions pour les applications LLM."
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_groq.ipynb" aria-label="Ouvrir dans Google Colab">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
+</a>
+
+<Note>
+  Vous voulez tester les modèles Groq sur Weave sans rien configurer ? Essayez le [LLM Playground](../tools/playground).
+</Note>
+
+[Groq](https://groq.com/) est une entreprise d’infrastructure IA qui fournit une inférence IA rapide. Le LPU™ Inference Engine de Groq est une plateforme matérielle et logicielle offrant une vitesse de calcul, une qualité et une efficacité énergétique exceptionnelles. Weave suit et journalise automatiquement les appels de modèle effectués via la fonctionnalité Chat Completion de Groq.
+
+<div id="tracing">
+  ## Tracing
+</div>
+
+Il est important de stocker les traces des applications de modèles de langage dans un emplacement centralisé, aussi bien pendant le développement qu’en production. Ces traces peuvent être utiles pour le débogage et servir de jeu de données pour vous aider à améliorer votre application.
+
+Weave capturera automatiquement les traces pour [Groq](https://groq.com/). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` et utilisez la bibliothèque normalement.
+
+```python lines
+import os
+import weave
+from groq import Groq
+
+weave.init(project_name="groq-project")
+
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain the importance of fast language models",
+        }
+    ],
+    model="llama3-8b-8192",
+)
+```
+
+| ![Tableau de bord Weave de Groq avec les appels LLM suivis, les métriques de performances et les informations de trace](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Weave suit et journalise désormais tous les appels LLM effectués via la bibliothèque Groq. Vous pouvez consulter les traces dans l&#39;interface web de Weave.                          |
+
+<div id="track-your-own-ops">
+  ## Suivez vos propres ops
+</div>
+
+Le fait de décorer une fonction avec `@weave.op` commence à capturer les entrées, les sorties et la logique de l&#39;application afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et créer une arborescence de fonctions que vous souhaitez suivre. Cela lance également automatiquement la gestion des versions du code pendant que vous expérimentez, afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans git.
+
+Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops).
+
+Dans l&#39;exemple ci-dessous, la fonction `recommend_places_to_visit`, décorée avec `@weave.op`, recommande des lieux à visiter dans une ville.
+
+```python lines
+import os
+import weave
+from groq import Groq
+
+
+weave.init(project_name="groq-test")
+
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
+
+@weave.op()
+def recommend_places_to_visit(city: str, model: str="llama3-8b-8192"):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant meant to suggest places to visit in a city",
+            },
+            {
+                "role": "user",
+                "content": city,
+            }
+        ],
+        model="llama3-8b-8192",
+    )
+    return chat_completion.choices[0].message.content
+
+
+recommend_places_to_visit("New York")
+recommend_places_to_visit("Paris")
+recommend_places_to_visit("Kolkata")
+```
+
+| ![Interface de tracing Groq Weave avec le décorateur op, la hiérarchie des appels de fonction et les détails de la trace](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| L&#39;ajout de `@weave.op` à la fonction `recommend_places_to_visit` permet de tracer ses entrées, ses sorties et tous les appels LM internes effectués dans la fonction.              |
+
+<div id="create-a-model-for-easier-experimentation">
+  ## Créez un `Model` pour faciliter l’expérimentation
+</div>
+
+Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme le prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+
+En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser des Weave Models avec `serve` et des [`Evaluation`](../core-types/evaluations)s.
+
+Dans l’exemple ci-dessous, vous pouvez expérimenter avec `GroqCityVisitRecommender`. À chaque modification de l’un de ces éléments, vous obtenez une nouvelle *version* de `GroqCityVisitRecommender`.
+
+```python lines
+import os
+from groq import Groq
+import weave
+
+
+class GroqCityVisitRecommender(weave.Model):
+    model: str
+    groq_client: Groq
+
+    @weave.op()
+    def predict(self, city: str) -> str:
+        system_message = {
+            "role": "system",
+            "content": """
+You are a helpful assistant meant to suggest places to visit in a city
+""",
+        }
+        user_message = {"role": "user", "content": city}
+        chat_completion = self.groq_client.chat.completions.create(
+            messages=[system_message, user_message],
+            model=self.model,
+        )
+        return chat_completion.choices[0].message.content
+
+
+weave.init(project_name="groq-test")
+city_recommender = GroqCityVisitRecommender(
+    model="llama3-8b-8192", groq_client=Groq(api_key=os.environ.get("GROQ_API_KEY"))
+)
+print(city_recommender.predict("New York"))
+print(city_recommender.predict("San Francisco"))
+print(city_recommender.predict("Los Angeles"))
+```
+
+| ![Interface de Tracing et de gestion des versions de Groq Weave Model, avec les versions du modèle, l’historique des traces et les métriques de performances](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Tracing et gestion des versions de vos appels à l’aide d’un [`Model`](../core-types/models)                                                                                                                              |
+
+<div id="serving-a-weave-model">
+  ### Servir un Weave Model
+</div>
+
+À partir d’une référence Weave vers n’importe quel objet `weave.Model`, vous pouvez lancer un serveur FastAPI et le [Serve](https://docs.wandb.ai/weave/guides/tools/serve).
+
+| [![dspy\_weave\_model\_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Vous pouvez trouver la référence Weave de n’importe quel WeaveModel en ouvrant le modèle, puis en la copiant depuis l’UI.                                                                                                                  |
+
+Vous pouvez servir votre modèle à l’aide de la commande suivante dans le terminal :
+
+```shell
+weave serve weave://your_entity/project-name/YourModel:<hash>
+```

@@ -1,0 +1,51 @@
+---
+title: "wandb artifact put"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction à cette commande :
+  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-artifact-put.mdx
+  2. Ajoutez votre contenu d’introduction dans ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+
+  import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
+
+  <WandbArtifactPut/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Téléverser un artifact sur wandb
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb artifact put PATH [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument | Description                   | Requis |
+| :------- | :---------------------------- | :----- |
+| `PATH`   | Aucune description disponible | Oui    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option                | Description                                                                                                |
+| :-------------------- | :--------------------------------------------------------------------------------------------------------- |
+| `--name`, `-n`        | Le nom de l&#39;artifact à envoyer : project/artifact&#95;name                                             |
+| `--description`, `-d` | Une description de cet artifact                                                                            |
+| `--type`, `-t`        | Le type de l&#39;artifact (par défaut : dataset)                                                           |
+| `--alias`, `-a`       | Un alias à appliquer à cet artifact (par défaut : [&#39;latest&#39;])                                      |
+| `--id`                | Le run dans lequel vous souhaitez téléverser.                                                              |
+| `--resume`            | Reprendre le dernier run depuis votre répertoire actuel.                                                   |
+| `--skip_cache`        | Ignorer la mise en cache lors du téléversement des fichiers d&#39;artifact. (par défaut : False)           |
+| `--policy`            | Définir la politique de stockage lors du téléversement des fichiers d&#39;artifact. (par défaut : mutable) |

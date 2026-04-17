@@ -1,39 +1,47 @@
 ---
-title: wandb エージェント
+title: "wandb agent"
 ---
 
 {/*
-  このコマンドの導入コンテンツを追加するには：
-  1. スニペットファイルを作成： /snippets/en/_includes/cli/wandb-agent.mdx
-  2. そのファイルにイントロダクションの内容を追加
-  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
+  このコマンドの導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-agent.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbAgent from "/snippets/en/_includes/cli/wandb-agent.mdx";
+  import WandbAgent from "/snippets/_includes/cli/wandb-agent.mdx";
 
-<WandbAgent/>
+  <WandbAgent/>
 
-  次回の再生成時にスニペットが自動検出されます。
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-W&B エージェント を実行します。
+W&amp;B エージェントを実行する
 
-## 使用法
+
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
 wandb agent SWEEP_ID [OPTIONS]
 ```
 
-## 引数（Arguments）
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数         | 説明   | 必須 |
+| :--------- | :--- | :- |
 | `SWEEP_ID` | 説明なし | はい |
 
-## オプション
+<div id="options">
+  ## オプション
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | Sweep から作成された W&B Runs の送信先となる Projects の名前。プロジェクトが指定されていない場合、run は「Uncategorized」というラベルのプロジェクトに送信されます。 |
-| `--entity`, `-e` | Sweep によって作成された W&B Runs の送信先となる Teams 名または Users 名。指定する Entity が既に存在することを確認してください。Entity を指定しない場合、run は通常ユーザー名であるデフォルトの Entity に送信されます。 |
-| `--count` | この エージェント が実行する最大 Runs 数。 |
-| `--forward-signals`, `-f` | エージェント に配信されたシグナル（例：SIGINT/SIGTERM）を子プロセスである run に転送し、クリーンにシャットダウンできるようにします。（デフォルト：False） |
+| Option                    | Description                                                                                                                             |
+| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project`, `-p`         | sweep で作成された W&amp;B run の送信先となるプロジェクト名。プロジェクトを指定しない場合、run は「Uncategorized」というラベルのプロジェクトに送信されます。                                        |
+| `--entity`, `-e`          | sweep で作成された W&amp;B run の送信先にするユーザー名またはチーム名。指定する entity は、あらかじめ存在している必要があります。entity を指定しない場合、run はデフォルトの entity (通常は自分のユーザー名) に送信されます。 |
+| `--count`                 | このエージェントで作成する run の最大数。                                                                                                                |
+| `--forward-signals`, `-f` | エージェントに送られたシグナル (例: SIGINT/SIGTERM) を子 run に転送し、それらが正常にシャットダウンできるようにします。 (デフォルト: False)                                                 |

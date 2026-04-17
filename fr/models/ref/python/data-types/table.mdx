@@ -1,0 +1,172 @@
+---
+title: Table
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py" />
+
+
+## <kbd>class</kbd> `Table`
+
+La classe Table permet d’afficher et d’analyser des données tabulaires.
+
+Contrairement aux feuilles de calcul traditionnelles, les Tables prennent en charge de nombreux types de données : des valeurs scalaires, des chaînes de caractères, des tableaux NumPy et la plupart des sous-classes de `wandb.data_types.Media`. Cela signifie que vous pouvez intégrer `Images`, `Video`, `Audio` et d’autres types de médias enrichis et annotés directement dans les Tables, aux côtés d’autres valeurs scalaires plus classiques.
+
+Cette classe est la classe principale utilisée pour générer des W&amp;B Tables https://docs.wandb.ai/guides/models/tables/. 
+
+### <kbd>méthode</kbd> `Table.__init__`
+
+```python
+__init__(
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=True,
+    allow_mixed_types=False,
+    log_mode: "Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL'] | None" = 'IMMUTABLE'
+)
+```
+
+Initialise un objet Table.
+
+Le paramètre `rows` est disponible pour des raisons de compatibilité et ne doit pas être utilisé. La classe Table utilise `data` pour reproduire l&#39;API Pandas.
+
+**Arguments :**
+
+* `columns`:  (List[str]) Noms des colonnes du tableau.  Valeurs par défaut : [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;].
+* `data`:  (List[List[any]]) Tableau 2D de valeurs orienté par lignes.
+* `dataframe`:  (pandas.DataFrame) Objet DataFrame utilisé pour créer le tableau.  Lorsqu&#39;il est défini, les arguments `data` et `columns` sont ignorés.
+* `rows`:  (List[List[any]]) Tableau 2D de valeurs orienté par lignes.
+* `optional`:  (Union[bool,List[bool]]) Détermine si les valeurs `None` sont autorisées. Valeur par défaut : True
+  * S&#39;il s&#39;agit d&#39;une valeur booléenne unique, le caractère facultatif est appliqué à toutes les colonnes spécifiées lors de la création
+  * S&#39;il s&#39;agit d&#39;une liste de valeurs booléennes, le caractère facultatif est appliqué à chaque colonne ; la liste doit avoir la même longueur que `columns`
+* `allow_mixed_types`:  (bool) Détermine si les colonnes peuvent contenir des types mixtes  (désactive la validation de type). Valeur par défaut : False
+* `log_mode`:  Optional[str] Contrôle la façon dont la Table est enregistrée lorsque des modifications surviennent.  Options :
+  * &quot;IMMUTABLE&quot; (par défaut) : la Table ne peut être enregistrée qu&#39;une seule fois ; les tentatives d&#39;enregistrement suivantes après modification du tableau seront sans effet.
+  * &quot;MUTABLE&quot; : la Table peut être enregistrée à nouveau après des modifications, créant une nouvelle version d&#39;artifact à chaque enregistrement.
+  * &quot;INCREMENTAL&quot; : les données de la Table sont enregistrées de façon incrémentielle, chaque enregistrement créant une nouvelle entrée d&#39;artifact contenant les nouvelles données depuis le dernier enregistrement.
+
+***
+
+
+### <kbd>méthode</kbd> `Table.add_column`
+
+```python
+add_column(name, data, optional=False)
+```
+
+Ajoute une colonne de données au tableau.
+
+**Arguments :**
+
+* `name`:  (str) - le nom unique de la colonne
+* `data`:  (list | np.array) - une colonne de données homogènes
+* `optional`:  (bool) - si les valeurs nulles sont autorisées
+
+***
+
+
+### <kbd>méthode</kbd> `Table.add_computed_columns`
+
+```python
+add_computed_columns(fn)
+```
+
+Ajoute une ou plusieurs colonnes calculées à partir des données existantes.
+
+**Arguments :**
+
+* `fn` : fonction qui accepte un ou deux paramètres, `ndx` (int) et `row` (dict), et qui doit renvoyer un `dict` représentant les nouvelles colonnes de cette ligne, avec pour clés les noms des nouvelles colonnes.
+  * `ndx` est un entier représentant l’index de la ligne. Il est inclus uniquement si `include_ndx` est défini sur `True`.
+  * `row` est un dictionnaire dont les clés correspondent aux colonnes existantes
+
+***
+
+
+### <kbd>méthode</kbd> `Table.add_data`
+
+```python
+add_data(*data)
+```
+
+Ajoute une nouvelle ligne de données au tableau.
+
+Le nombre maximal de lignes d’un tableau est déterminé par `wandb.Table.MAX_ARTIFACT_ROWS`.
+
+Le nombre d’éléments des données doit correspondre au nombre de colonnes du tableau.
+
+***
+
+
+### <kbd>méthode</kbd> `Table.add_row`
+
+```python
+add_row(*row)
+```
+
+Obsolète. Utilisez plutôt la méthode `Table.add_data`.
+
+***
+
+
+### <kbd>méthode</kbd> `Table.cast`
+
+```python
+cast(col_name, dtype, optional=False)
+```
+
+Convertit une colonne vers un type de données spécifique.
+
+Il peut s&#39;agir d&#39;une classe Python standard, d&#39;un type interne de W&amp;B ou d&#39;un objet d&#39;exemple, comme une instance de wandb.Image ou de wandb.Classes.
+
+**Arguments :**
+
+* `col_name` (str):  Le nom de la colonne à convertir.
+* `dtype` (class, wandb.wandb&#95;sdk.interface.&#95;dtypes.Type, any):  Le type cible.
+* `optional` (bool):  Indique si la colonne doit accepter des valeurs None.
+
+***
+
+
+### <kbd>méthode</kbd> `Table.get_column`
+
+```python
+get_column(name, convert_to=None)
+```
+
+Récupère une colonne du tableau et, éventuellement, la convertit en objet NumPy.
+
+**Arguments :**
+
+* `name`:  (str) - le nom de la colonne
+* `convert_to`:  (str, facultatif)
+  * &quot;numpy&quot;: convertit les données sous-jacentes en objet NumPy
+
+***
+
+
+### <kbd>méthode</kbd> `Table.get_dataframe`
+
+```python
+get_dataframe()
+```
+
+Renvoie un `pandas.DataFrame` contenant le tableau.
+
+***
+
+
+### <kbd>méthode</kbd> `Table.get_index`
+
+```python
+get_index()
+```
+
+Renvoie un tableau d’indices de lignes à utiliser dans d’autres tableaux afin de créer des liens.
+
+***

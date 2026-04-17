@@ -1,0 +1,31 @@
+---
+description: Visualisez les métriques, personnalisez les axes et comparez des données catégorielles sous forme de barres.
+title: Graphiques à barres
+---
+
+Un graphique à barres représente des données catégorielles à l’aide de barres rectangulaires, qui peuvent être tracées verticalement ou horizontalement. Les graphiques à barres s’affichent par défaut avec `wandb.Run.log()` lorsque toutes les valeurs enregistrées sont de taille 1.
+
+<Frame>
+  <img src="/images/app_ui/bar_plot.png" alt="Tracé de box plots et de graphiques à barres horizontaux dans W&B" />
+</Frame>
+
+Personnalisez-les dans les réglages du graphique pour limiter le nombre maximal de runs à afficher, regrouper les runs selon n’importe quelle configuration et renommer les libellés.
+
+<Frame>
+  <img src="/images/app_ui/bar_plot_custom.png" alt="Graphique à barres personnalisé" />
+</Frame>
+
+<div id="customize-bar-plots">
+  ## Personnaliser les graphiques à barres
+</div>
+
+Vous pouvez également créer des graphiques **Box** ou **Violin** pour combiner de nombreuses statistiques récapitulatives en un seul type de graphique**.**
+
+1. Regroupez les runs dans le Runs table.
+2. Cliquez sur &#39;Add panel&#39; dans le Workspace.
+3. Ajoutez un &#39;Bar Chart&#39; standard et sélectionnez la métrique à représenter.
+4. Sous l’onglet &#39;Grouping&#39;, choisissez &#39;box plot&#39; ou &#39;Violin&#39;, etc., pour utiliser l’un ou l’autre de ces styles.
+
+<Frame>
+  <img src="/images/app_ui/bar_plots.gif" alt="Personnaliser les graphiques à barres" />
+</Frame>

@@ -1,36 +1,44 @@
 ---
-title: wandb artifact ls
+title: "wandb artifact ls"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドの導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-ls.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
+  import WandbArtifactLs from "/snippets/_includes/cli/wandb-artifact-ls.mdx";
 
-<WandbArtifactLs/>
+  <WandbArtifactLs/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-W&B Project 内のすべての Artifacts を一覧表示します。
+wandb プロジェクト内の Artifacts をすべて一覧表示する
 
-## 使用法
+
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
 wandb artifact ls PATH [OPTIONS]
 ```
 
-## 引数
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATH` | 説明なし | はい |
+<div id="arguments">
+  ## 引数
+</div>
 
-## オプション
+| 引数     | 説明       | 必須 |
+| :----- | :------- | :- |
+| `PATH` | 説明はありません | はい |
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--type`, `-t` | 表示する Artifacts のタイプ |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション          | 説明                    |
+| :------------- | :-------------------- |
+| `--type`, `-t` | 一覧表示する Artifacts のタイプ |

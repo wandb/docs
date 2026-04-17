@@ -1,0 +1,22 @@
+---
+title: teardown()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/" />
+
+
+### <kbd>fonction</kbd> `teardown`
+
+```python
+teardown(exit_code: 'int | None' = None) → None
+```
+
+Attend la fin de W&amp;B et libère les ressources.
+
+Termine tous les runs qui n&#39;ont pas été explicitement clôturés avec `run.finish()` et attend que toutes les données soient envoyées.
+
+Il est recommandé d&#39;appeler cette fonction à la fin d&#39;une session ayant utilisé `wandb.setup()`. Elle est appelée automatiquement via un hook `atexit`, mais cela n&#39;est pas fiable dans certaines configurations, par exemple lors de l&#39;utilisation du module `multiprocessing` de Python.

@@ -1,0 +1,1992 @@
+---
+description: Déployer la plateforme W&B avec l’opérateur Kubernetes dans le cloud ou sur site
+title: Déployer W&B avec l’opérateur Kubernetes
+---
+
+import SelfManagedMysqlRequirements from "/snippets/fr/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedRedisRequirements from "/snippets/fr/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/fr/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/fr/_includes/byob-provisioning-link.mdx";
+import SelfManagedVerifyInstallation from "/snippets/fr/_includes/self-managed-verify-installation.mdx";
+
+<div id="overview">
+  ## Aperçu
+</div>
+
+L’opérateur Kubernetes W&amp;B est la méthode recommandée pour déployer W&amp;B Server sur Kubernetes (dans le cloud ou sur site). Pour un aperçu de l’opérateur, savoir pourquoi W&amp;B l’utilise et comprendre le fonctionnement de la hiérarchie de configuration, voir [Autogéré](/fr/platform/hosting/hosting-options/self-managed#about-the-wb-kubernetes-operator).
+
+<div id="before-you-begin">
+  ## Avant de commencer
+</div>
+
+Avant de déployer W&amp;B avec l’opérateur Kubernetes, assurez-vous que votre infrastructure répond à toutes les exigences :
+
+1. **Vérifier les exigences de l’infrastructure** : Voir la page des [exigences d’infrastructure pour l’environnement Autogéré](/fr/platform/hosting/self-managed/requirements/) pour plus de détails sur :
+
+* Exigences relatives aux versions logicielles (Kubernetes, MySQL, Redis, Helm)
+  * Exigences matérielles (architecture CPU, recommandations de dimensionnement)
+  * Configuration du cluster Kubernetes
+  * Exigences relatives au réseau, à SSL/TLS et au DNS
+
+2. **Obtenir une licence W&amp;B Server** : Voir la section [License](/fr/platform/hosting/self-managed/requirements#license) sur la page des exigences.
+3. **Préparer les services externes** : Configurer MySQL, Redis et le stockage d’objets avant le déploiement.
+
+Pour plus d’informations, voir la page de [l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/).
+
+<div id="mysql-database">
+  ### Base de données MySQL
+</div>
+
+<SelfManagedMysqlRequirements />
+
+Pour des instructions complètes sur la configuration de MySQL, y compris les paramètres de configuration et la création de la base de données, voir la [section MySQL de la page des exigences](/fr/platform/hosting/self-managed/requirements/#mysql-database).
+
+<div id="redis">
+  ### Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+Voir la [section de configuration de Redis externe](#external-redis) pour savoir comment configurer une instance Redis externe dans les valeurs Helm.
+
+<div id="object-storage">
+  ### Stockage d’objets
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+<ByobProvisioningLink />
+
+Voir la [section de configuration du stockage d’objets](#object-storage-bucket) pour plus de détails sur sa configuration dans les valeurs Helm.
+
+<div id="openshift-kubernetes-clusters">
+  ### clusters Kubernetes OpenShift
+</div>
+
+W&amp;B prend en charge le déploiement sur les [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) dans le cloud, sur site et dans des environnements isolés du réseau.
+
+<Note>
+  W&amp;B recommande d&#39;utiliser le chart Helm officiel de W&amp;B pour l&#39;installation.
+</Note>
+
+<div id="run-the-container-as-an-un-privileged-user">
+  #### Exécutez le conteneur avec un utilisateur non privilégié
+</div>
+
+Par défaut, les conteneurs utilisent un `$UID` de 999. Spécifiez un `$UID` &gt;= 100000 et un `$GID` de 0 si votre orchestrateur exige que le conteneur s&#39;exécute sous un utilisateur non root.
+
+<Note>
+  W&amp;B doit démarrer avec le groupe root (`$GID=0`) pour que les autorisations du système de fichiers fonctionnent correctement.
+</Note>
+
+Configurez des contextes de sécurité pour chaque composant W&amp;B. Par exemple, pour configurer le composant API :
+
+```yaml
+api:
+  install: true
+  image:
+    repository: wandb/megabinary
+    tag: 0.74.1  # Remplacez par votre version actuelle
+  pod:
+    securityContext:
+      fsGroup: 10001
+      fsGroupChangePolicy: Always
+      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 10001
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
+```
+
+Si nécessaire, configurez un contexte de sécurité personnalisé pour d’autres composants, comme `app` ou `console`. Pour plus de détails, voir [Contexte de sécurité personnalisé](#custom-security-context).
+
+<div id="deploy-wb-server-application">
+  ## Déployer l’application W&amp;B Server
+</div>
+
+<Note>
+  **L’opérateur Kubernetes W&amp;B avec Helm est la méthode d’installation recommandée** pour tous les déploiements W&amp;B Autogéré, y compris dans les environnements cloud, sur site et isolé du réseau.
+</Note>
+
+Choisissez votre méthode de déploiement :
+
+<Tabs>
+  <Tab title="CLI Helm">
+    W&amp;B fournit un chart Helm pour déployer l’opérateur Kubernetes W&amp;B sur un cluster Kubernetes. Cette approche vous permet de déployer W&amp;B Server avec la CLI Helm ou un outil de déploiement continu comme ArgoCD.
+
+    Pour les considérations spécifiques au déploiement, voir [Considérations spécifiques à l’environnement](#environment-specific-considerations) et [Déployer avec Terraform sur un cloud public](#deploy-with-terraform-on-public-cloud). Pour les environnements déconnectés, voir [Déployer sur Kubernetes en environnement isolé](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/).
+
+    Suivez ces étapes pour installer l’opérateur Kubernetes W&amp;B avec la CLI Helm :
+
+    1. Ajoutez le dépôt Helm W&amp;B. Le chart Helm W&amp;B est disponible dans le dépôt Helm W&amp;B :
+       ```shell
+       helm repo add wandb https://charts.wandb.ai
+       helm repo update
+       ```
+
+    2. Installez l’opérateur sur un cluster Kubernetes :
+       ```shell
+       helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+       ```
+
+    3. Configurez la ressource personnalisée de l’opérateur W&amp;B pour déclencher l’installation de W&amp;B Server. Créez un fichier nommé `operator.yaml` avec votre configuration de déploiement W&amp;B. Référez-vous à la [Référence de configuration](#configuration-reference-for-wb-server) pour connaître toutes les options disponibles.
+
+       Voici une configuration minimale :
+
+       ```yaml
+       apiVersion: apps.wandb.com/v1
+       kind: WeightsAndBiases
+       metadata:
+         labels:
+           app.kubernetes.io/name: weightsandbiases
+           app.kubernetes.io/instance: wandb
+         name: wandb
+         namespace: default
+       spec:
+         values:
+           global:
+             host: https://<HOST_URI>
+             license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
+             bucket:
+               <details depend on the provider>
+             mysql:
+               <redacted>
+           ingress:
+             annotations:
+               <redacted>
+       ```
+
+    4. Lancez l’opérateur avec votre configuration personnalisée afin qu’il puisse installer, configurer et gérer l’application W&amp;B Server :
+
+       ```shell
+       kubectl apply -f operator.yaml
+       ```
+
+       Attendez que le déploiement soit terminé. Cela prend quelques minutes.
+
+    5. Pour vérifier l’installation via l’interface utilisateur web, créez le premier compte administrateur, puis suivez les étapes de vérification décrites dans [Vérifiez l’installation](#verify-the-installation).
+  </Tab>
+
+  <Tab title="Terraform">
+    Déployez W&amp;B avec Terraform pour des déploiements en infrastructure as code. Choisissez entre :
+
+    * **Module Terraform Helm** : déploie l’opérateur sur une infrastructure Kubernetes existante
+    * **Modules Terraform Cloud** : déploiement complet de l’infrastructure et de l’application pour AWS, Google Cloud et Azure
+
+    Pour les considérations propres à chaque déploiement, voir [Considérations propres à l’environnement](#environment-specific-considerations) et [Déployer avec Terraform sur le cloud public](#deploy-with-terraform-on-public-cloud). Pour les environnements déconnectés, voir [Déployer sur Kubernetes en environnement isolé](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/).
+
+    #### Module Terraform Helm
+
+    Cette méthode permet de réaliser des déploiements personnalisés adaptés à des exigences spécifiques, en s’appuyant sur l’approche d’infrastructure as code de Terraform pour garantir la cohérence et la reproductibilité. Le module Terraform officiel de W&amp;B basé sur Helm est disponible [ici](https://registry.terraform.io/modules/wandb/wandb/helm/latest).
+
+    Utilisez le code suivant comme point de départ. Il inclut toutes les options de configuration nécessaires pour un déploiement de niveau production :
+
+    ```hcl
+    module "wandb" {
+      source  = "wandb/wandb/helm"
+
+      spec = {
+        values = {
+          global = {
+            host    = "https://<HOST_URI>"
+            license = "eyJhbGnUzaH...j9ZieKQ2x5GGfw"
+
+            bucket = {
+              <details depend on the provider>
+            }
+
+            mysql = {
+              <redacted>
+            }
+          }
+
+          ingress = {
+            annotations = {
+              "a" = "b"
+              "x" = "y"
+            }
+          }
+        }
+      }
+    }
+    ```
+
+    Notez que les options de configuration sont les mêmes que celles décrites dans la [Référence de configuration](#configuration-reference-for-wb-server), mais la syntaxe doit respecter le langage de configuration HashiCorp (HCL). Le module Terraform crée la définition de ressource personnalisée (CRD) de W&amp;B.
+
+    Pour voir comment W&amp;B utilise en interne le module Terraform Helm pour déployer des installations de Cloud dédié pour ses clients, suivez ces liens :
+
+    * [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
+    * [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
+    * [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
+
+    #### Modules Terraform pour le cloud
+
+    W&amp;B fournit un ensemble de modules Terraform pour AWS, Google Cloud et Azure. Ces modules déploient des infrastructures complètes, notamment des clusters Kubernetes, des équilibreurs de charge, des bases de données MySQL, etc., ainsi que l’application W&amp;B Server. L’opérateur Kubernetes W&amp;B est déjà inclus dans ces modules Terraform officiels W&amp;B spécifiques à chaque cloud, dans les versions suivantes :
+
+    | Registre Terraform                                                  | Code source                                      | Version |
+    | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+    | [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
+    | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
+    | [Google Cloud](https://github.com/wandb/terraform-google-wandb)     | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
+
+    Cette intégration garantit que l’opérateur Kubernetes W&amp;B est prêt à l’emploi pour votre instance avec un minimum de configuration, ce qui simplifie le déploiement et la gestion de W&amp;B Server dans votre environnement cloud.
+
+    Pour des instructions détaillées sur l’utilisation de ces modules spécifiques au cloud, voir [Déployer avec Terraform sur un cloud public](#deploy-with-terraform-on-public-cloud) ci-dessous.
+  </Tab>
+</Tabs>
+
+<div id="verify-the-installation">
+  ### Vérifiez l’installation
+</div>
+
+<SelfManagedVerifyInstallation />
+
+<div id="environment-specific-considerations">
+  ## Considérations spécifiques à l’environnement
+</div>
+
+Kubernetes fonctionne de la même manière, qu’il soit exécuté sur site ou dans le cloud. Les principales différences concernent les conventions de nommage et les services gérés (par exemple, MySQL vs RDS, ou S3 vs le stockage d’objets sur site). Cette section aborde les considérations qui varient selon l’environnement.
+
+<div id="on-premises-and-bare-metal">
+  ### sur site et bare metal
+</div>
+
+Lors d’un déploiement sur un cluster Kubernetes sur site ou bare metal, tenez compte des points suivants.
+
+<div id="load-balancer-configuration">
+  #### Configuration de l’équilibreur de charge
+</div>
+
+Les clusters Kubernetes sur site nécessitent généralement une configuration manuelle de l’équilibreur de charge. Les options possibles sont les suivantes :
+
+* **Équilibreur de charge externe** : configurez un équilibreur de charge matériel ou logiciel existant (F5, HAProxy, etc.)
+* **Nginx Ingress Controller** : déployez nginx-ingress-controller avec NodePort ou le réseau hôte
+* **MetalLB** : pour les clusters Kubernetes bare metal, MetalLB fournit des services d’équilibreur de charge
+
+Pour des exemples détaillés de configuration de l’équilibreur de charge, voir la [section réseau de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch#networking).
+
+<div id="persistent-storage">
+  #### Stockage persistant
+</div>
+
+Assurez-vous que votre cluster Kubernetes dispose d’une StorageClass configurée pour les volumes persistants. Les composants W&amp;B peuvent nécessiter un stockage persistant pour la mise en cache et les données temporaires.
+
+Options courantes de stockage sur site :
+
+* Classes de stockage basées sur NFS
+* Stockage Ceph/Rook
+* Volumes persistants locaux
+* Solutions de stockage d’entreprise (NetApp, Pure Storage, etc.)
+
+<div id="dns-and-certificate-management">
+  #### Gestion du DNS et des certificats
+</div>
+
+Pour les déploiements sur site :
+
+* Configurez les enregistrements DNS internes pour qu’ils pointent vers votre nom d’hôte W&amp;B
+* Générez des certificats SSL/TLS auprès de votre autorité de certification (CA) interne
+* Si vous utilisez des certificats auto-signés, configurez l’opérateur pour qu’il fasse confiance à votre certificat d’autorité de certification (CA)
+
+Voir les [exigences SSL/TLS](/fr/platform/hosting/self-managed/requirements#ssl-tls) pour plus de détails sur la configuration des certificats.
+
+<div id="openshift-deployments">
+  #### Déploiements OpenShift
+</div>
+
+W&amp;B prend entièrement en charge les déploiements sur des clusters Kubernetes OpenShift. Les déploiements OpenShift nécessitent des configurations supplémentaires du contexte de sécurité en raison des politiques de sécurité plus strictes d&#39;OpenShift.
+
+Pour en savoir plus sur la configuration spécifique à OpenShift, voir [clusters Kubernetes OpenShift](#openshift-kubernetes-clusters) ci-dessus. Pour des exemples complets de déploiement OpenShift dans des environnements isolés du réseau, voir [Déployer sur Kubernetes isolé du réseau](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped#openshift-configuration).
+
+<div id="object-storage-for-on-premises-and-s3-compatible">
+  #### Stockage d’objets pour les environnements sur site et compatibles S3
+</div>
+
+Une fois votre bucket de stockage d’objets provisionné (voir [Provisionnement du stockage d’objets](/fr/platform/hosting/data-security/secure-storage-connector)), configurez-le dans votre Ressource personnalisée W&amp;B.
+
+**AWS S3 (sur site)**
+
+Pour AWS S3 sur site (via Outposts ou un stockage compatible) :
+
+```yaml
+bucket:
+  kmsKey: <kms key arn>  # Clé KMS facultative pour le chiffrement
+  name: <bucket name>    # Exemple : wandb
+  path: ""               # Laisser comme chaîne vide
+  provider: s3
+  region: <region>       # Exemple : us-east-1
+```
+
+**Stockage compatible avec S3 (MinIO, Ceph, NetApp, etc.)**
+
+Pour les systèmes de stockage compatibles avec S3 :
+
+```yaml
+bucket:
+  kmsKey: null
+  name: <s3 endpoint>    # Exemple : s3.example.com:9000
+  path: <bucket name>    # Exemple : wandb
+  provider: s3
+  region: <region>       # Exemple : us-east-1
+```
+
+Pour activer TLS pour le stockage compatible avec S3, ajoutez `?tls=true` au chemin du bucket :
+
+```yaml
+bucket:
+  path: "wandb?tls=true"
+```
+
+<Warning>
+  Le certificat doit être approuvé. Les certificats autosignés nécessitent une configuration supplémentaire. Voir les [exigences SSL/TLS](/fr/platform/hosting/self-managed/requirements#ssl-tls) pour en savoir plus.
+</Warning>
+
+**Considérations importantes pour le stockage d’objets sur site**
+
+Si vous exploitez votre propre stockage d’objets, tenez compte des points suivants :
+
+1. **Capacité de stockage et performances** : Surveillez attentivement la capacité du disque. Une utilisation moyenne de W&amp;B représente de quelques dizaines à quelques centaines de gigaoctets. Une utilisation intensive peut entraîner des pétaoctets de consommation de stockage.
+2. **Tolérance aux pannes** : Au minimum, utilisez des baies RAID pour les disques physiques. Pour le stockage compatible S3, utilisez des configurations distribuées ou hautement disponibles.
+3. **Disponibilité** : Mettez en place une supervision afin de garantir que le stockage reste disponible.
+
+**Considérations relatives à MinIO**
+
+<Warning>
+  MinIO Open Source est en [mode maintenance](https://github.com/minio/minio) et ne fait plus l’objet de développement actif. Les binaires précompilés ne sont plus fournis et seuls les correctifs de sécurité critiques sont examinés au cas par cas. Pour les déploiements de production, W&amp;B recommande d’utiliser des services gérés de stockage d’objets ou [MinIO Enterprise (AIStor)](https://min.io/product/aistor).
+</Warning>
+
+Les alternatives Enterprise au stockage d’objets sur site incluent :
+
+* [Amazon S3 on Outposts](https://aws.amazon.com/s3/outposts/)
+* [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)
+* MinIO Enterprise (AIStor)
+* [Dell ObjectScale](https://www.dell.com/en-us/shop/cty/sf/objectscale)
+
+Si vous utilisez un déploiement MinIO existant ou MinIO Enterprise, vous pouvez créer un bucket à l’aide du client MinIO :
+
+```bash
+mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
+mc mb --region=us-east-1 local/wandb-files
+```
+
+<div id="public-cloud-with-terraform">
+  ### Sur cloud public avec Terraform
+</div>
+
+Pour un déploiement complet de l’infrastructure et de l’application sur AWS, Google Cloud ou Azure, voir [Déployer avec Terraform sur un cloud public](#deploy-with-terraform-on-public-cloud) ci-dessous.
+
+<div id="deploy-with-terraform-on-public-cloud">
+  ## Déployer avec Terraform sur un cloud public
+</div>
+
+<Note>
+  W&amp;B recommande des options de déploiement entièrement gérées, comme [W&amp;B Multi-tenant Cloud](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [W&amp;B Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud). Les services entièrement gérés de W&amp;B sont simples à utiliser et sécurisés, avec peu ou pas de configuration requise.
+</Note>
+
+W&amp;B fournit des modules Terraform pour déployer la plateforme chez des fournisseurs de cloud public. Ces modules automatisent le provisionnement de l’infrastructure et l’installation de W&amp;B Server.
+
+Avant de commencer, W&amp;B recommande de choisir l’un des [backends distants](https://developer.hashicorp.com/terraform/language/backend) disponibles pour Terraform afin d’y stocker le [fichier d’état](https://developer.hashicorp.com/terraform/language/state). Le fichier d’état est indispensable pour appliquer des mises à niveau ou apporter des modifications à votre déploiement sans recréer tous les composants.
+
+Sélectionnez votre fournisseur de cloud :
+
+<Tabs>
+  <Tab title="AWS">
+    W&amp;B recommande d&#39;utiliser le [W&amp;B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) pour déployer la plateforme sur AWS.
+
+    Le module Terraform déploie les composants obligatoires suivants :
+
+    * Équilibreur de charge
+    * AWS Identity &amp; Access Management (IAM)
+    * AWS Key Management System (KMS)
+    * Amazon Aurora MySQL
+    * Amazon VPC
+    * Amazon S3
+    * Amazon Route53
+    * Amazon Certificate Manager (ACM)
+    * Amazon Elastic Load Balancing (ALB)
+    * Amazon Secrets Manager
+
+    Les composants facultatifs incluent :
+
+    * ElastiCache pour Redis
+    * SQS
+
+    ### Permissions requises
+
+    Le compte qui exécute Terraform doit pouvoir créer tous les composants décrits ci-dessus et disposer des autorisations nécessaires pour créer des **IAM Policies** et des **IAM Roles**, ainsi qu&#39;attribuer des rôles aux ressources.
+
+    ### Étapes générales
+
+    Les étapes de cette section sont communes à toutes les options de déploiement.
+
+    1. Préparez l’environnement de développement.
+       * Installez [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+       * W&amp;B recommande de créer un dépôt Git pour le suivi des versions.
+
+    2. Créez le fichier `terraform.tfvars`.
+
+       Le contenu du fichier `tvfars` peut être personnalisé selon le type d’installation, mais la configuration minimale recommandée ressemble à l’exemple ci-dessous.
+
+       ```bash
+       namespace                  = "wandb"
+       license                    = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+       subdomain                  = "wandb-aws"
+       domain_name                = "wandb.ml"
+       zone_id                    = "xxxxxxxxxxxxxxxx"
+       allowed_inbound_cidr       = ["0.0.0.0/0"]
+       allowed_inbound_ipv6_cidr  = ["::/0"]
+       eks_cluster_version        = "1.29"
+       ```
+
+       Veillez à définir les variables dans votre fichier `tvfars` avant de déployer, car la variable `namespace` est une chaîne de caractères utilisée comme préfixe pour toutes les ressources créées par Terraform.
+
+       La combinaison de `subdomain` et `domain` forme le FQDN de votre instance W&amp;B. Dans l’exemple ci-dessus, le FQDN W&amp;B sera `wandb-aws.wandb.ml`, ainsi que le `zone_id` DNS dans lequel l’enregistrement FQDN sera créé.
+
+       Les paramètres `allowed_inbound_cidr` et `allowed_inbound_ipv6_cidr` doivent également être définis. Dans le module, il s’agit d’une entrée obligatoire. L’exemple suivant autorise l’accès à l’installation W&amp;B depuis n’importe quelle source.
+
+    3. Créez le fichier `versions.tf`
+
+       Ce fichier contiendra les versions requises de Terraform et du fournisseur Terraform pour déployer W&amp;B sur AWS :
+
+       ```bash
+       provider "aws" {
+         region = "eu-central-1"
+
+         default_tags {
+           tags = {
+             GithubRepo = "terraform-aws-wandb"
+             GithubOrg  = "wandb"
+             Enviroment = "Example"
+             Example    = "PublicDnsExternal"
+           }
+         }
+       }
+       ```
+
+       Consultez la [documentation officielle de Terraform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) pour configurer le fournisseur AWS.
+
+       Bien que facultative, l’ajout de la [configuration du backend distant](https://developer.hashicorp.com/terraform/language/backend) mentionnée au début de cette documentation est fortement recommandé.
+
+    4. Créez le fichier `variables.tf`
+
+       Pour chaque option configurée dans `terraform.tfvars`, Terraform nécessite une déclaration de variable correspondante.
+
+       ```
+       variable "namespace" {
+         type        = string
+         description = "Préfixe de nom utilisé pour les ressources"
+       }
+
+       variable "domain_name" {
+         type        = string
+         description = "Nom de domaine utilisé pour accéder à l'instance."
+       }
+
+       variable "subdomain" {
+         type        = string
+         default     = null
+         description = "Sous-domaine pour accéder à l'UI Weights & Biases."
+       }
+
+       variable "license" {
+         type = string
+       }
+
+       variable "zone_id" {
+         type        = string
+         description = "Domaine sur lequel créer le sous-domaine Weights & Biases."
+       }
+
+       variable "allowed_inbound_cidr" {
+        description = "CIDRs autorisés à accéder à wandb-server."
+        nullable    = false
+        type        = list(string)
+       }
+
+       variable "allowed_inbound_ipv6_cidr" {
+        description = "CIDRs autorisés à accéder à wandb-server."
+        nullable    = false
+        type        = list(string)
+       }
+
+       variable "eks_cluster_version" {
+        description = "Version Kubernetes du cluster EKS"
+        nullable    = false
+        type        = string
+       }
+       ```
+
+    ### Déploiement recommandé
+
+    Il s&#39;agit de la configuration de déploiement la plus simple, qui crée tous les composants obligatoires et installe la dernière version de W&amp;B dans le cluster Kubernetes.
+
+    1. Créez le fichier `main.tf`
+
+       Dans le même répertoire que celui où vous avez créé les fichiers dans les étapes General, créez un fichier `main.tf` avec le contenu suivant :
+
+       ```
+       module "wandb_infra" {
+         source  = "wandb/wandb/aws"
+         version = "~>7.0"
+
+         namespace   = var.namespace
+         domain_name = var.domain_name
+         license     = var.license
+         subdomain   = var.subdomain
+         zone_id     = var.zone_id
+
+         allowed_inbound_cidr           = var.allowed_inbound_cidr
+         allowed_inbound_ipv6_cidr      = var.allowed_inbound_ipv6_cidr
+
+         public_access                  = true
+         external_dns                   = true
+         kubernetes_public_access       = true
+         kubernetes_public_access_cidrs = ["0.0.0.0/0"]
+         eks_cluster_version            = var.eks_cluster_version
+       }
+
+        data "aws_eks_cluster" "eks_cluster_id" {
+          name = module.wandb_infra.cluster_name
+        }
+
+        data "aws_eks_cluster_auth" "eks_cluster_auth" {
+          name = module.wandb_infra.cluster_name
+        }
+
+        provider "kubernetes" {
+          host                   = data.aws_eks_cluster.eks_cluster_id.endpoint
+          cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_id.certificate_authority.0.data)
+          token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+        }
+
+
+        provider "helm" {
+          kubernetes {
+            host                   = data.aws_eks_cluster.eks_cluster_id.endpoint
+            cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_id.certificate_authority.0.data)
+            token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+          }
+        }
+
+        output "url" {
+          value = module.wandb_infra.url
+        }
+
+        output "bucket" {
+          value = module.wandb_infra.bucket_name
+        }
+       ```
+
+    2. Déployer W&amp;B
+
+       Pour déployer W&amp;B, exécutez les commandes suivantes :
+
+       ```
+       terraform init
+       terraform apply -var-file=terraform.tfvars
+       ```
+
+    ### Activer Redis
+
+    Pour utiliser Redis afin de mettre en cache les requêtes SQL et accélérer la réponse de l&#39;application lors du chargement des métriques, ajoutez l&#39;option `create_elasticache_subnet = true` au fichier `main.tf` :
+
+    ```
+    module "wandb_infra" {
+      source  = "wandb/wandb/aws"
+      version = "~>7.0"
+
+      namespace   = var.namespace
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+      zone_id     = var.zone_id
+      create_elasticache_subnet = true
+    }
+    [...]
+    ```
+
+    ### Activer le courtier de messages (file d&#39;attente)
+
+    Pour activer un courtier de messages externe via SQS, ajoutez l&#39;option `use_internal_queue = false` au fichier `main.tf` :
+
+    <Note>
+      Ceci est facultatif, car W&amp;B inclut un broker intégré. Cette option n&#39;apporte aucune amélioration des performances.
+    </Note>
+
+    ```
+    module "wandb_infra" {
+      source  = "wandb/wandb/aws"
+      version = "~>7.0"
+
+      namespace   = var.namespace
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+      zone_id     = var.zone_id
+      use_internal_queue = false
+
+    [...]
+    }
+    ```
+
+    ### Ressources supplémentaires
+
+    * [Documentation du module AWS Terraform](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
+    * [Code source du module Terraform pour AWS](https://github.com/wandb/terraform-aws-wandb)
+    * [Migrer vers des modules Terraform AWS basés sur l’opérateur](#migrate-to-operator-based-aws-terraform-modules)
+  </Tab>
+
+  <Tab title="Google Cloud">
+    W&amp;B recommande d&#39;utiliser le [W&amp;B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) pour déployer la plateforme sur Google Cloud.
+
+    La documentation du module est complète et répertorie toutes les options disponibles.
+
+    Avant de commencer, W&amp;B vous recommande de choisir l&#39;un des [backends distants](https://developer.hashicorp.com/terraform/language/backend/remote) disponibles pour Terraform afin de stocker le [fichier d&#39;état](https://developer.hashicorp.com/terraform/language/state). Le fichier d&#39;état est la ressource indispensable pour déployer des mises à jour ou effectuer des modifications dans votre déploiement sans recréer tous les composants.
+
+    Le module Terraform déploie les composants obligatoires suivants :
+
+    * VPC
+    * Cloud SQL for MySQL
+    * Bucket de stockage dans le cloud
+    * Google Kubernetes Engine
+    * Memorystore for Redis
+    * Clé de chiffrement KMS
+    * Équilibreur de charge
+
+    Les composants facultatifs incluent :
+
+    * Système de messagerie Pub/Sub
+
+    ### Autorisations préalables
+
+    Le compte qui exécutera Terraform doit disposer du rôle `roles/owner` dans le projet Google Cloud utilisé.
+
+    ### Étapes générales
+
+    Les étapes de cette section sont communes à toutes les options de déploiement.
+
+    1. Préparez l’environnement de développement.
+       * Installez [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
+       * W&amp;B recommande de créer un dépôt Git avec le code qui sera utilisé, mais vous pouvez conserver vos fichiers en local.
+       * Créez un projet dans [Google Cloud Console](https://console.cloud.google.com/).
+       * Authentifiez-vous avec Google Cloud (veillez à [installer gcloud](https://cloud.google.com/sdk/docs/install) au préalable) à l’aide de `gcloud auth application-default login`.
+
+    2. Créez le fichier `terraform.tfvars`.
+
+       Le contenu du fichier `tvfars` peut être personnalisé en fonction du type d’installation, mais la configuration minimale recommandée ressemble à l’exemple ci-dessous.
+
+       ```bash
+       project_id  = "wandb-project"
+       region      = "europe-west2"
+       zone        = "europe-west2-a"
+       namespace   = "wandb"
+       license     = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+       subdomain   = "wandb-gcp"
+       domain_name = "wandb.ml"
+       ```
+
+       Les variables définies ici doivent être définies avant le déploiement. La variable `namespace` sera une chaîne de caractères qui servira de préfixe à toutes les ressources créées par Terraform.
+
+       La combinaison de `subdomain` et de `domain` formera le FQDN avec lequel W&amp;B sera configuré. Dans l’exemple ci-dessus, le FQDN de W&amp;B sera `wandb-gcp.wandb.ml`.
+
+    3. Créez le fichier `variables.tf`.
+
+       Pour chaque option configurée dans `terraform.tfvars`, Terraform exige qu’une variable correspondante soit déclarée.
+
+       ```
+       variable "project_id" {
+         type        = string
+         description = "Project ID"
+       }
+
+       variable "region" {
+         type        = string
+         description = "Google region"
+       }
+
+       variable "zone" {
+         type        = string
+         description = "Google zone"
+       }
+
+       variable "namespace" {
+         type        = string
+         description = "Namespace prefix used for resources"
+       }
+
+       variable "domain_name" {
+         type        = string
+         description = "Domain name for accessing the Weights & Biases UI."
+       }
+
+       variable "subdomain" {
+         type        = string
+         description = "Subdomain for access the Weights & Biases UI."
+       }
+
+       variable "license" {
+         type        = string
+         description = "W&B License"
+       }
+       ```
+
+    ### Déploiement recommandé
+
+    Il s&#39;agit de la configuration de déploiement la plus simple, qui crée tous les composants obligatoires et installe la dernière version de W&amp;B dans le cluster Kubernetes.
+
+    1. Créez le fichier `main.tf`
+
+       Dans le même répertoire où vous avez créé les fichiers à l’étape « Étapes générales », créez un fichier `main.tf` avec le contenu suivant :
+
+       ```
+       provider "google" {
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+       }
+
+       provider "google-beta" {
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+       }
+
+       data "google_client_config" "current" {}
+
+       provider "kubernetes" {
+         host                   = "https://${module.wandb.cluster_endpoint}"
+         cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+         token                  = data.google_client_config.current.access_token
+       }
+
+       provider "helm" {
+         kubernetes {
+           host                   = "https://${module.wandb.cluster_endpoint}"
+           cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+           token                  = data.google_client_config.current.access_token
+         }
+       }
+
+       # Démarrer tous les services requis
+       module "wandb" {
+         source  = "wandb/wandb/google"
+         version = "~> 10.0"
+
+         namespace   = var.namespace
+         license     = var.license
+         domain_name = var.domain_name
+         subdomain   = var.subdomain
+       }
+
+       # Mettez à jour votre DNS avec l'adresse IP provisionnée
+       output "url" {
+         value = module.wandb.url
+       }
+
+       output "address" {
+         value = module.wandb.address
+       }
+
+       output "bucket_name" {
+         value = module.wandb.bucket_name
+       }
+       ```
+
+    2. Déployez W&amp;B.
+
+       Pour déployer W&amp;B, exécutez les commandes suivantes :
+
+       ```
+       terraform init
+       terraform apply -var-file=terraform.tfvars
+       ```
+
+    ### Activer Redis
+
+    Pour utiliser Redis afin de mettre en cache les requêtes SQL et accélérer la réponse de l&#39;application lors du chargement des métriques, ajoutez l&#39;option `create_redis = true` au fichier `main.tf` :
+
+    ```
+    [...]
+
+    module "wandb" {
+      source  = "wandb/wandb/google"
+      version = "~> 10.0"
+
+      namespace    = var.namespace
+      license      = var.license
+      domain_name  = var.domain_name
+      subdomain    = var.subdomain
+      create_redis = true
+    }
+    [...]
+    ```
+
+    ### Activer le courtier de messages (file d&#39;attente)
+
+    Pour activer un courtier de messages externe via Pub/Sub, ajoutez l&#39;option `use_internal_queue = false` au fichier `main.tf` :
+
+    <Note>
+      Cette option est facultative, car W&amp;B inclut un broker intégré. Elle n&#39;améliore pas les performances.
+    </Note>
+
+    ```
+    [...]
+
+    module "wandb" {
+      source  = "wandb/wandb/google"
+      version = "~> 10.0"
+
+      namespace          = var.namespace
+      license            = var.license
+      domain_name        = var.domain_name
+      subdomain          = var.subdomain
+      use_internal_queue = false
+    }
+
+    [...]
+    ```
+
+    ### Ressources supplémentaires
+
+    * [Documentation du module Terraform pour Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest)
+    * [Code source du module Terraform pour Google Cloud](https://github.com/wandb/terraform-google-wandb)
+  </Tab>
+
+  <Tab title="Azure">
+    W&amp;B recommande d&#39;utiliser le [W&amp;B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) pour déployer la plateforme sur Azure.
+
+    La documentation du module est complète et répertorie toutes les options disponibles.
+
+    Le module Terraform déploie les composants obligatoires suivants :
+
+    * Groupe de ressources Azure
+    * Azure Virtual Network (VPC)
+    * Azure MySQL Flexible Server
+    * Compte de stockage Azure &amp; Blob Storage
+    * Azure Kubernetes Service
+    * Azure Application Gateway
+
+    Les composants facultatifs incluent :
+
+    * Azure Cache for Redis
+    * Azure Event Grid
+
+    ### Permissions requises
+
+    La façon la plus simple de configurer le fournisseur AzureRM est via [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli), mais dans un contexte d&#39;automatisation, l&#39;utilisation d&#39;[Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) peut également s&#39;avérer utile.
+
+    Quelle que soit la méthode d&#39;authentification utilisée, le compte qui exécutera Terraform doit pouvoir créer tous les composants décrits ci-dessus.
+
+    ### Étapes générales
+
+    Les étapes de cette section sont communes à toutes les options de déploiement.
+
+    1. Préparez l’environnement de développement.
+       * Installez [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+       * W&amp;B recommande de créer un dépôt Git contenant le code à utiliser, mais vous pouvez conserver vos fichiers en local.
+
+    2. Créez le fichier `terraform.tfvars`.
+
+       Le contenu du fichier `tvfars` peut être personnalisé selon le type d’installation, mais la configuration minimale recommandée ressemblera à l’exemple ci-dessous.
+
+       ```bash
+        namespace     = "wandb"
+        wandb_license = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+        subdomain     = "wandb-azure"
+        domain_name   = "wandb.ml"
+        location      = "westeurope"
+       ```
+
+       Les variables définies ici doivent être déterminées avant le déploiement. La variable `namespace` sera une chaîne de caractères qui servira de préfixe à toutes les ressources créées par Terraform.
+
+       La combinaison de `subdomain` et `domain` formera le FQDN avec lequel W&amp;B sera configuré. Dans l’exemple ci-dessus, le FQDN de W&amp;B sera `wandb-azure.wandb.ml`.
+
+    3. Créez le fichier `versions.tf`
+
+       Ce fichier contiendra les versions de Terraform et du fournisseur Terraform requises pour déployer W&amp;B sur Azure :
+
+       ```bash
+         terraform {
+        required_version = "~> 1.3"
+
+        required_providers {
+          azurerm = {
+            source  = "hashicorp/azurerm"
+            version = "~> 3.17"
+          }
+        }
+         }
+       ```
+
+       Consultez la [documentation officielle de Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs) pour configurer le fournisseur Azure.
+
+       Même si cela reste facultatif, il est vivement recommandé d’ajouter la [configuration du backend distant](https://developer.hashicorp.com/terraform/language/backend) mentionnée au début de cette documentation.
+
+    4. Créez le fichier `variables.tf`
+
+       Pour chaque option configurée dans `terraform.tfvars`, Terraform exige une déclaration de variable correspondante.
+
+       ```bash
+           variable "namespace" {
+             type        = string
+             description = "String used for prefix resources."
+           }
+
+           variable "location" {
+             type        = string
+             description = "Azure Resource Group location"
+           }
+
+           variable "domain_name" {
+             type        = string
+             description = "Domain for accessing the Weights & Biases UI."
+           }
+
+           variable "subdomain" {
+             type        = string
+             default     = null
+             description = "Subdomain for accessing the Weights & Biases UI. Default creates record at Route53 Route."
+           }
+
+           variable "license" {
+             type        = string
+             description = "Your wandb/local license"
+           }
+       ```
+
+    ### Déploiement recommandé
+
+    Il s&#39;agit de la configuration de déploiement la plus simple, qui crée tous les composants obligatoires et installe la dernière version de W&amp;B dans le cluster Kubernetes.
+
+    1. Créez le fichier `main.tf`
+
+       Dans le même répertoire où vous avez créé les fichiers lors des étapes générales, créez un fichier `main.tf` avec le contenu suivant :
+
+       ```bash
+         provider "azurerm" {
+        features {}
+         }
+
+         provider "kubernetes" {
+        host                   = module.wandb.cluster_host
+        cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+        client_key             = base64decode(module.wandb.cluster_client_key)
+        client_certificate     = base64decode(module.wandb.cluster_client_certificate)
+         }
+
+         provider "helm" {
+        kubernetes {
+          host                   = module.wandb.cluster_host
+          cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+          client_key             = base64decode(module.wandb.cluster_client_key)
+          client_certificate     = base64decode(module.wandb.cluster_client_certificate)
+        }
+         }
+
+         # Lancer tous les services requis
+         module "wandb" {
+        source  = "wandb/wandb/azurerm"
+        version = "~> 1.2"
+
+        namespace   = var.namespace
+        location    = var.location
+        license     = var.license
+        domain_name = var.domain_name
+        subdomain   = var.subdomain
+
+        deletion_protection = false
+
+        tags = {
+          "Example" : "PublicDns"
+        }
+         }
+
+         output "address" {
+        value = module.wandb.address
+         }
+
+         output "url" {
+        value = module.wandb.url
+         }
+       ```
+
+    2. Déployer W&amp;B
+
+       Pour déployer W&amp;B, exécutez les commandes suivantes :
+
+       ```
+       terraform init
+       terraform apply -var-file=terraform.tfvars
+       ```
+
+    ### Activer Redis
+
+    Pour utiliser Redis afin de mettre en cache les requêtes SQL et accélérer la réponse de l&#39;application lors du chargement des métriques, ajoutez l&#39;option `create_redis = true` au fichier `main.tf` :
+
+    ```bash
+    # Démarrer tous les services requis
+    module "wandb" {
+      source  = "wandb/wandb/azurerm"
+      version = "~> 1.2"
+
+      namespace   = var.namespace
+      location    = var.location
+      license     = var.license
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+
+      create_redis = true
+      [...]
+    }
+    ```
+
+    ### Activer le courtier de messages (file d&#39;attente)
+
+    Pour activer un courtier de messages externe à l&#39;aide d&#39;Azure Event Grid, ajoutez l&#39;option `use_internal_queue = false` au fichier `main.tf` :
+
+    <Note>
+      C’est facultatif, car W&amp;B inclut un broker intégré. Cette option n’apporte aucun gain de performances.
+    </Note>
+
+    ```bash
+    # Démarrer tous les services requis
+    module "wandb" {
+      source  = "wandb/wandb/azurerm"
+      version = "~> 1.2"
+
+      namespace   = var.namespace
+      location    = var.location
+      license     = var.license
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+
+      use_internal_queue = false
+      [...]
+    }
+    ```
+
+    ### Ressources supplémentaires
+
+    * [Documentation du module Terraform pour Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
+    * [Code source du module Terraform pour Azure](https://github.com/wandb/terraform-azurerm-wandb)
+  </Tab>
+</Tabs>
+
+<div id="other-deployment-options">
+  ### Autres options de déploiement
+</div>
+
+Vous pouvez combiner plusieurs options de déploiement en ajoutant toutes les configurations dans le même fichier. Chaque module Terraform propose plusieurs options, que vous pouvez combiner avec les options standard et la configuration minimale décrite dans la section sur le déploiement recommandé.
+
+Consultez la documentation du module correspondant à votre cloud provider pour obtenir la liste complète des options disponibles :
+
+* [Documentation du module AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
+* [Documentation du module Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest)
+* [Documentation du module Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
+
+<div id="access-the-wb-management-console">
+  ## Accéder à la console de gestion W&amp;B
+</div>
+
+L’opérateur Kubernetes W&amp;B inclut une console de gestion. Elle se trouve à l’adresse `${HOST_URI}/console`, par exemple `https://wandb.company-name.com/console`.
+
+Vous pouvez vous connecter à la console de gestion de deux façons :
+
+<Tabs>
+  <Tab title="Option 1 (Recommandée)">
+    1. Ouvrez l’application W&amp;B dans votre navigateur et connectez-vous. Connectez-vous à l’application W&amp;B à l’adresse `${HOST_URI}/`, par exemple `https://wandb.company-name.com/`
+    2. Accédez à la console. Cliquez sur l’icône dans le coin supérieur droit, puis sur **Console système**. Seuls les utilisateurs disposant des privilèges d’administrateur peuvent voir l’entrée **Console système**.
+
+       <Frame>
+         <img src="/images/hosting/access_system_console_via_main_app.png" alt="Accès à la console système" />
+       </Frame>
+  </Tab>
+
+  <Tab title="Option 2">
+    <Note>
+      W&amp;B recommande de suivre les étapes ci-dessous pour accéder à la console uniquement si l’option 1 ne fonctionne pas.
+    </Note>
+
+    1. Ouvrez l’application de console dans votre navigateur. Ouvrez l’URL décrite ci-dessus, qui vous redirige vers l’écran de connexion :
+       <Frame>
+         <img src="/images/hosting/access_system_console_directly.png" alt="Accès direct à la console système" />
+       </Frame>
+    2. Récupérez le mot de passe depuis le secret Kubernetes généré par l’installation :
+       ```shell
+       kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
+       ```
+       Copiez le mot de passe.
+    3. Connectez-vous à la console. Collez le mot de passe copié, puis cliquez sur **Login**.
+  </Tab>
+</Tabs>
+
+<div id="update-the-wb-kubernetes-operator">
+  ## Mettre à jour l’opérateur Kubernetes W&amp;B
+</div>
+
+Cette section explique comment mettre à jour l’opérateur Kubernetes W&amp;B.
+
+<Note>
+  * La mise à jour de l’opérateur Kubernetes W&amp;B ne met pas à jour l’application W&amp;B Server.
+  * Voir les instructions [ici](#migrate-Self-Managed-instances-to-wb-operator) si vous utilisez un chart Helm qui n’utilise pas l’opérateur Kubernetes W&amp;B, avant de suivre les instructions ci-dessous pour mettre à jour l’opérateur W&amp;B.
+</Note>
+
+Copiez-collez les extraits de code ci-dessous dans votre terminal.
+
+1. Commencez par mettre à jour le dépôt avec [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/) :
+   ```shell
+   helm repo update
+   ```
+
+2. Ensuite, mettez à jour le chart Helm avec [`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/) :
+   ```shell
+   helm upgrade operator wandb/operator -n wandb-cr --reuse-values
+   ```
+
+<div id="update-the-wb-server-application">
+  ## Mettre à jour l’application W&amp;B Server
+</div>
+
+Vous n’avez plus besoin de mettre à jour l’application W&amp;B Server si vous utilisez l’opérateur Kubernetes W&amp;B.
+
+L’opérateur met automatiquement à jour votre application W&amp;B Server lorsqu’une nouvelle version du logiciel W&amp;B est publiée.
+
+<div id="migrate-self-managed-instances-to-wb-operator">
+  ## Migrer des instances Autogéré vers W&amp;B Operator
+</div>
+
+La section suivante explique comment passer d’une gestion autonome de votre propre installation W&amp;B Server à l’utilisation de W&amp;B Operator pour la gérer à votre place. Le processus de migration dépend de la façon dont vous avez installé W&amp;B Server :
+
+<Note>
+  W&amp;B Operator est la méthode d’installation par défaut et recommandée pour W&amp;B Server. Contactez [Customer Support](mailto:support@wandb.com) ou votre équipe W&amp;B si vous avez des questions.
+</Note>
+
+* Si vous avez utilisé les modules Terraform officiels de W&amp;B Cloud, accédez à la documentation appropriée et suivez les étapes indiquées :
+  * [AWS](#migrate-to-operator-based-aws-terraform-modules)
+  * [Google Cloud](#migrate-to-operator-based-google-cloud-terraform-modules)
+  * [Azure](#migrate-to-operator-based-azure-terraform-modules)
+* Si vous avez utilisé le [chart Helm W&amp;B Non-Operator](https://github.com/wandb/helm-charts/tree/main/charts/wandb), continuez [ici](#migrate-to-operator-based-helm-chart).
+* Si vous avez utilisé le [chart Helm W&amp;B Non-Operator avec Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest), continuez [ici](#migrate-to-operator-based-terraform-helm-chart).
+* Si vous avez créé les ressources Kubernetes à l’aide de manifestes, continuez [ici](#migrate-to-operator-based-helm-chart).
+
+<div id="migrate-to-operator-based-aws-terraform-modules">
+  ### Migrer vers des modules Terraform AWS basés sur l’opérateur
+</div>
+
+Pour une description détaillée du processus de migration, consultez [ce guide](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb).
+
+<div id="migrate-to-operator-based-google-cloud-terraform-modules">
+  ### Migrer vers les modules Terraform Google Cloud basés sur l’Operator
+</div>
+
+Contactez [Customer Support](mailto:support@wandb.com) ou votre équipe W&amp;B si vous avez des questions ou besoin d’assistance.
+
+<div id="migrate-to-operator-based-azure-terraform-modules">
+  ### Migrer vers des modules Terraform Azure basés sur l’Operator
+</div>
+
+Contactez [Customer Support](mailto:support@wandb.com) ou votre équipe W&amp;B si vous avez des questions ou besoin d’assistance.
+
+<div id="migrate-to-operator-based-helm-chart">
+  ### Migrer vers le chart Helm basé sur un opérateur
+</div>
+
+Suivez ces étapes pour migrer vers le chart Helm basé sur un opérateur :
+
+1. Obtenez la configuration W&amp;B actuelle. Si W&amp;B a été déployé avec une version du chart Helm non basée sur un opérateur, exportez les valeurs comme ceci :
+   ```shell
+   helm get values wandb
+   ```
+   Si W&amp;B a été déployé avec des manifests Kubernetes, exportez les valeurs comme ceci :
+   ```shell
+   kubectl get deployment wandb -o yaml
+   ```
+   Vous disposez maintenant de toutes les valeurs de configuration nécessaires pour l’étape suivante.
+
+2. Créez un fichier nommé `operator.yaml`. Suivez le format décrit dans la [Référence de configuration](#configuration-reference-for-wb-operator). Utilisez les valeurs de l’étape 1.
+
+3. Réduisez le déploiement actuel à 0 pods. Cette étape arrête le déploiement actuel.
+   ```shell
+   kubectl scale --replicas=0 deployment wandb
+   ```
+
+4. Mettez à jour le dépôt du chart Helm :
+   ```shell
+   helm repo update
+   ```
+
+5. Installez le nouveau chart Helm :
+   ```shell
+   helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+   ```
+
+6. Configurez le nouveau chart Helm et déclenchez le déploiement de l’application W&amp;B. Appliquez la nouvelle configuration.
+   ```shell
+   kubectl apply -f operator.yaml
+   ```
+   Le déploiement prend quelques minutes.
+
+7. Vérifiez l’installation. Assurez-vous que tout fonctionne en suivant les étapes de [Vérifiez l’installation](#verify-the-installation).
+
+8. Supprimez l’ancienne installation. Désinstallez l’ancien chart Helm ou supprimez les ressources créées à l’aide de manifests.
+
+<div id="migrate-to-operator-based-terraform-helm-chart">
+  ### Migrer vers un chart Helm Terraform basé sur l’opérateur
+</div>
+
+Suivez ces étapes pour migrer vers le chart Helm basé sur l’opérateur :
+
+1. Préparez la configuration Terraform. Remplacez dans votre configuration Terraform le code Terraform de l’ancien déploiement par celui décrit [ici](#deploy-wb-with-helm-terraform-module). Définissez les mêmes variables qu’auparavant. Ne modifiez pas le fichier .tfvars si vous en avez un.
+2. Exécutez Terraform. Exécutez terraform init, plan et apply
+3. Vérifiez l’installation. Assurez-vous que tout fonctionne en suivant les étapes de [Vérifiez l’installation](#verify-the-installation).
+4. Supprimez l’ancienne installation. Désinstallez l’ancien chart Helm ou supprimez les ressources créées à l’aide de manifest.
+
+<div id="configuration-reference-for-wb-server">
+  ## Référence de configuration pour W&amp;B Server
+</div>
+
+Cette section décrit les options de configuration de l&#39;application W&amp;B Server. L&#39;application reçoit sa configuration sous la forme d&#39;une définition de ressource personnalisée nommée [WeightsAndBiases](#how-it-works). Certaines options de configuration sont disponibles dans la configuration ci-dessous, tandis que d&#39;autres doivent être définies au moyen de variables d&#39;environnement.
+
+La documentation comporte deux listes de variables d&#39;environnement : [de base](/fr/platform/hosting/env-vars/) et [avancées](/fr/platform/hosting/iam/advanced_env_vars/). Utilisez des variables d&#39;environnement uniquement si l&#39;option de configuration dont vous avez besoin n&#39;est pas exposée via le chart Helm.
+
+<div id="basic-example">
+  ### Exemple de base
+</div>
+
+Cet exemple définit le jeu minimal de valeurs requis pour W&amp;B. Pour un exemple de production plus réaliste, voir [Exemple complet](#complete-example).
+
+Ce fichier YAML définit l&#39;état souhaité de votre déploiement W&amp;B, y compris la version, les variables d&#39;environnement, les ressources externes comme les bases de données, ainsi que d&#39;autres paramètres nécessaires.
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/name: weightsandbiases
+    app.kubernetes.io/instance: wandb
+  name: wandb
+  namespace: default
+spec:
+  values:
+    global:
+      host: https://<HOST_URI>
+      license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
+      bucket:
+        <details depend on the provider>
+      mysql:
+        <redacted>
+    ingress:
+      annotations:
+        <redacted>
+```
+
+Consultez la liste complète des valeurs dans le [dépôt Helm W&amp;B](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml). **Modifiez uniquement les valeurs que vous devez surcharger**.
+
+<div id="complete-example">
+  ### Exemple complet
+</div>
+
+Cet exemple de configuration déploie W&amp;B sur Google Cloud Anthos à l’aide de Google Cloud Storage :
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/name: weightsandbiases
+    app.kubernetes.io/instance: wandb
+  name: wandb
+  namespace: default
+spec:
+  values:
+    global:
+      host: https://abc-wandb.sandbox-gcp.wandb.ml
+      bucket:
+        name: abc-wandb-moving-pipefish
+        provider: gcs
+      mysql:
+        database: wandb_local
+        host: 10.218.0.2
+        name: wandb_local
+        password: 8wtX6cJHizAZvYScjDzZcUarK4zZGjpV
+        port: 3306
+        user: wandb
+      redis:
+        host: redis.example.com
+        port: 6379
+        password: password
+      api:
+        enabled: true
+      glue:
+        enabled: true
+      executor:
+        enabled: true
+      license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
+    ingress:
+      annotations:
+        ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
+        kubernetes.io/ingress.class: gce
+        kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
+```
+
+<div id="host">
+  ### Hôte
+</div>
+
+```yaml
+ # Indiquez le FQDN avec le protocole
+global:
+  # exemple de nom d'hôte, remplacez par le vôtre
+  host: https://wandb.example.com
+```
+
+<div id="object-storage-bucket">
+  ### Stockage d’objets (bucket)
+</div>
+
+**AWS**
+
+```yaml
+global:
+  bucket:
+    provider: "s3"
+    name: ""
+    kmsKey: ""
+    region: ""
+```
+
+**Google Cloud**
+
+```yaml
+global:
+  bucket:
+    provider: "gcs"
+    name: ""
+```
+
+**Azure**
+
+```yaml
+global:
+  bucket:
+    provider: "az"
+    name: ""
+    secretKey: ""
+```
+
+**Autres fournisseurs (Minio, Ceph et autres services de stockage compatibles S3)**
+
+Pour les autres fournisseurs compatibles S3, définissez la configuration du bucket comme suit :
+
+```yaml
+global:
+  bucket:
+    # Exemples de valeurs, remplacez par les vôtres
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    accessKey: 5WOA500...P5DK7I
+    secretKey: HDKYe4Q...JAp1YyjysnX
+```
+
+Pour un stockage compatible S3 hébergé en dehors d’AWS, `kmsKey` doit être `null`.
+
+Pour faire référence à `accessKey` et `secretKey` depuis un secret :
+
+```yaml
+global:
+  bucket:
+    # Exemples de valeurs, remplacez par les vôtres
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: bucket-secret
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
+
+<div id="mysql">
+  ### MySQL
+</div>
+
+```yaml
+global:
+   mysql:
+     # Exemples de valeurs, remplacez par les vôtres
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
+
+Pour référencer le `password` d’un secret :
+
+```yaml
+global:
+   mysql:
+     # Exemples de valeurs, remplacez par les vôtres
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: database-secret
+       passwordKey: MYSQL_WANDB_PASSWORD
+```
+
+<div id="license">
+  ### License
+</div>
+
+```yaml
+global:
+  # Exemple de licence, remplacez par la vôtre
+  license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
+
+Pour faire référence à la `license` à partir d’un secret :
+
+```yaml
+global:
+  licenseSecret:
+    name: license-secret
+    key: CUSTOMER_WANDB_LICENSE
+```
+
+<div id="ingress">
+  ### Ingress
+</div>
+
+Pour identifier la classe d’ingress, voir cette entrée de FAQ [ici](#how-to-identify-the-kubernetes-ingress-class).
+
+**Sans TLS**
+
+```yaml
+global:
+# IMPORTANT : Ingress se trouve au même niveau dans le YAML que 'global' (pas un enfant)
+ingress:
+  class: ""
+```
+
+**Avec TLS**
+
+Créez un secret contenant le certificat
+
+```console
+kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert wandb-ingress-tls.crt
+```
+
+Indiquez le secret dans la configuration d’ingress
+
+```yaml
+global:
+# IMPORTANT : Ingress est au même niveau que 'global' dans le YAML (pas un enfant)
+ingress:
+  class: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls: 
+    - secretName: wandb-ingress-tls
+      hosts:
+        - <HOST_URI>
+```
+
+Dans le cas de Nginx, il se peut que vous deviez ajouter l’annotation suivante :
+
+```
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 0
+```
+
+<div id="custom-kubernetes-serviceaccounts">
+  ### Comptes de service Kubernetes personnalisés
+</div>
+
+Spécifiez des comptes de service Kubernetes personnalisés pour exécuter les pods W&amp;B.
+
+L’extrait suivant crée un compte de service dans le déploiement avec le nom indiqué :
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+Les sous-systèmes &quot;app&quot; et &quot;parquet&quot; s’exécutent avec le compte de service spécifié. Les autres sous-systèmes s’exécutent avec le compte de service par défaut.
+
+Si le compte de service existe déjà sur le cluster, définissez `create: false` :
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+    
+global:
+  ...
+```
+
+Vous pouvez spécifier des comptes de service pour différents sous-systèmes, tels que app, parquet, console et autres :
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+console:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+Les comptes de service peuvent varier d’un sous-système à l’autre :
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+console:
+  serviceAccount:
+    name: another-custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+<div id="external-redis">
+  ### Redis externe
+</div>
+
+```yaml
+redis:
+  install: false
+
+global:
+  redis:
+    host: ""
+    port: 6379
+    password: ""
+    parameters: {}
+    caCert: ""
+```
+
+Pour référencer le `password` à partir d’un secret :
+
+```console
+kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
+```
+
+Faites-y référence dans la configuration ci-dessous :
+
+```yaml
+redis:
+  install: false
+
+global:
+  redis:
+    host: redis.example
+    port: 9001
+    auth:
+      enabled: true
+      secret: redis-secret
+      key: redis-password
+```
+
+<div id="ldap">
+  ### LDAP
+</div>
+
+<Warning>
+  La prise en charge de la configuration LDAP dans le chart Helm actuel est limitée. Contactez l’équipe d’assistance de W&amp;B ou votre AISE pour vous aider à configurer LDAP.
+</Warning>
+
+Configurez LDAP en définissant des variables d’environnement dans `global.extraEnv` :
+
+```yaml
+global:
+  extraEnv:
+    LDAP_ADDRESS: ldaps://ldap.company.example.com
+    LDAP_BASE_DN: cn=accounts,dc=company,dc=example,dc=com
+    LDAP_USER_BASE_DN: cn=users,cn=accounts,dc=company,dc=example,dc=com
+    LDAP_GROUP_BASE_DN: cn=groups,cn=accounts,dc=company,dc=example,dc=com
+    LDAP_BIND_DN: uid=ldapbind,cn=sysaccounts,cn=etc,dc=company,dc=example,dc=com
+    LDAP_BIND_PW: ********************
+    LDAP_ATTRIBUTES: email=mail,name=cn
+    LDAP_TLS_ENABLE: "true"
+    LDAP_LOGIN: "true"
+    LDAP_USER_OBJECT_CLASS: user
+    LDAP_GROUP_OBJECT_CLASS: group
+```
+
+<accordion title="Ancienne configuration LDAP">
+  Cette ancienne approche n&#39;est plus recommandée. Cette section est fournie à titre de référence.
+
+  **Sans TLS**
+
+  ```yaml
+  global:
+    ldap:
+      enabled: true
+      # Adresse du serveur LDAP, y compris "ldap://" ou "ldaps://"
+      host:
+      # Base de recherche LDAP à utiliser pour rechercher des utilisateurs
+      baseDN:
+      # Utilisateur LDAP à utiliser pour la liaison (si vous n'utilisez pas de liaison anonyme)
+      bindDN:
+      # Nom du secret et clé contenant le mot de passe LDAP à utiliser pour la liaison (si vous n'utilisez pas de liaison anonyme)
+      bindPW:
+      # Attribut LDAP pour l'adresse e-mail et noms d'attribut d'ID de groupe sous forme de chaînes séparées par des virgules.
+      attributes:
+      # Liste d'autorisation des groupes LDAP
+      groupAllowList:
+      # Activer TLS pour LDAP
+      tls: false
+  ```
+
+  **Avec TLS**
+
+  La configuration du certificat TLS LDAP nécessite une ConfigMap créée au préalable avec le contenu du certificat.
+
+  Pour créer la ConfigMap, vous pouvez utiliser la commande suivante :
+
+  ```console
+  kubectl create configmap ldap-tls-cert --from-file=certificate.crt
+  ```
+
+  Utilisez ensuite la ConfigMap dans le YAML, comme dans l&#39;exemple ci-dessous
+
+  ```yaml
+  global:
+    ldap:
+      enabled: true
+      # Adresse du serveur LDAP, y compris "ldap://" ou "ldaps://"
+      host:
+      # Base de recherche LDAP à utiliser pour rechercher des utilisateurs
+      baseDN:
+      # Utilisateur LDAP à utiliser pour la liaison (si vous n'utilisez pas de liaison anonyme)
+      bindDN:
+      # Nom du secret et clé contenant le mot de passe LDAP à utiliser pour la liaison (si vous n'utilisez pas de liaison anonyme)
+      bindPW:
+      # Attribut LDAP pour l'adresse e-mail et noms d'attribut d'ID de groupe sous forme de chaînes séparées par des virgules.
+      attributes:
+      # Liste d'autorisation des groupes LDAP
+      groupAllowList:
+      # Activer TLS pour LDAP
+      tls: true
+      # Nom de la ConfigMap et clé contenant le certificat CA du serveur LDAP
+      tlsCert:
+        configMap:
+          name: "ldap-tls-cert"
+          key: "certificate.crt"
+  ```
+</accordion>
+
+<div id="oidc-sso">
+  ### OIDC SSO
+</div>
+
+```yaml
+global: 
+  auth:
+    sessionLengthHours: 720
+    oidc:
+      clientId: ""
+      secret: ""
+      # À inclure uniquement si votre IdP l'exige.
+      authMethod: ""
+      issuer: ""
+```
+
+`authMethod` est facultatif.
+
+<div id="smtp">
+  ### SMTP
+</div>
+
+```yaml
+global:
+  email:
+    smtp:
+      host: ""
+      port: 587
+      user: ""
+      password: ""
+```
+
+<div id="environment-variables">
+  ### Variables d’environnement
+</div>
+
+```yaml
+global:
+  extraEnv:
+    GLOBAL_ENV: "example"
+```
+
+<div id="custom-certificate-authority">
+  ### Autorité de certification personnalisée
+</div>
+
+`customCACerts` est une liste qui peut contenir plusieurs certificats. Les autorités de certification spécifiées dans `customCACerts` s’appliquent uniquement à l’application W&amp;B Server.
+
+```yaml
+global:
+  customCACerts:
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
+    MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
+    SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
+    P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
+    -----END CERTIFICATE-----
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
+    MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
+    SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
+    aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
+    -----END CERTIFICATE-----
+```
+
+Les certificats CA peuvent également être stockés dans une ConfigMap :
+
+```yaml
+global:
+  caCertsConfigMap: custom-ca-certs
+```
+
+Le ConfigMap doit se présenter comme suit :
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+<Note>
+  Si vous utilisez une ConfigMap, chaque clé de la ConfigMap doit se terminer par `.crt` (par exemple, `my-cert.crt` ou `ca-cert1.crt`). Cette convention de nommage est requise pour que `update-ca-certificates` puisse traiter et ajouter chaque certificat au magasin système des autorités de certification.
+</Note>
+
+<div id="custom-security-context">
+  ### Contexte de sécurité personnalisé
+</div>
+
+Chaque composant W&amp;B prend en charge des configurations de contexte de sécurité personnalisées sous la forme suivante :
+
+```yaml
+pod:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 0
+    fsGroup: 1001
+    fsGroupChangePolicy: Always
+    seccompProfile:
+      type: RuntimeDefault
+container:
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false 
+```
+
+<Note>
+  La seule valeur valide pour `runAsGroup:` est `0`. Toute autre valeur constitue une erreur.
+</Note>
+
+Par exemple, pour configurer le pod de l’application, ajoutez une section `app` à votre configuration :
+
+```yaml
+global:
+  ...
+app:
+  pod:
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 0
+      fsGroup: 1001
+      fsGroupChangePolicy: Always
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false 
+```
+
+Le même concept s&#39;applique à `console`, `weave`, `weave-trace` et `parquet`.
+
+<div id="configuration-reference-for-wb-operator">
+  ## Référence de configuration pour l’opérateur W&amp;B
+</div>
+
+Cette section décrit les options de configuration de l’opérateur Kubernetes W&amp;B (`wandb-controller-manager`). L’opérateur reçoit sa configuration sous la forme d’un fichier YAML.
+
+Par défaut, l’opérateur Kubernetes W&amp;B n’a pas besoin de fichier de configuration. Créez un fichier de configuration si nécessaire. Par exemple, vous pouvez en avoir besoin pour spécifier des autorités de certification personnalisées, déployer dans un environnement isolé (air gap), etc.
+
+Consultez la liste complète des personnalisations de la spécification [dans le dépôt Helm](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+
+<div id="custom-ca">
+  ### CA personnalisée
+</div>
+
+Une autorité de certification personnalisée (`customCACerts`) correspond à une liste pouvant contenir plusieurs certificats. Une fois ajoutées, ces autorités de certification s’appliquent uniquement à l’opérateur Kubernetes W&amp;B (`wandb-controller-manager`).
+
+```yaml
+customCACerts:
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
+  MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
+  SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
+  P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
+  -----END CERTIFICATE-----
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
+  MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
+  SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
+  aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
+  -----END CERTIFICATE-----
+```
+
+Les certificats CA peuvent également être stockés dans une ConfigMap :
+
+```yaml
+caCertsConfigMap: custom-ca-certs
+```
+
+Le ConfigMap doit se présenter ainsi :
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+<Note>
+  Chaque clé du ConfigMap doit se terminer par `.crt` (par exemple, `my-cert.crt` ou `ca-cert1.crt`). Cette convention de nommage est nécessaire pour que `update-ca-certificates` puisse interpréter et ajouter chaque certificat au magasin système d’autorités de certification.
+</Note>
+
+<div id="faq">
+  ## FAQ
+</div>
+
+<div id="what-is-the-purposerole-of-each-individual-pod">
+  ### Quel est l’objectif/le rôle de chaque pod ?
+</div>
+
+* **`wandb-app`**: le cœur de W&amp;B, y compris l’API GraphQL et l’application frontend. Il assure la majeure partie des fonctionnalités de notre plateforme.
+* **`wandb-console`**: la console d’administration, accessible via `/console`.
+* **`wandb-otel`**: l’agent OpenTelemetry, qui collecte les métriques et les journaux des ressources au niveau de Kubernetes pour les afficher dans la console d’administration.
+* **`wandb-prometheus`**: le serveur Prometheus, qui capture les métriques de différents composants pour les afficher dans la console d’administration.
+* **`wandb-parquet`**: un microservice backend distinct du pod `wandb-app` qui exporte les données de la base de données vers le stockage d’objets au format Parquet.
+* **`wandb-weave`**: un autre microservice backend qui charge les tables de requête dans l’UI et prend en charge diverses fonctionnalités essentielles de l’application.
+* **`wandb-weave-trace`**: un framework pour le suivi, l’expérimentation, l’évaluation, le déploiement et l’amélioration d’applications basées sur des LLM. Le framework est accessible via le pod `wandb-app`.
+
+<div id="how-to-get-the-wb-operator-console-password">
+  ### Comment obtenir le mot de passe de la console de l’opérateur W&amp;B
+</div>
+
+Voir [Accéder à la console de gestion de l’opérateur Kubernetes W&amp;B](#access-the-wb-management-console).
+
+<div id="how-to-access-the-wb-operator-console-if-ingress-doesnt-work">
+  ### Comment accéder à la console de l’opérateur W&amp;B si l’ingress ne fonctionne pas
+</div>
+
+Exécutez la commande suivante sur un hôte ayant accès au cluster Kubernetes :
+
+```console
+kubectl port-forward svc/wandb-console 8082
+```
+
+Ouvrez la console dans votre navigateur à l’adresse `https://localhost:8082/`.
+
+Voir [Accéder à la console de gestion de l’opérateur Kubernetes W&amp;B](#access-the-wb-management-console) pour savoir comment obtenir le mot de passe (option 2).
+
+<div id="how-to-view-wb-server-logs">
+  ### Comment consulter les journaux de W&amp;B Server
+</div>
+
+Le pod de l’application s’appelle **wandb-app-xxx**.
+
+```console
+kubectl get pods
+kubectl logs wandb-XXXXX-XXXXX
+```
+
+<div id="how-to-identify-the-kubernetes-ingress-class">
+  ### Comment identifier la classe d’ingress Kubernetes
+</div>
+
+Vous pouvez obtenir la classe d’ingress installée dans votre cluster en exécutant
+
+```console
+kubectl get ingressclass
+```

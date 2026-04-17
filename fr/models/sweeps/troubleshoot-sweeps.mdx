@@ -1,0 +1,80 @@
+---
+description: "Dépannez les problèmes courants de W&B Sweeps, notamment CommError, CUDA out of memory et les échecs de wandb agent."
+title: Dépannage de Sweeps
+---
+
+Dépannez les messages d’erreur courants en suivant les recommandations ci-dessous.
+
+<div id="commerror-run-does-not-exist-and-error-error-uploading">
+  ### `CommError, Run does not exist` and `ERROR Error uploading`
+</div>
+
+Il se peut que l’ID de votre run W&amp;B soit défini si ces deux messages d’erreur s’affichent. Par exemple, vous pourriez avoir un extrait de code similaire défini quelque part dans vos notebooks Jupyter ou dans votre script Python :
+
+```python
+wandb.init(id="some-string")
+```
+
+Vous ne pouvez pas définir d’ID de run pour W&amp;B Sweeps, car W&amp;B génère automatiquement des ID aléatoires et uniques pour les Runs créés par W&amp;B Sweeps.
+
+Les ID de run W&amp;B doivent être uniques au sein d’un projet.
+
+Nous vous recommandons de renseigner le paramètre name lors de l’initialisation de W&amp;B si vous souhaitez définir un nom personnalisé qui apparaîtra dans les tableaux et les graphiques. Par exemple :
+
+```python
+wandb.init(name="a helpful readable run name")
+```
+
+<div id="cuda-out-of-memory">
+  ### `Cuda out of memory`
+</div>
+
+Refactorisez votre code pour utiliser des exécutions dans des processus distincts si vous voyez ce message d’erreur. Plus précisément, réécrivez votre code sous la forme d’un script Python. De plus, lancez l’agent de balayage W&amp;B depuis le CLI, plutôt que depuis le SDK Python W&amp;B.
+
+Par exemple, supposons que vous réécriviez votre code dans un script Python appelé `train.py`. Ajoutez le nom du script d’entraînement (`train.py`) à votre fichier de configuration YAML du balayage (`config.yaml` dans cet exemple) :
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  name: validation_loss
+  goal: maximize
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+  optimizer:
+    values: ["adam", "sgd"]
+```
+
+Ensuite, ajoutez ce qui suit dans votre script Python `train.py` :
+
+```python
+if _name_ == "_main_":
+    train()
+```
+
+Accédez à votre CLI et initialisez un balayage W&amp;B avec wandb sweep :
+
+```shell
+wandb sweep config.yaml
+```
+
+Notez l’ID du balayage W&amp;B renvoyé. Ensuite, lancez le job de balayage avec [`wandb agent`](/fr/models/ref/cli/wandb-agent) via la CLI plutôt qu’avec le SDK Python ([`wandb.agent`](/fr/models/ref/python/functions/agent)). Remplacez `sweep_ID` dans l’extrait de code ci-dessous par l’ID du balayage renvoyé à l’étape précédente :
+
+```shell
+wandb agent sweep_ID
+```
+
+<div id="anaconda-400-error">
+  ### `anaconda 400 error`
+</div>
+
+L’erreur suivante se produit généralement lorsque vous n’avez pas journalisé la métrique que vous optimisez :
+
+```shell
+wandb: ERROR Error while calling W&B API: anaconda 400 error: 
+{"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
+```
+
+Dans votre fichier YAML ou votre dictionnaire imbriqué, indiquez une clé nommée &quot;metric&quot; à optimiser. Assurez-vous d&#39;enregistrer (`wandb.log`) cette métrique. Assurez-vous également d&#39;utiliser le nom *exact* de la métrique que vous avez définie comme objectif d&#39;optimisation du balayage dans votre script Python ou votre notebook Jupyter. Pour plus d&#39;informations sur les fichiers de configuration, voir [Définir la configuration d’un balayage](/fr/models/sweeps/define-sweep-configuration/).

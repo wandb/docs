@@ -1,0 +1,24 @@
+---
+description: "Gérez la consommation de stockage des données W&B à l’aide d’artefacts de référence, de buckets externes et de politiques de suppression TTL."
+title: Gérer le stockage
+---
+
+Si vous approchez de votre limite de stockage ou l’avez dépassée, plusieurs options s’offrent à vous pour gérer vos données. La solution la plus adaptée dépendra de votre type de compte et de la configuration actuelle de votre projet.
+
+<div id="manage-storage-consumption">
+  ## Gérer la consommation de stockage
+</div>
+
+W&amp;B propose différentes méthodes pour optimiser votre consommation de stockage :
+
+* Utilisez [artefacts de référence](/fr/models/artifacts/track-external-files/) pour suivre les fichiers enregistrés en dehors du système W&amp;B, au lieu de les importer dans le stockage W&amp;B.
+* Utilisez un [bucket de stockage cloud externe](/fr/platform/app/settings-page/teams/) comme espace de stockage. *(Enterprise uniquement)*
+
+<div id="delete-data">
+  ## Supprimer des données
+</div>
+
+Vous pouvez également choisir de supprimer des données pour rester en dessous de votre limite de stockage. Il existe plusieurs façons de le faire :
+
+* Supprimez des données de manière interactive depuis l’interface de l’application.
+* [Définissez une politique TTL](/fr/models/artifacts/ttl/) sur les Artifacts afin qu’ils soient supprimés automatiquement.

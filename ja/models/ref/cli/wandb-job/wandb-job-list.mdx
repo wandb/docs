@@ -1,31 +1,37 @@
 ---
-title: wandb job list
+title: "wandb job list"
 ---
 
 {/*
-  このコマンドのイントロダクション・コンテンツを追加する場合：
-  1. スニペットファイルを作成： /snippets/en/_includes/cli/wandb-job-list.mdx
-  2. そのファイルにイントロダクションの内容を追加
-  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
+  このコマンドに導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-job-list.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbJobList from "/snippets/en/_includes/cli/wandb-job-list.mdx";
+  import WandbJobList from "/snippets/_includes/cli/wandb-job-list.mdx";
 
-<WandbJobList/>
+  <WandbJobList/>
 
-  スニペットは次回の再生成時に自動的に検出されます。
-*/}
+  このスニペットは、次回の再生成時に自動検出されます。
+  */}
 
-Project 内の job を一覧表示します。
+プロジェクト内のジョブを一覧表示
 
-## 使用法
+
+<div id="usage">
+  ## 使用法
+</div>
 
 ```bash
 wandb job list [OPTIONS]
 ```
 
-## オプション
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | job を一覧表示したい Project。 |
-| `--entity`, `-e` | job が属する Entity (デフォルト: models) |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション             | 説明                             |
+| :---------------- | :----------------------------- |
+| `--project`, `-p` | ジョブを一覧表示する対象のプロジェクト。           |
+| `--entity`, `-e`  | ジョブが属するentity (デフォルト: models)  |

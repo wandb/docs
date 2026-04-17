@@ -1,0 +1,24 @@
+```python
+"""
+CSV 파일을 W&B에 table로 기록합니다.
+
+다음 항목을 실제 값으로 교체하세요:
+- 꺾쇠 괄호로 묶인 값
+- pd.read_csv()의 <name>.csv를 실제 CSV 파일 이름으로
+"""
+
+import wandb
+import pandas as pd
+
+# CSV를 데이터프레임 객체로 읽기 (pandas)
+dataframe = pd.read_csv("<name>.csv")
+
+# 데이터프레임을 W&B Table로 변환
+table = wandb.Table(dataframe=dataframe)
+
+# 데이터를 기록하기 위해 W&B run 시작
+with wandb.init(project="<project>") as run:
+
+    # W&B UI에서 시각화할 수 있도록 table 기록
+    run.log({"<table_name>": table})
+```

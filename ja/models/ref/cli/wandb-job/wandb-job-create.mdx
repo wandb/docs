@@ -1,51 +1,59 @@
 ---
-title: wandb job create
+title: "wandb job create"
 ---
 
 {/*
-  このコマンドのイントロダクション・コンテンツを追加するには：
-  1. スニペットファイルを作成：/snippets/en/_includes/cli/wandb-job-create.mdx
-  2. そのファイルにイントロダクションの内容を追加
-  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
+  このコマンドの導入コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-job-create.mdx
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
-import WandbJobCreate from "/snippets/en/_includes/cli/wandb-job-create.mdx";
+  import WandbJobCreate from "/snippets/_includes/cli/wandb-job-create.mdx";
 
-<WandbJobCreate/>
+  <WandbJobCreate/>
 
-  スニペットは次回の再生成時に自動的に検出されます。
-*/}
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
 
-wandb run を介さずに、ソースからジョブを作成します。
+wandb run を使わずに、ソースからジョブを作成します。
 
-ジョブには git、code、image の3つのタイプがあります。
+ジョブには、git、code、image の 3 つのタイプがあります。
 
-git: git ソース。パス内または明示的に指定されたメインの Python 実行ファイルを指すエントリポイントを持ちます。code: requirements.txt ファイルを含むコードパス。image: Docker イメージ。
+git: git のソースです。エントリポイントはパス内にあるか、メインの Python 実行ファイルを指すものとして明示的に指定します。code: requirements.txt ファイルを含む code パスです。image: Docker image です.
 
-## Usage
+
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
 wandb job create JOB_TYPE PATH [OPTIONS]
 ```
 
-## Arguments
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `JOB_TYPE` | 説明はありません | はい |
-| `PATH` | 説明はありません | はい |
+<div id="arguments">
+  ## 引数
+</div>
 
-## Options
+| 引数         | 説明            | 必須 |
+| :--------- | :------------ | :- |
+| `JOB_TYPE` | 利用可能な説明はありません | はい |
+| `PATH`     | 利用可能な説明はありません | はい |
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | ジョブをリストアップしたい Projects 。 |
-| `--entity`, `-e` | ジョブが属する Entities |
-| `--name`, `-n` | ジョブの名前 |
-| `--description`, `-d` | ジョブの説明 |
-| `--alias`, `-a` | ジョブの エイリアス |
-| `--entry-point`, `-E` | 実行ファイルとエントリポイントファイルを含む、スクリプトへのエントリポイント。code または repo ジョブには必須です。--build-context が指定されている場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。 |
-| `--git-hash`, `-g` | git ジョブのソースとして使用するコミット参照 |
-| `--runtime`, `-r` | ジョブを実行する Python ランタイム |
-| `--build-context`, `-b` | ジョブソースコードのルートからのビルドコンテキストへのパス。指定された場合、これが Dockerfile とエントリポイントのベースパスとして使用されます。 |
-| `--base-image`, `-B` | ジョブに使用するベースイメージ。image ジョブとは併用できません。 |
-| `--dockerfile`, `-D` | ジョブの Dockerfile へのパス。--build-context が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。 |
+<div id="options">
+  ## オプション
+</div>
+
+| オプション                   | 説明                                                                                                                                  |
+| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `--project`, `-p`       | ジョブを一覧表示する対象のプロジェクト。                                                                                                                |
+| `--entity`, `-e`        | ジョブが属する entity。                                                                                                                     |
+| `--name`, `-n`          | ジョブ名。                                                                                                                               |
+| `--description`, `-d`   | ジョブの説明。                                                                                                                             |
+| `--alias`, `-a`         | ジョブのエイリアス。                                                                                                                          |
+| `--entry-point`, `-E`   | スクリプトのエントリポイント。実行可能ファイルとエントリポイントファイルを含みます。code ジョブまたはリポジトリジョブでは必須です。`--build-context` を指定した場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。 |
+| `--git-hash`, `-g`      | git ジョブのソースとして使用するコミット参照。                                                                                                           |
+| `--runtime`, `-r`       | ジョブの実行に使用する Python ランタイム。                                                                                                           |
+| `--build-context`, `-b` | ジョブのソースコードのルートから見たビルドコンテキストへのパス。指定した場合、Dockerfile とエントリポイントの基準パスとして使用されます。                                                          |
+| `--base-image`, `-B`    | ジョブに使用するベースimage。image ジョブでは使用できません。                                                                                                   |
+| `--dockerfile`, `-D`    | ジョブの Dockerfile へのパス。`--build-context` を指定した場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。                                                |
