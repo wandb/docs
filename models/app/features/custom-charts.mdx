@@ -241,6 +241,34 @@ with wandb.init() as run:
 
 Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
 
+### Build the GraphQL query
+
+The custom chart editor runs a GraphQL query over the runs you selected in the project workspace or report. In the **Query** section of the panel, add the fields you need. The UI lists **config**, **summary**, **history**, **`summaryTable`**, and **`historyTable`** so you do not need to write the query from scratch unless you choose **Edit query** for advanced edits.
+
+**What each source is for**
+
+* **Config** pulls [run configuration](/models/track/config/) values (hyperparameters and other settings).
+* **Summary** pulls [summary](/models/track/log/) values. For keys you log with `wandb.Run.log()`, the summary usually holds the last value written for that key unless you set the summary yourself.
+* **History** pulls scalar time series from run history (for example `loss` or `accuracy` at each step). Use **history** when you need the full curve, not only the final number.
+* **`summaryTable`** loads a [`wandb.Table`](/models/ref/python/data-types/table) from the run summary. Use it when the table you care about is stored as a single snapshot on the run (for example one confusion matrix you log once at the end).
+* **`historyTable`** loads a [`wandb.Table`](/models/ref/python/data-types/table) from run history. Each time you log a table with `wandb.Run.log()`, you add another step to run history that includes that table. Use **`historyTable`** when the table changes over time or when you need the **Show step selector** option in **Other settings** (see [How do you show a step slider in a custom chart?](/support/models/articles/how-do-you-show-a-step-slider-in-a-custo)).
+
+For **`summaryTable`** and **`historyTable`**, set **`tableKey`** to the dictionary key you used inside `wandb.Run.log()`, not to a column name inside the [`wandb.Table`](/models/ref/python/data-types/table).
+
+**Examples**
+
+1. Plot columns from a table you log at each step (for example a PR curve): add **`historyTable`**, set **`tableKey`** to your logged key (for example `pr_curve`), then map table columns in **Chart fields**. See the [custom charts tutorial](/models/app/features/custom-charts/walkthrough).
+2. Plot columns from a table that lives in summary (for example class scores for a composite histogram): add **`summaryTable`**, set **`tableKey`** to that key (the tutorial uses `class_scores`). See [Bonus: composite histograms](/models/app/features/custom-charts/walkthrough#bonus-composite-histograms).
+3. Plot a scalar metric over training steps: add the metric from **history**. If you only add it from **summary**, the chart sees a single value per run.
+
+**Chart field names**
+
+After the query runs, **Chart fields** lists columns you can bind into the Vega spec. Names often begin with `runSets_` and reflect the selected query fields. Choose them from the dropdowns next to each `${field:...}` placeholder instead of typing them manually.
+
+If a column never appears, confirm the key exists on the selected runs, open the run page to verify how the data was logged, and check whether **`summaryTable`** or **`historyTable`** matches that logging pattern.
+
+Custom charts use this GraphQL-based panel query. [Query panels](/models/app/features/panels/query-panels) use a different expression language and are documented separately.
+
 <Frame>
     <img src="/images/app_ui/customize_chart.gif" alt="Custom chart creation" max-width="90%"  />
 </Frame>
