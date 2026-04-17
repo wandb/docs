@@ -66,7 +66,7 @@ runs.summary["cifar10_sample_table"]
 * `summary` は、Run の Summary オブジェクトを返す操作です。Opsは _マップされる_ ため、この操作はリスト内の各 Run に適用され、その結果として Summary オブジェクトのリストが生成されます。
 * `["cifar10_sample_table"]` は Pick 操作（角括弧で示され）、`predictions` というパラメータを持ちます。Summary オブジェクトは辞書またはマップのように動作するため、この操作は各 Summary オブジェクトから `predictions` フィールドを選択します。
 
-インタラクティブに独自のクエリの書き方を学ぶには、[こちらのレポート](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)を参照してください。
+インタラクティブに独自のクエリの書き方を学ぶには、[こちらのレポート](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2)を参照してください。
 
 ### 設定
 
@@ -154,7 +154,7 @@ runs.summary["short_table_1"].table.rows.concat
 * `true` と `false` は、左および右の内/外部結合設定です
 
 ## Runsオブジェクト
-クエリパネルを使用して `runs` オブジェクトにアクセスします。Runオブジェクトは、実験の記録を保存します。詳細については、[こちらのレポート](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object)のセクションを参照してくださいが、簡単な概要として、`runs` オブジェクトには以下が含まれます:
+クエリパネルを使用して `runs` オブジェクトにアクセスします。Runオブジェクトは、実験の記録を保存します。詳細については、[こちらのレポート](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#3.-accessing-runs-object)のセクションを参照してくださいが、簡単な概要として、`runs` オブジェクトには以下が含まれます:
 * `summary`: Runの結果を要約する情報の辞書です。精度や損失のようなスカラーや、大きなファイルを含むことができます。デフォルトでは、`wandb.log()`は記録された時系列の最終的な値をsummaryに設定します。直接summaryの内容を設定することもできます。summaryはRunの出力と考えてください。
 * `history`: モデルがトレーニング中に変化する値を格納するための辞書のリストです。コマンド `wandb.log()` はこのオブジェクトに追加します。
 * `config`: Runの設定情報を含む辞書で、トレーニングランのハイパーパラメーターやデータセットアーティファクトを作成するランの前処理方法などが含まれます。これらはRunの「入力」として考えてください。
@@ -164,7 +164,7 @@ runs.summary["short_table_1"].table.rows.concat
 
 ## Artifactsにアクセスする
 
-Artifacts は W&B の中核概念です。これは、バージョン管理された名前付きファイルやディレクトリーのコレクションです。Artifacts を使用して、モデルの重み、データセット、およびその他のファイルやディレクトリーを追跡します。Artifacts は W&B に保存され、他の runs でダウンロードまたは使用できます。詳細と例は、[こちらのセクション](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)のレポートで確認できます。Artifacts は通常、`project` オブジェクトからアクセスします:
+Artifacts は W&B の中核概念です。これは、バージョン管理された名前付きファイルやディレクトリーのコレクションです。Artifacts を使用して、モデルの重み、データセット、およびその他のファイルやディレクトリーを追跡します。Artifacts は W&B に保存され、他の runs でダウンロードまたは使用できます。詳細と例は、[こちらのセクション](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#4.-accessing-artifacts)のレポートで確認できます。Artifacts は通常、`project` オブジェクトからアクセスします:
 * `project.artifactVersion()`: プロジェクト内の特定の名前とバージョンのアーティファクトバージョンを返します
 * `project.artifact("")`: プロジェクト内の特定の名前のアーティファクトを返します。その後、`.versions` を使用してこのアーティファクトのすべてのバージョンのリストを取得できます
 * `project.artifactType()`: プロジェクト内の特定の名前の `artifactType` を返します。その後、`.artifacts` を使用して、このタイプを持つすべてのアーティファクトのリストを取得できます
