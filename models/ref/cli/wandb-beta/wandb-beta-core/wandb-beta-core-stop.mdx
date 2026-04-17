@@ -1,25 +1,28 @@
 ---
-title: "wandb beta core stop"
+title: wandb beta core stop
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-core-stop.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbBetaCoreStop from "/snippets/en/_includes/cli/wandb-beta-core-stop.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbBetaCoreStop/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L300" />
 
-Stop a detached wandb-core service.
 
-The service address is taken from the WANDB_SERVICE environment variable.
 
 ## Usage
 
 ```bash
-wandb beta core stop
+stop [OPTIONS]
 ```
+
+## Description
+
+Stop a detached wandb-core service.
+
+    The service address is taken from the WANDB_SERVICE environment variable.
+
+
+
+
+
+
