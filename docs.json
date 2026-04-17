@@ -391,8 +391,17 @@
                           "models/automations/create-automations/webhook"
                         ]
                       },
+                      {
+                        "group": "Tutorials",
+                        "pages": [
+                          "models/automations/tutorial",
+                          "models/automations/project-automation-tutorial",
+                          "models/automations/registry-automation-tutorial"
+                        ]
+                      },
                       "models/automations/view-automation-history",
-                      "models/automations/automation-events"
+                      "models/automations/automation-events",
+                      "models/automations/api"
                     ]
                   },
                   {
