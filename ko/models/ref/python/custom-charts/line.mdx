@@ -38,33 +38,3 @@ line(
 * `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
 **예시:**
-
-```python
-import math
-import random
-import wandb
-
-# 다양한 패턴을 가진 여러 시리즈 데이터 생성
-data = []
-for i in range(100):
-     # 시리즈 1: 랜덤 노이즈가 포함된 사인파 패턴
-     data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
-     # 시리즈 2: 랜덤 노이즈가 포함된 코사인 패턴
-     data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
-     # 시리즈 3: 랜덤 노이즈가 포함된 선형 증가
-     data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
-
-# 테이블의 column 정의
-table = wandb.Table(data=data, columns=["step", "value", "series"])
-
-# wandb run 초기화 및 선형 차트 log
-with wandb.init(project="line_chart_example") as run:
-     line_chart = wandb.plot.line(
-         table=table,
-         x="step",
-         y="value",
-         stroke="series",  # "series" column 기준으로 그룹화
-         title="Multi-Series Line Plot",
-     )
-     run.log({"line-chart": line_chart})
-```

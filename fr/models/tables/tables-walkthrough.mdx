@@ -24,34 +24,12 @@ Journalisez un tableau avec W&amp;B. Vous pouvez soit créer un nouveau tableau,
     * [`wandb.Run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog) : journalisez le tableau pour le sauvegarder dans W&amp;B.
 
     Voici un exemple :
-
-    ```python
-    import wandb
-
-    with wandb.init(project="table-test") as run:
-        # Créez et enregistrez un nouveau tableau.
-        my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-        run.log({"Table Name": my_table})
-    ```
   </Tab>
 
   <Tab title="Pandas Dataframe">
     Transmettez un dataframe Pandas à `wandb.Table()` pour créer un nouveau tableau.
 
-    ```python
-    import wandb
-    import pandas as pd
-
-    df = pd.read_csv("my_data.csv")
-
-    with wandb.init(project="df-table") as run:
-        # Créez un nouveau tableau à partir du DataFrame
-        # et enregistrez-le dans W&B.
-      my_table = wandb.Table(dataframe=df)
-      run.log({"Table Name": my_table})
-    ```
-
-    Pour plus d&#39;informations sur les types de données pris en charge, consultez [`wandb.Table`](/fr/models/ref/python/data-types/table) dans le guide de référence de l&#39;API W&amp;B.
+    Pour plus d’informations sur les types de données pris en charge, consultez [`wandb.Table`](/fr/models/ref/python/data-types/table) dans le guide de référence de l’API W&amp;B.
   </Tab>
 </Tabs>
 

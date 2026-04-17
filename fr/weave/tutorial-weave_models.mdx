@@ -31,46 +31,7 @@ Lorsque vous modifiez les champs de la classe ou le code qui définit votre mod�
 Dans l’exemple ci-dessous, **le nom du modèle, la température et le prompt système seront suivis et versionnés** :
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines {26,33-34}
-    import json
-    from openai import OpenAI
-
-    import weave
-
-    @weave.op()
-    def extract_dinos(wmodel: weave.Model, sentence: str) -> dict:
-        response = wmodel.client.chat.completions.create(
-            model=wmodel.model_name,
-            temperature=wmodel.temperature,
-            messages=[
-                {
-                    "role": "system",
-                    "content": wmodel.system_prompt
-                },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
-        return response.choices[0].message.content
-
-    # Sous-classe de weave.Model
-    class ExtractDinos(weave.Model):
-        client: OpenAI = None
-        model_name: str
-        temperature: float
-        system_prompt: str
-
-        # Assurez-vous que votre fonction s'appelle `invoke` ou `predict`
-        @weave.op()
-        def invoke(self, sentence: str) -> dict:
-            dino_data  = extract_dinos(self, sentence)
-            return json.loads(dino_data)
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     ```plaintext
@@ -136,19 +97,7 @@ Dans la Weave UI, vous pouvez obtenir la référence du Model pour une version d
 Une fois que vous avez l’URI de l’objet Model, vous pouvez l’exporter et le réutiliser. Notez que le modèle exporté est déjà initialisé et prêt à être utilisé :
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines {2}
-    # le modèle Weave exporté est déjà initialisé et prêt à être invoqué
-    new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
-
-    # réattribuez au client le client OpenAI
-    new_dinos.client = client
-
-    new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
-    new_result = new_dinos.invoke(new_sentence)
-    print(new_result)
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     ```plaintext

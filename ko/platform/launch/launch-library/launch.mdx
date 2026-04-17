@@ -46,17 +46,6 @@ launch(
   #### 예시:
 </div>
 
-```python
-from wandb.sdk.launch import launch
-
-job = "wandb/jobs/Hello World:latest"
-params = {"epochs": 5}
-# W&B 프로젝트를 실행하고 재현 가능한 docker 환경을 생성
-# 로컬 호스트에서
-api = wandb.apis.internal.Api()
-launch(api, job, parameters=params)
-```
-
 | 반환값                                                                   | 설명 |
 | :-------------------------------------------------------------------- | :- |
 | 실행된 run에 대한 정보(예: run ID)를 담고 있는 `wandb.launch.SubmittedRun` 인스턴스입니다. |    |

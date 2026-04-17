@@ -19,33 +19,9 @@ Après avoir créé des appels dans W&amp;B Weave, vous souhaitez souvent en ouv
 
   <Tab title="Python">
     Pour afficher un appel à l’aide du SDK Python W&amp;B Weave, utilisez la méthode [`get_call`](/fr/weave/reference/python-sdk/trace/weave_client#method-get_call) :
-
-    ```python lines
-    import weave
-
-    # Initialiser le client
-    client = weave.init("your-project-name")
-
-    # Obtenir un appel spécifique par son ID
-    call = client.get_call("call-uuid-here")
-
-    print(call)
-    ```
   </Tab>
 
-  <Tab title="TypeScript">
-    ```typescript lines
-    import * as weave from 'weave'
-
-    // Initialiser le client
-    const client = await weave.init('intro-example')
-
-    // Obtenir un appel spécifique par son ID
-    const call = await client.getCall('call-uuid-here')
-
-    console.log(call)
-    ```
-  </Tab>
+  <Tab title="TypeScript" />
 
   <Tab title="HTTP API">
     Pour afficher un appel à l’aide de la Service API, effectuez une requête vers le point de terminaison [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read).
@@ -71,69 +47,9 @@ Utilisez `weave.Markdown` pour personnaliser l’affichage de vos informations d
 <Tabs>
   <Tab title="Python">
     Utilisez les fonctions `postprocess_inputs` et `postprocess_output` dans votre décorateur `@weave.op` pour mettre en forme vos données de trace. L’exemple de code suivant utilise des postprocesseurs pour afficher un appel dans Weave avec des émojis et une mise en forme plus lisible :
-
-    ```python lines
-    import weave
-
-    def postprocess_inputs(query) -> weave.Markdown:
-        search_box = f"""
-    **Search Query:**
-    ``+`
-    {query}
-    ``+`
-    """
-        return {"search_box": weave.Markdown(search_box),
-                "query": query}
-
-    def postprocess_output(docs) -> weave.Markdown:
-        formatted_docs = f"""
-    # {docs[0]["title"]}
-
-    {docs[0]["content"]}
-
-    [Read more]({docs[0]["url"]})
-
-    ---
-
-    # {docs[1]["title"]}
-
-    {docs[1]["content"]}
-
-    [Read more]({docs[1]["url"]})
-    """
-        return weave.Markdown(formatted_docs)
-
-    @weave.op(
-        postprocess_inputs=postprocess_inputs,
-        postprocess_output=postprocess_output,
-    )
-    def rag_step(query):
-        # exemples d'articles de journaux sur les entreprises du S&P 500
-        docs = [
-            {
-                "title": "OpenAI",
-                "content": "OpenAI is a company that makes AI models.",
-                "url": "https://www.openai.com",
-            },
-            {
-                "title": "Google",
-                "content": "Google is a company that makes search engines.",
-                "url": "https://www.google.com",
-            },
-        ]
-        return docs
-
-    if __name__ == "__main__":
-        weave.init('markdown_renderers')
-        rag_step("Tell me about OpenAI")
-    ```
   </Tab>
 
-  <Tab title="Typescript">
-    ```plaintext
-    This feature is not available in the TypeScript SDK yet.
-    ```
-  </Tab>
+  <Tab title="Typescript">`plaintext Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript. `</Tab>
 </Tabs>
 
 Dans la capture d’écran suivante, vous pouvez voir côte à côte les sorties formatées et non formatées.

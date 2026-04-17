@@ -39,45 +39,6 @@ Dans ce tutoriel, nous utiliserons Weave pour implémenter et évaluer un pipeli
 
 Commencez par configurer votre environnement et importer les bibliothèques nécessaires :
 
-```python lines
-!pip install -qU autopep8 autoflake weave isort openai set-env-colab-kaggle-dotenv datasets
-python
-%%capture
-# Solution temporaire pour corriger un bug dans openai :
-# TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
-# Voir https://community.openai.com/t/error-with-openai-1-56-0-client-init-got-an-unexpected-keyword-argument-proxies/1040332/15
-!pip install "httpx<0.28"
-python
-import ast
-import os
-import re
-import subprocess
-import tempfile
-import traceback
-
-import autopep8
-import isort
-from autoflake import fix_code
-from datasets import load_dataset
-from openai import OpenAI
-from pydantic import BaseModel
-from set_env import set_env
-
-import weave
-from weave import Dataset, Evaluation
-
-set_env("WANDB_API_KEY")
-set_env("OPENAI_API_KEY")
-python
-WEAVE_PROJECT = "codegen-cookbook-example"
-weave.init(WEAVE_PROJECT)
-python
-client = OpenAI()
-python
-human_eval = load_dataset("openai_humaneval")
-selected_examples = human_eval["test"][:3]
-```
-
 <Note>
   Weave suit automatiquement les appels à l’API OpenAI, y compris les entrées, les sorties et les métadonnées. Vous n’avez donc pas besoin d’ajouter de code de journalisation pour vos interactions avec OpenAI : Weave s’en charge de façon transparente en arrière-plan.
 </Note>
@@ -110,95 +71,6 @@ class FormattedGeneratedCode(BaseModel):
 
 Pour garantir un code produit cohérent et propre, nous implémentons une classe `CodeFormatter` à l’aide d’opérations Weave. Ce formateur applique diverses règles de linting et de style au code généré, au runner du programme et aux tests unitaires.
 
-```python lines
-class CodeFormatter(BaseModel):
-    @weave.op()
-    def lint_code(self, code: str) -> str:
-        # Remplacer les sauts de ligne échappés par de vrais sauts de ligne
-        code = code.replace("\\n", "\n")
-
-        # Supprimer les imports et variables inutilisés
-        code = fix_code(
-            code, remove_all_unused_imports=True, remove_unused_variables=True
-        )
-
-        # Trier les imports
-        code = isort.code(code)
-
-        # Appliquer le formatage PEP 8
-        code = autopep8.fix_code(code, options={"aggressive": 2})
-
-        return code
-
-    @weave.op()
-    def add_imports(self, code: str) -> str:
-        tree = ast.parse(code)
-        from_imports = {}
-        global_names = set()
-
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Name) and node.id not in dir(__builtins__):
-                global_names.add(node.id)
-
-        # N'ajouter que les imports de typage réellement utilisés
-        typing_imports = global_names.intersection(
-            {"List", "Dict", "Tuple", "Set", "Optional", "Union"}
-        )
-        if typing_imports:
-            from_imports["typing"] = typing_imports
-
-        # Supprimer les noms définis dans la fonction
-        function_def = next(
-            node for node in tree.body if isinstance(node, ast.FunctionDef)
-        )
-        local_names = {arg.arg for arg in function_def.args.args}
-        local_names.update(
-            node.id
-            for node in ast.walk(function_def)
-            if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store)
-        )
-
-        global_names -= local_names
-        global_names -= {"sorted"}  # Supprimer les fonctions intégrées
-
-        # Construire les instructions d'import
-        import_statements = []
-        for module, names in from_imports.items():
-            names_str = ", ".join(sorted(names))
-            import_statements.append(f"from {module} import {names_str}")
-
-        return (
-            "\n".join(import_statements) + ("\n\n" if import_statements else "") + code
-        )
-
-    @weave.op()
-    def format_generated_code(
-        self, generated_code: GeneratedCode
-    ) -> FormattedGeneratedCode:
-        # Combiner les parties du code
-        full_code = f"{generated_code.function_signature}\n{generated_code.function_args_with_docstring_within_triple_quotes}\n{generated_code.code_logic}"
-
-        # Vérifier l'indentation correcte
-        lines = full_code.split("\n")
-        indented_lines = []
-        for i, line in enumerate(lines):
-            if i == 0:  # Signature de la fonction
-                indented_lines.append(line)
-            elif i == 1:  # Arguments de la fonction (docstring)
-                indented_lines.append("    " + line)
-            else:  # Corps de la fonction
-                indented_lines.append("    " + line)
-        full_code = "\n".join(indented_lines)
-
-        # Analyser le code
-        full_code = self.lint_code(full_code)
-
-        # Ajouter les imports
-        cleaned_code = self.add_imports(full_code)
-
-        return FormattedGeneratedCode(full_code=cleaned_code)
-```
-
 Cette classe `CodeFormatter` propose plusieurs opérations Weave pour nettoyer et mettre en forme le code généré :
 
 * Remplacement des retours à la ligne échappés par de vrais retours à la ligne
@@ -211,54 +83,11 @@ Cette classe `CodeFormatter` propose plusieurs opérations Weave pour nettoyer e
   ## Définir le CodeGenerationPipeline
 </div>
 
-<Frame>
-  ![Pipeline de génération de code](/media/codegen/codegen_trace.png)
-</Frame>
+<Frame>![Pipeline de génération de code](/media/codegen/codegen_trace.png)</Frame>
 
 Implémentons maintenant la logique principale de génération de code :
 
 Nous utilisons un `weave.Model` pour qu’il soit automatiquement versionné à chaque modification. Nous conservons également `model_name` comme attribut afin de pouvoir expérimenter avec et comparer facilement les différences dans Weave. Nous suivons les appels de notre fonction avec `@weave.op` afin que les entrées et les sorties soient enregistrées pour faciliter le suivi des erreurs et le débogage.
-
-```python lines
-class CodeGenerationPipeline(weave.Model):
-    model_name: str
-    formatter: CodeFormatter
-
-    def __init__(
-        self, model_name: str = "gpt-4o", formatter: CodeFormatter | None = None
-    ):
-        if formatter is None:
-            formatter = CodeFormatter()
-        super().__init__(model_name=model_name, formatter=formatter)
-        self.model_name = model_name
-        self.formatter = formatter
-
-    @weave.op()
-    async def predict(self, prompt: str):
-        generated_code = self.generate_code(prompt)
-        formatted_generated_code = self.formatter.format_generated_code(generated_code)
-
-        return formatted_generated_code.full_code
-
-    @weave.op()
-    def generate_code(self, prompt: str) -> GeneratedCode:
-        completion = client.beta.chat.completions.parse(
-            model=self.model_name,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Vous êtes un expert en génération de code Python.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            response_format=GeneratedCode,
-        )
-        message = completion.choices[0].message
-        if message.parsed:
-            return message.parsed
-        else:
-            raise ValueError(message.refusal)
-```
 
 Cette classe `CodeGenerationPipeline` encapsule notre logique de génération de code sous forme de Weave Model, offrant plusieurs avantages clés :
 
@@ -274,67 +103,9 @@ Cette classe `CodeGenerationPipeline` encapsule notre logique de génération de
 
 Pour évaluer la qualité du code généré, nous allons implémenter des métriques d’évaluation simples à l’aide d’une sous-classe `weave.Scorer`. Cette sous-classe exécutera `score` sur chaque `model_output` de notre jeu de données. `model_output` provient du résultat de la fonction `predict` dans notre `weave.Model`. `prompt` est extrait de notre jeu de données `human-eval`.
 
-```python lines
-CODE_TEMPLATE = """
-{model_output}
-
-{test}
-
-if __name__ == "__main__":
-    check({entry_point})
-"""
-python
-@weave.op()
-async def score_humaneval_test(test: str, entry_point: str, output: str):
-    generated_code = output
-
-    # Extraire les cas de test de la chaîne de test
-    test_cases = re.findall(r"assert.*", test)
-    test_cases_str = "\n            ".join(test_cases)
-
-    # Générer le code source complet
-    full_code = CODE_TEMPLATE.format(
-        model_output=generated_code,
-        test=test,
-        test_cases=test_cases_str,
-        entry_point=entry_point,
-    )
-
-    # Créer un fichier temporaire pour stocker le code
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp_file:
-        # Écrire le code généré dans le fichier temporaire
-        tmp_file.write(full_code.encode())
-        tmp_file_path = tmp_file.name
-
-    try:
-        # Exécuter le fichier Python temporaire en tant que sous-processus avec un délai d'attente
-        result = subprocess.run(
-            ["python", tmp_file_path],
-            capture_output=True,
-            text=True,
-            timeout=10,  # Délai d'attente de 10 secondes
-        )
-
-        print(result)
-
-        if result.returncode == 0:
-            return {"correct": True}
-        else:
-            return {"correct": False, "error": result.stderr, "output": result.stdout}
-    except subprocess.TimeoutExpired:
-        return {"correct": False, "error": "TimeoutExpired"}
-    except Exception as e:
-        return {"correct": False, "error": traceback.format_exc()}
-    finally:
-        # S'assurer que le fichier temporaire est supprimé après l'exécution
-        os.remove(tmp_file_path)
-```
-
 Ces fonctions d’évaluation exécutent le code généré et renvoient une valeur booléenne indiquant si le code a réussi le test fourni dans le jeu de données.
 
-<Frame>
-  ![Évaluation](/media/codegen/eval_trace.png)
-</Frame>
+<Frame>![Évaluation](/media/codegen/eval_trace.png)</Frame>
 
 <div id="create-a-weave-dataset-and-run-evaluation">
   ## Créer un jeu de données Weave et effectuer une évaluation

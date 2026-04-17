@@ -504,24 +504,6 @@ to_data_url(use_base64: 'bool' = True) → str
 
 **예시:**
 
-```python
-# 데이터셋 생성
-dataset = Dataset(name='grammar', rows=[
-     {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
-     {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
-     {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
-])
-
-# 데이터셋 게시
-weave.publish(dataset)
-
-# 데이터셋 조회
-dataset_ref = weave.ref('grammar').get()
-
-# 특정 예시 접근
-example_label = dataset_ref.rows[2]['sentence']
-```
-
 **Pydantic 필드:**
 
 * `name`: `str | None`
@@ -530,7 +512,6 @@ example_label = dataset_ref.rows[2]['sentence']
 * `rows`: `trace.table.Table | trace.vals.WeaveTable`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L129" />
-
 
 ### <kbd>방법</kbd> `add_rows`
 
@@ -959,36 +940,6 @@ evaluation.evaluate(model)을 호출하면 데이터셋의 각 행이 모델에 
 
 **예시:**
 
-```python
-# 예시 데이터 수집
-examples = [
-     {"question": "What is the capital of France?", "expected": "Paris"},
-     {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
-     {"question": "What is the square root of 64?", "expected": "8"},
-]
-
-# 맞춤형 채점 함수 정의
-@weave.op
-def match_score1(expected: str, model_output: dict) -> dict:
-     # 모델 출력을 채점하는 로직을 여기에 정의합니다
-     return {'match': expected == model_output['generated_text']}
-
-@weave.op
-def function_to_evaluate(question: str):
-     # LLM 호출을 추가하고 출력을 반환하는 부분입니다
-     return  {'generated_text': 'Paris'}
-
-# 채점 함수를 사용하여 예시 데이터 채점
-evaluation = Evaluation(
-     dataset=examples, scorers=[match_score1]
-)
-
-# 평가 추적 시작
-weave.init('intro-example')
-# 평가 실행
-asyncio.run(evaluation.evaluate(function_to_evaluate))
-```
-
 **Pydantic 필드:**
 
 * `name`: `str | None`
@@ -1002,7 +953,6 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 * `evaluation_name`: `str | collections.abc.Callable[trace.call.Call, str] | None`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L295" />
-
 
 ### <kbd>방법</kbd> `evaluate`
 
@@ -1057,18 +1007,9 @@ get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
 
 **예시:**
 
-```python
-evaluation = Evaluation(dataset=examples, scorers=[scorer])
-await evaluation.evaluate(model)  # 먼저 평가를 실행
-calls = evaluation.get_evaluate_calls()
-for call in calls:
-     print(f"Evaluation run: {call.id} at {call.started_at}")
-```
-
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L342" />
-
 
 ### <kbd>방법</kbd> `get_score_calls`
 
@@ -1117,17 +1058,6 @@ get_scores() → dict[str, dict[str, list[Any]]]
 
 **예시:**
 
-```python
-evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
-await evaluation.evaluate(model)
-scores = evaluation.get_scores()
-# 트레이스와 scorer별 점수 조회
-for trace_id, trace_scores in scores.items():
-         print(f"Evaluation run {trace_id}:")
-         for scorer_name, outputs in trace_scores.items():
-             print(f"  {scorer_name}: {outputs}")
-```
-
 예상 출력:
 
 ```
@@ -1142,7 +1072,6 @@ for trace_id, trace_scores in scores.items():
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/pydantic/_internal/_model_construction.py#L163" />
-
 
 ### <kbd>방법</kbd> `model_post_init`
 
@@ -1187,36 +1116,9 @@ summarize(eval_table: EvaluationResults) → dict
 
 기본 사용법 - 입력과 출력을 직접 전달해 예측을 로깅합니다:
 
-```python
-ev = EvaluationLogger()
-
-# 알려진 inputs/outputs로 예측 기록
-pred = ev.log_prediction(inputs={'q': 'Hello'}, outputs={'a': 'Hi there!'})
-pred.log_score("correctness", 0.9)
-
-# Evaluation 완료
-ev.log_summary({"avg_score": 0.9})
-```
-
 고급 활용 - 동적 출력과 중첩 오퍼레이션에는 컨텍스트 관리자를 사용:
 
-```python
-ev = EvaluationLogger()
-
-# 중첩된 오퍼레이션을 캡처해야 할 때 컨텍스트 매니저 사용
-with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
-     # 여기서 수행되는 모든 오퍼레이션(예: LLM calls)은 자동으로
-     # predict call의 자식이 됩니다
-     response = your_llm_call(...)
-     pred.output = response.content
-     pred.log_score("correctness", 0.9)
-
-# 평가 완료
-ev.log_summary({"avg_score": 0.9})
-```
-
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L646" />
-
 
 ### <kbd>방법</kbd> `__init__`
 
@@ -1462,18 +1364,17 @@ save(dest: 'str | Path') → None
 
 렌더링할 수 있는 Markdown입니다.
 
-* <b>`dest`</b>: 파일이 복사될 대상 경로입니다(string 또는 pathlib.Path). 대상 경로는 파일일 수도 있고 디렉터리일 수도 있습니다.
-  **매개변수:**
+* <b>`dest`</b>: 파일이 복사될 대상 경로입니다(string 또는 pathlib.Path). 대상 경로는 파일일 수도 있고 디렉터리일 수도 있습니다. **매개변수:**
 
-* <b>`markup`</b> (str):  Markdown이 포함된 문자열입니다.
+* <b>`markup`</b> (str): Markdown이 포함된 문자열입니다.
 
-* <b>`code_theme`</b> (str, optional):  코드 블록에 사용할 Pygments 테마입니다. 기본값은 &quot;monokai&quot;입니다. 코드 테마는 https://pygments.org/styles/ 를 참조하세요.
+* <b>`code_theme`</b> (str, optional): 코드 블록에 사용할 Pygments 테마입니다. 기본값은 &quot;monokai&quot;입니다. 코드 테마는 [https://pygments.org/styles/](https://pygments.org/styles/) 를 참조하세요.
 
-* <b>`justify`</b> (JustifyMethod, optional):  단락의 정렬 값입니다. 기본값은 None입니다.
+* <b>`justify`</b> (JustifyMethod, optional): 단락의 정렬 값입니다. 기본값은 None입니다.
 
-* <b>`style`</b> (Union[str, Style], optional):  Markdown에 적용할 선택적 스타일입니다.
+* <b>`style`</b> (Union[str, Style], optional): Markdown에 적용할 선택적 스타일입니다.
 
-* <b>`hyperlinks`</b> (bool, optional):  하이퍼링크를 활성화합니다. 기본값은 `True`입니다.
+* <b>`hyperlinks`</b> (bool, optional): 하이퍼링크를 활성화합니다. 기본값은 `True`입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/rich/markdown.py#L548" />
 

@@ -23,30 +23,10 @@ Pour exporter des appels :
 <Tabs>
   <Tab title="Python">
     Pour récupérer des appels avec l’API Python, vous pouvez utiliser la méthode [`client.get_calls`](/fr/weave/reference/python-sdk/trace/weave_client#method-get_calls) :
-
-    ```python lines
-    import weave
-
-    # Initialiser le client
-    client = weave.init("your-project-name")
-
-    # Récupérer les appels
-    calls = client.get_calls(filter=...)
-    ```
   </Tab>
 
   <Tab title="TypeScript">
     Pour récupérer des appels avec l’API TypeScript, vous pouvez utiliser la méthode [`client.getCalls`](/fr/weave/reference/typescript-sdk/classes/weaveclient#getcalls).
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    // Initialiser le client
-    const client = await weave.init('intro-example')
-
-    // Récupérer les appels
-    const calls = await client.getCalls(filter=...)
-    ```
   </Tab>
 
   <Tab title="HTTP API">
@@ -132,81 +112,7 @@ L&#39;endpoint propose plusieurs options de filtrage qui vous permettent de cibl
 
 L&#39;exemple suivant montre comment récupérer les Appels générés à partir d&#39;une op nommée `web_app` sur une période de deux jours :
 
-<CodeGroup>
-  ```python Python lines {10-11,16-24}
-  import requests
-  import json
-  import os
-
-  url = "https://trace.wandb.ai/calls/stats"
-
-  payload = {
-      "project_id": "<your-team-name/your-project-name>",
-      "start": "2026-03-01T00:00:00Z",
-  # Spécifiez la taille des buckets, en secondes.
-      "granularity": 86400,
-      "filter": {
-          "trace_roots_only": True,
-          "op_names": ["web_app"]
-      },
-  # Spécifiez les métriques et leur fonction d'agrégation
-      "usage_metrics": [
-          {"metric": "total_tokens", "aggregations": ["sum"]},
-          {"metric": "total_cost", "aggregations": ["sum"]}
-      ],
-      "call_metrics": [
-          {"metric": "call_count", "aggregations": ["sum"]},
-          {"metric": "error_count", "aggregations": ["sum"]},
-          {"metric": "latency_ms", "aggregations": ["avg", "min", "max"], "percentiles": [50, 95, 99]}
-      ]
-  }
-
-  API_KEY = os.getenv("WANDB_API_KEY")
-
-  response = requests.post(url, json=payload, auth=("api", API_KEY))
-
-  print(json.dumps(response.json(), indent=2))
-  ```
-
-  ```typescript TypeScript lines {6-7,13-20}
-  const url = "https://trace.wandb.ai/calls/stats";
-
-  const payload = {
-    project_id: "<your-team-name/your-project-name>",
-    start: "2026-03-01T00:00:00Z",
-  // Spécifiez la taille des buckets, en secondes.
-    granularity: 86400,
-    filter: {
-      trace_roots_only: true,
-      op_names: ["web_app"],
-    },
-  // Spécifiez les métriques et leur fonction d'agrégation
-    usage_metrics: [
-      { metric: "total_tokens", aggregations: ["sum"] },
-      { metric: "total_cost", aggregations: ["sum"] },
-    ],
-    call_metrics: [
-      { metric: "call_count", aggregations: ["sum"] },
-      { metric: "error_count", aggregations: ["sum"] },
-      { metric: "latency_ms", aggregations: ["avg", "min", "max"], percentiles: [50, 95, 99] },
-    ],
-  };
-
-  const API_KEY = process.env.WANDB_API_KEY!;
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + btoa(`api:${API_KEY}`),
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = await response.json();
-  console.log(JSON.stringify(data, null, 2));
-  ```
-</CodeGroup>
+<CodeGroup />
 
 La requête précise également comment agréger les métriques. Vous pouvez agréger les métriques avec `sum`, `count`, `avg`, `min`, `max` et `count`.
 

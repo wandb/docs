@@ -33,49 +33,6 @@ W&amp;B Weave를 사용하면 코드의 함수 호출을 트레이스하고, 해
 
     3. 다음 스크립트에서 `your-team-name/your-project-name`을 실제 W&amp;B entity/project로 바꾸세요.
 
-    ```python lines
-    import wandb
-    import weave
-
-    def example_wandb(projname):
-        # projname을 entity와 project로 분리
-        entity, project = projname.split("/", 1)
-
-        # 트레이싱을 위한 Weave 컨텍스트 초기화
-        weave.init(projname)
-
-        # 트레이스 가능한 Op 정의
-        @weave.op()
-        def say(message: str) -> str:
-            return f"I said: {message}"
-
-        # 첫 번째 W&B run
-        with wandb.init(
-            entity=entity,
-            project=project,
-            notes="Experiment 1",
-            tags=["baseline", "paper1"],
-        ) as run:
-            say("Hello, world!")
-            say("How are you!")
-            run.log({"messages": 2})
-
-        # 두 번째 W&B run
-        with wandb.init(
-            entity=entity,
-            project=project,
-            notes="Experiment 2",
-            tags=["baseline", "paper1"],
-        ) as run:
-            say("Hello, world from experiment 2!")
-            say("How are you!")
-            run.log({"messages": 2})
-
-    if __name__ == "__main__":
-        # 실제 W&B 사용자 이름/프로젝트로 바꾸세요
-        example_wandb("your-team-name/your-project-name")
-    ```
-
     4. 스크립트를 실행합니다.
 
     ```bash lines

@@ -29,21 +29,6 @@ Un Op Weave est une fonction versionnée qui enregistre automatiquement tous les
 
   <Tab title="TypeScript">
     Pour créer un Op, encapsulez une fonction TypeScript avec `weave.op`
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    function trackMe(v: number) {
-        return v + 5
-    }
-
-    const trackMeOp = weave.op(trackMe)
-    trackMeOp(15)
-
-    // Vous pouvez aussi le faire en ligne, ce qui peut être plus pratique
-    const trackMeInline = weave.op((v: number) => v + 5)
-    trackMeInline(15)
-    ```
   </Tab>
 </Tabs>
 
@@ -183,16 +168,6 @@ Les valeurs `color` disponibles sont :
     Bien que nous recommandions de collecter toutes les traces pendant le développement d’agents afin de vous aider à mieux définir et comprendre leur comportement, nous recommandons de configurer l’échantillonnage des traces en Production pour réduire les coûts liés au volume tout en conservant une visibilité sur le comportement de votre agent.
 
     Weave applique les taux d’échantillonnage uniquement aux Ops les plus externes. Si un Op imbriqué a un taux d’échantillonnage, mais qu’un Op parent l’appelle en premier, le taux d’échantillonnage de l’Op imbriqué est ignoré.
-
-    ```python lines
-    @weave.op(tracing_sample_rate=0.1)  # Ne tracer qu’environ 10 % des appels
-    def high_frequency_op(x: int) -> int:
-        return x + 1
-
-    @weave.op(tracing_sample_rate=1.0)  # Toujours tracer (par défaut)
-    def always_traced_op(x: int) -> int:
-        return x + 1
-    ```
 
     Lorsqu’un appel d’un Op n’est pas échantillonné :
 

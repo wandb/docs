@@ -9,17 +9,6 @@ description: "データセットの列を別の名前にマッピングします
 
     次の例では、`output` パラメーターと `target` パラメーターを、データセットの `model_output` 列と `answer` 列にマッピングしています。
 
-    ```python
-    from weave.scorers import EmbeddingSimilarityScorer
-
-    similarity_scorer = EmbeddingSimilarityScorer()
-
-    similarity_scorer.column_map = {
-        "output": "model_output",  # モデルが生成したテキスト
-        "target": "answer"         # 期待される応答、または参照用の応答
-    }
-    ```
-
     scorer の列マッピングの詳細については、[`column_map` を使った列名のマッピング](../evaluation/scorers#mapping-column-names-with-column_map)を参照してください。
   </Tab>
 

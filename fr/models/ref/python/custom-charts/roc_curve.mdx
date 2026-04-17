@@ -42,36 +42,3 @@ Construit un graphique de courbe ROC (Receiver Operating Characteristic).
 * `wandb.Error` :  Si numpy, pandas ou scikit-learn sont introuvables.
 
 **Exemple :**
-
-```python
-import numpy as np
-import wandb
-
-# Simuler un problème de classification de diagnostic médical avec trois maladies
-n_samples = 200
-n_classes = 3
-
-# Vraies étiquettes : attribuer "Diabetes", "Hypertension" ou "Heart Disease" à
-# chaque échantillon
-disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
-# 0 : Diabetes, 1 : Hypertension, 2 : Heart Disease
-y_true = np.random.choice([0, 1, 2], size=n_samples)
-
-# Probabilités prédites : simuler des prédictions en s'assurant que leur somme vaut 1
-# pour chaque échantillon
-y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
-
-# Spécifier les classes à afficher (afficher les trois maladies)
-classes_to_plot = [0, 1, 2]
-
-# Initialiser un run W&B et journaliser un graphique de courbe ROC pour la classification des maladies
-with wandb.init(project="medical_diagnosis") as run:
-    roc_plot = wandb.plot.roc_curve(
-         y_true=y_true,
-         y_probas=y_probas,
-         labels=disease_labels,
-         classes_to_plot=classes_to_plot,
-         title="ROC Curve for Disease Classification",
-    )
-    run.log({"roc-curve": roc_plot})
-```

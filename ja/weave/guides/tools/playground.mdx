@@ -275,57 +275,6 @@ Playground でローカルで実行中のモデルをテストするには、ngr
 
 次の図は、ローカル環境、ngrok プロキシ、W&amp;B クラウドサービス間のデータフローを示しています。
 
-```mermaid
-flowchart LR
-    %% スタイル定義
-    classDef clientMachine fill:#FFD95CCC,stroke:#454B52,stroke-width:2px
-    classDef proxy fill:#00CDDBCC,stroke:#454B52,stroke-width:2px
-    classDef wandbCloud fill:#DE72FFCC,stroke:#454B52,stroke-width:2px
-    classDef publicCloud fill:#FFCBADCC,stroke:#454B52,stroke-width:2px
-
-    %% サブグラフ
-    subgraph Client_Machine
-        browser[ブラウザ]
-        llm_local[ローカル LLM プロバイダー]
-    end
-
-    subgraph Proxy
-        ngrok[Ngrok プロキシ]
-    end
-
-    subgraph WandB_Cloud
-        trace_server[trace サーバー]
-    end
-
-    subgraph Public_Cloud
-        llm_cloud[パブリック LLM プロバイダー]
-    end
-
-    %% サブグラフにスタイルを適用
-    class Client_Machine clientMachine
-    class Proxy proxy
-    class WandB_Cloud wandbCloud
-    class Public_Cloud publicCloud
-
-    %% 現在のデータフロー
-    browser -->|チャットリクエストを送信| trace_server
-    trace_server -->|パブリック LLM を使用| llm_cloud
-    trace_server -->|ローカル LLM を使用| ngrok
-    ngrok -->|転送| llm_local
-    llm_cloud -->|レスポンスを返す| trace_server
-    llm_local -->|レスポンスを返す| ngrok
-    ngrok -->|転送| trace_server
-    trace_server -->|レスポンスを返す| browser
-
-    %% 将来的に可能な接続
-    browser -.->|将来: ローカル LLM を直接呼び出す| llm_local
-
-    %% リンクスタイル
-    linkStyle default stroke:#454B52,stroke-width:2px
-    linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
-```
-
-
 <div id="saved-models">
   ## 保存したモデル
 </div>

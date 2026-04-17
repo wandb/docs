@@ -5,21 +5,6 @@ keywords: ["Sweeps", "メトリクス"]
 
 1 回の run で複数のメトリクスを最適化するには、各メトリクスの加重和を使用します。
 
-```python
-with wandb.init() as run:
-  # 個々のメトリクスをログする
-  metric_a = run.summary.get("metric_a", 0.5)
-  metric_b = run.summary.get("metric_b", 0.7)
-  # ... 必要に応じて他のメトリクスをログする
-  metric_n = run.summary.get("metric_n", 0.9)
-
-  # メトリクスを重みで結合する
-  # 最適化の目標に応じて重みを調整する
-  # 例えば、metric_a と metric_n をより重視する場合:  
-  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
-  run.log({"metric_combined": metric_combined})
-```
-
 新たに組み合わせたメトリクスをログし、最適化の目的関数として設定します。
 
 ```yaml
@@ -32,6 +17,12 @@ metric:
 
 {/* 自動生成: タブバッジ */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">
+  [Sweeps](/ja/support/models/tags/sweeps)
+</Badge>
 
-{/* END AUTO-GENERATED: タブバッジ */}
+<Badge stroke shape="pill" color="orange" size="md">
+  [メトリクス](/ja/support/models/tags/metrics)
+</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

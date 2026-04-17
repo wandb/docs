@@ -37,20 +37,6 @@ pip install wandb-workspaces
 
 Pour créer un rapport, indiquez l’entité de votre team et saisissez un nom pour votre rapport. Remplacez le texte délimité par vos valeurs :
 
-```python
-import wandb_workspaces.reports.v2 as wr 
-# Créer
-report = wr.Report(
-    entity="<team_entity>",
-    project="<project_name>",
-    title='Quickstart Report',
-    description="That was easy!"
-)
-
-# Enregistrer le rapport
-report.save()
-```
-
 Ensuite, ajoutez des blocs et des panneaux à votre rapport. Par exemple, le code suivant crée un rapport avec une table des matières, un en-tête et un paragraphe :
 
 ```python
@@ -69,28 +55,5 @@ Voir le Google Colab [Démarrage rapide de l’API Reports](https://colab.resear
 </div>
 
 Le code suivant montre comment créer un Workspace avec une section contenant trois panneaux : un graphique en courbes, un graphique à barres et un graphique scalaire. Remplacez le texte indiqué par vos valeurs :
-
-```python
-# Comment importer
-import wandb_workspaces.workspaces as ws
-
-# Créer un Workspace
-ws.Workspace(
-     entity="<team_entity>", # entité propriétaire du Workspace
-     project="<project_name>", # projet associé au Workspace
-     sections=[
-         ws.Section(
-             name="<Validation Metrics>",
-             panels=[
-                 wr.LinePlot(x="Step", y=["<val_loss>"]),
-                 wr.BarPlot(metrics=["<val_accuracy>"]),
-                 wr.ScalarChart(metric="<f1_score>", groupby_aggfunc="<mean>"),
-             ],
-             is_open=True,
-         ),
-     ],
-)
-workspace.save()
-```
 
 Voir le Google Colab [Démarrage rapide de l’API Workspace](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) pour un exemple complet.

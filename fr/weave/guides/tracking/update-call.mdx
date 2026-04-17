@@ -31,33 +31,10 @@ Vous pouvez y modifier le nom d’affichage de l’Appel, ajouter du feedback ou
 <Tabs>
   <Tab title="Python">
     Pour définir le nom d’affichage d’un Appel, utilisez la méthode [`Call.set_display_name()`](/fr/weave/reference/python-sdk/trace/weave_client#method-set-display-name).
-
-    ```python lines
-    import weave
-
-    # Initialiser le client
-    client = weave.init("your-project-name")
-
-    # Obtenir un Appel spécifique par son ID
-    call = client.get_call("call-uuid-here")
-
-    # Définir le nom d'affichage de l'Appel
-    call.set_display_name("My Custom Display Name")
-    ```
   </Tab>
 
   <Tab title="TypeScript">
     Pour définir le nom d’affichage d’un Appel, utilisez [`client.updateCall`](/fr/weave/reference/typescript-sdk/classes/weaveclient#updatecall) pour le mettre à jour directement à partir de l’ID de l’appel :
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    // Initialiser le client
-    const client = await weave.init('your-project-name')
-
-    // Mettre à jour le nom d'affichage d'un Appel à partir de son ID
-    await client.updateCall('call-uuid-here', 'My Custom Display Name')
-    ```
   </Tab>
 
   <Tab title="HTTP API">
@@ -91,19 +68,6 @@ Veuillez consulter la [documentation sur les feedbacks](/fr/weave/guides/trackin
 <Tabs>
   <Tab title="Python">
     Pour supprimer un appel avec l’API Python, utilisez la méthode [`Call.delete`](/fr/weave/reference/python-sdk/trace/weave_client#method-delete).
-
-    ```python lines
-    import weave
-
-    # Initialiser le client
-    client = weave.init("your-project-name")
-
-    # Obtenir un appel spécifique par son ID
-    call = client.get_call("call-uuid-here")
-
-    # Supprimer l’appel
-    call.delete()
-    ```
   </Tab>
 
   <Tab title="TypeScript">
@@ -141,25 +105,6 @@ Veuillez consulter la [documentation sur les feedbacks](/fr/weave/guides/trackin
       * Le nombre maximal d’appels pouvant être supprimés est de `1000`.
       * La suppression d’un appel supprime également tous ses enfants.
     </Important>
-
-    ```python lines
-    import weave
-
-    # Initialiser le client
-    client = weave.init("my-project")
-
-    # Obtenir tous les appels du client
-    all_calls = client.get_calls()
-
-    # Obtenir la liste des 1000 premiers objets Call
-    first_1000_calls = all_calls[:1000]
-
-    # Obtenir la liste des ID des 1000 premiers appels
-    first_1000_calls_ids = [c.id for c in first_1000_calls]
-
-    # Supprimer les 1000 premiers appels par ID
-    client.delete_calls(call_ids=first_1000_calls_ids)
-    ```
   </Tab>
 
   <Tab title="TypeScript">

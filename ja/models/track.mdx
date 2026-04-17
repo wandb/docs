@@ -35,26 +35,6 @@ import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
 
 次のコードは、W&amp;B で一般的な実験管理のワークフローを示しています。
 
-```python
-# runを開始する。
-#
-# このブロックを抜けると、ログされたデータのアップロード完了を待機する。
-# 例外が発生した場合、runは失敗としてマークされる。
-with wandb.init(entity="", project="my-project-name") as run:
-  # モデルの入力とハイパーパラメーターを保存する。
-  run.config.learning_rate = 0.01
-
-  # 実験コードを実行する。
-  for epoch in range(num_epochs):
-    # トレーニングを実行する...
-
-    # モデル性能を可視化するため、メトリクスを継続的にログする。
-    run.log({"loss": loss})
-
-  # モデルの出力をArtifactsとしてアップロードする。
-  run.log_artifact(model)
-```
-
 <div id="get-started">
   ## はじめに
 </div>

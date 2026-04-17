@@ -2,41 +2,13 @@
 title: Workspaces
 ---
 
-import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
 <GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/internal.py" />
 
-<Note>
-  L&#39;API W&amp;B Report and Workspace est en aperçu public.
-</Note>
+<Note>L&#39;API W&amp;B Report and Workspace est en aperçu public.</Note>
 
 Bibliothèque Python pour interagir de manière programmatique avec l&#39;API W&amp;B Workspace.
-
-```python
-# Comment importer
-import wandb_workspaces.workspaces as ws
-import wandb_workspaces.reports.v2 as wr
-
-# Exemple de création d'un workspace
-ws.Workspace(
-     name="Example W&B Workspace",
-     entity="entity", # entité propriétaire du workspace
-     project="project", # projet associé au workspace
-     sections=[
-         ws.Section(
-             name="Validation Metrics",
-             panels=[
-                 wr.LinePlot(x="Step", y=["val_loss"]),
-                 wr.BarPlot(metrics=["val_accuracy"]),
-                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
-             ],
-             is_open=True,
-         ),
-     ],
-)
-workspace.save()
-```
-
 
 ## <kbd>class</kbd> `RunSettings`
 
@@ -55,38 +27,21 @@ Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
 
 **Attributs :**
 
-* `query` (str):  Une requête pour filtrer le runset (peut être une expression régulière, voir le paramètre suivant).
-* `regex_query` (bool):  Indique si la requête (ci-dessus) est une expression régulière. La valeur par défaut est `False`.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  Une liste de filtres à appliquer au runset, ou une expression sous forme de chaîne.
-  * Sous forme de liste : les filtres sont combinés avec l’opérateur AND. Voir FilterExpr pour plus d’informations sur la création de filtres.
-  * Sous forme de chaîne : utilisez des expressions de type Python, par ex., &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
-* `groupby` (LList[expr.MetricType]):  Une liste de métriques selon lesquelles regrouper les éléments du runset. Définissez-la sur `Metric`, `Summary`, `Config`, `Tags` ou `KeysInfo`.
-* `order` (LList[expr.Ordering]):  Une liste de métriques et d’ordres de tri à appliquer au runset.
-* `run_settings` (Dict[str, RunSettings]):  Un dictionnaire de paramètres de run, où la clé est l’ID du run et la valeur un objet RunSettings.
-* `pinned_columns` (LList[str]):  Liste des noms de colonnes à épingler.
-* `Column names use format`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
+* `query` (str): Une requête pour filtrer le runset (peut être une expression régulière, voir le paramètre suivant).
+* `regex_query` (bool): Indique si la requête (ci-dessus) est une expression régulière. La valeur par défaut est `False`.
+* `filters` (Union[str, LList[expr.FilterExpr]]): Une liste de filtres à appliquer au runset, ou une expression sous forme de chaîne. - Sous forme de liste : les filtres sont combinés avec l’opérateur AND. Voir FilterExpr pour plus d’informations sur la création de filtres. - Sous forme de chaîne : utilisez des expressions de type Python, par ex., &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `groupby` (LList[expr.MetricType]): Une liste de métriques selon lesquelles regrouper les éléments du runset. Définissez-la sur `Metric`, `Summary`, `Config`, `Tags` ou `KeysInfo`.
+* `order` (LList[expr.Ordering]): Une liste de métriques et d’ordres de tri à appliquer au runset.
+* `run_settings` (Dict[str, RunSettings]): Un dictionnaire de paramètres de run, où la clé est l’ID du run et la valeur un objet RunSettings.
+* `pinned_columns` (LList[str]): Liste des noms de colonnes à épingler.
+* `Column names use format`: &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
 * `run`: displayName est ajouté automatiquement s’il n’est pas déjà présent.
-* `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
+* `Example`: [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
 
 **Exemple :**
 
-```python
-    # Utilisation de filtres sous forme de chaîne (nouveau)
-    RunsetSettings(
-        filters="Config('learning_rate') = 0.001 and State = 'finished'",
-        pinned_columns=["summary:accuracy", "summary:loss"],
-    )
-
-    # Utilisation d'une liste FilterExpr (méthode originale)
-    RunsetSettings(
-        filters=[expr.Config("learning_rate") == 0.001],
-        pinned_columns=["summary:accuracy", "summary:loss"],
-    )
-```
-
 ***
-
 
 ### <kbd>méthode</kbd> `convert_filterexpr_list_to_string`
 

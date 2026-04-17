@@ -45,12 +45,11 @@ Démarrez un nouveau run pour suivre et journaliser dans W&amp;B.
 
 Dans un pipeline d&#39;entraînement ML, vous pouvez ajouter `wandb.init()` au début de votre script d&#39;entraînement ainsi que de votre script d&#39;évaluation, et chacun d&#39;eux sera suivi en tant que run dans W&amp;B.
 
-`wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run, et synchronise également les données avec https://wandb.ai par défaut, afin que vous puissiez voir vos résultats en temps réel. Une fois que vous avez fini de journaliser des données, appelez `wandb.Run.finish()` pour mettre fin au run. Si vous n&#39;appelez pas `run.finish()`, le run se terminera lorsque votre script s&#39;arrêtera.
+`wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run, et synchronise également les données avec [https://wandb.ai](https://wandb.ai) par défaut, afin que vous puissiez voir vos résultats en temps réel. Une fois que vous avez fini de journaliser des données, appelez `wandb.Run.finish()` pour mettre fin au run. Si vous n&#39;appelez pas `run.finish()`, le run se terminera lorsque votre script s&#39;arrêtera.
 
 Les ID de run ne doivent contenir aucun des caractères spéciaux suivants `/ \ # ? % :`
 
 **Arguments :**
-
 
 * `entity`:  Le nom d&#39;utilisateur ou le nom d&#39;équipe auquel les runs sont enregistrés.  L&#39;entité doit déjà exister, veillez donc à créer votre compte  ou votre équipe dans l&#39;UI avant de commencer à enregistrer des runs. Si elle n&#39;est pas spécifiée, le  run utilisera par défaut votre entité par défaut. Pour modifier l&#39;entité par défaut,  accédez à vos paramètres et mettez à jour  &quot;Emplacement par défaut pour créer de nouveaux projets&quot; sous &quot;Équipe par défaut&quot;.
 * `project`:  Le nom du projet sous lequel ce run sera enregistré.  S’il n’est pas spécifié, nous utilisons une heuristique pour déterminer le nom du projet en fonction du système, par exemple en vérifiant la racine git ou le fichier du programme en cours. Si nous ne pouvons pas déterminer le nom du projet, le projet prendra par défaut la valeur  `"uncategorized"`.
@@ -92,22 +91,11 @@ Un objet `Run`.
 
 **Exceptions levées :**
 
-* `Error` :  Si une erreur inconnue ou interne se produit lors de l&#39;initialisation du run.
-* `AuthenticationError` :  Si l&#39;utilisateur ne fournit pas d&#39;identifiants valides.
-* `CommError` :  En cas de problème de communication avec le serveur WandB.
-* `UsageError` :  Si l&#39;utilisateur fournit des arguments non valides.
-* `KeyboardInterrupt` :  Si l&#39;utilisateur interrompt le run.
+* `Error` : Si une erreur inconnue ou interne se produit lors de l&#39;initialisation du run.
+* `AuthenticationError` : Si l&#39;utilisateur ne fournit pas d&#39;identifiants valides.
+* `CommError` : En cas de problème de communication avec le serveur WandB.
+* `UsageError` : Si l&#39;utilisateur fournit des arguments non valides.
+* `KeyboardInterrupt` : Si l&#39;utilisateur interrompt le run.
 
 **Exemples :**
-`wandb.init()` renvoie un objet `Run`. Utilisez l&#39;objet run pour journaliser des données, enregistrer des Artifacts et gérer le cycle de vie du run.
-
-```python
-import wandb
-
-config = {"lr": 0.01, "batch_size": 32}
-with wandb.init(config=config) as run:
-    # Journaliser la précision et la perte dans le run
-    acc = 0.95  # Précision exemple
-    loss = 0.05  # Perte exemple
-    run.log({"accuracy": acc, "loss": loss})
-```
+`wandb.init()` renvoie un objet `Run`. Utilisez l&#39;objet run pour journaliser des données, enregistrer des Artifacts et gérer le cycle de vie du run. 

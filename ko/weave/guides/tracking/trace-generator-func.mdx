@@ -6,55 +6,12 @@ description: "W&B Weave 트레이싱으로 동기 및 비동기 제너레이터 
 W&amp;B Weave는 깊게 중첩된 패턴을 포함해 동기 및 비동기 제너레이터 함수를 모두 트레이싱할 수 있습니다.
 
 <Warning>
-  제너레이터는 값을 지연 생성하므로, Weave는 제너레이터가 완전히 소비된 경우에만 출력값을 로그합니다(예: 목록으로 변환할 때).
-  Weave가 트레이스에서 출력값을 캡처하도록 하려면 제너레이터를 완전히 소비하세요(예: `list()` 사용).
+  제너레이터는 값을 지연 생성하므로, Weave는 제너레이터가 완전히 소비된 경우에만 출력을 로그합니다(예: 목록으로 변환할 때). Weave가 트레이스에서 출력을 캡처하도록 하려면,
+  제너레이터를 완전히 소비하세요(예: `list()` 사용).
 </Warning>
 
 <Tabs>
-  <Tab title="Python">
-    ```python
-    from typing import Generator
-    import weave
-
-    weave.init("my-project")
-
-    # 이 함수는 단순한 동기 제너레이터를 사용합니다.
-    # Weave는 call과 입력값(`x`)을 트레이스하지만,
-    # 출력값은 제너레이터가 소비된 후에만 캡처됩니다(예: `list()` 사용).
-    @weave.op
-    def basic_gen(x: int) -> Generator[int, None, None]:
-        yield from range(x)
-
-    # 제너레이터 파이프라인 내에서 사용되는 일반 동기 함수입니다.
-    # 이 함수에 대한 call도 Weave에서 각각 독립적으로 트레이스됩니다.
-    @weave.op
-    def inner(x: int) -> int:
-        return x + 1
-
-    # 다른 트레이스된 함수(`inner`)를 호출하는 동기 제너레이터입니다.
-    # 각 yield 값은 `inner`에 대한 별도의 트레이스된 call에서 생성됩니다.
-    @weave.op
-    def nested_generator(x: int) -> Generator[int, None, None]:
-        for i in range(x):
-            yield inner(i)
-
-    # 위의 제너레이터를 조합하는 더 복잡한 제너레이터입니다.
-    # 여기서 트레이싱은 계층형 call 트리를 생성합니다:
-    # - `deeply_nested_generator` (부모)
-    #   - `nested_generator` (자식)
-    #     - `inner` (손자)
-    @weave.op
-    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
-        for i in range(x):
-            for j in nested_generator(i):
-                yield j
-
-    # Weave가 출력값을 캡처하려면 제너레이터를 *소비*해야 합니다.
-    # 이는 동기 및 비동기 제너레이터 모두에 해당합니다.
-    res = deeply_nested_generator(4)
-    list(res)  # 중첩된 모든 call과 yield에 대한 트레이싱을 트리거합니다
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     ```plaintext

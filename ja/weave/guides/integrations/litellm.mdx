@@ -73,49 +73,11 @@ print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
   ## 試行錯誤をしやすくするために `Model` を作成する
 </div>
 
-構成要素が多いと、実験内容を整理するのは難しくなります。`Model` クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリの異なるバージョンを整理して比較しやすくなります。
+構成要素が多いと、実験内容を整理するのは難しくなります。`Model` クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリの異なるバージョンを整理して比較しやすくなります。
 
-コードのバージョン管理や入出力の記録に加えて、Models はアプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も効果的だったかを簡単に確認できます。さらに、Weave Models は `serve` や評価でも使用できます。
+コードのバージョン管理や入出力の記録に加えて、Models はアプリケーションの挙動を制御する構造化されたパラメーターも取得するため、どのパラメーターが最も効果的だったかを簡単に確認できます。さらに、Weave Models は `serve` や評価でも使用できます。
 
 以下の例では、さまざまなモデルと temperature を試せます。
-
-```python lines {4,6,10}
-import litellm
-import weave
-
-weave.init('weave_litellm_integration')
-
-class TranslatorModel(weave.Model):
-    model: str
-    temperature: float
-  
-    @weave.op()
-    def predict(self, text: str, target_language: str):
-        response = litellm.completion(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": f"You are a translator. Translate the given text to {target_language}."},
-                {"role": "user", "content": text}
-            ],
-            max_tokens=1024,
-            temperature=self.temperature
-        )
-        return response.choices[0].message.content
-
-# 異なるモデルでインスタンスを作成する
-gpt_translator = TranslatorModel(model="gpt-3.5-turbo", temperature=0.3)
-claude_translator = TranslatorModel(model="claude-3-5-sonnet-20240620", temperature=0.1)
-
-# 翻訳に異なるモデルを使用する
-english_text = "Hello, how are you today?"
-
-print("GPT-3.5 フランス語への翻訳:")
-print(gpt_translator.predict(english_text, "French"))
-
-print("\nClaude-3.5 Sonnet スペイン語への翻訳:")
-print(claude_translator.predict(english_text, "Spanish"))
-```
-
 
 <div id="function-calling">
   ## 関数呼び出し

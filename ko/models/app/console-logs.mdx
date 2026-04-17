@@ -79,36 +79,11 @@ ERROR Failed to save notebook.
 
 다음 예제는 이러한 설정을 구성하는 방법을 보여줍니다:
 
-```python
-import wandb
-
-settings = wandb.Settings(
-    show_errors=True,  # W&B App에 오류 메시지 표시
-    silent=False,      # 모든 W&B 콘솔 출력 비활성화
-    show_warnings=True # W&B App에 경고 메시지 표시
-)
-
-with wandb.init(settings=settings) as run:
-    # 트레이닝 코드를 여기에 작성하세요
-    run.log({"accuracy": 0.95})
-```
-
-
 <div id="custom-logging">
   ## 맞춤형 로깅
 </div>
 
 W&amp;B는 애플리케이션의 콘솔 로그를 캡처하지만, 사용자의 로깅 설정에는 영향을 주지 않습니다. Python의 기본 제공 `print()` 함수나 `logging` 모듈을 사용해 메시지를 기록할 수 있습니다.
-
-```python
-import wandb
-
-with wandb.init(project="my-project") as run:
-    for i in range(100, 1000, 100):
-        # W&B에 로그를 기록하고 콘솔에 출력합니다
-        run.log({"epoch": i, "loss": 0.1 * i})
-        print(f"epoch: {i} loss: {0.1 * i}")
-```
 
 콘솔 로그는 다음과 비슷한 형태로 표시됩니다:
 
@@ -123,7 +98,6 @@ with wandb.init(project="my-project") as run:
 8 epoch:  800 loss: 0.3082585036754608
 9 epoch:  900 loss: 0.28154927492141724
 ```
-
 
 <div id="time-stamps">
   ## 타임스탬프
@@ -140,29 +114,12 @@ with wandb.init(project="my-project") as run:
 콘솔 로그 페이지 상단의 검색창을 사용해 키워드로 로그를 필터링하세요. 특정 용어, 라벨 또는 오류 메시지를 검색할 수 있습니다.
 
 <div id="filter-with-custom-labels">
-  ## 맞춤형 레이블로 필터링
+  ## 맞춤형 라벨로 필터링
 </div>
 
-<Warning>
-  `x_` 접두사가 붙은 매개변수(`x_label` 등)는 공개 프리뷰 상태입니다. 피드백을 보내려면 [W&amp;B 저장소에 GitHub 이슈](https://github.com/wandb/wandb)를 생성하세요.
-</Warning>
+<Warning>`x_` 접두사가 붙은 매개변수(`x_label` 등)는 공개 프리뷰 상태입니다. 피드백을 보내려면 [W&amp;B 저장소에 GitHub 이슈](https://github.com/wandb/wandb)를 생성하세요.</Warning>
 
-콘솔 로그 페이지 상단의 UI 검색창에서 `wandb.Settings`의 `x_label` 인수로 전달한 레이블을 기준으로 콘솔 로그를 필터링할 수 있습니다.
-
-```python
-import wandb
-
-# 기본 노드에서 run 초기화
-with wandb.init(
-    entity="entity",
-    project="project",
-    settings=wandb.Settings(
-        x_label="custom_label"  # (선택) 로그 필터링을 위한 맞춤형 레이블
-    )
-) as run:
-    # 여기에 코드 작성
-```
-
+콘솔 로그 페이지 상단의 UI 검색창에서 `wandb.Settings`의 `x_label` 인수로 전달한 라벨을 기준으로 콘솔 로그를 필터링할 수 있습니다. 
 
 <div id="download-console-logs">
   ## 콘솔 로그 다운로드

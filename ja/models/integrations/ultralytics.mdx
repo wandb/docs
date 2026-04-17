@@ -16,20 +16,9 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 1. `ultralytics` と `wandb` をインストールします。
 
    <Tabs>
-     <Tab title="コマンドライン">
-       ```shell
-           pip install --upgrade ultralytics==8.0.238 wandb
+     <Tab title="コマンドライン" />
 
-           # または
-           # conda install ultralytics
-       ```
-     </Tab>
-
-     <Tab title="ノートブック">
-       ```bash
-           !pip install --upgrade ultralytics==8.0.238 wandb
-       ```
-     </Tab>
+     <Tab title="ノートブック">`bash !pip install --upgrade ultralytics==8.0.238 wandb `</Tab>
    </Tabs>
 
    開発チームは、このインテグレーションを `ultralyticsv8.0.238` 以下でテストしています。インテグレーションに関する問題を報告する場合は、`yolov8` タグを付けて [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) を作成してください。
@@ -55,29 +44,21 @@ from ultralytics import YOLO
 
 任意の `YOLO` モデルを初期化し、モデルで推論を実行する前に `add_wandb_callback` 関数を呼び出します。これにより、トレーニング、ファインチューニング、検証、または推論を実行すると、実験ログと画像が自動的に保存されます。画像は、W&amp;B の[コンピュータビジョンタスク向けインタラクティブオーバーレイ](/ja/models/track/log/media/#image-overlays-in-tables)を使用して、グラウンドトゥルースと対応する予測結果の両方を重ねて表示した状態で保存され、さらに追加のインサイトが [`wandb.Table`](/ja/models/tables/) に記録されます。
 
-```python
-with wandb.init(project="ultralytics", job_type="train") as run:
-
-    # YOLOモデルを初期化する
-    model = YOLO("yolov8n.pt")
-
-    # UltralyticsにW&Bコールバックを追加する
-    add_wandb_callback(model, enable_model_checkpointing=True)
-
-    # モデルをトレーニング/ファインチューニングする
-    # 各エポックの終了時に、検証バッチの予測結果が
-    # コンピュータビジョンタスク向けのインタラクティブオーバーレイとともに
-    # W&Bの表にログされる
-    model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
-```
-
 W&amp;B でトラッキングした Ultralytics のトレーニングまたはファインチューニングのワークフローの Experiments は、次のように表示されます。
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"><a href="https://imgur.com/a/TB76U9O">YOLO ファインチューニング Experiments</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O">
+  <a href="https://imgur.com/a/TB76U9O">YOLO ファインチューニング Experiments</a>
+</blockquote>
+
+<script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
 
 各エポックの検証結果は、[W&amp;B Table](/ja/models/tables/) を使って次のように可視化されます。
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4"><a href="https://imgur.com/a/kU5h7W4">WandB 検証可視化 Table</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4">
+  <a href="https://imgur.com/a/kU5h7W4">WandB 検証可視化 Table</a>
+</blockquote>
+
+<script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
 
 <div id="visualize-prediction-results">
   ## 予測結果を可視化する
@@ -111,32 +92,15 @@ from ultralytics.engine.model import YOLO
 
 `wandb.init()` を使用して W&amp;B [run](/ja/models/runs/) を初期化します。次に、使用する `YOLO` モデルを初期化し、そのモデルで推論を実行する前に `add_wandb_callback` 関数を呼び出します。これにより、推論の実行時に、[コンピュータビジョンタスク向けのインタラクティブなオーバーレイ](/ja/models/track/log/media/#image-overlays-in-tables) が重ねられた画像が、追加のインサイトとともに [`wandb.Table`](/ja/models/tables/) に自動的にログされます。
 
-```python
-# W&B runを初期化する
-with wandb.init(project="ultralytics", job_type="inference") as run:
-    # YOLOモデルを初期化する
-    model = YOLO("yolov8n.pt")
-
-    # UltralyticsのW&Bコールバックを追加する
-    add_wandb_callback(model, enable_model_checkpointing=True)
-
-    # 予測を実行すると、バウンディングボックスやセグメンテーションマスクの
-    # インタラクティブオーバーレイとともにW&B Tableに自動的にログされる
-    model(
-        [
-            "./assets/img1.jpeg",
-            "./assets/img3.png",
-            "./assets/img4.jpeg",
-            "./assets/img5.jpeg",
-        ]
-    )
-```
-
 トレーニングまたはファインチューニングのワークフローでは、`wandb.init()` を使って run を明示的に初期化する必要はありません。ただし、コードが予測のみを行う場合は、run を明示的に作成する必要があります。
 
 インタラクティブな bbox オーバーレイは次のように表示されます。
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"><a href="https://imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs">
+  <a href="https://imgur.com/a/UTSiufs">WandB Image Overlay</a>
+</blockquote>
+
+<script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
 
 詳細については、[W&amp;B image overlays ガイド](/ja/models/track/log/media/#image-overlays)を参照してください。
 

@@ -78,48 +78,6 @@ Vous découvrez W&amp;B ? Voir notre [guide de démarrage rapide](/fr/models/qu
 
 Pour les optimiseurs DSPy qui utilisent `dspy.Evaluate` (comme MIPROv2), utilisez `WandbDSPyCallback` pour journaliser les métriques d’évaluation au fil du temps et suivre l’évolution de la signature du programme dans les W&amp;B Tables.
 
-```python
-import dspy
-from dspy.datasets import MATH
-
-import weave
-import wandb
-from wandb.integration.dspy import WandbDSPyCallback
-
-# Initialiser W&B (importer weave est suffisant ; pas besoin d'appeler weave.init explicitement)
-project_name = "dspy-optimization"
-with wandb.init(project=project_name) as run:
-    # Ajouter le callback W&B à DSPy
-    dspy.settings.callbacks.append(
-        WandbDSPyCallback(run=run)
-    )
-
-    # Configurer les modèles de langage
-    teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
-    student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
-    dspy.configure(lm=student_lm)
-
-    # Charger le jeu de données et définir le programme
-    dataset = MATH(subset='algebra')
-    program = dspy.ChainOfThought("question -> answer")
-
-    # Configurer et exécuter l'optimiseur
-    optimizer = dspy.MIPROv2(
-        metric=dataset.metric,
-        auto="light",
-        num_threads=24,
-        teacher_settings=dict(lm=teacher_lm),
-        prompt_model=student_lm
-    )
-
-    optimized_program = optimizer.compile(
-        program,
-        trainset=dataset.train,
-        max_bootstrapped_demos=2,
-        max_labeled_demos=2
-    )
-```
-
 Après avoir exécuté ce code, vous obtenez à la fois une URL de run W&amp;B et une URL Weave. W&amp;B affiche les métriques d&#39;évaluation au fil du temps, ainsi que des Tables montrant l&#39;évolution des signatures du programme. L&#39;onglet **Aperçu** du run inclut des liens vers les traces Weave pour une inspection détaillée.
 
 Si aucun objet `run` n&#39;est passé à `WandbDSPyCallback`, l&#39;objet global `run` est utilisé.
@@ -135,20 +93,6 @@ Pour des informations complètes sur le tracing dans Weave, l&#39;évaluation et
 </div>
 
 Activez un logging détaillé des prédictions pour inspecter des exemples individuels pendant l’optimisation. Le callback crée une W&amp;B Tables pour chaque étape d’évaluation, ce qui peut vous aider à analyser des réussites et des échecs précis.
-
-```python
-from wandb.integration.dspy import WandbDSPyCallback
-
-# Activer la journalisation des prédictions (activée par défaut)
-callback = WandbDSPyCallback(log_results=True)
-dspy.settings.callbacks.append(callback)
-
-# Lancer votre optimisation
-optimized_program = optimizer.compile(program, trainset=train_data)
-
-# Désactiver la journalisation des prédictions si nécessaire
-# callback = WandbDSPyCallback(log_results=False)
-```
 
 <div id="access-prediction-data">
   ### Accéder aux données de prédiction
@@ -174,32 +118,3 @@ Pour en savoir plus, consultez le [guide W&amp;B Tables](/fr/models/tables/visua
 </div>
 
 Pour reproduire et versionner vos meilleurs programmes DSpy, enregistrez-les sous forme de W&amp;B Artifacts. Choisissez entre enregistrer l’intégralité du programme ou seulement son état.
-
-```python
-from wandb.integration.dspy import WandbDSPyCallback
-
-# Créer une instance de callback
-callback = WandbDSPyCallback()
-dspy.settings.callbacks.append(callback)
-
-# Lancer l'optimisation
-optimized_program = optimizer.compile(program, trainset=train_data)
-
-# Options de sauvegarde :
-
-# 1. Programme complet (recommandé) - inclut l'architecture et l'état
-callback.log_best_model(optimized_program, save_program=True)
-
-# 2. État uniquement en JSON - plus léger, lisible par un humain
-callback.log_best_model(optimized_program, save_program=False, filetype="json")
-
-# 3. État uniquement en pickle - préserve les objets Python
-callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
-
-# Ajouter des alias personnalisés pour la gestion des versions
-callback.log_best_model(
-    optimized_program,
-    save_program=True,
-    aliases=["best", "production", "v2.0"]
-)
-```

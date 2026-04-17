@@ -39,35 +39,6 @@ Vous pouvez enregistrer des gestionnaires de signaux personnalisés dans votre s
 
 L’exemple suivant enregistre des gestionnaires pour `SIGUSR1` (un signal de préemption de cluster courant) et `SIGTERM`. Il laisse `SIGINT` libre pour une utilisation interactive (par exemple, une annulation manuelle depuis le terminal). Le gestionnaire appelle `wandb.run.mark_preempting()` et quitte avec `128 + signum` :
 
-```python
-import signal
-import sys
-import wandb
-
-
-def signal_handler(signum, frame):
-    if wandb.run is not None:
-        # Facultatif : sauvegarder un point de contrôle du modèle, vider les tampons, etc.
-        print(f"Preempted with signal: {signal.Signals(signum).name}.")
-        wandb.run.mark_preempting()
-    sys.exit(128 + signum)
-
-
-def train():
-    signal.signal(signal.SIGUSR1, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-
-    with wandb.init() as run:
-        config = wandb.config
-        for epoch in range(100):
-            # Étape d'entraînement ; wandb.log(...) selon les besoins
-            pass
-
-
-if __name__ == "__main__":
-    train()
-```
-
 <div id="sigkill-uncatchable">
   ## `SIGKILL` (impossible à intercepter)
 </div>

@@ -17,27 +17,6 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
     Les trois champs requis sont `llm_id`, `prompt_token_cost` et `completion_token_cost`.
     `llm_id` est le nom du LLM (par ex. `gpt-4o`). `prompt_token_cost` et `completion_token_cost` correspondent au coût par token du LLM (si le prix du LLM est indiqué par million de tokens, veillez à convertir la valeur).
     Vous pouvez également définir `effective_date` sur une valeur datetime afin que le coût prenne effet à une date précise ; par défaut, la date du jour est utilisée.
-
-    ```python lines
-    import weave
-    from datetime import datetime
-
-    client = weave.init("my_custom_cost_model")
-
-    client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=0.01,
-        completion_token_cost=0.02
-    )
-
-    client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=10,
-        completion_token_cost=20,
-        # Par exemple, si je veux augmenter le prix du modèle après une certaine date
-        effective_date=datetime(2025, 4, 22),
-    )
-    ```
   </Tab>
 
   <Tab title="TypeScript">
@@ -106,41 +85,6 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 <Tabs>
   <Tab title="Python">
     Vous pouvez calculer les coûts d’un projet à l’aide de notre `calls_query` et en ajoutant `include_costs=True`, avec un peu de configuration.
-
-    ```python lines
-    import weave
-
-    weave.init("project_costs")
-    @weave.op()
-    def get_costs_for_project(project_name: str):
-        total_cost = 0
-        requests = 0
-
-        client = weave.init(project_name)
-        # Récupérer tous les appels du projet
-        calls = list(
-            client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
-        )
-
-        for call in calls:
-            # Si l'appel a des coûts, les ajouter au coût total
-            if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
-                for k, cost in call.summary["weave"]["costs"].items():
-                    requests += cost["requests"]
-                    total_cost += cost["prompt_tokens_total_cost"]
-                    total_cost += cost["completion_tokens_total_cost"]
-
-        # Renvoyer le coût total, le nombre de requêtes et le nombre d'appels
-        return {
-            "total_cost": total_cost,
-            "requests": requests,
-            "calls": len(calls),
-        }
-
-    # Comme nous avons décoré notre fonction avec @weave.op(),
-    # nos totaux sont stockés dans weave pour les calculs historiques du coût total
-    get_costs_for_project("my_custom_cost_model")
-    ```
   </Tab>
 
   <Tab title="TypeScript">

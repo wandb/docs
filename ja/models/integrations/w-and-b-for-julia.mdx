@@ -6,29 +6,3 @@ title: Julia 向け W&B
 Julia で機械学習の実験を行っている方向けに、コミュニティのコントリビューターが、利用できる非公式の Julia バインディング [wandb.jl](https://github.com/avik-pal/Wandb.jl) を作成しています。
 
 例は wandb.jl リポジトリの[ドキュメント](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)にあります。&quot;Getting Started&quot; の例はこちらです。
-
-```julia
-using Wandb, Dates, Logging
-
-# 新しいrunを開始し、設定でハイパーパラメーターをトラッキングする
-lg = WandbLogger(project = "Wandb.jl",
-                 name = "wandbjl-demo-$(now())",
-                 config = Dict("learning_rate" => 0.01,
-                               "dropout" => 0.2,
-                               "architecture" => "CNN",
-                               "dataset" => "CIFAR-100"))
-
-# LoggingExtras.jl を使用して複数のロガーに同時にログする
-global_logger(lg)
-
-# トレーニングまたは評価ループのシミュレーション
-for x ∈ 1:50
-    acc = log(1 + x + rand() * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
-    loss = 10 - log(1 + x + rand() + x * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
-    # スクリプトからW&Bにメトリクスをログする
-    @info "metrics" accuracy=acc loss=loss
-end
-
-# runを終了する
-close(lg)
-```

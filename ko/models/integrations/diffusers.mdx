@@ -15,14 +15,6 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 코드 2줄만 추가하면 실험과 관련된 모든 프롬프트, 네거티브 프롬프트, 생성된 미디어, 설정을 기록할 수 있습니다. 로깅을 시작하려면 아래 2줄의 코드를 추가하세요:
 
-```python
-# autolog 함수 임포트
-from wandb.integration.diffusers import autolog
-
-# 파이프라인을 호출하기 전에 autolog를 호출하세요
-autolog(init=dict(project="diffusers_logging"))
-```
-
 <Frame caption="실험 결과가 로깅되는 예시입니다.">
   <img src="/images/integrations/diffusers-autolog-4.gif" alt="실험 결과 로깅" />
 </Frame>
@@ -71,74 +63,9 @@ autolog(init=dict(project="diffusers_logging"))
 다음은 자동 로깅이 실제로 동작하는 모습을 보여주는 간단한 엔드 투 엔드 예시입니다:
 
 <Tabs>
-  <Tab title="스크립트">
-    ```python
-    import torch
-    from diffusers import DiffusionPipeline
+  <Tab title="스크립트" />
 
-    # autolog 함수를 임포트합니다
-    from wandb.integration.diffusers import autolog
-
-    # 파이프라인을 호출하기 전에 autolog를 호출합니다
-    autolog(init=dict(project="diffusers_logging"))
-
-    # 디퓨전 파이프라인을 초기화합니다
-    pipeline = DiffusionPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
-    ).to("cuda")
-
-    # 프롬프트, 네거티브 프롬프트, 시드를 정의합니다.
-    prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
-    negative_prompt = ["ugly, deformed", "ugly, deformed"]
-    generator = torch.Generator(device="cpu").manual_seed(10)
-
-    # 이미지를 생성하기 위해 파이프라인을 호출합니다
-    images = pipeline(
-        prompt,
-        negative_prompt=negative_prompt,
-        num_images_per_prompt=2,
-        generator=generator,
-    )
-    ```
-  </Tab>
-
-  <Tab title="노트북">
-    ```python
-    import torch
-    from diffusers import DiffusionPipeline
-
-    import wandb
-
-    # autolog 함수를 임포트합니다
-    from wandb.integration.diffusers import autolog
-
-    run = wandb.init()
-
-    # 파이프라인을 호출하기 전에 autolog를 호출합니다
-    autolog(init=dict(project="diffusers_logging"))
-
-    # 디퓨전 파이프라인을 초기화합니다
-    pipeline = DiffusionPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
-    ).to("cuda")
-
-    # 프롬프트, 네거티브 프롬프트, 시드를 정의합니다.
-    prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
-    negative_prompt = ["ugly, deformed", "ugly, deformed"]
-    generator = torch.Generator(device="cpu").manual_seed(10)
-
-    # 이미지를 생성하기 위해 파이프라인을 호출합니다
-    images = pipeline(
-        prompt,
-        negative_prompt=negative_prompt,
-        num_images_per_prompt=2,
-        generator=generator,
-    )
-
-    # 실험을 종료합니다
-    run.finish()
-    ```
-  </Tab>
+  <Tab title="노트북" />
 </Tabs>
 
 * 단일 실험 결과:
@@ -170,133 +97,14 @@ autolog(init=dict(project="diffusers_logging"))
 이 섹션에서는 일반적인 [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) 워크플로를 사용해 autolog를 보여줍니다. 이 워크플로에서는 [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl)에서 생성된 latent를 해당 refiner가 후처리합니다.
 
 <Tabs>
-  <Tab title="Python 스크립트">
-    ```python
-    import torch
-    from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
-    from wandb.integration.diffusers import autolog
+  <Tab title="Python Script" />
 
-    # SDXL 기본 파이프라인 초기화
-    base_pipeline = StableDiffusionXLPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-base-1.0",
-        torch_dtype=torch.float16,
-        variant="fp16",
-        use_safetensors=True,
-    )
-    base_pipeline.enable_model_cpu_offload()
-
-    # SDXL 리파이너 파이프라인 초기화
-    refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-refiner-1.0",
-        text_encoder_2=base_pipeline.text_encoder_2,
-        vae=base_pipeline.vae,
-        torch_dtype=torch.float16,
-        use_safetensors=True,
-        variant="fp16",
-    )
-    refiner_pipeline.enable_model_cpu_offload()
-
-    prompt = "a photo of an astronaut riding a horse on mars"
-    negative_prompt = "static, frame, painting, illustration, sd character, low quality, low resolution, greyscale, monochrome, nose, cropped, lowres, jpeg artifacts, deformed iris, deformed pupils, bad eyes, semi-realistic worst quality, bad lips, deformed mouth, deformed face, deformed fingers, deformed toes standing still, posing"
-
-    # 무작위성을 제어하여 실험을 재현 가능하게 만듭니다.
-    # 시드는 WandB에 자동으로 로깅됩니다.
-    seed = 42
-    generator_base = torch.Generator(device="cuda").manual_seed(seed)
-    generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
-
-    # Diffusers용 WandB Autolog를 호출합니다. 프롬프트, 생성된 이미지,
-    # 파이프라인 아키텍처 및 관련 실험 설정이 모두 W&B에 자동으로 로깅되므로
-    # 이미지 생성 실험을 손쉽게 재현, 공유, 분석할 수 있습니다.
-    autolog(init=dict(project="sdxl"))
-
-    # 기본 파이프라인을 호출하여 잠재 벡터 생성
-    image = base_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        output_type="latent",
-        generator=generator_base,
-    ).images[0]
-
-    # 리파이너 파이프라인을 호출하여 정제된 이미지 생성
-    image = refiner_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        image=image[None, :],
-        generator=generator_refiner,
-    ).images[0]
-    ```
-  </Tab>
-
-  <Tab title="노트북">
-    ```python
-    import torch
-    from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
-
-    import wandb
-    from wandb.integration.diffusers import autolog
-
-    run = wandb.init()
-
-    # SDXL 기본 파이프라인 초기화
-    base_pipeline = StableDiffusionXLPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-base-1.0",
-        torch_dtype=torch.float16,
-        variant="fp16",
-        use_safetensors=True,
-    )
-    base_pipeline.enable_model_cpu_offload()
-
-    # SDXL 리파이너 파이프라인 초기화
-    refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-refiner-1.0",
-        text_encoder_2=base_pipeline.text_encoder_2,
-        vae=base_pipeline.vae,
-        torch_dtype=torch.float16,
-        use_safetensors=True,
-        variant="fp16",
-    )
-    refiner_pipeline.enable_model_cpu_offload()
-
-    prompt = "a photo of an astronaut riding a horse on mars"
-    negative_prompt = "static, frame, painting, illustration, sd character, low quality, low resolution, greyscale, monochrome, nose, cropped, lowres, jpeg artifacts, deformed iris, deformed pupils, bad eyes, semi-realistic worst quality, bad lips, deformed mouth, deformed face, deformed fingers, deformed toes standing still, posing"
-
-    # 무작위성을 제어하여 실험을 재현 가능하게 만듭니다.
-    # 시드는 WandB에 자동으로 로깅됩니다.
-    seed = 42
-    generator_base = torch.Generator(device="cuda").manual_seed(seed)
-    generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
-
-    # Diffusers용 WandB Autolog를 호출합니다. 프롬프트, 생성된 이미지,
-    # 파이프라인 아키텍처 및 관련 실험 설정이 W&B에 자동으로 로깅되어
-    # 이미지 생성 실험을 쉽게 재현, 공유, 분석할 수 있습니다.
-    autolog(init=dict(project="sdxl"))
-
-    # 기본 파이프라인을 호출하여 잠재 벡터 생성
-    image = base_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        output_type="latent",
-        generator=generator_base,
-    ).images[0]
-
-    # 리파이너 파이프라인을 호출하여 정제된 이미지 생성
-    image = refiner_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        image=image[None, :],
-        generator=generator_refiner,
-    ).images[0]
-
-    # 실험 종료
-    run.finish()
-    ```
-  </Tab>
+  <Tab title="노트북" />
 </Tabs>
 
-* Stable Diffusion XL + Refiner 실험 예시:
+* Stable Diffisuion XL + Refiner 실험 예시:
   <Frame>
-    <img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL 실험 추적" />
+    <img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking" />
   </Frame>
 
 <div id="more-resources">

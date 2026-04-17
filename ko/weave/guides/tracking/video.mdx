@@ -58,53 +58,12 @@ Weave는 다음과 같은 `moviepy` 비디오 클립 객체를 인식합니다:
 3. 클립을 Weave에 업로드하고 추적합니다.
 4. 비디오를 찾지 못하면 더미 MP4 비디오를 자동으로 생성합니다.
 
-<Warning>
-  스레드 안전성 문제를 방지하려면 Weave `op` 외부에서 `VideoFileClip` 객체를 생성하지 말고, 항상 경로를 전달하세요.
-</Warning>
+<Warning>스레드 안전성 문제를 방지하려면 Weave `op` 외부에서 `VideoFileClip` 객체를 생성하지 말고, 항상 경로를 전달하세요.</Warning>
 
 다음 코드 스니펫을 사용하기 전에 [사용을 위한 사전 요구 사항](#usage-prerequisites)을 완료하세요.
 
-```python lines
-import os
-import weave
-from moviepy.editor import VideoFileClip, ColorClip, VideoClip
-
-# 프로젝트 이름으로 업데이트하거나, 'video-test'라는 새 프로젝트를 생성하세요
-weave.init('video-test')
-
-@weave.op
-def get_video(clip: VideoFileClip) -> VideoClip:
-    """클립을 직접 전달하는 대신 경로를 통해 비디오를 처리합니다.
-
-    이렇게 하면 VideoFileClip이 Weave op의 스레드 컨텍스트 내에서
-    생성 및 관리되어 스레드 안전성 문제를 방지할 수 있습니다.
-    """
-    new_clip = clip.subclip(0, 1)
-    return new_clip
-
-if __name__ == "__main__":
-    os.makedirs("videos", exist_ok=True)
-
-    # MP4 파일 경로로 업데이트하세요
-    video_path = './videos/example.mp4'
-
-    # 파일이 없으면 더미 비디오를 생성합니다
-    # 더미 비디오 내용: 5초 동안 표시되는 빨간색 사각형
-    if not os.path.isfile(video_path):
-        print("비디오를 찾을 수 없습니다. 더미 비디오를 생성합니다...")
-        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
-        dummy_clip.write_videofile(video_path, fps=24)
-
-    clip = VideoFileClip(video_path, has_mask=False, audio=True)
-    get_video(clip) 
-```
-
 코드 예제가 정상적으로 실행되면 프로젝트의 **Traces** 테이블에서 링크를 클릭해 비디오를 볼 수 있습니다.
 
-<Frame>
-  ![Traces 테이블에 표시된 비디오 처리 함수의 트레이스.](/weave/guides/tracking/imgs/video-trace.png)
-</Frame>
+<Frame>![Traces 테이블에 표시된 비디오 처리 함수의 트레이스.](/weave/guides/tracking/imgs/video-trace.png)</Frame>
 
-<Frame>
-  ![Weave에 업로드된 MP4 비디오를 Traces 팝아웃에서 보는 모습.](/weave/guides/tracking/imgs/video-trace-popout.png)
-</Frame>
+<Frame>![Weave에 업로드된 MP4 비디오를 Traces 팝아웃에서 보는 모습.](/weave/guides/tracking/imgs/video-trace-popout.png)</Frame>

@@ -46,17 +46,6 @@ launch(
   #### Exemple :
 </div>
 
-```python
-from wandb.sdk.launch import launch
-
-job = "wandb/jobs/Hello World:latest"
-params = {"epochs": 5}
-# Exécuter le projet W&B et créer un environnement Docker reproductible
-# sur un hôte local
-api = wandb.apis.internal.Api()
-launch(api, job, parameters=params)
-```
-
 | Renvoie                                                                                                          | Description |
 | :--------------------------------------------------------------------------------------------------------------- | :---------- |
 | une instance de `wandb.launch.SubmittedRun` qui fournit des informations (par ex. l’ID du run) sur le run lancé. |             |

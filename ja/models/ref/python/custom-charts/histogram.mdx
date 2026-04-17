@@ -34,29 +34,3 @@ W&amp;B Table からヒストグラムチャートを作成します。
 * `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
 **例:**
-
-```python
-import math
-import random
-import wandb
-
-# ランダムデータを生成する
-data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
-
-# W&B の表を作成する
-table = wandb.Table(
-    data=data,
-    columns=["step", "height"],
-)
-
-# ヒストグラムのプロットを作成する
-histogram = wandb.plot.histogram(
-    table,
-    value="height",
-    title="My Histogram",
-)
-
-# ヒストグラムのプロットを W&B にログする
-with wandb.init(...) as run:
-    run.log({"histogram-plot1": histogram})
-```

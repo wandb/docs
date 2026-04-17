@@ -19,32 +19,6 @@ Weave は、[MistralAI Python library](https://github.com/mistralai/client-pytho
 
 Weave は [mistralai](https://github.com/mistralai/client-python) のトレースを自動的に取得します。ライブラリは通常どおり使用でき、まず `weave.init()` を呼び出します。
 
-```python lines
-import weave
-weave.init("cheese_recommender")
-
-# 通常通りmistralaiライブラリを使用する
-import os
-from mistralai import Mistral
-
-api_key = os.environ["MISTRAL_API_KEY"]
-model = "mistral-large-latest"
-
-client = Mistral(api_key=api_key)
-
-messages = [
-    {
-        "role": "user",
-        "content": "What is the best French cheese?",
-    },
-]
-
-chat_response = client.chat.complete(
-    model=model,
-    messages=messages,
-)
-```
-
 これで、Weave は MistralAI ライブラリ経由のすべての LLM 呼び出しをトラッキングしてログします。トレースは Weave の Web インターフェースで確認できます。
 
 [![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
@@ -89,43 +63,5 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 [`Model`](/ja/weave/guides/core-types/models) は、コードのバージョン管理や入出力の記録に加えて、アプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も効果的だったかを簡単に検索できます。また、Weave Models は `serve` や [`評価`](/ja/weave/guides/core-types/evaluations) でも使用できます。
 
 以下の例では、`model` と `country` を試せます。これらのいずれかを変更するたびに、`CheeseRecommender` の新しい *version* が作成されます。
-
-```python lines
-import weave
-from mistralai import Mistral
-
-weave.init("mistralai_project")
-
-class CheeseRecommender(weave.Model): # `weave.Model` に変更
-    model: str
-    temperature: float
-
-    @weave.op()
-    def predict(self, region:str) -> str: # `predict` に変更
-        "指定された地域で最高のチーズを推薦する"
-        
-        client = Mistral(api_key=api_key)
-
-        messages = [
-            {
-                "role": "user",
-                "content": f"What is the best cheese in {region}?",
-            },
-        ]
-
-        chat_response = client.chat.complete(
-            model=model,
-            messages=messages,
-            temperature=self.temperature
-        )
-        return chat_response.choices[0].message.content
-
-cheese_model = CheeseRecommender(
-    model="mistral-medium-latest",
-    temperature=0.0
-    )
-result = cheese_model.predict(region="France")
-print(result)
-```
 
 [![mistral\_model.png](/weave/guides/integrations/imgs/mistral_model.png)](https://wandb.ai/capecape/mistralai_project/weave/models)

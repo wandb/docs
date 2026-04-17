@@ -21,21 +21,6 @@ W&amp;B 차트를 만들려면 다음 단계를 따르세요.
   <Tab title="선 차트">
     임의의 축에 연결된 순서 있는 점 목록으로 구성된 맞춤형 선형 플롯을 기록합니다.
 
-    ```python
-    import wandb
-
-    with wandb.init() as run:
-        data = [[x, y] for (x, y) in zip(x_values, y_values)]
-        table = wandb.Table(data=data, columns=["x", "y"])
-        run.log(
-            {
-                "my_custom_plot_id": wandb.plot.line(
-                    table, "x", "y", title="Custom Y versus X line plot"
-                )
-            }
-        )
-    ```
-
     이 기능을 사용하면 어떤 두 차원에서든 곡선을 로그할 수 있습니다. 두 값 목록을 서로 대응해 플로팅하는 경우, 두 목록의 값 개수는 정확히 일치해야 합니다. 예를 들어 각 점에는 x값과 y값이 모두 있어야 합니다.
 
     <Frame>
@@ -191,17 +176,6 @@ W&amp;B 차트를 만들려면 다음 단계를 따르세요.
   <Tab title="ROC 곡선">
     한 줄로 [ROC 곡선](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve)을 생성하세요:
 
-    ```python
-    import wandb
-
-    with wandb.init() as run:
-        # ground_truth는 실제 레이블 목록이고, predictions는 예측 점수 목록입니다.
-        # 예를 들어 ground_truth = [0, 1, 1, 0]이고, predictions = [0.1, 0.4, 0.35, 0.8]입니다.
-        ground_truth = [0, 1, 1, 0]
-        predictions = [0.1, 0.4, 0.35, 0.8]
-        run.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
-    ```
-
     코드에서 다음 항목에 접근할 수 있을 때마다 이를 기록할 수 있습니다.
 
     * 예제 집합에 대한 모델의 예측 점수(`predictions`)
@@ -252,30 +226,7 @@ W&amp;B 차트를 만들려면 다음 단계를 따르세요.
   ### 대화형 맞춤형 차트
 </div>
 
-전체적으로 맞춤 설정하려면 기본 제공 [맞춤형 차트 프리셋](/ko/models/app/features/custom-charts/walkthrough/)을 조정하거나 새 프리셋을 만든 다음 차트를 저장하세요. 차트 ID를 사용해 스크립트에서 바로 해당 맞춤형 프리셋에 데이터를 로깅할 수 있습니다.
-
-```python
-import wandb
-# 플롯할 열이 포함된 테이블을 생성합니다.
-table = wandb.Table(data=data, columns=["step", "height"])
-
-# 테이블의 열을 차트의 필드에 매핑합니다.
-fields = {"x": "step", "value": "height"}
-
-# 테이블을 사용하여 새 맞춤형 차트 프리셋을 채웁니다.
-# 저장한 차트 프리셋을 사용하려면 vega_spec_name을 변경하세요.
-# 제목을 수정하려면 string_fields를 변경하세요.
-my_custom_chart = wandb.plot_table(
-    vega_spec_name="carey/new_chart",
-    data_table=table,
-    fields=fields,
-    string_fields={"title": "Height Histogram"},
-)
-
-with wandb.init() as run:
-    # 맞춤형 차트를 로깅합니다.
-    run.log({"my_custom_chart": my_custom_chart})
-```
+전체적으로 맞춤 설정하려면 기본 제공 [맞춤형 차트 사전 설정](/ko/models/app/features/custom-charts/walkthrough/)을 조정하거나 새 사전 설정을 만든 다음 차트를 저장하세요. 차트 ID를 사용해 스크립트에서 바로 해당 맞춤형 사전 설정에 데이터를 로깅할 수 있습니다.
 
 [코드를 실행해 보세요](https://tiny.cc/custom-charts)
 
@@ -285,25 +236,9 @@ with wandb.init() as run:
 
 `wandb.plot()`으로 W&amp;B [맞춤형 차트](/ko/models/app/features/custom-charts/walkthrough/)를 사용하는 대신, [matplotlib](https://matplotlib.org/)와 [Plotly](https://plotly.com/)로 생성한 차트를 로깅할 수 있습니다.
 
-```python
-import wandb
-import matplotlib.pyplot as plt
-
-with wandb.init() as run:
-    # 단순한 matplotlib 플롯을 생성합니다.
-    plt.figure()
-    plt.plot([1, 2, 3, 4])
-    plt.ylabel("some interesting numbers")
-
-    # 플롯을 W&B에 로깅합니다.
-    run.log({"chart": plt})
-```
-
 `matplotlib` 플롯 또는 figure 객체를 `wandb.Run.log()`에 전달하기만 하면 됩니다. 기본적으로는 플롯을 [Plotly](https://plot.ly/) 플롯으로 변환합니다. 플롯을 이미지로 로깅하려면 `wandb.Image`에 플롯을 전달하면 됩니다. Plotly 차트도 직접 지원합니다.
 
-<Note>
-  &quot;You attempted to log an empty plot&quot;와 같은 오류가 발생하면, `fig = plt.figure()`로 figure를 플롯과 별도로 저장한 다음 `wandb.Run.log()`를 호출할 때 `fig`를 로깅하세요.
-</Note>
+<Note>&quot;You attempted to log an empty plot&quot;와 같은 오류가 발생하면, `fig = plt.figure()`로 figure를 플롯과 별도로 저장한 다음 `wandb.Run.log()`를 호출할 때 `fig`를 로깅하세요.</Note>
 
 <div id="log-custom-html-to-wb-tables">
   ### W&amp;B Tables에 맞춤형 HTML 로깅하기
@@ -316,34 +251,6 @@ W&amp;B에서는 Plotly와 Bokeh의 대화형 차트를 HTML로 로깅해 Tables
 </div>
 
 대화형 Plotly 차트를 HTML로 변환해 W&amp;B Tables에 로깅할 수 있습니다.
-
-```python
-import wandb
-import plotly.express as px
-
-# 새 run을 초기화합니다.
-with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
-
-    # 테이블을 생성합니다.
-    table = wandb.Table(columns=["plotly_figure"])
-
-    # Plotly 그림의 경로를 생성합니다.
-    path_to_plotly_html = "./plotly_figure.html"
-
-    # Plotly 그림 예시입니다.
-    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
-
-    # Plotly 그림을 HTML로 저장합니다.
-    # auto_play를 False로 설정하면 애니메이션 Plotly 차트가
-    # 테이블에서 자동으로 재생되는 것을 방지합니다.
-    fig.write_html(path_to_plotly_html, auto_play=False)
-
-    # Plotly 그림을 HTML 파일로 Table에 추가합니다.
-    table.add_data(wandb.Html(path_to_plotly_html))
-
-    # 테이블을 로깅합니다.
-    run.log({"test_table": table})
-```
 
 <div id="log-bokeh-figures-to-tables-as-html">
   #### Bokeh figure를 HTML로 변환해 Tables에 로깅하기

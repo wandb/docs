@@ -88,32 +88,4 @@ L’API W&amp;B Automations permet de créer et de gérer par programmation des 
 
 L’exemple suivant crée une automatisation qui envoie une notification Slack chaque fois qu’une métrique appelée `custom-metric` dépasse 10. La métrique `custom-metric` est censée être enregistrée pendant l’entraînement à l’aide de `wandb.Run.log({"custom-metric": value })`.
 
-```python
-import wandb
-from wandb.automations import OnRunMetric, RunEvent, SendNotification
-
-api = wandb.Api()
-
-project = api.project("<my-project>", entity="<my-team>")
-
-# Utiliser la première intégration Slack pour l'équipe
-slack_hook = next(api.slack_integrations(entity="<my-team>"))
-
-# Créer un événement déclencheur
-event = OnRunMetric(
-     scope=project,
-     filter=RunEvent.metric("custom-metric") > 10,
-)
-
-# Créer une action qui répond à l'événement
-action = SendNotification.from_integration(slack_hook)
-
-# Créer l'automatisation
-automation = api.create_automation(
-     event >> action,
-     name="my-automation",
-     description="Envoyer un message Slack chaque fois que 'custom-metric' dépasse 10.",
-)
-```
-
 Pour en savoir plus sur l’utilisation de l’API Automations, consultez le [guide Automations](/fr/models/automations/).

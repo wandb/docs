@@ -452,26 +452,9 @@ command:
   - "--test=True"
 ```
 
-그러면 연결된 Python 스크립트(`run.py`)에서 `argparse` 모듈을 사용해 이러한 명령줄 인자를 파싱할 수 있습니다.
+그러면 연결된 Python 스크립트(`run.py`)에서 `argparse` 모듈을 사용해 이러한 명령줄 인수를 파싱할 수 있습니다.
 
-```python title="run.py"
-# run.py  
-import wandb
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--batch_size', type=int)
-parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
-parser.add_argument('--test', type=str2bool, default=False)
-args = parser.parse_args()
-
-# W&B Run 초기화
-with wandb.init('test-project') as run:
-    run.log({'validation_loss':1})
-```
-
-Sweep 설정에서 사용할 수 있는 미리 정의된 매크로 목록은 [Sweep 설정 옵션](./sweep-config-keys)의 [Command 매크로](./sweep-config-keys#command-macros) 섹션을 참조하세요.
-
+Sweep 설정에서 사용할 수 있는 미리 정의된 매크로 목록은 [Sweep 설정 옵션](./sweep-config-keys)의 [Command 매크로](./sweep-config-keys#command-macros) 섹션을 참조하세요. 
 
 <div id="boolean-arguments">
   #### 불리언 인수
@@ -481,25 +464,4 @@ Sweep 설정에서 사용할 수 있는 미리 정의된 매크로 목록은 [Sw
 
 예를 들어, 다음 코드 스니펫을 사용해 불리언 인수를 정의할 수 있습니다. `ArgumentParser`에 인수로 `store_true` 또는 `store_false`를 전달하세요.
 
-```python
-import wandb
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--test', action='store_true')
-args = parser.parse_args()
-
-args.test  # --test가 전달되면 True, 그렇지 않으면 False
-```
-
-불리언 값의 문자열 표현을 불리언 유형으로 변환하는 맞춤형 함수를 직접 정의할 수도 있습니다. 예를 들어, 다음 코드 예제는 문자열을 불리언 값으로 변환하는 `str2bool` 함수를 정의합니다.
-
-```python
-def str2bool(v: str) -> bool:
-  """문자열을 불리언으로 변환합니다. argparse가 기본적으로
-  불리언 인수를 지원하지 않기 때문에 이 함수가 필요합니다.
-  """
-  if isinstance(v, bool):
-      return v
-  return v.lower() in ('yes', 'true', 't', '1')
-```
+불리언 값의 문자열 표현을 불리언 유형으로 변환하는 맞춤형 함수를 직접 정의할 수도 있습니다. 예를 들어, 다음 코드 예제는 문자열을 불리언 값으로 변환하는 `str2bool` 함수를 정의합니다. 

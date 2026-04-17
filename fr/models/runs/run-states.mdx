@@ -45,20 +45,6 @@ Affichez l&#39;état d&#39;un run, par code ou de manière interactive, avec le 
 
     L&#39;extrait de code suivant récupère et affiche l&#39;état de tous les runs d&#39;un projet donné. Copiez et collez l&#39;extrait de code suivant dans votre environnement Python. Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs :
 
-    ```python
-    import wandb
-
-    api = wandb.Api()
-
-    runs = api.runs(path="<entity>/<project>")
-
-    # Accéder aux propriétés de l'objet run
-    for run in runs:
-        print(f"Run: {run.name}")
-        print(f"Run state: {run.state}")
-        print()
-    ```
-
     Vous pouvez appliquer différents filtres pour récupérer des runs de vos projets selon divers critères. Voir [Filtrer les runs](/fr/models/runs/filter-runs) pour en savoir plus sur le filtrage des runs par code.
   </Tab>
 
@@ -71,6 +57,6 @@ Affichez l&#39;état d&#39;un run, par code ou de manière interactive, avec le 
     4. Sélectionnez le run pour ouvrir sa page d&#39;aperçu.
     5. Choisissez l&#39;onglet **Aperçu**.
 
-    À côté du champ **State**, consultez l&#39;état actuel du run.
+    À côté du champ **État**, consultez l&#39;état actuel du run.
   </Tab>
 </Tabs>

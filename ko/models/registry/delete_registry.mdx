@@ -16,23 +16,10 @@ description: "Python SDK 또는 W&B App UI를 사용하여 Team admin 또는 레
 
     1. `api.registry()`를 사용해 삭제하려는 레지스트리를 가져옵니다.
     2. 반환된 레지스트리 객체에서 `delete()` 메서드를 호출해 레지스트리를 삭제합니다.
-
-    ```python
-    import wandb
-
-    # W&B API를 초기화합니다
-    api = wandb.Api()
-
-    # 삭제하려는 레지스트리를 가져옵니다
-    fetched_registry = api.registry("<registry_name>")
-
-    # 레지스트리를 삭제합니다
-    fetched_registry.delete()
-    ```
   </Tab>
 
   <Tab title="W&B App">
-    1. https://wandb.ai/registry/의 W&amp;B Registry로 이동합니다.
+    1. [https://wandb.ai/registry/](https://wandb.ai/registry/)의 W&amp;B Registry로 이동합니다.
     2. 삭제하려는 레지스트리를 선택합니다.
     3. 오른쪽 상단의 톱니바퀴 아이콘을 클릭해 레지스트리의 Settings를 확인합니다.
     4. 레지스트리를 삭제하려면 Settings 페이지 오른쪽 상단의 휴지통 아이콘을 클릭합니다.

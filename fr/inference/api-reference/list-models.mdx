@@ -10,22 +10,7 @@ Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la po
 </div>
 
 <Tabs>
-  <Tab title="Python">
-    ```python
-    import openai
-
-    client = openai.OpenAI(
-        base_url="https://api.inference.wandb.ai/v1",
-        api_key="<your-api-key>",
-        project="<your-team>/<your-project>"  # facultatif, pour le suivi de l’utilisation
-    )
-
-    response = client.models.list()
-
-    for model in response.data:
-        print(model.id)
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="Bash">
     ```bash
@@ -42,26 +27,3 @@ Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la po
 </div>
 
 L’API renvoie des réponses dans un format compatible avec OpenAI :
-
-```json
-{
-  "object": "list",
-  "data": [
-    {
-      "id": "deepseek-ai/DeepSeek-V3.1",
-      "object": "model",
-      "created": 0,
-      "owned_by": "system",
-      "root": "deepseek-ai/DeepSeek-V3.1"
-    },
-    {
-      "id": "openai/gpt-oss-20b",
-      "object": "model",
-      "created": 0,
-      "owned_by": "system",
-      "root": "openai/gpt-oss-20b"
-    }
-    // ... plus de modèles
-  ]
-}
-```

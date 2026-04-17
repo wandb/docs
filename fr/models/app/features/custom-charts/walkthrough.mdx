@@ -6,20 +6,10 @@ title: 'Tutoriel : Utiliser des graphiques personnalisés'
 Utilisez des graphiques personnalisés pour contrôler les données chargées dans un panneau et la manière dont elles sont visualisées.
 
 <div id="1-log-data-to-wb">
-  ## 1. Enregistrez des données dans W&amp;B
+  ## 1. Journalisez des données dans W&amp;B
 </div>
 
-Commencez par enregistrer des données dans votre script. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour plusieurs points au fil du temps, et enregistrez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons d’enregistrer jusqu’à 10 000 points de données par clé enregistrée.
-
-```python
-with wandb.init() as run: 
-
-  # Journalisation d'un tableau de données personnalisé
-  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-  run.log(
-    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
-  )
-```
+Commencez par journaliser des données dans votre script. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour plusieurs points au fil du temps, et journalisez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons de journaliser jusqu’à 10 000 points de données par clé journalisée.
 
 [Essayez un notebook d’exemple rapide](https://bit.ly/custom-charts-colab) pour journaliser les tableaux de données, puis, à l’étape suivante, nous configurerons des graphiques personnalisés. Voyez le rendu des graphiques obtenus dans le [rapport en direct](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc).
 

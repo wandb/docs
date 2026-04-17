@@ -391,20 +391,6 @@ Tenez compte des points suivants lorsque vous intégrez Artifacts à votre bibli
 
 Journalisez les points de contrôle du modèle dans W&amp;B. Une approche courante consiste à journaliser les points de contrôle comme des artifacts, en utilisant le run ID unique généré par W&amp;B dans le nom de l&#39;artifact.
 
-```python
-metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
-
-artifact = wandb.Artifact(
-                name=f"model-{run.id}", 
-                metadata=metadata, 
-                type="model"
-                ) 
-artifact.add_dir("output_model") # répertoire local où sont stockés les poids du modèle
-
-aliases = ["best", "epoch_10"] 
-run.log_artifact(artifact, aliases=aliases)
-```
-
 L’extrait de code précédent montre comment enregistrer un point de contrôle du modèle en tant qu’artifact et ajouter des métadonnées telles que la précision de l’évaluation et les étapes d’entraînement. L’artifact se voit attribuer un nom qui inclut le run ID unique, et il est étiqueté avec des [alias personnalisés](/fr/models/artifacts/create-a-custom-alias/) pour s’y référer facilement.
 
 <div id="log-input-artifacts">

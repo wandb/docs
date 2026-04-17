@@ -200,17 +200,3 @@ def train_model(
 </div>
 
 [지원되는 프레임워크 인테그레이션](/ko/models/integrations)을 사용 중이라면 콜백을 직접 전달할 수도 있습니다:
-
-```python
-@wandb_log
-def train_model(
-    train_dataloader_path: components.InputPath("dataloader"),
-    test_dataloader_path: components.InputPath("dataloader"),
-    model_path: components.OutputPath("pytorch_model"),
-):
-    from pytorch_lightning.loggers import WandbLogger
-    from pytorch_lightning import Trainer
-
-    trainer = Trainer(logger=WandbLogger())
-    ...  # 트레이닝 수행
-```

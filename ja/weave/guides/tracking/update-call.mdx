@@ -31,33 +31,10 @@ Web アプリで Call を更新するには、次の手順に従います。
 <Tabs>
   <Tab title="Python">
     Call の表示名を設定するには、[`Call.set_display_name()`](/ja/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method を使用します。
-
-    ```python lines
-    import weave
-
-    # クライアントを初期化する
-    client = weave.init("your-project-name")
-
-    # ID で特定の Call を取得する
-    call = client.get_call("call-uuid-here")
-
-    # Call の表示名を設定する
-    call.set_display_name("My Custom Display Name")
-    ```
   </Tab>
 
   <Tab title="TypeScript">
     Call の表示名を設定するには、[`client.updateCall`](/ja/weave/reference/typescript-sdk/classes/weaveclient#updatecall) を使用して、call ID を直接更新します。
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    // クライアントを初期化する
-    const client = await weave.init('your-project-name')
-
-    // ID を指定して Call の表示名を更新する
-    await client.updateCall('call-uuid-here', 'My Custom Display Name')
-    ```
   </Tab>
 
   <Tab title="HTTP API">
@@ -91,19 +68,6 @@ Web アプリで Call を更新するには、次の手順に従います。
 <Tabs>
   <Tab title="Python">
     Python API を使用して Call を削除するには、[`Call.delete`](/ja/weave/reference/python-sdk/trace/weave_client#method-delete) method を使用します。
-
-    ```python lines
-    import weave
-
-    # クライアントを初期化
-    client = weave.init("your-project-name")
-
-    # ID を使って特定の Call を取得
-    call = client.get_call("call-uuid-here")
-
-    # Call を削除
-    call.delete()
-    ```
   </Tab>
 
   <Tab title="TypeScript">
@@ -141,25 +105,6 @@ Web アプリで Call を更新するには、次の手順に従います。
       * 削除できる Call の最大数は `1000` です。
       * Call を削除すると、そのすべての子 Call も削除されます。
     </Important>
-
-    ```python lines
-    import weave
-
-    # クライアントを初期化
-    client = weave.init("my-project")
-
-    # client からすべての Call を取得
-    all_calls = client.get_calls()
-
-    # 最初の 1000 件の Call オブジェクトのリストを取得
-    first_1000_calls = all_calls[:1000]
-
-    # 最初の 1000 件の Call ID のリストを取得
-    first_1000_calls_ids = [c.id for c in first_1000_calls]
-
-    # ID を指定して最初の 1000 件の Call を削除
-    client.delete_calls(call_ids=first_1000_calls_ids)
-    ```
   </Tab>
 
   <Tab title="TypeScript">

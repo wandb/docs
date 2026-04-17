@@ -198,10 +198,7 @@ import wandb
 
 api = wandb.Api()
 
-<div id="fetch-an-existing-registry">
-  # 既存のレジストリを取得する
-</div>
-
+# 既存のレジストリを取得する
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -326,10 +323,7 @@ import wandb
 
 api = wandb.Api()
 
-<div id="fetch-an-existing-registry">
-  # 既存のレジストリを取得する
-</div>
-
+# 既存のレジストリを取得する
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -374,7 +368,7 @@ update_member(
 ) → Self
 ```
 
-このレジストリ内のメンバー (ユーザーまたはチーム) のロールを更新します。
+このRegistry内のメンバー (ユーザーまたはチーム) のロールを更新します。
 
 **引数:**
 
@@ -383,45 +377,41 @@ update_member(
   * &quot;admin&quot;
   * &quot;member&quot;
   * &quot;viewer&quot;
-  * &quot;restricted&#95;viewer&quot;  (W&amp;B サーバーでサポートされる場合) 
+  * &quot;restricted&#95;viewer&quot;  (W&amp;B サーバーでサポートされる場合)
 
 **戻り値:**
-必要に応じて、さらに method チェーンを行えるよう、このレジストリ自身を返します。
+必要に応じて、さらに method チェーンを行えるよう、このRegistry自身を返します。
 
 **送出される例外:**
 
 * `ValueError`:  ユーザーまたはチームの ID を特定できない場合。
 
 **例:**
-レジストリ内のすべてのUsersを管理者にします ```python
+Registry内のすべてのUsersを管理者にします
+
+```python
 import wandb
 
 api = wandb.Api()
 
+# 既存のRegistryを取得する
+registry = api.registry(name="my-registry", organization="my-org")
 
-<div id="fetch-an-existing-registry">
-  # 既存のレジストリを取得する
-</div>
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+```
 
-registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
-
-for member in registry.user&#95;members():
-registry.update&#95;member(member.user, role=&quot;admin&quot;)
-
-````
-
----
+***
 
 ### <kbd>method</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-````
+```
 
-このレジストリに現在所属しているメンバーユーザーを返します。
+このRegistryに現在所属しているメンバーユーザーを返します。
 
 ***
-
 
 ### <kbd>method</kbd> `Registry.versions`
 

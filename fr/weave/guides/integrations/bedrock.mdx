@@ -17,35 +17,6 @@ Il existe plusieurs façons de journaliser dans Weave les appels LLM effectués 
 
 Weave capturera automatiquement les traces des appels à l’API Bedrock. Vous pouvez utiliser le client Bedrock comme d’habitude après avoir initialisé Weave et patché le client :
 
-```python lines
-import weave
-import boto3
-import json
-from weave.integrations.bedrock.bedrock_sdk import patch_client
-
-weave.init("my_bedrock_app")
-
-# Créer et patcher le client Bedrock
-client = boto3.client("bedrock-runtime")
-patch_client(client)
-
-# Utiliser le client normalement
-response = client.invoke_model(
-    modelId="anthropic.claude-3-5-sonnet-20240620-v1:0",
-    body=json.dumps({
-        "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": 100,
-        "messages": [
-            {"role": "user", "content": "What is the capital of France?"}
-        ]
-    }),
-    contentType='application/json',
-    accept='application/json'
-)
-response_dict = json.loads(response.get('body').read())
-print(response_dict["content"][0]["text"])
-```
-
 d’utiliser l’API `converse` :
 
 ```python lines
@@ -117,39 +88,6 @@ def call_model_converse(
 </div>
 
 Vous pouvez créer un Weave Model pour mieux organiser vos expériences et enregistrer des paramètres. Voici un exemple utilisant l’API `converse` :
-
-```python lines
-class BedrockLLM(weave.Model):
-    model_id: str
-    max_tokens: int = 100
-    system_message: str = "You are a helpful AI assistant."
-
-    @weave.op
-    def predict(self, prompt: str) -> str:
-        "Generate a response using Bedrock's converse API"
-        
-        messages = [{
-            "role": "user",
-            "content": [{"text": prompt}]
-        }]
-
-        response = client.converse(
-            modelId=self.model_id,
-            system=[{"text": self.system_message}],
-            messages=messages,
-            inferenceConfig={"maxTokens": self.max_tokens},
-        )
-        return response["output"]["message"]["content"][0]["text"]
-
-# Créer et utiliser le modèle
-model = BedrockLLM(
-    model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
-    max_tokens=100,
-    system_message="You are an expert software engineer that knows a lot of programming. You prefer short answers."
-)
-result = model.predict("What is the best way to handle errors in Python?")
-print(result)
-```
 
 Cette approche vous permet de versionner vos expériences et de suivre facilement les différentes configurations de votre application basée sur Bedrock.
 

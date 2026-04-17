@@ -52,48 +52,9 @@ ADK에서 Weave로 트레이스를 보내려면 `TracerProvider`와 `OTLPSpanExp
   ## ADK에서 Weave로 OTEL 트레이스 보내기
 </div>
 
-다음 코드 스니펫은 ADK 애플리케이션에서 Weave로 OTEL 트레이스를 보내도록 OTLP span exporter와 tracer provider를 설정하는 방법을 보여줍니다.
+다음 코드 스니펫은 ADK 애플리케이션에서 Weave로 OTEL 트레이스를 보내도록 OTLP span exporter와 트레이서 프로바이더를 설정하는 방법을 보여줍니다.
 
-<Warning>
-  Weave가 ADK를 올바르게 트레이스할 수 있도록, 코드에서 ADK 컴포넌트를 사용하기 *전에* 전역 tracer provider를 설정하세요.
-</Warning>
-
-```python lines
-import base64
-import os
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk import trace as trace_sdk
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor
-from opentelemetry import trace
-
-# 환경 변수에서 민감한 값 로드
-WANDB_BASE_URL = "https://trace.wandb.ai"
-# W&B entity/프로젝트 이름 (예: "myteam/myproject")
-PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
-# https://wandb.ai/settings 에서 W&B API 키 생성
-WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
-
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
-
-OTEL_EXPORTER_OTLP_HEADERS = {
-    "Authorization": f"Basic {AUTH}",
-    "project_id": PROJECT_ID,
-}
-
-# 엔드포인트와 헤더로 OTLP 스팬 익스포터 생성
-exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
-    headers=OTEL_EXPORTER_OTLP_HEADERS,
-)
-
-# 트레이서 프로바이더 생성 및 익스포터 추가
-tracer_provider = trace_sdk.TracerProvider()
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
-
-# ADK 임포트/사용 전에 전역 트레이서 프로바이더 설정
-trace.set_tracer_provider(tracer_provider)
-```
+<Warning>Weave가 ADK를 올바르게 트레이스할 수 있도록, 코드에서 ADK 컴포넌트를 사용하기 *전에* 전역 트레이서 프로바이더를 설정하세요.</Warning>
 
 <div id="trace-adk-agents-with-otel">
   ## OTEL로 ADK 에이전트 트레이스하기
@@ -101,73 +62,9 @@ trace.set_tracer_provider(tracer_provider)
 
 트레이서 프로바이더를 설정한 후에는 자동 트레이싱이 적용된 ADK 에이전트를 생성하고 실행할 수 있습니다. 다음 예제에서는 도구가 포함된 단순한 LLM 에이전트를 생성하고, 메모리 내 러너로 실행하는 방법을 보여줍니다.
 
-```python lines
-from google.adk.agents import LlmAgent
-from google.adk.runners import InMemoryRunner
-from google.adk.tools import FunctionTool
-from google.genai import types
-import asyncio
-
-# 데모용 간단한 도구 정의
-def calculator(a: float, b: float) -> str:
-    """두 숫자를 더하고 결과를 반환합니다.
-
-    Args:
-        a: 첫 번째 숫자
-        b: 두 번째 숫자
-
-    Returns:
-        a와 b의 합
-    """
-    return str(a + b)
-
-calculator_tool = FunctionTool(func=calculator)
-
-async def run_agent():
-    # LLM 에이전트 생성
-    agent = LlmAgent(
-        name="MathAgent",
-        model="gemini-2.0-flash",  # 필요한 경우 다른 모델로 변경할 수 있습니다
-        instruction=(
-            "You are a helpful assistant that can do math. "
-            "When asked a math problem, use the calculator tool to solve it."
-        ),
-        tools=[calculator_tool],
-    )
-
-    # 러너 설정
-    runner = InMemoryRunner(agent=agent, app_name="math_assistant")
-    session_service = runner.session_service
-
-    # 세션 생성
-    user_id = "example_user"
-    session_id = "example_session"
-    await session_service.create_session(
-        app_name="math_assistant",
-        user_id=user_id,
-        session_id=session_id,
-    )
-
-    # 도구 사용을 트리거하는 메시지로 에이전트 실행
-    async for event in runner.run_async(
-        user_id=user_id,
-        session_id=session_id,
-        new_message=types.Content(
-            role="user", parts=[types.Part(text="What is 5 + 7?")]
-        ),
-    ):
-        if event.is_final_response() and event.content:
-            print(f"Final response: {event.content.parts[0].text.strip()}")
-
-# 비동기 함수 실행
-asyncio.run(run_agent())
-```
-
 모든 에이전트 오퍼레이션은 자동으로 트레이스되어 Weave로 전송되므로 실행 흐름을 시각화할 수 있습니다. 모델 call, 추론 step, 도구 호출을 확인할 수 있습니다.
 
-<Frame>
-  ![ADK 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png)
-</Frame>
+<Frame>![ADK 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png)</Frame>
 
 <div id="trace-adk-tools-with-otel">
   ## OTEL로 ADK 도구 트레이스하기
@@ -177,86 +74,7 @@ ADK에서 도구를 정의하고 사용하면 해당 call도 트레이스에 함
 
 다음은 여러 도구를 사용하는 예시입니다:
 
-```python lines
-from google.adk.agents import LlmAgent
-from google.adk.runners import InMemoryRunner
-from google.adk.tools import FunctionTool
-from google.genai import types
-import asyncio
-
-# 여러 도구 정의
-def add(a: float, b: float) -> str:
-    """두 숫자를 더합니다.
-    
-    Args:
-        a: 첫 번째 숫자
-        b: 두 번째 숫자
-        
-    Returns:
-        a와 b의 합
-    """
-    return str(a + b)
-
-def multiply(a: float, b: float) -> str:
-    """두 숫자를 곱합니다.
-    
-    Args:
-        a: 첫 번째 숫자
-        b: 두 번째 숫자
-        
-    Returns:
-        a와 b의 곱
-    """
-    return str(a * b)
-
-# 함수 도구 생성
-add_tool = FunctionTool(func=add)
-multiply_tool = FunctionTool(func=multiply)
-
-async def run_agent():
-    # 여러 도구를 사용하는 LLM 에이전트 생성
-    agent = LlmAgent(
-        name="MathAgent",
-        model="gemini-2.0-flash",
-        instruction=(
-            "당신은 수학 연산을 수행할 수 있는 유용한 어시스턴트입니다. "
-            "숫자를 더하라는 요청을 받으면 add 도구를 사용하세요. "
-            "숫자를 곱하라는 요청을 받으면 multiply 도구를 사용하세요."
-        ),
-        tools=[add_tool, multiply_tool],
-    )
-
-    # runner 설정
-    runner = InMemoryRunner(agent=agent, app_name="math_assistant")
-    session_service = runner.session_service
-
-    # 세션 생성
-    user_id = "example_user"
-    session_id = "example_session"
-    await session_service.create_session(
-        app_name="math_assistant",
-        user_id=user_id,
-        session_id=session_id,
-    )
-
-    # 도구 사용을 트리거하는 메시지로 에이전트 실행
-    async for event in runner.run_async(
-        user_id=user_id,
-        session_id=session_id,
-        new_message=types.Content(
-            role="user", parts=[types.Part(text="먼저 5와 7을 더한 다음, 그 결과에 2를 곱하세요.")]
-        ),
-    ):
-        if event.is_final_response() and event.content:
-            print(f"최종 응답: {event.content.parts[0].text.strip()}")
-
-# 비동기 함수 실행
-asyncio.run(run_agent())
-```
-
-<Frame>
-  ![ADK 도구 call에 대한 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)
-</Frame>
+<Frame>![ADK 도구 call에 대한 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)</Frame>
 
 <div id="work-with-workflow-agents">
   ## 워크플로 에이전트 사용하기
@@ -264,71 +82,9 @@ asyncio.run(run_agent())
 
 ADK는 더 복잡한 시나리오에서 사용할 수 있는 다양한 [*워크플로 에이전트*](https://google.github.io/adk-docs/agents/workflow-agents/)를 제공합니다. 일반 LLM 에이전트와 마찬가지로 워크플로 에이전트도 트레이스할 수 있습니다. 다음은 [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/)를 사용하는 예시입니다:
 
-```python lines
-from google.adk.agents import LlmAgent, SequentialAgent
-from google.adk.runners import InMemoryRunner
-from google.genai import types
-import asyncio
-
-async def run_workflow():
-    # LLM 에이전트 두 개 생성
-    summarizer = LlmAgent(
-        name="Summarizer",
-        model="gemini-2.0-flash",
-        instruction="Summarize the given text in one sentence.",
-        description="Summarizes text in one sentence",
-        output_key="summary"  # state['summary']에 출력 저장
-    )
-    
-    analyzer = LlmAgent(
-        name="Analyzer",
-        model="gemini-2.0-flash",
-        instruction="Analyze the sentiment of the given text as positive, negative, or neutral. The text to analyze: {summary}",
-        description="Analyzes sentiment of text",
-        output_key="sentiment"  # state['sentiment']에 출력 저장
-    )
-    
-    # 순차 워크플로 생성
-    workflow = SequentialAgent(
-        name="TextProcessor",
-        sub_agents=[summarizer, analyzer],
-        description="Executes a sequence of summarization followed by sentiment analysis.",
-    )
-    
-    # 러너 설정
-    runner = InMemoryRunner(agent=workflow, app_name="text_processor")
-    session_service = runner.session_service
-    
-    # 세션 생성
-    user_id = "example_user"
-    session_id = "example_session"
-    await session_service.create_session(
-        app_name="text_processor",
-        user_id=user_id,
-        session_id=session_id,
-    )
-    
-    # 워크플로 실행
-    async for event in runner.run_async(
-        user_id=user_id,
-        session_id=session_id,
-        new_message=types.Content(
-            role="user", 
-            parts=[types.Part(text="The product exceeded my expectations. It worked perfectly right out of the box, and the customer service was excellent when I had questions about setup.")]
-        ),
-    ):
-        if event.is_final_response() and event.content:
-            print(f"Final response: {event.content.parts[0].text.strip()}")
-
-# 비동기 함수 실행
-asyncio.run(run_workflow())
-```
-
 이 워크플로 에이전트 트레이스는 Weave에서 두 에이전트가 순차적으로 실행되는 모습을 보여 주며, 데이터가 멀티 에이전트 시스템을 통해 어떻게 흐르는지 파악할 수 있게 해줍니다.
 
-<Frame>
-  ![순차적 워크플로 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)
-</Frame>
+<Frame>![순차적 워크플로 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)</Frame>
 
 <div id="learn-more">
   ## 자세히 알아보기

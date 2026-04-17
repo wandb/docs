@@ -32,25 +32,6 @@ title: 테이블 로깅
   #### 기존 배열이나 데이터프레임에서
 </div>
 
-```python
-# 모델이 네 개의 이미지에 대해 예측을 반환했다고 가정합니다.
-# 다음 필드를 사용할 수 있습니다:
-# - 이미지 ID
-# - wandb.Image()로 래핑된 이미지 픽셀
-# - 모델의 예측 레이블
-# - 실제 정답 레이블
-my_data = [
-    [0, wandb.Image("img_0.jpg"), 0, 0],
-    [1, wandb.Image("img_1.jpg"), 8, 0],
-    [2, wandb.Image("img_2.jpg"), 7, 1],
-    [3, wandb.Image("img_3.jpg"), 1, 1],
-]
-
-# 해당 열로 wandb.Table()을 생성합니다
-columns = ["id", "image", "prediction", "truth"]
-test_table = wandb.Table(data=my_data, columns=columns)
-```
-
 <div id="add-data">
   ## 데이터 추가
 </div>
@@ -66,59 +47,11 @@ Tables는 변경할 수 있습니다. 스크립트가 실행되는 동안 테이
 
 이 코드 예제는 W&amp;B 테이블을 점진적으로 만들고 채우는 방법을 보여줍니다. 가능한 모든 레이블의 신뢰도 점수를 포함하도록 미리 정의된 열로 테이블을 정의한 다음, Inference 중에 데이터를 한 행씩 추가합니다. [run을 재개할 때도 테이블에 데이터를 점진적으로 추가](#adding-data-to-resumed-runs)할 수 있습니다.
 
-```python
-# 각 레이블의 신뢰도 점수를 포함하여 테이블의 열을 정의합니다
-columns = ["id", "image", "guess", "truth"]
-for digit in range(10):  # 각 숫자(0-9)에 대한 신뢰도 점수 열을 추가합니다
-    columns.append(f"score_{digit}")
-
-# 정의된 열로 테이블을 초기화합니다
-test_table = wandb.Table(columns=columns)
-
-# 테스트 데이터셋을 순회하며 테이블에 행 단위로 데이터를 추가합니다
-# 각 행에는 이미지 ID, 이미지, 예측 레이블, 실제 레이블, 신뢰도 점수가 포함됩니다
-for img_id, img in enumerate(mnist_test_data):
-    true_label = mnist_test_data_labels[img_id]  # 정답 레이블
-    guess_label = my_model.predict(img)  # 예측 레이블
-    test_table.add_data(
-        img_id, wandb.Image(img), guess_label, true_label
-    )  # 테이블에 행 데이터를 추가합니다
-```
-
 <div id="adding-data-to-resumed-runs">
   #### 재개된 run에 데이터 추가
 </div>
 
 기존 artifact에서 테이블을 불러오고 마지막 데이터 행을 가져온 뒤, 업데이트된 메트릭을 추가해 재개된 run의 W&amp;B 테이블을 점진적으로 업데이트할 수 있습니다. 그런 다음 호환성을 위해 테이블을 다시 초기화한 후, 업데이트된 버전을 W&amp;B에 다시 로깅합니다.
-
-```python
-import wandb
-
-# run 초기화 
-with wandb.init(project="my_project") as run:
-
-    # artifact에서 기존 테이블 로드
-    best_checkpt_table = run.use_artifact(table_tag).get(table_name)
-
-    # 재개를 위해 테이블의 마지막 행 데이터 조회
-    best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
-
-    # 필요에 따라 최적 메트릭 업데이트
-
-    # 업데이트된 데이터를 테이블에 추가
-    best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
-
-    # 호환성 확보를 위해 업데이트된 데이터로 테이블 재초기화
-    best_checkpt_table = wandb.Table(
-        columns=["col1", "col2", "col3"], data=best_checkpt_table.data
-    )
-
-    # Run 초기화
-    with wandb.init() as run:
-
-        # 업데이트된 테이블을 W&B에 log
-        run.log({table_name: best_checkpt_table})
-```
 
 <div id="retrieve-data">
   ## 데이터 조회
@@ -180,18 +113,7 @@ Artifacts에 대해 자세히 알아보려면 개발자 가이드의 [Artifacts 
   ## Artifact 테이블
 </div>
 
-workspace 대신 run의 Artifacts 섹션에 테이블을 기록하려면 `artifact.add()`를 사용하세요. 이렇게 하면 데이터셋을 한 번만 기록해 두고 이후 run에서 참조할 수 있어 유용합니다.
-
-```python
-with wandb.init(project="my_project") as run:
-    # 각 의미 있는 step마다 wandb Artifact 생성
-    test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
-
-    # [위와 같이 예측 데이터를 구성합니다]
-    test_table = wandb.Table(data=data, columns=columns)
-    test_predictions.add(test_table, "my_test_key")
-    run.log_artifact(test_predictions)
-```
+workspace 대신 run의 Artifacts 섹션에 테이블을 로깅하려면 `artifact.add()`를 사용하세요. 이렇게 하면 데이터셋을 한 번만 로깅해 두고 이후 run에서 참조할 수 있어 유용합니다.
 
 이미지 데이터로 `artifact.add()`를 사용하는 [자세한 예시](https://wandb.me/dsviz-nature-colab)는 이 Colab을 참고하고, Artifacts와 Tables를 사용해 [테이블형 데이터를 버전 관리하고 중복 제거하는 방법](https://wandb.me/TBV-Dedup)의 예시는 이 Report를 참고하세요.
 
@@ -210,27 +132,5 @@ with wandb.init(project="my_project") as run:
 이전에 artifact 컨텍스트에서 로깅한 두 개의 Table을 조인하려면, artifact에서 가져온 뒤 그 결과를 새로운 Table로 만드세요.
 
 예를 들어, 다음 코드 예제는 `'original_songs'`라는 원곡 Table과 같은 곡의 합성 버전이 담긴 `'synth_songs'`라는 또 다른 Table을 읽는 방법을 보여줍니다. 이 코드는 두 테이블을 `"song_id"`를 기준으로 조인하고, 결과 테이블을 새로운 W&amp;B Table로 업로드합니다.
-
-```python
-import wandb
-
-with wandb.init(project="my_project") as run:
-
-    # 원본 노래 테이블 가져오기
-    orig_songs = run.use_artifact("original_songs:latest")
-    orig_table = orig_songs.get("original_samples")
-
-    # 합성된 노래 테이블 가져오기
-    synth_songs = run.use_artifact("synth_songs:latest")
-    synth_table = synth_songs.get("synth_samples")
-
-    # "song_id"를 기준으로 테이블 조인
-    join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
-    join_at = wandb.Artifact("synth_summary", "analysis")
-
-    # artifact에 테이블 추가 후 W&B에 로그
-    join_at.add(join_table, "synth_explore")
-    run.log_artifact(join_at)
-```
 
 [이 튜토리얼을 읽어보세요](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM). 서로 다른 Artifact 객체에 저장된 기존 테이블 두 개를 결합하는 방법을 확인할 수 있습니다.

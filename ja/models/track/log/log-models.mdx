@@ -37,16 +37,6 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 `<>` で囲まれた値は、ご自身の値に置き換えてください。
 
-```python
-import wandb
-
-# W&B runを初期化する
-with wandb.init(project="<your-project>", entity="<your-entity>") as run:
-
-    # モデルをログする
-    run.log_model(path="<path-to-model>", name="<name>")
-```
-
 必要に応じて、モデルartifactの名前を `name` パラメーターに指定できます。`name` を指定しない場合、W&amp;B は入力パスの basename の先頭に run ID を付加したものを名前として使用します。
 
 <Note>
@@ -57,51 +47,6 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
 <details>
   <summary>例: モデルを run にログする</summary>
-
-  ```python
-  import os
-  import wandb
-  from tensorflow import keras
-  from tensorflow.keras import layers
-
-  config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
-
-  # W&B run を初期化する
-  with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
-
-      # ハイパーパラメーター
-      loss = run.config["loss"]
-      optimizer = run.config["optimizer"]
-      metrics = ["accuracy"]
-      num_classes = 10
-      input_shape = (28, 28, 1)
-
-      # トレーニングアルゴリズム
-      model = keras.Sequential(
-          [
-              layers.Input(shape=input_shape),
-              layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-              layers.MaxPooling2D(pool_size=(2, 2)),
-              layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-              layers.MaxPooling2D(pool_size=(2, 2)),
-              layers.Flatten(),
-              layers.Dropout(0.5),
-              layers.Dense(num_classes, activation="softmax"),
-          ]
-      )
-
-      # モデルをトレーニング用に設定する
-      model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-
-      # モデルを保存する
-      model_filename = "model.h5"
-      local_filepath = "./"
-      full_path = os.path.join(local_filepath, model_filename)
-      model.save(filepath=full_path)
-
-      # モデルを W&B run にログする
-      run.log_model(path=full_path, name="MNIST")
-  ```
 
   `log_model` を呼び出すと、`MNIST` という名前のモデルartifactが作成され、ファイル `model.h5` がそのモデルartifactに追加されます。ターミナルまたはノートブックには、モデルがログされた run の情報をどこで確認できるかが出力されます。
 
@@ -124,36 +69,12 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
 `<>` で囲まれた値は、ご自身の値に置き換えてください。
 
-```python
-import wandb
-
-# runを初期化する
-with wandb.init(project="<your-project>", entity="<your-entity>") as run:
-
-    # モデルにアクセスしてダウンロードする。ダウンロード済みartifactのパスを返す
-    downloaded_model_path = run.use_model(name="<your-model-name>")
-```
-
 [use&#95;model](/ja/models/ref/python/experiments/run#use_model) 関数は、ダウンロードしたモデルファイルのパスを返します。後でこのモデルを関連付けたい場合は、このパスを控えておいてください。前のコードスニペットでは、返されたパスは `downloaded_model_path` という変数に保存されています。
 
 <details>
   <summary>例: ログ済みモデルをダウンロードして使用する</summary>
 
-  たとえば、次のコードスニペットでは、あるユーザーが `use_model` API を呼び出しています。取得したいモデル artifact の名を指定し、バージョン / alias も指定しています。その後、API から返されたパスを `downloaded_model_path` 変数に保存しています。
-
-  ```python
-  import wandb
-
-  entity = "luka"
-  project = "NLP_Experiments"
-  alias = "latest"  # モデルバージョンの意味的なニックネームまたは識別子
-  model_artifact_name = "fine-tuned-model"
-
-  # run を初期化する
-  with wandb.init(project=project, entity=entity) as run:
-      # モデルにアクセスしてダウンロードする。ダウンロードされた artifact へのパスを返す
-      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
-  ```
+  たとえば、次のコードスニペットでは、あるユーザーが `use_model` API を呼び出しています。取得したいモデル artifact の名前を指定し、バージョン / alias も指定しています。その後、API から返されたパスを `downloaded_model_path` 変数に保存しています。
 </details>
 
-パラメーターと戻り値のタイプについては、APIリファレンスの [`use_model`](/ja/models/ref/python/experiments/run#use_model) を参照してください。
+パラメーターと戻り値のタイプについては、APIリファレンス の [`use_model`](/ja/models/ref/python/experiments/run#use_model) を参照してください。

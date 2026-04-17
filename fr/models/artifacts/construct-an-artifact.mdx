@@ -27,7 +27,8 @@ Initialisez la classe [`wandb.Artifact()`](/fr/models/ref/python/experiments/art
 * **Type** : le type de l&#39;artifact. Il doit être simple, descriptif et correspondre à une seule étape de votre pipeline de machine learning. Parmi les types d&#39;artifact courants, on trouve `'dataset'` ou `'model'`.
 
 <Note>
-  W&amp;B utilise le &quot;nom&quot; et le &quot;type&quot; que vous fournissez pour créer un graphe orienté acyclique dans l&#39;application W&amp;B. Voir [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) pour plus d&#39;informations.
+  W&amp;B utilise le &quot;nom&quot; et le &quot;type&quot; que vous fournissez pour créer un graphe orienté acyclique dans l&#39;application W&amp;B. Voir [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) pour plus
+  d&#39;informations.
 </Note>
 
 <Warning>
@@ -37,13 +38,6 @@ Initialisez la classe [`wandb.Artifact()`](/fr/models/ref/python/experiments/art
 Vous pouvez aussi fournir une description et des métadonnées lorsque vous initialisez un objet artifact. Pour plus d&#39;informations sur les attributs et paramètres disponibles, consultez la définition de la classe [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) dans le guide de Référence du SDK Python.
 
 Copiez-collez l&#39;extrait de code suivant pour créer un objet artifact. Remplacez les espaces réservés `<name>` et `<type>` par vos propres valeurs :
-
-```python
-import wandb
-
-# Créer un objet artifact
-artifact = wandb.Artifact(name="<name>", type="<type>")
-```
 
 <div id="2-add-one-more-files-to-the-artifact">
   ### 2. Ajoutez un ou plusieurs fichiers à l&#39;artifact
@@ -141,16 +135,6 @@ root-directory
 
 Utilisez [`wandb.Artifact.add_file()`](/fr/models/ref/python/experiments/artifact#method-artifact-add-file) pour ajouter un fichier local à un artifact. Indiquez le chemin local du fichier dans le paramètre `local_path` :
 
-```python
-import wandb
-
-# Initialiser un objet artifact
-artifact = wandb.Artifact(name="<name>", type="<type>")
-
-# Ajouter un fichier unique
-artifact.add_file(local_path="path/file.format")
-```
-
 Par exemple, supposons que vous ayez un fichier appelé `'hello.txt'` dans votre répertoire de travail local.
 
 ```python
@@ -167,7 +151,7 @@ Vous pouvez également passer un autre nom au paramètre `name` pour renommer le
 
 ```python
 artifact.add_file(
-    local_path="hello.txt", 
+    local_path="hello.txt",
     name="new/path/hello_world.txt"
     )
 ```
@@ -193,16 +177,6 @@ Le tableau suivant montre comment différents appels d’API génèrent des cont
 
 Utilisez la méthode [`wandb.Artifact.add_dir()`](/fr/models/ref/python/experiments/artifact#method-artifact-add-dir) pour ajouter plusieurs fichiers d’un répertoire local à un artifact. Spécifiez le chemin local du répertoire à l’aide du paramètre `local_path`.
 
-```python
-import wandb
-
-# Initialiser un objet artifact
-artifact = wandb.Artifact(name="<name>", type="<type>")
-
-# Ajouter un répertoire local à l'artifact
-artifact.add_dir(local_path="path/file.format", name="optional-prefix")
-```
-
 Le tableau suivant montre comment différents appels d’API génèrent des contenus d’artifact différents :
 
 | Appel d’API                                 | artifact obtenu                                                      |
@@ -217,11 +191,6 @@ Le tableau suivant montre comment différents appels d’API génèrent des cont
 Artifacts suivent les sommes de contrôle et d&#39;autres informations pour assurer la reproductibilité si l&#39;URI utilise un schéma pris en charge par la bibliothèque W&amp;B.
 
 Ajoutez une référence URI externe à un artifact avec la méthode [`wandb.Artifact.add_reference()`](/fr/models/ref/python/experiments/artifact#method-artifact-add-reference). Remplacez la chaîne `'uri'` par votre propre URI. Vous pouvez également indiquer, pour le paramètre nom, le chemin souhaité dans l&#39;artifact.
-
-```python
-# Ajouter une référence URI
-artifact.add_reference(uri="uri", name="optional-name")
-```
 
 Les Artifacts prennent actuellement en charge les schémas d’URI suivants :
 
@@ -245,87 +214,10 @@ Le tableau suivant montre comment différents appels d’API génèrent différe
 
 Pour les grands jeux de données ou l’entraînement distribué, plusieurs runs parallèles peuvent devoir alimenter un seul artifact.
 
-```python
-import wandb
-import time
-
-# Cet exemple utilise Ray pour exécuter des runs en parallèle
-# à des fins de démonstration.
-import ray
-
-ray.init()
-
-artifact_type = "dataset"
-artifact_name = "parallel-artifact"
-table_name = "distributed_table"
-parts_path = "parts"
-num_parallel = 5
-
-# Chaque lot de writers parallèles doit avoir son propre
-# nom de groupe unique.
-group_name = "writer-group-{}".format(round(time.time()))
-
-
-@ray.remote
-def train(i):
-    """
-    Notre job d'écriture. Chaque writer ajoutera une image à l'artifact.
-    """
-    with wandb.init(group=group_name) as run:
-        artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
-
-        # Ajouter des données à un tableau wandb.
-        table = wandb.Table(columns=["a", "b", "c"], data=[[i, i * 2, 2**i]])
-
-        # Ajouter le tableau dans un dossier de l'artifact
-        artifact.add(table, "{}/table_{}".format(parts_path, i))
-
-        # L'upsert de l'artifact crée ou ajoute des données à l'artifact
-        run.upsert_artifact(artifact)
-
-
-# Lancez vos runs en parallèle
-result_ids = [train.remote(i) for i in range(num_parallel)]
-
-# Attendre tous les writers pour s'assurer que leurs fichiers ont
-# été ajoutés avant de finaliser l'artifact.
-ray.get(result_ids)
-
-# Une fois tous les writers terminés, finaliser l'artifact
-# pour le marquer comme prêt.
-with wandb.init(group=group_name) as run:
-    artifact = wandb.Artifact(artifact_name, type=artifact_type)
-
-    # Créer une "PartitionTable" pointant vers le dossier de tableaux
-    # et l'ajouter à l'artifact.
-    artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
-
-    # finish_artifact finalise l'artifact, interdisant les futurs "upserts"
-    # sur cette version.
-    run.finish_artifact(artifact)
-```
-
 <div id="find-path-for-logged-artifacts-and-other-metadata">
   ## Trouver le chemin d’accès des Artifacts enregistrés et d’autres métadonnées
 </div>
 
 L’extrait de code suivant montre comment utiliser l’[API publique W&amp;B](/fr/models/ref/python/public-api/) pour lister les fichiers d’un run, y compris leur nom et leur URL. Remplacez l’espace réservé `<entity/project/run-id>` par vos propres valeurs :
-
-```python
-from wandb.apis.public.files import Files
-from wandb.apis.public.api import Api
-
-# Exemple d'objet run
-run = Api().run("<entity/project/run-id>")
-
-# Créer un objet Files pour itérer sur les fichiers du run
-files = Files(api.client, run)
-
-# Itérer sur les fichiers
-for file in files:
-    print(f"Nom du fichier : {file.name}")
-    print(f"URL du fichier : {file.url}")
-    print(f"Chemin vers le fichier dans le bucket : {file.direct_url}")
-```
 
 Voir la classe [File](/fr/models/ref/python/public-api/file) pour en savoir plus sur les attributs et méthodes disponibles.

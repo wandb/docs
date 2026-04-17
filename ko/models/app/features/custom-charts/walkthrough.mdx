@@ -11,16 +11,6 @@ title: '튜토리얼: 맞춤형 차트 사용'
 
 먼저 스크립트에서 데이터를 로깅하세요. 하이퍼파라미터처럼 트레이닝 시작 시점에 설정하는 단일 값에는 [wandb.Run.config](/ko/models/track/config/)를 사용하세요. 시간에 따라 여러 데이터 포인트를 기록할 때는 [wandb.Run.log()](/ko/models/track/log/)를 사용하고, 맞춤형 2D 배열은 `wandb.Table()`로 로깅하세요. 로깅된 키별 데이터 포인트는 최대 10,000개까지를 권장합니다.
 
-```python
-with wandb.init() as run: 
-
-  # 맞춤형 데이터 테이블 로깅
-  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-  run.log(
-    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
-  )
-```
-
 [데이터 테이블을 기록해 볼 수 있는 빠른 예시 노트북을 사용해 보세요](https://bit.ly/custom-charts-colab). 다음 step에서는 맞춤형 차트를 설정합니다. 결과 차트가 어떻게 보이는지는 [라이브 리포트](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)에서 확인하세요.
 
 <div id="2-create-a-query">

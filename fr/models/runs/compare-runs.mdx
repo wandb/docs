@@ -157,67 +157,12 @@ Cette section montre comment les runs épinglés et les runs de référence peuv
 
 1. Exécutez cet exemple de code, qui simule un scénario d&#39;ajustement d&#39;hyperparamètres avec une série de runs. Remplacez les espaces réservés entourés de chevrons (`<>`) par vos propres valeurs.
 
-   ```python
-   import wandb
-   import random
-   import math
-
-   def train_model(learning_rate, batch_size, run_name, tags=None):
-       """Simuler l'entraînement d'un modèle avec les hyperparamètres donnés."""
-       config = {
-           "learning_rate": learning_rate,
-           "batch_size": batch_size,
-           "optimizer": "adam",
-           "architecture": "resnet50"
-       }
-       
-       with wandb.init(
-         # Remplacez par le nom de votre équipe et de votre projet
-           project="hyperparameter-tuning",
-           entity="<team>",
-           name=run_name,
-           config=config,
-           tags=tags or []
-       ) as run:
-           # Simuler la boucle d'entraînement
-           for epoch in range(50):
-               # Métriques simulées
-               accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
-               loss = 1.0 * math.exp(-learning_rate * epoch / 10)
-               
-               run.log({
-                   "epoch": epoch,
-                   "accuracy": accuracy,
-                   "loss": loss
-               })
-
-   # Créer un run de référence avec la configuration standard
-   train_model(
-       learning_rate=0.001,
-       batch_size=64,
-       run_name="baseline-config",
-       tags=["baseline", "production"]
-   )
-
-   # Tester différentes valeurs de taux d'apprentissage
-   train_model(
-       learning_rate=0.003,
-       batch_size=64,
-       run_name="lr-experiment-0.003",
-       tags=["experiment"]
-   )
-
-   train_model(
-       learning_rate=0.0001,
-       batch_size=64,
-       run_name="lr-experiment-0.0001",
-       tags=["experiment"]
-   )
-   ```
-
    Après avoir exécuté ce code, votre Workspace contient trois runs.
+
 2. Définissez `baseline-config` comme run de référence.
+
 3. Épinglez `baseline-config` pour le garder visible.
+
 4. Comparez les runs d&#39;expérience au run de référence.
 
 * Dans le tableau des runs, examinez les deltas des métriques de synthèse affichés à côté des valeurs de chaque run pour comparer ce run à la référence.

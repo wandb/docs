@@ -198,10 +198,7 @@ import wandb
 
 api = wandb.Api()
 
-<div id="fetch-an-existing-registry">
-  # Récupérer un registre existant
-</div>
-
+# Récupérer un registre existant
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -326,10 +323,7 @@ import wandb
 
 api = wandb.Api()
 
-<div id="fetch-an-existing-registry">
-  # Récupérer un registre existant
-</div>
-
+# Récupérer un registre existant
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -378,50 +372,42 @@ Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
 
 **Arguments :**
 
-* `member`:  L’utilisateur ou l’équipe dont le rôle doit être mis à jour. Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
-* `role`:  Le nouveau rôle à attribuer au membre. Peut être l’un des suivants :
-  * &quot;admin&quot;
-  * &quot;member&quot;
-  * &quot;viewer&quot;
-  * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
+* `member`: L’utilisateur ou l’équipe dont le rôle doit être mis à jour. Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
+* `role`: Le nouveau rôle à attribuer au membre. Peut être l’un des suivants : - &quot;admin&quot; - &quot;member&quot; - &quot;viewer&quot; - &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
 
 **Retourne :**
 Ce registre, pour permettre un chaînage de méthodes supplémentaire si nécessaire.
 
 **Exceptions levées :**
 
-* `ValueError`:  S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
+* `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
 
 **Exemples :**
-Attribuez le rôle d’administrateur à tous les utilisateurs du registre ```python
+Attribuez le rôle d’administrateur à tous les utilisateurs du registre
+
+```python
 import wandb
 
 api = wandb.Api()
 
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
 
-<div id="fetch-an-existing-registry">
-  # Récupérer un registre existant
-</div>
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+```
 
-registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
-
-for member in registry.user&#95;members():
-registry.update&#95;member(member.user, role=&quot;admin&quot;)
-
-````
-
----
+***
 
 ### <kbd>méthode</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-````
+```
 
 Renvoie les Users actuellement membres de ce registre.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Registry.versions`
 

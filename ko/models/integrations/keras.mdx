@@ -44,26 +44,6 @@ from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, Wa
 
 아래 예시는 Keras 워크플로에서 `WandbMetricsLogger()`를 사용하는 방법을 보여줍니다. 먼저 원하는 옵티마이저, 손실 함수, 메트릭으로 모델을 컴파일합니다. 그런 다음 `wandb.init()`을 사용해 W&amp;B run을 초기화합니다. 마지막으로 `WandbMetricsLogger()` 콜백을 `model.fit()`에 전달합니다.
 
-```python
-import wandb
-from wandb.integration.keras import WandbMetricsLogger
-import tensorflow as tf
-
-model.compile(
-    optimizer = "adam",
-    loss = "categorical_crossentropy",
-    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
-)
-
-# 새 W&B Run 초기화
-with wandb.init(config={"batch_size": 64}) as run:
-
-    # WandbMetricsLogger를 model.fit에 전달
-    model.fit(
-        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
-    )
-```
-
 이전 예제는 각 에포크가 끝날 때마다 `loss`, `accuracy`, `top@5_accuracy`와 같은 트레이닝 및 검증 메트릭을 W&amp;B에 로깅합니다. 또한 다음 항목도 로깅합니다:
 
 <div id="wandbmetricslogger-reference">
@@ -94,25 +74,6 @@ with wandb.init(config={"batch_size": 64}) as run:
 * `SavedModel` 형식 또는 `.h5` 형식의 모델
 
 이 콜백은 `WandbMetricsLogger()`와 함께 사용하세요.
-
-```python
-import wandb
-from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
-
-# 새 W&B run 초기화
-with wandb.init(config={"bs": 12}) as run:
-
-    # WandbModelCheckpoint를 model.fit에 전달
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(X_test, y_test),
-        callbacks=[
-            WandbMetricsLogger(),
-            WandbModelCheckpoint("models"),
-        ],
-    )
-```
 
 <div id="wandbmodelcheckpoint-reference">
   ### `WandbModelCheckpoint` 레퍼런스
@@ -177,63 +138,6 @@ WandbModelCheckpoint(
 
 다음 예제에서는 이미지 분류 태스크에 `WandbClfEvalCallback`을 사용합니다. 이 예제 콜백은 검증 데이터(`data_table`)를 W&amp;B에 로깅하고, Inference를 수행한 다음, 매 에포크가 끝날 때마다 예측(`pred_table`)을 W&amp;B에 로깅합니다.
 
-```python
-import wandb
-from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
-
-
-# 모델 예측 시각화 콜백 구현
-class WandbClfEvalCallback(WandbEvalCallback):
-    def __init__(
-        self, validation_data, data_table_columns, pred_table_columns, num_samples=100
-    ):
-        super().__init__(data_table_columns, pred_table_columns)
-
-        self.x = validation_data[0]
-        self.y = validation_data[1]
-
-    def add_ground_truth(self, logs=None):
-        for idx, (image, label) in enumerate(zip(self.x, self.y)):
-            self.data_table.add_data(idx, wandb.Image(image), label)
-
-    def add_model_predictions(self, epoch, logs=None):
-        preds = self.model.predict(self.x, verbose=0)
-        preds = tf.argmax(preds, axis=-1)
-
-        table_idxs = self.data_table_ref.get_index()
-
-        for idx in table_idxs:
-            pred = preds[idx]
-            self.pred_table.add_data(
-                epoch,
-                self.data_table_ref.data[idx][0],
-                self.data_table_ref.data[idx][1],
-                self.data_table_ref.data[idx][2],
-                pred,
-            )
-
-
-# ...
-
-# 새 W&B Run 초기화
-with wandb.init(config={"hyper": "parameter"}) as run:
-
-    # Model.fit에 콜백 추가
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(X_test, y_test),
-        callbacks=[
-            WandbMetricsLogger(),
-            WandbClfEvalCallback(
-                validation_data=(X_test, y_test),
-                data_table_columns=["idx", "image", "label"],
-                pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-            ),
-        ],
-    )
-```
-
 <div id="wandbevalcallback-reference">
   ### `WandbEvalCallback` 레퍼런스
 </div>
@@ -264,20 +168,6 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 </div>
 
 W&amp;B 라이브러리의 `WandbCallback()` 클래스를 사용하면 `model.fit()`에서 추적하는 모든 메트릭과 손실 값을 자동으로 저장할 수 있습니다.
-
-```python
-import wandb
-from wandb.integration.keras import WandbCallback
-
-with wandb.init(config={"hyper": "parameter"}) as run:
-
-    # Keras에서 모델을 설정하는 코드
-
-    # model.fit에 콜백 전달
-    model.fit(
-        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
-    )
-```
 
 짧은 비디오 [1분 안에 Keras와 W&amp;B 시작하기](https://www.youtube.com/watch?ab_channel=Weights\&Biases\&v=4FjDIJ-vO_M)를 시청해 보세요.
 

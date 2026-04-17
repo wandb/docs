@@ -15,31 +15,9 @@ Pour télécharger un artifact lié à un registre, vous devez connaître le che
 
 Une fois que vous disposez du registre, de la collection et de l&#39;alias ou de l&#39;index de la version de l&#39;artifact, vous pouvez construire le chemin vers l&#39;artifact lié à l&#39;aide du modèle de chaîne ci-dessous :
 
-```python
-# Nom de l'artifact avec l'index de version spécifié
-f"wandb-registry-{REGISTRY}/{COLLECTION}:v{INDEX}"
-
-# Nom de l'artifact avec l'alias spécifié
-f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-```
-
 Remplacez les valeurs entre accolades `{}` par le nom du registre, de la collection et de l&#39;alias ou de l&#39;index de la version de l&#39;artifact à laquelle vous souhaitez accéder.
 
 Utilisez la méthode `wandb.Run.use_artifact()` pour accéder à l&#39;artifact et en télécharger le contenu une fois que vous disposez du chemin de l&#39;artifact lié. L&#39;extrait de code suivant montre comment utiliser et télécharger un artifact lié à W&amp;B Registry. Veillez à remplacer les valeurs entre `<>` par les vôtres :
-
-```python
-import wandb
-
-REGISTRY = '<registry_name>'
-COLLECTION = '<collection_name>'
-ALIAS = '<artifact_alias>'
-
-with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
-    artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-    # artifact_name = '<artifact_name>' # Copier-coller le nom complet spécifié dans l'interface utilisateur W&B Registry
-    fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
-    download_path = fetched_artifact.download()  
-```
 
 La méthode `wandb.Run.use_artifact()` crée à la fois un [run](/fr/models/runs) et marque l&#39;artifact que vous téléchargez comme entrée de ce run.
 Le fait de marquer un artifact comme entrée d&#39;un run permet à W&amp;B de suivre la traçabilité de cet artifact.
@@ -62,28 +40,6 @@ artifact = api.artifact(name = artifact_name)
   <summary>Exemple : utiliser et télécharger un artifact lié à W&amp;B Registry</summary>
 
   L’exemple de code suivant montre comment un utilisateur peut télécharger un artifact lié à une collection nommée `phi3-finetuned` dans le registre **Fine-tuned Models**. L’alias de la version de l’artifact est défini sur `production`.
-
-  ```python
-  import wandb
-
-  TEAM_ENTITY = "product-team-applications"
-  PROJECT_NAME = "user-stories"
-
-  REGISTRY = "Fine-tuned Models"
-  COLLECTION = "phi3-finetuned"
-  ALIAS = 'production'
-
-  # Initialiser un run dans l’équipe et le projet spécifiés
-  with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
-
-      artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-
-      # Accéder à un artifact et le marquer comme entrée de votre run pour assurer le suivi de la traçabilité
-      fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
-
-      # Télécharger l’artifact. Renvoie le chemin vers le contenu téléchargé
-      downloaded_path = fetched_artifact.download()  
-  ```
 </details>
 
 Voir [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact) et [`Artifact.download()`](/fr/models/ref/python/experiments/artifact#download) dans la Référence de l’API pour les paramètres et le type de retour.
@@ -92,24 +48,6 @@ Voir [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_arti
   **Users avec une entité personnelle appartenant à plusieurs organisations**
 
   Les Users disposant d’une entité personnelle et appartenant à plusieurs organisations doivent également spécifier soit le nom de leur organisation, soit utiliser une entité d’équipe lorsqu’ils accèdent à des artifacts liés à un registre.
-
-  ```python
-  import wandb
-
-  REGISTRY = "<registry_name>"
-  COLLECTION = "<collection_name>"
-  VERSION = "<version>"
-
-  # Assurez-vous d’utiliser votre entité d’équipe pour instancier l’API
-  api = wandb.Api(overrides={"entity": "<team-entity>"})
-  artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-  artifact = api.artifact(name = artifact_name)
-
-  # Construire le chemin
-  api = wandb.Api()
-  artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-  artifact = api.artifact(name = artifact_name)
-  ```
 </Note>
 
 <div id="copy-and-paste-pre-generated-code-snippet">

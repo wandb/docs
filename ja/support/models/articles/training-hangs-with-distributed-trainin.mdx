@@ -20,12 +20,6 @@ pip install --upgrade wandb
 
 W&amp;B SDK `0.12.5` から `0.12.x` までは、W&amp;B Service を明示的に有効にしてください:
 
-```python
-def main():
-    wandb.require("service")
-    # 残りのスクリプト
-```
-
 W&amp;B SDK `0.12.4` 以前では、`WANDB_START_METHOD` 環境変数を設定してください。
 
 ```bash

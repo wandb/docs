@@ -157,14 +157,3 @@ Par défaut, W&amp;B utilise le mode de fidélité totale. Pour activer l’éch
 </div>
 
 Vous pouvez accéder à l’historique complet des métriques enregistrées au cours d’un run à l’aide de la [W&amp;B Run API](/fr/models/ref/python/public-api/runs). L’exemple suivant montre comment récupérer et traiter les valeurs de perte d’un run spécifique :
-
-```python
-# Initialiser l'API W&B
-run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
-
-# Récupérer l'historique de la métrique 'Loss'
-history = run.scan_history(keys=["Loss"])
-
-# Extraire les valeurs de perte de l'historique
-losses = [row["Loss"] for row in history]
-```

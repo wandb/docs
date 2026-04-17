@@ -75,13 +75,6 @@ W&amp;B Python SDK を使用してプログラムから、または W&amp;B App 
 
 run を初期化する際に、使用する run ID を文字列として `id` パラメーターに渡します。
 
-```python
-import wandb
-
-with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
-    # ここにコードを記述
-```
-
 <div id="run-name">
   ## run 名
 </div>
@@ -102,13 +95,6 @@ run は、[初期化するとき](/ja/models/runs/run-identifiers#create-a-custo
 
 [`wandb.init()`](/ja/models/ref/python/functions/init) method に `name` パラメーターを渡して、run 名を指定します。
 
-```python
-import wandb
-
-with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
-    # ここにコードを記述
-```
-
 <div id="rename-a-run">
   ### run の名前を変更する
 </div>
@@ -120,19 +106,6 @@ Python SDK を使ってプログラムで初期化した後、または W&amp;B 
     [`wandb.Api.Run`](/ja/models/ref/python/public-api/api#method-api-run) を使用して、W&amp;B にログされた run にアクセスします。この method は、run 名の更新に使用できる [run オブジェクト](/ja/models/ref/python/public-api/run#property-run-name) を返します。変更を永続化するには、`wandb.Api.Run.update()` method を呼び出します。
 
     山かっこ (`< >`) で囲まれた値は、ご自身の値に置き換えてください。
-
-    ```python
-    import wandb
-
-    api = wandb.Api()
-
-    # パスで run にアクセスする
-    run = api.run(path = "<entity>/<project>/<run-id>")
-
-    # 新しい run 名を指定する
-    run.name = "<new-run-name>"
-    run.update()
-    ```
   </Tab>
 
   <Tab title="W&B App">

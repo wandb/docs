@@ -96,16 +96,6 @@ Pour ajouter un évaluateur dans l’Evaluation Playground :
    * **LLM-as-a-judge-model** : Sélectionnez un modèle de fondation à utiliser comme juge pour l’évaluateur. Comme pour le champ LLM Model dans la section **Models**, vous pouvez choisir parmi les modèles de fondation auxquels vous avez déjà configuré l’accès, ou configurer un nouvel accès à des modèles de fondation.
    * **Scoring Prompt** : Indiquez au juge LLM ce qu’il doit évaluer dans la sortie. Par exemple, si vous voulez qu’il vérifie la présence d’hallucinations, vous pouvez saisir une invite d’évaluation semblable à celle-ci :
 
-     ```
-     Étant donné le contexte et la réponse suivants, déterminez si la réponse contient des informations qui ne sont pas étayées par le contexte.
-
-     Entrée utilisateur : {user_input}
-     Sortie attendue : {expected_output}
-     Sortie du modèle : {output}
-
-     La sortie du modèle est-elle correcte ?
-     ```
-
      Vous pouvez utiliser les champs de vos Datasets et de vos réponses comme variables dans l’invite d’évaluation, par exemple `{user_input}`, `{expected_output}` et `{output}`. Pour voir la liste des variables disponibles, cliquez sur **Insert variable** dans l’interface utilisateur.
 
 2. Facultatif : cliquez sur **Save** pour enregistrer l’évaluateur dans votre projet afin de l’utiliser plus tard.

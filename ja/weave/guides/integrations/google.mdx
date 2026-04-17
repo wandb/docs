@@ -63,34 +63,11 @@ response = model.generate_content(
   ## 独自のopをトラッキングする
 </div>
 
-関数を`@weave.op`でラップすると、入力、出力、アプリのロジックのキャプチャが始まり、データがアプリ内をどのように流れるかをデバッグできるようになります。opは深くネストできるため、トラッキングしたい関数のツリーを構築できます。また、実験を進める中でコードのバージョン管理も自動的に開始され、まだgitにコミットしていないアドホックな変更内容も記録されます。
+関数を`@weave.op`でラップすると、入力、出力、アプリのロジックの取得が始まり、データがアプリ内をどのように流れるかをデバッグできるようになります。opは深くネストできるため、トラッキングしたい関数のツリーを構築できます。また、実験を進める中でコードのバージョン管理も自動的に開始され、まだgitにコミットしていないアドホックな変更内容も取得されます。
 
 [`@weave.op`](/ja/weave/guides/tracking/ops)でデコレートした関数を作成するだけです。
 
 以下の例では、`recommend_places_to_visit`という関数を使っています。これは`@weave.op`でラップされた関数で、ある都市で訪れる場所をおすすめします。
-
-```python lines
-import os
-from google import genai
-import weave
-
-weave.init(project_name="google-genai")
-google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
-
-
-@weave.op()
-def recommend_places_to_visit(city: str, model: str = "gemini-1.5-flash"):
-    response = google_client.models.generate_content(
-        model=model,
-        contents="あなたは、都市内の予算に優しい観光スポットをすべて提案するためのアシスタントです",
-    )
-    return response.text
-
-
-recommend_places_to_visit("New York")
-recommend_places_to_visit("Paris")
-recommend_places_to_visit("Kolkata")
-```
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
@@ -98,35 +75,8 @@ recommend_places_to_visit("Kolkata")
   ## 実験しやすくするための `Model` を作成する
 </div>
 
-実験には多くの要素が絡むため、整理が難しくなりがちです。[`Model`](../core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなバージョンを整理し、比較しやすくなります。
+実験には多くの要素が絡むため、整理が難しくなりがちです。[`Model`](../core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリのさまざまなバージョンを整理し、比較しやすくなります。
 
-[`Model`](../core-types/models) は、コードのバージョン管理や入力/出力の記録に加えて、アプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も効果的だったかを簡単に見つけられます。また、Weave Models は `serve` や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
+[`Model`](../core-types/models) は、コードのバージョン管理や入力/出力の取得に加えて、アプリケーションの挙動を制御する構造化されたパラメーターも取得するため、どのパラメーターが最も効果的だったかを簡単に見つけられます。また、Weave Models は `serve` や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
 
 以下の例では、`CityVisitRecommender` を使って実験できます。これらのいずれかを変更するたびに、`CityVisitRecommender` の新しい *バージョン* が作成されます。
-
-```python lines
-import os
-from google import genai
-import weave
-
-weave.init(project_name="google-genai")
-google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
-
-
-class CityVisitRecommender(weave.Model):
-    model: str
-
-    @weave.op()
-    def predict(self, city: str) -> str:
-        response = google_client.models.generate_content(
-            model=self.model,
-            contents="あなたは、都市内の予算に優しい観光スポットをすべて提案するためのアシスタントです",
-        )
-        return response.text
-
-
-city_recommender = CityVisitRecommender(model="gemini-1.5-flash")
-print(city_recommender.predict("New York"))
-print(city_recommender.predict("San Francisco"))
-print(city_recommender.predict("Los Angeles"))
-```

@@ -157,14 +157,3 @@ W&amp;B는 전체 데이터 표현을 유지하고 모든 플롯에 극단값이
 </div>
 
 [W&amp;B Run API](/ko/models/ref/python/public-api/runs)를 사용하면 run 동안 로깅된 메트릭의 전체 이력에 액세스할 수 있습니다. 다음 예제에서는 특정 run의 loss 값을 조회하고 처리하는 방법을 보여줍니다.
-
-```python
-# W&B API 초기화
-run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
-
-# 'Loss' metric의 이력 조회
-history = run.scan_history(keys=["Loss"])
-
-# 이력에서 loss 값 추출
-losses = [row["Loss"] for row in history]
-```

@@ -12,6 +12,7 @@ Dans Weave, lorsque vous utilisez un Op, vous pouvez appeler les fonctions direc
       ...
 
   my_op()
+
   ```
 
   ```typescript Typescript lines
@@ -27,40 +28,20 @@ Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoqua
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ````python lines
     @weave.op
     def my_op():
     ...
 
     output, call = my_op.call()
-    ```
+    ```À ce stade, l'objet `call` contient toutes les informations sur le `Call`, y compris les entrées, les sorties et d'autres métadonnées. Vous pouvez utiliser `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
 
-    À ce stade, l&#39;objet `call` contient toutes les informations sur le `Call`, y compris les entrées, les sorties et d&#39;autres métadonnées. Vous pouvez utiliser `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
+    Si votre Op est une méthode d'une classe, vous devez passer l'instance de la classe comme premier argument à `call`. L'exemple suivant montre comment obtenir une référence à un objet Call associé à une méthode d'une classe :
 
-    Si votre Op est une méthode d&#39;une classe, vous devez passer l&#39;instance de la classe comme premier argument à `call`. L&#39;exemple suivant montre comment obtenir une référence à un objet Call associé à une méthode d&#39;une classe :
-
-    ```python lines
-    import weave
-
-    # Initialiser Weave Tracing
-    weave.init("intro-example")
-
-    class MyClass:
-        # Décorez votre méthode
-        @weave.op
-        def my_method(self, name: str):
-            return f"Hello, {name}!"
-
-    instance = MyClass()
-
-    # Passez `instance` comme premier argument à `call`.
-    result, call = instance.my_method.call(instance, "World")
-    ```
-  </Tab>
-
-  <Tab title="TypeScript">
+    </Tab>
+    <Tab title="TypeScript">
     ```plaintext
     Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
-    ```
+    ````
   </Tab>
 </Tabs>

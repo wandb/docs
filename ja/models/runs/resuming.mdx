@@ -36,11 +36,6 @@ run が停止、クラッシュ、または失敗した場合は、同じ run ID
 
 以下のコードスニペットは、W&amp;B Python SDK でこれを実現する方法を示しています。
 
-```python
-with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # トレーニングコードをここに記述
-```
-
 <Warning>
   複数のプロセスで同じ `id` を同時に使用すると、予期しない結果が生じます。
 
@@ -54,13 +49,6 @@ with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
 既存のrunを上書きせずに、停止またはクラッシュしたrunを再開できます。これは、プロセスが正常に終了しなかった場合に特に役立ちます。次回W&amp;Bを起動すると、W&amp;Bは最後のstepからログを開始します。
 
 W&amp;Bでrunを初期化する際に、`resume` パラメーターを `"allow"` (`resume="allow"`) に設定します。停止またはクラッシュしたrunのrun IDを指定してください。次のコードスニペットは、W&amp;B Python SDKでこれを実現する方法を示しています。
-
-```python
-import wandb
-
-with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
-        # トレーニングコードをここに記述
-```
 
 <div id="enable-runs-to-automatically-resume">
   ## run が自動的に自動再開されるようにする

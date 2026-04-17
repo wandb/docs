@@ -187,21 +187,6 @@ Le `WeaveContextRelevanceScorerV1` utilise un modèle [deberta-small-long-nli](h
   ### Exemple d’utilisation
 </div>
 
-```python lines
-    import weave
-    from weave.scorers import WeaveContextRelevanceScorerV1
-
-    context_relevance_scorer = WeaveContextRelevanceScorerV1()
-
-    result = context_relevance_scorer.score(
-        query="What is the capital of Antarctica?",
-        output="The Antarctic has the happiest penguins."  # le contexte est transmis au paramètre output
-    )
-
-    print(f"Output is relevant: {result.passed}")
-    print(result)
-```
-
 <div id="weavecoherencescorerv1">
   ## `WeaveCoherenceScorerV1`
 </div>

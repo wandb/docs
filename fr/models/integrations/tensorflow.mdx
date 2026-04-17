@@ -64,21 +64,6 @@ with tf.Session() as sess:
 
 Avec TensorFlow 2, la manière recommandée d’entraîner un modèle avec une boucle personnalisée est d’utiliser `tf.GradientTape`. Pour en savoir plus, consultez le [guide pas à pas TensorFlow sur l’entraînement personnalisé](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough). Si vous souhaitez intégrer `wandb` pour journaliser des métriques dans vos boucles d’entraînement TensorFlow personnalisées, vous pouvez vous appuyer sur cet extrait :
 
-```python
-    with tf.GradientTape() as tape:
-        # Obtenir les probabilités
-        predictions = model(features)
-        # Calculer la perte
-        loss = loss_func(labels, predictions)
-
-    # Journaliser vos métriques
-    run.log("loss": loss.numpy())
-    # Obtenir les gradients
-    gradients = tape.gradient(loss, model.trainable_variables)
-    # Mettre à jour les poids
-    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
-```
-
 Un [exemple complet pour personnaliser les boucles d&#39;entraînement dans TensorFlow 2](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) est disponible.
 
 <div id="how-is-wb-different-from-tensorboard">

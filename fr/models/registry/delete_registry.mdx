@@ -16,23 +16,10 @@ La suppression d’un registre supprime également les collections qui appartien
 
     1. Récupérer le registre que vous souhaitez supprimer avec `api.registry()`.
     2. Appeler la méthode `delete()` sur l’objet registre renvoyé afin de supprimer le registre.
-
-    ```python
-    import wandb
-
-    # Initialiser l’API W&B
-    api = wandb.Api()
-
-    # Récupérer le registre que vous souhaitez supprimer
-    fetched_registry = api.registry("<registry_name>")
-
-    # Suppression d’un registre
-    fetched_registry.delete()
-    ```
   </Tab>
 
   <Tab title="W&B App">
-    1. Accédez à W&amp;B Registry à l’adresse https://wandb.ai/registry/.
+    1. Accédez à W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
     2. Sélectionnez le registre que vous souhaitez supprimer.
     3. Cliquez sur l’icône d’engrenage dans le coin supérieur droit pour afficher les paramètres du registre.
     4. Pour supprimer le registre, cliquez sur l’icône de corbeille dans le coin supérieur droit de la page des paramètres.

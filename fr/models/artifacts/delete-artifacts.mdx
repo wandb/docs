@@ -18,53 +18,20 @@ Le contenu de l&#39;artefact reste en état de *soft-delete*, c&#39;est-à-dire 
 
 Le schéma suivant illustre l’ensemble du processus de garbage collection des artefacts :
 
-```mermaid
-graph TB
-    Start([Suppression d'artefact initiée]) --> DeleteMethod{Méthode de suppression}
-    
-    DeleteMethod -->|UI| UIDelete[Supprimer via la W&B App]
-    DeleteMethod -->|SDK| SDKDelete[Supprimer via le SDK Python W&B]
-    DeleteMethod -->|TTL| TTLDelete[Expiration de la politique TTL]
-    
-    UIDelete --> SoftDelete[Artefact marqué comme<br/>'soft-delete']
-    SDKDelete --> SoftDelete
-    TTLDelete --> SoftDelete
-    
-    SoftDelete --> GCWait[(Attente de la<br/>Garbage Collection<br/>au mieux)]
-    
-    GCWait --> GCRun[Garbage Collection<br/>Processus en cours<br/><br/>- Examine tous les artefacts soft-delete<br/>- Vérifie les dépendances de fichiers]
-    
-    GCRun --> CheckUsage{Les fichiers sont-ils utilisés par<br/>d'autres versions d'artefacts ?}
-    
-    CheckUsage -->|Oui| KeepFiles[Fichiers conservés dans le stockage<br/><br/>- Artefact marqué comme supprimé<br/>- Fichiers conservés pour d'autres versions]
-    CheckUsage -->|Non| DeleteFiles[Fichiers supprimés du stockage<br/><br/>- Artefact entièrement supprimé<br/>- Espace de stockage récupéré]
-    
-    KeepFiles --> End([Fin])
-    DeleteFiles --> End
-    
-    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
-    style SoftDelete fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
-    style GCRun fill:#f3e5f5,stroke:#333,stroke-width:2px,color:#000
-    style KeepFiles fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
-    style DeleteFiles fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
-    style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
-```
-
 Vous pouvez planifier la suppression des artefacts de W&amp;B à l’aide de politiques TTL. Pour plus d&#39;informations, voir [Gérer la rétention des données avec la politique TTL des artefacts](./ttl).
 
-<Note>
-  Les artefacts supprimés par une politique TTL, le SDK Python de W&amp;B ou la W&amp;B App sont d’abord en soft-delete. Les artefacts en soft-delete sont ensuite soumis à la garbage collection avant d’être définitivement supprimés.
-</Note>
+<Note>Les artefacts supprimés par une politique TTL, le SDK Python W&amp;B ou la W&amp;B App sont d’abord en soft-delete. Les artefacts en soft-delete sont ensuite soumis à la garbage collection avant d’être définitivement supprimés.</Note>
 
 <Note>
-  La suppression d’une entité, d’un projet ou d’une collection d’artefacts déclenche le processus de suppression des artefacts décrit sur cette page. Lorsque vous supprimez une run et choisissez de supprimer les artefacts qui lui sont associés, ces artefacts suivent le même flux de travail de soft-delete et de garbage collection.
+  La suppression d’une entité, d’un projet ou d’une collection d’artefacts déclenche le processus de suppression des artefacts décrit sur cette page. Lorsque vous supprimez une run et choisissez de supprimer les artefacts qui lui sont associés, ces
+  artefacts suivent le même flux de travail de soft-delete et de garbage collection.
 </Note>
 
 <div id="delete-an-artifact-version">
   ## Supprimer une version d&#39;artefact
 </div>
 
-Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App ou par programmation avec le W&amp;B Python SDK.
+Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App ou par programmation avec le SDK Python W&amp;B.
 
 <Tabs>
   <Tab title="W&B App" value="ui">
@@ -77,20 +44,8 @@ Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App
     5. Dans le menu déroulant, choisissez **Supprimer la version**.
   </Tab>
 
-  <Tab title="W&B Python SDK" value="sdk">
+  <Tab title="SDK Python W&B" value="sdk">
     Supprimez une version d&#39;artefact par programmation avec la méthode [wandb.Artifact.delete()](/fr/models/ref/python/experiments/artifact#delete). Indiquez le nom complet de l&#39;artefact. Le nom complet se compose de `<entity>/<project>/<artifact_name>:<version>`. Définissez le paramètre `delete_aliases` sur `True` pour supprimer l&#39;artefact même s&#39;il possède un ou plusieurs alias qui lui sont associés.
-
-    ```python
-    import wandb
-
-    api = wandb.Api()
-
-    # Obtenir l'artifact à partir de son chemin
-    artifact = api.artifact("<entity>/<project>/<artifact_name>:<version>")
-
-    # Supprimer la version de l'artifact ainsi que tous les alias
-    artifact.delete(delete_aliases=True)
-    ```
   </Tab>
 </Tabs>
 
@@ -100,32 +55,9 @@ Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App
 
 L&#39;exemple de code suivant montre comment supprimer plusieurs versions d&#39;artefact. Indiquez l&#39;entité, le nom du projet et l&#39;ID du run ayant créé l&#39;artefact comme arguments de `wandb.Api.run()`. Cela renvoie un objet run que vous pouvez utiliser pour accéder à toutes les versions d&#39;artefact créées par ce run. Parcourez ensuite les versions d&#39;artefact et supprimez celles qui correspondent à vos critères.
 
-<Tip>
-  Définissez le paramètre `delete_aliases` sur `True` (`wandb.Artifact.delete(delete_aliases=True)`) pour supprimer une version d&#39;artefact ainsi que tous les alias qui lui sont associés.
-</Tip>
+<Tip>Définissez le paramètre `delete_aliases` sur `True` (`wandb.Artifact.delete(delete_aliases=True)`) pour supprimer une version d&#39;artefact ainsi que tous les alias qui lui sont associés.</Tip>
 
 Remplacez les espaces réservés `<entity>`, `<project>`, `<run_id>` et `<artifact_name>` par vos propres valeurs :
-
-```python
-import wandb
-
-# Initialiser l'API W&B
-api = wandb.Api()
-
-# Obtenir le run par son chemin. Composé de <entity>/<project>/<run_id>
-run = api.run("<entity>/<project>/<run_id>")
-
-# Spécifier le nom de l'artifact dont les versions doivent être supprimées
-artifact_name = "<artifact_name>"
-
-# Rechercher et supprimer les versions d'artifact portant le nom spécifié
-for artifact in run.logged_artifacts():
-    print(f"Found artifact: {artifact.name}") # Exemple de nom : run_4dfbufgq_model:v0
-    # Récupérer uniquement le nom de l'artifact sans la version grâce à split()
-    if artifact.name.split(":")[0] == artifact_name:
-        print(f"Suppression de la version d'artifact : {artifact.name}")
-        artifact.delete(delete_aliases=True)
-```
 
 <div id="delete-multiple-artifact-versions-with-a-specific-alias">
   ## Supprimer plusieurs versions d’artefact avec un alias spécifique
@@ -134,28 +66,6 @@ for artifact in run.logged_artifacts():
 Le code suivant montre comment supprimer plusieurs versions d’artefact ayant un alias spécifique.
 
 Remplacez les espaces réservés `<entity>`, `<project>`, `<run_id>`, `<artifact_name>` et `<alias>` par vos propres valeurs :
-
-```python
-import wandb
-
-# Initialiser l'API W&B
-api = wandb.Api()
-
-# Obtenir le run par son chemin. Composé de <entity>/<project>/<run_id>
-run = api.run("<entity>/<project>/<run_id>")
-
-# Spécifier le nom de l'artifact dont les versions doivent être supprimées
-artifact_name = "<artifact_name>"
-
-# Spécifier l'alias pour filtrer les versions d'artifact à supprimer
-desired_alias = "<alias>"
-
-# Supprimer les artifacts enregistrés dans le run avec les alias 'v3' et 'v4
-for artifact in run.logged_artifacts():
-    print(f"Found artifact: {artifact.name}")
-    if (artifact.name.split(":")[0] == artifact_name) and (desired_alias in artifact.aliases):
-            artifact.delete(delete_aliases=True)
-```
 
 <div id="delete-an-artifact-collection">
   ## Supprimer une collection d&#39;artefact
@@ -170,25 +80,10 @@ for artifact in run.logged_artifacts():
     3. Dans le menu déroulant, sélectionnez **Delete**.
   </Tab>
 
-  <Tab title="W&B Python SDK" value="sdk">
+  <Tab title="SDK Python W&B" value="sdk">
     Supprimez une collection d&#39;artefact par programmation à l&#39;aide de la méthode [wandb.Artifact.delete()](/fr/models/ref/python/experiments/artifact#delete).
 
     Indiquez le chemin complet de la collection d&#39;artefact dans `wandb.Api.artifact_collection(name="")`. Le chemin complet est au format `<entity>/<project>/<artifact_collection_name>`.
-
-    ```python
-    import wandb
-
-    # Initialiser l'API W&B
-    api = wandb.Api()
-
-    # Obtenir la collection d'artifacts à partir de son chemin :
-    # <entity>/<project>/<artifact_collection_name>
-    collection = api.artifact_collection(
-        type_name = "<artifact_type>",
-        name = "<entity>/<project>/<artifact_collection_name>"
-    )
-    collection.delete()
-    ```
   </Tab>
 </Tabs>
 

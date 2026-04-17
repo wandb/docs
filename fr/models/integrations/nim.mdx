@@ -21,14 +21,6 @@ W&amp;B Launch prend actuellement en charge les types de modèles compatibles su
 
 1. [Créez une Launch queue](/fr/platform/launch/add-job-to-queue/) si vous n&#39;en avez pas déjà une. Voir un exemple de configuration de file d&#39;attente ci-dessous.
 
-   ```yaml
-   net: host
-   gpus: all # peut être un ensemble spécifique de GPU ou `all` pour tout utiliser
-   runtime: nvidia # nécessite également le runtime de conteneur nvidia
-   volume:
-     - model-store:/model-store/
-   ```
-
    <Frame>
      <img src="/images/integrations/nim1.png" alt="image" />
    </Frame>

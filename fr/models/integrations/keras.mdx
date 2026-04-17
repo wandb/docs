@@ -44,26 +44,6 @@ Les sections suivantes décrivent en détail chaque fonction de rappel, avec des
 
 L&#39;exemple partiel ci-dessous montre comment utiliser `WandbMetricsLogger()` dans un flux de travail Keras. Commencez par compiler le modèle avec l&#39;optimiseur, la fonction de perte et les métriques souhaités. Ensuite, initialisez un run W&amp;B à l&#39;aide de `wandb.init()`. Enfin, transmettez le callback `WandbMetricsLogger()` à `model.fit()`.
 
-```python
-import wandb
-from wandb.integration.keras import WandbMetricsLogger
-import tensorflow as tf
-
-model.compile(
-    optimizer = "adam",
-    loss = "categorical_crossentropy",
-    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
-)
-
-# Initialiser un nouveau run W&B
-with wandb.init(config={"batch_size": 64}) as run:
-
-    # Passer le WandbMetricsLogger à model.fit
-    model.fit(
-        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
-    )
-```
-
 L’exemple précédent consigne dans W&amp;B les métriques d’entraînement et de validation, telles que `loss`, `accuracy` et `top@5_accuracy`, à la fin de chaque époque. Il consigne également :
 
 <div id="wandbmetricslogger-reference">
@@ -76,14 +56,14 @@ L’exemple précédent consigne dans W&amp;B les métriques d’entraînement e
 | `initial_global_step` | (int) : utilisez cet argument pour journaliser correctement le taux d’apprentissage lorsque vous reprenez l’entraînement à partir d’un `initial_epoch` et qu’un ordonnanceur de taux d’apprentissage est utilisé. Cette valeur peut être calculée comme `step_size * initial_step`. La valeur par défaut est 0. |
 
 <div id="checkpoint-a-model-using-wandbmodelcheckpoint">
-  ## Créer un checkpoint d’un modèle avec `WandbModelCheckpoint`
+  ## Créer un point de contrôle d’un modèle avec `WandbModelCheckpoint`
 </div>
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
 Utilisez le callback `WandbModelCheckpoint` pour enregistrer périodiquement le modèle Keras (au format `SavedModel`) ou les poids du modèle, puis les envoyer à W&amp;B sous forme de `wandb.Artifact` pour la gestion des versions du modèle.
 
-Ce callback est une sous-classe de [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint). La logique de checkpointing est donc gérée par le callback parent.
+Ce callback est une sous-classe de [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint). La logique de création de points de contrôle est donc gérée par le callback parent.
 
 Ce callback enregistre :
 
@@ -94,25 +74,6 @@ Ce callback enregistre :
 * Le modèle soit au format `SavedModel`, soit au format `.h5`.
 
 Utilisez ce callback avec `WandbMetricsLogger()`.
-
-```python
-import wandb
-from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
-
-# Initialiser un nouveau run W&B
-with wandb.init(config={"bs": 12}) as run:
-
-    # Passer le WandbModelCheckpoint à model.fit
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(X_test, y_test),
-        callbacks=[
-            WandbMetricsLogger(),
-            WandbModelCheckpoint("models"),
-        ],
-    )
-```
 
 <div id="wandbmodelcheckpoint-reference">
   ### Référence `WandbModelCheckpoint`
@@ -177,63 +138,6 @@ Ce callback abstrait est indépendant du jeu de données et de la tâche. Pour l
 
 L&#39;exemple suivant utilise `WandbClfEvalCallback` pour une tâche de classification d&#39;images. Ce callback d&#39;exemple journalise les données de validation (`data_table`) dans W&amp;B, effectue l&#39;inférence, puis journalise les prédictions (`pred_table`) dans W&amp;B à la fin de chaque époque.
 
-```python
-import wandb
-from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
-
-
-# Implémenter votre callback de visualisation des prédictions du modèle
-class WandbClfEvalCallback(WandbEvalCallback):
-    def __init__(
-        self, validation_data, data_table_columns, pred_table_columns, num_samples=100
-    ):
-        super().__init__(data_table_columns, pred_table_columns)
-
-        self.x = validation_data[0]
-        self.y = validation_data[1]
-
-    def add_ground_truth(self, logs=None):
-        for idx, (image, label) in enumerate(zip(self.x, self.y)):
-            self.data_table.add_data(idx, wandb.Image(image), label)
-
-    def add_model_predictions(self, epoch, logs=None):
-        preds = self.model.predict(self.x, verbose=0)
-        preds = tf.argmax(preds, axis=-1)
-
-        table_idxs = self.data_table_ref.get_index()
-
-        for idx in table_idxs:
-            pred = preds[idx]
-            self.pred_table.add_data(
-                epoch,
-                self.data_table_ref.data[idx][0],
-                self.data_table_ref.data[idx][1],
-                self.data_table_ref.data[idx][2],
-                pred,
-            )
-
-
-# ...
-
-# Initialiser un nouveau run W&B
-with wandb.init(config={"hyper": "parameter"}) as run:
-
-    # Ajouter les callbacks à Model.fit
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(X_test, y_test),
-        callbacks=[
-            WandbMetricsLogger(),
-            WandbClfEvalCallback(
-                validation_data=(X_test, y_test),
-                data_table_columns=["idx", "image", "label"],
-                pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-            ),
-        ],
-    )
-```
-
 <div id="wandbevalcallback-reference">
   ### Référence de `WandbEvalCallback`
 </div>
@@ -265,26 +169,13 @@ Vous pouvez redéfinir les méthodes `on_train_begin` ou `on_epoch_end` pour bé
 
 Utilisez la classe `WandbCallback()` de la bibliothèque W&amp;B pour enregistrer automatiquement toutes les métriques et valeurs de perte suivies dans `model.fit()`.
 
-```python
-import wandb
-from wandb.integration.keras import WandbCallback
-
-with wandb.init(config={"hyper": "parameter"}) as run:
-
-    # code pour configurer votre modèle dans Keras
-
-    # Passer le callback à model.fit
-    model.fit(
-        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
-    )
-```
-
 Vous pouvez regarder la courte vidéo [Premiers pas avec Keras et W&amp;B en moins d&#39;une minute](https://www.youtube.com/watch?ab_channel=Weights\&Biases\&v=4FjDIJ-vO_M).
 
 Pour une vidéo plus détaillée, regardez [Intégrer W&amp;B à Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases). Vous pouvez également consulter le [notebook Jupyter Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb).
 
 <Note>
-  Voir notre [dépôt d&#39;exemples](https://github.com/wandb/examples) pour des scripts, notamment un [exemple Fashion MNIST](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) et le [tableau de bord W&amp;B](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) qu&#39;il génère.
+  Voir notre [dépôt d&#39;exemples](https://github.com/wandb/examples) pour des scripts, notamment un [exemple Fashion MNIST](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py)
+  et le [tableau de bord W&amp;B](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) qu&#39;il génère.
 </Note>
 
 La classe `WandbCallback` prend en charge un large éventail d&#39;options de configuration de journalisation : spécifier une métrique à surveiller, suivre les poids et les gradients, journaliser les prédictions sur training&#95;data et validation&#95;data, entre autres.

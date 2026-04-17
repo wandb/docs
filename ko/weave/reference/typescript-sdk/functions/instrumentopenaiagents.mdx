@@ -29,28 +29,7 @@ Promise&lt;`boolean`&gt; - 등록에 성공하면 true, @openai/agents를 사용
 
 `Example`
 
-```typescript
-// ✅ 권장: Weave를 임포트하기만 하면 계측이 자동으로 이루어집니다!
-import * as weave from 'weave';
-await weave.init('my-project');
-
-// OpenAI Agents는 이미 훅을 통해 계측되어 있으므로 수동 설정이 필요하지 않습니다
-import { Agent } from '@openai/agents';
-const agent = new Agent({ ... });
-await agent.run(input); // Weave에서 자동으로 트레이스됩니다
-```
-
 `예제`
-
-```typescript
-// ⚠️ 자동 훅이 작동하지 않는 예외적인 경우에서만 필요합니다
-import { instrumentOpenAIAgents } from 'weave';
-
-const registered = await instrumentOpenAIAgents();
-if (!registered) {
-  console.log('OpenAI Agents를 찾을 수 없습니다 - tracing을 활성화하려면 @openai/agents를 설치하세요');
-}
-```
 
 `참고`
 
@@ -68,13 +47,12 @@ if (!registered) {
 `createOpenAIAgentsTracingProcessor()`를 사용해 수동으로 등록하세요:
 
 ```typescript
-import { addTraceProcessor } from '@openai/agents';
-import { createOpenAIAgentsTracingProcessor } from 'weave';
+import { addTraceProcessor } from "@openai/agents"
+import { createOpenAIAgentsTracingProcessor } from "weave"
 
-const processor = createOpenAIAgentsTracingProcessor();
-addTraceProcessor(processor);
+const processor = createOpenAIAgentsTracingProcessor()
+addTraceProcessor(processor)
 ```
-
 
 <div id="defined-in">
   #### 정의된 위치

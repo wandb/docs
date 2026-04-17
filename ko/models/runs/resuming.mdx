@@ -36,11 +36,6 @@ run이 중단되거나 크래시되거나 실패한 경우, 동일한 run ID를 
 
 다음 코드 스니펫에서는 W&amp;B Python SDK를 사용해 이를 수행하는 방법을 보여줍니다:
 
-```python
-with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # 트레이닝 코드를 여기에 작성하세요
-```
-
 <Warning>
   여러 프로세스가 동일한 `id`를 동시에 사용하면 예기치 않은 결과가 발생할 수 있습니다.
 
@@ -53,14 +48,7 @@ with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
 
 기존 run을 덮어쓰지 않고 중단되었거나 크래시된 run을 재개합니다. 특히 프로세스가 정상적으로 종료되지 않았을 때 유용합니다. 다음에 W&amp;B를 시작하면 W&amp;B는 마지막 step부터 logging을 시작합니다.
 
-W&amp;B로 run을 초기화할 때 `resume` 파라미터를 `"allow"`(`resume="allow"`)로 설정하세요. 중단되었거나 크래시된 run의 run ID를 지정하세요. 다음 코드 스니펫은 W&amp;B Python SDK로 이를 수행하는 방법을 보여줍니다:
-
-```python
-import wandb
-
-with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
-        # 트레이닝 코드를 여기에 작성하세요
-```
+W&amp;B로 run을 초기화할 때 `resume` 파라미터를 `"allow"`(`resume="allow"`)로 설정하세요. 중단되었거나 크래시된 run의 run ID를 제공하세요. 다음 코드 스니펫은 W&amp;B Python SDK로 이를 수행하는 방법을 보여줍니다:
 
 <div id="enable-runs-to-automatically-resume">
   ## run이 자동으로 자동 재개되도록 설정

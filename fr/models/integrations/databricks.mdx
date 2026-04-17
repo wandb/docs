@@ -17,23 +17,6 @@ W&amp;B s’intègre à [Databricks](https://www.databricks.com/) en adaptant l�
 
    Pour authentifier votre compte W&amp;B, vous pouvez ajouter un secret Databricks que vos notebooks pourront consulter.
 
-   ```bash
-   # installer la CLI Databricks
-   pip install databricks-cli
-
-   # Générer un token depuis l'UI Databricks
-   databricks configure --token
-
-   # Créer un scope avec l'une des deux commandes (selon que les fonctionnalités de sécurité sont activées ou non sur Databricks) :
-   # avec l'extension de sécurité
-   databricks secrets create-scope --scope wandb
-   # sans l'extension de sécurité
-   databricks secrets create-scope --scope wandb --initial-manage-principal users
-
-   # Créer une clé API à l'adresse https://wandb.ai/settings
-   databricks secrets put --scope wandb --key api_key
-   ```
-
 <div id="examples">
   ## Exemples
 </div>
@@ -59,11 +42,3 @@ with wandb.init() as run:
 </div>
 
 Configuration requise (temporairement) pour les notebooks qui essaient d’utiliser wandb.sweep() ou wandb.agent() :
-
-```python
-import os
-
-# Ces lignes ne seront plus nécessaires à l'avenir
-os.environ["WANDB_ENTITY"] = "my-entity"
-os.environ["WANDB_PROJECT"] = "my-project-that-exists"
-```

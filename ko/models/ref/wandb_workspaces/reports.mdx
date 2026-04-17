@@ -662,42 +662,20 @@ to_html(height: int = 1024, hidden: bool = False) → str
 
 **속성:**
 
-* `entity` (str):  run이 저장된 프로젝트를 소유하거나 해당 프로젝트에 대한 적절한 권한이 있는 entity입니다.
-* `project` (str):  run이 저장된 프로젝트의 이름입니다.
-* `name` (str):  run 집합의 이름입니다. 기본값은 `Run set`입니다.
-* `query` (str):  run을 필터링하기 위한 쿼리 문자열입니다.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  run에 적용할 필터입니다. 다음 중 하나일 수 있습니다:
-  * 문자열 표현식: 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
-  * FilterExpr 객체의 목록: 예: [expr.Config(&#39;lr&#39;) == 0.001]
-* `groupby` (LList[str]):  그룹화 기준으로 사용할 메트릭 이름 목록입니다. 지원되는 형식은 다음과 같습니다:
-  * run 속성으로 그룹화하려면 &quot;group&quot; 또는 &quot;run.group&quot;
-  * config 파라미터로 그룹화하려면 &quot;config.param&quot;
-  * summary 메트릭으로 그룹화하려면 &quot;summary.metric&quot;
-* `order` (LList[OrderBy]):  정렬 기준으로 사용할 `OrderBy` 객체 목록입니다.
-* `custom_run_colors` (dict):  run ID(또는 그룹화된 run의 경우 `RunsetGroup` 키)를 색상에 매핑하는 사전입니다. run별로 단순하게 색상을 지정할 때는 `run_settings` 사용을 권장합니다.
-* `run_settings` (Dict[str, RunSettings]):  run ID를 키로 하는 run별 표시 설정입니다. 이를 사용해 색상을 설정하거나 개별 run을 숨길 수 있습니다. `RunSettings`를 참조하세요.
+* `entity` (str): run이 저장된 프로젝트를 소유하거나 해당 프로젝트에 대한 적절한 권한이 있는 entity입니다.
+* `project` (str): run이 저장된 프로젝트의 이름입니다.
+* `name` (str): run 집합의 이름입니다. 기본값은 `Run set`입니다.
+* `query` (str): run을 필터링하기 위한 쿼리 문자열입니다.
+* `filters` (Union[str, LList[expr.FilterExpr]]): run에 적용할 필터입니다. 다음 중 하나일 수 있습니다: - 문자열 표현식: 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in` - FilterExpr 객체 목록: 예: [expr.Config(&#39;lr&#39;) == 0.001]
+* `groupby` (LList[str]): 그룹화 기준으로 사용할 메트릭 이름 목록입니다. 지원되는 형식은 다음과 같습니다: - run 속성으로 그룹화하려면 &quot;group&quot; 또는 &quot;run.group&quot; - config 파라미터로 그룹화하려면 &quot;config.param&quot; - summary 메트릭으로 그룹화하려면 &quot;summary.metric&quot;
+* `order` (LList[OrderBy]): 정렬 기준으로 사용할 `OrderBy` 객체 목록입니다.
+* `custom_run_colors` (dict): run ID(또는 그룹화된 run의 경우 `RunsetGroup` 키)를 색상에 매핑하는 사전입니다. run별로 단순하게 색상을 지정할 때는 `run_settings` 사용을 권장합니다.
+* `run_settings` (Dict[str, RunSettings]): run ID를 키로 하는 run별 표시 설정입니다. 이를 사용해 색상을 설정하거나 개별 run을 숨길 수 있습니다. `RunSettings`를 참조하세요.
 
 **예시:**
 
-```python
-    # 문자열 필터 사용
-    wr.Runset(
-         entity="my-entity",
-         project="my-project",
-         filters="Config('learning_rate') = 0.001 and State = 'finished'"
-    )
-
-    # FilterExpr 목록 사용
-    wr.Runset(
-         entity="my-entity",
-         project="my-project",
-         filters=[expr.Config("learning_rate") == 0.001]
-    )
-```
-
 ***
-
 
 ### <kbd>방법</kbd> `convert_filterexpr_list_to_string`
 

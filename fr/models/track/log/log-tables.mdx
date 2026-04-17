@@ -32,25 +32,6 @@ Utilisez le constructeur `wandb.Table` de l&#39;une des deux façons suivantes 
   #### À partir d’un tableau ou d’un dataframe existants
 </div>
 
-```python
-# supposons qu'un modèle a retourné des prédictions sur quatre images
-# avec les champs suivants disponibles :
-# - l'identifiant de l'image
-# - les pixels de l'image, encapsulés dans un wandb.Image()
-# - le label prédit par le modèle
-# - le label de vérité terrain
-my_data = [
-    [0, wandb.Image("img_0.jpg"), 0, 0],
-    [1, wandb.Image("img_1.jpg"), 8, 0],
-    [2, wandb.Image("img_2.jpg"), 7, 1],
-    [3, wandb.Image("img_3.jpg"), 1, 1],
-]
-
-# créer un wandb.Table() avec les colonnes correspondantes
-columns = ["id", "image", "prediction", "truth"]
-test_table = wandb.Table(data=my_data, columns=columns)
-```
-
 <div id="add-data">
   ## Ajouter des données
 </div>
@@ -66,59 +47,11 @@ Les Tables sont mutables. À mesure que votre script s’exécute, vous pouvez a
 
 Cet exemple de code montre comment créer et alimenter un tableau W&amp;B de manière incrémentielle. Vous définissez le tableau avec des colonnes prédéfinies, y compris les scores de confiance pour toutes les étiquettes possibles, puis vous ajoutez les données ligne par ligne pendant l’Inférence. Vous pouvez également [ajouter des données aux tableaux de manière incrémentielle lorsque vous reprenez des runs](#adding-data-to-resumed-runs).
 
-```python
-# Définir les colonnes du tableau, y compris les scores de confiance pour chaque label
-columns = ["id", "image", "guess", "truth"]
-for digit in range(10):  # Ajouter des colonnes de score de confiance pour chaque chiffre (0-9)
-    columns.append(f"score_{digit}")
-
-# Initialiser le tableau avec les colonnes définies
-test_table = wandb.Table(columns=columns)
-
-# Parcourir le jeu de données de test et ajouter les données au tableau ligne par ligne
-# Chaque ligne contient l'ID de l'image, l'image, le label prédit, le label réel et les scores de confiance
-for img_id, img in enumerate(mnist_test_data):
-    true_label = mnist_test_data_labels[img_id]  # Label de référence (ground truth)
-    guess_label = my_model.predict(img)  # Label prédit
-    test_table.add_data(
-        img_id, wandb.Image(img), guess_label, true_label
-    )  # Ajouter les données de la ligne au tableau
-```
-
 <div id="adding-data-to-resumed-runs">
   #### Ajout de données à des runs repris
 </div>
 
 Vous pouvez mettre à jour de façon incrémentielle un tableau W&amp;B dans des runs repris en chargeant un tableau existant depuis un artifact, en récupérant la dernière ligne de données, puis en ajoutant les métriques mises à jour. Réinitialisez ensuite le tableau pour garantir la compatibilité, puis journalisez de nouveau la version mise à jour dans W&amp;B.
-
-```python
-import wandb
-
-# Initialiser un run 
-with wandb.init(project="my_project") as run:
-
-    # Charger le tableau existant depuis l'artifact
-    best_checkpt_table = run.use_artifact(table_tag).get(table_name)
-
-    # Récupérer la dernière ligne de données du tableau pour la reprise
-    best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
-
-    # Mettre à jour les meilleures métriques si nécessaire
-
-    # Ajouter les données mises à jour au tableau
-    best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
-
-    # Réinitialiser le tableau avec ses données mises à jour pour garantir la compatibilité
-    best_checkpt_table = wandb.Table(
-        columns=["col1", "col2", "col3"], data=best_checkpt_table.data
-    )
-
-    # Initialiser le run
-    with wandb.init() as run:
-
-        # Enregistrer le tableau mis à jour dans W&B
-        run.log({table_name: best_checkpt_table})
-```
 
 <div id="retrieve-data">
   ## Récupérer des données
@@ -182,17 +115,6 @@ Tout tableau enregistré de cette façon s’affichera dans votre Workspace, à 
 
 Utilisez `artifact.add()` pour journaliser des tableaux dans la section Artifacts de votre run plutôt que dans le Workspace. Cela peut être utile si vous avez un jeu de données que vous souhaitez journaliser une seule fois, puis utiliser comme référence pour de futurs runs.
 
-```python
-with wandb.init(project="my_project") as run:
-    # créer un Artifact wandb pour chaque étape importante
-    test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
-
-    # [construire vos données de prédictions comme indiqué ci-dessus]
-    test_table = wandb.Table(data=data, columns=columns)
-    test_predictions.add(test_table, "my_test_key")
-    run.log_artifact(test_predictions)
-```
-
 Reportez-vous à ce Colab pour un [exemple détaillé de artifact.add() avec des données d’images](https://wandb.me/dsviz-nature-colab) et à ce Report pour voir [comment utiliser Artifacts et Tables pour gérer les versions et dédupliquer des données tabulaires](https://wandb.me/TBV-Dedup).
 
 <div id="join-artifact-tables">
@@ -210,27 +132,5 @@ Vous pouvez joindre des tableaux créés localement ou des tableaux récupérés
 Pour joindre deux tableaux que vous avez enregistrés précédemment dans le contexte d’un Artifact, récupérez-les depuis l’Artifact, puis combinez le résultat dans un nouveau tableau.
 
 Par exemple, l’exemple de code suivant montre comment lire un tableau de chansons originales appelé `'original_songs'` et un autre tableau contenant des versions synthétisées de ces mêmes chansons appelé `'synth_songs'`. Le code joint les deux tableaux sur `"song_id"` et téléverse le tableau obtenu en tant que nouveau tableau W&amp;B :
-
-```python
-import wandb
-
-with wandb.init(project="my_project") as run:
-
-    # récupérer le tableau des chansons originales
-    orig_songs = run.use_artifact("original_songs:latest")
-    orig_table = orig_songs.get("original_samples")
-
-    # récupérer le tableau des chansons synthétisées
-    synth_songs = run.use_artifact("synth_songs:latest")
-    synth_table = synth_songs.get("synth_samples")
-
-    # joindre les tableaux sur "song_id"
-    join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
-    join_at = wandb.Artifact("synth_summary", "analysis")
-
-    # ajouter le tableau à l'artifact et enregistrer dans W&B
-    join_at.add(join_table, "synth_explore")
-    run.log_artifact(join_at)
-```
 
 [Lire ce tutoriel](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) pour voir comment combiner deux tableaux précédemment enregistrés dans différents objets Artifact.

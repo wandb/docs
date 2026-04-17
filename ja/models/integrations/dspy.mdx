@@ -78,48 +78,6 @@ W&amp;B は初めてですか？[クイックスタートガイド](/ja/models/q
 
 `dspy.Evaluate` を使用する DSPy オプティマイザ (MIPROv2 など) では、`WandbDSPyCallback` を使用して、時間の経過に伴う評価メトリクスをログし、W&amp;B Tables でプログラムシグネチャの変遷をトラッキングします。
 
-```python
-import dspy
-from dspy.datasets import MATH
-
-import weave
-import wandb
-from wandb.integration.dspy import WandbDSPyCallback
-
-# W&Bを初期化する（weaveをインポートするだけで十分。weave.initの明示的な呼び出しは不要）
-project_name = "dspy-optimization"
-with wandb.init(project=project_name) as run:
-    # DSPyにW&Bコールバックを追加する
-    dspy.settings.callbacks.append(
-        WandbDSPyCallback(run=run)
-    )
-
-    # 言語モデルを設定する
-    teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
-    student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
-    dspy.configure(lm=student_lm)
-
-    # データセットを読み込み、プログラムを定義する
-    dataset = MATH(subset='algebra')
-    program = dspy.ChainOfThought("question -> answer")
-
-    # オプティマイザーを設定して実行する
-    optimizer = dspy.MIPROv2(
-        metric=dataset.metric,
-        auto="light",
-        num_threads=24,
-        teacher_settings=dict(lm=teacher_lm),
-        prompt_model=student_lm
-    )
-
-    optimized_program = optimizer.compile(
-        program,
-        trainset=dataset.train,
-        max_bootstrapped_demos=2,
-        max_labeled_demos=2
-    )
-```
-
 このコードを実行すると、W&amp;B Run URL と Weave URL の両方が取得されます。W&amp;B では、評価メトリクスの推移に加えて、プログラムシグネチャの変化を示す Tables が表示されます。run の **Overview** タブには、詳しく確認するための Weave トレースへのリンクが含まれます。
 
 `run` オブジェクトが `WandbDSPyCallback` に渡されない場合は、グローバルな `run` オブジェクトが使用されます。
@@ -135,20 +93,6 @@ DSPy での Weave トレース、評価、最適化の詳細については、[W
 </div>
 
 最適化中に個々の例を確認できるよう、詳細な予測ログを有効にします。このコールバックは各評価 step ごとに W&amp;B Tables を作成するため、個別の成功例や失敗例の分析に役立ちます。
-
-```python
-from wandb.integration.dspy import WandbDSPyCallback
-
-# 予測のログを有効化（デフォルトで有効）
-callback = WandbDSPyCallback(log_results=True)
-dspy.settings.callbacks.append(callback)
-
-# 最適化を実行する
-optimized_program = optimizer.compile(program, trainset=train_data)
-
-# 必要に応じて予測のログを無効化する
-# callback = WandbDSPyCallback(log_results=False)
-```
 
 <div id="access-prediction-data">
   ### 予測データにアクセスする
@@ -174,32 +118,3 @@ optimized_program = optimizer.compile(program, trainset=train_data)
 </div>
 
 最良の DSPy プログラムを再現し、バージョン管理できるようにするには、W&amp;B Artifacts として保存します。プログラム全体を保存するか、状態のみを保存するかを選択できます。
-
-```python
-from wandb.integration.dspy import WandbDSPyCallback
-
-# コールバックインスタンスを作成する
-callback = WandbDSPyCallback()
-dspy.settings.callbacks.append(callback)
-
-# 最適化を実行する
-optimized_program = optimizer.compile(program, trainset=train_data)
-
-# 保存オプション:
-
-# 1. 完全なプログラム（推奨）- アーキテクチャと状態を含む
-callback.log_best_model(optimized_program, save_program=True)
-
-# 2. JSONとして状態のみ - 軽量で人間が読みやすい
-callback.log_best_model(optimized_program, save_program=False, filetype="json")
-
-# 3. pickleとして状態のみ - Pythonオブジェクトを保持する
-callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
-
-# バージョン管理用のカスタムaliasを追加する
-callback.log_best_model(
-    optimized_program,
-    save_program=True,
-    aliases=["best", "production", "v2.0"]
-)
-```

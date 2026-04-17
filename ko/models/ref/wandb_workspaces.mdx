@@ -37,20 +37,6 @@ pip install wandb-workspaces
 
 리포트를 만들려면 팀의 entity를 지정하고 리포트 이름을 입력하세요. 꺾쇠 괄호로 둘러싸인 텍스트를 값으로 바꾸세요:
 
-```python
-import wandb_workspaces.reports.v2 as wr 
-# 생성
-report = wr.Report(
-    entity="<team_entity>",
-    project="<project_name>",
-    title='Quickstart Report',
-    description="That was easy!"
-)
-
-# 리포트 저장
-report.save()
-```
-
 다음으로 리포트에 블록과 패널을 추가하세요. 예를 들어, 다음 코드는 목차, 헤더, 문단이 포함된 리포트를 생성합니다.
 
 ```python
@@ -69,28 +55,5 @@ report.save()
 </div>
 
 다음 코드는 선형 플롯, 막대 플롯, 스칼라 차트의 세 패널이 포함된 섹션이 있는 워크스페이스를 생성하는 방법을 보여줍니다. 괄호로 둘러싸인 텍스트를 사용할 값으로 바꾸세요:
-
-```python
-# 임포트하는 방법
-import wandb_workspaces.workspaces as ws
-
-# Workspace 생성
-ws.Workspace(
-     entity="<team_entity>", # workspace를 소유하는 entity
-     project="<project_name>", # workspace와 연결된 프로젝트
-     sections=[
-         ws.Section(
-             name="<Validation Metrics>",
-             panels=[
-                 wr.LinePlot(x="Step", y=["<val_loss>"]),
-                 wr.BarPlot(metrics=["<val_accuracy>"]),
-                 wr.ScalarChart(metric="<f1_score>", groupby_aggfunc="<mean>"),
-             ],
-             is_open=True,
-         ),
-     ],
-)
-workspace.save()
-```
 
 엔드투엔드 예제는 [Workspace API 퀵스타트](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) Google Colab을 참조하세요.

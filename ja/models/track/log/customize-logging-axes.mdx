@@ -7,18 +7,6 @@ description: "デフォルトの W&B step カウンターではなく、define_m
 
 たとえば、次のスクリプトには 10 回繰り返す `for` ループがあります。各反復で、スクリプトは `validation_loss` というメトリクスをログし、step 番号を 1 ずつ増やします。
 
-```python
-import wandb
-
-with wandb.init() as run:
-  # range関数は0から9までの数列を生成する
-  for i in range(10):
-    log_dict = {
-        "validation_loss": 1/(i+1)   
-    }
-    run.log(log_dict)
-```
-
 プロジェクトのWorkspaceでは、`validation_loss` メトリクスが x軸 `step` に対してプロットされます。`step` は `wandb.Run.log()` が呼び出されるたびに 1 ずつ増加します。前のコード例では、x軸に step 番号 0、1、2、...、9 が表示されます。
 
 <Frame>
@@ -30,24 +18,6 @@ with wandb.init() as run:
 `name` パラメーターには y軸に表示するメトリクスを指定します。`step_metric` パラメーターには、x軸として使用するメトリクスを指定します。カスタムメトリクスをログする場合は、辞書内で x軸と y軸の両方の値をキーと値のペアとして指定してください。
 
 次のコードスニペットをコピー＆ペーストして、カスタム x軸メトリクスを設定します。`<>` 内の値はご自身の値に置き換えてください。
-
-```python
-import wandb
-
-custom_step = "<custom_step>"  # カスタムx軸の名前
-metric_name = "<metric>"  # y軸メトリクスの名前
-
-with wandb.init() as run:
-    # stepメトリクス（x軸）とそれに対してログするメトリクス（y軸）を指定する
-    run.define_metric(step_metric = custom_step, name = metric_name)
-
-    for i in range(10):
-        log_dict = {
-            custom_step : int,  # x軸の値
-            metric_name : int,  # y軸の値
-        }
-        run.log(log_dict)
-```
 
 例として、次のコードスニペットでは、`x_axis_squared` というカスタム x軸 を作成します。カスタム x軸 の値は、for ループのインデックス `i` の二乗 (`i**2`) です。y軸 は、Python 組み込みの `random` モジュールを使用した検証損失 (`"validation_loss"`) のモック値で構成されます:
 
@@ -74,22 +44,4 @@ with wandb.init() as run:
 
 文字列プレフィックス付きの `globs` を使用すると、複数のメトリクスに対してカスタム x軸 を設定できます。たとえば、次のコードスニペットでは、プレフィックス `train/*` を持つログされたメトリクスを x軸 `train/step` にプロットしています.
 
-```python
-import wandb
-
-with wandb.init() as run:
-
-    # 他のすべての train/ メトリクスにこの step を使用するよう設定する
-    run.define_metric("train/*", step_metric="train/step")
-
-    for i in range(10):
-        log_dict = {
-            "train/step": 2**i,  # W&B 内部 step に対して指数的に増加
-            "train/loss": 1 / (i + 1),  # x軸は train/step
-            "train/accuracy": 1 - (1 / (1 + i)),  # x軸は train/step
-            "val/loss": 1 / (1 + i),  # x軸は wandb 内部 step
-        }
-        run.log(log_dict)
-```
-
-{/* [Google Colab で `define_metric` を試す](https://wandb.me/define-metric-colab). */}
+{/* [Google Colabで `define_metric` を試す](https://wandb.me/define-metric-colab)。 */}

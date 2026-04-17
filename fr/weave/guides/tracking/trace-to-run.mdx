@@ -13,8 +13,8 @@ Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
 
 <Tabs>
   <Tab title="Python">
-    Le code Python suivant montre comment les Ops tracées sont liées aux
-    runs W&amp;B lorsqu&#39;elles sont exécutées dans un contexte `wandb.init()`. Ces traces apparaissent dans la
+    Le code Python suivant montre comment les Ops tracées sont liées aux runs W&amp;B
+    lorsqu&#39;elles sont exécutées dans un contexte `wandb.init()`. Ces traces apparaissent dans la
     Weave UI et sont associées au run correspondant.
 
     Pour afficher un run W&amp;B sous forme de trace Weave :
@@ -32,49 +32,6 @@ Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
     ```
 
     3. Dans le script suivant, remplacez `your-team-name/your-project-name` par votre entité/projet W&amp;B réelle :
-
-    ```python lines
-    import wandb
-    import weave
-
-    def example_wandb(projname):
-        # Séparer projname en entité et projet
-        entity, project = projname.split("/", 1)
-
-        # Initialiser le contexte Weave pour le tracing
-        weave.init(projname)
-
-        # Définir une op traçable
-        @weave.op()
-        def say(message: str) -> str:
-            return f"I said: {message}"
-
-        # Premier run W&B
-        with wandb.init(
-            entity=entity,
-            project=project,
-            notes="Experiment 1",
-            tags=["baseline", "paper1"],
-        ) as run:
-            say("Hello, world!")
-            say("How are you!")
-            run.log({"messages": 2})
-
-        # Deuxième run W&B
-        with wandb.init(
-            entity=entity,
-            project=project,
-            notes="Experiment 2",
-            tags=["baseline", "paper1"],
-        ) as run:
-            say("Hello, world from experiment 2!")
-            say("How are you!")
-            run.log({"messages": 2})
-
-    if __name__ == "__main__":
-        # Remplacez ceci par votre nom d'utilisateur/projet W&B réel
-        example_wandb("your-team-name/your-project-name")
-    ```
 
     4. Exécutez le script.
 

@@ -169,12 +169,6 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 `wandb.Run.log()`를 사용하면 PyTorch 텐서를 포함한 `NaN` 값도 선형 플롯에 표시할 수 있습니다. 예를 들면 다음과 같습니다:
 
-```python
-with wandb.init() as run:
-    # NaN 값 로깅
-    run.log({"test": float("nan")})
-```
-
 <Frame>
   <img src="/images/app_ui/visualize_nan.png" alt="NaN 값 처리" />
 </Frame>

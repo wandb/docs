@@ -6,55 +6,12 @@ description: "Suivez les fonctions génératrices synchrones et asynchrones avec
 W&amp;B Weave prend en charge le tracing des fonctions génératrices synchrones et asynchrones, y compris dans des schémas profondément imbriqués.
 
 <Warning>
-  Comme les générateurs produisent leurs valeurs de façon paresseuse, Weave ne journalise les sorties que lorsque le générateur est entièrement consommé (par exemple, lorsque vous le convertissez en liste).
-  Pour vous assurer que Weave capture les sorties dans la trace, consommez entièrement le générateur (par exemple, avec `list()`).
+  Comme les générateurs produisent leurs valeurs de façon paresseuse, Weave ne journalise les sorties que lorsque le générateur est entièrement consommé (par exemple, lorsque vous le convertissez en liste). Pour vous assurer que Weave capture les sorties dans la trace,
+  consommez entièrement le générateur (par exemple, avec `list()`).
 </Warning>
 
 <Tabs>
-  <Tab title="Python">
-    ```python
-    from typing import Generator
-    import weave
-
-    weave.init("my-project")
-
-    # Cette fonction utilise un générateur synchrone simple.
-    # Weave tracera l'appel et son entrée (`x`),
-    # mais les valeurs de sortie ne sont capturées qu'une fois le générateur consommé (par exemple, avec `list()`).
-    @weave.op
-    def basic_gen(x: int) -> Generator[int, None, None]:
-        yield from range(x)
-
-    # Une fonction synchrone normale utilisée dans le pipeline du générateur.
-    # Ses appels sont également tracés indépendamment par Weave.
-    @weave.op
-    def inner(x: int) -> int:
-        return x + 1
-
-    # Un générateur synchrone qui appelle une autre fonction tracée (`inner`).
-    # Chaque valeur produite provient d'un appel tracé distinct à `inner`.
-    @weave.op
-    def nested_generator(x: int) -> Generator[int, None, None]:
-        for i in range(x):
-            yield inner(i)
-
-    # Un générateur plus complexe qui compose le générateur ci-dessus.
-    # Le tracing produit ici une arborescence d'appels hiérarchique :
-    # - `deeply_nested_generator` (parent)
-    #   - `nested_generator` (enfant)
-    #     - `inner` (petit-enfant)
-    @weave.op
-    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
-        for i in range(x):
-            for j in nested_generator(i):
-                yield j
-
-    # Le générateur doit être *consommé* pour que Weave capture les sorties.
-    # Cela vaut pour les générateurs synchrones comme asynchrones.
-    res = deeply_nested_generator(4)
-    list(res)  # Déclenche le tracing de tous les appels imbriqués et des valeurs produites
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     ```plaintext

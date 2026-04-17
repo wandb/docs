@@ -16,28 +16,6 @@ Les deux méthodes bloquent jusqu&#39;à ce que tous les envois en arrière-plan
 
 L&#39;exemple suivant montre `client.finish()` :
 
-```python
-from celery import Celery
-import weave
-
-app = Celery('tasks')
-
-@app.task
-def process_task(input_data):
-    weave.init("your-team-name/your-project-name")
-
-    try:
-        # La logique de votre tâche qui crée des traces
-        result = your_processing_function(input_data)
-
-        # S'assurer que toutes les traces sont envoyées avant la fin de la tâche
-        weave.finish()
-
-        return result
-    finally:
-        pass
-```
-
 Vous pouvez aussi utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` à la fin du bloc :
 
 ```python
@@ -51,8 +29,14 @@ Vous pouvez également améliorer les performances de votre application grâce �
 
 ***
 
-{/* GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet */}
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">
+  [Données de trace](/fr/support/weave/tags/trace-data)
+</Badge>
+
+<Badge stroke shape="pill" color="orange" size="md">
+  [Performances](/fr/support/weave/tags/performance)
+</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

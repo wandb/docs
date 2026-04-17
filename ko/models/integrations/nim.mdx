@@ -21,14 +21,6 @@ W&amp;B의 모델 artifact를 NVIDIA NeMo Inference Microservice에 배포합니
 
 1. 아직 없다면 [Launch 큐를 생성하세요](/ko/platform/launch/add-job-to-queue/). 아래에 예시 큐 설정이 나와 있습니다.
 
-   ```yaml
-   net: host
-   gpus: all # 특정 GPU 집합을 지정하거나, 모든 GPU를 사용하려면 `all`을 사용할 수 있습니다
-   runtime: nvidia # nvidia container runtime도 필요합니다
-   volume:
-     - model-store:/model-store/
-   ```
-
    <Frame>
      <img src="/images/integrations/nim1.png" alt="image" />
    </Frame>

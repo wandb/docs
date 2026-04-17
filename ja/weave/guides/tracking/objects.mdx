@@ -32,26 +32,10 @@ weave.publish(dataset)
 Weave のシリアライゼーション レイヤーは、オブジェクトの保存およびバージョン管理を行います。
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    weave.init("your-team-name/your-project-name")
-    # リストを保存し、名前 'cat-names' を付ける
-    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     TypeScript での公開はまだ初期段階のため、すべてのオブジェクトが完全にサポートされているわけではありません。
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    const client = await weave.init("your-team-name/your-project-name")
-
-    // 配列を保存し、名前 'cat-names' を付ける
-    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
-    ```
   </Tab>
 </Tabs>
 

@@ -117,43 +117,10 @@ artifact.download()
 
 L’exemple suivant montre comment récupérer un artifact lié à partir d’un registre W&amp;B
 
-```python
-import wandb
-
-REGISTRY = "<registry_name>"
-COLLECTION = "<collection_name>"
-VERSION = "<version>"
-
-api = wandb.Api()
-artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-
-# Récupérer l'artifact
-fetched_artifact = api.artifact(name = artifact_name)
-
-# Télécharger l'artifact. Renvoie le chemin vers le contenu téléchargé
-downloaded_path = fetched_artifact.download()
-```
-
 <div id="query-wb-registry">
   ### requête le registre W&amp;B
 </div>
 
 Utilisez des filtres de type Mongo pour interroger les registres, les collections et les Artifacts W&amp;B. L’exemple suivant montre comment filtrer les collections par nom à l’aide d’une expression régulière.
-
-```python
-import wandb
-
-# Initialiser l'API wandb
-api = wandb.Api()
-
-# Filtrer toutes les collections, indépendamment du registre, qui
-# contiennent la chaîne `yolo` dans le nom de la collection
-collection_filters = {
-    "name": {"$regex": "yolo"}
-}
-
-# Renvoie un itérable de toutes les collections correspondant aux filtres
-collections = api.registries().collections(filter=collection_filters)
-```
 
 Pour plus d’informations sur la requête d’un registre, d’une collection ou d’un artifact, voir [Rechercher des éléments du registre](/fr/models/registry/search_registry).

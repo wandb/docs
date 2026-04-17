@@ -23,30 +23,10 @@ Calls를 내보내려면 다음 단계를 따르세요.
 <Tabs>
   <Tab title="Python">
     Python API를 사용해 call을 조회하려면 [`client.get_calls`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_calls) 메서드를 사용할 수 있습니다.
-
-    ```python lines
-    import weave
-
-    # 클라이언트 초기화
-    client = weave.init("your-project-name")
-
-    # call 조회
-    calls = client.get_calls(filter=...)
-    ```
   </Tab>
 
   <Tab title="TypeScript">
     TypeScript API를 사용해 call을 조회하려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메서드를 사용할 수 있습니다.
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    // 클라이언트 초기화
-    const client = await weave.init('intro-example')
-
-    // call 조회
-    const calls = await client.getCalls(filter=...)
-    ```
   </Tab>
 
   <Tab title="HTTP API">
@@ -132,81 +112,7 @@ Weave Service API의 [POST `/calls/stats` 엔드포인트](https://docs.wandb.ai
 
 다음 예제는 `web_app`이라는 이름의 Op에서 생성된 Calls를 2일 동안 조회하는 방법을 보여줍니다:
 
-<CodeGroup>
-  ```python Python lines {10-11,16-24}
-  import requests
-  import json
-  import os
-
-  url = "https://trace.wandb.ai/calls/stats"
-
-  payload = {
-      "project_id": "<your-team-name/your-project-name>",
-      "start": "2026-03-01T00:00:00Z",
-  # 버킷 크기를 초 단위로 지정합니다.
-      "granularity": 86400,
-      "filter": {
-          "trace_roots_only": True,
-          "op_names": ["web_app"]
-      },
-  # 메트릭과 해당 집계 함수를 지정합니다.
-      "usage_metrics": [
-          {"metric": "total_tokens", "aggregations": ["sum"]},
-          {"metric": "total_cost", "aggregations": ["sum"]}
-      ],
-      "call_metrics": [
-          {"metric": "call_count", "aggregations": ["sum"]},
-          {"metric": "error_count", "aggregations": ["sum"]},
-          {"metric": "latency_ms", "aggregations": ["avg", "min", "max"], "percentiles": [50, 95, 99]}
-      ]
-  }
-
-  API_KEY = os.getenv("WANDB_API_KEY")
-
-  response = requests.post(url, json=payload, auth=("api", API_KEY))
-
-  print(json.dumps(response.json(), indent=2))
-  ```
-
-  ```typescript TypeScript lines {6-7,13-20}
-  const url = "https://trace.wandb.ai/calls/stats";
-
-  const payload = {
-    project_id: "<your-team-name/your-project-name>",
-    start: "2026-03-01T00:00:00Z",
-  // 버킷 크기를 초 단위로 지정합니다.
-    granularity: 86400,
-    filter: {
-      trace_roots_only: true,
-      op_names: ["web_app"],
-    },
-  // 메트릭과 해당 집계 함수를 지정합니다.
-    usage_metrics: [
-      { metric: "total_tokens", aggregations: ["sum"] },
-      { metric: "total_cost", aggregations: ["sum"] },
-    ],
-    call_metrics: [
-      { metric: "call_count", aggregations: ["sum"] },
-      { metric: "error_count", aggregations: ["sum"] },
-      { metric: "latency_ms", aggregations: ["avg", "min", "max"], percentiles: [50, 95, 99] },
-    ],
-  };
-
-  const API_KEY = process.env.WANDB_API_KEY!;
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + btoa(`api:${API_KEY}`),
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = await response.json();
-  console.log(JSON.stringify(data, null, 2));
-  ```
-</CodeGroup>
+<CodeGroup />
 
 이 요청은 메트릭을 어떤 방식으로 집계할지도 지정합니다. 메트릭은 `sum`, `count`, `avg`, `min`, `max`, `count` 기준으로 집계할 수 있습니다.
 

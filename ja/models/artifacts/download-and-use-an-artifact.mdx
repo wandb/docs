@@ -19,13 +19,6 @@ W&amp;B Run の実行中でも実行外でも、W&amp;B に保存されている
   <Tab title="run 中">
     まず、W&amp;B Python SDK を import します。次に、W&amp;B [Run](/ja/models/ref/python/experiments/run) を作成します。
 
-    ```python
-    import wandb
-
-    with wandb.init(project="<example>", job_type="<job-type>") as run:
-        # 次の step を参照
-    ```
-
     [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) method を使用して、使いたい artifact を指定します。この method は run オブジェクトを返します。次の code snippet では、`'latest'` alias が付いた `'bike-dataset'` という artifact を指定しています。
 
     ```python
@@ -50,20 +43,6 @@ W&amp;B Run の実行中でも実行外でも、W&amp;B に保存されている
     ```
 
     以上をまとめると、完全なコード例は次のようになります。
-
-    ```python
-    import wandb    
-
-    with wandb.init(project="<example>", job_type="<job-type>") as run:
-        # 使用する artifact を指定します。形式は "name:alias" です
-        artifact = run.use_artifact("bike-dataset:latest")
-
-        # artifact 全体をダウンロードします
-        datadir = artifact.download()
-
-        # 特定のファイルをダウンロードします
-        entry = artifact.get_entry("bike.png")
-    ```
 
     これにより、パス `name` にあるファイルだけを取得します。返されるのは `Entry` オブジェクトで、次の methods があります。
 
@@ -107,21 +86,7 @@ W&amp;B Run の実行中でも実行外でも、W&amp;B に保存されている
 
 プレフィックスを指定して、artifact の一部だけを必要に応じてダウンロードできます。単一のファイルまたはサブフォルダーの内容をダウンロードするには、`path_prefix=` (`wandb.Artifact.download(path_prefix=)`) パラメーターを使用します。
 
-```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
-    # 使用するartifactを指定します。フォーマット: "name:alias"
-    artifact = run.use_artifact("bike-dataset:latest")
-
-    # 特定のファイルまたはサブフォルダをダウンロードする
-    artifact.download(path_prefix="bike.png") # bike.png のみをダウンロード
-```
-
 また、特定のディレクトリからファイルをダウンロードすることもできます。その場合は、`path_prefix=` パラメーターにディレクトリを指定します。前のコードスニペットに続けて、次のように記述します。
-
-```python
-# images/bikes ディレクトリ内のファイルをダウンロードする
-artifact.download(path_prefix="images/bikes/") 
-```
 
 <div id="use-an-artifact-from-a-different-project">
   ### 別のプロジェクトのartifactを使用する
@@ -130,17 +95,6 @@ artifact.download(path_prefix="images/bikes/")
 artifactを参照するには、そのartifactの名をプロジェクト名とあわせて指定します。artifactの名にentity名も指定すると、entityをまたいでartifactを参照することもできます。
 
 以下のコード例は、現在のW&amp;B runへの入力として別のプロジェクトのartifactをクエリする方法を示しています。
-
-```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
-    # 別のプロジェクトのartifactをW&Bでクエリし、このrunへの
-    # 入力としてマークする。
-    artifact = run.use_artifact("my-project/artifact:alias")
-
-    # 別のentityのartifactを使用して、このrunへの入力としてマークする。
-    artifact = run.use_artifact("my-entity/my-project/artifact:alias")
-
-```
 
 <div id="construct-and-use-an-artifact-simultaneously">
   ### artifact を作成して同時に使用する

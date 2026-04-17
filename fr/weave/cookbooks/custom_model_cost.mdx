@@ -55,68 +55,8 @@ weave_client = weave.init(name_of_wandb_project)
   ## Configurer un modèle avec Weave
 </div>
 
-```python lines
-from weave import Model
-
-class YourModel(Model):
-    attribute1: str
-    attribute2: int
-
-    def simple_token_count(self, text: str) -> int:
-        return len(text) // 3
-
-    # Ceci est un op personnalisé que nous définissons
-    # Il prend une chaîne de caractères en entrée et retourne un dict avec les comptages d'utilisation, le nom du modèle et la sortie
-    @weave.op()
-    def custom_model_generate(self, input_data: str) -> dict:
-        # La logique du modèle se trouve ici
-        # C'est ici que vous placeriez une fonction de génération personnalisée
-        prediction = self.attribute1 + " " + input_data
-
-        # Comptages d'utilisation
-        prompt_tokens = self.simple_token_count(input_data)
-        completion_tokens = self.simple_token_count(prediction)
-
-        # Nous retournons un dictionnaire avec les comptages d'utilisation, le nom du modèle et la sortie
-        # Weave associera automatiquement ceci à la trace
-        # Cet objet {usage, model, output} correspond à la sortie d'un Appel OpenAI
-        return {
-            "usage": {
-                "input_tokens": prompt_tokens,
-                "output_tokens": completion_tokens,
-                "total_tokens": prompt_tokens + completion_tokens,
-            },
-            "model": "your_model_name",
-            "output": prediction,
-        }
-
-    # Dans notre fonction predict, nous appelons notre fonction de génération personnalisée et retournons la sortie.
-    @weave.op()
-    def predict(self, input_data: str) -> dict:
-        # C'est ici que vous effectueriez tout post-traitement des données
-        outputs = self.custom_model_generate(input_data)
-        return outputs["output"]
-```
-
-
 <div id="add-a-custom-cost">
   ## Ajouter un coût personnalisé
 </div>
 
 Ici, nous ajoutons un coût personnalisé. Maintenant que nous avons un coût personnalisé et que nos appels ont une utilisation, nous pouvons récupérer les appels avec `include_cost`, et ces appels auront des coûts dans `summary.weave.costs`.
-
-```python lines
-model = YourModel(attribute1="Hello", attribute2=1)
-model.predict("world")
-
-# Nous ajoutons ensuite un coût personnalisé à notre projet
-weave_client.add_cost(
-    llm_id="your_model_name", prompt_token_cost=0.1, completion_token_cost=0.2
-)
-
-# Nous pouvons ensuite interroger les appels, et avec include_costs=True
-# nous recevons les coûts associés aux appels
-calls = weave_client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
-
-list(calls)
-```

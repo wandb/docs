@@ -52,31 +52,9 @@ Weave는 [Smolagents](https://huggingface.co/docs/smolagents/en/index)의 트레
 * 검색 도구를 트리거하는 쿼리를 에이전트를 통해 실행합니다.
 * Weave는 각 함수와 모델 호출을 로깅하고, 웹 인터페이스에서 이를 확인할 수 있도록 합니다.
 
-```python lines
-import weave
-from smolagents import DuckDuckGoSearchTool, OpenAIServerModel, ToolCallingAgent
-
-# Weave 초기화
-weave.init(project_name="smolagents")
-
-# Smolagents에서 지원하는 LLM 공급자 정의
-model = OpenAIServerModel(model_id="gpt-4o")
-
-# 쿼리를 기반으로 DuckDuckGo 웹 검색 도구 정의
-search_tool = DuckDuckGoSearchTool()
-
-# 도구 호출 에이전트 정의
-agent = ToolCallingAgent(tools=[search_tool], model=model)
-answer = agent.run(
-    "Get me just the title of the page at url 'https://wandb.ai/geekyrakshit/story-illustration/reports/Building-a-GenAI-assisted-automatic-story-illustrator--Vmlldzo5MTYxNTkw'?"
-)
-```
-
 코드 샘플을 실행한 후 Weave 프로젝트 대시보드로 이동해 트레이스를 확인하세요.
 
-<Frame>
-  ![Weave는 각 Inference call을 기록하고 입력, 출력, 메타데이터에 대한 세부 정보를 제공합니다.](/weave/guides/integrations/imgs/smolagents-trace.png)
-</Frame>
+<Frame>![Weave는 각 Inference call을 기록하고 입력, 출력, 메타데이터에 대한 세부 정보를 제공합니다.](/weave/guides/integrations/imgs/smolagents-trace.png)</Frame>
 
 <div id="tracing-custom-tools">
   ## 맞춤형 도구 트레이싱
@@ -84,40 +62,15 @@ answer = agent.run(
 
 `smolagents`의 `@tool`로 함수를 데코레이트하거나 `smolagents.Tool` 클래스를 상속하여 에이전트 워크플로를 위한 맞춤형 도구를 선언할 수 있습니다.
 
-Weave는 Smolagents 워크플로의 맞춤형 도구 호출을 자동으로 추적합니다. 다음 예제에서는 Weave로 맞춤형 Smolagents 도구 호출을 로깅하는 방법을 보여줍니다.
+Weave는 Smolagents 워크플로의 맞춤형 도구 Call을 자동으로 추적합니다. 다음 예제에서는 Weave로 맞춤형 Smolagents 도구 Call을 로깅하는 방법을 보여줍니다.
 
 * 맞춤형 `get_weather` 함수가 정의되고 Smolagents의 `@tool`로 데코레이트되어, 에이전트가 추론 과정의 일부로 이를 호출할 수 있습니다.
 * 이 함수는 위치와 섭씨 출력을 위한 선택적 플래그를 인자로 받습니다.
 * `OpenAIServerModel`을 사용해 언어 모델 인스턴스를 생성합니다.
 * 맞춤형 도구와 모델을 사용해 `ToolCallingAgent`를 생성합니다.
 * 에이전트가 쿼리를 실행하면 `get_weather` 도구를 선택해 호출합니다.
-* Weave는 인자와 반환 값을 포함해 모델 Inference와 맞춤형 도구 호출을 모두 기록합니다.
-
-```python lines
-from typing import Optional
-
-import weave
-from smolagents import OpenAIServerModel, ToolCallingAgent, tool
-
-weave.init(project_name="smolagents")
-
-@tool
-def get_weather(location: str, celsius: Optional[bool] = False) -> str:
-    """
-    주어진 위치의 향후 며칠간 날씨를 조회합니다.
-    매개변수:
-        location: 위치.
-        celsius: 섭씨 온도 사용 여부.
-    """
-    return f"The weather in {location} is sunny with temperatures around 7°C."
-
-model = OpenAIServerModel(model_id="gpt-4o")
-agent = ToolCallingAgent(tools=[get_weather], model=model)
-answer = agent.run("What is the weather in Tokyo?")
-```
+* Weave는 인자와 반환 값을 포함해 모델 Inference와 맞춤형 도구 Call을 모두 기록합니다.
 
 코드 샘플을 실행한 후 Weave 프로젝트 대시보드로 이동하여 트레이스를 확인하세요.
 
-<Frame>
-  ![Weave는 각 맞춤형 도구 call을 기록합니다.](/weave/guides/integrations/imgs/smolagents-custom-tool.png)
-</Frame>
+<Frame>![Weave는 각 맞춤형 도구 Call을 기록합니다.](/weave/guides/integrations/imgs/smolagents-custom-tool.png)</Frame>

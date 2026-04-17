@@ -23,30 +23,10 @@ Calls をエクスポートするには、次の手順に従います。
 <Tabs>
   <Tab title="Python">
     Python API を使用して calls を取得するには、[`client.get_calls`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_calls) メソッドを使用します。
-
-    ```python lines
-    import weave
-
-    # クライアントを初期化する
-    client = weave.init("your-project-name")
-
-    # calls を取得する
-    calls = client.get_calls(filter=...)
-    ```
   </Tab>
 
   <Tab title="TypeScript">
     TypeScript API を使用して calls を取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用します。
-
-    ```typescript lines
-    import * as weave from 'weave'
-
-    // クライアントを初期化する
-    const client = await weave.init('intro-example')
-
-    // calls を取得する
-    const calls = await client.getCalls(filter=...)
-    ```
   </Tab>
 
   <Tab title="HTTP API">
@@ -132,81 +112,7 @@ Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.w
 
 次の例は、`web_app` という名前の Op から生成された Calls を 2 日間にわたって取得する方法を示しています。
 
-<CodeGroup>
-  ```python Python lines {10-11,16-24}
-  import requests
-  import json
-  import os
-
-  url = "https://trace.wandb.ai/calls/stats"
-
-  payload = {
-      "project_id": "<your-team-name/your-project-name>",
-      "start": "2026-03-01T00:00:00Z",
-  # バケットのサイズを秒単位で指定します。
-      "granularity": 86400,
-      "filter": {
-          "trace_roots_only": True,
-          "op_names": ["web_app"]
-      },
-  # メトリクスとその集計関数を指定します
-      "usage_metrics": [
-          {"metric": "total_tokens", "aggregations": ["sum"]},
-          {"metric": "total_cost", "aggregations": ["sum"]}
-      ],
-      "call_metrics": [
-          {"metric": "call_count", "aggregations": ["sum"]},
-          {"metric": "error_count", "aggregations": ["sum"]},
-          {"metric": "latency_ms", "aggregations": ["avg", "min", "max"], "percentiles": [50, 95, 99]}
-      ]
-  }
-
-  API_KEY = os.getenv("WANDB_API_KEY")
-
-  response = requests.post(url, json=payload, auth=("api", API_KEY))
-
-  print(json.dumps(response.json(), indent=2))
-  ```
-
-  ```typescript TypeScript lines {6-7,13-20}
-  const url = "https://trace.wandb.ai/calls/stats";
-
-  const payload = {
-    project_id: "<your-team-name/your-project-name>",
-    start: "2026-03-01T00:00:00Z",
-  // バケットのサイズを秒単位で指定します。
-    granularity: 86400,
-    filter: {
-      trace_roots_only: true,
-      op_names: ["web_app"],
-    },
-  // メトリクスとその集計関数を指定します
-    usage_metrics: [
-      { metric: "total_tokens", aggregations: ["sum"] },
-      { metric: "total_cost", aggregations: ["sum"] },
-    ],
-    call_metrics: [
-      { metric: "call_count", aggregations: ["sum"] },
-      { metric: "error_count", aggregations: ["sum"] },
-      { metric: "latency_ms", aggregations: ["avg", "min", "max"], percentiles: [50, 95, 99] },
-    ],
-  };
-
-  const API_KEY = process.env.WANDB_API_KEY!;
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + btoa(`api:${API_KEY}`),
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = await response.json();
-  console.log(JSON.stringify(data, null, 2));
-  ```
-</CodeGroup>
+<CodeGroup />
 
 このリクエストでは、メトリクスをどのように集計するかも指定します。メトリクスは `sum`、`count`、`avg`、`min`、`max`、`count` で集計できます。
 

@@ -107,15 +107,6 @@ await ev.logSummary();
 
 `예시`
 
-```ts
-// Fire-and-forget 방식
-const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
-scoreLogger.logScore('accuracy', 0.95);
-scoreLogger.finish();
-await evalLogger.logSummary(); // 모든 작업이 완료될 때까지 대기
-```
-
-
 <div id="defined-in">
   #### 정의 위치
 </div>
@@ -152,14 +143,6 @@ resolve되는 Promise를 반환합니다.
 `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
 `예시`
-
-```ts
-// Awaitable 스타일
-const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
-await scoreLogger.logScore('accuracy', 0.95);
-await scoreLogger.finish();
-```
-
 
 <div id="defined-in">
   #### 정의 위치
