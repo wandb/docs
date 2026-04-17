@@ -1,58 +1,62 @@
 ---
-title: "wandb init"
+title: wandb init
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-init.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbInit from "/snippets/en/_includes/cli/wandb-init.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbInit/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L381" />
 
-Initialize or update W&B configuration for the current directory.
 
-Set a project and entity, create local W&B settings, and prepare the directory for experiment tracking.
-
-For example, set up W&B for the current directory with guided prompts for team and project selection:
-
-```bash
-$ wandb init
-```
-
-To set the default project to "foobar" and the default entity to "team-awesome" without prompts:
-
-```bash
-$ wandb init --project foobar --entity team-awesome
-```
-
-To set the W&B mode to offline:
-
-```bash
-$ wandb init --mode offline
-```
-
-To reset existing W&B configuration for the current directory:
-
-```bash
-$ wandb init --reset
-```
 
 ## Usage
 
 ```bash
-wandb init [OPTIONS]
+init [OPTIONS]
 ```
+
+## Description
+
+Initialize or update W&B configuration for the current directory.
+
+    Set a project and entity, create local W&B settings, and
+    prepare the directory for experiment tracking.
+
+    For example, set up W&B for the current directory with guided prompts
+    for team and project selection:
+
+```bash
+wandb init
+```
+
+    To set the default project to "foobar" and the default entity to "team-awesome" without prompts:
+
+```bash
+wandb init --project foobar --entity team-awesome
+```
+
+    To set the W&B mode to offline:
+
+```bash
+wandb init --mode offline
+```
+
+    To reset existing W&B configuration for the current directory:
+
+```bash
+wandb init --reset
+```
+
+
+
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | Set the project to upload runs to. |
-| `--entity`, `-e` | Set the entity to scope the project to. |
-| `--reset` | Reset existing W&B configuration for the directory. (default: False) |
-| `--mode`, `-m` | Set the W&B mode. One of 'online', 'offline', or 'disabled'. |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--project, -p` | STR | Set the project to upload runs to. **Default**: None |
+| `--entity, -e` | STR | Set the entity to scope the project to. **Default**: None |
+| `--reset` | BOOL Flag | Reset existing W&B configuration for the directory. **Default**: False |
+| `--mode, -m` | STR | Set the W&B mode. One of 'online', 'offline', or 'disabled'. **Default**: None |
+
