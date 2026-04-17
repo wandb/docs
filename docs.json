@@ -898,6 +898,7 @@
                           "weave/guides/integrations/claude_agent",
                           "weave/guides/integrations/langchain",
                           "weave/guides/integrations/llamaindex",
+                          "weave/guides/integrations/haystack",
                           "weave/guides/integrations/dspy",
                           "weave/guides/integrations/instructor",
                           "weave/guides/integrations/crewai",
