@@ -87,7 +87,7 @@ The graph view shows hierarchical relationships between ops. This is useful for 
 
 After you have selected an op in the trace tree, details for that op display in the next panel. These details are grouped into the following tabs:
 
-- **Call**: The input and output to the op execution.
+- **Call**: The input and output to the op execution. When the data matches a chat-completion style shape, Weave can show a **Chat** view in this panel. For how to format inputs and outputs for that view, see [Format trace data for the Chat view](/weave/guides/tracking/trace-chat-view).
 - **Code**: The code that was used when the call was made.
 - **Feedback**: Any available [feedback](/weave/guides/tracking/feedback) for the op. You can provide feedback directly within Weave or through the API.
 - **Scores**: Any available [scores](/weave/guides/evaluation/scorers) for the op. Calls are scored by running Evaluations.

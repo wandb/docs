@@ -1,0 +1,62 @@
+---
+title: "Format trace data for the Chat view"
+description: "Structure call inputs and outputs so Weave shows the conversational Chat view when you inspect a trace."
+---
+
+With W&B Weave, the Trace view **Call** panel can render inputs and outputs as a **Chat** view (message bubbles) when the logged data matches a chat-completion style shape. Integrations that patch OpenAI or Anthropic clients usually produce this shape automatically. If you log calls yourself, for example through the [Weave Service API](/weave/cookbooks/weave_via_service_api), you need to format request and response payloads so Weave can recognize them.
+
+## When the Chat view appears
+
+Weave looks for patterns similar to common LLM chat APIs:
+
+- **Inputs** include a `messages` array. Each item should include `role` (for example `user`, `assistant`, or `system`) and `content`. Including a `model` field alongside `messages` matches what many providers log for a single completion call.
+- **Outputs** include a `choices` array. Each item should include a `message` object with a `content` field for the assistant reply.
+
+If the data does not match this shape, the Call panel still shows **Input** and **Output**, but not the Chat layout.
+
+## Shape inputs and outputs
+
+The following example shows the minimal structure for one user turn and one assistant reply. Values are illustrative.
+
+```json
+{
+  "inputs": {
+    "model": "gpt-4o",
+    "messages": [
+      { "role": "user", "content": "Why is the sky blue?" }
+    ]
+  },
+  "output": {
+    "choices": [
+      {
+        "message": {
+          "content": "It is largely due to Rayleigh scattering of sunlight in the atmosphere."
+        }
+      }
+    ]
+  }
+}
+```
+
+For multi-turn conversations, add more objects to `messages` with the appropriate `role` and `content` values.
+
+## Log calls with the Service API
+
+To start and end calls over HTTP, send payloads that put the fields above on the call record:
+
+- On **call start**, set `inputs` to include `messages` (and typically `model`).
+- On **call end**, set `output` to include `choices` with `message.content` for the completion text.
+
+A full walkthrough with working Python examples is in [Use the Service API to trace](/weave/cookbooks/weave_via_service_api). See the [simple trace](/weave/cookbooks/weave_via_service_api#simple-trace) section for a minimal end-to-end sample.
+
+## Log calls with the SDK or integrations
+
+When you use W&B Weave integrations with provider SDKs, traced calls often inherit the correct structure without manual formatting. For background on how chat-style data appears in thread views, see [Chat view behavior](/weave/guides/tracking/threads#chat-view-behavior) in the Threads documentation.
+
+## Customize or override display
+
+If you need different rendering than the default Chat view, you can still control how data appears using `weave.Markdown` and postprocessors. See [View and customize trace display](/weave/guides/tracking/view-call).
+
+## OpenTelemetry traces
+
+Traces ingested as OpenTelemetry may not show tool calls in the Chat view the same way as native Weave calls. For details, see [Send OpenTelemetry traces to Weave](/weave/guides/tracking/otel).
