@@ -252,7 +252,7 @@ __init__(
  - `https_proxy` (Optional[str]): Custom proxy servers for https requests to W&B.
  - `identity_token_file` (Optional[str]): Path to file containing an identity token (JWT) for authentication.
  - `ignore_globs` (Sequence): Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
- - `init_timeout` (float): Time in seconds to wait for the `wandb.init` call to complete before timing out.
+ - `init_timeout` (float): Time in seconds to wait for the `wandb.init()` call to complete before timing out.
  - `insecure_disable_ssl` (bool): Whether to insecurely disable SSL verification.
  - `job_name` (Optional[str]): Name of the Launch job running the script.
  - `job_source` (Optional[Literal['repo', 'artifact', 'image']]): Source type for Launch.
@@ -279,7 +279,7 @@ __init__(
    the "create_new" option.
    - "finish_previous": Finish all active runs, then return a new run.
    - "create_new": Create a new run without modifying other active runs.
-   Does not update `wandb.run` and top-level functions like `wandb.log`.
+   Does not update `wandb.Run` and top-level functions like `wandb.Run.log()`.
    Because of this, some older integrations that rely on the global run
    will not work.
    Can also be a boolean, but this is deprecated. False is the same as
@@ -425,7 +425,7 @@ __init__(
    This can have a performance overhead and is disabled by default.
 
  - `x_sync_dir_suffix` (str): Suffix to add to the run's directory name (sync_dir).
-   This is set in wandb.init() to avoid naming conflicts.
+   This is set in `wandb.init()` to avoid naming conflicts.
    If set, it is joined to the default name with a dash.
  - `x_update_finish_state` (bool): Flag to indicate whether this process can update the run's final state on the server.
    Set to False in distributed training when only the main process should determine the final state.
