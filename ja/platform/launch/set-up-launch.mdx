@@ -56,7 +56,7 @@ Launch エージェントは、1 つ以上の Launch キューをポーリング
 
 `launch-config.yaml` という名前の YAML ファイルで Launch エージェントを設定します。デフォルトでは、W&amp;B は `~/.config/wandb/launch-config.yaml` にある設定ファイルを参照します。必要に応じて、Launch エージェントを起動するときに別のディレクトリを指定することもできます。
 
-Launch エージェントの設定ファイルの内容は、Launch エージェントの環境、Launch キューのターゲットリソース、Docker ビルダーの要件、クラウド Registry の要件などによって異なります。
+Launch エージェントの設定ファイルの内容は、Launch エージェントの環境、Launch キューのターゲットリソース、Docker ビルダーの要件、クラウドレジストリの要件などによって異なります。
 
 ユースケースにかかわらず、Launch エージェントには基本的な設定オプションがあります。
 
@@ -65,11 +65,21 @@ Launch エージェントの設定ファイルの内容は、Launch エージェ
 * `queues`: エージェントが監視する 1 つ以上のキューの名
 
 <Note>
-  W&amp;B CLI を使用すると、Launch エージェントの共通設定オプションを設定できます (設定用の YAML ファイルを使う代わりに) 。指定できるのは、ジョブの最大数、W&amp;B entity、Launch キューです。詳細については、[`wandb
-      launch-agent`](/ja/models/ref/cli/wandb-launch-agent) コマンドを参照してください。
+  W&amp;B CLI を使用すると、Launch エージェントの共通設定オプションを設定できます (設定用の YAML ファイルを使う代わりに) 。指定できるのは、ジョブの最大数、W&amp;B entity、Launch キューです。詳細については、[`wandb launch-agent`](/ja/models/ref/cli/wandb-launch-agent) コマンドを参照してください。
 </Note>
 
 次の YAML スニペットは、Launch エージェントの基本的な設定キーの指定方法を示しています。
+
+```yaml title="launch-config.yaml"
+# 同時に実行するrunの最大数。-1 = 制限なし
+max_jobs: -1
+
+entity: <entity-name>
+
+# ポーリングするキューのリスト。
+queues:
+  - <queue-name>
+```
 
 <div id="configure-a-container-builder">
   ### コンテナー ビルダーを設定する

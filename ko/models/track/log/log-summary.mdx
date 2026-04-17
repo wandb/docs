@@ -50,6 +50,29 @@ run.summary.update()
 
 다음 예제는 summary에 손실과 정확도의 최솟값 및 최댓값을 추가합니다:
 
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # loss의 최솟값 및 최댓값 summary
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # accuracy의 최솟값 및 최댓값 summary
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
 <div id="view-summary-metrics">
   ## summary 메트릭 보기
 </div>
@@ -78,5 +101,45 @@ run의 **Overview** 페이지 또는 프로젝트의 Runs 테이블에서 요약
     W&amp;B Public API를 사용하여 run의 요약 값을 가져올 수 있습니다.
 
     다음 코드 예제는 W&amp;B Public API와 pandas를 사용해 특정 run에 로깅된 요약 값을 조회하는 한 가지 방법을 보여줍니다.
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # 요약 값이 있는 run 이름
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # DataFrame으로 변환  
+    df = pd.DataFrame(all_runs)
+
+    # 열 이름(run)을 기준으로 행을 가져와 딕셔너리로 변환
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
   </Tab>
 </Tabs>

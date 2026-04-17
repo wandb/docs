@@ -454,7 +454,24 @@ command:
 
 対応する Python スクリプト (`run.py`) では、`argparse` モジュールを使って、これらのコマンドライン引数を解析できます。
 
-[sweep 設定で使用できる、あらかじめ定義されたマクロの一覧については、[Sweep configuration options](./sweep-config-keys) の [コマンドマクロ](./sweep-config-keys#command-macros) セクションを参照してください。](./sweep-config-keys#command-macros) 
+```python title="run.py"
+# run.py  
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--batch_size', type=int)
+parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
+parser.add_argument('--test', type=str2bool, default=False)
+args = parser.parse_args()
+
+# W&B Runを初期化する
+with wandb.init('test-project') as run:
+    run.log({'validation_loss':1})
+```
+
+[sweep 設定で使用できる、あらかじめ定義されたマクロの一覧については、[sweep 設定オプション](./sweep-config-keys) の [コマンドマクロ](./sweep-config-keys#command-macros) セクションを参照してください。](./sweep-config-keys#command-macros)
+
 
 <div id="boolean-arguments">
   #### ブール引数
@@ -464,4 +481,25 @@ command:
 
 たとえば、次のコードスニペットを使用してブール引数を定義できます。`ArgumentParser` の引数として `store_true` または `store_false` を渡します。
 
-ブール値の文字列表現をブール型に変換するカスタム関数を定義することもできます。たとえば、次のコードスニペットでは、文字列をブール値に変換する`str2bool`関数を定義しています。 
+```python
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--test', action='store_true')
+args = parser.parse_args()
+
+args.test  # --test が渡された場合は True、それ以外は False
+```
+
+ブール値の文字列表現をブール型に変換するカスタム関数を定義することもできます。たとえば、次のコードスニペットでは、文字列をブール値に変換する`str2bool`関数を定義しています。
+
+```python
+def str2bool(v: str) -> bool:
+  """文字列をブール値に変換する。argparse はデフォルトでブール引数を
+  サポートしていないため、この関数が必要となる。
+  """
+  if isinstance(v, bool):
+      return v
+  return v.lower() in ('yes', 'true', 't', '1')
+```

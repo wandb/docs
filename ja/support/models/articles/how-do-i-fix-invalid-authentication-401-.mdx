@@ -20,6 +20,14 @@ keywords: ["Inference"]
 
 **Python の例:**
 
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>",  # W&B のチームとプロジェクトに一致させる必要があります
+)
+```
+
 **Bashの例:**
 
 ```bash
@@ -49,8 +57,6 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
 
 {/* AUTO-GENERATED: tab badges */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Inference](/ja/support/models/tags/inference)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>
 
 {/* END AUTO-GENERATED: tab badges */}

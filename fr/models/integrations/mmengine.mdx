@@ -55,12 +55,67 @@ Cette section montre un flux de travail type avec `WandbVisBackend` en utilisant
 
 1. Définissez un `visualizer` à partir d&#39;une configuration de visualisation.
 
-   <Note>Passez à `init_kwargs` un dictionnaire d&#39;arguments correspondant aux paramètres d&#39;entrée de [l&#39;initialisation d&#39;un run W&amp;B](/fr/models/ref/python/functions/init).</Note>
+   ```python
+   from mmengine.visualization import Visualizer
+
+   # définir la configuration de visualisation
+   visualization_cfg = dict(
+       name="wandb_visualizer",
+       vis_backends=[
+           dict(
+               type='WandbVisBackend',
+               init_kwargs=dict(project="mmengine"),
+           )
+       ],
+       save_dir="runs/wandb"
+   )
+
+   # obtenir le visualizer à partir de la configuration de visualisation
+   visualizer = Visualizer.get_instance(**visualization_cfg)
+   ```
+
+   <Note>
+     Passez à `init_kwargs` un dictionnaire d&#39;arguments correspondant aux paramètres d&#39;entrée de [l&#39;initialisation d&#39;un run W&amp;B](/fr/models/ref/python/functions/init).
+   </Note>
 
 2. Initialisez un `runner` avec le `visualizer`, puis appelez `runner.train()`.
+
+   ```python
+   from mmengine.runner import Runner
+
+   # construire le Runner mmengine, un utilitaire d'entraînement pour PyTorch
+   runner = Runner(
+       model,
+       work_dir='runs/gan/',
+       train_dataloader=train_dataloader,
+       train_cfg=train_cfg,
+       optim_wrapper=opt_wrapper_dict,
+       visualizer=visualizer, # passer le visualizer
+   )
+
+   # démarrer l'entraînement
+   runner.train()
+   ```
 
 <div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
   ## Utilisez `WandbVisBackend` avec les bibliothèques OpenMMLab de vision par ordinateur
 </div>
 
 `WandbVisBackend` s’utilise aussi facilement pour suivre les expériences avec des bibliothèques OpenMMLab de vision par ordinateur, comme [MMDetection](https://mmdetection.readthedocs.io/).
+
+```python
+# hériter des configurations de base des configurations d'exécution par défaut
+_base_ = ["../_base_/default_runtime.py"]
+
+# Assigner le dict de configuration `WandbVisBackend` aux
+# `vis_backends` du `visualizer` depuis les configurations de base
+_base_.visualizer.vis_backends = [
+    dict(
+        type='WandbVisBackend',
+        init_kwargs={
+            'project': 'mmdet',
+            'entity': 'geekyrakshit'
+        },
+    ),
+]
+```

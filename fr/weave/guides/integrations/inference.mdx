@@ -111,7 +111,7 @@ Le service d’Inférence prend en charge les méthodes de l’API suivantes :
 * [Lister les modèles pris en charge](#list-supported-models)
 
 <div id="chat-completions">
-  #### Complétion de chat
+  #### Complétions de chat
 </div>
 
 La principale méthode d’API disponible est `/chat/completions`, qui prend en charge les formats de requête compatibles avec OpenAI pour envoyer des messages à un modèle pris en charge et obtenir une complétion. Pour des exemples d&#39;utilisation du service W&amp;B Inference avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
@@ -146,7 +146,41 @@ Pour créer une complétion de chat, vous aurez besoin de :
     ```
   </Tab>
 
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines
+    import openai
+
+    client = openai.OpenAI(
+        # L'URL de base personnalisée pointe vers W&B Inference
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # Créez une clé API sur https://wandb.ai/settings
+        # Pour plus de sécurité, envisagez plutôt de la définir dans l'environnement comme OPENAI_API_KEY
+        api_key="<your-api-key>",
+
+        # L'équipe et le projet sont requis pour le suivi de l'utilisation
+        project="<your-team>/<your-project>",
+    )
+
+    # Remplacez <model-id> par l'une des valeurs suivantes :
+    # meta-llama/Llama-3.1-8B-Instruct
+    # deepseek-ai/DeepSeek-V3-0324
+    # meta-llama/Llama-3.3-70B-Instruct
+    # deepseek-ai/DeepSeek-R1-0528
+    # meta-llama/Llama-4-Scout-17B-16E-Instruct
+    # microsoft/Phi-4-mini-instruct
+
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
 </Tabs>
 
 <div id="list-supported-models">
@@ -198,16 +232,52 @@ Cette section présente plusieurs exemples montrant comment utiliser W&amp;B Inf
 
 L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle **Llama 3.1 8B** à l&#39;aide de l&#39;API W&amp;B Inference et tracer l&#39;appel dans Weave. Le Tracing vous permet de capturer les entrées et sorties complètes de l&#39;appel au LLM, de surveiller les performances et d&#39;analyser les résultats dans Weave UI.
 
-<Tip>Pour en savoir plus, consultez [le tracing dans Weave](../tracking/tracing.mdx).</Tip>
+<Tip>
+  Pour en savoir plus, consultez [le tracing dans Weave](../tracking/tracing.mdx).
+</Tip>
 
 Dans cet exemple :
 
-* Vous définissez une fonction décorée avec `@weave.op()`, `run_chat`, qui effectue une requête de complétion de chat à l&#39;aide du client compatible OpenAI.
+* Vous définissez une fonction décorée avec `@weave.op()`, `run_chat`, qui effectue une requête de Chat Completion à l&#39;aide du client compatible OpenAI.
 * Vos traces sont enregistrées et associées à votre entité W&amp;B ainsi qu&#39;à votre projet `project="<your-team>/<your-project>`
 * La fonction est automatiquement tracée par Weave, de sorte que ses entrées, ses sorties, sa latence et ses métadonnées (comme l&#39;ID du modèle) sont enregistrées.
 * Le résultat est affiché dans le terminal, et la trace apparaît dans votre onglet **Traces** sur [https://wandb.ai](https://wandb.ai), sous le projet spécifié.
 
 Pour utiliser cet exemple, vous devez satisfaire aux [prérequis généraux](#prerequisites) et aux [prérequis supplémentaires pour utiliser l&#39;API via Python](#additional-prerequisites-for-using-the-api-via-python).
+
+```python lines
+import weave
+import openai
+
+# Définir l'équipe et le projet Weave pour le tracing
+weave.init("<your-team>/<your-project>")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # Créer une clé API sur https://wandb.ai/settings
+    api_key="<your-api-key>",
+
+    # Requis pour le suivi d'utilisation de W&B Inference
+    project="wandb/inference-demo",
+)
+
+# Tracer l'appel du modèle dans Weave
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# Exécuter et journaliser l'appel tracé
+output = run_chat()
+print(output)
+```
 
 Une fois l’exemple de code exécuté, vous pouvez consulter la trace dans Weave en cliquant sur le lien affiché dans le terminal (par ex. `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`), ou :
 
@@ -216,7 +286,9 @@ Une fois l’exemple de code exécuté, vous pouvez consulter la trace dans Weav
 
 Ensuite, essayez l’[exemple avancé](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service).
 
-<Frame>![Affichage des traces](/weave/guides/integrations/imgs/image.png)</Frame>
+<Frame>
+  ![Affichage des traces](/weave/guides/integrations/imgs/image.png)
+</Frame>
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service">
   ### Exemple avancé : utilisez les évaluations et les classements de Weave avec le service d&#39;inférence
@@ -226,15 +298,91 @@ En plus d&#39;utiliser Weave avec le service d&#39;inférence pour [tracer les a
 
 Pour utiliser cet exemple, vous devez remplir les [prérequis généraux](#prerequisites) et les [prérequis supplémentaires pour utiliser l&#39;API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
+```python lines
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# Définir l'équipe et le projet Weave pour le tracing
+weave.init("<your-team>/<your-project>")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # Créer une clé API sur https://wandb.ai/settings
+            api_key="<your-api-key>",
+            # Requis pour le suivi de l'utilisation de l'inférence W&B
+            project="<your-team>/<your-project>",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
+
 Après avoir exécuté l’exemple de code suivant, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et :
 
 * Accédez à l’onglet **Traces** pour [consulter vos traces](../tracking/tracing.mdx)
 * Accédez à l’onglet **Evals** pour [consulter les évaluations de votre modèle](../core-types/evaluations.mdx)
 * Accédez à l’onglet **Leaders** pour [consulter le classement généré](../core-types/leaderboards.mdx)
 
-<Frame>![Consulter les évaluations de votre modèle](/weave/guides/integrations/imgs/inference-advanced-evals.png)</Frame>
+<Frame>
+  ![Consulter les évaluations de votre modèle](/weave/guides/integrations/imgs/inference-advanced-evals.png)
+</Frame>
 
-<Frame>![Consulter vos traces](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)</Frame>
+<Frame>
+  ![Consulter vos traces](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)
+</Frame>
 
 <div id="ui">
   ## UI

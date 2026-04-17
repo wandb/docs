@@ -40,6 +40,119 @@ Claude Agent SDK를 사용하기 전에 `weave.init()`를 호출하면 Weave가 
 * `weave.thread()`를 사용해 단일 트레이스로 묶인 **멀티턴 대화**로, Weave UI에서 전체 대화 흐름을 볼 수 있습니다.
   * Weave는 각 턴을 스레드의 자식 항목으로 캡처하므로, Weave UI에서 전체 대화 흐름을 볼 수 있습니다.
 
+```python lines
+"""Weave + Claude Agent SDK: 쿼리, 도구, 대화 트레이싱.
+
+`weave.init()`을 호출하여 SDK를 자동으로 패치하세요 — 모든 쿼리, 도구 call,
+멀티턴 대화가 Weave UI에서 확인할 수 있는 트레이스로 기록됩니다.
+"""
+
+import anyio
+
+import weave
+from claude_agent_sdk import (
+    AssistantMessage,
+    ClaudeAgentOptions,
+    ClaudeSDKClient,
+    ResultMessage,
+    TextBlock,
+    ToolUseBlock,
+    create_sdk_mcp_server,
+    tool,
+)
+
+# --- 1. MCP 도구 정의 ---
+
+@tool("add", "두 숫자를 더합니다", {"a": float, "b": float})
+async def add(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
+
+
+@tool("multiply", "두 숫자를 곱합니다", {"a": float, "b": float})
+async def multiply(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+
+math_server = create_sdk_mcp_server(
+    name="math", version="1.0.0", tools=[add, multiply],
+)
+
+
+# --- 2. 단순 단발성 쿼리 ---
+
+async def simple_query():
+    from claude_agent_sdk import query
+
+    async for msg in query(prompt="What is 2+2?"):
+        if isinstance(msg, AssistantMessage):
+            for block in msg.content:
+                if isinstance(block, TextBlock):
+                    print(block.text, end="")
+        elif isinstance(msg, ResultMessage):
+            print(f"\ncost=${msg.total_cost_usd:.4f}")
+
+
+# --- 3. MCP 도구 사용 ---
+
+async def tool_query():
+    options = ClaudeAgentOptions(
+        mcp_servers={"math": math_server},
+        allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+    )
+
+    async with ClaudeSDKClient(options=options) as client:
+        await client.query("수학 도구를 사용하여 (3 + 7) * 2를 계산하세요.")
+        async for msg in client.receive_response():
+            if isinstance(msg, AssistantMessage):
+                for block in msg.content:
+                    if isinstance(block, ToolUseBlock):
+                        print(f"  [tool] {block.name}({block.input})")
+                    elif isinstance(block, TextBlock):
+                        print(block.text, end="")
+            elif isinstance(msg, ResultMessage):
+                print(f"\ncost=${msg.total_cost_usd:.4f}")
+
+
+# --- 4. 스레드 컨텍스트를 활용한 멀티턴 대화 ---
+
+async def threaded_conversation():
+    with weave.thread("my-conversation") as t:
+        print(f"thread_id={t.thread_id}")
+
+        async with ClaudeSDKClient() as client:
+            for prompt in [
+                "유명한 정렬 알고리즘을 하나 말해주세요.",
+                "그 알고리즘의 시간 복잡도는 무엇인가요?",
+            ]:
+                await client.query(prompt)
+                reply = ""
+                async for msg in client.receive_response():
+                    if isinstance(msg, AssistantMessage):
+                        reply += "".join(
+                            b.text for b in msg.content if isinstance(b, TextBlock)
+                        )
+                    elif isinstance(msg, ResultMessage):
+                        print(f"Q: {prompt}\nA: {reply.strip()[:120]}\n")
+
+
+# --- 모든 예제 실행 ---
+
+async def main():
+    print("=== 단순 쿼리 ===")
+    await simple_query()
+
+    print("\n=== MCP 도구 사용 ===")
+    await tool_query()
+
+    print("\n=== 멀티턴 스레드 ===")
+    await threaded_conversation()
+
+
+if __name__ == "__main__":
+    weave.init("your-team-name/claude-agent-sdk-demo")
+    anyio.run(main)
+```
+
 <div id="view-traces">
   ## 트레이스 보기
 </div>

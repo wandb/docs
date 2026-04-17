@@ -144,11 +144,21 @@ wandb run コンテキストのオーバーライドをクリアします。
 これを呼び出すと、Call は run&#95;id と step の情報にグローバルな wandb.run (利用可能な場合) を使うようフォールバックします。
 
 * <b>`obj_ref`</b>: オブジェクトのバージョンへの参照です。ObjectRef または weave /// URI 文字列のいずれかです。
-* <b>`tags`</b>: 追加するタグ文字列のリスト。 **例:**
+* <b>`tags`</b>: 追加するタグ文字列のリスト。
+  **例:**
+
+```python
+client = weave.init("my-project")
+client.set_wandb_run_context(run_id="my-run-id", step=5)
+# ... いくつかのcallsを実行 ...
+client.clear_wandb_run_context()
+# これ以降、callsはグローバルのwandb.runを使用する
+```
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
+
 
 ### <kbd>method</kbd> `create_call`
 
@@ -564,16 +574,44 @@ get_feedback(
 
 **例:**
 
+```python
+# 特定のフィードバックオブジェクトを取得する。
+# これはcollectionを返すことに注意。0件または1件のアイテムが含まれることが想定される。
+client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
+
+# 特定のリアクションを持つすべてのフィードバックオブジェクトを検索する。
+client.get_feedback(reaction="👍", limit=10)
+
+# mongoスタイルのクエリを使用して、特定のフィードバックタイプを持つ
+# すべてのフィードバックオブジェクトを検索する。
+from weave.trace_server.interface.query import Query
+
+query = Query(
+    **{
+        "$expr": {
+            "$eq": [
+                {"$getField": "feedback_type"},
+                {"$literal": "wandb.reaction.1"},
+            ],
+        }
+    }
+)
+client.get_feedback(query=query)
+```
+
 **引数:**
 
 * <b>`query`</b>: Mongoスタイルのクエリ式です。利便性のため、フィードバック UUID 文字列も指定できます。
 * <b>`reaction`</b>: 利便性のため、特定のリアクション絵文字でフィルタリングできます。
 * <b>`offset`</b>: フィードバックオブジェクトの取得を開始する位置のオフセットです。
-* <b>`limit`</b>: 取得するフィードバックオブジェクトの最大数です。 **戻り値:** FeedbackQuery オブジェクト。
+* <b>`limit`</b>: 取得するフィードバックオブジェクトの最大数です。
+  **戻り値:**
+  FeedbackQuery オブジェクト。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
+
 
 ### <kbd>method</kbd> `get_tags`
 
@@ -680,18 +718,31 @@ query_costs(
 
 プロジェクトのコストをクエリします。
 
-* <b>`ids`</b>: 削除するコスト ID。単一の ID または複数の ID を指定できます。 **例:**
+* <b>`ids`</b>: 削除するコスト ID。単一の ID または複数の ID を指定できます。
+  **例:**
+
+```python
+# 特定のコストオブジェクトを取得する。
+# これはcollectionを返すことに注意。0件または1件のアイテムが含まれることが想定される。
+client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
+
+# 特定のreactionを持つすべてのコストオブジェクトを検索する。
+client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
+```
 
 **引数:**
 
 * <b>`query`</b>: Mongo スタイルのクエリ式です。便宜上、cost UUID 文字列も受け付けます。
 * <b>`llm_ids`</b>: 便宜上、llm&#95;ids の集合でフィルターします。
 * <b>`offset`</b>: cost オブジェクトの取得を開始する位置を指定するオフセットです。
-* <b>`limit`</b>: 取得する cost オブジェクトの最大数です。 **戻り値:** CostQuery オブジェクト。
+* <b>`limit`</b>: 取得する cost オブジェクトの最大数です。
+  **戻り値:**
+  CostQuery オブジェクト。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
+
 
 ### <kbd>method</kbd> `remove_aliases`
 
@@ -778,15 +829,28 @@ set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 
 * <b>`obj_ref`</b>: オブジェクトのバージョンへの参照。ObjectRef または weave /// URI 文字列のいずれかです。
 
-* <b>`alias`</b>: 設定する エイリアス 名、または エイリアス 名のリスト (例: &quot;production&quot;)。 **引数:**
+* <b>`alias`</b>: 設定する エイリアス 名、または エイリアス 名のリスト (例: &quot;production&quot;)。
+  **引数:**
 
 * <b>`run_id`</b>: run ID (entity/プロジェクト のプレフィックスを含まない) 。クライアントが entity/プロジェクト のプレフィックスを自動的に追加します。
 
-* <b>`step`</b>: Call に使用する step 番号。None の場合、step は設定されません。 **例:**
+* <b>`step`</b>: Call に使用する step 番号。None の場合、step は設定されません。
+  **例:**
+
+```python
+client = weave.init("my-project")
+client.set_wandb_run_context(run_id="my-run-id", step=5)
+# これ以降のすべてのcallsはstep 5のentity/project/my-run-idに関連付けられます
+
+# stepを指定しない場合
+client.set_wandb_run_context(run_id="my-run-id")
+# callsはstepなしでentity/project/my-run-idに関連付けられます
+```
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
+
 
 ### <kbd>関数</kbd> `get_obj_name`
 

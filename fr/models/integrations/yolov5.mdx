@@ -16,10 +16,16 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 </Note>
 
 <div id="track-core-experiments">
-  ## Suivre les expériences essentielles
+  ## Suivre les Experiments essentiels
 </div>
 
 Il suffit d’installer `wandb` pour activer les [fonctionnalités de journalisation](/fr/models/track/log/) intégrées de W&amp;B : métriques système, métriques de modèle et médias enregistrés dans des [tableaux de bord](/fr/models/track/workspaces/) interactifs.
+
+```python
+pip install wandb
+git clone https://github.com/ultralytics/yolov5.git
+python yolov5/train.py  # entraîner un petit réseau sur un petit jeu de données
+```
 
 Il vous suffit de suivre les liens affichés dans la sortie standard de wandb.
 

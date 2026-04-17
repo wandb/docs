@@ -32,10 +32,26 @@ weave.publish(dataset)
 La couche de sérialisation de Weave enregistre les objets et les versionne.
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # Enregistrer une liste sous le nom 'cat-names'
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
 
   <Tab title="TypeScript">
     La publication en TypeScript en est encore à ses débuts. Tous les objets ne sont donc pas encore entièrement pris en charge.
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // Enregistrer un tableau sous le nom 'cat-names'
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
   </Tab>
 </Tabs>
 

@@ -10,17 +10,38 @@ Pour les runs en dehors d’un balayage, définissez les valeurs de `wandb.Run.c
 Utilisez `rwandb.Run.config.setdefaults()` pour définir explicitement ce comportement. Les extraits de code suivants illustrent les deux méthodes :
 
 <Tabs>
-  <Tab title="wandb.init()" />
+  <Tab title="wandb.init()">
+    ```python
+    # Définir des valeurs par défaut pour les hyperparamètres
+    config_defaults = {"lr": 0.1, "batch_size": 256}
 
-  <Tab title="config.setdefaults()" />
+    # Démarrer un run et fournir des valeurs par défaut
+    # qu’un balayage peut remplacer
+    with wandb.init(config=config_defaults) as run:
+        # Ajouter le code d’entraînement ici
+        ...
+    ```
+  </Tab>
+
+  <Tab title="config.setdefaults()">
+    ```python
+    # Définir des valeurs par défaut pour les hyperparamètres
+    config_defaults = {"lr": 0.1, "batch_size": 256}
+
+    # Démarrer un run
+    with wandb.init() as run:
+        # Mettre à jour toutes les valeurs non définies par le balayage
+        run.config.setdefaults(config_defaults)
+
+        # Ajouter le code d’entraînement ici
+    ```
+  </Tab>
 </Tabs>
 
 ***
 
 {/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Sweeps](/fr/support/models/tags/sweeps)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
 
 {/* END GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

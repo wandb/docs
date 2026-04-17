@@ -18,7 +18,39 @@ DeepChecks vous aide à valider vos modèles de machine learning et vos données
 
 Pour utiliser DeepChecks avec W&amp;B, vous devez d’abord créer un [compte W&amp;B](https://wandb.ai/site). Grâce à l’intégration W&amp;B dans DeepChecks, vous pouvez démarrer rapidement comme suit :
 
+```python
+import wandb
+
+wandb.login()
+
+# importez votre vérification depuis deepchecks
+from deepchecks.checks import ModelErrorAnalysis
+
+# exécutez votre vérification
+result = ModelErrorAnalysis()
+
+# envoyez ce résultat à wandb
+result.to_wandb()
+```
+
 Vous pouvez également journaliser l’intégralité d’une suite de tests DeepChecks dans W&amp;B.
+
+```python
+import wandb
+
+wandb.login()
+
+# importer vos tests full_suite depuis deepchecks
+from deepchecks.suites import full_suite
+
+# créer et exécuter une suite de tests DeepChecks
+suite_result = full_suite().run(...)
+
+# envoyer ces résultats à wandb
+# vous pouvez passer ici toutes les configurations et arguments wandb.init dont vous avez besoin
+suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
+```
+
 
 <div id="example">
   ## Exemple

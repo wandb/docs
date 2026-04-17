@@ -21,7 +21,34 @@ description: "OpenAI互換のエンドポイントを使用して、チャット
 </div>
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        # カスタムのベースURLは W&B Inference を指しています
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # https://wandb.ai/settings で APIキー を作成します
+        # 安全のため、代わりに環境変数 OPENAI_API_KEY として設定することを検討してください
+        api_key="<your-api-key>",
+
+        # オプション: 使用状況をトラッキングするための チーム とプロジェクト
+        project="<your-team>/<your-project>",
+    )
+
+    # <model-id> を、利用可能なモデル一覧にある任意のモデル ID に置き換えます
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
 
   <Tab title="Bash">
     ```bash

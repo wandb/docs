@@ -11,6 +11,14 @@ keywords: ["Artifacts"]
 
 run を初期化するときは、`entity` にチームを指定します:
 
+```python
+import wandb
+
+with wandb.init(entity="<team_entity>", project="<project_name>") as run:
+    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    # ファイルを追加してアーティファクトをログする
+```
+
 `entity` を指定しない場合、run には既定の entity が使用されます。これは個人のアカウントである可能性があります。
 
 <div id="find-your-team-entity">

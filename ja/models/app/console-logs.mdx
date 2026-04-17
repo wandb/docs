@@ -79,11 +79,36 @@ ERROR Failed to save notebook.
 
 次の例では、これらの設定を行う方法を示します。
 
+```python
+import wandb
+
+settings = wandb.Settings(
+    show_errors=True,  # W&B App にエラーメッセージを表示する
+    silent=False,      # W&B のコンソール出力をすべて無効にする
+    show_warnings=True # W&B App に警告メッセージを表示する
+)
+
+with wandb.init(settings=settings) as run:
+    # トレーニングコードをここに記述する
+    run.log({"accuracy": 0.95})
+```
+
+
 <div id="custom-logging">
   ## カスタムロギング
 </div>
 
 W&amp;B はアプリケーションのコンソールログを収集しますが、独自のロギング設定に干渉することはありません。メッセージを記録するには、Python に組み込まれている `print()` 関数または `logging` モジュールを使用できます。
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    for i in range(100, 1000, 100):
+        # W&Bにログし、コンソールに出力する
+        run.log({"epoch": i, "loss": 0.1 * i})
+        print(f"epoch: {i} loss: {0.1 * i}")
+```
 
 コンソールログは、次のように表示されます。
 
@@ -98,6 +123,7 @@ W&amp;B はアプリケーションのコンソールログを収集しますが
 8 epoch:  800 loss: 0.3082585036754608
 9 epoch:  900 loss: 0.28154927492141724
 ```
+
 
 <div id="time-stamps">
   ## タイムスタンプ
@@ -121,7 +147,22 @@ W&amp;B はアプリケーションのコンソールログを収集しますが
   `x_` で始まるパラメーター (`x_label` など) はパブリックプレビューです。フィードバックを送るには、[W&amp;B repository の GitHub issue](https://github.com/wandb/wandb) を作成してください。
 </Warning>
 
-コンソールログページ上部の UI の検索バーでは、`wandb.Settings` の `x_label` に引数として渡したラベルに基づいてコンソールログをフィルターできます。 
+コンソールログページ上部の UI の検索バーでは、`wandb.Settings` の `x_label` に引数として渡したラベルに基づいてコンソールログをフィルターできます。
+
+```python
+import wandb
+
+# プライマリノードでrunを初期化する
+with wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="custom_label"  # (オプション) ログのフィルター用カスタムラベル
+    )
+) as run:
+    # ここにコードを記述する
+```
+
 
 <div id="download-console-logs">
   ## コンソールログをダウンロードする

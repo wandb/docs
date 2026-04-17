@@ -9,6 +9,25 @@ Objet Dataset avec enregistrement simple et gestion automatique des versions
 
 `Exemple`
 
+```ts
+// Créer un jeu de données
+const dataset = new Dataset({
+  id: 'grammar-dataset',
+  rows: [
+    { id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream." },
+    { id: '1', sentence: "She goed to the store.", correction: "She went to the store." },
+    { id: '2', sentence: "They plays video games all day.", correction: "They play video games all day." }
+  ]
+})
+
+// Accéder à un exemple spécifique
+const exampleLabel = dataset.getRow(2).sentence;
+
+// Enregistrer le jeu de données
+const ref = await dataset.save()
+```
+
+
 ## Paramètres de type
 
 | Nom | Type                 |

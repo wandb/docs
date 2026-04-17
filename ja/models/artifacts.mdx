@@ -65,20 +65,28 @@ with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
 </Note>
 
 <div id="download-an-artifact">
-  ## アーティファクトをダウンロードする
+  ## artifactをダウンロードする
 </div>
 
-run への入力としてマークする アーティファクト は、[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) method で指定します。
+run への入力としてマークする artifact は、[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) method で指定します。
 
-前のコードスニペットに続き、以下のコード例では、先ほど作成した `example_artifact` という アーティファクト の使い方を示します:
+前のコードスニペットに続き、以下のコード例では、先ほど作成した `example_artifact` という artifact の使い方を示します:
 
-これにより、アーティファクトオブジェクトが返されます。
+```python
+with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
+    artifact = run.use_artifact("training_dataset:latest")  # "my_data" artifactを使用してrunオブジェクトを返す
+```
 
-次に、返されたオブジェクトを使用して、アーティファクトのすべての内容をダウンロードします。
+これにより、artifactオブジェクトが返されます。
+
+次に、返されたオブジェクトを使用して、artifactのすべての内容をダウンロードします。
+
+```python
+datadir = artifact.download()  # `my_data` artifact全体をデフォルトディレクトリにダウンロードします。
+```
 
 <Note>
-  特定のディレクトリーに アーティファクト をダウンロードするには、`root` [パラメーター](/ja/models/ref/python/experiments/artifact) にカスタムパスを指定できます。Artifacts をダウンロードする別の方法や追加のパラメーターについては、
-  [Artifacts のダウンロードと使用](/ja/models/artifacts/download-and-use-an-artifact) ガイドを参照してください。
+  特定のディレクトリーに artifact をダウンロードするには、`root` [パラメーター](/ja/models/ref/python/experiments/artifact) にカスタムパスを指定できます。Artifacts をダウンロードする別の方法や追加のパラメーターについては、[Artifacts のダウンロードと使用](/ja/models/artifacts/download-and-use-an-artifact) ガイドを参照してください。
 </Note>
 
 <div id="next-steps">

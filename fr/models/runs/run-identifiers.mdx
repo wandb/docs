@@ -75,6 +75,13 @@ Vous pouvez trouver l&#39;ID unique d&#39;un run par programmation avec le SDK P
 
 Transmettez l’ID de run souhaité sous forme de chaîne de caractères au paramètre `id` lorsque vous initialisez un run :
 
+```python
+import wandb
+
+with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
+    # Votre code ici
+```
+
 <div id="run-name">
   ## Nom de l&#39;exécution
 </div>
@@ -90,10 +97,17 @@ En reprenant l&#39;exemple précédent, le nom de l&#39;exécution est `glowing-
 Vous pouvez nommer votre run lorsque [vous l&#39;initialisez](/fr/models/runs/run-identifiers#create-a-custom-run-name) ou le [renommer](/fr/models/runs/run-identifiers#rename-a-run) ultérieurement.
 
 <div id="create-a-custom-run-name">
-  ### Créer un nom de run personnalisé
+  ### Créer un nom de l&#39;exécution personnalisé
 </div>
 
-Spécifiez un nom pour votre run en passant le paramètre `name` à la méthode [`wandb.init()`](/fr/models/ref/python/functions/init).
+Spécifiez un nom pour votre exécution en passant le paramètre `name` à la méthode [`wandb.init()`](/fr/models/ref/python/functions/init).
+
+```python
+import wandb
+
+with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
+    # Votre code ici
+```
 
 <div id="rename-a-run">
   ### Renommer un run
@@ -106,6 +120,19 @@ Renommez un run après l’avoir initialisé par programmation avec le SDK Pytho
     Utilisez [`wandb.Api.Run`](/fr/models/ref/python/public-api/api#method-api-run) pour accéder à un run consigné dans W&amp;B. Cette méthode renvoie un [objet run](/fr/models/ref/python/public-api/run#property-run-name) que vous pouvez utiliser pour mettre à jour le nom de l&#39;exécution. Appelez la méthode `wandb.Api.Run.update()` pour enregistrer les modifications.
 
     Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    # Accéder au run par son chemin
+    run = api.run(path = "<entity>/<project>/<run-id>")
+
+    # Définir un nouveau nom de l'exécution
+    run.name = "<new-run-name>"
+    run.update()
+    ```
   </Tab>
 
   <Tab title="W&B App">
@@ -114,7 +141,7 @@ Renommez un run après l’avoir initialisé par programmation avec le SDK Pytho
     3. Recherchez le run que vous souhaitez renommer ou faites défiler la page jusqu’à le trouver.
     4. Survolez le nom de l&#39;exécution, cliquez sur le **menu d’actions (<Icon icon="ellipsis-vertical" iconType="solid" />)**, puis sur **Renommer le run**.
     5. Pour modifier le nom de l&#39;exécution, mettez à jour le champ **Nom de l&#39;exécution**.
-    6. Cliquez sur **enregistrer**.
+    6. Cliquez sur **Save**.
   </Tab>
 </Tabs>
 

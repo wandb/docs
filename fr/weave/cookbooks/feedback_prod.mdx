@@ -21,7 +21,165 @@ Nous utiliserons Streamlit pour créer l’interface et capturerons dans Weave l
   ## Configuration
 </div>
 
-Ensuite, créez un fichier appelé `chatbot.py` avec le contenu suivant :
+```python lines
+!pip install weave openai streamlit wandb
+!pip install set-env-colab-kaggle-dotenv -q # pour les variables d'environnement
+python
+# Ajoutez un fichier .env avec vos clés API OpenAI et WandB
+from set_env import set_env
+
+_ = set_env("OPENAI_API_KEY")
+_ = set_env("WANDB_API_KEY")
+```
+
+Ensuite, créez un fichier nommé `chatbot.py` contenant ce qui suit :
+
+
+```python lines {13,15,27}
+# chatbot.py
+
+import openai
+import streamlit as st
+import wandb
+from set_env import set_env
+
+import weave
+
+_ = set_env("OPENAI_API_KEY")
+_ = set_env("WANDB_API_KEY")
+
+wandb.login()
+
+weave_client = weave.init("feedback-example")
+oai_client = openai.OpenAI()
+
+def init_states():
+    """Configure les clés session_state si elles n'existent pas encore."""
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = []
+    if "calls" not in st.session_state:
+        st.session_state["calls"] = []
+    if "session_id" not in st.session_state:
+        st.session_state["session_id"] = "123abc"
+
+@weave.op
+def chat_response(full_history):
+    """
+    Appelle l'API OpenAI en mode streaming en tenant compte de l'intégralité de l'historique de conversation.
+    full_history est une liste de dicts : [{"role":"user"|"assistant","content":...}, ...]
+    """
+    stream = oai_client.chat.completions.create(
+        model="gpt-4", messages=full_history, stream=True
+    )
+    response_text = st.write_stream(stream)
+    return {"response": response_text}
+
+def render_feedback_buttons(call_idx):
+    """Affiche les boutons pouce haut/bas et le feedback textuel pour l'appel."""
+    col1, col2, col3 = st.columns([1, 1, 4])
+
+    # Bouton pouce haut
+    with col1:
+        if st.button("👍", key=f"thumbs_up_{call_idx}"):
+            st.session_state.calls[call_idx].feedback.add_reaction("👍")
+            st.success("Merci pour votre feedback !")
+
+    # Bouton pouce bas
+    with col2:
+        if st.button("👎", key=f"thumbs_down_{call_idx}"):
+            st.session_state.calls[call_idx].feedback.add_reaction("👎")
+            st.success("Merci pour votre feedback !")
+
+    # Feedback textuel
+    with col3:
+        feedback_text = st.text_input("Feedback", key=f"feedback_input_{call_idx}")
+        if (
+            st.button("Submit Feedback", key=f"submit_feedback_{call_idx}")
+            and feedback_text
+        ):
+            st.session_state.calls[call_idx].feedback.add_note(feedback_text)
+            st.success("Feedback envoyé !")
+
+def display_old_messages():
+    """Affiche la conversation stockée dans st.session_state.messages avec les boutons de feedback"""
+    for idx, message in enumerate(st.session_state.messages):
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+            # S'il s'agit d'un message de l'assistant, afficher le formulaire de feedback
+            if message["role"] == "assistant":
+                # Déterminer l'index de ce message de l'assistant dans st.session_state.calls
+                assistant_idx = (
+                    len(
+                        [
+                            m
+                            for m in st.session_state.messages[: idx + 1]
+                            if m["role"] == "assistant"
+                        ]
+                    )
+                    - 1
+                )
+                # Afficher les boutons pouce haut/bas et le feedback textuel
+                if assistant_idx < len(st.session_state.calls):
+                    render_feedback_buttons(assistant_idx)
+
+def display_chat_prompt():
+    """Affiche la zone de saisie du prompt de chat."""
+    if prompt := st.chat_input("Ask me anything!"):
+        # Afficher immédiatement le nouveau message de l'utilisateur
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Enregistrer le message de l'utilisateur dans la session
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        # Préparer l'historique de chat pour l'API
+        full_history = [
+            {"role": msg["role"], "content": msg["content"]}
+            for msg in st.session_state.messages
+        ]
+
+        with st.chat_message("assistant"):
+            # Associer les attributs Weave pour le suivi des instances de conversation
+            with weave.attributes(
+                {"session": st.session_state["session_id"], "env": "prod"}
+            ):
+                # Appeler l'API OpenAI (stream)
+                result, call = chat_response.call(full_history)
+
+                # Stocker le message de l'assistant
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": result["response"]}
+                )
+
+                # Stocker l'objet d'appel Weave pour associer le feedback à la réponse spécifique
+                st.session_state.calls.append(call)
+
+                # Afficher les boutons de feedback pour le nouveau message
+                new_assistant_idx = (
+                    len(
+                        [
+                            m
+                            for m in st.session_state.messages
+                            if m["role"] == "assistant"
+                        ]
+                    )
+                    - 1
+                )
+
+                # Afficher les boutons de feedback
+                if new_assistant_idx < len(st.session_state.calls):
+                    render_feedback_buttons(new_assistant_idx)
+
+def main():
+    st.title("Chatbot with immediate feedback forms")
+    init_states()
+    display_old_messages()
+    display_chat_prompt()
+
+if __name__ == "__main__":
+    main()
+```
 
 Vous pouvez lancer ceci avec `streamlit run chatbot.py`.
 
@@ -34,7 +192,26 @@ Rendez-vous dans la Weave UI pour voir les retours associés.
 
 Si nous considérons notre fonction de prédiction décorée comme :
 
+```python lines {5}
+import weave
+
+weave.init("feedback-example")
+
+@weave.op
+def predict(input_data):
+    # Votre logique de prédiction ici
+    some_result = "hello world"
+    return some_result
+```
+
 Nous pouvons l’utiliser comme d’habitude pour fournir à l’utilisateur une réponse du modèle :
+
+```python lines
+with weave.attributes(
+    {"session": "123abc", "env": "prod"}
+):  # attacher des attributs arbitraires à l'appel avec les entrées et sorties
+    result = predict(input_data="your data here")  # question de l'utilisateur via l'UI de l'application
+```
 
 Pour associer un retour, vous avez besoin de l’objet `call`, que vous obtenez en utilisant la méthode `.call()` *au lieu d’appeler la fonction normalement* :
 
@@ -44,6 +221,10 @@ result, call = predict.call(input_data="your data here")
 
 Cet objet d’appel est nécessaire pour associer des retours à la réponse concernée.
 Après avoir effectué l’appel, le résultat de l’opération est accessible via `result` ci-dessus.
+
+```python lines
+call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface de l'application
+```
 
 <div id="conclusion">
   ## Conclusion

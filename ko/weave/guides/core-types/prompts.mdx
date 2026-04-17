@@ -47,7 +47,45 @@ W&amp;B Weave를 사용하면 프롬프트를 만들고, 게시하고, 시간이
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init는 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const systemPrompt = new weave.StringPrompt({
+        content: 'You speak like a pirate',
+        name: 'your-prompt',
+        description: 'A helpful description of your prompt',
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(systemPrompt, 'pirate_prompt');
+
+      // Weave에서 call을 추적하도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt.content
+          },
+          {
+            role: "user",
+            content: "Explain general relativity in one paragraph."
+          }
+        ],
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>
 
 <div id="messagesprompt">
@@ -84,7 +122,43 @@ W&amp;B Weave를 사용하면 프롬프트를 만들고, 게시하고, 시간이
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init은 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.MessagesPrompt({
+        messages: [
+          {
+            "role": "system",
+            "content": "You are a stegosaurus, but don't be too obvious about it."
+          },
+          {
+            "role": "user",
+            "content": "What's good to eat around here?"
+          }
+        ],
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(prompt, 'dino_prompt');
+
+      // Weave에서 call을 추적할 수 있도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: prompt.messages,
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>
 
 <div id="parameterizing-prompts">
@@ -117,7 +191,39 @@ W&amp;B Weave를 사용하면 프롬프트를 만들고, 게시하고, 시간이
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines {8,23}
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init은 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.StringPrompt({
+        content: 'Solve the equation {equation}',
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(prompt, 'calculator_prompt');
+
+      // Weave에서 call을 추적하도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "user",
+            content: prompt.format({ equation: "1 + 1 = ?" })
+          }
+        ],
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>
 
 `MessagesPrompt`에서도 동일하게 사용할 수 있습니다.
@@ -150,5 +256,41 @@ W&amp;B Weave를 사용하면 프롬프트를 만들고, 게시하고, 시간이
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines {8,29}
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init은 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.MessagesPrompt({
+        messages: [
+          {
+            "role": "system",
+            "content": "You will be provided with a description of a scene and your task is to provide a single word that best describes an associated emotion."
+          },
+          {
+            "role": "user",
+            "content": "{scene}"
+          }
+        ]
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(prompt, 'emotion_prompt');
+
+      // Weave에서 call을 추적하도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: prompt.format({ scene: "A dog is lying on a dock next to a fisherman." }),
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>

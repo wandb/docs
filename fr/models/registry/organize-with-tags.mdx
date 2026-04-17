@@ -64,6 +64,14 @@ Mettez à jour un tag par programmation en réattribuant l’attribut `tags` ou 
 
 Par exemple, l’extrait de code suivant montre des façons courantes de mettre à jour une liste par réattribution. Par souci de brièveté, nous reprenons l’exemple de code de la [section Ajouter un tag à une collection](#add-a-tag-to-a-collection) :
 
+```python
+collection.tags = [*collection.tags, "new-tag", "other-tag"]
+collection.tags = collection.tags + ["new-tag", "other-tag"]
+
+collection.tags = set(collection.tags) - set(tags_to_delete)
+collection.tags = []  # supprime tous les tags
+```
+
 L’extrait de code suivant montre comment utiliser une mutation en place pour mettre à jour les tags d’une version d’artifact :
 
 ```python
@@ -76,6 +84,7 @@ collection.tags.remove("existing-tag")
 collection.tags.pop()
 collection.tags.clear()
 ```
+
 
 <div id="view-tags-that-belong-to-a-collection">
   ## Afficher les tags d’une collection
@@ -121,9 +130,9 @@ Ajoutez un tag à une version d&#39;artifact liée à une collection depuis l&#3
 
 <Tabs>
   <Tab title="W&B App">
-    1. Accédez à W&amp;B Registry à l&#39;adresse [https://wandb.ai/registry](https://wandb.ai/registry)
-    2. Cliquez sur une carte du registre.
-    3. Cliquez sur **Voir les détails** à côté du nom de la collection à laquelle vous souhaitez ajouter un tag.
+    1. Accédez à W&amp;B Registry à l&#39;adresse https://wandb.ai/registry
+    2. Cliquez sur une registry card.
+    3. Cliquez sur **View details** à côté du nom de la collection à laquelle vous souhaitez ajouter un tag.
     4. Faites défiler la page jusqu&#39;à **Versions**.
     5. Cliquez sur **View** à côté d&#39;une version d&#39;artifact.
     6. Dans l&#39;onglet **Version**, cliquez sur l&#39;icône plus (**+**) à côté du champ **Tags**, puis saisissez le nom du tag.
@@ -143,7 +152,38 @@ Ajoutez un tag à une version d&#39;artifact liée à une collection depuis l&#3
 
     L&#39;extrait de code suivant montre comment récupérer un artifact et ajouter un tag sans créer de nouveau run :
 
+    ```python title="Ajouter un tag à une version d'artifact sans créer de nouveau run"
+    import wandb
+
+    ARTIFACT_TYPE = "<TYPE>"
+    REGISTRY_NAME = "<registry_name>"
+    COLLECTION_NAME = "<collection_name>"
+    VERSION = "<artifact_version>"
+
+    artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+
+    artifact = wandb.Api().artifact(name = artifact_name, type = ARTIFACT_TYPE)
+    artifact.tags = ["tag2"] # Fournissez un ou plusieurs tags dans une liste
+    artifact.save()
+    ```
+
     L&#39;extrait de code suivant montre comment récupérer un artifact et ajouter un tag en créant un nouveau run :
+
+    ```python title="Ajouter un tag à une version d'artifact pendant un run"
+    import wandb
+
+    REGISTRY_NAME = "<registry_name>"
+    COLLECTION_NAME = "<collection_name>"
+    VERSION = "<artifact_version>"
+
+    with wandb.init(entity = "<entity>", project="<project>") as run:
+
+        artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+
+        artifact = run.use_artifact(artifact_or_name = artifact_name)
+        artifact.tags = ["tag2"] # Fournissez un ou plusieurs tags dans une liste
+        artifact.save()
+    ```
   </Tab>
 </Tabs>
 
@@ -151,9 +191,17 @@ Ajoutez un tag à une version d&#39;artifact liée à une collection depuis l&#3
   ## Mettre à jour les tags d&#39;une version d&#39;artifact
 </div>
 
-Mettez à jour un tag par programmation, soit en le réattribuant, soit en modifiant l&#39;attribut `tags`. W&amp;B recommande, et c&#39;est une bonne pratique en Python, de réattribuer l&#39;attribut `tags` plutôt que de le modifier sur place.
+Mettez à jour un tag par programmation, soit en le réaffectant, soit en modifiant l&#39;attribut `tags`. W&amp;B recommande, et c&#39;est une bonne pratique en Python, de réaffecter l&#39;attribut `tags` plutôt que de le modifier sur place.
 
-Par exemple, l&#39;extrait de code suivant montre des façons courantes de mettre à jour une liste par réattribution. Par souci de concision, nous reprenons l&#39;exemple de code de la [section Ajouter un tag à une version d&#39;artifact](#add-a-tag-to-an-artifact-version) :
+Par exemple, l&#39;extrait de code suivant montre des façons courantes de mettre à jour une liste par réaffectation. Par souci de concision, nous reprenons l&#39;exemple de code de la [section Ajouter un tag à une version d&#39;artifact](#add-a-tag-to-an-artifact-version) :
+
+```python
+artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
+artifact.tags = artifact.tags + ["new-tag", "other-tag"]
+
+artifact.tags = set(artifact.tags) - set(tags_to_delete)
+artifact.tags = []  # supprime tous les tags
+```
 
 L’extrait de code suivant montre comment utiliser une mutation en place pour mettre à jour les tags d’une version d’artifact :
 
@@ -167,6 +215,7 @@ artifact.tags.remove("existing-tag")
 artifact.tags.pop()
 artifact.tags.clear()
 ```
+
 
 <div id="view-tags-that-belong-to-an-artifact-version">
   ## Afficher les tags associés à une version d&#39;artifact

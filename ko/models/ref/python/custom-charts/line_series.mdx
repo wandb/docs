@@ -40,12 +40,90 @@ line_series(
 **Examples:**
 모든 y 시리즈를 동일한 x 값에 대해 그리는 단일 x 배열을 로깅하기:
 
+```python
+import wandb
+
+# W&B 실행 초기화
+with wandb.init(project="line_series_example") as run:
+    # 모든 y 시리즈에서 공유되는 x 값
+    xs = list(range(10))
+
+    # 플롯할 여러 y 시리즈
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 라인 시리즈 차트 생성 및 로깅
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         title="title",
+         xname="step",
+    )
+    run.log({"line-series-single-x": line_series_chart})
+```
+
 이 예제에서는 모든 `ys` 시리즈에 대해 하나의 `xs` 시리즈(공유 x 값)를 사용합니다. 이렇게 하면 각 y 시리즈가 동일한 x 값(0-9)에 대해 그려집니다.
 
 각 y 시리즈가 자신의 x 배열에 대해 플로팅되도록 여러 x 배열을 로깅하기:
+
+```python
+import wandb
+
+# W&B 실행 초기화
+with wandb.init(project="line_series_example") as run:
+    # 각 y 시리즈에 대한 별도의 x 값
+    xs = [
+         [i for i in range(10)],  # 첫 번째 시리즈의 x
+         [2 * i for i in range(10)],  # 두 번째 시리즈의 x (늘어남)
+         [3 * i for i in range(10)],  # 세 번째 시리즈의 x (더 늘어남)
+    ]
+
+    # 대응하는 y 시리즈
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 라인 시리즈 차트 생성 및 기록
+    line_series_chart = wandb.plot.line_series(
+         xs, ys, title="Multiple X Arrays Example", xname="Step"
+    )
+    run.log({"line-series-multiple-x": line_series_chart})
+```
 
 이 예제에서는 각 y 시리즈가 고유한 x 시리즈에 대해 플롯됩니다. 이를 통해 데이터 시리즈마다 x 값이 다를 때 더 유연하게 대응할 수 있습니다.
 
 `keys`를 사용하여 선 레이블 사용자 지정하기:
 
-이 예제에서는 `keys` 인수를 사용해 선에 맞춤형 레이블을 지정하는 방법을 보여줍니다. 키는 범례에 &quot;Linear&quot;, &quot;Quadratic&quot;, &quot;Cubic&quot;으로 표시됩니다. 
+
+```python
+import wandb
+
+# W&B 실행 초기화
+with wandb.init(project="line_series_example") as run:
+    xs = list(range(10))  # 단일 x 배열
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 각 선에 대한 사용자 정의 레이블
+    keys = ["Linear", "Quadratic", "Cubic"]
+
+    # 선 시리즈 차트 생성 및 로깅
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         keys=keys,  # 사용자 정의 키 (선 레이블)
+         title="Custom Line Labels Example",
+         xname="Step",
+    )
+    run.log({"line-series-custom-keys": line_series_chart})
+```
+
+이 예제는 `keys` 인자를 사용해 각 선에 사용자 지정 레이블을 지정하는 방법을 보여줍니다. 키는 범례에 &quot;Linear&quot;, &quot;Quadratic&quot;, &quot;Cubic&quot;으로 표시됩니다.

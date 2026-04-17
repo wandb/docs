@@ -40,12 +40,90 @@ line_series(
 **例:**
 すべての y 系列を同じ x 値に対してプロットする、単一の x 配列をログする例:
 
+```python
+import wandb
+
+# W&B runを初期化する
+with wandb.init(project="line_series_example") as run:
+    # すべてのyシリーズで共有するx値
+    xs = list(range(10))
+
+    # プロットする複数のyシリーズ
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # line series chartを生成してログする
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         title="title",
+         xname="step",
+    )
+    run.log({"line-series-single-x": line_series_chart})
+```
+
 この例では、単一の `xs` 系列 (x 値を共有) がすべての `ys` 系列に使用されます。その結果、各 y 系列は同じ x 値 (0〜9) に対してプロットされます。
 
 複数の x 配列をログし、各 y 系列を対応する x 配列に対してプロットする場合:
+
+```python
+import wandb
+
+# W&B runを初期化する
+with wandb.init(project="line_series_example") as run:
+    # 各yシリーズに対応する個別のx値
+    xs = [
+         [i for i in range(10)],  # 1番目のシリーズのx
+         [2 * i for i in range(10)],  # 2番目のシリーズのx（引き伸ばし）
+         [3 * i for i in range(10)],  # 3番目のシリーズのx（さらに引き伸ばし）
+    ]
+
+    # 対応するyシリーズ
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # line series chartを生成してログする
+    line_series_chart = wandb.plot.line_series(
+         xs, ys, title="Multiple X Arrays Example", xname="Step"
+    )
+    run.log({"line-series-multiple-x": line_series_chart})
+```
 
 この例では、各 y 系列はそれぞれ固有の x 系列に対してプロットされます。これにより、データ系列ごとに x 値が揃っていない場合でも、より柔軟に対応できます。
 
 `keys` を使用した線ラベルのカスタマイズ:
 
-この例では、`keys` 引数を使用して線のカスタムラベルを指定する方法を示します。キーは凡例に &quot;Linear&quot;、&quot;Quadratic&quot;、&quot;Cubic&quot; として表示されます。 
+
+```python
+import wandb
+
+# W&B runを初期化する
+with wandb.init(project="line_series_example") as run:
+    xs = list(range(10))  # 単一のx配列
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 各線のカスタムラベル
+    keys = ["Linear", "Quadratic", "Cubic"]
+
+    # line series chartを生成してログする
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         keys=keys,  # カスタムキー（線のラベル）
+         title="Custom Line Labels Example",
+         xname="Step",
+    )
+    run.log({"line-series-custom-keys": line_series_chart})
+```
+
+この例では、`keys` 引数を使って各線にカスタムラベルを付ける方法を示します。キーは凡例に &quot;Linear&quot;、&quot;Quadratic&quot;、&quot;Cubic&quot; として表示されます。

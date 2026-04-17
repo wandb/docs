@@ -13,6 +13,15 @@ Lorsque vous exécutez des évaluations sur de grands jeux de données, il peut 
 
 Exemple :
 
+```python
+client = weave.init("fast-upload")
+
+# ... configuration de l'évaluation
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
 <div id="increasing-client-parallelism">
   ### Augmenter le parallélisme du client
 </div>

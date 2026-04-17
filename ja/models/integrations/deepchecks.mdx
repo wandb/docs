@@ -18,7 +18,39 @@ DeepChecks を使うと、データの整合性の確認、分布の調査、デ
 
 DeepChecks で W&amp;B を使用するには、まず [W&amp;B アカウント](https://wandb.ai/site) にサインアップする必要があります。DeepChecks の W&amp;B インテグレーションを使えば、次のようにすぐに使い始められます。
 
+```python
+import wandb
+
+wandb.login()
+
+# deepchecksからチェックをインポートする
+from deepchecks.checks import ModelErrorAnalysis
+
+# チェックを実行する
+result = ModelErrorAnalysis()
+
+# 結果をwandbにプッシュする
+result.to_wandb()
+```
+
 DeepChecks のテストスイート全体を W&amp;B にログすることもできます。
+
+```python
+import wandb
+
+wandb.login()
+
+# deepchecksからfull_suiteテストをインポートする
+from deepchecks.suites import full_suite
+
+# DeepChecksテストスイートを作成して実行する
+suite_result = full_suite().run(...)
+
+# 結果をwandbにプッシュする
+# wandb.initに必要な設定や引数をここで渡すことができる
+suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
+```
+
 
 <div id="example">
   ## 例

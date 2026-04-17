@@ -5,18 +5,35 @@ keywords: ["Administrateur", "Gestion des utilisateurs"]
 
 Pour exporter une liste d&#39;utilisateurs à partir d&#39;une organisation W&amp;B, un administrateur utilise l&#39;API SCIM avec le code suivant :
 
+```python
+import base64
+import requests
+
+def encode_base64(username, key):
+    auth_string = f'{username}:{key}'
+    return base64.b64encode(auth_string.encode('utf-8')).decode('utf-8')
+
+username = ''  # Nom d'utilisateur de l'administrateur de l'organisation
+key = ''  # Clé API
+scim_base_url = 'https://api.wandb.ai/scim/v2'
+users_endpoint = f'{scim_base_url}/Users'
+headers = {
+    'Authorization': f'Basic {encode_base64(username, key)}',
+    'Content-Type': 'application/scim+json'
+}
+
+response = requests.get(users_endpoint, headers=headers)
+users = []
+for user in response.json()['Resources']:
+    users.append([user['userName'], user['emails']['Value']])
+```
+
 Modifiez le script pour enregistrer la sortie si nécessaire.
 
 ***
 
 {/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Administrateur](/fr/support/models/tags/administrator)
-</Badge>
-
-<Badge stroke shape="pill" color="orange" size="md">
-  [Gestion des utilisateurs](/fr/support/models/tags/user-management)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des utilisateurs](/fr/support/models/tags/user-management)</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

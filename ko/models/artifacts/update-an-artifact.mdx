@@ -35,6 +35,35 @@ artifact를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/re
   <Tab title="W&B Public API">
     다음 예제는 [`wandb.Api`](/ko/models/ref/python/public-api/api)를 사용해 artifact를 업데이트합니다:
 
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    artifact = api.artifact("entity/project/artifact:alias")
+
+    # 설명 업데이트
+    artifact.description = "My new description"
+
+    # metadata 키를 선택적으로 업데이트
+    artifact.metadata["oldKey"] = "new value"
+
+    # metadata 전체 교체
+    artifact.metadata = {"newKey": "new value"}
+
+    # alias 추가
+    artifact.aliases.append("best")
+
+    # alias 제거
+    artifact.aliases.remove("latest")
+
+    # aliases 전체 교체
+    artifact.aliases = ["replaced"]
+
+    # 모든 artifact 변경 사항 저장
+    artifact.save()
+    ```
+
     자세한 내용은 Weights and Biases [Artifact API](/ko/models/ref/python/experiments/artifact)를 참조하세요.
   </Tab>
 

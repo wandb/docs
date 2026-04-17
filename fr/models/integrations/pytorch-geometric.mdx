@@ -76,6 +76,28 @@ Vous pouvez enregistrer des informations sur les graphes en entrée, notamment l
 
 L’extrait suivant montre comment procéder avec PyVis et HTML.
 
+```python
+from pyvis.network import Network
+import wandb
+
+with wandb.init(project=’graph_vis’) as run:
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
+
+    # Ajouter les arêtes du graphe PyG au réseau PyVis
+    for e in tqdm(g.edge_index.T):
+        src = e[0].item()
+        dst = e[1].item()
+
+        net.add_node(dst)
+        net.add_node(src)
+        
+        net.add_edge(src, dst, value=0.1)
+
+    # Enregistrer la visualisation PyVis dans un fichier HTML
+    net.show("graph.html")
+    run.log({"eda/graph": wandb.Html("graph.html")})
+```
+
 <Frame>
   <img src="/images/integrations/pyg_graph_wandb.png" alt="Visualisation interactive de graphes" />
 </Frame>

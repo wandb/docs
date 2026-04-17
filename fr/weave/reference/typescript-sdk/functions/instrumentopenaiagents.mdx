@@ -30,7 +30,28 @@ Promise&lt;`boolean`&gt; - `true` si l’enregistrement a réussi, `false` si @o
 
 `Exemple`
 
+```typescript
+// ✅ Recommandé : importez simplement Weave - l'instrumentation se fait automatiquement !
+import * as weave from 'weave';
+await weave.init('my-project');
+
+// OpenAI Agents est déjà instrumenté via des hooks - aucune configuration manuelle requise
+import { Agent } from '@openai/agents';
+const agent = new Agent({ ... });
+await agent.run(input); // Automatiquement tracé dans Weave
+```
+
 `Exemple`
+
+```typescript
+// ⚠️ Uniquement nécessaire pour les cas limites où les hooks automatiques ne fonctionnent pas
+import { instrumentOpenAIAgents } from 'weave';
+
+const registered = await instrumentOpenAIAgents();
+if (!registered) {
+  console.log('OpenAI Agents introuvable - installez @openai/agents pour activer le tracing');
+}
+```
 
 `Remarques`
 
@@ -45,12 +66,13 @@ Promise&lt;`boolean`&gt; - `true` si l’enregistrement a réussi, `false` si @o
 **Alternative pour une logique de processeur personnalisée** : Si vous avez besoin d’un comportement de tracing personnalisé, utilisez `createOpenAIAgentsTracingProcessor()` et enregistrez-le manuellement :
 
 ```typescript
-import { addTraceProcessor } from "@openai/agents"
-import { createOpenAIAgentsTracingProcessor } from "weave"
+import { addTraceProcessor } from '@openai/agents';
+import { createOpenAIAgentsTracingProcessor } from 'weave';
 
-const processor = createOpenAIAgentsTracingProcessor()
-addTraceProcessor(processor)
+const processor = createOpenAIAgentsTracingProcessor();
+addTraceProcessor(processor);
 ```
+
 
 <div id="defined-in">
   #### Défini dans

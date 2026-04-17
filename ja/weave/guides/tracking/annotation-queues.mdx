@@ -224,9 +224,50 @@ https://wandb.ai/.../annotation-queues/019c0f63-7acb-7497-8f87-08873368fcd4
 
 次のコードを使うと、キュー内のトレース (calls) を順に処理できます。
 
+```python lines
+import weave
+from weave.trace_server.trace_server_interface import AnnotationQueueItemsQueryReq
+
+# プロジェクトとキューの識別子を実際の値に更新してください。
+PROJECT = "your-team-name/your-project-name"
+QUEUE_ID = "019c0f63-7acb-7497-8f87-08873368fcd4"
+
+# Weave を初期化します。
+client = weave.init(PROJECT)
+
+# キュー内の calls から call ID を取得します。
+calls = client.server.annotation_queue_items_query(
+    AnnotationQueueItemsQueryReq(
+        project_id=PROJECT,
+        queue_id=QUEUE_ID,
+    )
+)
+
+# calls を反復処理してフィードバックを取得します。
+for i, item in enumerate(calls.items):
+    call = client.get_call(call_id=item.call_id, include_feedback=True)
+    feedback = call.feedback or {}
+
+    # call のフィードバックアイテム数の合計をカウントします。
+    total_feedback_items = len(feedback)
+
+    print(f"\nItem {i} — call_id: {item.call_id} — total feedback items: {total_feedback_items}")
+
+    if not feedback:
+        print("このアイテムにフィードバックはありません")
+        continue
+
+    # 最初の annotation 値を取得します。
+    # フィールドの annotation は一定の順序で追加されないため、最初のフィールドは変わる可能性があります。
+    field_name = next(iter(feedback))
+    field_value = feedback[0]
+
+    print(f"  {field_name}: {field_value}")
+```
+
 以下の Google Colab ノートブックでは、プログラムからアノテーションデータにアクセスし、分析レポートを収集する方法を詳しく確認できます。
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
   <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />
 
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />

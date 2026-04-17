@@ -5,6 +5,28 @@ title: Variables d’environnement
 
 Lorsque vous exécutez un script dans un environnement automatisé, vous pouvez contrôler W&amp;B à l’aide de variables d’environnement définies avant l’exécution du script ou directement dans le script.
 
+```bash
+# Ceci est secret et ne doit pas être intégré dans le contrôle de version
+WANDB_API_KEY=$YOUR_API_KEY
+# Nom et notes facultatifs
+WANDB_NAME="My first run"
+WANDB_NOTES="Smaller learning rate, more regularization."
+```
+
+```bash
+# Nécessaire uniquement si vous ne versionnez pas le fichier wandb/settings
+WANDB_ENTITY=$username
+WANDB_PROJECT=$project
+```
+
+```python
+# Si vous ne souhaitez pas synchroniser votre script avec le cloud
+os.environ["WANDB_MODE"] = "offline"
+
+# Ajouter le suivi de l'ID de balayage aux objets Run et aux classes associées
+os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
+```
+
 <div id="optional-environment-variables">
   ## Variables d’environnement facultatives
 </div>

@@ -24,13 +24,39 @@ W&amp;B Table에서 히스토그램 차트를 생성합니다.
 
 **매개변수:**
 
-* `table`: 히스토그램용 데이터가 들어 있는 W&amp;B Table입니다.
-* `value`: bin 축(x-axis)의 레이블입니다.
-* `title`: 히스토그램 차트의 제목입니다.
-* `split_table`: 테이블을 W&amp;B UI의 별도 section으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 section에 표시됩니다. 기본값은 `False`입니다.
+* `table`:  히스토그램용 데이터가 들어 있는 W&amp;B Table입니다.
+* `value`:  bin 축(x-axis)의 레이블입니다.
+* `title`:  히스토그램 차트의 제목입니다.
+* `split_table`:  테이블을 W&amp;B UI의 별도 section으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 section에 표시됩니다. 기본값은 `False`입니다.
 
 **반환값:**
 
-* `CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
+* `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
 **예시:**
+
+```python
+import math
+import random
+import wandb
+
+# 랜덤 데이터 생성
+data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
+
+# W&B Table 생성
+table = wandb.Table(
+    data=data,
+    columns=["step", "height"],
+)
+
+# 히스토그램 플롯 생성
+histogram = wandb.plot.histogram(
+    table,
+    value="height",
+    title="My Histogram",
+)
+
+# W&B에 히스토그램 플롯 로깅
+with wandb.init(...) as run:
+    run.log({"histogram-plot1": histogram})
+```

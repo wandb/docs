@@ -46,3 +46,28 @@ La courbe précision-rappel est particulièrement utile pour évaluer des classi
 * `wandb.Error`:  Si NumPy, pandas ou scikit-learn n’est pas installé.
 
 **Exemple :**
+
+```python
+import wandb
+
+# Exemple de détection de spam (classification binaire)
+y_true = [0, 1, 1, 0, 1]  # 0 = pas spam, 1 = spam
+y_probas = [
+    [0.9, 0.1],  # Probabilités prédites pour le premier échantillon (pas spam)
+    [0.2, 0.8],  # Deuxième échantillon (spam), et ainsi de suite
+    [0.1, 0.9],
+    [0.8, 0.2],
+    [0.3, 0.7],
+]
+
+labels = ["not spam", "spam"]  # Noms de classes facultatifs pour une meilleure lisibilité
+
+with wandb.init(project="spam-detection") as run:
+    pr_curve = wandb.plot.pr_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=labels,
+         title="Precision-Recall Curve for Spam Detection",
+    )
+    run.log({"pr-curve": pr_curve})
+```

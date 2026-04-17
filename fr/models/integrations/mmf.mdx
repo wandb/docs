@@ -22,3 +22,33 @@ Les fonctionnalités suivantes sont prises en charge par le `WandbLogger` dans M
 </div>
 
 Les options suivantes sont disponibles dans la configuration MMF pour activer et personnaliser la journalisation de wandb :
+
+```
+training:
+    wandb:
+        enabled: true
+        
+        # Une entité est un nom d'utilisateur ou un nom d'équipe vers lequel vous envoyez des runs.
+        # Par défaut, le run sera enregistré dans votre compte utilisateur.
+        entity: null
+        
+        # Nom du projet à utiliser lors de l'enregistrement de l'expérience avec wandb
+        project: mmf
+        
+        # Nom de l'expérience/run à utiliser lors de l'enregistrement de l'expérience
+        # dans le projet avec wandb. Le nom d'expérience par défaut
+        # est : ${training.experiment_name}
+        name: ${training.experiment_name}
+        
+        # Activer le point de contrôle du modèle, en sauvegardant les points de contrôle du modèle dans W&B Artifacts
+        log_model_checkpoint: true
+        
+        # Valeurs d'arguments supplémentaires à transmettre à wandb.init(), par exemple :
+        # job_type: 'train'
+        # tags: ['tag1', 'tag2']
+        
+env:
+    # Pour modifier le chemin vers le répertoire où les métadonnées wandb seront
+    # stockées (par défaut : env.log_dir) :
+    wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
+```

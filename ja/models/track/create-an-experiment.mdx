@@ -81,6 +81,13 @@ W&amp;B でログできるさまざまなデータタイプについて詳しく
 </div>
 
 必要に応じて、W&amp;B Artifact をログできます。Artifacts を使うと、データセットやモデルのバージョン管理が容易になります。
+
+```python
+# ファイルやディレクトリを保存できます。この例では、モデルにONNXファイルを出力するsave() methodがあると仮定します。
+model.save("path_to_model.onnx")
+run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
+```
+
 [Artifacts](/ja/models/artifacts/) の詳細、または [Registry](/ja/models/registry/) でのモデルのバージョン管理については、こちらをご覧ください。
 
 <div id="putting-it-all-together">
@@ -88,6 +95,30 @@ W&amp;B でログできるさまざまなデータタイプについて詳しく
 </div>
 
 前述のコードスニペットをすべて含む完全なスクリプトを以下に示します。
+
+```python
+import wandb
+
+with wandb.init(
+    project="cat-classification",
+    notes="",
+    tags=["baseline", "paper1"],
+    # runのハイパーパラメーターを記録する。
+    config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
+) as run:
+    # モデルとデータを設定する。
+    model, dataloader = get_model(), get_data()
+
+    # メトリクスをログしながらトレーニングを実行し、モデル性能を可視化する。
+    for epoch in range(run.config["epochs"]):
+        for batch in dataloader:
+            loss, accuracy = model.training_step()
+            run.log({"accuracy": accuracy, "loss": loss})
+
+    # トレーニング済みモデルをArtifactとしてアップロードする。
+    model.save("path_to_model.onnx")
+    run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
+```
 
 <div id="next-steps-visualize-your-experiment">
   ## 次のステップ: 実験を可視化する
@@ -110,14 +141,17 @@ W&amp;B ダッシュボードを、機械学習モデルの結果を整理し、
 1. **run を終了する**: `with` 文で `wandb.init()` を使用すると、コードの実行が完了したとき、または例外が発生したときに、run が自動的に終了済みとしてマークされます。
    * Jupyter ノートブックでは、Run オブジェクトを自分で管理したほうが便利な場合があります。この場合は、Run オブジェクトで `finish()` を明示的に呼び出して、完了としてマークできます。
 
+     ```python
+     # ノートブックのセル内:
+     run = wandb.init()
+
+     # 別のセル内:
+     run.finish()
+     ```
 2. **Config**: モデルを再現するために使用したいハイパーパラメーター、アーキテクチャ、データセット、そのほかの情報をトラッキングします。これらは column として表示され、アプリでは設定 column を使って run を動的にグループ化、並べ替え、フィルターできます。
-
 3. **Project**: プロジェクトは、まとめて比較できる Experiments の集合です。各プロジェクトには専用のダッシュボードページがあり、異なるモデル バージョンを比較できるように、run のさまざまなグループを簡単にオン/オフできます。
-
 4. **Notes**: スクリプトから直接、簡単なコミットメッセージを設定します。メモは W&amp;B App の run の Overview セクションで編集および確認できます。
-
 5. **Tags**: ベースラインの run や重要な run を識別します。tags を使って run をフィルターできます。tags は、後から W&amp;B App のプロジェクトのダッシュボードにある Overview セクションで編集できます。
-
 6. **Experiments を比較するために複数の run set を作成する**: Experiments を比較するときは、メトリクスを比較しやすくするために複数の run set を作成します。同じ チャート または チャート のグループ上で、run set のオン/オフを切り替えられます。
 
 次の コードスニペット は、上記のベストプラクティスに従って W&amp;B Experiment を定義する方法を示しています。

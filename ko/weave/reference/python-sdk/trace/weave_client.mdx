@@ -139,14 +139,24 @@ clear_wandb_run_context() → None
 
 wandb run 컨텍스트 재정의를 초기화합니다.
 
-이 작업을 호출한 후에는 Call이 run&#95;id 및 step 정보에 대해 전역 wandb.run(사용 가능한 경우)으로 대체됩니다.
+이 작업을 호출한 후에는 call이 run&#95;id 및 step 정보에 대해 전역 wandb.run(사용 가능한 경우)으로 대체됩니다.
 
 * <b>`obj_ref`</b>: 객체 버전에 대한 레퍼런스이며, ObjectRef 또는 weave /// URI 문자열입니다.
-* <b>`tags`</b>: 추가할 태그 문자열 목록입니다. **예시:**
+* <b>`tags`</b>: 추가할 태그 문자열 목록입니다.
+  **예시:**
+
+```python
+client = weave.init("my-project")
+client.set_wandb_run_context(run_id="my-run-id", step=5)
+# ... 일부 calls 수행 ...
+client.clear_wandb_run_context()
+# 이제 calls는 다시 전역 wandb.run을 사용합니다
+```
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
+
 
 ### <kbd>방법</kbd> `create_call`
 
@@ -554,16 +564,44 @@ get_feedback(
 
 **예시:**
 
+```python
+# 특정 피드백 객체를 가져옵니다.
+# 이 경우에도 컬렉션이 반환되며, 항목이 0개 또는 1개 포함될 수 있습니다.
+client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
+
+# 특정 reaction을 가진 모든 피드백 객체를 조회합니다.
+client.get_feedback(reaction="👍", limit=10)
+
+# mongo 스타일 쿼리를 사용하여 특정 피드백 유형을 가진
+# 모든 피드백 객체를 조회합니다.
+from weave.trace_server.interface.query import Query
+
+query = Query(
+    **{
+        "$expr": {
+            "$eq": [
+                {"$getField": "feedback_type"},
+                {"$literal": "wandb.reaction.1"},
+            ],
+        }
+    }
+)
+client.get_feedback(query=query)
+```
+
 **인수:**
 
 * <b>`query`</b>: Mongo 스타일의 쿼리 표현식입니다. 편의를 위해 피드백 UUID 문자열도 사용할 수 있습니다.
 * <b>`reaction`</b>: 편의를 위해 특정 반응 이모지로 필터링합니다.
 * <b>`offset`</b>: 피드백 객체를 가져오기 시작할 오프셋입니다.
-* <b>`limit`</b>: 가져올 피드백 객체의 최대 개수입니다. **반환값:** FeedbackQuery 객체입니다.
+* <b>`limit`</b>: 가져올 피드백 객체의 최대 개수입니다.
+  **반환값:**
+  FeedbackQuery 객체입니다.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
+
 
 ### <kbd>방법</kbd> `get_tags`
 
@@ -670,18 +708,31 @@ query_costs(
 
 프로젝트의 비용을 쿼리합니다.
 
-* <b>`ids`</b>: 제거할 비용 ID입니다. 단일 ID 또는 ID 목록일 수 있습니다. **예시:**
+* <b>`ids`</b>: 제거할 비용 ID입니다. 단일 ID 또는 ID 목록일 수 있습니다.
+  **예시:**
+
+```python
+# 특정 비용 객체를 가져옵니다.
+# 이 경우에도 collection이 반환되며, 항목이 0개 또는 1개 포함될 것으로 예상됩니다.
+client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
+
+# 특정 반응을 가진 모든 비용 객체를 찾습니다.
+client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
+```
 
 **인수:**
 
 * <b>`query`</b>: Mongo 스타일 쿼리 표현식입니다. 편의를 위해 cost UUID 문자열도 받을 수 있습니다.
-* <b>`llm_ids`</b>: 편의를 위해 llm&#95;ids 집합을 기준으로 필터링합니다.
+* <b>`llm_ids`</b>: 편의를 위해 `llm_ids` 집합을 기준으로 필터링합니다.
 * <b>`offset`</b>: cost 객체를 가져오기 시작할 오프셋입니다.
-* <b>`limit`</b>: 가져올 cost 객체의 최대 개수입니다. **반환값:** CostQuery 객체입니다.
+* <b>`limit`</b>: 가져올 cost 객체의 최대 개수입니다.
+  **반환값:**
+  CostQuery 객체입니다.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
+
 
 ### <kbd>방법</kbd> `remove_aliases`
 
@@ -762,21 +813,34 @@ set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
 set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 ```
 
-이 클라이언트가 생성한 Call에 대해 wandb run&#95;id와 step을 재정의합니다.
+이 클라이언트가 생성한 call에 대해 wandb run&#95;id와 step을 재정의합니다.
 
-이렇게 하면 전역 wandb.run 심볼에 바인딩되지 않은 특정 WandB run에 Weave Call을 연결할 수 있습니다.
+이렇게 하면 전역 wandb.run 심볼에 바인딩되지 않은 특정 WandB run에 Weave call을 연결할 수 있습니다.
 
 * <b>`obj_ref`</b>: 객체 버전에 대한 레퍼런스이며, ObjectRef 또는 weave /// URI 문자열입니다.
 
-* <b>`alias`</b>: 설정할 별칭 이름 또는 별칭 이름 목록입니다(예: &quot;프로덕션&quot;). **인수:**
+* <b>`alias`</b>: 설정할 alias 이름 또는 alias 이름 목록입니다(예: &quot;프로덕션&quot;).
+  **인수:**
 
 * <b>`run_id`</b>: run ID입니다(entity/프로젝트 접두사 제외). 클라이언트가 entity/프로젝트 접두사를 자동으로 추가합니다.
 
-* <b>`step`</b>: Call에 사용할 step 번호입니다. None이면 step은 설정되지 않습니다. **예시:**
+* <b>`step`</b>: call에 사용할 step 번호입니다. None이면 step은 설정되지 않습니다.
+  **예시:**
+
+```python
+client = weave.init("my-project")
+client.set_wandb_run_context(run_id="my-run-id", step=5)
+# 이제 모든 calls가 step 5에서 entity/project/my-run-id와 연결됩니다
+
+# 또는 step 없이
+client.set_wandb_run_context(run_id="my-run-id")
+# Calls가 step 없이 entity/project/my-run-id와 연결됩니다
+```
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
+
 
 ### <kbd>함수</kbd> `get_obj_name`
 

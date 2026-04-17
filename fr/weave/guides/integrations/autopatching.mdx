@@ -27,9 +27,42 @@ Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques 
 
     **Patching implicite (automatique) :** les bibliothèques sont automatiquement patchées, quel que soit le moment où elles sont importées.
 
+    ```python lines
+    # Option 1 : importer avant weave.init()
+    import openai
+    import weave
+    weave.init('your-team-name/your-project-name')  # OpenAI est automatiquement patché !
+
+    # Option 2 : importer après weave.init()
+    import weave
+    weave.init('your-team-name/your-project-name')
+    import anthropic  # Patché automatiquement via le hook d'import !
+    ```
+
     **Désactiver le patching implicite :** vous pouvez désactiver le patching automatique si vous préférez un contrôle explicite.
 
+    ```python lines
+    import weave
+
+    # Option 1 : via le paramètre settings
+    weave.init('your-team-name/your-project-name', settings={'implicitly_patch_integrations': False})
+
+    # Option 2 : via une variable d'environnement
+    # Définissez WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false avant d'exécuter votre script
+
+    # Lorsque le patching implicite est désactivé, vous devez patcher explicitement les intégrations
+    import openai
+    weave.patch_openai()  # Désormais requis pour le Tracing OpenAI
+    ```
+
     **Patching explicite (manuel) :** vous pouvez patcher explicitement les intégrations pour un contrôle plus fin.
+
+    ```python lines
+    import weave
+    weave.init('your-team-name/your-project-name')
+    weave.integrations.patch_openai()  # Active le Tracing OpenAI
+    weave.integrations.patch_anthropic()  # Active le Tracing Anthropic
+    ```
 
     ### Post-traiter les entrées et les sorties
 
@@ -51,7 +84,7 @@ Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques 
     )
     ```
 
-    Pour en savoir plus sur la gestion des données sensibles, voir [comment utiliser Weave avec des données personnelles identifiables](/fr/weave/cookbooks/pii).
+    Pour en savoir plus sur la gestion des données sensibles, voir [comment utiliser Weave avec des données PII](/fr/weave/cookbooks/pii).
   </Tab>
 
   <Tab title="TypeScript">
@@ -59,18 +92,18 @@ Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques 
 
     De plus, le SDK TypeScript ne prend pas en charge :
 
-    * la configuration ou la désactivation du patching automatique.
+    * la configuration ou la désactivation du patching automatique ;
     * le post-traitement des entrées/sorties.
 
     Dans les cas limites où le patching automatique ne fonctionne pas (ESM, bundlers comme Next.js), utilisez un encapsulage explicite :
 
     ```typescript
-    import OpenAI from "openai"
-    import * as weave from "weave"
-    import { wrapOpenAI } from "weave"
+    import OpenAI from 'openai'
+    import * as weave from 'weave'
+    import { wrapOpenAI } from 'weave'
 
     const client = wrapOpenAI(new OpenAI())
-    await weave.init("your-team-name/your-project-name")
+    await weave.init('your-team-name/your-project-name')
     ```
 
     Pour plus de détails sur la configuration ESM et le dépannage, voir le [guide d’intégration du SDK TypeScript](/fr/weave/guides/integrations/js).

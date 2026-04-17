@@ -2,13 +2,41 @@
 title: 워크스페이스
 ---
 
-import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/internal.py" />
 
-<Note>W&amp;B Report and Workspace API는 Public Preview 상태입니다.</Note>
+<Note>
+  W&amp;B Report and Workspace API는 Public Preview 상태입니다.
+</Note>
 
 프로그래밍 방식으로 W&amp;B Workspace API를 사용하기 위한 Python 라이브러리입니다.
+
+```python
+# 임포트하는 방법
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr
+
+# Workspace 생성 예시
+ws.Workspace(
+     name="Example W&B Workspace",
+     entity="entity", # workspace를 소유하는 entity
+     project="project", # workspace와 연결된 프로젝트
+     sections=[
+         ws.Section(
+             name="Validation Metrics",
+             panels=[
+                 wr.LinePlot(x="Step", y=["val_loss"]),
+                 wr.BarPlot(metrics=["val_accuracy"]),
+                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
+
 
 ## <kbd>class</kbd> `RunSettings`
 
@@ -29,7 +57,9 @@ Workspace에서 runset(run이 표시되는 왼쪽 바)에 대한 설정입니다
 
 * `query` (str):  runset을 필터링하는 쿼리입니다(정규식 표현식일 수 있으며, 다음 매개변수 참조).
 * `regex_query` (bool):  위의 `query`가 정규식 표현식인지 여부를 제어합니다. 기본값은 `False`입니다.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  runset에 적용할 필터 목록 또는 문자열 표현식입니다. - 목록인 경우: 필터는 AND로 결합됩니다. 필터 생성에 대한 자세한 내용은 FilterExpr를 참조하세요. - 문자열인 경우: Python 스타일 표현식을 사용합니다. 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `filters` (Union[str, LList[expr.FilterExpr]]):  runset에 적용할 필터 목록 또는 문자열 표현식입니다.
+  * 목록인 경우: 필터는 AND로 결합됩니다. 필터 생성에 대한 자세한 내용은 FilterExpr를 참조하세요.
+  * 문자열인 경우: Python 스타일 표현식을 사용합니다. 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
 * `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
 * `groupby` (LList[expr.MetricType]):  runset에서 그룹화할 메트릭 목록입니다. `Metric`, `Summary`, `Config`, `Tags`, 또는 `KeysInfo`로 설정합니다.
 * `order` (LList[expr.Ordering]):  runset에 적용할 메트릭과 정렬 순서의 목록입니다.
@@ -41,7 +71,22 @@ Workspace에서 runset(run이 표시되는 왼쪽 바)에 대한 설정입니다
 
 **예시:**
 
+```python
+    # 문자열 필터 사용 (신규)
+    RunsetSettings(
+        filters="Config('learning_rate') = 0.001 and State = 'finished'",
+        pinned_columns=["summary:accuracy", "summary:loss"],
+    )
+
+    # FilterExpr 목록 사용 (기존 방식)
+    RunsetSettings(
+        filters=[expr.Config("learning_rate") == 0.001],
+        pinned_columns=["summary:accuracy", "summary:loss"],
+    )
+```
+
 ***
+
 
 ### <kbd>메서드</kbd> `convert_filterexpr_list_to_string`
 

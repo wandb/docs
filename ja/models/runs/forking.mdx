@@ -32,6 +32,24 @@ run からフォークすると、W&amp;B はソース run の[一意の ID](/ja
 
 以下のコードをPythonスクリプトまたはノートブックのセルにコピー＆ペーストします。`<source-run-id>`、`<project>`、`<entity>`を自身の値に置き換えてください。
 
+```python
+import wandb
+
+# フォーク元のソース run の一意の ID
+source_run_id = "<source-run-id>"
+
+# フォーク元の step を指定する
+fork_step = 200
+
+# run をフォークする
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{source_run_id}?_step={fork_step}",
+) as forked_run:
+    pass
+```
+
 <div id="fork-from-a-run-in-the-same-script">
   ## 同じスクリプト内でrunからフォークする
 </div>
@@ -40,7 +58,33 @@ run からフォークすると、W&amp;B はソース run の[一意の ID](/ja
 
 まず、runを初期化して、いくつかのデータをログします。次に、元のrunオブジェクトの`id`プロパティを使用して、そのrunのrun IDを取得します。最後に、新しいrunを初期化し、元のrunのIDとフォーク元にしたいstepを[`wandb.init()`](/ja/models/ref/python/functions/init)の`fork_from`に引数として渡します。
 
-<Tip> `original_run.id` プロパティを使用すると、元の run の一意な run ID を取得できます。</Tip>
+```python
+import wandb
+
+# runを初期化する
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as original_run:
+    # ...トレーニングロジックをここに記述する ...
+    pass
+
+# フォーク元のstepを指定する
+fork_step = int("<num>")
+
+# 元のrunのIDを使用してフォーク元のstepを指定する
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{original_run.id}?_step={fork_step}",
+) as forked_run:
+    # ...トレーニングロジックをここに記述する ...
+    pass
+```
+
+<Tip>
+  `original_run.id` プロパティを使用すると、元の run の一意な run ID を取得できます。
+</Tip>
 
 <div id="example-script">
   ### スクリプトの例
@@ -49,6 +93,43 @@ run からフォークすると、W&amp;B はソース run の[一意の ID](/ja
 たとえば、次のコード例は、まず run をフォークし、その後トレーニングの step 200 から、フォークした run にメトリクスをログする方法を示しています。
 
 次のコードを Python スクリプトまたはノートブックのセルにコピー＆ペーストしてください。`<project>` と `<entity>` はご自身の値に置き換えてください。
+
+```python
+import wandb
+import math
+
+# 最初のrunを初期化し、いくつかのメトリクスをログする
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as run1:
+    for i in range(300):
+        run1.log({"metric": i})
+
+# 最初のrunを特定のstepでフォークし、step 200から
+# メトリクスをログする
+with wandb.init(
+    project="<project>", 
+    entity="<entity>", 
+    fork_from=f"{run1.id}?_step=200"
+) as run2:
+    # 新しいrunでログを継続する
+    # 最初の数stepは、run1のメトリクスをそのままログする
+    # step 250以降は、スパイクパターンのログを開始する
+    for i in range(200, 300):
+        if i < 250:
+            # スパイクなしでrun1からログを継続する
+            metric_value = i
+        else:
+            # step 250からスパイクの挙動を導入する
+            metric_value = i + (2 * math.sin(i / 3.0))  # 緩やかなスパイクパターンを適用する
+
+        # 同じstepでログされるよう、両方のメトリクスを1回のcallでログする
+        run2.log({
+            "metric": metric_value,
+            "additional_metric": i * 1.1
+        })
+```
 
 <Note>
   **巻き戻しとフォークの互換性**

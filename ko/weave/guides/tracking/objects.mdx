@@ -32,10 +32,26 @@ weave.publish(dataset)
 Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # 목록을 저장하고 이름을 'cat-names'로 지정합니다
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
 
   <Tab title="TypeScript">
     TypeScript에서의 게시 기능은 아직 초기 단계이므로, 아직 모든 객체가 완전히 지원되지는 않습니다.
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // 배열을 저장하고 이름을 'cat-names'로 지정합니다
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
   </Tab>
 </Tabs>
 

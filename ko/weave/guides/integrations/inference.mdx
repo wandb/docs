@@ -114,7 +114,7 @@ Inference 서비스에서 지원하는 API 방법은 다음과 같습니다:
   #### Chat completions
 </div>
 
-기본적으로 사용할 수 있는 API 방법은 `/chat/completions`이며, 지원되는 모델에 메시지를 보내고 completion을 받기 위한 OpenAI 호환 요청 형식을 지원합니다. Weave로 W&amp;B Inference 서비스를 사용하는 방법을 보여주는 사용 예시는 [API 사용 예시](#usage-examples)를 참조하세요.
+기본적으로 사용할 수 있는 API 방법은 `/chat/completions`이며, 지원되는 모델에 메시지를 보내고 completion을 받기 위한 OpenAI 호환 요청 형식을 지원합니다. Weave로 W&amp;B Inference 서비스를 사용하는 방법을 보여주는 사용 예시는 [API usage examples](#usage-examples)를 참조하세요.
 
 채팅 completion을 생성하려면 다음이 필요합니다:
 
@@ -146,7 +146,41 @@ Inference 서비스에서 지원하는 API 방법은 다음과 같습니다:
     ```
   </Tab>
 
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines
+    import openai
+
+    client = openai.OpenAI(
+        # 맞춤형 기본 URL은 W&B Inference를 가리킵니다
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # https://wandb.ai/settings 에서 API 키를 생성하세요
+        # 보안을 위해 대신 환경 변수 OPENAI_API_KEY로 설정하는 것이 좋습니다
+        api_key="<your-api-key>",
+
+        # 사용 추적을 위해 팀과 프로젝트가 필요합니다
+        project="<your-team>/<your-project>",
+    )
+
+    # <model-id>를 다음 값 중 하나로 바꾸세요:
+    # meta-llama/Llama-3.1-8B-Instruct
+    # deepseek-ai/DeepSeek-V3-0324
+    # meta-llama/Llama-3.3-70B-Instruct
+    # deepseek-ai/DeepSeek-R1-0528
+    # meta-llama/Llama-4-Scout-17B-16E-Instruct
+    # microsoft/Phi-4-mini-instruct
+
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
 </Tabs>
 
 <div id="list-supported-models">
@@ -198,7 +232,9 @@ API를 사용해 현재 사용 가능한 모든 모델과 해당 ID를 조회합
 
 다음 Python 코드 샘플은 W&amp;B Inference API를 사용해 **Llama 3.1 8B** 모델에 프롬프트를 보내고, Weave에서 해당 call을 트레이스하는 방법을 보여줍니다. Tracing을 사용하면 LLM call의 전체 입력/출력을 캡처하고, 성능을 모니터링하고, Weave UI에서 결과를 분석할 수 있습니다.
 
-<Tip>[Weave의 tracing](../tracking/tracing.mdx)에 대해 자세히 알아보세요.</Tip>
+<Tip>
+  [Weave의 tracing](../tracking/tracing.mdx)에 대해 자세히 알아보세요.
+</Tip>
 
 이 예제에서는 다음을 수행합니다:
 
@@ -209,6 +245,40 @@ API를 사용해 현재 사용 가능한 모든 모델과 해당 ID를 조회합
 
 이 예제를 사용하려면 [일반 사전 요구 사항](#prerequisites)과 [Python을 통해 API를 사용하기 위한 추가 사전 요구 사항](#additional-prerequisites-for-using-the-api-via-python)을 완료해야 합니다.
 
+```python lines
+import weave
+import openai
+
+# 트레이싱을 위한 Weave 팀 및 프로젝트 설정
+weave.init("<your-team>/<your-project>")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings 에서 API 키 생성
+    api_key="<your-api-key>",
+
+    # W&B Inference 사용량 추적에 필요
+    project="wandb/inference-demo",
+)
+
+# Weave에서 모델 call 트레이스
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# 트레이스된 call 실행 및 로그
+output = run_chat()
+print(output)
+```
+
 코드 샘플을 실행한 후 터미널에 출력된 링크(예: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`)를 클릭하면 Weave에서 트레이스를 확인할 수 있습니다. 또는 다음과 같이 할 수 있습니다.
 
 1. [https://wandb.ai](https://wandb.ai)로 이동합니다.
@@ -216,7 +286,9 @@ API를 사용해 현재 사용 가능한 모든 모델과 해당 ID를 조회합
 
 다음으로, [고급 예제](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service)를 사용해 보세요.
 
-<Frame>![트레이스 표시](/weave/guides/integrations/imgs/image.png)</Frame>
+<Frame>
+  ![트레이스 표시](/weave/guides/integrations/imgs/image.png)
+</Frame>
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service">
   ### 고급 예제: Inference 서비스와 함께 Weave Evaluations 및 리더보드 사용
@@ -226,15 +298,91 @@ Inference 서비스에서 Weave를 사용해 [모델 calls를 트레이스](../t
 
 이 예제를 사용하려면 [일반 사전 요구 사항](#prerequisites)과 [Python을 통해 API를 사용하는 추가 사전 요구 사항](#additional-prerequisites-for-using-the-api-via-python)을 충족해야 합니다.
 
+```python lines
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# 트레이싱을 위한 Weave 팀 및 프로젝트 설정
+weave.init("<your-team>/<your-project>")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # https://wandb.ai/settings 에서 API 키 생성
+            api_key="<your-api-key>",
+            # W&B Inference 사용량 추적에 필요
+            project="<your-team>/<your-project>",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
+
 다음 코드 샘플을 실행한 후 [https://wandb.ai/](https://wandb.ai/)의 W&amp;B 계정으로 이동한 다음, 다음을 수행합니다:
 
 * **Traces** 탭으로 이동하여 [트레이스를 확인합니다](../tracking/tracing.mdx)
 * **Evals** 탭으로 이동하여 [모델 평가를 확인합니다](../core-types/evaluations.mdx)
 * **Leaders** 탭으로 이동하여 [생성된 리더보드를 확인합니다](../core-types/leaderboards.mdx)
 
-<Frame>![모델 평가 보기](/weave/guides/integrations/imgs/inference-advanced-evals.png)</Frame>
+<Frame>
+  ![모델 평가 보기](/weave/guides/integrations/imgs/inference-advanced-evals.png)
+</Frame>
 
-<Frame>![트레이스 보기](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)</Frame>
+<Frame>
+  ![트레이스 보기](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)
+</Frame>
 
 <div id="ui">
   ## UI

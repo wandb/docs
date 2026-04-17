@@ -8,14 +8,31 @@ W&amp;B utilise un *contrôleur de balayage* pour gérer les balayages dans le c
 Les extraits de code suivants montrent comment initialiser des balayages avec la CLI et dans un notebook Jupyter ou un script Python.
 
 <Warning>
-  1. Avant d&#39;initialiser un balayage, assurez-vous d&#39;avoir défini une configuration de balayage soit dans un fichier YAML, soit dans un objet dictionnaire Python imbriqué dans votre script. Pour plus d&#39;informations, voir [Définir une configuration de balayage
-     ](/fr/models/sweeps/define-sweep-configuration/). 2. Le balayage W&amp;B et le run W&amp;B doivent tous deux se trouver dans le même projet. Par conséquent, le nom que vous fournissez lorsque vous initialisez W&amp;B
-     ([`wandb.init()`](/fr/models/ref/python/functions/init)) doit correspondre au nom du projet que vous fournissez lorsque vous initialisez un balayage W&amp;B ([`wandb.sweep()`](/fr/models/ref/python/functions/sweep)).
+  1. Avant d&#39;initialiser un balayage, assurez-vous d&#39;avoir défini une configuration de balayage soit dans un fichier YAML, soit dans un objet dictionnaire Python imbriqué dans votre script. Pour plus d&#39;informations, voir [Définir une configuration de balayage](/fr/models/sweeps/define-sweep-configuration/).
+  2. Le balayage W&amp;B et le run W&amp;B doivent tous deux se trouver dans le même projet. Par conséquent, le nom que vous fournissez lorsque vous initialisez W&amp;B ([`wandb.init()`](/fr/models/ref/python/functions/init)) doit correspondre au nom du projet que vous fournissez lorsque vous initialisez un balayage W&amp;B ([`wandb.sweep()`](/fr/models/ref/python/functions/sweep)).
 </Warning>
 
 <Tabs>
   <Tab title="Script Python ou notebook">
     Utilisez le SDK W&amp;B pour initialiser un balayage. Passez le dictionnaire de configuration du balayage au paramètre `sweep`. Vous pouvez également fournir le nom du projet via le paramètre de projet (`project`) dans lequel vous souhaitez stocker la sortie du run W&amp;B. Si le projet n&#39;est pas spécifié, le run est placé dans un projet « Non catégorisé ».
+
+    ```python
+    import wandb
+
+    # Exemple de configuration de balayage
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {"goal": "maximize", "name": "val_acc"},
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
+    ```
 
     La fonction [`wandb.sweep()`](/fr/models/ref/python/functions/sweep) renvoie l&#39;ID du balayage. L&#39;ID du balayage inclut le nom de l&#39;entité et le nom du projet. Notez l&#39;ID du balayage.
   </Tab>

@@ -69,3 +69,27 @@ Cet exemple de classement visualise les performances de plusieurs modèles :
 </div>
 
 Pour préparer votre modèle, chargez-le dans W&amp;B Models, conditionnez les poids du modèle dans un format compatible avec VLLM, puis enregistrez le résultat. Cet exemple montre une façon de procéder :
+
+```python lines
+import os
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# Charger votre modèle
+model_name = "your-model-name"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# Enregistrer au format compatible vLLM
+save_dir = "path/to/save"
+tokenizer.save_pretrained(save_dir)
+model.save_pretrained(save_dir)
+
+# Enregistrer dans W&B Models
+import wandb
+wandb_run = wandb.init(entity="your-entity-name", project="your-project-name")
+artifact = wandb.Artifact(name="your-artifact-name")
+artifact.add_dir(save_dir)
+logged_artifact = wandb_run.log_artifact(artifact)
+logged_artifact.wait()
+wandb.finish()
+```

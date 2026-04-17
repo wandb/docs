@@ -47,9 +47,65 @@ Weave는 DSPy 프로그램의 모든 LM calls를 로깅하며, inputs, outputs, 
   ## 사용자 정의 DSPy 모듈과 시그니처 추적
 </div>
 
-`Module`은 프롬프팅 기법을 추상화하는 DSPy 프로그램의 기본 구성 요소로, 학습 가능한 파라미터를 가집니다. `Signature`는 DSPy Module의 입력/출력 동작을 선언적으로 정의하는 명세입니다. Weave는 DSPy 프로그램에 포함된 모든 내장 및 사용자 정의 Signatures와 DSPy 모듈를 자동으로 추적합니다.
+`Module`은 프롬프팅 기법을 추상화하는 DSPy 프로그램의 기본 구성 요소로, 학습 가능한 파라미터를 가집니다. `Signature`는 DSPy Module의 입력/출력 동작을 선언적으로 정의하는 명세입니다. Weave는 DSPy 프로그램에 포함된 모든 내장 및 사용자 정의 Signatures와 Modules를 자동으로 추적합니다.
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+class Outline(dspy.Signature):
+    """Outline a thorough overview of a topic."""
+
+    topic: str = dspy.InputField()
+    title: str = dspy.OutputField()
+    sections: list[str] = dspy.OutputField()
+    section_subheadings: dict[str, list[str]] = dspy.OutputField(
+        desc="mapping from section headings to subheadings"
+    )
+
+
+class DraftSection(dspy.Signature):
+    """Draft a top-level section of an article."""
+
+    topic: str = dspy.InputField()
+    section_heading: str = dspy.InputField()
+    section_subheadings: list[str] = dspy.InputField()
+    content: str = dspy.OutputField(desc="markdown-formatted section")
+
+
+class DraftArticle(dspy.Module):
+    def __init__(self):
+        self.build_outline = dspy.ChainOfThought(Outline)
+        self.draft_section = dspy.ChainOfThought(DraftSection)
+
+    def forward(self, topic):
+        outline = self.build_outline(topic=topic)
+        sections = []
+        for heading, subheadings in outline.section_subheadings.items():
+            section, subheadings = (
+                f"## {heading}",
+                [f"### {subheading}" for subheading in subheadings],
+            )
+            section = self.draft_section(
+                topic=outline.title,
+                section_heading=section,
+                section_subheadings=subheadings,
+            )
+            sections.append(section.content)
+        return dspy.Prediction(title=outline.title, sections=sections)
+
+
+draft_article = DraftArticle()
+article = draft_article(topic="World Cup 2002")
+```
 
 [![모듈 실행 흐름과 트레이스 세부 정보가 표시된 Weave의 DSPy 맞춤형 모듈 트레이스](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+
 
 <div id="optimization-and-evaluation-of-your-dspy-program">
   ## DSPy 프로그램의 최적화 및 평가

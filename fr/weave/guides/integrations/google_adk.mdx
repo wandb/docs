@@ -58,15 +58,116 @@ L’extrait de code suivant montre comment configurer un exportateur de spans OT
   Pour que Weave puisse tracer correctement ADK, définissez le fournisseur de traceurs global *avant* d’utiliser des composants ADK dans votre code.
 </Warning>
 
+```python lines
+import base64
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry import trace
+
+# Charger les valeurs sensibles depuis les variables d'environnement
+WANDB_BASE_URL = "https://trace.wandb.ai"
+# Nom de votre entité/projet W&B, par ex. "myteam/myproject"
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
+# Créez une clé API W&B sur https://wandb.ai/settings
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# Créer l'exportateur de spans OTLP avec l'endpoint et les en-têtes
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Créer un fournisseur de traceur et ajouter l'exportateur
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+
+# Définir le fournisseur de traceur global AVANT d'importer/utiliser ADK
+trace.set_tracer_provider(tracer_provider)
+```
+
 <div id="trace-adk-agents-with-otel">
   ## Tracer des agents ADK avec OTEL
 </div>
 
 Après avoir configuré le fournisseur de traceur, vous pouvez créer et exécuter des agents ADK avec un traçage automatique. L’exemple suivant montre comment créer un agent LLM simple avec un outil, puis l’exécuter à l’aide d’un runner en mémoire :
 
+```python lines
+from google.adk.agents import LlmAgent
+from google.adk.runners import InMemoryRunner
+from google.adk.tools import FunctionTool
+from google.genai import types
+import asyncio
+
+# Définir un outil simple pour la démonstration
+def calculator(a: float, b: float) -> str:
+    """Additionner deux nombres et retourner le résultat.
+
+    Args:
+        a: Premier nombre
+        b: Deuxième nombre
+
+    Returns:
+        La somme de a et b
+    """
+    return str(a + b)
+
+calculator_tool = FunctionTool(func=calculator)
+
+async def run_agent():
+    # Créer un agent LLM
+    agent = LlmAgent(
+        name="MathAgent",
+        model="gemini-2.0-flash",  # Vous pouvez remplacer ceci par un autre modèle si nécessaire
+        instruction=(
+            "You are a helpful assistant that can do math. "
+            "When asked a math problem, use the calculator tool to solve it."
+        ),
+        tools=[calculator_tool],
+    )
+
+    # Configurer le runner
+    runner = InMemoryRunner(agent=agent, app_name="math_assistant")
+    session_service = runner.session_service
+
+    # Créer une session
+    user_id = "example_user"
+    session_id = "example_session"
+    await session_service.create_session(
+        app_name="math_assistant",
+        user_id=user_id,
+        session_id=session_id,
+    )
+
+    # Exécuter l'agent avec un message qui devrait déclencher l'utilisation de l'outil
+    async for event in runner.run_async(
+        user_id=user_id,
+        session_id=session_id,
+        new_message=types.Content(
+            role="user", parts=[types.Part(text="What is 5 + 7?")]
+        ),
+    ):
+        if event.is_final_response() and event.content:
+            print(f"Final response: {event.content.parts[0].text.strip()}")
+
+# Exécuter la fonction asynchrone
+asyncio.run(run_agent())
+```
+
 Toutes les opérations de l’agent sont automatiquement tracées et envoyées à Weave, ce qui vous permet de visualiser le déroulement de l’exécution. Vous pouvez voir les appels au modèle, les étapes de raisonnement et les invocations d’outils.
 
-<Frame>![Visualisation de la trace d’un agent ADK](/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png)</Frame>
+<Frame>
+  ![Visualisation de la trace d’un agent ADK](/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png)
+</Frame>
 
 <div id="trace-adk-tools-with-otel">
   ## Tracer les outils ADK avec OTEL
@@ -76,7 +177,86 @@ Lorsque vous définissez et utilisez des outils avec ADK, les appels à ces outi
 
 Voici un exemple avec plusieurs outils :
 
-<Frame>![Une visualisation de la trace des appels d’outils ADK](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)</Frame>
+```python lines
+from google.adk.agents import LlmAgent
+from google.adk.runners import InMemoryRunner
+from google.adk.tools import FunctionTool
+from google.genai import types
+import asyncio
+
+# Définir plusieurs outils
+def add(a: float, b: float) -> str:
+    """Additionner deux nombres.
+    
+    Args:
+        a: Premier nombre
+        b: Deuxième nombre
+        
+    Returns:
+        La somme de a et b
+    """
+    return str(a + b)
+
+def multiply(a: float, b: float) -> str:
+    """Multiplier deux nombres.
+    
+    Args:
+        a: Premier nombre
+        b: Deuxième nombre
+        
+    Returns:
+        Le produit de a et b
+    """
+    return str(a * b)
+
+# Créer les outils de fonction
+add_tool = FunctionTool(func=add)
+multiply_tool = FunctionTool(func=multiply)
+
+async def run_agent():
+    # Créer un agent LLM avec plusieurs outils
+    agent = LlmAgent(
+        name="MathAgent",
+        model="gemini-2.0-flash",
+        instruction=(
+            "You are a helpful assistant that can do math operations. "
+            "When asked to add numbers, use the add tool. "
+            "When asked to multiply numbers, use the multiply tool."
+        ),
+        tools=[add_tool, multiply_tool],
+    )
+
+    # Configurer le runner
+    runner = InMemoryRunner(agent=agent, app_name="math_assistant")
+    session_service = runner.session_service
+
+    # Créer une session
+    user_id = "example_user"
+    session_id = "example_session"
+    await session_service.create_session(
+        app_name="math_assistant",
+        user_id=user_id,
+        session_id=session_id,
+    )
+
+    # Exécuter l'agent avec un message devant déclencher l'utilisation d'un outil
+    async for event in runner.run_async(
+        user_id=user_id,
+        session_id=session_id,
+        new_message=types.Content(
+            role="user", parts=[types.Part(text="First add 5 and 7, then multiply the result by 2.")]
+        ),
+    ):
+        if event.is_final_response() and event.content:
+            print(f"Final response: {event.content.parts[0].text.strip()}")
+
+# Exécuter la fonction asynchrone
+asyncio.run(run_agent())
+```
+
+<Frame>
+  ![Une visualisation de trace des appels d’outils ADK](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)
+</Frame>
 
 <div id="work-with-workflow-agents">
   ## Travailler avec des agents de flux de travail
@@ -84,9 +264,71 @@ Voici un exemple avec plusieurs outils :
 
 ADK fournit divers [*agents de flux de travail*](https://google.github.io/adk-docs/agents/workflow-agents/) pour des scénarios plus complexes. Vous pouvez tracer les agents de flux de travail comme n’importe quel agent LLM classique. Voici un exemple utilisant un [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/):
 
+```python lines
+from google.adk.agents import LlmAgent, SequentialAgent
+from google.adk.runners import InMemoryRunner
+from google.genai import types
+import asyncio
+
+async def run_workflow():
+    # Créer deux agents LLM
+    summarizer = LlmAgent(
+        name="Summarizer",
+        model="gemini-2.0-flash",
+        instruction="Summarize the given text in one sentence.",
+        description="Summarizes text in one sentence",
+        output_key="summary"  # Stocker la sortie dans state['summary']
+    )
+    
+    analyzer = LlmAgent(
+        name="Analyzer",
+        model="gemini-2.0-flash",
+        instruction="Analyze the sentiment of the given text as positive, negative, or neutral. The text to analyze: {summary}",
+        description="Analyzes sentiment of text",
+        output_key="sentiment"  # Stocker la sortie dans state['sentiment']
+    )
+    
+    # Créer un flux de travail séquentiel
+    workflow = SequentialAgent(
+        name="TextProcessor",
+        sub_agents=[summarizer, analyzer],
+        description="Executes a sequence of summarization followed by sentiment analysis.",
+    )
+    
+    # Configurer le runner
+    runner = InMemoryRunner(agent=workflow, app_name="text_processor")
+    session_service = runner.session_service
+    
+    # Créer une session
+    user_id = "example_user"
+    session_id = "example_session"
+    await session_service.create_session(
+        app_name="text_processor",
+        user_id=user_id,
+        session_id=session_id,
+    )
+    
+    # Exécuter le flux de travail
+    async for event in runner.run_async(
+        user_id=user_id,
+        session_id=session_id,
+        new_message=types.Content(
+            role="user", 
+            parts=[types.Part(text="The product exceeded my expectations. It worked perfectly right out of the box, and the customer service was excellent when I had questions about setup.")]
+        ),
+    ):
+        if event.is_final_response() and event.content:
+            print(f"Final response: {event.content.parts[0].text.strip()}")
+
+# Exécuter la fonction asynchrone
+asyncio.run(run_workflow())
+```
+
 Cette trace de l’agent de flux de travail montrera l’exécution séquentielle des deux agents dans Weave, ce qui vous permettra de voir comment les données circulent dans votre système multi-agent.
 
-<Frame>![Visualisation de la trace d’un agent de flux de travail séquentiel](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)</Frame>
+<Frame>
+  ![Visualisation de la trace d’un agent de flux de travail séquentiel](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)
+</Frame>
 
 <div id="learn-more">
   ## En savoir plus

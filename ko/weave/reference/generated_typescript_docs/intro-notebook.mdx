@@ -26,18 +26,25 @@ TypeScript 코드에서 Weave를 사용하려면 새 Weave 프로젝트를 초�
 
 ```typescript lines
 async function initializeWeaveProject() {
-  const PROJECT = "weave-examples"
-  await weave.init(PROJECT)
+    const PROJECT = 'weave-examples';
+    await weave.init(PROJECT);
 }
 ```
 
 ```typescript lines
 const stripUserInput = weave.op(function stripUserInput(userInput: string): string {
-  return userInput.trim()
-})
+    return userInput.trim();
+});
 ```
 
 다음 예시는 기본 함수 추적이 어떻게 작동하는지 보여줍니다.
+
+```typescript lines
+async function demonstrateBasicTracking() {
+    const result = await stripUserInput("    hello    ");
+    console.log('기본 추적 결과:', result);
+}
+```
 
 <div id="openai-integration">
   ## OpenAI 인테그레이션
@@ -164,32 +171,73 @@ Weave는 [`Evaluation` 클래스](/ko/weave/guides/core-types/evaluations)를 �
 
 ```typescript lines
 class OpenAIGrammarCorrector {
-  private oaiClient: ReturnType<typeof weave.wrapOpenAI>
+    private oaiClient: ReturnType<typeof weave.wrapOpenAI>;
+    
+    constructor() {
+        this.oaiClient = weave.wrapOpenAI(new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY
+        }));
+        this.predict = weave.op(this, this.predict);
+    }
 
-  constructor() {
-    this.oaiClient = weave.wrapOpenAI(
-      new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY
-      })
-    )
-    this.predict = weave.op(this, this.predict)
-  }
+    async predict(userInput: string): Promise<string> {
+        const response = await this.oaiClient.chat.completions.create({
+            model: 'gpt-4-turbo',
+            messages: [
+                { 
+                    role: "system", 
+                    content: "You are a grammar checker, correct the following user input." 
+                },
+                { role: "user", content: userInput }
+            ],
+            temperature: 0
+        });
+        return response.choices[0].message.content ?? '';
+    }
+}
+```
 
-  async predict(userInput: string): Promise<string> {
-    const response = await this.oaiClient.chat.completions.create({
-      model: "gpt-4-turbo",
-      messages: [
-        {
-          role: "system",
-          content: "You are a grammar checker, correct the following user input."
+```typescript lines
+async function runEvaluation() {
+    const corrector = new OpenAIGrammarCorrector();
+    const dataset = createGrammarDataset();
+    
+    const exactMatch = weave.op(
+        function exactMatch({ modelOutput, datasetRow }: { 
+            modelOutput: string; 
+            datasetRow: GrammarExample 
+        }): { match: boolean } {
+            return { match: datasetRow.expected === modelOutput };
         },
-        { role: "user", content: userInput }
-      ],
-      temperature: 0
-    })
-    return response.choices[0].message.content ?? ""
-  }
+        { name: 'exactMatch' }
+    );
+
+    const evaluation = new weave.Evaluation({
+        dataset,
+        scorers: [exactMatch],
+    });
+
+    const summary = await evaluation.evaluate({
+        model: weave.op((args: { datasetRow: GrammarExample }) => 
+            corrector.predict(args.datasetRow.userInput)
+        )
+    });
+    console.log('평가 요약:', summary);
 }
 ```
 
 다음 `main` 함수는 모든 데모를 실행합니다:
+
+```typescript lines
+async function main() {
+    try {
+        await initializeWeaveProject();
+        await demonstrateBasicTracking();
+        await demonstrateOpenAITracking();
+        await demonstrateNestedTracking();
+        await runEvaluation();
+    } catch (error) {
+        console.error('데모 실행 중 오류 발생:', error);
+    }
+}
+```

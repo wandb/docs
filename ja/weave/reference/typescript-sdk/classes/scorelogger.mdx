@@ -10,6 +10,14 @@ EvaluationLogger.logPrediction() によって返されます。
 
 `Example`
 
+```ts
+const pred = await ev.logPrediction(example, output);
+await pred.logScore("accuracy", 0.95);
+await pred.logScore("relevance", 0.8);
+await pred.finish(); // 予測を確定する
+```
+
+
 <div id="table-of-contents">
   ## 目次
 </div>

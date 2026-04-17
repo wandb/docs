@@ -5,6 +5,28 @@ title: 環境変数
 
 自動化された環境でスクリプトを実行する場合は、スクリプトの実行前またはスクリプト内で設定した環境変数を使って W&amp;B を制御できます。
 
+```bash
+# これは機密情報です。バージョン管理にチェックインしないでください
+WANDB_API_KEY=$YOUR_API_KEY
+# 名とメモは省略可能
+WANDB_NAME="My first run"
+WANDB_NOTES="Smaller learning rate, more regularization."
+```
+
+```bash
+# wandb/settings ファイルをチェックインしない場合のみ必要
+WANDB_ENTITY=$username
+WANDB_PROJECT=$project
+```
+
+```python
+# スクリプトをクラウドにSyncしたくない場合
+os.environ["WANDB_MODE"] = "offline"
+
+# sweep IDのトラッキングをrunオブジェクトおよび関連クラスに追加する
+os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
+```
+
 <div id="optional-environment-variables">
   ## 任意の環境変数
 </div>

@@ -35,4 +35,16 @@ Initialise un objet W&amp;B vidéo.
 **Exemples :**
 Enregistrer un tableau NumPy en tant que vidéo
 
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # les axes sont (nombre d’images, canal, hauteur, largeur)
+    frames = np.random.randint(
+         low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+    )
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
+```
+
 ***

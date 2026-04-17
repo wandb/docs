@@ -42,3 +42,34 @@ Receiver Operating Characteristic (ROC) 曲線チャートを作成します。
 * `wandb.Error`:  numpy、pandas、または scikit-learn が見つからない場合。
 
 **例:**
+
+```python
+import numpy as np
+import wandb
+
+# 3つの疾患を対象とした医療診断分類問題をシミュレートする
+n_samples = 200
+n_classes = 3
+
+# 正解ラベル: 各サンプルに「Diabetes」「Hypertension」「Heart Disease」のいずれかを割り当てる
+disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
+# 0: Diabetes、1: Hypertension、2: Heart Disease
+y_true = np.random.choice([0, 1, 2], size=n_samples)
+
+# 予測確率: 各サンプルの合計が1になるよう予測をシミュレートする
+y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
+
+# プロットするクラスを指定する（3つの疾患すべてをプロット）
+classes_to_plot = [0, 1, 2]
+
+# W&B の run を初期化し、疾患分類の ROC 曲線プロットをログする
+with wandb.init(project="medical_diagnosis") as run:
+    roc_plot = wandb.plot.roc_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=disease_labels,
+         classes_to_plot=classes_to_plot,
+         title="ROC Curve for Disease Classification",
+    )
+    run.log({"roc-curve": roc_plot})
+```

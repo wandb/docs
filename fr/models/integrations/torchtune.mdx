@@ -111,6 +111,14 @@ Chaque recette a sa propre boucle d’entraînement. Consultez chaque recette po
 
 La conception épurée de torchtune permet d’ajouter facilement des métriques personnalisées ou de modifier les métriques existantes. Il suffit de modifier le [fichier de recette](https://github.com/meta-pytorch/torchtune/tree/main/recipes) correspondant. Par exemple, vous pouvez enregistrer `current_epoch` comme pourcentage du nombre total d’époques, comme suit :
 
+```python
+# dans la fonction `train.py` du fichier de recette
+self._metric_logger.log_dict(
+    {"current_epoch": self.epochs * self.global_step / self._steps_per_epoch},
+    step=self.global_step,
+)
+```
+
 <Note>
   Cette bibliothèque évolue rapidement, et les métriques actuelles peuvent changer. Si vous souhaitez ajouter une métrique personnalisée, vous devez modifier la recette et appeler la fonction correspondante de `self._metric_logger.*`.
 </Note>
@@ -124,3 +132,29 @@ La bibliothèque torchtune prend en charge différents [formats de point de cont
 Si vous souhaitez enregistrer les points de contrôle du modèle dans les [W&amp;B Artifacts](/fr/models/artifacts/), la solution la plus simple consiste à surcharger les fonctions `save_checkpoint` dans la recette correspondante.
 
 Voici un exemple montrant comment surcharger la fonction `save_checkpoint` pour enregistrer les points de contrôle du modèle dans W&amp;B Artifacts.
+
+```python
+def save_checkpoint(self, epoch: int) -> None:
+    ...
+    ## Sauvegardons le point de contrôle dans W&B
+    ## selon la classe Checkpointer, le fichier sera nommé différemment
+    ## Voici un exemple pour le cas full_finetune
+    checkpoint_file = Path.joinpath(
+        self._checkpointer._output_dir, f"torchtune_model_{epoch}"
+    ).with_suffix(".pt")
+    wandb_artifact = wandb.Artifact(
+        name=f"torchtune_model_{epoch}",
+        type="model",
+        # description du point de contrôle du modèle
+        description="Model checkpoint",
+        # vous pouvez ajouter toutes les métadonnées souhaitées sous forme de dict
+        metadata={
+            utils.SEED_KEY: self.seed,
+            utils.EPOCHS_KEY: self.epochs_run,
+            utils.TOTAL_EPOCHS_KEY: self.total_epochs,
+            utils.MAX_STEPS_KEY: self.max_steps_per_epoch,
+        },
+    )
+    wandb_artifact.add_file(checkpoint_file)
+    wandb.log_artifact(wandb_artifact)
+```

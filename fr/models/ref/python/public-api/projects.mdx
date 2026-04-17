@@ -33,6 +33,20 @@ __init__(
 
 **Exemple :**
 
+```python
+from wandb.apis.public.api import Api
+
+# Rechercher les projets appartenant à cette entité
+projects = Api().projects(entity="entity")
+
+# Itérer sur les projets
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+```
+
 Une collection itérable d’objets `Project`.
 
 **Arguments :**
@@ -42,6 +56,7 @@ Une collection itérable d’objets `Project`.
 * `per_page`:  Le nombre de projets à récupérer à chaque requête à l’API.
 
 ***
+
 
 ### <kbd>propriété</kbd> Projects.cursor
 

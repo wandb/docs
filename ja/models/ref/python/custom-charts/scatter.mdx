@@ -36,3 +36,29 @@ wandb.Table のデータから散布図を作成します。
 * `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
 **例:**
+
+```python
+import math
+import random
+import wandb
+
+# 時間経過に伴う異なる高度での気温変化をシミュレート
+data = [
+    [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
+    for i in range(300)
+]
+
+# 高度 (m) と気温 (°C) の列を持つ W&B の表を作成
+table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
+
+# W&B の run を初期化し、散布図をログする
+with wandb.init(project="temperature-altitude-scatter") as run:
+    # 散布図を作成してログする
+    scatter_plot = wandb.plot.scatter(
+         table=table,
+         x="altitude (m)",
+         y="temperature (°C)",
+         title="Altitude vs Temperature",
+    )
+    run.log({"altitude-temperature-scatter": scatter_plot})
+```

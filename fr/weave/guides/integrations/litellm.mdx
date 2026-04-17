@@ -79,6 +79,44 @@ En plus de la gestion des versions du code et de la capture des entrées/sorties
 
 Dans l’exemple ci-dessous, vous pouvez tester différents modèles et différentes températures :
 
+```python lines {4,6,10}
+import litellm
+import weave
+
+weave.init('weave_litellm_integration')
+
+class TranslatorModel(weave.Model):
+    model: str
+    temperature: float
+  
+    @weave.op()
+    def predict(self, text: str, target_language: str):
+        response = litellm.completion(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": f"You are a translator. Translate the given text to {target_language}."},
+                {"role": "user", "content": text}
+            ],
+            max_tokens=1024,
+            temperature=self.temperature
+        )
+        return response.choices[0].message.content
+
+# Créer des instances avec différents modèles
+gpt_translator = TranslatorModel(model="gpt-3.5-turbo", temperature=0.3)
+claude_translator = TranslatorModel(model="claude-3-5-sonnet-20240620", temperature=0.1)
+
+# Utiliser différents modèles pour la traduction
+english_text = "Hello, how are you today?"
+
+print("Traduction GPT-3.5 en français :")
+print(gpt_translator.predict(english_text, "French"))
+
+print("\nTraduction Claude-3.5 Sonnet en espagnol :")
+print(claude_translator.predict(english_text, "Spanish"))
+```
+
+
 <div id="function-calling">
   ## Appels de fonction
 </div>

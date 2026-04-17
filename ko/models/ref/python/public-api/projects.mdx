@@ -33,15 +33,30 @@ __init__(
 
 **예제:**
 
+```python
+from wandb.apis.public.api import Api
+
+# 이 엔터티에 속한 프로젝트 찾기
+projects = Api().projects(entity="entity")
+
+# 프로젝트 반복
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+```
+
 `Project` 객체의 이터러블한 컬렉션입니다.
 
-**인수:**
+**Args:**
 
 * `client`:  W&amp;B를 쿼리하는 데 사용되는 API 클라이언트입니다.
 * `entity`:  프로젝트를 소유한 엔터티입니다.
 * `per_page`:  API에 대한 각 요청마다 가져올 프로젝트 수입니다.
 
 ***
+
 
 ### <kbd>property</kbd> Projects.cursor
 

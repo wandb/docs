@@ -66,7 +66,23 @@ with tf.Session() as sess:
 
 TensorFlow 2 では、カスタムループでモデルをトレーニングするには `tf.GradientTape` を使用する方法が推奨されています。詳細は、[TensorFlow custom training walkthrough](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough) を参照してください。カスタムの TensorFlow トレーニングループに `wandb` を組み込んでメトリクスをログしたい場合は、次のスニペットを参照してください。
 
+```python
+    with tf.GradientTape() as tape:
+        # 確率を取得する
+        predictions = model(features)
+        # 損失を計算する
+        loss = loss_func(labels, predictions)
+
+    # メトリクスをログする
+    run.log("loss": loss.numpy())
+    # 勾配を取得する
+    gradients = tape.gradient(loss, model.trainable_variables)
+    # 重みを更新する
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+```
+
 [TensorFlow 2 でトレーニングループをカスタマイズする完全な例](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2)を参照できます。
+
 
 <div id="how-is-wb-different-from-tensorboard">
   ## W&amp;B は TensorBoard とどう違うのですか？

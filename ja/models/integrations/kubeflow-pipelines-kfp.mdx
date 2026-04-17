@@ -200,3 +200,17 @@ def train_model(
 </div>
 
 [サポート対象のフレームワークインテグレーション](/ja/models/integrations) を使用している場合は、コールバックを直接渡すこともできます。
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    from pytorch_lightning.loggers import WandbLogger
+    from pytorch_lightning import Trainer
+
+    trainer = Trainer(logger=WandbLogger())
+    ...  # トレーニングを実行する
+```

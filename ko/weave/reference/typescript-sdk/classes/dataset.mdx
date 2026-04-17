@@ -9,6 +9,25 @@ description: "TypeScript SDK 레퍼런스"
 
 `예시`
 
+```ts
+// 데이터셋 생성
+const dataset = new Dataset({
+  id: 'grammar-dataset',
+  rows: [
+    { id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream." },
+    { id: '1', sentence: "She goed to the store.", correction: "She went to the store." },
+    { id: '2', sentence: "They plays video games all day.", correction: "They play video games all day." }
+  ]
+})
+
+// 특정 예시 접근
+const exampleLabel = dataset.getRow(2).sentence;
+
+// 데이터셋 저장
+const ref = await dataset.save()
+```
+
+
 ## 타입 매개변수
 
 | 이름  | 유형                   |

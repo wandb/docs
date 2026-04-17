@@ -275,6 +275,57 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 다음 다이어그램은 로컬 환경, ngrok 프록시, W&amp;B 클라우드 서비스 간의 데이터 흐름을 보여줍니다:
 
+```mermaid
+flowchart LR
+    %% 스타일 정의
+    classDef clientMachine fill:#FFD95CCC,stroke:#454B52,stroke-width:2px
+    classDef proxy fill:#00CDDBCC,stroke:#454B52,stroke-width:2px
+    classDef wandbCloud fill:#DE72FFCC,stroke:#454B52,stroke-width:2px
+    classDef publicCloud fill:#FFCBADCC,stroke:#454B52,stroke-width:2px
+
+    %% 서브그래프
+    subgraph Client_Machine
+        browser[브라우저]
+        llm_local[로컬 LLM 공급자]
+    end
+
+    subgraph Proxy
+        ngrok[Ngrok 프록시]
+    end
+
+    subgraph WandB_Cloud
+        trace_server[트레이스 서버]
+    end
+
+    subgraph Public_Cloud
+        llm_cloud[퍼블릭 LLM 공급자]
+    end
+
+    %% 서브그래프에 스타일 적용
+    class Client_Machine clientMachine
+    class Proxy proxy
+    class WandB_Cloud wandbCloud
+    class Public_Cloud publicCloud
+
+    %% 현재 데이터 흐름
+    browser -->|채팅 요청 전송| trace_server
+    trace_server -->|퍼블릭 LLM 사용| llm_cloud
+    trace_server -->|로컬 LLM 사용| ngrok
+    ngrok -->|전달| llm_local
+    llm_cloud -->|응답 반환| trace_server
+    llm_local -->|응답 반환| ngrok
+    ngrok -->|전달| trace_server
+    trace_server -->|응답 반환| browser
+
+    %% 향후 가능한 연결
+    browser -.->|향후: 로컬 LLM 직접 호출| llm_local
+
+    %% 링크 스타일
+    linkStyle default stroke:#454B52,stroke-width:2px
+    linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
+```
+
+
 <div id="saved-models">
   ## 저장된 모델
 </div>

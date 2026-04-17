@@ -57,6 +57,17 @@ launch_add(
   #### Exemple :
 </div>
 
+```python
+from wandb.sdk.launch import launch_add
+
+project_uri = "https://github.com/wandb/examples"
+params = {"alpha": 0.5, "l1_ratio": 0.01}
+# Exécuter le projet W&B et créer un environnement docker reproductible
+# sur un hôte local
+api = wandb.apis.internal.Api()
+launch_add(uri=project_uri, parameters=params)
+```
+
 | Renvoie                                                                                                                                                                                                                        | Description |
 | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- |
 | une instance de `wandb.api.public.QueuedRun` qui fournit des informations sur le run en file d&#39;attente ou, si `wait_until_started` ou `wait_until_finished` sont appelés, donne accès aux informations du run sous-jacent. |             |

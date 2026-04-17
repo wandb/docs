@@ -75,9 +75,36 @@ W&amp;B は、クラウド、オンプレミス、およびエアギャップ環
 
 デフォルトでは、コンテナーは `$UID` に 999 を使用します。オーケストレーターでコンテナーを root 以外のユーザーとして実行する必要がある場合は、`$UID` を &gt;= 100000、`$GID` を 0 に指定してください。
 
-<Note>ファイルシステムの権限を正しく機能させるため、W&amp;B は root グループ (`$GID=0`) で起動する必要があります。</Note>
+<Note>
+  ファイルシステムの権限を正しく機能させるため、W&amp;B は root グループ (`$GID=0`) で起動する必要があります。
+</Note>
 
 各 W&amp;B コンポーネントのセキュリティコンテキストを設定します。たとえば、API コンポーネントを設定するには次のようにします。
+
+```yaml
+api:
+  install: true
+  image:
+    repository: wandb/megabinary
+    tag: 0.74.1  # 実際のバージョンに置き換えてください
+  pod:
+    securityContext:
+      fsGroup: 10001
+      fsGroupChangePolicy: Always
+      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 10001
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
+```
 
 必要に応じて、`app` や `console` などの他のコンポーネントにもカスタム セキュリティコンテキストを設定できます。詳細は、[カスタム セキュリティコンテキスト](#custom-security-context)を参照してください。
 
@@ -100,14 +127,12 @@ W&amp;B は、クラウド、オンプレミス、およびエアギャップ環
     Helm CLI で W&amp;B Kubernetes Operator をインストールするには、次の step に従います。
 
     1. W&amp;B Helm repository を追加します。W&amp;B Helm チャートは W&amp;B Helm repository で利用できます。
-
        ```shell
        helm repo add wandb https://charts.wandb.ai
        helm repo update
        ```
 
     2. Kubernetes クラスターに Operator をインストールします。
-
        ```shell
        helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
        ```
@@ -130,10 +155,13 @@ W&amp;B は、クラウド、オンプレミス、およびエアギャップ環
            global:
              host: https://<HOST_URI>
              license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
-             bucket: <details depend on the provider>
-             mysql: <redacted>
+             bucket:
+               <details depend on the provider>
+             mysql:
+               <redacted>
            ingress:
-             annotations: <redacted>
+             annotations:
+               <redacted>
        ```
 
     4. カスタム設定で Operator を起動し、W&amp;B Server application をインストール、設定、管理できるようにします。
@@ -203,11 +231,11 @@ W&amp;B は、クラウド、オンプレミス、およびエアギャップ環
 
     W&amp;B は、AWS、Google Cloud、Azure 向けの Terraform モジュール一式を提供しています。これらのモジュールは、Kubernetes クラスター、ロードバランサー、MySQL データベースなどを含むインフラストラクチャー全体に加え、W&amp;B Server アプリケーションもデプロイします。W&amp;B Kubernetes Operator は、以下のバージョンの公式 W&amp;B クラウド向け Terraform モジュールにあらかじめ組み込まれています。
 
-    | Terraform Registry                                                  | ソースコード                                                                                               | バージョン   |
-    | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------- |
-    | [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | [https://github.com/wandb/terraform-aws-wandb](https://github.com/wandb/terraform-aws-wandb)         | v4.0.0+ |
-    | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | [https://github.com/wandb/terraform-azurerm-wandb](https://github.com/wandb/terraform-azurerm-wandb) | v2.0.0+ |
-    | [Google Cloud](https://github.com/wandb/terraform-google-wandb)     | [https://github.com/wandb/terraform-google-wandb](https://github.com/wandb/terraform-google-wandb)   | v2.0.0+ |
+    | Terraform Registry                                                  | ソースコード                                           | バージョン   |
+    | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+    | [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
+    | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
+    | [Google Cloud](https://github.com/wandb/terraform-google-wandb)     | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
 
     このインテグレーションにより、W&amp;B Kubernetes Operator を最小限のセットアップでインスタンスですぐに使用でき、クラウド環境で W&amp;B Server をデプロイおよび管理するためのスムーズな導入パスが提供されます。
 
@@ -288,9 +316,27 @@ OpenShift 固有の設定の詳細については、上記の [OpenShift Kuberne
 
 オンプレミスの AWS S3 (Outposts または互換ストレージ経由) の場合：
 
+```yaml
+bucket:
+  kmsKey: <kms key arn>  # 暗号化用のKMSキー（省略可）
+  name: <bucket name>    # 例: wandb
+  path: ""               # 空文字列のままにする
+  provider: s3
+  region: <region>       # 例: us-east-1
+```
+
 **S3互換ストレージ (MinIO、Ceph、NetApp など)&#x20;**
 
 S3互換のストレージシステムでは:
+
+```yaml
+bucket:
+  kmsKey: null
+  name: <s3 endpoint>    # 例: s3.example.com:9000
+  path: <bucket name>    # 例: wandb
+  provider: s3
+  region: <region>       # 例: us-east-1
+```
 
 S3互換ストレージでTLSを有効にするには、バケットパスに `?tls=true` を追加します。
 
@@ -379,7 +425,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     ### General steps
 
-    このセクションの手順は、どのデプロイオプションにも共通です。
+    このセクションのstepは、どのデプロイオプションにも共通です。
 
     1. 開発環境を準備します。
        * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールする
@@ -432,6 +478,51 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     4. `variables.tf` ファイルを作成する
 
        `terraform.tfvars` で設定した各オプションには、Terraform で対応する変数宣言が必要です。
+
+       ```
+       variable "namespace" {
+         type        = string
+         description = "リソースに使用する名前プレフィックス"
+       }
+
+       variable "domain_name" {
+         type        = string
+         description = "インスタンスへのアクセスに使用するドメイン名。"
+       }
+
+       variable "subdomain" {
+         type        = string
+         default     = null
+         description = "Weights & Biases UIにアクセスするためのサブドメイン。"
+       }
+
+       variable "license" {
+         type = string
+       }
+
+       variable "zone_id" {
+         type        = string
+         description = "Weights & Biases サブドメインを作成するドメイン。"
+       }
+
+       variable "allowed_inbound_cidr" {
+        description = "wandb-serverへのアクセスを許可するCIDR。"
+        nullable    = false
+        type        = list(string)
+       }
+
+       variable "allowed_inbound_ipv6_cidr" {
+        description = "wandb-serverへのアクセスを許可するCIDR。"
+        nullable    = false
+        type        = list(string)
+       }
+
+       variable "eks_cluster_version" {
+        description = "EKSクラスターのKubernetesバージョン"
+        nullable    = false
+        type        = string
+       }
+       ```
 
     ### 推奨デプロイ
 
@@ -525,7 +616,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     SQSを使用して外部メッセージブローカーを有効にするには、`main.tf` ファイルにオプション `use_internal_queue = false` を追加します。
 
-    <Note>W&amp;B には組み込みのブローカーが含まれているため、これは省略可能です。このオプションを使用しても、パフォーマンスは向上しません。</Note>
+    <Note>
+      W&amp;B には組み込みのブローカーが含まれているため、これは省略可能です。このオプションを使用しても、パフォーマンスは向上しません。
+    </Note>
 
     ```
     module "wandb_infra" {
@@ -550,7 +643,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
   </Tab>
 
   <Tab title="Google Cloud">
-    Google Cloud 上にプラットフォームをデプロイするには、[W&amp;B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) の使用を W&amp;B は推奨します。
+    Google Cloud 上にプラットフォームをデプロイするには、[W&amp;B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) の使用を推奨します。
 
     モジュールのドキュメントは充実しており、使用可能なすべてのオプションが記載されています。
 
@@ -570,15 +663,15 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     * Pub/Subメッセージシステム
 
-    ### 前提条件の権限
+    ### 前提となる権限
 
     Terraformを実行するアカウントには、使用するGoogle Cloudプロジェクトに対して`roles/owner`ロールが必要です。
 
-    ### General steps
+    ### General step
 
-    このセクションの手順は、どのデプロイオプションにも共通です。
+    このセクションのstepは、どのデプロイオプションにも共通です。
 
-    1. 開発環境を準備します。
+    1. 開発環境を準備する。
        * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールします。
        * W&amp;B では、使用するコードを含む Git リポジトリを作成することを推奨していますが、ファイルをローカルに置いたままでも構いません。
        * [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作成します。
@@ -586,7 +679,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     2. `terraform.tfvars` ファイルを作成します。
 
-       `tvfars` ファイルの内容はインストールタイプに応じてカスタマイズできますが、最低限の推奨構成は以下の例のようになります。
+       `tvfars` ファイルの内容はインストールの種類に応じて調整できますが、推奨される最小構成は次の例のようになります。
 
        ```bash
        project_id  = "wandb-project"
@@ -598,13 +691,13 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        domain_name = "wandb.ml"
        ```
 
-       ここで定義する変数は、デプロイ前に決めておく必要があります。`namespace` 変数は、Terraform で作成されるすべてのリソース名のプレフィックスとなる文字列です。
+       ここで定義されている変数は、デプロイ前に決めておく必要があります。`namespace` 変数は、Terraform によって作成されるすべてのリソースの接頭辞となる文字列です。
 
        `subdomain` と `domain` を組み合わせたものが、W&amp;B に設定される FQDN になります。上記の例では、W&amp;B の FQDN は `wandb-gcp.wandb.ml` になります。
 
-    3. `variables.tf` ファイルを作成する
+    3. `variables.tf` ファイルを作成します。
 
-       `terraform.tfvars` で設定した各オプションには、Terraform で対応する変数宣言が必要です。
+       `terraform.tfvars` で設定する各オプションには、Terraform で対応する変数宣言が必要です。
 
        ```
        variable "project_id" {
@@ -643,13 +736,67 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        }
        ```
 
-    ### 推奨デプロイ
+    ### 推奨デプロイ構成
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
     1. `main.tf` を作成する
 
-       General のステップでファイルを作成したのと同じディレクトリに、次の内容で `main.tf` ファイルを作成します。
+       General Steps でファイルを作成したのと同じディレクトリに、以下の内容で `main.tf` ファイルを作成します:
+
+       ```
+       provider "google" {
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+       }
+
+       provider "google-beta" {
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+       }
+
+       data "google_client_config" "current" {}
+
+       provider "kubernetes" {
+         host                   = "https://${module.wandb.cluster_endpoint}"
+         cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+         token                  = data.google_client_config.current.access_token
+       }
+
+       provider "helm" {
+         kubernetes {
+           host                   = "https://${module.wandb.cluster_endpoint}"
+           cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+           token                  = data.google_client_config.current.access_token
+         }
+       }
+
+       # 必要なサービスをすべて起動する
+       module "wandb" {
+         source  = "wandb/wandb/google"
+         version = "~> 10.0"
+
+         namespace   = var.namespace
+         license     = var.license
+         domain_name = var.domain_name
+         subdomain   = var.subdomain
+       }
+
+       # プロビジョニングされたIPアドレスでDNSを更新してください
+       output "url" {
+         value = module.wandb.url
+       }
+
+       output "address" {
+         value = module.wandb.address
+       }
+
+       output "bucket_name" {
+         value = module.wandb.bucket_name
+       }
+       ```
 
     2. W&amp;Bをデプロイします。
 
@@ -684,7 +831,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     Pub/Sub を使用して外部メッセージブローカーを有効にするには、`main.tf` ファイルにオプション `use_internal_queue = false` を追加します。
 
-    <Note>W&amp;B には組み込みのブローカーが含まれているため、これは省略可能です。このオプションを使用しても、パフォーマンスは向上しません。</Note>
+    <Note>
+      W&amp;B には埋め込みブローカーが含まれているため、これは任意です。このオプションを有効にしても、パフォーマンスは向上しません。
+    </Note>
 
     ```
     [...]
@@ -734,17 +883,17 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     使用する認証方法に関わらず、Terraformを実行するアカウントには、上記で説明したすべてのコンポーネントを作成する権限が必要です。
 
-    ### General steps
+    ### 一般的な手順
 
-    このセクションの手順は、どのデプロイオプションにも共通です。
+    このセクションのstepは、どのデプロイオプションにも共通です。
 
-    1. 開発環境を準備します。
+    1. 開発環境を用意します。
        * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールします
        * W&amp;B では、使用するコードを含む Git リポジトリを作成することを推奨していますが、ファイルはローカルに置いたままでも構いません。
 
     2. `terraform.tfvars` ファイルを作成します。
 
-       `tvfars` ファイルの内容はインストールタイプに応じてカスタマイズできますが、最低限の推奨構成は以下の例のようになります。
+       `tvfars` ファイルの内容は、インストールタイプに応じてカスタマイズできますが、推奨される最小構成は以下の例のようになります。
 
        ```bash
         namespace     = "wandb"
@@ -754,7 +903,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
         location      = "westeurope"
        ```
 
-       ここで定義されている変数は、デプロイ前に決めておく必要があります。`namespace` 変数は、Terraform によって作成されるすべてのリソースの接頭辞となる文字列です。
+       ここで定義する変数は、デプロイ前に決めておく必要があります。`namespace` 変数は、Terraform で作成されるすべてのリソース名のプレフィックスとなる文字列です。
 
        `subdomain` と `domain` を組み合わせると、W&amp;B の設定先となる FQDN が構成されます。上記の例では、W&amp;B の FQDN は `wandb-azure.wandb.ml` になります。
 
@@ -777,7 +926,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
        Azure プロバイダーの設定については、[Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)を参照してください。
 
-       任意ですが、強く推奨するため、このドキュメントの冒頭で説明した[リモートバックエンドの設定](https://developer.hashicorp.com/terraform/language/backend)を追加してください。
+       任意ですが、強く推奨するため、このドキュメントの冒頭で説明した[リモートバックエンド設定](https://developer.hashicorp.com/terraform/language/backend)を追加してください。
 
     4. `variables.tf` ファイルを作成する
 
@@ -811,13 +960,13 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
            }
        ```
 
-    ### 推奨デプロイ
+    ### 推奨デプロイ構成
 
-    これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
+    これは、すべての必須コンポーネントを作成し、Kubernetes ClusterにW&amp;Bの最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
     1. `main.tf` を作成する
 
-       General のステップでファイルを作成したのと同じディレクトリに、次の内容で `main.tf` ファイルを作成します。
+       General Stepsでファイルを作成したのと同じディレクトリに、次の内容の`main.tf`ファイルを作成します。
 
        ```bash
          provider "azurerm" {
@@ -869,7 +1018,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     2. W&amp;B をデプロイする
 
-       W&amp;B をデプロイするには、以下のコマンドを実行します。
+       W&amp;Bをデプロイするには、以下のコマンドを実行します：
 
        ```
        terraform init
@@ -880,11 +1029,47 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_redis = true`オプションを追加します。
 
+    ```bash
+    # 必要なサービスをすべて起動する
+    module "wandb" {
+      source  = "wandb/wandb/azurerm"
+      version = "~> 1.2"
+
+      namespace   = var.namespace
+      location    = var.location
+      license     = var.license
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+
+      create_redis = true
+      [...]
+    }
+    ```
+
     ### メッセージブローカー (キュー) を有効にする
 
     Azure Event Gridを使用して外部メッセージブローカーを有効にするには、`main.tf`ファイルに`use_internal_queue = false`オプションを追加します。
 
-    <Note>W&amp;B には組み込みのブローカーが含まれているため、これは省略可能です。このオプションを使用しても、パフォーマンスは向上しません。</Note>
+    <Note>
+      これは、W&amp;B に組み込みの broker が含まれているため、任意です。このオプションを指定しても、パフォーマンスは向上しません。
+    </Note>
+
+    ```bash
+    # 必要なサービスをすべて起動する
+    module "wandb" {
+      source  = "wandb/wandb/azurerm"
+      version = "~> 1.2"
+
+      namespace   = var.namespace
+      location    = var.location
+      license     = var.license
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+
+      use_internal_queue = false
+      [...]
+    }
+    ```
 
     ### 追加リソース
 
@@ -1154,6 +1339,13 @@ spec:
   ### ホスト
 </div>
 
+```yaml
+ # プロトコルを含むFQDNを指定してください
+global:
+  # ホスト名の例。ご自身のものに置き換えてください
+  host: https://wandb.example.com
+```
+
 <div id="object-storage-bucket">
   ### オブジェクトストレージ (バケット)
 </div>
@@ -1192,19 +1384,77 @@ global:
 
 その他のS3互換プロバイダでは、以下のようにバケットを設定します。
 
+```yaml
+global:
+  bucket:
+    # 値の例です。ご自身の値に置き換えてください
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    accessKey: 5WOA500...P5DK7I
+    secretKey: HDKYe4Q...JAp1YyjysnX
+```
+
 AWS 外でホストされている S3 互換ストレージでは、`kmsKey` は `null` にする必要があります。
 
 シークレットから `accessKey` と `secretKey` を参照するには:
+
+```yaml
+global:
+  bucket:
+    # 値の例です。ご自身の値に置き換えてください
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: bucket-secret
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
 
 <div id="mysql">
   ### MySQL
 </div>
 
+```yaml
+global:
+   mysql:
+     # 値の例です。ご自身の値に置き換えてください
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
+
 シークレット内の`password`を参照するには:
+
+```yaml
+global:
+   mysql:
+     # 値の例です。ご自身の値に置き換えてください
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: database-secret
+       passwordKey: MYSQL_WANDB_PASSWORD
+```
 
 <div id="license">
   ### ライセンス
 </div>
+
+```yaml
+global:
+  # Licenseの例。実際のものに置き換えてください
+  license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
 
 シークレット内の`license`を参照するには:
 
@@ -1223,7 +1473,14 @@ ingress クラス を確認するには、この FAQ の[エントリ](#how-to-i
 
 **TLS なし**
 
-**TLS あり**
+```yaml
+global:
+# 重要: IngressはYAML内で'global'と同じ階層にあります（子要素ではありません）
+ingress:
+  class: ""
+```
+
+**TLS を使用する場合**
 
 証明書を格納したシークレットを作成します
 
@@ -1232,6 +1489,21 @@ kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert w
 ```
 
 ingress 設定でシークレットを参照する
+
+```yaml
+global:
+# 重要: IngressはYAML内で'global'と同じレベルにあります（子要素ではありません）
+ingress:
+  class: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls: 
+    - secretName: wandb-ingress-tls
+      hosts:
+        - <HOST_URI>
+```
 
 Nginx を使用している場合は、次のアノテーションを追加する必要がある場合があります:
 
@@ -1448,6 +1720,18 @@ global:
 <div id="oidc-sso">
   ### OIDC SSO
 </div>
+
+```yaml
+global: 
+  auth:
+    sessionLengthHours: 720
+    oidc:
+      clientId: ""
+      secret: ""
+      # IdPが必要とする場合のみ含めてください。
+      authMethod: ""
+      issuer: ""
+```
 
 `authMethod` は省略可能です。
 

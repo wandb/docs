@@ -17,6 +17,32 @@ Il est important de stocker les traces des applications de modèles de langage d
 
 Weave capture automatiquement les traces pour [Instructor](https://python.useinstructor.com/). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
 
+```python lines
+import instructor
+import weave
+from pydantic import BaseModel
+from openai import OpenAI
+
+
+# Définir la structure de sortie souhaitée
+class UserInfo(BaseModel):
+    user_name: str
+    age: int
+
+# Initialiser Weave
+weave.init(project_name="instructor-test")
+
+# Patcher le client OpenAI
+client = instructor.from_openai(OpenAI())
+
+# Extraire des données structurées du langage naturel
+user_info = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    response_model=UserInfo,
+    messages=[{"role": "user", "content": "John Doe is 30 years old."}],
+)
+```
+
 | ![Trace d’Instructor LM dans Weave avec un flux de travail d’extraction de sortie structurée](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif) |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Weave va maintenant suivre et consigner tous les appels LLM effectués avec Instructor. Vous pouvez consulter les traces dans l’interface web de Weave.            |
@@ -31,6 +57,41 @@ Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tra
 
 Dans l&#39;exemple ci-dessous, la fonction `extract_person` est la fonction de métrique encapsulée avec `@weave.op`. Cela nous aide à voir les étapes intermédiaires, comme un appel OpenAI Chat Completion.
 
+```python lines
+import instructor
+import weave
+from openai import OpenAI
+from pydantic import BaseModel
+
+
+# Définir la structure de sortie souhaitée
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Initialiser Weave
+weave.init(project_name="instructor-test")
+
+# Patcher le client OpenAI
+lm_client = instructor.from_openai(OpenAI())
+
+
+# Extraire des données structurées à partir du langage naturel
+@weave.op()
+def extract_person(text: str) -> Person:
+    return lm_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": text},
+        ],
+        response_model=Person,
+    )
+
+
+person = extract_person("My name is John and I am 20 years old")
+```
+
 | ![Trace d’op Instructor avec objets structurés, entrées et sorties de la fonction, et validation du modèle Pydantic](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png)                                                                              |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Décorer la fonction `extract_person` avec `@weave.op` permet de tracer ses entrées, ses sorties et tous les appels LM internes effectués dans la fonction. Weave suit également automatiquement les objets structurés générés par Instructor et en gère les versions. |
@@ -44,6 +105,58 @@ Il est difficile d’organiser une expérience lorsqu’il y a de nombreux élé
 En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Weave Models avec `serve` (voir ci-dessous) et les [`Évaluation`](../core-types/evaluations).
 
 Dans l’exemple ci-dessous, vous pouvez expérimenter avec `PersonExtractor`. Chaque fois que vous modifiez l’un de ces éléments, vous obtenez une nouvelle *version* de `PersonExtractor`.
+
+```python lines
+import asyncio
+from typing import List, Iterable
+
+import instructor
+import weave
+from openai import AsyncOpenAI
+from pydantic import BaseModel
+
+
+# Définissez la structure de sortie souhaitée
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Initialisez Weave
+weave.init(project_name="instructor-test")
+
+# Patchez le client OpenAI
+lm_client = instructor.from_openai(AsyncOpenAI())
+
+
+class PersonExtractor(weave.Model):
+    openai_model: str
+    max_retries: int
+
+    @weave.op()
+    async def predict(self, text: str) -> List[Person]:
+        model = await lm_client.chat.completions.create(
+            model=self.openai_model,
+            response_model=Iterable[Person],
+            max_retries=self.max_retries,
+            stream=True,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a perfect entity extraction system",
+                },
+                {
+                    "role": "user",
+                    "content": f"Extract `{text}`",
+                },
+            ],
+        )
+        return [m async for m in model]
+
+
+model = PersonExtractor(openai_model="gpt-4", max_retries=2)
+asyncio.run(model.predict("John is 30 years old"))
+```
 
 | ![Interface de Tracing et de gestion des versions d’Instructor Weave Model avec les versions du modèle et l’historique des traces](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

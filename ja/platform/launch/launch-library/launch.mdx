@@ -46,6 +46,16 @@ launch(
   #### 例:
 </div>
 
+```python
+from wandb.sdk.launch import launch
+
+job = "wandb/jobs/Hello World:latest"
+params = {"epochs": 5}
+# W&Bプロジェクトを実行し、ローカルホスト上に再現可能なdocker環境を作成する
+api = wandb.apis.internal.Api()
+launch(api, job, parameters=params)
+```
+
 | 戻り値                                                               | 説明 |
 | :---------------------------------------------------------------- | :- |
 | 起動されたrunに関する情報 (例: run ID) を含む`wandb.launch.SubmittedRun`のインスタンス。 |    |

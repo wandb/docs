@@ -66,7 +66,23 @@ Pour installer localement la bibliothèque `wandb` et vous connecter :
   ## Ajoutez le `WandbCallback` au `learner` ou à la méthode `fit`
 </div>
 
-<Note>Si vous utilisez la version 1 de Fastai, consultez la [documentation Fastai v1](/fr/models/integrations/fastai/v1/).</Note>
+```python
+import wandb
+from fastai.callback.wandb import *
+
+# démarrer la journalisation d'un run wandb
+wandb.init(project="my_project")
+
+# Pour journaliser uniquement pendant une phase d'entraînement
+learn.fit(..., cbs=WandbCallback())
+
+# Pour journaliser en continu sur toutes les phases d'entraînement
+learn = learner(..., cbs=WandbCallback())
+```
+
+<Note>
+  Si vous utilisez la version 1 de Fastai, consultez la [documentation Fastai v1](/fr/models/integrations/fastai/v1/).
+</Note>
 
 <div id="wandbcallback-arguments">
   ## Arguments de WandbCallback

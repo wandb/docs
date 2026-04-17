@@ -8,7 +8,30 @@ L&#39;activation du mode JSON demande au modèle de renvoyer la réponse dans un
 Pour activer le mode JSON, indiquez-le comme valeur de &quot;response&#95;format&quot; dans la requête :
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        response_format={"type": "json_object"}  # Cela active le mode JSON
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
 
   <Tab title="Bash">
     ```bash

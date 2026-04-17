@@ -13,6 +13,29 @@ Accelerate には W&amp;B トラッカーが含まれており、以下でその
 
 Accelerate と W&amp;B の使用を開始するには、以下の疑似コードを参照してください。
 
+```python
+from accelerate import Accelerator
+
+# Acceleratorオブジェクトにwandbでログするよう指示する
+accelerator = Accelerator(log_with="wandb")
+
+# wandb runを初期化し、wandbパラメーターと設定情報を渡す
+accelerator.init_trackers(
+    project_name="my_project", 
+    config={"dropout": 0.1, "learning_rate": 1e-2}
+    init_kwargs={"wandb": {"entity": "my-wandb-team"}}
+    )
+
+...
+
+# `accelerator.log`を呼び出してwandbにログする。`step`はoptional
+accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
+
+
+# wandbトラッカーが正常に終了することを確認する
+accelerator.end_training()
+```
+
 さらに説明すると、必要なのは次のとおりです。
 
 1. Accelerator クラスを初期化する際に `log_with="wandb"` を渡します

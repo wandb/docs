@@ -5,16 +5,22 @@ keywords: ["Sweeps", "Python"]
 
 Pour reprendre un balayage, passez le `sweep_id` à la fonction `wandb.agent()`.
 
+```python
+import wandb
+
+sweep_id = "your_sweep_id"
+
+def train():
+    # Code d'entraînement ici
+    pass
+
+wandb.agent(sweep_id=sweep_id, function=train)
+```
+
 ***
 
 {/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Sweeps](/fr/support/models/tags/sweeps)
-</Badge>
-
-<Badge stroke shape="pill" color="orange" size="md">
-  [Python](/fr/support/models/tags/python)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Python](/fr/support/models/tags/python)</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

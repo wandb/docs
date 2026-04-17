@@ -13,7 +13,9 @@ description: >
 
 この例では、**Llama 3.1 8B** モデルにプロンプトを送信し、その call を Weave でトレースする方法を示します。トレースでは、LLM call の入力と出力を完全に取得し、パフォーマンスを監視して、Weave UI で結果を分析できます。
 
-<Tip>[Weave のトレース](/ja/weave/guides/tracking/tracing)の詳細をご覧ください。</Tip>
+<Tip>
+  [Weave のトレース](/ja/weave/guides/tracking/tracing)の詳細をご覧ください。
+</Tip>
 
 この例では、次のことを行います。
 
@@ -23,6 +25,40 @@ description: >
 * 結果はターミナルに出力され、トレースは [https://wandb.ai](https://wandb.ai) の **トレース** タブに表示されます
 
 この例を実行する前に、[前提条件](/ja/inference/prerequisites/)を完了してください。
+
+```python
+import weave
+import openai
+
+# トレース用のWeaveチームとプロジェクトを設定する
+weave.init("<your-team>/<your-project>")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings でAPIキーを作成する
+    api_key="<your-api-key>",
+
+    # オプション: 使用状況トラッキング用のチームとプロジェクト
+    project="wandb/inference-demo",
+)
+
+# Weaveでモデルのcallをトレースする
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# トレースされたcallを実行してログする
+output = run_chat()
+print(output)
+```
 
 コードを実行したら、次のいずれかの方法で Weave のトレースを表示できます。
 
@@ -36,6 +72,78 @@ description: >
 モデルのcallのトレースに加えて、パフォーマンスを評価し、リーダーボードを公開することもできます。この例では、質問応答データセット上で2つのモデルを比較します。
 
 この例を実行する前に、[前提条件](/ja/inference/prerequisites/)を完了してください。
+
+```python
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# トレース用のWeaveチームとプロジェクトを設定する
+weave.init("<your-team>/<your-project>")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # https://wandb.ai/settings でAPIキーを作成する
+            api_key="<your-api-key>",
+            # オプション: 使用状況トラッキング用のチームとプロジェクト
+            project="<your-team>/<your-project>",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
 
 このコードを実行したら、[https://wandb.ai/](https://wandb.ai/) の W&amp;B アカウントにアクセスし、次の操作を行います。
 

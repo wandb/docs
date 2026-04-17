@@ -23,6 +23,36 @@ Nous vous montrons comment intégrer W&amp;B à votre code PyTorch pour ajouter 
   <img src="/images/tutorials/pytorch.png" alt="Schéma de l’intégration entre PyTorch et W&B" />
 </Frame>
 
+```python
+# importer la bibliothèque
+import wandb
+
+# définir un dictionnaire d'hyperparamètres avec la configuration
+config = {
+    "learning_rate": 0.001,
+    "epochs": 100,
+    "batch_size": 128
+}
+
+# démarrer une nouvelle expérience
+with wandb.init(project="new-sota-model", config=config) as run:
+
+    # configurer le modèle et les données
+    model, dataloader = get_model(), get_data()
+
+    # facultatif : suivre les gradients
+    run.watch(model)
+
+    for batch in dataloader:
+    metrics = model.training_step()
+    # consigner des métriques dans votre boucle d'entraînement pour visualiser les performances du modèle
+    run.log(metrics)
+
+    # facultatif : enregistrer le modèle à la fin
+    model.to_onnx()
+    run.save("model.onnx")
+```
+
 Suivez ce [tutoriel vidéo](https://wandb.me/pytorch-video).
 
 **Remarque** : les sections commençant par *Étape* suffisent pour intégrer W&amp;B à un pipeline existant. Le reste se limite à charger les données et à définir un modèle.
@@ -30,6 +60,32 @@ Suivez ce [tutoriel vidéo](https://wandb.me/pytorch-video).
 <div id="install-import-and-log-in">
   ## Installer, importer et se connecter
 </div>
+
+```python
+import os
+import random
+
+import numpy as np
+import torch
+import torch.nn as nn
+import torchvision
+import torchvision.transforms as transforms
+from tqdm.auto import tqdm
+
+# Assurer un comportement déterministe
+torch.backends.cudnn.deterministic = True
+random.seed(hash("setting random seeds") % 2**32 - 1)
+np.random.seed(hash("improves reproducibility") % 2**32 - 1)
+torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
+torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
+
+# Configuration du périphérique
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+# supprimer le miroir lent de la liste des miroirs MNIST
+torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.MNIST.mirrors
+                                      if not mirror.startswith("http://yann.lecun.com")]
+```
 
 <div id="step-0-install-wb">
   ### Étape 0 : Installer W&amp;B
@@ -102,6 +158,27 @@ ce qui est assez typique pour l’entraînement d’un modèle :
 
 Nous implémenterons ces fonctions ci-dessous.
 
+```python
+def model_pipeline(hyperparameters):
+
+    # indiquer à wandb de démarrer
+    with wandb.init(project="pytorch-demo", config=hyperparameters) as run:
+        # accéder à tous les HPs via run.config, pour que la journalisation corresponde à l'exécution.
+        config = run.config
+
+        # créer le modèle, les données et le problème d'optimisation
+        model, train_loader, test_loader, criterion, optimizer = make(config)
+        print(model)
+
+        # et les utiliser pour entraîner le modèle
+        train(model, train_loader, criterion, optimizer, config)
+
+        # et tester ses performances finales
+        test(model, test_loader)
+
+    return model
+```
+
 La seule différence ici par rapport à un pipeline standard
 est que tout se passe dans le contexte de `wandb.init`.
 L’appel à cette fonction établit un canal de communication
@@ -123,6 +200,24 @@ Consultez la définition de `make` ci-dessous pour voir quelques exemples.
 > Une fois le problème résolu, par exemple lorsque le Kraken retourne dans les profondeurs,
 > vous pouvez synchroniser les données avec `wandb sync`.
 
+```python
+def make(config):
+    # Préparer les données
+    train, test = get_data(train=True), get_data(train=False)
+    train_loader = make_loader(train, batch_size=config.batch_size)
+    test_loader = make_loader(test, batch_size=config.batch_size)
+
+    # Créer le modèle
+    model = ConvNet(config.kernels, config.classes).to(device)
+
+    # Définir la perte et l'optimiseur
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(
+        model.parameters(), lr=config.learning_rate)
+    
+    return model, train_loader, test_loader, criterion, optimizer
+```
+
 <div id="define-the-data-loading-and-model">
   ### Définir le chargement des données et le modèle
 </div>
@@ -133,6 +228,27 @@ Cette partie est très importante, mais elle n&#39;est
 pas différente de ce qu&#39;elle serait sans `wandb`,
 donc nous ne nous y attarderons pas.
 
+```python
+def get_data(slice=5, train=True):
+    full_dataset = torchvision.datasets.MNIST(root=".",
+                                              train=train, 
+                                              transform=transforms.ToTensor(),
+                                              download=True)
+    #  équivalent au découpage avec [::slice] 
+    sub_dataset = torch.utils.data.Subset(
+      full_dataset, indices=range(0, len(full_dataset), slice))
+    
+    return sub_dataset
+
+
+def make_loader(dataset, batch_size):
+    loader = torch.utils.data.DataLoader(dataset=dataset,
+                                         batch_size=batch_size, 
+                                         shuffle=True,
+                                         pin_memory=True, num_workers=2)
+    return loader
+```
+
 Définir le modèle est normalement la partie la plus intéressante.
 
 Mais avec `wandb`, rien ne change,
@@ -140,6 +256,31 @@ donc on va s&#39;en tenir à une architecture ConvNet standard.
 
 N&#39;hésitez pas à faire quelques essais et à tester différentes variantes --
 tous vos résultats seront enregistrés sur [wandb.ai](https://wandb.ai).
+
+```python
+# Réseau de neurones conventionnel et convolutif
+
+class ConvNet(nn.Module):
+    def __init__(self, kernels, classes=10):
+        super(ConvNet, self).__init__()
+        
+        self.layer1 = nn.Sequential(
+            nn.Conv2d(1, kernels[0], kernel_size=5, stride=1, padding=2),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+        self.layer2 = nn.Sequential(
+            nn.Conv2d(16, kernels[1], kernel_size=5, stride=1, padding=2),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+        self.fc = nn.Linear(7 * 7 * kernels[-1], classes)
+        
+    def forward(self, x):
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = out.reshape(out.size(0), -1)
+        out = self.fc(out)
+        return out
+```
 
 <div id="define-training-logic">
   ### Définir la logique d&#39;entraînement
@@ -163,6 +304,45 @@ nous parcourons les époques et les lots,
 en effectuant des passes avant et arrière
 et en appliquant notre `optimizer`.
 
+```python
+def train(model, loader, criterion, optimizer, config):
+    # Indique à wandb de surveiller le modèle : gradients, poids, et plus encore.
+    run = wandb.init(project="pytorch-demo", config=config)
+    run.watch(model, criterion, log="all", log_freq=10)
+
+    # Lancer l'entraînement et le suivre avec wandb
+    total_batches = len(loader) * config.epochs
+    example_ct = 0  # nombre d'exemples traités
+    batch_ct = 0
+    for epoch in tqdm(range(config.epochs)):
+        for _, (images, labels) in enumerate(loader):
+
+            loss = train_batch(images, labels, model, optimizer, criterion)
+            example_ct +=  len(images)
+            batch_ct += 1
+
+            # Enregistrer les métriques tous les 25 lots
+            if ((batch_ct + 1) % 25) == 0:
+                train_log(loss, example_ct, epoch)
+
+
+def train_batch(images, labels, model, optimizer, criterion):
+    images, labels = images.to(device), labels.to(device)
+    
+    # Passe avant ➡
+    outputs = model(images)
+    loss = criterion(outputs, labels)
+    
+    # Passe arrière ⬅
+    optimizer.zero_grad()
+    loss.backward()
+
+    # Mise à jour avec l'optimiseur
+    optimizer.step()
+
+    return loss
+```
+
 La seule différence réside dans le code de journalisation :
 alors qu’auparavant vous pouviez consigner des métriques en les affichant dans le terminal,
 vous transmettez maintenant les mêmes informations à `run.log()`.
@@ -174,6 +354,15 @@ Vous pouvez aussi indiquer, de façon facultative, à quelle `step` d’entraîn
 > *Remarque* : j’aime utiliser le nombre d’exemples que le modèle a vus,
 > car cela facilite la comparaison entre différentes tailles de batch,
 > mais vous pouvez utiliser les étapes brutes ou le nombre de batches. Pour des runs d’entraînement plus longs, il peut aussi être pertinent de journaliser par `epoch`.
+
+```python
+def train_log(loss, example_ct, epoch):
+    with wandb.init(project="pytorch-demo") as run:
+        # Enregistrer la perte et le numéro d'époque
+        # C'est ici que nous enregistrons les métriques dans W&B
+        run.log({"epoch": epoch, "loss": loss}, step=example_ct)
+        print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
+```
 
 <div id="define-testing-logic">
   ### Définir la logique de test
@@ -199,6 +388,31 @@ correspond à quel run d’entraînement.
 Pour des fonctionnalités `wandb` plus avancées pour le stockage, la gestion des versions et la distribution de
 modèles, consultez nos [outils Artifacts](https://www.wandb.com/artifacts).
 
+```python
+def test(model, test_loader):
+    model.eval()
+
+    with wandb.init(project="pytorch-demo") as run:
+        # Exécuter le modèle sur quelques exemples de test
+        with torch.no_grad():
+            correct, total = 0, 0
+            for images, labels in test_loader:
+                images, labels = images.to(device), labels.to(device)
+                outputs = model(images)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+            print(f"Accuracy of the model on the {total} " +
+                f"test images: {correct / total:%}")
+            
+            run.log({"test_accuracy": correct / total})
+
+        # Enregistrer le modèle au format ONNX interchangeable
+        torch.onnx.export(model, images, "model.onnx")
+        run.save("model.onnx")
+```
+
 <div id="run-training-and-watch-your-metrics-live-on-wandbai">
   ### Exécutez l’entraînement et suivez vos métriques en direct sur wandb.ai
 </div>
@@ -221,6 +435,11 @@ Accédez à la page du run et consultez ces onglets :
 
 Une fois le run terminé, à la sortie du bloc `with wandb.init`,
 nous afficherons également un résumé des résultats dans la sortie de la cellule.
+
+```python
+# Construire, entraîner et analyser le modèle avec le pipeline
+model = model_pipeline(config)
+```
 
 <div id="test-hyperparameters-with-sweeps">
   ### Tester des hyperparamètres avec Sweeps

@@ -39,11 +39,43 @@ Passez un dictionnaire au début de votre script lorsque vous appelez l&#39;API 
 
 L&#39;extrait de code suivant montre comment définir un dictionnaire Python avec des valeurs de configuration et comment passer ce dictionnaire en argument lorsque vous initialisez un run W&amp;B.
 
+```python
+import wandb
+
+# Définir un objet dictionnaire de configuration
+config = {
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
+}
+
+# Passer le dictionnaire de configuration lors de l'initialisation de W&B
+with wandb.init(project="config_example", config=config) as run:
+    ...
+```
+
 Si vous passez un dictionnaire imbriqué comme `config`, W&amp;B aplatit les noms en utilisant des points.
 
 Accédez aux valeurs du dictionnaire comme à celles de tout autre dictionnaire en Python :
 
-<Note>Tout au long du Guide du développeur et des exemples, nous copions les valeurs de configuration dans des variables distinctes. Cette étape est facultative. Cela est fait pour plus de lisibilité.</Note>
+```python
+# Accéder aux valeurs avec la clé comme valeur d'index
+hidden_layer_sizes = run.config["hidden_layer_sizes"]
+kernel_sizes = run.config["kernel_sizes"]
+activation = run.config["activation"]
+
+# Méthode get() du dictionnaire Python
+hidden_layer_sizes = run.config.get("hidden_layer_sizes")
+kernel_sizes = run.config.get("kernel_sizes")
+activation = run.config.get("activation")
+```
+
+<Note>
+  Tout au long du Guide du développeur et des exemples, nous copions les valeurs de configuration dans des variables distinctes. Cette étape est facultative. Cela est fait pour plus de lisibilité.
+</Note>
 
 <div id="set-the-configuration-with-argparse">
   ### Définir la configuration avec argparse
@@ -55,11 +87,96 @@ Cela est utile pour suivre les résultats de scripts lancés en ligne de command
 
 Le script Python suivant montre comment créer un objet parser afin de définir et de renseigner la configuration de votre expérience. Les fonctions `train_one_epoch` et `evaluate_one_epoch` sont fournies pour simuler une boucle d’entraînement à des fins de démonstration :
 
+```python
+# config_experiment.py
+import argparse
+import random
+
+import numpy as np
+import wandb
+
+
+# Code de démonstration pour l'entraînement et l'évaluation
+def train_one_epoch(epoch, lr, bs):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
+
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
+
+def main(args):
+    # Démarrer un run W&B
+    with wandb.init(project="config_example", config=args) as run:
+        # Accéder aux valeurs du dictionnaire de configuration et les stocker
+        # dans des variables pour plus de lisibilité
+        lr = run.config["learning_rate"]
+        bs = run.config["batch_size"]
+        epochs = run.config["epochs"]
+
+        # Simuler l'entraînement et la journalisation des valeurs dans W&B
+        for epoch in np.arange(1, epochs):
+            train_acc, train_loss = train_one_epoch(epoch, lr, bs)
+            val_acc, val_loss = evaluate_one_epoch(epoch)
+
+            run.log(
+                {
+                    "epoch": epoch,
+                    "train_acc": train_acc,
+                    "train_loss": train_loss,
+                    "val_acc": val_acc,
+                    "val_loss": val_loss,
+                }
+            )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument("-b", "--batch_size", type=int, default=32, help="Taille du batch")
+    parser.add_argument(
+        "-e", "--epochs", type=int, default=50, help="Nombre d'époques d'entraînement"
+    )
+    parser.add_argument(
+        "-lr", "--learning_rate", type=int, default=0.001, help="Taux d'apprentissage"
+    )
+
+    args = parser.parse_args()
+    main(args)
+```
+
 <div id="set-the-configuration-throughout-your-script">
   ### Définissez la configuration au fil de votre script
 </div>
 
 Vous pouvez ajouter d’autres paramètres à votre objet de configuration au fil de votre script. L’extrait de code suivant montre comment ajouter de nouvelles paires clé-valeur à votre objet de configuration :
+
+```python
+import wandb
+
+# Définir un objet dictionnaire de configuration
+config = {
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
+}
+
+# Passer le dictionnaire de configuration lors de l'initialisation de W&B
+with wandb.init(project="config_example", config=config) as run:
+    # Mettre à jour la configuration après l'initialisation de W&B
+    run.config["dropout"] = 0.2
+    run.config.epochs = 4
+    run.config["batch_size"] = 32
+```
 
 Vous pouvez mettre à jour plusieurs valeurs à la fois :
 
@@ -73,13 +190,36 @@ run.config.update({"lr": 0.1, "channels": 16})
 
 Utilisez l’[API publique de W&amp;B](/fr/models/ref/python/public-api/) pour mettre à jour la configuration d’un run terminé.
 
-Vous devez fournir à l’API votre entité, le nom du projet et l’ID du run. Vous trouverez ces informations dans l’objet Run ou dans l’[application W&amp;B](/fr/models/track/workspaces/) :
+Vous devez fournir à l’API votre entité, le nom du projet et l’ID du run. Vous trouverez ces informations dans l’objet Run ou dans la [W&amp;B App](/fr/models/track/workspaces/) :
+
+```python
+with wandb.init() as run:
+    ...
+
+# Récupérez les valeurs suivantes depuis l'objet Run s'il a été initié depuis le
+# script ou le notebook actuel, ou copiez-les depuis l'interface W&B App.
+username = run.entity
+project = run.project
+run_id = run.id
+
+# Notez que api.run() renvoie un type d'objet différent de celui de wandb.init().
+api = wandb.Api()
+api_run = api.run(f"{username}/{project}/{run_id}")
+api_run.config["bar"] = 32
+api_run.update()
+```
 
 <div id="abslflags">
   ## `absl.FLAGS`
 </div>
 
 Vous pouvez également transmettre des flags [`absl`](https://abseil.io/docs/python/guides/flags).
+
+```python
+flags.DEFINE_string("model", None, "model to run")  # nom, défaut, aide
+
+run.config.update(flags.FLAGS)  # ajoute les flags absl à la configuration
+```
 
 <div id="file-based-configs">
   ## Configurations basées sur des fichiers
@@ -89,7 +229,21 @@ Si vous placez un fichier nommé `config-defaults.yaml` dans le même répertoir
 
 L’extrait de code suivant montre un exemple de fichier YAML `config-defaults.yaml` :
 
+```yaml
+batch_size:
+  desc: Taille de chaque mini-lot
+  value: 32
+```
+
 Vous pouvez surcharger les valeurs par défaut chargées automatiquement depuis `config-defaults.yaml` en définissant de nouvelles valeurs dans l’argument `config` de `wandb.init`. Par exemple :
+
+```python
+import wandb
+
+# Remplacer config-defaults.yaml en passant des valeurs personnalisées
+with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
+    ...
+```
 
 Pour charger un fichier de configuration autre que `config-defaults.yaml`, utilisez l’argument `--configs command-line` et indiquez le chemin du fichier :
 
@@ -124,3 +278,13 @@ with wandb.init(config=config_dictionary) as run:
 </div>
 
 Vous pouvez transmettre directement les flags TensorFlow à l’objet `wandb.Run.config`.
+
+```python
+with wandb.init() as run:
+    run.config.epochs = 4
+
+    flags = tf.app.flags
+    flags.DEFINE_string("data_dir", "/tmp/data")
+    flags.DEFINE_integer("batch_size", 128, "Batch size.")
+    run.config.update(flags.FLAGS)  # ajouter les flags tensorflow en tant que configuration
+```

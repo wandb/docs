@@ -19,7 +19,33 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
 Weave capturera automatiquement les traces de [mistralai](https://github.com/mistralai/client-python). Vous pouvez utiliser la bibliothèque comme d’habitude ; commencez par appeler `weave.init()` :
 
-Weave suit et journalise désormais tous les appels LLM effectués via la bibliothèque MistralAI. Vous pouvez consulter les traces dans l’interface web de Weave.
+```python lines
+import weave
+weave.init("cheese_recommender")
+
+# utiliser ensuite la bibliothèque mistralai normalement
+import os
+from mistralai import Mistral
+
+api_key = os.environ["MISTRAL_API_KEY"]
+model = "mistral-large-latest"
+
+client = Mistral(api_key=api_key)
+
+messages = [
+    {
+        "role": "user",
+        "content": "What is the best French cheese?",
+    },
+]
+
+chat_response = client.chat.complete(
+    model=model,
+    messages=messages,
+)
+```
+
+Weave suit et consigne désormais tous les appels LLM effectués via la bibliothèque MistralAI. Vous pouvez consulter les traces dans l’interface web de Weave.
 
 [![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
@@ -63,5 +89,43 @@ Il est difficile d’organiser une expérimentation lorsqu’il y a de nombreux 
 En plus de gérer les versions du code et de capturer les entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations)s.
 
 Dans l’exemple ci-dessous, vous pouvez expérimenter avec `model` et `country`. Chaque fois que vous modifiez l’un de ces éléments, vous obtenez une nouvelle *version* de `CheeseRecommender`.
+
+```python lines
+import weave
+from mistralai import Mistral
+
+weave.init("mistralai_project")
+
+class CheeseRecommender(weave.Model): # Remplacer par `weave.Model`
+    model: str
+    temperature: float
+
+    @weave.op()
+    def predict(self, region:str) -> str: # Remplacer par `predict`
+        "Recommander le meilleur fromage dans une région donnée"
+        
+        client = Mistral(api_key=api_key)
+
+        messages = [
+            {
+                "role": "user",
+                "content": f"What is the best cheese in {region}?",
+            },
+        ]
+
+        chat_response = client.chat.complete(
+            model=model,
+            messages=messages,
+            temperature=self.temperature
+        )
+        return chat_response.choices[0].message.content
+
+cheese_model = CheeseRecommender(
+    model="mistral-medium-latest",
+    temperature=0.0
+    )
+result = cheese_model.predict(region="France")
+print(result)
+```
 
 [![mistral\_model.png](/weave/guides/integrations/imgs/mistral_model.png)](https://wandb.ai/capecape/mistralai_project/weave/models)

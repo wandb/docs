@@ -9,4 +9,35 @@ OpenRouter는 REST API와 OpenAI SDK 호환([문서](https://docs.together.ai/do
 
 OpenAI SDK 코드를 OpenRouter로 전환하려면 API 키를 [OpenRouter API](https://openrouter.ai/docs/api-keys) 키로, `base_url`을 `https://openrouter.ai/api/v1`로, 모델을 다양한 [채팅 모델](https://openrouter.ai/docs/models) 중 하나로 변경하세요. `weave.init()`를 호출할 때는 트레이스를 위한 프로젝트 이름을 지정하세요. 지정하지 않으면 기본 entity가 사용됩니다. 기본 entity를 찾거나 업데이트하려면 W&amp;B Models 문서의 [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team)를 참고하세요.
 
+```python lines {5,10-12}
+import os
+import openai
+import weave
+
+weave.init('openrouter-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1",
+)
+chat_completion = client.chat.completions.create(
+    extra_headers={
+    "HTTP-Referer": $YOUR_SITE_URL, # 선택 사항, openrouter.ai 순위에 앱을 포함하려면 입력하세요.
+    "X-Title": $YOUR_APP_NAME, # 선택 사항. openrouter.ai 순위에 표시됩니다.
+    },
+    model="meta-llama/llama-3.1-8b-instruct:free",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
 이 예시는 시작용으로는 단순하지만, 더 복잡한 사용 사례에서 직접 만든 함수와 Weave를 통합하는 방법에 대한 자세한 내용은 [OpenAI](/ko/weave/guides/integrations/openai#track-your-own-ops) 가이드를 참조하세요.

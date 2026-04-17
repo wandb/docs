@@ -1,0 +1,224 @@
+---
+description: "Importez des fichiers CSV dans W&B en tant que Tables et Artifacts afin de les visualiser, les comparer et les analyser dans des tableaux de bord."
+title: Suivre des fichiers CSV dans des expériences
+---
+
+Utilisez la bibliothèque Python W&amp;B pour enregistrer un fichier CSV et le visualiser dans un [tableau de bord W&amp;B](/fr/models/track/workspaces/). Les tableaux de bord W&amp;B constituent l’espace central pour organiser et visualiser les résultats de vos modèles de machine learning. Cela est particulièrement utile si vous avez un [fichier CSV contenant des informations sur des expériences de machine learning précédentes](#import-and-log-your-csv-of-experiments) qui ne sont pas enregistrées dans W&amp;B, ou un [fichier CSV contenant un jeu de données](#import-and-log-your-dataset-csv-file).
+
+<div id="import-and-log-your-dataset-csv-file">
+  ## Importez et journalisez votre fichier CSV de jeu de données
+</div>
+
+{/* {% embed url="https://drive.google.com/file/d/1jBG3M4VnaMgeclRzowYZEYvFxvwb9SXF/view?usp=sharing" %} */}
+
+Nous vous recommandons d’utiliser W&amp;B Artifacts pour faciliter la réutilisation du contenu du fichier CSV.
+
+1. Pour commencer, importez votre fichier CSV. Dans l’extrait de code suivant, remplacez le nom de fichier `iris.csv` par le nom de votre fichier CSV :
+
+```python
+import wandb
+import pandas as pd
+
+# Lire notre CSV dans un nouveau DataFrame
+new_iris_dataframe = pd.read_csv("iris.csv")
+```
+
+2. Convertissez le fichier CSV en tableau W&amp;B afin d’exploiter les [tableaux de bord W&amp;B](/fr/models/track/workspaces/).
+
+```python
+# Convertir le dataframe en tableau W&B
+iris_table = wandb.Table(dataframe=new_iris_dataframe)
+```
+
+3. Ensuite, créez un Artifact W&amp;B et ajoutez-y le tableau :
+
+```python
+# Ajouter le tableau à un Artifact pour augmenter la limite
+# de lignes à 200000 et faciliter la réutilisation
+iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
+iris_table_artifact.add(iris_table, "iris_table")
+
+# Enregistrer le fichier CSV brut dans un artifact pour conserver nos données
+iris_table_artifact.add_file("iris.csv")
+```
+
+Pour plus d’informations sur les Artifacts W&amp;B, consultez le [chapitre Artifacts](/fr/models/artifacts/).
+
+4. Enfin, démarrez un nouveau run W&amp;B pour suivre et consigner dans W&amp;B à l’aide de `wandb.init` :
+
+```python
+# Démarrer un run W&B pour journaliser les données
+with wandb.init(project="tables-walkthrough") as run:
+
+    # Journaliser le tableau pour le visualiser avec un run...
+    run.log({"iris": iris_table})
+
+    # et journaliser en tant qu'Artifact pour augmenter la limite de lignes disponibles !
+    run.log_artifact(iris_table_artifact)
+```
+
+L’API `wandb.init()` lance un nouveau processus en arrière-plan pour journaliser les données dans un run et les synchronise avec wandb.ai (par défaut). Consultez des visualisations en temps réel dans votre tableau de bord Workspace W&amp;B. L’image suivante montre le résultat obtenu avec cet extrait de code.
+
+<Frame>
+  <img src="/images/track/import_csv_tutorial.png" alt="Fichier CSV importé dans le tableau de bord W&B" />
+</Frame>
+
+Le script complet contenant les extraits de code précédents se trouve ci-dessous :
+
+```python
+import wandb
+import pandas as pd
+
+# Lire notre CSV dans un nouveau DataFrame
+new_iris_dataframe = pd.read_csv("iris.csv")
+
+# Convertir le DataFrame en tableau W&B
+iris_table = wandb.Table(dataframe=new_iris_dataframe)
+
+# Ajouter le tableau à un Artifact pour augmenter la limite
+# de lignes à 200000 et faciliter sa réutilisation
+iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
+iris_table_artifact.add(iris_table, "iris_table")
+
+# Enregistrer le fichier CSV brut dans un artifact pour conserver nos données
+iris_table_artifact.add_file("iris.csv")
+
+# Démarrer un run W&B pour enregistrer les données
+with wandb.init(project="tables-walkthrough") as run:
+
+    # Enregistrer le tableau pour le visualiser avec un run...
+    run.log({"iris": iris_table})
+
+    # et l'enregistrer en tant qu'Artifact pour augmenter la limite de lignes disponible !
+    run.log_artifact(iris_table_artifact)
+```
+
+<div id="import-and-log-your-csv-of-experiments">
+  ## Importez votre CSV d’expériences et journalisez-le
+</div>
+
+{/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
+  Le tableau ci-dessous se transforme en ce tableau de bord W&B après conversion
+  {% endembed %} */}
+
+Dans certains cas, les détails de votre expérience peuvent se trouver dans un fichier CSV. Parmi les informations couramment présentes dans ce type de fichier, on trouve :
+
+* Un nom pour le run de l&#39;expérience
+* Des [notes](/fr/models/runs/#add-a-note-to-a-run) initiales
+* Des [Tags](/fr/models/runs/tags/) pour différencier les expériences
+* Les configurations nécessaires à votre expérience (avec l&#39;avantage supplémentaire de pouvoir utiliser notre fonctionnalité [Sweeps Hyperparameter Tuning](/fr/models/sweeps/)).
+
+| expérience   | Model Name       | Notes                                                                       | Tags         | Num Layers | Final Train Acc | Final Val Acc | Training Losses                      |
+| ------------ | ---------------- | --------------------------------------------------------------------------- | ------------ | ---------- | --------------- | ------------- | ------------------------------------ |
+| expérience 1 | mnist-300-layers | Surapprentissage beaucoup trop important sur les données d&#39;entraînement | [latest]     | 300        | 0.99            | 0.90          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
+| expérience 2 | mnist-250-layers | Meilleur modèle actuel                                                      | [prod, best] | 250        | 0.95            | 0.96          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
+| expérience 3 | mnist-200-layers | Résultats inférieurs à ceux du modèle de référence. Débogage nécessaire     | [debug]      | 200        | 0.76            | 0.70          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
+| ...          | ...              | ...                                                                         | ...          | ...        | ...             | ...           |                                      |
+| expérience N | mnist-X-layers   | NOTES                                                                       | ...          | ...        | ...             | ...           | [..., ...]                           |
+
+W&amp;B peut prendre des fichiers CSV d&#39;expériences et les convertir en runs d&#39;expérience W&amp;B. Les extraits de code et le script suivants montrent comment importer et consigner votre fichier CSV d&#39;expériences :
+
+1. Pour commencer, lisez votre fichier CSV et convertissez-le en dataframe Pandas. Remplacez `"experiments.csv"` par le nom de votre fichier CSV :
+
+```python
+import wandb
+import pandas as pd
+
+FILENAME = "experiments.csv"
+loaded_experiment_df = pd.read_csv(FILENAME)
+
+PROJECT_NAME = "Converted Experiments"
+
+EXPERIMENT_NAME_COL = "Experiment"
+NOTES_COL = "Notes"
+TAGS_COL = "Tags"
+CONFIG_COLS = ["Num Layers"]
+SUMMARY_COLS = ["Final Train Acc", "Final Val Acc"]
+METRIC_COLS = ["Training Losses"]
+
+# Formater le DataFrame Pandas pour en faciliter l'utilisation
+for i, row in loaded_experiment_df.iterrows():
+    run_name = row[EXPERIMENT_NAME_COL]
+    notes = row[NOTES_COL]
+    tags = row[TAGS_COL]
+
+    config = {}
+    for config_col in CONFIG_COLS:
+        config[config_col] = row[config_col]
+
+    metrics = {}
+    for metric_col in METRIC_COLS:
+        metrics[metric_col] = row[metric_col]
+
+    summaries = {}
+    for summary_col in SUMMARY_COLS:
+        summaries[summary_col] = row[summary_col]
+```
+
+2. Ensuite, démarrez un nouveau W&amp;B Run pour suivre et consigner des données dans W&amp;B à l’aide de [`wandb.init()`](/fr/models/ref/python/functions/init) :
+
+   ```python
+   with wandb.init(
+       project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
+   ) as run:
+   ```
+
+Pendant l’exécution d’une expérience, vous pouvez vouloir consigner chaque valeur de vos métriques afin de pouvoir les consulter, les interroger et les analyser avec W&amp;B. Utilisez la commande [`run.log()`](/fr/models/ref/python/experiments/run/#method-runlog) pour cela :
+
+```python
+run.log({key: val})
+```
+
+À titre facultatif, vous pouvez journaliser une métrique finale dans le summary pour définir le résultat du run à l’aide de l’API [`define_metric`](/fr/models/ref/python/experiments/run#define_metric). Cet exemple ajoute les métriques au summary de notre run avec `run.summary.update()`:
+
+```python
+run.summary.update(summaries)
+```
+
+Pour en savoir plus sur les métriques du summary, voir [Journaliser les métriques du summary](./log-summary).
+
+Voici le script d’exemple complet qui convertit l’exemple de tableau ci-dessus en [tableau de bord W&amp;B](/fr/models/track/workspaces/) :
+
+```python
+FILENAME = "experiments.csv"
+loaded_experiment_df = pd.read_csv(FILENAME)
+
+PROJECT_NAME = "Converted Experiments"
+
+EXPERIMENT_NAME_COL = "Experiment"
+NOTES_COL = "Notes"
+TAGS_COL = "Tags"
+CONFIG_COLS = ["Num Layers"]
+SUMMARY_COLS = ["Final Train Acc", "Final Val Acc"]
+METRIC_COLS = ["Training Losses"]
+
+for i, row in loaded_experiment_df.iterrows():
+    run_name = row[EXPERIMENT_NAME_COL]
+    notes = row[NOTES_COL]
+    tags = row[TAGS_COL]
+
+    config = {}
+    for config_col in CONFIG_COLS:
+        config[config_col] = row[config_col]
+
+    metrics = {}
+    for metric_col in METRIC_COLS:
+        metrics[metric_col] = row[metric_col]
+
+    summaries = {}
+    for summary_col in SUMMARY_COLS:
+        summaries[summary_col] = row[summary_col]
+
+    with  wandb.init(
+        project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
+    ) as run:
+
+        for key, val in metrics.items():
+            if isinstance(val, list):
+                for _val in val:
+                    run.log({key: _val})
+            else:
+                run.log({key: val})
+
+        run.summary.update(summaries)
+```

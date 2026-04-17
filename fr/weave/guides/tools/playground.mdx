@@ -275,6 +275,57 @@ Pour le mettre en place, procédez comme suit :
 
 Le schéma suivant illustre le flux de données entre votre environnement local, le proxy ngrok et les services cloud de W&amp;B :
 
+```mermaid
+flowchart LR
+    %% Définitions de styles
+    classDef clientMachine fill:#FFD95CCC,stroke:#454B52,stroke-width:2px
+    classDef proxy fill:#00CDDBCC,stroke:#454B52,stroke-width:2px
+    classDef wandbCloud fill:#DE72FFCC,stroke:#454B52,stroke-width:2px
+    classDef publicCloud fill:#FFCBADCC,stroke:#454B52,stroke-width:2px
+
+    %% Sous-graphes
+    subgraph Client_Machine
+        browser[Navigateur]
+        llm_local[Fournisseur LLM local]
+    end
+
+    subgraph Proxy
+        ngrok[Proxy Ngrok]
+    end
+
+    subgraph WandB_Cloud
+        trace_server[Serveur de traces]
+    end
+
+    subgraph Public_Cloud
+        llm_cloud[Fournisseur LLM public]
+    end
+
+    %% Appliquer les styles aux sous-graphes
+    class Client_Machine clientMachine
+    class Proxy proxy
+    class WandB_Cloud wandbCloud
+    class Public_Cloud publicCloud
+
+    %% Flux de données actuel
+    browser -->|Envoie une requête de chat| trace_server
+    trace_server -->|Utilise le LLM public| llm_cloud
+    trace_server -->|Utilise le LLM local| ngrok
+    ngrok -->|Transfère vers| llm_local
+    llm_cloud -->|Renvoie la réponse| trace_server
+    llm_local -->|Renvoie la réponse| ngrok
+    ngrok -->|Transfère vers| trace_server
+    trace_server -->|Renvoie la réponse| browser
+
+    %% Connexion future possible
+    browser -.->|Futur : Appel direct au LLM local| llm_local
+
+    %% Styles des liens
+    linkStyle default stroke:#454B52,stroke-width:2px
+    linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
+```
+
+
 <div id="saved-models">
   ## Modèles enregistrés
 </div>

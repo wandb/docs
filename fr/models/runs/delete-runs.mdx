@@ -23,6 +23,16 @@ Supprimez des runs d’un projet avec W&amp;B App ou l’API Python.
   <Tab title="Python" value="python">
     Vous pouvez supprimer des runs par programmation avec [`Run.delete()`](/fr/models/ref/python/public-api/run#method-run-delete). Définissez `delete_artifacts=True` si vous souhaitez également supprimer les artefacts associés au run.
 
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+    for run in runs:
+        if run.state == "finished":  # Remplacez par votre propre condition
+            run.delete(delete_artifacts=False)
+    ```
+
     Pour la signature complète de la méthode et son comportement, consultez la [`référence de Run.delete`](/fr/models/ref/python/public-api/run#method-run-delete).
 
     Pour supprimer des fichiers individuels attachés à un run, comme des médias enregistrés :
@@ -43,6 +53,29 @@ L’ID d’un run ne peut pas être réutilisé, même après la suppression du 
 </div>
 
 Le diagramme suivant illustre le processus complet de suppression d’un run, y compris la gestion des artefacts associés et des liens Registry :
+
+```mermaid
+graph TB
+    Start([L'utilisateur lance<br/>la suppression du run]) --> RunSelect[Sélectionner les runs<br/>à supprimer]
+    RunSelect --> DeletePrompt{Supprimer les<br/>Artefacts associés ?}
+    DeletePrompt -->|Non| DeleteRunOnly[Supprimer uniquement le run<br/><br/>- Métadonnées du run supprimées<br/>- Les artefacts restent disponibles<br/>- Les artefacts restent accessibles]
+    DeletePrompt -->|Oui| CheckArtifacts[Vérifier les<br/>artefacts associés]
+    CheckArtifacts --> HasRegistry{Artefacts liés au<br/>Registry de modèles ?}
+    HasRegistry -->|Oui| RegistryWarning[⚠️ Avertissement<br/><br/>Les modèles du Registry seront supprimés<br/>Les alias de production seront affectés]
+    HasRegistry -->|Non| DirectDelete
+    RegistryWarning --> ConfirmRegistry{Confirmer la suppression du<br/>modèle du Registry ?}
+    ConfirmRegistry -->|Non| DeleteRunOnly
+    ConfirmRegistry -->|Oui| DirectDelete[Supprimer le run et les artefacts<br/><br/>- Métadonnées du run supprimées<br/>- Artefacts supprimés définitivement<br/>- Liens vers le Registry supprimés<br/>- Récupération impossible]
+    DeleteRunOnly --> PartialEnd([Run supprimé<br/>Artefacts conservés])
+    DirectDelete --> FullEnd([Run + Artefacts<br/>supprimés définitivement])
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
 
 <div id="when-deleted-run-data-is-removed-from-storage">
   ## Quand les données de run supprimées sont effacées du stockage

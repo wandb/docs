@@ -5,12 +5,18 @@ keywords: ["Experiments"]
 
 [`wandb.Run`](/ja/models/ref/python/experiments/run) の `.name` 属性には、次のようにアクセスできます。
 
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"人間が読めるrun名は: {run_name}")
+```
+
 ***
 
 {/* AUTO-GENERATED: tab badges */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Experiments](/ja/support/models/tags/experiments)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
 {/* END AUTO-GENERATED: tab badges */}

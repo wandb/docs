@@ -45,6 +45,20 @@ Python SDK 또는 W&amp;B App에서 프로그래밍 방식이나 대화형으로
 
     다음 code snippet은 지정한 프로젝트의 모든 run 상태를 조회해 출력합니다. 다음 code snippet을 Python 환경에 복사해 붙여넣으세요. 꺾쇠괄호(`< >`)로 묶인 값은 사용자 환경에 맞게 바꾸세요.
 
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    runs = api.runs(path="<entity>/<project>")
+
+    # run 객체의 속성에 액세스
+    for run in runs:
+        print(f"Run: {run.name}")
+        print(f"Run state: {run.state}")
+        print()
+    ```
+
     서로 다른 기준에 따라 Projects에서 run을 조회하도록 다양한 필터를 적용할 수 있습니다. 프로그래밍 방식으로 run을 필터링하는 방법은 [run 필터링](/ko/models/runs/filter-runs)을 참조하세요.
   </Tab>
 

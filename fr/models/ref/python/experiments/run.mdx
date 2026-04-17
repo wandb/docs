@@ -23,11 +23,21 @@ Il existe un autre objet `Run` dans l&#39;espace de noms [`wandb.apis.public`](h
 
 **Attributs :**
 
-* `summary`: (Synthèse) Synthèse du run, sous la forme d&#39;un objet de type dictionnaire. Pour plus d&#39;informations, voir
+* `summary`:  (Summary) Résumé du run, sous la forme d&#39;un objet de type dictionnaire. Pour plus d&#39;informations, voir
 * `[Log summary metrics](https`: //docs.wandb.ai/guides/track/log/log-summary/).
 
 **Exemples :**
-Créez un run avec `wandb.init()` : 
+Créez un run avec `wandb.init()` :
+
+```python
+import wandb
+
+# Démarrer un nouveau run et journaliser des données
+# Utiliser le gestionnaire de contexte (instruction `with`) pour terminer automatiquement le run
+with wandb.init(entity="entity", project="project") as run:
+    run.log({"accuracy": acc, "loss": loss})
+```
+
 
 ### <kbd>propriété</kbd> Run.config
 
@@ -483,13 +493,26 @@ with wandb.init() as run:
      run.log({"train-loss": 0.5, "accuracy": 0.9})
 ```
 
-L’extrait de code précédent enregistre la perte et la précision dans l’historique du run, et met à jour les valeurs de la synthèse pour ces métriques.
+L’extrait de code précédent enregistre la perte et la précision dans l’historique du run, et met à jour les valeurs du summary pour ces métriques.
 
 Visualisez les données enregistrées dans un Workspace sur [wandb.ai](https://wandb.ai), ou localement sur une [instance auto-hébergée](https://docs.wandb.ai/guides/hosting) de l’application W&amp;B, ou exportez les données pour les visualiser et les explorer en local, par exemple dans un notebook Jupyter, avec l’[API publique](https://docs.wandb.ai/guides/track/public-api-guide).
 
 Les valeurs enregistrées n’ont pas besoin d’être des scalaires. Vous pouvez enregistrer n’importe quel [type de données pris en charge par W&amp;B](https://docs.wandb.ai/ref/python/data-types/), comme des images, de l’audio, de la vidéo, etc. Par exemple, vous pouvez utiliser `wandb.Table` pour enregistrer des données structurées. Voir le tutoriel [Enregistrer des tableaux, visualiser et interroger des données](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) pour plus de détails.
 
 W&amp;B organise les métriques dont le nom contient une barre oblique (`/`) en sections nommées d’après le texte qui précède la dernière barre oblique. Par exemple, ce qui suit produit deux sections nommées &quot;train&quot; et &quot;validate&quot; :
+
+```python
+with wandb.init() as run:
+     # Consigner des métriques dans la section "train".
+     run.log(
+         {
+             "train/accuracy": 0.9,
+             "train/loss": 30,
+             "validate/accuracy": 0.8,
+             "validate/loss": 20,
+         }
+     )
+```
 
 Un seul niveau d&#39;imbrication est pris en charge ; `run.log({"a/b/c": 1})` crée une section nommée &quot;a&quot;.
 
@@ -499,17 +522,44 @@ Par défaut, chaque appel à `log` crée une nouvelle &quot;étape&quot;. L&#39;
 
 Dans de nombreux cas, il est préférable de considérer l&#39;étape W&amp;B comme un horodatage plutôt que comme une étape d&#39;entraînement.
 
+```python
+with wandb.init() as run:
+     # Exemple : journaliser une métrique "epoch" à utiliser comme axe X.
+     run.log({"epoch": 40, "train-loss": 0.5})
+```
+
 Il est possible d’utiliser plusieurs appels à `wandb.Run.log()` pour journaliser sur la même étape grâce aux paramètres `step` et `commit`. Les opérations suivantes sont toutes équivalentes :
+
+```python
+with wandb.init() as run:
+     # Utilisation normale :
+     run.log({"train-loss": 0.5, "accuracy": 0.8})
+     run.log({"train-loss": 0.4, "accuracy": 0.9})
+
+     # Étape implicite sans auto-incrémentation :
+     run.log({"train-loss": 0.5}, commit=False)
+     run.log({"accuracy": 0.8})
+     run.log({"train-loss": 0.4}, commit=False)
+     run.log({"accuracy": 0.9})
+
+     # Étape explicite :
+     run.log({"train-loss": 0.5}, step=current_step)
+     run.log({"accuracy": 0.8}, step=current_step)
+     current_step += 1
+     run.log({"train-loss": 0.4}, step=current_step)
+     run.log({"accuracy": 0.9}, step=current_step, commit=True)
+```
 
 **Arguments :**
 
-* `data` : un `dict` avec des clés `str` et des valeurs sérialisables
-* `Objets Python, y compris` : `int`, `float` et chaînes de caractères ; n’importe lequel des `wandb.data_types` ; des listes, tuples et tableaux NumPy d’objets Python sérialisables ; d’autres `dict` de cette structure.
-* `step` : le numéro d’étape à journaliser. Si `None`, une étape implicite avec auto-incrémentation est utilisée. Voir les notes dans la description.
-* `commit` : si vrai, finalisez et téléversez l’étape. Si faux, accumulez les données pour l’étape. Voir les notes dans la description. Si `step` est `None`, la valeur par défaut est `commit=True` ; sinon, la valeur par défaut est `commit=False`.
+
+* `data` :  Un `dict` avec des clés `str` et des valeurs sérialisables
+* `Objets Python, notamment` :  `int`, `float` et `string` ; n’importe lequel des `wandb.data_types` ; des listes, tuples et tableaux NumPy d’objets Python sérialisables ; d’autres `dict` de même structure.
+* `step` :  Le numéro d’étape à consigner. Si `None`, une étape implicite auto-incrémentée est utilisée. Voir les notes dans la description.
+* `commit` :  Si true, finalise et téléverse l’étape. Si false, les données de l’étape sont alors accumulées. Voir les notes dans la description. Si `step` est `None`, la valeur par défaut est `commit=True` ; sinon, la valeur par défaut est `commit=False`.
 
 **Exemples :**
-Pour davantage d’exemples, plus détaillés, voir [nos guides sur la journalisation](https://docs.wandb.com/guides/track/log).
+Pour des exemples supplémentaires et plus détaillés, voir [nos guides sur le logging](https://docs.wandb.com/guides/track/log).
 
 Utilisation de base
 
@@ -520,11 +570,30 @@ with wandb.init() as run:
     run.log({"train-loss": 0.5, "accuracy": 0.9
 ```
 
-Journalisation incrémentielle
+Journalisation incrémentale
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"loss": 0.2}, commit=False)
+    # Ailleurs, quand je suis prêt à journaliser cette étape :
+    run.log({"accuracy": 0.8})
+```
 
 Histogramme
 
-Image depuis NumPy
+```python
+import numpy as np
+import wandb
+
+# échantillonner des gradients aléatoirement à partir d'une distribution normale
+gradients = np.random.randn(100, 100)
+with wandb.init() as run:
+    run.log({"gradients": wandb.Histogram(gradients)})
+```
+
+Image provenant de NumPy
 
 ```python
 import numpy as np
@@ -539,7 +608,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-Image provenant de PIL 
+Image PIL
 
 ```python
 import numpy as np
@@ -563,7 +632,35 @@ with wandb.init() as run:
 
 Vidéo à partir de NumPy
 
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # les axes sont (temps, canal, hauteur, largeur)
+    frames = np.random.randint(
+         low=0,
+         high=256,
+         size=(10, 3, 100, 100),
+         dtype=np.uint8,
+    )
+    run.log({"video": wandb.Video(frames, fps=4)})
+```
+
 Graphique Matplotlib
+
+```python
+from matplotlib import pyplot as plt
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 10)
+    y = x * x
+    ax.plot(x, y)  # tracé y = x^2
+    run.log({"chart": fig})
+```
 
 Courbe PR
 
@@ -597,6 +694,7 @@ with wandb.init() as run:
 * `ValueError` :  Si des données invalides sont transmises.
 
 ***
+
 
 ### <kbd>méthode</kbd> `Run.log_artifact`
 
@@ -789,9 +887,9 @@ Les fichiers sont automatiquement dédupliqués : appeler `save()` plusieurs fo
 
 **Arguments :**
 
-* `glob_str` : Un chemin relatif ou absolu, ou un glob Unix.
-* `base_path` : Un chemin utilisé pour déduire une structure de répertoires ; voir les exemples.
-* `policy` : L&#39;une des valeurs `live`, `now` ou `end`.
+* `glob_str` :  Un chemin relatif ou absolu, ou un glob Unix.
+* `base_path` :  Un chemin utilisé pour déduire une structure de répertoires ; voir les exemples.
+* `policy` :  L&#39;une des valeurs `live`, `now` ou `end`.
   * live: téléverser le fichier à mesure qu&#39;il change, en remplaçant la version précédente
   * now: téléverser le fichier une seule fois, immédiatement
   * end: téléverser le fichier à la fin du run
@@ -801,7 +899,33 @@ Les chemins des liens symboliques créés pour les fichiers correspondants.
 
 Pour des raisons historiques, cette méthode peut renvoyer un booléen dans du code hérité.
 
+```python
+import wandb
+
+run = wandb.init()
+
+run.save("these/are/myfiles/*")
+# => Enregistre les fichiers dans un dossier "these/are/myfiles/" dans le run.
+
+run.save("these/are/myfiles/*", base_path="these")
+# => Enregistre les fichiers dans un dossier "are/myfiles/" dans le run.
+
+run.save("/Users/username/Documents/run123/*.txt")
+# => Enregistre les fichiers dans un dossier "run123/" dans le run. Voir la note ci-dessous.
+
+run.save("/Users/username/Documents/run123/*.txt", base_path="/Users")
+# => Enregistre les fichiers dans un dossier "username/Documents/run123/" dans le run.
+
+run.save("files/*/saveme.txt")
+# => Enregistre chaque fichier "saveme.txt" dans un sous-répertoire approprié
+#    de "files/".
+
+# Terminer explicitement le run car aucun gestionnaire de contexte n'est utilisé.
+run.finish()
+```
+
 ***
+
 
 ### <kbd>méthode</kbd> `Run.status`
 
@@ -884,19 +1008,45 @@ Appelez `download` ou `file` sur l’objet renvoyé pour récupérer son contenu
 
 **Arguments :**
 
-* `artifact_or_name`: Le nom de l&#39;artifact à utiliser. Il peut être préfixé par le nom du projet dans lequel l&#39;artifact a été enregistré (&quot;entité&quot; ou &quot;entité/projet&quot;). Si aucune entité n&#39;est spécifiée dans le nom, l&#39;entité du Run ou de la configuration de l&#39;API est utilisée. Les noms valides peuvent prendre les formes suivantes
+* `artifact_or_name`:  Le nom de l&#39;artifact à utiliser. Il peut être préfixé par le nom du projet dans lequel l&#39;artifact a été enregistré (&quot;entité&quot; ou &quot;entité/projet&quot;). Si aucune entité n&#39;est spécifiée dans le nom, l&#39;entité du Run ou de la configuration de l&#39;API est utilisée. Les noms valides peuvent prendre les formes suivantes
   * nom:version
   * nom:alias
-* `type`: Le type d&#39;artifact à utiliser.
-* `aliases`: Alias à appliquer à cet artifact
-* `use_as`: Cet argument est obsolète et n&#39;a aucun effet.
+* `type`:  Le type d&#39;artifact à utiliser.
+* `aliases`:  Alias à appliquer à cet artifact
+* `use_as`:  Cet argument est obsolète et n&#39;a aucun effet.
 
 **Retourne :**
 Un objet `Artifact`.
 
 **Exemples :**
 
+```python
+import wandb
+
+run = wandb.init(project="<example>")
+
+# Utiliser un artifact par nom et alias
+artifact_a = run.use_artifact(artifact_or_name="<name>:<alias>")
+
+# Utiliser un artifact par nom et version
+artifact_b = run.use_artifact(artifact_or_name="<name>:v<version>")
+
+# Utiliser un artifact par entité/projet/nom:alias
+artifact_c = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:<alias>"
+)
+
+# Utiliser un artifact par entité/projet/nom:version
+artifact_d = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:v<version>"
+)
+
+# Terminer explicitement le run car aucun gestionnaire de contexte n'est utilisé.
+run.finish()
+```
+
 ***
+
 
 ### <kbd>méthode</kbd> `Run.use_model`
 

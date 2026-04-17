@@ -40,6 +40,12 @@ wandb.init(
 
 Après avoir exécuté `wandb.init()` , démarrez une nouvelle cellule avec `%%wandb` pour afficher des graphiques en temps réel dans le notebook. Si vous exécutez cette cellule plusieurs fois, les données seront ajoutées au run.
 
+```notebook
+%%wandb
+
+# Votre boucle d'entraînement ici
+```
+
 Essayez-le vous-même dans ce [notebook d’exemple](https://wandb.me/jupyter-interact-colab).
 
 <Frame>
@@ -52,11 +58,33 @@ Essayez-le vous-même dans ce [notebook d’exemple](https://wandb.me/jupyter-in
 
 Vous pouvez également afficher directement dans votre notebook des tableaux de bord, des Sweeps ou des rapports existants à l’aide de la commande magique `%wandb` :
 
-Comme alternative aux commandes magiques `%%wandb` ou `%wandb`, après avoir exécuté `wandb.init()`, vous pouvez terminer n’importe quelle cellule par `wandb.Run.finish()` pour afficher des graphiques en ligne, ou appeler `ipython.display(...)` sur n’importe quel objet rapport, Sweeps ou run renvoyé par nos API.
+```notebook
+# Afficher l'espace de travail du projet
+%wandb USERNAME/PROJECT
+# Afficher un run unique
+%wandb USERNAME/PROJECT/runs/RUN_ID
+# Afficher un balayage
+%wandb USERNAME/PROJECT/sweeps/SWEEP_ID
+# Afficher un rapport
+%wandb USERNAME/PROJECT/reports/REPORT_ID
+# Spécifier la hauteur de l'iframe intégrée
+%wandb USERNAME/PROJECT -h 2048
+```
+
+Comme alternative aux commandes magiques `%%wandb` ou `%wandb`, après avoir exécuté `wandb.init()`, vous pouvez terminer n’importe quelle cellule par `wandb.Run.finish()` pour afficher des graphiques en ligne, ou appeler `ipython.display(...)` sur n’importe quel objet rapport, balayage ou run renvoyé par nos API.
+
+```python
+import wandb
+from IPython.display import display
+# Initialiser un run
+run = wandb.init()
+
+# Si la cellule affiche run.finish(), vous verrez des graphiques en direct
+run.finish()
+```
 
 <Note>
-  Vous voulez en savoir plus sur ce que vous pouvez faire avec W&amp;B ? Consultez notre [guide de journalisation des données et des médias](/fr/models/track/log/), découvrez [comment intégrer W&amp;B à vos outils ML
-  préférés](/fr/models/integrations), ou consultez directement la [documentation de référence](/fr/models/ref/python/) ou notre [dépôt d&#39;exemples](https://github.com/wandb/examples).
+  Vous voulez en savoir plus sur ce que vous pouvez faire avec W&amp;B ? Consultez notre [guide de journalisation des données et des médias](/fr/models/track/log/), découvrez [comment intégrer W&amp;B à vos outils ML préférés](/fr/models/integrations), ou consultez directement la [documentation de référence](/fr/models/ref/python/) ou notre [dépôt d&#39;exemples](https://github.com/wandb/examples).
 </Note>
 
 <div id="additional-jupyter-features-in-wb">
@@ -64,6 +92,16 @@ Comme alternative aux commandes magiques `%%wandb` ou `%wandb`, après avoir ex�
 </div>
 
 1. **Authentification facile dans Colab** : lorsque vous appelez `wandb.init` pour la première fois dans Colab, nous authentifions automatiquement votre environnement d&#39;exécution si vous êtes déjà connecté à W&amp;B dans votre navigateur. Dans l’onglet Vue d’ensemble de la page de votre run, vous verrez un lien vers le notebook Colab.
-2. **Jupyter Magic :** affichez des tableaux de bord, des Sweeps et des rapports directement dans vos notebooks. La commande magique `%wandb` accepte un chemin vers votre projet, vos Sweeps ou vos rapports et affiche l’interface W&amp;B directement dans le notebook.
+2. **Jupyter Magic :** affichez des tableaux de bord, des Sweeps et des Reports directement dans vos notebooks. La commande magique `%wandb` accepte un chemin vers votre projet, vos Sweeps ou vos Reports et affiche l’interface W&amp;B directement dans le notebook.
 3. **Lancer Jupyter conteneurisé avec Docker** : appelez `wandb docker --jupyter` pour lancer un conteneur Docker, y monter votre code, vous assurer que Jupyter est installé et le démarrer sur le port 8888.
 4. **Exécutez des cellules dans n’importe quel ordre sans crainte** : par défaut, nous attendons le prochain appel à `wandb.init` avant de marquer un run comme `finished`. Cela vous permet d’exécuter plusieurs cellules (par exemple, une pour configurer les données, une pour entraîner, une pour tester) dans l’ordre de votre choix et de tout enregistrer dans le même run. Si vous activez l’enregistrement du code dans les [Paramètres utilisateur](https://wandb.ai/settings), les cellules exécutées seront également enregistrées, dans l’ordre et dans l’état où elles l’ont été, ce qui vous permettra de reproduire même les pipelines les plus non linéaires. Pour marquer manuellement un run comme terminé dans un notebook Jupyter, appelez `run.finish`.
+
+```python
+import wandb
+
+run = wandb.init()
+
+# script d'entraînement et journalisation ici
+
+run.finish()
+```

@@ -26,18 +26,25 @@ Votre code est suivi automatiquement - consultez l’onglet Code dans l’UI !
 
 ```typescript lines
 async function initializeWeaveProject() {
-  const PROJECT = "weave-examples"
-  await weave.init(PROJECT)
+    const PROJECT = 'weave-examples';
+    await weave.init(PROJECT);
 }
 ```
 
 ```typescript lines
 const stripUserInput = weave.op(function stripUserInput(userInput: string): string {
-  return userInput.trim()
-})
+    return userInput.trim();
+});
 ```
 
 L’exemple suivant montre comment fonctionne le suivi de base des fonctions.
+
+```typescript lines
+async function demonstrateBasicTracking() {
+    const result = await stripUserInput("    hello    ");
+    console.log('Basic tracking result:', result);
+}
+```
 
 <div id="openai-integration">
   ## Intégration à OpenAI
@@ -164,32 +171,73 @@ Vous trouverez un tutoriel complet sur l’évaluation à l’adresse [http://wa
 
 ```typescript lines
 class OpenAIGrammarCorrector {
-  private oaiClient: ReturnType<typeof weave.wrapOpenAI>
+    private oaiClient: ReturnType<typeof weave.wrapOpenAI>;
+    
+    constructor() {
+        this.oaiClient = weave.wrapOpenAI(new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY
+        }));
+        this.predict = weave.op(this, this.predict);
+    }
 
-  constructor() {
-    this.oaiClient = weave.wrapOpenAI(
-      new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY
-      })
-    )
-    this.predict = weave.op(this, this.predict)
-  }
+    async predict(userInput: string): Promise<string> {
+        const response = await this.oaiClient.chat.completions.create({
+            model: 'gpt-4-turbo',
+            messages: [
+                { 
+                    role: "system", 
+                    content: "You are a grammar checker, correct the following user input." 
+                },
+                { role: "user", content: userInput }
+            ],
+            temperature: 0
+        });
+        return response.choices[0].message.content ?? '';
+    }
+}
+```
 
-  async predict(userInput: string): Promise<string> {
-    const response = await this.oaiClient.chat.completions.create({
-      model: "gpt-4-turbo",
-      messages: [
-        {
-          role: "system",
-          content: "You are a grammar checker, correct the following user input."
+```typescript lines
+async function runEvaluation() {
+    const corrector = new OpenAIGrammarCorrector();
+    const dataset = createGrammarDataset();
+    
+    const exactMatch = weave.op(
+        function exactMatch({ modelOutput, datasetRow }: { 
+            modelOutput: string; 
+            datasetRow: GrammarExample 
+        }): { match: boolean } {
+            return { match: datasetRow.expected === modelOutput };
         },
-        { role: "user", content: userInput }
-      ],
-      temperature: 0
-    })
-    return response.choices[0].message.content ?? ""
-  }
+        { name: 'exactMatch' }
+    );
+
+    const evaluation = new weave.Evaluation({
+        dataset,
+        scorers: [exactMatch],
+    });
+
+    const summary = await evaluation.evaluate({
+        model: weave.op((args: { datasetRow: GrammarExample }) => 
+            corrector.predict(args.datasetRow.userInput)
+        )
+    });
+    console.log('Résumé de l\'évaluation :', summary);
 }
 ```
 
 La fonction `main` suivante exécute toutes les démonstrations :
+
+```typescript lines
+async function main() {
+    try {
+        await initializeWeaveProject();
+        await demonstrateBasicTracking();
+        await demonstrateOpenAITracking();
+        await demonstrateNestedTracking();
+        await runEvaluation();
+    } catch (error) {
+        console.error('Erreur lors de l\'exécution des démonstrations :', error);
+    }
+}
+```

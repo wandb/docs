@@ -390,6 +390,20 @@ for step, (input, ground_truth) in enumerate(data):
 
 모델 체크포인트를 W&amp;B에 로깅하세요. 일반적으로 체크포인트는 W&amp;B에서 생성한 고유한 run ID를 artifact 이름의 일부로 사용해 artifact로 로깅합니다.
 
+```python
+metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
+
+artifact = wandb.Artifact(
+                name=f"model-{run.id}", 
+                metadata=metadata, 
+                type="model"
+                ) 
+artifact.add_dir("output_model") # 모델 가중치가 저장된 로컬 디렉터리
+
+aliases = ["best", "epoch_10"] 
+run.log_artifact(artifact, aliases=aliases)
+```
+
 이전 코드 스니펫은 모델 체크포인트를 artifact로 로깅하고, evaluation accuracy 및 training step과 같은 메타데이터를 추가하는 방법을 보여줍니다. 이 artifact에는 고유한 run ID가 포함된 이름이 지정되며, 쉽게 참조할 수 있도록 [맞춤형 alias](/ko/models/artifacts/create-a-custom-alias/)가 태그됩니다.
 
 <div id="log-input-artifacts">

@@ -36,4 +36,16 @@ W&amp;B Video オブジェクトを初期化します。
 **Examples:**
 numpy 配列を動画としてログする
 
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # 軸は (フレーム数, チャンネル, 高さ, 幅)
+    frames = np.random.randint(
+         low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+    )
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
+```
+
 ***

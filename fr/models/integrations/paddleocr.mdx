@@ -81,6 +81,13 @@ Global:
 
 Tout autre argument facultatif que vous souhaitez transmettre à [`wandb.init()`](/fr/models/ref/python/functions/init) peut également être ajouté dans la section `wandb` du fichier YAML :
 
+```
+wandb:  
+    project: CoolOCR  # (facultatif) c'est le nom du projet wandb 
+    entity: my_team   # (facultatif) si vous utilisez une équipe wandb, vous pouvez passer le nom de l'équipe ici
+    name: MyOCRModel  # (facultatif) c'est le nom du run wandb
+```
+
 <div id="pass-the-configyml-file-to-trainpy">
   ## Passez le fichier `config.yml` à `train.py`
 </div>

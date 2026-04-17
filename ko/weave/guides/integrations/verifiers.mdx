@@ -19,6 +19,17 @@ Weave와 Verifiers를 함께 사용해 평가를 수행할 수도 있습니다.
 
 Verifiers를 Weave로 통합하려면 `uv`를 사용해 Verifiers 라이브러리를 설치하세요([라이브러리 작성자가 권장](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). 라이브러리를 설치하려면 다음 명령어 중 하나를 사용하세요:
 
+```bash
+# 로컬 개발 및 API 기반 모델을 위한 핵심 라이브러리 설치
+uv add verifiers
+
+# PyTorch 및 GPU 지원을 포함한 모든 선택적 의존성이 포함된 전체 버전 라이브러리 설치
+uv add 'verifiers[all]' && uv pip install flash-attn --no-build-isolation
+
+# 미출시 최신 기능 및 수정 사항을 포함하여 GitHub에서 직접 최신 버전 라이브러리 설치
+uv add verifiers @ git+https://github.com/willccbb/verifiers.git
+```
+
 다음으로 Weave와 W&amp;B를 설치합니다:
 
 ```bash
@@ -36,6 +47,40 @@ Weave는 기본적으로 이 라이브러리에 [암시적 패칭](/ko/weave/gui
 다음 예제 스크립트는 Verifiers로 평가를 실행하고 결과를 Weave에 로깅하는 방법을 보여줍니다. 이 스크립트는 [GSM8K 데이터셋](https://huggingface.co/datasets/openai/gsm8k)을 사용해 수학 문제를 푸는 LLM의 능력을 테스트합니다. GPT-4에 수학 문제 두 개를 풀게 한 뒤, 각 응답에서 숫자 값을 추출하고, Verifiers를 평가 프레임워크로 사용해 해당 시도를 채점합니다.
 
 예제를 실행한 다음 Weave에서 결과를 확인하세요:
+
+```python lines
+import os
+from openai import OpenAI
+import verifiers as vf
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+# Weave 초기화
+weave.init("verifiers_demo")
+
+# 최소 단일 턴 환경
+dataset = vf.load_example_dataset("gsm8k", split="train").select(range(2))
+parser = vf.ThinkParser()
+
+def correct_answer(parser, completion, answer):
+    parsed = parser.parse_answer(completion) or ""
+    return 1.0 if parsed.strip() == answer.strip() else 0.0
+
+rubric = vf.Rubric(funcs=[correct_answer, parser.get_format_reward_func()], weights=[1.0, 0.2])
+
+env = vf.SingleTurnEnv(
+    dataset=dataset,
+    system_prompt="Think step-by-step, then answer.",
+    parser=parser,
+    rubric=rubric,
+)
+
+client = OpenAI()
+results = env.evaluate(
+    client, "gpt-4.1-mini", num_examples=2, rollouts_per_example=2, max_concurrent=8
+)
+```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
   ### 실험 추적 및 트레이스로 모델 파인튜닝하기
@@ -64,6 +109,14 @@ vf-install gsm8k --from-repo
 ```
 
 3. 모델을 트레이닝하세요. 다음 명령어는 각각 Inference 서버와 트레이닝 루프를 시작합니다. 이 예제 워크플로는 기본적으로 `report_to=wandb`를 설정하므로 `wandb.init`을 별도로 호출할 필요가 없습니다. W&amp;B에 메트릭을 로깅할 수 있도록 이 머신을 인증하라는 메시지가 표시됩니다.
+
+```bash
+# Inference 서버 실행
+CUDA_VISIBLE_DEVICES=0 vf-vllm --model willcb/Qwen3-0.6B --enforce-eager --disable-log-requests
+
+# 트레이닝 루프 실행
+CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs/zero3.yaml examples/grpo/train_gsm8k.py
+```
 
 <Note>
   이 예제는 H100 2개에서 성공적으로 테스트했으며, 안정성을 높이기 위해 다음 환경 변수를 설정했습니다.

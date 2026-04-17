@@ -77,10 +77,18 @@ for epoch in range(run.config.epochs):
 Pour plus d’informations sur les différents types de données que vous pouvez journaliser avec W&amp;B, voir [Journaliser des données pendant les Experiments](/fr/models/track/log/).
 
 <div id="log-an-artifact-to-wb">
-  ### Enregistrer un artifact dans W&amp;B
+  ### Journaliser un Artifact dans W&amp;B
 </div>
 
 Vous pouvez aussi journaliser un W&amp;B Artifact. Les Artifacts facilitent le versionnage des jeux de données et des modèles.
+
+```python
+# Vous pouvez sauvegarder n'importe quel fichier ou même un répertoire. Cet exemple suppose
+# que le modèle possède une méthode save() qui génère un fichier ONNX.
+model.save("path_to_model.onnx")
+run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
+```
+
 Pour en savoir plus sur [Artifacts](/fr/models/artifacts/) ou sur la gestion des versions des modèles dans le [registre](/fr/models/registry/).
 
 <div id="putting-it-all-together">
@@ -88,6 +96,30 @@ Pour en savoir plus sur [Artifacts](/fr/models/artifacts/) ou sur la gestion des
 </div>
 
 Le script complet, avec les extraits de code précédents, se trouve ci-dessous :
+
+```python
+import wandb
+
+with wandb.init(
+    project="cat-classification",
+    notes="",
+    tags=["baseline", "paper1"],
+    # Enregistrer les hyperparamètres du run.
+    config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
+) as run:
+    # Configurer le modèle et les données.
+    model, dataloader = get_model(), get_data()
+
+    # Lancez l'entraînement en enregistrant les métriques pour visualiser les performances du modèle.
+    for epoch in range(run.config["epochs"]):
+        for batch in dataloader:
+            loss, accuracy = model.training_step()
+            run.log({"accuracy": accuracy, "loss": loss})
+
+    # Charger le modèle entraîné en tant qu'artifact.
+    model.save("path_to_model.onnx")
+    run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
+```
 
 <div id="next-steps-visualize-your-experiment">
   ## Étapes suivantes : visualisez votre expérience
@@ -110,14 +142,17 @@ Voici quelques recommandations à suivre lorsque vous créez des expériences :
 1. **Terminez vos runs** : utilisez `wandb.init()` dans un bloc `with` pour marquer automatiquement le run comme terminé lorsque le code se termine ou lève une exception.
    * Dans les notebooks Jupyter, il peut être plus pratique de gérer vous-même l&#39;objet Run. Dans ce cas, vous pouvez appeler explicitement `finish()` sur l&#39;objet Run pour le marquer comme terminé :
 
+     ```python
+     # Dans une cellule de notebook :
+     run = wandb.init()
+
+     # Dans une autre cellule :
+     run.finish()
+     ```
 2. **Configuration** : suivez les hyperparamètres, l&#39;architecture, le jeu de données et tout ce que vous souhaitez utiliser pour reproduire votre modèle. Ces éléments apparaîtront sous forme de colonnes — utilisez les colonnes de configuration pour regrouper, trier et filtrer les runs de manière dynamique dans l&#39;application.
-
 3. **Projet** : un projet est un ensemble d&#39;expériences que vous pouvez comparer entre elles. Chaque projet dispose d&#39;une page de tableau de bord dédiée, et vous pouvez facilement afficher ou masquer différents groupes de runs pour comparer différentes versions de modèle.
-
 4. **Notes** : ajoutez un court message de commit directement depuis votre script. Modifiez et consultez les notes dans la section Aperçu d&#39;un run dans l&#39;application W&amp;B.
-
 5. **Tags** : identifiez les runs de référence et vos runs favoris. Vous pouvez filtrer les runs à l&#39;aide de tags. Vous pouvez modifier les tags ultérieurement dans la section Aperçu du tableau de bord de votre projet dans l&#39;application W&amp;B.
-
 6. **Créez plusieurs ensembles de runs pour comparer les expériences** : lorsque vous comparez des expériences, créez plusieurs ensembles de runs pour faciliter la comparaison des métriques. Vous pouvez activer ou désactiver des ensembles de runs sur un même graphique ou groupe de graphiques.
 
 L&#39;extrait de code suivant montre comment définir une expérience W&amp;B en appliquant les bonnes pratiques listées ci-dessus :

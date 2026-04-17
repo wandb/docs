@@ -97,7 +97,25 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
 La perte d&#39;entraînement et les métriques d&#39;évaluation peuvent être automatiquement consignées dans W&amp;B. Vous pouvez activer l&#39;évaluation facultative à l&#39;aide du [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) de DeepChem ; `WandbLogger` détectera alors le callback `ValidationCallback` et consignera les métriques générées.
 
 <Tabs>
-  <Tab title="TorchModel" />
+  <Tab title="TorchModel">
+    ```python
+    from deepchem.models import TorchModel, ValidationCallback
 
-  <Tab title="KerasModel" />
+    vc = ValidationCallback(…)  # facultatif
+    model = TorchModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+
+  <Tab title="KerasModel">
+    ```python
+    from deepchem.models import KerasModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # facultatif
+    model = KerasModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
 </Tabs>

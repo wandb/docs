@@ -28,4 +28,36 @@ Les types de données de W&amp;B sont des classes qui encapsulent des contenus m
 
 Cet exemple utilise une `Image` :
 
+```python
+import wandb
+import matplotlib.pyplot as plt
+
+# Générer une image à des fins de démonstration
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
+
+# Initialiser un nouveau run
+with wandb.init(project="awesome-project") as run:
+
+    # Journaliser l'image
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
+```
+
 Cet exemple utilise une `Table` pour journaliser un tableau contenant du texte et des libellés variés :
+
+```python
+import wandb
+
+# Initialiser un nouveau run
+with wandb.init(project="visualize-predictions", name="tables") as run:
+
+    # Créer des données tabulaires à l'aide d'une liste de listes
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
+
+    # Créer des données tabulaires à l'aide de la méthode `wandb.Table.add_data()`
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```

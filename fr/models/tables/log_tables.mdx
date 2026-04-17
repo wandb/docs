@@ -23,6 +23,23 @@ Vous [créez et journalisez des objets de type tableau](#create-and-log-a-new-ta
 
 L’exemple suivant montre comment créer et journaliser un tableau avec deux colonnes, `a` et `b`, et deux lignes de données, `["a1", "b1"]` et `["a2", "b2"]` :
 
+```python
+import wandb
+
+# Démarrer un nouveau run
+with wandb.init(project="table-demo") as run:
+
+    # Créer un objet tableau avec deux colonnes et deux lignes de données
+    my_table = wandb.Table(
+        columns=["a", "b"],
+        data=[["a1", "b1"], ["a2", "b2"]],
+        log_mode="IMMUTABLE"
+        )
+
+    # Journaliser le tableau dans W&B
+    run.log({"Table Name": my_table})
+```
+
 <div id="logging-modes">
   ## Modes de journalisation
 </div>
@@ -45,7 +62,9 @@ Les sections suivantes présentent des exemples de code snippets pour chaque mod
 
 Le mode `MUTABLE` met à jour un tableau existant en le remplaçant par un nouveau. Il est utile lorsque vous souhaitez ajouter de nouvelles colonnes et lignes à un tableau existant dans le cadre d’un processus non itératif. Dans l’interface utilisateur, le tableau est affiché avec toutes les lignes et colonnes, y compris celles ajoutées après le journal initial.
 
-<Note>En mode `MUTABLE`, l’objet tableau est remplacé chaque fois que vous journalisez le tableau. Remplacer un tableau par un nouveau est coûteux en calcul et peut être lent pour les tableaux volumineux.</Note>
+<Note>
+  En mode `MUTABLE`, l’objet tableau est remplacé chaque fois que vous journalisez le tableau. Remplacer un tableau par un nouveau est coûteux en calcul et peut être lent pour les tableaux volumineux.
+</Note>
 
 L’exemple suivant montre comment créer un tableau en mode `MUTABLE`, le journaliser, puis y ajouter de nouvelles colonnes. L’objet tableau est journalisé trois fois : une fois avec les données initiales, une fois avec les scores de confiance et une fois avec les prédictions finales.
 
@@ -53,28 +72,115 @@ L’exemple suivant montre comment créer un tableau en mode `MUTABLE`, le journ
   L’exemple suivant utilise une fonction fictive `load_eval_data()` pour charger les données et une fonction fictive `model.predict()` pour effectuer des prédictions. Vous devrez les remplacer par vos propres fonctions de chargement des données et de prédiction.
 </Note>
 
+```python
+import wandb
+import numpy as np
+
+with wandb.init(project="mutable-table-demo") as run:
+
+    # Créer un objet tableau avec le mode de journalisation MUTABLE
+    table = wandb.Table(columns=["input", "label", "prediction"],
+                        log_mode="MUTABLE")
+
+    # Charger les données et effectuer des prédictions
+    inputs, labels = load_eval_data() # Fonction de substitution
+    raw_preds = model.predict(inputs) # Fonction de substitution
+
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
+
+    # Étape 1 : Journaliser les données initiales
+    run.log({"eval_table": table})  # Journaliser le tableau initial
+
+    # Étape 2 : Ajouter les scores de confiance (ex. : max softmax)
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # Ajouter les informations de confiance
+
+    # Étape 3 : Ajouter les prédictions post-traitées
+    # (ex. : sorties seuillées ou lissées)
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})  # Mise à jour finale avec une autre colonne
+```
+
 Si vous souhaitez uniquement ajouter de nouveaux lots de lignes (sans colonnes), de façon incrémentielle, comme dans une boucle d’entraînement, utilisez plutôt le mode [`INCREMENTAL`](#INCREMENTAL-mode).
 
 <div id="incremental-mode">
   ### INCREMENTAL mode
 </div>
 
-En mode incrémentiel, vous journalisez des lots de lignes dans un tableau au cours de l’expérience d’apprentissage automatique. C’est idéal pour surveiller des jobs de longue durée ou lorsque vous travaillez avec de grands tableaux qu’il serait inefficace de journaliser dans le run pour les mettre à jour. Dans l’interface utilisateur, le tableau est mis à jour avec de nouvelles lignes à mesure qu’elles sont journalisées, ce qui vous permet de consulter les données les plus récentes sans attendre la fin complète du run. Vous pouvez également parcourir les incréments pour afficher le tableau à différents moments.
+En mode incrémentiel, vous journalisez des lots de lignes dans un tableau au cours de l’expérience d’apprentissage automatique. C’est idéal pour surveiller des jobs de longue durée ou lorsque vous travaillez avec de grands tableaux qu’il serait inefficace de journaliser dans le run pour les mettre à jour. Dans l’UI, le tableau est mis à jour avec de nouvelles lignes à mesure qu’elles sont journalisées, ce qui vous permet de consulter les données les plus récentes sans attendre la fin complète du run. Vous pouvez également parcourir les incréments pour afficher le tableau à différents moments.
 
-<Note>Les Workspace de run dans la W&amp;B App sont limités à 100 incréments. Si vous journalisez plus de 100 incréments, seuls les 100 plus récents sont affichés dans le Workspace du run.</Note>
+<Note>
+  Les Workspace de run dans la W&amp;B App sont limités à 100 incréments. Si vous journalisez plus de 100 incréments, seuls les 100 plus récents sont affichés dans le Workspace du run.
+</Note>
 
 L’exemple suivant crée un tableau en mode `INCREMENTAL`, le journalise, puis y ajoute de nouvelles lignes. Notez que le tableau est journalisé une fois par étape d’entraînement (`step`).
 
 <Note>
-  L’exemple suivant utilise une fonction fictive `get_training_batch()` pour charger les données, une fonction fictive `train_model_on_batch()` pour entraîner le modèle et une fonction fictive
-  `predict_on_batch()` pour effectuer des prédictions. Vous devrez les remplacer par vos propres fonctions de chargement des données, d’entraînement et de prédiction.
+  L’exemple suivant utilise une fonction fictive `get_training_batch()` pour charger les données, une fonction fictive `train_model_on_batch()` pour entraîner le modèle et une fonction fictive `predict_on_batch()` pour effectuer des prédictions. Vous devrez les remplacer par vos propres fonctions de chargement des données, d’entraînement et de prédiction.
 </Note>
+
+```python
+import wandb
+
+with wandb.init(project="incremental-table-demo") as run:
+
+    # Créer un tableau avec le mode de logging INCREMENTAL
+    table = wandb.Table(columns=["step", "input", "label", "prediction"],
+                        log_mode="INCREMENTAL")
+
+    # Boucle d'entraînement
+    for step in range(get_num_batches()): # Fonction de substitution
+        # Charger les données du lot
+        inputs, labels = get_training_batch(step) # Fonction de substitution
+
+        # Entraîner et prédire
+        train_model_on_batch(inputs, labels) # Fonction de substitution
+        predictions = predict_on_batch(inputs) # Fonction de substitution
+
+        # Ajouter les données du lot au tableau
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
+
+        # Logger le tableau de manière incrémentielle
+        run.log({"training_table": table}, step=step)
+```
 
 La journalisation incrémentielle est généralement plus efficace en termes de calcul que la journalisation d’un nouveau tableau à chaque fois (`log_mode=MUTABLE`). Cependant, la W&amp;B App peut ne pas afficher toutes les lignes du tableau si vous journalisez un grand nombre d’incréments. Si votre objectif est de mettre à jour et de consulter les données de votre tableau pendant l’exécution de votre run, tout en rendant l’ensemble des données disponible pour l’analyse, envisagez d’utiliser deux tableaux : l’un avec le mode de journalisation `INCREMENTAL`, et l’autre avec le mode de journalisation `IMMUTABLE`.
 
 L’exemple suivant montre comment combiner les modes de journalisation `INCREMENTAL` et `IMMUTABLE` pour y parvenir.
 
-Dans cet exemple, `incr_table` est journalisé de façon incrémentielle (avec `log_mode="INCREMENTAL"`) pendant l’entraînement. Cela vous permet de journaliser et de consulter les mises à jour du tableau à mesure que de nouvelles données sont traitées. À la fin de l’entraînement, un tableau immuable (`final_table`) est créé avec toutes les données du tableau incrémentiel. Le tableau immuable est journalisé afin de préserver l’ensemble du jeu de données pour une analyse ultérieure, et il vous permet de voir toutes les lignes dans la W&amp;B App.
+```python
+import wandb
+
+with wandb.init(project="combined-logging-example") as run:
+
+    # Créer un tableau incrémentiel pour des mises à jour efficaces pendant l'entraînement
+    incr_table = wandb.Table(columns=["step", "input", "prediction", "label"],
+                            log_mode="INCREMENTAL")
+
+    # Boucle d'entraînement
+    for step in range(get_num_batches()):
+        # Traiter le lot
+        inputs, labels = get_training_batch(step)
+        predictions = model.predict(inputs)
+
+        # Ajouter les données au tableau incrémentiel
+        for inp, pred, label in zip(inputs, predictions, labels):
+            incr_table.add_data(step, inp, pred, label)
+
+        # Enregistrer la mise à jour incrémentielle (suffixe -incr pour distinguer du tableau final)
+        run.log({"table-incr": incr_table}, step=step)
+
+    # À la fin de l'entraînement, créer un tableau immuable complet avec toutes les données
+    # Utiliser le mode IMMUTABLE par défaut pour conserver le jeu de données complet
+    final_table = wandb.Table(columns=incr_table.columns, data=incr_table.data, log_mode="IMMUTABLE")
+    run.log({"table": final_table})
+```
+
+Dans cet exemple, `incr_table` est journalisé de façon incrémentielle (avec `log_mode="INCREMENTAL"`) pendant l’entraînement. Cela vous permet de journaliser et de consulter les mises à jour du tableau à mesure que de nouvelles données sont traitées. À la fin de l’entraînement, un tableau immuable (`final_table`) est créé avec toutes les données du tableau incrémentiel. Le tableau immuable est journalisé afin de préserver l’ensemble du jeu de données pour une analyse ultérieure, et il vous permet de voir toutes les lignes dans l’application W&amp;B.
 
 <div id="examples">
   ## Exemples
@@ -84,11 +190,56 @@ Dans cet exemple, `incr_table` est journalisé de façon incrémentielle (avec `
   ### Enrichir les résultats d’évaluation avec MUTABLE
 </div>
 
+```python
+import wandb
+import numpy as np
+
+with wandb.init(project="mutable-logging") as run:
+
+    # Étape 1 : Enregistrer les prédictions initiales
+    table = wandb.Table(columns=["input", "label", "prediction"], log_mode="MUTABLE")
+    inputs, labels = load_eval_data()
+    raw_preds = model.predict(inputs)
+
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
+
+    run.log({"eval_table": table})  # Enregistrer les prédictions brutes
+
+    # Étape 2 : Ajouter les scores de confiance (ex. : max softmax)
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # Ajouter les informations de confiance
+
+    # Étape 3 : Ajouter les prédictions post-traitées
+    # (ex. : sorties seuillées ou lissées)
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})
+```
+
 <div id="resuming-runs-with-incremental-tables">
   ### Reprendre des runs avec des tableaux INCREMENTAL
 </div>
 
 Vous pouvez continuer à journaliser des données dans un tableau incrémentiel lorsque vous reprenez un run :
+
+```python
+# Démarrer ou reprendre un run
+resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume="must")
+
+# Créer le tableau incrémentiel ; inutile de le remplir avec les données du tableau précédemment enregistré
+# Les incréments continueront d'être ajoutés à l'artifact Table.
+table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
+
+# Continuer l'enregistrement
+for step in range(resume_step, final_step):
+    metric = compute_metric(step)
+    table.add_data(step, metric)
+    resumed_run.log({"metrics": table}, step=step)
+
+resumed_run.finish()
+```
 
 <Note>
   Les incréments sont journalisés dans un nouveau tableau si vous désactivez les résumés pour une clé utilisée par le tableau incrémentiel avec `wandb.Run.define_metric("<table_key>", summary="none")` ou `wandb.Run.define_metric("*", summary="none")`.
@@ -97,3 +248,29 @@ Vous pouvez continuer à journaliser des données dans un tableau incrémentiel 
 <div id="training-with-incremental-batch-training">
   ### Entraînement avec entraînement incrémentiel par lots
 </div>
+
+```python
+
+with wandb.init(project="batch-training-incremental") as run:
+
+    # Créer un tableau incrémentiel
+    table = wandb.Table(columns=["step", "input", "label", "prediction"], log_mode="INCREMENTAL")
+
+    # Boucle d'entraînement simulée
+    for step in range(get_num_batches()):
+        # Charger les données du lot
+        inputs, labels = get_training_batch(step)
+
+        # Entraîner le modèle sur ce lot
+        train_model_on_batch(inputs, labels)
+
+        # Exécuter l'inférence du modèle
+        predictions = predict_on_batch(inputs)
+
+        # Ajouter des données au tableau
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
+
+        # Enregistrer l'état actuel du tableau de façon incrémentielle
+        run.log({"training_table": table}, step=step)
+```

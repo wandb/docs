@@ -36,4 +36,16 @@ W&amp;B 비디오 객체를 초기화합니다.
 **예시:**
 numpy 배열을 비디오로 로깅
 
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # 축 순서: (프레임 수, 채널, 높이, 너비)
+    frames = np.random.randint(
+         low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+    )
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
+```
+
 ***

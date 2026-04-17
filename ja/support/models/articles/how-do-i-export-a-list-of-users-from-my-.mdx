@@ -5,18 +5,35 @@ keywords: ["管理者", "ユーザー管理"]
 
 W&amp;B 組織からユーザー一覧をエクスポートするには、管理者は次のコードを使用して SCIM API を利用します。
 
+```python
+import base64
+import requests
+
+def encode_base64(username, key):
+    auth_string = f'{username}:{key}'
+    return base64.b64encode(auth_string.encode('utf-8')).decode('utf-8')
+
+username = ''  # 組織の管理者ユーザー名
+key = ''  # APIキー
+scim_base_url = 'https://api.wandb.ai/scim/v2'
+users_endpoint = f'{scim_base_url}/Users'
+headers = {
+    'Authorization': f'Basic {encode_base64(username, key)}',
+    'Content-Type': 'application/scim+json'
+}
+
+response = requests.get(users_endpoint, headers=headers)
+users = []
+for user in response.json()['Resources']:
+    users.append([user['userName'], user['emails']['Value']])
+```
+
 必要に応じて出力を保存できるように、スクリプトを変更します。
 
 ***
 
 {/* 自動生成: タブバッジ */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [管理者](/ja/support/models/tags/administrator)
-</Badge>
-
-<Badge stroke shape="pill" color="orange" size="md">
-  [ユーザー管理](/ja/support/models/tags/user-management)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[管理者](/ja/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[ユーザー管理](/ja/support/models/tags/user-management)</Badge>
 
 {/* 自動生成ここまで: タブバッジ */}

@@ -15,6 +15,20 @@ Weave simplifie ce processus en capturant automatiquement les traces de vos appl
 
 Pour commencer, il vous suffit d’appeler `weave.init()` au début de votre script. L’argument de `weave.init()` est un nom de projet qui vous aidera à organiser vos traces.
 
+```python lines {5}
+import weave
+from llama_index.core.chat_engine import SimpleChatEngine
+
+# Initialisez Weave avec le nom de votre projet
+weave.init("llamaindex_demo")
+
+chat_engine = SimpleChatEngine.from_defaults()
+response = chat_engine.chat(
+    "Say something profound and romantic about fourth of July"
+)
+print(response)
+```
+
 Dans l’exemple ci-dessus, nous créons un moteur de chat LlamaIndex simple qui, en coulisses, effectue un appel à OpenAI. Consultez la trace ci-dessous :
 
 [![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
@@ -28,6 +42,22 @@ LlamaIndex est connu pour sa facilité à connecter des données à des LLM. Une
 Ces traces sont essentielles pour déboguer et améliorer votre application. Weave suit automatiquement tous les appels effectués via la bibliothèque LlamaIndex, y compris les modèles de prompt, les appels LLM, les outils et les étapes de l&#39;agent. Vous pouvez consulter les traces dans l&#39;interface web de Weave.
 
 Vous trouverez ci-dessous un exemple de pipeline RAG simple tiré du [Tutoriel de démarrage (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/) de LlamaIndex :
+
+```python lines {5}
+import weave
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+# Initialiser Weave avec le nom de votre projet
+weave.init("llamaindex_demo")
+
+# En supposant que vous ayez un fichier `.txt` dans le répertoire `data`
+documents = SimpleDirectoryReader("data").load_data()
+index = VectorStoreIndex.from_documents(documents)
+
+query_engine = index.as_query_engine()
+response = query_engine.query("What did the author do growing up?")
+print(response)
+```
 
 La chronologie de la trace capture non seulement les &quot;événements&quot;, mais aussi le temps d&#39;exécution, le coût et le nombre de tokens, le cas échéant. Développez la trace pour voir les entrées et les sorties de chaque étape.
 
@@ -48,6 +78,75 @@ Notre intégration exploite cette fonctionnalité de LlamaIndex et affecte autom
 Organiser et évaluer des LLM dans des applications pour différents cas d’usage est complexe, car cela implique plusieurs composants, comme les prompts, les configurations de modèles et les paramètres d’inférence. Avec [`weave.Model`](/fr/weave/guides/core-types/models), vous pouvez consigner et organiser des détails expérimentaux, comme les prompts système ou les modèles que vous utilisez, ce qui facilite la comparaison des différentes itérations.
 
 L’exemple suivant montre comment créer un moteur de requête LlamaIndex dans un `WeaveModel`, à partir de données disponibles dans le dossier [weave/data](https://github.com/wandb/weave/tree/master/data) :
+
+```python lines {16,52,61}
+import weave
+
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.llms.openai import OpenAI
+from llama_index.core import PromptTemplate
+
+
+PROMPT_TEMPLATE = """
+You are given with relevant information about Paul Graham. Answer the user query only based on the information provided. Don't make up stuff.
+
+User Query: {query_str}
+Context: {context_str}
+Answer:
+"""
+
+class SimpleRAGPipeline(weave.Model):
+    chat_llm: str = "gpt-4"
+    temperature: float = 0.1
+    similarity_top_k: int = 2
+    chunk_size: int = 256
+    chunk_overlap: int = 20
+    prompt_template: str = PROMPT_TEMPLATE
+
+    def get_llm(self):
+        return OpenAI(temperature=self.temperature, model=self.chat_llm)
+
+    def get_template(self):
+        return PromptTemplate(self.prompt_template)
+
+    def load_documents_and_chunk(self, data):
+        documents = SimpleDirectoryReader(data).load_data()
+        splitter = SentenceSplitter(
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap,
+        )
+        nodes = splitter.get_nodes_from_documents(documents)
+        return nodes
+
+    def get_query_engine(self, data):
+        nodes = self.load_documents_and_chunk(data)
+        index = VectorStoreIndex(nodes)
+
+        llm = self.get_llm()
+        prompt_template = self.get_template()
+
+        return index.as_query_engine(
+            similarity_top_k=self.similarity_top_k,
+            llm=llm,
+            text_qa_template=prompt_template,
+        )
+
+    @weave.op()
+    def predict(self, query: str):
+        query_engine = self.get_query_engine(
+            # Ces données sont disponibles dans le dépôt weave sous data/paul_graham
+            "data/paul_graham",
+        )
+        response = query_engine.query(query)
+        return {"response": response.response}
+
+weave.init("test-llamaindex-weave")
+
+rag_pipeline = SimpleRAGPipeline()
+response = rag_pipeline.predict("What did the author do growing up?")
+print(response)
+```
 
 Cette classe `SimpleRAGPipeline`, une sous-classe de `weave.Model`, regroupe les paramètres importants de ce pipeline RAG. Décorer la méthode `query` avec `weave.op()` permet d&#39;activer le Tracing.
 

@@ -22,11 +22,28 @@ title: 객체 임베딩
 
 W&amp;B에서는 `wandb.Table` 클래스를 사용해 임베딩을 로깅할 수 있습니다. 다음은 각각 5개 차원으로 구성된 3개의 임베딩 예시입니다:
 
+```python
+import wandb
+
+with wandb.init(project="embedding_tutorial") as run:
+  embeddings = [
+      # D1   D2   D3   D4   D5
+      [0.2, 0.4, 0.1, 0.7, 0.5],  # 임베딩 1
+      [0.3, 0.1, 0.9, 0.2, 0.7],  # 임베딩 2
+      [0.4, 0.5, 0.2, 0.2, 0.1],  # 임베딩 3
+  ]
+  run.log(
+      {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
+  )
+  run.finish()
+```
+
 위 코드를 실행하면 W&amp;B 대시보드에 데이터가 들어 있는 새 테이블이 생성됩니다. 오른쪽 상단의 패널 선택기에서 `2D Projection`을 선택하면 임베딩을 2차원으로 시각화할 수 있습니다. `Smart default`가 자동으로 선택되며, 톱니바퀴 아이콘을 클릭해 열 수 있는 설정 메뉴에서 쉽게 재정의할 수 있습니다. 이 예제에서는 사용 가능한 5개의 수치형 차원을 모두 자동으로 사용합니다.
 
 <Frame>
   <img src="/images/app_ui/weave_hello_world.png" alt="2D 프로젝션 예제" />
 </Frame>
+
 
 <div id="digits-mnist">
   ### MNIST 숫자
@@ -34,11 +51,37 @@ W&amp;B에서는 `wandb.Table` 클래스를 사용해 임베딩을 로깅할 수
 
 위 예시는 임베딩을 로깅하는 기본적인 방식을 보여주지만, 일반적으로는 훨씬 더 많은 차원과 샘플을 다루게 됩니다. [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html)에서 제공되는 MNIST 숫자 데이터셋([UCI ML hand-written digits dataset](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits))을 살펴보겠습니다. 이 데이터셋에는 1797개의 레코드가 있으며, 각 레코드는 64차원입니다. 이 문제는 10개 클래스로 분류하는 사용 사례입니다. 시각화를 위해 입력 데이터를 이미지로 변환할 수도 있습니다.
 
+```python
+import wandb
+from sklearn.datasets import load_digits
+
+with wandb.init(project="embedding_tutorial") as run:
+
+  # 데이터셋 로드
+  ds = load_digits(as_frame=True)
+  df = ds.data
+
+  # "target" 열 생성
+  df["target"] = ds.target.astype(str)
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
+
+  # "image" 열 생성
+  df["image"] = df.apply(
+      lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
+  )
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
+
+  run.log({"digits": df})
+```
+
 위 코드를 실행하면 UI에 다시 테이블이 표시됩니다. `2D Projection`을 선택하면 임베딩 정의, 색상, 알고리즘(PCA, UMAP, t-SNE), 알고리즘 매개변수, 심지어 오버레이까지 설정할 수 있습니다(이 경우에는 포인트 위에 마우스를 올리면 이미지가 표시됩니다). 이 경우에는 모두 &quot;smart defaults&quot;가 적용되어 있으므로 `2D Projection`을 한 번만 클릭해도 거의 동일한 결과를 볼 수 있습니다. ([이 임베딩 튜토리얼 예제를 직접 살펴보기](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney)).
 
 <Frame>
   <img src="/images/weave/embedding_projector.png" alt="MNIST 숫자 프로젝션" />
 </Frame>
+
 
 <div id="logging-options">
   ## 로깅 옵션

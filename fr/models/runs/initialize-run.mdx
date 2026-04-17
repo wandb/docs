@@ -19,7 +19,20 @@ Pour gérer plusieurs runs actifs dans un même processus, voir [Plusieurs runs 
 
 L’exemple de code suivant montre comment importer le SDK Python de W&amp;B et initialiser un run.
 
+```python title="basic.py"
+import wandb
+
+with wandb.init(entity="nico", project="awesome-project") as run:
+    # Votre logique d'entraînement ici
+```
+
 L’extrait de code produit la sortie suivante :
+
+```bash
+🚀 View run exalted-darkness-6 at: 
+https://wandb.ai/nico/awesome-project/runs/pgbn9y21
+Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
+```
 
 La sortie montre que W&amp;B enregistre le run `exalted-darkness-6` dans le projet `awesome-project` sous l’entité `nico`. `pgbn9y21` est l’ID unique du run que W&amp;B génère pour ce run.
 
@@ -96,6 +109,26 @@ Utilisez le paramètre `reinit` pour configurer la façon dont W&amp;B gère les
 
 L&#39;extrait de code suivant donne un aperçu général de la manière de configurer W&amp;B pour créer un nouveau run chaque fois que vous appelez `wandb.init()` :
 
+```python
+import wandb
+
+wandb.setup(wandb.Settings(reinit="create_new"))
+
+with wandb.init() as experiment_results_run:
+    # This run will be used to log the results of each experiment.
+    # You can think of this as a parent run that collects results
+      with wandb.init() as run:
+         # The do_experiment() function logs fine-grained metrics
+         # to the given run and returns result metrics that
+         # you want to track separately.
+         experiment_results = do_experiment(run)
+
+         # Après chaque expérience, enregistrez ses résultats dans un run
+         # parent. Chaque point dans les charts du run parent correspond
+         # aux résultats d'une expérience.
+         experiment_results_run.log(experiment_results)
+```
+
 <div id="example-concurrent-processes">
   ### Exemple : Processus concurrents
 </div>
@@ -114,6 +147,50 @@ Dans les grandes lignes, le flux de travail peut ressembler à ceci :
 6. Enfin, terminez Run A à la fin.
 
 L’exemple de code Python suivant illustre ce flux de travail :
+
+```python
+import wandb
+
+def train(name: str) -> None:
+    """Effectue une itération d'entraînement dans son propre run W&B.
+
+    L'utilisation d'un bloc 'with wandb.init()' avec `reinit="create_new"` garantit que
+    ce sous-run d'entraînement peut être créé même si un autre run (comme notre run de
+    suivi principal) est déjà actif.
+    """
+    with wandb.init(
+        project="my_project",
+        name=name,
+        reinit="create_new"
+    ) as run:
+        # Dans un vrai script, vous exécuteriez vos étapes d'entraînement dans ce bloc.
+        run.log({"train_loss": 0.42})  # Remplacez par vos métriques réelles
+
+def evaluate_loss_accuracy() -> (float, float):
+    """Renvoie la perte et la précision du modèle actuel.
+    
+    Remplacez ce placeholder par votre logique d'évaluation réelle.
+    """
+    return 0.27, 0.91  # Exemples de valeurs de métriques
+
+# Crée un run 'principal' qui reste actif tout au long de plusieurs étapes d'entraînement/évaluation.
+with wandb.init(
+    project="my_project",
+    name="tracking_run",
+    reinit="create_new"
+) as tracking_run:
+    # 1) Entraîner une fois sous un sous-run nommé 'training_1'
+    train("training_1")
+    loss, accuracy = evaluate_loss_accuracy()
+    tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
+
+    # 2) Entraîner à nouveau sous un sous-run nommé 'training_2'
+    train("training_2")
+    loss, accuracy = evaluate_loss_accuracy()
+    tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
+    
+    # Le 'tracking_run' se termine automatiquement à la fin de ce bloc 'with'.
+```
 
 Notez trois points clés de l’exemple précédent :
 

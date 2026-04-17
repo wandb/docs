@@ -15,6 +15,20 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 **예시:**
 
+```python
+from wandb.apis.public import Api
+
+sweeps = Api().project(name="project_name", entity="entity").sweeps()
+
+# sweep을 반복하며 세부 정보 출력
+for sweep in sweeps:
+     print(f"Sweep name: {sweep.name}")
+     print(f"Sweep ID: {sweep.id}")
+     print(f"Sweep URL: {sweep.url}")
+     print("----------")
+```
+
+
 ### <kbd>방법</kbd> `Sweeps.__init__`
 
 ```python

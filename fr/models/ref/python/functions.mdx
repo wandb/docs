@@ -28,3 +28,26 @@ Dans W&amp;B, les fonctions globales sont des fonctions de niveau supérieur que
 </div>
 
 Le flux de travail le plus courant consiste à s&#39;authentifier auprès de W&amp;B, à initialiser un run et à journaliser des valeurs (telles que l&#39;accuracy et la perte) à partir de votre boucle d&#39;entraînement. Les premières étapes consistent à importer `wandb` et à utiliser les fonctions globales `login()` et `init()` :
+
+```python
+import wandb
+
+# S'authentifier avec W&B
+wandb.login()
+
+# Hyperparamètres et métadonnées
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# Projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# Initialiser un nouveau run
+with wandb.init(project=project, config=config) as run:
+   # Votre code d'entraînement ici...
+   
+   # Journaliser les valeurs dans W&B
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

@@ -5,12 +5,18 @@ keywords: ["Experiments"]
 
 L&#39;attribut `.name` d&#39;un [`wandb.Run`](/fr/models/ref/python/experiments/run) est accessible comme suit :
 
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"Le nom de l'exécution lisible par un humain est : {run_name}")
+```
+
 ***
 
-{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Experiments](/fr/support/models/tags/experiments)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
 
 {/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

@@ -9,19 +9,45 @@ title: テーブル データのエクスポート
   ## `table` を `artifact` に変換する
 </div>
 
-まず、`表` を artifact に変換する必要があります。これには、`artifact.get(table, "table_name")` を使用するのが最も簡単です。
+まず、`table` を Artifacts に変換する必要があります。これを行う最も簡単な方法は、`artifact.get(table, "table_name")` を使うことです。
+
+```python
+# 新しいテーブルを作成してログに記録する。
+with wandb.init() as r:
+    artifact = wandb.Artifact("my_dataset", type="dataset")
+    table = wandb.Table(
+        columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
+    )
+    artifact.add(table, "my_table")
+    wandb.log_artifact(artifact)
+
+# 作成した Artifacts を使用して、作成済みのテーブルを取得する。
+with wandb.init() as r:
+    artifact = r.use_artifact("my_dataset:latest")
+    table = artifact.get("my_table")
+```
 
 <div id="convert-artifact-to-dataframe">
   ## `artifact` をデータフレームに変換する
 </div>
 
-次に、その表をデータフレームに変換します。
+次に、そのテーブルをデータフレームに変換します。
+
+```python
+# 前のコード例からの続き:
+df = table.get_dataframe()
+```
 
 <div id="export-data">
   ## データのエクスポート
 </div>
 
 これで、`データフレーム` がサポートしている任意のエクスポート方法を使用してエクスポートできます。
+
+```python
+# テーブルデータを .csv に変換する
+df.to_csv("example.csv", encoding="utf-8")
+```
 
 <div id="next-steps">
   # 次のステップ

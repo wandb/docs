@@ -46,3 +46,28 @@ pr_curve(
 * `wandb.Error`:  NumPy, pandas 또는 scikit-learn이 설치되어 있지 않은 경우 예외가 발생합니다.
 
 **Example:**
+
+```python
+import wandb
+
+# 스팸 탐지 예시 (이진 분류)
+y_true = [0, 1, 1, 0, 1]  # 0 = 스팸 아님, 1 = 스팸
+y_probas = [
+    [0.9, 0.1],  # 첫 번째 샘플의 예측 확률 (스팸 아님)
+    [0.2, 0.8],  # 두 번째 샘플 (스팸), 이후 동일
+    [0.1, 0.9],
+    [0.8, 0.2],
+    [0.3, 0.7],
+]
+
+labels = ["not spam", "spam"]  # 가독성을 위한 선택적 클래스 이름
+
+with wandb.init(project="spam-detection") as run:
+    pr_curve = wandb.plot.pr_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=labels,
+         title="Precision-Recall Curve for Spam Detection",
+    )
+    run.log({"pr-curve": pr_curve})
+```
