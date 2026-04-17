@@ -64,17 +64,15 @@ To use the W&B Python SDK to start, stop, and manage sweeps, follow the instruct
 
 <Tabs>
 <Tab title="CLI">
-Create a YAML files with the hyperparameters you want to optimize and the metric you want to optimize for. W&B uses the YAML file to know which hyperparameters to vary during the sweep and which metric to optimize for.
+Create a YAML file that defines the hyperparameters to optimize and the metric to optimize. W&B uses this file to determine which hyperparameters to vary during the sweep and which metric to optimize.
 
-Add the name of your Python script to the `program` key in the YAML file (Line 1).
+Add the name of your Python script to the program key in the YAML file on line 1.
 
-<Info>
-The sweep agent picks a value from the values list and passes it to `wandb.config` in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent picks one of those values and passes it to the training script with `wandb.config.batch_size`.
-</Info>
+<Info> The sweep agent selects a value from the `values` list and passes it to `wandb.config` in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `wandb.config.batch_size`. </Info>
 
-The following YAML file maps to the original training script shown above. The original training script varied the `batch_size`, `lr`, and `epochs` hyperparameters. The YAML file defines those same hyperparameters and specifies the values to try for each hyperparameter (Lines 8-14).
+The following YAML file corresponds to the original training script shown earlier. The training script varies the batch_size, lr, and epochs hyperparameters. The YAML file defines the same hyperparameters and specifies the values to try for each one on lines 8 to 14.
 
-The previous training script also computes the validation accuracy (`val_acc`) metric. The YAML file specifies that the sweep should maximize the `val_acc` metric (Line 5).
+The training script also computes the validation accuracy metric, val_acc. The YAML file specifies that the sweep should maximize val_acc on line 5.
 
 ```yaml lines title="config.yaml"
 program: train.py
@@ -101,18 +99,18 @@ Within your training script, add the following code snippets to integrate W&B:
 
 1. Import the W&B Python SDK (`wandb`).
 2. Initialize a [run](/models/runs) with `wandb.init()`.
-3. Read in the YAML configuration file with a Python package such as `yaml` and pass the configuration file as a parameter to the `wandb.init()` method.
-4. Pass the configuration object to the config parameter in `wandb.init()` (`wandb.init(config=)`) method.
-5. Fetch the hyperparameter values from the `wandb.Run.config` object to use the hyperparameter values defined in the YAML file instead of hard coded values. W&B flattens the configuration values, so you access nested values with dot notation or bracket notation as if they were top-level keys.
-6. Log the metric you are optimizing for with `wandb.Run.log()`. 
+3. Read the YAML configuration file with a Python package such as yaml, and pass the configuration to `wandb.init()`.
+4. Pass the configuration object to the config parameter of `wandb.init()`.
+5. Retrieve the hyperparameter values from `wandb.Run.config` so that your script uses the values defined in the YAML file instead of hard-coded values. W&B flattens configuration values, so you can access nested values with dot notation or bracket notation as though they were top-level keys.
+6. Log the metric that you want to optimize with `wandb.Run.log()`.
 
 <Important>
-You must log the metric defined in your configuration.
+You must log the metric you defined in your configuration.
 </Important>
 
-The following code snippet shows how to integrate W&B into your training script. Lines 4-7 show how to read in the YAML configuration file and pass the configuration to `wandb.init()`.
+The following code snippet shows how to integrate W&B into your training script. Lines 4 to 7 show how to read in the YAML configuration file and pass the configuration to `wandb.init()`.
 
-Lines 9-10 show how to fetch the hyperparameter values from the `wandb.Run.config` object. Line 17 shows how to log the metric you are optimizing for (`val_acc`) to W&B.
+Lines 9 and 10 show how to fetch the hyperparameter values from the `wandb.Run.config` object. Line 17 shows how to log the metric you are optimizing for (`val_acc`) to W&B.
 
 ```python lines title="train.py"
 import wandb
@@ -158,7 +156,7 @@ main()
 <Note>
 **W&B flattens configuration values passed to `wandb.init(config=)`**
 
-Normally you access nested values in the configuration object using dot notation or bracket notaion. For example, if you have a nested configuration like:
+Normally, you access nested values in a configuration object with dot notation or bracket notation. For example, consider the following nested configuration:
 
 ```yaml sample.yaml
 key1: value1
@@ -176,9 +174,11 @@ with open("sample.yaml") as file:
     yaml_sample = yaml.load(file, Loader=yaml.FullLoader)
 ```
 
-You access `nested_value1` with `yaml_sample["key2"]["nested_key1"]` or `yaml_sample.key2.nested_key1`.
+You can then access `nested_value1` with `yaml_sample["key2"]["nested_key1"]` or `yaml_sample.key2.nested_key1`.
 
-With W&B, the configuration values are flattened if you pass the configuration file to `wandb.init(config=)`. This means that you access nested values with dot notation or bracket notation as if they were top-level keys. For example, if you have the following YAML file:
+When you pass a configuration to `wandb.init(config=)`, W&B flattens the values. This means that you access nested values as though they were top-level keys.
+
+For example, consider the following YAML file:
 
 ```yaml config.yaml
 program: train.py
@@ -195,7 +195,7 @@ learning_rate:
     max: 0.1
 ```
 
-After you read in the file and pass the configuration to `wandb.init(config=)`, you access the `goal` value with `run.config["goal"]` instead of `run.config["metric"]["goal"]` or `run.config.metric.goal`.
+After you read in the file and pass the configuration to `wandb.init(config=)`, access the `goal` value with `run.config["goal"]` instead of `run.config["metric"]["goal"]` or `run.config.metric.goal`.
 
 ```python
 import yaml
@@ -208,7 +208,7 @@ with wandb.init(config=config) as run:
 
 </Note>
 
-In your shell, set a maximum number of runs for the sweep agent to try. This is optional. This example we set the maximum number to 5.
+In your shell, set a maximum number of runs for the sweep agent to try. This is optional. In this example, we set the maximum number to 5.
 
 ```bash
 NUM=5
