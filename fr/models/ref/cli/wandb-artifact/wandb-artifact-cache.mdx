@@ -1,21 +1,33 @@
 ---
-title: "wandb artifact cache"
+title: cache des artefacts wandb
 ---
 
-Commandes permettant d’interagir avec le cache d’artifacts
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3054" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb artifact cache COMMAND [ARGS]...
+cache [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## Commandes
+<div id="description">
+  ## Description
 </div>
 
-| Commande                                                                                    | Description                                                                 |
-| :------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------- |
-| [cleanup](/fr/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup) | Supprime du cache des artifacts les fichiers les moins fréquemment utilisés |
+Gérez le cache local des artefacts.
+
+Mettez en cache localement les fichiers d’artefacts téléchargés afin d’éviter les téléchargements redondants.
+
+Utilisez les sous-commandes pour inspecter le cache et récupérer l’espace disque qu’il utilise.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande                       | Description                                    |
+| ------------------------------ | ---------------------------------------------- |
+| `wandb artifact cache cleanup` | Réduit la taille du cache local des artefacts. |

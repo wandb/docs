@@ -24,10 +24,10 @@ PyTorchコードにW&amp;Bを統合し、パイプラインに実験管理を追
 </Frame>
 
 ```python
-# ライブラリをインポート
+# ライブラリをインポートする
 import wandb
 
-# config でハイパーパラメーターの dict を指定する
+# config にハイパーパラメーターの辞書を設定する
 config = {
     "learning_rate": 0.001,
     "epochs": 100,
@@ -37,7 +37,7 @@ config = {
 # 新しい実験を開始する
 with wandb.init(project="new-sota-model", config=config) as run:
 
-    # モデルとデータを設定する
+    # モデルとデータを準備する
     model, dataloader = get_model(), get_data()
 
     # 任意: 勾配をトラッキングする
@@ -45,7 +45,7 @@ with wandb.init(project="new-sota-model", config=config) as run:
 
     for batch in dataloader:
     metrics = model.training_step()
-    # モデル性能を可視化するため、トレーニングループ内でメトリクスをログする
+    # トレーニングループ内でメトリクスをログして、モデル性能を可視化する
     run.log(metrics)
 
     # 任意: 最後にモデルを保存する
@@ -58,7 +58,7 @@ with wandb.init(project="new-sota-model", config=config) as run:
 **注**: *Step* で始まるセクションだけで、既存のパイプラインに W&amp;B を統合できます。それ以外の部分では、データの読み込みとモデルの定義を行います。
 
 <div id="install-import-and-log-in">
-  ## インストール、import、ログインする
+  ## インストール、インポート、ログイン
 </div>
 
 ```python
@@ -119,7 +119,7 @@ wandb.login()
 </div>
 
 <div id="track-metadata-and-hyperparameters-with-wandbinit">
-  ### `wandb.init` でメタデータとハイパーパラメーターをトラッキングする
+  ### `wandb.init()` でメタデータとハイパーパラメーターをトラッキングする
 </div>
 
 プログラム上では、まず実験を定義します。
@@ -164,14 +164,14 @@ def model_pipeline(hyperparameters):
 
     # wandb を開始する
     with wandb.init(project="pytorch-demo", config=hyperparameters) as run:
-        # run.config を通じてすべてのハイパーパラメーターにアクセスし、ログが実行内容と一致するようにする
+        # run.config を通じてすべてのハイパーパラメーターにアクセスし、ログと実行を一致させる
         config = run.config
 
         # モデル、データ、最適化問題を作成する
         model, train_loader, test_loader, criterion, optimizer = make(config)
         print(model)
 
-        # それらを使用してモデルをトレーニングする
+        # それらを使ってモデルをトレーニングする
         train(model, train_loader, criterion, optimizer, config)
 
         # 最終的なパフォーマンスをテストする
@@ -181,11 +181,11 @@ def model_pipeline(hyperparameters):
 ```
 
 ここで標準的なパイプラインと異なる唯一の点は、
-すべてが `wandb.init` のコンテキスト内で行われることです。
+すべてが `wandb.init()` のコンテキスト内で行われることです。
 この関数を呼び出すと、
 コードと W&amp;B のサーバーの間の通信が確立されます。
 
-`config` 辞書を `wandb.init` に渡すと、
+`config` 辞書を `wandb.init()` に渡すと、
 その情報はすぐにすべてログされるため、
 実験で使用するよう設定した
 ハイパーパラメーターの値をいつでも把握できます。
@@ -211,11 +211,11 @@ def make(config):
     # モデルを作成する
     model = ConvNet(config.kernels, config.classes).to(device)
 
-    # 損失とオプティマイザーを作成する
+    # 損失関数とオプティマイザを作成する
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(
         model.parameters(), lr=config.learning_rate)
-    
+
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
@@ -223,47 +223,48 @@ def make(config):
   ### データの読み込みとモデルを定義する
 </div>
 
-次に、データの読み込み方法と、モデルの構成を定義します。
+次に、データの読み込み方法と、モデルをどのように構成するかを指定します。
 
-この部分は非常に重要ですが、`wandb` の有無にかかわらず
-内容は変わらないため、ここでは詳しく扱いません。
+この部分は非常に重要ですが、`wandb` を
+使わない場合と変わらないため、
+ここでは詳しくは扱いません。
 
 ```python
 def get_data(slice=5, train=True):
     full_dataset = torchvision.datasets.MNIST(root=".",
-                                              train=train, 
+                                              train=train,
                                               transform=transforms.ToTensor(),
                                               download=True)
-    #  [::slice] でのスライスと同等 
+    #  [::slice] でのスライスと同等
     sub_dataset = torch.utils.data.Subset(
       full_dataset, indices=range(0, len(full_dataset), slice))
-    
+
     return sub_dataset
 
 
 def make_loader(dataset, batch_size):
     loader = torch.utils.data.DataLoader(dataset=dataset,
-                                         batch_size=batch_size, 
+                                         batch_size=batch_size,
                                          shuffle=True,
                                          pin_memory=True, num_workers=2)
     return loader
 ```
 
-モデルを定義するのは、たいてい楽しい作業です。
+モデルを定義するのは、たいてい楽しい部分です。
 
-ただ、`wandb` を使ってもそこは変わらないので、
-ここでは標準的な ConvNet アーキテクチャを使います。
+ただし、`wandb` を使ってもここは特に変わらないので、
+標準的な ConvNet アーキテクチャをそのまま使います。
 
-ぜひいろいろ試して、いくつか実験してみてください --
+いろいろ試したり、実験してみたりすることをためらわないでください --
 結果はすべて [wandb.ai](https://wandb.ai) にログされます。
 
 ```python
-# 通常の畳み込みニューラルネットワーク
+# 標準的な畳み込みニューラルネットワーク
 
 class ConvNet(nn.Module):
     def __init__(self, kernels, classes=10):
         super(ConvNet, self).__init__()
-        
+
         self.layer1 = nn.Sequential(
             nn.Conv2d(1, kernels[0], kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
@@ -273,7 +274,7 @@ class ConvNet(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2))
         self.fc = nn.Linear(7 * 7 * kernels[-1], classes)
-        
+
     def forward(self, x):
         out = self.layer1(x)
         out = self.layer2(out)
@@ -294,7 +295,7 @@ class ConvNet(nn.Module):
   ## 勾配は `run.watch()` でトラッキングし、それ以外はすべて `run.log()` でログする
 </div>
 
-`run.watch` は、トレーニング中 `log_freq` step ごとに、
+`run.watch()` は、トレーニング中 `log_freq` step ごとに、
 モデルの勾配とパラメーターをログします。
 
 必要なのは、トレーニングを始める前にこれを呼び出すだけです。
@@ -306,13 +307,13 @@ class ConvNet(nn.Module):
 
 ```python
 def train(model, loader, criterion, optimizer, config):
-    # モデルの勾配、重みなどをwandbで監視する。
+    # wandb にモデルの動作（勾配、重みなど）を監視させる。
     run = wandb.init(project="pytorch-demo", config=config)
     run.watch(model, criterion, log="all", log_freq=10)
 
-    # トレーニングを実行し、wandbでトラッキングする
+    # トレーニングを実行し、wandb でトラッキングする
     total_batches = len(loader) * config.epochs
-    example_ct = 0  # 処理済みサンプル数
+    example_ct = 0  # これまでに見たサンプル数
     batch_ct = 0
     for epoch in tqdm(range(config.epochs)):
         for _, (images, labels) in enumerate(loader):
@@ -321,23 +322,23 @@ def train(model, loader, criterion, optimizer, config):
             example_ct +=  len(images)
             batch_ct += 1
 
-            # 25バッチごとにメトリクスを報告する
+            # 25 バッチごとにメトリクスを報告する
             if ((batch_ct + 1) % 25) == 0:
                 train_log(loss, example_ct, epoch)
 
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
-    
-    # 順伝播 ➡
+
+    # フォワードパス ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
-    
-    # 逆伝播 ⬅
+
+    # バックワードパス ⬅
     optimizer.zero_grad()
     loss.backward()
 
-    # オプティマイザーのstepを実行する
+    # オプティマイザーで step を実行する
     optimizer.step()
 
     return loss
@@ -358,8 +359,8 @@ def train_batch(images, labels, model, optimizer, criterion):
 ```python
 def train_log(loss, example_ct, epoch):
     with wandb.init(project="pytorch-demo") as run:
-        # 損失とエポック数をログする
-        # ここでメトリクスをW&Bにログする
+        # 損失とエポック番号をログします
+        # ここでメトリクスを W&B にログします
         run.log({"epoch": epoch, "loss": loss}, step=example_ct)
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
@@ -393,7 +394,7 @@ def test(model, test_loader):
     model.eval()
 
     with wandb.init(project="pytorch-demo") as run:
-        # テスト用サンプルでモデルを実行する
+        # テスト用のサンプルでモデルを実行する
         with torch.no_grad():
             correct, total = 0, 0
             for images, labels in test_loader:
@@ -405,10 +406,10 @@ def test(model, test_loader):
 
             print(f"Accuracy of the model on the {total} " +
                 f"test images: {correct / total:%}")
-            
+
             run.log({"test_accuracy": correct / total})
 
-        # 交換可能なONNX形式でモデルを保存する
+        # 交換可能な ONNX 形式でモデルを保存する
         torch.onnx.export(model, images, "model.onnx")
         run.save("model.onnx")
 ```
@@ -433,11 +434,11 @@ Run ページにアクセスして、次のタブを確認してください:
 3. **Logs**。ここには、トレーニング中に標準出力に出力された内容のコピーがあります
 4. **Files**。ここでは、トレーニング完了後に `model.onnx` をクリックすると、[Netron model viewer](https://github.com/lutzroeder/netron) でネットワークを表示できます。
 
-run が完了し、`with wandb.init` ブロックを抜けると、
+run が完了し、`with wandb.init()` ブロックを抜けると、
 セルの出力にも結果の概要が表示されます。
 
 ```python
-# パイプラインを使用してモデルをビルド、トレーニング、分析する
+# パイプラインでモデルをビルド、トレーニング、分析する
 model = model_pipeline(config)
 ```
 

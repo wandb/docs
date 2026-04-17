@@ -60,7 +60,7 @@ CLI로 이동한 다음 wandb sweep으로 W&amp;B Sweep을 초기화합니다:
 wandb sweep config.yaml
 ```
 
-반환된 W&amp;B Sweep ID를 메모해 두세요. 다음으로, Python SDK([`wandb.agent`](/ko/models/ref/python/functions/agent)) 대신 CLI에서 [`wandb agent`](/ko/models/ref/cli/wandb-agent)를 사용해 Sweep 작업을 시작하세요. 아래 코드 스니펫의 `sweep_ID`를 이전 step에서 반환된 Sweep ID로 바꾸세요:
+반환된 W&amp;B Sweep ID를 메모해 두세요. 다음으로, Python SDK([`wandb.agent()`](/ko/models/ref/python/functions/agent)) 대신 CLI에서 [`wandb agent`](/ko/models/ref/cli/wandb-agent)를 사용해 Sweep 작업을 시작하세요. 아래 코드 스니펫의 `sweep_ID`를 이전 step에서 반환된 Sweep ID로 바꾸세요:
 
 ```shell
 wandb agent sweep_ID
@@ -73,8 +73,8 @@ wandb agent sweep_ID
 다음 오류는 일반적으로 최적화하려는 메트릭을 로깅하지 않았을 때 발생합니다:
 
 ```shell
-wandb: ERROR Error while calling W&B API: anaconda 400 error: 
+wandb: ERROR Error while calling W&B API: anaconda 400 error:
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-YAML 파일 또는 중첩 딕셔너리에서 최적화할 &quot;metric&quot; 키를 지정합니다. 이 메트릭을 (`wandb.log`)로 로깅해야 합니다. 또한 Python 스크립트나 Jupyter Notebook에서 sweep이 최적화하도록 정의한 메트릭 이름과 *정확히* 일치하는 이름을 사용해야 합니다. 설정 파일에 대한 자세한 내용은 [sweep 설정 정의](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.
+YAML 파일 또는 중첩 딕셔너리에서 최적화할 &quot;metric&quot; 키를 지정합니다. 이 메트릭을 (`wandb.Run.log()`)로 로깅해야 합니다. 또한 Python 스크립트나 Jupyter Notebook에서 sweep이 최적화하도록 정의한 메트릭 이름과 *정확히* 일치하는 이름을 사용해야 합니다. 설정 파일에 대한 자세한 내용은 [sweep 설정 정의](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.

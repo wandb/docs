@@ -33,8 +33,8 @@ __init__(
 
 이 클래스는 다양한 이미지 데이터 형식을 처리하며, 필요할 때 픽셀 값을 자동으로 [0, 255] 범위로 정규화해 W&amp;B 백엔드와의 호환성을 보장합니다.
 
-* [0, 1] 범위의 데이터는 255를 곱한 후 uint8로 변환됩니다 * [-1, 1] 범위의 데이터는
-  -1을 0으로, 1을 255로 매핑해 [-1, 1]에서 [0, 255]로 재조정한 후 uint8로 변환됩니다 * [-1, 1] 범위를 벗어나지만 [0, 255] 범위에는 속하지 않는 데이터는 [0, 255]로 클리핑한 후 uint8로 변환됩니다([0, 255] 범위를 벗어난 값이 있으면 경고가 표시됨) * 이미 [0, 255] 범위에 있는 데이터는 수정 없이 uint8로 변환됩니다
+* [0, 1] 범위의 데이터는 255를 곱한 후 uint8로 변환됩니다 &#95; [-1, 1] 범위의 데이터는
+  -1을 0으로, 1을 255로 매핑해 [-1, 1]에서 [0, 255]로 재조정한 후 uint8로 변환됩니다 &#95; [-1, 1] 범위를 벗어나지만 [0, 255] 범위에는 속하지 않는 데이터는 [0, 255]로 클리핑한 후 uint8로 변환됩니다([0, 255] 범위를 벗어난 값이 있으면 경고가 표시됨) * 이미 [0, 255] 범위에 있는 데이터는 수정 없이 uint8로 변환됩니다
 
 **매개변수:**
 
@@ -47,9 +47,9 @@ __init__(
 * `grouping`: 이미지의 그룹 번호입니다.
 * `classes`: 이미지의 클래스 정보 목록으로, 바운딩 박스와 이미지 마스크의 레이블 지정에 사용됩니다.
 * `boxes`: 이미지의 바운딩 박스 정보가 들어 있는 딕셔너리입니다.
-* `see https`: //docs.wandb.ai/ref/python/data-types/boundingboxes2d/
+* `see https`: //docs.wandb.ai/models/ref/python/data-types/boundingboxes2d
 * `masks`: 이미지의 마스크 정보가 들어 있는 딕셔너리입니다.
-* `see https`: //docs.wandb.ai/ref/python/data-types/imagemask/
+* `see https`: //docs.wandb.ai/models/ref/python/data-types/imagemask
 * `file_type`: 이미지를 저장할 파일 유형입니다. `data_or_path`가 이미지 파일 경로인 경우 이 매개변수는 적용되지 않습니다.
 * `normalize`: `True`이면 이미지 픽셀 값을 [0, 255] 범위로 정규화합니다. 정규화는 `data_or_path`가 numpy 배열 또는 pytorch 텐서인 경우에만 적용됩니다.
 
@@ -88,8 +88,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-기본값(.png) 대신 .jpg로 기록
-
+기본값(.png) 대신 .jpg로 로깅
 
 ```python
 import numpy as np

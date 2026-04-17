@@ -32,9 +32,10 @@ W&amp;B SDK용 설정입니다.
 
 ```python
 __init__(
+    allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107d3d240>,
+    anonymous: 'object' = <object object at 0x109961240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -48,6 +49,7 @@ __init__(
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
+    disable_git_fork_point: 'bool' = True,
     disable_job_creation: 'bool' = True,
     docker: 'str | None' = None,
     email: 'str | None' = None,
@@ -158,7 +160,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 98605,
+    x_stats_pid: 'int' = 38335,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -182,6 +184,13 @@ __init__(
 ```
 
 **인수:**
+
+* `allow_media_symlink` (bool): 미디어 파일을 run 디렉터리에 심볼릭 링크할지 여부입니다.
+  true이면 미디어 파일은 복사되는 대신
+  run 디렉터리에 심볼릭 링크되거나 하드 링크됩니다. 이렇게 하면 더 빠르게
+  로깅할 수 있고 디스크 사용량도 줄일 수 있습니다. 하지만 업로드 전에 원본 파일을 삭제하거나 수정하면
+  그 변경 사항이 W&amp;B 서버에 업로드된 데이터에도
+  반영됩니다.
 
 * `allow_offline_artifacts` (bool): 오프라인 모드에서 테이블 아티팩트를 동기화할 수 있게 하는 플래그입니다.
   이전 동작으로 되돌리려면 이 값을 False로 설정하세요.
@@ -211,7 +220,7 @@ __init__(
   * &quot;off&quot; - 콘솔 캡처를 비활성화합니다.
   * &quot;redirect&quot; - 출력을 캡처하기 위해 저수준 파일 디스크립터를 리디렉션합니다.
   * &quot;wrap&quot; - sys.stdout/sys.stderr의 write 메서드를 재정의합니다. 시스템 상태에 따라
-    &quot;wrap&#95;raw&quot; 또는 &quot;wrap&#95;emu&quot;에 매핑됩니다.
+    &quot;wrap&quot; 또는 &quot;wrap&#95;emu&quot;에 매핑됩니다.
   * &quot;wrap&#95;raw&quot; - &quot;wrap&quot;과 같지만 에뮬레이터를 거치지 않고 원시 출력을 직접
     캡처합니다. `wrap` 설정에서 파생되므로 수동으로 설정해서는 안 됩니다.
   * &quot;wrap&#95;emu&quot; - &quot;wrap&quot;과 같지만 에뮬레이터를 통해 출력을 캡처합니다.
@@ -251,6 +260,13 @@ __init__(
 
 * `disable_git` (bool): Git 상태 캡처를 비활성화할지 여부입니다.
 
+* `disable_git_fork_point` (bool): 원격 브랜치에서 포크 지점을 추론하지 않도록 비활성화할지 여부입니다.
+  True로 설정하면 업스트림 브랜치가 설정되어 있는 경우 SDK는 해당 브랜치의 최신 커밋을 사용합니다.
+  그렇지 않으면 diff 패치 생성을 건너뜁니다.
+  False로 설정하면 업스트림 브랜치가 설정되어 있는 경우 SDK는 해당 브랜치의 최신 커밋을 사용하려고 시도합니다.
+  그렇지 않으면 모든 원격 브랜치에서 가장 가까운 커밋을 찾습니다.
+  업스트림 브랜치가 많은 리포지토리에서는 성능에 영향을 줄 수 있습니다.
+
 * `disable_job_creation` (bool): W&amp;B Launch용 작업 아티팩트 생성을 비활성화할지 여부입니다.
 
 * `docker` (Optional[str]): 스크립트 실행에 사용되는 도커 이미지입니다.
@@ -285,7 +301,7 @@ __init__(
 
 * `ignore_globs` (Sequence): 업로드에서 제외할 파일을 지정하는 `files_dir` 기준의 Unix glob 패턴입니다.
 
-* `init_timeout` (float): 시간 초과되기 전에 `wandb.init` 호출이 완료될 때까지 기다리는 시간(초)입니다.
+* `init_timeout` (float): 시간 초과되기 전에 `wandb.init` 호출이 완료될 때까지 기다리는 시간(초)입니다。
 
 * `insecure_disable_ssl` (bool): SSL 검증을 안전하지 않게 비활성화할지 여부입니다.
 
@@ -299,9 +315,9 @@ __init__(
 
 * `login_timeout` (Optional[float]): 로그인 오퍼레이션이 시간 초과되기 전까지 대기할 시간(초)입니다.
 
-* `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): W&amp;B 로깅 및 동기화에 사용되는 작동 모드입니다.
+* `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): W&amp;B 로깅 및 동기화에 사용되는 작동 모드입니다。
 
-* `notebook_name` (Optional[str]): Jupyter와 같은 환경에서 실행하는 경우 노트북 이름입니다.
+* `notebook_name` (Optional[str]): Jupyter와 같은 환경에서 실행하는 경우 노트북 이름입니다。
 
 * `program` (Optional[str]): 알 수 있는 경우 run을 생성한 스크립트의 경로입니다.
 
@@ -310,7 +326,7 @@ __init__(
   루트 저장소 디렉터리는 .git 디렉터리가 있으면 해당 디렉터리를 포함하는
   디렉터리로 정의됩니다. 그렇지 않으면 현재 작업 디렉터리입니다.
 
-* `program_relpath` (Optional[str]): `run`을 생성한 스크립트의 상대 경로입니다.
+* `program_relpath` (Optional[str]): `run`을 생성한 스크립트의 상대 경로입니다。
 
 * `project` (Optional[str]): W&amp;B 프로젝트 ID입니다.
 
@@ -440,7 +456,7 @@ __init__(
     예:
   * `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
-* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): 시스템 메트릭 모니터링을 위한 OpenMetrics `/metrics` 엔드포인트입니다.
+* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): 시스템 메트릭 모니터링을 위한 OpenMetrics `/metrics` 엔드포인트입니다。
 
 * `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): OpenMetrics `/metrics` 엔드포인트에서 수집되는 메트릭에 적용할 필터입니다.
   두 가지 형식을 지원합니다:
@@ -473,7 +489,7 @@ __init__(
 
 * `x_sync_dir_suffix` (str): run 디렉터리 이름(`sync&#95;dir`)에 추가할 접미사입니다.
   이 값은 이름 충돌을 방지하기 위해 wandb.init()에서 설정합니다.
-  설정하면 기본 이름 뒤에 대시(-)를 붙여 연결합니다.
+  설정하면 기본 이름에 대시를 붙여 연결합니다.
 
 * `x_update_finish_state` (bool): 이 프로세스가 서버에서 run의 최종 상태를 업데이트할 수 있는지 여부를 나타내는 플래그입니다.
   분산 트레이닝에서 최종 상태를 메인 프로세스만 확인해야 하는 경우 False로 설정하세요.
@@ -483,9 +499,9 @@ __init__(
 
 ### <kbd>속성</kbd> `Settings.app_url`
 
-W&amp;B UI의 URL로, 일반적으로 https://wandb.ai입니다.
+W&amp;B UI의 URL로, 일반적으로 [https://wandb.ai](https://wandb.ai)입니다.
 
-이는 `base_url`(예: https://api.wandb.ai)과 다르며,
+이는 `base_url`(예: [https://api.wandb.ai](https://api.wandb.ai))과 다르며,
 `base_url`은 코드에서 W&amp;B API에 액세스하는 데 사용됩니다.
 
 **반환값:**

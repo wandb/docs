@@ -1,5 +1,5 @@
 ---
-description: W&B artifact のストレージとメモリ割り当てを管理します。
+description: W&amp;B artifact のストレージとメモリ割り当てを管理します。
 title: artifact ストレージとメモリ割り当てを管理する
 ---
 
@@ -9,19 +9,17 @@ W&amp;B はデフォルトで、米国内にある非公開の Google Cloud Stor
 
 トレーニング中、W&amp;B はログ、artifact、設定ファイルをローカルの以下のディレクトリに保存します。
 
-| ファイル                        | デフォルトの保存場所             | デフォルトの保存場所を変更するには次を設定します                  |
-| --------------------------- | ---------------------- | ----------------------------------------- |
-| ログ                          | `./wandb`              | `wandb.init` の `dir` または `WANDB_DIR` 環境変数 |
-| artifact                    | `~/.cache/wandb`       | `WANDB_CACHE_DIR` 環境変数                    |
-| 設定                          | `~/.config/wandb`      | `WANDB_CONFIG_DIR` 環境変数                   |
-| アップロード用にステージングされた artifact | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 環境変数                     |
-| ダウンロードした artifact          | `./artifacts`          | `WANDB_ARTIFACT_DIR` 環境変数                 |
+| ファイル                       | デフォルトの保存場所             | デフォルトの保存場所を変更するには次を設定します                    |
+| -------------------------- | ---------------------- | ------------------------------------------- |
+| ログ                         | `./wandb`              | `wandb.init()` の `dir` または `WANDB_DIR` 環境変数 |
+| artifact                   | `~/.cache/wandb`       | `WANDB_CACHE_DIR` 環境変数                      |
+| 設定                         | `~/.config/wandb`      | `WANDB_CONFIG_DIR` 環境変数                     |
+| アップロード用にステージングされた artifact | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 環境変数                       |
+| ダウンロードした artifact          | `./artifacts`          | `WANDB_ARTIFACT_DIR` 環境変数                   |
 
 環境変数を使用して W&amp;B を設定する方法の詳細については、[environment variables reference](/ja/models/track/environment-variables/) を参照してください。
 
-<Warning>
-  `wandb` を初期化するマシンによっては、これらのデフォルトフォルダがファイルシステム上の書き込み可能な場所に存在しない場合があります。その結果、エラーが発生することがあります。
-</Warning>
+<Warning>`wandb` を初期化するマシンによっては、これらのデフォルトフォルダがファイルシステム上の書き込み可能な場所に存在しない場合があります。その結果、エラーが発生することがあります。</Warning>
 
 <div id="clean-up-local-artifact-cache">
   ### ローカルのartifactキャッシュをクリーンアップする

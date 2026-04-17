@@ -1,21 +1,33 @@
 ---
-title: "wandb artifact キャッシュ"
+title: wandb アーティファクト キャッシュ
 ---
 
-artifact キャッシュを操作するコマンド
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3054" />
 
 <div id="usage">
   ## 使用法
 </div>
 
 ```bash
-wandb artifact cache COMMAND [ARGS]...
+cache [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## コマンド
+<div id="description">
+  ## 説明
 </div>
 
-| コマンド                                                                                        | 説明                                       |
-| :------------------------------------------------------------------------------------------ | :--------------------------------------- |
-| [cleanup](/ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup) | Artifacts キャッシュから、使用頻度の低いファイルをクリーンアップします |
+ローカルのアーティファクト キャッシュを管理します。
+
+ダウンロード済みのartifactファイルをローカルにキャッシュし、不要な再ダウンロードを防ぎます。
+
+サブコマンドを使用して、キャッシュが使用しているディスク容量を確認し、解放します。
+
+<div id="subcommands">
+  ## サブコマンド
+</div>
+
+| コマンド                           | 説明                               |
+| ------------------------------ | -------------------------------- |
+| `wandb artifact cache cleanup` | ローカルの アーティファクト キャッシュのサイズを削減します。 |

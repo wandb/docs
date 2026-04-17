@@ -1,36 +1,50 @@
 ---
-title: "wandb を有効化"
+title: "wandb を有効にする"
 ---
 
-{/*
-  このコマンドに導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-enabled.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbEnabled from "/snippets/_includes/cli/wandb-enabled.mdx";
-
-  <WandbEnabled/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-W&amp;Bを有効にします。
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3499" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb enabled [OPTIONS]
+enabled [OPTIONS]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+`wandb disabled` で無効化した W&amp;B を再度有効にします。
+
+モードを `online` に設定すると、クラウドとの同期やアーティファクトのストレージを含む、
+W&amp;B のすべての機能が復元されます。
+
+W&amp;B が `disabled` に設定されていた間にログしたデータはアップロードされませんが、
+新しいデータはログして同期できるようになります。
+
+W&amp;B を完全に無効化せずに online モードと offline モードを切り替えるには、
+代わりに `wandb online` または `wandb offline` を使用してください。
+
+たとえば、`wandb disabled` で無効化した後に W&amp;B の機能を復元するには、次のようにします。
+
+```bash
+wandb enabled
+```
+
+W&amp;B のログ記録と同期を再開してトレーニング スクリプトを実行するには:
+
+```bash
+python train.py # W&B にデータをログして同期する
+```
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション       | 説明                                 |
-| :---------- | :--------------------------------- |
-| `--service` | W&amp;B サービスを有効にします (デフォルト: True)  |
+| Flag        | タイプ      | 説明                                           |
+| ----------- | -------- | -------------------------------------------- |
+| `--service` | BOOL フラグ | 効果はありません。後方互換性のためにのみ受け付けられます。**デフォルト**: True |

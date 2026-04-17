@@ -1,42 +1,81 @@
 ---
-title: "wandb docker"
+title: wandb docker
 ---
 
-import WandbDocker from "/snippets/fr/_includes/cli/wandb-docker.mdx";
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-<WandbDocker />
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2468" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
+docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Exécutez du code dans un conteneur Docker avec W&amp;B configuré.
+
+Démarrez un conteneur Docker, injectez la variable d’environnement WANDB&#95;DOCKERs
+et montez le répertoire de travail actuel dans `/app` par
+défaut. Injectez WANDB&#95;API&#95;KEY si vous êtes connecté. Redéfinissez le
+point d’entrée du conteneur pour garantir que `wandb` est installé.
+
+Passez des arguments supplémentaires pour les ajouter à `docker run` avant
+le nom de l’image. Utilisez une image par défaut si aucune n’est spécifiée.
+
+Utilisez `--jupyter` pour installer et démarrer JupyterLab sur le port 8888.
+Activez automatiquement le runtime NVIDIA si NVIDIA Docker est
+disponible sur l’hôte.
+
+Docker doit être installé et en cours d’exécution sur la machine hôte.
+
+Pour injecter des variables d’environnement W&amp;B dans une commande `docker run`
+existante sans modifier le point d’entrée, utilisez `wandb docker-run`.
+
+Par exemple, pour exécuter l’image par défaut et monter un jeu de données dans le conteneur :
+
+```bash
+wandb docker -v /mnt/dataset:/app/data
+```
+
+Pour exécuter l’image par défaut et démarrer JupyterLab :
+
+```bash
+wandb docker -v /mnt/dataset:/app/data --jupyter
+```
+
+Pour exécuter une image avec prise en charge du GPU à l’aide d’une commande d’entraînement :
+
+```bash
+wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py"
+```
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument          | Description                   | Requis |
-| :---------------- | :---------------------------- | :----- |
-| `DOCKER_RUN_ARGS` | Aucune description disponible | Non    |
-| `DOCKER_IMAGE`    | Aucune description disponible | Non    |
+| Nom               | Par défaut | Type  |
+| ----------------- | ---------- | ----- |
+| `docker_run_args` | STR        | False |
+| `docker_image`    | STR        | False |
 
 <div id="options">
   ## Options
 </div>
 
-| Option      | Description                                                                                                   |
-| :---------- | :------------------------------------------------------------------------------------------------------------ |
-| `--nvidia`  | Utilise le runtime nvidia ; la valeur par défaut est nvidia si nvidia-docker est présent (par défaut : False) |
-| `--digest`  | Affiche le digest de l&#39;image puis quitte (par défaut : False)                                             |
-| `--jupyter` | Exécute jupyter lab dans le conteneur (par défaut : False)                                                    |
-| `--dir`     | Répertoire du conteneur dans lequel monter le code (par défaut : /app)                                        |
-| `--no-dir`  | Ne monte pas le répertoire courant (par défaut : False)                                                       |
-| `--shell`   | Shell avec lequel démarrer le conteneur (par défaut : /bin/bash)                                              |
-| `--port`    | Port hôte auquel lier jupyter (par défaut : 8888)                                                             |
-| `--cmd`     | La commande à exécuter dans le conteneur                                                                      |
-| `--no-tty`  | Exécute la commande sans TTY (par défaut : False)                                                             |
+| Option      | Type               | Description                                                                                                     |
+| ----------- | ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `--nvidia`  | Indicateur booléen | Utilise le runtime nvidia ; la valeur par défaut est nvidia si nvidia-docker est présent. **Par défaut**: False |
+| `--digest`  | Indicateur booléen | Affiche le digest de l&#39;image, puis quitte. **Par défaut**: False                                            |
+| `--jupyter` | Indicateur booléen | Exécute JupyterLab dans le conteneur. **Par défaut**: False                                                     |
+| `--dir`     | STR                | Répertoire dans lequel monter le code dans le conteneur. **Par défaut**: /app                                   |
+| `--no-dir`  | Indicateur booléen | Ne monte pas le répertoire actuel. **Par défaut**: False                                                        |
+| `--shell`   | STR                | Shell avec lequel démarrer le conteneur. **Par défaut**: /bin/bash                                              |
+| `--port`    | STR                | Port hôte auquel lier Jupyter. **Par défaut**: 8888                                                             |
+| `--cmd`     | STR                | Commande à exécuter dans le conteneur. **Par défaut**: None                                                     |
+| `--no-tty`  | Indicateur booléen | Exécute la commande sans tty. **Par défaut**: False                                                             |

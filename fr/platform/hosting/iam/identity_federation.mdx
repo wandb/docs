@@ -8,12 +8,10 @@ Utilisez la fédération d’identités pour vous connecter avec les identifiant
 La [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) constitue la base de la fédération d’identités avec le SDK.
 
 <Note>
-  La fédération d’identités est disponible en `Preview` pour les plans `Enterprise` sur tous les types de plateforme : SaaS Cloud, Cloud dédié et instances autogérées. Contactez votre équipe W&amp;B pour toute question.
+  La fédération d’identités est disponible en préversion pour Cloud mutualisé, Cloud dédié et Autogéré. Une [licence Enterprise](/fr/platform/hosting/enterprise-licenses) est requise. Pour plus de détails ou pour obtenir de l’assistance, contactez votre AISE ou l’[assistance](mailto:support@wandb.com).
 </Note>
 
-<Note>
-  Dans ce document, les termes `fournisseur d’identité` et `JWT issuer` sont utilisés de manière interchangeable. Ils désignent tous deux une seule et même chose dans le contexte de cette fonctionnalité.
-</Note>
+<Note>Dans ce document, les termes `fournisseur d’identité` et `émetteur JWT` sont utilisés de manière interchangeable. Ils désignent tous deux une seule et même chose dans le contexte de cette fonctionnalité.</Note>
 
 <div id="jwt-issuer-setup">
   ## Configuration de l’émetteur JWT
@@ -50,9 +48,18 @@ Une fois qu’un émetteur JWT a été configuré pour votre organisation W&amp;
 Dans le cadre du flux de travail consistant à échanger un JWT contre un jeton d&#39;accès W&amp;B, puis à accéder à un projet, le JWT fait l&#39;objet des validations suivantes :
 
 * La signature du JWT est vérifiée à l&#39;aide du JWKS au niveau de l&#39;organisation W&amp;B. Il s&#39;agit de la première ligne de défense et, si cette vérification échoue, cela signifie qu&#39;il y a un problème avec votre JWKS ou avec la façon dont votre JWT est signé.
+
 * Le claim `iss` du JWT doit être égal à l&#39;URL de l&#39;émetteur configurée au niveau de l&#39;organisation.
+
 * Le claim `sub` du JWT doit être égal à l&#39;adresse e-mail de l&#39;utilisateur telle qu&#39;elle est configurée dans l&#39;organisation W&amp;B.
-* Le claim `aud` du JWT doit être égal au nom de l&#39;organisation W&amp;B qui héberge le projet auquel vous accédez dans le cadre de votre flux de travail d&#39;IA. Dans le cas des instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), vous pouvez configurer la variable d&#39;environnement `SKIP_AUDIENCE_VALIDATION` au niveau de l&#39;instance sur `true` pour ignorer la validation du claim d&#39;audience, ou utiliser `wandb` comme audience.
+
+* En règle générale, le claim `aud` du JWT doit être égal au nom de l&#39;organisation W&amp;B qui héberge le projet auquel vous accédez dans le cadre de votre flux de travail d&#39;IA.
+
+  Sur les instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed) :
+
+  * Pour ignorer la validation de l&#39;audience, vous pouvez définir la variable d&#39;environnement `FEDERATED_AUTH_AUDIENCES` sur `wandb`.
+  * Certaines organisations ont des exigences spécifiques pour l&#39;audience. Pour personnaliser la valeur de `aud`, définissez la variable d&#39;environnement `FEDERATED_AUTH_AUDIENCES` sur une chaîne contenant une liste de valeurs d&#39;audience séparées par des virgules.
+
 * Le claim `exp` du JWT est vérifié pour déterminer si le jeton est valide ou s&#39;il a expiré et doit être renouvelé.
 
 <div id="external-service-accounts">

@@ -1,46 +1,42 @@
 ---
-title: "wandb beta leet run"
+title: wandb beta leet run
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-beta-leet-run.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbBetaLeetRun from "/snippets/_includes/cli/wandb-beta-leet-run.mdx";
-
-  <WandbBetaLeetRun/>
-
-  このスニペットは次回の再生成時に自動検出されます。
-  */}
-
-LEET TUI を起動します。
-
-PATH には `.wandb` ファイル、run ディレクトリ、または wandb ディレクトリを指定できます。省略した場合は、最新の run を検索します。
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L74" />
 
 <div id="usage">
   ## 使用方法
 </div>
 
 ```bash
-wandb beta leet run [PATH] [OPTIONS]
+run [OPTIONS] [PATH]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+LEET TUI を起動します。
+
+LEET は、任意の PATH で指定した W&amp;B の run を表示するためのターミナル UI です。
+
+PATH には、`.wandb` ファイル、または `.wandb` ファイルを含む run ディレクトリを指定できます。
+PATH を指定しない場合、コマンドは最新の run を探します。
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数     | 説明            | 必須  |
-| :----- | :------------ | :-- |
-| `PATH` | 利用可能な説明はありません | いいえ |
+| 名      | デフォルト | タイプ   |
+| ------ | ----- | ----- |
+| `path` | STR   | False |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション          | 説明                               |
-| :------------- | :------------------------------- |
-| `-h`, `--help` | このメッセージを表示して終了します。 (既定値: False)  |
+| フラグ          | タイプ      | 説明                                |
+| ------------ | -------- | --------------------------------- |
+| `-h, --help` | BOOL フラグ | このメッセージを表示して終了します。 **既定値**: False |

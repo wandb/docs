@@ -57,22 +57,22 @@ wandb.init(
   ### 노트북에서 실시간 W&amp;B 인터페이스 직접 표시하기
 </div>
 
-`%wandb` 매직을 사용하면 기존 대시보드, Sweeps 또는 Reports를 노트북에 직접 표시할 수도 있습니다:
+`%wandb` 매직을 사용하면 기존 대시보드, 스윕 또는 Reports를 노트북에 직접 표시할 수도 있습니다:
 
 ```notebook
-# 프로젝트 워크스페이스 표시
+# 프로젝트 Workspace 표시
 %wandb USERNAME/PROJECT
 # 단일 run 표시
 %wandb USERNAME/PROJECT/runs/RUN_ID
-# sweep 표시
+# 스윕 표시
 %wandb USERNAME/PROJECT/sweeps/SWEEP_ID
-# 리포트 표시
+# Report 표시
 %wandb USERNAME/PROJECT/reports/REPORT_ID
-# 임베드된 iframe 높이 지정
+# 임베드된 iframe의 높이 지정
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-`%%wandb` 또는 `%wandb` 매직 대신, `wandb.init()`를 실행한 뒤에는 어떤 셀이든 마지막에 `wandb.Run.finish()`를 추가해 인라인 그래프를 표시할 수 있으며, API가 반환한 리포트, sweep 또는 run 객체에 `ipython.display(...)`를 호출할 수도 있습니다.
+`%%wandb` 또는 `%wandb` 매직 대신, `wandb.init()`를 실행한 뒤에는 어떤 셀이든 마지막에 `wandb.Run.finish()`를 추가해 인라인 그래프를 표시할 수 있으며, API가 반환한 Reports, 스윕 또는 run 객체에 `ipython.display(...)`를 호출할 수도 있습니다.
 
 ```python
 import wandb
@@ -80,22 +80,23 @@ from IPython.display import display
 # run 초기화
 run = wandb.init()
 
-# 셀에서 run.finish()를 출력하면 실시간 그래프를 확인할 수 있습니다
+# 셀이 run.finish()를 출력하면 실시간 그래프가 표시됩니다
 run.finish()
 ```
 
 <Note>
-  W&amp;B로 할 수 있는 일을 더 알아보고 싶다면, [데이터와 미디어를 로깅하는 가이드](/ko/models/track/log/)를 확인하거나 [자주 사용하는 ML 도구 키트와 W&amp;B를 통합하는 방법](/ko/models/integrations)을 살펴보세요. 또는 바로 [레퍼런스 문서](/ko/models/ref/python/)나 [예제 저장소](https://github.com/wandb/examples)로 이동해도 됩니다.
+  W&amp;B로 할 수 있는 일을 더 알아보고 싶다면, [데이터와 미디어를 로깅하는 가이드](/ko/models/track/log/)를 확인하거나 [자주 사용하는 ML
+  도구 키트와 W&amp;B를 통합하는 방법](/ko/models/integrations)을 살펴보세요. 또는 바로 [레퍼런스 문서](/ko/models/ref/python/)나 [예시 저장소](https://github.com/wandb/examples)로 이동해도 됩니다.
 </Note>
 
 <div id="additional-jupyter-features-in-wb">
   ## W&amp;B의 추가 Jupyter 기능
 </div>
 
-1. **Colab에서 간편하게 인증**: Colab에서 `wandb.init`를 처음 호출하면, 브라우저에서 현재 W&amp;B에 로그인된 상태인 경우 런타임이 자동으로 인증됩니다. run 페이지의 Overview 탭에서 Colab 링크를 볼 수 있습니다.
-2. **Jupyter 매직:** 노트북에서 대시보드, Sweeps, Reports를 직접 표시할 수 있습니다. `%wandb` 매직은 프로젝트, Sweeps 또는 Reports의 경로를 받아 W&amp;B 인터페이스를 노트북에 바로 표시합니다.
+1. **Colab에서 간편하게 인증**: Colab에서 `wandb.init()`를 처음 호출하면, 브라우저에서 현재 W&amp;B에 로그인된 상태인 경우 런타임이 자동으로 인증됩니다. run 페이지의 Overview 탭에서 Colab 링크를 볼 수 있습니다.
+2. **Jupyter 매직:** 노트북에서 대시보드, 스윕, Reports를 직접 표시할 수 있습니다. `%wandb` 매직은 프로젝트, 스윕 또는 Reports의 경로를 받아 W&amp;B 인터페이스를 노트북에 바로 표시합니다.
 3. **도커화된 Jupyter 실행**: `wandb docker --jupyter`를 호출하면 도커 컨테이너를 시작하고, 그 안에 코드를 마운트하고, Jupyter가 설치되어 있도록 한 뒤, 포트 8888에서 실행합니다.
-4. **셀을 어떤 순서로 실행해도 안심**: 기본적으로는 run을 `finished`로 표시하기 위해 다음에 `wandb.init`가 호출될 때까지 기다립니다. 따라서 여러 셀(예: 하나는 데이터 설정, 하나는 트레이닝, 하나는 테스트)을 원하는 순서로 실행해도 모두 동일한 run에 로깅할 수 있습니다. [User Settings](https://wandb.ai/settings)에서 코드 저장을 켜면 실행된 셀도 실행 순서와 실행 당시 상태 그대로 함께 로깅되므로, 매우 비선형적인 파이프라인도 재현할 수 있습니다. Jupyter 노트북에서 run을 수동으로 완료 상태로 표시하려면 `run.finish`를 호출하세요.
+4. **셀을 어떤 순서로 실행해도 안심**: 기본적으로는 run을 `finished`로 표시하기 위해 다음에 `wandb.init()`가 호출될 때까지 기다립니다. 따라서 여러 셀(예: 하나는 데이터 설정, 하나는 트레이닝, 하나는 테스트)을 원하는 순서로 실행해도 모두 동일한 run에 로깅할 수 있습니다. [User Settings](https://wandb.ai/settings)에서 코드 저장을 켜면 실행된 셀도 실행 순서와 실행 당시 상태 그대로 함께 로깅되므로, 매우 비선형적인 파이프라인도 재현할 수 있습니다. Jupyter 노트북에서 run을 수동으로 완료 상태로 표시하려면 `wandb.Run.finish()`를 호출하세요.
 
 ```python
 import wandb
