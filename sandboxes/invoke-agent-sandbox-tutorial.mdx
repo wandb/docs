@@ -1,0 +1,251 @@
+---
+title: "Tutorial: Invoke an agent in a sandbox"
+description: "Learn how to invoke OpenAI agent within a W&B Sandbox environment"
+---
+
+<Warning>
+W&B Sandboxes is in private preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
+</Warning>
+
+In this tutorial, you will invoke an agent within a W&B Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that creates and invokes a simple OpenAI agent that uses tool calls to get the weather for a location and respond with a punny weather forecast.
+
+<Note>
+This tutorial uses OpenAI as the language model for the agent, which requires an OpenAI API key.
+</Note>
+    
+{/* This allows you to test and iterate on your agent's behavior in a safe and isolated environment, without affecting your local setup. */}
+
+## Prerequisites
+
+{/* ### (Recommended) Create a Python virtual environment
+
+Create and activate a Python virtual environment to keep your dependencies organized and avoid conflicts with other projects. Run the following commands in your terminal:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+```  */}
+
+### Install W&B Python SDK
+
+Install the W&B Python SDK. You can do this using `pip`:
+
+```bash 
+pip install wandb
+```
+
+### Log in and authenticate with W&B
+
+Run the [`wandb login`](/models/ref/cli/wandb-login) CLI command and follow the prompts to log in to your W&B account:
+
+```bash
+wandb login
+```
+
+### Store API keys in Secret Manager
+
+Store your OpenAI API key in the [W&B Secret Manager](/platform/secrets) as `OPENAI_API_KEY`. See [Secrets](/sandboxes/secrets) for more information about using secrets in sandboxes.
+
+This allows you to securely access the API key in the sandbox without hardcoding it in your code or sandbox configuration.
+
+## Copy agent code
+
+<Accordion title="OpenAI agent code">
+
+Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial, then run the above code snippet to see how to invoke an OpenAI agent within a sandbox environment.
+
+```python title="demo.py"
+import json
+import os
+import urllib.request
+import urllib.parse
+
+from openai import OpenAI
+
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("OPENAI_API_KEY environment variable not set")
+
+client = OpenAI(api_key=api_key)
+
+SYSTEM_PROMPT = """You are an expert weather forecaster, who speaks in puns.
+
+You have access to two tools:
+
+- get_weather_for_location: use this to get the weather for a specific location
+- get_user_location: use this to get the user's location
+
+If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean wherever they are, use the get_user_location tool to find their location.
+"""
+
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather_for_location",
+            "description": "Get weather for a given location name.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The location to get weather for.",
+                    }
+                },
+                "required": ["location"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_user_location",
+            "description": "Retrieve the user's current location from application context.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": False,
+            },
+        },
+    },
+]
+
+RESPONSE_FORMAT = {
+    "type": "json_schema",
+    "json_schema": {
+        "name": "weather_response",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "punny_response": {"type": "string"},
+                "weather_conditions": {"type": ["string", "null"]},
+            },
+            "required": ["punny_response", "weather_conditions"],
+            "additionalProperties": False,
+        },
+    },
+}
+
+_WMO_CODES = {
+    0: "clear sky", 1: "mainly clear", 2: "partly cloudy", 3: "overcast",
+    45: "foggy", 48: "depositing rime fog",
+    51: "light drizzle", 53: "moderate drizzle", 55: "dense drizzle",
+    61: "slight rain", 63: "moderate rain", 65: "heavy rain",
+    71: "slight snowfall", 73: "moderate snowfall", 75: "heavy snowfall",
+    80: "slight rain showers", 81: "moderate rain showers", 82: "violent rain showers",
+    95: "thunderstorm", 96: "thunderstorm with slight hail", 99: "thunderstorm with heavy hail",
+}
+
+
+def get_weather_for_location(location: str) -> str:
+    geo_url = "https://geocoding-api.open-meteo.com/v1/search?" + urllib.parse.urlencode(
+        {"name": location, "count": 1}
+    )
+    with urllib.request.urlopen(geo_url) as resp:
+        geo = json.loads(resp.read())
+
+    if not geo.get("results"):
+        return f"Could not find a location named '{location}'."
+
+    loc = geo["results"][0]
+    lat, lon = loc["latitude"], loc["longitude"]
+    name = loc.get("name", location)
+
+    weather_url = "https://api.open-meteo.com/v1/forecast?" + urllib.parse.urlencode({
+        "latitude": lat,
+        "longitude": lon,
+        "current": "temperature_2m,weather_code,wind_speed_10m",
+        "temperature_unit": "fahrenheit",
+        "wind_speed_unit": "mph",
+    })
+    with urllib.request.urlopen(weather_url) as resp:
+        weather = json.loads(resp.read())
+
+    cur = weather["current"]
+    condition = _WMO_CODES.get(cur["weather_code"], "unknown conditions")
+    temp = cur["temperature_2m"]
+    wind = cur["wind_speed_10m"]
+
+    return f"{name}: {condition}, {temp}°F, wind {wind} mph"
+
+
+def get_user_location(user_id: str) -> str:
+    return "Miami" if user_id == "1" else "San Francisco"
+
+
+TOOL_DISPATCH = {
+    "get_weather_for_location": lambda args, _ctx: get_weather_for_location(args["location"]),
+    "get_user_location": lambda _args, ctx: get_user_location(ctx["user_id"]),
+}
+
+
+def run_agent(messages: list[dict], context: dict) -> dict:
+    while True:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            temperature=0,
+            messages=messages,
+            tools=TOOLS,
+            response_format=RESPONSE_FORMAT,
+        )
+
+        message = response.choices[0].message
+
+        if message.tool_calls:
+            messages.append({
+                "role": "assistant",
+                "content": message.content,
+                "tool_calls": [
+                    {
+                        "id": tc.id,
+                        "type": "function",
+                        "function": {
+                            "name": tc.function.name,
+                            "arguments": tc.function.arguments,
+                        },
+                    }
+                    for tc in message.tool_calls
+                ],
+            })
+
+            for tool_call in message.tool_calls:
+                fn_name = tool_call.function.name
+                fn_args = json.loads(tool_call.function.arguments)
+
+                tool_fn = TOOL_DISPATCH.get(fn_name)
+                if tool_fn is None:
+                    raise ValueError(f"Unknown tool: {fn_name}")
+
+                result = tool_fn(fn_args, context)
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": result,
+                })
+            continue
+
+        messages.append({
+            "role": "assistant",
+            "content": message.content,
+        })
+        return json.loads(message.content)
+
+
+# --- Run the agent ---
+
+conversation: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
+context = {"user_id": "1"}
+
+# First turn
+conversation.append({"role": "user", "content": "what is the weather outside?"})
+result = run_agent(conversation, context)
+print(result)
+# {'punny_response': "Florida is still having a 'sun-derful' day! ...", 'weather_conditions': "It's always sunny in Florida!"}
+
+# Second turn (conversation history is preserved)
+conversation.append({"role": "user", "content": "thank you!"})
+result = run_agent(conversation, context)
+print(json.dumps(result, indent=2))
+```
+</Accordion>

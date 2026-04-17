@@ -119,7 +119,7 @@ This will create a detailed trace showing:
 
 ## Configuration
 
-Upon calling `weave.init()`, tracing is automatically enabled for Verdict pipelines. The integration works by patching the `Pipeline.__init__` method to inject a `VerdictTracer` that forwards all trace data to Weave.
+Upon calling `weave.init()`, tracing is automatically enabled for Verdict pipelines. The integration works by patching the `Pipeline.__init__()` method to inject a `VerdictTracer` that forwards all trace data to Weave.
 
 No additional configuration is needed - Weave will automatically:
 - Capture all pipeline operations

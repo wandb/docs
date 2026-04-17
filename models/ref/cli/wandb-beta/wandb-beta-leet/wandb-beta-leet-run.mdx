@@ -1,39 +1,41 @@
 ---
-title: "wandb beta leet run"
+title: wandb beta leet run
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-leet-run.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbBetaLeetRun from "/snippets/en/_includes/cli/wandb-beta-leet-run.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbBetaLeetRun/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L74" />
 
-Launch the LEET TUI.
 
-LEET is a terminal UI for viewing a W&B run specified by an optional PATH.
-
-PATH can include a .wandb file or a run directory containing a .wandb file. If PATH is not provided, the command will look for the latest run.
 
 ## Usage
 
 ```bash
-wandb beta leet run [PATH] [OPTIONS]
+run [OPTIONS] [PATH]
 ```
+
+## Description
+
+Launch the LEET TUI.
+
+    LEET is a terminal UI for viewing a W&B run specified by an optional PATH.
+
+    PATH can include a .wandb file or a run directory containing a .wandb file.
+    If PATH is not provided, the command will look for the latest run.
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `PATH` | No description available | No |
+| Name | Default | Type |
+|------|---------|------|
+| `path` | STR | False |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `-h`, `--help` | Show this message and exit. (default: False) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `-h, --help` | BOOL Flag | Show this message and exit. **Default**: False |
+

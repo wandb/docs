@@ -290,7 +290,7 @@ for id, img, boxes in zip(ids, images, boxes_set):
 
 <Tabs>
 <Tab title="Basic Histogram Logging">
-If a sequence of numbers, such as a list, array, or tensor, is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. All arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
+If a sequence of numbers, such as a list, array, or tensor, is provided as the first argument, we will construct the histogram automatically by calling `np.histogram()`. All arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
 
 In the UI, histograms are plotted with the training step on the x-axis, the metric value on the y-axis, and the count represented by color, to ease comparison of histograms logged throughout training. See the "Histograms in Summary" tab of this panel for details on logging one-off histograms.
 
@@ -303,7 +303,7 @@ run.log({"gradients": wandb.Histogram(grads)})
 </Frame>
 </Tab>
 <Tab title="Flexible Histogram Logging">
-If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
+If you want more control, call `np.histogram()` and pass the returned tuple to the `np_histogram` keyword argument.
 
 ```python
 np_hist_grads = np.histogram(grads, density=True, range=(0.0, 1.0))
