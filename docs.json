@@ -896,6 +896,7 @@
                           "weave/guides/integrations/openai_agents",
                           "weave/guides/integrations/openai-realtime-audio",
                           "weave/guides/integrations/claude_agent",
+                          "weave/guides/integrations/claude_code",
                           "weave/guides/integrations/langchain",
                           "weave/guides/integrations/llamaindex",
                           "weave/guides/integrations/dspy",
