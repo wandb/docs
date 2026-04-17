@@ -1,0 +1,205 @@
+# ------------------------------------------------------------------
+# Knowledgebase Nav Generator
+# ------------------------------------------------------------------
+#
+# What this workflow does
+# -----------------------
+# Runs the Python script scripts/knowledgebase-nav/generate_tags.py against
+# the repo root. That script syncs keyword footers on support articles,
+# rebuilds tag pages and product index MDX, and updates docs.json and the
+# root support.mdx counts. See scripts/knowledgebase-nav/README.md and
+# Architecture.md for the full pipeline.
+#
+# When it runs
+# ------------
+# pull_request: Fires on opened, synchronize (new pushes to the PR branch),
+# and reopened. GitHub only starts the workflow if at least one file in the
+# triggering event matches the paths below. So a push that only changes
+# files outside support/ and scripts/knowledgebase-nav/ does not run this job.
+#
+# workflow_dispatch: Lets you run the generator from the Actions tab on a
+# branch (optional input) or the default ref.
+#
+# Same-repo PRs vs forks
+# ----------------------
+# Same-repo PR: checkout uses the PR head commit; git-auto-commit can push
+# back to the PR branch so generated files land on the PR.
+#
+# Fork PR: checkout still uses the fork and head SHA so the generator runs on
+# the contributor's content. GITHUB_TOKEN cannot push to the fork, so the
+# commit step is skipped. A notice step explains that. Contributors run the
+# generator locally or a maintainer regenerates after merge.
+#
+# Why checkout uses repository + ref expressions
+# -----------------------------------------------
+# Same-repo PRs use github.head_ref (the branch name) so git is on a real
+# branch and git-auto-commit can push without a detached-HEAD warning.
+#
+# Fork PRs use the SHA (github.event.pull_request.head.sha) because the
+# branch name does not exist on the upstream clone. Detached HEAD is fine
+# here since the auto-commit step is skipped for forks anyway.
+#
+# PR comment vs auto-commit
+# -------------------------
+# After this workflow pushes the chore commit below, GitHub starts a second
+# run (synchronize). That run would post the same navigation report again and
+# overwrite the comment from the run that mattered. We skip the PR comment
+# step when the checked-out HEAD is exactly that chore commit.
+#
+# ------------------------------------------------------------------
+
+name: Knowledgebase Nav
+
+on:
+  pull_request:
+    # Run on new commits pushed to the PR branch (synchronize), when the
+    # changed files match the paths below. Also runs when the PR is opened
+    # or reopened.
+    # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpaths
+    types: [opened, synchronize, reopened]
+    paths:
+      - "support/**"
+      - "scripts/knowledgebase-nav/**"
+
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: >
+          Optional branch name to check out. When empty, pull_request runs
+          use the PR head branch; manual runs use the branch selected in the
+          workflow UI (see actions/checkout ref expression in this file).
+        required: false
+        default: ""
+
+# One run per workflow ref (for PRs, refs/pull/<number>/merge). When a new
+# push starts a second run, cancel the older in-progress run so only the
+# latest commit is fully processed.
+concurrency:
+  group: knowledgebase-nav-${{ github.ref }}
+  cancel-in-progress: true
+
+# contents: write for git-auto-commit; pull-requests: write for PR comments.
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-tags:
+    name: Generate tag pages and update navigation
+    runs-on: ubuntu-latest
+
+    steps:
+      # Resolve repository and ref as described in the header comment.
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork && github.event.pull_request.head.sha || github.head_ref) || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
+
+      # Same message as git-auto-commit-action below (first line only).
+      - name: Detect chore-only navigation commit (skip PR comment on next run)
+        id: nav_commit
+        if: github.event_name == 'pull_request'
+        run: |
+          CHORE_SUBJECT="chore: regenerate support tag pages and docs.json navigation"
+          FIRST="$(git log -1 --pretty=%B | head -n1)"
+          if [ "${FIRST}" = "${CHORE_SUBJECT}" ]; then
+            echo "is_auto_nav_commit=true" >> "${GITHUB_OUTPUT}"
+            echo "HEAD is the auto-generated navigation commit; PR comment step will be skipped."
+          else
+            echo "is_auto_nav_commit=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      # Speeds up repeated runs on the same runner image; key bumps when
+      # requirements.txt changes.
+      - name: Cache pip packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('scripts/knowledgebase-nav/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -r scripts/knowledgebase-nav/requirements.txt
+
+      # Writes into the working tree (support/, docs.json, support.mdx, etc.).
+      # stderr (Python warnings) is captured for the PR comment steps below.
+      - name: Generate tag pages and update docs.json
+        run: python scripts/knowledgebase-nav/generate_tags.py --repo-root . 2>generator-warnings.log
+
+      - name: Show generator warnings in log
+        if: always()
+        run: |
+          if [ -s generator-warnings.log ]; then
+            echo "::warning::Knowledgebase Nav Generator produced warnings (see PR comment or job summary)"
+            cat generator-warnings.log
+          fi
+
+      # Creates or updates a single PR comment identified by an HTML marker so
+      # repeated pushes do not pile up duplicate comments. Includes navigation
+      # counts from git diff and generator stderr (see scripts/knowledgebase-nav/pr_report.py).
+      - name: Upsert knowledgebase navigation report on PR
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && steps.nav_commit.outputs.is_auto_nav_commit != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          MARKER="<!-- knowledgebase-nav-report -->"
+
+          python scripts/knowledgebase-nav/pr_report.py \
+            --repo-root . \
+            --warnings-file generator-warnings.log \
+            --run-url "${RUN_URL}" \
+            --run-id "${GITHUB_RUN_ID}" \
+            --include-marker \
+            > comment-body.md
+
+          COMMENT_ID=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --paginate -q ".[] | select(.body | contains(\"${MARKER}\")) | .id" \
+          | head -n1)
+
+          if [ -n "${COMMENT_ID}" ]; then
+            gh api \
+              "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+              -X PATCH -F "body=@comment-body.md"
+            echo "Updated existing knowledgebase navigation report comment ${COMMENT_ID}"
+          else
+            gh pr comment "${PR_NUMBER}" --body-file comment-body.md
+            echo "Created new knowledgebase navigation report comment"
+          fi
+
+      - name: Write knowledgebase navigation report to job summary
+        if: always() && github.event_name == 'workflow_dispatch'
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python scripts/knowledgebase-nav/pr_report.py \
+            --repo-root . \
+            --warnings-file generator-warnings.log \
+            --run-url "${RUN_URL}" \
+            --run-id "${GITHUB_RUN_ID}" \
+            >> "${GITHUB_STEP_SUMMARY}"
+
+      # Surfaces an Actions notice when the commit step below is skipped.
+      - name: Fork PR (no push to fork)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork
+        run: |
+          echo "::notice::Fork PR: auto-commit is skipped. Push regenerated files from scripts/knowledgebase-nav (see README) or a maintainer can run the generator after merge."
+
+      # Commits only if the generator changed files; file_pattern limits
+      # which paths are staged. Skipped for fork PRs and unnecessary for
+      # pushes with no diff (action is a no-op).
+      - name: Commit generated changes
+        if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) }}
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chore: regenerate support tag pages and docs.json navigation"
+          file_pattern: "support.mdx support/*/articles/*.mdx support/*/tags/*.mdx support/*.mdx docs.json"
