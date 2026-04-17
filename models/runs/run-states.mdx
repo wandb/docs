@@ -40,6 +40,19 @@ Use the `state` property of the [`wandb.Api.Run`](/models/ref/python/public-api/
 
 The following code snippet retrieves and prints the state of all runs in a specified project. Copy and paste the following code snippet into your Python environment. Replace the values enclosed in angle brackets (`< >`) with your own values:
 
+```python
+import wandb
+
+api = wandb.Api()
+
+runs = api.runs(path="<entity>/<project>")
+
+# Access run object's properties
+for run in runs:
+    print(f"Run: {run.name}")
+    print(f"Run state: {run.state}")
+    print()
+```
 
 You can apply different filters to retrieve runs from your projects based on different criteria. See [Filter runs](/models/runs/filter-runs) to learn more about filtering runs programmatically.
 

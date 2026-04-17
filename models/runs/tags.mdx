@@ -17,9 +17,28 @@ Based on your use case, select a tab below that best fits your needs:
 <Tab title="W&B Python SDK">
 Use `wandb.init()` to add tags when you initialize a run. Pass a list of strings to the `tags` parameter in `wandb.init()` to add tags to a run. For example:
 
+```python
+import wandb
+
+with wandb.init(
+  entity="<entity>",
+  project="<project>",
+  tags=["<tag1>", "<tag2>"]
+) as run:
+    # Your training code here
+```
 
 You can also add or update an existing tag during an active run by updating the `tags` attribute of the run object (`wandb.Run.tags`). The `tags` attribute accepts a tuple of strings. Concatenate one or more tags to the existing run tag property to add new tags after you initialize the run: 
 
+```python
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>"]) as run:
+  # Training loop logic here
+
+  # Add a new tag to the run object
+  run.tags += ("<new_tag>",)
+```
 </Tab>
 <Tab title="Public API">
 

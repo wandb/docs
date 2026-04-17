@@ -20,10 +20,30 @@ To construct and log a new Table, you will use:
 - [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog): Log the table to save it to W&B.
 
 Here's an example:
+```python
+import wandb
+
+with wandb.init(project="table-test") as run:
+    # Create and log a new table.
+    my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
+    run.log({"Table Name": my_table})
+```
 </Tab>
 <Tab title="Pandas Dataframe">
 Pass a Pandas Dataframe to `wandb.Table()` to create a new table.
 
+```python
+import wandb
+import pandas as pd
+
+df = pd.read_csv("my_data.csv")
+
+with wandb.init(project="df-table") as run:
+    # Create a new table from the DataFrame
+    # and log it to W&B.
+  my_table = wandb.Table(dataframe=df)
+  run.log({"Table Name": my_table})
+```
 
 For more information on supported data types, see the [`wandb.Table`](/models/ref/python/data-types/table) in the W&B API Reference Guide.
 </Tab>

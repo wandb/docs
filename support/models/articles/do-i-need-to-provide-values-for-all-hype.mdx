@@ -11,8 +11,29 @@ Use `rwandb.Run.config.setdefaults()` for explicit behavior. The following code 
 
 <Tabs>
 <Tab title="wandb.init()">
+```python
+# Set default values for hyperparameters
+config_defaults = {"lr": 0.1, "batch_size": 256}
+
+# Start a run and provide defaults
+# that a sweep can override
+with wandb.init(config=config_defaults) as run:
+    # Add training code here
+    ...
+```
 </Tab>
 <Tab title="config.setdefaults()">
+```python
+# Set default values for hyperparameters
+config_defaults = {"lr": 0.1, "batch_size": 256}
+
+# Start a run
+with wandb.init() as run:
+    # Update any values not set by the sweep
+    run.config.setdefaults(config_defaults)
+
+    # Add training code here
+```
 </Tab>
 </Tabs>
 

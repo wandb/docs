@@ -5,8 +5,27 @@ title: Environment variables
 
 When you're running a script in an automated environment, you can control W&B with environment variables set before the script runs or within the script.
 
+```bash
+# This is secret and shouldn't be checked into version control
+WANDB_API_KEY=$YOUR_API_KEY
+# Name and notes optional
+WANDB_NAME="My first run"
+WANDB_NOTES="Smaller learning rate, more regularization."
+```
 
+```bash
+# Only needed if you don't check in the wandb/settings file
+WANDB_ENTITY=$username
+WANDB_PROJECT=$project
+```
 
+```python
+# If you don't want your script to sync to the cloud
+os.environ["WANDB_MODE"] = "offline"
+
+# Add sweep ID tracking to Run objects and related classes
+os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
+```
 
 ## Optional environment variables
 

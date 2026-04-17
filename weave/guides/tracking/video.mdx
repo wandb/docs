@@ -54,6 +54,40 @@ To avoid thread-safety issues, always pass the path to `VideoFileClip` objects i
 
 Before you use the following code snippet, complete the [usage prerequisites](#usage-prerequisites).
 
+```python lines
+import os
+import weave
+from moviepy.editor import VideoFileClip, ColorClip, VideoClip
+
+# Update to your project name, or create a new project named 'video-test'
+weave.init('video-test')
+
+@weave.op
+def get_video(clip: VideoFileClip) -> VideoClip:
+    """Process a video by path rather than by passing the clip directly.
+
+    This ensures that the VideoFileClip is created and managed within the
+    Weave op's thread context, avoiding thread-safety issues.
+    """
+    new_clip = clip.subclip(0, 1)
+    return new_clip
+
+if __name__ == "__main__":
+    os.makedirs("videos", exist_ok=True)
+
+    # Update the path to point to your MP4 file
+    video_path = './videos/example.mp4'
+
+    # Generate a dummy video if it doesn't exist
+    # Dummy video contents: A red square that displays for 5 seconds
+    if not os.path.isfile(video_path):
+        print("No video found. Creating dummy video...")
+        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
+        dummy_clip.write_videofile(video_path, fps=24)
+
+    clip = VideoFileClip(video_path, has_mask=False, audio=True)
+    get_video(clip) 
+```
 
 When the code sample runs successfully, you can view your video by clicking the link in the **Traces** table of your project.
 

@@ -13,6 +13,19 @@ Weave simplifies this process by automatically capturing traces for your LlamaIn
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in `weave.init()` is a project name that will help you organize your traces.
 
+```python lines {5}
+import weave
+from llama_index.core.chat_engine import SimpleChatEngine
+
+# Initialize Weave with your project name
+weave.init("llamaindex_demo")
+
+chat_engine = SimpleChatEngine.from_defaults()
+response = chat_engine.chat(
+    "Say something profound and romantic about fourth of July"
+)
+print(response)
+```
 
 In the example above, we are creating a simple LlamaIndex chat engine which under the hood is making an OpenAI call. Check out the trace below:
 
@@ -26,6 +39,21 @@ These traces are essential for debugging and improving your application. Weave a
 
 Below is an example of a simple RAG pipeline from LlamaIndex's [Starter Tutorial (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/):
 
+```python lines {5}
+import weave
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+# Initialize Weave with your project name
+weave.init("llamaindex_demo")
+
+# Assuming you have a `.txt` file in the `data` directory
+documents = SimpleDirectoryReader("data").load_data()
+index = VectorStoreIndex.from_documents(documents)
+
+query_engine = index.as_query_engine()
+response = query_engine.query("What did the author do growing up?")
+print(response)
+```
 
 The trace timeline not only captures the "events" but it also capture the execution time, cost and token counts where applicable. Drill down the trace to see the inputs and outputs of each step.
 
@@ -43,6 +71,74 @@ Organizing and evaluating LLMs in applications for various use cases is challeng
 
 The following example demonstrates building a LlamaIndex query engine in a `WeaveModel`, using data that can be found in the [weave/data](https://github.com/wandb/weave/tree/master/data) folder:
 
+```python lines {16,52,61}
+import weave
+
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.llms.openai import OpenAI
+from llama_index.core import PromptTemplate
+
+
+PROMPT_TEMPLATE = """
+You are given with relevant information about Paul Graham. Answer the user query only based on the information provided. Don't make up stuff.
+
+User Query: {query_str}
+Context: {context_str}
+Answer:
+"""
+
+class SimpleRAGPipeline(weave.Model):
+    chat_llm: str = "gpt-4"
+    temperature: float = 0.1
+    similarity_top_k: int = 2
+    chunk_size: int = 256
+    chunk_overlap: int = 20
+    prompt_template: str = PROMPT_TEMPLATE
+
+    def get_llm(self):
+        return OpenAI(temperature=self.temperature, model=self.chat_llm)
+
+    def get_template(self):
+        return PromptTemplate(self.prompt_template)
+
+    def load_documents_and_chunk(self, data):
+        documents = SimpleDirectoryReader(data).load_data()
+        splitter = SentenceSplitter(
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap,
+        )
+        nodes = splitter.get_nodes_from_documents(documents)
+        return nodes
+
+    def get_query_engine(self, data):
+        nodes = self.load_documents_and_chunk(data)
+        index = VectorStoreIndex(nodes)
+
+        llm = self.get_llm()
+        prompt_template = self.get_template()
+
+        return index.as_query_engine(
+            similarity_top_k=self.similarity_top_k,
+            llm=llm,
+            text_qa_template=prompt_template,
+        )
+
+    @weave.op()
+    def predict(self, query: str):
+        query_engine = self.get_query_engine(
+            # This data can be found in the weave repo under data/paul_graham
+            "data/paul_graham",
+        )
+        response = query_engine.query(query)
+        return {"response": response.response}
+
+weave.init("test-llamaindex-weave")
+
+rag_pipeline = SimpleRAGPipeline()
+response = rag_pipeline.predict("What did the author do growing up?")
+print(response)
+```
 
 This `SimpleRAGPipeline` class subclassed from `weave.Model` organizes the important parameters for this RAG pipeline. Decorating the `query` method with `weave.op()` allows for tracing.
 

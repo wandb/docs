@@ -65,6 +65,28 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have the function `recommend_places_to_visit` which is a function wrapped with `@weave.op` that recommends places to visit in a city.
 
+```python lines
+import os
+from google import genai
+import weave
+
+weave.init(project_name="google-genai")
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+
+
+@weave.op()
+def recommend_places_to_visit(city: str, model: str = "gemini-1.5-flash"):
+    response = google_client.models.generate_content(
+        model=model,
+        contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
+    )
+    return response.text
+
+
+recommend_places_to_visit("New York")
+recommend_places_to_visit("Paris")
+recommend_places_to_visit("Kolkata")
+```
 
 [![dspy_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
@@ -76,3 +98,29 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](../core-t
 
 In the example below, you can experiment with `CityVisitRecommender`. Every time you change one of these, you'll get a new _version_ of `CityVisitRecommender`.
 
+```python lines
+import os
+from google import genai
+import weave
+
+weave.init(project_name="google-genai")
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+
+
+class CityVisitRecommender(weave.Model):
+    model: str
+
+    @weave.op()
+    def predict(self, city: str) -> str:
+        response = google_client.models.generate_content(
+            model=self.model,
+            contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
+        )
+        return response.text
+
+
+city_recommender = CityVisitRecommender(model="gemini-1.5-flash")
+print(city_recommender.predict("New York"))
+print(city_recommender.predict("San Francisco"))
+print(city_recommender.predict("Los Angeles"))
+```

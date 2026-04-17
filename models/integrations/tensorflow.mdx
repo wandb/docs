@@ -54,6 +54,20 @@ with tf.Session() as sess:
 
 With TensorFlow 2, the recommended way of training a model with a custom loop is via using `tf.GradientTape`. You can read more in the [TensorFlow custom training walkthrough](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough). If you want to incorporate `wandb` to log metrics in your custom TensorFlow training loops you can follow this snippet:
 
+```python
+    with tf.GradientTape() as tape:
+        # Get the probabilities
+        predictions = model(features)
+        # Calculate the loss
+        loss = loss_func(labels, predictions)
+
+    # Log your metrics
+    run.log("loss": loss.numpy())
+    # Get the gradients
+    gradients = tape.gradient(loss, model.trainable_variables)
+    # Update the weights
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+```
 
 A [full example of customizing training loops in TensorFlow 2](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) is available.
 

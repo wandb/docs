@@ -18,6 +18,25 @@ Access and manage files uploaded to W&B during a run. Handles pagination automat
 
 
 **Example:**
+ ```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# Example run object
+run = Api().run("entity/project/run-id")
+
+# Create a Files object to iterate over files in the run
+files = Files(api.client, run)
+
+# Iterate over files
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # Download the file
+     file.download(root="download_directory", replace=True)
+``` 
 
 ### <kbd>method</kbd> `Files.__init__`
 

@@ -72,6 +72,12 @@ Global:
 
 Any additional, optional arguments that you might like to pass to [`wandb.init()`](/models/ref/python/functions/init) can also be added under the `wandb` header in the yaml file:
 
+```
+wandb:  
+    project: CoolOCR  # (optional) this is the wandb project name 
+    entity: my_team   # (optional) if you're using a wandb team, you can pass the team name here
+    name: MyOCRModel  # (optional) this is the name of the wandb run
+```
 
 ## Pass the `config.yml` file to `train.py`
 

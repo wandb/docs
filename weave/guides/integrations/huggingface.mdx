@@ -51,6 +51,35 @@ Weave automatically captures traces for the [`InferenceClient`](https://huggingf
 
 The following example demonstrates how to log inference calls to the Hugging Face Hub using Weave:
 
+```python lines
+import weave
+from huggingface_hub import InferenceClient
+
+# Initialize Weave
+weave.init(project_name="quickstart-huggingface")
+
+# Initialize Hugging Face Inference Client
+huggingface_client = InferenceClient(
+    api_key=os.environ.get("HUGGINGFACE_TOKEN")
+)
+
+# Make a chat completion inference call to the Hugging Face Hub with the Llama-3.2-11B-Vision-Instruct model
+image_url = "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg"
+response = huggingface_client.chat_completion(
+    model="meta-llama/Llama-3.2-11B-Vision-Instruct",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "image_url", "image_url": {"url": image_url}},
+                {"type": "text", "text": "Describe this image in one sentence."},
+            ],
+        }
+    ],
+    max_tokens=500,
+    seed=42,
+)
+```
 
 After the code shown above runs, Weave tracks and logs all LLM calls made with the Hugging Face Inference Client. You can view these traces in the Weave web interface.
 

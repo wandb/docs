@@ -49,6 +49,34 @@ Log images by annotating functions with `Annotated[bytes, Content]` types or fil
 
 The following example draws a basic image and then logs it to Weave using the `Content` annotation:
 
+```python lines {16,23}
+import weave
+from weave import Content
+from PIL import Image, ImageDraw
+from typing import Annotated
+
+weave.init('your-team-name/your-project-name')
+
+# Create and save a sample image
+img = Image.new('RGB', (200, 100), color='lightblue')
+draw = ImageDraw.Draw(img)
+draw.text((50, 40), "Hello Weave!", fill='black')
+img.save("sample_image.png")
+
+# Method 1: Content annotation (recommended)
+@weave.op
+def load_image_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
+    with open(path, 'rb') as f:
+        return f.read()
+
+# Method 2: PIL Image object  
+@weave.op
+def load_image_pil(path: Annotated[str, Content]) -> Image.Image:
+    return Image.open(path)
+
+result1 = load_image_content("sample_image.png")
+result2 = load_image_pil("sample_image.png")
+```
 
 Weave logs the image and returns a link to the trace where you can view the image.
 
@@ -86,6 +114,39 @@ generate_image("a cat with a pumpkin hat")
 
 It can be helpful to resize images before logging to reduce UI rendering cost and storage impact. You can use `postprocess_output` in your `@weave.op` to resize an image.
 
+```python lines
+from dataclasses import dataclass
+from typing import Any
+from PIL import Image
+import weave
+
+weave.init('your-team-name/your-project-name')
+
+# Custom output type
+@dataclass
+class ImageResult:
+    label: str
+    image: Image.Image
+
+# Resize helper
+def resize_image(image: Image.Image, max_size=(512, 512)) -> Image.Image:
+    image = image.copy()
+    image.thumbnail(max_size, Image.Resampling.LANCZOS)
+    return image
+
+# Postprocess output to resize image before logging
+def postprocess_output(output: ImageResult) -> ImageResult:
+    resized = resize_image(output.image)
+    return ImageResult(label=output.label, image=resized)
+
+@weave.op(postprocess_output=postprocess_output)
+def generate_large_image() -> ImageResult:
+    # Create an example image to process (e.g., 2000x2000 red square)
+    img = Image.new("RGB", (2000, 2000), color="red")
+    return ImageResult(label="big red square", image=img)
+
+generate_large_image()
+```
 
 Weave logs the resized image and returns a link to the trace where you can view the image.
 
@@ -94,6 +155,25 @@ Weave logs the resized image and returns a link to the trace where you can view 
 
 The following example logs an image using the `weaveImage` function:
 
+```typescript
+import * as weave from 'weave';
+import * as fs from 'fs';
+
+async function main() {
+    await weave.init('your-team-name/your-project-name');
+
+    // Load and log an image using weaveImage
+    const loadImage = weave.op(async function loadImage(path: string) {
+        const data = fs.readFileSync(path);
+        return weave.weaveImage({ data });
+    });
+
+    // Assuming you have a PNG image file
+    await loadImage('sample_image.png');
+}
+
+main();
+```
 
 Weave logs the image and returns a link to the trace where you can view the image.
 
@@ -146,6 +226,30 @@ The following examples demonstrate how to generate and log videos to Weave's UI.
 
 Log videos by annotating functions with `Annotated[bytes, Content]` types. Weave automatically handles `mp4` videos. Here's a simple example:
 
+```python lines {15}
+import weave
+from weave import Content
+from typing import Annotated
+import requests
+
+weave.init('your-team-name/your-project-name')
+
+def download_big_buck_bunny():
+    """Download Big Buck Bunny sample video"""
+    url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    response = requests.get(url)
+    with open("big_buck_bunny.mp4", "wb") as f:
+        f.write(response.content)
+
+@weave.op
+def load_video_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
+    """Load a video file from disk"""
+    with open(path, 'rb') as f:
+        return f.read()
+
+download_big_buck_bunny()
+bunny_video = load_video_content("big_buck_bunny.mp4")
+```
 
 Weave logs the video and returns a link to the trace where you can view the video.
 
@@ -153,6 +257,52 @@ Weave logs the video and returns a link to the trace where you can view the vide
 
 The following example shows how to log video within a video-understanding project:
 
+```python lines {25}
+import weave
+from weave import Content
+from typing import Annotated, Literal
+from google import genai
+from google.genai import types
+import requests
+import yt_dlp
+import time
+
+# Note: Get your API key from https://aistudio.google.com/app/apikey
+client = genai.Client()
+weave.init('your-team-name/your-project-name')
+
+def download_youtube_video(url: str) -> bytes:
+    ydl_opts = {
+        'format': 'mp4[height<=720]',
+        'outtmpl': 'downloaded_video.%(ext)s',
+    }
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+    with open('downloaded_video.mp4', 'rb') as f:
+        return f.read()
+
+@weave.op
+def analyze_video(video: Annotated[bytes, Content]) -> str:
+    with open("temp_analysis_video.mp4", "wb") as f:
+        f.write(video)
+    myfile = client.files.upload(file="temp_analysis_video.mp4")
+    while myfile.state == "PROCESSING":
+        time.sleep(2)
+        myfile = client.files.get(name=myfile.name)
+    
+    response = client.models.generate_content(
+        model="models/gemini-2.5-flash",
+        contents=[
+            myfile,
+            "Is the person going to give you up?"
+        ]
+    )
+    
+    return response.text
+
+video_data = download_youtube_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+result = analyze_video(video_data)
+```
 
 </Tab>
 <Tab title="TypeScript">
@@ -219,6 +369,60 @@ csv_result = load_document("sample_data.csv")
 
 This example demonstrates how to log documents within a Retrieval-Augmented Generation (RAG) system:
 
+```python lines {27}
+import weave
+from weave import Content
+from typing import Annotated, Literal
+import openai
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+import PyPDF2
+
+client = openai.OpenAI()
+weave.init('your-team-name/your-project-name')
+
+def create_absurd_company_handbook():
+    """Create a fictional company handbook with ridiculous policies"""
+    c = canvas.Canvas("company_handbook.pdf", pagesize=letter)
+    
+    c.drawString(100, 750, "ACME Corp Employee Handbook")
+    c.drawString(100, 720, "Definitely Real Policies:")
+    c.drawString(120, 690, "Policy 1: All meetings must be conducted while hopping on one foot")
+    c.drawString(120, 660, "Policy 2: Coffee breaks are mandatory every 17 minutes")
+    c.drawString(120, 630, "Policy 3: Code reviews must be performed in haiku format only")
+    c.drawString(120, 600, "Policy 4: The office plant Gerald has veto power over all decisions")
+    c.drawString(120, 570, "Policy 5: Debugging is only allowed on Wednesdays and full moons")
+    
+    c.save()
+
+@weave.op
+def create_and_query_document(pdf_path: Annotated[str, Content], question: str) -> str:
+    """Extract text from PDF and use RAG to answer questions"""
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system", 
+                "content": f"You are an HR representative. Answer questions based on this handbook: {text}. Be completely serious about these policies."
+            },
+            {"role": "user", "content": question}
+        ]
+    )
+    
+    return response.choices[0].message.content
+
+create_absurd_company_handbook()
+hr_response = create_and_query_document(
+    "company_handbook.pdf",
+    "What's the policy on code reviews, and when am I allowed to debug?"
+)
+```
 
 </Tab>
 
@@ -247,6 +451,32 @@ Weave automatically handles `mp3`, `wav`, `flac`, `ogg` and `m4a` file types. Yo
 
 The following code snippet generates a sine wave, records it, and then logs the audio to Weave:
 
+```python lines {20}
+import weave
+from weave import Content
+import wave
+import numpy as np
+from typing import Annotated
+
+weave.init('your-team-name/your-project-name')
+
+# Create simple beep audio file
+frames = np.sin(2 * np.pi * 440 * np.linspace(0, 1, 44100))
+audio_data = (frames * 32767 * 0.3).astype(np.int16)
+
+with wave.open("beep.wav", 'wb') as f:
+    f.setnchannels(1)
+    f.setsampwidth(2) 
+    f.setframerate(44100)
+    f.writeframes(audio_data.tobytes())
+
+@weave.op
+def load_audio(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
+    with open(path, 'rb') as f:
+        return f.read()
+
+result = load_audio("beep.wav")
+```
 
 ### Advanced Example: Generate and log AI-created audio
 
@@ -293,6 +523,29 @@ This audio is logged to Weave and automatically displayed in the UI, along with 
 
 The following example shows how to log audio using streaming response from the OpenAI API:
 
+```python lines
+import weave
+from openai import OpenAI
+import wave
+
+weave.init("your-team-name/your-project-name")
+client = OpenAI()
+
+@weave.op
+def make_audio_file_streaming(text: str) -> wave.Wave_read:
+    with client.audio.speech.with_streaming_response.create(
+        model="tts-1",
+        voice="alloy",
+        input=text,
+        response_format="wav",
+    ) as res:
+        res.stream_to_file("output.wav")
+
+    # return a wave.Wave_read object to be logged as audio
+    return wave.open("output.wav")
+
+make_audio_file_streaming("Hello, how are you?")
+```
 
 
 </Tab>
@@ -300,6 +553,25 @@ The following example shows how to log audio using streaming response from the O
 
 The following example loads an existing audio file and logs it to Weave:
 
+```typescript
+import * as weave from 'weave';
+import * as fs from 'fs';
+
+async function main() {
+    await weave.init('your-team-name/your-project-name');
+
+    // Load and log audio using weaveAudio
+    const loadAudio = weave.op(async function loadAudio(path: string) {
+        const data = fs.readFileSync(path);
+        return weave.weaveAudio({ data });
+    });
+
+    // Assuming you have a WAV audio file
+    await loadAudio('beep.wav');
+}
+
+main();
+```
 
 ### Advanced Example: Generate audio using OpenAI's TTS API and log it to Weave
 
@@ -455,6 +727,21 @@ Type annotations automatically detect the proper constructor to use, while direc
 
 The Weave Content API is designed to primarily be used through type annotations, which signal to Weave that traced inputs and outputs should be processed and stored as content blobs.
 
+```python lines {7}
+import weave
+from weave import Content
+from pathlib import Path
+from typing import Annotated
+
+@weave.op
+def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
+    data = Path(path).read_bytes()
+    return data
+
+# Both input and output will show up as an MP4 file in Weave
+# Input is a string and return value is bytes
+bytes_data = content_annotation('./path/to/your/file.mp4')
+```
 
 ### Direct initialization
 
@@ -469,6 +756,20 @@ You can initialize content directly from your target type using one of the follo
 - `Content.from_text` - Create from text string
 - `Content.from_base64` - Create from base64-encoded data
 
+```python lines
+import weave
+from weave import Content
+
+@weave.op
+def content_initialization(path: str) -> Content:
+    return Content.from_path(path)
+
+# Input shows up as path string and output as PDF file in Weave
+content = content_initialization('./path/to/your/file.pdf')
+
+content.open()  # Opens the file in your PDF viewer
+content.model_dump()  # Dumps the model attributes to JSON
+```
 
 ### Custom mimetypes
 
@@ -492,6 +793,16 @@ markdown_content('path/to/your/document.md')
 
 #### Custom mimetypes with direct initialization
 
+```python lines
+video_bytes = Path('/path/to/video.mp4').read_bytes()
+
+# Pass an extension such as 'mp4' or '.mp4' to the extension parameter
+# (not available for `from_path`)
+content = Content.from_bytes(video_bytes, extension='.mp4')
+
+# Pass a mimetype such as 'video/mp4' to the mimetype parameter
+content = Content.from_bytes(video_bytes, mimetype='video/mp4')
+```
 
 ### Content properties
 

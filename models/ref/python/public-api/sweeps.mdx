@@ -16,6 +16,18 @@ A lazy iterator over a collection of `Sweep` objects.
 
 
 **Examples:**
+ ```python
+from wandb.apis.public import Api
+
+sweeps = Api().project(name="project_name", entity="entity").sweeps()
+
+# Iterate over sweeps and print details
+for sweep in sweeps:
+     print(f"Sweep name: {sweep.name}")
+     print(f"Sweep ID: {sweep.id}")
+     print(f"Sweep URL: {sweep.url}")
+     print("----------")
+``` 
 
 ### <kbd>method</kbd> `Sweeps.__init__`
 

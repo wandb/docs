@@ -70,6 +70,14 @@ Hover your mouse over a node and click on the eye icon to hide or show a node in
 Programmatically navigate a graph using the W&B Python SDK. Use an artifact object's
 [`logged_by()`](/models/ref/python/experiments/artifact#method-artifact-logged-by) and [`used_by()`](/models/ref/python/experiments/artifact#method-artifact-used-by) methods to walk the graph:
 
+```python
+with wandb.init() as run:
+    artifact = run.use_artifact("artifact_name:latest")
+
+    # Walk up and down the graph from an artifact:
+    producer_run = artifact.logged_by()
+    consumer_runs = artifact.used_by()
+```
 
 </Tab>
 </Tabs>
@@ -88,6 +96,14 @@ artifact is in the format `<artifact_name>:<version>` or `<artifact_name>:<alias
 
 Replace values enclosed in angle brackets (`< >`) with your values:
 
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # Get artifact, mark it as a dependency
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
+```
 
 
 ### Track the output of a run
@@ -98,6 +114,19 @@ artifact as an output of the run with `wandb.Run.log_artifact()`.
 
 Replace values enclosed in angle brackets (`< >`) with your values:
 
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  
+  # Create an artifact
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
+
+  # Log the artifact as an output of the run
+  run.log_artifact(artifact_or_path = artifact)
+```
 
 ## Artifact clusters
 

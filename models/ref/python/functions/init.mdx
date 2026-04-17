@@ -109,3 +109,13 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
 **Examples:**
  `wandb.init()` returns a `Run` object. Use the run object to log data, save artifacts, and manage the run lifecycle. 
 
+```python
+import wandb
+
+config = {"lr": 0.01, "batch_size": 32}
+with wandb.init(config=config) as run:
+    # Log accuracy and loss to the run
+    acc = 0.95  # Example accuracy
+    loss = 0.05  # Example loss
+    run.log({"accuracy": acc, "loss": loss})
+``` 

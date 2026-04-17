@@ -40,6 +40,25 @@ The following sections describe each callback in detail with code examples.
 
 The partial example below shows how to use `WandbMetricsLogger()` in a Keras workflow. First, compile the model with desired optimizer, loss function, and metrics. Then, initialize a W&B run using `wandb.init()`. Finally, pass the `WandbMetricsLogger()` callback to `model.fit()`.
 
+```python
+import wandb
+from wandb.integration.keras import WandbMetricsLogger
+import tensorflow as tf
+
+model.compile(
+    optimizer = "adam",
+    loss = "categorical_crossentropy",
+    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
+)
+
+# Initialize a new W&B Run
+with wandb.init(config={"batch_size": 64}) as run:
+
+    # Pass the WandbMetricsLogger to model.fit
+    model.fit(
+        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
+    )
+```
 
 The previous example logs training and validation metrics such as `loss`, `accuracy`, and `top@5_accuracy` to W&B at the end of each epoch. It also logs:
 
@@ -69,6 +88,24 @@ This callback saves:
 
 Use this callback in conjunction with `WandbMetricsLogger()`.
 
+```python
+import wandb
+from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
+
+# Initialize a new W&B Run
+with wandb.init(config={"bs": 12}) as run:
+
+    # Pass the WandbModelCheckpoint to model.fit
+    model.fit(
+        X_train,
+        y_train,
+        validation_data=(X_test, y_test),
+        callbacks=[
+            WandbMetricsLogger(),
+            WandbModelCheckpoint("models"),
+        ],
+    )
+```
 
 ### `WandbModelCheckpoint` reference
 
@@ -125,6 +162,62 @@ The `WandbEvalCallback()` is a utility class that provides methods to:
 
 The following example uses `WandbClfEvalCallback` for an image classification task. This example callback logs the validation data (`data_table`) to W&B, performs inference, and logs the prediction (`pred_table`) to W&B at the end of every epoch.
 
+```python
+import wandb
+from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
+
+
+# Implement your model prediction visualization callback
+class WandbClfEvalCallback(WandbEvalCallback):
+    def __init__(
+        self, validation_data, data_table_columns, pred_table_columns, num_samples=100
+    ):
+        super().__init__(data_table_columns, pred_table_columns)
+
+        self.x = validation_data[0]
+        self.y = validation_data[1]
+
+    def add_ground_truth(self, logs=None):
+        for idx, (image, label) in enumerate(zip(self.x, self.y)):
+            self.data_table.add_data(idx, wandb.Image(image), label)
+
+    def add_model_predictions(self, epoch, logs=None):
+        preds = self.model.predict(self.x, verbose=0)
+        preds = tf.argmax(preds, axis=-1)
+
+        table_idxs = self.data_table_ref.get_index()
+
+        for idx in table_idxs:
+            pred = preds[idx]
+            self.pred_table.add_data(
+                epoch,
+                self.data_table_ref.data[idx][0],
+                self.data_table_ref.data[idx][1],
+                self.data_table_ref.data[idx][2],
+                pred,
+            )
+
+
+# ...
+
+# Initialize a new W&B Run
+with wandb.init(config={"hyper": "parameter"}) as run:
+
+    # Add the Callbacks to Model.fit
+    model.fit(
+        X_train,
+        y_train,
+        validation_data=(X_test, y_test),
+        callbacks=[
+            WandbMetricsLogger(),
+            WandbClfEvalCallback(
+                validation_data=(X_test, y_test),
+                data_table_columns=["idx", "image", "label"],
+                pred_table_columns=["epoch", "idx", "image", "label", "pred"],
+            ),
+        ],
+    )
+```
 
 ### `WandbEvalCallback` reference
 
@@ -149,6 +242,19 @@ If you are implementing a callback for model prediction visualization by inherit
 
 Use the W&B library `WandbCallback()` Class to automatically save all the metrics and the loss values tracked in `model.fit()`.
 
+```python
+import wandb
+from wandb.integration.keras import WandbCallback
+
+with wandb.init(config={"hyper": "parameter"}) as run:
+
+    # code to set up your model in Keras
+
+    # Pass the callback to model.fit
+    model.fit(
+        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
+    )
+```
 
 You can watch the short video [Get Started with Keras and W&B in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M).
 

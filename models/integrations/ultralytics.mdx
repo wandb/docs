@@ -14,6 +14,12 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
     <Tabs>
     <Tab title="Command Line">
+    ```shell
+        pip install --upgrade ultralytics==8.0.238 wandb
+
+        # or
+        # conda install ultralytics
+        ```
     </Tab>
     <Tab title="Notebook">
     ```bash
@@ -43,6 +49,21 @@ from ultralytics import YOLO
 
 Initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This ensures that when you perform training, fine-tuning, validation, or inference, it automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](/models/track/log/media/#image-overlays-in-tables) on W&B along with additional insights in a [`wandb.Table`](/models/tables/).
 
+```python
+with wandb.init(project="ultralytics", job_type="train") as run:
+
+    # Initialize YOLO Model
+    model = YOLO("yolov8n.pt")
+
+    # Add W&B callback for Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
+
+    # Train/fine-tune your model
+    # At the end of each epoch, predictions on validation batches are logged
+    # to a W&B table with insightful and interactive overlays for
+    # computer vision tasks
+    model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
+```
 
 Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow looks like:
 
@@ -84,6 +105,26 @@ Download a few images to test the integration on. You can use still images, vide
 
 Initialize a W&B [run](/models/runs/) using `wandb.init()`. Next, Initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks](/models/track/log/media/#image-overlays-in-tables) along with additional insights in a [`wandb.Table`](/models/tables/).
 
+```python
+# Initialize W&B Run
+with wandb.init(project="ultralytics", job_type="inference") as run:
+    # Initialize YOLO Model
+    model = YOLO("yolov8n.pt")
+
+    # Add W&B callback for Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
+
+    # Perform prediction which automatically logs to a W&B Table
+    # with interactive overlays for bounding boxes, segmentation masks
+    model(
+        [
+            "./assets/img1.jpeg",
+            "./assets/img3.png",
+            "./assets/img4.jpeg",
+            "./assets/img5.jpeg",
+        ]
+    )
+```
 
 You do not need to explicitly initialize a run using `wandb.init()` in case of a training or fine-tuning workflow. However, if the code involves only prediction, you must explicitly create a run.
 

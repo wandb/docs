@@ -138,6 +138,22 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 
   The following example scorer function `match_score1` uses the `expected` value from the `examples` dictionary for scoring.
 
+  ```python lines
+  import weave
+
+  # Collect your examples
+  examples = [
+      {"question": "What is the capital of France?", "expected": "Paris"},
+      {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+      {"question": "What is the square root of 64?", "expected": "8"},
+  ]
+
+  # Define any custom scoring function
+  @weave.op()
+  def match_score1(expected: str, output: dict) -> dict:
+      # Here is where you'd define the logic to score the model output
+      return {'match': expected == output['generated_text']}
+  ```
 
   ### (Optional) Define a custom `Scorer` class
 
@@ -150,6 +166,27 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 
   The following example scorer function `matchScore` compares the model output to the `expected` value from the dataset row.
 
+  ```typescript lines
+  import * as weave from 'weave';
+
+  // Collect your examples into a dataset
+  const dataset = new weave.Dataset({
+    id: 'my-dataset',
+    rows: [
+      {question: 'What is the capital of France?', expected: 'Paris'},
+      {question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee'},
+      {question: 'What is the square root of 64?', expected: '8'},
+    ],
+  });
+
+  // Define any custom scoring function
+  const matchScore = weave.op(
+    ({modelOutput, datasetRow}) => {
+      return {match: modelOutput === datasetRow.expected};
+    },
+    {name: 'matchScore'}
+  );
+  ```
 
   <Note>
   Class-based `Scorer` types are not yet available in TypeScript. Use function-based scorers wrapped with `weave.op`.
@@ -163,6 +200,26 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 <Tab title="Python">
   To evaluate a `Model`, call `evaluate` on it using an `Evaluation`. `Models` are used when you have parameters that you want to experiment with and capture in Weave.
 
+  ```python lines
+  from weave import Model, Evaluation
+  import asyncio
+
+  class MyModel(Model):
+      prompt: str
+
+      @weave.op()
+      def predict(self, question: str):
+          # here's where you would add your LLM call and return the output
+          return {'generated_text': 'Hello, ' + self.prompt}
+
+  model = MyModel(prompt='World')
+
+  evaluation = Evaluation(
+      dataset=examples, scorers=[match_score1]
+  )
+  weave.init('intro-example') # begin tracking results with weave
+  asyncio.run(evaluation.evaluate(model))
+  ```
 
   This runs `predict` on each example and score the output with each scoring function.
 
@@ -170,10 +227,43 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 
   Alternatively, you can also evaluate a custom function tracked by `@weave.op()`.
 
+  ```python lines
+  @weave.op
+  def function_to_evaluate(question: str):
+      # here's where you would add your LLM call and return the output
+      return  {'generated_text': 'some response'}
+
+  asyncio.run(evaluation.evaluate(function_to_evaluate))
+  ```
 </Tab>
 <Tab title="TypeScript">
   In TypeScript, you evaluate functions wrapped with `weave.op`. The function receives the dataset row and returns the model output.
 
+  ```typescript lines
+  import * as weave from 'weave';
+
+  // Initialize Weave
+  await weave.init('intro-example');
+
+  // Define the function to evaluate
+  const myModel = weave.op(
+    async ({question}) => {
+      // here's where you would add your LLM call and return the output
+      return 'Paris';
+    },
+    {name: 'myModel'}
+  );
+
+  // Create the evaluation
+  const evaluation = new weave.Evaluation({
+    id: 'my-evaluation',
+    dataset: dataset,
+    scorers: [matchScore],
+  });
+
+  // Run the evaluation
+  const results = await evaluation.evaluate({model: myModel});
+  ```
 
   This runs `myModel` on each example and scores the output with each scoring function.
 </Tab>
@@ -230,10 +320,92 @@ The run passes each example to the model three times, and each run is scored and
 <Tab title="Python">
   The following code sample demonstrates a complete evaluation run from start to finish. The `examples` dictionary is used by the `match_score1` and `match_score2` scoring functions to evaluate `MyModel` given the value of `prompt`, as well as a custom function `function_to_evaluate`. The evaluation runs for both the `Model` and the function are invoked with `asyncio.run(evaluation.evaluate())`.
 
+  ```python lines
+  from weave import Evaluation, Model
+  import weave
+  import asyncio
+  weave.init('intro-example')
+  examples = [
+      {"question": "What is the capital of France?", "expected": "Paris"},
+      {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+      {"question": "What is the square root of 64?", "expected": "8"},
+  ]
+
+  @weave.op()
+  def match_score1(expected: str, output: dict) -> dict:
+      return {'match': expected == output['generated_text']}
+
+  @weave.op()
+  def match_score2(expected: dict, output: dict) -> dict:
+      return {'match': expected == output['generated_text']}
+
+  class MyModel(Model):
+      prompt: str
+
+      @weave.op()
+      def predict(self, question: str):
+          # here's where you would add your LLM call and return the output
+          return {'generated_text': 'Hello, ' + question + self.prompt}
+
+  model = MyModel(prompt='World')
+  evaluation = Evaluation(dataset=examples, scorers=[match_score1, match_score2])
+
+  asyncio.run(evaluation.evaluate(model))
+
+  @weave.op()
+  def function_to_evaluate(question: str):
+      # here's where you would add your LLM call and return the output
+      return  {'generated_text': 'some response' + question}
+
+  asyncio.run(evaluation.evaluate(function_to_evaluate("What is the capitol of France?")))
+  ```
 </Tab>
 <Tab title="TypeScript">
   The following code sample demonstrates a complete evaluation run from start to finish. The dataset rows are used by the `matchScore` scoring function to evaluate `myModel`.
 
+  ```typescript lines
+  import * as weave from 'weave';
+
+  // Initialize Weave
+  await weave.init('intro-example');
+
+  // Collect your examples into a dataset
+  const dataset = new weave.Dataset({
+    id: 'my-dataset',
+    rows: [
+      {question: 'What is the capital of France?', expected: 'Paris'},
+      {question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee'},
+      {question: 'What is the square root of 64?', expected: '8'},
+    ],
+  });
+
+  // Define scoring functions
+  const matchScore = weave.op(
+    ({modelOutput, datasetRow}) => {
+      return {match: modelOutput === datasetRow.expected};
+    },
+    {name: 'matchScore'}
+  );
+
+  // Define the function to evaluate
+  const myModel = weave.op(
+    async ({question}) => {
+      // here's where you would add your LLM call and return the output
+      return 'Paris';
+    },
+    {name: 'myModel'}
+  );
+
+  // Create and run the evaluation
+  const evaluation = new weave.Evaluation({
+    id: 'my-evaluation',
+    dataset: dataset,
+    scorers: [matchScore],
+  });
+
+  const results = await evaluation.evaluate({model: myModel});
+  console.log('Evaluation results:', results);
+  ```
 </Tab>
 </Tabs>
 
@@ -260,6 +432,44 @@ The run passes each example to the model three times, and each run is scored and
 
   Here's a simple example that shows how to use `preprocess_model_input` to rename fields:
 
+  ```python lines
+  import weave
+  from weave import Evaluation
+  import asyncio
+
+  # Our dataset has "input_text" but our model expects "question"
+  examples = [
+      {"input_text": "What is the capital of France?", "expected": "Paris"},
+      {"input_text": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+      {"input_text": "What is the square root of 64?", "expected": "8"},
+  ]
+
+  @weave.op()
+  def preprocess_example(example):
+      # Rename input_text to question
+      return {
+          "question": example["input_text"]
+      }
+
+  @weave.op()
+  def match_score(expected: str, output: dict) -> dict:
+      return {'match': expected == output['generated_text']}
+
+  @weave.op()
+  def function_to_evaluate(question: str):
+      return {'generated_text': f'Answer to: {question}'}
+
+  # Create evaluation with preprocessing
+  evaluation = Evaluation(
+      dataset=examples,
+      scorers=[match_score],
+      preprocess_model_input=preprocess_example
+  )
+
+  # Run the evaluation
+  weave.init('preprocessing-example')
+  asyncio.run(evaluation.evaluate(function_to_evaluate))
+  ```
 
   In this example, our dataset contains examples with an `input_text` field, but our evaluation function expects a `question` parameter. The `preprocess_example` function transforms each example by renaming the field, allowing the evaluation to work correctly.
 

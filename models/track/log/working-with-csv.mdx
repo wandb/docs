@@ -13,16 +13,46 @@ We suggest you use W&B Artifacts to make the contents of the CSV file easier to 
 
 1. To get started, first import your CSV file. In the following code snippet, replace the `iris.csv` filename with the name of your CSV filename:
 
+```python
+import wandb
+import pandas as pd
+
+# Read our CSV into a new DataFrame
+new_iris_dataframe = pd.read_csv("iris.csv")
+```
 
 2. Convert the CSV file to a W&B Table to utilize [W&B Dashboards](/models/track/workspaces/). 
 
+```python
+# Convert the DataFrame into a W&B Table
+iris_table = wandb.Table(dataframe=new_iris_dataframe)
+```
 
 3. Next, create a W&B Artifact and add the table to the Artifact:
 
+```python
+# Add the table to an Artifact to increase the row
+# limit to 200000 and make it easier to reuse
+iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
+iris_table_artifact.add(iris_table, "iris_table")
+
+# Log the raw csv file within an artifact to preserve our data
+iris_table_artifact.add_file("iris.csv")
+```
 For more information about W&B Artifacts, see the [Artifacts chapter](/models/artifacts/).  
 
 4. Lastly, start a new W&B Run to track and log to W&B with `wandb.init`:
 
+```python
+# Start a W&B run to log data
+with wandb.init(project="tables-walkthrough") as run:
+
+    # Log the table to visualize with a run...
+    run.log({"iris": iris_table})
+
+    # and Log as an Artifact to increase the available row limit!
+    run.log_artifact(iris_table_artifact)
+```
 
 The `wandb.init()` API spawns a new background process to log data to a Run, and it synchronizes data to wandb.ai (by default). View live visualizations on your W&B Workspace Dashboard. The following image demonstrates the output of the code snippet demonstration.
 
@@ -33,6 +63,33 @@ The `wandb.init()` API spawns a new background process to log data to a Run, and
 
 The full script with the preceding code snippets is found below:
 
+```python
+import wandb
+import pandas as pd
+
+# Read our CSV into a new DataFrame
+new_iris_dataframe = pd.read_csv("iris.csv")
+
+# Convert the DataFrame into a W&B Table
+iris_table = wandb.Table(dataframe=new_iris_dataframe)
+
+# Add the table to an Artifact to increase the row
+# limit to 200000 and make it easier to reuse
+iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
+iris_table_artifact.add(iris_table, "iris_table")
+
+# log the raw csv file within an artifact to preserve our data
+iris_table_artifact.add_file("iris.csv")
+
+# Start a W&B run to log data
+with wandb.init(project="tables-walkthrough") as run:
+
+    # Log the table to visualize with a run...
+    run.log({"iris": iris_table})
+
+    # and Log as an Artifact to increase the available row limit!
+    run.log_artifact(iris_table_artifact)
+```
 
 ## Import and log your CSV of Experiments
 
@@ -59,6 +116,40 @@ W&B can take CSV files of experiments and convert it into a W&B Experiment Run. 
 
 1. To get started, first read in your CSV file and convert it into a Pandas DataFrame. Replace `"experiments.csv"` with the name of your CSV file:
 
+```python
+import wandb
+import pandas as pd
+
+FILENAME = "experiments.csv"
+loaded_experiment_df = pd.read_csv(FILENAME)
+
+PROJECT_NAME = "Converted Experiments"
+
+EXPERIMENT_NAME_COL = "Experiment"
+NOTES_COL = "Notes"
+TAGS_COL = "Tags"
+CONFIG_COLS = ["Num Layers"]
+SUMMARY_COLS = ["Final Train Acc", "Final Val Acc"]
+METRIC_COLS = ["Training Losses"]
+
+# Format Pandas DataFrame to make it easier to work with
+for i, row in loaded_experiment_df.iterrows():
+    run_name = row[EXPERIMENT_NAME_COL]
+    notes = row[NOTES_COL]
+    tags = row[TAGS_COL]
+
+    config = {}
+    for config_col in CONFIG_COLS:
+        config[config_col] = row[config_col]
+
+    metrics = {}
+    for metric_col in METRIC_COLS:
+        metrics[metric_col] = row[metric_col]
+
+    summaries = {}
+    for summary_col in SUMMARY_COLS:
+        summaries[summary_col] = row[summary_col]
+```
 
 
 2. Next, start a new W&B Run to track and log to W&B with [`wandb.init()`](/models/ref/python/functions/init):

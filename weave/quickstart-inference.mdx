@@ -37,8 +37,67 @@ When you run this code, Weave:
 
 <Tabs>
 <Tab title="Python">
+```python lines
+import weave
+import openai
+
+# Initialize Weave - replace with your-team/your-project
+weave.init("<team-name>/inference-quickstart")
+
+# Create an OpenAI-compatible client pointing to W&B Inference
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
+    project="<team-name>/my-first-weave-project",  # Required for usage tracking
+)
+
+# Decorate your function to enable tracing; use the standard OpenAI client
+@weave.op()
+def ask_llama(question: str) -> str:
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question}
+        ],
+    )
+    return response.choices[0].message.content
+
+# Call your function - Weave automatically traces everything
+result = ask_llama("What are the benefits of using W&B Weave for LLM development?")
+print(result)
+```
 </Tab>
 <Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+// Initialize Weave - Replace values enclosed in "<>" with your own.
+await weave.init("<team-name>/inference-quickstart")
+
+// Create an OpenAI-compatible client pointing to W&B Inference
+const client = new OpenAI({
+    baseURL: 'https://api.inference.wandb.ai/v1',  // W&B Inference endpoint
+    apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // Replace with your API key or set the WANDB_API_KEY environment variable
+});
+
+// Wrap your function with weave.op to enable tracing
+const askLlama = weave.op(async function askLlama(question: string): Promise<string> {
+const response = await client.chat.completions.create({
+    model: 'meta-llama/Llama-3.1-70B-Instruct',
+    messages: [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: question }
+    ],
+});
+return response.choices[0].message.content || '';
+});
+
+// Call your function - Weave automatically traces everything
+const result = await askLlama('What are the benefits of using W&B Weave for LLM development?');
+console.log(result);
+```
 </Tab>
 </Tabs>
 
@@ -48,8 +107,129 @@ Next, try running this code, which is a basic summarization app that shows how W
 
 <Tabs>
 <Tab title="Python">
+```python lines
+import weave
+import openai
+
+# Initialize Weave - Replace values enclosed in "<>" with your own.
+weave.init("<team-name>/inference-quickstart")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
+    project="<team-name>/my-first-weave-project",  # Required for usage tracking
+)
+
+@weave.op()
+def extract_key_points(text: str) -> list[str]:
+    """Extract key points from a text."""
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "Extract 3-5 key points from the text. Return each point on a new line."},
+            {"role": "user", "content": text}
+        ],
+    )
+    # Returns response without blank lines
+    return [line for line in response.choices[0].message.content.strip().splitlines() if line.strip()]
+
+@weave.op()
+def create_summary(key_points: list[str]) -> str:
+    """Create a concise summary based on key points."""
+    points_text = "\n".join(f"- {point}" for point in key_points)
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "Create a one-sentence summary based on these key points."},
+            {"role": "user", "content": f"Key points:\n{points_text}"}
+        ],
+    )
+    return response.choices[0].message.content
+
+@weave.op()
+def summarize_text(text: str) -> dict:
+    """Main summarization pipeline."""
+    key_points = extract_key_points(text)
+    summary = create_summary(key_points)
+    return {
+        "key_points": key_points,
+        "summary": summary
+    }
+
+# Try it with sample text
+sample_text = """
+The Apollo 11 mission was a historic spaceflight that landed the first humans on the Moon 
+on July 20, 1969. Commander Neil Armstrong and lunar module pilot Buzz Aldrin descended 
+to the lunar surface while Michael Collins remained in orbit. Armstrong became the first 
+person to step onto the Moon, followed by Aldrin 19 minutes later. They spent about 
+two and a quarter hours together outside the spacecraft, collecting samples and taking photographs.
+"""
+
+result = summarize_text(sample_text)
+print("Key Points:", result["key_points"])
+print("\nSummary:", result["summary"])
+```
 </Tab>
 <Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+// Initialize Weave - replace with your-team/your-project
+await weave.init('<team-name>/inference-quickstart');
+
+const client = new OpenAI({
+baseURL: 'https://api.inference.wandb.ai/v1',
+apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY',  // Replace with your API key or set the WANDB_API_KEY environment variable
+});
+
+const extractKeyPoints = weave.op(async function extractKeyPoints(text: string): Promise<string[]> {
+const response = await client.chat.completions.create({
+    model: 'meta-llama/Llama-3.1-8B-Instruct',
+    messages: [
+    { role: 'system', content: 'Extract 3-5 key points from the text. Return each point on a new line.' },
+    { role: 'user', content: text }
+    ],
+});
+// Returns response without blank lines
+const content = response.choices[0].message.content || '';
+return content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+});
+
+const createSummary = weave.op(async function createSummary(keyPoints: string[]): Promise<string> {
+const pointsText = keyPoints.map(point => `- ${point}`).join('\n');
+const response = await client.chat.completions.create({
+    model: 'meta-llama/Llama-3.1-8B-Instruct',
+    messages: [
+    { role: 'system', content: 'Create a one-sentence summary based on these key points.' },
+    { role: 'user', content: `Key points:\n${pointsText}` }
+    ],
+});
+return response.choices[0].message.content || '';
+});
+
+const summarizeText = weave.op(async function summarizeText(text: string): Promise<{key_points: string[], summary: string}> {
+const keyPoints = await extractKeyPoints(text);
+const summary = await createSummary(keyPoints);
+return {
+    key_points: keyPoints,
+    summary: summary
+};
+});
+
+// Try it with sample text
+const sampleText = `
+The Apollo 11 mission was a historic spaceflight that landed the first humans on the Moon 
+on July 20, 1969. Commander Neil Armstrong and lunar module pilot Buzz Aldrin descended 
+to the lunar surface while Michael Collins remained in orbit. Armstrong became the first 
+person to step onto the Moon, followed by Aldrin 19 minutes later. They spent about 
+two and a quarter hours together outside the spacecraft, collecting samples and taking photographs.
+`;
+
+const result = await summarizeText(sampleText);
+console.log('Key Points:', result.key_points);
+console.log('\nSummary:', result.summary);
+```
 </Tab>
 </Tabs>
 
@@ -59,8 +239,86 @@ W&B Inference provides access to multiple models. Use the following code to comp
 
 <Tabs>
 <Tab title="Python">
+```python lines
+import weave
+import openai
+
+# Initialize Weave - replace with your-team/your-project
+weave.init("<team-name>/inference-quickstart")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
+    project="<team-name>/my-first-weave-project",  # Required for usage tracking
+)
+
+# Define a Model class to compare different LLMs
+class InferenceModel(weave.Model):
+    model_name: str
+    
+    @weave.op()
+    def predict(self, question: str) -> str:
+        response = client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "user", "content": question}
+            ],
+        )
+        return response.choices[0].message.content
+
+# Create instances for different models
+llama_model = InferenceModel(model_name="meta-llama/Llama-3.1-8B-Instruct")
+deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3.1")
+
+# Compare their responses
+test_question = "Explain quantum computing in one paragraph for a high school student."
+
+print("Llama 3.1 8B response:")
+print(llama_model.predict(test_question))
+print("\n" + "="*50 + "\n")
+print("DeepSeek V3 response:")
+print(deepseek_model.predict(test_question))
+```
 </Tab>
 <Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+// Initialize Weave - replace with your-team/your-project
+await weave.init("<team-name>/inference-quickstart")
+
+const client = new OpenAI({
+  baseURL: 'https://api.inference.wandb.ai/v1',
+  apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // Replace with your API key or set the WANDB_API_KEY environment variable
+});
+
+// Create model functions using weave.op (weave.Model is not supported in TypeScript)
+function createModel(modelName: string) {
+  return weave.op(async function predict(question: string): Promise<string> {
+    const response = await client.chat.completions.create({
+      model: modelName,
+      messages: [
+        { role: 'user', content: question }
+      ],
+    });
+    return response.choices[0].message.content || '';
+  });
+}
+
+// Create instances for different models
+const llamaModel = createModel('meta-llama/Llama-3.1-8B-Instruct');
+const deepseekModel = createModel('deepseek-ai/DeepSeek-V3.1');
+
+// Compare their responses
+const testQuestion = 'Explain quantum computing in one paragraph for a high school student.';
+
+console.log('Llama 3.1 8B response:');
+console.log(await llamaModel(testQuestion));
+console.log('\n' + '='.repeat(50) + '\n');
+console.log('DeepSeek V3 response:');
+console.log(await deepseekModel(testQuestion));
+```
 </Tab>
 </Tabs>
 
@@ -72,8 +330,178 @@ Append the following code to the script you used in the prior section:
 
 <Tabs>
 <Tab title="Python">
+```python lines
+from typing import Optional
+from weave import EvaluationLogger
+
+# Create a simple dataset
+dataset = [
+    {"question": "What is 2 + 2?", "expected": "4"},
+    {"question": "What is the capital of France?", "expected": "Paris"},
+    {"question": "Name a primary color", "expected_one_of": ["red", "blue", "yellow"]},
+]
+
+# Define a scorer
+@weave.op()
+def accuracy_scorer(expected: str, output: str, expected_one_of: Optional[list[str]] = None) -> dict:
+    """Score the accuracy of the model output."""
+    output_clean = output.strip().lower()
+    
+    if expected_one_of:
+        is_correct = any(option.lower() in output_clean for option in expected_one_of)
+    else:
+        is_correct = expected.lower() in output_clean
+    
+    return {"correct": is_correct, "score": 1.0 if is_correct else 0.0}
+
+# Evaluate a model using Weave's EvaluationLogger
+def evaluate_model(model: InferenceModel, dataset: list[dict]):
+    """Run evaluation on a dataset using Weave's built-in evaluation framework."""
+    # Initialize EvaluationLogger BEFORE calling the model to capture token usage
+    # This is especially important for W&B Inference to track costs
+    # Convert model name to a valid format (replace non-alphanumeric chars with underscores)
+    safe_model_name = model.model_name.replace("/", "_").replace("-", "_").replace(".", "_")
+    eval_logger = EvaluationLogger(
+        model=safe_model_name,
+        dataset="qa_dataset"
+    )
+    
+    for example in dataset:
+        # Get model prediction
+        output = model.predict(example["question"])
+        
+        # Log the prediction
+        pred_logger = eval_logger.log_prediction(
+            inputs={"question": example["question"]},
+            output=output
+        )
+        
+        # Score the output
+        score = accuracy_scorer(
+            expected=example.get("expected", ""),
+            output=output,
+            expected_one_of=example.get("expected_one_of")
+        )
+        
+        # Log the score
+        pred_logger.log_score(
+            scorer="accuracy",
+            score=score["score"]
+        )
+        
+        # Finish logging for this prediction
+        pred_logger.finish()
+    
+    # Log summary - Weave automatically aggregates the accuracy scores
+    eval_logger.log_summary()
+    print(f"Evaluation complete for {model.model_name} (logged as: {safe_model_name}). View results in the Weave UI.")
+
+# Compare multiple models - a key feature of Weave's evaluation framework
+models_to_compare = [
+    llama_model,
+    deepseek_model,
+]
+
+for model in models_to_compare:
+    evaluate_model(model, dataset)
+
+# In the Weave UI, navigate to the Evals tab to compare results across models
+```
 </Tab>
 <Tab title="TypeScript">
+```typescript lines
+import { EvaluationLogger } from 'weave';
+
+// Create a simple dataset
+interface DatasetExample {
+  question: string;
+  expected?: string;
+  expected_one_of?: string[];
+}
+
+const dataset: DatasetExample[] = [
+  { question: 'What is 2 + 2?', expected: '4' },
+  { question: 'What is the capital of France?', expected: 'Paris' },
+  { question: 'Name a primary color', expected_one_of: ['red', 'blue', 'yellow'] },
+];
+
+// Define a scorer
+const accuracyScorer = weave.op(function accuracyScorer(args: {
+  expected: string;
+  output: string;
+  expected_one_of?: string[];
+}): { correct: boolean; score: number } {
+  const outputClean = args.output.trim().toLowerCase();
+  
+  let isCorrect: boolean;
+  if (args.expected_one_of) {
+    isCorrect = args.expected_one_of.some(option => 
+      outputClean.includes(option.toLowerCase())
+    );
+  } else {
+    isCorrect = outputClean.includes(args.expected.toLowerCase());
+  }
+  
+  return { correct: isCorrect, score: isCorrect ? 1.0 : 0.0 };
+});
+
+// Evaluate a model using Weave's EvaluationLogger
+async function evaluateModel(
+  model: (question: string) => Promise<string>,
+  modelName: string,
+  dataset: DatasetExample[]
+): Promise<void> {
+  // Initialize EvaluationLogger BEFORE calling the model to capture token usage
+  // This is especially important for W&B Inference to track costs
+  // Convert model name to a valid format (replace non-alphanumeric chars with underscores)
+  const safeModelName = modelName.replace(/\//g, '_').replace(/-/g, '_').replace(/\./g, '_');
+  const evalLogger = new EvaluationLogger({
+    name: 'inference_evaluation',
+    model: { name: safeModelName },
+    dataset: 'qa_dataset'
+  });
+  
+  for (const example of dataset) {
+    // Get model prediction
+    const output = await model(example.question);
+    
+    // Log the prediction
+    const predLogger = evalLogger.logPrediction(
+      { question: example.question },
+      output
+    );
+    
+    // Score the output
+    const score = await accuracyScorer({
+      expected: example.expected || '',
+      output: output,
+      expected_one_of: example.expected_one_of
+    });
+    
+    // Log the score
+    predLogger.logScore('accuracy', score.score);
+    
+    // Finish logging for this prediction
+    predLogger.finish();
+  }
+  
+  // Log summary - Weave automatically aggregates the accuracy scores
+  await evalLogger.logSummary();
+  console.log(`Evaluation complete for ${modelName} (logged as: ${safeModelName}). View results in the Weave UI.`);
+}
+
+// Compare multiple models - a key feature of Weave's evaluation framework
+const modelsToCompare = [
+  { model: llamaModel, name: 'meta-llama/Llama-3.1-8B-Instruct' },
+  { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3.1' },
+];
+
+for (const { model, name } of modelsToCompare) {
+  await evaluateModel(model, name, dataset);
+}
+
+// In the Weave UI, navigate to the Evals tab to compare results across models
+```
 </Tab>
 </Tabs>
 

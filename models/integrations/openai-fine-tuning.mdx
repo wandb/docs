@@ -36,6 +36,13 @@ pip install -U openai
 Integrate W&B with OpenAI's fine-tuning API to log your fine-tuning metrics and configuration to W&B. To do this, use the `WandbLogger` class from the `wandb.integration.openai.fine_tuning` module.
 
 
+```python
+from wandb.integration.openai.fine_tuning import WandbLogger
+
+# Finetuning logic
+
+WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
+```
 
 <Frame>
     <img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI auto-scan feature"  />
@@ -46,6 +53,24 @@ Integrate W&B with OpenAI's fine-tuning API to log your fine-tuning metrics and 
 Sync your results from your script 
 
 
+```python
+from wandb.integration.openai.fine_tuning import WandbLogger
+
+# one line command
+WandbLogger.sync()
+
+# passing optional parameters
+WandbLogger.sync(
+    fine_tune_job_id=None,
+    num_fine_tunes=None,
+    project="OpenAI-Fine-Tune",
+    entity=None,
+    overwrite=False,
+    model_artifact_name="model-metadata",
+    model_artifact_type="model",
+    **kwargs_wandb_init
+)
+```
 
 ### Reference
 

@@ -61,11 +61,33 @@ Within your code, pass the `wandb.Settings` object to `wandb.init()` to configur
 
 The following example shows how to configure these settings:
 
+```python
+import wandb
+
+settings = wandb.Settings(
+    show_errors=True,  # Show error messages in the W&B App
+    silent=False,      # Disable all W&B console output
+    show_warnings=True # Show warning messages in the W&B App
+)
+
+with wandb.init(settings=settings) as run:
+    # Your training code here
+    run.log({"accuracy": 0.95})
+```
 
 ## Custom logging
 
 W&B captures console logs from your application, but it does not interfere with your own logging setup. You can use Python's built-in `print()` function or the `logging` module to log messages.
 
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    for i in range(100, 1000, 100):
+        # This will log to W&B and print to console
+        run.log({"epoch": i, "loss": 0.1 * i})
+        print(f"epoch: {i} loss: {0.1 * i}")
+```
 
 The console logs will look similar to the following:
 
@@ -99,6 +121,19 @@ Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a 
 
 You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings` in the UI search bar located at the top of the console log page. 
 
+```python
+import wandb
+
+# Initialize a run in the primary node
+with wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="custom_label"  # (Optional) Custom label for filtering logs
+    )
+) as run:
+    # Your code here
+```
 
 ## Download console logs
 

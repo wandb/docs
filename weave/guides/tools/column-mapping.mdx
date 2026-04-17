@@ -10,6 +10,16 @@ description: "Map columns in datasets to different names. This helps you align t
 
     The following example maps the `output` and `target` parameters to a dataset's `model_output` and `answer` columns:
 
+    ```python
+    from weave.scorers import EmbeddingSimilarityScorer
+
+    similarity_scorer = EmbeddingSimilarityScorer()
+
+    similarity_scorer.column_map = {
+        "output": "model_output",  # The model's generated text
+        "target": "answer"         # The expected or reference response
+    }
+    ```
 
     For more details on scorer column mapping, see [Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
   </Tab>

@@ -28,11 +28,25 @@ Weave's serialization layer saves and versions objects.
 <Tabs>
   <Tab title="Python">
 
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # Save a list, giving it the name 'cat-names'
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
 
   </Tab>
   <Tab title="TypeScript">
     Publishing in TypeScript is still early, so not all objects are fully supported yet.
 
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // Save an array, giving it the name 'cat-names'
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
 
   </Tab>
 </Tabs>

@@ -7,6 +7,17 @@ Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as
 
 For example, the following script has a `for` loop that iterates 10 times. In each iteration, the script logs a metric called `validation_loss` and increments the step number by 1.
 
+```python
+import wandb
+
+with wandb.init() as run:
+  # range function creates a sequence of numbers from 0 to 9
+  for i in range(10):
+    log_dict = {
+        "validation_loss": 1/(i+1)   
+    }
+    run.log(log_dict)
+```
 
 In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `wandb.Run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
 
@@ -20,6 +31,23 @@ Specify the metric that you want to appear as the y-axis with the `name` paramet
 
 Copy and paste the following code snippet to set a custom x-axis metric. Replace the values within `<>` with your own values:
 
+```python
+import wandb
+
+custom_step = "<custom_step>"  # Name of custom x-axis
+metric_name = "<metric>"  # Name of y-axis metric
+
+with wandb.init() as run:
+    # Specify the step metric (x-axis) and the metric to log against it (y-axis)
+    run.define_metric(step_metric = custom_step, name = metric_name)
+
+    for i in range(10):
+        log_dict = {
+            custom_step : int,  # Value of x-axis
+            metric_name : int,  # Value of y-axis
+        }
+        run.log(log_dict)
+```
 
 As an example, the following code snippet creates a custom x-axis called `x_axis_squared`. The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The y-axis consists of mock values for validation loss (`"validation_loss"`) using Python's built-in `random` module: 
 
@@ -46,6 +74,23 @@ The following image shows the resulting plot in the W&B App UI. The `validation_
 
 You can set a custom x-axis for multiple metrics using `globs` with string prefixes. As an example, the following code snippet plots logged metrics with the prefix `train/*` to the x-axis `train/step`:
 
+```python
+import wandb
+
+with wandb.init() as run:
+
+    # set all other train/ metrics to use this step
+    run.define_metric("train/*", step_metric="train/step")
+
+    for i in range(10):
+        log_dict = {
+            "train/step": 2**i,  # exponential growth w/ internal W&B step
+            "train/loss": 1 / (i + 1),  # x-axis is train/step
+            "train/accuracy": 1 - (1 / (1 + i)),  # x-axis is train/step
+            "val/loss": 1 / (1 + i),  # x-axis is internal wandb step
+        }
+        run.log(log_dict)
+```
 
 
 {/* [Try `define_metric` in Google Colab](https://wandb.me/define-metric-colab). */}

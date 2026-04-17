@@ -37,6 +37,15 @@ As an example, consider the following code snippet that initializes a W&B run an
 Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. You can find it in the URL of your W&B App workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
 </Note>
 
+```python
+import wandb
+
+entity = "nico"  # Replace with your W&B entity
+project = "awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+    run.log({"accuracy": 0.9, "loss": 0.1})
+```
 
 The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
 
@@ -70,6 +79,26 @@ W&B returns two URLs in the terminal output. The first URL directs you to the [s
 
 Logging a metric at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the following code snippet:
 
+```python
+import wandb
+import random
+
+config = {
+    "epochs": 10,
+    "learning_rate": 0.01,
+}
+
+with wandb.init(project="awesome-project", config=config) as run:
+    print(f"lr: {config['learning_rate']}")
+      
+    # Simulating a training run
+    for epoch in range(config['epochs']):
+      offset = random.random() / 5
+      acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
+      loss = 2**-epoch + random.random() / (epoch + 1) + offset
+      print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+      run.log({"accuracy": acc, "loss": loss})
+```
 
 The training script calls `wandb.Run.log()` 10 times. Each time the script calls `wandb.Run.log()`, W&B logs the accuracy and loss for that epoch.
 

@@ -85,7 +85,23 @@ Training loss and evaluation metrics can be automatically logged to W&B. Optiona
 
 <Tabs>
 <Tab title="TorchModel">
+```python
+from deepchem.models import TorchModel, ValidationCallback
+
+vc = ValidationCallback(…)  # optional
+model = TorchModel(…, wandb_logger=logger)
+model.fit(…, callbacks=[vc])
+logger.finish()
+```
 </Tab>
 <Tab title="KerasModel">
+```python
+from deepchem.models import KerasModel, ValidationCallback
+
+vc = ValidationCallback(…)  # optional
+model = KerasModel(…, wandb_logger=logger)
+model.fit(…, callbacks=[vc])
+logger.finish()
+```
 </Tab>
 </Tabs>

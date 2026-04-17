@@ -29,6 +29,13 @@ We need the following libraries for this tutorial:
 
 Since we'll be using [OpenAI API](https://openai.com/index/openai-api/) as the LLM Vendor, we will also need an OpenAI API key. You can [sign up](https://platform.openai.com/signup) on the OpenAI platform to get your own API key.
 
+```python lines
+import os
+from getpass import getpass
+
+api_key = getpass("Enter you OpenAI API key: ")
+os.environ["OPENAI_API_KEY"] = api_key
+```
 
 ## Enable Tracking using Weave
 
@@ -63,6 +70,44 @@ metadata = Metadata()
 
 We will load this dataset from HuggingFace Hub, split into training and validation sets, and [publish](/weave/guides/core-types/datasets) them on Weave, this will let us version the datasets, and also use [`weave.Evaluation`](/weave/guides/core-types/evaluations) to evaluate our prompting strategy.
 
+```python lines
+import dspy
+from datasets import load_dataset
+
+@weave.op()
+def get_dataset(metadata: Metadata):
+    # load the BIG-Bench Hard dataset corresponding to the task from Huggingface Hug
+    dataset = load_dataset(metadata.dataset_address, metadata.big_bench_hard_task)[
+        "train"
+    ]
+
+    # create the training and validation datasets
+    rows = [{"question": data["input"], "answer": data["target"]} for data in dataset]
+    train_rows = rows[0 : metadata.num_train_examples]
+    val_rows = rows[metadata.num_train_examples :]
+
+    # create the training and validation examples consisting of `dspy.Example` objects
+    dspy_train_examples = [
+        dspy.Example(row).with_inputs("question") for row in train_rows
+    ]
+    dspy_val_examples = [dspy.Example(row).with_inputs("question") for row in val_rows]
+
+    # publish the datasets to the Weave, this would let us version the data and use for evaluation
+    weave.publish(
+        weave.Dataset(
+            name=f"bigbenchhard_{metadata.big_bench_hard_task}_train", rows=train_rows
+        )
+    )
+    weave.publish(
+        weave.Dataset(
+            name=f"bigbenchhard_{metadata.big_bench_hard_task}_val", rows=val_rows
+        )
+    )
+
+    return dspy_train_examples, dspy_val_examples
+
+dspy_train_examples, dspy_val_examples = get_dataset(metadata)
+```
 
 <Frame>
 ![DSPy dataset loading interface with dataset preparation steps and data structure](/media/dspy_optimization/1.png)
@@ -83,6 +128,29 @@ dspy.configure(lm=llm)
 
 A [signature](https://dspy.ai/learn/programming/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy.ai/learn/programming/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
 
+```python lines
+class CausalReasoning(dspy.Signature):
+    """You are an expert in causal reasoning. Analyze the given question carefully
+    and answer Yes or No. Provide a detailed explanation justifying your answer."""
+
+    question: str = dspy.InputField(desc="The question to be answered")
+    answer: str = dspy.OutputField(desc="Yes or No")
+    confidence: float = dspy.OutputField(desc="Confidence score between 0 and 1")
+    explanation: str = dspy.OutputField(desc="Detailed explanation for the answer")
+
+class CausalReasoningModule(dspy.Module):
+    def __init__(self):
+        self.prog = dspy.Predict(CausalReasoning)
+
+    @weave.op()
+    def forward(self, question: str) -> dict:
+        result = self.prog(question=question)
+        return {
+            "answer": result.answer,
+            "confidence": result.confidence,
+            "explanation": result.explanation,
+        }
+```
 
 Let's test our LLM workflow, i.e., the `CausalReasoningModule` on an example from the causal reasoning subset of Big-Bench Hard.
 

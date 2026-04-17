@@ -30,6 +30,15 @@ Provide the path where your model files are saved to the `path` parameter. The p
 
 Ensure to replace values enclosed in `<>` with your own.
 
+```python
+import wandb
+
+# Initialize a W&B run
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Log the model
+    run.log_model(path="<path-to-model>", name="<name>")
+```
 
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
 
@@ -43,6 +52,50 @@ See [`log_model`](/models/ref/python/experiments/run#log_model) in the API Refer
 
 <summary>Example: Log a model to a run</summary>
 
+```python
+import os
+import wandb
+from tensorflow import keras
+from tensorflow.keras import layers
+
+config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
+
+# Initialize a W&B run
+with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
+
+    # Hyperparameters
+    loss = run.config["loss"]
+    optimizer = run.config["optimizer"]
+    metrics = ["accuracy"]
+    num_classes = 10
+    input_shape = (28, 28, 1)
+
+    # Training algorithm
+    model = keras.Sequential(
+        [
+            layers.Input(shape=input_shape),
+            layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+            layers.MaxPooling2D(pool_size=(2, 2)),
+            layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+            layers.MaxPooling2D(pool_size=(2, 2)),
+            layers.Flatten(),
+            layers.Dropout(0.5),
+            layers.Dense(num_classes, activation="softmax"),
+        ]
+    )
+
+    # Configure the model for training
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+
+    # Save model
+    model_filename = "model.h5"
+    local_filepath = "./"
+    full_path = os.path.join(local_filepath, model_filename)
+    model.save(filepath=full_path)
+
+    # Log the model to the W&B run
+    run.log_model(path=full_path, name="MNIST")
+```
 
 When you call `log_model`, a model artifact named `MNIST` is created and the file `model.h5` is added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
 
@@ -64,6 +117,15 @@ If you did not define `name` when you originally logged the files with `log_mode
 
 Ensure to replace the values enclosed in `<>` with your own:
  
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Access and download model. Returns path to downloaded artifact
+    downloaded_model_path = run.use_model(name="<your-model-name>")
+```
 
 The [use_model](/models/ref/python/experiments/run#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
@@ -73,6 +135,19 @@ The [use_model](/models/ref/python/experiments/run#use_model) function returns t
 
 For example, in the following code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
 
+```python
+import wandb
+
+entity = "luka"
+project = "NLP_Experiments"
+alias = "latest"  # semantic nickname or identifier for the model version
+model_artifact_name = "fine-tuned-model"
+
+# Initialize a run
+with wandb.init(project=project, entity=entity) as run:
+    # Access and download model. Returns path to downloaded artifact
+    downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+```
 </details>
 
 See [`use_model`](/models/ref/python/experiments/run#use_model) in the API Reference for parameters and return type.

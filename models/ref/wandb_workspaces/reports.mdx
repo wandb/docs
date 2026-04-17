@@ -1078,6 +1078,21 @@ A set of runs to display in a panel grid.
 
 
 **Example:**
+ ```python
+    # Using string filters
+    wr.Runset(
+         entity="my-entity",
+         project="my-project",
+         filters="Config('learning_rate') = 0.001 and State = 'finished'"
+    )
+
+    # Using FilterExpr list
+    wr.Runset(
+         entity="my-entity",
+         project="my-project",
+         filters=[expr.Config("learning_rate") == 0.001]
+    )
+    ```
 
 
 

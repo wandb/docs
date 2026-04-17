@@ -8,6 +8,16 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of W&B to track large experiments, like hyperparameter sweeps.
 
+```python
+from wandb.integration.lightgbm import wandb_callback, log_summary
+import lightgbm as lgb
+
+# Log metrics to W&B
+gbm = lgb.train(..., callbacks=[wandb_callback()])
+
+# Log feature importance plot and upload model checkpoint to W&B
+log_summary(gbm, save_model_checkpoint=True)
+```
 
 <Note>
 Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).

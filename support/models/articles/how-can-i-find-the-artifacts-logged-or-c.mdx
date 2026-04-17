@@ -10,10 +10,40 @@ Use the Public API to navigate the graph programmatically, starting from either 
 <Tabs>
 <Tab title="From an Artifact">
 
+```python
+api = wandb.Api()
+
+artifact = api.artifact("project/artifact:alias")
+
+# Walk up the graph from an artifact:
+producer_run = artifact.logged_by()
+# Walk down the graph from an artifact:
+consumer_runs = artifact.used_by()
+
+# Walk down the graph from a run:
+next_artifacts = consumer_runs[0].logged_artifacts()
+# Walk up the graph from a run:
+previous_artifacts = producer_run.used_artifacts()
+```
 
 </Tab>
 <Tab title="From a Run">
 
+```python
+api = wandb.Api()
+
+run = api.run("entity/project/run_id")
+
+# Walk down the graph from a run:
+produced_artifacts = run.logged_artifacts()
+# Walk up the graph from a run:
+consumed_artifacts = run.used_artifacts()
+
+# Walk up the graph from an artifact:
+earlier_run = consumed_artifacts[0].logged_by()
+# Walk down the graph from an artifact:
+consumer_runs = produced_artifacts[0].used_by()
+```
 
 </Tab>
 </Tabs>

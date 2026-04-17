@@ -43,3 +43,28 @@ Constructs a histogram chart from a W&B Table.
 **Example:**
  
 
+```python
+import math
+import random
+import wandb
+
+# Generate random data
+data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
+
+# Create a W&B Table
+table = wandb.Table(
+    data=data,
+    columns=["step", "height"],
+)
+
+# Create a histogram plot
+histogram = wandb.plot.histogram(
+    table,
+    value="height",
+    title="My Histogram",
+)
+
+# Log the histogram plot to W&B
+with wandb.init(...) as run:
+    run.log({"histogram-plot1": histogram})
+``` 

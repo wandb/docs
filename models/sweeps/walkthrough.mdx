@@ -14,6 +14,35 @@ This page shows how to define, initialize, and run a sweep. There are four main 
 
 Copy and paste the following code into a Jupyter Notebook or Python script:
 
+```python
+# Import the W&B Python Library and log into W&B
+import wandb
+
+# 1: Define objective/training function
+def objective(config):
+    score = config.x**3 + config.y
+    return score
+
+def main():
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
+
+# 2: Define the search space
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "score"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
+
+# 3: Start the sweep
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+
+wandb.agent(sweep_id, function=main, count=10)
+```
 
 The following sections break down and explains each step in the code sample.
 
@@ -27,6 +56,18 @@ Optionally provide the name of the project where you want the output of the W&B 
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
 </Note>
 
+```python
+# 1: Define objective/training function
+def objective(config):
+    score = config.x**3 + config.y
+    return score
+
+
+def main():
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
+```
 
 ## Define the search space with a sweep configuration
 
@@ -37,6 +78,17 @@ The proceeding example demonstrates a sweep configuration that uses a random sea
 W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B will optimize for minimizing the metric  `score` (`"name": "score"`).
 
 
+```python
+# 2: Define the search space
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "score"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
+```
 
 ## Initialize the Sweep
 

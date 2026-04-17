@@ -11,6 +11,23 @@ Dataset object with easy saving and automatic versioning
 
 `Example`
 
+```ts
+// Create a dataset
+const dataset = new Dataset({
+  id: 'grammar-dataset',
+  rows: [
+    { id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream." },
+    { id: '1', sentence: "She goed to the store.", correction: "She went to the store." },
+    { id: '2', sentence: "They plays video games all day.", correction: "They play video games all day." }
+  ]
+})
+
+// Access a specific example
+const exampleLabel = dataset.getRow(2).sentence;
+
+// Save the dataset
+const ref = await dataset.save()
+```
 
 ## Type parameters
 

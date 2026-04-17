@@ -69,6 +69,12 @@ Replace values enclosed in angle brackets (`< >`) with the actual values of the 
 
 Pass your desired run ID as a string to the `id` parameter when you initialize a run:
 
+```python 
+import wandb
+
+with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
+    # Your code here
+```
 
 ## Run name
 
@@ -86,6 +92,12 @@ You can name your run when [you initialize it](/models/runs/run-identifiers#crea
 
 Specify a name for your run by passing the `name` parameter to the [`wandb.init()`](/models/ref/python/functions/init) method. 
 
+```python 
+import wandb
+
+with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
+    # Your code here
+```
 
 ### Rename a run
 
@@ -98,6 +110,18 @@ Use [`wandb.Api.Run`](/models/ref/python/public-api/api#method-api-run) to acces
 
 Replace the values enclosed in angle brackets (`< >`) with your own values.
 
+```python
+import wandb
+
+api = wandb.Api()
+
+# Access run by its path
+run = api.run(path = "<entity>/<project>/<run-id>")
+
+# Specify a new run name
+run.name = "<new-run-name>"
+run.update()
+```
 
 
 </Tab>

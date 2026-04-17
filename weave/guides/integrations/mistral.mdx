@@ -17,6 +17,31 @@ It’s important to store traces of LLM applications in a central database, both
 
 Weave will automatically capture traces for [mistralai](https://github.com/mistralai/client-python). You can use the library as usual, start by calling `weave.init()`:
 
+```python lines
+import weave
+weave.init("cheese_recommender")
+
+# then use mistralai library as usual
+import os
+from mistralai import Mistral
+
+api_key = os.environ["MISTRAL_API_KEY"]
+model = "mistral-large-latest"
+
+client = Mistral(api_key=api_key)
+
+messages = [
+    {
+        "role": "user",
+        "content": "What is the best French cheese?",
+    },
+]
+
+chat_response = client.chat.complete(
+    model=model,
+    messages=messages,
+)
+```
 
 Weave will now track and log all LLM calls made through the MistralAI library. You can view the traces in the Weave web interface.
 
@@ -59,5 +84,42 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/gu
 
 In the example below, you can experiment with `model` and `country`. Every time you change one of these, you'll get a new _version_ of `CheeseRecommender`. 
 
+```python lines
+import weave
+from mistralai import Mistral
+
+weave.init("mistralai_project")
+
+class CheeseRecommender(weave.Model): # Change to `weave.Model`
+    model: str
+    temperature: float
+
+    @weave.op()
+    def predict(self, region:str) -> str: # Change to `predict`
+        "Recommend the best cheese in a given region"
+        
+        client = Mistral(api_key=api_key)
+
+        messages = [
+            {
+                "role": "user",
+                "content": f"What is the best cheese in {region}?",
+            },
+        ]
+
+        chat_response = client.chat.complete(
+            model=model,
+            messages=messages,
+            temperature=self.temperature
+        )
+        return chat_response.choices[0].message.content
+
+cheese_model = CheeseRecommender(
+    model="mistral-medium-latest",
+    temperature=0.0
+    )
+result = cheese_model.predict(region="France")
+print(result)
+```
 
 [![mistral_model.png](/weave/guides/integrations/imgs/mistral_model.png)](https://wandb.ai/capecape/mistralai_project/weave/models)

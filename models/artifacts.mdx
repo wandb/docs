@@ -64,10 +64,17 @@ Indicate the artifact you want to mark as input to your run with the [`wandb.Run
 Continuing from the previous code snippet, the following code example shows how to use the artifact called `example_artifact` that was created earlier:
 
 
+```python
+with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
+    artifact = run.use_artifact("training_dataset:latest")  # returns a run object using the "my_data" artifact
+```
 This returns an artifact object.
 
 Next, use the returned object to download all contents of the artifact:
 
+```python
+datadir = artifact.download()  # downloads the full `my_data` artifact to the default directory.
+```
 
 <Note>
 You can pass a custom path into the `root` [parameter](/models/ref/python/experiments/artifact) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](/models/artifacts/download-and-use-an-artifact).

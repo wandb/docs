@@ -206,6 +206,23 @@ The [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based
 
 Specify the Kubernetes Job spec that the Kaniko job uses in the `builder.kaniko-config` key of the agent configuration. For example:
 
+```yaml title="launch-config.yaml"
+builder:
+  type: kaniko
+  build-context-store: <my-build-context-store>
+  destination: <my-image-destination>
+  build-job-name: wandb-image-build
+  kaniko-config:
+    spec:
+      template:
+        spec:
+          containers:
+          - args:
+            - "--cache=false" # Args must be in the format "key=value"
+            env:
+            - name: "MY_ENV_VAR"
+              value: "my-env-var-value"
+```
 
 ## Deploy Launch agent into CoreWeave 
 Optionally deploy the W&B Launch agent to CoreWeave Cloud infrastructure. CoreWeave is a cloud infrastructure that is purpose built for GPU-accelerated workloads.

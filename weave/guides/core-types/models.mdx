@@ -13,6 +13,20 @@ A `Model` is a combination of data (which can include configuration, trained mod
     - type definitions on all parameters
     - a typed `predict` function with `@weave.op()` decorator
 
+    ```python lines
+    from weave import Model
+    import weave
+
+    class YourModel(Model):
+        attribute1: str
+        attribute2: int
+
+        @weave.op()
+        def predict(self, input_data: str) -> dict:
+            # Model logic goes here
+            prediction = self.attribute1 + ' ' + input_data
+            return {'pred': prediction}
+    ```
 
     You can call the model as usual with:
 

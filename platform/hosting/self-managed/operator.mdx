@@ -62,6 +62,30 @@ W&B must start as the root group (`$GID=0`) for file system permissions to funct
 
 Configure security contexts for each W&B component. For example, to configure the API component:
 
+```yaml
+api:
+  install: true
+  image:
+    repository: wandb/megabinary
+    tag: 0.74.1  # Replace with your actual version
+  pod:
+    securityContext:
+      fsGroup: 10001
+      fsGroupChangePolicy: Always
+      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 10001
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
+```
 
 If needed, configure a custom security context for other components like `app` or `console`. For details, see [Custom security context](#custom-security-context).
 
@@ -255,11 +279,27 @@ After provisioning your object storage bucket (see [Object storage provisioning]
 
 For on-premises AWS S3 (via Outposts or compatible storage):
 
+```yaml
+bucket:
+  kmsKey: <kms key arn>  # Optional KMS key for encryption
+  name: <bucket name>    # Example: wandb
+  path: ""               # Keep as empty string
+  provider: s3
+  region: <region>       # Example: us-east-1
+```
 
 **S3-compatible storage (MinIO, Ceph, NetApp, etc.)**
 
 For S3-compatible storage systems:
 
+```yaml
+bucket:
+  kmsKey: null
+  name: <s3 endpoint>    # Example: s3.example.com:9000
+  path: <bucket name>    # Example: wandb
+  provider: s3
+  region: <region>       # Example: us-east-1
+```
 
 To enable TLS for S3-compatible storage, append `?tls=true` to the bucket path:
 
@@ -398,6 +438,50 @@ The steps in this section are common for any deployment option.
 
    For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
+   ```
+   variable "namespace" {
+     type        = string
+     description = "Name prefix used for resources"
+   }
+
+   variable "domain_name" {
+     type        = string
+     description = "Domain name used to access instance."
+   }
+
+   variable "subdomain" {
+     type        = string
+     default     = null
+     description = "Subdomain for accessing the Weights & Biases UI."
+   }
+
+   variable "license" {
+     type = string
+   }
+
+   variable "zone_id" {
+     type        = string
+     description = "Domain for creating the Weights & Biases subdomain on."
+   }
+
+   variable "allowed_inbound_cidr" {
+    description = "CIDRs allowed to access wandb-server."
+    nullable    = false
+    type        = list(string)
+   }
+
+   variable "allowed_inbound_ipv6_cidr" {
+    description = "CIDRs allowed to access wandb-server."
+    nullable    = false
+    type        = list(string)
+   }
+
+   variable "eks_cluster_version" {
+    description = "EKS cluster kubernetes version"
+    nullable    = false
+    type        = string
+   }
+   ```
 
 ### Recommended deployment
 
@@ -620,6 +704,59 @@ This is the most straightforward deployment option configuration that creates al
 
    In the same directory where you created the files in the General Steps, create a file `main.tf` with the following content:
 
+   ```
+   provider "google" {
+    project = var.project_id
+    region  = var.region
+    zone    = var.zone
+   }
+
+   provider "google-beta" {
+    project = var.project_id
+    region  = var.region
+    zone    = var.zone
+   }
+
+   data "google_client_config" "current" {}
+
+   provider "kubernetes" {
+     host                   = "https://${module.wandb.cluster_endpoint}"
+     cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+     token                  = data.google_client_config.current.access_token
+   }
+
+   provider "helm" {
+     kubernetes {
+       host                   = "https://${module.wandb.cluster_endpoint}"
+       cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+       token                  = data.google_client_config.current.access_token
+     }
+   }
+
+   # Spin up all required services
+   module "wandb" {
+     source  = "wandb/wandb/google"
+     version = "~> 10.0"
+
+     namespace   = var.namespace
+     license     = var.license
+     domain_name = var.domain_name
+     subdomain   = var.subdomain
+   }
+
+   # You'll want to update your DNS with the provisioned IP address
+   output "url" {
+     value = module.wandb.url
+   }
+
+   output "address" {
+     value = module.wandb.address
+   }
+
+   output "bucket_name" {
+     value = module.wandb.bucket_name
+   }
+   ```
 
 2. Deploy W&B.
 
@@ -854,6 +991,22 @@ This is the most straightforward deployment option configuration that creates al
 
 To use Redis to cache SQL queries and speed up the application response when loading metrics, add the option `create_redis = true` to the `main.tf` file:
 
+```bash
+# Spin up all required services
+module "wandb" {
+  source  = "wandb/wandb/azurerm"
+  version = "~> 1.2"
+
+  namespace   = var.namespace
+  location    = var.location
+  license     = var.license
+  domain_name = var.domain_name
+  subdomain   = var.subdomain
+
+  create_redis = true
+  [...]
+}
+```
 
 ### Enable message broker (queue)
 
@@ -863,6 +1016,22 @@ To enable an external message broker using Azure Event Grid, add the option `use
 This is optional because W&B includes an embedded broker. This option does not bring a performance improvement.
 </Note>
 
+```bash
+# Spin up all required services
+module "wandb" {
+  source  = "wandb/wandb/azurerm"
+  version = "~> 1.2"
+
+  namespace   = var.namespace
+  location    = var.location
+  license     = var.license
+  domain_name = var.domain_name
+  subdomain   = var.subdomain
+
+  use_internal_queue = false
+  [...]
+}
+```
 
 ### Additional resources
 
@@ -1100,6 +1269,12 @@ spec:
 ```
 
 ### Host
+```yaml
+ # Provide the FQDN with protocol
+global:
+  # example host name, replace with your own
+  host: https://wandb.example.com
+```
 
 ### Object storage (bucket)
 
@@ -1133,18 +1308,71 @@ global:
 **Other providers (Minio, Ceph, and other S3-compatible storage)**
 
 For other S3 compatible providers, set the bucket configuration as follows:
+```yaml
+global:
+  bucket:
+    # Example values, replace with your own
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    accessKey: 5WOA500...P5DK7I
+    secretKey: HDKYe4Q...JAp1YyjysnX
+```
 
 For S3-compatible storage hosted outside of AWS, `kmsKey` must be `null`.
 
 To reference `accessKey` and `secretKey` from a secret:
+```yaml
+global:
+  bucket:
+    # Example values, replace with your own
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: bucket-secret
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
 
 ### MySQL
 
+```yaml
+global:
+   mysql:
+     # Example values, replace with your own
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
 
 To reference the `password` from a secret:
+```yaml
+global:
+   mysql:
+     # Example values, replace with your own
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: database-secret
+       passwordKey: MYSQL_WANDB_PASSWORD
+```
 
 ### License
 
+```yaml
+global:
+  # Example license, replace with your own
+  license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
 
 To reference the `license` from a secret:
 ```yaml
@@ -1160,6 +1388,12 @@ To identify the ingress class,  see this FAQ [entry](#how-to-identify-the-kubern
 
 **Without TLS**
 
+```yaml
+global:
+# IMPORTANT: Ingress is on the same level in the YAML as 'global' (not a child)
+ingress:
+  class: ""
+```
 
 **With TLS**
 
@@ -1170,6 +1404,20 @@ kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert w
 ```
 
 Reference the secret in the ingress configuration
+```yaml
+global:
+# IMPORTANT: Ingress is on the same level in the YAML as 'global' (not a child)
+ingress:
+  class: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls: 
+    - secretName: wandb-ingress-tls
+      hosts:
+        - <HOST_URI>
+```
 
 In case of Nginx you might have to add the following annotation:
 
@@ -1376,6 +1624,17 @@ global:
 
 ### OIDC SSO
 
+```yaml
+global: 
+  auth:
+    sessionLengthHours: 720
+    oidc:
+      clientId: ""
+      secret: ""
+      # Only include if your IdP requires it.
+      authMethod: ""
+      issuer: ""
+```
 
 `authMethod` is optional. 
 

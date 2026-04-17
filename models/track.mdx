@@ -30,6 +30,25 @@ Track a machine learning experiment with a few lines of code:
 
 The following code demonstrates a common W&B experiment tracking workflow:
 
+```python
+# Start a run.
+#
+# When this block exits, it waits for logged data to finish uploading.
+# If an exception is raised, the run is marked failed.
+with wandb.init(entity="", project="my-project-name") as run:
+  # Save mode inputs and hyperparameters.
+  run.config.learning_rate = 0.01
+
+  # Run your experiment code.
+  for epoch in range(num_epochs):
+    # Do some training...
+
+    # Log metrics over time to visualize model performance.
+    run.log({"loss": loss})
+
+  # Upload model outputs as artifacts.
+  run.log_artifact(model)
+```
 
 ## Get started
 

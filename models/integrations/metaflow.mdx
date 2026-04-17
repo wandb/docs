@@ -79,12 +79,34 @@ Decorating a step turns logging off or on for certain types within that step.
 
 In this example, all datasets and models in `start` will be logged
 
+```python
+from wandb.integration.metaflow import wandb_log
+
+class WandbExampleFlow(FlowSpec):
+    @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
+    @step
+    def start(self):
+        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+        self.model_file = torch.load(...)  # nn.Module    -> upload as model
+        self.next(self.transform)
+```
 </Tab>
 <Tab title="Flow">
 Decorating a flow is equivalent to decorating all the constituent steps with a default.
 
 In this case, all steps in `WandbExampleFlow` default to logging datasets and models by default, just like decorating each step with `@wandb_log(datasets=True, models=True)`
 
+```python
+from wandb.integration.metaflow import wandb_log
+
+@wandb_log(datasets=True, models=True)  # decorate all @step 
+class WandbExampleFlow(FlowSpec):
+    @step
+    def start(self):
+        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+        self.model_file = torch.load(...)  # nn.Module    -> upload as model
+        self.next(self.transform)
+```
 </Tab>
 <Tab title="Flow and Steps">
 Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, it overrides the flow-level decoration.
@@ -94,6 +116,32 @@ In this example:
 * `start` and `mid` log both datasets and models.
 * `end` logs neither datasets nor models.
 
+```python
+from wandb.integration.metaflow import wandb_log
+
+@wandb_log(datasets=True, models=True)  # same as decorating start and mid
+class WandbExampleFlow(FlowSpec):
+  # this step will log datasets and models
+  @step
+  def start(self):
+    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+    self.model_file = torch.load(...)  # nn.Module    -> upload as model
+    self.next(self.mid)
+
+  # this step will also log datasets and models
+  @step
+  def mid(self):
+    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+    self.model_file = torch.load(...)  # nn.Module    -> upload as model
+    self.next(self.end)
+
+  # this step is overwritten and will NOT log datasets OR models
+  @wandb_log(datasets=False, models=False)
+  @step
+  def end(self):
+    self.raw_df = pd.read_csv(...).    
+    self.model_file = torch.load(...)
+```
 </Tab>
 </Tabs>
 

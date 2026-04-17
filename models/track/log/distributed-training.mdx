@@ -39,6 +39,22 @@ The Python script:
 1. Checks the rank with the `--local_rank` command line argument.
 1. If the rank is set to 0, sets up `wandb` logging conditionally in the [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) function.
 
+```python
+if __name__ == "__main__":
+    # Get args
+    args = parse_args()
+
+    if args.local_rank == 0:  # only on main process
+        # Initialize wandb run
+        run = wandb.init(
+            entity=args.entity,
+            project=args.project,
+        )
+        # Train model with DDP
+        train(args, run)
+    else:
+        train(args)
+```
 
 Explore an [example dashboard showing metrics tracked from a single process](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system).
 
@@ -72,6 +88,21 @@ You might find it difficult to keep track of runs across multiple experiments. T
 
 The following Python code snippet demonstrates how to set the group parameter when you initialize W&B:
 
+```python
+if __name__ == "__main__":
+    # Get args
+    args = parse_args()
+    # Initialize run
+    run = wandb.init(
+        entity=args.entity,
+        project=args.project,
+        group="DDP",  # all runs for the experiment in one group
+    )
+    # Train model with DDP
+    train(args, run)
+
+    run.finish()  # mark the run as finished
+```
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
 
@@ -85,6 +116,15 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 
 Set the `job_type` parameter when you initialize W&B (`wandb.init(job_type='type-name')`) to categorize your nodes based on their function. For example, you might have a main coordinating node and several reporting worker nodes. You can set `job_type` to `main` for the main coordinating node and `worker` for the reporting worker nodes:
 
+   ```python
+   # Main coordinating node
+   with wandb.init(project="<project>", job_type="main", group="experiment_1") as run:
+        # Training code
+
+   # Reporting worker nodes
+   with wandb.init(project="<project>", job_type="worker", group="experiment_1") as run:
+        # Training code
+   ```
 
 Once you have set the `job_type` for your nodes, you can create [saved views](/models/track/workspaces/#create-a-new-saved-workspace-view) in your workspace to organize your runs. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu at the top right and click **Save as new view**.
 
@@ -149,6 +189,44 @@ For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/pyt
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
 
+```python
+import wandb
+
+entity = "<team_entity>"
+project = "<project_name>"
+
+# Initialize a run in the primary node
+run = wandb.init(
+    entity=entity,
+    project=project,
+	settings=wandb.Settings(
+        x_label="rank_0", 
+        mode="shared", 
+        x_primary=True,
+        x_stats_gpu_device_ids=[0, 1],  # (Optional) Only track metrics for GPU 0 and 1
+        )
+)
+
+# Note the run ID of the primary node.
+# Each worker node needs this run ID.
+run_id = run.id
+
+# Initialize a run in a worker node using the run ID of the primary node
+run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
+	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
+	id=run_id,
+)
+
+# Initialize a run in a worker node using the run ID of the primary node
+run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
+	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
+	id=run_id,
+)
+```
 
 In a real world example, each worker node might be on a separate machine.
 
@@ -208,6 +286,22 @@ if __name__ == "__main__":
 
 Pass a run object as an argument to share runs between processes:
 
+```python
+def do_work(run):
+    with wandb.init() as run:
+        run.log(dict(this=1))
+
+def main():
+    run = wandb.init()
+    p = mp.Process(target=do_work, kwargs=dict(run=run))
+    p.start()
+    p.join()
+    run.finish()  # mark the run as finished
+
+
+if __name__ == "__main__":
+    main()
+```
 
 W&B can not guarantee the logging order. Synchronization should be done by the author of the script.
 
@@ -232,6 +326,15 @@ W&B Service is enabled by default for versions of the W&B SDK `0.13.0` and above
 
 Modify your Python script to enable W&B Service for W&B SDK version 0.12.5 and above. Use the `wandb.require` method and pass the string `"service"` within your main function:
 
+```python
+if __name__ == "__main__":
+    main()
+
+
+def main():
+    wandb.require("service")
+    # rest-of-your-script-goes-here
+```
 
 For optimal experience we do recommend you upgrade to the latest version.
 

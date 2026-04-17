@@ -480,6 +480,23 @@ Constructs a data URL from the content.
 Dataset object with easy saving and automatic versioning. 
 
 **Examples:**
+```python
+# Create a dataset
+dataset = Dataset(name='grammar', rows=[
+     {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+     {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+     {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+])
+
+# Publish the dataset
+weave.publish(dataset)
+
+# Retrieve the dataset
+dataset_ref = weave.ref('grammar').get()
+
+# Access a specific example
+example_label = dataset_ref.rows[2]['sentence']
+```
 
 **Pydantic Fields:**
 
@@ -886,6 +903,35 @@ Then it will call all of the scorers and save the results in weave.
 If you want to preprocess the rows from the dataset you can pass in a function to preprocess_model_input. 
 
 **Examples:**
+```python
+# Collect your examples
+examples = [
+     {"question": "What is the capital of France?", "expected": "Paris"},
+     {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+     {"question": "What is the square root of 64?", "expected": "8"},
+]
+
+# Define any custom scoring function
+@weave.op
+def match_score1(expected: str, model_output: dict) -> dict:
+     # Here is where you'd define the logic to score the model output
+     return {'match': expected == model_output['generated_text']}
+
+@weave.op
+def function_to_evaluate(question: str):
+     # here's where you would add your LLM call and return the output
+     return  {'generated_text': 'Paris'}
+
+# Score your examples using scoring functions
+evaluation = Evaluation(
+     dataset=examples, scorers=[match_score1]
+)
+
+# Start tracking the evaluation
+weave.init('intro-example')
+# Run the evaluation
+asyncio.run(evaluation.evaluate(function_to_evaluate))
+```
 
 **Pydantic Fields:**
 
@@ -950,6 +996,13 @@ Note that this returns a CallsIter instead of a single call because it's possibl
  - <b>`ValueError`</b>:  If the evaluation has no ref (hasn't been saved/run yet). 
 
 **Examples:**
+```python
+evaluation = Evaluation(dataset=examples, scorers=[scorer])
+await evaluation.evaluate(model)  # Run evaluation first
+calls = evaluation.get_evaluate_calls()
+for call in calls:
+     print(f"Evaluation run: {call.id} at {call.started_at}")
+```
 
 ---
 
@@ -999,6 +1052,16 @@ Extract and organize scorer outputs from evaluation runs.
         - Values are lists of scorer outputs for that run and scorer 
 
 **Examples:**
+```python
+evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
+await evaluation.evaluate(model)
+scores = evaluation.get_scores()
+# Access scores by trace and scorer
+for trace_id, trace_scores in scores.items():
+         print(f"Evaluation run {trace_id}:")
+         for scorer_name, outputs in trace_scores.items():
+             print(f"  {scorer_name}: {outputs}")
+```
 
 Expected output: 
 
@@ -1054,9 +1117,33 @@ Each time you log a prediction, you will get back a `ScoreLogger` object. You ca
 
 Basic usage - log predictions with inputs and outputs directly: 
 
+```python
+ev = EvaluationLogger()
+
+# Log predictions with known inputs/outputs
+pred = ev.log_prediction(inputs={'q': 'Hello'}, outputs={'a': 'Hi there!'})
+pred.log_score("correctness", 0.9)
+
+# Finish the evaluation
+ev.log_summary({"avg_score": 0.9})
+```
 
 Advanced usage - use context manager for dynamic outputs and nested operations: 
 
+```python
+ev = EvaluationLogger()
+
+# Use context manager when you need to capture nested operations
+with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
+     # Any operations here (like LLM calls) automatically become
+     # children of the predict call
+     response = your_llm_call(...)
+     pred.output = response.content
+     pred.log_score("correctness", 0.9)
+
+# Finish the evaluation
+ev.log_summary({"avg_score": 0.9})
+```
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L646" />
 

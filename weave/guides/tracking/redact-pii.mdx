@@ -99,6 +99,25 @@ Weave automatically redacts the following sensitive keys by default:
 
 You can extend this list with your own custom keys that you want to redact from traces:
 
+```python lines
+import weave
+from weave.utils import sanitize
+
+client = weave.init("my-project", settings={"redact_pii": True})
+
+# Add custom keys to redact
+sanitize.add_redact_key("client_id")
+sanitize.add_redact_key("token")
+
+client_id = "123"
+token = "789"
+
+@weave.op
+def test(client_id, token):
+    return client_id + token
+
+test(client_id, token)
+```
 
 When viewed in the Weave UI, the values of `client_id` and `token` appear as `"REDACTED"`:
 

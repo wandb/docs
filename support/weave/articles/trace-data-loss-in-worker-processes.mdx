@@ -16,6 +16,27 @@ Both methods block until all background uploads complete, ensuring no trace data
 
 The following example demonstrates `client.finish()`:
 
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+
+    try:
+        # Your task logic that creates traces
+        result = your_processing_function(input_data)
+
+        # Ensure all traces are uploaded before task completes
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
 
 You can also use the `with` context manager to automatically call `weave.finish()` on exit:
 

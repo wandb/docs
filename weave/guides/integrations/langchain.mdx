@@ -18,11 +18,46 @@ Weave simplifies this process by automatically capturing traces for your [LangCh
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name that will help you organize your traces.
 
+```python lines {6}
+import weave
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# Initialize Weave with your project name
+weave.init("langchain_demo")
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+output = llm_chain.invoke({"number": 2})
+
+print(output)
+```
 
 ## Tracking call metadata
 
 To track metadata from your LangChain calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a chain or a single request.
 
+```python lines {6,13}
+import weave
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# Initialize Weave with your project name
+weave.init("langchain_demo")
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+with weave.attributes({"my_awesome_attribute": "value"}):
+    output = llm_chain.invoke()
+
+print(output)
+```
 Weave automatically tracks the metadat against the trace of the LangChain call. You can view the metadata in the Weave web interface as shown below:
 
 [![langchain_attributes.png](/weave/guides/integrations/imgs/langchain_attributes.png)](https://wandb.ai/parambharat/langchain_demo/weave/traces?cols=%7B%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
@@ -45,11 +80,61 @@ In addition to automatic tracing, you can manually trace calls using the `WeaveT
 
 You can pass the `WeaveTracer` callback to individual LangChain components to trace specific requests.
 
+```python lines {11,13,15,22}
+import os
+
+os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
+
+from weave.integrations.langchain import WeaveTracer
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+import weave
+
+# Initialize Weave with your project name
+weave.init("langchain_demo")  # <-- we don't enable tracing here because the env var is explicitly set to `false`
+
+weave_tracer = WeaveTracer()
+
+config = {"callbacks": [weave_tracer]}
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+output = llm_chain.invoke({"number": 2}, config=config) # <-- this enables tracing only for this chain invoke.
+
+llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for langchain calls but openai calls will still be traced
+```
 
 ### Using `weave_tracing_enabled` context manager
 
 Alternatively, you can use the `weave_tracing_enabled` context manager to enable tracing for specific blocks of code.
 
+```python lines {11,18}
+import os
+
+os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
+
+from weave.integrations.langchain import weave_tracing_enabled
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+import weave
+
+# Initialize Weave with your project name
+weave.init("langchain_demo")  # <-- we don't enable tracing here because the env var is explicitly set to `false`
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+with weave_tracing_enabled():  # <-- this enables tracing only for this chain invoke.
+    output = llm_chain.invoke({"number": 2})
+
+
+llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for langchain calls but openai calls will still be traced
+```
 
 ## Configuration
 
@@ -78,6 +163,49 @@ Organizing and evaluating LLMs in applications for various use cases is challeng
 
 The following example demonstrates wrapping a Langchain chain in a `WeaveModel`:
 
+```python lines {10,12,16}
+import json
+import asyncio
+
+import weave
+
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# Initialize Weave with your project name
+weave.init("langchain_demo")
+
+class ExtractFruitsModel(weave.Model):
+    model_name: str
+    prompt_template: str
+
+    @weave.op()
+    async def predict(self, sentence: str) -> dict:
+        llm = ChatOpenAI(model=self.model_name, temperature=0.0)
+        prompt = PromptTemplate.from_template(self.prompt_template)
+
+        llm_chain = prompt | llm
+        response = llm_chain.invoke({"sentence": sentence})
+        result = response.content
+
+        if result is None:
+            raise ValueError("No response from model")
+        parsed = json.loads(result)
+        return parsed
+
+model = ExtractFruitsModel(
+    model_name="gpt-3.5-turbo-1106",
+    prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}',
+)
+sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
+
+prediction = asyncio.run(model.predict(sentence))
+
+# if you're in a Jupyter Notebook, run:
+# prediction = await model.predict(sentence)
+
+print(prediction)
+```
 This code creates a model that can be visualized in the Weave UI:
 
 [![langchain_model.png](/weave/guides/integrations/imgs/langchain_model.png)](https://wandb.ai/parambharat/langchain_demo/weave/object-versions?filter=%7B%22baseObjectClass%22%3A%22Model%22%7D&peekPath=%2Fparambharat%2Flangchain_demo%2Fobjects%2FExtractFruitsModel%2Fversions%2FBeoL6WuCH8wgjy6HfmuBMyKzArETg1oAFpYaXZSq1hw%3F%26)
@@ -89,6 +217,44 @@ You can also use Weave Models with `serve`, and [`Evaluations`](/weave/guides/co
 Evaluations help you measure the performance of your models. By using the [`weave.Evaluation`](/weave/guides/core-types/evaluations) class, you can capture how well your model performs on specific tasks or datasets, making it easier to compare different models and iterations of your application. The following example demonstrates how to evaluate the model we created:
 
 
+```python lines
+
+from weave.scorers import MultiTaskBinaryClassificationF1
+
+sentences = [
+    "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+    "Pounits are a bright green color and are more savory than sweet.",
+    "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them.",
+]
+labels = [
+    {"fruit": "neoskizzles", "color": "purple", "flavor": "candy"},
+    {"fruit": "pounits", "color": "bright green", "flavor": "savory"},
+    {"fruit": "glowls", "color": "pale orange", "flavor": "sour and bitter"},
+]
+examples = [
+    {"id": "0", "sentence": sentences[0], "target": labels[0]},
+    {"id": "1", "sentence": sentences[1], "target": labels[1]},
+    {"id": "2", "sentence": sentences[2], "target": labels[2]},
+]
+
+@weave.op()
+def fruit_name_score(target: dict, output: dict) -> dict:
+    return {"correct": target["fruit"] == output["fruit"]}
+
+
+evaluation = weave.Evaluation(
+    dataset=examples,
+    scorers=[
+        MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
+        fruit_name_score,
+    ],
+)
+scores = asyncio.run(evaluation.evaluate(model)))
+# if you're in a Jupyter Notebook, run:
+# scores = await evaluation.evaluate(model)
+
+print(scores)
+```
 
 This code generates an evaluation trace that can be visualized in the Weave UI:
 

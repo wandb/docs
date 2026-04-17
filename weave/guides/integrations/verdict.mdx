@@ -17,11 +17,51 @@ Weave simplifies this process by automatically capturing traces for your [Verdic
 
 To get started, simply call `weave.init(project=...)` at the beginning of your script. Use the `project` argument to log to a specific W&B Team name with `team-name/project-name` or do `project-name` to log to your default team/entity.
 
+```python lines {7}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# Initialize Weave with your project name
+weave.init("verdict_demo")
+
+# Create a simple evaluation pipeline
+pipeline = Pipeline()
+pipeline = pipeline >> JudgeUnit().prompt("Rate the quality of this text: {source.text}")
+
+# Create sample data
+data = Schema.of(text="This is a sample text for evaluation.")
+
+# Run the pipeline - this will be automatically traced
+output = pipeline.run(data)
+
+print(output)
+```
 
 ## Tracking Call Metadata
 
 To track metadata from your Verdict pipeline calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a pipeline run or evaluation batch.
 
+```python lines {7,14}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# Initialize Weave with your project name
+weave.init("verdict_demo")
+
+pipeline = Pipeline()
+pipeline = pipeline >> JudgeUnit().prompt("Evaluate sentiment: {source.text}")
+
+data = Schema.of(text="I love this product!")
+
+with weave.attributes({"evaluation_type": "sentiment", "batch_id": "batch_001"}):
+    output = pipeline.run(data)
+
+print(output)
+```
 
 Weave automatically tracks the metadata against the trace of the Verdict pipeline call. You can view the metadata in the Weave web interface.
 
@@ -43,6 +83,33 @@ You can view the traces in the Weave web interface, showing the hierarchical str
 
 Here's a more complex example showing how Weave traces nested pipeline operations:
 
+```python lines {8}
+import weave
+from verdict import Pipeline, Layer
+from verdict.common.judge import JudgeUnit
+from verdict.transform import MeanPoolUnit
+from verdict.schema import Schema
+
+# Initialize Weave with your project name
+weave.init("verdict_demo")
+
+# Create a complex pipeline with multiple steps
+pipeline = Pipeline()
+pipeline = pipeline >> Layer([
+    JudgeUnit().prompt("Rate coherence: {source.text}"),
+    JudgeUnit().prompt("Rate relevance: {source.text}"),
+    JudgeUnit().prompt("Rate accuracy: {source.text}")
+], 3)
+pipeline = pipeline >> MeanPoolUnit()
+
+# Sample data
+data = Schema.of(text="This is a comprehensive evaluation of text quality across multiple dimensions.")
+
+# Run the pipeline - all operations will be traced
+result = pipeline.run(data)
+
+print(f"Average score: {result}")
+```
 
 This will create a detailed trace showing:
 - The main Pipeline execution
@@ -65,6 +132,28 @@ No additional configuration is needed - Weave will automatically:
 
 If you're using custom Verdict tracers in your application, Weave's `VerdictTracer` can work alongside them:
 
+```python lines {8}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.util.tracing import ConsoleTracer
+from verdict.schema import Schema
+
+# Initialize Weave with your project name
+weave.init("verdict_demo")
+
+# You can still use Verdict's built-in tracers
+console_tracer = ConsoleTracer()
+
+# Create pipeline with both Weave (automatic) and Console tracing
+pipeline = Pipeline(tracer=[console_tracer])  # Weave tracer is added automatically
+pipeline = pipeline >> JudgeUnit().prompt("Evaluate: {source.text}")
+
+data = Schema.of(text="Sample evaluation text")
+
+# This will trace to both Weave and console
+result = pipeline.run(data)
+```
 
 ## Models and Evaluations
 
@@ -72,6 +161,48 @@ Organizing and evaluating AI systems with multiple pipeline components can be ch
 
 The following example demonstrates wrapping a Verdict pipeline in a `WeaveModel`:
 
+```python lines {8,10,14}
+import asyncio
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# Initialize Weave with your project name
+weave.init("verdict_demo")
+
+class TextQualityEvaluator(weave.Model):
+    judge_prompt: str
+    pipeline_name: str
+
+    @weave.op()
+    async def predict(self, text: str) -> dict:
+        pipeline = Pipeline(name=self.pipeline_name)
+        pipeline = pipeline >> JudgeUnit().prompt(self.judge_prompt)
+        
+        data = Schema.of(text=text)
+        result = pipeline.run(data)
+        
+        return {
+            "text": text,
+            "quality_score": result.score if hasattr(result, 'score') else result,
+            "evaluation_prompt": self.judge_prompt
+        }
+
+model = TextQualityEvaluator(
+    judge_prompt="Rate the quality of this text on a scale of 1-10: {source.text}",
+    pipeline_name="text_quality_evaluator"
+)
+
+text = "This is a well-written and informative piece of content that provides clear value to readers."
+
+prediction = asyncio.run(model.predict(text))
+
+# if you're in a Jupyter Notebook, run:
+# prediction = await model.predict(text)
+
+print(prediction)
+```
 
 This code creates a model that can be visualized in the Weave UI, showing both the pipeline structure and the evaluation results.
 
@@ -79,6 +210,62 @@ This code creates a model that can be visualized in the Weave UI, showing both t
 
 Evaluations help you measure the performance of your evaluation pipelines themselves. By using the [`weave.Evaluation`](/weave/guides/core-types/evaluations) class, you can capture how well your Verdict pipelines perform on specific tasks or datasets:
 
+```python lines {8}
+import asyncio
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# Initialize Weave
+weave.init("verdict_demo")
+
+# Create evaluation model
+class SentimentEvaluator(weave.Model):
+    @weave.op()
+    async def predict(self, text: str) -> dict:
+        pipeline = Pipeline()
+        pipeline = pipeline >> JudgeUnit().prompt(
+            "Classify sentiment as positive, negative, or neutral: {source.text}"
+        )
+        
+        data = Schema.of(text=text)
+        result = pipeline.run(data)
+        
+        return {"sentiment": result}
+
+# Test data
+texts = [
+    "I love this product, it's amazing!",
+    "This is terrible, worst purchase ever.",
+    "The weather is okay today."
+]
+labels = ["positive", "negative", "neutral"]
+
+examples = [
+    {"id": str(i), "text": texts[i], "target": labels[i]}
+    for i in range(len(texts))
+]
+
+# Scoring function
+@weave.op()
+def sentiment_accuracy(target: str, output: dict) -> dict:
+    predicted = output.get("sentiment", "").lower()
+    return {"correct": target.lower() in predicted}
+
+model = SentimentEvaluator()
+
+evaluation = weave.Evaluation(
+    dataset=examples,
+    scorers=[sentiment_accuracy],
+)
+
+scores = asyncio.run(evaluation.evaluate(model))
+# if you're in a Jupyter Notebook, run:
+# scores = await evaluation.evaluate(model)
+
+print(scores)
+```
 
 This creates an evaluation trace that shows how your Verdict pipeline performs across different test cases.
 
@@ -87,9 +274,50 @@ This creates an evaluation trace that shows how your Verdict pipeline performs a
 ### Performance monitoring
 Weave automatically captures timing information for all pipeline operations. You can use this to identify performance bottlenecks:
 
+```python lines {6}
+import weave
+from verdict import Pipeline, Layer
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+weave.init("verdict_demo")
+
+# Create a pipeline that might have performance variations
+pipeline = Pipeline()
+pipeline = pipeline >> Layer([
+    JudgeUnit().prompt("Quick evaluation: {source.text}"),
+    JudgeUnit().prompt("Detailed analysis: {source.text}"),  # This might be slower
+], 2)
+
+data = Schema.of(text="Sample text for performance testing")
+
+# Run multiple times to see timing patterns
+for i in range(3):
+    with weave.attributes({"run_number": i}):
+        result = pipeline.run(data)
+```
 
 ### Error handling
 Weave automatically captures exceptions that occur during pipeline execution:
 
+```python lines {6}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+weave.init("verdict_demo")
+
+pipeline = Pipeline()
+pipeline = pipeline >> JudgeUnit().prompt("Process: {source.invalid_field}")  # This will cause an error
+
+data = Schema.of(text="Sample text")
+
+try:
+    result = pipeline.run(data)
+except Exception as e:
+    print(f"Pipeline failed: {e}")
+    # Error details are captured in Weave trace
+```
 
 By integrating Weave with Verdict, you get comprehensive observability into your AI evaluation pipelines, making it easier to debug, optimize, and understand your evaluation workflows.

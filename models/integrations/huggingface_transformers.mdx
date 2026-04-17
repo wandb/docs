@@ -12,6 +12,15 @@ The [Hugging Face Transformers](https://huggingface.co/docs/transformers/index) 
 
 ## Next-level logging in few lines
 
+```python
+os.environ["WANDB_PROJECT"] = "<my-amazing-project>"  # name your W&B project
+os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
+
+from transformers import TrainingArguments, Trainer
+
+args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
+trainer = Trainer(..., args=args)
+```
 <Frame>
     <img src="/images/integrations/huggingface_gif.gif" alt="HuggingFace dashboard"  />
 </Frame>
@@ -124,6 +133,23 @@ python run_glue.py \     # run your Python script
 ```
 </Tab>
 <Tab title="Python">
+```python
+from transformers import TrainingArguments, Trainer
+
+args = TrainingArguments(
+    # other args and kwargs here
+    report_to="wandb",  # enable logging to W&B
+    run_name="bert-base-high-lr",  # name of the W&B run (optional)
+    logging_steps=1,  # how often to log to W&B
+)
+
+trainer = Trainer(
+    # other args and kwargs here
+    args=args,  # your training args
+)
+
+trainer.train()  # start training and logging to W&B
+```
 </Tab>
 </Tabs>
 
@@ -195,6 +221,14 @@ If your training is encapsulated in a Python script, the W&B run will end when y
 
 If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `run.finish()`.
 
+```python
+run = wandb.init()
+trainer.train()  # start training and logging to W&B
+
+# post-training analysis, testing, other logged code
+
+run.finish()
+```
 
 ### Visualize your results
 
@@ -215,10 +249,56 @@ If you save your model checkpoints as Artifacts, you can promote them to the [Re
 
 If you saved your model to W&B Artifacts with `WANDB_LOG_MODEL`, you can download your model weights for additional training or to run inference. You just load them back into the same Hugging Face architecture that you used before.
 
+```python
+# Create a new run
+with wandb.init(project="amazon_sentiment_analysis") as run:
+    # Pass the name and version of Artifact
+    my_model_name = "model-bert-base-high-lr:latest"
+    my_model_artifact = run.use_artifact(my_model_name)
+
+    # Download model weights to a folder and return the path
+    model_dir = my_model_artifact.download()
+
+    # Load your Hugging Face model from that folder
+    #  using the same model class
+    model = AutoModelForSequenceClassification.from_pretrained(
+        model_dir, num_labels=num_labels
+    )
+
+    # Do additional training, or run inference
+```
 
 ### How do I resume training from a checkpoint?
 If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
 
+```python
+last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
+
+# resume the wandb run from the run_id
+with wandb.init(
+    project=os.environ["WANDB_PROJECT"],
+    id=last_run_id,
+    resume="must",
+) as run:
+    # Connect an Artifact to the run
+    my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
+    my_checkpoint_artifact = run.use_artifact(my_model_name)
+
+    # Download checkpoint to a folder and return the path
+    checkpoint_dir = my_checkpoint_artifact.download()
+
+    # reinitialize your model and trainer
+    model = AutoModelForSequenceClassification.from_pretrained(
+        "<model_name>", num_labels=num_labels
+    )
+    # your awesome training arguments here.
+    training_args = TrainingArguments()
+
+    trainer = Trainer(model=model, args=training_args)
+
+    # make sure use the checkpoint dir to resume training from the checkpoint
+    trainer.train(resume_from_checkpoint=checkpoint_dir)
+```
 
 ### How do I log and view evaluation samples during training
 
@@ -227,6 +307,19 @@ Logging to W&B via the Transformers `Trainer` is taken care of by the [`WandbCal
 Below is the general pattern to add this new callback to the HF Trainer, and further down is a code-complete example to log evaluation outputs to a W&B Table:
 
 
+```python
+# Instantiate the Trainer as normal
+trainer = Trainer()
+
+# Instantiate the new logging callback, passing it the Trainer object
+evals_callback = WandbEvalsCallback(trainer, tokenizer, ...)
+
+# Add the callback to the Trainer
+trainer.add_callback(evals_callback)
+
+# Begin Trainer training as normal
+trainer.train()
+```
 
 #### View evaluation samples during training
 
@@ -242,6 +335,91 @@ Additionally, we can control the frequency of logging by logging the predictions
 **Note**: Unlike the regular `WandbCallback` this custom callback needs to be added to the trainer **after** the `Trainer` is instantiated and not during initialization of the `Trainer`.
 This is because the `Trainer` instance is passed to the callback during initialization.
 
+```python
+from transformers.integrations import WandbCallback
+import pandas as pd
+
+
+def decode_predictions(tokenizer, predictions):
+    labels = tokenizer.batch_decode(predictions.label_ids)
+    logits = predictions.predictions.argmax(axis=-1)
+    prediction_text = tokenizer.batch_decode(logits)
+    return {"labels": labels, "predictions": prediction_text}
+
+
+class WandbPredictionProgressCallback(WandbCallback):
+    """Custom WandbCallback to log model predictions during training.
+
+    This callback logs model predictions and labels to a wandb.Table at each
+    logging step during training. It allows to visualize the
+    model predictions as the training progresses.
+
+    Attributes:
+        trainer (Trainer): The Hugging Face Trainer instance.
+        tokenizer (AutoTokenizer): The tokenizer associated with the model.
+        sample_dataset (Dataset): A subset of the validation dataset
+          for generating predictions.
+        num_samples (int, optional): Number of samples to select from
+          the validation dataset for generating predictions. Defaults to 100.
+        freq (int, optional): Frequency of logging. Defaults to 2.
+    """
+
+    def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
+        """Initializes the WandbPredictionProgressCallback instance.
+
+        Args:
+            trainer (Trainer): The Hugging Face Trainer instance.
+            tokenizer (AutoTokenizer): The tokenizer associated
+              with the model.
+            val_dataset (Dataset): The validation dataset.
+            num_samples (int, optional): Number of samples to select from
+              the validation dataset for generating predictions.
+              Defaults to 100.
+            freq (int, optional): Frequency of logging. Defaults to 2.
+        """
+        super().__init__()
+        self.trainer = trainer
+        self.tokenizer = tokenizer
+        self.sample_dataset = val_dataset.select(range(num_samples))
+        self.freq = freq
+
+    def on_evaluate(self, args, state, control, **kwargs):
+        super().on_evaluate(args, state, control, **kwargs)
+        # control the frequency of logging by logging the predictions
+        # every `freq` epochs
+        if state.epoch % self.freq == 0:
+            # generate predictions
+            predictions = self.trainer.predict(self.sample_dataset)
+            # decode predictions and labels
+            predictions = decode_predictions(self.tokenizer, predictions)
+            # add predictions to a wandb.Table
+            predictions_df = pd.DataFrame(predictions)
+            predictions_df["epoch"] = state.epoch
+            records_table = self._wandb.Table(dataframe=predictions_df)
+            # log the table to wandb
+            self._wandb.log({"sample_predictions": records_table})
+
+
+# First, instantiate the Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=lm_datasets["train"],
+    eval_dataset=lm_datasets["validation"],
+)
+
+# Instantiate the WandbPredictionProgressCallback
+progress_callback = WandbPredictionProgressCallback(
+    trainer=trainer,
+    tokenizer=tokenizer,
+    val_dataset=lm_dataset["validation"],
+    num_samples=10,
+    freq=2,
+)
+
+# Add the callback to the trainer
+trainer.add_callback(progress_callback)
+```
 
 For a more detailed example please refer to this [colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Custom_Progress_Callback.ipynb)
 

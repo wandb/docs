@@ -851,6 +851,9 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Assign Team Role Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -932,6 +935,9 @@ PATCH /scim/Users/abc
 </Tab>
 <Tab title="Add to Registry Response">
 
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1008,6 +1014,9 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Remove from Registry Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1061,6 +1070,9 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Remove from ALL Registries Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1126,6 +1138,9 @@ GET /scim/Groups/ghi
 ```
 </Tab>
 <Tab title="Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1170,6 +1185,9 @@ GET /scim/Groups
 ```
 </Tab>
 <Tab title="Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1357,6 +1375,9 @@ Content-Type: application/scim+json
 
 
 <Tab title="Response">
+```bash
+(Status 201)
+```
 
 ```json
 {
@@ -1437,6 +1458,9 @@ PUT /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1500,6 +1524,9 @@ PATCH /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1558,6 +1585,9 @@ PATCH /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1608,6 +1638,9 @@ PATCH /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
+```bash
+(Status 200)
+```
 
 ```json
 {
@@ -1657,6 +1690,36 @@ GET /scim/Roles/abc
 (Status 200)
 ```
 
+```json
+{
+    "description": "A sample custom role for example",
+    "id": "Um9sZTo3",
+    "inheritedFrom": "member", // indicates the predefined role
+    "meta": {
+        "resourceType": "Role",
+        "created": "2023-11-20T23:10:14Z",
+        "lastModified": "2023-11-20T23:31:23Z",
+        "location": "Roles/Um9sZTo3"
+    },
+    "name": "Sample custom role",
+    "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+    "permissions": [
+        {
+            "name": "artifact:read",
+            "isInherited": true // inherited from member predefined role
+        },
+        ...
+        ...
+        {
+            "name": "project:update",
+            "isInherited": false // custom permission added by admin
+        }
+    ],
+    "schemas": [
+        ""
+    ]
+}
+```
 </Tab>
 </Tabs>
 
@@ -1681,6 +1744,73 @@ GET /scim/Roles
 (Status 200)
 ```
 
+```json
+{
+   "Resources": [
+        {
+            "description": "A sample custom role for example",
+            "id": "Um9sZTo3",
+            "inheritedFrom": "member", // indicates the predefined role that the custom role inherits from
+            "meta": {
+                "resourceType": "Role",
+                "created": "2023-11-20T23:10:14Z",
+                "lastModified": "2023-11-20T23:31:23Z",
+                "location": "Roles/Um9sZTo3"
+            },
+            "name": "Sample custom role",
+            "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+            "permissions": [
+                {
+                    "name": "artifact:read",
+                    "isInherited": true // inherited from member predefined role
+                },
+                ...
+                ...
+                {
+                    "name": "project:update",
+                    "isInherited": false // custom permission added by admin
+                }
+            ],
+            "schemas": [
+                ""
+            ]
+        },
+        {
+            "description": "Another sample custom role for example",
+            "id": "Um9sZToxMg==",
+            "inheritedFrom": "viewer", // indicates the predefined role that the custom role inherits from
+            "meta": {
+                "resourceType": "Role",
+                "created": "2023-11-21T01:07:50Z",
+                "location": "Roles/Um9sZToxMg=="
+            },
+            "name": "Sample custom role 2",
+            "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+            "permissions": [
+                {
+                    "name": "launchagent:read",
+                    "isInherited": true // inherited from viewer predefined role
+                },
+                ...
+                ...
+                {
+                    "name": "run:stop",
+                    "isInherited": false // custom permission added by admin
+                }
+            ],
+            "schemas": [
+                ""
+            ]
+        }
+    ],
+    "itemsPerPage": 9999,
+    "schemas": [
+        "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+    ],
+    "startIndex": 1,
+    "totalResults": 2
+}
+```
 </Tab>
 </Tabs>
 
@@ -1724,6 +1854,36 @@ POST /scim/Roles
 (Status 201)
 ```
 
+```json
+{
+    "description": "A sample custom role for example",
+    "id": "Um9sZTo3",
+    "inheritedFrom": "member", // indicates the predefined role
+    "meta": {
+        "resourceType": "Role",
+        "created": "2023-11-20T23:10:14Z",
+        "lastModified": "2023-11-20T23:31:23Z",
+        "location": "Roles/Um9sZTo3"
+    },
+    "name": "Sample custom role",
+    "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+    "permissions": [
+        {
+            "name": "artifact:read",
+            "isInherited": true // inherited from member predefined role
+        },
+        ...
+        ...
+        {
+            "name": "project:update",
+            "isInherited": false // custom permission added by admin
+        }
+    ],
+    "schemas": [
+        ""
+    ]
+}
+```
 </Tab>
 </Tabs>
 
@@ -1887,6 +2047,26 @@ To use Etags:
 
 #### Example
 
+```
+# Get user and note ETag
+GET /scim/Users/abc
+# Response includes: ETag: W/"xyz123"
+
+# Update with ETag
+PATCH /scim/Users/abc
+If-Match: W/"xyz123"
+
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "organizationRole",
+            "value": "admin"
+        }
+    ]
+}
+```
 
 A `412 Precondition Failed` error response indicates that the resources has been modified since you retrieved it.
 

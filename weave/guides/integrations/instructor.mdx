@@ -15,6 +15,31 @@ It’s important to store traces of language model applications in a central loc
 
 Weave will automatically capture traces for [Instructor](https://python.useinstructor.com/). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
 
+```python lines
+import instructor
+import weave
+from pydantic import BaseModel
+from openai import OpenAI
+
+
+# Define your desired output structure
+class UserInfo(BaseModel):
+    user_name: str
+    age: int
+
+# Initialize Weave
+weave.init(project_name="instructor-test")
+
+# Patch the OpenAI client
+client = instructor.from_openai(OpenAI())
+
+# Extract structured data from natural language
+user_info = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    response_model=UserInfo,
+    messages=[{"role": "user", "content": "John Doe is 30 years old."}],
+)
+```
 
 | ![Instructor LM trace in Weave with structured output extraction workflow](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif)                                                                        |
 |-----------------------------------------------------------------------------------------------------------------------|
@@ -28,6 +53,40 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have the function `extract_person` which is the metric function wrapped with `@weave.op`. This helps us see how intermediate steps, such as OpenAI chat completion call.
 
+```python lines
+import instructor
+import weave
+from openai import OpenAI
+from pydantic import BaseModel
+
+
+# Define your desired output structure
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Initialize Weave
+weave.init(project_name="instructor-test")
+
+# Patch the OpenAI client
+lm_client = instructor.from_openai(OpenAI())
+
+
+# Extract structured data from natural language
+@weave.op()
+def extract_person(text: str) -> Person:
+    return lm_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": text},
+        ],
+        response_model=Person,
+    )
+
+
+person = extract_person("My name is John and I am 20 years old")
+```
 
 | ![Instructor op trace with structured objects, function inputs, outputs, and Pydantic model validation](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png) |
 |---|
@@ -41,6 +100,57 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](../core-t
 
 In the example below, you can experiment with `PersonExtractor`. Every time you change one of these, you'll get a new _version_ of `PersonExtractor`.
 
+```python lines
+import asyncio
+from typing import List, Iterable
+
+import instructor
+import weave
+from openai import AsyncOpenAI
+from pydantic import BaseModel
+
+
+# Define your desired output structure
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Initialize Weave
+weave.init(project_name="instructor-test")
+
+# Patch the OpenAI client
+lm_client = instructor.from_openai(AsyncOpenAI())
+
+
+class PersonExtractor(weave.Model):
+    openai_model: str
+    max_retries: int
+
+    @weave.op()
+    async def predict(self, text: str) -> List[Person]:
+        model = await lm_client.chat.completions.create(
+            model=self.openai_model,
+            response_model=Iterable[Person],
+            max_retries=self.max_retries,
+            stream=True,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a perfect entity extraction system",
+                },
+                {
+                    "role": "user",
+                    "content": f"Extract `{text}`",
+                },
+            ],
+        )
+        return [m async for m in model]
+
+
+model = PersonExtractor(openai_model="gpt-4", max_retries=2)
+asyncio.run(model.predict("John is 30 years old"))
+```
 
 | ![Instructor Weave Model tracing and versioning interface with model versions and trace history](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
 |---------------------------------------------------------------------------|

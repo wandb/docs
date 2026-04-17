@@ -63,3 +63,38 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 
 You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to W&B via the `WandBLogger`, in this example a sample of the validation images and predictions is logged:
 
+```python
+import wandb
+from composer import Callback, State, Logger
+
+class LogPredictions(Callback):
+    def __init__(self, num_samples=100, seed=1234):
+        super().__init__()
+        self.num_samples = num_samples
+        self.data = []
+        
+    def eval_batch_end(self, state: State, logger: Logger):
+        """Compute predictions per batch and stores them on self.data"""
+        
+        if state.timer.epoch == state.max_duration: #on last val epoch
+            if len(self.data) < self.num_samples:
+                n = self.num_samples
+                x, y = state.batch_pair
+                outputs = state.outputs.argmax(-1)
+                data = [[wandb.Image(x_i), y_i, y_pred] for x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
+                self.data += data
+            
+    def eval_end(self, state: State, logger: Logger):
+        with wandb.init() as run:
+            "Create a wandb.Table and logs it"
+            columns = ['image', 'ground truth', 'prediction']
+            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
+            run.log({'sample_table':table}, step=int(state.timer.batch))         
+...
+
+trainer = Trainer(
+    ...
+    loggers=[WandBLogger()],
+    callbacks=[LogPredictions()]
+)
+```

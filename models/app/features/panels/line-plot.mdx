@@ -149,6 +149,11 @@ The proceeding image shows a graph that represents average values across runs us
 
 You can also plot `NaN` values including PyTorch tensors on a line plot with `wandb.Run.log()`. For example:
 
+```python
+with wandb.init() as run:
+    # Log a NaN value
+    run.log({"test": float("nan")})
+```
 
 <Frame>
     <img src="/images/app_ui/visualize_nan.png" alt="NaN value handling"  />

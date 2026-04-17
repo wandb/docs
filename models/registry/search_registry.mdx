@@ -87,18 +87,72 @@ W&B supports the following comparison and logical operators for filtering regist
 The following code examples demonstrate some common search scenarios. 
 
 To use the `wandb.Api().registries()` method, first import the W&B Python SDK ([`wandb`](/models/ref/python/)) library:
+```python
+import wandb
+
+# (Optional) Create an instance of the wandb.Api() class for readability
+api = wandb.Api()
+```
 
 Filter all registries that contain the string `model`:
 
+```python
+# Filter all registries that contain the string `model`
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# Returns an iterable of all registries that match the filters
+registries = api.registries(filter=registry_filters)
+```
 
 Filter all collections, independent of registry, that contains the string `yolo` in the collection name:
 
+```python
+# Filter all collections, independent of registry, that 
+# contains the string `yolo` in the collection name
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# Returns an iterable of all collections that match the filters
+collections = api.registries().collections(filter=collection_filters)
+```
 
 Filter all collections, independent of registry, that contains the string `yolo` in the collection name and possesses `cnn` as a tag:
 
+```python
+# Filter all collections, independent of registry, that contains the
+# string `yolo` in the collection name and possesses `cnn` as a tag
+collection_filters = {
+    "name": {"$regex": "yolo"},
+    "tag": "cnn"
+}
+
+# Returns an iterable of all collections that match the filters
+collections = api.registries().collections(filter=collection_filters)
+```
 
 Find all artifact versions that contains the string `model` and has either the tag `image-classification` or an `latest` alias:
 
+```python
+# Find all artifact versions that contains the string `model` and 
+# has either the tag `image-classification` or an `latest` alias
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# Use logical $or operator to filter artifact versions
+version_filters = {
+    "$or": [
+        {"tag": "image-classification"},
+        {"alias": "production"}
+    ]
+}
+
+# Returns an iterable of all artifact versions that match the filters
+artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
+```
 
 Each item in the `artifacts` iterable in the previous code snippet is an instance of the `Artifact` class. This means that you can access each artifact's attributes, such as `name`, `collection`, `aliases`, `tags`, `created_at`, and more:
 
@@ -114,6 +168,17 @@ For a complete list of an artifact object's attributes, see the [Artifacts Class
 
 Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:
 
+```python
+# Find all artifact versions created between 2024-01-08 and 2025-03-04 at 13:10 UTC. 
+
+artifact_filters = {
+    "alias": "latest",
+    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
+}
+
+# Returns an iterable of all artifact versions that match the filters
+artifacts = api.registries().collections().versions(filter=artifact_filters)
+```
 
 <Note>
 Specify the date and time in `YYYY-MM-DD HH:MM:SS` format for `created_at` and `updated_at` queries. You can omit the hours, minutes, and seconds if you want to filter by date only.

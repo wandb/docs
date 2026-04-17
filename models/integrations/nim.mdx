@@ -18,6 +18,13 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
 
 1. [Create a launch queue](/platform/launch/add-job-to-queue/) if you don't have one already. See an example queue config below.
 
+   ```yaml
+   net: host
+   gpus: all # can be a specific set of GPUs or `all` to use everything
+   runtime: nvidia # also requires nvidia container runtime
+   volume:
+     - model-store:/model-store/
+   ```
 
    <Frame>
     <img src="/images/integrations/nim1.png" alt="image"  />

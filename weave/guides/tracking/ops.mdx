@@ -32,6 +32,20 @@ A Weave Op is a versioned function that automatically logs all Calls.
   <Tab title="TypeScript">
     To create an Op, wrap a typescript function with `weave.op`
 
+    ```typescript lines
+    import * as weave from 'weave'
+
+    function trackMe(v: number) {
+        return v + 5
+    }
+
+    const trackMeOp = weave.op(trackMe)
+    trackMeOp(15)
+
+    // You can also do this inline, which may be more convenient
+    const trackMeInline = weave.op((v: number) => v + 5)
+    trackMeInline(15)
+    ```
 
   </Tab>
 </Tabs>
@@ -165,6 +179,15 @@ The available `color` values are:
 
     Weave applies sampling rates only to outer-most Ops. If a nested Op has a sample rate but a parent Op calls it first, the sampling rate of the nested Op is ignored.
 
+    ```python lines
+    @weave.op(tracing_sample_rate=0.1)  # Only trace ~10% of calls
+    def high_frequency_op(x: int) -> int:
+        return x + 1
+
+    @weave.op(tracing_sample_rate=1.0)  # Always trace (default)
+    def always_traced_op(x: int) -> int:
+        return x + 1
+    ```
 
     When an Op's call is not sampled:
     - The function executes normally

@@ -67,6 +67,27 @@ You can save details about the input graphs including number of edges, number of
 
 The following snippet shows how you could do that with PyVis and HTML.
 
+```python
+from pyvis.network import Network
+import wandb
+
+with wandb.init(project=’graph_vis’) as run:
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
+
+    # Add the edges from the PyG graph to the PyVis network
+    for e in tqdm(g.edge_index.T):
+        src = e[0].item()
+        dst = e[1].item()
+
+        net.add_node(dst)
+        net.add_node(src)
+        
+        net.add_edge(src, dst, value=0.1)
+
+    # Save the PyVis visualisation to a HTML file
+    net.show("graph.html")
+    run.log({"eda/graph": wandb.Html("graph.html")})
+```
 
 <Frame>
     <img src="/images/integrations/pyg_graph_wandb.png" alt="Interactive graph visualization"  />

@@ -20,8 +20,30 @@ For details on the Trace view, see [Navigate the Weave Trace view](/weave/guides
 <Tab title="Python">
 To view a call using the W&B Weave Python SDK, use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
 
+```python lines
+import weave
+
+# Initialize the client
+client = weave.init("your-project-name")
+
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
+
+print(call)
+```
 </Tab>
 <Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave'
+
+// Initialize the client
+const client = await weave.init('intro-example')
+
+// Get a specific call by its ID
+const call = await client.getCall('call-uuid-here')
+
+console.log(call)
+```
 </Tab>
 
 <Tab title="HTTP API">
@@ -47,6 +69,61 @@ Use `weave.Markdown` to customize how your trace information is displayed withou
 <Tab title="Python">
 Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
     
+```python lines
+import weave
+
+def postprocess_inputs(query) -> weave.Markdown:
+    search_box = f"""
+**Search Query:**
+``+`
+{query}
+``+`
+"""
+    return {"search_box": weave.Markdown(search_box),
+            "query": query}
+
+def postprocess_output(docs) -> weave.Markdown:
+    formatted_docs = f"""
+# {docs[0]["title"]}
+
+{docs[0]["content"]}
+
+[Read more]({docs[0]["url"]})
+
+---
+
+# {docs[1]["title"]}
+
+{docs[1]["content"]}
+
+[Read more]({docs[1]["url"]})
+"""
+    return weave.Markdown(formatted_docs)
+
+@weave.op(
+    postprocess_inputs=postprocess_inputs,
+    postprocess_output=postprocess_output,
+)
+def rag_step(query):
+    # example newspaper articles of the companies on the S&P 500 
+    docs = [
+        {
+            "title": "OpenAI",
+            "content": "OpenAI is a company that makes AI models.",
+            "url": "https://www.openai.com",
+        },
+        {
+            "title": "Google",
+            "content": "Google is a company that makes search engines.",
+            "url": "https://www.google.com",
+        },
+    ]
+    return docs
+
+if __name__ == "__main__":
+    weave.init('markdown_renderers')
+    rag_step("Tell me about OpenAI")
+```
 </Tab>
 <Tab title="Typescript">
 ```plaintext

@@ -74,6 +74,47 @@ New to W&B? See our [quickstart guide](/models/quickstart/).
 
 For DSPy optimizers that use `dspy.Evaluate` (such as MIPROv2), use the `WandbDSPyCallback` to log evaluation metrics over time and track program signature evolution in W&B Tables.
 
+```python
+import dspy
+from dspy.datasets import MATH
+
+import weave
+import wandb
+from wandb.integration.dspy import WandbDSPyCallback
+
+# Initialize W&B (importing weave is sufficient; no explicit weave.init needed)
+project_name = "dspy-optimization"
+with wandb.init(project=project_name) as run:
+    # Add W&B callback to DSPy
+    dspy.settings.callbacks.append(
+        WandbDSPyCallback(run=run)
+    )
+
+    # Configure language models
+    teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
+    student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
+    dspy.configure(lm=student_lm)
+
+    # Load dataset and define program
+    dataset = MATH(subset='algebra')
+    program = dspy.ChainOfThought("question -> answer")
+
+    # Configure and run optimizer
+    optimizer = dspy.MIPROv2(
+        metric=dataset.metric,
+        auto="light",
+        num_threads=24,
+        teacher_settings=dict(lm=teacher_lm),
+        prompt_model=student_lm
+    )
+
+    optimized_program = optimizer.compile(
+        program,
+        trainset=dataset.train,
+        max_bootstrapped_demos=2,
+        max_labeled_demos=2
+    )
+```
 
 After running this code, you receive both a W&B Run URL and a Weave URL. W&B displays evaluation metrics over time, along with Tables that show the evolution of program signatures. The run's **Overview** tab includes links to Weave traces for detailed inspection.
 
@@ -89,6 +130,19 @@ For comprehensive details about Weave tracing, evaluation, and optimization with
 
 Enable detailed prediction logging to inspect individual examples during optimization. The callback creates a W&B Tables for each evaluation step, which can help you to analyze specific successes and failures.
 
+```python
+from wandb.integration.dspy import WandbDSPyCallback
+
+# Enable prediction logging (enabled by default)
+callback = WandbDSPyCallback(log_results=True)
+dspy.settings.callbacks.append(callback)
+
+# Run your optimization
+optimized_program = optimizer.compile(program, trainset=train_data)
+
+# Disable prediction logging if needed
+# callback = WandbDSPyCallback(log_results=False)
+```
 
 ### Access prediction data
 
@@ -110,3 +164,31 @@ Learn more in the [W&B Tables guide](/models/tables/visualize-tables/).
 
 To reproduce and version your best DSpy programs, save them as W&B Artifacts. Choose between saving the complete program or only the state.
 
+```python
+from wandb.integration.dspy import WandbDSPyCallback
+
+# Create callback instance
+callback = WandbDSPyCallback()
+dspy.settings.callbacks.append(callback)
+
+# Run optimization
+optimized_program = optimizer.compile(program, trainset=train_data)
+
+# Save options:
+
+# 1. Complete program (recommended) - includes architecture and state
+callback.log_best_model(optimized_program, save_program=True)
+
+# 2. State only as JSON - lighter weight, human-readable
+callback.log_best_model(optimized_program, save_program=False, filetype="json")
+
+# 3. State only as pickle - preserves Python objects
+callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
+
+# Add custom aliases for versioning
+callback.log_best_model(
+    optimized_program,
+    save_program=True,
+    aliases=["best", "production", "v2.0"]
+)
+```

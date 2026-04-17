@@ -156,6 +156,20 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
 
+  ```python
+  with wandb.init() as run:
+    # ground_truth is a list of true labels, predictions is a list of predicted scores
+    ground_truth = [0, 1, 0, 1, 0, 1]
+    predictions = [0.1, 0.4, 0.35, 0.8, 0.7, 0.9]
+
+    # Create the ROC curve plot
+    # labels is an optional list of class names, classes_to_plot is an optional subset of those labels to visualize
+    plot = wandb.plot.roc_curve(
+        ground_truth, predictions, labels=None, classes_to_plot=None
+    )
+
+    run.log({"roc": plot})
+  ```
 
   You can log this whenever your code has access to:
 
@@ -176,6 +190,21 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
 Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script. [Try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
+```python
+# Create a table with the columns to plot
+table = wandb.Table(data=data, columns=["step", "height"])
+
+# Map from the table's columns to the chart's fields
+fields = {"x": "step", "value": "height"}
+
+# Use the table to populate the new custom chart preset
+# To use your own saved chart preset, change the vega_spec_name
+my_custom_chart = wandb.plot_table(
+    vega_spec_name="carey/new_chart",
+    data_table=table,
+    fields=fields,
+)
+```
 
 
 
@@ -199,6 +228,14 @@ Use `wandb.Table()` to log your data as a 2D array. Typically each row of this t
 
 
 
+```python
+with wandb.init() as run:
+  # Logging a custom table of data
+  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
+  run.log(
+      {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+  )
+```
 
 ## Customize the chart
 

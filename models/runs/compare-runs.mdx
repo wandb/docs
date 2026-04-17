@@ -128,6 +128,63 @@ This section illustrates how pinned and baseline runs can help you to compare ru
 
 1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs. Replace placeholders surrounded with angle brackets (`<>`) with your own values.
 
+    ```python
+    import wandb
+    import random
+    import math
+
+    def train_model(learning_rate, batch_size, run_name, tags=None):
+        """Simulate training a model with given hyperparameters."""
+        config = {
+            "learning_rate": learning_rate,
+            "batch_size": batch_size,
+            "optimizer": "adam",
+            "architecture": "resnet50"
+        }
+        
+        with wandb.init(
+          # Replace with your team and project name
+            project="hyperparameter-tuning",
+            entity="<team>",
+            name=run_name,
+            config=config,
+            tags=tags or []
+        ) as run:
+            # Simulate training loop
+            for epoch in range(50):
+                # Simulated metrics
+                accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+                loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+                
+                run.log({
+                    "epoch": epoch,
+                    "accuracy": accuracy,
+                    "loss": loss
+                })
+
+    # Create baseline run with standard configuration
+    train_model(
+        learning_rate=0.001,
+        batch_size=64,
+        run_name="baseline-config",
+        tags=["baseline", "production"]
+    )
+
+    # Experiment with different learning rates
+    train_model(
+        learning_rate=0.003,
+        batch_size=64,
+        run_name="lr-experiment-0.003",
+        tags=["experiment"]
+    )
+
+    train_model(
+        learning_rate=0.0001,
+        batch_size=64,
+        run_name="lr-experiment-0.0001",
+        tags=["experiment"]
+    )
+    ```
 
     After running this code, your workspace has three runs.
 2. Set `baseline-config` as your baseline run.

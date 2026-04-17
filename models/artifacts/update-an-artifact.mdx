@@ -34,6 +34,34 @@ with wandb.init(project="<example>") as run:
 <Tab title="W&B Public API">
 The following example updates an artifact with [`wandb.Api`](/models/ref/python/public-api/api):
 
+```python
+import wandb
+
+api = wandb.Api()
+
+artifact = api.artifact("entity/project/artifact:alias")
+
+# Update the description
+artifact.description = "My new description"
+
+# Selectively update metadata keys
+artifact.metadata["oldKey"] = "new value"
+
+# Replace the metadata entirely
+artifact.metadata = {"newKey": "new value"}
+
+# Add an alias
+artifact.aliases.append("best")
+
+# Remove an alias
+artifact.aliases.remove("latest")
+
+# Completely replace the aliases
+artifact.aliases = ["replaced"]
+
+# Persist all artifact modifications
+artifact.save()
+```
 
 For more information, see the Weights and Biases [Artifact API](/models/ref/python/experiments/artifact).
 </Tab>

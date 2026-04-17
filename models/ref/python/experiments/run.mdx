@@ -33,6 +33,14 @@ There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.
 **Examples:**
  Create a run with `wandb.init()`: 
 
+```python
+import wandb
+
+# Start a new run and log some data
+# Use context manager (`with` statement) to automatically finish the run
+with wandb.init(entity="entity", project="project") as run:
+    run.log({"accuracy": acc, "loss": loss})
+``` 
 
 
 ### <kbd>property</kbd> Run.config
@@ -517,6 +525,18 @@ Logged values don't have to be scalars. You can log any [W&B supported Data Type
 
 W&B organizes metrics with a forward slash (`/`) in their name into sections named using the text before the final slash. For example, the following results in two sections named "train" and "validate": 
 
+```python
+with wandb.init() as run:
+     # Log metrics in the "train" section.
+     run.log(
+         {
+             "train/accuracy": 0.9,
+             "train/loss": 30,
+             "validate/accuracy": 0.8,
+             "validate/loss": 20,
+         }
+     )
+``` 
 
 Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a section named "a". 
 
@@ -526,9 +546,33 @@ By default, each call to `log` creates a new "step". The step must always increa
 
 In many cases, it is better to treat the W&B step like you'd treat a timestamp rather than a training step. 
 
+```python
+with wandb.init() as run:
+     # Example: log an "epoch" metric for use as an X axis.
+     run.log({"epoch": 40, "train-loss": 0.5})
+``` 
 
 It is possible to use multiple `wandb.Run.log()` invocations to log to the same step with the `step` and `commit` parameters. The following are all equivalent: 
 
+```python
+with wandb.init() as run:
+     # Normal usage:
+     run.log({"train-loss": 0.5, "accuracy": 0.8})
+     run.log({"train-loss": 0.4, "accuracy": 0.9})
+
+     # Implicit step without auto-incrementing:
+     run.log({"train-loss": 0.5}, commit=False)
+     run.log({"accuracy": 0.8})
+     run.log({"train-loss": 0.4}, commit=False)
+     run.log({"accuracy": 0.9})
+
+     # Explicit step:
+     run.log({"train-loss": 0.5}, step=current_step)
+     run.log({"accuracy": 0.8}, step=current_step)
+     current_step += 1
+     run.log({"train-loss": 0.4}, step=current_step)
+     run.log({"accuracy": 0.9}, step=current_step, commit=True)
+``` 
 
 
 
@@ -555,9 +599,26 @@ with wandb.init() as run:
 
 Incremental logging 
 
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"loss": 0.2}, commit=False)
+    # Somewhere else when I'm ready to report this step:
+    run.log({"accuracy": 0.8})
+``` 
 
 Histogram 
 
+```python
+import numpy as np
+import wandb
+
+# sample gradients at random from normal distribution
+gradients = np.random.randn(100, 100)
+with wandb.init() as run:
+    run.log({"gradients": wandb.Histogram(gradients)})
+``` 
 
 Image from NumPy 
 
@@ -598,9 +659,35 @@ with wandb.init() as run:
 
 Video from NumPy 
 
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # axes are (time, channel, height, width)
+    frames = np.random.randint(
+         low=0,
+         high=256,
+         size=(10, 3, 100, 100),
+         dtype=np.uint8,
+    )
+    run.log({"video": wandb.Video(frames, fps=4)})
+``` 
 
 Matplotlib plot 
 
+```python
+from matplotlib import pyplot as plt
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 10)
+    y = x * x
+    ax.plot(x, y)  # plot y = x^2
+    run.log({"chart": fig})
+``` 
 
 PR Curve 
 
@@ -862,6 +949,30 @@ Files are automatically deduplicated: calling `save()` multiple times on the sam
 
 For historical reasons, this may return a boolean in legacy code. 
 
+```python
+import wandb
+
+run = wandb.init()
+
+run.save("these/are/myfiles/*")
+# => Saves files in a "these/are/myfiles/" folder in the run.
+
+run.save("these/are/myfiles/*", base_path="these")
+# => Saves files in an "are/myfiles/" folder in the run.
+
+run.save("/Users/username/Documents/run123/*.txt")
+# => Saves files in a "run123/" folder in the run. See note below.
+
+run.save("/Users/username/Documents/run123/*.txt", base_path="/Users")
+# => Saves files in a "username/Documents/run123/" folder in the run.
+
+run.save("files/*/saveme.txt")
+# => Saves each "saveme.txt" file in an appropriate subdirectory
+#    of "files/".
+
+# Explicitly finish the run since a context manager is not used.
+run.finish()
+``` 
 
 ---
 
@@ -967,6 +1078,30 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 
 **Examples:**
+ ```python
+import wandb
+
+run = wandb.init(project="<example>")
+
+# Use an artifact by name and alias
+artifact_a = run.use_artifact(artifact_or_name="<name>:<alias>")
+
+# Use an artifact by name and version
+artifact_b = run.use_artifact(artifact_or_name="<name>:v<version>")
+
+# Use an artifact by entity/project/name:alias
+artifact_c = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:<alias>"
+)
+
+# Use an artifact by entity/project/name:version
+artifact_d = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:v<version>"
+)
+
+# Explicitly finish the run since a context manager is not used.
+run.finish()
+``` 
 
 ---
 

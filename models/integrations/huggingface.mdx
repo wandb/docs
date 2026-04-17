@@ -46,6 +46,10 @@ Install the Hugging Face and W&B libraries, and the GLUE dataset and training sc
 ```
 
 
+```notebook
+# the run_glue.py script requires transformers dev
+!pip install -q git+https://github.com/huggingface/transformers
+```
 
 Before continuing, [sign up for a free account](https://app.wandb.ai/login?signup=true).
 
@@ -62,6 +66,10 @@ wandb.login()
 Optionally, we can set environment variables to customize W&B logging. See the [Hugging Face integration guide](/models/integrations/huggingface/).
 
 
+```python
+# Optional: log both gradients and parameters
+%env WANDB_WATCH=all
+```
 
 ## Train the model
 Next, call the downloaded training script [run_glue.py](https://huggingface.co/transformers/examples.html#glue) and see training automatically get tracked to the W&B dashboard. This script fine-tunes BERT on the Microsoft Research Paraphrase Corpus— pairs of sentences with human annotations indicating whether they are semantically equivalent.

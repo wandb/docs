@@ -177,3 +177,16 @@ def train_model(
 
 If you're using a [framework integration we support](/models/integrations), you can also pass in the callback directly:
 
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    from pytorch_lightning.loggers import WandbLogger
+    from pytorch_lightning import Trainer
+
+    trainer = Trainer(logger=WandbLogger())
+    ...  # do training
+```

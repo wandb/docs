@@ -40,6 +40,15 @@ Create an artifact version within a W&B run:
 3. Add files to the artifact with `.add_file`.
 4. Log the artifact to the run with `.log_artifact`.
 
+```python 
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+
+    # Add Files and Assets to the artifact using
+    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    artifact.add_file("image1.png")
+    run.log_artifact(artifact)
+```
 </Tab>
 <Tab title="Outside of a run">
 Create an artifact version outside of a W&B run:
@@ -77,14 +86,38 @@ Consider the following example. Different runs (labelled below as **Run 1**, **R
 
 #### Run 1
 
+```python
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Add Files and Assets to the artifact using
+    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    artifact.add_file("image1.png")
+    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
+```
 
 #### Run 2
 
+```python
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Add Files and Assets to the artifact using
+    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    artifact.add_file("image2.png")
+    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
+```
 
 #### Run 3
 
 Must run after Run 1 and Run 2 complete. The Run that calls `finish_artifact` can include files in the artifact, but does not need to.
 
+```python
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Add Files and Assets to the artifact
+    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    artifact.add_file("image3.png")
+    run.finish_artifact(artifact, distributed_id="my_dist_artifact")
+```
 
 
 
@@ -201,7 +234,31 @@ Putting it all together, the code examples above look like:
 
 <Tabs>
 <Tab title="Inside a run">
+```python
+with wandb.init(job_type="modify dataset") as run:
+    saved_artifact = run.use_artifact(
+        "my_artifact:latest"
+    )  # fetch artifact and input it into your run
+    draft_artifact = saved_artifact.new_draft()  # create a draft version
+
+    # modify a subset of files in the draft version
+    draft_artifact.add_file("file_to_add.txt")
+    draft_artifact.remove("dir_to_remove/")
+    run.log_artifact(
+        draft_artifact
+    )  # log your changes to create a new version and mark it as output to your run
+```
 </Tab>
 <Tab title="Outside of a run">
+```python
+client = wandb.Api()
+saved_artifact = client.artifact("my_artifact:latest")  # load your artifact
+draft_artifact = saved_artifact.new_draft()  # create a draft version
+
+# modify a subset of files in the draft version
+draft_artifact.remove("deleted_file.txt")
+draft_artifact.add_file("modified_file.txt")
+draft_artifact.save()  # commit changes to the draft
+```
 </Tab>
 </Tabs>

@@ -29,6 +29,24 @@ Use the `wandb.Table` constructor in one of two ways:
 
 #### From an existing array or dataframe
 
+```python
+# assume a model has returned predictions on four images
+# with the following fields available:
+# - the image id
+# - the image pixels, wrapped in a wandb.Image()
+# - the model's predicted label
+# - the ground truth label
+my_data = [
+    [0, wandb.Image("img_0.jpg"), 0, 0],
+    [1, wandb.Image("img_1.jpg"), 8, 0],
+    [2, wandb.Image("img_2.jpg"), 7, 1],
+    [3, wandb.Image("img_3.jpg"), 1, 1],
+]
+
+# create a wandb.Table() with corresponding columns
+columns = ["id", "image", "prediction", "truth"]
+test_table = wandb.Table(data=my_data, columns=columns)
+```
 
 ## Add data
 
@@ -41,11 +59,57 @@ Tables are mutable. As your script executes you can add more data to your table,
 
 This code sample shows how to create and populate a W&B table incrementally. You define the table with predefined columns, including confidence scores for all possible labels, and add data row by row during inference. You can also [add data to tables incrementally when resuming runs](#adding-data-to-resumed-runs).
 
+```python
+# Define the columns for the table, including confidence scores for each label
+columns = ["id", "image", "guess", "truth"]
+for digit in range(10):  # Add confidence score columns for each digit (0-9)
+    columns.append(f"score_{digit}")
+
+# Initialize the table with the defined columns
+test_table = wandb.Table(columns=columns)
+
+# Iterate through the test dataset and add data to the table row by row
+# Each row includes the image ID, image, predicted label, true label, and confidence scores
+for img_id, img in enumerate(mnist_test_data):
+    true_label = mnist_test_data_labels[img_id]  # Ground truth label
+    guess_label = my_model.predict(img)  # Predicted label
+    test_table.add_data(
+        img_id, wandb.Image(img), guess_label, true_label
+    )  # Add row data to the table
+```
 
 #### Adding data to resumed runs
 
 You can incrementally update a W&B table in resumed runs by loading an existing table from an artifact, retrieving the last row of data, and adding the updated metrics. Then, reinitialize the table for compatibility and log the updated version back to W&B.
 
+```python
+import wandb
+
+# Initialize a run 
+with wandb.init(project="my_project") as run:
+
+    # Load the existing table from the artifact
+    best_checkpt_table = run.use_artifact(table_tag).get(table_name)
+
+    # Get the last row of data from the table for resuming
+    best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
+
+    # Update the best metrics as needed
+
+    # Add the updated data to the table
+    best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+
+    # Reinitialize the table with its updated data to ensure compatibility
+    best_checkpt_table = wandb.Table(
+        columns=["col1", "col2", "col3"], data=best_checkpt_table.data
+    )
+
+    # Initialize the Run
+    with wandb.init() as run:
+
+        # Log the updated table to W&B
+        run.log({table_name: best_checkpt_table})
+```
 
 ## Retrieve data
 
@@ -98,6 +162,16 @@ Any table logged this way will show up in your Workspace on both the Run Page an
 
 Use `artifact.add()` to log tables to the Artifacts section of your run instead of the workspace. This could be useful if you have a dataset that you want to log once and then reference for future runs. 
 
+```python
+with wandb.init(project="my_project") as run:
+    # create a wandb Artifact for each meaningful step
+    test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
+
+    # [build up your predictions data as above]
+    test_table = wandb.Table(data=data, columns=columns)
+    test_predictions.add(test_table, "my_test_key")
+    run.log_artifact(test_predictions)
+```
 
 Refer to this Colab for a [detailed example of artifact.add() with image data](https://wandb.me/dsviz-nature-colab) and this Report for an example of how to use Artifacts and Tables to [version control and deduplicate tabular data](https://wandb.me/TBV-Dedup).
 
@@ -116,5 +190,26 @@ To join two Tables you have logged previously in an artifact context, fetch them
 
 For example, the following code example demonstrates how to read one Table of original songs called `'original_songs'` and another Table of synthesized versions of the same songs called `'synth_songs'`. The code joins the two tables on `"song_id"`, and uploads the resulting table as a new W&B Table:
 
+```python
+import wandb
+
+with wandb.init(project="my_project") as run:
+
+    # fetch original songs table
+    orig_songs = run.use_artifact("original_songs:latest")
+    orig_table = orig_songs.get("original_samples")
+
+    # fetch synthesized songs table
+    synth_songs = run.use_artifact("synth_songs:latest")
+    synth_table = synth_songs.get("synth_samples")
+
+    # join tables on "song_id"
+    join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
+    join_at = wandb.Artifact("synth_summary", "analysis")
+
+    # add table to artifact and log to W&B
+    join_at.add(join_table, "synth_explore")
+    run.log_artifact(join_at)
+```
 
 [Read this tutorial](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) for an example on how to combine two previously stored tables stored in different Artifact objects.

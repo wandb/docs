@@ -26,6 +26,21 @@ Use the W&B Python SDK to track references to files stored outside of W&B.
 3. Specify the reference to the bucket path with the artifact object's `wandb.Artifact.add_reference()` method.
 4. Log the artifact's metadata with `run.log_artifact()`.
 
+```python
+import wandb
+
+# Initialize a W&B run
+with wandb.init(project="my-project") as run:
+
+  # Create an artifact object
+  artifact = wandb.Artifact(name="name", type="type")
+
+  # Add a reference to the bucket path
+  artifact.add_reference(uri = "uri/to/your/bucket/path")
+
+  # Log the artifact's metadata
+  run.log_artifact(artifact)
+```
 
 As an example, suppose your bucket has the following directory structure:
 
@@ -92,6 +107,21 @@ Based on your use case, read the instructions to enable object versioning: [AWS]
 
 The following code sample uploads a dataset to an Amazon S3 bucket, tracks it with a reference artifact, then downloads it:
 
+```python
+import boto3
+import wandb
+
+with wandb.init() as run:
+  # Training here...
+
+  s3_client = boto3.client("s3")
+  s3_client.upload_file(file_name="my_model.h5", bucket="my-bucket", object_name="models/cnn/my_model.h5")
+
+  # Log the model artifact
+  model_artifact = wandb.Artifact("cnn", type="model")
+  model_artifact.add_reference("s3://my-bucket/models/cnn/")
+  run.log_artifact(model_artifact)
+```
 
 At a later point, you can download the model artifact. Specify the name of the artifact and its type:
 
@@ -146,6 +176,21 @@ To track an artifact in a filesystem:
 
 Copy and paste the following code snippet to track files in a mounted filesystem. Replace the values enclosed in angle brackets (`< >`) with your own values.
 
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(entity="<entity>", project="<project>") as run:
+
+  # Create an artifact object
+  artifact = wandb.Artifact(name="<name>", type="<type>")
+
+  # Add a reference to the filesystem path
+  artifact.add_reference("file:///path/to/dataset/")
+
+  # Log the artifact (metadata only)
+  run.log_artifact(artifact)
+```
 
 Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second component is the root `/` of the filesystem. The remaining components are the path to the directory or file you want to track.
 
@@ -178,6 +223,24 @@ By default, W&B imposes a 10,000 file limit when adding a reference to a directo
 
 Similarly, to track a model stored at `models/cnn/my_model.h5`, you could use the following code snippet:
 
+```python
+import wandb
+
+with wandb.init() as run:
+
+  # Training here...
+
+  # Write model to disk
+
+  # Create an artifact object
+  model_artifact = wandb.Artifact("cnn", type="model")
+
+  # Add a reference to the model file path
+  model_artifact.add_reference("file:///mount/cnn/my_model.h5")
+
+  # Log the artifact to W&B
+  run.log_artifact(model_artifact)
+```
 
 ## Download an artifact from an external filesystem
 

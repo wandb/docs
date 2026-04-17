@@ -24,6 +24,11 @@ The function is idempotent — safe to call multiple times.
 
 `Example`
 
+```typescript
+import { patchRealtimeSession } from 'weave';
+patchRealtimeSession();
+// Every new RealtimeSession(...) is now auto-instrumented
+```
 
 #### Defined in
 

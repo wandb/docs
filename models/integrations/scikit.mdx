@@ -61,6 +61,20 @@ wandb.login()
 
 ### Log metrics
 
+```python
+import wandb
+
+wandb.init(project="visualize-sklearn") as run:
+
+  y_pred = clf.predict(X_test)
+  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
+
+  # If logging metrics over time, then use run.log
+  run.log({"accuracy": accuracy})
+
+  # OR to log a final metric at the end of training you can also use run.summary
+  run.summary["accuracy"] = accuracy
+```
 
 ### Make plots
 
@@ -78,11 +92,40 @@ run = wandb.init(project="visualize-sklearn")
 
 After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts.
 
+```python
+# Visualize single plot
+wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
+```
 
 #### All plots
 
 W&B has functions such as `plot_classifier` that will plot several relevant plots:
 
+```python
+# Visualize all classifier plots
+wandb.sklearn.plot_classifier(
+    clf,
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    y_pred,
+    y_probas,
+    labels,
+    model_name="SVC",
+    feature_names=None,
+)
+
+# All regression plots
+wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
+
+# All clustering plots
+wandb.sklearn.plot_clusterer(
+    kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
+)
+
+run.finish()
+```
 
 #### Existing Matplotlib plots
 
@@ -94,6 +137,18 @@ pip install plotly
 
 Finally, the plots can be logged on W&B's dashboard as follows:
 
+```python
+import matplotlib.pyplot as plt
+import wandb
+
+with wandb.init(project="visualize-sklearn") as run:
+
+  # do all the plt.plot(), plt.scatter(), etc. here.
+  # ...
+
+  # instead of doing plt.show() do:
+  run.log({"plot": plt})
+```
 
 ## Supported plots
 

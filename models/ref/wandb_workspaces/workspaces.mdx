@@ -11,6 +11,30 @@ W&B Report and Workspace API is in Public Preview.
 
 Python library for programmatically working with W&B Workspace API.
 
+```python
+# How to import
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr
+
+# Example of creating a workspace
+ws.Workspace(
+     name="Example W&B Workspace",
+     entity="entity", # entity that owns the workspace
+     project="project", # project that the workspace is associated with
+     sections=[
+         ws.Section(
+             name="Validation Metrics",
+             panels=[
+                 wr.LinePlot(x="Step", y=["val_loss"]),
+                 wr.BarPlot(metrics=["val_accuracy"]),
+                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
 
 
 
@@ -58,6 +82,19 @@ Settings for the runset (the left bar containing runs) in a workspace.
 
 
 **Example:**
+ ```python
+    # Using string filters (new)
+    RunsetSettings(
+        filters="Config('learning_rate') = 0.001 and State = 'finished'",
+        pinned_columns=["summary:accuracy", "summary:loss"],
+    )
+
+    # Using FilterExpr list (original way)
+    RunsetSettings(
+        filters=[expr.Config("learning_rate") == 0.001],
+        pinned_columns=["summary:accuracy", "summary:loss"],
+    )
+    ```
 
 
 

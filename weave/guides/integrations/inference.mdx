@@ -132,6 +132,39 @@ To create a chat completion, you will need:
     ```
   </Tab>
   <Tab title="Python">
+    ```python lines
+    import openai
+
+    client = openai.OpenAI(
+        # The custom base URL points to W&B Inference
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # Create an API key at https://wandb.ai/settings
+        # Consider setting it in the environment as OPENAI_API_KEY instead for safety
+        api_key="<your-api-key>",
+
+        # Team and project are required for usage tracking
+        project="<your-team>/<your-project>",
+    )
+
+    # Replace <model-id> with any of the following values:
+    # meta-llama/Llama-3.1-8B-Instruct
+    # deepseek-ai/DeepSeek-V3-0324
+    # meta-llama/Llama-3.3-70B-Instruct
+    # deepseek-ai/DeepSeek-R1-0528
+    # meta-llama/Llama-4-Scout-17B-16E-Instruct
+    # microsoft/Phi-4-mini-instruct
+
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
   </Tab>
 </Tabs>
 
@@ -190,6 +223,39 @@ In this example:
 
 To use this example, you must complete the [general prerequisites](#prerequisites) and [Additional prerequisites for using the API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
+```python lines
+import weave
+import openai
+
+# Set the Weave team and project for tracing
+weave.init("<your-team>/<your-project>")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # Create an API key at https://wandb.ai/settings
+    api_key="<your-api-key>",
+
+    # Required for W&B inference usage tracking
+    project="wandb/inference-demo",
+)
+
+# Trace the model call in Weave
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# Run and log the traced call
+output = run_chat()
+print(output)
+```
 
 Once you run the code sample, you can view the trace in Weave by clicking the link printed in the terminal (e.g. `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`), or:
 
@@ -208,6 +274,77 @@ In addition to using Weave with the Inference service to [trace model calls](../
 
 To use this example, you must complete the [general prerequisites](#prerequisites) and [Additional prerequisites for using the API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
+```python lines
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# Set the Weave team and project for tracing
+weave.init("<your-team>/<your-project>")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # Create an API key at https://wandb.ai/settings
+            api_key="<your-api-key>",
+            # Required for W&B inference usage tracking
+            project="<your-team>/<your-project>",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
 
 After you run the following code sample, navigate to your W&B account at [https://wandb.ai/](https://wandb.ai/) and:
 

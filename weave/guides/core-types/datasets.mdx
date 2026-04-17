@@ -24,9 +24,64 @@ Select a tab to see Python and TypeScript-specific code.
 
 <Tabs>
   <Tab title="Python">
+    ```python lines
+    import weave
+    from weave import Dataset
+    # Initialize Weave
+    weave.init('intro-example')
+
+    # Create a dataset
+    dataset = Dataset(
+        name='grammar',
+        rows=[
+            {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+            {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+            {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+        ]
+    )
+
+    # Publish the dataset
+    weave.publish(dataset)
+
+    # Retrieve the dataset
+    dataset_ref = weave.ref('grammar').get()
+
+    # Access a specific example
+    example_label = dataset_ref.rows[2]['sentence']
+    ```
 
   </Tab>
   <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    // Initialize Weave
+    const client = await weave.init('intro-example');
+
+    // Create a dataset
+    const dataset = new weave.Dataset({
+        name: 'grammar',
+        rows: [
+            {id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream."},
+            {id: '1', sentence: "She goed to the store.", correction: "She went to the store."},
+            {id: '2', sentence: "They plays video games all day.", correction: "They play video games all day."}
+        ]
+    });
+
+    // Publish the dataset
+    const ref = await dataset.save();
+
+    // Retrieve the dataset
+    const retrievedDataset = await client.get(ref);
+
+    // Alternatively, retrieve using a URI string
+    const datasetUri = 'weave:///my-entity/intro-example/object/grammar:abc123def456';
+    const refFromUri = weave.ObjectRef.fromUri(datasetUri);
+    const retrievedDatasetFromUri = await client.get(refFromUri);
+
+    // Access a specific example
+    const exampleLabel = retrievedDataset.getRow(2).sentence;
+    ```
 
   </Tab>
 </Tabs>
@@ -41,6 +96,17 @@ Select a tab to see Python and TypeScript-specific code.
 
   To create a `Dataset` from one or more Weave calls, retrieve the call object(s), and add them to a list in the `from_calls` method.
 
+  ```python lines
+  @weave.op
+  def model(task: str) -> str:
+      return f"Now working on {task}"
+
+  res1, call1 = model.call(task="fetch")
+  res2, call2 = model.call(task="parse")
+
+  dataset = Dataset.from_calls([call1, call2])
+  # Now you can use the dataset to evaluate the model, etc.
+  ```
 
   ### Pandas DataFrame
 
@@ -74,6 +140,32 @@ Select a tab to see Python and TypeScript-specific code.
 
   To convert a `weave.Dataset` back to a Hugging Face `Dataset`, use the `to_hf` method.
 
+  ```python lines
+  # Ensure datasets is installed: pip install datasets
+  from datasets import Dataset as HFDataset, DatasetDict
+
+  # Example with HF Dataset
+  hf_rows = [
+      {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+      {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+  ]
+  hf_ds = HFDataset.from_list(hf_rows)
+  weave_ds_from_hf = Dataset.from_hf(hf_ds)
+
+  # Convert back to HF Dataset
+  converted_hf_ds = weave_ds_from_hf.to_hf()
+
+  # Example with HF DatasetDict (uses 'train' split by default)
+  hf_dict = DatasetDict({
+      'train': HFDataset.from_list(hf_rows),
+      'test': HFDataset.from_list([{'id': '2', 'sentence': "Test sentence", 'correction': "Test correction"}])
+  })
+  # This will issue a warning and use the 'train' split
+  weave_ds_from_dict = Dataset.from_hf(hf_dict)
+
+  # Providing a specific split
+  weave_ds_from_test_split = Dataset.from_hf(hf_dict['test'])
+  ```
 
   </Tab>
   <Tab title="TypeScript">
@@ -204,6 +296,25 @@ You can create, edit, and delete `Dataset`s in the UI. Creating datasets in the 
 
   You can select specific rows from a `Dataset` by their index using the `select` method. This is useful for creating subsets of your data.
 
+  ```python lines
+  import weave
+  from weave import Dataset
+
+  # Create a sample dataset
+  dataset = Dataset(rows=[
+      {'col_a': 1, 'col_b': 'x'},
+      {'col_a': 2, 'col_b': 'y'},
+      {'col_a': 3, 'col_b': 'z'},
+      {'col_a': 4, 'col_b': 'w'},
+  ])
+
+  # Select rows at index 0 and 2
+  subset_dataset = dataset.select([0, 2])
+
+  # Now subset_dataset contains only the first and third rows
+  # print(list(subset_dataset))
+  # Output: [{'col_a': 1, 'col_b': 'x'}, {'col_a': 3, 'col_b': 'z'}]
+  ```
 
   </Tab>
   <Tab title="TypeScript">

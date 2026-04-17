@@ -19,6 +19,10 @@ W&B supports importing data from MLFlow, including experiments, runs, artifacts,
 
 Install dependencies:
 
+```shell
+# note: this requires py38+
+pip install wandb[importers]
+```
 
 Log in to W&B. Follow the prompts if you have not logged in before.
 
@@ -95,6 +99,24 @@ wandb login
 
 Import all runs and artifacts from a source W&B instance to a destination W&B instance. Runs and artifacts are imported to their respective namespaces in the destination instance.
 
+```py
+from wandb.apis.importers.wandb import WandbImporter
+from wandb.apis.importers import Namespace
+
+importer = WandbImporter(
+    src_base_url="https://api.wandb.ai",
+    src_api_key="your-api-key-here",
+    dst_base_url="https://example-target.wandb.io",
+    dst_api_key="target-environment-api-key-here",
+)
+
+# Imports all runs, artifacts, reports
+# from "entity/project" in src to "entity/project" in dst
+importer.import_all(namespaces=[
+    Namespace(entity, project),
+    # ... add more namespaces here
+])
+```
 
 If you prefer to change the destination namespace, you can specify `remapping: dict[Namespace, Namespace]`
 
@@ -220,6 +242,36 @@ The default history method samples the metrics to a fixed number of samples (the
 <Tab title="DataFrame and CSVs">
 This example script finds a project and outputs a CSV of runs with name, configs and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
+```python
+import pandas as pd
+import wandb
+
+api = wandb.Api()
+entity, project = "<entity>", "<project>"
+runs = api.runs(entity + "/" + project)
+
+summary_list, config_list, name_list = [], [], []
+for run in runs:
+    # .summary contains output keys/values for
+    # metrics such as accuracy.
+    #  We call ._json_dict to omit large files
+    summary_list.append(run.summary._json_dict)
+
+    # .config contains the hyperparameters.
+    #  We remove special values that start with _.
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
+
+    # .name is the human-readable name of the run.
+    name_list.append(run.name)
+
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
+
+runs_df.to_csv("project.csv")
+
+run.finish()
+```
 </Tab>
 <Tab title="MongoDB Style">
 The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/).
@@ -314,6 +366,22 @@ if run.state == "finished":
 
 This will output the config parameters that are different between `run1` and `run2`.
 
+```python
+import pandas as pd
+import wandb
+
+api = wandb.Api()
+
+# replace with your <entity>, <project>, and <run_id>
+run1 = api.run("<entity>/<project>/<run_id>")
+run2 = api.run("<entity>/<project>/<run_id>")
+
+
+df = pd.DataFrame([run1.config, run2.config]).transpose()
+
+df.columns = [run1.name, run2.name]
+print(df[df[run1.name] != df[run2.name]])
+```
 
 Outputs:
 
@@ -418,6 +486,34 @@ run.scan_history(keys=sorted(cols), page_size=100)
 
 This script pulls down the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
+```python
+import pandas as pd
+import wandb
+
+api = wandb.Api()
+entity, project = "<entity>", "<project>"
+runs = api.runs(entity + "/" + project)
+
+summary_list, config_list, name_list = [], [], []
+for run in runs:
+    # .summary contains the output keys/values
+    #  for metrics such as accuracy.
+    #  We call ._json_dict to omit large files
+    summary_list.append(run.summary._json_dict)
+
+    # .config contains the hyperparameters.
+    #  We remove special values that start with _.
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
+
+    # .name is the human-readable name of the run.
+    name_list.append(run.name)
+
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
+
+runs_df.to_csv("project.csv")
+```
 
 ### Get the starting time for a run
 
@@ -504,6 +600,19 @@ The `best_run` is the run with the best metric as defined by the `metric` parame
 
 This snippet downloads the model file with the highest validation accuracy from a sweep with runs that saved model files to `model.h5`.
 
+```python
+import wandb
+
+api = wandb.Api()
+
+sweep = api.sweep("<entity>/<project>/<sweep_id>")
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
+val_acc = runs[0].summary.get("val_acc", 0)
+print(f"Best run {runs[0].name} with {val_acc}% val accuracy")
+
+runs[0].file("model.h5").download(replace=True)
+print("Best model saved to model-best.h5")
+```
 
 ### Delete all files with a given extension from a run
 

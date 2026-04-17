@@ -119,6 +119,72 @@ Tags and aliases can also be managed in code, for tasks such as:
 The following code example adds a prompt `my-prompt` to your project with three versions, each having various tags and aliases. Update `'your-team-name/your-project-name'` accordingly for your project.
 
 <CodeGroup>
+```python Python lines
+import weave
+
+// TODO: Set 'your-team-name/your-project-name' to correct values.
+client = weave.init('your-team-name/your-project-name')
+
+# Publish two versions of a prompt.
+v0_ref = weave.publish(
+    weave.StringPrompt("Answer the user's question: {question}"),
+    name="my-prompt",
+)
+v1_ref = weave.publish(
+    weave.StringPrompt("Answer the user's question helpfully and concisely: {question}"),
+    name="my-prompt",
+)
+
+# --- Aliases: named pointers to a specific version. ---
+
+# Point aliases at a version.
+client.set_aliases(v0_ref, "staging")
+client.set_aliases(v1_ref, "production")
+
+# Retrieve aliases for a version.
+client.get_aliases(v1_ref)  # ["production", "latest"]
+
+# Move an alias by setting it on a different version.
+client.set_aliases(v0_ref, "production")  # Automatically detaches from v1.
+
+# Resolve an alias to load the object.
+prompt = weave.ref("my-prompt:production").get()
+
+# List all aliases in the project.
+client.list_aliases()
+
+# Remove an alias.
+client.remove_aliases(v0_ref, "production")
+
+# --- Tags: labels on a specific version. ---
+
+# Add tags to a version.
+client.add_tags(v0_ref, ["reviewed", "passed-eval"])
+client.add_tags(v1_ref, ["reviewed", "needs-improvement"])
+
+# Get tags for a version.
+client.get_tags(v0_ref)  # ["passed-eval", "reviewed"]
+
+# List all distinct tags in the project.
+client.list_tags()
+
+# Remove tags from a version.
+client.remove_tags(v1_ref, ["needs-improvement"])
+
+# --- Combined: fetch both in a single call. ---
+
+tags, aliases = client.get_tags_and_aliases(v0_ref)
+
+# --- Publish with tags and aliases inline. ---
+
+ref = weave.publish(
+    weave.StringPrompt("Be brief: {question}"),
+    name="my-prompt",
+    tags=["reviewed"],
+    aliases=["production"],
+)
+
+```
 ```plaintext TypeScript lines
 This feature is not available in the TypeScript SDK yet.
 ```
