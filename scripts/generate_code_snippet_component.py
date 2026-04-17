@@ -37,8 +37,6 @@ def generate_component(py_files):
  * AUTO-GENERATED: Do not edit manually. Run sync_code_examples.sh to regenerate.
  */
 
-import React from 'react';
-
 // Import all MDX-wrapped code examples
 {imports_str}
 

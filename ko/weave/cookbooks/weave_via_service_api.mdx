@@ -13,15 +13,15 @@ description: thought W&B Weave 의 서비스 API 를 통해 Weave 를 사용하�
 
 이 가이드에서는 Weave Service API를 사용하여 trace를 로그에 기록하는 방법을 알아봅니다. 특히 Service API를 사용하여 다음 작업을 수행하게 됩니다:
 
-1. [단순 LLM 호출 및 응답의 모의 데이터를 생성하고 Weave에 로그 기록하기.](#simple-trace)
+1. [단순 LLM 호출 및 응답의 모의 데이터를 생성하고 Weave에 로그 기록하기.](#단순-trace)
 2. [더 복잡한 LLM 호출 및 응답의 모의 데이터를 생성하고 Weave에 로그 기록하기.](#complex-trace)
-3. [기록된 trace에 대해 샘플 조회 쿼리 실행하기.](#run-a-lookup-query)
+3. [기록된 trace에 대해 샘플 조회 쿼리 실행하기.](#trace-종료-2)
 
 > **기록된 trace 보기**
 >
 > 이 가이드의 코드를 실행할 때 생성된 모든 Weave trace는 Weave 프로젝트(`team_id\project_id`로 지정됨)의 **Traces** 탭으로 이동하여 해당 trace 이름을 선택하면 확인할 수 있습니다.
 
-시작하기 전에 [사전 요구 사항](#prerequisites-set-variables-and-endpoints) 단계를 완료하세요.
+시작하기 전에 [사전 요구 사항](#사전-요구-사항-변수-및-엔드포인트-설정) 단계를 완료하세요.
 
 ## 사전 요구 사항: 변수 및 엔드포인트 설정
 
@@ -154,9 +154,9 @@ else:
 다음 섹션에서는 다중 작업 RAG 조회와 유사하게 자식 span을 포함하는 더 복잡한 trace를 생성하는 과정을 안내합니다.
 
 1. [복잡한 trace 시작하기](#start-a-complex-trace)
-2. [RAG 문서 조회를 위한 자식 span 추가하기](#add-a-child-span-for-a-rag-document-lookup)
-3. [LLM completion 호출을 위한 자식 span 추가하기](#add-a-child-span-for-an-llm-completion-call)
-4. [복잡한 trace 종료하기](#end-a-complex-trace)
+2. [RAG 문서 조회를 위한 자식 span 추가하기](#trace-시작-부모)
+3. [LLM completion 호출을 위한 자식 span 추가하기](#예-rag-문서-조회)
+4. [복잡한 trace 종료하기](#llm-completion-호출-생성)
 
 ### 복잡한 trace 시작하기
 

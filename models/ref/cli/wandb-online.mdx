@@ -14,7 +14,23 @@ import WandbOnline from "/snippets/en/_includes/cli/wandb-online.mdx";
   The snippet will be auto-detected on the next regeneration.
 */}
 
-Undo `wandb offline`.
+Re-enable cloud syncing for W&B runs.
+
+Clear the offline mode setting so subsequent runs in this directory sync data to the W&B cloud.
+
+Undoes a previous call to `wandb offline`.
+
+For example, to re-enable cloud syncing after working offline:
+
+```bash
+$ wandb online
+```
+
+To re-enable cloud syncing, then run a training script:
+
+```bash
+$ wandb online && python train.py
+```
 
 ## Usage
 

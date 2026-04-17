@@ -15,7 +15,7 @@ Do you want to experiment with OpenAI models on Weave without any set up? Try th
 
 It's important to store traces of LLM applications in a central database, both during development and in production. You'll use these traces for debugging and to help build a dataset of tricky examples to evaluate against while improving your application.
 
-Weave can automatically capture traces for the [openai python library](https://platform.openai.com/docs/libraries/python-library).
+Weave can automatically capture traces for the [openai python library](https://developers.openai.com/api/docs/libraries).
 
 Start capturing by calling `weave.init(<project-name>)` with a project name of your choice. OpenAI will be automatically patched regardless of when you import it.
 
@@ -99,7 +99,7 @@ response = client.chat.completions.create(
 We capture the function calling tools for [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) and [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview) as well.
 </Tip>
 
-## Structured Outputs
+## Structured outputs
 
 Weave also supports structured outputs with OpenAI. This is useful for ensuring that your LLM responses follow a specific format.
 
@@ -130,7 +130,7 @@ print(user_detail)
 ```
 </CodeGroup>
 
-## Async Support
+## Async support
 
 Weave also supports async functions for OpenAI.
 
@@ -163,7 +163,7 @@ result = await call_openai()
 ```
 </CodeGroup>
 
-## Streaming Support
+## Streaming support
 
 Weave also supports streaming responses from OpenAI.
 
@@ -195,7 +195,7 @@ for chunk in response:
 ```
 </CodeGroup>
 
-## Tracing Function Calls
+## Tracing function calls
 
 Weave also traces function calls made by OpenAI when using tools.
 
@@ -333,7 +333,7 @@ messages = client.beta.threads.messages.list(thread_id=thread.id)
 ```
 </CodeGroup>
 
-## Cost Tracking
+## Cost tracking
 
 Weave automatically tracks the cost of your OpenAI API calls. You can view the cost breakdown in the Weave UI.
 
@@ -341,7 +341,7 @@ Weave automatically tracks the cost of your OpenAI API calls. You can view the c
 Cost tracking is available for all OpenAI models and is calculated based on the latest OpenAI pricing.
 </Note>
 
-## Tracing Custom Functions
+## Tracing custom functions
 
 You can also trace custom functions that use OpenAI by using the `@weave.op` decorator.
 
@@ -371,7 +371,7 @@ result = generate_response("Hello, how are you?")
 ```
 </CodeGroup>
 
-## Next Steps
+## Next steps
 
 Now that you've set up tracing for OpenAI, you can:
 

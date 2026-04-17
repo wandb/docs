@@ -27,21 +27,21 @@ Weave を使用することで、W&B Inference を活用したアプリケーシ
 
 このガイドでは、以下の情報を提供します：
 
-- [前提条件](#prerequisites)
-  - [Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python)
-- [API 仕様](#api-specification)
-  - [エンドポイント](#endpoint)
-  - [利用可能なメソッド](#available-methods)
+- [前提条件](#前提条件)
+  - [Python 経由で API を使用するための追加の前提条件](#python-経由で-api-を使用するための追加の前提条件)
+- [API 仕様](#api-仕様)
+  - [エンドポイント](#エンドポイント)
+  - [利用可能なメソッド](#利用可能なメソッド)
       - [Chat completions](#chat-completions)
       - [サポートされているモデルの一覧表示](#list-supported-models)
-- [使用例](#usage-examples)
+- [使用例](#使用例)
 - [UI](#ui)
-  - [Inference サービスへのアクセス](#access-the-inference-service)
-  - [Playground でモデルを試す](#try-a-model-in-the-playground)
-  - [複数のモデルを比較する](#compare-multiple-models)
-  - [請求および使用状況情報の確認](#view-billing-and-usage-information)
-- [使用上の情報と制限](#usage-information-and-limits)
-- [API エラー](#api-errors)
+  - [Inference サービスへのアクセス](#inference-サービスへのアクセス)
+  - [Playground でモデルを試す](#playground-でモデルを試す)
+  - [複数のモデルを比較する](#複数のモデルを比較する)
+  - [請求および使用状況情報の確認](#請求および使用状況情報の確認)
+- [使用上の情報と制限](#使用上の情報と制限)
+- [API エラー](#api-エラー)
 
 ## 前提条件
 
@@ -50,7 +50,7 @@ API または W&B Weave UI を通じて W&B Inference サービスにアクセ�
 1. W&B アカウント。登録は [こちら](https://app.wandb.ai/login?signup=true&_gl=1*1yze8dp*_ga*ODIxMjU5MTk3LjE3NDk0OTE2NDM.*_ga_GMYDGNGKDT*czE3NDk4NDYxMzgkbzEyJGcwJHQxNzQ5ODQ2MTM4JGo2MCRsMCRoMA..*_ga_JH1SJHJQXJ*czE3NDk4NDU2NTMkbzI1JGcxJHQxNzQ5ODQ2MTQ2JGo0NyRsMCRoMA..*_gcl_au*MTE4ODk1MzY1OC4xNzQ5NDkxNjQzLjk1ODA2MjQwNC4xNzQ5NTgyMTUzLjE3NDk1ODIxNTM.) から。
 2. W&B APIキー。[ユーザー設定 (User Settings)](https://wandb.ai/settings) で APIキー を作成してください。
 3. W&B Projects。
-4. Python 経由で Inference サービスを使用する場合は、[Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python) を参照してください。
+4. Python 経由で Inference サービスを使用する場合は、[Python 経由で API を使用するための追加の前提条件](#python-経由で-api-を使用するための追加の前提条件) を参照してください。
 
 ### Python 経由で API を使用するための追加の前提条件
 
@@ -63,16 +63,16 @@ pip install openai weave
 <Note>
 `weave` ライブラリは、LLM アプリケーションをトレースするために Weave を使用する場合にのみ必要です。Weave の使い始めについては、[Weave クイックスタート](/weave/quickstart) を参照してください。
 
-W&B Inference サービスを Weave と共に使用する方法を示す使用例については、[API 使用例](#usage-examples) を参照してください。
+W&B Inference サービスを Weave と共に使用する方法を示す使用例については、[API 使用例](#使用例) を参照してください。
 </Note>
 
 ## API 仕様
 
 このセクションでは、API の仕様情報と API の使用例を提供します。
 
-- [エンドポイント](#endpoint)
-- [利用可能なメソッド](#available-methods)
-- [使用例](#usage-examples)
+- [エンドポイント](#エンドポイント)
+- [利用可能なメソッド](#利用可能なメソッド)
+- [使用例](#使用例)
 
 ### エンドポイント
 
@@ -95,7 +95,7 @@ Inference サービスは、以下の API メソッドをサポートしてい�
 
 #### Chat completions
 
-利用可能な主要な API メソッドは `/chat/completions` で、サポートされているモデルにメッセージを送信して補完を受け取るための OpenAI 互換のリクエスト形式をサポートしています。W&B Inference サービスを Weave と共に使用する方法を示す使用例については、[API 使用例](#usage-examples) を参照してください。
+利用可能な主要な API メソッドは `/chat/completions` で、サポートされているモデルにメッセージを送信して補完を受け取るための OpenAI 互換のリクエスト形式をサポートしています。W&B Inference サービスを Weave と共に使用する方法を示す使用例については、[API 使用例](#使用例) を参照してください。
 
 Chat completion を作成するには、以下が必要です。
 
@@ -198,8 +198,8 @@ API を使用して、現在利用可能なすべてのモデルとその ID を
 
 このセクションでは、W&B Inference を Weave と共に使用する方法を示すいくつかの例を紹介します。
 
-- [基本例: Weave で Llama 3.1 8B をトレースする](#basic-example-trace-llama-31-8b-with-weave)
-- [高度な例: 推論サービスで Weave Evaluations と Leaderboards を使用する](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service)
+- [基本例: Weave で Llama 3.1 8B をトレースする](#基本例-weave-で-llama-31-8b-をトレースする)
+- [高度な例: 推論サービスで Weave Evaluations と Leaderboards を使用する](#高度な例-推論サービスで-weave-evaluations-と-leaderboards-を使用する)
 
 ### 基本例: Weave で Llama 3.1 8B をトレースする
 
@@ -216,7 +216,7 @@ API を使用して、現在利用可能なすべてのモデルとその ID を
 - 関数は Weave によって自動的にトレースされるため、その入力、出力、レイテンシ、およびメタデータ（モデル ID など）が ログ されます。
 - 結果は ターミナル に出力され、指定されたプロジェクトの下の [https://wandb.ai](https://wandb.ai) にある **Traces** タブに トレース が表示されます。
 
-この例を使用するには、[一般的な前提条件](#prerequisites) と [Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python) を完了させておく必要があります。
+この例を使用するには、[一般的な前提条件](#前提条件) と [Python 経由で API を使用するための追加の前提条件](#python-経由で-api-を使用するための追加の前提条件) を完了させておく必要があります。
 
 ```python lines
 import weave
@@ -257,7 +257,7 @@ print(output)
 1. [https://wandb.ai](https://wandb.ai) にアクセスします。
 2. **Traces** タブを選択して、Weave トレース を表示します。
 
-次に、[高度な例](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service) を試してみてください。
+次に、[高度な例](#高度な例-推論サービスで-weave-evaluations-と-leaderboards-を使用する) を試してみてください。
 
 <Frame>
 ![トレースの表示](/weave/guides/integrations/imgs/image.png)
@@ -267,7 +267,7 @@ print(output)
 
 Inference サービスで Weave を使用して [モデル呼び出しをトレースする](../tracking/tracing.mdx) ことに加えて、[パフォーマンスを評価 (evaluate) し](../core-types/evaluations.mdx)、[リーダーボードを公開する](../core-types/leaderboards.mdx) こともできます。以下の Python コードサンプルでは、シンプルな Q&A データセットで 2 つのモデルを比較します。
 
-この例を使用するには、[一般的な前提条件](#prerequisites) と [Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python) を完了させておく必要があります。
+この例を使用するには、[一般的な前提条件](#前提条件) と [Python 経由で API を使用するための追加の前提条件](#python-経由で-api-を使用するための追加の前提条件) を完了させておく必要があります。
 
 ```python lines
 import os
@@ -356,7 +356,7 @@ weave.publish(spec)
 
 ## UI
 
-以下のセクションでは、W&B UI から Inference サービスを使用する方法について説明します。UI 経由で Inference サービスにアクセスする前に、[前提条件](#prerequisites) を完了させてください。
+以下のセクションでは、W&B UI から Inference サービスを使用する方法について説明します。UI 経由で Inference サービスにアクセスする前に、[前提条件](#前提条件) を完了させてください。
 
 ### Inference サービスへのアクセス
 
@@ -384,8 +384,8 @@ Weave UI の 2 つの異なる場所から Inference サービスにアクセス
 1. 左側のサイドバーから **Playground** を選択します。Playground のチャット UI が表示されます。
 2. LLM のドロップダウンリストから **W&B Inference** にマウスを合わせます。利用可能な W&B Inference モデルのドロップダウンが右側に表示されます。
 3. W&B Inference モデルのドロップダウンから、以下の操作が可能です：
-   - 利用可能なモデル名をクリックして、[Playground で試用する](#try-a-model-in-the-playground)。
-   - [Playground で 1 つ以上のモデルを比較する](#compare-multiple-models)。
+   - 利用可能なモデル名をクリックして、[Playground で試用する](#playground-でモデルを試す)。
+   - [Playground で 1 つ以上のモデルを比較する](#複数のモデルを比較する)。
 
 <Frame>
 ![Playground の Inference モデルドロップダウン](/weave/guides/integrations/imgs/inference-playground.png)
@@ -393,12 +393,12 @@ Weave UI の 2 つの異なる場所から Inference サービスにアクセス
 
 ### Playground でモデルを試す
 
-[アクセスオプションのいずれかを使用してモデルを選択](#access-the-inference-service)したら、Playground でモデルを試すことができます。以下の操作が可能です。
+[アクセスオプションのいずれかを使用してモデルを選択](#inference-サービスへのアクセス)したら、Playground でモデルを試すことができます。以下の操作が可能です。
 
 - [モデルの設定とパラメータのカスタマイズ](../tools/playground#customize-settings)
-- [メッセージの追加、再試行、編集、削除](../tools/playground#message-controls)
-- [カスタム設定でのモデルの保存と再利用](../tools/playground#saved-models)
-- [複数のモデルを比較する](#compare-multiple-models)
+- [メッセージの追加、再試行、編集、削除](../tools/playground#azureintegrationsazure)
+- [カスタム設定でのモデルの保存と再利用](../tools/playground#メッセージの再試行編集削除)
+- [複数のモデルを比較する](#複数のモデルを比較する)
 
 <Frame>
 ![Playground で Inference モデルを使用する](/weave/guides/integrations/imgs/inference-playground-single.png)
@@ -418,7 +418,7 @@ Playground では、複数の Inference モデルを比較できます。比較�
 3. 比較したい各モデルについて、ステップ 2 を繰り返します。
 4. 選択されたいずれかのカードで、**Compare N models in the Playground** ボタン（`N` は比較するモデルの数。例：3 つのモデルが選択されている場合、ボタンは **Compare 3 models in the Playground** と表示されます）をクリックします。比較ビューが開きます。
 
-これで、Playground でモデルを比較し、[Playground でモデルを試す](#try-a-model-in-the-playground) で説明されている機能を使用できるようになります。
+これで、Playground でモデルを比較し、[Playground でモデルを試す](#playground-でモデルを試す) で説明されている機能を使用できるようになります。
 
 <Frame>
 ![Playground で比較する複数のモデルを選択する](/weave/guides/integrations/imgs/inference-playground-compare.png)
@@ -433,7 +433,7 @@ Playground では、複数の Inference モデルを比較できます。比較�
 5. 比較したい各モデルについて、ステップ 4 を繰り返します。
 6. 選択されたいずれかのカードで、**Compare N models in the Playground** ボタンをクリックします。比較ビューが開きます。
 
-これで、Playground でモデルを比較し、[Playground でモデルを試す](#try-a-model-in-the-playground) で説明されている機能を使用できるようになります。
+これで、Playground でモデルを比較し、[Playground でモデルを試す](#playground-でモデルを試す) で説明されている機能を使用できるようになります。
 
 ### 請求および使用状況情報の確認
 
@@ -475,7 +475,7 @@ Inference サービスは、サポートされている地理的場所からの�
 | エラーコード | メッセージ | 原因 | 解決策 |
 | :--- | :--- | :--- | :--- |
 | 401 | Invalid Authentication | 認証資格情報が無効であるか、W&B プロジェクトの Entities または名前が正しくありません。 | 正しい APIキー が使用されているか、および/または W&B プロジェクト名と Entities が正しいことを確認してください。 |
-| 403 | Country, region, or territory not supported | サポートされていない場所から API にアクセスしています。 | [地理的制限](#geographic-restrictions) を参照してください。 |
+| 403 | Country, region, or territory not supported | サポートされていない場所から API にアクセスしています。 | [地理的制限](#地理的制限) を参照してください。 |
 | 429 | Concurrency limit reached for requests | 同時リクエスト数が多すぎます。 | 同時リクエストの数を減らしてください。 |
 | 429 | You exceeded your current quota, please check your plan and billing details | クレジットが不足しているか、月間の支出上限に達しました。 | クレジットをさらに購入するか、制限を引き上げてください。 |
 | 500 | The server had an error while processing your request | サーバー内部エラー。 | 少し待ってから再試行し、問題が解決しない場合はサポートにお問い合わせください。 |

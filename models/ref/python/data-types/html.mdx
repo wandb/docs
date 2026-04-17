@@ -17,9 +17,9 @@ W&B class for logging HTML content to W&B.
 
 ```python
 __init__(
-    data: Union[str, pathlib.Path, ForwardRef('TextIO')],
-    inject: bool = True,
-    data_is_not_path: bool = False
+    data: 'str | pathlib.Path | TextIO',
+    inject: 'bool' = True,
+    data_is_not_path: 'bool' = False
 ) → None
 ```
 

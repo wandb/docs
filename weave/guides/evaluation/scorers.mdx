@@ -24,7 +24,7 @@ In Weave, Scorers are used to evaluate AI outputs and return evaluation metrics.
 
 <Tip>
 **Ready-to-Use Scorers**
-While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers.mdx) and [local SLM scorers](./weave_local_scorers.mdx) that you can use right away, including:
+While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers) and [local SLM scorers](./weave_local_scorers) that you can use right away, including:
 - [Hallucination detection](./builtin_scorers#hallucinationfreescorer)
 - [Summarization quality](./builtin_scorers#summarizationscorer)
 - [Embedding similarity](./builtin_scorers#embeddingsimilarityscorer)
@@ -144,7 +144,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
 ## How Scorers Work
 
-### Scorer Keyword Arguments
+### Scorer keyword arguments
 
 <Tabs>
   <Tab title="Python">
@@ -239,7 +239,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Sometimes your `datasetRow` keys will not exactly match the scorer's naming scheme, but they are semantically similar. You can map the columns using the `Evaluation`'s `columnMapping` option.
 
-    The mapping is always from the scorer's perspective, i.e. `{scorer_key: dataset_column_name}`.
+    The mapping is always from the scorer's perspective, that is, `{scorer_key: dataset_column_name}`.
 
     Example:
 
@@ -404,7 +404,7 @@ Scorer functions always receive the original dataset examples, without any prepr
 
 For usage information and an example, see [Using `preprocess_model_input` to format dataset rows before evaluating](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating).
 
-## Score Analysis
+## Score analysis
 
 In this section, we'll show you how to analyze the scores for a single call, multiple calls, and all calls scored by a specific scorer.
 
@@ -430,7 +430,7 @@ feedback = list(call.feedback)
 ![Call Scores Tab](./img/call_scores_tab.png)
 </Frame>
 
-Scores for an individual call are displayed in the call details page under the "Scores" tab.
+Scores for an individual call are displayed in the Call details panel under the "Scores" tab.
 
 ### Analyze multiple Calls' Scores
 

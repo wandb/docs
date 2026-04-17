@@ -42,7 +42,7 @@ W&B Teams를 ML 팀의 중앙 워크스페이스로 활용하여 더 나은 모�
 
 Members 섹션에는 대기 중인 모든 초대 목록과 팀 가입 초대를 수락한 멤버 목록이 표시됩니다. 목록에는 각 멤버의 이름, 사용자 이름, 이메일, 팀 역할, 그리고 조직에서 상속된 Models 및 W&B Weave에 대한 엑세스 권한이 표시됩니다. 표준 팀 역할인 **Admin**, **Member**, **View-only** 중에서 선택할 수 있습니다. 조직에서 [커스텀 역할](/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles)을 생성한 경우, 대신 커스텀 역할을 할당할 수 있습니다.
 
-팀 생성, 팀 관리, 팀 멤버십 및 역할 관리에 대한 정보는 [팀 추가 및 관리](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요. 누가 새 멤버를 초대할 수 있는지 구성하고 팀의 기타 개인정보 보호 설정을 구성하려면 [개인정보 보호](#privacy)를 참조하세요.
+팀 생성, 팀 관리, 팀 멤버십 및 역할 관리에 대한 정보는 [팀 추가 및 관리](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요. 누가 새 멤버를 초대할 수 있는지 구성하고 팀의 기타 개인정보 보호 설정을 구성하려면 [개인정보 보호](#개인정보-보호-privacy)를 참조하세요.
 
 팀 멤버를 제거하려면 관리자가 팀 설정 페이지를 열고 탈퇴하는 멤버 이름 옆의 삭제 버튼을 클릭하면 됩니다. 사용자가 떠난 후에도 팀에 로그된 모든 Runs는 유지됩니다.
 
@@ -117,7 +117,7 @@ Run이 충돌하거나 완료될 때 팀에 알리도록 알림을 설정할 수
 동료를 팀에 초대할 때 팀 역할을 선택하세요. 다음과 같은 팀 역할 옵션이 있습니다:
 
 - **Admin**: 팀 관리자는 다른 관리자나 팀 멤버를 추가 및 제거할 수 있습니다. 모든 프로젝트를 수정할 수 있는 권한과 완전한 삭제 권한을 가집니다. 여기에는 Runs, Projects, Artifacts, Sweeps 삭제가 포함되지만 이에 국한되지 않습니다.
-- **Member**: 팀의 일반 멤버입니다. 기본적으로 관리자만 팀 멤버를 초대할 수 있습니다. 이 동작을 변경하려면 [개인정보 보호 설정](#privacy)을 참조하세요.
+- **Member**: 팀의 일반 멤버입니다. 기본적으로 관리자만 팀 멤버를 초대할 수 있습니다. 이 동작을 변경하려면 [개인정보 보호 설정](#개인정보-보호-privacy)을 참조하세요.
 - **View-Only (엔터프라이즈 전용 기능)**: View-Only 멤버는 Runs, Reports, Workspace와 같은 팀 내 에셋을 볼 수 있습니다. 리포트를 팔로우하고 댓글을 달 수 있지만, 프로젝트 개요, 리포트 또는 Runs를 생성, 편집 또는 삭제할 수는 없습니다.
 - **Custom roles (엔터프라이즈 전용 기능)**: 커스텀 역할을 통해 조직 관리자는 **View-Only** 또는 **Member** 역할을 기반으로 새로운 역할을 구성하고, 세분화된 엑세스 제어를 위해 추가 권한을 결합할 수 있습니다. 그런 다음 팀 관리자는 해당 팀의 사용자에게 이러한 커스텀 역할을 할당할 수 있습니다. 자세한 내용은 [W&B Teams를 위한 커스텀 역할 소개](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3)를 참조하세요.
 

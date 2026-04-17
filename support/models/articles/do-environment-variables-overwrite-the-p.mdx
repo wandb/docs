@@ -1,0 +1,12 @@
+---
+title: "Do environment variables overwrite the parameters passed to wandb.init()?"
+keywords: ["Environment Variables"]
+---
+
+Arguments passed to `wandb.init` override environment variables. To set a default directory other than the system default when the environment variable isn't set, use `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

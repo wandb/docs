@@ -1,5 +1,6 @@
 ---
 title: Initialize runs
+description: "Initialize W&B runs with wandb.init() to start tracking experiments, including handling concurrent runs in one process."
 ---
 
 Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). 
@@ -20,7 +21,7 @@ The following example code snippet shows how to import the W&B Python SDK and in
 import wandb
 
 with wandb.init(entity="nico", project="awesome-project") as run:
-    # Your training logice here
+    # Your training logic here
 ```
 The code snippet produces the following output:
 

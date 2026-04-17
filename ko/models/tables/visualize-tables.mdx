@@ -18,11 +18,11 @@ W&B Tables는 다음과 같은 동작을 가집니다:
 1. **Artifacts 컨텍스트에서의 Stateless**: Artifact 버전과 함께 로그된 모든 테이블은 브라우저 창을 닫으면 기본 상태로 리셋됩니다.
 2. **Workspace 또는 Reports 컨텍스트에서의 Stateful**: 단일 run Workspace, 멀티 run 프로젝트 Workspace 또는 Reports에서 테이블에 가한 모든 변경 사항은 유지됩니다.
 
-현재 W&B Table 뷰를 저장하는 방법은 [뷰 저장하기](#save-your-view)를 참조하세요.
+현재 W&B Table 뷰를 저장하는 방법은 [뷰 저장하기](#뷰-저장하기)를 참조하세요.
 </Note>
 
 ## 두 테이블 비교하기
-[병합 뷰 (merged view)](#merged-view) 또는 [나란히 보기 뷰 (side-by-side view)](#side-by-side-view)를 사용하여 두 테이블을 비교하세요. 예를 들어, 아래 이미지는 MNIST 데이터의 테이블 비교를 보여줍니다.
+[병합 뷰 (merged view)](#병합-뷰-merged-view) 또는 [나란히 보기 뷰 (side-by-side view)](#나란히-보기-뷰-side-by-side-view)를 사용하여 두 테이블을 비교하세요. 예를 들어, 아래 이미지는 MNIST 데이터의 테이블 비교를 보여줍니다.
 
 <Frame>
     <img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%"  />
@@ -144,7 +144,7 @@ W&B 앱 UI 내에서 여러 스텝에 대해 중복된 값이 표시될 수 있�
 | Stepper | | */}
 
 ## Artifacts 비교하기
-[시간에 따른 테이블 비교](#compare-tables-across-time) 또는 [모델 변체 간 비교](#compare-tables-across-model-variants)를 수행할 수도 있습니다. 
+[시간에 따른 테이블 비교](#커스텀-스텝-키-custom-step-key) 또는 [모델 변체 간 비교](#artifacts-비교하기)를 수행할 수도 있습니다. 
 
 
 ### 시간에 따른 테이블 비교

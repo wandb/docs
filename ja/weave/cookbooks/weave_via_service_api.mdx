@@ -13,15 +13,15 @@ description: W&B Weave のサービス API を介して Weave を使用する方
 
 このガイドでは、 Weave Service API を使用して Traces を ログ に記録する方法を学びます。具体的には、Service API を使用して以下の操作を行います。
 
-1. [シンプルな LLM の呼び出しと応答のモックを作成し、 Weave に ログ を記録する。](#simple-trace)
+1. [シンプルな LLM の呼び出しと応答のモックを作成し、 Weave に ログ を記録する。](#シンプルな-trace)
 2. [より複雑な LLM の呼び出しと応答のモックを作成し、 Weave に ログ を記録する。](#complex-trace)
-3. [ログ に記録された Traces に対してサンプル検索クエリを実行する。](#run-a-lookup-query)
+3. [ログ に記録された Traces に対してサンプル検索クエリを実行する。](#trace-を終了-2)
 
 > **ログに記録された Traces を表示する**
 >
 > このガイドの コード を実行した際に作成されたすべての Weave Traces は、 Weave プロジェクト（`team_id\project_id` で指定）の **Traces** タブに移動し、 Trace の名前を選択することで表示できます。
 
-開始する前に、[事前準備](#prerequisites-set-variables-and-endpoints)を完了させてください。
+開始する前に、[事前準備](#事前準備変数とエンドポイントの設定)を完了させてください。
 
 ## 事前準備：変数とエンドポイントの設定
 
@@ -159,8 +159,8 @@ else:
 
 1. [複雑な Trace を開始する](#start-a-complex-trace)
 2. [RAG ドキュメント検索用の子スパンを追加する](#add-a-child-span-for-rag-document-lookup)
-3. [LLM 完了呼び出し用の子スパンを追加する](#add-a-child-span-for-an-llm-completion-call)
-4. [複雑な Trace を終了する](#end-a-complex-trace)
+3. [LLM 完了呼び出し用の子スパンを追加する](#例rag-ドキュメント検索)
+4. [複雑な Trace を終了する](#llm-完了呼び出しの作成)
 
 ### 複雑な Trace を開始する
 

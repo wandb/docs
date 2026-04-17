@@ -1,5 +1,6 @@
 ---
 title: Manage your organization
+description: "Manage users, teams, roles, seats, and billing within a W&B organization as an organization admin."
 ---
 As an admin of an organization you can [manage individual users](#add-and-manage-users) within your organization and [manage teams](#add-and-manage-teams). 
 
@@ -58,7 +59,7 @@ admins can invite users to their organization, as well as specific teams within 
 4. In the modal that appears, provide the email or username of the user in the **Email or username** field.
 5. (Recommended) Add the user to a team from the **Choose teams** dropdown menu.
 6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
-7. Choose the **Send invite** button.
+7. Click the **Send invite** button.
 
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
 </Tab>
@@ -74,14 +75,14 @@ W&B sends an invite link using a third-party email server to the user's email af
 
 ### Auto provision users
 
-A W&B user with matching email domain can sign in to your W&B Organization with Single Sign-On (SSO) if you configure SSO and your SSO provider permits it. SSO is available for all Enterprise licenses.
+A W&B user with matching email domain can log in to your W&B Organization with Single Sign-On (SSO) if you configure SSO and your SSO provider permits it. SSO is available for all Enterprise licenses.
 
 <Note>
 **Enable SSO for authentication**
 
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
-To learn more about how to setup SSO with Dedicated Cloud or Self-Managed instances, refer to [SSO with OIDC](/platform/hosting/iam/sso/) or [SSO with LDAP](/platform/hosting/iam/ldap/).
+To learn more about how to set up SSO with Dedicated Cloud or Self-Managed instances, refer to [SSO with OIDC](/platform/hosting/iam/sso/) or [SSO with LDAP](/platform/hosting/iam/ldap/).
 </Note>
 
 
@@ -101,7 +102,7 @@ For Dedicated Cloud instances, reach out to your W&B team if you want to turn of
 For Self-Managed deployments, use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
-2. Choose **Security** 
+2. Select **Security** 
 3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
 
 {/* For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO. */}
@@ -138,7 +139,7 @@ To automatically assign non-invited new users to a default team when they join y
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
 3. Within the **Settings** tab, select **General**.
-4. Choose the **Claim domain** button within **Domain capture**.
+4. Click the **Claim domain** button within **Domain capture**.
 5. Select the team that you want new users to automatically join from the **Default team** dropdown. If no teams are available, you'll need to update team settings. See the instructions in [Add and manage teams](#add-and-manage-teams).
 6. Click the **Claim email domain** button.
 
@@ -206,7 +207,7 @@ The organization role and subscription type determines which seat types are avai
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
 4. Provide the name or email of the user in the search bar.
-5. Select the ellipses or three dots icon (**...**) when it appears.
+5. Select the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu when it appears.
 6. From the dropdown, choose **Remove member**.
 
 ### Assign the billing admin
@@ -250,9 +251,9 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
     <img src="/images/hosting/team_settings.png" alt="Team settings"  />
 </Frame>
 3. Select the **Users** tab.
-4. Choose on **Invite a new user**.
+4. Click **Invite a new user**.
 5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles](#assign-or-update-a-team-members-role).
-6. Choose on the **Send invite** button.
+6. Click the **Send invite** button.
 
 By default, only a team or instance admin can invite members to a team. To change this behavior, refer to [Team settings](/platform/app/settings-page/teams#privacy).
 
@@ -294,7 +295,7 @@ Remove a user from a team using the team's dashboard. W&B preserves runs created
 1. Navigate to `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the left navigation bar.
 3. Select the **Users** tab.
-4. Hover your mouse next to the name of the user you want to delete. Select the ellipses or three dots icon (**...**) when it appears. 
+4. Hover your mouse next to the name of the user you want to delete. Select the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu when it appears. 
 5. From the dropdown, select **Remove user**. 
 
 ## Add and manage custom roles

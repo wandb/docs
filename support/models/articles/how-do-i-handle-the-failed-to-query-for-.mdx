@@ -1,0 +1,27 @@
+---
+title: "How do I handle the 'Failed to query for notebook' error?"
+keywords: ["Notebooks", "Environment Variables"]
+---
+
+If you encounter the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` resolve it by setting the environment variable. Multiple methods accomplish this:
+
+<Tabs>
+<Tab title="Notebook">
+```python
+%env "WANDB_NOTEBOOK_NAME" "notebook name here"
+```
+</Tab>
+<Tab title="Python">
+```python
+import os
+
+os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
+```
+</Tab>
+</Tabs>
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Notebooks](/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* END AUTO-GENERATED: tab badges */}
