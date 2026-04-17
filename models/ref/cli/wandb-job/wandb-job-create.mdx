@@ -2,7 +2,7 @@
 title: wandb job create
 ---
 
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2191" />
@@ -51,4 +51,3 @@ Create a job from a source, without a wandb run.
 | `--build-context, -b` | STR | Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint. **Default**: None |
 | `--base-image, -B` | STR | Base image to use for the job. Incompatible with image jobs. **Default**: None |
 | `--dockerfile, -D` | STR | Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context. **Default**: None |
-
