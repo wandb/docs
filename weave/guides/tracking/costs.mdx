@@ -6,13 +6,13 @@ W&B Weave automatically calculates the cost of each LLM call by tracking token u
 
 You can also track custom costs when you need different pricing, internal cost models, or costs for operations that Weave does not price automatically.
 
-## Adding a custom cost
+## Add a custom cost
 
 <Tabs>
   <Tab title="Python">
     You can add a custom cost by using the [`add_cost`](/weave/reference/python-sdk/trace/weave_client#method-add-cost) method.
     The three required fields are `llm_id`, `prompt_token_cost`, and `completion_token_cost`.
-    `llm_id` is the name of the LLM (e.g. `gpt-4o`). `prompt_token_cost` and `completion_token_cost` are cost per token for the LLM (if the LLM prices were specified inper million tokens, make sure to convert the value).
+    `llm_id` is the name of the LLM (for example, `gpt-4o`). `prompt_token_cost` and `completion_token_cost` are cost per token for the LLM (if the LLM prices were specified in per-million-token units, make sure to convert the value).
     You can also set `effective_date` to a datetime, to make the cost effective at a specific date, this defaults to the current date.
 
     ```python lines
@@ -40,13 +40,13 @@ You can also track custom costs when you need different pricing, internal cost m
   <Tab title="TypeScript">
 
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet. Stay tuned.
     ```
 
   </Tab>
 </Tabs>
 
-## Querying for costs
+## Query for costs
 
 <Tabs>
   <Tab title="Python">
@@ -67,13 +67,13 @@ You can also track custom costs when you need different pricing, internal cost m
   <Tab title="TypeScript">
 
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet. Stay tuned.
     ```
 
   </Tab>
 </Tabs>
 
-## Purging a custom cost
+## Purge a custom cost
 
 <Tabs>
   <Tab title="Python">
@@ -91,12 +91,12 @@ You can also track custom costs when you need different pricing, internal cost m
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet. Stay tuned.
     ```
   </Tab>
 </Tabs>
 
-## Calculating costs for a Project
+## Calculate costs for a project
 
 <Tabs>
   <Tab title="Python">
@@ -140,13 +140,13 @@ You can also track custom costs when you need different pricing, internal cost m
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet. Stay tuned.
     ```
   </Tab>
 </Tabs>
 
-## Setting up a custom model with custom costs
+## Set up a custom model with custom costs
 
-Try our cookbook for [Setting up costs with a custom model](/weave/cookbooks/custom_model_cost).
+Try the cookbook for [setting up costs with a custom model](/weave/cookbooks/custom_model_cost).
 
 <Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python"/>
