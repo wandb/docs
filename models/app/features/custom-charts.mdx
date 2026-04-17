@@ -248,7 +248,7 @@ The custom chart editor runs a GraphQL query over the runs you selected in the p
 **What each source is for**
 
 * **Config** pulls [run configuration](/models/track/config/) values (hyperparameters and other settings).
-* **Summary** pulls [summary](/models/track/log/) values. For keys you log with `wandb.Run.log()`, the summary usually holds the last value written for that key unless you set the summary yourself.
+* **Summary** pulls [summary](/models/track/log/) values. By default, the summary for a key logged with `wandb.Run.log()` holds the last value written for that key. You can change this with `wandb.Run.define_metric(..., summary=...)` (for example `"min"`, `"max"`, `"mean"`, `"best"`, or `"none"`), or set `wandb.Run.summary["key"] = value` directly.
 * **History** pulls scalar time series from run history (for example `loss` or `accuracy` at each step). Use **history** when you need the full curve, not only the final number.
 * **`summaryTable`** loads a [`wandb.Table`](/models/ref/python/data-types/table) from the run summary. Use it when the table you care about is stored as a single snapshot on the run (for example one confusion matrix you log once at the end).
 * **`historyTable`** loads a [`wandb.Table`](/models/ref/python/data-types/table) from run history. Each time you log a table with `wandb.Run.log()`, you add another step to run history that includes that table. Use **`historyTable`** when the table changes over time or when you want to enable the step selector in the custom chart editor (see [How do you show a step slider in a custom chart?](/support/models/articles/how-do-you-show-a-step-slider-in-a-custo)).
