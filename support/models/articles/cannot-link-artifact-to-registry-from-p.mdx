@@ -9,13 +9,6 @@ If you cannot link an artifact to a W&B Registry, the most common cause is that 
 
 Specify your team as the `entity` when you initialize a run:
 
-```python
-import wandb
-
-with wandb.init(entity="<team_entity>", project="<project_name>") as run:
-    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
-    # Add files and log the artifact
-```
 
 If you do not specify `entity`, the run uses your default entity, which may be your personal account.
 

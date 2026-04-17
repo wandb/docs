@@ -62,13 +62,6 @@ Update a tag programmatically by reassigning or by mutating the `tags` attribute
 
 For example, the following code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section](#add-a-tag-to-a-collection): 
 
-```python
-collection.tags = [*collection.tags, "new-tag", "other-tag"]
-collection.tags = collection.tags + ["new-tag", "other-tag"]
-
-collection.tags = set(collection.tags) - set(tags_to_delete)
-collection.tags = []  # deletes all tags
-```
 
 The following code snippet shows how you can use in-place mutation to update tags that belong to an artifact version:
 
@@ -143,39 +136,10 @@ Copy and paste an appropriate code cells below to add or modify an artifact vers
 
 
 The following code snippet shows how to fetch an artifact and add a tag without creating a new run:
-```python title="Add a tag to an artifact version without creating a new run"
-import wandb
-
-ARTIFACT_TYPE = "<TYPE>"
-REGISTRY_NAME = "<registry_name>"
-COLLECTION_NAME = "<collection_name>"
-VERSION = "<artifact_version>"
-
-artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
-
-artifact = wandb.Api().artifact(name = artifact_name, type = ARTIFACT_TYPE)
-artifact.tags = ["tag2"] # Provide one or more tags in a list
-artifact.save()
-```
 
 
 The following code snippet shows how to fetch an artifact and add a tag by creating a new run:
 
-```python title="Add a tag to an artifact version during a run"
-import wandb
-
-REGISTRY_NAME = "<registry_name>"
-COLLECTION_NAME = "<collection_name>"
-VERSION = "<artifact_version>"
-
-with wandb.init(entity = "<entity>", project="<project>") as run:
-
-    artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
-
-    artifact = run.use_artifact(artifact_or_name = artifact_name)
-    artifact.tags = ["tag2"] # Provide one or more tags in a list
-    artifact.save()
-```
 </Tab>
 </Tabs>
 
@@ -188,13 +152,6 @@ Update a tag programmatically by reassigning or by mutating the `tags` attribute
 
 For example, the following code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to an artifact version section](#add-a-tag-to-an-artifact-version): 
 
-```python
-artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
-artifact.tags = artifact.tags + ["new-tag", "other-tag"]
-
-artifact.tags = set(artifact.tags) - set(tags_to_delete)
-artifact.tags = []  # deletes all tags
-```
 
 The following code snippet shows how you can use in-place mutation to update tags that belong to an artifact version:
 

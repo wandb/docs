@@ -145,13 +145,3 @@ By default, W&B uses full fidelity mode. To enable random sampling, follow these
 You can access the complete history of metrics logged during a run using the [W&B Run API](/models/ref/python/public-api/runs). The following example demonstrates how to retrieve and process the loss values from a specific run:
 
 
-```python
-# Initialize the W&B API
-run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
-
-# Retrieve the history of the 'Loss' metric
-history = run.scan_history(keys=["Loss"])
-
-# Extract the loss values from the history
-losses = [row["Loss"] for row in history]
-```

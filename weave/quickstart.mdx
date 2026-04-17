@@ -39,81 +39,8 @@ Run the following example code to track your first project with Weave:
 
 <Tabs>
   <Tab title="Python">
-    ```python lines {1-2,7-8,27-28}
-    # Imports the Weave library
-    import weave
-    from openai import OpenAI
-
-    client = OpenAI()
-
-    # Weave automatically tracks the inputs, outputs and code of this function
-    @weave.op()
-    def extract_dinos(sentence: str) -> dict:
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {
-                    "role": "system",
-                    "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
-    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
-                },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
-        return response.choices[0].message.content
-
-    # Initializes Weave, and sets the team and project to log data to
-    weave.init('your-team/traces-quickstart')
-
-    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
-    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
-    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
-
-    result = extract_dinos(sentence)
-    print(result)
-    ```
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines {1-2,7-8,20,24-25}
-    // Imports the Weave library
-    import * as weave from 'weave';
-    import OpenAI from 'openai';
-    
-    const openai = new OpenAI();
-
-    // Weave automatically tracks the inputs, outputs and code of this function  
-    async function extractDinos(input: string) {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'user',
-            content: `In JSON format extract a list of 'dinosaurs', with their 'name', their 'common_name', and whether its 'diet' is a herbivore or carnivore: ${input}`,
-          },
-        ],
-      });
-      return response.choices[0].message.content;
-    }
-    const extractDinosOp = weave.op(extractDinos);
-
-    async function main() {
-
-      // Initializes Weave, and sets the team and project to log data to
-      await weave.init('your-team/traces-quickstart');
-
-      const result = await extractDinosOp(
-        'I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.'
-      );
-      console.log(result);
-    }
-
-    main();
-
-    ```
   </Tab>
 </Tabs>
 

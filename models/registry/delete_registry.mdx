@@ -18,18 +18,6 @@ Use the `wandb` API's `delete()` method to delete a registry programmatically.  
 1. Fetch the registry you want to delete with `api.registry()`.
 1. Call the `delete()` method on the returned registry object to delete the registry.
 
-```python
-import wandb
-
-# Initialize the W&B API
-api = wandb.Api()
-
-# Fetch the registry you want to delete
-fetched_registry = api.registry("<registry_name>")
-
-# Deleting a registry
-fetched_registry.delete()
-```
 </Tab>
 <Tab title="W&B App">
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.

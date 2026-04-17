@@ -18,15 +18,6 @@ Upload your TensorBoard logs to the cloud, quickly share your results among coll
 
 ## Get started
 
-```python
-import wandb
-
-# Start a wandb run with `sync_tensorboard=True`
-wandb.init(project="my-project", sync_tensorboard=True) as run:
-  # Your training code using TensorBoard
-  ...
-
-```
 
 Review an [example TensorBoard integration run](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
@@ -50,29 +41,11 @@ Setting the step argument in `run.log()` is turned off when syncing Tensorboard.
 
 If you want more control over how TensorBoard is patched you can call `wandb.tensorboard.patch` instead of passing `sync_tensorboard=True` to `wandb.init`.
 
-```python
-import wandb
-
-wandb.tensorboard.patch(root_logdir="<logging_directory>")
-run = wandb.init()
-
-# Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
-run.finish()
-```
 
 You can pass `tensorboard_x=False` to this method to ensure vanilla TensorBoard is patched, if you're using TensorBoard > 1.14 with PyTorch you can pass `pytorch=True` to ensure it's patched. Both of these options have smart defaults depending on what versions of these libraries have been imported.
 
 By default, we also sync the `tfevents` files and any `.pbtxt` files. This enables us to launch a TensorBoard instance on your behalf. You will see a [TensorBoard tab](https://www.wandb.com/articles/hosted-tensorboard) on the run page. This behavior can be turned off by passing `save=False` to `wandb.tensorboard.patch`
 
-```python
-import wandb
-
-run = wandb.init()
-wandb.tensorboard.patch(save=False, tensorboard_x=True)
-
-# If running in a notebook, finish the wandb run to upload the tensorboard logs to W&B
-run.finish()
-```
 
 <Warning>
 You must call either `wandb.init()` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.

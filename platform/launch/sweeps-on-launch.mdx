@@ -59,40 +59,6 @@ Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep.
 
 For example, in the following code snippet, we specify `'wandb/jobs/Hello World 2:latest'` for the job value:
 
-```yaml
-# launch-sweep-config.yaml
-
-job: 'wandb/jobs/Hello World 2:latest'
-description: sweep examples using launch jobs
-
-method: bayes
-metric:
-  goal: minimize
-  name: loss_metric
-parameters:
-  learning_rate:
-    max: 0.02
-    min: 0
-    distribution: uniform
-  epochs:
-    max: 20
-    min: 0
-    distribution: int_uniform
-
-# Optional scheduler parameters:
-
-# scheduler:
-#   num_workers: 1  # concurrent sweep runs
-#   docker_image: <base image for the scheduler>
-#   resource: <ie. local-container...>
-#   resource_args:  # resource arguments passed to runs
-#     env: 
-#         - WANDB_API_KEY
-
-# Optional Launch Params
-# launch: 
-#    registry: <registry for image pulling>
-```
 
 For information on how to create a sweep configuration, see the [Define sweep configuration](/platform/launch/sweeps-on-launch/) page.
 
@@ -125,21 +91,6 @@ Create a launch sweep using the W&B sweep scheduling logic as a job.
 
 
 Example config:
-```yaml
-# launch-sweep-config.yaml  
-description: Launch sweep config using a scheduler job
-scheduler:
-  job: wandb/sweep-jobs/job-wandb-sweep-scheduler:latest
-  num_workers: 8  # allows 8 concurrent sweep runs
-
-# training/tuning job that the sweep runs will execute
-job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
-method: grid
-parameters:
-  learning_rate:
-    min: 0.0001
-    max: 0.1
-```
 </Tab>
 <Tab title="Custom scheduler">
 Custom schedulers can be created by creating a scheduler-job. For the purposes of this guide we will be modifying the `WandbScheduler` to provide more logging. 
@@ -171,33 +122,6 @@ Create a launch sweep using Optuna's scheduling logic with a job.
 
 2. After you create a job, you can now create a sweep. Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
 
-```yaml
-  # optuna_config_basic.yaml
-  description: A basic Optuna scheduler
-  job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
-  run_cap: 5
-  metric:
-    name: epoch/val_loss
-    goal: minimize
-
-  scheduler:
-    job: wandb/sweep-jobs/job-optuna-sweep-scheduler:latest
-    resource: local-container  # required for scheduler jobs sourced from images
-    num_workers: 2
-
-    # optuna specific settings
-    settings:
-      pruner:
-        type: PercentilePruner
-        args:
-          percentile: 25.0  # kill 75% of runs
-          n_warmup_steps: 10  # pruning turned off for first x steps
-
-  parameters:
-    learning_rate:
-      min: 0.0001
-      max: 0.1
-  ```
 
 
   3. Lastly, launch the sweep to an active queue with the launch-sweep command:

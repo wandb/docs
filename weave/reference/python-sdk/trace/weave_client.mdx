@@ -138,13 +138,6 @@ After calling this, calls will fall back to using the global wandb.run (if avail
  - <b>`obj_ref`</b>: Reference to the object version, either an ObjectRef or a weave /// URI string.
  - <b>`tags`</b>: List of tag strings to add.
 **Examples:**
-```python
-client = weave.init("my-project")
-client.set_wandb_run_context(run_id="my-run-id", step=5)
-# ... make some calls ...
-client.clear_wandb_run_context()
-# Now calls will use global wandb.run again
-```
 
 ---
 
@@ -548,31 +541,6 @@ get_feedback(
 Query project for feedback. 
 
 **Examples:**
-```python
-# Fetch a specific feedback object.
-# Note that this still returns a collection, which is expected
-# to contain zero or one item(s).
-client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
-
-# Find all feedback objects with a specific reaction.
-client.get_feedback(reaction="👍", limit=10)
-
-# Find all feedback objects with a specific feedback type with
-# mongo-style query.
-from weave.trace_server.interface.query import Query
-
-query = Query(
-    **{
-        "$expr": {
-            "$eq": [
-                {"$getField": "feedback_type"},
-                {"$literal": "wandb.reaction.1"},
-            ],
-        }
-    }
-)
-client.get_feedback(query=query)
-```
 
 **Args:**
  
@@ -692,15 +660,6 @@ Query project for costs.
 
  - <b>`ids`</b>: The cost IDs to purge. Can be a single ID or a list of IDs.
 **Examples:**
-```python
-# Fetch a specific cost object.
-# Note that this still returns a collection, which is expected
-# to contain zero or one item(s).
-client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
-
-# Find all cost objects with a specific reaction.
-client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
-```
 
 **Args:**
  
@@ -804,15 +763,6 @@ This allows you to associate Weave calls with a specific WandB run that is not b
  - <b>`run_id`</b>: The run ID (not including entity/project prefix).  The client will automatically add the entity/project prefix.
  - <b>`step`</b>: The step number to use for calls. If None, step will not be set.
 **Examples:**
-```python
-client = weave.init("my-project")
-client.set_wandb_run_context(run_id="my-run-id", step=5)
-# Now all calls will be associated with entity/project/my-run-id at step 5
-
-# Or without a step
-client.set_wandb_run_context(run_id="my-run-id")
-# Calls will be associated with entity/project/my-run-id with no step
-```
 
 ---
 

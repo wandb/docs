@@ -7,33 +7,6 @@ Direct integration of Plotly or Bokeh figures into tables is not supported. Inst
 
 <Tabs>
 <Tab title="Using Plotly">
-```python
-import wandb
-import plotly.express as px
-
-# Initialize a new run
-with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
-
-    # Create a table
-    table = wandb.Table(columns=["plotly_figure"])
-
-    # Define path for Plotly figure
-    path_to_plotly_html = "./plotly_figure.html"
-
-    # Create a Plotly figure
-    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
-
-    # Export Plotly figure to HTML
-    # Setting auto_play to False prevents animated Plotly charts from playing automatically
-    fig.write_html(path_to_plotly_html, auto_play=False)
-
-    # Add Plotly figure as HTML file to the table
-    table.add_data(wandb.Html(path_to_plotly_html))
-
-    # Log Table
-    run.log({"test_table": table})
-
-```
 </Tab>
 <Tab title="Using Bokeh">
 ```python

@@ -14,54 +14,10 @@ Import the LLM or framework library, initialize your Weave project, and then Wea
   <Tab title="Python">
 
 
-    ```python lines
-    import weave
-
-    from openai import OpenAI
-    client = OpenAI()
-
-    # Initialize Weave Tracing
-    weave.init('intro-example')
-
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {
-                "role": "user",
-                "content": "How are you?"
-            }
-        ],
-        temperature=0.8,
-        max_tokens=64,
-        top_p=1,
-    )
-    ```
 
   </Tab>
   <Tab title="TypeScript">
 
-    ```typescript lines
-    import OpenAI from 'openai'
-    import * as weave from 'weave'
-
-    const client = new OpenAI()
-
-    // Initialize Weave Tracing
-    await weave.init('intro-example')
-
-    const response = await client.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        {
-          role: 'user',
-          content: 'How are you?',
-        },
-      ],
-      temperature: 0.8,
-      max_tokens: 64,
-      top_p: 1,
-    });
-    ```
 
     For a complete setup guide for JS / TS projects, see the [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js).
 
@@ -78,20 +34,6 @@ Often LLM applications have additional logic (such as pre/post processing, promp
   <Tab title="Python">
     Weave allows you to manually track these Calls using the [`@weave.op`](/weave/reference/python-sdk/#function-op) decorator. For example:
 
-    ```python lines
-    import weave
-
-    # Initialize Weave Tracing
-    weave.init('intro-example')
-
-    # Decorate your function
-    @weave.op
-    def my_function(name: str):
-        return f"Hello, {name}!"
-
-    # Call your function -- Weave will automatically track inputs and outputs
-    print(my_function("World"))
-    ```
 
     You can also track [methods on classes](#track-class-and-object-methods).
   </Tab>
@@ -141,23 +83,6 @@ You can also track class and object methods. You can track any method in a class
   <Tab title="Python">
     
 
-    ```python lines
-    import weave
-
-    # Initialize Weave Tracing
-    weave.init("intro-example")
-
-    class MyClass:
-        # Decorate your method
-        @weave.op
-        def my_method(self, name: str):
-            return f"Hello, {name}!"
-
-    instance = MyClass()
-
-    # Call your method -- Weave will automatically track inputs and outputs
-    print(instance.my_method("World"))
-    ```
   </Tab>
   <Tab title="TypeScript">
     <Important>
@@ -204,22 +129,6 @@ By default, parallel Calls all show up in Weave as separate root Calls. To get c
     The first function, `func`, is a simple Op that takes `x` and returns `x+1`. The second function, `outer`, is another Op that accepts a list of inputs.
     Inside `outer`, the use of `ThreadPoolExecutor` and `exc.map(func, inputs)` means that each call to `func` still carries the same parent trace context.
 
-    ```python lines
-    import weave
-
-    @weave.op
-    def func(x):
-        return x+1
-
-    @weave.op
-    def outer(inputs):
-        with weave.ThreadPoolExecutor() as exc:
-            exc.map(func, inputs)
-
-    # Update your Weave project name
-    client = weave.init('my-weave-project')
-    outer([1,2,3,4,5])
-    ```
 
 
   </Tab>
@@ -239,24 +148,6 @@ You can also manually create Calls using the API directly.
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
-    import weave
-
-    # Initialize Weave Tracing
-    client = weave.init('intro-example')
-
-    def my_function(name: str):
-        # Start a Call
-        call = client.create_call(op="my_function", inputs={"name": name})
-
-        # ... your function code ...
-
-        # End a Call
-        client.finish_call(call, output="Hello, World!")
-
-        # Call your function
-        print(my_function("World"))
-        ```
 
     </Tab>
     <Tab title="TypeScript">

@@ -50,67 +50,11 @@ Configure the MCP integration through environment variables:
 
 To trace an MCP server, add two lines to your existing `FastMCP` setup: one to import Weave and one to initialize the client. Once added, tool, resource, and prompt operations will be automatically traced.
 
-```python lines
-# Import Weave (required for tracing)
-import weave
-from mcp.server.fastmcp import FastMCP
-
-# Initialize Weave with your project name
-weave_client = weave.init("my-project")
-
-# Set up the MCP server
-mcp = FastMCP("Demo")
-
-# Define a tool (this call will be traced)
-@mcp.tool()
-def add(a: int, b: int) -> int:
-    """Add two numbers."""
-    return a + b
-
-# Define a resource (this call will be traced)
-@mcp.resource("greeting://{name}")
-def get_greeting(name: str) -> str:
-    """Return a personalized greeting."""
-    return f"Hello, {name}!"
-
-# Define a prompt (this call will be traced)
-@mcp.prompt()
-def review_code(code: str) -> str:
-    """Return a prompt for reviewing code."""
-    return f"Please review this code:\n\n{code}"
-
-# Start the server
-mcp.run(transport="stdio")
-```
 
 ### Client-side integration
 
 On the client side, tracing also requires just two changes: import Weave and initialize it. All tool calls, resource accesses, and prompt requests will be traced automatically.
 
-```python lines
-# Import Weave (required for tracing)
-import weave
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-# Initialize Weave with your project name
-weave_client = weave.init("my-project")
-
-# Set up and run the MCP client
-async with stdio_client(server_params) as (read, write):
-    async with ClientSession(read, write) as session:
-        # Initialize the session
-        await session.initialize()
-        
-        # Call a tool (this will be traced)
-        result = await session.call_tool("add", arguments={"a": 1, "b": 2})
-        
-        # Read a resource (this will be traced)
-        resource = await session.read_resource("greeting://user")
-        
-        # Get a prompt (this will be traced)
-        prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
-```
 
 ## Tutorial: `mcp_demo` example
 

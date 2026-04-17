@@ -22,22 +22,6 @@ We've created a few examples for you to see how the integration works:
 * [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): A simple demo to try the integration
 * [A step by step guide](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): to tracking your Skorch model performance
 
-```python
-# Install wandb
-... pip install wandb
-
-import wandb
-from skorch.callbacks import WandbLogger
-
-# Create a wandb Run
-wandb_run = wandb.init()
-
-# Log hyper-parameters (optional)
-wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
-
-net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
-net.fit(X, y)
-```
 
 ## Method reference
 

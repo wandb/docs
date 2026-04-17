@@ -47,32 +47,3 @@ Constructs a customizable line chart.
 **Example:**
  
 
-```python
-import math
-import random
-import wandb
-
-# Create multiple series of data with different patterns
-data = []
-for i in range(100):
-     # Series 1: Sinusoidal pattern with random noise
-     data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
-     # Series 2: Cosine pattern with random noise
-     data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
-     # Series 3: Linear increase with random noise
-     data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
-
-# Define the columns for the table
-table = wandb.Table(data=data, columns=["step", "value", "series"])
-
-# Initialize wandb run and log the line chart
-with wandb.init(project="line_chart_example") as run:
-     line_chart = wandb.plot.line(
-         table=table,
-         x="step",
-         y="value",
-         stroke="series",  # Group by the "series" column
-         title="Multi-Series Line Plot",
-     )
-     run.log({"line-chart": line_chart})
-``` 

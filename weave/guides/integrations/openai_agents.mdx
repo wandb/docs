@@ -88,40 +88,6 @@ If you need help setting up your project or determining which type you are using
 
 The following code sample creates an OpenAI Agent and integrates it with Weave for traceability. Replace `your-team-name/your-project-name` in the Weave project initialization with your entity and project. The sample defines a `get_weather` tool that returns a sample weather report, then configures an agent named `Hello world` with basic instructions and access to the weather tool. The `main` function runs the agent with a sample input (`What's the weather in Tokyo?`) and logs the final response.
 
-```typescript lines
-import * as weave from "weave";
-import { Agent, run, tool } from "@openai/agents";
-import { z } from "zod";
-
-const getWeather = tool({
-  name: "get_weather",
-  description: "Get the current weather for a given city.",
-  parameters: z.object({
-    city: z.string().describe("The name of the city"),
-  }),
-  async execute({ city }) {
-    return `${city}: 14-20C, Sunny with wind.`;
-  },
-});
-
-async function main() {
-  // UPDATE to your project info.
-  await weave.init("your-team-name/your-project-name");
-
-  const agent = new Agent({
-    name: "Hello world",
-    instructions: "You are a helpful agent.",
-    tools: [getWeather],
-  });
-
-  const result = await run(agent, [
-    { role: "user", content: "What's the weather in Tokyo?" },
-  ]);
-  console.log(result.finalOutput);
-}
-
-main();
-```
 
 In CommonJS, the `import * as weave from "weave"` statement must appear **before** `import { Agent, run, tool } from "@openai/agents"` for automatic instrumentation. If your code cannot follow this ordering, use the manual instrumentation technique that follows.
 

@@ -18,34 +18,6 @@ Launch SDK functions require `wandb-core`. See the [`wandb-core` README](https:/
 The `Run` object returned by `wandb.init` in a job can be reconfigured, by default. The Launch SDK provides a way to customize what parts of the `Run.config` object can be reconfigured when launching the job.
 
 
-```python
-import wandb
-from wandb.sdk import launch
-
-# Required for launch sdk use.
-wandb.require("core")
-
-config = {
-    "trainer": {
-        "learning_rate": 0.01,
-        "batch_size": 32,
-        "model": "resnet",
-        "dataset": "cifar10",
-        "private": {
-            "key": "value",
-        },
-    },
-    "seed": 42,
-}
-
-
-with wandb.init(config=config):
-    launch.manage_wandb_config(
-        include=["trainer"], 
-        exclude=["trainer.private"],
-    )
-    # Etc.
-```
 
 The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object. The optional `include` and `exclude` options take path prefixes within the nested config object. This can be useful if, for example, a job uses a library whose options you don't want to expose to end users. 
 
@@ -100,23 +72,6 @@ By default, no run config inputs will be captured if `launch.manage_config_file`
 
 Consider the following example:
 
-```python
-import yaml
-import wandb
-from wandb.sdk import launch
-
-# Required for launch sdk use.
-wandb.require("core")
-
-launch.manage_config_file("config.yaml")
-
-with open("config.yaml", "r") as f:
-    config = yaml.safe_load(f)
-
-with wandb.init(config=config):
-    # Etc.
-    pass
-```
 
 Imagine the code is run with an adjacent file `config.yaml`:
 

@@ -63,20 +63,6 @@ We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and
 <Tab title="Logging PIL Images">
 For full control over the conversion of arrays to images, construct the [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) yourself and provide it directly.
 
-```python
-from PIL import Image
-
-with wandb.init(project="") as run:
-    # Create a PIL image from a NumPy array
-    image = Image.fromarray(image_array)
-
-    # Optionally, convert to RGB if needed
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-
-    # Log the image
-    run.log({"example": wandb.Image(image, caption="My Image")})
-```
 </Tab>
 <Tab title="Logging Images from Files">
 For even more control, create images however you like, save them to disk, and provide a filepath.
@@ -165,51 +151,6 @@ To log a bounding box, you'll need to provide a dictionary with the following ke
 
 Check out this example:
 
-```python
-import wandb
-
-class_id_to_label = {
-    1: "car",
-    2: "road",
-    3: "building",
-    # ...
-}
-
-img = wandb.Image(
-    image,
-    boxes={
-        "predictions": {
-            "box_data": [
-                {
-                    # one box expressed in the default relative/fractional domain
-                    "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
-                    "class_id": 2,
-                    "box_caption": class_id_to_label[2],
-                    "scores": {"acc": 0.1, "loss": 1.2},
-                    # another box expressed in the pixel domain
-                    # (for illustration purposes only, all boxes are likely
-                    # to be in the same domain/format)
-                    "position": {"middle": [150, 20], "width": 68, "height": 112},
-                    "domain": "pixel",
-                    "class_id": 3,
-                    "box_caption": "a building",
-                    "scores": {"acc": 0.5, "loss": 0.7},
-                    # ...
-                    # Log as many boxes an as needed
-                }
-            ],
-            "class_labels": class_id_to_label,
-        },
-        # Log each meaningful group of boxes with a unique key name
-        "ground_truth": {
-            # ...
-        },
-    },
-)
-
-with wandb.init(project="my_project") as run:
-    run.log({"driving_scene": img})
-```
 </Tab>
 </Tabs>
 
@@ -350,48 +291,6 @@ Using this schema, you can define a Python object and pass it in to [the `from_p
   * `score` - a numeric value that will be displayed on the bounding box that can be used to filter the bounding boxes shown (for example, to only show bounding boxes where `score` > `0.75`). (Optional)
 * `type` is a string representing the scene type to render. Currently the only supported value is `lidar/beta`
 
-```python
-point_list = [
-    [
-        2566.571924017235, # x
-        746.7817289698219, # y
-        -15.269245470863748,# z
-        76.5, # red
-        127.5, # green
-        89.46617199365393 # blue
-    ],
-    [ 2566.592983606823, 746.6791987335685, -15.275803826279521, 76.5, 127.5, 89.45471117247024 ],
-    [ 2566.616361739416, 746.4903185513501, -15.28628929674075, 76.5, 127.5, 89.41336375503832 ],
-    [ 2561.706014951675, 744.5349468458361, -14.877496818222781, 76.5, 127.5, 82.21868245418283 ],
-    [ 2561.5281847916694, 744.2546118233013, -14.867862032341005, 76.5, 127.5, 81.87824684536432 ],
-    [ 2561.3693562897465, 744.1804761656741, -14.854129178142523, 76.5, 127.5, 81.64137897587152 ],
-    [ 2561.6093071504515, 744.0287526628543, -14.882135189841177, 76.5, 127.5, 81.89871499537098 ],
-    # ... and so on
-]
-
-run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
-     points = point_list,
-     boxes = [{
-         "corners": [
-                [ 2601.2765123137915, 767.5669506323393, -17.816764802288663 ],
-                [ 2599.7259021588347, 769.0082337923552, -17.816764802288663 ],
-                [ 2599.7259021588347, 769.0082337923552, -19.66876480228866 ],
-                [ 2601.2765123137915, 767.5669506323393, -19.66876480228866 ],
-                [ 2604.8684867834395, 771.4313904894723, -17.816764802288663 ],
-                [ 2603.3178766284827, 772.8726736494882, -17.816764802288663 ],
-                [ 2603.3178766284827, 772.8726736494882, -19.66876480228866 ],
-                [ 2604.8684867834395, 771.4313904894723, -19.66876480228866 ]
-        ],
-         "color": [0, 0, 255], # color in RGB of the bounding box
-         "label": "car", # string displayed on the bounding box
-         "score": 0.6 # numeric displayed on the bounding box
-     }],
-     vectors = [
-        {"start": [0, 0, 0], "end": [0.1, 0.2, 0.5], "color": [255, 0, 0]}, # color is optional
-     ],
-     point_cloud_type = "lidar/beta",
-)})
-```
 
 When viewing a point cloud, you can hold control and use the mouse to move around inside the space.
 
@@ -571,11 +470,6 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [`wandb.Image`](/models/ref/python/data-types/image) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
 
-```python
-run.log({"example": wandb.Image(...)})
-# Or multiple images
-run.log({"example": [wandb.Image(...) for img in images]})
-```
 
 ### Video
 
@@ -629,20 +523,6 @@ For more usage information, see [`video-file`](/models/ref/query-panel/video-fil
 
 Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, you can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
 
-```python
-with wandb.init(project="my_project") as run:
-    columns = ["Text", "Predicted Sentiment", "True Sentiment"]
-    # Method 1
-    data = [["I love my phone", "1", "1"], ["My phone sucks", "0", "-1"]]
-    table = wandb.Table(data=data, columns=columns)
-    run.log({"examples": table})
-
-    # Method 2
-    table = wandb.Table(columns=columns)
-    table.add_data("I love my phone", "1", "1")
-    table.add_data("My phone sucks", "0", "-1")
-    run.log({"examples": table})
-```
 
 You can also pass a pandas `DataFrame` object.
 

@@ -83,15 +83,6 @@ To add a scorer in the Evaluation Playground:
     * **LLM-as-a-judge-model**: Select a foundation model to use as the scorer's judge. Similar to the LLM Model field in the **Models** section, you can select from foundation models you've already configured access to, or configure new access to foundation models.
     * **Scoring Prompt**: Provide the LLM judge parameters on what it should be scoring output on. For example, if you want it to check for hallucinations, you can enter a scoring prompt similar to this:
 
-        ```
-        Given the following context and answer, determine if the answer contains any information not supported by the context.
-
-        User input: {user_input}
-        Expected output: {expected_output}
-        Model Output: {output}
-
-        Is the model output correct?
-        ```
 
         You can use the fields from your datasets and responses as variables in the scoring prompt, such as `{user_input}`, `{expected_output}`, and `{output}`. To see a list of available variables, click **Insert variable** in the UI.
 

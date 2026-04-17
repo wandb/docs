@@ -59,19 +59,6 @@ wandb.login()
 
 ## Add the `WandbCallback` to the `learner` or `fit` method
 
-```python
-import wandb
-from fastai.callback.wandb import *
-
-# start logging a wandb run
-wandb.init(project="my_project")
-
-# To log only during one training phase
-learn.fit(..., cbs=WandbCallback())
-
-# To log continuously for all training phases
-learn = learner(..., cbs=WandbCallback())
-```
 
 <Note>
 If you use version 1 of Fastai, refer to the [Fastai v1 docs](/models/integrations/fastai/v1/).

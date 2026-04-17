@@ -33,10 +33,6 @@ If a run is stopped, crashes, or fails, you can resume it using the same run ID.
 
 The following code snippet shows how to accomplish this with the W&B Python SDK:
 
-```python
-with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # Your training code here
-```
 
 <Warning>
 Unexpected results will occur if multiple processes use the same `id` concurrently. 
@@ -50,12 +46,6 @@ Resume a run that stopped or crashed without overriding the existing run. This i
 
 Set the `resume` parameter to `"allow"` (`resume="allow"`) when you initialize a run with W&B. Provide the run ID of the run that stopped or crashed. The following code snippet shows how to accomplish this with the W&B Python SDK:
 
-```python
-import wandb
-
-with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
-        # Your training code here
-```
 
 
 ## Enable runs to automatically resume 

@@ -64,32 +64,6 @@ When you use this approach, a run is created in your W&B project. The artifact v
 
 Copy and paste the code snippet below. Replace values enclosed in `<>` with your own:
 
-```python
-import wandb
-
-entity = "<team_entity>"          # Your team entity
-project = "<project_name>"        # The name of the project that contains your artifact
-
-# Initialize a run
-with wandb.init(entity = entity, project = project) as run:
-
-  # Create an artifact object
-  # The type parameter specifies both the type of the 
-  # artifact object and the collection type
-  artifact = wandb.Artifact(name = "<name>", type = "<type>")
-
-  # Add the file to the artifact object. 
-  # Specify the path to the file on your local machine.
-  artifact.add_file(local_path = "<local_path_to_artifact>")
-
-  # Specify the collection and registry to link the artifact to
-  REGISTRY_NAME = "<registry_name>"  
-  COLLECTION_NAME = "<collection_name>"
-  target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
-
-  # Link the artifact to the collection
-  run.link_artifact(artifact = artifact, target_path = target_path)
-```
 
 ### Link an artifact version outside the context of a run
 
@@ -101,26 +75,6 @@ First, create an artifact object and add files to it. Next, use the `wandb.Artif
 
 Copy and paste the code snippet below. Replace values enclosed in `<>` with your own:
 
-```python
-import wandb
-
-# Create an artifact object
-# The type parameter specifies both the type of the 
-# artifact object and the collection type
-artifact = wandb.Artifact(name = "<name>", type = "<type>")
-
-# Add the file to the artifact object. 
-# Specify the path to the file on your local machine.
-artifact.add_file(local_path = "<local_path_to_artifact>")
-
-# Specify the collection and registry to link the artifact to
-REGISTRY_NAME = "<registry_name>"  
-COLLECTION_NAME = "<collection_name>"
-target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
-
-# Link the artifact to the collection
-artifact.link(target_path = target_path)
-```
 
 
 
@@ -213,12 +167,6 @@ You can confirm the name of your team by:
 #### Log from a team entity
 1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity.
 
-    ```python 
-    import wandb   
-
-    with wandb.init(entity='<team_entity>', project='<project_name>') as run:
-        # Log your artifact here
-    ```
 
 2. Log the artifact to the run either with `wandb.Run.log_artifact()` or by creating an Artifact object and then adding files to it with:
 

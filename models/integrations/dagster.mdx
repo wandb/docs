@@ -36,32 +36,6 @@ The proceeding examples demonstrate where to specify your API key in your Dagste
 <Tabs>
 <Tab title="Config for @job">
 Example: configuration for `@job`
-```python
-# add this to your config.yaml
-# alternatively you can set the config in Dagit's Launchpad or JobDefinition.execute_in_process
-# Reference: https://docs.dagster.io/concepts/configuration/config-schema#specifying-runtime-configuration
-resources:
- wandb_config:
-   config:
-     entity: my_entity # replace this with your W&B entity
-     project: my_project # replace this with your W&B project
-
-
-@job(
-   resource_defs={
-       "wandb_config": make_values_resource(
-           entity=str,
-           project=str,
-       ),
-       "wandb_resource": wandb_resource.configured(
-           {"api_key": {"env": "WANDB_API_KEY"}}
-       ),
-       "io_manager": wandb_artifacts_io_manager,
-   }
-)
-def simple_job_example():
-   my_op()
-```
 </Tab>
 <Tab title="Config for @repository using assets">
 Example: configuration for `@repository` using assets
@@ -131,19 +105,6 @@ The integration with W&B Artifact relies on a Dagster IO Manager.
 
 The integration provides an IO Manager for W&B Artifacts. This allows any Dagster `@op` or `@asset` to create and consume W&B Artifacts natively. Here’s a simple example of an `@asset` producing a W&B Artifact of type dataset containing a Python list.
 
-```python
-@asset(
-    name="my_artifact",
-    metadata={
-        "wandb_artifact_arguments": {
-            "type": "dataset",
-        }
-    },
-    io_manager_key="wandb_artifacts_manager",
-)
-def create_dataset():
-    return [1, 2, 3] # this will be stored in an Artifact
-```
 
 You can annotate your `@op`, `@asset` and `@multi_asset` with a metadata configuration in order to write Artifacts. Similarly you can also consume W&B Artifacts even if they were created outside Dagster. 
 
@@ -486,18 +447,6 @@ def read_artifact(context, artifact):
 <Tab title="Artifact created outside Dagster">
 Reading an Artifact created outside Dagster:
 
-```python
-my_artifact = SourceAsset(
-   key=AssetKey("my_artifact"),  # the name of the W&B Artifact
-   description="Artifact created outside Dagster",
-   io_manager_key="wandb_artifacts_manager",
-)
-
-
-@asset
-def read_artifact(context, my_artifact):
-   context.log.info(my_artifact)
-```
 </Tab>
 </Tabs>
 
@@ -584,46 +533,6 @@ The currently supported modules are `pickle`, `dill`, `cloudpickle`, and `joblib
 
 Here’s a simplified example where we create a “model” serialized with joblib and then use it for inference.
 
-```python
-@asset(
-    name="my_joblib_serialized_model",
-    compute_kind="Python",
-    metadata={
-        "wandb_artifact_configuration": {
-            "type": "model",
-            "serialization_module": {
-                "name": "joblib"
-            },
-        }
-    },
-    io_manager_key="wandb_artifacts_manager",
-)
-def create_model_serialized_with_joblib():
-    # This is not a real ML model but this would not be possible with the pickle module
-    return lambda x, y: x + y
-
-@asset(
-    name="inference_result_from_joblib_serialized_model",
-    compute_kind="Python",
-    ins={
-        "my_joblib_serialized_model": AssetIn(
-            input_manager_key="wandb_artifacts_manager",
-        )
-    },
-    metadata={
-        "wandb_artifact_configuration": {
-            "type": "results",
-        }
-    },
-    io_manager_key="wandb_artifacts_manager",
-)
-def use_model_serialized_with_joblib(
-    context: OpExecutionContext, my_joblib_serialized_model
-):
-    inference_result = my_joblib_serialized_model(1, 2)
-    context.log.info(inference_result)  # Prints: 3
-    return inference_result
-```
 
 ### Advanced serialization formats (ONNX, PMML)
 It’s common to use interchange file formats like ONNX and PMML. The integration supports those formats but it requires a bit more work than for Pickle-based serialization.
@@ -634,82 +543,6 @@ There are two different methods to use those formats.
 
 Here’s an example of a Scikit-learn model being serialized using ONNX.
 
-```python
-import numpy
-import onnxruntime as rt
-from skl2onnx import convert_sklearn
-from skl2onnx.common.data_types import FloatTensorType
-from sklearn.datasets import load_iris
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-
-from dagster import AssetIn, AssetOut, asset, multi_asset
-
-@multi_asset(
-    compute_kind="Python",
-    outs={
-        "my_onnx_model": AssetOut(
-            metadata={
-                "wandb_artifact_configuration": {
-                    "type": "model",
-                }
-            },
-            io_manager_key="wandb_artifacts_manager",
-        ),
-        "my_test_set": AssetOut(
-            metadata={
-                "wandb_artifact_configuration": {
-                    "type": "test_set",
-                }
-            },
-            io_manager_key="wandb_artifacts_manager",
-        ),
-    },
-    group_name="onnx_example",
-)
-def create_onnx_model():
-    # Inspired from https://onnx.ai/sklearn-onnx/
-
-    # Train a model.
-    iris = load_iris()
-    X, y = iris.data, iris.target
-    X_train, X_test, y_train, y_test = train_test_split(X, y)
-    clr = RandomForestClassifier()
-    clr.fit(X_train, y_train)
-
-    # Convert into ONNX format
-    initial_type = [("float_input", FloatTensorType([None, 4]))]
-    onx = convert_sklearn(clr, initial_types=initial_type)
-
-    # Write artifacts (model + test_set)
-    return onx.SerializeToString(), {"X_test": X_test, "y_test": y_test}
-
-@asset(
-    name="experiment_results",
-    compute_kind="Python",
-    ins={
-        "my_onnx_model": AssetIn(
-            input_manager_key="wandb_artifacts_manager",
-        ),
-        "my_test_set": AssetIn(
-            input_manager_key="wandb_artifacts_manager",
-        ),
-    },
-    group_name="onnx_example",
-)
-def use_onnx_model(context, my_onnx_model, my_test_set):
-    # Inspired from https://onnx.ai/sklearn-onnx/
-
-    # Compute the prediction with ONNX Runtime
-    sess = rt.InferenceSession(my_onnx_model)
-    input_name = sess.get_inputs()[0].name
-    label_name = sess.get_outputs()[0].name
-    pred_onx = sess.run(
-        [label_name], {input_name: my_test_set["X_test"].astype(numpy.float32)}
-    )[0]
-    context.log.info(pred_onx)
-    return pred_onx
-```
 
 ### Using partitions
 
@@ -856,41 +689,6 @@ You can also view useful descriptions for all properties in Launchpad.
 </Frame>
 
 Simple example
-```python
-# add this to your config.yaml
-# alternatively you can set the config in Dagit's Launchpad or JobDefinition.execute_in_process
-# Reference: https://docs.dagster.io/concepts/configuration/config-schema#specifying-runtime-configuration
-resources:
- wandb_config:
-   config:
-     entity: my_entity # replace this with your W&B entity
-     project: my_project # replace this with your W&B project
-ops:
- run_launch_agent:
-   config:
-     max_jobs: -1
-     queues: 
-       - my_dagster_queue
-
-from dagster_wandb.launch.ops import run_launch_agent
-from dagster_wandb.resources import wandb_resource
-
-from dagster import job, make_values_resource
-
-@job(
-   resource_defs={
-       "wandb_config": make_values_resource(
-           entity=str,
-           project=str,
-       ),
-       "wandb_resource": wandb_resource.configured(
-           {"api_key": {"env": "WANDB_API_KEY"}}
-       ),
-   },
-)
-def run_launch_agent_example():
-   run_launch_agent()
-```
 
 ### Launch jobs
 The integration provides an importable `@op` called `run_launch_job`. It executes your Launch job.
@@ -907,44 +705,6 @@ You can also view useful descriptions for all properties in Launchpad.
 
 
 Simple example
-```python
-# add this to your config.yaml
-# alternatively you can set the config in Dagit's Launchpad or JobDefinition.execute_in_process
-# Reference: https://docs.dagster.io/concepts/configuration/config-schema#specifying-runtime-configuration
-resources:
- wandb_config:
-   config:
-     entity: my_entity # replace this with your W&B entity
-     project: my_project # replace this with your W&B project
-ops:
- my_launched_job:
-   config:
-     entry_point:
-       - python
-       - train.py
-     queue: my_dagster_queue
-     uri: https://github.com/wandb/example-dagster-integration-with-launch
-
-
-from dagster_wandb.launch.ops import run_launch_job
-from dagster_wandb.resources import wandb_resource
-
-from dagster import job, make_values_resource
-
-
-@job(resource_defs={
-       "wandb_config": make_values_resource(
-           entity=str,
-           project=str,
-       ),
-       "wandb_resource": wandb_resource.configured(
-           {"api_key": {"env": "WANDB_API_KEY"}}
-       ),
-   },
-)
-def run_launch_job_example():
-   run_launch_job.alias("my_launched_job")() # we rename the job with an alias
-```
 
 ## Best practices
 

@@ -28,31 +28,10 @@ Here you can edit the display name of the Call, add feedback, or delete the Call
 <Tab title="Python">
 To set the display name of a Call, use the [`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
 
-```python lines
-import weave
-
-# Initialize the client
-client = weave.init("your-project-name")
-
-# Get a specific Call by its ID
-call = client.get_call("call-uuid-here")
-
-# Set the display name of the Call
-call.set_display_name("My Custom Display Name")
-```
 </Tab>
 <Tab title="TypeScript">
 To set the display name of a Call, use [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) to update by call ID directly:
 
-```typescript lines
-import * as weave from 'weave'
-
-// Initialize the client
-const client = await weave.init('your-project-name')
-
-// Update the display name of a Call by its ID
-await client.updateCall('call-uuid-here', 'My Custom Display Name')
-```
 
 </Tab>
 <Tab title="HTTP API">
@@ -83,18 +62,6 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
 <Tab title="Python">
 To delete a Call using the Python API, use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
 
-```python lines
-import weave
-
-# Initialize the client
-client = weave.init("your-project-name")
-
-# Get a specific Call by its ID
-call = client.get_call("call-uuid-here")
-
-# Delete the Call
-call.delete()
-```
 
 </Tab>
 <Tab title="TypeScript">
@@ -130,24 +97,6 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
     - Deleting a Call also deletes all of its children.
     </Important>
 
-    ```python lines
-    import weave
-
-    # Initialize the client
-    client = weave.init("my-project")
-
-    # Get all Calls from client
-    all_calls = client.get_calls()
-
-    # Get list of first 1000 Call objects
-    first_1000_calls = all_calls[:1000]
-
-    # Get list of first 1000 Call IDs
-    first_1000_calls_ids = [c.id for c in first_1000_calls]
-
-    # Delete first 1000 Calls by ID
-    client.delete_calls(call_ids=first_1000_calls_ids)
-    ```
 
     </Tab>
     <Tab title="TypeScript">

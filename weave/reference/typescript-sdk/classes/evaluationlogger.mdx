@@ -88,13 +88,6 @@ ScoreLogger (logScore, finish) will be queued and executed when initialization c
 
 `Example`
 
-```ts
-// Fire-and-forget style
-const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
-scoreLogger.logScore('accuracy', 0.95);
-scoreLogger.finish();
-await evalLogger.logSummary(); // Waits for everything
-```
 
 #### Defined in
 
@@ -125,12 +118,6 @@ Use this if you need to await the initialization before proceeding.
 
 `Example`
 
-```ts
-// Awaitable style
-const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
-await scoreLogger.logScore('accuracy', 0.95);
-await scoreLogger.finish();
-```
 
 #### Defined in
 

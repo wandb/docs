@@ -33,34 +33,6 @@ You can register custom signal handlers in your training script. When a catchabl
 
 The following example registers handlers for `SIGUSR1` (a typical cluster preemption signal) and `SIGTERM`. It leaves `SIGINT` free for interactive use (for example, manual cancellation from the terminal). The handler calls `wandb.run.mark_preempting()` and exits using `128 + signum`:
 
-```python
-import signal
-import sys
-import wandb
-
-
-def signal_handler(signum, frame):
-    if wandb.run is not None:
-        # Optional: save a model checkpoint, flush buffers, and so on.
-        print(f"Preempted with signal: {signal.Signals(signum).name}.")
-        wandb.run.mark_preempting()
-    sys.exit(128 + signum)
-
-
-def train():
-    signal.signal(signal.SIGUSR1, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-
-    with wandb.init() as run:
-        config = wandb.config
-        for epoch in range(100):
-            # Training step; wandb.log(...) as needed
-            pass
-
-
-if __name__ == "__main__":
-    train()
-```
 
 ## `SIGKILL` (uncatchable)
 

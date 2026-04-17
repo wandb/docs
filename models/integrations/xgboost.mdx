@@ -16,17 +16,6 @@ The `wandb` library has a `WandbCallback` callback for logging metrics, configs 
 
 Logging XGBoost metrics, configs and booster models to W&B is as easy as passing the `WandbCallback` to XGBoost:
 
-```python
-from wandb.integration.xgboost import WandbCallback
-import xgboost as XGBClassifier
-
-...
-# Start a wandb run
-with wandb.init() as run:
-  # Pass WandbCallback to the model
-  bst = XGBClassifier()
-  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
-```
 
 You can open [this notebook](https://wandb.me/xgboost) for a comprehensive look at logging with XGBoost and W&B
 

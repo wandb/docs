@@ -27,22 +27,6 @@ Programmatically add one or more runs to a group with the W&B Python SDK. Pass t
 
 The following example creates three groups named `A`, `B`, and `C`. Each group contains three runs.
 
-```python
-import wandb
-
-entity = "<entity>"
-project = "<project>"
-
-for group in ["A", "B", "C"]:
-    for i in range(3):
-        with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
-            # Simulate some training
-            for step in range(100):
-                run.log({
-                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
-                    "loss": 1.0 - (step / 100) * 0.5
-                })
-```
 
 In the project's workspace, you can view runs organized by group. The following image illustrates organizing the runs table by group name. Three groups named `A`, `B`, and `C` appear in the runs table, each containing three runs.
 
@@ -101,23 +85,6 @@ View a run's job type by accessing the run's [`wandb.Run.job_type`](/models/ref/
 
 Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`. For example, the following code snippet creates runs with job types of either `training` or `evaluation`:
 
-```python
-import wandb
-
-entity = "<entity>"
-project = "<project>"
-
-for job_type in ["training", "evaluation"]:
-    for i in range(2):
-        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
-            # Simulate some process
-            for step in range(50):
-                run.log({
-                    "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
-                    "metric2": 0.8 - (step / 50) * 0.3
-                })
-
-```
 
 The following image shows runs organized by job type:
 

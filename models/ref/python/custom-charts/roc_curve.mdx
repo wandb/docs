@@ -51,35 +51,3 @@ Constructs Receiver Operating Characteristic (ROC) curve chart.
 
 
 **Example:**
- ```python
-import numpy as np
-import wandb
-
-# Simulate a medical diagnosis classification problem with three diseases
-n_samples = 200
-n_classes = 3
-
-# True labels: assign "Diabetes", "Hypertension", or "Heart Disease" to
-# each sample
-disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
-# 0: Diabetes, 1: Hypertension, 2: Heart Disease
-y_true = np.random.choice([0, 1, 2], size=n_samples)
-
-# Predicted probabilities: simulate predictions, ensuring they sum to 1
-# for each sample
-y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
-
-# Specify classes to plot (plotting all three diseases)
-classes_to_plot = [0, 1, 2]
-
-# Initialize a W&B run and log a ROC curve plot for disease classification
-with wandb.init(project="medical_diagnosis") as run:
-    roc_plot = wandb.plot.roc_curve(
-         y_true=y_true,
-         y_probas=y_probas,
-         labels=disease_labels,
-         classes_to_plot=classes_to_plot,
-         title="ROC Curve for Disease Classification",
-    )
-    run.log({"roc-curve": roc_plot})
-``` 

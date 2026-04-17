@@ -34,19 +34,6 @@ __init__(
 
 
 **Example:**
- ```python
-from wandb.apis.public.api import Api
-
-# Find projects that belong to this entity
-projects = Api().projects(entity="entity")
-
-# Iterate over files
-for project in projects:
-    print(f"Project: {project.name}")
-    print(f"- URL: {project.url}")
-    print(f"- Created at: {project.created_at}")
-    print(f"- Is benchmark: {project.is_benchmark}")
-``` 
 
 
 An iterable collection of `Project` objects. 

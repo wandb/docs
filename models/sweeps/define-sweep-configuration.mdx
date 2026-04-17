@@ -448,21 +448,6 @@ command:
 ```
 The associated Python script (`run.py`) can then parse these command line arguments using the `argparse` module. 
 
-```python title="run.py"
-# run.py  
-import wandb
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--batch_size', type=int)
-parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
-parser.add_argument('--test', type=str2bool, default=False)
-args = parser.parse_args()
-
-# Initialize a W&B Run
-with wandb.init('test-project') as run:
-    run.log({'validation_loss':1})
-```
 
 See the [Command macros](./sweep-config-keys#command-macros) section in [Sweep configuration options](./sweep-config-keys) for a list of pre-defined macros you can use in your sweep configuration. 
 
@@ -472,28 +457,9 @@ The `argparse` module does not support boolean arguments by default. To define a
 
 As an example, you can use the following code snippet to define a boolean argument. Pass `store_true` or `store_false` as an argument to `ArgumentParser`. 
 
-```python
-import wandb
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--test', action='store_true')
-args = parser.parse_args()
-
-args.test  # This will be True if --test is passed, otherwise False
-```
 
 You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value. 
 
-```python
-def str2bool(v: str) -> bool:
-  """Convert a string to a boolean. This is required because
-  argparse does not support boolean arguments by default.
-  """
-  if isinstance(v, bool):
-      return v
-  return v.lower() in ('yes', 'true', 't', '1')
-```
 
 
 

@@ -127,21 +127,6 @@ Returns a single artifact.
 **Examples:**
  In the following code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
 
-```python
-import wandb
-
-# Specify the project, artifact's name, and the artifact's alias
-wandb.Api().artifact(name="project/artifact:alias")
-
-# Specify the project, artifact's name, and a specific artifact version
-wandb.Api().artifact(name="project/artifact:version")
-
-# Specify the entity, project, artifact's name, and the artifact's alias
-wandb.Api().artifact(name="entity/project/artifact:alias")
-
-# Specify the entity, project, artifact's name, and a specific artifact version
-wandb.Api().artifact(name="entity/project/artifact:version")
-``` 
 
 
 
@@ -178,19 +163,6 @@ You can use the returned `ArtifactCollection` object to retrieve information abo
 **Examples:**
  In the proceeding code snippet "type", "entity", "project", and "artifact_name" are placeholders for the collection type, your W&B entity, name of the project the artifact is in, and the name of the artifact, respectively. 
 
-```python
-import wandb
-
-collections = wandb.Api().artifact_collection(
-    type_name="type", name="entity/project/artifact_name"
-)
-
-# Get the first artifact in the collection
-artifact_example = collections.artifacts()[0]
-
-# Download the contents of the artifact to the specified root directory.
-artifact_example.download()
-``` 
 
 ---
 
@@ -496,29 +468,6 @@ Create a new Automation.
 **Examples:**
  Create a new automation named "my-automation" that sends a Slack notification when a run within a specific project logs a metric exceeding a custom threshold: 
 
-```python
-import wandb
-from wandb.automations import OnRunMetric, RunEvent, SendNotification
-
-api = wandb.Api()
-
-project = api.project("my-project", entity="my-team")
-
-# Use the first Slack integration for the team
-slack_hook = next(api.slack_integrations(entity="my-team"))
-
-event = OnRunMetric(
-     scope=project,
-     filter=RunEvent.metric("custom-metric") > 10,
-)
-action = SendNotification.from_integration(slack_hook)
-
-automation = api.create_automation(
-     event >> action,
-     name="my-automation",
-     description="Send a Slack message whenever 'custom-metric' exceeds 10.",
-)
-``` 
 
 ---
 
@@ -565,39 +514,6 @@ Create a custom chart preset and return its id.
 
 
 **Example:**
- ```python
-    import wandb
-
-    api = wandb.Api()
-
-    # Define a simple bar chart specification
-    vega_spec = {
-         "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-         "mark": "bar",
-         "data": {"name": "wandb"},
-         "encoding": {
-             "x": {"field": "${field:x}", "type": "ordinal"},
-             "y": {"field": "${field:y}", "type": "quantitative"},
-         },
-    }
-
-    # Create the custom chart
-    chart_id = api.create_custom_chart(
-         entity="my-team",
-         name="my-bar-chart",
-         display_name="My Custom Bar Chart",
-         spec_type="vega2",
-         access="private",
-         spec=vega_spec,
-    )
-
-    # Use with wandb.plot_table()
-    chart = wandb.plot_table(
-         vega_spec_name=chart_id,
-         data_table=my_table,
-         fields={"x": "category", "y": "value"},
-    )
-    ``` 
 
 ---
 
@@ -1018,12 +934,6 @@ Use the iterator to search and filter registries, collections, or artifact versi
 **Examples:**
  Find all registries with the names that contain "model" 
 
-```python
-import wandb
-
-api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
-api.registries(filter={"name": {"$regex": "model"}})
-``` 
 
 Find all collections in the registries with the name "my_collection" and the tag "my_tag" 
 
@@ -1224,48 +1134,10 @@ For more complex filtering, you can use MongoDB query operators. For details, se
 
 
 **Examples:**
- ```python
-import wandb
-from wandb.apis.public import Api
 
-# Find runs in project where config.experiment_name has been set to "foo"
-Api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
-``` 
 
-```python
-# Find runs in project where config.experiment_name has been set to "foo" or "bar"
-Api.runs(
-    path="my_entity/project",
-    filters={
-         "$or": [
-             {"config.experiment_name": "foo"},
-             {"config.experiment_name": "bar"},
-         ]
-    },
-)
-``` 
 
-```python
-# Find runs in project where config.experiment_name matches a regex
-# (anchors are not supported)
-Api.runs(
-    path="my_entity/project",
-    filters={"config.experiment_name": {"$regex": "b.*"}},
-)
-``` 
 
-```python
-# Find runs in project where the run name matches a regex
-# (anchors are not supported)
-Api.runs(
-    path="my_entity/project", filters={"display_name": {"$regex": "^foo.*"}}
-)
-``` 
-
-```python
-# Find runs in project sorted by ascending loss
-Api.runs(path="my_entity/project", order="+summary_metrics.loss")
-``` 
 
 ---
 

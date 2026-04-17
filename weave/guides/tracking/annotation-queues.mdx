@@ -188,46 +188,6 @@ In this example, the queue ID is:
 
 You can iterate through the traces (calls) in your queue using the following code.
 
-```python lines
-import weave
-from weave.trace_server.trace_server_interface import AnnotationQueueItemsQueryReq
-
-# Update project and queue identifiers to your own values.
-PROJECT = "your-team-name/your-project-name"
-QUEUE_ID = "019c0f63-7acb-7497-8f87-08873368fcd4"
-
-# Initialize Weave.
-client = weave.init(PROJECT)
-
-# Get call IDs from calls in a queue.
-calls = client.server.annotation_queue_items_query(
-    AnnotationQueueItemsQueryReq(
-        project_id=PROJECT,
-        queue_id=QUEUE_ID,
-    )
-)
-
-# Iterate through calls and get feedback.
-for i, item in enumerate(calls.items):
-    call = client.get_call(call_id=item.call_id, include_feedback=True)
-    feedback = call.feedback or {}
-
-    # Count total feedback items for call.
-    total_feedback_items = len(feedback)
-
-    print(f"\nItem {i} — call_id: {item.call_id} — total feedback items: {total_feedback_items}")
-
-    if not feedback:
-        print("No feedback for item")
-        continue
-
-    # Get the first annotation value. 
-    # Field annotations are not added in repeatable order - thus the first field will vary.
-    field_name = next(iter(feedback))
-    field_value = feedback[0]
-
-    print(f"  {field_name}: {field_value}")
-```
 
 The following Google Colab notebook provides an in-depth example of programmatically accessing annotation data and collecting an analytics report:
 

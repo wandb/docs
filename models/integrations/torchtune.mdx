@@ -100,13 +100,6 @@ Each recipe has its own training loop. Check each individual recipe to see its l
 
 The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/meta-pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
 
-```python
-# inside `train.py` function in the recipe file
-self._metric_logger.log_dict(
-    {"current_epoch": self.epochs * self.global_step / self._steps_per_epoch},
-    step=self.global_step,
-)
-```
 
 <Note>
 This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
@@ -120,28 +113,3 @@ If you want to save the model checkpoints to [W&B Artifacts](/models/artifacts/)
 
 Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
 
-```python
-def save_checkpoint(self, epoch: int) -> None:
-    ...
-    ## Let's save the checkpoint to W&B
-    ## depending on the Checkpointer Class the file will be named differently
-    ## Here is an example for the full_finetune case
-    checkpoint_file = Path.joinpath(
-        self._checkpointer._output_dir, f"torchtune_model_{epoch}"
-    ).with_suffix(".pt")
-    wandb_artifact = wandb.Artifact(
-        name=f"torchtune_model_{epoch}",
-        type="model",
-        # description of the model checkpoint
-        description="Model checkpoint",
-        # you can add whatever metadata you want as a dict
-        metadata={
-            utils.SEED_KEY: self.seed,
-            utils.EPOCHS_KEY: self.epochs_run,
-            utils.TOTAL_EPOCHS_KEY: self.total_epochs,
-            utils.MAX_STEPS_KEY: self.max_steps_per_epoch,
-        },
-    )
-    wandb_artifact.add_file(checkpoint_file)
-    wandb.log_artifact(wandb_artifact)
-```

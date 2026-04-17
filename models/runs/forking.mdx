@@ -31,23 +31,6 @@ First, obtain the run ID of the run you want to fork from. Next, specify the run
 
 Copy and paste the following code into a Python script or notebook cell. Replace `<source-run-id>`, `<project>`, and `<entity>` with your own values:
 
-```python
-import wandb
-
-# The unique ID of the source run to fork from
-source_run_id = "<source-run-id>"
-
-# Specify the step to fork from
-fork_step = 200
-
-# Fork the run
-with wandb.init(
-    project="<project>",
-    entity="<entity>",
-    fork_from=f"{source_run_id}?_step={fork_step}",
-) as forked_run:
-    pass
-```
 
 
 ## Fork from a run in the same script
@@ -56,29 +39,6 @@ The following code snippet shows how to create a run and fork from that run with
 
 First, initialize a run and log some data. Next, use the original run object's `id` property to obtain the run ID of that run. Finally, initialize a new run and pass the original run's ID and the step you want to fork from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
 
-```python
-import wandb
-
-# Initialize a run
-with wandb.init(
-    project="<project>",
-    entity="<entity>"
-) as original_run:
-    # ...training logic goes here ...
-    pass
-
-# Specify the step to fork from
-fork_step = int("<num>")
-
-# Use the original run's ID and specify the step to fork from
-with wandb.init(
-    project="<project>",
-    entity="<entity>",
-    fork_from=f"{original_run.id}?_step={fork_step}",
-) as forked_run:
-    # ...training logic goes here ...
-    pass
-```
 
 <Tip>
 Use the `original_run.id` property to obtain the unique run ID of the original run.
@@ -91,43 +51,6 @@ For example, the following code example shows how to first fork a run and then h
 
 Copy and paste the following code into a Python script or notebook cell. Replace `<project>` and `<entity>` with your own values.
 
-```python
-import wandb
-import math
-
-# Initialize the first run and log some metrics
-with wandb.init(
-    project="<project>",
-    entity="<entity>"
-) as run1:
-    for i in range(300):
-        run1.log({"metric": i})
-
-# Fork from the first run at a specific step and log the
-# metric starting from step 200
-with wandb.init(
-    project="<project>", 
-    entity="<entity>", 
-    fork_from=f"{run1.id}?_step=200"
-) as run2:
-    # Continue logging in the new run
-    # For the first few steps, log the metric as is from run1
-    # After step 250, start logging the spikey pattern
-    for i in range(200, 300):
-        if i < 250:
-            # Continue logging from run1 without spikes
-            metric_value = i
-        else:
-            # Introduce the spikey behavior starting from step 250
-            metric_value = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
-
-        # Log both metrics in a single call to ensure they're
-        # logged at the same step
-        run2.log({
-            "metric": metric_value,
-            "additional_metric": i * 1.1
-        })
-```
 
 <Note>
 **Rewind and forking compatibility**

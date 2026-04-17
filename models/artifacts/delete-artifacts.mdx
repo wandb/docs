@@ -16,37 +16,6 @@ Garbage collection is **best-effort**. W&B does not guarantee how quickly freed 
 
 The following diagram illustrates the complete artifact garbage collection process:
 
-```mermaid
-graph TB
-    Start([Artifact Deletion Initiated]) --> DeleteMethod{Deletion Method}
-    
-    DeleteMethod -->|UI| UIDelete[Delete via W&B App]
-    DeleteMethod -->|SDK| SDKDelete[Delete via W&B Python SDK]
-    DeleteMethod -->|TTL| TTLDelete[TTL Policy Expires]
-    
-    UIDelete --> SoftDelete[Artifact Marked as<br/>'Soft Delete']
-    SDKDelete --> SoftDelete
-    TTLDelete --> SoftDelete
-    
-    SoftDelete --> GCWait[(Wait for<br/>best-effort<br/>Garbage Collection)]
-    
-    GCWait --> GCRun[Garbage Collection<br/>Process Runs<br/><br/>- Reviews all soft-deleted artifacts<br/>- Checks file dependencies]
-    
-    GCRun --> CheckUsage{Are files used by<br/>other artifact versions?}
-    
-    CheckUsage -->|Yes| KeepFiles[Files Kept in Storage<br/><br/>- Artifact marked deleted<br/>- Files remain for other versions]
-    CheckUsage -->|No| DeleteFiles[Files Deleted from Storage<br/><br/>- Artifact fully removed<br/>- Storage space reclaimed]
-    
-    KeepFiles --> End([End])
-    DeleteFiles --> End
-    
-    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
-    style SoftDelete fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
-    style GCRun fill:#f3e5f5,stroke:#333,stroke-width:2px,color:#000
-    style KeepFiles fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
-    style DeleteFiles fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
-    style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
-``` 
 
 You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl).
 
@@ -77,17 +46,6 @@ To delete an artifact version:
 
 Delete an artifact version programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method. Provide the full name of the artifact. The full name consists of `<entity>/<project>/<artifact_name>:<version>`. Set the `delete_aliases` parameter to `True` to delete the artifact even if it has one or more aliases associated with it.
 
-```python
-import wandb
-
-api = wandb.Api()
-
-# Get the artifact by its path
-artifact = api.artifact("<entity>/<project>/<artifact_name>:<version>")
-
-# Delete the artifact version along with any aliases
-artifact.delete(delete_aliases=True)
-```
 
 </Tab>
 </Tabs>
@@ -102,26 +60,6 @@ Set the `delete_aliases` parameter to `True` (`wandb.Artifact.delete(delete_alia
 
 Replace the `<entity>`, `<project>`, `<run_id>`, and `<artifact_name>` placeholders with your own values:
 
-```python
-import wandb
-
-# Initialize W&B API
-api = wandb.Api()
-
-# Get the run by its path. Consists of <entity>/<project>/<run_id>
-run = api.run("<entity>/<project>/<run_id>")
-
-# Specify the artifact name to delete versions for
-artifact_name = "<artifact_name>"
-
-# Search and delete artifact versions with the specified name
-for artifact in run.logged_artifacts():
-    print(f"Found artifact: {artifact.name}") # Example name run_4dfbufgq_model:v0
-    # Grab only the artifact name without the version with split()
-    if artifact.name.split(":")[0] == artifact_name:
-        print(f"Deleting artifact version: {artifact.name}")
-        artifact.delete(delete_aliases=True)
-```
 
 ## Delete multiple artifact versions with a specific alias
 
@@ -129,27 +67,6 @@ The following code demonstrates how to delete multiple artifact versions that ha
 
 Replace the `<entity>`, `<project>`, `<run_id>`, `<artifact_name>`, and `<alias>` placeholders with your own values:
 
-```python
-import wandb
-
-# Initialize W&B API
-api = wandb.Api()
-
-# Get the run by its path. Consists of <entity>/<project>/<run_id>
-run = api.run("<entity>/<project>/<run_id>")
-
-# Specify the artifact name to delete versions for
-artifact_name = "<artifact_name>"
-
-# Specify the alias to filter artifact versions for deletion
-desired_alias = "<alias>"
-
-# Delete artifacts logged to run with alias 'v3' and 'v4
-for artifact in run.logged_artifacts():
-    print(f"Found artifact: {artifact.name}")
-    if (artifact.name.split(":")[0] == artifact_name) and (desired_alias in artifact.aliases):
-            artifact.delete(delete_aliases=True)
-```
 
 ## Delete an artifact collection
 
@@ -168,20 +85,6 @@ Delete artifact collection programmatically with the [wandb.Artifact.delete()](/
 
 Provide the full path of the artifact collection to `wandb.Api.artifact_collection(name="")`. The full path consists of `<entity>/<project>/<artifact_collection_name>`.
 
-```python
-import wandb
-
-# Initialize W&B API
-api = wandb.Api()
-
-# Get the artifact collection by its path. Consists of
-# <entity>/<project>/<artifact_collection_name>
-collection = api.artifact_collection(
-    type_name = "<artifact_type>",
-    name = "<entity>/<project>/<artifact_collection_name>"
-)
-collection.delete()
-```
 
 </Tab>
 </Tabs>

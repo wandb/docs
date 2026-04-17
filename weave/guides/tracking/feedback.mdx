@@ -89,27 +89,6 @@ You can also get additional information for each feedback object in `client.get_
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
-    import weave
-    client = weave.init('intro-example')
-
-    # Get all feedback in a project
-    all_feedback = client.get_feedback()
-
-    # Fetch a specific feedback object by id.
-    # The API returns a collection, which is expected to contain at most one item.
-    one_feedback = client.get_feedback("<feedback_uuid>")[0]
-
-    # Find all feedback objects with a specific reaction. You can specify offset and limit.
-    thumbs_up = client.get_feedback(reaction="👍", limit=10)
-
-    # After retrieval, view the details of individual feedback objects.
-    for f in client.get_feedback():
-        print(f.id)
-        print(f.created_at)
-        print(f.feedback_type)
-        print(f.payload)
-    ```
 
   </Tab>
   <Tab title="TypeScript">
@@ -133,23 +112,6 @@ The maximum number of characters in a feedback note is 1024. If a note exceeds t
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
-    import weave
-    client = weave.init('intro-example')
-
-    call = client.get_call("<call_uuid>")
-
-    # Adding an emoji reaction
-    call.feedback.add_reaction("👍")
-
-    # Adding a note
-    call.feedback.add_note("this is a note")
-
-    # Adding custom key/value pairs.
-    # The first argument is a user-defined "type" string.
-    # Feedback must be JSON serializable and less than 1 KB when serialized.
-    call.feedback.add("correctness", { "value": 5 })
-    ```
 
   </Tab>
   <Tab title="TypeScript">
@@ -169,20 +131,6 @@ To retrieve the UUID during Call execution, get the current Call, and return the
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
-
-    import weave
-    weave.init("uuid")
-
-    @weave.op()
-    def simple_operation(input_value):
-        # Perform some simple operation
-        output = f"Processed {input_value}"
-        # Get the current call ID
-        current_call = weave.require_current_call()
-        call_id = current_call.id
-        return output, call_id
-    ```
 
   </Tab>
   <Tab title="TypeScript">
@@ -198,18 +146,6 @@ Alternatively, you can use `call()` method to execute the operation and retrieve
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
-    import weave
-    weave.init("uuid")
-
-    @weave.op()
-    def simple_operation(input_value):
-        return f"Processed {input_value}"
-
-    # Execute the operation and retrieve the result and call ID
-    result, call = simple_operation.call("example input")
-    call_id = call.id
-    ```
 
   </Tab>
   <Tab title="TypeScript">
@@ -340,24 +276,6 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
-    import weave
-    from weave.flow.annotation_spec import AnnotationSpec
-
-    client = weave.init("feedback-example")
-
-    # create a new version of the scorer
-    spec1 = AnnotationSpec(
-      name="Temperature",
-      description="The perceived temperature of the llm call",
-      field_schema={
-        "type": "integer",  # <<- change type to integer
-        "minimum": -1,
-        "maximum": 1,
-      }
-    )
-    weave.publish(spec1, "temperature-scorer")
-    ```
 
   </Tab>
   <Tab title="TypeScript">

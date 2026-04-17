@@ -17,32 +17,6 @@ To create a chat completion, provide:
 
 <Tabs>
 <Tab title="Python">
-```python
-import openai
-
-client = openai.OpenAI(
-    # The custom base URL points to W&B Inference
-    base_url='https://api.inference.wandb.ai/v1',
-
-    # Create an API key at https://wandb.ai/settings
-    # Consider setting it in the environment as OPENAI_API_KEY instead for safety
-    api_key="<your-api-key>",
-
-    # Optional: Team and project for usage tracking
-    project="<your-team>/<your-project>",
-)
-
-# Replace <model-id> with any model ID from the available models list
-response = client.chat.completions.create(
-    model="<model-id>",
-    messages=[
-        {"role": "system", "content": "<your-system-prompt>"},
-        {"role": "user", "content": "<your-prompt>"}
-    ],
-)
-
-print(response.choices[0].message.content)
-```
 </Tab>
 <Tab title="Bash">
 ```bash

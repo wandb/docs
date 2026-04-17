@@ -26,28 +26,9 @@ Promise\<`boolean`\> - true if registration succeeded, false if @openai/agents n
 
 `Example`
 
-```typescript
-// ✅ Recommended: Just import Weave - instrumentation happens automatically!
-import * as weave from 'weave';
-await weave.init('my-project');
-
-// OpenAI Agents is already instrumented via hooks - no manual setup needed
-import { Agent } from '@openai/agents';
-const agent = new Agent({ ... });
-await agent.run(input); // Automatically traced in Weave
-```
 
 `Example`
 
-```typescript
-// ⚠️ Only needed for edge cases where automatic hooks don't work
-import { instrumentOpenAIAgents } from 'weave';
-
-const registered = await instrumentOpenAIAgents();
-if (!registered) {
-  console.log('OpenAI Agents not found - install @openai/agents to enable tracing');
-}
-```
 
 `Remarks`
 

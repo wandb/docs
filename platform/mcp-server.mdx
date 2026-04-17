@@ -115,27 +115,6 @@ codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <
 <Tab title="OpenAI">
 To add the W&B MCP server to your OpenAI calls, add the server's information to the `tools` field of your OpenAI responses configuration:
 
-```python
-from openai import OpenAI
-import os
-
-client = OpenAI()
-
-resp = client.responses.create(
-    model="gpt-4o",
-    tools=[{
-        "type": "mcp",
-        "server_label": "wandb",
-        "server_description": "Query W&B data",
-        "server_url": "https://mcp.withwandb.com/mcp",
-        "authorization": os.getenv("<your-wandb-api-key>"),
-        "require_approval": "never",
-    }],
-    input="List the projects in my W&B account.",
-)
-
-print(resp.output_text)
-```
 </Tab>
 <Tab title="Gemini CLI">
 To add the W&B MCP server to Gemini CLI:
@@ -324,12 +303,6 @@ uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 
 To expose the local server to external clients like OpenAI, use ngrok:
 
-```bash
-uvx wandb_mcp_server --transport http --port 8080
-
-# In another terminal, expose with ngrok
-ngrok http 8080
-    ```
 
 If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
 

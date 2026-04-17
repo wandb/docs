@@ -37,40 +37,6 @@ for [the HumanEval dataset](https://github.com/openai/human-eval) to train a cus
 
 We start by downloading the dataset we have prepared for this example, then parsing LLM responses into EvaluationResults for each model.
 
-```python lines
-!curl -L "https://drive.google.com/uc?export=download&id=1q1zNZHioy9B7M-WRjsJPkfvFosfaHX38" -o humaneval.csv
-python
-import random
-
-import weave
-from weave.flow.dataset import Dataset
-from weave.flow.eval import EvaluationResults
-from weave.integrations.notdiamond.util import get_model_evals
-
-pct_train = 0.8
-pct_test = 1 - pct_train
-
-# In practice, you will build an Evaluation on your dataset and call
-# `evaluation.get_eval_results(model)`
-model_evals = get_model_evals("./humaneval.csv")
-model_train = {}
-model_test = {}
-for model, evaluation_results in model_evals.items():
-    n_results = len(evaluation_results.rows)
-    all_idxs = list(range(n_results))
-    train_idxs = random.sample(all_idxs, k=int(n_results * pct_train))
-    test_idxs = [idx for idx in all_idxs if idx not in train_idxs]
-
-    model_train[model] = EvaluationResults(
-        rows=weave.Table([evaluation_results.rows[idx] for idx in train_idxs])
-    )
-    model_test[model] = Dataset(
-        rows=weave.Table([evaluation_results.rows[idx] for idx in test_idxs])
-    )
-    print(
-        f"Found {len(train_idxs)} train rows and {len(test_idxs)} test rows for {model}."
-    )
-```
 
 ## Training a custom router
 
@@ -81,25 +47,6 @@ Now that you have EvaluationResults, you can train a custom router. Make sure yo
 ![Create an API key](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
 </Frame>
 
-```python lines
-import os
-
-from weave.integrations.notdiamond.custom_router import train_router
-
-api_key = os.getenv("NOTDIAMOND_API_KEY", "<YOUR_API_KEY>")
-
-preference_id = train_router(
-    model_evals=model_train,
-    prompt_column="prompt",
-    response_column="actual",
-    language="en",
-    maximize=True,
-    api_key=api_key,
-    # Leave this commented out to train your first custom router
-    # Uncomment this to retrain your custom router in place
-    # preference_id=preference_id,
-)
-```
 
 You can then follow the training process for your custom router via the Not Diamond app.
 
@@ -165,36 +112,6 @@ Once you have trained your custom router, you can evaluate either its
 
 Below, we submit the test set to the custom router to evaluate its performance.
 
-```python lines
-from weave.integrations.notdiamond.custom_router import evaluate_router
-
-eval_prompt_column = "prompt"
-eval_response_column = "actual"
-
-best_provider_model, nd_model = evaluate_router(
-    model_datasets=model_test,
-    prompt_column=eval_prompt_column,
-    response_column=eval_response_column,
-    api_key=api_key,
-    preference_id=preference_id,
-)
-python
-@weave.op()
-def is_correct(score: int, output: dict) -> dict:
-    # We hack score, since we already have model responses
-    return {"correct": score}
-
-best_provider_eval = weave.Evaluation(
-    dataset=best_provider_model.model_results.to_dict(orient="records"),
-    scorers=[is_correct],
-)
-await best_provider_eval.evaluate(best_provider_model)
-
-nd_eval = weave.Evaluation(
-    dataset=nd_model.model_results.to_dict(orient="records"), scorers=[is_correct]
-)
-await nd_eval.evaluate(nd_model)
-```
 
 In this instance, the Not Diamond "meta-model" routes prompts across several different models.
 

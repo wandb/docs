@@ -21,59 +21,6 @@ For example, if you're fine-tuning an LLM model and your W&B workspace shows tha
 
 For example, the following script demonstrates how Weave traces integrate with W&B training runs. It simulates a machine learning training loop where each training step logs metrics to W&B while simultaneously creating detailed Weave traces. The `@weave.op` decorators on the functions automatically capture inputs, outputs, and execution details. When the training loop logs metrics with `wandb.log()`, it also logs Weave trace information to your project.
 
-```python lines
-import wandb
-import weave
-import random
-
-# Initialize both W&B and Weave with the same project
-project = "my-workspace-project"
-weave.init(project)
-
-@weave.op
-def evaluate_model(model_state, epoch):
-    # Simulate evaluation metrics
-    accuracy = 0.7 + epoch * 0.02 + random.uniform(-0.05, 0.05)
-    
-    # Track specific model behaviors
-    test_responses = {
-        "conciseness_check": "Model generated 500 words for simple question",
-        "accuracy_check": "Model answered 8/10 questions correctly",
-        "hallucination_check": "No factual errors detected"
-    }
-    
-    return {
-        "accuracy": accuracy,
-        "diagnostic_results": test_responses
-    }
-
-@weave.op
-def training_step(epoch, lr):
-    # Simulate Training logic
-    loss = 1.0 / (epoch + 1) + random.uniform(-0.1, 0.1)
-    
-    # Evaluation with traces
-    eval_results = evaluate_model(f"checkpoint_{epoch}", epoch)
-    
-    return {
-        "loss": loss,
-        "accuracy": eval_results["accuracy"],
-        "diagnostics": eval_results["diagnostic_results"]
-    }
-
-# Training loop
-with wandb.init(project=project, config={"lr": 0.01}) as run:
-    for epoch in range(5):
-        # Execute training with Weave tracing
-        results = training_step(epoch, run.config.lr)
-        
-        # Log to W&B - creates the integration point
-        run.log({
-            "epoch": epoch,
-            "loss": results["loss"],
-            "accuracy": results["accuracy"]
-        })
-```
 
 You can run this example script to see how traces get logged with the rest of your run information.
 
@@ -91,30 +38,11 @@ For more information about workspaces, see [View experiments results](https://do
 
 By default, Weave automatically detects and associates traces with the active `wandb.run`. If you need to associate traces with a specific run that is not the global `wandb.run`, use `set_wandb_run_context`. You can associate traces with a specific run and run step by defining values for the method's `run_id` and `step` arguments:
 
-```python lines highlight={6}
-import weave
-
-client = weave.init("<your-team-name>/<your-project-name>")
-
-# Associate all subsequent traces with a specific run.
-client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
-
-@weave.op
-def my_function(x):
-    return x * 2
-
-my_function(10)  # This trace is linked to "my-run-id" at step 5.
-```
 
 The `run_id` is the run's short ID (for example, `38m4t5ja`), not the full `entity/project/run_id` path. You can find a run's short ID in the run URL (`https://wandb.ai/team/project/runs/<run_id>`) or by [accessing `wandb.run.id` in code](/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name).
 
 To stop the override and fall back to the global `wandb.run`, call `clear_wandb_run_context`:
 
-```python lines
-client.clear_wandb_run_context()
-
-my_function(20)  # This trace uses the global wandb.run (if any).
-```
 
 ## Reference W&B artifacts in a Weave trace
 
@@ -135,42 +63,8 @@ To add an artifact as an attribute of a trace, pass it as a key-value pair to th
 
 <Tabs>
 <Tab title="Python">
-```python lines {10}
-import weave
-
-weave.init("your-team-name/your-project-name")
-
-@weave.op
-def my_function(name: str):
-    return f"Hello, {name}!"
-
-# Add an arbitrary key-name and the artifact's URL as the value
-with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
-    result = my_function("World")
-```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines {12}
-import {init, op, withAttributes} from 'weave';
-
-async function main() {
-  await init('wandb/docs');
-
-  const myFunction = op(async function myFunction(name: string) {
-    return `Hello, ${name}!`;
-  });
-
-  // Add an arbitrary key-name and the artifact's URL as the value
-  const result = await withAttributes(
-    {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
-    async () => myFunction('World')
-  );
-
-  console.log('Result:', result);
-}
-
-main().catch(console.error);
-```
 </Tab>
 </Tabs>
 
@@ -182,25 +76,3 @@ To add an artifact as an attribute of a `Model`, pass the artifact URL when you 
 The `Model` class is currently only supported in the Weave Python SDK.
 </Note>
 
-```python lines {7,17}
-import weave
-
-weave.init("your-team-name/your-project-name")
-
-class MyModel(weave.Model):
-    # Store the artifact reference as a model attribute
-    artifact_id: str
-    temperature: float = 0.7
-    
-    @weave.op
-    def predict(self, query: str) -> str:
-        # Your model inference logic here
-        return f"Response to: {query}"
-
-# Pass the artifact's URL as an attribute of the model
-model = MyModel(
-    artifact_id="wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"
-)
-
-result = model.predict("Hello, World!")
-```
