@@ -30,7 +30,7 @@ Explore the code behind these examples in the W&B GitHub examples repository [he
 
 This section describes how to track values and metrics available to your rank 0 process. Use this approach to track only metrics that are available from a single process. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
 
-Within the rank 0 process, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init) and log experiments ([`wandb.log`](/models/ref/python/experiments/run/#method-runlog)) to that run.
+Within the rank 0 process, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init) and log experiments ([`wandb.Run.log()`](/models/ref/python/experiments/run/#method-runlog)) to that run.
 
 The following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates one way to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
 
@@ -324,7 +324,7 @@ W&B Service is enabled by default for versions of the W&B SDK `0.13.0` and above
 
 #### W&B SDK 0.12.5 and above
 
-Modify your Python script to enable W&B Service for W&B SDK version 0.12.5 and above. Use the `wandb.require` method and pass the string `"service"` within your main function:
+Modify your Python script to enable W&B Service for W&B SDK version 0.12.5 and above. Use the `wandb.require()` method and pass the string `"service"` within your main function:
 
 ```python
 if __name__ == "__main__":

@@ -179,7 +179,7 @@ notebook_launcher(train, num_processes=2)
 
 ### Log only on the main process
 
-In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
+In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init()` in all other processes)
 
 <Tabs>
 <Tab title="Script">

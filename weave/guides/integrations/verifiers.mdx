@@ -102,7 +102,7 @@ uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 vf-install gsm8k --from-repo
 ```
 
-3. Train your model. The following commands launch the inference server and training loop, respectively. This example workflow sets `report_to=wandb` by default, so you don't need to call `wandb.init` separately. You'll be prompted to authenticate this machine to log metrics to W&B.
+3. Train your model. The following commands launch the inference server and training loop, respectively. This example workflow sets `report_to=wandb` by default, so you don't need to call `wandb.init()` separately. You'll be prompted to authenticate this machine to log metrics to W&B.
 
 
 ```bash

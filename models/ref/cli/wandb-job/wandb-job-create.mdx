@@ -1,50 +1,54 @@
 ---
-title: "wandb job create"
+title: wandb job create
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/_includes/cli/wandb-job-create.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbJobCreate from "/snippets/_includes/cli/wandb-job-create.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbJobCreate/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2191" />
 
-Create a job from a source, without a wandb run.
 
-Jobs can be of three types, git, code, or image.
-
-git: A git source, with an entrypoint either in the path or provided explicitly pointing to the main python executable. code: A code path, containing a requirements.txt file. image: A docker image.
 
 ## Usage
 
 ```bash
-wandb job create JOB_TYPE PATH [OPTIONS]
+create [OPTIONS] {git|code|image} PATH
 ```
+
+## Description
+
+Create a job from a source, without a wandb run.
+
+    Jobs can be of three types, git, code, or image.
+
+    git: A git source, with an entrypoint either in the path or provided
+        explicitly pointing to the main python executable.
+    code: A code path, containing a requirements.txt file.
+    image: A docker image.
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `JOB_TYPE` | No description available | Yes |
-| `PATH` | No description available | Yes |
+| Name | Default | Type |
+|------|---------|------|
+| `job_type` | Choice | True |
+| `path` | STR | True |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project you want to list jobs from. |
-| `--entity`, `-e` | The entity the jobs belong to |
-| `--name`, `-n` | Name for the job |
-| `--description`, `-d` | Description for the job |
-| `--alias`, `-a` | Alias for the job |
-| `--entry-point`, `-E` | Entrypoint to the script, including an executable and an entrypoint file. Required for code or repo jobs. If --build-context is provided, paths in the entrypoint command will be relative to the build context. |
-| `--git-hash`, `-g` | Commit reference to use as the source for git jobs |
-| `--runtime`, `-r` | Python runtime to execute the job |
-| `--build-context`, `-b` | Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint. |
-| `--base-image`, `-B` | Base image to use for the job. Incompatible with image jobs. |
-| `--dockerfile`, `-D` | Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context. |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--project, -p` | STR | The project you want to list jobs from. **Default**: None |
+| `--entity, -e` | STR | The entity the jobs belong to. **Default**: None |
+| `--name, -n` | STR | Name for the job. **Default**: None |
+| `--description, -d` | STR | Description for the job. **Default**: None |
+| `--alias, -a` | STR | Alias for the job. **Default**: [] |
+| `--entry-point, -E` | STR | Entrypoint to the script, including an executable and an entrypoint file. Required for code or repo jobs. If --build-context is provided, paths in the entrypoint command will be relative to the build context. **Default**: None |
+| `--git-hash, -g` | STR | Commit reference to use as the source for git jobs. **Default**: None |
+| `--runtime, -r` | STR | Python runtime to execute the job. **Default**: None |
+| `--build-context, -b` | STR | Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint. **Default**: None |
+| `--base-image, -B` | STR | Base image to use for the job. Incompatible with image jobs. **Default**: None |
+| `--dockerfile, -D` | STR | Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context. **Default**: None |
+

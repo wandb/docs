@@ -1,35 +1,52 @@
 ---
-title: "wandb artifact cache cleanup"
+title: wandb artifact cache cleanup
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbArtifactCacheCleanup from "/snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbArtifactCacheCleanup/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3066" />
 
-Clean up less frequently used files from the artifacts cache
+
 
 ## Usage
 
 ```bash
-wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+cleanup [OPTIONS] TARGET_SIZE
 ```
+
+## Description
+
+Reduce the local artifact cache size.
+
+    Remove the least recently accessed files first until the cache is
+    at or below the TARGET_SIZE. TARGET_SIZE accepts human-readable
+    formats (for example, 10GB or 500MB).
+
+    For example, to reduce the artifact cache to 10 GB:
+
+```bash
+wandb artifact cache cleanup 10GB
+```
+
+    To remove temporary files and reduce the artifact cache to 5 GB:
+
+```bash
+wandb artifact cache cleanup --remove-temp 5GB
+```
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `TARGET_SIZE` | No description available | Yes |
+| Name | Default | Type |
+|------|---------|------|
+| `target_size` | STR | True |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--remove-temp` | Remove temp files (default: False) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--remove-temp` | BOOL Flag | Also remove temporary files from the cache. **Default**: False |
+

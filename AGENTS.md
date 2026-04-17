@@ -186,6 +186,7 @@ Use sentence case for all headings and page titles. Capitalize only the first wo
   - Directory paths: `runbooks/`
   - Commands in sentences: `git push`
   - Code elements: `wandb.init()`
+- **Callable names in prose**: When you refer to a Python function or method in running text (not inside a code sample), use parentheses with backticks, for example `wandb.init()` or `run.log()`. Module-level functions in the Python SDK are listed in the [Global Functions overview](/models/ref/python/functions).
 
 ### Code examples
 

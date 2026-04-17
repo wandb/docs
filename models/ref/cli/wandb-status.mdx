@@ -1,29 +1,40 @@
 ---
-title: "wandb status"
+title: wandb status
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/_includes/cli/wandb-status.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbStatus from "/snippets/_includes/cli/wandb-status.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbStatus/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3436" />
 
-Show configuration settings
+
 
 ## Usage
 
 ```bash
-wandb status [OPTIONS]
+status [OPTIONS]
 ```
+
+## Description
+
+Display the current W&B configuration settings.
+
+    Print all active W&B settings as formatted JSON, including the
+    base URL, API key, project, entity, and other resolved values.
+
+    For example, to show current settings:
+
+```bash
+wandb status
+```
+
+
+
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--settings` | Show the current settings (default: True) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--settings` | BOOL Flag | Display the current settings. **Default**: True |
+
