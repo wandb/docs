@@ -11,7 +11,7 @@ description: アプリケーションを体系的に改善するための、評�
 
   - テスト例のための [`Dataset`](../core-types/datasets) または辞書のリスト。
   - 1 つ以上の [スコアリング関数](../evaluation/scorers)。
-  - [入力の事前処理](#format-dataset-rows-before-evaluating) などのオプション設定。
+  - [入力の事前処理](#評価前のデータセット行のフォーマット) などのオプション設定。
 
   `Evaluation` を定義したら、[`Model`](../core-types/models) オブジェクトや LLM アプリケーションロジックを含む任意のカスタム関数に対して実行できます。`.evaluate()` を呼び出すたびに _評価 run_ がトリガーされます。`Evaluation` オブジェクトを設計図、各 run をそのセットアップ下でのアプリケーションのパフォーマンス測定と考えると分かりやすいでしょう。
 </Tab>
@@ -31,14 +31,14 @@ description: アプリケーションを体系的に改善するための、評�
 
 評価を開始するには、以下の手順を完了してください。
 
-1. [`Evaluation` オブジェクトの作成](#1-create-an-evaluation-object)
-2. [例となるデータセットの定義](#2-define-a-dataset-of-test-examples)
-3. [スコアリング関数の定義](#3-define-scoring-functions)
-4. [評価対象のモデルまたは関数の定義](#4-define-a-model-or-function-to-evaluate)
-5. [評価の実行](#5-run-the-evaluation)
+1. [`Evaluation` オブジェクトの作成](#1-evaluation-オブジェクトの作成)
+2. [例となるデータセットの定義](#2-テスト例のデータセットを定義する)
+3. [スコアリング関数の定義](#3-スコアリング関数の定義)
+4. [評価対象のモデルまたは関数の定義](#4-評価対象のモデルまたは関数の定義)
+5. [評価の実行](#5-評価の実行)
 
 
-完全な評価コードのサンプルは [こちら](#full-evaluation-code-sample) にあります。また、[保存済みビュー](#saved-views) や [命令的評価](#imperative-evaluations-evaluationlogger) などの [高度な評価機能](#advanced-evaluation-usage) についても詳しく学ぶことができます。
+完全な評価コードのサンプルは [こちら](#full-evaluation-code-sample) にあります。また、[保存済みビュー](#saved-views) や [命令的評価](#保存済みビューsaved-views) などの [高度な評価機能](#高度な評価機能) についても詳しく学ぶことができます。
 
 
 ## 1. `Evaluation` オブジェクトの作成

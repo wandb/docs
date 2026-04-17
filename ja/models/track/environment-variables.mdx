@@ -37,7 +37,7 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 | `WANDB_BASE_URL` | [wandb/local](/platform/hosting/) を使用している場合は、この環境変数を `http://YOUR_IP:YOUR_PORT` に設定する必要があります。 |
 | `WANDB_CACHE_DIR` | デフォルトは `~/.cache/wandb` です。この環境変数でこの場所を上書きできます。 |
 | `WANDB_CONFIG_DIR` | デフォルトは `~/.config/wandb` です。この環境変数でこの場所を上書きできます。 |
-| `WANDB_CONFIG_PATHS` | wandb.config にロードする yaml ファイルのカンマ区切りリスト。 [config](./config#file-based-configs) を参照してください。 |
+| `WANDB_CONFIG_PATHS` | wandb.config にロードする yaml ファイルのカンマ区切りリスト。 [config](./config#ファイルベースの-config) を参照してください。 |
 | `WANDB_CONSOLE` | 標準出力 / 標準エラーの ログ 記録を無効にするには、これを "off" に設定します。サポートされている環境では、デフォルトで "on" に設定されています。 |
 | `WANDB_DATA_DIR` | ステージング中の アーティファクト をアップロードする場所。 `platformdirs` Python パッケージの `user_data_dir` の値を使用するため、デフォルトの場所はプラットフォームによって異なります。この ディレクトリー が存在し、実行 ユーザー が書き込み権限を持っていることを確認してください。 |
 | `WANDB_DIR` | 生成されたすべてのファイルを保存する場所。未設定の場合、デフォルトは トレーニングスクリプト 相対の `wandb` ディレクトリー です。この ディレクトリー が存在し、実行 ユーザー が書き込み権限を持っていることを確認してください。これはダウンロードされた アーティファクト の場所を制御しません。そちらは `WANDB_ARTIFACT_DIR` 環境変数を使用して設定できます。 |

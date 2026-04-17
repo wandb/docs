@@ -5,9 +5,9 @@ description: How to return and view reasoning in your W&B Inference responses
 
 Reasoning models, like [OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b), include information about their reasoning steps as part of the output returned in addition to the final answer. This is automatic and no additional input parameters are needed.
 
-You can determine whether a model supports reasoning or not by checking the Supported Features sections of its catalog page in the UI.
+You can determine whether a model supports reasoning or not by checking the Supported Features section of its catalog page in the UI.
 
-You can find reasoning information in the `reasoning_content` field of responses. This field is not present in the outputs of other models.
+You can find reasoning information in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
 
 <Tabs>
   <Tab title="Python">
@@ -26,7 +26,7 @@ You can find reasoning information in the `reasoning_content` field of responses
         ],
     )
 
-    print(response.choices[0].message.reasoning_content)
+    print(response.choices[0].message.reasoning)
     print("--------------------------------")
     print(response.choices[0].message.content)
     ```
@@ -40,7 +40,7 @@ You can find reasoning information in the `reasoning_content` field of responses
         "model": "openai/gpt-oss-20b",
         "messages": [
           { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ],
+        ]
       }'
     ```
   </Tab>

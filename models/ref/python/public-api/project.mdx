@@ -53,6 +53,22 @@ A single project associated with an entity.
 
 ---
 
+### <kbd>property</kbd> Project.owner
+
+Returns the project owner as a User object. 
+
+
+
+**Raises:**
+ 
+ - `ValueError`:  when no user information is found for the project. 
+
+
+
+**Returns:**
+ - `public.User`: The owner property value.
+---
+
 ### <kbd>property</kbd> Project.path
 
 Returns the path of the project. The path is a list containing the entity and project name. 
@@ -82,6 +98,28 @@ artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
 Returns all artifact types associated with this project. 
+
+---
+
+### <kbd>method</kbd> `Project.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
+```
+
+Returns all artifact collections associated with this project. 
+
+
+
+**Args:**
+ 
+ - `filters`:  Optional mapping of filters to apply to the query. 
+ - `order`:  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending. 
+ - `per_page`:  The number of artifact collections to fetch per page.  Default is 50. 
 
 ---
 

@@ -1,0 +1,12 @@
+---
+title: "How can I log a metric that doesn't change over time such as a final evaluation accuracy?"
+keywords: ["Runs"]
+---
+
+Using `run.log({'final_accuracy': 0.9})` updates the final accuracy correctly. By default, `run.log({'final_accuracy': <value>})` updates `run.settings['final_accuracy']`, which reflects the value in the runs table.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

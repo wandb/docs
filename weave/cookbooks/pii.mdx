@@ -1,6 +1,6 @@
 ---
 title: "PII Data Handling"
-description: "Learn how to use pii data handling with W&B Weave"
+description: "Handle personally identifiable information (PII) in LLM applications using W&B Weave's data redaction and filtering tools."
 ---
 
 <Note>
@@ -136,7 +136,7 @@ weave.init(WEAVE_PROJECT)
 ```python lines
 import requests
 
-url = "https://raw.githubusercontent.com/wandb/weave/master/docs/notebooks/10_pii_data.json"
+url = "https://raw.githubusercontent.com/wandb/docs/main/weave/cookbooks/source/10_pii_data.json"
 response = requests.get(url)
 pii_data = response.json()
 

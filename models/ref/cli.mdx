@@ -1,5 +1,5 @@
 ---
-title: "CLI Reference SDK 0.24.2"
+title: "CLI Reference SDK 0.26.0"
 description: "Use the W&B Command Line Interface (CLI) to log in, run jobs, execute sweeps, and more using shell commands"
 ---
 
@@ -32,31 +32,32 @@ wandb [OPTIONS] COMMAND [ARGS]...
 
 | Command | Description |
 | :--- | :--- |
-| [agent](/models/ref/cli/wandb-agent) | Run the W&B agent |
-| [artifact](/models/ref/cli/wandb-artifact) | Commands for interacting with artifacts |
+| [agent](/models/ref/cli/wandb-agent) | Start a sweep agent. |
+| [artifact](/models/ref/cli/wandb-artifact) | Upload, download, and manage W&B artifacts. |
 | [beta](/models/ref/cli/wandb-beta) | Beta versions of wandb CLI commands. |
-| [controller](/models/ref/cli/wandb-controller) | Run the W&B local sweep controller |
-| [disabled](/models/ref/cli/wandb-disabled) | Disable W&B. |
-| [docker](/models/ref/cli/wandb-docker) | Run your code in a docker container. |
-| [docker-run](/models/ref/cli/wandb-docker-run) | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER environment variables. |
-| [enabled](/models/ref/cli/wandb-enabled) | Enable W&B. |
-| [init](/models/ref/cli/wandb-init) | Configure a directory with Weights & Biases |
-| [job](/models/ref/cli/wandb-job) | Commands for managing and viewing W&B jobs |
+| [controller](/models/ref/cli/wandb-controller) | Start a local sweep controller for a W&B hyperparameter sweep. |
+| [disabled](/models/ref/cli/wandb-disabled) | Disable W&B functionality. |
+| [docker](/models/ref/cli/wandb-docker) | Run code in a Docker container with W&B configured. |
+| [docker-run](/models/ref/cli/wandb-docker-run) | Wrap `docker run` and inject W&B environment variables automatically. |
+| [enabled](/models/ref/cli/wandb-enabled) | Re-enable W&B after it was deactivated with `wandb disabled`. |
+| [init](/models/ref/cli/wandb-init) | Initialize or update W&B configuration for the current directory. |
+| [job](/models/ref/cli/wandb-job) | Commands for managing and viewing W&B jobs. |
 | [launch](/models/ref/cli/wandb-launch) | Launch or queue a W&B Job. |
 | [launch-agent](/models/ref/cli/wandb-launch-agent) | Run a W&B launch agent. |
 | [launch-sweep](/models/ref/cli/wandb-launch-sweep) | Run a W&B launch sweep (Experimental). |
 | [local](/models/ref/cli/wandb-local) | Start a local W&B container (deprecated, see wandb server --help) |
-| [login](/models/ref/cli/wandb-login) | Verify and store your API key for authentication with W&B services. |
+| [login](/models/ref/cli/wandb-login) | Authenticate your machine with W&B. |
 | [off](/models/ref/cli/wandb-off) | No description available |
 | [offline](/models/ref/cli/wandb-offline) | Save data logged to W&B locally without uploading it to the cloud. |
 | [on](/models/ref/cli/wandb-on) | No description available |
-| [online](/models/ref/cli/wandb-online) | Undo `wandb offline`. |
-| [projects](/models/ref/cli/wandb-projects) | List projects |
-| [pull](/models/ref/cli/wandb-pull) | Pull files from Weights & Biases |
-| [restore](/models/ref/cli/wandb-restore) | Restore code, config and docker state for a run. |
-| [scheduler](/models/ref/cli/wandb-scheduler) | Run a W&B launch sweep scheduler (Experimental) |
+| [online](/models/ref/cli/wandb-online) | Re-enable cloud syncing for W&B runs. |
+| [projects](/models/ref/cli/wandb-projects) | List projects for the current entity. |
+| [pull](/models/ref/cli/wandb-pull) | Download files from a W&B run. |
+| [purge-cache](/models/ref/cli/wandb-purge-cache) | Purges cached logs, run history, and artifacts from the local W&B cache. |
+| [restore](/models/ref/cli/wandb-restore) | Restore the code, config, or Docker environement from a previous W&B run. |
+| [scheduler](/models/ref/cli/wandb-scheduler) | Run a W&B launch sweep scheduler (Experimental). |
 | [server](/models/ref/cli/wandb-server) | Commands for operating a local W&B server |
-| [status](/models/ref/cli/wandb-status) | Show configuration settings |
-| [sweep](/models/ref/cli/wandb-sweep) | Initialize a hyperparameter sweep. |
-| [sync](/models/ref/cli/wandb-sync) | Synchronize W&B run data to the cloud. |
-| [verify](/models/ref/cli/wandb-verify) | Checks and verifies local instance of W&B. |
+| [status](/models/ref/cli/wandb-status) | Display the current W&B configuration settings. |
+| [sweep](/models/ref/cli/wandb-sweep) | Create, update, or manage a hyperparameter sweep. |
+| [sync](/models/ref/cli/wandb-sync) | Upload existing local W&B run data to the cloud. |
+| [verify](/models/ref/cli/wandb-verify) | Run integration checks against a self-hosted W&B instance. |

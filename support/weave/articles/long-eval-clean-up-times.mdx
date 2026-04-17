@@ -1,0 +1,39 @@
+---
+title: "Long eval clean up times"
+keywords: ["Performance", "Evaluation"]
+---
+
+The following two methods should be used together in order to improve performance when running evaluations with large datasets.
+
+### Flushing
+
+When running evaluations with large datasets, you may experience a long period of time before program execution, while the dataset is being uploaded in background threads. This generally occurs when main thread execution finished before background cleanup is complete. Calling `client.flush()` will force all background tasks to be processed in the main thread, ensuring parallel processing during main thread execution. This can improve performance when user code completes before data has been uploaded to the server.
+
+Example:
+
+```python
+client = weave.init("fast-upload")
+
+# ... evaluation setup
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
+### Increasing client parallelism
+
+Client parallelism is automatically determined based on the environment, but can be set manually using the following environment variable:
+
+- `WEAVE_CLIENT_PARALLELISM`: The number of threads available for parallel processing. Increasing this number will increase the number of threads available for parallel processing, potentially improving the performance of background tasks like dataset uploads.
+
+This can also be set programmatically using the `settings` argument to `weave.init()`:
+
+```python
+client = weave.init("fast-upload", settings={"client_parallelism": 100})
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Performance](/support/weave/tags/performance)</Badge><Badge stroke shape="pill" color="orange" size="md">[Evaluation](/support/weave/tags/evaluation)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

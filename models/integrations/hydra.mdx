@@ -1,5 +1,5 @@
 ---
-description: How to integrate W&B with Hydra.
+description: "Integrate W&B with Hydra to manage complex configurations for ML experiments and log hyperparameters automatically."
 title: Hydra
 ---
 
@@ -22,7 +22,7 @@ def run_experiment(cfg):
       run.log({"loss": loss})
 ```
 
-## Track Hyperparameters
+## Track hyperparameters
 
 Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `wandb.Run.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `wandb.Run.config`.
 
@@ -52,7 +52,7 @@ or by setting a global environment variable from your shell:
 $ export WANDB_START_METHOD=thread
 ```
 
-## Optimize Hyperparameters
+## Optimize hyperparameters
 
 [W&B Sweeps](/models/sweeps) is a highly scalable hyperparameter search platform, which provides interesting insights and visualization about W&B experiments with minimal requirements code real-estate. Sweeps integrates seamlessly with Hydra projects with no-coding requirements. The only thing needed is a configuration file describing the various parameters to sweep over as normal.
 

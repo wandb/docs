@@ -1,0 +1,49 @@
+---
+title: "Artifacts"
+tag: "14"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="Can I turn off wandb when testing my code?" href="/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod" arrow="true" horizontal>
+  Use wandb.init(mode="disabled") or set WANDB_MODE=disabled to configure W&B as a no-operation (NOOP) for testing purpose ...
+</Card>
+<Card title="How can I fetch these Version IDs and ETags in W&B?" href="/support/models/articles/how-can-i-fetch-these-version-ids-and-et" arrow="true" horizontal>
+  If an artifact reference is logged with W&B and versioning is enabled on the buckets, the version IDs appear in the Amaz ...
+</Card>
+<Card title="How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?" href="/support/models/articles/how-can-i-find-the-artifacts-logged-or-c" arrow="true" horizontal>
+  W&B tracks artifacts logged by each run and those used by each run to construct an artifact graph. This graph is a bipar ...
+</Card>
+<Card title="How do I best log models from runs in a sweep?" href="/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  One effective approach for logging models in a sweep involves creating a model artifact for the sweep. Each version repr ...
+</Card>
+<Card title="How do I find an artifact from the best run in a sweep?" href="/support/models/articles/how-do-i-find-an-artifact-from-the-best-" arrow="true" horizontal>
+  To retrieve artifacts from the best performing run in a sweep, use the following code:
+</Card>
+<Card title="How do I log an artifact to an existing run?" href="/support/models/articles/how-do-i-log-an-artifact-to-an-existing-" arrow="true" horizontal>
+  Occasionally, it is necessary to mark an artifact as the output of a previously logged run. In this case, reinitialize t ...
+</Card>
+<Card title="How do I save code?‌" href="/support/models/articles/how-do-i-save-code" arrow="true" horizontal>
+  Use save_code=True in wandb.init to save the main script or notebook that launches the run. To save all code for a run,  ...
+</Card>
+<Card title="How do I set a retention or expiration policy on my artifact?" href="/support/models/articles/how-do-i-set-a-retention-or-expiration-p" arrow="true" horizontal>
+  To manage artifacts that contain sensitive data or to schedule the deletion of artifact versions, set a TTL (time-to-liv ...
+</Card>
+<Card title="How much storage does each artifact version use?" href="/support/models/articles/how-much-storage-does-each-artifact-vers" arrow="true" horizontal>
+  Only files that change between two artifact versions incur storage costs. Consider an image artifact named animals that  ...
+</Card>
+<Card title="Is it possible to recover an artifact after it has been deleted with a run?" href="/support/models/articles/is-it-possible-to-recover-an-artifact-af" arrow="true" horizontal>
+  When deleting a run, a prompt asks whether to delete the associated artifacts. Choosing this option permanently removes  ...
+</Card>
+<Card title="Using artifacts with multiple architectures and runs?" href="/support/models/articles/using-artifacts-with-multiple-architectu" arrow="true" horizontal>
+  There are various methods to version a model. Artifacts provide a tool for model versioning tailored to specific needs.  ...
+</Card>
+<Card title="Where are artifacts downloaded, and how can I control that?" href="/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
+  By default, artifacts download to the artifacts/ folder. To change the location: Pass it to wandb.Artifact().download: S ...
+</Card>
+<Card title="Who has access to my artifacts?" href="/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
+  Artifacts inherit access permissions from their parent project: In a private project, only team members can access artif ...
+</Card>
+<Card title="Why can't I link my artifact to the registry?" href="/support/models/articles/cannot-link-artifact-to-registry-from-p" arrow="true" horizontal>
+  If you cannot link an artifact to a W&B Registry, the most common cause is that the artifact was logged with a personal  ...
+</Card>

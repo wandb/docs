@@ -20,11 +20,11 @@ This tutorial demonstrates how we can improve the performance of our LLM workflo
 We need the following libraries for this tutorial:
 
 - [DSPy](https://dspy.ai) for building the LLM workflow and optimizing it.
-- [Weave](/weave/quickstart) to track our LLM workflow and evaluate our prompting strategies.
+- [Weave](/weave) to track our LLM workflow and evaluate our prompting strategies.
 - [datasets](https://huggingface.co/docs/datasets/index) to access the Big-Bench Hard dataset from HuggingFace Hub.
 
 ```python lines
-!pip install -qU dspy-ai weave datasets
+!pip install -qU dspy weave "datasets<4"
 ```
 
 Since we'll be using [OpenAI API](https://openai.com/index/openai-api/) as the LLM Vendor, we will also need an OpenAI API key. You can [sign up](https://platform.openai.com/signup) on the OpenAI platform to get your own API key.
@@ -54,7 +54,7 @@ class Metadata(weave.Object):
     dataset_address: str = "maveriq/bigbenchhard"
     big_bench_hard_task: str = "causal_judgement"
     num_train_examples: int = 50
-    openai_model: str = "gpt-3.5-turbo"
+    openai_model: str = "gpt-4o-mini"
     openai_max_tokens: int = 2048
     max_bootstrapped_demos: int = 8
     max_labeled_demos: int = 8
@@ -117,46 +117,39 @@ dspy_train_examples, dspy_val_examples = get_dataset(metadata)
 
 [DSPy](https://dspy.ai) is a framework that pushes building new LM pipelines away from manipulating free-form strings and closer to programming (composing modular operators to build text transformation graphs) where a compiler automatically generates optimized LM invocation strategies and prompts from a program.
 
-We will use the [`dspy.OpenAI`](https://dspy.ailearn/programming/language_models/#__tabbed_1_1) abstraction to make LLM calls to [GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo).
+We will use [`dspy.LM`](https://dspy.ai/learn/programming/language_models) to configure our language model and [`dspy.configure`](https://dspy.ai/api/utils/configure/) to set it as the default.
 
 ```python lines
-system_prompt = """
-You are an expert in the field of causal reasoning. You are to analyze the a given question carefully and answer in `Yes` or `No`.
-You should also provide a detailed explanation justifying your answer.
-"""
-
-llm = dspy.OpenAI(model="gpt-3.5-turbo", system_prompt=system_prompt)
-dspy.settings.configure(lm=llm)
+llm = dspy.LM("openai/gpt-4o-mini")
+dspy.configure(lm=llm)
 ```
 
-### Writing the Causal Reasoning Signature
+### Writing the causal reasoning signature
 
-A [signature](https://dspy.ailearn/programming/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy.ailearn/programming/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
+A [signature](https://dspy.ai/learn/programming/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy.ai/learn/programming/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
 
 ```python lines
-from pydantic import BaseModel, Field
+class CausalReasoning(dspy.Signature):
+    """You are an expert in causal reasoning. Analyze the given question carefully
+    and answer Yes or No. Provide a detailed explanation justifying your answer."""
 
-class Input(BaseModel):
-    query: str = Field(description="The question to be answered")
-
-class Output(BaseModel):
-    answer: str = Field(description="The answer for the question")
-    confidence: float = Field(
-        ge=0, le=1, description="The confidence score for the answer"
-    )
-    explanation: str = Field(description="The explanation for the answer")
-
-class QuestionAnswerSignature(dspy.Signature):
-    input: Input = dspy.InputField()
-    output: Output = dspy.OutputField()
+    question: str = dspy.InputField(desc="The question to be answered")
+    answer: str = dspy.OutputField(desc="Yes or No")
+    confidence: float = dspy.OutputField(desc="Confidence score between 0 and 1")
+    explanation: str = dspy.OutputField(desc="Detailed explanation for the answer")
 
 class CausalReasoningModule(dspy.Module):
     def __init__(self):
-        self.prog = dspy.TypedPredictor(QuestionAnswerSignature)
+        self.prog = dspy.Predict(CausalReasoning)
 
     @weave.op()
-    def forward(self, question) -> dict:
-        return self.prog(input=Input(query=question)).output.dict()
+    def forward(self, question: str) -> dict:
+        result = self.prog(question=question)
+        return {
+            "answer": result.answer,
+            "confidence": result.confidence,
+            "explanation": result.explanation,
+        }
 ```
 
 Let's test our LLM workflow, i.e., the `CausalReasoningModule` on an example from the causal reasoning subset of Big-Bench Hard.
@@ -177,15 +170,23 @@ rich.print(prediction)
 
 Now that we have a baseline prompting strategy, let's evaluate it on our validation set using [`weave.Evaluation`](/weave/guides/core-types/evaluations) on a simple metric that matches the predicted answer with the ground truth. Weave will take each example, pass it through your application and score the output on multiple custom scoring functions. By doing this, you'll have a view of the performance of your application, and a rich UI to drill into individual outputs and scores.
 
-First, we need to create a simple weave evaluation scoring function that tells whether the answer from the baseline module's output is the same as the ground truth answer or not. Scoring functions need to have a `model_output` keyword argument, but the other arguments are user defined and are taken from the dataset examples. It will only take the necessary keys by using a dictionary key based on the argument name.
+First, we need to create a scoring function that tells whether the predicted answer matches the ground truth. Weave scoring functions receive the model's return value as `output` and any matching keys from the dataset example as additional arguments. Here, `answer` comes from the dataset and `output` is the dict returned by `CausalReasoningModule.forward`.
 
 ```python lines
 @weave.op()
-def weave_evaluation_scorer(answer: str, output: Output) -> dict:
+def weave_evaluation_scorer(answer: str, output: dict) -> dict:
     return {"match": int(answer.lower() == output["answer"].lower())}
 ```
 
-Next, we can simply define the evaluation and run it.
+Next, we wrap the module in a traced function that `weave.Evaluation` can call. The wrapper's argument names must match the dataset column names that the model consumes.
+
+```python lines
+@weave.op()
+def predict(question: str) -> dict:
+    return baseline_module(question=question)
+```
+
+Now we can define the evaluation and run it.
 
 ```python lines
 validation_dataset = weave.ref(
@@ -198,7 +199,7 @@ evaluation = weave.Evaluation(
     scorers=[weave_evaluation_scorer],
 )
 
-await evaluation.evaluate(baseline_module.forward)
+await evaluation.evaluate(predict)
 ```
 
 <Frame>
@@ -210,7 +211,7 @@ If you're running from a python script, you can use the following code to run th
 
 ```python lines
 import asyncio
-asyncio.run(evaluation.evaluate(baseline_module.forward))
+asyncio.run(evaluation.evaluate(predict))
 ```
 </Note>
 
@@ -220,7 +221,7 @@ Running the evaluation causal reasoning dataset will cost approximately $0.24 in
 
 ## Optimizing our DSPy Program
 
-Now, that we have a baseline DSPy program, let us try to improve its performance for causal reasoning using a [DSPy teleprompter](https://dspy.ailearn/optimization/optimizers/) that can tune the parameters of a DSPy program to maximize the specified metrics. In this tutorial, we use the [BootstrapFewShot](https://dspy.aiapi/optimizers/BootstrapFewShot/) teleprompter.
+Now that we have a baseline DSPy program, let us try to improve its performance for causal reasoning using the [BootstrapFewShot](https://dspy.ai/api/optimizers/BootstrapFewShot/) optimizer, which can tune the parameters of a DSPy program to maximize the specified metrics.
 
 ```python lines
 from dspy.teleprompt import BootstrapFewShot
@@ -252,20 +253,24 @@ Running the evaluation causal reasoning dataset will cost approximately $0.04 in
 Now that we have our optimized program (the optimized prompting strategy), let's evaluate it once again on our validation set and compare it with our baseline DSPy program.
 
 ```python lines
+@weave.op()
+def predict_optimized(question: str) -> dict:
+    return optimized_module(question=question)
+
 evaluation = weave.Evaluation(
     name="optimized_causal_reasoning_module",
     dataset=validation_dataset,
     scorers=[weave_evaluation_scorer],
 )
 
-await evaluation.evaluate(optimized_module.forward)
+await evaluation.evaluate(predict_optimized)
 ```
 
 <Frame>
 ![Optimized DSPy program evaluation results with improved performance metrics and output quality](/media/dspy_optimization/5.png)
 </Frame>
 
-When coomparing the evalution of the baseline program with the optimized one shows that the optimized program answers the causal reasoning questions with siginificantly more accuracy.
+Comparing the evaluation of the baseline program with the optimized one shows that the optimized program answers the causal reasoning questions with significantly more accuracy.
 
 ## Conclusion
 

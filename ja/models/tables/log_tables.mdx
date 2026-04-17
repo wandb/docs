@@ -15,7 +15,7 @@ W&B Python SDK を使用して [Table オブジェクトを作成しログに記
 ## テーブルの作成とログ記録
 
 1. `wandb.init()` で新しい run を初期化します。
-2. [`wandb.Table`](/models/ref/python/data-types/table) クラスを使用して Table オブジェクトを作成します。`columns` パラメータと `data` パラメータにそれぞれテーブルの列とデータを指定します。オプションの `log_mode` パラメータを、`IMMUTABLE`（デフォルト）、`MUTABLE`、または `INCREMENTAL` の 3 つのモードのいずれかに設定することをお勧めします。詳細については、次セクションの [テーブルのロギングモード](#logging-modes) を参照してください。
+2. [`wandb.Table`](/models/ref/python/data-types/table) クラスを使用して Table オブジェクトを作成します。`columns` パラメータと `data` パラメータにそれぞれテーブルの列とデータを指定します。オプションの `log_mode` パラメータを、`IMMUTABLE`（デフォルト）、`MUTABLE`、または `INCREMENTAL` の 3 つのモードのいずれかに設定することをお勧めします。詳細については、次セクションの [テーブルのロギングモード](#ロギングモード) を参照してください。
 3. `run.log()` を使用してテーブルを W&B にログ記録します。
 
 次の例は、`a` と `b` の 2 つの列と、`["a1", "b1"]` および `["a2", "b2"]` の 2 行のデータを持つテーブルを作成してログに記録する方法を示しています。

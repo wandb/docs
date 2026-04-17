@@ -1,0 +1,17 @@
+---
+title: "How do I switch between accounts on the same machine?"
+keywords: ["Environment Variables"]
+---
+
+To manage two W&B accounts from the same machine, store both API keys in a file. Use the following code in your repositories to switch between keys securely, preventing secret keys from being checked into source control.
+
+```python
+if os.path.exists("~/keys.json"):
+    os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

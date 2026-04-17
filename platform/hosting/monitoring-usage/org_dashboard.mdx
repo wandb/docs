@@ -1,5 +1,6 @@
 ---
 title: View organization activity
+description: "View user status, activity, and usage trends in the W&B organization dashboard across deployment types."
 ---
 
 This page describes how to view activity in your W&B organization. Select your deployment type to continue.
@@ -21,7 +22,7 @@ This page describes how to view activity in your W&B organization. Select your d
 3. Hover over a user's **Last Active** field to see the date the user was added and their total active days.
 
 A user is _active_ if they:
-- sign in to W&B.
+- log in to W&B.
 - open any page in the W&B App.
 - log runs.
 - use the SDK to track an experiment.
@@ -60,7 +61,7 @@ Use the **Activity Dashboard** to view aggregate activity.
    * **Active user count**: unique active users during the selected period (defaults to 3 months).
    * **Weekly active users**: users active per week.
    * **Most active user**: top-10 users ranked by active days and last-active date.
-4. To change the date range (7, 30, or 90 days; default is 30 days), click the date picker in the upper-right corner. All plots update automatically.
+4. To change the date range, click the date picker in the upper-right corner and choose a new value: 7 days, 30 days (the default), 90 days, 6 months, or 12 months. All plots update automatically.
 </Tab>
 </Tabs>
 
@@ -70,7 +71,7 @@ From the **Users** tab you can download a CSV that lists each user's details (us
 
 <Tabs>
 <Tab title="Dedicated Cloud / Self-Managed">
-1. In the **Users** tab, click the **…** action menu next to **Invite new user**.
+1. In the **Users** tab, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu next to **Invite new user**.
 2. Click **Export as CSV**.
 
 ### Export CSV schema
@@ -85,7 +86,7 @@ The CSV export uses the comma (`,`) as the separator, encloses strings in double
 - `"Last Active"`
 </Tab>
 <Tab title="Multi-tenant Cloud">
-1. In the **Users** tab, click the **…** action menu in the upper-right corner.
+1. In the **Users** tab, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu in the upper-right corner.
 2. Select **Export as CSV** to download the file.
 
 ### Export CSV schema

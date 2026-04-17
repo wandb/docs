@@ -14,7 +14,21 @@ import WandbArtifactCacheCleanup from "/snippets/en/_includes/cli/wandb-artifact
   The snippet will be auto-detected on the next regeneration.
 */}
 
-Clean up less frequently used files from the artifacts cache
+Reduce the local artifact cache size.
+
+Remove the least recently accessed files first until the cache is at or below the TARGET_SIZE. TARGET_SIZE accepts human-readable formats (for example, 10GB or 500MB).
+
+For example, to reduce the artifact cache to 10 GB:
+
+```bash
+$ wandb artifact cache cleanup 10GB
+```
+
+To remove temporary files and reduce the artifact cache to 5 GB:
+
+```bash
+$ wandb artifact cache cleanup --remove-temp 5GB
+```
 
 ## Usage
 
@@ -32,4 +46,4 @@ wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--remove-temp` | Remove temp files (default: False) |
+| `--remove-temp` | Also remove temporary files from the cache. (default: False) |

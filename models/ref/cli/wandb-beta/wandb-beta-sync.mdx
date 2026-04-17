@@ -20,22 +20,22 @@ This is a beta re-implementation of `wandb sync`. It is not feature complete, no
 
 PATHS can include .wandb files, run directories containing .wandb files, and "wandb" directories containing run directories.
 
-For example, to sync all runs in a directory:
+For example, to sync all runs in the current .wandb directory:
 
 ```bash
-wandb beta sync ./wandb
+$ wandb beta sync ./wandb
 ```
 
-To sync a specific run:
+To sync a specific run by specifying the run directory:
 
 ```bash
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+$ wandb beta sync ./wandb/run-20250813_124246-n67z9ude
 ```
 
 Or equivalently:
 
 ```bash
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+$ wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
 ```
 
 ## Usage

@@ -1,0 +1,106 @@
+---
+title: "Set up automations"
+description: "Create event-driven automations that trigger actions based on monitor metrics and trace activity."
+---
+
+Automations let you define event-driven rules that trigger actions when specific conditions are met in your project. Instead of manually watching dashboards for metric changes, you configure an automation once, and W&B Weave runs an action for you when the event occurs. Use cases include:
+
+- **Threshold alert**: Send a Slack notification when a monitor's average score crosses a threshold.
+- **Regression detection**: Send an alert when a scorer detects a drop in accuracy or an increase in toxicity.
+- **Deployment gate**: Trigger a webhook when a quality metric exceeds a confidence threshold over a rolling window.
+- **Operational monitoring**: Send an alert when error rates or latency metrics change.
+
+You manage automations in the Weave UI, with no code changes required.
+
+
+## Create an automation
+
+Create an automation by configuring the triggering event and selecting what action to take.
+
+### Prerequisites
+
+The triggering event (such as an Op or a monitor) and the action (such as a Slack integration) must exist before you create the automation that connects them.
+
+- In Weave, set up an [Op](/weave/guides/tracking/create-call) or a [monitor](/weave/guides/evaluation/monitors) of interest.
+- In your Team Settings, set up a [Slack integration](/models/automations/create-automations/slack#add-a-slack-integration) or a [webhook](/models/automations/create-automations/webhook#create-a-webhook).
+
+### Step 1: Event configuration
+
+The event configuration defines what condition triggers the automation. You select a monitor metric, a time window, and a threshold.
+
+To create an automation:
+1. Navigate to [wandb.ai](https://wandb.ai) and open your project.
+2. In the project sidebar, click **Automations**.
+3. In the Automations page header, click **Create automation**.
+4. In the **Create automation** modal dialog, configure the event:
+    - **Event**: Select the type of event that triggers this automation, such as a Weave metric threshold.
+    - **Source**: Select the automation source to be either an **Operation** or a **Monitor** from your project.
+        - **Operation**: Select the **Op name** whose traces are evaluated by the monitor. The list contains Ops that have logged at least one trace in the project. 
+        - **Monitor**: Select the **Monitor** that produces the metric you want to track.
+    - **Metric**: Select the metric to measure for the alert.
+    - **Metric Threshold**: Define the condition that triggers the automation. Select a comparator (such as "is above") and provide the threshold value (such as `0.9`).
+    - **Window**: Configure the window used to trigger the automation to be either **Time-based** or **Count-based**. Select the aggregation function (such as **Average**) and the rolling period (such as **1 day**).
+    - **Aggregation**: Set the aggregation function (such as mean, median, minimum) to apply to metric values within the window before comparing to the threshold.
+5. Review the **Alert preview** graph to confirm thresholds are set up to alert the way you would expect.
+6. Click **Next step** to proceed to action configuration.
+
+### Step 2: Action configuration
+
+The action configuration defines what action happens when the event condition is met.
+
+To configure the action:
+1. In the **Step 2 of 3** panel, configure:
+    - **Team**: Select the team that wants to receive the notification.
+    - **Action type**: Select the type of action to perform, such as sending a **Slack notification**.
+    - **Action details**: Depending on the action type, provide the required configuration:
+        - For Slack notifications, select the **Slack channel** to send the notification to.
+        - For webhooks, provide the **Webhook** name and **Payload**.
+2. Click **Next step** to proceed to the summary.
+
+### Step 3: Summary
+
+The summary step displays a complete overview of the automation before you save it.
+
+To save:
+1. Configure the automation metadata:
+    - **Automation name**: Provide a name for the automation that will be displayed in the Automations table.
+    - **Description** (Optional): Add a description to help identify the automation's purpose.
+2. Click **Create automation** to create the automation.
+
+The new automation appears in the Automations table on the Automations page.
+
+## Create an automation from a monitor
+
+You can also create automations directly from a monitor's detail view. This approach pre-fills the event configuration with the monitor's context, which makes the setup faster.  Before you create the automation, set up a [Slack integration](/models/automations/create-automations/slack#add-a-slack-integration) or a [webhook](/models/automations/create-automations/webhook#create-a-webhook) that you want to use as your selected action.
+
+To create an automation from a monitor:
+1. In the Weave project sidebar, click **Monitors**.
+2. In the Monitors table, click the name of the monitor to open its detail panel.
+3. In the monitor detail panel, select the **Automations** tab to see any existing automations for this monitor.
+4. In the Automations section toolbar, click **Create automation**.
+5. In the **Create automation** panel, the event configuration is pre-filled with the selected monitor's details. Adjust the configuration as needed:
+    - **Metric**: Select the metric to measure for the alert.
+    - **Metric Threshold**: Define the condition that triggers the automation. Select a comparator (such as "is above") and provide the threshold value (such as `0.9`).
+    - **Window**: Configure the window used to trigger the automation to be either **Time-based** or **Count-based**. Select the aggregation function (such as **Average**) and the rolling period (such as **1 day**).
+    - **Aggregation**: Set the aggregation function (such as mean, median, minimum) to apply to metric values within the window before comparing to the threshold.
+6. Click **Next** and complete the remaining steps (select action and save) as described in [Create an automation](#create-an-automation).
+
+## View and manage automations
+
+All automations in your project are listed on the **Automations** page. The table displays the following information for each automation:
+
+- **Automation**: The automation name and description.
+- **Event type**: The type of event that triggers the automation.
+- **Action type**: The action that is triggered, such as generating a Slack notification.
+- **Date created**: When the automation was created.
+- **Last execution**: When the automation last triggered.
+
+
+To view automations:
+1. In the Weave project sidebar, click **Automations**.
+2. Use the search field in the table toolbar to filter automations by name.
+
+You can click the name of an automation to open the automation drawer and review the full details of the automation.
+
+The History tab displays a record of all triggered automations. When an automation fires, Weave creates an automation instance that records what happened. You can inspect these instances to understand when and why an automation triggered.
+

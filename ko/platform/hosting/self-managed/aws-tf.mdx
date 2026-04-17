@@ -254,9 +254,9 @@ module "wandb_infra" {
 
 Amazon S3 버킷을 W&B의 파일 스토리지 백엔드로 사용하려면 다음 작업이 필요합니다.
 
-* [Amazon S3 버킷 및 버킷 알림 생성](#create-an-s3-bucket-and-bucket-notifications)
-* [SQS 큐 생성](#create-an-sqs-queue)
-* [W&B를 실행하는 노드에 권한 부여](#grant-permissions-to-node-that-runs-wb)
+* [Amazon S3 버킷 및 버킷 알림 생성](#amazon-s3-버킷-및-버킷-알림-생성)
+* [SQS 큐 생성](#sqs-큐-생성)
+* [W&B를 실행하는 노드에 권한 부여](#wb를-실행하는-노드에-권한-부여)
 
 버킷을 생성하고, 해당 버킷의 오브젝트 생성 알림을 받도록 구성된 SQS 큐를 만들어야 합니다. 인스턴스에는 이 큐에서 읽을 수 있는 권한이 필요합니다.
 

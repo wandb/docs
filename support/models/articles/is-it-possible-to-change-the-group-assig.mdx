@@ -1,0 +1,21 @@
+---
+title: "Is it possible to change the group assigned to a run after completion?"
+keywords: ["Runs"]
+---
+
+You can change the group assigned to a completed run using the API. This feature does not appear in the web UI. Use the following code to update the group:
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<ENTITY>/<PROJECT>/<RUN_ID>")
+run.group = "NEW-GROUP-NAME"
+run.update()
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

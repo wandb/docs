@@ -557,8 +557,10 @@ A panel object with 2D line plots.
  - `legend_template` (Optional[str]):  The template for the legend.
  - `aggregate` (Optional[bool]):  If set to `True`, aggregate the data.
  - `xaxis_expression` (Optional[str]):  The expression for the x-axis.
+ - `xaxis_format` (Optional[str]):  The format for the x-axis. This option  appears if you define a custom metric. For example,  you can specify 'datetime' to format the x-axis as a date and time.
  - `legend_fields` (Optional[LList[str]]):  The fields to include in the legend.
  - `metric_regex` (Optional[str]):  Regular expression pattern to match y-axis metrics.  The backend will use this pattern to select matching metrics.
+ - `point_visualization_method` (Optional[PointVizMethod]):  The method used to aggregate  points when there are too many to display. Options include "bucketing-gorilla" (buckets  data points and shows min, max, avg per bucket to preserve outliers and spikes) or  "sampling" (randomly samples points for faster rendering but may miss outliers).
 
 
 
@@ -782,7 +784,7 @@ Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `
  - `runsets` (LList["Runset"]):  A list of one or more `Runset` objects.
  - `hide_run_sets` (bool):  Whether to hide the run sets of the panel grid for report viewers.
  - `panels` (LList["PanelTypes"]):  A list of one or more `Panel` objects.
- - `active_runset` (int):  The number of runs you want to display within a runset. By default, it is set to 0.
+ - `active_runset` (Optional[int]):  The index of the active runset tab. By default, it is set to 0.
  - `custom_run_colors` (dict):  Key-value pairs where the key is the name of a  run and the value is a color specified by a hexadecimal value.
 
 
@@ -905,6 +907,46 @@ This will also delete any draft views that reference this report.
 
 
 
+### <kbd>method</kbd> `disable_share_link`
+
+```python
+disable_share_link() → bool
+```
+
+Disable the "anyone with link can view" share link for this report.
+
+Revokes all active public access tokens for the report.
+
+
+
+**Returns:**
+
+ - `bool`:  True if link(s) were revoked, False if no active link existed.
+
+---
+
+
+
+### <kbd>method</kbd> `enable_share_link`
+
+```python
+enable_share_link() → str
+```
+
+Enable "anyone with link can view" sharing for this report.
+
+Creates a public access token for the report. If a share link already exists, returns the existing link.
+
+
+
+**Returns:**
+
+ - `str`:  The magic link URL that can be shared.
+
+---
+
+
+
 ### <kbd>classmethod</kbd> `from_url`
 
 ```python
@@ -919,6 +961,20 @@ Load in the report into current environment. Pass in the URL where the report is
 
  - `url` (str):  The URL where the report is hosted.
  - `as_model` (bool):  If True, return the model object instead of the Report object.  By default, set to `False`.
+
+---
+
+
+
+### <kbd>method</kbd> `get_share_url`
+
+```python
+get_share_url() → Optional[str]
+```
+
+Fetch the magic link URL for this report, or None if sharing is not enabled.
+
+Makes a network call to check for active access tokens. Returns the report URL with an access token appended, allowing anyone with the link to view the report even if the project is private.
 
 ---
 
@@ -974,6 +1030,28 @@ A panel that compares metrics across different runs from the project the report 
 
 
 
+## <kbd>class</kbd> `RunSettings`
+Configure the display appearance and visibility of an individual run in a report panel grid.
+
+Use `RunSettings` to customize how a specific run is rendered within a `Runset`, including its line color and visibility in charts.
+
+
+
+**Attributes:**
+
+ - `color`:  Display color for the run. Accepts hex format (`#ff0000`), a CSS color name (red), or an RGB string ("rgb(255,0,0)").
+ - `disabled`:  If True, hide the run from charts. This is equivalent to clicking the closed-eye icon in the UI.
+
+
+
+
+
+
+
+---
+
+
+
 ## <kbd>class</kbd> `Runset`
 A set of runs to display in a panel grid.
 
@@ -994,7 +1072,8 @@ A set of runs to display in a panel grid.
         - "config.param" to group by a config parameter
         - "summary.metric" to group by a summary metric
  - `order` (LList[OrderBy]):  A list of `OrderBy` objects to order by.
- - `custom_run_colors` (LList[OrderBy]):  A dictionary mapping run IDs to colors.
+ - `custom_run_colors` (dict):  A dictionary mapping run IDs (or `RunsetGroup` keys for  grouped runs) to colors. For simple per-run colors, prefer using `run_settings`.
+ - `run_settings` (Dict[str, RunSettings]):  Per-run display settings keyed by run ID.  Use this to set colors and/or hide individual runs. See `RunSettings`.
 
 
 
@@ -1029,6 +1108,18 @@ convert_filterexpr_list_to_string()
 ```
 
 Convert FilterExpr list to string expression for internal processing.
+
+---
+
+
+
+### <kbd>method</kbd> `merge_custom_run_colors_into_run_settings`
+
+```python
+merge_custom_run_colors_into_run_settings()
+```
+
+Merge plain-string-keyed custom_run_colors into run_settings for backward compat.
 
 
 
@@ -1479,6 +1570,42 @@ The term "Weave" in the API name does not refer to the W&B Weave toolkit used fo
 **Attributes:**
 
  - `table_name` (str):  The name of the table, DataFrame, plot, or value.
+ - `layout` (Layout):  The layout configuration for the panel, including position and size.  Inherited from the Panel base class. Use to adjust width (w) and height (h).
+
+
+
+**Example:**
+ Create a report with a summary table panel that displays a table with custom dimensions:
+
+```python
+    import wandb_workspaces.reports as wr
+
+    report = wr.Report(
+         project="my-project",
+         entity="my-entity",
+         title="Summary Table Report"
+    )
+
+    report.blocks = [
+         wr.PanelGrid(
+             runsets=[wr.Runset(project="my-project")],
+             panels=[
+                 wr.WeavePanelSummaryTable(
+                     table_name="my-table-name",
+                     layout=wr.Layout(w=24, h=20)
+                 )
+             ]
+         )
+    ]
+
+    report.save()
+    ```
+
+The layout parameters control panel dimensions:
+    - w (width): Width in grid units (default: 8, max: 24)
+    - h (height): Height in grid units (default: 6)
+    - x (x-position): Horizontal position in grid (default: 0)
+    - y (y-position): Vertical position in grid (default: 0)
 
 
 
