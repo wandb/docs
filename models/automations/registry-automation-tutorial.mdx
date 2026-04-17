@@ -21,15 +21,16 @@ This tutorial walks you through building a **registry** automation triggered by 
 
 Follow these instructions to set up a registry-scoped automation: When an artifact in any collection in that registry gets a specific alias (for example, **production**), W&B sends a POST request to your webhook.
 
-<Tabs>
-<Tab title="W&B App">
+{/* commenting out the tabs for now and only showing the UI instructions */}
+{/* <Tabs>
+<Tab title="W&B App"> */}
 1. Open the registry and click the **Automations** tab, then click **Create automation**.
 1. Choose the event **An artifact alias is added**. Enter an **Alias regex** that matches the alias you care about (for example, **production** or **staging**).
 1. Click **Next step**. Set **Action type** to **Webhooks** and select your webhook. If the webhook expects a payload, paste a JSON body and use [payload variables](/models/automations/create-automations/webhook#payload-variables) such as `${artifact_collection_name}` and `${artifact_version_string}`.
 1. Click **Next step**. Give the automation a name and optional description, then click **Create automation**.
 
 For more detail, see [Create a webhook automation](/models/automations/create-automations/webhook#create-an-automation) (Registry tab).
-</Tab>
+{/* </Tab>
 <Tab title="Python">
 Use the public API to create the same automation with a collection scope and alias filter:
 
@@ -62,7 +63,7 @@ automation = api.create_automation(
 )
 ```
 </Tab>
-</Tabs>
+</Tabs> */}
 
 ## Test the automation
 
