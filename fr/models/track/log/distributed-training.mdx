@@ -42,6 +42,23 @@ Le script Python :
 2. Vérifie le rang avec l’argument de ligne de commande `--local_rank`.
 3. Si le rang est défini sur 0, configure conditionnellement la journalisation avec `wandb` dans la fonction [`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24).
 
+```python
+if __name__ == "__main__":
+    # Obtenir les arguments
+    args = parse_args()
+
+    if args.local_rank == 0:  # uniquement sur le processus principal
+        # Initialiser le run wandb
+        run = wandb.init(
+            entity=args.entity,
+            project=args.project,
+        )
+        # Entraîner le modèle avec DDP
+        train(args, run)
+    else:
+        train(args)
+```
+
 Explorez un [exemple de tableau de bord montrant les métriques relevées à partir d’un seul processus](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system).
 
 Le tableau de bord affiche les métriques système des deux GPU, comme la température et l’utilisation.
@@ -74,11 +91,26 @@ Cette section explique comment suivre chaque processus séparément en créant u
 Il peut être difficile de suivre les runs dans plusieurs expériences. Pour y remédier, fournissez une valeur au paramètre `group` lorsque vous initialisez W&amp;B (`wandb.init(group='group-name')`) afin d’identifier à quelle expérience appartient chaque run. Pour plus d’informations sur le suivi des Runs W&amp;B d’entraînement et d’évaluation dans les expériences, voir [Group Runs](/fr/models/runs/grouping/).
 
 <Note>
-  **Utilisez cette approche si vous souhaitez suivre les métriques de chaque processus individuellement**. Les exemples typiques incluent les données et les prédictions sur chaque nœud (pour déboguer la distribution des données), ainsi que les métriques sur
-  des lots individuels en dehors du nœud principal. Cette approche n’est pas nécessaire pour obtenir les métriques système de tous les nœuds ni les statistiques récapitulatives disponibles sur le nœud principal.
+  **Utilisez cette approche si vous souhaitez suivre les métriques de chaque processus individuellement**. Les exemples typiques incluent les données et les prédictions sur chaque nœud (pour déboguer la distribution des données), ainsi que les métriques sur des lots individuels en dehors du nœud principal. Cette approche n’est pas nécessaire pour obtenir les métriques système de tous les nœuds ni les statistiques récapitulatives disponibles sur le nœud principal.
 </Note>
 
 L’extrait de code Python suivant montre comment définir le paramètre `group` lorsque vous initialisez W&amp;B :
+
+```python
+if __name__ == "__main__":
+    # Obtenir les arguments
+    args = parse_args()
+    # Initialiser le run
+    run = wandb.init(
+        entity=args.entity,
+        project=args.project,
+        group="DDP",  # tous les runs de l'expérience dans un seul groupe
+    )
+    # Entraîner le modèle avec DDP
+    train(args, run)
+
+    run.finish()  # marquer le run comme terminé
+```
 
 Explorez W&amp;B App UI pour voir un [exemple de tableau de bord](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) des métriques suivies sur plusieurs processus. Notez que deux W&amp;B Runs sont regroupés dans la barre latérale gauche. Cliquez sur un groupe pour afficher la page du groupe dédiée à l’expérience. Cette page affiche séparément les métriques de chaque processus.
 
@@ -93,6 +125,16 @@ L’image précédente montre le tableau de bord de W&amp;B App UI. Dans la barr
 </div>
 
 Définissez le paramètre `job_type` lors de l’initialisation de W&amp;B (`wandb.init(job_type='type-name')`) afin de classer vos nœuds selon leur rôle. Par exemple, vous pouvez avoir un nœud coordinateur principal et plusieurs nœuds workers chargés du reporting. Vous pouvez définir `job_type` sur `main` pour le nœud coordinateur principal et sur `worker` pour les nœuds workers chargés du reporting :
+
+```python
+   # Nœud coordinateur principal
+   with wandb.init(project="<project>", job_type="main", group="experiment_1") as run:
+        # Code d'entraînement
+
+   # Nœuds worker de reporting
+   with wandb.init(project="<project>", job_type="worker", group="experiment_1") as run:
+        # Code d'entraînement
+```
 
 Une fois que vous avez défini le `job_type` pour vos nœuds, vous pouvez créer des [vues enregistrées](/fr/models/track/workspaces/#create-a-new-saved-workspace-view) dans votre Workspace pour organiser vos runs. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** en haut à droite, puis sur **Enregistrer comme nouvelle vue**.
 
@@ -162,13 +204,52 @@ Pour chaque nœud worker, initialisez un run W&amp;B avec [`wandb.init()`](/fr/m
 
 L’exemple de code suivant illustre les exigences générales pour suivre plusieurs processus dans un même run :
 
-Dans un cas réel, chaque nœud worker peut se trouver sur une machine distincte.
+```python
+import wandb
+
+entity = "<team_entity>"
+project = "<project_name>"
+
+# Initialiser un run dans le nœud principal
+run = wandb.init(
+    entity=entity,
+    project=project,
+	settings=wandb.Settings(
+        x_label="rank_0", 
+        mode="shared", 
+        x_primary=True,
+        x_stats_gpu_device_ids=[0, 1],  # (Facultatif) Suivre uniquement les métriques pour les GPU 0 et 1
+        )
+)
+
+# Noter l’ID du run du nœud principal.
+# Chaque nœud worker a besoin de cet ID du run.
+run_id = run.id
+
+# Initialiser un run dans un nœud worker en utilisant l’ID du run du nœud principal
+run = wandb.init(
+    entity=entity, # Utiliser la même entité que le nœud principal
+    project=project, # Utiliser le même projet que le nœud principal
+	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
+	id=run_id,
+)
+
+# Initialiser un run dans un nœud worker en utilisant l’ID du run du nœud principal
+run = wandb.init(
+    entity=entity, # Utiliser la même entité que le nœud principal
+    project=project, # Utiliser le même projet que le nœud principal
+	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
+	id=run_id,
+)
+```
+
+Dans un exemple réel, chaque nœud worker peut se trouver sur une machine distincte.
 
 <Note>
-  Voir le rapport [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) pour un exemple de bout en bout montrant comment entraîner un modèle sur un cluster Kubernetes multinœud et multi-GPU dans GKE.
+  Voir le [Reports Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) pour un exemple de bout en bout montrant comment entraîner un modèle sur un cluster Kubernetes multi-nœud et multi-GPU dans GKE.
 </Note>
 
-Affichez les journaux de console des processus multinœuds dans le projet auquel le run envoie ses journaux :
+Affichez les journaux de console des processus multi-nœuds dans le projet dans lequel le run consigne ses journaux :
 
 1. Accédez au projet qui contient le run.
 2. Cliquez sur l’onglet **Runs** dans la barre latérale du projet.
@@ -226,6 +307,23 @@ if __name__ == "__main__":
 
 Transmettez un objet run en argument pour partager des runs entre processus :
 
+```python
+def do_work(run):
+    with wandb.init() as run:
+        run.log(dict(this=1))
+
+def main():
+    run = wandb.init()
+    p = mp.Process(target=do_work, kwargs=dict(run=run))
+    p.start()
+    p.join()
+    run.finish()  # marquer le run comme terminé
+
+
+if __name__ == "__main__":
+    main()
+```
+
 W&amp;B ne peut pas garantir l’ordre de journalisation. La synchronisation doit être assurée par l’auteur du script.
 
 <div id="troubleshooting">
@@ -255,6 +353,16 @@ W&amp;B Service est activé par défaut à partir de la version `0.13.0` du SDK 
 </div>
 
 Modifiez votre script Python pour activer W&amp;B Service avec le SDK W&amp;B version 0.12.5 et les versions ultérieures. Utilisez la méthode `wandb.require` et transmettez la chaîne `"service"` dans votre fonction principale :
+
+```python
+if __name__ == "__main__":
+    main()
+
+
+def main():
+    wandb.require("service")
+    # suite-de-votre-script-ici
+```
 
 Pour une expérience optimale, nous vous recommandons de passer à la version la plus récente.
 

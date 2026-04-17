@@ -35,7 +35,9 @@ Le graphe de traçabilité est une représentation visuelle des relations entre 
 
     Les nœuds d&#39;artifact affichent le nom de l&#39;artifact ainsi que sa version, sous la forme `<artifact_name>:<version>`. Le type d&#39;un artifact s&#39;affiche au-dessus de son nom.
 
-    <Note>Vous pouvez voir le type et le nom de l&#39;artifact à la fois dans la barre latérale gauche et dans le nœud du graphe de traçabilité.</Note>
+    <Note>
+      Vous pouvez voir le type et le nom de l&#39;artifact à la fois dans la barre latérale gauche et dans le nœud du graphe de traçabilité.
+    </Note>
 
     Les nœuds de run affichent le nom du run.
 
@@ -67,6 +69,15 @@ Le graphe de traçabilité est une représentation visuelle des relations entre 
   <Tab title="W&B Python SDK">
     Naviguez dans un graphe par programmation à l&#39;aide du W&amp;B Python SDK. Utilisez les méthodes
     [`logged_by()`](/fr/models/ref/python/experiments/artifact#method-artifact-logged-by) et [`used_by()`](/fr/models/ref/python/experiments/artifact#method-artifact-used-by) d&#39;un objet artifact pour parcourir le graphe :
+
+    ```python
+    with wandb.init() as run:
+        artifact = run.use_artifact("artifact_name:latest")
+
+        # Parcourir le graphe dans les deux sens à partir d'un artifact :
+        producer_run = artifact.logged_by()
+        consumer_runs = artifact.used_by()
+    ```
   </Tab>
 </Tabs>
 
@@ -88,6 +99,15 @@ est au format `<artifact_name>:<version>` ou `<artifact_name>:<alias>`.
 
 Remplacez les valeurs entre chevrons (`< >`) par les vôtres :
 
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # Obtenir l'artifact, le marquer comme dépendance
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
+```
+
 <div id="track-the-output-of-a-run">
   ### Suivre la sortie d&#39;un run
 </div>
@@ -95,6 +115,20 @@ Remplacez les valeurs entre chevrons (`< >`) par les vôtres :
 Utilisez [`wandb.Run.log_artifact()`](/fr/models/ref/python/experiments/run#log_artifact) pour déclarer un artifact comme sortie d&#39;un run. Commencez par créer un artifact avec le constructeur [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact#wandb.Artifact). Ensuite, enregistrez l&#39;artifact comme sortie du run avec `wandb.Run.log_artifact()`.
 
 Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs :
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  
+  # Créer un artifact
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
+
+  # Enregistrer l'artifact en tant que sortie du run
+  run.log_artifact(artifact_or_path = artifact)
+```
 
 <div id="artifact-clusters">
   ## Clusters d’Artifacts

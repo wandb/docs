@@ -662,20 +662,42 @@ Un ensemble de runs à afficher dans une grille de panneaux.
 
 **Attributs :**
 
-* `entity` (str): Une entité qui possède le projet dans lequel les runs sont stockés, ou qui dispose des autorisations appropriées sur ce projet.
-* `project` (str): Le nom du projet où les runs sont stockés.
-* `name` (str): Le nom de l’ensemble de runs. La valeur par défaut est `Run set`.
-* `query` (str): Une chaîne de requête pour filtrer les runs.
-* `filters` (Union[str, LList[expr.FilterExpr]]): Filtres à appliquer aux runs. Peut être : - Une expression sous forme de chaîne : par exemple, &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Opérateurs pris en charge`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in` - Une liste d’objets FilterExpr : par exemple, [expr.Config(&#39;lr&#39;) == 0.001]
-* `groupby` (LList[str]): Une liste de noms de métriques à utiliser pour le regroupement. Les formats pris en charge sont : - &quot;group&quot; ou &quot;run.group&quot; pour regrouper par attribut de run - &quot;config.param&quot; pour regrouper par paramètre de configuration - &quot;summary.metric&quot; pour regrouper par métrique de synthèse
-* `order` (LList[OrderBy]): Une liste d’objets `OrderBy` à utiliser pour le tri.
-* `custom_run_colors` (dict): Un dictionnaire qui associe les ID de run (ou les clés `RunsetGroup` pour les runs groupés) à des couleurs. Pour des couleurs simples par run, préférez utiliser `run_settings`.
-* `run_settings` (Dict[str, RunSettings]): Paramètres d’affichage par run, indexés par ID de run. Utilisez-le pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
+* `entity` (str):  Une entité qui possède le projet dans lequel les runs sont stockés, ou qui dispose des autorisations appropriées sur ce projet.
+* `project` (str):  Le nom du projet où les runs sont stockés.
+* `name` (str):  Le nom de l’ensemble de runs. La valeur par défaut est `Run set`.
+* `query` (str):  Une chaîne de requête pour filtrer les runs.
+* `filters` (Union[str, LList[expr.FilterExpr]]):  Filtres à appliquer aux runs. Peut être :
+  * Une expression sous forme de chaîne : par exemple, &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Opérateurs pris en charge`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+  * Une liste d’objets FilterExpr : par exemple, [expr.Config(&#39;lr&#39;) == 0.001]
+* `groupby` (LList[str]):  Une liste de noms de métriques à utiliser pour le regroupement. Les formats pris en charge sont :
+  * &quot;group&quot; ou &quot;run.group&quot; pour regrouper par attribut de run
+  * &quot;config.param&quot; pour regrouper par paramètre de configuration
+  * &quot;summary.metric&quot; pour regrouper par métrique de résumé
+* `order` (LList[OrderBy]):  Une liste d’objets `OrderBy` à utiliser pour le tri.
+* `custom_run_colors` (dict):  Un dictionnaire qui associe les ID de run (ou les clés `RunsetGroup` pour les runs groupés) à des couleurs. Pour des couleurs simples par run, préférez utiliser `run_settings`.
+* `run_settings` (Dict[str, RunSettings]):  Paramètres d’affichage par run, indexés par ID de run.  Utilisez-le pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
 
 **Exemple :**
 
+```python
+    # Utilisation de filtres sous forme de chaîne
+    wr.Runset(
+         entity="my-entity",
+         project="my-project",
+         filters="Config('learning_rate') = 0.001 and State = 'finished'"
+    )
+
+    # Utilisation d'une liste FilterExpr
+    wr.Runset(
+         entity="my-entity",
+         project="my-project",
+         filters=[expr.Config("learning_rate") == 0.001]
+    )
+```
+
 ***
+
 
 ### <kbd>méthode</kbd> `convert_filterexpr_list_to_string`
 

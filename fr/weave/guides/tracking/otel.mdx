@@ -27,7 +27,7 @@ Weave prend en charge l’ingestion de données de trace compatibles OpenTelemet
 Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation, par exemple `acme.wandb.io`.
 
 <div id="authentication-and-routing">
-  ## Authentification et acheminement
+  ## Authentification et routage
 </div>
 
 Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
@@ -35,9 +35,62 @@ Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifie
 * `wandb.entity` : Le nom de votre équipe W&amp;B ou de votre utilisateur.
 * `wandb.project` : Le nom du projet vers lequel envoyer les traces.
 
-L’exemple suivant montre comment configurer l’authentification et l’acheminement du projet :
+L’exemple suivant montre comment configurer l’authentification et le routage du projet :
 
-<CodeGroup />
+<CodeGroup>
+  ```python Python lines {7,8}
+  import os
+  from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+  from opentelemetry.sdk import trace as trace_sdk
+  from opentelemetry.sdk.resources import Resource
+
+  WANDB_BASE_URL = "https://trace.wandb.ai"
+  ENTITY = "<your-team-name>"
+  PROJECT = "<your-project-name>"
+
+  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+  # Créez une clé API sur https://wandb.ai/settings
+  WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+  exporter = OTLPSpanExporter(
+      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers={"wandb-api-key": WANDB_API_KEY},
+  )
+
+  tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+      "wandb.entity": ENTITY,
+      "wandb.project": PROJECT,
+  }))
+  ```
+
+  ```typescript TypeScript lines
+  import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+  import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+  import { Resource } from "@opentelemetry/resources";
+
+  const WANDB_BASE_URL = "https://trace.wandb.ai";
+  const ENTITY = "<your-team-name>";
+  const PROJECT = "<your-project-name>";
+
+  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+  // Créez une clé API sur https://wandb.ai/settings
+  const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+  const exporter = new OTLPTraceExporter({
+    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers: { "wandb-api-key": WANDB_API_KEY },
+  });
+
+  const provider = new NodeTracerProvider({
+    resource: new Resource({
+      "wandb.entity": ENTITY,
+      "wandb.project": PROJECT,
+    }),
+  });
+  ```
+</CodeGroup>
 
 <div id="examples">
   ## Exemples
@@ -48,7 +101,7 @@ Les exemples suivants montrent comment envoyer des traces OpenTelemetry vers Wea
 Avant d’exécuter les exemples de code ci-dessous, renseignez les champs suivants :
 
 1. `WANDB_API_KEY` : vous pouvez l’obtenir dans les [Paramètres utilisateur](https://wandb.ai/settings).
-2. Entité : vous ne pouvez consigner des traces que dans le projet d’une entité à laquelle vous avez accès. Vous pouvez trouver le nom de votre entité en consultant votre tableau de bord W&amp;B à l’adresse [[https://wandb.ai/home](https://wandb.ai/home)], puis en vérifiant le champ **Teams** dans la barre latérale gauche.
+2. Entité : vous ne pouvez consigner des traces que dans le projet d’une entité à laquelle vous avez accès. Vous pouvez trouver le nom de votre entité en consultant votre tableau de bord W&amp;B à l’adresse [https://wandb.ai/home], puis en vérifiant le champ **Teams** dans la barre latérale gauche.
 3. Nom du projet : choisissez un nom sympa !
 4. `OPENAI_API_KEY` : vous pouvez l’obtenir depuis le [tableau de bord OpenAI](https://platform.openai.com/api-keys).
 
@@ -75,13 +128,64 @@ Installez d’abord les dépendances requises :
 </Tabs>
 
 <Warning>
-  **Recommandation relative aux performances** : utilisez toujours `BatchSpanProcessor` plutôt que `SimpleSpanProcessor` lors de l’envoi de traces vers Weave. `SimpleSpanProcessor` exporte les spans de manière synchrone, ce qui peut
-  affecter les performances des autres charges de travail. Ces exemples illustrent `BatchSpanProcessor`, recommandé en production, car il regroupe les spans de façon asynchrone et efficace.
+  **Recommandation relative aux performances** : utilisez toujours `BatchSpanProcessor` plutôt que `SimpleSpanProcessor` lors de l’envoi de traces vers Weave. `SimpleSpanProcessor` exporte les spans de manière synchrone, ce qui peut affecter les performances des autres charges de travail. Ces exemples illustrent `BatchSpanProcessor`, recommandé en production, car il regroupe les spans de façon asynchrone et efficace.
 </Warning>
 
 <Tabs>
   <Tab title="Python">
-    Collez le code suivant dans un fichier Python tel que `openinference_example.py` :
+    Collez le code suivant dans un fichier Python, par exemple `openinference_example.py` :
+
+    ```python lines
+    import os
+    import openai
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+    from openinference.instrumentation.openai import OpenAIInstrumentor
+
+    OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+    WANDB_BASE_URL = "https://trace.wandb.ai"
+    ENTITY = "<your-team-name>"
+    PROJECT = "<your-project-name>"
+
+    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+    # Créez une clé API sur https://wandb.ai/settings
+    WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+    exporter = OTLPSpanExporter(
+        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers={"wandb-api-key": WANDB_API_KEY},
+    )
+
+    tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+    }))
+    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+    # Facultatif : afficher les spans dans la console.
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+    def main():
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
+            max_tokens=20,
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+        for chunk in response:
+            if chunk.choices and (content := chunk.choices[0].delta.content):
+                print(content, end="")
+
+    if __name__ == "__main__":
+        main()
+    ```
 
     Exécutez le code :
 
@@ -94,10 +198,81 @@ Installez d’abord les dépendances requises :
     L’implémentation TypeScript de cet exemple présente les principales différences suivantes par rapport à l’implémentation Python :
 
     * OpenAI doit être importé avant l’enregistrement de l’instrumentation (les modules ESM l’exigent).
-    * Utilise `@opentelemetry/exporter-trace-otlp-proto` (format protobuf) au lieu de l’exportateur HTTP, car le point de terminaison de W&amp;B accepte uniquement protobuf.
-    * Nécessite un `provider.shutdown()` explicite avec un délai avant l’arrêt afin de garantir que les spans sont correctement vidés, puisque `BatchSpanProcessor` effectue la vidange de manière asynchrone.
+    * Elle utilise `@opentelemetry/exporter-trace-otlp-proto` (format protobuf) au lieu de l’exportateur HTTP, car le point de terminaison de W&amp;B n’accepte que le format protobuf.
+    * Elle nécessite un `provider.shutdown()` explicite avec un délai avant l’arrêt afin de garantir que les spans sont bien vidés, car `BatchSpanProcessor` les vide de manière asynchrone.
 
     Collez le code suivant dans un fichier TypeScript tel que `openinference_example.ts` :
+
+    ```typescript lines {11,12}
+    // IMPORTANT : Importer OpenAI EN PREMIER pour que l'instrumentation puisse le patcher
+    import OpenAI from "openai";
+    import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+    import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+    import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+    import { resourceFromAttributes } from "@opentelemetry/resources";
+    import { OpenAIInstrumentation, isPatched } from "@arizeai/openinference-instrumentation-openai";
+
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    const WANDB_BASE_URL = "https://trace.wandb.ai";
+    const ENTITY = "<your-team-name>";
+    const PROJECT = "<your-project-name>";
+
+    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+    // Créer une clé API sur https://wandb.ai/settings
+    const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+    const exporter = new OTLPTraceExporter({
+      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers: { "wandb-api-key": WANDB_API_KEY },
+    });
+
+    const provider = new NodeTracerProvider({
+      resource: resourceFromAttributes({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(exporter)
+      ],
+    });
+
+    provider.register();
+
+    // Enregistrer l'instrumentation OpenAI auprès du fournisseur de traceur
+    const openAIInstrumentation = new OpenAIInstrumentation();
+    openAIInstrumentation.setTracerProvider(provider);
+
+    // Instrumenter manuellement OpenAI car nous utilisons ESM
+    openAIInstrumentation.manuallyInstrument(OpenAI);
+
+    async function main() {
+      console.log("OpenAI est patché ?", isPatched());
+
+      const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+
+      console.log("Appel API OpenAI en cours...");
+      const response = await client.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: "Décris OTel en une seule phrase." }],
+        max_tokens: 50,
+      });
+
+      console.log("Réponse :", response.choices[0]?.message?.content);
+      console.log("En attente de l'envoi des spans...");
+    }
+
+    (async () => {
+      await main();
+
+      // Laisser le temps aux spans d'être envoyés
+      console.log("Attente de 2 secondes pour l'envoi des spans...");
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      await provider.shutdown(); // envoyer tous les spans en attente avant de quitter
+      console.log("Arrêt terminé");
+    })();
+    ```
 
     Exécutez le code :
 
@@ -131,7 +306,59 @@ Installez d’abord les dépendances requises :
 
 <Tabs>
   <Tab title="Python">
-    Collez le code suivant dans un fichier Python tel que `openllmetry_example.py`. Notez qu’il s’agit du même code que celui ci-dessus, à ceci près que `OpenAIInstrumentor` est importé depuis `opentelemetry.instrumentation.openai` au lieu de `openinference.instrumentation.openai` :
+    Collez le code suivant dans un fichier Python, par exemple `openllmetry_example.py`. Notez qu’il s’agit du même code que ci-dessus, sauf que `OpenAIInstrumentor` est importé depuis `opentelemetry.instrumentation.openai` plutôt que depuis `openinference.instrumentation.openai` :
+
+    ```python lines
+    import os
+    import openai
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+    from opentelemetry.instrumentation.openai import OpenAIInstrumentor
+
+    OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+    WANDB_BASE_URL = "https://trace.wandb.ai"
+    ENTITY = "<your-team-name>"
+    PROJECT = "<your-project-name>"
+
+    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+    # Créez une clé API sur https://wandb.ai/settings
+    WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+    exporter = OTLPSpanExporter(
+        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers={"wandb-api-key": WANDB_API_KEY},
+    )
+
+    tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+    }))
+    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+    # Facultatif : affiche les spans dans la console.
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+    def main():
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
+            max_tokens=20,
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+        for chunk in response:
+            if chunk.choices and (content := chunk.choices[0].delta.content):
+                print(content, end="")
+
+    if __name__ == "__main__":
+        main()
+    ```
 
     Exécutez le code :
 
@@ -141,7 +368,83 @@ Installez d’abord les dépendances requises :
   </Tab>
 
   <Tab title="TypeScript">
-    Collez le code suivant dans un fichier TypeScript tel que `openllmetry_example.ts`. Notez que ce code utilise le package d’instrumentation OpenAI de Traceloop :
+    Collez le code suivant dans un fichier TypeScript, par exemple `openllmetry_example.ts`. Notez que ce code utilise le package d’instrumentation OpenAI de Traceloop :
+
+    ```typescript lines
+    import OpenAI from "openai";
+    import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+    import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+    import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+    import { Resource } from "@opentelemetry/resources";
+    import { OpenAIInstrumentation } from "@traceloop/instrumentation-openai";
+    import { registerInstrumentations } from "@opentelemetry/instrumentation";
+
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    const WANDB_BASE_URL = "https://trace.wandb.ai";
+    const ENTITY = "<your-team-name>";
+    const PROJECT = "<your-project-name>";
+
+    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+    // Créez une clé API sur https://wandb.ai/settings
+    const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+    const exporter = new OTLPTraceExporter({
+      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers: { "wandb-api-key": WANDB_API_KEY },
+    });
+
+    const provider = new NodeTracerProvider({
+      resource: new Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(exporter),
+        // Facultatif : afficher les spans dans la console.
+        new BatchSpanProcessor(new ConsoleSpanExporter()),
+      ],
+    });
+
+    provider.register();
+
+    // Enregistrer l'instrumentation OpenAI auprès du fournisseur de traceur
+    const openAIInstrumentation = new OpenAIInstrumentation();
+    registerInstrumentations({
+      tracerProvider: provider,
+      instrumentations: [openAIInstrumentation],
+    });
+
+    // Instrumenter manuellement OpenAI car nous utilisons ESM
+    openAIInstrumentation.manuallyInstrument(OpenAI);
+
+    async function main() {
+      const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+      const stream = await client.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
+        max_tokens: 20,
+        stream: true,
+      });
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content;
+        if (content) {
+          process.stdout.write(content);
+        }
+      }
+      console.log(); // saut de ligne après le streaming
+    }
+
+    (async () => {
+      await main();
+
+      // Laisser le temps aux spans d'être envoyés
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      await provider.shutdown(); // envoyer tous les spans en attente avant de quitter
+    })();
+    ```
 
     Exécutez le code :
 
@@ -177,6 +480,70 @@ Installez d’abord les dépendances requises :
   <Tab title="Python">
     Collez le code suivant dans un fichier Python, par exemple `opentelemetry_example.py` :
 
+    ```python lines
+    import json
+    import os
+    import openai
+    from opentelemetry import trace
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+
+    OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+    WANDB_BASE_URL = "https://trace.wandb.ai"
+    ENTITY = "<your-team-name>"
+    PROJECT = "<your-project-name>"
+
+    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+    # Créez une clé API sur https://wandb.ai/settings
+    WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+    # Configurer l'exportateur OTLP
+    exporter = OTLPSpanExporter(
+        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers={"wandb-api-key": WANDB_API_KEY},
+    )
+
+    tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+    }))
+    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+    # Facultatif : afficher les spans dans la console.
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    # Définir le fournisseur de traceur
+    trace.set_tracer_provider(tracer_provider)
+
+    # Créer un traceur à partir du fournisseur de traceur global
+    tracer = trace.get_tracer(__name__)
+
+    def my_function():
+        with tracer.start_as_current_span("outer_span") as outer_span:
+            client = openai.OpenAI()
+            input_messages = [{"role": "user", "content": "Describe OTel in a single sentence."}]
+            outer_span.set_attribute("input.value", json.dumps(input_messages))
+            outer_span.set_attribute("gen_ai.system", "openai")
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=input_messages,
+                max_tokens=20,
+                stream=True,
+                stream_options={"include_usage": True},
+            )
+            out = ""
+            for chunk in response:
+                if chunk.choices and (content := chunk.choices[0].delta.content):
+                    out += content
+            outer_span.set_attribute("output.value", json.dumps({"content": out}))
+
+    if __name__ == "__main__":
+        my_function()
+    ```
+
     Exécutez le code :
 
     ```bash
@@ -185,7 +552,87 @@ Installez d’abord les dépendances requises :
   </Tab>
 
   <Tab title="TypeScript">
-    Collez le code suivant dans un fichier TypeScript, par exemple `opentelemetry_example.ts` :
+    Collez le code suivant dans un fichier TypeScript comme `opentelemetry_example.ts` :
+
+    ```typescript lines
+    import OpenAI from "openai";
+    import { trace } from "@opentelemetry/api";
+    import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+    import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+    import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+    import { Resource } from "@opentelemetry/resources";
+
+    const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY";
+    const WANDB_BASE_URL = "https://trace.wandb.ai";
+    const ENTITY = "<your-team-name>";
+    const PROJECT = "<your-project-name>";
+
+    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+    // Créez une clé API sur https://wandb.ai/settings
+    const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+    const exporter = new OTLPTraceExporter({
+      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers: { "wandb-api-key": WANDB_API_KEY },
+    });
+
+    const provider = new NodeTracerProvider({
+      resource: new Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(exporter),
+        // Optionnellement, afficher les spans dans la console.
+        new BatchSpanProcessor(new ConsoleSpanExporter()),
+      ],
+    });
+
+    provider.register();
+
+    // Crée un traceur à partir du fournisseur de traceur global
+    const tracer = trace.getTracer("my-app");
+
+    async function myFunction() {
+      const span = tracer.startSpan("outer_span");
+
+      try {
+        const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+        const inputMessages = [
+          { role: "user" as const, content: "Describe OTel in a single sentence." },
+        ];
+
+        // Ceci apparaîtra uniquement dans le panneau latéral
+        span.setAttribute("input.value", JSON.stringify(inputMessages));
+        
+        // Ceci suit les conventions et apparaîtra dans le tableau de bord
+        span.setAttribute("gen_ai.system", "openai");
+
+        const stream = await client.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: inputMessages,
+          max_tokens: 20,
+          stream: true,
+        });
+
+        let output = "";
+        for await (const chunk of stream) {
+          const content = chunk.choices[0]?.delta?.content;
+          if (content) {
+            output += content;
+          }
+          }
+
+        // Ceci apparaîtra uniquement dans le panneau latéral
+        span.setAttribute("output.value", JSON.stringify({ content: output }));
+      } finally {
+        span.end();
+      }
+    }
+
+    myFunction();
+    ```
 
     Exécutez le code :
 
@@ -195,7 +642,7 @@ Installez d’abord les dépendances requises :
   </Tab>
 </Tabs>
 
-Les préfixes d’attribut de span `gen_ai` et `openinference` sont utilisés pour déterminer la convention à utiliser, le cas échéant, lors de l’interprétation de la trace. Si aucune de ces clés n’est détectée, tous les attributs de span sont alors visibles dans la vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
+Les préfixes des attributs de span `gen_ai` et `openinference` sont utilisés pour déterminer, le cas échéant, quelle convention appliquer lors de l’interprétation de la trace. Si aucune de ces deux clés n’est détectée, tous les attributs de span sont visibles dans la vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
 
 <div id="use-an-opentelemetry-collector">
   ## Utiliser un collecteur OpenTelemetry
@@ -214,6 +661,39 @@ L&#39;exemple suivant montre comment :
 * Envoyer une requête simple à OpenAI qui transfère les traces au collecteur exécuté dans le conteneur Docker.
 
 Pour utiliser un collecteur, créez d&#39;abord un fichier `collector-config.yaml` qui configure le collecteur pour recevoir des traces OTLP et les exporter vers Weave :
+
+```yaml lines {23,26} collector-config.yaml title="collector-config.yaml" 
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  otlphttp/weave:
+    endpoint: ${env:WANDB_OTLP_ENDPOINT}
+    headers:
+      wandb-api-key: ${env:WANDB_API_KEY}
+    sending_queue:
+      batch:
+
+processors:
+  resource:
+    attributes:
+      - key: wandb.entity # Champ des attributs de la ressource
+        value: ${env:DEFAULT_WANDB_ENTITY}  # Valeur à injecter
+        action: insert # N’injecter que si l’attribut n’est pas déjà présent
+      - key: wandb.project
+        value: ${env:DEFAULT_WANDB_PROJECT}
+        action: insert 
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resource]
+      exporters: [otlphttp/weave]
+```
 
 Ce fichier de configuration :
 
@@ -322,7 +802,7 @@ Pour envoyer des traces vers des backends supplémentaires, ajoutez d’autres e
   ## Organiser les traces OTel en threads
 </div>
 
-Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en [threads Weave](/fr/weave/guides/tracking/threads), puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours ou les sessions utilisateur dans l’interface Thread de Weave.
+Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en [threads Weave](/fr/weave/guides/tracking/threads), puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours ou les sessions utilisateur.
 
 Ajoutez les attributs suivants à vos spans OTel pour activer le regroupement en threads :
 
@@ -335,45 +815,477 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   Utilisez cette configuration pour exécuter ces exemples :
 
   <Tabs>
-    <Tab title="Python" />
+    <Tab title="Python">
+      ```python lines
+      import json
+      import os
+      from opentelemetry import trace
+      from opentelemetry.sdk import trace as trace_sdk
+      from opentelemetry.sdk.resources import Resource
+      from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+      from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 
-    <Tab title="TypeScript" />
+      # Configuration
+      ENTITY = "<your-team-name>"
+      PROJECT = "<your-project-name>"
+      WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+
+      exporter = OTLPSpanExporter(
+          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          headers={"wandb-api-key": WANDB_API_KEY},
+      )
+
+      tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+          "wandb.entity": ENTITY,
+          "wandb.project": PROJECT,
+      }))
+      tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+      # Facultatif : afficher les spans dans la console
+      tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+      trace.set_tracer_provider(tracer_provider)
+
+      # Crée un tracer à partir du fournisseur de tracer global
+      tracer = trace.get_tracer(__name__)
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      import { trace, context } from "@opentelemetry/api";
+      import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+      import {
+        BatchSpanProcessor,
+        ConsoleSpanExporter,
+      } from "@opentelemetry/sdk-trace-base";
+      import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+      import { Resource } from "@opentelemetry/resources";
+
+      // Configuration
+      const ENTITY = "<your-team-name>";
+      const PROJECT = "<your-project-name>";
+      const WANDB_API_KEY = process.env.WANDB_API_KEY;
+
+      if (!WANDB_API_KEY) {
+        console.error("Error: WANDB_API_KEY environment variable is not set");
+        console.error("Run: export WANDB_API_KEY=your_api_key_here");
+        process.exit(1);
+      }
+
+      // Configuration d'OTel
+      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+
+      const exporter = new OTLPTraceExporter({
+        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers: { "wandb-api-key": WANDB_API_KEY },
+      });
+
+      // Initialise le fournisseur de tracer avec des processeurs de span
+      const provider = new NodeTracerProvider({
+        resource: new Resource({
+          "wandb.entity": ENTITY,
+          "wandb.project": PROJECT,
+        }),
+        spanProcessors: [
+          new BatchSpanProcessor(exporter),
+          new BatchSpanProcessor(new ConsoleSpanExporter()),
+        ],
+      });
+
+      // Enregistre le fournisseur de tracer
+      provider.register();
+
+      // Crée un tracer à partir du fournisseur de tracer global
+      const tracer = trace.getTracer("threads-examples");
+      ```
+    </Tab>
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer un thread simple à un seul tour">
+<Accordion title="Tracer un thread simple en un seul tour">
   <Tabs>
-    <Tab title="Python" />
+    <Tab title="Python">
+      ```python lines
+      def example_1_basic_thread_and_turn():
+          """Example 1: Basic thread with a single turn"""
+          print("\n=== Example 1: Basic Thread and Turn ===")
 
-    <Tab title="TypeScript" />
+          # Créer un contexte de thread
+          thread_id = "thread_example_1"
+
+          # Ce span représente un tour (enfant direct du thread)
+          with tracer.start_as_current_span("process_user_message") as turn_span:
+              # Définir les attributs du thread
+              turn_span.set_attribute("wandb.thread_id", thread_id)
+              turn_span.set_attribute("wandb.is_turn", True)
+
+              # Ajouter quelques attributs d'exemple
+              turn_span.set_attribute("input.value", "Hello, help me with setup")
+
+              # Simuler du travail avec des spans imbriqués
+              with tracer.start_as_current_span("generate_response") as nested_span:
+                  # Il s'agit d'un appel imbriqué dans le tour ; is_turn doit donc être False ou non défini
+                  nested_span.set_attribute("wandb.thread_id", thread_id)
+                  # wandb.is_turn n'est pas défini ou est défini sur False pour les appels imbriqués
+
+                  response = "I'll help you get started with the setup process."
+                  nested_span.set_attribute("output.value", response)
+
+              turn_span.set_attribute("output.value", response)
+              print(f"Turn completed in thread: {thread_id}")
+
+      def main():
+          example_1_basic_thread_and_turn()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_1_basic_thread_and_turn() {
+        console.log("\n=== Example 1: Basic Thread and Turn ===");
+
+        // Créer un contexte de thread
+        const threadId = "thread_example_1";
+
+        // Ce span représente un tour (enfant direct du thread)
+        tracer.startActiveSpan("process_user_message", (turnSpan) => {
+          // Définir les attributs du thread
+          turnSpan.setAttribute("wandb.thread_id", threadId);
+          turnSpan.setAttribute("wandb.is_turn", true);
+
+          // Ajouter quelques attributs d'exemple
+          turnSpan.setAttribute("input.value", "Hello, help me with setup");
+
+          let response: string;
+          
+          // Simuler du travail avec des spans imbriqués
+          tracer.startActiveSpan("generate_response", (nestedSpan) => {
+            // Il s'agit d'un appel imbriqué dans le tour ; is_turn doit donc être false ou non défini
+            nestedSpan.setAttribute("wandb.thread_id", threadId);
+            // wandb.is_turn n'est pas défini ou est défini sur false pour les appels imbriqués
+
+            response = "I'll help you get started with the setup process.";
+            nestedSpan.setAttribute("output.value", response);
+            nestedSpan.end();
+          });
+          
+          turnSpan.setAttribute("output.value", response!);
+          console.log(`Turn completed in thread: ${threadId}`);
+          turnSpan.end();
+        });
+      }
+
+      function main() {
+        example_1_basic_thread_and_turn();
+      }
+
+      main();
+      ```
+    </Tab>
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer une conversation à plusieurs tours partageant un seul ID de thread">
+<Accordion title="Tracer une conversation à plusieurs tours avec le même ID de thread">
   <Tabs>
-    <Tab title="Python" />
+    <Tab title="Python">
+      ```python lines
+      def example_2_multiple_turns():
+          """Exemple 2 : plusieurs tours dans un même thread"""
+          print("\n=== Exemple 2 : plusieurs tours dans le thread ===")
 
-    <Tab title="TypeScript" />
+          thread_id = "thread_conversation_123"
+
+          # Tour 1
+          with tracer.start_as_current_span("process_message_turn1") as turn1_span:
+              turn1_span.set_attribute("wandb.thread_id", thread_id)
+              turn1_span.set_attribute("wandb.is_turn", True)
+              turn1_span.set_attribute("input.value", "Quels langages de programmation recommandez-vous ?")
+
+              # Opérations imbriquées
+              with tracer.start_as_current_span("analyze_query") as analyze_span:
+                  analyze_span.set_attribute("wandb.thread_id", thread_id)
+                  # Pas d'attribut is_turn, ou défini sur False pour les spans imbriqués
+
+              response1 = "Je recommande Python pour les débutants et JavaScript pour le développement web."
+              turn1_span.set_attribute("output.value", response1)
+              print(f"Tour 1 terminé dans le thread : {thread_id}")
+
+          # Tour 2
+          with tracer.start_as_current_span("process_message_turn2") as turn2_span:
+              turn2_span.set_attribute("wandb.thread_id", thread_id)
+              turn2_span.set_attribute("wandb.is_turn", True)
+              turn2_span.set_attribute("input.value", "Pouvez-vous expliquer Python vs JavaScript ?")
+
+              # Opérations imbriquées
+              with tracer.start_as_current_span("comparison_analysis") as compare_span:
+                  compare_span.set_attribute("wandb.thread_id", thread_id)
+                  compare_span.set_attribute("wandb.is_turn", False)  # Explicitement défini sur False pour les spans imbriqués
+
+              response2 = "Python excelle en science des données, tandis que JavaScript domine le développement web."
+              turn2_span.set_attribute("output.value", response2)
+              print(f"Tour 2 terminé dans le thread : {thread_id}")
+
+      def main():
+          example_2_multiple_turns()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_2_multiple_turns() {
+        console.log("\n=== Exemple 2 : plusieurs tours dans le thread ===");
+
+        const threadId = "thread_conversation_123";
+
+        // Tour 1
+        tracer.startActiveSpan("process_message_turn1", (turn1Span) => {
+          turn1Span.setAttribute("wandb.thread_id", threadId);
+          turn1Span.setAttribute("wandb.is_turn", true);
+          turn1Span.setAttribute(
+            "input.value",
+            "Quels langages de programmation recommandez-vous ?"
+          );
+
+          // Opérations imbriquées
+          tracer.startActiveSpan("analyze_query", (analyzeSpan) => {
+            analyzeSpan.setAttribute("wandb.thread_id", threadId);
+            // Pas d'attribut is_turn, ou défini sur false pour les spans imbriqués
+            analyzeSpan.end();
+          });
+
+          const response1 =
+            "Je recommande Python pour les débutants et JavaScript pour le développement web.";
+          turn1Span.setAttribute("output.value", response1);
+          console.log(`Tour 1 terminé dans le thread : ${threadId}`);
+          turn1Span.end();
+        });
+
+        // Tour 2
+        tracer.startActiveSpan("process_message_turn2", (turn2Span) => {
+          turn2Span.setAttribute("wandb.thread_id", threadId);
+          turn2Span.setAttribute("wandb.is_turn", true);
+          turn2Span.setAttribute("input.value", "Pouvez-vous expliquer Python vs JavaScript ?");
+
+          // Opérations imbriquées
+          tracer.startActiveSpan("comparison_analysis", (compareSpan) => {
+            compareSpan.setAttribute("wandb.thread_id", threadId);
+            compareSpan.setAttribute("wandb.is_turn", false); // Explicitement défini sur false pour les spans imbriqués
+            compareSpan.end();
+          });
+
+          const response2 =
+            "Python excelle en science des données, tandis que JavaScript domine le développement web.";
+          turn2Span.setAttribute("output.value", response2);
+          console.log(`Tour 2 terminé dans le thread : ${threadId}`);
+          turn2Span.end();
+        });
+      }
+
+      function main() {
+        example_2_multiple_turns();
+      }
+
+      main();
+      ```
+    </Tab>
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer des opérations profondément imbriquées et marquer uniquement le span le plus externe comme un tour">
+<Accordion title="Tracer des opérations profondément imbriquées et marquer uniquement le span le plus externe comme turn">
   <Tabs>
-    <Tab title="Python" />
+    <Tab title="Python">
+      ```python lines
+      def example_3_complex_nested_structure():
+          """Example 3: Complex nested structure with multiple levels"""
+          print("\n=== Example 3: Complex Nested Structure ===")
 
-    <Tab title="TypeScript" />
+          thread_id = "thread_complex_456"
+
+          # Turn avec plusieurs niveaux d'imbrication
+          with tracer.start_as_current_span("handle_complex_request") as turn_span:
+              turn_span.set_attribute("wandb.thread_id", thread_id)
+              turn_span.set_attribute("wandb.is_turn", True)
+              turn_span.set_attribute("input.value", "Analyze this code and suggest improvements")
+
+              # Opération imbriquée de niveau 1
+              with tracer.start_as_current_span("code_analysis") as analysis_span:
+                  analysis_span.set_attribute("wandb.thread_id", thread_id)
+                  # Pas de is_turn pour les opérations imbriquées
+
+                  # Opération imbriquée de niveau 2
+                  with tracer.start_as_current_span("syntax_check") as syntax_span:
+                      syntax_span.set_attribute("wandb.thread_id", thread_id)
+                      syntax_span.set_attribute("result", "No syntax errors found")
+
+                  # Autre opération imbriquée de niveau 2
+                  with tracer.start_as_current_span("performance_check") as perf_span:
+                      perf_span.set_attribute("wandb.thread_id", thread_id)
+                      perf_span.set_attribute("result", "Found 2 optimization opportunities")
+
+              # Autre opération imbriquée de niveau 1
+              with tracer.start_as_current_span("generate_suggestions") as suggest_span:
+                  suggest_span.set_attribute("wandb.thread_id", thread_id)
+                  suggestions = ["Use list comprehension", "Consider caching results"]
+                  suggest_span.set_attribute("suggestions", json.dumps(suggestions))
+
+              turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
+              print(f"Complex turn completed in thread: {thread_id}")
+
+      def main():
+          example_3_complex_nested_structure()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_3_complex_nested_structure() {
+        console.log("\n=== Example 3: Complex Nested Structure ===");
+
+        const threadId = "thread_complex_456";
+
+        // Turn avec plusieurs niveaux d'imbrication
+        tracer.startActiveSpan("handle_complex_request", (turnSpan) => {
+          turnSpan.setAttribute("wandb.thread_id", threadId);
+          turnSpan.setAttribute("wandb.is_turn", true);
+          turnSpan.setAttribute(
+            "input.value",
+            "Analyze this code and suggest improvements"
+          );
+
+          // Opération imbriquée de niveau 1
+          tracer.startActiveSpan("code_analysis", (analysisSpan) => {
+            analysisSpan.setAttribute("wandb.thread_id", threadId);
+            // Pas de is_turn pour les opérations imbriquées
+
+            // Opération imbriquée de niveau 2
+            tracer.startActiveSpan("syntax_check", (syntaxSpan) => {
+              syntaxSpan.setAttribute("wandb.thread_id", threadId);
+              syntaxSpan.setAttribute("result", "No syntax errors found");
+              syntaxSpan.end();
+            });
+
+            // Autre opération imbriquée de niveau 2
+            tracer.startActiveSpan("performance_check", (perfSpan) => {
+              perfSpan.setAttribute("wandb.thread_id", threadId);
+              perfSpan.setAttribute("result", "Found 2 optimization opportunities");
+              perfSpan.end();
+            });
+
+            analysisSpan.end();
+          });
+
+          // Autre opération imbriquée de niveau 1
+          tracer.startActiveSpan("generate_suggestions", (suggestSpan) => {
+            suggestSpan.setAttribute("wandb.thread_id", threadId);
+            const suggestions = ["Use list comprehension", "Consider caching results"];
+            suggestSpan.setAttribute("suggestions", JSON.stringify(suggestions));
+            suggestSpan.end();
+          });
+
+          turnSpan.setAttribute(
+            "output.value",
+            "Analysis complete with 2 improvement suggestions"
+          );
+          console.log(`Complex turn completed in thread: ${threadId}`);
+          turnSpan.end();
+        });
+      }
+
+      function main() {
+        example_3_complex_nested_structure();
+      }
+
+      main();
+      ```
+    </Tab>
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer des opérations en arrière-plan qui appartiennent à un thread mais ne sont pas des tours">
+<Accordion title="Tracer les opérations en arrière-plan qui appartiennent à un thread mais ne sont pas des tours">
   <Tabs>
-    <Tab title="Python" />
+    <Tab title="Python">
+      ```python lines
+      def example_4_non_turn_operations():
+          """Exemple 4 : opérations faisant partie d'un thread, mais pas des tours"""
+          print("\n=== Exemple 4 : opérations de thread hors tour ===")
 
-    <Tab title="TypeScript" />
+          thread_id = "thread_background_789"
+
+          # Opération en arrière-plan faisant partie du thread, mais pas d'un tour
+          with tracer.start_as_current_span("background_indexing") as bg_span:
+              bg_span.set_attribute("wandb.thread_id", thread_id)
+              # wandb.is_turn n'est pas défini ou vaut false : ce n'est pas un tour
+              bg_span.set_attribute("wandb.is_turn", False)
+              bg_span.set_attribute("operation", "Indexation de l'historique des conversations")
+              print(f"Opération en arrière-plan dans le thread : {thread_id}")
+
+          # Tour réel dans le même thread
+          with tracer.start_as_current_span("user_query") as turn_span:
+              turn_span.set_attribute("wandb.thread_id", thread_id)
+              turn_span.set_attribute("wandb.is_turn", True)
+              turn_span.set_attribute("input.value", "Rechercher mes conversations précédentes")
+              turn_span.set_attribute("output.value", "5 conversations pertinentes trouvées")
+              print(f"Tour terminé dans le thread : {thread_id}")
+
+      def main():
+          example_4_non_turn_operations()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_4_non_turn_operations() {
+        console.log("\n=== Exemple 4 : opérations de thread hors tour ===");
+
+        const threadId = "thread_background_789";
+
+        // Opération en arrière-plan faisant partie du thread, mais pas d'un tour
+        tracer.startActiveSpan("background_indexing", (bgSpan) => {
+          bgSpan.setAttribute("wandb.thread_id", threadId);
+          // wandb.is_turn n'est pas défini ou vaut false : ce n'est pas un tour
+          bgSpan.setAttribute("wandb.is_turn", false);
+          bgSpan.setAttribute("operation", "Indexation de l'historique des conversations");
+          console.log(`Opération en arrière-plan dans le thread : ${threadId}`);
+          bgSpan.end();
+        });
+
+        // Tour réel dans le même thread
+        tracer.startActiveSpan("user_query", (turnSpan) => {
+          turnSpan.setAttribute("wandb.thread_id", threadId);
+          turnSpan.setAttribute("wandb.is_turn", true);
+          turnSpan.setAttribute("input.value", "Rechercher mes conversations précédentes");
+          turnSpan.setAttribute("output.value", "5 conversations pertinentes trouvées");
+          console.log(`Tour terminé dans le thread : ${threadId}`);
+          turnSpan.end();
+        });
+      }
+
+      function main() {
+        example_4_non_turn_operations();
+      }
+
+      main();
+      ```
+    </Tab>
   </Tabs>
 </Accordion>
 
-Après avoir envoyé ces traces, vous pouvez les afficher dans l’interface Weave, sous l’onglet **Threads**, où elles seront regroupées par `thread_id` et chaque tour apparaîtra comme une ligne distincte.
+Une fois ces traces envoyées, vous pouvez les consulter dans la Weave UI, sous l&#39;onglet **Threads**. Elles y seront regroupées par `thread_id`, et chaque tour apparaîtra sur une ligne distincte.
 
 <div id="attribute-mappings">
   ## Correspondance des attributs

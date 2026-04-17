@@ -25,9 +25,66 @@ Les exemples de code suivants montrent comment effectuer les opérations de base
 Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeScript.
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines
+    import weave
+    from weave import Dataset
+    # Initialiser Weave
+    weave.init('intro-example')
 
-  <Tab title="TypeScript" />
+    # Créer un jeu de données
+    dataset = Dataset(
+        name='grammar',
+        rows=[
+            {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+            {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+            {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+        ]
+    )
+
+    # Publier le jeu de données
+    weave.publish(dataset)
+
+    # Récupérer le jeu de données
+    dataset_ref = weave.ref('grammar').get()
+
+    # Accéder à un exemple précis
+    example_label = dataset_ref.rows[2]['sentence']
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    // Initialiser Weave
+    const client = await weave.init('intro-example');
+
+    // Créer un jeu de données
+    const dataset = new weave.Dataset({
+        name: 'grammar',
+        rows: [
+            {id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream."},
+            {id: '1', sentence: "She goed to the store.", correction: "She went to the store."},
+            {id: '2', sentence: "They plays video games all day.", correction: "They play video games all day."}
+        ]
+    });
+
+    // Publier le jeu de données
+    const ref = await dataset.save();
+
+    // Récupérer le jeu de données
+    const retrievedDataset = await client.get(ref);
+
+    // Vous pouvez aussi le récupérer à l’aide d’une chaîne URI
+    const datasetUri = 'weave:///my-entity/intro-example/object/grammar:abc123def456';
+    const refFromUri = weave.ObjectRef.fromUri(datasetUri);
+    const retrievedDatasetFromUri = await client.get(refFromUri);
+
+    // Accéder à un exemple précis
+    const exampleLabel = retrievedDataset.getRow(2).sentence;
+    ```
+  </Tab>
 </Tabs>
 
 <div id="create-a-dataset-from-other-objects">
@@ -41,6 +98,18 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     ### Call Weave
 
     Pour créer un `Dataset` à partir d&#39;un ou de plusieurs appel Weave, récupérez le ou les objets call, puis ajoutez-les à une liste dans la méthode `from_calls`.
+
+    ```python lines
+    @weave.op
+    def model(task: str) -> str:
+        return f"Now working on {task}"
+
+    res1, call1 = model.call(task="fetch")
+    res2, call2 = model.call(task="parse")
+
+    dataset = Dataset.from_calls([call1, call2])
+    # Vous pouvez maintenant utiliser le jeu de données pour évaluer le modèle, etc.
+    ```
 
     ### DataFrame Pandas
 
@@ -73,6 +142,33 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     Ensuite, utilisez la méthode `from_hf`. Si vous fournissez un `DatasetDict` avec plusieurs splits (comme &#39;train&#39;, &#39;test&#39;, &#39;validation&#39;), Weave utilisera automatiquement le split &#39;train&#39; et émettra un avertissement. Si le split &#39;train&#39; n&#39;est pas présent, une erreur sera levée. Vous pouvez aussi fournir directement un split spécifique (par exemple, `hf_dataset_dict['test']`).
 
     Pour reconvertir un `weave.Dataset` en `Dataset` Hugging Face, utilisez la méthode `to_hf`.
+
+    ```python lines
+    # Assurez-vous que datasets est installé : pip install datasets
+    from datasets import Dataset as HFDataset, DatasetDict
+
+    # Exemple avec HF Dataset
+    hf_rows = [
+        {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+        {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+    ]
+    hf_ds = HFDataset.from_list(hf_rows)
+    weave_ds_from_hf = Dataset.from_hf(hf_ds)
+
+    # Reconvertir en HF Dataset
+    converted_hf_ds = weave_ds_from_hf.to_hf()
+
+    # Exemple avec HF DatasetDict (utilise le split 'train' par défaut)
+    hf_dict = DatasetDict({
+        'train': HFDataset.from_list(hf_rows),
+        'test': HFDataset.from_list([{'id': '2', 'sentence': "Test sentence", 'correction': "Test correction"}])
+    })
+    # Cela émettra un avertissement et utilisera le split 'train'
+    weave_ds_from_dict = Dataset.from_hf(hf_dict)
+
+    # Fournir un split spécifique
+    weave_ds_from_test_split = Dataset.from_hf(hf_dict['test'])
+    ```
   </Tab>
 
   <Tab title="TypeScript">
@@ -213,7 +309,27 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
   <Tab title="Python">
     ### Sélection de lignes
 
-    Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` par leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données.
+    Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` à partir de leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données.
+
+    ```python lines
+    import weave
+    from weave import Dataset
+
+    # Créer un exemple de jeu de données
+    dataset = Dataset(rows=[
+        {'col_a': 1, 'col_b': 'x'},
+        {'col_a': 2, 'col_b': 'y'},
+        {'col_a': 3, 'col_b': 'z'},
+        {'col_a': 4, 'col_b': 'w'},
+    ])
+
+    # Sélectionner les lignes d’index 0 et 2
+    subset_dataset = dataset.select([0, 2])
+
+    # subset_dataset contient maintenant uniquement la première et la troisième ligne
+    # print(list(subset_dataset))
+    # Sortie : [{'col_a': 1, 'col_b': 'x'}, {'col_a': 3, 'col_b': 'z'}]
+    ```
   </Tab>
 
   <Tab title="TypeScript">

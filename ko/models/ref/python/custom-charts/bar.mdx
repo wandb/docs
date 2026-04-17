@@ -25,14 +25,43 @@ bar(
 
 **매개변수:**
 
-* `table`: 막대 차트용 데이터가 포함된 테이블입니다.
-* `label`: 각 막대의 레이블에 사용할 열 이름입니다.
-* `value`: 각 막대의 값에 사용할 열 이름입니다.
-* `title`: 막대 차트의 제목입니다.
-* `split_table`: 테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;맞춤형 차트 테이블&quot;이라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+* `table`:  막대 차트용 데이터가 포함된 테이블입니다.
+* `label`:  각 막대의 레이블에 사용할 열 이름입니다.
+* `value`:  각 막대의 값에 사용할 열 이름입니다.
+* `title`:  막대 차트의 제목입니다.
+* `split_table`:  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;맞춤형 차트 테이블&quot;이라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
 
 **반환값:**
 
-* `CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
+* `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
 **예시:**
+
+```python
+import random
+import wandb
+
+# 테이블에 사용할 임의 데이터 생성
+data = [
+    ["car", random.uniform(0, 1)],
+    ["bus", random.uniform(0, 1)],
+    ["road", random.uniform(0, 1)],
+    ["person", random.uniform(0, 1)],
+]
+
+# 데이터로 테이블 생성
+table = wandb.Table(data=data, columns=["class", "accuracy"])
+
+# W&B run 초기화 및 막대 그래프 로깅
+with wandb.init(project="bar_chart") as run:
+    # 테이블에서 막대 그래프 생성
+    bar_plot = wandb.plot.bar(
+         table=table,
+         label="class",
+         value="accuracy",
+         title="Object Classification Accuracy",
+    )
+
+    # W&B에 막대 차트 로깅
+    run.log({"bar_plot": bar_plot})
+```

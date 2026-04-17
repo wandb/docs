@@ -69,6 +69,29 @@ Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tra
 
 Dans l&#39;exemple ci-dessous, la fonction `recommend_places_to_visit`, encapsulée avec `@weave.op`, recommande des lieux à visiter dans une ville.
 
+```python lines
+import os
+from google import genai
+import weave
+
+weave.init(project_name="google-genai")
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+
+
+@weave.op()
+def recommend_places_to_visit(city: str, model: str = "gemini-1.5-flash"):
+    response = google_client.models.generate_content(
+        model=model,
+        contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
+    )
+    return response.text
+
+
+recommend_places_to_visit("New York")
+recommend_places_to_visit("Paris")
+recommend_places_to_visit("Kolkata")
+```
+
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
 <div id="create-a-model-for-easier-experimentation">
@@ -80,3 +103,30 @@ Il est difficile d’organiser une expérimentation lorsqu’il y a de nombreux 
 En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Évaluation`](../core-types/evaluations)s.
 
 Dans l’exemple ci-dessous, vous pouvez expérimenter avec `CityVisitRecommender`. Chaque fois que vous modifiez l’un de ces éléments, vous obtenez une nouvelle *version* de `CityVisitRecommender`.
+
+```python lines
+import os
+from google import genai
+import weave
+
+weave.init(project_name="google-genai")
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+
+
+class CityVisitRecommender(weave.Model):
+    model: str
+
+    @weave.op()
+    def predict(self, city: str) -> str:
+        response = google_client.models.generate_content(
+            model=self.model,
+            contents="Vous êtes un assistant serviable destiné à suggérer tous les endroits économiques à visiter dans une ville",
+        )
+        return response.text
+
+
+city_recommender = CityVisitRecommender(model="gemini-1.5-flash")
+print(city_recommender.predict("New York"))
+print(city_recommender.predict("San Francisco"))
+print(city_recommender.predict("Los Angeles"))
+```

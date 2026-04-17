@@ -60,11 +60,71 @@ pip install -qq "mcp[cli]" weave
 
 MCP 서버를 트레이스하려면 기존 `FastMCP` 설정에 두 줄만 추가하면 됩니다. 한 줄은 Weave를 임포트하고, 다른 한 줄은 클라이언트를 초기화합니다. 추가한 뒤에는 도구, 리소스, 프롬프트 오퍼레이션이 자동으로 트레이스됩니다.
 
+```python lines
+# Weave 임포트 (트레이싱에 필요)
+import weave
+from mcp.server.fastmcp import FastMCP
+
+# 프로젝트 이름으로 Weave 초기화
+weave_client = weave.init("my-project")
+
+# MCP 서버 설정
+mcp = FastMCP("Demo")
+
+# 도구 정의 (이 call은 트레이싱됩니다)
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """두 숫자를 더합니다."""
+    return a + b
+
+# 리소스 정의 (이 call은 트레이싱됩니다)
+@mcp.resource("greeting://{name}")
+def get_greeting(name: str) -> str:
+    """개인화된 인사말을 반환합니다."""
+    return f"Hello, {name}!"
+
+# 프롬프트 정의 (이 call은 트레이싱됩니다)
+@mcp.prompt()
+def review_code(code: str) -> str:
+    """코드 검토를 위한 프롬프트를 반환합니다."""
+    return f"Please review this code:\n\n{code}"
+
+# 서버 시작
+mcp.run(transport="stdio")
+```
+
+
 <div id="client-side-integration">
   ### 클라이언트 측 인테그레이션
 </div>
 
 클라이언트 측에서 트레이싱하려면 두 가지만 하면 됩니다. Weave를 임포트하고 초기화하세요. 모든 도구 call, 리소스 액세스, 프롬프트 요청은 자동으로 트레이스됩니다.
+
+```python lines
+# Weave 임포트 (트레이싱에 필요)
+import weave
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+# 프로젝트 이름으로 Weave 초기화
+weave_client = weave.init("my-project")
+
+# MCP 클라이언트 설정 및 실행
+async with stdio_client(server_params) as (read, write):
+    async with ClientSession(read, write) as session:
+        # 세션 초기화
+        await session.initialize()
+        
+        # 도구 호출 (트레이싱됨)
+        result = await session.call_tool("add", arguments={"a": 1, "b": 2})
+        
+        # 리소스 조회 (트레이싱됨)
+        resource = await session.read_resource("greeting://user")
+        
+        # 프롬프트 조회 (트레이싱됨)
+        prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
+```
+
 
 <div id="tutorial-mcp_demo-example">
   ## 튜토리얼: `mcp_demo` 예제

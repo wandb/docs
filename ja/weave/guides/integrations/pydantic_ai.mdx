@@ -48,6 +48,37 @@ PydanticAI から Weave にトレースを送信するには、`TracerProvider` 
 
 次のコード例では、PydanticAI アプリケーションから Weave に OTEL トレースを送信するために、OTLP span exporter と トレーサープロバイダー を設定する方法を示します。
 
+```python lines
+import base64
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+
+# 環境変数から機密情報を読み込む
+WANDB_BASE_URL = "https://trace.wandb.ai"
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  # W&B entity/プロジェクト名 例: "myteam/myproject"
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  # W&B APIキー
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# エンドポイントとヘッダーを指定してOTLPスパンエクスポーターを作成する
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# トレーサープロバイダーを作成してエクスポーターを追加する
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+```
+
 <div id="trace-pydanticai-agents-with-otel">
   ## OTEL で PydanticAI Agents をトレースする
 </div>
@@ -56,9 +87,25 @@ PydanticAI エージェントをトレースし、トレースデータを Weave
 
 次の例では、トレースを有効にしたシンプルなエージェントを作成する方法を示します。重要な step は、エージェントの初期化時に `instrument` 引数を設定することです。
 
+```python lines
+from pydantic_ai import Agent
+from pydantic_ai.models.instrumented import InstrumentationSettings
+
+# OTELトレースを使用してPydanticAIエージェントを作成する
+agent = Agent(
+    "openai:gpt-4o",
+    instrument=InstrumentationSettings(tracer_provider=tracer_provider),
+)
+
+result = agent.run_sync("What is the capital of France?")
+print(result.output)
+```
+
 エージェントへのすべてのcallはトレースされ、Weave に送信されます。
 
-<Frame>![シンプルなPydanticAIエージェントのトレースの可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png)</Frame>
+<Frame>
+  ![シンプルなPydanticAIエージェントのトレースの可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png)
+</Frame>
 
 <div id="trace-pydanticai-tools-with-otel">
   ## OTEL で PydanticAI のツールをトレースする
@@ -68,7 +115,34 @@ Weave では、エージェント と ツール の call を含む、OTEL でイ
 
 次の例では、system prompt とツールを備えた エージェント を作成する方法を示します。トレースは エージェント とツールの両方で自動的に有効になります。
 
-<Frame>![ツール call のトレース可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png)</Frame>
+```python lines
+from pydantic_ai import Agent
+from pydantic_ai.models.instrumented import InstrumentationSettings
+
+# system promptとOTELトレースを使用してPydanticAIエージェントを作成する
+agent = Agent(
+    "openai:gpt-4o",
+    system_prompt=(
+        "You are a helpful assistant that can multiply numbers. "
+        "When asked to multiply numbers, use the multiply tool."
+    ),
+    instrument=InstrumentationSettings(tracer_provider=tracer_provider),
+)
+
+# ツールを定義する
+@agent.tool_plain
+def multiply(a: int, b: int) -> int:
+    """2つの数値を掛け合わせる。"""
+    return a * b
+
+# エージェントにツールを使用するよう指示する
+result = agent.run_sync("What is 7 multiplied by 8?")
+print(result.output)
+```
+
+<Frame>
+  ![ツール call のトレース可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png)
+</Frame>
 
 エージェント call と ツール call はどちらも Weave でトレースされるため、アプリケーションの推論から実行までの全経路を確認できます.
 
@@ -77,6 +151,21 @@ Weave では、エージェント と ツール の call を含む、OTEL でイ
 </div>
 
 アプリケーション内のすべての PydanticAI エージェントに OTEL トレースを適用するには、`Agent.instrument_all()` method を使用します。これにより、`instrument` パラメーターを明示的に指定していないエージェントに対して、デフォルトの `InstrumentationSettings` インスタンスが設定されます。
+
+```python lines
+from pydantic_ai import Agent
+from pydantic_ai.models.instrumented import InstrumentationSettings
+
+# すべてのエージェントにデフォルトのインストルメンテーションを設定する
+Agent.instrument_all(InstrumentationSettings(tracer_provider=tracer_provider))
+
+# 以降、新しいエージェントはデフォルトでこのインストルメンテーションを使用する
+agent1 = Agent("openai:gpt-4o")
+agent2 = Agent("openai:gpt-4o", system_prompt="Be helpful.")
+
+result = agent1.run_sync("What is the capital of France?")
+print(result.output)
+```
 
 これは、設定を繰り返し記述することなく、すべてのエージェントで一貫したトレースを実現したい大規模なアプリケーションで役立ちます。詳細については、[PydanticAI OTEL ドキュメント](https://ai.pydantic.dev/logfire/#using-logfire)を参照してください。
 

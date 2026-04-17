@@ -21,6 +21,12 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 `wandb` をインストールするだけで、W&amp;B 組み込みの [ログ機能](/ja/models/track/log/) が有効になり、システムメトリクス、モデルメトリクス、さらに対話型の [ダッシュボード](/ja/models/track/workspaces/) にログされるメディアを記録できるようになります。
 
+```python
+pip install wandb
+git clone https://github.com/ultralytics/yolov5.git
+python yolov5/train.py  # 小さなデータセットで小規模なネットワークをトレーニングする
+```
+
 wandb が標準出力に出力するリンクをたどるだけです。
 
 <Frame>

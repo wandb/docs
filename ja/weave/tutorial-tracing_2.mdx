@@ -1,16 +1,68 @@
 ---
 title: "ネストされた関数をトレースする"
-description: "W&B tracing を使用して深くネストされた Call 構造をトラッキングする方法を学びます"
+description: "W&B トレースを使用して、深くネストした Call 構造をトラッキングする方法を学びます"
 ---
 
-LLM を活用したアプリケーションには、監視が重要な複数の LLM Call、追加のデータ処理、検証ロジックが含まれることがあります。こうしたネストされた関数とその親子関係は、Python では `@weave.op()` デコレーターを使用し、TypeScript では `weave.op()` でラップすることで、Weave でトラッキングできます。
+LLM を活用したアプリケーションには、複数の LLM 呼び出しに加えて、監視が重要な追加のデータ処理や検証ロジックが含まれることがあります。これらのネストされた関数とその親子関係は、Python では `@weave.op()` デコレーターを使用し、TypeScript では `weave.op()` でラップすることで、Weave でトラッキングできます。
 
-アプリケーションの完全な実行フローを取得するため、関数とサブ関数はできるだけ細かい粒度でデコレートすることをお勧めします。これにより、アプリケーションの動作をより深く理解し、改善しやすくなります。
+アプリケーションの完全な実行フローを把握するために、関数やサブ関数はできるだけ細かい粒度でデコレートすることをお勧めします。これにより、アプリケーションの挙動をより深く理解し、改善しやすくなります。
 
-次のコードは [クイックスタートの例](/ja/weave/quickstart) を基に、LLM から返された項目数を数え、それらをより上位レベルの関数でラップするロジックを追加したものです。さらに、この例では `weave.op()` を使用して、すべての関数、その Call 順序、および親子関係をトレースします。
+次のコードは、[クイックスタートの例](/ja/weave/quickstart) を基に、LLM から返された項目数を数え、それらをより上位の関数でまとめるロジックを追加したものです。さらに、この例では `weave.op()` を使用して、すべての関数、その呼び出し順序、および親子関係をトレースします:
 
 <Tabs>
   <Tab title="Python">
+    ```python {1,7,26,32,42}
+    import weave
+    import json
+    from openai import OpenAI
+
+    client = OpenAI()
+
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """Extract any dinosaur `name`, their `common_name`, \
+    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    @weave.op()
+    def count_dinos(dino_data: dict) -> int:
+        # 返されたリスト内の項目数を数える
+        k = list(dino_data.keys())[0]
+        return len(dino_data[k])
+
+    @weave.op()
+    def dino_tracker(sentence: str) -> dict:
+        # LLM を使用して恐竜を抽出する
+        dino_data = extract_dinos(sentence)
+
+        # 返された恐竜の数を数える
+        dino_data = json.loads(dino_data)
+        n_dinos = count_dinos(dino_data)
+        return {"n_dinosaurs": n_dinos, "dinosaurs": dino_data}
+
+    weave.init('jurassic-park')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = dino_tracker(sentence)
+    print(result)
+    ```
+
     **ネストされた関数**
 
     上記のコードを実行すると、**Traces** ページに、ネストされた 2 つの関数 (`extract_dinos` と `count_dinos`) の入力と出力に加え、自動的に記録された OpenAI のトレースが表示されます。
@@ -81,12 +133,26 @@ LLM を活用したアプリケーションには、監視が重要な複数の 
   ## メタデータをトラッキングする
 </div>
 
-`weave.attributes` コンテキストマネージャーを使用し、Call 時にトラッキングするメタデータを含む辞書を渡すことで、メタデータをトラッキングできます。
+`weave.attributes` コンテキストマネージャーを使用し、call 時にトラッキングするメタデータを含む辞書を渡すことで、メタデータをトラッキングできます。
 
 上記の例の続きです。
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines {1,10-11}
+    import weave
+
+    weave.init('jurassic-park')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    # 以前に定義した関数とあわせてメタデータをトラッキングする
+    with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
+        result = dino_tracker(sentence)
+    ```
+  </Tab>
 
   <Tab title="TypeScript">
     ```plaintext

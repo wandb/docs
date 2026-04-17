@@ -14,6 +14,38 @@ Il appelle ensuite tous les évaluateurs et enregistre les résultats dans weave
 
 `Exemple`
 
+```ts
+// Collectez vos exemples dans un jeu de données
+const dataset = new weave.Dataset({
+  id: 'my-dataset',
+  rows: [
+    { question: 'What is the capital of France?', expected: 'Paris' },
+    { question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee' },
+    { question: 'What is the square root of 64?', expected: '8' },
+  ],
+});
+
+// Définissez une fonction de score personnalisée
+const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
+  return modelOutput == datasetRow.expected;
+});
+
+// Définissez la fonction à évaluer
+const model = weave.op(async function alwaysParisModel({ question }) {
+  return 'Paris';
+});
+
+// Lancez l'évaluation
+const evaluation = new weave.Evaluation({
+  id: 'my-evaluation',
+  dataset: dataset,
+  scorers: [scoringFunction],
+});
+
+const results = await evaluation.evaluate({ model });
+```
+
+
 ## Paramètres de type
 
 | Nom | Type                 |

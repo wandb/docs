@@ -81,7 +81,7 @@ with wandb.init(project="<my-project-name>") as run:
 아티팩트를 생성할 때 W&amp;B Python SDK를 사용해 TTL 정책을 정의합니다. TTL 정책은 일반적으로 일 단위로 정의합니다.
 
 <Note>
-  아티팩트를 생성할 때 TTL 정책을 정의하는 방식은 일반적으로 [아티팩트를 생성하는 방법](/ko/models/artifacts/construct-an-artifact/)과 유사합니다. 다른 점은 아티팩트의 `ttl` 속성에 시간 차이를 전달한다는 것입니다.
+  아티팩트를 생성할 때 TTL 정책을 정의하는 방식은 일반적으로 [아티팩트를 생성하는 방법](/ko/models/artifacts/construct-an-artifact/)과 유사합니다. 다른 점은 아티팩트의 `ttl` 속성에 time delta를 전달한다는 것입니다.
 </Note>
 
 step은 다음과 같습니다.
@@ -93,6 +93,18 @@ step은 다음과 같습니다.
 
 다음 코드 스니펫은 아티팩트를 생성하고 TTL 정책을 설정하는 방법을 보여줍니다.
 
+```python
+import wandb
+from datetime import timedelta
+
+with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
+    artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
+    artifact.add_file("<my_file>")
+
+    artifact.ttl = timedelta(days=30)  # TTL policy 설정
+    run.log_artifact(artifact)
+```
+
 앞의 코드 스니펫은 아티팩트의 TTL 정책을 30일로 설정합니다. 즉, W&amp;B는 30일이 지나면 아티팩트를 삭제합니다.
 
 <div id="set-or-edit-a-ttl-policy-after-you-create-an-artifact">
@@ -101,7 +113,9 @@ step은 다음과 같습니다.
 
 W&amp;B App UI 또는 W&amp;B Python SDK를 사용해 이미 존재하는 아티팩트의 TTL 정책를 정의합니다.
 
-<Note>아티팩트의 TTL을 수정해도 아티팩트가 만료되기까지의 시간은 여전히 아티팩트의 `createdAt` Timestamp를 기준으로 계산됩니다.</Note>
+<Note>
+  아티팩트의 TTL을 수정해도 아티팩트가 만료되기까지의 시간은 여전히 아티팩트의 `createdAt` Timestamp를 기준으로 계산됩니다.
+</Note>
 
 <Tabs>
   <Tab title="Python SDK">
@@ -110,6 +124,15 @@ W&amp;B App UI 또는 W&amp;B Python SDK를 사용해 이미 존재하는 아티
     3. [`save`](/ko/models/ref/python/experiments/run#save) 방법로 아티팩트를 업데이트합니다.
 
     다음 코드 스니펫은 아티팩트에 TTL 정책를 설정하는 방법을 보여줍니다:
+
+    ```python
+    import wandb
+    from datetime import timedelta
+
+    artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+    artifact.ttl = timedelta(days=365 * 2)  # 2년 후 삭제
+    artifact.save()
+    ```
 
     위 코드 예제는 TTL 정책를 2년으로 설정합니다.
   </Tab>
@@ -160,6 +183,16 @@ W&amp;B App UI 또는 W&amp;B Python SDK를 사용해 이미 존재하는 아티
 Public API를 사용해 run을 가져오지 않고 아티팩트를 조회한 후 TTL 정책을 설정합니다. TTL 정책은 일반적으로 일(day) 단위로 정의됩니다.
 
 다음 코드 예제에서는 Public API를 사용해 아티팩트를 가져오고 TTL 정책을 설정하는 방법을 보여줍니다.
+
+```python
+api = wandb.Api()
+
+artifact = api.artifact("entity/project/artifact:alias")
+
+artifact.ttl = timedelta(days=365)  # 1년 후 삭제
+
+artifact.save()
+```
 
 <div id="deactivate-a-ttl-policy">
   ## TTL 정책 비활성화

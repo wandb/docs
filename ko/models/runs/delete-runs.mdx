@@ -23,6 +23,16 @@ W&amp;B App 또는 Python API를 사용해 프로젝트에서 Runs를 삭제할 
   <Tab title="Python" value="python">
     [`Run.delete()`](/ko/models/ref/python/public-api/run#method-run-delete)를 사용하면 프로그래밍 방식으로 Runs를 삭제할 수 있습니다. run에 연결된 아티팩트도 함께 제거하려면 `delete_artifacts=True`로 설정하세요.
 
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+    for run in runs:
+        if run.state == "finished":  # 사용자 조건으로 바꾸세요
+            run.delete(delete_artifacts=False)
+    ```
+
     전체 메서드 시그니처와 동작은 [`Run.delete` 레퍼런스](/ko/models/ref/python/public-api/run#method-run-delete)를 참조하세요.
 
     로깅된 미디어처럼 run에 첨부된 개별 파일을 제거하려면 다음과 같이 하세요.
@@ -35,8 +45,7 @@ W&amp;B App 또는 Python API를 사용해 프로젝트에서 Runs를 삭제할 
 run ID는 run이 삭제된 후에도 재사용할 수 없습니다. 재사용하려고 하면 해당 run은 오류와 함께 실패합니다.
 
 <Warning>
-  run을 삭제하면서 연결된 아티팩트도 삭제하도록 선택하면, 해당 아티팩트는 영구적으로 제거되며 나중에 run을 복원하더라도 복구할 수 없습니다. 여기에는
-  레지스트리에 연결된 아티팩트도 포함됩니다.
+  run을 삭제하면서 연결된 아티팩트도 삭제하도록 선택하면, 해당 아티팩트는 영구적으로 제거되며 나중에 run을 복원하더라도 복구할 수 없습니다. 여기에는 레지스트리에 연결된 아티팩트도 포함됩니다.
 </Warning>
 
 <div id="run-deletion-flowchart">
@@ -44,6 +53,29 @@ run ID는 run이 삭제된 후에도 재사용할 수 없습니다. 재사용하
 </div>
 
 다음 다이어그램은 관련 아티팩트와 레지스트리 링크 처리까지 포함한 전체 run 삭제 과정을 보여 줍니다.
+
+```mermaid
+graph TB
+    Start([사용자가<br/>run 삭제 시작]) --> RunSelect[삭제할 Runs<br/>선택]
+    RunSelect --> DeletePrompt{연관된<br/>아티팩트도 삭제하시겠습니까?}
+    DeletePrompt -->|아니요| DeleteRunOnly[run만 삭제<br/><br/>- run 메타데이터 삭제됨<br/>- 아티팩트는 계속 사용 가능<br/>- 아티팩트에는 계속 액세스 가능]
+    DeletePrompt -->|예| CheckArtifacts[연관된 아티팩트<br/>확인]
+    CheckArtifacts --> HasRegistry{아티팩트가<br/>Model 레지스트리에 연결되어 있습니까?}
+    HasRegistry -->|예| RegistryWarning[⚠️ 경고<br/><br/>레지스트리 모델이 삭제됩니다<br/>프로덕션 별칭에 영향이 있습니다]
+    HasRegistry -->|아니요| DirectDelete
+    RegistryWarning --> ConfirmRegistry{레지스트리<br/>모델 삭제를 확인하시겠습니까?}
+    ConfirmRegistry -->|아니요| DeleteRunOnly
+    ConfirmRegistry -->|예| DirectDelete[run + 아티팩트 삭제<br/><br/>- run 메타데이터 삭제됨<br/>- 아티팩트 영구 삭제됨<br/>- 레지스트리 연결 제거됨<br/>- 복구할 수 없음]
+    DeleteRunOnly --> PartialEnd([run 삭제됨<br/>아티팩트 유지됨])
+    DirectDelete --> FullEnd([run + 아티팩트<br/>영구 삭제됨])
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
 
 <div id="when-deleted-run-data-is-removed-from-storage">
   ## 삭제된 run 데이터가 저장소에서 제거되는 시점

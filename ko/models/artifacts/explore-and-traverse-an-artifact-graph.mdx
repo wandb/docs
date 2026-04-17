@@ -69,6 +69,15 @@ artifact의 리니지 그래프를 보려면 다음 단계를 따르세요:
   <Tab title="W&B Python SDK">
     W&amp;B Python SDK를 사용해 프로그래밍 방식으로 그래프를 탐색할 수 있습니다. artifact 객체의
     [`logged_by()`](/ko/models/ref/python/experiments/artifact#method-artifact-logged-by) 및 [`used_by()`](/ko/models/ref/python/experiments/artifact#method-artifact-used-by) 메서드를 사용해 그래프를 따라가세요:
+
+    ```python
+    with wandb.init() as run:
+        artifact = run.use_artifact("artifact_name:latest")
+
+        # artifact에서 그래프를 위아래로 따라갑니다:
+        producer_run = artifact.logged_by()
+        consumer_runs = artifact.used_by()
+    ```
   </Tab>
 </Tabs>
 
@@ -89,6 +98,15 @@ artifact의 이름 형식은 `<artifact_name>:<version>` 또는 `<artifact_name>
 
 꺾쇠괄호(`< >`)로 묶인 값을 실제 값으로 바꾸세요:
 
+```python
+import wandb
+
+# run 초기화
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # artifact 조회 후 dependency로 표시
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
+```
+
 <div id="track-the-output-of-a-run">
   ### run의 출력 추적하기
 </div>
@@ -98,6 +116,20 @@ artifact의 이름 형식은 `<artifact_name>:<version>` 또는 `<artifact_name>
 `wandb.Run.log_artifact()`를 사용해 artifact를 run의 출력으로 로그합니다.
 
 꺾쇠괄호(`< >`)로 둘러싸인 값을 사용자 값으로 바꾸세요:
+
+```python
+import wandb
+
+# run 초기화
+with wandb.init(entity="<entity>", project="<project>") as run:
+  
+  # artifact 생성
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
+
+  # artifact를 run의 출력으로 로그
+  run.log_artifact(artifact_or_path = artifact)
+```
 
 <div id="artifact-clusters">
   ## Artifact cluster

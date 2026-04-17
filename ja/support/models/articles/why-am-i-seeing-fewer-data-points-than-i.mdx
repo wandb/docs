@@ -27,18 +27,19 @@ with wandb.init() as run:
 
 step パラメーターを手動で制御するには、以下のようにコード内でメトリクスを同期してください。
 
+```python
+with wandb.init() as run:
+    step = 100  # stepの値の例
+    # 同じstepでPrecisionとRecallをログする
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
 メトリクスが同じ step に記録され、一緒にサンプリングされるようにするには、両方の `log()` 呼び出しで `step` の値を同じにしてください。`step` の値は、呼び出しのたびに単調増加している必要があります。そうでない場合、`step` の値は無視されます。
 
 ***
 
 {/* AUTO-GENERATED: tab badges */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Experiments](/ja/support/models/tags/experiments)
-</Badge>
-
-<Badge stroke shape="pill" color="orange" size="md">
-  [メトリクス](/ja/support/models/tags/metrics)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
 {/* END AUTO-GENERATED: tab badges */}

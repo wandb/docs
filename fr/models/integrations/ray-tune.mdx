@@ -80,6 +80,39 @@ from ray.air.integrations.wandb import setup_wandb
 
 Cette fonction utilitaire permet d’initialiser wandb pour l’utiliser avec Ray Tune. Pour une utilisation de base, appelez `setup_wandb()` dans votre fonction d’entraînement :
 
+```python
+from ray.air.integrations.wandb import setup_wandb
+
+
+def train_fn(config):
+    # Initialiser wandb
+    wandb = setup_wandb(config)
+    run = wandb.init(
+        project=config["wandb"]["project"],
+        api_key_file=config["wandb"]["api_key_file"],
+    )
+
+    for i in range(10):
+        loss = config["a"] + config["b"]
+        run.log({"loss": loss})
+        tune.report(loss=loss)
+    run.finish()
+
+
+tuner = tune.Tuner(
+    train_fn,
+    param_space={
+        # définir l'espace de recherche ici
+        "a": tune.choice([1, 2, 3]),
+        "b": tune.choice([4, 5, 6]),
+        # configuration wandb
+        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
+    },
+)
+results = tuner.fit()
+```
+
+
 <div id="example-code">
   ## Exemple de code
 </div>

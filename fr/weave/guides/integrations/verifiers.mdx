@@ -19,6 +19,17 @@ Ce guide vous montre comment installer Verifiers, W&amp;B et Weave, et fournit d
 
 Pour intégrer Verifiers avec Weave, commencez par installer la bibliothèque Verifiers avec `uv` ([comme le recommandent les auteurs de la bibliothèque](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Utilisez l’une des commandes suivantes pour installer la bibliothèque :
 
+```bash
+# Installe la bibliothèque principale pour le développement local et les modèles basés sur API
+uv add verifiers
+
+# Installe la version complète de la bibliothèque avec toutes les dépendances facultatives, y compris PyTorch et la prise en charge GPU
+uv add 'verifiers[all]' && uv pip install flash-attn --no-build-isolation
+
+# Installe la dernière version de la bibliothèque directement depuis GitHub, y compris les dernières fonctionnalités et correctifs non encore publiés
+uv add verifiers @ git+https://github.com/willccbb/verifiers.git
+```
+
 Installez ensuite Weave et W&amp;B :
 
 ```bash
@@ -36,6 +47,40 @@ Une fois les bibliothèques nécessaires installées, vous pouvez utiliser Weave
 L&#39;exemple de script suivant montre comment exécuter une évaluation avec Verifiers et enregistrer les résultats dans Weave. Le script teste la capacité du LLM à résoudre des problèmes de mathématiques à l&#39;aide du [jeu de données GSM8K](https://huggingface.co/datasets/openai/gsm8k). Il demande à GPT-4 de résoudre deux problèmes de mathématiques, extrait la valeur numérique de chaque réponse, puis note la tentative en utilisant Verifiers comme framework d&#39;évaluation.
 
 Exécutez l&#39;exemple et examinez les résultats dans Weave :
+
+```python lines
+import os
+from openai import OpenAI
+import verifiers as vf
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+# Initialiser Weave
+weave.init("verifiers_demo")
+
+# Environnement minimal à tour unique
+dataset = vf.load_example_dataset("gsm8k", split="train").select(range(2))
+parser = vf.ThinkParser()
+
+def correct_answer(parser, completion, answer):
+    parsed = parser.parse_answer(completion) or ""
+    return 1.0 if parsed.strip() == answer.strip() else 0.0
+
+rubric = vf.Rubric(funcs=[correct_answer, parser.get_format_reward_func()], weights=[1.0, 0.2])
+
+env = vf.SingleTurnEnv(
+    dataset=dataset,
+    system_prompt="Réfléchis étape par étape, puis réponds.",
+    parser=parser,
+    rubric=rubric,
+)
+
+client = OpenAI()
+results = env.evaluate(
+    client, "gpt-4.1-mini", num_examples=2, rollouts_per_example=2, max_concurrent=8
+)
+```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
   ### Affiner un modèle avec le suivi des expériences et le Tracing
@@ -64,6 +109,14 @@ vf-install gsm8k --from-repo
 ```
 
 3. Entraînez votre modèle. Les commandes suivantes lancent respectivement le serveur d’inférence et la boucle d’entraînement. Dans cet exemple de flux de travail, `report_to=wandb` est défini par défaut, vous n’avez donc pas besoin d’appeler `wandb.init` séparément. Vous serez invité à authentifier cette machine pour consigner des métriques sur W&amp;B.
+
+```bash
+# Lance le serveur d'Inférence
+CUDA_VISIBLE_DEVICES=0 vf-vllm --model willcb/Qwen3-0.6B --enforce-eager --disable-log-requests
+
+# Lance la boucle d'entraînement
+CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs/zero3.yaml examples/grpo/train_gsm8k.py
+```
 
 <Note>
   Nous avons testé avec succès cet exemple sur 2xH100 et défini les variables d’environnement suivantes pour améliorer la stabilité :

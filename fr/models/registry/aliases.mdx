@@ -39,7 +39,9 @@ Créez un ou plusieurs alias personnalisés pour des versions spécifiques d&#39
 
 Tout utilisateur ayant le rôle de registre [**Member** ou **Admin**](/fr/models/registry/configure_registry/#registry-roles) sur un registre peut ajouter ou supprimer un alias personnalisé d&#39;un artifact lié dans ce registre. Les Users ayant les rôles [**Restricted Viewer** ou **Viewer**](/fr/models/registry/configure_registry/#registry-roles) ne peuvent pas ajouter ni supprimer d&#39;alias.
 
-<Note>Les [alias protégés](/fr/models/registry/aliases/#protected-aliases) permettent d&#39;étiqueter et d&#39;identifier les versions d&#39;artifact à protéger contre toute modification ou suppression.</Note>
+<Note>
+  Les [alias protégés](/fr/models/registry/aliases/#protected-aliases) permettent d&#39;étiqueter et d&#39;identifier les versions d&#39;artifact à protéger contre toute modification ou suppression.
+</Note>
 
 Vous pouvez créer un alias personnalisé dans le W&amp;B Registry ou avec le SDK Python. Selon votre cas d&#39;utilisation, cliquez sur l&#39;onglet ci-dessous qui correspond le mieux à vos besoins.
 
@@ -55,6 +57,35 @@ Vous pouvez créer un alias personnalisé dans le W&amp;B Registry ou avec le SD
     Lorsque vous liez une version d&#39;artifact à une collection avec le SDK Python, vous pouvez facultativement fournir une liste d&#39;un ou plusieurs alias comme argument du paramètre `alias` dans [`link_artifact()`](/fr/models/ref/python/experiments/run.md/#link_artifact). W&amp;B crée un alias ([alias non protégé](#custom-aliases)) pour vous si l&#39;alias que vous fournissez n&#39;existe pas déjà.
 
     L&#39;extrait de code suivant montre comment lier une version d&#39;artifact à une collection et ajouter des alias à cette version d&#39;artifact avec le SDK Python. Remplacez les valeurs entre `<>` par les vôtres :
+
+    ```python
+    import wandb
+
+    # Initialiser un run
+    with wandb.init(entity = "<team_entity>", project = "<project_name>") as run:
+
+        # Créer un objet artifact
+        # Le paramètre type spécifie à la fois le type de l'objet
+        # artifact et le type de collection
+        artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+        # Ajouter le fichier à l'objet artifact. 
+        # Spécifiez le chemin du fichier sur votre machine locale.
+        artifact.add_file(local_path = "<local_path_to_artifact>")
+
+        # Spécifier la collection et le registre auxquels lier l'artifact
+        REGISTRY_NAME = "<registry_name>"
+        COLLECTION_NAME = "<collection_name>"
+        target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+        # Lier la version d'artifact à la collection
+        # Ajouter un ou plusieurs alias à cette version d'artifact
+        run.link_artifact(
+            artifact = artifact, 
+            target_path = target_path, 
+            aliases = ["<alias_1>", "<alias_2>"]
+            )
+    ```
   </Tab>
 </Tabs>
 
@@ -117,6 +148,36 @@ Les résultats de recherche s’affichent sous la barre de recherche si le terme
 </Note>
 
 L&#39;extrait de code suivant montre comment créer une version d&#39;un artifact et y ajouter des alias personnalisés. L&#39;exemple utilise le jeu de données Zoo du [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) et la collection `Model` dans le registre `Zoo_Classifier_Models`.
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment") as run:
+
+    # Créer un objet artifact
+    # Le paramètre type spécifie à la fois le type de l'
+    # objet artifact et le type de la collection
+    artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
+
+    # Ajouter le fichier à l'objet artifact. 
+    # Indiquer le chemin vers le fichier sur votre machine locale.
+    artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
+    artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
+
+    # Indiquer la collection et le registre auxquels lier l'artifact
+    REGISTRY_NAME = "Model"
+    COLLECTION_NAME = "Zoo_Classifier_Models"
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+    # Lier la version de l'artifact à la collection
+    # Ajouter un ou plusieurs alias à cette version de l'artifact
+    run.link_artifact(
+        artifact = artifact,
+        target_path = target_path,
+        aliases = ["production-us", "production-eu"]
+        )
+```
 
 1. D’abord, vous créez un objet artifact (`wandb.Artifact()`).
 2. Ensuite, vous ajoutez à l’objet artifact deux tenseurs PyTorch d’un jeu de données avec `wandb.Artifact.add_file()`.

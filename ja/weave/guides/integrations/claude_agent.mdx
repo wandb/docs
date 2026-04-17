@@ -33,12 +33,125 @@ Claude Agent SDK を使用する前に `weave.init()` を呼び出すと、Weave
 
 次の例では、3 つの機能を紹介します。
 
-* `query()` 関数を使用した**シンプルな単発クエリ**。モデルの応答とコストも含まれます。
-* `ClaudeSDKClient` を使用した**MCP ツールの使用状況**。Claude Agent SDK は、インプロセス MCP サーバーを通じてカスタムツールをサポートします。
+* `query()` 関数を使用した**シンプルな単発クエリ**。モデルのレスポンスとコストも含まれます。
+* `ClaudeSDKClient` を使用した**MCP ツールの利用**。Claude Agent SDK は、インプロセス MCP サーバーを通じてカスタムツールをサポートします。
   * Weave は、ツール定義、ツール呼び出し、実行結果を、エージェントのクエリとあわせてトレースします。
   * MCP デモでは、2 つの MCP ツールを定義し、それらを使用するクエリを実行します。
 * `weave.thread()` を使用して 1 つのトレースにまとめた**複数ターンの会話**。これにより、Weave UI で会話全体の流れを確認できます。
   * Weave は各ターンをスレッドの子として記録するため、Weave UI で会話全体の流れを確認できます。
+
+```python lines
+"""Weave + Claude Agent SDK: クエリ、ツール、会話のトレース。
+
+`weave.init()` を呼び出して SDK を自動パッチ — すべてのクエリ、ツール呼び出し、
+マルチターン会話がトレースとして記録され、Weave UI で確認できます。
+"""
+
+import anyio
+
+import weave
+from claude_agent_sdk import (
+    AssistantMessage,
+    ClaudeAgentOptions,
+    ClaudeSDKClient,
+    ResultMessage,
+    TextBlock,
+    ToolUseBlock,
+    create_sdk_mcp_server,
+    tool,
+)
+
+# --- 1. MCP ツールの定義 ---
+
+@tool("add", "2つの数値を加算する", {"a": float, "b": float})
+async def add(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
+
+
+@tool("multiply", "2つの数値を乗算する", {"a": float, "b": float})
+async def multiply(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+
+math_server = create_sdk_mcp_server(
+    name="math", version="1.0.0", tools=[add, multiply],
+)
+
+
+# --- 2. シンプルなワンショットクエリ ---
+
+async def simple_query():
+    from claude_agent_sdk import query
+
+    async for msg in query(prompt="What is 2+2?"):
+        if isinstance(msg, AssistantMessage):
+            for block in msg.content:
+                if isinstance(block, TextBlock):
+                    print(block.text, end="")
+        elif isinstance(msg, ResultMessage):
+            print(f"\ncost=${msg.total_cost_usd:.4f}")
+
+
+# --- 3. MCP ツールの使用 ---
+
+async def tool_query():
+    options = ClaudeAgentOptions(
+        mcp_servers={"math": math_server},
+        allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+    )
+
+    async with ClaudeSDKClient(options=options) as client:
+        await client.query("数学ツールを使って (3 + 7) * 2 を計算してください。")
+        async for msg in client.receive_response():
+            if isinstance(msg, AssistantMessage):
+                for block in msg.content:
+                    if isinstance(block, ToolUseBlock):
+                        print(f"  [tool] {block.name}({block.input})")
+                    elif isinstance(block, TextBlock):
+                        print(block.text, end="")
+            elif isinstance(msg, ResultMessage):
+                print(f"\ncost=${msg.total_cost_usd:.4f}")
+
+
+# --- 4. スレッドコンテキストを使ったマルチターン会話 ---
+
+async def threaded_conversation():
+    with weave.thread("my-conversation") as t:
+        print(f"thread_id={t.thread_id}")
+
+        async with ClaudeSDKClient() as client:
+            for prompt in [
+                "有名なソートアルゴリズムを1つ挙げてください。",
+                "その時間計算量はどのくらいですか？",
+            ]:
+                await client.query(prompt)
+                reply = ""
+                async for msg in client.receive_response():
+                    if isinstance(msg, AssistantMessage):
+                        reply += "".join(
+                            b.text for b in msg.content if isinstance(b, TextBlock)
+                        )
+                    elif isinstance(msg, ResultMessage):
+                        print(f"Q: {prompt}\nA: {reply.strip()[:120]}\n")
+
+
+# --- すべてのサンプルを実行 ---
+
+async def main():
+    print("=== シンプルなクエリ ===")
+    await simple_query()
+
+    print("\n=== MCP ツールの使用 ===")
+    await tool_query()
+
+    print("\n=== マルチターンスレッド ===")
+    await threaded_conversation()
+
+
+if __name__ == "__main__":
+    weave.init("your-team-name/claude-agent-sdk-demo")
+    anyio.run(main)
+```
 
 <div id="view-traces">
   ## トレースを表示

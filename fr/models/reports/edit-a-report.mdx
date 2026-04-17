@@ -223,7 +223,33 @@ Regroupez les runs par valeurs de configuration pour comparer des runs ayant des
 
 Par exemple, l’extrait de code suivant initialise d’abord un run avec une valeur de configuration pour `group`, puis regroupe des runs dans les rapports en fonction de la valeur de configuration `group`. Remplacez les valeurs de `<entity>` et `<project>` par les noms de votre entité et de votre projet W&amp;B.
 
+```python
+import wandb
+import wandb_workspaces.reports.v2 as wr
+
+entity = "<entity>"
+project = "<project>"
+
+for group in ["control", "experiment_a", "experiment_b"]:
+    for i in range(3):
+        with wandb.init(entity=entity, project=project, group=group, config={"group": group, "run": i}, name=f"{group}_run_{i}") as run:
+            # Simuler un entraînement
+            for step in range(100):
+                run.log({
+                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                    "loss": 1.0 - (step / 100) * 0.5
+                })
+```
+
 Dans votre script Python ou notebook, vous pouvez ensuite regrouper les runs par valeur de `config.group` :
+
+```python
+runset = wr.Runset(
+  project=project,
+  entity=entity,
+  groupby=["config.group"]  # Grouper par la valeur de configuration "group"
+)
+```
 
 En reprenant l’exemple précédent, vous pouvez créer un rapport avec l’ensemble de runs regroupés :
 
@@ -251,6 +277,14 @@ Regroupez les runs par le nom d’un run (`Name`), son état (`State`) ou son ty
 
 En reprenant l’exemple précédent, vous pouvez regrouper vos runs par leur nom à l’aide de l’extrait de code suivant :
 
+```python
+runset = wr.Runset(
+  project=project,
+  entity=entity,
+  groupby=["Name"]  # Grouper par noms de run
+)
+```
+
 <Note>
   Le nom du run correspond au nom que vous indiquez dans le paramètre `wandb.init(name=)`. Si vous n’en indiquez pas, W&amp;B génère un nom aléatoire pour le run.
 
@@ -267,7 +301,34 @@ La syntaxe pour regrouper les runs par métriques de synthèse est `summary.<key
 
 Par exemple, supposons que vous consigniez une métrique de synthèse appelée `acc` :
 
+```python
+import wandb
+import wandb_workspaces.reports.v2 as wr
+
+entity = "<entity>"
+project = "<project>"
+
+for group in ["control", "experiment_a", "experiment_b"]:
+    for i in range(3):
+        with wandb.init(entity=entity, project=project, group=group, config={"group": group, "run": i}, name=f"{group}_run_{i}") as run:
+            # Simuler un entraînement
+            for step in range(100):
+                run.log({
+                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                    "loss": 1.0 - (step / 100) * 0.5
+                })
+
+```
+
 Vous pouvez ensuite regrouper les runs en fonction de la métrique summary `summary.acc` :
+
+```python
+runset = wr.Runset(
+  project=project,
+  entity=entity,
+  groupby=["summary.acc"]  # Grouper par valeurs de summary 
+)
+```
 
 <div id="filter-a-run-set-programmatically">
   ## Filtrer un ensemble de runs de manière programmatique
@@ -300,7 +361,20 @@ Les exemples suivants montrent comment filtrer des ensembles de runs dans un rap
 
 Filtrez un ensemble de runs à l’aide d’une ou plusieurs valeurs de configuration. Les valeurs de configuration sont des paramètres que vous spécifiez dans la configuration de votre run (`wandb.init(config=)`).
 
-Par exemple, l’extrait de code suivant initialise d’abord un run avec des valeurs de configuration pour `learning_rate` et `batch_size`, puis filtre les runs dans rapports en fonction de la valeur de configuration `learning_rate`.
+Par exemple, l’extrait de code suivant initialise d’abord un run avec des valeurs de configuration pour `learning_rate` et `batch_size`, puis filtre les runs dans Reports en fonction de la valeur de configuration `learning_rate`.
+
+```python
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+}
+
+with wandb.init(project="<project>", entity="<entity>", config=config) as run:
+    # Votre code d'entraînement ici
+    pass
+```
 
 Dans votre script ou notebook Python, vous pouvez ensuite filtrer de manière programmatique les runs dont le taux d’apprentissage est supérieur à `0.01`.
 
@@ -324,7 +398,7 @@ runset = wr.Runset(
 )
 ```
 
-En reprenant l’exemple précédent, vous pouvez créer un rapport à partir du runset filtré comme suit :
+En reprenant l’exemple précédent, vous pouvez créer un Report à partir du runset filtré comme suit :
 
 ```python
 report = wr.Report(
@@ -364,6 +438,16 @@ Filtrez les ensembles de runs selon le tag (`tags`), l&#39;état (`state`), le n
 
 Par exemple, prenons l&#39;extrait Python suivant, qui crée trois runs et attribue un nom à chacun d&#39;eux :
 
+```python
+import wandb
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    for i in range(3):
+        run.name = f"run{i+1}"
+        # Votre code d'entraînement ici
+        pass
+```
+
 Lorsque vous créez votre rapport, vous pouvez filtrer les runs en fonction de leur nom d’affichage. Par exemple, pour filtrer les runs dont le nom est `run1`, `run2` et `run3`, vous pouvez utiliser le code suivant :
 
 ```python
@@ -375,7 +459,7 @@ runset = wr.Runset(
 ```
 
 <Note>
-  Vous pouvez trouver le nom du run sur la page **Aperçu** d’un run dans la application W&amp;B, ou par code avec `Api.runs().run.name`.
+  Vous pouvez trouver le nom du run sur la page **Aperçu** d’un run dans la W&amp;B App, ou par code avec `Api.runs().run.name`.
 </Note>
 
 Les exemples suivants montrent comment filtrer un runset en fonction de l’état du run (`finished`, `crashed` ou `running`) :

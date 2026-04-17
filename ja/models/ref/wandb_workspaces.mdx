@@ -32,12 +32,26 @@ pip install wandb-workspaces
 ```
 
 <div id="create-a-report">
-  ### reportを作成する
+  ### レポートを作成する
 </div>
 
-reportを作成するには、Team の entity を指定し、reportの名を入力します。囲まれたテキストを実際の値に置き換えてください。
+レポートを作成するには、Team の entity を指定し、レポートの名を入力します。囲まれたテキストを実際の値に置き換えてください。
 
-次に、reportにブロックとパネルを追加します。たとえば、次のコードは、目次、ヘッダー、段落を含むreportを作成します。
+```python
+import wandb_workspaces.reports.v2 as wr 
+# 作成
+report = wr.Report(
+    entity="<team_entity>",
+    project="<project_name>",
+    title='Quickstart Report',
+    description="That was easy!"
+)
+
+# レポートを保存
+report.save()
+```
+
+次に、レポートにブロックとパネルを追加します。たとえば、次のコードは、目次、ヘッダー、段落を含むレポートを作成します。
 
 ```python
 report.blocks = [
@@ -48,12 +62,35 @@ report.blocks = [
 report.save()
 ```
 
-エンドツーエンドの例は、[report API クイックスタート](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) の Google Colab を参照してください。
+エンドツーエンドの例は、[レポート API クイックスタート](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) の Google Colab を参照してください。
 
 <div id="create-a-workspace">
   ### Workspace を作成する
 </div>
 
 次のコードは、折れ線グラフ、棒グラフ、スカラーチャートの 3 つのパネルを含むセクションを持つ Workspace を作成する方法を示しています。角括弧で囲まれたテキストは、実際の値に置き換えてください。
+
+```python
+# インポート方法
+import wandb_workspaces.workspaces as ws
+
+# Workspaceを作成する
+ws.Workspace(
+     entity="<team_entity>", # Workspaceを所有するentity
+     project="<project_name>", # Workspaceに関連付けられたプロジェクト
+     sections=[
+         ws.Section(
+             name="<Validation Metrics>",
+             panels=[
+                 wr.LinePlot(x="Step", y=["<val_loss>"]),
+                 wr.BarPlot(metrics=["<val_accuracy>"]),
+                 wr.ScalarChart(metric="<f1_score>", groupby_aggfunc="<mean>"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
 
 一連の流れを通した例については、[Workspace API クイックスタート](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) の Google Colab を参照してください。

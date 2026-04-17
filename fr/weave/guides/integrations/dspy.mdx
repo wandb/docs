@@ -49,7 +49,63 @@ Weave enregistre tous les appels au modèle de langage dans votre programme DSPy
 
 Un `Module` est l’élément de base des programmes DSPy : il contient des paramètres apprenables et encapsule une technique de prompting. Une `Signature` est une spécification déclarative du comportement d’entrée/sortie d’un module DSPy. Weave suit automatiquement toutes les `Signatures` et tous les `Modules` intégrés et personnalisés dans vos programmes DSPy.
 
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+class Outline(dspy.Signature):
+    """Outline a thorough overview of a topic."""
+
+    topic: str = dspy.InputField()
+    title: str = dspy.OutputField()
+    sections: list[str] = dspy.OutputField()
+    section_subheadings: dict[str, list[str]] = dspy.OutputField(
+        desc="mapping from section headings to subheadings"
+    )
+
+
+class DraftSection(dspy.Signature):
+    """Draft a top-level section of an article."""
+
+    topic: str = dspy.InputField()
+    section_heading: str = dspy.InputField()
+    section_subheadings: list[str] = dspy.InputField()
+    content: str = dspy.OutputField(desc="markdown-formatted section")
+
+
+class DraftArticle(dspy.Module):
+    def __init__(self):
+        self.build_outline = dspy.ChainOfThought(Outline)
+        self.draft_section = dspy.ChainOfThought(DraftSection)
+
+    def forward(self, topic):
+        outline = self.build_outline(topic=topic)
+        sections = []
+        for heading, subheadings in outline.section_subheadings.items():
+            section, subheadings = (
+                f"## {heading}",
+                [f"### {subheading}" for subheading in subheadings],
+            )
+            section = self.draft_section(
+                topic=outline.title,
+                section_heading=section,
+                section_subheadings=subheadings,
+            )
+            sections.append(section.content)
+        return dspy.Prediction(title=outline.title, sections=sections)
+
+
+draft_article = DraftArticle()
+article = draft_article(topic="World Cup 2002")
+```
+
 [![Trace d’un module DSPy personnalisé dans Weave avec le flux d’exécution du module et les détails de la trace](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+
 
 <div id="optimization-and-evaluation-of-your-dspy-program">
   ## Optimisation et évaluation de votre programme DSPy

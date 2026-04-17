@@ -7,7 +7,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
 <Tabs>
   <Tab title="Python">
-    Le [SDK Python OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger et puissant pour créer des flux de travail multi-agents.
+    Le [SDK Python d’OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger et puissant pour créer des flux de travail multi-agents.
 
     ## Installation
 
@@ -19,7 +19,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     ## Pour commencer
 
-    Pour utiliser le SDK OpenAI Agents avec Weave :
+    Pour utiliser le SDK Agents d’OpenAI avec Weave :
 
     * Initialisez Weave avec le nom de votre projet.
     * Ajoutez le processeur de tracing Weave à vos agents.
@@ -52,7 +52,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
     )
 
     async def main():
-        result = await Runner.run(agent, input="What's the weather in Tokyo?")
+        result = await Runner.run(agent, input="What's the weather in Tokyo?")    
         print(result.final_output)
 
     if __name__ == "__main__":
@@ -89,6 +89,41 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     L’exemple de code suivant crée un agent OpenAI et l’intègre à Weave pour assurer la traçabilité. Remplacez `your-team-name/your-project-name` dans l’initialisation du projet Weave par votre entité et votre projet. L’exemple définit un outil `get_weather` qui renvoie un exemple de bulletin météo, puis configure un agent nommé `Hello world` avec des instructions simples et un accès à l’outil météo. La fonction `main` exécute l’agent avec une entrée d’exemple (`What's the weather in Tokyo?`) et consigne la réponse finale.
 
+    ```typescript lines
+    import * as weave from "weave";
+    import { Agent, run, tool } from "@openai/agents";
+    import { z } from "zod";
+
+    const getWeather = tool({
+      name: "get_weather",
+      description: "Get the current weather for a given city.",
+      parameters: z.object({
+        city: z.string().describe("The name of the city"),
+      }),
+      async execute({ city }) {
+        return `${city}: 14-20C, Sunny with wind.`;
+      },
+    });
+
+    async function main() {
+      // METTEZ À JOUR avec les informations de votre projet.
+      await weave.init("your-team-name/your-project-name");
+
+      const agent = new Agent({
+        name: "Hello world",
+        instructions: "You are a helpful agent.",
+        tools: [getWeather],
+      });
+
+      const result = await run(agent, [
+        { role: "user", content: "What's the weather in Tokyo?" },
+      ]);
+      console.log(result.finalOutput);
+    }
+
+    main();
+    ```
+
     En CommonJS, l’instruction `import * as weave from "weave"` doit apparaître **avant** `import { Agent, run, tool } from "@openai/agents"` pour que l’instrumentation automatique fonctionne. Si votre code ne peut pas respecter cet ordre, utilisez la technique d’instrumentation manuelle ci-dessous.
 
     ### Instrumentation manuelle
@@ -102,10 +137,10 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
     Dans ces cas, vous pouvez enregistrer explicitement l’instrumentation à l’aide de `instrumentOpenAIAgents()` :
 
     ```typescript lines
-    import * as weave from "weave"
+    import * as weave from "weave";
 
-    await weave.init("openai-agents")
-    await weave.instrumentOpenAIAgents()
+    await weave.init("openai-agents");
+    await weave.instrumentOpenAIAgents();
     ```
 
     Pour avoir un contrôle complet sur le processeur de Tracing, par exemple pour une configuration personnalisée du processeur ou un enregistrement conditionnel, créez-le et enregistrez-le manuellement :

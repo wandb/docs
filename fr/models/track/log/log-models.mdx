@@ -37,11 +37,20 @@ Indiquez dans le paramètre `path` le chemin où vos fichiers de modèle sont en
 
 Veillez à remplacer les valeurs entre `<>` par les vôtres.
 
+```python
+import wandb
+
+# Initialiser un run W&B
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Journaliser le modèle
+    run.log_model(path="<path-to-model>", name="<name>")
+```
+
 Vous pouvez facultativement fournir un nom pour l&#39;artifact de modèle via le paramètre `name`. Si `name` n&#39;est pas spécifié, W&amp;B utilisera le nom de base du chemin d&#39;entrée, précédé de l&#39;ID du run, comme nom.
 
 <Note>
-  Notez le `name` que vous, ou W&amp;B, attribuez au modèle. Vous aurez besoin du nom du modèle pour récupérer son chemin avec la
-  méthode [`wandb.Run.use_model()`](/fr/models/ref/python/experiments/run#use_model).
+  Notez le `name` que vous, ou W&amp;B, attribuez au modèle. Vous aurez besoin du nom du modèle pour récupérer son chemin avec la méthode [`wandb.Run.use_model()`](/fr/models/ref/python/experiments/run#use_model).
 </Note>
 
 Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Référence de l&#39;API pour les paramètres.
@@ -49,7 +58,52 @@ Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Réf
 <details>
   <summary>Exemple : journaliser un modèle dans un run</summary>
 
-  Lorsque vous appelez `log_model`, un artifact de modèle nommé `MNIST` est créé et le fichier `model.h5` y est ajouté. Votre terminal ou notebook affichera des informations indiquant où trouver des informations sur le run auquel le modèle a été enregistré.
+  ```python
+  import os
+  import wandb
+  from tensorflow import keras
+  from tensorflow.keras import layers
+
+  config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
+
+  # Initialiser un run W&B
+  with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
+
+      # Hyperparamètres
+      loss = run.config["loss"]
+      optimizer = run.config["optimizer"]
+      metrics = ["accuracy"]
+      num_classes = 10
+      input_shape = (28, 28, 1)
+
+      # Algorithme d'entraînement
+      model = keras.Sequential(
+          [
+              layers.Input(shape=input_shape),
+              layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Flatten(),
+              layers.Dropout(0.5),
+              layers.Dense(num_classes, activation="softmax"),
+          ]
+      )
+
+      # Configurer le modèle pour l'entraînement
+      model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+
+      # Enregistrer le modèle
+      model_filename = "model.h5"
+      local_filepath = "./"
+      full_path = os.path.join(local_filepath, model_filename)
+      model.save(filepath=full_path)
+
+      # Journaliser le modèle dans le run W&B
+      run.log_model(path=full_path, name="MNIST")
+  ```
+
+  Lorsque vous appelez `log_model`, un artifact de modèle nommé `MNIST` est créé et le fichier `model.h5` y est ajouté. Votre terminal ou notebook affichera des informations indiquant où trouver des informations sur le run auquel le modèle a été journalisé.
 
   ```python
   View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -70,12 +124,36 @@ Si vous n’avez pas défini `name` lorsque vous avez enregistré les fichiers a
 
 Veillez à remplacer les valeurs entre `<>` par les vôtres :
 
-La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin des fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l’extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artifact téléchargé
+    downloaded_model_path = run.use_model(name="<your-model-name>")
+```
+
+La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin des fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l&#39;extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
 
 <details>
   <summary>Exemple : Télécharger et utiliser un modèle enregistré</summary>
 
-  Par exemple, dans l’extrait de code suivant, un utilisateur a appelé l’API `use_model`. Il a indiqué le nom de l’artifact de modèle à récupérer, ainsi qu’une version/un alias. Il a ensuite stocké dans la variable `downloaded_model_path` le chemin renvoyé par l’API.
+  Par exemple, dans l&#39;extrait de code suivant, un utilisateur a appelé l&#39;API `use_model`. Il a indiqué le nom de l&#39;artifact de modèle à récupérer, ainsi qu&#39;une version/un alias. Il a ensuite stocké dans la variable `downloaded_model_path` le chemin renvoyé par l&#39;API.
+
+  ```python
+  import wandb
+
+  entity = "luka"
+  project = "NLP_Experiments"
+  alias = "latest"  # surnom sémantique ou identifiant de la version du modèle
+  model_artifact_name = "fine-tuned-model"
+
+  # Initialiser un run
+  with wandb.init(project=project, entity=entity) as run:
+      # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artifact téléchargé
+      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+  ```
 </details>
 
-Voir [`use_model`](/fr/models/ref/python/experiments/run#use_model) dans la Référence de l’API pour les paramètres et le type de retour.
+Voir [`use_model`](/fr/models/ref/python/experiments/run#use_model) dans la Référence de l&#39;API pour les paramètres et le type de retour.

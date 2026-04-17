@@ -50,6 +50,29 @@ Vous pouvez utiliser `"best"` uniquement si vous définissez également l&#39;ar
 
 L&#39;exemple suivant ajoute au summary les valeurs minimale et maximale de la perte et de la précision :
 
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # Valeurs min et max du résumé pour la perte
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # Valeurs min et max du résumé pour la précision
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
 <div id="view-summary-metrics">
   ## Afficher les métriques de synthèse
 </div>
@@ -74,9 +97,49 @@ Affichez les valeurs récapitulatives dans la page **Aperçu** d’un run ou dan
     3. Dans le tableau des runs, vous pouvez afficher les valeurs récapitulatives dans les colonnes correspondant au nom de la valeur récapitulative.
   </Tab>
 
-  <Tab title="API publique de W&B">
-    Vous pouvez utiliser l’API publique de W&amp;B pour récupérer les valeurs récapitulatives d’un run.
+  <Tab title="API publique W&B">
+    Vous pouvez utiliser l’API publique W&amp;B pour récupérer les valeurs récapitulatives d’un run.
 
-    L’exemple de code suivant montre une façon de récupérer les valeurs récapitulatives enregistrées pour un run spécifique à l’aide de l’API publique de W&amp;B et de pandas :
+    L’exemple de code suivant montre une façon de récupérer les valeurs récapitulatives enregistrées pour un run spécifique à l’aide de l’API publique W&amp;B et de pandas :
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # Nom du run avec les valeurs récapitulatives
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # Convertir en DataFrame  
+    df = pd.DataFrame(all_runs)
+
+    # Obtenir la ligne en fonction du nom de la colonne (run) et la convertir en dictionnaire
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
   </Tab>
 </Tabs>

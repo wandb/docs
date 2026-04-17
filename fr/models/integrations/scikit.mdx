@@ -70,6 +70,21 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
   ### Consigner des métriques
 </div>
 
+```python
+import wandb
+
+wandb.init(project="visualize-sklearn") as run:
+
+  y_pred = clf.predict(X_test)
+  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
+
+  # Pour enregistrer des métriques au fil du temps, utilisez run.log
+  run.log({"accuracy": accuracy})
+
+  # OU pour enregistrer une métrique finale à la fin de l'entraînement, vous pouvez aussi utiliser run.summary
+  run.summary["accuracy"] = accuracy
+```
+
 <div id="make-plots">
   ### Créer des graphiques
 </div>
@@ -94,11 +109,42 @@ run = wandb.init(project="visualize-sklearn")
 
 Après avoir entraîné un modèle et effectué des prédictions, vous pouvez générer des graphiques dans wandb pour analyser ces prédictions. Voir la section **Graphiques pris en charge** ci-dessous pour obtenir la liste complète des graphiques pris en charge.
 
+```python
+# Visualiser un graphique unique
+wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
+```
+
 <div id="all-plots">
   #### Tous les graphiques
 </div>
 
 W&amp;B propose des fonctions comme `plot_classifier`, qui génèrent plusieurs graphiques pertinents :
+
+```python
+# Visualiser tous les graphiques de classification
+wandb.sklearn.plot_classifier(
+    clf,
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    y_pred,
+    y_probas,
+    labels,
+    model_name="SVC",
+    feature_names=None,
+)
+
+# Tous les graphiques de régression
+wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
+
+# Tous les graphiques de clustering
+wandb.sklearn.plot_clusterer(
+    kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
+)
+
+run.finish()
+```
 
 <div id="existing-matplotlib-plots">
   #### Graphiques Matplotlib existants
@@ -111,6 +157,19 @@ pip install plotly
 ```
 
 Enfin, vous pouvez enregistrer les graphiques dans le tableau de bord de W&amp;B comme suit :
+
+```python
+import matplotlib.pyplot as plt
+import wandb
+
+with wandb.init(project="visualize-sklearn") as run:
+
+  # effectuez tous les plt.plot(), plt.scatter(), etc. ici.
+  # ...
+
+  # au lieu d'appeler plt.show(), faites :
+  run.log({"plot": plt})
+```
 
 <div id="supported-plots">
   ## Graphiques pris en charge

@@ -79,11 +79,36 @@ Dans votre code, passez l’objet `wandb.Settings` à `wandb.init()` pour config
 
 L’exemple suivant montre comment configurer ces paramètres :
 
+```python
+import wandb
+
+settings = wandb.Settings(
+    show_errors=True,  # Afficher les messages d'erreur dans la W&B App
+    silent=False,      # Désactiver toutes les sorties console W&B
+    show_warnings=True # Afficher les messages d'avertissement dans la W&B App
+)
+
+with wandb.init(settings=settings) as run:
+    # Votre code d'entraînement ici
+    run.log({"accuracy": 0.95})
+```
+
+
 <div id="custom-logging">
   ## Journalisation personnalisée
 </div>
 
 W&amp;B capture les journaux de console de votre application, mais n’interfère pas avec votre propre configuration de journalisation. Vous pouvez utiliser la fonction `print()` intégrée à Python ou le module `logging` pour enregistrer des messages.
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    for i in range(100, 1000, 100):
+        # Ceci enregistrera dans W&B et affichera dans la console
+        run.log({"epoch": i, "loss": 0.1 * i})
+        print(f"epoch: {i} loss: {0.1 * i}")
+```
 
 Les journaux de console se présenteront comme suit :
 
@@ -121,7 +146,22 @@ Utilisez la barre de recherche en haut de la page des journaux de la console pou
   Les paramètres préfixés par `x_` (comme `x_label`) sont en aperçu public. Créez une [issue GitHub dans le dépôt W&amp;B](https://github.com/wandb/wandb) pour nous faire part de vos commentaires.
 </Warning>
 
-Vous pouvez filtrer les journaux de console à partir des libellés que vous passez comme arguments à `x_label` dans `wandb.Settings`, via la barre de recherche de l’interface utilisateur située en haut de la page des journaux de console. 
+Vous pouvez filtrer les journaux de console à partir des libellés que vous passez comme arguments à `x_label` dans `wandb.Settings`, via la barre de recherche de l’interface utilisateur située en haut de la page des journaux de console.
+
+```python
+import wandb
+
+# Initialiser un run dans le nœud principal
+with wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="custom_label"  # (Facultatif) Étiquette personnalisée pour filtrer les journaux
+    )
+) as run:
+    # Votre code ici
+```
+
 
 <div id="download-console-logs">
   ## Télécharger les journaux de console

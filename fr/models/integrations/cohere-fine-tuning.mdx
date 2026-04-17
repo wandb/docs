@@ -8,14 +8,40 @@ Avec W&amp;B, vous pouvez journaliser les métriques de fine-tuning et la config
 Ce [guide de Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) contient un exemple complet montrant comment lancer un run de fine-tuning, et vous trouverez [ici la documentation de l&#39;API Cohere](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
 
 <div id="log-your-cohere-fine-tuning-results">
-  ## Journalisez les résultats de votre fine-tuning Cohere
+  ## Enregistrez les résultats de votre fine-tuning Cohere
 </div>
 
 Pour ajouter la journalisation du fine-tuning Cohere à votre espace de travail W&amp;B :
 
-1. Créez un `WandbConfig` avec votre clé API W&amp;B, votre `entity` W&amp;B et le nom du `project`. Créez une clé API sur [https://wandb.ai/settings](https://wandb.ai/settings)
+1. Créez un `WandbConfig` avec votre clé API W&amp;B, votre `entity` W&amp;B et le nom du `project`. Créez une clé API sur https://wandb.ai/settings
 
 2. Passez cette configuration à l&#39;objet `FinetunedModel`, avec le nom de votre modèle, le jeu de données et les hyperparamètres, pour démarrer votre run de fine-tuning.
+
+   ```python
+   from cohere.finetuning import WandbConfig, FinetunedModel
+
+   # créez une configuration avec vos informations W&B
+   wandb_ft_config = WandbConfig(
+       api_key="<wandb_api_key>",
+       entity="my-entity", # doit être une entité valide associée à la clé API fournie
+       project="cohere-ft",
+   )
+
+   ...  # configurez vos jeux de données et hyperparamètres
+
+   # démarrez un run de fine-tuning sur Cohere
+   cmd_r_finetune = co.finetuning.create_finetuned_model(
+     request=FinetunedModel(
+       name="command-r-ft",
+       settings=Settings(
+         base_model=...
+         dataset_id=...
+         hyperparameters=...
+         wandb=wandb_ft_config  # passez votre configuration W&B ici
+       ),
+     ),
+   )
+   ```
 
 3. Consultez les métriques d&#39;entraînement et de validation du fine-tuning de votre modèle, ainsi que les hyperparamètres, dans le projet W&amp;B que vous avez créé.
 

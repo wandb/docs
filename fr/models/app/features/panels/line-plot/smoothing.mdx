@@ -26,11 +26,30 @@ L’algorithme TWEMA prend en compte la densité des points sur la ligne (le nom
 
 Voici un exemple de code montrant comment cela fonctionne en arrière-plan :
 
+```javascript
+const smoothingWeight = Math.min(Math.sqrt(smoothingParam || 0), 0.999);
+let lastY = yValues.length > 0 ? 0 : NaN;
+let debiasWeight = 0;
+
+return yValues.map((yPoint, index) => {
+  const prevX = index > 0 ? index - 1 : 0;
+  // VIEWPORT_SCALE met le résultat à l'échelle de la plage de l'axe x du chart
+  const changeInX =
+    ((xValues[index] - xValues[prevX]) / rangeOfX) * VIEWPORT_SCALE;
+  const smoothingWeightAdj = Math.pow(smoothingWeight, changeInX);
+
+  lastY = lastY * smoothingWeightAdj + yPoint;
+  debiasWeight = debiasWeight * smoothingWeightAdj + 1;
+  return lastY / debiasWeight;
+});
+```
+
 Voici ce que cela donne [dans l&#39;application](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
 <Frame>
   <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="Exemple de lissage TWEMA" />
 </Frame>
+
 
 <div id="gaussian-smoothing">
   ## Lissage gaussien

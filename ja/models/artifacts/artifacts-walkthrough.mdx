@@ -24,6 +24,12 @@ wandb.login()
 
 [`wandb.init()`](/ja/models/ref/python/functions/init) を使用して run を初期化します。これにより、データを Sync・ログするバックグラウンドプロセスが起動します。プロジェクト名とジョブタイプを指定します:
 
+```python
+# W&B の run を作成します。このサンプルではデータセットの artifact を作成する方法を示すため、ジョブタイプに 'dataset' を指定しています。
+with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
+    # ここにコードを記述します
+```
+
 <div id="3-create-an-artifact-object">
   ## 3. artifact オブジェクトを作成する
 </div>
@@ -44,6 +50,11 @@ artifact の作成方法の詳細については、[Artifacts を作成する](.
 
 artifactにファイルを追加します。一般的なファイルタイプには、モデルやデータセットがあります。次の例では、ローカル環境に保存されている `dataset.h5` という名前のデータセットをartifactに追加します。
 
+```python
+# artifactのコンテンツにファイルを追加する
+artifact.add_file(local_path="dataset.h5")
+```
+
 前のコードスニペットのファイル名 `dataset.h5` を、artifact に追加するファイルのパスに置き換えます。
 
 <div id="5-log-the-dataset">
@@ -51,6 +62,12 @@ artifactにファイルを追加します。一般的なファイルタイプに
 </div>
 
 W&amp;B の run オブジェクトの `wandb.Run.log_artifact()` method を使用して、artifact のバージョンを保存すると同時に、その artifact を [run の出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) として宣言します。
+
+```python
+# artifactのバージョンをW&Bに保存し、このrunの
+# 出力としてマークする
+run.log_artifact(artifact)
+```
 
 artifact をログすると、デフォルトで `'latest'` の[エイリアス](/ja/models/artifacts/create-a-custom-alias)が作成されます。artifact のエイリアスとバージョンの詳細については、それぞれ[カスタムエイリアスを作成する](./create-a-custom-alias)と[新しい artifact バージョンを作成する](./create-a-new-artifact-version)を参照してください。
 
@@ -76,5 +93,17 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 1. まず、**`wandb.init()`** で新しい run オブジェクトを初期化します。
 2. 次に、run オブジェクトの [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) method を使用して、使用する artifact を W&amp;B に指定します。これにより、artifact オブジェクトが返されます。
 3. 最後に、artifact の [`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) method を使用して、artifact の内容をダウンロードします。
+
+```python
+# W&B の run を作成します。トレーニングのトラッキングに使用するため、
+# ここでは 'type' に 'training' を指定します。
+with wandb.init(project="artifacts-example", job_type="training") as run:
+
+  # W&B から artifact をクエリし、この run への入力としてマークします
+  artifact = run.use_artifact("bicycle-dataset:latest")
+
+  # artifact の内容をダウンロードします
+  artifact_dir = artifact.download()
+```
 
 あるいは、Run の外で W&amp;B にすでに保存されているデータをエクスポートしたり、更新したりするには、Public API (`wandb.Api`) を使用できます。詳細は [外部ファイルをトラッキングする](./track-external-files) を参照してください。

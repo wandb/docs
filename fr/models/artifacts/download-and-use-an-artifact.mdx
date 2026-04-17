@@ -19,6 +19,13 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
   <Tab title="Pendant un run">
     Commencez par importer le W&amp;B Python SDK. Ensuite, créez un W&amp;B [Run](/fr/models/ref/python/experiments/run) :
 
+    ```python
+    import wandb
+
+    with wandb.init(project="<example>", job_type="<job-type>") as run:
+        # Voir l'étape suivante
+    ```
+
     Indiquez l’artifact que vous souhaitez utiliser avec la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact). Cette méthode renvoie un objet run. Dans l’extrait de code suivant, un artifact nommé `'bike-dataset'` avec l’alias `'latest'` est spécifié :
 
     ```python
@@ -44,10 +51,24 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
 
     En regroupant le tout, l’exemple de code complet ressemble à ceci :
 
+    ```python
+    import wandb    
+
+    with wandb.init(project="<example>", job_type="<job-type>") as run:
+        # Indiquer l'artifact à utiliser. Le format est "name:alias"
+        artifact = run.use_artifact("bike-dataset:latest")
+
+        # Télécharger l'artifact entier
+        datadir = artifact.download()
+
+        # Télécharger un fichier spécifique
+        entry = artifact.get_entry("bike.png")
+    ```
+
     Cela récupère uniquement le fichier situé au chemin `name`. Cette méthode renvoie un objet `Entry` avec les méthodes suivantes :
 
-    * `Entry.download`: télécharge le fichier de l’artifact au chemin `name`
-    * `Entry.ref`: si `add_reference` a stocké l’entrée comme référence, renvoie l’URI
+    * `Entry.download` : télécharge le fichier de l’artifact au chemin `name`
+    * `Entry.ref` : si `add_reference` a stocké l’entrée comme référence, renvoie l’URI
 
     {/* Les références dont le schéma est pris en charge par W&B sont téléchargées comme les fichiers d’artifact. Pour plus d'informations, voir [Track external files](/models/artifacts/track-external-files/). */}
   </Tab>
@@ -86,7 +107,21 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
 
 Vous pouvez télécharger, si vous le souhaitez, une partie d’un artifact à l’aide d’un préfixe. Utilisez le paramètre `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) pour télécharger un seul fichier ou le contenu d’un sous-dossier.
 
+```python
+with wandb.init(project="<example>", job_type="<job-type>") as run:
+    # Indiquer l'artifact à utiliser. Le format est "nom:alias"
+    artifact = run.use_artifact("bike-dataset:latest")
+
+    # Télécharger un fichier spécifique ou un sous-dossier
+    artifact.download(path_prefix="bike.png") # télécharge uniquement bike.png
+```
+
 Vous pouvez aussi télécharger des fichiers depuis un répertoire donné. Pour ce faire, indiquez ce répertoire à l’aide du paramètre `path_prefix=`. En reprenant à partir de l’extrait de code précédent :
+
+```python
+# télécharge les fichiers dans le répertoire images/bikes
+artifact.download(path_prefix="images/bikes/") 
+```
 
 <div id="use-an-artifact-from-a-different-project">
   ### Utiliser un artifact d’un autre projet
@@ -95,6 +130,18 @@ Vous pouvez aussi télécharger des fichiers depuis un répertoire donné. Pour 
 Spécifiez le nom de l’artifact ainsi que celui du projet pour faire référence à un artifact. Vous pouvez également faire référence à des artifacts d’autres entités en indiquant le nom de l’artifact avec le nom de l’entité.
 
 L’exemple de code suivant montre comment récupérer un artifact d’un autre projet comme entrée pour le run W&amp;B en cours.
+
+```python
+with wandb.init(project="<example>", job_type="<job-type>") as run:
+    # Récupérer depuis W&B un artifact d'un autre projet et le marquer
+    # comme entrée de ce run.
+    artifact = run.use_artifact("my-project/artifact:alias")
+
+    # Utiliser un artifact d'une autre entité et le marquer comme entrée
+    # de ce run.
+    artifact = run.use_artifact("my-entity/my-project/artifact:alias")
+
+```
 
 <div id="construct-and-use-an-artifact-simultaneously">
   ### Construire et utiliser un artifact en même temps

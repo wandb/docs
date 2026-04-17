@@ -224,6 +224,47 @@ https://wandb.ai/.../annotation-queues/019c0f63-7acb-7497-8f87-08873368fcd4
 
 다음 코드를 사용하면 큐에 있는 트레이스(call)를 순회할 수 있습니다.
 
+```python lines
+import weave
+from weave.trace_server.trace_server_interface import AnnotationQueueItemsQueryReq
+
+# 프로젝트 및 큐 식별자를 본인의 값으로 업데이트하세요.
+PROJECT = "your-team-name/your-project-name"
+QUEUE_ID = "019c0f63-7acb-7497-8f87-08873368fcd4"
+
+# Weave를 초기화합니다.
+client = weave.init(PROJECT)
+
+# 큐에 있는 calls에서 call ID를 조회합니다.
+calls = client.server.annotation_queue_items_query(
+    AnnotationQueueItemsQueryReq(
+        project_id=PROJECT,
+        queue_id=QUEUE_ID,
+    )
+)
+
+# calls를 순회하며 피드백을 조회합니다.
+for i, item in enumerate(calls.items):
+    call = client.get_call(call_id=item.call_id, include_feedback=True)
+    feedback = call.feedback or {}
+
+    # call에 대한 전체 피드백 항목 수를 계산합니다.
+    total_feedback_items = len(feedback)
+
+    print(f"\nItem {i} — call_id: {item.call_id} — total feedback items: {total_feedback_items}")
+
+    if not feedback:
+        print("항목에 대한 피드백 없음")
+        continue
+
+    # 첫 번째 annotation 값을 조회합니다.
+    # 필드 annotation은 고정된 순서로 추가되지 않으므로 첫 번째 필드는 달라질 수 있습니다.
+    field_name = next(iter(feedback))
+    field_value = feedback[0]
+
+    print(f"  {field_name}: {field_value}")
+```
+
 다음 Google Colab 노트북은 프로그래밍 방식으로 annotation 데이터에 접근하고 분석 리포트를 수집하는 자세한 예제를 제공합니다:
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>

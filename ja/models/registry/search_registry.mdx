@@ -104,13 +104,72 @@ W&amp;B は、レジストリ項目を絞り込むために、次の比較演算
 
 `wandb.Api().registries()` methodを使用するには、まずW&amp;B Python SDK ([`wandb`](/ja/models/ref/python/)) ライブラリをインポートします。
 
+```python
+import wandb
+
+# (省略可) 可読性のために wandb.Api() クラスのインスタンスを作成する
+api = wandb.Api()
+```
+
 `model` という文字列を含むすべてのレジストリを絞り込みます:
+
+```python
+# 文字列 `model` を含むすべての Registry をフィルターする
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# フィルターに一致するすべての Registry のイテラブルを返す
+registries = api.registries(filter=registry_filters)
+```
 
 レジストリに関係なく、コレクション名に文字列 `yolo` を含むすべてのコレクションをフィルターするには、次のようにします:
 
+```python
+# レジストリに関係なく、コレクション名に文字列 `yolo` を含む
+# すべてのコレクションをフィルターする
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# フィルターに一致するすべてのコレクションのイテラブルを返す
+collections = api.registries().collections(filter=collection_filters)
+```
+
 コレクション名に文字列 `yolo` を含み、タグに `cnn` を持つ、レジストリに関係なくすべてのコレクションをフィルターします:
 
+```python
+# Registryに関係なく、collection名に文字列`yolo`を含み、
+# タグとして`cnn`を持つすべてのcollectionをフィルターする
+collection_filters = {
+    "name": {"$regex": "yolo"},
+    "tag": "cnn"
+}
+
+# フィルターに一致するすべてのcollectionのイテラブルを返す
+collections = api.registries().collections(filter=collection_filters)
+```
+
 文字列 `model` を含み、タグ `image-classification` またはエイリアス `latest` のいずれかを持つアーティファクト のすべてのバージョンを検索します:
+
+```python
+# 文字列 `model` を含み、タグ `image-classification` またはエイリアス `latest` を持つ
+# すべての artifact バージョンを検索する
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# 論理演算子 $or を使用して artifact バージョンをフィルターする
+version_filters = {
+    "$or": [
+        {"tag": "image-classification"},
+        {"alias": "production"}
+    ]
+}
+
+# フィルターに一致するすべての artifact バージョンのイテラブルを返す
+artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
+```
 
 前のコードスニペットの `artifacts` イテラブル内の各要素は、`Artifact` クラスのインスタンスです。つまり、各 アーティファクト の `name`、`collection`、`aliases`、`tags`、`created_at` などの属性にアクセスできます。
 
@@ -125,6 +184,20 @@ for art in artifacts:
 
 アーティファクト オブジェクトの属性の完全な一覧については、API Reference ドキュメントの [Artifacts Class](/ja/models/ref/python/experiments/artifact/) を参照してください。
 
-レジストリ や コレクション に関係なく、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての アーティファクト バージョンをフィルターします:
+レジストリ や コレクション に関係なく、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての アーティファクト バージョンをフィルターします。
 
-<Note>`created_at` および `updated_at` のクエリでは、日時を `YYYY-MM-DD HH:MM:SS` 形式で指定します。日付のみでフィルターする場合は、時・分・秒を省略できます。</Note>
+```python
+# 2024-01-08から2025-03-04 13:10 UTCの間に作成されたすべてのartifactバージョンを検索する。 
+
+artifact_filters = {
+    "alias": "latest",
+    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
+}
+
+# フィルターに一致するすべてのartifactバージョンのイテラブルを返す
+artifacts = api.registries().collections().versions(filter=artifact_filters)
+```
+
+<Note>
+  `created_at` および `updated_at` のクエリでは、日時を `YYYY-MM-DD HH:MM:SS` 形式で指定します。日付のみでフィルターする場合は、時・分・秒を省略できます。
+</Note>

@@ -107,6 +107,15 @@ Cette méthode renvoie le `ScoreLogger` de façon synchrone. Les opérations sur
 
 `Exemple`
 
+```ts
+// Style « fire-and-forget »
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // Attend la fin de toutes les opérations
+```
+
+
 <div id="defined-in">
   #### Défini dans
 </div>
@@ -143,6 +152,14 @@ Utilisez cette méthode si vous devez attendre l&#39;initialisation avant de con
 `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
 `Exemple`
+
+```ts
+// Style awaitable
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
 
 <div id="defined-in">
   #### Défini dans

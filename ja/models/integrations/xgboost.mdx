@@ -19,6 +19,18 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 W&amp;B に XGBoost のメトリクス、設定、booster モデルをログするには、`WandbCallback` を XGBoost に渡すだけです：
 
+```python
+from wandb.integration.xgboost import WandbCallback
+import xgboost as XGBClassifier
+
+...
+# wandb の run を開始する
+with wandb.init() as run:
+  # WandbCallback をモデルに渡す
+  bst = XGBClassifier()
+  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
+```
+
 XGBoost と W&amp;B でログする内容を包括的に確認するには、[このノートブック](https://wandb.me/xgboost)を開いてください
 
 <div id="wandbcallback-reference">

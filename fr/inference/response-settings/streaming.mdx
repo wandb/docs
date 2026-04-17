@@ -13,7 +13,30 @@ utilisation avec les [modèles de raisonnement](./reasoning), car les requêtes 
 trop longtemps avant de commencer à produire une sortie.
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+    )
+
+    stream = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "user", "content": "Tell me a rambling joke"}
+        ],
+        stream=True,
+    )
+
+    for chunk in stream:
+        if chunk.choices:
+            print(chunk.choices[0].delta.content or "", end="", flush=True)
+        else:
+            print(chunk) # Afficher l'objet CompletionUsage
+    ```
+  </Tab>
 
   <Tab title="Bash">
     ```bash

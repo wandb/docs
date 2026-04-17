@@ -13,6 +13,29 @@ Accelerate inclut un suivi W&amp;B, que nous expliquons comment utiliser ci-dess
 
 Pour démarrer avec Accelerate et W&amp;B, vous pouvez suivre le pseudocode ci-dessous :
 
+```python
+from accelerate import Accelerator
+
+# Indiquer à l'objet Accelerator de journaliser avec wandb
+accelerator = Accelerator(log_with="wandb")
+
+# Initialiser votre run wandb en transmettant les paramètres wandb et les informations de configuration
+accelerator.init_trackers(
+    project_name="my_project", 
+    config={"dropout": 0.1, "learning_rate": 1e-2}
+    init_kwargs={"wandb": {"entity": "my-wandb-team"}}
+    )
+
+...
+
+# Journaliser dans wandb en appelant `accelerator.log`, `step` est facultatif
+accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
+
+
+# S'assurer que le suivi wandb se termine correctement
+accelerator.end_training()
+```
+
 Plus précisément, vous devez :
 
 1. Passer `log_with="wandb"` lors de l&#39;initialisation de la classe Accelerator

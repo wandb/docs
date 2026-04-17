@@ -32,7 +32,7 @@ Precision-Recall 曲線は、特に不均衡なデータセットで分類器を
 * `y_true`:  真の二値ラベル。shape は (`num_samples`,) である必要があります。
 * `y_probas`:  各クラスの予測スコアまたは確率。確率推定値、信頼度スコア、またはしきい値を適用していない決定値を指定できます。shape は (`num_samples`, `num_classes`) である必要があります。
 * `labels`:  プロットを解釈しやすくするために、`y_true` 内の数値を置き換える任意のクラス名のリスト。たとえば、`labels = ['dog', 'cat', 'owl']` とすると、プロット内で 0 は &#39;dog&#39;、1 は &#39;cat&#39;、2 は &#39;owl&#39; に置き換えられます。指定しない場合は、`y_true` の数値が使用されます。
-* `classes_to_plot`:  プロットに含める `y_true` の一意なクラス値の任意のリスト。指定しない場合は、`y_true` 内のすべての一意のクラスがプロットされます。
+* `classes_to_plot`:  プロットに含める `y_true` の一意なクラス値の任意のリスト。指定しない場合は、`y_true` 内のすべての一意なクラスがプロットされます。
 * `interp_size`:  再現率の値を補間する点の数。再現率の値は、[0, 1] の範囲に一様に分布する `interp_size` 個の点に固定され、それに応じて適合率が補間されます。
 * `title`:  プロットのタイトル。デフォルトは &quot;Precision-Recall Curve&quot; です。
 * `split_table`:  表を W&amp;B UI の別セクションに分けるかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
@@ -46,3 +46,28 @@ Precision-Recall 曲線は、特に不均衡なデータセットで分類器を
 * `wandb.Error`:  NumPy、pandas、または scikit-learn がインストールされていない場合。
 
 **例:**
+
+```python
+import wandb
+
+# スパム検出の例（二値分類）
+y_true = [0, 1, 1, 0, 1]  # 0 = スパムでない, 1 = スパム
+y_probas = [
+    [0.9, 0.1],  # 最初のサンプルの予測確率（スパムでない）
+    [0.2, 0.8],  # 2番目のサンプル（スパム）、以下同様
+    [0.1, 0.9],
+    [0.8, 0.2],
+    [0.3, 0.7],
+]
+
+labels = ["not spam", "spam"]  # 読みやすさのためのオプションのクラス名
+
+with wandb.init(project="spam-detection") as run:
+    pr_curve = wandb.plot.pr_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=labels,
+         title="Precision-Recall Curve for Spam Detection",
+    )
+    run.log({"pr-curve": pr_curve})
+```

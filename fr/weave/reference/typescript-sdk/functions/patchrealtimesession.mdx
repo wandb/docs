@@ -28,6 +28,13 @@ La fonction est idempotente : vous pouvez l’appeler en toute sécurité à pl
 
 `Exemple`
 
+```typescript
+import { patchRealtimeSession } from 'weave';
+patchRealtimeSession();
+// Chaque nouvelle RealtimeSession(...) est désormais instrumentée automatiquement
+```
+
+
 <div id="defined-in">
   #### Défini dans
 </div>

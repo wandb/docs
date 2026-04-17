@@ -66,6 +66,13 @@ view.set_columns("id", "op_name")
 
 Utilisez `.add_column()` pour ajouter une ou plusieurs nouvelles colonnes à la vue. Indiquez une ou plusieurs colonnes à ajouter.
 
+```python lines
+# Ajouter une colonne avec le spécificateur de champ et le libellé "Created"
+view.add_column("Created")
+# Facultativement, vous pouvez ajouter un second argument pour spécifier un nom de libellé différent pour la nouvelle colonne. Par défaut, le spécificateur de champ est utilisé pour le libellé.
+```
+
+
 <div id="sort-columns">
   ### Trier les colonnes
 </div>

@@ -390,6 +390,20 @@ for step, (input, ground_truth) in enumerate(data):
 
 モデル チェックポイントを W&amp;B にログします。一般的には、W&amp;B が生成する一意の run ID を Artifacts 名の一部として使用し、チェックポイントを Artifacts としてログします。
 
+```python
+metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
+
+artifact = wandb.Artifact(
+                name=f"model-{run.id}", 
+                metadata=metadata, 
+                type="model"
+                ) 
+artifact.add_dir("output_model") # モデルの重みが保存されているローカルディレクトリ
+
+aliases = ["best", "epoch_10"] 
+run.log_artifact(artifact, aliases=aliases)
+```
+
 前のコードスニペットでは、モデル チェックポイントをArtifactsとしてログし、評価精度やトレーニング step などのメタデータを追加する方法を示しています。このArtifactsには一意のrun IDを含む名が付けられ、簡単に参照できるように[カスタムエイリアス](/ja/models/artifacts/create-a-custom-alias/)が設定されます。
 
 <div id="log-input-artifacts">

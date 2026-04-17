@@ -11,9 +11,22 @@ Seuls les fichiers qui changent entre deux versions d&#39;artifact entraînent d
 
 Prenons un artifact d’image nommé `animals` contenant deux fichiers image, `cat.png` et `dog.png` :
 
+```
+images
+|-- cat.png (2MB) # Ajouté dans `v0`
+|-- dog.png (1MB) # Ajouté dans `v0`
+```
+
 Cet artifact se voit attribuer la version `v0`.
 
 Lors de l’ajout d’une nouvelle image, `rat.png`, une nouvelle version de l’artifact, `v1`, est créée avec le contenu suivant :
+
+```
+images
+|-- cat.png (2MB) # Ajouté dans `v0`
+|-- dog.png (1MB) # Ajouté dans `v0`
+|-- rat.png (3MB) # Ajouté dans `v1`
+```
 
 La version `v1` totalise 6MB, mais n&#39;occupe que 3MB d&#39;espace, car elle partage les 3MB restants avec `v0`. La suppression de `v1` libère les 3MB de stockage associés à `rat.png`. La suppression de `v0` reporte les coûts de stockage de `cat.png` et `dog.png` sur `v1`, ce qui porte sa taille de stockage à 6MB.
 
@@ -21,12 +34,6 @@ La version `v1` totalise 6MB, mais n&#39;occupe que 3MB d&#39;espace, car elle p
 
 {/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Artifacts](/fr/support/models/tags/artifacts)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Stockage](/fr/support/models/tags/storage)</Badge>
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Stockage](/fr/support/models/tags/storage)
-</Badge>
-
-{/* END GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: tab badges */}

@@ -28,6 +28,23 @@ Vous pouvez ajouter des runs à un groupe par code avec le W&amp;B Python SDK ou
 
     L’exemple suivant crée trois groupes nommés `A`, `B` et `C`. Chaque groupe contient trois runs.
 
+    ```python
+    import wandb
+
+    entity = "<entity>"
+    project = "<project>"
+
+    for group in ["A", "B", "C"]:
+        for i in range(3):
+            with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
+                # Simulate some training
+                for step in range(100):
+                    run.log({
+                        "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                        "loss": 1.0 - (step / 100) * 0.5
+                    })
+    ```
+
     Dans le Workspace du projet, vous pouvez afficher les runs organisés par groupe. L’image suivante montre le tableau des Runs organisé par nom de groupe. Trois groupes nommés `A`, `B` et `C` apparaissent dans le tableau des Runs, chacun contenant trois runs.
 
     <Frame>
@@ -89,9 +106,29 @@ Pour supprimer un groupe, retirez-en tous les runs. Le groupe sera alors automat
 
 Organisez les runs par *type de job*. Un type de job indique la fonction d’un run, par exemple `preprocessing`, `training` ou `evaluation`.
 
-<Note>Consultez le type de job d’un run via la propriété [`wandb.Run.job_type`](/fr/models/ref/python/experiments/run#property-run-job-type) du run.</Note>
+<Note>
+  Consultez le type de job d’un run via la propriété [`wandb.Run.job_type`](/fr/models/ref/python/experiments/run#property-run-job-type) du run.
+</Note>
 
 Ajoutez un type de job à un run en passant le paramètre `job_type` à `wandb.init(job_type="")`. Par exemple, l’extrait de code suivant crée des runs avec un type de job `training` ou `evaluation` :
+
+```python
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+for job_type in ["training", "evaluation"]:
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # Simuler un processus
+            for step in range(50):
+                run.log({
+                    "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
+                    "metric2": 0.8 - (step / 50) * 0.3
+                })
+
+```
 
 L’image suivante montre les runs organisés par type de job :
 

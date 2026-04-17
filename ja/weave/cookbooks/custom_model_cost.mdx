@@ -55,8 +55,68 @@ weave_client = weave.init(name_of_wandb_project)
   ## Weave でモデルを設定する
 </div>
 
+```python lines
+from weave import Model
+
+class YourModel(Model):
+    attribute1: str
+    attribute2: int
+
+    def simple_token_count(self, text: str) -> int:
+        return len(text) // 3
+
+    # これは定義しているカスタムopです
+    # 文字列を受け取り、使用量カウント、モデル名、出力を含むdictを返します
+    @weave.op()
+    def custom_model_generate(self, input_data: str) -> dict:
+        # モデルのロジックをここに記述します
+        # カスタム生成関数はここに実装します
+        prediction = self.attribute1 + " " + input_data
+
+        # 使用量カウント
+        prompt_tokens = self.simple_token_count(input_data)
+        completion_tokens = self.simple_token_count(prediction)
+
+        # 使用量カウント、モデル名、出力を含む辞書を返します
+        # Weave はこれを自動的にトレースに関連付けます
+        # このオブジェクト {usage, model, output} は OpenAI の Call の出力と一致します
+        return {
+            "usage": {
+                "input_tokens": prompt_tokens,
+                "output_tokens": completion_tokens,
+                "total_tokens": prompt_tokens + completion_tokens,
+            },
+            "model": "your_model_name",
+            "output": prediction,
+        }
+
+    # predict 関数では、カスタム生成関数を呼び出して出力を返します。
+    @weave.op()
+    def predict(self, input_data: str) -> dict:
+        # データの後処理はここで行います
+        outputs = self.custom_model_generate(input_data)
+        return outputs["output"]
+```
+
+
 <div id="add-a-custom-cost">
   ## カスタムコストを追加する
 </div>
 
 ここではカスタムコストを追加します。カスタムコストを追加し、各 call に 使用量 が含まれるようになったので、`include_cost` を使って call を取得でき、コストは `summary.weave.costs` の下で確認できます。
+
+```python lines
+model = YourModel(attribute1="Hello", attribute2=1)
+model.predict("world")
+
+# カスタムコストをプロジェクトに追加する
+weave_client.add_cost(
+    llm_id="your_model_name", prompt_token_cost=0.1, completion_token_cost=0.2
+)
+
+# callsをクエリし、include_costs=True を指定することで
+# コストがcallsに紐付いて返される
+calls = weave_client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
+
+list(calls)
+```

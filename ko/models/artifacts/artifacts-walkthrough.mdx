@@ -24,6 +24,13 @@ wandb.login()
 
 [`wandb.init()`](/ko/models/ref/python/functions/init)을 사용해 run을 초기화합니다. 그러면 데이터를 동기화하고 로깅하는 백그라운드 프로세스가 생성됩니다. 프로젝트 이름과 작업 유형을 지정합니다:
 
+```python
+# W&B Run을 생성합니다. 이 예제는 데이터셋 아티팩트를 생성하는 방법을 보여주므로
+# 작업 유형으로 'dataset'을 지정합니다.
+with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
+    # 여기에 코드를 작성하세요
+```
+
 <div id="3-create-an-artifact-object">
   ## 3. 아티팩트 객체 만들기
 </div>
@@ -44,6 +51,11 @@ artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 
 아티팩트에 파일을 추가합니다. 일반적인 파일 유형으로는 모델과 데이터셋이 있습니다. 다음 예제에서는 로컬 머신에 저장된 `dataset.h5`라는 데이터셋을 아티팩트에 추가합니다:
 
+```python
+# 아티팩트의 콘텐츠에 파일 추가
+artifact.add_file(local_path="dataset.h5")
+```
+
 이전 코드 스니펫에서 `dataset.h5` 파일명을 아티팩트에 추가할 파일의 경로로 바꾸세요.
 
 <div id="5-log-the-dataset">
@@ -51,6 +63,11 @@ artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 </div>
 
 W&amp;B run 객체의 `wandb.Run.log_artifact()` 방법을 사용해 아티팩트 버전을 저장하고, 해당 아티팩트를 [run의 출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph)으로 선언합니다.
+
+```python
+# 아티팩트 버전을 W&B에 저장하고 이 run의 출력으로 표시
+run.log_artifact(artifact)
+```
 
 아티팩트를 로깅하면 기본적으로 `'latest'` [별칭](/ko/models/artifacts/create-a-custom-alias)이 생성됩니다. 아티팩트 별칭과 버전에 대한 자세한 내용은 각각 [맞춤형 별칭 만들기](./create-a-custom-alias)와 [새 아티팩트 버전 만들기](./create-a-new-artifact-version)를 참조하세요.
 
@@ -76,5 +93,17 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 1. 먼저 **`wandb.init()`.**으로 새 run 객체를 초기화합니다.
 2. 다음으로, W&amp;B에 사용할 아티팩트를 지정하려면 run 객체의 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 방법을 사용합니다. 그러면 아티팩트 객체가 반환됩니다.
 3. 마지막으로, 아티팩트의 내용을 다운로드하려면 아티팩트의 [`wandb.Artifact.download()`](/ko/models/ref/python/experiments/artifact#download) 방법을 사용합니다.
+
+```python
+# W&B Run을 생성합니다. 트레이닝을 추적하는 데 이 run을 사용할 것이므로
+# 'type'에 'training'을 지정합니다.
+with wandb.init(project="artifacts-example", job_type="training") as run:
+
+  # W&B에서 아티팩트를 쿼리하고 이 run의 입력으로 표시합니다
+  artifact = run.use_artifact("bicycle-dataset:latest")
+
+  # 아티팩트의 콘텐츠를 다운로드합니다
+  artifact_dir = artifact.download()
+```
 
 또는 Public API(`wandb.Api`)를 사용해 Run 외부에서 W&amp;B에 이미 저장된 데이터를 내보내거나 업데이트할 수 있습니다. 자세한 내용은 [외부 파일 추적](./track-external-files)을 참조하세요.

@@ -70,6 +70,21 @@ Utilisez l’argument de Ligne de commande `--logger wandb` pour activer la jour
 
 `num_eval_imges` contrôle le nombre d’images de l’ensemble de validation et de prédictions enregistrées dans les tables W&amp;B pour l’évaluation du modèle.
 
+```shell
+# se connecter à wandb
+wandb login
+
+# appeler votre script d'entraînement yolox avec l'argument logger `wandb`
+python tools/train.py .... --logger wandb \
+                wandb-project <project-name> \
+                wandb-entity <entity>
+                wandb-name <run-name> \
+                wandb-id <run-id> \
+                wandb-save_dir <save-dir> \
+                wandb-num_eval_imges <num-images> \
+                wandb-log_checkpoints <bool>
+```
+
 <div id="example">
   ## Exemple
 </div>

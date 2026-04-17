@@ -67,7 +67,43 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 ```
 
 <div id="log-prediction-samples">
-  ## Journalisation des échantillons de prédictions
+  ## Journaliser des échantillons de prédictions
 </div>
 
-Vous pouvez utiliser le système de [Callbacks de Composer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) pour contrôler quand vous faites de la journalisation dans W&amp;B via le `WandBLogger` ; dans cet exemple, un échantillon d’images de validation et de prédictions fait l’objet d’une journalisation :
+Vous pouvez utiliser le système de [Callbacks de Composer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) pour contrôler quand vous journalisez dans W&amp;B via le `WandBLogger` ; dans cet exemple, un échantillon d’images de validation et de prédictions est journalisé :
+
+```python
+import wandb
+from composer import Callback, State, Logger
+
+class LogPredictions(Callback):
+    def __init__(self, num_samples=100, seed=1234):
+        super().__init__()
+        self.num_samples = num_samples
+        self.data = []
+        
+    def eval_batch_end(self, state: State, logger: Logger):
+        """Calcule les prédictions par lot et les stocke dans self.data"""
+        
+        if state.timer.epoch == state.max_duration: #à la dernière époque de validation
+            if len(self.data) < self.num_samples:
+                n = self.num_samples
+                x, y = state.batch_pair
+                outputs = state.outputs.argmax(-1)
+                data = [[wandb.Image(x_i), y_i, y_pred] for x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
+                self.data += data
+            
+    def eval_end(self, state: State, logger: Logger):
+        with wandb.init() as run:
+            "Crée un wandb.Table et le journalise"
+            columns = ['image', 'ground truth', 'prediction']
+            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
+            run.log({'sample_table':table}, step=int(state.timer.batch))         
+...
+
+trainer = Trainer(
+    ...
+    loggers=[WandBLogger()],
+    callbacks=[LogPredictions()]
+)
+```

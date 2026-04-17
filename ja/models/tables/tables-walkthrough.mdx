@@ -24,10 +24,32 @@ W&amp;B で表をログします。新しい表を作成することも、Pandas
     * [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): 表をログして W&amp;B に保存します。
 
     以下に例を示します。
+
+    ```python
+    import wandb
+
+    with wandb.init(project="table-test") as run:
+        # 新しいテーブルを作成してログします。
+        my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
+        run.log({"Table Name": my_table})
+    ```
   </Tab>
 
   <Tab title="Pandas Dataframe">
     Pandas Dataframe を `wandb.Table()` に渡して、新しい表を作成します。
+
+    ```python
+    import wandb
+    import pandas as pd
+
+    df = pd.read_csv("my_data.csv")
+
+    with wandb.init(project="df-table") as run:
+        # DataFrame から新しいテーブルを作成し、
+        # W&B にログします。
+      my_table = wandb.Table(dataframe=df)
+      run.log({"Table Name": my_table})
+    ```
 
     サポートされるデータ型の詳細については、W&amp;B API Reference Guide の [`wandb.Table`](/ja/models/ref/python/data-types/table) を参照してください。
   </Tab>

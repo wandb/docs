@@ -27,18 +27,19 @@ with wandb.init() as run:
 
 step 파라미터를 수동으로 제어하려면 코드에서 메트릭을 다음과 같이 동기화하세요:
 
+```python
+with wandb.init() as run:
+    step = 100  # step 값 예시
+    # 동일한 step에서 Precision과 Recall을 기록
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
 메트릭이 같은 `step`에 기록되고 함께 샘플링되도록, 두 `log()` 호출에서 `step` 값이 동일하게 유지되도록 하세요. `step` 값은 각 호출마다 단조롭게 증가해야 합니다. 그렇지 않으면 `step` 값은 무시됩니다.
 
 ***
 
 {/* AUTO-GENERATED: 탭 배지 */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Experiments](/ko/support/models/tags/experiments)
-</Badge>
-
-<Badge stroke shape="pill" color="orange" size="md">
-  [메트릭](/ko/support/models/tags/metrics)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 
 {/* 종료 AUTO-GENERATED: 탭 배지 */}

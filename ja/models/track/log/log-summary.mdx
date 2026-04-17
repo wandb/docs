@@ -50,6 +50,29 @@ run.summary.update()
 
 次の例では、損失と精度の最小値および最大値を summary に追加します。
 
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # 損失のsummaryの最小値と最大値
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # accuracyのsummaryの最小値と最大値
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
 <div id="view-summary-metrics">
   ## サマリーメトリクスを表示
 </div>
@@ -78,5 +101,45 @@ run の **Overview** ページまたはプロジェクトの Runs 表で summary
     W&amp;B Public API を使用して、run の summary 値を取得できます。
 
     次のコード例は、W&amp;B Public API と pandas を使用して、特定の run にログされた summary 値を取得する方法の 1 つを示しています。
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # summary 値を持つ run の名
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # DataFrame に変換  
+    df = pd.DataFrame(all_runs)
+
+    # 列名 (run) に基づいて行を取得し、辞書に変換
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
   </Tab>
 </Tabs>

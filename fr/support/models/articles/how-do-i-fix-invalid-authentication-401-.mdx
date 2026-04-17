@@ -20,6 +20,14 @@ Assurez-vous que votre projet est au bon format : `<your-team>/<your-project>`
 
 **Exemple Python :**
 
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>",  # Doit correspondre à votre équipe W&B et à votre projet
+)
+```
+
 **Exemple Bash :**
 
 ```bash
@@ -49,8 +57,6 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
 
 {/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Inférence](/fr/support/models/tags/inference)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

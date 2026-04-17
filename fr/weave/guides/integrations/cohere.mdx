@@ -17,19 +17,61 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
 Weave capturera automatiquement les traces de [cohere-python](https://github.com/cohere-ai/cohere-python). Vous pouvez utiliser la bibliothèque comme d’habitude, en commençant par appeler `weave.init()` :
 
+```python lines {8}
+import cohere
+import os
+import weave
+
+# Utilisez la bibliothèque Cohere comme d'habitude
+co = cohere.Client(api_key=os.environ["COHERE_API_KEY"])
+
+weave.init("cohere_project")
+
+response = co.chat(
+    message="How is the weather in Boston?",
+    # effectuez une recherche web avant de répondre à la question. Vous pouvez également utiliser votre propre connecteur personnalisé.
+    connectors=[{"id": "web-search"}],
+)
+print(response.text)
+```
+
 Si vous ne spécifiez pas de team W&amp;B lorsque vous appelez `weave.init()`, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, reportez-vous à [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
 
 L’une des fonctionnalités puissantes des modèles Cohere est l’utilisation de [connecteurs](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations), qui vous permettent d’effectuer des requêtes vers d’autres API au niveau de l’endpoint. La réponse contiendra alors le texte généré avec des éléments de citation renvoyant vers les documents retournés par le connecteur.
 
 [![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
-<Note>Nous patchons les méthodes Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream` et `AsyncClient.chat_stream` pour vous permettre de suivre vos appels LLM.</Note>
+<Note>
+  Nous patchons les méthodes Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream` et `AsyncClient.chat_stream` pour vous permettre de suivre vos appels LLM.
+</Note>
 
 <div id="wrapping-with-your-own-ops">
   ## Encapsuler avec vos propres ops
 </div>
 
 Les ops Weave rendent les résultats *reproductibles* en assurant automatiquement la gestion des versions du code au fil de vos expériences, et capturent leurs entrées et sorties. Créez simplement une fonction décorée avec [`@weave.op()`](/fr/weave/guides/tracking/ops) qui appelle les méthodes de chat de Cohere, et Weave suivra les entrées et les sorties pour vous. Voici un exemple :
+
+```python lines {9}
+import cohere
+import os
+import weave
+
+co = cohere.Client(api_key=os.environ["COHERE_API_KEY"])
+
+weave.init("cohere_project")
+
+@weave.op()
+def weather(location: str, model: str) -> str:
+    response = co.chat(
+        model=model,
+        message=f"How is the weather in {location}?",
+        # effectuer une recherche web avant de répondre à la question. Vous pouvez également utiliser votre propre connecteur personnalisé.
+        connectors=[{"id": "web-search"}],
+    )
+    return response.text
+
+print(weather("Boston", "command"))
+```
 
 [![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 

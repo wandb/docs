@@ -55,11 +55,42 @@ Rembobinez un run à partir d’une étape donnée et journalisez de nouvelles d
 
 Supposons que vous journalisiez une droite linéaire pendant 300 étapes :
 
+```python
+import wandb
+
+# Initialiser le premier run et journaliser quelques métriques
+with wandb.init(project="<project>", entity="wandb") as run:
+    for i in range(300):
+        # Tracer une ligne linéaire
+        run.log({"metric": i, "step": i})
+```
+
 Dans le Workspace de votre projet, vous voyez un graphique en courbes allant de l’étape 0 à l’étape 300 :
 
 <img src="/images/runs/rewind_run_original.png" alt="Graphique en courbes du run original" />
 
 Plus tard, vous souhaitez rembobiner le run à partir de l’étape 200 et journaliser une nouvelle métrique appelée `additional_metric`, avec les valeurs `i*1.1` de l’étape 200 à l’étape 300. À partir de l’étape 250, vous souhaitez journaliser à la place un nouveau motif ondulé subtil (`i**2 + 2*sin(i/3)`) plutôt qu’une ligne droite :
+
+```python
+import math
+
+run_ID = "<run_ID>" # Remplacez par l'ID du run que vous souhaitez rembobiner
+
+# Rembobiner depuis le premier run à une étape spécifique et enregistrer la métrique à partir de l'étape 200
+with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_step=200") as run:
+
+    # Pour les premières étapes, enregistrer la métrique telle quelle depuis le run
+    # Après l'étape 250, commencer à enregistrer le motif ondulé
+    for i in range(200, 300):
+        if i < 250:
+            run.log({"metric": i, "step": i})  # Continuer à enregistrer depuis le run sans ondulations
+        else:
+            # Introduire le comportement ondulé à partir de l'étape 250
+            subtle_wave = i + (2 * math.sin(i / 3.0))  # Appliquer un motif légèrement ondulé
+            run.log({"metric": subtle_wave, "step": i})
+        # Enregistrer également la nouvelle métrique à toutes les étapes
+        run.log({"additional_metric": i * 1.1, "step": i})
+```
 
 L’image suivante montre le Workspace du projet mis à jour. Notez les modifications suivantes dans le graphique après rembobinage :
 
@@ -84,3 +115,19 @@ En utilisant le champ `Forked From`, vous pouvez naviguer facilement dans l’ar
 </div>
 
 Pour créer un fork à partir d’un run rembobiné, utilisez l’argument [`fork_from`](/fr/models/runs/forking/) dans `wandb.init()` et indiquez l’ID du run source ainsi que l’étape du run source à partir de laquelle créer le fork :
+
+```python
+import wandb
+
+# Forker le run à partir d'une étape spécifique
+forked_run = wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{rewind_run.id}?_step=500",
+)
+
+# Continuer la journalisation dans le nouveau run
+for i in range(500, 1000):
+    forked_run.log({"metric": i*3})
+forked_run.finish()
+```

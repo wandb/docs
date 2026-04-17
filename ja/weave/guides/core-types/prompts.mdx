@@ -47,7 +47,45 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init はクライアントインスタンスを返します
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const systemPrompt = new weave.StringPrompt({
+        content: 'You speak like a pirate',
+        name: 'your-prompt',
+        description: 'A helpful description of your prompt',
+      });
+      
+      // init から返されたクライアントを使用します
+      await weaveClient.publish(systemPrompt, 'pirate_prompt');
+
+      // OpenAI クライアントをラップして Weave で call をトラッキングします
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt.content
+          },
+          {
+            role: "user",
+            content: "Explain general relativity in one paragraph."
+          }
+        ],
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>
 
 <div id="messagesprompt">
@@ -84,7 +122,43 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init はクライアントインスタンスを返します
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.MessagesPrompt({
+        messages: [
+          {
+            "role": "system",
+            "content": "You are a stegosaurus, but don't be too obvious about it."
+          },
+          {
+            "role": "user",
+            "content": "What's good to eat around here?"
+          }
+        ],
+      });
+      
+      // init が返したクライアントを使用します
+      await weaveClient.publish(prompt, 'dino_prompt');
+
+      // OpenAI クライアントをラップして、Weave で call をトラッキングします
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: prompt.messages,
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>
 
 <div id="parameterizing-prompts">
@@ -117,7 +191,39 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines {8,23}
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init はクライアントインスタンスを返します
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.StringPrompt({
+        content: 'Solve the equation {equation}',
+      });
+      
+      // init から返されたクライアントを使用します
+      await weaveClient.publish(prompt, 'calculator_prompt');
+
+      // Weave で call をトラッキングするために OpenAI クライアントをラップします
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "user",
+            content: prompt.format({ equation: "1 + 1 = ?" })
+          }
+        ],
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>
 
 これは `MessagesPrompt` でも同様に機能します。
@@ -150,5 +256,41 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines {8,29}
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init はクライアントインスタンスを返します
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.MessagesPrompt({
+        messages: [
+          {
+            "role": "system",
+            "content": "You will be provided with a description of a scene and your task is to provide a single word that best describes an associated emotion."
+          },
+          {
+            "role": "user",
+            "content": "{scene}"
+          }
+        ]
+      });
+      
+      // init から返されたクライアントを使用します
+      await weaveClient.publish(prompt, 'emotion_prompt');
+
+      // Weave で call をトラッキングするために OpenAI クライアントをラップします
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: prompt.format({ scene: "A dog is lying on a dock next to a fisherman." }),
+      });
+    }
+
+    main();
+    ```
+  </Tab>
 </Tabs>

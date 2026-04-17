@@ -49,6 +49,11 @@ Installez les bibliothèques Hugging Face et W&amp;B, ainsi que le jeu de donné
 !wget https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py
 ```
 
+```notebook
+# le script run_glue.py nécessite transformers dev
+!pip install -q git+https://github.com/huggingface/transformers
+```
+
 Avant de continuer, [inscrivez-vous pour obtenir un compte gratuit](https://app.wandb.ai/login?signup=true).
 
 <div id="put-in-your-api-key">
@@ -63,6 +68,11 @@ wandb.login()
 ```
 
 Vous pouvez, si vous le souhaitez, définir des variables d’environnement pour personnaliser le logging de W&amp;B. Voir le [guide d’intégration Hugging Face](/fr/models/integrations/huggingface/).
+
+```python
+# Facultatif : journaliser les gradients et les paramètres
+%env WANDB_WATCH=all
+```
 
 <div id="train-the-model">
   ## Entraîner le modèle

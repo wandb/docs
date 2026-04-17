@@ -43,9 +43,84 @@ L’exemple de code suivant envoie une requête à OpenAI (nécessite une [clé 
 Exécutez l’exemple de code suivant pour suivre votre premier projet avec Weave :
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines {1-2,7-8,27-28}
+    # Importe la bibliothèque Weave
+    import weave
+    from openai import OpenAI
 
-  <Tab title="TypeScript" />
+    client = OpenAI()
+
+    # Weave suit automatiquement les entrées, les sorties et le code de cette fonction
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
+    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    # Initialise Weave et définit l’équipe et le projet où consigner les données
+    weave.init('your-team/traces-quickstart')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = extract_dinos(sentence)
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {1-2,7-8,20,24-25}
+    // Importe la bibliothèque Weave
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    const openai = new OpenAI();
+
+    // Weave suit automatiquement les entrées, les sorties et le code de cette fonction  
+    async function extractDinos(input: string) {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: `In JSON format extract a list of 'dinosaurs', with their 'name', their 'common_name', and whether its 'diet' is a herbivore or carnivore: ${input}`,
+          },
+        ],
+      });
+      return response.choices[0].message.content;
+    }
+    const extractDinosOp = weave.op(extractDinos);
+
+    async function main() {
+
+      // Initialise Weave et définit l’équipe et le projet où consigner les données
+      await weave.init('your-team/traces-quickstart');
+
+      const result = await extractDinosOp(
+        'I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.'
+      );
+      console.log(result);
+    }
+
+    main();
+
+    ```
+  </Tab>
 </Tabs>
 
 Lorsque vous appelez la fonction `extract_dinos`, Weave affiche dans le terminal des liens pour consulter vos traces. La sortie ressemble à ceci :

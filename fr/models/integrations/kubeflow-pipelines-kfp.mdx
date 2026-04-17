@@ -200,3 +200,17 @@ def train_model(
 </div>
 
 Si vous utilisez une [intégration framework que nous prenons en charge](/fr/models/integrations), vous pouvez aussi transmettre directement le callback :
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    from pytorch_lightning.loggers import WandbLogger
+    from pytorch_lightning import Trainer
+
+    trainer = Trainer(logger=WandbLogger())
+    ...  # lancer l'entraînement
+```

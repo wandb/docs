@@ -133,7 +133,21 @@ Pour extraire la liste complète des images et des versions requises depuis le c
 
 1. Sur un système connecté à Internet, téléchargez les charts Helm W&amp;B depuis le [dépôt des charts Helm W&amp;B](https://github.com/wandb/helm-charts) :
 
+   ```bash
+   # Cloner le dépôt helm-charts
+   git clone https://github.com/wandb/helm-charts.git
+   cd helm-charts
+   ```
+
 2. Inspectez les fichiers `values.yaml` pour identifier toutes les images de conteneur et leurs versions :
+
+   ```bash
+   # Extraire les références d'image du chart de l'opérateur
+   helm show values charts/operator | grep -E "repository:|tag:" | grep -v "^#"
+
+   # Extraire les références d'image du chart de la plateforme
+   helm show values charts/operator-wandb | grep -E "repository:|tag:" | grep -v "^#"
+   ```
 
    Vous pouvez également utiliser cette commande pour extraire uniquement les noms des dépôts (sans les tags de version) :
 
@@ -167,13 +181,65 @@ Pour extraire la liste complète des images et des versions requises depuis le c
 
 1. Sur un système connecté à Internet, récupérez et enregistrez toutes les images requises.
 
-   <Note>Remplacez les numéros de version dans les exemples ci-dessous par les versions réelles issues de l’inspection de votre chart Helm à l’étape 2 ci-dessus. Les versions indiquées ici sont données à titre d’exemple et deviendront obsolètes.</Note>
+   <Note>
+     Remplacez les numéros de version dans les exemples ci-dessous par les versions réelles issues de l’inspection de votre chart Helm à l’étape 2 ci-dessus. Les versions indiquées ici sont données à titre d’exemple et deviendront obsolètes.
+   </Note>
 
    Utilisez des variables shell pour gérer les versions de manière cohérente :
+
+   ```bash
+   # Définir les variables de version (mettez-les à jour selon les versions de votre chart Helm)
+   CONTROLLER_VERSION="1.13.3"
+   APP_VERSION="0.59.2"
+   CONSOLE_VERSION="2.12.2"
+
+   # Récupérer les images
+   docker pull wandb/controller:${CONTROLLER_VERSION}
+   docker pull wandb/local:${APP_VERSION}
+   docker pull wandb/console:${CONSOLE_VERSION}
+   docker pull wandb/megabinary:${APP_VERSION}
+   # ... récupérer toutes les autres images requises avec leurs versions
+
+   # Enregistrer les images dans des fichiers .tar
+   docker save wandb/controller:${CONTROLLER_VERSION} -o wandb-controller-${CONTROLLER_VERSION}.tar
+   docker save wandb/local:${APP_VERSION} -o wandb-local-${APP_VERSION}.tar
+   docker save wandb/console:${CONSOLE_VERSION} -o wandb-console-${CONSOLE_VERSION}.tar
+   docker save wandb/megabinary:${APP_VERSION} -o wandb-megabinary-${APP_VERSION}.tar
+   # ... enregistrer toutes les autres images
+   ```
 
 2. Transférez les fichiers `.tar` vers votre environnement isolé du réseau à l’aide de la méthode approuvée dans votre organisation (clé USB, transfert de fichiers sécurisé, etc.).
 
 3. Dans votre environnement isolé du réseau, chargez les images et envoyez-les vers votre registre interne :
+
+   ```bash
+   # Définir les mêmes variables de version que ci-dessus
+   CONTROLLER_VERSION="1.13.3"
+   APP_VERSION="0.59.2"
+   CONSOLE_VERSION="2.12.2"
+   INTERNAL_REGISTRY="registry.yourdomain.com"
+
+   # Charger les images
+   docker load -i wandb-controller-${CONTROLLER_VERSION}.tar
+   docker load -i wandb-local-${APP_VERSION}.tar
+   docker load -i wandb-console-${CONSOLE_VERSION}.tar
+   docker load -i wandb-megabinary-${APP_VERSION}.tar
+   # ... charger toutes les autres images
+
+   # Ajouter un tag pour le registre interne
+   docker tag wandb/controller:${CONTROLLER_VERSION} ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+   docker tag wandb/local:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+   docker tag wandb/console:${CONSOLE_VERSION} ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+   docker tag wandb/megabinary:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+   # ... ajouter un tag à toutes les autres images
+
+   # Envoyer vers le registre interne
+   docker push ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+   # ... envoyer toutes les autres images
+   ```
 
 <div id="step-2-set-up-internal-helm-chart-repository">
   ### Étape 2 : Configurer le dépôt interne de charts Helm
@@ -186,7 +252,17 @@ En plus des images de conteneur, assurez-vous que les charts Helm suivants sont 
 
 1. Sur un système connecté à Internet, téléchargez les charts :
 
-2. Transférez les fichiers de chart `.tgz` vers votre environnement isolé du réseau et téléversez-les dans votre dépôt Helm interne conformément aux procédures de votre dépôt.
+   ```bash
+   # Ajouter le dépôt Helm W&B
+   helm repo add wandb https://wandb.github.io/helm-charts
+   helm repo update
+
+   # Télécharger les charts
+   helm pull wandb/operator --version 1.13.3
+   helm pull wandb/operator-wandb --version 0.18.0
+   ```
+
+2. Transférez les fichiers de chart `.tgz` vers votre environnement isolé du réseau et importez-les dans votre dépôt Helm interne conformément aux procédures de votre dépôt.
 
    Le chart `operator` déploie l’opérateur Kubernetes W&amp;B (Controller Manager). Le chart `operator-wandb` déploie la plateforme W&amp;B à l’aide des valeurs configurées dans la Ressource personnalisée (CR).
 
@@ -275,7 +351,120 @@ Cette configuration garantit que l’opérateur Kubernetes utilise votre registr
 
 Créez un fichier nommé `wandb.yaml` avec le contenu suivant :
 
-<Note>Remplacez toutes les valeurs fictives (noms d’hôte, mots de passe, tags, etc.) par vos valeurs de configuration réelles. L’exemple ci-dessus présente les composants les plus couramment utilisés.</Note>
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/instance: wandb
+    app.kubernetes.io/name: weightsandbiases
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.yourdomain.com
+      license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      
+      bucket:
+        accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+      
+      api:
+        enabled: true
+      
+      glue:
+        enabled: true
+      
+      executor:
+        enabled: true
+      
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
+
+    # Configurer toutes les images de composants pour utiliser le registre interne
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+
+    api:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    executor:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    glue:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    parquet:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    weave:
+      image:
+        repository: registry.yourdomain.com/wandb/weave-python
+        tag: 0.59.2
+
+    otel:
+      image:
+        repository: registry.yourdomain.com/otel/opentelemetry-collector-contrib
+        tag: 0.97.0
+
+    prometheus:
+      server:
+        image:
+          repository: registry.yourdomain.com/prometheus/prometheus
+          tag: v2.47.0
+      configmapReload:
+        prometheus:
+          image:
+            repository: registry.yourdomain.com/prometheus-operator/prometheus-config-reloader
+            tag: v0.67.0
+
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      class: nginx
+```
+
+<Note>
+  Remplacez toutes les valeurs fictives (noms d’hôte, mots de passe, tags, etc.) par vos valeurs de configuration réelles. L’exemple ci-dessus présente les composants les plus couramment utilisés.
+</Note>
 
 Selon vos besoins de déploiement, vous devrez peut-être également configurer les dépôts d’images pour des composants supplémentaires, tels que :
 
@@ -298,6 +487,17 @@ Consultez le [fichier values du dépôt Helm W&amp;B](https://github.com/wandb/h
 
 2. Surveillez l&#39;avancement du déploiement :
 
+   ```bash
+   # Surveiller la création des pods
+   kubectl get pods -n wandb --watch
+
+   # Vérifier le statut du déploiement
+   kubectl get weightsandbiases -n wandb
+
+   # Consulter les journaux de l'opérateur
+   kubectl logs -n wandb deployment/wandb-operator-controller-manager
+   ```
+
    Le déploiement peut prendre plusieurs minutes, le temps que l&#39;opérateur crée tous les composants nécessaires.
 
 <div id="openshift-configuration">
@@ -317,6 +517,41 @@ OpenShift utilise les Security Context Constraints (SCC) pour contrôler les aut
 </div>
 
 Configurez les composants W&amp;B pour qu&#39;ils s&#39;exécutent avec la SCC restricted en définissant les contextes de sécurité appropriés dans votre Ressource personnalisée :
+
+```yaml
+spec:
+  values:
+    # Configurer les contextes de sécurité pour tous les pods
+    app:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # Répéter pour les autres composants : api, executor, glue, parquet, weave
+```
 
 <div id="option-2-create-custom-scc-if-required">
   #### Option 2 : Créer une SCC personnalisée (si nécessaire)
@@ -426,11 +661,107 @@ Si votre cluster OpenShift utilise un registre d’images interne avec authentif
   ### Exemple complet d’OpenShift
 </div>
 
-Voici un exemple complet de CR pour un déploiement OpenShift en environnement isolé du réseau :
+Voici un exemple complet de CR pour un déploiement OpenShift en environnement isolé :
 
-<Note>Remplacez toutes les valeurs `tag:` de cet exemple par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1. Les versions indiquées ici sont données à titre d’exemple et deviendront obsolètes.</Note>
+<Note>
+  Remplacez toutes les valeurs `tag:` de cet exemple par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1. Les versions indiquées ici sont données à titre d’exemple et deviendront obsolètes.
+</Note>
 
-<Note>Contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B attitré pour obtenir des exemples complets de configuration d’OpenShift adaptés à vos exigences de sécurité.</Note>
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.apps.openshift.yourdomain.com
+      license: <your-license>
+      
+      bucket:
+        accessKey: <your-access-key>
+        secretKey: <your-secret-key>
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+
+    # Spécifique à OpenShift : utiliser les Routes plutôt que l'Ingress
+    ingress:
+      enabled: false
+    
+    route:
+      enabled: true
+      host: wandb.apps.openshift.yourdomain.com
+      tls:
+        enabled: true
+        termination: edge
+
+    # Secret de récupération d'image pour le registre interne
+    imagePullSecrets:
+      - name: wandb-registry-secret
+
+    # Contextes de sécurité pour le SCC restricted d'OpenShift
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # Répéter les contextes de sécurité pour : api, executor, glue, parquet, weave
+    # (abrégé par souci de clarté)
+```
+
+<Note>
+  Contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B attitré pour obtenir des exemples complets de configuration d’OpenShift adaptés à vos exigences de sécurité.
+</Note>
 
 <div id="verify-your-installation">
   ## Vérifiez votre installation
@@ -477,11 +808,27 @@ Si les pods ne parviennent pas à récupérer les images :
 3. Vérifiez la connectivité réseau depuis les nœuds Kubernetes vers le registre
 4. Vérifiez les identifiants d’authentification du registre
 
+   ```bash
+   # Tester la récupération d’image manuellement
+   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
+   kubectl logs test-pull -n wandb
+   kubectl delete pod test-pull -n wandb
+   ```
+
 <div id="openshift-scc-errors">
   ### Erreurs SCC d’OpenShift
 </div>
 
 Si des pods échouent en raison d’erreurs d’autorisation sur OpenShift :
+
+```bash
+# Vérifier quel SCC est utilisé
+oc get pod <pod-name> -n wandb -o yaml | grep scc
+
+# Vérifier les permissions du compte de service
+oc describe scc wandb-scc
+oc get rolebinding -n wandb
+```
 
 <div id="helm-chart-not-found">
   ### Chart Helm introuvable

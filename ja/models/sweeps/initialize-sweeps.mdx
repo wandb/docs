@@ -3,19 +3,36 @@ description: "Python SDK または CLI を使用して W&B Sweep を初期化し
 title: sweep を初期化する
 ---
 
-W&amp;B は、クラウド上 (standard) または 1 台以上のマシンにまたがるローカル環境 (local) で sweeps を管理するために、*Sweep Controller* を使用します。run が完了すると、sweep controller は次に実行する新しい run を記述した一連の指示を発行します。これらの指示は、実際に run を実行する *agents* によって受け取られます。一般的な W&amp;B Sweep では、controller は W&amp;B Server 上で動作します。Agents は *あなたの* マシン上で動作します。
+W&amp;B は、クラウド上 (standard) または 1 台以上のマシンにまたがるローカル環境 (local) で sweeps を管理するために、*Sweep Controller* を使用します。run が完了すると、sweep controller は次に実行する新しい run を記述した一連の指示を発行します。これらの指示は、実際に run を実行する *agents* によって受け取られます。一般的な W&amp;B Sweep では、controller は W&amp;B server 上で動作します。Agents は *あなたの* マシン上で動作します。
 
 以下のコードスニペットは、CLI および Jupyter Notebook または Python script で sweeps を初期化する方法を示しています。
 
 <Warning>
-  1. sweep を初期化する前に、YAML ファイルまたはスクリプト内のネストされた Python の dictionary object のいずれかで、sweep 設定を定義しておいてください。詳細は、[sweep 設定を定義する
-     ](/ja/models/sweeps/define-sweep-configuration/)を参照してください。 2. W&amp;B Sweep と W&amp;B Run は、どちらも同じプロジェクト内に存在する必要があります。そのため、W&amp;B
-     を初期化するときに指定する名 ([`wandb.init()`](/ja/models/ref/python/functions/init)) は、W&amp;B Sweep を初期化するときに指定するプロジェクトの名 ([`wandb.sweep()`](/ja/models/ref/python/functions/sweep)) と一致している必要があります。
+  1. sweep を初期化する前に、YAML ファイルまたはスクリプト内のネストされた Python の dictionary object のいずれかで、sweep 設定を定義しておいてください。詳細は、[sweep 設定を定義する](/ja/models/sweeps/define-sweep-configuration/)を参照してください。
+  2. W&amp;B Sweep と W&amp;B Run は、どちらも同じプロジェクト内に存在する必要があります。そのため、W&amp;B を初期化するときに指定する名 ([`wandb.init()`](/ja/models/ref/python/functions/init)) は、W&amp;B Sweep を初期化するときに指定するプロジェクトの名 ([`wandb.sweep()`](/ja/models/ref/python/functions/sweep)) と一致している必要があります。
 </Warning>
 
 <Tabs>
   <Tab title="Python script or notebook">
     W&amp;B SDK を使用して sweep を初期化します。sweep 設定の dictionary を `sweep` パラメーターに渡します。必要に応じて、W&amp;B Run の出力を保存するプロジェクトの名を project パラメーター (`project`) に指定します。プロジェクトを指定しない場合、run は &quot;Uncategorized&quot; プロジェクトに保存されます。
+
+    ```python
+    import wandb
+
+    # sweep 設定の例
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {"goal": "maximize", "name": "val_acc"},
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
+    ```
 
     [`wandb.sweep()`](/ja/models/ref/python/functions/sweep) function は sweep ID を返します。sweep ID には entity 名とプロジェクト名が含まれます。sweep ID は控えておいてください。
   </Tab>

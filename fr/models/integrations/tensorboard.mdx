@@ -22,11 +22,24 @@ Téléversez vos journaux TensorBoard dans le cloud, partagez rapidement vos ré
   ## Premiers pas
 </div>
 
+```python
+import wandb
+
+# Démarrer un run wandb avec `sync_tensorboard=True`
+wandb.init(project="my-project", sync_tensorboard=True) as run:
+  # Votre code d'entraînement utilisant TensorBoard
+  ...
+
+```
+
 Consultez un [exemple de run avec intégration TensorBoard](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
 Une fois votre run terminé, vous pouvez accéder à vos fichiers d’événements TensorBoard dans W&amp;B et visualiser vos métriques dans les graphiques natifs de W&amp;B, avec d’autres informations utiles comme l’utilisation du CPU ou du GPU du système, l’état de `git`, la commande de terminal utilisée pour le run, et plus encore.
 
-<Note>W&amp;B prend en charge TensorBoard avec toutes les versions de TensorFlow. W&amp;B prend également en charge TensorBoard 1.14 et les versions ultérieures avec PyTorch, ainsi que TensorBoardX.</Note>
+<Note>
+  W&amp;B prend en charge TensorBoard avec toutes les versions de TensorFlow. W&amp;B prend également en charge TensorBoard 1.14 et les versions ultérieures avec PyTorch, ainsi que TensorBoardX.
+</Note>
+
 
 <div id="frequently-asked-questions">
   ## Questions fréquentes
@@ -48,11 +61,33 @@ Le paramètre `step` dans `run.log()` est désactivé lors de la synchronisation
 
 Si vous voulez mieux contrôler la manière dont TensorBoard est patché, vous pouvez appeler `wandb.tensorboard.patch` au lieu de passer `sync_tensorboard=True` à `wandb.init`.
 
+```python
+import wandb
+
+wandb.tensorboard.patch(root_logdir="<logging_directory>")
+run = wandb.init()
+
+# Terminer le run wandb pour envoyer les journaux TensorBoard vers W&B (si exécuté dans un Notebook)
+run.finish()
+```
+
 Vous pouvez passer `tensorboard_x=False` à cette méthode pour vous assurer que le TensorBoard standard est patché. Si vous utilisez TensorBoard &gt; 1.14 avec PyTorch, vous pouvez passer `pytorch=True` pour vous assurer qu&#39;il est patché. Ces deux options ont des valeurs par défaut intelligentes selon les versions de ces bibliothèques qui ont été importées.
 
 Par défaut, nous synchronisons également les fichiers `tfevents` ainsi que tous les fichiers `.pbtxt`. Cela nous permet de lancer une instance TensorBoard pour votre compte. Vous verrez un [onglet TensorBoard](https://www.wandb.com/articles/hosted-tensorboard) sur la page du run. Ce comportement peut être désactivé en passant `save=False` à `wandb.tensorboard.patch`
 
-<Warning>Vous devez appeler soit `wandb.init()`, soit `wandb.tensorboard.patch` **avant** d&#39;appeler `tf.summary.create_file_writer` ou d&#39;instancier un `SummaryWriter` via `torch.utils.tensorboard`.</Warning>
+```python
+import wandb
+
+run = wandb.init()
+wandb.tensorboard.patch(save=False, tensorboard_x=True)
+
+# Si vous exécutez dans un notebook, terminez le run wandb pour importer les journaux TensorBoard dans W&B
+run.finish()
+```
+
+<Warning>
+  Vous devez appeler soit `wandb.init()`, soit `wandb.tensorboard.patch` **avant** d&#39;appeler `tf.summary.create_file_writer` ou d&#39;instancier un `SummaryWriter` via `torch.utils.tensorboard`.
+</Warning>
 
 <div id="how-do-i-sync-historical-tensorboard-runs">
   ### Comment puis-je synchroniser d’anciens runs TensorBoard ?

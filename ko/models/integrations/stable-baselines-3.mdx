@@ -43,4 +43,52 @@ model.learn(..., callback=WandbCallback())
   ## 기본 예시
 </div>
 
-W&amp;B SB3 인테그레이션은 TensorBoard가 출력한 로그를 사용해 메트릭을 로깅합니다 
+W&amp;B SB3 인테그레이션은 TensorBoard가 출력한 로그를 사용해 메트릭을 로깅합니다
+
+```python
+import gym
+from stable_baselines3 import PPO
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.vec_env import DummyVecEnv, VecVideoRecorder
+import wandb
+from wandb.integration.sb3 import WandbCallback
+
+
+config = {
+    "policy_type": "MlpPolicy",
+    "total_timesteps": 25000,
+    "env_name": "CartPole-v1",
+}
+run = wandb.init(
+    project="sb3",
+    config=config,
+    sync_tensorboard=True,  # sb3의 TensorBoard 메트릭을 자동으로 업로드
+    monitor_gym=True,  # 에이전트의 게임 플레이 비디오를 자동으로 업로드
+    save_code=True,  # 선택 사항
+)
+
+
+def make_env():
+    env = gym.make(config["env_name"])
+    env = Monitor(env)  # 리턴 등의 통계를 기록
+    return env
+
+
+env = DummyVecEnv([make_env])
+env = VecVideoRecorder(
+    env,
+    f"videos/{run.id}",
+    record_video_trigger=lambda x: x % 2000 == 0,
+    video_length=200,
+)
+model = PPO(config["policy_type"], env, verbose=1, tensorboard_log=f"runs/{run.id}")
+model.learn(
+    total_timesteps=config["total_timesteps"],
+    callback=WandbCallback(
+        gradient_save_freq=100,
+        model_save_path=f"models/{run.id}",
+        verbose=2,
+    ),
+)
+run.finish()
+```

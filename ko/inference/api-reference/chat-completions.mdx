@@ -21,7 +21,34 @@ Chat Completion을 생성하려면 다음이 필요합니다:
 </div>
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        # 맞춤형 base URL은 W&B Inference를 가리킵니다
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # https://wandb.ai/settings 에서 API 키를 생성하세요
+        # 보안을 위해 대신 환경 변수 OPENAI_API_KEY로 설정하는 것이 좋습니다
+        api_key="<your-api-key>",
+
+        # 선택 사항: 사용 추적을 위한 팀 및 프로젝트
+        project="<your-team>/<your-project>",
+    )
+
+    # <model-id>를 사용 가능한 모델 목록에 있는 아무 모델 ID로 바꾸세요
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
 
   <Tab title="Bash">
     ```bash

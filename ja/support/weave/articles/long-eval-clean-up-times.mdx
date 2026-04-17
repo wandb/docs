@@ -13,6 +13,15 @@ keywords: ["パフォーマンス", "評価"]
 
 例:
 
+```python
+client = weave.init("fast-upload")
+
+# ... 評価のセットアップ
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
 <div id="increasing-client-parallelism">
   ### クライアントの並列性を上げる
 </div>

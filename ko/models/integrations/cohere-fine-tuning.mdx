@@ -13,9 +13,35 @@ W&amp;B를 사용하면 Cohere 모델의 파인튜닝 메트릭과 설정을 기
 
 W&amp;B 워크스페이스에 Cohere 파인튜닝 로깅을 추가하려면 다음 단계를 따르세요.
 
-1. W&amp;B API 키, W&amp;B `entity`, `project` 이름으로 `WandbConfig`를 생성합니다. API 키는 [https://wandb.ai/settings](https://wandb.ai/settings)에서 생성할 수 있습니다.
+1. W&amp;B API 키, W&amp;B `entity`, `project` 이름으로 `WandbConfig`를 생성합니다. API 키는 https://wandb.ai/settings 에서 생성할 수 있습니다.
 
 2. 이 설정을 모델 이름, 데이터셋, 하이퍼파라미터와 함께 `FinetunedModel` 객체에 전달해 파인튜닝 run을 시작합니다.
+
+   ```python
+   from cohere.finetuning import WandbConfig, FinetunedModel
+
+   # W&B 정보로 설정 생성
+   wandb_ft_config = WandbConfig(
+       api_key="<wandb_api_key>",
+       entity="my-entity", # 제공한 API 키와 연결된 유효한 entity여야 합니다
+       project="cohere-ft",
+   )
+
+   ...  # 데이터셋과 하이퍼파라미터 설정
+
+   # cohere에서 fine-tuning run 시작
+   cmd_r_finetune = co.finetuning.create_finetuned_model(
+     request=FinetunedModel(
+       name="command-r-ft",
+       settings=Settings(
+         base_model=...
+         dataset_id=...
+         hyperparameters=...
+         wandb=wandb_ft_config  # 여기에 W&B 설정 전달
+       ),
+     ),
+   )
+   ```
 
 3. 생성한 W&amp;B 프로젝트에서 모델의 파인튜닝 트레이닝 및 검증 메트릭, 하이퍼파라미터를 확인합니다.
 

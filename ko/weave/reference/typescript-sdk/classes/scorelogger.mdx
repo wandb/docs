@@ -10,6 +10,14 @@ EvaluationLogger.logPrediction()에서 반환되는 객체입니다.
 
 `Example`
 
+```ts
+const pred = await ev.logPrediction(example, output);
+await pred.logScore("accuracy", 0.95);
+await pred.logScore("relevance", 0.8);
+await pred.finish(); // prediction을 완료합니다
+```
+
+
 <div id="table-of-contents">
   ## 목차
 </div>

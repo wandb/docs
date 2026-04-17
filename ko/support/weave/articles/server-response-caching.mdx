@@ -24,6 +24,17 @@ Weave는 반복적으로 쿼리하거나 네트워크 대역폭이 제한된 환
 
 캐싱을 활성화하려면 다음 환경 변수를 설정할 수 있습니다:
 
+```bash
+# 서버 응답 캐싱 활성화
+export WEAVE_USE_SERVER_CACHE=true
+
+# 캐시 크기 제한 설정 (기본값: 1GB)
+export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
+
+# 캐시 디렉터리 설정 (선택 사항, 기본값: 임시 디렉터리)
+export WEAVE_SERVER_CACHE_DIR=/path/to/cache
+```
+
 <div id="caching-behavior">
   ### 캐싱 방식
 </div>

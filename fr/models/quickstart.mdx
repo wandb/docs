@@ -77,15 +77,64 @@ Ce démarrage rapide est également disponible sous la forme d’un notebook Col
 Dans votre script Python ou notebook, initialisez un objet run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/experiments/run/). Utilisez un dictionnaire pour le paramètre `config`
 afin de définir les noms et les valeurs des hyperparamètres. Dans le bloc `with`, vous pouvez consigner des métriques et d’autres informations dans W&amp;B.
 
+```python
+import wandb
+
+wandb.login()
+
+# Projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# Dictionnaire avec les hyperparamètres
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    # Code d'entraînement ici
+    # Enregistrer les valeurs dans W&B avec run.log()
+    run.log({"accuracy": 0.9, "loss": 0.1})
+```
+
 Voir la section suivante pour un exemple complet qui simule un run d&#39;entraînement et enregistre les métriques de précision et de perte dans W&amp;B.
 
-<Info>Un [run](/fr/models/runs/) est un élément central de W&amp;B. Vous utilisez les runs pour [suivre les métriques](/fr/models/track/), [créer des journaux](/fr/models/track/log/), suivre les artifacts, et bien plus encore.</Info>
+<Info>
+  Un [run](/fr/models/runs/) est un élément central de W&amp;B. Vous utilisez les runs pour [suivre les métriques](/fr/models/track/), [créer des journaux](/fr/models/track/log/), suivre les artifacts, et bien plus encore.
+</Info>
 
 <div id="create-a-machine-learning-training-experiment">
   ## Créer une expérience d&#39;entraînement en machine learning
 </div>
 
 Ce script d&#39;entraînement fictif journalise des métriques simulées de précision et de perte dans W&amp;B. Faites un copier-coller du code suivant dans un script Python ou une cellule de notebook, puis exécutez-le :
+
+```python
+import wandb
+import random
+
+wandb.login()
+
+# Projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# Dictionnaire avec les hyperparamètres
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # Simuler un run d'entraînement
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
+```
 
 Accédez à [wandb.ai/home](https://wandb.ai/home) pour consulter les métriques enregistrées, comme `accuracy` et `loss`, ainsi que leur évolution à chaque étape d&#39;entraînement. L&#39;image suivante montre les valeurs de `loss` et d&#39;`accuracy` suivies pour chaque run. Chaque objet run apparaît dans la colonne **Runs** avec un nom généré.
 

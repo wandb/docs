@@ -121,6 +121,28 @@ MCP 클라이언트 안내가 있는 탭을 선택하세요:
 
   <Tab title="OpenAI">
     W&amp;B MCP 서버를 OpenAI 호출에 추가하려면 OpenAI Responses 설정의 `tools` 필드에 서버 정보를 추가하세요:
+
+    ```python
+    from openai import OpenAI
+    import os
+
+    client = OpenAI()
+
+    resp = client.responses.create(
+        model="gpt-4o",
+        tools=[{
+            "type": "mcp",
+            "server_label": "wandb",
+            "server_description": "W&B 데이터 쿼리",
+            "server_url": "https://mcp.withwandb.com/mcp",
+            "authorization": os.getenv("<your-wandb-api-key>"),
+            "require_approval": "never",
+        }],
+        input="내 W&B 계정의 Projects 목록을 나열해 주세요.",
+    )
+
+    print(resp.output_text)
+    ```
   </Tab>
 
   <Tab title="Gemini CLI">
@@ -139,13 +161,14 @@ MCP 클라이언트 안내가 있는 탭을 선택하세요:
   </Tab>
 
   <Tab title="Mistral LeChat">
-    W&amp;B MCP 서버를 Mistral LeChat에 추가하려면:
+    W&amp;B MCP 서버를 Mistral LeChat에 추가하려면 다음 단계를 따르세요.
 
     1. **Intelligence** 메뉴에서 **Add Connector**를 선택해 Connector 창을 엽니다.
 
     2. **Custom MCP Connector** 탭을 선택합니다.
 
     3. 다음 값으로 필드를 설정합니다.
+
        * **Connector Server**: `https://mcp.withwandb.com/mcp`
        * **Description**: (선택) 연결에 대한 짧은 임의의 설명입니다.
        * **Authentication Method**: **API Token Authentication**을 선택합니다. 그러면 추가 필드가 표시됩니다.
@@ -188,9 +211,23 @@ W&amp;B Self-Managed 배포 환경, 개발, 테스트 또는 폐쇄망 환경에
 로컬 머신에 W&amp;B MCP 서버를 설치하려면 다음 설치 명령어 중 하나를 사용하세요:
 
 <Tabs>
-  <Tab title="uv">`bash uv install wandb-mcp-server `</Tab>
-  <Tab title="pip">`bash pip install wandb-mcp-server `</Tab>
-  <Tab title="GitHub에서 직접 설치">`bash pip install git+https://github.com/wandb/wandb-mcp-server `</Tab>
+  <Tab title="uv">
+    ```bash
+    uv install wandb-mcp-server
+    ```
+  </Tab>
+
+  <Tab title="pip">
+    ```bash
+    pip install wandb-mcp-server
+    ```
+  </Tab>
+
+  <Tab title="GitHub에서 직접 설치">
+    ```bash
+    pip install git+https://github.com/wandb/wandb-mcp-server
+    ```
+  </Tab>
 </Tabs>
 
 MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이언트를 설정하세요. 계속하려면 MCP 클라이언트를 선택하세요:
@@ -204,7 +241,11 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
       "mcpServers": {
         "wandb": {
           "command": "uvx",
-          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
+          "args": [
+            "--from",
+            "git+https://github.com/wandb/wandb-mcp-server",
+            "wandb_mcp_server"
+          ],
           "env": {
             "WANDB_API_KEY": "<your-wandb-api-key>",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
@@ -223,7 +264,11 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
       "servers": {
         "wandb": {
           "command": "uvx",
-          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
+          "args": [
+            "--from",
+            "git+https://github.com/wandb/wandb-mcp-server",
+            "wandb_mcp_server"
+          ],
           "env": {
             "WANDB_API_KEY": "<your-wandb-api-key>",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
@@ -269,7 +314,11 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
       "mcpServers": {
         "wandb": {
           "command": "/full/path/to/uvx",
-          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
+          "args": [
+            "--from",
+            "git+https://github.com/wandb/wandb-mcp-server",
+            "wandb_mcp_server"
+          ],
           "env": {
             "WANDB_API_KEY": "<your-wandb-api-key>",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
@@ -283,13 +332,20 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
   </Tab>
 </Tabs>
 
-웹 기반 클라이언트 또는 테스트용으로는 HTTP 전송을 사용해 서버를 실행하세요:
+웹 기반 클라이언트 또는 테스트용으로는 HTTP 전송 방식으로 서버를 실행하세요:
 
 ```bash
 uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 ```
 
 OpenAI와 같은 외부 클라이언트가 로컬 서버에 접근할 수 있도록 하려면 ngrok을 사용하세요:
+
+```bash
+uvx wandb_mcp_server --transport http --port 8080
+
+# 다른 터미널에서 ngrok으로 외부에 노출
+ngrok http 8080
+```
 
 서버를 `ngrok`으로 노출한 경우, MCP 클라이언트 설정에서 `ngrok` URL을 사용하도록 업데이트하세요.
 

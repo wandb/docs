@@ -42,6 +42,25 @@ description: "W&B Weave에서 Service API를 통해 Weave 트레이싱을 사용
 * `team_id`: W&amp;B 팀 이름입니다.
 * `wandb_token`: [W&amp;B API 키](https://wandb.ai/settings)입니다.
 
+```python lines
+import datetime
+import json
+
+import requests
+
+# 헤더 및 URL
+headers = {"Content-Type": "application/json"}
+url_start = "https://trace.wandb.ai/call/start"
+url_end = "https://trace.wandb.ai/call/end"
+url_stream_query = "https://trace.wandb.ai/calls/stream_query"
+
+# W&B 변수
+team_id = ""
+project_id = ""
+wandb_token = ""
+```
+
+
 <div id="simple-trace">
   ## 단순한 트레이스
 </div>
@@ -59,6 +78,40 @@ description: "W&B Weave에서 Service API를 통해 Weave 트레이싱을 사용
 
 성공하면 이 코드는 트레이스가 시작되었음을 알리는 메시지를 출력합니다:
 
+```
+Call started. ID: 01939cdc-38d2-7d61-940d-dcca0a56c575, Trace ID: 01939cdc-38d2-7d61-940d-dcd0e76c5f34
+python
+## ------------
+## 트레이스 시작
+## ------------
+payload_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "simple_trace",
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {
+            # 확장된 트레이스에서 채팅 UI를 생성하려면 이 "messages" 스타일을 사용하세요.
+            "messages": [{"role": "user", "content": "Why is the sky blue?"}],
+            "model": "gpt-4o",
+        },
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    call_id = data.get("id")
+    trace_id = data.get("trace_id")
+    print(f"Call started. ID: {call_id}, Trace ID: {trace_id}")
+else:
+    print("Start request failed with status:", response.status_code)
+    print(response.text)
+    exit()
+```
+
+
 <div id="end-a-simple-trace">
   ### 단순한 트레이스 종료
 </div>
@@ -66,6 +119,51 @@ description: "W&B Weave에서 Service API를 통해 Weave 트레이싱을 사용
 단순한 트레이스를 완료하려면, 다음 코드는 샘플 LLM call `payload_end`를 생성한 뒤 `url_end` 엔드포인트를 사용해 이를 Weave에 로깅합니다. `payload_end` 객체는 쿼리 `Why is the sky blue?`에 대한 OpenAI&#39;s `gpt-4o`의 응답을 모방합니다. 이 객체는 Weave 대시보드의 트레이스 뷰에서 가격 요약 정보와 chat completion이 생성되도록 형식이 맞춰져 있습니다.
 
 성공하면 이 코드는 트레이스가 완료되었음을 알리는 메시지를 출력합니다:
+
+```
+Call ended.
+python
+## ------------
+## End trace
+## ------------
+payload_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            # 확장된 트레이스의 채팅 UI에 완성 내용을 추가하려면 이 "choices" 스타일을 사용하세요.
+            "choices": [
+                {
+                    "message": {
+                        "content": "It’s due to Rayleigh scattering, where shorter blue wavelengths of sunlight scatter in all directions."
+                    }
+                },
+            ]
+        },
+        # 트레이스 테이블에서 가격 요약 정보를 생성하려면 summary를 다음과 같이 형식화하세요.
+        "summary": {
+            "usage": {
+                "gpt-4o": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 20,
+                    "total_tokens": 30,
+                    "requests": 1,
+                }
+            }
+        },
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Call ended.")
+else:
+    print("End request failed with status:", response.status_code)
+    print(response.text)
+```
+
 
 <div id="complex-trace">
   ## 복잡한 트레이스
@@ -88,20 +186,110 @@ description: "W&B Weave에서 Service API를 통해 Weave 트레이싱을 사용
 
 성공하면 이 코드는 부모 call이 로깅되었음을 나타내는 메시지를 출력합니다:
 
+```
+부모 call이 시작되었습니다. ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
+python
+## ------------
+## 트레이스 시작 (부모)
+## ------------
+
+# 부모 call: 시작
+payload_parent_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "complex_trace",
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {"question": "Can you summarize the key points of this document?"},
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_parent_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    parent_call_id = data.get("id")
+    trace_id = data.get("trace_id")
+    print(f"부모 call이 시작되었습니다. ID: {parent_call_id}, Trace ID: {trace_id}")
+else:
+    print("부모 시작 요청이 실패했습니다. 상태 코드:", response.status_code)
+    print(response.text)
+    exit()
+```
+
+
 <div id="add-a-child-span-for-a-rag-document-lookup">
   ### RAG 문서 조회용 하위 span 추가
 </div>
 
-다음 코드는 이전 step에서 시작한 복합 상위 트레이스에 하위 span을 추가하는 방법을 보여줍니다. 이 step은 전체 워크플로에서 RAG 문서 조회 하위 오퍼레이션을 나타냅니다.
+다음 코드는 이전 step에서 시작한 복합 부모 트레이스에 하위 span을 추가하는 방법을 보여줍니다. 이 step은 전체 워크플로에서 RAG 문서 조회 하위 오퍼레이션을 나타냅니다.
 
 자식 트레이스는 `payload_child_start` 객체로 시작되며, 여기에는 다음이 포함됩니다:
 
-* `trace_id`: 이 하위 span을 상위 트레이스에 연결합니다.
+* `trace_id`: 이 하위 span을 부모 트레이스에 연결합니다.
 * `parent_id`: 하위 span을 부모 오퍼레이션에 연결합니다.
 * `inputs`: 검색 쿼리를 로깅합니다. 예:
   `"This is a search query of the documents I'm looking for."`
 
 `url_start` 엔드포인트 호출이 성공하면, 코드는 자식 call이 시작되어 완료되었음을 나타내는 메시지를 출력합니다:
+
+```
+자식 call이 시작되었습니다. ID: 01939d32-23d6-75f2-9128-36a4a806f179
+자식 call이 종료되었습니다.
+python
+## ------------
+## 자식 스팬:
+## 예시. RAG 문서 조회
+## ------------
+
+# 자식 call: 시작
+payload_child_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "rag_document_lookup",
+        "trace_id": trace_id,
+        "parent_id": parent_call_id,
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {
+            "document_search": "This is a search query of the documents I'm looking for."
+        },
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_child_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    child_call_id = data.get("id")
+    print(f"자식 call이 시작되었습니다. ID: {child_call_id}")
+else:
+    print("자식 시작 요청이 실패했습니다. 상태 코드:", response.status_code)
+    print(response.text)
+    exit()
+
+# 자식 call: 종료
+payload_child_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": child_call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            "document_results": "This will be the RAG'd document text which will be returned from the search query."
+        },
+        "summary": {},
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("자식 call이 종료되었습니다.")
+else:
+    print("자식 종료 요청이 실패했습니다. 상태 코드:", response.status_code)
+    print(response.text)
+```
+
 
 <div id="add-a-child-span-for-an-llm-completion-call">
   ### LLM completion call에 대한 하위 span 추가
@@ -113,14 +301,93 @@ LLM completion 트레이스는 `payload_child_start` 객체로 시작되며, 여
 
 * `trace_id`: 이 하위 span을 부모 트레이스에 연결합니다.
 * `parent_id`: 이 하위 span을 상위 워크플로에 연결합니다.
-* `inputs`: 사용자 쿼리와 추가된 문서 컨텍스트를 포함한 LLM 입력 메시지를 로깅합니다.
+* `inputs`: 사용자 쿼리와 추가된 문서 컨텍스트를 포함한 LLM 입력 메시지를 log합니다.
 * `model`: 오퍼레이션에 사용된 모델(`gpt-4o`)을 지정합니다.
 
 성공하면 코드는 LLM 하위 span 트레이스가 시작되고 종료되었음을 나타내는 메시지를 출력합니다:
 
+```
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
+```
+
 오퍼레이션이 완료되면 `payload_child_end` 객체가 `output` 필드에 LLM이 생성한 응답을 로깅하면서 트레이스를 종료합니다. 사용 요약 정보도 함께 로깅됩니다.
 
 성공하면 코드는 LLM child span 트레이스가 시작되고 종료되었음을 알리는 메시지를 출력합니다:
+
+```
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
+Child call ended.
+python
+## ------------
+## Child span:
+## LLM completion call 생성
+## ------------
+
+# Child call: 시작
+payload_child_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "llm_completion",
+        "trace_id": trace_id,
+        "parent_id": parent_call_id,
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "다음 문서 컨텍스트를 바탕으로 질문에 답해 주시겠어요?\n 이 문서의 핵심 내용을 요약해 주세요.\n [+ 추가된 문서 컨텍스트]",
+                }
+            ],
+            "model": "gpt-4o",
+        },
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_child_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    child_call_id = data.get("id")
+    print(f"Child call 시작됨. ID: {child_call_id}")
+else:
+    print("Child 시작 요청 실패. 상태 코드:", response.status_code)
+    print(response.text)
+    exit()
+
+# Child call: 종료
+payload_child_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": child_call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            "choices": [
+                {"message": {"content": "LLM이 생성한 응답입니다."}},
+            ]
+        },
+        "summary": {
+            "usage": {
+                "gpt-4o": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 20,
+                    "total_tokens": 30,
+                    "requests": 1,
+                }
+            }
+        },
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Child call 종료됨.")
+else:
+    print("Child 종료 요청 실패. 상태 코드:", response.status_code)
+    print(response.text)
+```
+
 
 <div id="end-a-complex-trace">
   ### 복잡한 트레이스 종료
@@ -140,8 +407,49 @@ LLM completion 트레이스는 `payload_child_start` 객체로 시작되며, 여
 
 성공하면 코드에서 다음을 출력합니다.
 
+```
+Parent call ended.
+python
+## ------------
+## 트레이스 종료
+## ------------
+
+# 상위 call: 종료
+payload_parent_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": parent_call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            "choices": [
+                {"message": {"content": "LLM이 생성한 응답입니다."}},
+            ]
+        },
+        "summary": {
+            "usage": {
+                "gpt-4o": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 20,
+                    "total_tokens": 30,
+                    "requests": 1,
+                }
+            }
+        },
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_parent_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Parent call ended.")
+else:
+    print("Parent end request failed with status:", response.status_code)
+    print(response.text)
+```
+
+
 <div id="run-a-lookup-query">
-  ## lookup 쿼리 실행
+  ## 조회 쿼리 실행
 </div>
 
 다음 코드는 앞선 예제에서 생성한 트레이스를 조회하는 방법을 보여주며, `inputs.model` 필드가 `gpt-4o`인 트레이스만 필터링합니다.
@@ -159,3 +467,35 @@ LLM completion 트레이스는 `payload_child_start` 객체로 시작되며, 여
 * `include_feedback`: 결과에서 피드백 데이터를 제외합니다.
 
 쿼리가 성공하면 응답에는 쿼리 매개변수와 일치하는 트레이스 데이터가 포함됩니다:
+
+```
+{'id': '01939cf3-541f-76d3-ade3-50cfae068b39', 'project_id': 'cool-new-team/uncategorized', 'op_name': 'simple_trace', 'display_name': None, 'trace_id': '01939cf3-541f-76d3-ade3-50d5cfabe2db', 'parent_id': None, 'started_at': '2024-12-06T17:10:12.590000Z', 'attributes': {}, 'inputs': {'messages': [{'role': 'user', 'content': 'Why is the sky blue?'}], 'model': 'gpt-4o'}, 'ended_at': '2024-12-06T17:47:08.553000Z', 'exception': None, 'output': {'choices': [{'message': {'content': 'It’s due to Rayleigh scattering, where shorter blue wavelengths of sunlight scatter in all directions.'}}]}, 'summary': {'usage': {'gpt-4o': {'prompt_tokens': 10, 'completion_tokens': 20, 'requests': 1, 'total_tokens': 30}}, 'weave': {'status': 'success', 'trace_name': 'simple_trace', 'latency_ms': 2215963}}, 'wb_user_id': 'VXNlcjoyMDk5Njc0', 'wb_run_id': None, 'deleted_at': None}
+python
+query_payload = {
+    "project_id": f"{team_id}/{project_id}",
+    "filter": {"trace_roots_only": True},
+    "query": {
+        "$expr": {"$eq": [{"$getField": "inputs.model"}, {"$literal": "gpt-4o"}]}
+    },
+    "limit": 10000,
+    "offset": 0,
+    "sort_by": [{"field": "started_at", "direction": "desc"}],
+    "include_feedback": False,
+}
+response = requests.post(
+    url_stream_query, headers=headers, json=query_payload, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("쿼리 성공!")
+    try:
+        data = response.json()
+        print(data)
+    except json.JSONDecodeError as e:
+        # 대체 디코드
+        json_objects = response.text.strip().split("\n")
+        parsed_data = [json.loads(obj) for obj in json_objects]
+        print(parsed_data)
+else:
+    print(f"쿼리 실패, 상태 코드: {response.status_code}")
+    print(response.text)
+```

@@ -19,6 +19,18 @@ La bibliothèque `wandb` inclut un callback `WandbCallback` pour journaliser les
 
 La journalisation des métriques XGBoost, des configurations et des modèles booster dans W&amp;B est aussi simple que de transmettre `WandbCallback` à XGBoost :
 
+```python
+from wandb.integration.xgboost import WandbCallback
+import xgboost as XGBClassifier
+
+...
+# Démarrer un run wandb
+with wandb.init() as run:
+  # Passer WandbCallback au modèle
+  bst = XGBClassifier()
+  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
+```
+
 Vous pouvez ouvrir [ce notebook](https://wandb.me/xgboost) pour obtenir une vue d’ensemble complète de la journalisation avec XGBoost et W&amp;B
 
 <div id="wandbcallback-reference">

@@ -3,13 +3,26 @@ description: "Intégrez W&B à LightGBM pour journaliser automatiquement les mé
 title: LightGBM
 ---
 
-import { ColabLink } from "/snippets/fr/_includes/colab-link.mdx"
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
 
 La bibliothèque `wandb` inclut un callback spécial pour [LightGBM](https://lightgbm.readthedocs.io/en/latest/). Il est également facile d’utiliser les fonctionnalités de journalisation génériques de W&amp;B pour suivre des expériences à grande échelle, comme les Sweeps d’hyperparamètres.
 
-<Note>Vous cherchez des exemples de code prêts à l’emploi ? Consultez [notre dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).</Note>
+```python
+from wandb.integration.lightgbm import wandb_callback, log_summary
+import lightgbm as lgb
+
+# Consigner des métriques dans W&B
+gbm = lgb.train(..., callbacks=[wandb_callback()])
+
+# Consigner le graphique d'importance des variables et téléverser le point de contrôle du modèle dans W&B
+log_summary(gbm, save_model_checkpoint=True)
+```
+
+<Note>
+  Vous cherchez des exemples de code prêts à l’emploi ? Consultez [notre dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+</Note>
 
 <div id="tuning-your-hyperparameters-with-sweeps">
   ## Ajustez vos hyperparamètres avec Sweeps

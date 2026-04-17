@@ -59,7 +59,7 @@ Chain of Density (CoD) は、反復的に要約を洗練しながら、より簡
 
 > AnthropicのAPIキーを取得するには、次の手順に従います。
 >
-> 1. [https://www.anthropic.com](https://www.anthropic.com) でアカウントを作成します
+> 1. https://www.anthropic.com でアカウントを作成します
 > 2. アカウント設定のAPIセクションにアクセスします
 > 3. 新しいAPIキーを生成します
 > 4. APIキーを .env ファイルに安全に保存します
@@ -92,6 +92,29 @@ anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 データを表現するためのシンプルな `ArxivPaper` クラスを作成します。
 
+```python lines
+# ArxivPaper モデルを定義する
+class ArxivPaper(BaseModel):
+    entry_id: str
+    updated: datetime
+    published: datetime
+    title: str
+    authors: list[str]
+    summary: str
+    pdf_url: str
+
+# サンプルの ArxivPaper を作成する
+arxiv_paper = ArxivPaper(
+    entry_id="http://arxiv.org/abs/2406.04744v1",
+    updated=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
+    published=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
+    title="CRAG -- Comprehensive RAG Benchmark",
+    authors=["Xiao Yang", "Kai Sun", "Hao Xin"],  # 簡略化のため省略
+    summary="Retrieval-Augmented Generation (RAG) has recently emerged as a promising solution...",  # 省略
+    pdf_url="https://arxiv.org/pdf/2406.04744",
+)
+```
+
 このクラスは、要約パイプラインへの入力となる ArXiv 論文のメタデータと内容を保持します。
 
 <div id="load-pdf-content">
@@ -100,13 +123,108 @@ anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 論文全体の内容を扱うため、PDF からテキストを読み込んで抽出する関数を追加します。
 
+```python lines
+@weave.op()
+def load_pdf(pdf_url: str) -> str:
+    # PDFをダウンロードする
+    response = requests.get(pdf_url)
+    pdf_file = io.BytesIO(response.content)
+
+    # PDFを読み込む
+    pdf_reader = PdfReader(pdf_file)
+
+    # 全ページからテキストを抽出する
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+
+    return text
+```
+
 <div id="implement-chain-of-density-summarization">
-  ## Chain of Density 要約を実装する
+  ## Chain of Density の要約を実装する
 </div>
 
 それでは、Weaveのオペレーションを使って、CoD要約の中核ロジックを実装します。
 
-<Frame>![Chain of Density 要約パイプラインの実行を示す Weave trace visualization](/media/summarization/summarization_trace.png)</Frame>
+<Frame>
+  ![Chain of Density の要約パイプラインの実行を示す Weave trace visualization](/media/summarization/summarization_trace.png)
+</Frame>
+
+```python lines
+# Chain of Density Summarization
+@weave.op()
+def summarize_current_summary(
+    document: str,
+    instruction: str,
+    current_summary: str = "",
+    iteration: int = 1,
+    model: str = "claude-3-sonnet-20240229",
+):
+    prompt = f"""
+    Document: {document}
+    Current summary: {current_summary}
+    Instruction to focus on: {instruction}
+    Iteration: {iteration}
+
+    Generate an increasingly concise, entity-dense, and highly technical summary from the provided document that specifically addresses the given instruction.
+    """
+    response = anthropic_client.messages.create(
+        model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text
+
+@weave.op()
+def iterative_density_summarization(
+    document: str,
+    instruction: str,
+    current_summary: str,
+    density_iterations: int,
+    model: str = "claude-3-sonnet-20240229",
+):
+    iteration_summaries = []
+    for iteration in range(1, density_iterations + 1):
+        current_summary = summarize_current_summary(
+            document, instruction, current_summary, iteration, model
+        )
+        iteration_summaries.append(current_summary)
+    return current_summary, iteration_summaries
+
+@weave.op()
+def final_summary(
+    instruction: str, current_summary: str, model: str = "claude-3-sonnet-20240229"
+):
+    prompt = f"""
+    Given this summary: {current_summary}
+    And this instruction to focus on: {instruction}
+    Create an extremely dense, final summary that captures all key technical information in the most concise form possible, while specifically addressing the given instruction.
+    """
+    return (
+        anthropic_client.messages.create(
+            model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}]
+        )
+        .content[0]
+        .text
+    )
+
+@weave.op()
+def chain_of_density_summarization(
+    document: str,
+    instruction: str,
+    current_summary: str = "",
+    model: str = "claude-3-sonnet-20240229",
+    density_iterations: int = 2,
+):
+    current_summary, iteration_summaries = iterative_density_summarization(
+        document, instruction, current_summary, density_iterations, model
+    )
+    final_summary_text = final_summary(instruction, current_summary, model)
+    return {
+        "final_summary": final_summary_text,
+        "accumulated_summary": current_summary,
+        "iteration_summaries": iteration_summaries,
+    }
+```
 
 各関数の役割は次のとおりです。
 
@@ -216,13 +334,45 @@ def evaluate_summary(
 
 パイプラインを評価するために、Weave データセットを作成し、評価を実行します。
 
-<Frame>![データセットの選択と設定オプションを備えた、評価用 Weave データセットの設定インターフェース](/media/summarization/dataset.png)</Frame>
+<Frame>
+  ![データセットの選択と設定オプションを備えた、評価用 Weave データセットの設定インターフェース](/media/summarization/dataset.png)
+</Frame>
+
+```python lines
+# Weave Dataset を作成する
+dataset = weave.Dataset(
+    name="arxiv_papers",
+    rows=[
+        {
+            "paper": arxiv_paper,
+            "instruction": "What was the approach to experimenting with different data mixtures?",
+        },
+    ],
+)
+
+weave.publish(dataset)
+```
 
 今回の評価では、LLM-as-a-judge アプローチを使用します。この手法では、あるモデルやシステムが生成した出力の品質を、別の言語モデルを使って評価します。LLM の理解力と推論能力を活用することで、従来のメトリクスでは十分に捉えきれないタスクでも、よりきめ細かな評価が可能になります。
 
 [![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
 
-<Frame>![Chain of Density 要約結果、メトリクス、パフォーマンス比較を示す Weave 評価ダッシュボード](/media/summarization/eval_dash.png)</Frame>
+<Frame>
+  ![Chain of Density の要約結果、メトリクス、パフォーマンス比較を示す Weave 評価ダッシュボード](/media/summarization/eval_dash.png)
+</Frame>
+
+```python lines
+# スコアラー関数を定義する
+@weave.op()
+def quality_scorer(instruction: str, output: dict) -> dict:
+    result = evaluate_summary(output["final_summary"], instruction)
+    return result
+python
+# 評価を実行する
+evaluation = weave.Evaluation(dataset=dataset, scorers=[quality_scorer])
+arxiv_chain_of_density_pipeline = ArxivChainOfDensityPipeline()
+results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
+```
 
 このコードは、ArXiv のサンプル論文を含むデータセットを作成し、品質スコアラーを定義して、要約パイプラインを評価します。
 

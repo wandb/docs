@@ -21,6 +21,21 @@ W&amp;B のチャートを作成するには、次の手順に従います。
   <Tab title="折れ線グラフ">
     任意の軸上で接続され順序付けられた点のリストからなる、カスタム折れ線グラフをログします。
 
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        data = [[x, y] for (x, y) in zip(x_values, y_values)]
+        table = wandb.Table(data=data, columns=["x", "y"])
+        run.log(
+            {
+                "my_custom_plot_id": wandb.plot.line(
+                    table, "x", "y", title="カスタム Y 対 X 折れ線グラフ"
+                )
+            }
+        )
+    ```
+
     これを使用すると、任意の2次元に対する曲線をログできます。2つの値のリストを互いにプロットする場合は、それぞれのリストの値の数が完全に一致している必要があります。たとえば、各点には x と y の両方が必要です。
 
     <Frame>
@@ -176,6 +191,17 @@ W&amp;B のチャートを作成するには、次の手順に従います。
   <Tab title="ROC曲線">
     1行で [ROC曲線](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) を作成できます：
 
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        # ground_truth は true labels のリストで、predictions は予測スコアのリストです。
+        # たとえば、ground_truth = [0, 1, 1, 0]、predictions = [0.1, 0.4, 0.35, 0.8] です。
+        ground_truth = [0, 1, 1, 0]
+        predictions = [0.1, 0.4, 0.35, 0.8]
+        run.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
+    ```
+
     コードから次の情報にアクセスできる場合は、いつでもこれをログできます。
 
     * ある一連のサンプルに対するモデルの予測スコア (`predictions`) 。
@@ -228,6 +254,29 @@ W&amp;B のチャートを作成するには、次の手順に従います。
 
 より細かくカスタマイズするには、組み込みの[カスタムチャート プリセット](/ja/models/app/features/custom-charts/walkthrough/)を調整するか、新しいプリセットを作成してから、チャートを保存します。チャート ID を使用すると、スクリプトから直接そのカスタムプリセットにデータをログできます。
 
+```python
+import wandb
+# プロットする列を含む表を作成する。
+table = wandb.Table(data=data, columns=["step", "height"])
+
+# 表の列をチャートのフィールドにマッピングする。
+fields = {"x": "step", "value": "height"}
+
+# 表を使用して新しいカスタムチャートプリセットにデータを入力する。
+# 保存済みのチャートプリセットを使用するには、vega_spec_name を変更する。
+# タイトルを編集するには、string_fields を変更する。
+my_custom_chart = wandb.plot_table(
+    vega_spec_name="carey/new_chart",
+    data_table=table,
+    fields=fields,
+    string_fields={"title": "Height Histogram"},
+)
+
+with wandb.init() as run:
+    # カスタムチャートをログする。
+    run.log({"my_custom_chart": my_custom_chart})
+```
+
 [コードを実行する](https://tiny.cc/custom-charts)
 
 <div id="matplotlib-and-plotly-plots">
@@ -236,9 +285,25 @@ W&amp;B のチャートを作成するには、次の手順に従います。
 
 `wandb.plot()` で W&amp;B の[カスタムチャート](/ja/models/app/features/custom-charts/walkthrough/)を使う代わりに、[matplotlib](https://matplotlib.org/) や [Plotly](https://plotly.com/) で生成したチャートをログできます。
 
-`matplotlib` のプロットまたは図オブジェクトを `wandb.Run.log()` に渡すだけです。デフォルトでは、プロットは [Plotly](https://plot.ly/) のプロットに変換されます。プロットを画像としてログしたい場合は、`wandb.Image` にプロットを渡してください。Plotly のチャートも直接受け付けています。
+```python
+import wandb
+import matplotlib.pyplot as plt
 
-<Note>「You attempted to log an empty plot」のようなエラーが表示される場合は、`fig = plt.figure()` を使って図をプロットとは別に保持し、その後 `wandb.Run.log()` の call で `fig` をログしてください。</Note>
+with wandb.init() as run:
+    # シンプルな matplotlib プロットを作成する。
+    plt.figure()
+    plt.plot([1, 2, 3, 4])
+    plt.ylabel("some interesting numbers")
+
+    # プロットを W&B にログする。
+    run.log({"chart": plt})
+```
+
+`matplotlib` のプロットまたは図オブジェクトを `wandb.Run.log()` に渡すだけです。デフォルトでは、プロットは [Plotly](https://plot.ly/) のプロットに変換されます。プロットを画像としてログしたい場合は、`wandb.Image` にプロットを渡してください。Plotly の chart も直接受け付けています。
+
+<Note>
+  「You attempted to log an empty plot」のようなエラーが表示される場合は、`fig = plt.figure()` を使って図をプロットとは別に保持し、その後 `wandb.Run.log()` の call で `fig` をログしてください。
+</Note>
 
 <div id="log-custom-html-to-wb-tables">
   ### カスタムHTMLをW&amp;B Tablesにログする
@@ -251,6 +316,34 @@ W&amp;Bでは、Plotly と Bokeh のインタラクティブなチャートを H
 </div>
 
 インタラクティブな Plotly チャートは、HTML に変換することで W&amp;B Tables にログできます。
+
+```python
+import wandb
+import plotly.express as px
+
+# 新しいrunを初期化する。
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
+
+    # 表を作成する。
+    table = wandb.Table(columns=["plotly_figure"])
+
+    # Plotly図のパスを作成する。
+    path_to_plotly_html = "./plotly_figure.html"
+
+    # Plotly図の例。
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+
+    # Plotly図をHTMLに書き出す。
+    # auto_play を False に設定すると、アニメーション付きのPlotlyチャートが
+    # 表内で自動再生されるのを防ぐ。
+    fig.write_html(path_to_plotly_html, auto_play=False)
+
+    # Plotly図をHTMLファイルとしてTablesに追加する。
+    table.add_data(wandb.Html(path_to_plotly_html))
+
+    # 表をログする。
+    run.log({"test_table": table})
+```
 
 <div id="log-bokeh-figures-to-tables-as-html">
   #### Bokeh の図を HTML として Tables にログする

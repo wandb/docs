@@ -31,3 +31,16 @@ pip install wandb
 <div id="import-wb-python-sdk">
   ### W&amp;B Python SDKをインポートする:
 </div>
+
+```python
+import wandb
+
+# チーム entityを指定する
+entity = "<team_entity>"
+
+# runが記録されるプロジェクト
+project = "my-awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

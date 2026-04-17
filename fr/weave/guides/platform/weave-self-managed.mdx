@@ -106,9 +106,34 @@ helm repo update
   #### 1.2 Créez la configuration de l’opérateur
 </div>
 
-Créez un fichier appelé `ch-operator.yaml` :
+Créez un fichier nommé `ch-operator.yaml` :
+
+```yaml
+operator:
+  image:
+    repository: altinity/clickhouse-operator
+
+  # Contexte de sécurité - à ajuster selon les exigences de votre cluster
+  containerSecurityContext:
+    runAsGroup: 0
+    runAsNonRoot: true
+    runAsUser: 10001 # À mettre à jour selon les politiques de sécurité OpenShift/Kubernetes de votre environnement
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
+    readOnlyRootFilesystem: false
+
+metrics:
+  enabled: false
+
+# Remplacement du nom - à personnaliser si nécessaire
+nameOverride: "wandb"
+```
 
 Les valeurs `containerSecurityContext` indiquées ici conviennent à la plupart des distributions Kubernetes. Pour **OpenShift**, vous devrez peut-être ajuster `runAsUser` et `fsGroup` pour qu’ils correspondent à la plage d’UID attribuée à votre projet.
+
 
 <div id="13-install-the-operator">
   #### 1.3 Installez l’opérateur
@@ -126,6 +151,23 @@ helm upgrade --install ch-operator altinity/altinity-clickhouse-operator \
   #### 1.4 Vérifier l’installation de l’opérateur
 </div>
 
+```bash
+# Vérifier que le pod de l'opérateur est en cours d'exécution
+kubectl get pods -n clickhouse
+
+# Sortie attendue :
+# NAME                                 READY   STATUS    RESTARTS   AGE
+# ch-operator-wandb-xxxxx              1/1     Running   0          30s
+
+# Vérifier la version de l'image de l'opérateur
+kubectl get pods -n clickhouse -o jsonpath="{.items[*].spec.containers[*].image}" | \
+  tr ' ' '\n' | grep -v 'metrics-exporter' | sort -u
+
+# Sortie attendue :
+# altinity/clickhouse-operator:0.25.4
+```
+
+
 <div id="step-2-prepare-s3-storage">
   ### Étape 2 : Préparer le stockage S3
 </div>
@@ -137,6 +179,12 @@ ClickHouse nécessite un stockage S3 ou compatible avec S3 pour assurer la persi
 </div>
 
 Créez un bucket S3 dans votre compte AWS ou chez un fournisseur de stockage compatible S3 :
+
+```bash
+# Exemple pour AWS
+aws s3 mb s3://my-wandb-clickhouse-bucket --region eu-central-1
+```
+
 
 <div id="22-configure-s3-credentials">
   #### 2.2 Configurer les identifiants d’accès à S3
@@ -150,6 +198,11 @@ Vous avez deux options pour fournir des identifiants d’accès à S3 :
 
 Si vos nœuds Kubernetes disposent d’un rôle IAM donnant accès à S3, ClickHouse peut utiliser les métadonnées de l’instance EC2 :
 
+```yaml
+# Dans ch-server.yaml, définir :
+<use_environment_credentials>true</use_environment_credentials>
+```
+
 **Stratégie IAM requise** (jointe au rôle IAM de votre nœud) :
 
 ```json
@@ -158,12 +211,21 @@ Si vos nœuds Kubernetes disposent d’un rôle IAM donnant accès à S3, ClickH
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject", "s3:ListBucket"],
-      "Resource": ["arn:aws:s3:::my-wandb-clickhouse-bucket", "arn:aws:s3:::my-wandb-clickhouse-bucket/*"]
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-wandb-clickhouse-bucket",
+        "arn:aws:s3:::my-wandb-clickhouse-bucket/*"
+      ]
     }
   ]
 }
 ```
+
 
 <div id="option-b-using-access-keys">
   ##### Option B : Utiliser des clés d’accès
@@ -191,7 +253,103 @@ Ensuite, configurez ClickHouse pour utiliser le secret (voir la configuration ch
   #### 3.1 Créez la configuration de Keeper
 </div>
 
-Créez un fichier appelé `ch-keeper.yaml` :
+Créez un fichier nommé `ch-keeper.yaml` :
+
+```yaml
+apiVersion: "clickhouse-keeper.altinity.com/v1"
+kind: "ClickHouseKeeperInstallation"
+metadata:
+  name: wandb
+  namespace: clickhouse
+  annotations: {}
+spec:
+  defaults:
+    templates:
+      podTemplate: default
+      dataVolumeClaimTemplate: default
+
+  templates:
+    podTemplates:
+      - name: keeper
+        metadata:
+          labels:
+            app: clickhouse-keeper
+        spec:
+          # Contexte de sécurité du pod - à ajuster selon votre environnement
+          securityContext:
+            fsGroup: 10001 # À mettre à jour selon les exigences de sécurité de votre cluster
+            fsGroupChangePolicy: Always
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 10001 # Pour OpenShift, utilisez la plage UID assignée à votre projet
+            seccompProfile:
+              type: RuntimeDefault
+
+          # Anti-affinité pour répartir les keepers sur les nœuds (recommandé pour la HA)
+          # À personnaliser ou supprimer selon la taille de votre cluster et vos exigences de disponibilité
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "app"
+                        operator: In
+                        values:
+                          - clickhouse-keeper
+                  topologyKey: "kubernetes.io/hostname"
+
+          containers:
+            - name: clickhouse-keeper
+              imagePullPolicy: IfNotPresent
+              image: "clickhouse/clickhouse-keeper:25.10"
+              # Demandes de ressources - valeurs d'exemple, à ajuster selon la charge de travail
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "0.5"
+                limits:
+                  memory: "2Gi"
+                  cpu: "1"
+
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                privileged: false
+                readOnlyRootFilesystem: false
+
+    volumeClaimTemplates:
+      - name: data
+        metadata:
+          labels:
+            app: clickhouse-keeper
+        spec:
+          storageClassName: gp3 # À remplacer par votre StorageClass
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+
+  configuration:
+    clusters:
+      - name: keeper # Nom du cluster Keeper - utilisé dans la résolution DNS du service
+        layout:
+          replicasCount: 3
+        templates:
+          podTemplate: keeper
+          dataVolumeClaimTemplate: data
+
+    settings:
+      logger/level: "information"
+      logger/console: "true"
+      listen_host: "0.0.0.0"
+      keeper_server/four_letter_word_white_list: "*"
+      keeper_server/coordination_settings/raft_logs_level: "information"
+      keeper_server/enable_ipv6: "false"
+      keeper_server/coordination_settings/async_replication: "true"
+```
 
 **Mises à jour importantes de la configuration** :
 
@@ -200,6 +358,7 @@ Créez un fichier appelé `ch-keeper.yaml` :
 * **Anti-affinité** : Personnalisez ou supprimez la section `affinity` en fonction de la topologie de votre cluster et de vos exigences de haute disponibilité
 * **Ressources** : Les valeurs de CPU et de mémoire sont données à titre d’exemple - consultez les architectes solutions W&amp;B pour dimensionner correctement
 * **Nommage** : Si vous modifiez `metadata.name` ou `configuration.clusters[0].name`, vous **devez mettre à jour** les noms d’hôte Keeper dans ch-server.yaml (Étape 4) en conséquence
+
 
 <div id="32-deploy-clickhouse-keeper">
   #### 3.2 Déployer ClickHouse Keeper
@@ -214,6 +373,23 @@ kubectl apply -f ch-keeper.yaml
   #### 3.3 Vérifier le déploiement de Keeper
 </div>
 
+```bash
+# Vérifier les pods Keeper
+kubectl get pods -n clickhouse -l app=clickhouse-keeper
+
+# Sortie attendue :
+# NAME                     READY   STATUS    RESTARTS   AGE
+# chk-wandb-keeper-0-0-0   1/1     Running   0          2m
+# chk-wandb-keeper-0-1-0   1/1     Running   0          2m
+# chk-wandb-keeper-0-2-0   1/1     Running   0          2m
+
+# Vérifier les services Keeper
+kubectl get svc -n clickhouse | grep keeper
+
+# Les services Keeper doivent apparaître sur le port 2181
+```
+
+
 <div id="step-4-deploy-clickhouse-cluster">
   ### Étape 4 : Déployer le cluster ClickHouse
 </div>
@@ -224,7 +400,189 @@ Déployez maintenant le cluster de serveurs ClickHouse qui stockera les données
   #### 4.1 Créer la configuration du serveur ClickHouse
 </div>
 
-Créez un fichier appelé `ch-server.yaml` :
+Créez un fichier nommé `ch-server.yaml` :
+
+```yaml
+apiVersion: "clickhouse.altinity.com/v1"
+kind: "ClickHouseInstallation"
+metadata:
+  name: wandb
+  namespace: clickhouse
+  annotations: {}
+spec:
+  defaults:
+    templates:
+      podTemplate: default
+      dataVolumeClaimTemplate: default
+
+  templates:
+    podTemplates:
+      - name: clickhouse
+        metadata:
+          labels:
+            app: clickhouse-server
+        spec:
+          # Contexte de sécurité du pod - personnalisez selon votre environnement
+          securityContext:
+            fsGroup: 10001 # À ajuster selon vos politiques de sécurité
+            fsGroupChangePolicy: Always
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 10001 # Pour OpenShift, utilisez la plage UID attribuée
+            seccompProfile:
+              type: RuntimeDefault
+
+          # Règle d'anti-affinité - garantit que les serveurs s'exécutent sur des nœuds différents (facultatif mais recommandé)
+          # À ajuster ou supprimer selon la taille de votre cluster et vos besoins
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "app"
+                        operator: In
+                        values:
+                          - clickhouse-server
+                  topologyKey: "kubernetes.io/hostname"
+
+          containers:
+            - name: clickhouse
+              image: clickhouse/clickhouse-server:25.10
+              # Exemple d'allocation de ressources - à ajuster selon la charge de travail
+              resources:
+                requests:
+                  memory: 1Gi
+                  cpu: 1
+                limits:
+                  memory: 16Gi
+                  cpu: 4
+
+              # Identifiants AWS (supprimez cette section si vous utilisez IRSA)
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-creds
+                      key: aws_access_key
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-creds
+                      key: aws_secret_key
+
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                privileged: false
+                readOnlyRootFilesystem: false
+
+    volumeClaimTemplates:
+      - name: data
+        metadata:
+          labels:
+            app: clickhouse-server
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 50Gi
+          storageClassName: gp3 # Remplacez par votre StorageClass
+
+  configuration:
+    # Configuration de Keeper (ZooKeeper)
+    # IMPORTANT : Ces noms d'hôtes DOIVENT correspondre à votre déploiement Keeper de l'étape 3
+    zookeeper:
+      nodes:
+        - host: chk-wandb-keeper-0-0.clickhouse.svc.cluster.local
+          port: 2181
+        - host: chk-wandb-keeper-0-1.clickhouse.svc.cluster.local
+          port: 2181
+        - host: chk-wandb-keeper-0-2.clickhouse.svc.cluster.local
+          port: 2181
+      # Facultatif : décommentez pour ajuster les délais d'expiration si nécessaire
+      # session_timeout_ms: 30000
+      # operation_timeout_ms: 10000
+
+    # Configuration des Users : https://clickhouse.com/docs/operations/configuration-files#user-settings
+    # En production, utilisez un mot de passe haché SHA-256 plutôt qu'en texte clair :
+    # printf "your-password" | sha256sum
+    # Puis utilisez : weave/password_sha256_hex: <hash> à la place de weave/password
+    users:
+      weave/password: weave123  # Remplacez par un mot de passe fort avant le déploiement
+      weave/access_management: 1
+      weave/profile: default
+      weave/networks/ip:
+        - "0.0.0.0/0"
+        - "::"
+
+    # Paramètres du serveur
+    settings:
+      disable_internal_dns_cache: 1
+
+    # Configuration du cluster
+    clusters:
+      - name: weavecluster # Nom du cluster - personnalisable, mais doit correspondre à wandb-cr.yaml
+        layout:
+          shardsCount: 1
+          replicasCount: 3 # Nombre de réplicas - à ajuster selon les exigences de haute disponibilité
+        templates:
+          podTemplate: clickhouse
+          dataVolumeClaimTemplate: data
+
+    # Fichiers de configuration
+    files:
+      config.d/network_configuration.xml: |
+        <clickhouse>
+            <listen_host>0.0.0.0</listen_host>
+            <listen_host>::</listen_host>
+        </clickhouse>
+
+      config.d/logger.xml: |
+        <clickhouse>
+            <logger>
+                <level>information</level>
+            </logger>
+        </clickhouse>
+
+      config.d/storage_configuration.xml: |
+        <clickhouse>
+            <storage_configuration>
+                <disks>
+                    <s3_disk>
+                        <type>s3</type>
+                        <!-- Mettez à jour avec l'endpoint et la région de votre bucket S3 -->
+                        <endpoint>https://YOUR-BUCKET-NAME.s3.YOUR-REGION.amazonaws.com/s3_disk/{replica}</endpoint>
+                        <metadata_path>/var/lib/clickhouse/disks/s3_disk/</metadata_path>
+                        <use_environment_credentials>true</use_environment_credentials>
+                        <region>YOUR-REGION</region>
+                    </s3_disk>
+                    <s3_disk_cache>
+                        <type>cache</type>
+                        <disk>s3_disk</disk>
+                        <path>/var/lib/clickhouse/s3_disk_cache/cache/</path>
+                        <!-- La taille du cache DOIT être inférieure à celle du volume persistant -->
+                        <max_size>40Gi</max_size>
+                        <cache_on_write_operations>true</cache_on_write_operations>
+                    </s3_disk_cache>
+                </disks>
+                <policies>
+                    <s3_main>
+                        <volumes>
+                            <main>
+                                <disk>s3_disk_cache</disk>
+                            </main>
+                        </volumes>
+                    </s3_main>
+                </policies>
+            </storage_configuration>
+            <merge_tree>
+                <storage_policy>s3_main</storage_policy>
+            </merge_tree>
+        </clickhouse>
+```
 
 **Mises à jour critiques de configuration requises** :
 
@@ -288,7 +646,7 @@ Si vous utilisez **l’option A (IRSA)**, supprimez toute la section `env`.
 
 
 <div id="44-understanding-keeper-naming">
-  #### 4.4 Comprendre le nommage de Keeper
+  #### 4.4 Comprendre la convention de nommage de Keeper
 </div>
 
 Les noms d’hôte des nœuds Keeper dans la section `zookeeper.nodes` suivent un format précis en fonction de votre déploiement Keeper à l’étape 3 :
@@ -330,9 +688,18 @@ chk-wandb-coordination-0-2.clickhouse.svc.cluster.local
 
 **Pour vérifier vos noms d’hôte Keeper effectifs** :
 
+```bash
+# Lister les services Keeper pour voir les noms réels
+kubectl get svc -n clickhouse | grep keeper
+
+# Lister les pods Keeper pour confirmer le modèle de nommage
+kubectl get pods -n clickhouse -l app=clickhouse-keeper
+```
+
 <Note>
   Les noms d’hôte Keeper dans `ch-server.yaml` **doivent correspondre exactement** aux noms de service effectivement créés lors du déploiement de Keeper, faute de quoi les serveurs ClickHouse ne pourront pas se connecter au service de coordination.
 </Note>
+
 
 <div id="45-deploy-clickhouse-cluster">
   #### 4.5 Déployer le cluster ClickHouse
@@ -346,6 +713,27 @@ kubectl apply -f ch-server.yaml
 <div id="46-verify-clickhouse-deployment">
   #### 4.6 Vérifier le déploiement de ClickHouse
 </div>
+
+```bash
+# Vérifier les pods ClickHouse
+kubectl get pods -n clickhouse -l app=clickhouse-server
+
+# Sortie attendue :
+# NAME                           READY   STATUS    RESTARTS   AGE
+# chi-wandb-weavecluster-0-0-0   1/1     Running   0          3m
+# chi-wandb-weavecluster-0-1-0   1/1     Running   0          3m
+# chi-wandb-weavecluster-0-2-0   1/1     Running   0          3m
+
+# Tester la connectivité ClickHouse
+kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
+  clickhouse-client --user weave --password weave123 --query "SELECT version()"
+
+# Vérifier le statut du cluster
+kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
+  clickhouse-client --user weave --password weave123 --query \
+  "SELECT cluster, host_name, port FROM system.clusters WHERE cluster='weavecluster'"
+```
+
 
 <div id="step-5-enable-weave-in-wb-platform">
   ### Étape 5 : Activer Weave dans la plateforme W&amp;B
@@ -374,6 +762,74 @@ Le nom d’hôte suit le modèle suivant : `clickhouse-{installation-name}.{nam
 
 Modifiez la ressource personnalisée (CR) de votre plateforme W&amp;B pour y ajouter la configuration Weave :
 
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  name: wandb
+  namespace: wandb
+spec:
+  values:
+    global:
+      # ... configuration existante ...
+
+      # Ajouter la configuration ClickHouse
+      clickhouse:
+        install: false # Déployé séparément
+        host: clickhouse-wandb.clickhouse.svc.cluster.local
+        port: 8123
+        user: weave
+        password: weave123
+        database: weave
+        replicated: true # REQUIS pour une configuration multi-réplica
+
+      # Activer Weave Trace
+      weave-trace:
+        enabled: true
+
+    # Configuration de Weave Trace
+    weave-trace:
+      install: true
+      extraEnv:
+        WF_CLICKHOUSE_REPLICATED: "true"
+        WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster"
+      image:
+        repository: wandb/weave-trace
+        tag: 0.74.1
+      replicaCount: 1
+      size: "default"
+      sizing:
+        default:
+          autoscaling:
+            horizontal:
+              enabled: false
+          # Exemple d'allocation de ressources - à ajuster en fonction de la charge de travail
+          resources:
+            limits:
+              cpu: 4
+              memory: "8Gi"
+            requests:
+              cpu: 1
+              memory: "4Gi"
+      # Contexte de sécurité du pod - à personnaliser selon votre environnement
+      podSecurityContext:
+        fsGroup: 10001 # À ajuster selon vos exigences de sécurité
+        fsGroupChangePolicy: Always
+        runAsGroup: 0
+        runAsNonRoot: true
+        runAsUser: 10001 # Pour OpenShift, utiliser la plage d'UID attribuée
+        seccompProfile:
+          type: RuntimeDefault
+      # Contexte de sécurité du conteneur
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+```
+
 **Paramètres critiques** :
 
 * `clickhouse.replicated: true` - **Requis** lors de l’utilisation de 3 réplicas
@@ -383,6 +839,7 @@ Modifiez la ressource personnalisée (CR) de votre plateforme W&amp;B pour y ajo
 <Note>
   Les contextes de sécurité, les allocations de ressources et les autres configurations spécifiques à Kubernetes présentés ci-dessus sont fournis à titre d’exemple. Personnalisez-les en fonction des besoins de votre organisation et consultez votre équipe d’architectes solutions W&amp;B pour dimensionner correctement les ressources.
 </Note>
+
 
 <div id="53-apply-the-updated-configuration">
   #### 5.3 Appliquez la configuration mise à jour
@@ -397,6 +854,20 @@ kubectl apply -f wandb-cr.yaml
   #### 5.4 Vérifier le déploiement de Weave Trace
 </div>
 
+```bash
+# Vérifier le statut du pod weave-trace
+kubectl get pods -n wandb | grep weave-trace
+
+# Sortie attendue :
+# wandb-weave-trace-bc-xxxxx   1/1     Running   0          2m
+
+# Vérifier les journaux weave-trace pour la connexion ClickHouse
+kubectl logs -n wandb <weave-trace-pod-name> --tail=50
+
+# Rechercher les messages indiquant une connexion ClickHouse réussie
+```
+
+
 <div id="step-6-initialize-weave-database">
   ### Étape 6 : Initialiser la base de données Weave
 </div>
@@ -407,9 +878,32 @@ Le service weave-trace créera automatiquement le schéma de la base de données
   #### 6.1 Surveiller la migration de la base de données
 </div>
 
+```bash
+# Surveiller les journaux weave-trace au démarrage
+kubectl logs -n wandb <weave-trace-pod-name> -f
+
+# Rechercher les messages de migration indiquant une initialisation réussie de la base de données
+```
+
+
 <div id="62-verify-database-creation">
   #### 6.2 Vérifier la création de la base de données
 </div>
+
+```bash
+# Se connecter à ClickHouse et vérifier la base de données
+kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
+  clickhouse-client --user weave --password weave123 --query \
+  "SHOW DATABASES"
+
+# La base de données 'weave' doit apparaître dans la liste
+
+# Vérifier les tables dans la base de données weave
+kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
+  clickhouse-client --user weave --password weave123 --query \
+  "SHOW TABLES FROM weave"
+```
+
 
 <div id="step-7-verify-weave-is-enabled">
   ### Étape 7 : Vérifier que Weave est activé
@@ -436,7 +930,27 @@ Dans la console W&amp;B :
 
 Créez un test Python simple pour vérifier que Weave fonctionne :
 
+```python
+import os
+import weave
+
+# Pointer Weave vers votre instance W&B autogérée
+os.environ["WANDB_BASE_URL"] = "https://your-wandb-host"  # Remplacer par votre URL W&B
+
+weave.init('test-project')
+
+# Créer une fonction tracée simple
+@weave.op()
+def hello_weave(name: str) -> str:
+    return f"Hello, {name}!"
+
+# Appeler la fonction
+result = hello_weave("World")
+print(result)
+```
+
 Après avoir exécuté ceci, vérifiez les traces dans l&#39;UI W&amp;B, sur la page Traces de votre organisation.
+
 
 <div id="troubleshooting">
   ## Dépannage
@@ -460,6 +974,15 @@ kubectl describe pvc -n clickhouse
 Assurez-vous que votre StorageClass est correctement configurée et qu’elle dispose de capacité disponible.
 
 2. **Anti-affinité et disponibilité des nœuds** :
+
+```bash
+# Vérifier si les règles d'anti-affinité empêchent la planification
+kubectl describe pod -n clickhouse <pod-name> | grep -A 10 "Events:"
+
+# Vérifier les nœuds disponibles et leurs ressources
+kubectl get nodes
+kubectl describe nodes | grep -A 5 "Allocated resources"
+```
 
 Problèmes courants :
 
@@ -491,6 +1014,7 @@ Problèmes courants :
 * Conflits de ports
 * Erreurs de configuration dans ch-keeper.yaml
 
+
 <div id="clickhouse-server-issues">
   ### Problèmes du serveur ClickHouse
 </div>
@@ -499,13 +1023,39 @@ Problèmes courants :
 
 **Solution** : Vérifiez les identifiants et les autorisations S3 :
 
+```bash
+# Vérifier si le secret existe (si vous utilisez des clés d'accès)
+kubectl get secret aws-creds -n clickhouse
+
+# Vérifier les journaux ClickHouse pour les erreurs S3
+kubectl logs -n clickhouse <clickhouse-pod-name> | grep -i s3
+
+# Vérifier l'endpoint S3 dans la configuration du stockage
+kubectl get chi wandb -n clickhouse -o yaml | grep -A 10 storage_configuration
+```
+
 ***
 
 **Problème** : ClickHouse ne parvient pas à se connecter à Keeper
 
 **Solution** : Vérifiez les endpoints et le naming de Keeper :
 
+```bash
+# Vérifier les services Keeper et leurs noms réels
+kubectl get svc -n clickhouse | grep keeper
+
+# Vérifier les pods Keeper pour confirmer le schéma de nommage
+kubectl get pods -n clickhouse -l app=clickhouse-keeper
+
+# Comparer avec la configuration zookeeper.nodes dans ch-server.yaml
+# Les noms d'hôtes DOIVENT correspondre aux noms de services réels
+
+# Vérifier les journaux ClickHouse pour les erreurs de connexion
+kubectl logs -n clickhouse chi-wandb-weavecluster-0-0-0 | grep -i keeper
+```
+
 Si la connexion échoue, les noms d’hôte Keeper dans ch-server.yaml ne correspondent probablement pas à votre déploiement Keeper effectif. Voir « Comprendre le nommage de Keeper » à l’étape 4 pour connaître la convention de nommage.
+
 
 <div id="weave-trace-issues">
   ### Problèmes Weave Trace
@@ -515,9 +1065,20 @@ Si la connexion échoue, les noms d’hôte Keeper dans ch-server.yaml ne corres
 
 **Solution** : vérifiez la connectivité à ClickHouse :
 
+```bash
+# Obtenir le nom du pod weave-trace
+kubectl get pods -n wandb | grep weave-trace
+
+# Vérifier les journaux weave-trace
+kubectl logs -n wandb <weave-trace-pod-name>
+
+# Erreur courante : "connection refused" ou "authentication failed"
+# Vérifier que les identifiants ClickHouse dans wandb-cr.yaml correspondent à ch-server.yaml
+```
+
 ***
 
-**Problème** : Weave n’apparaît pas comme activé dans console
+**Problème** : Weave n’apparaît pas comme activé dans Console
 
 **Solution** : Vérifiez la configuration :
 
@@ -541,6 +1102,17 @@ Si la connexion échoue, les noms d’hôte Keeper dans ch-server.yaml ne corres
 **Solution** : Vérifiez que le nom du cluster correspond :
 
 La variable d’environnement `WF_CLICKHOUSE_REPLICATED_CLUSTER` **doit correspondre** au nom du cluster dans ch-server.yaml :
+
+```yaml
+# Dans ch-server.yaml :
+clusters:
+  - name: weavecluster # <-- Ce nom
+
+# Doit correspondre dans wandb-cr.yaml :
+weave-trace:
+  extraEnv:
+    WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster" # <-- Cette valeur
+```
 
 <div id="resource-requirements">
   ## Exigences de ressources
@@ -626,13 +1198,35 @@ Pour augmenter la capacité de ClickHouse, vous pouvez :
 
 Pour utiliser une autre version de ClickHouse, mettez à jour le tag de l’image dans les deux fichiers `ch-keeper.yaml` et `ch-server.yaml` :
 
+```yaml
+image: clickhouse/clickhouse-keeper:25.10   # Version du Keeper
+image: clickhouse/clickhouse-server:25.10   # Version du serveur
+```
+
 Les versions de Keeper et du serveur doivent correspondre, ou la version de Keeper doit être &gt;= à la version du serveur pour garantir la compatibilité.
+
 
 <div id="monitoring-clickhouse">
   ### Surveillance de ClickHouse
 </div>
 
 Accédez aux tables système de ClickHouse à des fins de surveillance :
+
+```bash
+# Vérifier l'utilisation du disque
+kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
+  clickhouse-client --user weave --password weave123 --query \
+  "SELECT name, path, formatReadableSize(free_space) as free, formatReadableSize(total_space) as total FROM system.disks"
+
+# Vérifier le statut de réplication
+kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
+  clickhouse-client --user weave --password weave123 --query \
+  "SELECT database, table, is_leader, total_replicas, active_replicas FROM system.replicas WHERE database='weave'"
+
+# Vérifier le statut du serveur ClickHouse
+kubectl get pods -n clickhouse -l app=clickhouse-server
+```
+
 
 <div id="backup-and-recovery">
   ### Sauvegarde et récupération
@@ -671,11 +1265,28 @@ helm upgrade ch-operator altinity/altinity-clickhouse-operator \
 
 Mettez à jour la version de l’image dans `ch-server.yaml`, puis appliquez la modification :
 
+```bash
+# Modifier ch-server.yaml, changer le tag de l'image
+kubectl apply -f ch-server.yaml
+
+# Surveiller les pods
+kubectl get pods -n clickhouse
+```
+
+
 <div id="upgrading-weave-trace">
   ### Mise à niveau de Weave Trace
 </div>
 
 Mettez à jour le tag d’image dans `wandb-cr.yaml`, puis appliquez :
+
+```bash
+kubectl apply -f wandb-cr.yaml
+
+# Surveiller le redémarrage du pod weave-trace
+kubectl get pods -n wandb | grep weave-trace
+```
+
 
 <div id="additional-resources">
   ## Ressources supplémentaires

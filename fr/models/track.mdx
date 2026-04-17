@@ -35,6 +35,26 @@ Suivez une expérience de machine learning avec quelques lignes de code :
 
 Le code suivant illustre un flux de travail courant de suivi des expériences avec W&amp;B :
 
+```python
+# Démarrer un run.
+#
+# Lorsque ce bloc se termine, il attend que les données journalisées finissent d'être uploadées.
+# Si une exception est levée, le run est marqué comme échoué.
+with wandb.init(entity="", project="my-project-name") as run:
+  # Enregistrer les entrées du modèle et les hyperparamètres.
+  run.config.learning_rate = 0.01
+
+  # Exécuter le code de votre expérience.
+  for epoch in range(num_epochs):
+    # Effectuer l'entraînement...
+
+    # Journaliser des métriques au fil du temps pour visualiser les performances du modèle.
+    run.log({"loss": loss})
+
+  # Uploader les sorties du modèle en tant qu'Artifacts.
+  run.log_artifact(model)
+```
+
 <div id="get-started">
   ## Pour commencer
 </div>

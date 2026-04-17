@@ -90,11 +90,30 @@ L&#39;exemple de modèle suivant utilise OpenAI pour extraire les noms, les coul
                 raise ValueError("No response from model")
             parsed = json.loads(result)
             return parsed
-
     ```
   </Tab>
 
-  <Tab title="TypeScript" />
+  <Tab title="TypeScript">
+    ```typescript lines {9}
+    // Remarque : weave.Model n'est pas encore pris en charge en TypeScript.
+    // À la place, encapsulez votre fonction de type modèle avec weave.op
+
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    const openaiClient = new OpenAI();
+
+    const model = weave.op(async function myModel({datasetRow}) {
+      const prompt = `Extract fields ("fruit": <str>, "color": <str>, "flavor") from the following text, as json: ${datasetRow.sentence}`;
+      const response = await openaiClient.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
+      });
+      return JSON.parse(response.choices[0].message.content);
+    });
+    ```
+  </Tab>
 </Tabs>
 
 La classe `ExtractFruitsModel` hérite de `weave.Model` (ou en est une sous-classe) afin que Weave puisse suivre l&#39;objet instancié. `@weave.op` décore la fonction `predict` pour suivre ses entrées et ses sorties.
@@ -102,7 +121,23 @@ La classe `ExtractFruitsModel` hérite de `weave.Model` (ou en est une sous-clas
 Vous pouvez instancier des objets `Model` comme ceci :
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines
+    # Définissez le nom de votre team et de votre projet
+    weave.init('<team-name>/eval_pipeline_quickstart')
+
+    model = ExtractFruitsModel(
+        model_name='gpt-3.5-turbo-1106',
+        prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}'
+    )
+
+    sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
+
+    print(asyncio.run(model.predict(sentence)))
+    # si vous êtes dans un notebook Jupyter, exécutez :
+    # await model.predict(sentence)
+    ```
+  </Tab>
 
   <Tab title="TypeScript">
     ```typescript
@@ -224,15 +259,31 @@ Pour créer votre propre fonction de scoring, consultez le guide [Scorers](/fr/w
 Dans certaines applications, vous souhaiterez peut-être créer des classes `Scorer` personnalisées. Par exemple, vous pouvez créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (comme un modèle de chat ou un prompt), une logique de scoring par ligne spécifique et un calcul de score agrégé. Pour en savoir plus, consultez le tutoriel sur la définition d&#39;une classe `Scorer` dans le chapitre suivant sur [l&#39;évaluation des applications RAG basée sur des modèles](/fr/weave/tutorial-rag#optional-defining-a-scorer-class).
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
-  ## Utiliser un évaluateur intégré et exécuter l’évaluation
+  ## Utiliser un scorer intégré et exécuter l’évaluation
 </div>
 
-En plus des fonctions de score personnalisées, vous pouvez aussi utiliser les [évaluateurs intégrés de Weave](/fr/weave/guides/evaluation/builtin_scorers). Dans l’évaluation suivante, `weave.Evaluation()` utilise la fonction `fruit_name_score` définie dans la section précédente ainsi que l’évaluateur intégré `MultiTaskBinaryClassificationF1`, qui calcule les [scores F1](https://en.wikipedia.org/wiki/F-score).
+En plus des fonctions de scoring personnalisées, vous pouvez aussi utiliser les [évaluateurs intégrés de Weave](/fr/weave/guides/evaluation/builtin_scorers). Dans l’évaluation suivante, `weave.Evaluation()` utilise la fonction `fruit_name_score` définie dans la section précédente ainsi que le scorer intégré `MultiTaskBinaryClassificationF1`, qui calcule les [scores F1](https://en.wikipedia.org/wiki/F-score).
 
-L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu de données `fruits` à l’aide de ces deux fonctions de score et journalise les résultats dans Weave.
+L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu de données `fruits` à l’aide de ces deux fonctions de scoring et enregistre les résultats dans Weave.
 
 <Tabs>
-  <Tab title="Python" />
+  <Tab title="Python">
+    ```python lines {3-10}
+    weave.init('eval_pipeline_quickstart')
+
+    evaluation = weave.Evaluation(
+        name='fruit_eval',
+        dataset=dataset, 
+        scorers=[
+            MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]), 
+            fruit_name_score
+        ],
+    )
+    print(asyncio.run(evaluation.evaluate(model)))
+    # si vous êtes dans un notebook Jupyter, exécutez :
+    # await evaluation.evaluate(model)
+    ```
+  </Tab>
 
   <Tab title="TypeScript">
     ```typescript lines {5-9}
@@ -241,13 +292,12 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
     await weave.init('eval_pipeline_quickstart');
 
     const evaluation = new weave.Evaluation({
-    name: 'fruit_eval',
-    dataset: dataset,
-    scorers: [fruitNameScorer],
+      name: 'fruit_eval',
+      dataset: dataset,
+      scorers: [fruitNameScorer],
     });
     const results = await evaluation.evaluate(model);
     console.log(results);
-
     ```
   </Tab>
 </Tabs>
@@ -256,18 +306,145 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
   Si vous exécutez ce code depuis un script Python, vous devrez utiliser `asyncio.run`. En revanche, si vous l’exécutez dans un notebook Jupyter, vous pouvez utiliser directement `await`.
 </Note>
 
-```
-```
-
 <div id="complete-example">
   ### Exemple complet
 </div>
 
 <Accordion title="Pipeline d’évaluation complet dans un seul script :">
   <Tabs>
-    <Tab title="Python" />
+    <Tab title="Python">
+      ```python lines
+      import json
+      import asyncio
+      import openai
+      import weave
+      from weave.scorers import MultiTaskBinaryClassificationF1
 
-    <Tab title="TypeScript" />
+      # Initialiser Weave une seule fois
+      weave.init('eval_pipeline_quickstart')
+
+      # 1. Définir le modèle
+      class ExtractFruitsModel(weave.Model):
+          model_name: str
+          prompt_template: str
+
+          @weave.op()
+          async def predict(self, sentence: str) -> dict:
+              client = openai.AsyncClient()
+              response = await client.chat.completions.create(
+                  model=self.model_name,
+                  messages=[{"role": "user", "content": self.prompt_template.format(sentence=sentence)}],
+              )
+              result = response.choices[0].message.content
+              if result is None:
+                  raise ValueError("No response from model")
+              return json.loads(result)
+
+      # 2. Instancier le modèle
+      model = ExtractFruitsModel(
+          model_name='gpt-3.5-turbo-1106',
+          prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}'
+      )
+
+      # 3. Créer le jeu de données
+      sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+      "Pounits are a bright green color and are more savory than sweet.",
+      "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."]
+      labels = [
+          {'fruit': 'neoskizzles', 'color': 'purple', 'flavor': 'candy'},
+          {'fruit': 'pounits', 'color': 'bright green', 'flavor': 'savory'},
+          {'fruit': 'glowls', 'color': 'pale orange', 'flavor': 'sour and bitter'}
+      ]
+      examples = [
+          {'id': '0', 'sentence': sentences[0], 'target': labels[0]},
+          {'id': '1', 'sentence': sentences[1], 'target': labels[1]},
+          {'id': '2', 'sentence': sentences[2], 'target': labels[2]}
+      ]
+
+      dataset = weave.Dataset(name='fruits', rows=examples)
+      weave.publish(dataset)
+
+      # 4. Définir la fonction de scoring
+      @weave.op()
+      def fruit_name_score(target: dict, output: dict) -> dict:
+          return {'correct': target['fruit'] == output['fruit']}
+
+      # 5. Lancer l'évaluation
+      evaluation = weave.Evaluation(
+          name='fruit_eval',
+          dataset=dataset,
+          scorers=[
+              MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
+              fruit_name_score
+          ],
+      )
+      print(asyncio.run(evaluation.evaluate(model)))
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      import * as weave from 'weave';
+      import OpenAI from 'openai';
+
+      // Initialiser Weave une seule fois
+      await weave.init('eval_pipeline_quickstart');
+
+      // 1. Définir le modèle
+      // Remarque : weave.Model n'est pas encore pris en charge en TypeScript.
+      // À la place, encapsulez votre fonction similaire à un modèle avec weave.op
+      const openaiClient = new OpenAI();
+
+      const model = weave.op(async function myModel({datasetRow}) {
+        const prompt = `Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: ${datasetRow.sentence}`;
+        const response = await openaiClient.chat.completions.create({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: prompt }],
+          response_format: { type: 'json_object' }
+        });
+        return JSON.parse(response.choices[0].message.content);
+      });
+
+      // 2. Créer le jeu de données
+      const sentences = [
+        "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+        "Pounits are a bright green color and are more savory than sweet.",
+        "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."
+      ];
+      const labels = [
+        { fruit: 'neoskizzles', color: 'purple', flavor: 'candy' },
+        { fruit: 'pounits', color: 'bright green', flavor: 'savory' },
+        { fruit: 'glowls', color: 'pale orange', flavor: 'sour and bitter' }
+      ];
+      const examples = sentences.map((sentence, i) => ({
+        id: i.toString(),
+        sentence,
+        target: labels[i]
+      }));
+
+      const dataset = new weave.Dataset({
+        name: 'fruits',
+        rows: examples
+      });
+      await dataset.save();
+
+      // 3. Définir la fonction de score
+      const fruitNameScorer = weave.op(
+        function fruitNameScore({target, output}) {
+          return { correct: target.fruit === output.fruit };
+        }
+      );
+
+      // 4. Exécuter l'évaluation
+      const evaluation = new weave.Evaluation({
+        name: 'fruit_eval',
+        dataset: dataset,
+        scorers: [fruitNameScorer],
+      });
+      const results = await evaluation.evaluate(model);
+      console.log(results);
+      ```
+    </Tab>
   </Tabs>
 </Accordion>
 

@@ -80,7 +80,50 @@ Vous pouvez démarrer l’entraînement avec `autotrain` advanced depuis la lign
     ```
   </Tab>
 
-  <Tab title="Notebook" />
+  <Tab title="Notebook">
+    ```notebook
+    # Définir les hyperparamètres
+    learning_rate = 2e-5
+    num_epochs = 3
+    batch_size = 4
+    block_size = 1024
+    trainer = "sft"
+    warmup_ratio = 0.03
+    weight_decay = 0.
+    gradient_accumulation = 4
+    lora_r = 16
+    lora_alpha = 32
+    lora_dropout = 0.05
+    logging_steps = 10
+
+    # Exécuter l’entraînement
+    !autotrain llm \
+        --train \
+        --model "HuggingFaceH4/zephyr-7b-alpha" \
+        --project-name "zephyr-math" \
+        --log "wandb" \
+        --data-path data/ \
+        --text-column text \
+        --lr str(learning_rate) \
+        --batch-size str(batch_size) \
+        --epochs str(num_epochs) \
+        --block-size str(block_size) \
+        --warmup-ratio str(warmup_ratio) \
+        --lora-r str(lora_r) \
+        --lora-alpha str(lora_alpha) \
+        --lora-dropout str(lora_dropout) \
+        --weight-decay str(weight_decay) \
+        --gradient-accumulation str(gradient_accumulation) \
+        --logging-steps str(logging_steps) \
+        --fp16 \
+        --use-peft \
+        --use-int4 \
+        --merge-adapter \
+        --push-to-hub \
+        --token str(hf_token) \
+        --repo-id "rishiraj/zephyr-math"
+    ```
+  </Tab>
 </Tabs>
 
 <Frame>

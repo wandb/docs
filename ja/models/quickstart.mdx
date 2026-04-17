@@ -77,15 +77,64 @@ W&amp;B でマシンを認証するには、APIキーが必要です。
 Python スクリプトまたはノートブックで、[`wandb.init()`](/ja/models/ref/python/experiments/run/) を使用して W&amp;B の run オブジェクトを初期化します。`config` パラメーターには辞書を使用し、
 ハイパーパラメーターの名と値を指定します。`with` ステートメント内では、メトリクスやその他の情報を W&amp;B にログできます。
 
+```python
+import wandb
+
+wandb.login()
+
+# runの記録先プロジェクト
+project = "my-awesome-project"
+
+# ハイパーパラメーターの辞書
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    # トレーニングコードをここに記述
+    # run.log()でW&Bに値をログする
+    run.log({"accuracy": 0.9, "loss": 0.1})
+```
+
 トレーニングの run をシミュレートし、精度と損失のメトリクスを W&amp;B にログする完全な例については、次のセクションを参照してください。
 
-<Info>A [run](/ja/models/runs/) は W&amp;B の中核となる要素です。run を使って、[メトリクスをトラッキングしたり](/ja/models/track/)、[ログを作成したり](/ja/models/track/log/)、artifact をトラッキングしたりできます。</Info>
+<Info>
+  [run](/ja/models/runs/) は W&amp;B の中核となる要素です。run を使って、[メトリクスをトラッキングしたり](/ja/models/track/)、[ログを作成したり](/ja/models/track/log/)、artifact をトラッキングしたりできます。
+</Info>
 
 <div id="create-a-machine-learning-training-experiment">
   ## 機械学習のトレーニング実験を作成する
 </div>
 
 このモックのトレーニングスクリプトは、シミュレートした精度と損失のメトリクスをW&amp;Bにログします。次のコードを Python スクリプトまたはノートブックのセルにコピー＆ペーストして、実行してください。
+
+```python
+import wandb
+import random
+
+wandb.login()
+
+# runの記録先プロジェクト
+project = "my-awesome-project"
+
+# ハイパーパラメーターの辞書
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # トレーニングrunをシミュレートする
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
+```
 
 [wandb.ai/home](https://wandb.ai/home) にアクセスして、精度 や損失などの記録されたメトリクスと、それらが各トレーニング step でどのように変化したかを確認します。次の画像は、各 run でトラッキングされた損失と 精度 を示しています。各 run オブジェクトは、自動生成された名とともに **Runs** 列に表示されます。
 

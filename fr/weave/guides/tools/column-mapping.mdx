@@ -9,6 +9,17 @@ description: "Associez les colonnes de vos jeux de données à d'autres noms. Ce
 
     L&#39;exemple suivant associe les paramètres `output` et `target` aux colonnes `model_output` et `answer` d&#39;un jeu de données :
 
+    ```python
+    from weave.scorers import EmbeddingSimilarityScorer
+
+    similarity_scorer = EmbeddingSimilarityScorer()
+
+    similarity_scorer.column_map = {
+        "output": "model_output",  # Le texte généré par le modèle
+        "target": "answer"         # La réponse attendue ou de référence
+    }
+    ```
+
     Pour en savoir plus sur le mappage de colonnes pour les scorers, voir [Mappage des noms de colonnes avec `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
   </Tab>
 

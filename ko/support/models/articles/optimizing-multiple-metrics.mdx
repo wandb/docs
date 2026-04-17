@@ -5,6 +5,21 @@ keywords: ["Sweeps", "메트릭"]
 
 하나의 run에서 여러 메트릭을 최적화하려면 각 메트릭의 가중합을 사용하세요.
 
+```python
+with wandb.init() as run:
+  # 개별 메트릭 로깅
+  metric_a = run.summary.get("metric_a", 0.5)
+  metric_b = run.summary.get("metric_b", 0.7)
+  # ... 필요에 따라 다른 메트릭 로깅
+  metric_n = run.summary.get("metric_n", 0.9)
+
+  # 가중치를 사용하여 메트릭 결합
+  # 최적화 목표에 맞게 가중치 조정
+  # 예를 들어, metric_a와 metric_n을 더 중요하게 반영하려면:  
+  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
+  run.log({"metric_combined": metric_combined})
+```
+
 새로 결합한 메트릭을 기록하고 이를 최적화 목표로 설정합니다:
 
 ```yaml
@@ -17,12 +32,6 @@ metric:
 
 {/* AUTO-GENERATED: 탭 배지 */}
 
-<Badge stroke shape="pill" color="orange" size="md">
-  [Sweeps](/ko/support/models/tags/sweeps)
-</Badge>
-
-<Badge stroke shape="pill" color="orange" size="md">
-  [메트릭](/ko/support/models/tags/metrics)
-</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 
 {/* END AUTO-GENERATED: tab badges */}

@@ -133,7 +133,21 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
 
 1. 인터넷에 연결된 시스템에서 [W&amp;B Helm charts 저장소](https://github.com/wandb/helm-charts)로부터 W&amp;B Helm 차트를 다운로드합니다.
 
+   ```bash
+   # helm-charts 저장소 복제
+   git clone https://github.com/wandb/helm-charts.git
+   cd helm-charts
+   ```
+
 2. `values.yaml` 파일을 확인해 모든 컨테이너 이미지와 해당 버전을 파악합니다.
+
+   ```bash
+   # operator chart에서 이미지 레퍼런스 추출
+   helm show values charts/operator | grep -E "repository:|tag:" | grep -v "^#"
+
+   # platform chart에서 이미지 레퍼런스 추출
+   helm show values charts/operator-wandb | grep -E "repository:|tag:" | grep -v "^#"
+   ```
 
    또는 다음 명령을 사용해 저장소 이름만 추출할 수 있습니다(버전 태그 제외).
 
@@ -162,18 +176,70 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
    각 이미지의 정확한 버전 태그를 조회하려면 위의 첫 번째 명령(`grep -E "repository:|tag:"`)을 사용하세요. 그러면 저장소 이름과 해당 버전 태그가 함께 표시됩니다.
 
 <div id="transfer-images-to-air-gapped-registry">
-  #### 에어갭 레지스트리로 이미지 전송
+  #### air-gapped 레지스트리로 이미지 전송
 </div>
 
 1. 인터넷에 연결된 시스템에서 필요한 모든 이미지를 pull한 다음 저장합니다.
 
-   <Note>아래 예시의 버전 번호는 위의 step 2에서 Helm 차트를 검사해 확인한 실제 버전으로 바꾸세요. 여기에 표시된 버전은 예시일 뿐이며, 시간이 지나면 더 이상 최신이 아니게 됩니다.</Note>
+   <Note>
+     아래 예시의 버전 번호는 위의 step 2에서 Helm 차트를 검사해 확인한 실제 버전으로 바꾸세요. 여기에 표시된 버전은 예시일 뿐이며, 시간이 지나면 더 이상 최신이 아니게 됩니다.
+   </Note>
 
    버전을 일관되게 관리하려면 셸 변수를 사용하세요:
 
-2. 승인된 방법(USB 드라이브, 보안 파일 전송 등)을 사용해 `.tar` 파일을 에어갭 환경으로 전송합니다.
+   ```bash
+   # 버전 변수 설정(Helm 차트 버전에 맞게 업데이트)
+   CONTROLLER_VERSION="1.13.3"
+   APP_VERSION="0.59.2"
+   CONSOLE_VERSION="2.12.2"
 
-3. 에어갭 환경에서 이미지를 로드한 뒤 내부 레지스트리에 push합니다:
+   # 이미지 pull
+   docker pull wandb/controller:${CONTROLLER_VERSION}
+   docker pull wandb/local:${APP_VERSION}
+   docker pull wandb/console:${CONSOLE_VERSION}
+   docker pull wandb/megabinary:${APP_VERSION}
+   # ... 필요한 다른 모든 이미지도 해당 버전으로 pull
+
+   # 이미지를 .tar 파일로 저장
+   docker save wandb/controller:${CONTROLLER_VERSION} -o wandb-controller-${CONTROLLER_VERSION}.tar
+   docker save wandb/local:${APP_VERSION} -o wandb-local-${APP_VERSION}.tar
+   docker save wandb/console:${CONSOLE_VERSION} -o wandb-console-${CONSOLE_VERSION}.tar
+   docker save wandb/megabinary:${APP_VERSION} -o wandb-megabinary-${APP_VERSION}.tar
+   # ... 다른 모든 이미지 저장
+   ```
+
+2. 승인된 방법(USB 드라이브, 보안 파일 전송 등)을 사용해 `.tar` 파일을 air-gapped 환경으로 전송합니다.
+
+3. air-gapped 환경에서 이미지를 로드한 뒤 내부 레지스트리에 push합니다:
+
+   ```bash
+   # 위에서 사용한 것과 동일한 버전 변수 설정
+   CONTROLLER_VERSION="1.13.3"
+   APP_VERSION="0.59.2"
+   CONSOLE_VERSION="2.12.2"
+   INTERNAL_REGISTRY="registry.yourdomain.com"
+
+   # 이미지 로드
+   docker load -i wandb-controller-${CONTROLLER_VERSION}.tar
+   docker load -i wandb-local-${APP_VERSION}.tar
+   docker load -i wandb-console-${CONSOLE_VERSION}.tar
+   docker load -i wandb-megabinary-${APP_VERSION}.tar
+   # ... 다른 모든 이미지 로드
+
+   # 내부 레지스트리용 태그 지정
+   docker tag wandb/controller:${CONTROLLER_VERSION} ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+   docker tag wandb/local:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+   docker tag wandb/console:${CONSOLE_VERSION} ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+   docker tag wandb/megabinary:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+   # ... 다른 모든 이미지 태그 지정
+
+   # 내부 레지스트리로 push
+   docker push ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+   # ... 다른 모든 이미지 push
+   ```
 
 <div id="step-2-set-up-internal-helm-chart-repository">
   ### Step 2: 내부 Helm 차트 저장소 설정
@@ -185,6 +251,16 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
 * [W&amp;B Platform chart](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
 1. 인터넷에 연결된 시스템에서 chart를 다운로드합니다:
+
+   ```bash
+   # W&B Helm 저장소 추가
+   helm repo add wandb https://wandb.github.io/helm-charts
+   helm repo update
+
+   # chart 다운로드
+   helm pull wandb/operator --version 1.13.3
+   helm pull wandb/operator-wandb --version 0.18.0
+   ```
 
 2. `.tgz` chart 파일을 에어갭 환경으로 전송한 다음, 저장소 절차에 따라 내부 Helm 저장소에 업로드합니다.
 
@@ -275,6 +351,117 @@ W&amp;B Kubernetes Operator를 설치한 후에는 Custom Resource(CR)가 내부
 
 다음 내용으로 `wandb.yaml` 파일을 만드세요:
 
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/instance: wandb
+    app.kubernetes.io/name: weightsandbiases
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.yourdomain.com
+      license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      
+      bucket:
+        accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+      
+      api:
+        enabled: true
+      
+      glue:
+        enabled: true
+      
+      executor:
+        enabled: true
+      
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
+
+    # 모든 컴포넌트 이미지가 내부 레지스트리를 사용하도록 설정
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+
+    api:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    executor:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    glue:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    parquet:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    weave:
+      image:
+        repository: registry.yourdomain.com/wandb/weave-python
+        tag: 0.59.2
+
+    otel:
+      image:
+        repository: registry.yourdomain.com/otel/opentelemetry-collector-contrib
+        tag: 0.97.0
+
+    prometheus:
+      server:
+        image:
+          repository: registry.yourdomain.com/prometheus/prometheus
+          tag: v2.47.0
+      configmapReload:
+        prometheus:
+          image:
+            repository: registry.yourdomain.com/prometheus-operator/prometheus-config-reloader
+            tag: v0.67.0
+
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      class: nginx
+```
+
 <Note>
   모든 플레이스홀더 값(호스트 이름, 비밀번호, 태그 등)을 실제 설정 값으로 바꾸세요. 위 예시에는 가장 일반적으로 사용되는 컴포넌트가 나와 있습니다.
 </Note>
@@ -300,6 +487,17 @@ W&amp;B Kubernetes Operator를 설치한 후에는 Custom Resource(CR)가 내부
 
 2. 배포 진행 상황을 모니터링합니다:
 
+   ```bash
+   # 생성 중인 파드 확인
+   kubectl get pods -n wandb --watch
+
+   # 배포 상태 확인
+   kubectl get weightsandbiases -n wandb
+
+   # Operator 로그 확인
+   kubectl logs -n wandb deployment/wandb-operator-controller-manager
+   ```
+
    Operator가 필요한 모든 컴포넌트를 생성하므로 배포에 몇 분 정도 걸릴 수 있습니다.
 
 <div id="openshift-configuration">
@@ -318,7 +516,42 @@ OpenShift는 파드 권한을 제어하기 위해 SCC(Security Context Constrain
   #### 옵션 1: restricted SCC 사용(권장)
 </div>
 
-Custom Resource에서 적절한 보안 컨텍스트를 설정해 W&amp;B 컴포넌트가 restricted SCC로 실행되도록 구성합니다:
+Custom Resource에서 적절한 security context를 설정해 W&amp;B 컴포넌트가 restricted SCC로 실행되도록 구성합니다:
+
+```yaml
+spec:
+  values:
+    # 모든 파드에 대한 보안 컨텍스트 설정
+    app:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # 다른 컴포넌트에 대해 반복: api, executor, glue, parquet, weave
+```
 
 <div id="option-2-create-custom-scc-if-required">
   #### 옵션 2: 맞춤형 SCC 만들기(필요한 경우)
@@ -430,9 +663,105 @@ spec:
 
 다음은 OpenShift 에어갭 배포를 위한 전체 CR 예제입니다:
 
-<Note>이 예제의 모든 `tag:` 값은 Step 1에서 내부 레지스트리로 전송한 실제 버전으로 바꾸세요. 여기에 표시된 버전은 예시이며 곧 더 이상 최신이 아니게 됩니다.</Note>
+<Note>
+  이 예제의 모든 `tag:` 값은 Step 1에서 내부 레지스트리로 전송한 실제 버전으로 바꾸세요. 여기에 표시된 버전은 예시이며 곧 더 이상 최신이 아니게 됩니다.
+</Note>
 
-<Note>보안 요구 사항에 맞는 포괄적인 OpenShift 설정 예시가 필요하면 [W&amp;B 지원팀](mailto:support@wandb.com) 또는 배정된 W&amp;B 지원 엔지니어에게 문의하세요.</Note>
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.apps.openshift.yourdomain.com
+      license: <your-license>
+      
+      bucket:
+        accessKey: <your-access-key>
+        secretKey: <your-secret-key>
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+
+    # OpenShift 전용: 인그레스 대신 Route 사용
+    ingress:
+      enabled: false
+    
+    route:
+      enabled: true
+      host: wandb.apps.openshift.yourdomain.com
+      tls:
+        enabled: true
+        termination: edge
+
+    # 내부 레지스트리용 이미지 풀 시크릿
+    imagePullSecrets:
+      - name: wandb-registry-secret
+
+    # OpenShift restricted SCC용 보안 컨텍스트
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # api, executor, glue, parquet, weave에도 보안 컨텍스트 반복 적용
+    # (간결성을 위해 생략)
+```
+
+<Note>
+  보안 요구 사항에 맞는 포괄적인 OpenShift 설정 예시가 필요하면 [W&amp;B 지원팀](mailto:support@wandb.com) 또는 배정된 W&amp;B 지원 엔지니어에게 문의하세요.
+</Note>
 
 <div id="verify-your-installation">
   ## 설치를 확인하세요
@@ -469,7 +798,7 @@ W&amp;B를 배포한 후 설치가 제대로 작동하는지 확인하세요:
 </div>
 
 <div id="image-pull-errors">
-  ### 이미지 풀 오류
+  ### 이미지 pull 오류
 </div>
 
 파드가 이미지를 pull하지 못하면 다음을 확인하세요.
@@ -479,11 +808,27 @@ W&amp;B를 배포한 후 설치가 제대로 작동하는지 확인하세요:
 3. Kubernetes 노드에서 레지스트리까지 네트워크로 연결되는지 확인
 4. 레지스트리 인증 자격 증명을 확인
 
+   ```bash
+   # 이미지 pull을 수동으로 테스트
+   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
+   kubectl logs test-pull -n wandb
+   kubectl delete pod test-pull -n wandb
+   ```
+
 <div id="openshift-scc-errors">
   ### OpenShift SCC 오류
 </div>
 
 OpenShift에서 파드가 권한 오류로 실행에 실패하는 경우:
+
+```bash
+# 사용 중인 SCC 확인
+oc get pod <pod-name> -n wandb -o yaml | grep scc
+
+# service account 권한 확인
+oc describe scc wandb-scc
+oc get rolebinding -n wandb
+```
 
 <div id="helm-chart-not-found">
   ### Helm chart를 찾을 수 없음
