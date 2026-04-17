@@ -1,25 +1,47 @@
 ---
-title: "wandb offline"
+title: wandb offline
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-offline.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbOffline from "/snippets/en/_includes/cli/wandb-offline.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbOffline/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3392" />
 
-Save data logged to W&B locally without uploading it to the cloud.
 
-Use `wandb online` or `wandb sync` to upload offline runs.
 
 ## Usage
 
 ```bash
-wandb offline
+offline [OPTIONS]
 ```
+
+## Description
+
+Save data logged to W&B locally without uploading it to the cloud.
+
+    Use `wandb online` or `wandb sync` to upload offline runs.
+
+    For example, to run a script in offline mode to log data locally without syncing
+    to the cloud:
+
+```bash
+wandb offline && python train.py
+```
+
+    To run a script in offline mode:
+
+```bash
+wandb offline && python train.py
+```
+
+    At a later time, sync all offline runs to the cloud:
+
+```bash
+wandb sync --sync-all
+```
+
+
+
+
+
+

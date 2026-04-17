@@ -1,11 +1,6 @@
 ---
 title: Webhook オートメーションの作成
 ---
-import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
-
-<Info>
-<EnterpriseCloudOnly/>
-</Info>
 
 このページでは、webhook [automation](/models/automations/) の作成方法について説明します。Slack のオートメーションを作成する場合は、代わりに [Create a Slack automation](/models/automations/create-automations/slack/) を参照してください。
 
@@ -304,6 +299,9 @@ W&B が `POST` リクエストに使用する形式の詳細については、**
 ACCESS_TOKEN="your_api_key"
 SECRET="your_api_secret"
 
+# webhook エンドポイントの URL
+API_ENDPOINT="https://your.webhook.endpoint/path"
+
 # 送信したいデータ（例：JSON形式）
 PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
@@ -311,15 +309,14 @@ PAYLOAD='{"key1": "value1", "key2": "value2"}'
 # セキュリティのため、Wandbはペイロードとwebhookに関連付けられた
 # 共有シークレットキーから、HMAC SHA-256アルゴリズムを使用して計算された
 # X-Wandb-Signatureをヘッダーに含めます。
-SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst \
--sha256 -hmac "$SECRET" -binary | base64)
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
 # cURLリクエストを実行
 curl -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "X-Wandb-Signature: $SIGNATURE" \
-  -d "$PAYLOAD" API_ENDPOINT
+  -d "$PAYLOAD" "$API_ENDPOINT"
 ```
 </Tab>
 </Tabs>

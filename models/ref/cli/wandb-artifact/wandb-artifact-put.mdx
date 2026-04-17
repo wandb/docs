@@ -1,42 +1,85 @@
 ---
-title: "wandb artifact put"
+title: wandb artifact put
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-put.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbArtifactPut from "/snippets/en/_includes/cli/wandb-artifact-put.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbArtifactPut/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2812" />
 
-Upload an artifact to wandb
+
 
 ## Usage
 
 ```bash
-wandb artifact put PATH [OPTIONS]
+put [OPTIONS] PATH
 ```
+
+## Description
+
+Upload an artifact to W&B.
+
+    Upload a file, directory, or URL reference as a versioned artifact.
+
+    The PATH can be a local file, a local directory, or a URL
+    (containing `://`) to log as a reference artifact.
+
+    If `--name` is not specified, the artifact name defaults to the
+    basename of the path. If the project cannot be parsed from the
+    name, you are prompted to enter one.
+
+    For example, to upload all files in a local directory ./data/training as a
+    dataset artifact in W&B:
+
+```bash
+wandb artifact put --type dataset ./data/training
+```
+
+    To upload model.pt to the "foobar" project and assign "trained-model" as
+    the artifact name:
+
+```bash
+wandb artifact put --name foobar/trained-model --type model ./model.pt
+```
+
+    To tag the artifact with both "latest" and "v2.0" so it can be
+    referenced by either alias:
+
+```bash
+wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+```
+
+    To record an Amazon S3 path as a reference without downloading or re-uploading the data:
+
+```bash
+wandb artifact put --type dataset s3://my-bucket/datasets/training
+```
+
+    To attach a human-readable description to a dataset artifact for documentation:
+
+```bash
+wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
+```
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `PATH` | No description available | Yes |
+| Name | Default | Type |
+|------|---------|------|
+| `path` | STR | True |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--name`, `-n` | The name of the artifact to push: project/artifact_name |
-| `--description`, `-d` | A description of this artifact |
-| `--type`, `-t` | The type of the artifact (default: dataset) |
-| `--alias`, `-a` | An alias to apply to this artifact (default: ['latest']) |
-| `--id` | The run you want to upload to. |
-| `--resume` | Resume the last run from your current directory. |
-| `--skip_cache` | Skip caching while uploading artifact files. (default: False) |
-| `--policy` | Set the storage policy while uploading artifact files. (default: mutable) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--name, -n` | STR | Artifact name in project/artifact_name format. Defaults to the basename of the path. **Default**: None |
+| `--description, -d` | STR | A description of this artifact. **Default**: None |
+| `--type, -t` | STR | The type of the artifact. Defaults to 'dataset'. **Default**: dataset |
+| `--alias, -a` | STR | An alias to apply to this artifact. Can be specified multiple times. Defaults to 'latest'. **Default**: ['latest'] |
+| `--id` | STR | Upload to an existing run with this ID. **Default**: None |
+| `--resume` | BOOL Flag | Resume the last run from your current directory. **Default**: None |
+| `--skip_cache` | BOOL Flag | Skip caching while uploading artifact files. **Default**: False |
+| `--policy` | Choice | Set the storage policy for artifact files. Either 'mutable' (default) or 'immutable'. **Default**: mutable |
+

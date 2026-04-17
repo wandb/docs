@@ -13,13 +13,13 @@ A media panel visualizes [logged keys for media objects](/models/track/log/media
 To add a media panel for a logged key using the default configuration, use Quick Add. You can add a media panel globally or to a specific section.
 
 1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
+1. **Section**: Click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Add panels**.
 1. In the list of available panels, find the key for the panel, then click **Add**. Repeat this step for each media panel you want to add, then click the **X** at the top right to close the **Quick Add** list.
 1. Optionally, [configure the panel](#configure-a-media-panel).
 
 You can add a media panel globally or to a specific section:
 1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
+1. **Section**: Click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Add panels**.
 1. Click the **Media** section to expand it.
 1. Select the type of media the panel visualizes, 3d objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel](#configure-a-media-panel).
 
@@ -52,14 +52,16 @@ Customize the panel's overall appearance and behavior.
 
 ### Layout
 Customize the display of the panel's individual items.
-- Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
-  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
+
 - Optionally limit the **Max runs to include** in the panel.
 - Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- **Images and videos**: Turn on or off display of full-size media.
-- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
-- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
+- Set **Panel mode**:
+    - **Gallery** (default): Specify the number of columns and whether the grid shows a single item per run (default), step, or index.
+    - **Grid**: Specify the number of columns, the x axis (defaults to **Log Step**), and the y axis (defaults to **Run**).
+    - **Compare**: Compare up to 4 media items side by side, optionally fanning out by step or index. See [Compare mode](#compare-mode) for details.
+- **Use original size**: If off (default), images and videos in the panel are scaled to appear the same size. No effect in **Compare** mode.
+- **Fit to available space**: If on (default), images and videos in the panel are scaled to take up as much room as possible in the panel. In **Gallery** mode, each image fills the panel width. In **Grid** mode, each image fills the grid width. No effect in **Compare** mode.
+- **Right-handed system**: If on, point clouds use the right-handed system for plotting points, rather than the default left-handed system.
 
 ### All media panels in a section
 To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
@@ -89,12 +91,46 @@ When **Step slider syncing** is turned on, the section's media panels with the s
 
 For details about each setting, refer to [Configure a media panel](#configure-a-media-panel).
 
+## Compare mode
+
+Compare mode lets you select 2 to 4 images or videos from any combination of runs, steps, or indices and view them in a single grid. You can compare media without downloading files or switching tabs.
+
+Use compare mode to:
+
+- Confirm that a new checkpoint or run produces better outputs than a baseline or previous checkpoint.
+- Catch regressions by comparing the current run to a known good checkpoint at the same step or index.
+- Validate model outputs against ground truth by viewing reference and generated media side by side.
+- Review how generated images or videos change across training steps or across different checkpoints or runs.
+
+Compare mode is useful for image or video generation workflows like diffusion or generative models, multimodal evaluation, vision experiments, and other workflows where you log media and need to compare it across runs, steps, or indices.
+
+To use compare mode:
+1. Open a media panel in your workspace (for images or video).
+1. Set **Panel mode** to **Compare**.
+1. Configure the grid's dimensions and density by specifying the number of columns and the fan out mode. The best grid geometry depends how your runs log media.
+    - **Number of columns**: How many items to show per row, from `1` to `4`.
+    - **Fan out**: Control the granularity of media to display per grid row. The best setting depends on how many media items you log per step per run, and whether you need a quick "vibe check" or deep analysis.
+        - **None**: (default): No fan-out. Each grid column represents a run, and each grid row represents a logged image or video.
+            <Frame>![Screenshot showing a media panel in compare mode with two runs and no fan out](/images/models/compare-mode-fan-out-none.png)</Frame>
+        - **Step**: Fan out along the step axis. Each grid column represents a run, and each grid row shows the first image or video logged at a run:step combination.
+            <Frame>![Screenshot showing a media panel in compare mode with two runs and fan out by step](/images/models/compare-mode-fan-out-by-step.png)</Frame>
+        - **Index**: Fan out along the index axis, useful when you log several items per step (for example, `run.log({"images": [img0, img1, img2, img3]})`). Each row cell shows the image or video logged at a given run:step:index combination.
+            <Frame>![Screenshot showing a media panel in compare mode with two runs and fan out by index](/images/models/compare-mode-fan-out-by-index.png)</Frame>
+1. Configure whether a given variable affects a single tile (**Individual**) or all tiles (**Linked**).
+    - **Media key**: Defaults to **Linked**.
+    - **Run**: Defaults to **Individual**.
+    - **Step**: Defaults to **Linked**.
+    - **Index**: Defaults to **Linked**.
+
+Your selection is saved so you can return to the same comparison later without reconfiguring the panel.
+
 ## Interact with a media panel
-- Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
-- To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
+- To configure a media panel, hover over it and click the gear icon at the top.
 - To move a media panel's step slider, use **CMD + left or right arrow key** (macOS) or **Ctrl + left or right arrow key** (Windows / Linux). If **Sync slider by key** is turned on for the section or workspace, moving the step slider in one media panel also moves the step slider in other media panels with the same step slider key.
 - Use the stepper at the top of a media panel to step through media runs. To move the step slider, use the UI controls.
-- Use the media controls to play, pause, or stop video playback. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.
-- To configure a media panel, hover over it and click the gear icon at the top.
+- Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
+- To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
+- When viewing an image in full-screen mode, click the zoom control at the top right to zoom in or out. By default, images zoom to fit. Click and drag to pan a zoomed-in image. You can also zoom in, zoom out, reset to 100% zoom, or zoom to fit using keyboard shortcuts. See [Keyboard shortcuts](/models/app/keyboard-shortcuts#media-panels).
 - For an image that was logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
 - For an image or point cloud that was logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
+- Use the media controls to play, pause, or stop video playback. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.

@@ -399,8 +399,9 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "Create RL Training Job",
-        "operationId": "create_training_job_v1_preview_training_jobs_post",
+        "summary": "Create Rl Training Job",
+        "description": "Create a new RL (Reinforcement Learning) training job.",
+        "operationId": "Create_RL_Training_Job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -445,9 +446,9 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "Create SFT Training Job",
+        "summary": "Create Sft Training Job",
         "description": "Create a new SFT (Supervised Fine-Tuning) training job.",
-        "operationId": "create_sft_training_job_v1_preview_sft_training_jobs_post",
+        "operationId": "Create_SFT_Training_Job_v1_preview_sft_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1886,6 +1887,7 @@
             "anyOf": [
               {
                 "type": "integer",
+                "maximum": 9.223372036854776e+18,
                 "minimum": -1.0
               },
               {
@@ -2456,7 +2458,7 @@
             "default": "function"
           },
           "function": {
-            "$ref": "#/components/schemas/FunctionDefinition"
+            "$ref": "#/components/schemas/vllm__entrypoints__openai__engine__protocol__FunctionDefinition"
           }
         },
         "additionalProperties": true,
@@ -3339,43 +3341,6 @@
           "arguments"
         ],
         "title": "FunctionCall"
-      },
-      "FunctionDefinition": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "parameters": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parameters"
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "FunctionDefinition"
       },
       "HTTPValidationError": {
         "properties": {
@@ -4335,7 +4300,8 @@
               ]
             },
             "type": "array",
-            "title": "Messages And Choices"
+            "title": "Messages And Choices",
+            "default": []
           },
           "tools": {
             "anyOf": [
@@ -4361,7 +4327,8 @@
           },
           "reward": {
             "type": "number",
-            "title": "Reward"
+            "title": "Reward",
+            "default": 0.0
           },
           "initial_policy_version": {
             "anyOf": [
@@ -4403,24 +4370,6 @@
             "title": "Metrics",
             "default": {}
           },
-          "auto_metrics": {
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            },
-            "type": "object",
-            "title": "Auto Metrics",
-            "default": {}
-          },
           "metadata": {
             "additionalProperties": {
               "anyOf": [
@@ -4460,10 +4409,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "messages_and_choices",
-          "reward"
-        ],
         "title": "Trajectory"
       },
       "TrajectoryGroup": {
@@ -4544,6 +4489,13 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",
@@ -4593,6 +4545,43 @@
               }
             ],
             "title": "Strict"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      },
+      "vllm__entrypoints__openai__engine__protocol__FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters"
           }
         },
         "additionalProperties": true,

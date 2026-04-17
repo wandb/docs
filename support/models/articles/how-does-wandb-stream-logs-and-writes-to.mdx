@@ -1,12 +1,7 @@
 ---
 title: "How does wandb stream logs and writes to disk?"
+keywords: ["Environment Variables"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
-
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
 
 W&B queues events in memory and writes them to disk asynchronously to manage failures and support the `WANDB_MODE=offline` configuration, allowing synchronization after logging.
 
@@ -14,4 +9,6 @@ In the terminal, observe the path to the local run directory. This directory inc
 
 ---
 
+{/* AUTO-GENERATED: tab badges */}
 <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

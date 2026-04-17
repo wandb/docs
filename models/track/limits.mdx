@@ -119,7 +119,7 @@ with wandb.init(project="metric-frequency") as run:
     )
 ```
 
-{/* Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](/models/ref/python/experiments/run/#method-runlog) for `run.log` for more details. */}
+{/* Enable batching in calls to `wandb.Run.log()` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](/models/ref/python/experiments/run/#method-runlog) for `run.log()` for more details. */}
 
 <Note>
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.
@@ -204,7 +204,7 @@ If you find you have too many sections and performance is slow, consider the wor
 
 When logging between 5000 and 100,000 metrics per run, W&B recommends using a [manual workspace](/models/app/features/panels/#workspace-modes). In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics. With a more focused set of plots, the workspace loads faster. Metrics that are not plotted are still collected and stored as usual.
 
-To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. See [workspace panel management](/models/app/features/panels/).
+To reset a workspace to manual mode, click the workspace's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. See [workspace panel management](/models/app/features/panels/).
 
 ### File count
 

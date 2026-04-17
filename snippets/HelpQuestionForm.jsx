@@ -3,6 +3,12 @@ export const HelpQuestionForm = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (!params.has("assistant")) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("assistant", "");
+      window.location.href = url.toString();
+      return;
+    }
     setValue(params.get("assistant") || "");
   }, []);
 

@@ -1,0 +1,51 @@
+---
+title: "How do I fix `Cuda out of memory` during a sweep?"
+keywords: ["Sweeps", "Run Crashes"]
+---
+
+If you see `Cuda out of memory` during a sweep, refactor your code to use process-based execution. Rewrite your code as a Python script and call the sweep agent from the CLI instead of the Python SDK.
+
+1. Add your training logic to a Python script (for example, `train.py`):
+
+   ```python
+   if __name__ == "__main__":
+       train()
+   ```
+
+2. Reference the script in your YAML sweep configuration:
+
+   ```yaml
+   program: train.py
+   method: bayes
+   metric:
+     name: validation_loss
+     goal: maximize
+   parameters:
+     learning_rate:
+       min: 0.0001
+       max: 0.1
+     optimizer:
+       values: ["adam", "sgd"]
+   ```
+
+3. Initialize the sweep with the CLI:
+
+   ```shell
+   wandb sweep config.yaml
+   ```
+
+4. Start the sweep agent with the CLI, replacing `sweep_ID` with the ID returned in the previous step:
+
+   ```shell
+   wandb agent sweep_ID
+   ```
+
+Using the CLI-based agent (`wandb agent`) instead of the Python SDK (`wandb.agent`) ensures each run is a separate process with its own memory allocation, preventing CUDA memory from accumulating across runs.
+
+For more information, see [Sweeps troubleshooting](/models/sweeps/troubleshoot-sweeps/).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/support/models/tags/run-crashes)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

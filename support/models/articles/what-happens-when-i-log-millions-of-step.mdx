@@ -1,12 +1,7 @@
 ---
-title: "What happens when I log millions of steps to W\u0026B? How is that rendered in the browser?"
+title: "What happens when I log millions of steps to W&B? How is that rendered in the browser?"
+keywords: ["Experiments", "Metrics"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
-
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
 
 The number of points sent affects the loading time of graphs in the UI. For lines exceeding 1,000 points, the backend samples the data down to 1,000 points before sending it to the browser. This sampling is nondeterministic, resulting in different sampled points upon page refresh.
 
@@ -14,4 +9,6 @@ Log fewer than 10,000 points per metric. Logging over 1 million points in a line
 
 ---
 
+{/* AUTO-GENERATED: tab badges */}
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

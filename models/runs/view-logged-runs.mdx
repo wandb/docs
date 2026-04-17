@@ -3,12 +3,7 @@ title: View a specific run in a project
 description: Learn how to view a specific logged run and its properties using the W&B App or the LEET terminal UI.
 ---
 
-View information about a specific run, such as its current state, artifacts, metrics, and more.
-
-
-## View a logged run
-
-You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
+View information about a specific run, such as its current state, artifacts, metrics, and more. You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
 
 <Tabs>
 <Tab title="WA&B App">
@@ -73,13 +68,13 @@ See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) referenc
 </Tabs>
 
 
-### Overview
+## Overview
 Use the **Overview** tab to learn about specific run information in a project, such as:
 
 * **Author**: The W&B entity that creates the run.
 * **Command**: The command that initializes the run.
 * **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App or programmatically with the Python SDK.
-* **Tracked Hours**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting periods. This metric helps you understand the actual computational time spent on your run.
+* **Tracked Hours**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting periods. This metric helps you understand the actual computational time spent on your run. You are not billed for tracked hours, which are unlimited for all plans.
 * **Runtime**: Measures the total time from the start to the end of the run. It's the wall-clock time for the run, including any time where the run is paused or waiting for resources. This metric provides the complete elapsed time for your run.
 * **Git repository**: The git repository associated with the run. You must [enable git](/platform/app/settings-page/user-settings/#personal-github-integration) to view this field.
 * **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
@@ -101,11 +96,16 @@ W&B stores the following information below the overview section:
 * **Config**: List of config parameters saved with [`wandb.Run.config`](/models/track/config/).
 * **Summary**: List of summary parameters saved with [`wandb.Run.log()`](/models/track/log/). By default, W&B sets this value to the last value logged.
 
+You can use the search box aboce the Config and Summary sections to filter for specific parameters. For example, if you enter `acc` in the search box, W&B filters for all parameters with `acc` in their name such as `accuracy` and `val_acc`.
+
+<Note>
+W&B does not search for nested config or summary parameters. For example, if you log a nested config parameter with `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&B does not return the `learning_rate` parameter if you search for `learning_rate` in the search box. You can only find the `learning_rate` parameter by searching for `model`.
+</Note>
+
 View an example project overview [here](https://wandb.ai/stacey/deep-drive/overview). 
 
-
-### Logs 
-The **Log** tab shows output printed on the command line such as the standard output (`stdout`) and standard error (`stderr`). 
+## Logs 
+The **Logs** tab shows output printed on the command line such as the standard output (`stdout`) and standard error (`stderr`). 
 
 <Frame>
     <img src="/images/runs/run_logs_info.png" alt="Run logs tab" />
@@ -115,7 +115,7 @@ Click the **Download** button in the upper right hand corner to download the log
 
 View an example logs tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
 
-### Files
+## Files
 Use the **Files** tab to view files associated with a specific run such as model checkpoints, validation set examples, and more
 
 <Frame>
@@ -124,11 +124,11 @@ Use the **Files** tab to view files associated with a specific run such as model
 
 View an example files tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images). 
 
-### Code
+## Code
 The **Code** tab displays the code files associated with a specific run. This includes the main script that was executed as well as any additional code files that were part of the run's environment.
 
 
-### Artifacts
+## Artifacts
 
 The **Artifacts** tab lists the input and output [artifacts](/models/artifacts/) for the specified run.
 

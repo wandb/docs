@@ -1,16 +1,11 @@
 ---
 title: "Trace data loss in worker processes"
+keywords: ["Trace Data", "Performance"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
 
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
+Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using a multiprocessing or task queue system or a worker processes like Celery, Weave loses trace data if the worker process exits before background threads finish uploading traces.
 
-Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using a multiprocessing or task queue system or a worker processes like Celery, trace data will be lost if the worker process exits before background threads finish uploading traces.
-
-To prevent data loss in worker processes, you must ensure that background uploads complete by calling `client.flush()` or `client.finish()` before the worker task completes.
+To prevent data loss in worker processes, you must ensure that background uploads complete by calling `client.flush()` or `client.finish()` before the worker task completes. This helps when working in short‑lived environments like [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run), or notebooks that exit right after execution.
 
 These methods have different purposes:
 
@@ -56,4 +51,6 @@ You can also improve the performance of your application using `weave.flush()`. 
 
 ---
 
+{/* AUTO-GENERATED: tab badges */}
 <Badge stroke shape="pill" color="orange" size="md">[Trace Data](/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performance](/support/weave/tags/performance)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

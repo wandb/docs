@@ -1,12 +1,7 @@
 ---
 title: "How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?"
+keywords: ["Artifacts"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
-
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
 
 W&B tracks artifacts logged by each run and those used by each run to construct an artifact graph. This graph is a bipartite, directed, acyclic graph with nodes representing runs and artifacts. An example can be viewed [here](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to expand the graph).
 
@@ -55,4 +50,6 @@ consumer_runs = produced_artifacts[0].used_by()
 
 ---
 
+{/* AUTO-GENERATED: tab badges */}
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

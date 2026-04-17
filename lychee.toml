@@ -57,6 +57,7 @@ exclude = [
   # Match full URLs to image directories on any domain (including preview sites)
   '(http|https)://[^/]+/images/',
   '(http|https)://kubeflow\.mysite\.com',
+  '(http|https)://.*\.?koog\.ai',
   '(http|https)://my-fake-url\.com',
   '(http|https)://my\.domain\.net',
   'https://wiki.python.org/moin/UsingPickle',
@@ -83,6 +84,8 @@ exclude = [
   '(http|https)://www\.wmdp\.ai',
   # YouTube embed URLs - often return 404/403 to crawlers but work in browser
   '(http|https)://www\.youtube\.com/embed/',
+  # SVG/MathML xmlns values (for example snippets/_includes/github-source-link.mdx)
+  '(http|https)://www\.w3\.org/',
 ]
 
 # File/directory paths to exclude from checking
@@ -91,4 +94,6 @@ exclude_path = [
   ".github",
   "node_modules",
   "scripts",
+  # Plain Markdown (README, AGENTS, runbooks); Mintlify pages are .mdx
+  ".*\\.md$",
 ]

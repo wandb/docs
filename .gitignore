@@ -15,7 +15,7 @@
 go.mod
 go.sum
 
-# Misc
+
 .DS_Store
 .env.local
 .env.development.local
@@ -47,3 +47,8 @@ lychee/
 # Python
 __pycache__/
 *.pyc
+.env
+
+# Python virtual environments
+.venv/
+venv/

@@ -1,0 +1,28 @@
+---
+title: "Why doesn't `.call()` raise exceptions?"
+keywords: ["Trace Data"]
+---
+
+By default, Weave's [`.call()`](/weave/guides/tracking/tracing#creating-calls) method captures exceptions and stores them in `call.exception` instead of raising them. This is expected behavior.
+
+If you need exceptions to be raised during execution, set the `__should_raise` parameter:
+
+```python
+result, call = my_op.call(__should_raise=True)
+```
+
+Without `__should_raise=True`, any exception that occurs during the op is silently captured and stored. Check `call.exception` to inspect the error:
+
+```python
+result, call = my_op.call()
+if call.exception:
+    print(f"Op failed with: {call.exception}")
+```
+
+For more information, see [Limits and expected behaviors](/weave/details/limits).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Trace Data](/support/weave/tags/trace-data)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

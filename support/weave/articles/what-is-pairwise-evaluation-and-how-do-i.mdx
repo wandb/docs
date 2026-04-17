@@ -1,12 +1,7 @@
 ---
 title: "What is pairwise evaluation and how do I do it?"
+keywords: ["Evaluation"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
-
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
 
 When [scoring](/weave/guides/evaluation/scorers) models in a Weave [evaluation](/weave/guides/core-types/evaluations), absolute value metrics (e.g. `9/10` for Model A and `8/10` for Model B) are typically harder to assign than relative ones (e.g. Model A performs better than Model B). _Pairwise evaluation_ allows you to compare the outputs of two models by ranking them relative to each other. This approach is particularly useful when you want to determine which model performs better for subjective tasks such as text generation, summarization, or question answering. With pairwise evaluation, you can obtain a relative preference ranking that reveals which model is best for specific inputs.
 
@@ -97,4 +92,6 @@ evaluation.evaluate(model_a)
 
 ---
 
+{/* AUTO-GENERATED: tab badges */}
 <Badge stroke shape="pill" color="orange" size="md">[Evaluation](/support/weave/tags/evaluation)</Badge>
+{/* END AUTO-GENERATED: tab badges */}
