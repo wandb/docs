@@ -20,12 +20,6 @@ pip install --upgrade wandb
 
 Pour les versions `0.12.5` à `0.12.x` du SDK W&amp;B, activez explicitement W&amp;B Service :
 
-```python
-def main():
-    wandb.require("service")
-    # reste de votre script
-```
-
 Pour le SDK W&amp;B `0.12.4` et les versions antérieures, définissez la variable d’environnement `WANDB_START_METHOD` :
 
 ```bash

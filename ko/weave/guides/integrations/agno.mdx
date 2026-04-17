@@ -52,51 +52,9 @@ Agno에서 Weave로 트레이스를 전송하려면 `TracerProvider`와 `OTLPSpa
   ## Agno에서 Weave로 OTEL 트레이스 보내기
 </div>
 
-[사전 요구 사항](#prerequisites)을 완료한 후에는 Agno에서 Weave로 OTEL 트레이스를 보낼 수 있습니다. 다음 코드 스니펫은 Agno 애플리케이션에서 Weave로 OTEL 트레이스를 보내도록 OTLP span exporter와 tracer provider를 설정하는 방법을 보여줍니다.
+[사전 요구 사항](#prerequisites)을 완료한 후에는 Agno에서 Weave로 OTEL 트레이스를 보낼 수 있습니다. 다음 코드 스니펫은 Agno 애플리케이션에서 Weave로 OTEL 트레이스를 보내도록 OTLP span exporter와 트레이서 프로바이더를 설정하는 방법을 보여줍니다.
 
-<Warning>
-  Weave가 Agno를 올바르게 트레이스할 수 있도록, 코드에서 Agno 컴포넌트를 사용하기 *전에* 전역 tracer provider를 설정하세요.
-</Warning>
-
-```python lines
-# tracing.py
-
-import base64
-import os
-from openinference.instrumentation.agno import AgnoInstrumentor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk import trace as trace_sdk
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor
-from opentelemetry import trace
-
-# 환경 변수에서 민감한 값 로드
-WANDB_BASE_URL = "https://trace.wandb.ai"
-# W&B entity/프로젝트 이름 (예: "myteam/myproject")
-PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
-# https://wandb.ai/settings 에서 W&B API 키 생성
-WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
-
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
-
-OTEL_EXPORTER_OTLP_HEADERS = {
-    "Authorization": f"Basic {AUTH}",
-    "project_id": PROJECT_ID,
-}
-
-# 엔드포인트와 헤더로 OTLP 스팬 익스포터 생성
-exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
-    headers=OTEL_EXPORTER_OTLP_HEADERS,
-)
-
-# 트레이서 프로바이더 생성 및 익스포터 추가
-tracer_provider = trace_sdk.TracerProvider()
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
-
-# Agno 임포트/사용 전에 전역 트레이서 프로바이더 설정
-trace.set_tracer_provider(tracer_provider)
-```
+<Warning>Weave가 Agno를 올바르게 트레이스할 수 있도록, 코드에서 Agno 컴포넌트를 사용하기 *전에* 전역 트레이서 프로바이더를 설정하세요.</Warning>
 
 <div id="trace-agno-agents-with-otel">
   ## OTEL로 Agno 에이전트 트레이스하기
@@ -104,49 +62,9 @@ trace.set_tracer_provider(tracer_provider)
 
 트레이서 프로바이더를 설정한 후에는 자동 트레이싱으로 Agno 에이전트를 생성하고 실행할 수 있습니다. 다음 예제에서는 도구가 포함된 단순한 에이전트를 만드는 방법을 보여줍니다:
 
-```python lines
-from agno.agent import Agent
-from agno.models.openai import OpenAIChat
-from agno.tools.yfinance import YFinanceTools
-
-from dotenv import load_dotenv
-load_dotenv()
-
-# 위에서 생성한 파일에서 AgnoInstrumentor 로드
-from tracing import AgnoInstrumentor
-
-# Agno 계측 시작
-AgnoInstrumentor().instrument()
-
-# 금융 에이전트 생성
-finance_agent = Agent(
-    name="Finance Agent",
-    model=OpenAIChat(id="gpt-4o-mini"),
-    tools=[
-        YFinanceTools(
-            stock_price=True,
-            analyst_recommendations=True,
-            company_info=True,
-            company_news=True
-        )
-    ],
-    instructions=["Use tables to display data"],
-    show_tool_calls=True,
-    markdown=True,
-)
-
-# 에이전트 사용 - 자동으로 트레이스됩니다
-finance_agent.print_response(
-    "What is the current stock price of Apple and what are the latest analyst recommendations?",
-    stream=True
-)
-```
-
 모든 에이전트 오퍼레이션은 자동으로 트레이스되어 Weave로 전송되므로, 실행 흐름, 모델 호출, 추론 단계, 도구 호출을 시각화할 수 있습니다.
 
-<Frame>
-  ![Agno 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
-</Frame>
+<Frame>![Agno 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)</Frame>
 
 <div id="trace-agno-tools-with-otel">
   ## OTEL로 Agno 도구 트레이스하기
@@ -156,48 +74,7 @@ Agno에서 도구를 정의하고 사용하면 이러한 도구 호출도 트레
 
 다음은 여러 도구를 사용하는 예시입니다:
 
-```python lines
-from agno.agent import Agent
-from agno.models.openai import OpenAIChat
-from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.yfinance import YFinanceTools
-
-from dotenv import load_dotenv
-load_dotenv()
-
-# 위에서 생성한 파일에서 AgnoInstrumentor 로드
-from tracing import AgnoInstrumentor
-
-# Agno 계측 시작
-AgnoInstrumentor().instrument()
-
-# 여러 도구를 사용하는 에이전트 생성
-research_agent = Agent(
-    name="Research Agent",
-    model=OpenAIChat(id="gpt-4o-mini"),
-    tools=[
-        DuckDuckGoTools(),
-        YFinanceTools(stock_price=True, company_info=True),
-    ],
-    instructions=[
-        "최신 정보 및 금융 데이터 검색",
-        "항상 출처 포함",
-        "금융 데이터는 표로 표시"
-    ],
-    show_tool_calls=True,
-    markdown=True,
-)
-
-# 에이전트 사용 - 도구 호출이 트레이스됨
-research_agent.print_response(
-    "Tesla의 최근 실적과 뉴스를 조사하세요. 주가와 최근 동향을 포함하세요.",
-    stream=True
-)
-```
-
-<Frame>
-  ![Agno 도구 호출에 대한 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)
-</Frame>
+<Frame>![Agno 도구 호출에 대한 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)</Frame>
 
 <div id="trace-multi-agent-teams-with-otel">
   ## OTEL로 멀티 에이전트 팀 트레이스하기
@@ -205,63 +82,9 @@ research_agent.print_response(
 
 Agno의 강력한 멀티 에이전트 아키텍처를 사용하면 서로 협업하고 컨텍스트를 공유할 수 있는 에이전트 팀을 만들 수 있습니다. 이러한 팀 상호작용도 모두 트레이스됩니다:
 
-```python lines
-from agno.agent import Agent
-from agno.models.openai import OpenAIChat
-from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.yfinance import YFinanceTools
-
-from dotenv import load_dotenv
-load_dotenv()
-
-# tracin.py 파일에서 AgnoInstrumentor 로드
-from tracing import AgnoInstrumentor
-
-# Agno 계측 시작
-AgnoInstrumentor().instrument()
-
-# 전문화된 에이전트 생성
-web_agent = Agent(
-    name="Web Agent",
-    role="Search the web for information",
-    model=OpenAIChat(id="gpt-4o-mini"),
-    tools=[DuckDuckGoTools()],
-    instructions="Always include sources",
-    show_tool_calls=True,
-    markdown=True,
-)
-
-finance_agent = Agent(
-    name="Finance Agent", 
-    role="Get financial data",
-    model=OpenAIChat(id="gpt-4o-mini"),
-    tools=[YFinanceTools(stock_price=True, analyst_recommendations=True)],
-    instructions="Use tables to display data",
-    show_tool_calls=True,
-    markdown=True,
-)
-
-# 에이전트 팀 생성
-agent_team = Agent(
-    team=[web_agent, finance_agent],
-    model=OpenAIChat(id="gpt-4o"),
-    instructions=["Always include sources", "Use tables to display data"],
-    show_tool_calls=True,
-    markdown=True,
-)
-
-# 팀 사용 - 모든 에이전트 상호작용이 트레이스됨
-agent_team.print_response(
-    "What's the current market sentiment around NVIDIA? Include both news analysis and financial metrics.",
-    stream=True
-)
-```
-
 이 멀티 에이전트 트레이스는 Weave에서 여러 에이전트가 어떻게 협업하는지 보여주며, 작업이 에이전트 팀 전체에 어떻게 분배되고 실행되는지 파악할 수 있게 해줍니다.
 
-<Frame>
-  ![Agno 멀티 에이전트 팀의 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
-</Frame>
+<Frame>![Agno 멀티 에이전트 팀의 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_team_trace.png)</Frame>
 
 <div id="work-with-reasoning-agents">
   ## 추론 에이전트 활용하기
@@ -269,51 +92,9 @@ agent_team.print_response(
 
 Agno는 에이전트가 문제를 step-by-step으로 추론할 수 있도록 돕는 기본 제공 추론 기능을 제공합니다. 이러한 추론 과정은 트레이스에도 기록됩니다:
 
-```python lines
-from agno.agent import Agent
-from agno.models.openai import OpenAIChat
-from agno.tools.reasoning import ReasoningTools
-from agno.tools.yfinance import YFinanceTools
-
-from dotenv import load_dotenv
-load_dotenv()
-
-# tracin.py 파일에서 AgnoInstrumentor 로드
-from tracing import AgnoInstrumentor
-
-# Agno 계측 시작
-AgnoInstrumentor().instrument()
-
-# 추론 에이전트 생성
-reasoning_agent = Agent(
-    name="Reasoning Finance Agent",
-    model=OpenAIChat(id="gpt-4o"),
-    tools=[
-        ReasoningTools(add_instructions=True),
-        YFinanceTools(
-            stock_price=True,
-            analyst_recommendations=True,
-            company_info=True,
-            company_news=True
-        ),
-    ],
-    instructions="Use tables to display data and show your reasoning process",
-    show_tool_calls=True,
-    markdown=True,
-)
-
-# 추론 에이전트 사용
-reasoning_agent.print_response(
-    "Should I invest in Apple stock right now? Analyze the current situation and provide a reasoned recommendation.",
-    stream=True
-)
-```
-
 추론 step은 트레이스에서 확인할 수 있으며, 에이전트가 복잡한 문제를 어떻게 세분화하고 의사결정을 내리는지 보여줍니다.
 
-<Frame>
-  ![Agno 추론 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
-</Frame>
+<Frame>![Agno 추론 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)</Frame>
 
 <div id="work-with-memory-and-knowledge">
   ## 메모리와 지식 활용하기
@@ -321,46 +102,7 @@ reasoning_agent.print_response(
 
 Agno 에이전트는 메모리를 유지하고 지식 베이스에 액세스할 수 있습니다. 이러한 오퍼레이션도 트레이스됩니다:
 
-```python lines
-from agno.agent import Agent
-from agno.models.openai import OpenAIChat
-from agno.memory import AgentMemory
-from agno.storage.sqlite import SqliteStorage
-
-from dotenv import load_dotenv
-load_dotenv()
-
-# tracin.py 파일에서 AgnoInstrumentor 로드
-from tracing import AgnoInstrumentor
-
-# Agno 계측 시작
-AgnoInstrumentor().instrument()
-
-
-# 메모리가 있는 에이전트 생성
-memory_agent = Agent(
-    name="Memory Agent",
-    model=OpenAIChat(id="gpt-4o-mini"),
-    memory=AgentMemory(),
-    storage=SqliteStorage(
-        table_name="agent_sessions",
-        db_file="agent_memory.db"
-    ),
-    instructions="Remember our conversation history",
-    show_tool_calls=True,
-    markdown=True,
-)
-
-# 첫 번째 상호작용
-memory_agent.print_response("My name is John and I'm interested in AI investing strategies.")
-
-# 두 번째 상호작용 - 에이전트가 이전 컨텍스트를 기억함
-memory_agent.print_response("What specific AI companies would you recommend for my portfolio?")
-```
-
-<Frame>
-  ![Agno 메모리 사용에 대한 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_memory_use.png)
-</Frame>
+<Frame>![Agno 메모리 사용에 대한 트레이스 시각화](/weave/guides/integrations/imgs/agno/agno_memory_use.png)</Frame>
 
 대화 이력 저장 및 불러오기를 포함한 메모리 오퍼레이션은 트레이스에 표시됩니다.
 

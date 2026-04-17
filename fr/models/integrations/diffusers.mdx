@@ -15,16 +15,8 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 Consignez tous les prompts, les prompts négatifs, les médias générés et les configurations liés à votre expérience en ajoutant simplement 2 lignes de code. Voici les 2 lignes de code pour commencer la journalisation :
 
-```python
-# importer la fonction autolog
-from wandb.integration.diffusers import autolog
-
-# appeler autolog avant d'appeler le pipeline
-autolog(init=dict(project="diffusers_logging"))
-```
-
 <Frame caption="Exemple montrant comment les résultats de votre expérience sont enregistrés.">
-  <img src="/images/integrations/diffusers-autolog-4.gif" alt="Enregistrement des résultats de l’expérience" />
+  <img src="/images/integrations/diffusers-autolog-4.gif" alt="journalisation des résultats de l'expérience" />
 </Frame>
 
 <div id="get-started">
@@ -71,86 +63,21 @@ autolog(init=dict(project="diffusers_logging"))
 Voici un bref exemple de bout en bout illustrant autolog en action :
 
 <Tabs>
-  <Tab title="Script">
-    ```python
-    import torch
-    from diffusers import DiffusionPipeline
+  <Tab title="Script" />
 
-    # importer la fonction autolog
-    from wandb.integration.diffusers import autolog
-
-    # appeler autolog avant d'appeler le pipeline
-    autolog(init=dict(project="diffusers_logging"))
-
-    # Initialiser le pipeline de diffusion
-    pipeline = DiffusionPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
-    ).to("cuda")
-
-    # Définir les prompts, les prompts négatifs et la graine
-    prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
-    negative_prompt = ["ugly, deformed", "ugly, deformed"]
-    generator = torch.Generator(device="cpu").manual_seed(10)
-
-    # appeler le pipeline pour générer les images
-    images = pipeline(
-        prompt,
-        negative_prompt=negative_prompt,
-        num_images_per_prompt=2,
-        generator=generator,
-    )
-    ```
-  </Tab>
-
-  <Tab title="Notebook">
-    ```python
-    import torch
-    from diffusers import DiffusionPipeline
-
-    import wandb
-
-    # importer la fonction autolog
-    from wandb.integration.diffusers import autolog
-
-    run = wandb.init()
-
-    # appeler autolog avant d'appeler le pipeline
-    autolog(init=dict(project="diffusers_logging"))
-
-    # Initialiser le pipeline de diffusion
-    pipeline = DiffusionPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
-    ).to("cuda")
-
-    # Définir les prompts, les prompts négatifs et la graine
-    prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
-    negative_prompt = ["ugly, deformed", "ugly, deformed"]
-    generator = torch.Generator(device="cpu").manual_seed(10)
-
-    # appeler le pipeline pour générer les images
-    images = pipeline(
-        prompt,
-        negative_prompt=negative_prompt,
-        num_images_per_prompt=2,
-        generator=generator,
-    )
-
-    # Terminer l'expérience
-    run.finish()
-    ```
-  </Tab>
+  <Tab title="Notebook" />
 </Tabs>
 
 * Les résultats d’une seule expérience :
 
   <Frame>
-    <img src="/images/integrations/diffusers-autolog-2.gif" alt="Journalisation des résultats de l’expérience" />
+    <img src="/images/integrations/diffusers-autolog-2.gif" alt="journalisation des résultats de l'expérience" />
   </Frame>
 
 * Les résultats de plusieurs expériences :
 
   <Frame>
-    <img src="/images/integrations/diffusers-autolog-1.gif" alt="Journalisation des résultats de l’expérience" />
+    <img src="/images/integrations/diffusers-autolog-1.gif" alt="journalisation des résultats de l'expérience" />
   </Frame>
 
 * La configuration d’une expérience :
@@ -170,133 +97,12 @@ Voici un bref exemple de bout en bout illustrant autolog en action :
 Cette section illustre l’autolog dans un flux de travail type [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model), où les variables latentes générées par [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) sont affinées par le refiner correspondant.
 
 <Tabs>
-  <Tab title="Script en Python">
-    ```python
-    import torch
-    from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
-    from wandb.integration.diffusers import autolog
+  <Tab title="Script Python" />
 
-    # initialiser le pipeline de base SDXL
-    base_pipeline = StableDiffusionXLPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-base-1.0",
-        torch_dtype=torch.float16,
-        variant="fp16",
-        use_safetensors=True,
-    )
-    base_pipeline.enable_model_cpu_offload()
-
-    # initialiser le pipeline de raffinement SDXL
-    refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-refiner-1.0",
-        text_encoder_2=base_pipeline.text_encoder_2,
-        vae=base_pipeline.vae,
-        torch_dtype=torch.float16,
-        use_safetensors=True,
-        variant="fp16",
-    )
-    refiner_pipeline.enable_model_cpu_offload()
-
-    prompt = "a photo of an astronaut riding a horse on mars"
-    negative_prompt = "static, frame, painting, illustration, sd character, low quality, low resolution, greyscale, monochrome, nose, cropped, lowres, jpeg artifacts, deformed iris, deformed pupils, bad eyes, semi-realistic worst quality, bad lips, deformed mouth, deformed face, deformed fingers, deformed toes standing still, posing"
-
-    # Rendre l'expérience reproductible en contrôlant l'aléatoire.
-    # La graine sera automatiquement enregistrée dans WandB.
-    seed = 42
-    generator_base = torch.Generator(device="cuda").manual_seed(seed)
-    generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
-
-    # Appeler WandB Autolog pour Diffusers. Cela enregistrera automatiquement
-    # les prompts, les images générées, l'architecture du pipeline et toutes
-    # les configurations d'expérience associées dans W&B, facilitant ainsi la
-    # reproduction, le partage et l'analyse de vos expériences de génération d'images.
-    autolog(init=dict(project="sdxl"))
-
-    # Appeler le pipeline de base pour générer les latents
-    image = base_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        output_type="latent",
-        generator=generator_base,
-    ).images[0]
-
-    # Appeler le pipeline de raffinement pour générer l'image affinée
-    image = refiner_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        image=image[None, :],
-        generator=generator_refiner,
-    ).images[0]
-    ```
-  </Tab>
-
-  <Tab title="Notebook">
-    ```python
-    import torch
-    from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
-
-    import wandb
-    from wandb.integration.diffusers import autolog
-
-    run = wandb.init()
-
-    # initialiser le pipeline de base SDXL
-    base_pipeline = StableDiffusionXLPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-base-1.0",
-        torch_dtype=torch.float16,
-        variant="fp16",
-        use_safetensors=True,
-    )
-    base_pipeline.enable_model_cpu_offload()
-
-    # initialiser le pipeline de raffinement SDXL
-    refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-refiner-1.0",
-        text_encoder_2=base_pipeline.text_encoder_2,
-        vae=base_pipeline.vae,
-        torch_dtype=torch.float16,
-        use_safetensors=True,
-        variant="fp16",
-    )
-    refiner_pipeline.enable_model_cpu_offload()
-
-    prompt = "a photo of an astronaut riding a horse on mars"
-    negative_prompt = "static, frame, painting, illustration, sd character, low quality, low resolution, greyscale, monochrome, nose, cropped, lowres, jpeg artifacts, deformed iris, deformed pupils, bad eyes, semi-realistic worst quality, bad lips, deformed mouth, deformed face, deformed fingers, deformed toes standing still, posing"
-
-    # Rendre l'expérience reproductible en contrôlant l'aléatoire.
-    # La graine sera automatiquement enregistrée dans WandB.
-    seed = 42
-    generator_base = torch.Generator(device="cuda").manual_seed(seed)
-    generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
-
-    # Appeler WandB Autolog pour Diffusers. Cela enregistrera automatiquement
-    # les prompts, les images générées, l'architecture du pipeline et toutes
-    # les configurations d'expérience associées dans W&B, facilitant ainsi la
-    # reproduction, le partage et l'analyse de vos expériences de génération d'images.
-    autolog(init=dict(project="sdxl"))
-
-    # Appeler le pipeline de base pour générer les latents
-    image = base_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        output_type="latent",
-        generator=generator_base,
-    ).images[0]
-
-    # Appeler le pipeline de raffinement pour générer l'image affinée
-    image = refiner_pipeline(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        image=image[None, :],
-        generator=generator_refiner,
-    ).images[0]
-
-    # Terminer l'expérience
-    run.finish()
-    ```
-  </Tab>
+  <Tab title="Notebook" />
 </Tabs>
 
-* Exemple d&#39;expérience Stable Diffusion XL + Refiner :
+* Exemple d’une expérience Stable Diffusion XL + Refiner :
   <Frame>
     <img src="/images/integrations/diffusers-autolog-6.gif" alt="suivi des expériences Stable Diffusion XL" />
   </Frame>

@@ -70,21 +70,6 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   ### 메트릭 로깅
 </div>
 
-```python
-import wandb
-
-wandb.init(project="visualize-sklearn") as run:
-
-  y_pred = clf.predict(X_test)
-  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
-
-  # 시간 경과에 따라 메트릭을 로깅하려면 run.log를 사용하세요
-  run.log({"accuracy": accuracy})
-
-  # 또는 트레이닝 종료 시 최종 메트릭을 로깅하려면 run.summary를 사용할 수도 있습니다
-  run.summary["accuracy"] = accuracy
-```
-
 <div id="make-plots">
   ### 플롯 만들기
 </div>
@@ -109,42 +94,11 @@ run = wandb.init(project="visualize-sklearn")
 
 모델을 트레이닝하고 예측을 만든 후에는 wandb에서 플롯을 생성해 예측을 분석할 수 있습니다. 지원되는 차트의 전체 목록은 아래의 **지원되는 플롯** 섹션을 참조하세요.
 
-```python
-# 단일 플롯 시각화
-wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
-```
-
 <div id="all-plots">
   #### 모든 플롯
 </div>
 
 W&amp;B에는 `plot_classifier`처럼 관련된 여러 플롯을 그려 주는 함수가 있습니다:
-
-```python
-# 모든 분류기 플롯 시각화
-wandb.sklearn.plot_classifier(
-    clf,
-    X_train,
-    X_test,
-    y_train,
-    y_test,
-    y_pred,
-    y_probas,
-    labels,
-    model_name="SVC",
-    feature_names=None,
-)
-
-# 모든 회귀 플롯
-wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
-
-# 모든 클러스터링 플롯
-wandb.sklearn.plot_clusterer(
-    kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
-)
-
-run.finish()
-```
 
 <div id="existing-matplotlib-plots">
   #### 기존 Matplotlib 플롯
@@ -157,19 +111,6 @@ pip install plotly
 ```
 
 마지막으로, 다음과 같이 플롯을 W&amp;B 대시보드에 로깅할 수 있습니다:
-
-```python
-import matplotlib.pyplot as plt
-import wandb
-
-with wandb.init(project="visualize-sklearn") as run:
-
-  # plt.plot(), plt.scatter() 등을 여기서 모두 수행합니다.
-  # ...
-
-  # plt.show() 대신 다음을 실행합니다:
-  run.log({"plot": plt})
-```
 
 <div id="supported-plots">
   ## 지원되는 플롯

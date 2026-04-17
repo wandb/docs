@@ -13,21 +13,6 @@ description: "データとコードを組み合わせた構造化モデルを使
     * すべてのパラメーターに対する型定義
     * `@weave.op()` デコレーターが付いた、型付きの `predict` 関数
 
-    ```python lines
-    from weave import Model
-    import weave
-
-    class YourModel(Model):
-        attribute1: str
-        attribute2: int
-
-        @weave.op()
-        def predict(self, input_data: str) -> dict:
-            # モデルのロジックはここに記述します
-            prediction = self.attribute1 + ' ' + input_data
-            return {'pred': prediction}
-    ```
-
     モデルは通常どおり次のように呼び出せます。
 
     ```python lines

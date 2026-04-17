@@ -50,48 +50,6 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 その後、`weave.init()` を呼び出して Weave クライアントを取得します
 
-```python lines
-%pip install wandb weave pandas datetime --quiet
-python
-import os
-
-import pandas as pd
-import wandb
-from google.colab import userdata
-
-import weave
-
-## サンプルファイルをディスクに書き込む
-with open("/content/import_cookbook_data.csv", "w") as f:
-    f.write(
-        "conversation_id,turn_index,start_time,user_input,ground_truth,answer_text\n"
-    )
-    f.write(
-        '1234,1,2024-09-04 13:05:39,This is the beginning, ["This was the beginning"], That was the beginning\n'
-    )
-    f.write(
-        "1235,1,2024-09-04 13:02:11,This is another trace,, That was another trace\n"
-    )
-    f.write(
-        "1235,2,2024-09-04 13:04:19,This is the next turn,, That was the next turn\n"
-    )
-    f.write(
-        "1236,1,2024-09-04 13:02:10,This is a 3 turn conversation,, Woah thats a lot of turns\n"
-    )
-    f.write(
-        '1236,2,2024-09-04 13:02:30,This is the second turn, ["That was definitely the second turn"], You are correct\n'
-    )
-    f.write("1236,3,2024-09-04 13:02:53,This is the end,, Well good riddance!\n")
-
-os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")
-name_of_file = "/content/import_cookbook_data.csv"
-name_of_wandb_project = "import-weave-traces-cookbook"
-
-wandb.login()
-python
-weave_client = weave.init(name_of_wandb_project)
-```
-
 <div id="data-loading">
   # データの読み込み
 </div>
@@ -99,28 +57,6 @@ weave_client = weave.init(name_of_wandb_project)
 データを Pandas の dataframe に読み込み、親子関係が正しい順序になるよう、`conversation_id` と `turn_index` でソートします。
 
 その結果、各会話ターンが `conversation_data` に配列として格納された、2 列の pandas DF になります。
-
-```python lines
-## データを読み込んで整形する
-df = pd.read_csv(name_of_file)
-
-sorted_df = df.sort_values(["conversation_id", "turn_index"])
-
-# 各会話のdictの配列を作成するfunction
-def create_conversation_dict_array(group):
-    return group.drop("conversation_id", axis=1).to_dict("records")
-
-# dataframeをconversation_idでグループ化してaggregationを適用する
-result_df = (
-    sorted_df.groupby("conversation_id")
-    .apply(create_conversation_dict_array)
-    .reset_index()
-)
-result_df.columns = ["conversation_id", "conversation_data"]
-
-# aggregationの結果を確認する
-result_df.head()
-```
 
 <div id="log-the-traces-to-weave">
   # トレースを Weave にログする
@@ -138,64 +74,6 @@ result_df.head()
 * Weave の call には `created` と `finished` があります。これはリアルタイムでトラッキングすることを想定しているためです。今回は事後的な import なので、object を定義して相互に関連付けたあとで、作成と完了をまとめて行います。
 * call の `op` 値は、Weave が同じ構成の call を分類するためのものです。この例では、すべての親 call は `Conversation` タイプ、すべての子 call は `Turn` タイプです。必要に応じて変更できます。
 * call には `inputs` と `output` を持たせることができます。`inputs` は作成時に定義し、`output` は call の完了時に定義します。
-
-```python lines
-# Weave にトレースをログする
-
-# 集約した会話を反復処理する
-for _, row in result_df.iterrows():
-    # 会話の親を定義する。
-    # 先ほど定義した weave_client を使って "call" を作成する
-    parent_call = weave_client.create_call(
-        # Op の値によってこれを Weave Op として登録し、後でグループとしてまとめて取得できるようにする
-        op="Conversation",
-        # 上位レベルの会話の inputs として、その配下のすべてのターンを設定する
-        inputs={
-            "conversation_data": row["conversation_data"][:-1]
-            if len(row["conversation_data"]) > 1
-            else row["conversation_data"]
-        },
-        # Conversation の親にはさらに上の親は存在しない
-        parent=None,
-        # この会話が UI に表示される際の名前
-        display_name=f"conversation-{row['conversation_id']}",
-    )
-
-    # 親の出力を会話内の最後のトレースに設定する
-    parent_output = row["conversation_data"][len(row["conversation_data"]) - 1]
-
-    # 親に対するすべての会話ターンを反復処理し、
-    # 会話の子としてログする
-    for item in row["conversation_data"]:
-        item_id = f"{row['conversation_id']}-{item['turn_index']}"
-
-        # 会話の配下に分類されるよう、ここで再度 call を作成する
-        call = weave_client.create_call(
-            # 単一の会話トレースを "Turn" として分類する
-            op="Turn",
-            # RAG の 'ground_truth' を含む、ターンのすべての inputs を指定する
-            inputs={
-                "turn_index": item["turn_index"],
-                "start_time": item["start_time"],
-                "user_input": item["user_input"],
-                "ground_truth": item["ground_truth"],
-            },
-            # 定義した親の子として設定する
-            parent=parent_call,
-            # Weave で識別するための名前を指定する
-            display_name=item_id,
-        )
-
-        # call の出力を回答として設定する
-        output = {
-            "answer_text": item["answer_text"],
-        }
-
-        # これらはすでに発生済みのトレースであるため、単一ターンの call を終了する
-        weave_client.finish_call(call=call, output=output)
-    # すべての子をログし終えたので、親の call も終了する
-    weave_client.finish_call(call=parent_call, output=parent_output)
-```
 
 <div id="result-traces-are-logged-to-weave">
   # 結果: トレースが Weave にログされる
@@ -219,72 +97,9 @@ Operations:
 
 トレースが Weave に取り込まれ、会話の内容を把握できたら、後でそれらを別のプロセスにエクスポートして Weave の評価を実行できます。
 
-<Frame>
-  ![image.png](/images/screenshots/csv-3.png)
-</Frame>
+<Frame>![image.png](/images/screenshots/csv-3.png)</Frame>
 
 これを行うには、シンプルなクエリ API を使って W&amp;B からすべての会話を取得し、そこからデータセットを作成します。
-
-```python lines
-## このセルはデフォルトでは実行されません。このスクリプトを実行するには以下の行をコメントアウトしてください
-%%script false --no-raise-error
-## 評価用の会話トレースをすべて取得し、評価用データセットを準備する
-
-# すべての Conversation オブジェクトを取得するクエリフィルターを作成します
-# 以下の ref はプロジェクト固有のものです。UI でプロジェクトの Operations に移動し、
-# "Conversations" オブジェクトをクリックして、サイドパネルの "Use" タブから取得できます。
-weave_ref_for_conversation_op = "weave://wandb-smle/import-weave-traces-cookbook/op/Conversation:tzUhDyzVm5bqQsuqh5RT4axEXSosyLIYZn9zbRyenaw"
-filter = weave.trace_server.trace_server_interface.CallsFilter(
-    op_names=[weave_ref_for_conversation_op],
-  )
-
-# クエリを実行する
-conversation_traces = weave_client.get_calls(filter=filter)
-
-rows = []
-
-# 会話トレースを反復処理し、データセットの行を構築する
-for single_conv in conversation_traces:
-  # この例では、RAG パイプラインを使用した会話のみを対象とするため、
-  # 該当するタイプの会話をフィルタリングします
-  is_rag = False
-  for single_trace in single_conv.inputs['conversation_data']:
-    if single_trace['ground_truth'] is not None:
-      is_rag = True
-      break
-  if single_conv.output['ground_truth'] is not None:
-      is_rag = True
-
-  # RAG を使用した会話を特定したら、データセットに追加する
-  if is_rag:
-    inputs = []
-    ground_truths = []
-    answers = []
-
-    # 会話の各ターンを反復処理する
-    for turn in single_conv.inputs['conversation_data']:
-      inputs.append(turn.get('user_input', ''))
-      ground_truths.append(turn.get('ground_truth', ''))
-      answers.append(turn.get('answer_text', ''))
-    ## 会話が1ターンのみの場合に対応する
-    if len(single_conv.inputs) != 1 or single_conv.inputs['conversation_data'][0].get('turn_index') != single_conv.output.get('turn_index'):
-      inputs.append(single_conv.output.get('user_input', ''))
-      ground_truths.append(single_conv.output.get('ground_truth', ''))
-      answers.append(single_conv.output.get('answer_text', ''))
-
-    data = {
-        'question': inputs,
-        'contexts': ground_truths,
-        'answer': answers
-    }
-
-    rows.append(data)
-
-# データセットの行を作成したら、Dataset オブジェクトを作成し、
-# 後から取得できるよう Weave に公開する
-dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
-weave.publish(dset)
-```
 
 <div id="result">
   # 結果

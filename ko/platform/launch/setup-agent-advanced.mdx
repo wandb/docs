@@ -225,25 +225,7 @@ Launch 에이전트 설정(`launch-config.yaml`)에서 `environment` 및 `regist
   ## Kaniko 빌드 맞춤 설정
 </div>
 
-Kaniko 작업에서 사용할 Kubernetes Job 사양을 에이전트 설정의 `builder.kaniko-config` 키에 지정합니다. 예:
-
-```yaml title="launch-config.yaml"
-builder:
-  type: kaniko
-  build-context-store: <my-build-context-store>
-  destination: <my-image-destination>
-  build-job-name: wandb-image-build
-  kaniko-config:
-    spec:
-      template:
-        spec:
-          containers:
-          - args:
-            - "--cache=false" # 매개변수는 "키=값" 형식이어야 합니다
-            env:
-            - name: "MY_ENV_VAR"
-              value: "my-env-var-value"
-```
+Kaniko 작업에서 사용할 Kubernetes 작업 사양을 에이전트 설정의 `builder.kaniko-config` 키에 지정합니다. 예:
 
 <div id="deploy-launch-agent-into-coreweave">
   ## CoreWeave에 Launch 에이전트 배포

@@ -55,67 +55,12 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
 
 1. 可視化設定から `visualizer` を定義します。
 
-   ```python
-   from mmengine.visualization import Visualizer
-
-   # 可視化設定を定義する
-   visualization_cfg = dict(
-       name="wandb_visualizer",
-       vis_backends=[
-           dict(
-               type='WandbVisBackend',
-               init_kwargs=dict(project="mmengine"),
-           )
-       ],
-       save_dir="runs/wandb"
-   )
-
-   # 可視化設定から visualizer を取得する
-   visualizer = Visualizer.get_instance(**visualization_cfg)
-   ```
-
-   <Note>
-     `init_kwargs` には、[W&amp;B run の初期化](/ja/models/ref/python/functions/init)の入力パラメーターとして使用する引数の辞書を渡します。
-   </Note>
+   <Note>`init_kwargs` には、[W&amp;B run の初期化](/ja/models/ref/python/functions/init)の入力パラメーターとして使用する引数の辞書を渡します。</Note>
 
 2. `visualizer` を指定して `runner` を初期化し、`runner.train()` を呼び出します。
-
-   ```python
-   from mmengine.runner import Runner
-
-   # PyTorch 用のトレーニングヘルパーである mmengine Runner を構築する
-   runner = Runner(
-       model,
-       work_dir='runs/gan/',
-       train_dataloader=train_dataloader,
-       train_cfg=train_cfg,
-       optim_wrapper=opt_wrapper_dict,
-       visualizer=visualizer, # visualizer を渡す
-   )
-
-   # トレーニングを開始する
-   runner.train()
-   ```
 
 <div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
   ## OpenMMLabのコンピュータビジョンライブラリで`WandbVisBackend`を使用する
 </div>
 
-`WandbVisBackend`は、[MMDetection](https://mmdetection.readthedocs.io/) などのOpenMMLabのコンピュータビジョンライブラリでExperimentsを管理する際にも、簡単に使用できます。
-
-```python
-# デフォルトのランタイム設定から基本設定を継承する
-_base_ = ["../_base_/default_runtime.py"]
-
-# 基本設定の `visualizer` の `vis_backends` に
-# `WandbVisBackend` の設定dictを割り当てる
-_base_.visualizer.vis_backends = [
-    dict(
-        type='WandbVisBackend',
-        init_kwargs={
-            'project': 'mmdet',
-            'entity': 'geekyrakshit'
-        },
-    ),
-]
-```
+`WandbVisBackend`は、[MMDetection](https://mmdetection.readthedocs.io/) などのOpenMMLabのコンピュータビジョンライブラリで実験を管理する際にも、簡単に使用できます。

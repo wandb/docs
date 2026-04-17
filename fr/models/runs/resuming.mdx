@@ -34,12 +34,7 @@ Si un run s’arrête, plante ou échoue, vous pouvez le reprendre avec le même
 * Définissez le paramètre `resume` sur `"must"` (`resume="must"`)
 * Fournissez l’ID du run arrêté ou planté
 
-L’extrait de code suivant montre comment procéder avec le SDK Python de W&amp;B :
-
-```python
-with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # Votre code d'entraînement ici
-```
+L’extrait de code suivant montre comment procéder avec le SDK Python W&amp;B :
 
 <Warning>
   Des résultats inattendus peuvent se produire si plusieurs processus utilisent simultanément le même `id`.
@@ -53,14 +48,7 @@ with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
 
 Reprenez un run arrêté ou planté sans écraser le run existant. Cela est particulièrement utile si votre processus ne se termine pas correctement. La prochaine fois que vous démarrerez W&amp;B, W&amp;B reprendra la journalisation à partir de la dernière étape.
 
-Définissez le paramètre `resume` sur `"allow"` (`resume="allow"`) lorsque vous initialisez un run avec W&amp;B. Fournissez l’ID du run arrêté ou planté. L’extrait de code suivant montre comment procéder avec le SDK Python de W&amp;B :
-
-```python
-import wandb
-
-with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
-        # Votre code d'entraînement ici
-```
+Définissez le paramètre `resume` sur `"allow"` (`resume="allow"`) lorsque vous initialisez un run avec W&amp;B. Fournissez l’ID du run arrêté ou planté. L’extrait de code suivant montre comment procéder avec le SDK Python W&amp;B :
 
 <div id="enable-runs-to-automatically-resume">
   ## Activer la reprise automatique des runs

@@ -9,25 +9,6 @@ description: "TypeScript SDK リファレンス"
 
 `例`
 
-```ts
-// データセットを作成する
-const dataset = new Dataset({
-  id: 'grammar-dataset',
-  rows: [
-    { id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream." },
-    { id: '1', sentence: "She goed to the store.", correction: "She went to the store." },
-    { id: '2', sentence: "They plays video games all day.", correction: "They play video games all day." }
-  ]
-})
-
-// 特定の例にアクセスする
-const exampleLabel = dataset.getRow(2).sentence;
-
-// データセットを保存する
-const ref = await dataset.save()
-```
-
-
 ## 型パラメーター
 
 | 名   | タイプ                  |

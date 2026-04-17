@@ -37,15 +37,7 @@ pip install -U openai
   ## OpenAI 파인튜닝 결과 동기화하기
 </div>
 
-W&amp;B를 OpenAI의 파인튜닝 API와 통합하여 파인튜닝 메트릭과 설정을 W&amp;B에 기록하세요. 이렇게 하려면 `wandb.integration.openai.fine_tuning` 모듈의 `WandbLogger` 클래스를 사용하세요.
-
-```python
-from wandb.integration.openai.fine_tuning import WandbLogger
-
-# 파인튜닝 로직
-
-WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
-```
+W&amp;B를 OpenAI의 파인튜닝 API와 통합하여 파인튜닝 메트릭과 설정을 W&amp;B에 로깅하세요. 이렇게 하려면 `wandb.integration.openai.fine_tuning` 모듈의 `WandbLogger` 클래스를 사용하세요.
 
 <Frame>
   <img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI 자동 스캔" />
@@ -56,25 +48,6 @@ WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 </div>
 
 스크립트의 결과를 동기화하세요
-
-```python
-from wandb.integration.openai.fine_tuning import WandbLogger
-
-# 한 줄 명령어
-WandbLogger.sync()
-
-# 선택 매개변수 전달
-WandbLogger.sync(
-    fine_tune_job_id=None,
-    num_fine_tunes=None,
-    project="OpenAI-Fine-Tune",
-    entity=None,
-    overwrite=False,
-    model_artifact_name="model-metadata",
-    model_artifact_type="model",
-    **kwargs_wandb_init
-)
-```
 
 <div id="reference">
   ### 레퍼런스

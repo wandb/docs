@@ -104,72 +104,13 @@ Les exemples de code suivants illustrent quelques cas courants de recherche.
 
 Pour utiliser la méthode `wandb.Api().registries()`, importez d’abord la bibliothèque du SDK Python W&amp;B ([`wandb`](/fr/models/ref/python/)) :
 
-```python
-import wandb
-
-# (Facultatif) Créer une instance de la classe wandb.Api() pour plus de lisibilité
-api = wandb.Api()
-```
-
 Filtrez tous les registres contenant la chaîne `model` :
-
-```python
-# Filtre tous les registres contenant la chaîne `model`
-registry_filters = {
-    "name": {"$regex": "model"}
-}
-
-# Renvoie un itérable de tous les registres correspondant aux filtres
-registries = api.registries(filter=registry_filters)
-```
 
 Filtrez toutes les collections, quel que soit le registre, dont le nom contient la chaîne `yolo` :
 
-```python
-# Filtre toutes les collections, indépendamment du registre, qui
-# contiennent la chaîne `yolo` dans le nom de la collection
-collection_filters = {
-    "name": {"$regex": "yolo"}
-}
-
-# Renvoie un itérable de toutes les collections correspondant aux filtres
-collections = api.registries().collections(filter=collection_filters)
-```
-
 Filtrez toutes les collections, quel que soit le registre, qui contiennent la chaîne `yolo` dans le nom de la collection et portent le tag `cnn` :
 
-```python
-# Filtre toutes les collections, quel que soit le registre, qui contiennent
-# la chaîne `yolo` dans le nom de la collection et possèdent `cnn` comme tag
-collection_filters = {
-    "name": {"$regex": "yolo"},
-    "tag": "cnn"
-}
-
-# Renvoie un itérable de toutes les collections correspondant aux filtres
-collections = api.registries().collections(filter=collection_filters)
-```
-
 Trouvez toutes les versions d’artifact contenant la chaîne `model` et ayant soit le tag `image-classification`, soit l’alias `latest` :
-
-```python
-# Trouve toutes les versions d'artifact contenant la chaîne `model` et 
-# possédant soit le tag `image-classification`, soit un alias `latest`
-registry_filters = {
-    "name": {"$regex": "model"}
-}
-
-# Utilise l'opérateur logique $or pour filtrer les versions d'artifact
-version_filters = {
-    "$or": [
-        {"tag": "image-classification"},
-        {"alias": "production"}
-    ]
-}
-
-# Renvoie un itérable de toutes les versions d'artifact correspondant aux filtres
-artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
-```
 
 Chaque élément de l’itérable `artifacts` dans l’extrait de code précédent est une instance de la classe `Artifact`. Cela signifie que vous pouvez accéder aux attributs de chaque artifact, tels que `name`, `collection`, `aliases`, `tags`, `created_at`, et plus encore :
 
@@ -186,18 +127,4 @@ Pour obtenir la liste complète des attributs d’un objet artifact, voir la [cl
 
 Filtrez toutes les versions d’un artifact, indépendamment du registre ou de la collection, créées entre 2024-01-08 et 2025-03-04 à 13:10 UTC :
 
-```python
-# Trouver toutes les versions d'artifact créées entre le 2024-01-08 et le 2025-03-04 à 13:10 UTC. 
-
-artifact_filters = {
-    "alias": "latest",
-    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
-}
-
-# Renvoie un itérable de toutes les versions d'artifact correspondant aux filtres
-artifacts = api.registries().collections().versions(filter=artifact_filters)
-```
-
-<Note>
-  Indiquez la date et l’heure au format `YYYY-MM-DD HH:MM:SS` pour les requêtes `created_at` et `updated_at`. Vous pouvez omettre les heures, les minutes et les secondes si vous souhaitez filtrer uniquement par date.
-</Note>
+<Note>Indiquez la date et l’heure au format `YYYY-MM-DD HH:MM:SS` pour les requêtes `created_at` et `updated_at`. Vous pouvez omettre les heures, les minutes et les secondes si vous souhaitez filtrer uniquement par date.</Note>

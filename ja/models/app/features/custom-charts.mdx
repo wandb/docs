@@ -165,21 +165,6 @@ W&amp;B には、スクリプトから直接ログできる組み込みのチャ
 
     [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) を1行で作成します。
 
-    ```python
-    with wandb.init() as run:
-      # ground_truth は正解ラベルのリスト、predictions は予測スコアのリスト
-      ground_truth = [0, 1, 0, 1, 0, 1]
-      predictions = [0.1, 0.4, 0.35, 0.8, 0.7, 0.9]
-
-      # ROC曲線のプロットを作成する
-      # labels はクラス名のオプションリスト、classes_to_plot は可視化するラベルのオプションのサブセット
-      plot = wandb.plot.roc_curve(
-          ground_truth, predictions, labels=None, classes_to_plot=None
-      )
-
-      run.log({"roc": plot})
-    ```
-
     コードから次のものにアクセスできる場合は、いつでもこれをログできます。
 
     * ある例のセットに対するモデルの予測スコア (`predictions`)
@@ -200,22 +185,6 @@ W&amp;B には、スクリプトから直接ログできる組み込みのチャ
 </div>
 
 組み込みのプリセットを調整するか、新しいプリセットを作成して、チャートを保存します。チャートIDを使用して、スクリプトから直接そのカスタムプリセットにデータをログできます。[サンプルの Google Colab ノートブックを試す](https://tiny.cc/custom-charts)。
-
-```python
-# プロットする列を含む表を作成する
-table = wandb.Table(data=data, columns=["step", "height"])
-
-# 表の列をチャートのフィールドにマッピングする
-fields = {"x": "step", "value": "height"}
-
-# 表を使用して新しいカスタムチャートプリセットにデータを入力する
-# 保存済みのカスタムチャートプリセットを使用するには、vega_spec_name を変更する
-my_custom_chart = wandb.plot_table(
-    vega_spec_name="carey/new_chart",
-    data_table=table,
-    fields=fields,
-)
-```
 
 <Frame>
   <img src="/images/app_ui/custom_presets.png" alt="カスタムチャートプリセット" max-width="90%" />
@@ -238,15 +207,6 @@ my_custom_chart = wandb.plot_table(
 </div>
 
 `wandb.Table()` を使用して、データを二次元配列としてログします。通常、この表の各行は 1 つのデータポイントを表し、各列はプロットしたい各データポイントに関連するフィールドや次元を表します。カスタムパネルを設定すると、表全体には `wandb.Run.log()` に渡した名前付きキー (以下の `custom_data_table`) でアクセスでき、個々のフィールドには列名 (`x`、`y`、`z`) でアクセスできます。実験全体を通して、複数のタイムステップで表をログできます。各表の最大サイズは 10,000 行です。[Google Colab で例を試す](https://tiny.cc/custom-charts)。
-
-```python
-with wandb.init() as run:
-  # カスタムデータの表をログする
-  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-  run.log(
-      {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
-  )
-```
 
 <div id="customize-the-chart">
   ## チャートをカスタマイズする

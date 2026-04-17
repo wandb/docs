@@ -66,133 +66,24 @@ L’utilisation de `WandBLogger` dans ignite suit un processus modulaire. Commen
 * La journalisation de paramètres facultatifs, comme le taux d’apprentissage.
 * La surveillance du modèle.
 
-```python
-from ignite.contrib.handlers.wandb_logger import *
-def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
-    train_loader, val_loader = get_data_loaders(train_batch_size, val_batch_size)
-    model = Net()
-    device = 'cpu'
-
-    if torch.cuda.is_available():
-        device = 'cuda'
-
-    optimizer = SGD(model.parameters(), lr=lr, momentum=momentum)
-    trainer = create_supervised_trainer(model, optimizer, F.nll_loss, device=device)
-    evaluator = create_supervised_evaluator(model,
-                                            metrics={'accuracy': Accuracy(),
-                                                     'nll': Loss(F.nll_loss)},
-                                            device=device)
-
-    desc = "ITERATION - loss: {:.2f}"
-    pbar = tqdm(
-        initial=0, leave=False, total=len(train_loader),
-        desc=desc.format(0)
-    )
-    #Création de l'objet WandBLogger
-    wandb_logger = WandBLogger(
-    project="pytorch-ignite-integration",
-    name="cnn-mnist",
-    config={"max_epochs": epochs,"batch_size":train_batch_size},
-    tags=["pytorch-ignite", "mninst"]
-    )
-
-    wandb_logger.attach_output_handler(
-    trainer,
-    event_name=Events.ITERATION_COMPLETED,
-    tag="training",
-    output_transform=lambda loss: {"loss": loss}
-    )
-
-    wandb_logger.attach_output_handler(
-    evaluator,
-    event_name=Events.EPOCH_COMPLETED,
-    tag="training",
-    metric_names=["nll", "accuracy"],
-    global_step_transform=lambda *_: trainer.state.iteration,
-    )
-
-    wandb_logger.attach_opt_params_handler(
-    trainer,
-    event_name=Events.ITERATION_STARTED,
-    optimizer=optimizer,
-    param_name='lr'  # facultatif
-    )
-
-    wandb_logger.watch(model)
-```
-
 Vous pouvez utiliser ignite `EVENTS`, de manière facultative, pour journaliser directement les métriques dans le terminal
 
-
-```python
-    @trainer.on(Events.ITERATION_COMPLETED(every=log_interval))
-    def log_training_loss(engine):
-        pbar.desc = desc.format(engine.state.output)
-        pbar.update(log_interval)
-
-    @trainer.on(Events.EPOCH_COMPLETED)
-    def log_training_results(engine):
-        pbar.refresh()
-        evaluator.run(train_loader)
-        metrics = evaluator.state.metrics
-        avg_accuracy = metrics['accuracy']
-        avg_nll = metrics['nll']
-        tqdm.write(
-            "Training Results - Epoch: {}  Avg accuracy: {:.2f} Avg loss: {:.2f}"
-            .format(engine.state.epoch, avg_accuracy, avg_nll)
-        )
-
-    @trainer.on(Events.EPOCH_COMPLETED)
-    def log_validation_results(engine):
-        evaluator.run(val_loader)
-        metrics = evaluator.state.metrics
-        avg_accuracy = metrics['accuracy']
-        avg_nll = metrics['nll']
-        tqdm.write(
-            "Validation Results - Epoch: {}  Avg accuracy: {:.2f} Avg loss: {:.2f}"
-            .format(engine.state.epoch, avg_accuracy, avg_nll))
-
-        pbar.n = pbar.last_print_n = 0
-
-    trainer.run(train_loader, max_epochs=epochs)
-    pbar.close()
-
-
-if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument('--batch_size', type=int, default=64,
-                        help='input batch size for training (default: 64)')
-    parser.add_argument('--val_batch_size', type=int, default=1000,
-                        help='input batch size for validation (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=10,
-                        help='number of epochs to train (default: 10)')
-    parser.add_argument('--lr', type=float, default=0.01,
-                        help='learning rate (default: 0.01)')
-    parser.add_argument('--momentum', type=float, default=0.5,
-                        help='SGD momentum (default: 0.5)')
-    parser.add_argument('--log_interval', type=int, default=10,
-                        help='how many batches to wait before logging training status')
-
-    args = parser.parse_args()
-    run(args.batch_size, args.val_batch_size, args.epochs, args.lr, args.momentum, args.log_interval)
-```
-
-Ce code génère ces visualisations ::
+Ce code génère les visualisations suivantes ::
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-1.png" alt="tableau de bord d'entraînement PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-1.png" alt="Tableau de bord d’entraînement PyTorch Ignite" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-2.png" alt="performances de PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-2.png" alt="Performances de PyTorch Ignite" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-3.png" alt="résultats de l'optimisation des hyperparamètres de PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-3.png" alt="Résultats du réglage des hyperparamètres de PyTorch Ignite" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-4.png" alt="tableau de bord de comparaison des modèles PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-4.png" alt="Tableau de bord de comparaison des modèles PyTorch Ignite" />
 </Frame>
 
-Consultez la [documentation Ignite](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) pour plus de détails.
+Se référer à la [documentation Ignite](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) pour plus de détails.

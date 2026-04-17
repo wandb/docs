@@ -13,21 +13,6 @@ Un `Model` est une combinaison de données (qui peuvent inclure la configuration
     * des annotations de type pour tous les paramètres
     * une fonction `predict` typée avec le décorateur `@weave.op()`
 
-    ```python lines
-    from weave import Model
-    import weave
-
-    class YourModel(Model):
-        attribute1: str
-        attribute2: int
-
-        @weave.op()
-        def predict(self, input_data: str) -> dict:
-            # La logique du modèle va ici
-            prediction = self.attribute1 + ' ' + input_data
-            return {'pred': prediction}
-    ```
-
     Vous pouvez appeler le modèle comme d’habitude avec :
 
     ```python lines

@@ -31,16 +31,3 @@ pip install wandb
 <div id="import-wb-python-sdk">
   ### Importez le W&amp;B Python SDK :
 </div>
-
-```python
-import wandb
-
-# Spécifiez votre entité d'équipe
-entity = "<team_entity>"
-
-# Projet dans lequel le run est enregistré
-project = "my-awesome-project"
-
-with wandb.init(entity=entity, project=project) as run:
-   run.log({"accuracy": 0.9, "loss": 0.1})
-```

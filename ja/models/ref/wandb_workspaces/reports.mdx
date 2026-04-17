@@ -662,42 +662,20 @@ to_html(height: int = 1024, hidden: bool = False) → str
 
 **属性:**
 
-* `entity` (str):  runs が保存されているプロジェクトを所有している、またはそのプロジェクトに対する適切な権限を持つ entity。
-* `project` (str):  runs が保存されているプロジェクトの名。
-* `name` (str):  run set の名。デフォルトでは `Run set` に設定されます。
-* `query` (str):  runs をフィルターするためのクエリ文字列。
-* `filters` (Union[str, LList[expr.FilterExpr]]):  runs に適用するフィルター。指定できる値は次のとおりです。
-  * 文字列式: 例: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
-  * FilterExpr object のリスト: 例: [expr.Config(&#39;lr&#39;) == 0.001]
-* `groupby` (LList[str]):  グループ化に使用するメトリクス名のリスト。サポートされる形式は次のとおりです。
-  * run 属性でグループ化するには &quot;group&quot; または &quot;run.group&quot;
-  * 設定パラメーターでグループ化するには &quot;config.param&quot;
-  * summary メトリクスでグループ化するには &quot;summary.metric&quot;
-* `order` (LList[OrderBy]):  並び替えに使用する `OrderBy` object のリスト。
-* `custom_run_colors` (dict):  run ID (またはグループ化された runs の `RunsetGroup` キー) を colors に対応付ける辞書です。単純な run ごとの colors には、`run_settings` を使用することを推奨します。
-* `run_settings` (Dict[str, RunSettings]):  run ID をキーとする run ごとの表示設定です。色の設定や個々の runs の非表示にはこれを使用します。`RunSettings` を参照してください。
+* `entity` (str): runs が保存されているプロジェクトを所有している、またはそのプロジェクトに対する適切な権限を持つ entity。
+* `project` (str): runs が保存されている project の名。
+* `name` (str): run set の名。デフォルトでは `Run set` に設定されます。
+* `query` (str): runs をフィルターするためのクエリ文字列。
+* `filters` (Union[str, LList[expr.FilterExpr]]): runs に適用するフィルター。指定できる値は次のとおりです。 - 文字列式: 例: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in` - FilterExpr object のリスト: 例: [expr.Config(&#39;lr&#39;) == 0.001]
+* `groupby` (LList[str]): グループ化に使用するメトリクス名のリスト。サポートされる形式は次のとおりです。 - run 属性でグループ化するには &quot;group&quot; または &quot;run.group&quot; - 設定パラメーターでグループ化するには &quot;config.param&quot; - summary メトリクスでグループ化するには &quot;summary.metric&quot;
+* `order` (LList[OrderBy]): 並び替えに使用する `OrderBy` object のリスト。
+* `custom_run_colors` (dict): run ID (またはグループ化された runs の `RunsetGroup` キー) を colors に対応付ける辞書です。単純な run ごとの colors には、`run_settings` を使用することを推奨します。
+* `run_settings` (Dict[str, RunSettings]): run ID をキーとする run ごとの表示設定です。色の設定や個々の runs の非表示にはこれを使用します。`RunSettings` を参照してください。
 
 **例:**
 
-```python
-    # 文字列フィルターを使用する場合
-    wr.Runset(
-         entity="my-entity",
-         project="my-project",
-         filters="Config('learning_rate') = 0.001 and State = 'finished'"
-    )
-
-    # FilterExprリストを使用する場合
-    wr.Runset(
-         entity="my-entity",
-         project="my-project",
-         filters=[expr.Config("learning_rate") == 0.001]
-    )
-```
-
 ***
-
 
 ### <kbd>method</kbd> `convert_filterexpr_list_to_string`
 

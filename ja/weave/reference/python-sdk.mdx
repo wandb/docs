@@ -504,24 +504,6 @@ to_data_url(use_base64: 'bool' = True) → str
 
 **例:**
 
-```python
-# データセットを作成する
-dataset = Dataset(name='grammar', rows=[
-     {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
-     {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
-     {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
-])
-
-# データセットを公開する
-weave.publish(dataset)
-
-# データセットを取得する
-dataset_ref = weave.ref('grammar').get()
-
-# 特定のサンプルにアクセスする
-example_label = dataset_ref.rows[2]['sentence']
-```
-
 **Pydantic のフィールド:**
 
 * `name`: `str | None`
@@ -530,7 +512,6 @@ example_label = dataset_ref.rows[2]['sentence']
 * `rows`: `trace.table.Table | trace.vals.WeaveTable`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L129" />
-
 
 ### <kbd>method</kbd> `add_rows`
 
@@ -947,7 +928,7 @@ values_table(title: str | None = None) → Table
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L61" />
 
 
-## <kbd>class</kbd> `Evaluation`
+## <kbd>class</kbd> `評価`
 
 scorer のセットとデータセットを含む評価を設定します。
 
@@ -958,36 +939,6 @@ scorer のセットとデータセットを含む評価を設定します。
 データセットの行を前処理したい場合は、`preprocess_model_input` に関数を渡せます。
 
 **例:**
-
-```python
-# サンプルを収集する
-examples = [
-     {"question": "What is the capital of France?", "expected": "Paris"},
-     {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
-     {"question": "What is the square root of 64?", "expected": "8"},
-]
-
-# カスタムスコアリング関数を定義する
-@weave.op
-def match_score1(expected: str, model_output: dict) -> dict:
-     # モデル出力をスコアリングするロジックをここに定義する
-     return {'match': expected == model_output['generated_text']}
-
-@weave.op
-def function_to_evaluate(question: str):
-     # LLMの呼び出しと出力の返却をここに追加する
-     return  {'generated_text': 'Paris'}
-
-# スコアリング関数を使用してサンプルをスコアリングする
-evaluation = Evaluation(
-     dataset=examples, scorers=[match_score1]
-)
-
-# 評価のトラッキングを開始する
-weave.init('intro-example')
-# 評価を実行する
-asyncio.run(evaluation.evaluate(function_to_evaluate))
-```
 
 **Pydantic のフィールド:**
 
@@ -1002,7 +953,6 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 * `evaluation_name`: `str | collections.abc.Callable[trace.call.Call, str] | None`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L295" />
-
 
 ### <kbd>method</kbd> `evaluate`
 
@@ -1043,7 +993,7 @@ get_eval_results(model: Op | Model) → EvaluationResults
 get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
 ```
 
-この `Evaluation` オブジェクトを使用したすべての評価 call を取得します。
+この `評価` オブジェクトを使用したすべての評価 call を取得します。
 
 これは単一の call ではなく CallsIter を返すことに注意してください。1 つの評価に対して複数の評価 call が存在する可能性があるためです (たとえば、同じ評価を複数回実行した場合) 。
 
@@ -1057,18 +1007,9 @@ get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
 
 **例:**
 
-```python
-evaluation = Evaluation(dataset=examples, scorers=[scorer])
-await evaluation.evaluate(model)  # 最初に評価を実行する
-calls = evaluation.get_evaluate_calls()
-for call in calls:
-     print(f"Evaluation run: {call.id} at {call.started_at}")
-```
-
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L342" />
-
 
 ### <kbd>method</kbd> `get_score_calls`
 
@@ -1110,23 +1051,10 @@ get_scores() → dict[str, dict[str, list[Any]]]
 
 **戻り値:**
 
-* <b>`dict[str, dict[str, list[Any]]]`</b>: 次のようなネストされた辞書構造です。
-  * 第1レベルのキーは trace ID (評価 run)
-  * 第2レベルのキーは Scorer 名
-  * 値は、その run と Scorer に対応する Scorer 出力のリスト
+* <b>`dict[str, dict[str, list[Any]]]`</b>: 次のようなネストされた辞書構造です。 - 第1レベルのキーは trace ID (評価 run) - 第2レベルのキーは Scorer 名 - 値は、その run と Scorer に対応する Scorer
+  出力のリスト
 
 **例:**
-
-```python
-evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
-await evaluation.evaluate(model)
-scores = evaluation.get_scores()
-# トレースとスコアラーごとにスコアを取得
-for trace_id, trace_scores in scores.items():
-         print(f"Evaluation run {trace_id}:")
-         for scorer_name, outputs in trace_scores.items():
-             print(f"  {scorer_name}: {outputs}")
-```
 
 想定される出力:
 
@@ -1142,7 +1070,6 @@ for trace_id, trace_scores in scores.items():
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/pydantic/_internal/_model_construction.py#L163" />
-
 
 ### <kbd>method</kbd> `model_post_init`
 
@@ -1187,36 +1114,9 @@ summarize(eval_table: EvaluationResults) → dict
 
 基本的な使用方法 - 入力と出力を直接指定して予測をログします:
 
-```python
-ev = EvaluationLogger()
-
-# 既知の入力/出力で予測をログする
-pred = ev.log_prediction(inputs={'q': 'Hello'}, outputs={'a': 'Hi there!'})
-pred.log_score("correctness", 0.9)
-
-# 評価を終了する
-ev.log_summary({"avg_score": 0.9})
-```
-
 高度な使い方 - 動的な出力とネストされたオペレーションにはコンテキストマネージャーを使用します:
 
-```python
-ev = EvaluationLogger()
-
-# ネストされた操作をキャプチャする必要がある場合はコンテキストマネージャーを使用する
-with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
-     # ここでの操作（LLM callsなど）は自動的に
-     # predict callの子要素になる
-     response = your_llm_call(...)
-     pred.output = response.content
-     pred.log_score("correctness", 0.9)
-
-# 評価を終了する
-ev.log_summary({"avg_score": 0.9})
-```
-
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L646" />
-
 
 ### <kbd>method</kbd> `__init__`
 
@@ -1462,18 +1362,17 @@ save(dest: 'str | Path') → None
 
 Markdown を表示可能なオブジェクト。
 
-* <b>`dest`</b>: ファイルのコピー先パス (string または pathlib.Path) 。コピー先パスにはファイルまたはディレクトリを指定できます。
-  **引数:**
+* <b>`dest`</b>: ファイルのコピー先パス (string または pathlib.Path) 。コピー先パスにはファイルまたはディレクトリを指定できます。 **引数:**
 
-* <b>`markup`</b> (str):  Markdown を含む文字列。
+* <b>`markup`</b> (str): Markdown を含む文字列。
 
-* <b>`code_theme`</b> (str, optional):  コードブロック用の Pygments テーマ。デフォルトは &quot;monokai&quot; です。コードテーマについては https://pygments.org/styles/ を参照してください。
+* <b>`code_theme`</b> (str, optional): コードブロック用の Pygments テーマ。デフォルトは &quot;monokai&quot; です。コードテーマについては [https://pygments.org/styles/](https://pygments.org/styles/) を参照してください。
 
-* <b>`justify`</b> (JustifyMethod, optional):  段落の justify 値。デフォルトは None です。
+* <b>`justify`</b> (JustifyMethod, optional): 段落の justify 値。デフォルトは None です。
 
-* <b>`style`</b> (Union[str, Style], optional):  Markdown に適用する任意のスタイル。
+* <b>`style`</b> (Union[str, Style], optional): Markdown に適用する任意のスタイル。
 
-* <b>`hyperlinks`</b> (bool, optional):  ハイパーリンクを有効にします。デフォルトは `True` です。
+* <b>`hyperlinks`</b> (bool, optional): ハイパーリンクを有効にします。デフォルトは `True` です。
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/rich/markdown.py#L548" />
 

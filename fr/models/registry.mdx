@@ -39,7 +39,7 @@ Chaque [*registre*](/fr/models/registry/configure_registry/) se compose d&#39;un
     <img src="/images/registry/homepage_registry.png" alt="W&B Registry"  />
   </Frame> */}
 
-Pour ajouter un artifact à un registre, vous devez d&#39;abord journaliser une [version spécifique d&#39;artifact dans W&amp;B](/fr/models/artifacts/create-a-new-artifact-version/). Chaque fois que vous journalisez un artifact, W&amp;B lui attribue automatiquement une version. Les versions d&#39;artifact utilisent une indexation à partir de 0 : la première version est donc `v0`, la deuxième `v1`, et ainsi de suite.
+Pour ajouter un artifact à un registre, vous devez d&#39;abord journaliser une [version spécifique d&#39;artifact dans W&amp;B](/fr/models/artifacts/create-a-new-artifact-version/). Chaque fois que vous journalisez un artifact, W&amp;B lui attribue automatiquement une version. Les versions d&#39;artifact utilisent une indexation à partir de 0 : la première version est donc `v0`, la deuxième `v1`, et ainsi de suite.
 
 Une fois qu&#39;un artifact est journalisé dans W&amp;B, vous pouvez ensuite lier cette version spécifique d&#39;artifact à une collection dans le registre.
 
@@ -47,7 +47,7 @@ Une fois qu&#39;un artifact est journalisé dans W&amp;B, vous pouvez ensuite li
   Le terme &quot;lien&quot; désigne des pointeurs qui relient l&#39;emplacement où W&amp;B stocke l&#39;artifact et l&#39;emplacement où l&#39;artifact est accessible dans le registre. W&amp;B ne duplique pas les artifacts lorsque vous liez un artifact à une collection.
 </Note>
 
-Par exemple, l&#39;exemple de code suivant journalise et lie un artifact de modèle appelé `"my_model.txt"` à une collection nommée `"first-collection"` dans un registre appelé `"model"` :
+Par exemple, l&#39;exemple de code suivant journalise et lie un artifact de modèle appelé `"my_model.txt"` à une collection nommée `"first-collection"` dans un registre appelé `"model"` :
 
 1. Initialisez un run W&amp;B avec `wandb.init()`.
 2. Journalisez l&#39;artifact dans W&amp;B avec `wandb.Run.log()`.
@@ -56,38 +56,9 @@ Par exemple, l&#39;exemple de code suivant journalise et lie un artifact de mod�
 
 Enregistrez ce code Python dans un script, puis exécutez-le. La version 0.18.6 ou ultérieure du SDK Python W&amp;B est requise.
 
-```python title="hello_collection.py"
-import wandb
-import random
-
-# Initialiser un run W&B pour suivre l'artifact
-with wandb.init(project="registry_quickstart") as run:
-    # Créer un fichier de modèle simulé pour pouvoir l'enregistrer
-    with open("my_model.txt", "w") as f:
-        f.write("Model: " + str(random.random()))
-
-    # Enregistrer l'artifact dans W&B
-    logged_artifact = run.log_artifact(
-        artifact_or_path="./my_model.txt", 
-        name="gemma-finetuned", 
-        type="model" # Spécifie le type d'artifact
-    )
-
-    # Spécifier le nom de la collection et du registre
-    # dans lesquels vous souhaitez publier l'artifact
-    COLLECTION_NAME = "first-collection"
-    REGISTRY_NAME = "model"
-
-    # Lier l'artifact au registre
-    run.link_artifact(
-        artifact=logged_artifact, 
-        target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
-    )
-```
-
 W&amp;B crée automatiquement une collection pour vous si la collection que vous spécifiez dans la méthode `wandb.Run.link_artifact(target_path = "")` de l&#39;objet run renvoyé n&#39;existe pas dans le registre que vous indiquez.
 
-En reprenant l&#39;exemple précédent, après avoir exécuté le script, accédez à W&amp;B registre pour voir les versions d&#39;artifact que vous et les autres membres de votre organisation publiez. Sélectionnez **registre** dans la barre latérale du projet, sous **Applications**. Sélectionnez le registre `"Model"`. Dans le registre, vous devriez voir la collection `"first-collection"` avec votre version d&#39;artifact liée.
+En reprenant l&#39;exemple précédent, après avoir exécuté le script, accédez à W&amp;B Registry pour voir les versions d&#39;artifact que vous et les autres membres de votre organisation publiez. Sélectionnez **Registry** dans la barre latérale du projet, sous **Applications**. Sélectionnez le registre `"Model"`. Dans le registre, vous devriez voir la collection `"first-collection"` avec votre version d&#39;artifact liée.
 
 Une fois qu&#39;une version d&#39;artifact est liée à une collection dans un registre, les membres de votre organisation peuvent [voir](/fr/models/registry/lineage), [télécharger](/fr/models/registry/download_use_artifact), [organiser](/fr/models/registry/organize-with-tags) et gérer vos versions d&#39;artifact, créer des automatisations en aval, et plus encore, s&#39;ils disposent des autorisations appropriées.
 

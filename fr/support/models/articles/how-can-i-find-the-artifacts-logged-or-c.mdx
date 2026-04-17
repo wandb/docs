@@ -8,47 +8,17 @@ W&amp;B suit les Artifacts enregistrés par chaque run ainsi que ceux utilisés 
 Utilisez l’API publique pour parcourir le graphe par code, à partir d’un artifact ou d’un run.
 
 <Tabs>
-  <Tab title="À partir d’un artifact">
-    ```python
-    api = wandb.Api()
+  <Tab title="À partir d’un artifact" />
 
-    artifact = api.artifact("project/artifact:alias")
-
-    # Remonter le graphe à partir d’un artifact :
-    producer_run = artifact.logged_by()
-    # Descendre le graphe à partir d’un artifact :
-    consumer_runs = artifact.used_by()
-
-    # Descendre le graphe à partir d’un run :
-    next_artifacts = consumer_runs[0].logged_artifacts()
-    # Remonter le graphe à partir d’un run :
-    previous_artifacts = producer_run.used_artifacts()
-    ```
-  </Tab>
-
-  <Tab title="À partir d’un run">
-    ```python
-    api = wandb.Api()
-
-    run = api.run("entity/project/run_id")
-
-    # Descendre le graphe à partir d’un run :
-    produced_artifacts = run.logged_artifacts()
-    # Remonter le graphe à partir d’un run :
-    consumed_artifacts = run.used_artifacts()
-
-    # Remonter le graphe à partir d’un artifact :
-    earlier_run = consumed_artifacts[0].logged_by()
-    # Descendre le graphe à partir d’un artifact :
-    consumer_runs = produced_artifacts[0].used_by()
-    ```
-  </Tab>
+  <Tab title="À partir d’un run" />
 </Tabs>
 
 ***
 
 {/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">
+  [Artifacts](/fr/support/models/tags/artifacts)
+</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

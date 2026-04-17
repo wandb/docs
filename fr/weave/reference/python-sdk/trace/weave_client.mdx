@@ -144,21 +144,11 @@ Efface la surcharge du contexte de run de wandb.
 Après cet appel, les appels reviendront à utiliser le wandb.run global (s&#39;il est disponible) pour les informations de run&#95;id et d&#39;étape.
 
 * <b>`obj_ref`</b>: Référence à la version de l’objet, soit un ObjectRef, soit une chaîne d’URI Weave.
-* <b>`tags`</b>: Liste des chaînes de tag à ajouter.
-  **Exemples :**
-
-```python
-client = weave.init("my-project")
-client.set_wandb_run_context(run_id="my-run-id", step=5)
-# ... effectuer quelques appels ...
-client.clear_wandb_run_context()
-# Les appels utiliseront à nouveau le wandb.run global
-```
+* <b>`tags`</b>: Liste des chaînes de tag à ajouter. **Exemples :**
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
-
 
 ### <kbd>méthode</kbd> `create_call`
 
@@ -574,45 +564,16 @@ Interroger le projet pour obtenir des retours.
 
 **Exemples :**
 
-```python
-# Récupère un objet de feedback spécifique.
-# Notez que cela renvoie toujours une collection, qui est censée
-# contenir zéro ou un élément(s).
-client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
-
-# Trouve tous les objets de feedback ayant une réaction spécifique.
-client.get_feedback(reaction="👍", limit=10)
-
-# Trouve tous les objets de feedback d'un type spécifique
-# via une requête de style mongo.
-from weave.trace_server.interface.query import Query
-
-query = Query(
-    **{
-        "$expr": {
-            "$eq": [
-                {"$getField": "feedback_type"},
-                {"$literal": "wandb.reaction.1"},
-            ],
-        }
-    }
-)
-client.get_feedback(query=query)
-```
-
 **Arguments :**
 
 * <b>`query`</b>: Une expression de requête au format Mongo. Pour plus de simplicité, accepte également une chaîne UUID de feedback.
 * <b>`reaction`</b>: Pour plus de simplicité, permet de filtrer par un emoji de réaction spécifique.
 * <b>`offset`</b>: Le décalage à partir duquel commencer à récupérer les objets de feedback.
-* <b>`limit`</b>: Le nombre maximal d’objets de feedback à récupérer.
-  **Retourne :**
-  Un objet FeedbackQuery.
+* <b>`limit`</b>: Le nombre maximal d’objets de feedback à récupérer. **Retourne :** Un objet FeedbackQuery.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
-
 
 ### <kbd>méthode</kbd> `get_tags`
 
@@ -719,32 +680,18 @@ query_costs(
 
 Interroge le projet pour récupérer les coûts.
 
-* <b>`ids`</b> : les ID de coûts à purger. Peut s’agir d’un seul ID ou d’une liste d’ID.
-  **Exemples :**
-
-```python
-# Récupère un objet de coût spécifique.
-# Notez que cela renvoie toujours une collection, qui est censée
-# contenir zéro ou un élément.
-client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
-
-# Trouve tous les objets de coût avec une réaction spécifique.
-client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
-```
+* <b>`ids`</b> : les ID de coûts à purger. Peut s’agir d’un seul ID ou d’une liste d’ID. **Exemples :**
 
 **Arguments :**
 
 * <b>`query`</b> : Une expression de requête de type Mongo. Pour plus de commodité, accepte également un UUID de coût sous forme de chaîne.
 * <b>`llm_ids`</b> : Pour plus de commodité, permet de filtrer sur un ensemble de llm&#95;ids.
 * <b>`offset`</b> : Le décalage à partir duquel commencer à récupérer les objets de coût.
-* <b>`limit`</b> : Le nombre maximal d’objets de coût à récupérer.
-  **Retourne :**
-  Un objet CostQuery.
+* <b>`limit`</b> : Le nombre maximal d’objets de coût à récupérer. **Retourne :** Un objet CostQuery.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
-
 
 ### <kbd>méthode</kbd> `remove_aliases`
 
@@ -831,28 +778,15 @@ Cela vous permet d’associer des appels Weave à un run wandb spécifique qui n
 
 * <b>`obj_ref`</b>: Référence vers la version de l’objet, soit un ObjectRef, soit une chaîne d’URI weave ///.
 
-* <b>`alias`</b>: Un nom d’alias ou une liste de noms d’alias à définir (par exemple, &quot;production&quot;).
-  **Arguments :**
+* <b>`alias`</b>: Un nom d’alias ou une liste de noms d’alias à définir (par exemple, &quot;production&quot;). **Arguments :**
 
 * <b>`run_id`</b>: L’ID du run (sans le préfixe entité/projet). Le client ajoutera automatiquement le préfixe entité/projet.
 
-* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si `None`, l’étape ne sera pas définie.
-  **Exemples :**
-
-```python
-client = weave.init("my-project")
-client.set_wandb_run_context(run_id="my-run-id", step=5)
-# Tous les appels seront désormais associés à entity/project/my-run-id à l'étape 5
-
-# Ou sans étape
-client.set_wandb_run_context(run_id="my-run-id")
-# Les appels seront associés à entity/project/my-run-id sans étape
-```
+* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si None, l’étape ne sera pas définie. **Exemples :**
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
-
 
 ### <kbd>fonction</kbd> `get_obj_name`
 

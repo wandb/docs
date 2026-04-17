@@ -60,71 +60,11 @@ Configurez l’intégration MCP à l’aide de variables d’environnement :
 
 Pour tracer un serveur MCP, ajoutez deux lignes à votre configuration `FastMCP` existante : une pour importer Weave et une pour initialiser le client. Une fois ces lignes ajoutées, les opérations sur les outils, les ressources et les prompts seront automatiquement tracées.
 
-```python lines
-# Importer Weave (requis pour le tracing)
-import weave
-from mcp.server.fastmcp import FastMCP
-
-# Initialiser Weave avec le nom de votre projet
-weave_client = weave.init("my-project")
-
-# Configurer le serveur MCP
-mcp = FastMCP("Demo")
-
-# Définir un outil (cet appel sera tracé)
-@mcp.tool()
-def add(a: int, b: int) -> int:
-    """Additionner deux nombres."""
-    return a + b
-
-# Définir une ressource (cet appel sera tracé)
-@mcp.resource("greeting://{name}")
-def get_greeting(name: str) -> str:
-    """Retourner un message de salutation personnalisé."""
-    return f"Hello, {name}!"
-
-# Définir un prompt (cet appel sera tracé)
-@mcp.prompt()
-def review_code(code: str) -> str:
-    """Retourner un prompt pour la révision de code."""
-    return f"Please review this code:\n\n{code}"
-
-# Démarrer le serveur
-mcp.run(transport="stdio")
-```
-
-
 <div id="client-side-integration">
   ### Intégration côté client
 </div>
 
 Côté client, le tracing ne nécessite lui aussi que deux modifications : importer Weave et l’initialiser. Tous les appels d’outil, les accès aux ressources et les requêtes de prompt seront automatiquement tracés.
-
-```python lines
-# Importer Weave (requis pour le tracing)
-import weave
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-# Initialiser Weave avec le nom de votre projet
-weave_client = weave.init("my-project")
-
-# Configurer et exécuter le client MCP
-async with stdio_client(server_params) as (read, write):
-    async with ClientSession(read, write) as session:
-        # Initialiser la session
-        await session.initialize()
-        
-        # Appeler un outil (sera tracé)
-        result = await session.call_tool("add", arguments={"a": 1, "b": 2})
-        
-        # Lire une ressource (sera tracé)
-        resource = await session.read_resource("greeting://user")
-        
-        # Obtenir un prompt (sera tracé)
-        prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
-```
-
 
 <div id="tutorial-mcp_demo-example">
   ## Tutoriel : exemple `mcp_demo`

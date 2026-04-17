@@ -10,59 +10,13 @@ Pour afficher votre code en cours d’exécution sous forme de traces détaillé
 </div>
 
 Weave s’intègre automatiquement à de nombreuses intégrations et frameworks courants, comme `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`.
-Importez la bibliothèque LLM ou le framework, initialisez votre projet Weave, puis Weave trace automatiquement tous les appels effectués vers le LLM ou la plateforme dans votre projet,
+Importez la bibliothèque LLM ou le framework, initialisez votre projet Weave, puis Weave trace automatiquement tous les appels effectués vers le LLM ou la plateforme dans votre projet
 sans aucune modification de code supplémentaire. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-
-    from openai import OpenAI
-    client = OpenAI()
-
-    # Initialiser Weave Tracing
-    weave.init('intro-example')
-
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {
-                "role": "user",
-                "content": "How are you?"
-            }
-        ],
-        temperature=0.8,
-        max_tokens=64,
-        top_p=1,
-    )
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
-    ```typescript lines
-    import OpenAI from 'openai'
-    import * as weave from 'weave'
-
-    const client = new OpenAI()
-
-    // Initialiser Weave Tracing
-    await weave.init('intro-example')
-
-    const response = await client.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        {
-          role: 'user',
-          content: 'How are you?',
-        },
-      ],
-      temperature: 0.8,
-      max_tokens: 64,
-      top_p: 1,
-    });
-    ```
-
     Pour obtenir un guide complet de configuration pour les projets JS / TS, voir le [SDK TypeScript : guide d’intégration tierce](/fr/weave/guides/integrations/js).
   </Tab>
 </Tabs>
@@ -78,21 +32,6 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
 <Tabs>
   <Tab title="Python">
     Weave vous permet de suivre manuellement ces appels à l’aide du décorateur [`@weave.op`](/fr/weave/reference/python-sdk/#function-op). Par exemple :
-
-    ```python lines
-    import weave
-
-    # Initialiser Weave Tracing
-    weave.init('intro-example')
-
-    # Décorer votre fonction
-    @weave.op
-    def my_function(name: str):
-        return f"Hello, {name}!"
-
-    # Appelez votre fonction -- Weave suivra automatiquement les entrées et les sorties
-    print(my_function("World"))
-    ```
 
     Vous pouvez également suivre les [méthodes de classe](#track-class-and-object-methods).
   </Tab>
@@ -141,25 +80,7 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
 Vous pouvez également suivre les méthodes de classe et d’instance. Vous pouvez suivre n’importe quelle méthode d’une classe en la décorant avec `weave.op`.
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-
-    # Initialiser Weave Tracing
-    weave.init("intro-example")
-
-    class MyClass:
-        # Décorez votre méthode
-        @weave.op
-        def my_method(self, name: str):
-            return f"Hello, {name}!"
-
-    instance = MyClass()
-
-    # Appelez votre méthode -- Weave suivra automatiquement les entrées et les sorties
-    print(instance.my_method("World"))
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     <Important>
@@ -206,23 +127,6 @@ Par défaut, les appels parallèles apparaissent tous dans Weave comme des appel
     L&#39;exemple de code suivant montre comment utiliser [`ThreadPoolExecutor`](/fr/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor).
     La première fonction, `func`, est un op simple qui prend `x` et renvoie `x+1`. La deuxième fonction, `outer`, est un autre op qui accepte une liste d&#39;entrées.
     Dans `outer`, l&#39;utilisation de `ThreadPoolExecutor` et de `exc.map(func, inputs)` signifie que chaque appel à `func` conserve le même contexte de trace parent.
-
-    ```python lines
-    import weave
-
-    @weave.op
-    def func(x):
-        return x+1
-
-    @weave.op
-    def outer(inputs):
-        with weave.ThreadPoolExecutor() as exc:
-            exc.map(func, inputs)
-
-    # Mettez à jour le nom de votre projet Weave
-    client = weave.init('my-weave-project')
-    outer([1,2,3,4,5])
-    ```
   </Tab>
 
   <Tab title="TypeScript">
@@ -243,26 +147,7 @@ Dans la Weave UI, cela produit un seul appel parent avec cinq appels enfants imb
 Vous pouvez également créer manuellement des appels directement via l&#39;API.
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-
-    # Initialiser Weave Tracing
-    client = weave.init('intro-example')
-
-    def my_function(name: str):
-        # Démarrer un appel
-        call = client.create_call(op="my_function", inputs={"name": name})
-
-        # ... code de votre fonction ...
-
-        # Terminer un appel
-        client.finish_call(call, output="Hello, World!")
-
-        # Appeler votre fonction
-        print(my_function("World"))
-    ```
-  </Tab>
+  <Tab title="Python" />
 
   <Tab title="TypeScript">
     ```plaintext

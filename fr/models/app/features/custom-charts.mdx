@@ -165,21 +165,6 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
 
     Créez une [courbe ROC](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) en une seule ligne :
 
-    ```python
-    with wandb.init() as run:
-      # ground_truth est une liste d'étiquettes réelles, predictions est une liste de scores prédits
-      ground_truth = [0, 1, 0, 1, 0, 1]
-      predictions = [0.1, 0.4, 0.35, 0.8, 0.7, 0.9]
-
-      # Créer le graphique de la courbe ROC
-      # labels est une liste facultative de noms de classes, classes_to_plot est un sous-ensemble facultatif de ces étiquettes à visualiser
-      plot = wandb.plot.roc_curve(
-          ground_truth, predictions, labels=None, classes_to_plot=None
-      )
-
-      run.log({"roc": plot})
-    ```
-
     Vous pouvez journaliser ces données chaque fois que votre code a accès à :
 
     * aux scores de prédiction d’un modèle (`predictions`) sur un ensemble d’exemples
@@ -200,22 +185,6 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
 </div>
 
 Modifiez un préréglage intégré, ou créez un nouveau préréglage, puis enregistrez le graphique. Utilisez l’ID du graphique pour journaliser des données dans ce préréglage personnalisé directement depuis votre script. [Essayez un notebook d’exemple Google Colab](https://tiny.cc/custom-charts).
-
-```python
-# Créer un tableau avec les colonnes à tracer
-table = wandb.Table(data=data, columns=["step", "height"])
-
-# Associer les colonnes du tableau aux champs du graphique
-fields = {"x": "step", "value": "height"}
-
-# Utiliser le tableau pour remplir le nouveau préréglage de graphique personnalisé
-# Pour utiliser votre propre préréglage de graphique enregistré, modifiez le vega_spec_name
-my_custom_chart = wandb.plot_table(
-    vega_spec_name="carey/new_chart",
-    data_table=table,
-    fields=fields,
-)
-```
 
 <Frame>
   <img src="/images/app_ui/custom_presets.png" alt="Préréglages personnalisés de graphiques" max-width="90%" />
@@ -238,15 +207,6 @@ Vous pouvez journaliser les types de données suivants depuis votre script et le
 </div>
 
 Utilisez `wandb.Table()` pour journaliser vos données sous la forme d’un tableau 2D. En général, chaque ligne de ce tableau représente un point de données, et chaque colonne correspond aux champs/dimensions pertinents de chaque point de données que vous souhaitez représenter. Lorsque vous configurez un panneau personnalisé, l’intégralité du tableau est accessible via la clé nommée transmise à `wandb.Run.log()` (`custom_data_table` ci-dessous), et chaque champ individuel est accessible via les noms de colonne (`x`, `y` et `z`). Vous pouvez journaliser des tableaux à plusieurs étapes au cours de votre expérience. La taille maximale de chaque tableau est de 10 000 lignes. [Essayez un exemple dans Google Colab](https://tiny.cc/custom-charts).
-
-```python
-with wandb.init() as run:
-  # Enregistrement d'un tableau de données personnalisé
-  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-  run.log(
-      {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
-  )
-```
 
 <div id="customize-the-chart">
   ## Personnaliser le graphique

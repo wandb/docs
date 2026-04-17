@@ -28,22 +28,6 @@ Utilisez le SDK Python de W&amp;B pour suivre des références vers des fichiers
 3. Indiquez la référence au chemin du bucket avec la méthode `wandb.Artifact.add_reference()` de l&#39;objet artifact.
 4. Enregistrez les métadonnées de l&#39;artifact avec `run.log_artifact()`.
 
-```python
-import wandb
-
-# Initialiser un run W&B
-with wandb.init(project="my-project") as run:
-
-  # Créer un objet artifact
-  artifact = wandb.Artifact(name="name", type="type")
-
-  # Ajouter une référence au chemin du bucket
-  artifact.add_reference(uri = "uri/to/your/bucket/path")
-
-  # Enregistrer les métadonnées de l'artifact
-  run.log_artifact(artifact)
-```
-
 Par exemple, supposons que votre bucket ait la structure de répertoires suivante :
 
 ```text
@@ -73,15 +57,14 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référence à l’aide du navigateur de fichiers, [explorer le graphe de dépendances complet](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) et consulter l’historique versionné de votre artifact. La W&amp;B App n’affiche pas les médias enrichis tels que les images, l’audio, etc., car les données elles-mêmes ne sont pas contenues dans l’artifact.
+Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référence à l’aide du navigateur de fichiers, [explorer le graphe de dépendances complet](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/), et consulter l’historique versionné de votre artifact. La W&amp;B App n’affiche pas les médias enrichis tels que les images, l’audio, etc., car les données elles-mêmes ne sont pas contenues dans l’artifact.
 
 <Note>
-  Les W&amp;B Artifacts prennent en charge toute interface compatible avec Amazon S3, y compris CoreWeave Storage et MinIO. Les scripts décrits ci-dessous fonctionnent tels quels avec les deux fournisseurs lorsque vous définissez la variable d’environnement `AWS_S3_ENDPOINT_URL` de sorte qu’elle pointe vers votre serveur CoreWeave Storage ou MinIO.
+  Les W&amp;B Artifacts prennent en charge toute interface compatible avec Amazon S3, y compris CoreWeave Storage et MinIO. Les scripts décrits ci-dessous fonctionnent tels quels avec les deux fournisseurs, lorsque vous définissez la variable d’environnement `AWS_S3_ENDPOINT_URL`
+  de sorte qu’elle pointe vers votre serveur CoreWeave Storage ou MinIO.
 </Note>
 
-<Warning>
-  Par défaut, W&amp;B impose une limite de 10 000 objets lors de l’ajout d’un préfixe d’objet. Vous pouvez ajuster cette limite en spécifiant `max_objects=` lorsque vous appelez `wandb.Artifact.add_reference()`.
-</Warning>
+<Warning>Par défaut, W&amp;B impose une limite de 10 000 objets lors de l’ajout d’un préfixe d’objet. Vous pouvez ajuster cette limite en spécifiant `max_objects=` lorsque vous appelez `wandb.Artifact.add_reference()`.</Warning>
 
 <div id="download-an-artifact-from-an-external-bucket">
   ## Télécharger un artifact depuis un bucket externe
@@ -112,22 +95,6 @@ with wandb.init(project="my-project") as run:
 </div>
 
 L&#39;exemple de code suivant téléverse un jeu de données dans un bucket Amazon S3, en assure le suivi à l’aide d’un artifact de référence, puis le télécharge :
-
-```python
-import boto3
-import wandb
-
-with wandb.init() as run:
-  # Entraînement ici...
-
-  s3_client = boto3.client("s3")
-  s3_client.upload_file(file_name="my_model.h5", bucket="my-bucket", object_name="models/cnn/my_model.h5")
-
-  # Journaliser l'artifact du modèle
-  model_artifact = wandb.Artifact("cnn", type="model")
-  model_artifact.add_reference("s3://my-bucket/models/cnn/")
-  run.log_artifact(model_artifact)
-```
 
 Par la suite, vous pourrez télécharger l’artifact du modèle. Indiquez le nom de l’artifact et son type :
 
@@ -180,25 +147,9 @@ Pour suivre un artifact dans un système de fichiers :
 1. Initialisez un run avec `wandb.init()`.
 2. Créez un objet artifact avec `wandb.Artifact()`.
 3. Indiquez la référence vers le chemin du système de fichiers à l&#39;aide de la méthode `wandb.Artifact.add_reference()` de l&#39;objet artifact.
-4. Consignez les métadonnées de l&#39;artifact dans le journal avec `run.log_artifact()`.
+4. Enregistrez les métadonnées de l’artifact dans le journal avec `run.log_artifact()`.
 
 Faites un copier-coller de l&#39;extrait de code suivant pour suivre des fichiers dans un système de fichiers monté. Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs.
-
-```python
-import wandb
-
-# Initialiser un run
-with wandb.init(entity="<entity>", project="<project>") as run:
-
-  # Créer un objet artifact
-  artifact = wandb.Artifact(name="<name>", type="<type>")
-
-  # Ajouter une référence au chemin du système de fichiers
-  artifact.add_reference("file:///path/to/dataset/")
-
-  # Journaliser l'artifact (métadonnées uniquement)
-  run.log_artifact(artifact)
-```
 
 Notez les trois barres obliques dans l’URL. Le premier composant est le préfixe `file://`, qui indique l’utilisation de références au système de fichiers. Le deuxième composant est la racine `/` du système de fichiers. Les composants restants correspondent au chemin vers le répertoire ou le fichier que vous souhaitez suivre.
 
@@ -230,25 +181,6 @@ Cela crée un artifact de référence `mnist:latest` qui pointe vers les fichier
 </Warning>
 
 De même, pour suivre un modèle stocké dans `models/cnn/my_model.h5`, vous pouvez utiliser l’extrait de code suivant :
-
-```python
-import wandb
-
-with wandb.init() as run:
-
-  # Entraînement ici...
-
-  # Écrire le modèle sur le disque
-
-  # Créer un objet artifact
-  model_artifact = wandb.Artifact("cnn", type="model")
-
-  # Ajouter une référence au chemin du fichier modèle
-  model_artifact.add_reference("file:///mount/cnn/my_model.h5")
-
-  # Enregistrer l'artifact dans W&B
-  run.log_artifact(model_artifact)
-```
 
 <div id="download-an-artifact-from-an-external-filesystem">
   ## Télécharger un artifact depuis un système de fichiers externe

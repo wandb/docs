@@ -16,28 +16,6 @@ Weave는 애플리케이션 성능에 미치는 영향을 최소화하기 위해
 
 다음 예제는 `client.finish()`를 보여줍니다:
 
-```python
-from celery import Celery
-import weave
-
-app = Celery('tasks')
-
-@app.task
-def process_task(input_data):
-    weave.init("your-team-name/your-project-name")
-
-    try:
-        # 트레이스를 생성하는 태스크 로직
-        result = your_processing_function(input_data)
-
-        # 태스크가 완료되기 전에 모든 트레이스가 업로드되도록 합니다
-        weave.finish()
-
-        return result
-    finally:
-        pass
-```
-
 종료할 때 `weave.finish()`가 자동으로 호출되도록 `with` 컨텍스트 관리자를 사용할 수도 있습니다:
 
 ```python
@@ -53,6 +31,12 @@ with weave.init("your-team-name/your-project-name") as client:
 
 {/* AUTO-GENERATED: 탭 배지 */}
 
-<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">
+  [트레이스 데이터](/ko/support/weave/tags/trace-data)
+</Badge>
+
+<Badge stroke shape="pill" color="orange" size="md">
+  [성능](/ko/support/weave/tags/performance)
+</Badge>
 
 {/* END AUTO-GENERATED: 탭 배지 */}

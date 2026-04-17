@@ -109,26 +109,6 @@ Weave masque automatiquement les clés sensibles suivantes par défaut :
 
 Vous pouvez compléter cette liste avec vos propres clés personnalisées à masquer dans les traces :
 
-```python lines
-import weave
-from weave.utils import sanitize
-
-client = weave.init("my-project", settings={"redact_pii": True})
-
-# Ajouter des clés personnalisées à masquer
-sanitize.add_redact_key("client_id")
-sanitize.add_redact_key("token")
-
-client_id = "123"
-token = "789"
-
-@weave.op
-def test(client_id, token):
-    return client_id + token
-
-test(client_id, token)
-```
-
 Dans la Weave UI, les valeurs de `client_id` et `token` apparaissent sous la forme `"REDACTED"` :
 
 ```python lines

@@ -117,43 +117,10 @@ artifact.download()
 
 다음 예제에서는 W&amp;B 레지스트리에 연결된 아티팩트를 조회하는 방법을 보여줍니다
 
-```python
-import wandb
-
-REGISTRY = "<registry_name>"
-COLLECTION = "<collection_name>"
-VERSION = "<version>"
-
-api = wandb.Api()
-artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-
-# 아티팩트 가져오기
-fetched_artifact = api.artifact(name = artifact_name)
-
-# 아티팩트 다운로드. 다운로드된 콘텐츠의 경로 반환
-downloaded_path = fetched_artifact.download()
-```
-
 <div id="query-wb-registry">
   ### W&amp;B 레지스트리 쿼리
 </div>
 
-Mongo와 유사한 필터를 사용해 W&amp;B 레지스트리, 컬렉션, Artifacts를 쿼리할 수 있습니다. 다음 예제는 정규식을 사용해 이름을 기준으로 컬렉션을 필터링하는 방법을 보여줍니다.
-
-```python
-import wandb
-
-# wandb API 초기화
-api = wandb.Api()
-
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이
-# 포함된 모든 컬렉션 필터링
-collection_filters = {
-    "name": {"$regex": "yolo"}
-}
-
-# 필터 조건에 맞는 모든 컬렉션의 이터러블 반환
-collections = api.registries().collections(filter=collection_filters)
-```
+Mongo와 유사한 필터를 사용해 W&amp;B 레지스트리, 컬렉션, 아티팩트를 쿼리할 수 있습니다. 다음 예제는 정규식을 사용해 이름을 기준으로 컬렉션을 필터링하는 방법을 보여줍니다.
 
 레지스트리, 컬렉션 또는 아티팩트를 쿼리하는 방법에 대한 자세한 내용은 [레지스트리 항목 찾기](/ko/models/registry/search_registry)를 참조하세요.

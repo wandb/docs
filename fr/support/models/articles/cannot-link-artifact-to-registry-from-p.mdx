@@ -11,14 +11,6 @@ Si vous ne parvenez pas à lier un artefact à un registre W&amp;B, la cause la 
 
 Indiquez votre équipe comme `entity` lors de l’initialisation d’un run :
 
-```python
-import wandb
-
-with wandb.init(entity="<team_entity>", project="<project_name>") as run:
-    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
-    # Ajouter des fichiers et enregistrer l'artefact
-```
-
 Si vous ne spécifiez pas `entity`, le run utilise votre entité par défaut, qui peut correspondre à votre compte personnel.
 
 <div id="find-your-team-entity">

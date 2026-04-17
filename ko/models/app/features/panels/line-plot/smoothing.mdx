@@ -26,30 +26,11 @@ TWEMA 알고리즘은 선 위 점들의 밀도(x축 범위 단위당 `y` 값의 
 
 다음은 이것이 내부적으로 어떻게 작동하는지 보여주는 예제 코드입니다:
 
-```javascript
-const smoothingWeight = Math.min(Math.sqrt(smoothingParam || 0), 0.999);
-let lastY = yValues.length > 0 ? 0 : NaN;
-let debiasWeight = 0;
-
-return yValues.map((yPoint, index) => {
-  const prevX = index > 0 ? index - 1 : 0;
-  // VIEWPORT_SCALE는 결과를 차트의 x축 범위에 맞게 조정합니다
-  const changeInX =
-    ((xValues[index] - xValues[prevX]) / rangeOfX) * VIEWPORT_SCALE;
-  const smoothingWeightAdj = Math.pow(smoothingWeight, changeInX);
-
-  lastY = lastY * smoothingWeightAdj + yPoint;
-  debiasWeight = debiasWeight * smoothingWeightAdj + 1;
-  return lastY / debiasWeight;
-});
-```
-
 앱에서는 [다음과 같이 표시됩니다](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
 <Frame>
   <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="TWEMA 스무딩 예시" />
 </Frame>
-
 
 <div id="gaussian-smoothing">
   ## 가우시안 스무딩

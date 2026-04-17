@@ -80,39 +80,6 @@ from ray.air.integrations.wandb import setup_wandb
 
 このユーティリティ関数は、Ray Tune で Wandb を使用する際の初期化に役立ちます。基本的な使い方としては、トレーニング関数内で `setup_wandb()` を呼び出します。
 
-```python
-from ray.air.integrations.wandb import setup_wandb
-
-
-def train_fn(config):
-    # wandbを初期化する
-    wandb = setup_wandb(config)
-    run = wandb.init(
-        project=config["wandb"]["project"],
-        api_key_file=config["wandb"]["api_key_file"],
-    )
-
-    for i in range(10):
-        loss = config["a"] + config["b"]
-        run.log({"loss": loss})
-        tune.report(loss=loss)
-    run.finish()
-
-
-tuner = tune.Tuner(
-    train_fn,
-    param_space={
-        # 探索空間をここで定義する
-        "a": tune.choice([1, 2, 3]),
-        "b": tune.choice([4, 5, 6]),
-        # wandbの設定
-        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
-    },
-)
-results = tuner.fit()
-```
-
-
 <div id="example-code">
   ## コード例
 </div>

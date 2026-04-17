@@ -69,29 +69,6 @@ response = model.generate_content(
 
 아래 예제에는 도시에서 방문할 장소를 추천하는, `@weave.op`으로 감싼 함수 `recommend_places_to_visit`가 있습니다.
 
-```python lines
-import os
-from google import genai
-import weave
-
-weave.init(project_name="google-genai")
-google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
-
-
-@weave.op()
-def recommend_places_to_visit(city: str, model: str = "gemini-1.5-flash"):
-    response = google_client.models.generate_content(
-        model=model,
-        contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
-    )
-    return response.text
-
-
-recommend_places_to_visit("New York")
-recommend_places_to_visit("Paris")
-recommend_places_to_visit("Kolkata")
-```
-
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
 <div id="create-a-model-for-easier-experimentation">
@@ -103,30 +80,3 @@ recommend_places_to_visit("Kolkata")
 코드를 버전 관리하고 입력/출력을 캡처하는 것에 더해, [`Model`](../core-types/models)은 애플리케이션의 동작을 제어하는 구조화된 매개변수도 캡처하므로 어떤 매개변수가 가장 효과적이었는지 쉽게 찾을 수 있습니다. 또한 Weave Models를 `serve` 및 [`Evaluation`](../core-types/evaluations)과 함께 사용할 수도 있습니다.
 
 아래 예시에서는 `CityVisitRecommender`를 실험해 볼 수 있습니다. 이 중 하나를 변경할 때마다 `CityVisitRecommender`의 새 *버전*이 생성됩니다.
-
-```python lines
-import os
-from google import genai
-import weave
-
-weave.init(project_name="google-genai")
-google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
-
-
-class CityVisitRecommender(weave.Model):
-    model: str
-
-    @weave.op()
-    def predict(self, city: str) -> str:
-        response = google_client.models.generate_content(
-            model=self.model,
-            contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
-        )
-        return response.text
-
-
-city_recommender = CityVisitRecommender(model="gemini-1.5-flash")
-print(city_recommender.predict("New York"))
-print(city_recommender.predict("San Francisco"))
-print(city_recommender.predict("Los Angeles"))
-```

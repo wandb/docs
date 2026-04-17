@@ -14,7 +14,7 @@ title: Reports 복제 및 내보내기
 리포트를 PDF 또는 LaTeX 형식으로 내보내세요. 리포트에서 드롭다운 메뉴를 열려면 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 선택합니다. **Download and**를 선택한 다음, 출력 형식으로 PDF 또는 LaTeX를 선택하세요.
 
 <div id="cloning-reports">
-  ## Reports 복제
+  ## 리포트 복제
 </div>
 
 <Tabs>
@@ -22,22 +22,14 @@ title: Reports 복제 및 내보내기
     리포트에서 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 선택해 드롭다운 메뉴를 엽니다. **이 리포트 복제** 버튼을 선택합니다. 모달에서 복제한 리포트의 대상을 선택합니다. **리포트 복제**를 선택합니다.
 
     <Frame>
-      <img src="/images/reports/clone_reports.gif" alt="Reports 복제" />
+      <img src="/images/reports/clone_reports.gif" alt="리포트 복제" />
     </Frame>
 
     리포트를 복제하면 프로젝트의 템플릿과 형식을 재사용할 수 있습니다. 팀 계정에서 프로젝트를 복제하면 복제된 프로젝트를 팀에서 볼 수 있습니다. 개인 계정에서 복제한 프로젝트는 해당 사용자에게만 표시됩니다.
   </Tab>
 
   <Tab title="Report and Workspace API">
-    URL에서 Report를 불러와 템플릿으로 사용합니다.
-
-    ```python
-    report = wr.Report(
-        project=PROJECT, title="Quickstart Report", description="That was easy!"
-    )  # 생성
-    report.save()  # 저장
-    new_report = wr.Report.from_url(report.url)  # 불러오기
-    ```
+    URL에서 리포트를 불러와 템플릿으로 사용합니다.
 
     `new_report.blocks` 안의 콘텐츠를 편집합니다.
 

@@ -39,14 +39,6 @@ pip install -U openai
 
 OpenAI のファインチューニング API と W&amp;B を統合し、ファインチューニングのメトリクスと設定を W&amp;B にログします。これを行うには、`wandb.integration.openai.fine_tuning` モジュールの `WandbLogger` クラスを使用します。
 
-```python
-from wandb.integration.openai.fine_tuning import WandbLogger
-
-# ファインチューニングのロジック
-
-WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
-```
-
 <Frame>
   <img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI の自動スキャン機能" />
 </Frame>
@@ -56,25 +48,6 @@ WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 </div>
 
 スクリプトから結果をSyncする
-
-```python
-from wandb.integration.openai.fine_tuning import WandbLogger
-
-# 1行のコマンド
-WandbLogger.sync()
-
-# オプションのパラメーターを渡す
-WandbLogger.sync(
-    fine_tune_job_id=None,
-    num_fine_tunes=None,
-    project="OpenAI-Fine-Tune",
-    entity=None,
-    overwrite=False,
-    model_artifact_name="model-metadata",
-    model_artifact_type="model",
-    **kwargs_wandb_init
-)
-```
 
 <div id="reference">
   ### リファレンス

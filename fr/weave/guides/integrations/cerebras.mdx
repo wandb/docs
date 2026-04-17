@@ -13,28 +13,6 @@ Le suivi des appels LLM est crucial pour le débogage et la surveillance des per
 
 Voici un exemple montrant comment utiliser Weave avec Cerebras :
 
-```python lines
-import os
-import weave
-from cerebras.cloud.sdk import Cerebras
-
-# Initialiser le projet weave
-weave.init("cerebras_speedster")
-
-# Utiliser le SDK Cerebras comme d'habitude
-api_key = os.environ["CEREBRAS_API_KEY"]
-model = "llama3.1-8b"  # modèle Cerebras
-
-client = Cerebras(api_key=api_key)
-
-response = client.chat.completions.create(
-    model=model,
-    messages=[{"role": "user", "content": "What's the fastest land animal?"}],
-)
-
-print(response.choices[0].message.content)
-```
-
 Weave va désormais suivre et tenir un journal de tous les appels LLM effectués via le SDK Cerebras. Vous pouvez consulter les traces dans l’interface web de Weave, avec des détails tels que l’utilisation des tokens et le temps de réponse.
 
 [![cerebras\_calls.png](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
@@ -45,70 +23,11 @@ Weave va désormais suivre et tenir un journal de tous les appels LLM effectués
 
 Les ops Weave constituent un moyen efficace d’améliorer la reproductibilité et la traçabilité de vos expériences. En versionnant automatiquement votre code et en capturant les entrées et les sorties. Voici un exemple de la manière dont vous pouvez tirer parti des ops Weave avec le SDK Cerebras :
 
-```python lines
-import os
-import weave
-from cerebras.cloud.sdk import Cerebras
-
-# Initialiser le projet weave
-weave.init("cerebras_speedster")
-
-client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
-
-# Weave suivra les entrées, sorties et le code de cette fonction
-@weave.op
-def animal_speedster(animal: str, model: str) -> str:
-    "Découvrir à quelle vitesse un animal peut courir"
-    
-    response = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": f"How fast can a {animal} run?"}],
-    )
-    return response.choices[0].message.content
-
-animal_speedster("cheetah", "llama3.1-8b")
-animal_speedster("ostrich", "llama3.1-8b")
-animal_speedster("human", "llama3.1-8b")
-```
-
 <div id="create-a-model-for-easier-experimentation">
   ## Créer un `Model` pour expérimenter plus facilement
 </div>
 
 La classe [Model](/fr/weave/guides/core-types/models) de Weave vous aide à organiser et à comparer différentes itérations de votre application. C’est particulièrement utile lorsque vous testez des modèles Cerebras. Voici un exemple :
-
-```python lines
-import os
-import weave
-from cerebras.cloud.sdk import Cerebras
-
-# Initialiser le projet weave
-weave.init("cerebras_speedster")
-
-client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
-
-class AnimalSpeedModel(weave.Model):
-    model: str
-    temperature: float
-
-    @weave.op
-    def predict(self, animal: str) -> str:
-        "Prédire la vitesse maximale d'un animal"        
-
-        response = client.chat.completions.create(
-            model=self.model,
-            messages=[{"role": "user", "content": f"What's the top speed of a {animal}?"}],
-            temperature=self.temperature
-        )
-        return response.choices[0].message.content
-
-speed_model = AnimalSpeedModel(
-    model="llama3.1-8b",
-    temperature=0.7
-)
-result = speed_model.predict(animal="cheetah")
-print(result)
-```
 
 Avec cette configuration, vous pouvez facilement tester différents modèles et paramètres, tout en gardant une trace de vos inférences avec Cerebras !
 

@@ -93,29 +93,15 @@ Les étapes sont les suivantes :
 
 L’extrait de code suivant montre comment créer un artifact et définir une politique TTL.
 
-```python
-import wandb
-from datetime import timedelta
-
-with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
-    artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
-    artifact.add_file("<my_file>")
-
-    artifact.ttl = timedelta(days=30)  # Définir la politique TTL
-    run.log_artifact(artifact)
-```
-
 L’extrait de code précédent définit la politique TTL de l’artifact à 30 jours. En d’autres termes, W&amp;B supprime l’artifact après 30 jours.
 
 <div id="set-or-edit-a-ttl-policy-after-you-create-an-artifact">
   ### Définir ou modifier une politique TTL après la création d’un artifact
 </div>
 
-Utilisez la interface W&amp;B App ou le W&amp;B Python SDK pour définir une politique TTL pour un artifact existant.
+Utilisez l’interface de l’application W&amp;B ou le SDK Python W&amp;B pour définir une politique TTL pour un artifact existant.
 
-<Note>
-  Lorsque vous modifiez le TTL d’un artifact, le délai avant expiration est toujours calculé à partir du timestamp `createdAt` de l’artifact.
-</Note>
+<Note>Lorsque vous modifiez le TTL d’un artifact, le délai avant expiration est toujours calculé à partir du timestamp `createdAt` de l’artifact.</Note>
 
 <Tabs>
   <Tab title="Python SDK">
@@ -125,20 +111,11 @@ Utilisez la interface W&amp;B App ou le W&amp;B Python SDK pour définir une pol
 
     L’extrait de code suivant montre comment définir une politique TTL pour un artifact :
 
-    ```python
-    import wandb
-    from datetime import timedelta
-
-    artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
-    artifact.ttl = timedelta(days=365 * 2)  # Supprimer dans deux ans
-    artifact.save()
-    ```
-
     L’exemple de code précédent définit la politique TTL sur deux ans.
   </Tab>
 
   <Tab title="W&B App">
-    1. Accédez à votre projet W&amp;B dans la interface W&amp;B App.
+    1. Accédez à votre projet W&amp;B dans l’interface de l’application W&amp;B.
     2. Sélectionnez l’icône artifact dans la barre latérale du projet.
     3. Dans la liste des Artifacts, développez le type d’artifact que vous
     4. Sélectionnez la version de l’artifact dont vous souhaitez modifier la politique TTL.
@@ -183,16 +160,6 @@ Définissez une politique TTL par défaut pour votre équipe. Les politiques TTL
 Utilisez l’API publique pour récupérer un artifact sans avoir à récupérer de run, puis définissez la politique TTL. Les politiques TTL sont généralement définies en jours.
 
 L’exemple de code suivant montre comment récupérer un artifact à l’aide de l’API publique et définir la politique TTL.
-
-```python
-api = wandb.Api()
-
-artifact = api.artifact("entity/project/artifact:alias")
-
-artifact.ttl = timedelta(days=365)  # Suppression dans un an
-
-artifact.save()
-```
 
 <div id="deactivate-a-ttl-policy">
   ## Désactiver une politique TTL

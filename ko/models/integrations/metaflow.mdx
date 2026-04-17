@@ -88,36 +88,12 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
     step에 데코레이터를 적용하면 해당 step 내 특정 유형에 대한 로깅을 켜거나 끌 수 있습니다.
 
     이 예제에서는 `start`의 모든 데이터셋과 모델이 로깅됩니다.
-
-    ```python
-    from wandb.integration.metaflow import wandb_log
-
-    class WandbExampleFlow(FlowSpec):
-        @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
-        @step
-        def start(self):
-            self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
-            self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
-            self.next(self.transform)
-    ```
   </Tab>
 
   <Tab title="Flow">
     플로우에 데코레이터를 적용하는 것은 플로우를 구성하는 모든 step에 기본값으로 데코레이터를 적용하는 것과 같습니다.
 
     이 경우 `WandbExampleFlow`의 모든 step은 기본적으로 데이터셋과 모델을 로깅하며, 이는 각 step에 `@wandb_log(datasets=True, models=True)`를 적용하는 것과 같습니다.
-
-    ```python
-    from wandb.integration.metaflow import wandb_log
-
-    @wandb_log(datasets=True, models=True)  # 모든 @step에 데코레이터 적용
-    class WandbExampleFlow(FlowSpec):
-        @step
-        def start(self):
-            self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
-            self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
-            self.next(self.transform)
-    ```
   </Tab>
 
   <Tab title="Flow and Steps">
@@ -127,33 +103,6 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 
     * `start`와 `mid`는 데이터셋과 모델을 모두 로깅합니다.
     * `end`는 데이터셋과 모델을 모두 로깅하지 않습니다.
-
-    ```python
-    from wandb.integration.metaflow import wandb_log
-
-    @wandb_log(datasets=True, models=True)  # start와 mid에 데코레이터를 적용하는 것과 동일
-    class WandbExampleFlow(FlowSpec):
-      # 이 step은 데이터셋과 모델을 로깅합니다
-      @step
-      def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
-        self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
-        self.next(self.mid)
-
-      # 이 step도 데이터셋과 모델을 로깅합니다
-      @step
-      def mid(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
-        self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
-        self.next(self.end)
-
-      # 이 step은 재정의되어 데이터셋이나 모델을 로깅하지 않습니다
-      @wandb_log(datasets=False, models=False)
-      @step
-      def end(self):
-        self.raw_df = pd.read_csv(...).    
-        self.model_file = torch.load(...)
-    ```
   </Tab>
 </Tabs>
 

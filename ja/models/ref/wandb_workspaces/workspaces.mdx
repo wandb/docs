@@ -2,41 +2,13 @@
 title: Workspaces
 ---
 
-import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
 <GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/internal.py" />
 
-<Note>
-  W&amp;B Report and Workspace API はパブリックプレビューです。
-</Note>
+<Note>W&amp;B Report and Workspace API はパブリックプレビューです。</Note>
 
 W&amp;B Workspace API をプログラムから操作するための Python ライブラリ。
-
-```python
-# インポート方法
-import wandb_workspaces.workspaces as ws
-import wandb_workspaces.reports.v2 as wr
-
-# Workspaceの作成例
-ws.Workspace(
-     name="Example W&B Workspace",
-     entity="entity", # Workspaceを所有するentity
-     project="project", # Workspaceに関連付けられたプロジェクト
-     sections=[
-         ws.Section(
-             name="Validation Metrics",
-             panels=[
-                 wr.LinePlot(x="Step", y=["val_loss"]),
-                 wr.BarPlot(metrics=["val_accuracy"]),
-                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
-             ],
-             is_open=True,
-         ),
-     ],
-)
-workspace.save()
-```
-
 
 ## <kbd>class</kbd> `RunSettings`
 
@@ -55,38 +27,21 @@ Workspace 内の runset (run を表示する左側のバー) の設定です。
 
 **属性:**
 
-* `query` (str):  runset をフィルターするためのクエリです (正規表現を使用できます。次のパラメータを参照) 。
-* `regex_query` (bool):  上記のクエリを正規表現として扱うかどうかを制御します。デフォルトは `False` です。
-* `filters` (Union[str, LList[expr.FilterExpr]]):  runset に適用するフィルターのリスト、または文字列表現です。
-  * リストの場合: フィルターは AND 条件で結合されます。フィルターの作成方法について詳しくは、FilterExpr を参照してください。
-  * 文字列の場合: Python 風の式を使用します。例: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
-* `groupby` (LList[expr.MetricType]):  runset でグループ化するメトリクスのリストです。`Metric`、`Summary`、`Config`、`Tags`、または `KeysInfo` に設定します。
-* `order` (LList[expr.Ordering]):  runset に適用するメトリクスと並び順のリストです。
-* `run_settings` (Dict[str, RunSettings]):  run 設定の辞書です。キーは run の ID、値は RunSettings オブジェクトです。
-* `pinned_columns` (LList[str]):  固定する列名のリストです。
-* `Column names use format`:  &quot;run:displayName&quot;、&quot;summary:metric&quot;、&quot;config:param&quot;。
+* `query` (str): runset をフィルターするためのクエリです (正規表現を使用できます。次のパラメータを参照) 。
+* `regex_query` (bool): 上記のクエリを正規表現として扱うかどうかを制御します。デフォルトは `False` です。
+* `filters` (Union[str, LList[expr.FilterExpr]]): runset に適用するフィルターのリスト、または文字列表現です。 - リストの場合: フィルターは AND 条件で結合されます。フィルターの作成方法について詳しくは、FilterExpr を参照してください。 - 文字列の場合: Python 風の式を使用します。例: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `groupby` (LList[expr.MetricType]): runset でグループ化するメトリクスのリストです。`Metric`、`Summary`、`Config`、`Tags`、または `KeysInfo` に設定します。
+* `order` (LList[expr.Ordering]): runset に適用するメトリクスと並び順のリストです。
+* `run_settings` (Dict[str, RunSettings]): run 設定の辞書です。キーは run の ID、値は RunSettings オブジェクトです。
+* `pinned_columns` (LList[str]): 固定する列名のリストです。
+* `Column names use format`: &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;。
 * `run`: displayName は、存在しない場合は自動的に追加されます。
-* `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
+* `Example`: [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
 
 **例:**
 
-```python
-    # 文字列フィルターを使用する場合（新方式）
-    RunsetSettings(
-        filters="Config('learning_rate') = 0.001 and State = 'finished'",
-        pinned_columns=["summary:accuracy", "summary:loss"],
-    )
-
-    # FilterExprリストを使用する場合（元の方式）
-    RunsetSettings(
-        filters=[expr.Config("learning_rate") == 0.001],
-        pinned_columns=["summary:accuracy", "summary:loss"],
-    )
-```
-
 ***
-
 
 ### <kbd>method</kbd> `convert_filterexpr_list_to_string`
 

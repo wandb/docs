@@ -29,59 +29,11 @@ no_list: true
 
 메트릭을 로깅하면서 머신 러닝 실험을 생성하고 추적합니다:
 
-```python
-import wandb
-
-# 새 run 초기화
-with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as run:
-    # 설정 접근
-    config = run.config
-    
-    # 트레이닝 중 메트릭 로깅
-    for epoch in range(10):
-        metrics = train_one_epoch()  # 트레이닝 로직
-        run.log({
-            "loss": metrics["loss"],
-            "accuracy": metrics["accuracy"],
-            "epoch": epoch
-        })
-    
-    # 요약 메트릭 로깅
-    run.summary["best_accuracy"] = max_accuracy
-```
-
 <div id="version-a-model-artifact">
   ### 모델 artifact 버전 지정
 </div>
 
 메타데이터와 함께 버전이 지정된 모델 artifact를 생성하여 로깅합니다:
-
-```python
-import wandb
-
-with wandb.init(project="my-models") as run:
-    # 모델 트레이닝
-    model = train_model()
-    
-    # 모델에 대한 artifact 생성
-    model_artifact = wandb.Artifact(
-        name="my-model",
-        type="model",
-        description="ResNet-50 trained on ImageNet subset",
-        metadata={
-            "architecture": "ResNet-50",
-            "dataset": "ImageNet-1K",
-            "accuracy": 0.95
-        }
-    )
-    
-    # artifact에 모델 파일 추가
-    model_artifact.add_file("model.pt")
-    model_artifact.add_dir("model_configs/")
-    
-    # W&B에 artifact 로깅
-    run.log_artifact(model_artifact)
-```
 
 <div id="configure-sdk-settings">
   ### SDK 설정하기
@@ -89,52 +41,8 @@ with wandb.init(project="my-models") as run:
 
 요구 사항에 맞게 W&amp;B SDK 동작을 사용자 지정하세요:
 
-```python
-import wandb
-
-# 프로그래밍 방식으로 설정 구성
-wandb.Settings(
-    project="production-runs",
-    entity="my-team",
-    mode="offline",  # 오프라인으로 실행, 나중에 동기화
-    save_code=True,   # 소스 코드 저장
-    quiet=True        # 콘솔 출력 감소
-)
-
-# 또는 환경 변수 사용
-# export WANDB_PROJECT=production-runs
-# export WANDB_MODE=offline
-
-# 맞춤형 설정으로 초기화
-with wandb.init() as run:
-    # 실험 코드를 여기에 작성
-    pass
-```
-
 <div id="link-artifacts-for-lineage-tracking">
   ### 리니지 추적을 위해 artifact 연결하기
 </div>
 
 데이터셋, 모델, 평가 사이의 관계를 추적하세요:
-
-```python
-import wandb
-
-with wandb.init(project="ml-pipeline") as run:
-    # 데이터셋 artifact 사용
-    dataset = run.use_artifact("dataset:v1")
-    dataset_dir = dataset.download()
-    
-    # 데이터셋을 사용하여 모델 트레이닝
-    model = train_on_dataset(dataset_dir)
-    
-    # 데이터셋 리니지가 포함된 모델 artifact 생성
-    model_artifact = wandb.Artifact(
-        name="trained-model",
-        type="model"
-    )
-    model_artifact.add_file("model.pt")
-    
-    # 자동 리니지 추적으로 로깅
-    run.log_artifact(model_artifact)
-```

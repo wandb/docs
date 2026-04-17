@@ -227,24 +227,6 @@ L&#39;agent Launch doit disposer de l&#39;autorisation d&#39;écrire dans le sto
 
 Indiquez la spécification du Job Kubernetes utilisée par le job Kaniko dans la clé `builder.kaniko-config` de la configuration de l’agent. Par exemple :
 
-```yaml title="launch-config.yaml"
-builder:
-  type: kaniko
-  build-context-store: <my-build-context-store>
-  destination: <my-image-destination>
-  build-job-name: wandb-image-build
-  kaniko-config:
-    spec:
-      template:
-        spec:
-          containers:
-          - args:
-            - "--cache=false" # Les arguments doivent être au format "clé=valeur"
-            env:
-            - name: "MY_ENV_VAR"
-              value: "my-env-var-value"
-```
-
 <div id="deploy-launch-agent-into-coreweave">
   ## Déployer l’agent Launch sur CoreWeave
 </div>

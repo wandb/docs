@@ -21,168 +21,7 @@ description: "W&B Weave의 피드백 추적 기능을 사용해 프로덕션 환
   ## 설정
 </div>
 
-```python lines
-!pip install weave openai streamlit wandb
-!pip install set-env-colab-kaggle-dotenv -q # 환경 변수용
-python
-# OpenAI 및 WandB API 키가 포함된 .env 파일을 추가하세요
-from set_env import set_env
-
-_ = set_env("OPENAI_API_KEY")
-_ = set_env("WANDB_API_KEY")
-```
-
-다음으로, 아래 내용을 담은 `chatbot.py` 파일을 만드세요:
-
-
-```python lines {13,15,27}
-# chatbot.py
-
-import openai
-import streamlit as st
-import wandb
-from set_env import set_env
-
-import weave
-
-_ = set_env("OPENAI_API_KEY")
-_ = set_env("WANDB_API_KEY")
-
-wandb.login()
-
-weave_client = weave.init("feedback-example")
-oai_client = openai.OpenAI()
-
-def init_states():
-    """아직 존재하지 않는 session_state 키를 설정합니다."""
-    if "messages" not in st.session_state:
-        st.session_state["messages"] = []
-    if "calls" not in st.session_state:
-        st.session_state["calls"] = []
-    if "session_id" not in st.session_state:
-        st.session_state["session_id"] = "123abc"
-
-@weave.op
-def chat_response(full_history):
-    """
-    지금까지의 전체 대화 이력을 기반으로 스트리밍 모드에서 OpenAI API를 호출합니다.
-    full_history는 dict 목록입니다: [{"role":"user"|"assistant","content":...}, ...]
-    """
-    stream = oai_client.chat.completions.create(
-        model="gpt-4", messages=full_history, stream=True
-    )
-    response_text = st.write_stream(stream)
-    return {"response": response_text}
-
-def render_feedback_buttons(call_idx):
-    """해당 call에 대한 좋아요/싫어요 및 텍스트 피드백을 렌더링합니다."""
-    col1, col2, col3 = st.columns([1, 1, 4])
-
-    # 좋아요 버튼
-    with col1:
-        if st.button("👍", key=f"thumbs_up_{call_idx}"):
-            st.session_state.calls[call_idx].feedback.add_reaction("👍")
-            st.success("피드백 감사합니다!")
-
-    # 싫어요 버튼
-    with col2:
-        if st.button("👎", key=f"thumbs_down_{call_idx}"):
-            st.session_state.calls[call_idx].feedback.add_reaction("👎")
-            st.success("피드백 감사합니다!")
-
-    # 텍스트 피드백
-    with col3:
-        feedback_text = st.text_input("Feedback", key=f"feedback_input_{call_idx}")
-        if (
-            st.button("Submit Feedback", key=f"submit_feedback_{call_idx}")
-            and feedback_text
-        ):
-            st.session_state.calls[call_idx].feedback.add_note(feedback_text)
-            st.success("피드백이 제출되었습니다!")
-
-def display_old_messages():
-    """st.session_state.messages에 저장된 대화를 피드백 버튼과 함께 표시합니다."""
-    for idx, message in enumerate(st.session_state.messages):
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
-            # 어시스턴트 메시지인 경우 피드백 폼 표시
-            if message["role"] == "assistant":
-                # st.session_state.calls에서 이 어시스턴트 메시지의 인덱스 확인
-                assistant_idx = (
-                    len(
-                        [
-                            m
-                            for m in st.session_state.messages[: idx + 1]
-                            if m["role"] == "assistant"
-                        ]
-                    )
-                    - 1
-                )
-                # 좋아요/싫어요 및 텍스트 피드백 렌더링
-                if assistant_idx < len(st.session_state.calls):
-                    render_feedback_buttons(assistant_idx)
-
-def display_chat_prompt():
-    """채팅 프롬프트 입력창을 표시합니다."""
-    if prompt := st.chat_input("Ask me anything!"):
-        # 새 사용자 메시지 즉시 렌더링
-</NEW>
-        # 새 사용자 메시지 즉시 렌더링
-        with st.chat_message("user"):
-            st.markdown(prompt)
-
-        # 세션에 사용자 메시지 저장
-        st.session_state.messages.append({"role": "user", "content": prompt})
-
-        # API 호출을 위한 채팅 이력 준비
-        full_history = [
-            {"role": msg["role"], "content": msg["content"]}
-            for msg in st.session_state.messages
-        ]
-
-        with st.chat_message("assistant"):
-            # 대화 인스턴스 추적을 위한 Weave 속성 연결
-            with weave.attributes(
-                {"session": st.session_state["session_id"], "env": "prod"}
-            ):
-                # OpenAI API 호출 (스트림)
-                result, call = chat_response.call(full_history)
-
-                # 어시스턴트 메시지 저장
-                st.session_state.messages.append(
-                    {"role": "assistant", "content": result["response"]}
-                )
-
-                # 특정 응답에 피드백을 연결하기 위해 weave call 객체 저장
-                st.session_state.calls.append(call)
-
-                # 새 메시지에 대한 피드백 버튼 렌더링
-                new_assistant_idx = (
-                    len(
-                        [
-                            m
-                            for m in st.session_state.messages
-                            if m["role"] == "assistant"
-                        ]
-                    )
-                    - 1
-                )
-
-                # 피드백 버튼 렌더링
-                if new_assistant_idx < len(st.session_state.calls):
-                    render_feedback_buttons(new_assistant_idx)
-
-def main():
-    st.title("즉각적인 피드백 폼이 있는 챗봇")
-    init_states()
-    display_old_messages()
-    display_chat_prompt()
-
-if __name__ == "__main__":
-    main()
-```
-
+다음으로, `chatbot.py`라는 이름의 파일을 만들고 다음 내용을 추가하세요:
 
 `streamlit run chatbot.py`로 이를 실행할 수 있습니다.
 
@@ -195,26 +34,7 @@ if __name__ == "__main__":
 
 데코레이터가 적용된 예측 함수를 다음과 같이 가정해 보겠습니다:
 
-```python lines {5}
-import weave
-
-weave.init("feedback-example")
-
-@weave.op
-def predict(input_data):
-    # 예측 로직을 여기에 작성하세요
-    some_result = "hello world"
-    return some_result
-```
-
 기존처럼 이를 사용해 사용자에게 모델의 응답을 전달할 수 있습니다:
-
-```python lines
-with weave.attributes(
-    {"session": "123abc", "env": "prod"}
-):  # call에 inputs & outputs과 함께 임의의 속성을 추가합니다
-    result = predict(input_data="your data here")  # App UI를 통한 사용자 질문
-```
 
 피드백을 첨부하려면 `call` 객체가 필요하며, 이 객체는 *함수를 일반적으로 호출하는 대신* `.call()` 방법을 사용해 획득합니다:
 
@@ -224,11 +44,6 @@ result, call = predict.call(input_data="your data here")
 
 특정 응답에 피드백을 연결하려면 이 call 객체가 필요합니다.
 call을 실행한 후에는 위의 `result`를 사용해 오퍼레이션의 출력에 접근할 수 있습니다.
-
-```python lines
-call.feedback.add_reaction("👍")  # App UI를 통한 사용자 반응
-```
-
 
 <div id="conclusion">
   ## 결론

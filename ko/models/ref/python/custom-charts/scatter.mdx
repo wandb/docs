@@ -36,29 +36,3 @@ scatter(
 * `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달합니다.
 
 **예시:**
-
-```python
-import math
-import random
-import wandb
-
-# 시간에 따른 다양한 고도에서의 온도 변화 시뮬레이션
-data = [
-    [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
-    for i in range(300)
-]
-
-# 고도(m) 및 온도(°C) 열이 포함된 W&B 테이블 생성
-table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
-
-# W&B run 초기화 및 산점도 로깅
-with wandb.init(project="temperature-altitude-scatter") as run:
-    # 산점도 생성 및 로깅
-    scatter_plot = wandb.plot.scatter(
-         table=table,
-         x="altitude (m)",
-         y="temperature (°C)",
-         title="Altitude vs Temperature",
-    )
-    run.log({"altitude-temperature-scatter": scatter_plot})
-```

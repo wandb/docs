@@ -25,32 +25,11 @@ Promise&lt;`boolean`&gt; - 登録に成功した場合は true、@openai/agents 
 
 `例`
 
-```typescript
-// ✅ 推奨: Weave をインポートするだけで、インストルメンテーションが自動的に行われます！
-import * as weave from 'weave';
-await weave.init('my-project');
-
-// OpenAI Agents はフック経由で既にインストルメンテーションされています。手動セットアップは不要です
-import { Agent } from '@openai/agents';
-const agent = new Agent({ ... });
-await agent.run(input); // Weave で自動的にトレースされます
-```
-
 `例`
-
-```typescript
-// ⚠️ 自動フックが機能しないエッジケースでのみ必要
-import { instrumentOpenAIAgents } from 'weave';
-
-const registered = await instrumentOpenAIAgents();
-if (!registered) {
-  console.log('OpenAI Agents が見つかりません - トレースを有効にするには @openai/agents をインストールしてください');
-}
-```
 
 `Remarks`
 
-**自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーのフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
+**自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
 
 **この関数を使用するタイミング**: 自動インストルメンテーションが機能しない場合にのみ使用してください。たとえば、次のようなケースです。
 
@@ -59,14 +38,14 @@ if (!registered) {
 * インストルメンテーションを実行するタイミングを明示的に制御する必要がある
 
 **カスタム processor ロジックの代替手段**: カスタムのトレース動作が必要な場合は、
-`createOpenAIAgentsTracingProcessor()` を使用して手動で登録してください。
+`createOpenAIAgentsTracingProcessor()` を使用して手動で登録してください：
 
 ```typescript
-import { addTraceProcessor } from '@openai/agents';
-import { createOpenAIAgentsTracingProcessor } from 'weave';
+import { addTraceProcessor } from "@openai/agents"
+import { createOpenAIAgentsTracingProcessor } from "weave"
 
-const processor = createOpenAIAgentsTracingProcessor();
-addTraceProcessor(processor);
+const processor = createOpenAIAgentsTracingProcessor()
+addTraceProcessor(processor)
 ```
 
 <div id="defined-in">

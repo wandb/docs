@@ -15,33 +15,7 @@ description: "Weave の Instructor インテグレーションを使用して、
 
 開発時と本番環境の両方で、言語モデルアプリケーションのトレースを一元的に保存することが重要です。これらのトレースは、デバッグに役立つだけでなく、アプリケーションの改善に役立つデータセットとしても活用できます。
 
-Weave は [Instructor](https://python.useinstructor.com/) のトレースを自動的に収集します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出してから、通常どおりライブラリを使用します。
-
-```python lines
-import instructor
-import weave
-from pydantic import BaseModel
-from openai import OpenAI
-
-
-# 出力構造を定義する
-class UserInfo(BaseModel):
-    user_name: str
-    age: int
-
-# Weave を初期化する
-weave.init(project_name="instructor-test")
-
-# OpenAI クライアントにパッチを適用する
-client = instructor.from_openai(OpenAI())
-
-# 自然言語から構造化データを抽出する
-user_info = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    response_model=UserInfo,
-    messages=[{"role": "user", "content": "John Doe is 30 years old."}],
-)
-```
+Weave は [Instructor](https://python.useinstructor.com/) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出してから、通常どおりライブラリを使用します。
 
 | ![構造化出力抽出ワークフローを使用した Weave 内の Instructor LM トレース](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif) |
 | --------------------------------------------------------------------------------------------------------------------- |
@@ -51,112 +25,25 @@ user_info = client.chat.completions.create(
   ## 独自のopsをトラッキングする
 </div>
 
-関数を`@weave.op`でラップすると、inputs、outputs、アプリのロジックのキャプチャが始まり、データがアプリ内をどのように流れるかをデバッグできるようになります。opsは深くネストできるため、トラッキングしたい関数のツリーを構築できます。また、試行錯誤を進める中でコードのバージョン管理も自動的に始まり、gitにコミットされていないアドホックな詳細もキャプチャできます。
+関数を`@weave.op`でラップすると、inputs、outputs、アプリのロジックの取得が始まり、データがアプリ内をどのように流れるかをデバッグできるようになります。opsは深くネストできるため、トラッキングしたい関数のツリーを構築できます。また、試行錯誤を進める中でコードのバージョン管理も自動的に始まり、gitにコミットされていないアドホックな詳細も取得できます。
 
 [`@weave.op`](/ja/weave/guides/tracking/ops)でデコレートした関数を作成するだけです。
 
 以下の例では、`extract_person`関数が`@weave.op`でラップされたメトリクス関数です。これにより、OpenAIのChat Completion callのような中間stepも確認できます。
 
-```python lines
-import instructor
-import weave
-from openai import OpenAI
-from pydantic import BaseModel
-
-
-# 希望する出力構造を定義する
-class Person(BaseModel):
-    person_name: str
-    age: int
-
-
-# Weave を初期化する
-weave.init(project_name="instructor-test")
-
-# OpenAI クライアントにパッチを適用する
-lm_client = instructor.from_openai(OpenAI())
-
-
-# 自然言語から構造化データを抽出する
-@weave.op()
-def extract_person(text: str) -> Person:
-    return lm_client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": text},
-        ],
-        response_model=Person,
-    )
-
-
-person = extract_person("My name is John and I am 20 years old")
-```
-
-| ![構造化オブジェクト、関数の入力、出力、Pydantic モデルの検証を含む Instructor の op トレース](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png)                   |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![構造化オブジェクト、関数の入力、出力、Pydantic モデルの検証を含む Instructor の op トレース](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png)                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `extract_person` 関数を `@weave.op` でデコレートすると、その入力、出力、および関数内で行われるすべての内部 LM calls がトレースされます。Weave は、Instructor によって生成された構造化オブジェクトも自動的にトラッキングしてバージョン管理します。 |
 
 <div id="create-a-model-for-easier-experimentation">
   ## 実験しやすくするために `Model` を作成する
 </div>
 
-構成要素が多いと、実験内容を整理するのは難しくなります。[`Model`](../core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまな試行を整理して比較しやすくなります。
+構成要素が多いと、実験内容を整理するのは難しくなります。[`Model`](../core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリのさまざまな試行を整理して比較しやすくなります。
 
-[`Model`](../core-types/models) は、コードのバージョン管理や入力/出力の記録に加えて、アプリケーションの動作を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も効果的だったかを簡単に検索できます。また、Weave Models は `serve` (以下を参照) や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
+[`Model`](../core-types/models) は、コードのバージョン管理や入力/出力の取得に加えて、アプリケーションの動作を制御する構造化されたパラメーターも取得するため、どのパラメーターが最も効果的だったかを簡単に検索できます。また、Weave Models は `serve` (以下を参照) や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
 
 以下の例では、`PersonExtractor` を使って実験できます。これらのいずれかを変更するたびに、`PersonExtractor` の新しい *version* が作成されます。
-
-```python lines
-import asyncio
-from typing import List, Iterable
-
-import instructor
-import weave
-from openai import AsyncOpenAI
-from pydantic import BaseModel
-
-
-# 出力構造を定義する
-class Person(BaseModel):
-    person_name: str
-    age: int
-
-
-# Weave を初期化する
-weave.init(project_name="instructor-test")
-
-# OpenAI クライアントにパッチを適用する
-lm_client = instructor.from_openai(AsyncOpenAI())
-
-
-class PersonExtractor(weave.Model):
-    openai_model: str
-    max_retries: int
-
-    @weave.op()
-    async def predict(self, text: str) -> List[Person]:
-        model = await lm_client.chat.completions.create(
-            model=self.openai_model,
-            response_model=Iterable[Person],
-            max_retries=self.max_retries,
-            stream=True,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a perfect entity extraction system",
-                },
-                {
-                    "role": "user",
-                    "content": f"Extract `{text}`",
-                },
-            ],
-        )
-        return [m async for m in model]
-
-
-model = PersonExtractor(openai_model="gpt-4", max_retries=2)
-asyncio.run(model.predict("John is 30 years old"))
-```
 
 | ![モデルバージョンとトレース履歴を備えた Instructor Weave Model のトレースおよびバージョン管理インターフェース](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
 | -------------------------------------------------------------------------------------------------------------------------------------------- |

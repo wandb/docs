@@ -23,69 +23,13 @@ PyTorchコードにW&amp;Bを統合し、パイプラインに実験管理を追
   <img src="/images/tutorials/pytorch.png" alt="PyTorchとW&Bのインテグレーション図" />
 </Frame>
 
-```python
-# ライブラリをインポート
-import wandb
-
-# config でハイパーパラメーターの dict を指定する
-config = {
-    "learning_rate": 0.001,
-    "epochs": 100,
-    "batch_size": 128
-}
-
-# 新しい実験を開始する
-with wandb.init(project="new-sota-model", config=config) as run:
-
-    # モデルとデータを設定する
-    model, dataloader = get_model(), get_data()
-
-    # 任意: 勾配をトラッキングする
-    run.watch(model)
-
-    for batch in dataloader:
-    metrics = model.training_step()
-    # モデル性能を可視化するため、トレーニングループ内でメトリクスをログする
-    run.log(metrics)
-
-    # 任意: 最後にモデルを保存する
-    model.to_onnx()
-    run.save("model.onnx")
-```
-
 [動画チュートリアル](https://wandb.me/pytorch-video)を見ながら進めてください。
 
 **注**: *Step* で始まるセクションだけで、既存のパイプラインに W&amp;B を統合できます。それ以外の部分では、データの読み込みとモデルの定義を行います。
 
 <div id="install-import-and-log-in">
-  ## インストール、import、ログインする
+  ## インストール、インポート、ログインする
 </div>
-
-```python
-import os
-import random
-
-import numpy as np
-import torch
-import torch.nn as nn
-import torchvision
-import torchvision.transforms as transforms
-from tqdm.auto import tqdm
-
-# 決定論的な動作を保証する
-torch.backends.cudnn.deterministic = True
-random.seed(hash("setting random seeds") % 2**32 - 1)
-np.random.seed(hash("improves reproducibility") % 2**32 - 1)
-torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
-torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
-
-# デバイスの設定
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-# MNISTミラーリストから低速なミラーを削除する
-torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.MNIST.mirrors
-                                      if not mirror.startswith("http://yann.lecun.com")]
-```
 
 <div id="step-0-install-wb">
   ### Step 0: W&amp;B をインストール
@@ -159,27 +103,6 @@ config = dict(
 
 これらの関数は以下で実装します。
 
-```python
-def model_pipeline(hyperparameters):
-
-    # wandb を開始する
-    with wandb.init(project="pytorch-demo", config=hyperparameters) as run:
-        # run.config を通じてすべてのハイパーパラメーターにアクセスし、ログが実行内容と一致するようにする
-        config = run.config
-
-        # モデル、データ、最適化問題を作成する
-        model, train_loader, test_loader, criterion, optimizer = make(config)
-        print(model)
-
-        # それらを使用してモデルをトレーニングする
-        train(model, train_loader, criterion, optimizer, config)
-
-        # 最終的なパフォーマンスをテストする
-        test(model, test_loader)
-
-    return model
-```
-
 ここで標準的なパイプラインと異なる唯一の点は、
 すべてが `wandb.init` のコンテキスト内で行われることです。
 この関数を呼び出すと、
@@ -201,24 +124,6 @@ def model_pipeline(hyperparameters):
 > 問題が解決したら、たとえばクラーケンが深海に戻ったあとで、
 > `wandb sync` を使ってデータをログできます。
 
-```python
-def make(config):
-    # データを作成する
-    train, test = get_data(train=True), get_data(train=False)
-    train_loader = make_loader(train, batch_size=config.batch_size)
-    test_loader = make_loader(test, batch_size=config.batch_size)
-
-    # モデルを作成する
-    model = ConvNet(config.kernels, config.classes).to(device)
-
-    # 損失とオプティマイザーを作成する
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(
-        model.parameters(), lr=config.learning_rate)
-    
-    return model, train_loader, test_loader, criterion, optimizer
-```
-
 <div id="define-the-data-loading-and-model">
   ### データの読み込みとモデルを定義する
 </div>
@@ -228,27 +133,6 @@ def make(config):
 この部分は非常に重要ですが、`wandb` の有無にかかわらず
 内容は変わらないため、ここでは詳しく扱いません。
 
-```python
-def get_data(slice=5, train=True):
-    full_dataset = torchvision.datasets.MNIST(root=".",
-                                              train=train, 
-                                              transform=transforms.ToTensor(),
-                                              download=True)
-    #  [::slice] でのスライスと同等 
-    sub_dataset = torch.utils.data.Subset(
-      full_dataset, indices=range(0, len(full_dataset), slice))
-    
-    return sub_dataset
-
-
-def make_loader(dataset, batch_size):
-    loader = torch.utils.data.DataLoader(dataset=dataset,
-                                         batch_size=batch_size, 
-                                         shuffle=True,
-                                         pin_memory=True, num_workers=2)
-    return loader
-```
-
 モデルを定義するのは、たいてい楽しい作業です。
 
 ただ、`wandb` を使ってもそこは変わらないので、
@@ -256,31 +140,6 @@ def make_loader(dataset, batch_size):
 
 ぜひいろいろ試して、いくつか実験してみてください --
 結果はすべて [wandb.ai](https://wandb.ai) にログされます。
-
-```python
-# 通常の畳み込みニューラルネットワーク
-
-class ConvNet(nn.Module):
-    def __init__(self, kernels, classes=10):
-        super(ConvNet, self).__init__()
-        
-        self.layer1 = nn.Sequential(
-            nn.Conv2d(1, kernels[0], kernel_size=5, stride=1, padding=2),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2))
-        self.layer2 = nn.Sequential(
-            nn.Conv2d(16, kernels[1], kernel_size=5, stride=1, padding=2),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2))
-        self.fc = nn.Linear(7 * 7 * kernels[-1], classes)
-        
-    def forward(self, x):
-        out = self.layer1(x)
-        out = self.layer2(out)
-        out = out.reshape(out.size(0), -1)
-        out = self.fc(out)
-        return out
-```
 
 <div id="define-training-logic">
   ### トレーニングロジックを定義する
@@ -304,45 +163,6 @@ class ConvNet(nn.Module):
 フォワードパスとバックワードパスを実行して
 `optimizer` を適用します。
 
-```python
-def train(model, loader, criterion, optimizer, config):
-    # モデルの勾配、重みなどをwandbで監視する。
-    run = wandb.init(project="pytorch-demo", config=config)
-    run.watch(model, criterion, log="all", log_freq=10)
-
-    # トレーニングを実行し、wandbでトラッキングする
-    total_batches = len(loader) * config.epochs
-    example_ct = 0  # 処理済みサンプル数
-    batch_ct = 0
-    for epoch in tqdm(range(config.epochs)):
-        for _, (images, labels) in enumerate(loader):
-
-            loss = train_batch(images, labels, model, optimizer, criterion)
-            example_ct +=  len(images)
-            batch_ct += 1
-
-            # 25バッチごとにメトリクスを報告する
-            if ((batch_ct + 1) % 25) == 0:
-                train_log(loss, example_ct, epoch)
-
-
-def train_batch(images, labels, model, optimizer, criterion):
-    images, labels = images.to(device), labels.to(device)
-    
-    # 順伝播 ➡
-    outputs = model(images)
-    loss = criterion(outputs, labels)
-    
-    # 逆伝播 ⬅
-    optimizer.zero_grad()
-    loss.backward()
-
-    # オプティマイザーのstepを実行する
-    optimizer.step()
-
-    return loss
-```
-
 唯一の違いは、ログ用のコードです。
 以前はメトリクスをターミナルに出力して報告していたかもしれませんが、
 今は同じ情報を `run.log()` に渡します。
@@ -354,15 +174,6 @@ def train_batch(images, labels, model, optimizer, criterion):
 > *補足*: 私は、モデルがこれまでに見たサンプル数を使うのが好きです。
 > そのほうが、バッチサイズが違っても比較しやすいからです。
 > もちろん、単純な step 数やバッチ数を使用してもかまいません。トレーニング run が長い場合は、`epoch` ごとにログするのも合理的です。
-
-```python
-def train_log(loss, example_ct, epoch):
-    with wandb.init(project="pytorch-demo") as run:
-        # 損失とエポック数をログする
-        # ここでメトリクスをW&Bにログする
-        run.log({"epoch": epoch, "loss": loss}, step=example_ct)
-        print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
-```
 
 <div id="define-testing-logic">
   ### テスト方法を定義する
@@ -388,31 +199,6 @@ W&amp;B のサーバーにも保存されます。これで、どの `.h5` や `
 モデルの保存、バージョン管理、配布に関する、より高度な `wandb` の機能については、
 [Artifacts tools](https://www.wandb.com/artifacts) を参照してください。
 
-```python
-def test(model, test_loader):
-    model.eval()
-
-    with wandb.init(project="pytorch-demo") as run:
-        # テスト用サンプルでモデルを実行する
-        with torch.no_grad():
-            correct, total = 0, 0
-            for images, labels in test_loader:
-                images, labels = images.to(device), labels.to(device)
-                outputs = model(images)
-                _, predicted = torch.max(outputs.data, 1)
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
-
-            print(f"Accuracy of the model on the {total} " +
-                f"test images: {correct / total:%}")
-            
-            run.log({"test_accuracy": correct / total})
-
-        # 交換可能なONNX形式でモデルを保存する
-        torch.onnx.export(model, images, "model.onnx")
-        run.save("model.onnx")
-```
-
 <div id="run-training-and-watch-your-metrics-live-on-wandbai">
   ### トレーニングを実行し、wandb.ai でメトリクスをライブで確認する
 </div>
@@ -435,11 +221,6 @@ Run ページにアクセスして、次のタブを確認してください:
 
 run が完了し、`with wandb.init` ブロックを抜けると、
 セルの出力にも結果の概要が表示されます。
-
-```python
-# パイプラインを使用してモデルをビルド、トレーニング、分析する
-model = model_pipeline(config)
-```
 
 <div id="test-hyperparameters-with-sweeps">
   ### Sweeps でハイパーパラメーターを試す

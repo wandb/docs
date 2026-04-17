@@ -1,7 +1,7 @@
 ---
 description: Sweeps のクイックスタートでは、sweep を定義し、初期化して実行する方法を紹介します。主な
   ステップは 4 つあります
-title: 'チュートリアル: sweep の定義、初期化、実行'
+title: "チュートリアル: sweep の定義、初期化、実行"
 ---
 
 このページでは、sweep を定義し、初期化して実行する方法を紹介します。主なステップは 4 つあります。
@@ -9,39 +9,9 @@ title: 'チュートリアル: sweep の定義、初期化、実行'
 1. [トレーニングコードを設定する](#set-up-your-training-code)
 2. [sweep 設定で探索空間を定義する](#define-the-search-space-with-a-sweep-configuration)
 3. [sweep を初期化する](#initialize-the-sweep)
-4. [sweep agent を起動する](#start-the-sweep)
+4. [sweep エージェントを起動する](#start-the-sweep)
 
 以下のコードを Jupyter Notebook または Python スクリプトにコピー＆ペーストしてください。
-
-```python
-# W&B Pythonライブラリをインポートし、W&Bにログインする
-import wandb
-
-# 1: 目的関数/トレーニング関数を定義する
-def objective(config):
-    score = config.x**3 + config.y
-    return score
-
-def main():
-    with wandb.init(project="my-first-sweep") as run:
-        score = objective(run.config)
-        run.log({"score": score})
-
-# 2: 探索空間を定義する
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "score"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-# 3: sweepを開始する
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-wandb.agent(sweep_id, function=main, count=10)
-```
 
 以下のセクションでは、コードサンプルの各stepを分けて説明します。
 
@@ -53,22 +23,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
 必要に応じて、W&amp;B run の出力を保存するプロジェクト名を指定します ([`wandb.init()`](/ja/models/ref/python/functions/init) の project パラメーター) 。プロジェクトを指定しない場合、run は &quot;Uncategorized&quot; プロジェクトに配置されます。
 
-<Note>
-  sweep と run は、どちらも同じプロジェクト内に存在する必要があります。そのため、W&amp;B の初期化時に指定する名前は、sweep の初期化時に指定するプロジェクト名と一致している必要があります。
-</Note>
-
-```python
-# 1: 目的関数/トレーニング関数を定義する
-def objective(config):
-    score = config.x**3 + config.y
-    return score
-
-
-def main():
-    with wandb.init(project="my-first-sweep") as run:
-        score = objective(run.config)
-        run.log({"score": score})
-```
+<Note>sweep と run は、どちらも同じプロジェクト内に存在する必要があります。そのため、W&amp;B の初期化時に指定する名前は、sweep の初期化時に指定するプロジェクト名と一致している必要があります。</Note>
 
 <div id="define-the-search-space-with-a-sweep-configuration">
   ## sweep 設定で探索空間を定義する
@@ -79,18 +34,6 @@ def main():
 次の例は、ランダムサーチ (`'method':'random'`) を使用する sweep 設定を示しています。この sweep では、バッチサイズ、エポック、学習率について、設定に列挙された値の組み合わせからランダムに選択されます。
 
 `metric` キーに `"goal": "minimize"` が関連付けられている場合、W&amp;B はそのキーで指定されたメトリクスを最小化します。この場合、W&amp;B はメトリクス `score` (`"name": "score"`) が最小になるように最適化します。
-
-```python
-# 2: 探索空間を定義する
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "score"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-```
 
 <div id="initialize-the-sweep">
   ## Sweep を初期化する
@@ -128,7 +71,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
   このようにコードを囲むことで、そのコードはスクリプトを直接実行した場合にのみ実行され、ワーカープロセスでモジュールとして import された場合には実行されません。
 
-  マルチプロセシングの詳細については、[Python 標準ライブラリの `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch の `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` の慣例については、https://realpython.com/if-name-main-python/ を参照してください。
+  マルチプロセシングの詳細については、[Python 標準ライブラリの `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch の `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` の慣例については、[https://realpython.com/if-name-main-python/](https://realpython.com/if-name-main-python/) を参照してください。
 </Warning>
 
 <div id="visualize-results-optional">

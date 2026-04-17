@@ -11,52 +11,9 @@ Suivez ces bonnes pratiques pour gérer efficacement les erreurs de W&amp;B Infe
 
 Encapsulez les appels d’API dans des blocs try-except :
 
-```python
-import openai
-
-try:
-    response = client.chat.completions.create(
-        model="meta-llama/Llama-3.1-8B-Instruct",
-        messages=messages
-    )
-except Exception as e:
-    print(f"Error: {e}")
-    # Gérer l'erreur de façon appropriée
-```
-
 <div id="2-use-retry-logic-with-exponential-backoff">
   ## 2. Utilisez une logique de nouvelle tentative avec backoff exponentiel
 </div>
-
-```python
-import time
-from typing import Optional
-
-def call_inference_with_retry(
-    client, 
-    messages, 
-    model: str,
-    max_retries: int = 3,
-    base_delay: float = 1.0
-) -> Optional[str]:
-    for attempt in range(max_retries):
-        try:
-            response = client.chat.completions.create(
-                model=model,
-                messages=messages
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            if attempt == max_retries - 1:
-                raise
-            
-            # Calculer le délai avec un backoff exponentiel
-            delay = base_delay * (2 ** attempt)
-            print(f"Tentative {attempt + 1} échouée, nouvelle tentative dans {delay}s...")
-            time.sleep(delay)
-    
-    return None
-```
 
 <div id="3-monitor-your-usage">
   ## 3. Surveillez votre utilisation
@@ -70,41 +27,11 @@ def call_inference_with_retry(
   ## 4. Gérez les codes d’erreur spécifiques
 </div>
 
-```python
-def handle_inference_error(error):
-    error_str = str(error)
-    
-    if "401" in error_str:
-        # Authentification invalide
-        raise ValueError("Vérifiez votre clé API et la configuration du projet")
-    elif "402" in error_str:
-        # Crédits insuffisants
-        raise ValueError("Crédits insuffisants")
-    elif "429" in error_str:
-        # Limite de débit atteinte
-        return "retry"
-    elif "500" in error_str or "503" in error_str:
-        # Erreur serveur
-        return "retry"
-    else:
-        # Erreur inconnue
-        raise
-```
-
 <div id="5-set-appropriate-timeouts">
   ## 5. Définissez des délais d&#39;expiration adaptés
 </div>
 
 Configurez des délais d&#39;expiration raisonnables pour votre cas d&#39;utilisation :
-
-```python
-# Pour les réponses plus longues
-client = openai.OpenAI(
-    base_url='https://api.inference.wandb.ai/v1',
-    api_key="your-api-key",
-    timeout=60.0  # délai d'expiration de 60 secondes
-)
-```
 
 <div id="additional-tips">
   ## Conseils supplémentaires

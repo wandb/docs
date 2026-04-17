@@ -87,37 +87,13 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   <Tab title="Étape">
     Décorer une étape active ou désactive la journalisation pour certains types au sein de cette étape.
 
-    Dans cet exemple, tous les jeux de données et modèles de `start` seront enregistrés.
-
-    ```python
-    from wandb.integration.metaflow import wandb_log
-
-    class WandbExampleFlow(FlowSpec):
-        @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
-        @step
-        def start(self):
-            self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
-            self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
-            self.next(self.transform)
-    ```
+    Dans cet exemple, tous les jeux de données et modèles de `start` seront journalisés.
   </Tab>
 
   <Tab title="Flow">
     Décorer un flow revient à décorer toutes les étapes qui le composent avec une configuration par défaut.
 
-    Dans ce cas, toutes les étapes de `WandbExampleFlow` enregistrent par défaut les jeux de données et les modèles, comme si chaque étape était décorée avec `@wandb_log(datasets=True, models=True)`.
-
-    ```python
-    from wandb.integration.metaflow import wandb_log
-
-    @wandb_log(datasets=True, models=True)  # décorer tous les @step 
-    class WandbExampleFlow(FlowSpec):
-        @step
-        def start(self):
-            self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
-            self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
-            self.next(self.transform)
-    ```
+    Dans ce cas, toutes les étapes de `WandbExampleFlow` journalisent par défaut les jeux de données et les modèles, comme si chaque étape était décorée avec `@wandb_log(datasets=True, models=True)`.
   </Tab>
 
   <Tab title="Flow et étapes">
@@ -125,35 +101,8 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
 
     Dans cet exemple :
 
-    * `start` et `mid` enregistrent à la fois les jeux de données et les modèles.
-    * `end` n&#39;enregistre ni jeux de données ni modèles.
-
-    ```python
-    from wandb.integration.metaflow import wandb_log
-
-    @wandb_log(datasets=True, models=True)  # équivaut à décorer start et mid
-    class WandbExampleFlow(FlowSpec):
-      # cette étape enregistrera les jeux de données et les modèles
-      @step
-      def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
-        self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
-        self.next(self.mid)
-
-      # cette étape enregistrera également les jeux de données et les modèles
-      @step
-      def mid(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
-        self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
-        self.next(self.end)
-
-      # cette étape est redéfinie et n'enregistrera PAS les jeux de données NI les modèles
-      @wandb_log(datasets=False, models=False)
-      @step
-      def end(self):
-        self.raw_df = pd.read_csv(...).    
-        self.model_file = torch.load(...)
-    ```
+    * `start` et `mid` journalisent à la fois les jeux de données et les modèles.
+    * `end` n&#39;journalise ni jeux de données ni modèles.
   </Tab>
 </Tabs>
 

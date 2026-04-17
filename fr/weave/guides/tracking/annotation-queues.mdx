@@ -202,14 +202,14 @@ Pour en savoir plus sur l’utilisation des jeux de données, voir [Collecter et
   ## Accéder aux annotations par programmation
 </div>
 
-Si vous souhaitez intégrer des annotations par programmation, vous devez connaître le nom de votre projet et l’ID de la file d’attente :
+Si vous souhaitez intégrer des annotations par programmation, vous devez connaître le nom de votre projet et l’ID de la file d’annotation :
 
 * **Project** : le nom du projet W&amp;B (peut être `project` ou `team/project`). Si vous ne spécifiez pas de Teams W&amp;B (par exemple, &quot;team/project&quot;), votre Teams par défaut est utilisé.
-* **Queue ID** : l’identifiant unique de la file d’attente d’annotations.
+* **Queue ID** : l’identifiant unique de la file d’annotation.
 
-Pour trouver l’ID de la file d’attente :
+Pour trouver l’ID de la file d’annotation :
 
-1. Dans le tableau **Annotation Queues**, sélectionnez le nom de la file d’attente pour ouvrir ses éléments.
+1. Dans le tableau **Annotation Queues**, sélectionnez le nom de la file d’annotation pour ouvrir ses éléments.
 2. Copiez l’ID à la fin de l’URL de la page.
 
 **Exemple**
@@ -218,56 +218,15 @@ Pour trouver l’ID de la file d’attente :
 https://wandb.ai/.../annotation-queues/019c0f63-7acb-7497-8f87-08873368fcd4
 ```
 
-Dans cet exemple, l’ID de la file d’attente est :
+Dans cet exemple, l’ID de la file d’annotation est :
 
 019c0f63-7acb-7497-8f87-08873368fcd4
 
-Vous pouvez parcourir les traces (appels) de votre file d’attente à l’aide du code suivant.
-
-```python lines
-import weave
-from weave.trace_server.trace_server_interface import AnnotationQueueItemsQueryReq
-
-# Mettez à jour les identifiants du projet et de la file d'attente avec vos propres valeurs.
-PROJECT = "your-team-name/your-project-name"
-QUEUE_ID = "019c0f63-7acb-7497-8f87-08873368fcd4"
-
-# Initialisez Weave.
-client = weave.init(PROJECT)
-
-# Récupérez les IDs d'appel des appels dans une file d'attente.
-calls = client.server.annotation_queue_items_query(
-    AnnotationQueueItemsQueryReq(
-        project_id=PROJECT,
-        queue_id=QUEUE_ID,
-    )
-)
-
-# Parcourez les appels et récupérez les retours.
-for i, item in enumerate(calls.items):
-    call = client.get_call(call_id=item.call_id, include_feedback=True)
-    feedback = call.feedback or {}
-
-    # Comptez le nombre total d'éléments de retour pour l'appel.
-    total_feedback_items = len(feedback)
-
-    print(f"\nItem {i} — call_id: {item.call_id} — total feedback items: {total_feedback_items}")
-
-    if not feedback:
-        print("Aucun retour pour cet élément")
-        continue
-
-    # Récupérez la valeur de la première annotation.
-    # Les annotations de champ ne sont pas ajoutées dans un ordre reproductible - le premier champ peut donc varier.
-    field_name = next(iter(feedback))
-    field_value = feedback[0]
-
-    print(f"  {field_name}: {field_value}")
-```
+Vous pouvez parcourir les traces (appels) de votre file d’annotation à l’aide du code suivant.
 
 Le notebook Google Colab suivant fournit un exemple détaillé montrant comment accéder par programmation aux données d’annotation et générer un rapport d’analyse :
 
-<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
   <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />
 
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />

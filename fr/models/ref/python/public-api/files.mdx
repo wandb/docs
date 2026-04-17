@@ -16,27 +16,6 @@ Permet d’accéder aux fichiers chargés dans W&amp;B pendant un run et de les 
 
 **Exemple :**
 
-```python
-from wandb.apis.public.files import Files
-from wandb.apis.public.api import Api
-
-# Exemple d'objet run
-run = Api().run("entity/project/run-id")
-
-# Créer un objet Files pour itérer sur les fichiers du run
-files = Files(api.client, run)
-
-# Itérer sur les fichiers
-for file in files:
-     print(file.name)
-     print(file.url)
-     print(file.size)
-
-     # Télécharger le fichier
-     file.download(root="download_directory", replace=True)
-```
-
-
 ### <kbd>méthode</kbd> `Files.__init__`
 
 ```python

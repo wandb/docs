@@ -13,38 +13,6 @@ scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 
 `예시`
 
-```ts
-// 예시를 데이터셋에 수집합니다
-const dataset = new weave.Dataset({
-  id: 'my-dataset',
-  rows: [
-    { question: 'What is the capital of France?', expected: 'Paris' },
-    { question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee' },
-    { question: 'What is the square root of 64?', expected: '8' },
-  ],
-});
-
-// 맞춤형 채점 함수를 정의합니다
-const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
-  return modelOutput == datasetRow.expected;
-});
-
-// 평가할 함수를 정의합니다
-const model = weave.op(async function alwaysParisModel({ question }) {
-  return 'Paris';
-});
-
-// 평가를 시작합니다
-const evaluation = new weave.Evaluation({
-  id: 'my-evaluation',
-  dataset: dataset,
-  scorers: [scoringFunction],
-});
-
-const results = await evaluation.evaluate({ model });
-```
-
-
 ## 타입 매개변수
 
 | 이름  | 유형                   |

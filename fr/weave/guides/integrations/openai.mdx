@@ -27,80 +27,17 @@ Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init
 
 Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `weave.init()` :
 
-<CodeGroup>
-  ```python Python lines {4}
-  from openai import OpenAI
-  import weave
-
-  weave.init('emoji-bot')  # OpenAI est automatiquement patché !
-
-  client = OpenAI()
-  response = client.chat.completions.create(
-    model="gpt-4",
-    messages=[
-      {
-        "role": "system",
-        "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
-      },
-      {
-        "role": "user",
-        "content": "How are you?"
-      }
-    ]
-  )
-  ```
-
-  ```typescript TypeScript
-  import { OpenAI } from 'openai';
-  import { wrapOpenAI } from '@wandb/weave';
-
-  const openai = wrapOpenAI(new OpenAI());
-
-  // Tous les appels à OpenAI seront désormais tracés
-  openai.chat.completions.create(
-    {
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
-        },
-        {
-          role: "user",
-          content: "How are you?"
-        }
-      ]
-    }
-  );
-  ```
-</CodeGroup>
+<CodeGroup />
 
 **Patch explicite (facultatif)**
 
 Vous pouvez toujours appliquer explicitement un patch si vous souhaitez un contrôle plus fin :
-
-```python lines {3,4}
-import weave
-
-weave.init('emoji-bot')
-weave.integrations.patch_openai()  # Activer le tracing OpenAI
-
-from openai import OpenAI
-client = OpenAI()
-response = client.chat.completions.create(
-  model="gpt-4",
-  messages=[
-    {"role": "user", "content": "Make me a emoji"}
-  ]
-)
-```
 
 [Voir une trace en temps réel](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
 
 <Tip>
   Nous capturons également les outils d’appel de fonctions pour [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) et [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview).
 </Tip>
-
 
 <div id="structured-outputs">
   ## Sorties structurées
@@ -141,34 +78,7 @@ Weave prend également en charge les sorties structurées avec OpenAI. C&#39;est
 
 Weave prend également en charge les fonctions asynchrones avec OpenAI.
 
-<CodeGroup>
-  ```python Python
-  from openai import AsyncOpenAI
-  import weave
-
-  client = AsyncOpenAI()
-  weave.init('async-emoji-bot')
-
-  async def call_openai():
-      response = await client.chat.completions.create(
-          model="gpt-4",
-          messages=[
-              {
-                  "role": "system", 
-                  "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
-              },
-              {
-                  "role": "user",
-                  "content": "How are you?"
-              }
-          ]
-      )
-      return response
-
-  # Appel de la fonction asynchrone
-  result = await call_openai()
-  ```
-</CodeGroup>
+<CodeGroup />
 
 <div id="streaming-support">
   ## Prise en charge du streaming
@@ -264,47 +174,7 @@ Weave effectue également le tracing des appels de fonction effectués par OpenA
 
 Weave prend également en charge l’API Batch d’OpenAI pour traiter plusieurs requêtes.
 
-<CodeGroup>
-  ```python Python
-  from openai import OpenAI
-  import weave
-
-  client = OpenAI()
-  weave.init('batch-processing')
-
-  # Créer un fichier de lot
-  batch_input = [
-      {
-          "custom_id": "request-1",
-          "method": "POST",
-          "url": "/v1/chat/completions",
-          "body": {
-              "model": "gpt-4",
-              "messages": [{"role": "user", "content": "Hello, how are you?"}]
-          }
-      },
-      {
-          "custom_id": "request-2", 
-          "method": "POST",
-          "url": "/v1/chat/completions",
-          "body": {
-              "model": "gpt-4",
-              "messages": [{"role": "user", "content": "What's the weather like?"}]
-          }
-      }
-  ]
-
-  # Soumettre le lot
-  batch = client.batches.create(
-      input_file_id="your-file-id",
-      endpoint="/v1/chat/completions",
-      completion_window="24h"
-  )
-
-  # Récupérer les résultats du lot
-  completed_batch = client.batches.retrieve(batch.id)
-  ```
-</CodeGroup>
+<CodeGroup />
 
 <div id="assistants-api">
   ## API Assistants
@@ -312,41 +182,7 @@ Weave prend également en charge l’API Batch d’OpenAI pour traiter plusieurs
 
 Weave prend également en charge l’API Assistants d’OpenAI pour créer des applications d’IA conversationnelle.
 
-<CodeGroup>
-  ```python Python
-  from openai import OpenAI
-  import weave
-
-  client = OpenAI()
-  weave.init('assistant-bot')
-
-  # Créer un assistant
-  assistant = client.beta.assistants.create(
-      name="Math Assistant",
-      instructions="You are a personal math tutor. Answer questions about math.",
-      model="gpt-4"
-  )
-
-  # Créer un thread
-  thread = client.beta.threads.create()
-
-  # Ajouter un message au thread
-  message = client.beta.threads.messages.create(
-      thread_id=thread.id,
-      role="user",
-      content="What is 2+2?"
-  )
-
-  # Exécuter l’assistant
-  run = client.beta.threads.runs.create(
-      thread_id=thread.id,
-      assistant_id=assistant.id
-  )
-
-  # Obtenir la réponse de l’assistant
-  messages = client.beta.threads.messages.list(thread_id=thread.id)
-  ```
-</CodeGroup>
+<CodeGroup />
 
 <div id="cost-tracking">
   ## Suivi des coûts
@@ -364,31 +200,7 @@ Weave suit automatiquement le coût de vos appels à l’API OpenAI. Vous pouvez
 
 Vous pouvez également tracer des fonctions personnalisées qui utilisent OpenAI à l’aide du décorateur `@weave.op`.
 
-<CodeGroup>
-  ```python Python
-  from openai import OpenAI
-  import weave
-
-  client = OpenAI()
-  weave.init('custom-function-bot')
-
-  @weave.op
-  def generate_response(prompt: str) -> str:
-      response = client.chat.completions.create(
-          model="gpt-4",
-          messages=[
-              {
-                  "role": "user",
-                  "content": prompt
-              }
-          ]
-      )
-      return response.choices[0].message.content
-
-  # Cet appel de fonction sera tracé
-  result = generate_response("Hello, how are you?")
-  ```
-</CodeGroup>
+<CodeGroup />
 
 <div id="next-steps">
   ## Étapes suivantes

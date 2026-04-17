@@ -454,24 +454,7 @@ command:
 
 Le script Python associé (`run.py`) peut ensuite analyser ces arguments de la ligne de commande à l’aide du module `argparse`.
 
-```python title="run.py"
-# run.py  
-import wandb
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--batch_size', type=int)
-parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
-parser.add_argument('--test', type=str2bool, default=False)
-args = parser.parse_args()
-
-# Initialiser un run W&B
-with wandb.init('test-project') as run:
-    run.log({'validation_loss':1})
-```
-
-Voir la section [Macros de commande](./sweep-config-keys#command-macros) de [Options de configuration de balayage](./sweep-config-keys) pour consulter la liste des macros prédéfinies que vous pouvez utiliser dans votre configuration de balayage.
-
+Voir la section [Macros de commande](./sweep-config-keys#command-macros) de [Sweep configuration options](./sweep-config-keys) pour consulter la liste des macros prédéfinies que vous pouvez utiliser dans votre configuration de balayage. 
 
 <div id="boolean-arguments">
   #### Arguments booléens
@@ -481,25 +464,4 @@ Le module `argparse` ne prend pas en charge les arguments booléens par défaut.
 
 Par exemple, vous pouvez utiliser l’extrait de code suivant pour définir un argument booléen. Passez `store_true` ou `store_false` comme argument à `ArgumentParser`.
 
-```python
-import wandb
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--test', action='store_true')
-args = parser.parse_args()
-
-args.test  # Vaut True si --test est fourni, False sinon
-```
-
-Vous pouvez également définir une fonction personnalisée pour convertir la représentation textuelle d’une valeur booléenne en type booléen. Par exemple, l’extrait de code suivant définit la fonction `str2bool`, qui convertit une chaîne en valeur booléenne.
-
-```python
-def str2bool(v: str) -> bool:
-  """Convertit une chaîne en booléen. Ceci est nécessaire car
-  argparse ne prend pas en charge les arguments booléens par défaut.
-  """
-  if isinstance(v, bool):
-      return v
-  return v.lower() in ('yes', 'true', 't', '1')
-```
+Vous pouvez également définir une fonction personnalisée pour convertir la représentation textuelle d’une valeur booléenne en type booléen. Par exemple, l’extrait de code suivant définit la fonction `str2bool`, qui convertit une chaîne en valeur booléenne. 

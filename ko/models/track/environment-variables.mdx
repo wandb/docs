@@ -5,28 +5,6 @@ title: 환경 변수
 
 자동화된 환경에서 스크립트를 실행할 때는 스크립트 실행 전에 설정하거나 스크립트 내에서 설정한 환경 변수를 사용해 W&amp;B를 제어할 수 있습니다.
 
-```bash
-# 이 값은 비밀이므로 버전 관리에 체크인하지 마세요
-WANDB_API_KEY=$YOUR_API_KEY
-# name과 notes는 선택 사항
-WANDB_NAME="My first run"
-WANDB_NOTES="Smaller learning rate, more regularization."
-```
-
-```bash
-# wandb/settings 파일을 체크인하지 않는 경우에만 필요
-WANDB_ENTITY=$username
-WANDB_PROJECT=$project
-```
-
-```python
-# 스크립트를 클라우드에 동기화하지 않으려면
-os.environ["WANDB_MODE"] = "offline"
-
-# Run 객체 및 관련 클래스에 sweep ID tracking 추가
-os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
-```
-
 <div id="optional-environment-variables">
   ## 선택적 환경 변수
 </div>

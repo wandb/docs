@@ -55,48 +55,16 @@ Weave は [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/pac
 
 Weave は [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init()` を呼び出して Weave を初期化し、その後は通常どおりライブラリを使用します。
 
-次の例では、Weave を使用して Hugging Face Hub への推論 call をログする方法を示します。
+次の例では、Weave を使用して Hugging Face Hub への推論 Call をログする方法を示します。
 
-```python lines
-import weave
-from huggingface_hub import InferenceClient
+上記のコードを実行すると、Weave は Hugging Face Inference Client で行われたすべての LLM Call をトラッキングしてログします。これらのトレースは Weave のウェブインターフェースで確認できます。
 
-# Weave を初期化する
-weave.init(project_name="quickstart-huggingface")
+<Frame>![Weave は各推論 Call をログし、inputs、outputs、metadata の詳細を表示します。](/weave/guides/integrations/imgs/huggingface/trace_call.png)</Frame>
 
-# Hugging Face Inference Client を初期化する
-huggingface_client = InferenceClient(
-    api_key=os.environ.get("HUGGINGFACE_TOKEN")
-)
-
-# Llama-3.2-11B-Vision-Instruct モデルを使用して Hugging Face Hub にチャット補完の推論呼び出しを行う
-image_url = "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg"
-response = huggingface_client.chat_completion(
-    model="meta-llama/Llama-3.2-11B-Vision-Instruct",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {"type": "image_url", "image_url": {"url": image_url}},
-                {"type": "text", "text": "Describe this image in one sentence."},
-            ],
-        }
-    ],
-    max_tokens=500,
-    seed=42,
-)
-```
-
-上記のコードを実行すると、Weave は Hugging Face Inference Client で行われたすべての LLM calls をトラッキングしてログします。これらのトレースは Weave のウェブインターフェースで確認できます。
-
-<Frame>
-  ![Weave は各推論 call をログし、inputs、outputs、metadata の詳細を表示します。](/weave/guides/integrations/imgs/huggingface/trace_call.png)
-</Frame>
-
-Weave は各推論 call をログし、inputs、outputs、metadata の詳細を表示します。
+Weave は各推論 Call をログし、inputs、outputs、metadata の詳細を表示します。
 
 ![モデルとのチャット履歴全体を表示する、UI上の Weave のチャットビュー](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
-Weave はその call を UI上でチャットビューとして表示し、モデルとのチャット履歴全体を確認できます。
+Weave はその Call を UI上でチャットビューとして表示し、モデルとのチャット履歴全体を確認できます。
 
 <div id="trace-a-function">
   ## 関数をトレースする

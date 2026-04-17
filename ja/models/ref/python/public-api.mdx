@@ -117,43 +117,10 @@ artifact.download()
 
 次の例では、W&amp;B RegistryからリンクされたArtifactを取得する方法を示します
 
-```python
-import wandb
-
-REGISTRY = "<registry_name>"
-COLLECTION = "<collection_name>"
-VERSION = "<version>"
-
-api = wandb.Api()
-artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
-
-# artifactを取得する
-fetched_artifact = api.artifact(name = artifact_name)
-
-# artifactをダウンロードする。ダウンロードしたコンテンツのパスを返す
-downloaded_path = fetched_artifact.download()
-```
-
 <div id="query-wb-registry">
   ### W&amp;B Registry をクエリする
 </div>
 
 MongoDB ライクなフィルターを使用して、W&amp;B Registries、Collections、Artifacts をクエリできます。次の例では、正規表現を使用して名で Collections をフィルターする方法を示します。
-
-```python
-import wandb
-
-# wandb APIを初期化する
-api = wandb.Api()
-
-# Registryに関係なく、コレクション名に文字列`yolo`を
-# 含むすべてのコレクションをフィルタリングする
-collection_filters = {
-    "name": {"$regex": "yolo"}
-}
-
-# フィルターに一致するすべてのコレクションのイテラブルを返す
-collections = api.registries().collections(filter=collection_filters)
-```
 
 Registry、collection、またはartifactをクエリする方法の詳細は、[レジストリ項目を検索する](/ja/models/registry/search_registry)を参照してください。

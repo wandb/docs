@@ -11,43 +11,17 @@ Comme tous les W&amp;B Artifacts, les Tables peuvent être converties en datafra
 
 Commencez par convertir le tableau en artifact. Pour cela, le plus simple est d’utiliser `artifact.get(table, "table_name")` :
 
-```python
-# Créer et enregistrer un nouveau tableau.
-with wandb.init() as r:
-    artifact = wandb.Artifact("my_dataset", type="dataset")
-    table = wandb.Table(
-        columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-    )
-    artifact.add(table, "my_table")
-    wandb.log_artifact(artifact)
-
-# Récupérer le tableau créé à l'aide de l'artifact créé précédemment.
-with wandb.init() as r:
-    artifact = r.use_artifact("my_dataset:latest")
-    table = artifact.get("my_table")
-```
-
 <div id="convert-artifact-to-dataframe">
   ## Convertir `artifact` en dataframe
 </div>
 
 Convertissez ensuite le tableau en dataframe :
 
-```python
-# Suite de l'exemple de code précédent :
-df = table.get_dataframe()
-```
-
 <div id="export-data">
   ## Exporter des données
 </div>
 
 Vous pouvez maintenant exporter à l’aide de n’importe quelle méthode prise en charge par le dataframe :
-
-```python
-# Conversion des données du tableau en .csv
-df.to_csv("example.csv", encoding="utf-8")
-```
 
 <div id="next-steps">
   # Étapes suivantes

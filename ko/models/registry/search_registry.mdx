@@ -104,74 +104,15 @@ W&amp;B는 레지스트리 항목을 필터링할 때 다음 비교 및 논리 O
 
 `wandb.Api().registries()` 방법을 사용하려면 먼저 W&amp;B Python SDK ([`wandb`](/ko/models/ref/python/)) 라이브러리를 임포트하세요:
 
-```python
-import wandb
-
-# (선택) 가독성을 위해 wandb.Api() 클래스의 인스턴스를 생성
-api = wandb.Api()
-```
-
 `model` 문자열이 포함된 모든 레지스트리를 필터링합니다:
-
-```python
-# 문자열 `model`을 포함하는 모든 레지스트리 필터링
-registry_filters = {
-    "name": {"$regex": "model"}
-}
-
-# 필터 조건과 일치하는 모든 레지스트리의 이터러블 반환
-registries = api.registries(filter=registry_filters)
-```
 
 컬렉션 이름에 `yolo` 문자열이 포함된 모든 컬렉션을 레지스트리와 무관하게 필터링합니다:
 
-```python
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함된
-# 모든 컬렉션을 필터링합니다
-collection_filters = {
-    "name": {"$regex": "yolo"}
-}
-
-# 필터 조건에 맞는 모든 컬렉션의 이터러블을 반환합니다
-collections = api.registries().collections(filter=collection_filters)
-```
-
 컬렉션 이름에 문자열 `yolo`가 포함되고 태그로 `cnn`이 지정된, 레지스트리와 무관한 모든 컬렉션을 필터링합니다:
 
-```python
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열을 포함하고
-# `cnn` 태그를 가진 모든 컬렉션을 필터링합니다
-collection_filters = {
-    "name": {"$regex": "yolo"},
-    "tag": "cnn"
-}
+`model` 문자열을 포함하고, 태그 `image-classification` 또는 `latest` 별칭 중 하나가 있는 모든 아티팩트 버전을 찾습니다:
 
-# 필터 조건에 맞는 모든 컬렉션의 이터러블을 반환합니다
-collections = api.registries().collections(filter=collection_filters)
-```
-
-`model` 문자열을 포함하고, 태그 `image-classification` 또는 `latest` alias 중 하나가 있는 모든 아티팩트 버전을 찾습니다:
-
-```python
-# 문자열 `model`을 포함하고 태그 `image-classification` 또는 `latest` alias를 가진
-# 모든 아티팩트 버전 찾기
-registry_filters = {
-    "name": {"$regex": "model"}
-}
-
-# 논리 $or operator를 사용하여 아티팩트 버전 필터링
-version_filters = {
-    "$or": [
-        {"tag": "image-classification"},
-        {"alias": "production"}
-    ]
-}
-
-# 필터 조건에 일치하는 모든 아티팩트 버전의 이터러블 반환
-artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
-```
-
-앞선 코드 스니펫의 `artifacts` 반복 가능 객체의 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, 각 artifact의 `name`, `collection`, `aliases`, `tags`, `created_at` 등과 같은 속성에 액세스할 수 있습니다:
+앞선 코드 스니펫의 `artifacts` 반복 가능 객체의 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, 각 아티팩트의 `name`, `collection`, `aliases`, `tags`, `created_at` 등과 같은 속성에 액세스할 수 있습니다:
 
 ```python
 for art in artifacts:
@@ -182,22 +123,8 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 
-artifact 객체의 전체 속성 목록은 API 레퍼런스 문서의 [Artifacts Class](/ko/models/ref/python/experiments/artifact/)를 참조하세요.
+아티팩트 객체의 전체 속성 목록은 API 레퍼런스 문서의 [Artifacts Class](/ko/models/ref/python/experiments/artifact/)를 참조하세요.
 
 레지스트리나 컬렉션과 관계없이, 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 아티팩트 버전을 필터링합니다:
 
-```python
-# 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 아티팩트 버전을 찾습니다. 
-
-artifact_filters = {
-    "alias": "latest",
-    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
-}
-
-# 필터 조건과 일치하는 모든 아티팩트 버전의 이터러블을 반환합니다
-artifacts = api.registries().collections().versions(filter=artifact_filters)
-```
-
-<Note>
-  `created_at` 및 `updated_at` 쿼리에는 `YYYY-MM-DD HH:MM:SS` 형식으로 날짜와 시간을 지정하세요. 날짜만 기준으로 필터링하려면 시, 분, 초는 생략할 수 있습니다.
-</Note>
+<Note>`created_at` 및 `updated_at` 쿼리에는 `YYYY-MM-DD HH:MM:SS` 형식으로 날짜와 시간을 지정하세요. 날짜만 기준으로 필터링하려면 시, 분, 초는 생략할 수 있습니다.</Note>

@@ -58,53 +58,12 @@ L’exemple de code suivant montre comment tracer une fonction de traitement vid
 3. Téléverse et suit le clip dans Weave.
 4. Génère automatiquement une vidéo MP4 factice si aucune n’est trouvée.
 
-<Warning>
-  Pour éviter les problèmes de thread-safety, passez toujours le chemin vers les objets `VideoFileClip` au lieu de les créer en dehors de l’`op` Weave.
-</Warning>
+<Warning>Pour éviter les problèmes de thread-safety, passez toujours le chemin vers les objets `VideoFileClip` au lieu de les créer en dehors de l’`op` Weave.</Warning>
 
 Avant d’utiliser l’extrait de code suivant, terminez les [prérequis d’utilisation](#usage-prerequisites).
 
-```python lines
-import os
-import weave
-from moviepy.editor import VideoFileClip, ColorClip, VideoClip
-
-# Mettez à jour avec le nom de votre projet, ou créez un nouveau projet nommé 'video-test'
-weave.init('video-test')
-
-@weave.op
-def get_video(clip: VideoFileClip) -> VideoClip:
-    """Traite une vidéo par chemin plutôt qu'en passant le clip directement.
-
-    Cela garantit que le VideoFileClip est créé et géré dans le
-    contexte de thread de l'op Weave, évitant ainsi les problèmes de thread-safety.
-    """
-    new_clip = clip.subclip(0, 1)
-    return new_clip
-
-if __name__ == "__main__":
-    os.makedirs("videos", exist_ok=True)
-
-    # Mettez à jour le chemin pour pointer vers votre fichier MP4
-    video_path = './videos/example.mp4'
-
-    # Génère une vidéo factice si elle n'existe pas
-    # Contenu de la vidéo factice : un carré rouge affiché pendant 5 secondes
-    if not os.path.isfile(video_path):
-        print("Aucune vidéo trouvée. Création d'une vidéo factice...")
-        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
-        dummy_clip.write_videofile(video_path, fps=24)
-
-    clip = VideoFileClip(video_path, has_mask=False, audio=True)
-    get_video(clip) 
-```
-
 Lorsque l’exemple de code s’exécute correctement, vous pouvez consulter votre vidéo en cliquant sur le lien dans le tableau **Traces** de votre projet.
 
-<Frame>
-  ![Trace d’une fonction de traitement vidéo dans le tableau Traces.](/weave/guides/tracking/imgs/video-trace.png)
-</Frame>
+<Frame>![Trace d’une fonction de traitement vidéo dans le tableau Traces.](/weave/guides/tracking/imgs/video-trace.png)</Frame>
 
-<Frame>
-  ![Vidéo MP4 importée dans Weave, affichée dans le volet contextuel Traces.](/weave/guides/tracking/imgs/video-trace-popout.png)
-</Frame>
+<Frame>![Vidéo MP4 téléversée dans Weave, affichée dans le volet contextuel Traces.](/weave/guides/tracking/imgs/video-trace-popout.png)</Frame>

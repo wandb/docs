@@ -43,84 +43,9 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 다음 예제 코드를 실행해 Weave로 첫 번째 프로젝트를 추적하세요:
 
 <Tabs>
-  <Tab title="Python">
-    ```python lines {1-2,7-8,27-28}
-    # Weave 라이브러리를 임포트합니다
-    import weave
-    from openai import OpenAI
+  <Tab title="Python" />
 
-    client = OpenAI()
-
-    # Weave는 이 함수의 입력, 출력, 코드를 자동으로 추적합니다
-    @weave.op()
-    def extract_dinos(sentence: str) -> dict:
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {
-                    "role": "system",
-                    "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
-    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
-                },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
-        return response.choices[0].message.content
-
-    # Weave를 초기화하고, 데이터를 기록할 팀과 프로젝트를 설정합니다
-    weave.init('your-team/traces-quickstart')
-
-    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
-    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
-    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
-
-    result = extract_dinos(sentence)
-    print(result)
-    ```
-  </Tab>
-
-  <Tab title="TypeScript">
-    ```typescript lines {1-2,7-8,20,24-25}
-    // Weave 라이브러리를 임포트합니다
-    import * as weave from 'weave';
-    import OpenAI from 'openai';
-
-    const openai = new OpenAI();
-
-    // Weave는 이 함수의 입력, 출력, 코드를 자동으로 추적합니다  
-    async function extractDinos(input: string) {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'user',
-            content: `In JSON format extract a list of 'dinosaurs', with their 'name', their 'common_name', and whether its 'diet' is a herbivore or carnivore: ${input}`,
-          },
-        ],
-      });
-      return response.choices[0].message.content;
-    }
-    const extractDinosOp = weave.op(extractDinos);
-
-    async function main() {
-
-      // Weave를 초기화하고, 데이터를 기록할 팀과 프로젝트를 설정합니다
-      await weave.init('your-team/traces-quickstart');
-
-      const result = await extractDinosOp(
-        'I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.'
-      );
-      console.log(result);
-    }
-
-    main();
-
-    ```
-  </Tab>
+  <Tab title="TypeScript" />
 </Tabs>
 
 `extract_dinos` 함수를 호출하면 Weave는 터미널에 트레이스를 확인할 수 있는 링크를 출력합니다. 출력은 다음과 같습니다:

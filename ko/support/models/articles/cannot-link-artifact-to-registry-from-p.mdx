@@ -11,14 +11,6 @@ keywords: ["Artifacts"]
 
 run을 초기화할 때 `entity`에 팀을 지정하세요:
 
-```python
-import wandb
-
-with wandb.init(entity="<team_entity>", project="<project_name>") as run:
-    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
-    # 파일을 추가하고 아티팩트를 로그합니다
-```
-
 `entity`를 지정하지 않으면 run은 기본 entity를 사용하며, 이 기본 entity는 개인 계정일 수도 있습니다.
 
 <div id="find-your-team-entity">

@@ -17,27 +17,6 @@ W&amp;B Weave は、トークン使用量をトラッキングし、使用した
     必須フィールドは `llm_id`、`prompt_token_cost`、`completion_token_cost` の 3 つです。
     `llm_id` は LLM の名前です (例: `gpt-4o`) 。`prompt_token_cost` と `completion_token_cost` は、その LLM のトークンあたりのコストです (LLM の料金が 100 万トークン単位で指定されている場合は、必ず値を換算してください) 。
     また、`effective_date` に日時を設定すると、そのコストを特定の日付から有効にできます。デフォルトでは現在の日付が使用されます。
-
-    ```python lines
-    import weave
-    from datetime import datetime
-
-    client = weave.init("my_custom_cost_model")
-
-    client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=0.01,
-        completion_token_cost=0.02
-    )
-
-    client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=10,
-        completion_token_cost=20,
-        # たとえば、ある日付以降にモデルの価格を引き上げたい場合
-        effective_date=datetime(2025, 4, 22),
-    )
-    ```
   </Tab>
 
   <Tab title="TypeScript">
@@ -106,41 +85,6 @@ W&amp;B Weave は、トークン使用量をトラッキングし、使用した
 <Tabs>
   <Tab title="Python">
     少しセットアップしたうえで `calls_query` を使い、`include_costs=True` を追加すると、プロジェクトのコストを計算できます。
-
-    ```python lines
-    import weave
-
-    weave.init("project_costs")
-    @weave.op()
-    def get_costs_for_project(project_name: str):
-        total_cost = 0
-        requests = 0
-
-        client = weave.init(project_name)
-        # プロジェクト内のすべての call を取得します
-        calls = list(
-            client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
-        )
-
-        for call in calls:
-            # call にコストがある場合は合計コストに加算します
-            if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
-                for k, cost in call.summary["weave"]["costs"].items():
-                    requests += cost["requests"]
-                    total_cost += cost["prompt_tokens_total_cost"]
-                    total_cost += cost["completion_tokens_total_cost"]
-
-        # 合計コスト、requests、calls を返します
-        return {
-            "total_cost": total_cost,
-            "requests": requests,
-            "calls": len(calls),
-        }
-
-    # 関数を @weave.op() でデコレートしているため、
-    # 過去のコスト合計を計算できるように、合計値は weave に保存されます
-    get_costs_for_project("my_custom_cost_model")
-    ```
   </Tab>
 
   <Tab title="TypeScript">

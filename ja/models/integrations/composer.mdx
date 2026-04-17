@@ -71,39 +71,3 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 </div>
 
 `WandBLogger` を介して W&amp;B へのログのタイミングを制御するには、[Composer&#39;s Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) システムを使用できます。この例では、検証用画像と予測のサンプルをログします。
-
-```python
-import wandb
-from composer import Callback, State, Logger
-
-class LogPredictions(Callback):
-    def __init__(self, num_samples=100, seed=1234):
-        super().__init__()
-        self.num_samples = num_samples
-        self.data = []
-        
-    def eval_batch_end(self, state: State, logger: Logger):
-        """バッチごとに予測を計算し、self.dataに保存する"""
-        
-        if state.timer.epoch == state.max_duration: #最後の検証エポック時
-            if len(self.data) < self.num_samples:
-                n = self.num_samples
-                x, y = state.batch_pair
-                outputs = state.outputs.argmax(-1)
-                data = [[wandb.Image(x_i), y_i, y_pred] for x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
-                self.data += data
-            
-    def eval_end(self, state: State, logger: Logger):
-        with wandb.init() as run:
-            "wandb.Tableを作成してログする"
-            columns = ['image', 'ground truth', 'prediction']
-            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
-            run.log({'sample_table':table}, step=int(state.timer.batch))         
-...
-
-trainer = Trainer(
-    ...
-    loggers=[WandBLogger()],
-    callbacks=[LogPredictions()]
-)
-```

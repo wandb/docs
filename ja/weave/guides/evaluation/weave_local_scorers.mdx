@@ -181,21 +181,6 @@ Weave のローカル scorer を使用する前に、追加の依存関係をイ
   ### 使用例
 </div>
 
-```python lines
-    import weave
-    from weave.scorers import WeaveContextRelevanceScorerV1
-
-    context_relevance_scorer = WeaveContextRelevanceScorerV1()
-
-    result = context_relevance_scorer.score(
-        query="What is the capital of Antarctica?",
-        output="The Antarctic has the happiest penguins."  # コンテキストはoutputパラメーターに渡されます
-    )
-
-    print(f"出力は関連しています: {result.passed}")
-    print(result)
-```
-
 <div id="weavecoherencescorerv1">
   ## `WeaveCoherenceScorerV1`
 </div>

@@ -33,20 +33,6 @@ __init__(
 
 **例:**
 
-```python
-from wandb.apis.public.api import Api
-
-# このentityに属するプロジェクトを検索する
-projects = Api().projects(entity="entity")
-
-# ファイルを反復処理する
-for project in projects:
-    print(f"Project: {project.name}")
-    print(f"- URL: {project.url}")
-    print(f"- Created at: {project.created_at}")
-    print(f"- Is benchmark: {project.is_benchmark}")
-```
-
 `Project` オブジェクトの反復可能なコレクション。
 
 **引数:**
@@ -56,7 +42,6 @@ for project in projects:
 * `per_page`:  API へのリクエストごとに取得するプロジェクト数。
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Projects.cursor
 

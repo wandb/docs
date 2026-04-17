@@ -9,17 +9,6 @@ description: "데이터셋의 열을 다른 이름에 매핑합니다. 이렇게
 
     다음 예제에서는 `output` 및 `target` 매개변수를 데이터셋의 `model_output` 및 `answer` 열에 매핑합니다.
 
-    ```python
-    from weave.scorers import EmbeddingSimilarityScorer
-
-    similarity_scorer = EmbeddingSimilarityScorer()
-
-    similarity_scorer.column_map = {
-        "output": "model_output",  # 모델이 생성한 텍스트
-        "target": "answer"         # 예상 응답 또는 기준 응답
-    }
-    ```
-
     scorer 열 매핑에 대한 자세한 내용은 [`column_map`으로 열 이름 매핑하기](../evaluation/scorers#mapping-column-names-with-column_map)를 참조하세요.
   </Tab>
 
@@ -46,6 +35,6 @@ description: "데이터셋의 열을 다른 이름에 매핑합니다. 이렇게
     });
     ```
 
-    TypeScript scorer 인자에 대한 자세한 내용은 [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments)를 참조하세요.
+    TypeScript scorer 인수에 대한 자세한 내용은 [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments)를 참조하세요.
   </Tab>
 </Tabs>

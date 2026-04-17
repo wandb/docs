@@ -60,71 +60,11 @@ pip install -qq "mcp[cli]" weave
 
 MCP サーバーをトレースするには、既存の `FastMCP` のセットアップに 2 行追加するだけです。1 行は Weave のインポート用、もう 1 行はクライアントの初期化用です。追加すると、ツール、リソース、プロンプト に関する操作が自動的にトレースされます。
 
-```python lines
-# Weave をインポート（トレースに必須）
-import weave
-from mcp.server.fastmcp import FastMCP
-
-# プロジェクト名で Weave を初期化する
-weave_client = weave.init("my-project")
-
-# MCP サーバーを設定する
-mcp = FastMCP("Demo")
-
-# ツールを定義する（この call はトレースされる）
-@mcp.tool()
-def add(a: int, b: int) -> int:
-    """2つの数値を加算する。"""
-    return a + b
-
-# リソースを定義する（この call はトレースされる）
-@mcp.resource("greeting://{name}")
-def get_greeting(name: str) -> str:
-    """パーソナライズされた挨拶を返す。"""
-    return f"Hello, {name}!"
-
-# プロンプトを定義する（この call はトレースされる）
-@mcp.prompt()
-def review_code(code: str) -> str:
-    """コードレビュー用のプロンプトを返す。"""
-    return f"Please review this code:\n\n{code}"
-
-# サーバーを起動する
-mcp.run(transport="stdio")
-```
-
-
 <div id="client-side-integration">
   ### クライアント側のインテグレーション
 </div>
 
-クライアント側で必要な変更も 2 つだけです。Weave をインポートして初期化します。すべてのツール呼び出し、リソースへのアクセス、プロンプトのリクエストは自動的にトレースされます。
-
-```python lines
-# Weave をインポート（トレースに必須）
-import weave
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-# プロジェクト名で Weave を初期化する
-weave_client = weave.init("my-project")
-
-# MCP クライアントを設定して実行する
-async with stdio_client(server_params) as (read, write):
-    async with ClientSession(read, write) as session:
-        # セッションを初期化する
-        await session.initialize()
-        
-        # ツールを呼び出す（トレースされる）
-        result = await session.call_tool("add", arguments={"a": 1, "b": 2})
-        
-        # リソースを読み取る（トレースされる）
-        resource = await session.read_resource("greeting://user")
-        
-        # プロンプトを取得する（トレースされる）
-        prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
-```
-
+クライアント側で必要な変更も 2 つだけです。Weave をインポートして初期化します。すべてのツールCall、リソースへのアクセス、プロンプトのリクエストは自動的にトレースされます。
 
 <div id="tutorial-mcp_demo-example">
   ## チュートリアル: `mcp_demo` の例

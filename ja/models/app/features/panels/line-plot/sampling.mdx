@@ -157,14 +157,3 @@ W&amp;B は、データ全体の表現を保ちつつ、すべてのプロット
 </div>
 
 [W&amp;B Run API](/ja/models/ref/python/public-api/runs) を使用すると、run 中にログされたメトリクスの完全な履歴にアクセスできます。次の例では、特定の run の損失値を取得して処理する方法を示します。
-
-```python
-# W&B APIを初期化する
-run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
-
-# 'Loss'メトリクスのhistoryを取得する
-history = run.scan_history(keys=["Loss"])
-
-# historyから損失値を抽出する
-losses = [row["Loss"] for row in history]
-```

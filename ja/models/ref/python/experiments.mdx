@@ -29,59 +29,11 @@ no_list: true
 
 メトリクスをログしながら、機械学習実験を作成してトラッキングします。
 
-```python
-import wandb
-
-# 新しいrunを初期化する
-with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as run:
-    # 設定にアクセスする
-    config = run.config
-    
-    # トレーニング中にメトリクスをログする
-    for epoch in range(10):
-        metrics = train_one_epoch()  # トレーニングロジックをここに記述
-        run.log({
-            "loss": metrics["loss"],
-            "accuracy": metrics["accuracy"],
-            "epoch": epoch
-        })
-    
-    # サマリーメトリクスをログする
-    run.summary["best_accuracy"] = max_accuracy
-```
-
 <div id="version-a-model-artifact">
   ### モデル artifact をバージョン管理する
 </div>
 
 メタデータ付きの、バージョン管理されたモデル artifact を作成してログします:
-
-```python
-import wandb
-
-with wandb.init(project="my-models") as run:
-    # モデルをトレーニングする
-    model = train_model()
-    
-    # モデルのartifactを作成する
-    model_artifact = wandb.Artifact(
-        name="my-model",
-        type="model",
-        description="ResNet-50 trained on ImageNet subset",
-        metadata={
-            "architecture": "ResNet-50",
-            "dataset": "ImageNet-1K",
-            "accuracy": 0.95
-        }
-    )
-    
-    # artifactにモデルファイルを追加する
-    model_artifact.add_file("model.pt")
-    model_artifact.add_dir("model_configs/")
-    
-    # artifactをW&Bにログする
-    run.log_artifact(model_artifact)
-```
 
 <div id="configure-sdk-settings">
   ### SDK設定を行う
@@ -89,52 +41,8 @@ with wandb.init(project="my-models") as run:
 
 要件に合わせて、W&amp;B SDKの動作をカスタマイズします。
 
-```python
-import wandb
-
-# プログラムで設定を構成する
-wandb.Settings(
-    project="production-runs",
-    entity="my-team",
-    mode="offline",  # オフラインで実行し、後でSyncする
-    save_code=True,   # ソースコードを保存する
-    quiet=True        # コンソール出力を抑制する
-)
-
-# または環境変数を使用する
-# export WANDB_PROJECT=production-runs
-# export WANDB_MODE=offline
-
-# カスタム設定で初期化する
-with wandb.init() as run:
-    # 実験コードをここに記述する
-    pass
-```
-
 <div id="link-artifacts-for-lineage-tracking">
   ### Artifactsをリンクしてリネージをトラッキングする
 </div>
 
 データセット、モデル、評価の間の関係をトラッキングします:
-
-```python
-import wandb
-
-with wandb.init(project="ml-pipeline") as run:
-    # データセットartifactを使用する
-    dataset = run.use_artifact("dataset:v1")
-    dataset_dir = dataset.download()
-    
-    # データセットを使用してモデルをトレーニングする
-    model = train_on_dataset(dataset_dir)
-    
-    # データセットのリネージを持つモデルartifactを作成する
-    model_artifact = wandb.Artifact(
-        name="trained-model",
-        type="model"
-    )
-    model_artifact.add_file("model.pt")
-    
-    # 自動リネージトラッキングでログする
-    run.log_artifact(model_artifact)
-```

@@ -59,7 +59,7 @@ Tout d’abord, configurons notre environnement et importons les bibliothèques 
 
 > Pour obtenir une clé API Anthropic :
 >
-> 1. Inscrivez-vous et créez un compte sur https://www.anthropic.com
+> 1. Inscrivez-vous et créez un compte sur [https://www.anthropic.com](https://www.anthropic.com)
 > 2. Accédez à la section API dans les paramètres de votre compte
 > 3. Générez une nouvelle clé API
 > 4. Stockez la clé API de façon sécurisée dans votre fichier .env
@@ -92,29 +92,6 @@ Nous utilisons Weave pour suivre cette expérience et le modèle Claude d&#39;An
 
 Nous allons créer une classe simple `ArxivPaper` pour représenter nos données :
 
-```python lines
-# Définir le modèle ArxivPaper
-class ArxivPaper(BaseModel):
-    entry_id: str
-    updated: datetime
-    published: datetime
-    title: str
-    authors: list[str]
-    summary: str
-    pdf_url: str
-
-# Créer un exemple d'ArxivPaper
-arxiv_paper = ArxivPaper(
-    entry_id="http://arxiv.org/abs/2406.04744v1",
-    updated=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
-    published=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
-    title="CRAG -- Comprehensive RAG Benchmark",
-    authors=["Xiao Yang", "Kai Sun", "Hao Xin"],  # Tronqué par souci de concision
-    summary="Retrieval-Augmented Generation (RAG) has recently emerged as a promising solution...",  # Tronqué
-    pdf_url="https://arxiv.org/pdf/2406.04744",
-)
-```
-
 Cette classe regroupe les métadonnées et le contenu d’un article arXiv, qui servira d’entrée à notre pipeline de synthèse.
 
 <div id="load-pdf-content">
@@ -123,108 +100,13 @@ Cette classe regroupe les métadonnées et le contenu d’un article arXiv, qui 
 
 Pour travailler avec le contenu complet de l’article, nous allons ajouter une fonction permettant de charger et d’extraire le texte des PDF :
 
-```python lines
-@weave.op()
-def load_pdf(pdf_url: str) -> str:
-    # Télécharger le PDF
-    response = requests.get(pdf_url)
-    pdf_file = io.BytesIO(response.content)
-
-    # Lire le PDF
-    pdf_reader = PdfReader(pdf_file)
-
-    # Extraire le texte de toutes les pages
-    text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
-
-    return text
-```
-
 <div id="implement-chain-of-density-summarization">
   ## Implémenter la synthèse Chain of Density
 </div>
 
 Implémentons maintenant la logique principale de synthèse CoD à l’aide des opérations Weave :
 
-<Frame>
-  ![visualisation de la trace Weave avec l’exécution du pipeline de synthèse Chain of Density](/media/summarization/summarization_trace.png)
-</Frame>
-
-```python lines
-# Synthèse par chaîne de densité
-@weave.op()
-def summarize_current_summary(
-    document: str,
-    instruction: str,
-    current_summary: str = "",
-    iteration: int = 1,
-    model: str = "claude-3-sonnet-20240229",
-):
-    prompt = f"""
-    Document: {document}
-    Current summary: {current_summary}
-    Instruction to focus on: {instruction}
-    Iteration: {iteration}
-
-    Generate an increasingly concise, entity-dense, and highly technical summary from the provided document that specifically addresses the given instruction.
-    """
-    response = anthropic_client.messages.create(
-        model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}]
-    )
-    return response.content[0].text
-
-@weave.op()
-def iterative_density_summarization(
-    document: str,
-    instruction: str,
-    current_summary: str,
-    density_iterations: int,
-    model: str = "claude-3-sonnet-20240229",
-):
-    iteration_summaries = []
-    for iteration in range(1, density_iterations + 1):
-        current_summary = summarize_current_summary(
-            document, instruction, current_summary, iteration, model
-        )
-        iteration_summaries.append(current_summary)
-    return current_summary, iteration_summaries
-
-@weave.op()
-def final_summary(
-    instruction: str, current_summary: str, model: str = "claude-3-sonnet-20240229"
-):
-    prompt = f"""
-    Given this summary: {current_summary}
-    And this instruction to focus on: {instruction}
-    Create an extremely dense, final summary that captures all key technical information in the most concise form possible, while specifically addressing the given instruction.
-    """
-    return (
-        anthropic_client.messages.create(
-            model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}]
-        )
-        .content[0]
-        .text
-    )
-
-@weave.op()
-def chain_of_density_summarization(
-    document: str,
-    instruction: str,
-    current_summary: str = "",
-    model: str = "claude-3-sonnet-20240229",
-    density_iterations: int = 2,
-):
-    current_summary, iteration_summaries = iterative_density_summarization(
-        document, instruction, current_summary, density_iterations, model
-    )
-    final_summary_text = final_summary(instruction, current_summary, model)
-    return {
-        "final_summary": final_summary_text,
-        "accumulated_summary": current_summary,
-        "iteration_summaries": iteration_summaries,
-    }
-```
+<Frame>![visualisation de la trace Weave avec l’exécution du pipeline de synthèse Chain of Density](/media/summarization/summarization_trace.png)</Frame>
 
 Voici ce que fait chaque fonction :
 
@@ -334,45 +216,13 @@ Ces fonctions d’évaluation utilisent le modèle Claude pour évaluer la quali
 
 Pour évaluer notre pipeline, nous allons créer un jeu de données Weave et lancer une évaluation :
 
-<Frame>
-  ![Interface de configuration d’un jeu de données Weave pour l’évaluation, avec sélection du jeu de données et options de configuration](/media/summarization/dataset.png)
-</Frame>
-
-```python lines
-# Créer un Weave Dataset
-dataset = weave.Dataset(
-    name="arxiv_papers",
-    rows=[
-        {
-            "paper": arxiv_paper,
-            "instruction": "Quelle était l'approche pour expérimenter différents mélanges de données ?",
-        },
-    ],
-)
-
-weave.publish(dataset)
-```
+<Frame>![Interface de configuration d’un jeu de données Weave pour l’évaluation, avec sélection du jeu de données et options de configuration](/media/summarization/dataset.png)</Frame>
 
 Pour cette évaluation, nous utiliserons une approche de type LLM-as-a-judge. Cette technique consiste à utiliser un modèle de langage pour évaluer la qualité des sorties générées par un autre modèle ou système. Elle s’appuie sur les capacités de compréhension et de raisonnement du LLM pour fournir des évaluations nuancées, en particulier pour les tâches où les métriques traditionnelles peuvent s’avérer insuffisantes.
 
 [![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
 
-<Frame>
-  ![tableau de bord d’évaluation Weave avec les résultats de synthèse Chain of Density, les métriques et les comparaisons de performances](/media/summarization/eval_dash.png)
-</Frame>
-
-```python lines
-# Définir la fonction évaluatrice
-@weave.op()
-def quality_scorer(instruction: str, output: dict) -> dict:
-    result = evaluate_summary(output["final_summary"], instruction)
-    return result
-python
-# Lancer l'évaluation
-evaluation = weave.Evaluation(dataset=dataset, scorers=[quality_scorer])
-arxiv_chain_of_density_pipeline = ArxivChainOfDensityPipeline()
-results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
-```
+<Frame>![tableau de bord d’évaluation Weave avec les résultats de synthèse Chain of Density, les métriques et les comparaisons de performances](/media/summarization/eval_dash.png)</Frame>
 
 Ce code crée un jeu de données à partir de notre article ArXiv d’exemple, définit une fonction d’évaluation de la qualité et lance une évaluation de notre pipeline de synthèse.
 

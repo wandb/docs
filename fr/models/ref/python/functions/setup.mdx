@@ -27,43 +27,6 @@ Voir aussi `wandb.teardown()`.
 
 **Arguments :**
 
-* `settings` :  Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
+* `settings` : Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
 
 **Exemple :**
-
-```python
-import multiprocessing
-
-import wandb
-
-
-def run_experiment(params):
-    with wandb.init(config=params):
-         # Lancer l'expérience
-         pass
-
-
-if __name__ == "__main__":
-    # Démarrer le backend et définir la configuration globale
-    wandb.setup(settings={"project": "my_project"})
-
-    # Définir les paramètres de l'expérience
-    experiment_params = [
-         {"learning_rate": 0.01, "epochs": 10},
-         {"learning_rate": 0.001, "epochs": 20},
-    ]
-
-    # Démarrer plusieurs processus, chacun exécutant une expérience distincte
-    processes = []
-    for params in experiment_params:
-         p = multiprocessing.Process(target=run_experiment, args=(params,))
-         p.start()
-         processes.append(p)
-
-    # Attendre la fin de tous les processus
-    for p in processes:
-         p.join()
-
-    # Facultatif : arrêter explicitement le backend
-    wandb.teardown()
-```

@@ -29,22 +29,6 @@ Par exemple, supposons que vous créiez une collection qui accepte les artifacts
 
 <Note>
   Vous spécifiez le type d&#39;un artifact lorsque vous créez cet objet. Notez le champ `type` dans `wandb.Artifact()` :
-
-  ```python
-  import wandb
-
-  # Initialiser un run
-  with wandb.init(
-    entity = "<team_entity>",
-    project = "<project>"
-    ) as run:
-
-    # Créer un objet artifact
-    artifact = wandb.Artifact(
-        name="<artifact_name>", 
-        type="<artifact_type>"
-        )
-  ```
 </Note>
 
 Lorsque vous créez une collection, vous pouvez choisir parmi une liste de types d&#39;artifact prédéfinis. Les types d&#39;artifact disponibles dépendent du registre auquel appartient la collection.
@@ -125,34 +109,13 @@ où `registry_name` est le nom du registre et `collection_name` est le nom de la
 
 L&#39;extrait de code suivant montre comment créer une collection par programmation. Veillez à remplacer les valeurs entre `<>` par les vôtres :
 
-```python
-import wandb
-
-# Initialiser un run
-with wandb.init(entity = "<team_entity>", project = "<project>") as run:
-
-  # Créer un objet artifact
-  artifact = wandb.Artifact(
-    name = "<artifact_name>",
-    type = "<artifact_type>"
-    )
-
-  registry_name = "<registry_name>"
-  collection_name = "<collection_name>"
-  target_path = f"wandb-registry-{registry_name}/{collection_name}"
-
-  # Lier l'artifact à une collection
-  run.link_artifact(artifact = artifact, target_path = target_path)
-```
-
-
 <div id="interactively-create-a-collection">
   ### Créer une collection de manière interactive
 </div>
 
 Les étapes suivantes expliquent comment créer une collection de manière interactive à l’aide du W&amp;B Registry :
 
-1. Accédez au W&amp;B Registry à l’adresse https://wandb.ai/registry/.
+1. Accédez au W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
 2. Sélectionnez un registre.
 3. Cliquez sur le bouton **Create collection** dans le coin supérieur droit.
 4. Saisissez un nom pour votre collection dans le champ **Name**.

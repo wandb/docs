@@ -504,24 +504,6 @@ Objet Dataset facile à enregistrer, avec gestion automatique des versions.
 
 **Exemples :**
 
-```python
-# Créer un jeu de données
-dataset = Dataset(name='grammar', rows=[
-     {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
-     {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
-     {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
-])
-
-# Publier le jeu de données
-weave.publish(dataset)
-
-# Récupérer le jeu de données
-dataset_ref = weave.ref('grammar').get()
-
-# Accéder à un exemple spécifique
-example_label = dataset_ref.rows[2]['sentence']
-```
-
 **Champs Pydantic :**
 
 * `name`: `str | None`
@@ -530,7 +512,6 @@ example_label = dataset_ref.rows[2]['sentence']
 * `rows`: `trace.table.Table | trace.vals.WeaveTable`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L129" />
-
 
 ### <kbd>méthode</kbd> `add_rows`
 
@@ -959,36 +940,6 @@ Si vous souhaitez prétraiter les lignes du jeu de données, vous pouvez passer 
 
 **Exemples :**
 
-```python
-# Collectez vos exemples
-examples = [
-     {"question": "What is the capital of France?", "expected": "Paris"},
-     {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
-     {"question": "What is the square root of 64?", "expected": "8"},
-]
-
-# Définissez une fonction de score personnalisée
-@weave.op
-def match_score1(expected: str, model_output: dict) -> dict:
-     # C'est ici que vous définiriez la logique pour évaluer la sortie du modèle
-     return {'match': expected == model_output['generated_text']}
-
-@weave.op
-def function_to_evaluate(question: str):
-     # c'est ici que vous ajouteriez votre appel LLM et retourneriez la sortie
-     return  {'generated_text': 'Paris'}
-
-# Évaluez vos exemples à l'aide de fonctions de score
-evaluation = Evaluation(
-     dataset=examples, scorers=[match_score1]
-)
-
-# Démarrez le suivi de l'évaluation
-weave.init('intro-example')
-# Lancez l'évaluation
-asyncio.run(evaluation.evaluate(function_to_evaluate))
-```
-
 **Champs Pydantic :**
 
 * `name`: `str | None`
@@ -1002,7 +953,6 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 * `evaluation_name`: `str | collections.abc.Callable[trace.call.Call, str] | None`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L295" />
-
 
 ### <kbd>méthode</kbd> `evaluate`
 
@@ -1057,18 +1007,9 @@ Notez que cette méthode renvoie un `CallsIter` plutôt qu’un appel unique, ca
 
 **Exemples :**
 
-```python
-evaluation = Evaluation(dataset=examples, scorers=[scorer])
-await evaluation.evaluate(model)  # Exécuter l'évaluation en premier
-calls = evaluation.get_evaluate_calls()
-for call in calls:
-     print(f"Evaluation run: {call.id} at {call.started_at}")
-```
-
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L342" />
-
 
 ### <kbd>méthode</kbd> `get_score_calls`
 
@@ -1106,27 +1047,16 @@ for trace_id, calls in score_calls.items():
 get_scores() → dict[str, dict[str, list[Any]]]
 ```
 
-Extrait et organise les résultats des scorers à partir des Runs d’évaluation.
+Extrait et organise les résultats des évaluateurs à partir des Runs d’évaluation.
 
 **Retourne :**
 
 * <b>`dict[str, dict[str, list[Any]]]`</b>:  Une structure de dictionnaire imbriquée où :
   * Les clés du premier niveau sont les ID de trace (Runs d’évaluation)
-  * Les clés du deuxième niveau sont les noms des scorers
-  * Les valeurs sont des listes de résultats de scorer pour ce Run et ce scorer
+  * Les clés du deuxième niveau sont les noms des évaluateurs
+  * Les valeurs sont des listes de résultats d’évaluateur pour ce Run et cet évaluateur
 
 **Exemples :**
-
-```python
-evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
-await evaluation.evaluate(model)
-scores = evaluation.get_scores()
-# Accéder aux scores par trace et par scorer
-for trace_id, trace_scores in scores.items():
-         print(f"Evaluation run {trace_id}:")
-         for scorer_name, outputs in trace_scores.items():
-             print(f"  {scorer_name}: {outputs}")
-```
 
 Sortie attendue :
 
@@ -1142,7 +1072,6 @@ Sortie attendue :
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/pydantic/_internal/_model_construction.py#L163" />
-
 
 ### <kbd>méthode</kbd> `model_post_init`
 
@@ -1187,36 +1116,9 @@ Chaque fois que vous enregistrez une prédiction, vous obtenez un objet `ScoreLo
 
 Utilisation de base - enregistrez directement les prédictions avec les entrées et les sorties :
 
-```python
-ev = EvaluationLogger()
-
-# Enregistrer les prédictions avec les entrées/sorties connues
-pred = ev.log_prediction(inputs={'q': 'Hello'}, outputs={'a': 'Hi there!'})
-pred.log_score("correctness", 0.9)
-
-# Terminer l'évaluation
-ev.log_summary({"avg_score": 0.9})
-```
-
 Utilisation avancée - utiliser un gestionnaire de contexte pour des sorties dynamiques et des opérations imbriquées :
 
-```python
-ev = EvaluationLogger()
-
-# Utilisez le gestionnaire de contexte pour capturer des opérations imbriquées
-with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
-     # Toutes les opérations ici (comme les LLM calls) deviennent automatiquement
-     # des enfants de l'appel predict
-     response = your_llm_call(...)
-     pred.output = response.content
-     pred.log_score("correctness", 0.9)
-
-# Terminer l'évaluation
-ev.log_summary({"avg_score": 0.9})
-```
-
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L646" />
-
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -1462,18 +1364,17 @@ Copiez le fichier dans le chemin de destination spécifié.
 
 Un objet Markdown affichable.
 
-* <b>`dest`</b>: Chemin de destination vers lequel le fichier sera copié (string or pathlib.Path)  Le chemin de destination peut être un fichier ou un répertoire.
-  **Arguments :**
+* <b>`dest`</b>: Chemin de destination vers lequel le fichier sera copié (string or pathlib.Path) Le chemin de destination peut être un fichier ou un répertoire. **Arguments :**
 
-* <b>`markup`</b> (str):  Une chaîne contenant du Markdown.
+* <b>`markup`</b> (str): Une chaîne contenant du Markdown.
 
-* <b>`code_theme`</b> (str, facultatif):  Thème Pygments pour les blocs de code. La valeur par défaut est &quot;monokai&quot;. Voir https://pygments.org/styles/ pour les thèmes de code.
+* <b>`code_theme`</b> (str, facultatif): Thème Pygments pour les blocs de code. La valeur par défaut est &quot;monokai&quot;. Voir [https://pygments.org/styles/](https://pygments.org/styles/) pour les thèmes de code.
 
-* <b>`justify`</b> (JustifyMethod, facultatif):  Valeur de justification des paragraphes. La valeur par défaut est None.
+* <b>`justify`</b> (JustifyMethod, facultatif): Valeur de justification des paragraphes. La valeur par défaut est None.
 
-* <b>`style`</b> (Union[str, Style], facultatif):  Style facultatif à appliquer au Markdown.
+* <b>`style`</b> (Union[str, Style], facultatif): Style facultatif à appliquer au Markdown.
 
-* <b>`hyperlinks`</b> (bool, facultatif):  Active les liens hypertexte. La valeur par défaut est `True`.
+* <b>`hyperlinks`</b> (bool, facultatif): Active les liens hypertexte. La valeur par défaut est `True`.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/rich/markdown.py#L548" />
 

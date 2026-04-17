@@ -169,12 +169,6 @@ L&#39;image suivante montre un graphique représentant les valeurs moyennes sur 
 
 Vous pouvez également tracer des valeurs `NaN`, y compris des tenseurs PyTorch, dans un graphique en courbes avec `wandb.Run.log()`. Par exemple :
 
-```python
-with wandb.init() as run:
-    # Journaliser une valeur NaN
-    run.log({"test": float("nan")})
-```
-
 <Frame>
   <img src="/images/app_ui/visualize_nan.png" alt="Gestion des valeurs NaN" />
 </Frame>
