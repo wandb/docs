@@ -57,7 +57,7 @@ When you save an object with a name, Weave creates the first version of that obj
 
 <Tabs>
   <Tab title="Python">
-    `weave.publish` returns a Ref. You can call `.get()` on any Ref to get the object back.
+    `weave.publish()` returns a Ref. You can call `.get()` on any Ref to get the object back.
 
     You can construct a ref and then fetch the object back.
 
@@ -112,4 +112,4 @@ You can construct refs with a few different styles:
 
 - `weave.ref(<name>)`: Retrieves the `:latest` version of an object. Requires calling `weave.init(...)`.
 - `weave.ref(<name>:<version>)`:  Retrieves the specified version of an object. Requires calling `weave.init(...)`.
-- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the object located at the specified fully qualified object ref URI.  Does not require calling `weave.init`.
+- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the object located at the specified fully qualified object ref URI.  Does not require calling `weave.init()`.
