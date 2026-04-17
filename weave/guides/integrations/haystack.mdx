@@ -5,11 +5,13 @@ description: "Trace Deepset Haystack pipelines with Weave using the WeaveConnect
 
 [Haystack](https://haystack.deepset.ai/) is an open source framework for building search and LLM applications. Deepset maintains a **WeaveConnector** component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
 
-This page covers setup and a minimal pipeline example. For full API details, agents, and troubleshooting, use Deepset's documentation linked at the end of this page.
+This how-to shows you how to install the integration, add **WeaveConnector** to a minimal pipeline, and open the resulting trace in Weave. For full API details, agents, and troubleshooting, see [Official documentation](#official-documentation).
 
 ## Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/settings). Set `WANDB_API_KEY` in your environment.
+Before you begin:
+
+- Set `WANDB_API_KEY` in your environment using your W&B [API key](https://wandb.ai/settings).
 - Set `HAYSTACK_CONTENT_TRACING_ENABLED` to `true` before you run a pipeline so Haystack emits tracing data the connector can forward.
 
 ## Install
@@ -24,7 +26,7 @@ The package declares compatible versions of `haystack-ai` and `weave` as depende
 
 ## Add `WeaveConnector` to a pipeline
 
-Add `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines). You do not connect it to other components with `Pipeline.connect`. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
+Add `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines). Don't connect it to other components with `Pipeline.connect`. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
 
 ```python lines
 import os
@@ -66,7 +68,7 @@ print(response["llm"]["replies"][0])
 
 After the pipeline runs, open your W&B workspace, select the project named with `pipeline_name`, and go to **Traces** to review the run.
 
-You can pass `weave_init_kwargs` into `WeaveConnector` if you need to forward additional arguments to the internal Weave client. See the [Haystack `WeaveConnector` reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
+To pass additional arguments to the internal Weave client, use `weave_init_kwargs` on `WeaveConnector`. For parameter details, see the [Haystack `WeaveConnector` reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
 
 ## Official documentation
 
