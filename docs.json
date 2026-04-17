@@ -690,13 +690,9 @@
                           "models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "models/ref/cli/wandb-local",
                       "models/ref/cli/wandb-login",
-                      "models/ref/cli/wandb-off",
                       "models/ref/cli/wandb-offline",
-                      "models/ref/cli/wandb-on",
                       "models/ref/cli/wandb-online",
-                      "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
                       "models/ref/cli/wandb-purge-cache",
                       "models/ref/cli/wandb-restore",
@@ -4002,6 +3998,22 @@
       "source": "/models/ref/python/init",
       "destination": "/models/ref/python/functions/init"
     },
+    {
+      "source": "/models/ref/cli/wandb-local",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/ref/cli/wandb-off",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/ref/cli/wandb-on",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/ref/cli/wandb-projects",
+      "destination": "/models/ref/cli"
+    },    
     {
       "source": "/models/registry/model_registry/:slug*",
       "destination": "/models/registry"

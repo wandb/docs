@@ -1,50 +1,54 @@
 ---
-title: "wandb artifact get"
+title: wandb artifact get
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-get.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbArtifactGet from "/snippets/en/_includes/cli/wandb-artifact-get.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbArtifactGet/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2944" />
 
-Download an artifact from W&B by its path.
 
-The PATH format is entity/project/artifact_name:version. If the version is omitted, use the "latest" alias.
-
-For example, to download the latest version of an artifact called "processed-training-set" from the "foobar" project under the "team-awesome" entity:
-
-```bash
-$ wandb artifact get team-awesome/foobar/processed-training-set:latest
-```
-
-To download a specific version (v2) of the "processed-training-set" artifact to a local directory (./data):
-
-```bash
-$ wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2
-```
 
 ## Usage
 
 ```bash
-wandb artifact get PATH [OPTIONS]
+get [OPTIONS] PATH
 ```
+
+## Description
+
+Download an artifact from W&B by its path.
+
+    The PATH format is entity/project/artifact_name:version. If
+    the version is omitted, use the "latest" alias.
+
+    For example, to download the latest version of an artifact called "processed-training-set"
+    from the "foobar" project under the "team-awesome" entity:
+
+```bash
+wandb artifact get team-awesome/foobar/processed-training-set:latest
+```
+
+    To download a specific version (v2) of the "processed-training-set" artifact
+    to a local directory (./data):
+
+```bash
+wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2
+```
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `PATH` | No description available | Yes |
+| Name | Default | Type |
+|------|---------|------|
+| `path` | STR | True |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--root` | Directory to download the artifact to. Uses the default artifact cache if not set. |
-| `--type` | Expected artifact type. Fails if the artifact does not match. |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--root` | STR | Directory to download the artifact to. Uses the default artifact cache if not set. **Default**: None |
+| `--type` | STR | Expected artifact type. Fails if the artifact does not match. **Default**: None |
+
