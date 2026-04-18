@@ -19,16 +19,16 @@ from accelerate import Accelerator
 # Indiquer à l'objet Accelerator de journaliser avec wandb
 accelerator = Accelerator(log_with="wandb")
 
-# Initialiser votre run wandb en transmettant les paramètres wandb et les informations de configuration
+# Initialiser votre run wandb en transmettant les paramètres wandb et toute information de configuration
 accelerator.init_trackers(
-    project_name="my_project", 
+    project_name="my_project",
     config={"dropout": 0.1, "learning_rate": 1e-2}
     init_kwargs={"wandb": {"entity": "my-wandb-team"}}
     )
 
 ...
 
-# Journaliser dans wandb en appelant `accelerator.log`, `step` est facultatif
+# Journaliser dans wandb en appelant accelerator.log() ; step est facultatif
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 
 
@@ -45,8 +45,8 @@ Plus précisément, vous devez :
 * tous les paramètres que vous souhaitez passer à [`wandb.init()`](/fr/models/ref/python/functions/init) via un `dict` imbriqué dans `init_kwargs`
 * toute autre information de configuration de l&#39;expérience que vous souhaitez journaliser dans votre run wandb, via `config`
 
-3. Utiliser la méthode `.log` pour journaliser dans Weights &amp; Biases ; l&#39;argument `step` est facultatif
-4. Appeler `.end_training` une fois l&#39;entraînement terminé
+3. Utiliser la méthode `wandb.Run.log()` pour journaliser dans Weights &amp; Biases ; l&#39;argument `step` est facultatif
+4. Appeler `.end_training()` une fois l&#39;entraînement terminé
 
 <div id="access-the-wb-tracker">
   ## Accéder à l’outil de suivi W&amp;B

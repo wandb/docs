@@ -7,7 +7,7 @@ description: "Utilisez Weave pour suivre et consigner automatiquement les appels
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
 </a>
 
-Lorsque vous intégrez Weave dans votre code, il suit et consigne automatiquement les appels LLM effectués avec le SDK Anthropic, aussi bien en [Python](https://github.com/anthropics/anthropic-sdk-python) qu&#39;en [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave le fait en appelant automatiquement la méthode `Messages.create` d&#39;Anthropic.
+Lorsque vous intégrez Weave dans votre code, il suit et consigne automatiquement les appels LLM effectués avec le SDK Anthropic, aussi bien en [Python](https://github.com/anthropics/anthropic-sdk-python) qu&#39;en [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave le fait en appelant automatiquement la méthode `Messages.create()` d&#39;Anthropic.
 
 <div id="traces">
   ## Traces
@@ -28,20 +28,21 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
     weave.init("anthropic_project")
 
     client = Anthropic(
-        api_key=os.environ.get("ANTHROPIC_API_KEY"),
+    api_key=os.environ.get("ANTHROPIC_API_KEY"),
     )
 
     message = client.messages.create(
-        max_tokens=1024,
-        messages=[
-            {
-                "role": "user",
-                "content": "Tell me a joke about a dog",
-            }
-        ],
-        model="claude-3-opus-20240229",
+    max_tokens=1024,
+    messages=[
+    {
+    "role": "user",
+    "content": "Tell me a joke about a dog",
+    }
+    ],
+    model="claude-3-opus-20240229",
     )
     print(message.content)
+
     ```
   </Tab>
 
@@ -53,7 +54,7 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
 
     await weave.init('anthropic_project');
 
-    // Encapsulez le client Anthropic pour activer le tracing
+    // Enveloppez le client Anthropic pour activer le tracing
     const client = wrapAnthropic(new Anthropic());
 
     const message = await client.messages.create({
@@ -72,7 +73,7 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
   </Tab>
 </Tabs>
 
-En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de tracing et affiche des liens. Vous pouvez consulter les traces dans Weave UI en cliquant sur ces liens.
+En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de tracing et affiche des liens. Vous pouvez consulter les traces dans l’interface Weave en cliquant sur ces liens.
 
 [![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
@@ -80,7 +81,7 @@ En incluant `weave.init()` dans le code, Weave capture automatiquement les infor
   ## Utiliser vos propres ops
 </div>
 
-Les ops Weave versionnent automatiquement votre code au fil de vos expériences et en capturent les entrées et les sorties. En décorant une fonction avec [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) ou en l&#39;encapsulant avec [`weave.op()`](/fr/weave/reference/typescript-sdk/functions/op) (TypeScript), si elle appelle [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), Weave suit automatiquement ses entrées et ses sorties.
+Les ops Weave versionnent automatiquement votre code au fil de vos expériences et en capturent les entrées et les sorties. En décorant une fonction avec [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) ou en l&#39;encapsulant avec [`weave.op()`](/fr/weave/reference/typescript-sdk/functions/op) (TypeScript), si elle appelle [`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), Weave suit automatiquement ses entrées et ses sorties.
 
 Les exemples suivants montrent comment suivre une fonction :
 
@@ -93,29 +94,30 @@ Les exemples suivants montrent comment suivre une fonction :
 
     weave.init("anthropic_project")
     client = Anthropic(
-        api_key=os.environ.get("ANTHROPIC_API_KEY"),
+    api_key=os.environ.get("ANTHROPIC_API_KEY"),
     )
 
     @weave.op()
     def call_anthropic(user_input:str, model:str) -> str:
-        message = client.messages.create(
-        max_tokens=1024,
-        messages=[
-            {
-                "role": "user",
-                "content": user_input,
-            }
-            ],
-            model=model,
-        )
-        return message.content[0].text
+    message = client.messages.create(
+    max_tokens=1024,
+    messages=[
+    {
+    "role": "user",
+    "content": user_input,
+    }
+    ],
+    model=model,
+    )
+    return message.content[0].text
 
     @weave.op()
     def generate_joke(topic: str) -> str:
-        return call_anthropic(f"Tell me a joke about {topic}", model="claude-3-haiku-20240307")
+    return call_anthropic(f"Tell me a joke about {topic}", model="claude-3-haiku-20240307")
 
     print(generate_joke("chickens"))
     print(generate_joke("cars"))
+
     ```
   </Tab>
 
@@ -166,9 +168,7 @@ En décorant ou en encapsulant la fonction avec `weave.op()`, Weave capture le c
   ## Créez un `Model` pour faciliter l’expérimentation
 </div>
 
-<Note>
-  La classe `weave.Model` est disponible uniquement dans le SDK Python de Weave. Pour TypeScript, utilisez le wrapper `weave.op()` pour suivre des fonctions avec des paramètres structurés.
-</Note>
+<Note>La classe `weave.Model` est disponible uniquement dans le SDK Python de Weave. Pour TypeScript, utilisez le wrapper `weave.op()` pour suivre des fonctions avec des paramètres structurés.</Note>
 
 Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails de vos expériences dans votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
@@ -177,7 +177,7 @@ En plus de gérer les versions du code et de capturer les entrées/sorties, les 
 Dans l’exemple suivant, vous pouvez expérimenter avec `model` et `temperature` :
 
 ```python lines
-import weave    
+import weave
 # utiliser la bibliothèque anthropic comme d'habitude
 import os
 from anthropic import Anthropic
@@ -186,7 +186,7 @@ weave.init('joker-anthropic')
 class JokerModel(weave.Model): # Remplacer par `weave.Model`
   model: str
   temperature: float
-  
+
   @weave.op()
   def predict(self, topic): # Remplacer par `predict`
     client = Anthropic()

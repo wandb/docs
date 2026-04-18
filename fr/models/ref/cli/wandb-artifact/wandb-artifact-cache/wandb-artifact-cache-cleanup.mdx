@@ -1,44 +1,52 @@
 ---
-title: "nettoyage du cache d'artifacts de wandb"
+title: nettoyage du cache d’artefacts wandb
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier d’extrait : /snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbArtifactCacheCleanup from "/snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx";
-
-  <WandbArtifactCacheCleanup/>
-
-  L’extrait sera automatiquement détecté lors de la prochaine régénération.
-  */}
-
-Nettoyer les fichiers les moins utilisés du cache d’Artifacts
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3066" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+cleanup [OPTIONS] TARGET_SIZE
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Réduisez la taille du cache local des artefacts.
+
+Supprimez d’abord les fichiers consultés le moins récemment jusqu’à ce que le cache atteigne ou passe sous TARGET&#95;SIZE. TARGET&#95;SIZE accepte des
+formats lisibles (par exemple, 10GB ou 500MB).
+
+Par exemple, pour réduire le cache d’artefacts à 10 GB :
+
+```bash
+wandb artifact cache cleanup 10GB
+```
+
+Pour supprimer les fichiers temporaires et réduire le cache des artefacts à 5 Go :
+
+```bash
+wandb artifact cache cleanup --remove-temp 5GB
+```
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument      | Description                   | Requis |
-| :------------ | :---------------------------- | :----- |
-| `TARGET_SIZE` | Aucune description disponible | Oui    |
+| Nom           | Par défaut | Type |
+| ------------- | ---------- | ---- |
+| `target_size` | STR        | True |
 
 <div id="options">
   ## Options
 </div>
 
-| Option          | Description                                             |
-| :-------------- | :------------------------------------------------------ |
-| `--remove-temp` | Supprimer les fichiers temporaires (par défaut : False) |
+| Option          | Type               | Description                                                                  |
+| --------------- | ------------------ | ---------------------------------------------------------------------------- |
+| `--remove-temp` | Indicateur booléen | Supprime également les fichiers temporaires du cache. **Par défaut** : False |

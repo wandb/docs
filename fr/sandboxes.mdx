@@ -1,0 +1,65 @@
+---
+title: W&B Sandboxes
+mode: wide
+---
+
+<Warning>W&amp;B Sandboxes est en aperçu privé, disponible uniquement sur invitation. Pour demander à y participer, contactez [l’assistance](mailto:support@wandb.com) ou votre AISE.</Warning>
+
+W&amp;B Sandboxes vous offre des environnements de calcul isolés à la demande, que vous pouvez créer, utiliser et supprimer avec Python.
+
+W&amp;B Sandboxes repose sur la bibliothèque CoreWeave Sandbox. Pour la référence de l’API sous-jacente et la documentation de la bibliothèque, voir la [documentation CoreWeave Sandbox](https://docs.coreweave.com/products/coreweave-sandbox).
+
+<div id="how-it-works">
+  ## Fonctionnement
+</div>
+
+Un *sandbox* est un environnement de calcul isolé. Vous pouvez le [créer](/fr/sandboxes/create-sandbox), [y exécuter des commandes](/fr/sandboxes/run-commands), puis l’arrêter une fois le traitement terminé. Chaque sandbox s’exécute dans son propre conteneur, avec son propre système de fichiers, son propre réseau et son propre espace de processus.
+
+W&amp;B authentifie votre identité lorsque vous créez et gérez des sandboxes. Pour utiliser W&amp;B ou Weave dans un sandbox, transmettez votre clé API via le [W&amp;B Secrets Manager](/fr/platform/secrets#manage-access-to-secrets) ou des variables d’environnement. Voir [Secrets](/fr/sandboxes/secrets) pour plus d’informations sur l’utilisation des secrets dans les sandboxes.
+
+Un sandbox passe par [plusieurs états au cours de son cycle de vie](/fr/sandboxes/lifecycle). Lorsqu’un conteneur est en cours d’exécution, vous pouvez [y exécuter des commandes](/fr/sandboxes/run-commands).
+
+[Lisez, écrivez et montez en lecture seule](/fr/sandboxes/file-access) des fichiers dans le sandbox et depuis celui-ci. Par exemple, vous pouvez lire un script Python à exécuter, écrire des journaux ou des résultats, ou monter en lecture seule un répertoire de données auquel le sandbox peut accéder.
+
+Utilisez une *session* pour gérer plusieurs sandboxes qui partagent une configuration. Lorsqu’une session se ferme, tous les sandboxes qu’elle contient sont arrêtés automatiquement. Voir [Gérer plusieurs sandboxes](/fr/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session) pour plus de détails.
+
+<div id="basic-usage">
+  ## Utilisation de base
+</div>
+
+Suivez ces étapes pour créer un sandbox et y exécuter une commande :
+
+1. Installez le SDK Python W&amp;B (`wandb`) à partir de la source fournie par votre équipe d’assistance ou votre contact AISE.
+
+2. Connectez-vous à W&amp;B avec la commande CLI [`wandb login`](/fr/models/ref/cli/wandb-login). Lorsque vous y êtes invité, fournissez votre clé API pour authentifier votre identité et accéder à votre compte W&amp;B :
+
+   ```bash
+   wandb login
+   ```
+
+3. Copiez-collez l’extrait de code suivant dans un fichier Python, puis exécutez-le. L’extrait de code effectue les opérations suivantes :
+
+   1. Créez un sandbox avec [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run).
+   2. Exécutez la commande `echo "Hello from W&B Sandboxes!"` dans le sandbox à l’aide de la méthode [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec).
+   3. Affichez la sortie dans la console à l’aide de l’objet `Process` renvoyé par `Sandbox.exec()`.
+
+   ```python show lines title="hello_sandbox.py"
+   from wandb.sandbox import Sandbox
+
+   with Sandbox.run() as sandbox:
+       process = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+   Vous devriez voir le message `Hello from W&B Sandboxes!` s’afficher dans la console.
+
+   Le sandbox s’arrête automatiquement à la sortie du gestionnaire de contexte (le bloc `with`). Pour plus d’informations sur le cycle de vie et les états du sandbox, voir [Cycle de vie des sandboxes](/fr/sandboxes/lifecycle).
+
+<div id="wb-sandboxes-tutorials">
+  ## Tutoriels W&amp;B Sandboxes
+</div>
+
+Pour des exemples plus détaillés, voir :
+
+* [Tutoriel : invoquer un agent dans un W&amp;B Sandbox](/fr/sandboxes/invoke-agent-sandbox-tutorial)
+* [Tutoriel : entraîner un modèle PyTorch dans un W&amp;B Sandbox](/fr/sandboxes/mltrain-in-sandbox-tutorial)

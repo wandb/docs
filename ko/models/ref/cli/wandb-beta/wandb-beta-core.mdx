@@ -1,0 +1,66 @@
+---
+title: wandb beta core
+---
+
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L251" />
+
+<div id="usage">
+  ## 사용
+</div>
+
+```bash
+core [OPTIONS] COMMAND [ARGS]...
+```
+
+<div id="description">
+  ## 설명
+</div>
+
+다중 프로세스 워크로드를 위해 공유 로컬 wandb-core 서비스를 관리합니다.
+
+wandb-core는 run 데이터, 파일 업로드, 시스템 메트릭 수집을 처리하는
+로컬 백엔드 프로세스입니다. 기본적으로 `wandb.init()`를 호출하는 각
+프로세스는 자체 백엔드를 시작합니다. 많은 독립 워커가 실행 중인
+머신에서는 이로 인해 작업이 중복되고 CPU와 메모리가 낭비됩니다.
+
+다음 명령을 사용해 분리된 wandb-core 인스턴스 하나를 시작하고,
+WANDB&#95;SERVICE 환경 변수를 통해 같은 머신의 여러 워커가 이
+인스턴스를 사용하도록 설정하세요.
+
+일반적인 워크플로:
+
+```bash
+wandb beta core start
+```
+
+```bash
+export WANDB_SERVICE=printed_value
+```
+
+```bash
+python -m your_launcher
+```
+
+```bash
+wandb beta core stop
+```
+
+셸 스크립트의 경우 stdout에서 가공되지 않은 WANDB&#95;SERVICE 값을 캡처하세요:
+
+```bash
+export WANDB_SERVICE="$(wandb beta core start)"
+```
+
+공유 서비스는 기본적으로 10분 동안 유휴 상태이면 종료됩니다.
+start 명령에서 --idle-timeout으로 이 설정을 재정의하세요.
+
+<div id="subcommands">
+  ## 하위 명령어
+</div>
+
+| 명령어                     | 설명                               |
+| ----------------------- | -------------------------------- |
+| `wandb beta core start` | 분리되어 실행되는 wandb-core 서비스를 시작합니다. |
+| `wandb beta core stop`  | 분리되어 실행되는 wandb-core 서비스를 중지합니다. |

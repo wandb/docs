@@ -1,44 +1,57 @@
 ---
-title: "wandb controller"
+title: wandb controller
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-controller.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez entièrement ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbController from "/snippets/_includes/cli/wandb-controller.mdx";
-
-  <WandbController/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Lancer le contrôleur local de balayage W&amp;B
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2381" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb controller SWEEP_ID [OPTIONS]
+controller [OPTIONS] SWEEP_ID
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Démarrez un contrôleur de sweep local pour un sweep d&#39;hyperparamètres W&amp;B.
+
+Démarrez un processus local qui orchestre le sweep spécifié. Lisez la
+configuration du sweep depuis W&amp;B, sélectionnez des combinaisons d&#39;hyperparamètres selon
+la stratégie de recherche configurée (grille, aléatoire, bayésienne, etc.),
+et distribuez les runs aux agents de sweep.
+
+Par défaut, W&amp;B exécute les contrôleurs de sweep sur son infrastructure gérée.
+Utilisez cette commande pour exécuter le contrôleur localement à la place. Par exemple, vous
+pouvez utiliser cette commande pour déboguer un comportement ou travailler dans des environnements où
+la connectivité est limitée.
+
+sweep&#95;id est affiché par `wandb sweep` lorsque vous créez un sweep. Il
+se compose d&#39;un identifiant unique du sweep et peut inclure le
+chemin de l&#39;entité et du projet (entity/project/sweep&#95;id).
+
+Par exemple, pour démarrer un contrôleur de sweep local pour un sweep avec l&#39;ID de sweep wbyz9876 :
+
+```bash
+wandb controller wbyz9876
+```
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument   | Description                   | Requis |
-| :--------- | :---------------------------- | :----- |
-| `SWEEP_ID` | Aucune description disponible | Oui    |
+| Nom        | Par défaut | Type |
+| ---------- | ---------- | ---- |
+| `sweep_id` | STR        | True |
 
 <div id="options">
   ## Options
 </div>
 
-| Option      | Description                                              |
-| :---------- | :------------------------------------------------------- |
-| `--verbose` | Affiche des informations détaillées (par défaut : False) |
+| Option      | Type            | Description                                                       |
+| ----------- | --------------- | ----------------------------------------------------------------- |
+| `--verbose` | Indicateur BOOL | Affiche la sortie détaillée du contrôleur. **Par défaut** : False |

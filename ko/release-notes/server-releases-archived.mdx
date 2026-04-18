@@ -591,7 +591,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
       ![최대 100개의 메트릭과 시간 가중 지수 이동 평균을 지원하는 향상된 메트릭 시각화 인터페이스](https://github.com/wandb/server/assets/47005026/1bb0b16c-eaae-4348-be0d-cc788b67853e)
     </Frame>
 
-    핵심 메트릭 시각화 기능을 계속 개선하고 있습니다. 이제 정규식을 사용해 플롯에 렌더링할 메트릭을 정의할 수 있으며, 한 번에 최대 100개의 메트릭을 표시할 수 있습니다. 또한 대규모 데이터의 특성을 더 정확하게 표현하기 위해, 플롯에서 사용할 새로운 시간 가중 지수 이동 평균(smoothing) 알고리즘을 추가했습니다([지원되는 모든 알고리즘을 확인하세요](/ko/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)).
+    핵심 메트릭 시각화 기능을 계속 개선하고 있습니다. 이제 정규식을 사용해 플롯에 렌더링할 메트릭을 정의할 수 있으며, 한 번에 최대 100개의 메트릭을 표시할 수 있습니다. 또한 대규모 데이터의 특성을 더 정확하게 표현하기 위해, 플롯에서 사용할 새로운 시간 가중 지수 이동 평균(smoothing) 알고리즘을 추가했습니다([지원되는 모든 알고리즘을 확인하세요](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)).
 
   ## 수정 사항
 
@@ -603,21 +603,21 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * 차트 설정에서 정규식으로 매칭할 수 있는 메트릭의 최대 개수를 확장했습니다. 이전에는 항상 10개였으나, 이제 최대 100개까지 가능합니다.
   * 미디어 패널의 스텝 슬라이더가 표시되는 미디어와 동기화되지 않던 문제를 수정했습니다.
   * 플롯에서 smoothing 옵션으로 시간 가중 지수 이동 평균을 추가했습니다.
-  * Workspace의 &quot;Search panels&quot; 텍스트 상자가 이제 사용자의 마지막 검색어를 유지합니다.
+  * 워크스페이스의 &quot;Search panels&quot; 텍스트 상자가 이제 사용자의 마지막 검색어를 유지합니다.
   * run이 그룹화된 상태에서 사용자 이름(username) 필터를 적용하더라도 더 이상 오류가 발생하지 않습니다.
   * (Launch) Launch 탭 로딩 속도가 이제 훨씬 빨라졌으며, 일반적으로 2초 미만입니다.
   * (Launch) 이제 큐 설정을 JSON 대신 YAML로 편집할 수 있는 옵션이 생겼습니다. 큐 설정을 어떻게 수정하는지도 더 명확해졌습니다.
   * (Launch) run이 크래시하거나 실패할 경우, 이제 UI에 오류 메시지가 표시됩니다.
-  * (Launch) job을 생성할 때 프로젝트를 지정하지 않으면, wandb.init의 WANDB&#95;PROJECT 값을 사용합니다.
+  * (Launch) 잡을 생성할 때 프로젝트를 지정하지 않으면, wandb.init()의 WANDB&#95;PROJECT 값을 사용합니다.
   * (Launch) 커스텀 가속기 이미지에 대한 지원을 업데이트했습니다. 빌드 시 비대화형 모드에서 실행되도록 변경하여, 일부 이미지를 막고 있던 문제를 해결했습니다.
   * (Launch) 스윕의 run 작성자가 실제 작성자가 아니라 agent 서비스 계정으로 표시되던 문제를 수정했습니다.
-  * (Launch) Launch drawer 바깥을 클릭해도 이제 drawer가 자동으로 닫히지 않습니다.
-  * (Launch) 스윕에 의해 큐에만 추가되고 아직 실행되지 않은 트레이닝 job이, 나중에 스윕을 중지했을 때 큐에서 올바르게 제거되지 않던 문제를 수정했습니다.
-  * (Launch) 팀에 속하지 않은 사용자에게는 Launch 네비게이션 링크가 이제 표시되지 않습니다.
+  * (Launch) Launch 드로어 바깥을 클릭해도 이제 drawer가 자동으로 닫히지 않습니다.
+  * (Launch) 스윕에 의해 큐에만 추가되고 아직 실행되지 않은 트레이닝 잡이, 나중에 스윕을 중지했을 때 큐에서 올바르게 제거되지 않던 문제를 수정했습니다.
+  * (Launch) 팀에 속하지 않은 사용자에게는 Launch 내비게이션 링크가 이제 표시되지 않습니다.
   * (Launch) Agent 로그의 포맷 및 표시 문제를 수정했습니다.
   * Automations 패널에서 스크롤, 크기 조절, 클론 관련 문제를 수정했습니다.
   * 아티팩트 작업 이력의 페이지네이션 문제를 수정했습니다.
-  * AWS&#95;S3&#95;ENDPOINT&#95;URL 환경 변수(env var)가 설정되어 SDK 측에서 전달되는 경우, VPC endpoint URL을 사용한 프리사인드(pre-signed) URL을 지원하도록 추가했습니다.
+  * AWS&#95;S3&#95;ENDPOINT&#95;URL 환경 변수(env var)가 설정되어 SDK 측에서 전달되는 경우, VPC endpoint URL을 사용한 사전 서명된 URL을 지원하도록 추가했습니다.
   * 조직 이름에 &quot;&amp;&quot;가 포함된 경우 엔터프라이즈 대시보드 링크가 올바르지 않던 문제를 수정했습니다.
   * 태그 색상을 일관되도록 업데이트했습니다.
 </Update>

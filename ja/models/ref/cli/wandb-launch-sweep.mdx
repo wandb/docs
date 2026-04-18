@@ -1,48 +1,41 @@
 ---
-title: "wandb launch-sweep"
+title: wandb launch-sweep
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-launch-sweep.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行のみを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
-
-  <WandbLaunchSweep/>
-
-  このスニペットは、次回の再生成時に自動検出されます。
-  */}
-
-W&amp;B の Launch sweep を実行する (実験的) 。
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1247" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb launch-sweep [CONFIG] [OPTIONS]
+launch-sweep [OPTIONS] [CONFIG]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+W&amp;B の Launch sweep を実行する (実験的) 。
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数       | 説明   | 必須  |
-| :------- | :--- | :-- |
-| `CONFIG` | 説明なし | いいえ |
+| 名        | デフォルト | タイプ   |
+| -------- | ----- | ----- |
+| `config` | PATH  | False |
 
 <div id="options">
   ## オプション
 </div>
 
-| Option              | 説明                                                    |
-| :------------------ | :---------------------------------------------------- |
-| `--queue`, `-q`     | sweep の送信先キューの名                                       |
-| `--project`, `-p`   | agent が監視するプロジェクトの名。指定した場合、設定ファイルで渡されたプロジェクトの値を上書きします |
-| `--entity`, `-e`    | 使用する entity。デフォルトは現在ログイン中のユーザーです                      |
-| `--resume_id`, `-r` | 8 文字の sweep id を指定して Launch sweep を再開します。キューは必須です     |
-| `--prior_run`, `-R` | この sweep に追加する既存の run の ID                            |
+| Flag              | Type | Description                                                                |
+| ----------------- | ---- | -------------------------------------------------------------------------- |
+| `--queue, -q`     | STR  | sweep をプッシュする先のキュー名。**デフォルト**: None                                        |
+| `--project, -p`   | STR  | エージェントが監視する project 名。指定した場合、設定ファイルで渡された project の値を上書きします。**デフォルト**: None |
+| `--entity, -e`    | STR  | 使用する entity。デフォルトでは、現在ログインしているユーザーが使用されます。**デフォルト**: None                  |
+| `--resume_id, -r` | STR  | 8 文字の sweep ID を指定して Launch sweep を再開します。キューは必須です。**デフォルト**: None          |
+| `--prior_run, -R` | STR  | この sweep に追加する既存の run の ID。**デフォルト**: None                                 |

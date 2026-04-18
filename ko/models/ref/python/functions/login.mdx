@@ -20,7 +20,7 @@ login(
     timeout: 'int | None' = None,
     verify: 'bool' = False,
     referrer: 'str | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x107d3d240>
+    anonymous: 'DoNotSet' = <object object at 0x109961240>
 ) → bool
 ```
 
@@ -43,19 +43,19 @@ WANDB&#95;IDENTITY&#95;TOKEN&#95;FILE 환경 변수 등을 통해 identity&#95;t
 
 **매개변수:**
 
-* `key`:  사용할 API 키입니다.
-* `relogin`:  true이면 .netrc, 환경 변수 등을 읽지 않고 대화형 프롬프트에서 API 키를 가져옵니다.
-* `host`:  연결할 W&amp;B 서버 URL입니다.
-* `force`:  true이면 대화형 프롬프트에서 오프라인 모드를 선택할 수 없게 합니다.
-* `timeout`:  대화형 프롬프트에서 사용자 입력을 기다리는 시간(초)입니다. 비대화형 환경에서 대화형 프롬프트가 잘못 표시되는 경우를 대비한 안전장치로 사용할 수 있습니다.
-* `verify`:  W&amp;B 서버로 자격 증명을 확인하고, 실패하면 AuthenticationError를 발생시킵니다.
-* `referrer`:  분석을 위해 URL 로그인 요청에 사용할 referrer입니다.
+* `key`: 사용할 API 키입니다.
+* `relogin`: true이면 .netrc, 환경 변수 등을 읽지 않고 대화형 프롬프트에서 API 키를 가져옵니다.
+* `host`: 연결할 W&amp;B 서버 URL입니다.
+* `force`: true이면 대화형 프롬프트에서 오프라인 모드를 선택할 수 없게 합니다.
+* `timeout`: 대화형 프롬프트에서 사용자 입력을 기다리는 시간(초)입니다. 비대화형 환경에서 대화형 프롬프트가 잘못 표시되는 경우를 대비한 안전장치로 사용할 수 있습니다.
+* `verify`: W&amp;B 서버로 자격 증명을 확인하고, 실패하면 AuthenticationError를 발생시킵니다.
+* `referrer`: 분석을 위해 URL 로그인 요청에 사용할 referrer입니다.
 
 **반환값:**
 
-* `bool`:  `key`가 설정된 경우입니다.
+* `bool`: `key`가 설정된 경우입니다.
 
 **예외:**
 
-* `AuthenticationError`:  `api_key`가 서버 검증에 실패한 경우.
-* `UsageError`:  `api_key`를 설정할 수 없고 tty도 없는 경우.
+* `AuthenticationError`: `api_key`가 서버 검증에 실패한 경우.
+* `UsageError`: `api_key`를 설정할 수 없고 tty도 없는 경우. 

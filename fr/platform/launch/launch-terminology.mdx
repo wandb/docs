@@ -13,7 +13,7 @@ Un job Launch est un type spécifique de [W&amp;B Artifact](/fr/models/artifacts
 
 * Du code Python et d&#39;autres ressources de fichier, y compris au moins un point d&#39;entrée exécutable.
 * Des informations sur l&#39;entrée (paramètre de configuration) et la sortie (métriques enregistrées).
-* Des informations sur l&#39;environnement (par exemple, `requirements.txt`, `Dockerfile` de base).
+* Des informations sur l&#39;environnement. (par exemple, `requirements.txt`, `Dockerfile` de base).
 
 Il existe trois grands types de définitions de job :
 
@@ -24,10 +24,11 @@ Il existe trois grands types de définitions de job :
 | Jobs basés sur des images                     | Le code et les autres ressources sont intégrés dans une image Docker.                                                                   | Pour exécuter des jobs basés sur des images, l&#39;agent Launch peut devoir être configuré avec des identifiants de dépôt d&#39;images. |
 
 <Note>
-  Bien que les jobs Launch puissent effectuer des activités sans lien avec l&#39;entraînement de modèle — par exemple, déployer un modèle sur un serveur d&#39;inférence Triton — tous les jobs doivent appeler `wandb.init` pour se terminer correctement. Cela crée un run à des fins de suivi dans un Workspace W&amp;B.
+  Bien que les jobs Launch puissent effectuer des activités sans lien avec l&#39;entraînement de modèle — par exemple, déployer un modèle sur un serveur d&#39;inférence Triton — tous les jobs doivent appeler `wandb.init()` pour se terminer correctement. Cela
+  crée un run à des fins de suivi dans un Workspace W&amp;B.
 </Note>
 
-Retrouvez les jobs que vous avez créés dans la W&amp;B App, sous l&#39;onglet `Jobs` de l&#39;espace de travail du projet. À partir de là, les jobs peuvent être configurés et envoyés vers une [launch queue](#launch-queue) pour être exécutés sur diverses [ressources cibles](#target-resources).
+Retrouvez les jobs que vous avez créés dans la W&amp;B App, sous l&#39;onglet `Jobs` de l&#39;espace de travail du projet. À partir de là, les jobs peuvent être configurés et envoyés vers une [file d’attente Launch](#launch-queue) pour être exécutés sur diverses [ressources cibles](#target-resources).
 
 <div id="launch-queue">
   ### Launch queue

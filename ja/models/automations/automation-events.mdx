@@ -28,8 +28,10 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
 
 Registry の オートメーション は、次のイベントを監視できます。
 
-* **新しいバージョンが collection にリンクされる**: 新しいモデルやデータセットが Registry に追加されたときに、それらをテストして検証します。
+* **新しいバージョンが コレクション にリンクされる**: 新しいモデルやデータセットが Registry に追加されたときに、それらをテストして検証します。
 * **artifact に alias が追加される**: 新しい artifact バージョンに特定の alias が付与されたときに、workflow の特定の step をトリガーします。たとえば、モデルに `production` alias が付与されたらデプロイします。
+
+オートメーションが webhook を Call する場合、project スコープのオートメーションと同じチームレベルの webhook 設定および [team secrets](/ja/platform/secrets) にアクセスできます。
 
 <div id="project">
   ## プロジェクト

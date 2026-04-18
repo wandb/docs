@@ -1,48 +1,41 @@
 ---
-title: "wandb launch-sweep"
+title: wandb launch-sweep
 ---
 
-{/*
-  이 명령어의 소개 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-launch-sweep.mdx
-  2. 해당 파일에 소개 콘텐츠를 추가합니다
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남깁니다:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-  import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
-
-  <WandbLaunchSweep/>
-
-  다음번 재생성 시 스니펫이 자동으로 감지됩니다.
-  */}
-
-W&amp;B Launch sweep을 실행합니다 (실험 기능).
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1247" />
 
 <div id="usage">
   ## 사용
 </div>
 
 ```bash
-wandb launch-sweep [CONFIG] [OPTIONS]
+launch-sweep [OPTIONS] [CONFIG]
 ```
 
+<div id="description">
+  ## 설명
+</div>
+
+W&amp;B Launch 스윕을 실행합니다 (실험 기능).
 
 <div id="arguments">
   ## 인수
 </div>
 
-| 인수       | 설명           | 필수  |
-| :------- | :----------- | :-- |
-| `CONFIG` | 제공된 설명이 없습니다 | 아니요 |
+| 이름       | 기본값  | 유형    |
+| -------- | ---- | ----- |
+| `config` | PATH | False |
 
 <div id="options">
   ## 옵션
 </div>
 
-| Option              | 설명                                                    |
-| :------------------ | :---------------------------------------------------- |
-| `--queue`, `-q`     | sweep를 보낼 큐 이름                                        |
-| `--project`, `-p`   | agent가 감시할 프로젝트 이름입니다. 지정하면 설정 파일로 전달된 프로젝트 값을 재정의합니다 |
-| `--entity`, `-e`    | 사용할 entity입니다. 기본값은 현재 로그인한 사용자입니다                    |
-| `--resume_id`, `-r` | 8자 sweep ID를 전달해 Launch sweep를 재개합니다. 큐가 필요합니다        |
-| `--prior_run`, `-R` | 이 sweep에 추가할 기존 run의 ID                               |
+| 플래그               | 유형  | 설명                                                                         |
+| ----------------- | --- | -------------------------------------------------------------------------- |
+| `--queue, -q`     | STR | 스윕을 푸시할 큐 이름입니다. **기본값**: None                                             |
+| `--project, -p`   | STR | 에이전트가 모니터링할 프로젝트 이름입니다. 이 값을 지정하면 설정 파일로 전달한 프로젝트 값을 재정의합니다. **기본값**: None |
+| `--entity, -e`    | STR | 사용할 entity입니다. 기본값은 현재 로그인한 사용자입니다. **기본값**: None                          |
+| `--resume_id, -r` | STR | 8자 스윕 ID를 전달해 Launch 스윕을 재개합니다. 큐가 필요합니다. **기본값**: None                    |
+| `--prior_run, -R` | STR | 이 스윕에 추가할 기존 run의 ID입니다. **기본값**: None                                     |

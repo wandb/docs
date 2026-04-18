@@ -1,24 +1,32 @@
 ---
-title: "wandb artifact"
+title: wandb 아티팩트
 ---
 
-artifact를 다루는 명령어
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2807" />
 
 <div id="usage">
   ## 사용
 </div>
 
 ```bash
-wandb artifact COMMAND [ARGS]...
+artifact [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## 명령어
+<div id="description">
+  ## 설명
 </div>
 
-| 명령어                                                          | 설명                             |
-| :----------------------------------------------------------- | :----------------------------- |
-| [cache](/ko/models/ref/cli/wandb-artifact/wandb-artifact-cache) | artifact 캐시를 관리하는 명령어          |
-| [get](/ko/models/ref/cli/wandb-artifact/wandb-artifact-get)     | wandb에서 artifact를 다운로드합니다      |
-| [ls](/ko/models/ref/cli/wandb-artifact/wandb-artifact-ls)       | wandb 프로젝트의 모든 artifact를 나열합니다 |
-| [put](/ko/models/ref/cli/wandb-artifact/wandb-artifact-put)     | artifact를 wandb에 업로드합니다        |
+W&amp;B 아티팩트를 업로드하고 다운로드하며 관리합니다.
+
+<div id="subcommands">
+  ## 하위 명령어
+</div>
+
+| 명령                     | 설명                               |
+| ---------------------- | -------------------------------- |
+| `wandb artifact cache` | 로컬 아티팩트 캐시를 관리합니다.               |
+| `wandb artifact get`   | 경로로 W&amp;B에서 아티팩트를 다운로드합니다.     |
+| `wandb artifact ls`    | W&amp;B 프로젝트의 모든 아티팩트 목록을 표시합니다. |
+| `wandb artifact put`   | W&amp;B에 아티팩트를 업로드합니다.           |
