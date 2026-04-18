@@ -1,8 +1,11 @@
 ---
-title: "wandb beta leet"
+title: wandb beta leet
 ---
 
-import WandbBetaLeet from "/snippets/ja/_includes/cli/wandb-beta-leet.mdx";
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+import WandbBetaLeet from "/snippets/ja/_includes/cli/wandb-beta-leet.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L59" />
 
 <WandbBetaLeet />
 
@@ -11,14 +14,23 @@ import WandbBetaLeet from "/snippets/ja/_includes/cli/wandb-beta-leet.mdx";
 </div>
 
 ```bash
-wandb beta leet COMMAND [ARGS]...
+leet [PATH] | COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## コマンド
+<div id="description">
+  ## 説明
 </div>
 
-| コマンド                                                                        | 説明                 |
-| :-------------------------------------------------------------------------- | :----------------- |
-| [config](/ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config) | LEET の設定を編集します。    |
-| [run](/ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run)       | LEET の TUI を起動します。 |
+W&amp;B LEET: 軽量な実験探索ツール。
+
+ローカルで W&amp;B Runs を表示するためのターミナル UI です。
+
+<div id="subcommands">
+  ## サブコマンド
+</div>
+
+| Command                  | Description             |
+| ------------------------ | ----------------------- |
+| `wandb beta leet config` | LEET の設定を編集します。         |
+| `wandb beta leet run`    | LEET の TUI を起動します。      |
+| `wandb beta leet symon`  | スタンドアロン システムモニターを起動します。 |

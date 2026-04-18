@@ -1,24 +1,32 @@
 ---
-title: "wandb artifact"
+title: wandb artefact
 ---
 
-Commandes pour interagir avec les Artifacts
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2807" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb artifact COMMAND [ARGS]...
+artifact [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## Commandes
+<div id="description">
+  ## Description
 </div>
 
-| Commande                                                     | Description                                                    |
-| :----------------------------------------------------------- | :------------------------------------------------------------- |
-| [cache](/fr/models/ref/cli/wandb-artifact/wandb-artifact-cache) | Commandes permettant d’interagir avec le cache d&#39;artifacts |
-| [get](/fr/models/ref/cli/wandb-artifact/wandb-artifact-get)     | Télécharger un artifact depuis wandb                           |
-| [ls](/fr/models/ref/cli/wandb-artifact/wandb-artifact-ls)       | Lister tous les artifacts dans un projet wandb                 |
-| [put](/fr/models/ref/cli/wandb-artifact/wandb-artifact-put)     | Téléverser un artifact vers wandb                              |
+Téléverser, télécharger et gérer les artefacts W&amp;B.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande               | Description                                                    |
+| ---------------------- | -------------------------------------------------------------- |
+| `wandb artifact cache` | Gérer le cache local des artefacts.                            |
+| `wandb artifact get`   | Télécharger un artefact depuis W&amp;B à partir de son chemin. |
+| `wandb artifact ls`    | Lister tous les artefacts d’un projet W&amp;B.                 |
+| `wandb artifact put`   | Téléverser un artefact vers W&amp;B.                           |

@@ -1,22 +1,30 @@
 ---
-title: "wandb server"
+title: wandb server
 ---
 
-Commandes pour gérer un serveur W&amp;B local
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2645" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb server COMMAND [ARGS]...
+server [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## Commandes
+<div id="description">
+  ## Description
 </div>
 
-| Commande                                                 | Description                       |
-| :------------------------------------------------------- | :-------------------------------- |
-| [start](/fr/models/ref/cli/wandb-server/wandb-server-start) | Démarrer un serveur W&amp;B local |
-| [stop](/fr/models/ref/cli/wandb-server/wandb-server-stop)   | Arrêter un serveur W&amp;B local  |
+Commandes pour gérer un serveur W&amp;B local
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande             | Description                                                              |
+| -------------------- | ------------------------------------------------------------------------ |
+| `wandb server start` | Démarre une instance locale du serveur W&amp;B dans un conteneur Docker. |
+| `wandb server stop`  | Arrête un serveur W&amp;B local en cours d’exécution.                    |

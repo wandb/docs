@@ -76,13 +76,11 @@ wandb.init(project="my_project")
 # Pour journaliser uniquement pendant une phase d'entraînement
 learn.fit(..., cbs=WandbCallback())
 
-# Pour journaliser en continu sur toutes les phases d'entraînement
+# Pour journaliser en continu pour toutes les phases d'entraînement
 learn = learner(..., cbs=WandbCallback())
 ```
 
-<Note>
-  Si vous utilisez la version 1 de Fastai, consultez la [documentation Fastai v1](/fr/models/integrations/fastai/v1/).
-</Note>
+<Note>Si vous utilisez la version 1 de Fastai, consultez la [documentation Fastai v1](/fr/models/integrations/fastai/v1/).</Note>
 
 <div id="wandbcallback-arguments">
   ## Arguments de WandbCallback
@@ -193,7 +191,7 @@ Voici un exemple minimal :
   ### Journalisez uniquement depuis le processus principal
 </div>
 
-Dans les exemples ci-dessus, `wandb` lance un run par processus. À la fin de l&#39;entraînement, vous aurez donc deux runs. Cela peut parfois prêter à confusion, et vous pouvez vouloir journaliser uniquement depuis le processus principal. Pour ce faire, vous devez déterminer manuellement dans quel processus vous vous trouvez et éviter de créer des runs (en appelant `wandb.init` dans tous les autres processus).
+Dans les exemples ci-dessus, `wandb` lance un run par processus. À la fin de l&#39;entraînement, vous aurez donc deux runs. Cela peut parfois prêter à confusion, et vous pouvez vouloir journaliser uniquement depuis le processus principal. Pour ce faire, vous devez déterminer manuellement dans quel processus vous vous trouvez et éviter de créer des runs (en appelant `wandb.init()` dans tous les autres processus)
 
 <Tabs>
   <Tab title="Script">
@@ -207,29 +205,32 @@ Dans les exemples ci-dessus, `wandb` lance un run par processus. À la fin de l&
     path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
 
     def train():
-        cb = []
-        dls = ImageDataLoaders.from_name_func(
-            path,
-            get_image_files(path),
-            valid_pct=0.2,
-            label_func=lambda x: x[0].isupper(),
-            item_tfms=Resize(224),
-        )
-        if rank_distrib() == 0:
-            run = wandb.init("fastai_ddp", entity="capecape")
-            cb = WandbCallback()
-        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
-        with learn.distrib_ctx(sync_bn=False):
-            learn.fit(1)
+    cb = []
+    dls = ImageDataLoaders.from_name_func(
+    path,
+    get_image_files(path),
+    valid_pct=0.2,
+    label_func=lambda x: x[0].isupper(),
+    item_tfms=Resize(224),
+    )
+    if rank_distrib() == 0:
+    run = wandb.init("fastai_ddp", entity="capecape")
+    cb = WandbCallback()
+    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+    with learn.distrib_ctx(sync_bn=False):
+    learn.fit(1)
 
-    if __name__ == "__main__":
-        train()
+    if **name** == "**main**":
+    train()
+
     ```
 
     dans votre terminal, exécutez :
 
     ```
+
     $ torchrun --nproc_per_node 2 train.py
+
     ```
   </Tab>
 

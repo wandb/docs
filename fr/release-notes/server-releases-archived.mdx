@@ -588,16 +588,17 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Améliorations de la visualisation des métriques
 
     <Frame>
-      ![Interface de visualisation des métriques améliorée, prenant en charge jusqu’à 100 métriques avec des moyennes mobiles exponentielles pondérées dans le temps](https://github.com/wandb/server/assets/47005026/1bb0b16c-eaae-4348-be0d-cc788b67853e)
+      ![Interface de visualisation des métriques améliorée, prenant en charge jusqu’à 100 métriques avec des moyennes mobiles exponentielles pondérées dans le
+      temps](https://github.com/wandb/server/assets/47005026/1bb0b16c-eaae-4348-be0d-cc788b67853e)
     </Frame>
 
-    Nous continuons à améliorer l’expérience de visualisation de nos métriques.   Vous pouvez désormais définir, à partir d’expressions régulières, quelles métriques afficher dans vos graphiques, jusqu’à 100 métriques à la fois.   Et pour représenter plus fidèlement les données à grande échelle, nous avons ajouté un nouvel algorithme de lissage par moyenne mobile exponentielle pondérée dans le temps pour les graphiques ([consultez tous nos algorithmes pris en charge](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)).
+    Nous continuons à améliorer l’expérience de visualisation de nos métriques. Vous pouvez désormais définir, à partir d’expressions régulières, quelles métriques afficher dans vos graphiques, jusqu’à 100 métriques à la fois. Et pour représenter plus fidèlement les données à grande échelle, nous avons ajouté un nouvel algorithme de lissage par moyenne mobile exponentielle pondérée dans le temps pour les graphiques ([consultez tous nos algorithmes pris en charge](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)).
 
   ## Correctifs
 
-  * Amélioration majeure de la vitesse de téléchargement des artifacts : plus de 6× plus rapide sur notre benchmark d’artifacts de 1 million de fichiers.  Veuillez passer à la version 0.15.5+ du SDK.
+  * Amélioration majeure de la vitesse de téléchargement des artifacts : plus de 6× plus rapide sur notre benchmark d’artifacts de 1 million de fichiers. Veuillez passer à la version 0.15.5+ du SDK.
   * (Launch) Optuna est désormais disponible comme [planificateur de Sweeps avec Sweeps on Launch](https://docs.wandb.ai/guides/launch/sweeps-on-launch#create-a-custom-sweep-scheduler), ce qui permet une exploration plus efficace des hyperparamètres.
-  * La suppression définitive des données de run est désormais disponible (désactivée par défaut).  Vous pouvez l’activer avec la variable d’environnement GORILLA&#95;DATA&#95;RETENTION&#95;PERIOD, exprimée en heures.  Soyez prudent avant de modifier cette variable et/ou contactez l’assistance W&amp;B, car la suppression est irréversible.  Ce paramètre ne supprimera pas les Artifacts.
+  * La suppression définitive des données de run est désormais disponible (désactivée par défaut). Vous pouvez l’activer avec la variable d’environnement GORILLA&#95;DATA&#95;RETENTION&#95;PERIOD, exprimée en heures. Soyez prudent avant de modifier cette variable et/ou contactez l’assistance W&amp;B, car la suppression est irréversible. Ce paramètre ne supprimera pas les Artifacts.
   * Mise à jour des e-mails de partage de rapport pour y inclure un aperçu.
   * Assouplissement des règles de nettoyage HTML pour les Reports dans les projets ; cela causait de rares problèmes de rendu des Reports.
   * Augmentation du nombre maximal de métriques pouvant être mises en correspondance par une regex dans la configuration des graphiques ; auparavant, cette limite était toujours de 10, elle est désormais de 100.
@@ -606,12 +607,12 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * La zone de texte &quot;Search panels&quot; dans les Workspaces conserve désormais la dernière recherche de l’utilisateur.
   * L’application d’un filtre par nom d’utilisateur lorsque les runs sont groupés ne provoquera plus d’erreur.
   * (Launch) Le chargement de l’onglet Launch devrait désormais être beaucoup plus rapide, généralement en moins de deux secondes.
-  * (Launch) Il existe désormais une option pour modifier les configurations de file d&#39;attente en YAML plutôt qu’en JSON.  Il est aussi désormais plus clair comment modifier les configurations de file d&#39;attente.
-  * (Launch) Les Runs afficheront désormais des messages d’erreur dans l’UI lorsqu’ils plantent ou échouent.
-  * (Launch) Si vous ne spécifiez pas de projet lors de la création d’un job, nous utiliserons désormais la valeur de WANDB&#95;PROJECT issue de votre wandb.init.
+  * (Launch) Il existe désormais une option pour modifier les configurations de file d&#39;attente en YAML plutôt qu’en JSON. Il est aussi désormais plus clair comment modifier les configurations de file d&#39;attente.
+  * (Launch) Les Runs afficheront désormais des messages d’erreur dans l’interface utilisateur lorsqu’ils plantent ou échouent.
+  * (Launch) Si vous ne spécifiez pas de projet lors de la création d’un job, nous utiliserons désormais la valeur de WANDB&#95;PROJECT issue de votre wandb.init().
   * (Launch) Mise à jour de la prise en charge des images d’accélérateur personnalisées : elles s’exécuteront désormais en mode non interactif pendant la build, ce qui bloquait certaines images.
   * (Launch) Correction d’un problème où l’auteur du run pour les Sweeps était le compte de service de l’agent, plutôt que le véritable auteur
-  * (Launch) Cliquer en dehors du panneau latéral Launch ne le fermera plus automatiquement.
+  * (Launch) Cliquer en dehors du tiroir Launch ne le fermera plus automatiquement.
   * (Launch) Correction d’un problème où les tâches d&#39;entraînement qui avaient été mises en file d&#39;attente par un balayage mais n’avaient pas encore été exécutées n’étaient pas correctement retirées de la file d&#39;attente si vous arrêtiez ensuite le balayage.
   * (Launch) Le lien de navigation Launch est désormais masqué pour les utilisateurs qui ne font pas partie de l’équipe.
   * (Launch) Correction de problèmes de formatage et d’affichage dans les journaux de l’agent.

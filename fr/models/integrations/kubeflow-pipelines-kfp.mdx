@@ -167,10 +167,10 @@ Voici la correspondance des concepts de Kubeflow Pipelines avec W&amp;B
   ## Journalisation granulaire
 </div>
 
-Si vous voulez un contrôle plus fin de la journalisation, vous pouvez ajouter quelques appels à `wandb.log` et `wandb.log_artifact` dans le composant.
+Si vous voulez un contrôle plus fin de la journalisation, vous pouvez ajouter quelques appels à `wandb.log()` et `wandb.log_artifact()` dans le composant.
 
-<div id="with-explicit-wandblog_artifacts-calls">
-  ### Avec des appels explicites à `wandb.log_artifacts`
+<div id="with-explicit-wandblog_artifact-calls">
+  ### Avec des appels explicites à `wandb.log_artifact()`
 </div>
 
 Dans l’exemple ci-dessous, nous entraînons un modèle. Le décorateur `@wandb_log` suivra automatiquement les entrées et sorties pertinentes. Si vous souhaitez également journaliser le processus d’entraînement, vous pouvez l’ajouter explicitement comme suit :
@@ -199,7 +199,7 @@ def train_model(
   ### Avec les intégrations implicites de wandb
 </div>
 
-Si vous utilisez une [intégration framework que nous prenons en charge](/fr/models/integrations), vous pouvez aussi transmettre directement le callback :
+Si vous utilisez une [intégration de framework que nous prenons en charge](/fr/models/integrations), vous pouvez également transmettre directement le callback :
 
 ```python
 @wandb_log
@@ -212,5 +212,5 @@ def train_model(
     from pytorch_lightning import Trainer
 
     trainer = Trainer(logger=WandbLogger())
-    ...  # lancer l'entraînement
+    ...  # entraînement
 ```

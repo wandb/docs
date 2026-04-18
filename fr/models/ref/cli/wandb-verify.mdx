@@ -1,25 +1,47 @@
 ---
-title: "wandb verify"
+title: wandb verify
 ---
 
-import WandbVerify from "/snippets/fr/_includes/cli/wandb-verify.mdx";
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-<WandbVerify />
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3534" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb verify [OPTIONS]
+verify [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Exécutez des vérifications d’intégration sur une instance W&amp;B auto-hébergée.
+
+Vérifiez qu’un déploiement W&amp;B auto-hébergé ou en Cloud dédié est correctement configuré
+et fonctionne correctement. N’exécutez pas cette commande sur le cloud public W&amp;B
+à l’adresse api.wandb.ai.
+
+Renvoie `code 1` si une vérification critique échoue.
+
+Par exemple, pour vérifier l’instance W&amp;B actuellement configurée :
+
+```bash
+wandb verify --host https://my-wandb-instance.com
+```
+
+Pour vérifier une instance auto-hébergée donnée :
+
+```bash
+wandb verify --host https://my-wandb-server.example.com
+```
 
 <div id="options">
   ## Options
 </div>
 
-| Option   | Description                            |
-| :------- | :------------------------------------- |
-| `--host` | Tester une instance W&amp;B spécifique |
+| Option   | Type | Description                                                                                                          |
+| -------- | ---- | -------------------------------------------------------------------------------------------------------------------- |
+| `--host` | STR  | Spécifiez l’URL d’une instance W&amp;B donnée. Par défaut, utilise l’URL de base configurée. **Par défaut** : aucune |

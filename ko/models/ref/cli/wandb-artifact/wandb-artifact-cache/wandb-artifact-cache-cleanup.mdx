@@ -1,44 +1,52 @@
 ---
-title: "wandb artifact cache cleanup"
+title: wandb artifact cache cleanup
 ---
 
-{/*
-  이 command에 대한 소개 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx
-  2. 해당 파일에 소개 콘텐츠를 추가합니다.
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남겨둡니다:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-  import WandbArtifactCacheCleanup from "/snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx";
-
-  <WandbArtifactCacheCleanup/>
-
-  다음에 다시 생성할 때 스니펫이 자동으로 감지됩니다.
-  */}
-
-artifacts 캐시에서 자주 사용되지 않는 파일 정리
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3066" />
 
 <div id="usage">
   ## 사용
 </div>
 
 ```bash
-wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+cleanup [OPTIONS] TARGET_SIZE
 ```
 
+<div id="description">
+  ## 설명
+</div>
+
+로컬 아티팩트 캐시 크기를 줄입니다.
+
+캐시가 TARGET&#95;SIZE 이하가 될 때까지 가장 오래전에 액세스한 파일부터 순서대로 제거합니다. TARGET&#95;SIZE는 사람이 읽을 수 있는 형식
+(예: 10GB 또는 500MB)을 허용합니다.
+
+예를 들어, 아티팩트 캐시를 10 GB로 줄이려면 다음과 같이 하세요:
+
+```bash
+wandb artifact cache cleanup 10GB
+```
+
+임시 파일을 삭제하고 아티팩트 캐시를 5GB로 줄이려면 다음과 같이 하세요:
+
+```bash
+wandb artifact cache cleanup --remove-temp 5GB
+```
 
 <div id="arguments">
   ## 인수
 </div>
 
-| 인수            | 설명    | 필수 |
-| :------------ | :---- | :- |
-| `TARGET_SIZE` | 설명 없음 | 예  |
+| 이름            | 기본값 | 유형   |
+| ------------- | --- | ---- |
+| `target_size` | STR | True |
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션              | 설명                       |
-| :-------------- | :----------------------- |
-| `--remove-temp` | 임시 파일을 제거합니다(기본값: False) |
+| 플래그             | 유형       | 설명                                   |
+| --------------- | -------- | ------------------------------------ |
+| `--remove-temp` | BOOL 플래그 | 캐시에서 임시 파일도 함께 제거합니다. **기본값**: False |

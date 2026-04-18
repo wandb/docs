@@ -33,7 +33,7 @@ Consultez un exemple complet sur [GitHub](https://github.com/wandb/examples/tree
 Vous pouvez également consulter le tutoriel [Deploy Sentiment Analyzer Using SageMaker and W&amp;B](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) sur le déploiement d&#39;un analyseur de sentiments avec SageMaker et W&amp;B.
 
 <Warning>
-  L&#39;agent de sweep W&amp;B se comporte comme prévu dans un job SageMaker uniquement si votre intégration SageMaker est désactivée. Désactivez l&#39;intégration SageMaker en modifiant votre appel à `wandb.init` :
+  L&#39;agent de sweep W&amp;B se comporte comme prévu dans un job SageMaker uniquement si votre intégration SageMaker est désactivée. Désactivez l&#39;intégration SageMaker en modifiant votre appel à `wandb.init()` :
 
   ```python
   wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))

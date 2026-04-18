@@ -40,7 +40,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 ```python
 import wandb
 
-# W&B runを初期化する
+# W&B run を初期化する
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
     # モデルをログする
@@ -103,7 +103,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
       run.log_model(path=full_path, name="MNIST")
   ```
 
-  `log_model` を呼び出すと、`MNIST` という名前のモデルartifactが作成され、ファイル `model.h5` がそのモデルartifactに追加されます。ターミナルまたはノートブックには、モデルがログされた run の情報をどこで確認できるかが出力されます。
+  `wandb.Run.log_model()` を呼び出すと、`MNIST` という名前のモデルartifactが作成され、ファイル `model.h5` がそのモデルartifactに追加されます。ターミナルまたはノートブックには、モデルがログされた run の情報をどこで確認できるかが出力されます。
 
   ```python
   View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -130,7 +130,7 @@ import wandb
 # runを初期化する
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-    # モデルにアクセスしてダウンロードする。ダウンロード済みartifactのパスを返す
+    # モデルにアクセスしてダウンロードする。ダウンロードしたartifactのパスを返す
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
@@ -139,7 +139,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 <details>
   <summary>例: ログ済みモデルをダウンロードして使用する</summary>
 
-  たとえば、次のコードスニペットでは、あるユーザーが `use_model` API を呼び出しています。取得したいモデル artifact の名を指定し、バージョン / alias も指定しています。その後、API から返されたパスを `downloaded_model_path` 変数に保存しています。
+  たとえば、次のコードスニペットでは、あるユーザーが `use_model` API を呼び出しています。取得したいモデル artifact の名前を指定し、バージョン / alias も指定しています。その後、API から返されたパスを `downloaded_model_path` 変数に保存しています。
 
   ```python
   import wandb
@@ -149,11 +149,11 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
   alias = "latest"  # モデルバージョンの意味的なニックネームまたは識別子
   model_artifact_name = "fine-tuned-model"
 
-  # run を初期化する
+  # run を初期化します
   with wandb.init(project=project, entity=entity) as run:
-      # モデルにアクセスしてダウンロードする。ダウンロードされた artifact へのパスを返す
-      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+      # モデルにアクセスしてダウンロードします。ダウンロードした artifact へのパスを返します
+      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}")
   ```
 </details>
 
-パラメーターと戻り値のタイプについては、APIリファレンスの [`use_model`](/ja/models/ref/python/experiments/run#use_model) を参照してください。
+パラメーターと戻り値のタイプについては、APIリファレンス の [`use_model`](/ja/models/ref/python/experiments/run#use_model) を参照してください。

@@ -1,38 +1,64 @@
 ---
-title: "wandb server start"
+title: wandb server start
 ---
 
-{/*
-  このコマンドに導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-server-start.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
-
-  <WandbServerStart/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-ローカルのW&amp;Bサーバーを起動する
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2650" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb server start [OPTIONS]
+start [OPTIONS]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+Dockerコンテナー内でローカルの W&amp;B Server インスタンスを起動します。
+
+wandb/local Docker image を取得して実行します。指定したホスト
+ポートをコンテナー内のポート 8080 にマッピングし、データを保存するために
+&quot;wandb&quot; という名前の永続的な Docker
+volume をマウントします。
+
+ローカルサーバーを指すように &quot;base&#95;url&quot; 設定を構成し、
+以降の W&amp;B クライアント Call でそのサーバーを使用するようにします。
+APIキーが見つからない場合は、ログインを求めます。
+
+ホストマシンに Docker がインストールされ、実行中である必要があります。
+
+このコマンドは W&amp;B Models UI のみを起動します。ローカルテスト専用に
+提供されています。本番環境では、W&amp;B Kubernetes Operator が推奨される
+W&amp;B Serv[https://docs.wandb.ai/platform/hosting/self-managed/operator](https://docs.wandb.ai/platform/hosting/self-managed/operator)ged/operator のデプロイ方法です。
+
+たとえば、デフォルトポート (8080) でローカルの W&amp;B Server を起動するには、次のようにします。
+
+```bash
+wandb server start
+```
+
+ポート9090でサーバーを起動するには：
+
+```bash
+wandb server start -p 9090
+```
+
+サーバーをフォアグラウンドで起動するには:
+
+```bash
+wandb server start --no-daemon
+```
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション          | 説明                                           |
-| :------------- | :------------------------------------------- |
-| `--port`, `-p` | W&amp;Bサーバー をバインドするホストのポート (デフォルト: 8080)  |
-| `--env`, `-e`  | wandb/local に渡す環境変数 (デフォルト: [])              |
-| `--daemon`     | デーモンモードで実行するかどうか (デフォルト: True)               |
+| フラグ          | タイプ       | 説明                                                                       |
+| ------------ | --------- | ------------------------------------------------------------------------ |
+| `--port, -p` | STR       | W&amp;B server をバインドするホスト側のポートです。**デフォルト**: 8080                         |
+| `--env, -e`  | STR       | wandb/local Docker image に渡す環境変数です。**デフォルト**: []                         |
+| `--daemon`   | BOOL Flag | サーバーをバックグラウンドで実行します。フォアグラウンドで実行するには `--no-daemon` を使用します。**デフォルト**: True |

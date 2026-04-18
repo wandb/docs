@@ -18,7 +18,7 @@ Utilisez `wandb.Run.log()` pour suivre les métriques de l&#39;expérience.
   ### Nombre de métriques distinctes
 </div>
 
-Pour de meilleures performances, maintenez le nombre total de métriques distinctes dans un projet en dessous de 10 000.
+Pour de meilleures performances, veillez à ce que le nombre total de métriques distinctes dans un projet reste inférieur à 10 000.
 
 ```python
 import wandb
@@ -36,13 +36,13 @@ with wandb.init() as run:
 ```
 
 <Note>
-  W&amp;B aplatit automatiquement les valeurs imbriquées. Cela signifie que si vous passez un dictionnaire, W&amp;B le transforme en un nom séparé par des points. Pour les valeurs de configuration, W&amp;B prend en charge 3 points dans le nom. Pour les valeurs de summary, W&amp;B prend en charge 4 points.
+  W&amp;B aplatit automatiquement les valeurs imbriquées. Cela signifie que si vous transmettez un dictionnaire, W&amp;B le convertit en nom séparé par des points. Pour les valeurs de configuration, W&amp;B prend en charge jusqu’à 3 points dans le nom. Pour les valeurs de synthèse, W&amp;B prend en charge jusqu’à 4 points.
 </Note>
 
-Les noms de métriques doivent respecter certaines contraintes de nommage imposées par GraphQL. Voir [les contraintes de nommage des métriques](/fr/models/track/log/#metric-naming-constraints) pour plus de détails.
+Les noms de métriques doivent respecter certaines contraintes de nommage imposées par GraphQL. Voir [les contraintes de nommage des métriques](/fr/models/track/log/#metric-naming-constraints) pour en savoir plus.
 
-{/* ### Journaliser des médias avec le même nom de métrique
-  Journalisez les médias associés avec le même nom de métrique :
+{/* ### Journaliser des médias sous le même nom de métrique
+  Journalisez les médias liés sous le même nom de métrique :
 
   ```python
   for i, img in enumerate(images):
@@ -53,13 +53,13 @@ Les noms de métriques doivent respecter certaines contraintes de nommage impos�
     run.log({"pred_imgs": [wandb.Image(image) for image in images]})
   ``` */}
 
-Si votre Workspace ralentit soudainement, vérifiez si des runs récents ont involontairement enregistré des milliers de nouvelles métriques. (Le plus simple pour le repérer est de chercher des sections contenant des milliers de graphiques, où seuls un ou deux runs sont visibles.) Si c’est le cas, envisagez de supprimer ces runs et de les recréer avec les métriques souhaitées.
+Si votre espace de travail ralentit soudainement, vérifiez si des runs récents ont enregistré involontairement des milliers de nouvelles métriques. (Le plus simple pour le repérer est de chercher des sections contenant des milliers de graphiques, alors qu’un ou deux runs seulement y sont visibles.) Si c’est le cas, envisagez de supprimer ces runs et de les recréer avec les métriques souhaitées.
 
 <div id="value-width">
-  ### Taille des valeurs
+  ### Value width
 </div>
 
-Limitez la taille d’une valeur enregistrée à moins de 1 Mo et la taille totale d’un appel `wandb.Run.log()` à moins de 25 Mo. Cette limite ne s’applique pas aux types `wandb.Media` comme `wandb.Image`, `wandb.Audio`, etc.
+Limit the size of a single logged value to under 1 MB and the total size of a single `wandb.Run.log()` call to under 25 MB. This limit does not apply to `wandb.Media` types like `wandb.Image`, `wandb.Audio`, etc.
 
 ```python
 import wandb
@@ -75,21 +75,19 @@ with wandb.init(project="wide-values") as run:
         run.log(large_data)
 ```
 
-Des valeurs trop larges peuvent allonger le temps de chargement des graphiques pour toutes les métriques du run, et pas seulement pour la métrique qui contient ces valeurs.
+Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
 
-<Note>
-  Les données sont enregistrées et suivies même si vous journalisez des valeurs plus larges que la taille recommandée. Cependant, vos graphiques peuvent se charger plus lentement.
-</Note>
+<Note>Data is saved and tracked even if you log values wider than the recommended amount. However, your plots may load more slowly.</Note>
 
 <div id="metric-frequency">
-  ### Fréquence des métriques
+  ### Metric frequency
 </div>
 
-Choisissez une fréquence de journalisation adaptée à la métrique que vous enregistrez. En règle générale, enregistrez moins souvent les valeurs volumineuses que les valeurs plus compactes. W&amp;B recommande :
+Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, log wider values less frequently than narrower values. W&amp;B recommends:
 
-* Scalaires : &lt;100,000 points enregistrés par métrique
-* Médias : &lt;50,000 points enregistrés par métrique
-* Histogrammes : &lt;10,000 points enregistrés par métrique
+* Scalars: &lt;100,000 logged points per metric
+* Media: &lt;50,000 logged points per metric
+* Histograms: &lt;10,000 logged points per metric
 
 ```python
 import wandb
@@ -110,7 +108,7 @@ with wandb.init(project="metric-frequency") as run:
             "scalar": 1,  # 100 000 scalaires
         },
         commit=True,
-    )  # Soumettre ensemble les métriques groupées par étape
+    )  # Valider ensemble les métriques groupées par étape
 
     run.log(
         {
@@ -118,7 +116,7 @@ with wandb.init(project="metric-frequency") as run:
         },
         commit=False,
     )
-    
+
     run.log(
         {
             "histogram": wandb.Histogram(...),  # 10 000 histogrammes
@@ -127,20 +125,18 @@ with wandb.init(project="metric-frequency") as run:
     )
 ```
 
-{/* Activez l’envoi par lots dans les appels à `run.log` en passant `commit=False` afin de réduire au minimum le nombre total d’appels à l’API pour une étape donnée. Voir [la documentation](/models/ref/python/experiments/run/#method-runlog) sur `run.log` pour plus de détails. */}
+{/* Activez le traitement par lots des appels à `wandb.Run.log()` en passant `commit=False` afin de minimiser le nombre total d'appels à l'API pour une étape donnée. Voir [la documentation](/models/ref/python/experiments/run/#method-runlog) de `run.log()` pour plus de détails. */}
 
-<Note>
-  W&amp;B continue d’accepter vos données enregistrées, mais les pages risquent de se charger plus lentement si vous dépassez les recommandations.
-</Note>
+<Note>W&amp;B continues to accept your logged data but pages may load more slowly if you exceed guidelines.</Note>
 
 <div id="config-size">
   ### Taille de la configuration
 </div>
 
-Limitez la taille totale de la configuration de votre run à moins de 10 Mo. L’enregistrement de valeurs volumineuses peut ralentir les espaces de travail du projet et les opérations de la table Runs.
+Limitez la taille totale de la configuration de votre run à moins de 10 Mo. L’enregistrement de valeurs volumineuses peut ralentir les Workspaces du projet et les opérations du tableau de runs.
 
 ```python
-import wandb 
+import wandb
 
 # Recommandé
 with wandb.init(
@@ -158,8 +154,8 @@ with wandb.init(
 with wandb.init(
     project="config-size",
     config={
-        "large_list": list(range(10000000)),  # Grande liste
-        "large_string": "a" * 10000000,  # Grande chaîne
+        "large_list": list(range(10000000)),  # Liste volumineuse
+        "large_string": "a" * 10000000,  # Chaîne volumineuse
     }
 ) as run:
     # Votre code d'entraînement ici
@@ -294,12 +290,13 @@ W&amp;B applique des limites de débit par projet W&amp;B. Ainsi, si vous avez 3
 Si vous atteignez une limite de débit, vous recevez une erreur HTTP `429` `Rate limit exceeded`, et la réponse inclut les [en-têtes HTTP de limitation de débit](#rate-limit-http-headers).
 
 <div id="suggestions-for-staying-under-the-metrics-logging-api-rate-limit">
-  ### Suggestions pour rester sous la limite de débit de l’API de journalisation des métriques
+  ### Conseils pour rester sous la limite de débit de l’API de journalisation des métriques
 </div>
 
 Dépasser la limite de débit peut retarder `run.finish()` jusqu’à la réinitialisation de cette limite. Pour éviter cela, envisagez les stratégies suivantes :
 
 * Mettez à jour la version de votre SDK Python W&amp;B : assurez-vous d’utiliser la dernière version du SDK Python W&amp;B. Le SDK Python W&amp;B est régulièrement mis à jour et inclut des mécanismes améliorés pour réessayer les requêtes proprement et optimiser l’utilisation du quota.
+
 * Réduisez la fréquence de journalisation des métriques :
   Réduisez au minimum la fréquence de journalisation des métriques afin de préserver votre quota. Par exemple, vous pouvez modifier votre code pour consigner des métriques toutes les cinq époques au lieu de chaque époque :
 

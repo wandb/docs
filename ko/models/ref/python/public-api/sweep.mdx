@@ -105,6 +105,30 @@ sweep URL은 entity, 프로젝트, &quot;sweeps&quot;라는 문자열, 그리고
 
 ***
 
+### <kbd>방법</kbd> `Sweep.agent`
+
+```python
+agent(agent_id: 'str') → Agent
+```
+
+이 스윕에서 ID로 에이전트를 쿼리합니다.
+
+**인수:**
+
+* `agent_id`: 조회할 에이전트의 ID입니다.
+
+***
+
+### <kbd>방법</kbd> `Sweep.agents`
+
+```python
+agents() → list[Agent]
+```
+
+이 스윕의 모든 에이전트 목록을 쿼리합니다.
+
+***
+
 ### <kbd>방법</kbd> `Sweep.best_run`
 
 ```python

@@ -27,14 +27,14 @@ Nous vous montrons comment intégrer W&amp;B à votre code PyTorch pour ajouter 
 # importer la bibliothèque
 import wandb
 
-# définir un dictionnaire d'hyperparamètres avec la configuration
+# capturer un dictionnaire d’hyperparamètres dans la configuration
 config = {
     "learning_rate": 0.001,
     "epochs": 100,
     "batch_size": 128
 }
 
-# démarrer une nouvelle expérience
+# lancer une nouvelle expérience
 with wandb.init(project="new-sota-model", config=config) as run:
 
     # configurer le modèle et les données
@@ -45,7 +45,7 @@ with wandb.init(project="new-sota-model", config=config) as run:
 
     for batch in dataloader:
     metrics = model.training_step()
-    # consigner des métriques dans votre boucle d'entraînement pour visualiser les performances du modèle
+    # consigner des métriques dans votre boucle d’entraînement pour visualiser les performances du modèle
     run.log(metrics)
 
     # facultatif : enregistrer le modèle à la fin
@@ -72,7 +72,7 @@ import torchvision
 import torchvision.transforms as transforms
 from tqdm.auto import tqdm
 
-# Assurer un comportement déterministe
+# Garantir un comportement déterministe
 torch.backends.cudnn.deterministic = True
 random.seed(hash("setting random seeds") % 2**32 - 1)
 np.random.seed(hash("improves reproducibility") % 2**32 - 1)
@@ -119,7 +119,7 @@ wandb.login()
 </div>
 
 <div id="track-metadata-and-hyperparameters-with-wandbinit">
-  ### Suivre les métadonnées et les hyperparamètres avec `wandb.init`
+  ### Suivre les métadonnées et les hyperparamètres avec `wandb.init()`
 </div>
 
 Dans le code, la première chose à faire est de définir notre expérience :
@@ -180,11 +180,11 @@ def model_pipeline(hyperparameters):
 ```
 
 La seule différence ici par rapport à un pipeline standard
-est que tout se passe dans le contexte de `wandb.init`.
+est que tout se passe dans le contexte de `wandb.init()`.
 L’appel à cette fonction établit un canal de communication
 entre votre code et nos serveurs.
 
-Le fait de passer le dictionnaire `config` à `wandb.init`
+Le fait de passer le dictionnaire `config` à `wandb.init()`
 enregistre immédiatement toutes ces informations,
 afin que vous sachiez toujours quelles valeurs d’hyperparamètres
 vous avez choisi d’utiliser pour votre expérience.
@@ -210,11 +210,11 @@ def make(config):
     # Créer le modèle
     model = ConvNet(config.kernels, config.classes).to(device)
 
-    # Définir la perte et l'optimiseur
+    # Créer la fonction de perte et l'optimiseur
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(
         model.parameters(), lr=config.learning_rate)
-    
+
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
@@ -231,30 +231,30 @@ donc nous ne nous y attarderons pas.
 ```python
 def get_data(slice=5, train=True):
     full_dataset = torchvision.datasets.MNIST(root=".",
-                                              train=train, 
+                                              train=train,
                                               transform=transforms.ToTensor(),
                                               download=True)
-    #  équivalent au découpage avec [::slice] 
+    #  équivalent au slicing avec [::slice]
     sub_dataset = torch.utils.data.Subset(
       full_dataset, indices=range(0, len(full_dataset), slice))
-    
+
     return sub_dataset
 
 
 def make_loader(dataset, batch_size):
     loader = torch.utils.data.DataLoader(dataset=dataset,
-                                         batch_size=batch_size, 
+                                         batch_size=batch_size,
                                          shuffle=True,
                                          pin_memory=True, num_workers=2)
     return loader
 ```
 
-Définir le modèle est normalement la partie la plus intéressante.
+Définir le modèle est généralement la partie la plus amusante.
 
-Mais avec `wandb`, rien ne change,
-donc on va s&#39;en tenir à une architecture ConvNet standard.
+Mais rien ne change avec `wandb`,
+donc nous allons nous en tenir à une architecture ConvNet standard.
 
-N&#39;hésitez pas à faire quelques essais et à tester différentes variantes --
+N&#39;ayez pas peur de le modifier et d&#39;essayer quelques expériences --
 tous vos résultats seront enregistrés sur [wandb.ai](https://wandb.ai).
 
 ```python
@@ -263,7 +263,7 @@ tous vos résultats seront enregistrés sur [wandb.ai](https://wandb.ai).
 class ConvNet(nn.Module):
     def __init__(self, kernels, classes=10):
         super(ConvNet, self).__init__()
-        
+
         self.layer1 = nn.Sequential(
             nn.Conv2d(1, kernels[0], kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
@@ -273,7 +273,7 @@ class ConvNet(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2))
         self.fc = nn.Linear(7 * 7 * kernels[-1], classes)
-        
+
     def forward(self, x):
         out = self.layer1(x)
         out = self.layer2(out)
@@ -294,7 +294,7 @@ Deux fonctions `wandb` entrent en jeu ici : `watch` et `log`.
   ## Suivre les gradients avec `run.watch()` et tout le reste avec `run.log()`
 </div>
 
-`run.watch` journalisera les gradients et les paramètres de votre modèle
+`run.watch()` journalisera les gradients et les paramètres de votre modèle,
 toutes les `log_freq` étapes de l&#39;entraînement.
 
 Il vous suffit de l&#39;appeler avant de commencer l&#39;entraînement.
@@ -306,13 +306,13 @@ et en appliquant notre `optimizer`.
 
 ```python
 def train(model, loader, criterion, optimizer, config):
-    # Indique à wandb de surveiller le modèle : gradients, poids, et plus encore.
+    # Indiquer à wandb de surveiller ce que fait le modèle : gradients, poids, etc.
     run = wandb.init(project="pytorch-demo", config=config)
     run.watch(model, criterion, log="all", log_freq=10)
 
     # Lancer l'entraînement et le suivre avec wandb
     total_batches = len(loader) * config.epochs
-    example_ct = 0  # nombre d'exemples traités
+    example_ct = 0  # nombre d'exemples vus
     batch_ct = 0
     for epoch in tqdm(range(config.epochs)):
         for _, (images, labels) in enumerate(loader):
@@ -321,23 +321,23 @@ def train(model, loader, criterion, optimizer, config):
             example_ct +=  len(images)
             batch_ct += 1
 
-            # Enregistrer les métriques tous les 25 lots
+            # Consigner les métriques tous les 25 batches
             if ((batch_ct + 1) % 25) == 0:
                 train_log(loss, example_ct, epoch)
 
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
-    
+
     # Passe avant ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
-    
+
     # Passe arrière ⬅
     optimizer.zero_grad()
     loss.backward()
 
-    # Mise à jour avec l'optimiseur
+    # Étape avec l'optimiseur
     optimizer.step()
 
     return loss
@@ -358,8 +358,8 @@ Vous pouvez aussi indiquer, de façon facultative, à quelle `step` d’entraîn
 ```python
 def train_log(loss, example_ct, epoch):
     with wandb.init(project="pytorch-demo") as run:
-        # Enregistrer la perte et le numéro d'époque
-        # C'est ici que nous enregistrons les métriques dans W&B
+        # Consigner la perte et le numéro d’époque
+        # C’est ici que nous consignons les métriques dans W&B
         run.log({"epoch": epoch, "loss": loss}, step=example_ct)
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
@@ -405,10 +405,10 @@ def test(model, test_loader):
 
             print(f"Accuracy of the model on the {total} " +
                 f"test images: {correct / total:%}")
-            
+
             run.log({"test_accuracy": correct / total})
 
-        # Enregistrer le modèle au format ONNX interchangeable
+        # Enregistrer le modèle au format ONNX interopérable
         torch.onnx.export(model, images, "model.onnx")
         run.save("model.onnx")
 ```
@@ -433,7 +433,7 @@ Accédez à la page du run et consultez ces onglets :
 3. **Logs**, qui contient une copie de tout ce qui a été envoyé vers la sortie standard pendant l’entraînement
 4. **Files**, où, une fois l’entraînement terminé, vous pouvez cliquer sur `model.onnx` pour visualiser notre réseau avec le [visualiseur de modèles Netron](https://github.com/lutzroeder/netron).
 
-Une fois le run terminé, à la sortie du bloc `with wandb.init`,
+Une fois le run terminé, à la sortie du bloc `with wandb.init()`,
 nous afficherons également un résumé des résultats dans la sortie de la cellule.
 
 ```python

@@ -1,8 +1,11 @@
 ---
-title: "wandb beta leet"
+title: wandb beta leet
 ---
 
-import WandbBetaLeet from "/snippets/ko/_includes/cli/wandb-beta-leet.mdx";
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+import WandbBetaLeet from "/snippets/ko/_includes/cli/wandb-beta-leet.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L59" />
 
 <WandbBetaLeet />
 
@@ -11,14 +14,23 @@ import WandbBetaLeet from "/snippets/ko/_includes/cli/wandb-beta-leet.mdx";
 </div>
 
 ```bash
-wandb beta leet COMMAND [ARGS]...
+leet [PATH] | COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## 명령어
+<div id="description">
+  ## 설명
 </div>
 
-| 명령어                                                                         | 설명               |
-| :-------------------------------------------------------------------------- | :--------------- |
-| [config](/ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config) | LEET 설정을 수정합니다.  |
-| [run](/ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run)       | LEET TUI를 실행합니다. |
+W&amp;B LEET: 경량 실험 탐색 도구입니다.
+
+로컬에서 W&amp;B Runs를 확인할 수 있는 터미널 UI입니다.
+
+<div id="subcommands">
+  ## 하위 명령어
+</div>
+
+| 명령어                      | 설명                     |
+| ------------------------ | ---------------------- |
+| `wandb beta leet config` | LEET 설정을 수정합니다.        |
+| `wandb beta leet run`    | LEET TUI를 실행합니다.       |
+| `wandb beta leet symon`  | 독립 실행형 시스템 모니터를 실행합니다. |

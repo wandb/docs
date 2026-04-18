@@ -32,7 +32,7 @@ Pendant une expérience d&#39;entraînement distribué, vous entraînez un modè
 
 Cette section explique comment suivre les valeurs et les métriques disponibles pour votre processus de rang 0. Utilisez cette approche pour ne suivre que les métriques disponibles depuis un seul processus. Les métriques typiques incluent l’utilisation du GPU/CPU, le comportement sur un ensemble de validation partagé, les gradients et les paramètres, ainsi que les valeurs de perte sur des exemples de données représentatifs.
 
-Dans le processus de rang 0, initialisez un run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/functions/init) et enregistrez les expériences ([`wandb.log`](/fr/models/ref/python/experiments/run/#method-runlog)) dans ce run.
+Dans le processus de rang 0, initialisez un run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/functions/init) et enregistrez les expériences ([`wandb.Run.log()`](/fr/models/ref/python/experiments/run/#method-runlog)) dans ce run.
 
 L’[exemple de script Python (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) suivant montre une façon de suivre des métriques sur deux GPU d’une même machine à l’aide de PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` dans `torch.nn`) est une bibliothèque populaire pour l’entraînement distribué. Les principes de base s’appliquent à toute configuration d’entraînement distribué, mais l’implémentation peut varier.
 
@@ -91,7 +91,8 @@ Cette section explique comment suivre chaque processus séparément en créant u
 Il peut être difficile de suivre les runs dans plusieurs expériences. Pour y remédier, fournissez une valeur au paramètre `group` lorsque vous initialisez W&amp;B (`wandb.init(group='group-name')`) afin d’identifier à quelle expérience appartient chaque run. Pour plus d’informations sur le suivi des Runs W&amp;B d’entraînement et d’évaluation dans les expériences, voir [Group Runs](/fr/models/runs/grouping/).
 
 <Note>
-  **Utilisez cette approche si vous souhaitez suivre les métriques de chaque processus individuellement**. Les exemples typiques incluent les données et les prédictions sur chaque nœud (pour déboguer la distribution des données), ainsi que les métriques sur des lots individuels en dehors du nœud principal. Cette approche n’est pas nécessaire pour obtenir les métriques système de tous les nœuds ni les statistiques récapitulatives disponibles sur le nœud principal.
+  **Utilisez cette approche si vous souhaitez suivre les métriques de chaque processus individuellement**. Les exemples typiques incluent les données et les prédictions sur chaque nœud (pour déboguer la distribution des données), ainsi que les métriques sur
+  des lots individuels en dehors du nœud principal. Cette approche n’est pas nécessaire pour obtenir les métriques système de tous les nœuds ni les statistiques récapitulatives disponibles sur le nœud principal.
 </Note>
 
 L’extrait de code Python suivant montre comment définir le paramètre `group` lorsque vous initialisez W&amp;B :
@@ -131,7 +132,7 @@ Définissez le paramètre `job_type` lors de l’initialisation de W&amp;B (`wan
    with wandb.init(project="<project>", job_type="main", group="experiment_1") as run:
         # Code d'entraînement
 
-   # Nœuds worker de reporting
+   # Nœuds workers chargés du reporting
    with wandb.init(project="<project>", job_type="worker", group="experiment_1") as run:
         # Code d'entraînement
 ```
@@ -156,7 +157,7 @@ Par exemple, vous pourriez créer les vues enregistrées suivantes :
 Pour ouvrir une vue enregistrée, cliquez sur **Workspaces** dans la barre latérale du projet, puis cliquez sur le menu. Les Workspaces apparaissent en haut de la liste et les vues enregistrées en bas.
 
 <div id="track-all-processes-to-a-single-run">
-  ### Suivre tous les processus dans un même run
+  ### Suivre tous les processus dans un seul run
 </div>
 
 <Warning>
@@ -166,7 +167,7 @@ Pour ouvrir une vue enregistrée, cliquez sur **Workspaces** dans la barre laté
 <Note>
   **Prérequis**
 
-  Pour suivre plusieurs processus dans un même run, vous devez disposer de :
+  Pour suivre plusieurs processus dans un seul run, vous devez disposer de :
 
   * la version `v0.19.9` ou ultérieure du W&amp;B Python SDK.
 
@@ -202,7 +203,7 @@ Pour chaque nœud worker, initialisez un run W&amp;B avec [`wandb.init()`](/fr/m
   * Vous pouvez envisager de définir une variable d’environnement sur chaque nœud worker pour définir l’ID du run du nœud principal.
 </Note>
 
-L’exemple de code suivant illustre les exigences générales pour suivre plusieurs processus dans un même run :
+L’exemple de code suivant illustre les exigences générales pour suivre plusieurs processus dans un seul run :
 
 ```python
 import wandb
@@ -215,41 +216,42 @@ run = wandb.init(
     entity=entity,
     project=project,
 	settings=wandb.Settings(
-        x_label="rank_0", 
-        mode="shared", 
+        x_label="rank_0",
+        mode="shared",
         x_primary=True,
         x_stats_gpu_device_ids=[0, 1],  # (Facultatif) Suivre uniquement les métriques pour les GPU 0 et 1
         )
 )
 
-# Noter l’ID du run du nœud principal.
-# Chaque nœud worker a besoin de cet ID du run.
+# Noter l'ID du run du nœud principal.
+# Chaque nœud worker a besoin de cet ID de run.
 run_id = run.id
 
-# Initialiser un run dans un nœud worker en utilisant l’ID du run du nœud principal
+# Initialiser un run dans un nœud worker en utilisant l'ID du run du nœud principal
 run = wandb.init(
     entity=entity, # Utiliser la même entité que le nœud principal
-    project=project, # Utiliser le même projet que le nœud principal
+    project=project, # Utiliser le même project que le nœud principal
 	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
 	id=run_id,
 )
 
-# Initialiser un run dans un nœud worker en utilisant l’ID du run du nœud principal
+# Initialiser un run dans un nœud worker en utilisant l'ID du run du nœud principal
 run = wandb.init(
     entity=entity, # Utiliser la même entité que le nœud principal
-    project=project, # Utiliser le même projet que le nœud principal
+    project=project, # Utiliser le même project que le nœud principal
 	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
 	id=run_id,
 )
 ```
 
-Dans un exemple réel, chaque nœud worker peut se trouver sur une machine distincte.
+Dans un cas réel, chaque nœud worker peut se trouver sur une machine distincte.
 
 <Note>
-  Voir le [Reports Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) pour un exemple de bout en bout montrant comment entraîner un modèle sur un cluster Kubernetes multi-nœud et multi-GPU dans GKE.
+  Voir le report [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) pour un exemple de bout en bout montrant comment entraîner
+  un modèle sur un cluster Kubernetes multi-nœuds et multi-GPU dans GKE.
 </Note>
 
-Affichez les journaux de console des processus multi-nœuds dans le projet dans lequel le run consigne ses journaux :
+Affichez les journaux de console des processus multi-nœuds dans le projet dans lequel le run journalise :
 
 1. Accédez au projet qui contient le run.
 2. Cliquez sur l’onglet **Runs** dans la barre latérale du projet.
@@ -352,7 +354,7 @@ W&amp;B Service est activé par défaut à partir de la version `0.13.0` du SDK 
   #### W&amp;B SDK 0.12.5 et versions ultérieures
 </div>
 
-Modifiez votre script Python pour activer W&amp;B Service avec le SDK W&amp;B version 0.12.5 et les versions ultérieures. Utilisez la méthode `wandb.require` et transmettez la chaîne `"service"` dans votre fonction principale :
+Modifiez votre script Python pour activer W&amp;B Service avec le SDK W&amp;B version 0.12.5 et les versions ultérieures. Utilisez la méthode `wandb.require()` et transmettez la chaîne `"service"` dans votre fonction principale :
 
 ```python
 if __name__ == "__main__":
@@ -361,7 +363,7 @@ if __name__ == "__main__":
 
 def main():
     wandb.require("service")
-    # suite-de-votre-script-ici
+    # le-reste-de-votre-script-va-ici
 ```
 
 Pour une expérience optimale, nous vous recommandons de passer à la version la plus récente.

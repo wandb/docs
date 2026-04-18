@@ -1,22 +1,22 @@
 ---
-description: Suivez les métriques, les vidéos, les graphiques personnalisés et plus encore
+description: Suivez les métriques, les vidéos, les graphiques personnalisés et bien plus encore
 title: Aperçu
 ---
 
 import MetricNamingRules from "/snippets/fr/_includes/metric-naming-rules.mdx";
 import MetricNamingExamples from "/snippets/fr/_includes/metric-naming-examples.mdx";
 
-Enregistrez un dictionnaire de métriques, de médias ou d&#39;objets personnalisés pour une `step` avec le SDK Python W&amp;B. W&amp;B collecte les paires clé-valeur à chaque étape et les stocke dans un dictionnaire unique chaque fois que vous enregistrez des données avec `wandb.Run.log()`. Les données enregistrées depuis votre script sont sauvegardées localement sur votre machine dans un répertoire nommé `wandb`, puis synchronisées avec le cloud W&amp;B ou votre [serveur privé](/fr/platform/hosting/).
+Enregistrez un dictionnaire de métriques, de médias ou d&#39;objets personnalisés pour une étape avec le SDK Python W&amp;B. W&amp;B collecte les paires clé-valeur à chaque étape et les stocke dans un dictionnaire unifié chaque fois que vous enregistrez des données avec `wandb.Run.log()`. Les données enregistrées depuis votre script sont sauvegardées localement sur votre machine dans un répertoire appelé `wandb`, puis synchronisées vers le cloud W&amp;B ou votre [serveur privé](/fr/platform/hosting/).
 
 <Note>
-  Les paires clé-valeur ne sont stockées dans un dictionnaire unique que si vous transmettez la même valeur pour chaque étape. W&amp;B écrit en mémoire toutes les clés et valeurs collectées si vous enregistrez une valeur différente pour `step`.
+  Les paires clé-valeur ne sont stockées dans un dictionnaire unifié que si vous passez la même valeur à chaque étape. W&amp;B conserve en mémoire toutes les clés et valeurs collectées si vous journalisez une valeur différente pour `step`.
 </Note>
 
-Par défaut, chaque appel à `wandb.Run.log()` correspond à une nouvelle `step`. W&amp;B utilise les étapes comme axe X par défaut lorsqu&#39;il crée des graphiques et des panneaux. Vous pouvez aussi créer et utiliser un axe X personnalisé, ou capturer une métrique récapitulative personnalisée. Pour plus d&#39;informations, voir [Personnaliser les axes des logs](/fr/models/track/log/customize-logging-axes/).
+Chaque appel à `wandb.Run.log()` correspond par défaut à une nouvelle `step`. W&amp;B utilise les étapes comme axe x par défaut lorsqu&#39;il crée des graphiques et des panneaux. Vous pouvez également créer et utiliser un axe x personnalisé ou capturer une métrique de synthèse personnalisée. Pour plus d&#39;informations, voir [Personnaliser les axes de journalisation](/fr/models/track/log/customize-logging-axes/).
 
-{/* [INSÉRER UN EXEMPLE PLUS PERTINENT] */}
+{/* [INSÉRER UN MEILLEUR EXEMPLE] */}
 
-{/* Si vous souhaitez journaliser des données dans une seule étape de l’historique depuis de nombreux endroits de votre code, vous pouvez passer un index d’étape à `run.log()` comme suit :
+{/* Si vous souhaitez enregistrer dans une même étape de l’historique des données provenant de nombreux endroits différents de votre code, vous pouvez passer un index d’étape à `run.log()` comme suit :
 
   ```python
   run.log({'loss': 0.2}, step=step)
@@ -25,14 +25,14 @@ Par défaut, chaque appel à `wandb.Run.log()` correspond à une nouvelle `step`
 {/* [INSÉRER UN EXEMPLE] */}
 
 <Warning>
-  Utilisez `wandb.Run.log()` pour journaliser des valeurs successives à chaque `step` : 0, 1, 2, etc. Il n’est pas possible d’écrire dans une étape spécifique de l’historique. W&amp;B n’écrit que dans l’étape « actuelle » et l’étape « suivante ».
+  Utilisez `wandb.Run.log()` pour journaliser des valeurs successives à chaque `step` : 0, 1, 2, et ainsi de suite. Il n’est pas possible d’écrire dans une étape précise de l’historique. W&amp;B écrit uniquement dans l’étape &quot;actuelle&quot; et la &quot;suivante&quot;.
 </Warning>
 
-{/* Vous pouvez définir `commit=False` dans `run.log` pour accumuler les métriques. Veillez simplement à appeler ensuite `run.log` avec `commit=True` (par défaut) pour enregistrer les métriques.
+{/* Vous pouvez définir `commit=False` dans `wandb.Run.log()` pour accumuler les métriques. Veillez simplement à appeler ensuite `run.log()` avec `commit=True` (par défaut) pour enregistrer les métriques.
 
   ```python
   run.log({'loss': 0.2}, commit=False)
-  # Ailleurs, lorsque je suis prêt à enregistrer cette étape :
+  # Ailleurs, lorsque je suis prêt à consigner cette étape :
   run.log({'accuracy': 0.8})
   ``` */}
 

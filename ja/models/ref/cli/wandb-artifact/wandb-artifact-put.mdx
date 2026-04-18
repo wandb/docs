@@ -1,51 +1,86 @@
 ---
-title: "wandb artifact put"
+title: wandb artifact put
 ---
 
-{/*
-  このコマンドの導入内容を追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-put.mdx
-  2. そのファイルに導入内容を追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
-
-  <WandbArtifactPut/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-artifact を wandb にアップロードする
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2812" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb artifact put PATH [OPTIONS]
+put [OPTIONS] PATH
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+アーティファクト を W&amp;B にアップロードします。
+
+ファイル、ディレクトリ、または URL 参照を、バージョン管理された アーティファクト としてアップロードします。
+
+PATH には、ローカル ファイル、ローカル ディレクトリ、または参照 アーティファクト として
+ログする URL (`://` を含む) を指定できます。
+
+`--name` を指定しない場合、アーティファクト 名には
+パスのベース名がデフォルトで使用されます。名前から
+project を解析できない場合は、入力を求められます。
+
+たとえば、ローカル ディレクトリ ./data/training 内のすべてのファイルを
+W&amp;B のデータセット アーティファクト としてアップロードするには、次のようにします。
+
+```bash
+wandb artifact put --type dataset ./data/training
+```
+
+`model.pt` を &quot;foobar&quot; project にアップロードし、アーティファクト 名に &quot;trained-model&quot; を
+割り当てるには:
+
+```bash
+wandb artifact put --name foobar/trained-model --type model ./model.pt
+```
+
+アーティファクトに &quot;latest&quot; と &quot;v2.0&quot; の両方のタグを付け、どちらの
+エイリアスからでも参照できるようにするには:
+
+```bash
+wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+```
+
+データをダウンロードしたり再アップロードしたりせずに、Amazon S3 のパスを参照として記録するには:
+
+```bash
+wandb artifact put --type dataset s3://my-bucket/datasets/training
+```
+
+ドキュメント用に、データセット アーティファクト に人間が読める説明を付けるには:
+
+```bash
+wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
+```
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数     | 説明   | 必須 |
-| :----- | :--- | :- |
-| `PATH` | 説明なし | はい |
+| 名      | デフォルト | タイプ  |
+| ------ | ----- | ---- |
+| `path` | STR   | True |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション                 | 説明                                                      |
-| :-------------------- | :------------------------------------------------------ |
-| `--name`, `-n`        | プッシュするartifactの名: `project/artifact_name`               |
-| `--description`, `-d` | このartifactの説明                                           |
-| `--type`, `-t`        | artifactのタイプ (デフォルト: データセット)                            |
-| `--alias`, `-a`       | このartifactに適用するエイリアス (デフォルト: [&#39;latest&#39;])        |
-| `--id`                | アップロード先のrun。                                            |
-| `--resume`            | 現在のディレクトリから直前のrunを再開します。                                |
-| `--skip_cache`        | artifactファイルのアップロード中はキャッシュを使用しません。 (デフォルト: False)       |
-| `--policy`            | artifactファイルのアップロード時のストレージポリシーを設定します。 (デフォルト: mutable)  |
+| Flag                | Type      | Description                                                                               |
+| ------------------- | --------- | ----------------------------------------------------------------------------------------- |
+| `--name, -n`        | STR       | `project/artifact_name` 形式の アーティファクト 名です。デフォルトはパスの basename です。**デフォルト**: None            |
+| `--description, -d` | STR       | この アーティファクト の説明です。**デフォルト**: None                                                         |
+| `--type, -t`        | STR       | アーティファクト のタイプです。デフォルトは `データセット` です。**デフォルト**: dataset                                     |
+| `--alias, -a`       | STR       | この アーティファクト に適用するエイリアスです。複数回指定できます。デフォルトは `latest` です。**デフォルト**: [&#39;latest&#39;]       |
+| `--id`              | STR       | この ID を持つ既存の run にアップロードします。**デフォルト**: None                                               |
+| `--resume`          | BOOL Flag | 現在のディレクトリの最後の run を再開します。**デフォルト**: None                                                  |
+| `--skip_cache`      | BOOL Flag | アーティファクト ファイルのアップロード時にキャッシュをスキップします。**デフォルト**: False                                      |
+| `--policy`          | Choice    | アーティファクト ファイルのストレージポリシーを設定します。`mutable` (デフォルト) または `immutable` を指定します。**デフォルト**: mutable |

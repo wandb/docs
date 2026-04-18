@@ -1,38 +1,63 @@
 ---
-title: "wandb server start"
+title: wandb server start
 ---
 
-{/*
-  Pour ajouter une introduction à cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-server-start.mdx
-  2. Ajoutez votre introduction à ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
-
-  <WandbServerStart/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Démarrer un serveur W&amp;B local
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2650" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb server start [OPTIONS]
+start [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Démarrez une instance locale de W&amp;B Server dans un conteneur Docker.
+
+Téléchargez et exécutez l’image Docker wandb/local. Associez le
+port hôte spécifié au port 8080 du conteneur et montez un volume Docker
+persistant nommé &quot;wandb&quot; pour stocker les données.
+
+Configurez le paramètre &quot;base&#95;url&quot; pour qu’il pointe vers le serveur local afin
+que les appels clients W&amp;B suivants l’utilisent. Invitez à vous connecter si aucune
+clé API n’est trouvée.
+
+Docker doit être installé et en cours d’exécution sur la machine hôte.
+
+Cette commande démarre uniquement l’interface utilisateur de W&amp;B Models. Elle est fournie uniquement
+pour les tests locaux. En production, l’opérateur Kubernetes W&amp;B est la méthode recommandée
+pour déployer W&amp;B Serv[https://docs.wandb.ai/platform/hosting/self-managed/operator](https://docs.wandb.ai/platform/hosting/self-managed/operator)ged/operator.
+
+Par exemple, pour démarrer un serveur W&amp;B local sur le port par défaut (8080) :
+
+```bash
+wandb server start
+```
+
+Pour démarrer le serveur sur le port 9090 :
+
+```bash
+wandb server start -p 9090
+```
+
+Pour démarrer le serveur au premier plan :
+
+```bash
+wandb server start --no-daemon
+```
 
 <div id="options">
   ## Options
 </div>
 
-| Option         | Description                                                                 |
-| :------------- | :-------------------------------------------------------------------------- |
-| `--port`, `-p` | Le port hôte auquel associer serveur W&amp;B (par défaut : 8080)             |
-| `--env`, `-e`  | Variables d&#39;environnement à transmettre à wandb/local (par défaut : []) |
-| `--daemon`     | Activer ou non le mode démon (par défaut : True)                            |
+| Indicateur   | Type      | Description                                                                                                     |
+| ------------ | --------- | --------------------------------------------------------------------------------------------------------------- |
+| `--port, -p` | STR       | Le port hôte auquel lier le serveur W&amp;B. **Par défaut** : 8080                                              |
+| `--env, -e`  | STR       | Variables d’environnement à transmettre à l’image Docker wandb/local. **Par défaut** : []                       |
+| `--daemon`   | BOOL Flag | Exécute le serveur en arrière-plan. Utilisez --no-daemon pour l’exécuter au premier plan. **Par défaut** : True |
