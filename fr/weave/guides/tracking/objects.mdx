@@ -29,7 +29,7 @@ weave.publish(dataset)
   ## Publier un objet
 </div>
 
-La couche de sérialisation de Weave enregistre les objets et les versionne.
+La couche de sérialisation de Weave enregistre les objets et en gère les versions.
 
 <Tabs>
   <Tab title="Python">
@@ -42,7 +42,7 @@ La couche de sérialisation de Weave enregistre les objets et les versionne.
   </Tab>
 
   <Tab title="TypeScript">
-    La publication en TypeScript en est encore à ses débuts. Tous les objets ne sont donc pas encore entièrement pris en charge.
+    La publication en TypeScript en est encore à ses débuts ; tous les objets ne sont donc pas encore entièrement pris en charge.
 
     ```typescript lines
     import * as weave from 'weave'
@@ -55,7 +55,7 @@ La couche de sérialisation de Weave enregistre les objets et les versionne.
   </Tab>
 </Tabs>
 
-Lorsque vous enregistrez un objet avec un nom, Weave en crée la première version si cet objet n&#39;existe pas encore.
+Lorsque vous enregistrez un objet sous un nom, Weave en crée la première version s’il n’existe pas encore.
 
 <div id="get-an-object-back">
   ## Récupérer un objet
@@ -63,7 +63,7 @@ Lorsque vous enregistrez un objet avec un nom, Weave en crée la première versi
 
 <Tabs>
   <Tab title="Python">
-    `weave.publish` renvoie une Ref. Vous pouvez appeler `.get()` sur n’importe quelle Ref pour récupérer l’objet.
+    `weave.publish()` renvoie une Ref. Vous pouvez appeler `.get()` sur n’importe quelle Ref pour récupérer l’objet.
 
     Vous pouvez créer une ref, puis récupérer l’objet.
 
@@ -122,5 +122,5 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 Vous pouvez construire des références de plusieurs façons :
 
 * `weave.ref(<name>)`: Récupère la version `:latest` d’un objet. Nécessite d’appeler `weave.init(...)`.
-* `weave.ref(<name>:<version>)`:  Récupère la version spécifiée d’un objet. Nécessite d’appeler `weave.init(...)`.
-* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l’objet situé à l’URI de référence d’objet pleinement qualifiée spécifiée.  Ne nécessite pas d’appeler `weave.init`.
+* `weave.ref(<name>:<version>)`: Récupère la version spécifiée d’un objet. Nécessite d’appeler `weave.init(...)`.
+* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l’objet situé à l’URI de référence d’objet pleinement qualifiée spécifiée. Ne nécessite pas d’appeler `weave.init()`.

@@ -1,55 +1,122 @@
 ---
-title: "wandb sweep"
+title: wandb sweep
 ---
 
-{/*
-  Pour ajouter une introduction à cette commande :
-  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-sweep.mdx
-  2. Ajoutez votre introduction dans ce fichier
-  3. Supprimez entièrement ce bloc de commentaires et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbSweep from "/snippets/_includes/cli/wandb-sweep.mdx";
-
-  <WandbSweep/>
-
-  Le snippet sera détecté automatiquement à la prochaine régénération.
-  */}
-
-Initialisez un balayage d’hyperparamètres. Recherchez les hyperparamètres qui optimisent la fonction de coût d’un modèle de machine learning en testant différentes combinaisons.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L912" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Créez, mettez à jour ou gérez un sweep d&#39;hyperparamètres.
+
+Fournissez un fichier de configuration YAML pour créer un sweep. Définissez la
+stratégie de recherche, les paramètres et la métrique à optimiser dans la configuration.
+Enregistrez le sweep sur le serveur W&amp;B et affichez l&#39;ID du sweep
+ainsi qu&#39;une commande pour démarrer un agent.
+
+Fournissez un ID de sweep (ou le chemin complet entité/project/sweep&#95;id) avec une
+option d&#39;état (`--stop`, `--cancel`, `--pause` ou `--resume`) pour gérer
+un sweep existant.
+
+L&#39;ID du sweep est un ID unique du sweep, généré par
+W&amp;B lors de sa création. Vous pouvez trouver l&#39;ID du sweep dans la W&amp;B App
+ou dans la sortie de la commande `wandb sweep` lorsque vous créez un nouveau sweep.
+
+Par exemple, pour créer un sweep à l&#39;aide de la configuration définie dans
+sweep&#95;config.yaml. Utilisez l&#39;entité et le projet par défaut de l&#39;utilisateur actuel :
+
+```bash
+wandb sweep sweep_config.yaml
+```
+
+Pour créer un sweep et stocker les résultats dans l’entité &quot;team-awesome&quot;
+et le projet &quot;foobar&quot; :
+
+```bash
+wandb sweep -p foobar -e team-awesome sweep_config.yaml
+```
+
+Pour mettre à jour le sweep abcd1234 avec une nouvelle configuration issue de sweep&#95;config.yaml.
+Cela est utile pour modifier les paramètres ou la stratégie de recherche d&#39;un
+sweep actif :
+
+```bash
+wandb sweep --update abcd1234 sweep_config.yaml
+```
+
+Pour arrêter le sweep abcd1234 dans l’entité &quot;team-awesome&quot;
+et le projet &quot;foobar&quot; :
+
+```bash
+wandb sweep --stop team-awesome/foobar/abcd1234
+```
+
+Pour annuler le sweep abcd1234 dans l’entité et le projet par défaut de l’utilisateur courant :
+
+```bash
+wandb sweep --cancel abcd1234
+```
+
+Pour mettre en pause le sweep abcd1234 dans l’entité et le projet par défaut de l’utilisateur actuel.
+Plus tard, reprenez le sweep :
+
+```bash
+wandb sweep --pause abcd1234
+```
+
+```bash
+wandb sweep --resume abcd1234
+```
+
+Pour créer un sweep avec un contrôleur local utilisant la configuration
+de sweep&#95;config.yaml :
+
+```bash
+wandb sweep --controller sweep_config.yaml
+```
+
+Pour créer un nouveau sweep et y inclure deux exécutions déjà terminées
+(ID de l’exécution abcd1234 et ID de l’exécution efgh5678) afin d&#39;intégrer leurs résultats
+à la recherche d&#39;hyperparamètres du sweep :
+
+```bash
+wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml
+```
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument                  | Description                   | Requis |
-| :------------------------ | :---------------------------- | :----- |
-| `CONFIG_YAML_OR_SWEEP_ID` | Aucune description disponible | Oui    |
+| Nom                       | Valeur par défaut | Type |
+| ------------------------- | ----------------- | ---- |
+| `config_yaml_or_sweep_id` | STR               | True |
 
 <div id="options">
   ## Options
 </div>
 
-| Option              | Description                                                                                                                                                                                                                                                                                        |
-| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--project`, `-p`   | Nom du projet auquel sont envoyés les runs W&amp;B créés à partir du balayage. Si aucun projet n&#39;est spécifié, le run est envoyé vers un projet intitulé Uncategorized.                                                                                                                        |
-| `--entity`, `-e`    | Nom d&#39;utilisateur ou nom d&#39;équipe auquel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité indiquée existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, généralement votre nom d&#39;utilisateur. |
-| `--controller`      | Exécuter le contrôleur local (par défaut : False)                                                                                                                                                                                                                                                  |
-| `--verbose`         | Afficher une sortie détaillée (par défaut : False)                                                                                                                                                                                                                                                 |
-| `--name`            | Nom du balayage. L&#39;ID du balayage est utilisé si aucun nom n&#39;est spécifié.                                                                                                                                                                                                                 |
-| `--program`         | Définir le programme du balayage                                                                                                                                                                                                                                                                   |
-| `--update`          | Mettre à jour le balayage en attente                                                                                                                                                                                                                                                               |
-| `--stop`            | Terminer un balayage pour empêcher le démarrage de nouveaux runs et laisser les runs en cours se terminer. (par défaut : False)                                                                                                                                                                    |
-| `--cancel`          | Annuler un balayage pour arrêter tous les runs en cours et empêcher le démarrage de nouveaux runs. (par défaut : False)                                                                                                                                                                            |
-| `--pause`           | Mettre en pause un balayage pour empêcher temporairement le démarrage de nouveaux runs. (par défaut : False)                                                                                                                                                                                       |
-| `--resume`          | Reprendre un balayage pour relancer le démarrage de nouveaux runs. (par défaut : False)                                                                                                                                                                                                            |
-| `--prior_run`, `-R` | ID d&#39;un run existant à ajouter à ce balayage                                                                                                                                                                                                                                                   |
+| Flag              | Type            | Description                                                                                                                                       |
+| ----------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p`   | STR             | Définit le projet des exécutions du sweep. Utilisez &#39;Uncategorized&#39; s&#39;il n&#39;est pas défini. **Par défaut** : None                  |
+| `--entity, -e`    | STR             | Définit l&#39;entité du sweep. Utilisez l&#39;entité par défaut de l&#39;utilisateur actuel si elle n&#39;est pas définie. **Par défaut** : None  |
+| `--controller`    | indicateur BOOL | Démarre un contrôleur de sweep local après la création du sweep. **Par défaut** : False                                                           |
+| `--verbose`       | indicateur BOOL | Affiche une sortie détaillée. **Par défaut** : False                                                                                              |
+| `--name`          | STR             | Définit un nom d&#39;affichage pour le sweep. Utilisez l&#39;ID du sweep s&#39;il n&#39;est pas spécifié. **Par défaut** : None                   |
+| `--program`       | STR             | Redéfinit le programme d&#39;entraînement spécifié dans la configuration du sweep. **Par défaut** : None                                          |
+| `--update`        | STR             | Met à jour une configuration de sweep existante. Indiquez l&#39;ID du sweep. **Par défaut** : None                                                |
+| `--stop`          | indicateur BOOL | Arrête un sweep. Laisse les exécutions actives se terminer, mais n&#39;en démarre pas de nouvelles. **Par défaut** : False                        |
+| `--cancel`        | indicateur BOOL | Annule un sweep. Interrompt les exécutions actives et empêche le démarrage de nouvelles exécutions. **Par défaut** : False                        |
+| `--pause`         | indicateur BOOL | Met un sweep en pause. Empêche temporairement le démarrage de nouvelles exécutions. **Par défaut** : False                                        |
+| `--resume`        | indicateur BOOL | Reprend un sweep en pause. **Par défaut** : False                                                                                                 |
+| `--prior_run, -R` | STR             | Associe une exécution existante à ce sweep par ID. Indiquez cette option plusieurs fois pour associer plusieurs exécutions. **Par défaut** : None |

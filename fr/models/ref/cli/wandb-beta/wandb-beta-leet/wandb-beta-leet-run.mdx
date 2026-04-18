@@ -1,46 +1,42 @@
 ---
-title: "wandb beta leet run"
+title: wandb beta leet run
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-beta-leet-run.mdx
-  2. Ajoutez votre contenu d’introduction à ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbBetaLeetRun from "/snippets/_includes/cli/wandb-beta-leet-run.mdx";
-
-  <WandbBetaLeetRun/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Lancez le TUI LEET.
-
-PATH peut être un fichier .wandb, un répertoire de run ou un répertoire wandb. Si PATH est omis, le run le plus récent est recherché.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L74" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb beta leet run [PATH] [OPTIONS]
+run [OPTIONS] [PATH]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Lancez l’interface terminal LEET.
+
+LEET est une interface terminal permettant d’afficher un run W&amp;B indiqué par un PATH facultatif.
+
+PATH peut inclure un fichier .wandb ou un répertoire contenant un fichier .wandb.
+Si PATH n’est pas fourni, la commande recherche le run le plus récent.
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument | Description                   | Requis |
-| :------- | :---------------------------- | :----- |
-| `PATH`   | Aucune description disponible | Non    |
+| Nom    | Par défaut | Type  |
+| ------ | ---------- | ----- |
+| `path` | STR        | False |
 
 <div id="options">
   ## Options
 </div>
 
-| Option         | Description                                           |
-| :------------- | :---------------------------------------------------- |
-| `-h`, `--help` | Affiche ce message, puis quitte. (par défaut : False) |
+| Option       | Type        | Description                                             |
+| ------------ | ----------- | ------------------------------------------------------- |
+| `-h, --help` | Option BOOL | Affiche ce message, puis quitte. **Par défaut** : False |

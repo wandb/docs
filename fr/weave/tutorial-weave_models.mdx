@@ -113,7 +113,7 @@ Vous pouvez maintenant instancier le modèle et l’appeler avec `invoke` :
   </Tab>
 </Tabs>
 
-Après avoir appelé `.invoke`, vous pouvez voir que la trace dans Weave **suit désormais les paramètres du modèle ainsi que le code** des fonctions du modèle décorées avec `weave.op()`. Vous pouvez également voir que le modèle est lui aussi versionné, « v21 » dans ce cas. Si vous cliquez sur le modèle, **vous pouvez voir tous les appels** qui ont utilisé cette version du modèle
+Après avoir appelé `.invoke()`, vous pouvez voir que la trace dans Weave **suit désormais les paramètres du modèle ainsi que le code** des fonctions du modèle décorées avec `weave.op()`. Vous pouvez également voir que le modèle est lui aussi versionné, « v21 » dans ce cas. Si vous cliquez sur le modèle, **vous pouvez voir tous les appels** qui ont utilisé cette version du modèle
 
 ![Réutilisation d’un modèle Weave](/images/tutorial-model_invoke3.png)
 
@@ -138,10 +138,10 @@ Une fois que vous avez l’URI de l’objet Model, vous pouvez l’exporter et l
 <Tabs>
   <Tab title="Python">
     ```python lines {2}
-    # le modèle Weave exporté est déjà initialisé et prêt à être invoqué
+    # le modèle weave exporté est déjà initialisé et prêt à être appelé
     new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
 
-    # réattribuez au client le client OpenAI
+    # réassocier le client au client openai
     new_dinos.client = client
 
     new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""

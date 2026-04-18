@@ -1,22 +1,30 @@
 ---
-title: "wandb server"
+title: wandb server
 ---
 
-ローカルのW&amp;B Serverを運用するコマンド
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2645" />
 
 <div id="usage">
   ## 使用方法
 </div>
 
 ```bash
-wandb server COMMAND [ARGS]...
+server [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## コマンド
+<div id="description">
+  ## 説明
 </div>
 
-| コマンド                                                     | 説明                        |
-| :------------------------------------------------------- | :------------------------ |
-| [start](/ja/models/ref/cli/wandb-server/wandb-server-start) | ローカルのW&amp;B Serverを起動します |
-| [stop](/ja/models/ref/cli/wandb-server/wandb-server-stop)   | ローカルのW&amp;B Serverを停止します |
+ローカルのW&amp;B Serverを運用するコマンド
+
+<div id="subcommands">
+  ## サブコマンド
+</div>
+
+| コマンド                 | 説明                                              |
+| -------------------- | ----------------------------------------------- |
+| `wandb server start` | Dockerコンテナー内でローカルの W&amp;B Server インスタンスを起動します。 |
+| `wandb server stop`  | 実行中のローカル W&amp;B Server を停止します。                 |

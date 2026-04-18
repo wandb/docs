@@ -1,41 +1,34 @@
 ---
-title: "wandb launch-agent"
+title: wandb launch-agent
 ---
 
-{/*
-  이 명령어에 대한 소개 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-launch-agent.mdx
-  2. 해당 파일에 소개 콘텐츠를 추가합니다
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남깁니다:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-  import WandbLaunchAgent from "/snippets/_includes/cli/wandb-launch-agent.mdx";
-
-  <WandbLaunchAgent/>
-
-  다음에 다시 생성할 때 스니펫이 자동으로 감지됩니다.
-  */}
-
-W&amp;B Launch 에이전트를 실행합니다.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1899" />
 
 <div id="usage">
   ## 사용
 </div>
 
 ```bash
-wandb launch-agent [OPTIONS]
+launch-agent [OPTIONS]
 ```
 
+<div id="description">
+  ## 설명
+</div>
+
+W&amp;B Launch 에이전트를 실행합니다.
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션                 | 설명                                                                                                                                       |
-| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| `--queue`, `-q`    | 에이전트가 감시할 큐 이름입니다. `-q` 플래그를 여러 개 지정할 수 있습니다.                                                                                            |
-| `--entity`, `-e`   | 사용할 entity입니다. 기본값은 현재 로그인한 사용자입니다.                                                                                                      |
-| `--log-file`, `-l` | 내부 에이전트 로그를 기록할 대상입니다. 표준 출력으로 보내려면 `-`를 사용하세요. 기본적으로 모든 에이전트 로그는 `wandb/` 하위 디렉터리의 `debug.log`에 기록되며, `WANDB_DIR`가 설정된 경우 해당 위치에 기록됩니다. |
-| `--max-jobs`, `-j` | 이 에이전트가 병렬로 실행할 수 있는 Launch 작업의 최대 수입니다. 기본값은 1입니다. 상한 없이 사용하려면 `-1`로 설정하세요.                                                             |
-| `--config`, `-c`   | 사용할 에이전트 설정 YAML 파일의 경로입니다.                                                                                                              |
-| `--verbose`, `-v`  | 자세한 출력을 표시합니다(기본값: 0).                                                                                                                   |
+| Flag             | Type | 설명                                                                                                                                                       |
+| ---------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--queue, -q`    | STR  | 에이전트가 감시할 큐의 이름입니다. `-q` 플래그는 여러 번 지정할 수 있습니다. **기본값**: 없음                                                                                               |
+| `--entity, -e`   | STR  | 사용할 entity입니다. 기본값은 현재 로그인한 사용자입니다. **기본값**: 없음                                                                                                          |
+| `--log-file, -l` | STR  | 내부 에이전트 로그의 저장 위치입니다. stdout에는 `-`를 사용하세요. 기본적으로 모든 에이전트 로그는 `wandb/` 하위 디렉터리의 `debug.log` 또는 `WANDB_DIR`가 설정된 경우 해당 경로의 `debug.log`에 기록됩니다. **기본값**: 없음 |
+| `--max-jobs, -j` | STR  | 이 에이전트가 병렬로 실행할 수 있는 Launch 작업의 최대 개수입니다. 기본값은 1입니다. 상한을 두지 않으려면 `-1`로 설정하세요. **기본값**: 없음                                                                |
+| `--config, -c`   | STR  | 사용할 에이전트 설정 YAML 파일의 경로입니다. **기본값**: 없음                                                                                                                  |
+| `--verbose, -v`  | INT  | 자세한 출력을 표시합니다. **기본값**: 0                                                                                                                                |

@@ -5,7 +5,7 @@ sidebarTitle: "Versions prises en charge"
 rss: true
 ---
 
-import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
+import EolReminder from "/snippets/fr/_includes/release-notes-support-eol-reminder.mdx"
 
 Cette page présente les notes de version des versions prises en charge de W&amp;B Server.
 
@@ -13,6 +13,12 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 * Pour plus d’informations sur le calendrier des versions de W&amp;B Server et l’assistance, voir [Politiques de version de W&amp;B Server](/fr/release-notes/release-policies).
 
 <EolReminder />
+
+<Update label="v0.79.2" description="10 avril 2026">
+  ## Correctifs
+
+  * Correction d’un bug qui pouvait retarder l’ingestion des métriques.
+</Update>
 
 <Update label="v0.79.1" description="1 avril 2026">
   ## Correctifs
@@ -22,7 +28,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 </Update>
 
 <Update label="v0.79.0" description="24 mars 2026">
-  W&amp;B Server 0.79.0 ajoute le zoom et le déplacement sur les images, une gestion améliorée des comptes de service et des clés API, ainsi que des améliorations des performances. Inférence ajoute les modèles MiniMax M2.5 et MiniMaxAI M2.5. Les moniteurs Weave prennent désormais en charge l’évaluation de toutes les opérations, et l’interface utilisateur Weave ajoute une gestion améliorée des tags et alias de prompts, une vue de chat pour les agents Claude, le filtrage par réactions emoji ou contenu des notes, et plus encore.
+  W&amp;B Server 0.79.0 ajoute le zoom et le déplacement sur les images, une gestion améliorée des comptes de service et des clés API, ainsi que des améliorations des performances. Les moniteurs Weave prennent désormais en charge l’évaluation de toutes les opérations, et l’interface utilisateur Weave ajoute une gestion améliorée des tags et alias de prompts, une vue de chat pour les agents Claude, le filtrage par réactions emoji ou contenu des notes, et plus encore.
 
   ## Assistance et fin de vie
 
@@ -103,17 +109,15 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 <Update label="v0.78.0" description="3 mars 2026">
   W&amp;B Server 0.78.0 renforce la sécurité et les valeurs par défaut d&#39;accès, ajoute des outils pour comparer les expériences et mieux maîtriser les coûts, et bien plus encore.
 
-  <Note>
-    Pour les déploiements utilisant Weave, Clickhouse v0.25.8+ est requis avant la mise à niveau vers la v0.78.
-  </Note>
+  <Note>Pour les déploiements utilisant Weave, Clickhouse v0.25.8+ est requis avant la mise à niveau vers la v0.78.</Note>
 
   * Dans **Models**, créez efficacement des graphiques multi-métriques avec des expressions régulières, épinglez les runs importants, comparez les expériences à une référence et simplifiez les workspaces grâce à des modèles de Workspace améliorés.
   * **Registre** comprend une recherche améliorée, des cartes repensées, des graphes de lignage plus clairs et plus réactifs, et bien plus encore.
   * Dans **Weave**, le **tableau de bord Trace Analytics** vous aide à repérer les goulots d’étranglement et les principaux facteurs de coût depuis la page d’aperçu du projet. Les vues enregistrées prennent désormais en charge des traces, évaluations et classements personnalisés. Weave Playground prend désormais en charge LoRA (Low-Rank Adaptation) et de nouveaux modèles.
-  * **Inférence** comprend de nouveaux modèles.
 
   <Warning>
-    Cette version est affectée par un problème de sécurité critique qui permet un accès non autorisé à un artifact. N&#39;installez pas cette version et n&#39;effectuez pas de mise à niveau vers celle-ci. Installez plutôt [v0.78.2](#v0-78-2), qui inclut le correctif.
+    Cette version est affectée par un problème de sécurité critique qui permet un accès non autorisé à un artifact. N&#39;installez pas cette version et n&#39;effectuez pas de mise à niveau vers celle-ci. Installez plutôt [v0.78.2](#v0-78-2), qui inclut
+    le correctif.
   </Warning>
 
   ## Assistance et fin de vie
@@ -144,9 +148,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
     Dans les graphiques en courbes, la ligne de base apparaît dans un style visuellement distinct afin de faciliter la comparaison.
 
-    <Frame>
-      ![run de référence avec une mise en forme distincte dans le graphique en courbes](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
-    </Frame>
+    <Frame>![run de référence avec une mise en forme distincte dans le graphique en courbes](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)</Frame>
 
   * [Créez en une seule fois des panneaux avec plusieurs métriques](/fr/models/app/features/panels/line-plot#multi-metric-line-plot) pour organiser rapidement votre Workspace et repérer des tendances dans de grands ensembles de métriques. Par exemple, vous pouvez superposer des métriques de gradient sur les couches du modèle ou afficher certaines couches côte à côte. [Regardez une démonstration vidéo](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
 
@@ -154,7 +156,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
   * Le tableau **Sweeps** inclut désormais une colonne avec le **Sweep ID**.
 
-  * Les administrateurs peuvent désormais personnaliser les alertes d’utilisation et de dépenses de votre organisation. Consultez l’utilisation et les dépenses, et configurez des notifications par e-mail pour le stockage, les heures comptabilisées, Weave, l’Inférence et l’Entraînement dans les paramètres de votre organisation, sous le nouvel onglet **Utilisation &amp; alertes**. Voir [Utilisation du plan](/fr/platform/app/settings-page/billing-settings#plan-usage).
+  * Les administrateurs peuvent désormais personnaliser les alertes d’utilisation et de dépenses de votre organisation. Consultez l’utilisation et les dépenses, et configurez des notifications par e-mail pour le stockage, les heures comptabilisées, Weave et l’Entraînement dans les paramètres de votre organisation, sous le nouvel onglet **Utilisation &amp; alertes**. Voir [Utilisation du plan](/fr/platform/app/settings-page/billing-settings#plan-usage).
 
   ### Registre
 
@@ -163,27 +165,17 @@ Cette page présente les notes de version des versions prises en charge de W&amp
     * Une recherche avec saisie semi-automatique améliorée, des cartes de registre et de collection repensées, ainsi que de nouvelles icônes de registre permettent de mieux distinguer visuellement les ressources, d’abord grâce à un classement intelligent, en attendant le classement par IA.
     * Les icônes de registre sont d’abord générées automatiquement et peuvent être personnalisées à tout moment par les administrateurs du registre.
 
-    <Frame>
-      ![Icônes du registre et cartes remaniées](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)
-    </Frame>
+    <Frame>![Icônes du registre et cartes remaniées](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)</Frame>
 
     * Dans les graphes de lignage, lorsque vous survolez un nœud, celui-ci est mis en surbrillance tandis que les autres s’estompent.
     * Vous pouvez désormais cliquer sur le nom d’une collection pour afficher rapidement ses versions d’artifact.
     * Pour plus de simplicité, vous pouvez désormais ajouter un registre aux favoris depuis sa page **Settings**.
 
-  ### Inférence
-
-  * Le modèle `Moonshot AI Kimi K2.5` est désormais disponible. Voir le [catalogue des modèles](/fr/inference/models).
-
   ### Weave
 
   * La page **Aperçu du projet** comprend désormais un **tableau de bord d’analyse des traces** avec le nombre de requêtes, les percentiles de latence (P50/P95/P99), l’utilisation des tokens par modèle et la répartition des coûts. Repérez les modèles qui grèvent votre budget, ou trouvez les requêtes lentes qui plombent votre P95. Cliquez sur un bucket temporel pour accéder directement aux traces correspondantes et identifier rapidement la cause d’un pic de latence.
 
-    <Frame>
-      ![Tableau de bord Trace Analytics dans l’aperçu du projet](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)
-    </Frame>
-
-  * **Weave Playground** prend désormais en charge **[LoRA](/fr/inference/lora)**, ce qui vous permet de tester efficacement vos adaptateurs LoRA affinés. Cliquez sur le bouton **Essayer dans Playground** sur la page d’un artifact LoRA.
+    <Frame>![Tableau de bord Trace Analytics dans l’aperçu du projet](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)</Frame>
 
   * Claude Opus 4.6 est désormais disponible dans **Weave Playground**.
 
@@ -499,7 +491,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 </Update>
 
 <Update label="v0.74.0" description="8 octobre 2025">
-  W&amp;B v0.74 apporte des améliorations à l&#39;API SCIM pour la gestion des identités en entreprise, notamment la synchronisation automatisée des groupes avec Okta, une configuration simplifiée des rôles utilisateur, et bien plus encore. Dans le Cloud dédié, un puissant nouveau navigateur d&#39;images en plein écran vous permet d&#39;inspecter et de comparer des images au sein des runs et entre eux. Les améliorations de Weave incluent les évaluations par LLM judge directement dans le playground, une meilleure visibilité sur les appels d&#39;outils Thread multi-tours, des améliorations DSPy, ainsi qu&#39;une nouvelle intégration avec la bibliothèque Verifiers pour les flux de travail d&#39;apprentissage par renforcement. W&amp;B Inference ajoute la prise en charge du modèle de raisonnement hybride GLM v4.5 de [Z.AI](https://z.ai/).
+  W&amp;B v0.74 apporte des améliorations à l&#39;API SCIM pour la gestion des identités en entreprise, notamment la synchronisation automatisée des groupes avec Okta, une configuration simplifiée des rôles utilisateur, et bien plus encore. Dans le Cloud dédié, un puissant nouveau navigateur d&#39;images en plein écran vous permet d&#39;inspecter et de comparer des images au sein des runs et entre eux. Les améliorations de Weave incluent les évaluations par LLM judge directement dans le playground, une meilleure visibilité sur les appels d&#39;outils Thread multi-tours, des améliorations DSPy, ainsi qu&#39;une nouvelle intégration avec la bibliothèque Verifiers pour les flux de travail d&#39;apprentissage par renforcement.
 
   ## Assistance et fin de vie
 
@@ -530,10 +522,6 @@ Cette page présente les notes de version des versions prises en charge de W&amp
   * Si votre code Weave appelle `wandb.init()`, il n’est plus nécessaire d’appeler explicitement `weave.init()`.
   * Nouvelle méthode utilitaire [`delete_all_object_versions`](/fr/weave/reference/python-sdk/trace/weave_client).
   * La sortie d’un appel à un endpoint de streaming OpenAI inclut désormais un nouveau champ, `time_to_first_token`, exprimé en millisecondes.
-
-  ### Inférence
-
-  * [W&amp;B Inférence](/fr/inference) prend désormais en charge le modèle de raisonnement hybride [Z.AI GLM](https://z.ai/blog/glm-4.5). La version 4.5 est prise en charge.
 
   ## Correctifs
 
@@ -649,17 +637,23 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
   ## Fonctionnalités
 
-  * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> Nous migrons progressivement le Model Registry existant au niveau de l’équipe vers W&amp;B Registry au cours des prochaines versions. **Aucune action n’est nécessaire de votre côté ; W&amp;B copiera automatiquement les éléments du Model Registry de chaque équipe vers un registre privé correspondant, créé automatiquement au niveau de l’équipe.**  Les références existantes aux collections de modèles dans votre ancien Model Registry au niveau de l’équipe continueront de fonctionner.
-
-    1. Dans Server v0.71 (cette version), Registry est désormais activé par défaut pour toutes les organisations.
-    2. Server v0.73 (août) inclura une variable d’environnement permettant de désactiver cette migration, qui sera automatiquement exécutée pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, la liaison des Artifacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. **L’enregistrement et la récupération des Artifacts ne seront pas affectés**.
-    3. Dans Server v0.74 (septembre), nous supprimerons cette option et la migration aura lieu pendant la mise à niveau.
+  * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> Nous migrons progressivement le Model Registry existant au niveau de l’équipe vers W&amp;B Registry au cours des prochaines versions. **Aucune
+    action n’est nécessaire de votre côté ; W&amp;B copiera automatiquement les éléments du Model Registry de chaque équipe vers un registre privé correspondant, créé automatiquement au niveau de l’équipe.**  Les références existantes aux collections de modèles
+    dans votre ancien Model Registry au niveau de l’équipe continueront de fonctionner. 1. Dans Server v0.71 (cette version), Registry est désormais activé par défaut pour toutes les organisations. 2. Server v0.73 (août) inclura
+    une variable d’environnement permettant de désactiver cette migration, qui sera automatiquement exécutée pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, la liaison des
+    Artifacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. **L’enregistrement et la récupération des Artifacts ne seront pas affectés**. 3. Dans Server v0.74 (septembre), nous supprimerons
+    cette option et la migration aura lieu pendant la mise à niveau.
 
     Nous visons une transition vers une nouvelle expérience plus puissante, aussi fluide et peu contraignante que possible. Pour toute question concernant la migration, contactez votre contact W&amp;B.
+
   * Une automatisation peut désormais être déclenchée en ajoutant un tag à un artifact. Voir [Événements d’artifact](/fr/models/automations/automation-events/#artifact-events).
+
   * Lorsque vous consultez un panneau en plein écran, passez au panneau précédent ou suivant de la section à l’aide des boutons **Précédent** et **Suivant** ou des touches fléchées gauche et droite.
+
   * Lorsque vous consultez un panneau multimédia en plein écran, déplacez le curseur d’étape à l’aide des touches **CMD + flèche gauche ou droite** (macOS) ou **Ctrl + flèche gauche ou droite** (Windows / Linux).
+
   * Vous pouvez désormais synchroniser des panneaux multimédias à l’aide de la même clé de curseur d’étape afin que, lorsque vous avancez le curseur d’étape dans un panneau multimédia, ceux des autres panneaux avancent également. Ouvrez les paramètres du Workspace ou les **Paramètres de la section**, accédez à **Media**, cliquez sur l’onglet **Synchronisation**, puis activez **Synchroniser le curseur par clé (Étape)**.
+
   * Le Run Comparer comprend une nouvelle section **Meta** contenant des métadonnées sur le run, comme la commande, la version de Python et le type de GPU.
 
   ### Weave
@@ -671,11 +665,6 @@ Cette page présente les notes de version des versions prises en charge de W&amp
     * Vue de document pour Langchain et ChromaDB.
     * Rendu de la vue de chat pour LangChain.
     * Nouveau format d’export pour OpenAI.
-  * Ajout de nouveaux modèles hébergés à poids ouverts pour [W&amp;B Inférence](https://wandb.ai/inference):
-    * `Qwen3-235B-A22B-Thinking-2507`
-    * `Qwen/Qwen3-Coder-480B-A35B-Instruct`
-    * `Qwen/Qwen3-235B-A22B-Instruct-2507`
-    * `Kimi-K2-Instruct`
   * Ajout de la prise en charge dans le SDK TypeScript de la création et de la publication de prompts. [En savoir plus](/fr/weave/guides/core-types/prompts).
   * La nouvelle classe `Content` vous permet de téléverser en toute sécurité des données de tout type MIME, avec un encodage Base64 automatique, une extraction automatique des métadonnées, et bien plus encore.
 

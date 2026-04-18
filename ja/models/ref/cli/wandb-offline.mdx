@@ -1,29 +1,42 @@
 ---
-title: "wandb offline"
+title: wandb offline
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-offline.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbOffline from "/snippets/_includes/cli/wandb-offline.mdx";
-
-  <WandbOffline/>
-
-  このスニペットは、次回の再生成時に自動検出されます。
-  */}
-
-W&amp;B にログしたデータを、クラウドにアップロードせずにローカルに保存します。
-
-オフラインの run をアップロードするには、`wandb online` または `wandb sync` を使用します。
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3392" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb offline
+offline [OPTIONS]
+```
+
+<div id="description">
+  ## 説明
+</div>
+
+W&amp;B にログしたデータを、クラウドにアップロードせずにローカルに保存します。
+
+オフラインの run をアップロードするには、`wandb online` または `wandb sync` を使用します。
+
+たとえば、クラウドに同期せずにデータをローカルにログするために、スクリプトをオフライン モードで実行する
+には次のようにします:
+
+```bash
+wandb offline && python train.py
+```
+
+スクリプトをオフラインモードで実行するには:
+
+```bash
+wandb offline && python train.py
+```
+
+後で、すべてのオフライン run をクラウドに同期します:
+
+```bash
+wandb sync --sync-all
 ```

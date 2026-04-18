@@ -8,12 +8,11 @@ ID 페더레이션을 사용하면 W&amp;B SDK를 통해 조직 자격 증명으
 [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523)는 SDK의 ID 페더레이션을 뒷받침하는 기반 표준입니다.
 
 <Note>
-  ID 페더레이션은 모든 플랫폼 유형(SaaS Cloud, Dedicated Cloud, Self-Managed 인스턴스)에서 `Enterprise` 플랜의 `Preview` 기능으로 제공됩니다. 질문이 있으면 담당 W&amp;B 팀에 문의하세요.
+  ID 페더레이션은 Multi-tenant Cloud, Dedicated Cloud 및 Self-Managed에서 프리뷰로 사용 가능합니다. [엔터프라이즈 라이선스](/ko/platform/hosting/enterprise-licenses)가 필요합니다. 자세한 내용이나
+  도움이 필요하면 AISE 또는 [지원팀](mailto:support@wandb.com)에 문의하세요.
 </Note>
 
-<Note>
-  이 문서에서는 `ID 공급자`와 `JWT 발급자`라는 용어를 같은 의미로 사용합니다. 이 기능의 맥락에서 두 용어는 모두 동일한 대상을 가리킵니다.
-</Note>
+<Note>이 문서에서는 `ID 공급자`와 `JWT 발급자`라는 용어를 같은 의미로 사용합니다. 이 기능의 맥락에서 두 용어는 모두 동일한 대상을 가리킵니다.</Note>
 
 <div id="jwt-issuer-setup">
   ## JWT 발급자 설정
@@ -50,9 +49,18 @@ W&amp;B 조직에 JWT 발급자가 설정되면 사용자는 해당 ID 공급자
 JWT를 W&amp;B 액세스 토큰으로 교환한 뒤 프로젝트에 액세스하는 워크플로의 일부로, JWT에는 다음과 같은 검증이 수행됩니다.
 
 * JWT 서명은 W&amp;B 조직 수준의 JWKS를 사용해 검증됩니다. 이는 첫 번째 방어선이며, 이 검증이 실패하면 JWKS 또는 JWT 서명 방식에 문제가 있다는 의미입니다.
+
 * JWT의 `iss` 클레임은 조직 수준에서 구성된 발급자 URL과 같아야 합니다.
+
 * JWT의 `sub` 클레임은 W&amp;B 조직에 구성된 사용자의 이메일 주소와 같아야 합니다.
-* JWT의 `aud` 클레임은 AI 워크플로의 일부로 액세스하는 프로젝트가 속한 W&amp;B 조직의 이름과 같아야 합니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스의 경우, `aud` 클레임 검증을 건너뛰기 위해 인스턴스 수준 환경 변수 `SKIP_AUDIENCE_VALIDATION`을 `true`로 설정하거나, audience로 `wandb`를 사용할 수 있습니다.
+
+* 일반적으로 JWT의 `aud` 클레임은 AI 워크플로의 일부로 액세스하는 프로젝트가 속한 W&amp;B 조직의 이름과 같아야 합니다.
+
+  [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서는:
+
+  * audience 클레임 검증을 건너뛰려면 환경 변수 `FEDERATED_AUTH_AUDIENCES`를 `wandb`로 설정할 수 있습니다.
+  * 일부 조직에는 audience에 대한 특정 요구 사항이 있습니다. `aud` 값을 사용자 지정하려면 환경 변수 `FEDERATED_AUTH_AUDIENCES`를 audience 값의 쉼표로 구분된 목록이 포함된 문자열로 설정하세요.
+
 * JWT의 `exp` 클레임은 토큰이 유효한지, 또는 만료되어 새로 고침이 필요한지 확인하기 위해 검사됩니다.
 
 <div id="external-service-accounts">

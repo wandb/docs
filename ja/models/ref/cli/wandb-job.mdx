@@ -1,23 +1,31 @@
 ---
-title: "wandb job"
+title: wandb ジョブ
 ---
 
-W&amp;B ジョブを管理・表示するコマンド
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2125" />
 
 <div id="usage">
   ## 使用法
 </div>
 
 ```bash
-wandb job COMMAND [ARGS]...
+job [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## コマンド
+<div id="description">
+  ## 説明
 </div>
 
-| Command                                                  | 説明                             |
-| :------------------------------------------------------- | :----------------------------- |
-| [create](/ja/models/ref/cli/wandb-job/wandb-job-create)     | wandb run を使わずにソースからジョブを作成します。 |
-| [describe](/ja/models/ref/cli/wandb-job/wandb-job-describe) | Launch ジョブの詳細を表示します。           |
-| [list](/ja/models/ref/cli/wandb-job/wandb-job-list)         | プロジェクト内のジョブを一覧表示します            |
+W&amp;B ジョブを管理・表示するコマンド
+
+<div id="subcommands">
+  ## サブコマンド
+</div>
+
+| Command              | 説明                                        |
+| -------------------- | ----------------------------------------- |
+| `wandb job create`   | wandb run を使わずにソースからジョブを作成します。            |
+| `wandb job describe` | Launch ジョブの詳細を表示します。Launch ジョブを次の形式で指定します |
+| `wandb job list`     | プロジェクト内のジョブを一覧表示します。                      |

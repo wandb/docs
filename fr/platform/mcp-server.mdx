@@ -154,7 +154,9 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
        # Installer l’extension
        gemini extensions install https://github.com/wandb/wandb-mcp-server
        ```
+
     2. Une fois l’extension installée, redémarrez Gemini CLI.
+
     3. Vérifiez que l’agent de chat a accès au serveur MCP W&amp;B en saisissant le prompt &quot;Liste les Projects de mon compte W&amp;B.&quot;
 
     Pour en savoir plus, voir la [documentation de Gemini](https://geminicli.com/docs/tools/mcp-server/).
@@ -168,7 +170,6 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
     2. Sélectionnez l’onglet **Custom MCP Connector**.
 
     3. Configurez les champs avec les valeurs suivantes :
-
        * **Connector Server**: `https://mcp.withwandb.com/mcp`
        * **Description**: (facultatif) Une courte description libre de la connexion.
        * **Authentication Method**: Sélectionnez **API Token Authentication**. Des champs supplémentaires s’affichent.
@@ -211,23 +212,9 @@ Pour installer le serveur MCP localement :
 Pour installer le serveur MCP de W&amp;B sur votre machine locale, utilisez l’une des commandes d’installation suivantes :
 
 <Tabs>
-  <Tab title="uv">
-    ```bash
-    uv install wandb-mcp-server
-    ```
-  </Tab>
-
-  <Tab title="pip">
-    ```bash
-    pip install wandb-mcp-server
-    ```
-  </Tab>
-
-  <Tab title="Installer directement depuis GitHub">
-    ```bash
-    pip install git+https://github.com/wandb/wandb-mcp-server
-    ```
-  </Tab>
+  <Tab title="uv">`bash uv pip install wandb-mcp-server `</Tab>
+  <Tab title="pip">`bash pip install wandb-mcp-server `</Tab>
+  <Tab title="Installer directement depuis GitHub">`bash pip install git+https://github.com/wandb/wandb-mcp-server `</Tab>
 </Tabs>
 
 Une fois le serveur MCP installé localement, configurez votre client MCP pour l’utiliser. Sélectionnez un client MCP pour continuer :
@@ -241,11 +228,7 @@ Une fois le serveur MCP installé localement, configurez votre client MCP pour l
       "mcpServers": {
         "wandb": {
           "command": "uvx",
-          "args": [
-            "--from",
-            "git+https://github.com/wandb/wandb-mcp-server",
-            "wandb_mcp_server"
-          ],
+          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
           "env": {
             "WANDB_API_KEY": "<your-wandb-api-key>",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
@@ -264,11 +247,7 @@ Une fois le serveur MCP installé localement, configurez votre client MCP pour l
       "servers": {
         "wandb": {
           "command": "uvx",
-          "args": [
-            "--from",
-            "git+https://github.com/wandb/wandb-mcp-server",
-            "wandb_mcp_server"
-          ],
+          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
           "env": {
             "WANDB_API_KEY": "<your-wandb-api-key>",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
@@ -314,11 +293,7 @@ Une fois le serveur MCP installé localement, configurez votre client MCP pour l
       "mcpServers": {
         "wandb": {
           "command": "/full/path/to/uvx",
-          "args": [
-            "--from",
-            "git+https://github.com/wandb/wandb-mcp-server",
-            "wandb_mcp_server"
-          ],
+          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
           "env": {
             "WANDB_API_KEY": "<your-wandb-api-key>",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
@@ -340,14 +315,15 @@ uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 
 Pour exposer le serveur local à des clients externes tels qu’OpenAI, utilisez ngrok :
 
-```bash
+````bash
 uvx wandb_mcp_server --transport http --port 8080
 
-# Dans un autre terminal, exposer avec ngrok
+# Dans un autre terminal, exposez avec ngrok
 ngrok http 8080
-```
+    ```
 
-Si vous exposez le serveur à l’aide de `ngrok`, mettez à jour la configuration de votre client MCP pour utiliser l’URL de `ngrok`.
+If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
+````
 
 <div id="usage-tips">
   ## Conseils d’utilisation

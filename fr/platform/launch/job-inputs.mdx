@@ -17,7 +17,7 @@ Par défaut, les jobs W&amp;B capturent l&#39;intégralité de `Run.config` comm
   ## Reconfigurer l’objet `Run`
 </div>
 
-L’objet `Run` renvoyé par `wandb.init` dans un job peut, par défaut, être reconfiguré. Le SDK Launch permet de personnaliser les parties de l’objet `Run.config` qui peuvent être reconfigurées au lancement du job.
+L’objet `Run` renvoyé par `wandb.init()` dans un job peut, par défaut, être reconfiguré. Le SDK Launch permet de personnaliser les parties de l’objet `Run.config` qui peuvent être reconfigurées au lancement du job.
 
 ```python
 import wandb
@@ -42,13 +42,13 @@ config = {
 
 with wandb.init(config=config):
     launch.manage_wandb_config(
-        include=["trainer"], 
+        include=["trainer"],
         exclude=["trainer.private"],
     )
     # Etc.
 ```
 
-La fonction `launch.manage_wandb_config` configure le job pour qu&#39;il accepte des valeurs d&#39;entrée pour l&#39;objet `Run.config`. Les options facultatives `include` et `exclude` prennent des préfixes de chemin au sein de l&#39;objet de configuration imbriqué. Cela peut être utile si, par exemple, un job utilise une bibliothèque dont vous ne souhaitez pas exposer les options aux utilisateurs finaux.
+La fonction `launch.manage_wandb_config()` configure le job pour qu&#39;il accepte des valeurs d&#39;entrée pour l&#39;objet `Run.config`. Les options facultatives `include` et `exclude` prennent des préfixes de chemin au sein de l&#39;objet de configuration imbriqué. Cela peut être utile si, par exemple, un job utilise une bibliothèque dont vous ne souhaitez pas exposer les options aux utilisateurs finaux.
 
 Si des préfixes `include` sont fournis, seuls les chemins de la configuration qui correspondent à un préfixe `include` accepteront des valeurs d&#39;entrée. Si des préfixes `exclude` sont fournis, les chemins correspondant à la liste `exclude` seront exclus des valeurs d&#39;entrée. Si un chemin correspond à la fois à un préfixe `include` et à un préfixe `exclude`, le préfixe `exclude` sera prioritaire.
 
@@ -66,22 +66,22 @@ Si le code ci-dessus est empaqueté et exécuté comme un job, les types d&#39;e
 
 ```json
 {
-    "trainer": {
-        "learning_rate": "float",
-        "batch_size": "int",
-        "model": "str",
-        "dataset": "str",
-    },
+  "trainer": {
+    "learning_rate": "float",
+    "batch_size": "int",
+    "model": "str",
+    "dataset": "str"
+  }
 }
 ```
 
-Lors du lancement du job depuis le CLI ou l’UI W&amp;B, l’utilisateur ne pourra modifier que les quatre paramètres `trainer`.
+Lors du lancement du job depuis le CLI ou l’interface utilisateur W&amp;B, l’utilisateur ne pourra modifier que les quatre paramètres `trainer`.
 
 <div id="access-run-config-inputs">
   ### Accéder aux entrées de configuration du run
 </div>
 
-Les jobs lancés avec des entrées de configuration du run peuvent accéder à leurs valeurs via `Run.config`. Le `Run` renvoyé par `wandb.init` dans le code du job aura automatiquement les valeurs des inputs définies. Utilisez
+Les jobs lancés avec des entrées de configuration du run peuvent accéder à leurs valeurs via `Run.config`. Le `Run` renvoyé par `wandb.init()` dans le code du job aura automatiquement les valeurs des entrées définies. Utilisez
 
 ```python
 from wandb.sdk import launch
@@ -89,7 +89,7 @@ from wandb.sdk import launch
 run_config_overrides = launch.load_wandb_config()
 ```
 
-pour charger les valeurs d’entrée de la run config à n’importe quel endroit dans le code du job.
+pour charger les valeurs d’entrée de la configuration du run à n’importe quel endroit dans le code du job.
 
 <div id="reconfigure-a-file">
   ## Reconfigurer un fichier
@@ -101,9 +101,9 @@ Le SDK Launch permet également de gérer les valeurs d&#39;entrée stockées da
   [Sweeps on Launch](/fr/platform/launch/sweeps-on-launch/) ne prend pas en charge l&#39;utilisation d&#39;entrées du fichier de configuration comme paramètres de balayage. Les paramètres de balayage doivent être contrôlés via l&#39;objet `Run.config`.
 </Note>
 
-La fonction `launch.manage_config_file` peut être utilisée pour ajouter un fichier de configuration comme entrée du job Launch, ce qui vous permet de modifier les valeurs qu&#39;il contient au moment de lancer le job.
+La fonction `launch.manage_config_file()` peut être utilisée pour ajouter un fichier de configuration comme entrée du job Launch, ce qui vous permet de modifier les valeurs qu&#39;il contient au moment de lancer le job.
 
-Par défaut, aucune entrée de configuration du run n&#39;est capturée lorsque `launch.manage_config_file` est utilisé. L&#39;appel à `launch.manage_wandb_config` remplace ce comportement.
+Par défaut, aucune entrée de configuration du run n&#39;est capturée lorsque `launch.manage_config_file()` est utilisé. L&#39;appel à `launch.manage_wandb_config()` remplace ce comportement.
 
 Prenez l&#39;exemple suivant :
 
@@ -134,25 +134,23 @@ model: resnet
 dataset: cifar10
 ```
 
-L’appel à `launch.manage_config_file` ajoute le fichier `config.yaml` comme entrée du job, ce qui le rend reconfigurable lors d’un lancement depuis la CLI ou l’UI de W&amp;B.
+L’appel à `launch.manage_config_file()` ajoute le fichier `config.yaml` comme entrée du job, ce qui le rend reconfigurable lors d’un lancement depuis la CLI ou l’interface utilisateur de W&amp;B.
 
-Les arguments nommés `include` et `exclude` peuvent être utilisés pour filtrer les clés d’entrée acceptées du fichier de configuration, de la même manière que `launch.manage_wandb_config`.
+Les arguments nommés `include` et `exclude` peuvent être utilisés pour filtrer les clés d’entrée acceptées du fichier de configuration, de la même manière que `launch.manage_wandb_config()`.
 
 <div id="access-config-file-inputs">
   ### Accéder aux valeurs d’entrée du fichier de configuration
 </div>
 
-Lorsque `launch.manage_config_file` est appelé dans un run créé par Launch, `launch` met à jour le contenu du fichier de configuration avec les valeurs d’entrée. Le fichier de configuration mis à jour est disponible dans l’environnement du job.
+Lorsque `launch.manage_config_file()` est appelé dans un run créé par Launch, `launch` met à jour le contenu du fichier de configuration avec les valeurs d’entrée. Le fichier de configuration mis à jour est disponible dans l’environnement du job.
 
-<Warning>
-  Appelez `launch.manage_config_file` avant de lire le fichier de configuration dans le code du job pour vous assurer que les valeurs d’entrée sont utilisées.
-</Warning>
+<Warning>Appelez `launch.manage_config_file()` avant de lire le fichier de configuration dans le code du job pour vous assurer que les valeurs d’entrée sont utilisées.</Warning>
 
 <div id="customize-a-jobs-launch-drawer-ui">
   ### Personnaliser l’interface du volet de lancement d’un job
 </div>
 
-Définir un schéma pour les entrées d’un job vous permet de créer une interface personnalisée pour lancer ce job. Pour définir le schéma d’un job, incluez-le dans l’appel à `launch.manage_wandb_config` ou `launch.manage_config_file`. Le schéma peut être soit un `dict` Python au format [JSON Schema](https://json-schema.org/understanding-json-schema/reference), soit une classe de modèle Pydantic.
+Définir un schéma pour les entrées d’un job vous permet de créer une interface personnalisée pour lancer ce job. Pour définir le schéma d’un job, incluez-le dans l’appel à `launch.manage_wandb_config()` ou `launch.manage_config_file()`. Le schéma peut être soit un `dict` Python au format [JSON Schema](https://json-schema.org/understanding-json-schema/reference), soit une classe de modèle Pydantic.
 
 <Warning>
   Les schémas d’entrée du job ne sont pas utilisés pour valider les entrées. Ils servent uniquement à définir l’interface dans le volet de lancement.

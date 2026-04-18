@@ -1,48 +1,41 @@
 ---
-title: "wandb launch-sweep"
+title: wandb launch-sweep
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-launch-sweep.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
-
-  <WandbLaunchSweep/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Exécuter un balayage Launch de W&amp;B (expérimental).
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1247" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb launch-sweep [CONFIG] [OPTIONS]
+launch-sweep [OPTIONS] [CONFIG]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Exécuter un sweep Launch de W&amp;B (expérimental).
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Argument | Description                         | Requis |
-| :------- | :---------------------------------- | :----- |
-| `CONFIG` | Aucune description n’est disponible | Non    |
+| Nom      | Par défaut | Type  |
+| -------- | ---------- | ----- |
+| `config` | PATH       | False |
 
 <div id="options">
   ## Options
 </div>
 
-| Option              | Description                                                                                                                                           |
-| :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--queue`, `-q`     | Le nom de la file d&#39;attente vers laquelle envoyer le balayage                                                                                     |
-| `--project`, `-p`   | Nom du projet que l&#39;agent surveillera. Si cette option est fournie, elle remplacera la valeur de projet transmise via un fichier de configuration |
-| `--entity`, `-e`    | L&#39;entité à utiliser. Par défaut, l&#39;utilisateur actuellement connecté est utilisé                                                              |
-| `--resume_id`, `-r` | Reprendre un balayage Launch en fournissant un ID de balayage de 8 caractères. File d&#39;attente requise                                             |
-| `--prior_run`, `-R` | ID d&#39;un run existant à ajouter à ce balayage                                                                                                      |
+| Flag              | Type | Description                                                                                                                                                                |
+| ----------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--queue, -q`     | STR  | Nom de la file d&#39;attente vers laquelle envoyer le sweep. **Par défaut** : None                                                                                         |
+| `--project, -p`   | STR  | Nom du projet que l&#39;agent surveillera. Si cet argument est spécifié, il remplacera la valeur du projet fournie dans le fichier de configuration. **Par défaut** : None |
+| `--entity, -e`    | STR  | Entité à utiliser. Par défaut, l&#39;utilisateur actuellement connecté est utilisé. **Par défaut** : None                                                                  |
+| `--resume_id, -r` | STR  | Reprendre un sweep Launch en fournissant un ID de sweep de 8 caractères. File d&#39;attente requise. **Par défaut** : None                                                 |
+| `--prior_run, -R` | STR  | ID d&#39;un run existant à ajouter à ce sweep. **Par défaut** : None                                                                                                       |

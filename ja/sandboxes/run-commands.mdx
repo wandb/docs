@@ -1,0 +1,112 @@
+---
+title: サンドボックスでコマンドを実行する
+description: サンドボックス環境でコマンドを実行し、出力と終了コードを読み取る方法を学びます。
+---
+
+<Warning>W&amp;B Sandboxes は現在プライベートプレビュー中で、招待を受けたユーザーのみご利用いただけます。利用登録を希望する場合は、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。</Warning>
+
+<br />
+
+[サンドボックスでコマンドを実行し](#run-commands-in-a-sandbox)、[出力と終了コードを読み取り](#read-output-and-exit-codes)、[エラーを確認](#check-for-errors)できます。これらの機能を使用して、サンドボックス内でスクリプト、トレーニングジョブ、その他のプロセスを実行し、その結果をプログラムで確認できます。
+
+<div id="run-commands-in-a-sandbox">
+  ## サンドボックスでコマンドを実行する
+</div>
+
+ユースケースに応じて、サンドボックスでコマンドを実行するには次のいずれかのパターンを使用します。
+
+* [単一のコマンド](#run-a-single-command): コマンドを `Sandbox.run()` に渡し、完了するまで待機するために `Sandbox.wait_until_complete()` を呼び出します。バッチ ジョブ、テスト、またはトレーニングに適しています。
+* [複数のコマンド](#run-multiple-commands-sequentially): 引数なしで `Sandbox.run()` を呼び出し、その後で各ステップごとに `Sandbox.exec()` を使用します。セットアップ、実行、結果の取得を組み合わせるワークフローに適しています。
+
+<div id="run-a-single-command">
+  ### 1 つのコマンドを実行する
+</div>
+
+コマンドを `Sandbox.run()` に渡し、続けて `Sandbox.wait_until_complete()` を呼び出して、サンドボックスが終了状態になるまで待機します。
+
+次の例では、`python train.py` を実行するサンドボックスを起動し、サンドボックスが完了するまで最大 3600 秒待機します。
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+sandbox.wait_until_complete(timeout=3600.0).result()
+print(f"Exit code: {sandbox.returncode}")
+```
+
+<div id="run-multiple-commands-sequentially">
+  ### 複数のコマンドを順番に実行する
+</div>
+
+依存関係のインストール、ファイルの書き込み、スクリプトの実行、結果の読み取りなど、複数のステップを含むワークフローでは、同じサンドボックス内で複数のコマンドを実行します。
+
+サンドボックス内で複数のコマンドを実行するには、まずメインコマンドを指定せずにサンドボックスを起動します。一連の `Sandbox.exec()` を使用して各コマンドを実行し、その完了を待機します。
+
+次の例では、メインコマンドを指定せずにサンドボックスを起動し、その後、同じサンドボックス内で 2 つのコマンドを順番に実行します。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["pip", "install", "torch"]).result()
+    print(result.stdout)
+
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+`Sandbox.exec()` メソッドは、サンドボックス内でコマンドを実行し、`Process` オブジェクトを返します。返されたオブジェクトを使用して、コマンドの完了を待機し、出力を読み取り、終了コードを確認できます。
+
+`Sandbox.exec()` とそのパラメーターの詳細については、CoreWeave Sandboxes のリファレンスドキュメントにある [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) を参照してください。
+
+<div id="keep-the-sandbox-running-for-additional-commands">
+  #### 追加のコマンドを実行できるようにサンドボックスを実行し続ける
+</div>
+
+場合によっては、`Sandbox.exec()` でほかのコマンドを実行している間もサンドボックスを使用できるように、長時間実行されるメインプロセスでサンドボックスを起動したいことがあります。
+
+次の例では、`sleep infinity` をメインプロセスとしてサンドボックスを起動し、その後、`Sandbox.exec()` を使用してサンドボックス内でトレーニングスクリプトを実行します。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+<div id="read-output-and-exit-codes">
+  ## 出力と終了コードを確認する
+</div>
+
+`Sandbox.exec()` は [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) オブジェクトを返します。`Process.result()` を呼び出すと、コマンドの完了を待機して結果を取得できます。`Process.result()` には、標準出力 (`stdout`)、標準エラー (`stderr`)、終了コード (`returncode`) が含まれます。
+
+終了コードを使用して、コマンドが成功したかどうかを判断できます。慣例として、終了コードが 0 の場合は成功を示します。考えられる終了コードとその意味は、コマンドによって異なります。
+
+たとえば、次のコードスニペットは、標準出力 (`stdout`) と終了コード (`returncode`) を出力する Python コマンドを実行します。コマンドの完了後、標準出力、標準エラー、終了コードがコンソールに出力されます。
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["python", "-c", "print('hello')"]).result()
+    print(result.stdout)      # "hello\\n"
+    print(result.returncode)  # 0
+```
+
+<div id="check-for-sandbox-execution-errors">
+  ## サンドボックス実行エラーを確認する
+</div>
+
+コマンドが 0 以外の終了コードで終了した場合にエラーを発生させるには、`check=True` (`Sandbox.exec(check=True)`) を指定します。コマンドが 0 以外の終了コードで終了すると、[`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) が発生します。この例では、スクリプト `might_fail.py` を実行して結果を確認します。
+
+```python
+from wandb.sandbox import Sandbox, SandboxExecutionError
+
+with Sandbox.run() as sandbox:
+    try:
+        sandbox.exec(["python", "might_fail.py"], check=True).result()
+    except SandboxExecutionError as e:
+        print(f"コマンドが終了コード {e.exec_result.returncode} で失敗しました")
+        print(e.exec_result.stderr)
+```
