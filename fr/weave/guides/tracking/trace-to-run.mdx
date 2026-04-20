@@ -1,0 +1,94 @@
+---
+title: "Lier un run W&B aux appels de fonction tracés"
+description: "Associer les traces Weave aux runs W&B pour le suivi des expériences"
+---
+
+<div id="view-a-wb-run-in-the-traces-table">
+  ## Afficher un run W&amp;B dans le tableau Traces
+</div>
+
+Avec W&amp;B Weave, vous pouvez tracer les appels de fonction dans votre code et les lier directement aux [runs W&amp;B](https://docs.wandb.ai/models/runs/) dans lesquels ils ont été exécutés.
+Lorsque vous tracez une fonction avec `@weave.op()` et que vous l&#39;appelez dans un contexte `wandb.init()`, Weave associe automatiquement la trace au run W&amp;B.
+Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
+
+<Tabs>
+  <Tab title="Python">
+    Le code Python suivant montre comment les Ops tracées sont liées aux
+    runs W&amp;B lorsqu&#39;elles sont exécutées dans un contexte `wandb.init()`. Ces traces apparaissent dans la
+    Weave UI et sont associées au run correspondant.
+
+    Pour afficher un run W&amp;B sous forme de trace Weave :
+
+    1. Dans le terminal, installez les dépendances.
+
+    ```bash lines
+    pip install wandb weave
+    ```
+
+    2. Connectez-vous à W&amp;B.
+
+    ```bash lines
+    wandb login
+    ```
+
+    3. Dans le script suivant, remplacez `your-team-name/your-project-name` par votre entité/projet W&amp;B réelle :
+
+    ```python lines
+    import wandb
+    import weave
+
+    def example_wandb(projname):
+        # Séparer projname en entité et projet
+        entity, project = projname.split("/", 1)
+
+        # Initialiser le contexte Weave pour le tracing
+        weave.init(projname)
+
+        # Définir une op traçable
+        @weave.op()
+        def say(message: str) -> str:
+            return f"I said: {message}"
+
+        # Premier run W&B
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 1",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world!")
+            say("How are you!")
+            run.log({"messages": 2})
+
+        # Deuxième run W&B
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 2",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world from experiment 2!")
+            say("How are you!")
+            run.log({"messages": 2})
+
+    if __name__ == "__main__":
+        # Remplacez ceci par votre nom d'utilisateur/projet W&B réel
+        example_wandb("your-team-name/your-project-name")
+    ```
+
+    4. Exécutez le script.
+
+    ```bash lines
+    python weave_trace_with_wandb.py
+    ```
+
+    5. Accédez à [https://weave.wandb.ai](https://weave.wandb.ai) et sélectionnez votre projet.
+    6. Dans la **barre latérale du projet Weave**, cliquez sur **Traces**. Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible pour le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>

@@ -1,0 +1,72 @@
+---
+title: バケットストレージとコストを管理する
+description: W&B がオブジェクトストレージをどのように使用するか、削除がバケット使用量（バイト数）にどのように反映されるか、またセルフマネージド、専用クラウド、Bring your own bucket のデプロイ環境で使用量を削減する方法を理解します。
+---
+
+[Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector)、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)、または [W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed) を使用する場合、通常、チームでクラウドストレージプロバイダに直接料金を支払うことになります。このページでは、バケット内で容量を消費するもの、アプリまたは API で削除した後に W&amp;B がオブジェクトをどのように削除するか、そして実際にどうなるかについて説明します。
+
+<div id="what-uses-bucket-space">
+  ## バケット容量を消費するもの
+</div>
+
+W&amp;B は、設定したオブジェクトストレージに複数の種類のデータを保存します。[BYOB overview](/ja/platform/hosting/data-security/secure-storage-connector#data-stored-in-the-central-database-vs-buckets) には、実験ファイルとメトリクス、artifact ファイル、メディアファイル、run ファイル、Parquet 形式でエクスポートされた履歴などの例が記載されています。これらの合計が、バケットのサイズとコストに影響します。
+
+<div id="how-wb-removes-data-from-storage">
+  ## W&amp;B がストレージからデータを削除する仕組み
+</div>
+
+W&amp;B App または [Public API](/ja/models/ref/python/public-api/api) で削除を行うと、まず W&amp;B のメタデータが更新されます。**プロダクトから ラン、アーティファクト、またはファイルを削除しても、表示されるバケット使用量がすぐに減るとは限りません。** オブジェクトストレージのクリーンアップはバックグラウンドで実行されるため、特に高負荷のインスタンスでは反映が遅れることがあります。
+
+<div id="artifacts">
+  ### Artifacts
+</div>
+
+削除されたアーティファクトはソフト削除された後、アーティファクト のガベージコレクションによって処理されます。セルフマネージドのデプロイでは、`GORILLA_ARTIFACT_GC_ENABLED` を設定し、バージョン管理やソフト削除などのプロバイダの要件を満たす必要があります。[アーティファクトを削除する](/ja/models/artifacts/delete-artifacts)および[環境変数を設定する](/ja/platform/hosting/env-vars)を参照してください。
+
+<div id="run-data-and-run-files">
+  ### ランデータとランファイル
+</div>
+
+ランまたはランに関連付けられたファイルが削除された後、基盤となる保存オブジェクトの完全な削除は、アーティファクト とは別に制御されます。専用クラウドおよびセルフマネージドのデプロイでは、`GORILLA_DATA_RETENTION_PERIOD` で、**削除されたランデータ**がストレージから削除可能になるまで保持される期間を設定します。**この設定で アーティファクト が削除されることはありません。** ランおよびファイルの削除とストレージとの関係については、[環境変数を設定する](/ja/platform/hosting/env-vars)、専用クラウド向けの [データ保持ポリシー](/ja/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy)、および [ランを削除する](/ja/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) を参照してください。
+
+<div id="what-to-expect-from-background-cleanup">
+  ## バックグラウンド クリーンアップで想定されること
+</div>
+
+オブジェクトストレージを解放するガベージコレクションと関連ジョブは、**ベストエフォート**で実行されます。W&amp;B は、UI または API でコンテンツを削除したあと、特定の時間内に対象のオブジェクトがバケットから消えることを**保証しません**。1 つのランあたりのファイル数が多いプロジェクト、たとえば 1 つのランで多数のメディアファイルをログしている場合は、ストレージ使用量が解放されるまでに**より長い遅延**が発生することがあります。
+
+クラウドプロバイダ側でバケットを監視し、想定に比べてクリーンアップが滞っているように見える場合は、[W&amp;B Support](mailto:support@wandb.ai) または担当のアカウントチームにお問い合わせください。
+
+<div id="reduce-bucket-usage">
+  ## バケット使用量を減らす
+</div>
+
+まずは、サポートされているプロダクトの機能で対応してください。
+
+* 不要になったランは、[W&amp;B App で削除する](/ja/models/runs/delete-runs#ui) か、[Python で削除する](/ja/models/runs/delete-runs#python) ようにしてください。
+* 不要になった[アーティファクトを削除し](/ja/models/artifacts/delete-artifacts)、ワークフローに合う場合は [アーティファクト TTL](/ja/models/artifacts/ttl) を使用してください。
+
+**すぐに容量を回収する**必要がある場合は、バケットにアクセスできるオペレーターが、クラウド ストレージ内の特定のオブジェクト キーを直接削除できます。次の点に注意してください。
+
+* 削除したオブジェクトは、W&amp;B 経由で**ダウンロードできなくなります**。
+* 削除するつもりのキー**だけ**を削除してください。誤って削除すると、アプリがまだ参照しているデータにアクセスできなくなる可能性があります。
+* バケットで**オブジェクトのバージョン管理**または**プロバイダのソフト削除** (たとえば Google Cloud Storage) を使用している場合、クラウドのライフサイクル ルールに従って非カレント バージョンやソフト削除されたオブジェクトの有効期限が切れるまで、ストレージ料金が発生し続けることがあります。
+
+W&amp;B Multi-tenant Cloud での大まかな使用状況は、組織管理者が組織の設定からストレージ関連の使用状況を確認できます。詳しくは [Billing settings](/ja/platform/app/settings-page/billing-settings) を参照してください。
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+Public API を使用した後に W&amp;B App で削除が正しく反映されない場合は、**W&amp;B Python SDK を最新のリリースにアップグレード**してから、再試行してください。各 ラン のファイル数が非常に多い場合、インスタンス全体でバックグラウンド クリーンアップにかかる時間が長くなることがあります。
+
+お使いのデプロイメントに合ったスクリプトによるクリーンアップ パターンについては、[W&amp;B Support](mailto:support@wandb.ai) または担当のアカウントチームにお問い合わせください。
+
+<div id="related-documentation">
+  ## 関連ドキュメント
+</div>
+
+* [ラン を削除する](/ja/models/runs/delete-runs#delete-runs)
+* [アーティファクトを削除する](/ja/models/artifacts/delete-artifacts)
+* [環境変数を設定する](/ja/platform/hosting/env-vars)
+* [Bring your own bucket を使用する](/ja/platform/hosting/data-security/secure-storage-connector)

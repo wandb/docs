@@ -1,0 +1,82 @@
+---
+title: "メトリクス"
+tag: "19"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="コードやデータセットの例を含めず、メトリクスだけをログできますか？" href="/ja/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
+  デフォルトでは、W&amp;B はデータセットの例をログしません。デフォルトでは、W&amp;B はコードとシステムメトリクスをログします。これをオフにする方法は 2 つあります ...
+</Card>
+
+<Card title="2 つの異なる時間スケールでメトリクスをログできますか？" href="/ja/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
+  たとえば、バッチごとにトレーニング accuracy をログし、エポックごとに検証 accuracy をログしたい場合です。はい、バッチ や ... のようなインデックスをログします
+</Card>
+
+<Card title="システムメトリクスをログする頻度はどのように変更できますか？" href="/ja/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  システムメトリクスをログする頻度を設定するには、&#95;stats&#95;sampling&#95;interval に秒数を表す浮動小数点数を設定します ...
+</Card>
+
+<Card title="W&B へのシステムメトリクスのログを無効にするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  システムメトリクスのログを無効にするには、&#95;disable&#95;stats を True に設定します:
+</Card>
+
+<Card title="run の完了後に追加のメトリクスをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
+  実験を管理する方法はいくつかあります。複雑なワークフローでは、複数の run を使用し、w ... で group パラメーターを設定します
+</Card>
+
+<Card title="前の step のログを上書きするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
+  前の step のログを上書きするには、forking と rewind を使用します。
+</Card>
+
+<Card title="メトリクスのログ記録時に `Rate limit exceeded` エラーを修正するにはどうすればよいですか？" href="/ja/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  wandb.log() の呼び出し時に HTTP 429 Rate limit exceeded エラーを受け取る場合、... の rate limit クォータを超過しています
+</Card>
+
+<Card title="sweep 中の `anaconda 400 error` を修正するにはどうすればよいですか？" href="/ja/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  次のエラーは通常、最適化しているメトリクスをログしていない場合に発生します。これを修正するには、... していることを確認してください
+</Card>
+
+<Card title="システムメトリクスはどのくらいの頻度で収集されますか？" href="/ja/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
+  メトリクスはデフォルトで 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com にメールしてください。
+</Card>
+
+<Card title="step ごとではなく、メトリクスの最大値をプロットできますか？" href="/ja/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr" arrow="true" horizontal>
+  そのメトリクスの散布図を作成します。Edit メニューを開いて Annotations を選択します。そこから、... の累積最大値をプロットします
+</Card>
+
+<Card title="メトリクスをオフラインで保存し、後で W&B に Sync できますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定します ...
+</Card>
+
+<Card title="複数のメトリクスの最適化" href="/ja/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  1 つの run で複数のメトリクスを最適化するには、個々のメトリクスの加重和を使用します。新しい結合メトリクスをログして ...
+</Card>
+
+<Card title="W&B に何百万もの step をログすると何が起こりますか？ ブラウザではどのように表示されますか？" href="/ja/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  送信されるポイント数は、UI でのグラフの読み込み時間に影響します。1,000 ポイントを超える線については、バックエンドが ...
+</Card>
+
+<Card title="一部のメトリクスは バッチ ごとに、別のメトリクスはエポックごとにだけログしたい場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  各 バッチ で特定のメトリクスをログし、プロットを標準化するには、必要な x-axis の値をメトリクスと一緒にログします。UI では ...
+</Card>
+
+<Card title="ログした数よりデータポイントが少なく表示されるのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Step 以外の X 軸に対してメトリクスを可視化する場合、表示されるデータポイントが少なくなることがあります。メトリクスは同じ ... でログする必要があります
+</Card>
+
+<Card title="特定の文字を含むメトリクスを sort やフィルターできないのはなぜですか？" href="/ja/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
+  W&amp;B のメトリクス名は、UI で正しく sort およびフィルターできるように、GraphQL の命名規則に従う必要があります。...
+</Card>
+
+<Card title="Workspace の読み込みが遅いのはなぜですか？" href="/ja/support/models/articles/workspace-loads-slowly-with-many-metric" arrow="true" horizontal>
+  project に多数のメトリクス、Runs、またはパネルがあると、Workspace の読み込みが遅くなることがあります。よくある原因と対処法を以下に示します ...
+</Card>
+
+<Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
+  「No visualization data logged yet」というメッセージが表示される場合、スクリプトで最初の wandb.log call がまだ実行されていません。これは ...
+</Card>
+
+<Card title="同じメトリクスが複数回表示されるのはなぜですか？" href="/ja/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
+  同じ key でさまざまなデータ タイプをログすると、データベース内でそれらは分割されます。その結果、... が複数表示されます
+</Card>

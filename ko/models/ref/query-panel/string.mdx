@@ -2,543 +2,682 @@
 title: string
 ---
 
-## Chainable Ops
-### <a id="string-notEqual"></a>`string-notEqual`
+<div id="chainable-ops">
+  ## 체이닝할 수 있는 Ops
+</div>
 
-두 값의 불일치 여부를 결정합니다.
+### <a id="string-notEqual" />`string-notEqual`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `lhs` | 비교할 첫 번째 값. |
-| `rhs` | 비교할 두 번째 값. |
+두 값이 서로 다른지 확인합니다.
 
-#### 반환 값
-두 값이 일치하지 않는지 여부.
+| 인수    | 설명             |
+| :---- | :------------- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-### <a id="string-add"></a>`string-add`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-두 [strings](/models/ref/query-panel/string/) 을 연결합니다.
+두 값이 서로 다른지 여부입니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `lhs` | 첫 번째 [string](/models/ref/query-panel/string) |
-| `rhs` | 두 번째 [string](/models/ref/query-panel/string) |
+### <a id="string-add" />`string-add`
 
-#### 반환 값
-연결된 [string](/models/ref/query-panel/string)
+문자열 두 개를 연결합니다 [strings](/ko/models/ref/query-panel/string/)
 
-### <a id="string-equal"></a>`string-equal`
+| 인수    | 설명                                          |
+| :---- | :------------------------------------------ |
+| `lhs` | 첫 번째 [문자열](/ko/models/ref/query-panel/string/) |
+| `rhs` | 두 번째 [문자열](/ko/models/ref/query-panel/string/) |
 
-두 값의 일치 여부를 결정합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `lhs` | 비교할 첫 번째 값. |
-| `rhs` | 비교할 두 번째 값. |
+이어 붙인 [string](/ko/models/ref/query-panel/string)
 
-#### 반환 값
-두 값이 일치하는지 여부.
+### <a id="string-equal" />`string-equal`
 
-### <a id="string-append"></a>`string-append`
+두 값이 같은지 확인합니다.
 
-[string](/models/ref/query-panel/string) 뒤에 접미사를 추가합니다.
+| 인수    | 설명             |
+| :---- | :------------- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 접미사를 추가할 [string](/models/ref/query-panel/string) |
-| `suffix` | 추가할 접미사 |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-접미사가 추가된 [string](/models/ref/query-panel/string)
+두 값이 동일한지 여부입니다.
 
-### <a id="string-contains"></a>`string-contains`
+### <a id="string-append" />`string-append`
 
-[string](/models/ref/query-panel/string) 에 부분 문자열이 포함되어 있는지 확인합니다.
+[string](/ko/models/ref/query-panel/string)에 접미사를 덧붙입니다
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
-| `sub` | 검색할 부분 문자열 |
+| 인수       | 설명                                                |
+| :------- | :------------------------------------------------ |
+| `str`    | 접미사를 덧붙일 [string](/ko/models/ref/query-panel/string) |
+| `suffix` | 덧붙일 접미사                                           |
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 에 부분 문자열이 포함되어 있는지 여부
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-endsWith"></a>`string-endsWith`
+접미사가 덧붙은 [string](/ko/models/ref/query-panel/string)
 
-[string](/models/ref/query-panel/string) 이 특정 접미사로 끝나는지 확인합니다.
+### <a id="string-contains" />`string-contains`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
-| `suffix` | 확인할 접미사 |
+[string](/ko/models/ref/query-panel/string)에 부분 문자열이 포함되어 있는지 확인합니다.
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 해당 접미사로 끝나는지 여부
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
+| `sub` | 포함되어 있는지 확인할 부분 문자열                          |
 
-### <a id="string-findAll"></a>`string-findAll`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 에서 부분 문자열이 나타나는 모든 위치를 찾습니다.
+[string](/ko/models/ref/query-panel/string)에 해당 부분 문자열이 포함되는지 여부
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 부분 문자열을 찾을 [string](/models/ref/query-panel/string) |
-| `sub` | 찾을 부분 문자열 |
+### <a id="string-endsWith" />`string-endsWith`
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 내 부분 문자열 인덱스의 _list_
+[string](/ko/models/ref/query-panel/string)이 접미사로 끝나는지 확인합니다
 
-### <a id="string-isAlnum"></a>`string-isAlnum`
+| 인수       | 설명                                           |
+| :------- | :------------------------------------------- |
+| `str`    | 확인할 [string](/ko/models/ref/query-panel/string) |
+| `suffix` | 끝나는지 확인할 접미사                                 |
 
-[string](/models/ref/query-panel/string) 이 영숫자(alphanumeric)인지 확인합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
+[string](/ko/models/ref/query-panel/string)이 해당 접미사로 끝나는지 여부
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 영숫자인지 여부
+### <a id="string-findAll" />`string-findAll`
 
-### <a id="string-isAlpha"></a>`string-isAlpha`
+[string](/ko/models/ref/query-panel/string)에서 부분 문자열이 나타나는 모든 위치를 찾습니다
 
-[string](/models/ref/query-panel/string) 이 알파벳인지 확인합니다.
+| 인수    | 설명                                                              |
+| :---- | :-------------------------------------------------------------- |
+| `str` | 부분 문자열이 나타나는 모든 위치를 찾을 [string](/ko/models/ref/query-panel/string) |
+| `sub` | 찾을 부분 문자열                                                       |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 알파벳인지 여부
+[string](/ko/models/ref/query-panel/string)에서 부분 문자열의 인덱스 *목록*
 
-### <a id="string-isNumeric"></a>`string-isNumeric`
+### <a id="string-isAlnum" />`string-isAlnum`
 
-[string](/models/ref/query-panel/string) 이 숫자인지 확인합니다.
+[string](/ko/models/ref/query-panel/string)이 영숫자로만 이루어져 있는지 확인합니다
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 검사할 [string](/ko/models/ref/query-panel/string) |
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 숫자인지 여부
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-lStrip"></a>`string-lStrip`
+[string](/ko/models/ref/query-panel/string)이 영숫자로만 이루어져 있는지 여부
 
-앞부분의 공백을 제거합니다.
+### <a id="string-isAlpha" />`string-isAlpha`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 공백을 제거할 [string](/models/ref/query-panel/string). |
+[string](/ko/models/ref/query-panel/string)이 알파벳 문자로만 이루어져 있는지 확인합니다
 
-#### 반환 값
-공백이 제거된 [string](/models/ref/query-panel/string).
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
 
-### <a id="string-len"></a>`string-len`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 의 길이를 반환합니다.
+[string](/ko/models/ref/query-panel/string)이 알파벳으로만 이루어져 있는지 여부
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 길이를 확인할 [string](/models/ref/query-panel/string) |
+### <a id="string-isNumeric" />`string-isNumeric`
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 의 길이
+[string](/ko/models/ref/query-panel/string)이 숫자 형식인지 확인합니다
 
-### <a id="string-lower"></a>`string-lower`
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
 
-[string](/models/ref/query-panel/string) 을 소문자로 변환합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 소문자로 변환할 [string](/models/ref/query-panel/string) |
+[string](/ko/models/ref/query-panel/string)이 숫자형인지 여부
 
-#### 반환 값
-소문자로 변환된 [string](/models/ref/query-panel/string)
+### <a id="string-lStrip" />`string-lStrip`
 
-### <a id="string-partition"></a>`string-partition`
+선행 공백 제거
 
-[string](/models/ref/query-panel/string) 을 [strings](/models/ref/query-panel/string/) 의 _list_ 로 파티션합니다.
+| 인수    | 설명                                                      |
+| :---- | :------------------------------------------------------ |
+| `str` | 선행 공백을 제거할 [string](/ko/models/ref/query-panel/string)입니다. |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 분할할 [string](/models/ref/query-panel/string) |
-| `sep` | 분할 기준이 되는 구분자 |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-[strings](/models/ref/query-panel/string/) 의 _list_: 구분자 앞의 [string](/models/ref/query-panel/string), 구분자 자체, 그리고 구분자 뒤의 [string](/models/ref/query-panel/string)
+공백이 제거된 [string](/ko/models/ref/query-panel/string).
 
-### <a id="string-prepend"></a>`string-prepend`
+### <a id="string-len" />`string-len`
 
-[string](/models/ref/query-panel/string) 앞에 접두사를 추가합니다.
+[string](/ko/models/ref/query-panel/string)의 길이를 반환합니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 접두사를 추가할 [string](/models/ref/query-panel/string) |
-| `prefix` | 추가할 접두사 |
+| 인수    | 설명                                               |
+| :---- | :----------------------------------------------- |
+| `str` | 길이를 확인할 [string](/ko/models/ref/query-panel/string) |
 
-#### 반환 값
-접두사가 추가된 [string](/models/ref/query-panel/string)
+#### 반환값
 
-### <a id="string-rStrip"></a>`string-rStrip`
+[string](/ko/models/ref/query-panel/string)의 길이
 
-뒷부분의 공백을 제거합니다.
+### <a id="string-lower" />`string-lower`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 공백을 제거할 [string](/models/ref/query-panel/string). |
+[string](/ko/models/ref/query-panel/string)을 소문자로 변환합니다.
 
-#### 반환 값
-공백이 제거된 [string](/models/ref/query-panel/string).
+| 인수    | 설명                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 소문자로 변환할 [string](/ko/models/ref/query-panel/string) |
 
-### <a id="string-replace"></a>`string-replace`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 에서 부분 문자열이 나타나는 모든 곳을 교체합니다.
+소문자로 된 [string](/ko/models/ref/query-panel/string)
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 내용을 교체할 [string](/models/ref/query-panel/string) |
-| `sub` | 교체될 기존 부분 문자열 |
-| `newSub` | 기존 부분 문자열을 대체할 새로운 부분 문자열 |
+### <a id="string-partition" />`string-partition`
 
-#### 반환 값
-내용이 교체된 [string](/models/ref/query-panel/string)
+[string](/ko/models/ref/query-panel/string)을 [string](/ko/models/ref/query-panel/string/)의 &#95;목록&#95;으로 나눕니다
 
-### <a id="string-slice"></a>`string-slice`
+| 인수    | 설명                                          |
+| :---- | :------------------------------------------ |
+| `str` | 나눌 [string](/ko/models/ref/query-panel/string) |
+| `sep` | 나눌 때 사용할 구분자                                |
 
-시작 및 종료 인덱스를 기반으로 [string](/models/ref/query-panel/string) 을 부분 문자열로 슬라이스합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 슬라이스할 [string](/models/ref/query-panel/string) |
-| `begin` | 부분 문자열의 시작 인덱스 |
-| `end` | 부분 문자열의 종료 인덱스 |
+구분자 앞의 [문자열](/ko/models/ref/query-panel/string/), 구분자, 그리고 구분자 뒤의 [문자열](/ko/models/ref/query-panel/string/)로 구성된 [문자열](/ko/models/ref/query-panel/string/)의 *목록*
 
-#### 반환 값
-슬라이스된 부분 문자열
+### <a id="string-prepend" />`string-prepend`
 
-### <a id="string-split"></a>`string-split`
+[string](/ko/models/ref/query-panel/string) 앞에 접두사를 추가합니다
 
-[string](/models/ref/query-panel/string) 을 [strings](/models/ref/query-panel/string/) 의 _list_ 로 분할합니다.
+| 인수       | 설명                                                |
+| :------- | :------------------------------------------------ |
+| `str`    | 접두사를 추가할 [string](/ko/models/ref/query-panel/string) |
+| `prefix` | 추가할 접두사                                           |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 분할할 [string](/models/ref/query-panel/string) |
-| `sep` | 분할 기준이 되는 구분자 |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-[strings](/models/ref/query-panel/string/) 의 _list_
+접두사가 추가된 [string](/ko/models/ref/query-panel/string)
 
-### <a id="string-startsWith"></a>`string-startsWith`
+### <a id="string-rStrip" />`string-rStrip`
 
-[string](/models/ref/query-panel/string) 이 특정 접두사로 시작하는지 확인합니다.
+문자열 끝의 공백 제거
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
-| `prefix` | 확인할 접두사 |
+| 인수    | 설명                                                   |
+| :---- | :--------------------------------------------------- |
+| `str` | 공백을 제거할 [string](/ko/models/ref/query-panel/string)입니다. |
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 해당 접두사로 시작하는지 여부
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-strip"></a>`string-strip`
+양끝 공백이 제거된 [string](/ko/models/ref/query-panel/string).
 
-[string](/models/ref/query-panel/string) 의 양 끝에서 공백을 제거합니다.
+### <a id="string-replace" />`string-replace`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 공백을 제거할 [string](/models/ref/query-panel/string). |
+[string](/ko/models/ref/query-panel/string)에서 특정 부분 문자열이 나타나는 모든 위치를 바꿉니다.
 
-#### 반환 값
-공백이 제거된 [string](/models/ref/query-panel/string).
+| 인수       | 설명                                              |
+| :------- | :---------------------------------------------- |
+| `str`    | 내용을 바꿀 [string](/ko/models/ref/query-panel/string) |
+| `sub`    | 바꿀 부분 문자열                                       |
+| `newSub` | 기존 부분 문자열을 대신할 부분 문자열                           |
 
-### <a id="string-upper"></a>`string-upper`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 을 대문자로 변환합니다.
+대체 내용이 반영된 [string](/ko/models/ref/query-panel/string)
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 대문자로 변환할 [string](/models/ref/query-panel/string) |
+### <a id="string-slice" />`string-slice`
 
-#### 반환 값
-대문자로 변환된 [string](/models/ref/query-panel/string)
+시작 인덱스와 종료 인덱스를 기준으로 [string](/ko/models/ref/query-panel/string)에서 부분 문자열을 추출합니다
 
-### <a id="string-levenshtein"></a>`string-levenshtein`
+| 인수      | 설명                                                   |
+| :------ | :--------------------------------------------------- |
+| `str`   | 부분 문자열을 추출할 [string](/ko/models/ref/query-panel/string) |
+| `begin` | 부분 문자열의 시작 인덱스                                       |
+| `end`   | 부분 문자열의 종료 인덱스                                       |
 
-두 [strings](/models/ref/query-panel/string/) 간의 레벤슈타인 거리(Levenshtein distance)를 계산합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str1` | 첫 번째 [string](/models/ref/query-panel/string). |
-| `str2` | 두 번째 [string](/models/ref/query-panel/string). |
+부분 문자열
 
-#### 반환 값
-두 [strings](/models/ref/query-panel/string/) 간의 레벤슈타인 거리.
+### <a id="string-split" />`string-split`
 
+[string](/ko/models/ref/query-panel/string)을 [strings](/ko/models/ref/query-panel/string/) &#95;목록&#95;으로 분할합니다
 
-## List Ops
-### <a id="string-notEqual"></a>`string-notEqual`
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 분할할 [string](/ko/models/ref/query-panel/string) |
+| `sep` | 분할에 사용할 구분자                                  |
 
-두 값의 불일치 여부를 결정합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `lhs` | 비교할 첫 번째 값. |
-| `rhs` | 비교할 두 번째 값. |
+[문자열](/ko/models/ref/query-panel/string/)의 *목록*
 
-#### 반환 값
-두 값이 일치하지 않는지 여부.
+### <a id="string-startsWith" />`string-startsWith`
 
-### <a id="string-add"></a>`string-add`
+[string](/ko/models/ref/query-panel/string)이 접두사로 시작하는지 확인합니다.
 
-두 [strings](/models/ref/query-panel/string/) 을 연결합니다.
+| 인수       | 설명                                           |
+| :------- | :------------------------------------------- |
+| `str`    | 확인할 [string](/ko/models/ref/query-panel/string) |
+| `prefix` | 확인할 접두사                                      |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `lhs` | 첫 번째 [string](/models/ref/query-panel/string) |
-| `rhs` | 두 번째 [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-연결된 [string](/models/ref/query-panel/string)
+[string](/ko/models/ref/query-panel/string)이 지정한 접두사로 시작하는지 여부
 
-### <a id="string-equal"></a>`string-equal`
+### <a id="string-strip" />`string-strip`
 
-두 값의 일치 여부를 결정합니다.
+[string](/ko/models/ref/query-panel/string) 양 끝의 공백을 제거합니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `lhs` | 비교할 첫 번째 값. |
-| `rhs` | 비교할 두 번째 값. |
+| 인수    | 설명                                                   |
+| :---- | :--------------------------------------------------- |
+| `str` | 공백을 제거할 [string](/ko/models/ref/query-panel/string)입니다. |
 
-#### 반환 값
-두 값이 일치하는지 여부.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-append"></a>`string-append`
+공백이 제거된 [string](/ko/models/ref/query-panel/string)입니다.
 
-[string](/models/ref/query-panel/string) 뒤에 접미사를 추가합니다.
+### <a id="string-upper" />`string-upper`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 접미사를 추가할 [string](/models/ref/query-panel/string) |
-| `suffix` | 추가할 접미사 |
+[string](/ko/models/ref/query-panel/string)을 대문자로 변환합니다.
 
-#### 반환 값
-접미사가 추가된 [string](/models/ref/query-panel/string)
+| 인수    | 설명                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 대문자로 변환할 [string](/ko/models/ref/query-panel/string) |
 
-### <a id="string-contains"></a>`string-contains`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 에 부분 문자열이 포함되어 있는지 확인합니다.
+[string](/ko/models/ref/query-panel/string)의 대문자 형태
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
-| `sub` | 검색할 부분 문자열 |
+### <a id="string-levenshtein" />`string-levenshtein`
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 에 부분 문자열이 포함되어 있는지 여부
+두 [문자열](/ko/models/ref/query-panel/string/) 사이의 레벤슈타인 거리를 계산합니다.
 
-### <a id="string-endsWith"></a>`string-endsWith`
+| 인수     | 설명                                              |
+| :----- | :---------------------------------------------- |
+| `str1` | 첫 번째 [문자열](/ko/models/ref/query-panel/string/)입니다. |
+| `str2` | 두 번째 [문자열](/ko/models/ref/query-panel/string/)입니다. |
 
-[string](/models/ref/query-panel/string) 이 특정 접미사로 끝나는지 확인합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
-| `suffix` | 확인할 접미사 |
+두 [문자열](/ko/models/ref/query-panel/string/) 사이의 레벤슈타인 거리입니다.
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 해당 접미사로 끝나는지 여부
+<div id="list-ops">
+  ## Ops 목록
+</div>
 
-### <a id="string-findAll"></a>`string-findAll`
+### <a id="string-notEqual" />`string-notEqual`
 
-[string](/models/ref/query-panel/string) 에서 부분 문자열이 나타나는 모든 위치를 찾습니다.
+두 값이 서로 다른지 확인합니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 부분 문자열을 찾을 [string](/models/ref/query-panel/string) |
-| `sub` | 찾을 부분 문자열 |
+| 인수    | 설명             |
+| :---- | :------------- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 내 부분 문자열 인덱스의 _list_
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-isAlnum"></a>`string-isAlnum`
+두 값이 서로 다른지 여부입니다.
 
-[string](/models/ref/query-panel/string) 이 영숫자(alphanumeric)인지 확인합니다.
+### <a id="string-add" />`string-add`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
+두 [문자열](/ko/models/ref/query-panel/string/)을 연결합니다
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 영숫자인지 여부
+| 인수    | 설명                                         |
+| :---- | :----------------------------------------- |
+| `lhs` | 첫 번째 [문자열](/ko/models/ref/query-panel/string) |
+| `rhs` | 두 번째 [문자열](/ko/models/ref/query-panel/string) |
 
-### <a id="string-isAlpha"></a>`string-isAlpha`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 이 알파벳인지 확인합니다.
+이어 붙인 [string](/ko/models/ref/query-panel/string)
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
+### <a id="string-equal" />`string-equal`
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 알파벳인지 여부
+두 값이 같은지 확인합니다.
 
-### <a id="string-isNumeric"></a>`string-isNumeric`
+| 인수    | 설명             |
+| :---- | :------------- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
 
-[string](/models/ref/query-panel/string) 이 숫자인지 확인합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
+두 값이 동일한지 여부입니다.
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 숫자인지 여부
+### <a id="string-append" />`string-append`
 
-### <a id="string-lStrip"></a>`string-lStrip`
+[string](/ko/models/ref/query-panel/string)에 접미사를 덧붙입니다.
 
-앞부분의 공백을 제거합니다.
+| 인수       | 설명                                                |
+| :------- | :------------------------------------------------ |
+| `str`    | 접미사를 덧붙일 [string](/ko/models/ref/query-panel/string) |
+| `suffix` | 덧붙일 접미사                                           |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 공백을 제거할 [string](/models/ref/query-panel/string). |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-공백이 제거된 [string](/models/ref/query-panel/string).
+접미사가 추가된 [string](/ko/models/ref/query-panel/string)
 
-### <a id="string-len"></a>`string-len`
+### <a id="string-contains" />`string-contains`
 
-[string](/models/ref/query-panel/string) 의 길이를 반환합니다.
+[string](/ko/models/ref/query-panel/string)에 부분 문자열이 포함되어 있는지 확인합니다
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 길이를 확인할 [string](/models/ref/query-panel/string) |
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
+| `sub` | 포함되어 있는지 확인할 부분 문자열                          |
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 의 길이
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-lower"></a>`string-lower`
+[string](/ko/models/ref/query-panel/string)에 부분 문자열이 포함되어 있는지 여부
 
-[string](/models/ref/query-panel/string) 을 소문자로 변환합니다.
+### <a id="string-endsWith" />`string-endsWith`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 소문자로 변환할 [string](/models/ref/query-panel/string) |
+[string](/ko/models/ref/query-panel/string)이 지정된 접미사로 끝나는지 확인합니다
 
-#### 반환 값
-소문자로 변환된 [string](/models/ref/query-panel/string)
+| 인수       | 설명                                           |
+| :------- | :------------------------------------------- |
+| `str`    | 확인할 [string](/ko/models/ref/query-panel/string) |
+| `suffix` | 확인할 접미사                                      |
 
-### <a id="string-partition"></a>`string-partition`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 을 [strings](/models/ref/query-panel/string/) 의 _list_ 로 파티션합니다.
+[string](/ko/models/ref/query-panel/string)이 해당 접미사로 끝나는지 여부
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 분할할 [string](/models/ref/query-panel/string) |
-| `sep` | 분할 기준이 되는 구분자 |
+### <a id="string-findAll" />`string-findAll`
 
-#### 반환 값
-[strings](/models/ref/query-panel/string/) 의 _list_: 구분자 앞의 [string](/models/ref/query-panel/string), 구분자 자체, 그리고 구분자 뒤의 [string](/models/ref/query-panel/string)
+[string](/ko/models/ref/query-panel/string)에서 부분 문자열이 나타나는 모든 경우를 찾습니다
 
-### <a id="string-prepend"></a>`string-prepend`
+| 인수    | 설명                                                  |
+| :---- | :-------------------------------------------------- |
+| `str` | 부분 문자열을 찾을 [string](/ko/models/ref/query-panel/string) |
+| `sub` | 찾을 부분 문자열                                           |
 
-[string](/models/ref/query-panel/string) 앞에 접두사를 추가합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 접두사를 추가할 [string](/models/ref/query-panel/string) |
-| `prefix` | 추가할 접두사 |
+[string](/ko/models/ref/query-panel/string)에서 부분 문자열이 위치한 인덱스 *목록*
 
-#### 반환 값
-접두사가 추가된 [string](/models/ref/query-panel/string)
+### <a id="string-isAlnum" />`string-isAlnum`
 
-### <a id="string-rStrip"></a>`string-rStrip`
+[string](/ko/models/ref/query-panel/string)이 영숫자로만 이루어져 있는지 확인합니다
 
-뒷부분의 공백을 제거합니다.
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 공백을 제거할 [string](/models/ref/query-panel/string). |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-공백이 제거된 [string](/models/ref/query-panel/string).
+[string](/ko/models/ref/query-panel/string)이 영숫자로만 이루어져 있는지 여부
 
-### <a id="string-replace"></a>`string-replace`
+### <a id="string-isAlpha" />`string-isAlpha`
 
-[string](/models/ref/query-panel/string) 에서 부분 문자열이 나타나는 모든 곳을 교체합니다.
+[string](/ko/models/ref/query-panel/string)이 알파벳 문자로만 이루어져 있는지 확인합니다
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 내용을 교체할 [string](/models/ref/query-panel/string) |
-| `sub` | 교체될 기존 부분 문자열 |
-| `newSub` | 기존 부분 문자열을 대체할 새로운 부분 문자열 |
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
 
-#### 반환 값
-내용이 교체된 [string](/models/ref/query-panel/string)
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-slice"></a>`string-slice`
+[string](/ko/models/ref/query-panel/string)이 알파벳으로만 구성되었는지 여부
 
-시작 및 종료 인덱스를 기반으로 [string](/models/ref/query-panel/string) 을 부분 문자열로 슬라이스합니다.
+### <a id="string-isNumeric" />`string-isNumeric`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 슬라이스할 [string](/models/ref/query-panel/string) |
-| `begin` | 부분 문자열의 시작 인덱스 |
-| `end` | 부분 문자열의 종료 인덱스 |
+[string](/ko/models/ref/query-panel/string)이 숫자형인지 확인합니다
 
-#### 반환 값
-슬라이스된 부분 문자열
+| 인수    | 설명                                           |
+| :---- | :------------------------------------------- |
+| `str` | 확인할 [string](/ko/models/ref/query-panel/string) |
 
-### <a id="string-split"></a>`string-split`
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[string](/models/ref/query-panel/string) 을 [strings](/models/ref/query-panel/string/) 의 _list_ 로 분할합니다.
+해당 [string](/ko/models/ref/query-panel/string)이 숫자형인지 여부
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 분할할 [string](/models/ref/query-panel/string) |
-| `sep` | 분할 기준이 되는 구분자 |
+### <a id="string-lStrip" />`string-lStrip`
 
-#### 반환 값
-[strings](/models/ref/query-panel/string/) 의 _list_
+앞의 공백 제거
 
-### <a id="string-startsWith"></a>`string-startsWith`
+| 인수    | 설명                                                      |
+| :---- | :------------------------------------------------------ |
+| `str` | 앞의 공백을 제거할 [string](/ko/models/ref/query-panel/string)입니다. |
 
-[string](/models/ref/query-panel/string) 이 특정 접두사로 시작하는지 확인합니다.
+<div id="return-value">
+  #### 반환 값
+</div>
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 확인할 [string](/models/ref/query-panel/string) |
-| `prefix` | 확인할 접두사 |
+공백이 제거된 [string](/ko/models/ref/query-panel/string)입니다.
 
-#### 반환 값
-[string](/models/ref/query-panel/string) 이 해당 접두사로 시작하는지 여부
+### <a id="string-len" />`string-len`
 
-### <a id="string-strip"></a>`string-strip`
+[string](/ko/models/ref/query-panel/string)의 길이를 반환합니다
 
-[string](/models/ref/query-panel/string) 의 양 끝에서 공백을 제거합니다.
+| 인수    | 설명                                               |
+| :---- | :----------------------------------------------- |
+| `str` | 길이를 확인할 [string](/ko/models/ref/query-panel/string) |
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 공백을 제거할 [string](/models/ref/query-panel/string). |
+<div id="return-value">
+  #### 반환 값
+</div>
 
-#### 반환 값
-공백이 제거된 [string](/models/ref/query-panel/string).
+[string](/ko/models/ref/query-panel/string)의 길이
 
-### <a id="string-upper"></a>`string-upper`
+### <a id="string-lower" />`string-lower`
 
-[string](/models/ref/query-panel/string) 을 대문자로 변환합니다.
+[string](/ko/models/ref/query-panel/string)을 소문자로 변환합니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str` | 대문자로 변환할 [string](/models/ref/query-panel/string) |
+| 인수    | 설명                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 소문자로 변환할 [string](/ko/models/ref/query-panel/string) |
 
-#### 반환 값
-대문자로 변환된 [string](/models/ref/query-panel/string)
+<div id="return-value">
+  #### 반환 값
+</div>
 
-### <a id="string-levenshtein"></a>`string-levenshtein`
+소문자로 된 [string](/ko/models/ref/query-panel/string)
 
-두 [strings](/models/ref/query-panel/string/) 간의 레벤슈타인 거리(Levenshtein distance)를 계산합니다.
+### <a id="string-partition" />`string-partition`
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `str1` | 첫 번째 [string](/models/ref/query-panel/string). |
-| `str2` | 두 번째 [string](/models/ref/query-panel/string). |
+[string](/ko/models/ref/query-panel/string)을 [string](/ko/models/ref/query-panel/string/) &#95;목록&#95;으로 나눕니다
 
-#### 반환 값
-두 [strings](/models/ref/query-panel/string/) 간의 레벤슈타인 거리.
+| 인수    | 설명                                          |
+| :---- | :------------------------------------------ |
+| `str` | 나눌 [string](/ko/models/ref/query-panel/string) |
+| `sep` | 나눌 때 사용할 구분자                                |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+구분자 앞의 [string](/ko/models/ref/query-panel/string), 구분자 자체, 그리고 구분자 뒤의 [string](/ko/models/ref/query-panel/string)로 이루어진 [strings](/ko/models/ref/query-panel/string/)의 *목록*
+
+### <a id="string-prepend" />`string-prepend`
+
+[string](/ko/models/ref/query-panel/string) 앞에 접두사를 붙입니다
+
+| Argument | 설명                                               |
+| :------- | :----------------------------------------------- |
+| `str`    | 접두사를 붙일 [string](/ko/models/ref/query-panel/string) |
+| `prefix` | 앞에 붙일 접두사                                        |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+접두사가 앞에 붙은 [string](/ko/models/ref/query-panel/string)
+
+### <a id="string-rStrip" />`string-rStrip`
+
+문자열 끝의 공백 제거
+
+| 인수    | 설명                                                   |
+| :---- | :--------------------------------------------------- |
+| `str` | 공백을 제거할 [string](/ko/models/ref/query-panel/string)입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+공백이 제거된 [string](/ko/models/ref/query-panel/string)입니다.
+
+### <a id="string-replace" />`string-replace`
+
+[string](/ko/models/ref/query-panel/string) 내에서 부분 문자열이 나타나는 모든 부분을 대체합니다.
+
+| 인수       | 설명                                               |
+| :------- | :----------------------------------------------- |
+| `str`    | 내용을 대체할 [string](/ko/models/ref/query-panel/string) |
+| `sub`    | 대체할 부분 문자열                                       |
+| `newSub` | 기존 부분 문자열을 대체할 부분 문자열                            |
+
+#### 반환값
+
+치환된 [string](/ko/models/ref/query-panel/string)
+
+### <a id="string-slice" />`string-slice`
+
+시작 인덱스와 끝 인덱스를 기준으로 [string](/ko/models/ref/query-panel/string)에서 부분 문자열을 잘라냅니다.
+
+| 인수      | 설명                                           |
+| :------ | :------------------------------------------- |
+| `str`   | 잘라낼 [string](/ko/models/ref/query-panel/string) |
+| `begin` | 부분 문자열의 시작 인덱스                               |
+| `end`   | 부분 문자열의 끝 인덱스                                |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+부분 문자열
+
+### <a id="string-split" />`string-split`
+
+[문자열](/ko/models/ref/query-panel/string)을 [문자열](/ko/models/ref/query-panel/string/) &#95;목록&#95;으로 분할합니다.
+
+| 인수    | 설명                                        |
+| :---- | :---------------------------------------- |
+| `str` | 분할할 [문자열](/ko/models/ref/query-panel/string) |
+| `sep` | 분할 기준이 되는 구분자                             |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[문자열](/ko/models/ref/query-panel/string/)의 *목록*
+
+### <a id="string-startsWith" />`string-startsWith`
+
+[string](/ko/models/ref/query-panel/string)이 접두사로 시작하는지 확인합니다.
+
+| 인수       | 설명                                           |
+| :------- | :------------------------------------------- |
+| `str`    | 확인할 [string](/ko/models/ref/query-panel/string) |
+| `prefix` | 확인할 접두사                                      |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[string](/ko/models/ref/query-panel/string)이 접두어로 시작하는지 여부
+
+### <a id="string-strip" />`string-strip`
+
+[string](/ko/models/ref/query-panel/string) 양쪽 끝의 공백을 제거합니다.
+
+| 인수    | 설명                                                   |
+| :---- | :--------------------------------------------------- |
+| `str` | 공백을 제거할 [string](/ko/models/ref/query-panel/string)입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+공백이 제거된 [string](/ko/models/ref/query-panel/string).
+
+### <a id="string-upper" />`string-upper`
+
+[string](/ko/models/ref/query-panel/string)을 대문자로 변환합니다.
+
+| 매개변수  | 설명                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 대문자로 변환할 [string](/ko/models/ref/query-panel/string) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+대문자로 변환된 [문자열](/ko/models/ref/query-panel/string)
+
+### <a id="string-levenshtein" />`string-levenshtein`
+
+두 [string](/ko/models/ref/query-panel/string/) 사이의 레벤슈타인 거리를 계산합니다.
+
+| 인수     | 설명                                                |
+| :----- | :------------------------------------------------ |
+| `str1` | 첫 번째 [string](/ko/models/ref/query-panel/string)입니다. |
+| `str2` | 두 번째 [string](/ko/models/ref/query-panel/string)입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 [문자열](/ko/models/ref/query-panel/string/) 간의 레벤슈타인 거리입니다.

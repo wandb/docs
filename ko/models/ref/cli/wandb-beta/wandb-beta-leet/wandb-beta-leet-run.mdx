@@ -1,0 +1,42 @@
+---
+title: wandb beta leet run
+---
+
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L74" />
+
+<div id="usage">
+  ## 사용
+</div>
+
+```bash
+run [OPTIONS] [PATH]
+```
+
+<div id="description">
+  ## 설명
+</div>
+
+LEET TUI를 실행합니다.
+
+LEET는 선택 사항인 PATH로 지정된 W&amp;B run을 볼 수 있는 터미널 UI입니다.
+
+PATH에는 `.wandb` 파일 또는 `.wandb` 파일이 포함된 run 디렉터리를 지정할 수 있습니다.
+PATH를 지정하지 않으면 최신 run을 찾습니다.
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름     | 기본값 | 유형    |
+| ------ | --- | ----- |
+| `path` | STR | False |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그          | 유형       | 설명                                 |
+| ------------ | -------- | ---------------------------------- |
+| `-h, --help` | BOOL 플래그 | 이 메시지를 표시한 후 종료합니다. **기본값**: False |

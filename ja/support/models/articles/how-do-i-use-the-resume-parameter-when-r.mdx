@@ -1,0 +1,18 @@
+---
+title: "W&B で run を再開する際に `resume` パラメーターを使用するにはどうすればよいですか?"
+keywords: ["再開"]
+---
+
+W&amp;B で `resume` パラメーターを使用するには、`entity`、`プロジェクト`、`id` を指定したうえで、`wandb.init()` の `resume` 引数を設定します。`resume` 引数には `"must"` または `"allow"` を指定できます。
+
+```python
+  run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
+```
+
+***
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[再開](/ja/support/models/tags/resuming)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

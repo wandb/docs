@@ -1,0 +1,111 @@
+---
+title: "LLM call の自動トラッキングを制御する"
+description: "W&B Weave が OpenAI、Anthropic、その他の LLM ライブラリへの call を自動的に記録する方法を制御します"
+---
+
+アプリケーションで LLM プロバイダーのライブラリ (OpenAI、Anthropic、Cohere、Mistral など) を使用している場合、自動パッチ適用 は、すべての LLM call のトレースを Weave が自動的に処理する仕組みです。`weave.init()` を呼び出すと、Weave はサポートされる LLM クライアントライブラリを自動的にインターセプト (パッチ適用) します。アプリケーションコードは変更不要です。通常どおりプロバイダー SDK を使用するだけで、各リクエストが Weave Call として記録されます。最小限のセットアップで完全なトレースを利用できます。
+
+このページでは、その動作をいつどのように変更するかを説明します。たとえば、自動トラッキングを無効にする、特定のプロバイダーのみに制限する、入力と出力を後処理する (PII をマスクする場合など) といった方法です。
+
+<div id="default-behavior">
+  ## デフォルトの動作
+</div>
+
+デフォルトでは、Weave は `openai` や `anthropic` などの一般的な LLM ライブラリへの call を自動的にパッチしてトラッキングします。プログラムの開始時に `weave.init(...)` を呼び出し、それらのライブラリは通常どおり使用してください。これらの calls は、プロジェクトのトレースに表示されます。
+
+<div id="configure-autopatching">
+  ## 自動パッチ適用の設定
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    <Warning>
+      `autopatch_settings` 引数は非推奨です。暗黙的なパッチ適用を無効にするには `implicitly_patch_integrations=False` を使用するか、`patch_openai(settings={...})` のような個別のパッチ関数を呼び出して、インテグレーションごとに設定してください。
+    </Warning>
+
+    Weave では、デフォルトでサポートされるすべてのインテグレーションに対して **自動の暗黙的パッチ適用** が有効になります。
+
+    **暗黙的パッチ適用 (自動) :** ライブラリは、インポートのタイミングに関係なく自動的にパッチされます。
+
+    ```python lines
+    # Option 1: Import before weave.init()
+    import openai
+    import weave
+    weave.init('your-team-name/your-project-name')  # OpenAI is automatically patched!
+
+    # Option 2: Import after weave.init()
+    import weave
+    weave.init('your-team-name/your-project-name')
+    import anthropic  # Automatically patched via import hook!
+    ```
+
+    **暗黙的パッチ適用を無効にする:** 明示的に制御したい場合は、自動パッチ適用を無効にできます。
+
+    ```python lines
+    import weave
+
+    # Option 1: Via settings parameter
+    weave.init('your-team-name/your-project-name', settings={'implicitly_patch_integrations': False})
+
+    # Option 2: Via environment variable
+    # Set WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false before running your script
+
+    # With implicit patching disabled, you must explicitly patch integrations
+    import openai
+    weave.patch_openai()  # Now required for OpenAI tracing
+    ```
+
+    **明示的パッチ適用 (手動) :** より細かく制御したい場合は、インテグレーションを明示的にパッチできます。
+
+    ```python lines
+    import weave
+    weave.init('your-team-name/your-project-name')
+    weave.integrations.patch_openai()  # Enable OpenAI tracing
+    weave.integrations.patch_anthropic()  # Enable Anthropic tracing
+    ```
+
+    ### 入力と出力の後処理
+
+    パッチ関数に設定を渡すことで、入力と出力をどのように記録するかをカスタマイズできます (たとえば、PII やシークレットをマスクする場合) 。
+
+    ```python lines
+    import weave.integrations
+
+    def redact_inputs(inputs: dict) -> dict:
+        if "email" in inputs:
+            inputs["email"] = "[REDACTED]"
+        return inputs
+
+    weave.init(...)
+    weave.integrations.patch_openai(
+        settings={
+            "op_settings": {"postprocess_inputs": redact_inputs}
+        }
+    )
+    ```
+
+    機密データの処理について詳しくは、[PII データで Weave を使用する方法](/ja/weave/cookbooks/pii)を参照してください。
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript SDK で自動パッチ適用をサポートしているのは OpenAI と Anthropic のみです。OpenAI は Weave をインポートすると自動的にパッチされるため、追加の設定は必要ありません。
+
+    また、TypeScript SDK では次の機能はサポートされていません。
+
+    * 自動パッチ適用の設定または無効化。
+    * 入力/出力の後処理。
+
+    自動パッチ適用が機能しないエッジケース (ESM、Next.js のようなバンドラーなど) では、明示的なラップを使用してください。
+
+    ```typescript
+    import OpenAI from 'openai'
+    import * as weave from 'weave'
+    import { wrapOpenAI } from 'weave'
+
+    const client = wrapOpenAI(new OpenAI())
+    await weave.init('your-team-name/your-project-name')
+    ```
+
+    ESM の setup やトラブルシューティングの詳細については、[TypeScript SDK Integration Guide](/ja/weave/guides/integrations/js)を参照してください。
+  </Tab>
+</Tabs>

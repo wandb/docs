@@ -1,0 +1,62 @@
+---
+title: "Comment puis-je résoudre les erreurs « Invalid Authentication » (401) avec W&B Inférence ?"
+keywords: ["Inférence"]
+---
+
+Une erreur 401 « Invalid Authentication » signifie que votre clé API n’est pas valide ou que l’entité ou le nom de votre projet W&amp;B est incorrect.
+
+<div id="verify-your-api-key">
+  ## Vérifiez votre clé API
+</div>
+
+1. Créez une nouvelle clé API dans les [Paramètres utilisateur](https://wandb.ai/settings).
+2. Conservez votre clé API en lieu sûr.
+
+<div id="check-your-project-configuration">
+  ## Vérifiez la configuration de votre projet
+</div>
+
+Assurez-vous que votre projet est au bon format : `<your-team>/<your-project>`
+
+**Exemple Python :**
+
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>",  # Doit correspondre à votre équipe W&B et à votre projet
+)
+```
+
+**Exemple Bash :**
+
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
+```
+
+<div id="common-mistakes">
+  ## Erreurs courantes
+</div>
+
+* Utiliser une entité personnelle au lieu du nom de l’équipe
+* Faire une faute dans le nom de l’équipe ou du projet
+* Oublier la barre oblique entre l’équipe et le projet
+* Utiliser une clé API expirée ou supprimée
+
+<div id="still-having-issues">
+  ## Vous rencontrez toujours des problèmes ?
+</div>
+
+* Vérifiez que l’équipe et le projet existent dans votre compte W&amp;B
+* Assurez-vous d&#39;avoir accès à l’équipe indiquée
+* Essayez de créer une nouvelle clé API si l&#39;actuelle ne fonctionne pas
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

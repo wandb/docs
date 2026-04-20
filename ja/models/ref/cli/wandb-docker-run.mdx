@@ -1,25 +1,46 @@
 ---
 title: wandb docker-run
 ---
-import WandbDockerRun from "/snippets/en/_includes/cli/wandb-docker-run.mdx";
 
- medical_thought
-<WandbDockerRun/>
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`docker run` をラップし、 `WANDB_API_KEY` と `WANDB_DOCKER` 環境変数を追加します。
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2418" />
 
-また、システムに `nvidia-docker` 実行ファイルが存在し、かつ `--runtime` が設定されていない場合、ランタイムを `nvidia` に設定します。
-
-詳細については `docker run --help` を参照してください。
-
-## Usage
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb docker-run [DOCKER_RUN_ARGS]
+docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
 ```
 
-## Arguments
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | 説明なし | いいえ |
+`docker run` をラップし、W&amp;B の環境変数を自動的に挿入します。
+
+以下を挿入しつつ、すべての引数を `docker run` にそのまま渡します。
+
+* WANDB&#95;API&#95;KEY: ログイン済みであれば現在の APIキー を挿入し、
+  コンテナーが W&amp;B に対して認証できるようにします。
+
+  * WANDB&#95;DOCKER: 引数からイメージを検出できる場合は、解決されたイメージ ID を挿入し、
+    W&amp;B がどの Docker image から run が生成されたかをトラッキングできるようにします。
+
+ホスト上で `nvidia-docker` が検出され、かつ `--runtime` がまだ設定されていない場合は、
+`--runtime nvidia` を自動的に追加します。
+
+たとえば、&quot;my-image&quot; コンテナー内で Python スクリプト train.py を実行するには、次のようにします。
+
+```bash
+wandb docker-run my-image python train.py
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名                 | デフォルト | タイプ   |
+| ----------------- | ----- | ----- |
+| `docker_run_args` | STR   | False |

@@ -1,35 +1,37 @@
 ---
+description: MLFlow からデータをインポートし、W&B に保存したデータをエクスポートまたは更新する
 title: データのインポートとエクスポート
-description: MLFlow から データをインポートしたり、 W&B に保存した データの書き出しや更新を行ったりします
 ---
 
-import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
-import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
 
-W&B Public APIを使用して、データの構成やエクスポートを行うことができます。
+W&amp;B Public API を使用して、データをエクスポートまたはインポートします。
 
 <Note>
-この機能には python>=3.8 が必要です。
+  この機能を使用するには python&gt;=3.8 が必要です
 </Note>
 
-## MLFlow からのデータインポート
+<div id="import-data-from-mlflow">
+  ## MLFlow からデータをインポートする
+</div>
 
-W&B は、Experiments 、Runs 、Artifacts 、メトリクス、その他のメタデータを含む MLFlow からのデータインポートをサポートしています。
+W&amp;B では、Experiments、Runs、アーティファクト、メトリクス、その他のメタデータなど、MLFlow のデータをインポートできます。
 
-依存関係のインストール:
+依存関係をインストールします:
 
 ```shell
-# 注意: py38+ が必要です
+# 注意: py38以上が必要です
 pip install wandb[importers]
 ```
 
-W&B にログインします。以前にログインしたことがない場合は、プロンプトに従ってください。
+W&amp;B にログインします。初めてログインする場合は、表示される案内に従ってください。
 
 ```shell
 wandb login
 ```
 
-既存の MLFlow サーバーからすべての Runs をインポートします：
+既存のMLFlowサーバーから、すべてのrunをインポートします：
 
 ```py
 from wandb.apis.importers.mlflow import MlflowImporter
@@ -40,7 +42,7 @@ runs = importer.collect_runs()
 importer.import_runs(runs)
 ```
 
-デフォルトでは、`importer.collect_runs()` は MLFlow サーバーからすべての Runs を収集します。特定のサブセットをアップロードしたい場合は、独自の Runs イテラブルを構築してインポーターに渡すことができます。
+デフォルトでは、`importer.collect_runs()` は MLFlow サーバー上のすべての run を収集します。特定のサブセットだけを upload したい場合は、独自の run の iterable を作成して importer に渡すこともできます。
 
 ```py
 import mlflow
@@ -56,18 +58,18 @@ importer.import_runs(runs)
 ```
 
 <Note>
-Databricks MLFlow からインポートする場合は、まず [Databricks CLI を設定](https://docs.databricks.com/dev-tools/cli/index.html) する必要がある場合があります。
+  Databricks MLflow からインポートする場合は、最初に [Databricks CLI を設定する](https://docs.databricks.com/dev-tools/cli/index.html)必要があることがあります。
 
-前のステップで `mlflow-tracking-uri="databricks"` を設定してください。
+  前の手順で `mlflow-tracking-uri="databricks"` を設定してください。
 </Note>
 
-Artifacts のインポートをスキップするには、`artifacts=False` を渡します：
+アーティファクトのインポートをスキップするには、`artifacts=False` を渡します。
 
 ```py
 importer.import_runs(runs, artifacts=False)
 ```
 
-特定の W&B Entity および Project にインポートするには、`Namespace` を渡すことができます：
+特定の W&amp;B entity と project にインポートするには、`Namespace` を渡します:
 
 ```py
 from wandb.apis.importers import Namespace
@@ -75,104 +77,112 @@ from wandb.apis.importers import Namespace
 importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
 
-{/* Per DOCS-1043, hiding this information until it gets fixed 
+{/* DOCS-1043 に従い、修正されるまでこの情報を非表示にしています 
 
-## 別の W&B インスタンスからのデータインポート
+  ## 別の W&B インスタンスからデータをインポートする
 
-<Note>
-この機能はベータ版であり、W&B パブリッククラウドからのインポートのみをサポートしています。
-</Note>
+  <Note>
+  この機能はベータ版で、W&B パブリッククラウドからのインポートのみをサポートしています。
+  </Note>
 
-依存関係のインストール:
+  依存関係をインストールします:
 
-```sh
-# 注意: py38+ が必要です
-pip install wandb[importers]
-```
+  ```sh
+  # 注: py38+ が必要です
+  pip install wandb[importers]
+  ```
 
-ソースとなる W&B サーバーにログインします。以前にログインしたことがない場合は、プロンプトに従ってください。
+  ソースの W&B サーバーにログインします。まだログインしたことがない場合は、画面の指示に従ってください。
 
-```sh
-wandb login
-```
+  ```sh
+  wandb login
+  ```
 
-ソース W&B インスタンスからターゲット W&B インスタンスへ、すべての Runs と Artifacts をインポートします。Runs と Artifacts は、ターゲットインスタンスのそれぞれのネームスペースにインポートされます。
+  ソース W&B インスタンスから宛先 W&B インスタンスに、すべての Runs と artifacts をインポートします。Runs と artifacts は、宛先インスタンス内のそれぞれの namespace にインポートされます。
 
-```py
-from wandb.apis.importers.wandb import WandbImporter
-from wandb.apis.importers import Namespace
+  ```py
+  from wandb.apis.importers.wandb import WandbImporter
+  from wandb.apis.importers import Namespace
 
-importer = WandbImporter(
+  importer = WandbImporter(
     src_base_url="https://api.wandb.ai",
     src_api_key="your-api-key-here",
     dst_base_url="https://example-target.wandb.io",
     dst_api_key="target-environment-api-key-here",
-)
+  )
 
-# "entity/project" (ソース) から "entity/project" (ターゲット) へ
-# すべての Runs, Artifacts, Reports をインポートします
-importer.import_all(namespaces=[
+  # すべての Runs、artifacts、Reports をインポートします
+  # src の "entity/project" から dst の "entity/project" へ
+  importer.import_all(namespaces=[
     Namespace(entity, project),
-    # ... ここにネームスペースを追加
-])
-```
+    # ... ここに追加の namespace を指定します
+  ])
+  ```
 
-インポート先のネームスペースを変更したい場合は、`remapping: dict[Namespace, Namespace]` を指定できます。
+  宛先の namespace を変更したい場合は、`remapping: dict[Namespace, Namespace]` を指定できます。
 
-```py
-importer.import_all(
+  ```py
+  importer.import_all(
     namespaces=[Namespace(entity, project)],
     remapping={
         Namespace(entity, project): Namespace(new_entity, new_project),
     }
-)
-```
+  )
+  ```
 
-デフォルトでは、インポートは増分（incremental）で行われます。後続のインポートでは、以前の作業を検証し、成功/失敗を追跡する `.jsonl` ファイルに書き込みます。インポートが成功していれば、将来の検証はスキップされます。失敗した場合は再試行されます。この機能をオフにするには、`incremental=False` を設定します。
+  デフォルトでは、インポートは段階的に行われます。以降のインポートでは、前回までの処理結果を検証し、成功/失敗を記録する `.jsonl` ファイルに書き込みます。インポートが成功していれば、以後の検証はスキップされます。インポートが失敗していた場合は、再試行されます。これを無効にするには、`incremental=False` を設定します。
 
-```py
-importer.import_all(
+  ```py
+  importer.import_all(
     namespaces=[Namespace(entity, project)],
     incremental=False,
-)
-```
+  )
+  ```
 
-### 既知の問題と制限事項
+  ### 既知の問題と制限
 
-- ターゲットのネームスペースが存在しない場合、W&B は自動的に作成します。
-- ターゲットネームスペースに同じ ID の Run または Artifact が存在する場合、W&B はそれを増分インポートとして扱います。ターゲットの Run/Artifact は検証され、以前のインポートで失敗していた場合は再試行されます。
-- ソースシステムからデータが削除されることはありません。
+  - 宛先の namespace が存在しない場合、W&B が自動的に作成します。
+  - 宛先の namespace に同じ ID を持つ run または artifact がある場合、W&B はそれを段階的インポートとして扱います。宛先の run/artifact は検証され、以前のインポートで失敗していた場合は再試行されます。
+  - ソースシステムのデータが削除されることはありません。
 
-1. 一括インポート（特に大きな Artifacts）を行う際、S3 のレート制限に達することがあります。`botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation` が表示された場合は、一度に移動するネームスペースの数を減らして、インポートの間隔を空けてみてください。
-2. インポートされた Run テーブルは Workspace では空白に見えることがありますが、Artifacts タブに移動して該当する Run テーブル Artifact をクリックすると、期待通りに表示されます。
-3. システムメトリクスとカスタムチャート（`run.log` で明示的にログ記録されていないもの）はインポートされません */}
+  1. 一括インポート時（特に大きな artifacts）には、S3 の rate limits に達することがあります。`botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation` が表示された場合は、一度に移行する namespace を少数に絞り、インポートの間隔を空けてみてください。
+  2. インポートされた run tables は Workspace では空白に見えることがありますが、Artifacts タブに移動して対応する run table artifact をクリックすると、想定どおり表を確認できます。
+  3. システムメトリクスおよび custom charts（`run.log()` で明示的にログしていないもの）はインポートされません */}
 
-## データのエクスポート
+<div id="export-data">
+  ## データをエクスポートする
+</div>
 
-Public API を使用して、W&B に保存したデータのエクスポートや更新を行うことができます。この API を使用する前に、スクリプトからデータをログ記録してください。詳細は [クイックスタート](/models/quickstart/) を参照してください。
+Public API を使用して、W&amp;B に保存したデータをエクスポートまたは更新できます。この API を使用する前に、スクリプトからデータをログしてください。詳細は [クイックスタート](/ja/models/quickstart/) を参照してください。
 
 **Public API のユースケース**
 
-- **データのエクスポート**: Jupyter Notebook でカスタム分析を行うためにデータフレームをプルします。データを探索した後は、新しい分析用 Run を作成して結果をログ記録することで、分析結果を同期できます。例: `wandb.init(job_type="analysis")`
-- **既存の Runs の更新**: W&B Run に関連付けてログ記録されたデータを更新できます。例えば、アーキテクチャや当初ログ記録していなかったハイパーパラメータなどの追加情報を含めるために、一連の Runs の設定（config）を更新したい場合などです。
+* **データをエクスポートする**: Jupyter Notebook でカスタム分析を行うために、データフレーム を取得します。データを分析したら、新しい分析 run を作成して結果をログすることで、分析結果を Sync できます。例: `wandb.init(job_type="analysis")`
+* **既存の Runs を更新する**: W&amp;B run に関連付けられてログされたデータを更新できます。たとえば、一連の Runs の設定を更新して、アーキテクチャや、元はログされていなかったハイパーパラメーターなどの追加情報を含めることができます。
 
-利用可能な関数の詳細については、[生成されたリファレンスドキュメント](/models/ref/python/public-api/) を参照してください。
+利用可能な関数の詳細は、[Generated Reference Docs](/ja/models/ref/python/public-api/) を参照してください。
 
-### APIキーの作成
+<div id="create-an-api-key">
+  ### APIキーを作成する
+</div>
 
-APIキーは、お使いのデバイスを W&B に対して認証します。
+APIキーは、マシンをW&amp;Bに認証するために使用します。
 
-<ApiKeyCreate/>
+<ApiKeyCreate />
 
-<ApiKeySecurity/>
+<ApiKeySecurity />
 
-### Run パスの確認
+<div id="find-the-run-path">
+  ### run パスを検索する
+</div>
 
-Public API を使用するには、多くの場合 `<entity>/<project>/<run_id>` という形式の Run パスが必要になります。アプリの UI で Run ページを開き、[Overviewタブ ](/models/track/public-api-guide/#overview-tab)をクリックして Run パスを取得してください。
+Public APIを使用するには、多くの場合、`<entity>/<project>/<run_id>` 形式の run パスが必要です。アプリのUIで run のページを開き、[Overview タブ ](/ja/models/track/public-api-guide/#overview-tab)をクリックすると、run パスを確認できます。
 
-### Run データのダウンロード
+<div id="export-run-data">
+  ### run データをエクスポート
+</div>
 
-完了した Run またはアクティブな Run からデータをダウンロードします。一般的な用途としては、Jupyter Notebook でのカスタム分析用にデータフレームをダウンロードしたり、自動化された環境でカスタムロジックを使用したりすることが挙げられます。
+完了済みまたは実行中の run からデータをダウンロードします。一般的な用途としては、Jupyter Notebook で独自の分析を行うためにデータフレームをダウンロードしたり、自動化された環境で独自のロジックを使用したりすることが挙げられます。
 
 ```python
 import wandb
@@ -181,19 +191,21 @@ api = wandb.Api()
 run = api.run("<entity>/<project>/<run_id>")
 ```
 
-Run オブジェクトの最も一般的に使用される属性は以下の通りです：
+run オブジェクトで最もよく使用される属性は次のとおりです。
 
-| 属性 | 意味 |
-| --- | --- |
-| `run.config` | トレーニング Run のハイパーパラメータや、データセット Artifact を作成する Run の前処理メソッドなど、Run の設定情報の辞書です。これらは Run の「入力」と考えてください。 |
-| `run.history()` | 損失（loss）など、モデルのトレーニング中に変化する値を格納するための辞書のリストです。`run.log()` コマンドはこのオブジェクトに値を追加します。 |
-| `run.summary` | Run の結果を要約する情報の辞書です。精度（accuracy）や損失などのスカラー値、または大きなファイルが含まれます。デフォルトでは、`run.log()` はサマリーをログ記録された時系列データの最終値に設定します。サマリーの内容を直接設定することもできます。サマリーは Run の「出力」と考えてください。 |
+| Attribute       | Meaning                                                                                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run.config`    | トレーニング run のハイパーパラメーターや、データセット Artifact を作成する run の前処理 method など、run の設定情報を格納した辞書です。これらは run の入力と考えてください。                                                                  |
+| `run.history()` | モデルのトレーニング中に変化する損失などの値を保存するための、辞書の list です。command `run.log()` はこの object に値を追加します。                                                                                        |
+| `run.summary`   | run の結果を要約した情報を格納する辞書です。accuracy や損失のようなスカラー値の場合もあれば、大きなファイルの場合もあります。デフォルトでは、`run.log()` はログした時系列の最終値を summary に設定します。summary の内容は直接設定することもできます。summary は run の出力と考えてください。 |
 
-過去の Runs のデータを修正または更新することも可能です。デフォルトでは、API オブジェクトの単一インスタンスがすべてのネットワークリクエストをキャッシュします。実行中のスクリプトでリアルタイムの情報が必要な場合は、`api.flush()` を呼び出して更新された値を取得してください。
+過去の run のデータを変更または更新することもできます。デフォルトでは、api object の単一インスタンスがすべてのネットワーク request をキャッシュします。実行中のスクリプトでリアルタイムの情報が必要な場合は、`api.flush()` を呼び出して更新された値を取得してください。
 
-### 各種 Run 属性の理解
+<div id="understanding-different-run-attributes">
+  ### さまざまなrunの属性を理解する
+</div>
 
-以下のコードスニペットは、Run の作成、データのログ記録、そして Run 属性へのアクセス方法を示しています：
+次のコードスニペットは、runを作成し、いくつかのデータをログした後、runの属性にアクセスする方法を示しています。
 
 ```python
 import wandb
@@ -209,19 +221,22 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-以下のセクションでは、上記の Run オブジェクト属性の各出力を説明します。
+以下のセクションでは、上記のrunオブジェクトの属性ごとのさまざまな出力について説明します
 
-##### `run.config`
+<div id="runconfig">
+  ##### `run.config`
+</div>
 
 ```python
 {"n_epochs": 5}
 ```
-    
-#### `run.summary`
+
+<div id="runsummary">
+  #### `run.summary`
+</div>
 
 ```python
 {
-    "_runtime": 4,
     "_step": 4,
     "_timestamp": 1644345412,
     "_wandb": {"runtime": 3},
@@ -230,95 +245,112 @@ with wandb.init(project="public-api-example") as run:
 }
 ```
 
-### サンプリング
+<div id="sampling">
+  ### サンプリング
+</div>
 
-デフォルトの `history` メソッドは、メトリクスを固定数にサンプリングします（デフォルトは 500 です。これは `samples` 引数で変更可能です）。大規模な Run のすべてのデータをエクスポートしたい場合は、`run.scan_history()` メソッドを使用できます。詳細は [API リファレンス](/models/ref/python/public-api) を参照してください。
+デフォルトのhistory methodでは、メトリクスが固定数のサンプルにサンプリングされます (デフォルトは500で、`samples` &#95;&#95; 引数で変更できます) 。大規模なrunのすべてのデータをエクスポートする場合は、`run.scan_history()` methodを使用できます。詳細は、[API Reference](/ja/models/ref/python/public-api)を参照してください。
 
-### 複数の Runs へのクエリ
+<div id="querying-multiple-runs">
+  ### 複数の Runs をクエリする
+</div>
 
 <Tabs>
-<Tab title="DataFrame と CSV">
-このサンプルスクリプトは、プロジェクト内の Runs を検索し、名前、config、サマリー統計を含む CSV を出力します。`<entity>` と `<project>` を、ご自身の W&B Entity と Project 名に置き換えてください。
+  <Tab title="DataFrame と CSV">
+    このスクリプト例では、project を検索し、名前、設定、summary 統計を含む Runs の CSV を出力します。`<entity>` と `<project>` は、それぞれお使いの W&amp;B entity と project 名に置き換えてください。
 
-```python
-import pandas as pd
-import wandb
+    ```python
+    import pandas as pd
+    import wandb
 
-api = wandb.Api()
-entity, project = "<entity>", "<project>"
-runs = api.runs(entity + "/" + project)
+    api = wandb.Api()
+    entity, project = "<entity>", "<project>"
+    runs = api.runs(entity + "/" + project)
 
-summary_list, config_list, name_list = [], [], []
-for run in runs:
-    # .summary には精度などのメトリクスの出力
-    # キー/値が含まれます。
-    # 大きなファイルを省くために ._json_dict を呼び出します
-    summary_list.append(run.summary._json_dict)
+    summary_list, config_list, name_list = [], [], []
+    for run in runs:
+        # .summary には、
+        # accuracy などのメトリクスの出力キー/値が含まれます。
+        # 大きなファイルを除外するために ._json_dict を呼び出します
+        summary_list.append(run.summary._json_dict)
 
-    # .config にはハイパーパラメータが含まれます。
-    # _ で始まる特殊な値を除外します。
-    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
+        # .config にはハイパーパラメーターが含まれます。
+        # _ で始まる特殊な値は削除します。
+        config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
-    # .name は Run の人間が読める名前です。
-    name_list.append(run.name)
+        # .name は run の人間が読める名前です。
+        name_list.append(run.name)
 
-runs_df = pd.DataFrame(
-    {"summary": summary_list, "config": config_list, "name": name_list}
-)
+    runs_df = pd.DataFrame(
+        {"summary": summary_list, "config": config_list, "name": name_list}
+    )
 
-runs_df.to_csv("project.csv")
+    runs_df.to_csv("project.csv")
 
-run.finish()
-```
-</Tab>
-<Tab title="MongoDB スタイル">
-W&B API は、`api.runs()` を使用してプロジェクト内の Runs を横断的にクエリする方法も提供しています。最も一般的なユースケースは、カスタム分析のための Run データのエクスポートです。クエリインターフェースは [MongoDB が使用しているもの](https://docs.mongodb.com/manual/reference/operator/query) と同じです。
+    run.finish()
+    ```
+  </Tab>
 
-```python
-runs = api.runs(
-    "username/project",
-    {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
-)
-print(f"Found {len(runs)} runs")
-```
-</Tab>
+  <Tab title="MongoDB スタイル">
+    W&amp;B API では、`api.runs()` を使って project 内の複数の Runs をまたいでクエリすることもできます。最も一般的な用途は、カスタム分析のために Runs データをエクスポートすることです。クエリインターフェースは、[MongoDB が使用している](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/)ものと同じです。
+
+    ```python
+    runs = api.runs(
+        "username/project",
+        {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
+    )
+    print(f"Found {len(runs)} runs")
+    ```
+  </Tab>
 </Tabs>
 
-`api.runs` を呼び出すと、反復可能でリストのように動作する `Runs` オブジェクトが返されます。デフォルトでは、このオブジェクトは必要に応じて 50 個ずつの Runs を順次ロードしますが、`per_page` キーワード引数で 1 ページあたりのロード数を変更できます。
+`api.runs` を呼び出すと、反復可能でリストのように振る舞う `Runs` オブジェクトが返されます。デフォルトでは、このオブジェクトは必要に応じて一度に 50 件の Runs を順次読み込みますが、`per_page` キーワード引数で 1 ページあたりの読み込み件数を変更できます。
 
-`api.runs` は `order` キーワード引数も受け取ります。デフォルトの順序は `-created_at` です。昇順にするには `+created_at` を指定します。また、config やサマリーの値でソートすることも可能です。例えば、`summary.val_acc` や `config.experiment_name` などです。
+`api.runs` は `order` キーワード引数も受け取ります。デフォルトの並び順は `-created_at` です。結果を昇順にするには、`+created_at` を指定します。設定や summary の値でソートすることもできます。たとえば、`summary.val_acc` や `config.experiment_name` です。
 
-### エラーハンドリング
+<div id="error-handling">
+  ### エラー処理
+</div>
 
-W&B サーバーとの通信中にエラーが発生した場合、`wandb.CommError` が発生します。元の例外は `exc` 属性を介して調査できます。
+W&amp;B サーバーとの通信中にエラーが発生すると、`wandb.CommError` が送出されます。元の例外は `exc` 属性から確認できます。
 
-### API を介した最新の git コミットの取得
+<div id="get-the-latest-git-commit-through-the-api">
+  ### API を使って最新の git コミットを取得する
+</div>
 
-UI では、Run をクリックし、Run ページの Overview タブをクリックすると最新の git コミットを確認できます。また、`wandb-metadata.json` ファイルにも含まれています。Public API を使用すると、`run.commit` で git ハッシュを取得できます。
+UI で run をクリックし、続けて run ページの Overview タブをクリックすると、最新の git コミットを確認できます。これは `wandb-metadata.json` ファイルにも含まれています。Public API を使用すると、`run.commit` で git ハッシュを取得できます。
 
-### Run 実行中の Run 名と ID の取得
+<div id="get-a-runs-name-and-id-during-a-run">
+  ### run の実行中に run 名と ID を取得する
+</div>
 
-`wandb.init()` を呼び出した後、スクリプトからランダムな Run ID または人間が読める Run 名にアクセスできます：
+`wandb.init()` を呼び出すと、スクリプトからランダムな run ID や人が読める run 名に次のようにアクセスできます。
 
-- ユニークな Run ID (8文字のハッシュ): `run.id`
-- ランダムな Run 名 (人間が読める形式): `run.name`
+* 一意の run ID (8 文字のハッシュ) : `run.id`
+* ランダムな run 名 (人が読める名前) : `run.name`
 
-Run に有用な識別子を設定する方法をお探しの場合は、以下を推奨します：
+run に役立つ識別子を設定する方法を検討している場合は、次の設定をおすすめします。
 
-- **Run ID**: 生成されたハッシュのままにしておきます。これはプロジェクト内の Runs 全体で一意である必要があります。
-- **Run 名**: チャート上の異なるラインを区別できるように、短くて読みやすく、できれば一意なものにしてください。
-- **Run ノート**: Run で何を行っているかの簡単な説明を入れるのに最適です。`wandb.init(notes="ここにノートを記載")` で設定できます。
-- **Run タグ**: Run タグで動的に追跡し、UI のフィルタを使用して関心のある Runs だけに絞り込みます。スクリプトからタグを設定し、その後 UI（Runs テーブルと Run ページの Overview タブの両方）で編集できます。詳細な手順は [こちら](/models/runs/tags/) を参照してください。
+* **Run ID**: 生成されたハッシュのままにしてください。これはプロジェクト内のすべての run で一意である必要があります。
+* **Run name**: 短く、わかりやすく、できれば一意なものにしてください。そうすることで、チャート上の異なる線を見分けやすくなります。
+* **Run notes**: run で何をしているかを簡単に説明するのに最適です。`wandb.init(notes="your notes here")` で設定できます。
+* **Run tags**: run tags で項目を動的にトラッキングし、UI のフィルターを使用して表を必要な run だけに絞り込めます。タグはスクリプトから設定でき、Runs table と run ページの Overview タブの両方で UI から編集できます。詳しい手順は[こちら](/ja/models/runs/tags/)を参照してください。
 
-## Public API の例
+<div id="public-api-examples">
+  ## Public APIの例
+</div>
 
-### matplotlib や seaborn で可視化するためのデータエクスポート
+<div id="export-data-to-visualize-in-matplotlib-or-seaborn">
+  ### matplotlib または seaborn で可視化するためにデータをエクスポートする
+</div>
 
-一般的なエクスポートパターンについては、[API の例](/models/ref/python/public-api/) を確認してください。また、カスタムプロットや展開された Runs テーブルのダウンロードボタンをクリックして、ブラウザから CSV をダウンロードすることもできます。
+一般的なエクスポート方法については、[API examples](/ja/models/ref/python/public-api/)を参照してください。カスタムプロットまたは展開したRuns tableのダウンロードボタンをクリックすると、ブラウザからCSVをダウンロードすることもできます。
 
-### Run からのメトリクス読み取り
+<div id="read-metrics-from-a-run">
+  ### run のメトリクスを読み取る
+</div>
 
-この例では、`"<entity>/<project>/<run_id>"` に保存された Run に対して、`run.log({"accuracy": acc})` で保存されたタイムスタンプと精度を出力します。
+この例では、`"<entity>/<project>/<run_id>"` に保存された run から、`run.log({"accuracy": acc})` で保存したタイムスタンプと accuracy を出力します。
 
 ```python
 import wandb
@@ -331,11 +363,15 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-### Runs のフィルタリング
+<div id="filter-runs">
+  ### Runs をフィルタリングする
+</div>
 
-MongoDB クエリ言語を使用してフィルタリングできます。
+MongoDB Query Language を使用してフィルタリングできます。
 
-#### 日付
+<div id="date">
+  #### 日付
+</div>
 
 ```python
 runs = api.runs(
@@ -344,9 +380,11 @@ runs = api.runs(
 )
 ```
 
-### Run から特定のメトリクスを読み取る
+<div id="read-specific-metrics-from-a-run">
+  ### run から特定のメトリクスを読み取る
+</div>
 
-Run から特定のメトリクスを取得するには、`keys` 引数を使用します。`run.history()` を使用する場合のデフォルトのサンプル数は 500 です。特定のメトリクスを含まないログステップは、出力データフレームで `NaN` として表示されます。`keys` 引数を使用すると、API はリストされたメトリクスキーを含むステップをより頻繁にサンプリングします。
+run から特定のメトリクスを取得するには、`keys` 引数を使用します。`run.history()` を使用する場合のデフォルトのサンプル数は 500 です。特定のメトリクスを含まないログ済みの step は、出力データフレームでは `NaN` として表示されます。`keys` 引数を指定すると、API は一覧にあるメトリクス key を含む step をより高い頻度でサンプリングします。
 
 ```python
 import wandb
@@ -359,9 +397,11 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-### 2 つの Runs の比較
+<div id="compare-two-runs">
+  ### 2 つの run を比較する
+</div>
 
-これは `run1` と `run2` で異なる config パラメータを出力します。
+これにより、`run1` と `run2` で異なる設定パラメーターが出力されます。
 
 ```python
 import pandas as pd
@@ -369,7 +409,7 @@ import wandb
 
 api = wandb.Api()
 
-# <entity>, <project>, <run_id> を置き換えてください
+# <entity>、<project>、<run_id> を実際の値に置き換えてください
 run1 = api.run("<entity>/<project>/<run_id>")
 run2 = api.run("<entity>/<project>/<run_id>")
 
@@ -380,7 +420,7 @@ df.columns = [run1.name, run2.name]
 print(df[df[run1.name] != df[run2.name]])
 ```
 
-出力例:
+出力:
 
 ```
               c_10_sgd_0.025_0.01_long_switch base_adam_4_conv_2fc
@@ -389,9 +429,11 @@ n_conv_layers                               5                    4
 optimizer                             rmsprop                 adam
 ```
 
-### Run 終了後のメトリクス更新
+<div id="update-metrics-for-a-run-after-the-run-has-finished">
+  ### 完了した run のメトリクスを更新する
+</div>
 
-この例では、以前の Run の精度を `0.9` に設定します。また、以前の Run の精度ヒストグラムを `numpy_array` のヒストグラムに変更します。
+この例では、以前の run の精度を `0.9` に設定します。また、以前の run の精度ヒストグラムを `numpy_array` のヒストグラムに置き換えます。
 
 ```python
 import wandb
@@ -404,9 +446,11 @@ run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 
-### 完了した Run のメトリクス名の変更
+<div id="rename-a-metric-in-a-completed-run">
+  ### 完了したrun内のメトリクス名を変更する
+</div>
 
-この例では、テーブル内のサマリー列の名前を変更します。
+この例では、表内のsummary列の名前を変更します。
 
 ```python
 import wandb
@@ -420,10 +464,12 @@ run.summary.update()
 ```
 
 <Note>
-列名の変更はテーブルにのみ適用されます。チャートは引き続き元の名前でメトリクスを参照します。
+  列名の変更が適用されるのは表のみです。チャートでは引き続き、メトリクスは元の名前で参照されます。
 </Note>
 
-### 既存の Run の config 更新
+<div id="update-config-for-an-existing-run">
+  ### 既存のrunの設定を更新する
+</div>
 
 この例では、設定項目の 1 つを更新します。
 
@@ -437,9 +483,11 @@ run.config["key"] = updated_value
 run.update()
 ```
 
-### システムリソース消費量（System metrics）の CSV エクスポート
+<div id="export-system-resource-consumptions-to-a-csv-file">
+  ### システムリソースの使用量をCSVファイルにエクスポートする
+</div>
 
-以下のスニペットは、システムリソース消費量を取得し、CSV に保存します。
+以下のスニペットでは、システムリソースの使用量を検索し、その結果をCSVに保存します。
 
 ```python
 import wandb
@@ -450,9 +498,11 @@ with wandb.Api().run("<entity>/<project>/<run_id>") as run:
     system_metrics.to_csv("sys_metrics.csv")
 ```
 
-### サンプリングされていないメトリクスデータの取得
+<div id="get-unsampled-metric-data">
+  ### サンプリングされていないメトリクスデータを取得する
+</div>
 
-ヒストリーからデータを取得する場合、デフォルトでは 500 ポイントにサンプリングされます。`run.scan_history()` を使用して、ログ記録されたすべてのデータポイントを取得します。以下は、ヒストリーにログ記録されたすべての `loss` データポイントをダウンロードする例です。
+history からデータを取得する場合、デフォルトでは 500 ポイントにサンプリングされます。`run.scan_history()` を使用すると、ログされたすべてのデータポイントを取得できます。以下は、history にログされた `loss` の全データポイントをダウンロードする例です。
 
 ```python
 import wandb
@@ -464,9 +514,11 @@ history = run.scan_history()
 losses = [row["loss"] for row in history]
 ```
 
-### ヒストリーからのページ分割されたデータの取得
+<div id="get-paginated-data-from-history">
+  ### history からページ単位でデータを取得する
+</div>
 
-バックエンドでのメトリクス取得が遅い場合や API リクエストがタイムアウトする場合は、`scan_history` のページサイズを小さくして、個々のリクエストがタイムアウトしないように調整できます。デフォルトのページサイズは 500 です。
+バックエンドでのメトリクス取得が遅い場合や、API リクエストがタイムアウトする場合は、各リクエストがタイムアウトしないように、`scan_history` のページサイズを小さくしてみてください。デフォルトのページサイズは 500 なので、さまざまなサイズを試して、最も適した値を確認できます:
 
 ```python
 import wandb
@@ -477,9 +529,11 @@ run = api.run("<entity>/<project>/<run_id>")
 run.scan_history(keys=sorted(cols), page_size=100)
 ```
 
-### プロジェクト内のすべての Runs からメトリクスを CSV エクスポート
+<div id="export-metrics-from-all-runs-in-a-project-to-a-csv-file">
+  ### プロジェクト内のすべての Runs のメトリクスを CSV ファイルにエクスポートする
+</div>
 
-このスクリプトは、プロジェクト内の Runs をプルし、その名前、config、サマリー統計を含むデータフレームと CSV を生成します。`<entity>` と `<project>` をご自身の環境に合わせて置き換えてください。
+このスクリプトはプロジェクト内の Runs を取得し、それらの名、設定、summary の統計を含む Runs のデータフレームと CSV を生成します。`<entity>` と `<project>` は、それぞれ W&amp;B の entity とプロジェクトの名に置き換えてください。
 
 ```python
 import pandas as pd
@@ -491,16 +545,16 @@ runs = api.runs(entity + "/" + project)
 
 summary_list, config_list, name_list = [], [], []
 for run in runs:
-    # .summary には精度などのメトリクスの
-    #  出力キー/値が含まれます。
-    #  大きなファイルを省くために ._json_dict を呼び出します
+    # .summary には出力のキーと値が含まれます
+    #  たとえば accuracy などのメトリクスです。
+    #  大きなファイルを除外するため、._json_dict を呼び出します
     summary_list.append(run.summary._json_dict)
 
-    # .config にはハイパーパラメータが含まれます。
-    #  _ で始まる特殊な値を除外します。
+    # .config にはハイパーパラメーターが含まれます。
+    #  _ で始まる特殊な値は除外します。
     config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
-    # .name は Run の人間が読める名前です。
+    # .name は run の人が読める名前です。
     name_list.append(run.name)
 
 runs_df = pd.DataFrame(
@@ -510,9 +564,11 @@ runs_df = pd.DataFrame(
 runs_df.to_csv("project.csv")
 ```
 
-### Run の開始時間の取得
+<div id="get-the-starting-time-for-a-run">
+  ### run の開始時刻を取得する
+</div>
 
-このコードスニペットは、Run が作成された時間を取得します。
+このコード例では、run が作成された時刻を取得します。
 
 ```python
 import wandb
@@ -523,9 +579,11 @@ run = api.run("entity/project/run_id")
 start_time = run.created_at
 ```
 
-### 終了した Run へのファイルのアップロード
+<div id="upload-files-to-a-finished-run">
+  ### 完了済みの run にファイルをアップロードする
+</div>
 
-以下のコードスニペットは、選択したファイルを終了した Run にアップロードします。
+以下のコードスニペットは、選択したファイルを完了済みの run にアップロードします。
 
 ```python
 import wandb
@@ -536,9 +594,11 @@ run = api.run("entity/project/run_id")
 run.upload_file("file_name.extension")
 ```
 
-### Run からのファイルのダウンロード
+<div id="download-a-file-from-a-run">
+  ### run からファイルをダウンロードする
+</div>
 
-これは cifar プロジェクトの Run ID uxte44z7 に関連付けられた "model-best.h5" ファイルを検索し、ローカルに保存します。
+これは、cifar プロジェクトの run ID uxte44z7 に紐づくファイル &quot;model-best.h5&quot; を検索し、ローカルに保存します。
 
 ```python
 import wandb
@@ -549,9 +609,11 @@ run = api.run("<entity>/<project>/<run_id>")
 run.file("model-best.h5").download()
 ```
 
-### Run からのすべてのファイルのダウンロード
+<div id="download-all-files-from-a-run">
+  ### run からすべてのファイルをダウンロードする
+</div>
 
-これは Run に関連付けられたすべてのファイルを検索し、ローカルに保存します。
+これにより、run に関連付けられたすべてのファイルを見つけてローカルに保存します。
 
 ```python
 import wandb
@@ -563,9 +625,11 @@ for file in run.files():
     file.download()
 ```
 
-### 特定の Sweep からの Runs 取得
+<div id="get-runs-from-a-specific-sweep">
+  ### 特定の sweep から run を取得する
+</div>
 
-このスニペットは、特定の Sweep に関連付けられたすべての Runs をダウンロードします。
+このスニペットでは、特定の sweep に関連するすべての run をダウンロードします。
 
 ```python
 import wandb
@@ -576,9 +640,11 @@ sweep = api.sweep("<entity>/<project>/<sweep_id>")
 sweep_runs = sweep.runs
 ```
 
-### Sweep からのベスト Run の取得
+<div id="get-the-best-run-from-a-sweep">
+  ### sweep から最適な run を取得する
+</div>
 
-以下のスニペットは、指定した Sweep からベストな Run を取得します。
+以下のスニペットは、指定した sweep から最適な run を取得します。
 
 ```python
 import wandb
@@ -589,11 +655,13 @@ sweep = api.sweep("<entity>/<project>/<sweep_id>")
 best_run = sweep.best_run()
 ```
 
-`best_run` は、Sweep 設定の `metric` パラメータで定義された最高のメトリクスを持つ Run です。
+`best_run` は、sweep 設定の `metric` パラメーターで指定されたメトリクスが最も優れている run です。
 
-### Sweep からのベストモデルファイルのダウンロード
+<div id="download-the-best-model-file-from-a-sweep">
+  ### sweep から最良のモデルファイルをダウンロードする
+</div>
 
-このスニペットは、モデルファイルを `model.h5` として保存した Runs を持つ Sweep から、検証精度が最も高いモデルファイルをダウンロードします。
+このスニペットでは、モデルファイルを `model.h5` として保存した Runs を含む sweep から、検証精度が最も高いモデルファイルをダウンロードします。
 
 ```python
 import wandb
@@ -609,9 +677,11 @@ runs[0].file("model.h5").download(replace=True)
 print("Best model saved to model-best.h5")
 ```
 
-### Run から特定の拡張子のすべてのファイルを削除
+<div id="delete-all-files-with-a-given-extension-from-a-run">
+  ### run から指定した拡張子のファイルをすべて削除する
+</div>
 
-このスニペットは、Run から特定の拡張子を持つファイルを削除します。
+このスニペットでは、run から指定した拡張子のファイルをすべて削除します。
 
 ```python
 import wandb
@@ -627,9 +697,11 @@ for file in files:
         file.delete()
 ```
 
-### システムメトリクスデータのダウンロード
+<div id="download-system-metrics-data">
+  ### システムメトリクスデータをダウンロードする
+</div>
 
-このスニペットは、Run のすべてのシステムリソース消費メトリクスを含むデータフレームを生成し、CSV に保存します。
+このスニペットは、run のシステムリソース消費に関するすべてのメトリクスを含むデータフレームを生成し、CSV に保存します。
 
 ```python
 import wandb
@@ -641,17 +713,21 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-### サマリーメトリクスの更新
+<div id="update-summary-metrics">
+  ### summaryメトリクスを更新する
+</div>
 
-辞書を渡してサマリーメトリクスを更新できます。
+辞書を渡してsummaryメトリクスを更新できます。
 
 ```python
 summary.update({"key": val})
 ```
 
-### Run を実行したコマンドの取得
+<div id="get-the-command-that-ran-the-run">
+  ### run の実行に使用されたコマンドを取得する
+</div>
 
-各 Run は、その開始に使用されたコマンドを Run の Overview ページでキャプチャします。このコマンドを API から取得するには、以下を実行します：
+各 run では、その run の起動に使用されたコマンドが run の概要ページに記録されます。API からこのコマンドを取得するには、次を実行します。
 
 ```python
 import wandb

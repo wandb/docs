@@ -1,11 +1,13 @@
 ---
-title: Models を一覧表示
-description: thoughtful 利用可能なすべての Models とその ID を取得する
+title: "List Models"
+description: "models API endpoint を使用して、利用可能なすべての W&B Inference モデルとその ID の一覧を取得する"
 ---
 
-利用可能なすべての Models とその ID を取得します。これを使用して、動的にモデルを選択したり、利用可能なモデルを確認したりできます。
+利用可能なモデルとそれぞれの ID をすべて取得します。これを使ってモデルを動的に選択したり、利用可能なものを確認したりできます。
 
-## リクエスト例
+<div id="request-examples">
+  ## リクエスト例
+</div>
 
 <Tabs>
 <Tab title="Python">
@@ -15,10 +17,9 @@ import openai
 client = openai.OpenAI(
     base_url="https://api.inference.wandb.ai/v1",
     api_key="<your-api-key>",
-    project="<your-team>/<your-project>"  # オプション、使用状況の追跡用
+    project="<your-team>/<your-project>"  # 省略可能で、利用状況の追跡に使用されます
 )
 
-# モデルの一覧を取得
 response = client.models.list()
 
 for model in response.data:
@@ -35,9 +36,11 @@ curl https://api.inference.wandb.ai/v1/models \
 </Tab>
 </Tabs>
 
-## レスポンス形式
+<div id="response-format">
+  ## レスポンス形式
+</div>
 
-API は OpenAI 互換の形式でレスポンスを返します。
+API は OpenAI 互換のフォーマットでレスポンスを返します。
 
 ```json
 {
@@ -57,7 +60,7 @@ API は OpenAI 互換の形式でレスポンスを返します。
       "owned_by": "system",
       "root": "openai/gpt-oss-20b"
     }
-    // ... さらに多くのモデルが続きます
+    // ... その他のモデル
   ]
 }
 ```

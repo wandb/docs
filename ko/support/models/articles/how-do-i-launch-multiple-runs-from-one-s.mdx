@@ -1,0 +1,69 @@
+---
+title: "하나의 스크립트에서 여러 run을 시작하려면 어떻게 하나요?"
+keywords: ["Experiments"]
+---
+
+하나의 스크립트에서 여러 run을 로깅하려면, 새 run을 시작하기 전에 이전 run을 먼저 종료하세요.
+
+권장되는 방법은 `wandb.init()`를 컨텍스트 관리자로 사용하는 것입니다.
+이렇게 하면 스크립트에서 예외가 발생할 경우 run이 종료되고 실패로 표시됩니다.
+
+```python
+import wandb
+
+for x in range(10):
+    with wandb.init() as run:
+        for y in range(100):
+            run.log({"metric": x + y})
+```
+
+`run.finish()`를 명시적으로 call할 수도 있습니다:
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+<div id="multiple-active-runs">
+  ## 동시에 활성화된 여러 run
+</div>
+
+wandb 0.19.10부터는 `reinit` 설정을 `"create_new"`로 지정해
+동시에 활성화된 여러 run을 생성할 수 있습니다.
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+`reinit="create_new"`에 대한 자세한 내용과 W&amp;B
+인테그레이션 관련 유의 사항은 [프로세스당 여러 run](/ko/models/runs/initialize-run)을
+참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

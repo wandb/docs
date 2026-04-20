@@ -1,241 +1,267 @@
 ---
-title: Artifact の バージョン を作成する
-description: 単一の run または分散プロセスから、新しい Artifacts バージョンを作成します。
+description: 単一の run または分散プロセスから新しい artifact バージョンを作成します。
+title: artifact バージョンを作成する
 ---
 
-単一の [run](/models/runs/) または分散された複数の run を通じて、新しい Artifacts バージョンを作成します。オプションで、以前のバージョンから新しい Artifacts バージョンを作成することもできます。これは [インクリメンタルアーティファクト](#既存のバージョンから新しい-artifacts-バージョンを作成する) と呼ばれます。
+単一の [run](/ja/models/runs/) から、または分散 run と連携して、新しい artifact バージョンを作成できます。必要に応じて、[段階的 artifact](#create-a-new-artifact-version-from-an-existing-version) と呼ばれる既存のバージョンから新しい artifact バージョンを作成することもできます。
 
 <Note>
-元の Artifacts のサイズが非常に大きく、その中のファイルのサブセットのみに変更を適用する必要がある場合は、インクリメンタルアーティファクトを作成することをお勧めします。
+  artifact 内の一部のファイルに変更を適用する必要があり、元の artifact のサイズが大幅に大きい場合は、段階的 artifact を作成することをおすすめします。
 </Note>
 
-## ゼロからの新しい Artifacts バージョンの作成
-新しい Artifacts バージョンを作成する方法には、単一の run から作成する方法と、分散された複数の run から作成する方法の2つがあります。それぞれの定義は以下の通りです。
+<div id="create-new-artifact-versions-from-scratch">
+  ## 新しいartifactバージョンを最初から作成する
+</div>
 
-* **Single run (単一の run)**: 1つの run が新しいバージョンのすべてのデータを提供します。これは最も一般的なケースであり、run が必要なデータを完全に再作成する場合に最適です。例えば、保存された Models や分析用のテーブル内のモデル予測を出力する場合などが挙げられます。
-* **Distributed runs (分散 run)**: 一連の run が集合的に新しいバージョンのすべてのデータを提供します。これは、多くの場合並列でデータを生成する複数の run を持つ分散ジョブに最適です。例えば、分散環境でモデルを評価し、その予測結果を出力する場合などが挙げられます。
+新しいartifactバージョンを作成する方法は 2 つあります。単一の run から作成する方法と、分散 run から作成する方法です。それぞれ次のとおりです。
 
-`wandb.Artifact` API に、プロジェクト内に存在しない名前を渡すと、W&B は新しい Artifacts を作成し、`v0` エイリアスを割り当てます。同じ Artifacts に再度ログを記録すると、W&B は内容のチェックサムを確認します。Artifacts が変更されている場合、W&B は新しいバージョン `v1` を保存します。
+* **Single run**: 1 つの run が、新しいバージョンに必要なデータをすべて提供します。これは最も一般的なケースで、run が必要なデータを完全に再現する場合に最適です。たとえば、保存済みモデルを出力したり、分析用にモデルの予測を表として出力したりする場合です。
+* **Distributed runs**: 複数の run の集合が、まとめて新しいバージョンに必要なデータをすべて提供します。これは、複数の run が多くの場合並列でデータを生成する分散ジョブに最適です。たとえば、分散方式でモデルを評価し、予測を出力する場合です。
 
-`wandb.Artifact` API に、プロジェクト内の既存の Artifacts と一致する名前と Artifacts タイプを渡すと、W&B は既存の Artifacts を取得します。取得された Artifacts のバージョンは1より大きくなります。
+`wandb.Artifact` API にプロジェクト内に存在しない名を渡すと、W&amp;B は新しいartifactを作成し、`v0` alias を割り当てます。同じartifactに対して再度ログすると、W&amp;B は内容のチェックサムを計算します。artifactが変更されていた場合、W&amp;B は新しいバージョン `v1` を保存します。
+
+`wandb.Artifact` API に、プロジェクト内の既存のartifactに一致する名と artifact type を渡すと、W&amp;B は既存のartifactを取得します。取得されたartifactのバージョンは 1 より大きくなります。
 
 <Frame>
-    <img src="/images/artifacts/single_distributed_artifacts.png" alt="Artifact workflow comparison"  />
+  <img src="/images/artifacts/single_distributed_artifacts.png" alt="artifactワークフローの比較" />
 </Frame>
 
-### Single run
-Artifacts 内のすべてのファイルを生成する単一の run で、Artifacts の新しいバージョンをログに記録します。このケースは、1つの run が Artifacts に含まれるすべてのファイルを生成する場合に発生します。
+<div id="single-run">
+  ### 単一の run
+</div>
 
-ユースケースに合わせて、以下のタブから run の内部または外部で新しい Artifacts バージョンを作成する方法を選択してください。
+アーティファクト 内のすべてのファイルを生成する 1 つの run で、Artifact の新しいバージョンをログします。これは、1 つの run が アーティファクト 内のすべてのファイルを生成する場合に該当します。
+
+ユースケースに応じて、以下のタブから 1 つ選択し、run の内側または外側で新しい アーティファクト バージョンを作成します。
 
 <Tabs>
-<Tab title="run の内部">
-W&B run の内部で Artifacts バージョンを作成します。
+  <Tab title="run 内">
+    W&amp;B run 内で アーティファクト バージョンを作成します。
 
-1. `wandb.init` で run を作成します。
-2. `wandb.Artifact` で新しい Artifacts を作成するか、既存のものを取得します。
-3. `.add_file` で Artifacts にファイルを追加します。
-4. `.log_artifact` で Artifacts を run にログ記録します。
+    1. `wandb.init()` で run を作成します。
+    2. `wandb.Artifact` を使用して、新しい アーティファクト を作成するか既存の アーティファクト を取得します。
+    3. `.add_file` で アーティファクト にファイルを追加します。
+    4. `.log_artifact` で アーティファクト を run にログします。
 
-```python 
-with wandb.init() as run:
+    ```python
+    with wandb.init() as run:
+        artifact = wandb.Artifact("artifact_name", "artifact_type")
+
+        # `.add`、`.add_file`、`.add_dir`、`.add_reference` を使用して
+        # artifact にファイルとアセットを追加
+        artifact.add_file("image1.png")
+        run.log_artifact(artifact)
+    ```
+  </Tab>
+
+  <Tab title="run 外">
+    W&amp;B run の外で アーティファクト バージョンを作成します。
+
+    1. `wanb.Artifact` を使用して、新しい アーティファクト を作成するか既存の アーティファクト を取得します。
+    2. `.add_file` で アーティファクト にファイルを追加します。
+    3. `.save` で アーティファクト を保存します。
+
+    ```python
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-
     # `.add`、`.add_file`、`.add_dir`、`.add_reference` を使用して
-    # ファイルやアセットをアーティファクトに追加します
+    # artifact にファイルとアセットを追加
     artifact.add_file("image1.png")
-    run.log_artifact(artifact)
-```
-</Tab>
-<Tab title="run の外部">
-W&B run の外部で Artifacts バージョンを作成します。
-
-1. `wandb.Artifact` で新しい Artifacts を作成するか、既存のものを取得します。
-2. `.add_file` で Artifacts にファイルを追加します。
-3. `.save` で Artifacts を保存します。
-
-```python 
-artifact = wandb.Artifact("artifact_name", "artifact_type")
-# `.add`、`.add_file`、`.add_dir`、`.add_reference` を使用して
-# ファイルやアセットをアーティファクトに追加します
-artifact.add_file("image1.png")
-artifact.save()
-```
-</Tab>
+    artifact.save()
+    ```
+  </Tab>
 </Tabs>
 
-### Distributed runs
+<div id="distributed-runs">
+  ### 分散 run
+</div>
 
-一連の run が、コミットする前に共同で1つのバージョンを作成できるようにします。これは、1つの run が新しいバージョンのすべてのデータを提供する上述の Single run モードとは対照的です。
+複数の run が、コミット前に同じバージョンに対して共同で作業できるようにします。これは、前述の 単一の run モード (1 つの run が新しいバージョンのすべてのデータを提供する方式) とは対照的です。
 
 <Note>
-1. 同じバージョンで共同作業を行うために、コレクション内の各 run は同じユニーク ID（`distributed_id` と呼ばれます）を認識している必要があります。デフォルトでは、`wandb.init(group=GROUP)` で設定された run の `group` が存在する場合、W&B はそれを `distributed_id` として使用します。
-2. バージョンを「コミット」し、その状態を永続的にロックする最終的な run が必要です。
-3. 共同 Artifacts に追加するには `upsert_artifact` を使用し、コミットを完了するには `finish_artifact` を使用します。
+  1. collection 内の各 run は、同じバージョンで共同作業するために、同じ一意の ID (`distributed_id`) を認識している必要があります。デフォルトでは、存在する場合、W&amp;B は `wandb.init(group=GROUP)` で設定した run の `group` を `distributed_id` として使用します。
+  2. バージョンを「コミット」し、その状態を永続的に固定する最後の run が必要です。
+  3. 共同の artifact への追加には `upsert_artifact` を使用し、コミットを確定するには `finish_artifact` を使用します。
 </Note>
 
-次の例を考えてみましょう。異なる run（以下、**Run 1**、**Run 2**、**Run 3** と表記）が、`upsert_artifact` を使用して同じ Artifacts に異なる画像ファイルを追加します。
+次の例を見てみましょう。異なる run (以下では **Run 1**、**Run 2**、**Run 3** と表記) が、`upsert_artifact` を使って同じ artifact にそれぞれ異なる画像ファイルを追加します。
 
-#### Run 1:
+<div id="run-1">
+  #### Run 1
+</div>
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
     # `.add`、`.add_file`、`.add_dir`、`.add_reference` を使用して
-    # ファイルやアセットをアーティファクトに追加します
+    # アーティファクト にファイルとアセットを追加
     artifact.add_file("image1.png")
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### Run 2:
+<div id="run-2">
+  #### Run 2
+</div>
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
     # `.add`、`.add_file`、`.add_dir`、`.add_reference` を使用して
-    # ファイルやアセットをアーティファクトに追加します
+    # アーティファクト にファイルとアセットを追加
     artifact.add_file("image2.png")
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### Run 3
+<div id="run-3">
+  #### Run 3
+</div>
 
-Run 1 と Run 2 が完了した後に実行する必要があります。`finish_artifact` を呼び出す run は、Artifacts にファイルを含めることができますが、必須ではありません。
+Run 1 と Run 2 が完了した後に実行する必要があります。`wandb.Run.finish_artifact()` を呼び出す run では、アーティファクト にファイルを含めることもできますが、必須ではありません。
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # ファイルやアセットをアーティファクトに追加します
-    # `.add`、`.add_file`、`.add_dir`、`.add_reference`
+    # `.add`、`.add_file`、`.add_dir`、`.add_reference` を使用して
+    # artifact にファイルとアセットを追加
     artifact.add_file("image3.png")
     run.finish_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-## 既存のバージョンから新しい Artifacts バージョンを作成する
+<div id="create-a-new-artifact-version-from-an-existing-version">
+  ## Create a new artifact version from an existing version
+</div>
 
-変更されていないファイルを再インデックス化することなく、以前の Artifacts バージョンからファイルのサブセットを追加、修正、または削除します。以前の Artifacts バージョンからファイルのサブセットを追加、修正、または削除して作成された新しい Artifacts バージョンは、*incremental artifact (インクリメンタルアーティファクト)* と呼ばれます。
+Add, modify, or remove a subset of files from a previous artifact version without the need to re-index the files that didn&#39;t change. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
 <Frame>
-    <img src="/images/artifacts/incremental_artifacts.png" alt="Incremental artifact versioning"  />
+  <img src="/images/artifacts/incremental_artifacts.png" alt="Incremental artifact versioning" />
 </Frame>
 
-以下は、発生する可能性のある各タイプの増分変更のシナリオです。
+Here are some scenarios for each type of incremental change you might encounter:
 
-- **add (追加)**: 新しいバッチを収集した後、データセットに新しいファイルのサブセットを定期的につぎ足す。
-- **remove (削除)**: 重複したファイルがいくつか見つかったため、Artifacts からそれらを削除したい。
-- **update (更新)**: 一部のファイルの注釈を修正したため、古いファイルを正しいものに置き換えたい。
+* add: you periodically add a new subset of files to a dataset after collecting a new batch.
+* remove: you discovered several duplicate files and want to remove them from your artifact.
+* update: you corrected annotations for a subset of files and want to replace the old files with the correct ones.
 
-インクリメンタルアーティファクトと同じ機能を実行するために、ゼロから Artifacts を作成することも可能です。しかし、ゼロから作成する場合は、Artifacts の全内容をローカルディスクに用意する必要があります。増分変更を行う場合は、以前の Artifacts バージョンのファイルを変更することなく、単一のファイルを追加、削除、または修正できます。
+You could create an artifact from scratch to perform the same function as an incremental artifact. However, when you create an artifact from scratch, you will need to have all the contents of your artifact on your local disk. When making an incremental change, you can add, remove, or modify a single file without changing the files from a previous artifact version.
 
 <Note>
-インクリメンタルアーティファクトは、単一の run 内、または一連の run（分散モード）で作成できます。
+  You can create an incremental artifact within a single run or with a set of runs (distributed mode).
 </Note>
 
-Artifacts を段階的に変更するには、以下の手順に従ってください。
+Follow the procedure below to incrementally change an artifact:
 
-1. 増分変更を行いたい Artifacts バージョンを取得します。
+1. Obtain the artifact version you want to perform an incremental change on:
 
 <Tabs>
-<Tab title="run の内部">
-```python
-saved_artifact = run.use_artifact("my_artifact:latest")
-```
-</Tab>
-<Tab title="run の外部">
-```python
-client = wandb.Api()
-saved_artifact = client.artifact("my_artifact:latest")
-```
-</Tab>
+  <Tab title="Inside a run">
+    ```python
+    saved_artifact = run.use_artifact("my_artifact:latest")
+    ```
+  </Tab>
+
+  <Tab title="Outside of a run">
+    ```python
+    client = wandb.Api()
+    saved_artifact = client.artifact("my_artifact:latest")
+    ```
+  </Tab>
 </Tabs>
 
-2. 次のコマンドでドラフトを作成します。
+2. Create a draft with:
 
 ```python
 draft_artifact = saved_artifact.new_draft()
 ```
 
-3. 次のバージョンに反映させたい増分変更を実行します。既存のエントリを追加、削除、または修正できます。
+3. Perform any incremental changes you want to see in the next version. You can either add, remove, or modify an existing entry.
 
-これらの各変更を実行する方法の例については、タブのいずれかを選択してください。
-
-<Tabs>
-<Tab title="追加">
-`add_file` メソッドを使用して、既存の Artifacts バージョンにファイルを追加します。
-
-```python
-draft_artifact.add_file("file_to_add.txt")
-```
-
-<Note>
-`add_dir` メソッドを使用してディレクトリを追加することで、複数のファイルを一度に追加することもできます。
-</Note>
-</Tab>
-<Tab title="削除">
-`remove` メソッドを使用して、既存の Artifacts バージョンからファイルを削除します。
-
-```python
-draft_artifact.remove("file_to_remove.txt")
-```
-
-<Note>
-`remove` メソッドにディレクトリパスを渡すことで、複数のファイルを削除することもできます。
-</Note>
-</Tab>
-<Tab title="修正">
-ドラフトから古い内容を削除し、新しい内容を再度追加することで、内容を修正または置換します。
-
-```python
-draft_artifact.remove("modified_file.txt")
-draft_artifact.add_file("modified_file.txt")
-```
-</Tab>
-</Tabs>
-
-4. 最後に、変更をログに記録するか保存します。以下のタブでは、W&B run の内部および外部で変更を保存する方法を示しています。ユースケースに適したタブを選択してください。
+Select one of the tabs for an example on how to perform each of these changes:
 
 <Tabs>
-<Tab title="run の内部">
-```python
-run.log_artifact(draft_artifact)
-```
-</Tab>
-<Tab title="run の外部">
-```python
-draft_artifact.save()
-```
-</Tab>
-</Tabs>
+  <Tab title="Add">
+    Add a file to an existing artifact version with the `add_file` method:
 
-これらをすべてまとめると、上記のコード例は以下のようになります。
-
-<Tabs>
-<Tab title="run の内部">
-```python
-with wandb.init(job_type="modify dataset") as run:
-    saved_artifact = run.use_artifact(
-        "my_artifact:latest"
-    )  # アーティファクトを取得して run に入力します
-    draft_artifact = saved_artifact.new_draft()  # ドラフトバージョンを作成します
-
-    # ドラフトバージョンのファイルのサブセットを修正します
+    ```python
     draft_artifact.add_file("file_to_add.txt")
-    draft_artifact.remove("dir_to_remove/")
-    run.log_artifact(
-        draft_artifact
-    )  # 変更をログに記録して新しいバージョンを作成し、run の出力としてマークします
-```
-</Tab>
-<Tab title="run の外部">
-```python
-client = wandb.Api()
-saved_artifact = client.artifact("my_artifact:latest")  # アーティファクトをロードします
-draft_artifact = saved_artifact.new_draft()  # ドラフトバージョンを作成します
+    ```
 
-# ドラフトバージョンのファイルのサブセットを修正します
-draft_artifact.remove("deleted_file.txt")
-draft_artifact.add_file("modified_file.txt")
-draft_artifact.save()  # ドラフトへの変更をコミットします
-```
-</Tab>
+    <Note>
+      You can also add multiple files by adding a directory with the `add_dir` method.
+    </Note>
+  </Tab>
+
+  <Tab title="Remove">
+    Remove a file from an existing artifact version with the `remove` method:
+
+    ```python
+    draft_artifact.remove("file_to_remove.txt")
+    ```
+
+    <Note>
+      You can also remove multiple files with the `remove` method by passing in a directory path.
+    </Note>
+  </Tab>
+
+  <Tab title="Modify">
+    Modify or replace contents by removing the old contents from the draft and adding the new contents back in:
+
+    ```python
+    draft_artifact.remove("modified_file.txt")
+    draft_artifact.add_file("modified_file.txt")
+    ```
+  </Tab>
+</Tabs>
+
+{/* <Note>
+  The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
+  </Note> */}
+
+4. Lastly, log or save your changes. The following tabs show you how to save your changes inside and outside of a W&amp;B run. Select the tab that is appropriate for your use case:
+
+<Tabs>
+  <Tab title="Inside a run">
+    ```python
+    run.log_artifact(draft_artifact)
+    ```
+  </Tab>
+
+  <Tab title="Outside of a run">
+    ```python
+    draft_artifact.save()
+    ```
+  </Tab>
+</Tabs>
+
+Putting it all together, the code examples above look like:
+
+<Tabs>
+  <Tab title="Inside a run">
+    ```python
+    with wandb.init(job_type="modify dataset") as run:
+        saved_artifact = run.use_artifact(
+            "my_artifact:latest"
+        )  # アーティファクトを取得して run に入力する
+        draft_artifact = saved_artifact.new_draft()  # ドラフトバージョンを作成する
+
+        # ドラフトバージョン内のファイルの一部を変更する
+        draft_artifact.add_file("file_to_add.txt")
+        draft_artifact.remove("dir_to_remove/")
+        run.log_artifact(
+            draft_artifact
+        )  # 変更をログして新しいバージョンを作成し、run の出力としてマークする
+    ```
+  </Tab>
+
+  <Tab title="Outside of a run">
+    ```python
+    client = wandb.Api()
+    saved_artifact = client.artifact("my_artifact:latest")  # アーティファクトを読み込む
+    draft_artifact = saved_artifact.new_draft()  # ドラフトバージョンを作成する
+
+    # modify a subset of files in the draft version
+    draft_artifact.remove("deleted_file.txt")
+    draft_artifact.add_file("modified_file.txt")
+    draft_artifact.save()  # commit changes to the draft
+    ```
+  </Tab>
 </Tabs>
