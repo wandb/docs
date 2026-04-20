@@ -1,0 +1,17 @@
+---
+title: "Que se passe-t-il si je modifie mes fichiers Python pendant l’exécution d’un Sweep ?"
+keywords: ["Sweeps"]
+---
+
+Pendant l’exécution d’un Sweep :
+
+* Si le script `train.py` utilisé par le Sweep est modifié, le Sweep continue d’utiliser le `train.py` original.
+* Si des fichiers référencés par le script `train.py` sont modifiés, comme des fonctions auxiliaires dans le script `helper.py`, le Sweep se met à utiliser la version mise à jour de `helper.py`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

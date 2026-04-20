@@ -1,0 +1,5711 @@
+---
+title: "trace_server_interface"
+description: "Référence du SDK Python pour weave.trace_server.trace_server_interface"
+---
+
+import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
+
+
+<div id="api-overview">
+  # Aperçu de l’API
+</div>
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1515" />
+
+## <kbd>classe</kbd> `ActionsExecuteBatchReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `action_ref`: `<class 'str'>`
+* `call_ids`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1522" />
+
+## <kbd>classe</kbd> `ActionsExecuteBatchRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1222" />
+
+## <kbd>classe</kbd> `AggregationType`
+
+Fonctions d’agrégation prises en charge pour les métriques de feedback et de statistiques d’appel.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L864" />
+
+## <kbd>classe</kbd> `AliasesListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L869" />
+
+## <kbd>classe</kbd> `AliasesListRes`
+
+**Champs Pydantic :**
+
+* `aliases` : `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1688" />
+
+## <kbd>classe</kbd> `AnnotationQueueAddCallsReq`
+
+Requête permettant d’ajouter des appels à une file d’annotation par lot.
+
+Étend AnnotationQueueAddCallsBody en ajoutant `queue_id` pour un usage interne de l’API.
+
+**Champs Pydantic :**
+
+* `project_id`: `<classe 'str'>`
+* `call_ids`: `list[str]`
+* `display_fields`: `list[str]`
+* `queue_id`: `<classe 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1698" />
+
+## <kbd>classe</kbd> `AnnotationQueueAddCallsRes`
+
+Réponse à l’ajout d’appels à une file d’annotation.
+
+**Champs Pydantic :**
+
+* `added_count`: `<classe 'int'>`
+* `duplicates`: `<classe 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1561" />
+
+## <kbd>classe</kbd> `AnnotationQueueCreateReq`
+
+Requête permettant de créer une nouvelle file d’annotation.
+
+**Champs Pydantic :**
+
+* `project_id`: `<classe 'str'>`
+* `name`: `<classe 'str'>`
+* `description`: `<classe 'str'>`
+* `scorer_refs`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1578" />
+
+## <kbd>classe</kbd> `AnnotationQueueCreateRes`
+
+Réponse à la création d&#39;une file d’annotation.
+
+**Champs Pydantic :**
+
+* `id`: `<classe 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1620" />
+
+## <kbd>classe</kbd> `AnnotationQueueDeleteReq`
+
+Requête permettant de supprimer (suppression réversible) une file d’annotation.
+
+**Champs Pydantic :**
+
+* `project_id`: `<classe 'str'>`
+* `queue_id`: `<classe 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1628" />
+
+## <kbd>classe</kbd> `AnnotationQueueDeleteRes`
+
+Réponse à la suppression d’une file d’annotation.
+
+**Champs Pydantic :**
+
+* `queue`: `<classe 'AnnotationQueueSchema'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1662" />
+
+## <kbd>classe</kbd> `AnnotationQueueItemSchema`
+
+Schéma des réponses des éléments de la file d&#39;annotation.
+
+**Champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `queue_id`: `<class 'str'>`
+* `call_id`: `<class 'str'>`
+* `call_started_at`: `<class 'datetime.datetime'>`
+* `call_ended_at`: `datetime.datetime | None`
+* `call_op_name`: `<class 'str'>`
+* `call_trace_id`: `<class 'str'>`
+* `display_fields`: `list[str]`
+* `added_by`: `str | None`
+* `annotation_state`: `typing.Literal['unstarted', 'in_progress', 'completed', 'skipped']`
+* `annotator_user_id`: `str | None`
+* `created_at`: `<class 'datetime.datetime'>`
+* `created_by`: `<class 'str'>`
+* `updated_at`: `<class 'datetime.datetime'>`
+* `deleted_at`: `datetime.datetime | None`
+* `position_in_queue`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1705" />
+
+## <kbd>classe</kbd> `AnnotationQueueItemsQueryReq`
+
+Requête permettant d&#39;interroger les éléments d&#39;une file d’annotation.
+
+Étend AnnotationQueueItemsQueryBody en ajoutant `queue_id` pour un usage interne de l&#39;API.
+
+**Champs Pydantic :**
+
+* `project_id`: `<classe 'str'>`
+* `filter`: `weave.trace_server.common_interface.AnnotationQueueItemsFilter | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `include_position`: `<classe 'bool'>`
+* `queue_id`: `<classe 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1714" />
+
+## <kbd>classe</kbd> `AnnotationQueueItemsQueryRes`
+
+Réponse à une requête portant sur les éléments de la file d’annotation.
+
+**Champs Pydantic :**
+
+* `items`: `list[AnnotationQueueItemSchema]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1607" />
+
+## <kbd>classe</kbd> `AnnotationQueueReadReq`
+
+Requête permettant de lire une file d’annotation spécifique.
+
+**Champs Pydantic :**
+
+* `project_id`: `<classe 'str'>`
+* `queue_id`: `<classe 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1614" />
+
+## <kbd>classe</kbd> `AnnotationQueueReadRes`
+
+Réponse à la lecture d’une file d’annotation.
+
+**Champs Pydantic :**
+
+* `queue`: `<classe 'AnnotationQueueSchema'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1547" />
+
+## <kbd>classe</kbd> `AnnotationQueueSchema`
+
+Schéma des réponses de file d’annotation.
+
+**Champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `name`: `<class 'str'>`
+* `description`: `<class 'str'>`
+* `scorer_refs`: `list[str]`
+* `created_at`: `<class 'datetime.datetime'>`
+* `created_by`: `<class 'str'>`
+* `updated_at`: `<class 'datetime.datetime'>`
+* `deleted_at`: `datetime.datetime | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1720" />
+
+## <kbd>classe</kbd> `AnnotationQueueStatsSchema`
+
+Statistiques d’une file d’annotation.
+
+**Champs Pydantic :**
+
+* `queue_id`: `<class 'str'>`
+* `total_items`: `<class 'int'>`
+* `completed_items`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1634" />
+
+## <kbd>classe</kbd> `AnnotationQueueUpdateReq`
+
+Requête permettant de mettre à jour une file d’annotation.
+
+Tous les champs sauf `project_id` et `queue_id` sont facultatifs : seuls les champs fournis seront mis à jour.
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `queue_id`: `<class 'str'>`
+* `name`: `str | None`
+* `description`: `str | None`
+* `scorer_refs`: `list[str] | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1656" />
+
+## <kbd>classe</kbd> `AnnotationQueueUpdateRes`
+
+Réponse à la mise à jour d’une file d’annotation.
+
+**Champs Pydantic :**
+
+* `queue`: `<class 'AnnotationQueueSchema'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1584" />
+
+## <kbd>classe</kbd> `AnnotationQueuesQueryReq`
+
+Requête permettant d&#39;interroger les files d’annotation d&#39;un projet.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `name`: `str | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1601" />
+
+## <kbd>classe</kbd> `AnnotationQueuesQueryRes`
+
+Réponse à une requête sur les files d’annotation.
+
+**Champs Pydantic :**
+
+* `queues`: `list[AnnotationQueueSchema]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1735" />
+
+## <kbd>classe</kbd> `AnnotationQueuesStatsReq`
+
+Requête permettant d’obtenir des statistiques sur plusieurs files d’annotation.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `queue_ids`: `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1750" />
+
+## <kbd>classe</kbd> `AnnotationQueuesStatsRes`
+
+Réponse contenant des statistiques sur plusieurs files d’annotation.
+
+**Champs Pydantic :**
+
+* `stats`: `list[AnnotationQueueStatsSchema]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1756" />
+
+## <kbd>classe</kbd> `AnnotatorQueueItemsProgressUpdateReq`
+
+Requête permettant de mettre à jour l&#39;état d&#39;annotation d&#39;un élément de la file d&#39;attente pour l&#39;annotateur actuel.
+
+Transitions d&#39;état valides :
+
+* (absence) -&gt; &#39;in&#95;progress&#39; : Marquer l&#39;élément comme étant en cours (uniquement lorsqu&#39;aucun enregistrement n&#39;existe)
+* (absence) -&gt; &#39;completed&#39; ou &#39;skipped&#39; : Terminer ou ignorer directement l&#39;élément
+* &#39;in&#95;progress&#39; ou &#39;unstarted&#39; -&gt; &#39;completed&#39; ou &#39;skipped&#39; : Terminer ou ignorer un élément déjà démarré
+* same&#95;state -&gt; same&#95;state : Aucune opération idempotente (renvoie l&#39;élément existant sans modification)
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `queue_id`: `<class 'str'>`
+* `item_id`: `<class 'str'>`
+* `annotation_state`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1776" />
+
+## <kbd>classe</kbd> `AnnotatorQueueItemsProgressUpdateRes`
+
+Réponse à la mise à jour de l’état de l’annotation.
+
+**Champs Pydantic :**
+
+* `item`: `<class 'AnnotationQueueItemSchema'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L377" />
+
+## <kbd>classe</kbd> `CallBatchEndMode`
+
+**champs Pydantic :**
+
+* `mode`: `<class 'str'>`
+* `req`: `<class 'CallEndReq'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L372" />
+
+## <kbd>classe</kbd> `CallBatchStartMode`
+
+**champs Pydantic :**
+
+* `mode`: `<class 'str'>`
+* `req`: `<class 'CallStartReq'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L382" />
+
+## <kbd>classe</kbd> `CallCreateBatchReq`
+
+**Champs Pydantic :**
+
+* `batch` : `list[CallBatchStartMode | CallBatchEndMode]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L386" />
+
+## <kbd>classe</kbd> `CallCreateBatchRes`
+
+**champs Pydantic :**
+
+* `res`: `list[CallStartRes | CallEndRes]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L364" />
+
+## <kbd>classe</kbd> `CallEndReq`
+
+**champs Pydantic :**
+
+* `end`: `<class 'EndedCallSchemaForInsert'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L368" />
+
+## <kbd>classe</kbd> `CallEndRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L415" />
+
+## <kbd>classe</kbd> `CallEndV2Req`
+
+Requête pour mettre fin à un appel unique via l’API v2.
+
+**Champs Pydantic :**
+
+* `end`: `<class 'EndedCallSchemaForInsertWithStartedAt'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L421" />
+
+## <kbd>classe</kbd> `CallEndV2Res`
+
+Réponse permettant de terminer un appel unique via l’API v2.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3084" />
+
+## <kbd>classe</kbd> `CallMetricSpec`
+
+Spécification d’une métrique au niveau des appels à agréger (sans regroupement par modèle).
+
+**champs Pydantic :**
+
+* `metric`: `typing.Literal['latency_ms', 'call_count', 'error_count']`
+* `aggregations`: `list[AggregationType]`
+* `percentiles`: `list[float]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L427" />
+
+## <kbd>classe</kbd> `CallReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `id`: `<class 'str'>`
+* `include_costs`: `bool | None`
+* `include_storage_size`: `bool | None`
+* `include_total_storage_size`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L435" />
+
+## <kbd>classe</kbd> `CallReadRes`
+
+**Champs Pydantic :**
+
+* `call` : `CallSchema | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L102" />
+
+## <kbd>classe</kbd> `CallSchema`
+
+**Champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `op_name`: `<class 'str'>`
+* `display_name`: `str | None`
+* `trace_id`: `<class 'str'>`
+* `parent_id`: `str | None`
+* `thread_id`: `str | None`
+* `turn_id`: `str | None`
+* `started_at`: `<class 'datetime.datetime'>`
+* `attributes`: `dict[str, typing.Any]`
+* `inputs`: `dict[str, typing.Any]`
+* `ended_at`: `datetime.datetime | None`
+* `exception`: `str | None`
+* `output`: `typing.Any | None`
+* `summary`: `SummaryMap | None`
+* `wb_user_id`: `str | None`
+* `wb_run_id`: `str | None`
+* `wb_run_step`: `int | None`
+* `wb_run_step_end`: `int | None`
+* `deleted_at`: `datetime.datetime | None`
+* `storage_size_bytes`: `int | None`
+* `total_storage_size_bytes`: `int | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L154" />
+
+### <kbd>méthode</kbd> `serialize_typed_dicts`
+
+```python
+serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L355" />
+
+
+## <kbd>classe</kbd> `CallStartReq`
+
+**Champs Pydantic :**
+
+* `start`: `<class 'StartedCallSchemaForInsert'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L359" />
+
+## <kbd>classe</kbd> `CallStartRes`
+
+**champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `trace_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L402" />
+
+## <kbd>classe</kbd> `CallStartV2Req`
+
+Requête pour démarrer un appel unique via l’API v2.
+
+**Champs Pydantic :**
+
+* `start`: `<class 'StartedCallSchemaForInsert'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L408" />
+
+## <kbd>classe</kbd> `CallStartV2Res`
+
+Réponse pour démarrer un appel unique via l’API v2.
+
+**champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `trace_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3102" />
+
+## <kbd>classe</kbd> `CallStatsReq`
+
+Requête de statistiques agrégées sur les appels pour une période donnée.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `start`: `<class 'datetime.datetime'>`
+* `end`: `datetime.datetime | None`
+* `granularity`: `int | None`
+* `usage_metrics`: `list[UsageMetricSpec] | None`
+* `call_metrics`: `list[CallMetricSpec] | None`
+* `filter`: `CallsFilter | None`
+* `timezone`: `<class 'str'>`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3132" />
+
+### <kbd>méthode</kbd> `validate_date_range`
+
+```python
+validate_date_range() → CallStatsReq
+```
+
+Veillez à ce que les requêtes de statistiques d’appel soient bornées à une plage de dates sûre.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3145" />
+
+
+## <kbd>classe</kbd> `CallStatsRes`
+
+Réponse contenant des statistiques d’appels sous forme de séries temporelles.
+
+**Champs Pydantic :**
+
+* `start`: `<class 'datetime.datetime'>`
+* `end`: `<class 'datetime.datetime'>`
+* `granularity`: `<class 'int'>`
+* `timezone`: `<class 'str'>`
+* `usage_buckets`: `list[dict[str, typing.Any]]`
+* `call_buckets`: `list[dict[str, typing.Any]]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L642" />
+
+## <kbd>classe</kbd> `CallUpdateReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `call_id`: `<class 'str'>`
+* `display_name`: `str | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L654" />
+
+## <kbd>classe</kbd> `CallUpdateRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L439" />
+
+## <kbd>classe</kbd> `CallsDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `call_ids`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L447" />
+
+## <kbd>classe</kbd> `CallsDeleteRes`
+
+**champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L543" />
+
+## <kbd>classe</kbd> `CallsFilter`
+
+**Champs Pydantic :**
+
+* `op_names`: `list[str] | None`
+* `input_refs`: `list[str] | None`
+* `output_refs`: `list[str] | None`
+* `parent_ids`: `list[str] | None`
+* `trace_ids`: `list[str] | None`
+* `call_ids`: `list[str] | None`
+* `thread_ids`: `list[str] | None`
+* `turn_ids`: `list[str] | None`
+* `trace_roots_only`: `bool | None`
+* `wb_user_ids`: `list[str] | None`
+* `wb_run_ids`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L557" />
+
+## <kbd>classe</kbd> `CallsQueryReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `filter`: `CallsFilter | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+* `query`: `weave.trace_server.interface.query.Query | None`
+* `include_costs`: `bool | None`
+* `include_feedback`: `bool | None`
+* `include_storage_size`: `bool | None`
+* `include_total_storage_size`: `bool | None`
+* `columns`: `list[str] | None`
+* `expand_columns`: `list[str] | None`
+* `return_expanded_column_values`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L617" />
+
+## <kbd>classe</kbd> `CallsQueryRes`
+
+**Champs Pydantic :**
+
+* `calls` : `list[CallSchema]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L621" />
+
+## <kbd>classe</kbd> `CallsQueryStatsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `filter`: `CallsFilter | None`
+* `query`: `weave.trace_server.interface.query.Query | None`
+* `limit`: `int | None`
+* `include_total_storage_size`: `bool | None`
+* `expand_columns`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L637" />
+
+## <kbd>classe</kbd> `CallsQueryStatsRes`
+
+**champs Pydantic :**
+
+* `count`: `<class 'int'>`
+* `total_storage_size_bytes`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1900" />
+
+## <kbd>classe</kbd> `CallsScoreReq`
+
+Requête permettant de mettre en file d’attente des jobs de scoring pour une liste d’appels.
+
+Le scoring est effectué de manière asynchrone par le call&#95;scoring&#95;worker, qui consomme les messages de Kafka et applique chaque scorer&#95;ref à chaque call&#95;id.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `call_ids`: `list[str]`
+* `scorer_refs`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1913" />
+
+## <kbd>classe</kbd> `CallsScoreRes`
+
+Réponse vide pour `calls_score`.
+
+Définie comme un modèle (plutôt qu’en renvoyant `None`) afin de respecter la convention utilisée dans toute cette interface et de permettre l’ajout ultérieur de champs sans changement incompatible.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L390" />
+
+## <kbd>classe</kbd> `CallsUpsertCompleteReq`
+
+Requête de mise à jour ou insertion d’un lot d’appels terminés.
+
+**Champs Pydantic :**
+
+* `batch`: `list[CompletedCallSchemaForInsert]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L396" />
+
+## <kbd>classe</kbd> `CallsUpsertCompleteRes`
+
+Réponse pour la mise à jour ou l’insertion d’un lot d’appels terminés.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3220" />
+
+## <kbd>classe</kbd> `CallsUsageReq`
+
+Requête permettant de calculer l’utilisation agrégée de plusieurs appels racine.
+
+Ce point de terminaison renvoie les métriques d’utilisation pour chaque appel racine demandé. Les métriques de chaque racine incluent la somme de sa propre utilisation et de celle de tous ses descendants.
+
+Remarque : tous les appels correspondants sont chargés en mémoire pour l’agrégation. Pour les jeux de résultats très volumineux (&gt;10k appels), envisagez de traiter les ID d’appels racine par lots ou d’utiliser des filtres plus restrictifs au niveau de l’application.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `call_ids`: `list[str]`
+* `include_costs`: `<class 'bool'>`
+* `limit`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3245" />
+
+## <kbd>classe</kbd> `CallsUsageRes`
+
+Réponse contenant des métriques d’utilisation agrégées par appel racine.
+
+**Champs Pydantic :**
+
+* `call_usage`: `dict[str, dict[str, LLMAggregatedUsage]]`
+* `unfinished_call_ids`: `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L232" />
+
+## <kbd>class</kbd> `CompletedCallSchemaForInsert`
+
+Schéma permettant d’insérer directement un appel terminé.
+
+Représente un appel déjà terminé au moment de l’insertion, avec les informations de début et de fin fournies ensemble. Utilisé par le point de terminaison calls&#95;complete.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `id`: `<class 'str'>`
+* `trace_id`: `<class 'str'>`
+* `op_name`: `<class 'str'>`
+* `started_at`: `<class 'datetime.datetime'>`
+* `ended_at`: `<class 'datetime.datetime'>`
+* `display_name`: `str | None`
+* `parent_id`: `str | None`
+* `thread_id`: `str | None`
+* `turn_id`: `str | None`
+* `attributes`: `dict[str, typing.Any]`
+* `inputs`: `dict[str, typing.Any]`
+* `output`: `typing.Any | None`
+* `summary`: `<class 'SummaryInsertMap'>`
+* `otel_dump`: `dict[str, typing.Any] | None`
+* `exception`: `str | None`
+* `wb_user_id`: `str | None`
+* `wb_run_id`: `str | None`
+* `wb_run_step`: `int | None`
+* `wb_run_step_end`: `int | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L271" />
+
+### <kbd>méthode</kbd> `serialize_typed_dicts`
+
+```python
+serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L501" />
+
+
+## <kbd>classe</kbd> `CompletionsCreateReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `inputs`: `<class 'CompletionsCreateRequestInputs'>`
+* `wb_user_id`: `str | None`
+* `track_llm_call`: `bool | None`
+* `trace_id`: `str | None`
+* `parent_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L451" />
+
+## <kbd>classe</kbd> `CompletionsCreateRequestInputs`
+
+**Champs Pydantic :**
+
+* `model`: `<class 'str'>`
+* `messages`: `<class 'list'>`
+* `timeout`: `float | str | None`
+* `temperature`: `float | None`
+* `top_p`: `float | None`
+* `n`: `int | None`
+* `stop`: `str | list | None`
+* `max_completion_tokens`: `int | None`
+* `max_tokens`: `int | None`
+* `modalities`: `list | None`
+* `presence_penalty`: `float | None`
+* `frequency_penalty`: `float | None`
+* `stream`: `bool | None`
+* `logit_bias`: `dict | None`
+* `user`: `str | None`
+* `response_format`: `dict | type[pydantic.main.BaseModel] | None`
+* `seed`: `int | None`
+* `tools`: `list | None`
+* `tool_choice`: `str | dict | None`
+* `logprobs`: `bool | None`
+* `top_logprobs`: `int | None`
+* `parallel_tool_calls`: `bool | None`
+* `extra_headers`: `dict | None`
+* `functions`: `list | None`
+* `function_call`: `str | None`
+* `api_version`: `str | None`
+* `prompt`: `str | None`
+* `template_vars`: `dict[str, typing.Any] | None`
+* `vertex_credentials`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L517" />
+
+## <kbd>classe</kbd> `CompletionsCreateRes`
+
+**Champs Pydantic :**
+
+* `response`: `dict[str, typing.Any]`
+* `weave_call_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1433" />
+
+## <kbd>classe</kbd> `CostCreateInput`
+
+**Champs Pydantic :**
+
+* `prompt_token_cost`: `<class 'float'>`
+* `completion_token_cost`: `<class 'float'>`
+* `prompt_token_cost_unit`: `str | None`
+* `completion_token_cost_unit`: `str | None`
+* `effective_date`: `datetime.datetime | None`
+* `provider_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1452" />
+
+## <kbd>classe</kbd> `CostCreateReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `costs`: `dict[str, CostCreateInput]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1459" />
+
+## <kbd>classe</kbd> `CostCreateRes`
+
+**Champs Pydantic :**
+
+* `ids`: `list[tuple[str, str]]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1506" />
+
+## <kbd>classe</kbd> `CostPurgeReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `query`: `<class 'weave.trace_server.interface.query.Query'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1511" />
+
+## <kbd>classe</kbd> `CostPurgeRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1489" />
+
+## <kbd>classe</kbd> `CostQueryOutput`
+
+**Champs Pydantic :**
+
+* `id`: `str | None`
+* `llm_id`: `str | None`
+* `prompt_token_cost`: `float | None`
+* `completion_token_cost`: `float | None`
+* `prompt_token_cost_unit`: `str | None`
+* `completion_token_cost_unit`: `str | None`
+* `effective_date`: `datetime.datetime | None`
+* `provider_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1463" />
+
+## <kbd>classe</kbd> `CostQueryReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `fields`: `list[str] | None`
+* `query`: `weave.trace_server.interface.query.Query | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1502" />
+
+## <kbd>classe</kbd> `CostQueryRes`
+
+**Champs Pydantic :**
+
+* `results`: `list[CostQueryOutput]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2010" />
+
+## <kbd>classe</kbd> `DatasetCreateBody`
+
+**Champs Pydantic :**
+
+* `name`: `str | None`
+* `description`: `str | None`
+* `rows`: `list[dict[str, typing.Any]]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2022" />
+
+## <kbd>classe</kbd> `DatasetCreateReq`
+
+**Champs Pydantic :**
+
+* `name`: `str | None`
+* `description`: `str | None`
+* `rows`: `list[dict[str, typing.Any]]`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2029" />
+
+## <kbd>classe</kbd> `DatasetCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2072" />
+
+## <kbd>classe</kbd> `DatasetDeleteReq`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2084" />
+
+## <kbd>classe</kbd> `DatasetDeleteRes`
+
+**Champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2061" />
+
+## <kbd>classe</kbd> `DatasetListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2037" />
+
+## <kbd>classe</kbd> `DatasetReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2046" />
+
+## <kbd>classe</kbd> `DatasetReadRes`
+
+**Champs Pydantic :**
+
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `rows`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L197" />
+
+## <kbd>classe</kbd> `EndedCallSchemaForInsert`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `id`: `<class 'str'>`
+* `ended_at`: `<class 'datetime.datetime'>`
+* `exception`: `str | None`
+* `output`: `typing.Any | None`
+* `summary`: `<class 'SummaryInsertMap'>`
+* `wb_run_step_end`: `int | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L216" />
+
+### <kbd>méthode</kbd> `serialize_typed_dicts`
+
+```python
+serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L221" />
+
+
+## <kbd>classe</kbd> `EndedCallSchemaForInsertWithStartedAt`
+
+Schéma d&#39;appel terminé avec `started_at` facultatif pour les mises à jour de fin v2.
+
+Lorsque `started_at` est fourni, il permet d&#39;exécuter des requêtes ClickHouse plus efficaces en utilisant la clé primaire (`project_id`, `started_at`, `id`). Sans lui, la requête utilise par défaut uniquement (`project_id`, `id`).
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `id`: `<class 'str'>`
+* `ended_at`: `<class 'datetime.datetime'>`
+* `exception`: `str | None`
+* `output`: `typing.Any | None`
+* `summary`: `<class 'SummaryInsertMap'>`
+* `wb_run_step_end`: `int | None`
+* `started_at`: `datetime.datetime | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L216" />
+
+### <kbd>méthode</kbd> `serialize_typed_dicts`
+
+```python
+serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2782" />
+
+
+## <kbd>classe</kbd> `EvalResultsEvaluationSummary`
+
+**champs Pydantic :**
+
+* `evaluation_call_id`: `<class 'str'>`
+* `trial_count`: `<class 'int'>`
+* `scorer_stats`: `list[EvalResultsScorerStats]`
+* `evaluation_ref`: `str | None`
+* `model_ref`: `str | None`
+* `display_name`: `str | None`
+* `trace_id`: `str | None`
+* `started_at`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2653" />
+
+## <kbd>classe</kbd> `EvalResultsQueryBody`
+
+**Champs Pydantic :**
+
+* `evaluation_call_ids`: `list[str] | None`
+* `evaluation_run_ids`: `list[str] | None`
+* `require_intersection`: `<class 'bool'>`
+* `include_raw_data_rows`: `<class 'bool'>`
+* `resolve_row_refs`: `<class 'bool'>`
+* `include_rows`: `<class 'bool'>`
+* `include_summary`: `<class 'bool'>`
+* `summary_require_intersection`: `bool | None`
+* `limit`: `int | None`
+* `offset`: `<class 'int'>`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2711" />
+
+### <kbd>méthode</kbd> `validate_identifiers`
+
+```python
+validate_identifiers() → EvalResultsQueryBody
+```
+
+Vérifiez qu’au moins un identifiant d’évaluation est fourni.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2723" />
+
+
+## <kbd>classe</kbd> `EvalResultsQueryReq`
+
+**Champs Pydantic :**
+
+* `evaluation_call_ids`: `list[str] | None`
+* `evaluation_run_ids`: `list[str] | None`
+* `require_intersection`: `<class 'bool'>`
+* `include_raw_data_rows`: `<class 'bool'>`
+* `resolve_row_refs`: `<class 'bool'>`
+* `include_rows`: `<class 'bool'>`
+* `include_summary`: `<class 'bool'>`
+* `summary_require_intersection`: `bool | None`
+* `limit`: `int | None`
+* `offset`: `<class 'int'>`
+* `project_id`: `<class 'str'>`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2711" />
+
+### <kbd>méthode</kbd> `validate_identifiers`
+
+```python
+validate_identifiers() → EvalResultsQueryBody
+```
+
+Vérifiez qu’au moins un identifiant d’évaluation est fourni.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2748" />
+
+
+## <kbd>classe</kbd> `EvalResultsQueryRes`
+
+**Champs Pydantic :**
+
+* `rows`: `list[EvalResultsRow]`
+* `total_rows`: `<class 'int'>`
+* `summary`: `ForwardRef('EvalResultsSummaryRes | None')`
+* `warnings`: `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2742" />
+
+## <kbd>classe</kbd> `EvalResultsRow`
+
+**Champs Pydantic :**
+
+* `row_digest`: `<class 'str'>`
+* `raw_data_row`: `typing.Any | None`
+* `evaluations`: `list[EvalResultsRowEvaluation]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2737" />
+
+## <kbd>classe</kbd> `EvalResultsRowEvaluation`
+
+**Champs Pydantic :**
+
+* `evaluation_call_id`: `<class 'str'>`
+* `trials`: `list[EvalResultsTrial]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2758" />
+
+## <kbd>classe</kbd> `EvalResultsScorerStats`
+
+Statistiques pour une seule dimension de score mise à plat (`scorer_key` ou `scorer_key.path.to.leaf`).
+
+**Champs Pydantic :**
+
+* `scorer_key`: `<class 'str'>`
+* `path`: `str | None`
+* `value_type`: `typing.Optional[typing.Literal['binary', 'continuous']]`
+* `trial_count`: `<class 'int'>`
+* `numeric_count`: `<class 'int'>`
+* `numeric_mean`: `float | None`
+* `pass_true_count`: `<class 'int'>`
+* `pass_known_count`: `<class 'int'>`
+* `pass_rate`: `float | None`
+* `pass_signal_coverage`: `float | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2793" />
+
+## <kbd>classe</kbd> `EvalResultsSummaryRes`
+
+**Champs Pydantic :**
+
+* `row_count`: `<class 'int'>`
+* `evaluations`: `list[EvalResultsEvaluationSummary]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2727" />
+
+## <kbd>classe</kbd> `EvalResultsTrial`
+
+**Champs Pydantic :**
+
+* `predict_and_score_call_id`: `<class 'str'>`
+* `predict_call_id`: `str | None`
+* `model_output`: `typing.Any | None`
+* `scores`: `dict[str, typing.Any]`
+* `model_latency_seconds`: `float | None`
+* `total_tokens`: `int | None`
+* `scorer_call_ids`: `dict[str, str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1852" />
+
+## <kbd>classe</kbd> `EvaluateModelReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `evaluation_ref`: `<class 'str'>`
+* `model_ref`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1862" />
+
+## <kbd>classe</kbd> `EvaluateModelRes`
+
+**Champs Pydantic :**
+
+* `call_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2173" />
+
+## <kbd>classe</kbd> `EvaluationCreateBody`
+
+**Champs Pydantic :**
+
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `dataset`: `<class 'str'>`
+* `scorers`: `list[str] | None`
+* `trials`: `<class 'int'>`
+* `evaluation_name`: `str | None`
+* `eval_attributes`: `dict[str, typing.Any] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2195" />
+
+## <kbd>classe</kbd> `EvaluationCreateReq`
+
+**champs Pydantic :**
+
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `dataset`: `<class 'str'>`
+* `scorers`: `list[str] | None`
+* `trials`: `<class 'int'>`
+* `evaluation_name`: `str | None`
+* `eval_attributes`: `dict[str, typing.Any] | None`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2202" />
+
+## <kbd>classe</kbd> `EvaluationCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `evaluation_ref`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2261" />
+
+## <kbd>classe</kbd> `EvaluationDeleteReq`
+
+**champs Pydantic :**
+
+* `project_id` : `<class 'str'>`
+* `object_id` : `<class 'str'>`
+* `digests` : `list[str] | None`
+* `wb_user_id` : `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2273" />
+
+## <kbd>classe</kbd> `EvaluationDeleteRes`
+
+**Champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2248" />
+
+## <kbd>classe</kbd> `EvaluationListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2213" />
+
+## <kbd>classe</kbd> `EvaluationReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2222" />
+
+## <kbd>classe</kbd> `EvaluationReadRes`
+
+**Champs Pydantic :**
+
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `dataset`: `<class 'str'>`
+* `scorers`: `list[str]`
+* `trials`: `<class 'int'>`
+* `evaluation_name`: `str | None`
+* `evaluate_op`: `str | None`
+* `predict_and_score_op`: `str | None`
+* `summarize_op`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2371" />
+
+## <kbd>classe</kbd> `EvaluationRunCreateBody`
+
+**Champs Pydantic :**
+
+* `evaluation`: `<class 'str'>`
+* `model`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2378" />
+
+## <kbd>classe</kbd> `EvaluationRunCreateReq`
+
+**Champs Pydantic :**
+
+* `evaluation`: `<class 'str'>`
+* `model`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2385" />
+
+## <kbd>classe</kbd> `EvaluationRunCreateRes`
+
+**champs Pydantic :**
+
+* `evaluation_run_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2441" />
+
+## <kbd>classe</kbd> `EvaluationRunDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `evaluation_run_ids`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2451" />
+
+## <kbd>classe</kbd> `EvaluationRunDeleteRes`
+
+**Champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2416" />
+
+## <kbd>classe</kbd> `EvaluationRunFilter`
+
+**Champs Pydantic :**
+
+* `evaluations`: `list[str] | None`
+* `models`: `list[str] | None`
+* `evaluation_run_ids`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2455" />
+
+## <kbd>classe</kbd> `EvaluationRunFinishBody`
+
+Corps de requête pour terminer un run d’évaluation via l’API REST.
+
+Ce modèle exclut `project_id` et `evaluation_run_id`, car ils proviennent du chemin de l’URL dans les points de terminaison REST.
+
+**Champs Pydantic :**
+
+* `summary`: `dict[str, typing.Any] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2466" />
+
+## <kbd>classe</kbd> `EvaluationRunFinishReq`
+
+**Champs Pydantic :**
+
+* `summary`: `dict[str, typing.Any] | None`
+* `project_id`: `<class 'str'>`
+* `evaluation_run_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2474" />
+
+## <kbd>classe</kbd> `EvaluationRunFinishRes`
+
+**champs Pydantic :**
+
+* `success` : `<class 'bool'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2426" />
+
+## <kbd>classe</kbd> `EvaluationRunListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `filter`: `EvaluationRunFilter | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2391" />
+
+## <kbd>classe</kbd> `EvaluationRunReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `evaluation_run_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2398" />
+
+## <kbd>classe</kbd> `EvaluationRunReadRes`
+
+**Champs Pydantic :**
+
+* `evaluation_run_id`: `<class 'str'>`
+* `evaluation`: `<class 'str'>`
+* `model`: `<class 'str'>`
+* `status`: `str | None`
+* `started_at`: `datetime.datetime | None`
+* `finished_at`: `datetime.datetime | None`
+* `summary`: `dict[str, typing.Any] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1886" />
+
+## <kbd>classe</kbd> `EvaluationStatusComplete`
+
+**Champs Pydantic :**
+
+* `code`: `typing.Literal['complete']`
+* `output`: `dict[str, typing.Any]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1881" />
+
+## <kbd>classe</kbd> `EvaluationStatusFailed`
+
+**champs Pydantic :**
+
+* `code`: `typing.Literal['failed']`
+* `error`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1871" />
+
+## <kbd>classe</kbd> `EvaluationStatusNotFound`
+
+**champs Pydantic :**
+
+* `code`: `typing.Literal['not_found']`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1866" />
+
+## <kbd>classe</kbd> `EvaluationStatusReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `call_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1891" />
+
+## <kbd>classe</kbd> `EvaluationStatusRes`
+
+**Champs Pydantic :**
+
+* `status` : `EvaluationStatusNotFound | EvaluationStatusRunning | EvaluationStatusFailed | EvaluationStatusComplete`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1875" />
+
+## <kbd>classe</kbd> `EvaluationStatusRunning`
+
+**champs Pydantic :**
+
+* `code`: `typing.Literal['running']`
+* `completed_rows`: `<class 'int'>`
+* `total_rows`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L341" />
+
+## <kbd>classe</kbd> `ExportTracePartialSuccess`
+
+**champs Pydantic :**
+
+* `rejected_spans`: `<class 'int'>`
+* `error_message`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L35" />
+
+## <kbd>classe</kbd> `ExtraKeysTypedDict`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1169" />
+
+## <kbd>classe</kbd> `Feedback`
+
+**Champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `weave_ref`: `<class 'str'>`
+* `creator`: `str | None`
+* `feedback_type`: `<class 'str'>`
+* `payload`: `dict[str, typing.Any]`
+* `annotation_ref`: `str | None`
+* `runnable_ref`: `str | None`
+* `call_ref`: `str | None`
+* `trigger_ref`: `str | None`
+* `queue_id`: `str | None`
+* `wb_user_id`: `str | None`
+* `created_at`: `<class 'datetime.datetime'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1210" />
+
+## <kbd>classe</kbd> `FeedbackCreateBatchReq`
+
+**champs Pydantic :**
+
+* `batch`: `list[FeedbackCreateReq]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1214" />
+
+## <kbd>classe</kbd> `FeedbackCreateBatchRes`
+
+**Champs Pydantic :**
+
+* `res`: `list[FeedbackCreateRes]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1119" />
+
+## <kbd>classe</kbd> `FeedbackCreateReq`
+
+**Champs Pydantic :**
+
+* `id`: `str | None`
+* `project_id`: `<class 'str'>`
+* `weave_ref`: `<class 'str'>`
+* `creator`: `str | None`
+* `feedback_type`: `<class 'str'>`
+* `payload`: `dict[str, typing.Any]`
+* `annotation_ref`: `str | None`
+* `runnable_ref`: `str | None`
+* `call_ref`: `str | None`
+* `trigger_ref`: `str | None`
+* `queue_id`: `str | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1162" />
+
+## <kbd>classe</kbd> `FeedbackCreateRes`
+
+**Champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `wb_user_id`: `<class 'str'>`
+* `payload`: `dict[str, typing.Any]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L67" />
+
+## <kbd>classe</kbd> `FeedbackDict`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1241" />
+
+## <kbd>classe</kbd> `FeedbackMetricSpec`
+
+Spécification d’une métrique du payload de feedback à agréger.
+
+**Champs Pydantic :**
+
+* `json_path`: `<class 'str'>`
+* `value_type`: `typing.Literal['numeric', 'boolean', 'categorical']`
+* `aggregations`: `list[AggregationType]`
+* `percentiles`: `list[float]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1366" />
+
+## <kbd>classe</kbd> `FeedbackPayloadPath`
+
+Chemin découvert dans la charge utile de feedback avec un type inféré.
+
+**Champs Pydantic :**
+
+* `json_path`: `<class 'str'>`
+* `value_type`: `typing.Literal['numeric', 'boolean', 'categorical']`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1376" />
+
+## <kbd>classe</kbd> `FeedbackPayloadSchemaReq`
+
+Requête pour la découverte du schéma de payload de feedback.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `start`: `<class 'datetime.datetime'>`
+* `end`: `datetime.datetime | None`
+* `feedback_type`: `str | None`
+* `trigger_ref`: `str | None`
+* `sample_limit`: `<class 'int'>`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1299" />
+
+### <kbd>méthode</kbd> `validate_date_range`
+
+```python
+validate_date_range() → _FeedbackFilterBase
+```
+
+Assurez-vous que les requêtes de feedback restent limitées à une plage de dates sûre.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1393" />
+
+
+## <kbd>classe</kbd> `FeedbackPayloadSchemaRes`
+
+Réponse contenant les chemins et les types détectés du payload de feedback.
+
+**Champs Pydantic :**
+
+* `paths`: `list[FeedbackPayloadPath]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1193" />
+
+## <kbd>classe</kbd> `FeedbackPurgeReq`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `query`: `<class 'weave.trace_server.interface.query.Query'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1198" />
+
+## <kbd>classe</kbd> `FeedbackPurgeRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1175" />
+
+## <kbd>classe</kbd> `FeedbackQueryReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `fields`: `list[str] | None`
+* `query`: `weave.trace_server.interface.query.Query | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1188" />
+
+## <kbd>classe</kbd> `FeedbackQueryRes`
+
+**Champs Pydantic :**
+
+* `result`: `list[dict[str, typing.Any]]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1202" />
+
+## <kbd>classe</kbd> `FeedbackReplaceReq`
+
+**Champs Pydantic :**
+
+* `id`: `str | None`
+* `project_id`: `<class 'str'>`
+* `weave_ref`: `<class 'str'>`
+* `creator`: `str | None`
+* `feedback_type`: `<class 'str'>`
+* `payload`: `dict[str, typing.Any]`
+* `annotation_ref`: `str | None`
+* `runnable_ref`: `str | None`
+* `call_ref`: `str | None`
+* `trigger_ref`: `str | None`
+* `queue_id`: `str | None`
+* `wb_user_id`: `str | None`
+* `feedback_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1206" />
+
+## <kbd>classe</kbd> `FeedbackReplaceRes`
+
+**Champs Pydantic :**
+
+* `id`: `<class 'str'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `wb_user_id`: `<class 'str'>`
+* `payload`: `dict[str, typing.Any]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1320" />
+
+## <kbd>classe</kbd> `FeedbackStatsReq`
+
+Requête pour des statistiques agrégées de feedback par bucket temporel.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `start`: `<class 'datetime.datetime'>`
+* `end`: `datetime.datetime | None`
+* `feedback_type`: `str | None`
+* `trigger_ref`: `str | None`
+* `granularity`: `int | None`
+* `timezone`: `<class 'str'>`
+* `metrics`: `list[FeedbackMetricSpec]`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1299" />
+
+### <kbd>méthode</kbd> `validate_date_range`
+
+```python
+validate_date_range() → _FeedbackFilterBase
+```
+
+Veillez à limiter les requêtes de feedback à une plage de dates sûre.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1336" />
+
+
+## <kbd>classe</kbd> `FeedbackStatsRes`
+
+Réponse contenant des statistiques de feedback sous forme de série temporelle.
+
+**Champs Pydantic :**
+
+* `start`: `<class 'datetime.datetime'>`
+* `end`: `<class 'datetime.datetime'>`
+* `granularity`: `<class 'int'>`
+* `timezone`: `<class 'str'>`
+* `buckets`: `list[dict[str, typing.Any]]`
+* `window_stats`: `dict[str, dict[str, float | None]] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1416" />
+
+## <kbd>classe</kbd> `FileContentReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1425" />
+
+## <kbd>classe</kbd> `FileContentReadRes`
+
+**Champs Pydantic :**
+
+* `content`: `<class 'bytes'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1402" />
+
+## <kbd>classe</kbd> `FileCreateReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `name`: `<class 'str'>`
+* `content`: `<class 'bytes'>`
+* `expected_digest`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1412" />
+
+## <kbd>classe</kbd> `FileCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1421" />
+
+## <kbd>classe</kbd> `FilesStatsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1429" />
+
+## <kbd>classe</kbd> `FilesStatsRes`
+
+**Champs Pydantic :**
+
+* `total_size_bytes`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3022" />
+
+## <kbd>classe</kbd> `FullTraceServerInterface`
+
+Interface complète du serveur de traces prenant en charge les API V1 et Object.
+
+Ce protocole représente une implémentation de serveur de traces qui prend en charge l’ensemble des API, à savoir les endpoints V1 hérités et les endpoints Object modernes. Utilisez ce type pour les implémentations qui doivent prendre en charge les deux versions de l’API.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2872" />
+
+### <kbd>méthode</kbd> `actions_execute_batch`
+
+```python
+actions_execute_batch(req: ActionsExecuteBatchReq) → ActionsExecuteBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2833" />
+
+
+### <kbd>méthode</kbd> `aliases_list`
+
+```python
+aliases_list(req: AliasesListReq) → AliasesListRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2919" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_add_calls`
+
+```python
+annotation_queue_add_calls(
+    req: AnnotationQueueAddCallsReq
+) → AnnotationQueueAddCallsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2899" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_create`
+
+```python
+annotation_queue_create(
+    req: AnnotationQueueCreateReq
+) → AnnotationQueueCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2911" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_delete`
+
+```python
+annotation_queue_delete(
+    req: AnnotationQueueDeleteReq
+) → AnnotationQueueDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2927" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_items_query`
+
+```python
+annotation_queue_items_query(
+    req: AnnotationQueueItemsQueryReq
+) → AnnotationQueueItemsQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2907" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_read`
+
+```python
+annotation_queue_read(req: AnnotationQueueReadReq) → AnnotationQueueReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2915" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_update`
+
+```python
+annotation_queue_update(
+    req: AnnotationQueueUpdateReq
+) → AnnotationQueueUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2903" />
+
+
+### <kbd>méthode</kbd> `annotation_queues_query_stream`
+
+```python
+annotation_queues_query_stream(
+    req: AnnotationQueuesQueryReq
+) → Iterator[AnnotationQueueSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2923" />
+
+
+### <kbd>méthode</kbd> `annotation_queues_stats`
+
+```python
+annotation_queues_stats(
+    req: AnnotationQueuesStatsReq
+) → AnnotationQueuesStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2931" />
+
+
+### <kbd>méthode</kbd> `annotator_queue_items_progress_update`
+
+```python
+annotator_queue_items_progress_update(
+    req: AnnotatorQueueItemsProgressUpdateReq
+) → AnnotatorQueueItemsProgressUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2804" />
+
+
+### <kbd>méthode</kbd> `call_end`
+
+```python
+call_end(req: CallEndReq) → CallEndRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2954" />
+
+
+### <kbd>méthode</kbd> `call_end_v2`
+
+```python
+call_end_v2(req: CallEndV2Req) → CallEndV2Res
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2805" />
+
+
+### <kbd>méthode</kbd> `call_read`
+
+```python
+call_read(req: CallReadReq) → CallReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2803" />
+
+
+### <kbd>méthode</kbd> `call_start`
+
+```python
+call_start(req: CallStartReq) → CallStartRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2814" />
+
+
+### <kbd>méthode</kbd> `call_start_batch`
+
+```python
+call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2953" />
+
+
+### <kbd>méthode</kbd> `call_start_v2`
+
+```python
+call_start_v2(req: CallStartV2Req) → CallStartV2Res
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2810" />
+
+
+### <kbd>méthode</kbd> `call_stats`
+
+```python
+call_stats(req: 'CallStatsReq') → CallStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2813" />
+
+
+### <kbd>méthode</kbd> `call_update`
+
+```python
+call_update(req: CallUpdateReq) → CallUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2952" />
+
+
+### <kbd>méthode</kbd> `calls_complete`
+
+```python
+calls_complete(req: CallsUpsertCompleteReq) → CallsUpsertCompleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2808" />
+
+
+### <kbd>méthode</kbd> `calls_delete`
+
+```python
+calls_delete(req: CallsDeleteReq) → CallsDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2806" />
+
+
+### <kbd>méthode</kbd> `calls_query`
+
+```python
+calls_query(req: CallsQueryReq) → CallsQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2809" />
+
+
+### <kbd>méthode</kbd> `calls_query_stats`
+
+```python
+calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2807" />
+
+
+### <kbd>méthode</kbd> `calls_query_stream`
+
+```python
+calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2940" />
+
+
+### <kbd>méthode</kbd> `calls_score`
+
+```python
+calls_score(req: CallsScoreReq) → CallsScoreRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2812" />
+
+
+### <kbd>méthode</kbd> `calls_usage`
+
+```python
+calls_usage(req: 'CallsUsageReq') → CallsUsageRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2877" />
+
+
+### <kbd>méthode</kbd> `completions_create`
+
+```python
+completions_create(req: CompletionsCreateReq) → CompletionsCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2883" />
+
+
+### <kbd>méthode</kbd> `completions_create_stream`
+
+```python
+completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2817" />
+
+
+### <kbd>méthode</kbd> `cost_create`
+
+```python
+cost_create(req: CostCreateReq) → CostCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2819" />
+
+
+### <kbd>méthode</kbd> `cost_purge`
+
+```python
+cost_purge(req: CostPurgeReq) → CostPurgeRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2818" />
+
+
+### <kbd>méthode</kbd> `cost_query`
+
+```python
+cost_query(req: CostQueryReq) → CostQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2963" />
+
+
+### <kbd>méthode</kbd> `dataset_create`
+
+```python
+dataset_create(req: DatasetCreateReq) → DatasetCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2966" />
+
+
+### <kbd>méthode</kbd> `dataset_delete`
+
+```python
+dataset_delete(req: DatasetDeleteReq) → DatasetDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2965" />
+
+
+### <kbd>méthode</kbd> `dataset_list`
+
+```python
+dataset_list(req: DatasetListReq) → Iterator[DatasetReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2964" />
+
+
+### <kbd>méthode</kbd> `dataset_read`
+
+```python
+dataset_read(req: DatasetReadReq) → DatasetReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3019" />
+
+
+### <kbd>méthode</kbd> `eval_results_query`
+
+```python
+eval_results_query(req: EvalResultsQueryReq) → EvalResultsQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2936" />
+
+
+### <kbd>méthode</kbd> `evaluate_model`
+
+```python
+evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2975" />
+
+
+### <kbd>méthode</kbd> `evaluation_create`
+
+```python
+evaluation_create(req: EvaluationCreateReq) → EvaluationCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2980" />
+
+
+### <kbd>méthode</kbd> `evaluation_delete`
+
+```python
+evaluation_delete(req: EvaluationDeleteReq) → EvaluationDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2977" />
+
+
+### <kbd>méthode</kbd> `evaluation_list`
+
+```python
+evaluation_list(req: EvaluationListReq) → Iterator[EvaluationReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2976" />
+
+
+### <kbd>méthode</kbd> `evaluation_read`
+
+```python
+evaluation_read(req: EvaluationReadReq) → EvaluationReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2989" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_create`
+
+```python
+evaluation_run_create(req: EvaluationRunCreateReq) → EvaluationRunCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2998" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_delete`
+
+```python
+evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3001" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_finish`
+
+```python
+evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2995" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_list`
+
+```python
+evaluation_run_list(req: EvaluationRunListReq) → Iterator[EvaluationRunReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2992" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_read`
+
+```python
+evaluation_run_read(req: EvaluationRunReadReq) → EvaluationRunReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2937" />
+
+
+### <kbd>méthode</kbd> `evaluation_status`
+
+```python
+evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2858" />
+
+
+### <kbd>méthode</kbd> `feedback_create`
+
+```python
+feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2859" />
+
+
+### <kbd>méthode</kbd> `feedback_create_batch`
+
+```python
+feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2867" />
+
+
+### <kbd>méthode</kbd> `feedback_payload_schema`
+
+```python
+feedback_payload_schema(
+    req: FeedbackPayloadSchemaReq
+) → FeedbackPayloadSchemaRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2864" />
+
+
+### <kbd>méthode</kbd> `feedback_purge`
+
+```python
+feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2863" />
+
+
+### <kbd>méthode</kbd> `feedback_query`
+
+```python
+feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2865" />
+
+
+### <kbd>méthode</kbd> `feedback_replace`
+
+```python
+feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2866" />
+
+
+### <kbd>méthode</kbd> `feedback_stats`
+
+```python
+feedback_stats(req: FeedbackStatsReq) → FeedbackStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2854" />
+
+
+### <kbd>méthode</kbd> `file_content_read`
+
+```python
+file_content_read(req: FileContentReadReq) → FileContentReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2853" />
+
+
+### <kbd>méthode</kbd> `file_create`
+
+```python
+file_create(req: FileCreateReq) → FileCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2855" />
+
+
+### <kbd>méthode</kbd> `files_stats`
+
+```python
+files_stats(req: FilesStatsReq) → FilesStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2888" />
+
+
+### <kbd>méthode</kbd> `image_create`
+
+```python
+image_create(req: ImageGenerationCreateReq) → ImageGenerationCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2983" />
+
+
+### <kbd>méthode</kbd> `model_create`
+
+```python
+model_create(req: ModelCreateReq) → ModelCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2986" />
+
+
+### <kbd>méthode</kbd> `model_delete`
+
+```python
+model_delete(req: ModelDeleteReq) → ModelDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2985" />
+
+
+### <kbd>méthode</kbd> `model_list`
+
+```python
+model_list(req: ModelListReq) → Iterator[ModelReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2984" />
+
+
+### <kbd>méthode</kbd> `model_read`
+
+```python
+model_read(req: ModelReadReq) → ModelReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2828" />
+
+
+### <kbd>méthode</kbd> `obj_add_tags`
+
+```python
+obj_add_tags(req: ObjAddTagsReq) → ObjAddTagsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2822" />
+
+
+### <kbd>méthode</kbd> `obj_create`
+
+```python
+obj_create(req: ObjCreateReq) → ObjCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2825" />
+
+
+### <kbd>méthode</kbd> `obj_delete`
+
+```python
+obj_delete(req: ObjDeleteReq) → ObjDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2823" />
+
+
+### <kbd>méthode</kbd> `obj_read`
+
+```python
+obj_read(req: ObjReadReq) → ObjReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2831" />
+
+
+### <kbd>méthode</kbd> `obj_remove_aliases`
+
+```python
+obj_remove_aliases(req: ObjRemoveAliasesReq) → ObjRemoveAliasesRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2829" />
+
+
+### <kbd>méthode</kbd> `obj_remove_tags`
+
+```python
+obj_remove_tags(req: ObjRemoveTagsReq) → ObjRemoveTagsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2830" />
+
+
+### <kbd>méthode</kbd> `obj_set_aliases`
+
+```python
+obj_set_aliases(req: ObjSetAliasesReq) → ObjSetAliasesRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2824" />
+
+
+### <kbd>méthode</kbd> `objs_query`
+
+```python
+objs_query(req: ObjQueryReq) → ObjQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2957" />
+
+
+### <kbd>méthode</kbd> `op_create`
+
+```python
+op_create(req: OpCreateReq) → OpCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2960" />
+
+
+### <kbd>méthode</kbd> `op_delete`
+
+```python
+op_delete(req: OpDeleteReq) → OpDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2959" />
+
+
+### <kbd>méthode</kbd> `op_list`
+
+```python
+op_list(req: OpListReq) → Iterator[OpReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2958" />
+
+
+### <kbd>méthode</kbd> `op_read`
+
+```python
+op_read(req: OpReadReq) → OpReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2800" />
+
+
+### <kbd>méthode</kbd> `otel_export`
+
+```python
+otel_export(req: OTelExportReq) → OTelExportRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3006" />
+
+
+### <kbd>méthode</kbd> `prediction_create`
+
+```python
+prediction_create(req: PredictionCreateReq) → PredictionCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3011" />
+
+
+### <kbd>méthode</kbd> `prediction_delete`
+
+```python
+prediction_delete(req: PredictionDeleteReq) → PredictionDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3012" />
+
+
+### <kbd>méthode</kbd> `prediction_finish`
+
+```python
+prediction_finish(req: PredictionFinishReq) → PredictionFinishRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3008" />
+
+
+### <kbd>méthode</kbd> `prediction_list`
+
+```python
+prediction_list(req: PredictionListReq) → Iterator[PredictionReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3007" />
+
+
+### <kbd>méthode</kbd> `prediction_read`
+
+```python
+prediction_read(req: PredictionReadReq) → PredictionReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2893" />
+
+
+### <kbd>méthode</kbd> `project_stats`
+
+```python
+project_stats(req: ProjectStatsReq) → ProjectStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2850" />
+
+
+### <kbd>méthode</kbd> `refs_read_batch`
+
+```python
+refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3015" />
+
+
+### <kbd>méthode</kbd> `score_create`
+
+```python
+score_create(req: ScoreCreateReq) → ScoreCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3018" />
+
+
+### <kbd>méthode</kbd> `score_delete`
+
+```python
+score_delete(req: ScoreDeleteReq) → ScoreDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3017" />
+
+
+### <kbd>méthode</kbd> `score_list`
+
+```python
+score_list(req: ScoreListReq) → Iterator[ScoreReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3016" />
+
+
+### <kbd>méthode</kbd> `score_read`
+
+```python
+score_read(req: ScoreReadReq) → ScoreReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2969" />
+
+
+### <kbd>méthode</kbd> `scorer_create`
+
+```python
+scorer_create(req: ScorerCreateReq) → ScorerCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2972" />
+
+
+### <kbd>méthode</kbd> `scorer_delete`
+
+```python
+scorer_delete(req: ScorerDeleteReq) → ScorerDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2971" />
+
+
+### <kbd>méthode</kbd> `scorer_list`
+
+```python
+scorer_list(req: ScorerListReq) → Iterator[ScorerReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2970" />
+
+
+### <kbd>méthode</kbd> `scorer_read`
+
+```python
+scorer_read(req: ScorerReadReq) → ScorerReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2836" />
+
+
+### <kbd>méthode</kbd> `table_create`
+
+```python
+table_create(req: TableCreateReq) → TableCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2837" />
+
+
+### <kbd>méthode</kbd> `table_create_from_digests`
+
+```python
+table_create_from_digests(
+    req: TableCreateFromDigestsReq
+) → TableCreateFromDigestsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2842" />
+
+
+### <kbd>méthode</kbd> `table_query`
+
+```python
+table_query(req: TableQueryReq) → TableQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2844" />
+
+
+### <kbd>méthode</kbd> `table_query_stats`
+
+```python
+table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2845" />
+
+
+### <kbd>méthode</kbd> `table_query_stats_batch`
+
+```python
+table_query_stats_batch(req: TableQueryStatsBatchReq) → TableQueryStatsBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2843" />
+
+
+### <kbd>méthode</kbd> `table_query_stream`
+
+```python
+table_query_stream(req: TableQueryReq) → Iterator[TableRowSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2841" />
+
+
+### <kbd>méthode</kbd> `table_update`
+
+```python
+table_update(req: TableUpdateReq) → TableUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2832" />
+
+
+### <kbd>méthode</kbd> `tags_list`
+
+```python
+tags_list(req: TagsListReq) → TagsListRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2896" />
+
+
+### <kbd>méthode</kbd> `threads_query_stream`
+
+```python
+threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2811" />
+
+
+### <kbd>méthode</kbd> `trace_usage`
+
+```python
+trace_usage(req: 'TraceUsageReq') → TraceUsageRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L528" />
+
+
+## <kbd>classe</kbd> `ImageGenerationCreateReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `inputs`: `<class 'ImageGenerationRequestInputs'>`
+* `wb_user_id`: `str | None`
+* `track_llm_call`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L538" />
+
+## <kbd>classe</kbd> `ImageGenerationCreateRes`
+
+**Champs Pydantic :**
+
+* `response`: `dict[str, typing.Any]`
+* `weave_call_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L522" />
+
+## <kbd>classe</kbd> `ImageGenerationRequestInputs`
+
+**Champs Pydantic :**
+
+* `model`: `<class 'str'>`
+* `prompt`: `<class 'str'>`
+* `n`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3162" />
+
+## <kbd>classe</kbd> `LLMAggregatedUsage`
+
+Métriques d’utilisation agrégées pour un LLM donné.
+
+**Champs Pydantic :**
+
+* `requests`: `<class 'int'>`
+* `prompt_tokens`: `<class 'int'>`
+* `completion_tokens`: `<class 'int'>`
+* `total_tokens`: `<class 'int'>`
+* `prompt_tokens_total_cost`: `float | None`
+* `completion_tokens_total_cost`: `float | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L52" />
+
+## <kbd>classe</kbd> `LLMCostSchema`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L43" />
+
+## <kbd>classe</kbd> `LLMUsageSchema`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2280" />
+
+## <kbd>classe</kbd> `ModelCreateBody`
+
+**Champs Pydantic :**
+
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `source_code`: `<class 'str'>`
+* `attributes`: `dict[str, typing.Any] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2299" />
+
+## <kbd>classe</kbd> `ModelCreateReq`
+
+**Champs Pydantic :**
+
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `source_code`: `<class 'str'>`
+* `attributes`: `dict[str, typing.Any] | None`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2306" />
+
+## <kbd>classe</kbd> `ModelCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `model_ref`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2352" />
+
+## <kbd>classe</kbd> `ModelDeleteReq`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2364" />
+
+## <kbd>classe</kbd> `ModelDeleteRes`
+
+**Champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2342" />
+
+## <kbd>classe</kbd> `ModelListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `limit`: `int | None`
+* `offset`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2318" />
+
+## <kbd>classe</kbd> `ModelReadReq`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2326" />
+
+## <kbd>classe</kbd> `ModelReadRes`
+
+**champs Pydantic :**
+
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `source_code`: `<class 'str'>`
+* `attributes`: `dict[str, typing.Any] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L335" />
+
+## <kbd>classe</kbd> `OTelExportReq`
+
+**Champs Pydantic :**
+
+* `processed_spans`: `list[ProcessedResourceSpans]`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L348" />
+
+## <kbd>classe</kbd> `OTelExportRes`
+
+**Champs Pydantic :**
+
+* `partial_success`: `ExportTracePartialSuccess | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L785" />
+
+## <kbd>classe</kbd> `ObjAddTagsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `tags`: `list[str]`
+* `wb_user_id`: `str | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L792" />
+
+### <kbd>méthode</kbd> `validate_tags`
+
+```python
+validate_tags() → ObjAddTagsReq
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L802" />
+
+
+## <kbd>classe</kbd> `ObjAddTagsRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L658" />
+
+## <kbd>classe</kbd> `ObjCreateReq`
+
+**Champs Pydantic :**
+
+* `obj`: `<class 'ObjSchemaForInsert'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L662" />
+
+## <kbd>classe</kbd> `ObjCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `object_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L767" />
+
+## <kbd>classe</kbd> `ObjDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L776" />
+
+## <kbd>classe</kbd> `ObjDeleteRes`
+
+**Champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L728" />
+
+## <kbd>classe</kbd> `ObjQueryReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `filter`: `ObjectVersionFilter | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+* `metadata_only`: `bool | None`
+* `include_storage_size`: `bool | None`
+* `include_tags_and_aliases`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L873" />
+
+## <kbd>classe</kbd> `ObjQueryRes`
+
+**champs Pydantic :**
+
+* `objs`: `list[ObjSchema]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L667" />
+
+## <kbd>classe</kbd> `ObjReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `metadata_only`: `bool | None`
+* `include_tags_and_aliases`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L683" />
+
+## <kbd>classe</kbd> `ObjReadRes`
+
+**Champs Pydantic :**
+
+* `obj`: `<class 'ObjSchema'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L837" />
+
+## <kbd>classe</kbd> `ObjRemoveAliasesReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `aliases`: `list[str]`
+* `wb_user_id`: `str | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L843" />
+
+### <kbd>méthode</kbd> `validate_aliases`
+
+```python
+validate_aliases() → ObjRemoveAliasesReq
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L851" />
+
+
+## <kbd>classe</kbd> `ObjRemoveAliasesRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L806" />
+
+## <kbd>classe</kbd> `ObjRemoveTagsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `tags`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L814" />
+
+## <kbd>classe</kbd> `ObjRemoveTagsRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L276" />
+
+## <kbd>classe</kbd> `ObjSchema`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `deleted_at`: `datetime.datetime | None`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `is_latest`: `<class 'int'>`
+* `kind`: `<class 'str'>`
+* `base_object_class`: `str | None`
+* `leaf_object_class`: `str | None`
+* `val`: `typing.Any`
+* `wb_user_id`: `str | None`
+* `size_bytes`: `int | None`
+* `tags`: `list[str] | None`
+* `aliases`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L295" />
+
+## <kbd>classe</kbd> `ObjSchemaForInsert`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `val`: `typing.Any`
+* `builtin_object_class`: `str | None`
+* `set_base_object_class`: `str | None`
+* `expected_digest`: `str | None`
+* `wb_user_id`: `str | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L312" />
+
+### <kbd>méthode</kbd> `model_post_init`
+
+```python
+model_post_init(_ObjSchemaForInsert__context: Any) → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L818" />
+
+
+## <kbd>classe</kbd> `ObjSetAliasesReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `aliases`: `list[str]`
+* `wb_user_id`: `str | None`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L825" />
+
+### <kbd>méthode</kbd> `validate_aliases`
+
+```python
+validate_aliases() → ObjSetAliasesReq
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L833" />
+
+
+## <kbd>classe</kbd> `ObjSetAliasesRes`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2943" />
+
+## <kbd>classe</kbd> `ObjectInterface`
+
+Points de terminaison de l’API des objets pour Trace Server.
+
+Ce protocole contient des API de gestion d’objets qui fournissent des interfaces plus claires et plus conformes aux principes REST. Les implémentations doivent prendre en charge à la fois ce protocole et TraceServerInterface afin de maintenir la rétrocompatibilité.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2954" />
+
+### <kbd>méthode</kbd> `call_end_v2`
+
+```python
+call_end_v2(req: CallEndV2Req) → CallEndV2Res
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2953" />
+
+
+### <kbd>méthode</kbd> `call_start_v2`
+
+```python
+call_start_v2(req: CallStartV2Req) → CallStartV2Res
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2952" />
+
+
+### <kbd>méthode</kbd> `calls_complete`
+
+```python
+calls_complete(req: CallsUpsertCompleteReq) → CallsUpsertCompleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2963" />
+
+
+### <kbd>méthode</kbd> `dataset_create`
+
+```python
+dataset_create(req: DatasetCreateReq) → DatasetCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2966" />
+
+
+### <kbd>méthode</kbd> `dataset_delete`
+
+```python
+dataset_delete(req: DatasetDeleteReq) → DatasetDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2965" />
+
+
+### <kbd>méthode</kbd> `dataset_list`
+
+```python
+dataset_list(req: DatasetListReq) → Iterator[DatasetReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2964" />
+
+
+### <kbd>méthode</kbd> `dataset_read`
+
+```python
+dataset_read(req: DatasetReadReq) → DatasetReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3019" />
+
+
+### <kbd>méthode</kbd> `eval_results_query`
+
+```python
+eval_results_query(req: EvalResultsQueryReq) → EvalResultsQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2975" />
+
+
+### <kbd>méthode</kbd> `evaluation_create`
+
+```python
+evaluation_create(req: EvaluationCreateReq) → EvaluationCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2980" />
+
+
+### <kbd>méthode</kbd> `evaluation_delete`
+
+```python
+evaluation_delete(req: EvaluationDeleteReq) → EvaluationDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2977" />
+
+
+### <kbd>méthode</kbd> `evaluation_list`
+
+```python
+evaluation_list(req: EvaluationListReq) → Iterator[EvaluationReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2976" />
+
+
+### <kbd>méthode</kbd> `evaluation_read`
+
+```python
+evaluation_read(req: EvaluationReadReq) → EvaluationReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2989" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_create`
+
+```python
+evaluation_run_create(req: EvaluationRunCreateReq) → EvaluationRunCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2998" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_delete`
+
+```python
+evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3001" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_finish`
+
+```python
+evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2995" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_list`
+
+```python
+evaluation_run_list(req: EvaluationRunListReq) → Iterator[EvaluationRunReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2992" />
+
+
+### <kbd>méthode</kbd> `evaluation_run_read`
+
+```python
+evaluation_run_read(req: EvaluationRunReadReq) → EvaluationRunReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2983" />
+
+
+### <kbd>méthode</kbd> `model_create`
+
+```python
+model_create(req: ModelCreateReq) → ModelCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2986" />
+
+
+### <kbd>méthode</kbd> `model_delete`
+
+```python
+model_delete(req: ModelDeleteReq) → ModelDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2985" />
+
+
+### <kbd>méthode</kbd> `model_list`
+
+```python
+model_list(req: ModelListReq) → Iterator[ModelReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2984" />
+
+
+### <kbd>méthode</kbd> `model_read`
+
+```python
+model_read(req: ModelReadReq) → ModelReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2957" />
+
+
+### <kbd>méthode</kbd> `op_create`
+
+```python
+op_create(req: OpCreateReq) → OpCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2960" />
+
+
+### <kbd>méthode</kbd> `op_delete`
+
+```python
+op_delete(req: OpDeleteReq) → OpDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2959" />
+
+
+### <kbd>méthode</kbd> `op_list`
+
+```python
+op_list(req: OpListReq) → Iterator[OpReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2958" />
+
+
+### <kbd>méthode</kbd> `op_read`
+
+```python
+op_read(req: OpReadReq) → OpReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3006" />
+
+
+### <kbd>méthode</kbd> `prediction_create`
+
+```python
+prediction_create(req: PredictionCreateReq) → PredictionCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3011" />
+
+
+### <kbd>méthode</kbd> `prediction_delete`
+
+```python
+prediction_delete(req: PredictionDeleteReq) → PredictionDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3012" />
+
+
+### <kbd>méthode</kbd> `prediction_finish`
+
+```python
+prediction_finish(req: PredictionFinishReq) → PredictionFinishRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3008" />
+
+
+### <kbd>méthode</kbd> `prediction_list`
+
+```python
+prediction_list(req: PredictionListReq) → Iterator[PredictionReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3007" />
+
+
+### <kbd>méthode</kbd> `prediction_read`
+
+```python
+prediction_read(req: PredictionReadReq) → PredictionReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3015" />
+
+
+### <kbd>méthode</kbd> `score_create`
+
+```python
+score_create(req: ScoreCreateReq) → ScoreCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3018" />
+
+
+### <kbd>méthode</kbd> `score_delete`
+
+```python
+score_delete(req: ScoreDeleteReq) → ScoreDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3017" />
+
+
+### <kbd>méthode</kbd> `score_list`
+
+```python
+score_list(req: ScoreListReq) → Iterator[ScoreReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3016" />
+
+
+### <kbd>méthode</kbd> `score_read`
+
+```python
+score_read(req: ScoreReadReq) → ScoreReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2969" />
+
+
+### <kbd>méthode</kbd> `scorer_create`
+
+```python
+scorer_create(req: ScorerCreateReq) → ScorerCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2972" />
+
+
+### <kbd>méthode</kbd> `scorer_delete`
+
+```python
+scorer_delete(req: ScorerDeleteReq) → ScorerDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2971" />
+
+
+### <kbd>méthode</kbd> `scorer_list`
+
+```python
+scorer_list(req: ScorerListReq) → Iterator[ScorerReadRes]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2970" />
+
+
+### <kbd>méthode</kbd> `scorer_read`
+
+```python
+scorer_read(req: ScorerReadReq) → ScorerReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L687" />
+
+
+## <kbd>classe</kbd> `ObjectVersionFilter`
+
+**Champs Pydantic :**
+
+* `base_object_classes`: `list[str] | None`
+* `exclude_base_object_classes`: `list[str] | None`
+* `leaf_object_classes`: `list[str] | None`
+* `object_ids`: `list[str] | None`
+* `is_op`: `bool | None`
+* `latest_only`: `bool | None`
+* `tags`: `list[str] | None`
+* `aliases`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1924" />
+
+## <kbd>classe</kbd> `OpCreateBody`
+
+Corps de requête pour créer un objet Op via l’API REST.
+
+Ce modèle exclut `project_id`, car il est fourni par le chemin de l’URL dans les endpoints REST.
+
+**champs Pydantic :**
+
+* `name`: `str | None`
+* `source_code`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1939" />
+
+## <kbd>classe</kbd> `OpCreateReq`
+
+Modèle de requête pour créer un objet Op.
+
+Étend OpCreateBody en y ajoutant `project_id` pour un usage interne de l’API.
+
+**Champs Pydantic :**
+
+* `name`: `str | None`
+* `source_code`: `str | None`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1951" />
+
+## <kbd>classe</kbd> `OpCreateRes`
+
+Modèle de réponse pour créer un objet Op.
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1992" />
+
+## <kbd>classe</kbd> `OpDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2004" />
+
+## <kbd>classe</kbd> `OpDeleteRes`
+
+**champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1981" />
+
+## <kbd>classe</kbd> `OpListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1959" />
+
+## <kbd>classe</kbd> `OpReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1968" />
+
+## <kbd>classe</kbd> `OpReadRes`
+
+Modèle de réponse pour lire un objet Op.
+
+Le champ `code` contient le code source réel de l’op.
+
+**Champs Pydantic :**
+
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `code`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2480" />
+
+## <kbd>classe</kbd> `PredictionCreateBody`
+
+Corps de requête pour créer une prédiction via l’API REST.
+
+Ce modèle exclut `project_id`, car il est récupéré à partir du chemin d’URL des endpoints REST.
+
+**champs Pydantic :**
+
+* `model`: `<class 'str'>`
+* `inputs`: `dict[str, typing.Any]`
+* `output`: `typing.Any`
+* `evaluation_run_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2495" />
+
+## <kbd>classe</kbd> `PredictionCreateReq`
+
+Modèle de requête pour créer une prédiction.
+
+Étend PredictionCreateBody en ajoutant project&#95;id pour une utilisation interne de l’API.
+
+**Champs Pydantic :**
+
+* `model`: `<class 'str'>`
+* `inputs`: `dict[str, typing.Any]`
+* `output`: `typing.Any`
+* `evaluation_run_id`: `str | None`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2507" />
+
+## <kbd>classe</kbd> `PredictionCreateRes`
+
+**Champs Pydantic :**
+
+* `prediction_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2551" />
+
+## <kbd>classe</kbd> `PredictionDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `prediction_ids`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2559" />
+
+## <kbd>classe</kbd> `PredictionDeleteRes`
+
+**champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2563" />
+
+## <kbd>classe</kbd> `PredictionFinishReq`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `prediction_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2571" />
+
+## <kbd>classe</kbd> `PredictionFinishRes`
+
+**Champs Pydantic :**
+
+* `success`: `<class 'bool'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2530" />
+
+## <kbd>classe</kbd> `PredictionListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `evaluation_run_id`: `str | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2547" />
+
+## <kbd>classe</kbd> `PredictionListRes`
+
+**Champs Pydantic :**
+
+* `predictions`: `list[PredictionReadRes]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2511" />
+
+## <kbd>classe</kbd> `PredictionReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `prediction_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2519" />
+
+## <kbd>classe</kbd> `PredictionReadRes`
+
+**Champs Pydantic :**
+
+* `prediction_id`: `<class 'str'>`
+* `model`: `<class 'str'>`
+* `inputs`: `dict[str, typing.Any]`
+* `output`: `typing.Any`
+* `evaluation_run_id`: `str | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L327" />
+
+## <kbd>classe</kbd> `ProcessedResourceSpans`
+
+**Champs Pydantic :**
+
+* `entity`: `<class 'str'>`
+* `project`: `<class 'str'>`
+* `run_id`: `str | None`
+* `resource_spans`: `typing.Any`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1526" />
+
+## <kbd>classe</kbd> `ProjectStatsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `include_trace_storage_size`: `bool | None`
+* `include_object_storage_size`: `bool | None`
+* `include_table_storage_size`: `bool | None`
+* `include_file_storage_size`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1534" />
+
+## <kbd>classe</kbd> `ProjectStatsRes`
+
+**Champs Pydantic :**
+
+* `trace_storage_size_bytes`: `<class 'int'>`
+* `objects_storage_size_bytes`: `<class 'int'>`
+* `tables_storage_size_bytes`: `<class 'int'>`
+* `files_storage_size_bytes`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1111" />
+
+## <kbd>classe</kbd> `RefsReadBatchReq`
+
+**Champs Pydantic :**
+
+* `refs` : `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1115" />
+
+## <kbd>classe</kbd> `RefsReadBatchRes`
+
+**Champs Pydantic :**
+
+* `vals`: `list[typing.Any]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2577" />
+
+## <kbd>classe</kbd> `ScoreCreateBody`
+
+Corps de la requête pour créer un score via l’API REST.
+
+Ce modèle exclut `project_id`, car il provient du chemin de l’URL dans les endpoints REST.
+
+**Champs Pydantic :**
+
+* `prediction_id`: `<class 'str'>`
+* `scorer`: `<class 'str'>`
+* `value`: `<class 'float'>`
+* `evaluation_run_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2592" />
+
+## <kbd>classe</kbd> `ScoreCreateReq`
+
+Modèle de requête pour créer un score.
+
+Étend ScoreCreateBody en y ajoutant `project_id` pour l’usage interne de l’API.
+
+**Champs Pydantic :**
+
+* `prediction_id`: `<class 'str'>`
+* `scorer`: `<class 'str'>`
+* `value`: `<class 'float'>`
+* `evaluation_run_id`: `str | None`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2604" />
+
+## <kbd>classe</kbd> `ScoreCreateRes`
+
+**Champs Pydantic :**
+
+* `score_id`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2641" />
+
+## <kbd>classe</kbd> `ScoreDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `score_ids`: `list[str]`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2649" />
+
+## <kbd>classe</kbd> `ScoreDeleteRes`
+
+**Champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2626" />
+
+## <kbd>classe</kbd> `ScoreListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `evaluation_run_id`: `str | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2608" />
+
+## <kbd>classe</kbd> `ScoreReadReq`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `score_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2616" />
+
+## <kbd>classe</kbd> `ScoreReadRes`
+
+**champs Pydantic :**
+
+* `score_id`: `<class 'str'>`
+* `scorer`: `<class 'str'>`
+* `value`: `<class 'float'>`
+* `evaluation_run_id`: `str | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2088" />
+
+## <kbd>classe</kbd> `ScorerCreateBody`
+
+**Champs Pydantic :**
+
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `op_source_code`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2103" />
+
+## <kbd>classe</kbd> `ScorerCreateReq`
+
+**Champs Pydantic :**
+
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `op_source_code`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2110" />
+
+## <kbd>classe</kbd> `ScorerCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `scorer`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2157" />
+
+## <kbd>classe</kbd> `ScorerDeleteReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2169" />
+
+## <kbd>classe</kbd> `ScorerDeleteRes`
+
+**champs Pydantic :**
+
+* `num_deleted`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2146" />
+
+## <kbd>classe</kbd> `ScorerListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2122" />
+
+## <kbd>classe</kbd> `ScorerReadReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2131" />
+
+## <kbd>classe</kbd> `ScorerReadRes`
+
+**champs Pydantic :**
+
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `score_op`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L162" />
+
+## <kbd>classe</kbd> `StartedCallSchemaForInsert`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `id`: `str | None`
+* `op_name`: `<class 'str'>`
+* `display_name`: `str | None`
+* `trace_id`: `str | None`
+* `parent_id`: `str | None`
+* `thread_id`: `str | None`
+* `turn_id`: `str | None`
+* `started_at`: `<class 'datetime.datetime'>`
+* `attributes`: `dict[str, typing.Any]`
+* `inputs`: `dict[str, typing.Any]`
+* `otel_dump`: `dict[str, typing.Any] | None`
+* `wb_user_id`: `str | None`
+* `wb_run_id`: `str | None`
+* `wb_run_step`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L93" />
+
+## <kbd>classe</kbd> `SummaryInsertMap`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L98" />
+
+## <kbd>classe</kbd> `SummaryMap`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L949" />
+
+## <kbd>classe</kbd> `TableAppendSpec`
+
+**Champs Pydantic :**
+
+* `append`: `<class 'TableAppendSpecPayload'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L945" />
+
+## <kbd>classe</kbd> `TableAppendSpecPayload`
+
+**Champs Pydantic :**
+
+* `row` : `dict[str, typing.Any]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L881" />
+
+## <kbd>classe</kbd> `TableCreateFromDigestsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `row_digests`: `list[str]`
+* `expected_digest`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L890" />
+
+## <kbd>classe</kbd> `TableCreateFromDigestsRes`
+
+**champs Pydantic :**
+
+* `digest` : `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L877" />
+
+## <kbd>classe</kbd> `TableCreateReq`
+
+**champs Pydantic :**
+
+* `table`: `<class 'TableSchemaForInsert'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1001" />
+
+## <kbd>classe</kbd> `TableCreateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `row_digests`: `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L966" />
+
+## <kbd>classe</kbd> `TableInsertSpec`
+
+**champs Pydantic :**
+
+* `insert`: `<class 'TableInsertSpecPayload'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L961" />
+
+## <kbd>classe</kbd> `TableInsertSpecPayload`
+
+**champs Pydantic :**
+
+* `index`: `<class 'int'>`
+* `row`: `dict[str, typing.Any]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L957" />
+
+## <kbd>classe</kbd> `TablePopSpec`
+
+**Champs Pydantic :**
+
+* `pop`: `<class 'TablePopSpecPayload'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L953" />
+
+## <kbd>classe</kbd> `TablePopSpecPayload`
+
+**Champs Pydantic :**
+
+* `index`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1030" />
+
+## <kbd>classe</kbd> `TableQueryReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `filter`: `TableRowFilter | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1065" />
+
+## <kbd>classe</kbd> `TableQueryRes`
+
+**Champs Pydantic :**
+
+* `rows`: `list[TableRowSchema]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1078" />
+
+## <kbd>classe</kbd> `TableQueryStatsBatchReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
+* `include_storage_size`: `bool | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1107" />
+
+## <kbd>classe</kbd> `TableQueryStatsBatchRes`
+
+**Champs Pydantic :**
+
+* `tables`: `list[TableStatsRow]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1069" />
+
+## <kbd>classe</kbd> `TableQueryStatsReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1097" />
+
+## <kbd>classe</kbd> `TableQueryStatsRes`
+
+**champs Pydantic :**
+
+* `count`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1017" />
+
+## <kbd>classe</kbd> `TableRowFilter`
+
+**Champs Pydantic :**
+
+* `row_digests`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L995" />
+
+## <kbd>classe</kbd> `TableRowSchema`
+
+**champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `val`: `typing.Any`
+* `original_index`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L318" />
+
+## <kbd>classe</kbd> `TableSchemaForInsert`
+
+**champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `rows`: `list[dict[str, typing.Any]]`
+* `expected_digest`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1101" />
+
+## <kbd>classe</kbd> `TableStatsRow`
+
+**Champs Pydantic :**
+
+* `count`: `<class 'int'>`
+* `digest`: `<class 'str'>`
+* `storage_size_bytes`: `int | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L973" />
+
+## <kbd>classe</kbd> `TableUpdateReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `base_digest`: `<class 'str'>`
+* `updates`: `list[TableAppendSpec | TablePopSpec | TableInsertSpec]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L979" />
+
+## <kbd>classe</kbd> `TableUpdateRes`
+
+**Champs Pydantic :**
+
+* `digest`: `<class 'str'>`
+* `updated_row_digests`: `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L855" />
+
+## <kbd>classe</kbd> `TagsListReq`
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `wb_user_id`: `str | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L860" />
+
+## <kbd>classe</kbd> `TagsListRes`
+
+**Champs Pydantic :**
+
+* `tags` : `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1785" />
+
+## <kbd>classe</kbd> `ThreadSchema`
+
+**Champs Pydantic :**
+
+* `thread_id`: `<class 'str'>`
+* `turn_count`: `<class 'int'>`
+* `start_time`: `<class 'datetime.datetime'>`
+* `last_updated`: `<class 'datetime.datetime'>`
+* `first_turn_id`: `str | None`
+* `last_turn_id`: `str | None`
+* `p50_turn_duration_ms`: `float | None`
+* `p99_turn_duration_ms`: `float | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1808" />
+
+## <kbd>classe</kbd> `ThreadsQueryFilter`
+
+**Champs Pydantic :**
+
+* `after_datetime`: `datetime.datetime | None`
+* `before_datetime`: `datetime.datetime | None`
+* `thread_ids`: `list[str] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L1826" />
+
+## <kbd>classe</kbd> `ThreadsQueryReq`
+
+Interroge les threads avec des statistiques agrégées calculées uniquement à partir des appels de tour.
+
+Les appels de tour sont les enfants directs des contextes de thread (où call.id == turn&#95;id). Cela fournit des statistiques pertinentes à l’échelle de la conversation, plutôt que d’inclure tous les détails d’implémentation imbriqués.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `filter`: `ThreadsQueryFilter | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2798" />
+
+## <kbd>classe</kbd> `TraceServerInterface`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2872" />
+
+### <kbd>méthode</kbd> `actions_execute_batch`
+
+```python
+actions_execute_batch(req: ActionsExecuteBatchReq) → ActionsExecuteBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2833" />
+
+
+### <kbd>méthode</kbd> `aliases_list`
+
+```python
+aliases_list(req: AliasesListReq) → AliasesListRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2919" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_add_calls`
+
+```python
+annotation_queue_add_calls(
+    req: AnnotationQueueAddCallsReq
+) → AnnotationQueueAddCallsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2899" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_create`
+
+```python
+annotation_queue_create(
+    req: AnnotationQueueCreateReq
+) → AnnotationQueueCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2911" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_delete`
+
+```python
+annotation_queue_delete(
+    req: AnnotationQueueDeleteReq
+) → AnnotationQueueDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2927" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_items_query`
+
+```python
+annotation_queue_items_query(
+    req: AnnotationQueueItemsQueryReq
+) → AnnotationQueueItemsQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2907" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_read`
+
+```python
+annotation_queue_read(req: AnnotationQueueReadReq) → AnnotationQueueReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2915" />
+
+
+### <kbd>méthode</kbd> `annotation_queue_update`
+
+```python
+annotation_queue_update(
+    req: AnnotationQueueUpdateReq
+) → AnnotationQueueUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2903" />
+
+
+### <kbd>méthode</kbd> `annotation_queues_query_stream`
+
+```python
+annotation_queues_query_stream(
+    req: AnnotationQueuesQueryReq
+) → Iterator[AnnotationQueueSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2923" />
+
+
+### <kbd>méthode</kbd> `annotation_queues_stats`
+
+```python
+annotation_queues_stats(
+    req: AnnotationQueuesStatsReq
+) → AnnotationQueuesStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2931" />
+
+
+### <kbd>méthode</kbd> `annotator_queue_items_progress_update`
+
+```python
+annotator_queue_items_progress_update(
+    req: AnnotatorQueueItemsProgressUpdateReq
+) → AnnotatorQueueItemsProgressUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2804" />
+
+
+### <kbd>méthode</kbd> `call_end`
+
+```python
+call_end(req: CallEndReq) → CallEndRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2805" />
+
+
+### <kbd>méthode</kbd> `call_read`
+
+```python
+call_read(req: CallReadReq) → CallReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2803" />
+
+
+### <kbd>méthode</kbd> `call_start`
+
+```python
+call_start(req: CallStartReq) → CallStartRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2814" />
+
+
+### <kbd>méthode</kbd> `call_start_batch`
+
+```python
+call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2810" />
+
+
+### <kbd>méthode</kbd> `call_stats`
+
+```python
+call_stats(req: 'CallStatsReq') → CallStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2813" />
+
+
+### <kbd>méthode</kbd> `call_update`
+
+```python
+call_update(req: CallUpdateReq) → CallUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2808" />
+
+
+### <kbd>méthode</kbd> `calls_delete`
+
+```python
+calls_delete(req: CallsDeleteReq) → CallsDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2806" />
+
+
+### <kbd>méthode</kbd> `calls_query`
+
+```python
+calls_query(req: CallsQueryReq) → CallsQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2809" />
+
+
+### <kbd>méthode</kbd> `calls_query_stats`
+
+```python
+calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2807" />
+
+
+### <kbd>méthode</kbd> `calls_query_stream`
+
+```python
+calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2940" />
+
+
+### <kbd>méthode</kbd> `calls_score`
+
+```python
+calls_score(req: CallsScoreReq) → CallsScoreRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2812" />
+
+
+### <kbd>méthode</kbd> `calls_usage`
+
+```python
+calls_usage(req: 'CallsUsageReq') → CallsUsageRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2877" />
+
+
+### <kbd>méthode</kbd> `completions_create`
+
+```python
+completions_create(req: CompletionsCreateReq) → CompletionsCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2883" />
+
+
+### <kbd>méthode</kbd> `completions_create_stream`
+
+```python
+completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2817" />
+
+
+### <kbd>méthode</kbd> `cost_create`
+
+```python
+cost_create(req: CostCreateReq) → CostCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2819" />
+
+
+### <kbd>méthode</kbd> `cost_purge`
+
+```python
+cost_purge(req: CostPurgeReq) → CostPurgeRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2818" />
+
+
+### <kbd>méthode</kbd> `cost_query`
+
+```python
+cost_query(req: CostQueryReq) → CostQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2936" />
+
+
+### <kbd>méthode</kbd> `evaluate_model`
+
+```python
+evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2937" />
+
+
+### <kbd>méthode</kbd> `evaluation_status`
+
+```python
+evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2858" />
+
+
+### <kbd>méthode</kbd> `feedback_create`
+
+```python
+feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2859" />
+
+
+### <kbd>méthode</kbd> `feedback_create_batch`
+
+```python
+feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2867" />
+
+
+### <kbd>méthode</kbd> `feedback_payload_schema`
+
+```python
+feedback_payload_schema(
+    req: FeedbackPayloadSchemaReq
+) → FeedbackPayloadSchemaRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2864" />
+
+
+### <kbd>méthode</kbd> `feedback_purge`
+
+```python
+feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2863" />
+
+
+### <kbd>méthode</kbd> `feedback_query`
+
+```python
+feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2865" />
+
+
+### <kbd>méthode</kbd> `feedback_replace`
+
+```python
+feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2866" />
+
+
+### <kbd>méthode</kbd> `feedback_stats`
+
+```python
+feedback_stats(req: FeedbackStatsReq) → FeedbackStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2854" />
+
+
+### <kbd>méthode</kbd> `file_content_read`
+
+```python
+file_content_read(req: FileContentReadReq) → FileContentReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2853" />
+
+
+### <kbd>méthode</kbd> `file_create`
+
+```python
+file_create(req: FileCreateReq) → FileCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2855" />
+
+
+### <kbd>méthode</kbd> `files_stats`
+
+```python
+files_stats(req: FilesStatsReq) → FilesStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2888" />
+
+
+### <kbd>méthode</kbd> `image_create`
+
+```python
+image_create(req: ImageGenerationCreateReq) → ImageGenerationCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2828" />
+
+
+### <kbd>méthode</kbd> `obj_add_tags`
+
+```python
+obj_add_tags(req: ObjAddTagsReq) → ObjAddTagsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2822" />
+
+
+### <kbd>méthode</kbd> `obj_create`
+
+```python
+obj_create(req: ObjCreateReq) → ObjCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2825" />
+
+
+### <kbd>méthode</kbd> `obj_delete`
+
+```python
+obj_delete(req: ObjDeleteReq) → ObjDeleteRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2823" />
+
+
+### <kbd>méthode</kbd> `obj_read`
+
+```python
+obj_read(req: ObjReadReq) → ObjReadRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2831" />
+
+
+### <kbd>méthode</kbd> `obj_remove_aliases`
+
+```python
+obj_remove_aliases(req: ObjRemoveAliasesReq) → ObjRemoveAliasesRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2829" />
+
+
+### <kbd>méthode</kbd> `obj_remove_tags`
+
+```python
+obj_remove_tags(req: ObjRemoveTagsReq) → ObjRemoveTagsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2830" />
+
+
+### <kbd>méthode</kbd> `obj_set_aliases`
+
+```python
+obj_set_aliases(req: ObjSetAliasesReq) → ObjSetAliasesRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2824" />
+
+
+### <kbd>méthode</kbd> `objs_query`
+
+```python
+objs_query(req: ObjQueryReq) → ObjQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2800" />
+
+
+### <kbd>méthode</kbd> `otel_export`
+
+```python
+otel_export(req: OTelExportReq) → OTelExportRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2893" />
+
+
+### <kbd>méthode</kbd> `project_stats`
+
+```python
+project_stats(req: ProjectStatsReq) → ProjectStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2850" />
+
+
+### <kbd>méthode</kbd> `refs_read_batch`
+
+```python
+refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2836" />
+
+
+### <kbd>méthode</kbd> `table_create`
+
+```python
+table_create(req: TableCreateReq) → TableCreateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2837" />
+
+
+### <kbd>méthode</kbd> `table_create_from_digests`
+
+```python
+table_create_from_digests(
+    req: TableCreateFromDigestsReq
+) → TableCreateFromDigestsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2842" />
+
+
+### <kbd>méthode</kbd> `table_query`
+
+```python
+table_query(req: TableQueryReq) → TableQueryRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2844" />
+
+
+### <kbd>méthode</kbd> `table_query_stats`
+
+```python
+table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2845" />
+
+
+### <kbd>méthode</kbd> `table_query_stats_batch`
+
+```python
+table_query_stats_batch(req: TableQueryStatsBatchReq) → TableQueryStatsBatchRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2843" />
+
+
+### <kbd>méthode</kbd> `table_query_stream`
+
+```python
+table_query_stream(req: TableQueryReq) → Iterator[TableRowSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2841" />
+
+
+### <kbd>méthode</kbd> `table_update`
+
+```python
+table_update(req: TableUpdateReq) → TableUpdateRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2832" />
+
+
+### <kbd>méthode</kbd> `tags_list`
+
+```python
+tags_list(req: TagsListReq) → TagsListRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2896" />
+
+
+### <kbd>méthode</kbd> `threads_query_stream`
+
+```python
+threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L2811" />
+
+
+### <kbd>méthode</kbd> `trace_usage`
+
+```python
+trace_usage(req: 'TraceUsageReq') → TraceUsageRes
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L77" />
+
+
+## <kbd>class</kbd> `TraceStatus`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3177" />
+
+## <kbd>class</kbd> `TraceUsageReq`
+
+Requête permettant de calculer l’utilisation par appel pour une trace, avec cumul des descendants.
+
+Ce point de terminaison renvoie des métriques d’utilisation pour chaque appel de la trace. Les métriques de chaque appel incluent la somme de sa propre utilisation et de celle de tous ses descendants. Utilisez-le dans la Vue de trace lorsque vous souhaitez afficher des métriques cumulées par appel.
+
+Remarque : tous les appels correspondants sont chargés en mémoire pour l’agrégation. Pour les ensembles de résultats très volumineux (&gt;10k appels), envisagez d’utiliser des filtres plus spécifiques ou une pagination au niveau de l’application.
+
+**Champs Pydantic :**
+
+* `project_id`: `<class 'str'>`
+* `filter`: `CallsFilter | None`
+* `query`: `weave.trace_server.interface.query.Query | None`
+* `include_costs`: `<class 'bool'>`
+* `limit`: `<class 'int'>`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3208" />
+
+## <kbd>class</kbd> `TraceUsageRes`
+
+Réponse contenant les métriques d’utilisation par appel (chacune inclut les contributions des descendants).
+
+**Champs Pydantic :**
+
+* `call_usage`: `dict[str, dict[str, LLMAggregatedUsage]]`
+* `unfinished_call_ids`: `list[str]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L3055" />
+
+## <kbd>class</kbd> `UsageMetricSpec`
+
+Spécification d’une métrique d’utilisation à agréger (groupée par modèle).
+
+**Champs Pydantic :**
+
+* `metric`: `typing.Literal['input_tokens', 'output_tokens', 'total_tokens', 'input_cost', 'output_cost', 'total_cost']`
+* `aggregations`: `list[AggregationType]`
+* `percentiles`: `list[float]`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/trace_server_interface.py#L84" />
+
+## <kbd>class</kbd> `WeaveSummarySchema`

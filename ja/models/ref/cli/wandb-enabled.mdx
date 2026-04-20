@@ -1,30 +1,50 @@
 ---
-title: wandb 有効化済み
+title: "wandb enabled"
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-enabled.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3499" />
 
-<WandbEnabled/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-W&B を有効化します。
-
-## Usage (使用法)
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb enabled [OPTIONS]
+enabled [OPTIONS]
 ```
 
-## Options (オプション)
+<div id="description">
+  ## 説明
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--service` | W&B サービスを有効にします (デフォルト: True) |
+`wandb disabled` で無効化した W&amp;B を再度有効にします。
+
+モードを `online` に設定すると、クラウドとの同期やアーティファクトのストレージを含む、
+W&amp;B のすべての機能が復元されます。
+
+W&amp;B が `disabled` に設定されていた間にログしたデータはアップロードされませんが、
+新しいデータはログして同期できるようになります。
+
+W&amp;B を完全に無効化せずに online モードと offline モードを切り替えるには、
+代わりに `wandb online` または `wandb offline` を使用してください。
+
+たとえば、`wandb disabled` で無効化した後に W&amp;B の機能を復元するには、次のようにします。
+
+```bash
+wandb enabled
+```
+
+W&amp;B のログ記録と同期を再開してトレーニング スクリプトを実行するには:
+
+```bash
+python train.py # W&B にデータをログして同期する
+```
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag        | タイプ      | 説明                                           |
+| ----------- | -------- | -------------------------------------------- |
+| `--service` | BOOL フラグ | 効果はありません。後方互換性のためにのみ受け付けられます。**デフォルト**: True |

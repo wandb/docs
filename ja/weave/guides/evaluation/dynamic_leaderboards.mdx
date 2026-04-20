@@ -1,91 +1,104 @@
 ---
-title: Evaluations で動的な Leaderboards を作成する
-description: Dynamic Leaderboards を使用すると、評価（evaluation）から直接 Leaderboard ビューを構成、カスタマイズ、保存、および更新できます。
+title: "Evaluations で動的なリーダーボードを作成する"
+description: "動的なリーダーボードを使うと、評価から直接リーダーボードビューを設定、カスタマイズ、保存、更新できます。"
 ---
 
-Weave Evaluations を使用すると、Experiment の結果を Leaderboard として可視化し、カスタマイズすることができます。
+Weave の評価では、実験結果をリーダーボードとして可視化し、カスタマイズできます。
 
-保存された Leaderboard ビューは動的です。
+保存したリーダーボードビューは動的です。
 
-- 新しい評価の run が追加されたとき
-- 保存されたフィルターに結果が一致したとき
+* 新しい評価 run が追加されると
+* また、結果が保存済みのフィルターに一致すると
 
-Leaderboard は手動で再設定することなく、自動的にこれらを反映して更新されます。
+手動で再設定しなくても、リーダーボードは自動的に更新され、それらが含まれます。
 
-これにより、Experiment の進行に合わせて進化する永続的な Leaderboard としてビューを活用できます。
+これにより、ビューを、実験とともに変化し続ける永続的なリーダーボードとして使用できます。
 
-## Evaluation の結果を Leaderboard で可視化する
+<div id="visualize-evaluation-results-in-a-leaderboard">
+  ## Leaderboard で評価結果を可視化する
+</div>
 
-プロジェクトに Weave Evaluation のデータが含まれている場合、評価テーブルを使用して、フィルタリングされた結果の サブセット に基づく Weave Leaderboard ビューを素早く作成できます。
+プロジェクトに Weave の評価データが含まれている場合は、評価表を使って、フィルターした結果のサブセットに基づく Weave Leaderboard ビューをすばやく作成できます。
 
-Weave Leaderboard を作成するには：
+Weave Leaderboard を作成するには:
+
 1. [wandb.ai](https://wandb.ai) にアクセスします。
 2. Weave のサイドバーメニューで **Evaluations** をクリックします。
-3. 評価テーブルにフィルターを適用し、比較したい Models 、 Datasets 、または run にデータを絞り込みます。
-4. **評価テーブルのツールバー** で、 **Visualize** をクリックします。
-   Weave は、現在テーブルでフィルタリングされているデータのみを使用して、自動的に Leaderboard パネルを作成します。
-5. Leaderboard パネルのヘッダーで **Configure** をクリックし、 **Edit Leaderboard** パネルを開きます。
-   **Edit Leaderboard** パネルでは、 Models 、 Datasets 、 Scorers 、および メトリクス の表示方法を細かく制御できます。
+3. 評価表にフィルターを適用して、比較したいモデル、Datasets、または Runs にデータを絞り込みます。
+4. **evaluation table toolbar** で **Visualize** をクリックします。
+   Weave により、表で現在フィルターされているデータのみを使用した Leaderboard パネルが自動的に作成されます。
+5. Leaderboard パネルのヘッダーで **Configure** をクリックして、**Edit Leaderboard** パネルを開きます。
+   **Edit Leaderboard** パネルでは、モデル、Datasets、Scorer、メトリクスの表示方法を細かく制御できます。
 
-以下は、フィルタリングされた評価テーブルがどのように Leaderboard として可視化されるか、および作成された Leaderboard をどこで設定するかを示しています。
-
-<Frame>
-![フィルターが適用された評価テーブル、テーブルツールバーの Visualize ボタン、およびパネルヘッダーに Configure ボタンがある右側の Leaderboard パネルが表示されている Evaluations ページ。](/weave/guides/evaluation/img/configure-leaderboard.png)
-</Frame>
-
-### Leaderboard 要素の表示設定とカスタム名
-
-以下は、Models、Datasets、Scorers、Metrics の 4 つの設定タブを備えた **Edit Leaderboard** パネルを示しています。
+以下は、フィルターした評価表が Leaderboard として可視化される様子と、生成された Leaderboard を設定する場所を示したものです。
 
 <Frame>
-![右側に Edit Leaderboard パネルが開いており、Leaderboard の設定に使用する Models、Datasets、Scorers、Metrics のタブが表示されている Evaluations ページ。](/weave/guides/evaluation/img/edit-leaderboard.png)
+  ![フィルターが適用された評価表、表のツールバー内の Visualize ボタン、右側に表示された Leaderboard パネル、およびそのパネルヘッダー内の Configure ボタンを示す Evaluations ページ。](/weave/guides/evaluation/img/configure-leaderboard.png)
 </Frame>
 
-**Edit Leaderboard** パネルでは、以下のことが行えます。
+<div id="configure-leaderboard-elements-with-visibility-and-custom-names">
+  ### 表示/非表示とカスタム名で Leaderboard の要素を設定する
+</div>
 
-- **表示の有効化/無効化**
-  チェックボックスをオンまたはオフにすることで、Leaderboard に表示する Models 、 Datasets 、 Scorers 、および メトリクス を選択します。
+以下は、4 つの設定タブ (Models、Datasets、Scorers、Metrics) を含む **Edit Leaderboard** パネルです。
 
-- **Models 、 Datasets 、 Scorers の名前変更**
-  表示に適した名前を割り当てます（例：モデルの run を `GPT-4` に、 Dataset を `JokesV1` に変更するなど）。
+<Frame>
+  ![右側で Edit Leaderboard パネルが開いており、Models、Datasets、Scorers、Metrics の各タブを使って Leaderboard を設定している Evaluations ページ。](/weave/guides/evaluation/img/edit-leaderboard.png)
+</Frame>
 
-  名前を変更したアイテムは以下のようになります：
-  - Leaderboard ですぐに更新されます。
-  - クリック可能な状態が維持されるため、サイドパネルで元のリファレンスを開くことができます。
-  - その Leaderboard ビューが使用されているすべての場所に自動的に伝播します。
+**Edit Leaderboard** パネルでは、次の操作ができます。
 
-これにより、基盤となる オブジェクト を変更することなく、人間が読みやすい意味のある名前を使用して Experiment を簡単に比較できるようになります。
+* **表示/非表示を切り替える**
+  チェックまたはチェックを外して、Leaderboard に表示するモデル、Datasets、Scorer、メトリクスを選択します。
 
-### Leaderboard メトリクスの振る舞いと色の設定
+* **モデル、Datasets、Scorer の名前を変更する**
+  表示用のわかりやすい名前を割り当てます (たとえば、モデルの run 名を `GPT-4` に変更したり、データセット名を `JokesV1` に変更したりできます) 。
 
-**Edit Leaderboard** パネルでは、各メトリクスに対して以下のいずれかを指定できます。
+  名前を変更した項目は次のようになります。
 
-- **値が高いほど良い (Higher values are better)**
-- **値が低いほど良い (Lower values are better)**
+  * Leaderboard にすぐ反映される
+  * 引き続きクリック可能で、サイドパネルで元の参照先を開ける
+  * Leaderboard ビューが使われているすべての場所に自動的に反映される
 
-この 設定 は Leaderboard の色付けに直接影響します。
+これにより、基になるオブジェクトを変更せずに、意味が明確で人が読みやすい名前を使って experiment を比較しやすくなります。
 
-- 緑色は *より良い* 値をハイライトします。
-- 赤色は *より悪い* 値をハイライトします。
-- 「高いほど良い」と「低いほど良い」を切り替えると、色は自動的に反転します。
+<div id="configure-leaderboard-metric-behavior-and-coloring">
+  ### Leaderboardのメトリクスの動作と色分けを設定する
+</div>
 
-これにより、異なる種類のメトリクス（例：精度 vs レイテンシやエラー率）をまたいでも、視覚的な手がかりが正確に保たれます。
+**Edit Leaderboard** パネルでは、各メトリクスについて次のいずれかを指定できます。
 
-## Leaderboard ビューの保存と再利用
+* **値が高いほどよい**、または
+* **値が低いほどよい**
 
-**Edit Leaderboard** パネルで、 **Save** をクリックすることで、カスタマイズした Leaderboard を再利用可能なビューとして保存できます。
+この設定は、Leaderboard の色分けに直接影響します。
 
-保存された Leaderboard ビューには以下の内容が含まれます。
-- 選択された Models 、 Datasets 、 Scorers 、および メトリクス
-- 変更後の表示名
-- メトリクスの方向設定（高いほど良い、または低いほど良い）
-- 適用されたフィルター
+* 緑は *よりよい* 値を強調表示します。
+* 赤は *より悪い* 値を強調表示します。
+* 「高いほどよい」と「低いほどよい」を切り替えると、色分けは自動的に反転します。
 
-### 保存されたビューの切り替え
+これにより、異なるタイプのメトリクス (たとえば、精度、レイテンシ、エラー率) でも、視覚的な判断基準を正確に保てます。
 
-Evaluations ページのタイトルの横にある **メニューアイコン (☰)** をクリックして、保存されたビューを開きます。以下の操作が可能です。
+<div id="save-and-reuse-leaderboard-views">
+  ## Leaderboardビューを保存して再利用する
+</div>
 
-- **デフォルト** ビューに戻り、すべてのデータセットを確認する。
-- 保存されたビューを再度開き、すべてのカスタマイズを即座に復元する。
+**Edit Leaderboard** パネルで **Save** をクリックすると、カスタマイズしたLeaderboardを再利用可能なビューとして保存できます。
 
-保存されたビューを再度開くと、すべての名前変更やメトリクスの設定が保持されています。
+保存したLeaderboardビューには、次の内容が含まれます。
+
+* 選択したモデル、Datasets、Scorer、メトリクス
+* 変更した表示ラベル名
+* メトリクスの方向設定 (高いほどよいか、低いほどよいか) 
+* 適用したフィルター
+
+<div id="switch-between-saved-views">
+  ### 保存済みビューを切り替える
+</div>
+
+保存済みビューを開くには、評価ページのタイトル横にある**メニュー (<Icon icon="bars" iconType="solid" />)**をクリックします。次の操作ができます。
+
+* **デフォルト**ビューに戻って、データセット全体を表示する。
+* 保存済みビューを再度開いて、すべてのカスタマイズをすぐに復元する。
+
+保存済みビューを再度開くと、名前の変更とメトリクス設定はすべて保持されます。

@@ -1,0 +1,172 @@
+---
+title: ArtifactCollection
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `ArtifactCollection`
+
+Une collection d&#39;artifacts représentant un groupe d&#39;artifacts associés.
+
+**Arguments :**
+
+* `client`:  Instance cliente à utiliser pour interroger W&amp;B.
+* `entity`:  L&#39;entité (utilisateur ou équipe) propriétaire du projet.
+* `project`:  Le nom du projet dans lequel rechercher des collections d&#39;artifacts.
+* `name`:  Le nom de la collection d&#39;artifacts.
+* `type`:  Le type de la collection d&#39;artifacts (par ex., &quot;jeu de données&quot;, &quot;modèle&quot;).
+* `organization`:  Nom de l&#39;organisation, facultatif, le cas échéant.
+* `attrs`:  Mappage facultatif d&#39;attributs pour initialiser la collection d&#39;artifacts. Si aucun n&#39;est fourni, l&#39;objet chargera ses attributs depuis W&amp;B lors de l&#39;initialisation. 
+
+### <kbd>propriété</kbd> ArtifactCollection.aliases
+
+Les alias de toutes les versions d&#39;artifact contenues dans cette collection.
+
+**Retourne :**
+
+* `list[str]`: La valeur de la propriété `aliases`.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.created_at
+
+La date de création de la collection d&#39;artifacts.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété created&#95;at.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.description
+
+Description de la collection d&#39;artifacts.
+
+**Retourne :**
+
+* `str | None` : La valeur de propriété de la description.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.entity
+
+L’entité (utilisateur ou équipe) propriétaire du projet.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `entity`.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.id
+
+L’identifiant unique de la collection d’artifacts.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `id`.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.name
+
+Le nom de la collection d&#39;artifacts.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `name`.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.project
+
+Le projet qui contient la collection d&#39;artifacts.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété du projet.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.tags
+
+Les tags de la collection d&#39;artifacts.
+
+**Retourne :**
+
+* `list[str]`: La valeur de la propriété tags.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.type
+
+Renvoie le type de la collection d&#39;artifacts.
+
+***
+
+### <kbd>propriété</kbd> ArtifactCollection.updated_at
+
+La date de la dernière mise à jour de la collection d’artifacts.
+
+**Retourne :**
+
+* `str | None`: La valeur de la propriété updated&#95;at.
+
+***
+
+### <kbd>méthode</kbd> `ArtifactCollection.artifacts`
+
+```python
+artifacts(per_page: 'int' = 50) → Artifacts
+```
+
+Obtenir tous les artifacts de la collection.
+
+***
+
+
+### <kbd>méthode</kbd> `ArtifactCollection.change_type`
+
+```python
+change_type(new_type: 'str') → None
+```
+
+Obsolète : modifiez directement le type avec `save`.
+
+***
+
+
+### <kbd>méthode</kbd> `ArtifactCollection.delete`
+
+```python
+delete() → None
+```
+
+Supprimez toute la collection d&#39;artifacts.
+
+***
+
+
+### <kbd>méthode</kbd> `ArtifactCollection.is_sequence`
+
+```python
+is_sequence() → bool
+```
+
+Indique si la collection d&#39;artifacts est une séquence.
+
+***
+
+
+### <kbd>méthode</kbd> `ArtifactCollection.save`
+
+```python
+save() → None
+```
+
+Enregistrez les modifications apportées à la collection d’artifacts.

@@ -46,7 +46,7 @@ fi
 
 # Copy Python files and create MDX wrappers
 echo "   Copying Python code examples and creating MDX wrappers..."
-PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/en/_includes/code-examples"
+PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/_includes/code-examples"
 mkdir -p "$PY_SNIPPETS_DIR"
 
 # Copy Python files and create MDX wrappers
@@ -85,6 +85,6 @@ python3 "$SCRIPT_DIR/generate_cheat_sheet.py"
 echo "✅ Sync complete!"
 echo ""
 echo "Next steps:"
-echo "  1. Review the generated MDX wrappers in: snippets/en/_includes/code-examples/"
+echo "  1. Review the generated MDX wrappers in: snippets/_includes/code-examples/"
 echo "  2. Review the cheat sheet pages: models/ref/sdk-coding-cheat-sheet/"
 echo "  3. Commit the changes"

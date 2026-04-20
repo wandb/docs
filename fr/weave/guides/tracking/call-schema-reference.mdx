@@ -1,0 +1,55 @@
+---
+title: "Référence du schéma de l’objet Appel"
+description: "Référence de la structure et des propriétés de l’objet Appel"
+---
+
+Cette page fournit une référence sur le schéma de l’objet Appel dans W&amp;B Weave. Pour plus d’informations sur les requêtes portant sur les appels, voir [Interroger et exporter des appels](/fr/weave/guides/tracking/querying-calls).
+
+<div id="call-properties">
+  ## Propriétés de l’Appel
+</div>
+
+Le tableau ci-dessous présente les principales propriétés d’un Appel dans Weave. Pour l’implémentation complète, voir :
+
+* [classe : CallSchema](/fr/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) dans le SDK Python.
+* [Interface : CallSchema](/fr/weave/reference/typescript-sdk/interfaces/callschema) dans le SDK TypeScript.
+
+| Propriété      | Type                  | Description                                                                                                                             |
+| -------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`           | string (uuid)         | Identifiant unique de l’Appel                                                                                                           |
+| `project_id`   | string (facultatif)   | Identifiant du projet associé                                                                                                           |
+| `op_name`      | string                | Nom de l’opération (peut être une référence)                                                                                            |
+| `display_name` | string (facultatif)   | Nom lisible de l’Appel                                                                                                                  |
+| `trace_id`     | string (uuid)         | Identifiant de la trace à laquelle cet Appel appartient                                                                                 |
+| `parent_id`    | string (uuid)         | Identifiant de l’Appel parent                                                                                                           |
+| `started_at`   | datetime              | Horodatage auquel l’Appel a commencé                                                                                                    |
+| `attributes`   | Dict[str, Any]        | Métadonnées définies par l’utilisateur pour l’Appel *(en lecture seule pendant l’exécution)*                                            |
+| `inputs`       | Dict[str, Any]        | Paramètres d’entrée de l’Appel                                                                                                          |
+| `ended_at`     | datetime (facultatif) | Horodatage de fin de l’Appel                                                                                                            |
+| `exception`    | string (facultatif)   | Message d’erreur si l’Appel a échoué                                                                                                    |
+| `output`       | Any (facultatif)      | Résultat de l’Appel                                                                                                                     |
+| `summary`      | Optional[SummaryMap]  | Informations de synthèse après l’exécution. Vous pouvez les modifier pendant l’exécution pour enregistrer des métriques personnalisées. |
+| `wb_user_id`   | Optional[str]         | ID utilisateur W&amp;B associé                                                                                                          |
+| `wb_run_id`    | Optional[str]         | ID de run W&amp;B associé                                                                                                               |
+| `deleted_at`   | datetime (facultatif) | Horodatage de suppression de l’Appel, le cas échéant                                                                                    |
+
+<div id="property-details">
+  ## Détails des propriétés
+</div>
+
+Les propriétés de `CallSchema` jouent un rôle important dans le suivi et la gestion des appels de fonction :
+
+* Les propriétés `id`, `trace_id` et `parent_id` aident à organiser les appels et à établir leurs relations au sein du système.
+
+* Les informations temporelles (`started_at`, `ended_at`) facilitent l&#39;analyse des performances.
+
+* Les propriétés `attributes` et `inputs` fournissent du contexte sur l&#39;appel. Les attributs sont figés une fois l&#39;appel démarré ; définissez-les donc avant l&#39;invocation avec `weave.attributes`. `output` et `summary` capturent les résultats.
+  -Vous pouvez stocker des métriques ou d&#39;autres valeurs post-appel dans la propriété `summary`. Modifiez `call.summary` pendant l&#39;exécution. Toutes les valeurs que vous ajoutez sont fusionnées avec les données de résumé calculées par Weave lorsque l&#39;Appel se termine.
+  * Données de résumé calculées par Weave :
+    * `costs` : Le coût total de l&#39;appel en fonction des données d&#39;utilisation du modèle LLM et des données de tarification des tokens. Pour plus d&#39;informations sur le calcul des coûts, voir [Suivre les coûts](/fr/weave/guides/tracking/costs).
+    * `latency_ms` : La durée, en millisecondes, écoulée entre `started_at` et `ended_at`. `null` si `status` est `RUNNING`.
+    * `status` : Le statut d&#39;exécution : `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR` (ce qui signifie que l&#39;appel lui-même a réussi, mais qu&#39;un appel descendant a échoué). {/* [empty ref](/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
+
+* L&#39;intégration avec W&amp;B est facilitée par `wb_user_id` et `wb_run_id`.
+
+Cet ensemble complet de propriétés permet un suivi et une analyse détaillés des appels de fonction dans l&#39;ensemble de votre projet.

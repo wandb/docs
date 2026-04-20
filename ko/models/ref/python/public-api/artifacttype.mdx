@@ -1,63 +1,77 @@
 ---
-title: 아티팩트 유형(ArtifactType)
+title: ArtifactType
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
+
 ## <kbd>class</kbd> `ArtifactType`
-지정된 타입에 따라 쿼리를 충족하는 Artifacts 오브젝트입니다.
 
-**Args:**
- 
- - `client`: W&B 쿼리에 사용할 클라이언트 인스턴스입니다.
- - `entity`: Projects 를 소유한 Entity (사용자 또는 팀)입니다.
- - `project`: Artifacts 타입을 쿼리할 Project 의 이름입니다.
- - `type_name`: Artifacts 타입의 이름입니다.
- - `attrs`: ArtifactType 을 초기화하기 위한 선택적 속성입니다. 생략 시, 오브젝트는 초기화 중에 W&B로부터 속성을 로드합니다.
+지정된 유형에 따라 쿼리 조건을 만족하는 artifact 객체입니다.
 
-### <kbd>property</kbd> ArtifactType.id
+**매개변수:**
 
-Artifacts 타입의 고유 식별자입니다.
+* `client`:  W&amp;B를 쿼리하는 데 사용할 클라이언트 인스턴스입니다.
+* `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
+* `project`:  artifact 유형을 쿼리할 프로젝트 이름입니다.
+* `type_name`:  artifact 유형의 이름입니다.
+* `attrs`:  ArtifactType을 초기화하는 데 사용할 선택 속성입니다.  생략하면 객체는 초기화 시 W&amp;B에서 속성을 로드합니다. 
 
-**Returns:**
- - `str`: id 속성 값.
----
+### <kbd>속성</kbd> ArtifactType.id
 
-### <kbd>property</kbd> ArtifactType.name
+artifact 유형의 고유 식별자입니다.
 
-Artifacts 타입의 이름입니다.
+**반환값:**
 
-**Returns:**
- - `str`: name 속성 값.
----
+* `str`: id 속성 값입니다.
 
-### <kbd>method</kbd> `ArtifactType.collection`
+***
+
+### <kbd>속성</kbd> ArtifactType.name
+
+artifact 유형의 이름입니다.
+
+**반환값:**
+
+* `str`: `name` 속성의 값입니다.
+
+***
+
+### <kbd>방법</kbd> `ArtifactType.collection`
 
 ```python
 collection(name: 'str') → ArtifactCollection
 ```
 
-이름으로 특정 아티팩트 컬렉션을 가져옵니다.
+이름으로 특정 artifact collection을 조회합니다.
 
-**Args:**
- 
- - `name` (str): 가져올 아티팩트 컬렉션의 이름입니다.
+**매개변수:**
 
----
+* `name` (str): 조회할 artifact collection의 이름입니다.
 
-### <kbd>method</kbd> `ArtifactType.collections`
+***
+
+
+### <kbd>방법</kbd> `ArtifactType.collections`
 
 ```python
-collections(per_page: 'int' = 50) → ArtifactCollections
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → ArtifactCollections
 ```
 
-이 Artifacts 타입과 관련된 모든 아티팩트 컬렉션을 가져옵니다.
+이 artifact 유형에 연결된 모든 artifact collection을 조회합니다.
 
-**Args:**
- 
- - `per_page` (int): 페이지당 가져올 아티팩트 컬렉션의 수입니다. 기본값은 50입니다.
+**매개변수:**
 
----
+* `filters` (dict):  쿼리에 적용할 필터의 선택 사항인 매핑입니다.
+* `order` (str):  결과 순서를 지정하는 선택 사항인 문자열입니다.  `order` 앞에 `+`를 붙이면 오름차순(기본값)입니다.  `order` 앞에 `-`를 붙이면 내림차순입니다.  기본 순서는 collection ID의 내림차순입니다.
+* `per_page` (int):  페이지당 가져올 artifact collection 수입니다.  기본값은 50입니다.
+
+***

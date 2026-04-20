@@ -1,0 +1,53 @@
+---
+title: Aperçu des fonctions globales
+description: Fonctions globales du W&B Python SDK
+module: 
+no_list: true
+---
+
+Dans W&amp;B, les fonctions globales sont des fonctions de niveau supérieur que vous appelez directement, comme `wandb.init()` ou `wandb.login()`. Contrairement aux méthodes associées à des classes spécifiques, ces fonctions donnent un accès direct aux fonctionnalités de base de W&amp;B sans devoir d’abord instancier des objets.
+
+<div id="available-functions">
+  ## Fonctions disponibles
+</div>
+
+| Fonction                                                  | Description                                                                                                                                                              |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`init()`](/fr/models/ref/python/functions/init)             | Démarre un nouveau run pour suivre et journaliser des données dans W&amp;B. C&#39;est généralement la première fonction appelée dans votre pipeline d&#39;entraînement ML. |
+| [`login()`](/fr/models/ref/python/functions/login)           | Configure les identifiants de connexion W&amp;B pour authentifier votre machine auprès de la plateforme.                                                                 |
+| [`setup()`](/fr/models/ref/python/functions/setup)           | Prépare W&amp;B pour une utilisation dans le processus courant et ses processus enfants. Utile pour les applications multiprocessus.                                     |
+| [`teardown()`](/fr/models/ref/python/functions/teardown)     | Nettoie les ressources W&amp;B et arrête le processus backend.                                                                                                           |
+| [`sweep()`](/fr/models/ref/python/functions/sweep)           | Initialise un balayage d&#39;hyperparamètres pour rechercher des configurations de modèle optimales.                                                                     |
+| [`agent()`](/fr/models/ref/python/functions/agent)           | Crée un agent de balayage pour exécuter des expériences d&#39;optimisation d&#39;hyperparamètres.                                                                        |
+| [`controller()`](/fr/models/ref/python/functions/controller) | Gère et contrôle les agents de balayage ainsi que leur exécution.                                                                                                        |
+| [`restore()`](/fr/models/ref/python/functions/restore)       | Restaure un run précédent ou l&#39;état d&#39;une expérience afin de reprendre le travail.                                                                               |
+| [`finish()`](/fr/models/ref/python/functions/finish)         | Termine un run et nettoie les ressources.                                                                                                                                |
+
+<div id="example">
+  ## Exemple
+</div>
+
+Le flux de travail le plus courant consiste à s&#39;authentifier auprès de W&amp;B, à initialiser un run et à journaliser des valeurs (telles que l&#39;accuracy et la perte) à partir de votre boucle d&#39;entraînement. Les premières étapes consistent à importer `wandb` et à utiliser les fonctions globales `login()` et `init()` :
+
+```python
+import wandb
+
+# S'authentifier avec W&B
+wandb.login()
+
+# Hyperparamètres et métadonnées
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# Projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# Initialiser un nouveau run
+with wandb.init(project=project, config=config) as run:
+   # Votre code d'entraînement ici...
+   
+   # Journaliser les valeurs dans W&B
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

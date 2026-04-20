@@ -1,0 +1,390 @@
+---
+title: Scikit-Learn
+description: "Utilisez W&B pour visualiser et comparer les performances des modèles scikit-learn grâce au suivi des expériences et à l’enregistrement automatique des graphiques."
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+Vous pouvez utiliser wandb pour visualiser et comparer les performances de vos modèles scikit-learn en quelques lignes de code seulement. [Essayez un exemple →](https://wandb.me/scikit-colab)
+
+<div id="get-started">
+  ## Bien démarrer
+</div>
+
+<div id="sign-up-and-create-an-api-key">
+  ### Inscrivez-vous et créez une clé API
+</div>
+
+Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil utilisateur.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **API Keys**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ### Installer la bibliothèque `wandb` et se connecter
+</div>
+
+Pour installer la bibliothèque `wandb` localement et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-metrics">
+  ### Consigner des métriques
+</div>
+
+```python
+import wandb
+
+wandb.init(project="visualize-sklearn") as run:
+
+  y_pred = clf.predict(X_test)
+  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
+
+  # Pour enregistrer des métriques au fil du temps, utilisez run.log
+  run.log({"accuracy": accuracy})
+
+  # OU pour enregistrer une métrique finale à la fin de l'entraînement, vous pouvez aussi utiliser run.summary
+  run.summary["accuracy"] = accuracy
+```
+
+<div id="make-plots">
+  ### Créer des graphiques
+</div>
+
+<div id="step-1-import-wandb-and-initialize-a-new-run">
+  #### Étape 1 : Importez wandb et initialisez un nouveau run
+</div>
+
+```python
+import wandb
+
+run = wandb.init(project="visualize-sklearn")
+```
+
+<div id="step-2-visualize-plots">
+  #### Étape 2 : Visualiser les graphiques
+</div>
+
+<div id="individual-plots">
+  #### Graphiques individuels
+</div>
+
+Après avoir entraîné un modèle et effectué des prédictions, vous pouvez générer des graphiques dans wandb pour analyser ces prédictions. Voir la section **Graphiques pris en charge** ci-dessous pour obtenir la liste complète des graphiques pris en charge.
+
+```python
+# Visualiser un graphique unique
+wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
+```
+
+<div id="all-plots">
+  #### Tous les graphiques
+</div>
+
+W&amp;B propose des fonctions comme `plot_classifier`, qui génèrent plusieurs graphiques pertinents :
+
+```python
+# Visualiser tous les graphiques de classification
+wandb.sklearn.plot_classifier(
+    clf,
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    y_pred,
+    y_probas,
+    labels,
+    model_name="SVC",
+    feature_names=None,
+)
+
+# Tous les graphiques de régression
+wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
+
+# Tous les graphiques de clustering
+wandb.sklearn.plot_clusterer(
+    kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
+)
+
+run.finish()
+```
+
+<div id="existing-matplotlib-plots">
+  #### Graphiques Matplotlib existants
+</div>
+
+Les graphiques créés avec Matplotlib peuvent également être enregistrés sur le tableau de bord W&amp;B. Pour cela, vous devez d&#39;abord installer `plotly`.
+
+```bash
+pip install plotly
+```
+
+Enfin, vous pouvez enregistrer les graphiques dans le tableau de bord de W&amp;B comme suit :
+
+```python
+import matplotlib.pyplot as plt
+import wandb
+
+with wandb.init(project="visualize-sklearn") as run:
+
+  # effectuez tous les plt.plot(), plt.scatter(), etc. ici.
+  # ...
+
+  # au lieu d'appeler plt.show(), faites :
+  run.log({"plot": plt})
+```
+
+<div id="supported-plots">
+  ## Graphiques pris en charge
+</div>
+
+<div id="learning-curve">
+  ### Courbe d&#39;apprentissage
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_learning_curve.png" alt="Courbe d'apprentissage Scikit-learn" />
+</Frame>
+
+Entraîne un modèle sur des jeux de données de tailles variables et génère un graphique des scores de validation croisée en fonction de la taille du jeu de données, pour les ensembles d&#39;entraînement et de test.
+
+`wandb.sklearn.plot_learning_curve(model, X, y)`
+
+* model (clf or reg): Prend en entrée un régressseur ou un classifieur ajusté.
+* X (arr): Fonctionnalités du jeu de données.
+* y (arr): Étiquettes du jeu de données.
+
+<div id="roc">
+  ### ROC
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_roc.png" alt="Courbe ROC de Scikit-learn" />
+</Frame>
+
+Les courbes ROC représentent le taux de vrais positifs (axe y) par rapport au taux de faux positifs (axe x). Le score idéal est un TPR = 1 et un FPR = 0, ce qui correspond au point situé en haut à gauche. En général, on calcule l’aire sous la courbe ROC (AUC-ROC), et plus l’AUC-ROC est élevée, mieux c’est.
+
+`wandb.sklearn.plot_roc(y_true, y_probas, labels)`
+
+* y&#95;true (arr): Étiquettes de l’ensemble de test.
+* y&#95;probas (arr): Probabilités prédites pour l’ensemble de test.
+* labels (list): Libellés des classes pour la variable cible (y).
+
+<div id="class-proportions">
+  ### Proportions des classes
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikic_class_props.png" alt="Proportions des classes pour la classification Scikit-learn" />
+</Frame>
+
+Trace la répartition des classes cibles dans les ensembles d&#39;entraînement et de test. Utile pour détecter des classes déséquilibrées et s&#39;assurer qu&#39;une classe n&#39;a pas une influence disproportionnée sur le modèle.
+
+`wandb.sklearn.plot_class_proportions(y_train, y_test, ['dog', 'cat', 'owl'])`
+
+* y&#95;train (arr): Étiquettes de l&#39;ensemble d&#39;entraînement.
+* y&#95;test (arr): Étiquettes de l&#39;ensemble de test.
+* labels (list): Étiquettes nommées de la variable cible (y).
+
+<div id="precision-recall-curve">
+  ### Courbe précision-rappel
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_precision_recall.png" alt="Courbe précision-rappel de Scikit-learn" />
+</Frame>
+
+Calcule le compromis entre la précision et le rappel pour différents seuils. Une grande aire sous la courbe indique à la fois un rappel élevé et une précision élevée, où une précision élevée correspond à un faible taux de faux positifs, et un rappel élevé à un faible taux de faux négatifs.
+
+Des scores élevés pour les deux montrent que le classifieur renvoie des résultats précis (précision élevée) et qu&#39;il identifie la majorité des cas positifs (rappel élevé). La courbe PR est utile lorsque les classes sont très déséquilibrées.
+
+`wandb.sklearn.plot_precision_recall(y_true, y_probas, labels)`
+
+* y&#95;true (arr): Étiquettes de l&#39;ensemble de test.
+* y&#95;probas (arr): Probabilités prédites sur l&#39;ensemble de test.
+* labels (list): Noms des étiquettes pour la variable cible (y).
+
+<div id="feature-importances">
+  ### Importance des fonctionnalités
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_feature_importances.png" alt="Graphique d'importance des fonctionnalités de Scikit-learn" />
+</Frame>
+
+Évalue et trace l’importance de chaque fonctionnalité pour la tâche de classification. Fonctionne uniquement avec les classifieurs qui possèdent un attribut `feature_importances_`, comme les arbres.
+
+`wandb.sklearn.plot_feature_importances(model, ['width', 'height, 'length'])`
+
+* model (clf): Prend en entrée un classifieur ajusté.
+* feature&#95;names (list): Noms des fonctionnalités. Rend les graphiques plus lisibles en remplaçant les indices des fonctionnalités par les noms correspondants.
+
+<div id="calibration-curve">
+  ### Courbe de calibration
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_calibration_curve.png" alt="Courbe de calibration Scikit-learn" />
+</Frame>
+
+Montre dans quelle mesure les probabilités prédites d’un classifieur sont bien calibrées et comment calibrer un classifieur non calibré. Compare les probabilités prédites estimées par un modèle de régression logistique de référence, le modèle passé en argument, ainsi que ses calibrations isotone et sigmoïde.
+
+Plus les courbes de calibration sont proches de la diagonale, mieux c’est. Une courbe en sigmoïde inversée représente un classifieur surajusté, tandis qu’une courbe en sigmoïde représente un classifieur sous-ajusté. En entraînant les calibrations isotone et sigmoïde du modèle et en comparant leurs courbes, nous pouvons déterminer si le modèle est en surajustement ou en sous-ajustement et, le cas échéant, quelle calibration (sigmoïde ou isotone) pourrait aider à corriger le problème.
+
+Pour plus de détails, consultez [la documentation de sklearn](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html).
+
+`wandb.sklearn.plot_calibration_curve(clf, X, y, 'RandomForestClassifier')`
+
+* model (clf) : Prend en entrée un classifieur ajusté.
+* X (arr) : Fonctionnalités de l’ensemble d’entraînement.
+* y (arr) : Étiquettes de l’ensemble d’entraînement.
+* model&#95;name (str) : Nom du modèle. Valeur par défaut : &#39;Classifier&#39;
+
+<div id="confusion-matrix">
+  ### Matrice de confusion
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_confusion_matrix.png" alt="Matrice de confusion Scikit-learn" />
+</Frame>
+
+Calcule la matrice de confusion pour évaluer la précision d&#39;une classification. Elle est utile pour évaluer la qualité des prédictions du modèle et repérer des tendances dans les prédictions pour lesquelles le modèle se trompe. La diagonale représente les prédictions que le modèle a correctement faites, c&#39;est-à-dire lorsque l&#39;étiquette réelle est égale à l&#39;étiquette prédite.
+
+`wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
+
+* y&#95;true (arr): Étiquettes de l&#39;ensemble de test.
+* y&#95;pred (arr): Étiquettes prédites de l&#39;ensemble de test.
+* labels (list): Étiquettes nommées de la variable cible (y).
+
+<div id="summary-metrics">
+  ### Métriques de synthèse
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_summary_metrics.png" alt="Métriques de synthèse de Scikit-learn" />
+</Frame>
+
+* Calcule des métriques de synthèse pour la classification, comme `mse`, `mae` et le score `r2`.
+* Calcule des métriques de synthèse pour la régression, comme `f1`, accuracy, la précision et le rappel.
+
+`wandb.sklearn.plot_summary_metrics(model, X_train, y_train, X_test, y_test)`
+
+* model (clf or reg): Prend en entrée un régresseur ou un classifieur ajusté.
+* X (arr): Fonctionnalités de l’ensemble d’entraînement.
+* y (arr): Étiquettes de l’ensemble d’entraînement.
+  * X&#95;test (arr): Fonctionnalités de l’ensemble de test.
+* y&#95;test (arr): Étiquettes de l’ensemble de test.
+
+<div id="elbow-plot">
+  ### Graphique en coude
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_elbow_plot.png" alt="Graphique en coude de Scikit-learn" />
+</Frame>
+
+Mesure et représente le pourcentage de variance expliquée en fonction du nombre de clusters, ainsi que les temps d’entraînement. Utile pour choisir le nombre optimal de clusters.
+
+`wandb.sklearn.plot_elbow_curve(model, X_train)`
+
+* model (clusterer): Accepte un clusterer ajusté.
+* X (arr): Fonctionnalités de l’ensemble d’entraînement.
+
+<div id="silhouette-plot">
+  ### Graphique de silhouette
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_silhouette_plot.png" alt="Graphique de silhouette Scikit-learn" />
+</Frame>
+
+Mesure et représente graphiquement à quel point chaque point d’un cluster est proche des points des clusters voisins. L’épaisseur des clusters correspond à leur taille. La ligne verticale représente le score de silhouette moyen de tous les points.
+
+Des coefficients de silhouette proches de +1 indiquent que l’échantillon est très éloigné des clusters voisins. Une valeur de 0 indique que l’échantillon se trouve sur, ou très près de, la frontière de décision entre deux clusters voisins, et des valeurs négatives indiquent que ces échantillons ont pu être assignés au mauvais cluster.
+
+En général, on cherche à ce que tous les scores de silhouette des clusters soient supérieurs à la moyenne (au-delà de la ligne rouge) et aussi proches que possible de 1. On préfère également des tailles de cluster qui reflètent les structures sous-jacentes des données.
+
+`wandb.sklearn.plot_silhouette(model, X_train, ['spam', 'not spam'])`
+
+* model (clusterer) : Prend en entrée un algorithme de clustering ajusté.
+* X (arr) : Fonctionnalités de l’ensemble d’entraînement.
+  * cluster&#95;labels (list) : Noms des étiquettes de cluster. Rend les graphiques plus faciles à lire en remplaçant les indices de cluster par les noms correspondants.
+
+<div id="outlier-candidates-plot">
+  ### Graphique des valeurs aberrantes potentielles
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_outlier_plot.png" alt="Graphique des valeurs aberrantes de Scikit-learn" />
+</Frame>
+
+Mesure l&#39;influence d&#39;un point de données sur un modèle de régression à l&#39;aide de la distance de Cook. Les instances dont l&#39;influence est fortement disproportionnée peuvent être des valeurs aberrantes potentielles. Utile pour la détection des valeurs aberrantes.
+
+`wandb.sklearn.plot_outlier_candidates(model, X, y)`
+
+* model (regressor): Accepte un classificateur ajusté.
+* X (arr): Fonctionnalités de l’ensemble d’entraînement.
+* y (arr): Étiquettes de l’ensemble d’entraînement.
+
+<div id="residuals-plot">
+  ### Graphique des résidus
+</div>
+
+<Frame>
+  <img src="/images/integrations/scikit_residuals_plot.png" alt="Graphique des résidus Scikit-learn" />
+</Frame>
+
+Mesure et représente les valeurs cibles prédites (axe des y) par rapport à l&#39;écart entre les valeurs cibles réelles et prédites (axe des x), ainsi que la distribution de l&#39;erreur résiduelle.
+
+En général, les résidus d&#39;un modèle bien ajusté devraient être répartis aléatoirement, car un bon modèle explique la plupart des phénomènes d&#39;un jeu de données, à l&#39;exception de l&#39;erreur aléatoire.
+
+`wandb.sklearn.plot_residuals(model, X, y)`
+
+* model (regressor): Prend un régresseur ajusté.
+* X (arr): Fonctionnalités de l&#39;ensemble d&#39;entraînement.
+* y (arr): Étiquettes de l&#39;ensemble d&#39;entraînement.
+
+  Si vous avez des questions, nous serons ravis d&#39;y répondre dans notre [communauté Slack](https://wandb.me/slack).
+
+<div id="example">
+  ## Exemple
+</div>
+
+* [Exécuter sur Colab](https://wandb.me/scikit-colab) : un notebook simple pour bien démarrer.

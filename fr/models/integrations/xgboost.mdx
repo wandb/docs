@@ -1,0 +1,82 @@
+---
+description: "Intégrez W&B à XGBoost pour journaliser automatiquement les métriques de gradient boosting, l’importance des variables et la performance du modèle."
+title: XGBoost
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
+
+La bibliothèque `wandb` inclut un callback `WandbCallback` pour journaliser les métriques, les configurations et les boosters enregistrés lors de l&#39;entraînement avec XGBoost. Vous pouvez voir ici un [tableau de bord W&amp;B en direct](https://wandb.ai/morg/credit_scorecard) avec les résultats du `WandbCallback` de XGBoost.
+
+<Frame>
+  <img src="/images/integrations/xgb_dashboard.png" alt="Tableau de bord W&B avec XGBoost" />
+</Frame>
+
+<div id="get-started">
+  ## Prise en main
+</div>
+
+La journalisation des métriques XGBoost, des configurations et des modèles booster dans W&amp;B est aussi simple que de transmettre `WandbCallback` à XGBoost :
+
+```python
+from wandb.integration.xgboost import WandbCallback
+import xgboost as XGBClassifier
+
+...
+# Démarrer un run wandb
+with wandb.init() as run:
+  # Passer WandbCallback au modèle
+  bst = XGBClassifier()
+  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
+```
+
+Vous pouvez ouvrir [ce notebook](https://wandb.me/xgboost) pour obtenir une vue d’ensemble complète de la journalisation avec XGBoost et W&amp;B
+
+<div id="wandbcallback-reference">
+  ## Référence de `WandbCallback`
+</div>
+
+<div id="functionality">
+  ### Fonctionnalité
+</div>
+
+Passer `WandbCallback` à un modèle XGBoost permet de :
+
+* journaliser la configuration du modèle booster dans W&amp;B
+* journaliser les métriques d&#39;évaluation collectées par XGBoost, comme rmse, accuracy, etc., dans W&amp;B
+* journaliser les métriques d&#39;entraînement collectées par XGBoost (si vous fournissez des données à `eval_set`)
+* journaliser le meilleur score et la meilleure itération
+* enregistrer et téléverser votre modèle entraîné dans W&amp;B Artifacts (lorsque `log_model = True`)
+* journaliser le graphique d&#39;importance des variables lorsque `log_feature_importance=True` (par défaut).
+* Capturer la meilleure métrique d&#39;évaluation dans `wandb.Run.summary` lorsque `define_metric=True` (par défaut).
+
+<div id="arguments">
+  ### Arguments
+</div>
+
+* `log_model`: (boolean) si True, enregistrez et envoyez le modèle vers W&amp;B Artifacts
+
+* `log_feature_importance`: (boolean) si True, journalisez un graphique à barres de l&#39;importance des variables
+
+* `importance_type`: (str) l&#39;une des valeurs suivantes : `{weight, gain, cover, total_gain, total_cover}` pour un modèle arborescent. `weight` pour un modèle linéaire.
+
+* `define_metric`: (boolean) si True (par défaut), enregistrez les performances du modèle à la meilleure étape de l&#39;entraînement, plutôt qu&#39;à la dernière, dans votre `run.summary`.
+
+Vous pouvez consulter le [code source de WandbCallback](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py).
+
+Pour plus d&#39;exemples, consultez le [dépôt d&#39;exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+
+<div id="tune-your-hyperparameters-with-sweeps">
+  ## Ajustez vos hyperparamètres avec Sweeps
+</div>
+
+Pour obtenir les meilleures performances de vos modèles, vous devez ajuster des hyperparamètres, comme la profondeur de l’arbre et le taux d’apprentissage. W&amp;B [Sweeps](/fr/models/sweeps/) est une boîte à outils puissante pour configurer, orchestrer et analyser des campagnes de tests d’hyperparamètres à grande échelle.
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+Vous pouvez aussi essayer ce [script Python XGBoost &amp; Sweeps](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
+
+<Frame>
+  <img src="/images/integrations/xgboost_sweeps_example.png" alt="Comparaison des performances de XGBoost" />
+</Frame>

@@ -1,0 +1,18 @@
+---
+title: "sweep의 run에서 모델을 가장 잘 로깅하려면 어떻게 해야 하나요?"
+keywords: ["Artifacts", "Sweeps"]
+---
+
+[sweep](/ko/models/sweeps/)에서 모델을 로깅하는 효과적인 방법 중 하나는 sweep용 모델 artifact를 만드는 것입니다. 각 버전은 sweep의 서로 다른 run에 해당합니다. 다음과 같이 구현하세요:
+
+```python
+wandb.Artifact(name="sweep_name", type="model")
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,40 @@
+---
+title: "OpDecorator"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="opdecorator">
+  # OpDecorator
+</div>
+
+Ƭ **OpDecorator**&lt;`T`&gt;: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) =&gt; `T` | `void` &amp; (`target`: `Object`, `propertyKey`: `string` | `symbol`, `descriptor`: `TypedPropertyDescriptor`&lt;`T`&gt;) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
+
+Type d’assistance pour les décorateurs
+Il s’agit d’une fonction décorateur qui peut être utilisée à la fois avec les décorateurs hérités et les décorateurs Stage 3.
+
+Pour les décorateurs Stage 3 :
+target: La fonction décorée (T)
+context: MethodDecoratorContext
+
+Pour les décorateurs hérités :
+target: Le prototype (méthodes d’instance) ou le constructeur (méthodes statiques)
+propertyKey: Le nom de la méthode
+descriptor: Le descripteur de propriété contenant la méthode
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                                     |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[opType.ts:41](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/opType.ts#L41)
+
+<div id="functions">
+  ## Fonctions
+</div>

@@ -1,0 +1,59 @@
+---
+title: "Informations sur l’utilisation et les limites"
+linkTitle: "Utilisation et limites"
+description: >
+  Comprendre la tarification, les limites d’utilisation et les restrictions de compte de W&B Inference
+---
+
+Découvrez la tarification, les limites et d’autres informations importantes sur l’utilisation avant d’utiliser W&amp;B Inference.
+
+<div id="pricing">
+  ## Tarification
+</div>
+
+Pour des informations détaillées sur la tarification des modèles, consultez [la tarification de W&amp;B Inference](https://wandb.ai/site/pricing/inference).
+
+<div id="purchase-more-credits">
+  ## Acheter plus de crédits
+</div>
+
+Les crédits W&amp;B Inference sont inclus pendant une durée limitée avec les plans Free, Pro et Academic. La disponibilité de l’offre Enterprise peut varier. Lorsque les crédits sont épuisés :
+
+* **Les comptes Free** doivent activer le paiement à l’usage pour W&amp;B Inference (dans l’onglet **Billing**), ou passer à un plan payant pour continuer à utiliser W&amp;B Inference. [Activer le paiement à l’usage ou passer à un plan supérieur](https://wandb.ai/subscriptions)
+* **Les utilisateurs du plan Pro** sont facturés mensuellement pour les dépassements, selon la [tarification propre à chaque modèle](https://wandb.ai/site/pricing/inference)
+* **Les comptes Enterprise** doivent contacter leur responsable de compte
+
+<div id="account-tiers-and-default-usage-caps">
+  ## Niveaux de compte et plafonds d’utilisation par défaut
+</div>
+
+Chaque niveau de compte comporte un plafond de dépenses par défaut pour vous aider à maîtriser les coûts et à éviter des frais imprévus. W&amp;B exige un prépaiement pour l’accès payant à l’Inférence.
+
+Si vous devez modifier votre plafond, contactez votre responsable de compte ou l’assistance pour ajuster votre limite.
+
+| Niveau de compte | Plafond par défaut | Comment modifier la limite                                                  |
+| ---------------- | ------------------ | --------------------------------------------------------------------------- |
+| Gratuit          | 100 $/mois         | Passez à Pro ou Enterprise                                                  |
+| Pro              | 6 000 $/mois       | Contactez votre responsable de compte ou l’assistance pour un examen manuel |
+| Enterprise       | 700 000 $/an       | Contactez votre responsable de compte ou l’assistance pour un examen manuel |
+
+<div id="concurrency-limits">
+  ## Limites de concurrence
+</div>
+
+Si vous dépassez la limite de débit, l&#39;API renvoie une réponse `429 Concurrency limit reached for requests`. Pour corriger cette erreur, réduisez le nombre de requêtes simultanées. Pour plus de détails sur la résolution de ce problème, voir [Limites de concurrence](#concurrency-limits).
+
+W&amp;B applique des limites de débit par projet W&amp;B. Par exemple, si vous avez 3 projets dans une équipe, chaque projet dispose de son propre quota de limite de débit.
+
+<div id="geographic-restrictions">
+  ## Restrictions géographiques
+</div>
+
+Le service Inférence n&#39;est disponible que dans les zones géographiques prises en charge. Pour plus d&#39;informations, voir les [Conditions d&#39;utilisation](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+* Consultez les [prérequis](/fr/inference/prerequisites/) avant de commencer.
+* Consultez les [modèles disponibles](/fr/inference/models) et leur tarification respective.

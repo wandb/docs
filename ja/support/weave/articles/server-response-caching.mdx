@@ -1,0 +1,76 @@
+---
+title: "サーバー応答のキャッシュ"
+keywords: ["パフォーマンス"]
+---
+
+Weave では、繰り返しクエリを実行する場合や、ネットワーク帯域幅が限られている環境で作業する場合のパフォーマンスを向上させるために、サーバー応答のキャッシュを利用できます。現時点ではデフォルトで無効になっていますが、この機能は今後の version でデフォルトの動作になる予定です。
+
+<div id="when-to-use-caching">
+  ### キャッシュを使用するタイミング
+</div>
+
+サーバー応答のキャッシュが特に有効なのは、次のような場合です。
+
+* 同じクエリを頻繁に実行する
+* ネットワーク帯域幅が限られている
+* レイテンシの高い環境で作業している
+* オフラインで開発しており、後で使用するために応答をキャッシュしておきたい
+
+この機能は、データセットに対して繰り返し評価を実行する場合に特に便利です。複数のrunにまたがってデータセットをキャッシュできるためです。
+
+<div id="how-to-enable-caching">
+  ### キャッシュを有効にする方法
+</div>
+
+キャッシュを有効にするには、以下の環境変数を設定します。
+
+```bash
+# サーバー応答のキャッシュを有効にする
+export WEAVE_USE_SERVER_CACHE=true
+
+# キャッシュサイズの上限を設定する（デフォルトは1GB）
+export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
+
+# キャッシュディレクトリを設定する（省略可能。デフォルトは一時ディレクトリ）
+export WEAVE_SERVER_CACHE_DIR=/path/to/cache
+```
+
+<div id="caching-behavior">
+  ### キャッシュの挙動
+</div>
+
+この機能は、厳密にはサーバーに対する冪等なリクエストをキャッシュします。具体的には、次をキャッシュします。
+
+* `obj_read`
+* `table_query`
+* `table_query_stats`
+* `refs_read_batch`
+* `file_content_read`
+
+<div id="cache-size-and-storage-details">
+  ### キャッシュサイズとストレージの詳細
+</div>
+
+キャッシュサイズは `WEAVE_SERVER_CACHE_SIZE_LIMIT` (バイト単位) で制御されます。実際に使用されるディスク容量は、次の 3 つの要素で構成されます。
+
+1. 固定サイズの 32KB のチェックサムファイル
+2. 実行中のクライアントごとに最大約 4MB の Write-Ahead Log (WAL) ファイル (プログラムの終了時に自動的に削除されます)
+3. 最小 32KB、最大 `WEAVE_SERVER_CACHE_SIZE_LIMIT` のメインデータベースファイル
+
+合計のディスク使用量:
+
+* 実行中 &gt;= 32KB + ~4MB + キャッシュサイズ
+* 終了後 &gt;= 32KB + キャッシュサイズ
+
+たとえば、キャッシュ上限が 5MB の場合:
+
+* 実行中: 最大約 9MB
+* 終了後: 最大約 5MB
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

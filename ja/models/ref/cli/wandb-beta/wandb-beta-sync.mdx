@@ -2,58 +2,67 @@
 title: wandb beta sync
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-sync.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbBetaSync from "/snippets/en/_includes/cli/wandb-beta-sync.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L125" />
 
-<WandbBetaSync/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-PATHS で指定された .wandb ファイルをアップロードします。
-
-これは `wandb sync` のベータ版再実装です。機能が完全ではなく、動作が保証されているわけでもありません。また、今後の wandb のリリースにおいて、後方互換性のない形で変更される可能性があります。
-
-PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリー、および run ディレクトリーを含む "wandb" ディレクトリーを指定できます。
-
-例えば、ディレクトリー内のすべての Runs を同期するには：
-
-wandb beta sync ./wandb
-
-特定の run を同期するには：
-
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude
-
-または同等の方法として：
-
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
-
-## 使用法
+<div id="usage">
+  ## 使用法
+</div>
 
 ```bash
-wandb beta sync [PATHS] [OPTIONS]
+sync [OPTIONS] [PATHS]...
 ```
 
-## 引数
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATHS` | 説明なし | いいえ |
+PATHS で指定した .wandb ファイルをアップロードします。
 
-## オプション
+これは `wandb sync` のベータ版の再実装です。機能はまだ完全ではなく、動作も保証されていません。また、wandb のどの version でも、後方互換性のない変更が行われる可能性があります。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--live` | ログが記録されている最中の run を同期します。run を生成しているプロセスが正常に終了せずにクラッシュした場合、この処理はハングする可能性があります。(デフォルト: False) |
-| `-e`, `--entity` | 同期されるすべての Runs に使用する Entity の上書き設定。(デフォルト: ) |
-| `-p`, `--project` | 同期されるすべての Runs に使用する Project の上書き設定。(デフォルト: ) |
-| `--id` | 同期されるすべての Runs に使用する run ID の上書き設定。これを設定して複数のファイル（同じ Entity および Project）を同期する場合、ファイルは開始時間の順に同期されます。これは、同じ run の再開された複数のフラグメントを同期することを目的としています。(デフォルト: ) |
-| `--skip-synced` | このコマンドですでに同期済みの Runs をスキップします。(デフォルト: True) |
-| `--dry-run` | 何もアップロードせずに、実行される内容を表示します。(デフォルト: False) |
-| `-v`, `--verbose` | より詳細な情報を表示します。(デフォルト: False) |
-| `-n` | 一度に同期する Runs の最大数。同じ run の一部である複数のファイルを同期する場合、この設定に関係なく、ファイルは開始時間の順に逐次同期されます。これは、レジュームされた Runs や --id パラメータを使用した場合に発生します。(デフォルト: 5) |
+PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリ、または run ディレクトリを含む &quot;wandb&quot; ディレクトリを指定できます。
+
+たとえば、現在の .wandb ディレクトリ内のすべての run を同期するには:
+
+```bash
+wandb beta sync ./wandb
+```
+
+run ディレクトリを指定して特定の run を同期するには:
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
+
+あるいは次のようにも書けます：
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名       | デフォルト | タイプ   |
+| ------- | ----- | ----- |
+| `paths` | PATH  | False |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag             | タイプ       | 説明                                                                                                                                                       |
+| ---------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--live`         | BOOL Flag | まだログを記録中の run を同期します。run を生成しているプロセスが異常終了した場合、ハングすることがあります。**デフォルト**: False                                                                              |
+| `-e, --entity`   | STR       | 同期するすべての run に使用する entity のオーバーライドです。**デフォルト**:                                                                                                          |
+| `-p, --project`  | STR       | 同期するすべての run に使用する project のオーバーライドです。**デフォルト**:                                                                                                         |
+| `--id`           | STR       | 同期するすべての run に使用する run ID のオーバーライドです。これを設定して複数のファイルを同期する場合 (同じ entity と project の場合) 、ファイルは開始時刻順に同期されます。これは、同じ run の再開された複数の断片を同期する場合を想定しています。**デフォルト**: |
+| `--job-type`     | STR       | 同期するすべての run に使用するジョブタイプのオーバーライドです。**デフォルト**:                                                                                                            |
+| `--replace-tags` | STR       | `'old1=new1,old2=new2'` の形式で tags の名前を変更します。**デフォルト**:                                                                                                   |
+| `--skip-synced`  | BOOL Flag | このコマンドですでに同期済みの run をスキップします。**デフォルト**: True                                                                                                             |
+| `--dry-run`      | BOOL Flag | 何もアップロードせずに、実行された場合の内容を表示します。**デフォルト**: False                                                                                                            |
+| `-v, --verbose`  | BOOL Flag | より詳細な情報を表示します。**デフォルト**: False                                                                                                                           |
+| `-n`             | INT       | 一度に同期する run の最大数です。同じ run の一部である複数のファイルを同期する場合、ファイルはこの設定に関係なく、開始時刻順に順次同期されます。これは、run を再開した場合や `--id` パラメーターを使用した場合に発生します。**デフォルト**: 5                    |

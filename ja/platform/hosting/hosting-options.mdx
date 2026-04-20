@@ -1,32 +1,43 @@
 ---
-title: デプロイメントオプション
+title: デプロイオプション
+description: "組織に応じて、W&B のデプロイタイプである Multi-tenant Cloud、専用クラウド、セルフマネージドから選択します。"
 ---
 
-このセクションでは、 W&B をデプロイするためのさまざまな方法について説明します。
+このセクションでは、W&amp;B のデプロイ方法の違いについて説明します。
 
-## W&B Multi-tenant Cloud
-[W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud) は、アップグレード、メンテナンス、プラットフォームのセキュリティ、キャパシティプランニングを含め、 W&B によって完全に管理されます。 Multi-tenant Cloud は、 W&B の Google Cloud アカウント上の [Google Cloud の北米リージョン](https://cloud.google.com/compute/docs/regions-zones) にデプロイされています。 [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) をオプションで使用すると、 W&B Artifacts やその他の関連する機密データを、お客様自身のクラウドまたは オンプレミス の インフラストラクチャー に保存することができます。
+<div id="wb-multi-tenant-cloud">
+  ## W&amp;B Multi-tenant Cloud
+</div>
 
-[W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud) を参照するか、 [無料で開始](https://app.wandb.ai/login?signup=true) してください。
+[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud) は、アップグレード、メンテナンス、プラットフォーム セキュリティ、キャパシティプランニングを含め、W&amp;B が完全マネージドで提供します。Multi-tenant Cloud は、[Google Cloud の北米リージョン](https://cloud.google.com/compute/docs/regions-zones)にある W&amp;B の Google Cloud アカウント上にデプロイされています。[Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) を利用すると、必要に応じて、W&amp;B Artifacts やその他の関連する機密データを、お客様自身のクラウドまたはオンプレミスのインフラストラクチャーに保存できます。
 
-## W&B Dedicated Cloud
-[W&B Dedicated Cloud](/platform/hosting/#wb-dedicated-cloud) は、エンタープライズ組織を念頭に置いて設計された、 シングルテナント でフルマネージドな プラットフォーム です。 W&B Dedicated Cloud は、 W&B の AWS、 Google Cloud 、または Azure アカウントにデプロイされます。 専用クラウド は、 Multi-tenant Cloud よりも柔軟性が高く、 W&B Self-Managed よりも複雑さを抑えた環境を提供します。アップグレード、メンテナンス、プラットフォームのセキュリティ、およびキャパシティプランニングは W&B によって管理されます。各 Dedicated Cloud インスタンスは、他の W&B Dedicated Cloud インスタンスから隔離されたネットワーク、計算リソース、およびストレージを保持します。
+詳しくは、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud) または [無料で始める](https://app.wandb.ai/login?signup=true) を参照してください。
 
-W&B 固有の メタデータ および データ は隔離された クラウド ストレージに保存され、隔離された クラウド コンピューティングサービスを使用して処理されます。 [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) をオプションで使用すると、 Artifacts やその他の関連する機密データを、お客様自身のクラウドまたは オンプレミス の インフラストラクチャー に保存することができます。
+<div id="wb-dedicated-cloud">
+  ## W&amp;B 専用クラウド
+</div>
 
-W&B Dedicated Cloud には [エンタープライズライセンス](/platform/hosting/hosting-options/self-managed/) が含まれており、重要なセキュリティ機能やその他のエンタープライズ向けの機能をサポートしています。
+[W&amp;B 専用クラウド](/ja/platform/hosting/#wb-dedicated-cloud) は、エンタープライズ組織を想定して設計された、シングルテナントの完全マネージドプラットフォームです。W&amp;B 専用クラウドは、W&amp;B の AWS、Google Cloud、または Azure アカウント上にデプロイされます。専用クラウド は、Multi-tenant Cloud より柔軟性が高く、W&amp;B セルフマネージド ほど複雑ではありません。アップグレード、メンテナンス、プラットフォームのセキュリティ、キャパシティプランニングは W&amp;B が管理します。各専用クラウド インスタンスは、他の W&amp;B 専用クラウド インスタンスから分離された専用のネットワーク、コンピュート、ストレージを備えています。
 
-高度なセキュリティやコンプライアンス要件を持つ組織向けに、 HIPAA 準拠、シングルサインオン、カスタマー管理暗号化キー (CMEK) などの機能が **Enterprise** サポートで利用可能です。 [詳細情報をリクエスト](https://wandb.ai/site/contact) してください。
+W&amp;B 固有のメタデータとデータは、分離されたクラウドストレージに保存され、分離されたクラウドコンピュートサービスで処理されます。[Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) を使用すると、オプションで、アーティファクトやその他の関連する機密データを自社のクラウドまたはオンプレミスのインフラストラクチャーに保存できます。
 
-[W&B Dedicated Cloud](/platform/hosting/#wb-dedicated-cloud) を参照するか、 [無料で開始](https://app.wandb.ai/login?signup=true) してください。
+W&amp;B 専用クラウド には、重要なセキュリティ機能やその他のエンタープライズ向け機能をサポートする [エンタープライズライセンス](/ja/platform/hosting/hosting-options/self-managed/) が含まれます。
 
-## W&B Self-Managed
-[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/) は、お客様の オンプレミス またはお客様が管理する クラウド インフラストラクチャー 上で、すべてお客様自身によって管理されます。お客様の IT/DevOps/MLOps チームは以下の責任を負います：
-- デプロイメント のプロビジョニング。
-- 組織のポリシーおよび（該当する場合は） [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に従った インフラストラクチャー のセキュリティ保護。
-- アップグレードの管理およびパッチの適用。
-- Self-Managed W&B Server インスタンスの継続的なメンテナンス。
+高度なセキュリティ要件やコンプライアンス要件を持つ組織向けに、HIPAA コンプライアンス、Single Sign On、Customer Managed Encryption Keys (CMEK) などの機能を **Enterprise** サポートで利用できます。[詳細情報をリクエスト](https://wandb.ai/site/contact)。
 
-オプションで W&B Self-Managed のエンタープライズライセンスを取得できます。エンタープライズライセンスには、重要なセキュリティ機能やその他のエンタープライズ向けの機能へのサポートが含まれています。
+[W&amp;B 専用クラウド](/ja/platform/hosting/#wb-dedicated-cloud) を参照するか、[無料で始める](https://app.wandb.ai/login?signup=true)。
 
-[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/) を参照するか、 [リファレンス アーキテクチャー](/platform/hosting/self-managed/ref-arch/) ガイド をご確認ください。
+<div id="wb-self-managed">
+  ## W&amp;B セルフマネージド
+</div>
+
+[W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed/) は、お客様のオンプレミス環境、またはお客様が管理するクラウドインフラストラクチャー上で、お客様自身が全面的に管理する形態です。お客様の IT/DevOps/MLOps チームは、以下を担当します。
+
+* デプロイ環境のプロビジョニング。
+* 必要に応じて、組織のポリシーおよび [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に従ったインフラストラクチャーの保護。
+* アップグレードの管理とパッチの適用。
+* セルフマネージドの W&amp;B Server インスタンスの継続的な保守。
+
+必要に応じて、W&amp;B セルフマネージド向けの エンタープライズライセンス を取得できます。エンタープライズライセンス には、重要なセキュリティ機能や、そのほかのエンタープライズ向け機能に対するサポートが含まれます。
+
+[W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed/) を参照するか、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch/) のガイドラインを確認してください。

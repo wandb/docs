@@ -1,46 +1,71 @@
 ---
-title: Azure OpenAI Fine-Tuning
-description: W&B を使用して Azure OpenAI Models を ファインチューン する方法。
+description: "W&Bの実験管理を活用してAzure OpenAIモデルをファインチューニングし、メトリクス、ハイパーパラメーター、トレーニングの進行状況をログします。"
+title: Azure OpenAI ファインチューニング
 ---
 
-## イントロダクション
-Microsoft Azure 上での GPT-3.5 または GPT-4 モデルのファインチューニングにおいて、W&B を使用することで、メトリクスの自動キャプチャや、W&B の 実験管理 および評価ツールを通じた体系的な評価が可能になり、モデルパフォーマンスの追跡、分析、改善を行うことができます。
+<div id="introduction">
+  ## はじめに
+</div>
+
+Microsoft Azure で GPT-3.5 または GPT-4 モデルを W&amp;B でファインチューニングすると、メトリクスが自動的に取得され、W&amp;B の実験管理ツールと評価ツールによって体系的な評価が可能になるため、モデル性能をトラッキング、分析、改善できます。
 
 <Frame>
-    <img src="/images/integrations/aoai_ft_plot.png" alt="Azure OpenAI fine-tuning metrics"  />
+  <img src="/images/integrations/aoai_ft_plot.png" alt="Azure OpenAI のファインチューニング メトリクス" />
 </Frame>
 
-## 事前準備
-- [Azure 公式ドキュメント](https://wandb.me/aoai-wb-int) に従って、Azure OpenAI サービスをセットアップしてください。
-- APIキー を使用して W&B アカウントを 設定 してください。
+<div id="prerequisites">
+  ## 前提条件
+</div>
 
-## ワークフローの概要
+* [Azure の公式ドキュメント](https://wandb.me/aoai-wb-int)に従って、Azure OpenAI Service を設定します。
+* W&amp;BアカウントにAPIキーを設定します。
 
-### 1. ファインチューニングのセットアップ
-- Azure OpenAI の要件に従って トレーニングデータ を準備します。
-- Azure OpenAI でファインチューニングジョブを 設定 します。
-- W&B はファインチューニングの プロセス を自動的に追跡し、メトリクスと ハイパーパラメーター を ログ に記録します。
+<div id="workflow-overview">
+  ## ワークフローの概要
+</div>
 
-### 2. 実験管理
-ファインチューニング中、W&B は以下の情報をキャプチャします：
-- トレーニングおよび検証メトリクス
-- モデルの ハイパーパラメーター
-- リソース使用率
-- トレーニングの Artifacts
+<div id="1-fine-tuning-setup">
+  ### 1. ファインチューニングのセットアップ
+</div>
 
-### 3. モデルの評価
-ファインチューニング後、[W&B Weave](https://weave-docs.wandb.ai) を使用して以下のことが行えます：
-- 参照 データセット に対するモデル出力の評価
-- 異なるファインチューニングの Runs 間でのパフォーマンス比較
-- 特定のテストケースにおけるモデルの 振る舞い の分析
-- モデル選定のためのデータに基づいた意思決定
+* Azure OpenAI の要件に従って、トレーニングデータを準備します。
+* Azure OpenAI でファインチューニング ジョブを設定します。
+* W&amp;B はファインチューニングのプロセスを自動的にトラッキングし、メトリクスとハイパーパラメーターをログします。
 
-## 実例
-* [医療メモ生成のデモ](https://wandb.me/aoai-ft-colab) を探索して、この インテグレーション がどのように以下を促進するか確認してください：
-  - ファインチューニング 実験 の体系的な追跡
-  - ドメイン固有のメトリクスを用いた モデルの評価
-* [ノートブックを用いたファインチューニングのインタラクティブなデモ](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb) を実行する
+<div id="2-experiment-tracking">
+  ### 2. 実験管理
+</div>
 
-## 追加リソース
-- [Azure OpenAI W&B インテグレーションガイド](https://wandb.me/aoai-wb-int)
-- [Azure OpenAI ファインチューニングドキュメント](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
+ファインチューニング中、W&amp;B では次を記録します：
+
+* トレーニングおよび検証のメトリクス
+* モデルのハイパーパラメーター
+* リソース使用状況
+* トレーニング成果物
+
+<div id="3-model-evaluation">
+  ### 3. モデル評価
+</div>
+
+ファインチューニング後、[W&amp;B Weave](https://weave-docs.wandb.ai)を使用して、次のことを行います。
+
+* モデルの出力を参照用データセットに対して評価する
+* 複数のファインチューニング run 間でパフォーマンスを比較する
+* 特定のテストケースにおけるモデルの挙動を分析する
+* モデル選択のために、データに基づいて意思決定する
+
+<div id="real-world-example">
+  ## 実際の使用例
+</div>
+
+* [医療メモ生成デモ](https://wandb.me/aoai-ft-colab)で、このインテグレーションによって次のことがどのように実現されるかを確認できます。
+  * ファインチューニング実験の体系的なトラッキング
+  * ドメイン固有のメトリクスを用いたモデル評価
+* [ファインチューニングを体験できるインタラクティブなノートブックデモ](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb)もご覧ください
+
+<div id="additional-resources">
+  ## 追加リソース
+</div>
+
+* [Azure OpenAI W&amp;B インテグレーション ガイド](https://wandb.me/aoai-wb-int)
+* [Azure OpenAI ファインチューニング ドキュメント](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython\&pivots=programming-language-python)
