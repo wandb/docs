@@ -1,0 +1,274 @@
+---
+title: "Link traces across services"
+description: "Use a workaround to connect traces from independent services into a single unified trace tree in W&B Weave."
+---
+
+By default, each service that calls `weave.init()` has its own independent Weave context. When multiple services process a single request, Weave logs each service's calls as separate, unrelated traces. This guide shows you how to link those traces together into a unified trace tree so you can follow the full execution path across service boundaries.
+
+<Warning>
+This guide uses internal Weave APIs that are not part of the public SDK. These APIs may change without notice in future Weave releases. Use this approach as a temporary workaround until native cross-service tracing support is available.
+</Warning>
+
+## How it works
+
+The pattern has two parts:
+
+1. **Sender**: Inside a `@weave.op`-decorated function, retrieve the current call using `get_current_call()`. Extract the `trace_id` and `id` from the call, then pass them to the downstream service alongside the request payload.
+2. **Receiver**: In the downstream service, before calling its own op, wrap the call in a `parent_call` context manager. This sets the call stack so that the downstream op is logged as a child of the upstream call.
+
+How you transmit the `trace_id` and call `id` between services depends on your transport layer. You can use HTTP headers, gRPC metadata, a message queue payload field, or any other mechanism.
+
+This pattern is only supported in the Python SDK. The TypeScript SDK does not provide equivalent APIs for cross-service trace linking.
+
+## Prerequisites
+
+- Weave installed and configured.
+- One or more Python services, each calling `weave.init()` with the same project name.
+
+## Define the `parent_call` helper
+
+Add this helper function to each service that receives calls from another service. It is not included in the Weave library and must be added to your codebase.
+
+```python
+from contextlib import contextmanager
+
+from weave.trace.weave_client import Call
+from weave.trace.context.call_context import set_call_stack
+
+@contextmanager
+def parent_call(trace_id: str, parent_call_id: str):
+    with set_call_stack([Call(
+        trace_id=trace_id,
+        id=parent_call_id,
+        _op_name="",
+        project_id="",
+        parent_id=None,
+        inputs={}
+    )]):
+        yield
+```
+
+The `Call` object acts as a sentinel placeholder for the parent call. The `_op_name`, `project_id`, `parent_id`, and `inputs` fields are required by the `Call` constructor but are not used for tracing purposes in this context.
+
+## Send trace context from a caller service
+
+Inside a `@weave.op`-decorated function, retrieve the current call and extract its `trace_id` and `id`. Pass these values to the downstream service alongside the request.
+
+```python
+import weave
+from weave.trace.context.call_context import get_current_call
+
+weave.init("my-project")
+
+@weave.op
+def top_level_op(value: int) -> int:
+    curr_call = get_current_call()
+
+    # Pass curr_call.trace_id and curr_call.id to the downstream service.
+    # The transport mechanism (HTTP headers, gRPC metadata, queue message, etc.)
+    # depends on your architecture.
+    result = call_downstream_service(
+        value=value,
+        trace_id=curr_call.trace_id,
+        parent_call_id=curr_call.id
+    )
+    return result
+```
+
+## Receive trace context in a downstream service
+
+In the downstream service, accept the `trace_id` and `parent_call_id` from the incoming request. Before calling your op, wrap the call in the `parent_call` context manager.
+
+```python
+import weave
+
+weave.init("my-project")
+
+@weave.op
+def downstream_op(value: int) -> int:
+    return value + 2
+
+def handle_request(value: int, trace_id: str, parent_call_id: str) -> int:
+    with parent_call(trace_id, parent_call_id):
+        result = downstream_op(value)
+    return result
+```
+
+When `downstream_op` runs inside the `parent_call` context, Weave logs it as a child of the upstream call identified by `trace_id` and `parent_call_id`. The call appears in the trace tree under the caller's op in the Weave UI.
+
+## Chain multiple services
+
+You can extend this pattern across any number of services. Each service retrieves the current call inside its own op, passes the `trace_id` and `id` downstream, and each downstream service wraps its op in `parent_call` before executing.
+
+```python
+# Middle service
+import weave
+from weave.trace.context.call_context import get_current_call
+
+weave.init("my-project")
+
+@weave.op
+def middle_op(value: int) -> int:
+    curr_call = get_current_call()
+
+    # Forward trace context to the next downstream service
+    result = call_bottom_service(
+        value=value,
+        trace_id=curr_call.trace_id,
+        parent_call_id=curr_call.id
+    )
+    return result * 2
+
+def handle_request(value: int, trace_id: str, parent_call_id: str) -> int:
+    with parent_call(trace_id, parent_call_id):
+        result = middle_op(value)
+    return result
+```
+
+## Verify the result
+
+After running a request that spans multiple services, open the Weave UI and navigate to **Traces** for your project. You should see a single trace that contains the full call tree across all services, rather than separate traces for each service.
+
+## Complete example
+
+The following example simulates three services running as separate processes. It demonstrates the full end-to-end pattern using Python multiprocessing to create independent Weave contexts.
+
+<Expandable title="Complete multi-service example">
+
+```python
+from contextlib import contextmanager
+import multiprocessing as mp
+from multiprocessing.connection import Connection
+from dataclasses import dataclass
+
+import weave
+from weave.trace.weave_client import Call
+from weave.trace.context.call_context import get_current_call, set_call_stack
+
+
+@contextmanager
+def parent_call(trace_id: str, parent_call_id: str):
+    with set_call_stack([Call(
+        trace_id=trace_id,
+        id=parent_call_id,
+        _op_name="",
+        project_id="",
+        parent_id=None,
+        inputs={}
+    )]):
+        yield
+
+
+@dataclass
+class Payload:
+    value: int
+    trace_id: str
+    parent_call_id: str
+
+
+def top_level_service(number: int, main_to_p2: Connection, main_from_p2: Connection) -> int:
+    weave.init("multi_node_example")
+
+    def call_middle_service(value: int, trace_id: str, parent_call_id: str) -> int:
+        main_to_p2.send(Payload(value=value, trace_id=trace_id, parent_call_id=parent_call_id))
+        return main_from_p2.recv().value
+
+    @weave.op
+    def top_level_op(value: int) -> dict:
+        curr_call = get_current_call()
+        result_1 = call_middle_service(value // 2, curr_call.trace_id, curr_call.id)
+        result_2 = call_middle_service(value * -1, curr_call.trace_id, curr_call.id)
+        return {"initial_value": number, "final_value": result_1 + result_2}
+
+    return top_level_op(number)
+
+
+def middle_level_service(payload: Payload, pipe_to_three: Connection, pipe_from_three: Connection) -> Payload:
+    weave.init("multi_node_example")
+
+    def call_bottom_service(value: int, trace_id: str, parent_call_id: str) -> int:
+        pipe_to_three.send(Payload(value=value, trace_id=trace_id, parent_call_id=parent_call_id))
+        return pipe_from_three.recv().value
+
+    @weave.op
+    def middle_level_op(value: int) -> int:
+        curr_call = get_current_call()
+        new_val = call_bottom_service(value, curr_call.trace_id, curr_call.id)
+        return new_val * 2
+
+    with parent_call(payload.trace_id, payload.parent_call_id):
+        result = middle_level_op(payload.value)
+
+    return Payload(value=result, trace_id=payload.trace_id, parent_call_id=payload.parent_call_id)
+
+
+def bottom_level_service(payload: Payload) -> Payload:
+    weave.init("multi_node_example")
+
+    @weave.op
+    def lower_level_op(value: int) -> int:
+        return value + 2
+
+    with parent_call(payload.trace_id, payload.parent_call_id):
+        result = lower_level_op(payload.value)
+
+    return Payload(value=result, trace_id=payload.trace_id, parent_call_id=payload.parent_call_id)
+
+
+def process_three(pipe_in: Connection, pipe_out: Connection) -> None:
+    while True:
+        try:
+            payload = pipe_in.recv()
+            pipe_out.send(bottom_level_service(payload))
+        except EOFError:
+            break
+
+
+def process_two(pipe_in: Connection, pipe_to_three: Connection,
+                pipe_from_three: Connection, pipe_out: Connection) -> None:
+    while True:
+        try:
+            payload = pipe_in.recv()
+            pipe_out.send(middle_level_service(payload, pipe_to_three, pipe_from_three))
+        except EOFError:
+            break
+
+
+def main():
+    main_to_p2, p2_from_main = mp.Pipe()
+    p2_to_p3, p3_from_p2 = mp.Pipe()
+    p3_to_p2, p2_from_p3 = mp.Pipe()
+    p2_to_main, main_from_p2 = mp.Pipe()
+
+    process_2 = mp.Process(target=process_two, args=(p2_from_main, p2_to_p3, p2_from_p3, p2_to_main))
+    process_3 = mp.Process(target=process_three, args=(p3_from_p2, p3_to_p2))
+    process_2.start()
+    process_3.start()
+
+    try:
+        while True:
+            user_input = input("Enter a number (or 'q' to quit): ")
+            if user_input.lower() == 'q':
+                break
+            try:
+                number = int(user_input)
+                print(top_level_service(number, main_to_p2, main_from_p2))
+            except ValueError:
+                print("Please enter a valid number.")
+    except KeyboardInterrupt:
+        pass
+    finally:
+        for pipe in [main_to_p2, p2_from_main, p2_to_p3, p3_from_p2,
+                     p3_to_p2, p2_from_p3, p2_to_main, main_from_p2]:
+            pipe.close()
+        process_2.terminate()
+        process_3.terminate()
+        process_2.join()
+        process_3.join()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+</Expandable>
