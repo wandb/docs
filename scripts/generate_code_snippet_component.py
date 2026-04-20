@@ -17,7 +17,7 @@ def generate_component(py_files):
         # Convert to component name (PascalCase)
         component_name = ''.join(word.capitalize() for word in py_file.stem.replace('-', '_').split('_'))
         mdx_file = py_file.with_suffix('.mdx').name
-        imports.append(f"import {component_name} from '/snippets/en/_includes/code-examples/{mdx_file}';")
+        imports.append(f"import {component_name} from '/snippets/_includes/code-examples/{mdx_file}';")
         mapping.append(f"  '{py_file.name}': {component_name},")
     
     imports_str = '\n'.join(imports)

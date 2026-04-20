@@ -2,23 +2,37 @@
 title: wandb online
 ---
 
-{/*
-  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
-  1. 스니펫 파일 생성: /snippets/en/_includes/cli/wandb-online.mdx
-  2. 해당 파일에 도입 콘텐츠 추가
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 유지하세요:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-import WandbOnline from "/snippets/en/_includes/cli/wandb-online.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3365" />
 
-<WandbOnline/>
+<div id="usage">
+  ## 사용법
+</div>
 
-  다음 재생성 시 스니펫이 자동으로 감지됩니다.
-*/}
+```bash
+online [OPTIONS]
+```
 
-`wandb offline` 설정을 취소합니다.
+<div id="description">
+  ## 설명
+</div>
 
-## 사용법
+W&amp;B run의 클라우드 동기화를 다시 활성화합니다.
+
+오프라인 모드 설정을 해제하여 이 디렉터리에서 이후에 실행하는 run이
+W&amp;B 클라우드에 데이터를 동기화하도록 합니다.
+
+이전에 실행한 `wandb offline` 명령을 되돌립니다.
+
+예를 들어, 오프라인으로 작업한 후 클라우드 동기화를 다시 활성화하려면 다음과 같이 하세요:
 
 ```bash
 wandb online
+```
+
+클라우드 동기화를 다시 활성화한 후 트레이닝 스크립트를 실행하세요:
+
+```bash
+wandb online && python train.py
 ```

@@ -1,0 +1,88 @@
+---
+description: Gérez les membres d’une équipe, son avatar, ses alertes et ses paramètres de confidentialité depuis la page paramètres de l’équipe.
+title: Gérer les paramètres de l’équipe
+---
+
+import EnterpriseOnly from "/snippets/fr/_includes/enterprise-only.mdx";
+
+<div id="team-settings">
+  # Team settings
+</div>
+
+Modifiez les paramètres de votre équipe, notamment les membres, l’avatar, les alertes, la confidentialité et l’utilisation. Les administrateurs de l’organisation et les administrateurs d’équipe peuvent consulter et modifier les paramètres d’une équipe.
+
+<Note>
+  Seuls les comptes de type Administration peuvent modifier les paramètres d’équipe ou supprimer un membre d’une équipe.
+</Note>
+
+<div id="members">
+  ## Membres
+</div>
+
+La section Membres affiche la liste de toutes les invitations en attente ainsi que des membres ayant accepté l’invitation à rejoindre l’équipe. Pour chaque membre, sont affichés son nom, son nom d’utilisateur, son e-mail, son rôle dans l’équipe, ainsi que ses privilèges d’accès à Models et à W&amp;B Weave, hérités de l’organisation. Vous pouvez choisir parmi les rôles d’équipe standard **Admin**, **Membre** et **Lecture seule**. Si votre organisation a créé des [rôles personnalisés](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles), vous pouvez attribuer un rôle personnalisé à la place.
+
+Voir [Ajouter et gérer les Teams](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) pour savoir comment créer une équipe, gérer les Teams, ainsi que gérer les membres de l’équipe et les rôles. Pour configurer qui peut inviter de nouveaux membres et d’autres paramètres de confidentialité de l’équipe, référez-vous à [Confidentialité](#privacy).
+
+<div id="avatar">
+  ## Avatar
+</div>
+
+Définissez un avatar en accédant à la section **Avatar** et en téléversant une image.
+
+1. Sélectionnez **Update Avatar** pour ouvrir une boîte de dialogue de sélection de fichier.
+2. Dans la boîte de dialogue, choisissez l&#39;image que vous souhaitez utiliser.
+
+<div id="alerts">
+  ## Alertes
+</div>
+
+Envoyez des alertes à votre équipe lorsqu’un run plante ou se termine, ou définissez des alertes personnalisées. Votre équipe peut recevoir ces alertes par e-mail ou dans Slack.
+
+Basculez l’interrupteur à côté du type d’événement pour lequel vous souhaitez recevoir des alertes. Weights and Biases fournit par défaut les options de type d’événement suivantes :
+
+* **Runs terminés** : indique si un run Weights and Biases s’est terminé avec succès.
+* **Run planté** : indique si un run ne s’est pas terminé correctement.
+
+Pour plus d’informations sur la configuration et la gestion des alertes, voir [Envoyer des alertes avec `wandb.Run.alert()`](/fr/models/runs/alert).
+
+<div id="slack-notifications">
+  ## Notifications Slack
+</div>
+
+Configurez des destinations Slack auxquelles les automatisations de votre équipe peuvent envoyer des notifications lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artifact est créé ou lorsqu’une métrique de run atteint un seuil défini. Consultez [Créer une automatisation Slack](/fr/models/automations/create-automations/slack/) et les [automatisations](/fr/models/automations/).
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="webhooks">
+  ## Webhooks
+</div>
+
+Configurez les webhooks que les [automatisations](/fr/models/automations/) de votre équipe peuvent exécuter lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artifact est créé ou lorsqu’une métrique d’un run atteint un seuil défini. Reportez-vous à [Créer une automatisation de webhook](/fr/models/automations/create-automations/slack/).
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="privacy">
+  ## Confidentialité
+</div>
+
+Accédez à la section **Confidentialité** pour modifier les paramètres de confidentialité. Seuls les administrateurs de l’organisation peuvent modifier ces paramètres de confidentialité.
+
+* Désactivez la possibilité de rendre les futurs Projects publics ou de partager publiquement des Reports.
+* Autorisez n’importe quel membre de l’équipe à inviter d’autres membres, et pas seulement les administrateurs d’équipe.
+* Gérez si l’enregistrement du code est activé par défaut.
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+La section **Utilisation** décrit la quantité totale de mémoire utilisée par l&#39;équipe sur les serveurs de Weights &amp; Biases. Le plan de stockage par défaut est de 100GB. Pour plus d&#39;informations sur le stockage et la tarification, consultez la page [Tarification](https://wandb.ai/site/pricing).
+
+<div id="storage">
+  ## Stockage
+</div>
+
+La section **Stockage** décrit la configuration du bucket de stockage cloud utilisée pour les données de l&#39;équipe. Pour plus d&#39;informations, voir [Secure Storage Connector](/fr/platform/app/settings-page/teams/#secure-storage-connector), ou consultez la documentation de [W&amp;B Server](/fr/platform/hosting/data-security/secure-storage-connector) si vous utilisez un hébergement autogéré.

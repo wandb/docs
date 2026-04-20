@@ -1,0 +1,25 @@
+```python
+"""
+W&B에 히스토그램 플롯을 로그합니다.
+
+다음을 교체하세요:
+- 꺾쇠 괄호로 묶인 값을 본인의 값으로 교체
+- wandb.Table(data=)의 [[1, 2], [2, 3]]을 플롯할 본인의 2D 행 기반 배열로 교체
+
+data에 2D 행 기반 배열을 전달하고(wandb.Table(data=)),
+`columns` 파라미터에 열 이름을 지정합니다.
+"""
+import wandb
+
+# 새 run 시작
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # 플롯할 열이 포함된 테이블 생성
+    table = wandb.Table(data=[[1, 2], [2, 3]] , columns=["<a_column>", "<b_column>"])
+
+    # 테이블을 사용하여 다양한 맞춤형 차트 채우기
+    histogram = wandb.plot.histogram(table, value='<b_column>', title='Histogram')
+
+    # 맞춤형 테이블을 로그합니다. UI의 맞춤형 차트에 표시됩니다.
+    run.log({'histogram_1': histogram})
+```

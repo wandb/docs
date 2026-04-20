@@ -1,0 +1,30 @@
+---
+title: "Hydra와 W&B를 함께 사용할 때 프로세스가 왜 멈추나요?"
+keywords: ["Experiments", "run 충돌"]
+---
+
+Hydra로 시작한 프로세스가 멈춘다면, 이는 Hydra와 W&amp;B 간의 멀티프로세싱 충돌 때문일 가능성이 높습니다.
+
+이 문제를 해결하려면 W&amp;B의 멀티프로세싱 프로토콜을 `"thread"`로 변경하세요. 다음 두 가지 방법 중 하나로 설정할 수 있습니다.
+
+**옵션 1**: `wandb.init()`에 settings 파라미터를 전달하세요:
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+
+**옵션 2**: 전역 환경 변수를 설정합니다:
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+자세한 내용은 [Hydra 인테그레이션 가이드](/ko/models/integrations/hydra/)와 [분산 트레이닝 문제 해결](/ko/models/track/log/distributed-training/)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/ko/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

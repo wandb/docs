@@ -1,0 +1,76 @@
+---
+title: "서버 응답 캐싱"
+keywords: ["성능"]
+---
+
+Weave는 반복적으로 쿼리하거나 네트워크 대역폭이 제한된 환경에서 작업할 때 성능을 높일 수 있도록 서버 응답 캐싱을 제공합니다. 현재는 기본적으로 비활성화되어 있지만, 이 기능은 향후 릴리스에서 기본 동작이 될 것으로 예상됩니다.
+
+<div id="when-to-use-caching">
+  ### 캐싱을 사용하는 경우
+</div>
+
+서버 응답 캐싱은 다음과 같은 경우에 특히 유용합니다.
+
+* 같은 쿼리를 자주 실행하는 경우
+* 네트워크 대역폭이 제한적인 경우
+* 지연 시간이 큰 환경에서 작업하는 경우
+* 오프라인으로 개발하면서 나중에 사용하기 위해 응답을 캐시해 두고 싶은 경우
+
+이 기능은 데이터셋에 대해 반복적으로 평가를 실행할 때 특히 유용하며, run 간에 데이터셋을 캐싱할 수 있습니다.
+
+<div id="how-to-enable-caching">
+  ### 캐싱 활성화 방법
+</div>
+
+캐싱을 활성화하려면 다음 환경 변수를 설정할 수 있습니다:
+
+```bash
+# 서버 응답 캐싱 활성화
+export WEAVE_USE_SERVER_CACHE=true
+
+# 캐시 크기 제한 설정 (기본값: 1GB)
+export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
+
+# 캐시 디렉터리 설정 (선택 사항, 기본값: 임시 디렉터리)
+export WEAVE_SERVER_CACHE_DIR=/path/to/cache
+```
+
+<div id="caching-behavior">
+  ### 캐싱 방식
+</div>
+
+엄밀히 말해, 이 기능은 서버로 보내는 멱등 요청을 캐시합니다. 구체적으로는 다음 요청을 캐시합니다.
+
+* `obj_read`
+* `table_query`
+* `table_query_stats`
+* `refs_read_batch`
+* `file_content_read`
+
+<div id="cache-size-and-storage-details">
+  ### 캐시 크기 및 저장소 세부 정보
+</div>
+
+캐시 크기는 `WEAVE_SERVER_CACHE_SIZE_LIMIT`(바이트 단위)로 제어됩니다. 실제 디스크 사용량은 다음 세 가지 컴포넌트로 구성됩니다.
+
+1. 고정 크기의 32KB 체크섬 파일
+2. 실행 중인 각 클라이언트마다 최대 약 4MB의 Write-Ahead Log(WAL) 파일(프로그램이 종료되면 자동으로 제거됨)
+3. 최소 32KB, 최대 `WEAVE_SERVER_CACHE_SIZE_LIMIT` 크기의 기본 데이터베이스 파일
+
+총 디스크 사용량:
+
+* 실행 중 &gt;= 32KB + 약 4MB + 캐시 크기
+* 종료 후 &gt;= 32KB + 캐시 크기
+
+예를 들어 캐시 한도가 5MB인 경우:
+
+* 실행 중: 최대 약 9MB
+* 종료 후: 최대 약 5MB
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

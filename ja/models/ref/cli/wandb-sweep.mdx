@@ -2,46 +2,120 @@
 title: wandb sweep
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbSweep from "/snippets/en/_includes/cli/wandb-sweep.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L912" />
 
-<WandbSweep/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-ハイパーパラメーター探索（ Sweeps ）を初期化します。様々な組み合わせをテストすることで、機械学習モデルのコスト関数を最適化するハイパーパラメーターを探索します。
-
-## 使用法
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
 ```
 
-## 引数
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `CONFIG_YAML_OR_SWEEP_ID` | 説明なし | はい |
+ハイパーパラメーター sweep を作成、更新、または管理します。
 
-## オプション
+YAML 設定ファイルを指定して sweep を作成します。設定ファイルで検索
+戦略、パラメーター、最適化するメトリクスを定義します。
+sweep を W&amp;B サーバーに登録し、sweep ID
+とエージェントを開始するためのコマンドを出力します。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | Sweep から作成された W&B Runs の送信先となる Projects 名。プロジェクトが指定されていない場合、 Run は Uncategorized というラベルのプロジェクトに送信されます。 |
-| `--entity`, `-e` | Sweep によって作成された W&B Runs の送信先となる Users 名または Teams 名。指定する Entities が既に存在することを確認してください。エンティティを指定しない場合、 Run は通常ユーザー名であるデフォルトのエンティティに送信されます。 |
-| `--controller` | ローカルの controller を実行する（デフォルト: False） |
-| `--verbose` | 詳細な出力を表示する（デフォルト: False） |
-| `--name` | Sweep の名前。名前が指定されない場合は Sweep ID が使用されます。 |
-| `--program` | Sweep プログラムを設定する |
-| `--update` | 保留中の Sweep を更新する |
-| `--stop` | Sweep を終了し、新しい Runs の実行を停止します。現在実行中の Runs は完了させます。（デフォルト: False） |
-| `--cancel` | Sweep をキャンセルし、すべての実行中の Runs を強制終了して、新しい Runs の実行を停止します。（デフォルト: False） |
-| `--pause` | Sweep を一時停止し、新しい Runs の実行を一時的に停止します。（デフォルト: False） |
-| `--resume` | Sweep を再開し、新しい Runs の実行を続行します。（デフォルト: False） |
-| `--prior_run`, `-R` | この Sweep に追加する既存の Run の ID |
+既存の sweep を管理するには、状態フラグ (`--stop`、`--cancel`、`--pause`、または `--resume`) とともに
+sweep ID (または完全なパス entity/project/sweep&#95;id) を指定します。
+
+sweep ID は、sweep の作成時に
+W&amp;B によって生成される、sweep の一意の ID です。sweep ID は、W&amp;B App
+または新しい sweep を作成した際の `wandb sweep` コマンドの出力で確認できます。
+
+たとえば、sweep&#95;config.yaml で定義された
+設定を使用して sweep を作成するには、
+現在のユーザーのデフォルトの entity と project を使用します。
+
+```bash
+wandb sweep sweep_config.yaml
+```
+
+「team-awesome」entity と
+「foobar」project 配下に sweep を作成し、結果を保存するには：
+
+```bash
+wandb sweep -p foobar -e team-awesome sweep_config.yaml
+```
+
+sweep&#95;config.yaml の新しい設定で sweep abcd1234 を更新するには、以下を使用します。
+これは、実行中の sweep のパラメーターや検索戦略を変更する場合に便利です。
+
+```bash
+wandb sweep --update abcd1234 sweep_config.yaml
+```
+
+&quot;team-awesome&quot; entity
+および &quot;foobar&quot; project 配下の sweep abcd1234 を停止するには:
+
+```bash
+wandb sweep --stop team-awesome/foobar/abcd1234
+```
+
+現在のユーザーのデフォルト entity および project で、sweep abcd1234 をキャンセルするには:
+
+```bash
+wandb sweep --cancel abcd1234
+```
+
+現在のユーザーのデフォルトの entity と
+project で sweep abcd1234 を一時停止します。後で、sweep を再開します:
+
+```bash
+wandb sweep --pause abcd1234
+```
+
+```bash
+wandb sweep --resume abcd1234
+```
+
+sweep&#95;config.yaml にある
+設定を使用するローカルコントローラーで sweep を作成するには:
+
+```bash
+wandb sweep --controller sweep_config.yaml
+```
+
+新しい sweep を作成し、以前に完了した 2 つの run
+ (run ID abcd1234 と run ID efgh5678) を含めて、それらの結果を
+sweep のハイパーパラメーター探索に反映させるには:
+
+```bash
+wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名                         | デフォルト | タイプ  |
+| ------------------------- | ----- | ---- |
+| `config_yaml_or_sweep_id` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag              | Type      | 説明                                                                                        |
+| ----------------- | --------- | ----------------------------------------------------------------------------------------- |
+| `--project, -p`   | STR       | sweep の run に使用する project を設定します。設定しない場合は &#39;Uncategorized&#39; を使用します。 **デフォルト**: None |
+| `--entity, -e`    | STR       | sweep の entity を設定します。設定しない場合は、現在のユーザーのデフォルト entity を使用します。 **デフォルト**: None               |
+| `--controller`    | BOOL Flag | sweep の作成後にローカルの sweep controller を開始します。 **デフォルト**: False                                |
+| `--verbose`       | BOOL Flag | 詳細な出力を表示します。 **デフォルト**: False                                                             |
+| `--name`          | STR       | sweep の表示名を設定します。指定しない場合は sweep ID を使用します。 **デフォルト**: None                                |
+| `--program`       | STR       | sweep 設定で指定されたトレーニング program を上書きします。 **デフォルト**: None                                     |
+| `--update`        | STR       | 既存の sweep 設定を更新します。sweep ID を指定します。 **デフォルト**: None                                       |
+| `--stop`          | BOOL Flag | sweep を停止します。アクティブな run は完了させますが、新しい run は開始しません。 **デフォルト**: False                        |
+| `--cancel`        | BOOL Flag | sweep をキャンセルします。アクティブな run を終了し、新しい run の開始も停止します。 **デフォルト**: False                       |
+| `--pause`         | BOOL Flag | sweep を一時停止します。一時的に新しい run の開始を停止します。 **デフォルト**: False                                    |
+| `--resume`        | BOOL Flag | 一時停止した sweep を再開します。 **デフォルト**: False                                                     |
+| `--prior_run, -R` | STR       | 既存の run を ID でこの sweep に関連付けます。複数の run を関連付けるには複数回指定します。 **デフォルト**: None                  |

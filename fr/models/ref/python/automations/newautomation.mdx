@@ -1,0 +1,46 @@
+---
+title: NewAutomation
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+
+## <kbd>class</kbd> `NewAutomation`
+
+Nouvelle automatisation à créer.
+
+### <kbd>méthode</kbd> `NewAutomation.__init__`
+
+```python
+__init__(
+    name: 'str | None' = None,
+    description: 'str | None' = None,
+    enabled: 'bool | None' = None,
+    event: 'Annotated | None' = None,
+    action: 'Annotated | None' = None
+) → None
+```
+
+**Arguments :**
+
+* `name` (Optional[str]) : Le nom de cette automatisation.
+* `description` (Optional[str]) : Une description facultative de cette automatisation.
+* `enabled` (Optional[bool]) : Indique si cette automatisation est activée. Seules les automatisations activées se déclencheront.
+* `event` (Optional[Annotated]) : L&#39;événement qui déclenchera cette automatisation.
+* `action` (Optional[Annotated]) : L&#39;action qui sera exécutée lorsque cette automatisation sera déclenchée.
+
+**Retourne :**
+Un objet `NewAutomation`.
+
+
+### <kbd>propriété</kbd> `NewAutomation.scope`
+
+La portée dans laquelle l’événement déclencheur doit se produire.
+
+**Retourne :**
+
+* `Optional[AutomationScope]` : La valeur de la propriété `scope`.

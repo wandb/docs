@@ -1,0 +1,51 @@
+---
+title: OnAddArtifactAlias
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+## <kbd>class</kbd> `OnAddArtifactAlias`
+
+Un nouvel alias est attribué à un artifact.
+
+Exemples :
+Définissez un événement qui se déclenche chaque fois que l&#39;alias &quot;prod&quot; est attribué à
+un artifact quelconque de la collection &quot;my-collection&quot; :
+
+```python
+from wandb import Api
+from wandb.automations import OnAddArtifactAlias, ArtifactEvent
+
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
+
+event = OnAddArtifactAlias(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
+
+
+### <kbd>méthode</kbd> `OnAddArtifactAlias.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[ADD_ARTIFACT_ALIAS]' = ADD_ARTIFACT_ALIAS,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**Arguments :**
+
+* `event_type` (Literal[ADD&#95;ARTIFACT&#95;ALIAS]):
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]) : Portée de l’événement.
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]) : Condition(s) supplémentaire(s), le cas échéant, requise(s) pour que cet événement se déclenche.
+
+**Retourne :**
+Un objet `OnAddArtifactAlias`.

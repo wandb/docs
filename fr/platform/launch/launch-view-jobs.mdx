@@ -1,0 +1,66 @@
+---
+title: Consulter les jobs Launch
+description: "Consultez les détails des jobs Launch, affichez la liste des jobs disponibles et vérifiez le statut des jobs dans la W&B App et le CLI."
+---
+
+Cette page explique comment consulter les informations sur les jobs Launch ajoutés aux files d&#39;attente.
+
+<div id="view-jobs">
+  ## Voir les jobs
+</div>
+
+Consultez les jobs ajoutés à une file d&#39;attente dans la W&amp;B App.
+
+1. Accédez à la W&amp;B App à l&#39;adresse https://wandb.ai/home.
+2. Sélectionnez **Launch** dans la section **Applications** de la barre latérale gauche.
+3. Sélectionnez le menu déroulant **All entities**, puis l&#39;entité à laquelle appartient le job Launch.
+4. Développez le panneau repliable sur la page de l&#39;application Launch pour voir la liste des jobs ajoutés à cette file d&#39;attente.
+
+<Note>
+  Un run est créé lorsque l&#39;agent Launch exécute un job Launch. En d&#39;autres termes, chaque run répertorié correspond à un job spécifique qui a été ajouté à cette file d&#39;attente.
+</Note>
+
+Par exemple, l&#39;image suivante montre deux runs créés à partir d&#39;un job appelé `job-source-launch_demo-canonical`. Le job a été ajouté à une file d&#39;attente appelée `Start queue`. Le premier run répertorié dans la file d&#39;attente s&#39;appelle `resilient-snowball` et le second `earthy-energy-165`.
+
+<Frame>
+  <img src="/images/launch/launch_jobs_status.png" alt="Vue du statut des jobs Launch" />
+</Frame>
+
+Dans l&#39;UI de la W&amp;B App, vous pouvez trouver des informations supplémentaires sur les runs créés à partir de job Launch, telles que :
+
+* **Run** : Le nom du run W&amp;B attribué à ce job.
+  * **Job ID** : Le nom du job.
+  * **Project** : Le nom du projet auquel appartient le run.
+  * **Status** : Le statut du run dans la file d&#39;attente.
+  * **Author** : L&#39;entité W&amp;B qui a créé le run.
+  * **Creation date** : L&#39;horodatage de création de la file d&#39;attente.
+  * **Start time** : L&#39;horodatage de démarrage du job.
+  * **Duration** : Le temps, en secondes, nécessaire pour terminer le run du job.
+
+<div id="list-jobs">
+  ## Lister les jobs
+</div>
+
+Affichez la liste des jobs présents dans un projet à l’aide de la CLI W&amp;B. Utilisez la commande W&amp;B `job list` et indiquez le nom du projet et de l’entité auxquels le job Launch appartient à l’aide des options `--project` et `--entity`, respectivement.
+
+```bash
+ wandb job list --entity your-entity --project project-name
+```
+
+
+<div id="check-the-status-of-a-job">
+  ## Vérifier le statut d&#39;un job
+</div>
+
+Le tableau suivant présente les différents statuts possibles d&#39;un run en file d&#39;attente :
+
+| Statut       | Description                                                                                                                                 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Idle**     | Le run se trouve dans une file d&#39;attente sans agent actif.                                                                              |
+| **Queued**   | Le run se trouve dans une file d&#39;attente et attend qu&#39;un agent le traite.                                                           |
+| **Pending**  | Le run a été pris en charge par un agent, mais n&#39;a pas encore démarré. Cela peut être dû à des ressources indisponibles sur le cluster. |
+| **Running**  | Le run est actuellement en cours d&#39;exécution.                                                                                           |
+| **Killed**   | Le job a été arrêté par l&#39;utilisateur.                                                                                                  |
+| **Crashed**  | Le run a cessé d&#39;envoyer des données ou n&#39;a pas démarré correctement.                                                               |
+| **Failed**   | Le run s&#39;est terminé avec un code de sortie non nul ou n&#39;a pas pu démarrer.                                                         |
+| **Finished** | Le job s&#39;est terminé avec succès.                                                                                                       |

@@ -1,0 +1,274 @@
+---
+title: "アノテーションキューを設定する"
+description: "アノテーションキューを作成し、トレースをドメインエキスパートに振り分け、構造化フィードバックをエクスポートします。"
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<div id="overview">
+  ## 概要
+</div>
+
+アノテーションキューを使用すると、選択したトレースをドメインエキスパート向けに振り分け、フル機能の Weave UI を操作しなくても体系的なレビューを行えます。収集するフィードバックの内容を定義し、レビューが必要なトレースを選択して、完了したアノテーションを後から分析やデータセット作成のためにエクスポートできます。主なユースケースは次のとおりです。
+
+* **手動でのトレース評価**: 専門家 (SME) に、モデル出力の正確性、品質、スタイルを評価してもらいます。
+* **失敗分析**: 失敗モード (ハルシネーション、拒否、ループ) にアノテーションを付けて、モデルがどこで問題を起こすかを把握します。
+* **ドメインエキスパートによるレビュー**: 医療、法務、安全性の専門家が、タスクに特化したインターフェースで内容をレビューできるようにします。
+* **データセット作成**: アノテーション付きトレースを、評価用またはトレーニング用のデータセットに変換します。
+
+<div id="end-to-end-workflow">
+  ## エンドツーエンドのワークフロー
+</div>
+
+以下のワークフローは、アノテーションキューを使用してレビューを取得する流れをまとめたものです。
+
+1. アノテーションフィールドを定義します。
+2. アノテーションキューを作成します。
+3. レビュー用にトレースをキューに読み込みます。
+4. ドメインエキスパートによるレビューの進行状況を監視します。
+5. 完了したアノテーションをフィルターし、エクスポートします。
+
+<div id="define-annotation-fields">
+  ## アノテーションフィールドを定義する
+</div>
+
+アノテーションキューの作成を始めるには、まずアノテーションフィールドを定義する必要があります。そうすることで、キューのセットアップ時にフィールドを選択できるようになります。アノテーションフィールドは、各トレース項目に対してアノテーターが入力するフィードバックを定義します。フィールドはキューやプロジェクト間で再利用できます。
+
+フィールドタイプには、次のものがあります。
+
+* 正確性や許容可否などのブール値による判定。
+* 品質や信頼度などの数値または整数値。
+* 失敗モードや意図などのカテゴリラベル。
+* 定性的なフィードバック用の自由記述テキスト。
+
+アノテーションフィールドを作成するには、次の手順に従います。
+
+1. [wandb.ai](https://wandb.ai) にアクセスし、プロジェクトを選択します。
+2. Weave プロジェクトのサイドバーで、**Annotate** をクリックします。**Annotate** が表示されない場合は、**More** のメニュー内にある可能性があります。
+3. タブバーで、**Fields** タブをクリックします。
+4. Fields 表のツールバーで、**New Field** をクリックします。
+5. **Create annotation field** モーダルダイアログで、次を設定します。
+   * **Type**: Boolean、Integer、Number、String、またはカテゴリオプション。
+   * **Name**: アノテーターに表示するフィールド名。
+   * **Description** (任意) : このフィールドを評価する際の詳細。アノテーターに表示されます。
+6. **Create annotation field** をクリックしてフィールドを保存します。
+
+<Frame>
+  ![名前、説明、フィールドタイプの入力欄を含むアノテーションフィールド作成ダイアログ。トレース項目をレビューする際にアノテーターが入力するスキーマを定義するために使用されます。](/weave/guides/tracking/imgs/AnnotationCreateField.png)
+</Frame>
+
+アノテーションの一貫性を保つため、フィールドは作成後に編集できません。
+
+<div id="create-an-annotation-queue">
+  ## アノテーションキューを作成する
+</div>
+
+アノテーションキューは、次の要素で構成されます。
+
+* アノテーションフィールドのセット
+* アノテーター向けの作業指示を記載したガイドライン
+* レビュー待ちのトレース項目のコレクション
+
+アノテーションキューを作成するには、次の手順を実行します。
+
+1. Weave プロジェクトのサイドバー で **Annotate** をクリックします。
+2. タブバーで **Queues** タブをクリックします。
+3. Queues 表のツールバーで **Create Queue** をクリックします。
+4. **Create Annotation Queue** モーダルダイアログで、以下を設定します。
+   * **Queue name**: アノテーターが作業を完了する際に選択するキュー名です。
+   * **Guidelines** (任意): アノテーター向けの追加指示です。
+5. **Next** をクリックします。
+6. **Manage fields** をクリックし、このレビュー作業に含める Annotation Fields を選択します。プロジェクト内の既存のすべての Annotation Fields を選択できます。
+7. キューに含めるすべての Fields を選択したら、**Create Queue** をクリックしてキューを保存します。
+
+プロジェクト内のすべてのアノテーションキューは、Annotation Queues ページに一覧表示されます。
+
+<Frame>
+  ![プロジェクト内のキュー名、説明、レビューの進捗を含むキューの表を表示し、アノテーションのワークフローをトラッキングする Annotation Queues ページ。](/weave/guides/tracking/imgs/AnnotationQueues.png)
+</Frame>
+
+アノテーションキューを作成すると、評価用のフィールドとガイドラインが定義されます。ただし、どのデータを評価するかを特定するには、引き続きキューにトレースを追加する必要があります。
+
+<div id="add-traces-to-a-queue">
+  ### キューにトレースを追加する
+</div>
+
+**Traces** ページから、トレースを アノテーションキュー に直接追加できます。
+
+アノテーションキュー にトレースを追加するには、次の手順に従います。
+
+1. Weave プロジェクトのサイドバーで、**Traces** をクリックします。
+2. Traces 表のツールバーで、必要に応じてトレースをフィルターします (例: hallucination スコア、failure mode、特定の op) 。
+3. 表で、アノテーション対象にするトレースを選択します。
+4. 表のアクションバーで、**Add to queue** をクリックして、選択した行を アノテーションキュー に追加します。
+
+<Frame>
+  ![複数の行が選択された Traces 表と、Add to queue や Add to dataset など、選択した行に適用できるアクションを表示する一括アクションバー。](/weave/guides/tracking/imgs/AnnotationAddTraces.png)
+</Frame>
+
+5. **Add to annotation queue** モーダルダイアログで、次を設定します。
+   * **Queue Name**: リストで、これらのトレースの追加先となる既存のキュー名を選択します。
+   * **Select trace data to display**: 結果の評価時に アノテーター に表示する Weave の Trace Data 要素を選択します。
+     * **Inputs**: アノテーション時に表示する trace の入力フィールドを選択します。
+     * **Outputs**: アノテーション時に表示する trace の出力フィールドを選択します。
+6. **Add ***[Count]*** traces to annotation queue** をクリックして、これらのトレースを アノテーションキュー レビューの一部として割り当てます。
+
+トレースを追加する際は、レビュー対象にする trace の入力項目と、出力またはモデルの response を制御できます。これにより、アノテーター が正確に判断するために必要なコンテキストだけを提示できます。
+
+<div id="monitor-review-progress">
+  ## レビューの進捗を確認する
+</div>
+
+アノテーションキュー を作成してトレースを追加したら、アノテーター がレビューを開始できるようにキュー名を共有します。レビュー プロセスの詳細については、[アノテーションキュー 内の項目をレビューする](/ja/weave/guides/tracking/annotation-review)を参照してください。
+
+アノテーター に アノテーションキュー への直接リンクを共有するには、次の手順に従います。
+
+1. Weave プロジェクトのサイドバー で、**Annotate** をクリックします。
+2. タブバーで、**Queues** タブをクリックします。
+3. Annotation Queues 表で、キュー項目を開くには対象のキュー名をクリックします。
+4. Queue のヘッダーバーで、link ボタンをクリックしてこのキューへの直接リンクをコピーします。ブラウザーのアドレスバーから URL をコピーすることもできます。
+
+![Annotation Queue のヘッダーバーで アノテーションキュー へのリンクをコピーする](/weave/guides/tracking/imgs/AnnotationLinkToQueue.png)
+
+Annotation Queues 表では、**State** 列にレビューの進捗が表示されます。
+
+* **未開始**: キューには項目がありますが、annotation はまだ 1 件も送信されていません。
+* **進行中**: 少なくとも 1 つの項目がレビューされています。
+* **完了**: すべての項目がレビューされています。
+
+Annotation Queues 表では、**Calls with responses** 列に、少なくとも 1 件のレビューが送信された項目の割合 (**Calls** の総数に対する割合) が表示されます。
+
+<div id="filter-and-export-annotations">
+  ## アノテーションのフィルタリングとエクスポート
+</div>
+
+Weave は、完了したアノテーションをトレースの構造化メタデータとして保存します。
+
+できること:
+
+* キューへの割り当てとアノテーションの完了状況でトレースをフィルターできます。
+* フィルターしたビューを再利用できるように保存できます。
+* アノテーション付きトレースを、評価やトレーニングのワークフロー向けにデータセットへエクスポートできます。
+
+これにより、専門家によるフィードバックをモデルの評価と改善サイクルに直接つなげられます。
+
+<div id="filter-annotated-traces">
+  ### 注釈付きトレースをフィルターする
+</div>
+
+**Traces** ページのフィルターコントロールを使用すると、注釈付きのトレースのみを表示できます。
+
+注釈付きのトレースのみを表示するには、次の手順に従います。
+
+1. Weave プロジェクトのサイドバーで、**Traces** をクリックします。
+2. Traces 表のツールバーで、**Filter** をクリックします。
+3. フィルター行に 3 つの値を追加します。
+   * **Column** に「Queue」と入力し、**Enter** キーを押します。
+   * 2 つ目のリストで、**Text: &quot;is&quot;** を選択します。
+   * **Select a queue** で、アノテーションキュー名を選択します。
+4. さらに「completed」のキュー項目のみに絞り込むには、**+ Add Filter** をクリックします。
+   * **Column** に「feedback」と入力します。ダイアログに Annotations が表示され、Annotation Field 名が表示されます。キューから必須の Field を選択します。
+   * 2 つ目のリストで、**Other: &quot;is not empty&quot;** を選択します。
+
+<Frame>
+  ![特定の注釈キューに属するトレースを選択するフィルターを設定している Traces 表。](/weave/guides/tracking/imgs/AnnotationTracesFilter.png)
+</Frame>
+
+4. フィルター行は自動的に適用されます。フィルターエントリを閉じるには、ページ上の別の場所をクリックします。
+5. (任意) すばやくアクセスできるよう、ビューとして保存します。Traces 表のヘッダーで、**Save View** をクリックします。
+
+<div id="export-annotated-traces-to-datasets">
+  ### 注釈付きトレースをデータセットにエクスポートする
+</div>
+
+データの使用目的に応じて、注釈付きトレースは UI またはプログラムからエクスポートできます。
+
+<div id="add-annotated-traces-to-a-dataset">
+  #### 注釈付きトレースをデータセットに追加する
+</div>
+
+注釈付きトレースを選択し、**データセットに追加**をクリックすると、評価用またはトレーニング用データに専門家によるラベルを含めることができます。
+
+注釈付きトレースをデータセットに追加するには、次の手順に従います。
+
+1. Weaveプロジェクトのサイドバーで、**トレース**をクリックします。
+2. トレースの表で、エクスポートするトレースを選択します。
+3. 表のツールバーで、**データセットに追加**をクリックします。画面の指示に従って追加を完了します。
+
+データセットの使用方法について詳しくは、[データセットの収集とトラッキング](/ja/weave/guides/core-types/datasets)を参照してください。
+
+<div id="access-annotations-programmatically">
+  ## アノテーションにプログラムからアクセスする
+</div>
+
+アノテーションをプログラムから利用するには、プロジェクト名とキュー ID を知っておく必要があります。
+
+* **Project**: W&amp;B のプロジェクト名 (`project` または `team/project`) 。W&amp;B チーム (`team/project` 形式など) を指定しない場合は、デフォルトのチームが使用されます。
+* **Queue ID**: アノテーションキュー の一意の ID。
+
+キュー ID を検索するには:
+
+1. **Annotation Queues** 表で、キュー名を選択してその項目を開きます。
+2. ページ URL の末尾から ID をコピーします。
+
+**例**
+
+```
+https://wandb.ai/.../annotation-queues/019c0f63-7acb-7497-8f87-08873368fcd4
+```
+
+この例では、キュー ID は次のとおりです。
+
+019c0f63-7acb-7497-8f87-08873368fcd4
+
+次のコードを使うと、キュー内のトレース (calls) を順に処理できます。
+
+```python lines
+import weave
+from weave.trace_server.trace_server_interface import AnnotationQueueItemsQueryReq
+
+# プロジェクトとキューの識別子を実際の値に更新してください。
+PROJECT = "your-team-name/your-project-name"
+QUEUE_ID = "019c0f63-7acb-7497-8f87-08873368fcd4"
+
+# Weave を初期化します。
+client = weave.init(PROJECT)
+
+# キュー内の calls から call ID を取得します。
+calls = client.server.annotation_queue_items_query(
+    AnnotationQueueItemsQueryReq(
+        project_id=PROJECT,
+        queue_id=QUEUE_ID,
+    )
+)
+
+# calls を反復処理してフィードバックを取得します。
+for i, item in enumerate(calls.items):
+    call = client.get_call(call_id=item.call_id, include_feedback=True)
+    feedback = call.feedback or {}
+
+    # call のフィードバックアイテム数の合計をカウントします。
+    total_feedback_items = len(feedback)
+
+    print(f"\nItem {i} — call_id: {item.call_id} — total feedback items: {total_feedback_items}")
+
+    if not feedback:
+        print("このアイテムにフィードバックはありません")
+        continue
+
+    # 最初の annotation 値を取得します。
+    # フィールドの annotation は一定の順序で追加されないため、最初のフィールドは変わる可能性があります。
+    field_name = next(iter(feedback))
+    field_value = feedback[0]
+
+    print(f"  {field_name}: {field_value}")
+```
+
+以下の Google Colab ノートブックでは、プログラムからアノテーションデータにアクセスし、分析レポートを収集する方法を詳しく確認できます。
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />
+</div>

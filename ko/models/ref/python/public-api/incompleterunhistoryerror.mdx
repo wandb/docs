@@ -1,0 +1,16 @@
+---
+title: IncompleteRunHistoryError
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
+
+
+## <kbd>class</kbd> `IncompleteRunHistoryError`
+
+run 이력에 누락된 내용이 있을 때 발생합니다.
+
+불완전한 이력은 일부 데이터가 아직 parquet 파일로 내보내지지 않은 경우에 발생하며, 일반적으로 run이 아직 진행 중이기 때문입니다. 

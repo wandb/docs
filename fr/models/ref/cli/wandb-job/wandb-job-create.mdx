@@ -1,0 +1,55 @@
+---
+title: wandb job create
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2191" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+create [OPTIONS] {git|code|image} PATH
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Créez un job à partir d’une source, sans run wandb.
+
+Les jobs peuvent être de trois types : git, code ou image.
+
+git : une source git, avec un point d’entrée soit dans le chemin, soit fourni
+explicitement, pointant vers l’exécutable Python principal.
+code : un chemin vers du code, contenant un fichier requirements.txt.
+image : une image Docker.
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom        | Défaut | Type |
+| ---------- | ------ | ---- |
+| `job_type` | Choix  | Vrai |
+| `path`     | STR    | Vrai |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag                  | Type | Description                                                                                                                                                                                                                                                            |
+| --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p`       | STR  | Le projet dont vous voulez lister les jobs. **Par défaut** : None                                                                                                                                                                                                      |
+| `--entity, -e`        | STR  | L’entité à laquelle les jobs appartiennent. **Par défaut** : None                                                                                                                                                                                                      |
+| `--name, -n`          | STR  | Nom du job. **Par défaut** : None                                                                                                                                                                                                                                      |
+| `--description, -d`   | STR  | Description du job. **Par défaut** : None                                                                                                                                                                                                                              |
+| `--alias, -a`         | STR  | Alias du job. **Par défaut** : []                                                                                                                                                                                                                                      |
+| `--entry-point, -E`   | STR  | Point d’entrée du script, y compris un exécutable et un fichier de point d’entrée. Requis pour les jobs de code ou de dépôt. Si `--build-context` est fourni, les chemins de la commande du point d’entrée seront relatifs au contexte de build. **Par défaut** : None |
+| `--git-hash, -g`      | STR  | Référence de commit à utiliser comme source pour les jobs Git. **Par défaut** : None                                                                                                                                                                                   |
+| `--runtime, -r`       | STR  | Environnement d’exécution Python pour exécuter le job. **Par défaut** : None                                                                                                                                                                                           |
+| `--build-context, -b` | STR  | Chemin vers le contexte de build à partir de la racine du code source du job. S’il est fourni, il est utilisé comme chemin de base pour le Dockerfile et le point d’entrée. **Par défaut** : None                                                                      |
+| `--base-image, -B`    | STR  | Image de base à utiliser pour le job. Incompatible avec les jobs d’image. **Par défaut** : None                                                                                                                                                                        |
+| `--dockerfile, -D`    | STR  | Chemin vers le Dockerfile du job. Si `--build-context` est fourni, le chemin du Dockerfile sera relatif au contexte de build. **Par défaut** : None                                                                                                                    |

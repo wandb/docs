@@ -1,0 +1,53 @@
+---
+title: "Auto-hébergé : vérifier l’installation"
+---
+
+Pour vérifier l’installation, W&amp;B recommande d’utiliser le [W&amp;B CLI](/fr/models/ref/cli/). La commande verify exécute plusieurs tests pour vérifier l’ensemble des composants et de la configuration.
+
+<Note>
+  Cette étape suppose que le premier compte administrateur a été créé depuis le navigateur.
+</Note>
+
+Suivez ces étapes pour vérifier l’installation :
+
+1. Installez le W&amp;B CLI :
+
+```bash
+pip install wandb
+```
+
+2. Connectez-vous à W&amp;B :
+
+```bash
+wandb login --host=https://YOUR_DNS_DOMAIN
+```
+
+Par exemple :
+
+```bash
+wandb login --host=https://wandb.company-name.com
+```
+
+3. Vérifiez l’installation :
+
+```bash
+wandb verify
+```
+
+Une installation réussie et un déploiement W&amp;B pleinement opérationnel affichent la sortie suivante :
+
+```console
+Default host selected:  https://wandb.company-name.com
+Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+Checking if logged in...................................................✅
+Checking signed URL upload..............................................✅
+Checking ability to send large payloads through proxy...................✅
+Checking requests to base url...........................................✅
+Checking requests made over signed URLs.................................✅
+Checking CORs configuration of the bucket...............................✅
+Checking wandb package version is up to date............................✅
+Checking logged metrics, saving and downloading a file..................✅
+Checking artifact save and download workflows...........................✅
+```
+
+Contactez l’assistance W&amp;B en cas d’erreur.

@@ -1,0 +1,50 @@
+---
+title: wandb enabled
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3499" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+enabled [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Réactivez W&amp;B après l’avoir désactivé avec `wandb disabled`.
+
+Définissez le mode sur `online` pour restaurer toutes les fonctionnalités de W&amp;B,
+y compris la synchronisation avec le cloud et le stockage des artefacts.
+
+Ne téléverse pas les données enregistrées lorsque W&amp;B était défini sur `disabled`, mais permet
+d’enregistrer et de synchroniser de nouvelles données.
+
+Pour basculer entre les modes `online` et `offline` sans désactiver complètement W&amp;B,
+utilisez plutôt `wandb online` ou `wandb offline`.
+
+Par exemple, pour restaurer les fonctionnalités de W&amp;B après l’avoir désactivé avec `wandb disabled` :
+
+```bash
+wandb enabled
+```
+
+Pour exécuter un script d’entraînement avec la journalisation et la synchronisation W&amp;B rétablies :
+
+```bash
+python train.py # Enregistrer et synchroniser les données avec W&B
+```
+
+<div id="options">
+  ## Options
+</div>
+
+| Option      | Type            | Description                                                                          |
+| ----------- | --------------- | ------------------------------------------------------------------------------------ |
+| `--service` | Indicateur BOOL | Sans effet. Pris en charge pour assurer la rétrocompatibilité. **Par défaut** : True |

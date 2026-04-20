@@ -3,33 +3,26 @@ title: Plotly
 namespace: python_sdk_data_type
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py" />
 
 
-
-
 ## <kbd>class</kbd> `Plotly`
-Plotly プロットのための W&B クラスです。
+
+Plotlyのプロット用W&amp;Bクラス。 
 
 ### <kbd>method</kbd> `Plotly.__init__`
 
 ```python
-__init__(
-    val: Union[ForwardRef('plotly.Figure'), ForwardRef('matplotlib.artist.Artist')]
-)
+__init__(val: 'plotly.Figure | matplotlib.artist.Artist')
 ```
 
-Plotly オブジェクト を初期化します。
+Plotlyオブジェクトを初期化します。
 
+**引数:**
 
+* `val`: Matplotlib または Plotly の Figure。
 
-**Args:**
- 
- - `val`: Matplotlib または Plotly の figure。
-
-
-
-
----
+***

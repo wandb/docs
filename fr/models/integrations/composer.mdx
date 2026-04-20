@@ -1,0 +1,109 @@
+---
+description: Des algorithmes de pointe pour entraîner vos réseaux neuronaux
+title: MosaicML Composer
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" />
+
+[Composer](https://github.com/mosaicml/composer) est une bibliothèque conçue pour entraîner des réseaux neuronaux plus efficacement, plus rapidement et à moindre coût. Elle propose de nombreuses méthodes de pointe pour accélérer l’entraînement des réseaux neuronaux et améliorer la généralisation, ainsi qu’une API [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) facultative qui permet de *composer* facilement de nombreuses améliorations.
+
+W&amp;B fournit un wrapper léger pour consigner vos expériences de ML. Mais vous n’avez pas besoin de les combiner vous-même : W&amp;B est directement intégré à la bibliothèque Composer via [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
+
+<div id="start-logging-to-wb">
+  ## Commencez à journaliser avec W&amp;B
+</div>
+
+```python
+from composer import Trainer
+from composer.loggers import WandBLogger
+
+trainer = Trainer(..., logger=WandBLogger())
+```
+
+<Frame>
+  <img src="/images/integrations/n6P7K4M.gif" alt="Tableaux de bord interactifs" />
+</Frame>
+
+<div id="use-composers-wandblogger">
+  ## Utiliser le `WandBLogger` de Composer
+</div>
+
+La bibliothèque Composer utilise la classe [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) dans le `Trainer` pour journaliser des métriques dans W&amp;B. Il suffit d&#39;instancier le logger et de le passer au `Trainer`.
+
+```python
+wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
+trainer = Trainer(logger=wandb_logger)
+```
+
+<div id="logger-arguments">
+  ## Arguments du logger
+</div>
+
+Vous trouverez ci-dessous les paramètres de `WandbLogger` ; consultez la [documentation Composer](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) pour obtenir la liste complète et leur description.
+
+| Paramètre        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `project`        | Nom du projet W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `group`          | Nom du groupe W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `name`           | Nom de l&#39;exécution W&amp;B. S&#39;il n&#39;est pas spécifié, `State.run&#95;name` est utilisé (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                        |
+| `entity`         | Nom de l&#39;entité W&amp;B, par exemple votre nom d&#39;utilisateur ou votre nom Teams W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                          |
+| `tags`           | Tags W&amp;B (List[str], facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `log_artifacts`  | Indique s&#39;il faut journaliser les checkpoints dans wandb, par défaut : `false` (bool, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `rank_zero_only` | Indique s&#39;il faut journaliser uniquement sur le processus de rang zéro. Lors de la journalisation des Artifacts, il est fortement recommandé de journaliser sur tous les rangs. Les Artifacts des rangs ≥1 ne sont pas stockés, ce qui peut entraîner la perte d&#39;informations pertinentes. Par exemple, lors de l&#39;utilisation de Deepspeed ZeRO, il serait impossible de restaurer à partir des checkpoints sans les Artifacts de tous les rangs, par défaut : `True` (bool, facultatif) |
+| `init_kwargs`    | Paramètres à transmettre à `wandb.init()`, comme votre `config` wandb, entre autres. Voir les [paramètres de `wandb.init()`](/fr/models/ref/python/functions/init) pour les paramètres acceptés par `wandb.init()`.                                                                                                                                                                                                                                                                                           |
+
+Voici un exemple d’utilisation :
+
+```
+init_kwargs = {"notes":"Testing higher learning rate in this experiment", 
+               "config":{"arch":"Llama",
+                         "use_mixed_precision":True
+                         }
+               }
+
+wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
+```
+
+<div id="log-prediction-samples">
+  ## Journaliser des échantillons de prédictions
+</div>
+
+Vous pouvez utiliser le système de [Callbacks de Composer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) pour contrôler quand vous journalisez dans W&amp;B via le `WandBLogger` ; dans cet exemple, un échantillon d’images de validation et de prédictions est journalisé :
+
+```python
+import wandb
+from composer import Callback, State, Logger
+
+class LogPredictions(Callback):
+    def __init__(self, num_samples=100, seed=1234):
+        super().__init__()
+        self.num_samples = num_samples
+        self.data = []
+        
+    def eval_batch_end(self, state: State, logger: Logger):
+        """Calcule les prédictions par lot et les stocke dans self.data"""
+        
+        if state.timer.epoch == state.max_duration: #à la dernière époque de validation
+            if len(self.data) < self.num_samples:
+                n = self.num_samples
+                x, y = state.batch_pair
+                outputs = state.outputs.argmax(-1)
+                data = [[wandb.Image(x_i), y_i, y_pred] for x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
+                self.data += data
+            
+    def eval_end(self, state: State, logger: Logger):
+        with wandb.init() as run:
+            "Crée un wandb.Table et le journalise"
+            columns = ['image', 'ground truth', 'prediction']
+            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
+            run.log({'sample_table':table}, step=int(state.timer.batch))         
+...
+
+trainer = Trainer(
+    ...
+    loggers=[WandBLogger()],
+    callbacks=[LogPredictions()]
+)
+```

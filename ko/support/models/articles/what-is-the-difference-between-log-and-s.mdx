@@ -1,0 +1,20 @@
+---
+title: "`.log()`와 `.summary`의 차이점은 무엇인가요?"
+keywords: ["차트"]
+---
+
+summary는 테이블에 표시되고, log는 나중에 플로팅할 수 있도록 모든 값을 저장합니다.
+
+예를 들어 accuracy가 바뀔 때마다 `run.log()`를 호출하세요. 기본적으로 `run.log()`는 해당 metric에 대해 수동으로 설정하지 않는 한 summary 값을 업데이트합니다.
+
+산점도와 평행 좌표 플롯은 summary 값을 사용하고, 선형 플롯은 `run.log()`로 기록된 모든 값을 표시합니다.
+
+일부 사용자는 가장 최근에 로깅된 accuracy 대신 최적의 accuracy가 반영되도록 summary를 수동으로 설정하는 것을 선호합니다.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[차트](/ko/support/models/tags/charts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

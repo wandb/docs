@@ -1,11 +1,11 @@
 ---
-title: 構造化出力を有効にする
+title: "構造化出力を有効にする"
 description: W&B Inference のレスポンスで構造化出力を設定する方法
 ---
 
-Structured Output は [JSON モード](/inference/response-settings/json-mode) と似ていますが、 モデル のレスポンスが指定したスキーマに準拠することを保証できるという利点があります。可能な限り、JSON モードの代わりに Structured Output を使用することをお勧めします。
+構造化出力は [JSONモード](/ja/inference/response-settings/json-mode) に似ていますが、指定したスキーマにモデルのレスポンスが確実に準拠するという利点があります。可能であれば、JSONモードではなく構造化出力を使用することをおすすめします。
 
-Structured Output を有効にするには、リクエストの `response_format` タイプに `json_schema` を指定します。
+構造化出力を有効にするには、リクエストの `response_format` の `type` に `json_schema` を指定します。
 
 <Tabs>
   <Tab title="Python">
@@ -15,7 +15,7 @@ Structured Output を有効にするには、リクエストの `response_format
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings でAPIキーを作成してください
+        api_key="<your-api-key>",  # https://wandb.ai/settings でAPIキーを作成します
     )
 
     response = client.chat.completions.create(
@@ -48,6 +48,7 @@ Structured Output を有効にするには、リクエストの `response_format
     print(parsed)
     ```
   </Tab>
+
   <Tab title="Bash">
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \

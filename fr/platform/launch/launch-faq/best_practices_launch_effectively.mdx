@@ -1,0 +1,9 @@
+---
+title: "Existe-t-il de bonnes pratiques pour utiliser Launch efficacement ?"
+---
+
+1. Créez la file d&#39;attente avant de démarrer l&#39;agent pour faciliter la configuration. Sinon, des erreurs empêcheront l&#39;agent de fonctionner tant qu&#39;une file d&#39;attente n&#39;aura pas été ajoutée.
+
+2. Créez un compte de service W&amp;B pour lancer l&#39;agent, en veillant à ce qu&#39;il ne soit pas lié au compte d&#39;un utilisateur en particulier.
+
+3. Utilisez `wandb.Run.config` pour gérer les hyperparamètres, afin de pouvoir les surcharger lors de la réexécution d&#39;un job. Reportez-vous au [guide de configuration avec argparse](/fr/models/track/config/#set-the-configuration-with-argparse) pour plus de détails sur l&#39;utilisation d&#39;argparse.

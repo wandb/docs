@@ -1,0 +1,25 @@
+```python
+"""
+ヒストグラムプロットを W&B にログします。
+
+以下を置き換えてください:
+- 山括弧で囲まれた値を実際の値に置き換えてください
+- wandb.Table(data=) 内の [[1, 2], [2, 3]] をプロットする実際の2次元行指向配列に置き換えてください
+
+data (wandb.Table(data=)) に2次元行指向配列を渡し、
+列名は `columns` パラメーターで指定してください。
+"""
+import wandb
+
+# 新しい run を開始する
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # プロットする列を含む表を作成する
+    table = wandb.Table(data=[[1, 2], [2, 3]] , columns=["<a_column>", "<b_column>"])
+
+    # 表を使用してさまざまなカスタムチャートにデータを入力する
+    histogram = wandb.plot.histogram(table, value='<b_column>', title='Histogram')
+
+    # カスタム表をログする（UI のカスタマイズ可能なチャートに表示されます）
+    run.log({'histogram_1': histogram})
+```
