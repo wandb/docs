@@ -5,7 +5,7 @@ description: "Improve the resilience of Weave trace data capture with the write-
 
 By default, the Weave client buffers API requests in memory before sending them to the server. If the process exits unexpectedly, the server becomes temporarily unavailable, or a container runs out of memory, any buffered data is lost.
 
-Weave's write-ahead log (WAL) addresses this by persisting requests to disk before sending them. When you enable the WAL, the client writes each API request to a local JSONL file first, then flushes the file to the server. If a process crashes or the server is unreachable, the data remains on disk and is automatically sent when the client runs again.
+Weave's write-ahead log (WAL) addresses this by writing requests to disk before sending them. When you enable the WAL, the client writes each API request to a local JSONL file first, then flushes the file to the server. If a process crashes or the server is unreachable, the data remains on disk and is automatically sent when the client runs again.
 
 <Note>
 The write-ahead log is currently opt-in. It will be enabled by default in a future release.
