@@ -1,90 +1,100 @@
 ---
-title: 태그를 사용하여 Run에 레이블 추가하기
+title: 태그로 run에 레이블 추가
+description: "Python SDK, Public API 또는 W&B App UI를 사용해 W&B run에 태그를 추가, 업데이트, 제거하여 정리할 수 있습니다."
 ---
 
-로그된 메트릭이나 아티팩트 데이터만으로는 명확하지 않은 특정 특징을 표시하기 위해 Runs 에 태그를 추가하세요. 
+로깅된 메트릭이나 artifact 데이터만으로는 드러나지 않을 수 있는 특정 특성으로 run에 레이블을 지정하려면 태그를 추가하세요.
 
-예를 들어, 해당 Run 의 모델이 `in_production` 상태이거나, 해당 Run 이 `preemptible` 임을 나타내거나, 또는 이 Run 이 `baseline` 임을 나타내는 태그 등을 추가할 수 있습니다.
+예를 들어, run의 모델이 `in_production` 상태인지, 해당 run이 `preemptible`인지, 또는 이 run이 `baseline`을 나타내는지 등을 나타내는 태그를 run에 추가할 수 있습니다.
 
-## 하나 이상의 Runs 에 태그 추가하기
+<div id="add-tags-to-one-or-more-runs">
+  ## 하나 이상의 run에 태그 추가
+</div>
 
-프로그래밍 방식이나 대화형 방식으로 Runs 에 태그를 추가할 수 있습니다.
+프로그래밍 방식이나 대화형으로 run에 태그를 추가할 수 있습니다.
 
-사용자의 유스 케이스에 따라 아래 탭 중 가장 적합한 방법을 선택하세요:
+사용 사례에 따라 필요에 가장 적합한 아래 탭을 선택하세요.
 
 <Tabs>
-<Tab title="W&B Python SDK">
-Run 이 생성될 때 태그를 추가할 수 있습니다: 
+  <Tab title="W&B Python SDK">
+    run을 초기화할 때 `wandb.init()`를 사용해 태그를 추가하세요. run에 태그를 추가하려면 `wandb.init()`의 `tags` 파라미터에 문자열 목록을 전달합니다. 예를 들면 다음과 같습니다.
 
-```python
-import wandb
+    ```python
+    import wandb
 
-with wandb.init(
-  entity="entity",
-  project="<project-name>",
-  tags=["tag1", "tag2"]
-) as run:
-    # 여기에 트레이닝 코드를 작성하세요
-```
+    with wandb.init(
+      entity="<entity>",
+      project="<project>",
+      tags=["<tag1>", "<tag2>"]
+    ) as run:
+        # 여기에 트레이닝 코드를 작성합니다
+    ```
 
-Run 을 초기화한 후에도 태그를 업데이트할 수 있습니다. 예를 들어, 다음 코드 조각은 특정 메트릭이 미리 정의된 임계값을 초과할 때 태그를 업데이트하는 방법을 보여줍니다:
+    활성 run 중에도 run 객체의 `tags` 속성(`wandb.Run.tags`)을 업데이트해 기존 태그를 추가하거나 수정할 수 있습니다. `tags` 속성은 문자열 튜플을 받습니다. run을 초기화한 후 새 태그를 추가하려면 기존 run 태그 속성에 하나 이상의 태그를 이어 붙이세요.
 
-```python
-import wandb
+    ```python
+    import wandb
 
-with wandb.init(entity="entity", project="capsules", tags=["debug"]) as run:
+    with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>"]) as run:
+      # 여기에 트레이닝 루프 로직을 작성합니다
 
-  # 모델 트레이닝을 위한 파이썬 로직
-  if current_loss < threshold:
-      run.tags = run.tags + ("release_candidate",)
-```
-</Tab>
-<Tab title="Public API">
-Run 을 생성한 후 [Public API](/models/track/public-api-guide/)를 사용하여 태그를 업데이트할 수 있습니다. 예시:
+      # run 객체에 새 태그를 추가합니다
+      run.tags += ("<new_tag>",)
+    ```
+  </Tab>
 
-```python
-with wandb.Api().run("{entity}/{project}/{run-id}") as run:
-  run.tags.append("tag1")  # 여기에서 run 데이터를 기반으로 태그를 선택할 수 있습니다
-  run.update()
-```
-</Tab>
-<Tab title="Project page">
-이 방법은 대량의 Runs 에 동일한 태그를 추가할 때 가장 적합합니다.
+  <Tab title="Public API">
+    이전에 저장한 run에 태그를 추가하거나 업데이트하려면 [W&amp;B Public API](/ko/models/ref/python/public-api)를 사용하세요.
 
-1. 프로젝트 Workspace 로 이동합니다.
-2. 프로젝트 사이드바에서 **Runs** 를 선택합니다.
-3. 테이블에서 하나 이상의 Runs 를 선택합니다.
-4. 하나 이상의 Runs 를 선택하면 테이블 위에 있는 **Tag** 버튼을 클릭합니다.
-5. 추가하려는 태그를 입력하고 **Create new tag** 체크박스를 선택하여 태그를 추가합니다.
-</Tab>
-<Tab title="Run page">
-이 방법은 단일 Run 에 수동으로 태그를 적용할 때 가장 적합합니다.
+    기존 run의 태그를 업데이트하려면 `wandb.Run.tags` 속성에 액세스하세요. `wandb.Run.tags` 속성은 문자열 목록으로 구성됩니다. 새 태그 하나 이상을 기존 태그에 이어 붙인 다음 `wandb.Run.update()`를 호출해 새 태그로 run을 업데이트하세요. 예를 들면 다음과 같습니다.
 
-1. 프로젝트 Workspace 로 이동합니다.
-2. 프로젝트 Workspace 내의 Runs 리스트에서 특정 Run 을 선택합니다.
-1. 프로젝트 사이드바에서 **Overview** 를 선택합니다.
-2. **Tags** 옆의 회색 플러스 아이콘 (**+**) 버튼을 선택합니다.
-3. 추가하려는 태그를 입력하고 텍스트 상자 아래의 **Add** 를 선택하여 새 태그를 추가합니다.
-</Tab>
+    ```python
+    with wandb.Api().run("{entity}/{project}/{run-id}") as run:
+      run.tags.append("<tag1>")
+      run.update()
+    ```
+  </Tab>
+
+  <Tab title="프로젝트 페이지">
+    이 방법은 많은 수의 run에 동일한 태그 하나 또는 여러 개를 지정할 때 가장 적합합니다.
+
+    1. 프로젝트 workspace로 이동합니다.
+    2. 프로젝트 사이드바에서 **Runs**를 선택합니다.
+    3. 테이블에서 하나 이상의 run을 선택합니다.
+    4. 하나 이상의 run을 선택한 후 테이블 위의 **Tag** 버튼을 선택합니다.
+    5. 추가하려는 태그를 입력한 다음 **Create new tag** 체크박스를 선택해 태그를 추가합니다.
+  </Tab>
+
+  <Tab title="Run 페이지">
+    이 방법은 단일 run에 태그 하나 또는 여러 개를 수동으로 적용할 때 가장 적합합니다.
+
+    1. 프로젝트 workspace로 이동합니다.
+    2. run을 클릭해 엽니다. run 페이지가 열리면 기본적으로 **Overview** 탭이 표시됩니다.
+    3. **Tags** 옆의 회색 더하기 아이콘(**+**) 버튼을 선택합니다.
+    4. 추가하려는 태그를 입력한 다음 텍스트 상자 아래의 **Add**를 선택해 새 태그를 추가합니다.
+  </Tab>
 </Tabs>
 
-## 하나 이상의 Runs 에서 태그 제거하기
+<div id="remove-tags-from-one-or-more-runs">
+  ## 하나 이상의 run에서 태그 제거
+</div>
 
-W&B 앱에서 Run 의 태그를 제거하려면 다음 단계를 따르세요.
+다음 step에 따라 W&amp;B App에서 run의 태그를 제거합니다.
 
 <Tabs>
-<Tab title="Project page">
-이 방법은 대량의 Runs 에서 태그를 제거할 때 가장 적합합니다.
+  <Tab title="프로젝트 페이지">
+    이 방법은 많은 수의 run에서 태그를 제거할 때 가장 적합합니다.
 
-1. 프로젝트의 Run 사이드바에서 오른쪽 상단의 테이블 아이콘을 선택합니다. 그러면 사이드바가 전체 Runs 테이블로 확장됩니다.
-2. 테이블의 Run 위에 마우스를 올리면 왼쪽에 나타나는 체크박스를 확인하거나, 헤더 행에서 모든 Runs 를 선택하는 체크박스를 찾습니다.
-3. 체크박스를 선택하여 일괄 작업(bulk actions)을 활성화합니다. 
-4. 태그를 제거하려는 Runs 를 선택합니다.
-5. Runs 행 위에 있는 **Tag** 버튼을 선택합니다.
-6. 태그 옆의 체크박스를 해제하여 해당 Run 에서 태그를 제거합니다.
-</Tab>
-<Tab title="Run page">
-1. Run 페이지의 왼쪽 사이드바에서 상단의 **Overview** 탭을 선택합니다. 여기에서 Run 에 지정된 태그들을 볼 수 있습니다.
-2. 태그 위에 마우스를 올리고 "x"를 선택하여 Run 에서 해당 태그를 제거합니다.
-</Tab>
+    1. 프로젝트의 Run 사이드바에서 오른쪽 상단의 table 아이콘을 선택합니다. 그러면 사이드바가 전체 runs table로 확장됩니다.
+    2. table에서 run 위에 마우스를 올리면 왼쪽에 체크박스가 표시됩니다. 또는 모든 run을 선택하려면 헤더 행의 체크박스를 찾습니다.
+    3. 체크박스를 선택해 일괄 action을 활성화합니다.
+    4. 태그를 제거할 run을 선택합니다.
+    5. run 행 위의 **Tag** 버튼을 선택합니다.
+    6. 태그 옆의 체크박스를 선택해 run에서 해당 태그를 제거합니다.
+  </Tab>
+
+  <Tab title="Run 페이지">
+    1. Run 페이지의 left sidebar에서 맨 위의 **Overview** 탭을 선택합니다. 여기에서 run의 태그를 확인할 수 있습니다.
+    2. 태그 위에 마우스를 올린 다음 &quot;x&quot;를 선택해 run에서 해당 태그를 제거합니다.
+  </Tab>
 </Tabs>

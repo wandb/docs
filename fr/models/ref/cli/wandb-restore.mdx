@@ -1,0 +1,98 @@
+---
+title: wandb restore
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3155" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+restore [OPTIONS] RUN
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Restaurez le code, la configuration ou l&#39;environnement Docker à partir d&#39;un run W&amp;B précédent.
+
+Recréez l&#39;environnement d&#39;un run précédent afin de pouvoir le reproduire.
+Une authentification auprès de W&amp;B est requise.
+
+Restaurez jusqu&#39;à trois éléments d&#39;état, selon ce que le
+run d&#39;origine a enregistré :
+
+1. Configuration (toujours) : écrivez la configuration du run dans wandb/config.yaml.
+
+   2. Git (si disponible) : basculez sur le commit d&#39;origine dans une nouvelle
+      branche wandb/run&#95;id. Récupérez et appliquez tout patch diff enregistré.
+      Si le commit d&#39;origine est introuvable,
+      repliez-vous sur un commit amont.
+      Exécutez cette commande depuis le même dépôt git que le run d&#39;origine. Ignorez
+      cette étape avec `--no-git`.
+
+   3. Docker (si disponible) : si le run a été exécuté dans un
+      conteneur Docker, démarrez la même image avec la commande d&#39;origine.
+
+Si le run n&#39;a ni historique git ni image Docker,
+restaurez uniquement la configuration.
+
+Accepte l&#39;identifiant du run dans l&#39;un des formats suivants :
+run&#95;id, project:run&#95;id, entity/project:run&#95;id, ou entity/project/run&#95;id .
+
+Par exemple, pour restaurer un run avec un ID de run dans le projet par défaut
+(stocké dans la variable d&#39;environnement WANDB&#95;PROJECT) et l&#39;entité
+(définie à partir de WANDB&#95;ENTITY ou de l&#39;entité par défaut de l&#39;utilisateur authentifié) :
+
+```bash
+wandb restore abcd1234
+```
+
+Pour restaurer un run du projet &quot;foobar&quot; de l&#39;entité &quot;team-awesome&quot; avec
+l&#39;ID de run abcd1234 :
+
+```bash
+wandb restore team-awesome/foobar/abcd1234
+```
+
+Pour restaurer le run abcd1234 sans restaurer l’état Git. Restaurez uniquement la configuration
+et l’état Docker :
+
+```bash
+wandb restore --no-git abcd1234
+```
+
+Pour restaurer le run abcd1234 en mode HEAD détaché plutôt que de créer une branche :
+
+```bash
+wandb restore --no-branch abcd1234
+```
+
+Pour restaurer le run abcd1234 depuis le projet d’une autre équipe :
+
+```bash
+wandb restore other-team/their-project:abcd1234
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom   | Défaut | Type |
+| ----- | ------ | ---- |
+| `run` | STR    | True |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag            | Type      | Description                                                                                                 |
+| --------------- | --------- | ----------------------------------------------------------------------------------------------------------- |
+| `--no-git`      | BOOL Flag | Ne pas restaurer git. Restaurer uniquement la configuration et l&#39;état Docker. **Par défaut** : False |
+| `--branch`      | BOOL Flag | Créer une branche wandb/run&#95;id ou basculer sur le commit en mode HEAD détaché. **Par défaut** : True    |
+| `--project, -p` | STR       | Indiquer le projet dans lequel rechercher le run. **Par défaut** : None                                     |
+| `--entity, -e`  | STR       | Indiquer l&#39;entité à laquelle limiter la recherche du run. **Par défaut** : None                         |

@@ -1,0 +1,21 @@
+---
+title: Mise à jour d’Artifact
+---
+
+```python
+"""
+Mettre à jour la description d'un artifact W&B existant dans un run W&B.
+
+Ce code initialise un run W&B, récupère l'artifact spécifié par nom et alias,
+met à jour sa description et enregistre les modifications.
+"""
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # Récupérer l'artifact par nom et alias
+    artifact = run.use_artifact(artifact_or_name="<artifact>:<alias>")
+    # Mettre à jour la description de l'artifact
+    artifact.description = "<description>"
+    # Enregistrer l'artifact mis à jour
+    artifact.save()
+```

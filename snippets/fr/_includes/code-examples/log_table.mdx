@@ -1,0 +1,22 @@
+```python
+"""
+Enregistrer un tableau dans W&B.
+
+Remplacer : 
+- les valeurs entre chevrons par les vôtres
+- [[1, 2], [2, 3]] dans wandb.Table(data=) par votre propre tableau de valeurs 2D orienté lignes à enregistrer
+"""
+import wandb
+
+# Créer un objet tableau avec deux colonnes et deux lignes de données
+my_table = wandb.Table(
+    columns=["<a_column>", "<b_column>"],
+    data=[[1, 2], [2, 3]],
+    log_mode="<log_mode>"
+    )
+
+# Démarrer un nouveau run
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # Enregistrer le tableau dans W&B
+    run.log({"<table_name>": my_table})
+```

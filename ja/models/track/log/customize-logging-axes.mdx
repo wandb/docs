@@ -1,16 +1,17 @@
 ---
-title: ログの軸をカスタマイズする
+title: ログ軸をカスタマイズする
+description: "デフォルトの W&B step カウンターではなく、define_metric() を使用して、ログしたメトリクスにカスタム x軸 を設定します。"
 ---
 
-W&B にメトリクスをログ記録する際、カスタムの x 軸を設定できます。デフォルトでは、W&B はメトリクスを *steps* としてログ記録します。各ステップは、1 回の `wandb.Run.log()` API コールに対応します。
+メトリクスを W&amp;B にログするときに、カスタム x軸 を設定できます。デフォルトでは、W&amp;B はメトリクスを *steps* としてログします。各 step は `wandb.Run.log()` API call 1 回に対応します。
 
-例えば、以下のスクリプトには 10 回繰り返す `for` ループがあります。各イテレーションで、スクリプトは `validation_loss` という名前のメトリクスをログ記録し、ステップ番号を 1 ずつ増やします。
+たとえば、次のスクリプトには 10 回繰り返す `for` ループがあります。各反復で、スクリプトは `validation_loss` というメトリクスをログし、step 番号を 1 ずつ増やします。
 
 ```python
 import wandb
 
 with wandb.init() as run:
-  # range 関数は 0 から 9 までの数列を作成します
+  # range関数は0から9までの数列を生成する
   for i in range(10):
     log_dict = {
         "validation_loss": 1/(i+1)   
@@ -18,37 +19,37 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-プロジェクトの Workspace では、`validation_loss` メトリクスは `step` を x 軸としてプロットされます。これは `wandb.Run.log()` が呼び出されるたびに 1 ずつ増加します。上記のコードでは、x 軸にはステップ番号 0, 1, 2, ..., 9 が表示されます。
+プロジェクトのWorkspaceでは、`validation_loss` メトリクスが x軸 `step` に対してプロットされます。`step` は `wandb.Run.log()` が呼び出されるたびに 1 ずつ増加します。前のコード例では、x軸に step 番号 0、1、2、...、9 が表示されます。
 
 <Frame>
-    <img src="/images/experiments/standard_axes.png" alt="step を x 軸として使用する折れ線グラフパネル。"  />
+  <img src="/images/experiments/standard_axes.png" alt="x軸に `step` を使用するラインプロットパネル。" />
 </Frame>
 
-状況によっては、対数スケールの x 軸など、別の x 軸に対してメトリクスをログ記録する方が適切な場合があります。[`define_metric()`](/models/ref/python/experiments/run/#define_metric) メソッドを使用すると、ログ記録する任意のメトリクスをカスタム x 軸として使用できます。
+状況によっては、対数 x軸など、別の x軸に対してメトリクスをログしたほうが適切な場合があります。[`define_metric()`](/ja/models/ref/python/experiments/run/#define_metric) method を使用すると、ログした任意のメトリクスをカスタム x軸として使用できます。
 
-y 軸として表示したいメトリクスを `name` パラメータで指定します。`step_metric` パラメータには、x 軸として使用したいメトリクスを指定します。カスタムメトリクスをログ記録する際は、辞書のキーと値のペアとして、x 軸と y 軸の両方の値を指定してください。
+`name` パラメーターには y軸に表示するメトリクスを指定します。`step_metric` パラメーターには、x軸として使用するメトリクスを指定します。カスタムメトリクスをログする場合は、辞書内で x軸と y軸の両方の値をキーと値のペアとして指定してください。
 
-カスタム x 軸メトリクスを設定するには、以下のコードスニペットをコピー＆ペーストしてください。`<>` 内の値は、ご自身の値に置き換えてください。
+次のコードスニペットをコピー＆ペーストして、カスタム x軸メトリクスを設定します。`<>` 内の値はご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-custom_step = "<custom_step>"  # カスタム x 軸の名前
-metric_name = "<metric>"  # y 軸メトリクスの名前
+custom_step = "<custom_step>"  # カスタムx軸の名前
+metric_name = "<metric>"  # y軸メトリクスの名前
 
 with wandb.init() as run:
-    # ステップメトリクス（x 軸）と、それに対してログを記録するメトリクス（y 軸）を指定します
+    # stepメトリクス（x軸）とそれに対してログするメトリクス（y軸）を指定する
     run.define_metric(step_metric = custom_step, name = metric_name)
 
     for i in range(10):
         log_dict = {
-            custom_step : int,  # x 軸の値
-            metric_name : int,  # y 軸の値
+            custom_step : int,  # x軸の値
+            metric_name : int,  # y軸の値
         }
         run.log(log_dict)
 ```
 
-例として、次のコードスニペットは `x_axis_squared` というカスタム x 軸を作成します。カスタム x 軸の値は、for ループのインデックス `i` の 2 乗（`i**2`）です。y 軸は、Python の組み込み `random` モジュールを使用した検証損失（`"validation_loss"`）のモック値で構成されています。
+例として、次のコードスニペットでは、`x_axis_squared` というカスタム x軸 を作成します。カスタム x軸 の値は、for ループのインデックス `i` の二乗 (`i**2`) です。y軸 は、Python 組み込みの `random` モジュールを使用した検証損失 (`"validation_loss"`) のモック値で構成されます:
 
 ```python
 import wandb
@@ -65,31 +66,30 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-以下の画像は、W&B App UI での結果のプロットを示しています。`validation_loss` メトリクスが、ループインデックス `i` の 2 乗であるカスタム x 軸 `x_axis_squared` に対してプロットされています。x 軸の値が、それぞれ `0, 1, 2, ..., 9` の 2 乗に対応する `0, 1, 4, 9, 16, 25, 36, 49, 64, 81` になっていることに注目してください。
+次の画像は、W&amp;B App UI に表示される結果のプロットを示しています。`validation_loss` メトリクスはカスタム x軸 `x_axis_squared` に対してプロットされており、これは for ループのインデックス `i` を二乗した値です。x軸 の値は `0, 1, 4, 9, 16, 25, 36, 49, 64, 81` で、それぞれ `0, 1, 2, ..., 9` の二乗に対応しています。
 
 <Frame>
-    <img src="/images/experiments/custom_x_axes.png" alt="カスタム x 軸を使用する折れ線グラフパネル。値はループ番号の 2 乗として W&B にログ記録されます。"  />
+  <img src="/images/experiments/custom_x_axes.png" alt="カスタム x軸 を使用するラインプロットパネル。値はループ番号の二乗として W&B にログされます。" />
 </Frame>
 
-文字列のプレフィックスと `globs` を使用して、複数のメトリクスに対してカスタム x 軸を設定することもできます。例として、以下のコードスニペットは、`train/*` というプレフィックスを持つログ記録されたメトリクスを x 軸 `train/step` に対してプロットします。
+文字列プレフィックス付きの `globs` を使用すると、複数のメトリクスに対してカスタム x軸 を設定できます。たとえば、次のコードスニペットでは、プレフィックス `train/*` を持つログされたメトリクスを x軸 `train/step` にプロットしています.
 
 ```python
 import wandb
 
 with wandb.init() as run:
 
-    # 他のすべての train/ メトリクスがこのステップを使用するように設定します
+    # 他のすべての train/ メトリクスにこの step を使用するよう設定する
     run.define_metric("train/*", step_metric="train/step")
 
     for i in range(10):
         log_dict = {
-            "train/step": 2**i,  # 内部の W&B ステップに対して指数関数的に増加
-            "train/loss": 1 / (i + 1),  # x 軸は train/step
-            "train/accuracy": 1 - (1 / (1 + i)),  # x 軸は train/step
-            "val/loss": 1 / (1 + i),  # x 軸は内部の wandb ステップ
+            "train/step": 2**i,  # W&B 内部 step に対して指数的に増加
+            "train/loss": 1 / (i + 1),  # x軸は train/step
+            "train/accuracy": 1 - (1 / (1 + i)),  # x軸は train/step
+            "val/loss": 1 / (1 + i),  # x軸は wandb 内部 step
         }
         run.log(log_dict)
 ```
 
-
-{/* [Google Colab で `define_metric` を試す](https://wandb.me/define-metric-colab) */}
+{/* [Google Colab で `define_metric` を試す](https://wandb.me/define-metric-colab). */}

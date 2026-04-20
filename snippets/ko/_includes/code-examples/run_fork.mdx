@@ -1,0 +1,15 @@
+```python
+"""특정 step에서 기존 W&B run을 fork합니다."""
+
+import wandb
+
+# 나중에 fork할 run을 초기화합니다.
+with wandb.init(project="<project>", entity="<entity>") as original_run:
+    # 트레이닝 및 logging 코드를 여기에 작성하세요.
+    pass
+
+# 특정 step에서 run을 fork합니다. 이 예제에서는 step 200에서 fork합니다. 필요에 따라 step 번호를 조정하세요.
+with wandb.init(project="<project>",entity="<entity>", fork_from=f"{original_run.id}?_step=200") as forked_run:
+    # 트레이닝 및 logging 코드를 여기에 작성하세요.
+    pass
+```

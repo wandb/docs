@@ -1,0 +1,23 @@
+```python
+"""
+Ajouter un ou plusieurs tags à des runs précédemment sauvegardés.
+
+Utilisez l'API publique pour mettre à jour les tags sur des données stockées après la fin du run ou
+lorsque vous travaillez en dehors du processus de run.
+
+Pour ajouter un nouveau tag à un run, mettez à jour la propriété "tags"
+avec une nouvelle liste incluant les tags existants et le(s) nouveau(x) tag(s).
+Le chemin du run est composé de entity/project/run_id.
+Après avoir mis à jour les tags, appelez la méthode `update()` du run pour enregistrer les modifications.
+"""
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+run_id = "<run-id>"  # Remplacez par l'ID du run que vous souhaitez mettre à jour
+
+# Le chemin est composé de entity/project/run_id
+with wandb.Api().run(f"{entity}/{project}/{run_id}") as run:
+  run.tags.append("<tag>")
+  run.update()
+```

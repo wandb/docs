@@ -1,0 +1,36 @@
+```python
+"""
+W&B Sweep を初期化します。
+
+以下を置き換えてください:
+- 山括弧で囲まれた値を独自の値に置き換えてください
+- sweep_configuration を独自の sweep 設定辞書に置き換えてください。単一ネストおよび
+    二重ネストの sweep 設定の例については sweep_config.py を参照してください。
+"""
+
+import wandb
+
+# sweep 設定の例
+sweep_configuration = {
+    "method": "<sweep_method>",
+    "name": "<sweep_name>",
+    "metric": {
+        "goal": "<goal>", 
+        "name": "<metric_name>"
+        },
+    "parameters": {
+        "hyperparameter_1": {
+            "values": [16, 32, 64]
+            },
+        "hyperparameter_2": {
+            "values": [5, 10, 15]
+            },
+        "hyperparameter_3": {
+            "search_constraint_1": 0.1,
+            "search_constraint_2": 0.0001
+            },
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+```

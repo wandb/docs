@@ -1,56 +1,113 @@
 ---
-title: ' start_thought
-
-  wandb sync'
+title: wandb sync
 ---
-import WandbSync from "/snippets/en/_includes/cli/wandb-sync.mdx";
 
-<WandbSync/>
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-W&B Runs 데이터를 클라우드에 동기화합니다.
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L542" />
 
-`PATH`가 제공되면 해당 경로에서 발견된 Runs를 동기화합니다. 경로를 지정하지 않으면 먼저 `./wandb`를 검색한 다음 `wandb/` 하위 디렉토리를 검색합니다.
-
-특정 run을 동기화하려면 다음을 사용하세요:
-
-wandb sync ./wandb/run-20250813_124246-n67z9ude
-
-또는 동일하게 다음을 사용할 수 있습니다:
-
-wandb sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
-
-## Usage
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb sync [PATH] [OPTIONS]
+sync [OPTIONS] [PATH]...
 ```
 
-## Arguments
+<div id="description">
+  ## 설명
+</div>
 
-| 인수 | 설명 | 필수 여부 |
-| :--- | :--- | :--- |
-| `PATH` | 설명 없음 | 아니오 |
+기존 로컬 W&amp;B run 데이터를 클라우드에 업로드합니다.
 
-## Options
+로컬 `wandb` 디렉터리에 있는 오프라인 또는 미완료 Runs를
+W&amp;B 서버로 동기화합니다. PATH가 제공되면 해당 경로의 Runs를 동기화합니다. 경로가
+지정되지 않으면 ./wandb 디렉터리를 검색한 다음 wandb/
+하위 디렉터리를 검색합니다.
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--id` | 업로드하려는 run의 ID. |
-| `--project`, `-p` | 업로드하려는 Projects. |
-| `--entity`, `-e` | 범위를 지정할 Entities. |
-| `--job_type` | 관련 Runs를 함께 그룹화하기 위한 run 유형을 지정합니다. |
-| `--sync-tensorboard` | tfevent 파일을 wandb로 스트리밍합니다. |
-| `--include-globs` | 포함할 glob 패턴의 쉼표 구분 리스트. |
-| `--exclude-globs` | 제외할 glob 패턴의 쉼표 구분 리스트. |
-| `--include-online` | 온라인 Runs 포함 |
-| `--include-offline` | 오프라인 Runs 포함 |
-| `--include-synced` | 이미 동기화된 Runs 포함 |
-| `--mark-synced` | Runs를 동기화됨으로 표시 (기본값: True) |
-| `--sync-all` | 모든 Runs 동기화 (기본값: False) |
-| `--clean` | 동기화된 Runs 삭제 (기본값: False) |
-| `--clean-old-hours` | 지정된 시간보다 이전에 생성된 Runs 삭제. --clean 플래그와 함께 사용됩니다. (기본값: 24) |
-| `--clean-force` | 확인 프롬프트 없이 삭제. (기본값: False) |
-| `--show` | 표시할 Runs의 수 (기본값: 5) |
-| `--append` | run 추가 (기본값: False) |
-| `--skip-console` | 콘솔 로그 건너뛰기 (기본값: False) |
-| `--replace-tags` | 'old_tag1=new_tag1,old_tag2=new_tag2' 형식으로 태그 교체 |
+인수 없이 실행하면 아무것도 업로드하지 않고 동기화된
+Runs와 동기화되지 않은 Runs의 요약을 출력합니다.
+
+특정 경로를 동기화할 때는 기본적으로 TensorBoard 이벤트 파일도
+포함됩니다. `--sync-all`을 사용할 때는 기본적으로 TensorBoard가
+비활성화됩니다 (`--sync-tensorboard`를 사용해 활성화하세요).
+
+PATH는 .wandb 파일이거나 .wandb 파일이 들어 있는 run 디렉터리입니다.
+일반적인 경로는 다음과 같습니다.
+
+./wandb/run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID/run-RUN&#95;ID.wandb
+
+여기서 run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID는 run 디렉터리이고
+run-RUN&#95;ID.wandb는 .wandb 파일입니다. YYYYMMDD&#95;HHMMSS는
+run이 생성된 시점의 타임스탬프이고 RUN&#95;ID는 run의 고유 ID입니다.
+
+예를 들어, 로컬 Runs와 해당 동기화 상태의 요약을 표시하려면 다음과 같습니다:
+
+```bash
+wandb sync
+```
+
+./wandb/run-20170617&#95;000000-abcd1234 디렉터리에 로컬에 저장된
+run ID abcd1234를 동기화하려면:
+
+```bash
+wandb sync ./wandb/run-20170617_000000-abcd1234
+```
+
+로컬 .wandb 파일 경로(./wandb/run-20170617&#95;000000-abcd1234/run-abcd1234.wandb)를 사용해 run abcd1234를 동기화하려면:
+
+```bash
+wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
+```
+
+로컬 wandb 디렉터리에 있는 아직 동기화되지 않은 모든 Runs를 동기화하려면:
+
+```bash
+wandb sync --sync-all
+```
+
+이미 동기화된 Runs의 로컬 데이터를 삭제하려면:
+
+```bash
+wandb sync --clean
+```
+
+확인 메시지 없이 동기화된 지 48시간이 지난 Runs를 삭제하려면:
+
+```bash
+wandb sync --clean --clean-old-hours 48 --clean-force
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름     | 기본값  | 유형    |
+| ------ | ---- | ----- |
+| `path` | PATH | False |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| Flag                 | Type      | 설명                                                                                         |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------ |
+| `--id`               | STR       | 기존 run ID에 업로드합니다. **기본값**: None                                                           |
+| `--project, -p`      | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: None                                                       |
+| `--entity, -e`       | STR       | 프로젝트에 적용할 entity를 설정합니다. **기본값**: None                                                     |
+| `--job_type`         | STR       | 관련된 Runs를 그룹화할 작업 유형을 설정합니다. **기본값**: None                                                 |
+| `--sync-tensorboard` | BOOL Flag | TensorBoard tfevent 파일을 동기화합니다. 특정 경로에서는 기본적으로 활성화되며, --sync-all에서는 비활성화됩니다. **기본값**: None |
+| `--include-globs`    | STR       | 이 glob 패턴과 일치하는 Runs만 포함합니다(쉼표로 구분). **기본값**: None                                          |
+| `--exclude-globs`    | STR       | 이 glob 패턴과 일치하는 Runs은 제외합니다(쉼표로 구분). **기본값**: None                                          |
+| `--include-online`   | BOOL Flag | 온라인 모드에서 생성된 Runs를 포함합니다. **기본값**: None                                                     |
+| `--include-offline`  | BOOL Flag | 오프라인 모드에서 생성된 Runs를 포함합니다. **기본값**: None                                                    |
+| `--include-synced`   | BOOL Flag | 이미 동기화된 Runs를 포함합니다. **기본값**: None                                                          |
+| `--mark-synced`      | BOOL Flag | 업로드 후 Runs를 동기화된 것으로 표시합니다. **기본값**: True                                                   |
+| `--sync-all`         | BOOL Flag | 로컬 wandb 디렉터리에서 동기화되지 않은 모든 Runs를 동기화합니다. **기본값**: False                                    |
+| `--clean`            | BOOL Flag | 이미 동기화된 Runs의 로컬 데이터를 삭제합니다. **기본값**: False                                                 |
+| `--clean-old-hours`  | INT       | 지정한 시간보다 오래된 동기화된 Runs만 삭제합니다(`--clean`과 함께 사용). **기본값**: 24                                |
+| `--clean-force`      | BOOL Flag | `--clean`이 지정된 경우 확인 프롬프트를 건너뜁니다. **기본값**: False                                           |
+| `--show`             | INT       | 요약에 표시할 Runs 수를 설정합니다. **기본값**: 5                                                           |
+| `--append`           | BOOL Flag | 새 run을 만들지 않고 기존 run에 데이터를 추가합니다. **기본값**: False                                           |
+| `--skip-console`     | BOOL Flag | 콘솔 로그 업로드를 건너뜁니다. **기본값**: False                                                           |
+| `--replace-tags`     | STR       | 동기화 중에 tags 이름을 변경합니다. 쉼표로 구분된 &#39;old=new&#39; 쌍을 사용합니다. **기본값**: None                   |

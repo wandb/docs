@@ -1,55 +1,69 @@
 ---
+description: W&B Sweeps を使用したハイパーパラメーター探索とモデルの最適化
 title: Sweeps の概要
-description: W&B Sweeps を用いたハイパーパラメーター探索とモデルの最適化
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
 
 <CardGroup cols={4}>
-<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb" />
-<TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb" />
+
+  <TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
-W&B Sweeps を使用して、ハイパーパラメータ探索を自動化し、リッチでインタラクティブな 実験管理 を可視化しましょう。 ベイズ最適化、グリッド検索、ランダム探索などの一般的な探索手法から選択して、ハイパーパラメータ空間を探索できます。 1台以上のマシンにわたって Sweep をスケーリングおよび並列化することが可能です。
+W&amp;B Sweeps を使用すると、ハイパーパラメーター探索を自動化し、充実したインタラクティブな実験管理を可視化できます。Bayesian、グリッドサーチ、ランダムなど、一般的な探索 method から選択して、ハイパーパラメーター空間を探索できます。1 台以上のマシンにまたがって sweep をスケールし、並列実行できます。
 
 <Frame>
-    <img src="/images/sweeps/intro_what_it_is.png" alt="Hyperparameter tuning insights"  />
+  <img src="/images/sweeps/intro_what_it_is.png" alt="ハイパーパラメーター調整のインサイト" />
 </Frame>
 
-### 仕組み
-2つの [W&B CLI](/models/ref/cli/) コマンドを使用して Sweep を作成します。
+<div id="how-it-works">
+  ## 仕組み
+</div>
 
-1. Sweep を初期化する
+2 つの [W&amp;B CLI](/ja/models/ref/cli/) コマンドを使って sweep を作成します。
+
+1. sweep を初期化します。
 
 ```bash
-# プロジェクト名と設定ファイルへのパスを指定して sweep を初期化
-wandb sweep --project <project-name> <path-to-config file>
+  wandb sweep --project <project-name> <path-to-config file>
 ```
 
-2. sweep agent を開始する
+2. sweep エージェントを起動します。
 
 ```bash
-# sweep ID を指定してエージェントを開始
-wandb agent <sweep-ID>
+  wandb agent <sweep-ID>
 ```
 
 <Note>
-上記のコードスニペットおよびこのページの Colab リンクでは、W&B CLI を使用して Sweep を初期化および作成する方法を示しています。 Sweep 設定の定義、Sweep の初期化、および Sweep の開始に使用する W&B Python SDK コマンドのステップバイステップの概要については、[Sweeps walkthrough](/models/sweeps/walkthrough/) を参照してください。
+  前述のコードスニペットと、このページからリンクされている Colab では、W&amp;B CLI を使用して sweep を初期化し、作成する方法を示しています。Python SDK を使用して sweep を設定、初期化、実行する方法については、[Sweeps ウォークスルー](/ja/models/sweeps/walkthrough/)を参照してください。
 </Note>
 
-### 開始方法
+<div id="how-to-get-started">
+  ## はじめに
+</div>
 
-ユースケースに合わせて、W&B Sweeps を使い始めるための以下のリソースを確認してください。
+ユースケースに応じて、W&amp;B Sweeps を使い始めるために、以下のリソースを参照してください。
 
-* [Sweeps walkthrough](/models/sweeps/walkthrough/) を読み、W&B Python SDK コマンドを使用して sweep configuration の定義、Sweep の初期化、および Sweep の開始を行うためのステップバイステップの概要を把握します。
-* このチャプターを探索して、以下の方法を学びます。
-  * [コードに W&B を追加する](/models/sweeps/add-w-and-b-to-your-code/)
-  * [sweep configuration を定義する](/models/sweeps/define-sweep-configuration/)
-  * [Sweeps を初期化する](/models/sweeps/initialize-sweeps/)
-  * [sweep agents を開始する](/models/sweeps/start-sweep-agents/)
-  * [Sweep の結果を可視化する](/models/sweeps/visualize-sweep-results/)
-* W&B Sweeps を使用したハイパーパラメータ最適化を調査した [Sweep 実験の厳選リスト](/models/sweeps/useful-resources/) を確認してください。 結果は W&B Reports に保存されています。
+* sweep 設定の定義、sweep の初期化、sweep の開始に使用する W&amp;B Python SDK コマンドを step ごとに説明した [sweeps ウォークスルー](/ja/models/sweeps/walkthrough/) をお読みください。
+* この章では、次の方法を学べます。
+  * [コードに W&amp;B を追加する](/ja/models/sweeps/add-w-and-b-to-your-code/)
+  * [sweep 設定を定義する](/ja/models/sweeps/define-sweep-configuration/)
+  * [sweeps を初期化する](/ja/models/sweeps/initialize-sweeps/)
+  * [sweep agents を開始する](/ja/models/sweeps/start-sweep-agents/)
+  * [sweep の結果を可視化する](/ja/models/sweeps/visualize-sweep-results/)
+* W&amp;B Sweeps を使用したハイパーパラメーター最適化を紹介する、厳選された [Sweep Experiments の一覧](/ja/models/sweeps/useful-resources/) を参照してください。結果は W&amp;B Reports に保存されます。
 
-ステップバイステップのビデオについては、[Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases) をご覧ください。
+step ごとの video については、こちらを参照してください。[Tune Hyperparameters Easily with W&amp;B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases)。
 
 {/* {% embed url="https://wandb.me/sweeps-video" %} */}
+
+<div id="notebook-examples">
+  ### ノートブックの例
+</div>
+
+以下のノートブック例では、さまざまなフレームワークやユースケースで、W&amp;B Sweeps を使ったハイパーパラメーター最適化の方法を紹介しています。
+
+* [Sweeps を使用したハイパーパラメーター最適化](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W\&B_Sweeps.ipynb)
+* [XGBoost で W&amp;B Sweeps を使用する](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W\&B_Sweeps_with_XGBoost.ipynb)

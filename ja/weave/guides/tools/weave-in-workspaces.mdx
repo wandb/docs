@@ -1,42 +1,45 @@
 ---
-title: W&B トレーニング run で Weave を使用する
-description: Weave トレース を W&B の トレーニング run と統合することで、トレーニング中の モデル の 振る舞い を深く把握できます。カスタマイズ可能な
-  Workspace ダッシュボード 上で、従来の ML メトリクス と共に関数実行の詳細や診断情報をキャプチャすることが可能です。
+title: "W&B のトレーニング run で Weave を使用する"
+description: "Workspace ダッシュボードで ML メトリクスと並べて関数実行の詳細を表示できるよう、Weave のトレースを W&B のトレーニング run に統合します。"
 ---
 
-# モデルトレーニングの Runs 中に Traces をログ記録する
+<div id="log-traces-during-model-training-runs">
+  # モデルのトレーニング run中にトレースをログする
+</div>
 
 <Frame>
-![Workspaces内でのWeave Trace](/images/weave/traces-in-workspace.png)
+  ![Workspace内のWeaveトレース](/images/weave/traces-in-workspace.png)
 </Frame>
 
-モデルトレーニングの Runs 中に Weave の Traces をログ記録し、個人の Workspace で表示できるようになりました。
+これで、モデルのトレーニング run中に Weave のトレースをログし、個人用Workspaceで確認できるようになりました。
 
-個人の Workspace は、UI 上でカスタマイズ可能なダッシュボードであり、モデルトレーニングの Runs に関する詳細な分析やデータ可視化を表示できます。 Workspace に Weave パネルを追加することで、モデルの Runs 中にログ記録されたトレースデータにアクセスして表示でき、トレーニング中のモデルのパフォーマンスについてより深い洞察を得るのに役立ちます。
+個人用Workspaceは、UI 内でカスタマイズできるダッシュボードで、モデルのトレーニング runを詳細に分析したり、データ可視化を表示したりできます。Workspaceに Weave パネルを追加すると、モデル run中にログされたトレースデータを表示して確認できるため、トレーニング中のモデルの挙動をより深く把握できます。
 
-例えば、LLM モデルをファインチューニングしており、W&B の Workspace でステップ 500 で精度が低下していることが示された場合、統合された Weave Traces を確認することで、モデルが評価基準に満たない冗長な回答を生成し始めたなど、何が起きたのかを正確に把握できます。
+たとえば、LLM モデルをファインチューニングしていて、W&amp;B Workspace で step 500 で accuracy が低下していることが示された場合、Weave と統合されたトレースを使うと、評価基準を満たさない過度に冗長な応答をモデルが生成し始めた、といったように、何が起きたのかを正確に把握できます。
 
-## Weave パネルの使用
+<div id="use-weave-panels">
+  ## Weave パネルを使用する
+</div>
 
-機械学習パイプライン内の [関数を `@weave.op` でデコレートする](/weave/quickstart) ことで、その実行情報を自動的にキャプチャし、個人の Workspace でアクセスできるようになります。
+[ML パイプライン内の関数を `@weave.op` でデコレートすると](/ja/weave/quickstart)、それらの実行情報が自動的に取得され、個人用の Workspace で参照できます。
 
-以下のスクリプトは、Weave Traces を W&B のトレーニング Runs と統合する方法の例です。各トレーニングステップでメトリクスを W&B にログ記録すると同時に、詳細な Weave Traces を作成する機械学習トレーニングループをシミュレートしています。関数に付けられた `@weave.op` デコレータは、入力、出力、および実行の詳細を自動的にキャプチャします。トレーニングループが `wandb.log()` でメトリクスをログ記録すると、Weave のトレース情報もプロジェクトにログ記録されます。
+たとえば、次のスクリプトは、Weave のトレースが W&amp;B のトレーニング run とどのように統合されるかを示しています。これは機械学習のトレーニングループをシミュレートしたもので、各トレーニング step で W&amp;B にメトリクスをログすると同時に、詳細な Weave トレースも生成します。関数に付与された `@weave.op` デコレータは、入力、出力、実行の詳細を自動的に取得します。トレーニングループが `wandb.log()` でメトリクスをログすると、Weave のトレース情報もプロジェクトにログされます。
 
 ```python lines
 import wandb
 import weave
 import random
 
-# W&BとWeaveの両方を同じプロジェクト名で初期化
+# W&B と Weave を同じプロジェクトで初期化する
 project = "my-workspace-project"
 weave.init(project)
 
 @weave.op
 def evaluate_model(model_state, epoch):
-    # 評価メトリクスのシミュレーション
+    # 評価メトリクスをシミュレートする
     accuracy = 0.7 + epoch * 0.02 + random.uniform(-0.05, 0.05)
     
-    # 特定のモデルの振る舞いを追跡
+    # 特定のモデルの動作をトラッキングする
     test_responses = {
         "conciseness_check": "Model generated 500 words for simple question",
         "accuracy_check": "Model answered 8/10 questions correctly",
@@ -50,10 +53,10 @@ def evaluate_model(model_state, epoch):
 
 @weave.op
 def training_step(epoch, lr):
-    # トレーニングロジックのシミュレーション
+    # トレーニングロジックをシミュレートする
     loss = 1.0 / (epoch + 1) + random.uniform(-0.1, 0.1)
     
-    # トレース付きの評価
+    # トレースを使った評価
     eval_results = evaluate_model(f"checkpoint_{epoch}", epoch)
     
     return {
@@ -65,10 +68,10 @@ def training_step(epoch, lr):
 # トレーニングループ
 with wandb.init(project=project, config={"lr": 0.01}) as run:
     for epoch in range(5):
-        # Weaveトレーシングを実行しながらトレーニング
+        # Weave トレースを使ってトレーニングを実行する
         results = training_step(epoch, run.config.lr)
         
-        # W&Bへのログ記録 - これが統合ポイントとなります
+        # W&B にログする - インテグレーションポイントを作成する
         run.log({
             "epoch": epoch,
             "loss": results["loss"],
@@ -76,82 +79,120 @@ with wandb.init(project=project, config={"lr": 0.01}) as run:
         })
 ```
 
-このサンプルスクリプトを実行して、他の Run 情報とともにトレースがどのようにログ記録されるかを確認してください。
+このサンプルスクリプトを実行すると、トレースがそのほかの run 情報とともにどのようにログされるかを確認できます。
 
-Run の実行中または終了後に Workspace でトレース情報を表示するには、Run の開始時にターミナルに表示されるリンク（例：`wandb: 🚀 View run at https://wandb.ai/wandb/my-project/runs/<run-ID>`）を開くか、UI から Workspace に移動します。
+run の実行中または実行後に Workspace でトレース情報を表示するには、run の開始時にターミナルに表示されるリンク (次のような形式です: `wandb: 🚀 View run at https://wandb.ai/wandb/my-project/runs/<run-ID>`) を開くか、UI から Workspace にアクセスします。
 
-UI から Workspace に移動する方法：
+UI から Workspace にアクセスするには、次の手順に従います。
 
-1. W&B UI を開き、 **Projects** タブをクリックします。プロジェクトの一覧が表示されます。
-2. リストから Run をログ記録したプロジェクトをクリックします。これにより **Workspaces** ページが開きます。
-3. Workspace を自動 Workspace として設定している場合、Run に関するデータ可視化と情報が自動的に表示されます。Run のトレースデータは、Workspace の **Weave** セクションにあります。手動 Workspace の場合は、 **Add panels** をクリックし、Add Panels メニューの **Weave** セクションから新しいパネルを選択して Weave パネルを追加できます。
+1. W&amp;B UI を開き、**Projects** タブをクリックします。プロジェクトの一覧が表示されます。
+2. プロジェクトの一覧から、run をログしたプロジェクトをクリックします。**Workspaces** ページが開きます。
+3. Workspace を自動 Workspace として設定している場合、Workspace にはデータ可視化と run に関する情報が自動的に表示されます。run の Trace Data は、Workspace の **Weave** セクションにあります。Workspace が手動 Workspace の場合は、**Add panels** をクリックし、Add Panels メニューの **Weave** セクションから新しいパネルを選択して、Weave パネルを追加できます。
 
-Workspace の詳細については、 [実験結果の表示](https://docs.wandb.ai/models/track/workspaces) を参照してください。
+Workspace の詳細については、[実験結果を表示する](https://docs.wandb.ai/models/track/workspaces)を参照してください。
 
-## Weave トレース内での W&B Artifacts の参照
+<div id="associate-traces-with-a-specific-wb-run">
+  ## 特定の W&amp;B run にトレースを関連付ける
+</div>
 
-Weave トレース内で [W&B Artifacts](/models/artifacts) （モデル、データセット、チェックポイントなど）を参照できます。これにより、Weave UI 上に Artifact の詳細ページへ直接移動できるクリック可能なリンクが作成され、特定のオペレーションでどのバージョンの Artifact が使用されたかを追跡するのに役立ちます。
+デフォルトでは、Weave はアクティブな `wandb.run` を自動的に検出し、トレースを関連付けます。グローバルな `wandb.run` ではない特定の run にトレースを関連付ける必要がある場合は、`set_wandb_run_context` を使用してください。method の `run_id` 引数と `step` 引数に値を指定すると、トレースを特定の run および run step に関連付けることができます。
 
-例えば、モデルの 2 つのバージョン（ `v1` と `v2` ）をトレーニングした場合、そのモデルをクエリする際に `v1` の Artifact 参照をトレースの属性として追加できます。これにより、どの Artifact バージョンが特定の出力を生成したかを正確にトレースできます。
-
-Artifact をトレースに関連付けるには、 `wandb-artifact:///` プレフィックスと Artifact のフルネームを連結して、 Artifact の URL を次の構文で構築します： `wandb-artifact:///<full-name-of-artifact>` 。その後、以下の 2 つの方法のいずれかで Weave に渡します。
-
-* 任意の属性（attribute）として渡す
-* `Model` の属性として渡す
-
-Artifact のフルネームは、W&B UI の Artifact 詳細ページで確認できます。形式は `<entity>/<project>/<artifact_name>:<version>` です。W&B UI の Artifact 詳細ページからフルネームをコピーできます。
-
-### トレースの属性として追加する
-
-Artifact をトレースの属性として追加するには、 `weave.attributes()` コンテキストマネージャーにキーと値のペアとして渡します。
-
-<Tabs>
-<Tab title="Python">
-```python lines {10}
+```python lines highlight={6}
 import weave
 
-weave.init("your-team-name/your-project-name")
+client = weave.init("<your-team-name>/<your-project-name>")
+
+# 以降のすべてのトレースを特定のrunに関連付けます。
+client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
 
 @weave.op
-def my_function(name: str):
-    return f"Hello, {name}!"
+def my_function(x):
+    return x * 2
 
-# 任意のキー名と、値としてArtifactのURLを追加します
-with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
-    result = my_function("World")
+my_function(10)  # このトレースは step 5 の "my-run-id" に関連付けられています。
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript lines {12}
-import {init, op, withAttributes} from 'weave';
 
-async function main() {
-  await init('wandb/docs');
+`run_id` は run の短縮 ID (例: `38m4t5ja`) であり、完全な `entity/project/run_id` パスではありません。run の短縮 ID は、run の URL (`https://wandb.ai/team/project/runs/<run_id>`) または [コードで `wandb.run.id` にアクセスする](/ja/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name) ことで確認できます。
 
-  const myFunction = op(async function myFunction(name: string) {
-    return `Hello, ${name}!`;
-  });
+オーバーライドを解除してグローバルな `wandb.run` に戻すには、`clear_wandb_run_context` を呼び出します:
 
-  // 任意のキー名と、値としてArtifactのURLを追加します
-  const result = await withAttributes(
-    {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
-    async () => myFunction('World')
-  );
+```python lines
+client.clear_wandb_run_context()
 
-  console.log('Result:', result);
-}
-
-main().catch(console.error);
+my_function(20)  # このトレースはグローバルの wandb.run を使用します（存在する場合）。
 ```
-</Tab>
+
+<div id="reference-wb-artifacts-in-a-weave-trace">
+  ## Weave トレースで W&amp;B artifacts を参照する
+</div>
+
+Weave トレースでは、[W&amp;B artifacts](/ja/models/artifacts) (モデル、データセット、チェックポイントなど) を参照できます。これにより、Weave UI にクリック可能なリンクが作成され、artifact の詳細ページへ直接移動できるようになります。特定の操作でどの artifact バージョンが使用されたかをトラッキングするのに役立ちます。
+
+たとえば、モデルの 2 つのバージョン (`v1` と `v2`) をトレーニングしている場合、そのモデルをクエリするときに、`v1` artifact への参照をトレースの属性として追加できます。これにより、どの artifact バージョンが特定の出力を生成したのかを正確にトレースできます。
+
+artifact をトレースに関連付けるには、`wandb-artifact:///` プレフィックスと artifact の完全名を連結し、`wandb-artifact:///<full-name-of-artifact>` という構文で artifact の URL を作成します。次に、以下の 2 つの方法のいずれかで Weave に渡します。
+
+* 任意の属性として
+* `Model` の属性として
+
+artifact の完全名は、W&amp;B UI の詳細ページで確認できます。形式は次のとおりです: `<entity>/<project>/<artifact_name>:<version>`。完全名は、W&amp;B UI の artifact の詳細ページからコピーできます。
+
+<div id="add-it-as-an-attribute-of-a-trace">
+  ### トレース の属性として追加する
+</div>
+
+artifact を トレース の属性として追加するには、`weave.attributes()` コンテキストマネージャにキーと値のペアとして渡します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {10}
+    import weave
+
+    weave.init("your-team-name/your-project-name")
+
+    @weave.op
+    def my_function(name: str):
+        return f"Hello, {name}!"
+
+    # 任意のキー名を指定し、値に artifact の URL を設定します
+    with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
+        result = my_function("World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {12}
+    import {init, op, withAttributes} from 'weave';
+
+    async function main() {
+      await init('wandb/docs');
+
+      const myFunction = op(async function myFunction(name: string) {
+        return `Hello, ${name}!`;
+      });
+
+      // 任意のキー名を指定し、値に artifact の URL を設定します
+      const result = await withAttributes(
+        {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
+        async () => myFunction('World')
+      );
+
+      console.log('Result:', result);
+    }
+
+    main().catch(console.error);
+    ```
+  </Tab>
 </Tabs>
 
-### `Model` の属性として Artifact を追加する
+<div id="add-an-artifact-as-an-attribute-of-a-model">
+  ### artifactを `Model` の属性として追加する
+</div>
 
-Artifact を `Model` の属性として追加するには、モデルをインスタンス化する際に Artifact の URL を渡します。
+artifactを `Model` の属性として追加するには、`Model` のインスタンス化時にartifactの URL を渡します。
 
 <Note>
-`Model` クラスは現在、Weave Python SDK でのみサポートされています。
+  `Model` クラスは現在、Weave Python SDK でのみサポートされています。
 </Note>
 
 ```python lines {7,17}
@@ -160,16 +201,16 @@ import weave
 weave.init("your-team-name/your-project-name")
 
 class MyModel(weave.Model):
-    # Artifactの参照をモデルの属性として保存
+    # artifactの参照をモデルの属性として保存する
     artifact_id: str
     temperature: float = 0.7
     
     @weave.op
     def predict(self, query: str) -> str:
-        # ここにモデルの推論ロジックを記述
+        # モデルの推論ロジックをここに記述する
         return f"Response to: {query}"
 
-# ArtifactのURLをモデルの属性として渡す
+# artifactのURLをモデルの属性として渡す
 model = MyModel(
     artifact_id="wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"
 )

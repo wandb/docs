@@ -3,36 +3,43 @@ title: ArtifactType
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
+
 ## <kbd>class</kbd> `ArtifactType`
-指定されたタイプに基づいてクエリ条件を満たす Artifacts オブジェクト。
 
-**Args:**
+指定したタイプに基づくクエリ条件を満たすartifactオブジェクト。
 
- - `client`: W&B へのクエリに使用するクライアントインスタンス。
- - `entity`: Projects を所有する Entity（Users または Teams）。
- - `project`: アーティファクトタイプをクエリする Projects の名前。
- - `type_name`: アーティファクトタイプの名前。
- - `attrs`: ArtifactType を初期化するためのオプションの属性。省略された場合、オブジェクトは初期化時に W&B から属性を読み込みます。
+**引数:**
 
-### <kbd>property</kbd> ArtifactType.id
+* `client`:  W&amp;B のクエリに使用するクライアントインスタンス。
+* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
+* `project`:  artifact type をクエリする対象のプロジェクト名。
+* `type_name`:  artifact type の名前。
+* `attrs`:  ArtifactType を初期化するためのオプションの属性です。省略した場合、オブジェクトは初期化時に W&amp;B から属性を読み込みます。 
 
-アーティファクトタイプのユニークな識別子。
+### <kbd>プロパティ</kbd> ArtifactType.id
 
-**Returns:**
- - `str`: id プロパティの値。
----
+artifact typeの一意の ID。
 
-### <kbd>property</kbd> ArtifactType.name
+**戻り値:**
 
-アーティファクトタイプの名前。
+* `str`: id プロパティの値。
 
-**Returns:**
- - `str`: name プロパティの値。
----
+***
+
+### <kbd>プロパティ</kbd> ArtifactType.name
+
+artifact type の名。
+
+**戻り値:**
+
+* `str`: `name` プロパティの値。
+
+***
 
 ### <kbd>method</kbd> `ArtifactType.collection`
 
@@ -40,24 +47,31 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 collection(name: 'str') → ArtifactCollection
 ```
 
-名前を指定して特定のアーティファクトコレクションを取得します。
+名前を指定して特定の artifact collection を取得します。
 
-**Args:**
+**引数:**
 
- - `name` (str): 取得するアーティファクトコレクションの名前。
+* `name` (str):  取得する artifact collection の名前。
 
----
+***
+
 
 ### <kbd>method</kbd> `ArtifactType.collections`
 
 ```python
-collections(per_page: 'int' = 50) → ArtifactCollections
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → ArtifactCollections
 ```
 
-このアーティファクトタイプに関連付けられているすべてのアーティファクトコレクションを取得します。
+このartifact typeに関連付けられたすべてのartifact collectionを取得します。
 
-**Args:**
+**引数:**
 
- - `per_page` (int): 1ページあたりに取得するアーティファクトコレクションの数。デフォルトは 50 です。
+* `filters` (dict):  クエリに適用するフィルターを指定する省略可能なマッピングです。
+* `order` (str):  結果の並び順を指定する省略可能な文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトでは、コレクション ID の降順になります。
+* `per_page` (int):  1 ページあたりに取得するartifact collection数です。デフォルトは 50 です。
 
----
+***

@@ -1,0 +1,115 @@
+---
+title: wandb sync
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L542" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+sync [OPTIONS] [PATH]...
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Téléversez vers le cloud des données locales existantes d&#39;un run W&amp;B.
+
+Synchronisez des run hors ligne ou incomplets depuis le répertoire local `wandb` vers
+le serveur W&amp;B. Si PATH est fourni, synchronisez les run à cet emplacement. Si aucun
+chemin n&#39;est indiqué, recherchez un répertoire ./wandb, puis un sous-répertoire
+wandb/.
+
+Exécutez la commande sans argument pour afficher une synthèse des
+run synchronisés et non synchronisés sans rien téléverser.
+
+Lorsque vous synchronisez un chemin spécifique, les fichiers d&#39;événements TensorBoard
+sont inclus par défaut. Lorsque vous utilisez `--sync-all`, TensorBoard est
+désactivé par défaut (utilisez `--sync-tensorboard` pour l&#39;activer).
+
+PATH est un fichier .wandb ou un répertoire de run qui contient un fichier .wandb.
+Un chemin typique ressemble à :
+
+./wandb/run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID/run-RUN&#95;ID.wandb
+
+où run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID est le répertoire du run et
+run-RUN&#95;ID.wandb est le fichier .wandb. YYYYMMDD&#95;HHMMSS correspond à l&#39;horodatage
+de création du run et RUN&#95;ID est l&#39;ID unique
+du run.
+
+Par exemple, pour afficher une synthèse des run locaux et de leur statut de synchronisation :
+
+```bash
+wandb sync
+```
+
+Pour synchroniser l’ID du run abcd1234 enregistré localement dans
+le répertoire ./wandb/run-20170617&#95;000000-abcd1234 :
+
+```bash
+wandb sync ./wandb/run-20170617_000000-abcd1234
+```
+
+Pour synchroniser le run abcd1234 à partir du chemin local de son fichier `.wandb`
+(./wandb/run-20170617&#95;000000-abcd1234/run-abcd1234.wandb):
+
+```bash
+wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
+```
+
+Pour synchroniser toutes les run pas encore synchronisées dans le répertoire local wandb :
+
+```bash
+wandb sync --sync-all
+```
+
+Pour supprimer les données locales des run déjà synchronisées :
+
+```bash
+wandb sync --clean
+```
+
+Pour supprimer les run synchronisées datant de plus de 48 heures sans demander de confirmation :
+
+```bash
+wandb sync --clean --clean-old-hours 48 --clean-force
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom    | Par défaut | Type  |
+| ------ | ---------- | ----- |
+| `path` | PATH       | False |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag                 | Type      | Description                                                                                                                                 |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--id`               | STR       | Téléverser vers un ID de run existant. **Par défaut** : None                                                                                |
+| `--project, -p`      | STR       | Définir le projet dans lequel téléverser le run. **Par défaut** : None                                                                      |
+| `--entity, -e`       | STR       | Définir l’entité à laquelle le projet est rattaché. **Par défaut** : None                                                                   |
+| `--job_type`         | STR       | Définir le type de job pour regrouper les runs associés. **Par défaut** : None                                                              |
+| `--sync-tensorboard` | BOOL Flag | Synchroniser les fichiers tfevent TensorBoard. Activé par défaut pour certains chemins, désactivé pour --sync-all. **Par défaut** : None    |
+| `--include-globs`    | STR       | Inclure uniquement les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut** : None                               |
+| `--exclude-globs`    | STR       | Exclure les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut** : None                                          |
+| `--include-online`   | BOOL Flag | Inclure les runs créés en mode en ligne. **Par défaut** : None                                                                              |
+| `--include-offline`  | BOOL Flag | Inclure les runs créés en mode hors ligne. **Par défaut** : None                                                                            |
+| `--include-synced`   | BOOL Flag | Inclure les runs déjà synchronisés. **Par défaut** : None                                                                                   |
+| `--mark-synced`      | BOOL Flag | Marquer les runs comme synchronisés après le téléversement. **Par défaut** : True                                                           |
+| `--sync-all`         | BOOL Flag | Synchroniser tous les runs non synchronisés dans le répertoire local wandb. **Par défaut** : False                                          |
+| `--clean`            | BOOL Flag | Supprimer les données locales des runs déjà synchronisés. **Par défaut** : False                                                            |
+| `--clean-old-hours`  | INT       | Supprimer uniquement les runs synchronisés datant de plus de ce nombre d’heures (à utiliser avec --clean). **Par défaut** : 24              |
+| `--clean-force`      | BOOL Flag | Ignorer la confirmation si --clean est spécifié. **Par défaut** : False                                                                     |
+| `--show`             | INT       | Définir le nombre de runs à afficher dans la synthèse. **Par défaut** : 5                                                                   |
+| `--append`           | BOOL Flag | Ajouter des données à un run existant au lieu d’en créer un nouveau. **Par défaut** : False                                                 |
+| `--skip-console`     | BOOL Flag | Ne pas téléverser les journaux de la console. **Par défaut** : False                                                                        |
+| `--replace-tags`     | STR       | Renommer les tags pendant la synchronisation. Utilisez des paires &#39;ancien=nouveau&#39; séparées par des virgules. **Par défaut** : None |

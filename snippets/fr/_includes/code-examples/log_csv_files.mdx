@@ -1,0 +1,24 @@
+```python
+"""
+Enregistrer un fichier CSV dans W&B sous forme de tableau.
+
+Remplacez :
+- les valeurs entre chevrons par les vôtres
+- <name>.csv dans pd.read_csv() par le nom de votre fichier CSV
+"""
+
+import wandb
+import pandas as pd
+
+# Lire le CSV en tant qu'objet DataFrame (pandas)
+dataframe = pd.read_csv("<name>.csv")
+
+# Convertir le DataFrame en tableau W&B
+table = wandb.Table(dataframe=dataframe)
+
+# Démarrer un run W&B pour journaliser les données
+with wandb.init(project="<project>") as run:
+
+    # Journaliser le tableau pour le visualiser dans l'interface utilisateur W&B
+    run.log({"<table_name>": table})
+```

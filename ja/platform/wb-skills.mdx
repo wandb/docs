@@ -1,0 +1,90 @@
+---
+title: W&B Skills の使い方
+description: W&B Skills をインストールすると、W&B の AI 開発プラットフォームを使ってモデルをトレーニングし、エージェントを構築し、実験を分析する方法をコーディングエージェントに教えられます。
+---
+
+W&amp;B Skills は、コーディングエージェントに W&amp;B を効果的に使用する方法を教える、再利用可能な命令セットです。W&amp;B API やベストプラクティスを手動でエージェントに案内する代わりに Skills をインストールすると、エージェントが実験管理、トレース、評価、モニタリングを自力で行えるようになります。
+
+Skills は、以下を含む主要なコーディングエージェントのいくつかで動作します。
+
+* Claude Code
+* Codex
+* Cursor
+* GitHub Copilot
+* Gemini CLI
+
+サポートされているエージェントの一覧については、[W&amp;B Skills CLI ドキュメント](https://github.com/vercel-labs/skills#supported-agents)を参照してください。
+
+<div id="wb-skills-capabilities">
+  ## W&amp;B Skills の機能
+</div>
+
+Skills は、[W&amp;B Models SDK](/ja/models/ref) (training runs、メトリクス、Artifacts、Sweeps) と [Weave SDK](/ja/weave/reference/python-sdk) (トレース、評価、スコアラー) の両方をカバーしています。ヘルパーライブラリ、リファレンスドキュメント、データ分析パターンが含まれます。
+
+| ワークフロー         | 機能                                                                                                                                                         |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **モデル トレーニング** | <ul><li>トレーニングやファインチューニング中に、メトリクスとリッチメディアをログできます。</li><li>実験をトラッキングして比較できます。</li><li>Runs や結果 (損失曲線や精度スコアなど) を分析できます。</li><li>ハイパーパラメーターを調整できます。</li></ul> |
+| **エージェント構築**   | <ul><li>エージェント型 AI アプリケーションをトレースできます。</li><li>トレースを分析し、失敗モードを分類できます。</li><li>ラベル付きデータセットを使って、モデルやエージェントを評価できます。</li><li>本番監視のためのオンライン評価を実行できます。</li></ul>  |
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+Skills を使用するには、以下が必要です。
+
+* [`npx` コマンドを使用するための Node.js](https://nodejs.org/)。
+* W&amp;B APIキー。[wandb.ai/authorize](https://wandb.ai/authorize) で作成し、環境変数として設定します。
+  ```shell
+  export WANDB_API_KEY=<your-api-key>
+  ```
+* (任意) W&amp;B のプロジェクト名を `WANDB_PROJECT` 環境変数に設定します。これにより、毎回指定しなくても、エージェント が正しい W&amp;B プロジェクトを対象にできるようになります。
+
+<div id="install-wb-skills">
+  ## W&amp;B Skills をインストールする
+</div>
+
+W&amp;B Skills をグローバルにインストールするには、`--global` フラグを付けて次のコマンドを実行します。
+
+```bash
+npx skills add wandb/skills --skill '*' --yes --global
+```
+
+特定のプロジェクトに Skills をインストールするには、プロジェクトディレクトリで次のコマンドを実行します。
+
+```bash
+npx skills add wandb/skills --skill '*' --yes
+```
+
+特定のエージェント用のSkillsをインストールするには、`--agent` フラグも使えます。
+
+```bash
+npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
+```
+
+`--agent` および `--skill` オプションの一覧は、[skills CLI ドキュメント](https://github.com/vercel-labs/skills#supported-agents)を参照してください。
+
+<div id="use-wb-skills">
+  ## W&amp;B Skills を使用する
+</div>
+
+インストール後は、プロジェクトに関する W&amp;B 関連のタスクを実行するよう エージェント に依頼できます。以下のプロンプト例は、エージェント が W&amp;B Skills で実行できるタスクの一部を示しています。
+
+* &quot;PyTorch モデルのトレーニングメトリクスを W&amp;B にログしてください。&quot;
+* &quot;直近 10 件の run の損失曲線を分析し、最も高いパフォーマンスを示した設定を特定してください。&quot;
+* &quot;LangChain エージェント をトレースし、結果を Weave にログしてください。&quot;
+* &quot;テスト用データセットを使用して エージェント を評価し、結果を要約してください。&quot;
+* &quot;直近の評価における失敗モードを見つけて分類してください。&quot;
+* &quot;run A と run B の設定を比較し、差分を表示してください。&quot;
+
+<div id="usage-tips">
+  ## 使用のヒント
+</div>
+
+Skills は、幅広い自由回答形式の質問よりも、具体的なクエリを使用したほうがより適切に応答できます。次の表では、推奨されるプロンプト例と、曖昧すぎるプロンプト例を示します。
+
+| 推奨                                               | 非推奨                             |
+| ------------------------------------------------ | ------------------------------- |
+| &quot;直近 5 件の Runs の最終検証損失は何ですか？&quot;            | &quot;私のモデルの調子はどうですか？&quot;     |
+| &quot;直近 10 件のトレースの token usage を要約してください。&quot; | &quot;私のトレースをすべて表示してください。&quot; |
+| &quot;run A と run B の設定を比較してください。&quot;          | &quot;最も良い Runs はどれですか？&quot;    |
+| &quot;どの eval の F1 スコアが最も高かったですか？&quot;          | &quot;私の評価はどうなっていますか？&quot;     |
