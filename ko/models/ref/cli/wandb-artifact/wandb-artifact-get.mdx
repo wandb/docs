@@ -1,45 +1,55 @@
 ---
-title: "wandb artifact get"
+title: wandb 아티팩트 조회
 ---
 
-{/*
-  이 명령어의 소개 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-artifact-get.mdx
-  2. 해당 파일에 소개 콘텐츠를 추가합니다
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남겨둡니다:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-  import WandbArtifactGet from "/snippets/_includes/cli/wandb-artifact-get.mdx";
-
-  <WandbArtifactGet/>
-
-  다음에 재생성할 때 스니펫이 자동으로 감지됩니다.
-  */}
-
-wandb에서 artifact 다운로드하기
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2944" />
 
 <div id="usage">
   ## 사용
 </div>
 
 ```bash
-wandb artifact get PATH [OPTIONS]
+get [OPTIONS] PATH
 ```
 
+<div id="description">
+  ## 설명
+</div>
+
+경로를 사용해 W&amp;B에서 아티팩트를 다운로드합니다.
+
+PATH 형식은 entity/project/artifact&#95;name:version입니다. version을
+생략하면 &quot;latest&quot; 별칭을 사용합니다.
+
+예를 들어, &quot;team-awesome&quot; entity 아래의 &quot;foobar&quot; 프로젝트에서
+&quot;processed-training-set&quot;라는 아티팩트의 최신 버전을 다운로드하려면 다음과 같습니다.
+
+```bash
+wandb artifact get team-awesome/foobar/processed-training-set:latest
+```
+
+&quot;processed-training-set&quot; 아티팩트의 특정 버전(v2)을
+로컬 디렉터리(./data)에 다운로드하려면 다음과 같이 하세요:
+
+```bash
+wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2
+```
 
 <div id="arguments">
   ## 인수
 </div>
 
-| 인수     | 설명       | 필수 |
-| :----- | :------- | :- |
-| `PATH` | 설명이 없습니다 | 예  |
+| 이름     | 기본값 | 유형   |
+| ------ | --- | ---- |
+| `path` | STR | True |
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션       | 설명                      |
-| :------- | :---------------------- |
-| `--root` | artifact를 다운로드할 대상 디렉터리 |
-| `--type` | 다운로드할 artifact의 유형      |
+| 플래그      | 유형  | 설명                                                           |
+| -------- | --- | ------------------------------------------------------------ |
+| `--root` | STR | 아티팩트를 다운로드할 디렉터리입니다. 설정하지 않으면 기본 아티팩트 캐시를 사용합니다. **기본값**: 없음 |
+| `--type` | STR | 예상되는 아티팩트 유형입니다. 아티팩트 유형이 일치하지 않으면 실패합니다. **기본값**: 없음        |

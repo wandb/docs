@@ -15,7 +15,7 @@ Weave suit et consigne automatiquement les appels LLM effectués via LiteLLM, un
 
 Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu’en Production. Vous utiliserez ces traces pour le débogage, ainsi que comme jeu de données pour vous aider à améliorer votre application.
 
-> **Remarque :** Lorsque vous utilisez LiteLLM, veillez à importer la bibliothèque avec `import litellm` et à appeler la fonction de complétion avec `litellm.completion` plutôt que `from litellm import completion`. Cela garantit que toutes les fonctions et tous les paramètres sont correctement référencés.
+> **Remarque :** Lorsque vous utilisez LiteLLM, veillez à importer la bibliothèque avec `import litellm` et à appeler la fonction de complétion avec `litellm.completion()` plutôt que `from litellm import completion`. Cela garantit que toutes les fonctions et tous les paramètres sont correctement référencés.
 
 Weave capture automatiquement les traces pour LiteLLM. Vous pouvez utiliser la bibliothèque comme d’habitude. Commencez par appeler `weave.init()` :
 
@@ -26,14 +26,14 @@ import weave
 weave.init("weave_litellm_integration")
 
 openai_response = litellm.completion(
-    model="gpt-3.5-turbo", 
+    model="gpt-3.5-turbo",
     messages=[{"role": "user", "content": "Translate 'Hello, how are you?' to French"}],
     max_tokens=1024
 )
 print(openai_response.choices[0].message.content)
 
 claude_response = litellm.completion(
-    model="claude-3-5-sonnet-20240620", 
+    model="claude-3-5-sonnet-20240620",
     messages=[{"role": "user", "content": "Translate 'Hello, how are you?' to French"}],
     max_tokens=1024
 )
@@ -41,7 +41,6 @@ print(claude_response.choices[0].message.content)
 ```
 
 Weave va désormais suivre et consigner tous les appels LLM effectués via LiteLLM. Vous pouvez consulter les traces dans l’interface web de Weave.
-
 
 <div id="wrapping-with-your-own-ops">
   ## Utiliser vos propres ops
@@ -88,7 +87,7 @@ weave.init('weave_litellm_integration')
 class TranslatorModel(weave.Model):
     model: str
     temperature: float
-  
+
     @weave.op()
     def predict(self, text: str, target_language: str):
         response = litellm.completion(
@@ -109,13 +108,12 @@ claude_translator = TranslatorModel(model="claude-3-5-sonnet-20240620", temperat
 # Utiliser différents modèles pour la traduction
 english_text = "Hello, how are you today?"
 
-print("Traduction GPT-3.5 en français :")
+print("GPT-3.5 Translation to French:")
 print(gpt_translator.predict(english_text, "French"))
 
-print("\nTraduction Claude-3.5 Sonnet en espagnol :")
+print("\nClaude-3.5 Sonnet Translation to Spanish:")
 print(claude_translator.predict(english_text, "Spanish"))
 ```
-
 
 <div id="function-calling">
   ## Appels de fonction

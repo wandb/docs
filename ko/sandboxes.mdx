@@ -1,0 +1,65 @@
+---
+title: W&B Sandboxes
+mode: wide
+---
+
+<Warning>W&amp;B Sandboxes는 비공개 프리뷰로 제공되며, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.</Warning>
+
+W&amp;B Sandboxes는 Python으로 생성하고 사용한 뒤 삭제할 수 있는 주문형 격리 컴퓨팅 환경을 제공합니다.
+
+W&amp;B Sandboxes는 CoreWeave Sandbox 라이브러리를 기반으로 합니다. 기반이 되는 API 레퍼런스와 라이브러리 문서는 [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox)을 참조하세요.
+
+<div id="how-it-works">
+  ## 작동 방식
+</div>
+
+&#95;샌드박스&#95;는 하나의 격리된 컴퓨팅 환경입니다. [생성](/ko/sandboxes/create-sandbox)하고, [내부에서 명령을 실행](/ko/sandboxes/run-commands)하고, 작업이 끝나면 중지합니다. 각 샌드박스는 자체 파일 시스템, 네트워크, 프로세스 공간을 갖춘 별도의 컨테이너에서 실행됩니다.
+
+샌드박스를 생성하고 관리할 때 W&amp;B가 사용자의 ID를 인증합니다. 샌드박스 내에서 W&amp;B 또는 Weave를 사용하려면 [W&amp;B Secrets Manager](/ko/platform/secrets#manage-access-to-secrets) 또는 환경 변수를 통해 API 키를 전달하세요. 샌드박스에서 시크릿을 사용하는 방법에 대한 자세한 내용은 [Secrets](/ko/sandboxes/secrets)를 참조하세요.
+
+샌드박스는 [라이프사이클 동안 여러 상태](/ko/sandboxes/lifecycle)를 거칩니다. 컨테이너가 실행 중이면 그 안에서 [명령을 실행](/ko/sandboxes/run-commands)할 수 있습니다.
+
+샌드박스에 파일을 [조회, 쓰기, 읽기 전용으로 마운트](/ko/sandboxes/file-access)할 수 있습니다. 일반적인 예로는 실행할 Python 스크립트를 읽어오거나, 로그 또는 결과를 기록하거나, 샌드박스가 액세스할 수 있도록 데이터 디렉터리를 읽기 전용으로 마운트하는 것이 있습니다.
+
+공유 설정을 사용하는 여러 샌드박스를 관리하려면 *session* 을 사용하세요. 세션이 닫히면 해당 세션의 모든 샌드박스가 자동으로 중지됩니다. 자세한 내용은 [여러 샌드박스 관리](/ko/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session)를 참조하세요.
+
+<div id="basic-usage">
+  ## 기본 사용법
+</div>
+
+다음 단계에 따라 샌드박스를 생성하고 그 안에서 명령어를 실행하세요:
+
+1. 지원팀 또는 AISE 담당자가 제공한 소스에서 W&amp;B Python SDK(`wandb`)를 설치하세요.
+
+2. [`wandb login`](/ko/models/ref/cli/wandb-login) CLI 명령어로 W&amp;B에 로그인하세요. 메시지가 표시되면 API 키를 입력하여 본인 인증을 하고 W&amp;B 계정에 액세스하세요:
+
+   ```bash
+   wandb login
+   ```
+
+3. 다음 코드 스니펫을 Python 파일에 복사하여 붙여넣고 실행하세요. 이 코드 스니펫은 다음을 수행합니다:
+
+   1. [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run)으로 샌드박스를 생성하세요.
+   2. [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) 방법을 사용하여 샌드박스 내부에서 `echo "Hello from W&B Sandboxes!"` 명령어를 실행하세요.
+   3. `Sandbox.exec()`가 반환한 `Process` 객체를 사용하여 출력을 콘솔에 표시하세요.
+
+   ```python show lines title="hello_sandbox.py"
+   from wandb.sandbox import Sandbox
+
+   with Sandbox.run() as sandbox:
+       process = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+   콘솔에 `Hello from W&B Sandboxes!`가 출력됩니다.
+
+   컨텍스트 관리자(`with` 블록)를 벗어나면 샌드박스가 자동으로 중지됩니다. 샌드박스 라이프사이클 및 상태에 대한 자세한 내용은 [샌드박스의 라이프사이클](/ko/sandboxes/lifecycle)을 참조하세요.
+
+<div id="wb-sandboxes-tutorials">
+  ## W&amp;B Sandboxes 튜토리얼
+</div>
+
+더 자세한 예시는 다음을 참조하세요.
+
+* [W&amp;B Sandbox에서 에이전트 호출하기 튜토리얼](/ko/sandboxes/invoke-agent-sandbox-tutorial)
+* [W&amp;B Sandbox에서 PyTorch 모델 학습하기 튜토리얼](/ko/sandboxes/mltrain-in-sandbox-tutorial)

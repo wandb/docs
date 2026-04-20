@@ -46,11 +46,11 @@ __init__(
 
 ### <kbd>속성</kbd> Artifact.aliases
 
-아티팩트 버전에 할당된, 의미를 쉽게 알 수 있는 하나 이상의 참조 또는
+아티팩트 버전에 할당된, 의미를 쉽게 알 수 있는 하나 이상의 레퍼런스 또는
 
 식별용 &quot;별칭&quot; 목록입니다.
 
-별칭은 프로그래밍 방식으로 참조할 수 있는 변경 가능한 참조입니다. W&amp;B App UI에서 또는 프로그래밍 방식으로 아티팩트의 별칭을 변경할 수 있습니다. 자세한 내용은 [새 아티팩트 버전 만들기](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version)를 참조하세요.
+별칭은 프로그래밍 방식으로 참조할 수 있는 변경 가능한 레퍼런스입니다. W&amp;B App UI에서 또는 프로그래밍 방식으로 아티팩트의 별칭을 변경할 수 있습니다. 자세한 내용은 [새 아티팩트 버전 만들기](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version)를 참조하세요.
 
 **반환값:**
 
@@ -543,9 +543,9 @@ add_reference(
 ) → Sequence[ArtifactManifestEntry]
 ```
 
-URI로 지정된 레퍼런스를 artifact에 추가합니다.
+URI로 지정된 레퍼런스를 아티팩트에 추가합니다.
 
-artifact에 추가하는 파일이나 디렉터리와 달리, 레퍼런스는 W&amp;B에 업로드되지 않습니다. 자세한 내용은 [외부 파일 추적](https://docs.wandb.ai/guides/artifacts/track-external-files)을 참조하세요.
+아티팩트에 추가하는 파일이나 디렉터리와 달리, 레퍼런스는 W&amp;B에 업로드되지 않습니다. 자세한 내용은 [외부 파일 추적](https://docs.wandb.ai/models/artifacts/track-external-files)을 참조하세요.
 
 기본적으로 다음 스키마를 지원합니다.
 
@@ -560,9 +560,9 @@ artifact에 추가하는 파일이나 디렉터리와 달리, 레퍼런스는 W&
 
 **매개변수:**
 
-* `uri`: 추가할 레퍼런스의 URI 경로입니다. URI 경로는 다른 artifact 항목에 대한 레퍼런스를 저장하기 위해 `Artifact.get_entry`에서 반환된 객체일 수도 있습니다.
-* `name`: 이 레퍼런스의 내용을 배치할 artifact 내 경로입니다.
-* `checksum`: 레퍼런스 URI에 있는 리소스의 체크섬을 계산할지 여부입니다. 체크섬 계산은 자동 무결성 검증을 가능하게 하므로 강력히 권장됩니다. 체크섬 계산을 비활성화하면 artifact 생성 속도는 빨라지지만, 레퍼런스 디렉터리를 순회하지 않으므로 디렉터리 안의 객체는 artifact에 저장되지 않습니다. 레퍼런스 객체를 추가할 때는 `checksum=False`로 설정하는 것을 권장하며, 이 경우 레퍼런스 URI가 변경될 때만 새 버전이 생성됩니다.
+* `uri`: 추가할 레퍼런스의 URI 경로입니다. URI 경로는 다른 아티팩트 항목에 대한 레퍼런스를 저장하기 위해 `Artifact.get_entry`에서 반환된 객체일 수도 있습니다.
+* `name`: 이 레퍼런스의 내용을 배치할 아티팩트 내 경로입니다.
+* `checksum`: 레퍼런스 URI에 있는 리소스의 체크섬을 계산할지 여부입니다. 체크섬 계산은 자동 무결성 검증을 가능하게 하므로 강력히 권장됩니다. 체크섬 계산을 비활성화하면 아티팩트 생성 속도는 빨라지지만, 레퍼런스 디렉터리를 순회하지 않으므로 디렉터리 안의 객체는 아티팩트에 저장되지 않습니다. 레퍼런스 객체를 추가할 때는 `checksum=False`로 설정하는 것을 권장하며, 이 경우 레퍼런스 URI가 변경될 때만 새 버전이 생성됩니다.
 * `max_objects`: 디렉터리 또는 bucket 저장소 prefix를 가리키는 레퍼런스를 추가할 때 고려할 최대 객체 수입니다. 기본적으로 Amazon S3, GCS, Azure 및 로컬 파일에서 허용되는 최대 객체 수는 10,000,000입니다. 다른 URI 스키마에는 최대값이 없습니다.
 
 **반환값:**
@@ -570,10 +570,9 @@ artifact에 추가하는 파일이나 디렉터리와 달리, 레퍼런스는 W&
 
 **예외:**
 
-* `ArtifactFinalizedError`: 현재 artifact 버전은 finalized 상태이므로 변경할 수 없습니다. 대신 새 artifact 버전을 기록하세요.
+* `ArtifactFinalizedError`: 현재 아티팩트 버전은 finalized 상태이므로 변경할 수 없습니다. 대신 새 아티팩트 버전을 기록하세요.
 
 ***
-
 
 ### <kbd>방법</kbd> `Artifact.checkout`
 

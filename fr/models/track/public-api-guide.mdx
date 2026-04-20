@@ -17,7 +17,7 @@ Exportez ou importez des données à l’aide des API publiques de W&amp;B.
   ## Importer des données depuis MLFlow
 </div>
 
-W&amp;B prend en charge l’importation de données depuis MLFlow, notamment les expériences, les runs, les artifacts, les métriques et d’autres métadonnées.
+W&amp;B vous permet d&#39;importer des données depuis MLFlow, y compris les experiments, les runs, les artefacts, les métriques et d&#39;autres métadonnées.
 
 Installez les dépendances :
 
@@ -26,13 +26,13 @@ Installez les dépendances :
 pip install wandb[importers]
 ```
 
-Connectez-vous à W&amp;B. Suivez les instructions si vous ne vous êtes encore jamais connecté auparavant.
+Connectez-vous à W&amp;B. Si c’est votre première connexion, suivez les instructions affichées.
 
 ```shell
 wandb login
 ```
 
-Importez tous les runs à partir d’un serveur MLFlow existant :
+Importez toutes les exécutions à partir d’un serveur MLFlow existant :
 
 ```py
 from wandb.apis.importers.mlflow import MlflowImporter
@@ -43,7 +43,7 @@ runs = importer.collect_runs()
 importer.import_runs(runs)
 ```
 
-Par défaut, `importer.collect_runs()` récupère tous les runs du serveur MLflow. Si vous préférez n’en importer qu’un sous-ensemble particulier, vous pouvez construire votre propre itérable de runs et le passer à l’importateur.
+Par défaut, `importer.collect_runs()` collecte toutes les exécutions du serveur MLFlow. Si vous préférez téléverser uniquement un sous-ensemble particulier, vous pouvez créer votre propre itérable de runs et le passer à l’importateur.
 
 ```py
 import mlflow
@@ -59,12 +59,12 @@ importer.import_runs(runs)
 ```
 
 <Note>
-  Vous devrez peut-être [configurer d’abord la CLI Databricks](https://docs.databricks.com/dev-tools/cli/index.html) si vous importez depuis Databricks MLflow.
+  Vous devrez peut-être [configurer d’abord le Databricks CLI](https://docs.databricks.com/dev-tools/cli/index.html) si vous importez depuis Databricks MLflow.
 
-  Définissez `mlflow-tracking-uri="databricks"` lors de l’étape précédente.
+  Lors de l’étape précédente, définissez `mlflow-tracking-uri="databricks"`.
 </Note>
 
-Pour ignorer l’import des Artifacts, vous pouvez passer `artifacts=False` :
+Pour ignorer l’import des artefacts, vous pouvez passer `artifacts=False` :
 
 ```py
 importer.import_runs(runs, artifacts=False)
@@ -78,28 +78,28 @@ from wandb.apis.importers import Namespace
 importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
 
-{/* Conformément à DOCS-1043, ces informations sont masquées jusqu'à ce que le problème soit corrigé 
+{/* Conformément à DOCS-1043, ces informations sont masquées jusqu’à ce que le problème soit corrigé 
 
   ## Importer des données depuis une autre instance W&B
 
   <Note>
-  Cette fonctionnalité est en version bêta et prend uniquement en charge l'importation depuis le cloud public W&B.
+  Cette fonctionnalité est en version bêta et prend uniquement en charge l’importation depuis le cloud public W&B.
   </Note>
 
-  Installez les dépendances :
+  Installer les dépendances :
 
   ```sh
   # remarque : nécessite py38+
   pip install wandb[importers]
   ```
 
-  Connectez-vous au serveur W&B source. Suivez les invites si vous ne vous êtes pas encore connecté.
+  Connectez-vous au serveur W&B source. Suivez les instructions si vous ne vous êtes jamais connecté auparavant.
 
   ```sh
   wandb login
   ```
 
-  Importez tous les runs et artifacts d'une instance W&B source vers une instance W&B de destination. Les runs et artifacts sont importés dans leurs espaces de noms respectifs sur l'instance de destination.
+  Importez tous les runs et artefacts d’une instance W&B source vers une instance W&B de destination. Les runs et les artefacts sont importés dans leurs espaces de noms respectifs sur l’instance de destination.
 
   ```py
   from wandb.apis.importers.wandb import WandbImporter
@@ -112,15 +112,15 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
     dst_api_key="target-environment-api-key-here",
   )
 
-  # Importe tous les runs, artifacts, reports
+  # Importe tous les runs, artefacts et Reports
   # de "entity/project" dans src vers "entity/project" dans dst
   importer.import_all(namespaces=[
     Namespace(entity, project),
-    # ... ajoutez d'autres espaces de noms ici
+    # ... ajoutez d’autres espaces de noms ici
   ])
   ```
 
-  Si vous souhaitez modifier l'espace de noms de destination, vous pouvez spécifier `remapping: dict[Namespace, Namespace]`
+  Si vous préférez modifier l’espace de noms de destination, vous pouvez spécifier `remapping: dict[Namespace, Namespace]`
 
   ```py
   importer.import_all(
@@ -131,7 +131,7 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
   )
   ```
 
-  Par défaut, les importations sont incrémentielles. Les importations suivantes essaient de valider le travail précédent et écrivent dans des fichiers `.jsonl` qui suivent les succès et les échecs. Si une importation a réussi, les validations futures sont ignorées. Si une importation a échoué, elle est relancée. Pour désactiver ce comportement, définissez `incremental=False`.
+  Par défaut, les importations sont incrémentielles. Les importations suivantes tentent de valider l’import précédent et écrivent dans des fichiers `.jsonl` qui consignent les réussites et les échecs. Si une importation a réussi, les validations ultérieures sont ignorées. Si une importation a échoué, elle est réessayée. Pour désactiver ce comportement, définissez `incremental=False`.
 
   ```py
   importer.import_all(
@@ -142,13 +142,13 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
 
   ### Problèmes connus et limites
 
-  - Si l'espace de noms de destination n'existe pas, W&B en crée un automatiquement.
-  - Si un run ou un artifact a le même ID dans l'espace de noms de destination, W&B le traite comme une importation incrémentielle. Le run/artifact de destination est validé et relancé s'il a échoué lors d'une importation précédente.
-  - Aucune donnée n'est jamais supprimée du système source.
+  - Si l’espace de noms de destination n’existe pas, W&B en crée un automatiquement.
+  - Si un run ou un artefact a le même ID dans l’espace de noms de destination, W&B le traite comme une importation incrémentielle. Le run ou l’artefact de destination est validé puis réessayé s’il a échoué lors d’une importation précédente.
+  - Aucune donnée n’est jamais supprimée du système source.
 
-  1. Lors d'importations en masse (en particulier de gros artifacts), il peut arriver d'atteindre les limites de débit de S3. Si vous voyez `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, essayez d'espacer les importations en ne déplaçant que quelques espaces de noms à la fois.
-  2. Les tableaux de run importés peuvent sembler vides dans le Workspace, mais si vous accédez à l'onglet Artifacts et cliquez sur l'artifact de tableau de run correspondant, le tableau devrait s'afficher correctement.
-  3. Les métriques système et les graphiques personnalisés (non explicitement enregistrés avec `run.log`) ne sont pas importés */}
+  1. Lors d’une importation en masse (en particulier de gros artefacts), vous pouvez parfois atteindre les limites de débit de S3. Si vous voyez `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, essayez d’espacer les importations en ne déplaçant que quelques espaces de noms à la fois.
+  2. Les tableaux de runs importés peuvent sembler vides dans le workspace, mais si vous accédez à l’onglet Artifacts et cliquez sur l’artefact de tableau de run correspondant, le tableau devrait s’afficher correctement.
+  3. Les métriques système et les graphiques personnalisés (non explicitement enregistrés avec `run.log()`) ne sont pas importés */}
 
 <div id="export-data">
   ## Exporter des données
@@ -271,7 +271,7 @@ La méthode history par défaut échantillonne les métriques pour n’en conser
     summary_list, config_list, name_list = [], [], []
     for run in runs:
         # .summary contient les clés/valeurs de sortie pour
-        # des métriques telles que accuracy.
+        # des métriques telles que la précision.
         #  Nous appelons ._json_dict pour omettre les fichiers volumineux
         summary_list.append(run.summary._json_dict)
 
@@ -279,7 +279,7 @@ La méthode history par défaut échantillonne les métriques pour n’en conser
         #  Nous supprimons les valeurs spéciales qui commencent par _.
         config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
-        # .name est le nom lisible par l'utilisateur du run.
+        # .name est le nom du run lisible par l’utilisateur.
         name_list.append(run.name)
 
     runs_df = pd.DataFrame(
@@ -307,7 +307,7 @@ La méthode history par défaut échantillonne les métriques pour n’en conser
 
 L’appel à `api.runs` renvoie un objet `Runs` itérable qui se comporte comme une liste. Par défaut, l’objet charge 50 runs à la fois, séquentiellement et selon les besoins, mais vous pouvez modifier le nombre chargé par page avec l’argument nommé `per_page`.
 
-`api.runs` accepte également un argument nommé `order`. L’ordre par défaut est `-created_at`. Pour trier les résultats par ordre croissant, indiquez `+created_at`. Vous pouvez également trier par des valeurs de config ou de summary. Par exemple, `summary.val_acc` ou `config.experiment_name`.
+`api.runs` accepte également un argument nommé `order`. L’ordre par défaut est `-created_at`. Pour trier les résultats par ordre croissant, indiquez `+created_at`. Vous pouvez également trier par des valeurs de config ou de synthèse. Par exemple, `summary.val_acc` ou `config.experiment_name`.
 
 <div id="error-handling">
   ### Gestion des erreurs
@@ -547,15 +547,15 @@ runs = api.runs(entity + "/" + project)
 summary_list, config_list, name_list = [], [], []
 for run in runs:
     # .summary contient les clés/valeurs de sortie
-    #  pour les métriques telles que l'accuracy.
-    #  On appelle ._json_dict pour omettre les fichiers volumineux
+    #  pour les métriques telles que la précision.
+    #  Nous appelons ._json_dict pour omettre les fichiers volumineux
     summary_list.append(run.summary._json_dict)
 
     # .config contient les hyperparamètres.
-    #  On supprime les valeurs spéciales qui commencent par _.
+    #  Nous supprimons les valeurs spéciales qui commencent par _.
     config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
-    # .name est le nom lisible du run.
+    # .name est le nom lisible par l'homme du run.
     name_list.append(run.name)
 
 runs_df = pd.DataFrame(
@@ -672,7 +672,7 @@ api = wandb.Api()
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
 runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 val_acc = runs[0].summary.get("val_acc", 0)
-print(f"Meilleur run {runs[0].name} avec {val_acc}% de précision de validation")
+print(f"Best run {runs[0].name} with {val_acc}% val accuracy")
 
 runs[0].file("model.h5").download(replace=True)
 print("Best model saved to model-best.h5")

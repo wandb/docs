@@ -1,42 +1,81 @@
 ---
-title: "wandb docker"
+title: wandb docker
 ---
 
-import WandbDocker from "/snippets/ja/_includes/cli/wandb-docker.mdx";
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-<WandbDocker />
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2468" />
 
 <div id="usage">
   ## 使用方法
 </div>
 
 ```bash
-wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
+docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+W&amp;B が設定された Docker コンテナー内でコードを実行します。
+
+Docker コンテナーを起動し、WANDB&#95;DOCKERs 環境
+変数を挿入して、現在の作業ディレクトリをデフォルトで `/app` に
+マウントします。ログインしている場合は、WANDB&#95;API&#95;KEY も挿入します。`wandb` が確実にインストールされるように、
+コンテナーのエントリポイントをオーバーライドします。
+
+追加の引数を渡すと、それらはイメージ名の前の `docker run` に
+挿入されます。イメージが指定されていない場合は、デフォルトのイメージを使用します。
+
+`--jupyter` を使用すると、ポート 8888 で JupyterLab をインストールして起動します。
+ホストで NVIDIA Docker が利用可能な場合は、NVIDIA ランタイムを
+自動的に有効にします。
+
+ホストマシンに Docker がインストールされ、実行中である必要があります。
+
+既存の `docker run` コマンドに W&amp;B 環境変数を挿入し、
+エントリポイントを変更せずに使用するには、`wandb docker-run` を使用します。
+
+たとえば、デフォルトのイメージを実行し、データセットをコンテナーにマウントするには:
+
+```bash
+wandb docker -v /mnt/dataset:/app/data
+```
+
+デフォルトのイメージを実行し、JupyterLab を起動するには:
+
+```bash
+wandb docker -v /mnt/dataset:/app/data --jupyter
+```
+
+トレーニングコマンドでGPU対応イメージを実行するには:
+
+```bash
+wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py"
+```
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数                | 説明   | 必須  |
-| :---------------- | :--- | :-- |
-| `DOCKER_RUN_ARGS` | 説明なし | いいえ |
-| `DOCKER_IMAGE`    | 説明なし | いいえ |
+| 名                 | デフォルト | タイプ   |
+| ----------------- | ----- | ----- |
+| `docker_run_args` | STR   | False |
+| `docker_image`    | STR   | False |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション       | 説明                                                                          |
-| :---------- | :-------------------------------------------------------------------------- |
-| `--nvidia`  | nvidia ランタイムを使用します。`nvidia-docker` が存在する場合、デフォルトは nvidia です (デフォルト: False)  |
-| `--digest`  | イメージのダイジェストを出力して終了します (デフォルト: False)                                        |
-| `--jupyter` | コンテナー内で JupyterLab を実行します (デフォルト: False)                                    |
-| `--dir`     | コンテナー内でコードをマウントするディレクトリを指定します (デフォルト: /app)                                 |
-| `--no-dir`  | 現在のディレクトリをマウントしません (デフォルト: False)                                           |
-| `--shell`   | コンテナーの起動時に使用するシェルです (デフォルト: /bin/bash)                                      |
-| `--port`    | Jupyter をバインドするホストポートです (デフォルト: 8888)                                       |
-| `--cmd`     | コンテナー内で実行するコマンド                                                             |
-| `--no-tty`  | tty なしでコマンドを実行します (デフォルト: False)                                            |
+| Flag        | タイプ      | 説明                                                                         |
+| ----------- | -------- | -------------------------------------------------------------------------- |
+| `--nvidia`  | BOOL フラグ | NVIDIA ランタイムを使用します。nvidia-docker が存在する場合、デフォルトは nvidia です。**デフォルト**: False |
+| `--digest`  | BOOL フラグ | イメージのダイジェストを出力して終了します。**デフォルト**: False                                     |
+| `--jupyter` | BOOL フラグ | コンテナー内で Jupyter Lab を実行します。**デフォルト**: False                                |
+| `--dir`     | STR      | コンテナー内でコードをマウントするディレクトリを指定します。**デフォルト**: /app                             |
+| `--no-dir`  | BOOL フラグ | 現在のディレクトリをマウントしません。**デフォルト**: False                                       |
+| `--shell`   | STR      | コンテナーの起動時に使用するシェルです。**デフォルト**: /bin/bash                                   |
+| `--port`    | STR      | Jupyter をバインドするホストポートです。**デフォルト**: 8888                                    |
+| `--cmd`     | STR      | コンテナー内で実行するコマンドです。**デフォルト**: None                                          |
+| `--no-tty`  | BOOL フラグ | TTY なしでコマンドを実行します。**デフォルト**: False                                         |

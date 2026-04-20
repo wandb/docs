@@ -1903,11 +1903,20 @@
                         "pages": [
                           "fr/models/ref/cli/wandb-beta",
                           {
-                            "group": "beta leet",
+                            "group": "core bêta",
+                            "pages": [
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-core",
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                            ]
+                          },
+                          {
+                            "group": "leet bêta",
                             "pages": [
                               "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
                               "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
                             ]
                           },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
@@ -1928,13 +1937,9 @@
                           "fr/models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "fr/models/ref/cli/wandb-local",
                       "fr/models/ref/cli/wandb-login",
-                      "fr/models/ref/cli/wandb-off",
                       "fr/models/ref/cli/wandb-offline",
-                      "fr/models/ref/cli/wandb-on",
                       "fr/models/ref/cli/wandb-online",
-                      "fr/models/ref/cli/wandb-projects",
                       "fr/models/ref/cli/wandb-pull",
                       "fr/models/ref/cli/wandb-purge-cache",
                       "fr/models/ref/cli/wandb-restore",
@@ -2396,6 +2401,19 @@
             ]
           },
           {
+            "tab": "Sandboxes W&B",
+            "pages": [
+              "fr/sandboxes",
+              "fr/sandboxes/lifecycle",
+              "fr/sandboxes/create-sandbox",
+              "fr/sandboxes/run-commands",
+              "fr/sandboxes/file-access",
+              "fr/sandboxes/secrets",
+              "fr/sandboxes/mltrain-in-sandbox-tutorial",
+              "fr/sandboxes/invoke-agent-sandbox-tutorial"
+            ]
+          },
+          {
             "tab": "Assistance",
             "pages": [
               "fr/support"
@@ -2444,7 +2462,7 @@
                 ]
               },
               {
-                "group": "FAQ Launch",
+                "group": "FAQ de Launch",
                 "pages": [
                   "fr/platform/launch/launch-faq",
                   "fr/platform/launch/launch-faq/best_practices_launch_effectively",
@@ -3133,11 +3151,20 @@
                         "pages": [
                           "ja/models/ref/cli/wandb-beta",
                           {
+                            "group": "beta core",
+                            "pages": [
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-core",
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                            ]
+                          },
+                          {
                             "group": "beta leet",
                             "pages": [
                               "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
                               "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
                             ]
                           },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
@@ -3158,13 +3185,9 @@
                           "ja/models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "ja/models/ref/cli/wandb-local",
                       "ja/models/ref/cli/wandb-login",
-                      "ja/models/ref/cli/wandb-off",
                       "ja/models/ref/cli/wandb-offline",
-                      "ja/models/ref/cli/wandb-on",
                       "ja/models/ref/cli/wandb-online",
-                      "ja/models/ref/cli/wandb-projects",
                       "ja/models/ref/cli/wandb-pull",
                       "ja/models/ref/cli/wandb-purge-cache",
                       "ja/models/ref/cli/wandb-restore",
@@ -3626,6 +3649,19 @@
             ]
           },
           {
+            "tab": "W&B Sandboxes",
+            "pages": [
+              "ja/sandboxes",
+              "ja/sandboxes/lifecycle",
+              "ja/sandboxes/create-sandbox",
+              "ja/sandboxes/run-commands",
+              "ja/sandboxes/file-access",
+              "ja/sandboxes/secrets",
+              "ja/sandboxes/mltrain-in-sandbox-tutorial",
+              "ja/sandboxes/invoke-agent-sandbox-tutorial"
+            ]
+          },
+          {
             "tab": "サポート",
             "pages": [
               "ja/support"
@@ -3643,7 +3679,7 @@
                 "pages": [
                   "ja/platform/launch/set-up-launch",
                   {
-                    "group": "コンピュート リソースを設定する",
+                    "group": "コンピュートリソースを設定する",
                     "pages": [
                       "ja/platform/launch/setup-launch-docker",
                       "ja/platform/launch/setup-launch-kubernetes",
@@ -3666,7 +3702,7 @@
                 ]
               },
               {
-                "group": "詳細",
+                "group": "高度なトピック",
                 "pages": [
                   "ja/platform/launch/sweeps-on-launch",
                   "ja/platform/launch/launch-queue-observability",
@@ -3696,7 +3732,7 @@
                 ]
               },
               {
-                "group": "Launch Library API リファレンス",
+                "group": "Launch ライブラリ API リファレンス",
                 "pages": [
                   "ja/platform/launch/launch-library/launch",
                   "ja/platform/launch/launch-library/launch_add",
@@ -4363,11 +4399,20 @@
                         "pages": [
                           "ko/models/ref/cli/wandb-beta",
                           {
-                            "group": "beta leet",
+                            "group": "베타 코어",
+                            "pages": [
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-core",
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                            ]
+                          },
+                          {
+                            "group": "베타 리트",
                             "pages": [
                               "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
                               "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
                             ]
                           },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
@@ -4388,18 +4433,14 @@
                           "ko/models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "ko/models/ref/cli/wandb-local",
                       "ko/models/ref/cli/wandb-login",
-                      "ko/models/ref/cli/wandb-off",
                       "ko/models/ref/cli/wandb-offline",
-                      "ko/models/ref/cli/wandb-on",
                       "ko/models/ref/cli/wandb-online",
-                      "ko/models/ref/cli/wandb-projects",
                       "ko/models/ref/cli/wandb-pull",
                       "ko/models/ref/cli/wandb-purge-cache",
                       "ko/models/ref/cli/wandb-restore",
                       {
-                        "group": "wandb server",
+                        "group": "wandb 서버",
                         "pages": [
                           "ko/models/ref/cli/wandb-server",
                           "ko/models/ref/cli/wandb-server/wandb-server-start",
@@ -4856,7 +4897,20 @@
             ]
           },
           {
-            "tab": "지원팀",
+            "tab": "W&B Sandboxes",
+            "pages": [
+              "ko/sandboxes",
+              "ko/sandboxes/lifecycle",
+              "ko/sandboxes/create-sandbox",
+              "ko/sandboxes/run-commands",
+              "ko/sandboxes/file-access",
+              "ko/sandboxes/secrets",
+              "ko/sandboxes/mltrain-in-sandbox-tutorial",
+              "ko/sandboxes/invoke-agent-sandbox-tutorial"
+            ]
+          },
+          {
+            "tab": "지원",
             "pages": [
               "ko/support"
             ]
@@ -4869,7 +4923,7 @@
               "ko/platform/launch/walkthrough",
               "ko/platform/launch/launch-terminology",
               {
-                "group": "Launch 설정",
+                "group": "Launch 설정하기",
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
@@ -4936,7 +4990,7 @@
             ]
           },
           {
-            "tab": "지원팀: W&B Models",
+            "tab": "지원: W&B Models",
             "hidden": true,
             "pages": [
               "ko/support/models",
@@ -4976,7 +5030,7 @@
             ]
           },
           {
-            "tab": "지원팀: W&B Weave",
+            "tab": "지원: W&B Weave",
             "hidden": true,
             "pages": [
               "ko/support/weave",
@@ -4991,7 +5045,7 @@
             ]
           },
           {
-            "tab": "지원팀: W&B Inference",
+            "tab": "지원: W&B Inference",
             "hidden": true,
             "pages": [
               "ko/support/inference",
@@ -5311,7 +5365,7 @@
     {
       "source": "/models/ref/cli/wandb-projects",
       "destination": "/models/ref/cli"
-    },    
+    },
     {
       "source": "/models/registry/model_registry/:slug*",
       "destination": "/models/registry"

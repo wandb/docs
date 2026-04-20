@@ -1,47 +1,77 @@
 ---
-title: "wandb agent"
+title: wandb エージェント
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-agent.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbAgent from "/snippets/_includes/cli/wandb-agent.mdx";
-
-  <WandbAgent/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-W&amp;B エージェントを実行する
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1992" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb agent SWEEP_ID [OPTIONS]
+agent [OPTIONS] SWEEP_ID
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+sweep エージェントを開始します。
+
+W&amp;B サーバーをポーリングして sweep からハイパーパラメーター設定を取得し、
+各設定に対して run を開始します。
+
+sweep が完了した場合、停止またはキャンセルされた場合、
+または `--count` の上限に達した場合、エージェントは終了します。
+
+sweep ID は、W&amp;B App の Sweeps タブ、
+または新しい sweep を作成したときの `wandb sweep` コマンドの出力で確認できます。
+
+sweep ID には、entity と project のパス
+(entity/project/sweep&#95;id) または 8 文字の sweep ID を指定できます。
+
+たとえば、sweep ID が wbyz9876 の sweep に対してエージェントを開始するには、次のようにします。
+
+```bash
+wandb agent wbyz9876
+```
+
+sweep に対して、run の上限を 10 に設定してエージェントを起動するには:
+
+```bash
+wandb agent --count 10 wbyz9876
+```
+
+「team-awesome」エンティティに属する「sweeps-project」という
+project に保存する sweep のエージェントを起動するには:
+
+```bash
+wandb agent -p sweeps-project -e team-awesome wbyz9876
+```
+
+正常にシャットダウンするために、シグナルを子 run に転送するには:
+
+```bash
+wandb agent --forward-signals wbyz9876
+```
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数         | 説明   | 必須 |
-| :--------- | :--- | :- |
-| `SWEEP_ID` | 説明なし | はい |
+| 名          | デフォルト | タイプ  |
+| ---------- | ----- | ---- |
+| `sweep_id` | STR   | True |
 
 <div id="options">
   ## オプション
 </div>
 
-| Option                    | Description                                                                                                                             |
-| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| `--project`, `-p`         | sweep で作成された W&amp;B run の送信先となるプロジェクト名。プロジェクトを指定しない場合、run は「Uncategorized」というラベルのプロジェクトに送信されます。                                        |
-| `--entity`, `-e`          | sweep で作成された W&amp;B run の送信先にするユーザー名またはチーム名。指定する entity は、あらかじめ存在している必要があります。entity を指定しない場合、run はデフォルトの entity (通常は自分のユーザー名) に送信されます。 |
-| `--count`                 | このエージェントで作成する run の最大数。                                                                                                                |
-| `--forward-signals`, `-f` | エージェントに送られたシグナル (例: SIGINT/SIGTERM) を子 run に転送し、それらが正常にシャットダウンできるようにします。 (デフォルト: False)                                                 |
+| Flag                    | Type      | Description                                                               |
+| ----------------------- | --------- | ------------------------------------------------------------------------- |
+| `--project, -p`         | STR       | run のアップロード先の project を設定します。**デフォルト**: なし                                |
+| `--entity, -e`          | STR       | project のスコープ先となる entity を設定します。**デフォルト**: なし                             |
+| `--count`               | INT       | このエージェントが実行する run の最大数を指定します。設定しない場合は、sweep が完了するまで実行を続けます。**デフォルト**: なし  |
+| `--forward-signals, -f` | BOOL Flag | シグナル (例: SIGINT/SIGTERM) を子 run に転送し、適切にシャットダウンできるようにします。**デフォルト**: False |

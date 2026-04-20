@@ -1,41 +1,34 @@
 ---
-title: "wandb launch-agent"
+title: wandb launch-agent
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier d’extrait : /snippets/_includes/cli/wandb-launch-agent.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbLaunchAgent from "/snippets/_includes/cli/wandb-launch-agent.mdx";
-
-  <WandbLaunchAgent/>
-
-  L’extrait sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Exécutez un agent Launch de W&amp;B.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1899" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb launch-agent [OPTIONS]
+launch-agent [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Exécutez un agent Launch de W&amp;B.
 
 <div id="options">
   ## Options
 </div>
 
-| Option             | Description                                                                                                                                                                                                            |
-| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--queue`, `-q`    | Le nom d’une file d’attente à surveiller par l’agent. Plusieurs indicateurs `-q` sont pris en charge.                                                                                                                  |
-| `--entity`, `-e`   | L’entité à utiliser. Par défaut, il s’agit de l’utilisateur actuellement connecté.                                                                                                                                     |
-| `--log-file`, `-l` | Destination des journaux internes de l’agent. Utilisez `-` pour stdout. Par défaut, tous les journaux des agents sont écrits dans `debug.log` dans votre sous-répertoire `wandb/` ou dans `WANDB_DIR` s’il est défini. |
-| `--max-jobs`, `-j` | Le nombre maximal de launch jobs que cet agent peut exécuter en parallèle. La valeur par défaut est 1. Définissez `-1` pour ne pas avoir de limite supérieure.                                                         |
-| `--config`, `-c`   | chemin vers le fichier YAML de configuration de l’agent à utiliser                                                                                                                                                     |
-| `--verbose`, `-v`  | Affiche une sortie détaillée (par défaut : 0)                                                                                                                                                                          |
+| Option           | Type | Description                                                                                                                                                                                                                                                        |
+| ---------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--queue, -q`    | STR  | Nom d&#39;une file d&#39;attente à surveiller par l&#39;agent. Plusieurs options `-q` sont prises en charge. **Par défaut :** aucune                                                                                                                               |
+| `--entity, -e`   | STR  | Entité à utiliser. Par défaut, utilise l&#39;utilisateur actuellement connecté. **Par défaut :** aucune                                                                                                                                                            |
+| `--log-file, -l` | STR  | Destination des journaux internes de l&#39;agent. Utilisez `-` pour la sortie standard. Par défaut, tous les journaux des agents sont écrits dans `debug.log` dans votre sous-répertoire `wandb/` ou dans `WANDB_DIR` s&#39;il est défini. **Par défaut :** aucune |
+| `--max-jobs, -j` | STR  | Nombre maximal de jobs Launch que cet agent peut exécuter en parallèle. La valeur par défaut est 1. Définissez `-1` pour supprimer toute limite supérieure. **Par défaut :** aucune                                                                                |
+| `--config, -c`   | STR  | Chemin vers le fichier YAML de configuration de l&#39;agent à utiliser. **Par défaut :** aucune                                                                                                                                                                    |
+| `--verbose, -v`  | INT  | Affiche une sortie détaillée. **Par défaut :** 0                                                                                                                                                                                                                   |

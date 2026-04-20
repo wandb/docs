@@ -1,37 +1,31 @@
 ---
-title: "wandb purge-cache"
+title: wandb purge-cache
 ---
 
-{/*
-  Pour ajouter un texte d’introduction à cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-purge-cache.mdx
-  2. Ajoutez votre texte d’introduction à ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaires et ne conservez que les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbPurgeCache from "/snippets/_includes/cli/wandb-purge-cache.mdx";
-
-  <WandbPurgeCache/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Supprime du cache local de W&amp;B les journaux, l’historique des runs et les artifacts.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3610" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb purge-cache [OPTIONS]
+purge-cache [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Supprime du cache local de W&amp;B les journaux, l’historique des runs et les
+artifacts.
 
 <div id="options">
   ## Options
 </div>
 
-| Option    | Description                                                                                                                                                                   |
-| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--age`   | Supprime les éléments datant de plus de la période spécifiée (par ex., &#39;10s&#39;, &#39;5m&#39;, &#39;8h&#39;, &#39;7d&#39;, &#39;6M&#39;, &#39;1y&#39;) (par défaut : 0d) |
-| `--force` | Ne demande pas de confirmation avant de supprimer des fichiers. (par défaut : False)                                                                                          |
+| Option    | Type            | Description                                                                                                                                                                      |
+| --------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--age`   | STR             | Supprime les éléments datant de plus de la période spécifiée (par ex., &#39;10s&#39;, &#39;5m&#39;, &#39;8h&#39;, &#39;7d&#39;, &#39;6M&#39;, &#39;1y&#39;). **Par défaut** : 0d |
+| `--force` | Indicateur BOOL | Ne demande pas de confirmation avant de supprimer des fichiers. **Par défaut** : False                                                                                           |

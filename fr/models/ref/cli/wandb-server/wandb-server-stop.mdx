@@ -1,26 +1,29 @@
 ---
-title: "wandb server stop"
+title: wandb server stop
 ---
 
-{/*
-  Pour ajouter un texte d’introduction pour cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-server-stop.mdx
-  2. Ajoutez votre texte d’introduction dans ce fichier
-  3. Supprimez tout ce bloc de commentaires et ne conservez que les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbServerStop from "/snippets/_includes/cli/wandb-server-stop.mdx";
-
-  <WandbServerStop/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Arrêter un serveur W&amp;B local
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2792" />
 
 <div id="usage">
   ## Utilisation
 </div>
+
+```bash
+stop [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Arrêter un serveur W&amp;B local en cours d’exécution.
+
+Arrête le conteneur Docker nommé `wandb-local` lancé
+par `wandb server start`. Docker doit être installé.
+
+Par exemple, pour arrêter le serveur W&amp;B local :
 
 ```bash
 wandb server stop

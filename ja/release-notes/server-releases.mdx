@@ -5,7 +5,7 @@ sidebarTitle: "サポートされる version"
 rss: true
 ---
 
-import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-reminder.mdx';
+import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-reminder.mdx"
 
 このページには、サポート対象の W&amp;B Server リリースのリリースノートが含まれています。
 
@@ -13,6 +13,12 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 * W&amp;B Server のリリーススケジュールとサポートの詳細については、[W&amp;B Server release policies](/ja/release-notes/release-policies)を参照してください。
 
 <EolReminder />
+
+<Update label="v0.79.2" description="2026年4月10日">
+  ## 修正
+
+  * メトリクスの取り込みが遅延する可能性がある bug を修正しました。
+</Update>
 
 <Update label="v0.79.1" description="2026年4月1日">
   ## 修正
@@ -22,7 +28,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.79.0" description="2026年3月24日">
-  W&amp;B Server 0.79.0 では、画像のズームとパン、サービスアカウントとAPIキーの管理機能の改善、パフォーマンス改善が追加されました。Inference には MiniMax M2.5 と MiniMaxAI M2.5 モデルが追加されました。Weave monitors はすべての operation のスコアリングをサポートするようになり、Weave UI には、prompt の tags と aliases の管理強化、Claude agents 向けの chat view、絵文字フィードバックリアクションやメモ内容によるフィルタリングなどが追加されました。
+  W&amp;B Server 0.79.0 では、画像のズームとパン、サービスアカウントとAPIキーの管理機能の改善、パフォーマンス改善が追加されました。Weave monitors はすべての operation のスコアリングをサポートするようになり、Weave UI には、prompt の tags と aliases の管理強化、Claude agents 向けの chat view、絵文字フィードバックリアクションやメモ内容によるフィルタリングなどが追加されました。
 
   ## サポートと提供終了
 
@@ -103,14 +109,11 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.78.0" description="2026年3月3日">
   W&amp;B Server 0.78.0 では、セキュリティとアクセスのデフォルト設定が強化され、Experiments を比較したりコストをより効率的に管理したりするためのツールが追加されました。その他の改善も含まれています。
 
-  <Note>
-    Weave を使用するデプロイでは、v0.78 にアップグレードする前に Clickhouse v0.25.8 以上が必要です。
-  </Note>
+  <Note>Weave を使用するデプロイでは、v0.78 にアップグレードする前に Clickhouse v0.25.8 以上が必要です。</Note>
 
   * In **Models** では、正規表現を使って複数のメトリクスをまとめて効率的にプロットし、重要な run をピン留めし、ベースラインと実験を比較し、強化された Workspace テンプレートを使って Workspace を効率化できます。
   * **Registry** には、強化された検索、再設計されたカード、より見やすく、よりすばやく反応するリネージグラフなどが含まれます。
   * **Weave** の **Trace Analytics** ダッシュボードでは、プロジェクト概要ページからボトルネックやコスト増の要因を特定できます。保存済みビューで、カスタムのトレース、評価、リーダーボードを利用できるようになりました。Weave Playground で、LoRA (Low-Rank Adaptation) と新しいモデルがサポートされるようになりました。
-  * **Inference** に新しいモデルが追加されました。
 
   <Warning>
     このversionは、artifact への不正アクセスを許す重大なセキュリティ問題の影響を受けています。このversionをインストールしたり、アップグレードしたりしないでください。代わりに、修正を含む[v0.78.2](#v0-78-2)をインストールしてください。
@@ -138,15 +141,11 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
     Runs table では、summary メトリクスの差分 (プレビュー) によって、各 run がベースラインと比べてどうなっているかを確認できます。これは招待制でのみご利用いただけます。詳細については [mailto:support@wandb.com] までお問い合わせください。
 
-    <Frame>
-      ![ベースラインと比較した Runs 表の summary メトリクス差分](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
-    </Frame>
+    <Frame>![ベースラインと比較した Runs 表の summary メトリクス差分](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)</Frame>
 
     折れ線グラフでは、比較しやすいように、ベースラインは視覚的に区別しやすいスタイルで表示されます。
 
-    <Frame>
-      ![折れ線グラフで異なるスタイルを適用したベースライン run](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
-    </Frame>
+    <Frame>![折れ線グラフで異なるスタイルを適用したベースライン run](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)</Frame>
 
   * [複数のメトリクスを含むパネルをまとめて作成](/ja/models/app/features/panels/line-plot#multi-metric-line-plot)して、Workspaceをすばやく整理し、大量のメトリクス群にまたがるパターンを見つけましょう。たとえば、モデルの各レイヤーの勾配メトリクスを重ねて表示したり、特定のレイヤーを横に並べて表示したりできます。[動画デモを見る](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166)。
 
@@ -154,7 +153,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * **Sweeps** の表に、**Sweep ID** を表示する列が追加されました。
 
-  * 管理者は、組織の利用状況と支出に関するアラートをカスタマイズできるようになりました。新しい **Usage &amp; Alerts** タブの組織設定で、ストレージ、tracked hours、Weave、Inference、トレーニングの利用状況と支出を確認し、メール通知を設定できます。詳しくは、[プランの利用状況](/ja/platform/app/settings-page/billing-settings#plan-usage)を参照してください。
+  * 管理者は、組織の利用状況と支出に関するアラートをカスタマイズできるようになりました。新しい **Usage &amp; Alerts** タブの組織設定で、ストレージ、tracked hours、Weave、トレーニングの利用状況と支出を確認し、メール通知を設定できます。詳しくは、[プランの利用状況](/ja/platform/app/settings-page/billing-settings#plan-usage)を参照してください。
 
   ### Registry
 
@@ -163,27 +162,17 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * 改良された先読み検索、デザインを刷新した Registry と Collection のカード、新しい Registry アイコンにより、まずはスマートランキングでアセットを視覚的に見分けやすくなりました。AI ランキングも近日追加予定です。
     * Registry アイコンは初期状態では自動生成され、Registry 管理者がいつでもカスタマイズできます。
 
-    <Frame>
-      ![Registry のアイコンとリデザインされたカード](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)
-    </Frame>
+    <Frame>![Registry のアイコンとリデザインされたカード](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)</Frame>
 
     * リネージグラフでは、ノードにカーソルを合わせると、そのノードが強調表示され、他のノードは淡色表示されます。
     * collection の名をクリックすると、その artifact バージョンをすばやく表示できるようになりました。
     * 使いやすさ向上のため、registry の **Settings** ページからスターを付けられるようになりました。
 
-  ### Inference
-
-  * `Moonshot AI Kimi K2.5` モデルが利用可能になりました。[モデルカタログ](/ja/inference/models) をご覧ください。
-
   ### Weave
 
   * **プロジェクト概要**ページに、リクエスト数、レイテンシのパーセンタイル (P50/P95/P99) 、モデルごとのトークン使用量、コストの内訳を確認できる**Trace Analytics**ダッシュボードが追加されました。どのモデルが予算を大きく圧迫しているか、またはどの低速なリクエストがP95を押し下げているかを把握できます。時間バケットをクリックすると関連するトレースに直接移動できるため、レイテンシ急増の原因をすばやく特定できます。
 
-    <Frame>
-      ![プロジェクト概要の Trace Analytics ダッシュボード](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)
-    </Frame>
-
-  * **Weave Playground** は **[LoRA](/ja/inference/lora)** をサポートするようになったため、ファインチューニングした LoRA アダプターを効率的にテストできます。LoRA artifact ページで **Try in Playground** ボタンをクリックしてください。
+    <Frame>![プロジェクト概要の Trace Analytics ダッシュボード](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)</Frame>
 
   * Claude Opus 4.6 が **Weave Playground** で利用できるようになりました。
 
@@ -499,7 +488,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.74.0" description="2025年10月8日">
-  W&amp;B v0.74では、Okta との自動グループ同期やユーザーロール設定の効率化など、エンタープライズ向けアイデンティティ管理のための SCIM API が改善されました。専用クラウドでは、新しい強力なフルスクリーン画像ブラウザにより、run 内および run 間での画像の検査・比較が容易になりました。Weave の機能強化として、Playground 内での LLM judge 評価、マルチターン Thread tool calls の可視性向上、DSPy の改善、および Reinforcement Learning ワークフロー向け Verifiers ライブラリとの新しいインテグレーションが追加されました。W&amp;B Inference では、[Z.AI](https://z.ai/) GLM v4.5 ハイブリッド推論モデルのサポートが追加されました。
+  W&amp;B v0.74では、Okta との自動グループ同期やユーザーロール設定の効率化など、エンタープライズ向けアイデンティティ管理のための SCIM API が改善されました。専用クラウドでは、新しい強力なフルスクリーン画像ブラウザにより、run 内および run 間での画像の検査・比較が容易になりました。Weave の機能強化として、Playground 内での LLM judge 評価、マルチターン Thread tool calls の可視性向上、DSPy の改善、および Reinforcement Learning ワークフロー向け Verifiers ライブラリとの新しいインテグレーションが追加されました。
 
   ## サポートとサポート終了
 
@@ -530,10 +519,6 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Weave のコードで `wandb.init()` を呼び出している場合、`weave.init()` を明示的に呼び出す必要はなくなります。
   * 便利な新しいmethod [`delete_all_object_versions`](/ja/weave/reference/python-sdk/trace/weave_client)。
   * OpenAI のストリーミング Endpoint call の出力に、ミリ秒単位の新しいフィールド `time_to_first_token` が追加されました。
-
-  ### Inference
-
-  * [W&amp;B Inference](/ja/inference) に、[Z.AI GLM](https://z.ai/blog/glm-4.5) ハイブリッド推論モデルのサポートが追加されました。v4.5 に対応しています。
 
   ## 修正
 
@@ -649,17 +634,20 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 機能
 
-  * <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement" /> 今後数回の version にわたり、既存のチームレベルの Model Registry を段階的に W&amp;B Registry へ移行します。**お客様側での対応は不要です。W&amp;B が各チームの Model Registry アセットを、対応する自動作成されたチームレベルのプライベート Registry に自動的にコピーします。**  以前のチームレベルの Model Registry にあるモデル collection への既存の参照は、引き続き機能します。
-
-    1. Server v0.71 (このリリース) では、すべての組織で Registry がデフォルトで有効になりました。
-    2. Server v0.73 (8月) では、アップグレード中にこの移行を自動的に実行するためのオプトアウト用環境変数が追加されます。移行には、ほとんどの組織で 5〜30 分かかります。移行中は、artifact を古いチームの Model Registry または新しい Registry のいずれかにリンクしようとすると、エラーで失敗します。**artifact の記録と取得には影響ありません**。
-    3. Server v0.74 (9月) では、このフラグは削除され、アップグレード中に移行が実行されるようになります。
+  * <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement" /> 今後数回の version にわたり、既存のチームレベルの Model Registry を段階的に W&amp;B Registry へ移行します。**お客様側での対応は不要です。W&amp;B が各チームの Model Registry アセットを、対応する自動作成されたチームレベルのプライベート Registry に自動的にコピーします。**  以前のチームレベルの Model Registry にあるモデル collection への既存の参照は、引き続き機能します。 1. Server v0.71 (このリリース) では、すべての組織で Registry がデフォルトで有効になりました。 2. Server v0.73 (8月) では、
+    アップグレード中にこの移行を自動的に実行するためのオプトアウト用環境変数が追加されます。移行には、ほとんどの組織で 5〜30 分かかります。移行中は、artifact を古いチームの Model Registry または新しい Registry のいずれかにリンクしようとすると、エラーで失敗します。**artifact の記録と取得には影響ありません**。 3. Server v0.74 (9月) では、このフラグは削除
+    され、アップグレード中に移行が実行されるようになります。
 
     強力な新しい体験へスムーズに移行できるよう、お客様の負担を最小限に抑えたアップグレードを進めています。移行についてご不明な点があれば、担当のW&amp;Bまでお問い合わせください。
+
   * アーティファクトにタグを追加すると、オートメーションをトリガーできるようになりました。[Artifact events](/ja/models/automations/automation-events/#artifact-events)を参照してください。
+
   * パネルを全画面表示しているときは、**前へ** と **次へ** ボタン、または左右の矢印キーを使用して、セクション内の前後のパネルを表示できます。
+
   * メディアパネルを全画面で表示しているときは、**CMD + 左矢印キーまたは右矢印キー** (macOS) 、または **Ctrl + 左矢印キーまたは右矢印キー** (Windows / Linux) で step スライダーを操作します。
+
   * 同じstepスライダーのキーでメディアパネルを同期できるようになりました。これにより、1つのメディアパネルでstepスライダーを進めると、他のパネルのstepスライダーも連動して進みます。Workspaceまたはセクションの設定を開き、**Media** に移動して **Sync** タブをクリックし、**Sync slider by key (Step)** をオンにします。
+
   * Run Comparer に、command、Python バージョン、GPU タイプなどの run に関するメタデータを含む新しい **Meta** セクションが追加されました。
 
   ### Weave
@@ -671,17 +659,12 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * Langchain と ChromaDB のドキュメントビュー。
     * LangChain のチャットビューの表示。
     * OpenAI 向けの新しいエクスポート形式。
-  * [W&amp;B Inference](https://wandb.ai/inference) 向けに、新しいホステッド型のオープンウェイトモデルを追加しました:
-    * `Qwen3-235B-A22B-Thinking-2507`
-    * `Qwen/Qwen3-Coder-480B-A35B-Instruct`
-    * `Qwen/Qwen3-235B-A22B-Instruct-2507`
-    * `Kimi-K2-Instruct`
   * TypeScript SDK でプロンプトを作成・公開できるようになりました。[詳細はこちら](/ja/weave/guides/core-types/prompts)。
   * 新しい`Content`クラスを使うと、任意のMIMEタイプのデータを安全にアップロードでき、自動的なBase-64エンコードやメタデータの自動抽出などを利用できます。
 
   ## 修正
 
-  * run の**Overview**ページに、run の稼働時間とトラッキング時間が表示されるようになりました。run の*稼働時間*は開始から終了までの総時間を表し、run の*トラッキング時間*は、その run が実際に実験や計算を実行していた時間を表します。
+  * run の**Overview**ページに、run の稼働時間とトラッキング時間が表示されるようになりました。run の&#95;稼働時間&#95;は開始から終了までの総時間を表し、run の&#95;トラッキング時間&#95;は、その run が実際に実験や計算を実行していた時間を表します。
   * 折れ線グラフをズームインしてから全画面モードで開くと、全画面表示のプロットでも同じズーム状態が正しく維持されるようになりました。
   * プロットに表示するグループ数を変更しても、プロットに反映されない不具合を修正しました。
   * 折れ線グラフで **元を表示** を選択すると、平滑化前の線が平滑化された線よりも淡く表示されるようになりました。
@@ -696,7 +679,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * モバイル表示でパネルの検索バーが表示されないバグを修正しました。
   * key による色分けをオンにした状態で run selector を任意の属性で並べ替えると、プロット上の上位の run に正しく色が付くようになりました。
   * グループ化されたrunを使用している場合、平行座標プロットにグループ名が正しく表示されるようになりました。
-  * Sweeps 表で、**State** がデフォルトで正しく表示されるようになりました。
+  * **State** がデフォルトで正しく表示されるようになりました。
   * カスタム表示名でグループ化した際にも、Sweeps が正しく表示されるようになりました。
   * Sweeps と Reports で、長い名前が正しく折り返されない問題を修正しました。
   * コンソールログのコピー＆ペースト時の挙動を改善しました。行番号はコピーされなくなり、Timestampは改行されずにインラインで表示されるようになりました。

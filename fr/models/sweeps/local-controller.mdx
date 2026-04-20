@@ -63,7 +63,7 @@ wandb sweep sweep_ID
 
 Les extraits de code suivants illustrent comment spécifier et utiliser un contrôleur local avec le SDK Python de W&amp;B.
 
-La manière la plus simple d’utiliser un contrôleur avec le SDK Python consiste à transmettre l’ID du balayage à la méthode [`wandb.controller`](/fr/models/ref/python/functions/controller). Utilisez ensuite la méthode `run` de l’objet renvoyé pour démarrer le job de balayage :
+La manière la plus simple d’utiliser un contrôleur avec le SDK Python consiste à transmettre l’ID du balayage à la méthode [`wandb.controller()`](/fr/models/ref/python/functions/controller). Utilisez ensuite la méthode `run` de l’objet renvoyé pour démarrer le job de balayage :
 
 ```python
 sweep = wandb.controller(sweep_id)

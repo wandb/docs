@@ -62,7 +62,7 @@ wandb sweep sweep_ID
 
 以下のコードスニペットでは、W&amp;B Python SDK でローカルコントローラーを指定して使用する方法を示します。
 
-Python SDK でコントローラーを使用する最も簡単な方法は、[`wandb.controller`](/ja/models/ref/python/functions/controller) method に sweep ID を渡すことです。次に、返されたオブジェクトの `run` method を使用して sweep ジョブを開始します。
+Python SDK でコントローラーを使用する最も簡単な方法は、[`wandb.controller()`](/ja/models/ref/python/functions/controller) method に sweep ID を渡すことです。次に、返されたオブジェクトの `run` method を使用して sweep ジョブを開始します。
 
 ```python
 sweep = wandb.controller(sweep_id)

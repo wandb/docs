@@ -80,9 +80,7 @@ learn.fit(..., cbs=WandbCallback())
 learn = learner(..., cbs=WandbCallback())
 ```
 
-<Note>
-  Fastai 버전 1을 사용하는 경우 [Fastai v1 문서](/ko/models/integrations/fastai/v1/)를 참고하세요.
-</Note>
+<Note>If you use version 1 of Fastai, refer to the [Fastai v1 docs](/ko/models/integrations/fastai/v1/).</Note>
 
 <div id="wandbcallback-arguments">
   ## WandbCallback 매개변수
@@ -193,7 +191,7 @@ learn = learner(..., cbs=WandbCallback())
   ### 메인 프로세스에서만 로깅하기
 </div>
 
-위 예시에서는 `wandb`가 프로세스마다 하나의 run을 생성합니다. 트레이닝이 끝나면 run이 두 개 생깁니다. 이 때문에 혼란스러울 수 있으므로, 메인 프로세스에서만 로그를 기록하고 싶을 수 있습니다. 이렇게 하려면 현재 어떤 프로세스에서 실행 중인지 직접 확인하고, 다른 모든 프로세스에서는 run을 생성하지 않도록(`wandb.init`를 호출하지 않도록) 해야 합니다.
+위 예시에서는 `wandb`가 프로세스마다 하나의 run을 생성합니다. 트레이닝이 끝나면 run이 두 개 생깁니다. 이 때문에 혼란스러울 수 있으므로, 메인 프로세스에서만 로깅하고 싶을 수 있습니다. 이렇게 하려면 현재 어떤 프로세스에서 실행 중인지 직접 확인하고, 다른 모든 프로세스에서는 run을 생성하지 않도록(`wandb.init()`를 호출하지 않도록) 해야 합니다.
 
 <Tabs>
   <Tab title="스크립트">
@@ -207,29 +205,32 @@ learn = learner(..., cbs=WandbCallback())
     path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
 
     def train():
-        cb = []
-        dls = ImageDataLoaders.from_name_func(
-            path,
-            get_image_files(path),
-            valid_pct=0.2,
-            label_func=lambda x: x[0].isupper(),
-            item_tfms=Resize(224),
-        )
-        if rank_distrib() == 0:
-            run = wandb.init("fastai_ddp", entity="capecape")
-            cb = WandbCallback()
-        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
-        with learn.distrib_ctx(sync_bn=False):
-            learn.fit(1)
+    cb = []
+    dls = ImageDataLoaders.from_name_func(
+    path,
+    get_image_files(path),
+    valid_pct=0.2,
+    label_func=lambda x: x[0].isupper(),
+    item_tfms=Resize(224),
+    )
+    if rank_distrib() == 0:
+    run = wandb.init("fastai_ddp", entity="capecape")
+    cb = WandbCallback()
+    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+    with learn.distrib_ctx(sync_bn=False):
+    learn.fit(1)
 
-    if __name__ == "__main__":
-        train()
+    if **name** == "**main**":
+    train()
+
     ```
 
     터미널에서 다음을 실행합니다:
 
     ```
+
     $ torchrun --nproc_per_node 2 train.py
+
     ```
   </Tab>
 

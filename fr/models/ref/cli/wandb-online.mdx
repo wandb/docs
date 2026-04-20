@@ -1,27 +1,38 @@
 ---
-title: "wandb online"
+title: wandb online
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction à cette commande :
-  1. Créez le fichier d’extrait : /snippets/_includes/cli/wandb-online.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et ne conservez que les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbOnline from "/snippets/_includes/cli/wandb-online.mdx";
-
-  <WandbOnline/>
-
-  L’extrait sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Désactiver `wandb offline`.
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3365" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
+online [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Réactivez la synchronisation avec le cloud pour les runs W&amp;B.
+
+Effacez le réglage du mode hors ligne pour que les runs suivants dans ce répertoire
+synchronisent leurs données avec le cloud W&amp;B.
+
+Annule un précédent appel à `wandb offline`.
+
+Par exemple, pour réactiver la synchronisation avec le cloud après avoir travaillé hors ligne :
+
+```bash
 wandb online
+```
+
+Pour réactiver la synchronisation cloud, exécutez ensuite un script d’entraînement :
+
+```bash
+wandb online && python train.py
 ```

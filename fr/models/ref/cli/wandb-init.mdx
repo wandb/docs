@@ -1,39 +1,60 @@
 ---
-title: "wandb init"
+title: wandb init
 ---
 
-{/*
-  Pour ajouter un contenu d’introduction pour cette commande :
-  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-init.mdx
-  2. Ajoutez votre contenu d’introduction à ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-  import WandbInit from "/snippets/_includes/cli/wandb-init.mdx";
-
-  <WandbInit/>
-
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
-  */}
-
-Configurer un répertoire avec Weights &amp; Biases
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L381" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-wandb init [OPTIONS]
+init [OPTIONS]
 ```
 
+<div id="description">
+  ## Description
+</div>
+
+Initialisez ou mettez à jour la configuration de W&amp;B pour le répertoire actuel.
+
+Définissez un projet et une entité, créez des paramètres W&amp;B locaux et
+préparez le répertoire pour le suivi des expériences.
+
+Par exemple, configurez W&amp;B pour le répertoire actuel à l’aide d’invites guidées
+pour sélectionner l’équipe et le projet :
+
+```bash
+wandb init
+```
+
+Pour définir le projet par défaut sur &quot;foobar&quot; et l&#39;entité par défaut sur &quot;team-awesome&quot; sans aucune invite :
+
+```bash
+wandb init --project foobar --entity team-awesome
+```
+
+Pour passer W&amp;B en mode hors ligne :
+
+```bash
+wandb init --mode offline
+```
+
+Pour réinitialiser la configuration W&amp;B existante dans le répertoire actuel :
+
+```bash
+wandb init --reset
+```
 
 <div id="options">
   ## Options
 </div>
 
-| Option            | Description                                                               |
-| :---------------- | :------------------------------------------------------------------------ |
-| `--project`, `-p` | Le projet à utiliser.                                                     |
-| `--entity`, `-e`  | L&#39;entité à laquelle associer le projet.                               |
-| `--reset`         | Réinitialiser les paramètres (par défaut : False)                         |
-| `--mode`, `-m`    | Peut être « online », « offline » ou « disabled ». Par défaut : `online`. |
+| Flag            | Type      | Description                                                                                                                   |
+| --------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p` | STR       | Définit le projet vers lequel téléverser les runs. **Par défaut** : None                                                      |
+| `--entity, -e`  | STR       | Définit l’entité à laquelle rattacher le projet. **Par défaut** : None                                                        |
+| `--reset`       | BOOL Flag | Réinitialise la configuration W&amp;B existante pour le répertoire. **Par défaut** : False                                    |
+| `--mode, -m`    | STR       | Définit le mode W&amp;B. Valeurs possibles : &#39;online&#39;, &#39;offline&#39; ou &#39;disabled&#39;. **Par défaut** : None |

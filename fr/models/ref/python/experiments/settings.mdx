@@ -32,9 +32,10 @@ Les paramètres sont organisés en trois catégories :
 
 ```python
 __init__(
+    allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107d3d240>,
+    anonymous: 'object' = <object object at 0x109961240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -48,6 +49,7 @@ __init__(
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
+    disable_git_fork_point: 'bool' = True,
     disable_job_creation: 'bool' = True,
     docker: 'str | None' = None,
     email: 'str | None' = None,
@@ -158,7 +160,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 98605,
+    x_stats_pid: 'int' = 38335,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -182,6 +184,13 @@ __init__(
 ```
 
 **Arguments :**
+
+* `allow_media_symlink` (bool): Indique s’il faut créer des liens symboliques vers les fichiers multimédias dans le répertoire du run.
+  Si la valeur est `true`, des liens symboliques ou des liens physiques vers les fichiers multimédias seront créés dans le
+  répertoire du run au lieu d’être copiés. Cela peut accélérer la
+  journalisation et réduire l’utilisation du disque. Cependant, la suppression ou la modification
+  des fichiers d’origine avant leur téléversement vers le serveur W&amp;B sera
+  reflétée dans les données téléversées.
 
 * `allow_offline_artifacts` (bool): Indicateur autorisant la synchronisation des artefacts de tableau en mode hors ligne.
   Pour revenir à l&#39;ancien comportement, définissez cette valeur sur False.
@@ -248,6 +257,14 @@ __init__(
 * `disable_code` (bool): Indique s’il faut désactiver l’enregistrement du code.
 
 * `disable_git` (bool): Indique s’il faut désactiver la capture de l’état de git.
+
+* `disable_git_fork_point` (bool): Indique s’il faut désactiver la déduction du point de fork à partir des branches distantes
+  Lorsque cette valeur est définie sur True, le SDK utilisera le commit le plus récent de la
+  branche upstream, si elle est définie. Sinon, il ignorera la génération du patch diff.
+  Lorsque cette valeur est définie sur False, le SDK essaiera d’utiliser le commit le plus récent de la branche upstream,
+  si elle est définie.
+  Sinon, il trouvera le commit le plus proche parmi toutes les branches distantes.
+  Cela peut avoir un impact sur les performances des dépôts comportant de nombreuses branches upstream.
 
 * `disable_job_creation` (bool): Indique si vous devez désactiver la création d’un artefact de job pour W&amp;B Launch.
 
@@ -333,11 +350,11 @@ __init__(
 
 * `resume` (Optional[Literal[&#39;allow&#39;, &#39;must&#39;, &#39;never&#39;, &#39;auto&#39;]]): Définit le comportement de reprise du run.
   Options :
-  * &quot;must&quot;: Reprend un run existant avec le même ID. Si aucun run correspondant n&#39;existe,
+  * &quot;must&quot;: Reprend un run existant portant le même ID. Si aucun run correspondant n&#39;existe,
     l&#39;opération échoue.
-  * &quot;allow&quot;: Tente de reprendre un run existant avec le même ID. Si aucun n&#39;est
+  * &quot;allow&quot;: Tente de reprendre un run existant portant le même ID. Si aucun n&#39;est
     trouvé, un nouveau run est créé.
-  * &quot;never&quot;: Démarre toujours un nouveau run. Si un run avec le même ID existe déjà,
+  * &quot;never&quot;: Démarre toujours un nouveau run. Si un run portant le même ID existe déjà,
     l&#39;opération échoue.
   * &quot;auto&quot;: Reprend automatiquement le run en échec le plus récent sur la même
     machine.
@@ -483,9 +500,9 @@ Un objet `Settings`.
 
 ### <kbd>propriété</kbd> `Settings.app_url`
 
-L’URL de l’interface utilisateur de W&amp;B, généralement https://wandb.ai.
+L’URL de l’interface utilisateur de W&amp;B, généralement [https://wandb.ai](https://wandb.ai).
 
-Elle diffère de `base_url` (par exemple https://api.wandb.ai), qui
+Elle diffère de `base_url` (par exemple [https://api.wandb.ai](https://api.wandb.ai)), qui
 sert à accéder aux API W&amp;B de manière programmatique.
 
 **Retourne :**

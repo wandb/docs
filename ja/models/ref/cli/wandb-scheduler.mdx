@@ -1,36 +1,29 @@
 ---
-title: "wandb scheduler"
+title: wandb スケジューラー
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-scheduler.mdx
-  2. そのファイルに導入文を追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbScheduler from "/snippets/_includes/cli/wandb-scheduler.mdx";
-
-  <WandbScheduler/>
-
-  このスニペットは、次回の再生成時に自動検出されます。
-  */}
-
-W&amp;B Launch の sweep scheduler を実行する (実験的) 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2080" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb scheduler SWEEP_ID
+scheduler [OPTIONS] SWEEP_ID
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+W&amp;B Launch の sweep スケジューラー を実行する (実験的)。
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数         | 説明            | 必須 |
-| :--------- | :------------ | :- |
-| `SWEEP_ID` | 利用可能な説明はありません | はい |
+| 名          | デフォルト | タイプ  |
+| ---------- | ----- | ---- |
+| `sweep_id` | STR   | True |

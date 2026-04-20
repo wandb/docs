@@ -16,11 +16,11 @@ La bibliothèque [Hugging Face Transformers](https://huggingface.co/docs/transfo
 
 ```python
 os.environ["WANDB_PROJECT"] = "<my-amazing-project>"  # nommez votre projet W&B
-os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # journalisez tous les points de contrôle du modèle
+os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # journaliser tous les points de contrôle du modèle
 
 from transformers import TrainingArguments, Trainer
 
-args = TrainingArguments(..., report_to="wandb")  # activez le logging W&B
+args = TrainingArguments(..., report_to="wandb")  # activer la journalisation W&B
 trainer = Trainer(..., args=args)
 ```
 
@@ -28,9 +28,7 @@ trainer = Trainer(..., args=args)
   <img src="/images/integrations/huggingface_gif.gif" alt="tableau de bord HuggingFace" />
 </Frame>
 
-<Note>
-  Si vous préférez passer directement à du code prêt à l’emploi, consultez ce [Google Colab](https://wandb.me/hf).
-</Note>
+<Note>Si vous préférez passer directement à du code prêt à l’emploi, consultez ce [Google Colab](https://wandb.me/hf).</Note>
 
 <div id="get-started-track-experiments">
   ## Premiers pas : suivre les expériences
@@ -142,7 +140,7 @@ C&#39;est tout. Désormais, vos modèles journaliseront les pertes, les métriqu
   <Tab title="Ligne de commande">
     ```bash
     python run_glue.py \     # exécutez votre script Python
-      --report_to wandb \    # activez le logging vers W&B
+      --report_to wandb \    # activez la journalisation vers W&B
       --run_name bert-base-high-lr \   # nom du run W&B (facultatif)
       # autres arguments de ligne de commande ici
     ```
@@ -152,19 +150,18 @@ C&#39;est tout. Désormais, vos modèles journaliseront les pertes, les métriqu
     ```python
     from transformers import TrainingArguments, Trainer
 
-    args = TrainingArguments(
-        # autres args et kwargs ici
-        report_to="wandb",  # active le logging vers W&B
-        run_name="bert-base-high-lr",  # nom du run W&B (facultatif)
-        logging_steps=1,  # fréquence d'envoi des logs à W&B
+    args = TrainingArguments( # autres args et kwargs ici
+    report_to="wandb", # activez la journalisation vers W&B
+    run_name="bert-base-high-lr", # nom du run W&B (facultatif)
+    logging_steps=1, # fréquence de journalisation vers W&B
     )
 
-    trainer = Trainer(
-        # autres args et kwargs ici
-        args=args,  # vos arguments d'entraînement
+    trainer = Trainer( # autres args et kwargs ici
+    args=args, # vos arguments d'entraînement
     )
 
-    trainer.train()  # démarre l'entraînement et le logging vers W&B
+    trainer.train() # démarrez l'entraînement et la journalisation vers W&B
+
     ```
   </Tab>
 </Tabs>
@@ -172,6 +169,9 @@ C&#39;est tout. Désormais, vos modèles journaliseront les pertes, les métriqu
 <Note>
   Vous utilisez TensorFlow ? Remplacez simplement le `Trainer` de PyTorch par le `TFTrainer` de TensorFlow.
 </Note>
+
+```
+```
 
 <div id="turn-on-model-checkpointing">
   ### Activez l&#39;enregistrement des points de contrôle du modèle
@@ -246,9 +246,9 @@ Si vous utilisez un notebook Jupyter ou Google Colab, vous devrez nous indiquer 
 
 ```python
 run = wandb.init()
-trainer.train()  # démarrer l'entraînement et la journalisation dans W&B
+trainer.train()  # démarrer l'entraînement et la journalisation vers W&B
 
-# analyse post-entraînement, tests, autre code journalisé
+# analyse post-entraînement, tests, autre code enregistré
 
 run.finish()
 ```
@@ -285,7 +285,7 @@ Si vous avez enregistré votre modèle dans W&amp;B Artifacts avec `WANDB_LOG_MO
 ```python
 # Créer un nouveau run
 with wandb.init(project="amazon_sentiment_analysis") as run:
-    # Transmettre le nom et la version de l'Artifact
+    # Indiquer le nom et la version de l'Artifact
     my_model_name = "model-bert-base-high-lr:latest"
     my_model_artifact = run.use_artifact(my_model_name)
 
@@ -298,17 +298,17 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
         model_dir, num_labels=num_labels
     )
 
-    # Effectuer un entraînement supplémentaire ou lancer une inférence
+    # Effectuer un entraînement supplémentaire ou exécuter l'inférence
 ```
 
 <div id="how-do-i-resume-training-from-a-checkpoint">
-  ### Comment puis-je reprendre l’entraînement à partir d’un checkpoint ?
+  ### Comment puis-je reprendre l’entraînement à partir d’un point de contrôle ?
 </div>
 
 Si vous avez défini `WANDB_LOG_MODEL='checkpoint'`, vous pouvez également reprendre l’entraînement en utilisant `model_dir` comme valeur de l’argument `model_name_or_path` dans vos `TrainingArguments`, puis en passant `resume_from_checkpoint=True` à `Trainer`.
 
 ```python
-last_run_id = "xxxxxxxx"  # récupérez le run_id depuis votre wandb workspace
+last_run_id = "xxxxxxxx"  # récupérez le run_id depuis votre workspace wandb
 
 # reprendre le run wandb à partir du run_id
 with wandb.init(
@@ -320,7 +320,7 @@ with wandb.init(
     my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
     my_checkpoint_artifact = run.use_artifact(my_model_name)
 
-    # Télécharger le checkpoint dans un dossier et retourner le chemin
+    # Télécharger le point de contrôle dans un dossier et retourner le chemin
     checkpoint_dir = my_checkpoint_artifact.download()
 
     # réinitialiser votre modèle et votre trainer
@@ -332,7 +332,7 @@ with wandb.init(
 
     trainer = Trainer(model=model, args=training_args)
 
-    # assurez-vous d'utiliser le répertoire du checkpoint pour reprendre l'entraînement depuis le checkpoint
+    # utilisez bien le répertoire du point de contrôle pour reprendre l'entraînement depuis ce point
     trainer.train(resume_from_checkpoint=checkpoint_dir)
 ```
 
@@ -348,7 +348,7 @@ Vous trouverez ci-dessous le schéma général pour ajouter ce nouveau callback 
 # Instancier le Trainer normalement
 trainer = Trainer()
 
-# Instancier le nouveau callback de journalisation, en lui passant l'objet Trainer
+# Instancier le nouveau callback de journalisation en lui passant l'objet Trainer
 evals_callback = WandbEvalsCallback(trainer, tokenizer, ...)
 
 # Ajouter le callback au Trainer
@@ -387,34 +387,34 @@ def decode_predictions(tokenizer, predictions):
 
 
 class WandbPredictionProgressCallback(WandbCallback):
-    """WandbCallback personnalisé pour journaliser les prédictions du modèle pendant l'entraînement.
+    """Custom WandbCallback to log model predictions during training.
 
-    Ce callback journalise les prédictions et les étiquettes du modèle dans un wandb.Table à chaque
-    étape de journalisation pendant l'entraînement. Il permet de visualiser les
-    prédictions du modèle au fur et à mesure de la progression de l'entraînement.
+    This callback logs model predictions and labels to a wandb.Table at each
+    logging step during training. It allows to visualize the
+    model predictions as the training progresses.
 
     Attributes:
-        trainer (Trainer): L'instance Hugging Face Trainer.
-        tokenizer (AutoTokenizer): Le tokenizer associé au modèle.
-        sample_dataset (Dataset): Un sous-ensemble du jeu de données de validation
-          pour générer des prédictions.
-        num_samples (int, optional): Nombre d'échantillons à sélectionner dans
-          le jeu de données de validation pour générer des prédictions. Par défaut : 100.
-        freq (int, optional): Fréquence de journalisation. Par défaut : 2.
+        trainer (Trainer): The Hugging Face Trainer instance.
+        tokenizer (AutoTokenizer): The tokenizer associated with the model.
+        sample_dataset (Dataset): A subset of the validation dataset
+          for generating predictions.
+        num_samples (int, optional): Number of samples to select from
+          the validation dataset for generating predictions. Defaults to 100.
+        freq (int, optional): Frequency of logging. Defaults to 2.
     """
 
     def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
-        """Initialise l'instance WandbPredictionProgressCallback.
+        """Initializes the WandbPredictionProgressCallback instance.
 
         Args:
-            trainer (Trainer): L'instance Hugging Face Trainer.
-            tokenizer (AutoTokenizer): Le tokenizer associé
-              au modèle.
-            val_dataset (Dataset): Le jeu de données de validation.
-            num_samples (int, optional): Nombre d'échantillons à sélectionner dans
-              le jeu de données de validation pour générer des prédictions.
-              Par défaut : 100.
-            freq (int, optional): Fréquence de journalisation. Par défaut : 2.
+            trainer (Trainer): The Hugging Face Trainer instance.
+            tokenizer (AutoTokenizer): The tokenizer associated
+              with the model.
+            val_dataset (Dataset): The validation dataset.
+            num_samples (int, optional): Number of samples to select from
+              the validation dataset for generating predictions.
+              Defaults to 100.
+            freq (int, optional): Frequency of logging. Defaults to 2.
         """
         super().__init__()
         self.trainer = trainer
@@ -424,22 +424,22 @@ class WandbPredictionProgressCallback(WandbCallback):
 
     def on_evaluate(self, args, state, control, **kwargs):
         super().on_evaluate(args, state, control, **kwargs)
-        # contrôler la fréquence de journalisation en enregistrant les prédictions
+        # contrôler la fréquence de journalisation en journalisant les prédictions
         # toutes les `freq` époques
         if state.epoch % self.freq == 0:
-            # générer des prédictions
+            # générer les prédictions
             predictions = self.trainer.predict(self.sample_dataset)
-            # décoder les prédictions et les étiquettes
+            # décoder les prédictions et les labels
             predictions = decode_predictions(self.tokenizer, predictions)
             # ajouter les prédictions à un wandb.Table
             predictions_df = pd.DataFrame(predictions)
             predictions_df["epoch"] = state.epoch
             records_table = self._wandb.Table(dataframe=predictions_df)
-            # enregistrer le tableau dans wandb
+            # journaliser le tableau dans wandb
             self._wandb.log({"sample_predictions": records_table})
 
 
-# Commencer par instancier le Trainer
+# D'abord, instancier le Trainer
 trainer = Trainer(
     model=model,
     args=training_args,
@@ -494,10 +494,10 @@ Vous pouvez affiner la configuration de ce qui est enregistré avec `Trainer` en
 </Tabs>
 
 <div id="how-do-i-customize-wandbinit">
-  ### Comment puis-je personnaliser `wandb.init`?
+  ### Comment puis-je personnaliser `wandb.init()`?
 </div>
 
-Le `WandbCallback` utilisé par `Trainer` appelle `wandb.init` en interne lors de l&#39;initialisation de `Trainer`. Vous pouvez aussi configurer vos runs manuellement en appelant `wandb.init` avant l&#39;initialisation de `Trainer`. Cela vous donne un contrôle total sur la configuration de votre run W&amp;B.
+Le `WandbCallback` utilisé par `Trainer` appelle `wandb.init()` en interne lors de l&#39;initialisation de `Trainer`. Vous pouvez aussi configurer vos runs manuellement en appelant `wandb.init()` avant l&#39;initialisation de `Trainer`. Cela vous donne un contrôle total sur la configuration de votre run W&amp;B.
 
 Voici un exemple de ce que vous pouvez passer à `init`. Pour plus de détails sur `wandb.init()`, voir la [`référence \`wandb.init()``](/fr/models/ref/python/functions/init).
 

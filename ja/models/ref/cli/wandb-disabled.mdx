@@ -1,36 +1,55 @@
 ---
-title: "wandb を無効化"
+title: wandb disabled
 ---
 
-{/*
-  このコマンドに導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-disabled.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行のみを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbDisabled from "/snippets/_includes/cli/wandb-disabled.mdx";
-
-  <WandbDisabled/>
-
-  スニペットは次回の再生成時に自動的に検出されます。
-  */}
-
-W&amp;Bを無効にします。
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3461" />
 
 <div id="usage">
   ## 使用法
 </div>
 
 ```bash
-wandb disabled [OPTIONS]
+disabled [OPTIONS]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+W&amp;B の機能を無効にします。
+
+W&amp;B が `disabled` モードの間は、データのログも同期も行いません。
+
+W&amp;B の機能を復元するには、`wandb enable` を使用します。
+
+データは引き続きローカルにログしたまま、クラウドとの同期を停止するには、
+`wandb offline` を使用します。
+
+たとえば、W&amp;B をオフにして、W&amp;B へデータをログしたり
+同期したりせずに train.py スクリプトを実行するには、次のようにします。
+
+```bash
+wandb disabled
+```
+
+次に、W&amp;B へのログ記録や同期を行わずに、モデルをトレーニングします:
+
+```bash
+python train.py  # W&B にデータをログまたは同期しない
+```
+
+再度ログと同期を行う準備ができたら、W&amp;B の機能を復元します:
+
+```bash
+wandb enabled
+```
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション       | 説明                                    |
-| :---------- | :------------------------------------ |
-| `--service` | W&amp;B serviceを無効にします (デフォルト: True)  |
+| Flag        | タイプ      | 説明                                       |
+| ----------- | -------- | ---------------------------------------- |
+| `--service` | BOOL フラグ | 効果はありません。後方互換性のために受け付けます。**デフォルト**: True |

@@ -88,12 +88,12 @@ En plus du tracing automatique, vous pouvez tracer manuellement les appels à l�
   ### Utiliser `WeaveTracer`
 </div>
 
-Vous pouvez transmettre le callback `WeaveTracer` à certains composants LangChain afin de tracer des requêtes spécifiques.
+Vous pouvez transmettre le callback `WeaveTracer` à des composants LangChain spécifiques afin de tracer certaines requêtes.
 
 ```python lines {11,13,15,22}
 import os
 
-os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- désactive explicitement le tracing global.
+os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- désactiver explicitement le tracing global.
 
 from weave.integrations.langchain import WeaveTracer
 from langchain_core.prompts import PromptTemplate
@@ -114,14 +114,14 @@ llm_chain = prompt | llm
 
 output = llm_chain.invoke({"number": 2}, config=config) # <-- active le tracing uniquement pour cet appel de chaîne.
 
-llm_chain.invoke({"number": 4})  # <-- le tracing ne sera pas activé pour les appels langchain, mais les appels openai seront toujours tracés
+llm_chain.invoke({"number": 4})  # <-- le tracing ne sera pas activé pour les appels langchain, mais les appels openai seront tout de même tracés
 ```
 
 <div id="using-weave_tracing_enabled-context-manager">
   ### Utilisation du gestionnaire de contexte `weave_tracing_enabled`
 </div>
 
-Vous pouvez également utiliser le gestionnaire de contexte `weave_tracing_enabled` pour activer Tracing sur des blocs de code spécifiques.
+Vous pouvez également utiliser le gestionnaire de contexte `weave_tracing_enabled` pour activer le tracing dans des blocs de code spécifiques.
 
 ```python lines {11,18}
 import os
@@ -152,7 +152,7 @@ llm_chain.invoke({"number": 4})  # <-- le tracing ne sera pas activé pour les a
   ## Configuration
 </div>
 
-Lorsque vous appelez `weave.init`, le tracing est activé en définissant la variable d&#39;environnement `WEAVE_TRACE_LANGCHAIN` sur `"true"`. Cela permet à Weave de capturer automatiquement les traces de vos applications LangChain. Si vous souhaitez désactiver ce comportement, définissez la variable d&#39;environnement sur `"false"`.
+Lorsque vous appelez `weave.init()`, le tracing est activé en définissant la variable d&#39;environnement `WEAVE_TRACE_LANGCHAIN` sur `"true"`. Cela permet à Weave de capturer automatiquement les traces de vos applications LangChain. Si vous souhaitez désactiver ce comportement, définissez la variable d&#39;environnement sur `"false"`.
 
 <div id="relation-to-langchain-callbacks">
   ## Lien avec les callbacks de LangChain
@@ -194,7 +194,7 @@ import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
-# Initialisez Weave avec le nom de votre projet
+# Initialiser Weave avec le nom de votre projet
 weave.init("langchain_demo")
 
 class ExtractFruitsModel(weave.Model):
@@ -223,7 +223,7 @@ sentence = "There are many fruits that were found on the recently discovered pla
 
 prediction = asyncio.run(model.predict(sentence))
 
-# si vous êtes dans un Jupyter Notebook, exécutez :
+# si vous utilisez un Jupyter Notebook, exécutez :
 # prediction = await model.predict(sentence)
 
 print(prediction)

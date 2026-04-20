@@ -16,7 +16,7 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
 
 ```python
 os.environ["WANDB_PROJECT"] = "<my-amazing-project>"  # W&B 프로젝트 이름 지정
-os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # 모든 모델 체크포인트 로깅
+os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # 모든 모델 체크포인트 로그
 
 from transformers import TrainingArguments, Trainer
 
@@ -28,9 +28,7 @@ trainer = Trainer(..., args=args)
   <img src="/images/integrations/huggingface_gif.gif" alt="HuggingFace 대시보드" />
 </Frame>
 
-<Note>
-  바로 실행해 볼 수 있는 코드부터 보고 싶다면, 이 [Google Colab](https://wandb.me/hf)을 확인하세요.
-</Note>
+<Note>바로 실행해 볼 수 있는 코드부터 보고 싶다면, 이 [Google Colab](https://wandb.me/hf)을 확인하세요.</Note>
 
 <div id="get-started-track-experiments">
   ## 시작하기: 실험 추적하기
@@ -132,9 +130,9 @@ W&amp;B 프로젝트는 관련 run에서 로깅된 모든 차트, 데이터, 모
   ### 트레이닝 run을 W&amp;B에 로깅하기
 </div>
 
-코드에서든 명령줄에서든 `Trainer`의 트레이닝 매개변수를 정의할 때 **가장 중요한 단계는** W&amp;B 로깅을 활성화할 수 있도록 `report_to`를 `"wandb"`로 설정하는 것입니다.
+코드에서든 명령줄에서든 `Trainer`의 트레이닝 인수를 정의할 때 **가장 중요한 단계는** W&amp;B 로깅을 활성화할 수 있도록 `report_to`를 `"wandb"`로 설정하는 것입니다.
 
-`TrainingArguments`의 `logging_steps` 매개변수는 트레이닝 중 트레이닝 메트릭이 W&amp;B에 얼마나 자주 전송되는지를 제어합니다. `run_name` 매개변수를 사용해 W&amp;B에서 트레이닝 run의 이름을 지정할 수도 있습니다.
+`TrainingArguments`의 `logging_steps` 인수는 트레이닝 중 트레이닝 메트릭이 W&amp;B에 얼마나 자주 전송되는지를 제어합니다. `run_name` 인수를 사용해 W&amp;B에서 트레이닝 run의 이름을 지정할 수도 있습니다.
 
 이제 끝입니다. 이제 모델이 트레이닝되는 동안 loss, 평가 메트릭, 모델 토폴로지, 그라디언트를 W&amp;B에 로깅합니다.
 
@@ -144,7 +142,7 @@ W&amp;B 프로젝트는 관련 run에서 로깅된 모든 차트, 데이터, 모
     python run_glue.py \     # Python 스크립트 실행
       --report_to wandb \    # W&B 로깅 활성화
       --run_name bert-base-high-lr \   # W&B run 이름(선택)
-      # 여기에 다른 명령줄 매개변수
+      # 여기에 다른 명령줄 인수
     ```
   </Tab>
 
@@ -152,19 +150,18 @@ W&amp;B 프로젝트는 관련 run에서 로깅된 모든 차트, 데이터, 모
     ```python
     from transformers import TrainingArguments, Trainer
 
-    args = TrainingArguments(
-        # 여기에 다른 args 및 kwargs
-        report_to="wandb",  # W&B 로깅 활성화
-        run_name="bert-base-high-lr",  # W&B run 이름(선택)
-        logging_steps=1,  # W&B에 로깅하는 빈도
+    args = TrainingArguments( # 여기에 다른 인수와 kwargs
+    report_to="wandb", # W&B 로깅 활성화
+    run_name="bert-base-high-lr", # W&B run 이름(선택)
+    logging_steps=1, # W&B에 얼마나 자주 로깅할지
     )
 
-    trainer = Trainer(
-        # 여기에 다른 args 및 kwargs
-        args=args,  # 트레이닝 args
+    trainer = Trainer( # 여기에 다른 인수와 kwargs
+    args=args, # 트레이닝 인수
     )
 
-    trainer.train()  # 트레이닝 및 W&B 로깅 시작
+    trainer.train() # 트레이닝과 W&B 로깅 시작
+
     ```
   </Tab>
 </Tabs>
@@ -172,6 +169,9 @@ W&amp;B 프로젝트는 관련 run에서 로깅된 모든 차트, 데이터, 모
 <Note>
   TensorFlow를 사용하시나요? PyTorch `Trainer`를 TensorFlow `TFTrainer`로 바꾸기만 하면 됩니다.
 </Note>
+
+```
+```
 
 <div id="turn-on-model-checkpointing">
   ### 모델 체크포인트 저장 사용 설정
@@ -246,9 +246,9 @@ Jupyter 또는 Google Colab 노트북을 사용하는 경우에는 `run.finish()
 
 ```python
 run = wandb.init()
-trainer.train()  # 트레이닝 시작 및 W&B에 로깅
+trainer.train()  # W&B에 트레이닝 및 로깅 시작
 
-# 트레이닝 후 분석, 테스트, 기타 로깅된 코드
+# 사후학습(Post-training) 분석, 테스트, 기타 로깅 코드
 
 run.finish()
 ```
@@ -285,7 +285,7 @@ run.finish()
 ```python
 # 새 run 생성
 with wandb.init(project="amazon_sentiment_analysis") as run:
-    # Artifact의 이름과 버전 전달
+    # 아티팩트의 이름과 버전 전달
     my_model_name = "model-bert-base-high-lr:latest"
     my_model_artifact = run.use_artifact(my_model_name)
 
@@ -316,39 +316,39 @@ with wandb.init(
     id=last_run_id,
     resume="must",
 ) as run:
-    # run에 Artifact를 연결합니다
+    # run에 아티팩트를 연결합니다
     my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
     my_checkpoint_artifact = run.use_artifact(my_model_name)
 
-    # checkpoint를 폴더에 다운로드하고 경로를 반환합니다
+    # 체크포인트를 폴더에 다운로드하고 경로를 반환합니다
     checkpoint_dir = my_checkpoint_artifact.download()
 
     # 모델과 trainer를 다시 초기화합니다
     model = AutoModelForSequenceClassification.from_pretrained(
         "<model_name>", num_labels=num_labels
     )
-    # 트레이닝 매개변수를 여기에 입력하세요.
+    # 트레이닝 인수를 여기에 입력하세요.
     training_args = TrainingArguments()
 
     trainer = Trainer(model=model, args=training_args)
 
-    # checkpoint 디렉터리를 사용하여 checkpoint에서 트레이닝을 재개해야 합니다
+    # 체크포인트에서 트레이닝을 재개하려면 반드시 체크포인트 디렉토리를 사용하세요
     trainer.train(resume_from_checkpoint=checkpoint_dir)
 ```
 
 <div id="how-do-i-log-and-view-evaluation-samples-during-training">
-  ### 트레이닝 중 평가 샘플을 로그하고 확인하려면 어떻게 해야 하나요
+  ### 트레이닝 중 평가 샘플을 로깅하고 확인하려면 어떻게 해야 하나요
 </div>
 
 Transformers `Trainer`를 통해 W&amp;B에 로깅하는 작업은 Transformers 라이브러리의 [`WandbCallback`](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback)에서 처리합니다. Hugging Face 로깅을 사용자 지정해야 하는 경우, `WandbCallback`을 서브클래싱하고 Trainer 클래스의 추가 기능을 활용하는 기능을 덧붙여 이 콜백을 수정할 수 있습니다.
 
-아래에는 이 새 콜백을 HF Trainer에 추가하는 일반적인 패턴이 나와 있으며, 더 아래에는 평가 출력을 W&amp;B Table에 로그하는 전체 코드 예제가 나와 있습니다:
+아래에는 이 새 콜백을 HF Trainer에 추가하는 일반적인 패턴이 나와 있으며, 더 아래에는 평가 출력을 W&amp;B Table에 로깅하는 전체 코드 예제가 나와 있습니다:
 
 ```python
 # 평소와 같이 Trainer를 인스턴스화합니다
 trainer = Trainer()
 
-# 새 logging 콜백을 인스턴스화하고 Trainer 객체를 전달합니다
+# 새 로깅 콜백을 인스턴스화하고 Trainer 객체를 전달합니다
 evals_callback = WandbEvalsCallback(trainer, tokenizer, ...)
 
 # Trainer에 콜백을 추가합니다
@@ -362,14 +362,14 @@ trainer.train()
   #### 트레이닝 중 평가 샘플 보기
 </div>
 
-다음 섹션에서는 트레이닝 중에 모델 예측을 실행하고 평가 샘플을 W&amp;B Table에 log하도록 `WandbCallback`을 사용자 지정하는 방법을 보여줍니다. `eval_steps`마다 Trainer 콜백의 `on_evaluate` 방법을 사용합니다.
+다음 섹션에서는 트레이닝 중에 모델 예측을 실행하고 평가 샘플을 W&amp;B Table에 로깅하도록 `WandbCallback`을 사용자 지정하는 방법을 보여줍니다. `eval_steps`마다 Trainer 콜백의 `on_evaluate` 방법을 사용합니다.
 
 여기서는 tokenizer를 사용해 모델 출력의 예측과 레이블을 디코딩하는 `decode_predictions` 함수를 작성합니다.
 
 그런 다음 예측과 레이블로 pandas 데이터프레임을 만들고, 데이터프레임에 `epoch` column을 추가합니다.
 
-마지막으로 데이터프레임으로 `wandb.Table`을 생성하고 이를 wandb에 log합니다.
-또한 `freq` 에포크마다 예측을 log하여 로깅 빈도를 제어할 수 있습니다.
+마지막으로 데이터프레임으로 `wandb.Table`을 생성하고 이를 wandb에 로깅합니다.
+또한 `freq` 에포크마다 예측을 로깅하여 로깅 빈도를 제어할 수 있습니다.
 
 **참고**: 일반 `WandbCallback`과 달리, 이 맞춤형 콜백은 `Trainer` 초기화 중이 아니라 `Trainer`가 인스턴스화된 **후에** trainer에 추가해야 합니다.
 이는 초기화 시 `Trainer` 인스턴스가 콜백에 전달되기 때문입니다.
@@ -387,18 +387,17 @@ def decode_predictions(tokenizer, predictions):
 
 
 class WandbPredictionProgressCallback(WandbCallback):
-    """트레이닝 중 모델 예측을 기록하는 맞춤형 WandbCallback.
+    """트레이닝 중 모델 예측을 로깅하는 맞춤형 WandbCallback.
 
-    이 콜백은 트레이닝 중 각 logging step마다 모델 예측과 레이블을 wandb.Table에 기록합니다.
+    이 콜백은 트레이닝 중 각 로깅 단계에서 모델 예측과 레이블을 wandb.Table에 로깅합니다.
     트레이닝이 진행됨에 따라 모델 예측을 시각화할 수 있습니다.
 
     Attributes:
         trainer (Trainer): Hugging Face Trainer 인스턴스.
-        tokenizer (AutoTokenizer): 모델과 연결된 토크나이저.
+        tokenizer (AutoTokenizer): 모델과 연결된 tokenizer.
         sample_dataset (Dataset): 예측 생성을 위한 검증 데이터셋의 서브셋.
-        num_samples (int, 선택): 예측 생성을 위해 검증 데이터셋에서
-          선택할 샘플 수. 기본값은 100.
-        freq (int, 선택): 로깅 빈도. 기본값은 2.
+        num_samples (int, optional): 예측 생성을 위해 검증 데이터셋에서 선택할 샘플 수. 기본값은 100.
+        freq (int, optional): 로깅 빈도. 기본값은 2.
     """
 
     def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
@@ -406,11 +405,11 @@ class WandbPredictionProgressCallback(WandbCallback):
 
         Args:
             trainer (Trainer): Hugging Face Trainer 인스턴스.
-            tokenizer (AutoTokenizer): 모델과 연결된 토크나이저.
+            tokenizer (AutoTokenizer): 모델과 연결된 tokenizer.
             val_dataset (Dataset): 검증 데이터셋.
-            num_samples (int, 선택): 예측 생성을 위해 검증 데이터셋에서
-              선택할 샘플 수. 기본값은 100.
-            freq (int, 선택): 로깅 빈도. 기본값은 2.
+            num_samples (int, optional): 예측 생성을 위해 검증 데이터셋에서 선택할 샘플 수.
+              기본값은 100.
+            freq (int, optional): 로깅 빈도. 기본값은 2.
         """
         super().__init__()
         self.trainer = trainer
@@ -420,17 +419,17 @@ class WandbPredictionProgressCallback(WandbCallback):
 
     def on_evaluate(self, args, state, control, **kwargs):
         super().on_evaluate(args, state, control, **kwargs)
-        # `freq` 에포크마다 예측을 기록하여 로깅 빈도를 제어합니다
+        # `freq` 에포크마다 예측을 로깅하여 로깅 빈도를 제어합니다
         if state.epoch % self.freq == 0:
             # 예측 생성
             predictions = self.trainer.predict(self.sample_dataset)
-            # 예측 및 레이블 디코딩
+            # 예측과 레이블 디코딩
             predictions = decode_predictions(self.tokenizer, predictions)
             # wandb.Table에 예측 추가
             predictions_df = pd.DataFrame(predictions)
             predictions_df["epoch"] = state.epoch
             records_table = self._wandb.Table(dataframe=predictions_df)
-            # wandb에 테이블 기록
+            # wandb에 테이블 로깅
             self._wandb.log({"sample_predictions": records_table})
 
 
@@ -489,10 +488,10 @@ trainer.add_callback(progress_callback)
 </Tabs>
 
 <div id="how-do-i-customize-wandbinit">
-  ### `wandb.init`를 어떻게 사용자 지정하나요?
+  ### `wandb.init()`를 어떻게 사용자 지정하나요?
 </div>
 
-`Trainer`가 사용하는 `WandbCallback`은 `Trainer`가 초기화되면 내부적으로 `wandb.init`를 호출합니다. 또는 `Trainer`를 초기화하기 전에 `wandb.init`를 호출해 run을 수동으로 설정할 수도 있습니다. 이렇게 하면 W&amp;B run 설정을 완전히 제어할 수 있습니다.
+`Trainer`가 사용하는 `WandbCallback`은 `Trainer`가 초기화되면 내부적으로 `wandb.init()`를 호출합니다. 또는 `Trainer`를 초기화하기 전에 `wandb.init()`를 호출해 run을 수동으로 설정할 수도 있습니다. 이렇게 하면 W&amp;B run 설정을 완전히 제어할 수 있습니다.
 
 `init`에 전달할 수 있는 항목의 예시는 아래와 같습니다. `wandb.init()`의 자세한 내용은 [`wandb.init()` 레퍼런스](/ko/models/ref/python/functions/init)를 참조하세요.
 

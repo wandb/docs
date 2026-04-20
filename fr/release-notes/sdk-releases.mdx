@@ -7,6 +7,52 @@ rss: true
 
 Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`). Pour W&amp;B Server, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
 
+<Update label="0.26.0" description="13 avril 2026">
+  ## Modifications notables
+
+  Cette version met fin à la compatibilité avec les versions de Server antérieures à 0.63.0 pour les déploiements W&amp;B en Cloud dédié et Autogéré.
+
+  ## Ajouts
+
+  * Les commandes `wandb beta core start|stop` lancent un service `wandb-core` détaché et le réutilisent entre plusieurs processus via la variable d&#39;environnement `WANDB_SERVICE`.
+  * Le décorateur `@wandb_log` ajoute la prise en charge de Kubeflow Pipelines v2 (`kfp>=2.0.0`).
+  * Définissez la propriété `wandb.Settings(allow_media_symlink=true)` pour créer un lien vers les fichiers multimédias dans le répertoire d&#39;exécution au lieu de les copier. Cela améliore les performances et économise de l&#39;espace disque. Un lien symbolique est utilisé si le système de fichiers le prend en charge. Si ce n&#39;est pas le cas, comme sous Windows, un lien physique est utilisé à la place. Le SDK ne vérifie pas si le fichier multimédia a été modifié localement avant son téléversement.
+  * Utilisez la méthode `run.pin_config_keys(keys)` pour épingler par programmation certaines clés de configuration afin de les afficher dans la section **References** de la page **Run Overview**.
+  * Les méthodes `Sweep.agent().Runs()` et `Sweep.agents().Runs()` renvoient les détails des exécutions d&#39;un sweep en cours sur un agent donné ou sur l&#39;ensemble des agents.
+  * Sur l&#39;infrastructure Google TPU, le SDK tente de collecter de nouvelles métriques telles que `tensorcore_util` et des distributions de latence, en plus de `duty_cycle_pct` et `hbm_capacity_total`/`hbm_capacity_usage`. Voir [TPU monitoring library: Supported metrics](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library#list-all-supported-metric-names) dans la documentation Google Cloud.
+  * Sur les GPU Nvidia Hopper+ (H100 et versions ultérieures), les métriques de profilage NVML GPU Performance Monitoring sont collectées, offrant une meilleure visibilité sur l&#39;utilisation des SM, l&#39;activité des pipelines tensor/FP, la bande passante DRAM et le débit PCIe/NVLink, sans exécuter le démon DCGM.
+  * Mises à jour de l&#39;interface TUI `wandb beta leet` :
+    * Prise en charge de l&#39;affichage des tags et des notes dans l&#39;aperçu de l&#39;exécution.
+    * Prise en charge du filtrage des exécutions par métadonnées en mode espace de travail multi-exécutions à l&#39;aide du raccourci clavier `f`.
+    * Prise en charge de l&#39;affichage des données `wandb.Image` sous forme de vignettes ANSI, avec disposition en grille, défilement sur l&#39;axe X, mode plein écran et navigation au clavier ou au pointeur.
+    * Parcourez les modes d&#39;affichage suivants dans un graphique individuel à l&#39;aide du raccourci clavier `y` :
+      * Appuyez une fois pour activer l&#39;affichage en échelle logarithmique sur l&#39;axe Y.
+      * Pour les métriques système comme l&#39;utilisation du GPU exprimée en pourcentage, appuyez de nouveau pour désactiver l&#39;échelle logarithmique et activer le mode carte thermique par compartiments.
+      * Appuyez encore une fois pour revenir au mode d&#39;affichage par défaut.
+    * Nouveau mode autonome de surveillance du système : `wandb beta leet symon`.
+    * Nouveaux jeux de couleurs adaptés au daltonisme :
+
+      * `dusk-shore` : dégradé sienne/bleu/gris, adapté au mode mono-exécution par graphique.
+      * `clear-signal` : thème sienne/bleu/gris avec couleurs entrelacées pour maximiser la différenciation entre séries adjacentes.
+
+      Configurez-les avec `wandb beta leet config`.
+
+  ## Modifications
+
+  * La sérialisation et la désérialisation JSON utilisent désormais `orjson` pour améliorer les performances.
+  * Observabilité améliorée des métriques système dans l&#39;interface TUI `wandb beta leet`, avec superpositions multi-séries, inspection et zoom en direct/historique.
+  * Réduction du risque de collision entre les couleurs de base des exécutions dans `wandb beta leet`. Désormais, un allocateur de couleurs d&#39;exécution à l&#39;échelle de l&#39;espace de travail préserve l&#39;affinité de la palette hachée et résout les collisions avec des variantes HSL proches.
+
+  ## Correctifs
+
+  * Correction d&#39;un bug où, si aucune branche de suivi amont n&#39;était définie, le SDK ne créait pas de fichier `.patch` `git diff` entre la branche locale et la branche amont la plus proche. Pour activer ce correctif, transmettez la propriété `wandb.Settings(disable_git_fork_point=False)`. Voir [Settings()](/fr/models/ref/python/experiments/settings).
+  * Correction d&#39;un bug où `update_automation()` pouvait supprimer silencieusement des filtres d&#39;événements, comme des conditions d&#39;alias sur `OnAddArtifactAlias`, lorsqu&#39;un nouvel événement était fourni.
+  * Correction d&#39;un bug pouvant provoquer des collisions d&#39;ID client d&#39;artifact dans des processus enfants issus d&#39;un fork en réinitialisant le générateur d&#39;ID rapide après `fork()`.
+  * Correction d&#39;un bug où la variable d&#39;environnement `WANDB__EXTRA_HTTP_HEADERS` n&#39;était pas appliquée aux requêtes de téléversement et de téléchargement présignées vers le stockage d&#39;objets.
+  * Correction d&#39;un interblocage dans `artifact.download()` pour les artifacts contenant de nombreux fichiers volumineux.
+  * Correction d&#39;un bug où `User.generate_api_key()` pouvait ne pas parvenir à récupérer la liste des noms de clés API existants.
+</Update>
+
 <Update label="0.25.1" description="10 mars 2026">
   ## Ajouts
 
@@ -14,7 +60,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Nouveau panneau des métriques système dans le mode Workspace multi-run de la commande `wandb beta leet`. Basculez avec `s`.
   * La commande `wandb beta leet` prend désormais en charge le filtrage des métriques système. Basculez avec `\`.
   * `ArtifactType.collections()` prend désormais en charge le filtrage et le tri des collections.
-  * Un avertissement est désormais enregistré si `run.log_artifact` ne crée pas de nouvelle version parce que le contenu de l&#39;artifact est identique à celui d&#39;une version existante.
+  * Un avertissement est désormais enregistré si `run.log_artifact()` ne crée pas de nouvelle version parce que le contenu de l&#39;artifact est identique à celui d&#39;une version existante.
   * La nouvelle méthode `Project.collections()` récupère les collections d&#39;artifacts filtrées et triées dans un projet.
   * La nouvelle commande CLI `wandb purge-cache` nettoie les fichiers mis en cache.
 
@@ -131,7 +177,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * L&#39;instanciation des objets `Artifact` est désormais nettement plus rapide.
   * `wandb.Run.save()` se rabat désormais sur les liens physiques et, si nécessaire, sur la copie (en rétrogradant la politique de fichier &#39;live&#39; à &#39;now&#39;, le cas échéant) lorsque les liens symboliques sont désactivés ou indisponibles (par ex., entre volumes ou sans Developer Mode sur Windows).
   * Les alias des collections d&#39;artefacts sont désormais récupérés à la demande lors de l&#39;accès à `ArtifactCollection.aliases`, plutôt qu&#39;à l&#39;instanciation de `ArtifactCollection`, ce qui améliore les performances de `Api.artifact_collections()`, `Api.registries().collections()`, etc.
-  * La clé API explicitement fournie dans `wandb.init(settings=wandb.Settings(api_key="..."))` est désormais utilisée pour la connexion. La clé du run est utilisée lors de l&#39;enregistrement d&#39;artefacts via `run.log_artifact`.
+  * La clé API explicitement fournie dans `wandb.init(settings=wandb.Settings(api_key="..."))` est désormais utilisée pour la connexion. La clé du run est utilisée lors de l&#39;enregistrement d&#39;artefacts via `run.log_artifact()`.
   * Le TUI W&amp;B LEET affiche correctement les valeurs négatives des graduations de l&#39;axe Y ainsi que les unités de base et d&#39;affichage de certaines métriques système.
   * Correction d&#39;une rare boucle infinie dans `console_capture.py`.
   * Le téléversement et le téléchargement de fichiers respectent désormais `WANDB_X_EXTRA_HTTP_HEADERS`, sauf pour les [artefacts de référence](/fr/models/artifacts/track-external-files).
@@ -319,7 +365,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   ## Suppressions
 
-  * Suppression de l’implémentation Python héritée du processus `service`. L’option `legacy-service` de `wandb.require`, ainsi que les paramètres `x_require_legacy_service` et `x_disable_setproctitle` et les variables d’environnement correspondantes, ont été supprimés et déclencheront désormais une erreur s’ils sont utilisés.
+  * Suppression de l’implémentation Python héritée du processus `service`. L’option `legacy-service` de `wandb.require()`, ainsi que les paramètres `x_require_legacy_service` et `x_disable_setproctitle` et les variables d’environnement correspondantes, ont été supprimés et déclencheront désormais une erreur s’ils sont utilisés.
 
   * Suppression de l’attribut privé `wandb.Run._metadata`. Pour surcharger les nombres de CPU et de GPU détectés automatiquement, ainsi que le type de GPU, utilisez les nouveaux paramètres `x_stats_{cpu_count,cpu_logical_count,gpu_count,gpu_type}`.
 
@@ -340,9 +386,9 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   * `wandb.Image()` ne fonctionnait plus dans la version 0.20.0 lorsqu’on lui fournissait des tableaux NumPy avec des valeurs dans la plage [0, 1] ; c’est désormais corrigé.
 
-  * wandb.Table : ajout d’un nouveau paramètre de constructeur, `log_mode`, avec les options `"IMMUTABLE"` et `"MUTABLE"`. Le mode de journalisation `IMMUTABLE` (par défaut) correspond au comportement existant, qui permet de journaliser un tableau une seule fois. Le mode de journalisation `MUTABLE` permet de journaliser à nouveau le tableau s’il a été modifié. (@domphan-wandb in https://github.com/wandb/wandb/pull/9758)
+  * wandb.Table : ajout d’un nouveau paramètre de constructeur, `log_mode`, avec les options `"IMMUTABLE"` et `"MUTABLE"`. Le mode de journalisation `IMMUTABLE` (par défaut) correspond au comportement existant, qui permet de journaliser un tableau une seule fois. Le mode de journalisation `MUTABLE` permet de journaliser à nouveau le tableau s’il a été modifié. (@domphan-wandb in [https://github.com/wandb/wandb/pull/9758](https://github.com/wandb/wandb/pull/9758))
 
-  * wandb.Table : ajout d’un nouveau `log_mode`, `"INCREMENTAL"`, qui journalise de manière incrémentielle les nouvelles données ajoutées au tableau. (@domphan-wandb in https://github.com/wandb/wandb/pull/9810)
+  * wandb.Table : ajout d’un nouveau `log_mode`, `"INCREMENTAL"`, qui journalise de manière incrémentielle les nouvelles données ajoutées au tableau. (@domphan-wandb in [https://github.com/wandb/wandb/pull/9810](https://github.com/wandb/wandb/pull/9810))
 
   Consultez le [journal des modifications v0.20.1](https://github.com/wandb/wandb/releases/tag/v0.20.1) sur GitHub.
 </Update>
@@ -430,31 +476,31 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 <Update label="v0.19.10" description="22 avril 2025">
   ## Ajouts
 
-  * Le nouveau paramètre `reinit="create_new"` fait que `wandb.init()` crée un nouveau run même si d&#39;autres runs sont actifs, sans terminer les autres runs (contrairement à `reinit="finish_previous"`). Cela deviendra à terme le comportement par défaut.
-  * Ajout de `Artifact.history_step` pour renvoyer l&#39;étape de run la plus proche à laquelle des métriques d&#39;historique ont été enregistrées pour le run source de l&#39;artifact.
-  * Ajout de l&#39;indicateur `data_is_not_path` pour ignorer les vérifications de fichiers lors de l&#39;initialisation de `wandb.Html` avec une chaîne pointant vers un fichier.
+  * Le nouveau paramètre `reinit="create_new"` fait que `wandb.init()` crée un nouveau run même si d’autres runs sont actifs, sans terminer les autres runs (contrairement à `reinit="finish_previous"`). Cela deviendra à terme la valeur par défaut.
+  * Ajout de `Artifact.history_step` pour renvoyer l’étape de run la plus proche à laquelle des métriques d’historique ont été enregistrées pour le run source de l’artifact.
+  * Ajout de l’indicateur `data_is_not_path` pour ignorer les vérifications de fichier lors de l’initialisation de `wandb.Html` avec une chaîne pointant vers un fichier.
 
   ## Modifications
 
-  * `Artifact.download()` ne lève plus d&#39;erreur lors de l&#39;utilisation de `WANDB_MODE=offline` ou lorsqu&#39;un run hors ligne existe.
+  * `Artifact.download()` ne lève plus d’erreur lors de l’utilisation de `WANDB_MODE=offline` ou lorsqu’un run hors ligne existe.
 
   ## Suppressions
 
-  * Suppression de l&#39;argument `-q` / `--quiet` de la commande magique `wandb` dans IPython / Jupyter ; utilisez plutôt le paramètre de run `quiet`.
+  * Suppression de l’argument `-q` / `--quiet` du magic `wandb` dans IPython / Jupyter ; utilisez plutôt le paramètre de run `quiet`.
 
   ## Obsolète
 
-  * Les méthodes `wandb.Run` suivantes sont obsolètes au profit de propriétés et seront supprimées dans une version future (@kptkin dans https://github.com/wandb/wandb/pull/8925) :.
+  * Les méthodes `wandb.Run` suivantes sont obsolètes au profit de propriétés et seront supprimées dans une prochaine version (@kptkin dans [https://github.com/wandb/wandb/pull/8925](https://github.com/wandb/wandb/pull/8925)) :
     * `run.project_name()` est obsolète au profit de `run.project`
     * La méthode `run.get_url()` est obsolète au profit de `run.url`
     * La méthode `run.get_project_url()` est obsolète au profit de `run.project_url`
     * La méthode `run.get_sweep_url()` est obsolète au profit de `run.sweep_url`
 
-  ## Correctifs
+  ## Corrections
 
-  * Correction d&#39;une `ValueError` sous Windows lors de l&#39;exécution d&#39;un script W&amp;B depuis un autre lecteur.
-  * Correction d&#39;un problème où le paramètre `base_url` n&#39;était pas fourni à `wandb.login`.
-  * `wandb.Html()` ne lève plus `IsADirectoryError` avec une valeur correspondant à un répertoire sur le système de l&#39;utilisateur.
+  * Correction d’une `ValueError` sous Windows lors de l’exécution d’un script W&amp;B depuis un autre lecteur.
+  * Correction d’un problème où le paramètre `base_url` n’était pas fourni à `wandb.login()`.
+  * `wandb.Html()` ne lève plus `IsADirectoryError` lorsqu’une valeur correspond à un répertoire sur le système de l’utilisateur.
 
   Consultez le [journal des modifications v0.19.10](https://github.com/wandb/wandb/releases/tag/v0.19.10) sur GitHub.
 </Update>
@@ -544,38 +590,38 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 </Update>
 
 <Update label="v0.19.5" description="29 janvier 2025">
-  ## Ajouté
+  ## Ajouts
 
   * Ajout de `wandb login --base-url {host_url}` comme alias de `wandb login --host {host_url}` pour se connecter.
 
-  ## Modifié
+  ## Modifications
 
   * Désactivation temporaire de la collecte des statistiques d’utilisation du CPU par cœur.
 
-  ## Corrigé
+  ## Corrections
 
-  * Correction d’un bug qui faisait que le mode `offline` envoyait des requêtes réseau lors de l’enregistrement d’Artifacts média. Si vous utilisez une ancienne version de W&amp;B Server qui ne prend pas en charge les uploads d’artifacts hors ligne, utilisez le paramètre `allow_offline_artifacts=False` pour revenir à l’ancien comportement compatible.
-  * Extension des règles d’assainissement du nom des artifacts de tableau enregistrés afin d’autoriser les traits d’union et les points. Cette mise à jour aligne ces règles sur les règles actuelles de nommage des artifacts. (Lettres, chiffres, underscores, traits d’union et points sont autorisés.)
+  * Correction d’un bug faisant que le mode `offline` effectuait des requêtes réseau lors du logging d’artifacts multimédias. Si vous utilisez une ancienne version du serveur W&amp;B qui ne prend pas en charge le téléversement d’artifacts hors ligne, utilisez le paramètre `allow_offline_artifacts=False` pour revenir à l’ancien comportement compatible.
+  * Extension des règles de nettoyage du nom d’un artifact de tableau enregistré afin d’autoriser les tirets et les points. Cette mise à jour aligne ces règles sur les règles actuelles des noms d’artifact. (Lettres, chiffres, underscores, tirets et points sont autorisés.)
   * Gestion correcte des paramètres de rembobinage de run `fork_from` et `resume_from`.
 
-  Voir le [journal des modifications v0.19.5](https://github.com/wandb/wandb/releases/tag/v0.19.5) sur GitHub.
+  Consultez le [journal des modifications v0.19.5](https://github.com/wandb/wandb/releases/tag/v0.19.5) sur GitHub.
 </Update>
 
 <Update label="v0.19.4" description="16 janvier 2025">
-  ## Corrigé
+  ## Corrections
 
-  * Correction des nombres de périphériques signalés de manière incorrecte et des mesures du cycle d’utilisation pour les TPU avec un seul périphérique par puce / plusieurs périphériques sur l’hôte, et amélioration de la robustesse de l’échantillonnage des métriques TPU.
-  * Gestion des ID de périphériques TPU non consécutifs dans le moniteur système.
+  * Correction des nombres d’appareils et des mesures de cycle d’activité signalés incorrectement pour les TPU avec un seul appareil par puce / plusieurs appareils sur l’hôte, et amélioration de la robustesse de l’échantillonnage des métriques TPU.
+  * Gestion des ID d’appareil TPU non consécutifs dans le moniteur système.
 
-  Voir le [journal des modifications v0.19.4](https://github.com/wandb/wandb/releases/tag/v0.19.4) sur GitHub.
+  Consultez le [journal des modifications v0.19.4](https://github.com/wandb/wandb/releases/tag/v0.19.4) sur GitHub.
 </Update>
 
 <Update label="v0.19.3" description="13 janvier 2025">
-  ## Corrigé
+  ## Corrections
 
-  * Correction d’une régression dans la mise à jour de `wandb.Settings` dans `wandb.integration.metaflow`.
+  * Correction d’une régression de mise à jour de `wandb.Settings` dans `wandb.integration.metaflow`.
 
-  Voir le [journal des modifications v0.19.3](https://github.com/wandb/wandb/releases/tag/v0.19.3) sur GitHub.
+  Consultez le [journal des modifications v0.19.3](https://github.com/wandb/wandb/releases/tag/v0.19.3) sur GitHub.
 </Update>
 
 <Update label="v0.19.2" description="07 janvier 2025">
@@ -615,45 +661,45 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 <Update label="v0.19.1" description="13 décembre 2024">
   ## Corrigé
 
-  * Correction d’un bug où la définition de `WANDB__SERVICE_WAIT` entraînait une exception pendant `wandb.init`.
+  * Correction d’un bug où la définition de WANDB&#95;&#95;SERVICE&#95;WAIT entraînait une exception pendant `wandb.init()`.
 
   ## Modifié
 
   * `run.finish()` affiche des informations plus détaillées dans le terminal et dans les notebooks Jupyter.
-  * Amélioration du message d’erreur pour les appels `tensorboard.patch()` qui échouent afin d’indiquer qu’il est possible d’appeler d’abord `tensorboard.unpatch()`.
+  * Amélioration du message d’erreur pour les appels à `tensorboard.patch()` qui échouent afin d’indiquer qu’il est possible d’appeler d’abord `tensorboard.unpatch()`.
   * Ajout de `projectId` à la mutation `deleteFiles` si le serveur le prend en charge.
 
   ## Sécurité
 
-  * Mise à niveau de `golang.org/x/crypto` vers la version 0.31.0 pour corriger la CVE-2024-45337.
+  * Mise à jour de `golang.org/x/crypto` vers la version 0.31.0 pour corriger CVE-2024-45337.
 
-  Consultez le [journal des modifications de la v0.19.1](https://github.com/wandb/wandb/releases/tag/v0.19.1) sur GitHub.
+  Voir le [journal des modifications v0.19.1](https://github.com/wandb/wandb/releases/tag/v0.19.1) sur GitHub.
 </Update>
 
 <Update label="v0.19.0" description="05 décembre 2024">
   ## Changements notables
 
   Cette version abandonne Python 3.7 et supprime la méthode `wandb.Run.plot_table`.
-  Cette version ajoute `pydantic>=2.6,&lt;33` comme dépendance.
+  Cette version ajoute pydantic&gt;=2.6,&lt;33 comme dépendance.
 
   ## Modifié
 
-  * Le comportement par défaut a été défini de sorte à ne pas créer de job W&amp;B.
-  * Ajout de `pydantic>=2.6,&lt;33` comme dépendance (@dmitryduev dans https://github.com/wandb/wandb/pull/8649 &amp; estellazx.
-    dans https://github.com/wandb/wandb/pull/8905)
+  * Le comportement par défaut a été modifié pour ne pas créer de W&amp;B Job.
+  * Ajout de pydantic&gt;=2.6,&lt;33 comme dépendance (@dmitryduev [https://github.com/wandb/wandb/pull/8649](https://github.com/wandb/wandb/pull/8649)649 &amp; estellazx.
+    [https://github.com/wandb/wandb/pull/8905](https://github.com/wandb/wandb/pull/8905)8905)
 
   ## Supprimé
 
-  * Suppression de la méthode `wandb.Run.plot_table`. La fonctionnalité reste disponible via `wandb.plot_table`, qui est désormais la méthode recommandée pour utiliser cette fonctionnalité.
+  * Suppression de la méthode `wandb.Run.plot_table`. La fonctionnalité est toujours disponible et doit être utilisée via `wandb.plot_table`, qui est désormais la méthode recommandée pour utiliser cette fonctionnalité.
   * Abandon de la prise en charge de Python 3.7.
 
   ## Corrigé
 
   * Correction du reporting `ultralytics` lorsqu’il n’y a aucun exemple positif dans un lot de validation.
-  * L’affichage de débogage de l’algorithme d’arrêt hyperband imprimait un caractère par ligne.
-  * Ajout de l’argument `log_params` manquant lors de l’appel de la fonction `wandb_callback` de lightgbm.
+  * Le journal de débogage de l’algorithme d’arrêt hyperband affichait un caractère par ligne.
+  * Inclusion de l’argument `log_params` manquant lors de l’appel de la fonction `wandb_callback` de lightgbm.
 
-  Consultez le [journal des modifications de la v0.19.0](https://github.com/wandb/wandb/releases/tag/v0.19.0) sur GitHub.
+  Voir le [journal des modifications v0.19.0](https://github.com/wandb/wandb/releases/tag/v0.19.0) sur GitHub.
 </Update>
 
 <Update label="v0.18.7" description="13 novembre 2024">
@@ -708,80 +754,80 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 </Update>
 
 <Update label="v0.18.4" description="17 octobre 2024">
-  ## Ajouts
+  ## Ajouté
 
-  * Suivi détaillé des métriques sur les systèmes Apple ARM, notamment l’utilisation du GPU, de l’eCPU et du pCPU, la consommation électrique, la température, ainsi que l’utilisation de la mémoire et du swap.
-  * Possibilité pour les utilisateurs de lier des Artifacts du registre sans avoir à saisir le nom de l’entité de l’organisation.
+  * Suivi détaillé des métriques pour les systèmes Apple ARM, notamment l’utilisation du GPU, de l’eCPU et du pCPU, la consommation d’énergie, la température, ainsi que l’utilisation de la mémoire et du swap.
+  * Permet aux utilisateurs de lier des artefacts du Registry sans avoir à saisir le nom de l’entité de l’organisation.
   * Ajout d’un message d’avertissement indiquant que l’argument `fps` sera ignoré lors de la création d’un objet `wandb.Video` à partir d’une chaîne représentant un chemin de fichier ou d’un objet bytes.
-  * Mise à jour des docstrings des méthodes `logged_artifacts` et `used_artifacts` de la classe `Run`.
+  * Mise à jour des docstrings pour les méthodes `logged_artifacts` et `used_artifacts` de la classe `Run`.
   * Le paramètre `_show_operation_stats` active un aperçu d’une meilleure expérience utilisateur pour `run.finish()`.
 
-  ## Correctifs
+  ## Corrigé
 
-  * Journalisation de la consommation électrique sur les GPU de la série AMD MI300X.
-  * Correction d’un problème de typage dans `wandb.Api`.
-  * Garantie que les objets artifact sont entièrement mis à jour lors de `Artifact.save()`.
+  * Journalisation de la consommation électrique sur les GPU AMD de la série MI300X.
+  * Correction d’un problème de typage de `wandb.Api`.
+  * Les objets artifact sont désormais entièrement mis à jour lors de `Artifact.save()`.
 
-  ## Modifications
+  ## Modifié
 
-  * Mise à jour de la version minimale de `sentry-sdk` vers 2.0.0 afin de résoudre les avertissements de dépréciation.
+  * Mise à jour de la version minimale de `sentry-sdk` vers 2.0.0 afin de corriger les avertissements d’obsolescence.
 
   Consultez le [journal des modifications de la v0.18.4](https://github.com/wandb/wandb/releases/tag/v0.18.4) sur GitHub.
 </Update>
 
 <Update label="v0.18.3" description="01 octobre 2024">
-  ## Ajouts
+  ## Ajouté
 
-  * Ajout de la possibilité de surveiller les métriques d’utilisation des appareils Cloud TPU de Google.
+  * Ajout de la possibilité de surveiller les métriques d’utilisation des accélérateurs Cloud TPU de Google.
 
-  ## Correctifs
+  ## Corrigé
 
   * Capture des statistiques des GPU Nvidia sous Windows.
-  * Correction d’une régression introduite dans la v0.18.2 qui affectait la capture des noms des GPU Nvidia.
-  * `run.log_artifact()` ne bloque plus les autres téléversements de données jusqu’à la fin du téléversement de l’artifact.
+  * Correction d’une régression introduite dans la v0.18.2 qui affectait la capture des noms des périphériques GPU Nvidia.
+  * `run.log_artifact()` ne bloque plus les autres téléversements de données jusqu’à la fin du téléversement de l’artefact.
   * Correction de la dépendance média pour rdkit, mise à jour de `rdkit-pypi` vers `rdkit`.
-  * L’enregistrement d’un artifact contenant de nombreux fichiers volumineux n’épuise plus les threads du système d’exploitation.
+  * L’enregistrement d’un artefact contenant de nombreux fichiers volumineux n’épuise plus les threads du système d’exploitation.
 
-  ## Modifications
+  ## Modifié
 
-  * Après `artifact = run.log_artifact()`, vous devez utiliser `artifact.wait()` avant toute opération qui dépend du téléversement de l’artifact. Auparavant, cela n’était pas nécessaire dans certains cas, car `run.log_artifact()` bloquait les autres opérations sur le run.
+  * Après `artifact = run.log_artifact()`, vous devez utiliser `artifact.wait()` avant les opérations qui dépendent du téléversement de l’artefact. Auparavant, cela n’était pas nécessaire dans certains cas, car `run.log_artifact()` bloquait les autres opérations sur le run.
 
   Consultez le [journal des modifications de la v0.18.3](https://github.com/wandb/wandb/releases/tag/v0.18.3) sur GitHub.
 </Update>
 
 <Update label="v0.18.2" description="27 septembre 2024">
-  ## Ajouts
+  ## Ajouté
 
   * Ajout de la méthode `upsert_run_queue` à `wandb.Api`.
   * Ajout du paramètre `tags` à `wandb.Api.artifacts()` pour filtrer les artifacts par tag.
 
-  ## Correctifs
+  ## Corrigé
 
-  * Mise à jour de la signature et de la docstring de `wandb.api.public.runs.Run.log_artifact()` pour prendre en charge les tags d’artifact comme pour les instances `Run` renvoyées par `wandb.init()`.
-  * Ajout d’une docstring à `wandb.watch` pour prendre en charge l’auto-complétion.
-  * Correction de la correspondance glob dans define metric pour qu’elle fonctionne avec les clés enregistrées contenant `/`.
-  * Autorisation de la syntaxe `a\.b` dans run.define&#95;metric pour se référer à un nom de métrique contenant des points.
+  * Mise à jour de la signature et de la docstring de `wandb.api.public.runs.Run.log_artifact()` afin de prendre en charge les tags d&#39;artifact, comme pour les instances de `Run` renvoyées par `wandb.init()`.
+  * Ajout d&#39;une docstring pour `wandb.watch()` afin de prendre en charge l&#39;auto-complétion.
+  * Correction de la correspondance glob dans define metric pour qu&#39;elle fonctionne avec les clés enregistrées contenant `/`.
+  * Autorise la syntaxe `a\.b` dans run.define&#95;metric() pour faire référence à un nom de métrique contenant des points.
     * REMARQUE : non corrigé si vous utilisez `wandb.require("legacy-service")`
-  * Correction de l’erreur de format d’image inconnu lors du téléversement d’un gif via tensorboard.
-  * Correction de `OSError` lors de l’appel de `Artifact.add_file` avec des chemins de fichier sur des systèmes de fichiers montés.
+  * Correction de l&#39;erreur Unknown image format lors du téléversement d&#39;un GIF via TensorBoard.
+  * Correction de l&#39;`OSError` provoquée par l&#39;appel à `Artifact.add_file()` avec des chemins de fichiers sur des systèmes de fichiers montés.
   * Compatibilité rétablie pour les versions de macOS &lt;== 10.15 pour wandb-core.
 
-  Consultez le [journal des modifications de la v0.18.2](https://github.com/wandb/wandb/releases/tag/v0.18.2) sur GitHub.
+  Consultez le [journal des modifications v0.18.2](https://github.com/wandb/wandb/releases/tag/v0.18.2) sur GitHub.
 </Update>
 
 <Update label="v0.18.1" description="16 septembre 2024">
-  ## Correctifs
+  ## Corrigé
 
-  * Autorisation pour tous les utilisateurs de lire les fichiers de cache lorsque core est activé.
-  * Les scalaires infinis enregistrés dans TensorBoard sont désormais téléversés correctement au lieu d’être ignorés.
-  * Prise en compte correcte de `WANDB_ERROR_REPORTING=false`. Cela corrige une régression introduite dans la 0.18.0.
+  * Autorise tous les utilisateurs à lire les fichiers de cache lorsque core est activé.
+  * Les scalaires infinis enregistrés dans TensorBoard sont téléversés correctement au lieu d&#39;être ignorés.
+  * Respecte correctement `WANDB_ERROR_REPORTING=false`. Cela corrige une régression introduite dans la version 0.18.0.
 
-  ## Modifications
+  ## Modifié
 
-  * Suppression de la journalisation sentry pour sendLinkArtifact.
-  * Capture par défaut de requirements.txt dans Run.log&#95;code.
+  * Suppression de la journalisation Sentry pour sendLinkArtifact.
+  * Capture de `requirements.txt` par défaut dans Run.log&#95;code.
 
-  Consultez le [journal des modifications de la v0.18.1](https://github.com/wandb/wandb/releases/tag/v0.18.1) sur GitHub.
+  Consultez le [journal des modifications v0.18.1](https://github.com/wandb/wandb/releases/tag/v0.18.1) sur GitHub.
 </Update>
 
 <Update label="v0.18.0" description="11 septembre 2024">
@@ -838,33 +884,33 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 </Update>
 
 <Update label="v0.17.7" description="15 août 2024">
-  ## Corrigé
+  ## Correctifs
 
-  * Garantit la capture des métriques GPU Nvidia si `libnvidia-ml.so` n&#39;est pas disponible lors de l&#39;utilisation de core.
-  * Autorise `define_metric("x", step_metric="x")` lors de l&#39;utilisation de core.
-  * Téléverse correctement les fichiers vides lors de l&#39;utilisation de core.
-  * Corrige la panique occasionnelle « send on closed channel » lors de la finalisation d&#39;un run avec core.
+  * Veille à ce que les métriques GPU Nvidia soient capturées si `libnvidia-ml.so` n’est pas disponible lors de l’utilisation de core.
+  * Autorise `define_metric("x", step_metric="x")` lors de l’utilisation de core.
+  * Téléverse correctement les fichiers vides lors de l’utilisation de core.
+  * Corrige une panique occasionnelle « send on closed channel » lors de la finalisation d’un run avec core.
 
   Consultez le [journal des modifications v0.17.7](https://github.com/wandb/wandb/releases/tag/v0.17.7) sur GitHub.
 </Update>
 
 <Update label="v0.17.6" description="08 août 2024">
-  ## Ajouté
+  ## Ajouts
 
-  * Spécifiez les schémas d&#39;entrée du job lors de l&#39;appel à manage&#95;config&#95;file ou manage&#95;wandb&#95;config afin d&#39;offrir une UI plus claire au lancement du job.
-  * Utilisation du système de fichiers plutôt que de messages protobuf pour transmettre au processus core les manifestes contenant plus de 100k entrées.
-  * Ajout du constructeur `box3d` pour `Box3D`.
+  * Permet de spécifier les schémas d’entrée du job lors de l’appel à manage&#95;config&#95;file ou manage&#95;wandb&#95;config afin d’obtenir une interface utilisateur plus agréable au lancement du job.
+  * Utilise le système de fichiers plutôt que des messages protobuf pour transporter les manifestes de plus de 100k entrées vers le processus core.
+  * Ajoute le constructeur `box3d` pour `Box3D`.
 
-  ## Modifié
+  ## Modifications
 
-  * `run.define_metric()` lève une erreur lorsqu&#39;on lui fournit des arguments superflus.
+  * `run.define_metric()` lève une erreur lorsqu’il reçoit des arguments superflus.
   * En mode désactivé, utilise la classe `wandb.sdk.wandb_run.Run` au lieu de `wandb.sdk.wandb_run.RunDisabled`, qui a été supprimée.
-  * Lorsque `WANDB_MODE = offline`, l&#39;appel à `artifact.download()` génère désormais une erreur au lieu de rester bloqué.
+  * Lorsque `WANDB_MODE = offline`, l’appel à `artifact.download()` génère désormais une erreur au lieu de rester bloqué.
 
-  ## Corrigé
+  ## Correctifs
 
-  * Gère correctement les stubs de répertoire lors de la journalisation d&#39;un artifact externe dans un compte de stockage Azure avec Hierarchical Namespace activé.
-  * Correction de la docstring dans `api.runs()` concernant l&#39;ordre de tri par défaut, omise dans https://github.com/wandb/wandb/pull/7675.
+  * Gère correctement les stubs de répertoire lors de la journalisation d’un artifact externe dans un compte de stockage Azure avec Hierarchical Namespace activé.
+  * Corrige la chaîne de documentation de `api.runs()` concernant l’ordre de tri par défaut, omise dans [https://github.com/wandb/wandb/pull/7675](https://github.com/wandb/wandb/pull/7675).
 
   Consultez le [journal des modifications v0.17.6](https://github.com/wandb/wandb/releases/tag/v0.17.6) sur GitHub.
 </Update>
@@ -915,18 +961,18 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 <Update label="v0.17.2" description="17 juin 2024">
   ## Ajouts
 
-  * Ajoute des Runs précédents lors de la création d’un balayage depuis le CLI.
+  * Ajout de runs antérieurs lors de la création d&#39;un sweep depuis la CLI.
 
-  ## Correctifs
+  ## Corrections
 
-  * Corrige des problèmes de prise en charge de `numpy>=2`.
-  * Corrige « UnicodeDecodeError: &#39;charmap&#39; » lors de l’ouverture de fichiers HTML sous Windows en spécifiant l’encodage UTF-8.
-  * Garantit que `Artifact.delete()` sur des Artifacts liés supprime uniquement le lien, et non l’artifact source.
-  * Les Runs de balayage n’apparaissent plus comme repris alors qu’ils ne le sont pas, par @TimH98 https://github.com/wandb/wandb/pull/7684.
+  * Corrige les problèmes de prise en charge de `numpy>=2`.
+  * Corrige « UnicodeDecodeError: &#39;charmap&#39; » lors de l&#39;ouverture de fichiers HTML sous Windows en spécifiant l&#39;encodage UTF-8.
+  * Garantit que `Artifact.delete()` sur des artifacts liés supprime uniquement le lien, et non l&#39;artifact source.
+  * Les runs de sweep n&#39;apparaissent plus comme repris lorsqu&#39;ils ne le sont pas, par @TimH98 [https://github.com/wandb/wandb/pull/7684](https://github.com/wandb/wandb/pull/7684).
 
   ## Modifications
 
-  * Met à niveau github.com/vektah/gqlparser/v2 de 2.5.11 vers 2.5.16.
+  * Met à niveau github.com/vektah/gqlparser/v2 de 2.5.11 à 2.5.16.
 
   Consultez le [journal des modifications v0.17.2](https://github.com/wandb/wandb/releases/tag/v0.17.2) sur GitHub.
 </Update>
@@ -949,18 +995,18 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   * Corrige le comportement de `define_metric` pour plusieurs métriques en mode `shared`.
   * Transmet correctement le nom du projet à l&#39;API interne depuis le run lors de l&#39;appel à run.use&#95;artifact().
-  * Téléverse correctement les fichiers journal de sortie de console lors de la reprise de runs activés avec le paramètre `console_multipart`, par @kptkin dans https://github.com/wandb/wandb/pull/7694 et @dmitryduev dans https://github.com/wandb/wandb/pull/7697.
-  * Interprète les chaînes non octales commençant par des zéros comme des chaînes, et non comme des entiers, dans les configurations de balayage, par @KyleGoyette https://github.com/wandb/wandb/pull/7649.
-  * Prend en charge le format d&#39;URI de dépôt Azure dans Launch, par @KyleGoyette https://github.com/wandb/wandb/pull/7664.
+  * Téléverse correctement les fichiers journal de sortie de console lors de la reprise de runs activés avec le paramètre `console_multipart`, par @kptkin dans [https://github.com/wandb/wandb/pull/7694](https://github.com/wandb/wandb/pull/7694) et @dmitryduev dans [https://github.com/wandb/wandb/pull/7697](https://github.com/wandb/wandb/pull/7697).
+  * Interprète les chaînes non octales commençant par des zéros comme des chaînes, et non comme des entiers, dans les configurations de balayage, par @KyleGoyette [https://github.com/wandb/wandb/pull/7649](https://github.com/wandb/wandb/pull/7649).
+  * Prend en charge le format d&#39;URI de dépôt Azure dans Launch, par @KyleGoyette [https://github.com/wandb/wandb/pull/7664](https://github.com/wandb/wandb/pull/7664).
   * Corrige l&#39;analyse des chemins pour les artifacts avec des alias contenant des barres obliques.
   * Ajoute les docstrings manquantes pour les méthodes publiques de la classe `Api`.
-  * Ajoute correctement l&#39;alias latest aux jobs créés par le générateur de jobs, par @KyleGoyette https://github.com/wandb/wandb/pull/7727.
+  * Ajoute correctement l&#39;alias latest aux jobs créés par le générateur de jobs, par @KyleGoyette [https://github.com/wandb/wandb/pull/7727](https://github.com/wandb/wandb/pull/7727).
 
   ## Modifications
 
   * Option permettant de modifier le schéma de nommage des journaux de sortie de console, de `output.log` à `logs/YYYYMMDD_HHmmss.ms_output.log`.
-  * Exige `unsafe=True` dans les appels à `use_model` susceptibles de charger et désérialiser des fichiers pickle non sûrs, par @anandwandb https://github.com/wandb/wandb/pull/7663.
-  * Met à jour l&#39;ordre dans api.runs() en ordre croissant afin d&#39;éviter les réponses dupliquées, par @thanos-wandb https://github.com/wandb/wandb/pull/7675.
+  * Exige `unsafe=True` dans les appels à `use_model` susceptibles de charger et désérialiser des fichiers pickle non sûrs, par @anandwandb [https://github.com/wandb/wandb/pull/7663](https://github.com/wandb/wandb/pull/7663).
+  * Met à jour l&#39;ordre dans api.runs() en ordre croissant afin d&#39;éviter les réponses dupliquées, par @thanos-wandb [https://github.com/wandb/wandb/pull/7675](https://github.com/wandb/wandb/pull/7675).
   * Élimine les erreurs d&#39;expiration des URL signées lors du téléversement de fichiers d&#39;artifact dans core.
 
   ## Obsolète
@@ -982,7 +1028,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Le package `wandb` inclut désormais le binaire `wandb-core`.
     * `wandb-core` est un nouveau backend amélioré pour le SDK W&amp;B, axé sur les performances, la polyvalence et la robustesse.
     * Pour l’instant, il s’active sur demande. Pour commencer à utiliser le nouveau backend, ajoutez `wandb.require("core")` à votre script après avoir importé `wandb`.
-  * `wandb-core` prend désormais en charge la mise en cache des fichiers Artifact par @moredatarequired dans https://github.com/wandb/wandb/pull/7364 et https://github.com/wandb/wandb/pull/7366.
+  * `wandb-core` prend désormais en charge la mise en cache des fichiers Artifact par @moredatarequired dans [https://github.com/wandb/wandb/pull/7364](https://github.com/wandb/wandb/pull/7364) et [https://github.com/wandb/wandb/pull/7366](https://github.com/wandb/wandb/pull/7366).
   * Ajout des méthodes artifact&#95;exists() et artifact&#95;collection&#95;exists() à Api pour vérifier si un artefact ou une collection existent.
   * `wandb launch -u <git-uri | local-path> ` crée et lance un job à partir du code source indiqué.
 
@@ -1028,8 +1074,8 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   * Correction de `run.save()` qui ne fonctionnait pas avec les fichiers à l’intérieur de `run.dir`, problème introduit dans la version précédente.
   * Correction d’une panique rare lors de l’upload d’artefacts volumineux.
-  * Correction de `wandb.login`, qui faisait que les runs n’étaient pas associés à la Launch queue.
-  * Correction du téléchargement du job artifact, qui échouait silencieusement et provoquait le plantage du run lors de l’utilisation de W&amp;B Launch par @KyleGoyette https://github.com/wandb/wandb/pull/7285.
+  * Correction de `wandb.login()` qui faisait que les runs n’étaient pas associés à la Launch queue.
+  * Correction du téléchargement du job artifact, qui échouait silencieusement et provoquait le plantage du run lors de l’utilisation de W&amp;B Launch par @KyleGoyette [https://github.com/wandb/wandb/pull/7285](https://github.com/wandb/wandb/pull/7285).
   * Correction de la gestion de l’enregistrement des fichiers d’entraînement dans Artifacts dans l’intégration OpenAI Fine-Tuning.
 
   Consultez le [journal des modifications v0.16.6](https://github.com/wandb/wandb/releases/tag/v0.16.6) sur GitHub.
@@ -1070,7 +1116,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Modifications
 
   * Wandb-core limite le débit des requêtes vers le backend et respecte les en-têtes RateLimit-*.
-    par @timoffex dans https://github.com/wandb/wandb/pull/7065
+    par @timoffex [https://github.com/wandb/wandb/pull/7065](https://github.com/wandb/wandb/pull/7065)065
 
   ## Corrections
 
@@ -1291,7 +1337,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Améliorations
 
   * Ajout de la prise en charge de l&#39;enregistrement du code en mode script.
-  * Ajout de la prise en charge de `policy=end` dans `wandb.save`.
+  * Ajout de la prise en charge de `policy=end` dans `wandb.save()`.
   * Ajout d&#39;informations système aux métadonnées.
   * Ajout d&#39;informations système sur les GPU NVIDIA aux métadonnées.
   * Suppression des files d&#39;attente de run via l&#39;API publique.
@@ -1351,7 +1397,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Activer les types set dans wandb.Config.
   * Visualiser les images avec des superpositions de bbox pour `ultralytics`.
   * Ajouter un utilitaire d&#39;échantillonnage à décroissance exponentielle pour line&#95;plot.
-  * Toujours afficher la trace de la pile dans le gestionnaire de contexte `wandb.init`.
+  * Toujours afficher la trace de la pile dans le gestionnaire de contexte `wandb.init()`.
   * Ajouter un paramètre pour désactiver la capture automatique des informations de la machine.
 
   ## Correctifs
@@ -1567,7 +1613,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 <Update label="v0.15.2" description="05 mai 2023">
   ## Correctifs
 
-  * Mettre à jour WandbTracer pour la nouvelle version de langchain par @parambharat @tssweeney dans https://github.com/wandb/wandb/pull/5467.
+  * Mettre à jour WandbTracer pour la nouvelle version de langchain par @parambharat @tssweeney dans [https://github.com/wandb/wandb/pull/5467](https://github.com/wandb/wandb/pull/5467).
   * Corriger le message d&#39;erreur dans la vérification de version de wandb&#95;tracer pour langchain.
 
   Consultez le [journal des modifications v0.15.2](https://github.com/wandb/wandb/releases/tag/v0.15.2) sur GitHub.
@@ -1587,14 +1633,14 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Correctifs
 
   * Ne pas supposer que les clés de args et de config désignent la même chose.
-  * Faire en sorte que l&#39;environnement ElasticContainerRegistry gère « ImageNotFoundException » correctement.
+  * Faire en sorte que l&#39;environnement ElasticContainerRegistry gère &quot;ImageNotFoundException&quot; correctement.
   * Désactiver les nouvelles tentatives du builder kaniko.
   * Affiner le message d&#39;erreur en cas d&#39;erreur d&#39;authentification.
   * Le runner Kubernetes ne respecte pas les arguments de surcharge.
   * Autoriser les attr-dicts comme configurations de Sweeps.
   * Calculer la somme de contrôle de la copie de staging en lecture seule au lieu du fichier original.
   * Ne pas récupérer les informations du run si le run se termine avec succès ou s&#39;il provient d&#39;une autre entité.
-  * Utiliser le projet « uncategorized » par défaut au lieu de « None » lors de la récupération des Artifacts.
+  * Utiliser le projet &quot;uncategorized&quot; par défaut au lieu de &quot;None&quot; lors de la récupération des Artifacts.
   * Ajouter une vérification de l&#39;activation à gym VideoRecorder.
   * Corriger la gestion du projet et de l&#39;entité par défaut.
   * Mettre à jour import&#95;hook.py avec les dernières modifications du dépôt wrapt.
@@ -1613,12 +1659,12 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Améliorations
 
   * Ajouter la prise en charge du type de média LangChain.
-  * Ajouter l&#39;autolog pour la bibliothèque Python d&#39;OpenAI par @dmitryduev @parambharat @kptkin @raubitsj dans https://github.com/wandb/wandb/pull/5362.
+  * Ajouter l&#39;autolog pour la bibliothèque Python d&#39;OpenAI par @dmitryduev @parambharat @kptkin @raubitsj dans [https://github.com/wandb/wandb/pull/5362](https://github.com/wandb/wandb/pull/5362).
 
   ## Correctifs
 
   * Ajouter un wrapper de signature de fonction aux méthodes openai patchées.
-  * Ajuster l&#39;API publique de l&#39;autolog OpenAI pour améliorer l&#39;expérience utilisateur par @dmitryduev @kptkin @raubitsj dans https://github.com/wandb/wandb/pull/5381.
+  * Ajuster l&#39;API publique de l&#39;autolog OpenAI pour améliorer l&#39;expérience utilisateur par @dmitryduev @kptkin @raubitsj dans [https://github.com/wandb/wandb/pull/5381](https://github.com/wandb/wandb/pull/5381).
 
   Consultez le [journal des modifications v0.15.0](https://github.com/wandb/wandb/releases/tag/v0.15.0) sur GitHub.
 </Update>
@@ -1838,7 +1884,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Ajouter `exist_ok=False` à `file.download()`.
   * Créer automatiquement des Artifacts de job à partir des runs avec les éléments requis.
   * Ajouter un schéma généralisé d&#39;injection de réponses pour les tests.
-  * Remplacer les `multiprocessing.Queue` par des `queue.Queue`.
+  * Remplacer multiprocessing.Queue&#39;s par queue.Queue&#39;s.
   * Utiliser le journal de transactions pour plafonner l&#39;utilisation de la mémoire.
   * Prendre en charge les métriques système pour AWS Trainium.
 
@@ -1855,7 +1901,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Artifact.version doit être l&#39;index de version de la collection associée.
   * Supprimer les fonctions generate&#95;id en double, remplacer shortuuid par secrets.
   * Corriger la vérification de type pour jax.Array introduit dans jax==0.4.1.
-  * Corriger le blocage après un échec de wandb.init (ajout de cancel).
+  * Corriger le blocage après un échec de wandb.init() (ajout de cancel).
   * Autoriser les utilisateurs à fournir le chemin vers des exécutables personnalisés.
   * Corriger le TypeError lors d&#39;une tentative de découpage d&#39;un objet Paginator.
   * Ajouter `AttributeError` à la liste des exceptions gérées lors de l&#39;enregistrement d&#39;un modèle keras.
@@ -2111,7 +2157,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Assainit les génériques numpy dans les clés.
   * Supprime la réaffectation de la fonction run dans l’API publique.
   * Rend facultative la récupération des sweeps lors de l’utilisation de l’API publique pour interroger les runs.
-  * Met à jour la documentation de référence pour `wandb.init` afin de fournir plus d’informations sur les caractères spéciaux.
+  * Met à jour la documentation de référence pour `wandb.init()` afin de fournir plus d’informations sur les caractères spéciaux.
 
   ## Correction de bugs
 
@@ -2351,7 +2397,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Correction de la prise en charge de plusieurs finish pour un single run avec wandb-service.
   * Correction des backtraces en double lors de l&#39;utilisation de wandb-service.
   * Correction de la mauvaise entité affichée dans le message de connexion.
-  * Correction du blocage lorsque `wandb.init` est interrompu au milieu de la configuration avec wandb-service.
+  * Correction du blocage lorsque `wandb.init()` est interrompu au milieu de la configuration avec wandb-service.
   * Correction de la gestion de l&#39;interruption clavier pour éviter les blocages lorsque wandb-service est activé.
   * Correction de la journalisation de la console avec des sorties print très longues lors de l&#39;utilisation de wandb-service.
   * Correction de la chaîne d&#39;artifact défectueuse dans la configuration d&#39;initialisation de launch.
@@ -2472,7 +2518,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   * Correction de wandb launch avec les versions de développement de Python.
   * Correction du chargement d’un tableau enregistré avec des types mixtes.
-  * Correction de ResourceWarning lors de l’appel à wandb.log.
+  * Correction de ResourceWarning lors de l’appel à `wandb.log()`.
   * Correction du curseur manquant dans ProjectArtifactCollections.
   * Correction d’un problème lié aux classes de journalisation de tableaux sous Windows.
   * Gestion correcte des libellés de chaîne dans wandb.sklearn.plot.classifier.calibration&#95;curve.
@@ -2526,7 +2572,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   * Correction d’un problème où le streaming des journaux de la console provoquait un trafic réseau excessif.
   * Metaflow : les dépendances facultatives sont désormais réellement facultatives.
-  * Correction des docstrings pour wandb.watch et ValidationDataLogger.
+  * Correction des docstrings pour `wandb.watch()` et ValidationDataLogger.
   * L’agent Launch n’envoie plus de runs vers un autre projet ou une autre entité.
   * Correction de la journalisation de pr&#95;curves via tensorboard.
   * La surveillance TPU n’indique plus de métriques invalides lorsqu’elles ne sont pas disponibles.
@@ -2730,7 +2776,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Bug Fix
 
   * Corrige un problème où wandb restore renvoyait une erreur 404 si le run n’avait pas de fichier diff.patch.
-  * Corrige un problème où wandb.log levait une exception après une tentative de journalisation d’un dataframe pandas.
+  * Corrige un problème où wandb.log() levait une exception après une tentative de journalisation d’un dataframe pandas.
   * Corrige un problème où des runs pouvaient être marqués comme terminés avant la fin du téléversement des fichiers.
 
   ## Amélioration
@@ -3407,7 +3453,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Correction de bugs
 
   * Corrige un problème où les fichiers étaient toujours enregistrés dans le dernier run d&#39;un projet.
-  * Corrige un problème où l&#39;URL affichée n&#39;apparaissait pas lors du premier appel à wandb.init.
+  * Corrige un problème où l&#39;URL affichée n&#39;apparaissait pas lors du premier appel à wandb.init().
 
   Voir le [changelog v0.9.1](https://github.com/wandb/wandb/releases/tag/v0.9.1) sur GitHub.
 </Update>
@@ -3438,7 +3484,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   * L&#39;enregistrement du code source brut est désormais désactivé par défaut.
   * Les paramètres globaux au démarrage sont désormais pris en charge pour activer l&#39;enregistrement du code sur le serveur.
-  * Nouvel argument `code_save=True` dans wandb.init pour activer manuellement l&#39;enregistrement du code.
+  * Nouvel argument `code_save=True` dans wandb.init() pour activer manuellement l&#39;enregistrement du code.
 
   Voir le [changelog v0.8.36](https://github.com/wandb/wandb/releases/tag/v0.8.36) sur GitHub.
 </Update>
@@ -3684,7 +3730,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   ## Correction de bug
 
-  * Épingle graphql-core &lt;  3.0.0 pour corriger les erreurs d&#39;installation.
+  * Épingle graphql-core &lt; 3.0.0 pour corriger les erreurs d&#39;installation.
   * Les barres de progression TQDM mettent correctement à jour les journaux.
   * Les journaux de summary ou d&#39;historique trop volumineux sont désormais ignorés, ce qui évite le blocage des nouvelles tentatives.
 
@@ -3703,8 +3749,8 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 <Update label="v0.8.15" description="05 novembre 2019">
   ## Correction de bug
 
-  * Corrige les appels multiples à wandb.init avec sync&#95;tensorboard dans Jupyter.
-  * Corrige une condition de concurrence RuntimeError lors de l&#39;utilisation de threads et de l&#39;appel à wandb.log.
+  * Corrige les appels multiples à wandb.init() avec sync&#95;tensorboard dans Jupyter.
+  * Corrige une condition de concurrence RuntimeError lors de l&#39;utilisation de threads et de l&#39;appel à wandb.log().
   * N&#39;initialise pas Sentry lorsque le signalement des erreurs est désactivé.
 
   ## Amélioration
@@ -3719,7 +3765,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Corrections de bugs
 
   * Amélioration de l&#39;avertissement sur les objets volumineux lorsque les valeurs atteignent la taille maximale.
-  * Avertit lorsque `wandb.save` ne reçoit pas de chaîne de caractères.
+  * Avertit lorsque `wandb.save()` ne reçoit pas de chaîne de caractères.
   * L&#39;arrêt des runs depuis l&#39;UI fonctionne à nouveau après la régression introduite en 0.8.12.
   * La restauration d&#39;un fichier déjà présent localement fonctionne.
   * Correction du problème où TensorBoard plaçait certaines clés à la mauvaise étape depuis la version 0.8.10.
@@ -3727,7 +3773,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * La détection de l&#39;environnement SageMaker est désormais plus robuste.
   * La reprise renseigne correctement la configuration.
   * `Wandb.restore` respecte `root` lorsque `run.dir` est défini #658.
-  * Appeler `wandb.watch` plusieurs fois attribue correctement un espace de noms aux histogrammes et aux graphes.
+  * Appeler `wandb.watch()` plusieurs fois attribue correctement un espace de noms aux histogrammes et aux graphes.
 
   ## Améliorations
 
@@ -3749,7 +3795,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Corrections de bugs
 
   * Crée un répertoire imbriqué lorsque des vidéos sont enregistrées depuis des espaces de noms TensorBoard.
-  * Corrige une condition de concurrence lors de l&#39;utilisation de `wandb.log` avec `async=True`.
+  * Corrige une condition de concurrence lors de l&#39;utilisation de `wandb.log()` avec `async=True`.
   * `Run.summary` se comporte désormais comme un véritable dictionnaire.
   * Les sous-dictionnaires de `Run.summary` ont désormais un rendu correct.
   * Gère `None` lors du passage de `class_colors` pour les masques de segmentation.
@@ -3764,11 +3810,11 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * `Wandb.init(config=config_dict)` ne met pas à jour les paramètres spécifiés par le sweep.
   * L&#39;objet `Wandb.config` dispose désormais d&#39;une méthode `setdefaults`, ce qui améliore la prise en charge des sweeps.
   * Amélioration du message dans le terminal et Jupyter avec des emojis !
-  * Permet d&#39;appeler `wandb.watch` plusieurs fois sur différents modèles.
+  * Permet d&#39;appeler `wandb.watch()` plusieurs fois sur différents modèles.
   * Amélioration de la prise en charge de la surveillance de plusieurs fichiers tfevent.
   * Windows ne nécessite plus `wandb run` : exécutez simplement `python script_name.py`.
   * `wandb agent` fonctionne désormais sous Windows.
-  * Message d&#39;erreur clair lorsque `wandb.log` est appelé sans `dict`.
+  * Message d&#39;erreur clair lorsque `wandb.log()` est appelé sans `dict`.
   * Le callback Keras inclut une nouvelle option `log_batch_frequency` pour journaliser les métriques tous les N lots.
 
   Consultez le [journal des modifications v0.8.13](https://github.com/wandb/wandb/releases/tag/v0.8.13) sur GitHub.
@@ -3814,15 +3860,15 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 
   ## Améliorations
 
-  * Sweeps peut désormais être exécuté depuis jupyter / directement depuis python ! https://docs.wandb.com/sweeps/python.
-  * La nouvelle intégration openai gym enregistre automatiquement les vidéos, via l&#39;argument nommé `monitor_gym` de `wandb.init`.
+  * Sweeps peut désormais être exécuté depuis jupyter / directement depuis python ! [https://docs.wandb.com/sweeps/python](https://docs.wandb.com/sweeps/python).
+  * La nouvelle intégration openai gym enregistre automatiquement les vidéos, via l&#39;argument nommé `monitor_gym` de `wandb.init()`.
   * Callback de logging Ray Tune dans `wandb.ray.WandbLogger`.
   * Nouveau fichier de configuration global dans `~/.config/wandb` pour les paramètres globaux.
   * Ajout de tests pour fastai, merci à @borisdayma.
   * Améliorations des performances de l&#39;API publique.
   * `username` est obsolète au profit de `entity` dans l&#39;API publique, pour plus de cohérence.
   * La connexion anonyme est désormais activée par défaut.
-  * Nouvelle méthode `wandb.login` à utiliser dans jupyter, permettant les connexions anonymes.
+  * Nouvelle méthode `wandb.login()` à utiliser dans jupyter, permettant les connexions anonymes.
   * Meilleurs messages d&#39;erreur de dépendances pour les dataframes.
   * Intégration initiale avec spell.run.
   * Toutes les images sont désormais rendues en PNG pour éviter les artefacts JPEG.
@@ -3865,10 +3911,10 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Fastai utilise une graine fixe pour le logging des exemples.
   * Augmentation du nombre maximal d&#39;images pour le callback fastai.
   * Nouveau tag `wandb.Video` pour le logging de vidéos.
-  * L&#39;argument `Sync=False` de `wandb.log` déplace le logging vers un thread.
+  * L&#39;argument `Sync=False` de `wandb.log()` déplace le logging vers un thread.
   * Nouveau contrôleur de sweep local pour une logique de recherche personnalisée.
   * Prise en charge de la connexion anonyme pour faciliter l&#39;intégration.
-  * Appeler `wandb.init` plusieurs fois dans jupyter ne provoque plus d&#39;erreur.
+  * Appeler `wandb.init()` plusieurs fois dans jupyter ne provoque plus d&#39;erreur.
 
   Voir le [journal des modifications v0.8.8](https://github.com/wandb/wandb/releases/tag/v0.8.8) sur GitHub.
 </Update>
@@ -3907,7 +3953,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   * Ajout de `WANDB_HOST` pour surcharger les noms d&#39;hôte.
   * Enregistre si un run a été exécuté dans Jupyter.
   * Wandb prend désormais en charge l&#39;arrêt des runs depuis l&#39;interface web.
-  * Gère les nombres à virgule flottante passés comme étape à `wandb.log`.
+  * Gère les nombres à virgule flottante passés comme étape à `wandb.log()`.
   * Wandb.config prend entièrement en charge Unicode.
   * Synchronise le fichier principal avec wandb si l&#39;enregistrement du code est activé et que le fichier n&#39;est pas suivi par git.
   * Callback XGBoost : wandb.xgboost.wandb&#95;callback().
@@ -4162,77 +4208,77 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 </Update>
 
 <Update label="v0.6.34" description="23 janvier 2019">
-  ## Correction de bugs
+  ## Correctif
 
-  * Correction de la journalisation Jupyter ; ne modifie pas le niveau du logger.
+  * Correction de la journalisation Jupyter : le niveau du logger n&#39;est plus modifié.
   * Correction de la reprise dans Jupyter.
 
   ## Amélioration
 
-  * Wandb.init fonctionne désormais correctement en mode dégradé si un utilisateur n&#39;est pas connecté à wandb.
-  * Ajout d&#39;un indicateur **force** à wandb.init pour exiger qu&#39;une machine soit connectée.
-  * La journalisation Tensorboard et TensorboardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
-  * Ajout d&#39;un paramètre **tensorboard** à wandb.init, qui patche tensorboard pour la journalisation.
-  * Wandb.save accepte désormais un chemin de base pour des fichiers situés dans des sous-répertoires.
-  * Il est désormais possible d&#39;accéder à Wandb.tensorflow et wandb.tensorboard sans les importer directement.
-  * `wandb sync` parcourra désormais un répertoire de run wandb et synchronisera tous les Runs.
+  * `wandb.init()` gère désormais correctement le cas où un utilisateur n&#39;est pas connecté à wandb.
+  * Ajout d&#39;un indicateur **force** à `wandb.init()` pour exiger qu&#39;une machine soit connectée.
+  * La journalisation de TensorBoard et TensorBoardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
+  * Ajout d&#39;un paramètre **tensorboard** à `wandb.init()` qui patche TensorBoard pour la journalisation.
+  * `wandb.save()` accepte désormais un chemin de base pour les fichiers situés dans des sous-répertoires.
+  * `wandb.tensorflow` et `wandb.tensorboard` sont désormais accessibles sans import direct.
+  * `wandb sync` parcourt désormais un répertoire de run wandb et synchronise toutes les exécutions.
 
   Consultez le [journal des modifications v0.6.34](https://github.com/wandb/wandb/releases/tag/v0.6.34) sur GitHub.
 </Update>
 
 <Update label="v0.6.34" description="23 janvier 2019">
-  ## Correction de bugs
+  ## Correctif
 
-  * Correction de la journalisation Jupyter ; ne modifie pas le niveau du logger.
+  * Correction de la journalisation Jupyter : le niveau du logger n&#39;est plus modifié.
   * Correction de la reprise dans Jupyter.
 
   ## Amélioration
 
-  * Wandb.init fonctionne désormais correctement en mode dégradé si un utilisateur n&#39;est pas connecté à wandb.
-  * Ajout d&#39;un indicateur **force** à wandb.init pour exiger qu&#39;une machine soit connectée.
-  * La journalisation Tensorboard et TensorboardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
-  * Ajout d&#39;un paramètre **tensorboard** à wandb.init, qui patche tensorboard pour la journalisation.
-  * Wandb.save accepte désormais un chemin de base pour des fichiers situés dans des sous-répertoires.
-  * Il est désormais possible d&#39;accéder à Wandb.tensorflow et wandb.tensorboard sans les importer directement.
-  * `wandb sync` parcourra désormais un répertoire de run wandb et synchronisera tous les Runs.
+  * `wandb.init()` gère désormais correctement le cas où un utilisateur n&#39;est pas connecté à wandb.
+  * Ajout d&#39;un indicateur **force** à `wandb.init()` pour exiger qu&#39;une machine soit connectée.
+  * La journalisation de TensorBoard et TensorBoardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
+  * Ajout d&#39;un paramètre **tensorboard** à `wandb.init()` qui patche TensorBoard pour la journalisation.
+  * `wandb.save()` accepte désormais un chemin de base pour les fichiers situés dans des sous-répertoires.
+  * `wandb.tensorflow` et `wandb.tensorboard` sont désormais accessibles sans import direct.
+  * `wandb sync` parcourt désormais un répertoire de run wandb et synchronise toutes les exécutions.
 
   Consultez le [journal des modifications v0.6.34](https://github.com/wandb/wandb/releases/tag/v0.6.34) sur GitHub.
 </Update>
 
 <Update label="v0.6.34" description="23 janvier 2019">
-  ## Correction de bugs
+  ## Correctif
 
-  * Correction de la journalisation Jupyter ; ne modifie pas le niveau du logger.
+  * Correction de la journalisation Jupyter : le niveau du logger n&#39;est plus modifié.
   * Correction de la reprise dans Jupyter.
 
   ## Amélioration
 
-  * Wandb.init fonctionne désormais correctement en mode dégradé si un utilisateur n&#39;est pas connecté à wandb.
-  * Ajout d&#39;un indicateur **force** à wandb.init pour exiger qu&#39;une machine soit connectée.
-  * La journalisation Tensorboard et TensorboardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
-  * Ajout d&#39;un paramètre **tensorboard** à wandb.init, qui patche tensorboard pour la journalisation.
-  * Wandb.save accepte désormais un chemin de base pour des fichiers situés dans des sous-répertoires.
-  * Il est désormais possible d&#39;accéder à Wandb.tensorflow et wandb.tensorboard sans les importer directement.
-  * `wandb sync` parcourra désormais un répertoire de run wandb et synchronisera tous les Runs.
+  * `wandb.init()` gère désormais correctement le cas où un utilisateur n&#39;est pas connecté à wandb.
+  * Ajout d&#39;un indicateur **force** à `wandb.init()` pour exiger qu&#39;une machine soit connectée.
+  * La journalisation de TensorBoard et TensorBoardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
+  * Ajout d&#39;un paramètre **tensorboard** à `wandb.init()` qui patche TensorBoard pour la journalisation.
+  * `wandb.save()` accepte désormais un chemin de base pour les fichiers situés dans des sous-répertoires.
+  * `wandb.tensorflow` et `wandb.tensorboard` sont désormais accessibles sans import direct.
+  * `wandb sync` parcourt désormais un répertoire de run wandb et synchronise toutes les exécutions.
 
   Consultez le [journal des modifications v0.6.34](https://github.com/wandb/wandb/releases/tag/v0.6.34) sur GitHub.
 </Update>
 
 <Update label="v0.6.34" description="23 janvier 2019">
-  ### Correction de bugs
+  ### Correctif
 
-  * correction de la journalisation Jupyter ; ne modifie pas le niveau du logger.
+  * correction de la journalisation Jupyter : le niveau du logger n&#39;est plus modifié.
   * correction de la reprise dans Jupyter.
 
   ### Amélioration
 
-  * wandb.init fonctionne désormais correctement en mode dégradé si un utilisateur n&#39;est pas connecté à wandb.
-  * ajout d&#39;un indicateur **force** à wandb.init pour exiger qu&#39;une machine soit connectée.
-  * La journalisation Tensorboard et TensorboardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
-  * ajout d&#39;un paramètre **tensorboard** à wandb.init, qui patche tensorboard pour la journalisation.
-  * wandb.save accepte désormais un chemin de base pour des fichiers situés dans des sous-répertoires.
-  * wandb.tensorflow et wandb.tensorboard sont désormais accessibles sans les importer directement.
-  * `wandb sync` parcourra désormais un répertoire de run wandb et synchronisera tous les Runs.
+  * `wandb.init()` gère désormais correctement le cas où un utilisateur n&#39;est pas connecté à wandb.
+  * ajout d&#39;un indicateur **force** à `wandb.init()` pour exiger qu&#39;une machine soit connectée.
+  * La journalisation de TensorBoard et TensorBoardX est désormais instrumentée automatiquement lorsqu&#39;elle est activée.
+  * ajout d&#39;un paramètre **tensorboard** à `wandb.init()` qui patche TensorBoard pour la journalisation.
+  * `wandb.save()` accepte désormais un chemin de base pour les fichiers situés dans des sous-répertoires.
+  * `wandb.tensorflow` et `wandb.tensorboard` sont désormais accessibles sans import direct.
+  * `wandb sync` parcourt désormais un répertoire de run wandb et synchronise toutes les exécutions.
 
   Consultez le [journal des modifications v0.6.34](https://github.com/wandb/wandb/releases/tag/v0.6.34) sur GitHub.
 </Update>
@@ -4246,9 +4292,9 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Amélioration
 
   * Wandb.init gère désormais correctement le cas où un utilisateur n&#39;est pas connecté à wandb.
-  * Ajout d&#39;un indicateur **force** à wandb.init pour exiger qu&#39;une machine soit connectée.
+  * Ajout d&#39;un indicateur **force** à wandb.init() pour exiger qu&#39;une machine soit connectée.
   * Le logging de Tensorboard et TensorboardX est désormais instrumenté automatiquement lorsqu&#39;il est activé.
-  * Ajout de l&#39;option **tensorboard** à wandb.init, qui applique un patch à tensorboard pour le logging.
+  * Ajout de l&#39;option **tensorboard** à wandb.init(), qui applique un patch à tensorboard pour le logging.
   * Wandb.save accepte désormais un chemin de base pour des fichiers situés dans des sous-répertoires.
   * Wandb.tensorflow et wandb.tensorboard sont désormais accessibles sans import direct.
   * `wandb sync` parcourra désormais un répertoire de run wandb et synchronisera tous les runs.
@@ -4265,9 +4311,9 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Amélioration
 
   * Wandb.init gère désormais correctement le cas où un utilisateur n&#39;est pas connecté à wandb.
-  * Ajout d&#39;un indicateur **force** à wandb.init pour exiger qu&#39;une machine soit connectée.
+  * Ajout d&#39;un indicateur **force** à wandb.init() pour exiger qu&#39;une machine soit connectée.
   * Le logging de Tensorboard et TensorboardX est désormais instrumenté automatiquement lorsqu&#39;il est activé.
-  * Ajout de l&#39;option **tensorboard** à wandb.init, qui applique un patch à tensorboard pour le logging.
+  * Ajout de l&#39;option **tensorboard** à wandb.init(), qui applique un patch à tensorboard pour le logging.
   * Wandb.save accepte désormais un chemin de base pour des fichiers situés dans des sous-répertoires.
   * Wandb.tensorflow et wandb.tensorboard sont désormais accessibles sans import direct.
   * `wandb sync` parcourra désormais un répertoire de run wandb et synchronisera tous les runs.
@@ -4343,18 +4389,18 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Correction de bugs
 
   * N&#39;exige vraiment pas numpy.
-  * Meilleur message d&#39;erreur si wandb.log est appelé avant wandb.init.
-  * Empêche d&#39;appeler wandb.watch plusieurs fois.
+  * Meilleur message d&#39;erreur si wandb.log() est appelé avant wandb.init().
+  * Empêche d&#39;appeler wandb.watch() plusieurs fois.
   * Gère les attributs datetime dans les journaux / plotly.
 
   ## Amélioration
 
   * Ajout de l&#39;environnement à Sweeps.
-  * Active les tags dans l&#39;API publique et dans wandb.init.
+  * Active les tags dans l&#39;API publique et dans wandb.init().
   * Nouveau type de média wandb.Html pour journaliser du HTML arbitraire.
   * Ajout de la méthode api.create&#95;run de l&#39;API publique pour les intégrations personnalisées.
-  * Ajout de la prise en charge des motifs glob dans wandb.save ; les fichiers sont enregistrés au fur et à mesure de leur écriture.
-  * Ajout de wandb.restore pour récupérer des fichiers lors de la reprise.
+  * Ajout de la prise en charge des motifs glob dans wandb.save() ; les fichiers sont enregistrés au fur et à mesure de leur écriture.
+  * Ajout de wandb.restore() pour récupérer des fichiers lors de la reprise.
 
   Consultez le [journal des modifications v0.6.31](https://github.com/wandb/wandb/releases/tag/v0.6.31) sur GitHub.
 </Update>
@@ -4484,8 +4530,8 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
 <Update label="v0.6.20" description="05 octobre 2018">
   ## Correction de bugs
 
-  * La première image lors de l’appel à wandb.log n’était pas enregistrée ; c’est désormais corrigé.
-  * `wandb.log` et `run.summary` suppriment désormais les espaces des clés.
+  * La première image lors de l’appel à wandb.log() n’était pas enregistrée ; c’est désormais corrigé.
+  * `wandb.log()` et `run.summary` suppriment désormais les espaces des clés.
 
   Consultez le [journal des modifications v0.6.20](https://github.com/wandb/wandb/releases/tag/v0.6.20) sur GitHub.
 </Update>
@@ -4499,7 +4545,7 @@ Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`
   ## Amélioration
 
   * Jupyter.
-    * `wandb.monitor` est obsolète au profit du démarrage automatique des métriques système après le premier appel à wandb.log
+    * `wandb.monitor` est obsolète au profit du démarrage automatique des métriques système après le premier appel à wandb.log()
     * Ajout de la nouvelle magie Jupyter **%%wandb** pour afficher les résultats en direct
     * Suppression de l’iframe de description Jupyter
   * L’API Data prend désormais en charge les options `per_page` et `order` de la méthode `api.runs`.

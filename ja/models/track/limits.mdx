@@ -14,10 +14,10 @@ title: Experiments の制限とパフォーマンス
 実験のメトリクスをトラッキングするには、`wandb.Run.log()` を使用します。
 
 <div id="distinct-metric-count">
-  ### 一意のメトリクス数
+  ### 異なるメトリクス数
 </div>
 
-パフォーマンス向上のため、プロジェクト内の一意のメトリクスの総数は 10,000 未満に抑えてください。
+パフォーマンス向上のため、project 内の異なるメトリクスの総数は 10,000 未満に抑えてください。
 
 ```python
 import wandb
@@ -35,30 +35,30 @@ with wandb.init() as run:
 ```
 
 <Note>
-  W&amp;B はネストされた値を自動的にフラット化します。つまり、辞書を渡すと、W&amp;B はそれをドット区切りの名に変換します。設定値では、名にドットを 3 つまで使用できます。summary 値では、ドットを 4 つまで使用できます。
+  W&amp;B はネストされた値を自動的にフラット化します。つまり、辞書を渡すと、W&amp;B はそれをドット区切りの名前に変換します。設定値では、W&amp;B は名前に含められるドットを 3 つまでサポートします。サマリー値では、W&amp;B は 4 つまでサポートします。
 </Note>
 
-メトリクス名は、GraphQL による命名制約に従う必要があります。詳細は [メトリクス名の制約](/ja/models/track/log/#metric-naming-constraints) を参照してください。
+メトリクス名は、GraphQL による命名制約に従う必要があります。詳しくは、[メトリクス名の命名制約](/ja/models/track/log/#metric-naming-constraints)を参照してください。
 
 {/* ### 同じメトリクス名でメディアをログする
-  関連するメディアは同じメトリクス名でログします。
+  関連するメディアは、同じメトリクス名でログします:
 
   ```python
   for i, img in enumerate(images):
-    # 非推奨
+    # 推奨されません
     run.log({f"pred_img_{i}": wandb.Image(image)})
 
     # 推奨
     run.log({"pred_imgs": [wandb.Image(image) for image in images]})
   ``` */}
 
-Workspaceの動作が突然遅くなった場合は、最近のrunが意図せず数千もの新しいメトリクスをログしていないか確認してください。 (これは、1つまたは2つのrunしか表示されていないプロットが数千個あるセクションを確認すると、最も簡単に見つけられます。) もしそうであれば、それらのrunを削除し、必要なメトリクスだけを含めて再作成することを検討してください.
+Workspace が突然遅くなった場合は、最近の Runs で意図せず数千件もの新しいメトリクスがログされていないか確認してください。 (これは、1 つまたは 2 つの run しか表示されていないプロットが数千個あるセクションを見つけると、最も簡単に気付けます。) もしそうであれば、それらの Runs を削除し、必要なメトリクスだけを使って作成し直すことを検討してください。
 
 <div id="value-width">
-  ### 値のサイズ
+  ### 値の幅
 </div>
 
-1回のログで記録する単一の値のサイズは 1 MB 未満、1回の `wandb.Run.log()` call の合計サイズは 25 MB 未満にしてください。この制限は、`wandb.Image` や `wandb.Audio` などの `wandb.Media` タイプには適用されません。
+ログする単一の値のサイズは 1 MB 未満に、`wandb.Run.log()` の1回の呼び出しの合計サイズは 25 MB 未満に制限してください。この制限は、`wandb.Image`、`wandb.Audio` などの `wandb.Media` タイプには適用されません。
 
 ```python
 import wandb
@@ -74,21 +74,19 @@ with wandb.init(project="wide-values") as run:
         run.log(large_data)
 ```
 
-幅の大きい値は、その値を持つメトリクスだけでなく、run 内のすべてのメトリクスのプロット読み込み時間に影響することがあります。
+値が大きい場合、その値を持つメトリクスだけでなく、run 内のすべてのメトリクスのプロット読み込み時間に影響する可能性があります。
 
-<Note>
-  推奨される幅を超える値をログしても、データは保存され、トラッキングされます。ただし、プロットの読み込みが遅くなる場合があります。
-</Note>
+<Note>推奨量を超える値をログした場合でも、データは保存・トラッキングされます。ただし、プロットの読み込みが遅くなる場合があります。</Note>
 
 <div id="metric-frequency">
   ### メトリクスの頻度
 </div>
 
-ログするメトリクスに適したログ頻度を選択してください。一般的な目安として、値の幅が広いものほど、値の幅が狭いものよりも低い頻度でログします。W&amp;B では次を推奨しています。
+ログするメトリクスに適したログ頻度を選択してください。一般的な目安として、値が大きいものほどログ頻度を低くしてください。W&amp;B は以下を推奨します。
 
-* Scalars: メトリクスあたりのログポイント数 &lt;100,000
-* Media: メトリクスあたりのログポイント数 &lt;50,000
-* Histograms: メトリクスあたりのログポイント数 &lt;10,000
+* スカラー: メトリクスあたり 100,000 ポイント未満
+* メディア: メトリクスあたり 50,000 ポイント未満
+* ヒストグラム: メトリクスあたり 10,000 ポイント未満
 
 ```python
 import wandb
@@ -97,40 +95,38 @@ with wandb.init(project="metric-frequency") as run:
     # 非推奨
     run.log(
         {
-            "scalar": 1,  # 100,000 スカラー
-            "media": wandb.Image(...),  # 100,000 画像
-            "histogram": wandb.Histogram(...),  # 100,000 ヒストグラム
+            "scalar": 1,  # スカラー 100,000 個
+            "media": wandb.Image(...),  # 画像 100,000 枚
+            "histogram": wandb.Histogram(...),  # ヒストグラム 100,000 個
         }
     )
 
     # 推奨
     run.log(
         {
-            "scalar": 1,  # 100,000 スカラー
+            "scalar": 1,  # スカラー 100,000 個
         },
         commit=True,
-    )  # バッチ化されたstepごとのメトリクスをまとめてコミット
+    )  # バッチ化されたステップごとのメトリクスをまとめてコミット
 
     run.log(
         {
-            "media": wandb.Image(...),  # 50,000 画像
+            "media": wandb.Image(...),  # 画像 50,000 枚
         },
         commit=False,
     )
-    
+
     run.log(
         {
-            "histogram": wandb.Histogram(...),  # 10,000 ヒストグラム
+            "histogram": wandb.Histogram(...),  # ヒストグラム 10,000 個
         },
         commit=False,
     )
 ```
 
-{/* 特定のstepに対するAPI callの総数を最小限に抑えるには、`commit=False` を渡して `run.log` のcallをバッチ処理します。詳細は、`run.log` の [ドキュメント](/models/ref/python/experiments/run/#method-runlog) を参照してください。 */}
+{/* Enable batching in calls to `wandb.Run.log()` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](/models/ref/python/experiments/run/#method-runlog) for `run.log()` for more details. */}
 
-<Note>
-  W&amp;B は引き続きログされたデータを受け付けますが、ガイドラインを超えるとページの読み込みが遅くなることがあります。
-</Note>
+<Note>ガイドラインを超えた場合でも、W&amp;B はログデータを受け付け続けますが、ページの読み込みが遅くなる場合があります。</Note>
 
 <div id="config-size">
   ### 設定サイズ
@@ -139,7 +135,7 @@ with wandb.init(project="metric-frequency") as run:
 run 設定 の合計サイズは 10 MB 未満に抑えてください。大きな値をログすると、プロジェクトのワークスペースやRuns tableでの操作が遅くなる可能性があります。
 
 ```python
-import wandb 
+import wandb
 
 # 推奨
 with wandb.init(
@@ -150,7 +146,7 @@ with wandb.init(
         "epochs": 4,
     }
 ) as run:
-    # トレーニングコードをここに記述
+    # ここにトレーニング用のコードを記述します
     pass
 
 # 非推奨
@@ -161,7 +157,7 @@ with wandb.init(
         "large_string": "a" * 10000000,  # 大きな文字列
     }
 ) as run:
-    # トレーニングコードをここに記述
+    # ここにトレーニング用のコードを記述します
     pass
 
 # 非推奨
@@ -312,7 +308,7 @@ with wandb.init(project="basic-intro") as run:
         accuracy = 1 - 2 ** -epoch - random.random() / epoch
         loss = 2 ** -epoch + random.random() / epoch
 
-        # 5エポックごとにメトリクスをログする
+        # 5 エポックごとにメトリクスをログする
         if epoch % 5 == 0:
             run.log({"acc": accuracy, "loss": loss})
 ```

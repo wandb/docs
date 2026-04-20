@@ -1,19 +1,19 @@
 ---
-title: "CLI リファレンス SDK 0.25.1"
-description: "W&B コマンドラインインターフェース（CLI）を使用すると、シェルコマンドでログイン、ジョブの実行、Sweeps の実行などを行えます"
+title: "CLI リファレンス SDK 0.26.0"
+description: "W&B Command Line Interface (CLI) を使用すると、シェルコマンドでログイン、ジョブの実行、sweep の実行などを行えます"
 ---
 
 {/*
   このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. コメントブロック全体を削除し、以下の2行だけを残します:
+  1. スニペット ファイルを作成します: /snippets/_includes/cli/wandb.mdx
+  2. そのファイルに導入文を追加します
+  3. このコメント ブロック全体を削除し、以下の 2 行だけを残します:
 
   import Wandb from "/snippets/_includes/cli/wandb.mdx";
 
   <Wandb/>
 
-  このスニペットは、次回の再生成時に自動的に検出されます。
+  次回の再生成時に、スニペットが自動的に検出されます。
   */}
 
 <div id="usage">
@@ -36,34 +36,30 @@ wandb [OPTIONS] COMMAND [ARGS]...
   ## コマンド
 </div>
 
-| コマンド                                               | 説明                                                                        |
-| :------------------------------------------------- | :------------------------------------------------------------------------ |
-| [agent](/ja/models/ref/cli/wandb-agent)               | W&amp;B エージェントを実行します                                                      |
-| [artifact](/ja/models/ref/cli/wandb-artifact)         | artifact を操作するためのコマンド                                                     |
-| [beta](/ja/models/ref/cli/wandb-beta)                 | wandb CLI コマンドのベータ版。                                                      |
-| [controller](/ja/models/ref/cli/wandb-controller)     | W&amp;B のローカル sweep コントローラーを実行します                                         |
-| [disabled](/ja/models/ref/cli/wandb-disabled)         | W&amp;B を無効にします。                                                          |
-| [docker](/ja/models/ref/cli/wandb-docker)             | docker コンテナーでコードを実行します。                                                   |
-| [docker-run](/ja/models/ref/cli/wandb-docker-run)     | `docker run` をラップし、WANDB&#95;API&#95;KEY および WANDB&#95;DOCKER 環境変数を追加します。 |
-| [enabled](/ja/models/ref/cli/wandb-enabled)           | W&amp;B を有効にします。                                                          |
-| [init](/ja/models/ref/cli/wandb-init)                 | ディレクトリーを Weights &amp; Biases 用に設定します                                     |
-| [job](/ja/models/ref/cli/wandb-job)                   | W&amp;B ジョブの管理と表示のためのコマンド                                                 |
-| [launch](/ja/models/ref/cli/wandb-launch)             | W&amp;B Job を Launch するか、キューに追加します。                                       |
-| [launch-agent](/ja/models/ref/cli/wandb-launch-agent) | W&amp;B Launch エージェントを実行します。                                              |
-| [launch-sweep](/ja/models/ref/cli/wandb-launch-sweep) | W&amp;B Launch sweep を実行します (実験的機能) 。                                     |
-| [local](/ja/models/ref/cli/wandb-local)               | ローカル W&amp;B コンテナーを起動します (非推奨。`wandb server --help` を参照)                  |
-| [login](/ja/models/ref/cli/wandb-login)               | W&amp;B サービスで認証するための APIキー を確認して保存します。                                    |
-| [off](/ja/models/ref/cli/wandb-off)                   | 説明はありません                                                                  |
-| [offline](/ja/models/ref/cli/wandb-offline)           | W&amp;B にログされたデータをクラウドにアップロードせずにローカルへ保存します。                               |
-| [on](/ja/models/ref/cli/wandb-on)                     | 説明はありません                                                                  |
-| [online](/ja/models/ref/cli/wandb-online)             | `wandb offline` を解除します。                                                   |
-| [projects](/ja/models/ref/cli/wandb-projects)         | Projects を一覧表示します                                                         |
-| [pull](/ja/models/ref/cli/wandb-pull)                 | Weights &amp; Biases からファイルを取得します                                         |
-| [purge-cache](/ja/models/ref/cli/wandb-purge-cache)   | ローカル W&amp;B キャッシュから、キャッシュされたログ、run 履歴、Artifacts を削除します。                  |
-| [restore](/ja/models/ref/cli/wandb-restore)           | run のコード、設定、docker の状態を復元します。                                             |
-| [scheduler](/ja/models/ref/cli/wandb-scheduler)       | W&amp;B Launch sweep スケジューラーを実行します (実験的機能)                                |
-| [server](/ja/models/ref/cli/wandb-server)             | ローカル W&amp;B サーバーを運用するためのコマンド                                             |
-| [status](/ja/models/ref/cli/wandb-status)             | 設定を表示します                                                                  |
-| [sweep](/ja/models/ref/cli/wandb-sweep)               | ハイパーパラメーター sweep を初期化します。                                                 |
-| [sync](/ja/models/ref/cli/wandb-sync)                 | W&amp;B run データをクラウドに同期します。                                               |
-| [verify](/ja/models/ref/cli/wandb-verify)             | W&amp;B のローカルインスタンスをチェックして検証します。                                          |
+| Command                                            | Description                                                   |
+| :------------------------------------------------- | :------------------------------------------------------------ |
+| [agent](/ja/models/ref/cli/wandb-agent)               | sweep エージェントを起動します。                                           |
+| [artifact](/ja/models/ref/cli/wandb-artifact)         | W&amp;B Artifacts のアップロード、ダウンロード、管理を行います。                     |
+| [beta](/ja/models/ref/cli/wandb-beta)                 | wandb CLI コマンドのベータ版です。                                        |
+| [controller](/ja/models/ref/cli/wandb-controller)     | W&amp;B ハイパーパラメーター sweep 用のローカル sweep コントローラーを起動します。          |
+| [disabled](/ja/models/ref/cli/wandb-disabled)         | W&amp;B の機能を無効にします。                                           |
+| [docker](/ja/models/ref/cli/wandb-docker)             | W&amp;B が設定された Docker コンテナーでコードを実行します。                        |
+| [docker-run](/ja/models/ref/cli/wandb-docker-run)     | `docker run` をラップし、W&amp;B 環境変数を自動的に注入します。                    |
+| [enabled](/ja/models/ref/cli/wandb-enabled)           | `wandb disabled` で無効化した W&amp;B を再度有効にします。                    |
+| [init](/ja/models/ref/cli/wandb-init)                 | 現在のディレクトリーに対する W&amp;B 設定を初期化または更新します。                        |
+| [job](/ja/models/ref/cli/wandb-job)                   | W&amp;B ジョブを管理および表示するためのコマンドです。                               |
+| [launch](/ja/models/ref/cli/wandb-launch)             | W&amp;B Job を Launch するか、キューに追加します。                           |
+| [launch-agent](/ja/models/ref/cli/wandb-launch-agent) | W&amp;B Launch エージェントを実行します。                                  |
+| [launch-sweep](/ja/models/ref/cli/wandb-launch-sweep) | W&amp;B Launch sweep を実行します (実験的) 。                           |
+| [login](/ja/models/ref/cli/wandb-login)               | このマシンを W&amp;B に対して認証します。                                     |
+| [offline](/ja/models/ref/cli/wandb-offline)           | W&amp;B にログしたデータをクラウドにアップロードせず、ローカルに保存します。                    |
+| [online](/ja/models/ref/cli/wandb-online)             | W&amp;B Runs のクラウド同期を再度有効にします。                                |
+| [pull](/ja/models/ref/cli/wandb-pull)                 | W&amp;B run からファイルをダウンロードします。                                 |
+| [purge-cache](/ja/models/ref/cli/wandb-purge-cache)   | ローカル W&amp;B キャッシュから、キャッシュされたログ、run history、Artifacts を削除します。 |
+| [restore](/ja/models/ref/cli/wandb-restore)           | 以前の W&amp;B run からコード、設定、または Docker 環境を復元します。                 |
+| [scheduler](/ja/models/ref/cli/wandb-scheduler)       | W&amp;B Launch sweep スケジューラーを実行します (実験的) 。                    |
+| [server](/ja/models/ref/cli/wandb-server)             | ローカル W&amp;B server を操作するためのコマンドです                            |
+| [status](/ja/models/ref/cli/wandb-status)             | 現在の W&amp;B 設定を表示します。                                         |
+| [sweep](/ja/models/ref/cli/wandb-sweep)               | ハイパーパラメーター sweep を作成、更新、または管理します。                             |
+| [sync](/ja/models/ref/cli/wandb-sync)                 | 既存のローカル W&amp;B run データをクラウドにアップロードします。                       |
+| [verify](/ja/models/ref/cli/wandb-verify)             | セルフホスト型 W&amp;B インスタンスに対してインテグレーション チェックを実行します。               |

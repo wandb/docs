@@ -24,7 +24,7 @@ Launch ジョブは、完了すべきタスクを表す特定の種類の [W&amp
 | Image-based jobs                     | コードおよびその他のアセットは Docker image に組み込まれています。                       | image ベースのジョブを実行するには、Launch エージェントを image repository の認証情報で設定する必要がある場合があります。  |
 
 <Note>
-  Launch ジョブは、モデル トレーニングに関係しない処理も実行できます。たとえば、モデルを Triton inference server にデプロイできます。ただし、すべてのジョブは正常に完了するために `wandb.init` を呼び出す必要があります。これにより、トラッキング用の run が W&amp;B Workspace に作成されます。
+  Launch ジョブは、モデル トレーニングに関係しない処理も実行できます。たとえば、モデルを Triton inference server にデプロイできます。ただし、すべてのジョブは正常に完了するために `wandb.init()` を呼び出す必要があります。これにより、トラッキング用の run が W&amp;B Workspace に作成されます。
 </Note>
 
 作成したジョブは、W&amp;B App のプロジェクトワークスペースにある `Jobs` タブで確認できます。そこから、ジョブを設定し、さまざまな [ターゲットリソース](#target-resources) で実行するために [Launch キュー](#launch-queue) に送信できます。

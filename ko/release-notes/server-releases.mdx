@@ -5,7 +5,7 @@ sidebarTitle: "지원되는 릴리스"
 rss: true
 ---
 
-import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-reminder.mdx';
+import EolReminder from "/snippets/ko/_includes/release-notes-support-eol-reminder.mdx"
 
 이 페이지에는 지원되는 W&amp;B Server 릴리스의 릴리스 노트가 포함되어 있습니다.
 
@@ -13,6 +13,12 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 * W&amp;B Server 릴리스 일정 및 지원에 관한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참조하세요.
 
 <EolReminder />
+
+<Update label="v0.79.2" description="2026년 4월 10일">
+  ## 수정 사항
+
+  * 메트릭 수집이 지연될 수 있던 bug를 수정했습니다.
+</Update>
 
 <Update label="v0.79.1" description="2026년 4월 1일">
   ## 수정 사항
@@ -22,7 +28,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.79.0" description="2026년 3월 24일">
-  W&amp;B Server 0.79.0에는 이미지 확대/축소 및 이동, 서비스 계정과 API 키 관리 개선, 그리고 성능 개선이 추가되었습니다. Inference에는 MiniMax M2.5와 MiniMaxAI M2.5 모델이 추가되었습니다. 이제 Weave monitors는 모든 오퍼레이션의 점수화를 지원하며, Weave UI에는 프롬프트 태그와 alias 관리 개선, Claude agent용 채팅 뷰, 이모지 피드백 반응 또는 노트 내용별 필터링 등이 추가되었습니다.
+  W&amp;B Server 0.79.0에는 이미지 확대/축소 및 이동, 서비스 계정과 API 키 관리 개선, 그리고 성능 개선이 추가되었습니다. 이제 Weave monitors는 모든 오퍼레이션의 점수화를 지원하며, Weave UI에는 프롬프트 태그와 alias 관리 개선, Claude agent용 채팅 뷰, 이모지 피드백 반응 또는 노트 내용별 필터링 등이 추가되었습니다.
 
   ## 지원 및 지원 종료
 
@@ -39,21 +45,20 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 기능
 
-  * **이미지를 이동하고 확대/축소**하여 W&amp;B의 전체 화면 이미지 모달에서 세부적인 이미지 내용을 직접 확인할 수 있습니다. 이미지를 전체 화면으로 연 다음, 다음을 수행하세요.
+  * **이미지를 이동하고 확대/축소**하여 W&amp;B&#39;s 전체 화면 이미지 모달에서 세부적인 이미지 내용을 직접 확인할 수 있습니다. 이미지를 전체 화면으로 연 다음, 다음을 수행하세요.
 
     * UI 컨트롤 또는 키보드 단축키를 사용해 확대 수준을 설정하거나, 100%로 재설정하거나, 화면에 맞게 확대할 수 있습니다.
     * 확대된 상태에서는 클릭하여 드래그하면 이미지를 이동할 수 있습니다.
 
-    <Frame>
-      ![전체 화면 이미지 모달의 이동 및 확대/축소 컨트롤](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
-    </Frame>
+    <Frame>![전체 화면 이미지 모달의 이동 및 확대/축소 컨트롤](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)</Frame>
+
   * 고정된 run과 baseline run의 경우 [summary metric deltas](/ko/models/runs/compare-runs#summary-metric-deltas)에 각 run이 baseline과 비교해 어떻게 다른지 표시됩니다. 빠르게 시각적으로 확인할 수 있도록 의미 기반 색상을 사용하려면 열의 Metric directionality를 설정하면 됩니다. 이 기능은 이제 정식 제공됩니다.
-    <Frame>
-      ![baseline과 비교한 runs table의 summary metric deltas](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
-    </Frame>
-  * run selector와 Runs 목록이 개선되었습니다.
+    <Frame>![baseline과 비교한 runs table의 summary metric deltas](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)</Frame>
+
+  * run selector와 Runs 목록이 개선되었습니다:
     * Git 커밋으로 필터링하는 기능이 추가되었습니다.
     * 설정 매개변수를 지정한 run에 대해 `CONTAINS` Operator 지원이 추가되었습니다.
+
   * 데이터베이스 부하를 줄이기 위해 프로젝트 필드에 방어적 캐싱이 추가되었습니다.
 
   ### 레지스트리
@@ -103,14 +108,11 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 <Update label="v0.78.0" description="2026년 3월 3일">
   W&amp;B Server 0.78.0은 보안 및 접근 기본값을 강화하고, 실험 비교 및 비용 관리를 더욱 효율적으로 수행할 수 있는 도구를 추가하는 등 다양한 개선 사항을 제공합니다.
 
-  <Note>
-    Weave를 사용하는 배포 환경의 경우, v0.78로 업그레이드하기 전에 Clickhouse v0.25.8 이상이 필요합니다.
-  </Note>
+  <Note>Weave를 사용하는 배포 환경의 경우, v0.78로 업그레이드하기 전에 Clickhouse v0.25.8 이상이 필요합니다.</Note>
 
   * **Models**에서 정규 표현식을 사용해 다중 메트릭 플롯을 효율적으로 만들고, 중요한 run을 고정하고, 실험을 기준선과 비교하고, 개선된 Workspace 템플릿으로 Workspace를 간소화하세요.
   * **레지스트리**에는 개선된 검색, 새롭게 디자인된 카드, 더 명확하고 응답성이 뛰어난 리니지 그래프 등이 포함됩니다.
   * **Weave**에서는 **Trace Analytics** 대시보드를 통해 프로젝트 Overview 페이지에서 병목 구간과 예산의 주요 원인을 파악할 수 있습니다. 이제 저장된 뷰에서 사용자 지정한 트레이스, 평가, 리더보드를 지원합니다. Weave 플레이그라운드는 이제 LoRA(Low-Rank Adaptation)와 새로운 모델을 지원합니다.
-  * **Inference**에는 새로운 모델이 포함됩니다.
 
   <Warning>
     이 릴리스에는 권한이 없는 사용자가 artifact에 액세스할 수 있게 하는 치명적인 보안 문제가 있습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
@@ -138,15 +140,11 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
     runs 테이블에서 summary 메트릭 델타(미리보기)는 각 run이 기준선과 비교해 어떤 차이가 있는지 보여줍니다. 이 기능은 초대를 받은 경우에만 사용할 수 있습니다. 자세한 내용은 [mailto:support@wandb.com]로 지원팀에 문의하세요.
 
-    <Frame>
-      ![기준선 대비 Runs table의 Summary 메트릭 변화량](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
-    </Frame>
+    <Frame>![기준선 대비 Runs table의 Summary 메트릭 변화량](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)</Frame>
 
     선형 플롯에서는 비교하기 쉽도록 기준선이 시각적으로 구분되는 스타일로 표시됩니다.
 
-    <Frame>
-      ![선형 플롯에서 스타일이 뚜렷하게 구분된 Baseline run](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
-    </Frame>
+    <Frame>![선형 플롯에서 스타일이 뚜렷하게 구분된 Baseline run](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)</Frame>
 
   * [여러 메트릭으로 패널 만들기](/ko/models/app/features/panels/line-plot#multi-metric-line-plot) 기능을 사용해 패널을 한꺼번에 생성하면 워크스페이스를 빠르게 정리하고 대규모 메트릭 세트 전반의 패턴을 파악할 수 있습니다. 예를 들어, 모델 레이어 전반의 그라디언트 메트릭을 겹쳐 보거나 특정 레이어를 나란히 배치할 수 있습니다. [비디오 데모 보기](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
 
@@ -154,7 +152,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   * 이제 **Sweeps** 테이블에 **Sweep ID** 열이 포함됩니다.
 
-  * 이제 관리자는 조직의 사용량 및 지출 알림을 사용자 지정할 수 있습니다. 새 **Usage &amp; Alerts** 탭이 있는 조직 Settings에서 저장소, 추적 시간, Weave, Inference, 트레이닝의 사용량과 지출을 확인하고 이메일 알림을 설정하세요. [플랜 사용량](/ko/platform/app/settings-page/billing-settings#plan-usage)을 참조하세요.
+  * 이제 관리자는 조직의 사용량 및 지출 알림을 사용자 지정할 수 있습니다. 새 **Usage &amp; Alerts** 탭이 있는 조직 Settings에서 저장소, 추적 시간, Weave, 트레이닝의 사용량과 지출을 확인하고 이메일 알림을 설정하세요. [플랜 사용량](/ko/platform/app/settings-page/billing-settings#plan-usage)을 참조하세요.
 
   ### 레지스트리
 
@@ -163,27 +161,17 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
     * 개선된 자동완성 검색, 새롭게 디자인된 레지스트리 및 Collection 카드, 그리고 새로운 레지스트리 아이콘을 통해 우선 스마트 랭킹으로 자산을 시각적으로 구분할 수 있으며, AI 랭킹도 곧 제공될 예정입니다.
     * 레지스트리 아이콘은 처음에는 자동 생성되며, 레지스트리 관리자가 언제든지 사용자 지정할 수 있습니다.
 
-    <Frame>
-      ![레지스트리 아이콘과 새로 디자인된 카드](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)
-    </Frame>
+    <Frame>![레지스트리 아이콘과 새로 디자인된 카드](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)</Frame>
 
     * 리니지 그래프에서 노드 위에 마우스를 올리면 해당 노드가 강조되고 다른 노드들은 흐리게 표시됩니다.
     * 이제 컬렉션 이름을 클릭해 해당 artifact 버전을 빠르게 볼 수 있습니다.
     * 이제 **Settings** 페이지에서 레지스트리에 별표를 표시할 수 있어 더욱 편리합니다.
 
-  ### Inference
-
-  * 모델 `Moonshot AI Kimi K2.5`를 이제 이용할 수 있습니다. 자세한 내용은 [모델 카탈로그](/ko/inference/models)를 참조하세요.
-
   ### Weave
 
   * 이제 **프로젝트 Overview** 페이지에는 요청 수, 지연 시간 백분위수(P50/P95/P99), 모델별 토큰 사용량, 비용 내역을 보여주는 **Trace Analytics** 대시보드가 포함됩니다. 어떤 모델이 예산을 빠르게 소진하고 있는지, 또는 P95를 악화시키는 느린 요청이 무엇인지 파악할 수 있습니다. 시간 버킷을 클릭하면 관련 트레이스로 바로 이동하여 지연 시간 급증의 원인을 빠르게 파악할 수 있습니다.
 
-    <Frame>
-      ![프로젝트 Overview의 트레이스 분석 대시보드](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)
-    </Frame>
-
-  * 이제 **Weave 플레이그라운드**에서 **[LoRA](/ko/inference/lora)**를 지원하므로, 미세 조정한 LoRA 어댑터를 효율적으로 테스트할 수 있습니다. LoRA artifact 페이지에서 **플레이그라운드에서 사용해 보기** 버튼을 클릭하세요.
+    <Frame>![프로젝트 Overview의 트레이스 분석 대시보드](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)</Frame>
 
   * **Weave 플레이그라운드**에서 이제 Claude Opus 4.6을 사용할 수 있습니다.
 
@@ -499,7 +487,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.74.0" description="2025년 10월 8일">
-  W&amp;B v0.74는 Okta와의 자동화된 그룹 동기화, 간소화된 사용자 역할 설정 등 엔터프라이즈 ID 관리를 위한 SCIM API 개선 사항을 제공합니다. Dedicated Cloud에서는 강력한 새 전체 화면 이미지 브라우저를 통해 run 내부 및 run 간 이미지를 검사하고 비교할 수 있습니다. Weave 개선 사항으로는 플레이그라운드 내 LLM judge 평가, 멀티턴 Thread 도구 calls에 대한 향상된 가시성, DSPy 개선, 강화 학습 워크플로를 위한 Verifiers 라이브러리와의 새로운 인테그레이션이 포함됩니다. W&amp;B Inference는 [Z.AI](https://z.ai/) GLM v4.5 하이브리드 추론 모델에 대한 지원을 추가합니다.
+  W&amp;B v0.74는 Okta와의 자동화된 그룹 동기화, 간소화된 사용자 역할 설정 등 엔터프라이즈 ID 관리를 위한 SCIM API 개선 사항을 제공합니다. Dedicated Cloud에서는 강력한 새 전체 화면 이미지 브라우저를 통해 run 내부 및 run 간 이미지를 검사하고 비교할 수 있습니다. Weave 개선 사항으로는 플레이그라운드 내 LLM judge 평가, 멀티턴 Thread 도구 calls에 대한 향상된 가시성, DSPy 개선, 강화 학습 워크플로를 위한 Verifiers 라이브러리와의 새로운 인테그레이션이 포함됩니다.
 
   ## 지원 및 서비스 종료
 
@@ -530,10 +518,6 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * Weave 코드에서 `wandb.init()`를 호출하면 더 이상 `weave.init()`를 명시적으로 호출할 필요가 없습니다.
   * 새로운 편의 메서드 [`delete_all_object_versions`](/ko/weave/reference/python-sdk/trace/weave_client).
   * 이제 OpenAI 스트리밍 엔드포인트 call의 출력에는 밀리초 단위의 새 필드 `time_to_first_token`이 포함됩니다.
-
-  ### Inference
-
-  * [W&amp;B Inference](/ko/inference)에 [Z.AI GLM](https://z.ai/blog/glm-4.5) 하이브리드 추론 모델 지원이 추가되었습니다. v4.5를 지원합니다.
 
   ## Fixes
 
@@ -649,17 +633,23 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 특성
 
-  * <a id="registry_ga_announcement" aria-label="W&B Registry GA 발표" /> 향후 몇 차례의 릴리스에 걸쳐 기존 팀 수준 Model Registry를 단계적으로 W&amp;B Registry로 이전합니다. **별도로 조치하실 필요는 없습니다. W&amp;B가 각 팀의 Model Registry 자산을 각 팀에 대해 자동으로 생성된 해당 팀 수준의 비공개 레지스트리로 자동 복사합니다.**  이전 팀 수준 Model Registry의 모델 컬렉션에 대한 기존 레퍼런스도 계속 작동합니다.
-
-    1. Server v0.71(이번 릴리스)부터는 모든 조직에서 레지스트리가 기본적으로 활성화됩니다.
-    2. Server v0.73(8월)에는 업그레이드 중 이 마이그레이션을 자동으로 실행하는 옵트아웃 환경 변수가 포함될 예정입니다. 대부분의 조직에서는 마이그레이션에 5~30분이 소요됩니다. 마이그레이션 중에는 artifact를 이전 팀의 Model Registry 또는 새 레지스트리에 연결하려고 하면 오류가 발생하며 실패합니다. **Artifact logging 및 가져오기에는 영향이 없습니다**.
-    3. Server v0.74(9월)에서는 이 플래그가 제거되며, 마이그레이션은 업그레이드 중에 수행됩니다.
+  * <a id="registry_ga_announcement" aria-label="W&B Registry GA 발표" /> 향후 몇 차례의 릴리스에 걸쳐 기존 팀 수준 Model Registry를 단계적으로 W&amp;B Registry로 이전합니다. **별도로
+    조치하실 필요는 없습니다. W&amp;B가 각 팀의 Model Registry 자산을 각 팀에 대해 자동으로 생성된 해당 팀 수준의 비공개 레지스트리로 자동 복사합니다.**  이전 팀 수준 Model Registry의 모델
+    컬렉션에 대한 기존 레퍼런스도 계속 작동합니다. 1. Server v0.71(이번 릴리스)부터는 모든 조직에서 레지스트리가 기본적으로 활성화됩니다. 2. Server v0.73(8월)에는
+    업그레이드 중 이 마이그레이션을 자동으로 실행하는 옵트아웃 환경 변수가 포함될 예정입니다. 대부분의 조직에서는 마이그레이션에 5~30분이 소요됩니다. 마이그레이션 중에는 artifact를 이전 팀의 Model Registry 또는 새 레지스트리에
+    연결하려고 하면 오류가 발생하며 실패합니다. **Artifact logging 및 가져오기에는 영향이 없습니다**. 3. Server v0.74(9월)에서는 이 플래그가 제거되며,
+    마이그레이션은 업그레이드 중에 수행됩니다.
 
     강력한 새로운 환경으로 원활하게, 불편을 최소화해 업그레이드할 수 있도록 최적화하고 있습니다. 마이그레이션에 대해 궁금한 점이 있으면 담당 W&amp;B 팀에 문의하세요.
+
   * 이제 artifact에 태그를 추가하면 automation을 트리거할 수 있습니다. [Artifact 이벤트](/ko/models/automations/automation-events/#artifact-events)를 참조하세요.
+
   * 패널을 전체 화면으로 보고 있을 때 **이전** 및 **다음** 버튼이나 왼쪽/오른쪽 화살표 키를 사용해 섹션의 이전 또는 다음 패널로 이동할 수 있습니다.
+
   * 미디어 패널을 전체 화면으로 보고 있을 때는 **CMD + 왼쪽 또는 오른쪽 화살표** 키(macOS) 또는 **Ctrl + 왼쪽 또는 오른쪽 화살표** 키(Windows / Linux)로 step 슬라이더를 이동할 수 있습니다.
+
   * 이제 동일한 step slider 키를 기준으로 미디어 패널을 동기화할 수 있으므로, 한 미디어 패널에서 step slider를 앞으로 이동하면 다른 패널의 step slider도 함께 앞으로 이동합니다. Workspace 또는 섹션 설정을 열고 **Media**로 이동한 다음 **Sync** 탭을 클릭한 후 **Sync slider by key (Step)**를 켜세요.
+
   * Run Comparer에는 명령, Python 버전, GPU 유형 등 run에 관한 메타데이터를 포함한 새로운 **Meta** 섹션이 추가되었습니다.
 
   ### Weave
@@ -671,17 +661,12 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
     * Langchain 및 ChromaDB용 문서 뷰.
     * LangChain용 채팅 뷰 렌더링.
     * OpenAI용 새 내보내기 형식.
-  * W&amp;B Inference([https://wandb.ai/inference](https://wandb.ai/inference))에 새로운 호스팅 오픈 웨이트 모델이 추가되었습니다:
-    * `Qwen3-235B-A22B-Thinking-2507`
-    * `Qwen/Qwen3-Coder-480B-A35B-Instruct`
-    * `Qwen/Qwen3-235B-A22B-Instruct-2507`
-    * `Kimi-K2-Instruct`
   * TypeScript SDK에 프롬프트를 생성하고 게시하는 기능이 추가되었습니다. [자세히 알아보기](/ko/weave/guides/core-types/prompts).
   * 새로운 `Content` 클래스는 Base-64 자동 인코딩, 메타데이터 자동 추출 등을 지원하여 모든 MIME 유형의 데이터를 안전하게 업로드할 수 있게 해줍니다.
 
   ## Fixes
 
-  * 이제 run의 **Overview** 페이지에 run의 가동 시간과 추적 시간이 표시됩니다. run의 *가동 시간*은 시작부터 종료까지의 전체 실행 시간을 의미하며, run의 *추적 시간*은 run이 실험이나 계산을 실제로 수행한 시간을 의미합니다.
+  * 이제 run의 **Overview** 페이지에 run의 가동 시간과 추적 시간이 표시됩니다. run의 &#95;가동 시간&#95;은 시작부터 종료까지의 전체 실행 시간을 의미하며, run의 &#95;추적 시간&#95;은 run이 실험이나 계산을 실제로 수행한 시간을 의미합니다.
   * 선형 플롯을 확대한 뒤 전체 화면 모드로 열면, 이제 전체 화면 플롯에서도 같은 확대 뷰가 올바르게 유지됩니다.
   * 플롯에 표시되는 그룹 수를 변경해도 플롯이 업데이트되지 않던 버그를 수정했습니다.
   * 선형 플롯에서 **원본 표시**를 선택하면 이제 스무딩되지 않은 원본 선이 스무딩된 선보다 더 흐리게 표시됩니다.
