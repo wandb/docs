@@ -329,84 +329,56 @@ The following lists available metrics and their units:
 Tensor Processing Units (TPUs) are Google's custom-developed ASICs (Application Specific Integrated Circuits) used to accelerate machine learning workloads.
 
 <Note>
-The exact metrics reported depend on the TPU chip generation, such as v4, v5e, v5p, or v6e, and on the runtime environment.
+The exact metrics reported depend on the TPU chip generation, such as v4, v5e, v5p, v6e, or 7x and on the runtime environment.
 </Note>
 
-{/* ### TPU Memory usage
-The current High Bandwidth Memory usage in bytes per TPU core. 
-
-W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
-
-### TPU Memory usage percentage
-The current High Bandwidth Memory usage in percent per TPU core. 
-
-W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
-
-### TPU Duty cycle
-TensorCore duty cycle percentage per TPU device. Tracks the percentage of time over the sample period during which the accelerator TensorCore was actively processing. A larger value means better TensorCore utilization. 
-
-W&B assigns a `tpu.{tpu_index}.dutyCycle` tag to this metric. */}
+See [Supported metrics in Google's Cloud TPU documentation](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library) for more information about the available metrics and their definitions.
 
 ### TPU Compute metrics
 
-* `tpu.{tpu_index}.tensorcoreUtilization`
-TensorCore utilization percentage per device. This metric is available only through the libtpu SDK path. It is the most direct measure of whether TensorCore compute units are being fully utilized.
+* `tpu.{tpu_index}.tensorcoreUtilization`: TensorCore utilization percentage per device. It is the most direct measure of whether TensorCore compute units are being fully utilized.
 
-* `tpu.{tpu_index}.dutyCycle`
-The percentage of time during the sample period when the accelerator TensorCore was actively processing. This metric is reported per chip and fanned out to all devices on multi-device chips. Higher values indicate better TensorCore utilization.
+* `tpu.{tpu_index}.dutyCycle`: The percentage of time during the sample period when the accelerator TensorCore was actively processing. This metric is reported per chip and fanned out to all devices on multi-device chips. Higher values indicate better TensorCore utilization.
 
 ### TPU Memory metrics
 
-* `tpu.{tpu_index}.hbmCapacityTotal`
-Total High Bandwidth Memory (HBM) capacity in bytes per device.
+* `tpu.{tpu_index}.hbmCapacityTotal`: Total High Bandwidth Memory (HBM) capacity in bytes per device.
 
-* `tpu.{tpu_index}.hbmCapacityUsage`
-Current HBM usage in bytes per device.
+* `tpu.{tpu_index}.hbmCapacityUsage`: Current HBM usage in bytes per device.
 
 ### TPU Interconnect health
 
-* `tpu.{tpu_index}.iciLinkHealth`
-Inter-Chip Interconnect (ICI) link health per device. This metric is available only through the libtpu SDK path.
+* `tpu.{tpu_index}.iciLinkHealth`: Inter-Chip Interconnect (ICI) link health per device. This metric is available only through the libtpu SDK path.
 
 ### TPU Transfer latency
 
 Latency distributions in microseconds. Reported statistics can include mean, p50, p90, p95, and p999. These metrics are most relevant for multi-slice TPU pod configurations.
 
-* `tpu.bufferTransferLatency.{label}.{stat}Us`
-DCN (Data Center Network) buffer transfer latencies between slices.
+* `tpu.bufferTransferLatency.{label}.{stat}Us`: DCN (Data Center Network) buffer transfer latencies between slices.
 
-* `tpu.inboundBufferTransferLatency.{label}.{stat}Us`
-Inbound DCN buffer transfer latencies.
+* `tpu.inboundBufferTransferLatency.{label}.{stat}Us`: Inbound DCN buffer transfer latencies.
 
-* `tpu.hostToDeviceTransferLatency.{label}.{stat}Us`
-Host-to-device data transfer latencies.
+* `tpu.hostToDeviceTransferLatency.{label}.{stat}Us`: Host-to-device data transfer latencies.
 
-* `tpu.deviceToHostTransferLatency.{label}.{stat}Us`
-Device-to-host data transfer latencies.
+* `tpu.deviceToHostTransferLatency.{label}.{stat}Us`: Device-to-host data transfer latencies.
 
 ### TPU Collective communication
 
-* `tpu.collectiveE2ELatency.{label}.{stat}Us`
-End-to-end latency for collective operations, such as all-reduce and all-gather.
+* `tpu.collectiveE2ELatency.{label}.{stat}Us`: End-to-end latency for collective operations, such as all-reduce and all-gather.
 
-* `tpu.hostComputeLatency.{label}.{stat}Us`
-Host-side compute latencies, including MXLA compute latencies.
+* `tpu.hostComputeLatency.{label}.{stat}Us`: Host-side compute latencies, including MXLA compute latencies.
 
 ### TPU Network metrics
 
-* `tpu.grpcTcpMinRtt.{stat}Us`
-Minimum TCP round-trip time for gRPC connections.
+* `tpu.grpcTcpMinRtt.{stat}Us`: Minimum TCP round-trip time for gRPC connections.
 
-* `tpu.grpcTcpDeliveryRate.{stat}Mbps`
-TCP delivery rate for gRPC connections, in megabits per second.
+* `tpu.grpcTcpDeliveryRate.{stat}Mbps`: TCP delivery rate for gRPC connections, in megabits per second.
 
 ### TPU HLO execution metrics
 
-tpu.hloExecTiming.{label}.{stat}Us
-HLO (High Level Operations) execution timing distributions in microseconds. This metric reports per-operation execution time.
+* `tpu.hloExecTiming.{label}.{stat}Us`: HLO (High Level Operations) execution timing distributions in microseconds. This metric reports per-operation execution time.
 
-tpu.hloQueueSize.{label}
-Current size of the HLO execution queue. This metric indicates how many operations are queued for execution.
+* `tpu.hloQueueSize.{label}`: Current size of the HLO execution queue. This metric indicates how many operations are queued for execution.
 
 
 {/* New section */}
