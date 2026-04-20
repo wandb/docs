@@ -196,13 +196,13 @@ await scoreLogger.finish();
 
 ## Simplified logging with `log_example()`
 
-Use `log_example()` to log inputs, an output, and scores in a single call. This Python convenience method combines `log_prediction()`, `log_score()`, and `finish()` into one step.
+Use `log_example()` to log inputs, an output, and scores in a single call. This convenience method combines `log_prediction()`, `log_score()`, and `finish()` into one step, and is useful when you already have the inputs, model outputs, and scores ready to log, such as during batch or offline evaluations.
 
 ```python lines
 import weave
 from weave import EvaluationLogger
 
-weave.init('your-team/your-project')
+weave.init('your-team-name/your-project-name')
 
 eval_logger = EvaluationLogger(
     model="my_model",
@@ -237,7 +237,7 @@ pred.finish()
 ```
 
 <Note>
-`log_example()` is available in the Python SDK only. TypeScript users should use the `logPrediction()` and `logScore()` pattern shown in the [basic example](#basic-example).
+`log_example()` is not available for the Weave TypeScript SDK. TypeScript users should use the `logPrediction()` and `logScore()` pattern shown in the [basic example](#basic-example).
 </Note>
 
 ## Advanced usage
