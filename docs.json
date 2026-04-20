@@ -925,7 +925,8 @@
                     ]
                   },
                   "weave/guides/platform/weave-projects",
-                  "weave/guides/core-types/env-vars"
+                  "weave/guides/core-types/env-vars",
+                  "weave/guides/core-types/server-caching"
                 ]
               },
               {
