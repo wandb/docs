@@ -1,8 +1,11 @@
 ---
-title: "wandb beta leet"
+title: wandb beta leet
 ---
 
-import WandbBetaLeet from "/snippets/fr/_includes/cli/wandb-beta-leet.mdx";
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+import WandbBetaLeet from "/snippets/fr/_includes/cli/wandb-beta-leet.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L59" />
 
 <WandbBetaLeet />
 
@@ -11,14 +14,23 @@ import WandbBetaLeet from "/snippets/fr/_includes/cli/wandb-beta-leet.mdx";
 </div>
 
 ```bash
-wandb beta leet COMMAND [ARGS]...
+leet [PATH] | COMMAND [ARGS]...
 ```
 
-<div id="commands">
-  ## Commandes
+<div id="description">
+  ## Description
 </div>
 
-| Commande                                                                    | Description                     |
-| :-------------------------------------------------------------------------- | :------------------------------ |
-| [config](/fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config) | Modifier la configuration LEET. |
-| [run](/fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run)       | Lancer l’interface TUI de LEET. |
+W&amp;B LEET : l’outil léger d’exploration des expériences.
+
+Une interface de terminal pour consulter localement vos runs W&amp;B.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande                 | Description                          |
+| ------------------------ | ------------------------------------ |
+| `wandb beta leet config` | Modifiez la configuration de LEET.   |
+| `wandb beta leet run`    | Lancez l’interface TUI de LEET.      |
+| `wandb beta leet symon`  | Lancez le moniteur système autonome. |

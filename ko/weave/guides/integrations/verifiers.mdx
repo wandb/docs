@@ -59,7 +59,7 @@ os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
 # Weave 초기화
 weave.init("verifiers_demo")
 
-# 최소 단일 턴 환경
+# 최소한의 단일 턴 환경
 dataset = vf.load_example_dataset("gsm8k", split="train").select(range(2))
 parser = vf.ThinkParser()
 
@@ -108,7 +108,7 @@ uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 vf-install gsm8k --from-repo
 ```
 
-3. 모델을 트레이닝하세요. 다음 명령어는 각각 Inference 서버와 트레이닝 루프를 시작합니다. 이 예제 워크플로는 기본적으로 `report_to=wandb`를 설정하므로 `wandb.init`을 별도로 호출할 필요가 없습니다. W&amp;B에 메트릭을 로깅할 수 있도록 이 머신을 인증하라는 메시지가 표시됩니다.
+3. 모델을 트레이닝하세요. 다음 명령어는 각각 Inference 서버와 트레이닝 루프를 시작합니다. 이 예제 워크플로는 기본적으로 `report_to=wandb`를 설정하므로 `wandb.init()`을 별도로 호출할 필요가 없습니다. W&amp;B에 메트릭을 로깅할 수 있도록 이 머신을 인증하라는 메시지가 표시됩니다.
 
 ```bash
 # Inference 서버 실행

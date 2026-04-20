@@ -6,33 +6,33 @@ title: 概要
 import MetricNamingRules from "/snippets/ja/_includes/metric-naming-rules.mdx";
 import MetricNamingExamples from "/snippets/ja/_includes/metric-naming-examples.mdx";
 
-W&amp;B Python SDK を使用して、メトリクス、メディア、またはカスタムオブジェクトの辞書を step にログします。W&amp;B は各 step でキーと値のペアを収集し、`wandb.Run.log()` でデータをログするたびに、それらを1つの単一辞書に保存します。スクリプトからログされたデータは、まず `wandb` というディレクトリにローカル保存され、その後 W&amp;B クラウドまたは[プライベートサーバー](/ja/platform/hosting/)に同期されます。
+W&amp;B Python SDK を使用して、メトリクス、メディア、またはカスタムオブジェクトの辞書を step にログします。W&amp;B は各 step でキーと値のペアを収集し、`wandb.Run.log()` でデータをログするたびに、1 つの統合辞書に保存します。スクリプトからログされたデータは、まずローカルマシン上の `wandb` というディレクトリに保存され、その後 W&amp;B cloud または [private server](/ja/platform/hosting/) に同期されます。
 
 <Note>
-  キーと値のペアが1つの単一辞書に保存されるのは、各 step に同じ値を渡した場合のみです。`step` に異なる値をログすると、W&amp;B は収集したすべてのキーと値をメモリに書き込みます。
+  キーと値のペアが 1 つの統合辞書に保存されるのは、各 step に同じ値を渡した場合のみです。`step` に異なる値をログすると、W&amp;B は収集したすべてのキーと値をメモリに書き込みます。
 </Note>
 
-デフォルトでは、`wandb.Run.log()` の各 call は新しい `step` です。W&amp;B は チャート や panels の作成時に、steps をデフォルトの x-axis として使用します。必要に応じて、カスタム x-axis を作成して使用したり、カスタム summary メトリクスを記録したりできます。詳細は、[ログ軸のカスタマイズ](/ja/models/track/log/customize-logging-axes/)を参照してください。
+`wandb.Run.log()` を呼び出すたびに、デフォルトでは新しい `step` が作成されます。W&amp;B はチャートとパネルの作成時に、steps をデフォルトの x 軸として使用します。必要に応じて、カスタム x 軸を作成して使用したり、カスタム summary メトリクスを取得したりすることもできます。詳細は, [Customize log axes](/ja/models/track/log/customize-logging-axes/) を参照してください。
 
-{/* [より良い例を挿入] */}
+{/* [よりよい例を挿入] */}
 
-{/* コード内のさまざまな場所から同じ history step にログしたい場合は、次のように `run.log()` に step インデックスを渡します。
+{/* コード内のさまざまな場所から 1 つの history step にログする場合は、次のように `run.log()` に step インデックスを渡せます。
 
   ```python
   run.log({'loss': 0.2}, step=step)
   ``` */}
 
-{/* [例をここに挿入] */}
+{/* [例を挿入] */}
 
 <Warning>
-  各`step`に対して連続する値 (0、1、2、…) をログするには、`wandb.Run.log()`を使用してください。特定の history step に書き込むことはできません。W&amp;B が書き込むのは、&quot;現在の&quot; step と &quot;次の&quot; step のみです。
+  各`step` (0、1、2、…) の連続する値をログするには、`wandb.Run.log()`を使用してください。履歴内の特定の step に書き込むことはできません。W&amp;B が書き込めるのは、「現在」の step と「次」の step のみです。
 </Warning>
 
-{/* メトリクスを蓄積するには、`run.log` で `commit=False` を設定できます。メトリクスを保存するには、最終的に `commit=True`（デフォルト）を指定して `run.log` を呼び出してください。
+{/* `wandb.Run.log()` で `commit=False` を設定すると、メトリクスを蓄積できます。最終的には、メトリクスを保存するために `commit=True`（デフォルト）で `run.log()` を呼び出してください。
 
   ```python
   run.log({'loss': 0.2}, commit=False)
-  # この step を記録する準備ができたら、別の場所で:
+  # この step を記録する準備ができたら、コード内の別の場所で:
   run.log({'accuracy': 0.8})
   ``` */}
 

@@ -11,28 +11,28 @@ Accelerate에는 W&amp;B Tracker가 포함되어 있으며, 아래에서 사용 
   ## Accelerate로 로깅 시작하기
 </div>
 
-Accelerate와 W&amp;B를 사용하기 시작하려면 아래 의사 코드를 따르면 됩니다:
+Accelerate와 W&amp;B를 시작하려면 아래 의사 코드를 따르면 됩니다:
 
 ```python
 from accelerate import Accelerator
 
-# Accelerator 객체에 wandb로 로그하도록 지정
+# wandb로 로그를 기록하도록 Accelerator 객체에 지시합니다
 accelerator = Accelerator(log_with="wandb")
 
-# wandb run을 초기화하고, wandb 매개변수와 설정 정보를 전달
+# wandb run을 초기화하고, wandb 매개변수와 설정 정보를 전달합니다
 accelerator.init_trackers(
-    project_name="my_project", 
+    project_name="my_project",
     config={"dropout": 0.1, "learning_rate": 1e-2}
     init_kwargs={"wandb": {"entity": "my-wandb-team"}}
     )
 
 ...
 
-# `accelerator.log`를 호출하여 wandb에 로그, `step`은 선택 사항
+# accelerator.log()를 호출하여 wandb에 기록합니다. step은 선택 사항입니다
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 
 
-# wandb tracker가 올바르게 종료되었는지 확인
+# wandb tracker가 올바르게 종료되도록 합니다
 accelerator.end_training()
 ```
 
@@ -45,8 +45,8 @@ accelerator.end_training()
 * [`wandb.init()`](/ko/models/ref/python/functions/init)에 전달하려는 모든 매개변수를 `init_kwargs`의 중첩 dict를 통해 전달
 * wandb run에 기록하려는 기타 모든 실험 설정 정보를 `config`를 통해 전달
 
-3. Weights &amp; Biases에 기록하려면 `.log`를 사용합니다. `step` 인수는 선택 사항입니다
-4. 트레이닝이 끝나면 `.end_training`을 호출합니다
+3. Weights &amp; Biases에 기록하려면 `wandb.Run.log()` 방법을 사용합니다. `step` 인수는 선택 사항입니다
+4. 트레이닝이 끝나면 `.end_training()`을 호출합니다
 
 <div id="access-the-wb-tracker">
   ## W&amp;B tracker에 액세스하기

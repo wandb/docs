@@ -1,45 +1,55 @@
 ---
-title: "wandb artifact get"
+title: wandb artifact get
 ---
 
-{/*
-  このコマンドに導入用コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-get.mdx
-  2. そのファイルに導入用コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbArtifactGet from "/snippets/_includes/cli/wandb-artifact-get.mdx";
-
-  <WandbArtifactGet/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-wandb から artifact をダウンロードする
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2944" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb artifact get PATH [OPTIONS]
+get [OPTIONS] PATH
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+パスを指定して、W&amp;B からアーティファクトをダウンロードします。
+
+PATH の形式は entity/project/artifact&#95;name:version です。version が
+省略されている場合は、&quot;latest&quot; エイリアスを使用します。
+
+たとえば、&quot;team-awesome&quot; entity 配下の &quot;foobar&quot; project から、
+&quot;processed-training-set&quot; という名前のアーティファクトの最新バージョンをダウンロードするには、次のようにします。
+
+```bash
+wandb artifact get team-awesome/foobar/processed-training-set:latest
+```
+
+&quot;processed-training-set&quot; アーティファクトの特定のバージョン (v2) を
+ローカルディレクトリ (./data) にダウンロードするには、次のようにします。
+
+```bash
+wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2
+```
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数     | 説明   | 必須 |
-| :----- | :--- | :- |
-| `PATH` | 説明なし | はい |
+| 名      | デフォルト | タイプ  |
+| ------ | ----- | ---- |
+| `path` | STR   | True |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション    | 説明                         |
-| :------- | :------------------------- |
-| `--root` | artifact のダウンロード先となるディレクトリ |
-| `--type` | ダウンロードする artifact のタイプ     |
+| フラグ      | タイプ | 説明                                                                              |
+| -------- | --- | ------------------------------------------------------------------------------- |
+| `--root` | STR | アーティファクト のダウンロード先ディレクトリです。設定されていない場合は、デフォルトの アーティファクト キャッシュを使用します。**デフォルト**: なし |
+| `--type` | STR | 想定される アーティファクト のタイプです。一致しない場合は失敗します。**デフォルト**: なし                               |

@@ -13,18 +13,18 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 W&amp;B에 로깅되는 계산 단위입니다. 일반적으로는 ML 실험을 의미합니다.
 
-새 run을 생성하려면 [`wandb.init()`](https://docs.wandb.ai/ref/python/init/)을 call하세요. `wandb.init()`은 새 run을 시작하고 `wandb.Run` 객체를 반환합니다. 각 run에는 고유한 ID(run ID)가 연결됩니다. W&amp;B는 run이 자동으로 종료되도록 컨텍스트 관리자(`with` 문)를 사용할 것을 권장합니다.
+새 run을 생성하려면 [`wandb.init()`](https://docs.wandb.ai/models/ref/python/functions/init)을 call하세요. `wandb.init()`은 새 run을 시작하고 `wandb.Run` 객체를 반환합니다. 각 run에는 고유한 ID(run ID)가 연결됩니다. W&amp;B는 run이 자동으로 종료되도록 컨텍스트 관리자(`with` 문)를 사용할 것을 권장합니다.
 
-분산 트레이닝 실험의 경우, 프로세스마다 하나의 run을 사용해 각 프로세스를 개별적으로 추적할 수도 있고, 모든 프로세스를 하나의 run으로 추적할 수도 있습니다. 자세한 내용은 [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training)를 참조하세요.
+분산 트레이닝 실험의 경우, 프로세스마다 하나의 run을 사용해 각 프로세스를 개별적으로 추적할 수도 있고, 모든 프로세스를 하나의 run으로 추적할 수도 있습니다. 자세한 내용은 [Log distributed training experiments](https://docs.wandb.ai/models/track/log/distributed-training)를 참조하세요.
 
-`wandb.Run.log()`를 사용해 run에 데이터를 로깅할 수 있습니다. `wandb.Run.log()`로 로깅한 모든 항목은 해당 run으로 전송됩니다. 자세한 내용은 [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) 또는 [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API 레퍼런스 페이지를 참조하세요.
+`wandb.Run.log()`를 사용해 run에 데이터를 로깅할 수 있습니다. `wandb.Run.log()`로 로깅한 모든 항목은 해당 run으로 전송됩니다. 자세한 내용은 [Create an experiment](https://docs.wandb.ai/models/track/create-an-experiment) 또는 [`wandb.init`](https://docs.wandb.ai/models/ref/python/functions/init) API 레퍼런스 페이지를 참조하세요.
 
-[`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) 네임스페이스에는 또 다른 `Run` 객체가 있습니다. 이 객체는 이미 생성된 run과 상호작용하는 데 사용됩니다.
+[`wandb.apis.public`](https://docs.wandb.ai/models/ref/python/public-api/api) 네임스페이스에는 또 다른 `Run` 객체가 있습니다. 이 객체는 이미 생성된 run과 상호작용하는 데 사용됩니다.
 
 **속성:**
 
-* `summary`:  (Summary) run의 요약으로, 딕셔너리와 유사한 객체입니다. 자세한 내용은
-* `[Log summary metrics](https`: //docs.wandb.ai/guides/track/log/log-summary/).
+* `summary`: (Summary) run의 요약으로, 딕셔너리와 유사한 객체입니다. 자세한 내용은
+* `[Log summary metrics](https`: //docs.wandb.ai/models/track/log/log-summary).
 
 **예시:**
 `wandb.init()`으로 run 생성:
@@ -33,11 +33,10 @@ W&amp;B에 로깅되는 계산 단위입니다. 일반적으로는 ML 실험을 
 import wandb
 
 # 새 run을 시작하고 데이터를 로깅합니다
-# 컨텍스트 매니저(`with` 문)를 사용하여 run을 자동으로 종료합니다
+# run이 자동으로 종료되도록 컨텍스트 관리자(`with` 문)를 사용합니다
 with wandb.init(entity="entity", project="project") as run:
     run.log({"accuracy": acc, "loss": loss})
-```
-
+``` 
 
 ### <kbd>속성</kbd> Run.config
 
@@ -121,7 +120,7 @@ run과 연결된 작업 유형의 이름입니다.
 
 W&amp;B App의 run Overview 페이지에서 run의 작업 유형을 확인할 수 있습니다.
 
-이를 사용하면 &quot;트레이닝&quot;, &quot;evaluation&quot;, &quot;Inference&quot;와 같은 작업 유형별로 run을 분류할 수 있습니다. 이는 W&amp;B UI에서 run을 정리하고 필터링하는 데 유용하며, 특히 같은 프로젝트에 서로 다른 작업 유형의 run이 여러 개 있을 때 더욱 유용합니다. 자세한 내용은 [run 정리하기](https://docs.wandb.ai/guides/runs/#organize-runs)를 참조하세요.
+이를 사용하면 &quot;트레이닝&quot;, &quot;evaluation&quot;, &quot;Inference&quot;와 같은 작업 유형별로 run을 분류할 수 있습니다. 이는 W&amp;B UI에서 run을 정리하고 필터링하는 데 유용하며, 특히 같은 프로젝트에 서로 다른 작업 유형의 run이 여러 개 있을 때 더욱 유용합니다. 자세한 내용은 [run 정리하기](https://docs.wandb.ai/models/runs#organize-runs)를 참조하세요.
 
 **반환값:**
 
@@ -482,7 +481,7 @@ log(
 
 run 데이터를 업로드합니다.
 
-`log`를 사용해 스칼라, 이미지, 비디오, 히스토그램, 플롯, 테이블 등 run 데이터를 로깅합니다. 코드 스니펫, 모범 사례 등은 [Log objects and media](https://docs.wandb.ai/guides/track/log)를 참조하세요.
+`log`를 사용해 스칼라, 이미지, 비디오, 히스토그램, 플롯, 테이블 등 run의 데이터를 기록하세요. 코드 스니펫, 모범 사례 등은 [객체 및 미디어 로깅](https://docs.wandb.ai/models/track/log)에서 확인하세요.
 
 기본 사용법:
 
@@ -493,17 +492,17 @@ with wandb.init() as run:
      run.log({"train-loss": 0.5, "accuracy": 0.9})
 ```
 
-이전 코드 스니펫은 loss와 accuracy를 run의 이력에 저장하고, 이러한 메트릭의 summary 값을 업데이트합니다.
+이전 코드 스니펫은 loss와 정확도를 run의 이력에 저장하고, 이러한 메트릭의 summary 값을 업데이트합니다.
 
-로깅된 데이터는 [wandb.ai](https://wandb.ai)의 워크스페이스에서 시각화하거나, W&amp;B 앱의 [self-hosted instance](https://docs.wandb.ai/guides/hosting)에서 로컬로 시각화할 수 있습니다. 또는 [Public API](https://docs.wandb.ai/guides/track/public-api-guide)를 사용해 데이터를 내보낸 뒤 Jupyter notebook과 같은 환경에서 로컬로 시각화하고 탐색할 수도 있습니다.
+[wandb.ai](https://wandb.ai)의 Workspace에서 로깅된 데이터를 시각화하거나, W&amp;B app의 [self-hosted instance](https://docs.wandb.ai/platform/hosting)에서 로컬로 시각화할 수 있습니다. 또는 [Public API](https://docs.wandb.ai/models/track/public-api-guide)를 사용해 데이터를 내보내 Jupyter notebook과 같은 환경에서 로컬로 시각화하고 탐색할 수도 있습니다.
 
-로깅된 값이 반드시 스칼라일 필요는 없습니다. 이미지, 오디오, 비디오 등 [W&amp;B에서 지원하는 데이터 유형](https://docs.wandb.ai/ref/python/data-types/)은 무엇이든 로깅할 수 있습니다. 예를 들어 `wandb.Table`을 사용해 구조화된 데이터를 로깅할 수 있습니다. 자세한 내용은 [테이블 로깅, 데이터 시각화 및 쿼리](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) 워크스루 튜토리얼을 참조하세요.
+로깅된 값은 반드시 스칼라일 필요가 없습니다. 이미지, 오디오, 비디오 등 [W&amp;B에서 지원하는 데이터 유형](https://docs.wandb.ai/models/ref/python/data-types)은 무엇이든 로깅할 수 있습니다. 예를 들어, 구조화된 데이터를 로깅하려면 `wandb.Table`을 사용할 수 있습니다. 자세한 내용은 [테이블 로깅, 데이터 시각화 및 쿼리](https://docs.wandb.ai/models/tables/tables-walkthrough) 튜토리얼을 참조하세요.
 
-W&amp;B는 이름에 슬래시(`/`)가 포함된 메트릭을 마지막 슬래시 앞의 텍스트를 기준으로 섹션으로 구성합니다. 예를 들어 다음과 같이 하면 &quot;train&quot; 및 &quot;validate&quot;라는 두 개의 섹션이 생성됩니다:
+W&amp;B는 이름에 슬래시(`/`)가 포함된 메트릭을, 마지막 슬래시 앞의 텍스트를 기준으로 이름이 지정된 섹션으로 구성합니다. 예를 들어, 다음은 &quot;train&quot;과 &quot;validate&quot;라는 두 개의 섹션을 생성합니다:
 
 ```python
 with wandb.init() as run:
-     # "train" 섹션에 메트릭을 로깅합니다.
+     # "train" 섹션에 메트릭을 기록합니다.
      run.log(
          {
              "train/accuracy": 0.9,
@@ -514,21 +513,21 @@ with wandb.init() as run:
      )
 ```
 
-중첩은 한 단계까지만 지원됩니다. `run.log({"a/b/c": 1})`를 사용하면 &quot;a&quot;라는 이름의 섹션이 생성됩니다.
+중첩은 한 단계만 지원됩니다. `run.log({"a/b/c": 1})`를 사용하면 &quot;a&quot;라는 이름의 섹션이 생성됩니다.
 
-`run.log()`는 초당 몇 차례 이상 호출하는 용도로 설계되지 않았습니다. 최적의 성능을 위해 N회 반복마다 한 번만 로깅하거나, 여러 반복 동안 데이터를 모은 뒤 한 step으로 로깅하세요.
+`run.log()`는 초당 몇 번 이상 호출하는 용도로 설계되지 않았습니다. 최적의 성능을 위해 N번의 반복마다 한 번만 로깅하거나, 여러 반복에 걸쳐 데이터를 모은 뒤 한 단계에서 로깅하세요.
 
-기본적으로 `log`를 호출할 때마다 새로운 &quot;step&quot;이 생성됩니다. step은 항상 증가해야 하며, 이전 step에 로깅할 수는 없습니다. 차트의 X축에는 어떤 메트릭이든 사용할 수 있습니다. 자세한 내용은 [사용자 지정 로깅 축](https://docs.wandb.ai/guides/track/log/customize-logging-axes/)을 참조하세요.
+기본적으로 `log`를 호출할 때마다 새로운 &quot;step&quot;이 생성됩니다. step은 항상 증가해야 하며, 이전 step에는 로깅할 수 없습니다. 차트의 X축에는 어떤 metric이든 사용할 수 있습니다. 자세한 내용은 [맞춤형 log 축](https://docs.wandb.ai/models/track/log/customize-logging-axes)을 참조하세요.
 
-많은 경우 W&amp;B step은 트레이닝 step이라기보다 타임스탬프처럼 다루는 편이 더 좋습니다.
+많은 경우 W&amp;B step은 트레이닝 step이라기보다 타임스탬프처럼 다루는 것이 더 적절합니다.
 
 ```python
 with wandb.init() as run:
-     # 예시: X축으로 사용하기 위해 "epoch" 메트릭을 로그합니다.
+     # 예시: X축으로 사용할 "epoch" 메트릭을 기록합니다.
      run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-`step` 및 `commit` 파라미터를 사용하면 여러 `wandb.Run.log()` 호출로 동일한 step에 로깅할 수 있습니다. 다음은 모두 동일합니다:
+`step` 및 `commit` 매개변수를 사용하면 여러 번의 `wandb.Run.log()` 호출로 동일한 step에 log할 수 있습니다. 다음은 모두 동일합니다:
 
 ```python
 with wandb.init() as run:
@@ -550,16 +549,15 @@ with wandb.init() as run:
      run.log({"accuracy": 0.9}, step=current_step, commit=True)
 ```
 
-**매개변수:**
+**인수:**
 
-
-* `data`:  `str` 키와 직렬화 가능한 값을 갖는 `dict`
-* `Python objects including`:  `int`, `float`, `string`, 모든 `wandb.data_types`, 직렬화 가능한 Python 객체의 목록, 튜플, NumPy 배열, 그리고 이 구조를 따르는 다른 `dict`
-* `step`:  log할 step 번호입니다. `None`이면 암시적으로 자동 증가하는 step이 사용됩니다. 설명의 notes를 참조하세요.
-* `commit`:  true이면 step을 완료하고 업로드합니다. false이면 step의 데이터를 누적합니다. 설명의 notes를 참조하세요. `step`이 `None`이면 기본값은 `commit=True`이고, 그렇지 않으면 기본값은 `commit=False`입니다.
+* `data`: `str` 키와 직렬화할 수 있는 값을 갖는 `dict`
+* `Python objects including`: `int`, `float`, `string`, `wandb.data_types`의 모든 유형, 직렬화할 수 있는 Python 객체의 목록, 튜플 및 NumPy 배열, 그리고 이 구조의 다른 `dict`를 포함합니다.
+* `step`: 로깅할 step 번호입니다. `None`이면 암묵적으로 자동 증가하는 step이 사용됩니다. 설명의 참고 사항을 참조하세요.
+* `commit`: true이면 step을 완료하고 업로드합니다. false이면 step에 대한 데이터를 누적합니다. 설명의 참고 사항을 참조하세요. `step`이 `None`이면 기본값은 `commit=True`이고, 그렇지 않으면 기본값은 `commit=False`입니다.
 
 **예시:**
-더 많고 자세한 예시는 [logging 가이드](https://docs.wandb.com/guides/track/log)를 참조하세요.
+더 많고 자세한 예시는 [로깅 가이드](https://docs.wandb.ai/models/track/log)를 참조하세요.
 
 기본 사용법
 
@@ -577,7 +575,7 @@ import wandb
 
 with wandb.init() as run:
     run.log({"loss": 0.2}, commit=False)
-    # 이 step을 리포트할 준비가 됐을 때 다른 곳에서:
+    # 이 step을 기록할 준비가 되면 다른 곳에서:
     run.log({"accuracy": 0.8})
 ```
 
@@ -593,7 +591,7 @@ with wandb.init() as run:
     run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
-NumPy 제공 이미지
+NumPy 배열 이미지
 
 ```python
 import numpy as np
@@ -630,7 +628,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-NumPy 비디오
+NumPy 배열 비디오
 
 ```python
 import numpy as np
@@ -690,11 +688,10 @@ with wandb.init() as run:
 
 **예외:**
 
-* `wandb.Error`:  `wandb.init()` 전에 call한 경우.
-* `ValueError`:  유효하지 않은 데이터가 전달된 경우.
+* `wandb.Error`: `wandb.init()` 전에 호출한 경우.
+* `ValueError`: 유효하지 않은 데이터를 전달한 경우.
 
 ***
-
 
 ### <kbd>방법</kbd> `Run.log_artifact`
 
@@ -736,8 +733,8 @@ artifact를 run의 출력으로 선언합니다.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10998dda0>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10b11bb00>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10b622160>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ccfb9c0>
 ) → Artifact | None
 ```
 
@@ -745,7 +742,7 @@ log_code(
 
 기본적으로 현재 디렉터리를 순회하면서 `.py`로 끝나는 모든 파일을 로그합니다.
 
-**매개변수:**
+**인수:**
 
 * `root`:  코드를 재귀적으로 찾을 상대 경로(`os.getcwd()` 기준) 또는 절대 경로입니다.
 * `name`:  (str, 선택) 코드 artifact의 이름입니다. 기본적으로 artifact 이름은 `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`로 지정됩니다. 여러 run이 동일한 artifact를 공유해야 하는 경우가 있을 수 있습니다. `name`을 지정하면 그렇게 할 수 있습니다.
@@ -782,7 +779,6 @@ with wandb.init() as run:
 코드가 로깅된 경우 `Artifact` 객체
 
 ***
-
 
 ### <kbd>방법</kbd> `Run.log_model`
 
@@ -829,6 +825,22 @@ mark_preempting() → None
 
 ***
 
+
+### <kbd>방법</kbd> `Run.pin_config_keys`
+
+```python
+pin_config_keys(keys: 'Sequence[str]' = ()) → None
+```
+
+Run Overview의 References 섹션에 표시할 설정 키를 고정합니다.
+
+고정된 키는 Run Overview 페이지에서 Notes 위에 강조되어 표시됩니다. 문자열 값은 Markdown으로 렌더링되고, 문자열이 아닌 값은 일반 텍스트로 렌더링됩니다. 이 메서드를 다시 호출하면 이전에 고정한 목록이 대체됩니다.
+
+**인수:**
+
+* `keys`: 고정할 설정 키 이름으로, `run.config`를 통해 설정된 키와 일치해야 합니다. 점과 슬래시는 경로 구분자가 아니라 문자 그대로 처리되는 정확한 키 문자열입니다. 순서는 유지되며, 표시 순서도 이에 따라 결정됩니다.
+
+***
 
 ### <kbd>방법</kbd> `Run.restore`
 
@@ -885,11 +897,11 @@ save(
 
 파일은 자동으로 중복 제거됩니다. 같은 파일을 수정하지 않은 채 `save()`를 여러 번 호출해도 다시 업로드되지 않습니다.
 
-**매개변수:**
+**인수:**
 
-* `glob_str`:  상대 경로, 절대 경로 또는 Unix glob입니다.
-* `base_path`:  디렉터리 구조를 추론하는 데 사용할 경로입니다. 예시를 참조하세요.
-* `policy`:  `live`, `now`, `end` 중 하나입니다.
+* `glob_str`: 상대 경로, 절대 경로 또는 Unix glob입니다.
+* `base_path`: 디렉터리 구조를 추론하는 데 사용할 경로입니다. 예시를 참조하세요.
+* `policy`: `live`, `now`, `end` 중 하나입니다.
   * live: 파일이 변경될 때마다 업로드하며 이전 버전을 덮어씁니다
   * now: 파일을 즉시 한 번 업로드합니다
   * end: run이 종료될 때 파일을 업로드합니다
@@ -911,7 +923,7 @@ run.save("these/are/myfiles/*", base_path="these")
 # => run의 "are/myfiles/" 폴더에 파일을 저장합니다.
 
 run.save("/Users/username/Documents/run123/*.txt")
-# => run의 "run123/" 폴더에 파일을 저장합니다. 아래 참고 사항을 참조하세요.
+# => run의 "run123/" 폴더에 파일을 저장합니다. 아래 참고 사항을 확인하세요.
 
 run.save("/Users/username/Documents/run123/*.txt", base_path="/Users")
 # => run의 "username/Documents/run123/" 폴더에 파일을 저장합니다.
@@ -924,7 +936,6 @@ run.finish()
 ```
 
 ***
-
 
 ### <kbd>방법</kbd> `Run.status`
 
@@ -1005,7 +1016,7 @@ artifact를 run의 입력으로 선언합니다.
 
 반환된 객체에서 `download` 또는 `file`을 호출해 콘텐츠를 로컬로 가져옵니다.
 
-**매개변수:**
+**인수:**
 
 * `artifact_or_name`: 사용할 artifact의 이름입니다. artifact가 로깅된 프로젝트 이름(&quot;entity&quot; 또는 &quot;entity/project&quot;)을 앞에 붙일 수 있습니다. 이름에 entity가 지정되지 않으면 Run 또는 API 설정의 entity가 사용됩니다. 유효한 이름 형식은 다음과 같습니다.
   * name:version
@@ -1030,12 +1041,12 @@ artifact_a = run.use_artifact(artifact_or_name="<name>:<alias>")
 # 이름과 버전으로 artifact 사용
 artifact_b = run.use_artifact(artifact_or_name="<name>:v<version>")
 
-# entity/프로젝트/이름:alias로 artifact 사용
+# entity/project/name:alias로 artifact 사용
 artifact_c = run.use_artifact(
     artifact_or_name="<entity>/<project>/<name>:<alias>"
 )
 
-# entity/프로젝트/이름:버전으로 artifact 사용
+# entity/project/name:version으로 artifact 사용
 artifact_d = run.use_artifact(
     artifact_or_name="<entity>/<project>/<name>:v<version>"
 )
@@ -1045,7 +1056,6 @@ run.finish()
 ```
 
 ***
-
 
 ### <kbd>방법</kbd> `Run.use_model`
 

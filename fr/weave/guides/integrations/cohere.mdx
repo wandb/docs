@@ -41,9 +41,7 @@ L’une des fonctionnalités puissantes des modèles Cohere est l’utilisation 
 
 [![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
-<Note>
-  Nous patchons les méthodes Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream` et `AsyncClient.chat_stream` pour vous permettre de suivre vos appels LLM.
-</Note>
+<Note>Nous patchons les méthodes Cohere `Client.chat()`, `AsyncClient.chat()`, `Client.chat_stream()` et `AsyncClient.chat_stream()` pour vous permettre de suivre vos appels LLM.</Note>
 
 <div id="wrapping-with-your-own-ops">
   ## Encapsuler avec vos propres ops

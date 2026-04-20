@@ -1,36 +1,37 @@
 ---
-title: "wandb status"
+title: wandb ステータス
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-status.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行のみを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbStatus from "/snippets/_includes/cli/wandb-status.mdx";
-
-  <WandbStatus/>
-
-  次回の再生成時に、このスニペットは自動的に検出されます。
-  */}
-
-設定内容を表示
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3436" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb status [OPTIONS]
+status [OPTIONS]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+現在のW&amp;B設定を表示します。
+
+ベースURL、APIキー、project、entity、そのほかの最終的に解決された値を含む、現在有効なW&amp;B設定を整形されたJSONとして出力します。
+
+たとえば、現在の設定を表示するには次のようにします。
+
+```bash
+wandb status
+```
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション        | 説明                         |
-| :----------- | :------------------------- |
-| `--settings` | 現在の設定を表示します (デフォルト: True)  |
+| フラグ          | タイプ      | 説明                           |
+| ------------ | -------- | ---------------------------- |
+| `--settings` | BOOL フラグ | 現在の設定を表示します。 **デフォルト**: True |

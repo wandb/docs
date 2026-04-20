@@ -9,7 +9,7 @@ title: OpenAI Gym
   Gym은 더 이상 활발하게 유지 관리되는 프로젝트가 아니므로, Gymnasium 인테그레이션을 사용해 보세요.
 </Note>
 
-[OpenAI Gym](https://github.com/openai/gym)을 사용 중이라면, W&amp;B는 `gym.wrappers.Monitor`가 생성한 환경 비디오를 자동으로 로깅합니다. [`wandb.init`](/ko/models/ref/python/functions/init)의 `monitor_gym` 키워드 인수를 `True`로 설정하거나 `wandb.gym.monitor()`를 호출하세요.
+[OpenAI Gym](https://github.com/openai/gym)을 사용 중이라면, W&amp;B는 `gym.wrappers.Monitor`가 생성한 환경 비디오를 자동으로 로깅합니다. [`wandb.init()`](/ko/models/ref/python/functions/init)의 `monitor_gym` 키워드 인수를 `True`로 설정하거나 `wandb.gym.monitor()`를 호출하세요.
 
 gym 인테그레이션은 매우 단순합니다. `gym`에서 로깅되는 비디오 파일의 [이름을 확인](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15)해서 그 이름을 그대로 사용하고, 일치하는 항목을 찾지 못하면 `"videos"`를 사용합니다. 더 세밀하게 제어하고 싶다면 언제든 직접 [비디오를 로깅](/ko/models/track/log/media/)할 수 있습니다.
 

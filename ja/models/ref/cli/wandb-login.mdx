@@ -1,36 +1,94 @@
 ---
-title: "wandb login"
+title: wandb login
 ---
 
-import WandbLogin from "/snippets/ja/_includes/cli/wandb-login.mdx";
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-<WandbLogin />
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L263" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb login [KEY] [OPTIONS]
+login [OPTIONS] [KEY]...
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+このマシンを W&amp;B で認証します。
+
+W&amp;B サービスで認証するための APIキーをローカルに保存します。
+デフォルトでは、認証情報はサーバー側で検証されずに保存されます。
+
+引数として APIキーが指定されていない場合、コマンドは
+次の順序で認証情報を探します。
+
+1. WANDB&#95;API&#95;KEY 環境変数
+
+   2. システムまたは Workspace settings ファイル内の api&#95;key 設定 (どの設定ファイルが使用されているかを確認するには
+      `wandb status` を使用してください) 
+
+   3. .netrc ファイル (~~/.netrc、~~/&#95;netrc、または NETRC 環境変数で指定されたパス) 
+
+   4. インタラクティブなプロンプト (TTY を使用できる場合) 
+
+セルフホスト型または専用クラウドのデプロイでは、`--host` でサーバー
+URL を指定するか、WANDB&#95;BASE&#95;URL 環境変数を設定してください。
+
+たとえば、インタラクティブにログインするには (APIキーの入力を求められます) :
+
+```bash
+wandb login
+```
+
+明示的に指定したAPIキー (WANDB&#95;API&#95;KEY&#95;EXAMPLE) を使用してログインするには:
+
+```bash
+wandb login WANDB_API_KEY_EXAMPLE
+```
+
+ログインし、APIキーが有効かどうかを確認するには:
+
+```bash
+wandb login --verify
+```
+
+設定済みのセルフホスト型インスタンスではなく、W&amp;B パブリッククラウドにログインするには:
+
+```bash
+wandb login --cloud
+```
+
+セルフホスト型のW&amp;Bインスタンスにログインするには:
+
+```bash
+wandb login --host https://my-wandb-server.example.com
+```
+
+すでに認証されている場合でも、ログイン プロンプトを強制的に再表示するには:
+
+```bash
+wandb login --relogin
+```
 
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数    | 説明   | 必須  |
-| :---- | :--- | :-- |
-| `KEY` | 説明なし | いいえ |
+| 名     | デフォルト | タイプ   |
+| ----- | ----- | ----- |
+| `key` | STR   | False |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション                  | 説明                                   |
-| :--------------------- | :----------------------------------- |
-| `--cloud`              | ローカルではなくクラウドにログインします (デフォルト: False)  |
-| `--host`, `--base-url` | 特定の W&amp;B インスタンスにログインします           |
-| `--relogin`            | すでにログインしている場合でも、再ログインを強制します。         |
-| `--verify`             | ログイン認証情報を確認します (デフォルト: False)        |
+| Flag                 | Type      | Description                                                                                                                                        |
+| -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--cloud`            | BOOL Flag | W&amp;B のパブリッククラウド ([https://api.wandb.ai](https://api.wandb.ai)) にログインします。`--host` とは同時に指定できません。**デフォルト**: False                                  |
+| `--host, --base-url` | STR       | URL を指定して、特定の W&amp;B サーバーインスタンス (例: [https://my-wandb.example.com](https://my-wandb.example.com)) にログインします。`--cloud` とは同時に指定できません。**デフォルト**: None |
+| `--relogin`          | BOOL Flag | 既存の認証情報を無視して、新たにログインを求めます。**デフォルト**: None                                                                                                          |
+| `--verify`           | BOOL Flag | 保存後に APIキーを W&amp;B で検証します。検証に成功すると、認証情報のソースとデフォルトのチームを表示します。**デフォルト**: False                                                                      |

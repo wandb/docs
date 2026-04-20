@@ -1,52 +1,45 @@
 ---
-title: "wandb launch"
+title: wandb launch
 ---
 
-{/*
-  このコマンドに導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-launch.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-  import WandbLaunch from "/snippets/_includes/cli/wandb-launch.mdx";
-
-  <WandbLaunch/>
-
-  次回の再生成時に、このスニペットは自動検出されます。
-  */}
-
-W&amp;B ジョブを起動するか、キューに入れます。詳細は https://wandb.me/launch を参照してください
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1494" />
 
 <div id="usage">
   ## 使い方
 </div>
 
 ```bash
-wandb launch [OPTIONS]
+launch [OPTIONS]
 ```
 
+<div id="description">
+  ## 説明
+</div>
+
+W&amp;B ジョブを launch するか、キューに入れます。詳細は [https://wandb.me/launch](https://wandb.me/launch) を参照してください
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション                   | 説明                                                                                                                                                                                                     |
-| :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--uri`, `-u`           | 起動元のローカルパスまたは git リポジトリ URI。指定すると、この command は指定した URI からジョブを作成します。                                                                                                                                    |
-| `--job`, `-j`           | 起動するジョブの名。これを指定すると、Launch に URI は不要です。                                                                                                                                                                 |
-| `--entry-point`, `-E`   | プロジェクト内のエントリポイント。[default: main]。エントリポイントが見つからない場合は、指定した名のプロジェクトファイルをスクリプトとして実行しようとします。`.py` ファイルは `python`、`.sh` ファイルはデフォルトのシェル (環境変数 `$SHELL` で指定) で実行します。これを指定すると、設定ファイルで指定した entrypoint の値を上書きします。 |
-| `--build-context`       | ソースコード内のビルドコンテキストのパス。デフォルトはソースコードのルートです。`-u` とのみ併用できます。                                                                                                                                                |
-| `--name`                | 起動する run に関連付ける run の名。指定しない場合は、ランダムな run 名で run を起動します。これを指定すると、設定ファイルで指定した名を上書きします。                                                                                                                  |
-| `--entity`, `-e`        | 新しい run の送信先となる entity の名。デフォルトでは、ローカルの wandb/settings フォルダーで設定された entity を使用します。これを指定すると、設定ファイルで指定した entity の値を上書きします。                                                                                |
-| `--project`, `-p`       | 新しい run の送信先となるプロジェクトの名。デフォルトでは、ソース URI で指定されたプロジェクト名、または GitHub の run では git リポジトリ名を使用します。これを指定すると、設定ファイルで指定したプロジェクトの値を上書きします。                                                                     |
-| `--resource`, `-r`      | run に使用する実行リソース。サポートされる値: `'local-process'`, `'local-container'`, `'kubernetes'`, `'sagemaker'`, `'gcp-vertex'`。リソース設定のないキューにプッシュする場合、これは必須パラメーターです。これを指定すると、設定ファイルで指定した resource の値を上書きします。           |
-| `--docker-image`, `-d`  | 使用する特定の Docker image。形式は `name:tag` です。これを指定すると、設定ファイルで指定した docker image の値を上書きします。                                                                                                                    |
-| `--base-image`, `-B`    | ジョブコードの実行に使用する Docker image。`--docker-image` とは併用できません。                                                                                                                                                |
-| `--config`, `-c`        | Launch 設定として渡される JSON ファイル (末尾が `.json` である必要があります) のパス、または JSON 文字列。起動される run の設定方法を指定します。                                                                                                            |
-| `--set-var`, `-v`       | 許可リストが有効なキューに対して、テンプレート変数の値をキーと値のペアとして設定します。例: `--set-var key1=value1 --set-var key2=value2`                                                                                                           |
-| `--queue`, `-q`         | プッシュ先の run キューの名。指定しない場合は、single run を直接起動します。引数なしで指定した場合 (`--queue`) 、デフォルトでキュー `'default'` が使用されます。名前を指定した場合は、指定したプロジェクト および entity 配下にその run キューが存在している必要があります。                                   |
-| `--async`               | ジョブを非同期で実行するためのフラグ。デフォルトは false です。つまり、`--async` を設定しない限り、`wandb launch` はジョブの完了を待機します。このオプションは `--queue` と併用できません。agent とともに実行する場合の非同期オプションは `wandb launch-agent` で設定してください。(default: False)          |
-| `--resource-args`, `-R` | コンピュートリソースに resource args として渡される JSON ファイル (末尾が `.json` である必要があります) のパス、または JSON 文字列。指定すべき正確な内容は実行バックエンドごとに異なります。このファイルの Layout についてはドキュメントを参照してください。                                                 |
-| `--dockerfile`, `-D`    | ジョブのビルドに使用する Dockerfile のパス。ジョブのルートからの相対パスです                                                                                                                                                           |
-| `--priority`, `-P`      | `--queue` を指定した場合に、ジョブの優先度を設定します。優先度の高い Launch ジョブほど先に処理されます。優先度は高い順に critical、high、medium、low です                                                                                                      |
+| Flag                  | Type      | Description                                                                                                                                                                                                                     |
+| --------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--uri, -u`           | STR       | launch する対象のローカルパスまたは git repo URI。指定すると、このコマンドは指定した URI からジョブを作成します。**デフォルト**: None                                                                                                                                            |
+| `--job, -j`           | STR       | launch するジョブの名。指定した場合、launch に URI は不要です。**デフォルト**: None                                                                                                                                                                        |
+| `--entry-point, -E`   | STR       | project 内のエントリポイント。[default: main]。エントリポイントが見つからない場合は、指定した名の project ファイルをスクリプトとして実行しようとします。このとき、`.py` ファイルは `python` で、`.sh` ファイルはデフォルトのシェル (環境変数 `$SHELL` で指定) で実行します。指定した場合、設定ファイルで渡された entrypoint の値を上書きします。**デフォルト**: None |
+| `--build-context`     | STR       | ソースコード内の build context へのパス。デフォルトではソースコードのルートを使用します。`-u` とのみ互換性があります。**デフォルト**: None                                                                                                                                            |
+| `--name`              | STR       | run の launch に使用する run 名。指定しない場合は、ランダムな run 名で run を launch します。指定した場合、設定ファイルで渡された name を上書きします。**デフォルト**: None                                                                                                                 |
+| `--entity, -e`        | STR       | 新しい run の送信先となる entity の名。デフォルトでは、ローカルの `wandb/settings` フォルダーで設定された entity を使用します。指定した場合、設定ファイルで渡された entity の値を上書きします。**デフォルト**: None                                                                                          |
+| `--project, -p`       | STR       | 新しい run の送信先となる project の名。デフォルトでは、ソース URI で指定された project 名、または GitHub runs の場合は git repo 名を使用します。指定した場合、設定ファイルで渡された project の値を上書きします。**デフォルト**: None                                                                          |
+| `--resource, -r`      | STR       | run に使用する実行リソース。サポートされる値: `'local-process'`, `'local-container'`, `'kubernetes'`, `'sagemaker'`, `'gcp-vertex'`。リソース設定のないキューにプッシュする場合、これは必須パラメーターです。指定した場合、設定ファイルで渡された resource の値を上書きします。**デフォルト**: None                       |
+| `--docker-image, -d`  | STR       | 使用する特定の Docker image。形式は `name:tag` です。指定した場合、設定ファイルで渡された docker image の値を上書きします。**デフォルト**: None                                                                                                                                |
+| `--base-image, -B`    | STR       | ジョブコードを実行する Docker image。`--docker-image` とは同時に使用できません。**デフォルト**: None                                                                                                                                                          |
+| `--config, -c`        | STR       | launch 設定として渡す JSON ファイル (末尾が `.json` である必要があります) へのパス、または JSON 文字列。launch された run の設定方法を指定します。**デフォルト**: None                                                                                                                  |
+| `--set-var, -v`       | STR       | 許可リストが有効なキューに対して、テンプレート変数の値をキーと値のペアとして設定します (例: `--set-var key1=value1 --set-var key2=value2`) 。**デフォルト**: None                                                                                                                 |
+| `--queue, -q`         | STR       | プッシュ先の run キューの名。指定しない場合は single run を直接 launch します。引数なしで指定した場合 (`--queue`) 、キュー `'default'` が使用されます。名前を指定した場合、指定した run キューは、指定した project および entity 配下に存在している必要があります。**デフォルト**: None                                     |
+| `--async`             | BOOL Flag | ジョブを非同期で実行するためのフラグ。デフォルトは false です。つまり、`--async` を指定しない限り、`wandb launch` はジョブが完了するまで待機します。このオプションは `--queue` と同時に使用できません。エージェントで実行する場合の非同期オプションは `wandb launch-agent` で設定してください。**デフォルト**: False                                |
+| `--resource-args, -R` | STR       | コンピュートリソースに resource args として渡す JSON ファイル (末尾が `.json` である必要があります) へのパス、または JSON 文字列。指定する内容は実行バックエンドごとに異なります。このファイルのレイアウトについてはドキュメントを参照してください。**デフォルト**: None                                                                   |
+| `--dockerfile, -D`    | STR       | ジョブの build に使用する Dockerfile へのパス。ジョブのルートからの相対パスです。**デフォルト**: None                                                                                                                                                               |
+| `--priority, -P`      | Choice    | `--queue` を指定した場合に、ジョブの優先度を設定します。優先度の高い launch ジョブほど先に処理されます。優先度は高い順に `critical`、`high`、`medium`、`low` です。**デフォルト**: None                                                                                                       |

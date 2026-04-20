@@ -36,10 +36,7 @@ Consultez un [exemple de run avec intégration TensorBoard](https://wandb.ai/rym
 
 Une fois votre run terminé, vous pouvez accéder à vos fichiers d’événements TensorBoard dans W&amp;B et visualiser vos métriques dans les graphiques natifs de W&amp;B, avec d’autres informations utiles comme l’utilisation du CPU ou du GPU du système, l’état de `git`, la commande de terminal utilisée pour le run, et plus encore.
 
-<Note>
-  W&amp;B prend en charge TensorBoard avec toutes les versions de TensorFlow. W&amp;B prend également en charge TensorBoard 1.14 et les versions ultérieures avec PyTorch, ainsi que TensorBoardX.
-</Note>
-
+<Note>W&amp;B prend en charge TensorBoard avec toutes les versions de TensorFlow. W&amp;B prend également en charge TensorBoard 1.14 et les versions ultérieures avec PyTorch, ainsi que TensorBoardX.</Note>
 
 <div id="frequently-asked-questions">
   ## Questions fréquentes
@@ -59,7 +56,7 @@ Le paramètre `step` dans `run.log()` est désactivé lors de la synchronisation
   ### Comment puis-je configurer TensorBoard lorsque je l’utilise avec `wandb` ?
 </div>
 
-Si vous voulez mieux contrôler la manière dont TensorBoard est patché, vous pouvez appeler `wandb.tensorboard.patch` au lieu de passer `sync_tensorboard=True` à `wandb.init`.
+Si vous voulez mieux contrôler la manière dont TensorBoard est patché, vous pouvez appeler `wandb.tensorboard.patch()` au lieu de passer `sync_tensorboard=True` à `wandb.init()`.
 
 ```python
 import wandb
@@ -67,7 +64,7 @@ import wandb
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
 run = wandb.init()
 
-# Terminer le run wandb pour envoyer les journaux TensorBoard vers W&B (si exécuté dans un Notebook)
+# Terminer le run wandb pour téléverser les journaux TensorBoard vers W&B (si exécuté dans un Notebook)
 run.finish()
 ```
 
@@ -81,12 +78,12 @@ import wandb
 run = wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 
-# Si vous exécutez dans un notebook, terminez le run wandb pour importer les journaux TensorBoard dans W&B
+# Si vous exécutez dans un notebook, terminez le run wandb pour téléverser les journaux TensorBoard vers W&B
 run.finish()
 ```
 
 <Warning>
-  Vous devez appeler soit `wandb.init()`, soit `wandb.tensorboard.patch` **avant** d&#39;appeler `tf.summary.create_file_writer` ou d&#39;instancier un `SummaryWriter` via `torch.utils.tensorboard`.
+  Vous devez appeler soit `wandb.init()`, soit `wandb.tensorboard.patch()` **avant** d&#39;appeler `tf.summary.create_file_writer()` ou d&#39;instancier un `SummaryWriter` via `torch.utils.tensorboard`.
 </Warning>
 
 <div id="how-do-i-sync-historical-tensorboard-runs">

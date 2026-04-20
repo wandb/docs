@@ -9,7 +9,7 @@ title: OpenAI Gym
   Comme Gym n&#39;est plus activement maintenu, essayez notre intégration avec Gymnasium.
 </Note>
 
-Si vous utilisez [OpenAI Gym](https://github.com/openai/gym), W&amp;B enregistre automatiquement les vidéos de votre environnement générées par `gym.wrappers.Monitor`. Définissez simplement l&#39;argument mot-clé `monitor_gym` de [`wandb.init`](/fr/models/ref/python/functions/init) sur `True` ou appelez `wandb.gym.monitor()`.
+Si vous utilisez [OpenAI Gym](https://github.com/openai/gym), W&amp;B enregistre automatiquement les vidéos de votre environnement générées par `gym.wrappers.Monitor`. Définissez simplement l&#39;argument mot-clé `monitor_gym` de [`wandb.init()`](/fr/models/ref/python/functions/init) sur `True` ou appelez `wandb.gym.monitor()`.
 
 Notre intégration Gym est très légère. Nous [regardons simplement le nom du fichier vidéo](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15) enregistré depuis `gym` et lui donnons ce nom, ou utilisons `"videos"` par défaut si nous ne trouvons pas de correspondance. Si vous voulez plus de contrôle, vous pouvez toujours [enregistrer une vidéo](/fr/models/track/log/media/) manuellement.
 

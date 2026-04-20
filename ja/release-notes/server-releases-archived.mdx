@@ -608,13 +608,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * (Launch) Launch タブの読み込みが大幅に高速化され、通常は2秒未満で表示されるようになりました。
   * (Launch) キュー設定を JSON ではなく YAML で編集できるオプションを追加しました。キュー設定の編集方法もよりわかりやすくなりました。
   * (Launch) Runs がクラッシュまたは失敗した際に、UI にエラーメッセージが表示されるようになりました。
-  * (Launch) ジョブ作成時にプロジェクトを指定しない場合、wandb.init の WANDB&#95;PROJECT の値を使用するようになりました。
+  * (Launch) ジョブ作成時にプロジェクトを指定しない場合、wandb.init() の WANDB&#95;PROJECT の値を使用するようになりました。
   * (Launch) カスタムアクセラレーターイメージのサポートを更新しました。ビルド時に非対話モードで実行されるようになり、一部のイメージで発生していたブロックを解消しています。
-  * (Launch) sweeps の run 作成者が実際の作成者ではなく agent サービスアカウントになっていた問題を修正しました
+  * (Launch) sweeps の run 作成者が実際の作成者ではなく エージェント サービスアカウントになっていた問題を修正しました
   * (Launch) Launch drawer の外側をクリックしても、自動的に drawer が閉じなくなりました。
   * (Launch) sweep によってキュー投入され、まだ実行されていないトレーニングジョブが、後で sweep を停止した際にキューから正しく削除されない問題を修正しました。
   * (Launch) チームに所属していないユーザーには、Launch の navigation link が表示されなくなりました。
-  * (Launch) Agent logs の書式と表示の問題を修正しました。
+  * (Launch) Agent ログ の書式と表示の問題を修正しました。
   * Automations パネルでのスクロール、リサイズ、複製の問題を修正しました。
   * artifact の action history のページネーションを修正しました。
   * AWS&#95;S3&#95;ENDPOINT&#95;URL 環境変数が設定され、SDK 側から渡された場合に、VPC endpoint URL を使用する事前署名付き URL をサポートするようになりました。

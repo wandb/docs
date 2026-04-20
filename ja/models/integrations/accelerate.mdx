@@ -16,23 +16,23 @@ Accelerate と W&amp;B の使用を開始するには、以下の疑似コード
 ```python
 from accelerate import Accelerator
 
-# Acceleratorオブジェクトにwandbでログするよう指示する
+# Accelerator オブジェクトに wandb でログするよう指示する
 accelerator = Accelerator(log_with="wandb")
 
-# wandb runを初期化し、wandbパラメーターと設定情報を渡す
+# wandb run を初期化し、wandb パラメーターと設定情報を渡す
 accelerator.init_trackers(
-    project_name="my_project", 
+    project_name="my_project",
     config={"dropout": 0.1, "learning_rate": 1e-2}
     init_kwargs={"wandb": {"entity": "my-wandb-team"}}
     )
 
 ...
 
-# `accelerator.log`を呼び出してwandbにログする。`step`はoptional
+# accelerator.log() を呼び出して wandb にログする。step は省略可能
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 
 
-# wandbトラッカーが正常に終了することを確認する
+# wandb トラッカーが正しく終了するようにする
 accelerator.end_training()
 ```
 
@@ -45,8 +45,8 @@ accelerator.end_training()
 * [`wandb.init()`](/ja/models/ref/python/functions/init) に渡したい任意のパラメーターを、ネストした dict として `init_kwargs` に渡す
 * wandb run にログしたいその他の実験設定情報を `config` で渡す
 
-3. Weights &amp; Biases にログするには `.log` method を使用します。`step` 引数は省略可能です
-4. トレーニングが完了したら `.end_training` を呼び出します
+3. Weights &amp; Biases にログするには `wandb.Run.log()` method を使用します。`step` 引数は省略可能です
+4. トレーニングが完了したら `.end_training()` を呼び出します
 
 <div id="access-the-wb-tracker">
   ## W&amp;Bトラッカーにアクセスする
