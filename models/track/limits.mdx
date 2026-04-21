@@ -6,7 +6,47 @@ title: Experiments limits and performance
 
 {/* ## Best Practices for Fast Pages */}
 
-Keep your pages in W&B faster and more responsive by logging within the following suggested bounds.
+The following sections describe recommended limit and performance considerations. In this page the following terms are used:
+
+* Steps: The number of logical steps in a run. A step identifies a single row of metrics (such as those that belong to a particular training step or epoch) and is finalized when `wandb.Run.log()` is called with `commit=True`, or implicitly when neither `commit` nor `step` are specified.
+* Metrica cardinality: The number of distinct metric keys logged, including keys in nested dictionaries. For example, the following would count as 4 metric keys:
+    ```python
+    import wandb
+    with wandb.init() as run:
+        run.log({
+        "a": 1,
+        "b": {
+            "c": 2,
+            "d": {
+            "e": 3,
+            "f": 4,
+            }
+        }
+        })
+    ```
+* Logged points: The total number of metric values recorded. For example, both of the following would count as 3 logged points:
+    ```python
+    import wandb
+    with wandb.init() as run:
+        run.log({"a": 1, "b": 2, "c": 3})
+    ```
+    ```python
+    with wandb.init() as run:
+        run.log({"a": 1})
+        run.log({"a": 2})
+        run.log({"a": 3})
+    ```
+* Log frequency: The number of wandb.log() calls per minute.
+    ```text
+    log frequency = wandb.log() / minute 
+    ```
+* Throughput: A single unified metric for logging scale to simplify how users think about metrics across dimensions. The unit is logged points per minute.
+    ```text
+    throughput = logged points × log frequency 
+    ```
+
+
+
 
 ## Logging considerations
 
@@ -161,7 +201,7 @@ with open("large_config.json", "r") as f:
     wandb.init(config=large_config)
 ```
 
-## Workspace considerations 
+## Workspace performance 
 
 
 ### Run count
@@ -175,10 +215,8 @@ Run counts over these thresholds can slow down operations that involve project w
 
 If your team accesses the same set of runs frequently, such as the set of recent runs, consider [moving less frequently used runs in bulk](/models/runs/manage-runs/) to a new "archive" project, leaving a smaller set of runs in your working project.
 
-### Workspace performance
-This section gives tips for optimizing the performance of your workspace.
 
-#### Panel count
+### Panel count
 By default, a workspace is _automatic_, and generates standard panels for each logged key. If a workspace for a large project includes panels for many logged keys, the workspace may be slow to load and use. To improve performance, you can:
 
 1. Reset the workspace to manual mode, which includes no panels by default.
@@ -190,7 +228,7 @@ Deleting unused panels one at a time has little impact on performance. Instead, 
 
 To learn more about configuring your workspace, refer to [Panels](/models/app/features/panels/).
 
-#### Section count
+### Section count
 
 Having hundreds of sections in a workspace can hurt performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric.
 
