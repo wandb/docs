@@ -360,17 +360,32 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
   </Tab>
 </Tabs>
 
+<div id="organization-home-recent-activity">
+  ## Page d’accueil de l’organisation et activité récente
+</div>
+
+Lorsque vous sélectionnez votre organisation dans la W&amp;B App, la page d’accueil de l’organisation résume le travail récent.
+
+La zone **Activité récente** comprend :
+
+* Des vues distinctes pour **vos** runs récents et l’**activité récente de votre équipe**. Utilisez le contrôle en haut du tableau pour basculer.
+* Une **recherche** pour filtrer la liste d’activité.
+* Des **colonnes triables** pour réorganiser les lignes selon la colonne qui vous intéresse.
+* Des **notes** lorsque du texte de note est disponible pour un run.
+
+D’autres sections de la page d’accueil de l’organisation, comme les rapports récents, peuvent apparaître dans un ordre différent de celui des anciennes versions de l’application.
+
 <div id="star-a-project">
   ## Ajouter une étoile à un projet
 </div>
 
-Ajoutez une étoile à un projet pour indiquer qu’il est important. Les projets que vous et votre équipe marquez comme importants avec des étoiles apparaissent en haut de la page d’accueil de votre organisation.
+Ajoutez une étoile à un projet pour indiquer qu’il est important.
 
-Par exemple, l’image suivante montre deux projets marqués comme importants, `zoo_experiment` et `registry_demo`. Les deux projets apparaissent en haut de la page d’accueil de l’organisation, dans la section **Projets favoris**.
+Les projets marqués d’une étoile sont regroupés en **haut de la page Projects** de votre équipe. Dans la **navigation de gauche**, vous pouvez voir jusqu’à **10** projets à la fois. Lorsque vous ajoutez une étoile à un projet, il remonte en **haut** de cette liste.
 
-<Frame>
-  <img src="/images/track/star-projects.png" alt="Section Projets favoris" />
-</Frame>
+<Note>
+Sur d’anciennes présentations de l’application, les projets favoris pouvaient apparaître dans une section **Projets favoris** en haut de la page d’accueil de l’organisation. Le moment où la page d’accueil et la navigation mises à jour sont activées pour votre compte est contrôlé par votre déploiement W&amp;B Multi-tenant Cloud ou W&amp;B Server (par exemple via la barrière Statsig `enable_homepage_refresh` par utilisateur en auto-hébergement). Demandez à votre administrateur si vous n’êtes pas sûr de la présentation dont vous disposez.
+</Note>
 
 Il existe deux façons de marquer un projet comme important : dans l’onglet Aperçu d’un projet ou sur la page de profil de votre équipe.
 
@@ -398,7 +413,7 @@ Il existe deux façons de marquer un projet comme important : dans l’onglet A
   </Tab>
 </Tabs>
 
-Vérifiez que votre projet apparaît sur la page d’accueil de votre organisation en cliquant sur le nom de l’organisation dans le coin supérieur gauche de l’application.
+Pour vérifier que votre projet est disponible, ouvrez votre organisation depuis le coin supérieur gauche de l’application. Ouvrez **Projects** dans la navigation de gauche (ou utilisez **View all** sous **Projects**) et repérez votre projet dans la liste. Les projets favoris apparaissent en haut de la page Projects.
 
 <div id="delete-a-project">
   ## Supprimer un projet
