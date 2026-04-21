@@ -71,6 +71,9 @@ See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) referenc
 ## Overview
 Use the **Overview** tab to learn about specific run information in a project, such as:
 
+* **References**: Dictionary keys from your experiment's [config](/models/track/config) that you want to show prominently in the W&B App. See [Highlight config values](/models/track/config#highlight-config-values) for more details.
+* **Notes**: Any notes you added to the run. You can add notes to a run with the W&B App or programmatically with the Python SDK.
+* **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like `baseline` or `production`. You can add tags to a run with the W&B App or programmatically with the Python SDK.
 * **Author**: The W&B entity that creates the run.
 * **Command**: The command that initializes the run.
 * **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App or programmatically with the Python SDK.
@@ -86,7 +89,6 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Start time**: The timestamp when you initialize the run.
 * **State**: The [state of the run](/models/runs/run-states).
 * **System hardware**: The hardware W&B uses to compute the run.
-* **Tags**: A list of strings. Tags are useful for organizing related runs together or applying temporary labels like `baseline` or `production`.
 * **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
 * **Git state**: The most recent git commit SHA of a repository or working directory where the run is initialized. This field is empty if you do not enable Git when you create the run or if the git information is not available.
 
