@@ -1,0 +1,18 @@
+---
+title: "시스템 메트릭 기록 빈도는 어떻게 변경하나요?"
+keywords: ["메트릭", "Runs"]
+---
+
+[시스템 메트릭](/ko/models/ref/python/experiments/system-metrics) 기록 빈도를 설정하려면 `_stats_sampling_interval`을 초 단위 부동소수점 값으로 설정하세요. 기본값: `10.0`.
+
+```python
+wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

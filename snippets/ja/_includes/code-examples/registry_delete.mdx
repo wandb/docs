@@ -1,0 +1,26 @@
+---
+title: Registryの削除
+---
+
+```python
+"""
+W&B からレジストリを削除する。
+"""
+import wandb
+
+# レジストリとコレクションの詳細を定義する
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+
+# レジストリのフルパスを構築する
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# W&B API を初期化する
+api = wandb.Api()
+
+# 削除するレジストリを取得する
+fetched_registry = api.registry("<registry_name>")
+
+# レジストリを削除する
+fetched_registry.delete()
+```

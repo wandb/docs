@@ -1,47 +1,51 @@
 ---
-title: "wandb enabled"
+title: wandb enabled
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-enabled.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<WandbEnabled/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3499" />
 
-Re-enable W&B after it was deactivated with `wandb disabled`.
 
-Set the mode to `online` to restore full W&B functionality, including cloud syncing and artifact storage.
-
-Does not upload data logged while W&B was set to `disabled`, but allows new data to be logged and synced.
-
-To switch between online and offline modes without fully deactivating W&B, use `wandb online` or `wandb offline` instead.
-
-For example, to restore W&B functionality after deactivating it with `wandb disabled`:
-
-```bash
-$ wandb enabled
-```
-
-To run a training script with W&B logging and syncing restored:
-
-```bash
-$ python train.py # Log and sync data to W&B
-```
 
 ## Usage
 
 ```bash
-wandb enabled [OPTIONS]
+enabled [OPTIONS]
 ```
+
+## Description
+
+Re-enable W&B after it was deactivated with `wandb disabled`.
+
+    Set the mode to `online` to restore full W&B functionality,
+    including cloud syncing and artifact storage.
+
+    Does not upload data logged while W&B was set to `disabled`, but allows
+    new data to be logged and synced.
+
+    To switch between online and offline modes without fully deactivating W&B,
+    use `wandb online` or `wandb offline` instead.
+
+    For example, to restore W&B functionality after deactivating it with `wandb disabled`:
+
+```bash
+wandb enabled
+```
+
+    To run a training script with W&B logging and syncing restored:
+
+```bash
+python train.py # Log and sync data to W&B
+```
+
+
+
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--service` | No effect. Accepted for backwards compatibility. (default: True) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--service` | BOOL Flag | No effect. Accepted for backwards compatibility. **Default**: True |

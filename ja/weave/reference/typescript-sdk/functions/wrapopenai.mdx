@@ -1,31 +1,39 @@
 ---
-title: wrapOpenAI
-description: TypeScript SDK リファレンス
+title: "wrapOpenAI"
+description: "TypeScript SDK リファレンス"
 ---
 
-# wrapOpenAI
+<div id="wrapopenai">
+  # wrapOpenAI
+</div>
 
-▸ **wrapOpenAI**\<`T`\>(`openai`): `T`
+▸ **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
 
-OpenAI API をラップし、OpenAI 呼び出しの関数トレーシングを有効にします。
+OpenAI の call で関数トレースを有効にするために、OpenAI API をラップします。
 
-#### 型パラメータ
+<div id="type-parameters">
+  #### 型パラメーター
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `T` | `OpenAIAPI` を継承 |
+| 名   | タイプ                 |
+| :-- | :------------------ |
+| `T` | extends `OpenAIAPI` |
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
+| 名        | タイプ |
+| :------- | :-- |
 | `openai` | `T` |
 
-#### 戻り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `T`
 
-`Example`
+`例`
 
 ```ts
 const openai = wrapOpenAI(new OpenAI());
@@ -35,6 +43,9 @@ const result = await openai.chat.completions.create({
 });
 ```
 
-#### 定義箇所
 
-[integrations/openai.ts:469](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/integrations/openai.ts#L469)
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[integrations/openai.ts:505](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.ts#L505)

@@ -1,23 +1,26 @@
 ---
-title: feedback
-description: weave.trace.feedback을 위한 Python SDK 레퍼런스
+title: "feedback"
+description: "weave.trace.feedback Python SDK 레퍼런스"
 ---
 
-import { SourceLink } from '/snippets/en/_includes/source-link.mdx';
+import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 
-# API 개요
+<div id="api-overview">
+  # API Overview
+</div>
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L84" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L84" />
 
 ## <kbd>class</kbd> `FeedbackQuery`
-서버로부터 피드백을 가져오기 위한 지연 로딩 (Lazy-loading) 오브젝트입니다. 
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L97" />
+서버에서 피드백을 가져오는 lazy 로딩 객체입니다.
 
-### <kbd>method</kbd> `__init__`
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L97" />
+
+### <kbd>방법</kbd> `__init__`
 
 ```python
 __init__(
@@ -30,46 +33,51 @@ __init__(
 )
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L145" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L145" />
 
-### <kbd>method</kbd> `execute`
+
+### <kbd>방법</kbd> `execute`
 
 ```python
 execute() → Feedbacks
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L126" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L126" />
 
-### <kbd>method</kbd> `refresh`
+
+### <kbd>방법</kbd> `refresh`
 
 ```python
 refresh() → Feedbacks
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L151" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L151" />
 
-### <kbd>method</kbd> `refs`
+
+### <kbd>방법</kbd> `refs`
 
 ```python
 refs() → Refs
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L21" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L21" />
+
 
 ## <kbd>class</kbd> `Feedbacks`
-유틸리티 기능이 포함된 Feedback 오브젝트의 컬렉션입니다. 
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L26" />
+유틸리티를 제공하는 Feedback 객체 컬렉션입니다.
 
-### <kbd>method</kbd> `__init__`
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L26" />
+
+### <kbd>방법</kbd> `__init__`
 
 ```python
 __init__(
@@ -78,38 +86,42 @@ __init__(
 ) → None
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L32" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L32" />
 
-### <kbd>method</kbd> `refs`
+
+### <kbd>방법</kbd> `refs`
 
 ```python
 refs() → Refs
 ```
 
-이 피드백들과 연관된 고유한 ref들을 반환합니다. 
+이 피드백들에 연결된 고유한 ref를 반환합니다.
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L168" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L168" />
+
 
 ## <kbd>class</kbd> `RefFeedbackQuery`
-특정 ref와 연관된 피드백과 상호작용하기 위한 오브젝트입니다. 
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L173" />
+특정 ref에 연결된 피드백과 상호작용하는 객체입니다.
 
-### <kbd>method</kbd> `__init__`
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L173" />
+
+### <kbd>방법</kbd> `__init__`
 
 ```python
 __init__(ref: 'str') → None
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L219" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L219" />
 
-### <kbd>method</kbd> `add`
+
+### <kbd>방법</kbd> `add`
 
 ```python
 add(
@@ -121,65 +133,71 @@ add(
 ) → str
 ```
 
-ref에 피드백을 추가합니다. 
+ref에 피드백을 추가합니다.
 
-feedback_type: 피드백 유형을 식별하는 문자열입니다. "wandb." 접두사는 예약되어 있습니다. creator: 피드백 생성자로 표시될 이름입니다. 
+feedback&#95;type: 피드백의 유형을 나타내는 문자열입니다. &quot;wandb.&quot; 접두사는 예약되어 있습니다. creator: 피드백 작성자로 표시할 이름입니다.
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L247" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L247" />
 
-### <kbd>method</kbd> `add_note`
+
+### <kbd>방법</kbd> `add_note`
 
 ```python
 add_note(note: 'str', creator: 'str | None' = None) → str
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L238" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L238" />
 
-### <kbd>method</kbd> `add_reaction`
+
+### <kbd>방법</kbd> `add_reaction`
 
 ```python
 add_reaction(emoji: 'str', creator: 'str | None' = None) → str
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L145" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L145" />
 
-### <kbd>method</kbd> `execute`
+
+### <kbd>방법</kbd> `execute`
 
 ```python
 execute() → Feedbacks
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L256" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L256" />
 
-### <kbd>method</kbd> `purge`
+
+### <kbd>방법</kbd> `purge`
 
 ```python
 purge(feedback_id: 'str') → None
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L126" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L126" />
 
-### <kbd>method</kbd> `refresh`
+
+### <kbd>방법</kbd> `refresh`
 
 ```python
 refresh() → Feedbacks
 ```
 
----
+***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L151" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/feedback.py#L151" />
 
-### <kbd>method</kbd> `refs`
+
+### <kbd>방법</kbd> `refs`
 
 ```python
 refs() → Refs

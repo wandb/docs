@@ -1,0 +1,14 @@
+---
+title: "불리언 변수를 하이퍼파라미터로 지정할 수 있나요?"
+keywords: ["Sweeps"]
+---
+
+하이퍼파라미터를 불리언 플래그로 전달하려면 설정의 command 섹션에서 `${args_no_boolean_flags}` 매크로를 사용하세요. 이 매크로는 불리언 매개변수를 플래그 형태로 자동으로 포함합니다. `param`이 `True`이면 command에 `--param`이 전달됩니다. `param`이 `False`이면 해당 플래그는 생략됩니다.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,100 @@
+---
+title: Ajouter des étiquettes aux runs avec des tags
+description: "Ajoutez, mettez à jour et supprimez des tags sur des runs W&B à l'aide du SDK Python, de l'API publique ou de la W&B App UI pour les organiser."
+---
+
+Ajoutez des tags pour identifier des runs par des caractéristiques particulières qui ne ressortent pas forcément des métriques enregistrées ou des données d&#39;artifact.
+
+Par exemple, vous pouvez ajouter un tag à un run pour indiquer que le modèle de ce run est `in_production`, que ce run est `preemptible`, que ce run correspond à la `baseline`, et ainsi de suite.
+
+<div id="add-tags-to-one-or-more-runs">
+  ## Ajouter des tags à un ou plusieurs runs
+</div>
+
+Ajoutez des tags à vos runs par programmation ou de manière interactive.
+
+Selon votre cas d’utilisation, sélectionnez l’onglet ci-dessous qui correspond le mieux à vos besoins :
+
+<Tabs>
+  <Tab title="W&B Python SDK">
+    Utilisez `wandb.init()` pour ajouter des tags lorsque vous initialisez un run. Passez une liste de chaînes au paramètre `tags` dans `wandb.init()` pour ajouter des tags à un run. Par exemple :
+
+    ```python
+    import wandb
+
+    with wandb.init(
+      entity="<entity>",
+      project="<project>",
+      tags=["<tag1>", "<tag2>"]
+    ) as run:
+        # Votre code d'entraînement ici
+    ```
+
+    Vous pouvez également ajouter ou mettre à jour un tag existant pendant un run actif en modifiant l’attribut `tags` de l’objet run (`wandb.Run.tags`). L’attribut `tags` accepte un tuple de chaînes. Concaténez un ou plusieurs tags à la propriété de tags du run existante pour ajouter de nouveaux tags après l’initialisation du run :
+
+    ```python
+    import wandb
+
+    with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>"]) as run:
+      # Logique de la boucle d'entraînement ici
+
+      # Ajouter un nouveau tag à l'objet run
+      run.tags += ("<new_tag>",)
+    ```
+  </Tab>
+
+  <Tab title="API publique">
+    Utilisez l’[API publique W&amp;B](/fr/models/ref/python/public-api) pour ajouter ou mettre à jour les tags d’un run précédemment enregistré.
+
+    Pour mettre à jour les tags d’un run existant, accédez à la propriété `wandb.Run.tags`. La propriété `wandb.Run.tags` se compose d’une liste de chaînes. Concaténez le ou les nouveaux tags aux tags existants, puis appelez `wandb.Run.update()` pour mettre à jour le run avec les nouveaux tags. Par exemple :
+
+    ```python
+    with wandb.Api().run("{entity}/{project}/{run-id}") as run:
+      run.tags.append("<tag1>")
+      run.update()
+    ```
+  </Tab>
+
+  <Tab title="Page du projet">
+    Cette méthode convient particulièrement pour attribuer le même tag ou les mêmes tags à un grand nombre de runs.
+
+    1. Accédez à l’espace de travail du projet.
+    2. Sélectionnez **Runs** dans la barre latérale du projet.
+    3. Sélectionnez un ou plusieurs runs dans le tableau.
+    4. Après avoir sélectionné un ou plusieurs runs, cliquez sur le bouton **Tag** au-dessus du tableau.
+    5. Saisissez le tag à ajouter et cochez la case **Create new tag** pour l’ajouter.
+  </Tab>
+
+  <Tab title="Page du run">
+    Cette méthode convient particulièrement pour appliquer manuellement un ou plusieurs tags à un seul run.
+
+    1. Accédez à l’espace de travail du projet.
+    2. Cliquez sur un run pour l’ouvrir. La page du run s’ouvre avec l’onglet **Aperçu** affiché par défaut.
+    3. Sélectionnez le bouton avec l’icône plus grise (**+**) à côté de **Tags**.
+    4. Saisissez le tag à ajouter, puis sélectionnez **Add** sous la zone de texte pour créer un nouveau tag.
+  </Tab>
+</Tabs>
+
+<div id="remove-tags-from-one-or-more-runs">
+  ## Supprimer des tags d’un ou de plusieurs runs
+</div>
+
+Suivez ces étapes pour supprimer des tags d’un run dans W&amp;B App.
+
+<Tabs>
+  <Tab title="Page du projet">
+    Cette méthode est la plus adaptée pour supprimer des tags sur un grand nombre de runs.
+
+    1. Dans la barre latérale du run du projet, sélectionnez l’icône de tableau en haut à droite. La barre latérale s’ouvre alors sur le tableau complet des runs.
+    2. Survolez un run dans le tableau pour faire apparaître une case à cocher à gauche, ou utilisez la case à cocher de la ligne d’en-tête pour sélectionner tous les runs.
+    3. Cochez la case pour activer les actions groupées.
+    4. Sélectionnez les runs dont vous souhaitez supprimer les tags.
+    5. Sélectionnez le bouton **Tag** au-dessus des lignes de runs.
+    6. Cochez la case à côté d’un tag pour le supprimer du run.
+  </Tab>
+
+  <Tab title="Page du run">
+    1. Dans la barre latérale gauche de la page du run, sélectionnez l’onglet supérieur **Aperçu**. Les tags du run y sont affichés.
+    2. Survolez un tag et sélectionnez le &quot;x&quot; pour le supprimer du run.
+  </Tab>
+</Tabs>

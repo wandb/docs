@@ -1,0 +1,82 @@
+---
+title: Configurer les alertes Slack
+description: "Créez et configurez une application Slack pour recevoir les alertes, notifications et mises à jour de supervision de W&B Server."
+---
+
+Intégrez W&amp;B Server à [Slack](https://slack.com/).
+
+<Note>
+  Regardez une [vidéo montrant comment configurer les alertes Slack sur un déploiement W&amp;B Dedicated Cloud](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 min).
+</Note>
+
+<div id="create-the-slack-application">
+  ## Créer l&#39;application Slack
+</div>
+
+Suivez la procédure ci-dessous pour créer une application Slack.
+
+1. Accédez à https://api.slack.com/apps et sélectionnez **Créer une application**.
+
+   <Frame>
+     <img src="/images/hosting/create_an_app.png" alt="Bouton Créer une application" />
+   </Frame>
+
+2. Saisissez un nom pour votre application dans le champ **Nom de l&#39;application**.
+
+3. Sélectionnez l&#39;espace de travail Slack dans lequel vous souhaitez développer votre application. Assurez-vous d&#39;utiliser le même espace de travail Slack pour les alertes.
+
+   <Frame>
+     <img src="/images/hosting/name_app_workspace.png" alt="Nom de l'application et sélection de l'espace de travail" />
+   </Frame>
+
+<div id="configure-the-slack-application">
+  ## Configurer l’application Slack
+</div>
+
+1. Dans la barre latérale gauche, sélectionnez **OAth &amp; Permissions**.
+
+   <Frame>
+     <img src="/images/hosting/add_an_oath.png" alt="Menu OAth & Permissions" />
+   </Frame>
+
+2. Dans la section Scopes, attribuez au bot le scope **incoming&#95;webhook**. Les scopes accordent à votre application l’autorisation d’effectuer des actions dans votre espace de travail de développement.
+
+   Pour plus d’informations sur les scopes OAuth pour les bots, Voir le tutoriel Understanding OAuth scopes for Bots dans la documentation de l’API Slack.
+
+   <Frame>
+     <img src="/images/hosting/save_urls.png" alt="Scopes du token du bot" />
+   </Frame>
+
+3. Configurez l’URL de redirection pour qu’elle pointe vers votre installation W&amp;B. Utilisez la même URL que celle définie comme URL d’hôte dans les paramètres de votre système local. Vous pouvez spécifier plusieurs URL si votre instance utilise différents mappages DNS.
+
+   <Frame>
+     <img src="/images/hosting/redirect_urls.png" alt="Configuration des URL de redirection" />
+   </Frame>
+
+4. Sélectionnez **Save URLs**.
+
+5. Vous pouvez aussi spécifier une plage d’adresses IP sous **Restrict API Token Usage** afin d’autoriser l’adresse IP ou la plage d’adresses IP de vos instances W&amp;B. Limiter les adresses IP autorisées renforce la sécurité de votre application Slack.
+
+<div id="register-your-slack-application-with-wb">
+  ## Enregistrez votre application Slack auprès de W&amp;B
+</div>
+
+1. Accédez à la page **System Settings** ou **System Console** de votre instance W&amp;B, selon votre déploiement
+
+2. Selon la page System sur laquelle vous vous trouvez, suivez l’une des options ci-dessous :
+
+   * Si vous êtes dans **System Console** : accédez à **Settings**, puis à **Notifications**
+
+     <Frame>
+       <img src="/images/hosting/register_slack_app_console.png" alt="Notifications de System Console" />
+     </Frame>
+
+   * Si vous êtes dans **System Settings** : activez l’option **Enable a custom Slack application to dispatch alerts** pour activer une application Slack personnalisée
+
+     <Frame>
+       <img src="/images/hosting/register_slack_app.png" alt="Option d’activation de l’application Slack" />
+     </Frame>
+
+3. Saisissez votre **ID client Slack** et votre **secret Slack**, puis cliquez sur **Save**. Accédez à Basic Information dans Settings pour trouver l’ID client et le secret de votre application.
+
+4. Vérifiez que tout fonctionne en configurant une intégration Slack dans l’application W&amp;B.

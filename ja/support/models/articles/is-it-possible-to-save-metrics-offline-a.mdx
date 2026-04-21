@@ -1,0 +1,58 @@
+---
+title: "メトリクスをオフラインで保存して、後で W&B にSyncできますか？"
+keywords: ["Experiments", "環境変数", "メトリクス"]
+featured: true
+---
+
+デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドにSyncするプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定してオフラインモードを有効にし、後でSyncできるようにします。
+
+次の環境変数を設定します。
+
+1. `WANDB_API_KEY=$KEY`。ここで、`$KEY` は [User Settings](https://wandb.ai/settings) で作成した APIキーです。
+2. `WANDB_MODE="offline"`。
+
+これをスクリプトに実装する例を次に示します。
+
+```python
+import wandb
+import os
+
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
+os.environ["WANDB_MODE"] = "offline"
+
+config = {
+    "dataset": "CIFAR10",
+    "machine": "offline cluster",
+    "model": "CNN",
+    "learning_rate": 0.01,
+    "batch_size": 128,
+}
+
+with wandb.init(project="offline-demo") as run:
+    for i in range(100):
+        run.log({"accuracy": i})
+```
+
+以下に端末出力の例を示します:
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output.png" alt="オフラインモードの端末出力" />
+</Frame>
+
+作業が完了したら、次のコマンドを実行してデータをクラウドにSyncします:
+
+```shell
+wandb sync wandb/dryrun-folder-name
+```
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output_cloud.png" alt="クラウドへのSync時のターミナル出力" />
+</Frame>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

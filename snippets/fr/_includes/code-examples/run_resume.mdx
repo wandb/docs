@@ -1,0 +1,14 @@
+```python
+"""
+Définit le comportement de reprise d'un run s'il est mis en pause, s'arrête ou échoue.
+
+Ceci est utile pour les expériences de longue durée susceptibles d'être interrompues. Voir
+la documentation de référence de wandb.init(resume=) pour la liste de toutes les options de reprise.
+"""
+import wandb
+
+# Initialise un run W&B avec le comportement de reprise
+with wandb.init(project="<project>", resume="<resume_option>") as run:
+    # Le code d'entraînement et de journalisation va ici
+    pass
+```

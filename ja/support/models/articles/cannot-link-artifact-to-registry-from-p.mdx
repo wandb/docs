@@ -1,0 +1,44 @@
+---
+title: "アーティファクトをRegistryにリンクできないのはなぜですか？"
+keywords: ["Artifacts"]
+---
+
+アーティファクトをW&amp;B Registryにリンクできない場合、最も一般的な原因は、そのアーティファクトがチーム entity ではなく個人 entityでログされていることです。組織のRegistryにリンクできるのは、組織のチーム内でログされたアーティファクトのみです。
+
+<div id="fix-log-artifacts-with-a-team-entity">
+  ## 修正: チーム entity を使ってアーティファクトをログする
+</div>
+
+run を初期化するときは、`entity` にチームを指定します:
+
+```python
+import wandb
+
+with wandb.init(entity="<team_entity>", project="<project_name>") as run:
+    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    # ファイルを追加してアーティファクトをログする
+```
+
+`entity` を指定しない場合、run には既定の entity が使用されます。これは個人のアカウントである可能性があります。
+
+<div id="find-your-team-entity">
+  ## チーム entity を検索する
+</div>
+
+チーム entity はチーム名と同じです。チームの W&amp;B プロフィールページに移動して確認してください。URL は `https://wandb.ai/<team>` の形式で、`<team>` がチーム entity です。
+
+<div id="already-logged-with-a-personal-entity">
+  ## 個人 entity にすでにログされていますか？
+</div>
+
+アーティファクト がすでに個人 entity にログされている場合は、組織内のチーム entity に再度ログする必要があります。
+
+詳細は、[バージョンをコレクションにリンクする](/ja/models/registry/link_version/)を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* AUTO-GENERATED 終了: tab badges */}

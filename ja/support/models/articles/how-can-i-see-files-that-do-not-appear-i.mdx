@@ -1,0 +1,26 @@
+---
+title: "Filesタブに表示されないファイルを確認するにはどうすればよいですか？"
+keywords: ["Experiments"]
+---
+
+Filesタブには最大10,000件のファイルが表示されます。すべてのファイルをダウンロードするには、[public API](/ja/models/ref/python/public-api/api) を使用してください：
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run('<entity>/<project>/<run_id>')
+run.file('<file>').download()
+
+for f in run.files():
+    if <condition>:
+        f.download()
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

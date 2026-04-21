@@ -1,0 +1,40 @@
+---
+title: MetricThresholdFilter
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+## <kbd>classe</kbd> `MetricThresholdFilter`
+
+Filtre qui compare une valeur de métrique **absolue** à un seuil défini par l’utilisateur.
+
+La valeur peut être une valeur unique ou un résultat agrégé sur une fenêtre couvrant
+plusieurs valeurs.
+
+### <kbd>méthode</kbd> `MetricThresholdFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
+    threshold: 'Annotated | Annotated'
+) → None
+```
+
+**Arguments :**
+
+* `name` (str):
+* `agg` (Optional[Agg]):
+* `window` (int):
+* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]) : opérateur de comparaison entre la valeur de la métrique (à gauche) et le seuil (à droite).
+* `threshold` (Union[Annotated, Annotated]):
+
+**Retourne :**
+Un objet `MetricThresholdFilter`.

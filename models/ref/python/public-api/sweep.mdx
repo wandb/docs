@@ -3,7 +3,7 @@ title: Sweep
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
 
@@ -111,6 +111,32 @@ Deprecated. Use `Sweep.entity` instead.
 
 **Returns:**
  - `str`: The username property value.
+---
+
+### <kbd>method</kbd> `Sweep.agent`
+
+```python
+agent(agent_id: 'str') → Agent
+```
+
+Query an agent by ID for this sweep. 
+
+
+
+**Args:**
+ 
+ - `agent_id`:  The ID of the agent to look up. 
+
+---
+
+### <kbd>method</kbd> `Sweep.agents`
+
+```python
+agents() → list[Agent]
+```
+
+Query the list of all agents for this sweep. 
+
 ---
 
 ### <kbd>method</kbd> `Sweep.best_run`

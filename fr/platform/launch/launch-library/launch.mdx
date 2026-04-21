@@ -1,0 +1,66 @@
+---
+title: API Launch
+---
+
+<Card title="Voir le code source" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch.py#L249-L331" icon="github" />
+
+Lancez une expérience Launch de W&amp;B.
+
+```python
+launch(
+    api: Api,
+    job: Optional[str] = None,
+    entry_point: Optional[List[str]] = None,
+    version: Optional[str] = None,
+    name: Optional[str] = None,
+    resource: Optional[str] = None,
+    resource_args: Optional[Dict[str, Any]] = None,
+    project: Optional[str] = None,
+    entity: Optional[str] = None,
+    docker_image: Optional[str] = None,
+    config: Optional[Dict[str, Any]] = None,
+    synchronous: Optional[bool] = (True),
+    run_id: Optional[str] = None,
+    repository: Optional[str] = None
+) -> AbstractRun
+```
+
+| Arguments       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `job`           | référence sous forme de chaîne à un wandb.Job, par ex. : wandb/test/my-job:latest                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `api`           | Une instance de l&#39;API wandb issue de wandb.apis.internal.                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `entry_point`   | Point d&#39;entrée à exécuter dans le projet. Par défaut, utilise le point d&#39;entrée du run original pour les URI wandb, ou main.py pour les URI de dépôt Git.                                                                                                                                                                                                                                                                                                                                                                  |
+| `version`       | Pour les projets basés sur Git, soit un hash de commit, soit un nom de branche.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `name`          | Nom du run sous lequel lancer le run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `resource`      | Backend d&#39;exécution du run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `resource_args` | Arguments liés aux ressources pour lancer des runs sur un backend distant. Ils seront stockés dans la configuration Launch générée sous `resource_args`.                                                                                                                                                                                                                                                                                                                                                                           |
+| `project`       | Projet cible vers lequel envoyer le run lancé                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `entity`        | Entité cible vers laquelle envoyer le run lancé                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `config`        | Dictionnaire contenant la configuration du run. Peut aussi contenir des arguments spécifiques aux ressources sous la clé &quot;resource&#95;args&quot;.                                                                                                                                                                                                                                                                                                                                                                            |
+| `synchronous`   | Indique s&#39;il faut bloquer jusqu&#39;à la fin d&#39;un run. La valeur par défaut est True. Notez que si `synchronous` est False et que `backend` vaut &quot;local-container&quot;, cette méthode renverra bien la main, mais le processus en cours restera bloqué à la sortie jusqu&#39;à la fin du run local. Si le processus en cours est interrompu, tous les runs asynchrones lancés via cette méthode seront arrêtés. Si `synchronous` est True et que le run échoue, le processus en cours renverra également une erreur. |
+| `run_id`        | ID du run (pour remplacer à terme le champ :name:)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `repository`    | nom de chaîne du chemin du dépôt pour le registre distant                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+
+
+<div id="example">
+  #### Exemple :
+</div>
+
+```python
+from wandb.sdk.launch import launch
+
+job = "wandb/jobs/Hello World:latest"
+params = {"epochs": 5}
+# Exécuter le projet W&B et créer un environnement Docker reproductible
+# sur un hôte local
+api = wandb.apis.internal.Api()
+launch(api, job, parameters=params)
+```
+
+| Renvoie                                                                                                          | Description |
+| :--------------------------------------------------------------------------------------------------------------- | :---------- |
+| une instance de `wandb.launch.SubmittedRun` qui fournit des informations (par ex. l’ID du run) sur le run lancé. |             |
+
+| Exceptions levées                                                          | Description |
+| :------------------------------------------------------------------------- | :---------- |
+| `wandb.exceptions.ExecutionError` Si un run lancé en mode bloquant échoue. |             |

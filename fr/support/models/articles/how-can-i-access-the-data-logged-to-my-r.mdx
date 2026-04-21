@@ -1,0 +1,20 @@
+---
+title: "Comment puis-je accéder directement et par programmation aux données enregistrées dans mes runs ?"
+keywords: ["Experiments"]
+---
+
+L’objet d’historique suit les métriques enregistrées avec `wandb.log`. Accédez à l’objet d’historique à l’aide de l’API :
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

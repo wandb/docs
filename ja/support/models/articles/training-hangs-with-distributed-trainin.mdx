@@ -1,0 +1,55 @@
+---
+title: "分散トレーニングでトレーニングがハングするのはなぜですか？"
+keywords: ["Experiments", "Run のクラッシュ"]
+---
+
+W&amp;B を分散トレーニングで使用するときにトレーニングがハングする主な原因は、次の 2 つです。
+
+1. **トレーニング開始時にハングする**: W&amp;B のマルチプロセッシングが、分散トレーニング用フレームワークのマルチプロセッシングと干渉することがあります。
+2. **トレーニング終了時にハングする**: W&amp;B のプロセスは、いつ終了すべきかを認識できません。
+
+<div id="fix-hanging-at-the-start">
+  ## 起動時のハングを解消する
+</div>
+
+W&amp;B SDK `0.13.0` 以降では、W&amp;B Service がデフォルトで有効です。古いバージョンを使用している場合は、SDK をアップグレードしてください。
+
+```shell
+pip install --upgrade wandb
+```
+
+W&amp;B SDK `0.12.5` から `0.12.x` までは、W&amp;B Service を明示的に有効にしてください:
+
+```python
+def main():
+    wandb.require("service")
+    # 残りのスクリプト
+```
+
+W&amp;B SDK `0.12.4` 以前では、`WANDB_START_METHOD` 環境変数を設定してください。
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+<div id="fix-hanging-at-the-end">
+  ## 終了時のハングを解消する
+</div>
+
+トレーニングスクリプトの最後で `wandb.finish()` を呼び出し、run が完了したことを W&amp;B に通知します:
+
+```python
+wandb.finish()
+```
+
+これにより、すべてのデータが確実にアップロードされ、W&amp;B プロセスが正常に終了します。
+
+詳細は、[分散トレーニング](/ja/models/track/log/distributed-training/)をご覧ください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run のクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}
