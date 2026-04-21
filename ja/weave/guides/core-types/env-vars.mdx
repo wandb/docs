@@ -12,13 +12,12 @@ export WEAVE_PRINT_CALL_LINK=false  # call linkの出力を無効にする
 ```
 
 ```python lines
-# Pythonで環境変数を設定する例
+# Python で環境変数を設定する例
 import os
 
 os.environ["WEAVE_PARALLELISM"] = "10"
 os.environ["WEAVE_PRINT_CALL_LINK"] = "false"
 ```
-
 
 <div id="available-environment-variables">
   ## 利用可能な環境変数
@@ -35,9 +34,11 @@ os.environ["WEAVE_PRINT_CALL_LINK"] = "false"
 | `WEAVE_PARALLELISM`             | `int`    | `20`         | 評価で、並列に評価する例の数を制御します。例を順番に実行するには `1` に設定します。                                                                                                                                              |
 | `WEAVE_TRACE_LANGCHAIN`         | `bool`   | `true`       | LangChain のグローバルなトレースを制御します。LangChain のトレースを明示的に無効にするには `false` に設定します。                                                                                                                   |
 | `WEAVE_USE_SERVER_CACHE`        | `bool`   | `true`       | サーバー応答のキャッシュを有効にします。有効にすると、繰り返し行うクエリのパフォーマンスを向上させるため、サーバーからのレスポンスがディスクにキャッシュされます。                                                                                                         |
-| `WEAVE_SERVER_CACHE_SIZE_LIMIT` | `int`    | `1000000000` | サーバーキャッシュの最大サイズをバイト単位で設定します。キャッシュがこのサイズに達すると、新しいエントリのための空き容量を確保するために、古いエントリが自動的に削除されます。重要: 基盤となる実装では SQLite を使用しており、Write Ahead Log (WAL) はこの設定に関係なく 4MB まで増加します。この WAL はプログラム終了時に削除されます。 |
+| `WEAVE_SERVER_CACHE_SIZE_LIMIT` | `int`    | `1000000000` | サーバーキャッシュの最大サイズをバイト単位で設定します。キャッシュがこのサイズに達すると、新しいエントリのための空き容量を確保するために、古いエントリが自動的に削除されます。重要: 基盤となる実装では SQLite を使用しており、Write-Ahead Log (WAL) はこの設定に関係なく 4MB まで増加します。この WAL はプログラム終了時に削除されます。 |
 | `WEAVE_SERVER_CACHE_DIR`        | `str`    | `None`       | キャッシュファイルの保存先ディレクトリを指定します。設定されていない場合は、一時ディレクトリが使用されます。                                                                                                                                    |
 | `WEAVE_MAX_CALLS_QUEUE_SIZE`    | `int`    | `100000`     | calls キューの最大サイズを設定します。デフォルトは 100&#95;000 です。値を 0 に設定すると、キューは無制限に増加できます。                                                                                                                   |
+| `WEAVE_ENABLE_WAL`              | `bool`   | `false`      | Weave の [Write-Ahead Log (WAL)](/ja/weave/guides/tracking/write-ahead-log) を有効にします。`true` に設定すると、Weave API リクエストはサーバーに送信される前にディスクに書き込まれ、データ損失に対する耐性が向上します。                                   |
+| `WEAVE_DISABLE_WAL_SENDER`      | `bool`   | `false`      | WEAVE の Write-Ahead Log sender を無効にします。`true` に設定すると、Weave リクエストはディスクに書き込まれますが、サーバーには送信されません。デバッグに便利です。                                                                                   |
 | `WEAVE_RETRY_MAX_ATTEMPTS`      | `int`    | `3`          | 失敗したリクエストに対する最大再試行回数を設定します。                                                                                                                                                               |
 | `WEAVE_RETRY_MAX_INTERVAL`      | `float`  | `300.0`      | 再試行の間隔の最大値を秒単位で設定します。                                                                                                                                                                     |
 | `WANDB_BASE_URL`                | `string` | `None`       | Weave のホスト URL を設定します。これは、`wandb.login()` でホスト URL の入力を求められた際に入力するのと同じです。`weave.init()` を使用する前に `WANDB_BASE_URL` と `WANDB_API_KEY` を指定すると、Weave へのログインと認証を自動で行えます。                        |
