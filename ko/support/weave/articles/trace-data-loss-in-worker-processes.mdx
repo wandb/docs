@@ -27,10 +27,10 @@ def process_task(input_data):
     weave.init("your-team-name/your-project-name")
 
     try:
-        # 트레이스를 생성하는 태스크 로직
+        # 트레이스를 생성하는 작업 로직
         result = your_processing_function(input_data)
 
-        # 태스크가 완료되기 전에 모든 트레이스가 업로드되도록 합니다
+        # 작업이 완료되기 전에 모든 트레이스가 업로드되었는지 확인합니다
         weave.finish()
 
         return result
@@ -49,10 +49,18 @@ with weave.init("your-team-name/your-project-name") as client:
 
 `weave.flush()`를 사용하면 애플리케이션 성능도 개선할 수 있습니다. 자세한 내용은 [Flushing](/ko/support/weave/articles/long-eval-clean-up-times)을 참조하세요.
 
+데이터 손실에 대한 내구성을 한층 높이려면 서버로 전송하기 전에 트레이스 데이터를 디스크에 기록하는 [write-ahead log](/ko/weave/guides/tracking/write-ahead-log)를 활성화하는 것을 고려하세요.
+
 ***
 
 {/* AUTO-GENERATED: 탭 배지 */}
 
-<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">
+  [트레이스 데이터](/ko/support/weave/tags/trace-data)
+</Badge>
+
+<Badge stroke shape="pill" color="orange" size="md">
+  [성능](/ko/support/weave/tags/performance)
+</Badge>
 
 {/* END AUTO-GENERATED: 탭 배지 */}
