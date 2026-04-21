@@ -1,11 +1,15 @@
 ---
 title: "Haystack"
-description: "Trace Deepset Haystack pipelines with Weave using the WeaveConnector integration."
+description: "Trace Deepset Haystack pipelines with W&B Weave using the WeaveConnector integration."
 ---
 
-[Haystack](https://haystack.deepset.ai/) is an open source framework for building search and LLM applications. Deepset maintains a **WeaveConnector** component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
+[Haystack](https://haystack.deepset.ai/) is an open source framework for building search and LLM applications. Deepset maintains a WeaveConnector component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
 
-This how-to shows you how to install the integration, add **WeaveConnector** to a minimal pipeline, and open the resulting trace in Weave. For full API details, agents, and troubleshooting, see [Official documentation](#official-documentation).
+For full API details and additional examples, see these Deepset resources:
+
+- Haystack's [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector).
+- Haystack's [Weave integration API reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
+- Haystack's [Trace with W&B Weave](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) example using a RAG pipeline.
 
 ## Prerequisites
 
@@ -16,17 +20,19 @@ Before you begin:
 
 ## Install
 
-Install the integration package from PyPI:
+Install the required dependencies using `pip`:
 
-```bash
+```bash lines
 pip install weave-haystack
 ```
 
 The package declares compatible versions of `haystack-ai` and `weave` as dependencies.
 
-## Add `WeaveConnector` to a pipeline
+## Trace a Haystack pipeline with Weave
 
-Add `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines). Don't connect it to other components with `Pipeline.connect`. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
+The following example adds Haystack's `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) and integrates with W&B Weave for tracing and monitoring your pipeline components. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
+
+In your Haystack pipeline, don't connect `WeaveConnector` to other components.
 
 ```python lines
 import os
@@ -44,7 +50,9 @@ pipe.add_component("prompt_builder", ChatPromptBuilder())
 pipe.add_component("llm", OpenAIChatGenerator(model="gpt-3.5-turbo"))
 pipe.connect("prompt_builder.prompt", "llm.messages")
 
+# pipeline_name becomes your W&B project name.
 connector = WeaveConnector(pipeline_name="haystack_demo")
+# Add connector to pipeline but don't connect it.
 pipe.add_component("weave", connector)
 
 messages = [
@@ -66,13 +74,5 @@ response = pipe.run(
 print(response["llm"]["replies"][0])
 ```
 
-After the pipeline runs, open your W&B workspace, select the project named with `pipeline_name`, and go to **Traces** to review the run.
+After the pipeline runs, open your W&B workspace, select the project named with `pipeline_name`, and go to **Traces** to review the completed trace.
 
-To pass additional arguments to the internal Weave client, use `weave_init_kwargs` on `WeaveConnector`. For parameter details, see the [Haystack `WeaveConnector` reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
-
-## Official documentation
-
-Deepset maintains detailed guides outside the W&B docs site:
-
-- **Haystack (open source)**: [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector) and [integrations API reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
-- **Deepset Cloud**: [Use Weights and Biases](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) for the managed platform.
