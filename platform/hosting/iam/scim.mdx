@@ -31,17 +31,59 @@ In addition, examples use user IDs such as `abc` and `def`. Real requests and re
 
 ## Authentication
 
-Choose to authenticate using a user identity or a service account, after reviewing the key differences.
+Organization admins can authenticate with a **Bearer token** or **HTTP Basic** credentials. Either style uses the _same API key string_ where a key applies. Choose a user identity or an organization-scoped service account after reviewing the key differences.
 
 ### Key differences
 - Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
-- Credentials: Users send username and API key; service accounts send only an API key (no username).
-- Authorization header payload: Users encode `username:API-KEY`; service accounts encode `:API-KEY` (leading colon).
-- Scope and permissions: Both require admin privileges; service accounts are organization-scoped and headless, providing clearer audit trails for automation.
-- Where to get credentials: Users copy their API key from User Settings; service account keys are in the organization’s Service account tab.
+- Credentials: Users send username and API key for Basic auth; service accounts send only an API key (no username) for Basic auth. For Bearer auth, send only the API key in the header (no username).
+- Bearer versus Basic: Bearer uses `Authorization: Bearer <API-KEY>` with the key verbatim. Basic uses `Authorization: Basic <base64(...)>` (users encode `username:API-KEY`; service accounts encode `:API-KEY` with a leading colon and empty username).
+- Scope and permissions: Use an API key from an instance or organization admin user, or from an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Keys from [team-scoped service accounts](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) cannot authenticate to the SCIM API. Service accounts that use SCIM are organization-scoped and headless, which supports clearer audit trails for automation.
+- Where to get credentials: Users copy their API key from User Settings; organization-scoped service account keys are in the organization dashboard under the **Service account** tab.
 - Multi-tenant Cloud: If you have access to more than one Multi-tenant Cloud organizations, you must set the Default API organization to ensure that SCIM API calls are routed to the intended organization.
 
+### Bearer token
+
+Send the API key as a Bearer token:
+
+```bash
+Authorization: Bearer <API-KEY>
+```
+
+The `<API-KEY>` value is the same string you would use as the password in HTTP Basic authentication for that principal. You do not Base64-encode the key for Bearer requests.
+
+<Note>
+Bearer authentication for the SCIM API is available in W&B Multi-tenant Cloud, and in Dedicated Cloud and Self-Managed v0.79.0 and above. 
+</Note>
+
+The following examples use `<YOUR_API_KEY>` as a placeholder. Replace it with a real key from an admin user or an organization-scoped service account.
+
+**List users**
+
+```bash
+curl -s -S \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/scim+json" \
+  "<host-url>/scim/Users"
+```
+
+**Create a user**
+
+```bash
+curl -s -S -X POST \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/scim+json" \
+  "<host-url>/scim/Users" \
+  -d '{
+    "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+    "userName": "dev-user2",
+    "emails": [{"primary": true, "value": "dev-user2@example.com"}]
+  }'
+```
+
+For more details, see [Create user](#create-user).
+
 ### Users
+
 Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
 
 For example, authorize as `demo:p@55w0rd`:
@@ -50,6 +92,7 @@ Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ```
 
 ### Service accounts
+
 Use an organization-scoped service account for automation or integrations. Construct the HTTP `Authorization` header as `Basic <base64(:API-KEY)>` (note the leading colon and empty username). Find service account API keys in the organization dashboard under the **Service account** tab. Refer to [Organization-scoped service accounts](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts).
 
 For example, authorize with API key `sa-p@55w0rd`:
