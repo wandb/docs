@@ -23,8 +23,8 @@ Contrairement à l&#39;objet `Evaluation` standard, qui nécessite un `Dataset` 
 
 1. *Initialisez le logger :* Créez une instance de `EvaluationLogger`, en fournissant éventuellement des métadonnées sur le `modèle` et le `jeu de données`. Les valeurs par défaut seront utilisées si vous les omettez.
    <Note>
-     Pour capturer l’utilisation des tokens et le coût des LLM calls (par ex. OpenAI), initialisez `EvaluationLogger` avant toute invocation de LLM**.
-     Si vous appelez d’abord votre LLM, puis journalisez les prédictions ensuite, les données de token et de coût ne seront pas capturées.
+     Pour capturer l’utilisation des jetons et le coût des appels LLM (par ex. OpenAI), initialisez `EvaluationLogger` avant toute invocation de LLM**.
+     Si vous appelez d’abord votre LLM, puis journalisez les prédictions ensuite, les données de jeton et de coût ne seront pas capturées.
    </Note>
 2. *Journalisez les prédictions :* Appelez `log_prediction()` pour chaque paire entrée/sortie de votre système.
 3. *Journalisez les scores :* Utilisez le `ScoreLogger` renvoyé pour appeler `log_score()` pour la prédiction. Plusieurs scores par prédiction sont pris en charge.
@@ -33,7 +33,7 @@ Contrairement à l&#39;objet `Evaluation` standard, qui nécessite un `Dataset` 
 
 <Warning>Après avoir appelé `finish()` sur une prédiction, il n’est plus possible d’y journaliser d’autres scores.</Warning>
 
-Pour voir un exemple de code Python illustrant le flux de travail décrit, consultez le [Basic example](#basic-example).
+Pour voir un exemple de code Python illustrant le flux de travail décrit, consultez le [Basic example](#basic-example). Si la sortie et tous les scores sont disponibles immédiatement, les utilisateurs Python peuvent combiner les étapes 2 à 4 en un appel unique à l’aide de [`log_example()`](#simplified-logging-with-log_example).
 
 <div id="basic-example">
   ## Exemple de base
@@ -197,6 +197,54 @@ L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser 
     ```
   </Tab>
 </Tabs>
+
+<div id="simplified-logging-with-log_example">
+  ## Journalisation simplifiée avec `log_example()`
+</div>
+
+Utilisez `log_example()` pour journaliser des entrées, une sortie et des scores en un seul appel. Cette méthode pratique combine `log_prediction()`, `log_score()` et `finish()` en une seule étape. Elle est utile lorsque vous disposez déjà des entrées, des sorties du modèle et des scores à journaliser, par exemple lors d&#39;évaluations par lot ou hors ligne.
+
+```python lines
+import weave
+from weave import EvaluationLogger
+
+weave.init('your-team-name/your-project-name')
+
+eval_logger = EvaluationLogger(
+    model="my_model",
+    dataset="my_dataset"
+)
+
+eval_samples = [
+    {'inputs': {'a': 1, 'b': 2}, 'expected': 3},
+    {'inputs': {'a': 2, 'b': 3}, 'expected': 5},
+    {'inputs': {'a': 3, 'b': 4}, 'expected': 7},
+]
+
+for sample in eval_samples:
+    inputs = sample['inputs']
+    output = inputs['a'] + inputs['b']
+
+    eval_logger.log_example(
+        inputs=inputs,
+        output=output,
+        scores={"correctness": output == sample['expected']}
+    )
+
+eval_logger.log_summary({"avg_score": 1.0})
+```
+
+L’appel à `log_example()` ci-dessus équivaut à :
+
+```python
+pred = eval_logger.log_prediction(inputs=inputs, output=output)
+pred.log_score(scorer="correctness", score=output == sample['expected'])
+pred.finish()
+```
+
+<Note>
+  `log_example()` n’est pas disponible pour le SDK TypeScript de Weave. Les utilisateurs de TypeScript doivent utiliser l’approche `logPrediction()` et `logScore()` présentée dans l’[exemple de base](#basic-example).
+</Note>
 
 <div id="advanced-usage">
   ## Utilisation avancée

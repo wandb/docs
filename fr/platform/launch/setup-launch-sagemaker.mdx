@@ -265,7 +265,7 @@ En fonction de votre cas d&#39;utilisation, suivez les instructions fournies dan
     Vous pouvez maintenant passer à la configuration de l&#39;agent Launch.
   </Tab>
 
-  <Tab title="Local machine">
+  <Tab title="Machine locale">
     Utilisez les fichiers de configuration AWS situés dans `~/.aws/config` et `~/.aws/credentials` pour associer un rôle à un agent exécuté sur une machine locale. Fournissez l&#39;ARN du rôle IAM que vous avez créé pour l&#39;agent Launch à l&#39;étape précédente.
 
     ```yaml title="~/.aws/config"
@@ -311,7 +311,6 @@ builder:
 ```
 
 Démarrez maintenant l’agent avec `wandb launch-agent`
-
 
 <div id="optional-push-your-launch-job-docker-image-to-amazon-ecr">
   ## (Facultatif) Envoyez l&#39;image Docker de votre launch job vers Amazon ECR
