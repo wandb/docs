@@ -799,7 +799,8 @@
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
                           "weave/guides/tracking/view-call",
-                          "weave/guides/tracking/trace-disable"
+                          "weave/guides/tracking/trace-disable",
+                          "weave/guides/tracking/write-ahead-log"
                         ]
                       },
                       {
@@ -2047,7 +2048,8 @@
                           "fr/weave/guides/tools/attributes",
                           "fr/weave/guides/core-types/media",
                           "fr/weave/guides/tracking/view-call",
-                          "fr/weave/guides/tracking/trace-disable"
+                          "fr/weave/guides/tracking/trace-disable",
+                          "fr/weave/guides/tracking/write-ahead-log"
                         ]
                       },
                       {
@@ -3295,7 +3297,8 @@
                           "ja/weave/guides/tools/attributes",
                           "ja/weave/guides/core-types/media",
                           "ja/weave/guides/tracking/view-call",
-                          "ja/weave/guides/tracking/trace-disable"
+                          "ja/weave/guides/tracking/trace-disable",
+                          "ja/weave/guides/tracking/write-ahead-log"
                         ]
                       },
                       {
@@ -4543,7 +4546,8 @@
                           "ko/weave/guides/tools/attributes",
                           "ko/weave/guides/core-types/media",
                           "ko/weave/guides/tracking/view-call",
-                          "ko/weave/guides/tracking/trace-disable"
+                          "ko/weave/guides/tracking/trace-disable",
+                          "ko/weave/guides/tracking/write-ahead-log"
                         ]
                       },
                       {

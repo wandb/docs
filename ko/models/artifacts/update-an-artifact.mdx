@@ -1,26 +1,26 @@
 ---
-description: run이 활성 상태일 때 또는 Public API만 사용하여 기존 artifact를 업데이트합니다.
-title: artifact 업데이트
+description: 활성 상태인 run 중이거나 Public API만 사용해 기존 아티팩트를 업데이트합니다.
+title: 아티팩트 업데이트
 ---
 
-artifact의 `description`, `metadata`, `alias`를 업데이트하려면 원하는 값을 지정하세요. W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용해 이전에 W&amp;B에 로깅된 run을 업데이트하세요. artifact가 처음 초기화된 후 아직 활성 상태라면 `wandb.Run.save()`를 사용해 업데이트하세요.
+원하는 값을 전달해 아티팩트의 `description`, `metadata`, `alias`를 업데이트하세요. W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용해 이전에 W&amp;B에 로깅된 아티팩트를 업데이트할 수 있습니다. 아티팩트가 처음 초기화된 뒤 아직 활성 상태인 경우에는 `wandb.Run.save()`를 사용해 아티팩트를 업데이트하세요.
 
 <Note>
-  **Artifact.save() 또는 wandb.Run.log&#95;artifact()를 사용해야 하는 경우**
+  **wandb.Artifact.save() 또는 wandb.Run.log&#95;artifact()를 사용해야 하는 경우**
 
-  * 새 run을 만들지 않고 기존 artifact를 업데이트하려면 `Artifact.save()`를 사용하세요.
-  * 새 artifact를 만들고 특정 run에 연결하려면 `wandb.Run.log_artifact()`를 사용하세요.
+  * 새 run을 시작하지 않고 기존 아티팩트를 업데이트하려면 `Artifact.save()`를 사용하세요.
+  * 새 아티팩트를 만들고 특정 run에 연결하려면 `wandb.Run.log_artifact()`를 사용하세요.
 </Note>
 
-artifact를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용하세요. run이 활성 상태인 동안에는 wandb.Artifact([`wandb.Artifact`](/ko/models/ref/python/experiments/artifact)) Class를 사용하세요.
+아티팩트를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용하세요. run이 활성 상태인 동안에는 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) 클래스를 사용하세요.
 
 <Warning>
-  Model Registry의 모델에 연결된 artifact의 alias는 업데이트할 수 없습니다.
+  Model Registry의 모델에 연결된 아티팩트의 별칭은 업데이트할 수 없습니다.
 </Warning>
 
 <Tabs>
   <Tab title="run 중">
-    다음 코드 예제는 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) API를 사용해 artifact의 설명을 업데이트하는 방법을 보여줍니다:
+    다음 코드 예제는 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) API를 사용해 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
 
     ```python
     import wandb
@@ -33,7 +33,7 @@ artifact를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/re
   </Tab>
 
   <Tab title="W&B Public API">
-    다음 예제는 [`wandb.Api`](/ko/models/ref/python/public-api/api)를 사용해 artifact를 업데이트합니다:
+    다음 예제는 [`wandb.Api`](/ko/models/ref/python/public-api/api)를 사용해 아티팩트를 업데이트합니다:
 
     ```python
     import wandb
@@ -45,30 +45,30 @@ artifact를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/re
     # 설명 업데이트
     artifact.description = "My new description"
 
-    # metadata 키를 선택적으로 업데이트
+    # 메타데이터 키를 선택적으로 업데이트
     artifact.metadata["oldKey"] = "new value"
 
-    # metadata 전체 교체
+    # 메타데이터를 완전히 교체
     artifact.metadata = {"newKey": "new value"}
 
-    # alias 추가
+    # 별칭 추가
     artifact.aliases.append("best")
 
-    # alias 제거
+    # 별칭 제거
     artifact.aliases.remove("latest")
 
-    # aliases 전체 교체
+    # 별칭을 완전히 교체
     artifact.aliases = ["replaced"]
 
-    # 모든 artifact 변경 사항 저장
+    # 모든 아티팩트 변경 사항 저장
     artifact.save()
     ```
 
-    자세한 내용은 Weights and Biases [Artifact API](/ko/models/ref/python/experiments/artifact)를 참조하세요.
+    자세한 내용은 Weights and Biases의 [Artifact API](/ko/models/ref/python/experiments/artifact)를 참조하세요.
   </Tab>
 
-  <Tab title="collection과 함께">
-    단일 artifact와 같은 방식으로 Artifact collection도 업데이트할 수 있습니다:
+  <Tab title="컬렉션">
+    개별 아티팩트와 같은 방식으로 Artifact 컬렉션도 업데이트할 수 있습니다:
 
     ```python
     import wandb
