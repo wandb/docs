@@ -1,0 +1,21 @@
+---
+title: "W&B は `multiprocessing` ライブラリを使用しますか？"
+keywords: ["Experiments"]
+---
+
+はい、W&amp;B は `multiprocessing` ライブラリを使用します。次のようなエラーメッセージが表示される場合は、問題が発生している可能性があります。
+
+```
+An attempt has been made to start a new process before the current process 
+has finished its bootstrapping phase.
+```
+
+これを解決するには、`if __name__ == "__main__":` を追加してエントリポイントを保護します。これは、スクリプトから直接 W&amp;B を実行する場合に必要です。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,46 @@
+---
+title: "Run 충돌"
+tag: "10"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="`AttributeError: module 'wandb' has no attribute ...`와 같은 오류를 어떻게 해결하나요?" href="/ko/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
+  AttributeError: module &#39;wandb&#39; has no attribute &#39;init&#39; 또는 AttributeError: module &#39;wandb&#39; ...
+</Card>
+
+<Card title="스윕 중 `Cuda out of memory` 오류를 해결하려면 어떻게 하나요?" href="/ko/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  스윕 중 Cuda out of memory 오류가 표시되면 프로세스 기반 실행을 사용하도록 코드를 리팩터링하세요. 코드를 a  ...
+</Card>
+
+<Card title="wandb로 작업을 종료하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-kill-a-job-with-wandb" arrow="true" horizontal>
+  W&amp;B가 연동된 스크립트를 중지하려면 키보드에서 Ctrl+D를 누르세요.
+</Card>
+
+<Card title="wandb에서 run 초기화 시간 초과 오류를 해결하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-resolve-a-run-initialization-ti" arrow="true" horizontal>
+  run 초기화 시간 초과 오류를 해결하려면 다음 단계를 따르세요. 초기화 재시도: run을 다시 시작해 보세요. Che ...
+</Card>
+
+<Card title="wandb가 충돌하면 내 트레이닝 run도 충돌할 수 있나요?" href="/ko/support/models/articles/if-wandb-crashes-will-it-possibly-crash-" arrow="true" horizontal>
+  트레이닝 runs에 영향을 주지 않도록 하는 것이 매우 중요합니다. W&amp;B는 별도의 프로세스에서 실행되므로 트레이닝은 계속 진행 ...
+</Card>
+
+<Card title="InitStartError: wandb 프로세스와 통신하는 중 오류 발생" href="/ko/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  이 오류는 라이브러리가 서버로 데이터를 동기화하는 프로세스를 시작하는 중 문제가 발생했음을 의미합니다. Th ...
+</Card>
+
+<Card title="UI에서는 내 run 상태가 `crashed`로 표시되지만 내 머신에서는 여전히 실행 중입니다. 데이터를 복구하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+  트레이닝 중 머신과의 연결이 끊어졌을 가능성이 높습니다. 데이터를 복구하려면 wandb sync PATH&#95;TO&#95;RUN (/models/ref/ ... 을 실행하세요.
+</Card>
+
+<Card title="Hydra를 W&B와 함께 사용할 때 프로세스가 멈추는 이유는 무엇인가요?" href="/ko/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  Hydra로 시작한 프로세스가 멈춘다면, 이는 Hydra와 W&amp;B 간의 멀티프로세싱 충돌로 인해 발생했을 가능성이 높습니다 ...
+</Card>
+
+<Card title="분산 트레이닝에서 트레이닝이 멈추는 이유는 무엇인가요?" href="/ko/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  W&amp;B를 분산 트레이닝과 함께 사용할 때 트레이닝이 멈추는 일반적인 이유는 두 가지입니다: 1. tra 시작 시 멈춤 ...
+</Card>
+
+<Card title="로컬에서는 트레이닝이 정상적으로 진행되는데 W&B에서 run이 crashed로 표시되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
+  이는 연결 문제를 의미합니다. 서버가 인터넷 연결을 잃고 데이터가 더 이상 W&amp;B에 동기화되지 않으면 시스템은 ...
+</Card>

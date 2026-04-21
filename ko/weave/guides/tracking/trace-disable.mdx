@@ -1,0 +1,87 @@
+---
+title: "트레이싱 비활성화"
+description: "W&B Weave 트레이싱을 비활성화하거나 조건에 따라 끄는 방법을 알아보세요"
+---
+
+환경과 요구 사항에 따라 애플리케이션에서 Weave 트레이싱 수준을 제어하는 여러 옵션을 사용할 수 있습니다.
+
+<div id="environment-variable">
+  ## 환경 변수
+</div>
+
+전체 프로그램에서 트레이싱을 무조건 비활성화하려면 환경 변수 `WEAVE_DISABLED=true`를 설정하면 됩니다.
+
+`WEAVE_DISABLED`는 함수 정의 시점에 한 번만 조회됩니다. 이 변수로는 런타임 중에 트레이싱을 표시/숨기기할 수 없습니다.
+
+<div id="client-initialization">
+  ## 클라이언트 초기화
+</div>
+
+경우에 따라 특정 조건에 따라 특정 초기화에서만 트레이싱을 조건부로 활성화하고 싶을 수 있습니다. 이 경우 init settings에서 `disabled` 플래그를 사용해 클라이언트를 초기화할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # 클라이언트 초기화
+    client = weave.init(..., settings={"disabled": True})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="context-manager">
+  ## 컨텍스트 관리자
+</div>
+
+특정 코드 블록에 대해 조건부로 트레이싱을 비활성화하려면 트레이싱 컨텍스트 관리자를 사용할 수 있습니다. `with tracing_disabled()`를 사용하면 **`with` 블록 내부에서 실행되는 함수 호출에 대해서만** 트레이싱을 억제할 수 있습니다. 애플리케이션 코드에서 이를 사용해 어떤 호출을 로깅하지 않을지 범위를 지정하세요.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    from weave.trace.context.call_context import tracing_disabled
+
+    client = weave.init('your-team/your-project-name')
+
+    @weave.op
+    def my_op():
+        ...
+
+    with tracing_disabled():
+        my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+함수가 정의될 때 트레이싱 동작은 고정되지만, 애플리케이션 로직과 함께 사용하면 런타임 시점에 제어할 수 있습니다. 예를 들어, 컨텍스트 관리자를 조건문으로 감싸 런타임 값을 기준으로 트레이싱을 동적으로 활성화하거나 비활성화할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    if should_trace:
+        my_op()
+    else:
+        with tracing_disabled():
+            my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>

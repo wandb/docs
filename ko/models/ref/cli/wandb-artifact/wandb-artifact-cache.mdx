@@ -2,16 +2,32 @@
 title: wandb 아티팩트 캐시
 ---
 
-Artifacts 캐시와 상호작용하기 위한 코맨드
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-## Usage
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3054" />
+
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb artifact cache COMMAND [ARGS]...
+cache [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Commands
+<div id="description">
+  ## 설명
+</div>
 
-| Command | Description |
-| :--- | :--- |
-| [cleanup](/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup) | Artifacts 캐시에서 사용 빈도가 낮은 파일들을 정리합니다. |
+로컬 아티팩트 캐시를 관리합니다.
+
+중복 다운로드를 방지하기 위해 다운로드한 아티팩트 파일을 로컬에 캐시합니다.
+
+하위 명령을 사용해 캐시가 사용하는 디스크 공간을 확인하고 확보하세요.
+
+<div id="subcommands">
+  ## 하위 명령어
+</div>
+
+| 명령어                            | 설명                    |
+| ------------------------------ | --------------------- |
+| `wandb artifact cache cleanup` | 로컬 아티팩트 캐시의 크기를 줄입니다. |

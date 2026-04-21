@@ -1,0 +1,19 @@
+---
+title: Artifact에 Alias 추가
+---
+
+```python
+"""
+artifact를 W&B에 logging할 때 하나 이상의 alias를 추가합니다.
+"""
+import wandb
+
+# artifact 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+# artifact에 파일 추가
+artifact.add_file("<file_path>")
+
+with wandb.init(project="<project>") as run:
+    # alias와 함께 artifact 로깅
+    run.log_artifact(artifact, aliases=["<alias1>", "<alias2>"])
+```

@@ -1,0 +1,84 @@
+---
+description: Utilisez des graphes de lignage pour visualiser l’historique d’un artifact lié et auditer celui d’une collection.
+title: Graphes de lignage et historique d’audit
+---
+
+Utilisez un graphe de lignage pour visualiser l’historique d’un artifact lié. Auditez l’historique d’une collection pour suivre les modifications apportées aux artifacts de cette collection.
+
+<div id="lineage-graphs">
+  ## Graphes de lignage
+</div>
+
+Au sein d’une collection du W&amp;B Registry, vous pouvez afficher l’historique des artifacts utilisés par une expérience de ML. Cet historique s’appelle un *graphe de lignage*.
+
+Un graphe de lignage montre :
+
+* Les Artifacts utilisés comme [entrées d’un run](/fr/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run).
+* Les Artifacts créés comme [sorties d’un run](/fr/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run).
+
+Autrement dit, un graphe de lignage montre les entrées et les sorties d’un run.
+
+Par exemple, l’image suivante montre un graphe de lignage typique pour les artifacts créés et utilisés au cours d’une expérience de ML :
+
+<Frame>
+  <img src="/images/registry/registry_lineage.png" alt="Lignage du registre" />
+</Frame>
+
+De gauche à droite, l’image montre :
+
+1. Plusieurs runs enregistrent l’artifact `split_zoo_dataset:v4`.
+2. Le run « rural-feather-20 » utilise l’artifact `split_zoo_dataset:v4` pour l’entraînement.
+3. La sortie du run « rural-feather-20 » est un artifact de modèle appelé `zoo-ylbchv20:v0`.
+4. Un run appelé « northern-lake-21 » utilise l’artifact de modèle `zoo-ylbchv20:v0` pour évaluer le modèle.
+
+Pour afficher le graphe de lignage d’un artifact dans une collection :
+
+1. Accédez au W&amp;B Registry.
+2. Sélectionnez la collection qui contient l’artifact.
+3. Dans le menu déroulant, sélectionnez la version d’artifact dont vous souhaitez afficher le graphe de lignage.
+4. Sélectionnez l’onglet **Lineage**.
+5. Sélectionnez un nœud pour afficher des informations détaillées sur le run ou l’artifact.
+
+<Info>
+  Voir [Activer le suivi du graphe de lignage](/fr/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) pour apprendre à suivre les entrées et les sorties d’un run à l’aide du W&amp;B Python SDK.
+</Info>
+
+L’image suivante montre la vue détaillée développée d’un run (`rural-feather-20`) lorsque vous sélectionnez un nœud dans le graphe de lignage :
+
+<Frame>
+  <img src="/images/registry/lineage_expanded_node.png" alt="Nœud de lignage développé" />
+</Frame>
+
+L’image suivante montre la vue détaillée développée d’un artifact (`zoo-ylbchv20:v0`) lorsque vous sélectionnez un nœud d’artifact dans le graphe de lignage :
+
+<Frame>
+  <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Détails du nœud d’artifact développé" />
+</Frame>
+
+<Info>
+  Vous pouvez également afficher les graphes de lignage des artifacts que vous enregistrez dans W&amp;B et qui ne font pas partie d’une collection. Voir E[explorer les graphes d’artifacts](/fr/models/artifacts/explore-and-traverse-an-artifact-graph) pour plus d’informations.
+</Info>
+
+<div id="audit-a-collections-history">
+  ## Consulter l&#39;historique d&#39;une collection
+</div>
+
+Affichez les actions effectuées sur cette collection par les membres de votre organisation. Vous pouvez voir :
+
+* Si un alias a été ajouté à une version d&#39;artifact ou en a été supprimé.
+* Si une version d&#39;artifact a été ajoutée à une collection ou en a été supprimée.
+
+Pour ces deux types d&#39;actions, vous pouvez voir l&#39;utilisateur qui a effectué l&#39;action ainsi que la date à laquelle elle a eu lieu.
+
+Pour afficher l&#39;historique des actions d&#39;une collection :
+
+1. Accédez au W&amp;B Registry.
+2. Sélectionnez la collection dont vous souhaitez afficher l&#39;historique des actions.
+3. Sélectionnez le menu déroulant à côté du nom de la collection.
+4. Sélectionnez l&#39;option **Historique des actions**.
+
+{/* Sélectionnez un nœud de run pour afficher les détails de ce run, comme son ID, son nom, son état, etc. À titre d'exemple, l'image suivante montre des informations sur le run `rural-feather-20`:
+
+
+
+  Sélectionnez un nœud d'artifact pour afficher les détails de cet artifact, comme son nom complet, son type, sa date de création et les alias associés. */}

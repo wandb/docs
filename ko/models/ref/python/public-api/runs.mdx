@@ -1,22 +1,23 @@
 ---
-title: ' start_thought
-
-  Runs'
+title: Runs
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
 
-## <kbd>class</kbd> `Runs`
-프로젝트 및 선택적 필터와 연결된 `Run` 오브젝트의 지연 이터레이터(lazy iterator)입니다.
 
-Runs 는 필요에 따라 W&B 서버에서 페이지 단위로 가져옵니다.
+## <kbd>class</kbd> `Runs`
+
+프로젝트 및 선택 필터와 연결된 `Run` 객체의 lazy 이터레이터입니다.
+
+필요할 때 W&amp;B Server에서 페이지 단위로 Runs를 조회합니다.
 
 일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
 
-### <kbd>method</kbd> `Runs.__init__`
+### <kbd>방법</kbd> `Runs.__init__`
 
 ```python
 __init__(
@@ -28,27 +29,28 @@ __init__(
     per_page: 'int' = 50,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    api: 'public.Api | None' = None
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
-**Args:**
- 
- - `client`:  (`wandb.apis.public.RetryingClient`) 요청에 사용할 API 클라이언트입니다.
- - `entity`:  (str) 프로젝트를 소유한 엔티티(사용자 이름 또는 팀)입니다.
- - `project`:  (str) runs 를 가져올 프로젝트의 이름입니다.
- - `filters`:  (Optional[Dict[str, Any]]) runs 쿼리에 적용할 필터 사전입니다.
- - `order`:  (str) 정렬 기준은 `created_at`, `heartbeat_at`, `config.*.value` 또는 `summary_metrics.*`가 될 수 있습니다. 정렬 기준 앞에 +를 붙이면 오름차순(기본값), -를 붙이면 내림차순입니다. 기본 정렬은 run.created_at 기준 과거순부터 최신순입니다.
- - `per_page`:  (int) 요청당 가져올 runs 의 개수입니다(기본값은 50).
- - `include_sweeps`:  (bool) runs 에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
+**매개변수:**
 
----
+* `client`:  (`wandb.apis.public.RetryingClient`) 요청에 사용할 API 클라이언트입니다.
+* `entity`:  (str) 프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
+* `project`:  (str) run을 가져올 프로젝트 이름입니다.
+* `filters`:  (Optional[Dict[str, Any]]) run 쿼리에 적용할 필터 사전입니다.
+* `order`:  (str) `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다. 기본 정렬 순서는 가장 오래된 항목부터 최신 항목까지의 `run.created&#95;at`입니다.
+* `per_page`:  (int) 요청당 가져올 run 수입니다(기본값: 50).
+* `include_sweeps`:  (bool) run에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
 
-### <kbd>property</kbd> Runs.length
+***
 
----
 
-### <kbd>method</kbd> `Runs.histories`
+### <kbd>속성</kbd> Runs.length
+
+***
+
+### <kbd>방법</kbd> `Runs.histories`
 
 ```python
 histories(
@@ -60,30 +62,31 @@ histories(
 ) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
 ```
 
-필터 조건에 맞는 모든 runs 에 대해 샘플링된 history 메트릭을 반환합니다.
+필터 조건에 맞는 모든 run의 샘플링된 이력 메트릭을 반환합니다.
 
-**Args:**
- 
- - `samples`:  run 당 반환할 샘플의 수
- - `keys`:  특정 키에 대한 메트릭만 반환
- - `x_axis`:  xAxis로 사용할 메트릭이며 기본값은 _step입니다.
- - `format`:  데이터를 반환할 형식으로 "default", "pandas", "polars" 중 선택 가능합니다.
- - `stream`:  메트릭의 경우 "default", 머신 메트릭의 경우 "system"
+**매개변수:**
 
-**Returns:**
- 
- - `pandas.DataFrame`:  `format="pandas"`인 경우, history 메트릭의 `pandas.DataFrame`을 반환합니다.
- - `polars.DataFrame`:  `format="polars"`인 경우, history 메트릭의 `polars.DataFrame`을 반환합니다.
- - `list of dicts`:  `format="default"`인 경우, `run_id` 키를 포함한 history 메트릭의 사전 리스트를 반환합니다.
+* `samples`:  각 run별로 반환할 샘플 수
+* `keys`:  특정 키에 대한 메트릭만 반환합니다
+* `x_axis`:  이 메트릭을 xAxis로 사용하며, 기본값은 &#95;step입니다
+* `format`:  데이터를 반환할 형식입니다. 옵션은 &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;입니다
+* `stream`:  메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;을 사용합니다
 
----
+**반환값:**
 
-### <kbd>method</kbd> `Runs.upgrade_to_full`
+* `pandas.DataFrame`:  `format="pandas"`인 경우, 이력 메트릭이 담긴 `pandas.DataFrame`을 반환합니다.
+* `polars.DataFrame`:  `format="polars"`인 경우, 이력 메트릭이 담긴 `polars.DataFrame`을 반환합니다.
+* `list of dicts`:  `format="default"`인 경우, `run_id` 키를 포함한 이력 메트릭이 담긴 `dict` 목록을 반환합니다.
+
+***
+
+
+### <kbd>방법</kbd> `Runs.upgrade_to_full`
 
 ```python
 upgrade_to_full() → None
 ```
 
-이 Runs 컬렉션을 lazy 모드에서 full 모드로 업그레이드합니다.
+이 Runs collection을 lazy 모드에서 전체 모드로 업그레이드합니다.
 
-전체 run 데이터를 가져오도록 전환하고 이미 로드된 모든 Run 오브젝트가 전체 데이터를 갖도록 업그레이드합니다. 여러 runs 를 업그레이드할 때 성능 향상을 위해 병렬 로딩을 사용합니다.
+그러면 전체 run 데이터를 가져오도록 전환되며, 이미 로드된 모든 Run 객체도 전체 데이터를 포함하도록 업그레이드됩니다. 여러 run을 업그레이드할 때 성능을 높이기 위해 병렬 로딩을 사용합니다.

@@ -1,0 +1,22 @@
+```python
+"""
+runのhistoryを変更するためにrunを巻き戻します。
+
+`wandb.init()` の `resume_from` パラメーターで、巻き戻し先のrun IDとstepを指定してください。
+"""
+import wandb
+import math
+
+# runを初期化してメトリクスをログする
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # トレーニングとloggingのコードをここに記述する
+    pass
+
+run_ID = "<run_id>" # 元のrunのrun IDに置き換えてください
+step = int("<step>") # 巻き戻し先のstepを指定する
+
+# 元のrunの指定したstepから再開する新しいrunを開始する
+with wandb.init(project="<project>", entity="<entity>", resume_from=f"{run_ID}?_step={step}") as run:
+    # トレーニングとloggingのコードをここに記述する
+    pass    
+```

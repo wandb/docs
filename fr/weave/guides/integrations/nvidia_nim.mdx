@@ -1,0 +1,187 @@
+---
+title: "NVIDIA NIM"
+description: "Utilisez Weave pour tracer et journaliser les appels LLM effectués via la bibliothèque ChatNVIDIA"
+---
+
+Weave suit et journalise automatiquement les appels LLM effectués via la bibliothèque [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/), une fois `weave.init()` appelé.
+
+<Tip>
+  Pour consulter les derniers tutoriels, rendez-vous sur [Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia).
+</Tip>
+
+<div id="tracing">
+  ## Tracing
+</div>
+
+Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu’en production. Vous utiliserez ces traces pour le débogage et pour constituer un jeu de données d’exemples difficiles à évaluer au fur et à mesure que vous améliorez votre application.
+
+<Tabs>
+  <Tab title="Python">
+    Weave peut automatiquement capturer les traces de la [bibliothèque Python ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
+
+    Commencez à capturer les traces en appelant `weave.init(<project-name>)` avec le nom de projet de votre choix.
+
+    ```python lines {4}
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA
+    import weave
+    client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.8, max_tokens=64, top_p=1)
+    weave.init('emoji-bot')
+
+    messages=[
+        {
+          "role": "system",
+          "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+        }]
+
+    response = client.invoke(messages)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript, car cette bibliothèque existe uniquement en Python.
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![chatnvidia\_trace.png](/weave/guides/integrations/imgs/chatnvidia_trace.png)
+</Frame>
+
+<div id="track-your-own-ops">
+  ## Suivez vos propres ops
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Décorer une fonction avec `@weave.op` commence à capturer les entrées, les sorties et la logique de l’application afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela lance aussi automatiquement la gestion des versions du code pendant vos expérimentations afin de capturer des détails ad hoc qui n’ont pas été commités dans git.
+
+    Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops) qui appelle la [bibliothèque Python ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
+
+    Dans l’exemple ci-dessous, 2 fonctions sont encapsulées dans un op. Cela nous aide à voir comment des étapes intermédiaires, comme l’étape de récupération dans une application RAG, influencent le comportement de notre application.
+
+    ```python lines {1,9,11,29,31,33}
+    import weave
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA
+    import requests, random
+    PROMPT="""Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
+            Your tone is informative yet sassy, blending factual details with a touch of dry humor. Be concise, no more than 3 sentences. """
+    POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'meowth', 'eevee']
+    client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.7, max_tokens=100, top_p=1)
+
+    @weave.op
+    def get_pokemon_data(pokemon_name):
+        # Il s'agit d'une étape de votre application, comme l'étape de récupération dans une application RAG
+        url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            name = data["name"]
+            types = [t["type"]["name"] for t in data["types"]]
+            species_url = data["species"]["url"]
+            species_response = requests.get(species_url)
+            evolved_from = "Unknown"
+            if species_response.status_code == 200:
+                species_data = species_response.json()
+                if species_data["evolves_from_species"]:
+                    evolved_from = species_data["evolves_from_species"]["name"]
+            return {"name": name, "types": types, "evolved_from": evolved_from}
+        else:
+            return None
+
+    @weave.op
+    def pokedex(name: str, prompt: str) -> str:
+        # Il s'agit de votre op racine qui appelle d'autres ops
+        data = get_pokemon_data(name)
+        if not data: return "Error: Unable to fetch data"
+
+        messages=[
+                {"role": "system","content": prompt},
+                {"role": "user", "content": str(data)}
+            ]
+
+        response = client.invoke(messages)
+        return response.content
+
+    weave.init('pokedex-nvidia')
+    # Obtenir des données pour un Pokémon spécifique
+    pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
+    ```
+
+    Accédez à Weave, puis cliquez sur `get_pokemon_data` dans l’interface pour voir les entrées et les sorties de cette étape.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible en TypeScript, car cette bibliothèque n'existe qu'en Python.
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![nvidia\_pokedex.png](/weave/guides/integrations/imgs/nvidia_pokedex.png)
+</Frame>
+
+<div id="create-a-model-for-easier-experimentation">
+  ## Créez un `Model` pour expérimenter plus facilement
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Il est difficile d’organiser une expérimentation lorsque de nombreux éléments entrent en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+
+    En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres qui donnent les meilleurs résultats. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations)s.
+
+    Dans l’exemple ci-dessous, vous pouvez tester `model` et `system_message`. Chaque fois que vous modifiez l’un de ces deux éléments, vous obtenez une nouvelle *version* de `GrammarCorrectorModel`.
+
+    ```python lines
+    import weave
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA
+
+    weave.init('grammar-nvidia')
+
+    class GrammarCorrectorModel(weave.Model): # Remplacez par `weave.Model`
+      system_message: str
+
+      @weave.op()
+      def predict(self, user_input): # Remplacez par `predict`
+        client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0, max_tokens=100, top_p=1)
+
+        messages=[
+              {
+                  "role": "system",
+                  "content": self.system_message
+              },
+              {
+                  "role": "user",
+                  "content": user_input
+              }
+              ]
+
+        response = client.invoke(messages)
+        return response.content
+
+    corrector = GrammarCorrectorModel(
+        system_message = "You are a grammar checker, correct the following user input.")
+    result = corrector.predict("That was so easy, it was a piece of pie!")
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript, car cette bibliothèque n’existe qu’en Python.
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![chatnvidia\_model.png](/weave/guides/integrations/imgs/chatnvidia_model.png)
+</Frame>
+
+<div id="usage-info">
+  ## Informations d’utilisation
+</div>
+
+L’intégration ChatNVIDIA prend en charge `invoke`, `stream` ainsi que leurs variantes asynchrones. Elle prend également en charge l’utilisation d’outils.
+Comme ChatNVIDIA est conçu pour être utilisé avec de nombreux types de modèles, il ne prend pas en charge les appels de fonction.

@@ -1,0 +1,54 @@
+---
+title: Limites et comportements attendus
+description: Une liste des limites de Weave, des problèmes connus et des comportements attendus
+---
+
+* Pour les requêtes susceptibles d’être retentées, Weave réessaie à partir d’1 seconde après la première erreur, puis double le délai entre les tentatives jusqu’à 5 minutes. Les requêtes expirent après 36 heures.
+
+* Au lieu de lever des exceptions, [`.call()`](/fr/weave/guides/tracking/tracing#creating-calls) capture les exceptions et les stocke dans `call.exception`. Si vous devez lever des exceptions pendant l’exécution, définissez le [`paramètre __should_raise`](/fr/weave/reference/python-sdk/trace/op#function-call), comme ceci :
+
+  ```python showLineNumbers
+  # Ceci lève des exceptions
+  result, call = foo.call(__should_raise=True)
+  ```
+
+* Les instances Dedicated Weave utilisent une URL d’ingress OpenTelemetry différente. Voir [Envoyer des traces OpenTelemetry](/fr/weave/guides/tracking/otel) pour obtenir les informations officielles sur le point de terminaison.
+
+* Weave tronque parfois les objets de données de trace volumineux. Cela se produit parce que la sortie de trace par défaut est un objet Python personnalisé brut que Weave ne sait pas sérialiser. Pour renvoyer toutes vos données de trace, définissez un dictionnaire de chaînes, comme ceci :
+
+  ```python
+  import weave
+
+  class MyObj:
+      """An object with a large string attribute."""
+      def __init__(self, x: int):
+          self.x = x
+
+      def __repr__(self):
+          return f"MyObj(x={self.x})"
+
+      def to_dict(self):
+          return {"x": self.x}
+
+  @weave.op()
+  def make_my_obj():
+      x = "a" * 10_000
+      return MyObj(x)
+
+  def main():
+      weave.init("<entity/project>")
+
+      # Définir une opération traçable qui traite MyObj
+      @weave.op()
+      def process_obj(obj: MyObj) -> int:
+          return len(obj.x)
+
+      # Créer et traiter une grande instance de MyObj
+      large_obj = make_my_obj()
+      length = process_obj(large_obj)
+      print(f"Length of x in MyObj: {length}")
+      print("dict:", large_obj.to_dict())
+
+  if __name__ == "__main__":
+      main()
+  ```

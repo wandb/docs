@@ -1,0 +1,24 @@
+---
+title: "CSV metric 내보내기에서 step이 누락되는 이유는 무엇인가요?"
+keywords: ["Experiments", "Runs"]
+---
+
+내보내기 제한으로 인해 전체 run 이력을 CSV로 내보내거나 `run.history` API를 사용해 내보내지 못할 수 있습니다. 전체 run 이력을 확인하려면 Parquet 형식의 run 이력 artifact를 다운로드하세요:
+
+```python
+import wandb
+import pandas as pd
+
+run = wandb.init()
+artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
+artifact_dir = artifact.download()
+df = pd.read_parquet('<path to .parquet file>')
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}
