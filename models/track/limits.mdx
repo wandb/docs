@@ -9,7 +9,7 @@ title: Experiments limits and performance
 The following sections describe recommended limit and performance considerations. In this page the following terms are used:
 
 * Steps: The number of logical steps in a run. A step identifies a single row of metrics (such as those that belong to a particular training step or epoch) and is finalized when `wandb.Run.log()` is called with `commit=True`, or implicitly when neither `commit` nor `step` are specified.
-* Metrica cardinality: The number of distinct metric keys logged, including keys in nested dictionaries. For example, the following would count as 4 metric keys:
+* Metric cardinality: The number of distinct metric keys logged, including keys in nested dictionaries. For example, the following would count as 4 metric keys:
     ```python
     import wandb
     with wandb.init() as run:
@@ -36,16 +36,29 @@ The following sections describe recommended limit and performance considerations
         run.log({"a": 2})
         run.log({"a": 3})
     ```
-* Log frequency: The number of wandb.log() calls per minute.
+* Log frequency: The number of `wandb.Run.log()` calls per minute.
     ```text
-    log frequency = wandb.log() / minute 
+    log frequency = wandb.Run.log() / minute 
     ```
 * Throughput: A single unified metric for logging scale to simplify how users think about metrics across dimensions. The unit is logged points per minute.
     ```text
     throughput = logged points × log frequency 
     ```
 
+## Logging at scale
 
+W&B logging capacity is defined primarily in terms of number of steps, metric cardinality, and total number of logged points. Generally, performance issues are due to logging too many distinct metrics, not from logging too many steps.
+
+### Summary of recommendations for MTSaaS
+
+| Dimension| Guidance at scale |
+| --- | --- |
+| Runs per project | 10,000 |
+| Steps per run | 500,000 |
+| Metric cardinality per project | 100,000 |
+| Log frequency (rows per minute) | 1,000 |
+| Throughput (values per minute) | 100,000 |
+| Video (MB/min)| 40 |
 
 
 ## Logging considerations
