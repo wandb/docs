@@ -31,13 +31,13 @@ In addition, examples use user IDs such as `abc` and `def`. Real requests and re
 
 ## Authentication
 
-Organization admins can authenticate with a **Bearer token** or **HTTP Basic** credentials. Either style uses the **same API key string** where a key applies. Choose a user identity or an organization-scoped service account after reviewing the key differences.
+Organization admins can authenticate with a **Bearer token** or **HTTP Basic** credentials. Either style uses the _same API key string_ where a key applies. Choose a user identity or an organization-scoped service account after reviewing the key differences.
 
 ### Key differences
 - Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
 - Credentials: Users send username and API key for Basic auth; service accounts send only an API key (no username) for Basic auth. For Bearer auth, send only the API key in the header (no username).
 - Bearer versus Basic: Bearer uses `Authorization: Bearer <API-KEY>` with the key verbatim. Basic uses `Authorization: Basic <base64(...)>` (users encode `username:API-KEY`; service accounts encode `:API-KEY` with a leading colon and empty username).
-- Scope and permissions: Use an API key from an instance or organization admin user, or from an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Keys from [team-scoped service accounts](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) cannot authenticate to the SCIM API. Service accounts used for SCIM are organization-scoped and headless, which supports clearer audit trails for automation.
+- Scope and permissions: Use an API key from an instance or organization admin user, or from an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Keys from [team-scoped service accounts](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) cannot authenticate to the SCIM API. Service accounts that use SCIM are organization-scoped and headless, which supports clearer audit trails for automation.
 - Where to get credentials: Users copy their API key from User Settings; organization-scoped service account keys are in the organization dashboard under the **Service account** tab.
 - Multi-tenant Cloud: If you have access to more than one Multi-tenant Cloud organizations, you must set the Default API organization to ensure that SCIM API calls are routed to the intended organization.
 
