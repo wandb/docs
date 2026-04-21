@@ -1,0 +1,16 @@
+---
+title: "공유 머신에서 올바른 wandb 사용자로 어떻게 로그를 기록하나요?"
+keywords: ["로그"]
+---
+
+공유 머신을 사용할 때는 인증을 위해 `WANDB_API_KEY` 환경 변수를 설정하여 run이 올바른 wandb 계정에 로그를 기록하도록 하세요. 이 변수가 환경에 설정되어 있으면 로그인할 때 올바른 자격 증명이 제공됩니다. 또는 스크립트에서 환경 변수를 직접 설정할 수도 있습니다.
+
+`export WANDB_API_KEY=X` 명령을 실행하고, X를 자신의 API 키로 바꾸세요. API 키는 [wandb.ai/settings](https://wandb.ai/settings)에서 생성할 수 있습니다.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[로그](/ko/support/models/tags/logs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

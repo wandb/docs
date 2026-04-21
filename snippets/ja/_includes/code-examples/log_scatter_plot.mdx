@@ -1,0 +1,27 @@
+```python
+"""
+散布図をW&Bにログします。
+
+以下を置き換えてください:
+- 山括弧で囲まれた値を実際の値に置き換える
+- wandb.Table(data=) 内の [[1, 2], [2, 3]] をプロットする実際の2次元行指向配列に置き換える
+
+data (wandb.Table(data=)) に2次元行指向配列を渡し、
+列名は `columns` パラメーターで指定します。
+
+列名は `wandb.plot.scatter()` プロット関数の x および y パラメーターと一致している必要があります。
+"""
+import wandb
+
+# 新しいrunを開始する
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # プロットする列を含む表を作成する
+    table = wandb.Table(data=[[1, 2], [2, 3]], columns=["<a_column>", "<b_column>"])
+
+    # 表を使用してさまざまなカスタムチャートにデータを入力する
+    scatter = wandb.plot.scatter(table, x='<a_column>', y='<b_column>', title='<title>')
+
+    # カスタム表をログする（UIのカスタマイズ可能なチャートに表示されます）
+    run.log({'scatter_1': scatter})
+```

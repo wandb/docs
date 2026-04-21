@@ -1,0 +1,65 @@
+---
+title: W&B 모바일 앱(iOS)
+description: iPhone 또는 iPad에서 트레이닝 run을 추적하고, 선형 플롯을 확인하고, 정규식으로 프로젝트 패널을 검색하고, W&B Models 프로젝트를 탐색하세요.
+---
+
+<Columns cols={4}>
+  <Frame>
+    ![메트릭 차트가 있는 W\&B 모바일 앱 프로젝트 패널](/images/mobile-app/project-panels.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B 모바일 앱 알림 관리 화면](/images/mobile-app/manage-alerts.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B 모바일 앱 프로젝트 목록 및 팀 선택기](/images/mobile-app/projects.png)
+  </Frame>
+
+  <Frame>
+    ![프로젝트의 W\&B 모바일 앱 run 목록](/images/mobile-app/project-runs.png)
+  </Frame>
+</Columns>
+
+iOS용 W&amp;B 모바일 앱을 사용하면 어디서든 W&amp;B Models 프로젝트에 계속 연결된 상태를 유지할 수 있습니다. iPhone 또는 iPad에서 실시간으로 트레이닝 run을 추적하고, 선형 플롯을 확인하고, 프로젝트 기록을 탐색하고, 팀의 진행 상황을 살펴볼 수 있습니다.
+
+<Info>
+  모바일 앱은 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 계정에서만 사용할 수 있습니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) deployment에서는 사용할 수 없습니다.
+</Info>
+
+<div id="download-the-app">
+  ## 앱 다운로드
+</div>
+
+<Card title="App Store에서 다운로드" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="features">
+  ## 기능
+</div>
+
+* **트레이닝 run 추적**: run 상태, 메트릭, 선형 플롯을 실시간으로 확인합니다.
+* **프로젝트 이력 탐색**: W&amp;B 프로젝트 전반에서 둘러보고 검색합니다. **프로젝트 패널**의 메트릭 차트에는 최신 run뿐 아니라 프로젝트의 **모든 run** 데이터가 포함됩니다.
+* **프로젝트 패널 검색**: **패널 검색** 필드를 사용해 각 차트에 표시할 run을 필터링합니다. run 이름의 패턴과 일치하는 항목을 찾기 위해 [JavaScript 정규식](https://www.w3schools.com/js/js_regexp.asp)을 사용해 검색할 수 있습니다.
+* **Teams 전환**: **팀 선택기**를 사용해 Teams를 전환합니다. 선택기는 더 빠른 내비게이션을 위해 업데이트된 레이아웃을 사용합니다.
+* **최신 정보 유지**: 알림을 사용하면 노트북을 열지 않고도 Experiments 업데이트를 확인할 수 있습니다. 더 이상 필요하지 않은 **알림을 제거**하려면 **알림** 탭에서 해당 알림을 스와이프해 없앱니다.
+
+<div id="set-up-notifications">
+  ## 알림 설정
+</div>
+
+알림은 두 가지 방법으로 설정할 수 있습니다.
+
+**메트릭 임계값 알림**
+
+1. run으로 이동합니다.
+2. 그래프를 탭해 전체 화면 뷰로 들어갑니다.
+3. 오른쪽 상단의 종 아이콘을 탭합니다.
+4. 이후 run이 지정한 메트릭 임계값을 넘을 때 트리거되는 알림을 설정합니다.
+
+**run 실패 알림**
+
+1. 프로젝트로 이동합니다.
+2. 오른쪽 상단의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 탭합니다.
+3. 해당 프로젝트에서 이후 run 실패에 대한 알림을 받으려면 **Run failed alert**를 선택합니다.
+
+**알림 관리** 화면에는 두 종류의 설정이 한곳에 표시되며, 각 섹션에서 제어하는 내용을 설명하는 짧은 설명도 함께 제공됩니다.

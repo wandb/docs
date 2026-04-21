@@ -1,39 +1,55 @@
 ---
-title: ' thoughtful
-
-  wandb artifact get'
+title: wandb artifact get
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-get.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbArtifactGet from "/snippets/en/_includes/cli/wandb-artifact-get.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L2944" />
 
-<WandbArtifactGet/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-W&B から Artifacts をダウンロードします。
-
-## Usage
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb artifact get PATH [OPTIONS]
+get [OPTIONS] PATH
 ```
 
-## Arguments
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATH` | 説明はありません | はい |
+パスを指定して、W&amp;B からアーティファクトをダウンロードします。
 
-## Options
+PATH の形式は entity/project/artifact&#95;name:version です。version が
+省略されている場合は、&quot;latest&quot; エイリアスを使用します。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--root` | Artifacts をダウンロードする先の ディレクトリー |
-| `--type` | ダウンロードする Artifacts のタイプ |
+たとえば、&quot;team-awesome&quot; entity 配下の &quot;foobar&quot; project から、
+&quot;processed-training-set&quot; という名前のアーティファクトの最新バージョンをダウンロードするには、次のようにします。
+
+```bash
+wandb artifact get team-awesome/foobar/processed-training-set:latest
+```
+
+&quot;processed-training-set&quot; アーティファクトの特定のバージョン (v2) を
+ローカルディレクトリ (./data) にダウンロードするには、次のようにします。
+
+```bash
+wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名      | デフォルト | タイプ  |
+| ------ | ----- | ---- |
+| `path` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ      | タイプ | 説明                                                                              |
+| -------- | --- | ------------------------------------------------------------------------------- |
+| `--root` | STR | アーティファクト のダウンロード先ディレクトリです。設定されていない場合は、デフォルトの アーティファクト キャッシュを使用します。**デフォルト**: なし |
+| `--type` | STR | 想定される アーティファクト のタイプです。一致しない場合は失敗します。**デフォルト**: なし                               |

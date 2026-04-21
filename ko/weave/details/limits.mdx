@@ -1,0 +1,54 @@
+---
+title: 제한 사항 및 예상 동작
+description: Weave의 제한 사항, 알려진 문제, 예상 동작 목록
+---
+
+* 재시도 가능한 요청의 경우, Weave는 첫 번째 오류를 받은 뒤 1초 후부터 요청을 재시도하며, 시도 간 대기 시간을 최대 5분까지 두 배씩 늘립니다. 요청은 36시간 후 시간 초과됩니다.
+
+* 예외를 발생시키는 대신, [`.call()`](/ko/weave/guides/tracking/tracing#creating-calls)은 예외를 캡처해 `call.exception`에 저장합니다. 실행 중 예외를 발생시켜야 한다면, 다음과 같이 [`__should_raise` 매개변수](/ko/weave/reference/python-sdk/trace/op#function-call)를 설정하세요.
+
+  ```python showLineNumbers
+  # 이 코드는 예외를 발생시킵니다
+  result, call = foo.call(__should_raise=True)
+  ```
+
+* Dedicated Weave 인스턴스는 다른 OpenTelemetry 인그레스 URL을 사용합니다. 정확한 엔드포인트 정보는 [OpenTelemetry Traces 보내기](/ko/weave/guides/tracking/otel)를 참조하세요.
+
+* Weave는 때때로 큰 트레이스 데이터 객체를 잘라낼 수 있습니다. 이는 기본 트레이스 출력이 Weave가 직렬화하는 방법을 알지 못하는 원시 맞춤형 Python 객체이기 때문입니다. 모든 트레이스 데이터를 반환하려면 다음과 같이 문자열로 이루어진 딕셔너리를 정의하세요.
+
+  ```python
+  import weave
+
+  class MyObj:
+      """An object with a large string attribute."""
+      def __init__(self, x: int):
+          self.x = x
+
+      def __repr__(self):
+          return f"MyObj(x={self.x})"
+
+      def to_dict(self):
+          return {"x": self.x}
+
+  @weave.op()
+  def make_my_obj():
+      x = "a" * 10_000
+      return MyObj(x)
+
+  def main():
+      weave.init("<entity/project>")
+
+      # MyObj를 처리하는 트레이스 가능한 오퍼레이션을 정의합니다
+      @weave.op()
+      def process_obj(obj: MyObj) -> int:
+          return len(obj.x)
+
+      # 큰 MyObj 인스턴스를 생성하고 처리합니다
+      large_obj = make_my_obj()
+      length = process_obj(large_obj)
+      print(f"Length of x in MyObj: {length}")
+      print("dict:", large_obj.to_dict())
+
+  if __name__ == "__main__":
+      main()
+  ```

@@ -1,0 +1,25 @@
+```python
+"""
+Enregistrez un graphique histogramme dans W&B. 
+
+Remplacez :
+- les valeurs entre chevrons par les vôtres
+- [[1, 2], [2, 3]] dans wandb.Table(data=) par votre propre tableau de valeurs 2D orienté lignes à tracer
+
+Passez un tableau de valeurs 2D orienté lignes à data (wandb.Table(data=)), avec
+les noms de colonnes spécifiés dans le paramètre `columns`.
+"""
+import wandb
+
+# Démarrer un nouveau run
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # Créer un tableau avec les colonnes à tracer
+    table = wandb.Table(data=[[1, 2], [2, 3]] , columns=["<a_column>", "<b_column>"])
+
+    # Utiliser le tableau pour alimenter différents graphiques personnalisés
+    histogram = wandb.plot.histogram(table, value='<b_column>', title='Histogram')
+
+    # Enregistrer les tableaux personnalisés, qui apparaîtront dans les graphiques personnalisables dans l'interface utilisateur
+    run.log({'histogram_1': histogram})
+```

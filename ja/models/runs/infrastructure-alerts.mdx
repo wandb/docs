@@ -1,0 +1,12 @@
+---
+title: CoreWeave インフラストラクチャアラートを可視化する
+description: "GPU 障害や温度異常などの CoreWeave インフラストラクチャアラートを、W&B の run プロット上で表示します。"
+---
+
+W&amp;B にログした機械学習実験の実行中に、GPU 障害や温度異常などのインフラストラクチャアラートを確認できます。[W&amp;B run](/ja/models/runs) の実行中、[CoreWeave Mission Control](https://coreweave.com/mission-control) がコンピュートインフラストラクチャーを監視します。
+
+<Note>
+  この機能はプレビュー版で、CoreWeave クラスターでトレーニングする場合にのみ利用できます。アクセスするには、W&amp;B の担当者にお問い合わせください。
+</Note>
+
+エラーが発生すると、CoreWeave はその情報を W&amp;B に送信します。W&amp;B は、プロジェクトの Workspace 内の run プロットにインフラストラクチャー情報を表示します。CoreWeave は一部の問題を自動的に解決しようとし、W&amp;B はその情報を run ページに表示します。

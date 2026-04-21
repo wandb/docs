@@ -1,0 +1,126 @@
+---
+title: "Suivre et versionner des objets"
+description: "Suivre et versionner tout objet sérialisable en JSON dans W&B Weave"
+---
+
+<div id="objects">
+  ## Objets
+</div>
+
+Un **objet** désigne des données sérialisables et versionnées. Weave versionne automatiquement les objets à chaque modification et crée un historique immuable. Les objets comprennent :
+
+* **Datasets** : collections d&#39;exemples pour l&#39;évaluation
+* **Models** : configurations et paramètres pour la logique de votre LLM
+* **Prompts** : modèles de prompt versionnés
+
+```python lines
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+
+<div id="publishing-an-object">
+  ## Publier un objet
+</div>
+
+La couche de sérialisation de Weave enregistre les objets et en gère les versions.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # Enregistrer une liste sous le nom 'cat-names'
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    La publication en TypeScript en est encore à ses débuts ; tous les objets ne sont donc pas encore entièrement pris en charge.
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // Enregistrer un tableau sous le nom 'cat-names'
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+</Tabs>
+
+Lorsque vous enregistrez un objet sous un nom, Weave en crée la première version s’il n’existe pas encore.
+
+<div id="get-an-object-back">
+  ## Récupérer un objet
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    `weave.publish()` renvoie une Ref. Vous pouvez appeler `.get()` sur n’importe quelle Ref pour récupérer l’objet.
+
+    Vous pouvez créer une ref, puis récupérer l’objet.
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names = weave.ref('cat-names').get()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-an-object">
+  ## Supprimer un objet
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Pour supprimer une version d&#39;un objet, appelez `.delete()` sur la réf. d&#39;objet.
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names_ref = weave.ref('cat-names:v1')
+    cat_names_ref.delete()
+    ```
+
+    L&#39;accès à un objet supprimé renvoie une erreur. La résolution d&#39;un objet qui référence un objet supprimé renvoie un `DeletedRef` à la place de l&#39;objet supprimé.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="constructing-object-refs">
+  ## Construction des réf. d&#39;objet
+</div>
+
+Dans Weave, une URI de réf. d&#39;objet pleinement qualifiée se présente ainsi :
+
+```text
+weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
+```
+
+* *your-team-name*: entité W&amp;B (nom d’utilisateur ou nom d’équipe)
+* *your-project-name*: projet W&amp;B
+* *object&#95;name*: nom de l’objet
+* *object&#95;version*: soit un hash de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l’alias `:latest`.
+
+Vous pouvez construire des références de plusieurs façons :
+
+* `weave.ref(<name>)`: Récupère la version `:latest` d’un objet. Nécessite d’appeler `weave.init(...)`.
+* `weave.ref(<name>:<version>)`: Récupère la version spécifiée d’un objet. Nécessite d’appeler `weave.init(...)`.
+* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l’objet situé à l’URI de référence d’objet pleinement qualifiée spécifiée. Ne nécessite pas d’appeler `weave.init()`.

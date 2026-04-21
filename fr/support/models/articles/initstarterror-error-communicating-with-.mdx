@@ -1,0 +1,32 @@
+---
+title: "InitStartError : erreur de communication avec le processus wandb"
+keywords: ["Experiments", "Échecs de run"]
+---
+
+Cette erreur indique que la bibliothèque rencontre un problème au lancement du processus qui synchronise les données avec le serveur.
+
+Les solutions de contournement suivantes permettent de résoudre le problème dans certains environnements :
+
+<Tabs>
+  <Tab title="Linux and OS X">
+    ```python
+    wandb.init(settings=wandb.Settings(start_method="fork"))
+    ```
+  </Tab>
+
+  <Tab title="Google Colab">
+    Pour les versions antérieures à `0.13.0`, utilisez :
+
+    ```python
+    wandb.init(settings=wandb.Settings(start_method="thread"))
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Plantages de runs](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

@@ -1,0 +1,58 @@
+---
+title: "Perte de données de trace dans les processus worker"
+keywords: ["Données de trace", "Performances"]
+---
+
+Weave envoie les données de trace dans des threads d&#39;arrière-plan afin de minimiser l&#39;impact sur les performances de votre application. Cependant, lorsque vous utilisez un système multiprocessus, une file d&#39;attente de tâches ou des processus worker comme Celery, Weave perd des données de trace si le processus worker se termine avant que les threads d&#39;arrière-plan n&#39;aient fini d&#39;envoyer les traces.
+
+Pour éviter la perte de données dans les processus worker, vous devez vous assurer que les envois en arrière-plan sont terminés en appelant `client.flush()` ou `client.finish()` avant la fin de la tâche du worker. Cela est utile lorsque vous travaillez dans des environnements éphémères comme [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run) ou des notebooks qui se ferment juste après l&#39;exécution.
+
+Ces méthodes ont des objectifs différents :
+
+* `weave.flush()`: Vidage simple et silencieux. Recommandé lorsque Weave est intégré à des processus worker ou à des environnements CI.
+* `weave.finish()`: Inclut un suivi de progression avec une barre de progression ou des callbacks de statut. Recommandé pour les scripts ou notebooks interactifs.
+
+Les deux méthodes bloquent jusqu&#39;à ce que tous les envois en arrière-plan soient terminés, ce qui garantit qu&#39;aucune donnée de trace n&#39;est perdue lorsque le processus worker se termine.
+
+L&#39;exemple suivant montre `client.finish()` :
+
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+
+    try:
+        # La logique de votre tâche qui crée des traces
+        result = your_processing_function(input_data)
+
+        # S'assurer que toutes les traces sont envoyées avant la fin de la tâche
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
+
+Vous pouvez aussi utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` à la fin du bloc :
+
+```python
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+Vous pouvez également améliorer les performances de votre application grâce à `weave.flush()`. Voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times) pour en savoir plus.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

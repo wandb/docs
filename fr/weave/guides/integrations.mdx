@@ -1,0 +1,72 @@
+---
+title: Aperçu des intégrations
+description: "Tracez et surveillez les appels LLM sur plus de 30 fournisseurs et frameworks grâce au patching automatique de Weave pour OpenAI, Anthropic, etc."
+---
+
+W&amp;B Weave propose des intégrations de logging pour les fournisseurs de LLM et les frameworks d’orchestration les plus courants. Ces intégrations vous permettent de tracer facilement les appels effectués via différentes bibliothèques, ce qui améliore votre capacité à surveiller et analyser vos applications d’IA.
+
+Si vous utilisez dans votre application des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral), vous voulez que ces appels d’API apparaissent dans W&amp;B Weave comme des appels tracés : entrées, sorties, latence, utilisation des tokens et coût. Sans cela, vous devriez encapsuler chaque `client.chat.completions.create()` (ou équivalent) dans `@weave.op` ou recourir à une instrumentation manuelle, ce qui est fastidieux et il est facile d’oublier quelque chose.
+
+Weave intercepte automatiquement (patche) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé : vous utilisez le SDK du fournisseur comme d’habitude, et chaque requête est enregistrée comme un appel Weave. Vous bénéficiez d’un tracing complet avec une configuration minimale.
+
+<div id="llm-providers">
+  ## Fournisseurs de LLM
+</div>
+
+Les fournisseurs de LLM sont les prestataires qui donnent accès à de grands modèles de langage pour générer des prédictions. Weave s’intègre à ces fournisseurs pour journaliser et tracer les interactions avec leurs API :
+
+* **[W&amp;B Inference Service](https://docs.wandb.ai/inference/)**
+* **[Amazon Bedrock](/fr/weave/guides/integrations/bedrock)**
+* **[Anthropic](/fr/weave/guides/integrations/anthropic)**
+* **[Cerebras](/fr/weave/guides/integrations/cerebras)**
+* **[Cohere](/fr/weave/guides/integrations/cohere)**
+* **[Google](/fr/weave/guides/integrations/google)**
+* **[Groq](/fr/weave/guides/integrations/groq)**
+* **[Hugging Face Hub](/fr/weave/guides/integrations/huggingface)**
+* **[LiteLLM](/fr/weave/guides/integrations/litellm)**
+* **[Microsoft Azure](/fr/weave/guides/integrations/azure)**
+* **[MistralAI](/fr/weave/guides/integrations/mistral)**
+* **[NVIDIA NIM](/fr/weave/guides/integrations/nvidia_nim)**
+* **[OpenAI](/fr/weave/guides/integrations/openai)**
+* **[OpenRouter](/fr/weave/guides/integrations/openrouter)**
+* **[Together AI](/fr/weave/guides/integrations/together_ai)**
+
+**[Modèles locaux](/fr/weave/guides/integrations/local_models)** : pour les cas où vous exécutez des modèles sur votre propre infrastructure.
+
+<div id="frameworks">
+  ## Frameworks
+</div>
+
+Les frameworks aident à orchestrer les pipelines d’exécution des applications d’IA. Ils fournissent des outils et des abstractions pour créer des flux de travail complexes. Weave s’intègre à ces frameworks pour tracer l’ensemble du pipeline :
+
+* **[OpenAI Agents SDK](/fr/weave/guides/integrations/openai_agents)**
+* **[LangChain](/fr/weave/guides/integrations/langchain)**
+* **[LlamaIndex](/fr/weave/guides/integrations/llamaindex)**
+* **[DSPy](/fr/weave/guides/integrations/dspy)**
+* **[Instructor](/fr/weave/guides/integrations/instructor)**
+* **[CrewAI](/fr/weave/guides/integrations/crewai)**
+* **[Smolagents](/fr/weave/guides/integrations/smolagents)**
+* **[PydanticAI](/fr/weave/guides/integrations/pydantic_ai)**
+* **[Google Agent Development Kit (ADK)](/fr/weave/guides/integrations/google_adk)**
+* **[AutoGen](/fr/weave/guides/integrations/autogen)**
+* **[Verdict](/fr/weave/guides/integrations/verdict)**
+* **[TypeScript SDK](/fr/weave/guides/integrations/js)**
+* **[Vercel AI SDK](/fr/weave/guides/integrations/vercel_ai_sdk)**
+* **[Agno](/fr/weave/guides/integrations/agno)**
+* **[Koog](/fr/weave/guides/integrations/koog)**
+
+<div id="rl-frameworks">
+  ## Frameworks de RL
+</div>
+
+* **[Verifiers](/fr/weave/guides/integrations/verifiers)**
+
+<div id="protocols">
+  ## Protocoles
+</div>
+
+Weave s’intègre à des protocoles standardisés qui permettent la communication entre les applications d’IA et les services qui les prennent en charge :
+
+* **[Model Context Protocol (MCP)](/fr/weave/guides/integrations/mcp)**
+
+Choisissez une intégration dans les listes ci-dessus pour en savoir plus sur la manière d’utiliser Weave avec votre fournisseur de LLM, framework ou protocole préféré. Que vous accédiez directement aux API de LLM, construisiez des pipelines complexes ou utilisiez des protocoles standardisés, Weave fournit les outils nécessaires pour tracer et analyser efficacement vos applications d’IA.

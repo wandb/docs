@@ -1,0 +1,12 @@
+---
+title: Visualiser les alertes d’infrastructure de CoreWeave
+description: "Affichez les alertes d’infrastructure de CoreWeave, comme les pannes de GPU et les violations thermiques, sur les graphiques de run de vos expériences W&B."
+---
+
+Consultez les alertes d’infrastructure, comme les pannes de GPU, les violations thermiques, etc., pendant les expériences de machine learning que vous consignez dans W&amp;B. Pendant un [run W&amp;B](/fr/models/runs), [CoreWeave Mission Control](https://coreweave.com/mission-control) surveille votre infrastructure de calcul.
+
+<Note>
+  Cette fonctionnalité est en préversion et n’est disponible que pour l’entraînement sur un cluster CoreWeave. Contactez votre représentant W&amp;B pour obtenir l’accès.
+</Note>
+
+Si une erreur se produit, CoreWeave envoie ces informations à W&amp;B. W&amp;B affiche ensuite les informations d’infrastructure sur les graphiques du run dans le Workspace de votre projet. CoreWeave tente de résoudre automatiquement certains problèmes, et W&amp;B affiche ces informations sur la page du run.

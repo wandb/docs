@@ -1,0 +1,41 @@
+---
+title: wandb launch-sweep
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1247" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+launch-sweep [OPTIONS] [CONFIG]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Exécuter un sweep Launch de W&amp;B (expérimental).
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom      | Par défaut | Type  |
+| -------- | ---------- | ----- |
+| `config` | PATH       | False |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag              | Type | Description                                                                                                                                                                |
+| ----------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--queue, -q`     | STR  | Nom de la file d&#39;attente vers laquelle envoyer le sweep. **Par défaut** : None                                                                                         |
+| `--project, -p`   | STR  | Nom du projet que l&#39;agent surveillera. Si cet argument est spécifié, il remplacera la valeur du projet fournie dans le fichier de configuration. **Par défaut** : None |
+| `--entity, -e`    | STR  | Entité à utiliser. Par défaut, l&#39;utilisateur actuellement connecté est utilisé. **Par défaut** : None                                                                  |
+| `--resume_id, -r` | STR  | Reprendre un sweep Launch en fournissant un ID de sweep de 8 caractères. File d&#39;attente requise. **Par défaut** : None                                                 |
+| `--prior_run, -R` | STR  | ID d&#39;un run existant à ajouter à ce sweep. **Par défaut** : None                                                                                                       |

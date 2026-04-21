@@ -1,0 +1,46 @@
+---
+title: "Run のクラッシュ"
+tag: "10"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="`AttributeError: module 'wandb' has no attribute ...` のようなエラーを修正するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
+  AttributeError: module &#39;wandb&#39; has no attribute &#39;init&#39; や AttributeError: module &#39;wandb&#39; ... のようなエラーが発生した場合
+</Card>
+
+<Card title="sweep 中の `Cuda out of memory` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  sweep 中に Cuda out of memory が発生する場合は、プロセスベースの実行を使用するようにコードをリファクタリングしてください。コードを ... として書き直してください
+</Card>
+
+<Card title="wandb を使ってジョブを停止するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-kill-a-job-with-wandb" arrow="true" horizontal>
+  W&amp;B で計測しているスクリプトを停止するには、キーボードで Ctrl+D を押します。
+</Card>
+
+<Card title="wandb の run 初期化タイムアウトエラーを解決するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-resolve-a-run-initialization-ti" arrow="true" horizontal>
+  run の初期化タイムアウトエラーを解決するには、次の step に従う: 初期化を再試行する: run の再開を試みます。Che ...
+</Card>
+
+<Card title="wandb がクラッシュした場合、トレーニング run もクラッシュする可能性はありますか?" href="/ja/support/models/articles/if-wandb-crashes-will-it-possibly-crash-" arrow="true" horizontal>
+  トレーニング runs への干渉を避けることは非常に重要です。W&amp;B は別プロセスで動作するため、トレーニングは継続されます ...
+</Card>
+
+<Card title="InitStartError: wandb プロセスとの通信エラー" href="/ja/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  このエラーは、サーバーにデータを同期するプロセスの起動時に、ライブラリで問題が発生していることを示します。Th ...
+</Card>
+
+<Card title="UI では私の run の状態が `crashed` になっていますが、マシン上ではまだ実行中です。データを取り戻すにはどうすればよいですか?" href="/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+  おそらくトレーニング中にマシンとの接続が失われました。wandb sync PATH&#95;TO&#95;RUN (/models/ref/ ... を実行してデータを復旧してください
+</Card>
+
+<Card title="Hydra を W&B と一緒に使用すると、プロセスがハングするのはなぜですか?" href="/ja/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  Hydra で起動したときにプロセスがハングする場合、これは Hydra と W&amp;B の間のマルチプロセッシングの競合が原因である可能性が高いです ...
+</Card>
+
+<Card title="分散トレーニングでトレーニングがハングするのはなぜですか?" href="/ja/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  W&amp;B を分散トレーニングと一緒に使用するとトレーニングがハングする一般的な理由は 2 つあります: 1. トレーニング開始時のハング ...
+</Card>
+
+<Card title="ローカルでは正常にトレーニングしているのに、W&B で run が crashed と表示されるのはなぜですか?" href="/ja/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
+  これは接続の問題を示しています。サーバーがインターネット接続を失い、W&amp;B へのデータ同期が停止すると、システムは ...
+</Card>
