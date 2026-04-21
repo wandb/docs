@@ -15,6 +15,11 @@ _VOWEL_LINK = re.compile(
     r"(\|\s+)(A|a)(\s+\[)([aeiouAEIOU][^\]]*)(\]\()",
 )
 
+# Undo mistaken "An" when upstream or a prior run used vowel-letter heuristics only.
+_WRONG_AN_BEFORE_LINK = re.compile(
+    r"(\|\s+)(An|an)(\s+\[)([aeiouAEIOU][^\]]*)(\]\()",
+)
+
 
 LEGACY_REF_RE = re.compile(
     r"https://docs\.wandb\.ai/ref/weave/([A-Za-z0-9-]+)(/?)(?=[)\s])"
@@ -52,15 +57,60 @@ def fix_argument_table_header(md: str) -> str:
     return md.replace("| Argument |  |", "| Argument | Description |")
 
 
+def _link_label_takes_an(link_text: str) -> bool:
+    """
+    Whether prose before [link_text] should use \"an\" (vowel sound).
+
+    The generator only sees the bracket label, not pronunciation. Several
+    English words and technical names start with a vowel letter but a
+    consonant glide (/j/ or /w/), for example \"user\" and \"Unicode\".
+    """
+    label = link_text.strip()
+    if not label:
+        return True
+    word = re.split(r"\s+", label, maxsplit=1)[0]
+    wl = word.lower()
+
+    # Written vowel at start but consonant sound (/j/ or /w/).
+    if wl.startswith(
+        (
+            "uni",
+            "use",
+            "usu",
+            "util",
+            "uri",
+            "url",
+            "uuid",
+            "euro",
+        )
+    ):
+        return False
+    if wl == "one" or wl.startswith("one"):
+        return False
+
+    return True
+
+
 def fix_indefinite_article_before_links(md: str) -> str:
     """Fix 'A [artifactType](...' in table rows (upstream uses 'A' before type links)."""
 
-    def repl(m: re.Match[str]) -> str:
+    def repl_a_to_an(m: re.Match[str]) -> str:
         p1, article, p3, link_text, p5 = m.groups()
+        if not _link_label_takes_an(link_text):
+            return m.group(0)
         new_art = "An" if article == "A" else "an"
         return f"{p1}{new_art}{p3}{link_text}{p5}"
 
-    return _VOWEL_LINK.sub(repl, md)
+    def repl_an_to_a(m: re.Match[str]) -> str:
+        p1, article, p3, link_text, p5 = m.groups()
+        if _link_label_takes_an(link_text):
+            return m.group(0)
+        new_art = "A" if article == "An" else "a"
+        return f"{p1}{new_art}{p3}{link_text}{p5}"
+
+    md = _VOWEL_LINK.sub(repl_a_to_an, md)
+    md = _WRONG_AN_BEFORE_LINK.sub(repl_an_to_a, md)
+    return md
 
 
 def extract_hash_title(raw_md: str) -> str | None:

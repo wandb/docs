@@ -35,6 +35,24 @@ class ConverterUnitTests(unittest.TestCase):
         row2 = "| `run` | A [run](/models/ref/query-panel/run) |"
         self.assertEqual(m.fix_indefinite_article_before_links(row2), row2)
 
+    def test_user_keeps_a_not_an(self) -> None:
+        m = _load_converter()
+        row = "| `user` | A [user](/models/ref/query-panel/user) |"
+        self.assertEqual(m.fix_indefinite_article_before_links(row), row)
+
+    def test_wrong_an_before_user_is_corrected(self) -> None:
+        m = _load_converter()
+        row = "| `user` | An [user](/models/ref/query-panel/user) |"
+        self.assertEqual(
+            m.fix_indefinite_article_before_links(row),
+            "| `user` | A [user](/models/ref/query-panel/user) |",
+        )
+
+    def test_unicode_style_label_keeps_a(self) -> None:
+        m = _load_converter()
+        row = "| `unicode` | A [unicode](/models/ref/query-panel/unicode) |"
+        self.assertEqual(m.fix_indefinite_article_before_links(row), row)
+
     def test_page_display_title_prefers_overview_label(self) -> None:
         m = _load_converter()
         raw = "# artifact-type\n\n## Chainable Ops\n"
