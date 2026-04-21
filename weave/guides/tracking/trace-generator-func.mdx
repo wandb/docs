@@ -72,7 +72,7 @@ Weave captures generator outputs only after you fully consume the generator. Con
 
 For more on decorating functions and methods with `@weave.op`, see [Create calls](/weave/guides/tracking/create-call).
 
-## Use the accumulator parameter
+## Accumulate yielded values into a single trace
 
 You can use the `weave.op`'s `accumulator` parameter to customize how yielded values are combined from generator functions, for example, to join streamed text tokens into a single string. The accumulator is a two-argument function that Weave calls once per yielded value, building up a result incrementally.
 
