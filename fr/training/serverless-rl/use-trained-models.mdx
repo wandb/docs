@@ -1,0 +1,81 @@
+---
+title: Utilisez vos modèles entraînés
+description: Effectuez des requêtes d’inférence sur les modèles que vous avez entraînés
+---
+
+Après avoir entraîné un modèle avec Serverless RL, il est automatiquement disponible pour l’inférence.
+
+Pour envoyer des requêtes à votre modèle entraîné, vous avez besoin de :
+
+* Votre [clé API W&amp;B](https://wandb.ai/settings)
+* L’URL de base de la [Training API](/fr/training/api-reference), `https://api.training.wandb.ai/v1/`
+* L’endpoint de votre modèle
+
+L’endpoint du modèle suit le schéma suivant :
+
+```
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
+```
+
+Le schéma se compose des éléments suivants :
+
+* Le nom de votre entité W&amp;B (team)
+* Le nom du projet associé à votre modèle
+* Le nom du modèle entraîné
+* L’étape d’entraînement du modèle que vous souhaitez déployer (il s’agit généralement de l’étape où le modèle a obtenu les meilleurs résultats lors de vos évaluations)
+
+Par exemple, si votre team W&amp;B s’appelle `email-specialists`, que votre projet s’appelle `mail-search`, que votre modèle entraîné s’appelle `agent-001` et que vous souhaitez le déployer à l’étape 25, l’endpoint se présente ainsi :
+
+```
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
+```
+
+Une fois que vous avez votre endpoint, vous pouvez l’intégrer à vos flux de travail d’inférence habituels. Les exemples suivants montrent comment envoyer des requêtes d’inférence à votre modèle entraîné à l’aide d’une requête cURL ou du [Python OpenAI SDK](https://github.com/openai/openai-python).
+
+<div id="curl">
+  ### cURL
+</div>
+
+```shell
+curl https://api.training.wandb.ai/v1/chat/completions \
+    -H "Authorization: Bearer $WANDB_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+            "model": "wandb-artifact://<entity>/<project>/<model-name>:<step>",
+            "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Summarize our training run."}
+            ],
+            "temperature": 0.7,
+            "top_p": 0.95
+        }'
+```
+
+<div id="openai-sdk">
+  ### OpenAI SDK
+</div>
+
+```python
+from openai import OpenAI
+
+WANDB_API_KEY = "your-wandb-api-key"
+ENTITY = "my-entity"
+PROJECT = "my-project"
+
+client = OpenAI(
+    base_url="https://api.training.wandb.ai/v1",
+    api_key=WANDB_API_KEY
+)
+
+response = client.chat.completions.create(
+    model=f"wandb-artifact:///{ENTITY}/{PROJECT}/my-model:step100",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarize our training run."},
+    ],
+    temperature=0.7,
+    top_p=0.95,
+)
+
+print(response.choices[0].message.content)
+```

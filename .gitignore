@@ -15,9 +15,6 @@
 go.mod
 go.sum
 
-# Misc
-# Cursor editor local rules and config (per-developer)
-.cursor
 
 .DS_Store
 .env.local

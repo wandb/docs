@@ -1,0 +1,22 @@
+---
+title: "Est-il possible de déplacer un run d’un projet à un autre ?"
+keywords: ["Runs"]
+---
+
+Vous pouvez déplacer un run d’un projet à un autre en suivant ces étapes :
+
+* Accédez à la page du projet contenant le run à déplacer.
+* Cliquez sur l’onglet **Runs** pour ouvrir le tableau des Runs.
+* Sélectionnez les runs à déplacer.
+* Cliquez sur le bouton **Move**.
+* Choisissez le projet de destination et confirmez l’action.
+
+W&amp;B prend en charge le déplacement des runs via l’interface utilisateur, mais pas leur copie. Les Artifacts enregistrés avec les runs ne sont pas transférés vers le nouveau projet. Pour déplacer manuellement les Artifacts vers le nouvel emplacement du run, vous pouvez utiliser la commande SDK [`wandb artifact get`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-get/) ou l’API [`Api.artifact`](/fr/models/ref/python/public-api/api/#artifact) pour télécharger l’artifact, puis utiliser [wandb artifact put](/fr/models/ref/cli/wandb-artifact/wandb-artifact-put/) ou l’API `Api.artifact` pour le téléverser vers le nouvel emplacement du run.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

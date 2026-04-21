@@ -1,0 +1,212 @@
+---
+description: "Suivez ce tutoriel d’introduction à W&B Launch sur les jobs, les files d’attente, les agents et l’exécution de charges de travail ML."
+title: 'Tutoriel : les bases de W&B Launch'
+---
+
+<div id="what-is-launch">
+  ## Qu’est-ce que Launch ?
+</div>
+
+<Card title="Essayer dans Colab" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python" />
+
+Avec W&amp;B Launch, faites facilement passer vos [runs](/fr/models/runs/) d’entraînement de votre poste de travail à une ressource de calcul comme Amazon SageMaker, Kubernetes, etc. Une fois W&amp;B Launch configuré, vous pouvez rapidement exécuter des scripts d’entraînement, des suites d’évaluation de modèles, préparer des modèles pour l’inférence en production, et bien plus encore en quelques clics et commandes.
+
+<div id="how-it-works">
+  ## Fonctionnement
+</div>
+
+Launch repose sur trois composants fondamentaux : les **launch jobs**, les **files d’attente** et les **agents**.
+
+Un [*launch job*](./launch-terminology#launch-job) est un modèle permettant de configurer et d’exécuter des tâches dans votre flux de travail ML. Une fois que vous disposez d’un launch job, vous pouvez l’ajouter à une [*file d’attente Launch*](./launch-terminology#launch-queue). Une file d’attente Launch est une file d’attente premier entré, premier sorti (FIFO) dans laquelle vous pouvez configurer et soumettre vos jobs à une ressource de calcul cible spécifique, comme Amazon SageMaker ou un cluster Kubernetes.
+
+À mesure que des jobs sont ajoutés à la file d’attente, les [*agents Launch*](./launch-terminology#launch-agent) interrogent cette file d’attente et exécutent le job sur le système ciblé par celle-ci.
+
+<Frame>
+  <img src="/images/launch/launch_overview.png" alt="Schéma d’aperçu de W&B Launch" />
+</Frame>
+
+Selon votre cas d’usage, vous (ou un membre de votre équipe) configurerez la file d’attente Launch en fonction de la [ressource de calcul cible](./launch-terminology#target-resources) choisie (par exemple, Amazon SageMaker) et déploierez un agent Launch sur votre propre infrastructure.
+
+Voir la page [Termes et concepts](./launch-terminology) pour plus d’informations sur Launch.
+
+<div id="how-to-get-started">
+  ## Pour bien démarrer
+</div>
+
+Selon votre cas d’usage, explorez les ressources suivantes pour bien démarrer avec W&amp;B Launch :
+
+* Si vous utilisez W&amp;B Launch pour la première fois, nous vous recommandons de suivre le [guide pas à pas de Launch](#walkthrough).
+* Découvrez comment configurer [W&amp;B Launch](/fr/platform/launch/set-up-launch/).
+* Créez un [launch job](/fr/platform/launch/launch-terminology/#launch-job).
+* Consultez le [dépôt GitHub public de jobs](https://github.com/wandb/launch-jobs) de W&amp;B Launch pour trouver des modèles de tâches courantes, comme le [déploiement sur Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), l’[évaluation d’un LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), entre autres.
+  * Consultez les launch jobs créés à partir de ce dépôt dans le projet W&amp;B public [projet `wandb/jobs`](https://wandb.ai/wandb/jobs/jobs).
+
+<div id="walkthrough">
+  ## Guide pas à pas
+</div>
+
+Cette page présente les bases du flux de travail W&amp;B Launch.
+
+<Note>
+  W&amp;B Launch exécute des charges de travail d&#39;apprentissage automatique dans des conteneurs. Il n&#39;est pas nécessaire de connaître les conteneurs, mais cela peut être utile pour ce guide pas à pas. Voir la [documentation Docker](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) pour une introduction aux conteneurs.
+</Note>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Avant de commencer, assurez-vous de satisfaire aux prérequis suivants :
+
+1. Créez un compte sur https://wandb.ai/site, puis connectez-vous à votre compte W&amp;B.
+2. Ce guide pas à pas nécessite un accès au terminal d&#39;une machine sur laquelle la CLI Docker et le moteur fonctionnent correctement. Voir le [guide d&#39;installation de Docker](https://docs.docker.com/engine/install/) pour plus d&#39;informations.
+3. Installez W&amp;B Python SDK version `0.17.1` ou ultérieure :
+   ```bash
+   pip install wandb>=0.17.1
+   ```
+4. Dans votre terminal, exécutez `wandb login` ou définissez la variable d&#39;environnement `WANDB_API_KEY` pour vous authentifier auprès de W&amp;B.
+
+<Tabs>
+  <Tab title="Se connecter à W&B">
+    Dans votre terminal, exécutez :
+
+    ```bash
+    wandb login
+    ```
+  </Tab>
+
+  <Tab title="Variable d'environnement">
+    ```bash
+        WANDB_API_KEY=<your-api-key>
+    ```
+
+    Remplacez `<your-api-key>` par votre clé API W&amp;B.
+  </Tab>
+</Tabs>
+
+<div id="create-a-launch-job">
+  ## Créer un launch job
+</div>
+
+Créez un [launch job](./launch-terminology#launch-job) de l&#39;une des trois façons suivantes : avec une image Docker, à partir d&#39;un dépôt Git ou à partir de code source local :
+
+<Tabs>
+  <Tab title="Avec une image Docker">
+    Pour exécuter un conteneur prêt à l&#39;emploi qui enregistre un message dans W&amp;B, ouvrez un terminal et exécutez la commande suivante :
+
+    ```bash
+    wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
+    ```
+
+    La commande précédente télécharge et exécute l&#39;image de conteneur `wandb/job_hello_world:main`.
+
+    Launch configure le conteneur pour envoyer au projet `launch-quickstart` tout ce qui est enregistré avec `wandb`. Le conteneur enregistre un message dans W&amp;B et affiche un lien vers le run nouvellement créé dans W&amp;B. Cliquez sur le lien pour afficher le run dans l&#39;UI W&amp;B.
+  </Tab>
+
+  <Tab title="À partir d'un dépôt Git">
+    Pour lancer le même job hello-world à partir de son [code source dans le dépôt de jobs W&amp;B Launch](https://github.com/wandb/launch-jobs), exécutez la commande suivante :
+
+    ```bash
+    wandb launch --uri https://github.com/wandb/launch-jobs.git \\
+    --job-name hello-world-git --project launch-quickstart \\ 
+    --build-context jobs/hello_world --dockerfile Dockerfile.wandb \\ 
+    --entry-point "python job.py"
+    ```
+
+    La commande effectue les opérations suivantes :
+
+    1. Clone le [dépôt de jobs W&amp;B Launch](https://github.com/wandb/launch-jobs) dans un répertoire temporaire.
+    2. Crée un job nommé **hello-world-git** dans le projet **hello**. Ce job suit exactement le code source et la configuration utilisés pour exécuter le code.
+    3. Construit une image de conteneur à partir du répertoire `jobs/hello_world` et du `Dockerfile.wandb`.
+    4. Démarre le conteneur et exécute le script Python `job.py`.
+
+    La sortie de la console montre la construction de l&#39;image et son exécution. La sortie du conteneur devrait être presque identique à celle de l&#39;exemple précédent.
+  </Tab>
+
+  <Tab title="À partir de code source local">
+    Le code qui n&#39;est pas versionné dans un dépôt Git peut être lancé en spécifiant le chemin d&#39;un répertoire local dans l&#39;argument `--uri`.
+
+    Créez un répertoire vide et ajoutez un script Python nommé `train.py` avec le contenu suivant :
+
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        run.log({"hello": "world"})
+    ```
+
+    Ajoutez un fichier `requirements.txt` avec le contenu suivant :
+
+    ```text
+    wandb>=0.17.1
+    ```
+
+    Depuis ce répertoire, exécutez la commande suivante :
+
+    ```bash
+    wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
+    ```
+
+    La commande effectue les opérations suivantes :
+
+    1. Enregistre le contenu du répertoire actuel dans W&amp;B en tant qu&#39;artefact de code.
+    2. Crée un job nommé **hello-world-code** dans le projet **launch-quickstart**.
+    3. Construit une image de conteneur en copiant `train.py` et `requirements.txt` dans une image de base, puis exécute `pip install` pour installer les dépendances.
+    4. Démarre le conteneur et exécute `python train.py`.
+  </Tab>
+</Tabs>
+
+<div id="create-a-queue">
+  ## Créer une file d’attente
+</div>
+
+Launch est conçu pour aider les équipes à créer des flux de travail autour de ressources de calcul partagées. Dans les exemples précédents, la commande `wandb launch` a exécuté un conteneur de manière synchrone sur la machine locale. Les files d’attente Launch et les agents permettent l’exécution asynchrone de jobs sur des ressources partagées, ainsi que des fonctionnalités avancées comme la priorisation et l’optimisation des hyperparamètres. Pour créer une file d’attente simple, suivez ces étapes :
+
+1. Accédez à [wandb.ai/launch](https://wandb.ai/launch) et cliquez sur le bouton **Créer une file d’attente**.
+2. Sélectionnez une **Entité** à associer à la file d’attente.
+3. Saisissez un **Nom de la file d’attente**.
+4. Sélectionnez **Docker** comme **Ressource**.
+5. Laissez le champ **Configuration** vide pour le moment.
+6. Cliquez sur **Créer une file d’attente** :rocket:
+
+Après avoir cliqué sur le bouton, le navigateur vous redirige vers l’onglet **Agents** de la vue de la file d’attente. La file d’attente reste dans l’état **Inactive** jusqu’à ce qu’un agent commence à l’interroger.
+
+<Frame>
+  <img src="/images/launch/create_docker_queue.gif" alt="Création d’une file d’attente Docker" />
+</Frame>
+
+Pour les options avancées de configuration de la file d’attente, voir la [page de configuration avancée de la file d’attente](/fr/platform/launch/setup-queue-advanced/).
+
+<div id="connect-an-agent-to-the-queue">
+  ## Connecter un agent à la file d&#39;attente
+</div>
+
+La vue de la file d&#39;attente affiche un bouton **Add an agent** dans une bannière rouge en haut de l’écran si la file d’attente n’a aucun agent de sondage. Cliquez sur ce bouton pour afficher et copier la commande permettant d’exécuter un agent. La commande doit ressembler à ceci :
+
+```bash
+wandb launch-agent --queue <queue-name> --entity <entity-name>
+```
+
+Exécutez la commande dans un terminal pour démarrer l&#39;agent. L&#39;agent interroge la file d&#39;attente spécifiée pour trouver les jobs à exécuter. Une fois le job reçu, l&#39;agent télécharge ou construit, puis exécute une image de conteneur pour le job, comme si la commande `wandb launch` avait été exécutée localement.
+
+Revenez à [la page Launch](https://wandb.ai/launch) et vérifiez que la file d&#39;attente s&#39;affiche désormais comme **Active**.
+
+<div id="submit-a-job-to-the-queue">
+  ## Soumettre un job à la file d&#39;attente
+</div>
+
+Accédez à votre nouveau projet **launch-quickstart** dans votre compte W&amp;B, puis ouvrez l&#39;onglet des jobs dans la navigation à gauche de l&#39;écran.
+
+La page **Jobs** affiche une liste de jobs W&amp;B créés à partir de runs exécutés précédemment. Cliquez sur votre launch job pour afficher le code source, les dépendances et tous les runs créés à partir de ce job. Une fois ce guide pas à pas terminé, la liste devrait contenir trois jobs.
+
+Choisissez l&#39;un des nouveaux jobs et suivez ces instructions pour le soumettre à la file d&#39;attente :
+
+1. Cliquez sur le bouton **Launch** pour soumettre le job à une file d&#39;attente. Le panneau **Launch** s&#39;affiche.
+2. Sélectionnez la **Queue** que vous avez créée précédemment, puis cliquez sur **Launch**.
+
+Cette action soumet le job à la file d&#39;attente. L&#39;agent qui interroge cette file d&#39;attente le récupère et l&#39;exécute. Vous pouvez suivre la progression du job dans l&#39;UI W&amp;B ou en inspectant la sortie de l&#39;agent dans le terminal.
+
+La commande `wandb launch` peut envoyer des jobs directement vers la file d&#39;attente en spécifiant l&#39;argument `--queue`. Par exemple, pour soumettre à la file d&#39;attente le job de conteneur hello-world, exécutez la commande suivante :
+
+```bash
+   wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
+```

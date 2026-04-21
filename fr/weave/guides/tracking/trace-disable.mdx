@@ -1,0 +1,87 @@
+---
+title: "Désactiver Tracing"
+description: "Découvrez les options permettant de désactiver ou de désactiver conditionnellement le Tracing de W&B Weave"
+---
+
+Vous disposez de plusieurs options pour contrôler le niveau de Tracing de Weave dans votre application, selon votre environnement et vos besoins.
+
+<div id="environment-variable">
+  ## Variable d’environnement
+</div>
+
+Si vous souhaitez désactiver systématiquement le Tracing pour l’ensemble du programme, vous pouvez définir la variable d’environnement `WEAVE_DISABLED=true`.
+
+`WEAVE_DISABLED` n’est lue qu’une seule fois, au moment de la définition de la fonction. Cette variable ne peut pas être utilisée pour activer ou désactiver le Tracing à l’exécution.
+
+<div id="client-initialization">
+  ## Initialisation du client
+</div>
+
+Vous pouvez parfois vouloir activer Tracing de manière conditionnelle pour une initialisation donnée, selon certains critères. Dans ce cas, vous pouvez initialiser le client avec l&#39;indicateur `disabled` dans les paramètres d&#39;initialisation.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # Initialiser le client
+    client = weave.init(..., settings={"disabled": True})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible pour le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="context-manager">
+  ## Gestionnaire de contexte
+</div>
+
+Pour désactiver conditionnellement le tracing pour un bloc de code spécifique, vous pouvez utiliser un gestionnaire de contexte de tracing. Utilisez `with tracing_disabled()` pour désactiver le tracing **uniquement pour les appels de fonction exécutés dans le bloc `with`**. Utilisez-le dans le code de votre application pour délimiter les appels qui ne doivent pas être enregistrés.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    from weave.trace.context.call_context import tracing_disabled
+
+    client = weave.init('your-team/your-project-name')
+
+    @weave.op
+    def my_op():
+        ...
+
+    with tracing_disabled():
+        my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible pour le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+Bien que le comportement du tracing soit défini lorsque les fonctions sont déclarées, cela permet un contrôle à l’exécution lorsqu’il est combiné à la logique de l’application. Par exemple, vous pouvez placer le gestionnaire de contexte dans une condition afin d’activer ou de désactiver dynamiquement le tracing en fonction d’une valeur d’exécution :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    if should_trace:
+        my_op()
+    else:
+        with tracing_disabled():
+            my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible pour le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>

@@ -1,0 +1,55 @@
+---
+title: "Pourquoi mon entraînement se bloque-t-il en entraînement distribué ?"
+keywords: ["Experiments", "Plantages de run"]
+---
+
+Il existe deux raisons fréquentes pour lesquelles l&#39;entraînement se bloque lorsque vous utilisez W&amp;B avec l&#39;entraînement distribué :
+
+1. **Blocage au début de l&#39;entraînement** : le multiprocessing de W&amp;B peut interférer avec celui des frameworks d&#39;entraînement distribué.
+2. **Blocage à la fin de l&#39;entraînement** : le processus W&amp;B ne sait pas à quel moment il doit s&#39;arrêter.
+
+<div id="fix-hanging-at-the-start">
+  ## Corriger le blocage au démarrage
+</div>
+
+Activez W&amp;B Service, activé par défaut à partir de la version `0.13.0` du SDK W&amp;B. Si vous utilisez une version antérieure, mettez votre SDK à niveau :
+
+```shell
+pip install --upgrade wandb
+```
+
+Pour les versions `0.12.5` à `0.12.x` du SDK W&amp;B, activez explicitement W&amp;B Service :
+
+```python
+def main():
+    wandb.require("service")
+    # reste de votre script
+```
+
+Pour le SDK W&amp;B `0.12.4` et les versions antérieures, définissez la variable d’environnement `WANDB_START_METHOD` :
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+<div id="fix-hanging-at-the-end">
+  ## Corriger le blocage en fin d’exécution
+</div>
+
+Appelez `wandb.finish()` à la fin de votre script d’entraînement pour indiquer à W&amp;B que l’exécution est terminée :
+
+```python
+wandb.finish()
+```
+
+Cela garantit que toutes les données sont téléversées et que le processus W&amp;B se termine correctement.
+
+Pour plus d&#39;informations, voir [l&#39;entraînement distribué](/fr/models/track/log/distributed-training/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* FIN DU CONTENU GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

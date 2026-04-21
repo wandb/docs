@@ -1,0 +1,131 @@
+---
+title: Configurer Launch
+description: "Configurez W&B Launch en configurant une file d'attente et en déployant un agent pour soumettre des jobs à votre infrastructure de calcul."
+---
+
+Cette page décrit les étapes générales nécessaires pour configurer W&amp;B Launch :
+
+1. **Configurer une file d&#39;attente** : Les files d&#39;attente suivent un ordre FIFO et disposent d’une configuration de la file d’attente. La configuration d’une file d’attente détermine où et comment les jobs sont exécutés sur une ressource cible.
+2. **Configurer un agent** : Les agents s’exécutent sur votre machine ou votre infrastructure et interrogent une ou plusieurs files d’attente à la recherche de jobs Launch. Lorsqu’un job est récupéré, l’agent s’assure que l’image est créée et disponible. L’agent soumet ensuite le job à la ressource cible.
+
+<div id="set-up-a-queue">
+  ## Configurer une file d&#39;attente
+</div>
+
+Les files d&#39;attente Launch doivent être configurées de façon à pointer vers une ressource cible spécifique, avec toute configuration supplémentaire propre à cette ressource. Par exemple, une file d&#39;attente Launch qui pointe vers un cluster Kubernetes peut inclure des variables d&#39;environnement ou définir un espace de noms personnalisé dans sa configuration de file d&#39;attente. Lorsque vous créez une file d&#39;attente, vous spécifiez à la fois la ressource cible que vous souhaitez utiliser et la configuration à appliquer à cette ressource.
+
+Lorsqu&#39;un agent reçoit un job d&#39;une file d&#39;attente, il reçoit également la configuration de la file d&#39;attente. Lorsque l&#39;agent soumet le job à la ressource cible, il inclut la configuration de la file d&#39;attente ainsi que les surcharges définies dans le job lui-même. Par exemple, vous pouvez utiliser une configuration de job pour spécifier le type d&#39;instance Amazon SageMaker pour ce job uniquement. Dans ce cas, il est courant d&#39;utiliser des [modèles de configuration de file d&#39;attente](/fr/platform/launch/setup-queue-advanced/#configure-queue-template) comme interface destinée aux utilisateurs finaux.
+
+<div id="create-a-queue">
+  ### Créer une file d’attente
+</div>
+
+1. Accédez à Launch App sur [wandb.ai/launch](https://wandb.ai/launch).
+2. Cliquez sur le bouton **create queue** en haut à droite de l’écran.
+
+<Frame>
+  <img src="/images/launch/create-queue.gif" alt="Création d’une file d’attente Launch" />
+</Frame>
+
+3. Dans le menu déroulant **Entity**, sélectionnez l’entité à laquelle la file d’attente appartiendra.
+4. Saisissez un nom pour votre file d’attente dans le champ **Queue**.
+5. Dans le menu déroulant **Resource**, sélectionnez la ressource de calcul que les jobs ajoutés à cette file d’attente doivent utiliser.
+6. Choisissez si vous souhaitez autoriser la **Prioritization** pour cette file d’attente. Si la priorisation est activée, un utilisateur de votre équipe peut définir une priorité pour son launch job au moment de sa mise en file d’attente. Les jobs ayant une priorité plus élevée sont exécutés avant ceux ayant une priorité plus faible.
+7. Saisissez une configuration de ressource au format JSON ou YAML dans le champ **Configuration**. La structure et la sémantique de votre document de configuration dépendent du type de ressource vers lequel pointe la file d’attente. Pour plus de détails, consultez la page dédiée à la configuration de votre ressource cible.
+
+<div id="set-up-a-launch-agent">
+  ## Configurer un agent Launch
+</div>
+
+Les agents Launch sont des processus de longue durée qui interrogent une ou plusieurs files d’attente Launch à la recherche de jobs. Les agents Launch récupèrent les jobs des files d’attente selon l’ordre premier entré, premier sorti (FIFO) ou par ordre de priorité, selon les files d’attente depuis lesquelles ils les extraient. Lorsqu’un agent récupère un job dans une file d’attente, il peut éventuellement construire une image pour ce job. L’agent soumet ensuite le job à la ressource cible avec les options de configuration spécifiées dans la configuration de la file d’attente.
+
+<Note>
+  Les agents sont très flexibles et peuvent être configurés pour prendre en charge une grande variété de cas d’usage. La configuration requise pour votre agent dépend de votre cas d’usage. Voir la page dédiée à [Docker](/fr/platform/launch/setup-launch-docker/), [Amazon SageMaker](/fr/platform/launch/setup-launch-sagemaker/), [Kubernetes](/fr/platform/launch/setup-launch-kubernetes/) ou [Vertex AI](/fr/platform/launch/setup-vertex/).
+</Note>
+
+<Note>
+  W&amp;B recommande de démarrer les agents avec la clé API d’un compte de service plutôt qu’avec la clé API d’un utilisateur spécifique. L’utilisation de la clé API d’un compte de service présente deux avantages :
+
+  1. L’agent ne dépend pas d’un utilisateur en particulier.
+  2. Pour un run créé via Launch, l’auteur associé est, pour Launch, l’utilisateur qui a soumis le launch job, et non l’utilisateur associé à l’agent.
+</Note>
+
+<div id="agent-configuration">
+  ### Configuration de l’agent
+</div>
+
+Configurez l’agent Launch à l’aide d’un fichier YAML nommé `launch-config.yaml`. Par défaut, W&amp;B recherche le fichier de configuration dans `~/.config/wandb/launch-config.yaml`. Vous pouvez aussi spécifier un autre répertoire lorsque vous activez l’agent Launch.
+
+Le contenu du fichier de configuration de votre agent Launch dépend de l’environnement de l’agent, de la ressource cible de la file d’attente Launch, des prérequis du builder Docker, des prérequis du registre cloud, etc.
+
+Quel que soit votre cas d’utilisation, l’agent Launch comporte des options de configuration de base :
+
+* `max_jobs` : nombre maximal de jobs que l’agent peut exécuter en parallèle
+* `entity` : l’entité à laquelle appartient la file d’attente
+* `queues` : le nom d’une ou plusieurs files d’attente que l’agent doit surveiller
+
+<Note>
+  Vous pouvez utiliser la CLI W&amp;B pour spécifier des options de configuration universelles pour l’agent Launch (au lieu du fichier YAML de configuration) : nombre maximal de jobs, entité W&amp;B et files d’attente Launch. Voir la commande [`wandb launch-agent`](/fr/models/ref/cli/wandb-launch-agent) pour plus d’informations.
+</Note>
+
+L’extrait YAML suivant montre comment spécifier les clés de configuration de base de l’agent Launch :
+
+```yaml title="launch-config.yaml"
+# Nombre maximum de runs simultanés à effectuer. -1 = aucune limite
+max_jobs: -1
+
+entity: <entity-name>
+
+# Liste des files d'attente à interroger.
+queues:
+  - <queue-name>
+```
+
+<div id="configure-a-container-builder">
+  ### Configurer un builder de conteneur
+</div>
+
+L&#39;agent Launch peut être configuré pour créer des images. Vous devez configurer l&#39;agent pour utiliser un builder de conteneur si vous prévoyez d&#39;utiliser des launch jobs créés à partir de dépôts git ou d&#39;Artifacts de code. Voir [Create a launch job](/fr/platform/launch/create-launch-job/) pour plus d&#39;informations sur la création d&#39;un launch job.
+
+W&amp;B Launch prend en charge trois options de builder :
+
+* Docker : le builder Docker utilise un démon Docker local pour créer des images.
+* [Kaniko](https://github.com/GoogleContainerTools/kaniko) : Kaniko est un projet Google qui permet de créer des images dans des environnements où un démon Docker n&#39;est pas disponible.
+* Noop : l&#39;agent n&#39;essaie pas de créer des jobs et se contente de récupérer des images préconstruites.
+
+<Note>
+  Utilisez le builder Kaniko si votre agent s&#39;exécute dans un environnement où un démon Docker n&#39;est pas disponible (par exemple, un cluster Kubernetes).
+
+  Voir [Set up Kubernetes](/fr/platform/launch/setup-launch-kubernetes/) pour plus de détails sur le builder Kaniko.
+</Note>
+
+Pour spécifier un builder d&#39;image, incluez la clé builder dans la configuration de votre agent. Par exemple, l&#39;extrait de code suivant montre une partie de la configuration Launch (`launch-config.yaml`) qui indique d&#39;utiliser Docker ou Kaniko :
+
+```yaml title="launch-config.yaml"
+builder:
+  type: docker | kaniko | noop
+```
+
+<div id="configure-a-container-registry">
+  ### Configurer un registre de conteneurs
+</div>
+
+Dans certains cas, vous pouvez vouloir connecter un agent Launch à un registre cloud. Voici quelques scénarios courants où cela peut être utile :
+
+* Vous voulez exécuter un job dans un environnement différent de celui où vous l’avez construit, par exemple sur une station de travail plus puissante ou sur un cluster.
+* Vous voulez utiliser l’agent pour créer des images et exécuter ces images sur Amazon SageMaker ou VertexAI.
+* Vous voulez que l’agent Launch fournisse des identifiants pour récupérer des images depuis un dépôt d’images.
+
+Pour en savoir plus sur la configuration de l’agent afin qu’il interagisse avec un registre de conteneurs, voir la page [de configuration avancée de l’agent](/fr/platform/launch/setup-agent-advanced/).
+
+<div id="activate-the-launch-agent">
+  ## Activez l’agent Launch
+</div>
+
+Activez l’agent Launch avec la commande CLI W&amp;B `launch-agent` :
+
+```bash
+wandb launch-agent -q <queue-1> -q <queue-2> --max-jobs 5
+```
+
+Dans certains cas, il peut être utile qu&#39;un agent Launch interroge des files d&#39;attente depuis un cluster Kubernetes. Voir la [page de configuration avancée des files d&#39;attente](/fr/platform/launch/setup-queue-advanced/) pour plus d&#39;informations.

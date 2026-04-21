@@ -1,0 +1,122 @@
+---
+title: "자동화 설정"
+description: "모니터 메트릭과 트레이스 활동을 기준으로 액션을 트리거하는 이벤트 기반 자동화를 생성하세요."
+---
+
+자동화를 사용하면 프로젝트에서 특정 조건이 충족될 때 액션을 트리거하는 이벤트 기반 규칙을 정의할 수 있습니다. 메트릭 변화를 확인하기 위해 대시보드를 수동으로 계속 살펴보는 대신, 자동화를 한 번 설정해 두면 이벤트가 발생할 때 W&amp;B Weave가 자동으로 액션을 실행합니다. 사용 사례는 다음과 같습니다.
+
+* **임곗값 알림**: 모니터의 평균 점수가 임곗값을 넘으면 Slack 알림을 보냅니다.
+* **회귀 감지**: scorer가 정확도 저하나 독성 증가를 감지하면 알림을 보냅니다.
+* **배포 게이트**: 품질 메트릭이 롤링 윈도우 기준으로 신뢰도 임곗값을 초과하면 웹훅을 트리거합니다.
+* **운영 모니터링**: 오류율이나 지연 시간 메트릭이 변하면 알림을 보냅니다.
+
+코드를 변경하지 않고도 Weave UI에서 자동화를 관리할 수 있습니다.
+
+<div id="create-an-automation">
+  ## 자동화 만들기
+</div>
+
+트리거 이벤트를 설정하고 수행할 액션을 선택해 자동화를 만드세요.
+
+<div id="prerequisites">
+  ### 사전 요구 사항
+</div>
+
+이를 연결하는 자동화를 만들기 전에 트리거 이벤트(예: Op 또는 모니터)와 액션(예: Slack integration)이 미리 준비되어 있어야 합니다.
+
+* Weave에서 원하는 [Op](/ko/weave/guides/tracking/create-call) 또는 [모니터](/ko/weave/guides/evaluation/monitors)를 설정하세요.
+* Team Settings에서 [Slack integration](/ko/models/automations/create-automations/slack#add-a-slack-integration) 또는 [웹훅](/ko/models/automations/create-automations/webhook#create-a-webhook)을 설정하세요.
+
+<div id="step-1-event-configuration">
+  ### 1단계: 이벤트 설정
+</div>
+
+이벤트 설정은 어떤 조건에서 자동화가 트리거되는지 정의합니다. 모니터 메트릭, 시간 범위, 임곗값을 선택합니다.
+
+자동화를 생성하려면 다음 단계를 따르세요.
+
+1. [wandb.ai](https://wandb.ai)로 이동하여 프로젝트를 여세요.
+2. 프로젝트 사이드바에서 **Automations**를 클릭하세요.
+3. Automations 페이지 헤더에서 **Create automation**을 클릭하세요.
+4. **Create automation** modal dialog에서 이벤트를 설정하세요:
+   * **Event**: Weave 메트릭 임곗값처럼 이 자동화를 트리거할 이벤트 유형을 선택하세요.
+   * **Source**: 프로젝트에서 자동화 source를 **Operation** 또는 **모니터**로 선택하세요.
+     * **Operation**: 모니터가 평가할 트레이스의 **Op name**을 선택하세요. 이 목록에는 프로젝트에서 하나 이상의 트레이스를 로깅한 Ops가 포함됩니다.
+     * **모니터**: 추적하려는 메트릭을 생성하는 **모니터**를 선택하세요.
+   * **Metric**: Alert에 사용할 메트릭을 선택하세요.
+   * **Metric Threshold**: 자동화를 트리거하는 조건을 정의하세요. 비교 연산자(예: &quot;is above&quot;)를 선택하고 임곗값(예: `0.9`)을 입력하세요.
+   * **Window**: 자동화를 트리거하는 데 사용할 윈도우를 **Time-based** 또는 **Count-based**로 설정하세요. aggregation 함수(예: **Average**)와 롤링 기간(예: **1 day**)을 선택하세요.
+   * **Aggregation**: 임곗값과 비교하기 전에 윈도우 내 메트릭 값에 적용할 aggregation 함수(예: 평균, 중앙값, 최솟값)를 설정하세요.
+5. **Alert preview** 그래프를 검토하여 임곗값이 예상한 대로 Alert를 발생시키도록 설정되었는지 확인하세요.
+6. action 설정으로 진행하려면 **Next step**을 클릭하세요.
+
+<div id="step-2-action-configuration">
+  ### Step 2: 액션 설정
+</div>
+
+액션 설정에서는 이벤트 조건이 충족되었을 때 어떤 액션이 실행될지 정의합니다.
+
+액션을 설정하려면 다음을 수행하세요.
+
+1. **Step 2 of 3** 패널에서 다음을 설정하세요.
+   * **Team**: 알림을 받을 팀을 선택하세요.
+   * **Action type**: **Slack notification** 전송과 같이 수행할 액션의 유형을 선택하세요.
+   * **Action details**: 액션 유형에 따라 필요한 설정을 입력하세요.
+     * Slack 알림의 경우, 알림을 보낼 **Slack channel**을 선택하세요.
+     * 웹훅의 경우, **Webhook** 이름과 **Payload**를 입력하세요.
+2. 요약으로 진행하려면 **Next step**을 클릭하세요.
+
+<div id="step-3-summary">
+  ### 3단계: 요약
+</div>
+
+요약 단계에서는 저장하기 전에 자동화의 전체 개요를 보여줍니다.
+
+저장하려면:
+
+1. 자동화 메타데이터를 설정하세요:
+   * **자동화 이름**: Automations 테이블에 표시될 자동화 이름을 입력하세요.
+   * **설명** (선택): 자동화의 용도를 파악하는 데 도움이 되도록 설명을 추가하세요.
+2. 자동화를 만들려면 **Create automation**을 클릭하세요.
+
+새 자동화는 Automations 페이지의 Automations 테이블에 표시됩니다.
+
+<div id="create-an-automation-from-a-monitor">
+  ## 모니터에서 자동화 만들기
+</div>
+
+모니터의 상세 뷰에서 직접 자동화를 만들 수도 있습니다. 이 방법을 사용하면 모니터 컨텍스트가 이벤트 설정에 미리 채워지므로 더 빠르게 설정할 수 있습니다. 자동화를 만들기 전에, 선택할 액션으로 사용할 [Slack integration](/ko/models/automations/create-automations/slack#add-a-slack-integration) 또는 [웹훅](/ko/models/automations/create-automations/webhook#create-a-webhook)을 미리 설정하세요.
+
+모니터에서 자동화를 만들려면 다음과 같이 하세요.
+
+1. Weave 프로젝트 사이드바에서 **Monitors**를 클릭합니다.
+2. Monitors 테이블에서 모니터 이름을 클릭해 상세 패널을 엽니다.
+3. 모니터 상세 패널에서 **Automations** 탭을 선택해 이 모니터의 기존 자동화를 확인합니다.
+4. Automations 섹션 툴바에서 **Create automation**을 클릭합니다.
+5. **Create automation** 패널에서 이벤트 설정은 선택한 모니터의 세부 정보로 미리 채워집니다. 필요에 따라 설정을 조정하세요:
+   * **Metric**: Alert에 사용할 메트릭을 선택합니다.
+   * **Metric Threshold**: 자동화를 트리거할 조건을 정의합니다. 비교 연산자(예: &quot;is above&quot;)를 선택하고 임곗값(예: `0.9`)을 입력합니다.
+   * **Window**: 자동화를 트리거하는 데 사용할 윈도우를 **Time-based** 또는 **Count-based**로 설정합니다. aggregation 함수(예: **Average**)와 롤링 기간(예: **1 day**)을 선택합니다.
+   * **Aggregation**: 임곗값과 비교하기 전에 윈도우 내 메트릭 값에 적용할 aggregation 함수(예: 평균, 중앙값, 최솟값)를 설정합니다.
+6. **Next**를 클릭한 다음, [Create an automation](#create-an-automation)에 설명된 대로 나머지 단계(액션 선택 및 저장)를 완료합니다.
+
+<div id="view-and-manage-automations">
+  ## 자동화 보기 및 관리
+</div>
+
+프로젝트의 모든 자동화는 **Automations** 페이지에 나열됩니다. 표에는 각 자동화에 대해 다음 정보가 표시됩니다.
+
+* **Automation**: 자동화 이름과 설명입니다.
+* **Event type**: 자동화를 트리거하는 이벤트 유형입니다.
+* **Action type**: Slack 알림 생성과 같이 실행되는 액션 유형입니다.
+* **Date created**: 자동화가 생성된 시점입니다.
+* **Last execution**: 자동화가 마지막으로 트리거된 시점입니다.
+
+자동화를 보려면 다음과 같이 하세요.
+
+1. Weave 프로젝트 사이드바에서 **Automations**를 클릭하세요.
+2. 표 툴바의 검색 필드를 사용해 이름으로 자동화를 필터링하세요.
+
+자동화 이름을 클릭하면 자동화 드로어가 열리며, 자동화의 전체 세부 정보를 검토할 수 있습니다.
+
+History 탭에는 트리거된 모든 자동화의 이력이 표시됩니다. 자동화가 실행되면 Weave는 발생한 내용을 기록하는 자동화 인스턴스를 생성합니다. 이러한 인스턴스를 확인하여 자동화가 언제, 왜 트리거되었는지 파악할 수 있습니다.

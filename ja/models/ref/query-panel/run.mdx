@@ -2,260 +2,334 @@
 title: run
 ---
 
-## Chainable Ops
-### <a id="run-config"></a>`run-config`
+<div id="chainable-ops">
+  ## 連結可能なOps
+</div>
 
-[run](/models/ref/query-panel/run) の config _typedDict_ を返します。
+### <a id="run-config" />`run-config`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+[run](/ja/models/ref/query-panel/run) の設定 *typedDict* を返します
 
-#### 返り値
-[run](/models/ref/query-panel/run) の config _typedDict_
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-### <a id="run-createdAt"></a>`run-createdAt`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[run](/models/ref/query-panel/run) の作成日時を返します。
+[run](/ja/models/ref/query-panel/run) の設定用 *typedDict*
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+### <a id="run-createdAt" />`run-createdAt`
 
-#### 返り値
-[run](/models/ref/query-panel/run) の作成日時
+[run](/ja/models/ref/query-panel/run) の作成日時を返します。
 
-### <a id="run-heartbeatAt"></a>`run-heartbeatAt`
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-[run](/models/ref/query-panel/run) の最終ハートビート日時を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+[run](/ja/models/ref/query-panel/run) の作成日時
 
-#### 返り値
-[run](/models/ref/query-panel/run) の最終ハートビート日時
+### <a id="run-heartbeatAt" />`run-heartbeatAt`
 
-### <a id="run-history"></a>`run-history`
+[run](/ja/models/ref/query-panel/run) の最終ハートビート日時を返します
 
-[run](/models/ref/query-panel/run) のログ履歴を返します。
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-[run](/models/ref/query-panel/run) のログ履歴
+[run](/ja/models/ref/query-panel/run) の最終ハートビート日時
 
-### <a id="run-jobType"></a>`run-jobType`
+### <a id="run-history" />`run-history`
 
-[run](/models/ref/query-panel/run) の ジョブタイプ を返します。
+[run](/ja/models/ref/query-panel/run) のログ履歴を返します。
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+| 引数    | 説明                                      |
+| :---- | :-------------------------------------- |
+| `run` | 1 つの [run](/ja/models/ref/query-panel/run) |
 
-#### 返り値
-[run](/models/ref/query-panel/run) の ジョブタイプ
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="run-loggedArtifactVersion"></a>`run-loggedArtifactVersion`
+[run](/ja/models/ref/query-panel/run)のログ履歴
 
-指定された名前と エイリアス に基づき、 [run](/models/ref/query-panel/run) によって ログ された [artifactVersion](/models/ref/query-panel/artifact-version/) を返します。
+### <a id="run-jobType" />`run-jobType`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
-| `artifactVersionName` | [artifactVersion](/models/ref/query-panel/artifact-version/) の name:alias |
+[run](/ja/models/ref/query-panel/run) のジョブタイプを返します。
 
-#### 返り値
-指定された名前と エイリアス に基づき、 [run](/models/ref/query-panel/run) によって ログ された [artifactVersion](/models/ref/query-panel/artifact-version/)
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-### <a id="run-loggedArtifactVersions"></a>`run-loggedArtifactVersions`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[run](/models/ref/query-panel/run) によって ログ されたすべての [artifactVersions](/models/ref/query-panel/artifact-version/) を返します。
+[run](/ja/models/ref/query-panel/run)のジョブタイプ
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+### <a id="run-loggedArtifactVersion" />`run-loggedArtifactVersion`
 
-#### 返り値
-[run](/models/ref/query-panel/run) によって ログ された [artifactVersions](/models/ref/query-panel/artifact-version/)
+指定した名とエイリアスについて、[run](/ja/models/ref/query-panel/run) によってログされた [artifactVersion](/ja/models/ref/query-panel/artifact-version/) を返します
 
-### <a id="run-name"></a>`run-name`
+| 引数                    | 説明                                                                    |
+| :-------------------- | :-------------------------------------------------------------------- |
+| `run`                 | [run](/ja/models/ref/query-panel/run)                                    |
+| `artifactVersionName` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) の名:エイリアス |
 
-[run](/models/ref/query-panel/run) の名前を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+指定した名とエイリアスについて、[run](/ja/models/ref/query-panel/run) によってログされた [artifactVersion](/ja/models/ref/query-panel/artifact-version/)
 
-#### 返り値
-[run](/models/ref/query-panel/run) の名前
+### <a id="run-loggedArtifactVersions" />`run-loggedArtifactVersions`
 
-### <a id="run-runtime"></a>`run-runtime`
+[run](/ja/models/ref/query-panel/run) によってログされた、すべての [artifactVersions](/ja/models/ref/query-panel/artifact-version/) を返します
 
-[run](/models/ref/query-panel/run) の実行時間（秒）を返します。
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-[run](/models/ref/query-panel/run) の実行時間（秒）
+[run](/ja/models/ref/query-panel/run) がログした [artifactVersions](/ja/models/ref/query-panel/artifact-version/)
 
-### <a id="run-summary"></a>`run-summary`
+### <a id="run-name" />`run-name`
 
-[run](/models/ref/query-panel/run) の summary _typedDict_ を返します。
+[run](/ja/models/ref/query-panel/run) の名を返します
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-#### 返り値
-[run](/models/ref/query-panel/run) の summary _typedDict_
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="run-usedArtifactVersions"></a>`run-usedArtifactVersions`
+[run](/ja/models/ref/query-panel/run) の名
 
-[run](/models/ref/query-panel/run) によって使用されたすべての [artifactVersions](/models/ref/query-panel/artifact-version/) を返します。
+### <a id="run-runtime" />`run-runtime`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+[run](/ja/models/ref/query-panel/run) の実行時間を秒単位で返します
 
-#### 返り値
-[run](/models/ref/query-panel/run) によって使用された [artifactVersions](/models/ref/query-panel/artifact-version/)
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-### <a id="run-user"></a>`run-user`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[run](/models/ref/query-panel/run) の [user](/models/ref/query-panel/user/) を返します。
+[run](/ja/models/ref/query-panel/run) の実行時間 (秒)
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+### <a id="run-summary" />`run-summary`
 
-#### 返り値
-[run](/models/ref/query-panel/run) の [user](/models/ref/query-panel/user/)
+[run](/ja/models/ref/query-panel/run) の summary *typedDict* を返します。
 
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-## List Ops
-### <a id="run-config"></a>`run-config`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[run](/models/ref/query-panel/run) の config _typedDict_ を返します。
+[run](/ja/models/ref/query-panel/run) の summary *typedDict*
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+### <a id="run-usedArtifactVersions" />`run-usedArtifactVersions`
 
-#### 返り値
-[run](/models/ref/query-panel/run) の config _typedDict_
+[run](/ja/models/ref/query-panel/run) で使用されているすべての [artifactVersions](/ja/models/ref/query-panel/artifact-version/) を返します。
 
-### <a id="run-createdAt"></a>`run-createdAt`
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-[run](/models/ref/query-panel/run) の作成日時を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+[run](/ja/models/ref/query-panel/run) で使用される [artifactVersions](/ja/models/ref/query-panel/artifact-version/)
 
-#### 返り値
-[run](/models/ref/query-panel/run) の作成日時
+### <a id="run-user" />`run-user`
 
-### <a id="run-heartbeatAt"></a>`run-heartbeatAt`
+[run](/ja/models/ref/query-panel/run) の [ユーザー](/ja/models/ref/query-panel/user/) を返します
 
-[run](/models/ref/query-panel/run) の最終ハートビート日時を返します。
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-[run](/models/ref/query-panel/run) の最終ハートビート日時
+[run](/ja/models/ref/query-panel/run) の [ユーザー](/ja/models/ref/query-panel/user/)
 
-### <a id="run-history"></a>`run-history`
+<div id="list-ops">
+  ## Ops を一覧表示する
+</div>
 
-[run](/models/ref/query-panel/run) のログ履歴を返します。
+### <a id="run-config" />`run-config`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+[run](/ja/models/ref/query-panel/run) の設定を表す *typedDict* を返します
 
-#### 返り値
-[run](/models/ref/query-panel/run) のログ履歴
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-### <a id="run-jobType"></a>`run-jobType`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[run](/models/ref/query-panel/run) の ジョブタイプ を返します。
+[run](/ja/models/ref/query-panel/run) の設定を表す *typedDict*
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+### <a id="run-createdAt" />`run-createdAt`
 
-#### 返り値
-[run](/models/ref/query-panel/run) の ジョブタイプ
+[run](/ja/models/ref/query-panel/run) の作成日時を返します。
 
-### <a id="run-loggedArtifactVersion"></a>`run-loggedArtifactVersion`
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-指定された名前と エイリアス に基づき、 [run](/models/ref/query-panel/run) によって ログ された [artifactVersion](/models/ref/query-panel/artifact-version/) を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
-| `artifactVersionName` | [artifactVersion](/models/ref/query-panel/artifact-version/) の name:alias |
+[run](/ja/models/ref/query-panel/run) の作成日時
 
-#### 返り値
-指定された名前と エイリアス に基づき、 [run](/models/ref/query-panel/run) によって ログ された [artifactVersion](/models/ref/query-panel/artifact-version/)
+### <a id="run-heartbeatAt" />`run-heartbeatAt`
 
-### <a id="run-loggedArtifactVersions"></a>`run-loggedArtifactVersions`
+[run](/ja/models/ref/query-panel/run) の最終ハートビート日時を返します
 
-[run](/models/ref/query-panel/run) によって ログ されたすべての [artifactVersions](/models/ref/query-panel/artifact-version/) を返します。
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-[run](/models/ref/query-panel/run) によって ログ された [artifactVersions](/models/ref/query-panel/artifact-version/)
+[run](/ja/models/ref/query-panel/run)の最終ハートビート日時
 
-### <a id="run-name"></a>`run-name`
+### <a id="run-history" />`run-history`
 
-[run](/models/ref/query-panel/run) の名前を返します。
+[run](/ja/models/ref/query-panel/run) のログ履歴を返します
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-#### 返り値
-[run](/models/ref/query-panel/run) の名前
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="run-runtime"></a>`run-runtime`
+[run](/ja/models/ref/query-panel/run) のログ履歴
 
-[run](/models/ref/query-panel/run) の実行時間（秒）を返します。
+### <a id="run-jobType" />`run-jobType`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+[run](/ja/models/ref/query-panel/run) のジョブタイプを返します
 
-#### 返り値
-[run](/models/ref/query-panel/run) の実行時間（秒）
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
 
-### <a id="run-summary"></a>`run-summary`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[run](/models/ref/query-panel/run) の summary _typedDict_ を返します。
+[run](/ja/models/ref/query-panel/run) のジョブタイプ
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+### <a id="run-loggedArtifactVersion" />`run-loggedArtifactVersion`
 
-#### 返り値
-[run](/models/ref/query-panel/run) の summary _typedDict_
+指定した名と エイリアス に対して、[run](/ja/models/ref/query-panel/run) によってログされた [artifactVersion](/ja/models/ref/query-panel/artifact-version/) を返します。
 
-### <a id="run-usedArtifactVersions"></a>`run-usedArtifactVersions`
+| 引数                    | 説明                                                                     |
+| :-------------------- | :--------------------------------------------------------------------- |
+| `run`                 | [run](/ja/models/ref/query-panel/run)                                     |
+| `artifactVersionName` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) の 名:エイリアス |
 
-[run](/models/ref/query-panel/run) によって使用されたすべての [artifactVersions](/models/ref/query-panel/artifact-version/) を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `run` | [run](/models/ref/query-panel/run) |
+指定した名とエイリアスについて、[run](/ja/models/ref/query-panel/run)がログした[artifactVersion](/ja/models/ref/query-panel/artifact-version/)
 
-#### 返り値
-[run](/models/ref/query-panel/run) によって使用された [artifactVersions](/models/ref/query-panel/artifact-version/)
+### <a id="run-loggedArtifactVersions" />`run-loggedArtifactVersions`
+
+[run](/ja/models/ref/query-panel/run) にログされたすべての [artifactVersions](/ja/models/ref/query-panel/artifact-version/) を返します
+
+| 引数    | 説明                                      |
+| :---- | :-------------------------------------- |
+| `run` | 1 つの [run](/ja/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[run](/ja/models/ref/query-panel/run) でログされた [artifactVersions](/ja/models/ref/query-panel/artifact-version/)
+
+### <a id="run-name" />`run-name`
+
+[run](/ja/models/ref/query-panel/run) の名を返します。
+
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[run](/ja/models/ref/query-panel/run) の名
+
+### <a id="run-runtime" />`run-runtime`
+
+[run](/ja/models/ref/query-panel/run) の実行時間を秒数で返します
+
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[run](/ja/models/ref/query-panel/run) の実行時間 (秒数)
+
+### <a id="run-summary" />`run-summary`
+
+[run](/ja/models/ref/query-panel/run) の summary *typedDict* を返します。
+
+| 引数    | 説明                                      |
+| :---- | :-------------------------------------- |
+| `run` | 1 つの [run](/ja/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[run](/ja/models/ref/query-panel/run) の summary *typedDict*
+
+### <a id="run-usedArtifactVersions" />`run-usedArtifactVersions`
+
+[run](/ja/models/ref/query-panel/run) で使用されているすべての [artifactVersions](/ja/models/ref/query-panel/artifact-version/) を返します
+
+| 引数    | 説明                                 |
+| :---- | :--------------------------------- |
+| `run` | [run](/ja/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[run](/ja/models/ref/query-panel/run) で使用される [artifactVersions](/ja/models/ref/query-panel/artifact-version/)

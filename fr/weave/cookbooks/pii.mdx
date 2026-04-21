@@ -1,0 +1,792 @@
+---
+title: "Traitement des données PII"
+description: "Traitez les données personnelles identifiables (PII) dans les applications LLM à l’aide des outils de masquage et de filtrage de données de W&B Weave."
+---
+
+<Note>
+  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter en local ou utiliser les liens ci-dessous :
+
+  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/pii.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/pii.ipynb)
+</Note>
+
+##
+
+<div id="how-to-use-weave-with-pii-data">
+  # Comment utiliser Weave avec des données PII
+</div>
+
+Dans ce guide, vous apprendrez à utiliser W&amp;B Weave tout en veillant à ce que vos données personnelles identifiables (PII) restent privées. Ce guide présente les méthodes suivantes pour identifier, masquer et anonymiser les données PII :
+
+1. **Les expressions régulières** pour identifier les données PII et les masquer.
+2. **[Presidio](https://microsoft.github.io/presidio/) de Microsoft**, un SDK de protection des données basé sur Python. Cet outil offre des fonctionnalités de masquage et de remplacement.
+3. **[Faker](https://faker.readthedocs.io/en/master/)**, une bibliothèque Python permettant de générer de fausses données, combinée à Presidio pour anonymiser les données PII.
+
+Vous apprendrez également à utiliser *la personnalisation de la journalisation des entrées et sorties de `weave.op`* et *`autopatch_settings`* pour intégrer le masquage et l&#39;anonymisation des données PII au flux de travail. Pour plus d&#39;informations, voir [Personnaliser les entrées et sorties journalisées](/fr/weave/guides/tracking/ops/#customize-logged-inputs-and-outputs).
+
+Pour commencer, procédez comme suit :
+
+1. Consultez la section [Aperçu](#overview).
+2. Complétez les [prérequis](#prerequisites).
+3. Consultez les [méthodes disponibles](#redaction-methods-overview) pour identifier, masquer et anonymiser les données PII.
+4. [Appliquez les méthodes aux appels Weave](#apply-the-methods-to-weave-calls).
+
+<div id="overview">
+  ## Aperçu
+</div>
+
+La section suivante donne un aperçu de la journalisation des données d’entrée et de sortie avec `weave.op`, ainsi que des bonnes pratiques pour travailler avec des données PII dans Weave.
+
+<div id="customize-input-and-output-logging-using-weaveop">
+  ### Personnaliser la journalisation des entrées et des sorties à l’aide de `weave.op`
+</div>
+
+Les ops Weave vous permettent de définir des fonctions de post-traitement pour les entrées et les sorties. À l’aide de ces fonctions, vous pouvez modifier les données transmises à votre appel à un LLM ou journalisées dans Weave.
+
+Dans l’exemple suivant, deux fonctions de post-traitement sont définies et passées en arguments à `weave.op()`.
+
+```python lines
+from dataclasses import dataclass
+from typing import Any
+
+import weave
+
+# Classe wrapper pour les entrées
+@dataclass
+class CustomObject:
+    x: int
+    secret_password: str
+
+# On définit d'abord les fonctions de post-traitement des entrées et des sorties :
+def postprocess_inputs(inputs: dict[str, Any]) -> dict[str, Any]:
+    return {k:v for k,v in inputs.items() if k != "hide_me"}
+
+def postprocess_output(output: CustomObject) -> CustomObject:
+    return CustomObject(x=output.x, secret_password="REDACTED")
+
+# Ensuite, lors de l'utilisation du décorateur `@weave.op`, on passe ces fonctions de traitement en arguments au décorateur :
+@weave.op(
+    postprocess_inputs=postprocess_inputs,
+    postprocess_output=postprocess_output,
+)
+def some_llm_call(a: int, hide_me: str) -> CustomObject:
+    return CustomObject(x=a, secret_password=hide_me)
+```
+
+<div id="best-practices-for-using-weave-with-pii-data">
+  ### Bonnes pratiques d’utilisation de Weave avec des données PII
+</div>
+
+Avant d’utiliser Weave avec des données PII, consultez les bonnes pratiques d’utilisation de Weave avec des données PII.
+
+<div id="during-testing">
+  #### Lors des tests
+</div>
+
+* Journalisez des données anonymisées pour vérifier la détection des PII
+* Suivez les processus de gestion des PII avec Weave Traces
+* Mesurez les performances de l&#39;anonymisation sans exposer de véritables PII
+
+<div id="in-production">
+  #### En production
+</div>
+
+* Ne journalisez jamais de PII en clair
+* Chiffrez les champs sensibles avant de les journaliser
+
+<div id="encryption-tips">
+  #### Conseils en matière de chiffrement
+</div>
+
+* Utilisez un chiffrement réversible pour les données que vous devrez déchiffrer ultérieurement
+* Utilisez un hachage à sens unique pour les ID uniques que vous n&#39;avez pas besoin de rétablir
+* Envisagez un chiffrement spécialisé pour les données que vous devez analyser tout en restant chiffrées
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+1. Commencez par installer les packages requis.
+
+```python lines
+%%capture
+# @title packages python requis :
+!pip install cryptography
+!pip install presidio_analyzer
+!pip install presidio_anonymizer
+!python -m spacy download en_core_web_lg    # Presidio utilise le moteur NLP spacy
+!pip install Faker                          # nous utiliserons Faker pour remplacer les données PII par des données fictives
+!pip install weave                          # Pour exploiter les traces
+!pip install set-env-colab-kaggle-dotenv -q # pour les variables d'environnement
+!pip install anthropic                      # pour utiliser sonnet
+!pip install cryptography                   # pour chiffrer nos données
+```
+
+2. Créez des clés API ici :
+
+   * [Paramètres utilisateur W&amp;B](https://wandb.ai/settings)
+   * [Console Anthropic](https://platform.claude.com/login?returnTo=%2Fsettings%2Fkeys)
+
+```python lines
+%%capture
+# @title Configurer vos clés API correctement
+# Voir : https://pypi.org/project/set-env-colab-kaggle-dotenv/ pour les instructions d'utilisation.
+
+from set_env import set_env
+
+_ = set_env("ANTHROPIC_API_KEY")
+_ = set_env("WANDB_API_KEY")
+```
+
+3. Initialisez votre projet Weave.
+
+```python lines
+import weave
+
+# Démarrer un nouveau projet Weave
+WEAVE_PROJECT = "pii_cookbook"
+weave.init(WEAVE_PROJECT)
+```
+
+4. Chargez le jeu de données de démonstration PII, qui contient 10 blocs de texte.
+
+```python lines
+import requests
+
+url = "https://raw.githubusercontent.com/wandb/docs/main/weave/cookbooks/source/10_pii_data.json"
+response = requests.get(url)
+pii_data = response.json()
+
+print('PII data first sample: "' + pii_data[0]["text"] + '"')
+```
+
+<div id="redaction-methods-overview">
+  ## Aperçu des méthodes de masquage
+</div>
+
+Une fois la [configuration](#setup) terminée, vous pouvez
+
+Pour détecter et protéger les données PII, nous allons les identifier, les masquer et, éventuellement, les anonymiser à l’aide des méthodes suivantes :
+
+1. **Expressions régulières** pour identifier les données PII et les masquer.
+2. **Microsoft [Presidio](https://microsoft.github.io/presidio/)**, un SDK Python de protection des données qui offre des fonctionnalités de masquage et de remplacement.
+3. **[Faker](https://faker.readthedocs.io/en/master/)**, une bibliothèque Python permettant de générer de fausses données.
+
+<div id="method-1-filter-using-regular-expressions">
+  ### Méthode 1 : Filtrer à l’aide d’expressions régulières
+</div>
+
+Les [expressions régulières (regex)](https://docs.python.org/3/library/re.html) sont la méthode la plus simple pour identifier et masquer des données PII. Elles vous permettent de définir des motifs correspondant à différents formats d’informations sensibles, comme les numéros de téléphone, les adresses e-mail et les numéros de sécurité sociale. À l’aide des regex, vous pouvez analyser de grands volumes de texte et remplacer ou masquer des informations sans avoir recours à des techniques de NLP plus complexes.
+
+```python lines
+import re
+
+# Définir une fonction pour nettoyer les données PII avec regex
+def redact_with_regex(text):
+    # Modèle de numéro de téléphone
+    # \b         : Limite de mot
+    # \d{3}      : Exactement 3 chiffres
+    # [-.]?      : Trait d'union ou point facultatif
+    # \d{3}      : 3 chiffres supplémentaires
+    # [-.]?      : Trait d'union ou point facultatif
+    # \d{4}      : Exactement 4 chiffres
+    # \b         : Limite de mot
+    text = re.sub(r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b", "<PHONE>", text)
+
+    # Modèle d'adresse e-mail
+    # \b         : Limite de mot
+    # [A-Za-z0-9._%+-]+ : Un ou plusieurs caractères pouvant figurer dans un nom d'utilisateur e-mail
+    # @          : Symbole @ littéral
+    # [A-Za-z0-9.-]+ : Un ou plusieurs caractères pouvant figurer dans un nom de domaine
+    # \.         : Point littéral
+    # [A-Z|a-z]{2,} : Deux lettres majuscules ou minuscules ou plus (TLD)
+    # \b         : Limite de mot
+    text = re.sub(
+        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "<EMAIL>", text
+    )
+
+    # Modèle de numéro de sécurité sociale (SSN)
+    # \b         : Limite de mot
+    # \d{3}      : Exactement 3 chiffres
+    # -          : Trait d'union littéral
+    # \d{2}      : Exactement 2 chiffres
+    # -          : Trait d'union littéral
+    # \d{4}      : Exactement 4 chiffres
+    # \b         : Limite de mot
+    text = re.sub(r"\b\d{3}-\d{2}-\d{4}\b", "<SSN>", text)
+
+    # Modèle de nom simple (non exhaustif)
+    # \b         : Limite de mot
+    # [A-Z]      : Une lettre majuscule
+    # [a-z]+     : Une ou plusieurs lettres minuscules
+    # \s         : Un caractère d'espacement
+    # [A-Z]      : Une lettre majuscule
+    # [a-z]+     : Une ou plusieurs lettres minuscules
+    # \b         : Limite de mot
+    text = re.sub(r"\b[A-Z][a-z]+ [A-Z][a-z]+\b", "<NAME>", text)
+
+    return text
+```
+
+Testons la fonction avec un texte d’exemple :
+
+```python lines
+# Tester la fonction
+test_text = "My name is John Doe, my email is john.doe@example.com, my phone is 123-456-7890, and my SSN is 123-45-6789."
+cleaned_text = redact_with_regex(test_text)
+print(f"Raw text:\n\t{test_text}")
+print(f"Redacted text:\n\t{cleaned_text}")
+```
+
+<div id="method-2-redact-using-microsoft-presidio">
+  ### Méthode 2 : Masquer à l’aide de Microsoft Presidio
+</div>
+
+La méthode suivante consiste à supprimer entièrement les données PII à l’aide de [Microsoft Presidio](https://microsoft.github.io/presidio/). Presidio masque les données PII et les remplace par un espace réservé représentant le type de PII. Par exemple, Presidio remplace `Alex` dans `"My name is Alex"` par `<PERSON>`.
+
+Presidio prend en charge nativement les [entités courantes](https://microsoft.github.io/presidio/supported_entities/). Dans l’exemple ci-dessous, nous masquons toutes les entités de type `PHONE_NUMBER`, `PERSON`, `LOCATION`, `EMAIL_ADDRESS` ou `US_SSN`. Le traitement Presidio est encapsulé dans une fonction.
+
+```python lines
+from presidio_analyzer import AnalyzerEngine
+from presidio_anonymizer import AnonymizerEngine
+
+# Configurer l'Analyzer, qui charge un module NLP (modèle spaCy par défaut) et d'autres reconnaisseurs PII.
+analyzer = AnalyzerEngine()
+
+# Configurer l'Anonymizer, qui utilisera les résultats de l'analyzer pour anonymiser le texte.
+anonymizer = AnonymizerEngine()
+
+# Encapsuler le processus de masquage Presidio dans une fonction
+def redact_with_presidio(text):
+    # Analyser le texte pour identifier les données PII
+    results = analyzer.analyze(
+        text=text,
+        entities=["PHONE_NUMBER", "PERSON", "LOCATION", "EMAIL_ADDRESS", "US_SSN"],
+        language="en",
+    )
+    # Anonymiser les données PII identifiées
+    anonymized_text = anonymizer.anonymize(text=text, analyzer_results=results)
+    return anonymized_text.text
+```
+
+Testons la fonction avec un exemple de texte :
+
+```python lines
+text = "My phone number is 212-555-5555 and my name is alex"
+
+# Tester la fonction
+anonymized_text = redact_with_presidio(text)
+
+print(f"Raw text:\n\t{text}")
+print(f"Redacted text:\n\t{anonymized_text}")
+```
+
+<div id="method-3-anonymize-with-replacement-using-faker-and-presidio">
+  ### Méthode 3 : anonymiser par remplacement à l’aide de Faker et Presidio
+</div>
+
+Au lieu de masquer le texte, vous pouvez l’anonymiser en utilisant MS Presidio pour remplacer des PII, comme les noms et les numéros de téléphone, par des données factices générées à l’aide de la bibliothèque Python [Faker](https://faker.readthedocs.io/en/master/). Par exemple, supposons que vous disposiez des données suivantes :
+
+`"My name is Raphael and I like to fish. My phone number is 212-555-5555"`
+
+Une fois les données traitées avec Presidio et Faker, elles peuvent ressembler à ceci :
+
+`"My name is Katherine Dixon and I like to fish. My phone number is 667.431.7379"`
+
+Pour utiliser efficacement Presidio et Faker ensemble, nous devons fournir des références à nos opérateurs personnalisés. Ces opérateurs indiqueront à Presidio quelles fonctions Faker utiliser pour remplacer les PII par des données factices.
+
+```python lines
+from faker import Faker
+from presidio_anonymizer import AnonymizerEngine
+from presidio_anonymizer.entities import OperatorConfig
+
+fake = Faker()
+
+# Créer des fonctions faker (noter qu'elles doivent recevoir une valeur)
+def fake_name(x):
+    return fake.name()
+
+def fake_number(x):
+    return fake.phone_number()
+
+# Créer un opérateur personnalisé pour les entités PERSON et PHONE_NUMBER
+operators = {
+    "PERSON": OperatorConfig("custom", {"lambda": fake_name}),
+    "PHONE_NUMBER": OperatorConfig("custom", {"lambda": fake_number}),
+}
+
+text_to_anonymize = (
+    "My name is Raphael and I like to fish. My phone number is 212-555-5555"
+)
+
+# Résultat de l'analyseur
+analyzer_results = analyzer.analyze(
+    text=text_to_anonymize, entities=["PHONE_NUMBER", "PERSON"], language="en"
+)
+
+anonymizer = AnonymizerEngine()
+
+# ne pas oublier de transmettre les opérateurs définis ci-dessus à l'anonymiseur
+anonymized_results = anonymizer.anonymize(
+    text=text_to_anonymize, analyzer_results=analyzer_results, operators=operators
+)
+
+print(f"Texte brut :\n\t{text_to_anonymize}")
+print(f"Texte anonymisé :\n\t{anonymized_results.text}")
+```
+
+Consolidons notre code dans une seule classe et élargissons la liste des entités pour y inclure les entités supplémentaires identifiées précédemment.
+
+```python lines
+from typing import ClassVar
+
+from faker import Faker
+from presidio_anonymizer import AnonymizerEngine
+from presidio_anonymizer.entities import OperatorConfig
+
+# Une classe personnalisée pour générer des données fictives qui étend Faker
+class MyFaker(Faker):
+    # Créer des fonctions faker (noter qu'elles doivent recevoir une valeur)
+    def fake_address(self):
+        return fake.address()
+
+    def fake_ssn(self):
+        return fake.ssn()
+
+    def fake_name(self):
+        return fake.name()
+
+    def fake_number(self):
+        return fake.phone_number()
+
+    def fake_email(self):
+        return fake.email()
+
+    # Créer des opérateurs personnalisés pour les entités
+    operators: ClassVar[dict[str, OperatorConfig]] = {
+        "PERSON": OperatorConfig("custom", {"lambda": fake_name}),
+        "PHONE_NUMBER": OperatorConfig("custom", {"lambda": fake_number}),
+        "EMAIL_ADDRESS": OperatorConfig("custom", {"lambda": fake_email}),
+        "LOCATION": OperatorConfig("custom", {"lambda": fake_address}),
+        "US_SSN": OperatorConfig("custom", {"lambda": fake_ssn}),
+    }
+
+    def redact_and_anonymize_with_faker(self, text):
+        anonymizer = AnonymizerEngine()
+        analyzer_results = analyzer.analyze(
+            text=text,
+            entities=["PHONE_NUMBER", "PERSON", "LOCATION", "EMAIL_ADDRESS", "US_SSN"],
+            language="en",
+        )
+        anonymized_results = anonymizer.anonymize(
+            text=text, analyzer_results=analyzer_results, operators=self.operators
+        )
+        return anonymized_results.text
+```
+
+Testons la fonction avec un texte d’exemple :
+
+```python lines
+faker = MyFaker()
+text_to_anonymize = (
+    "My name is Raphael and I like to fish. My phone number is 212-555-5555"
+)
+anonymized_text = faker.redact_and_anonymize_with_faker(text_to_anonymize)
+
+print(f"Raw text:\n\t{text_to_anonymize}")
+print(f"Anonymized text:\n\t{anonymized_text}")
+```
+
+<div id="method-4-use-autopatch_settings">
+  ### Méthode 4 : Utiliser `autopatch_settings`
+</div>
+
+Vous pouvez utiliser `autopatch_settings` pour configurer la gestion des PII directement lors de l&#39;initialisation pour une ou plusieurs intégrations LLM prises en charge. Les avantages de cette méthode sont les suivants :
+
+1. La logique de gestion des PII est centralisée et définie à l&#39;initialisation, ce qui réduit le besoin de logique personnalisée dispersée.
+2. Les flux de travail de traitement des PII peuvent être personnalisés ou entièrement désactivés pour des intégrations spécifiques.
+
+Pour utiliser `autopatch_settings` afin de configurer la gestion des PII, définissez `postprocess_inputs` et/ou `postprocess_output` dans `op_settings` pour l&#39;une des intégrations LLM prises en charge.
+
+```python lines
+
+def postprocess(inputs: dict) -> dict:
+    if "SENSITIVE_KEY" in inputs:
+        inputs["SENSITIVE_KEY"] = "REDACTED"
+    return inputs
+
+client = weave.init(
+    ...,
+    autopatch_settings={
+        "openai": {
+            "op_settings": {
+                "postprocess_inputs": postprocess,
+                "postprocess_output": ...,
+            }
+        },
+        "anthropic": {
+            "op_settings": {
+                "postprocess_inputs": ...,
+                "postprocess_output": ...,
+            }
+        }
+    },
+)
+```
+
+<div id="apply-the-methods-to-weave-calls">
+  ## Appliquer les méthodes aux appels Weave
+</div>
+
+Dans les exemples suivants, nous allons intégrer nos méthodes de masquage des PII et d’anonymisation dans des Modèles Weave, puis prévisualiser les résultats dans Weave Traces.
+
+Tout d’abord, nous allons créer un [Modèle Weave](https://docs.wandb.ai/weave/guides/core-types/models). Un Modèle Weave est un ensemble d’informations, comme des paramètres de configuration, des poids de modèle et du code, qui définit le fonctionnement du modèle.
+
+Dans notre modèle, nous inclurons notre fonction `predict`, dans laquelle l’API Anthropic sera appelée. Claude Sonnet d’Anthropic est utilisé pour effectuer une analyse de sentiment tout en traçant les appels LLM à l’aide de [Traces](https://docs.wandb.ai/weave/quickstart). Claude Sonnet recevra un bloc de texte et renverra l’une des classifications de sentiment suivantes : *positive*, *negative* ou *neutral*. De plus, nous inclurons nos fonctions de post-traitement afin de garantir que nos données PII sont masquées ou anonymisées avant d’être envoyées au LLM.
+
+Une fois ce code exécuté, vous recevrez des liens vers la page du projet Weave ainsi que vers la trace spécifique (appels LLM) que vous avez exécutée.
+
+<div id="regex-method">
+  ### Méthode regex
+</div>
+
+Dans le cas le plus simple, vous pouvez utiliser des expressions régulières pour identifier et masquer les données PII dans le texte original.
+
+```python lines
+import json
+from typing import Any
+
+import anthropic
+
+import weave
+
+# Définir une fonction de post-traitement des entrées qui applique notre masquage par regex pour la prédiction du modèle Weave Op
+def postprocess_inputs_regex(inputs: dict[str, Any]) -> dict:
+    inputs["text_block"] = redact_with_regex(inputs["text_block"])
+    return inputs
+
+# Modèle Weave / fonction predict
+class SentimentAnalysisRegexPiiModel(weave.Model):
+    model_name: str
+    system_prompt: str
+    temperature: int
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs_regex,
+    )
+    async def predict(self, text_block: str) -> dict:
+        client = anthropic.AsyncAnthropic()
+        response = await client.messages.create(
+            max_tokens=1024,
+            model=self.model_name,
+            system=self.system_prompt,
+            messages=[
+                {"role": "user", "content": [{"type": "text", "text": text_block}]}
+            ],
+        )
+        result = response.content[0].text
+        if result is None:
+            raise ValueError("No response from model")
+        parsed = json.loads(result)
+        return parsed
+python
+# créer notre modèle LLM avec un prompt système
+model = SentimentAnalysisRegexPiiModel(
+    name="claude-3-sonnet",
+    model_name="claude-3-5-sonnet-20240620",
+    system_prompt='You are a Sentiment Analysis classifier. You will be classifying text based on their sentiment. Your input will be a block of text. You will answer with one the following rating option["positive", "negative", "neutral"]. Your answer should be one word in json format: {classification}. Ensure that it is valid JSON.',
+    temperature=0,
+)
+
+print("Model: ", model)
+# pour chaque bloc de texte, anonymiser d'abord puis prédire
+for entry in pii_data:
+    await model.predict(entry["text"])
+```
+
+<div id="presidio-redaction-method">
+  ### Méthode de masquage avec Presidio
+</div>
+
+Ensuite, nous utiliserons Presidio pour identifier les PII dans le texte original et les masquer.
+
+<Frame>
+  ![Processus de masquage des PII avec Presidio, avec entités PII identifiées et texte de sortie masqué](/media/pii/redact.png)
+</Frame>
+
+```python lines
+from typing import Any
+
+import weave
+
+# Définir une fonction de post-traitement des entrées qui applique notre masquage Presidio pour le Weave Op de prédiction du modèle
+def postprocess_inputs_presidio(inputs: dict[str, Any]) -> dict:
+    inputs["text_block"] = redact_with_presidio(inputs["text_block"])
+    return inputs
+
+# Modèle Weave / fonction predict
+class SentimentAnalysisPresidioPiiModel(weave.Model):
+    model_name: str
+    system_prompt: str
+    temperature: int
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs_presidio,
+    )
+    async def predict(self, text_block: str) -> dict:
+        client = anthropic.AsyncAnthropic()
+        response = await client.messages.create(
+            max_tokens=1024,
+            model=self.model_name,
+            system=self.system_prompt,
+            messages=[
+                {"role": "user", "content": [{"type": "text", "text": text_block}]}
+            ],
+        )
+        result = response.content[0].text
+        if result is None:
+            raise ValueError("Aucune réponse du modèle")
+        parsed = json.loads(result)
+        return parsed
+python
+# créer notre modèle LLM avec un prompt système
+model = SentimentAnalysisPresidioPiiModel(
+    name="claude-3-sonnet",
+    model_name="claude-3-5-sonnet-20240620",
+    system_prompt='Vous êtes un classificateur d\'analyse de sentiment. Vous allez classer des textes en fonction de leur sentiment. Votre entrée sera un bloc de texte. Vous répondrez avec l\'une des options de notation suivantes ["positive", "negative", "neutral"]. Votre réponse doit être un seul mot au format JSON : {classification}. Assurez-vous qu\'il s\'agit d\'un JSON valide.',
+    temperature=0,
+)
+
+print("Model: ", model)
+# pour chaque bloc de texte, anonymiser d'abord puis prédire
+for entry in pii_data:
+    await model.predict(entry["text"])
+```
+
+<div id="faker-and-presidio-replacement-method">
+  ### Méthode de remplacement avec Faker et Presidio
+</div>
+
+Dans cet exemple, nous utilisons Faker pour générer des données PII de substitution anonymisées, puis Presidio pour identifier et remplacer les données PII dans le texte d’origine.
+
+<Frame>
+  ![Processus de remplacement des PII avec Faker et Presidio, avec le texte d’origine, les PII identifiées et les valeurs de substitution anonymisées](/media/pii/replace.png)
+</Frame>
+
+```python lines
+from typing import Any
+
+import weave
+
+# Définir une fonction de post-traitement des entrées qui applique l'anonymisation Faker et le masquage Presidio pour la prédiction du modèle Weave Op
+faker = MyFaker()
+
+def postprocess_inputs_faker(inputs: dict[str, Any]) -> dict:
+    inputs["text_block"] = faker.redact_and_anonymize_with_faker(inputs["text_block"])
+    return inputs
+
+# Weave modèle / fonction predict
+class SentimentAnalysisFakerPiiModel(weave.Model):
+    model_name: str
+    system_prompt: str
+    temperature: int
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs_faker,
+    )
+    async def predict(self, text_block: str) -> dict:
+        client = anthropic.AsyncAnthropic()
+        response = await client.messages.create(
+            max_tokens=1024,
+            model=self.model_name,
+            system=self.system_prompt,
+            messages=[
+                {"role": "user", "content": [{"type": "text", "text": text_block}]}
+            ],
+        )
+        result = response.content[0].text
+        if result is None:
+            raise ValueError("No response from model")
+        parsed = json.loads(result)
+        return parsed
+python
+# créer notre modèle LLM avec un prompt système
+model = SentimentAnalysisFakerPiiModel(
+    name="claude-3-sonnet",
+    model_name="claude-3-5-sonnet-20240620",
+    system_prompt='You are a Sentiment Analysis classifier. You will be classifying text based on their sentiment. Your input will be a block of text. You will answer with one the following rating option["positive", "negative", "neutral"]. Your answer should be one word in json format: {classification}. Ensure that it is valid JSON.',
+    temperature=0,
+)
+
+print("Model: ", model)
+# pour chaque bloc de texte, anonymiser d'abord puis prédire
+for entry in pii_data:
+    await model.predict(entry["text"])
+```
+
+<div id="autopatch_settings-method">
+  ### méthode `autopatch_settings`
+</div>
+
+Dans l’exemple suivant, nous définissons `postprocess_inputs` pour `anthropic` à la fonction `postprocess_inputs_regex()` () lors de l’initialisation. La fonction `postprocess_inputs_regex` applique la méthode `redact_with_regex` définie dans [Méthode 1 : filtrage par expression régulière](#method-1-regular-expression-filtering). Désormais, `redact_with_regex` sera appliquée à toutes les entrées de n’importe quel modèle `anthropic`.
+
+```python lines
+from typing import Any
+
+import weave
+
+client = weave.init(
+    ...,
+    autopatch_settings={
+        "anthropic": {
+            "op_settings": {
+                "postprocess_inputs": postprocess_inputs_regex,
+            }
+        }
+    },
+)
+
+# Définir une fonction de post-traitement des entrées qui applique notre masquage par regex pour le Weave Op de prédiction du modèle
+def postprocess_inputs_regex(inputs: dict[str, Any]) -> dict:
+    inputs["text_block"] = redact_with_regex(inputs["text_block"])
+    return inputs
+
+# Modèle Weave / fonction predict
+class SentimentAnalysisRegexPiiModel(weave.Model):
+    model_name: str
+    system_prompt: str
+    temperature: int
+
+    async def predict(self, text_block: str) -> dict:
+        client = anthropic.AsyncAnthropic()
+        response = await client.messages.create(
+            max_tokens=1024,
+            model=self.model_name,
+            system=self.system_prompt,
+            messages=[
+                {"role": "user", "content": [{"type": "text", "text": text_block}]}
+            ],
+        )
+        result = response.content[0].text
+        if result is None:
+            raise ValueError("No response from model")
+        parsed = json.loads(result)
+        return parsed
+python
+# créer notre modèle LLM avec un prompt système
+model = SentimentAnalysisRegexPiiModel(
+    name="claude-3-sonnet",
+    model_name="claude-3-5-sonnet-20240620",
+    system_prompt='You are a Sentiment Analysis classifier. You will be classifying text based on their sentiment. Your input will be a block of text. You will answer with one the following rating option["positive", "negative", "neutral"]. Your answer should be one word in json format: {classification}. Ensure that it is valid JSON.',
+    temperature=0,
+)
+
+print("Model: ", model)
+# pour chaque bloc de texte, anonymiser d'abord puis effectuer la prédiction
+for entry in pii_data:
+    await model.predict(entry["text"])
+```
+
+<div id="optional-encrypt-your-data">
+  ### (Facultatif) Chiffrez vos données
+</div>
+
+<Frame>
+  ![Processus de chiffrement des données PII avec sortie de texte chiffré et gestion des clés de chiffrement](/media/pii/encrypt.png)
+</Frame>
+
+En plus d’anonymiser les PII, vous pouvez ajouter une couche de sécurité supplémentaire en chiffrant vos données à l’aide du chiffrement symétrique [Fernet](https://cryptography.io/en/latest/fernet/) fourni par la bibliothèque cryptography. Cette approche garantit que, même si les données anonymisées sont interceptées, elles restent illisibles sans la clé de chiffrement.
+
+```python lines
+import os
+from cryptography.fernet import Fernet
+from pydantic import BaseModel, ValidationInfo, model_validator
+
+def get_fernet_key():
+    # Vérifier si la clé existe dans les variables d'environnement
+    key = os.environ.get('FERNET_KEY')
+
+    if key is None:
+        # Si la clé n'existe pas, en générer une nouvelle
+        key = Fernet.generate_key()
+        # Enregistrer la clé dans une variable d'environnement
+        os.environ['FERNET_KEY'] = key.decode()
+    else:
+        # Si la clé existe, s'assurer qu'elle est en bytes
+        key = key.encode()
+
+    return key
+
+cipher_suite = Fernet(get_fernet_key())
+
+class EncryptedSentimentAnalysisInput(BaseModel):
+    encrypted_text: str = None
+
+    @model_validator(mode="before")
+    def encrypt_fields(cls, values):
+        if "text" in values and values["text"] is not None:
+            values["encrypted_text"] = cipher_suite.encrypt(values["text"].encode()).decode()
+            del values["text"]
+        return values
+
+    @property
+    def text(self):
+        if self.encrypted_text:
+            return cipher_suite.decrypt(self.encrypted_text.encode()).decode()
+        return None
+
+    @text.setter
+    def text(self, value):
+        self.encrypted_text = cipher_suite.encrypt(str(value).encode()).decode()
+
+    @classmethod
+    def encrypt(cls, text: str):
+        return cls(text=text)
+
+    def decrypt(self):
+        return self.text
+
+# sentiment_analysis_model modifié pour utiliser le nouveau EncryptedSentimentAnalysisInput
+class sentiment_analysis_model(weave.Model):
+    model_name: str
+    system_prompt: str
+    temperature: int
+
+    @weave.op()
+    async def predict(self, encrypted_input: EncryptedSentimentAnalysisInput) -> dict:
+        client = AsyncAnthropic()
+
+        decrypted_text = encrypted_input.decrypt() # On utilise la classe personnalisée pour déchiffrer le texte
+
+        response = await client.messages.create(
+            max_tokens=1024,
+            model=self.model_name,
+            system=self.system_prompt,
+            messages=[
+                {   "role": "user",
+                    "content":[
+                        {
+                            "type": "text",
+                            "text": decrypted_text
+                        }
+                    ]
+                }
+            ]
+        )
+        result = response.content[0].text
+        if result is None:
+            raise ValueError("Aucune réponse du modèle")
+        parsed = json.loads(result)
+        return parsed
+
+model = sentiment_analysis_model(
+    name="claude-3-sonnet",
+    model_name="claude-3-5-sonnet-20240620",
+    system_prompt="Vous êtes un classificateur d'analyse de sentiment. Vous allez classifier des textes en fonction de leur sentiment. Votre entrée sera un bloc de texte. Vous répondrez avec l'une des options de notation suivantes [\"positive\", \"negative\", \"neutral\"]. Votre réponse doit être un seul mot dans un dict au format json dont la clé est classification.",
+    temperature=0
+)
+
+for entry in pii_data:
+    encrypted_input = EncryptedSentimentAnalysisInput.encrypt(entry["text"])
+    await model.predict(encrypted_input)
+```

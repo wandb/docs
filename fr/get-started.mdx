@@ -1,0 +1,97 @@
+---
+title: Premiers pas avec Weights & Biases
+description: Choisissez le produit W&B adapté à votre cas d’usage et apprenez à démarrer
+---
+
+<div id="product-comparison">
+  ## Comparaison des produits
+</div>
+
+Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produits, il est important d’identifier ceux qui correspondent à votre cas d’usage.
+
+| Produit                                   | Idéal pour                                   | Fonctionnalités clés                                                                                                  |
+| ----------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **[W&amp;B Models](#w%26b-models)**       | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                          |
+| **[W&amp;B Weave](#w%26b-weave)**         | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                    |
+| **[W&amp;B Inference](#w%26b-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                     |
+| **[W&amp;B Training](#w%26b-training)**   | Fine-tuning de modèles                       | Créer et déployer des LoRAs et des adaptations de modèles personnalisées à l’aide de l’apprentissage par renforcement |
+
+<div id="wb-models">
+  ## W&amp;B Models
+</div>
+
+<Columns cols={2}>
+  <Card title="Démarrage rapide de Models" href="/fr/models/quickstart">
+    Le « hello world » de W&amp;B, qui vous guide pour enregistrer vos premières données.
+  </Card>
+
+  <Card title="Premiers pas avec Models" href="/fr/models/models_quickstart">
+    Un tutoriel complet qui vous fait découvrir l’ensemble du produit Models à l’aide d’une véritable expérience de ML.
+  </Card>
+
+  <Card title="Cours W&B 101" href="https://wandb.ai/site/courses/101/">
+    Un cours vidéo axé sur le suivi des expériences, avec des quiz pour valider votre compréhension.
+  </Card>
+
+  <Card title="Tutoriel YouTube" href="https://www.youtube.com/watch?v=tHAFujRhZLA">
+    Découvrez comment les modèles sont entraînés, évalués, développés et déployés, et comment utiliser wandb à chaque étape de ce cycle de vie pour créer plus rapidement des modèles plus performants.
+  </Card>
+</Columns>
+
+<div id="wb-weave">
+  ## W&amp;B Weave
+</div>
+
+<Columns cols={2}>
+  <Card title="Démarrage rapide de Weave" href="/fr/weave/quickstart">
+    Découvrez comment décorer votre code afin que les appels à un LLM journalisent des traces Weave et vous mettent sur la voie d’un flux de travail LLM optimal.
+  </Card>
+
+  <Card title="Découvrir Weave avec W&B Inference" href="/fr/weave/quickstart-inference">
+    Un tutoriel complet qui montre comment Weave effectue, en conditions réelles, l’évaluation des performances de différents modèles hébergés par W&amp;B Inference
+  </Card>
+
+  <Card title="Cours W&B Weave 101" href="https://site.wandb.ai/courses/weave/">
+    Un cours en vidéo qui vous apprend à journaliser, déboguer et évaluer des flux de travail de modèles de langage, avec des quiz pour vérifier votre compréhension.
+  </Card>
+
+  <Card title="Démo YouTube" href="https://www.youtube.com/watch?v=IQcGGNLN3zo">
+    Découvrez comment évaluer, surveiller et faire évoluer en continu vos applications d’IA afin d’améliorer la qualité, la latence, le coût et la sécurité.
+  </Card>
+</Columns>
+
+<div id="wb-inference">
+  ## W&amp;B Inference
+</div>
+
+<Columns cols={2}>
+  <Card title="Introduction à W&B Inference" href="/fr/inference">
+    Comprend un démarrage rapide qui montre comment utiliser l’API REST OpenAI standard pour appeler n’importe quel modèle hébergé sur W&amp;B Inference.
+  </Card>
+
+  <Card title="Découvrir Weave avec W&B Inference" href="/fr/weave/quickstart-inference">
+    Un tutoriel complet qui montre comment Weave effectue une évaluation en conditions réelles des performances de différents modèles hébergés sur W&amp;B Inference
+  </Card>
+
+  <Card title="Essayez le playground Inference" href="https://wandb.ai/inference">
+    W&amp;B Inference est très simple à utiliser. Cliquez sur n’importe quel modèle que nous hébergeons, commencez à tester des prompts et voyez notre couche d’observabilité se mettre en action.
+  </Card>
+
+  <Card title="Exemples" href="/fr/inference/examples">
+    Parcourez quelques exemples rapides montrant comment W&amp;B Inference assure le Tracing des appels à des LLM populaires et évalue les résultats.
+  </Card>
+</Columns>
+
+<div id="wb-training">
+  ## W&amp;B Training
+</div>
+
+<Columns cols={2}>
+  <Card title="Démarrage rapide" href="https://art.openpipe.ai/getting-started/quick-start">
+    Utilisez W&amp;B Training avec la bibliothèque ART d&#39;OpenPipe pour entraîner un modèle afin qu&#39;il joue au 2048.
+  </Card>
+
+  <Card title="Utiliser vos modèles entraînés" href="/fr/training/serverless-rl/use-trained-models">
+    Une fois votre modèle entraîné, découvrez comment l&#39;utiliser dans votre code.
+  </Card>
+</Columns>

@@ -1,71 +1,80 @@
 ---
+description: "W&B を YOLOX と統合して、物体検出モデルのトレーニングをトラッキングし、メトリクスをログして、検出結果を可視化します。"
 title: YOLOX
-description: W&B を YOLOX と統合する方法。
 ---
 
-import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) は、強力な オブジェクト検出 パフォーマンスを備えた YOLO のアンカーフリーバージョンです。 YOLOX の W&B インテグレーション を使用すると、トレーニング、検証、およびシステムに関連する メトリクス の ログ 記録を有効にでき、単一の コマンドライン 引数 で 予測 をインタラクティブに検証できます。
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) は、物体検出で高いパフォーマンスを発揮する、アンカーフリーの YOLO です。YOLOX の W&amp;B インテグレーションを使用すると、トレーニング、検証、システムに関連するメトリクスをログすることを有効にできるほか、1 つのコマンドライン引数で予測をインタラクティブに検証できます.
 
-## サインアップと APIキー の作成
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを発行する
+</div>
 
-APIキー は、W&B に対してマシンを認証します。 ユーザー プロフィールから APIキー を生成できます。
+APIキーは、お使いのマシンをW&amp;Bに認証するために使用します。APIキーはプロフィールから発行できます。
 
-<ApiKeyCreateStreamlined/>
+<ApiKeyCreateStreamlined />
 
-1. 右上隅にある ユーザー プロフィールアイコンをクリックします。
-1. **User Settings** を選択し、 **API Keys** セクションまでスクロールします。
+1. 右上にあるプロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
 
-## `wandb` ライブラリのインストールとログイン
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` ライブラリをインストールしてログインする
+</div>
 
-ローカルに `wandb` ライブラリをインストールしてログインするには：
+`wandb` ライブラリをローカルにインストールしてログインするには、次の手順を実行します。
 
 <Tabs>
-<Tab title="Command Line">
-1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) に APIキー を設定します。
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/)をAPIキーに設定します。
 
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールしてログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
     ```bash
-    export WANDB_API_KEY=<your_api_key>
-    ```
-
-1. `wandb` ライブラリをインストールしてログインします。
-
-    ```shell
     pip install wandb
-
-    wandb login
     ```
-</Tab>
-<Tab title="Python">
-```bash
-pip install wandb
-```
-```python
-import wandb
-wandb.login()
-```
-</Tab>
-<Tab title="Python notebook">
-```notebook
-!pip install wandb
 
-import wandb
-wandb.login()
-```
-</Tab>
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
 </Tabs>
 
-## メトリクス の ログ 記録
+<div id="log-metrics">
+  ## メトリクスをログする
+</div>
 
-`--logger wandb` コマンドライン 引数 を使用して、wandb による ログ 記録を有効にします。 オプションとして、 [`wandb.init()`](/models/ref/python/functions/init) が期待するすべての 引数 を渡すこともできます。 各 引数 の前に `wandb-` を付けてください。
+`--logger wandb` コマンドライン引数を使用して、wandb へログすることを有効にします。必要に応じて、[`wandb.init()`](/ja/models/ref/python/functions/init) が受け取るすべての引数を渡すこともできます。その場合は、各引数の先頭に `wandb-` を付けます。
 
-`num_eval_imges` は、 モデルの評価 のために W&B Tables に ログ 記録される 検証セット の画像と 予測 の数を制御します。
+`num_eval_imges` は、モデル評価のために W&amp;B の表にログされる検証セットの画像と予測の数を制御します。
 
 ```shell
 # wandbにログイン
 wandb login
 
-# `wandb` logger引数を指定してyoloxトレーニングスクリプトを呼び出す
+# `wandb` loggerの引数を使ってyoloxのトレーニングスクリプトを呼び出す
 python tools/train.py .... --logger wandb \
                 wandb-project <project-name> \
                 wandb-entity <entity>
@@ -76,12 +85,14 @@ python tools/train.py .... --logger wandb \
                 wandb-log_checkpoints <bool>
 ```
 
-## 例
+<div id="example">
+  ## 例
+</div>
 
-[YOLOX のトレーニングおよび検証メトリクスを表示したダッシュボードの例 ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+[YOLOX のトレーニングおよび検証メトリクスを含むダッシュボードの例 -&gt;](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
 <Frame>
-    <img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard"  />
+  <img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX のトレーニングダッシュボード" />
 </Frame>
 
-この W&B インテグレーション に関する質問や問題がありますか？ [YOLOX リポジトリ](https://github.com/Megvii-BaseDetection/YOLOX) で issue を作成してください。
+この W&amp;B インテグレーションについて質問や問題がある場合は、[YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX) で issue を作成してください。

@@ -1,0 +1,249 @@
+---
+title: "Classe : MessagesPrompt"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / MessagesPrompt
+
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
+
+* `Prompt`
+
+  ↳ `MessagesPrompt`
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="constructors">
+  ### Constructeurs
+</div>
+
+* [constructeur](./messagesprompt#constructor)
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [&#95;&#95;savedRef](./messagesprompt#__savedref)
+* [messages](./messagesprompt#messages)
+
+<div id="accessors">
+  ### Accesseurs
+</div>
+
+* [description](./messagesprompt#description)
+* [nom](./messagesprompt#name)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [format](./messagesprompt#format)
+* [saveAttrs](./messagesprompt#saveattrs)
+* [get](./messagesprompt#get)
+
+## Constructeurs
+
+<div id="constructor">
+  ### constructeur
+</div>
+
+• **new MessagesPrompt**(`paramètres`): [`MessagesPrompt`](./messagesprompt)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type                       |
+| :----------- | :------------------------- |
+| `parameters` | `MessagesPromptParameters` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`MessagesPrompt`](./messagesprompt)
+
+<div id="overrides">
+  #### Redéfinit
+</div>
+
+Prompt.constructor
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[prompt.ts:40](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L40)
+
+## Propriétés
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+• `Facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Prompt.&#95;&#95;savedRef
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+
+***
+
+<div id="messages">
+  ### messages
+</div>
+
+• **messages**: `Record`&lt;`string`, `any`&gt;[]
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[prompt.ts:38](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L38)
+
+## Accesseurs
+
+<div id="description">
+  ### description
+</div>
+
+• `get` **description**(): `undefined` | `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`undefined` | `string`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Prompt.description
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+• `get` **nom**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Prompt.nom
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+
+## Méthodes
+
+<div id="format">
+  ### format
+</div>
+
+▸ **format**(`values?`): `Record`&lt;`string`, `any`&gt;[]
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom      | Type                            |
+| :------- | :------------------------------ |
+| `values` | `Record`&lt;`string`, `any`&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Record`&lt;`string`, `any`&gt;[]
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[prompt.ts:67](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L67)
+
+***
+
+<div id="saveattrs">
+  ### saveAttrs
+</div>
+
+▸ **saveAttrs**(): `objet`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Objet`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Prompt.saveAttrs
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+
+***
+
+<div id="get">
+  ### get
+</div>
+
+▸ **get**(`client`, `uri`): `Promise`&lt;[`MessagesPrompt`](./messagesprompt)&gt;
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom      | Type                           |
+| :------- | :----------------------------- |
+| `client` | [`WeaveClient`](./weaveclient) |
+| `uri`    | `string`                       |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`MessagesPrompt`](./messagesprompt)&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[prompt.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/prompt.ts#L73)

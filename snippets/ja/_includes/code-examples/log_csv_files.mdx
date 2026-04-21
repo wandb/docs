@@ -1,0 +1,24 @@
+```python
+"""
+CSVファイルをW&Bに表としてログします。
+
+以下を置き換えてください：
+- 山括弧で囲まれた値を実際の値に変更する
+- pd.read_csv() 内の <name>.csv をCSVファイル名に変更する
+"""
+
+import wandb
+import pandas as pd
+
+# CSVをDataFrameオブジェクト（pandas）として読み込む
+dataframe = pd.read_csv("<name>.csv")
+
+# DataFrameをW&B Tableに変換する
+table = wandb.Table(dataframe=dataframe)
+
+# データをログするためにW&B runを開始する
+with wandb.init(project="<project>") as run:
+
+    # W&B UIで可視化するために表をログする
+    run.log({"<table_name>": table})
+```

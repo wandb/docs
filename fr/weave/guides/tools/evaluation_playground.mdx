@@ -1,0 +1,137 @@
+---
+title: "Comparez les performances des modèles à l’aide de l’Evaluation Playground"
+description: "Comparez et évaluez les performances des modèles sans code à l’aide de l’Evaluation Playground de Weave, avec des jeux de données personnalisés et des juges LLM."
+---
+
+<div id="evaluation-playground">
+  # Evaluation Playground
+</div>
+
+L’Evaluation Playground vous permet d’accéder à des modèles existants et de comparer leurs performances à l’aide de jeux de données d’évaluation et de juges LLM chargés de l’évaluation. Vous pouvez ainsi commencer à tester et comparer vos modèles sans avoir à écrire de code. Vous pouvez également enregistrer les modèles, évaluateurs et jeux de données que vous développez dans le playground pour les reprendre plus tard en vue de leur développement et de leur déploiement.
+
+Par exemple, vous pouvez ouvrir l’Evaluation Playground, ajouter deux modèles que vous avez déjà enregistrés, puis évaluer leurs performances à partir d’un nouveau jeu de données d’évaluation de type questions-réponses ou d’un jeu déjà enregistré. Vous pouvez ensuite ajouter un nouveau modèle dans l’interface, lui ajouter des prompts système, puis lancer une nouvelle évaluation sur les trois modèles pour voir comment ils se comportent les uns par rapport aux autres.
+
+<Frame>
+  ![Interface de l’Evaluation Playground](/weave/guides/evaluation/img/eval-playground-ui.png)
+</Frame>
+
+<div id="set-up-an-evaluation-in-the-playground">
+  ## Configurer une évaluation dans le playground
+</div>
+
+Pour configurer une évaluation dans l’Evaluation Playground :
+
+1. Ouvrez [le Weave UI](https://wandb.ai/wandb/quickstart_playground/weave/playground), puis ouvrez le projet dans lequel vous souhaitez effectuer l’évaluation. La page Traces s’ouvre alors.
+2. Depuis la page Traces, cliquez sur l’icône **Playground** dans le menu de gauche, puis sélectionnez l’onglet **Evaluate** sur la page Playground. Sur la page Evaluate, vous pouvez soit :
+   * **Load a demo example** : cette option charge une configuration prédéfinie qui évalue le modèle MoonshotAI Kimi K2 par rapport à la sortie attendue et utilise un juge LLM pour en déterminer la justesse. Vous pouvez utiliser cette configuration pour vous familiariser avec l’interface.
+   * **Start from scratch** : cette option charge une configuration vierge que vous pouvez ensuite compléter.
+3. Si vous avez sélectionné **Start from scratch**, ajoutez un titre et une description explicites pour votre évaluation dans les champs **Title** et **Description**.
+
+Suivez les instructions des sections suivantes pour configurer vos Datasets, modèles et évaluateurs.
+
+<div id="add-a-dataset">
+  ### Ajouter un jeu de données
+</div>
+
+[Datasets](../core-types/datasets) est une collection organisée d&#39;exemples d&#39;entrées utilisateur et des réponses attendues de vos modèles. Lors d&#39;une évaluation, le playground envoie chaque entrée de test à votre modèle, collecte sa sortie, puis attribue un score à cette sortie en fonction d&#39;une métrique que vous avez sélectionnée, comme l&#39;exactitude. Vous pouvez créer un jeu de données dans l&#39;UI, ajouter un jeu de données existant déjà enregistré dans votre projet ou importer un nouveau jeu de données.
+
+Vous pouvez importer des jeux de données dans les formats suivants :
+
+* `.csv`
+* `.tsv`
+* `.json`
+* `.jsonl`
+
+Voir les pages Datasets pour plus d&#39;informations sur la façon de formater et d&#39;enregistrer des jeux de données dans Weave.
+
+Pour ajouter un jeu de données dans la section **Dataset** :
+
+1. Cliquez sur le menu déroulant, puis sélectionnez l&#39;une des options suivantes :
+   * **Start from scratch** pour créer un nouveau jeu de données dans l&#39;UI.
+   * **Upload a file** pour importer un jeu de données depuis votre machine locale.
+   * Un jeu de données existant déjà enregistré dans votre projet.
+2. Facultatif : cliquez sur **Save** pour enregistrer le jeu de données dans votre projet afin de le réutiliser plus tard.
+
+Une fois l&#39;option sélectionnée, le jeu de données apparaît dans le panneau de droite de l&#39;UI, et vous pouvez modifier chaque champ selon vos besoins en cliquant dessus. Vous pouvez également ajouter de nouvelles lignes au jeu de données en cliquant sur **Add row**.
+
+<Note>
+  Vous pouvez utiliser l&#39;UI pour modifier uniquement les nouveaux jeux de données.
+
+  Il est également important de nommer correctement les colonnes de votre jeu de données `user_input` et `expected_output` afin que les évaluateurs puissent accéder aux données.
+</Note>
+
+<div id="add-a-model">
+  ### Ajouter un modèle
+</div>
+
+Les [Models](/fr/weave/guides/core-types/models), dans le contexte de Weave, correspondent à une combinaison d’un modèle d’IA (tel que GPT) et de l’environnement (ici, le prompt système) qui définit le fonctionnement du modèle pendant l’évaluation. Vous pouvez sélectionner des modèles existants dans votre projet ou en créer de nouveaux à évaluer, et vous pouvez ajouter plusieurs modèles à la fois pour les évaluer simultanément avec le même jeu de données et le même évaluateur. **Vous pouvez uniquement utiliser des modèles créés avec la fonctionnalité playground.**
+
+Pour ajouter un modèle dans la section **Models** de l’Evaluation Playground :
+
+1. Cliquez sur **Add Model**, puis sélectionnez soit **New Model**, soit un modèle existant dans le menu déroulant.
+
+2. Si vous avez sélectionné **New Model**, configurez les champs suivants :
+
+   * **Name** : ajoutez un nom descriptif à votre nouveau modèle.
+   * **LLM Model** : sélectionnez un modèle de fondation sur lequel construire votre nouveau modèle, comme GPT-4 d’OpenAI. Vous pouvez sélectionner un modèle de fondation dans une liste de modèles pour lesquels vous avez déjà configuré l’accès, ou ajouter l’accès à un modèle de fondation en sélectionnant **Add AI provider**, puis en choisissant un modèle. L’ajout d’un fournisseur vous invite à saisir vos identifiants d’accès pour ce fournisseur. Consultez la documentation de votre fournisseur pour savoir comment trouver votre clé API, vos endpoints et toute information de configuration supplémentaire nécessaire pour accéder au modèle avec Weave.
+   * **System Prompt** : indiquez au modèle comment il doit se comporter, par exemple : `You are a helpful assistant specializing in Python programming.` Le `user_input` de votre jeu de données est envoyé dans un message ultérieur ; vous n’avez donc pas besoin de l’inclure dans le prompt système.
+
+   Si vous choisissez un modèle existant, un nouveau champ apparaît à côté du nom du modèle et vous permet de sélectionner une version de ce modèle, sans autre champ à configurer. Si vous souhaitez modifier votre modèle existant avant ou après l’évaluation, utilisez le [Prompt Playground](../tools/playground).
+
+3. Facultatif : cliquez sur **Save** pour enregistrer le modèle dans votre projet afin de l’utiliser plus tard.
+
+4. Facultatif : vous pouvez ajouter d’autres modèles à évaluer simultanément en cliquant de nouveau sur **Add Model** et en ajoutant les modèles nécessaires.
+
+<div id="add-scorers">
+  ### Ajouter des évaluateurs
+</div>
+
+Les [évaluateurs](../evaluation/scorers) utilisent des juges LLM pour mesurer et évaluer la qualité des sorties des modèles d’IA. Vous pouvez sélectionner des évaluateurs existants dans votre projet ou en créer de nouveaux pour évaluer vos modèles.
+
+Pour ajouter un évaluateur dans l’Evaluation Playground :
+
+1. Cliquez sur **Add Scorer**, puis configurez les champs suivants :
+   * **Name** : Ajoutez un nom descriptif à votre évaluateur.
+   * **Type** : Sélectionnez le format de sortie des scores : booléen ou numérique. Les évaluateurs booléens renvoient une valeur binaire `True` ou `False` selon que la sortie du modèle respecte ou non les paramètres d’évaluation que vous avez définis. Les évaluateurs numériques renvoient un score compris entre `0` et `1`, qui donne une appréciation générale de la mesure dans laquelle la sortie du modèle respecte vos paramètres d’évaluation.
+   * **LLM-as-a-judge-model** : Sélectionnez un modèle de fondation à utiliser comme juge pour l’évaluateur. Comme pour le champ LLM Model dans la section **Models**, vous pouvez choisir parmi les modèles de fondation auxquels vous avez déjà configuré l’accès, ou configurer un nouvel accès à des modèles de fondation.
+   * **Scoring Prompt** : Indiquez au juge LLM ce qu’il doit évaluer dans la sortie. Par exemple, si vous voulez qu’il vérifie la présence d’hallucinations, vous pouvez saisir une invite d’évaluation semblable à celle-ci :
+
+     ```
+     Étant donné le contexte et la réponse suivants, déterminez si la réponse contient des informations qui ne sont pas étayées par le contexte.
+
+     Entrée utilisateur : {user_input}
+     Sortie attendue : {expected_output}
+     Sortie du modèle : {output}
+
+     La sortie du modèle est-elle correcte ?
+     ```
+
+     Vous pouvez utiliser les champs de vos Datasets et de vos réponses comme variables dans l’invite d’évaluation, par exemple `{user_input}`, `{expected_output}` et `{output}`. Pour voir la liste des variables disponibles, cliquez sur **Insert variable** dans l’interface utilisateur.
+
+2. Facultatif : cliquez sur **Save** pour enregistrer l’évaluateur dans votre projet afin de l’utiliser plus tard.
+
+<div id="run-the-evaluation">
+  ### Lancer l’évaluation
+</div>
+
+Une fois que vous avez configuré vos jeux de données, modèles et évaluateurs, vous pouvez lancer l’évaluation.
+
+* Pour lancer l’évaluation dans l’Evaluation Playground, cliquez sur **Run eval**.
+
+Weave exécute une évaluation distincte pour chaque modèle que vous avez ajouté et collecte des métriques pour chaque requête effectuée à l’aide du jeu de données. Weave enregistre chacune de ces évaluations dans la section **Evals** pour que vous puissiez les consulter ultérieurement.
+
+<div id="review-evaluation-results">
+  ### Consulter les résultats de l’évaluation
+</div>
+
+Après avoir terminé l’évaluation, le playground ouvre un rapport qui affiche diverses métriques collectées pour chaque requête envoyée à vos modèles.
+
+<Frame>
+  ![Evals hero](/images/weave/evals-hero.png)
+</Frame>
+
+L’onglet **Dataset results** affiche l’entrée, la sortie attendue, la sortie réelle du modèle, la latence, l’utilisation des tokens et les résultats de scoring. Vous pouvez cliquer sur les ID dans la colonne **Row** pour ouvrir une vue détaillée des métriques pour un ensemble précis de requêtes. Vous pouvez également utiliser les boutons de format d’affichage directement sous les onglets pour modifier le format d’affichage des cellules du rapport.
+
+L’onglet **Summary** fournit un aperçu des performances de chaque modèle, avec des représentations visuelles des données.
+
+Pour plus d’informations sur la façon d’ouvrir et de comparer des évaluations, voir [Evaluations](../core-types/evaluations).

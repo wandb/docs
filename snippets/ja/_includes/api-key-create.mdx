@@ -1,0 +1,28 @@
+---
+title: APIキーの作成
+---
+
+import ApiKeyViewOnceWarning from "/snippets/ja/_includes/api-key-view-once-warning.mdx";
+import ServiceAccountApiKeyCreate from "/snippets/ja/_includes/service-account-api-key-create-additional.mdx";
+
+APIキーを作成するには、**Personal API key** または **Service Account API key** タブを選択して詳細を確認してください。
+
+<Tabs>
+  <Tab title="Personal API key">
+    あなたのユーザー ID に紐づく個人用 APIキーを作成するには、次の手順に従います。
+
+    1. W&amp;B にログインし、プロフィールアイコンをクリックして、**User Settings** をクリックします。
+    2. **Create new API key** をクリックします。
+    3. APIキーにわかりやすい名を付けます。
+    4. **Create** をクリックします。
+    5. 表示された APIキーをすぐにコピーし、安全な場所に保管してください。
+  </Tab>
+
+  <Tab title="Service account API key">
+    <ServiceAccountApiKeyCreate />
+  </Tab>
+</Tabs>
+
+<ApiKeyViewOnceWarning />
+
+安全な保管方法については、[APIキーを安全に保管する](/ja/platform/app/settings-page/user-settings/#store-and-handle-api-keys-securely)を参照してください。

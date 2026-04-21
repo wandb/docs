@@ -15,7 +15,7 @@ Use an alias to reference a specific artifact version. Each alias within a colle
 Use tags to organize and group artifact versions or collections based on a common theme. Multiple artifact versions and collections can share the same tag.
 </Note>
 
-When you add an alias to an artifact version, you can optionally start a [Registry automation](/models/automations/automation-events/#registry) to notify a Slack channel or trigger a webhook.
+When you add an alias to an artifact version, you can optionally start a [Registry automation](/models/automations/automation-events/#registry) to notify a Slack channel or trigger a webhook. If the automation calls a webhook that needs an access token or other sensitive value in the request, store those strings as [team secrets](/platform/secrets) and select them when you configure the webhook for the automation.
 
 ## Default aliases
 
