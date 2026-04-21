@@ -4,7 +4,7 @@ description: "Browse archived release notes for older W&B Server versions that h
 sidebarTitle: "Archived releases"
 rss: true
 ---
-import EolReminder from '/snippets/en/_includes/release-notes-support-eol-reminder.mdx';
+import EolReminder from '/snippets/_includes/release-notes-support-eol-reminder.mdx';
 
 This page includes release notes for W&B Server releases that have reached end of life and are no longer supported.
 - For supported Server releases, see [W&B Server release notes](/release-notes/server-releases).
@@ -80,9 +80,9 @@ This page includes release notes for W&B Server releases that have reached end o
 <Update label="v0.65.0" description="January 30, 2025">
 ## Features
 - From a registry's **Settings**, you can now update the owner to a different user with the Admin role. Select **Owner** from the user's **Role** menu.
-- You can now move a run to a different group in the same project. Hover over a run in the run list, click the three-vertical-dots menu, and choose **Move to another group**.
+- You can now move a run to a different group in the same project. Hover over a run in the run list, click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu, and choose **Move to another group**.
 - You can now configure whether the **Log Scale setting** for line plots is enabled by default at the level of the workspace or section. 
-  - To configure the behavior for a workspace, click the action `...` menu for the workspace, click **Line plots**, then toggle **Log scale** for the X or Y axis.
+  - To configure the behavior for a workspace, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu for the workspace, click **Line plots**, then toggle **Log scale** for the X or Y axis.
   - To configure the behavior for a section, click the gear icon for the section, then toggle **Log scale** for the X or Y axis.
 </Update>
 
@@ -260,7 +260,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 <Update label="v0.51.0" description="March 20, 2024">
 ## Features
 
-* You can now save multiple views of any workspace by clicking "Save as a new view" in the overflow menu of the workspace bar.
+* You can now save multiple views of any workspace by clicking "Save as a new view" in the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu of the workspace bar.
   See [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) to learn more.
 
   <Frame>
@@ -581,7 +581,7 @@ For Dedicated Cloud customers, this feature has been turned on.  For Self-Manage
 * (Launch) The loading of the Launch tab should now be much faster, typically under two seconds.
 * (Launch) There’s now an option to edit queue configs using YAML instead of JSON.  It’s also now more clear how to edit queue configs.
 * (Launch) Runs will now show error messages in the UI when they crash or fail.
-* (Launch) If you don’t specify a project when creating a job, we’ll now use the value for WANDB_PROJECT from your wandb.init.
+* (Launch) If you don’t specify a project when creating a job, we’ll now use the value for WANDB_PROJECT from your wandb.init().
 * (Launch) Updated support for custom accelerator images—these will run in noninteractive mode when building, which had been blocking some images.
 * (Launch) Fixed issue where the run author for sweeps was the agent service account, rather than the real author
 * (Launch) Clicking outside the Launch drawer will no longer close the drawer automatically.

@@ -1,0 +1,11 @@
+---
+title: Self Managed MySQL データベースの作成
+---
+
+次の SQL コマンドを使用して、データベースとユーザーを作成します。`SOME_PASSWORD` は、任意の強力なパスワードに置き換えてください。
+
+```sql
+CREATE USER 'wandb_local'@'%' IDENTIFIED BY 'SOME_PASSWORD';
+CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
+```

@@ -1,0 +1,71 @@
+---
+title: "Comment puis-je lancer plusieurs runs depuis un seul script ?"
+keywords: ["Experiments"]
+---
+
+Terminez les runs précédents avant d&#39;en démarrer de nouveaux pour journaliser plusieurs runs dans
+un même script.
+
+La méthode recommandée consiste à utiliser `wandb.init()` comme gestionnaire de contexte,
+car cela termine le run et le marque comme ayant échoué si votre script lève une
+exception :
+
+```python
+import wandb
+
+for x in range(10):
+    with wandb.init() as run:
+        for y in range(100):
+            run.log({"metric": x + y})
+```
+
+Vous pouvez également appeler explicitement `run.finish()` :
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+<div id="multiple-active-runs">
+  ## Plusieurs runs actifs
+</div>
+
+À partir de wandb 0.19.10, vous pouvez définir le paramètre `reinit` sur `"create_new"`
+afin de créer plusieurs runs actifs simultanément.
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+Voir [Plusieurs runs par processus](/fr/models/runs/initialize-run)
+pour en savoir plus sur `reinit="create_new"`, y compris les points à prendre en compte concernant les intégrations
+W&amp;B.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

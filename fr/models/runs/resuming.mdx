@@ -1,0 +1,131 @@
+---
+description: "Reprenez des runs W&B en pause, arrêtés ou interrompus à l'aide des options du paramètre `resume` dans `wandb.init()`."
+title: Reprendre un run
+---
+
+Indiquez comment W&amp;B doit réagir si un run s&#39;arrête ou plante en définissant le paramètre `resume` dans `wandb.init()`. Lorsque vous initialisez un run, W&amp;B vérifie si l&#39;ID du run existe déjà et applique le comportement défini par la valeur de `resume`.
+
+Le tableau suivant présente le comportement de W&amp;B en fonction de l&#39;argument transmis au paramètre `resume` et de l&#39;existence ou non de l&#39;ID du run.
+
+| Argument  | Description                                                                                                                                                         | L&#39;ID du run existe                                                                | L&#39;ID du run n&#39;existe pas                                 | Cas d&#39;utilisation                                 |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------- |
+| `"must"`  | W&amp;B doit reprendre le run spécifié par l&#39;ID du run.                                                                                                         | W&amp;B reprend le run avec le même ID du run. Reprend à partir de la dernière étape. | W&amp;B génère une erreur.                                       | Reprendre un run qui doit utiliser le même ID du run. |
+| `"allow"` | Autorise W&amp;B à reprendre le run si l&#39;ID du run existe.                                                                                                      | W&amp;B reprend le run avec le même ID du run. Reprend à partir de la dernière étape. | W&amp;B initialise un nouveau run avec l&#39;ID du run spécifié. | Reprendre un run sans écraser un run existant.        |
+| `"never"` | N&#39;autorise jamais W&amp;B à reprendre un run spécifié par l&#39;ID du run.                                                                                      | Génère une erreur si un run avec l&#39;ID spécifié existe déjà.                       | W&amp;B initialise un nouveau run avec l&#39;ID du run spécifié. |                                                       |
+| `"auto"`  | Autorise W&amp;B à tenter automatiquement de reprendre le run si l&#39;ID du run existe. Redémarrez le run depuis le même répertoire que le processus ayant échoué. | W&amp;B reprend le run avec le même ID du run.                                        | W&amp;B initialise un nouveau run avec l&#39;ID du run spécifié. | Permettre la reprise automatique des runs.            |
+
+<Note>
+  **Quand utiliser `auto` plutôt que `allow`**
+
+  W&amp;B recommande d&#39;utiliser `resume="allow"` et de spécifier l&#39;ID exact du run que vous souhaitez reprendre.
+
+  L&#39;option `resume="auto"` ne vous oblige pas à spécifier d&#39;ID du run, mais elle peut entraîner un comportement inattendu si plusieurs runs échouent dans le même répertoire ou si la structure des répertoires change. Vous devez également vous assurer de redémarrer le run depuis le même répertoire que le processus ayant échoué lorsque vous utilisez `resume="auto"`.
+</Note>
+
+Pour tous les exemples ci-dessous, remplacez les valeurs entre `<>` par les vôtres.
+<Tip>[Voir une démo en direct d&#39;un run repris](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
+
+<div id="resume-a-run-that-must-use-the-same-run-id">
+  ## Reprendre un run en utilisant obligatoirement le même ID du run
+</div>
+
+Si un run s’arrête, plante ou échoue, vous pouvez le reprendre avec le même ID du run. Pour ce faire, initialisez un run et indiquez les éléments suivants :
+
+* Définissez le paramètre `resume` sur `"must"` (`resume="must"`)
+* Fournissez l’ID du run arrêté ou planté
+
+L’extrait de code suivant montre comment procéder avec le SDK Python de W&amp;B :
+
+```python
+with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
+        # Votre code d'entraînement ici
+```
+
+<Warning>
+  Des résultats inattendus peuvent se produire si plusieurs processus utilisent simultanément le même `id`.
+
+  Pour en savoir plus sur la gestion de plusieurs processus, voir [Journaliser les expériences d’entraînement distribué](/fr/models/track/log/distributed-training/)
+</Warning>
+
+<div id="resume-a-run-without-overriding-the-existing-run">
+  ## Reprendre un run sans écraser le run existant
+</div>
+
+Reprenez un run arrêté ou planté sans écraser le run existant. Cela est particulièrement utile si votre processus ne se termine pas correctement. La prochaine fois que vous démarrerez W&amp;B, W&amp;B reprendra la journalisation à partir de la dernière étape.
+
+Définissez le paramètre `resume` sur `"allow"` (`resume="allow"`) lorsque vous initialisez un run avec W&amp;B. Fournissez l’ID du run arrêté ou planté. L’extrait de code suivant montre comment procéder avec le SDK Python de W&amp;B :
+
+```python
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
+        # Votre code d'entraînement ici
+```
+
+<div id="enable-runs-to-automatically-resume">
+  ## Activer la reprise automatique des runs
+</div>
+
+L&#39;extrait de code suivant montre comment activer la reprise automatique des runs avec le SDK Python ou des variables d&#39;environnement.
+
+<Tabs>
+  <Tab title="W&B Python SDK">
+    Passez `auto` comme argument du paramètre `resume` lorsque vous initialisez un run. Veillez à redémarrer le run depuis le même répertoire que le processus ayant échoué.
+
+    Copiez-collez l&#39;extrait de code suivant. Remplacez les valeurs entre `<>` par les vôtres :
+
+    ```python
+    with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="auto") as run:
+            # Votre code d'entraînement ici
+    ```
+  </Tab>
+
+  <Tab title="Script shell">
+    L&#39;exemple suivant montre comment définir la variable W&amp;B `WANDB_RUN_ID` dans un script bash :
+
+    ```bash title="run_experiment.sh"
+    RUN_ID="$1"
+
+    WANDB_RESUME=auto WANDB_RUN_ID="$RUN_ID" python eval.py
+    ```
+
+    Dans votre terminal, vous pouvez exécuter le script shell en lui passant l’ID du run W&amp;B. L&#39;extrait de code suivant transmet l’ID du run `akj172` :
+
+    ```bash
+    sh run_experiment.sh akj172 
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+  La reprise automatique ne fonctionne que si le processus est redémarré sur le même système de fichiers que celui du processus ayant échoué.
+</Warning>
+
+Par exemple, supposons que vous exécutiez un script Python appelé `train.py` dans un répertoire nommé `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Dans `train.py`, le script crée un run avec reprise automatique activée. Supposons ensuite que le script d&#39;entraînement s&#39;arrête. Pour reprendre ce run, vous devez redémarrer votre script `train.py` dans `Users/AwesomeEmployee/Desktop/ImageClassify/training/`.
+
+<Note>
+  Si vous ne pouvez pas utiliser un système de fichiers partagé, spécifiez la variable d&#39;environnement `WANDB_RUN_ID` ou transmettez l’ID du run avec le W&amp;B Python SDK. Voir la section [Custom run IDs](./#custom-run-ids) de la page « What are runs? » pour plus d&#39;informations sur les IDs du run.
+</Note>
+
+<div id="resume-preemptible-sweeps-runs">
+  ## Reprendre les runs Sweeps préemptibles
+</div>
+
+Lorsque vous gérez correctement la préemption, les runs de [sweep](/fr/models/sweeps/) interrompus peuvent être automatiquement remis en file d’attente afin qu’un autre agent puisse les récupérer. Ce mécanisme est particulièrement utile lorsque l’agent de sweep s’exécute dans un environnement préemptible, comme un job SLURM dans une file d’attente préemptible, une instance EC2 Spot ou une VM préemptible sur Google Cloud.
+
+Le comportement décrit ci-dessous s’applique lorsque vous exécutez des agents de sweep avec la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent), qui lance votre programme d’entraînement comme **sous-processus**. Il ne s’applique pas entièrement lorsque vous utilisez uniquement l’API Python [`wandb.agent()`](/fr/models/ref/python/functions/agent), car dans ce cas votre fonction d’entraînement s’exécute dans un thread plutôt que dans un processus distinct, et la réception ainsi que la propagation des signaux du système d’exploitation ne correspondent donc pas au modèle de l’agent CLI.
+
+**Modèle recommandé :** enregistrez un gestionnaire de signal pour le signal de préemption utilisé par votre ordonnanceur ou votre plateforme (par exemple `SIGUSR1` ou `SIGTERM`). Dans ce gestionnaire, appelez [`mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) lorsqu’un run est actif, effectuez tout nettoyage nécessaire (par exemple enregistrer un checkpoint), puis quittez avec un code non nul (une convention courante consiste à utiliser `128 + signum` pour une terminaison par signal). N’appelez **pas** `mark_preempting()` systématiquement juste après `wandb.init()`. Sinon, chaque échec, y compris les bugs dans le code, peut être marqué comme une préemption et le run peut être remis en file d’attente de façon répétée.
+
+Pour des exemples exécutables, l’option `--forward-signals` de l’agent CLI, ainsi qu’un tableau de référence complet pour les différents usages de `mark_preempting()`, voir [Gestion des signaux et runs de sweep](/fr/models/sweeps/signal-handling-sweep-runs).
+
+Lorsque vous suivez ce modèle, W&amp;B enregistre l’état du run à peu près comme suit :
+
+| Scénario                                                                                                                                                                      | État du run                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Le run se termine normalement avec le code de sortie 0                                                                                                                        | FINISHED                                                                       |
+| Le run échoue avec un code de sortie non nul                                                                                                                                  | FAILED                                                                         |
+| Le run reçoit un signal non géré (par exemple `SIGKILL`)                                                                                                                      | CRASHED après environ cinq minutes                                             |
+| Le run reçoit un signal de préemption géré (par exemple `SIGTERM` ou `SIGUSR1`), le gestionnaire appelle `mark_preempting()`, et le processus se termine avec un code non nul | PREEMPTED ; le run est mis en file d’attente pour la prochaine requête d’agent |
+
+Les agents de sweep vident la file d’attente des runs avant que le sweep ne génère de nouvelles combinaisons d’hyperparamètres à partir de l’algorithme de recherche. Une fois la file d’attente vide, le sweep reprend sa planification normale.

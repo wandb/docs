@@ -1,0 +1,111 @@
+---
+title: "자동 LLM 호출 추적 제어"
+description: "W&B Weave가 OpenAI, Anthropic 및 기타 LLM 라이브러리에 대한 call을 자동으로 기록하는 방식을 제어합니다"
+---
+
+애플리케이션에서 LLM 제공업체 라이브러리(예: OpenAI, Anthropic, Cohere, Mistral)를 사용하는 경우, 자동 패치는 Weave가 모든 LLM call을 대신 트레이싱해 주는 방식입니다. `weave.init()`를 호출하면 Weave가 지원되는 LLM 클라이언트 라이브러리를 자동으로 가로채어(패치하여) 처리합니다. 애플리케이션 코드는 바꿀 필요가 없습니다. 평소처럼 제공업체 SDK를 사용하면 각 요청이 Weave Call로 기록됩니다. 최소한의 설정으로 전체 트레이싱을 사용할 수 있습니다.
+
+이 페이지에서는 이 동작을 언제, 어떻게 변경하는지 설명합니다. 자동 추적을 끄거나, 특정 제공업체로 제한하거나, 입력과 출력을 후처리하는 방법(예: PII를 마스킹하는 경우)을 다룹니다.
+
+<div id="default-behavior">
+  ## 기본 동작
+</div>
+
+기본적으로 Weave는 `openai` 및 `anthropic`처럼 널리 사용되는 LLM 라이브러리의 call을 자동으로 패치해 추적합니다. 프로그램 시작 시 `weave.init(...)`를 호출한 뒤 해당 라이브러리를 평소처럼 사용하세요. 그러면 해당 call이 프로젝트의 트레이스에 표시됩니다.
+
+<div id="configure-autopatching">
+  ## 자동 패치 구성
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    <Warning>
+      `autopatch_settings` 인자는 사용 중단되었습니다. 암시적 패치를 비활성화하려면 `implicitly_patch_integrations=False`를 사용하거나, 인테그레이션별 설정을 구성하려면 `patch_openai(settings={...})`와 같은 특정 패치 함수를 호출하세요.
+    </Warning>
+
+    Weave는 기본적으로 지원되는 모든 인테그레이션에 대해 **암시적 자동 패치**를 제공합니다.
+
+    **암시적 패치(자동):** 라이브러리는 임포트 시점과 관계없이 자동으로 패치됩니다.
+
+    ```python lines
+    # 옵션 1: weave.init() 전에 임포트
+    import openai
+    import weave
+    weave.init('your-team-name/your-project-name')  # OpenAI가 자동으로 패치됩니다!
+
+    # 옵션 2: weave.init() 후에 임포트
+    import weave
+    weave.init('your-team-name/your-project-name')
+    import anthropic  # 임포트 훅을 통해 자동으로 패치됩니다!
+    ```
+
+    **암시적 패치 비활성화:** 명시적으로 제어하려면 자동 패치를 비활성화할 수 있습니다.
+
+    ```python lines
+    import weave
+
+    # 옵션 1: settings 파라미터 사용
+    weave.init('your-team-name/your-project-name', settings={'implicitly_patch_integrations': False})
+
+    # 옵션 2: 환경 변수 사용
+    # 스크립트를 실행하기 전에 WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false로 설정
+
+    # 암시적 패치가 비활성화되면 인테그레이션을 명시적으로 패치해야 합니다
+    import openai
+    weave.patch_openai()  # 이제 OpenAI 트레이싱에 필요합니다
+    ```
+
+    **명시적 패치(수동):** 더 세밀하게 제어하려면 인테그레이션을 명시적으로 패치할 수 있습니다.
+
+    ```python lines
+    import weave
+    weave.init('your-team-name/your-project-name')
+    weave.integrations.patch_openai()  # OpenAI 트레이싱 활성화
+    weave.integrations.patch_anthropic()  # Anthropic 트레이싱 활성화
+    ```
+
+    ### 입력과 출력 후처리
+
+    패치 함수에 설정을 전달하면 입력과 출력이 기록되는 방식을 사용자 지정할 수 있습니다(예: PII 또는 비밀 정보를 마스킹).
+
+    ```python lines
+    import weave.integrations
+
+    def redact_inputs(inputs: dict) -> dict:
+        if "email" in inputs:
+            inputs["email"] = "[REDACTED]"
+        return inputs
+
+    weave.init(...)
+    weave.integrations.patch_openai(
+        settings={
+            "op_settings": {"postprocess_inputs": redact_inputs}
+        }
+    )
+    ```
+
+    민감한 데이터 처리에 대한 자세한 내용은 [PII 데이터와 함께 Weave를 사용하는 방법](/ko/weave/cookbooks/pii)을 참조하세요.
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript SDK는 OpenAI와 Anthropic에 대해서만 자동 패치를 지원합니다. OpenAI는 Weave를 임포트하면 자동으로 패치되며, 추가 설정이 필요하지 않습니다.
+
+    또한 TypeScript SDK는 다음을 지원하지 않습니다.
+
+    * 자동 패치의 설정 또는 비활성화
+    * 입력/출력 후처리
+
+    자동 패치가 작동하지 않는 예외적인 경우(ESM, Next.js 같은 번들러)에는 명시적 래핑을 사용하세요.
+
+    ```typescript
+    import OpenAI from 'openai'
+    import * as weave from 'weave'
+    import { wrapOpenAI } from 'weave'
+
+    const client = wrapOpenAI(new OpenAI())
+    await weave.init('your-team-name/your-project-name')
+    ```
+
+    ESM 설정 및 문제 해결에 대한 자세한 내용은 [TypeScript SDK 인테그레이션 가이드](/ko/weave/guides/integrations/js)를 참조하세요.
+  </Tab>
+</Tabs>

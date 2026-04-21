@@ -32,8 +32,8 @@ If an artifact version logs metrics (such as by using `wandb.Run.log_artifact()`
 Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
 </Note> */}
 
-Programmatically link an artifact version to a collection with [`wandb.Run.link_artifact()`](/ref/python/experiments/run#link_artifact") or
-[`wandb.Artifact.link()`](/ref/python/experiments/artifact#method-artifactlink").
+Programmatically link an artifact version to a collection with [`wandb.Run.link_artifact()`](/models/ref/python/experiments/run#link_artifact) or
+[`wandb.Artifact.link()`](/models/ref/python/experiments/artifact#method-artifactlink).
 
 
 <Note>
@@ -131,7 +131,7 @@ artifact.link(target_path = target_path)
     <img src="/images/registry/navigate_to_registry_app.png" alt="W&B Registry UI with project sidebar"  />
     </Frame>
 2. Hover your mouse next to the name of the collection you want to link an artifact version to.
-3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
+3. Select the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu next to **View details**.
 4. From the dropdown, select **Link new version**.
 5. From the sidebar that appears, select the name of a team from the **Team** dropdown.
 5. From the **Project** dropdown, select the name of the project that contains your artifact. 

@@ -1,0 +1,52 @@
+---
+title: wandb pull
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3095" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+pull [OPTIONS] RUN
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Téléchargez des fichiers à partir d’un run W&amp;B.
+
+Récupérez tous les fichiers associés au run spécifié. Ignorez les fichiers qui existent déjà
+localement avec le même contenu. Créez des sous-répertoires si nécessaire pour
+reproduire la structure des fichiers dans W&amp;B.
+
+Utilisez l’ID du run pour identifier le run et, si nécessaire, indiquez le projet
+et l’entité s’ils ne sont pas inclus dans l’argument run.
+
+Par exemple, pour télécharger des fichiers à partir d’un run avec l’ID &quot;abcd1234&quot; dans le projet &quot;foobar&quot;
+et l’entité &quot;team-awesome&quot; :
+
+```bash
+wandb pull -p foobar -e team-awesome abcd1234
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom   | Par défaut | Type |
+| ----- | ---------- | ---- |
+| `run` | STR        | True |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag            | Type | Description                                                                                                                                                                                    |
+| --------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p` | STR  | Le projet contenant le run à partir duquel extraire les fichiers. **Par défaut** : None                                                                                                        |
+| `--entity, -e`  | STR  | L’entité propriétaire du projet. Par défaut, elle prend la valeur de la variable d’environnement WANDB&#95;ENTITY ou de l’entité par défaut si elle n’est pas définie. **Par défaut** : models |

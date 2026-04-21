@@ -1,0 +1,29 @@
+---
+title: wandb beta core start
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L281" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+start [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Démarrer un service wandb-core en arrière-plan.
+
+<div id="options">
+  ## Options
+</div>
+
+| Option           | Type | Description                                                                                                                                                                                                       |
+| ---------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--idle-timeout` | STR  | Arrête wandb-core après cette durée d&#39;inactivité sans client connecté. Utilise la syntaxe de durée de Go, par exemple 30s, 10m ou 0 pour désactiver l&#39;arrêt en cas d&#39;inactivité. **Par défaut** : 10m |

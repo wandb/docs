@@ -130,22 +130,24 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 ### Article structure and footers
 
-- **`parse_frontmatter`**, **`_extract_body`** split YAML front matter and main body. `_extract_body` uses `_BADGE_START` as the boundary and trims a trailing `---` line cosmetically.
+- **`parse_frontmatter`**, **`_extract_body`** split YAML front matter and main body. `_extract_body` uses `_BADGE_START_RE` to locate the boundary and trims a trailing `---` line cosmetically.
 - **`_split_frontmatter_raw`** splits the raw MDX into the front matter block and the remainder for footer rewriting.
 - **`_normalize_keywords`** coerces `keywords` front matter to a list of strings (YAML list; a single string becomes one tag with a warning; other types warn and become an empty list).
 - **`_keywords_list_for_footer`** returns normalized `keywords` for footer generation (delegates to **`_normalize_keywords`**).
-- **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implement surgical tab-Badge sync. Managed Badges are enclosed in `_BADGE_START` / `_BADGE_END` marker comments; the function matches markers when present and falls back to regex for pre-marker articles. New footers append a blank line, markers, and Badges.
+- **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implement surgical tab-Badge sync. Managed Badges are located via `_BADGE_START_RE` / `_BADGE_END_RE`; the function falls back to regex for pre-marker articles. New footers append a blank line, canonical markers, and Badges.
 - **`sync_support_article_footer`**, **`sync_all_support_article_footers`** write article files when tab Badges are out of date with `keywords`.
 
 ### Body previews (Card snippets)
 
 - **`plain_text`** strips Markdown (including horizontal rules), links, URLs, HTML or MDX tags, and similar so previews stay plain text (U+00A0 to space after entity decode, typographic quotes mapped to ASCII, allowlist keeps `_` and `=` for identifiers).
 - **`extract_body_preview`** applies `plain_text`, truncates to `BODY_PREVIEW_MAX_LENGTH`, and adds `BODY_PREVIEW_SUFFIX` when needed.
+- **`_card_text_from_frontmatter_field`** extracts a usable string from a single front matter key (`docengineDescription` or `description`): returns `None` when the field is missing, not a string, or empty after processing. Processing strips one outer pair of wrapping quotes and collapses internal newlines to a single space.
+- **`resolve_body_preview`** resolves the Card preview text using a three-level hierarchy: `docengineDescription` first, then `description`, then `extract_body_preview(body)`. Frontmatter overrides are not passed through `plain_text` or truncation.
 
 ### Slugs and crawling
 
 - **`tag_slug`** maps a display keyword to a filename or URL segment (lowercase, hyphenated).
-- **`crawl_articles`** walks `support/<slug>/articles/*.mdx` and builds article dicts (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, and others).
+- **`crawl_articles`** walks `support/<slug>/articles/*.mdx` and builds article dicts (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, and others). The `body_preview` field is resolved by `resolve_body_preview` from `docengineDescription`, `description`, or the article body.
 
 ### Tag aggregation and featured content
 
@@ -162,8 +164,8 @@ Functions are grouped below the way they appear in the source file. Names refer 
 ### Site-wide updates
 
 - **`update_docs_json`** updates or creates hidden `Support: <display_name>` tabs under `navigation.languages` where `language` is `en`, setting `pages` to the product index plus sorted tag paths.
-- **`update_support_index`** updates count lines on product Cards in root `support.mdx`. Prefers `{/* auto-generated counts */}` markers; falls back to regex for migration.
-- **`update_support_featured`** regenerates the featured-articles section between `_FEATURED_START` / `_FEATURED_END` markers in root `support.mdx`.
+- **`update_support_index`** updates count lines on product Cards in root `support.mdx`. Locates markers via `_COUNTS_START_RE` / `_COUNTS_END_RE`; falls back to a bare count-line pattern for migration.
+- **`update_support_featured`** regenerates the featured-articles section in root `support.mdx`, locating the block via `_FEATURED_START_RE` / `_FEATURED_END_RE`.
 
 ### CLI
 
@@ -173,16 +175,18 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 - **`BODY_PREVIEW_MAX_LENGTH`** and **`BODY_PREVIEW_SUFFIX`** control Card preview length and ellipsis.
 - **`DOCS_JSON_NAV_LANGUAGE`** is `"en"` and scopes navigation edits to the English tree only.
-- **`_BADGE_START`** / **`_BADGE_END`** are the MDX comment markers that wrap managed tab Badges on each article page.
-- **`_FEATURED_START`** / **`_FEATURED_END`** are the MDX comment markers that wrap the featured-articles section in root `support.mdx`.
+- **`_make_markers(keyword)`** generates the four constants below for each managed section: canonical start/end strings for writing and compiled `re.Pattern` objects for reading.
+- **`_BADGE_START`** / **`_BADGE_END`** — canonical `{/* AUTO-GENERATED: tab badges */}` strings written to article files. **`_BADGE_START_RE`** / **`_BADGE_END_RE`** — patterns used to locate the block (case-insensitive, colon optional, keyword anywhere in the comment).
+- **`_COUNTS_START`** / **`_COUNTS_END`** — canonical `{/* AUTO-GENERATED: counts */}` strings written to `support.mdx`. **`_COUNTS_START_RE`** / **`_COUNTS_END_RE`** — patterns used inside the Card-anchored structural pattern that locates and replaces count lines.
+- **`_FEATURED_START`** / **`_FEATURED_END`** — canonical `{/* AUTO-GENERATED: featured articles */}` strings written to `support.mdx`. **`_FEATURED_START_RE`** / **`_FEATURED_END_RE`** — patterns used to locate the featured-articles block.
 
 ## Design choices
 
 - **Monolithic script**: one file holds all logic so the workflow and contributors have a single place to read and change behavior.
 - **Allowed keywords**: `config.yaml` lists valid tags per product; unknown tags still generate pages but emit warnings so content is never dropped silently.
-- **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. These are wrapped in marker comments so the generator does not need regex matching after migration. The `---` line between body and badges is cosmetic; `_extract_body` uses `_BADGE_START` as the boundary and trims a trailing `---` only as cleanup.
+- **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. These are wrapped in marker comments located by `_BADGE_START_RE` / `_BADGE_END_RE`. The `---` line between body and badges is cosmetic; `_extract_body` uses `_BADGE_START_RE` as the boundary and trims a trailing `---` only as cleanup.
 - **Stale tag cleanup**: tag pages that no longer correspond to any article keyword are deleted after generation, before `docs.json` is updated. This keeps the tags directory and navigation free of orphaned entries.
-- **Marker-based editing**: all auto-generated sections (article tab Badges, `support.mdx` count lines, and featured articles) use MDX comment markers. This makes managed regions visible to writers and lets the generator replace content precisely without fragile regex anchors. Each marker pair has a migration path that wraps bare content on first run.
+- **Marker-based editing**: all auto-generated sections (article tab Badges, `support.mdx` count lines, and featured articles) use MDX comment markers generated by `_make_markers`. Matching is case-insensitive with an optional colon, and the keyword can appear anywhere inside the comment, so authors can freely annotate markers without breaking the generator. Each marker pair has a migration path that wraps bare content on first run.
 - **Golden tests**: compare generated tag pages, product index pages, article files (including footer markers), support tabs in `docs.json`, and root `support.mdx` to the committed tree so output drift is visible as a unified diff.
 
 ## Related reading

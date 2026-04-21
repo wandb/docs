@@ -1,6 +1,6 @@
 ---
 title: W&B Mobile App (iOS)
-description: Track training runs, view line plots, and explore your W&B Models projects from your iPhone or iPad.
+description: Track training runs, view line plots, search project panels with regular expressions, and explore your W&B Models projects from your iPhone or iPad.
 ---
 
 <Columns cols={4}>
@@ -18,7 +18,7 @@ description: Track training runs, view line plots, and explore your W&B Models p
   </Frame>
 </Columns>
 
-The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. Track training runs in real time, view line plots, explore your projects' histories, and follow your team's progress—all from your iPhone or iPad.
+The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. From your iPhone or iPad, track training runs in real time, view line plots, explore project histories, and follow your team's progress.
 
 <Info>
 The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) accounts. It is not available for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments.
@@ -37,6 +37,7 @@ The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/host
 
 - **Track training runs**: View run status, metrics, and line plots in real time.
 - **Explore project history**: Browse and search across your W&B projects. Metric charts on **project panels** include data from **all runs** in the project, not only the latest run.
+- **Search project panels**: Use the **panel search** field to filter which runs appear in each chart. You can search with [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) to match patterns in run names.
 - **Switch teams**: Use the **team picker** to change teams. The picker uses an updated layout for quicker navigation.
 - **Stay informed**: Get updates on your experiments without opening your laptop using notifications. **Remove alerts** you no longer need from the **Notifications** tab by swiping them away.
 
@@ -54,7 +55,7 @@ You can configure notifications in two ways:
 **Run failure alerts**
 
 1. Navigate to a project.
-2. Tap the three-dot menu on the top-right.
+2. Tap the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu on the top-right.
 3. Select **Run failed alert** to receive notifications for future run failures in that project.
 
 The **Manage notifications** screen lists both kinds of settings in one place, with short descriptions that explain what each section controls.

@@ -1,0 +1,61 @@
+---
+title: "Aperçu de l’API"
+description: "Consultez la référence complète de l’API REST du service W&B Inference, y compris les endpoints et l’authentification."
+---
+
+Découvrez comment utiliser la API W&amp;B Inference pour accéder par programmation à des modèles fondamentaux.
+
+<div id="base-url">
+  ## URL de base
+</div>
+
+Accédez au service d’Inférence à :
+
+```plaintext
+https://api.inference.wandb.ai/v1
+```
+
+<Note>
+  **Important**
+
+  Pour utiliser cet endpoint, il vous faut :
+
+  * Un compte W&amp;B avec des crédits Inference
+  * Une clé API W&amp;B valide
+
+  Si vous appartenez à plus d’une team ou souhaitez associer votre utilisation à un projet, vous aurez également besoin des ID de la team et du projet. Dans les exemples de code, ils apparaissent sous la forme `<your-team>/<your-project>`. À défaut, votre entité par défaut et le projet `inference` seront utilisés.
+</Note>
+
+<div id="available-methods">
+  ## Méthodes disponibles
+</div>
+
+L’API W&amp;B Inference fournit des endpoints compatibles avec OpenAI pour interagir avec des modèles fondamentaux :
+
+* **[Chat Completions](/fr/inference/api-reference/chat-completions)** - Créez des complétions de chat à l’aide de divers modèles fondamentaux
+* **[List Models](/fr/inference/api-reference/list-models)** - Obtenez tous les modèles disponibles et leurs ID
+
+<div id="authentication">
+  ## Authentification
+</div>
+
+Toutes les requêtes API nécessitent une authentification à l’aide de votre clé API W&amp;B. Créez une clé API sur [wandb.ai/settings](https://wandb.ai/settings).
+
+Incluez votre clé API dans les en-têtes de la requête :
+
+* Pour OpenAI SDK : définissez-la via le paramètre `api_key`
+* Pour les appels API directs : utilisez `Authorization: Bearer <your-api-key>`
+
+<div id="error-handling">
+  ## Gestion des erreurs
+</div>
+
+Voir [Erreurs de l’API](/fr/support/inference) pour obtenir la liste complète des codes d’erreur et savoir comment les résoudre.
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+* Essayez les [exemples d&#39;utilisation](/fr/inference/examples) pour voir l&#39;API à l&#39;œuvre
+* Explorez les modèles dans l&#39;[UI](/fr/inference/ui-guide)
+* Consultez les [limites d&#39;utilisation](/fr/inference/usage-limits) de votre compte

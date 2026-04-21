@@ -3,9 +3,9 @@ title: Learn Weave with W&B Inference
 description: "Learn Weave fundamentals using W&B Inference to trace model calls, compare outputs, and run evaluations."
 ---
 
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prereqs.mdx";
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/_includes/weave-quickstart-prereqs.mdx";
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
 <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
@@ -268,7 +268,7 @@ class InferenceModel(weave.Model):
 
 # Create instances for different models
 llama_model = InferenceModel(model_name="meta-llama/Llama-3.1-8B-Instruct")
-deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3-0324")
+deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3.1")
 
 # Compare their responses
 test_question = "Explain quantum computing in one paragraph for a high school student."
@@ -308,7 +308,7 @@ function createModel(modelName: string) {
 
 // Create instances for different models
 const llamaModel = createModel('meta-llama/Llama-3.1-8B-Instruct');
-const deepseekModel = createModel('deepseek-ai/DeepSeek-V3-0324');
+const deepseekModel = createModel('deepseek-ai/DeepSeek-V3.1');
 
 // Compare their responses
 const testQuestion = 'Explain quantum computing in one paragraph for a high school student.';
@@ -493,7 +493,7 @@ async function evaluateModel(
 // Compare multiple models - a key feature of Weave's evaluation framework
 const modelsToCompare = [
   { model: llamaModel, name: 'meta-llama/Llama-3.1-8B-Instruct' },
-  { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3-0324' },
+  { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3.1' },
 ];
 
 for (const { model, name } of modelsToCompare) {

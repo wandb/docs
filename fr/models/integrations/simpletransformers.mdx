@@ -1,0 +1,129 @@
+---
+description: Comment intégrer W&B à la bibliothèque Transformers de Hugging Face.
+title: Hugging Face Simple Transformers
+---
+
+Cette bibliothèque s’appuie sur la bibliothèque Transformers de Hugging Face. Simple Transformers vous permet d’entraîner et d’évaluer rapidement des modèles Transformer. Seules 3 lignes de code suffisent pour initialiser un modèle, l’entraîner et l’évaluer. Elle prend en charge la Classification de séquences, la Classification de tokens (NER), les Questions-réponses, le Fine-tuning de modèles de langage, l’entraînement de modèles de langage, la génération de langage, le modèle T5, les tâches Seq2Seq, la Classification multimodale et l’IA conversationnelle.
+
+Pour utiliser W&amp;B afin de visualiser l’entraînement du modèle, définissez un nom de projet W&amp;B dans l’attribut `wandb_project` du dictionnaire `args`. Cela consigne toutes les valeurs d’hyperparamètres, les pertes d’entraînement et les métriques d’évaluation dans le projet indiqué.
+
+```python
+model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
+```
+
+Tout argument supplémentaire à transmettre à `wandb.init()` peut être passé via `wandb_kwargs`.
+
+<div id="structure">
+  ## Structure
+</div>
+
+La bibliothèque est conçue avec une classe distincte pour chaque tâche de NLP. Les classes qui offrent des fonctionnalités similaires sont regroupées.
+
+* `simpletransformers.classification` - Comprend tous les modèles de Classification.
+  * `ClassificationModel`
+  * `MultiLabelClassificationModel`
+* `simpletransformers.ner` - Comprend tous les modèles de reconnaissance d&#39;entités nommées.
+  * `NERModel`
+* `simpletransformers.question_answering` - Comprend tous les modèles de Questions-réponses.
+  * `QuestionAnsweringModel`
+
+Voici quelques exemples simples
+
+<div id="multilabel-classification">
+  ## Classification multi-étiquette
+</div>
+
+```text
+  model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
+    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
+                'wandb_project': "simpletransformers"},
+  )
+   # Entraîner le modèle
+  model.train_model(train_df)
+
+  # Évaluer le modèle
+  result, model_outputs, wrong_predictions = model.eval_model(eval_df)
+```
+
+
+<div id="question-answering">
+  ## Questions-réponses
+</div>
+
+```text
+  train_args = {
+    'learning_rate': wandb.config.learning_rate,
+    'num_train_epochs': 2,
+    'max_seq_length': 128,
+    'doc_stride': 64,
+    'overwrite_output_dir': True,
+    'reprocess_input_data': False,
+    'train_batch_size': 2,
+    'fp16': False,
+    'wandb_project': "simpletransformers"
+}
+
+model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train_args)
+model.train_model(train_data)
+```
+
+SimpleTransformers fournit des classes ainsi que des scripts d’entraînement pour toutes les tâches courantes de traitement du langage naturel. Voici la liste complète des arguments globaux pris en charge par la bibliothèque, ainsi que leurs valeurs par défaut.
+
+```text
+global_args = {
+  "adam_epsilon": 1e-8,
+  "best_model_dir": "outputs/best_model",
+  "cache_dir": "cache_dir/",
+  "config": {},
+  "do_lower_case": False,
+  "early_stopping_consider_epochs": False,
+  "early_stopping_delta": 0,
+  "early_stopping_metric": "eval_loss",
+  "early_stopping_metric_minimize": True,
+  "early_stopping_patience": 3,
+  "encoding": None,
+  "eval_batch_size": 8,
+  "evaluate_during_training": False,
+  "evaluate_during_training_silent": True,
+  "evaluate_during_training_steps": 2000,
+  "evaluate_during_training_verbose": False,
+  "fp16": True,
+  "fp16_opt_level": "O1",
+  "gradient_accumulation_steps": 1,
+  "learning_rate": 4e-5,
+  "local_rank": -1,
+  "logging_steps": 50,
+  "manual_seed": None,
+  "max_grad_norm": 1.0,
+  "max_seq_length": 128,
+  "multiprocessing_chunksize": 500,
+  "n_gpu": 1,
+  "no_cache": False,
+  "no_save": False,
+  "num_train_epochs": 1,
+  "output_dir": "outputs/",
+  "overwrite_output_dir": False,
+  "process_count": cpu_count() - 2 if cpu_count() > 2 else 1,
+  "reprocess_input_data": True,
+  "save_best_model": True,
+  "save_eval_checkpoints": True,
+  "save_model_every_epoch": True,
+  "save_steps": 2000,
+  "save_optimizer_and_scheduler": True,
+  "silent": False,
+  "tensorboard_dir": None,
+  "train_batch_size": 8,
+  "use_cached_eval_features": False,
+  "use_early_stopping": False,
+  "use_multiprocessing": True,
+  "wandb_kwargs": {},
+  "wandb_project": None,
+  "warmup_ratio": 0.06,
+  "warmup_steps": 0,
+  "weight_decay": 0,
+}
+```
+
+Consultez la documentation plus détaillée sur [simpletransformers sur GitHub](https://github.com/ThilinaRajapakse/simpletransformers).
+
+Consultez [ce rapport W&amp;B](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA), qui présente l’entraînement de transformers sur quelques-uns des jeux de données de référence GLUE les plus populaires. [Essayez-le vous-même sur Colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).

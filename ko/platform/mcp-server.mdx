@@ -1,0 +1,334 @@
+---
+title: W&B MCP Server 사용
+description: "IDE 또는 AI 에이전트를 W&B Model Context Protocol (MCP) 서버에 연결해 워크스페이스 데이터와 문서에 액세스하세요."
+---
+
+import McpConfig from '/snippets/ko/_includes/mcp-config.mdx';
+
+Model Context Protocol (MCP)을 사용하면 LLM 에이전트가 토큰 비용을 최소화하면서 데이터를 효율적으로 쿼리하고 분석할 수 있습니다. 이 페이지에서는 IDE 또는 MCP 클라이언트에서 W&amp;B MCP 서버를 사용해 W&amp;B 데이터를 쿼리하고 분석하는 방법과, 클라이언트가 W&amp;B 문서에 프로그래밍 방식으로 액세스할 수 있도록 하여 W&amp;B 관련 쿼리에 대해 더 정확한 응답을 생성하게 하는 방법을 설명합니다.
+
+다음을 포함한 대부분의 IDE, 코딩 클라이언트, 채팅 에이전트와 기본적으로 통합됩니다.
+
+* Cursor
+* Visual Studio Code (VS Code)
+* Claude Code
+* Codex
+* Gemini CLI
+* Mistral LeChat
+* Claude Desktop
+
+W&amp;B MCP 서버는 [호스팅](#use-w\&b’s-remote-mcp-server) 및 [로컬](#set-up-a-local-version-of-the-w\&b-mcp-server) 버전을 지원합니다. 호스팅 버전은 [W&amp;B Dedicated Cloud deployments](/ko/platform/hosting/hosting-options/dedicated-cloud)만 지원합니다. 로컬 버전은 Dedicated Cloud와 [Self-Managed deployments](/ko/platform/hosting/hosting-options/self-managed)를 모두 지원합니다.
+
+<div id="wb-mcp-server-capabilities">
+  ## W&amp;B MCP 서버 기능
+</div>
+
+MCP 서버를 사용해 실험을 분석하고, 트레이스를 디버그하고, Reports를 만들고, 애플리케이션을 W&amp;B 기능과 통합하는 데 필요한 도움을 받을 수 있습니다.
+
+다음 예시 프롬프트는 MCP 서버에 연결되었을 때 에이전트가 수행할 수 있는 작업 유형의 일부를 보여줍니다:
+
+* your-team-name/your-project-name에서 eval/accuracy 기준 상위 5개 run을 보여줘?
+* 지난 몇 달 동안 내 채용 에이전트의 predict 트레이스 지연 시간은 어떻게 변화해 왔나요?
+* 지난달 채용 에이전트가 내린 결정을 비교하는 wandb 리포트를 생성해줘.
+* Weave에서 리더보드를 만들려면 어떻게 해야 하나요? - SupportBot에 물어보세요?
+
+<div id="available-tools">
+  ### 사용 가능한 도구
+</div>
+
+W&amp;B MCP 서버는 에이전트에 다음 도구에 대한 액세스를 제공합니다:
+
+| Tool                                        | 설명                                | 예시 쿼리                                |
+| ------------------------------------------- | --------------------------------- | ------------------------------------ |
+| **query&#95;wandb&#95;tool**                | W&amp;B run, 메트릭, 실험을 쿼리 | *&quot;loss가 0.1 미만인 run을 보여줘&quot;* |
+| **query&#95;weave&#95;traces&#95;tool**     | LLM 트레이스 및 평가 분석         | *&quot;평균 지연 시간은 얼마야?&quot;*         |
+| **count&#95;weave&#95;traces&#95;tool**     | 트레이스 수를 세고 저장소 메트릭 조회             | *&quot;실패한 트레이스는 몇 개야?&quot;*        |
+| **create&#95;wandb&#95;report&#95;tool**    | W&amp;B Reports를 프로그래밍 방식으로 생성    | *&quot;성능 리포트를 생성해줘&quot;*           |
+| **query&#95;wandb&#95;entity&#95;projects** | entity의 프로젝트 목록 조회                | *&quot;어떤 프로젝트가 있나요?&quot;*          |
+| **query&#95;wandb&#95;support&#95;bot**     | W&amp;B 문서에서 도움 받기                | *&quot;Sweeps는 어떻게 사용하나요?&quot;*     |
+
+<div id="use-wbs-remote-mcp-server">
+  ## W&amp;B의 원격 MCP 서버 사용
+</div>
+
+W&amp;B는 설치 없이 사용할 수 있는 호스팅 MCP 서버를 `https://mcp.withwandb.com`에서 제공합니다. 다음 지침에서는 다양한 AI 어시스턴트와 IDE에서 이 호스팅 서버를 설정하는 방법을 설명합니다.
+
+<div id="prerequisites">
+  ### 사전 요구 사항
+</div>
+
+* W&amp;B Dedicated Cloud 배포.
+* W&amp;B API 키. [wandb.ai/authorize](https://wandb.ai/authorize)에서 새로 생성할 수 있습니다.
+* 키를 `WANDB_API_KEY`라는 이름의 환경 변수로 설정합니다.
+
+<div id="configure-your-mcp-client">
+  ### MCP 클라이언트 설정
+</div>
+
+MCP 클라이언트 안내가 있는 탭을 선택하세요:
+
+<Tabs>
+  <Tab title="Cursor">
+    Cursor에서 [원클릭 설치 링크](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb\&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=)를 사용해 W&amp;B 서버를 자동으로 설치할 수 있습니다(`Authorization` 필드에 `Bearer <your-wandb-api-key>`를 추가해야 함). 또는 아래 지침에 따라 수동으로 설치할 수도 있습니다:
+
+    1. macOS에서는 **Cursor** 메뉴를 열고 **Settings**를 선택한 다음 **Cursor Settings**를 선택합니다. Windows 또는 Linux에서는 **Preferences** 메뉴를 열고 **Settings**를 선택한 다음 **Cursor Settings**를 선택합니다.
+    2. Cursor Settings 메뉴에서 **Tools and MCP**를 선택합니다. 그러면 Tools 메뉴가 열립니다.
+    3. Installed MCP Servers 섹션에서 **Add Custom MCP**를 선택합니다. 그러면 `mcp.json` 설정 파일이 열립니다.
+    4. 설정 파일의 `mcpServers` JSON 객체에 다음 `wandb` 객체를 추가합니다:
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "transport": "http",
+          "url": "https://mcp.withwandb.com/mcp",
+          "headers": {
+            "Authorization": "Bearer <your-wandb-api-key>",
+            "Accept": "application/json, text/event-stream"
+          }
+        }
+      }
+    }
+    ```
+
+    5. 변경 사항을 적용하려면 Cursor를 다시 시작합니다.
+    6. &quot;내 W&amp;B 계정의 Projects 목록을 보여줘.&quot;라는 프롬프트를 입력해 채팅 agent가 W&amp;B MCP 서버에 액세스할 수 있는지 확인합니다.
+
+    더 자세한 내용은 [Cursor 문서](https://cursor.com/docs/context/mcp)를 참조하세요.
+  </Tab>
+
+  <Tab title="Claude Code">
+    W&amp;B MCP 서버를 Claude Code에 추가하려면 아래 명령어의 `Authorization` 헤더를 W&amp;B API 키로 업데이트한 다음, 터미널에서 실행하세요:
+
+    ```bash
+    claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
+      --header "Authorization: Bearer <your-wandb-api-key>"
+    ```
+
+    전역 설정을 하려면 `--scope user`를 추가하고, 현재 프로젝트에만 설정하려면 생략하세요.
+
+    자세한 내용은 [Claude Code 문서](https://docs.anthropic.com/en/docs/claude-code/mcp)를 참조하세요.
+  </Tab>
+
+  <Tab title="Codex">
+    W&amp;B MCP 서버를 Codex에 추가하려면, 다음 명령어에서 `--bearer-token-env-var` 인자 값을 W&amp;B API 키가 포함된 환경 변수로 바꾼 후 터미널에서 실행하세요:
+
+    ```bash
+    export WANDB_API_KEY=<your-wandb-api-key>
+    codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
+    ```
+  </Tab>
+
+  <Tab title="OpenAI">
+    W&amp;B MCP 서버를 OpenAI 호출에 추가하려면 OpenAI Responses 설정의 `tools` 필드에 서버 정보를 추가하세요:
+
+    ```python
+    from openai import OpenAI
+    import os
+
+    client = OpenAI()
+
+    resp = client.responses.create(
+        model="gpt-4o",
+        tools=[{
+            "type": "mcp",
+            "server_label": "wandb",
+            "server_description": "Query W&B data",
+            "server_url": "https://mcp.withwandb.com/mcp",
+            "authorization": os.getenv("<your-wandb-api-key>"),
+            "require_approval": "never",
+        }],
+        input="List the projects in my W&B account.",
+    )
+
+    print(resp.output_text)
+    ```
+  </Tab>
+
+  <Tab title="Gemini CLI">
+    W&amp;B MCP 서버를 Gemini CLI에 추가하려면 다음 단계를 따르세요.
+
+    1. 명령어 하나로 W&amp;B MCP 확장 프로그램을 설치합니다.
+
+       ```bash
+       # 확장 프로그램 설치
+       gemini extensions install https://github.com/wandb/wandb-mcp-server
+       ```
+
+    2. 설치가 완료되면 Gemini CLI를 다시 시작합니다.
+
+    3. &quot;내 W&amp;B 계정의 Projects를 나열해 줘.&quot;라는 프롬프트를 입력해 채팅 에이전트가 W&amp;B MCP 서버에 액세스할 수 있는지 확인합니다.
+
+    더 자세한 내용은 [Gemini 문서](https://geminicli.com/docs/tools/mcp-server/)를 참조하세요.
+  </Tab>
+
+  <Tab title="Mistral LeChat">
+    W&amp;B MCP 서버를 Mistral LeChat에 추가하려면:
+
+    1. **Intelligence** 메뉴에서 **Add Connector**를 선택해 Connector 창을 엽니다.
+
+    2. **Custom MCP Connector** 탭을 선택합니다.
+
+    3. 다음 값으로 필드를 설정합니다.
+       * **Connector Server**: `https://mcp.withwandb.com/mcp`
+       * **Description**: (선택) 연결에 대한 짧은 임의의 설명입니다.
+       * **Authentication Method**: **API Token Authentication**을 선택합니다. 그러면 추가 필드가 표시됩니다.
+       * **Header name**: 기본값인 **Authorization**을 그대로 둡니다.
+       * **Header type**: **Bearer**를 선택합니다.
+       * **Header value**: W&amp;B API 토큰을 입력합니다.
+
+    4. 모든 필드 설정을 마치면 **Create**를 선택합니다. LeChat이 MCP 서버를 설정에 추가합니다.
+
+    5. &quot;List the projects in my W&amp;B account.&quot; 프롬프트를 입력해 채팅 에이전트가 W&amp;B MCP 서버에 액세스할 수 있는지 확인합니다.
+
+    더 자세한 내용은 [LeChat 문서](https://mistral.ai/news/le-chat-mcp-connectors-memories)를 참조하세요.
+  </Tab>
+</Tabs>
+
+<div id="set-up-a-local-version-of-the-wb-mcp-server">
+  ## W&amp;B MCP 서버의 로컬 버전 설정하기
+</div>
+
+W&amp;B Self-Managed 배포 환경, 개발, 테스트 또는 폐쇄망 환경에서 MCP server를 로컬에서 실행해야 하는 경우, 사용 중인 머신에 이를 설치해 실행할 수 있습니다.
+
+<div id="prerequisites">
+  ### 사전 요구 사항
+</div>
+
+* W&amp;B API 키. [wandb.ai/authorize](https://wandb.ai/authorize)에서 새로 생성할 수 있습니다.
+* 키를 `WANDB_API_KEY`라는 이름의 환경 변수로 설정합니다.
+* [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우 `WANDB_BASE_URL` 환경 변수를 설정합니다.
+* Python 3.10 이상
+* [uv](https://docs.astral.sh/uv/) (권장) 또는 pip
+
+[설치 지침](https://docs.astral.sh/uv/getting-started/installation/)은 uv 문서를 참조하세요.
+
+<div id="install-and-configure-the-mcp-server">
+  ### MCP 서버 설치 및 설정
+</div>
+
+로컬에 MCP 서버를 설치하려면:
+
+로컬 머신에 W&amp;B MCP 서버를 설치하려면 다음 설치 명령어 중 하나를 사용하세요:
+
+<Tabs>
+  <Tab title="uv">`bash uv pip install wandb-mcp-server `</Tab>
+  <Tab title="pip">`bash pip install wandb-mcp-server `</Tab>
+  <Tab title="GitHub에서 직접 설치">`bash pip install git+https://github.com/wandb/wandb-mcp-server `</Tab>
+</Tabs>
+
+MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이언트를 설정하세요. 계속하려면 MCP 클라이언트를 선택하세요:
+
+<Tabs>
+  <Tab title="Cursor">
+    다음 내용을 `mcp.json` 설정에 추가하세요:
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "command": "uvx",
+          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
+          "env": {
+            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="VS Code">
+    다음 내용을 `.vscode/mcp.json` 또는 전역 MCP 설정에 추가하세요:
+
+    ```json
+    {
+      "servers": {
+        "wandb": {
+          "command": "uvx",
+          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
+          "env": {
+            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Claude Code">
+    터미널에서 다음 명령어를 실행하세요. 전역 설정을 하려면 `--scope user`를 추가하고, 현재 프로젝트에만 설정하려면 생략하세요.
+
+    ```bash
+    claude mcp add wandb \
+      -e WANDB_API_KEY=your-api-key \
+      -e WANDB_BASE_URL=https://your-wandb-instance.example.com \
+      -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+    ```
+  </Tab>
+
+  <Tab title="Codex">
+    터미널에서 다음 명령어를 실행하세요:
+
+    ```bash
+    codex mcp add wandb \
+      --env WANDB_API_KEY=your_api_key_here \
+      --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
+      -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+    ```
+  </Tab>
+
+  <Tab title="Claude Desktop">
+    텍스트 편집기에서 Claude 설정 파일을 여세요. OS별 설정 파일 위치는 다음과 같습니다:
+
+    * **macOS**: ~/Library/Application\ Support/Claude/claude&#95;desktop&#95;config.json
+    * **Windows**: %APPDATA%\Claude\claude&#95;desktop&#95;config.json
+
+    Claude 설정 파일의 JSON 객체에 다음 내용을 추가하세요. 그렇지 않으면 Claude Desktop이 `uvx` 설치를 찾지 못할 수 있으므로 `uvx`의 전체 경로를 사용하세요.
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "command": "/full/path/to/uvx",
+          "args": ["--from", "git+https://github.com/wandb/wandb-mcp-server", "wandb_mcp_server"],
+          "env": {
+            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+          }
+        }
+      }
+    }
+    ```
+
+    새 설정을 적용하려면 Claude Desktop을 다시 시작하세요.
+  </Tab>
+</Tabs>
+
+웹 기반 클라이언트 또는 테스트용으로는 HTTP 전송을 사용해 서버를 실행하세요:
+
+```bash
+uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
+```
+
+OpenAI와 같은 외부 클라이언트가 로컬 서버에 접근할 수 있도록 하려면 ngrok을 사용하세요:
+
+````bash
+uvx wandb_mcp_server --transport http --port 8080
+
+# 다른 터미널에서 ngrok으로 노출하기
+ngrok http 8080
+    ```
+
+If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
+````
+
+<div id="usage-tips">
+  ## 사용 팁
+</div>
+
+* **W&amp;B 프로젝트와 entity 이름을 제공하세요**: 정확한 결과를 위해 쿼리에 W&amp;B entity와 프로젝트를 지정하세요.
+* **지나치게 광범위한 질문은 피하세요**: &quot;내 최고의 평가는 무엇인가요?&quot; 대신 &quot;어떤 eval이 가장 높은 f1 score를 기록했나요?&quot;라고 질문하세요.
+* **데이터 조회를 확인하세요**: &quot;가장 성능이 좋은 run은 무엇인가요?&quot;처럼 범위가 넓은 질문을 할 때는, 어시스턴트가 사용 가능한 모든 run을 조회했는지 확인하도록 하세요.

@@ -138,7 +138,7 @@ llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for la
 
 ## Configuration
 
-Upon calling `weave.init`, tracing is enabled by setting the environment variable `WEAVE_TRACE_LANGCHAIN` to `"true"`. This allows Weave to automatically capture traces for your LangChain applications. If you wish to disable this behavior, set the environment variable to `"false"`.
+Upon calling `weave.init()`, tracing is enabled by setting the environment variable `WEAVE_TRACE_LANGCHAIN` to `"true"`. This allows Weave to automatically capture traces for your LangChain applications. If you wish to disable this behavior, set the environment variable to `"false"`.
 
 ## Relation to LangChain Callbacks
 

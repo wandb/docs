@@ -66,3 +66,6 @@ table tr:not(:last-child) td {
 .dark table tr:not(:last-child) td {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+#banner > div > p, #banner > div > p > a, #banner > div, #banner > button > svg {
+  color: black !important;
+}

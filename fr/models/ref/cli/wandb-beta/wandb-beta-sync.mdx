@@ -1,0 +1,71 @@
+---
+title: wandb beta sync
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L125" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+sync [OPTIONS] [PATHS]...
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Téléversez les fichiers .wandb spécifiés par PATHS.
+
+Il s’agit d’une réimplémentation bêta de `wandb sync`.
+Elle n’est pas complète sur le plan fonctionnel, son fonctionnement n’est pas garanti et elle peut évoluer
+de manière non rétrocompatible dans n’importe quelle version de wandb.
+
+PATHS peut inclure des fichiers .wandb, des répertoires de run contenant des fichiers .wandb,
+ainsi que des répertoires &quot;wandb&quot; contenant des répertoires de run.
+
+Par exemple, pour synchroniser tous les Runs du répertoire .wandb actuel :
+
+```bash
+wandb beta sync ./wandb
+```
+
+Pour synchroniser un run précis en spécifiant le répertoire du run :
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
+
+Ou, de façon équivalente :
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom     | Par défaut | Type  |
+| ------- | ---------- | ----- |
+| `paths` | PATH       | False |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag             | Type      | Description                                                                                                                                                                                                                                                                                                                                                                 |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--live`         | BOOL Flag | Synchroniser un run alors qu&#39;il est toujours en cours d&#39;enregistrement. Cela peut bloquer si le processus qui génère le run s&#39;arrête brutalement. **Par défaut** : False                                                                                                                                                                                        |
+| `-e, --entity`   | STR       | Redéfinition de l&#39;entité à utiliser pour tous les runs en cours de synchronisation. **Par défaut** :                                                                                                                                                                                                                                                                    |
+| `-p, --project`  | STR       | Redéfinition du projet à utiliser pour tous les runs en cours de synchronisation. **Par défaut** :                                                                                                                                                                                                                                                                          |
+| `--id`           | STR       | Redéfinition de l&#39;ID de run à utiliser pour tous les runs en cours de synchronisation. Si vous définissez ce paramètre et synchronisez plusieurs fichiers (avec la même entité et le même projet), les fichiers seront synchronisés dans l&#39;ordre de leur heure de début. Cela permet de synchroniser plusieurs fragments repris d&#39;un même run. **Par défaut** : |
+| `--job-type`     | STR       | Redéfinition du type de job pour tous les runs en cours de synchronisation. **Par défaut** :                                                                                                                                                                                                                                                                                |
+| `--replace-tags` | STR       | Renommer les tags au format &#39;old1=new1,old2=new2&#39;. **Par défaut** :                                                                                                                                                                                                                                                                                                 |
+| `--skip-synced`  | BOOL Flag | Ignorer les runs déjà synchronisés avec cette commande. **Par défaut** : True                                                                                                                                                                                                                                                                                               |
+| `--dry-run`      | BOOL Flag | Afficher ce qui se passerait sans rien téléverser. **Par défaut** : False                                                                                                                                                                                                                                                                                                   |
+| `-v, --verbose`  | BOOL Flag | Afficher plus d&#39;informations. **Par défaut** : False                                                                                                                                                                                                                                                                                                                    |
+| `-n`             | INT       | Nombre maximal de runs à synchroniser simultanément. Lorsque vous synchronisez plusieurs fichiers faisant partie du même run, les fichiers sont synchronisés séquentiellement dans l&#39;ordre de leur heure de début, indépendamment de ce paramètre. Cela se produit pour les runs repris ou lors de l&#39;utilisation du paramètre --id. **Par défaut** : 5              |

@@ -1,23 +1,37 @@
 ---
-title: "wandb online"
+title: wandb online
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-online.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbOnline from "/snippets/en/_includes/cli/wandb-online.mdx";
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<WandbOnline/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3365" />
 
-Undo `wandb offline`.
+
 
 ## Usage
 
 ```bash
+online [OPTIONS]
+```
+
+## Description
+
+Re-enable cloud syncing for W&B runs.
+
+    Clear the offline mode setting so subsequent runs in this directory
+    sync data to the W&B cloud.
+
+    Undoes a previous call to `wandb offline`.
+
+    For example, to re-enable cloud syncing after working offline:
+
+```bash
 wandb online
+```
+
+    To re-enable cloud syncing, then run a training script:
+
+```bash
+wandb online && python train.py
 ```

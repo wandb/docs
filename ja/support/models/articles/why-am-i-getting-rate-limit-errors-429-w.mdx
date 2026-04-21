@@ -1,0 +1,55 @@
+---
+title: "W&B Inference でレート制限エラー（429）が発生するのはなぜですか？"
+keywords: ["Inference"]
+---
+
+同時実行制限を超えると、レート制限エラー (429) が発生します。
+
+**エラー:** &quot;リクエストの同時実行制限に達しました&quot;
+
+**解決策:**
+
+* 並列リクエスト数を減らす
+* リクエスト間に待機時間を入れる
+* 指数バックオフを実装する
+* 注: レート制限は W&amp;B プロジェクトごとに適用されます
+
+<div id="best-practices-to-avoid-rate-limits">
+  ## レート制限を回避するためのベストプラクティス
+</div>
+
+1. **指数バックオフを用いた再試行ロジックを実装する:**
+   ```python
+   import time
+
+   def retry_with_backoff(func, max_retries=3):
+       for i in range(max_retries):
+           try:
+               return func()
+           except Exception as e:
+               if "429" in str(e) and i < max_retries - 1:
+                   time.sleep(2 ** i)
+               else:
+                   raise
+   ```
+
+2. **並列リクエストの代わりにバッチ処理を使用する**
+
+3. **W&amp;B Billing ページで使用状況を確認する**
+
+<div id="default-spending-caps">
+  ## デフォルトの支出上限
+</div>
+
+* **Pro アカウント:** $6,000/月
+* **Enterprise アカウント:** $700,000/年
+
+制限を変更するには、営業担当者またはサポートまでお問い合わせください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

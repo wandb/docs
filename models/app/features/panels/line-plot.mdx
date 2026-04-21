@@ -3,7 +3,7 @@ description: Visualize metrics, customize axes, and compare multiple lines on a 
 title: Line plots overview
 ---
 
-import LinePlotCaptureGroups from "/snippets/en/_includes/line-plot-capture-groups.mdx";
+import LinePlotCaptureGroups from "/snippets/_includes/line-plot-capture-groups.mdx";
 
 Line plots display by default for metrics logged with `wandb.Run.log()` over time. Line plots support plotting multiple metrics, calculating custom axes, and more.
 
@@ -28,7 +28,7 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), a sing
 1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
 
-    To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
+    To add a line plot directly to a section instead, click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **+ Add panels**.
 1. To add a single-metric plot with default settings, click **Quick panel builder**.
     1. In the **Single-key panels** tab, hover over a metric, then click **Add**. Repeat this step for each panel you want to add.
     1. Click **Create &lt;number&gt; panels**.
@@ -50,7 +50,7 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), a sing
 1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
 
-    To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
+    To add a line plot directly to a section instead, click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **+ Add panels**.
 1. Click **Quick panel builder**, then click the **Multi-metric panels** tab.
 1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. As you type, the UI updates to show which metrics match the expression. By default, the plot name shows the regular expression used by the plot. The plot includes lines for all metrics that match the expression, including metrics logged in the future.
 1. To optionally remove duplicate single-metric panels when the multi-metric plot is created, toggle **Clean up auto-generated panels**. A preview shows which panels will be cleaned up. <Note>When this option is turned on, a single-metric plot will not be created for a newly logged metric that matches the expression. Instead, it will be included only in this multi-metric plot.</Note>

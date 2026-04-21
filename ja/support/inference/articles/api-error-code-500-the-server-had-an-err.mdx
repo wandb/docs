@@ -1,0 +1,31 @@
+---
+title: "API エラー コード 500 - リクエストの処理中にサーバー エラーが発生しました"
+keywords: ["サーバー エラー"]
+---
+
+「リクエストの処理中にサーバー エラーが発生しました」というメッセージが表示される 500 エラーは、W&amp;B Inference 側で内部サーバー エラーが発生していることを示します。
+
+<div id="why-this-happens">
+  ## これが発生する理由
+</div>
+
+内部サーバー エラーは通常、サーバー側で一時的に発生する問題による一過性のエラーです。これらは、あなたのリクエストや設定が原因ではありません。
+
+<div id="what-you-can-do">
+  ## できること
+</div>
+
+1. **少し待ってから再試行する**
+   * 数秒待ってから、リクエストを再試行してください
+   * 自動再試行には指数バックオフを使用してください
+
+2. **解消しない場合はサポートに連絡する**
+   * 複数回再試行しても 500 エラーが引き続き発生する場合は、リクエストの詳細を添えて [W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[サーバー エラー](/ja/support/inference/tags/server-errors)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

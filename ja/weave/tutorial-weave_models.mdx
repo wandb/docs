@@ -1,34 +1,34 @@
 ---
-title: チュートリアル：App versioning
-description: Weave Model を使用して、 アプリケーション とその パラメータ を追跡および バージョン 管理する方法について説明します。
+title: "チュートリアル: アプリのバージョン管理"
+description: "Weave Model を使用して、アプリケーションとそのパラメーターをトラッキングし、バージョン管理する方法を学びます"
 ---
 
-[入力、出力、メタデータ](/weave/quickstart) だけでなく、[アプリケーションを流れるデータ](/weave/tutorial-tracing_2) を追跡することは、システムのパフォーマンスを理解する上で不可欠です。しかし、コードやアプリケーションの パラメータ の変更が出力にどのように影響するかを理解するためには、**時間の経過に伴うアプリケーションの バージョン管理** も同様に重要です。Weave の `Model` クラスを使用すると、これらの変更を Weave で追跡できるようになります。
+[入力、出力、メタデータ](/ja/weave/quickstart)や[アプリ内を流れるデータ](/ja/weave/tutorial-tracing_2)をトラッキングすることは、システムのパフォーマンスを理解するうえで非常に重要です。一方で、**時間の経過に沿ってアプリをバージョン管理すること**も、コードやアプリケーションのパラメーターの変更によって出力がどう変わるかを理解するために重要です。Weave の `Model` クラスを使うことで、これらの変更を Weave でトラッキングできます。
 
-このチュートリアルでは、以下の内容を学びます：
+このチュートリアルでは、次のことを学びます。
 
-- Weave `Model` を使用して、アプリケーションとその パラメータ を追跡および バージョン管理 する方法。
-- すでに ログ を記録した Weave `Model` をエクスポート、変更、および再利用する方法。
+* Weave `Model` を使用して、アプリケーションとそのパラメーターをトラッキングし、バージョン管理する方法
+* すでにログした Weave `Model` をエクスポートし、変更して再利用する方法
 
-## `weave.Model` の使用
+<div id="using-weavemodel">
+  ## `weave.Model` の使用
+</div>
 
 <Warning>
-
-`weave.Model` クラスは現在、Python でのみサポートされています。
-
+  `weave.Model` クラスは現在、Python でのみサポートされています。
 </Warning>
 
-Weave `Model` を使用すると、モデルベンダー ID、プロンプト、temperature などの パラメータ が保存され、変更時に バージョン管理 されます。
+Weave `モデル` を使用すると、モデルベンダー ID、プロンプト、temperature などのパラメーターが、変更時に保存されてバージョン管理されます。
 
-Weave で `Model` を作成するには、以下が必要です：
+Weave で `Model` を作成するには、次のものが必要です。
 
-- `weave.Model` を継承したクラス
-- すべてのクラスフィールドに対する型定義
-- `@weave.op()` デコレータが付与された、型定義済みの `invoke` 関数
+* `weave.Model` を継承するクラス
+* すべてのクラスフィールドの型定義
+* `@weave.op()` デコレーターが付いた、型付きの `invoke` 関数
 
-クラスフィールドやモデルを定義する コード を変更すると、**これらの変更が ログ に記録され、バージョン が更新されます**。これにより、アプリケーションの異なる バージョン 間で生成結果を比較できるようになります。
+クラスフィールドやモデルを定義するコードを変更すると、**それらの変更はログされ、バージョンが更新されます**。これにより、アプリの異なるバージョン間で生成結果を比較できます。
 
-以下の例では、**モデル名、temperature、およびシステムプロンプトが追跡され、バージョン管理 されます**：
+以下の例では、**モデル名、temperature、system prompt がトラッキングされ、バージョン管理されます**。
 
 <Tabs>
   <Tab title="Python">
@@ -53,34 +53,33 @@ Weave で `Model` を作成するには、以下が必要です：
                     "content": sentence
                 }
                 ],
-                # JSONオブジェクト形式でレスポンスを受け取る
                 response_format={ "type": "json_object" }
             )
         return response.choices[0].message.content
 
-    # weave.Modelを継承したサブクラスを作成
+    # weave.Model を使ったサブクラス
     class ExtractDinos(weave.Model):
         client: OpenAI = None
         model_name: str
         temperature: float
         system_prompt: str
 
-        # 関数名が `invoke` または `predict` であることを確認してください
+        # 関数名は `invoke` または `predict` にしてください
         @weave.op()
         def invoke(self, sentence: str) -> dict:
             dino_data  = extract_dinos(self, sentence)
             return json.loads(dino_data)
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
+    この機能はまだ TypeScript では利用できません。続報をお待ちください！
     ```
   </Tab>
 </Tabs>
 
-これで、モデルをインスタンス化し、`invoke` で呼び出すことができます：
+これで、`invoke` を使ってモデルをインスタンス化し、呼び出せます。
 
 <Tabs>
   <Tab title="Python">
@@ -105,61 +104,65 @@ Weave で `Model` を作成するには、以下が必要です：
     result = dinos.invoke(sentence)
     print(result)
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
+    この機能はまだ TypeScript では利用できません。続報をお待ちください！
     ```
   </Tab>
 </Tabs>
 
-`.invoke` を呼び出した後、Weave のトレースを確認すると、`weave.op()` でデコレートされたモデル関数の **コード だけでなく、モデルの パラメータ も追跡されている** ことがわかります。モデルが バージョン管理 されている（この例では "v21"）ことも確認でき、そのモデルをクリックすると、**その バージョン のモデルを使用したすべての呼び出しを確認できます**。
+`.invoke()` を呼び出すと、Weave のトレースで、`weave.op()` でデコレートされたモデル関数のコードに加えて、モデルパラメーターもトラッキングされていることを確認できます。モデル自体も、この場合は「v21」としてバージョン管理されており、モデルをクリックすると、そのバージョンのモデルを使用した **すべての Call** を確認できます。
 
-![weaveモデルの再利用](/images/tutorial-model_invoke3.png)
+![weave model の再利用](/images/tutorial-model_invoke3.png)
 
-**`weave.Model` の使用に関する注意点：**
+**`weave.Model` の使用に関する注意:**
 
-- Weave `Model` 内の関数名として、`invoke` の代わりに `predict` を使用することもできます。
-- 他のクラス メソッド を Weave で追跡したい場合は、それらを `weave.op()` でラップする必要があります。
-- アンダースコアで始まる パラメータ は Weave によって無視され、ログ に記録されません。
+* 必要に応じて、Weave `Model` 内の関数名には `invoke` の代わりに `predict` を使用できます。
+* 他のクラスメソッドも weave でトラッキングしたい場合は、`weave.op()` でラップする必要があります
+* アンダースコアで始まるパラメーターは weave によって無視され、ログに記録されません
 
-## ログ に記録された `weave.Model` のエクスポートと再利用
+<div id="exporting-and-re-using-a-logged-weavemodel">
+  ## ログした `weave.Model` のエクスポートと再利用
+</div>
 
-Weave は呼び出された Models を保存し バージョン管理 するため、これらの モデル をエクスポートして再利用することが可能です。
+Weave は呼び出された モデル を保存し、バージョン管理するため、これらのモデルをエクスポートして再利用できます。
 
-**Model ref の取得**
-Weave UI で、特定の バージョン の Model ref を取得できます。
+**モデル ref を取得する**
+Weave UI では、特定のバージョンの モデル ref を取得できます。
 
-**Model の使用**
-Model オブジェクト の URI を取得したら、それをエクスポートして再利用できます。エクスポートされた モデル はすでに初期化されており、すぐに使用できる状態であることに注意してください：
+**モデル を使用する**
+モデル object の URI を取得したら、それをエクスポートして再利用できます。なお、エクスポートされたモデルはすでに初期化されており、すぐに使用できます。
 
 <Tabs>
   <Tab title="Python">
     ```python lines {2}
-    # エクスポートされた weave モデルはすでに初期化されており、すぐに呼び出し可能です
+    # エクスポートした weave model はすでに初期化されており、すぐに呼び出せます
     new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
 
-    # クライアントを再度 openai クライアントに設定します
+    # client を再び openai client に設定します
     new_dinos.client = client
 
     new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
     new_result = new_dinos.invoke(new_sentence)
     print(new_result)
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
+    この機能はまだ TypeScript では利用できません。続報をお待ちください
     ```
   </Tab>
 </Tabs>
 
-ここでは、新しい入力に対して同じ Model バージョン (v21) が使用されたことが確認できます：
+ここで、モデル バージョン (v21) が新しい入力で使用されたことを確認できます。
 
-![weaveモデルの再利用](/images/tutorial-model_re-use.png)
+![weave モデルの再利用](/images/tutorial-model_re-use.png)
 
-## 次のステップ
+<div id="whats-next">
+  ## 次のステップ
+</div>
 
-- [評価 パイプライン の構築チュートリアル](/weave/tutorial-eval) に従って、アプリケーションの反復的な改善を開始しましょう。
+* [評価パイプラインを構築するチュートリアル](/ja/weave/tutorial-eval)に沿って、アプリケーションを反復的に改善していきましょう。

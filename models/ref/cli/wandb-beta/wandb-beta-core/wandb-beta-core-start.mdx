@@ -1,0 +1,30 @@
+---
+title: wandb beta core start
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/beta.py#L281" />
+
+
+
+## Usage
+
+```bash
+start [OPTIONS]
+```
+
+## Description
+
+Start a detached wandb-core service.
+
+
+
+
+
+## Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+| `--idle-timeout` | STR | Shut down wandb-core after this much idle time with no connected clients. Uses Go duration syntax, for example 30s, 10m, or 0 to disable idle shutdown. **Default**: 10m |
