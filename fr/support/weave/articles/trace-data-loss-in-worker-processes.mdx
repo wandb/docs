@@ -27,7 +27,7 @@ def process_task(input_data):
     weave.init("your-team-name/your-project-name")
 
     try:
-        # La logique de votre tâche qui crée des traces
+        # Votre logique de tâche qui crée des traces
         result = your_processing_function(input_data)
 
         # S'assurer que toutes les traces sont envoyées avant la fin de la tâche
@@ -49,9 +49,11 @@ with weave.init("your-team-name/your-project-name") as client:
 
 Vous pouvez également améliorer les performances de votre application grâce à `weave.flush()`. Voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times) pour en savoir plus.
 
+Pour une protection supplémentaire contre la perte de données, envisagez d’activer le [journal de préécriture](/fr/weave/guides/tracking/write-ahead-log), qui écrit les données de trace sur disque avant de les envoyer au serveur.
+
 ***
 
-{/* GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet */}
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
 
