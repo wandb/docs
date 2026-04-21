@@ -1,5 +1,5 @@
 ---
-description: This page describes how logging patterns affect performance in W&B and provides guidance for scaling experiment tracking in large projects.
+description: This page describes how logging patterns impact performance in W&B and provides guidance for scaling experiment tracking in large projects.
 title: Logging at scale and performance
 ---
 
@@ -59,7 +59,7 @@ W&B flattens nested dictionaries into dot-separated metric names.
 
 **Logged points** are the total number of metric values recorded.
 
-For example, both of the following produce 3 logged points:
+For example, both of the following code samples produce three logged points:
 
 ```python
 import wandb
@@ -98,14 +98,16 @@ throughput = logged points per minute
 Or, equivalently:
 
 ```text
-throughput = points per log call × log frequency
+throughput = logged points × log frequency
 ```
 
-Throughput provides a single way to reason about logging scale across both metric width and logging frequency.
+<Warning>
+The following sections apply to W&B SaaS Cloud. If you use a different W&B deployment type, check with your administrator for deployment-specific guidance or limits.
+</Warning>
 
 ## Recommendations at scale
 
-The following guidance summarizes recommended operating ranges for large-scale logging on Managed Tracking and Serving SaaS.
+The following table summarizes recommended operating ranges for large-scale logging.
 
 | Dimension                      | Guidance at scale         |
 | ------------------------------ | ------------------------- |
@@ -135,13 +137,13 @@ Different logging patterns can produce the same throughput.
 
 | Video size (MB) | Log frequency (per minute) | Video throughput (MB per minute) |
 | --------------- | -------------------------- | -------------------------------- |
-| 1               | 40                         | 40                               |
+| 1               | 46                         | 46                               |
 | 5               | 8                          | 40                               |
 | 10              | 4                          | 40                               |
-| 50              | 0.8                        | 40                               |
-| 100             | 0.4                        | 40                               |
-| 250             | 0.16                       | 40                               |
-| 500             | 0.08                       | 40                               |
+| 50              | 1                          | 50                               |
+| 100             | 0.3                        | 30                               |
+| 250             | 0.1                        | 25                               |
+| 500             | 0.07                       | 35                               |
 
 ## Logging considerations
 
@@ -149,9 +151,15 @@ Use `wandb.Run.log()` to track experiment metrics.
 
 ### Metric cardinality
 
-For better performance, keep total metric cardinality in a project within the recommended range for your workload.
+Keep the total metric cardinality (number of distinct metrics) in a project within the recommended range for your workload. High metric cardinality is one of the most common causes of slow workspaces.
 
-High metric cardinality is one of the most common causes of slow workspaces, especially when many metrics are logged only once or twice. This often happens when metric names include changing values such as IDs, filenames, or indices.
+<Tip>
+Performance issues are often caused by logging too many distinct metrics, not by logging too many steps.
+</Tip>
+
+Because W&B flattens nested keys into dot-separated metric names, metric cardinality can increase more than you expect.
+
+For example, the following logs 3 distinct metric keys: `a`, `b.c`, and `b.d`.
 
 ```python
 import wandb
@@ -168,11 +176,9 @@ with wandb.init() as run:
     )
 ```
 
-In this example, W&B flattens the nested dictionary into distinct keys such as `a`, `b.c`, and `b.d`.
+{/* Metric names must follow GraphQL naming constraints. See [Metric naming constraints](/models/track/log/#metric-naming-constraints). */}
 
-Metric names must follow GraphQL naming constraints. See [Metric naming constraints](/models/track/log/#metric-naming-constraints).
-
-If your workspace suddenly slows down, check whether recent runs introduced a large number of new metric keys. This often appears as many plots with only one or two runs visible. If that happened unintentionally, consider deleting and recreating those runs with a smaller, more stable set of metric names.
+If your workspace suddenly slows down, check whether recent runs introduced a large number of new metric keys. This often appears as many plots with only one or two runs visible. If this happened unintentionally, consider deleting and recreating those runs with a smaller, more stable set of metric names.
 
 ### Value size
 
@@ -194,7 +200,7 @@ with wandb.init(project="wide-values") as run:
         run.log(large_data)
 ```
 
-Wide values can slow plot loading for the entire run, not just for the metric that contains the large value.
+Large values can slow plot loading for the entire run, not just for the metric that contains the large value.
 
 <Note>
 W&B still stores logged data that exceeds these recommendations, but pages may load more slowly.
@@ -210,7 +216,7 @@ As a starting point, keep logging within these guidelines:
 * Throughput: less than 100,000 logged values per minute
 * Video throughput: less than 40 MB per minute
 
-Batch related metrics into the same step when possible.
+Batch related metrics into the same step when possible. For example, the following code snippet logs three metrics in the same step, which is more efficient than logging them separately.
 
 ```python
 import wandb
@@ -226,16 +232,6 @@ with wandb.init(project="metric-frequency") as run:
         commit=True,
     )
 ```
-
-If you log wide values or large media, do so less frequently than scalar metrics.
-
-You can also use these per-metric guidelines as a rule of thumb:
-
-* Scalars: fewer than 100,000 logged points per metric
-* Media: fewer than 50,000 logged points per metric
-* Histograms: fewer than 10,000 logged points per metric
-
-These are performance recommendations, not hard ingestion limits.
 
 ### Config size
 
@@ -276,13 +272,13 @@ with open("large_config.json", "r") as f:
 
 ## Workspace performance
 
-Workspace performance depends on both the underlying project data and the way the workspace is configured.
+Workspace performance depends on both the underlying project data and workspace configuration.
 
 ### Runs per project
 
-For large projects keep the number of runs in a project under 10,000 for best performance.
+For large projects, keep the number of runs in a project under 10,000 for best performance.
 
-If your team repeatedly works with only a subset of runs, consider moving older or less frequently used runs into a separate archive project. See [Manage runs](/models/runs/manage-runs/).
+If your team regularly works with only a subset of runs, consider moving older or less frequently used runs into a separate archive project. See [Manage runs](/models/runs/manage-runs/).
 
 ### Panel count
 
@@ -301,7 +297,7 @@ See [Panels](/models/app/features/panels/) for details.
 
 ### Section count
 
-Having hundreds of sections in a workspace can hurt performance.
+Hundreds of sections in a workspace can hurt performance.
 
 Create sections based on high-level metric groupings rather than one section per metric. If you have too many sections, consider creating sections by prefix rather than suffix so that related metrics are grouped into fewer sections.
 
