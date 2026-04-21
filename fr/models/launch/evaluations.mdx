@@ -1,0 +1,233 @@
+---
+title: "Catalogue des benchmarks d’évaluation"
+description: >
+  Parcourez les benchmarks d’évaluation disponibles via les jobs d’évaluation LLM
+---
+
+import PreviewLink from '/snippets/fr/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+Cette page répertorie les benchmarks d’évaluation proposés par [LLM Evaluation Jobs](/fr/models/launch), par catégorie.
+
+Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter les clés API requises comme [secrets au niveau de l’équipe](/fr/platform/secrets#add-a-secret). N’importe quel membre de l’équipe peut ensuite spécifier le secret lors de la configuration d’un job d’évaluation.
+
+* Si un benchmark affiche `true` dans la colonne **OpenAI Model Scorer**, il utilise des modèles OpenAI pour le scoring. Un administrateur d’organisation ou d’équipe doit ajouter une clé API OpenAI comme secret d’équipe. Lorsque vous configurez un job d’évaluation avec un benchmark soumis à cette exigence, définissez le champ **Scorer API key** sur ce secret.
+  * Si un benchmark contient un lien dans la colonne **jeu de données Hugging Face à accès restreint**, il nécessite l’accès à un jeu de données Hugging Face à accès restreint. Un administrateur d’organisation ou d’équipe doit demander l’accès au jeu de données sur Hugging Face, créer un jeton d’accès utilisateur Hugging Face et configurer un secret d’équipe avec la clé d’accès. Lorsque vous configurez un benchmark soumis à cette exigence, définissez le champ **Hugging Face Token** sur ce secret.
+
+{/*
+    Liste des benchmarks : https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
+    Prérequis OpenAI et Hugging Face : https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
+  */}
+
+<div id="knowledge">
+  ## Connaissances
+</div>
+
+Évaluez les connaissances factuelles dans divers domaines, comme la science, le langage et le raisonnement général.
+
+| Évaluation                                                                                    | ID de tâche         | <div className="!w-[100px]">OpenAI Scorer</div> | Jeu de données Hugging Face à accès restreint | Description                                                                          |
+| --------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [BoolQ](https://github.com/google-research-datasets/boolean-questions)                        | `boolq`             |                                                 |                                               | Questions booléennes oui/non à partir de requêtes en langage naturel                 |
+| [GPQA Diamond](https://arxiv.org/abs/2311.12022)                                              | `gpqa_diamond`      |                                                 |                                               | Questions scientifiques de niveau supérieur (sous-ensemble de la plus haute qualité) |
+| [HLE](https://arxiv.org/abs/2501.14249)                                                       | `hle`               |                                                 | Oui                                           | Benchmark d&#39;évaluation au niveau humain                                          |
+| [Lingoly](https://arxiv.org/abs/2406.06196)                                                   | `lingoly`           |                                                 | Oui                                           | Problèmes d&#39;olympiade de linguistique                                            |
+| [Lingoly Too](https://arxiv.org/abs/2503.02972)                                               | `lingoly_too`       |                                                 | Oui                                           | Problèmes de linguistique plus avancés                                               |
+| [MMIU](https://arxiv.org/abs/2408.02718)                                                      | `mmiu`              |                                                 |                                               | Benchmark Massive Multitask Language Understanding                                   |
+| [MMLU (0-shot)](https://github.com/hendrycks/test)                                            | `mmlu_0_shot`       |                                                 |                                               | Massive Multitask Language Understanding sans exemples                               |
+| [MMLU (5-shot)](https://github.com/hendrycks/test)                                            | `mmlu_5_shot`       |                                                 |                                               | Massive Multitask Language Understanding avec 5 exemples                             |
+| [MMLU-Pro](https://arxiv.org/abs/2406.01574)                                                  | `mmlu_pro`          |                                                 |                                               | Version plus difficile de MMLU                                                       |
+| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6`           |                                                 |                                               | Benchmark de connaissances professionnelles                                          |
+| [PAWS](https://github.com/google-research-datasets/paws)                                      | `paws`              |                                                 |                                               | Substitution adversariale de mots dans des paraphrases                               |
+| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_en`   |                                                 |                                               | Questions à choix multiple en anglais                                                |
+| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_zh`   |                                                 |                                               | Questions à choix multiple en chinois                                                |
+| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_en`    |                                                 |                                               | Questions-réponses en anglais                                                        |
+| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_zh`    |                                                 |                                               | Questions-réponses en chinois                                                        |
+| [SimpleQA](https://openai.com/index/introducing-simpleqa/)                                    | `simpleqa`          | Oui                                             |                                               | Questions-réponses factuelles simples                                                |
+| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/)                           | `simpleqa_verified` |                                                 |                                               | Sous-ensemble vérifié de SimpleQA avec des réponses validées                         |
+| [WorldSense](https://github.com/facebookresearch/worldsense)                                  | `worldsense`        |                                                 |                                               | Évalue la compréhension des connaissances du monde et du sens commun                 |
+
+<div id="reasoning">
+  ## Raisonnement
+</div>
+
+Évaluez les capacités de pensée logique, de résolution de problèmes et de raisonnement de bon sens.
+
+| Évaluation                                                          | ID de tâche      | OpenAI Scorer | jeu de données HF à accès restreint | Description                                                                              |
+| ------------------------------------------------------------------- | ---------------- | ------------- | ----------------------------------- | ---------------------------------------------------------------------------------------- |
+| [AGIE AQUA-RAT](https://arxiv.org/abs/1705.04146)                   | `agie_aqua_rat`  |               |                                     | Questions-réponses en algèbre avec justifications                                        |
+| [AGIE LogiQA (English)](https://arxiv.org/abs/2007.08124)           | `agie_logiqa_en` |               |                                     | Questions de raisonnement logique en anglais                                             |
+| [AGIE LSAT Analytical Reasoning](https://www.lsac.org/)             | `agie_lsat_ar`   |               |                                     | Problèmes de raisonnement analytique du LSAT (jeux de logique)                           |
+| [AGIE LSAT Logical Reasoning](https://www.lsac.org/)                | `agie_lsat_lr`   |               |                                     | Questions de raisonnement logique du LSAT                                                |
+| [ARC Challenge](https://huggingface.co/datasets/allenai/ai2_arc)    | `arc_challenge`  |               |                                     | Questions scientifiques difficiles nécessitant du raisonnement (AI2 Reasoning Challenge) |
+| [ARC Easy](https://huggingface.co/datasets/allenai/ai2_arc)         | `arc_easy`       |               |                                     | Ensemble plus facile de questions scientifiques du jeu de données ARC                    |
+| [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard)                | `bbh`            |               |                                     | BIG-Bench Hard : tâches difficiles issues de BIG-Bench                                   |
+| [CoCoNot](https://arxiv.org/abs/2310.03697)                         | `coconot`        |               |                                     | Benchmark de raisonnement contrefactuel fondé sur le bon sens                            |
+| [CommonsenseQA](https://huggingface.co/datasets/tau/commonsense_qa) | `commonsense_qa` |               |                                     | Questions de raisonnement de bon sens                                                    |
+| [HellaSwag](https://arxiv.org/abs/1905.07830)                       | `hellaswag`      |               |                                     | Inférence en langage naturel fondée sur le bon sens                                      |
+| [MUSR](https://arxiv.org/abs/2310.16049)                            | `musr`           |               |                                     | Benchmark de raisonnement en plusieurs étapes                                            |
+| [PIQA](https://yonatanbisk.com/piqa/)                               | `piqa`           |               |                                     | Raisonnement de bon sens sur le monde physique                                           |
+| [WinoGrande](https://winogrande.allenai.org/)                       | `winogrande`     |               |                                     | Raisonnement de bon sens par résolution de pronoms                                       |
+
+<div id="math">
+  ## Mathématiques
+</div>
+
+Évaluez la capacité à résoudre des problèmes mathématiques à différents niveaux de difficulté, de l’école primaire jusqu’aux problèmes de niveau concours.
+
+| Évaluation                                                                              | ID de tâche                | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                           |
+| --------------------------------------------------------------------------------------- | -------------------------- | ------------- | ----------------------------------- | --------------------------------------------------------------------- |
+| [AGIE Math](https://arxiv.org/abs/2410.12211)                                           | `agie_math`                |               |                                     | Raisonnement mathématique avancé issu de la suite de benchmarks AGIE  |
+| [AGIE SAT Math](https://satsuite.collegeboard.org/sat)                                  | `agie_sat_math`            |               |                                     | Questions de mathématiques du SAT                                     |
+| [AIME 2024](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2024`                 |               |                                     | Problèmes de l’American Invitational Mathematics Examination de 2024  |
+| [AIME 2025](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2025`                 |               |                                     | Problèmes de l’American Invitational Mathematics Examination de 2025  |
+| [GSM8K](https://github.com/openai/grade-school-math)                                    | `gsm8k`                    |               |                                     | Grade School Math 8K : problèmes de mathématiques en plusieurs étapes |
+| [InfiniteBench Math Calc](https://arxiv.org/abs/2402.13718)                             | `infinite_bench_math_calc` |               |                                     | Calculs mathématiques dans des contextes longs                        |
+| [InfiniteBench Math Find](https://arxiv.org/abs/2402.13718)                             | `infinite_bench_math_find` |               |                                     | Détection de motifs mathématiques dans des contextes longs            |
+| [MATH](https://github.com/hendrycks/math)                                               | `math`                     |               |                                     | Problèmes de mathématiques de niveau concours                         |
+| [MGSM](https://github.com/google-research/url-nlp/tree/main/mgsm)                       | `mgsm`                     |               |                                     | Grade School Math multilingue                                         |
+
+<div id="code">
+  ## Code
+</div>
+
+Évaluez les capacités en programmation et en développement logiciel, comme le débogage, la prédiction d’exécution du code et l’appel de fonctions.
+
+| Évaluation                                                                                 | ID de tâche                 | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                                                                 |
+| ------------------------------------------------------------------------------------------ | --------------------------- | ------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [BFCL](https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html) | `bfcl`                      |               |                                     | Berkeley Function Calling Leaderboard : évalue les capacités d’appel de fonctions et d’utilisation d’outils |
+| [InfiniteBench Code Debug](https://arxiv.org/abs/2402.13718)                               | `infinite_bench_code_debug` |               |                                     | Tâches de débogage de code sur de longs contextes                                                           |
+| [InfiniteBench Code Run](https://arxiv.org/abs/2402.13718)                                 | `infinite_bench_code_run`   |               |                                     | Prédiction de l’exécution de code sur de longs contextes                                                    |
+
+<div id="reading">
+  ## Lecture
+</div>
+
+Évaluez la compréhension de l’écrit et l’extraction d’informations à partir de textes complexes.
+
+| Évaluation                                                                                                  | ID de tâche                   | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                                                     |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------- | ------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [AGIE LSAT Reading Comprehension](https://www.lsac.org/)                                                    | `agie_lsat_rc`                |               |                                     | Passages et questions de compréhension écrite du LSAT                                           |
+| [AGIE SAT English](https://satsuite.collegeboard.org/sat)                                                   | `agie_sat_en`                 |               |                                     | Questions de lecture et d’écriture du SAT avec passages                                         |
+| [AGIE SAT English (No Passage)](https://satsuite.collegeboard.org/sat)                                      | `agie_sat_en_without_passage` |               |                                     | Questions d’anglais du SAT sans passages associés                                               |
+| [DROP](https://github.com/allenai/allennlp-reading-comprehension/blob/master/allennlp_rc/eval/drop_eval.py) | `drop`                        |               |                                     | Discrete Reasoning Over Paragraphs : compréhension écrite nécessitant un raisonnement numérique |
+| [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/)                                                          | `race_h`                      |               |                                     | Compréhension écrite à partir d’examens d’anglais (niveau de difficulté élevé)                  |
+| [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/)                                                        | `squad`                       |               |                                     | Stanford Question Answering Dataset : Questions-réponses extractives sur des articles Wikipédia |
+
+<div id="long-context">
+  ## Contexte long
+</div>
+
+Évaluez la capacité à traiter et à raisonner dans des contextes étendus, y compris la récupération d’informations et la reconnaissance de motifs.
+
+| Évaluation                                                                  | ID de tâche                          | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                             |
+| --------------------------------------------------------------------------- | ------------------------------------ | ------------- | ----------------------------------- | ----------------------------------------------------------------------- |
+| [InfiniteBench KV Retrieval](https://arxiv.org/abs/2402.13718)              | `infinite_bench_kv_retrieval`        |               |                                     | Récupération de paires clé-valeur dans de longs contextes               |
+| [InfiniteBench LongBook (English)](https://arxiv.org/abs/2402.13718)        | `infinite_bench_longbook_choice_eng` |               |                                     | Questions à choix multiple sur de longs ouvrages                        |
+| [InfiniteBench LongDialogue QA (English)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longdialogue_qa_eng` |               |                                     | Questions-réponses sur de longs dialogues                               |
+| [InfiniteBench Number String](https://arxiv.org/abs/2402.13718)             | `infinite_bench_number_string`       |               |                                     | Reconnaissance de motifs numériques dans de longues séquences           |
+| [InfiniteBench Passkey](https://arxiv.org/abs/2402.13718)                   | `infinite_bench_passkey`             |               |                                     | Récupération d’informations à partir d’un long contexte                 |
+| [NIAH](https://arxiv.org/abs/2406.07230)                                    | `niah`                               |               |                                     | Aiguille dans une botte de foin : test de récupération en contexte long |
+
+<div id="safety">
+  ## Sécurité
+</div>
+
+Évaluez l’alignement, la détection des biais, la résistance aux contenus dangereux et la véracité.
+
+| Évaluation                                                                                                   | ID de tâche                     | OpenAI Scorer | jeu de données HF à accès restreint | Description                                                                                          |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------- | ------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [AgentHarm](https://arxiv.org/abs/2410.09024)                                                                | `agentharm`                     | Oui           |                                     | Teste la résistance du modèle aux comportements nuisibles des agents et aux scénarios d’usage abusif |
+| [AgentHarm Benign](https://arxiv.org/abs/2410.09024)                                                         | `agentharm_benign`              | Oui           |                                     | Référence bénigne pour AgentHarm permettant de mesurer les taux de faux positifs                     |
+| [Agentic Misalignment](https://arxiv.org/abs/2510.05179)                                                     | `agentic_misalignment`          |               |                                     | Évalue un possible désalignement dans le comportement agentique                                      |
+| [AHB](https://arxiv.org/abs/2503.04804)                                                                      | `ahb`                           |               |                                     | Agent Harmful Behavior : teste la résistance aux actions agentiques nuisibles                        |
+| [AIRBench](https://arxiv.org/abs/2410.02407)                                                                 | `air_bench`                     |               |                                     | Teste la résistance aux instructions adversariales                                                   |
+| [BBEH](https://arxiv.org/abs/2502.19187)                                                                     | `bbeh`                          |               |                                     | Benchmark de biais pour évaluer les comportements nuisibles                                          |
+| [BBEH Mini](https://arxiv.org/abs/2502.19187)                                                                | `bbeh_mini`                     |               |                                     | Version réduite du benchmark BBEH                                                                    |
+| [BBQ](https://arxiv.org/abs/2110.08193)                                                                      | `bbq`                           |               |                                     | Benchmark de biais pour les questions-réponses                                                       |
+| [BOLD](https://arxiv.org/abs/2101.11718)                                                                     | `bold`                          |               |                                     | Jeu de données sur les biais dans la génération de texte libre                                       |
+| [CYSE3 Visual Prompt Injection](https://arxiv.org/abs/2408.01605)                                            | `cyse3_visual_prompt_injection` |               |                                     | Teste la résistance aux attaques d’injection visuelle de prompt                                      |
+| [Make Me Pay](https://arxiv.org/abs/2410.08691)                                                              | `make_me_pay`                   |               |                                     | Teste la résistance aux scénarios d’arnaque et de fraude financière                                  |
+| [MASK](https://arxiv.org/abs/2503.03750)                                                                     | `mask`                          | Oui           | Oui                                 | Teste la gestion des informations sensibles par le modèle                                            |
+| [Personality BFI](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/personality) | `personality_BFI`               |               |                                     | Évaluation des traits de personnalité selon le modèle Big Five                                       |
+| [Personality TRAIT](https://arxiv.org/abs/2406.14703)                                                        | `personality_TRAIT`             |               | Oui                                 | Évaluation complète des traits de personnalité                                                       |
+| SOSBench                                                                                                     | `sosbench`                      | Oui           |                                     | Test de résistance en matière de sécurité et de supervision                                          |
+| [StereoSet](https://github.com/moinnadeem/StereoSet)                                                         | `stereoset`                     |               |                                     | Mesure les biais stéréotypés dans les modèles de langage                                             |
+| [StrongREJECT](https://arxiv.org/abs/2402.10260)                                                             | `strong_reject`                 |               |                                     | Teste la capacité du modèle à rejeter les requêtes dangereuses                                       |
+| [Sycophancy](https://arxiv.org/abs/2310.13548)                                                               | `sycophancy`                    |               |                                     | Évalue la tendance à adopter un comportement flagorneur                                              |
+| [TruthfulQA](https://github.com/sylinrl/TruthfulQA)                                                          | `truthfulqa`                    |               |                                     | Teste la véracité du modèle et sa résistance aux fausses informations                                |
+| [UCCB](https://huggingface.co/datasets/CraneAILabs/UCCB)                                                     | `uccb`                          |               |                                     | Benchmark de classification des contenus dangereux                                                   |
+| [WMDP Bio](https://www.wmdp.ai/)                                                                             | `wmdp_bio`                      |               |                                     | Teste les connaissances dangereuses en biologie                                                      |
+| [WMDP Chem](https://www.wmdp.ai/)                                                                            | `wmdp_chem`                     |               |                                     | Teste les connaissances dangereuses en chimie                                                        |
+| [WMDP Cyber](https://www.wmdp.ai/)                                                                           | `wmdp_cyber`                    |               |                                     | Teste les connaissances dangereuses en cybersécurité                                                 |
+| [XSTest](https://arxiv.org/abs/2308.01263)                                                                   | `xstest`                        | Oui           |                                     | Test de sécurité extrême pour détecter les refus excessifs                                           |
+
+<div id="domain-specific">
+  ## Domaine spécialisé
+</div>
+
+Évaluez les connaissances spécialisées en médecine, chimie, droit, biologie et dans d&#39;autres domaines professionnels.
+
+| Évaluation                                                     | ID de tâche                   | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                                      |
+| -------------------------------------------------------------- | ----------------------------- | ------------- | ----------------------------------- | -------------------------------------------------------------------------------- |
+| [ChemBench](https://arxiv.org/abs/2404.01475)                  | `chembench`                   |               |                                     | Benchmark de connaissances en chimie et de résolution de problèmes               |
+| [HealthBench](https://arxiv.org/abs/2406.09746)                | `healthbench`                 | Yes           |                                     | Évaluation des connaissances en santé et en médecine                             |
+| [HealthBench Consensus](https://arxiv.org/abs/2406.09746)      | `healthbench_consensus`       | Yes           |                                     | Questions de santé avec consensus d&#39;experts                                  |
+| [HealthBench Hard](https://arxiv.org/abs/2406.09746)           | `healthbench_hard`            | Yes           |                                     | Scénarios de santé complexes                                                     |
+| [LabBench Cloning Scenarios](https://arxiv.org/abs/2407.10362) | `lab_bench_cloning_scenarios` |               |                                     | Planification d&#39;expériences en laboratoire et clonage                        |
+| [LabBench DBQA](https://arxiv.org/abs/2407.10362)              | `lab_bench_dbqa`              |               |                                     | Questions-réponses sur des bases de données pour des scénarios de laboratoire    |
+| [LabBench FigQA](https://arxiv.org/abs/2407.10362)             | `lab_bench_figqa`             |               |                                     | Interprétation de figures dans des contextes scientifiques                       |
+| [LabBench LitQA](https://arxiv.org/abs/2407.10362)             | `lab_bench_litqa`             |               |                                     | Questions-réponses basées sur la littérature scientifique pour la recherche      |
+| [LabBench ProtocolQA](https://arxiv.org/abs/2407.10362)        | `lab_bench_protocolqa`        |               |                                     | Compréhension des protocoles de laboratoire                                      |
+| [LabBench SeqQA](https://arxiv.org/abs/2407.10362)             | `lab_bench_seqqa`             |               |                                     | Questions d&#39;analyse de séquences biologiques                                 |
+| [LabBench SuppQA](https://arxiv.org/abs/2407.10362)            | `lab_bench_suppqa`            |               |                                     | Interprétation de documents complémentaires                                      |
+| [LabBench TableQA](https://arxiv.org/abs/2407.10362)           | `lab_bench_tableqa`           |               |                                     | Interprétation de tableaux dans des articles scientifiques                       |
+| [MedQA](https://github.com/jind11/MedQA)                       | `medqa`                       |               |                                     | Questions d&#39;examen d&#39;autorisation d&#39;exercice en médecine             |
+| [PubMedQA](https://pubmedqa.github.io/)                        | `pubmedqa`                    |               |                                     | Questions-réponses biomédicales à partir de résumés d&#39;articles scientifiques |
+| [SEC-QA v1](https://arxiv.org/abs/2406.14806)                  | `sec_qa_v1`                   |               |                                     | Questions-réponses sur les documents déposés auprès de la SEC                    |
+| [SEC-QA v1 (5-shot)](https://arxiv.org/abs/2406.14806)         | `sec_qa_v1_5_shot`            |               |                                     | SEC-QA avec 5 exemples                                                           |
+| [SEC-QA v2](https://arxiv.org/abs/2406.14806)                  | `sec_qa_v2`                   |               |                                     | Benchmark mis à jour des documents déposés auprès de la SEC                      |
+| [SEC-QA v2 (5-shot)](https://arxiv.org/abs/2406.14806)         | `sec_qa_v2_5_shot`            |               |                                     | SEC-QA v2 avec 5 exemples                                                        |
+
+<div id="multimodal">
+  ## Multimodal
+</div>
+
+Évaluez la compréhension visuelle et du langage en combinant des données visuelles et textuelles.
+
+| Évaluation                                                             | ID de tâche                                  | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                                            |
+| ---------------------------------------------------------------------- | -------------------------------------------- | ------------- | ----------------------------------- | -------------------------------------------------------------------------------------- |
+| [DocVQA](https://www.docvqa.org/)                                      | `docvqa`                                     |               |                                     | Questions-réponses visuelles sur des documents : questions sur des images de documents |
+| [MathVista](https://mathvista.github.io/)                              | `mathvista`                                  |               |                                     | Raisonnement mathématique dans des contextes visuels combinant vision et mathématiques |
+| [MMMU Multiple Choice](https://mmmu-benchmark.github.io/)              | `mmmu_multiple_choice`                       |               |                                     | Compréhension multimodale au format à choix multiple                                   |
+| [MMMU Open](https://mmmu-benchmark.github.io/)                         | `mmmu_open`                                  |               |                                     | Compréhension multimodale avec des réponses ouvertes                                   |
+| [V*Star Bench Attribute Recognition](https://arxiv.org/abs/2411.10006) | `vstar_bench_attribute_recognition`          |               |                                     | Tâches de reconnaissance d’attributs visuels                                           |
+| [V*Star Bench Spatial Relationship](https://arxiv.org/abs/2411.10006)  | `vstar_bench_spatial_relationship_reasoning` |               |                                     | Raisonnement spatial à partir d’entrées visuelles                                      |
+
+<div id="instruction-following">
+  ## Suivi d’instructions
+</div>
+
+Évalue le respect d’instructions spécifiques et des exigences de mise en forme.
+
+| Évaluation                                 | ID de tâche | OpenAI Scorer | jeu de données HF à accès restreint | Description                                                |
+| ------------------------------------------ | ----------- | ------------- | ----------------------------------- | ---------------------------------------------------------- |
+| [IFEval](https://arxiv.org/abs/2311.07911) | `ifeval`    |               |                                     | Teste la capacité à suivre des instructions avec précision |
+
+<div id="system">
+  ## Système
+</div>
+
+Validation de base du système et vérifications préalables.
+
+| Évaluation                                                                                       | ID de tâche  | OpenAI Scorer | jeu de données HF à accès restreint | Description                                           |
+| ------------------------------------------------------------------------------------------------ | ------------ | ------------- | ----------------------------------- | ----------------------------------------------------- |
+| [Pré-vérification](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` |               |                                     | Vérification de base du système et test de validation |
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+* [Évaluer un point de contrôle du modèle](/fr/models/launch/evaluate-model-checkpoint)
+* [Évaluer un modèle hébergé via API](/fr/models/launch/evaluate-hosted-model)
+* Voir les détails de benchmarks spécifiques sur [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/)

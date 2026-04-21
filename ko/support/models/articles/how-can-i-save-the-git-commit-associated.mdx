@@ -1,0 +1,16 @@
+---
+title: "내 run과 연결된 git 커밋을 어떻게 저장하나요?"
+keywords: ["Experiments"]
+---
+
+`wandb.init`가 호출되면 시스템은 원격 저장소 링크와 최신 커밋의 SHA를 포함한 git 정보를 자동으로 수집합니다. 이 정보는 [run 페이지](/ko/models/runs/#view-logged-runs)에 표시됩니다. 이 정보를 보려면 스크립트를 실행할 때 현재 작업 디렉터리가 git으로 관리되는 폴더 안에 있어야 합니다.
+
+git 커밋과 실험을 실행하는 데 사용한 명령어는 사용자에게는 계속 표시되지만 외부 사용자에게는 숨겨집니다. 공개 프로젝트에서도 이러한 세부 정보는 비공개로 유지됩니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

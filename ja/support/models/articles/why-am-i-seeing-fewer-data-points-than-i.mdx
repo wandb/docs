@@ -1,0 +1,45 @@
+---
+title: "ログしたデータポイントより少なく表示されるのはなぜですか？"
+keywords: ["Experiments", "メトリクス"]
+---
+
+`Step` 以外の X-axis でメトリクスを可視化すると、表示されるデータポイントは少なくなります。同期を保つには、メトリクスを同じ `Step` でログする必要があります。サンプル間を補間する際にサンプリングされるのは、同じ `Step` でログされたメトリクスだけです。
+
+**ガイドライン**
+
+メトリクスは 1 回の `log()` call にまとめてください。たとえば、次のようにする代わりに:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
+```
+
+次を使用します:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
+```
+
+step パラメーターを手動で制御するには、以下のようにコード内でメトリクスを同期してください。
+
+```python
+with wandb.init() as run:
+    step = 100  # stepの値の例
+    # 同じstepでPrecisionとRecallをログする
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
+メトリクスが同じ step に記録され、一緒にサンプリングされるようにするには、両方の `log()` 呼び出しで `step` の値を同じにしてください。`step` の値は、呼び出しのたびに単調増加している必要があります。そうでない場合、`step` の値は無視されます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

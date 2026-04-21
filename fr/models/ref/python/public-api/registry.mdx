@@ -1,0 +1,421 @@
+---
+title: Registre
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py" />
+
+
+## <kbd>class</kbd> `Registry`
+
+Un registre au sein du registre. 
+
+### <kbd>méthode</kbd> `Registry.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    organization: 'str',
+    entity: 'str',
+    name: 'str',
+    attrs: 'RegistryFragment | None' = None
+)
+```
+
+***
+
+
+### <kbd>propriété</kbd> Registry.allow_all_artifact_types
+
+Indique si tous les types d&#39;artifacts sont autorisés dans le registre.
+
+Si `True`, des artifacts de tout type peuvent être ajoutés. Si `False`, les artifacts sont limités aux types répertoriés dans `artifact_types`.
+
+**Retourne :**
+
+* `bool` : La valeur de la propriété allow&#95;all&#95;artifact&#95;types.
+
+***
+
+### <kbd>propriété</kbd> Registry.artifact_types
+
+Renvoie les types d&#39;artifact autorisés dans le registre.
+
+Si `allow_all_artifact_types` vaut `True`, `artifact_types` reflète les types précédemment enregistrés ou actuellement utilisés dans le registre. Si `allow_all_artifact_types` vaut `False`, les artifacts sont limités aux types figurant dans `artifact_types`.
+
+**Remarque :**
+
+> Les types d&#39;artifact précédemment enregistrés ne peuvent pas être supprimés.
+
+**Exemple :**
+
+```python
+import wandb
+
+registry = wandb.Api().create_registry()
+registry.artifact_types.append("model")
+registry.save()  # une fois sauvegardé, le type d'artifact `model` ne peut plus être supprimé
+registry.artifact_types.append("accidentally_added")
+registry.artifact_types.remove(
+     "accidentally_added"
+)  # Les types ne peuvent être supprimés que s'ils n'ont pas encore été sauvegardés
+```
+
+**Retourne :**
+
+* `AddOnlyArtifactTypesList` : la valeur de la propriété artifact&#95;types.
+
+***
+
+
+### <kbd>propriété</kbd> Registry.created_at
+
+Horodatage de création du registre.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété created&#95;at.
+
+***
+
+### <kbd>propriété</kbd> registre.description
+
+Description du registre.
+
+**Retourne :**
+
+* `str | None` : La valeur de la propriété description.
+
+***
+
+### <kbd>propriété</kbd> Registry.entity
+
+Entité de l’organisation du registre.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété entité.
+
+***
+
+### <kbd>propriété</kbd> Registry.full_name
+
+Nom complet du registre, préfixe `wandb-registry-` inclus.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `full_name`.
+
+***
+
+### <kbd>propriété</kbd> Registry.id
+
+L’ID unique de ce registre.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété id.
+
+***
+
+### <kbd>propriété</kbd> Registry.name
+
+Nom du registre sans le préfixe `wandb-registry-`.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `name`.
+
+***
+
+### <kbd>propriété</kbd> Registry.organization
+
+Nom de l’organisation du registre.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété « organisation ».
+
+***
+
+### <kbd>propriété</kbd> Registry.path
+
+***
+
+### <kbd>propriété</kbd> Registry.updated_at
+
+Horodatage de la dernière mise à jour du registre.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété updated&#95;at.
+
+***
+
+### <kbd>propriété</kbd> Registry.visibility
+
+Visibilité du registre.
+
+**Retourne :**
+
+* `Literal["organization", "restricted"]` :  Le niveau de visibilité.
+  * &quot;organization&quot; : Toute personne de l’organisation peut consulter ce registre. Vous pourrez modifier ses rôles plus tard depuis Settings dans l’interface utilisateur.
+  * &quot;restricted&quot; : Seuls les membres invités via l’interface utilisateur peuvent accéder à ce registre. Le partage public est désactivé.
+
+**Retourne :**
+
+* `Literal['organization', 'restricted']` : La valeur de la propriété de visibilité.
+
+***
+
+### <kbd>méthode</kbd> `Registry.add_members`
+
+```python
+add_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+```
+
+Ajoute des Users ou des équipes à ce registre.
+
+**Arguments :**
+
+* `members`:  Les Users ou équipes à ajouter au registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
+
+**Retourne :**
+Ce registre, pour permettre d’enchaîner d’autres méthodes si nécessaire.
+
+**Exceptions levées :**
+
+* `TypeError`:  Si aucun membre n’est passé en argument.
+* `ValueError`:  S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
+
+**Exemples :**
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.add_members(user1, user2)
+
+my_team = api.team(name="my-team")
+registry.add_members(my_team)
+```
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.collections`
+
+```python
+collections(
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'PositiveInt' = 100
+) → Collections
+```
+
+Renvoie les collections du registre.
+
+***
+
+
+### <kbd>méthode de classe</kbd> `Registry.create`
+
+```python
+create(
+    client: 'RetryingClient',
+    organization: 'str',
+    name: 'str',
+    visibility: "Literal['organization', 'restricted']",
+    description: 'str | None' = None,
+    artifact_types: 'list[str] | None' = None
+) → Self
+```
+
+Créer un nouveau registre.
+
+Le nom du registre doit être unique au sein de l’organisation. Cette fonction doit être appelée via `api.create_registry()`
+
+**Arguments :**
+
+* `client`:  Le client GraphQL.
+* `organization`:  Le nom de l’organisation.
+* `name`:  Le nom du registre (sans le préfixe `wandb-registry-`).
+* `visibility`:  Le niveau de visibilité (`'organization'` ou `'restricted'`).
+* `description`:  Une description facultative du registre.
+* `artifact_types`:  Une liste facultative des types d&#39;artifact autorisés.
+
+**Retourne :**
+
+* `Registry`:  L’objet Registry nouvellement créé.
+
+**Exceptions levées :**
+
+* `ValueError`:  Si un registre portant le même nom existe déjà dans l’organisation, ou si sa création échoue.
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.delete`
+
+```python
+delete() → None
+```
+
+Supprimez le registre. Cette action est irréversible.
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.load`
+
+```python
+load() → None
+```
+
+Charge les attributs du registre à partir du backend.
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.members`
+
+```python
+members() → list[UserMember | TeamMember]
+```
+
+Renvoie les membres actuels (Users et équipes) de ce registre.
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.remove_members`
+
+```python
+remove_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+```
+
+Supprime des Users ou des équipes de ce registre.
+
+**Arguments :**
+
+* `members`:  Les Users ou équipes à supprimer du registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
+
+**Retourne :**
+Ce registre, pour pouvoir chaîner d&#39;autres méthodes si nécessaire.
+
+**Exceptions levées :**
+
+* `TypeError`:  Si aucun membre n&#39;est passé en argument.
+* `ValueError`:  S&#39;il est impossible de déduire ou d&#39;analyser les ID d&#39;utilisateur ou d&#39;équipe.
+
+**Exemples :**
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.remove_members(user1, user2)
+
+old_team = api.team(name="old-team")
+registry.remove_members(old_team)
+```
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.save`
+
+```python
+save() → None
+```
+
+Enregistrer les attributs du registre dans le backend.
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.team_members`
+
+```python
+team_members() → list[TeamMember]
+```
+
+Renvoie les équipes actuellement membres de ce registre.
+
+***
+
+
+### <kbd>méthode</kbd> `Registry.update_member`
+
+```python
+update_member(
+    member: 'User | UserMember | Team | TeamMember | str',
+    role: 'MemberRole | str'
+) → Self
+```
+
+Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
+
+**Arguments :**
+
+* `member`: L’utilisateur ou l’équipe dont le rôle doit être mis à jour. Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
+* `role`: Le nouveau rôle à attribuer au membre. Peut être l’un des suivants : - &quot;admin&quot; - &quot;member&quot; - &quot;viewer&quot; - &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
+
+**Retourne :**
+Ce registre, pour permettre un chaînage de méthodes supplémentaire si nécessaire.
+
+**Exceptions levées :**
+
+* `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
+
+**Exemples :**
+Attribuez le rôle d’administrateur à tous les utilisateurs du registre
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+```
+
+***
+
+### <kbd>méthode</kbd> `Registry.user_members`
+
+```python
+user_members() → list[UserMember]
+```
+
+Renvoie les Users actuellement membres de ce registre.
+
+***
+
+### <kbd>méthode</kbd> `Registry.versions`
+
+```python
+versions(
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'PositiveInt' = 100
+) → Versions
+```
+
+Renvoie les versions du registre.

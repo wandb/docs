@@ -1,0 +1,140 @@
+---
+title: "Weave とは？"
+description: "W&B Weave の概要と、LLM アプリケーションの構築、評価、改善にどのように役立つかを学びます"
+---
+
+W&amp;B Weave は、信頼性の高い LLM アプリケーションを構築するためのオブザーバビリティおよび評価プラットフォームです。Weave を使うと、AI アプリケーションで何が起きているのかを把握し、パフォーマンスを測定し、継続的かつ体系的に改善できます。
+
+LLM アプリケーションの構築は、従来のソフトウェア開発とは本質的に異なります。LLM の出力は非決定的なため、デバッグは難しくなります。品質は主観的で、コンテキストにも左右されます。プロンプトを少し変えただけでも、予期しない挙動の変化が生じることがあります。従来のテスト手法だけでは十分ではありません。
+
+<div id="the-main-threads-of-weave">
+  ## Weaveの主要な機能
+</div>
+
+Weaveは、次の中核機能を提供します。
+
+* アプリケーション内のあらゆるLLM call、入力、出力を**可視化**。
+* 厳選されたテストケースに対してパフォーマンスを測定するための**体系的な評価**。
+* 何が変更されたのかを把握できるようにする、プロンプト、Models、データの**バージョン追跡**。
+* さまざまなプロンプトやモデルを比較するための**実験**。
+* 人による判断やアノテーションを収集するための**フィードバック収集**。
+* LLMの安全性と品質を確保するために、ガードレールとスコアラーを使って本番環境で行う**モニタリング**。
+
+<div id="traces">
+  ### トレース
+</div>
+
+LLMアプリケーション内でデータがエンドツーエンドでどのように流れるかをトラッキングします。
+
+* アプリケーションの各利用における入力と出力を確認できます。
+* LLMのフィードバックの生成に使用されたソースドキュメントを確認できます。
+* LLM callsのコスト、token数、レイテンシを確認できます。
+* 特定のプロンプトや、回答がどのように生成されるかを詳しく確認できます。
+* ユーザーからの応答に対するフィードバックを収集できます。
+* コードでは、関数が何をしているかをトラッキングするために、Weaveの[ops and calls](/ja/weave/guides/tracking/tracing)を使用できます。
+
+[トレースのクイックスタート](/ja/weave/quickstart)
+
+<div id="evaluations">
+  ### 評価
+</div>
+
+LLM アプリケーションのパフォーマンスを体系的にベンチマークし、自信を持って本番環境にデプロイできます。
+
+* どのバージョンのモデルやプロンプトが、どのようなパフォーマンスにつながったかを簡単にトラッキングできます。
+* 1 つ以上のスコアリング関数を使って応答を評価するためのメトリクスを定義できます。
+* 複数のメトリクスにわたって、2 つ以上の異なる評価を比較できます。特定のサンプルのパフォーマンスを見比べることもできます。
+
+[評価パイプラインを構築する](/ja/weave/tutorial-eval)
+
+<div id="version-everything">
+  ### あらゆるものをバージョン管理
+</div>
+
+Weave は、プロンプト、データセット、モデルの設定をバージョン管理します。何か問題が起きたときは、何が変わったのかを正確に確認できます。うまくいったときは、その状態を再現できます。
+
+[バージョン管理について詳しく見る](/ja/weave/guides/tracking/objects)
+
+<div id="experiment-with-prompts-and-models">
+  ### プロンプトとモデルを試す
+</div>
+
+APIキーを用意すれば、Weave Playground ですばやくプロンプトをテストし、さまざまな商用モデルの応答を比較できます。
+
+[Weave Playground で試す](/ja/weave/guides/tools/playground)
+
+<div id="collect-feedback">
+  ### フィードバックを収集する
+</div>
+
+本番環境での利用を通じて、人によるフィードバック、アノテーション、修正を収集します。このデータを使用して、より良いテストケースを作成し、アプリケーションを改善します。
+
+[フィードバックを収集する](/ja/weave/guides/tracking/feedback)
+
+<div id="monitor-production">
+  ### 本番環境を監視する
+</div>
+
+評価で使用するのと同じscorerで本番トラフィックをスコアリングします。問題がユーザーに届く前に検知できるよう、ガードレールを設定します。
+
+[ガードレールとモニターを設定する](/ja/weave/guides/evaluation/monitors)
+
+<div id="get-started-using-weave">
+  ## Weave を使い始める
+</div>
+
+Weave は Python と TypeScript 向けの SDK を提供しています。どちらの SDK も、トレース、評価、データセット、および Weave の中核機能をサポートしています。クラスベースの Models や Scorers など、一部の高度な機能は現在 Weave TypeScript SDK では利用できません。
+
+Weave を使い始めるには、次の手順に従います。
+
+1. [https://wandb.ai/site](https://wandb.ai/site/?utm_source=course\&utm_medium=course\&utm_campaign=weave) で Weights &amp; Biases アカウントを作成し、[https://wandb.ai/authorize](https://wandb.ai/authorize?utm_source=course\&utm_medium=course\&utm_campaign=weave) で APIキーを取得します
+2. Weave をインストールします:
+
+<CodeGroup>
+  ```Python Python
+  pip install weave
+  ```
+
+  ```Typescript Typescript
+  npm install weave
+  ```
+</CodeGroup>
+
+3. スクリプトで Weave を import し、プロジェクトを初期化します:
+
+<CodeGroup>
+  ```Python Python
+  import weave
+  client = weave.init('your-team/your-project-name')
+  ```
+
+  ```TypeScript Typescript
+  import * as weave from 'weave';
+  const client = await weave.init('your-team/your-project-name');
+  ```
+</CodeGroup>
+
+これで Weave を使う準備が整いました。
+Weave は主要な LLM プロバイダーやフレームワークと統合できます。[サポートされているインテグレーション](/ja/weave/guides/integrations/) を使用すると、追加のコード変更なしで Weave が LLM の呼び出しを自動的にトレースします。
+
+4. サポートされているインテグレーションを利用する以外にも、関数に 1 行追加するだけで、カスタム関数のトレースを Weave にログすることもできます。
+
+Python では関数を `@weave.op()` でデコレートし、TypeScript では `weave.op()` でラップすると、Weave はそのコード、入力、出力、実行メタデータを自動的に取得します。
+
+<CodeGroup>
+  ```python Python
+      @weave.op
+      async def my_function(){
+        ...  }
+  ```
+
+  ```typescript Typescript
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+ガイド付きチュートリアルで試すには、[トレースのクイックスタート](/ja/weave/quickstart) を参照してください。

@@ -1,30 +1,37 @@
 ---
-title: wandb status
+title: wandb ステータス
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-status.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbStatus from "/snippets/en/_includes/cli/wandb-status.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L3436" />
 
-<WandbStatus/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-設定 情報を表示します
-
-## 使用法
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb status [OPTIONS]
+status [OPTIONS]
 ```
 
-## オプション
+<div id="description">
+  ## 説明
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--settings` | 現在の 設定 を表示します (デフォルト: True) |
+現在のW&amp;B設定を表示します。
+
+ベースURL、APIキー、project、entity、そのほかの最終的に解決された値を含む、現在有効なW&amp;B設定を整形されたJSONとして出力します。
+
+たとえば、現在の設定を表示するには次のようにします。
+
+```bash
+wandb status
+```
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ          | タイプ      | 説明                           |
+| ------------ | -------- | ---------------------------- |
+| `--settings` | BOOL フラグ | 現在の設定を表示します。 **デフォルト**: True |

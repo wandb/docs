@@ -1,0 +1,16 @@
+---
+title: "W&B에 수백만 개의 step을 기록하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?"
+keywords: ["Experiments", "메트릭"]
+---
+
+전송되는 포인트 수는 UI에서 그래프 로딩 시간에 영향을 줍니다. 선 하나에 1,000개가 넘는 포인트가 있으면, 백엔드는 브라우저로 보내기 전에 데이터를 1,000개 포인트로 샘플링합니다. 이 샘플링은 비결정적이므로 페이지를 새로고침할 때마다 샘플링된 포인트가 달라집니다.
+
+메트릭당 포인트를 10,000개 미만으로 기록하세요. 한 선에 100만 개가 넘는 포인트를 logging하면 페이지 로드 시간이 크게 늘어납니다. 정확도를 희생하지 않으면서 logging 양을 최소화하는 전략은 이 [Colab](https://wandb.me/log-hf-colab)에서 확인하세요. 설정 및 summary 메트릭의 column이 500개를 넘으면 table에는 500개만 표시됩니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

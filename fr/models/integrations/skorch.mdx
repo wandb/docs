@@ -1,0 +1,60 @@
+---
+description: "Intégrez W&B à Skorch pour journaliser les métriques et les hyperparamètres d'entraînement de modèles PyTorch compatibles avec scikit-learn."
+title: Skorch
+---
+
+Vous pouvez utiliser W&amp;B avec Skorch pour journaliser automatiquement le modèle le plus performant, ainsi que toutes les métriques de performance du modèle, sa topologie et les ressources de calcul après chaque époque. Chaque fichier enregistré dans `wandb_run.dir` est automatiquement journalisé dans W&amp;B.
+
+Voir [un exemple de run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
+
+<div id="parameters">
+  ## Paramètres
+</div>
+
+| Paramètre      | Type                              | Description                                                                                                                                                                                                                      |
+| :------------- | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `wandb_run`    | `wandb.wandb_run`. Run            | run wandb utilisé pour journaliser les données.                                                                                                                                                                                  |
+| `save_model`   | bool (default=True)               | Indique s&#39;il faut enregistrer un checkpoint du meilleur modèle et le téléverser vers votre Run sur W&amp;B.                                                                                                                  |
+| `keys_ignored` | str or list of str (default=None) | Clé ou liste de clés qui ne doivent pas être journalisées dans TensorBoard. Notez qu&#39;en plus des clés fournies par l&#39;utilisateur, les clés commençant par `event_` ou se terminant par `_best` sont ignorées par défaut. |
+
+<div id="example-code">
+  ## Exemples de code
+</div>
+
+Nous avons créé quelques exemples pour vous montrer comment l’intégration fonctionne :
+
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): une démo simple pour essayer l’intégration
+* [Un guide étape par étape](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ) : pour suivre les performances de votre modèle Skorch
+
+```python
+# Installer wandb
+... pip install wandb
+
+import wandb
+from skorch.callbacks import WandbLogger
+
+# Créer un run wandb
+wandb_run = wandb.init()
+
+# Journaliser les hyperparamètres (facultatif)
+wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
+
+net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
+net.fit(X, y)
+```
+
+
+<div id="method-reference">
+  ## Référence des méthodes
+</div>
+
+| Méthode                                               | Description                                                                                                |
+| :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
+| `initialize`()                                        | (Ré-)initialise l’état initial du callback.                                                                |
+| `on_batch_begin`(net[, X, y, training])               | Appelée au début de chaque lot.                                                                            |
+| `on_batch_end`(net[, X, y, training])                 | Appelée à la fin de chaque lot.                                                                            |
+| `on_epoch_begin`(net[, dataset&#95;train, …])         | Appelée au début de chaque époque.                                                                         |
+| `on_epoch_end`(net, **kwargs)                         | Journalise les valeurs de la dernière étape de l’historique et enregistre le meilleur modèle               |
+| `on_grad_computed`(net, named&#95;parameters[, X, …]) | Appelée une fois par lot, après le calcul des gradients mais avant l’exécution d’une étape de mise à jour. |
+| `on_train_begin`(net, **kwargs)                       | Journalise la topologie du modèle et ajoute un hook pour les gradients                                     |
+| `on_train_end`(net[, X, y])                           | Appelée à la fin de l’entraînement.                                                                        |

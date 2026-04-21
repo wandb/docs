@@ -1,0 +1,18 @@
+---
+title: "sweep가 로컬에 로그를 저장하는 디렉터리를 어떻게 변경하나요?"
+keywords: ["Sweeps"]
+---
+
+환경 변수 `WANDB_DIR`를 설정해 W&amp;B run 데이터의 로깅 디렉터리를 지정합니다. 예를 들면 다음과 같습니다:
+
+```python
+os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

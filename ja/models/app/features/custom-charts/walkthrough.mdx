@@ -1,100 +1,108 @@
 ---
-title: チュートリアル：カスタムチャートの使用方法
-description: W&B UI におけるカスタムチャート機能の使用方法に関するチュートリアル
+description: W&B UI のカスタムチャート機能を使用するチュートリアル
+title: 'チュートリアル: カスタムチャートを使用する'
 ---
 
-カスタムチャートを使用して、パネルに読み込むデータとその可視化を制御します。
+カスタムチャートを使用すると、パネルに読み込むデータとその可視化を制御できます。
 
+<div id="1-log-data-to-wb">
+  ## 1. データを W&amp;B にログする
+</div>
 
-## 1. W&B へのデータのログ記録
-
-まず、スクリプトでデータをログに記録します。ハイパーパラメーターのように、トレーニングの開始時に設定される単一のポイントには [wandb.Run.config](/models/track/config/) を使用してください。時系列に沿った複数のポイントには [wandb.Run.log()](/models/track/log/) を使用し、カスタムの 2D 配列は `wandb.Table()` でログを記録します。ログを記録する キー (key) ごとに、最大 10,000 データポイントまでのログ記録を推奨しています。
+まず、スクリプト内でデータをログします。ハイパーパラメーターのように、トレーニング開始時に一度だけ設定する単一の値には [wandb.Run.config](/ja/models/track/config/) を使用します。時間の経過に伴って記録する複数の値には [wandb.Run.log()](/ja/models/track/log/) を使用し、カスタムの 2D 配列は `wandb.Table()` でログします。ログする各キーについて、データポイントは最大 10,000 件までにすることを推奨します。
 
 ```python
 with wandb.init() as run: 
 
-  # データのカスタムテーブルをログに記録する
+  # カスタムデータ表のログ
   my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
   run.log(
     {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
   )
 ```
 
-[クイックサンプルのノートブックを試して](https://bit.ly/custom-charts-colab) データテーブルをログに記録してみましょう。次のステップでカスタムチャートを設定します。結果のチャートがどのように見えるかは、こちらの [ライブレポート](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc) で確認できます。
+[データテーブルをログする簡単なサンプルノートブックをお試しください](https://bit.ly/custom-charts-colab)。次のstepでは、カスタムチャートを設定します。作成されたチャートがどのように表示されるかは、[ライブレポート](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)で確認できます。
 
+<div id="2-create-a-query">
+  ## 2. クエリを作成する
+</div>
 
-## 2. クエリの作成
-
-可視化するデータのログを記録したら、Projects ページに移動し、**`+`** ボタンをクリックして新しい パネル を追加し、**Custom Chart** を選択します。[カスタムチャート デモ Workspace](https://app.wandb.ai/demo-team/custom-charts) で手順を確認しながら進めることができます。
+可視化するデータをログしたら、プロジェクトページに移動し、**`+`** ボタンをクリックして新しいパネルを追加し、**Custom Chart** を選択します。[ワークスペース](https://app.wandb.ai/demo-team/custom-charts)を開きながら進めることもできます。
 
 <Frame>
-    <img src="/images/app_ui/create_a_query.png" alt="Blank custom chart"  />
+  <img src="/images/app_ui/create_a_query.png" alt="空のカスタムチャート" />
 </Frame>
 
-### クエリの追加
+<div id="add-a-query">
+  ### クエリを追加する
+</div>
 
-1. `summary` をクリックして `historyTable` を選択し、Run の履歴からデータを取得する新しいクエリを設定します。
-2. `wandb.Table()` をログに記録した際の キー (key) を入力します。上記のコードスニペットでは `my_custom_table` でした。[サンプルノートブック](https://bit.ly/custom-charts-colab) では、キーは `pr_curve` と `roc_curve` です。
+1. `summary` をクリックし、`historyTable` を選択して、run の履歴からデータを取得する新しいクエリを設定します。
+2. `wandb.Table()` をログしたキーを入力します。上記のコードスニペットでは `my_custom_table` です。[サンプルノートブック](https://bit.ly/custom-charts-colab) では、キーは `pr_curve` と `roc_curve` です。
 
-### Vega フィールドの設定
+<div id="set-vega-fields">
+  ### Vega フィールドを設定する
+</div>
 
-クエリがこれらの列を読み込むようになると、Vega フィールドのドロップダウンメニューから選択可能なオプションとして表示されます。
+クエリがこれらの列に読み込まれると、Vega フィールドのドロップダウンメニューで選択できるようになります。
 
 <Frame>
-    <img src="/images/app_ui/set_vega_fields.png" alt="Pulling in columns from the query results to set Vega fields"  />
+  <img src="/images/app_ui/set_vega_fields.png" alt="クエリ結果から列を取り込み、Vega フィールドを設定する" />
 </Frame>
 
-* **x-axis:** runSets_historyTable_r (再現率 / recall)
-* **y-axis:** runSets_historyTable_p (適合率 / precision)
-* **color:** runSets_historyTable_c (クラスラベル)
+* **x-axis:** runSets&#95;historyTable&#95;r (再現率)
+* **y-axis:** runSets&#95;historyTable&#95;p (適合率)
+* **color:** runSets&#95;historyTable&#95;c (クラスラベル)
 
+<div id="3-customize-the-chart">
+  ## 3. チャートをカスタマイズする
+</div>
 
-## 3. チャートのカスタマイズ
-
-これでかなり良くなりましたが、散布図から折れ線グラフに切り替えたいと思います。**Edit** をクリックして、この組み込みチャートの Vega spec を変更します。[カスタムチャート デモ Workspace](https://app.wandb.ai/demo-team/custom-charts) で一緒に進めてみましょう。
+かなり見栄えがよくなってきましたが、散布図ではなく折れ線グラフに切り替えてみます。この組み込みチャートの Vega spec を変更するには、**Edit** をクリックします。[ワークスペース](https://app.wandb.ai/demo-team/custom-charts) を見ながら進めてください。
 
 <Frame>
-    <img src="/images/general/custom-charts-1.png" alt="Custom chart selection"  />
+  <img src="/images/general/custom-charts-1.png" alt="カスタムチャートの選択" />
 </Frame>
 
-可視化をカスタマイズするために Vega spec を更新しました：
+可視化をカスタマイズするため、Vega spec を次のように更新しました。
 
-* プロット、凡例、x 軸、y 軸のタイトルを追加（各フィールドに "title" を設定）
-* “mark” の値を “point” から “line” に変更
-* 未使用の “size” フィールドを削除
+* プロット、凡例、x軸、y軸にタイトルを追加する (各フィールドの `title` を設定)
+* `mark` の値を `point` から `line` に変更する
+* 未使用の `size` フィールドを削除する
 
 <Frame>
-    <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="PR curve Vega spec"  />
+  <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="PR曲線のVega spec" />
 </Frame>
 
-これをプリセットとして保存し、この プロジェクト の他の場所で使用できるようにするには、ページ上部の **Save as** をクリックします。結果は、ROC 曲線とともに以下のようになります。
+これをこのプロジェクト内の別の場所でも使えるプリセットとして保存するには、ページ上部の **Save as** をクリックします。結果は次のようになります。ROC 曲線もあわせて表示しています。
 
 <Frame>
-    <img src="/images/general/custom-charts-2.png" alt="PR curve chart"  />
+  <img src="/images/general/custom-charts-2.png" alt="PR曲線のチャート" />
 </Frame>
 
+<div id="bonus-composite-histograms">
+  ## おまけ: 複合ヒストグラム
+</div>
 
-## ボーナス: 複合ヒストグラム (Composite Histograms)
-
-ヒストグラムは、数値の分布を可視化して、より大規模な データセット を理解するのに役立ちます。複合ヒストグラムは、同じビンを介して複数の分布を表示し、異なる モデル 間やモデル内の異なるクラス間で 2 つ以上の メトリクス を比較することを可能にします。走行シーンの物体を検出する セマンティックセグメンテーション モデルの場合、精度 (accuracy) の最適化と Intersection over union (IoU) の最適化の効果を比較したり、モデルが車（データ内で大きく一般的な領域）と交通標識（はるかに小さく、あまり一般的でない領域）をどの程度うまく検出できるかを知りたい場合があります。[デモ Colab](https://bit.ly/custom-charts-colab) では、10 種類の生物クラスのうち 2 つの信頼度スコアを比較できます。
+ヒストグラムは数値の分布を可視化し、大規模なデータセットの理解に役立ちます。複合ヒストグラムでは、同じビンに複数の分布を重ねて表示できるため、異なるモデル間や、1つのモデル内の異なるクラス間で、2つ以上のメトリクスを比較できます。たとえば、運転シーン内の物体を検出するセマンティックセグメンテーションモデルでは、accuracy の最適化と intersection over union (IOU) の最適化の効果を比較したり、異なるモデルが車 (データ中で大きく頻出する領域) と交通標識 (はるかに小さく、あまり出現しない領域) をどの程度うまく検出できるかを確認したりできます。[デモ Colab](https://bit.ly/custom-charts-colab)では、生物の10クラスのうち2クラスについて、信頼度スコアを比較できます。
 
 <Frame>
-    <img src="/images/app_ui/composite_histograms.png" alt="Composite histogram"  />
+  <img src="/images/app_ui/composite_histograms.png" alt="複合ヒストグラム" />
 </Frame>
 
-独自のカスタム複合ヒストグラムパネルを作成するには：
+独自のカスタム複合ヒストグラムパネルを作成するには、次の手順に従います。
 
-1. Workspace または Reports 内で新しい Custom Chart パネルを作成します（「Custom Chart」可視化を追加）。右上の「Edit」ボタンを押して、任意の組み込みパネルタイプから Vega spec を変更します。
-2. その組み込み Vega spec を、こちらの [Vega での複合ヒストグラム用 MVP コード](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21) に置き換えます。メインタイトル、軸タイトル、入力ドメイン、その他の詳細は、[Vega の構文を使用して](https://vega.github.io/) この Vega spec 内で直接変更できます（色を変えたり、3 つ目のヒストグラムを追加することも可能です）。
-3. 右側のクエリを修正して、W&B のログから正しいデータを読み込むようにします。`summaryTable` フィールドを追加し、対応する `tableKey` を `class_scores` に設定して、Run によってログに記録された `wandb.Table` を取得します。これにより、ドロップダウンメニューを使用して、`class_scores` としてログに記録された `wandb.Table` の列から、2 つのヒストグラムのビンセット（`red_bins` と `blue_bins`）にデータを入力できるようになります。私の例では、赤のビンに `animal` クラスの予測スコアを、青のビンに `plant` クラスの予測スコアを選択しました。
-4. プレビューに表示されるプロットに満足するまで、Vega spec とクエリの変更を続けることができます。完了したら、上部の **Save as** をクリックしてカスタムプロットに名前を付け、再利用できるようにします。その後、**Apply from panel library** をクリックしてプロットを完成させます。
+1. Workspace または Report で新しい Custom Chart パネルを作成します (「Custom Chart」可視化を追加します) 。右上の「Edit」ボタンをクリックすると、任意の組み込みパネルタイプをベースに Vega spec を編集できます。
+2. その組み込みの Vega spec を、私の [Vega による複合ヒストグラム用 MVP コード](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21) に置き換えます。メインタイトル、軸タイトル、入力ドメイン、そのほかの詳細は、この Vega spec を [Vega 構文を使って](https://vega.github.io/) 直接変更できます (colors を変えたり、3つ目のヒストグラムを追加したりすることもできます :)) 。
+3. 右側のクエリを編集して、wandb のログから正しいデータを読み込みます。`summaryTable` フィールドを追加し、対応する `tableKey` を `class_scores` に設定して、run によってログされた `wandb.Table` を取得します。これにより、`class_scores` としてログされた `wandb.Table` の列を使って、ドロップダウンメニューから2つのヒストグラムのビンセット (`red_bins` と `blue_bins`) を設定できるようになります。私の例では、赤のビンに `animal` クラスの予測スコア、青のビンに `plant` を選びました。
+4. プレビュー表示されるプロットに満足するまで、Vega spec とクエリを引き続き調整できます。完了したら、上部の **Save as** をクリックし、再利用できるようにカスタムプロットに名前を付けます。次に **Apply from panel library** をクリックして、プロットを完成させます。
 
-非常に短い 実験 から得られた結果は以下の通りです。わずか 1,000 個のサンプルで 1 エポック だけトレーニングした結果、ほとんどの画像が植物ではないと確信しており、どの画像が動物であるかについては非常に不確実なモデルが生成されました。
+ごく短時間の experiment で得られた結果は次のとおりです。1000件の例だけで1エポックトレーニングすると、ほとんどの画像が植物ではないことには非常に高い確信を示す一方で、どの画像が動物かもしれないかについては非常に不確かなモデルになります。
 
 <Frame>
-    <img src="/images/general/custom-charts-3.png" alt="Chart configuration"  />
+  <img src="/images/general/custom-charts-3.png" alt="チャート設定" />
 </Frame>
 
 <Frame>
-    <img src="/images/general/custom-charts-4.png" alt="Chart result"  />
+  <img src="/images/general/custom-charts-4.png" alt="チャート結果" />
 </Frame>

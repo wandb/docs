@@ -1,32 +1,36 @@
 ---
-title: セルフマネージドな W&B Weave インスタンスをセットアップする
-description: 自社独自の インフラストラクチャー 上で Weave をデプロイ・管理する
+title: "セルフマネージドの W&B Weave インスタンスを設定する"
+description: "自社のインフラストラクチャー上に Weave をデプロイして管理する"
 ---
 
-W&B Weave をセルフホスティングすることで、環境と設定をより細かく制御できるようになります。これにより、より分離された環境を構築し、追加のセキュリティコンプライアンス要件を満たすことが可能になります。このドキュメントでは、Altinity ClickHouse Operator を使用して、自己管理型（セルフマネージド）環境で W&B Weave を実行するために必要なすべてのコンポーネントをデプロイする方法をガイドします。
+W&amp;B Weave をセルフホストすると、環境や設定をより細かく制御できます。これにより、より分離された環境を構築し、追加のセキュリティ要件やコンプライアンス要件に対応しやすくなります。このドキュメントでは、Altinity ClickHouse Operator を使用して、セルフマネージド環境で W&amp;B Weave を実行するために必要なすべてのコンポーネントをデプロイする方法を説明します。
 
-自己管理型の Weave デプロイメントは、バックエンドの管理に [ClickHouseDB](https://clickhouse.com/) を利用します。このデプロイメントでは以下を使用します：
+セルフマネージドの Weave デプロイでは、バックエンドの管理に [ClickHouseDB](https://clickhouse.com/) を使用します。このデプロイでは、次を使用します。
 
-- **Altinity ClickHouse Operator**: Kubernetes 向けのエンタープライズグレードの ClickHouse 管理ツール
-- **ClickHouse Keeper**: 分散コーディネーションサービス (ZooKeeper の代替)
-- **ClickHouse Cluster**: トレースストレージ用の高可用性データベースクラスター
-- **S3 互換ストレージ**: ClickHouse データの永続化用オブジェクトストレージ
+* **Altinity ClickHouse Operator**: Kubernetes 向けのエンタープライズグレードの ClickHouse 管理
+* **ClickHouse Keeper**: 分散コーディネーションサービス (ZooKeeper の代替) 
+* **ClickHouse Cluster**: トレース保存用の高可用性データベースクラスター
+* **S3-Compatible Storage**: ClickHouse データを永続化するためのオブジェクトストレージ
 
 <Tip>
-詳細なリファレンスアーキテクチャーについては、 [W&B Self-Managed Reference Architecture](https://docs.wandb.ai/guides/hosting/self-managed/ref-arch/#models-and-weave) を参照してください。
+  詳細なリファレンスアーキテクチャについては、[W&amp;B Self-Managed Reference Architecture](https://docs.wandb.ai/guides/hosting/self-managed/ref-arch/#models-and-weave)を参照してください。
 </Tip>
 
-## セットアップに関する重要な注意点
+<div id="important-setup-notes">
+  ## 重要なセットアップ上の注意
+</div>
 
-このガイドの設定例は参照用です。組織の Kubernetes 環境はそれぞれ異なるため、セルフホストインスタンスでは以下の調整が必要になる可能性が高いです：
+このガイドの設定例は、あくまで参考用です。各組織の Kubernetes 環境はそれぞれ異なるため、セルフホスト環境では以下の点を調整する必要がある可能性が高くなります。
 
-- **セキュリティとコンプライアンス**: 組織のセキュリティポリシーや Kubernetes/OpenShift の要件に従って、セキュリティコンテキスト、 `runAsUser`/`fsGroup` の値、その他のセキュリティ設定を調整してください。
-- **リソースのサイジング**: 記載されているリソース割り当ては開始点です。予想されるトレース量とパフォーマンス要件に基づく適切なサイジングについては、 **W&B のソリューションアーキテクトチームにご相談ください** 。
-- **インフラストラクチャーの詳細**: 環境に合わせて、ストレージクラス、ノードセレクター、その他のインフラ固有の設定を更新してください。
+* **Security &amp; Compliance**: 組織のセキュリティポリシーおよび Kubernetes/OpenShift の要件に合わせて、セキュリティコンテキスト、`runAsUser`/`fsGroup` の値、その他のセキュリティ設定を調整してください。
+* **Resource Sizing**: ここに示すリソース割り当ては出発点にすぎません。想定されるトレース量とパフォーマンス要件に基づく適切なサイジングについては、**W&amp;B Solutions Architect チームに相談してください**。
+* **Infrastructure Specifics**: ストレージクラス、ノードセレクター、その他のインフラストラクチャー固有の設定を、使用する環境に合わせて更新してください。
 
-このガイドの設定は、規定の解決策ではなく、テンプレートとして扱う必要があります。
+このガイドの設定は、規定のソリューションではなく、テンプレートとして扱ってください。
 
-## アーキテクチャー
+<div id="architecture">
+  ## アーキテクチャ
+</div>
 
 ```mermaid
 graph TD
@@ -42,64 +46,79 @@ graph TD
     E --> G
 ```
 
-## 前提条件
 
-自己管理型 Weave インスタンスには、以下のリソースが必要です：
+<div id="prerequisites">
+  ## 前提条件
+</div>
 
-- **Kubernetes クラスター**: バージョン 1.29 以上
-- **Kubernetes ノード**: マルチノードクラスター（高可用性のために最低 3 ノードを推奨）
-- **ストレージクラス**: 永続ボリューム用の動作可能な StorageClass（例： `gp3`, `standard`, `nfs-csi`）
-- **S3 バケット**: 適切なアクセス権限が設定された、構成済みの S3 または S3 互換バケット
-- **W&B プラットフォーム**: すでにインストールされ実行されていること（ [W&B Self-Managed Deployment Guide](https://docs.wandb.ai/guides/hosting/hosting-options/self-managed/) を参照）
-- **W&B ライセンス**: W&B サポートから提供された Weave 有効化済みのライセンス
+セルフマネージドのWeaveインスタンスには、以下のリソースが必要です。
+
+* **Kubernetes クラスター**: バージョン 1.29 以上
+* **Kubernetes ノード**: マルチノードクラスター (高可用性のため、少なくとも 3 ノードを推奨) 
+* **ストレージクラス**: 永続ボリューム用の有効な StorageClass (例: `gp3`, `standard`, `nfs-csi`) 
+* **S3 バケット**: 適切なアクセス権限が設定された、事前構成済みの S3 または S3 互換バケット
+* **W&amp;B Platform**: すでにインストールおよび稼働していること ([W&amp;B Self-Managed デプロイガイド](https://docs.wandb.ai/guides/hosting/hosting-options/self-managed/)を参照) 
+* **W&amp;B ライセンス**: W&amp;B サポートが提供する Weave 対応ライセンス
 
 <Warning>
-この前提条件リストだけでサイジングを決定しないでください。リソースの必要量は、トレース量や使用パターンによって大きく異なります。具体的なクラスターサイジングのガイダンスについては、詳細な [リソース要件](#最小構成-プロダクション向け) セクションを参照してください。
+  この前提条件の一覧だけを基にサイジングを判断しないでください。必要なリソースは、トレース量や使用パターンによって大きく異なります。クラスターのサイジングに関する具体的なガイダンスについては、詳細な[リソース要件](#resource-requirements)セクションを参照してください。
 </Warning>
 
-### 必要なツール
+<div id="required-tools">
+  ### 必須ツール
+</div>
 
-インスタンスをセットアップするには、以下のツールが必要です：
+インスタンスを設定するには、次のツールが必要です。
 
-- クラスターへのアクセス権が設定された `kubectl`
-- `helm` v3.0 以上
-- AWS クレデンシャル（S3 を使用する場合）または S3 互換ストレージへのアクセス権
+* クラスターにアクセスできるよう設定された`kubectl`
+* `helm` v3.0+
+* AWS認証情報 (S3を使用する場合) 、またはS3互換ストレージへのアクセス
 
-### ネットワーク要件
+<div id="network-requirements">
+  ### ネットワーク要件
+</div>
 
-Kubernetes クラスターには以下のネットワーク設定が必要です：
+Kubernetes クラスターでは、以下のネットワーク設定が必要です。
 
-- `clickhouse` ネームスペース内の Pod が `wandb` ネームスペース内の Pod と通信できること
-- ClickHouse ノードがポート 8123, 9000, 9009, 2181 で相互に通信できること
+* `clickhouse` namespace 内の Pod は、`wandb` namespace 内の Pod と通信できる必要があります
+* ClickHouse ノード同士は、ポート 8123、9000、9009、2181 を介して通信できる必要があります
 
-## 自己管理型 Weave インスタンスのデプロイ
+<div id="deploy-your-self-managed-weave-instance">
+  ## セルフマネージドWeaveインスタンスをデプロイする
+</div>
 
-### ステップ 1: Altinity ClickHouse Operator のデプロイ
+<div id="step-1-deploy-altinity-clickhouse-operator">
+  ### Step 1: Altinity ClickHouse Operator をデプロイする
+</div>
 
-Altinity ClickHouse Operator は、Kubernetes での ClickHouse のインストールを管理します。
+Altinity ClickHouse Operator は、Kubernetes 上の ClickHouse インストールを管理します。
 
-#### 1.1 Altinity Helm リポジトリの追加
+<div id="11-add-the-altinity-helm-repository">
+  #### 1.1 Altinity Helmリポジトリを追加する
+</div>
 
 ```bash
 helm repo add altinity https://helm.altinity.com
 helm repo update
 ```
 
-#### 1.2 オペレーター設定の作成
 
-`ch-operator.yaml` という名前のファイルを作成します：
+<div id="12-create-the-operator-configuration">
+  #### 1.2 Operator の設定を作成
+</div>
+
+`ch-operator.yaml` という名前のファイルを作成します。
 
 ```yaml
 operator:
   image:
     repository: altinity/clickhouse-operator
-    tag: "0.25.4"
 
-  # セキュリティコンテキスト - クラスターの要件に合わせて調整してください
+  # セキュリティコンテキスト - クラスターの要件に応じて調整してください
   containerSecurityContext:
     runAsGroup: 0
     runAsNonRoot: true
-    runAsUser: 10001 # OpenShift/Kubernetes のセキュリティポリシーに基づいて更新してください
+    runAsUser: 10001 # OpenShift/Kubernetes のセキュリティポリシーに合わせて更新してください
     allowPrivilegeEscalation: false
     capabilities:
       drop:
@@ -110,33 +129,38 @@ operator:
 metrics:
   enabled: false
 
-# 名前のオーバーライド - 必要に応じてカスタマイズ
+# 名前のオーバーライド - 必要に応じてカスタマイズしてください
 nameOverride: "wandb"
 ```
 
-ここに示されている `containerSecurityContext` の値は、ほとんどの Kubernetes ディストリビューションで動作します。 **OpenShift** の場合は、プロジェクトに割り当てられた UID 範囲に合わせて `runAsUser` と `fsGroup` を調整する必要がある場合があります。
+ここで示している `containerSecurityContext` の値は、ほとんどの Kubernetes ディストリビューションで使用できます。**OpenShift** では、プロジェクトに割り当てられている UID 範囲に合わせて `runAsUser` と `fsGroup` を調整する必要がある場合があります。
 
-#### 1.3 オペレーターのインストール
+
+<div id="13-install-the-operator">
+  #### 1.3 operatorをインストールする
+</div>
 
 ```bash
 helm upgrade --install ch-operator altinity/altinity-clickhouse-operator \
-  --version 0.25.4 \
   --namespace clickhouse \
   --create-namespace \
   -f ch-operator.yaml
 ```
 
-#### 1.4 オペレーターインストールの確認
+
+<div id="14-verify-the-operator-installation">
+  #### 1.4 operator がインストールされていることを確認する
+</div>
 
 ```bash
-# オペレーター Pod が実行中であることを確認
+# operator の pod が実行中であることを確認する
 kubectl get pods -n clickhouse
 
 # 期待される出力:
 # NAME                                 READY   STATUS    RESTARTS   AGE
 # ch-operator-wandb-xxxxx              1/1     Running   0          30s
 
-# オペレーターのイメージバージョンを確認
+# operator のイメージバージョンを確認する
 kubectl get pods -n clickhouse -o jsonpath="{.items[*].spec.containers[*].image}" | \
   tr ' ' '\n' | grep -v 'metrics-exporter' | sort -u
 
@@ -144,33 +168,43 @@ kubectl get pods -n clickhouse -o jsonpath="{.items[*].spec.containers[*].image}
 # altinity/clickhouse-operator:0.25.4
 ```
 
-### ステップ 2: S3 ストレージの準備
 
-ClickHouse はデータの永続化のために S3 または S3 互換ストレージを必要とします。
+<div id="step-2-prepare-s3-storage">
+  ### Step 2: S3ストレージを準備する
+</div>
 
-#### 2.1 S3 バケットの作成
+ClickHouse では、データの永続化に S3 または S3 互換ストレージが必要です。
 
-AWS アカウントまたは S3 互換ストレージプロバイダーで S3 バケットを作成します：
+<div id="21-create-an-s3-bucket">
+  #### 2.1 S3バケットを作成する
+</div>
+
+AWS アカウントまたは S3 互換のストレージプロバイダーで S3バケットを作成します。
 
 ```bash
-# AWS の例
+# AWSの例
 aws s3 mb s3://my-wandb-clickhouse-bucket --region eu-central-1
 ```
 
-#### 2.2 S3 クレデンシャルの設定
 
-S3 アクセス用のクレデンシャルを提供するには、2 つのオプションがあります：
+<div id="22-configure-s3-credentials">
+  #### 2.2 S3認証情報を設定する
+</div>
 
-##### オプション A: AWS IAM ロールの使用 (IRSA - AWS 推奨)
+S3へのアクセス認証情報を指定する方法は2つあります。
 
-Kubernetes ノードに S3 アクセス権を持つ IAM ロールが付与されている場合、ClickHouse は EC2 インスタンスのメタデータを使用できます：
+<div id="option-a-using-aws-iam-roles-irsa-recommended-for-aws">
+  ##### オプション A: AWS IAM ロールを使用する (IRSA - AWS では推奨)
+</div>
+
+Kubernetes ノードに S3 へのアクセス権を持つ IAM ロールがある場合、ClickHouse は EC2 インスタンスメタデータを使用できます。
 
 ```yaml
 # ch-server.yaml で以下を設定:
 <use_environment_credentials>true</use_environment_credentials>
 ```
 
-**必要な IAM ポリシー** (ノードの IAM ロールにアタッチ):
+**必須の IAM ポリシー** (ノードの IAM ロールにアタッチ) :
 
 ```json
 {
@@ -193,9 +227,12 @@ Kubernetes ノードに S3 アクセス権を持つ IAM ロールが付与され
 }
 ```
 
-##### オプション B: アクセスキーの使用
 
-静的なクレデンシャルを使用する場合は、Kubernetes secret を作成します：
+<div id="option-b-using-access-keys">
+  ##### オプション B: アクセスキーを使用する
+</div>
+
+静的な認証情報を使用する場合は、Kubernetes シークレットを作成します。
 
 ```bash
 kubectl create secret generic aws-creds \
@@ -204,15 +241,20 @@ kubectl create secret generic aws-creds \
   --from-literal aws_secret_key=YOUR_SECRET_KEY
 ```
 
-その後、この secret を使用するように ClickHouse を設定します（後述の ch-server.yaml 設定を参照）。
+次に、ClickHouse がそのシークレットを使用するように設定します (以下の ch-server.yaml の設定を参照) 。
 
-### ステップ 3: ClickHouse Keeper のデプロイ
 
-[ClickHouse Keeper](https://clickhouse.com/docs/guides/sre/keeper/clickhouse-keeper) は、データレプリケーションと分散 DDL クエリ実行のためのコーディネーションシステムを提供します。
+<div id="step-3-deploy-clickhouse-keeper">
+  ### Step 3: ClickHouse Keeper をデプロイする
+</div>
 
-#### 3.1 Keeper 設定の作成
+[ClickHouse Keeper](https://clickhouse.com/docs/guides/sre/keeper/clickhouse-keeper) は、データレプリケーションと分散 DDL クエリの実行を調整するためのシステムです。
 
-`ch-keeper.yaml` という名前のファイルを作成します：
+<div id="31-create-the-keeper-configuration">
+  #### 3.1 Keeper の設定を作成する
+</div>
+
+`ch-keeper.yaml` という名前のファイルを作成します。
 
 ```yaml
 apiVersion: "clickhouse-keeper.altinity.com/v1"
@@ -234,18 +276,18 @@ spec:
           labels:
             app: clickhouse-keeper
         spec:
-          # Pod セキュリティコンテキスト - 環境に合わせて調整してください
+          # Podセキュリティコンテキスト - 環境に合わせて調整してください
           securityContext:
-            fsGroup: 10001 # クラスターのセキュリティ要件に基づいて更新してください
+            fsGroup: 10001 # クラスターのセキュリティ要件に合わせて更新してください
             fsGroupChangePolicy: Always
             runAsGroup: 0
             runAsNonRoot: true
-            runAsUser: 10001 # OpenShift の場合は、プロジェクトに割り当てられた UID 範囲を使用してください
+            runAsUser: 10001 # OpenShiftの場合は、プロジェクトに割り当てられたUID範囲を使用してください
             seccompProfile:
               type: RuntimeDefault
 
-          # Keeper をノード間に分散させるためのアンチアフィニティ（高可用性のために推奨）
-          # クラスターのサイズと可用性要件に基づいてカスタマイズまたは削除してください
+          # ノード間にKeeperを分散させるためのアンチアフィニティ（HA構成に推奨）
+          # クラスターのサイズと可用性要件に応じてカスタマイズまたは削除してください
           affinity:
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -260,8 +302,8 @@ spec:
           containers:
             - name: clickhouse-keeper
               imagePullPolicy: IfNotPresent
-              image: "clickhouse/clickhouse-keeper:25.3.5.42"
-              # リソースリクエスト - 例示的な値。ワークロードに基づいて調整してください
+              image: "clickhouse/clickhouse-keeper:25.10"
+              # リソースリクエスト - 参考値です。ワークロードに応じて調整してください
               resources:
                 requests:
                   memory: "256Mi"
@@ -284,7 +326,7 @@ spec:
           labels:
             app: clickhouse-keeper
         spec:
-          storageClassName: gp3 # 使用する StorageClass に変更してください
+          storageClassName: gp3 # 使用するStorageClassに変更してください
           accessModes:
             - ReadWriteOnce
           resources:
@@ -293,7 +335,7 @@ spec:
 
   configuration:
     clusters:
-      - name: keeper # Keeper クラスター名 - サービス DNS 名に使用されます
+      - name: keeper # KeeperクラスターのName - サービスDNS命名に使用されます
         layout:
           replicasCount: 3
         templates:
@@ -310,24 +352,30 @@ spec:
       keeper_server/coordination_settings/async_replication: "true"
 ```
 
-**重要な設定の更新**:
+**重要な設定の更新事項**:
 
-- **StorageClass**: クラスターで使用可能な StorageClass に合わせて `storageClassName: gp3` を更新してください。
-- **セキュリティコンテキスト**: 組織のセキュリティポリシーに準拠するように `runAsUser`, `fsGroup` の値を調整してください。
-- **アンチアフィニティ**: クラスターのトポロジーと高可用性要件に基づいて `affinity` セクションをカスタマイズまたは削除してください。
-- **リソース**: CPU/メモリの値は例です。適切なサイジングについては W&B ソリューションアーキテクトにご相談ください。
-- **ネーミング**: `metadata.name` または `configuration.clusters[0].name` を変更した場合は、ch-server.yaml (ステップ 4) の Keeper ホスト名を一致するように **必ず更新** する必要があります。
+* **StorageClass**: クラスターで使用可能な StorageClass に合わせて、`storageClassName: gp3` を更新します
+* **セキュリティコンテキスト**: 組織のセキュリティポリシーに準拠するよう、`runAsUser` と `fsGroup` の値を調整します
+* **Anti-Affinity**: クラスターのトポロジーと HA 要件に応じて、`affinity` セクションをカスタマイズするか削除します
+* **リソース**: CPU/メモリの値はあくまで例です。適切なサイジングについては、W&amp;B Solutions Architects に相談してください
+* **命名**: `metadata.name` または `configuration.clusters[0].name` を変更する場合は、それに合わせて ch-server.yaml (Step 4) 内の Keeper ホスト名を**必ず更新**してください
 
-#### 3.2 ClickHouse Keeper のデプロイ
+
+<div id="32-deploy-clickhouse-keeper">
+  #### 3.2 ClickHouse Keeperをデプロイする
+</div>
 
 ```bash
 kubectl apply -f ch-keeper.yaml
 ```
 
-#### 3.3 Keeper デプロイの確認
+
+<div id="33-verify-keeper-deployment">
+  #### 3.3 Keeper のデプロイを確認する
+</div>
 
 ```bash
-# Keeper Pod の確認
+# Keeper podを確認する
 kubectl get pods -n clickhouse -l app=clickhouse-keeper
 
 # 期待される出力:
@@ -336,19 +384,24 @@ kubectl get pods -n clickhouse -l app=clickhouse-keeper
 # chk-wandb-keeper-0-1-0   1/1     Running   0          2m
 # chk-wandb-keeper-0-2-0   1/1     Running   0          2m
 
-# Keeper サービスの確認
+# Keeperサービスを確認する
 kubectl get svc -n clickhouse | grep keeper
 
-# ポート 2181 で keeper サービスが表示されることを確認
+# ポート2181でKeeperサービスが表示されることを確認する
 ```
 
-### ステップ 4: ClickHouse クラスターのデプロイ
 
-Weave のトレースデータを保存する ClickHouse サーバークラスターをデプロイします。
+<div id="step-4-deploy-clickhouse-cluster">
+  ### Step 4: ClickHouse Cluster をデプロイする
+</div>
 
-#### 4.1 ClickHouse サーバー設定の作成
+次に、Weave Trace Data を保存する ClickHouse サーバークラスタをデプロイします。
 
-`ch-server.yaml` という名前のファイルを作成します：
+<div id="41-create-the-clickhouse-server-configuration">
+  #### 4.1 ClickHouse サーバーの設定を作成する
+</div>
+
+`ch-server.yaml` という名前のファイルを作成します。
 
 ```yaml
 apiVersion: "clickhouse.altinity.com/v1"
@@ -370,18 +423,18 @@ spec:
           labels:
             app: clickhouse-server
         spec:
-          # Pod セキュリティコンテキスト - 環境に合わせてカスタマイズしてください
+          # Podセキュリティコンテキスト - 環境に合わせてカスタマイズしてください
           securityContext:
-            fsGroup: 10001 # セキュリティポリシーに基づいて調整してください
+            fsGroup: 10001 # セキュリティポリシーに合わせて調整してください
             fsGroupChangePolicy: Always
             runAsGroup: 0
             runAsNonRoot: true
-            runAsUser: 10001 # OpenShift の場合は割り当てられた UID 範囲を使用
+            runAsUser: 10001 # OpenShiftの場合は、割り当てられたUID範囲を使用してください
             seccompProfile:
               type: RuntimeDefault
 
-          # アンチアフィニティルール - サーバーが異なるノードで実行されるようにします（オプションですが推奨）
-          # クラスターのサイズと要件に基づいて調整または削除してください
+          # アンチアフィニティルール - サーバーを異なるノードで実行するために使用します（任意ですが推奨）
+          # クラスターのサイズと要件に応じて調整または削除してください
           affinity:
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -395,8 +448,8 @@ spec:
 
           containers:
             - name: clickhouse
-              image: clickhouse/clickhouse-server:25.3.5.42
-              # 例示的なリソース割り当て - ワークロードに基づいて調整してください
+              image: clickhouse/clickhouse-server:25.10
+              # リソース割り当ての例 - ワークロードに応じて調整してください
               resources:
                 requests:
                   memory: 1Gi
@@ -405,7 +458,7 @@ spec:
                   memory: 16Gi
                   cpu: 4
 
-              # AWS クレデンシャル（IRSA を使用する場合はこのセクションを削除してください）
+              # AWSの認証情報（IRSAを使用する場合はこのセクションを削除してください）
               env:
                 - name: AWS_ACCESS_KEY_ID
                   valueFrom:
@@ -437,11 +490,11 @@ spec:
           resources:
             requests:
               storage: 50Gi
-          storageClassName: gp3 # 使用する StorageClass に変更
+          storageClassName: gp3 # 使用するStorageClassに変更してください
 
   configuration:
-    # Keeper (ZooKeeper) 設定
-    # 重要: これらのホスト名はステップ 3 の Keeper デプロイと一致している必要があります
+    # Keeper（ZooKeeper）の設定
+    # 重要: これらのホスト名はStep 3のKeeperデプロイと一致している必要があります
     zookeeper:
       nodes:
         - host: chk-wandb-keeper-0-0.clickhouse.svc.cluster.local
@@ -450,16 +503,16 @@ spec:
           port: 2181
         - host: chk-wandb-keeper-0-2.clickhouse.svc.cluster.local
           port: 2181
-      # オプション: 必要に応じてタイムアウトを調整するためにコメント解除
+      # 任意: 必要に応じてタイムアウトを調整する場合はコメントを解除してください
       # session_timeout_ms: 30000
       # operation_timeout_ms: 10000
 
-    # ユーザー設定: https://clickhouse.com/docs/operations/configuration-files#user-settings
-    # パスワード作成のヒント:
-    # sha256sum <<< weave123 または echo -n weave123 | sha256sum または printf "weave123" | sha256sum
-    # ユーザー設定で <password_sha256_hex>...</password_sha256_hex> として返されます
+    # Usersの設定: https://clickhouse.com/docs/operations/configuration-files#user-settings
+    # 本番環境では、平文の代わりにSHA-256ハッシュ化されたパスワードを使用してください:
+    # printf "your-password" | sha256sum
+    # その場合: weave/password の代わりに weave/password_sha256_hex: <hash> を使用してください
     users:
-      weave/password: weave123
+      weave/password: weave123  # デプロイ前に強力なパスワードに置き換えてください
       weave/access_management: 1
       weave/profile: default
       weave/networks/ip:
@@ -472,10 +525,10 @@ spec:
 
     # クラスター設定
     clusters:
-      - name: weavecluster # クラスター名 - カスタマイズ可能ですが wandb-cr.yaml と一致させる必要があります
+      - name: weavecluster # クラスター名 - カスタマイズ可能ですが、wandb-cr.yamlと一致している必要があります
         layout:
           shardsCount: 1
-          replicasCount: 3 # レプリカ数 - 高可用性要件に基づいて調整
+          replicasCount: 3 # レプリカ数 - HA要件に応じて調整してください
         templates:
           podTemplate: clickhouse
           dataVolumeClaimTemplate: data
@@ -501,7 +554,7 @@ spec:
                 <disks>
                     <s3_disk>
                         <type>s3</type>
-                        
+                        <!-- S3バケットのエンドポイントとリージョンを指定してください -->
                         <endpoint>https://YOUR-BUCKET-NAME.s3.YOUR-REGION.amazonaws.com/s3_disk/{replica}</endpoint>
                         <metadata_path>/var/lib/clickhouse/disks/s3_disk/</metadata_path>
                         <use_environment_credentials>true</use_environment_credentials>
@@ -511,7 +564,7 @@ spec:
                         <type>cache</type>
                         <disk>s3_disk</disk>
                         <path>/var/lib/clickhouse/s3_disk_cache/cache/</path>
-                        
+                        <!-- キャッシュサイズは永続ボリュームより小さくする必要があります -->
                         <max_size>40Gi</max_size>
                         <cache_on_write_operations>true</cache_on_write_operations>
                     </s3_disk_cache>
@@ -532,31 +585,33 @@ spec:
         </clickhouse>
 ```
 
-**必要な重要な設定更新**:
+**重要な設定更新が必要です**:
 
-1. **StorageClass**: クラスターの StorageClass に合わせて `storageClassName: gp3` を更新してください。
-2. **S3 Endpoint**: `YOUR-BUCKET-NAME` と `YOUR-REGION` を実際の値に置き換えてください。
-3. **Cache Size**: `<max_size>40Gi</max_size>` は、永続ボリュームのサイズ (50Gi) よりも **小さく** なければなりません。
-4. **セキュリティコンテキスト**: 組織のポリシーに合わせて `runAsUser`, `fsGroup` およびその他のセキュリティ設定を調整してください。
-5. **リソース割り当て**: CPU/メモリの値はあくまで例です。予想されるトレース量に基づく適切なサイジングについては、 **W&B ソリューションアーキテクトにご相談ください** 。
-6. **アンチアフィニティルール**: クラスターのトポロジーと高可用性のニーズに基づいてカスタマイズまたは削除してください。
-7. **Keeper Hostnames**: Keeper ノードのホスト名は、ステップ 3 の Keeper デプロイ時の名前に **必ず一致** させる必要があります（下記の「Keeper の命名規則について」を参照）。
-8. **Cluster Naming**: クラスター名 `weavecluster` は変更可能ですが、ステップ 5 の `WF_CLICKHOUSE_REPLICATED_CLUSTER` の値と一致させる必要があります。
+1. **StorageClass**: `storageClassName: gp3` を、クラスターの StorageClass に合うよう更新します
+2. **S3 Endpoint**: `YOUR-BUCKET-NAME` と `YOUR-REGION` を実際の値に置き換えます
+3. **Cache Size**: `<max_size>40Gi</max_size>` は永続ボリュームのサイズ (50Gi) より **小さく** する必要があります
+4. **セキュリティコンテキスト**: `runAsUser`、`fsGroup`、およびその他のセキュリティ設定を、組織のポリシーに合わせて調整します
+5. **Resource Allocation**: CPU/メモリの値はあくまで例です。想定されるトレース量に基づく適切なサイジングについては、**W&amp;B Solutions Architect に相談してください**
+6. **Anti-Affinity Rules**: クラスターのトポロジーと高可用性の要件に応じて、カスタマイズするか削除します
+7. **Keeper Hostnames**: Keeper ノードのホスト名は、Step 3 の Keeper デプロイの命名と**一致している必要があります** (以下の「Understanding Keeper Naming」を参照) 
+8. **Cluster Naming**: クラスター名 `weavecluster` は変更できますが、Step 5 の `WF_CLICKHOUSE_REPLICATED_CLUSTER` の値と一致している必要があります
 9. **Credentials**:
-   - IRSA の場合: `<use_environment_credentials>true</use_environment_credentials>` を保持するか、環境変数にマップされた secret キーにアクセスしてください。
+   * IRSA の場合: `<use_environment_credentials>true</use_environment_credentials>` をそのまま使用するか、環境変数にマッピングしたシークレットキーを使用してください。
 
-#### 4.2 S3 設定の更新
+<div id="42-update-s3-configuration">
+  #### 4.2 S3 の設定を更新する
+</div>
 
-`ch-server.yaml` の `storage_configuration.xml` セクションを編集します：
+`ch-server.yaml` の `storage_configuration.xml` セクションを編集します。
 
-**AWS S3 の例**:
+**AWS S3 の設定例**:
 
 ```xml
 <endpoint>https://my-wandb-clickhouse.s3.eu-central-1.amazonaws.com/s3_disk/{replica}</endpoint>
 <region>eu-central-1</region>
 ```
 
-**MinIO の例**:
+**MinIOの例**:
 
 ```xml
 <endpoint>https://minio.example.com:9000/my-bucket/s3_disk/{replica}</endpoint>
@@ -564,12 +619,15 @@ spec:
 ```
 
 <Warning>
-**`{replica}` を削除しないでください。** これにより、各 ClickHouse レプリカがバケット内の独自のフォルダに書き込むようになります。
+  **`{replica}` は削除しないでください。** これにより、各 ClickHouse レプリカが bucket 内のそれぞれ専用のフォルダに書き込むようになります。
 </Warning>
 
-#### 4.3 クレデンシャルの設定 (オプション B のみ)
 
-ステップ 2 の **オプション B (アクセスキー)** を使用する場合は、`ch-server.yaml` の `env` セクションが secret を参照していることを確認してください：
+<div id="43-configure-credentials-option-b-only">
+  #### 4.3 認証情報を設定する (Option B のみ)
+</div>
+
+Step 2 の **Option B (アクセスキー)&#x20;**&#x20;を使用する場合は、`ch-server.yaml` の `env` セクションでそのシークレットを参照していることを確認してください。
 
 ```yaml
 env:
@@ -585,24 +643,27 @@ env:
         key: aws_secret_key
 ```
 
-**オプション A (IRSA)** を使用する場合は、 `env` セクション全体を削除してください。
+**オプション A (IRSA) **を使用する場合は、`env`セクション全体を削除してください。
 
-#### 4.4 Keeper の命名規則について
 
-`zookeeper.nodes` セクションの Keeper ノードホスト名は、ステップ 3 の Keeper デプロイに基づく特定のパターンに従います：
+<div id="44-understanding-keeper-naming">
+  #### 4.4 Keeper の命名規則を理解する
+</div>
 
-**ホスト名パターン**: `chk-{インストール名}-{クラスター名}-{クラスターインデックス}-{レプリカインデックス}.{ネームスペース}.svc.cluster.local`
+`zookeeper.nodes` セクションの Keeper ノードのホスト名は、Step 3 で行った Keeper のデプロイに応じて、特定のパターンに従います。
 
-各要素の説明：
+**ホスト名パターン**: `chk-{installation-name}-{cluster-name}-{cluster-index}-{replica-index}.{namespace}.svc.cluster.local`
 
-- `chk` = ClickHouseKeeperInstallation プレフィックス (固定)
-- `{インストール名}` = ch-keeper.yaml の `metadata.name` (例: `wandb`)
-- `{クラスター名}` = ch-keeper.yaml の `configuration.clusters[0].name` (例: `keeper`)
-- `{クラスターインデックス}` = クラスターインデックス。単一クラスターの場合は通常 `0`
-- `{レプリカインデックス}` = レプリカ番号。3 レプリカの場合は `0`, `1`, `2`
-- `{ネームスペース}` = Kubernetes ネームスペース (例: `clickhouse`)
+各要素:
 
-**デフォルト名の例**:
+* `chk` = ClickHouseKeeperInstallation のプレフィックス (固定) 
+* `{installation-name}` = ch-keeper.yaml の `metadata.name` (例: `wandb`) 
+* `{cluster-name}` = ch-keeper.yaml の `configuration.clusters[0].name` (例: `keeper`) 
+* `{cluster-index}` = クラスターのインデックス。単一クラスターでは通常 `0`
+* `{replica-index}` = レプリカ番号。3 レプリカの場合は `0`、`1`、`2`
+* `{namespace}` = Kubernetes の名前空間 (例: `clickhouse`) 
+
+**デフォルト名を使用した例**:
 
 ```
 chk-wandb-keeper-0-0.clickhouse.svc.cluster.local
@@ -610,7 +671,7 @@ chk-wandb-keeper-0-1.clickhouse.svc.cluster.local
 chk-wandb-keeper-0-2.clickhouse.svc.cluster.local
 ```
 
-**Keeper のインストール名をカスタマイズした場合** (例: `metadata.name: myweave`):
+**Keeper のインストール名を独自に設定している場合** (例: `metadata.name: myweave`) :
 
 ```
 chk-myweave-keeper-0-0.clickhouse.svc.cluster.local
@@ -618,7 +679,7 @@ chk-myweave-keeper-0-1.clickhouse.svc.cluster.local
 chk-myweave-keeper-0-2.clickhouse.svc.cluster.local
 ```
 
-**Keeper のクラスター名をカスタマイズした場合** (例: `clusters[0].name: coordination`):
+**Keeper クラスター名を変更する場合** (例: `clusters[0].name: coordination`) :
 
 ```
 chk-wandb-coordination-0-0.clickhouse.svc.cluster.local
@@ -626,30 +687,36 @@ chk-wandb-coordination-0-1.clickhouse.svc.cluster.local
 chk-wandb-coordination-0-2.clickhouse.svc.cluster.local
 ```
 
-**実際の Keeper ホスト名を確認するには**:
+**実際のKeeperホスト名を確認するには**:
 
 ```bash
-# 実際の名前を確認するために Keeper サービスをリスト
+# 実際の名前を確認するためにKeeperサービスを一覧表示する
 kubectl get svc -n clickhouse | grep keeper
 
-# 命名パターンを確認するために Keeper Pod をリスト
+# 命名パターンを確認するためにKeeperポッドを一覧表示する
 kubectl get pods -n clickhouse -l app=clickhouse-keeper
 ```
 
 <Note>
-`ch-server.yaml` 内の Keeper ホスト名は、Keeper デプロイによって作成された実際のサービス名と **完全に一致** している必要があります。一致しない場合、ClickHouse サーバーはコーディネーションサービスに接続できません。
+  `ch-server.yaml` 内の Keeper ホスト名は、Keeper のデプロイで実際に作成されるサービス名と**完全に一致している必要があります**。一致していないと、ClickHouse サーバーはコーディネーションサービスに接続できません。
 </Note>
 
-#### 4.5 ClickHouse クラスターのデプロイ
+
+<div id="45-deploy-clickhouse-cluster">
+  #### 4.5 ClickHouse クラスターをデプロイする
+</div>
 
 ```bash
 kubectl apply -f ch-server.yaml
 ```
 
-#### 4.6 ClickHouse デプロイの確認
+
+<div id="46-verify-clickhouse-deployment">
+  #### 4.6 ClickHouse のデプロイを確認する
+</div>
 
 ```bash
-# ClickHouse Pod の確認
+# ClickHouse ポッドを確認する
 kubectl get pods -n clickhouse -l app=clickhouse-server
 
 # 期待される出力:
@@ -658,36 +725,43 @@ kubectl get pods -n clickhouse -l app=clickhouse-server
 # chi-wandb-weavecluster-0-1-0   1/1     Running   0          3m
 # chi-wandb-weavecluster-0-2-0   1/1     Running   0          3m
 
-# ClickHouse 接続テスト
+# ClickHouse の接続性をテストする
 kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   clickhouse-client --user weave --password weave123 --query "SELECT version()"
 
-# クラスターステータスの確認
+# クラスターのステータスを確認する
 kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   clickhouse-client --user weave --password weave123 --query \
   "SELECT cluster, host_name, port FROM system.clusters WHERE cluster='weavecluster'"
 ```
 
-### ステップ 5: W&B プラットフォームで Weave を有効化
 
-次に、Weave トレースに ClickHouse クラスターを使用するように W&B プラットフォームを設定します。
+<div id="step-5-enable-weave-in-wb-platform">
+  ### Step 5: W&amp;B Platform で Weave を有効にする
+</div>
 
-#### 5.1 ClickHouse 接続情報の収集
+次に、Weave のトレースで ClickHouse クラスターを使用するように、W&amp;B Platform を設定します。
 
-以下の情報が必要です：
+<div id="51-gather-clickhouse-connection-information">
+  #### 5.1 ClickHouse の接続情報を確認する
+</div>
 
-- **Host**: `clickhouse-wandb.clickhouse.svc.cluster.local`
-- **Port**: `8123`
-- **User**: `weave` (ch-server.yaml で設定したもの)
-- **Password**: `weave123` (ch-server.yaml で設定したもの)
-- **Database**: `weave` (自動的に作成されます)
-- **Cluster Name**: `weavecluster` (ch-server.yaml で設定したもの)
+必要な情報は次のとおりです。
 
-ホスト名は次のパターンに従います： `clickhouse-{インストール名}.{ネームスペース}.svc.cluster.local`
+* **ホスト**: `clickhouse-wandb.clickhouse.svc.cluster.local`
+* **ポート**: `8123`
+* **ユーザー**: `weave` (`ch-server.yaml` で設定)
+* **パスワード**: `weave123` (`ch-server.yaml` で設定)
+* **データベース**: `weave` (自動的に作成されます)
+* **クラスタ名**: `weavecluster` (`ch-server.yaml` で設定)
 
-#### 5.2 W&B カスタムリソースの更新
+ホスト名は次のパターンに従います: `clickhouse-{installation-name}.{namespace}.svc.cluster.local`
 
-W&B プラットフォームのカスタムリソース (CR) を編集して Weave の設定を追加します：
+<div id="52-update-wb-custom-resource">
+  #### 5.2 W&amp;B Custom Resource を更新する
+</div>
+
+Weave の設定を追加するには、W&amp;B Platform の Custom Resource (CR) を編集します。
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -700,21 +774,21 @@ spec:
     global:
       # ... 既存の設定 ...
 
-      # ClickHouse 設定の追加
+      # ClickHouse 設定を追加
       clickhouse:
-        install: false # 別途デプロイしたため
+        install: false # 別途デプロイ済み
         host: clickhouse-wandb.clickhouse.svc.cluster.local
         port: 8123
         user: weave
         password: weave123
         database: weave
-        replicated: true # マルチレプリカ構成の場合は必須
+        replicated: true # マルチレプリカ構成では必須
 
-      # Weave トレースを有効化
+      # Weave Trace を有効化
       weave-trace:
         enabled: true
 
-    # Weave トレースの設定
+    # Weave Trace 設定
     weave-trace:
       install: true
       extraEnv:
@@ -730,7 +804,7 @@ spec:
           autoscaling:
             horizontal:
               enabled: false
-          # 例示的なリソース割り当て - ワークロードに基づいて調整してください
+          # リソース割り当ての例 - ワークロードに応じて調整
           resources:
             limits:
               cpu: 4
@@ -738,16 +812,16 @@ spec:
             requests:
               cpu: 1
               memory: "4Gi"
-      # Pod セキュリティコンテキスト - 環境に合わせてカスタマイズしてください
+      # Pod セキュリティコンテキスト - 環境に合わせてカスタマイズ
       podSecurityContext:
-        fsGroup: 10001 # セキュリティ要件に基づいて調整してください
+        fsGroup: 10001 # セキュリティ要件に応じて調整
         fsGroupChangePolicy: Always
         runAsGroup: 0
         runAsNonRoot: true
-        runAsUser: 10001 # OpenShift の場合は割り当てられた UID 範囲を使用
+        runAsUser: 10001 # OpenShift の場合は割り当て済み UID 範囲を使用
         seccompProfile:
           type: RuntimeDefault
-      # コンテナセキュリティコンテキスト
+      # コンテナーセキュリティコンテキスト
       securityContext:
         allowPrivilegeEscalation: false
         capabilities:
@@ -759,106 +833,137 @@ spec:
 
 **重要な設定**:
 
-- `clickhouse.replicated: true` - 3 レプリカを使用する場合は **必須**
-- `WF_CLICKHOUSE_REPLICATED: "true"` - レプリケートされたセットアップでは **必須**
-- `WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster"` - ch-server.yaml のクラスター名と **一致させる必要** があります
+* `clickhouse.replicated: true` - 3 レプリカを使用する場合は **必須**
+* `WF_CLICKHOUSE_REPLICATED: "true"` - レプリケーション構成では **必須**
+* `WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster"` - `ch-server.yaml` のクラスター名と **一致する必要があります**
 
 <Note>
-上記のセキュリティコンテキスト、リソース割り当て、およびその他の Kubernetes 固有の設定は参照例です。組織の要件に合わせてカスタマイズし、適切なリソースサイジングについては W&B のソリューションアーキテクトチームにご相談ください。
+  上記のセキュリティコンテキスト、リソース割り当て、およびその他の Kubernetes 固有の設定は参考例です。組織の要件に合わせて適宜カスタマイズし、適切なリソースサイジングについては W&amp;B Solutions Architect チームに相談してください。
 </Note>
 
-#### 5.3 更新した設定の適用
+
+<div id="53-apply-the-updated-configuration">
+  #### 5.3 更新した設定を適用する
+</div>
 
 ```bash
 kubectl apply -f wandb-cr.yaml
 ```
 
-#### 5.4 Weave トレースデプロイの確認
+
+<div id="54-verify-weave-trace-deployment">
+  #### 5.4 Weave Trace のデプロイを確認する
+</div>
 
 ```bash
-# weave-trace Pod のステータス確認
+# weave-trace podのステータスを確認する
 kubectl get pods -n wandb | grep weave-trace
 
 # 期待される出力:
 # wandb-weave-trace-bc-xxxxx   1/1     Running   0          2m
 
-# ClickHouse 接続に関する weave-trace のログを確認
+# ClickHouse接続に関するweave-traceのログを確認する
 kubectl logs -n wandb <weave-trace-pod-name> --tail=50
 
-# ClickHouse への接続成功メッセージを探してください
+# ClickHouse接続成功のメッセージを確認する
 ```
 
-### ステップ 6: Weave データベースの初期化
 
-weave-trace サービスは、最初の起動時に必要なデータベーススキーマを自動的に作成します。
+<div id="step-6-initialize-weave-database">
+  ### Step 6: Weave データベースを初期化する
+</div>
 
-#### 6.1 データベースマイグレーションの監視
+weave-trace サービスは、初回起動時に必要なデータベーススキーマを自動的に作成します。
+
+<div id="61-monitor-database-migration">
+  #### 6.1 データベースの移行を監視する
+</div>
 
 ```bash
-# 起動中の weave-trace ログを監視
+# 起動中にweave-traceのログを監視する
 kubectl logs -n wandb <weave-trace-pod-name> -f
 
-# データベースの初期化が成功したことを示すマイグレーションメッセージを探してください
+# データベースの初期化が成功したことを示すマイグレーションメッセージを確認する
 ```
 
-#### 6.2 データベース作成の確認
+
+<div id="62-verify-database-creation">
+  #### 6.2 データベースが作成されたことを確認する
+</div>
 
 ```bash
-# ClickHouse に接続してデータベースを確認
+# ClickHouseに接続してデータベースを確認する
 kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   clickhouse-client --user weave --password weave123 --query \
   "SHOW DATABASES"
 
-# 'weave' データベースがリストされていることを確認
+# 'weave' データベースが一覧に表示されることを確認する
 
-# weave データベース内のテーブルを確認
+# weave データベースのテーブルを確認する
 kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   clickhouse-client --user weave --password weave123 --query \
   "SHOW TABLES FROM weave"
 ```
 
-### ステップ 7: Weave が有効であることを確認
 
-#### 7.1 W&B コンソールへのアクセス
+<div id="step-7-verify-weave-is-enabled">
+  ### Step 7: Weave が有効であることを確認する
+</div>
 
-ウェブブラウザで W&B インスタンスの URL にアクセスします。
+<div id="71-access-wb-console">
+  #### 7.1 W&amp;B Console にアクセスする
+</div>
 
-#### 7.2 Weave ライセンスステータスの確認
+Webブラウザで W&amp;B インスタンスの URL にアクセスします。
 
-W&B コンソールにて：
+<div id="72-check-weave-license-status">
+  #### 7.2 Weave ライセンスの状態を確認する
+</div>
 
-1. **右上のメニュー** → **Organization Dashboard** へ移動します。
-2. **Weave access** が有効になっていることを確認します。
+W&amp;B Console で:
 
-#### 7.3 Weave 機能のテスト
+1. **Top Right Menu** → **Organization Dashboard** に移動します
+2. **Weave access** が有効になっていることを確認します
 
-Weave が動作しているか確認するために、簡単な Python テストを作成します：
+<div id="73-test-weave-functionality">
+  #### 7.3 Weave の機能をテストする
+</div>
+
+Weave が正常に動作していることを確認するため、簡単な Python テストを作成します。
 
 ```python
+import os
 import weave
 
-# Weave を初期化（実際の W&B ホストに置き換えてください）
+# WeaveをセルフマネージドのW&Bインスタンスに向ける
+os.environ["WANDB_BASE_URL"] = "https://your-wandb-host"  # W&BのURLに置き換えてください
+
 weave.init('test-project')
 
-# シンプルなトレース対象関数を作成
+# シンプルなトレース付き関数を作成する
 @weave.op()
 def hello_weave(name: str) -> str:
     return f"Hello, {name}!"
 
-# 関数を呼び出し
+# 関数を呼び出す
 result = hello_weave("World")
 print(result)
 ```
 
-これを実行した後、W&B UI の組織のトレースページでトレースを確認してください。
+これを実行した後、組織のトレースページで W&amp;B UI のトレースを確認してください。
 
-## トラブルシューティング
 
-### ClickHouse Keeper の問題
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
 
-**問題**: Keeper Pod が `Pending` 状態のままになる
+<div id="clickhouse-keeper-issues">
+  ### ClickHouse Keeper の問題
+</div>
 
-**解決策**: 以下の複数の原因を確認してください：
+**問題**: Keeper pod が `Pending` 状態のままになっている
+
+**解決策**: 考えられる複数の原因を確認します。
 
 1. **PVC と StorageClass の問題**:
 
@@ -867,187 +972,210 @@ kubectl get pvc -n clickhouse
 kubectl describe pvc -n clickhouse
 ```
 
-StorageClass が正しく設定され、利用可能な容量があることを確認してください。
+StorageClass が正しく設定され、十分な空き容量があることを確認してください。
 
 2. **アンチアフィニティとノードの可用性**:
 
 ```bash
-# アンチアフィニティルールがスケジューリングを妨げていないか確認
+# アンチアフィニティルールがスケジューリングを妨げていないか確認する
 kubectl describe pod -n clickhouse <pod-name> | grep -A 10 "Events:"
 
-# 利用可能なノードとそのリソースを確認
+# 利用可能なノードとそのリソースを確認する
 kubectl get nodes
 kubectl describe nodes | grep -A 5 "Allocated resources"
 ```
 
-よくある問題：
-- アンチアフィニティに 3 つの個別のノードが必要だが、クラスターのノード数がそれ以下である
-- ノードに Pod のリクエストを満たす十分な CPU/メモリがない
-- ノードの Taint（汚れ）が Pod のスケジューリングを妨げている
+よくある問題:
 
-**対策**:
-- ノードが 3 つ未満の場合は、アンチアフィニティルールを削除または調整する
-- より柔軟なアンチアフィニティのために、 `requiredDuringSchedulingIgnoredDuringExecution` の代わりに `preferredDuringSchedulingIgnoredDuringExecution` を使用する
-- ノードのリソースが不足している場合は、リソースリクエストを減らす
-- クラスターにノードを追加する
+* アンチアフィニティでは 3 つの別々のノードが必要ですが、クラスター内のノード数が不足している
+* ノードに、pod の要求を満たすのに十分な CPU / メモリがない
+* ノードの taint によって pod をスケジュールできない
 
----
+**解決策**:
 
-**問題**: Keeper Pod が `CrashLoopBackOff` になる
+* ノード数が 3 未満の場合は、アンチアフィニティルールを削除または調整する
+* より緩やかなアンチアフィニティにするには、`requiredDuringSchedulingIgnoredDuringExecution` ではなく `preferredDuringSchedulingIgnoredDuringExecution` を使用する
+* ノードのリソースが不足している場合は、リソース要求を減らす
+* クラスターにノードを追加する
 
-**解決策**: ログを確認し、設定を検証してください：
+***
+
+**問題**: Keeper pod が `CrashLoopBackOff` になる
+
+**解決策**: ログを確認し、設定を検証する:
 
 ```bash
 kubectl logs -n clickhouse <keeper-pod-name>
 ```
 
-よくある問題：
-- セキュリティコンテキストが正しくない（runAsUser, fsGroup を確認）
-- ボリュームの権限の問題
-- ポートの競合
-- ch-keeper.yaml の設定エラー
+よくある問題:
 
-### ClickHouse サーバーの問題
+* セキュリティコンテキストの誤り (runAsUser、fsGroup を確認) 
+* ボリュームの権限に関する問題
+* ポートの競合
+* ch-keeper.yaml の設定エラー
+
+
+<div id="clickhouse-server-issues">
+  ### ClickHouse Server の問題
+</div>
 
 **問題**: ClickHouse が S3 に接続できない
 
-**解決策**: S3 のクレデンシャルと権限を確認してください：
+**解決策**: S3 の認証情報と権限を確認してください。
 
 ```bash
-# secret が存在するか確認（アクセスキーを使用している場合）
+# シークレットが存在するか確認する（アクセスキーを使用している場合）
 kubectl get secret aws-creds -n clickhouse
 
-# S3 エラーについて ClickHouse のログを確認
+# ClickHouseログでS3エラーを確認する
 kubectl logs -n clickhouse <clickhouse-pod-name> | grep -i s3
 
-# ストレージ設定の S3 エンドポイントを確認
+# ストレージ設定のS3エンドポイントを確認する
 kubectl get chi wandb -n clickhouse -o yaml | grep -A 10 storage_configuration
 ```
 
----
+***
 
 **問題**: ClickHouse が Keeper に接続できない
 
-**解決策**: Keeper のエンドポイントと名前を確認してください：
+**解決策**: Keeper のエンドポイントと命名設定を確認してください。
 
 ```bash
-# Keeper サービスとその実際の名前を確認
+# Keeperサービスと実際の名前を確認する
 kubectl get svc -n clickhouse | grep keeper
 
-# 命名パターンを確認するために Keeper Pod をリスト
+# Keeperpodで命名パターンを確認する
 kubectl get pods -n clickhouse -l app=clickhouse-keeper
 
-# ch-server.yaml の zookeeper.nodes 設定と比較
-# ホスト名は実際のサービス名と一致している必要があります
+# ch-server.yaml の zookeeper.nodes 設定と比較する
+# ホスト名は実際のサービス名と一致している必要がある
 
-# 接続エラーについて ClickHouse のログを確認
+# ClickHouseログで接続エラーを確認する
 kubectl logs -n clickhouse chi-wandb-weavecluster-0-0-0 | grep -i keeper
 ```
 
-接続に失敗する場合、 `ch-server.yaml` の Keeper ホスト名が実際の Keeper デプロイと一致していない可能性があります。命名パターンについては、ステップ 4 の「Keeper の命名規則について」を参照してください。
+接続に失敗する場合は、ch-server.yaml 内の Keeper ホスト名が実際の Keeper デプロイと一致していない可能性があります。命名規則については、Step 4 の「Keeper の命名規則について」を参照してください。
 
-### Weave トレースの問題
 
-**問題**: `weave-trace` Pod の起動に失敗する
+<div id="weave-trace-issues">
+  ### Weave Trace の問題
+</div>
 
-**解決策**: ClickHouse への接続性を確認してください：
+**問題**: `weave-trace` pod が起動しない
+
+**解決策**: ClickHouse への接続を確認してください:
 
 ```bash
-# weave-trace Pod 名を取得
+# weave-trace の pod 名を取得する
 kubectl get pods -n wandb | grep weave-trace
 
-# weave-trace のログを確認
+# weave-trace のログを確認する
 kubectl logs -n wandb <weave-trace-pod-name>
 
 # よくあるエラー: "connection refused" または "authentication failed"
-# wandb-cr.yaml の ClickHouse クレデンシャルが ch-server.yaml と一致しているか確認
+# wandb-cr.yaml の ClickHouse 認証情報が ch-server.yaml と一致しているか確認する
 ```
 
----
+***
 
-**問題**: コンソールで Weave が有効として表示されない
+**問題**: Console で Weave が有効と表示されない
 
-**解決策**: 設定を検証してください：
+**解決策**: 設定を確認します。
 
-1. ライセンスに Weave が含まれているか確認します：
+1. ライセンスに Weave が含まれていることを確認します。
+
    ```bash
    kubectl get secret license-key -n wandb -o jsonpath='{.data.value}' | base64 -d | jq
    ```
-2. `wandb-cr.yaml` で `weave-trace.enabled: true` および `clickhouse.replicated: true` が設定されていることを確認します。
-3. W&B オペレーターのログを確認します：
+
+2. wandb-cr.yaml で `weave-trace.enabled: true` と `clickhouse.replicated: true` が設定されていることを確認します
+
+3. W&amp;B operator のログを確認します。
    ```bash
    kubectl logs -n wandb deployment/wandb-controller-manager
    ```
 
----
+***
 
-**問題**: データベースマイグレーションに失敗する
+**問題**: データベースの移行に失敗する
 
-**解決策**: クラスター名が一致しているか確認してください：
+**解決策**: クラスター名が一致していることを確認します。
 
-`WF_CLICKHOUSE_REPLICATED_CLUSTER` 環境変数は、 `ch-server.yaml` のクラスター名と **一致させる必要** があります：
+`WF_CLICKHOUSE_REPLICATED_CLUSTER` 環境変数は、ch-server.yaml 内のクラスター名と**必ず一致している必要があります**:
 
 ```yaml
 # ch-server.yaml 内:
 clusters:
   - name: weavecluster # <-- この名前
 
-# wandb-cr.yaml 内で一致させる必要があるもの:
+# wandb-cr.yaml 内の値と一致している必要があります:
 weave-trace:
   extraEnv:
     WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster" # <-- この値
 ```
 
-## リソース要件
+
+<div id="resource-requirements">
+  ## リソース要件
+</div>
 
 <Warning>
-以下のリソース割り当ては、 **あくまで開始時の目安例** です。実際の要件は、以下によって大きく異なります：
+  以下のリソース割り当ては、**あくまで開始時の目安の一例**です。実際に必要となる要件は、以下の要因によって大きく異なります。
 
-- トレースの取り込み量 (秒あたりのトレース数)
-- クエリのパターンと同時実行数
-- データ保持期間
-- 同時実行ユーザー数
+  * トレース取り込み量 (1 秒あたりのトレース数) 
+  * クエリパターンと同時実行数
+  * データ保持期間
+  * 同時接続ユーザー数
 
-お客様の具体的なユースケースに適したサイジングを決定するために、 **必ず W&B のソリューションアーキテクトチームにご相談ください** 。リソース不足はパフォーマンスの問題につながり、過剰なプロビジョニングはインフラコストの無駄になります。
+  ご利用のユースケースに適したサイジングを判断するため、**必ず W&amp;B の Solutions Architect チームに相談してください**。リソースが不足するとパフォーマンス上の問題につながる可能性があり、逆に過剰に割り当てるとインフラストラクチャーコストの無駄になります。
 </Warning>
 
-### 最小構成 (プロダクション向け)
+<div id="minimum-production-setup">
+  ### 最小本番構成
+</div>
 
-| コンポーネント | レプリカ数 | CPU リクエスト / リミット | メモリ リクエスト / リミット | ストレージ |
-| :--- | :--- | :--- | :--- | :--- |
-| ClickHouse Keeper | 3 | 0.5 / 1 | 256Mi / 2Gi | 各 10Gi |
-| ClickHouse Server | 3 | 1 / 4 | 1Gi / 16Gi | 各 50Gi |
-| Weave Trace | 1 | 1 / 4 | 4Gi / 8Gi | - |
-| **合計** | **7 pods** | **約 4.5 / 15 CPU** | **約 7.8Gi / 58Gi** | **180Gi** |
+| コンポーネント           | レプリカ数     | CPU リクエスト / 上限     | メモリ リクエスト / 上限     | ストレージ     |
+| ----------------- | --------- | ------------------ | ------------------ | --------- |
+| ClickHouse Keeper | 3         | 0.5 / 1            | 256Mi / 2Gi        | 各 10Gi    |
+| ClickHouse Server | 3         | 1 / 4              | 1Gi / 16Gi         | 各 50Gi    |
+| Weave Trace       | 1         | 1 / 4              | 4Gi / 8Gi          | -         |
+| **合計**            | **7 pod** | **約 4.5 / 15 CPU** | **約 7.8Gi / 58Gi** | **180Gi** |
 
-_用途: 開発、テスト、または低負荷のプロダクション環境_
+*適した用途: 開発、テスト、または低負荷の本番環境*
 
-### 推奨構成 (プロダクション向け)
+<div id="recommended-production-setup">
+  ### 推奨される本番構成
+</div>
 
-トレース量が多いプロダクションワークロード向け：
+トレース量が多い本番ワークロード向け:
 
-| コンポーネント | レプリカ数 | CPU リクエスト / リミット | メモリ リクエスト / リミット | ストレージ |
-| :--- | :--- | :--- | :--- | :--- |
-| ClickHouse Keeper | 3 | 1 / 2 | 1Gi / 4Gi | 各 20Gi |
-| ClickHouse Server | 3 | 1 / 16 | 8Gi / 64Gi | 各 200Gi |
-| Weave Trace | 2-3 | 1 / 4 | 4Gi / 8Gi | - |
-| **合計** | **8-9 pods** | **約 6-9 / 52-64 CPU** | **約 27-33Gi / 204-216Gi** | **660Gi** |
+| コンポーネント           | レプリカ数       | CPU リクエスト / 上限       | メモリ リクエスト / 上限           | ストレージ     |
+| ----------------- | ----------- | -------------------- | ------------------------ | --------- |
+| ClickHouse Keeper | 3           | 1 / 2                | 1Gi / 4Gi                | 各20Gi     |
+| ClickHouse Server | 3           | 1 / 16               | 8Gi / 64Gi               | 各200Gi    |
+| Weave Trace       | 2-3         | 1 / 4                | 4Gi / 8Gi                | -         |
+| **合計**            | **8-9 pod** | **~6-9 / 52-64 CPU** | **~27-33Gi / 204-216Gi** | **660Gi** |
 
-_用途: 高負荷のプロダクション環境_
+*適した環境: 高トレース量の本番環境*
 
-超大規模なデプロイメントについては、具体的なトレース量とパフォーマンス要件に基づいたカスタムサイジングの推奨事項について、W&B のソリューションアーキテクトチームにお問い合わせください。
+超高ボリュームのデプロイについては、トレース量やパフォーマンス要件に応じたカスタムのサイジング推奨事項について、W&amp;B Solutions Architect チームにお問い合わせください。
 
-## 高度な設定
+<div id="advanced-configuration">
+  ## 高度な設定
+</div>
 
-このセクションでは、垂直スケーリングや水平スケーリングによる ClickHouse キャパシティの拡張、Keeper とサーバー両方の設定でのイメージタグ変更による ClickHouse バージョンの更新、および ClickHouse のヘルス監視を含む、自己管理型 Weave デプロイメントのカスタマイズオプションについて説明します。
+このセクションでは、セルフマネージドの Weave デプロイ向けのカスタマイズ オプションについて説明します。これには、垂直スケーリングまたは水平スケーリングによる ClickHouse 容量の拡張、keeper と server の両方の設定でイメージタグを変更して ClickHouse のバージョンを更新すること、さらに ClickHouse の健全性を監視することが含まれます。
 
-パフォーマンスと信頼性の要件に確実に対応するために、インスタンスに高度な変更を加える場合は、W&B のソリューションアーキテクトチームに相談することをお勧めします。
+インスタンスに高度な変更を加える際は、それらの変更がパフォーマンス要件と信頼性要件に適合していることを確認するため、W&amp;B Solutions Architect チームに相談することをお勧めします。
 
-### ClickHouse のスケーリング
+<div id="scaling-clickhouse">
+  ### ClickHouse のスケーリング
+</div>
 
-ClickHouse のキャパシティを増やすには、以下の方法があります：
+ClickHouse の容量を増やすには、次の方法があります。
 
-1. **垂直スケーリング**: Pod あたりのリソースを増やします（よりシンプルなアプローチ）。
+1. **垂直スケーリング**: pod ごとのリソースを増やします (より簡単な方法) 
 
    ```yaml
    resources:
@@ -1059,147 +1187,173 @@ ClickHouse のキャパシティを増やすには、以下の方法がありま
        cpu: 16
    ```
 
-   **推奨事項**: 実際のリソース使用状況を監視し、それに応じてスケールしてください。超大規模なデプロイメントについては、W&B のソリューションアーキテクトチームにご相談ください。
+   **推奨事項**: 実際のリソース使用量を監視し、それに応じてスケールしてください。非常に大規模なデプロイを行う場合は、W&amp;B Solutions Architect チームにお問い合わせください。
 
-2. **水平スケーリング**: レプリカを追加します（慎重な計画が必要です）。
-   - レプリカを増やすにはデータの再配置（リバランシング）が必要です。
-   - シャード管理については ClickHouse のドキュメントを参照してください。
-   - プロダクション環境で水平スケーリングを実施する前に、 **W&B ソリューションアーキテクトにご相談ください** 。
+2. **水平スケーリング**: レプリカを追加します (慎重な計画が必要です) 
+   * レプリカを増やすには、データの再分散が必要です
+   * シャード管理については ClickHouse のドキュメントを参照してください
+   * 本番環境で水平スケーリングを実施する前に、**W&amp;B Solutions Architect にお問い合わせください**
 
-### 異なる ClickHouse バージョンの使用
+<div id="using-different-clickhouse-versions">
+  ### 異なるバージョンの ClickHouse を使用する
+</div>
 
-異なる ClickHouse バージョンを使用するには、 `ch-keeper.yaml` と `ch-server.yaml` 両方のイメージタグを更新します：
+別のバージョンの ClickHouse を使用するには、ch-keeper.yaml と ch-server.yaml の両方でイメージタグを更新します。
 
 ```yaml
-image: clickhouse/clickhouse-keeper:25.3.5.42   # Keeper バージョン
-image: clickhouse/clickhouse-server:25.3.5.42   # サーバー バージョン
+image: clickhouse/clickhouse-keeper:25.10   # Keeperバージョン
+image: clickhouse/clickhouse-server:25.10   # Serverバージョン
 ```
 
-互換性のために、Keeper とサーバーのバージョンは一致させるか、Keeper バージョンをサーバーバージョン以上に（Keeper >= Server）する必要があります。
+互換性を確保するには、Keeper とサーバーのバージョンを一致させるか、Keeper のバージョンをサーバーのバージョン以上にする必要があります。
 
-### ClickHouse の監視
 
-監視のために ClickHouse のシステムテーブルにアクセスします：
+<div id="monitoring-clickhouse">
+  ### ClickHouse の監視
+</div>
+
+監視のために、ClickHouse のシステムテーブルにアクセスします。
 
 ```bash
-# ディスク使用量の確認
+# ディスク使用量を確認する
 kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   clickhouse-client --user weave --password weave123 --query \
   "SELECT name, path, formatReadableSize(free_space) as free, formatReadableSize(total_space) as total FROM system.disks"
 
-# レプリケーションステータスの確認
+# レプリケーションのステータスを確認する
 kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   clickhouse-client --user weave --password weave123 --query \
   "SELECT database, table, is_leader, total_replicas, active_replicas FROM system.replicas WHERE database='weave'"
 
-# ClickHouse サーバー Pod のステータス確認
+# ClickHouseサーバーのステータスを確認する
 kubectl get pods -n clickhouse -l app=clickhouse-server
 ```
 
-### バックアップとリカバリ
 
-ClickHouse のデータは S3 に保存されるため、S3 のバージョニングやバケットレプリケーション機能を通じて本来的なバックアップ機能が提供されます。デプロイメント固有のバックアップ戦略については、W&B ソリューションアーキテクトチームに相談し、 [ClickHouse バックアップドキュメント](https://clickhouse.com/docs/en/operations/backup) を参照してください。
+<div id="backup-and-recovery">
+  ### バックアップとリカバリ
+</div>
 
-## セキュリティに関する考慮事項
+ClickHouse のデータは S3 に保存されており、S3 のバージョン管理とバケットレプリケーション機能により、標準でバックアップ機能を利用できます。ご利用のデプロイに応じたバックアップ戦略については、W&amp;B Solutions Architect チームに相談し、[ClickHouse のバックアップドキュメント](https://clickhouse.com/docs/en/operations/backup)を参照してください。
 
-1. **クレデンシャル**: ClickHouse のパスワードはプレーンテキストではなく、Kubernetes secret に保存してください。
-2. **ネットワークポリシー**: ClickHouse へのアクセスを制限するために、NetworkPolicies の実装を検討してください。
-3. **RBAC**: サービスアカウントに必要最小限の権限のみが付与されていることを確認してください。
-4. **S3 バケット**: 保存時の暗号化を有効にし、バケットへのアクセスを必要な IAM ロールのみに制限してください。
-5. **TLS** (オプション): プロダクション環境では、ClickHouse クライアント接続に対して TLS を有効にしてください。
+<div id="security-considerations">
+  ## セキュリティに関する考慮事項
+</div>
 
-## アップグレード
+1. **認証情報**: ClickHouse のパスワードはプレーンテキストではなく、Kubernetes シークレットに保存します
+2. **ネットワークポリシー**: ClickHouse へのアクセスを制限するため、NetworkPolicies の実装を検討してください
+3. **RBAC**: サービスアカウントには、必要最小限の権限のみを付与してください
+4. **S3 Bucket**: 保存時の暗号化を有効にし、S3 バケットへのアクセスを必要な IAM ロールのみに制限してください
+5. **TLS** (オプション): 本番環境では、ClickHouse クライアント接続で TLS を有効にしてください
 
-### ClickHouse Operator のアップグレード
+<div id="upgrading">
+  ## アップグレード
+</div>
+
+<div id="upgrading-clickhouse-operator">
+  ### ClickHouse Operator のアップグレード
+</div>
 
 ```bash
 helm upgrade ch-operator altinity/altinity-clickhouse-operator \
-  --version 0.25.4 \
   --namespace clickhouse \
   -f ch-operator.yaml
 ```
 
-### ClickHouse Server のアップグレード
 
-`ch-server.yaml` のイメージバージョンを更新して適用します：
+<div id="upgrading-clickhouse-server">
+  ### ClickHouse Server のアップグレード
+</div>
+
+`ch-server.yaml` のイメージのバージョンを更新して、適用します:
 
 ```bash
-# ch-server.yaml を編集し、イメージタグを変更
+# ch-server.yaml を編集してイメージタグを変更する
 kubectl apply -f ch-server.yaml
 
-# Pod を監視
+# pod を監視する
 kubectl get pods -n clickhouse
 ```
 
-### Weave Trace のアップグレード
 
-`wandb-cr.yaml` のイメージタグを更新して適用します：
+<div id="upgrading-weave-trace">
+  ### Weave Trace のアップグレード
+</div>
+
+`wandb-cr.yaml` のイメージタグを更新して、適用します。
 
 ```bash
 kubectl apply -f wandb-cr.yaml
 
-# weave-trace Pod の再起動を監視
+# weave-trace podの再起動を監視する
 kubectl get pods -n wandb | grep weave-trace
 ```
 
-## 追加リソース
 
-- [Altinity ClickHouse Operator ドキュメント](https://docs.altinity.com/altinitykubernetesoperator/)
-- [ClickHouse ドキュメント](https://clickhouse.com/docs)
-- [W&B Weave ドキュメント](https://docs.wandb.ai/weave)
-- [ClickHouse S3 ストレージ設定](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree#s3-virtual-hosted-style)
+<div id="additional-resources">
+  ## 参考資料
+</div>
 
-## サポート
+* [Altinity ClickHouse Operator ドキュメント](https://docs.altinity.com/altinitykubernetesoperator/)
+* [ClickHouse ドキュメント](https://clickhouse.com/docs)
+* [W&amp;B Weave ドキュメント](https://docs.wandb.ai/weave)
+* [ClickHouse S3 ストレージ設定](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree#s3-virtual-hosted-style)
 
-プロダクション環境でのデプロイや問題については：
+<div id="support">
+  ## サポート
+</div>
 
-- **W&B サポート**: `support@wandb.com`
-- **ソリューションアーキテクト**: 超大規模デプロイメント、カスタムサイジング、およびデプロイ計画について。
-- **サポートリクエストに含める内容**:
-  - weave-trace、ClickHouse Pod、およびオペレーターのログ
-  - W&B バージョン、ClickHouse バージョン、Kubernetes バージョン
-  - クラスター情報とトレース量
+本番デプロイや問題がある場合:
 
-## よくある質問 (FAQ)
+* **W&amp;B サポート**: `support@wandb.com`
+* **ソリューションアーキテクト**: 超大規模デプロイ、カスタムサイジング、デプロイ計画について
+* **サポートへの問い合わせに含める内容**:
+  * weave-trace、ClickHouse pod、operator のログ
+  * W&amp;B バージョン、ClickHouse バージョン、Kubernetes バージョン
+  * クラスター情報とトレースのボリューム
 
-**Q: 3 つではなく、単一の ClickHouse レプリカを使用できますか？**
+<div id="faq">
+  ## よくある質問
+</div>
 
-A: 可能ですが、プロダクション環境では推奨されません。 `ch-server.yaml` で `replicasCount: 1` に更新し、 `wandb-cr.yaml` で `clickhouse.replicated: false` を設定してください。
+**Q: 3つではなく、ClickHouse レプリカを1つだけ使用できますか？**
+
+A: はい。ただし、本番環境では推奨されません。ch-server.yaml の `replicasCount: 1` に更新し、wandb-cr.yaml で `clickhouse.replicated: false` を設定してください。
 
 **Q: ClickHouse の代わりに別のデータベースを使用できますか？**
 
-A: いいえ、Weave Trace はその高性能な列指向ストレージ機能のために ClickHouse を必要とします。
+A: いいえ。Weave Trace では、高パフォーマンスなカラム指向ストレージを実現するために ClickHouse が必要です。
 
-**Q: どの程度の S3 ストレージが必要ですか？**
+**Q: S3 ストレージはどのくらい必要ですか？**
 
-A: S3 ストレージの要件は、トレース量、保持期間、およびデータの圧縮率に依存します。デプロイ後に実際の使用量を監視し、それに応じて調整してください。ClickHouse の列指向フォーマットは、トレースデータに対して優れた圧縮を提供します。
+A: S3 ストレージの必要量は、トレース量、保持期間、データ圧縮によって異なります。デプロイ後に実際の使用量を監視し、それに応じて調整してください。ClickHouse のカラム指向フォーマットは、Trace Data を高い圧縮率で保存できます。
 
 **Q: ClickHouse で `database` 名を設定する必要がありますか？**
 
-A: いいえ、 `weave` データベースは最初の起動時に weave-trace サービスによって自動的に作成されます。
+A: いいえ。`weave` データベースは、初回起動時に weave-trace サービスによって自動的に作成されます。
 
 **Q: クラスター名が `weavecluster` ではない場合はどうなりますか？**
 
-A: `WF_CLICKHOUSE_REPLICATED_CLUSTER` 環境変数をクラスター名と一致するように設定する必要があります。そうしないと、データベースのマイグレーションに失敗します。
+A: `WF_CLICKHOUSE_REPLICATED_CLUSTER` 環境変数を、実際のクラスター名に合わせて設定する必要があります。そうしないと、データベース移行が失敗します。
 
-**Q: 例に示されているセキュリティコンテキストをそのまま使用すべきですか？**
+**Q: 例に示されているセキュリティコンテキストをそのまま使うべきですか？**
 
-A: いいえ。このガイドで提供されているセキュリティコンテキスト (runAsUser, fsGroup など) は参照例です。組織のセキュリティポリシー、特に特定の UID/GID 範囲の要件がある OpenShift クラスターなどに合わせて調整する必要があります。
+A: いいえ。このガイドに記載しているセキュリティコンテキスト (runAsUser、fsGroup など) は参考例です。特に OpenShift クラスターでは UID/GID の範囲に関する固有の要件があるため、組織のセキュリティポリシーに準拠するよう調整する必要があります。
 
-**Q: ClickHouse クラスターのサイジングが正しいかどうか、どうすればわかりますか？**
+**Q: ClickHouse クラスターのサイジングが適切かどうかは、どうすれば判断できますか？**
 
-A: 予想されるトレース量と使用パターンを添えて、W&B のソリューションアーキテクトチームにお問い合わせください。具体的なサイジングの推奨事項を提供します。デプロイメントのリソース使用状況を監視し、必要に応じて調整してください。
+A: 想定しているトレース量と使用パターンを W&amp;B Solutions Architect チームに共有してください。具体的なサイジング推奨を受けられます。デプロイのリソース使用量を監視し、必要に応じて調整してください。
 
-**Q: 例で使用されている命名規則をカスタマイズできますか？**
+**Q: 例で使用されている命名規則はカスタマイズできますか？**
 
-A: はい、ただしすべてのコンポーネント間で一貫性を保つ必要があります：
+A: はい。ただし、すべてのコンポーネントで一貫性を保つ必要があります。
 
-1. **ClickHouse Keeper 名** → `ch-server.yaml` の `zookeeper.nodes` セクションにある Keeper ノードホスト名と一致させる必要があります。
-2. **ClickHouse クラスター名** (`weavecluster`) → `wandb-cr.yaml` の `WF_CLICKHOUSE_REPLICATED_CLUSTER` と一致させる必要があります。
-3. **ClickHouse インストール名** → weave-trace が使用するサービスのホスト名に影響します。
+1. **ClickHouse Keeper 名** → ch-server.yaml の `zookeeper.nodes` セクションにある Keeper ノードのホスト名と一致している必要があります
+2. **ClickHouse クラスター名** (`weavecluster`) → wandb-cr.yaml の `WF_CLICKHOUSE_REPLICATED_CLUSTER` と一致している必要があります
+3. **ClickHouse インストール名** → weave-trace が使用するサービスのホスト名に影響します
 
-命名パターンと実際の名前を確認する方法については、ステップ 4 の「Keeper の命名規則について」セクションを参照してください。
+命名パターンの詳細と実際の名前を確認する方法については、step 4 の「Keeper Naming を理解する」セクションを参照してください。
 
-**Q: クラスターで異なるアンチアフィニティ要件がある場合はどうなりますか？**
+**Q: クラスターで異なる アンチアフィニティ 要件が必要な場合はどうなりますか？**
 
-A: 示されているアンチアフィニティルールは、高可用性のための推奨事項です。クラスターのサイズ、トポロジー、および可用性要件に基づいて調整または削除してください。小規模なクラスターや開発環境では、アンチアフィニティルールは必要ない場合があります。
+A: ここで示している アンチアフィニティ ルールは、高可用性のための推奨事項です。クラスターのサイズ、トポロジー、可用性要件に応じて調整または削除してください。小規模なクラスターや開発環境では、アンチアフィニティ ルールが不要な場合もあります。

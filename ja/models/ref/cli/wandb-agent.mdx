@@ -2,38 +2,76 @@
 title: wandb エージェント
 ---
 
-{/*
-  このコマンドの導入コンテンツを追加するには：
-  1. スニペットファイルを作成： /snippets/en/_includes/cli/wandb-agent.mdx
-  2. そのファイルにイントロダクションの内容を追加
-  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbAgent from "/snippets/en/_includes/cli/wandb-agent.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.0/wandb/cli/cli.py#L1992" />
 
-<WandbAgent/>
-
-  次回の再生成時にスニペットが自動検出されます。
-*/}
-
-W&B エージェント を実行します。
-
-## 使用法
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb agent SWEEP_ID [OPTIONS]
+agent [OPTIONS] SWEEP_ID
 ```
 
-## 引数（Arguments）
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | 説明なし | はい |
+sweep エージェントを開始します。
 
-## オプション
+W&amp;B サーバーをポーリングして sweep からハイパーパラメーター設定を取得し、
+各設定に対して run を開始します。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | Sweep から作成された W&B Runs の送信先となる Projects の名前。プロジェクトが指定されていない場合、run は「Uncategorized」というラベルのプロジェクトに送信されます。 |
-| `--entity`, `-e` | Sweep によって作成された W&B Runs の送信先となる Teams 名または Users 名。指定する Entity が既に存在することを確認してください。Entity を指定しない場合、run は通常ユーザー名であるデフォルトの Entity に送信されます。 |
-| `--count` | この エージェント が実行する最大 Runs 数。 |
-| `--forward-signals`, `-f` | エージェント に配信されたシグナル（例：SIGINT/SIGTERM）を子プロセスである run に転送し、クリーンにシャットダウンできるようにします。（デフォルト：False） |
+sweep が完了した場合、停止またはキャンセルされた場合、
+または `--count` の上限に達した場合、エージェントは終了します。
+
+sweep ID は、W&amp;B App の Sweeps タブ、
+または新しい sweep を作成したときの `wandb sweep` コマンドの出力で確認できます。
+
+sweep ID には、entity と project のパス
+(entity/project/sweep&#95;id) または 8 文字の sweep ID を指定できます。
+
+たとえば、sweep ID が wbyz9876 の sweep に対してエージェントを開始するには、次のようにします。
+
+```bash
+wandb agent wbyz9876
+```
+
+sweep に対して、run の上限を 10 に設定してエージェントを起動するには:
+
+```bash
+wandb agent --count 10 wbyz9876
+```
+
+「team-awesome」エンティティに属する「sweeps-project」という
+project に保存する sweep のエージェントを起動するには:
+
+```bash
+wandb agent -p sweeps-project -e team-awesome wbyz9876
+```
+
+正常にシャットダウンするために、シグナルを子 run に転送するには:
+
+```bash
+wandb agent --forward-signals wbyz9876
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名          | デフォルト | タイプ  |
+| ---------- | ----- | ---- |
+| `sweep_id` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag                    | Type      | Description                                                               |
+| ----------------------- | --------- | ------------------------------------------------------------------------- |
+| `--project, -p`         | STR       | run のアップロード先の project を設定します。**デフォルト**: なし                                |
+| `--entity, -e`          | STR       | project のスコープ先となる entity を設定します。**デフォルト**: なし                             |
+| `--count`               | INT       | このエージェントが実行する run の最大数を指定します。設定しない場合は、sweep が完了するまで実行を続けます。**デフォルト**: なし  |
+| `--forward-signals, -f` | BOOL Flag | シグナル (例: SIGINT/SIGTERM) を子 run に転送し、適切にシャットダウンできるようにします。**デフォルト**: False |
