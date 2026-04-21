@@ -70,20 +70,22 @@
       {
         "tabs": [
           {
-            "tab": "Platform",
+            "tab": "Products",
             "pages": [
+              "index",
               {
-                "group": "Welcome to W&B",
+                "group": "Products",
                 "pages": [
-                  "index",
-                  {
-                    "group": "Get Started",
-                    "pages": [
-                      "get-started",
-                      "platform/mcp-server",
-                      "platform/wb-skills"
-                    ]
-                  },
+                  "product-models",
+                  "product-weave",
+                  "product-inference",
+                  "product-training",
+                  "product-sandboxes"
+                ]
+              },
+              {
+                "group": "Platform Details",
+                "pages": [
                   {
                     "group": "Release Notes",
                     "expanded": false,
@@ -104,21 +106,7 @@
                       },
                       "release-notes/release-policies"
                     ]
-                  }
-                ]
-              },
-              {
-                "group": "Products",
-                "pages": [
-                  "product-models",
-                  "product-weave",
-                  "product-inference",
-                  "product-training"
-                ]
-              },
-              {
-                "group": "Platform Details",
-                "pages": [
+                  },
                   {
                     "group": "Configure W&B",
                     "pages": [
@@ -226,7 +214,59 @@
             ]
           },
           {
+            "tab": "Get Started",
+            "pages": [
+              "get-started",
+              "examples",
+              "platform/mcp-server",
+              "platform/wb-skills"
+            ]
+          },
+          {
+            "tab": "Reference",
+            "pages": [
+              "reference",
+              {
+                "group": "W&B Models",
+                "pages": [
+                  "models/ref-link-python",
+                  "models/ref-link-public-api",
+                  "models/ref-link-cli",
+                  "models/ref-link-query-panel",
+                  "models/ref-link-workspaces"
+                ]
+              },
+              {
+                "group": "W&B Weave",
+                "pages": [
+                  "weave/ref-link-python",
+                  "weave/ref-link-typescript",
+                  "weave/ref-link-service-api"
+                ]
+              },
+              {
+                "group": "W&B Inference",
+                "pages": [
+                  "inference/ref-link-api"
+                ]
+              },
+              {
+                "group": "W&B Training",
+                "pages": [
+                  "training/ref-link-api"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Support",
+            "pages": [
+              "support"
+            ]
+          },
+          {
             "tab": "W&B Models",
+            "hidden": true,
             "pages": [
               "models",
               "models/quickstart",
@@ -753,6 +793,7 @@
           },
           {
             "tab": "W&B Weave",
+            "hidden": true,
             "pages": [
               "weave",
               {
@@ -1086,6 +1127,7 @@
           },
           {
             "tab": "W&B Inference",
+            "hidden": true,
             "pages": [
               "inference",
               "inference/prerequisites",
@@ -1125,6 +1167,7 @@
           },
           {
             "tab": "W&B Training",
+            "hidden": true,
             "pages": [
               "training",
               "training/prerequisites",
@@ -1155,6 +1198,7 @@
           },
           {
             "tab": "W&B Sandboxes",
+            "hidden": true,
             "pages": [
               "sandboxes",
               "sandboxes/lifecycle",
@@ -1164,12 +1208,6 @@
               "sandboxes/secrets",
               "sandboxes/mltrain-in-sandbox-tutorial",
               "sandboxes/invoke-agent-sandbox-tutorial"
-            ]
-          },
-          {
-            "tab": "Support",
-            "pages": [
-              "support"
             ]
           },
           {

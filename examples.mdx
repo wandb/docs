@@ -1,0 +1,344 @@
+---
+title: "Example Code & Notebooks"
+description: "Hands-on tutorials, walkthroughs, and colab notebooks for every W&B product."
+---
+
+Browse end-to-end examples grouped by product. Each page below links to a tutorial, walkthrough, or page containing a runnable colab notebook.
+
+## Quickstarts
+
+<CardGroup cols={2}>
+  <Card title="Get started with W&B" href="/get-started">
+    Cross-product entry point for getting up and running with Weights & Biases.
+  </Card>
+  <Card title="W&B Models: Quickstart" href="/models/quickstart">
+    Install W&B and start tracking experiments in minutes.
+  </Card>
+  <Card title="W&B Models: Get started with experiments" href="/models/models_quickstart">
+    Track experiments, log metrics, and visualize results.
+  </Card>
+  <Card title="W&B Weave: Quickstart" href="/weave/quickstart">
+    Add tracing to your LLM application to debug and monitor model interactions.
+  </Card>
+  <Card title="W&B Weave: Learn Weave with W&B Inference" href="/weave/quickstart-inference">
+    Trace model calls, compare outputs, and run evaluations using W&B Inference.
+  </Card>
+  <Card title="W&B Weave: Leaderboard quickstart" href="/weave/cookbooks/leaderboard_quickstart">
+    Build a leaderboard to compare models and experiments.
+  </Card>
+</CardGroup>
+
+## W&B Models
+
+### Experiments
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Experiments overview" href="/models/track">
+    Intro to tracking metrics, hyperparameters, system metrics, and model artifacts.
+  </Card>
+  <Card title="W&B Models: Configure experiments" href="/models/track/config">
+    Save experiment configuration with a dictionary-like object.
+  </Card>
+  <Card title="W&B Models: View experiment results" href="/models/track/workspaces">
+    Explore run data in interactive workspaces.
+  </Card>
+  <Card title="W&B Models: Log media and objects" href="/models/track/log/media">
+    Log rich media: 3D point clouds, molecules, HTML, histograms, and more.
+  </Card>
+  <Card title="W&B Models: Log models" href="/models/track/log/log-models">
+    Log model artifacts to a run with `log_model` and `use_model`.
+  </Card>
+  <Card title="W&B Models: Create and track plots" href="/models/track/log/plots">
+    Build and track plots from ML experiments.
+  </Card>
+</CardGroup>
+
+### Sweeps, artifacts, tables
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Sweeps overview" href="/models/sweeps">
+    Intro to hyperparameter search and model optimization with Sweeps.
+  </Card>
+  <Card title="W&B Models: Run a sweep" href="/models/sweeps/walkthrough">
+    Define, initialize, and run a hyperparameter sweep.
+  </Card>
+  <Card title="W&B Models: Artifacts overview" href="/models/artifacts">
+    Intro to W&B Artifacts and how to get started.
+  </Card>
+  <Card title="W&B Models: Create and use a dataset artifact" href="/models/artifacts/artifacts-walkthrough">
+    Create, track, and use a dataset artifact across experiments.
+  </Card>
+  <Card title="W&B Models: Manage artifact retention" href="/models/artifacts/ttl">
+    Set TTL policies on artifacts to manage storage.
+  </Card>
+  <Card title="W&B Models: Tables overview" href="/models/tables">
+    Iterate on datasets and understand model predictions with Tables.
+  </Card>
+  <Card title="W&B Models: Log tables and query data" href="/models/tables/tables-walkthrough">
+    Log tables, visualize, and query structured data.
+  </Card>
+  <Card title="W&B Models: Visualize and analyze tables" href="/models/tables/visualize-tables">
+    Compare, filter, group, and sort tables in merged or side-by-side views.
+  </Card>
+</CardGroup>
+
+### Registry, reports, UI features
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Registry overview" href="/models/registry">
+    Manage and share artifact versions across your organization.
+  </Card>
+  <Card title="W&B Models: Reference an artifact version with aliases" href="/models/registry/aliases">
+    Use default, custom, and protected aliases in the Registry.
+  </Card>
+  <Card title="W&B Models: Reports overview" href="/models/reports">
+    Project management and collaboration tools for ML projects.
+  </Card>
+  <Card title="W&B Models: Create a report" href="/models/reports/create-a-report">
+    Create a W&B Report with the App UI or programmatically.
+  </Card>
+  <Card title="W&B Models: Edit a report" href="/models/reports/edit-a-report">
+    Edit reports interactively or with the Report API.
+  </Card>
+  <Card title="W&B Models: Custom charts overview" href="/models/app/features/custom-charts">
+    Build custom charts in W&B projects with Vega visualizations.
+  </Card>
+  <Card title="W&B Models: Build custom charts" href="/models/app/features/custom-charts/walkthrough">
+    Use custom charts to build tailored visualizations in the W&B UI.
+  </Card>
+  <Card title="W&B Models: Embed objects" href="/models/app/features/panels/query-panels/embedding-projector">
+    Use the embedding projector to explore object embeddings.
+  </Card>
+</CardGroup>
+
+### ML framework integrations
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Keras" href="/models/integrations/keras">
+    Track experiments, checkpoint models, and visualize predictions with Keras callbacks.
+  </Card>
+  <Card title="W&B Models: PyTorch" href="/models/integrations/pytorch">
+    Track metrics, gradients, and models with the PyTorch integration.
+  </Card>
+  <Card title="W&B Models: PyTorch Lightning" href="/models/integrations/lightning">
+    Use the built-in `WandbLogger` with PyTorch Lightning.
+  </Card>
+  <Card title="W&B Models: PyTorch Ignite" href="/models/integrations/ignite">
+    Automatically log training metrics, model parameters, and configs.
+  </Card>
+  <Card title="W&B Models: PyTorch torchtune" href="/models/integrations/torchtune">
+    Track LLM fine-tuning experiments with the torchtune WandBLogger.
+  </Card>
+  <Card title="W&B Models: TensorFlow" href="/models/integrations/tensorflow">
+    Log custom metrics, use estimator hooks, and sync TensorBoard logs.
+  </Card>
+  <Card title="W&B Models: XGBoost" href="/models/integrations/xgboost">
+    Log gradient boosting metrics, feature importance, and model performance.
+  </Card>
+  <Card title="W&B Models: YOLOv5" href="/models/integrations/yolov5">
+    Use the built-in W&B integration in YOLOv5 for experiment tracking and versioning.
+  </Card>
+</CardGroup>
+
+### ML library integrations
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Hugging Face" href="/models/integrations/huggingface">
+    Visualize and track Hugging Face model performance with W&B.
+  </Card>
+  <Card title="W&B Models: Hugging Face Transformers" href="/models/integrations/huggingface_transformers">
+    Use W&B with the Hugging Face Transformers Trainer.
+  </Card>
+  <Card title="W&B Models: Simple Transformers" href="/models/integrations/simpletransformers">
+    Integrate W&B with Hugging Face Simple Transformers.
+  </Card>
+  <Card title="W&B Models: Hugging Face Diffusers" href="/models/integrations/diffusers">
+    Autolog prompts, generated media, and pipeline architecture.
+  </Card>
+  <Card title="W&B Models: OpenAI API" href="/models/integrations/openai-api">
+    Log chat completions, fine-tuning jobs, and token usage metrics.
+  </Card>
+  <Card title="W&B Models: Azure OpenAI fine-tuning" href="/models/integrations/azure-openai-fine-tuning">
+    Fine-tune Azure OpenAI models with W&B experiment tracking.
+  </Card>
+</CardGroup>
+
+## W&B Weave
+
+### Tutorials
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: Build an evaluation" href="/weave/tutorial-eval">
+    Build an evaluation pipeline with Weave Models and Evaluations.
+  </Card>
+  <Card title="W&B Weave: Evaluate a RAG application" href="/weave/tutorial-rag">
+    Build and evaluate a RAG application with LLM judges.
+  </Card>
+  <Card title="W&B Weave: Trace nested functions" href="/weave/tutorial-tracing_2">
+    Track deeply nested call structures with W&B tracing.
+  </Card>
+  <Card title="W&B Weave: Version an application" href="/weave/tutorial-weave_models">
+    Track and version your application and its parameters with Weave Model.
+  </Card>
+</CardGroup>
+
+### Cookbooks
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: Introduction to traces" href="/weave/cookbooks/Intro_to_Weave_Hello_Trace">
+    A beginner-friendly introduction to tracing with Weave.
+  </Card>
+  <Card title="W&B Weave: Introduction to evaluations" href="/weave/cookbooks/Intro_to_Weave_Hello_Eval">
+    Get hands-on with running evaluations in Weave.
+  </Card>
+  <Card title="W&B Weave: Hugging Face dataset evaluations" href="/weave/cookbooks/hf_dataset_evals">
+    Run evaluations on Hugging Face datasets with Weave.
+  </Card>
+  <Card title="W&B Weave: Import a dataset from CSV" href="/weave/cookbooks/import_from_csv">
+    Load a CSV into a Weave dataset and use it in evaluations.
+  </Card>
+  <Card title="W&B Weave: Use Weave with W&B Models" href="/weave/cookbooks/Models_and_Weave_Integration_Demo">
+    Combine W&B Models and Weave in a single workflow.
+  </Card>
+  <Card title="W&B Weave: Chain of density summarization" href="/weave/cookbooks/chain_of_density">
+    Implement chain-of-density prompting for iterative summarization.
+  </Card>
+  <Card title="W&B Weave: DSPy prompt optimization" href="/weave/cookbooks/dspy_prompt_optimization">
+    Optimize prompts with DSPy and track results in Weave.
+  </Card>
+  <Card title="W&B Weave: NotDiamond custom routing" href="/weave/cookbooks/notdiamond_custom_routing">
+    Route between models dynamically with NotDiamond.
+  </Card>
+  <Card title="W&B Weave: Multi-agent structured output" href="/weave/cookbooks/multi-agent-structured-output">
+    Coordinate multiple agents that produce structured output.
+  </Card>
+  <Card title="W&B Weave: Code generation" href="/weave/cookbooks/codegen">
+    Build and evaluate a code-generation pipeline with Weave.
+  </Card>
+  <Card title="W&B Weave: OCR pipeline" href="/weave/cookbooks/ocr-pipeline">
+    Trace and evaluate a computer-vision OCR pipeline.
+  </Card>
+  <Card title="W&B Weave: Audio with Weave" href="/weave/cookbooks/audio_with_weave">
+    Work with audio inputs and outputs in Weave traces.
+  </Card>
+  <Card title="W&B Weave: Online monitoring" href="/weave/cookbooks/online_monitoring">
+    Monitor a production LLM application with Weave.
+  </Card>
+  <Card title="W&B Weave: Production feedback" href="/weave/cookbooks/feedback_prod">
+    Collect and act on user feedback from production traffic.
+  </Card>
+  <Card title="W&B Weave: Scorers as guardrails" href="/weave/cookbooks/scorers_as_guardrails">
+    Use Weave scorers as guardrails for production LLM calls.
+  </Card>
+  <Card title="W&B Weave: Custom model costs" href="/weave/cookbooks/custom_model_cost">
+    Track custom per-model costs alongside traces.
+  </Card>
+  <Card title="W&B Weave: PII data handling" href="/weave/cookbooks/pii">
+    Redact PII in Weave traces for sensitive workloads.
+  </Card>
+  <Card title="W&B Weave: Use the Weave Service API" href="/weave/cookbooks/weave_via_service_api">
+    Call the Weave Service API directly to record traces.
+  </Card>
+</CardGroup>
+
+### Evaluation and tracking
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: Evaluate using local scorers" href="/weave/guides/evaluation/weave_local_scorers">
+    Use small local language models to evaluate AI safety and quality.
+  </Card>
+  <Card title="W&B Weave: Set up annotation queues" href="/weave/guides/tracking/annotation-queues">
+    Route traces to domain experts and export structured feedback.
+  </Card>
+  <Card title="W&B Weave: Track custom costs" href="/weave/guides/tracking/costs">
+    Track and manage costs for LLM operations.
+  </Card>
+</CardGroup>
+
+### LLM provider integrations
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: Anthropic" href="/weave/guides/integrations/anthropic">
+    Automatically track and log LLM calls made via the Anthropic SDK.
+  </Card>
+  <Card title="W&B Weave: Cohere" href="/weave/guides/integrations/cohere">
+    Automatically track and log LLM calls made via the Cohere Python library.
+  </Card>
+  <Card title="W&B Weave: Google" href="/weave/guides/integrations/google">
+    Trace and log Google GenAI model calls.
+  </Card>
+  <Card title="W&B Weave: Groq" href="/weave/guides/integrations/groq">
+    Track and monitor Groq LPU inference with Weave.
+  </Card>
+  <Card title="W&B Weave: MistralAI" href="/weave/guides/integrations/mistral">
+    Trace and evaluate Mistral AI model calls with Weave.
+  </Card>
+  <Card title="W&B Weave: OpenAI" href="/weave/guides/integrations/openai">
+    Integrate OpenAI with Weave for tracing, evaluation, and monitoring.
+  </Card>
+  <Card title="W&B Weave: LiteLLM" href="/weave/guides/integrations/litellm">
+    Automatically track and log LLM calls made via LiteLLM.
+  </Card>
+</CardGroup>
+
+### Framework and protocol integrations
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: CrewAI" href="/weave/guides/integrations/crewai">
+    Monitor and trace multi-agent applications with CrewAI.
+  </Card>
+  <Card title="W&B Weave: DSPy" href="/weave/guides/integrations/dspy">
+    Track and log calls made using DSPy modules and functions.
+  </Card>
+  <Card title="W&B Weave: Instructor" href="/weave/guides/integrations/instructor">
+    Trace structured-output calls made via Instructor.
+  </Card>
+  <Card title="W&B Weave: LangChain" href="/weave/guides/integrations/langchain">
+    Track and log all calls made through the LangChain Python library.
+  </Card>
+  <Card title="W&B Weave: Verdict" href="/weave/guides/integrations/verdict">
+    Use the Verdict evaluation framework to monitor LLM evaluation pipelines.
+  </Card>
+  <Card title="W&B Weave: Hugging Face Hub" href="/weave/guides/integrations/huggingface">
+    Track and analyze ML applications with Hugging Face Hub.
+  </Card>
+  <Card title="W&B Weave: Model Context Protocol (MCP)" href="/weave/guides/integrations/mcp">
+    Trace activity between your MCP client and MCP server.
+  </Card>
+</CardGroup>
+
+## W&B Inference
+
+<CardGroup cols={2}>
+  <Card title="W&B Inference: Create a fine-tuned LoRA" href="/inference/tutorials/creating-lora">
+    Fine-tune and deploy a LoRA adapter with W&B Inference.
+  </Card>
+  <Card title="W&B Inference: Use Cline with W&B Inference" href="/inference/tutorials/integration-cline">
+    Integrate Cline with the W&B Inference endpoints.
+  </Card>
+</CardGroup>
+
+## W&B Training
+
+<CardGroup cols={2}>
+  <Card title="W&B Training: Serverless RL" href="/training/serverless-rl">
+    Post-train models with reinforcement learning on W&B.
+  </Card>
+  <Card title="W&B Training: Use Serverless SFT" href="/training/sft-training/sft-training">
+    Fine-tune models with Serverless SFT using the OpenPipe ART framework.
+  </Card>
+  <Card title="W&B Training: Use trained models" href="/training/serverless-rl/use-trained-models">
+    Make inference requests to the models you've trained.
+  </Card>
+</CardGroup>
+
+## W&B Sandboxes
+
+<CardGroup cols={2}>
+  <Card title="W&B Sandboxes: Train a PyTorch model" href="/sandboxes/mltrain-in-sandbox-tutorial">
+    Train a PyTorch model in a W&B Sandbox environment.
+  </Card>
+  <Card title="W&B Sandboxes: Invoke an agent in a sandbox" href="/sandboxes/invoke-agent-sandbox-tutorial">
+    Invoke an OpenAI agent within a W&B Sandbox.
+  </Card>
+</CardGroup>
