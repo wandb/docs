@@ -113,7 +113,8 @@
                   "product-models",
                   "product-weave",
                   "product-inference",
-                  "product-training"
+                  "product-training",
+                  "product-sandboxes"
                 ]
               },
               {
@@ -1362,7 +1363,8 @@
                   "fr/product-models",
                   "fr/product-weave",
                   "fr/product-inference",
-                  "fr/product-training"
+                  "fr/product-training",
+                  "fr/product-sandboxes"
                 ]
               },
               {
@@ -2610,7 +2612,8 @@
                   "ja/product-models",
                   "ja/product-weave",
                   "ja/product-inference",
-                  "ja/product-training"
+                  "ja/product-training",
+                  "ja/product-sandboxes"
                 ]
               },
               {
@@ -3858,7 +3861,8 @@
                   "ko/product-models",
                   "ko/product-weave",
                   "ko/product-inference",
-                  "ko/product-training"
+                  "ko/product-training",
+                  "ko/product-sandboxes"
                 ]
               },
               {
