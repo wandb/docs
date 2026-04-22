@@ -1,0 +1,66 @@
+---
+title: "Journal à écriture anticipée"
+description: "Améliorez la résilience de la capture des données de trace W&B Weave grâce au journal à écriture anticipée"
+---
+
+Le journal à écriture anticipée (WAL) enregistre les requêtes API sur disque avant de les envoyer au serveur. Par défaut, le client met les requêtes en mémoire tampon — si le processus s&#39;arrête de manière inattendue, les données mises en mémoire tampon sont perdues. Le WAL de Weave résout ce problème en écrivant les requêtes sur disque avant de les envoyer.
+
+Lorsque vous activez le WAL, le client écrit d&#39;abord chaque requête API dans un fichier JSONL local, puis en envoie le contenu au serveur. Si un processus plante ou si le serveur est inaccessible, les données restent sur disque et sont automatiquement envoyées lorsque le client est relancé.
+
+Le WAL est particulièrement utile dans les environnements où les processus peuvent être interrompus ou le serveur temporairement indisponible :
+
+* **Orchestration de conteneurs** : pods susceptibles d&#39;être évincés ou arrêtés faute de mémoire avant que les threads d&#39;arrière-plan aient fini de téléverser les traces.
+* **Entraînement distribué** : plusieurs processus écrivent des traces en parallèle, et l&#39;un d&#39;eux peut échouer.
+* **Réseaux peu fiables** : environnements où la connectivité au serveur Weave est intermittente.
+* **Tâches par lots** : tâches de longue durée pour lesquelles la perte de données de trace à la suite d&#39;un plantage serait coûteuse.
+
+Pour les environnements de courte durée comme les fonctions serverless, envisagez également d&#39;appeler `weave.flush()` ou `weave.finish()` avant la fin du processus afin de vous assurer que toutes les données sont téléversées. Voir [Perte de données de trace dans les processus worker](/fr/support/weave/articles/trace-data-loss-in-worker-processes) pour plus d&#39;informations.
+
+<Note>
+  Le journal à écriture anticipée doit actuellement être activé explicitement. Il sera activé par défaut dans une future version.
+</Note>
+
+<div id="enable-the-write-ahead-log">
+  ## Activer le journal à écriture anticipée
+</div>
+
+Pour activer le WAL, définissez la variable d’environnement `WEAVE_ENABLE_WAL` sur `true` :
+
+```bash
+export WEAVE_ENABLE_WAL=true
+```
+
+Vous pouvez également le configurer en Python avant d’appeler `weave.init()` :
+
+```python
+import os
+os.environ["WEAVE_ENABLE_WAL"] = "true"
+```
+
+Aucune autre modification du code n&#39;est nécessaire. Le WAL fonctionne de façon transparente avec le code de tracing Weave existant.
+
+<div id="how-it-works">
+  ## Fonctionnement
+</div>
+
+Lorsque le WAL est activé :
+
+1. Chaque appel à l’API Weave (création d’objet, début d’appel, fin d’appel, etc.) est ajouté à un fichier JSONL sur disque au lieu d’être conservé uniquement en mémoire.
+2. Chaque processus écrit dans son propre fichier journal, afin que les processus parallèles n’entrent pas en conflit.
+3. Un processus d’envoi en arrière-plan lit les fichiers journaux et envoie leur contenu au serveur Weave.
+4. Une fois les données envoyées avec succès, le fichier journal est supprimé.
+
+Les fichiers journaux sont stockés dans `.weave/wal/` dans votre répertoire de travail, organisés par entité et par projet. Chaque fichier contient les requêtes brutes de l’API sous forme d’objets JSON, à raison d’un objet par ligne.
+
+Au démarrage du client, celui-ci vérifie s’il existe des fichiers journaux issus d’exécutions précédentes. S’il en trouve, le processus d’envoi les transmet avec les nouvelles données. Cela signifie que les données écrites par un processus qui a planté sont automatiquement récupérées au prochain démarrage du client.
+
+<div id="environment-variables">
+  ## Variables d’environnement
+</div>
+
+| Variable                   | Type   | Default | Description                                                                                                                                                                           |
+| -------------------------- | ------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `WEAVE_ENABLE_WAL`         | `bool` | `false` | Active le journal à écriture anticipée. Lorsqu’elle est définie sur `true`, Weave écrit les requêtes d’API localement sur le disque avant de les envoyer au serveur.                        |
+| `WEAVE_DISABLE_WAL_SENDER` | `bool` | `false` | Désactive l’expéditeur WAL. Lorsqu’elle est définie sur `true`, Weave écrit les requêtes localement sur le disque, mais ne les transmet pas au serveur. C’est utile pour le débogage. |
+
+Voir la page de [référence des variables d’environnement](/fr/weave/guides/core-types/env-vars) pour obtenir la liste de toutes les variables d’environnement disponibles pour Weave.

@@ -1,16 +1,27 @@
 ---
 title: W&B Mobile App（iOS）
-description: iPhone や iPad から、トレーニング Runs をトラッキングし、折れ線グラフを表示し、正規表現を使ってプロジェクトパネルを検索し、W&B Models のプロジェクトを確認できます。
+description: iPhone や iPad から、トレーニング Runs をトラッキングし、コンソールログを確認し、折れ線グラフを表示し、正規表現を使ってプロジェクトパネルを検索し、W&B Models のプロジェクトを確認できます。
 ---
 
 <Columns cols={4}>
-  <Frame>![メトリクスチャートを表示した W\&B モバイルアプリのプロジェクトパネル](/images/mobile-app/project-panels.png)</Frame>
-  <Frame>![W\&B モバイルアプリの通知管理画面](/images/mobile-app/manage-alerts.png)</Frame>
-  <Frame>![W\&B モバイルアプリの Projects リストとチームピッカー](/images/mobile-app/projects.png)</Frame>
-  <Frame>![プロジェクトの Runs リストを表示した W\&B モバイルアプリ](/images/mobile-app/project-runs.png)</Frame>
+  <Frame>
+    ![メトリクスチャートを表示した W\&B モバイルアプリのプロジェクトパネル](/images/mobile-app/project-panels.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの通知管理画面](/images/mobile-app/manage-alerts.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの Projects リストとチームピッカー](/images/mobile-app/projects.png)
+  </Frame>
+
+  <Frame>
+    ![プロジェクトの Runs リストを表示した W\&B モバイルアプリ](/images/mobile-app/project-runs.png)
+  </Frame>
 </Columns>
 
-iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のプロジェクトを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、折れ線グラフを表示し、プロジェクトの履歴を確認し、チームの進捗を把握できます。
+iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のプロジェクトを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフを表示し、プロジェクトの履歴を確認し、チームの進捗を把握できます。
 
 <Info>
   モバイルアプリを利用できるのは、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントのみです。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
@@ -27,6 +38,7 @@ iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Model
 </div>
 
 * **トレーニング run をトラッキングする**: run のステータス、メトリクス、折れ線グラフをリアルタイムで確認できます。
+* **コンソール ログを確認する**: アクティブな run または完了した run の [コンソール ログ](/ja/models/runs/view-logged-runs#logs) を確認したり、完了した run のログをダウンロードしたりできます。アプリはアクティブな run を 5 秒ごとにポーリングして、新しいログ行を取得します。デフォルトでは最新の 10,000 行が表示され、過去のログを確認するには上方向にスクロールできます。
 * **プロジェクトの履歴を確認する**: W&amp;B プロジェクト 全体を参照して検索できます。**プロジェクト パネル**のメトリクス チャートには、最新の run だけでなく、プロジェクト内の**すべての Runs**のデータが含まれます。
 * **プロジェクト パネルを検索する**: 各チャートに表示される run をフィルターするには、**パネル検索**フィールドを使用します。run 名のパターンに一致する項目を、[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) を使って検索できます。
 * **Teams を切り替える**: **チーム ピッカー**を使用して Teams を切り替えます。ピッカーには、よりすばやく移動できるよう更新された Layout が使用されています。

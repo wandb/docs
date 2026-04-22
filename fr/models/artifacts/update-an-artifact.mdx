@@ -1,26 +1,26 @@
 ---
-description: Mettre à jour un artifact existant pendant qu'un run est actif ou en utilisant uniquement l'API publique.
-title: Mettre à jour un artifact
+description: Mettez à jour un artefact existant pendant qu'un run est actif ou en utilisant uniquement l'API publique.
+title: Mettre à jour un artefact
 ---
 
-Définissez les valeurs souhaitées pour mettre à jour la `description`, les `metadata` et l&#39;`alias` d&#39;un artifact. Mettez à jour un run précédemment consigné dans W&amp;B avec l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-api/api)). Utilisez `wandb.Run.save()` pour mettre à jour un artifact lorsqu&#39;il est initialisé pour la première fois et qu&#39;il est toujours actif.
+Transmettez les valeurs souhaitées pour mettre à jour la `description`, les `metadata` et l&#39;`alias` d&#39;un artefact. Mettez à jour un run précédemment consigné dans W&amp;B avec l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-api/api)). Utilisez `wandb.Run.save()` pour mettre à jour un artefact lorsqu&#39;il vient d&#39;être initialisé et qu&#39;il est toujours actif.
 
 <Note>
   **Quand utiliser wandb.Artifact.save() ou wandb.Run.log&#95;artifact()**
 
-  * Utilisez `Artifact.save()` pour mettre à jour un artifact existant sans démarrer un nouveau run.
-  * Utilisez `wandb.Run.log_artifact()` pour créer un nouvel artifact et l&#39;associer à un run spécifique.
+  * Utilisez `Artifact.save()` pour mettre à jour un artefact existant sans démarrer un nouveau run.
+  * Utilisez `wandb.Run.log_artifact()` pour créer un nouvel artefact et l&#39;associer à un run spécifique.
 </Note>
 
-Utilisez l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour mettre à jour un artifact. Utilisez la classe wandb.Artifact ([`wandb.Artifact`](/fr/models/ref/python/experiments/artifact)) pendant qu&#39;un run est actif.
+Utilisez l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour mettre à jour un artefact. Utilisez la classe [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) pendant qu&#39;un run est actif.
 
 <Warning>
-  Vous ne pouvez pas mettre à jour l&#39;alias d&#39;un artifact lié à un modèle dans le Model Registry.
+  Vous ne pouvez pas mettre à jour l&#39;alias d&#39;un artefact lié à un modèle dans le Model Registry.
 </Warning>
 
 <Tabs>
   <Tab title="Pendant un run">
-    L&#39;exemple de code suivant montre comment mettre à jour la description d&#39;un artifact à l&#39;aide de l&#39;API [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) :
+    L&#39;exemple de code suivant montre comment mettre à jour la description d&#39;un artefact à l&#39;aide de l&#39;API [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) :
 
     ```python
     import wandb
@@ -33,7 +33,7 @@ Utilisez l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-
   </Tab>
 
   <Tab title="API publique W&B">
-    L&#39;exemple suivant met à jour un artifact avec [`wandb.Api`](/fr/models/ref/python/public-api/api) :
+    L&#39;exemple suivant met à jour un artefact avec [`wandb.Api`](/fr/models/ref/python/public-api/api) :
 
     ```python
     import wandb
@@ -45,7 +45,7 @@ Utilisez l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-
     # Mettre à jour la description
     artifact.description = "My new description"
 
-    # Mettre à jour sélectivement des clés de métadonnées
+    # Mettre à jour certaines clés des métadonnées
     artifact.metadata["oldKey"] = "new value"
 
     # Remplacer entièrement les métadonnées
@@ -60,15 +60,15 @@ Utilisez l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-
     # Remplacer complètement les alias
     artifact.aliases = ["replaced"]
 
-    # Enregistrer toutes les modifications de l'artifact
+    # Enregistrer toutes les modifications de l'artefact
     artifact.save()
     ```
 
-    Pour plus d&#39;informations, voir l&#39;[API Artifact](/fr/models/ref/python/experiments/artifact) de Weights and Biases.
+    Pour plus d&#39;informations, voir l&#39;[API Artifact](/fr/models/ref/python/experiments/artifact) de Weights &amp; Biases.
   </Tab>
 
   <Tab title="Avec des collections">
-    Vous pouvez également mettre à jour une collection d&#39;Artifacts de la même manière qu&#39;un artifact individuel :
+    Vous pouvez également mettre à jour une collection d&#39;artefacts de la même manière qu&#39;un artefact individuel :
 
     ```python
     import wandb

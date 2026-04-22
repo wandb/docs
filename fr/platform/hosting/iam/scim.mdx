@@ -38,18 +38,61 @@ Pour obtenir des exemples pratiques en Python montrant comment interagir avec l�
   ## Authentification
 </div>
 
-Choisissez de vous authentifier avec une identité utilisateur ou un compte de service, après avoir pris connaissance des principales différences.
+Les Administrateurs de l’organisation peuvent s’authentifier avec un **jeton Bearer** ou des identifiants **HTTP Basic**. Les deux méthodes utilisent la *même clé API* lorsqu’une clé est utilisée. Choisissez une identité utilisateur ou un compte de service limité à l’organisation après avoir pris connaissance des principales différences.
 
 <div id="key-differences">
   ### Principales différences
 </div>
 
-* Qui devrait l’utiliser : Users conviennent mieux aux actions d’administration interactives et ponctuelles ; les comptes de service sont plus adaptés à l’automatisation et aux intégrations (CI/CD, outils de provisionnement).
-* Identifiants : Users envoient le nom d’utilisateur et la clé API ; les comptes de service envoient uniquement une clé API (sans nom d’utilisateur).
-* Charge utile de l’en-tête d’autorisation : Users encodent `username:API-KEY` ; les comptes de service encodent `:API-KEY` (deux-points en tête).
-* Portée et autorisations : les deux nécessitent des privilèges d’administrateur ; les comptes de service sont limités à l’organisation et sans utilisateur associé, ce qui offre des pistes d’audit plus claires pour l’automatisation.
-* Où obtenir les identifiants : Users copient leur clé API dans les Paramètres utilisateur ; les clés des comptes de service se trouvent dans l’onglet Compte de service de l’organisation.
-* Cloud mutualisé : si vous avez accès à plusieurs organisations Cloud mutualisé, vous devez définir la Default API organization pour vous assurer que les appels à l’API SCIM sont dirigés vers l’organisation voulue.
+* Qui devrait l’utiliser : les utilisateurs conviennent mieux aux actions d’administration interactives et ponctuelles ; les comptes de service conviennent mieux à l’automatisation et aux intégrations (CI/CD, outils de provisionnement).
+* Identifiants : les utilisateurs envoient un nom d’utilisateur et une clé API pour l’authentification Basic ; les comptes de service envoient uniquement une clé API (sans nom d’utilisateur) pour l’authentification Basic. Pour l’authentification Bearer, envoyez uniquement la clé API dans l’en-tête (sans nom d’utilisateur).
+* Bearer versus Basic : Bearer utilise `Authorization: Bearer <API-KEY>` avec la clé telle quelle. Basic utilise `Authorization: Basic <base64(...)>` (les utilisateurs encodent `username:API-KEY` ; les comptes de service encodent `:API-KEY` avec un deux-points au début et un nom d’utilisateur vide).
+* Portée et autorisations : utilisez une clé API d’un utilisateur administrateur de l’instance ou de l’organisation, ou d’un [compte de service limité à l’organisation](/fr/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Les clés des [comptes de service à portée d&#39;équipe](/fr/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) ne peuvent pas s’authentifier auprès de l’API SCIM. Les comptes de service qui utilisent SCIM sont limités à l’organisation et non interactifs, ce qui offre des pistes d’audit plus claires pour l’automatisation.
+* Où obtenir les identifiants : les utilisateurs copient leur clé API depuis les Paramètres utilisateur ; les clés des comptes de service limités à l’organisation se trouvent dans le tableau de bord de l’organisation, sous l’onglet **Compte de service**.
+* Cloud mutualisé : si vous avez accès à plusieurs organisations dans le Cloud mutualisé, vous devez définir l’organisation API par défaut afin de garantir que les appels à l’API SCIM sont acheminés vers l’organisation prévue.
+
+<div id="bearer-token">
+  ### Jeton Bearer
+</div>
+
+Envoyez la clé API sous la forme d’un jeton Bearer :
+
+```bash
+Authorization: Bearer <API-KEY>
+```
+
+La valeur `<API-KEY>` est la même chaîne que celle que vous utiliseriez comme mot de passe pour l’authentification HTTP Basic de ce principal. N’encodez pas la clé en Base64 pour les requêtes Bearer.
+
+<Note>
+  L’authentification Bearer pour l’API SCIM est disponible dans W&amp;B Cloud mutualisé, ainsi que dans Cloud dédié et Autogéré à partir de la version v0.79.0.
+</Note>
+
+Les exemples suivants utilisent `<YOUR_API_KEY>` comme espace réservé. Remplacez-le par une clé réelle provenant d’un utilisateur administrateur ou d’un compte de service limité à l’organisation.
+
+**Lister les utilisateurs**
+
+```bash
+curl -s -S \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/scim+json" \
+  "<host-url>/scim/Users"
+```
+
+**Créer un utilisateur**
+
+```bash
+curl -s -S -X POST \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/scim+json" \
+  "<host-url>/scim/Users" \
+  -d '{
+    "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+    "userName": "dev-user2",
+    "emails": [{"primary": true, "value": "dev-user2@example.com"}]
+  }'
+```
+
+Pour plus de détails, voir [Créer un utilisateur](#create-user).
 
 <div id="users">
   ### Users
@@ -955,19 +998,19 @@ Attribue à un utilisateur un rôle d’équipe.
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-        "Operations": [
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "teamRoles",
+          "value": [
             {
-                "op": "replace",
-                "path": "teamRoles",
-                "value": [
-                    {
-                        "roleName": "admin",
-                        "teamName": "team1"
-                    }
-                ]
+              "roleName": "admin",
+              "teamName": "team1"
             }
-        ]
+          ]
+        }
+      ]
     }
     ```
   </Tab>
@@ -979,32 +1022,30 @@ Attribue à un utilisateur un rôle d’équipe.
 
     ```json
     {
-        "active": true,
-        "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
-        "id": "abc",
-        "meta": {
-            "resourceType": "User",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:00:00Z",
-            "location": "Users/abc"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:User"
-        ],
-        "userName": "dev-user1",
-        "teamRoles": [
-            {
-                "teamName": "team1",
-                "roleName": "admin"
-            }
-        ],
-        "organizationRole": "admin"
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "teamRoles": [
+        {
+          "teamName": "team1",
+          "roleName": "admin"
+        }
+      ],
+      "organizationRole": "admin"
     }
     ```
   </Tab>
@@ -1046,19 +1087,19 @@ Ajoute un utilisateur à un registre en lui attribuant un rôle au niveau du reg
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-        "Operations": [
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "registryRoles",
+          "value": [
             {
-                "op": "replace",
-                "path": "registryRoles",
-                "value": [
-                    {
-                        "roleName": "admin",
-                        "registryName": "hello-registry"
-                    }
-                ]
+              "roleName": "admin",
+              "registryName": "hello-registry"
             }
-        ]
+          ]
+        }
+      ]
     }
     ```
   </Tab>
@@ -1070,32 +1111,30 @@ Ajoute un utilisateur à un registre en lui attribuant un rôle au niveau du reg
 
     ```json
     {
-        "active": true,
-        "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
-        "id": "abc",
-        "meta": {
-            "resourceType": "User",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:00:00Z",
-            "location": "Users/abc"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:User"
-        ],
-        "userName": "dev-user1",
-        "registryRoles": [
-            {
-                "registryName": "hello-registry",
-                "roleName": "admin"
-            }
-        ],
-        "organizationRole": "admin"
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "registryRoles": [
+        {
+          "registryName": "hello-registry",
+          "roleName": "admin"
+        }
+      ],
+      "organizationRole": "admin"
     }
     ```
   </Tab>
@@ -1139,50 +1178,48 @@ Retire un utilisateur d’un registre.
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-        "Operations": [
-            {
-                "op": "replace",
-                "path": "registryRoles[registryName eq \"goodbye-registry\"]"
-            }
-        ]
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "registryRoles[registryName eq \"goodbye-registry\"]"
+        }
+      ]
     }
     ```
   </Tab>
 
   <Tab title="Réponse de suppression d’un registre">
     ```bash
-    (Status 200)
+    (Statut 200)
     ```
 
     ```json
     {
-        "active": true,
-        "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
-        "id": "abc",
-        "meta": {
-            "resourceType": "User",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:00:00Z",
-            "location": "Users/abc"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:User"
-        ],
-        "userName": "dev-user1",
-        "registryRoles": [
-            {
-                "registryName": "hello-registry",
-                "roleName": "admin"
-            }
-        ],
-        "organizationRole": "admin"
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "registryRoles": [
+        {
+          "registryName": "hello-registry",
+          "roleName": "admin"
+        }
+      ],
+      "organizationRole": "admin"
     }
     ```
   </Tab>
@@ -1196,44 +1233,42 @@ Retire un utilisateur d’un registre.
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-        "Operations": [
-            {
-                "op": "replace",
-                "path": "registryRoles"
-            }
-        ]
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "registryRoles"
+        }
+      ]
     }
     ```
   </Tab>
 
   <Tab title="Réponse de suppression de tous les registres">
     ```bash
-    (Status 200)
+    (Statut 200)
     ```
 
     ```json
     {
-        "active": true,
-        "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
-        "id": "abc",
-        "meta": {
-            "resourceType": "User",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:00:00Z",
-            "location": "Users/abc"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:User"
-        ],
-        "userName": "dev-user1",
-        "organizationRole": "admin"
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "organizationRole": "admin"
     }
     ```
   </Tab>
@@ -1423,13 +1458,13 @@ Ces exemples montrent comment créer une équipe sans stockage personnalisé et 
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
-        "displayName": "wandb-support",
-        "members": [
-            {
-                "value": "def"
-            }
-        ]
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "wandb-support",
+      "members": [
+        {
+          "value": "def"
+        }
+      ]
     }
     ```
   </Tab>
@@ -1539,30 +1574,28 @@ Ces exemples montrent comment créer une équipe sans stockage personnalisé et 
 
   <Tab title="Réponse">
     ```bash
-    (Status 201)
+    (Statut 201)
     ```
 
     ```json
     {
-        "displayName": "wandb-support",
-        "id": "jkl",
-        "members": [
-            {
-                "Value": "def",
-                "Ref": "",
-                "Type": "",
-                "Display": "dev-user2"
-            }
-        ],
-        "meta": {
-            "resourceType": "Group",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:00:00Z",
-            "location": "Groups/jkl"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:Group"
-        ]
+      "displayName": "wandb-support",
+      "id": "jkl",
+      "members": [
+        {
+          "Value": "def",
+          "Ref": "",
+          "Type": "",
+          "Display": "dev-user2"
+        }
+      ],
+      "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Groups/jkl"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"]
     }
     ```
   </Tab>
@@ -1627,7 +1660,7 @@ Remplace tous les membres d’une équipe par une nouvelle liste.
 
   <Tab title="Réponse">
     ```bash
-    (Status 200)
+    (Statut 200)
     ```
 
     ```json
@@ -1694,7 +1727,7 @@ Ajout de `dev-user2` à `acme-devs` :
 
   <Tab title="Réponse">
     ```bash
-    (Status 200)
+    (Statut 200)
     ```
 
     ```json
@@ -1743,41 +1776,39 @@ Suppression de `dev-user2` de `acme-devs` :
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-        "Operations": [
-            {
-                "op": "remove",
-                "path": "members[value eq \"{user_id}\"]"
-            }
-        ]
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "remove",
+          "path": "members[value eq \"{user_id}\"]"
+        }
+      ]
     }
     ```
   </Tab>
 
   <Tab title="Réponse">
     ```bash
-    (Status 200)
+    (Statut 200)
     ```
 
     ```json
     {
-        "displayName": "acme-devs",
-        "id": "ghi",
-        "members": [
-            {
-                "Value": "abc",
-                "Display": "dev-user1"
-            }
-        ],
-        "meta": {
-            "resourceType": "Group",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:01:00Z",
-            "location": "Groups/ghi"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:Group"
-        ]
+      "displayName": "acme-devs",
+      "id": "ghi",
+      "members": [
+        {
+          "Value": "abc",
+          "Display": "dev-user1"
+        }
+      ],
+      "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"]
     }
     ```
   </Tab>
@@ -1797,36 +1828,34 @@ Suppression de tous les Users de `acme-devs` :
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-        "Operations": [
-            {
-                "op": "remove",
-                "path": "members"
-            }
-        ]
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "remove",
+          "path": "members"
+        }
+      ]
     }
     ```
   </Tab>
 
   <Tab title="Réponse">
     ```bash
-    (Status 200)
+    (Statut 200)
     ```
 
     ```json
     {
-        "displayName": "acme-devs",
-        "id": "ghi",
-        "members": null,
-        "meta": {
-            "resourceType": "Group",
-            "created": "2023-10-01T00:00:00Z",
-            "lastModified": "2023-10-01T00:01:00Z",
-            "location": "Groups/ghi"
-        },
-        "schemas": [
-            "urn:ietf:params:scim:schemas:core:2.0:Group"
-        ]
+      "displayName": "acme-devs",
+      "id": "ghi",
+      "members": null,
+      "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"]
     }
     ```
   </Tab>
@@ -1873,7 +1902,7 @@ Récupérez les informations d’un rôle personnalisé en indiquant son ID uniq
 
     ```json
     {
-        "description": "A sample custom role for example",
+        "description": "Exemple de rôle personnalisé",
         "id": "Um9sZTo3",
         "inheritedFrom": "member", // indique le rôle prédéfini
         "meta": {
@@ -1882,7 +1911,7 @@ Récupérez les informations d’un rôle personnalisé en indiquant son ID uniq
             "lastModified": "2023-11-20T23:31:23Z",
             "location": "Roles/Um9sZTo3"
         },
-        "name": "Sample custom role",
+        "name": "Rôle personnalisé d’exemple",
         "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
         "permissions": [
             {
@@ -1935,7 +1964,7 @@ Récupérez les informations sur tous les rôles personnalisés de l’organisat
     {
        "Resources": [
             {
-                "description": "A sample custom role for example",
+                "description": "Exemple de rôle personnalisé",
                 "id": "Um9sZTo3",
                 "inheritedFrom": "member", // indique le rôle prédéfini dont hérite le rôle personnalisé
                 "meta": {
@@ -1944,7 +1973,7 @@ Récupérez les informations sur tous les rôles personnalisés de l’organisat
                     "lastModified": "2023-11-20T23:31:23Z",
                     "location": "Roles/Um9sZTo3"
                 },
-                "name": "Sample custom role",
+                "name": "Rôle personnalisé d’exemple",
                 "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
                 "permissions": [
                     {
@@ -1963,7 +1992,7 @@ Récupérez les informations sur tous les rôles personnalisés de l’organisat
                 ]
             },
             {
-                "description": "Another sample custom role for example",
+                "description": "Autre exemple de rôle personnalisé",
                 "id": "Um9sZToxMg==",
                 "inheritedFrom": "viewer", // indique le rôle prédéfini dont hérite le rôle personnalisé
                 "meta": {
@@ -1971,7 +2000,7 @@ Récupérez les informations sur tous les rôles personnalisés de l’organisat
                     "created": "2023-11-21T01:07:50Z",
                     "location": "Roles/Um9sZToxMg=="
                 },
-                "name": "Sample custom role 2",
+                "name": "Rôle personnalisé d’exemple 2",
                 "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
                 "permissions": [
                     {
@@ -2027,52 +2056,52 @@ Récupérez les informations sur tous les rôles personnalisés de l’organisat
 
     ```json
     {
-        "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
-        "name": "Sample custom role",
-        "description": "A sample custom role for example",
-        "permissions": [
-            {
-                "name": "project:update"
-            }
-        ],
-        "inheritedFrom": "member"
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
+      "name": "Sample custom role",
+      "description": "A sample custom role for example",
+      "permissions": [
+        {
+          "name": "project:update"
+        }
+      ],
+      "inheritedFrom": "member"
     }
     ```
   </Tab>
 
   <Tab title="Réponse">
     ```bash
-    (Statut 201)
+    (statut 201)
     ```
 
     ```json
     {
-        "description": "A sample custom role for example",
-        "id": "Um9sZTo3",
-        "inheritedFrom": "member", // indique le rôle prédéfini
-        "meta": {
-            "resourceType": "Role",
-            "created": "2023-11-20T23:10:14Z",
-            "lastModified": "2023-11-20T23:31:23Z",
-            "location": "Roles/Um9sZTo3"
+      "description": "A sample custom role for example",
+      "id": "Um9sZTo3",
+      "inheritedFrom": "member", // indique le rôle prédéfini
+      "meta": {
+        "resourceType": "Role",
+        "created": "2023-11-20T23:10:14Z",
+        "lastModified": "2023-11-20T23:31:23Z",
+        "location": "Roles/Um9sZTo3"
+      },
+      "name": "Sample custom role",
+      "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+      "permissions": [
+        {
+          "name": "artifact:read",
+          "isInherited": true // hérité du rôle prédéfini member
         },
-        "name": "Sample custom role",
-        "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
-        "permissions": [
-            {
-                "name": "artifact:read",
-                "isInherited": true // hérité du rôle prédéfini « member »
-            },
-            ...
-            ...
-            {
-                "name": "project:update",
-                "isInherited": false // autorisation personnalisée ajoutée par un administrateur
-            }
-        ],
-        "schemas": [
-            ""
-        ]
+        ...
+        ...
+        {
+          "name": "project:update",
+          "isInherited": false // autorisation personnalisée ajoutée par l’administrateur
+        }
+      ],
+      "schemas": [
+        ""
+      ]
     }
     ```
   </Tab>
