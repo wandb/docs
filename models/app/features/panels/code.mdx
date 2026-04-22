@@ -32,13 +32,23 @@ This captures all python source code files in the current directory and all subd
 
 ### Set code saving in the UI
 
-In addition to setting code saving programmatically, you can also toggle this feature in your W&B account Settings. Note that this will enable code saving for all teams associated with your account.
+In addition to setting code saving programmatically, you can configure defaults in the UI at the user account, team, and organization scopes. Team and organization controls are documented in [Configure privacy settings](/platform/hosting/privacy-settings).
+
+#### User account
+
+1. Log in to your W&B account.
+2. Open **Settings** from your profile menu, then select **Privacy**.
+3. Under **Project and content security**, turn **Disable default code saving** off if you want W&B to save training code by default. When this option is on, W&B keeps code saving off by default at the account level.
 
 > By default, W&B disables code saving for all teams.
 
-1. Log in to your W&B account.
-2. Navigate to **Settings** > **Privacy**.
-3. Under **Project and content security**, toggle **Disable default code saving** on. 
+#### Team
+
+Team admins open the team **Settings** page, go to the **Privacy** section, and configure **Enable code saving by default** for runs in that team. This option is available only when an organization admin has not enforced code saving restrictions for the whole organization. For navigation steps, see [Configure privacy settings for a team](/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
+
+#### Organization
+
+Organization admins open organization **Settings**, go to the **Privacy** section, and can turn on **Enforce default code saving restrictions** so code saving stays off by default for every team. While this enforcement is on, team admins cannot turn **Enable code saving by default** back on for their teams. For the full list of organization controls, see [Enforce privacy settings for all teams](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
 
 ## Code comparer
 Compare code used in different W&B runs:
