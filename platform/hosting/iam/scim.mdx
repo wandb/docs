@@ -266,6 +266,8 @@ Creates a new user in your organization.
 |-----------|------|----------|-------------|
 | `emails` | array | Yes | Array of email objects. Must include a primary email |
 | `userName` | string | Yes | The username for the new user |
+| `modelsSeat` | string | No | Models seat level. One of `full`, `viewer`, or `none`. Defaults to `full`. **Dedicated Cloud and Self-Managed only.** |
+| `weaveRole` | string | No | Weave role level. One of `full`, `viewer`, or `none`. Defaults to `full`. **Dedicated Cloud and Self-Managed only.** |
 
 #### Example
 
@@ -286,7 +288,9 @@ POST /scim/Users
             "value": "dev-user2@example.com"
         }
     ],
-    "userName": "dev-user2"
+    "userName": "dev-user2",
+    "modelsSeat": "full",
+    "weaveRole": "full"
 }
 ```
 </Tab>
@@ -343,6 +347,8 @@ POST /scim/Users
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
+    "modelsSeat": "full",
+    "weaveRole": "full",
     "userName": "dev-user2"
 }
 ```
@@ -785,9 +791,12 @@ Assigns an organization-level role to a user.
 <Note>
 The organization-scoped `viewer` role is deprecated and can no longer be assigned in the UI. If you use SCIM to assign the `viewer` role to a user:
 - They are assigned the `member` role in the organization.
-- They are assigned a Models `viewer` seat, instead of a `full` seat. This allows view-only access to Models and full access to Registry. If no Models seats are available, a `Seat limit reached` error is logged and the member is added with no Models access. This can be updated later if a seat is available.
-- They are assigned a Weave `viewer` seat, instead of a `full` seat. This allows view-only access to Weave. If no Weave seats are available, a `Seat limit reached` error is logged and the member is added with no Weave access. This can be updated later if a seat is available.
+- Their `modelsSeat` is set to `viewer` instead of `full`. This allows view-only access to Models and full access to Registry. If no Models seats are available, a `Seat limit reached` error is returned. This can be updated later if a seat is available.
+- Their `weaveRole` is set to `viewer` instead of `full`. This allows view-only access to Weave.
+- All of their existing team and project roles are set to `viewer`.
 - They are assigned the Registry `viewer` role in registries that are visible at the organization level.
+
+Assigning the `member` or `admin` organization role does not change the user's `modelsSeat` or `weaveRole`.
 </Note>
 
 #### Example
@@ -844,6 +853,148 @@ PATCH /scim/Users/abc
         }
     ],
     "organizationRole": "admin"
+}
+```
+</Tab>
+</Tabs>
+
+### Update Models seat
+
+Updates a user's Models seat. **Dedicated Cloud** and **Self-Managed** only.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: PATCH
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `replace` |
+| `path` | string | Yes | `modelsSeat` |
+| `value` | string | Yes | Seat level (`full`, `viewer`, or `none`) |
+
+#### Example
+
+<Tabs>
+<Tab title="Update Models Seat Request">
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "modelsSeat",
+            "value": "full"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="Update Models Seat Response">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "organizationRole": "member",
+    "modelsSeat": "full",
+    "weaveRole": "full"
+}
+```
+</Tab>
+</Tabs>
+
+### Update Weave role
+
+Updates a user's Weave role. **Dedicated Cloud** and **Self-Managed** only.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: PATCH
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `replace` |
+| `path` | string | Yes | `weaveRole` |
+| `value` | string | Yes | Role level (`full`, `viewer`, or `none`) |
+
+#### Example
+
+<Tabs>
+<Tab title="Update Weave Role Request">
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "weaveRole",
+            "value": "full"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="Update Weave Role Response">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "organizationRole": "member",
+    "modelsSeat": "full",
+    "weaveRole": "full"
 }
 ```
 </Tab>
@@ -2134,13 +2285,15 @@ The SCIM API returns standard SCIM error responses:
 
 W&B maintains two separate SCIM API implementations, and the features differ between them:
 
-| Feature                   | Dedicated Cloud | Self-Managed |
-|---------------------------|-----------------|--------------|
-| Update user email         |        -        |    &check;   |
-| Update user display name  |        -        |    &check;   |
-| User deactivation         |    &check;      |    &check;   |
-| User reactivation         |        -        |    &check;   |
-| Multiple emails per user  |    &check;      |      -       |
+| Feature                         | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
+|---------------------------------|-----------------|--------------|
+| Update user email               |        -        |    &check;   |
+| Update user display name        |        -        |    &check;   |
+| User deactivation               |    &check;      |    &check;   |
+| User reactivation               |        -        |    &check;   |
+| Multiple emails per user        |    &check;      |      -       |
+| Set `modelsSeat` on create/update |    -    |    &check;   |
+| Set `weaveRole` on create/update  |    -    |    &check;   |
 
 ## Limitations
 
