@@ -225,7 +225,10 @@ Use the following general guidelines as a starting point when planning a deploym
 
 #### Kubernetes
 
-| Environment      | CPU	            | Memory	         | Disk               | 
+We recommend starting with minimum 3 nodes for both Test/Dev and Production.  
+For Production, enable cluster autoscaling with maximum set to 8 nodes.
+
+| Environment      | CPU	              | Memory	           | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
 | Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
 | Production       | 8 cores            | 64 GB              | 100 GB             |
@@ -234,7 +237,7 @@ Numbers are per Kubernetes worker node.
 
 #### MySQL
 
-| Environment      | CPU	            | Memory	         | Disk               | 
+| Environment      | CPU	              | Memory	           | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
 | Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
 | Production       | 8 cores            | 64 GB              | 500 GB             |
@@ -245,6 +248,9 @@ Numbers are per MySQL node.
 ### Weave only
 
 #### Kubernetes
+
+We recommend starting with minimum 3 nodes for both Test/Dev and Production.  
+For Production, enable cluster autoscaling with maximum set to 8 nodes.
 
 | Environment      | CPU                | Memory             | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
@@ -265,6 +271,9 @@ Numbers are per MySQL node.
 ### Models and Weave
 
 #### Kubernetes
+
+We recommend starting with minimum 3 nodes for both Test/Dev and Production.  
+For Production, enable cluster autoscaling with maximum set to 8 nodes.
 
 | Environment      | CPU                | Memory             | Disk               | 
 | ---------------- | ------------------ | ------------------ | ------------------ | 
