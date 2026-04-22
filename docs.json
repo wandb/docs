@@ -75,6 +75,7 @@
               {
                 "group": "Products",
                 "pages": [
+                  "index",
                   "product-models",
                   "product-weave",
                   "product-inference",
