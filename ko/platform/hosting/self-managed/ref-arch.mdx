@@ -1,89 +1,83 @@
 ---
-title: 레퍼런스 아키텍처
-description: "Kubernetes, MySQL, 객체 저장소 및 네트워킹을 포괄하는 Self-Managed W&B 배포용 레퍼런스 아키텍처를 검토하세요."
+- title: 레퍼런스 아키텍처
+- description: Kubernetes, MySQL, 오브젝트 스토리지 및 네트워킹을 포함하는 자체 관리형 W&B 배포를 위한 레퍼런스 아키텍처를 검토하세요.
 ---
 
-import SelfManagedVersionRequirements from "/snippets/ko/_includes/self-managed-version-requirements.mdx";
-import SelfManagedNetworkingRequirements from "/snippets/ko/_includes/self-managed-networking-requirements.mdx";
-import SelfManagedSslTlsRequirements from "/snippets/ko/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedVersionRequirements from "/snippets/_includes/self-managed-version-requirements.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/_includes/self-managed-ssl-tls-requirements.mdx";
 
-이 페이지에서는 W&amp;B 배포를 위한 레퍼런스 아키텍처를 설명하고, 플랫폼의 프로덕션 배포를 지원하기 위해 권장되는 인프라와 리소스를 간략히 설명합니다.
+이 페이지는 W\&B 배포를 위한 참조 아키텍처를 설명하고, 플랫폼의 프로덕션 배포를 지원하기 위해 권장되는 인프라 및 리소스를 개략적으로 설명합니다.
 
-선택한 W&amp;B 배포 환경에 따라 다양한 서비스가 배포의 복원력을 높이는 데 도움이 될 수 있습니다.
+W\&B에 대해 선택한 배포 환경에 따라, 다양한 서비스가 배포의 복원력을 향상시키는 데 도움이 될 수 있습니다.
 
-예를 들어, 주요 클라우드 제공업체는 강력한 관리형 데이터베이스 서비스를 제공하므로 데이터베이스 설정, 유지 관리, 고가용성, 복원성과 관련된 복잡성을 줄일 수 있습니다.
+예를 들어, 주요 클라우드 공급자는 데이터베이스 구성, 유지 관리, 고가용성 및 복원력의 복잡성을 줄이는 데 도움이 되는 강력한 관리형 데이터베이스 서비스를 제공합니다.
 
-이 레퍼런스 아키텍처는 몇 가지 일반적인 배포 시나리오를 다루고, 최적의 성능과 안정성을 위해 W&amp;B 배포를 클라우드 벤더 서비스와 어떻게 통합할 수 있는지 보여줍니다.
+이 참조 아키텍처는 몇 가지 일반적인 배포 시나리오를 다루고, 최적의 성능과 신뢰성을 위해 W\&B 배포를 클라우드 벤더 서비스와 통합하는 방법을 보여줍니다.
 
-<div id="before-you-start">
-  ## 시작하기 전에
-</div>
+## 시작하기 전에
 
-프로덕션에서 애플리케이션을 운영하는 데에는 여러 가지 과제가 따르며, W&amp;B도 예외는 아닙니다. 저희는 이 과정을 간소화하기 위해 노력하고 있지만, 각자의 아키텍처와 설계 결정에 따라 일부 복잡한 문제가 발생할 수 있습니다. 일반적으로 프로덕션 배포를 관리하려면 하드웨어, 운영 체제, 네트워킹, 저장소, 보안, W&amp;B 플랫폼 자체, 그리고 기타 의존성을 비롯한 다양한 컴포넌트를 관리해야 합니다. 이러한 책임은 환경의 초기 설정뿐 아니라 지속적인 유지 관리에도 해당됩니다.
+프로덕션 환경에서 애플리케이션을 실행하는 것은 고유한 과제를 수반하며, W\&B도 예외는 아닙니다. 프로세스를 간소화하기 위해 노력하지만, 고유한 아키텍처 및 설계 결정에 따라 특정 복잡성이 발생할 수 있습니다. 일반적으로 프로덕션 배포를 관리하는 것은 하드웨어, 운영 체제, 네트워킹, 스토리지, 보안, W\&B 플랫폼 자체 및 기타 종속성을 포함한 다양한 구성 요소를 감독하는 것을 포함합니다. 이 책임은 환경의 초기 설정과 지속적인 유지 관리 모두에 적용됩니다.
 
-W&amp;B와 함께 Self-Managed 방식을 선택하는 것이 팀과 구체적인 요구 사항에 적합한지 신중히 검토하세요.
+W\&B와 함께 Self-Managed 방식이 팀과 특정 요구 사항에 적합한지 신중하게 고려하십시오.
 
-Self-Managed W&amp;B를 배포하기 전에, 프로덕션급 애플리케이션을 운영하고 유지 관리하는 방법을 충분히 이해하고 있어야 합니다. 팀에 도움이 필요하다면, Professional Services 팀과 파트너가 구현 및 최적화를 지원합니다.
+프로덕션급 애플리케이션을 실행하고 유지 관리하는 방법에 대한 깊은 이해는 Self-Managed W\&B를 배포하기 전에 중요한 전제 조건입니다. 팀에 지원이 필요한 경우, 당사의 Professional Services 팀과 파트너가 구현 및 최적화에 대한 지원을 제공합니다.
 
-직접 관리하는 대신 W&amp;B를 실행할 수 있는 관리형 솔루션에 대해 자세히 알아보려면 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 및 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)를 참고하세요.
+직접 관리하는 대신 W\&B를 실행하기 위한 관리형 솔루션에 대해 자세히 알아보려면 다음을 참조하십시오. [W\&B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 및 [W\&B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud).
 
-<div id="infrastructure">
-  ## 인프라
-</div>
+## 인프라
 
 <Frame>
-  <img src="/images/hosting/reference_architecture.png" alt="W&B 인프라 다이어그램" />
+  <img src="/images/hosting/reference_architecture.png" alt="W&B infrastructure diagram" />
 </Frame>
 
-<div id="application-layer">
-  ### 애플리케이션 계층
-</div>
+### 애플리케이션 레이어
 
-애플리케이션 계층은 노드 장애에도 견딜 수 있는 다중 노드 Kubernetes 클러스터로 구성됩니다. Kubernetes 클러스터는 W&amp;B의 파드를 실행하고 관리합니다.
+애플리케이션 레이어는 노드 장애에 대한 복원력을 갖춘 다중 노드 Kubernetes 클러스터로 구성됩니다. Kubernetes 클러스터는 W\&B의 pod를 실행하고 유지 관리합니다.
 
-<div id="storage-layer">
-  ### 저장소 계층
-</div>
+### 스토리지 레이어
 
-저장소 계층은 MySQL 데이터베이스와 객체 저장소로 구성됩니다. MySQL 데이터베이스는 메타데이터를 저장하고, 객체 저장소는 모델 및 데이터셋과 같은 아티팩트를 저장합니다.
+스토리지 레이어는 MySQL 데이터베이스와 오브젝트 스토리지로 구성됩니다. MySQL 데이터베이스는 메타데이터를 저장하고, 오브젝트 스토리지는 모델 및 데이터셋과 같은 artifact를 저장합니다.
 
-<div id="infrastructure-requirements">
-  ## 인프라 요구 사항
-</div>
+## 인프라 요구 사항
+
+다음 섹션에서는 Kubernetes 클러스터 세부 정보, MySQL, Redis, 오브젝트 스토리지, 소프트웨어 버전, 네트워킹, DNS, 로드 밸런서 및 인그레스, SSL/TLS, 지원되는 CPU 아키텍처를 포함한 W\&B 배포의 다양한 측면에 대한 요구 사항을 자세히 설명합니다.
 
 ### Kubernetes
 
-W&amp;B Server 애플리케이션은 여러 파드를 배포하는 [Kubernetes Operator](/ko/platform/hosting/self-managed/operator) 형태로 배포됩니다. 따라서 W&amp;B를 사용하려면 다음 요건을 갖춘 Kubernetes 클러스터가 필요합니다.
+W\&B Server 애플리케이션은 [Kubernetes Operator](/ko/platform/hosting/self-managed/operator)로 배포되어 여러 pod를 배포합니다. 이러한 이유로 W\&B는 다음을 갖춘 Kubernetes 클러스터가 필요합니다:
 
-* 완전히 설정되어 정상적으로 작동하는 인그레스 컨트롤러
-* Persistent Volume을 프로비저닝할 수 있는 기능
+* 완전히 구성되고 작동하는 Ingress 컨트롤러.
+* Persistent Volume을 프로비저닝하는 기능.
 
-W&amp;B는 클라우드, 온프레미스, 폐쇄망 환경의 [OpenShift Kubernetes 클러스터](https://www.redhat.com/en/technologies/cloud-computing/openshift) 배포를 지원합니다. 구체적인 설정 지침은 Operator 가이드의 [OpenShift 섹션](/ko/platform/hosting/self-managed/operator#openshift-kubernetes-clusters)을 참조하세요.
+W\&B는 [OpenShift Kubernetes 클러스터](https://www.redhat.com/en/technologies/cloud-computing/openshift)에서 클라우드, 온프레미스 및 에어갭 환경의 배포를 지원합니다. 특정 구성 지침은 Operator 가이드의 [OpenShift 섹션](/ko/platform/hosting/self-managed/operator#openshift-kubernetes-clusters)을 참조하십시오.
 
 ### MySQL
 
-W&amp;B는 메타데이터를 MySQL 데이터베이스에 저장합니다. 데이터베이스의 성능 및 저장소 요구 사항은 모델 파라미터의 형태와 관련 메타데이터에 따라 달라집니다. 예를 들어, 더 많은 트레이닝 run을 추적할수록 데이터베이스 크기가 커지며, run 테이블, 사용자 Workspace, Reports의 쿼리에 따라 데이터베이스 부하도 증가합니다.
+W\&B는 MySQL 데이터베이스에 메타데이터를 저장합니다. 데이터베이스의 성능 및 스토리지 요구 사항은 모델 파라미터의 형태와 관련 메타데이터에 따라 달라집니다. 예를 들어, 더 많은 training run을 추적할수록 데이터베이스 크기가 증가하고, run 테이블, 사용자 workspace 및 report의 쿼리에 따라 데이터베이스 부하가 증가합니다.
 
-**W&amp;B는 프로덕션 배포에 관리형 데이터베이스 서비스를 사용할 것을 강력히 권장합니다**(예: AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, Azure Database for MySQL). 관리형 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하며 오퍼레이션 복잡성을 크게 줄여 줍니다. 구체적인 서비스 권장 사항은 아래의 [Cloud provider instance recommendations](#cloud-provider-instance-recommendations) section을 참조하세요.
+**W\&B는 관리형 데이터베이스 서비스 사용을 강력히 권장합니다**(예: AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, 또는 Azure Database for MySQL) 프로덕션 배포에 사용하십시오. 관리형 서비스는 자동화된 백업, 모니터링, 고가용성, 패칭을 제공하고 운영 복잡성을 크게 줄입니다. 특정 서비스 권장 사항은 아래의 [클라우드 공급자 인스턴스 권장 사항](#cloud-provider-instance-recommendations) 섹션을 참조하십시오.
 
-Self-Managed MySQL 데이터베이스를 배포하기로 한 경우에는 다음 사항을 고려하세요:
+자체 관리 MySQL 데이터베이스를 배포하기로 선택한 경우 다음을 고려하십시오:
 
-* **백업**: 데이터베이스를 별도의 시설에 정기적으로 백업해야 합니다. W&amp;B는 최소 1주일 보관하는 일일 백업을 권장합니다.
-* **성능**: 데이터베이스에는 SSD 또는 가속 NAS와 같은 고속 저장소 하드웨어가 필요합니다.
-* **모니터링**: 데이터베이스에는 충분한 CPU 리소스가 필요합니다. 데이터베이스 서버의 CPU 부하를 모니터링하세요. CPU 사용률이 5분 넘게 시스템의 90%를 초과한 상태로 유지되면 CPU 용량 증설을 고려하세요.
-* **가용성**: 가용성과 내구성 요구 사항을 충족하려면, W&amp;B는 기본 배포의 모든 업데이트를 실시간으로 스트리밍하고 기본 서버가 충돌하거나 손상되거나 장시간 다운타임이 발생할 경우 장애 조치할 수 있도록, 별도 머신에 hot standby Server 배포를 구성할 것을 권장합니다. W&amp;B는 멀티 마스터 토폴로지나 읽기 전용 레플리카를 지원하지 않습니다.
+* **백업**: 데이터베이스를 별도의 시설에 주기적으로 백업해야 합니다. W\&B는 최소 1주일의 보존 기간으로 매일 백업할 것을 권장합니다.
+* **성능**: 데이터베이스는 SSD 또는 가속화된 NAS와 같은 빠른 스토리지 하드웨어가 필요합니다.
+* **모니터링**: 데이터베이스는 적절한 CPU 리소스가 필요합니다. 데이터베이스 서버의 CPU 부하를 모니터링하십시오. CPU 사용량이 5분 이상 시스템의 90% 이상으로 지속되면 CPU 용량 추가를 고려하십시오.
+* **가용성**: 가용성 및 내구성 요구 사항을 충족하기 위해, W\&B는 기본 배포에서 모든 업데이트를 실시간으로 스트리밍하고 기본 서버가 충돌하거나 손상되거나 지속적인 다운타임이 발생할 경우 장애 조치할 준비가 된 별도의 머신에 핫 스탠바이 배포를 구성할 것을 권장합니다.
 
-<div id="mysql-database-creation">
-  #### MySQL 데이터베이스 생성
-</div>
+#### MySQL 토폴로지
 
-MySQL 데이터베이스와 사용자를 수동으로 생성하는 방법은 [베어메탈 가이드의 MySQL 데이터베이스 섹션](/ko/platform/hosting/self-managed/operator#mysql-database)을 참조하세요.
+프로덕션의 경우, 관리형 MySQL 서비스는 클라우드 공급자가 장애 조치, 백업 및 패칭을 처리하기 때문에 고가용성을 위한 가장 간단한 경로입니다. 공급자의 고가용성 옵션(예: AWS의 Aurora Multi-AZ)을 사용하십시오.
 
-<div id="mysql-configuration-parameters">
-  #### MySQL 설정 매개변수
-</div>
+자체 관리 MySQL을 실행하는 경우, 실시간 복제 스트림을 수신하고 장애 시 인계받을 수 있는 핫 스탠바이가 있는 기본 데이터베이스를 사용하십시오. W\&B는 애플리케이션 데이터베이스에 대해 멀티 마스터 토폴로지 또는 읽기 전용 복제본을 지원하지 않습니다.
 
-MySQL 인스턴스를 직접 운영하는 경우 다음과 같이 MySQL을 설정하세요:
+#### MySQL 데이터베이스 생성
+
+MySQL 데이터베이스와 사용자를 수동으로 생성하는 방법은 [베어메탈 가이드 MySQL 데이터베이스 섹션](/ko/platform/hosting/self-managed/operator#mysql-database)을 참조하십시오.
+
+#### MySQL 구성 파라미터
+
+자체 MySQL 인스턴스를 실행하는 경우, 다음 설정으로 MySQL을 구성하십시오:
 
 ```
 binlog_format = 'ROW'
@@ -95,88 +89,70 @@ sort_buffer_size = '67108864'
 sync_binlog = 1
 ```
 
-이 설정은 최적의 성능과 안정성을 위해 W&amp;B의 검증을 거쳤습니다.
+이 설정들은 최적의 성능과 신뢰성을 위해 W\&B에 의해 검증되었습니다.
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis
 
-W&amp;B는 작업 대기열 처리와 데이터 캐싱에 사용하는 단일 노드 Redis 7.x 배포에 의존합니다. 테스트와 개념 증명 개발의 편의를 위해 W&amp;B Self-Managed에는 로컬 Redis 배포가 포함되어 있지만, 이는 프로덕션 배포에는 적합하지 않습니다.
+W\&B는 작업 큐잉 및 데이터 캐싱을 위해 W\&B의 구성 요소에서 사용하는 단일 노드 Redis 7.x 배포에 의존합니다. 개념 증명의 테스트 및 개발 편의를 위해, W\&B Self-Managed에는 프로덕션 배포에는 적합하지 않은 로컬 Redis 배포가 포함되어 있습니다.
 
-W&amp;B는 다음 환경의 Redis 인스턴스에 연결할 수 있습니다:
+W\&B는 다음 환경의 Redis 인스턴스에 연결할 수 있습니다:
 
 * [AWS Elasticache](https://aws.amazon.com/elasticache/)
 * [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
 * 클라우드 또는 온프레미스 인프라에서 호스팅되는 Redis 배포
 
-<div id="object-storage">
-  ### 객체 저장소
-</div>
+### 오브젝트 스토리지
 
-W&amp;B를 사용하려면 사전 서명된 URL과 CORS를 지원하는 객체 저장소가 필요하며, 다음 중 하나에 배포해야 합니다:
+W\&B는 다음 중 하나에 배포된 사전 서명된 URL 및 CORS 지원이 있는 오브젝트 스토리지가 필요합니다:
 
-* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage)는 AI 워크로드에 최적화된 고성능 S3 호환 객체 저장소 서비스입니다.
-* [Amazon S3](https://aws.amazon.com/s3/)는 업계 최고 수준의 확장성, 데이터 가용성, 보안, 성능을 제공하는 객체 저장소 서비스입니다.
-* [Google Cloud Storage](https://cloud.google.com/storage)는 비정형 데이터를 대규모로 저장할 수 있는 관리형 서비스입니다.
-* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs)는 텍스트, 바이너리 데이터, 이미지, 비디오, 로그와 같은 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 객체 저장소 솔루션입니다.
-* [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) 또는 클라우드나 온프레미스 인프라에 호스팅되는 기타 엔터프라이즈급 솔루션과 같은 S3 호환 저장소.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage)는 AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스입니다.
+* [Amazon S3](https://aws.amazon.com/s3/)는 업계 최고의 확장성, 데이터 가용성, 보안 및 성능을 제공하는 오브젝트 스토리지 서비스입니다.
+* [Google Cloud Storage](https://cloud.google.com/storage)는 대규모 비정형 데이터를 저장하기 위한 관리형 서비스입니다.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs)는 텍스트, 바이너리 데이터, 이미지, 동영상 및 로그와 같은 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
+* S3 호환 스토리지(예: [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/), 또는 클라우드나 온프레미스 인프라에서 호스팅되는 기타 엔터프라이즈급 솔루션.
 
-<div id="versions">
-  ### 버전
-</div>
+### 버전
 
 <SelfManagedVersionRequirements />
 
-<div id="networking">
-  ### 네트워킹
-</div>
+### 네트워킹
 
 <SelfManagedNetworkingRequirements />
 
-<div id="dns">
-  ### DNS
-</div>
+### DNS
 
-W&amp;B 배포 환경의 정규화된 도메인 이름(FQDN)은 A 레코드를 통해 인그레스/로드 밸런서의 IP 주소로 해석되어야 합니다.
+W\&B 배포의 FQDN(정규화된 도메인 이름)은 A 레코드를 사용하여 인그레스/로드 밸런서의 IP 주소로 확인되어야 합니다.
 
-<div id="load-balancer-and-ingress">
-  ### 로드 밸런서 및 인그레스
-</div>
+### 로드 밸런서 및 인그레스
 
-W&amp;B Kubernetes Operator는 Kubernetes 인그레스 컨트롤러를 사용해 서비스를 외부에 노출할 수 있으며, 이 컨트롤러는 서로 다른 포트를 사용하는 URL 경로에 따라 서비스 엔드포인트로 라우팅합니다. 인그레스 컨트롤러는 머신 러닝 워크로드를 실행하거나 웹 브라우저를 통해 서비스에 접속하는 모든 머신에서 접근할 수 있어야 합니다.
+W\&B Kubernetes Operator는 Kubernetes 인그레스 컨트롤러를 사용하여 서비스를 노출할 수 있으며, 이는 다양한 포트를 가진 URL 경로를 기반으로 서비스 엔드포인트로 라우팅합니다. 인그레스 컨트롤러는 머신 러닝 페이로드를 실행하거나 웹 브라우저를 통해 서비스에 액세스하는 모든 머신에서 접근 가능해야 합니다.
 
-<div id="ingress-controller-requirements">
-  #### 인그레스 컨트롤러 요구 사항
-</div>
+#### 인그레스 컨트롤러 요구 사항
 
-Kubernetes 클러스터에서 `IngressClass`를 사용할 수 있어야 합니다. 일반적인 인그레스 컨트롤러 옵션은 다음과 같습니다.
+Kubernetes 클러스터에는 `IngressClass` 이 있어야 합니다. 일반적인 인그레스 컨트롤러 옵션은 다음과 같습니다:
 
 * [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Istio](https://istio.io)
 * [Traefik](https://traefik.io/)
-* 클라우드 제공업체 인그레스 컨트롤러(AWS ALB, GCP Ingress, Azure Application Gateway)
+* 클라우드 공급자 인그레스 컨트롤러 (AWS ALB, GCP Ingress, Azure Application Gateway)
 
-<div id="wb-service-routing">
-  #### W&amp;B 서비스 라우팅
-</div>
+#### W\&B 서비스 라우팅
 
-W&amp;B Operator는 경로를 기준으로 요청을 여러 백엔드 서비스에 자동으로 라우팅합니다:
+W\&B Operator는 경로를 기반으로 여러 백엔드 서비스로 요청을 자동으로 라우팅합니다:
 
-| Path        | Service             | Default port | Purpose                    |
-| ----------- | ------------------- | ------------ | -------------------------- |
-| `/`         | `wandb-app`         | 8080         | 메인 웹 애플리케이션 UI             |
-| `/api`      | `wandb-api`         | 8081         | API 서비스                    |
-| `/graphql`  | `wandb-api`         | 8081         | GraphQL API 엔드포인트          |
-| `/graphql2` | `wandb-api`         | 8081         | GraphQL API v2 엔드포인트       |
-| `/console`  | `wandb-console`     | 8082         | 시스템 콘솔                     |
-| `/traces`   | `wandb-weave-trace` | 8722         | Weave Tracing 서비스(활성화된 경우) |
+| 경로          | 서비스                 | 기본 포트 | 목적                     |
+| ----------- | ------------------- | ----- | ---------------------- |
+| `/`         | `wandb-app`         | 8080  | 메인 웹 애플리케이션 UI         |
+| `/api`      | `wandb-api`         | 8081  | API 서비스                |
+| `/graphql`  | `wandb-api`         | 8081  | GraphQL API 엔드포인트      |
+| `/graphql2` | `wandb-api`         | 8081  | GraphQL API v2 엔드포인트   |
+| `/console`  | `wandb-console`     | 8082  | System Console         |
+| `/traces`   | `wandb-weave-trace` | 8722  | Weave 추적 서비스 (활성화된 경우) |
 
-<div id="example-ingress-configuration">
-  #### 인그레스 설정 예시
-</div>
+#### 인그레스 구성 예시
 
-다음은 W&amp;B Operator가 생성한 인그레스 리소스의 예입니다:
+다음은 W\&B Operator가 생성한 인그레스 리소스의 예시입니다:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -234,173 +210,125 @@ spec:
 ```
 
 <Note>
-  W&amp;B Operator가 인그레스 설정을 자동으로 생성하고 관리합니다. 일반적으로 인그레스 리소스를 수동으로 생성할 필요는 없습니다. 클러스터에 정상적으로 작동하는 인그레스 컨트롤러가 있고, 적절한 `IngressClass`가 설정되어 있는지 확인하세요.
+  W\&B Operator는 인그레스 구성을 자동으로 생성하고 관리합니다. 일반적으로 인그레스 리소스를 수동으로 생성할 필요가 없습니다. 클러스터에 작동하는 인그레스 컨트롤러와 적절한 `IngressClass` 이 구성되어 있는지 확인하십시오.
 </Note>
 
-<div id="ssltls">
-  ### SSL/TLS
-</div>
+### SSL/TLS
 
 <SelfManagedSslTlsRequirements />
 
-<div id="supported-cpu-architectures">
-  ### 지원되는 CPU 아키텍처
-</div>
+### 지원되는 CPU 아키텍처
 
-W&amp;B는 Intel 및 AMD의 64비트 아키텍처에서 실행됩니다. ARM은 지원되지 않습니다.
+W\&B는 Intel 및 AMD 64비트 아키텍처에서 실행됩니다. ARM은 지원되지 않습니다.
 
-<div id="deployment-method">
-  ## 배포 방법
-</div>
+## 배포 방법
 
-<div id="recommended-wb-kubernetes-operator-with-helm">
-  ### 권장: Helm과 함께 W&amp;B Kubernetes Operator 사용
-</div>
+### Recommended: W\&B Kubernetes Operator with Helm
 
-W&amp;B Self-Managed의 권장 설치 방법은 Helm을 통해 **W&amp;B Kubernetes Operator**를 배포하는 것입니다. 이 방식의 장점은 다음과 같습니다.
+W\&B Self-Managed의 권장 설치 방법은 **W\&B Kubernetes Operator**를 Helm을 통해 배포하는 것입니다. 이 방법은 다음을 제공합니다:
 
-* W&amp;B 컴포넌트의 자동 업데이트 및 관리
-* 간소화된 설정 및 배포
-* 모든 배포 시나리오 지원(클라우드, 온프레미스, 폐쇄망 환경)
+* W\&B 구성 요소의 자동화된 업데이트 및 관리
+* 간소화된 구성 및 배포
+* 모든 배포 시나리오 지원 (클라우드, 온프레미스, 에어갭)
 
-자세한 설치 지침은 다음 문서를 참조하세요.
+자세한 설치 지침은 다음을 참조하십시오:
 
-* [온프레미스에서 W&amp;B Platform 배포](/ko/platform/hosting/self-managed/operator) - 기본 설치 가이드
-* [폐쇄망 인스턴스를 위한 Kubernetes Operator](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) - 외부와 분리된 환경용
+* [온프레미스에 W\&B Platform 배포](/ko/platform/hosting/self-managed/operator) - 기본 설치 가이드
+* [에어갭 인스턴스를 위한 Kubernetes operator](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) - 연결이 끊긴 환경용
 
-<div id="infrastructure-provisioning">
-  ### 인프라 프로비저닝
-</div>
+### 인프라 프로비저닝
 
-Terraform은 W&amp;B 프로덕션 deployment를 위한 인프라를 프로비저닝하는 데 권장되는 방법입니다. Terraform을 사용하면 필요한 리소스와 다른 리소스를 참조하는 방식, 그리고 리소스 간 의존성을 정의할 수 있습니다. W&amp;B는 주요 클라우드 제공업체용 Terraform 모듈을 제공합니다. 자세한 내용은 [Self-Managed 클라우드 계정 내에 W&amp;B Server 배포](/ko/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts)을 참고하세요.
+Terraform은 W\&B 프로덕션 배포를 위한 인프라를 프로비저닝하는 권장 방법입니다. Terraform을 사용하면 필요한 리소스, 다른 리소스에 대한 참조 및 종속성을 정의합니다. W\&B는 주요 클라우드 공급자를 위한 Terraform 모듈을 제공합니다. 자세한 내용은 [Self-Managed 클라우드 계정 내에 W\&B Server 배포](/ko/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts)를 참조하십시오.
 
-<div id="sizing">
-  ## 용량 산정
-</div>
+## 크기 조정
 
-배포를 계획할 때는 다음의 일반 지침을 출발점으로 삼으세요. W&amp;B는 새 배포의 모든 컴포넌트를 면밀히 모니터링하고, 관찰된 사용 패턴에 따라 조정할 것을 권장합니다. 시간 경과에 따라 프로덕션 배포도 계속 모니터링하고, 최적의 성능을 유지할 수 있도록 필요에 따라 조정하세요.
+배포를 계획할 때 다음 일반 지침을 시작점으로 사용하십시오. W\&B는 새 배포의 모든 구성 요소를 면밀히 모니터링하고 관찰된 사용 패턴을 기반으로 조정할 것을 권장합니다. 시간이 지남에 따라 프로덕션 배포를 계속 모니터링하고 최적의 성능을 유지하기 위해 필요에 따라 조정하십시오.
 
-<div id="models-only">
-  ### Models 전용
-</div>
+용량을 계획할 때 두 가지 핵심 구성 요소의 크기를 조정합니다: W\&B Operator 워크로드를 위한 Kubernetes 클러스터와 메타데이터를 위한 MySQL 데이터베이스. 권장 사항은 **환경** (테스트/개발 또는 프로덕션)에 따라 다르며, Kubernetes의 경우에만 **제품 조합** (Models만, Weave만, 또는 Models와 Weave)에 따라서도 다릅니다. W\&B는 테스트/개발 및 프로덕션 모두에 대해 최소 3개의 워커 노드로 시작하고, 프로덕션에서는 클러스터 자동 확장을 활성화할 것을 권장합니다.
 
-<div id="kubernetes">
-  #### Kubernetes
-</div>
+### Kubernetes 크기 조정
 
-| 환경       | CPU  | 메모리   | 디스크    |
-| -------- | ---- | ----- | ------ |
-| Test/Dev | 2 코어 | 16 GB | 100 GB |
-| 프로덕션     | 8 코어 | 64 GB | 100 GB |
+<Tabs>
+  <Tab title="Models만">
+    | 환경     | CPU | 메모리   | 디스크    |
+    | ------ | --- | ----- | ------ |
+    | 테스트/개발 | 2코어 | 16 GB | 100 GB |
+    | 프로덕션   | 8코어 | 64 GB | 100 GB |
 
-표의 수치는 Kubernetes 워커 노드 1개당 기준입니다.
+    수치는 Kubernetes 워커 노드당 기준입니다.
+  </Tab>
 
-<div id="mysql">
-  #### MySQL
-</div>
+  <Tab title="Weave만">
+    | 환경     | CPU  | 메모리   | 디스크    |
+    | ------ | ---- | ----- | ------ |
+    | 테스트/개발 | 4코어  | 32 GB | 100 GB |
+    | 프로덕션   | 12코어 | 96 GB | 100 GB |
 
-| 환경       | CPU | 메모리   | 디스크    |
-| -------- | --- | ----- | ------ |
-| Test/Dev | 2코어 | 16 GB | 100 GB |
-| 프로덕션     | 8코어 | 64 GB | 500 GB |
+    수치는 Kubernetes 워커 노드당 기준입니다.
+  </Tab>
 
-수치는 MySQL 노드당 기준입니다.
+  <Tab title="Models와 Weave">
+    | 환경     | CPU  | 메모리    | 디스크    |
+    | ------ | ---- | ------ | ------ |
+    | 테스트/개발 | 4코어  | 32 GB  | 100 GB |
+    | 프로덕션   | 16코어 | 128 GB | 100 GB |
 
-<div id="weave-only">
-  ### Weave 전용
-</div>
+    수치는 Kubernetes 워커 노드당 기준입니다.
+  </Tab>
+</Tabs>
 
-<div id="kubernetes">
-  #### Kubernetes
-</div>
+### MySQL 크기 조정
 
-| 환경       | CPU  | 메모리   | 디스크    |
-| -------- | ---- | ----- | ------ |
-| Test/Dev | 4코어  | 32 GB | 100 GB |
-| 프로덕션     | 12코어 | 96 GB | 100 GB |
+이 권장 사항은 제품 조합에 따라 다르지 않습니다. 토폴로지 및 가용성 지침은 [MySQL 토폴로지](#mysql-topology) 아래의 [MySQL](#mysql)을 참조하십시오.
 
-수치는 Kubernetes 워커 노드 기준입니다.
-
-<div id="mysql">
-  #### MySQL
-</div>
-
-| 환경       | CPU  | 메모리   | 디스크    |
-| -------- | ---- | ----- | ------ |
-| Test/Dev | 2 코어 | 16 GB | 100 GB |
-| 프로덕션     | 8 코어 | 64 GB | 500 GB |
+| 환경     | CPU | 메모리   | 디스크    |
+| ------ | --- | ----- | ------ |
+| 테스트/개발 | 2코어 | 16 GB | 100 GB |
+| 프로덕션   | 8코어 | 64 GB | 500 GB |
 
 수치는 MySQL 노드당 기준입니다.
 
-<div id="models-and-weave">
-  ### Models 및 Weave
-</div>
+## 클라우드 공급자 인스턴스 권장 사항
 
-<div id="kubernetes">
-  #### Kubernetes
-</div>
+이 권장 사항은 클라우드 인프라에서 W\&B의 Self-Managed 배포의 각 노드에 적용됩니다.
 
-| 환경       | CPU   | 메모리    | 디스크    |
-| -------- | ----- | ------ | ------ |
-| Test/Dev | 4 코어  | 32 GB  | 100 GB |
-| 프로덕션     | 16 코어 | 128 GB | 100 GB |
+<Tabs>
+  <Tab title="AWS">
+    **권장 관리형 서비스**
 
-수치는 Kubernetes 워커 노드당 기준입니다.
+    * **Kubernetes**: Amazon EKS
+    * **MySQL**: Amazon RDS Aurora
+    * **오브젝트 스토리지**: Amazon S3
 
-<div id="mysql">
-  #### MySQL
-</div>
+    | 환경     | K8s (Models만) | K8s (Weave만) | K8s (Models\&Weave) | MySQL          |
+    | ------ | ------------- | ------------ | ------------------- | -------------- |
+    | 테스트/개발 | r6i.large     | r6i.xlarge   | r6i.xlarge          | db.r6g.large   |
+    | 프로덕션   | r6i.2xlarge   | r6i.4xlarge  | r6i.4xlarge         | db.r6g.2xlarge |
+  </Tab>
 
-| 환경       | CPU  | 메모리   | 디스크    |
-| -------- | ---- | ----- | ------ |
-| Test/Dev | 2 코어 | 16 GB | 100 GB |
-| 프로덕션     | 8 코어 | 64 GB | 500 GB |
+  <Tab title="Google Cloud">
+    **권장 관리형 서비스**
 
-수치는 MySQL 노드당 기준입니다.
+    * **Kubernetes**: Google Kubernetes Engine (GKE)
+    * **MySQL**: Google Cloud SQL for MySQL
+    * **오브젝트 스토리지**: Google Cloud Storage (GCS)
 
-<div id="cloud-provider-instance-recommendations">
-  ## 클라우드 제공업체별 인스턴스 권장 사항
-</div>
+    | 환경     | K8s (Models 전용) | K8s (Weave 전용) | K8s (Models\&Weave) | MySQL           |
+    | ------ | --------------- | -------------- | ------------------- | --------------- |
+    | 테스트/개발 | n2-highmem-2    | n2-highmem-4   | n2-highmem-4        | db-n1-highmem-2 |
+    | 프로덕션   | n2-highmem-8    | n2-highmem-16  | n2-highmem-16       | db-n1-highmem-8 |
+  </Tab>
 
-<div id="services">
-  ### 서비스
-</div>
+  <Tab title="Azure">
+    **권장 관리형 서비스**
 
-| 클라우드         | Kubernetes | MySQL                    | 객체 저장소                     |
-| ------------ | ---------- | ------------------------ | -------------------------- |
-| AWS          | EKS        | RDS Aurora               | S3                         |
-| Google Cloud | GKE        | Google Cloud SQL - Mysql | Google Cloud Storage (GCS) |
-| Azure        | AKS        | Azure Database for Mysql | Azure Blob Storage         |
+    * **Kubernetes**: Azure Kubernetes Service (AKS)
+    * **MySQL**: Azure Database for MySQL
+    * **오브젝트 스토리지**: Azure Blob Storage
 
-<div id="machine-types">
-  ### 머신 유형
-</div>
-
-이 권장 사항은 클라우드 인프라상의 W&amp;B Self-Managed 배포의 각 노드에 적용됩니다.
-
-<div id="aws">
-  #### AWS
-</div>
-
-| 환경       | K8s (Models 전용) | K8s (Weave 전용) | K8s (Models&amp;Weave) | MySQL          |
-| -------- | --------------- | -------------- | ---------------------- | -------------- |
-| Test/Dev | r6i.large       | r6i.xlarge     | r6i.xlarge             | db.r6g.large   |
-| 프로덕션     | r6i.2xlarge     | r6i.4xlarge    | r6i.4xlarge            | db.r6g.2xlarge |
-
-<div id="google-cloud">
-  #### Google Cloud
-</div>
-
-| 환경       | K8s (Models 전용) | K8s (Weave 전용) | K8s (Models&amp;Weave) | MySQL           |
-| -------- | --------------- | -------------- | ---------------------- | --------------- |
-| Test/Dev | n2-highmem-2    | n2-highmem-4   | n2-highmem-4           | db-n1-highmem-2 |
-| 프로덕션     | n2-highmem-8    | n2-highmem-16  | n2-highmem-16          | db-n1-highmem-8 |
-
-<div id="azure">
-  #### Azure
-</div>
-
-| 환경       | K8s (Models 전용)        | K8s (Weave 전용)          | K8s (Models&amp;Weave)  | MySQL                           |
-| -------- | ---------------------- | ----------------------- | ----------------------- | ------------------------------- |
-| Test/Dev | Standard&#95;E2&#95;v5 | Standard&#95;E4&#95;v5  | Standard&#95;E4&#95;v5  | MO&#95;Standard&#95;E2ds&#95;v4 |
-| 프로덕션     | Standard&#95;E8&#95;v5 | Standard&#95;E16&#95;v5 | Standard&#95;E16&#95;v5 | MO&#95;Standard&#95;E8ds&#95;v4 |
+    | 환경     | K8s (Models 전용)  | K8s (Weave 전용)    | K8s (Models\&Weave) | MySQL                  |
+    | ------ | ---------------- | ----------------- | ------------------- | ---------------------- |
+    | 테스트/개발 | Standard\_E2\_v5 | Standard\_E4\_v5  | Standard\_E4\_v5    | MO\_Standard\_E2ds\_v4 |
+    | 프로덕션   | Standard\_E8\_v5 | Standard\_E16\_v5 | Standard\_E16\_v5   | MO\_Standard\_E8ds\_v4 |
+  </Tab>
+</Tabs>

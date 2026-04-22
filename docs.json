@@ -7,56 +7,20 @@
     "light": "#ffb633",
     "dark": "#ffb633"
   },
-  "integrations": {
-    "ga4": {
-      "measurementId": "G-5JYCHZZP7K"
-    },
-    "gtm": {
-      "tagId": "GTM-5BL5RTH"
-    }
-  },
-  "styling": {
-    "eyebrows": "breadcrumbs",
-    "stylesheet": "/button-links.css"
-  },
   "logo": {
     "light": "/icons/logo_light.svg",
     "dark": "/icons/logo_dark.svg",
     "href": "https://docs.wandb.ai/"
   },
   "favicon": "/favicon.png",
-  "banner": {
-    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
-    "dismissible": true
-  },
   "background": {
     "decoration": "gradient"
-  },
-  "contextual": {
-    "options": [
-      {
-        "title": "Install W&B MCP in Cursor",
-        "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
-        "icon": "plug",
-        "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0="
-      },
-      {
-        "title": "Install W&B MCP in other clients",
-        "description": "Set up the W&B MCP server in VS Code, Claude, and or other LLM agents.",
-        "icon": "plug",
-        "href": "/platform/mcp-server"
-      },
-      "chatgpt",
-      "claude",
-      "copy",
-      "view"
-    ]
   },
   "navbar": {
     "links": [
       {
-        "label": "Log in",
-        "href": "https://app.wandb.ai/login?_gl=1*8ninq0*_ga*MTE3ODEwNDkyLjE3MzQwMjk0NjA.*_ga_JH1SJHJQXJ*MTczNDA2Mzc4OS4yLjEuMTczNDA2MzkxMC42MC4wLjA.*_ga_GMYDGNGKDT*MTczNDA2Mzc4OS4zLjEuMTczNDA2Mzg2Ny4wLjAuMA..*_gcl_au*MTc0Mjk3ODgzMi4xNzM0MDI5NDYw"
+        "href": "https://app.wandb.ai/login?_gl=1*8ninq0*_ga*MTE3ODEwNDkyLjE3MzQwMjk0NjA.*_ga_JH1SJHJQXJ*MTczNDA2Mzc4OS4yLjEuMTczNDA2MzkxMC42MC4wLjA.*_ga_GMYDGNGKDT*MTczNDA2Mzc4OS4zLjEuMTczNDA2Mzg2Ny4wLjAuMA..*_gcl_au*MTc0Mjk3ODgzMi4xNzM0MDI5NDYw",
+        "label": "Log in"
       }
     ],
     "primary": {
@@ -68,6 +32,7 @@
   "navigation": {
     "languages": [
       {
+        "language": "en",
         "tabs": [
           {
             "tab": "Platform",
@@ -1313,10 +1278,10 @@
               "support/inference/tags/server-errors"
             ]
           }
-        ],
-        "language": "en"
+        ]
       },
       {
+        "language": "fr",
         "tabs": [
           {
             "tab": "Plateforme",
@@ -2562,13 +2527,13 @@
               "fr/support/inference/tags/server-errors"
             ]
           }
-        ],
-        "language": "fr"
+        ]
       },
       {
+        "language": "ja",
         "tabs": [
           {
-            "tab": "Platform",
+            "tab": "プラットフォーム",
             "pages": [
               {
                 "group": "W&B へようこそ",
@@ -2606,7 +2571,7 @@
                 ]
               },
               {
-                "group": "プロダクト",
+                "group": "製品",
                 "pages": [
                   "ja/product-models",
                   "ja/product-weave",
@@ -2618,7 +2583,7 @@
                 "group": "プラットフォームの詳細",
                 "pages": [
                   {
-                    "group": "W&B を設定する",
+                    "group": "W&B の設定",
                     "pages": [
                       {
                         "group": "設定",
@@ -2633,7 +2598,7 @@
                         ]
                       },
                       {
-                        "group": "アイデンティティおよびアクセス管理（IAM）",
+                        "group": "ID とアクセス管理 (IAM)",
                         "pages": [
                           "ja/platform/hosting/iam/org_team_struct",
                           {
@@ -2659,7 +2624,7 @@
                         ]
                       },
                       {
-                        "group": "データ セキュリティ",
+                        "group": "データセキュリティ",
                         "pages": [
                           "ja/platform/hosting/data-security/secure-storage-connector",
                           "ja/platform/hosting/data-security/presigned-urls",
@@ -2673,7 +2638,7 @@
                     ]
                   },
                   {
-                    "group": "監視と使用状況",
+                    "group": "モニタリングと使用状況",
                     "pages": [
                       "ja/platform/hosting/monitoring-usage/audit-logging",
                       "ja/platform/hosting/monitoring-usage/slack-alerts",
@@ -2682,12 +2647,12 @@
                     ]
                   },
                   {
-                    "group": "デプロイ オプション",
+                    "group": "デプロイオプション",
                     "pages": [
                       "ja/platform/hosting",
                       "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "専用クラウド",
+                        "group": "Dedicated Cloud",
                         "pages": [
                           "ja/platform/hosting/hosting-options/dedicated-cloud",
                           "ja/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
@@ -2696,7 +2661,7 @@
                         ]
                       },
                       {
-                        "group": "セルフマネージド",
+                        "group": "Self-Managed",
                         "pages": [
                           "ja/platform/hosting/hosting-options/self-managed",
                           "ja/platform/hosting/self-managed/ref-arch",
@@ -2730,7 +2695,7 @@
               "ja/models/quickstart",
               "ja/models/models_quickstart",
               {
-                "group": "Guides",
+                "group": "ガイド",
                 "pages": [
                   {
                     "group": "Experiments",
@@ -2741,7 +2706,7 @@
                       "ja/models/track/project-page",
                       "ja/models/track/workspaces",
                       {
-                        "group": "What are runs?",
+                        "group": "run とは？",
                         "pages": [
                           "ja/models/runs",
                           "ja/models/runs/run-identifiers",
@@ -2767,7 +2732,7 @@
                         ]
                       },
                       {
-                        "group": "Log objects and media",
+                        "group": "オブジェクトとメディアのログ",
                         "pages": [
                           "ja/models/track/log",
                           "ja/models/track/log/plots",
@@ -2794,7 +2759,7 @@
                       "ja/models/sweeps/walkthrough",
                       "ja/models/sweeps/add-w-and-b-to-your-code",
                       {
-                        "group": "Define a sweep configuration",
+                        "group": "sweep 設定の定義",
                         "pages": [
                           "ja/models/sweeps/define-sweep-configuration",
                           "ja/models/sweeps/sweep-config-keys"
@@ -2834,7 +2799,7 @@
                       "ja/models/artifacts/create-a-new-artifact-version",
                       "ja/models/artifacts/track-external-files",
                       {
-                        "group": "Manage data",
+                        "group": "データの管理",
                         "pages": [
                           "ja/models/artifacts/delete-artifacts",
                           "ja/models/artifacts/ttl",
@@ -2881,7 +2846,7 @@
                     "pages": [
                       "ja/models/automations",
                       {
-                        "group": "Create an automation",
+                        "group": "automation の作成",
                         "pages": [
                           "ja/models/automations/create-automations",
                           "ja/models/automations/create-automations/slack",
@@ -2906,11 +2871,11 @@
                     "pages": [
                       "ja/models/app/features/cascade-settings",
                       {
-                        "group": "Panels",
+                        "group": "パネル",
                         "pages": [
                           "ja/models/app/features/panels",
                           {
-                            "group": "Line plots",
+                            "group": "折れ線グラフ",
                             "pages": [
                               "ja/models/app/features/panels/line-plot",
                               "ja/models/app/features/panels/line-plot/reference",
@@ -2926,7 +2891,7 @@
                           "ja/models/app/features/panels/parameter-importance",
                           "ja/models/app/features/panels/run-comparer",
                           {
-                            "group": "Query panels",
+                            "group": "クエリパネル",
                             "pages": [
                               "ja/models/app/features/panels/query-panels",
                               "ja/models/app/features/panels/query-panels/embedding-projector"
@@ -2935,7 +2900,7 @@
                         ]
                       },
                       {
-                        "group": "Custom charts",
+                        "group": "カスタムチャート",
                         "pages": [
                           "ja/models/app/features/custom-charts",
                           "ja/models/app/features/custom-charts/walkthrough"
@@ -2948,15 +2913,15 @@
                 ]
               },
               {
-                "group": "Integrations",
+                "group": "インテグレーション",
                 "pages": [
                   "ja/models/integrations",
                   "ja/models/integrations/add-wandb-to-any-library",
                   {
-                    "group": "ML Frameworks and Libraries",
+                    "group": "ML フレームワークとライブラリ",
                     "pages": [
                       {
-                        "group": "ML Frameworks",
+                        "group": "ML フレームワーク",
                         "pages": [
                           "ja/models/integrations/keras",
                           "ja/models/integrations/pytorch",
@@ -2967,7 +2932,7 @@
                         ]
                       },
                       {
-                        "group": "ML Libraries",
+                        "group": "ML ライブラリ",
                         "pages": [
                           "ja/models/integrations/huggingface",
                           "ja/models/integrations/accelerate",
@@ -2982,7 +2947,7 @@
                     ]
                   },
                   {
-                    "group": "Cloud Platforms",
+                    "group": "クラウドプラットフォーム",
                     "pages": [
                       "ja/models/integrations/azure-openai-fine-tuning",
                       "ja/models/integrations/openai-fine-tuning",
@@ -2990,7 +2955,7 @@
                     ]
                   },
                   {
-                    "group": "Other",
+                    "group": "その他",
                     "pages": [
                       "ja/models/integrations/hydra",
                       "ja/models/integrations/yolox",
@@ -3000,14 +2965,14 @@
                 ]
               },
               {
-                "group": "Reference",
+                "group": "リファレンス",
                 "pages": [
                   "ja/models/ref",
                   {
                     "group": "Python",
                     "pages": [
                       {
-                        "group": "SDK Coding Cheat Sheet",
+                        "group": "SDK コーディングチートシート",
                         "pages": [
                           "ja/models/ref/sdk-coding-cheat-sheet",
                           "ja/models/ref/sdk-coding-cheat-sheet/runs",
@@ -3018,7 +2983,7 @@
                       },
                       "ja/models/ref/python",
                       {
-                        "group": "Global Functions",
+                        "group": "グローバル関数",
                         "pages": [
                           "ja/models/ref/python/functions",
                           "ja/models/ref/python/functions/agent",
@@ -3033,7 +2998,7 @@
                         ]
                       },
                       {
-                        "group": "Data Types",
+                        "group": "データ型",
                         "pages": [
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
@@ -3081,7 +3046,7 @@
                         ]
                       },
                       {
-                        "group": "Custom Charts",
+                        "group": "カスタムチャート",
                         "pages": [
                           "ja/models/ref/python/custom-charts",
                           "ja/models/ref/python/custom-charts/bar",
@@ -3128,7 +3093,7 @@
                     ]
                   },
                   {
-                    "group": "Command Line Interface (CLI)",
+                    "group": "コマンドラインインターフェース (CLI)",
                     "pages": [
                       "ja/models/ref/cli",
                       "ja/models/ref/cli/wandb-agent",
@@ -3208,7 +3173,7 @@
                     ]
                   },
                   {
-                    "group": "Query Expression Language",
+                    "group": "クエリ式言語",
                     "pages": [
                       "ja/models/ref/query-panel",
                       "ja/models/ref/query-panel/artifact",
@@ -3254,7 +3219,7 @@
             "pages": [
               "ja/weave",
               {
-                "group": "Get Started",
+                "group": "はじめに",
                 "pages": [
                   "ja/weave/quickstart",
                   "ja/weave/tutorial-eval",
@@ -3262,14 +3227,14 @@
                 ]
               },
               {
-                "group": "Guides",
+                "group": "ガイド",
                 "pages": [
                   "ja/weave/concepts/what-is-weave",
                   {
-                    "group": "Trace your application",
+                    "group": "アプリケーションのトレース",
                     "pages": [
                       {
-                        "group": "Tracing basics",
+                        "group": "トレースの基本",
                         "pages": [
                           "ja/weave/guides/tracking/tracing",
                           "ja/weave/guides/tracking/create-call",
@@ -3279,7 +3244,7 @@
                         ]
                       },
                       {
-                        "group": "Advanced Ops",
+                        "group": "高度な操作",
                         "pages": [
                           "ja/weave/guides/tracking/trace-generator-func",
                           "ja/weave/tutorial-tracing_2",
@@ -3293,7 +3258,7 @@
                         ]
                       },
                       {
-                        "group": "Work with Calls",
+                        "group": "Call の操作",
                         "pages": [
                           "ja/weave/guides/tracking/update-call",
                           "ja/weave/guides/tracking/call-schema-reference",
@@ -3309,7 +3274,7 @@
                     ]
                   },
                   {
-                    "group": "Evaluate your application",
+                    "group": "アプリケーションの評価",
                     "pages": [
                       "ja/weave/guides/core-types/evaluations",
                       "ja/weave/guides/core-types/datasets",
@@ -3324,7 +3289,7 @@
                     ]
                   },
                   {
-                    "group": "Experiment with prompts and models",
+                    "group": "プロンプトとモデルの実験",
                     "pages": [
                       "ja/weave/guides/tools/playground",
                       "ja/weave/guides/tools/evaluation_playground",
@@ -3332,7 +3297,7 @@
                     ]
                   },
                   {
-                    "group": "Version your work",
+                    "group": "作業のバージョン管理",
                     "pages": [
                       "ja/weave/tutorial-weave_models",
                       "ja/weave/guides/core-types/models",
@@ -3342,10 +3307,10 @@
                     ]
                   },
                   {
-                    "group": "Monitor and collect feedback",
+                    "group": "モニタリングとフィードバックの収集",
                     "pages": [
                       {
-                        "group": "Annotate",
+                        "group": "アノテーション",
                         "pages": [
                           "ja/weave/guides/tracking/annotation-queues",
                           "ja/weave/guides/tracking/annotation-review",
@@ -3360,13 +3325,13 @@
                     ]
                   },
                   {
-                    "group": "Integrate with your LLM provider and frameworks",
+                    "group": "LLM プロバイダーとフレームワークとのインテグレーション",
                     "pages": [
                       "ja/weave/guides/integrations",
                       "ja/weave/guides/integrations/autopatching",
                       "ja/weave/guides/integrations/js",
                       {
-                        "group": "LLM Providers",
+                        "group": "LLM プロバイダー",
                         "pages": [
                           "ja/weave/guides/integrations/bedrock",
                           "ja/weave/guides/integrations/anthropic",
@@ -3385,7 +3350,7 @@
                         ]
                       },
                       {
-                        "group": "Frameworks",
+                        "group": "フレームワーク",
                         "pages": [
                           "ja/weave/guides/integrations/openai_agents",
                           "ja/weave/guides/integrations/openai-realtime-audio",
@@ -3407,7 +3372,7 @@
                         ]
                       },
                       {
-                        "group": "Protocols",
+                        "group": "プロトコル",
                         "pages": [
                           "ja/weave/guides/integrations/mcp"
                         ]
@@ -3416,7 +3381,7 @@
                     ]
                   },
                   {
-                    "group": "Deploy and scale",
+                    "group": "デプロイとスケール",
                     "pages": [
                       "ja/weave/guides/platform",
                       "ja/weave/guides/platform/weave-self-managed"
@@ -3431,14 +3396,14 @@
                 "pages": [
                   "ja/weave/cookbooks",
                   {
-                    "group": "Weave fundamentals",
+                    "group": "Weave の基礎",
                     "pages": [
                       "ja/weave/cookbooks/Intro_to_Weave_Hello_Trace",
                       "ja/weave/cookbooks/Intro_to_Weave_Hello_Eval"
                     ]
                   },
                   {
-                    "group": "Evaluations & Datasets",
+                    "group": "評価とデータセット",
                     "pages": [
                       "ja/weave/cookbooks/leaderboard_quickstart",
                       "ja/weave/cookbooks/hf_dataset_evals",
@@ -3446,7 +3411,7 @@
                     ]
                   },
                   {
-                    "group": "Models & Prompts",
+                    "group": "モデルとプロンプト",
                     "pages": [
                       "ja/weave/cookbooks/Models_and_Weave_Integration_Demo",
                       "ja/weave/cookbooks/chain_of_density",
@@ -3455,7 +3420,7 @@
                     ]
                   },
                   {
-                    "group": "Advanced Topics",
+                    "group": "高度なトピック",
                     "pages": [
                       "ja/weave/cookbooks/multi-agent-structured-output",
                       "ja/weave/cookbooks/codegen",
@@ -3464,7 +3429,7 @@
                     ]
                   },
                   {
-                    "group": "Production & Monitoring",
+                    "group": "本番環境とモニタリング",
                     "pages": [
                       "ja/weave/cookbooks/online_monitoring",
                       "ja/weave/cookbooks/feedback_prod",
@@ -3476,7 +3441,7 @@
                 ]
               },
               {
-                "group": "Reference",
+                "group": "リファレンス",
                 "pages": [
                   "ja/weave/reference",
                   {
@@ -3499,7 +3464,7 @@
                         ]
                       },
                       {
-                        "group": "Trace Server Bindings",
+                        "group": "Trace Server バインディング",
                         "pages": [
                           "ja/weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
@@ -3511,7 +3476,7 @@
                     "pages": [
                       "ja/weave/reference/typescript-sdk",
                       {
-                        "group": "Classes",
+                        "group": "クラス",
                         "pages": [
                           "ja/weave/reference/typescript-sdk/classes/dataset",
                           "ja/weave/reference/typescript-sdk/classes/evaluation",
@@ -3525,7 +3490,7 @@
                         ]
                       },
                       {
-                        "group": "Functions",
+                        "group": "関数",
                         "pages": [
                           "ja/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "ja/weave/reference/typescript-sdk/functions/init",
@@ -3543,7 +3508,7 @@
                         ]
                       },
                       {
-                        "group": "Interfaces",
+                        "group": "インターフェース",
                         "pages": [
                           "ja/weave/reference/typescript-sdk/interfaces/callschema",
                           "ja/weave/reference/typescript-sdk/interfaces/callsfilter",
@@ -3552,7 +3517,7 @@
                         ]
                       },
                       {
-                        "group": "Type Aliases",
+                        "group": "型エイリアス",
                         "pages": [
                           "ja/weave/reference/typescript-sdk/type-aliases/op",
                           "ja/weave/reference/typescript-sdk/type-aliases/opdecorator"
@@ -3563,7 +3528,7 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "source": "ja/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -3574,7 +3539,7 @@
                 ]
               },
               {
-                "group": "Details & Support",
+                "group": "詳細とサポート",
                 "pages": [
                   "ja/weave/details/limits",
                   "ja/weave/details/support-weave"
@@ -3591,7 +3556,7 @@
               "ja/inference/lifecycle",
               "ja/inference/lora",
               {
-                "group": "Response Settings",
+                "group": "レスポンス設定",
                 "pages": [
                   "ja/inference/response-settings/json-mode",
                   "ja/inference/response-settings/reasoning",
@@ -3602,14 +3567,14 @@
               },
               "ja/inference/usage-limits",
               {
-                "group": "Tutorials",
+                "group": "チュートリアル",
                 "pages": [
                   "ja/inference/tutorials/integration-cline",
                   "ja/inference/tutorials/creating-lora"
                 ]
               },
               {
-                "group": "API Reference",
+                "group": "API リファレンス",
                 "pages": [
                   "ja/inference/api-reference",
                   "ja/inference/api-reference/chat-completions",
@@ -3643,8 +3608,8 @@
                 ]
               },
               {
-                "group": "API Reference",
-                "openapi": "ja/training/api-reference/openapi.json",
+                "group": "API リファレンス",
+                "openapi": "training/api-reference/openapi.json",
                 "pages": [
                   "ja/training/api-reference"
                 ]
@@ -3678,11 +3643,11 @@
               "ja/platform/launch/walkthrough",
               "ja/platform/launch/launch-terminology",
               {
-                "group": "Launch を設定する",
+                "group": "Launch のセットアップ",
                 "pages": [
                   "ja/platform/launch/set-up-launch",
                   {
-                    "group": "コンピュートリソースを設定する",
+                    "group": "コンピューティングリソースの設定",
                     "pages": [
                       "ja/platform/launch/setup-launch-docker",
                       "ja/platform/launch/setup-launch-kubernetes",
@@ -3695,7 +3660,7 @@
                 ]
               },
               {
-                "group": "ジョブを作成してデプロイする",
+                "group": "ジョブの作成とデプロイ",
                 "pages": [
                   "ja/platform/launch/create-and-deploy-jobs",
                   "ja/platform/launch/create-launch-job",
@@ -3705,7 +3670,7 @@
                 ]
               },
               {
-                "group": "高度なトピック",
+                "group": "高度な設定",
                 "pages": [
                   "ja/platform/launch/sweeps-on-launch",
                   "ja/platform/launch/launch-queue-observability",
@@ -3811,13 +3776,13 @@
               "ja/support/inference/tags/server-errors"
             ]
           }
-        ],
-        "language": "ja"
+        ]
       },
       {
+        "language": "ko",
         "tabs": [
           {
-            "tab": "Platform",
+            "tab": "플랫폼",
             "pages": [
               {
                 "group": "W&B에 오신 것을 환영합니다",
@@ -3882,7 +3847,7 @@
                         ]
                       },
                       {
-                        "group": "ID 및 액세스 관리(IAM)",
+                        "group": "ID 및 액세스 관리 (IAM)",
                         "pages": [
                           "ko/platform/hosting/iam/org_team_struct",
                           {
@@ -3979,7 +3944,7 @@
               "ko/models/quickstart",
               "ko/models/models_quickstart",
               {
-                "group": "Guides",
+                "group": "가이드",
                 "pages": [
                   {
                     "group": "Experiments",
@@ -3990,7 +3955,7 @@
                       "ko/models/track/project-page",
                       "ko/models/track/workspaces",
                       {
-                        "group": "What are runs?",
+                        "group": "run이란 무엇인가요?",
                         "pages": [
                           "ko/models/runs",
                           "ko/models/runs/run-identifiers",
@@ -4016,7 +3981,7 @@
                         ]
                       },
                       {
-                        "group": "Log objects and media",
+                        "group": "객체 및 미디어 로깅",
                         "pages": [
                           "ko/models/track/log",
                           "ko/models/track/log/plots",
@@ -4043,7 +4008,7 @@
                       "ko/models/sweeps/walkthrough",
                       "ko/models/sweeps/add-w-and-b-to-your-code",
                       {
-                        "group": "Define a sweep configuration",
+                        "group": "sweep 구성 정의",
                         "pages": [
                           "ko/models/sweeps/define-sweep-configuration",
                           "ko/models/sweeps/sweep-config-keys"
@@ -4083,7 +4048,7 @@
                       "ko/models/artifacts/create-a-new-artifact-version",
                       "ko/models/artifacts/track-external-files",
                       {
-                        "group": "Manage data",
+                        "group": "데이터 관리",
                         "pages": [
                           "ko/models/artifacts/delete-artifacts",
                           "ko/models/artifacts/ttl",
@@ -4130,7 +4095,7 @@
                     "pages": [
                       "ko/models/automations",
                       {
-                        "group": "Create an automation",
+                        "group": "automation 만들기",
                         "pages": [
                           "ko/models/automations/create-automations",
                           "ko/models/automations/create-automations/slack",
@@ -4155,11 +4120,11 @@
                     "pages": [
                       "ko/models/app/features/cascade-settings",
                       {
-                        "group": "Panels",
+                        "group": "패널",
                         "pages": [
                           "ko/models/app/features/panels",
                           {
-                            "group": "Line plots",
+                            "group": "선 그래프",
                             "pages": [
                               "ko/models/app/features/panels/line-plot",
                               "ko/models/app/features/panels/line-plot/reference",
@@ -4175,7 +4140,7 @@
                           "ko/models/app/features/panels/parameter-importance",
                           "ko/models/app/features/panels/run-comparer",
                           {
-                            "group": "Query panels",
+                            "group": "쿼리 패널",
                             "pages": [
                               "ko/models/app/features/panels/query-panels",
                               "ko/models/app/features/panels/query-panels/embedding-projector"
@@ -4184,7 +4149,7 @@
                         ]
                       },
                       {
-                        "group": "Custom charts",
+                        "group": "커스텀 차트",
                         "pages": [
                           "ko/models/app/features/custom-charts",
                           "ko/models/app/features/custom-charts/walkthrough"
@@ -4202,10 +4167,10 @@
                   "ko/models/integrations",
                   "ko/models/integrations/add-wandb-to-any-library",
                   {
-                    "group": "ML Frameworks and Libraries",
+                    "group": "ML 프레임워크 및 라이브러리",
                     "pages": [
                       {
-                        "group": "ML Frameworks",
+                        "group": "ML 프레임워크",
                         "pages": [
                           "ko/models/integrations/keras",
                           "ko/models/integrations/pytorch",
@@ -4216,7 +4181,7 @@
                         ]
                       },
                       {
-                        "group": "ML Libraries",
+                        "group": "ML 라이브러리",
                         "pages": [
                           "ko/models/integrations/huggingface",
                           "ko/models/integrations/accelerate",
@@ -4231,7 +4196,7 @@
                     ]
                   },
                   {
-                    "group": "Cloud Platforms",
+                    "group": "클라우드 플랫폼",
                     "pages": [
                       "ko/models/integrations/azure-openai-fine-tuning",
                       "ko/models/integrations/openai-fine-tuning",
@@ -4239,7 +4204,7 @@
                     ]
                   },
                   {
-                    "group": "Other",
+                    "group": "기타",
                     "pages": [
                       "ko/models/integrations/hydra",
                       "ko/models/integrations/yolox",
@@ -4249,14 +4214,14 @@
                 ]
               },
               {
-                "group": "Reference",
+                "group": "레퍼런스",
                 "pages": [
                   "ko/models/ref",
                   {
                     "group": "Python",
                     "pages": [
                       {
-                        "group": "SDK Coding Cheat Sheet",
+                        "group": "SDK 코딩 치트 시트",
                         "pages": [
                           "ko/models/ref/sdk-coding-cheat-sheet",
                           "ko/models/ref/sdk-coding-cheat-sheet/runs",
@@ -4267,7 +4232,7 @@
                       },
                       "ko/models/ref/python",
                       {
-                        "group": "Global Functions",
+                        "group": "전역 함수",
                         "pages": [
                           "ko/models/ref/python/functions",
                           "ko/models/ref/python/functions/agent",
@@ -4282,7 +4247,7 @@
                         ]
                       },
                       {
-                        "group": "Data Types",
+                        "group": "데이터 타입",
                         "pages": [
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
@@ -4330,7 +4295,7 @@
                         ]
                       },
                       {
-                        "group": "Custom Charts",
+                        "group": "커스텀 차트",
                         "pages": [
                           "ko/models/ref/python/custom-charts",
                           "ko/models/ref/python/custom-charts/bar",
@@ -4377,7 +4342,7 @@
                     ]
                   },
                   {
-                    "group": "Command Line Interface (CLI)",
+                    "group": "커맨드 라인 인터페이스 (CLI)",
                     "pages": [
                       "ko/models/ref/cli",
                       "ko/models/ref/cli/wandb-agent",
@@ -4402,7 +4367,7 @@
                         "pages": [
                           "ko/models/ref/cli/wandb-beta",
                           {
-                            "group": "베타 코어",
+                            "group": "beta core",
                             "pages": [
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core",
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
@@ -4410,7 +4375,7 @@
                             ]
                           },
                           {
-                            "group": "베타 리트",
+                            "group": "beta leet",
                             "pages": [
                               "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
                               "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
@@ -4443,7 +4408,7 @@
                       "ko/models/ref/cli/wandb-purge-cache",
                       "ko/models/ref/cli/wandb-restore",
                       {
-                        "group": "wandb 서버",
+                        "group": "wandb server",
                         "pages": [
                           "ko/models/ref/cli/wandb-server",
                           "ko/models/ref/cli/wandb-server/wandb-server-start",
@@ -4457,7 +4422,7 @@
                     ]
                   },
                   {
-                    "group": "Query Expression Language",
+                    "group": "쿼리 표현 언어",
                     "pages": [
                       "ko/models/ref/query-panel",
                       "ko/models/ref/query-panel/artifact",
@@ -4503,7 +4468,7 @@
             "pages": [
               "ko/weave",
               {
-                "group": "Get Started",
+                "group": "시작하기",
                 "pages": [
                   "ko/weave/quickstart",
                   "ko/weave/tutorial-eval",
@@ -4511,14 +4476,14 @@
                 ]
               },
               {
-                "group": "Guides",
+                "group": "가이드",
                 "pages": [
                   "ko/weave/concepts/what-is-weave",
                   {
-                    "group": "Trace your application",
+                    "group": "애플리케이션 추적",
                     "pages": [
                       {
-                        "group": "Tracing basics",
+                        "group": "추적 기초",
                         "pages": [
                           "ko/weave/guides/tracking/tracing",
                           "ko/weave/guides/tracking/create-call",
@@ -4528,7 +4493,7 @@
                         ]
                       },
                       {
-                        "group": "Advanced Ops",
+                        "group": "고급 작업",
                         "pages": [
                           "ko/weave/guides/tracking/trace-generator-func",
                           "ko/weave/tutorial-tracing_2",
@@ -4542,7 +4507,7 @@
                         ]
                       },
                       {
-                        "group": "Work with Calls",
+                        "group": "Call 다루기",
                         "pages": [
                           "ko/weave/guides/tracking/update-call",
                           "ko/weave/guides/tracking/call-schema-reference",
@@ -4558,7 +4523,7 @@
                     ]
                   },
                   {
-                    "group": "Evaluate your application",
+                    "group": "애플리케이션 평가",
                     "pages": [
                       "ko/weave/guides/core-types/evaluations",
                       "ko/weave/guides/core-types/datasets",
@@ -4573,7 +4538,7 @@
                     ]
                   },
                   {
-                    "group": "Experiment with prompts and models",
+                    "group": "프롬프트 및 모델 실험",
                     "pages": [
                       "ko/weave/guides/tools/playground",
                       "ko/weave/guides/tools/evaluation_playground",
@@ -4581,7 +4546,7 @@
                     ]
                   },
                   {
-                    "group": "Version your work",
+                    "group": "작업 버전 관리",
                     "pages": [
                       "ko/weave/tutorial-weave_models",
                       "ko/weave/guides/core-types/models",
@@ -4591,10 +4556,10 @@
                     ]
                   },
                   {
-                    "group": "Monitor and collect feedback",
+                    "group": "모니터링 및 피드백 수집",
                     "pages": [
                       {
-                        "group": "Annotate",
+                        "group": "주석 달기",
                         "pages": [
                           "ko/weave/guides/tracking/annotation-queues",
                           "ko/weave/guides/tracking/annotation-review",
@@ -4609,13 +4574,13 @@
                     ]
                   },
                   {
-                    "group": "Integrate with your LLM provider and frameworks",
+                    "group": "LLM 제공자 및 프레임워크와 통합",
                     "pages": [
                       "ko/weave/guides/integrations",
                       "ko/weave/guides/integrations/autopatching",
                       "ko/weave/guides/integrations/js",
                       {
-                        "group": "LLM Providers",
+                        "group": "LLM 제공자",
                         "pages": [
                           "ko/weave/guides/integrations/bedrock",
                           "ko/weave/guides/integrations/anthropic",
@@ -4634,7 +4599,7 @@
                         ]
                       },
                       {
-                        "group": "Frameworks",
+                        "group": "프레임워크",
                         "pages": [
                           "ko/weave/guides/integrations/openai_agents",
                           "ko/weave/guides/integrations/openai-realtime-audio",
@@ -4656,7 +4621,7 @@
                         ]
                       },
                       {
-                        "group": "Protocols",
+                        "group": "프로토콜",
                         "pages": [
                           "ko/weave/guides/integrations/mcp"
                         ]
@@ -4665,7 +4630,7 @@
                     ]
                   },
                   {
-                    "group": "Deploy and scale",
+                    "group": "배포 및 확장",
                     "pages": [
                       "ko/weave/guides/platform",
                       "ko/weave/guides/platform/weave-self-managed"
@@ -4680,14 +4645,14 @@
                 "pages": [
                   "ko/weave/cookbooks",
                   {
-                    "group": "Weave fundamentals",
+                    "group": "Weave 기초",
                     "pages": [
                       "ko/weave/cookbooks/Intro_to_Weave_Hello_Trace",
                       "ko/weave/cookbooks/Intro_to_Weave_Hello_Eval"
                     ]
                   },
                   {
-                    "group": "Evaluations & Datasets",
+                    "group": "평가 및 데이터셋",
                     "pages": [
                       "ko/weave/cookbooks/leaderboard_quickstart",
                       "ko/weave/cookbooks/hf_dataset_evals",
@@ -4695,7 +4660,7 @@
                     ]
                   },
                   {
-                    "group": "Models & Prompts",
+                    "group": "모델 및 프롬프트",
                     "pages": [
                       "ko/weave/cookbooks/Models_and_Weave_Integration_Demo",
                       "ko/weave/cookbooks/chain_of_density",
@@ -4704,7 +4669,7 @@
                     ]
                   },
                   {
-                    "group": "Advanced Topics",
+                    "group": "고급 주제",
                     "pages": [
                       "ko/weave/cookbooks/multi-agent-structured-output",
                       "ko/weave/cookbooks/codegen",
@@ -4713,7 +4678,7 @@
                     ]
                   },
                   {
-                    "group": "Production & Monitoring",
+                    "group": "프로덕션 및 모니터링",
                     "pages": [
                       "ko/weave/cookbooks/online_monitoring",
                       "ko/weave/cookbooks/feedback_prod",
@@ -4725,7 +4690,7 @@
                 ]
               },
               {
-                "group": "Reference",
+                "group": "레퍼런스",
                 "pages": [
                   "ko/weave/reference",
                   {
@@ -4760,7 +4725,7 @@
                     "pages": [
                       "ko/weave/reference/typescript-sdk",
                       {
-                        "group": "Classes",
+                        "group": "클래스",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/classes/dataset",
                           "ko/weave/reference/typescript-sdk/classes/evaluation",
@@ -4774,7 +4739,7 @@
                         ]
                       },
                       {
-                        "group": "Functions",
+                        "group": "함수",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "ko/weave/reference/typescript-sdk/functions/init",
@@ -4792,7 +4757,7 @@
                         ]
                       },
                       {
-                        "group": "Interfaces",
+                        "group": "인터페이스",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/interfaces/callschema",
                           "ko/weave/reference/typescript-sdk/interfaces/callsfilter",
@@ -4801,7 +4766,7 @@
                         ]
                       },
                       {
-                        "group": "Type Aliases",
+                        "group": "타입 별칭",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/type-aliases/op",
                           "ko/weave/reference/typescript-sdk/type-aliases/opdecorator"
@@ -4812,7 +4777,7 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "source": "ko/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -4823,7 +4788,7 @@
                 ]
               },
               {
-                "group": "Details & Support",
+                "group": "세부 정보 및 지원",
                 "pages": [
                   "ko/weave/details/limits",
                   "ko/weave/details/support-weave"
@@ -4840,7 +4805,7 @@
               "ko/inference/lifecycle",
               "ko/inference/lora",
               {
-                "group": "Response Settings",
+                "group": "응답 설정",
                 "pages": [
                   "ko/inference/response-settings/json-mode",
                   "ko/inference/response-settings/reasoning",
@@ -4851,14 +4816,14 @@
               },
               "ko/inference/usage-limits",
               {
-                "group": "Tutorials",
+                "group": "튜토리얼",
                 "pages": [
                   "ko/inference/tutorials/integration-cline",
                   "ko/inference/tutorials/creating-lora"
                 ]
               },
               {
-                "group": "API Reference",
+                "group": "API 레퍼런스",
                 "pages": [
                   "ko/inference/api-reference",
                   "ko/inference/api-reference/chat-completions",
@@ -4892,8 +4857,8 @@
                 ]
               },
               {
-                "group": "API Reference",
-                "openapi": "ko/training/api-reference/openapi.json",
+                "group": "API 레퍼런스",
+                "openapi": "training/api-reference/openapi.json",
                 "pages": [
                   "ko/training/api-reference"
                 ]
@@ -4927,7 +4892,7 @@
               "ko/platform/launch/walkthrough",
               "ko/platform/launch/launch-terminology",
               {
-                "group": "Launch 설정하기",
+                "group": "Launch 설정",
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
@@ -4944,7 +4909,7 @@
                 ]
               },
               {
-                "group": "작업 생성 및 배포",
+                "group": "job 생성 및 배포",
                 "pages": [
                   "ko/platform/launch/create-and-deploy-jobs",
                   "ko/platform/launch/create-launch-job",
@@ -4984,7 +4949,7 @@
                 ]
               },
               {
-                "group": "Launch Library API 레퍼런스",
+                "group": "Launch 라이브러리 API 레퍼런스",
                 "pages": [
                   "ko/platform/launch/launch-library/launch",
                   "ko/platform/launch/launch-library/launch_add",
@@ -5060,8 +5025,7 @@
               "ko/support/inference/tags/server-errors"
             ]
           }
-        ],
-        "language": "ko"
+        ]
       }
     ]
   },
@@ -5071,8 +5035,14 @@
       "discord": "https://discord.com/invite/RgB8CPk2ce",
       "x": "https://x.com/weights_biases?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
       "youtube": "https://www.youtube.com/c/WeightsBiases",
-      "linkedin": "https://www.linkedin.com/company/wandb/"
+      "linkedin": "https://www.linkedin.com/company/wandb"
     }
+  },
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.wandb.ai"
+    },
+    "indexing": "all"
   },
   "fonts": {
     "heading": {
@@ -5080,6 +5050,9 @@
       "weight": 600,
       "format": "woff2"
     }
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
   },
   "redirects": [
     {
@@ -6379,11 +6352,37 @@
       "destination": "/platform/hosting/self-managed/operator"
     }
   ],
-  "seo": {
-    "indexing": "all",
-    "metatags": {
-      "canonical": "https://docs.wandb.ai"
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-5JYCHZZP7K"
+    },
+    "gtm": {
+      "tagId": "GTM-5BL5RTH"
     }
   },
-  "baseUrl": "https://docs.wandb.ai"
+  "banner": {
+    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
+    "dismissible": true
+  },
+  "contextual": {
+    "options": [
+      {
+        "title": "Install W&B MCP in Cursor",
+        "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
+        "icon": "plug",
+        "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0="
+      },
+      {
+        "title": "Install W&B MCP in other clients",
+        "description": "Set up the W&B MCP server in VS Code, Claude, and or other LLM agents.",
+        "icon": "plug",
+        "href": "/platform/mcp-server"
+      },
+      "chatgpt",
+      "claude",
+      "copy",
+      "view"
+    ],
+    "display": "header"
+  }
 }
