@@ -51,7 +51,11 @@ La couche de stockage comprend une base de données MySQL et un stockage d’obj
   ## Exigences d’infrastructure
 </div>
 
-### Kubernetes
+Les sections suivantes détaillent les exigences pour différents aspects d’un déploiement W&amp;B, notamment la configuration du cluster Kubernetes, MySQL, Redis, le stockage d’objets, les versions logicielles, le réseau, le DNS, l’équilibreur de charge et l’ingress, SSL/TLS, ainsi que les architectures CPU prises en charge.
+
+<div id="kubernetes">
+  ### Kubernetes
+</div>
 
 L’application W&amp;B Server est déployée sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator) qui déploie plusieurs pods. W&amp;B nécessite donc un cluster Kubernetes avec :
 
@@ -60,7 +64,9 @@ L’application W&amp;B Server est déployée sous la forme d’un [opérateur K
 
 W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift), dans le cloud, sur site et dans des environnements air-gapped. Pour des instructions de configuration spécifiques, voir la [section OpenShift](/fr/platform/hosting/self-managed/operator#openshift-kubernetes-clusters) du guide de l’opérateur.
 
-### MySQL
+<div id="mysql">
+  ### MySQL
+</div>
 
 W&amp;B stocke les métadonnées dans une base de données MySQL. Les exigences en matière de performances et de stockage de la base de données dépendent de la forme des paramètres du modèle et des métadonnées associées. Par exemple, la base de données grossit à mesure que vous suivez davantage de runs d&#39;entraînement, et la charge sur la base de données augmente selon les requêtes effectuées dans les tableaux de runs, les workspaces des utilisateurs et Reports.
 
@@ -71,7 +77,15 @@ Si vous choisissez de déployer une base de données MySQL autogérée, tenez co
 * **Sauvegardes** : vous devez sauvegarder périodiquement la base de données vers un site distinct. W&amp;B recommande des sauvegardes quotidiennes avec au moins 1 semaine de rétention.
 * **Performances** : la base de données nécessite un matériel de stockage rapide, tel qu&#39;un SSD ou un NAS accéléré.
 * **Surveillance** : la base de données nécessite des ressources CPU suffisantes. Surveillez la charge CPU du serveur de base de données. Si l&#39;utilisation du CPU se maintient à &gt; 90 % pendant plus de 5 minutes, envisagez d&#39;ajouter de la capacité CPU.
-* **Disponibilité** : pour répondre à vos exigences de disponibilité et de durabilité, W&amp;B recommande de configurer un déploiement de serveur de secours à chaud sur une machine distincte, qui transmet en temps réel toutes les mises à jour depuis le déploiement principal et est prêt à prendre le relais si le serveur principal tombe en panne, est corrompu ou subit une indisponibilité prolongée. Notez que W&amp;B ne prend pas en charge une topologie multi-maître ni les réplicas en lecture seule.
+* **Disponibilité** : pour répondre à vos exigences de disponibilité et de durabilité, W&amp;B recommande de configurer un déploiement de secours à chaud sur une machine distincte, qui transmet en temps réel toutes les mises à jour depuis le déploiement principal et est prêt à prendre le relais si le serveur principal tombe en panne, est corrompu ou subit une indisponibilité prolongée.
+
+<div id="mysql-topology">
+  #### Topologie MySQL
+</div>
+
+En production, un service MySQL managé est la solution la plus simple pour assurer une haute disponibilité, car le fournisseur de cloud gère le basculement, les sauvegardes et les correctifs. Utilisez l&#39;option de haute disponibilité du fournisseur, par exemple Aurora Multi-AZ sur AWS.
+
+Si vous exécutez MySQL en mode autogéré, utilisez une base de données principale avec une instance de secours à chaud qui reçoit un flux de réplication en temps réel et peut prendre le relais en cas de défaillance. W&amp;B ne prend pas en charge une topologie multi-maître ni des réplicas en lecture seule pour la base de données de l&#39;application.
 
 <div id="mysql-database-creation">
   #### Création de la base de données MySQL
@@ -280,76 +294,46 @@ Terraform est la méthode recommandée pour provisionner l’infrastructure des 
 
 Utilisez les recommandations générales suivantes comme point de départ pour planifier un déploiement. W&amp;B recommande de surveiller de près tous les composants d’un nouveau déploiement et d’apporter des ajustements en fonction des tendances d’utilisation observées. Continuez à surveiller les déploiements de production au fil du temps et apportez les ajustements nécessaires pour maintenir des performances optimales.
 
-<div id="models-only">
-  ### Modèles uniquement
+Lors de la planification de la capacité, vous devez dimensionner deux composants principaux : un cluster Kubernetes pour la charge de travail de W&amp;B Operator et une base de données MySQL pour les métadonnées. Les recommandations varient selon l’**environnement** (Test/Dév ou Production) et, pour Kubernetes uniquement, selon la **combinaison de produits** (Models uniquement, Weave uniquement, ou Models et Weave). W&amp;B recommande de commencer avec un minimum de 3 nœuds worker pour Test/Dév comme pour Production, avec l’autoscaling du cluster activé en Production.
+
+<div id="kubernetes-sizing">
+  ### Dimensionnement Kubernetes
 </div>
 
-<div id="kubernetes">
-  #### Kubernetes
+<Tabs>
+  <Tab title="Models uniquement">
+    | Environnement | CPU     | Mémoire | Disque |
+    | ------------- | ------- | ------- | ------ |
+    | Test/Dev      | 2 cœurs | 16 GB   | 100 GB |
+    | Production    | 8 cœurs | 64 GB   | 100 GB |
+
+    Les valeurs sont indiquées par nœud worker Kubernetes.
+  </Tab>
+
+  <Tab title="Weave uniquement">
+    | Environnement | CPU      | Mémoire | Disque |
+    | ------------- | -------- | ------- | ------ |
+    | Test/Dev      | 4 cœurs  | 32 GB   | 100 GB |
+    | Production    | 12 cœurs | 96 GB   | 100 GB |
+
+    Les valeurs sont indiquées par nœud worker Kubernetes.
+  </Tab>
+
+  <Tab title="Models et Weave">
+    | Environnement | CPU      | Mémoire | Disque |
+    | ------------- | -------- | ------- | ------ |
+    | Test/Dev      | 4 cœurs  | 32 GB   | 100 GB |
+    | Production    | 16 cœurs | 128 GB  | 100 GB |
+
+    Les valeurs sont indiquées par nœud worker Kubernetes.
+  </Tab>
+</Tabs>
+
+<div id="mysql-sizing">
+  ### Dimensionnement MySQL
 </div>
 
-| Environnement | CPU     | Mémoire | Disque |
-| ------------- | ------- | ------- | ------ |
-| Test/Dev      | 2 cœurs | 16 GB   | 100 GB |
-| Production    | 8 cœurs | 64 GB   | 100 GB |
-
-Ces valeurs sont indiquées par nœud worker Kubernetes.
-
-<div id="mysql">
-  #### MySQL
-</div>
-
-| Environnement | CPU     | Mémoire | Disque |
-| ------------- | ------- | ------- | ------ |
-| Test/Dev      | 2 cœurs | 16 GB   | 100 GB |
-| Production    | 8 cœurs | 64 GB   | 500 GB |
-
-Les valeurs sont indiquées pour chaque nœud MySQL.
-
-<div id="weave-only">
-  ### Weave uniquement
-</div>
-
-<div id="kubernetes">
-  #### Kubernetes
-</div>
-
-| Environnement | CPU      | Mémoire | Disque |
-| ------------- | -------- | ------- | ------ |
-| Test/Dev      | 4 cœurs  | 32 GB   | 100 GB |
-| Production    | 12 cœurs | 96 GB   | 100 GB |
-
-Les valeurs s’entendent par nœud worker Kubernetes.
-
-<div id="mysql">
-  #### MySQL
-</div>
-
-| Environnement | CPU     | Mémoire | Disque |
-| ------------- | ------- | ------- | ------ |
-| Test/Dev      | 2 cœurs | 16 GB   | 100 GB |
-| Production    | 8 cœurs | 64 GB   | 500 GB |
-
-Les valeurs sont indiquées par nœud MySQL.
-
-<div id="models-and-weave">
-  ### Models et Weave
-</div>
-
-<div id="kubernetes">
-  #### Kubernetes
-</div>
-
-| Environnement | CPU      | Mémoire | Disque |
-| ------------- | -------- | ------- | ------ |
-| Test/Dev      | 4 cœurs  | 32 GB   | 100 GB |
-| Production    | 16 cœurs | 128 GB  | 100 GB |
-
-Les valeurs sont indiquées par nœud worker Kubernetes.
-
-<div id="mysql">
-  #### MySQL
-</div>
+Ces recommandations ne varient pas en fonction de la combinaison de produits. Pour obtenir des conseils sur la topologie et la disponibilité, voir [Topologie MySQL](#mysql-topology) sous [MySQL](#mysql).
 
 | Environnement | CPU     | Mémoire | Disque |
 | ------------- | ------- | ------- | ------ |
@@ -362,45 +346,45 @@ Les valeurs sont indiquées par nœud MySQL.
   ## Recommandations d’instances par fournisseur de cloud
 </div>
 
-<div id="services">
-  ### Services
-</div>
+Ces recommandations s’appliquent à chaque nœud d’un déploiement W&amp;B autogéré sur une infrastructure cloud.
 
-| Cloud        | Kubernetes | MySQL                    | Stockage d’objets          |
-| ------------ | ---------- | ------------------------ | -------------------------- |
-| AWS          | EKS        | RDS Aurora               | S3                         |
-| Google Cloud | GKE        | Google Cloud SQL - Mysql | Google Cloud Storage (GCS) |
-| Azure        | AKS        | Azure Database for Mysql | Azure Blob Storage         |
+<Tabs>
+  <Tab title="AWS">
+    **Services managés recommandés**
 
-<div id="machine-types">
-  ### Types de machines
-</div>
+    * **Kubernetes**: Amazon EKS
+    * **MySQL**: Amazon RDS Aurora
+    * **Stockage d’objets**: Amazon S3
 
-Ces recommandations s&#39;appliquent à chaque nœud d&#39;un déploiement Autogéré de W&amp;B sur une infrastructure cloud.
+    | Environnement | K8s (Models uniquement) | K8s (Weave uniquement) | K8s (Models&amp;Weave) | MySQL          |
+    | ------------- | ----------------------- | ---------------------- | ---------------------- | -------------- |
+    | Test/Dev      | r6i.large               | r6i.xlarge             | r6i.xlarge             | db.r6g.large   |
+    | Production    | r6i.2xlarge             | r6i.4xlarge            | r6i.4xlarge            | db.r6g.2xlarge |
+  </Tab>
 
-<div id="aws">
-  #### AWS
-</div>
+  <Tab title="Google Cloud">
+    **Services managés recommandés**
 
-| Environnement | K8s (Modèles uniquement) | K8s (Weave uniquement) | K8s (Models&amp;Weave) | MySQL          |
-| ------------- | ----------------------- | ---------------------- | ---------------------- | -------------- |
-| Test/Dev      | r6i.large               | r6i.xlarge             | r6i.xlarge             | db.r6g.large   |
-| Production    | r6i.2xlarge             | r6i.4xlarge            | r6i.4xlarge            | db.r6g.2xlarge |
+    * **Kubernetes**: Google Kubernetes Engine (GKE)
+    * **MySQL**: Google Cloud SQL for MySQL
+    * **Stockage d’objets**: Google Cloud Storage (GCS)
 
-<div id="google-cloud">
-  #### Google Cloud
-</div>
+    | Environnement | K8s (Models uniquement) | K8s (Weave uniquement) | K8s (Models&amp;Weave) | MySQL           |
+    | ------------- | ----------------------- | ---------------------- | ---------------------- | --------------- |
+    | Test/Dev      | n2-highmem-2            | n2-highmem-4           | n2-highmem-4           | db-n1-highmem-2 |
+    | Production    | n2-highmem-8            | n2-highmem-16          | n2-highmem-16          | db-n1-highmem-8 |
+  </Tab>
 
-| Environnement | K8s (Modèles uniquement) | K8s (Weave uniquement) | K8s (Models&amp;Weave) | MySQL           |
-| ------------- | ----------------- | ---------------- | ---------------------- | --------------- |
-| Test/Dev      | n2-highmem-2      | n2-highmem-4     | n2-highmem-4           | db-n1-highmem-2 |
-| Production    | n2-highmem-8      | n2-highmem-16    | n2-highmem-16          | db-n1-highmem-8 |
+  <Tab title="Azure">
+    **Services managés recommandés**
 
-<div id="azure">
-  #### Azure
-</div>
+    * **Kubernetes**: Azure Kubernetes Service (AKS)
+    * **MySQL**: Azure Database for MySQL
+    * **Stockage d’objets**: Azure Blob Storage
 
-| Environnement | K8s (Modèles uniquement) | K8s (Weave uniquement)  | K8s (Models&amp;Weave)  | MySQL                           |
-| ------------- | ------------------------ | ----------------------- | ----------------------- | ------------------------------- |
-| Test/Dev      | Standard&#95;E2&#95;v5   | Standard&#95;E4&#95;v5  | Standard&#95;E4&#95;v5  | MO&#95;Standard&#95;E2ds&#95;v4 |
-| Production    | Standard&#95;E8&#95;v5   | Standard&#95;E16&#95;v5 | Standard&#95;E16&#95;v5 | MO&#95;Standard&#95;E8ds&#95;v4 |
+    | Environnement | K8s (Models uniquement) | K8s (Weave uniquement)  | K8s (Models&amp;Weave)  | MySQL                           |
+    | ------------- | ----------------------- | ----------------------- | ----------------------- | ------------------------------- |
+    | Test/Dev      | Standard&#95;E2&#95;v5  | Standard&#95;E4&#95;v5  | Standard&#95;E4&#95;v5  | MO&#95;Standard&#95;E2ds&#95;v4 |
+    | Production    | Standard&#95;E8&#95;v5  | Standard&#95;E16&#95;v5 | Standard&#95;E16&#95;v5 | MO&#95;Standard&#95;E8ds&#95;v4 |
+  </Tab>
+</Tabs>
