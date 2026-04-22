@@ -15,6 +15,7 @@ Les modèles plus anciens sont régulièrement réexaminés et peuvent être ret
 
 Dans W&amp;B Inference, les modèles utilisent la terminologie suivante pour les différentes phases de leur cycle de vie :
 
+* **Expérimental** : Le modèle est disponible pour une expérimentation initiale, mais n’est pas couvert par notre SLA standard ni par notre processus de mise en obsolescence.
 * **Disponibilité générale** : Le modèle est entièrement pris en charge et son utilisation est recommandée.
 * **Obsolète** : Le modèle doit être supprimé prochainement. Les clients doivent passer à un modèle de remplacement recommandé dès que possible.
 * **Retiré** : Le modèle n’est plus disponible. Toute requête envoyée à un modèle retiré échoue et renvoie un code d’état `HTTP 404`.
@@ -23,7 +24,7 @@ Dans W&amp;B Inference, les modèles utilisent la terminologie suivante pour les
   ## Processus d’obsolescence
 </div>
 
-Lorsqu’un modèle est déclaré obsolète, W&amp;B publie sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
+Lorsqu’un modèle en disponibilité générale est déclaré obsolète, W&amp;B publie sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
 
 Nous essayons également de notifier par e-mail les utilisateurs ayant récemment utilisé un modèle obsolète
 et de fournir des recommandations de modèles de remplacement.
