@@ -72,10 +72,10 @@
           {
             "tab": "Products",
             "pages": [
+              "index",
               {
                 "group": "Products",
                 "pages": [
-                  "index",
                   "product-models",
                   "product-weave",
                   "product-inference",
