@@ -26,8 +26,9 @@ The above table shows only a subset of available fields and operators. The expre
 1. Navigate to the **Runs** tab from the project sidebar.
 2. Select the **Filter** button, which looks like a funnel, above the runs table.
 3. From left to right, select a column name, a logical operator, and a filter value to create a filter expression. The filter is applied as soon as you select a filter value.
-4. Optionally select **New Filter** to apply additional filters.
-5. Close the filter expression editor by clicking the **x** icon in the top right corner.
+4. Optionally select **New Filter** to apply additional AND or OR conditions.
+5. Optionally select **New group** to group filters together with parentheses. This allows you to create more complex filter expressions.
+6. Close the filter expression editor by clicking the **x** icon in the top right corner.
 
 The following image filters runs based on loss values less than or equal to `1`:
 
@@ -51,6 +52,23 @@ Filter runs based on their tags:
 
 <Frame>
     <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
+</Frame>
+
+### Example: Combine filters with AND and OR conditions
+
+The following describes how to create an A AND (B OR C) filter expression. In this example, A is `loss` &le; `1`, B is `State` = `finished`, and C is `State` = `crashed`.
+
+1. Click on the **Runs** tab from the project sidebar.
+2. Select the **Filter** button, which looks like a funnel, above the runs table.
+3. From left to right, select `loss` from the first dropdown menu, select &le; from the second dropdown menu, and enter `1` in the third dropdown menu. This creates filter A.
+4. Click **New Filter** and select **New group** to create a new group for filters B and C.
+5. For filter B, select `State` from the first dropdown menu, select `=` from the second dropdown menu, and select `finished` from the third dropdown menu.
+6. Click **New Filter** to create filter C, and select `State` from the first dropdown menu, select `=` from the second dropdown menu, and select `crashed` from the third dropdown menu.
+
+The following image demonstrates how the resulting filter expression appears in the filter expression editor:
+
+<Frame>
+    <img src="/images/runs/run_expressions_and_or.png" alt="Combine filters with AND and OR conditions"  />
 </Frame>
 
 
