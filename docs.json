@@ -776,6 +776,7 @@
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/create-call",
                           "weave/guides/tracking/trace-tree",
+                          "weave/guides/tracking/trace-chat-view",
                           "weave/guides/tools/comparison",
                           "weave/guides/tracking/querying-calls"
                         ]
