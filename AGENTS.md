@@ -20,7 +20,7 @@ As a W&B docs team member, you:
 
 ## Core principles
 
-The content we produce in this repo must be accurate and clear, must adhere to professional tech writing and coding standards, and must be consistent with its surrounding existing content. Avoid "hallucinating" features, functionality, or code that doesn't exist.
+The content we produce in this repo must be accurate and clear and must adhere to professional tech writing and coding standards. Avoid "hallucinating" features, functionality, or code that doesn't exist.
 
 ### Key principles
 
@@ -39,7 +39,6 @@ The content we produce in this repo must be accurate and clear, must adhere to p
 - Test code examples when possible to ensure they work.
 - Include necessary imports and setup in code snippets.
 - If possible, write self-contained examples that users can run immediately.
-- Match existing content style when editing near existing content.
 
 **Never:**
 - Use emojis in documentation content.
@@ -77,12 +76,12 @@ You're documenting W&B's platform, products, and features, including:
 
 ## Style guide
 
-> **Important**: Avoid mixing style refactors with content changes. When editing near existing content, match its style even if it's not perfect. Fix style issues when editing that section, but don't broadly fix style issues as part of other non-refactor changes. This makes PRs easier to review. Broad style refactors should be separate PRs.
+> **Important**: Follow this style guide for all new and edited content. When working near content that doesn't conform, fix style issues only within the section you're editing. Don't make broad style fixes as part of content changes. Broad style refactors should be separate PRs.
 
 ### Style hierarchy
 
-1. **Match existing content first**: When editing near existing content, match its style to maintain consistency.
-2. **Google Developer Style Guide**: Primary reference for new content. Freely available to the public.
+1. **This style guide**: Follow the rules in this document first.
+2. **Google Developer Style Guide**: Primary external reference. Freely available to the public.
 3. **Microsoft Style Guide**: Secondary reference when Google doesn't cover something. Freely available to the public.
 4. **Chicago Manual of Style**: Tertiary reference for edge cases.
 
@@ -102,7 +101,7 @@ Use sentence case for all headings and page titles. Capitalize only the first wo
 - ✓ `title: "Environment variables"`
 - ✗ `title: "Environment Variables"`
 
-**Note on existing content:** Some pages use title case inconsistently. When editing near existing content, match its style. Fix heading casing when editing that section, but don't broadly fix title casing as part of other non-refactor changes. This makes PRs easier to review.
+**Note on existing content:** Some pages use title case inconsistently. Fix heading casing within the section you're editing, but don't broadly fix title casing as part of other non-refactor changes.
 
 ### Product names
 
@@ -168,7 +167,7 @@ Use sentence case for all headings and page titles. Capitalize only the first wo
 
 ### Lists
 
-- Use sentence case for list items.
+- Start each list item with a capital letter unless the first word is a case-sensitive term like a code identifier.
 - Include periods for complete sentences.
 - **Include periods for long phrases**: Even if not complete sentences, add periods to list items that are lengthy or contain explanatory text (tech writing convention).
 - Omit periods only for very short fragments (2-3 words).
@@ -203,6 +202,7 @@ See the [formatting and indentation](#formatting-and-indentation) section for de
       run.log({"metric": value})
   ```
   This is a specific pattern we're actively promoting to address technical debt.
+  - When showing `weave.init`, always use the pattern `weave.init('your-team-name/your-project-name')` instead of just specifying the project.
 
 - **Specify lexers**: Always include the language identifier in code blocks for proper syntax highlighting:
   - Use `python` for Python code.
@@ -230,8 +230,8 @@ See the [formatting and indentation](#formatting-and-indentation) section for de
 
 ### When making changes
 
-1. Read the surrounding content to match its style.
-2. Check this style guide for specific guidance.
+1. Read the surrounding content for context.
+2. Follow this style guide and the style hierarchy for all new and edited content.
 3. Verify code examples follow repository patterns.
 4. Ensure lists and sentences have appropriate punctuation.
 5. Use the `.editorconfig` settings for consistent formatting.
@@ -274,11 +274,10 @@ For detailed step-by-step procedures for complex tasks, see the `runbooks/` dire
 
 When editing `wandb/docs` content:
 
-1. Match existing content nearby, even if it isn't perfect.
-2. For new content, follow this guide and the Google Developer Style Guide.
-3. When practical, keep style changes separate from content changes.
-4. Include appropriate punctuation and complete thoughts. Technical documentation benefits from clarity over brevity.
-5. Do not add emojis or Unicode symbols to documentation content without clear precedent. When in doubt, use text instead. Symbols in PRs often make changes harder to review and merge.
+1. Follow this style guide for all new and edited content. Do not replicate style errors from surrounding content.
+2. When practical, keep style changes separate from content changes. Fix style issues within the section you're editing, but save broad refactors for dedicated PRs.
+3. Include appropriate punctuation and complete thoughts. Technical documentation benefits from clarity over brevity.
+4. Do not add emojis or Unicode symbols to documentation content without clear precedent. When in doubt, use text instead. Symbols in PRs often make changes harder to review and merge.
 
 ## Remember
 
