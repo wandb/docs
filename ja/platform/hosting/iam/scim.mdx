@@ -309,17 +309,19 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### パラメーター
 </div>
 
-| パラメーター     | タイプ    | 必須 | 説明                                 |
-| ---------- | ------ | -- | ---------------------------------- |
-| `emails`   | array  | はい | メールオブジェクトの配列。メインメールアドレスを含める必要があります |
-| `userName` | string | はい | 新規ユーザーのユーザー名                       |
+| パラメーター       | タイプ    | 必須  | 説明                                                                                                  |
+| ------------ | ------ | --- | --------------------------------------------------------------------------------------------------- |
+| `emails`     | array  | はい  | メールオブジェクトの配列。メインメールアドレスを含める必要があります                                                                  |
+| `userName`   | string | はい  | 新規ユーザーのユーザー名                                                                                        |
+| `modelsSeat` | string | いいえ | Models のシートレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。**専用クラウドおよびセルフマネージドでのみ使用できます。** |
+| `weaveRole`  | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。**専用クラウドおよびセルフマネージドでのみ使用できます。**     |
 
 <div id="examples">
   #### 例
 </div>
 
 <Tabs>
-  <Tab title="ユーザー作成リクエスト（Dedicated/セルフマネージド）">
+  <Tab title="ユーザー作成リクエスト（専用クラウド/セルフマネージド）">
     ```bash
     POST /scim/Users
     ```
@@ -335,7 +337,9 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
                 "value": "dev-user2@example.com"
             }
         ],
-        "userName": "dev-user2"
+        "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full"
     }
     ```
   </Tab>
@@ -371,7 +375,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 </div>
 
 <Tabs>
-  <Tab title="ユーザー作成時のレスポンス（Dedicated/セルフマネージド）">
+  <Tab title="ユーザー作成時のレスポンス（専用クラウド/セルフマネージド）">
     ```bash
     (Status 201)
     ```
@@ -395,12 +399,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
         "schemas": [
             "urn:ietf:params:scim:schemas:core:2.0:User"
         ],
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "userName": "dev-user2"
     }
     ```
   </Tab>
 
-  <Tab title="ユーザー作成時のレスポンス（マルチテナント）">
+  <Tab title="ユーザー作成時のレスポンス（Multi-tenant Cloud）">
     ```bash
     (Status 201)
     ```
@@ -884,20 +890,23 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### パラメーター
 </div>
 
-| パラメーター  | タイプ    | 必須 | 説明                           |
-| ------- | ------ | -- | ---------------------------- |
-| `id`    | string | はい | ユーザーの一意の ID                  |
-| `op`    | string | はい | `replace`                    |
-| `path`  | string | はい | `organizationRole`           |
-| `value` | string | はい | ロール名 (`admin` または `member`)  |
+| パラメーター  | タイプ    | 必須 | 説明                          |
+| ------- | ------ | -- | --------------------------- |
+| `id`    | string | はい | ユーザーの一意の ID                 |
+| `op`    | string | はい | `replace`                   |
+| `path`  | string | はい | `organizationRole`          |
+| `value` | string | はい | ロール名 (`admin` または `member`) |
 
 <Note>
   組織スコープの `viewer` ロールは非推奨となっており、UI で割り当てることはできなくなりました。SCIM を使用してユーザーに `viewer` ロールを割り当てる場合:
 
   * そのユーザーには、組織内で `member` ロールが割り当てられます。
-  * `full` シートではなく、Models の `viewer` シートが割り当てられます。これにより、Models には閲覧専用で、Registry にはフルアクセスできます。利用可能な Models シートがない場合は、`Seat limit reached` エラーがログされ、そのメンバーは Models へのアクセスなしで追加されます。シートが利用可能になれば、後で更新できます。
-  * `full` シートではなく、Weave の `viewer` シートが割り当てられます。これにより、Weave には閲覧専用でアクセスできます。利用可能な Weave シートがない場合は、`Seat limit reached` エラーがログされ、そのメンバーは Weave へのアクセスなしで追加されます。シートが利用可能になれば、後で更新できます。
+  * そのユーザーの `modelsSeat` は、`full` ではなく `viewer` に設定されます。これにより、Models には閲覧専用で、Registry にはフルアクセスできます。利用可能な Models シートがない場合は、`Seat limit reached` エラーが返されます。シートが利用可能になれば、後で更新できます。
+  * そのユーザーの `weaveRole` は、`full` ではなく `viewer` に設定されます。これにより、Weave には閲覧専用でアクセスできます。
+  * そのユーザーの既存のすべてのチームおよび project ロールは、`viewer` に設定されます。
   * 組織レベルで表示されるレジストリでは、Registry の `viewer` ロールが割り当てられます。
+
+  `member` または `admin` の組織ロールを割り当てても、ユーザーの `modelsSeat` や `weaveRole` は変更されません。
 </Note>
 
 <div id="examples">
@@ -957,6 +966,166 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
             }
         ],
         "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-models-seat">
+  ### シートを更新
+</div>
+
+ユーザーのシートを更新します。**専用クラウド** と **セルフマネージド** でのみ利用できます。
+
+#### エンドポイント
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **method**: PATCH
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| パラメーター  | タイプ    | 必須 | 説明                                  |
+| ------- | ------ | -- | ----------------------------------- |
+| `id`    | string | はい | ユーザーの一意の ID                         |
+| `op`    | string | はい | `replace`                           |
+| `path`  | string | はい | `modelsSeat`                        |
+| `value` | string | はい | シートレベル (`full`、`viewer`、または `none`) |
+
+<div id="examples">
+  #### 例
+</div>
+
+<Tabs>
+  <Tab title="シートの更新リクエスト">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "modelsSeat",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="シートの更新レスポンス">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-weave-role">
+  ### Weave ロールを更新する
+</div>
+
+ユーザーの Weave ロールを更新します。**専用クラウド**および**セルフマネージド**でのみ利用できます。
+
+#### エンドポイント
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **method**: PATCH
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| パラメーター  | タイプ    | 必須 | 説明                                  |
+| ------- | ------ | -- | ----------------------------------- |
+| `id`    | string | はい | ユーザーの一意の ID                         |
+| `op`    | string | はい | `replace`                           |
+| `path`  | string | はい | `weaveRole`                         |
+| `value` | string | はい | ロールレベル (`full`、`viewer`、または `none`) |
+
+<div id="examples">
+  #### 例
+</div>
+
+<Tabs>
+  <Tab title="Weave ロール更新リクエスト">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "weaveRole",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Weave ロール更新レスポンス">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
     }
     ```
   </Tab>
@@ -2352,13 +2521,15 @@ SCIM APIは標準のSCIMエラーレスポンスを返します。
 
 W&amp;B では 2 種類の SCIM API 実装を提供しており、利用できる機能はそれぞれ異なります。
 
-| 機能                | 専用クラウド | セルフマネージド |
-| ----------------- | ------ | -------- |
-| ユーザーのメールアドレスを更新   | -      | ✓        |
-| ユーザーの表示名を更新       | -      | ✓        |
-| ユーザーの無効化          | ✓      | ✓        |
-| ユーザーの再有効化         | -      | ✓        |
-| ユーザーごとに複数のメールアドレス | ✓      | -        |
+| 機能                       | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
+| ------------------------ | ------------------ | --------------- |
+| ユーザーのメールアドレスを更新          | -                  | ✓               |
+| ユーザーの表示名を更新              | -                  | ✓               |
+| ユーザーの無効化                 | ✓                  | ✓               |
+| ユーザーの再有効化                | -                  | ✓               |
+| ユーザーごとに複数のメールアドレス        | ✓                  | -               |
+| 作成/更新時に `modelsSeat` を設定 | -                  | ✓               |
+| 作成/更新時に `weaveRole` を設定  | -                  | ✓               |
 
 <div id="limitations">
   ## 制限事項

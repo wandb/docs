@@ -315,10 +315,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### 매개변수
 </div>
 
-| 매개변수       | 유형     | 필수 | 설명                               |
-| ---------- | ------ | -- | -------------------------------- |
-| `emails`   | 배열     | 예  | 이메일 객체 배열입니다. 기본 이메일이 포함되어야 합니다. |
-| `userName` | string | 예  | 새로 생성할 사용자의 사용자 이름입니다.           |
+| 매개변수         | 유형     | 필수  | 설명                                                                                                              |
+| ------------ | ------ | --- | --------------------------------------------------------------------------------------------------------------- |
+| `emails`     | 배열     | 예   | 이메일 객체 배열입니다. 기본 이메일이 포함되어야 합니다.                                                                                |
+| `userName`   | string | 예   | 새로 생성할 사용자의 사용자 이름입니다.                                                                                          |
+| `modelsSeat` | string | 아니요 | Models 시트 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다. **Dedicated Cloud 및 Self-Managed에서만 지원됩니다.** |
+| `weaveRole`  | string | 아니요 | Weave 역할 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다. **Dedicated Cloud 및 Self-Managed에서만 지원됩니다.**  |
 
 <div id="examples">
   #### 예시
@@ -341,7 +343,9 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
                 "value": "dev-user2@example.com"
             }
         ],
-        "userName": "dev-user2"
+        "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full"
     }
     ```
   </Tab>
@@ -401,6 +405,8 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
         "schemas": [
             "urn:ietf:params:scim:schemas:core:2.0:User"
         ],
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "userName": "dev-user2"
     }
     ```
@@ -913,9 +919,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   조직 수준의 `viewer` 역할은 사용 중단되었으며 더 이상 UI에서 할당할 수 없습니다. SCIM을 사용해 사용자에게 `viewer` 역할을 할당하면:
 
   * 사용자는 조직에서 `member` 역할을 부여받습니다.
-  * `full` 시트 대신 Models `viewer` 시트가 부여됩니다. 그러면 Models에는 보기 전용 액세스가, 레지스트리에는 전체 액세스가 허용됩니다. 사용 가능한 Models 시트가 없으면 `Seat limit reached` 오류가 로깅되고, 해당 멤버는 Models 액세스 없이 추가됩니다. 시트를 사용할 수 있게 되면 나중에 업데이트할 수 있습니다.
-  * `full` 시트 대신 Weave `viewer` 시트가 부여됩니다. 그러면 Weave에는 보기 전용 액세스가 허용됩니다. 사용 가능한 Weave 시트가 없으면 `Seat limit reached` 오류가 로깅되고, 해당 멤버는 Weave 액세스 없이 추가됩니다. 시트를 사용할 수 있게 되면 나중에 업데이트할 수 있습니다.
+  * 해당 사용자의 `modelsSeat`는 `full` 대신 `viewer`로 설정됩니다. 그러면 Models에는 보기 전용 액세스가, 레지스트리에는 전체 액세스가 허용됩니다. 사용 가능한 Models 시트가 없으면 `Seat limit reached` 오류가 반환됩니다. 시트를 사용할 수 있게 되면 나중에 업데이트할 수 있습니다.
+  * 해당 사용자의 `weaveRole`은 `full` 대신 `viewer`로 설정됩니다. 그러면 Weave에는 보기 전용 액세스가 허용됩니다.
+  * 해당 사용자의 기존 팀 및 프로젝트 역할은 모두 `viewer`로 설정됩니다.
   * 조직 수준에서 볼 수 있는 레지스트리에서는 레지스트리 `viewer` 역할이 부여됩니다.
+
+  `member` 또는 `admin` 조직 역할을 부여해도 사용자의 `modelsSeat` 또는 `weaveRole`은 변경되지 않습니다.
 </Note>
 
 <div id="examples">
@@ -975,6 +984,170 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
             }
         ],
         "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-models-seat">
+  ### Models 시트 업데이트
+</div>
+
+사용자의 Models 시트를 업데이트합니다. **Dedicated Cloud** 및 **Self-Managed**에서만 지원됩니다.
+
+<div id="endpoint">
+  #### 엔드포인트
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **방법**: PATCH
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 매개변수    | 유형     | 필수 | 설명                                |
+| ------- | ------ | -- | --------------------------------- |
+| `id`    | string | 예  | 사용자의 고유 ID                        |
+| `op`    | string | 예  | `replace`                         |
+| `path`  | string | 예  | `modelsSeat`                      |
+| `value` | string | 예  | 시트 수준(`full`, `viewer` 또는 `none`) |
+
+<div id="examples">
+  #### 예시
+</div>
+
+<Tabs>
+  <Tab title="Models 시트 업데이트 요청">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "modelsSeat",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Models 시트 업데이트 응답">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-weave-role">
+  ### Weave 역할 업데이트
+</div>
+
+사용자의 Weave 역할을 업데이트합니다. **Dedicated Cloud** 및 **Self-Managed**에서만 지원됩니다.
+
+<div id="endpoint">
+  #### 엔드포인트
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **방법**: PATCH
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 매개변수    | 유형     | 필수 | 설명                                |
+| ------- | ------ | -- | --------------------------------- |
+| `id`    | string | 예  | 사용자의 고유 ID                        |
+| `op`    | string | 예  | `replace`                         |
+| `path`  | string | 예  | `weaveRole`                       |
+| `value` | string | 예  | 역할 수준(`full`, `viewer` 또는 `none`) |
+
+<div id="examples">
+  #### 예시
+</div>
+
+<Tabs>
+  <Tab title="Weave 역할 업데이트 요청">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "weaveRole",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Weave 역할 업데이트 응답">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
     }
     ```
   </Tab>
@@ -2384,13 +2557,15 @@ SCIM API는 표준 SCIM 오류 응답을 반환합니다.
 
 W&amp;B는 별도의 SCIM API 구현 두 가지를 유지 관리하며, 지원되는 특성은 다음과 같이 서로 다릅니다:
 
-| 특성             | Dedicated Cloud | Self-Managed |
-| -------------- | --------------- | ------------ |
-| 사용자 이메일 업데이트   | -               | ✓            |
-| 사용자 표시 이름 업데이트 | -               | ✓            |
-| 사용자 비활성화       | ✓               | ✓            |
-| 사용자 재활성화       | -               | ✓            |
-| 사용자당 여러 이메일    | ✓               | -            |
+| 특성                        | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
+| ------------------------- | ------------------ | -------------------------------- |
+| 사용자 이메일 업데이트              | -                  | ✓                                |
+| 사용자 표시 이름 업데이트            | -                  | ✓                                |
+| 사용자 비활성화                  | ✓                  | ✓                                |
+| 사용자 재활성화                  | -                  | ✓                                |
+| 사용자당 여러 이메일               | ✓                  | -                                |
+| 생성/업데이트 시 `modelsSeat` 설정 | -                  | ✓                                |
+| 생성/업데이트 시 `weaveRole` 설정  | -                  | ✓                                |
 
 <div id="limitations">
   ## 제한 사항
