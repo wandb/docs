@@ -159,9 +159,9 @@ To extract the complete list of required images and versions from the Helm chart
 
     ```bash
     # Set version variables (update these based on your Helm chart versions)
-    CONTROLLER_VERSION="1.13.3"
-    APP_VERSION="0.59.2"
-    CONSOLE_VERSION="2.12.2"
+    CONTROLLER_VERSION="1.21.3"
+    APP_VERSION="0.78.2"
+    CONSOLE_VERSION="2.18.12"
 
     # Pull images
     docker pull wandb/controller:${CONTROLLER_VERSION}
@@ -184,9 +184,9 @@ To extract the complete list of required images and versions from the Helm chart
 
     ```bash
     # Set the same version variables used above
-    CONTROLLER_VERSION="1.13.3"
-    APP_VERSION="0.59.2"
-    CONSOLE_VERSION="2.12.2"
+    CONTROLLER_VERSION="1.21.3"
+    APP_VERSION="0.78.2"
+    CONSOLE_VERSION="2.18.12"
     INTERNAL_REGISTRY="registry.yourdomain.com"
 
     # Load images
@@ -226,8 +226,8 @@ Along with the container images, ensure the following Helm charts are available 
    helm repo update
 
    # Download the charts
-   helm pull wandb/operator --version 1.13.3
-   helm pull wandb/operator-wandb --version 0.18.0
+   helm pull wandb/operator --version 1.21.3
+   helm pull wandb/operator-wandb --version 0.41.6
    ```
 
 2. Transfer the `.tgz` chart files to your air-gapped environment and upload them to your internal Helm repository according to your repository's procedures.
@@ -261,13 +261,13 @@ The W&B Kubernetes Operator (controller manager) manages the W&B platform compon
    ```yaml
    image:
      repository: registry.yourdomain.com/wandb/controller
-     tag: 1.13.3
+     tag: 1.21.3
 
    airgapped: true
    ```
 
    <Note>
-   Replace the repository and tag with the actual versions you transferred to your internal registry in Step 1. The version shown here (`1.13.3`) is an example and will become outdated.
+   Replace the repository and tag with the actual versions you transferred to your internal registry in Step 1. The version shown here (`1.21.3`) is an example and will become outdated.
    </Note>
 
 2. Install the operator and Custom Resource Definition (CRD):
@@ -323,7 +323,7 @@ spec:
   chart:
     url: https://charts.yourdomain.com
     name: operator-wandb
-    version: 0.18.0
+    version: 0.41.6
 
   values:
     global:
@@ -366,37 +366,37 @@ spec:
     app:
       image:
         repository: registry.yourdomain.com/wandb/local
-        tag: 0.59.2
+        tag: 0.78.2
 
     console:
       image:
         repository: registry.yourdomain.com/wandb/console
-        tag: 2.12.2
+        tag: 2.18.12
 
     api:
       image:
         repository: registry.yourdomain.com/wandb/megabinary
-        tag: 0.59.2
+        tag: 0.78.2
 
     executor:
       image:
         repository: registry.yourdomain.com/wandb/megabinary
-        tag: 0.59.2
+        tag: 0.78.2
 
     glue:
       image:
         repository: registry.yourdomain.com/wandb/megabinary
-        tag: 0.59.2
+        tag: 0.78.2
 
     parquet:
       image:
         repository: registry.yourdomain.com/wandb/megabinary
-        tag: 0.59.2
+        tag: 0.78.2
 
     weave:
       image:
         repository: registry.yourdomain.com/wandb/weave-python
-        tag: 0.59.2
+        tag: 0.78.2
 
     otel:
       image:
@@ -619,7 +619,7 @@ spec:
   chart:
     url: https://charts.yourdomain.com
     name: operator-wandb
-    version: 0.18.0
+    version: 0.41.6
 
   values:
     global:
@@ -665,7 +665,7 @@ spec:
     app:
       image:
         repository: registry.yourdomain.com/wandb/local
-        tag: 0.59.2
+        tag: 0.78.2
       podSecurityContext:
         fsGroup: 1000
         runAsUser: 1000
@@ -682,7 +682,7 @@ spec:
     console:
       image:
         repository: registry.yourdomain.com/wandb/console
-        tag: 2.12.2
+        tag: 2.18.12
       podSecurityContext:
         fsGroup: 1000
         runAsUser: 1000
@@ -743,7 +743,7 @@ If pods fail to pull images:
 
    ```bash
    # Test image pull manually
-   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
+   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.78.2 --namespace=wandb
    kubectl logs test-pull -n wandb
    kubectl delete pod test-pull -n wandb
    ```
