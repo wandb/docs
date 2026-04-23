@@ -90,27 +90,6 @@
                     "group": "Platform Details",
                     "pages": [
                       {
-                        "group": "Release Notes",
-                        "expanded": false,
-                        "pages": [
-                          "release-notes",
-                          {
-                            "group": "W&B Server",
-                            "pages": [
-                              "release-notes/server-releases",
-                              "release-notes/server-releases-archived"
-                            ]
-                          },
-                          {
-                            "group": "W&B SDK",
-                            "pages": [
-                              "release-notes/sdk-releases"
-                            ]
-                          },
-                          "release-notes/release-policies"
-                        ]
-                      },
-                      {
                         "group": "Configure W&B",
                         "pages": [
                           {
@@ -1202,6 +1181,26 @@
                   "training/api-reference"
                 ]
               }
+            ]
+          },
+          {
+            "tab": "Release Notes",
+            "pages": [
+              "release-notes",
+              {
+                "group": "W&B Server",
+                "pages": [
+                  "release-notes/server-releases",
+                  "release-notes/server-releases-archived"
+                ]
+              },
+              {
+                "group": "W&B SDK",
+                "pages": [
+                  "release-notes/sdk-releases"
+                ]
+              },
+              "release-notes/release-policies"
             ]
           },
           {
