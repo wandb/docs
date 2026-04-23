@@ -12,17 +12,17 @@ Supported clients include Cursor, Visual Studio Code, Claude Code, OpenAI Codex,
 W&B offers three ways to run the MCP server. Pick the one that matches your deployment:
 
 <CardGroup cols={3}>
-  <Card title="Multi-tenant Cloud" icon="cloud">
+  <Card title="Multi-tenant Cloud">
     Use the hosted server at `mcp.withwandb.com`. No installation required.
 
     [Use the hosted server](#use-the-hosted-server)
   </Card>
-  <Card title="Dedicated Cloud or Self-Managed" icon="building">
+  <Card title="Dedicated Cloud or Self-Managed">
     Request enablement of the managed MCP server on your deployment. Your team connects to `https://<your-instance>/mcp` with an existing W&B API key.
 
     [Use MCP on your deployment](#use-mcp-on-dedicated-cloud-or-self-managed)
   </Card>
-  <Card title="Local install" icon="laptop-code">
+  <Card title="Local install">
     Run the MCP server on your machine. Useful for air-gapped environments, development, and clients that require STDIO.
 
     [Run the MCP server locally](#run-the-mcp-server-locally)
@@ -45,42 +45,64 @@ Use the MCP server to analyze experiments, debug traces, create reports, manage 
 
 ### Available tools
 
-The server registers the following tools. The exact set depends on the server version and whether docs search is enabled.
+The server registers a set of tools grouped by purpose. Each row lists the tool name, when the agent should pick it, and a concrete prompt a user can paste. Availability of `search_wandb_docs_tool` depends on `WANDB_MCP_PROXY_DOCS` (enabled by default).
 
 <Tabs>
+  <Tab title="Discovery">
+    Use these tools first when you do not know the exact entity, project, or schema to query.
+
+    | Tool | Use when | Example prompt |
+    |------|----------|----------------|
+    | `list_entities_tool` | You have not specified which entity to use, or need to see what teams and accounts the API key can reach. | "What W&B teams do I have access to?" |
+    | `query_wandb_entity_projects` | You know the entity but not the project name, or earlier queries failed with project not found. | "List all projects under `your-team`." |
+    | `probe_project_tool` | Starting work on an unfamiliar run-based project and you need to discover available metrics, config keys, and tags. | "Probe `your-team/your-project` and tell me what metrics are logged." |
+    | `infer_trace_schema_tool` | Starting work on an unfamiliar Weave traces project and you need field names, types, and sample values before querying. | "What fields are on the Weave traces in `your-team/your-project`?" |
+  </Tab>
   <Tab title="Experiments and runs">
-    | Tool | Description |
-    |------|-------------|
-    | `query_wandb_tool` | Query W&B runs, metrics, configs, and summaries using GraphQL. |
-    | `get_run_history_tool` | Retrieve sampled time-series metric data for a run. |
-    | `query_wandb_entity_projects` | List projects visible to an entity. |
+    Query, compare, and diagnose W&B Models runs.
+
+    | Tool | Use when | Example prompt |
+    |------|----------|----------------|
+    | `query_wandb_tool` | The question is about runs, sweeps, configs, summaries, or artifacts in W&B Models. Runs a GraphQL query. | "Show me the top 5 runs by `eval/accuracy` in `your-team/your-project`." |
+    | `get_run_history_tool` | The question is about training curves, metric trends over time, or any time-series logged to a run. | "Plot the loss curve for run `abc123` in `your-team/your-project`." |
+    | `compare_runs_tool` | The user asks what changed between two runs, or which of two runs is better. Returns config diff, metric delta, and optional aligned history. | "Compare runs `abc123` and `def456` in `your-team/your-project`." |
+    | `diagnose_run_tool` | The user asks if a run converged, is overfitting, or hit NaN values. Returns actionable recommendations. | "Is run `abc123` in `your-team/your-project` overfitting?" |
   </Tab>
   <Tab title="Weave traces">
-    | Tool | Description |
-    |------|-------------|
-    | `infer_trace_schema_tool` | Discover field names, types, and sample values before you query. |
-    | `query_weave_traces_tool` | Query Weave traces with a configurable `detail_level` and column projection. |
-    | `count_weave_traces_tool` | Count traces and retrieve storage metrics. |
+    Query and aggregate LLM traces and evaluations.
+
+    | Tool | Use when | Example prompt |
+    |------|----------|----------------|
+    | `query_weave_traces_tool` | You need trace data (LLM calls, evaluations, agent runs). Start with `detail_level="summary"` and escalate to `"full"` only for specific traces. | "Show me failed traces in `your-team/your-project` from the last 24 hours." |
+    | `count_weave_traces_tool` | The user asks how many traces or how many errors, and you do not need the trace data itself. | "How many traces failed in `your-team/your-project` this week?" |
+    | `resolve_trace_roots_tool` | After `query_weave_traces_tool` finds child traces and you need to map each back to its root session or workflow in one batched call. | "Find LLM calls that contain `rate limit` and tell me which sessions they belong to." |
+    | `summarize_evaluation_tool` | The user asks how an eval went, what the pass rate is, or which tasks fail most. Aggregates `Evaluation.evaluate` hierarchies. | "Summarize the most recent eval in `your-team/your-project`." |
   </Tab>
   <Tab title="Reports">
-    | Tool | Description |
-    |------|-------------|
-    | `create_wandb_report_tool` | Create W&B reports with Markdown, line plots, bar plots, and run comparisons. Accepts a `panels` parameter. |
-    | `log_analysis_to_wandb` | Log analysis results from the current MCP session to W&B as a run. |
+    Persist analysis back to W&B.
+
+    | Tool | Use when | Example prompt |
+    |------|----------|----------------|
+    | `create_wandb_report_tool` | The user explicitly asks to create a report or save findings. Accepts Markdown plus a `panels` array for line plots, bar plots, and run comparisons. | "Create a W&B report comparing runs `abc123` and `def456`." |
+    | `log_analysis_to_wandb` | You computed values in the MCP session (latency distributions, error breakdowns) that should be persisted as a run before being referenced in a report. | "Log these latency percentiles to W&B as an analysis run." |
   </Tab>
   <Tab title="Artifacts and registry">
-    | Tool | Description |
-    |------|-------------|
-    | `list_registries_tool` | List model registries in an organization. |
-    | `list_registry_collections_tool` | List collections within a registry. |
-    | `list_artifact_versions_tool` | List versions of an artifact collection. |
-    | `get_artifact_details_tool` | Get full details for an artifact version. |
-    | `compare_artifact_versions_tool` | Diff two artifact versions. |
+    Inspect and diff models, datasets, and other versioned artifacts.
+
+    | Tool | Use when | Example prompt |
+    |------|----------|----------------|
+    | `list_registries_tool` | The user asks about model registries, registered models, or registered datasets in an organization. | "What registries exist in `your-org`?" |
+    | `list_registry_collections_tool` | The user wants to see what models or datasets live inside a specific registry. | "What collections are in the `model` registry of `your-org`?" |
+    | `list_artifact_versions_tool` | The user wants to see available versions of a model, dataset, or other artifact collection. | "List versions of `production-model` in `your-team/your-project`." |
+    | `get_artifact_details_tool` | The user wants to inspect one specific artifact version, including lineage and files. | "What is in `production-model:v3`?" |
+    | `compare_artifact_versions_tool` | The user asks what changed between two artifact versions. | "Diff `production-model:v2` and `production-model:v3`." |
   </Tab>
   <Tab title="Docs">
-    | Tool | Description |
-    |------|-------------|
-    | `search_wandb_docs_tool` | Search the official W&B documentation at [docs.wandb.ai](https://docs.wandb.ai). Controlled by `WANDB_MCP_PROXY_DOCS` (enabled by default). |
+    Answer product questions from the official W&B documentation.
+
+    | Tool | Use when | Example prompt |
+    |------|----------|----------------|
+    | `search_wandb_docs_tool` | The user asks how to use a W&B or Weave feature or API. Proxies [docs.wandb.ai](https://docs.wandb.ai). | "How do I create a leaderboard in Weave?" |
   </Tab>
 </Tabs>
 
@@ -95,6 +117,46 @@ For Weave trace queries, call `infer_trace_schema_tool` first to discover availa
 | `full` | Everything untruncated. Use to drill into a small number of specific traces. |
 
 This pattern keeps token usage low for broad questions and lets the agent escalate to `full` only for the traces that matter.
+
+### Recommended workflows
+
+Most real questions need more than one tool. Ask your agent to follow one of these chains.
+
+#### Explore an unfamiliar project
+
+Use when you land on a new entity or project and do not know what is logged.
+
+1. `list_entities_tool` to find the entity.
+2. `query_wandb_entity_projects` to find the project.
+3. `probe_project_tool` for run-based projects, or `infer_trace_schema_tool` for Weave trace projects.
+4. A targeted `query_wandb_tool` or `query_weave_traces_tool` call using the discovered keys.
+
+#### Triage failing LLM calls
+
+Use when the agent needs to find bad traces and understand the sessions that produced them.
+
+1. `query_weave_traces_tool` with a filter on error or exception fields, and `detail_level="summary"`.
+2. `resolve_trace_roots_tool` on the resulting `trace_id` list to map each failure to its root session.
+3. `query_weave_traces_tool` with `detail_level="full"` on a small number of specific roots to drill in.
+4. `create_wandb_report_tool` to document the findings.
+
+#### Diagnose a bad training run
+
+Use when a run looks wrong and the user wants a health check.
+
+1. `get_run_history_tool` to pull the loss and validation curves.
+2. `diagnose_run_tool` for automated convergence, overfitting, and NaN checks.
+3. `compare_runs_tool` against a known-good baseline run.
+4. `create_wandb_report_tool` with line-plot panels to share the diagnosis.
+
+#### Summarize evals and compare model versions
+
+Use when the user asks which model version performed best on an evaluation.
+
+1. `summarize_evaluation_tool` for per-scorer pass rates and error counts.
+2. `list_artifact_versions_tool` on the relevant model collection.
+3. `compare_artifact_versions_tool` between the candidate and current production version.
+4. `log_analysis_to_wandb` and `create_wandb_report_tool` to publish the comparison.
 
 ## Prerequisites
 
@@ -111,7 +173,7 @@ W&B runs a hosted MCP server at `https://mcp.withwandb.com` for Multi-tenant Clo
 <Tabs>
 <Tab title="Cursor">
 
-Install the server in Cursor automatically with the [one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=), then replace `YOUR_WANDB_API_KEY` with your W&B API key in the `Authorization` field.
+Install the server in Cursor automatically with the [one-click installation link](https://cursor.com/en/install-mcp?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIge3tXQU5EQl9BUElfS0VZfX0iLCJBY2NlcHQiOiJhcHBsaWNhdGlvbi9qc29uLCB0ZXh0L2V2ZW50LXN0cmVhbSJ9fQ%3D%3D), then replace the placeholder with your W&B API key in the `Authorization` field.
 
 To configure Cursor manually:
 
@@ -136,9 +198,9 @@ To configure Cursor manually:
     ```
 
 5. Restart Cursor.
-6. Verify the connection by asking the agent "List the projects in my W&B account."
+6. Verify the connection by asking `List my W&B entities.` The agent should call `list_entities_tool` and return your username and any teams.
 
-For more information, see [Cursor's MCP documentation](https://cursor.com/docs/context/mcp).
+If the connection fails, see [Troubleshooting](#troubleshooting). For more information, see [Cursor's MCP documentation](https://cursor.com/docs/context/mcp).
 </Tab>
 <Tab title="VS Code">
 
@@ -158,7 +220,9 @@ Open your global or workspace `mcp.json` (for example, `~/.vscode/mcp.json` or `
 }
 ```
 
-Restart VS Code and confirm the server appears in the MCP panel.
+Restart VS Code, confirm the server appears in the MCP panel, and verify the connection by asking `List my W&B entities.` The agent should call `list_entities_tool` and return your username and any teams.
+
+If the connection fails, see [Troubleshooting](#troubleshooting).
 </Tab>
 <Tab title="Claude Code">
 
@@ -171,7 +235,7 @@ claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
 
 Add `--scope user` to configure Claude Code globally. Omit it to configure only the current project.
 
-For more information, see [Claude Code's MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
+Verify the connection by asking `List my W&B entities.` The agent should call `list_entities_tool` and return your username and any teams. If the connection fails, see [Troubleshooting](#troubleshooting). For more information, see [Claude Code's MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
 </Tab>
 <Tab title="Codex">
 
@@ -183,6 +247,8 @@ codex mcp add wandb \
   --url https://mcp.withwandb.com/mcp \
   --bearer-token-env-var WANDB_API_KEY
 ```
+
+Verify the connection by asking `List my W&B entities.` The agent should call `list_entities_tool` and return your username and any teams. If the connection fails, see [Troubleshooting](#troubleshooting).
 </Tab>
 <Tab title="Gemini CLI">
 
@@ -192,9 +258,9 @@ Install the W&B MCP extension:
 gemini extensions install https://github.com/wandb/wandb-mcp-server
 ```
 
-Restart Gemini CLI. Verify the connection by asking "List the projects in my W&B account."
+Restart Gemini CLI. Verify the connection by asking `List my W&B entities.` The agent should call `list_entities_tool` and return your username and any teams.
 
-For more information, see [Gemini CLI's MCP documentation](https://geminicli.com/docs/tools/mcp-server/).
+If the connection fails, see [Troubleshooting](#troubleshooting). For more information, see [Gemini CLI's MCP documentation](https://geminicli.com/docs/tools/mcp-server/).
 </Tab>
 <Tab title="Mistral LeChat">
 
@@ -208,9 +274,9 @@ For more information, see [Gemini CLI's MCP documentation](https://geminicli.com
     - **Header type**: Select **Bearer**.
     - **Header value**: Your W&B API key.
 4. Select **Create**.
-5. Verify the connection by asking "List the projects in my W&B account."
+5. Verify the connection by asking `List my W&B entities.` The agent should call `list_entities_tool` and return your username and any teams.
 
-For more information, see [LeChat's MCP documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
+If the connection fails, see [Troubleshooting](#troubleshooting). For more information, see [LeChat's MCP documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
 </Tab>
 <Tab title="OpenAI Responses API">
 
@@ -232,13 +298,13 @@ resp = client.responses.create(
         "authorization": os.getenv("WANDB_API_KEY"),
         "require_approval": "never",
     }],
-    input="List the projects in my W&B account.",
+    input="List my W&B entities.",
 )
 
 print(resp.output_text)
 ```
 
-The OpenAI MCP integration runs server-side, so it cannot reach a local MCP server. For local development, see [Run the MCP server locally](#run-the-mcp-server-locally).
+Pass the raw W&B API key as the `authorization` value. OpenAI prepends `Bearer ` when it calls the server, so do not include it yourself. The OpenAI MCP integration runs server-side, so it cannot reach a local MCP server. For local development, see [Run the MCP server locally](#run-the-mcp-server-locally).
 </Tab>
 </Tabs>
 
@@ -439,13 +505,40 @@ For the complete command-line reference and advanced options, see the [wandb-mcp
 
 ## Usage tips
 
-Follow these practices to get good results from the MCP server:
+The following practices apply to everyone. Read the subsection that matches your workload for more specific advice.
+
+### For everyone
 
 - **Specify the entity and project.** MCP tools need an explicit entity and project name. Include both in every question, for example "in `your-team/your-project`".
 - **Ask focused questions.** Prefer "Which eval had the highest F1 score?" to "What is my best evaluation?". Specific metrics and time ranges produce better tool calls.
-- **Use the schema-first workflow for traces.** Have the agent call `infer_trace_schema_tool` before `query_weave_traces_tool`, and start with `detail_level: "summary"`. Escalate to `"full"` only when drilling into specific traces.
-- **Verify full retrieval.** For broad questions like "What are my best performing runs?", ask the agent to confirm that it retrieved all available runs rather than only the most recent ones.
-- **Combine with W&B Skills.** [W&B Skills](/platform/wb-skills) teach coding agents how to structure W&B workflows. Skills and MCP work well together, because Skills provide patterns and MCP provides data access.
+- **Verify full retrieval.** For broad questions such as "What are my best performing runs?", ask the agent to confirm it retrieved all available runs rather than only the most recent ones.
+- **Combine with W&B Skills.** [W&B Skills](/platform/wb-skills) teach coding agents how to structure W&B workflows. Skills provide patterns and MCP provides data access, and the two work well together.
+
+### For trace-heavy workflows
+
+- **Start with the schema.** Call `infer_trace_schema_tool` before `query_weave_traces_tool` so the agent knows which fields and filter values are valid.
+- **Pick the right `detail_level`.** Use `schema` to browse, `summary` (the default) for analysis, and `full` only when drilling into a small number of specific traces.
+- **Chain `resolve_trace_roots_tool`.** After a child-trace query, pass the resulting `trace_id` list to `resolve_trace_roots_tool` to map each trace to its root session in one batched call.
+- **Prefer `summarize_evaluation_tool` for evals.** It aggregates the `Evaluation.evaluate` and `predict_and_score` hierarchy automatically. Only fall back to `query_weave_traces_tool` for raw trace data.
+
+### For run-heavy workflows
+
+- **Probe before you query.** Call `probe_project_tool` on an unfamiliar run-based project to discover metric keys, config keys, and tags before constructing GraphQL.
+- **Use `get_run_history_tool` for time series.** GraphQL does not sample, so for loss curves and other time-series data `get_run_history_tool` is both faster and cheaper.
+- **Let `compare_runs_tool` do the diff.** It returns config and metric deltas with aligned history in a single call, avoiding manual comparison.
+- **Run a health check first.** When a training run looks wrong, call `diagnose_run_tool` before digging into history manually.
+
+### For Dedicated Cloud and Self-Managed
+
+- Always set `WANDB_BASE_URL` (on the server, or in your client env block) to your instance URL. Without it, the server targets `api.wandb.ai` and no data will be found.
+- The managed MCP server exposes the same tools as the hosted Multi-tenant server.
+- Rate limits on Dedicated Cloud are separate from Multi-tenant. See [Dedicated Cloud rate limits](/platform/hosting/hosting-options/dedicated-cloud/rate-limits) for defaults and how to request changes.
+
+### For local installs
+
+- Prefer STDIO transport for desktop clients (Cursor, VS Code, Claude Code, Claude Desktop). Only switch to HTTP transport when a client explicitly requires it (for example, the OpenAI Responses API).
+- When tool calls fail silently, set `MCP_SERVER_LOG_LEVEL=DEBUG` in the client's `env` block and re-check the client's MCP logs.
+- If you install from GitHub (`uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server`), `uvx` pins to the default branch. Pin an explicit tag by appending `@v0.3.2` to the Git URL when you need a stable version.
 
 ## Troubleshooting
 
