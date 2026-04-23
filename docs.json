@@ -229,31 +229,361 @@
               {
                 "group": "W&B Models",
                 "pages": [
-                  "models/ref-link-python",
-                  "models/ref-link-public-api",
-                  "models/ref-link-cli",
-                  "models/ref-link-query-panel",
-                  "models/ref-link-workspaces"
+                  "models/ref",
+                  {
+                    "group": "Python",
+                    "pages": [
+                      {
+                        "group": "SDK Coding Cheat Sheet",
+                        "pages": [
+                          "models/ref/sdk-coding-cheat-sheet",
+                          "models/ref/sdk-coding-cheat-sheet/runs",
+                          "models/ref/sdk-coding-cheat-sheet/logging",
+                          "models/ref/sdk-coding-cheat-sheet/artifacts",
+                          "models/ref/sdk-coding-cheat-sheet/registry"
+                        ]
+                      },
+                      "models/ref/python",
+                      {
+                        "group": "Global Functions",
+                        "pages": [
+                          "models/ref/python/functions",
+                          "models/ref/python/functions/agent",
+                          "models/ref/python/functions/controller",
+                          "models/ref/python/functions/finish",
+                          "models/ref/python/functions/init",
+                          "models/ref/python/functions/login",
+                          "models/ref/python/functions/restore",
+                          "models/ref/python/functions/setup",
+                          "models/ref/python/functions/sweep",
+                          "models/ref/python/functions/teardown"
+                        ]
+                      },
+                      {
+                        "group": "Data Types",
+                        "pages": [
+                          "models/ref/python/data-types",
+                          "models/ref/python/data-types/audio",
+                          "models/ref/python/data-types/box3d",
+                          "models/ref/python/data-types/histogram",
+                          "models/ref/python/data-types/html",
+                          "models/ref/python/data-types/image",
+                          "models/ref/python/data-types/molecule",
+                          "models/ref/python/data-types/object3d",
+                          "models/ref/python/data-types/plotly",
+                          "models/ref/python/data-types/table",
+                          "models/ref/python/data-types/video"
+                        ]
+                      },
+                      {
+                        "group": "Experiments",
+                        "pages": [
+                          "models/ref/python/experiments",
+                          "models/ref/python/experiments/artifact",
+                          "models/ref/python/experiments/run",
+                          "models/ref/python/experiments/settings",
+                          "models/ref/python/experiments/system-metrics"
+                        ]
+                      },
+                      {
+                        "group": "Automations",
+                        "pages": [
+                          "models/ref/python/automations",
+                          "models/ref/python/automations/automation",
+                          "models/ref/python/automations/donothing",
+                          "models/ref/python/public-api/downloadhistoryresult",
+                          "models/ref/python/public-api/incompleterunhistoryerror",
+                          "models/ref/python/automations/metricchangefilter",
+                          "models/ref/python/automations/metriczscorefilter",
+                          "models/ref/python/automations/metricthresholdfilter",
+                          "models/ref/python/automations/newautomation",
+                          "models/ref/python/automations/onaddartifactalias",
+                          "models/ref/python/automations/oncreateartifact",
+                          "models/ref/python/automations/onlinkartifact",
+                          "models/ref/python/automations/onrunmetric",
+                          "models/ref/python/automations/onrunstate",
+                          "models/ref/python/automations/runstatefilter",
+                          "models/ref/python/automations/sendnotification",
+                          "models/ref/python/automations/sendwebhook"
+                        ]
+                      },
+                      {
+                        "group": "Custom Charts",
+                        "pages": [
+                          "models/ref/python/custom-charts",
+                          "models/ref/python/custom-charts/bar",
+                          "models/ref/python/custom-charts/confusion_matrix",
+                          "models/ref/python/custom-charts/histogram",
+                          "models/ref/python/custom-charts/line_series",
+                          "models/ref/python/custom-charts/line",
+                          "models/ref/python/custom-charts/plot_table",
+                          "models/ref/python/custom-charts/pr_curve",
+                          "models/ref/python/custom-charts/roc_curve",
+                          "models/ref/python/custom-charts/scatter"
+                        ]
+                      },
+                      {
+                        "group": "Public API",
+                        "pages": [
+                          "models/ref/python/public-api",
+                          "models/ref/python/public-api/api",
+                          "models/ref/python/public-api/artifactcollection",
+                          "models/ref/python/public-api/artifactcollections",
+                          "models/ref/python/public-api/artifactfiles",
+                          "models/ref/python/public-api/artifacts",
+                          "models/ref/python/public-api/artifacttype",
+                          "models/ref/python/public-api/artifacttypes",
+                          "models/ref/python/public-api/automations",
+                          "models/ref/python/public-api/betareport",
+                          "models/ref/python/public-api/file",
+                          "models/ref/python/public-api/files",
+                          "models/ref/python/public-api/member",
+                          "models/ref/python/public-api/project",
+                          "models/ref/python/public-api/projects",
+                          "models/ref/python/public-api/projectartifactcollections",
+                          "models/ref/python/public-api/registry",
+                          "models/ref/python/public-api/reports",
+                          "models/ref/python/public-api/run",
+                          "models/ref/python/public-api/runartifacts",
+                          "models/ref/python/public-api/runs",
+                          "models/ref/python/public-api/sweep",
+                          "models/ref/python/public-api/sweeps",
+                          "models/ref/python/public-api/team",
+                          "models/ref/python/public-api/user"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Command Line Interface (CLI)",
+                    "pages": [
+                      "models/ref/cli",
+                      "models/ref/cli/wandb-agent",
+                      {
+                        "group": "wandb artifact",
+                        "pages": [
+                          "models/ref/cli/wandb-artifact",
+                          {
+                            "group": "artifact cache",
+                            "pages": [
+                              "models/ref/cli/wandb-artifact/wandb-artifact-cache",
+                              "models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
+                            ]
+                          },
+                          "models/ref/cli/wandb-artifact/wandb-artifact-get",
+                          "models/ref/cli/wandb-artifact/wandb-artifact-ls",
+                          "models/ref/cli/wandb-artifact/wandb-artifact-put"
+                        ]
+                      },
+                      {
+                        "group": "wandb beta",
+                        "pages": [
+                          "models/ref/cli/wandb-beta",
+                          {
+                            "group": "beta core",
+                            "pages": [
+                              "models/ref/cli/wandb-beta/wandb-beta-core",
+                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
+                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                            ]
+                          },
+                          {
+                            "group": "beta leet",
+                            "pages": [
+                              "models/ref/cli/wandb-beta/wandb-beta-leet",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
+                            ]
+                          },
+                          "models/ref/cli/wandb-beta/wandb-beta-sync"
+                        ]
+                      },
+                      "models/ref/cli/wandb-controller",
+                      "models/ref/cli/wandb-disabled",
+                      "models/ref/cli/wandb-docker",
+                      "models/ref/cli/wandb-docker-run",
+                      "models/ref/cli/wandb-enabled",
+                      "models/ref/cli/wandb-init",
+                      {
+                        "group": "wandb job",
+                        "pages": [
+                          "models/ref/cli/wandb-job",
+                          "models/ref/cli/wandb-job/wandb-job-create",
+                          "models/ref/cli/wandb-job/wandb-job-describe",
+                          "models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      "models/ref/cli/wandb-login",
+                      "models/ref/cli/wandb-offline",
+                      "models/ref/cli/wandb-online",
+                      "models/ref/cli/wandb-pull",
+                      "models/ref/cli/wandb-purge-cache",
+                      "models/ref/cli/wandb-restore",
+                      {
+                        "group": "wandb server",
+                        "pages": [
+                          "models/ref/cli/wandb-server",
+                          "models/ref/cli/wandb-server/wandb-server-start",
+                          "models/ref/cli/wandb-server/wandb-server-stop"
+                        ]
+                      },
+                      "models/ref/cli/wandb-status",
+                      "models/ref/cli/wandb-sweep",
+                      "models/ref/cli/wandb-sync",
+                      "models/ref/cli/wandb-verify"
+                    ]
+                  },
+                  {
+                    "group": "Query Expression Language",
+                    "pages": [
+                      "models/ref/query-panel",
+                      "models/ref/query-panel/artifact",
+                      "models/ref/query-panel/artifact-type",
+                      "models/ref/query-panel/artifact-version",
+                      "models/ref/query-panel/audio-file",
+                      "models/ref/query-panel/bokeh-file",
+                      "models/ref/query-panel/boolean",
+                      "models/ref/query-panel/entity",
+                      "models/ref/query-panel/file",
+                      "models/ref/query-panel/float",
+                      "models/ref/query-panel/html-file",
+                      "models/ref/query-panel/image-file",
+                      "models/ref/query-panel/int",
+                      "models/ref/query-panel/joined-table",
+                      "models/ref/query-panel/molecule-file",
+                      "models/ref/query-panel/number",
+                      "models/ref/query-panel/object-3-d-file",
+                      "models/ref/query-panel/partitioned-table",
+                      "models/ref/query-panel/project",
+                      "models/ref/query-panel/pytorch-model-file",
+                      "models/ref/query-panel/run",
+                      "models/ref/query-panel/string",
+                      "models/ref/query-panel/table",
+                      "models/ref/query-panel/user",
+                      "models/ref/query-panel/video-file"
+                    ]
+                  },
+                  {
+                    "group": "Reports and Workspaces API",
+                    "pages": [
+                      "models/ref/wandb_workspaces/reports",
+                      "models/ref/wandb_workspaces/workspaces"
+                    ]
+                  }
                 ]
               },
               {
                 "group": "W&B Weave",
                 "pages": [
-                  "weave/ref-link-python",
-                  "weave/ref-link-typescript",
-                  "weave/ref-link-service-api"
+                  "weave/reference",
+                  {
+                    "group": "Python SDK",
+                    "pages": [
+                      "weave/reference/python-sdk",
+                      {
+                        "group": "Core",
+                        "pages": [
+                          "weave/reference/python-sdk/trace/feedback",
+                          "weave/reference/python-sdk/trace/op",
+                          "weave/reference/python-sdk/trace/util",
+                          "weave/reference/python-sdk/trace/weave_client"
+                        ]
+                      },
+                      {
+                        "group": "Trace Server",
+                        "pages": [
+                          "weave/reference/python-sdk/trace_server/trace_server_interface"
+                        ]
+                      },
+                      {
+                        "group": "Trace Server Bindings",
+                        "pages": [
+                          "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "TypeScript SDK",
+                    "pages": [
+                      "weave/reference/typescript-sdk",
+                      {
+                        "group": "Classes",
+                        "pages": [
+                          "weave/reference/typescript-sdk/classes/dataset",
+                          "weave/reference/typescript-sdk/classes/evaluation",
+                          "weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "weave/reference/typescript-sdk/classes/messagesprompt",
+                          "weave/reference/typescript-sdk/classes/objectref",
+                          "weave/reference/typescript-sdk/classes/scorelogger",
+                          "weave/reference/typescript-sdk/classes/stringprompt",
+                          "weave/reference/typescript-sdk/classes/weaveclient",
+                          "weave/reference/typescript-sdk/classes/weaveobject"
+                        ]
+                      },
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "weave/reference/typescript-sdk/functions/init",
+                          "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
+                          "weave/reference/typescript-sdk/functions/login",
+                          "weave/reference/typescript-sdk/functions/op",
+                          "weave/reference/typescript-sdk/functions/patchrealtimesession",
+                          "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
+                          "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "weave/reference/typescript-sdk/functions/weaveaudio",
+                          "weave/reference/typescript-sdk/functions/weaveimage",
+                          "weave/reference/typescript-sdk/functions/withattributes",
+                          "weave/reference/typescript-sdk/functions/wrapgooglegenai",
+                          "weave/reference/typescript-sdk/functions/wrapopenai"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "weave/reference/typescript-sdk/interfaces/callschema",
+                          "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "weave/reference/typescript-sdk/interfaces/weaveimage"
+                        ]
+                      },
+                      {
+                        "group": "Type Aliases",
+                        "pages": [
+                          "weave/reference/typescript-sdk/type-aliases/op",
+                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Service API",
+                    "openapi": {
+                      "source": "weave/reference/service-api/openapi.json",
+                      "directory": "weave/reference/service-api"
+                    },
+                    "pages": [
+                      "weave/cookbooks/weave_via_service_api",
+                      "weave/reference/service-api"
+                    ]
+                  }
                 ]
               },
               {
                 "group": "W&B Inference",
                 "pages": [
-                  "inference/ref-link-api"
+                  "inference/api-reference",
+                  "inference/api-reference/chat-completions",
+                  "inference/api-reference/list-models"
                 ]
               },
               {
                 "group": "W&B Training",
+                "openapi": "training/api-reference/openapi.json",
                 "pages": [
-                  "training/ref-link-api"
+                  "training/api-reference"
                 ]
               }
             ]
@@ -544,248 +874,11 @@
               {
                 "group": "Reference",
                 "pages": [
-                  "models/ref",
-                  {
-                    "group": "Python",
-                    "pages": [
-                      {
-                        "group": "SDK Coding Cheat Sheet",
-                        "pages": [
-                          "models/ref/sdk-coding-cheat-sheet",
-                          "models/ref/sdk-coding-cheat-sheet/runs",
-                          "models/ref/sdk-coding-cheat-sheet/logging",
-                          "models/ref/sdk-coding-cheat-sheet/artifacts",
-                          "models/ref/sdk-coding-cheat-sheet/registry"
-                        ]
-                      },
-                      "models/ref/python",
-                      {
-                        "group": "Global Functions",
-                        "pages": [
-                          "models/ref/python/functions",
-                          "models/ref/python/functions/agent",
-                          "models/ref/python/functions/controller",
-                          "models/ref/python/functions/finish",
-                          "models/ref/python/functions/init",
-                          "models/ref/python/functions/login",
-                          "models/ref/python/functions/restore",
-                          "models/ref/python/functions/setup",
-                          "models/ref/python/functions/sweep",
-                          "models/ref/python/functions/teardown"
-                        ]
-                      },
-                      {
-                        "group": "Data Types",
-                        "pages": [
-                          "models/ref/python/data-types",
-                          "models/ref/python/data-types/audio",
-                          "models/ref/python/data-types/box3d",
-                          "models/ref/python/data-types/histogram",
-                          "models/ref/python/data-types/html",
-                          "models/ref/python/data-types/image",
-                          "models/ref/python/data-types/molecule",
-                          "models/ref/python/data-types/object3d",
-                          "models/ref/python/data-types/plotly",
-                          "models/ref/python/data-types/table",
-                          "models/ref/python/data-types/video"
-                        ]
-                      },
-                      {
-                        "group": "Experiments",
-                        "pages": [
-                          "models/ref/python/experiments",
-                          "models/ref/python/experiments/artifact",
-                          "models/ref/python/experiments/run",
-                          "models/ref/python/experiments/settings",
-                          "models/ref/python/experiments/system-metrics"
-                        ]
-                      },
-                      {
-                        "group": "Automations",
-                        "pages": [
-                          "models/ref/python/automations",
-                          "models/ref/python/automations/automation",
-                          "models/ref/python/automations/donothing",
-                          "models/ref/python/public-api/downloadhistoryresult",
-                          "models/ref/python/public-api/incompleterunhistoryerror",
-                          "models/ref/python/automations/metricchangefilter",
-                          "models/ref/python/automations/metriczscorefilter",
-                          "models/ref/python/automations/metricthresholdfilter",
-                          "models/ref/python/automations/newautomation",
-                          "models/ref/python/automations/onaddartifactalias",
-                          "models/ref/python/automations/oncreateartifact",
-                          "models/ref/python/automations/onlinkartifact",
-                          "models/ref/python/automations/onrunmetric",
-                          "models/ref/python/automations/onrunstate",
-                          "models/ref/python/automations/runstatefilter",
-                          "models/ref/python/automations/sendnotification",
-                          "models/ref/python/automations/sendwebhook"
-                        ]
-                      },
-                      {
-                        "group": "Custom Charts",
-                        "pages": [
-                          "models/ref/python/custom-charts",
-                          "models/ref/python/custom-charts/bar",
-                          "models/ref/python/custom-charts/confusion_matrix",
-                          "models/ref/python/custom-charts/histogram",
-                          "models/ref/python/custom-charts/line_series",
-                          "models/ref/python/custom-charts/line",
-                          "models/ref/python/custom-charts/plot_table",
-                          "models/ref/python/custom-charts/pr_curve",
-                          "models/ref/python/custom-charts/roc_curve",
-                          "models/ref/python/custom-charts/scatter"
-                        ]
-                      },
-                      {
-                        "group": "Public API",
-                        "pages": [
-                          "models/ref/python/public-api",
-                          "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/artifactcollection",
-                          "models/ref/python/public-api/artifactcollections",
-                          "models/ref/python/public-api/artifactfiles",
-                          "models/ref/python/public-api/artifacts",
-                          "models/ref/python/public-api/artifacttype",
-                          "models/ref/python/public-api/artifacttypes",
-                          "models/ref/python/public-api/automations",
-                          "models/ref/python/public-api/betareport",
-                          "models/ref/python/public-api/file",
-                          "models/ref/python/public-api/files",
-                          "models/ref/python/public-api/member",
-                          "models/ref/python/public-api/project",
-                          "models/ref/python/public-api/projects",
-                          "models/ref/python/public-api/projectartifactcollections",
-                          "models/ref/python/public-api/registry",
-                          "models/ref/python/public-api/reports",
-                          "models/ref/python/public-api/run",
-                          "models/ref/python/public-api/runartifacts",
-                          "models/ref/python/public-api/runs",
-                          "models/ref/python/public-api/sweep",
-                          "models/ref/python/public-api/sweeps",
-                          "models/ref/python/public-api/team",
-                          "models/ref/python/public-api/user"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "Command Line Interface (CLI)",
-                    "pages": [
-                      "models/ref/cli",
-                      "models/ref/cli/wandb-agent",
-                      {
-                        "group": "wandb artifact",
-                        "pages": [
-                          "models/ref/cli/wandb-artifact",
-                          {
-                            "group": "artifact cache",
-                            "pages": [
-                              "models/ref/cli/wandb-artifact/wandb-artifact-cache",
-                              "models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
-                            ]
-                          },
-                          "models/ref/cli/wandb-artifact/wandb-artifact-get",
-                          "models/ref/cli/wandb-artifact/wandb-artifact-ls",
-                          "models/ref/cli/wandb-artifact/wandb-artifact-put"
-                        ]
-                      },
-                      {
-                        "group": "wandb beta",
-                        "pages": [
-                          "models/ref/cli/wandb-beta",
-                          {
-                            "group": "beta core",
-                            "pages": [
-                              "models/ref/cli/wandb-beta/wandb-beta-core",
-                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
-                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
-                            ]
-                          },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
-                          "models/ref/cli/wandb-beta/wandb-beta-sync"
-                        ]
-                      },
-                      "models/ref/cli/wandb-controller",
-                      "models/ref/cli/wandb-disabled",
-                      "models/ref/cli/wandb-docker",
-                      "models/ref/cli/wandb-docker-run",
-                      "models/ref/cli/wandb-enabled",
-                      "models/ref/cli/wandb-init",
-                      {
-                        "group": "wandb job",
-                        "pages": [
-                          "models/ref/cli/wandb-job",
-                          "models/ref/cli/wandb-job/wandb-job-create",
-                          "models/ref/cli/wandb-job/wandb-job-describe",
-                          "models/ref/cli/wandb-job/wandb-job-list"
-                        ]
-                      },
-                      "models/ref/cli/wandb-login",
-                      "models/ref/cli/wandb-offline",
-                      "models/ref/cli/wandb-online",
-                      "models/ref/cli/wandb-pull",
-                      "models/ref/cli/wandb-purge-cache",
-                      "models/ref/cli/wandb-restore",
-                      {
-                        "group": "wandb server",
-                        "pages": [
-                          "models/ref/cli/wandb-server",
-                          "models/ref/cli/wandb-server/wandb-server-start",
-                          "models/ref/cli/wandb-server/wandb-server-stop"
-                        ]
-                      },
-                      "models/ref/cli/wandb-status",
-                      "models/ref/cli/wandb-sweep",
-                      "models/ref/cli/wandb-sync",
-                      "models/ref/cli/wandb-verify"
-                    ]
-                  },
-                  {
-                    "group": "Query Expression Language",
-                    "pages": [
-                      "models/ref/query-panel",
-                      "models/ref/query-panel/artifact",
-                      "models/ref/query-panel/artifact-type",
-                      "models/ref/query-panel/artifact-version",
-                      "models/ref/query-panel/audio-file",
-                      "models/ref/query-panel/bokeh-file",
-                      "models/ref/query-panel/boolean",
-                      "models/ref/query-panel/entity",
-                      "models/ref/query-panel/file",
-                      "models/ref/query-panel/float",
-                      "models/ref/query-panel/html-file",
-                      "models/ref/query-panel/image-file",
-                      "models/ref/query-panel/int",
-                      "models/ref/query-panel/joined-table",
-                      "models/ref/query-panel/molecule-file",
-                      "models/ref/query-panel/number",
-                      "models/ref/query-panel/object-3-d-file",
-                      "models/ref/query-panel/partitioned-table",
-                      "models/ref/query-panel/project",
-                      "models/ref/query-panel/pytorch-model-file",
-                      "models/ref/query-panel/run",
-                      "models/ref/query-panel/string",
-                      "models/ref/query-panel/table",
-                      "models/ref/query-panel/user",
-                      "models/ref/query-panel/video-file"
-                    ]
-                  },
-                  {
-                    "group": "Reports and Workspaces API",
-                    "pages": [
-                      "models/ref/wandb_workspaces/reports",
-                      "models/ref/wandb_workspaces/workspaces"
-                    ]
-                  }
+                  "models/ref-link-python",
+                  "models/ref-link-public-api",
+                  "models/ref-link-cli",
+                  "models/ref-link-query-panel",
+                  "models/ref-link-workspaces"
                 ]
               },
               "models/support-models"
@@ -1021,99 +1114,9 @@
               {
                 "group": "Reference",
                 "pages": [
-                  "weave/reference",
-                  {
-                    "group": "Python SDK",
-                    "pages": [
-                      "weave/reference/python-sdk",
-                      {
-                        "group": "Core",
-                        "pages": [
-                          "weave/reference/python-sdk/trace/feedback",
-                          "weave/reference/python-sdk/trace/op",
-                          "weave/reference/python-sdk/trace/util",
-                          "weave/reference/python-sdk/trace/weave_client"
-                        ]
-                      },
-                      {
-                        "group": "Trace Server",
-                        "pages": [
-                          "weave/reference/python-sdk/trace_server/trace_server_interface"
-                        ]
-                      },
-                      {
-                        "group": "Trace Server Bindings",
-                        "pages": [
-                          "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "TypeScript SDK",
-                    "pages": [
-                      "weave/reference/typescript-sdk",
-                      {
-                        "group": "Classes",
-                        "pages": [
-                          "weave/reference/typescript-sdk/classes/dataset",
-                          "weave/reference/typescript-sdk/classes/evaluation",
-                          "weave/reference/typescript-sdk/classes/evaluationlogger",
-                          "weave/reference/typescript-sdk/classes/messagesprompt",
-                          "weave/reference/typescript-sdk/classes/objectref",
-                          "weave/reference/typescript-sdk/classes/scorelogger",
-                          "weave/reference/typescript-sdk/classes/stringprompt",
-                          "weave/reference/typescript-sdk/classes/weaveclient",
-                          "weave/reference/typescript-sdk/classes/weaveobject"
-                        ]
-                      },
-                      {
-                        "group": "Functions",
-                        "pages": [
-                          "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
-                          "weave/reference/typescript-sdk/functions/init",
-                          "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
-                          "weave/reference/typescript-sdk/functions/login",
-                          "weave/reference/typescript-sdk/functions/op",
-                          "weave/reference/typescript-sdk/functions/patchrealtimesession",
-                          "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
-                          "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
-                          "weave/reference/typescript-sdk/functions/weaveaudio",
-                          "weave/reference/typescript-sdk/functions/weaveimage",
-                          "weave/reference/typescript-sdk/functions/withattributes",
-                          "weave/reference/typescript-sdk/functions/wrapgooglegenai",
-                          "weave/reference/typescript-sdk/functions/wrapopenai"
-                        ]
-                      },
-                      {
-                        "group": "Interfaces",
-                        "pages": [
-                          "weave/reference/typescript-sdk/interfaces/callschema",
-                          "weave/reference/typescript-sdk/interfaces/callsfilter",
-                          "weave/reference/typescript-sdk/interfaces/weaveaudio",
-                          "weave/reference/typescript-sdk/interfaces/weaveimage"
-                        ]
-                      },
-                      {
-                        "group": "Type Aliases",
-                        "pages": [
-                          "weave/reference/typescript-sdk/type-aliases/op",
-                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "Service API",
-                    "openapi": {
-                      "source": "weave/reference/service-api/openapi.json",
-                      "directory": "weave/reference/service-api"
-                    },
-                    "pages": [
-                      "weave/cookbooks/weave_via_service_api",
-                      "weave/reference/service-api"
-                    ]
-                  }
+                  "weave/ref-link-python",
+                  "weave/ref-link-typescript",
+                  "weave/ref-link-service-api"
                 ]
               },
               {
@@ -1155,9 +1158,7 @@
               {
                 "group": "API Reference",
                 "pages": [
-                  "inference/api-reference",
-                  "inference/api-reference/chat-completions",
-                  "inference/api-reference/list-models"
+                  "inference/ref-link-api"
                 ]
               },
               "inference/examples",
@@ -1189,9 +1190,8 @@
               },
               {
                 "group": "API Reference",
-                "openapi": "training/api-reference/openapi.json",
                 "pages": [
-                  "training/api-reference"
+                  "training/ref-link-api"
                 ]
               }
             ]
