@@ -9,28 +9,26 @@ Supported clients include Cursor, Visual Studio Code, Claude Code, OpenAI Codex,
 
 ## Which setup should I use?
 
-W&B offers three ways to run the MCP server. Pick the one that matches your deployment:
+The hosted MCP server is the default for every deployment. The only thing that differs between deployment types is the URL your client connects to. Running the server locally is an escape hatch when you need more flexibility than the hosted server offers.
 
-<CardGroup cols={3}>
-  <Card title="Multi-tenant Cloud">
-    Use the hosted server at `mcp.withwandb.com`. No installation required.
+<CardGroup cols={2}>
+  <Card title="Hosted server (recommended)">
+    A W&B-managed MCP server that your client connects to over HTTP with your W&B API key. No installation, no local process to maintain.
+
+    - Multi-tenant Cloud: `https://mcp.withwandb.com/mcp`.
+    - Dedicated Cloud or Self-Managed: `https://<your-instance>/mcp`, once W&B enables it on your deployment.
 
     [Use the hosted server](#use-the-hosted-server)
   </Card>
-  <Card title="Dedicated Cloud or Self-Managed">
-    Request enablement of the managed MCP server on your deployment. Your team connects to `https://<your-instance>/mcp` with an existing W&B API key.
-
-    [Use MCP on your deployment](#use-mcp-on-dedicated-cloud-or-self-managed)
-  </Card>
-  <Card title="Local install">
-    Run the MCP server on your machine. Useful for air-gapped environments, development, and clients that require STDIO.
+  <Card title="Local install (escape hatch)">
+    Run the MCP server on your own machine over STDIO or HTTP. Use when you need air-gapped operation, pinning to a specific release, custom server behavior, active server development, or support for a client that only speaks STDIO.
 
     [Run the MCP server locally](#run-the-mcp-server-locally)
   </Card>
 </CardGroup>
 
 <Tip>
-To request the managed MCP server on a Dedicated Cloud or Self-Managed instance, contact [W&B support](mailto:support@wandb.com) or your W&B account team.
+If you run W&B on Dedicated Cloud or Self-Managed and the hosted MCP server is not yet enabled on your instance, contact [W&B support](mailto:support@wandb.com) or your W&B account team to request it.
 </Tip>
 
 ## What you can do
@@ -168,7 +166,21 @@ Before you configure any client:
 
 ## Use the hosted server
 
-W&B runs a hosted MCP server at `https://mcp.withwandb.com` for Multi-tenant Cloud users. There is nothing to install. Configure your client to connect to `https://mcp.withwandb.com/mcp` with a bearer token.
+W&B runs a managed MCP server for every deployment type. There is nothing to install. Configure your client to connect over HTTP with a W&B API key in the `Authorization` header.
+
+### Connection URL
+
+The URL depends on where your W&B deployment lives.
+
+| Deployment | Server URL |
+|------------|------------|
+| Multi-tenant Cloud | `https://mcp.withwandb.com/mcp` |
+| Dedicated Cloud | `https://<your-instance>/mcp` |
+| Self-Managed | `https://<your-instance>/mcp` |
+
+For Dedicated Cloud and Self-Managed, the MCP server must first be enabled on your instance. Contact [W&B support](mailto:support@wandb.com) or your W&B account team to request it. Once enabled, your team authenticates with an existing W&B API key, exactly as they do against the W&B app.
+
+The client configurations below use the Multi-tenant URL. For Dedicated Cloud or Self-Managed, replace `https://mcp.withwandb.com/mcp` with `https://<your-instance>/mcp` and keep everything else the same.
 
 <Tabs>
 <Tab title="Cursor">
@@ -308,29 +320,19 @@ Pass the raw W&B API key as the `authorization` value. OpenAI prepends `Bearer `
 </Tab>
 </Tabs>
 
-## Use MCP on Dedicated Cloud or Self-Managed
-
-The hosted server at `mcp.withwandb.com` targets Multi-tenant Cloud. [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed) customers have two options.
-
-### Request the managed MCP server on your deployment
-
-W&B can enable a managed MCP server on your Dedicated Cloud or Self-Managed instance. Once enabled:
-
-- The server is reachable at `https://<your-instance>/mcp`.
-- Your team authenticates with an existing W&B API key, the same way they authenticate to the W&B app.
-- The same tools described in [What you can do](#what-you-can-do) are available.
-
-To request enablement, contact [W&B support](mailto:support@wandb.com) or your W&B account team. Once the server is available, configure your MCP client as shown in [Use the hosted server](#use-the-hosted-server), replacing the `https://mcp.withwandb.com/mcp` URL with `https://<your-instance>/mcp`.
-
-### Self-serve from the open-source repo
-
-For air-gapped environments, development work, or instances where the managed MCP is not yet enabled, you can run the MCP server locally from the [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) open-source repository and point it at your instance.
-
-Install and configure the local server as described in [Run the MCP server locally](#run-the-mcp-server-locally), and set `WANDB_BASE_URL` to your instance URL.
-
 ## Run the MCP server locally
 
-Run the MCP server on your own machine for air-gapped environments, development, testing, or clients that only support STDIO.
+Running the MCP server locally is an escape hatch, not the default path for any particular deployment. Use it when the hosted server does not fit your setup.
+
+Common reasons to run locally:
+
+- **Air-gapped or offline environments** where your client cannot reach a hosted W&B endpoint.
+- **Pinned version**. The hosted server follows the main branch. A local install can pin to a specific release tag.
+- **Custom server behavior** such as changing tool descriptions, adding tools, or setting a non-default response token budget.
+- **Active development** on the server itself.
+- **STDIO-only clients** or clients that require a local process.
+
+For Dedicated Cloud or Self-Managed users, the hosted path is preferred. Only fall back to a local install from [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) if the hosted server is not yet enabled on your instance or one of the reasons above applies. Set `WANDB_BASE_URL` to your instance URL.
 
 ### Local prerequisites
 
@@ -530,8 +532,8 @@ The following practices apply to everyone. Read the subsection that matches your
 
 ### For Dedicated Cloud and Self-Managed
 
-- Always set `WANDB_BASE_URL` (on the server, or in your client env block) to your instance URL. Without it, the server targets `api.wandb.ai` and no data will be found.
-- The managed MCP server exposes the same tools as the hosted Multi-tenant server.
+- Prefer the hosted server on your instance at `https://<your-instance>/mcp`. It exposes the same tools as the Multi-tenant server with no client-side `WANDB_BASE_URL` needed. Only fall back to a local install if the hosted server is not yet enabled.
+- When you do run locally against your instance, set `WANDB_BASE_URL` to your instance URL in the client's `env` block. Without it, the server targets `api.wandb.ai` and no data will be found.
 - Rate limits on Dedicated Cloud are separate from Multi-tenant. See [Dedicated Cloud rate limits](/platform/hosting/hosting-options/dedicated-cloud/rate-limits) for defaults and how to request changes.
 
 ### For local installs
@@ -546,7 +548,7 @@ The following practices apply to everyone. Read the subsection that matches your
 |---------|---------------|
 | `401 Unauthorized` or `Invalid API key` | Your W&B API key is missing, malformed, or not authorized for the target entity. Regenerate a key at [wandb.ai/authorize](https://wandb.ai/authorize) and confirm it is passed as a bearer token or set in `WANDB_API_KEY`. |
 | Empty results for queries you expect to succeed | The entity or project name is incorrect, or the API key does not have access. Confirm both with the agent and retry. |
-| Cannot reach `mcp.withwandb.com/mcp` from Dedicated Cloud or Self-Managed | The hosted server targets Multi-tenant Cloud only. Use [MCP on your deployment](#use-mcp-on-dedicated-cloud-or-self-managed) instead. |
+| `404 Not Found` or `connection refused` on `https://<your-instance>/mcp` | The hosted MCP server is not yet enabled on your Dedicated Cloud or Self-Managed instance, or the client is pointed at the wrong URL. Contact [W&B support](mailto:support@wandb.com) to request enablement, then confirm the URL in [Connection URL](#connection-url). |
 | `429 Too Many Requests` on Dedicated Cloud | You have hit your instance's rate limits. See [Dedicated Cloud rate limits](/platform/hosting/hosting-options/dedicated-cloud/rate-limits) for how to request higher limits. |
 | Local server cannot find `uvx` in Claude Desktop | Use the full path to `uvx` in the `command` field of `claude_desktop_config.json`. |
 
