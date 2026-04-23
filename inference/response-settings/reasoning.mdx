@@ -3,15 +3,17 @@ title: "View reasoning information"
 description: How to return and view reasoning in your W&B Inference responses
 ---
 
-Reasoning models, like [OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b), include information about their reasoning steps as part of the output returned in addition to the final answer. This is automatic and no additional input parameters are needed.
+Reasoning models, like [OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b), include information about their reasoning steps as part of the output returned in addition to the final answer.
 
-You can determine whether a model supports reasoning or not by checking the Supported Features section of its catalog page in the UI.
+You can determine whether a model supports reasoning or not by checking the [Supported Models](#supported-models) table below or the Supported Features section of its catalog page in the UI.
 
 You can find reasoning information in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
 
+Models that support reasoning might default to not reasoning, default to reasoning enabled, or always reason. The per-model behavior is  [documented below](#supported-models). When calling the model, we recommend setting the `enable_thinking` boolean flag, as shown below, to clearly indicate the intended behavior.
+
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python highlight={13-17}
     import openai
 
     client = openai.OpenAI(
@@ -24,6 +26,11 @@ You can find reasoning information in the `reasoning` field of responses. The va
         messages=[
             {"role": "user", "content": "3.11 and 3.8, which is greater?"}
         ],
+        extra_body={
+            "chat_template_kwargs": {
+                "enable_thinking": True
+            }
+        },
     )
 
     print(response.choices[0].message.reasoning)
@@ -32,7 +39,7 @@ You can find reasoning information in the `reasoning` field of responses. The va
     ```
   </Tab>
   <Tab title="Bash">
-    ```bash
+    ```bash highlight={9}
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer <your-api-key>" \
@@ -40,8 +47,27 @@ You can find reasoning information in the `reasoning` field of responses. The va
         "model": "openai/gpt-oss-20b",
         "messages": [
           { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ]
+        ],
+        "chat_template_kwargs": {"enable_thinking": true}
       }'
     ```
   </Tab>
 </Tabs>
+
+## Supported Models
+
+The following models support reasoning mode:
+
+{/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
+| Model ID (for API usage)                       | Support            |
+| ---------------------------------------------- | ------------------ |
+| `google/gemma-4-31B-it`                        | Enabled by default |
+| `MiniMaxAI/MiniMax-M2.5`                       | Always on          |
+| `moonshotai/Kimi-K2.5`                         | Always on          |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Enabled by default |
+| `openai/gpt-oss-120b`                          | Always on          |
+| `openai/gpt-oss-20b`                           | Always on          |
+| `Qwen/Qwen3.5-35B-A3B`                         | Enabled by default |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on          |
+| `zai-org/GLM-5.1`                              | Enabled by default |
+| `zai-org/GLM-5-FP8`                            | Enabled by default |
