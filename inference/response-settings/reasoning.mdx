@@ -3,60 +3,16 @@ title: "View reasoning information"
 description: How to return and view reasoning in your W&B Inference responses
 ---
 
-Reasoning models, like [OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b), include information about their reasoning steps as part of the output returned in addition to the final answer.
+Reasoning models, like [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), include information about their reasoning steps as part of the output returned in addition to the final answer.
 
 You can determine whether a model supports reasoning or not by checking the [Supported Models](#supported-models) table below or the Supported Features section of its catalog page in the UI.
 
 You can find reasoning information in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
 
-Models that support reasoning might default to not reasoning, default to reasoning enabled, or always reason. The per-model behavior is  [documented below](#supported-models). When calling the model, we recommend setting the `enable_thinking` boolean flag, as shown below, to clearly indicate the intended behavior.
-
-<Tabs>
-  <Tab title="Python">
-    ```python highlight={13-17}
-    import openai
-
-    client = openai.OpenAI(
-        base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
-    )
-
-    response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
-        messages=[
-            {"role": "user", "content": "3.11 and 3.8, which is greater?"}
-        ],
-        extra_body={
-            "chat_template_kwargs": {
-                "enable_thinking": True
-            }
-        },
-    )
-
-    print(response.choices[0].message.reasoning)
-    print("--------------------------------")
-    print(response.choices[0].message.content)
-    ```
-  </Tab>
-  <Tab title="Bash">
-    ```bash highlight={9}
-    curl https://api.inference.wandb.ai/v1/chat/completions \
-      -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -d '{
-        "model": "openai/gpt-oss-20b",
-        "messages": [
-          { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ],
-        "chat_template_kwargs": {"enable_thinking": true}
-      }'
-    ```
-  </Tab>
-</Tabs>
 
 ## Supported Models
 
-The following models support reasoning mode:
+Models that support reasoning might default to not reasoning, default to reasoning enabled, or always include reasoning. The per-model behavior is documented in the following table:
 
 {/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
 | Model ID (for API usage)                       | Support            |
@@ -71,3 +27,50 @@ The following models support reasoning mode:
 | `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on          |
 | `zai-org/GLM-5.1`                              | Enabled by default |
 | `zai-org/GLM-5-FP8`                            | Enabled by default |
+
+## Disabling reasoning
+
+If a model is listed as "Enabled by default" in the [table above](#supported-models), you have the option of disabling reasoning:
+
+<Tabs>
+  <Tab title="Python">
+    ```python highlight={13-17}
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
+    )
+
+    response = client.chat.completions.create(
+        model="google/gemma-4-31B-it",
+        messages=[
+            {"role": "user", "content": "3.11 and 3.8, which is greater?"}
+        ],
+        extra_body={
+            "chat_template_kwargs": {
+                "enable_thinking": False
+            }
+        },
+    )
+    ```
+  </Tab>
+  <Tab title="Bash">
+    ```bash highlight={9}
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "google/gemma-4-31B-it",
+        "messages": [
+          { "role": "user", "content": "3.11 and 3.8, which is greater?" }
+        ],
+        "chat_template_kwargs": {"enable_thinking": false}
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+## Enabling reasoning
+
+To enable reasoning for a model that is "Disabled by default" in the [table above](#supported-models), set the `enable_thinking` flag as in the code snippet above but with the value `True` (Python) or `true` (curl).
