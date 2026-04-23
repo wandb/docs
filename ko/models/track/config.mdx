@@ -207,6 +207,32 @@ api_run.config["bar"] = 32
 api_run.update()
 ```
 
+<div id="highlight-config-values">
+  ## 설정 값 강조 표시
+</div>
+
+run 개요 페이지 상단의 **References** 섹션에 설정 키를 고정하세요.
+
+Python SDK에서 [`wandb.Run.pin_config_keys`](/ko/models/ref/python/experiments/run#method-run-pin_config_keys)를 사용해 하나 이상의 설정 키를 고정할 수 있습니다.
+
+예를 들어, Grafana 대시보드를 사용해 트레이닝 runs를 모니터링하는 경우 대시보드 URL을 설정에 추가하고 `grafana_url` 키를 고정하세요:
+
+```python
+config = {
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
+    "grafana_url": "[Grafana dashboard](https://my-grafana-instance.com/)"
+}
+
+with wandb.init(config=config) as run:
+    # "grafana_url" 설정 키를 References 섹션에 추가합니다.
+    run.pin_config_keys(["grafana_url"])
+```
+
 <div id="abslflags">
   ## `absl.FLAGS`
 </div>

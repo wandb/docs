@@ -265,7 +265,7 @@ Amazon SageMaker の[キュー](#decide-where-to-run-the-launch-agent)で Launch
     これで、Launch エージェントの設定に進むことができます。
   </Tab>
 
-  <Tab title="Local machine">
+  <Tab title="ローカルマシン">
     ローカルマシンでポーリングするエージェントにロールを関連付けるには、`~/.aws/config` と `~/.aws/credentials` にある AWS 設定ファイルを使用します。前の step で作成した Launch エージェント用 IAM ロールの ARN を指定します。
 
     ```yaml title="~/.aws/config"
@@ -311,7 +311,6 @@ builder:
 ```
 
 次に、`wandb launch-agent` を実行してエージェントを起動します
-
 
 <div id="optional-push-your-launch-job-docker-image-to-amazon-ecr">
   ## &#x20;(任意) Launch ジョブ の Docker イメージを Amazon ECR にプッシュする

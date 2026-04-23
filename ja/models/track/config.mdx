@@ -207,6 +207,32 @@ api_run.config["bar"] = 32
 api_run.update()
 ```
 
+<div id="highlight-config-values">
+  ## 設定値をハイライトする
+</div>
+
+run の概要ページ上部にある **References** セクションに、設定キーをピン留めできます。
+
+Python SDK で 1 つ以上の設定キーをピン留めするには、[`wandb.Run.pin_config_keys`](/ja/models/ref/python/experiments/run#method-run-pin_config_keys) を使用します。
+
+たとえば、Grafana ダッシュボードを使用してトレーニング用の run を監視している場合は、ダッシュボードの URL を設定に追加し、`grafana_url` キーをピン留めします。
+
+```python
+config = {
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
+    "grafana_url": "[Grafana dashboard](https://my-grafana-instance.com/)"
+}
+
+with wandb.init(config=config) as run:
+    # "grafana_url" 設定キーを References セクションに追加する。
+    run.pin_config_keys(["grafana_url"])
+```
+
 <div id="abslflags">
   ## `absl.FLAGS`
 </div>
