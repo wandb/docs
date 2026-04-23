@@ -1,123 +1,224 @@
 ---
-title: Use the W&B MCP Server
-description: "Connect your IDE or AI agent to the W&B Model Context Protocol (MCP) server to access your workspace data and documentation."
+title: Use the W&B MCP server
+description: "Connect your IDE or AI agent to the W&B Model Context Protocol (MCP) server to query and analyze your W&B data and documentation in natural language."
 ---
 
-import McpConfig from '/snippets/_includes/mcp-config.mdx';
+The W&B Model Context Protocol (MCP) server exposes your W&B data as a set of tools that any [MCP](https://modelcontextprotocol.io) client can call. Connect your IDE or AI agent to the server and ask it to analyze experiments, debug Weave traces, generate reports, inspect artifacts and registry, and search W&B documentation, all without writing custom GraphQL or SDK code.
 
-Model Context Protocol (MCP) lets an LLM agent query and analyze data efficiently to minimize cost in tokens. This page shows how to use the W&B MCP server to query and analyze your W&B data from your IDE or MCP client and give your client programmatic access to W&B's documentation, so it can generate more accurate responses to W&B-related queries.
+Supported clients include Cursor, Visual Studio Code, Claude Code, OpenAI Codex, Gemini CLI, Mistral LeChat, Claude Desktop, and the OpenAI Responses API.
 
-It integrates natively with most IDEs, coding clients, and chat agents, including:
-* Cursor
-* Visual Studio Code (VS Code)
-* Claude Code
-* Codex
-* Gemini CLI
-* Mistral LeChat
-* Claude Desktop
+## Which setup should I use?
 
-The W&B MCP server supports [hosted](#use-w&b’s-remote-mcp-server) and [local](#set-up-a-local-version-of-the-w&b-mcp-server) variants. The hosted version only supports [W&B Dedicated Cloud deployments](/platform/hosting/hosting-options/dedicated-cloud). The local version supports both Dedicated Cloud and [Self-Managed deployments](/platform/hosting/hosting-options/self-managed).
+W&B offers three ways to run the MCP server. Pick the one that matches your deployment:
 
-## W&B MCP Server capabilities
+<CardGroup cols={3}>
+  <Card title="Multi-tenant Cloud" icon="cloud">
+    Use the hosted server at `mcp.withwandb.com`. No installation required.
 
-You can use the MCP server to analyze experiments, debug traces, create reports, and get help with integrating your applications with W&B features.
+    [Use the hosted server](#use-the-hosted-server)
+  </Card>
+  <Card title="Dedicated Cloud or Self-Managed" icon="building">
+    Request enablement of the managed MCP server on your deployment. Your team connects to `https://<your-instance>/mcp` with an existing W&B API key.
 
-The following example prompts demonstrate some of the types of tasks your agent can do when connected to the MCP server:
+    [Use MCP on your deployment](#use-mcp-on-dedicated-cloud-or-self-managed)
+  </Card>
+  <Card title="Local install" icon="laptop-code">
+    Run the MCP server on your machine. Useful for air-gapped environments, development, and clients that require STDIO.
 
-* Show me the top 5 runs by eval/accuracy in your-team-name/your-project-name?
-* How did the latency of my hiring agent predict traces evolve over the last few months?
-* Generate a wandb report comparing the decisions made by the hiring agent last month.
-* How do I create a leaderboard in Weave - ask SupportBot?
+    [Run the MCP server locally](#run-the-mcp-server-locally)
+  </Card>
+</CardGroup>
+
+<Tip>
+To request the managed MCP server on a Dedicated Cloud or Self-Managed instance, contact [W&B support](mailto:support@wandb.com) or your W&B account team.
+</Tip>
+
+## What you can do
+
+Use the MCP server to analyze experiments, debug traces, create reports, manage registry and artifacts, and answer questions from the W&B docs. The following are representative prompts:
+
+- "Show me the top 5 runs by `eval/accuracy` in `your-team/your-project`."
+- "How did the latency of my hiring agent's `predict` traces evolve over the last month?"
+- "Generate a W&B report comparing decisions made by the hiring agent last week."
+- "What versions of the `production-model` artifact exist, and what changed between `v2` and `v3`?"
+- "How do I create a leaderboard in Weave?"
 
 ### Available tools
 
-The W&B MCP server gives your agents access to the following tools:
+The server registers the following tools. The exact set depends on the server version and whether docs search is enabled.
 
-| Tool | Description | Example Query |
-|------|-------------|---------------|
-| **query_wandb_tool** | Query W&B runs, metrics, and experiments | *"Show me runs with loss < 0.1"* |
-| **query_weave_traces_tool** | Analyze LLM traces and evaluations | *"What's the average latency?"* |
-| **count_weave_traces_tool** | Count traces and get storage metrics | *"How many traces failed?"* |
-| **create_wandb_report_tool** | Create W&B reports programmatically | *"Create a performance report"* |
-| **query_wandb_entity_projects** | List projects for an entity | *"What projects exist?"* |
-| **query_wandb_support_bot** | Get help from W&B documentation | *"How do I use sweeps?"* |
+<Tabs>
+  <Tab title="Experiments and runs">
+    | Tool | Description |
+    |------|-------------|
+    | `query_wandb_tool` | Query W&B runs, metrics, configs, and summaries using GraphQL. |
+    | `get_run_history_tool` | Retrieve sampled time-series metric data for a run. |
+    | `query_wandb_entity_projects` | List projects visible to an entity. |
+  </Tab>
+  <Tab title="Weave traces">
+    | Tool | Description |
+    |------|-------------|
+    | `infer_trace_schema_tool` | Discover field names, types, and sample values before you query. |
+    | `query_weave_traces_tool` | Query Weave traces with a configurable `detail_level` and column projection. |
+    | `count_weave_traces_tool` | Count traces and retrieve storage metrics. |
+  </Tab>
+  <Tab title="Reports">
+    | Tool | Description |
+    |------|-------------|
+    | `create_wandb_report_tool` | Create W&B reports with Markdown, line plots, bar plots, and run comparisons. Accepts a `panels` parameter. |
+    | `log_analysis_to_wandb` | Log analysis results from the current MCP session to W&B as a run. |
+  </Tab>
+  <Tab title="Artifacts and registry">
+    | Tool | Description |
+    |------|-------------|
+    | `list_registries_tool` | List model registries in an organization. |
+    | `list_registry_collections_tool` | List collections within a registry. |
+    | `list_artifact_versions_tool` | List versions of an artifact collection. |
+    | `get_artifact_details_tool` | Get full details for an artifact version. |
+    | `compare_artifact_versions_tool` | Diff two artifact versions. |
+  </Tab>
+  <Tab title="Docs">
+    | Tool | Description |
+    |------|-------------|
+    | `search_wandb_docs_tool` | Search the official W&B documentation at [docs.wandb.ai](https://docs.wandb.ai). Controlled by `WANDB_MCP_PROXY_DOCS` (enabled by default). |
+  </Tab>
+</Tabs>
 
+### Schema-first trace queries
 
-## Use W&B's remote MCP server
+For Weave trace queries, call `infer_trace_schema_tool` first to discover available fields, then call `query_weave_traces_tool` with a precise column list and `detail_level`:
 
-W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no installation. The following instructions show how to configure the hosted server with various AI assistants and IDEs.
+| `detail_level` | When to use |
+|----------------|-------------|
+| `schema` | Structural fields only. Fastest. Use for browsing and counting. |
+| `summary` | Truncated inputs and outputs. The default. |
+| `full` | Everything untruncated. Use to drill into a small number of specific traces. |
 
-### Prerequisites
+This pattern keeps token usage low for broad questions and lets the agent escalate to `full` only for the traces that matter.
 
-* A W&B Dedicated Cloud deployment.
-* A W&B API key. You can create a new one at [wandb.ai/authorize](https://wandb.ai/authorize).
-* Set your key as an environment variable named `WANDB_API_KEY`.
+## Prerequisites
 
-### Configure your MCP client
+Before you configure any client:
 
-Select the tab containing your MCP client's instructions:
+- A W&B API key. Create one at [wandb.ai/authorize](https://wandb.ai/authorize).
+- Set the key as the `WANDB_API_KEY` environment variable, or pass it to your client as a bearer token.
+- For Dedicated Cloud, Self-Managed, and local installs against a non-default instance, set the `WANDB_BASE_URL` environment variable to your instance URL.
+
+## Use the hosted server
+
+W&B runs a hosted MCP server at `https://mcp.withwandb.com` for Multi-tenant Cloud users. There is nothing to install. Configure your client to connect to `https://mcp.withwandb.com/mcp` with a bearer token.
 
 <Tabs>
 <Tab title="Cursor">
 
-You can install the W&B server in Cursor automatically using a [one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually using the following instructions:
+Install the server in Cursor automatically with the [one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=), then replace `YOUR_WANDB_API_KEY` with your W&B API key in the `Authorization` field.
 
-1. On macOS, open the **Cursor** menu, select **Settings**, and then select **Cursor Settings**. On Windows or Linux, open the **Preferences** menu, select **Settings**, and then select **Cursor Settings**.
-2. From the Cursor Settings menu, select **Tools and MCP**. This opens the Tools menu. 
-3. In the Installed MCP Servers section, select **Add Custom MCP**. This opens the `mcp.json` configuration file.
-4. In the configuration file, in the `mcpServers` JSON object, add the following `wandb` object:
+To configure Cursor manually:
 
-  ```json
-  {
-    "mcpServers": {
-      "wandb": {
-        "transport": "http",
-        "url": "https://mcp.withwandb.com/mcp",
-        "headers": {
-          "Authorization": "Bearer <your-wandb-api-key>",
-          "Accept": "application/json, text/event-stream"
+1. On macOS, open **Cursor** > **Settings** > **Cursor Settings**. On Windows or Linux, open **Preferences** > **Settings** > **Cursor Settings**.
+2. Select **Tools and MCP**.
+3. In **Installed MCP Servers**, select **Add Custom MCP**. Cursor opens the `mcp.json` configuration file.
+4. Add the following to the `mcpServers` object:
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "transport": "http",
+          "url": "https://mcp.withwandb.com/mcp",
+          "headers": {
+            "Authorization": "Bearer <your-wandb-api-key>",
+            "Accept": "application/json, text/event-stream"
+          }
         }
       }
     }
+    ```
+
+5. Restart Cursor.
+6. Verify the connection by asking the agent "List the projects in my W&B account."
+
+For more information, see [Cursor's MCP documentation](https://cursor.com/docs/context/mcp).
+</Tab>
+<Tab title="VS Code">
+
+Open your global or workspace `mcp.json` (for example, `~/.vscode/mcp.json` or `.vscode/mcp.json`) and add the following:
+
+```json
+{
+  "servers": {
+    "wandb": {
+      "type": "http",
+      "url": "https://mcp.withwandb.com/mcp",
+      "headers": {
+        "Authorization": "Bearer <your-wandb-api-key>"
+      }
+    }
   }
+}
 ```
 
-5. Restart Cursor to make the changes take effect.
-6. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
-
-For more detailed information, see [Cursor's documentation](https://cursor.com/docs/context/mcp).
-
+Restart VS Code and confirm the server appears in the MCP panel.
 </Tab>
 <Tab title="Claude Code">
 
-To add the W&B MCP server to Claude Code, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
+Run the following command in your terminal, replacing the bearer token with your W&B API key:
 
 ```bash
 claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
   --header "Authorization: Bearer <your-wandb-api-key>"
 ```
 
-Add `--scope user` for a global configuration, or omit it to configure for the current project only.
+Add `--scope user` to configure Claude Code globally. Omit it to configure only the current project.
 
-For more detailed information, see [Claude Code's documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
-
+For more information, see [Claude Code's MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
 </Tab>
 <Tab title="Codex">
 
-To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
+Export your W&B API key as an environment variable, then run:
 
 ```bash
 export WANDB_API_KEY=<your-wandb-api-key>
-codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
+codex mcp add wandb \
+  --url https://mcp.withwandb.com/mcp \
+  --bearer-token-env-var WANDB_API_KEY
+```
+</Tab>
+<Tab title="Gemini CLI">
+
+Install the W&B MCP extension:
+
+```bash
+gemini extensions install https://github.com/wandb/wandb-mcp-server
 ```
 
+Restart Gemini CLI. Verify the connection by asking "List the projects in my W&B account."
+
+For more information, see [Gemini CLI's MCP documentation](https://geminicli.com/docs/tools/mcp-server/).
 </Tab>
-<Tab title="OpenAI">
-To add the W&B MCP server to your OpenAI calls, add the server's information to the `tools` field of your OpenAI responses configuration:
+<Tab title="Mistral LeChat">
+
+1. In LeChat, open the **Intelligence** menu and select **Add Connector**.
+2. Select **Custom MCP Connector**.
+3. Configure the following fields:
+    - **Connector Server**: `https://mcp.withwandb.com/mcp`
+    - **Description**: (Optional) A short description.
+    - **Authentication Method**: Select **API Token Authentication**.
+    - **Header name**: Leave as `Authorization`.
+    - **Header type**: Select **Bearer**.
+    - **Header value**: Your W&B API key.
+4. Select **Create**.
+5. Verify the connection by asking "List the projects in my W&B account."
+
+For more information, see [LeChat's MCP documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
+</Tab>
+<Tab title="OpenAI Responses API">
+
+Add the server to the `tools` field of your OpenAI Responses API call:
 
 ```python
-from openai import OpenAI
 import os
+from openai import OpenAI
 
 client = OpenAI()
 
@@ -128,7 +229,7 @@ resp = client.responses.create(
         "server_label": "wandb",
         "server_description": "Query W&B data",
         "server_url": "https://mcp.withwandb.com/mcp",
-        "authorization": os.getenv("<your-wandb-api-key>"),
+        "authorization": os.getenv("WANDB_API_KEY"),
         "require_approval": "never",
     }],
     input="List the projects in my W&B account.",
@@ -136,63 +237,52 @@ resp = client.responses.create(
 
 print(resp.output_text)
 ```
-</Tab>
-<Tab title="Gemini CLI">
-To add the W&B MCP server to Gemini CLI:
 
-1. Install the W&B MCP extension with a single command:
-
-    ```bash
-    # Install the extension
-    gemini extensions install https://github.com/wandb/wandb-mcp-server
-    ```
-2. Once installed, restart the Gemini CLI.
-3. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
-
-For more detailed information, see [Gemini's documentation](https://geminicli.com/docs/tools/mcp-server/).
-</Tab>
-<Tab title="Mistral LeChat">
-To add the W&B MCP server to Mistral LeChat: 
-
-1. From the **Intelligence** menu, select **Add Connector** to open the Connector window.
-2. Select the **Custom MCP Connector** tab.
-3. Configure the fields using the following values:
-
-    - **Connector Server**: `https://mcp.withwandb.com/mcp`
-    - **Description**: (Optional) A brief arbitrary description of the connection.
-    - **Authentication Method**: Select **API Token Authentication**. This opens additional fields.
-    - **Header name**: Leave the default value, **Authorization**.
-    - **Header type**: Select **Bearer**.
-    - **Header value**: Enter your W&B API token.
-
-3. Once you have configured all the fields, select **Create**. LeChat adds the MCP server to your configuration.
-4. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
-
-For more detailed information, see [LeChat's documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
+The OpenAI MCP integration runs server-side, so it cannot reach a local MCP server. For local development, see [Run the MCP server locally](#run-the-mcp-server-locally).
 </Tab>
 </Tabs>
 
-## Set up a local version of the W&B MCP server
+## Use MCP on Dedicated Cloud or Self-Managed
 
-If you need to run the MCP server locally for W&B Self-Managed deployments, development, testing, or air-gapped environments, you can install and run it on your machine.
+The hosted server at `mcp.withwandb.com` targets Multi-tenant Cloud. [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed) customers have two options.
 
-### Prerequisites
+### Request the managed MCP server on your deployment
 
-* A W&B API key. You can create a new one at [wandb.ai/authorize](https://wandb.ai/authorize).
-* Set your key as an environment variable named `WANDB_API_KEY`.
-* Set the `WANDB_BASE_URL` environment variable if you are using [W&B Self-Managed](/platform/hosting/hosting-options/self-managed).
-* Python 3.10 or higher
-* [uv](https://docs.astral.sh/uv/) (recommended) or pip
+W&B can enable a managed MCP server on your Dedicated Cloud or Self-Managed instance. Once enabled:
 
-See uv's docs for [installation instructions](https://docs.astral.sh/uv/getting-started/installation/).
+- The server is reachable at `https://<your-instance>/mcp`.
+- Your team authenticates with an existing W&B API key, the same way they authenticate to the W&B app.
+- The same tools described in [What you can do](#what-you-can-do) are available.
 
-### Install and configure the MCP server
+To request enablement, contact [W&B support](mailto:support@wandb.com) or your W&B account team. Once the server is available, configure your MCP client as shown in [Use the hosted server](#use-the-hosted-server), replacing the `https://mcp.withwandb.com/mcp` URL with `https://<your-instance>/mcp`.
 
-To install the MPC server locally:
+### Self-serve from the open-source repo
 
-To install the W&B MCP server on your local machine, use one of the following installation commands:
- 
+For air-gapped environments, development work, or instances where the managed MCP is not yet enabled, you can run the MCP server locally from the [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) open-source repository and point it at your instance.
+
+Install and configure the local server as described in [Run the MCP server locally](#run-the-mcp-server-locally), and set `WANDB_BASE_URL` to your instance URL.
+
+## Run the MCP server locally
+
+Run the MCP server on your own machine for air-gapped environments, development, testing, or clients that only support STDIO.
+
+### Local prerequisites
+
+- Python 3.11 or higher.
+- [`uv`](https://docs.astral.sh/uv/) is recommended. For installation instructions, see the [uv documentation](https://docs.astral.sh/uv/getting-started/installation/). You can use `pip` instead.
+- A W&B API key, set as `WANDB_API_KEY`.
+- `WANDB_BASE_URL` set to your instance URL if you use Dedicated Cloud or Self-Managed.
+
+### Install the server
+
+Choose an install method:
+
 <Tabs>
+<Tab title="uvx (no install)">
+```bash
+uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+```
+</Tab>
 <Tab title="uv">
 ```bash
 uv pip install wandb-mcp-server
@@ -203,14 +293,16 @@ uv pip install wandb-mcp-server
 pip install wandb-mcp-server
 ```
 </Tab>
-<Tab title="Install directly from GitHub">
+<Tab title="Install from GitHub">
 ```bash
 pip install git+https://github.com/wandb/wandb-mcp-server
 ```
 </Tab>
 </Tabs>
 
-Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue:
+### Configure your client
+
+Select your MCP client:
 
 <Tabs>
 <Tab title="Cursor">
@@ -236,6 +328,7 @@ Add the following to your `mcp.json` configuration:
 }
 ```
 
+Omit `WANDB_BASE_URL` to use the default W&B API endpoint.
 </Tab>
 <Tab title="VS Code">
 
@@ -262,35 +355,32 @@ Add the following to your `.vscode/mcp.json` or global MCP configuration:
 </Tab>
 <Tab title="Claude Code">
 
-Run the following command in your terminal. Add `--scope user` for a global configuration, or omit it to configure for the current project only.
+Run the following command. Add `--scope user` for a global configuration.
 
 ```bash
 claude mcp add wandb \
-  -e WANDB_API_KEY=your-api-key \
+  -e WANDB_API_KEY=<your-wandb-api-key> \
   -e WANDB_BASE_URL=https://your-wandb-instance.example.com \
   -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
 ```
-
 </Tab>
 <Tab title="Codex">
 
-Run the following command in your terminal:
-
 ```bash
 codex mcp add wandb \
-  --env WANDB_API_KEY=your_api_key_here \
+  --env WANDB_API_KEY=<your-wandb-api-key> \
   --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
   -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
 ```
-
 </Tab>
 <Tab title="Claude Desktop">
-Open your Claude config file in a text editor. You can find the config file at the locations for your OS:
 
-* **macOS**: ~/Library/Application\ Support/Claude/claude_desktop_config.json
-* **Windows**: %APPDATA%\Claude\claude_desktop_config.json
+Open your Claude Desktop config file:
 
-Add the following to your JSON object to your Claude config file. Use the full path to `uvx` because Claude Desktop may not find your `uvx` installation otherwise.
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the following JSON. Use the full path to `uvx` because Claude Desktop may not find it on your `PATH` otherwise.
 
 ```json
 {
@@ -311,31 +401,65 @@ Add the following to your JSON object to your Claude config file. Use the full p
 }
 ```
 
-Restart Claude Desktop to activate the new configuration.
-
+Restart Claude Desktop to apply the configuration.
 </Tab>
 </Tabs>
 
-For web-based clients or testing, run the server with HTTP transport:
+### Run the server with HTTP transport
+
+For web-based clients and for testing, run the server with HTTP transport:
 
 ```bash
 uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 ```
 
-To expose the local server to external clients like OpenAI, use ngrok:
+To expose a local server to external clients, such as the OpenAI Responses API, use a tunnel:
 
 ```bash
 uvx wandb_mcp_server --transport http --port 8080
 
-# In another terminal, expose with ngrok
+# In another terminal
 ngrok http 8080
-    ```
+```
 
-If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
+Update your MCP client configuration to use the tunnel URL.
 
+### Environment variables
+
+| Variable | Description |
+|----------|-------------|
+| `WANDB_API_KEY` | W&B API key for authentication. Required. |
+| `WANDB_BASE_URL` | Custom W&B instance URL for Dedicated Cloud or Self-Managed. Defaults to `https://api.wandb.ai`. |
+| `WANDB_MCP_PROXY_DOCS` | Enable the `search_wandb_docs_tool` documentation search proxy. Default: `true`. |
+| `WANDBOT_BASE_URL` | Custom endpoint for the docs search proxy. |
+| `MAX_RESPONSE_TOKENS` | Token budget for tool-response truncation. Default: `30000`. |
+| `MCP_SERVER_LOG_LEVEL` | Logging verbosity. One of `DEBUG`, `INFO`, `WARNING`, `ERROR`. |
+
+For the complete command-line reference and advanced options, see the [wandb-mcp-server README](https://github.com/wandb/wandb-mcp-server#readme).
 
 ## Usage tips
 
-- **Provide your W&B project and entity name**: Specify the W&B entity and project in your queries for accurate results.
-- **Avoid overly broad questions**: Instead of "what is my best evaluation?", ask "what eval had the highest f1 score?"
-- **Verify data retrieval**: When asking broad questions like "what are my best performing runs?", ask the assistant to confirm it retrieved all available runs.
+Follow these practices to get good results from the MCP server:
+
+- **Specify the entity and project.** MCP tools need an explicit entity and project name. Include both in every question, for example "in `your-team/your-project`".
+- **Ask focused questions.** Prefer "Which eval had the highest F1 score?" to "What is my best evaluation?". Specific metrics and time ranges produce better tool calls.
+- **Use the schema-first workflow for traces.** Have the agent call `infer_trace_schema_tool` before `query_weave_traces_tool`, and start with `detail_level: "summary"`. Escalate to `"full"` only when drilling into specific traces.
+- **Verify full retrieval.** For broad questions like "What are my best performing runs?", ask the agent to confirm that it retrieved all available runs rather than only the most recent ones.
+- **Combine with W&B Skills.** [W&B Skills](/platform/wb-skills) teach coding agents how to structure W&B workflows. Skills and MCP work well together, because Skills provide patterns and MCP provides data access.
+
+## Troubleshooting
+
+| Symptom | Cause and fix |
+|---------|---------------|
+| `401 Unauthorized` or `Invalid API key` | Your W&B API key is missing, malformed, or not authorized for the target entity. Regenerate a key at [wandb.ai/authorize](https://wandb.ai/authorize) and confirm it is passed as a bearer token or set in `WANDB_API_KEY`. |
+| Empty results for queries you expect to succeed | The entity or project name is incorrect, or the API key does not have access. Confirm both with the agent and retry. |
+| Cannot reach `mcp.withwandb.com/mcp` from Dedicated Cloud or Self-Managed | The hosted server targets Multi-tenant Cloud only. Use [MCP on your deployment](#use-mcp-on-dedicated-cloud-or-self-managed) instead. |
+| `429 Too Many Requests` on Dedicated Cloud | You have hit your instance's rate limits. See [Dedicated Cloud rate limits](/platform/hosting/hosting-options/dedicated-cloud/rate-limits) for how to request higher limits. |
+| Local server cannot find `uvx` in Claude Desktop | Use the full path to `uvx` in the `command` field of `claude_desktop_config.json`. |
+
+## Related
+
+- [Trace MCP clients and servers with Weave](/weave/guides/integrations/mcp) for end-to-end observability of MCP interactions.
+- [W&B Skills](/platform/wb-skills) for reusable agent instructions that pair with the MCP server.
+- [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) for the open-source server, command-line reference, and release notes.
+- [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed) hosting options.
