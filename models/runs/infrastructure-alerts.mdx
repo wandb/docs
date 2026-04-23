@@ -3,7 +3,11 @@ title: Visualize CoreWeave infrastructure alerts
 description: "View CoreWeave infrastructure alerts such as GPU failures and thermal violations on your W&B experiment run plots."
 ---
 
-Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. When you run on a supported [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) cluster and satisfy the prerequisites on this page, [CoreWeave Mission Control](https://coreweave.com/mission-control) monitors your compute infrastructure during a [W&B run](/models/runs).
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. When you run on a supported [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) cluster and satisfy the prerequisites on this page, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure during a [W&B run](/models/runs).
+
+<Note>
+This feature is in Preview. Contact your W&B representative for access.
+</Note>
 
 ## Prerequisites
 
@@ -12,11 +16,7 @@ The following must be true for this integration to work end-to-end.
 | Prerequisite | Details |
 | --- | --- |
 | **CoreWeave platform** | Available only on [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) clusters. Not available on CoreWeave bare metal clusters or CoreWeave Classic. Training jobs running through [SUNK](https://docs.coreweave.com/products/sunk) on CKS also satisfy this requirement. |
-| **W&B Python SDK** | For training jobs, use the `wandb` package version **0.20.1** or later when you log a run. |
-| **W&B Server (Dedicated Cloud or Self-Managed)** | If using a W&B Dedicated Cloud or W&B Self-Managed deployment, use W&B Server version **0.73.0** or later. Set the `SERVER_FLAG_ENABLE_CORE_WEAVE_OBSERVABILITY` environment variable on the W&B app pod so the server can accept CoreWeave observability data. |
-
-<Note>
-This feature is in Preview. Contact your W&B representative for access.
-</Note>
+| **W&B Python SDK** | For training jobs, use the `wandb` package version `0.20.1` or later when you log a run. |
+| **W&B Server (Dedicated Cloud or Self-Managed)** | If using a W&B Dedicated Cloud or W&B Self-Managed deployment, use W&B Server version `0.73.0` or later. Set the `SERVER_FLAG_ENABLE_CORE_WEAVE_OBSERVABILITY` environment variable on the W&B app pod so the server can accept CoreWeave observability data. |
 
 If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run's page.
