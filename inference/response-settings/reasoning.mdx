@@ -3,16 +3,15 @@ title: "View reasoning information"
 description: How to return and view reasoning in your W&B Inference responses
 ---
 
-Reasoning models, like [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), include information about their reasoning steps as part of the output returned in addition to the final answer.
+Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on W&B Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it.
 
-You can determine whether a model supports reasoning or not by checking the [Supported Models](#supported-models) table below or the Supported Features section of its catalog page in the UI.
+To determine whether a model supports reasoning, check the following [Supported models](#supported-models) table or the Supported Features section of its catalog page in the UI.
 
-You can find reasoning information in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
+Reasoning information appears in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
 
+## Supported models
 
-## Supported Models
-
-Models that support reasoning might default to not reasoning, default to reasoning enabled, or always include reasoning. The per-model behavior is documented in the following table:
+The following table lists the models on W&B Inference that return reasoning output. Each supported model might disable reasoning by default, enable reasoning by default, or always include reasoning:
 
 {/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
 | Model ID (for API usage)                       | Support            |
@@ -28,9 +27,9 @@ Models that support reasoning might default to not reasoning, default to reasoni
 | `zai-org/GLM-5.1`                              | Enabled by default |
 | `zai-org/GLM-5-FP8`                            | Enabled by default |
 
-## Disabling reasoning
+## Disable reasoning
 
-If a model is listed as "Enabled by default" in the [table above](#supported-models), you have the option of disabling reasoning:
+If a model is listed as "Enabled by default" in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. Use the `enable_thinking` flag in `chat_template_kwargs` to opt out of reasoning for a request:
 
 <Tabs>
   <Tab title="Python">
@@ -39,7 +38,7 @@ If a model is listed as "Enabled by default" in the [table above](#supported-mod
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Create an API key at https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(
@@ -59,7 +58,7 @@ If a model is listed as "Enabled by default" in the [table above](#supported-mod
     ```bash highlight={9}
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "google/gemma-4-31B-it",
         "messages": [
@@ -71,6 +70,7 @@ If a model is listed as "Enabled by default" in the [table above](#supported-mod
   </Tab>
 </Tabs>
 
-## Enabling reasoning
+## Enable reasoning
 
-To enable reasoning for a model that is "Disabled by default" in the [table above](#supported-models), set the `enable_thinking` flag as in the code snippet above but with the value `True` (Python) or `true` (curl).
+To enable reasoning for a model listed as "Disabled by default" in the preceding [Supported models](#supported-models) table, set the `enable_thinking` flag as in the preceding code snippet but with the value `True` (Python) or `true` (Bash).
+
