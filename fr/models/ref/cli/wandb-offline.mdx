@@ -1,0 +1,42 @@
+---
+title: wandb offline
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3392" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+offline [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Enregistrez localement les données enregistrées dans W&amp;B sans les envoyer vers le cloud.
+
+Utilisez `wandb online` ou `wandb sync` pour envoyer des runs hors ligne vers le cloud.
+
+Par exemple, pour exécuter un script en mode hors ligne afin d’enregistrer des données localement sans les synchroniser
+avec le cloud :
+
+```bash
+wandb offline && python train.py
+```
+
+Pour exécuter un script en mode hors ligne :
+
+```bash
+wandb offline && python train.py
+```
+
+Plus tard, synchronisez tous les runs hors ligne avec le cloud :
+
+```bash
+wandb sync --sync-all
+```

@@ -1,0 +1,16 @@
+---
+title: "同じメトリクスが複数回表示されるのはなぜですか？"
+keywords: ["Experiments", "メトリクス"]
+---
+
+同じキーでさまざまなデータタイプをログすると、データベース上ではそれらが別々に分割されます。その結果、UI のドロップダウンに同じメトリクス名の項目が複数表示されます。分けて扱われるデータタイプは、`number`、`string`、`bool`、`other` (主に配列) 、および `Histogram` や `Image` などの `wandb` データタイプです。この問題を防ぐには、各キーにつき 1 種類のデータタイプのみを送信してください。
+
+メトリクス名では大文字と小文字は区別されません。`"My-Metric"` と `"my-metric"` のように、大文字と小文字だけが異なる名は使用しないでください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* 終了 AUTO-GENERATED: tab badges */}

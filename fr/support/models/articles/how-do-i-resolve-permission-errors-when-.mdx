@@ -1,0 +1,34 @@
+---
+title: "Comment puis-je résoudre les erreurs d'autorisation lors de l'enregistrement d'un run ?"
+keywords: ["Runs", "Sécurité"]
+---
+
+Pour résoudre les erreurs d&#39;autorisation lors de l&#39;enregistrement d&#39;un run dans une entité W&amp;B, suivez ces étapes :
+
+* **Vérifier les noms de l&#39;entité et du projet** : assurez-vous que l&#39;orthographe et la casse des noms de l&#39;entité et du projet W&amp;B dans votre code sont correctes.
+* **Confirmer les autorisations** : assurez-vous que les autorisations nécessaires ont bien été accordées par l&#39;administrateur.
+* **Vérifier les identifiants de connexion** : assurez-vous d&#39;être connecté au bon compte W&amp;B. Testez en créant un run avec le code suivant :
+  ```python
+  import wandb
+
+  run = wandb.init(entity="your_entity", project="your_project")
+  run.log({'example_metric': 1})
+  run.finish()
+  ```
+* **Définir la clé API** : utilisez la variable d&#39;environnement `WANDB_API_KEY` :
+  ```bash
+  export WANDB_API_KEY='your_api_key'
+  ```
+* **Confirmer les informations de l&#39;hôte** : pour les déploiements personnalisés, définissez l&#39;URL de l&#39;hôte :
+  ```bash
+  wandb login --relogin --host=<host-url>
+  export WANDB_BASE_URL=<host-url>
+  ```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sécurité](/fr/support/models/tags/security)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,0 +1,24 @@
+---
+title: "Comment une personne sans compte peut-elle voir les résultats d’un run ?"
+keywords: ["Anonyme"]
+---
+
+Si quelqu’un exécute le script avec `anonymous="allow"` :
+
+1. **Création automatique d’un compte temporaire** : W&amp;B vérifie si un compte est connecté. Si ce n’est pas le cas, W&amp;B crée un nouveau compte anonyme et enregistre la clé API pour cette session.
+2. **Consigner rapidement les résultats** : les utilisateurs peuvent exécuter le script à plusieurs reprises et voir instantanément les résultats dans le tableau de bord W&amp;B. Ces runs anonymes non réclamés restent disponibles pendant 7 jours.
+3. **Récupérer les données lorsqu’elles deviennent utiles** : une fois qu’un utilisateur a identifié des résultats intéressants dans W&amp;B, il peut cliquer sur un bouton dans la bannière en haut de la page pour enregistrer les données de son run dans un vrai compte. Sans cette récupération, les données du run sont supprimées après 7 jours.
+
+<Warning>
+  **Les liens vers des runs anonymes sont sensibles**. Ces liens permettent à n’importe qui de consulter et de récupérer les résultats d’expérience pendant 7 jours ; partagez-les donc uniquement avec des personnes de confiance. Pour partager publiquement des résultats tout en masquant l’identité de l’auteur, contactez support@wandb.com pour obtenir de l’assistance.
+</Warning>
+
+Lorsqu’un utilisateur W&amp;B trouve et exécute le script, ses résultats sont correctement enregistrés dans son compte, comme pour un run normal.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Anonyme](/fr/support/models/tags/anonymous)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

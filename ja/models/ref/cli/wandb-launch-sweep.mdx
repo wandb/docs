@@ -2,39 +2,40 @@
 title: wandb launch-sweep
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbLaunchSweep from "/snippets/en/_includes/cli/wandb-launch-sweep.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L1247" />
 
-<WandbLaunchSweep/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-W&B Launch Sweep を実行します（実験的機能）。
-
-## Usage
+<div id="usage">
+  ## 使い方
+</div>
 
 ```bash
-wandb launch-sweep [CONFIG] [OPTIONS]
+launch-sweep [OPTIONS] [CONFIG]
 ```
 
-## Arguments
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `CONFIG` | 説明はありません | いいえ |
+W&amp;B の Launch sweep を実行する (実験的) 。
 
-## Options
+<div id="arguments">
+  ## 引数
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--queue`, `-q` | Sweep をプッシュするキューの名前 |
-| `--project`, `-p` | エージェント が監視する Project の名前。指定された場合、設定ファイルで渡されたプロジェクトの 値 を上書きします |
-| `--entity`, `-e` | 使用する Entity。デフォルトは現在ログインしている User です |
-| `--resume_id`, `-r` | 8文字の Sweep ID を渡して Launch Sweep を再開します。キューの指定が必須です |
-| `--prior_run`, `-R` | この Sweep に追加する既存の Run の ID |
+| 名        | デフォルト | タイプ   |
+| -------- | ----- | ----- |
+| `config` | PATH  | False |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag              | Type | Description                                                                |
+| ----------------- | ---- | -------------------------------------------------------------------------- |
+| `--queue, -q`     | STR  | sweep をプッシュする先のキュー名。**デフォルト**: None                                        |
+| `--project, -p`   | STR  | エージェントが監視する project 名。指定した場合、設定ファイルで渡された project の値を上書きします。**デフォルト**: None |
+| `--entity, -e`    | STR  | 使用する entity。デフォルトでは、現在ログインしているユーザーが使用されます。**デフォルト**: None                  |
+| `--resume_id, -r` | STR  | 8 文字の sweep ID を指定して Launch sweep を再開します。キューは必須です。**デフォルト**: None          |
+| `--prior_run, -R` | STR  | この sweep に追加する既存の run の ID。**デフォルト**: None                                 |

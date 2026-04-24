@@ -1,0 +1,21 @@
+---
+title: "기존 run에 artifact를 로깅하려면 어떻게 하나요?"
+keywords: ["Artifacts"]
+---
+
+경우에 따라 artifact를 기존에 로깅한 run의 출력으로 표시해야 할 수 있습니다. 이 경우에는 이전 run을 다시 초기화한 다음, 아래와 같이 새 artifact를 로깅하세요:
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,61 +1,69 @@
 ---
 title: Experiments の概要
-description: 実験の追跡（ Experiments ）やアーティファクト（ Artifacts ）の管理を行うために、W&B Python SDK の基本クラスを使用します。
+description: 実験のトラッキングと Artifacts の管理に使用する、W&B Python SDK の基本クラス
 module: wandb
 no_list: true
 ---
 
-これらのクラスは、機械学習の 実験管理 、 Artifacts の管理、および SDK の 振る舞い を 設定 するためのコアとなる構成要素です。これらの基礎となるクラスを使用することで、 メトリクス の ログ 記録、 モデル の チェックポイント の保存、 データセット の バージョン管理 を行い、完全な 再現性 とコラボレーション機能を備えた 実験 設定 の管理が可能になります。
+これらのクラスは、機械学習 Experiments のトラッキング、Artifacts の管理、SDK の動作設定を行うための中核的な構成要素です。これらの基本クラスを使うと、メトリクスをログし、モデル チェックポイントを保存し、データセットをバージョン管理し、高い再現性とコラボレーション機能を備えた実験設定を管理できます。
 
-> 機械学習の 実験 でこれらのクラスを使用する詳細については、 [Experiments](/models/ref/python/experiments/) および [Artifacts](/models/artifacts/) のドキュメントを参照してください。
+> ML Experiments でこれらのクラスを使用する方法について詳しくは、[Experiments](/ja/models/ref/python/experiments/) および [Artifacts](/ja/models/artifacts/) のドキュメントを参照してください。
 
-## コアクラス
+<div id="core-classes">
+  ## コアクラス
+</div>
 
-| クラス | 説明 |
-| :--- | :--- |
-| [`Run`](/models/ref/python/experiments/run/) | W&B によって記録される計算の主要な単位であり、 メトリクス 、 設定 、および出力を伴う単一の機械学習の 実験 を表します。 |
-| [`Artifact`](/models/ref/python/experiments/artifact/) | データセット と モデル の バージョン管理 のための柔軟で軽量な構成要素であり、自動的な重複排除と リネージ トラッキング機能を備えています。 |
-| [`Settings`](/models/ref/python/experiments/settings/) | W&B SDK の 設定 管理を行い、 ログ 記録から API インタラクションまでの 振る舞い を制御します。 |
+| クラス                                                    | 説明                                                             |
+| ------------------------------------------------------ | -------------------------------------------------------------- |
+| [`Run`](/ja/models/ref/python/experiments/run/)           | W&amp;B にログされる計算の主要な単位で、メトリクス、設定、出力を含む単一の ML 実験を表します。          |
+| [`Artifact`](/ja/models/ref/python/experiments/artifact/) | データセットとモデルのバージョン管理のための、柔軟で軽量な基本要素です。自動重複排除とリネージのトラッキングを備えています。 |
+| [`Settings`](/ja/models/ref/python/experiments/settings/) | W&amp;B SDK の設定を管理し、ログすることから API とのやり取りまでの動作を制御します。          |
 
-## はじめに
+<div id="getting-started">
+  ## はじめに
+</div>
 
-### 実験を追跡する
+<div id="track-an-experiment">
+  ### 実験をトラッキングする
+</div>
 
-メトリクス の ログ 記録を行いながら、機械学習の 実験 を作成し追跡します。
+メトリクスをログしながら、機械学習実験を作成してトラッキングします。
 
 ```python
 import wandb
 
-# 新しい run を初期化します
+# 新しいrunを初期化する
 with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as run:
-    # 設定にアクセスします
+    # 設定にアクセスする
     config = run.config
     
-    # トレーニング中のメトリクスをログに記録します
+    # トレーニング中にメトリクスをログする
     for epoch in range(10):
-        metrics = train_one_epoch()  # トレーニングロジック
+        metrics = train_one_epoch()  # トレーニングロジックをここに記述
         run.log({
             "loss": metrics["loss"],
             "accuracy": metrics["accuracy"],
             "epoch": epoch
         })
     
-    # サマリーメトリクスを記録します
+    # サマリーメトリクスをログする
     run.summary["best_accuracy"] = max_accuracy
 ```
 
-### モデル Artifact をバージョン管理する
+<div id="version-a-model-artifact">
+  ### モデル artifact をバージョン管理する
+</div>
 
-メタデータ を含む バージョン 管理された モデル の Artifact を作成し、 ログ に記録します。
+メタデータ付きの、バージョン管理されたモデル artifact を作成してログします:
 
 ```python
 import wandb
 
 with wandb.init(project="my-models") as run:
-    # モデルをトレーニングします
+    # モデルをトレーニングする
     model = train_model()
     
-    # モデルの Artifact を作成します
+    # モデルのartifactを作成する
     model_artifact = wandb.Artifact(
         name="my-model",
         type="model",
@@ -67,62 +75,66 @@ with wandb.init(project="my-models") as run:
         }
     )
     
-    # Artifact にモデルファイルを追加します
+    # artifactにモデルファイルを追加する
     model_artifact.add_file("model.pt")
     model_artifact.add_dir("model_configs/")
     
-    # Artifact を W&B にログ記録します
+    # artifactをW&Bにログする
     run.log_artifact(model_artifact)
 ```
 
-### SDK の設定を構成する
+<div id="configure-sdk-settings">
+  ### SDK設定を行う
+</div>
 
-特定の要件に合わせて W&B SDK の 振る舞い をカスタマイズします。
+要件に合わせて、W&amp;B SDKの動作をカスタマイズします。
 
 ```python
 import wandb
 
-# プログラムから設定を構成します
+# プログラムで設定を構成する
 wandb.Settings(
     project="production-runs",
     entity="my-team",
-    mode="offline",  # オフラインで実行し、後で同期します
-    save_code=True,   # ソースコードを保存します
-    quiet=True        # コンソール出力を抑制します
+    mode="offline",  # オフラインで実行し、後でSyncする
+    save_code=True,   # ソースコードを保存する
+    quiet=True        # コンソール出力を抑制する
 )
 
-# または環境変数を使用します
+# または環境変数を使用する
 # export WANDB_PROJECT=production-runs
 # export WANDB_MODE=offline
 
-# カスタム設定で初期化します
+# カスタム設定で初期化する
 with wandb.init() as run:
-    # ここに実験のコードを記述します
+    # 実験コードをここに記述する
     pass
 ```
 
-### リネージトラッキングのために Artifact をリンクする
+<div id="link-artifacts-for-lineage-tracking">
+  ### Artifactsをリンクしてリネージをトラッキングする
+</div>
 
-データセット 、 モデル 、および 評価 の間の関係を追跡します。
+データセット、モデル、評価の間の関係をトラッキングします:
 
 ```python
 import wandb
 
 with wandb.init(project="ml-pipeline") as run:
-    # データセット Artifact を使用します
+    # データセットartifactを使用する
     dataset = run.use_artifact("dataset:v1")
     dataset_dir = dataset.download()
     
-    # データセットを使用してモデルをトレーニングします
+    # データセットを使用してモデルをトレーニングする
     model = train_on_dataset(dataset_dir)
     
-    # データセットのリネージを持つモデル Artifact を作成します
+    # データセットのリネージを持つモデルartifactを作成する
     model_artifact = wandb.Artifact(
         name="trained-model",
         type="model"
     )
     model_artifact.add_file("model.pt")
     
-    # 自動的なリネージトラッキングを伴うログ記録を行います
+    # 自動リネージトラッキングでログする
     run.log_artifact(model_artifact)
 ```

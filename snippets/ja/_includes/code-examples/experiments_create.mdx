@@ -1,0 +1,18 @@
+---
+title: Experiments を作成する
+---
+
+```python
+"""
+W&B でエクスペリメントを作成します。プロジェクトが存在しない場合、W&B が自動的に作成します。
+
+このファイルはエクスペリメントの初期化のみを行います。`with` ブロック内にメトリクスや
+Artifacts などをログするコードを追加できます。
+"""
+import wandb
+
+# W&B の run を初期化する
+with wandb.init(project="<project>") as run:
+    # エクスペリメントのコードをここに記述する
+    pass
+```

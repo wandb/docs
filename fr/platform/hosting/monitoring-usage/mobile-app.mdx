@@ -1,0 +1,66 @@
+---
+title: Application mobile W&B (iOS)
+description: Depuis votre iPhone ou iPad, suivez les runs d'entraînement, consultez les journaux de la console, consultez des graphiques en courbes, effectuez des recherches dans les panneaux de projet à l'aide d'expressions régulières et explorez vos projets W&B Models.
+---
+
+<Columns cols={4}>
+  <Frame>
+    ![Panneau de projet de l'application mobile W\&B avec des graphiques de métriques](/images/mobile-app/project-panels.png)
+  </Frame>
+
+  <Frame>
+    ![Écran Gérer les notifications de l'application mobile W\&B](/images/mobile-app/manage-alerts.png)
+  </Frame>
+
+  <Frame>
+    ![Liste des projets et sélecteur d'équipe de l'application mobile W\&B](/images/mobile-app/projects.png)
+  </Frame>
+
+  <Frame>
+    ![Liste des Runs d'un projet dans l'application mobile W\&B](/images/mobile-app/project-runs.png)
+  </Frame>
+</Columns>
+
+L&#39;application mobile W&amp;B pour iOS vous permet de rester connecté à vos projets W&amp;B Models où que vous soyez. Depuis votre iPhone ou iPad, suivez les runs d&#39;entraînement et lisez les journaux de run en temps réel, consultez des graphiques en courbes, explorez l&#39;historique des projets et suivez l&#39;avancement de votre équipe.
+
+<Info>
+  L&#39;application mobile est disponible uniquement pour les comptes [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Elle n&#39;est pas disponible pour les déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
+</Info>
+
+<div id="download-the-app">
+  ## Télécharger l’app
+</div>
+
+<Card title="Télécharger dans l’App Store" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="features">
+  ## Fonctionnalités
+</div>
+
+* **Suivre les runs d&#39;entraînement** : Consultez le statut des runs, les métriques et les graphiques en courbes en temps réel.
+* **Afficher les journaux de la console** : Consultez les [journaux de la console](/fr/models/runs/view-logged-runs#logs) des runs actifs ou terminés, ou téléchargez les journaux des runs terminés. L’application interroge les runs actifs toutes les 5 secondes pour récupérer les nouvelles lignes de journal. Les 10 000 lignes les plus récentes s’affichent par défaut, et vous pouvez faire défiler vers le haut pour consulter des journaux plus anciens.
+* **Explorer l&#39;historique du projet** : Parcourez vos projets W&amp;B et effectuez des recherches dans ceux-ci. Les graphiques de métriques des **panneaux de projet** incluent les données de **tous les runs** du projet, pas seulement celles du run le plus récent.
+* **Rechercher dans les panneaux de projet** : Utilisez le champ de **recherche des panneaux** pour filtrer les runs affichés dans chaque graphique. Vous pouvez effectuer une recherche avec des [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) pour faire correspondre des motifs dans les noms de run.
+* **Basculer entre les équipes** : Utilisez le **sélecteur d&#39;équipe** pour changer d&#39;équipes. Le sélecteur utilise une mise en page actualisée pour une navigation plus rapide.
+* **Rester informé** : Obtenez des mises à jour sur vos Experiments sans ouvrir votre ordinateur grâce aux notifications. **Supprimez les alertes** dont vous n&#39;avez plus besoin depuis l&#39;onglet **Notifications** en les faisant glisser.
+
+<div id="set-up-notifications">
+  ## Configurer les notifications
+</div>
+
+Vous pouvez configurer les notifications de deux façons :
+
+**Alertes de seuil de métrique**
+
+1. Accédez à un run.
+2. Touchez le graphique pour passer en mode plein écran.
+3. Touchez l’icône en forme de cloche en haut à droite.
+4. Configurez des notifications qui se déclenchent lorsque de futurs runs dépassent le seuil de métrique spécifié.
+
+**Alertes d’échec de run**
+
+1. Accédez à un projet.
+2. Touchez le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** en haut à droite.
+3. Sélectionnez **Alerte d’échec de run** pour recevoir des notifications en cas d’échec de futurs runs dans ce projet.
+
+L’écran **Gérer les notifications** regroupe ces deux types de paramètres au même endroit, avec de courtes descriptions expliquant ce que contrôle chaque section.

@@ -1,159 +1,484 @@
 ---
-title: Line plot 참조 가이드
+title: 선형 플롯 레퍼런스
+description: "x축, y축, 평활화, 집계, 그룹화 옵션을 포함한 선형 플롯 패널 설정 레퍼런스"
 ---
 
-이 페이지는 line plot 설정에 대한 포괄적인 세부 정보를 제공합니다. line plot 작업에 대한 자세한 내용은 [Line plots 개요](/models/app/features/panels/line-plot)를 참조하세요.
+import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-groups.mdx";
 
-## 데이터 설정
+이 페이지에서는 선형 플롯 설정에 관한 자세한 내용을 확인할 수 있습니다. 선형 플롯 사용에 대한 자세한 내용은 [선형 플롯 Overview](/ko/models/app/features/panels/line-plot)를 참조하세요.
 
-### X-축
+<div id="data-settings">
+  ## 데이터 설정
+</div>
+
+<div id="x-axis">
+  ### X축
+</div>
 
 <Frame>
-    <img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis"  />
+  <img src="/images/app_ui/reference_x_axis.png" alt="X축 선택" />
 </Frame>
 
-x-축의 범위를 `wandb.Run.log()`로 로그한 정수 또는 실수 값으로 설정하세요.
+`wandb.Run.log()`로 로깅한 임의의 정수 또는 부동소수점 값을 x축 범위로 설정할 수 있습니다.
 
-사용 가능한 시간 기반 x-축 옵션:
-* **Step**: `wandb.Run.log()`가 호출될 때마다 증가합니다. 모델에서 로그된 트레이닝 스텝 수를 반영합니다. (기본값)
-* **Relative Time (Wall)**: 프로세스가 시작된 이후의 시계 시간입니다. run을 시작하고 하루 동안 일시 중지한 후 다시 시작하여 로그하면, 해당 지점은 24시간으로 표시됩니다.
-* **Relative Time (Process)**: 실행 중인 프로세스 내부의 시간입니다. run을 시작하고 10초 동안 실행한 후 하루 동안 일시 중지했다가 다시 시작하면, 해당 지점은 10초로 표시됩니다.
-* **Wall Time**: 그래프의 첫 번째 run이 시작된 이후 경과된 시간(분)입니다.
-* **X range**: 기본적으로 x-축의 최소값부터 최대값까지입니다. 최소값과 최대값을 사용자가 지정할 수 있습니다.
+사용 가능한 시간 기반 x축 옵션:
 
-### Y-축
+* **Step**: `wandb.Run.log()`가 호출될 때마다 증가합니다. 모델에서 로깅한 트레이닝 step 수를 반영합니다. (기본값)
+* **Relative Time (Wall)**: 프로세스가 시작된 이후의 실제 경과 시간입니다. run을 시작하고 하루 동안 일시 중지한 다음 재개하여 로깅하면, 해당 지점은 24시간에 표시됩니다.
+* **Relative Time (Process)**: 실행 중인 프로세스 내부의 시간입니다. run을 시작하고 10초 동안 실행한 뒤 하루 동안 일시 중지한 다음 재개하면, 해당 지점은 10초에 표시됩니다.
+* **Wall Time**: 그래프에서 첫 번째 run이 시작된 이후 경과한 시간(분)입니다.
+* **X range**: 기본적으로 x축의 최솟값부터 최댓값까지 표시됩니다. 최소값과 최대값은 사용자 지정할 수 있습니다.
 
-y-축 변수를 `wandb.Run.log()`로 로그한 정수 또는 실수 값으로 설정하세요. 단일 값, 값의 배열 또는 값의 히스토그램을 지정할 수 있습니다. 변수에 대해 1500개 이상의 포인트를 로그한 경우, W&B는 1500개 포인트로 다운샘플링합니다.
+<div id="y-axis">
+  ### Y축
+</div>
 
-<Note>
-Runs table에서 run 색상을 변경하여 y-축 라인의 색상을 커스텀하세요.
-</Note>
-
-사용 가능한 y-축 옵션:
-* **Y range**: 기본값은 메트릭의 최소 양수 값(0 포함)부터 메트릭의 최대 값까지입니다. 최소값과 최대값을 사용자가 지정할 수 있습니다.
-
-### 포인트 집계 메소드
-
-데이터 포인트를 표시하기 위한 샘플링 모드를 선택하세요:
-* **Random sampling** (기본값): [Random sampling](/models/app/features/panels/line-plot/sampling/#random-sampling)을 참조하세요.
-* **Full fidelity**: [Full fidelity](/models/app/features/panels/line-plot/sampling/#full-fidelity)를 참조하세요.
-
-### Smoothing
-
-[smoothing 계수](/models/support/formula_smoothing_algorithm/)를 0과 1 사이로 설정하세요. 0은 smoothing 없음, 1은 최대 smoothing을 의미합니다.
-
-사용 가능한 smoothing 메소드:
-* **Time weighted EMA** (기본값): 이전 포인트의 가중치를 기하급수적으로 감소시켜 시계열 데이터를 부드럽게 만드는 기법입니다.
-* **Running average**: 주어진 x 값 앞뒤 윈도우 내 포인트들의 평균으로 포인트를 대체합니다.
-* **Gaussian**: 포인트들의 가중 평균을 계산하며, 이때 가중치는 smoothing 파라미터로 지정된 표준 편차를 갖는 가우시안 분포를 따릅니다.
-* **No smoothing**
-
-자세한 내용은 [Smooth line plots](/models/app/features/panels/line-plot/smoothing)를 참조하세요.
-
-### 이상치 무시 (Ignore outliers)
-
-기본 플롯의 최소 및 최대 스케일에서 이상치를 제외하도록 플롯의 크기를 다시 조정합니다. 이 설정의 영향은 플롯의 샘플링 모드에 따라 다릅니다:
-
-- **Random sampling 모드**: 이상치 무시를 선택하면 플롯에서 하위 5% 미만 및 상위 95% 초과 포인트가 생략됩니다.
-- **Full fidelity 모드**: 이상치 무시를 선택하면 모든 포인트가 표시되지만, 각 버킷의 마지막 값으로 응축되어 표시되며 하위 5% 및 상위 95% 영역에 음영이 처리됩니다.
-
-### 최대 Runs 또는 그룹
-
-기본적으로 플롯에는 run list 또는 run set의 처음 10개 Runs 또는 그룹만 포함됩니다. 표시할 Runs 또는 그룹을 제어하려면 정렬 순서를 변경하세요.
+`wandb.Run.log()`로 로깅한 임의의 정수 또는 부동소수점 값을 y축 변수로 설정할 수 있습니다. 단일 값, 값 배열 또는 값의 히스토그램을 지정할 수 있습니다. 변수에 대해 1500개가 넘는 포인트를 로깅한 경우, W&amp;B는 1500개 포인트로 다운샘플링합니다.
 
 <Note>
-Workspace는 설정과 관계없이 최대 1000개의 Runs를 표시하는 것으로 제한됩니다.
+  Runs table에서 run 색상을 변경해 y축 선 색상을 사용자 지정할 수 있습니다.
 </Note>
 
-### 차트 유형
+사용 가능한 y축 옵션:
+
+* **Y range**: 기본값은 메트릭의 가장 작은 양수 값(0 포함)부터 가장 큰 값까지입니다. 최소값과 최대값은 사용자 지정할 수 있습니다.
+
+<div id="point-aggregation-method">
+  ### 포인트 집계 방법
+</div>
+
+데이터 포인트를 표시하는 샘플링 모드를 선택하세요:
+
+* **랜덤 샘플링** (기본값): [랜덤 샘플링](/ko/models/app/features/panels/line-plot/sampling/#random-sampling)을 참조하세요.
+* **Full fidelity**: [Full fidelity](/ko/models/app/features/panels/line-plot/sampling/#full-fidelity)를 참조하세요.
+
+<div id="smoothing">
+  ### 스무딩
+</div>
+
+[스무딩 계수](/ko/support/models/articles/what-formula-do-you-use-for-your-smoothi)를 0과 1 사이로 설정합니다. 0은 스무딩을 적용하지 않음을, 1은 최대 스무딩을 의미합니다.
+
+사용 가능한 스무딩 방법:
+
+* **시간 가중 EMA** (기본값): 이전 포인트의 가중치를 지수적으로 감소시켜 시계열 데이터를 스무딩하는 기법입니다.
+* **이동 평균**: 지정된 x 값의 앞뒤 윈도우에 있는 포인트들의 평균값으로 해당 포인트를 대체합니다.
+* **가우시안**: 포인트의 가중 평균을 계산하며, 가중치는 스무딩 매개변수로 지정한 표준편차를 갖는 가우시안 분포를 따릅니다.
+* **스무딩 없음**
+
+자세한 내용은 [선형 플롯 스무딩](/ko/models/app/features/panels/line-plot/smoothing)을 참조하세요.
+
+<div id="ignore-outliers">
+  ### 이상치 무시
+</div>
+
+기본 플롯의 최소/최대 스케일 계산에서 이상치를 제외하도록 플롯 크기를 다시 조정합니다. 이 설정의 효과는 플롯의 샘플링 모드에 따라 달라집니다.
+
+* **랜덤 샘플링 모드**: 이상치를 무시하면 플롯에서 하위 5%와 상위 95%에 해당하는 지점이 제외됩니다.
+* **full fidelity 모드**: 이상치를 무시하면 모든 지점이 표시되지만, 각 bucket의 마지막 값으로 집약되어 표시되며 하위 5%와 상위 95% 영역은 음영 처리됩니다.
+
+<div id="max-runs-or-groups">
+  ### 최대 run 또는 그룹 수
+</div>
+
+기본적으로 플롯에는 run 목록 또는 run 세트에서 처음 10개의 run 또는 run 그룹만 포함됩니다. 어떤 run 또는 그룹을 표시할지 제어하려면 정렬 순서를 변경하세요.
+
+<Note>
+  Workspace는 설정과 관계없이 최대 1000개의 run까지만 표시할 수 있습니다.
+</Note>
+
+<div id="chart-type">
+  ### 차트 유형
+</div>
 
 플롯 스타일을 선택하세요:
-- **Line plot**
-    <Frame>
-        <img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot style"  />
-    </Frame>
-- **Area plot**
-    <Frame>
-        <img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot style"  />
-    </Frame>
-- **Percentage area plot:**
-    <Frame>
-        <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style"  />
-    </Frame>
 
-**Data** 탭에서 차트 유형을 설정하세요. [](/models/app/features/panels/line-plot#individual-line-plot)를 참조하세요.
+* **선형 플롯**
+  <Frame>
+    <img src="/images/app_ui/plot_style_line_plot.png" alt="선형 플롯 스타일" />
+  </Frame>
+* **영역 플롯**
+  <Frame>
+    <img src="/images/app_ui/plot_style_area_plot.png" alt="영역 플롯 스타일" />
+  </Frame>
+* **백분율 영역 플롯:**
+  <Frame>
+    <img src="/images/app_ui/plot_style_percentage_plot.png" alt="백분율 플롯 스타일" />
+  </Frame>
 
-## 그룹화 설정
-그룹화를 켜서 모든 Runs를 집계하거나, 개별 변수에 대해 그룹화하세요. Runs table에서 그룹화를 켜면 그룹이 그래프에 자동으로 채워집니다.
+**Data** 탭에서 차트 유형을 설정하세요. [](/ko/models/app/features/panels/line-plot#individual-line-plot)를 참고하세요.
 
-- **Group by**: 컬럼을 선택하세요. 해당 컬럼에서 동일한 값을 가진 모든 Runs가 함께 그룹화됩니다.
-- **Aggregation**: 그래프 상의 라인 값입니다. 옵션으로 그룹의 평균(mean), 중앙값(median), 최소값(min), 최대값(max)이 있습니다.
+<div id="grouping-settings">
+  ## 그룹화 설정
+</div>
 
-## 차트 설정
-제목 및 범례 표시 여부를 설정하세요:
+그룹화를 켜면 모든 run을 집계할 수 있고, 개별 변수를 기준으로 그룹화할 수도 있습니다. Runs table에서 그룹화를 켜면 그룹이 그래프에 자동으로 반영됩니다.
 
-- **Panel title**: 패널 상단에 표시되는 제목입니다.
-- **X-axis title**: x-축의 레이블입니다.
-- **Y-axis title**: y-축의 레이블입니다.
-- **Legend**: 범례를 표시하거나 숨기고, 위치를 설정합니다.
+* **run 그룹화**: 플롯에서 run 그룹화를 켭니다. 아래 플롯에서 음영 범위를 설정하려면 이 옵션이 필요합니다.
+* **그룹화 기준**: 필요에 따라 열을 선택합니다. 해당 열에서 같은 값을 가진 모든 run이 함께 그룹화됩니다.
+* **집계**: 그래프 선의 값을 지정합니다. 옵션은 그룹의 평균, 중앙값, 최솟값, 최댓값입니다.
+* **범위**: full fidelity 선형 플롯의 음영 영역을 설정합니다. 옵션은 Min/Max, Std Dev, Std Err 또는 None입니다.
 
-## 범례(Legend) 설정
+<div id="chart-settings">
+  ## 차트 설정
+</div>
 
-로그된 모든 설정 값과 생성 시간 또는 run을 생성한 사용자(User)와 같은 Runs의 메타데이터를 표시하도록 범례를 커스텀하세요.
+제목과 범례 표시 여부를 설정합니다:
 
-### 범례 템플릿
+* **패널 제목**: 패널 상단에 표시되는 제목입니다.
+* **X축 제목**: X축 레이블입니다.
+* **Y축 제목**: Y축 레이블입니다.
+* **범례**: 범례를 표시하거나 숨기고 위치를 설정합니다.
 
-범례 이름에 대한 템플릿을 정의합니다.
+<div id="legend-settings">
+  ## 범례 설정
+</div>
 
-1. 기어 아이콘을 클릭하여 플롯 설정을 엽니다.
-1. **Display preferences** 탭으로 이동합니다.
-1. **Advanced legend**를 확장한 다음 범례 템플릿을 지정합니다.
-1. **Apply**를 클릭합니다.
+범례를 사용자 지정해 생성 시간이나 run을 만든 사용자와 같은 run 메타데이터와 로깅된 설정 값을 표시할 수 있습니다.
 
-예시:
+<div id="legend-template">
+  ### 범례 템플릿
+</div>
 
-`${run:displayName} - ${config:dropout}`은 `royal-sweep - 0.5`와 같은 범례 이름을 생성합니다. 여기서 `royal-sweep`은 run 이름이고 `0.5`는 `dropout`이라는 하이퍼파라미터 이름입니다.
+범례 이름에 사용할 템플릿을 정의합니다.
 
-### 포인트별 값
+1. 톱니바퀴 아이콘을 클릭해 플롯 설정을 엽니다.
+2. **Display preferences** 탭으로 이동합니다.
+3. **Advanced legend**를 펼친 다음 범례 템플릿을 지정합니다.
+4. **Apply**를 클릭합니다.
 
-`[[ ]]` 안에 값을 설정하여 차트 위에 마우스를 올렸을 때 십자선에 포인트별 값을 표시합니다.
+{/* 예:
 
-1. 기어 아이콘을 클릭하여 플롯 설정을 엽니다.
-1. **Display preferences** 탭으로 이동합니다.
-1. 탭 하단에서 하나 이상의 플롯 메트릭에 대해 포인트별 값을 설정합니다.
-1. **Apply**를 클릭합니다.
+  `${run:displayName} - ${config:dropout}`는 `royal-sweep - 0.5`와 같은 범례 이름을 생성합니다. 여기서 `royal-sweep`는 run 이름이고 `0.5`는 `dropout`이라는 이름의 설정 파라미터입니다. */}
 
-예시: `[[ $x: $y ($original) ]]`은 "2: 3 (2.9)"와 같이 표시됩니다.
+<div id="point-specific-values">
+  ### 포인트별 값
+</div>
 
-`[[ ]]` 내부에서 지원되는 값:
+차트 위에 마우스를 올렸을 때 십자선에 포인트별 값이 표시되도록 하려면 `[[ ]]` 안에 값을 설정합니다.
 
-| 값 | 의미 |
-| ------------ | ------------------------------------------ |
-| `${x}` | X 값 |
-| `${y}` | Y 값 (smoothing 조정 포함) |
-| `${original}` | smoothing 조정을 포함하지 않은 Y 값 |
-| `${mean}` | 그룹화된 Runs의 평균 |
-| `${stddev}` | 그룹화된 Runs의 표준 편차 |
-| `${min}` | 그룹화된 Runs의 최소값 |
-| `${max}` | 그룹화된 Runs의 최대값 |
-| `${percent}` | 전체에 대한 백분율 (누적 영역 차트용) |
+1. 톱니바퀴 아이콘을 클릭해 플롯 설정을 엽니다.
+2. **Display preferences** 탭으로 이동합니다.
+3. 탭 하단에서 플롯의 메트릭 하나 이상에 대해 포인트별 값을 설정합니다.
+4. **Apply**를 클릭합니다.
 
-## 표현식 (Expressions)
+{/* 예: `[[ $x: $y ($original) ]]`는 "2: 3 (2.9)"처럼 표시됩니다. */}
 
-파생된 메트릭을 생성하기 위해 커스텀 계산 표현식을 추가하세요.
+`[[ ]]` 안에서 지원되는 값:
 
-### Y-축 표현식
+| 값             | 의미                      |
+| ------------- | ----------------------- |
+| `${x}`        | X 값                     |
+| `${y}`        | Y 값(스무딩 조정 포함)          |
+| `${original}` | 스무딩 조정이 적용되지 않은 Y 값     |
+| `${mean}`     | 그룹화된 run의 평균            |
+| `${stddev}`   | 그룹화된 run의 표준편차          |
+| `${min}`      | 그룹화된 run의 최솟값           |
+| `${max}`      | 그룹화된 run의 최댓값           |
+| `${percent}`  | 전체 대비 백분율(누적 영역 차트의 경우) |
 
-메트릭에서 파생된 값을 플롯합니다. 예를 들어, `1-accuracy` 또는 기타 산술 표현식을 계산합니다. 현재는 단일 메트릭을 플롯할 때만 작동합니다.
+<div id="expressions">
+  ## 표현식
+</div>
 
-지원되는 연산자: `+`, `-`, `*`, `/`, `%`, `**` (지수).
+수학 표현식을 사용해 로깅한 메트릭, 설정 값, 요약 통계를 바탕으로 선형 플롯을 만들거나 변환할 수 있습니다. 예를 들어 두 메트릭의 차이를 계산하거나, 설정 값으로 메트릭의 스케일을 조정하거나, 메트릭의 로그값을 플롯할 수 있습니다. 표현식은 각 step을 로깅할 때마다 평가됩니다.
 
-로그된 메트릭과 하이퍼파라미터와 같은 설정 값을 모두 사용하여 커스텀 라인을 계산할 수 있습니다.
+다음 섹션에서는 표현식에서 값을 레퍼런스하는 방법과 맞춤형 표현식에 사용할 수 있는 연산자 및 함수를 설명합니다. 선형 플롯에서는 x축, y축 또는 둘 다에 표현식을 사용할 수 있습니다.
 
-### X-축 표현식
+일반적인 사용 사례와 예시 표현식은 아래의 [예시 표현식](#example-expressions) section을 참조하세요.
 
-커스텀 표현식을 사용한 계산된 값으로 x-축의 크기를 다시 조정합니다.
+<div id="create-new-line-plots-with-expressions">
+  ### 표현식을 사용해 새 선형 플롯 만들기
+</div>
 
-유용한 변수:
-* `_step`: 기본 x-축 값입니다.
-* `${summary:value}`: 요약(summary) 값을 참조합니다.
+1. 프로젝트의 Workspace로 이동합니다.
+2. **+ Add panel** 버튼을 클릭하고 **Line plot**을 선택합니다.
+3. **Data** 탭을 클릭합니다. x축과 y축에 사용할 선형 플롯 데이터를 선택합니다.
+4. **Expressions** 탭을 클릭합니다.
+5. **Y-axis** 필드 또는 **X-axis** 필드에 표현식을 입력합니다.
+6. **Apply**를 클릭하여 설정을 저장하고 선형 플롯을 확인합니다.
+
+<div id="transform-existing-line-plots-with-expressions">
+  ### 표현식을 사용해 기존 선형 플롯 변환하기
+</div>
+
+1. 변환할 선형 플롯을 여세요.
+2. 패널을 편집하려면 플롯 오른쪽 상단의 톱니바퀴 아이콘을 클릭하세요.
+3. **Expressions** 탭을 클릭하세요.
+4. **Y-axis** 필드 또는 **X-axis** 필드에 표현식을 입력하세요.
+5. **Apply**를 클릭하여 설정을 저장하고 업데이트된 선형 플롯을 확인하세요.
+
+{/* ### Y축 표현식
+
+  메트릭에서 파생된 값을 플로팅합니다. 예를 들어 `1-accuracy` 또는 다른 산술 표현식을 계산할 수 있습니다. 현재는 단일 메트릭을 플로팅할 때만 작동합니다.
+
+  지원되는 연산자: `+`, `-`, `*`, `/`, `%`, `**`(지수 계산용)
+
+  로깅된 메트릭과 하이퍼파라미터 같은 설정 값을 모두 사용해 맞춤형 라인을 계산할 수 있습니다.
+
+  ### X축 표현식
+
+  맞춤형 표현식으로 계산한 값을 사용해 x축을 다시 스케일링합니다.
+
+  유용한 변수:
+  * `_step`: 기본 x축 값입니다.
+  * `${summary:value}`: summary 값을 참조합니다. */}
+
+<div id="referencing-values">
+  ### 값 참조
+</div>
+
+다음 표는 선형 플롯 표현식에서 로깅된 메트릭, 설정 파라미터, 요약 통계를 참조하는 방법을 설명합니다.
+
+| 유형      | 구문                     | 설명                                  | 예시                                                  |
+| ------- | ---------------------- | ----------------------------------- | --------------------------------------------------- |
+| 메트릭     | `${metric_name}`       | 이름으로 로깅된 메트릭을 참조합니다.                | `${val/accuracy}`, `${"accuracy"}`                  |
+| 설정 파라미터 | `${config:param_name}` | `${config:}` 접두사를 사용하여 설정 값을 참조합니다. | `${config:lr}`, `${config:batch_size}`              |
+| 요약 통계   | `${summary:stat_name}` | `summary:` 접두사를 사용하여 요약 필드를 참조합니다.  | `${summary:final_accuracy}`, `${summary:best_loss}` |
+
+`/`, `-`, 공백 등 특수 문자가 포함된 메트릭 이름, 설정 파라미터 또는 요약 필드는 `${...}`를 사용해 이스케이프하세요.
+
+예를 들어 `val/accuracy`라는 이름의 메트릭을 로깅한 경우, 나눗셈 연산자와의 혼동을 피하려면 `${val/accuracy}`로 참조하세요. `dropout-rate`라는 이름의 설정 파라미터를 로깅한 경우에는 `${config:dropout-rate}`로 참조하세요. `best loss`라는 이름의 요약 필드를 로깅한 경우에는 `${summary:best loss}`로 참조하세요.
+
+<div id="nested-configs">
+  #### 중첩된 설정
+</div>
+
+점 표기법과 다음 구문을 사용해 중첩된 설정 값에 접근하세요:
+
+```javascript
+${config:parent.child.grandchild}
+```
+
+여기서 `parent`, `child`, `grandchild`는 중첩된 설정 딕셔너리의 키입니다.
+
+예를 들어, 중첩 딕셔너리가 포함된 다음 설정을 로그한다고 가정해 보겠습니다:
+
+```python
+config = {
+    "model": {
+        "type": "resnet",
+        "layers": 50
+    },
+    "training": {
+        "batch_size": 32,
+        "learning_rate": 0.001
+    }
+}
+
+with wandb.init(project="my-project", config=config) as run:
+    ...
+```
+
+`${config:model.type}`로 모델 유형을 참조할 수 있습니다. `${config:training.batch_size}`로 배치 크기를 참조할 수 있습니다.
+
+다른 예로, 중첩된 딕셔너리가 있는 다음 `config`를 살펴보겠습니다:
+
+```json Config parameters 
+config:
+  optimizer:
+    value:
+      lr: 0.001
+      weight_decay: 0.01
+  model:
+    value:
+      hidden_size: 768
+```
+
+학습률은 `${config:optimizer.value.lr}`로, 모델의 은닉 크기는 `${config:model.value.hidden_size}`로, 가중치 감쇠는 `${config:optimizer.value.weight_decay}`로 참조하세요.
+
+<div id="available-operators">
+  ### 사용 가능한 연산자
+</div>
+
+W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
+
+| 범주    | 연산자                                            |
+| ----- | ---------------------------------------------- |
+| 산술    | `+`, `-`, `*`, `/`, `%` (모듈로), `**` (거듭제곱)     |
+| 비교    | `==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=` |
+| 비트 연산 | `\|`, `^`, `&`, `<<`, `>>`, `>>>`              |
+| 논리    | `\|\|`, `&&`                                   |
+
+<div id="math-constants-and-functions">
+  ### 수학 상수 및 함수
+</div>
+
+모든 JavaScript 수학 함수와 상수를 지원합니다. 자세한 내용은 [MDN Math 문서](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)를 참조하세요. 다음 표에서는 선형 플롯 표현식에서 가장 자주 사용되는 함수와 상수를 요약합니다.
+
+<div id="math-constants">
+  #### 수학 상수
+</div>
+
+| 상수        | 설명         |
+| --------- | ---------- |
+| `e`       | 오일러 수      |
+| `pi`      | 원주율        |
+| `ln2`     | 2의 자연로그    |
+| `ln10`    | 10의 자연로그   |
+| `log2e`   | e의 밑 2 로그  |
+| `log10e`  | e의 밑 10 로그 |
+| `sqrt2`   | 2의 제곱근     |
+| `sqrt1_2` | 1/2의 제곱근   |
+
+<div id="arithmetic-and-statistical-functions">
+  #### 산술 및 통계 함수
+</div>
+
+다음 표는 사용 가능한 산술 및 통계 함수를 설명합니다.
+
+| 함수             | 설명                   |
+| -------------- | -------------------- |
+| abs(x)         | 절댓값                  |
+| ceil(x)        | 올림 함수(가장 가까운 정수로 올림) |
+| floor(x)       | 내림 함수(가장 가까운 정수로 내림) |
+| round(x)       | 가장 가까운 정수로 반올림       |
+| min(x, y, ...) | 최솟값                  |
+| max(x, y, ...) | 최댓값                  |
+| sqrt(x)        | 제곱근                  |
+
+<div id="logarithmic-and-exponential-functions">
+  #### 로그 함수와 지수 함수
+</div>
+
+다음 표에서는 사용 가능한 로그 함수와 지수 함수를 설명합니다.
+
+| 함수        | 설명           |
+| --------- | ------------ |
+| log(x)    | 자연로그(밑 e)    |
+| log10(x)  | 밑이 10인 로그    |
+| log2(x)   | 밑이 2인 로그     |
+| exp(x)    | 지수 함수(e^x)   |
+| pow(x, y) | 거듭제곱 함수(x^y) |
+
+<div id="trigonometric-functions">
+  #### 삼각 함수
+</div>
+
+다음 표에서는 사용 가능한 삼각 함수를 설명합니다.
+
+| 함수          | 설명          |
+| ----------- | ----------- |
+| sin(x)      | 사인          |
+| cos(x)      | 코사인         |
+| tan(x)      | 탄젠트         |
+| asin(x)     | 아크사인(역사인)   |
+| acos(x)     | 아크코사인(역코사인) |
+| atan(x)     | 아크탄젠트(역탄젠트) |
+| atan2(y, x) | 2인수 아크탄젠트   |
+
+<div id="hyperbolic-functions">
+  #### 쌍곡선 함수
+</div>
+
+다음 표는 사용 가능한 쌍곡선 함수를 설명합니다:
+
+| 함수      | 설명      |
+| ------- | ------- |
+| sinh(x) | 쌍곡선 사인  |
+| cosh(x) | 쌍곡선 코사인 |
+| tanh(x) | 쌍곡선 탄젠트 |
+
+<div id="example-expressions">
+  ### 예시 표현식
+</div>
+
+다음은 선형 플롯 축에 사용할 수 있는 예시 표현식입니다. 이 예시들은 이해를 돕기 위한 것입니다. 필요에 맞는 복잡한 표현식을 만들려면 앞선 섹션에서 설명한 연산자와 함수를 원하는 방식으로 조합해 사용할 수 있습니다.
+
+다음 예시에서는 [요약 메트릭](/ko/models/track/log/log-summary#log-summary-metrics)에 `accuracy`와 `loss`가 포함되어 있으며, 각각의 값은 다음과 같다고 가정합니다:
+
+```json Summary metrics
+{
+  "accuracy": 0.7829240801794489,
+  "loss": 0.2194763318905079
+}
+```
+
+그리고 설정이 다음과 같다고 가정해 보겠습니다.
+
+```json Config parameters
+config = {
+    "epochs": 100,
+    "optimizer": {
+        "value": {
+            "lr": 0.001,
+            "weight_decay": 0.01
+        }
+    }
+}
+```
+
+상수 값을 더해 정확도 지표를 세로로 이동합니다. 다음 예에서는 정확도 지표를 1만큼 위로 이동합니다:
+
+```javascript
+1 - accuracy
+```
+
+메트릭을 일정한 값만큼 수직으로 이동합니다. 이 경우에는 학습률(`lr`)을 사용합니다:
+
+```javascript
+accuracy+${config:optimizer.value.lr}
+```
+
+메트릭의 사인을 계산합니다. 다음 예에서는 loss 메트릭의 사인을 계산합니다:
+
+```javascript
+sin(loss)
+```
+
+사인 함수를 적용해 메트릭을 위상 이동합니다. 예를 들어, 사인 함수를 적용해 loss 메트릭을 2만큼 위상 이동합니다:
+
+```javascript
+sin(loss - 2)
+```
+
+`batch_size`라는 설정 파라미터를 사용해 정확도 메트릭의 스케일을 조정합니다:
+
+```javascript
+${accuracy} / ${config:batch_size}
+```
+
+두 메트릭 중 최솟값을 계산합니다. 다음 예에서는 loss와 정확도 중 최솟값을 계산합니다:
+
+```javascript
+min(loss, accuracy)
+```
+
+두 메트릭의 제곱합의 제곱근을 계산합니다. 다음 예에서는 loss와 정확도의 제곱합의 제곱근을 계산합니다:
+
+```javascript
+sqrt(loss ** 2 + accuracy ** 2)
+```
+
+loss의 지수 함수를 계산합니다. 다음 예에서는 loss metric의 지수 함수를 계산합니다:
+
+```javascript
+sqrt(loss*100)+sqrt(loss*100000)
+```
+
+<Note>
+  표현식에서 `${summary:metric_name}` 구문을 사용해 summary 메트릭 값도 참고할 수 있습니다. 예를 들면 다음과 같습니다.
+
+  ```javascript
+  sqrt(${summary:loss}*100)+sqrt(${summary:loss}*100000)
+  ```
+</Note>
+
+<div id="multi-metric-panel-expressions">
+  ### 다중 메트릭 패널 표현식
+</div>
+
+정규식을 사용하면 여러 메트릭을 함께 표시하는 단일 선형 플롯을 만들 수 있습니다(나중에 로깅되는 일치 메트릭도 포함). 자세한 지침은 [선형 플롯 추가하기](/ko/models/app/features/panels/line-plot#multi-metric-line-plot)를 참조하세요.
+
+예를 들면 다음과 같습니다.
+
+* 각 레이어의 메트릭마다 별도의 패널을 만드는 대신, 하나의 패널에서 함께 볼 수 있습니다. 예를 들어 `layer_0_loss`, `layer_1_loss`, `layer_2_loss`처럼 일관된 이름으로 메트릭을 로깅하는 경우, `layer_\d+_loss`와 같은 정규식을 사용해 모든 레이어의 loss를 하나의 플롯에 표시할 수 있습니다.
+* 공통된 명명 패턴을 공유하는 모든 메트릭과 일치시킬 수 있습니다. 예를 들면 다음과 같습니다.
+  * `train_.*`는 `train_loss`, `train_accuracy`, `train_f1_score`와 같은 모든 트레이닝 메트릭과 일치합니다
+  * `.*_accuracy`는 `train_accuracy`, `val_accuracy`, `test_accuracy`처럼 서로 다른 데이터셋의 accuracy 메트릭과 일치합니다
+* alternation을 사용해 원하는 메트릭만 일치시킬 수 있습니다. 예를 들어 비캡처 그룹 `(?:layer_0|layer_10)_loss`는 중간 레이어를 제외하고 첫 번째와 열 번째 레이어의 loss에만 일치합니다.
+
+<div id="capture-groups">
+  #### 캡처 그룹
+</div>
+
+<LinePlotCaptureGroups />

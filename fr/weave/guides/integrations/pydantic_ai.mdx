@@ -1,0 +1,179 @@
+---
+title: "PydanticAI"
+description: "Tracez les appels d’agents et d’outils de PydanticAI dans Weave avec OpenTelemetry"
+---
+
+Vous pouvez tracer les appels d’agents et d’outils de [PydanticAI](https://ai.pydantic.dev/) dans Weave à l’aide d’[OpenTelemetry (OTEL)](https://opentelemetry.io/). PydanticAI est un framework d’agents Python développé par l’équipe Pydantic pour faciliter la création d’applications d’IA générative prêtes pour la production, avec sûreté de type. Il utilise OTEL pour le Tracing de tous les appels d’agents et d’outils.
+
+<Tip>
+  Pour plus d’informations sur le Tracing OTEL dans Weave, voir [Envoyer des traces OTEL vers Weave](../tracking/otel).
+</Tip>
+
+Ce guide vous montre comment tracer les appels d’agents et d’outils de PydanticAI avec OTEL et visualiser ces traces dans Weave. Vous apprendrez à installer les dépendances requises, à configurer un traceur OTEL pour envoyer des données à Weave et à instrumenter vos agents et outils PydanticAI. Vous verrez également comment activer le Tracing par défaut pour tous les agents de votre application.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Avant de commencer, installez les dépendances OTEL requises :
+
+```bash
+pip install opentelemetry-sdk OTELemetry-exporter-otlp-proto-http
+```
+
+Ensuite, [configurez le Tracing OTEL dans Weave](#configure-otel-tracing-in-weave).
+
+<div id="configure-otel-tracing-in-weave">
+  ### Configurer le Tracing OTEL dans Weave
+</div>
+
+Pour envoyer des traces de PydanticAI vers Weave, configurez OTEL avec un `TracerProvider` et un `OTLPSpanExporter`. Configurez l&#39;exportateur avec le [bon endpoint et les en-têtes HTTP requis pour l&#39;authentification et l&#39;identification du projet](#required-configuration).
+
+<Warning>
+  Il est recommandé de stocker les variables d&#39;environnement sensibles, comme votre clé API et les informations de votre projet, dans un fichier d&#39;environnement (par exemple, `.env`), puis de les charger à l&#39;aide de `os.environ`. Cela permet de protéger vos identifiants et de les garder hors de votre code source.
+</Warning>
+
+<div id="required-configuration">
+  ### Configuration requise
+</div>
+
+* **Endpoint :** `https://trace.wandb.ai/otel/v1/traces`
+* **En-têtes :**
+  * `Authorization` : authentification HTTP Basic à l’aide de votre clé API W&amp;B
+  * `project_id` : le nom de votre entité/projet W&amp;B (par ex. : `myteam/myproject`)
+
+<div id="example-set-up">
+  ### Exemple de configuration
+</div>
+
+L’extrait de code suivant montre comment configurer un exportateur de spans OTLP et un fournisseur de traceur afin d’envoyer des traces OTEL depuis une application PydanticAI vers Weave.
+
+```python lines
+import base64
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+
+# Charger les valeurs sensibles depuis les variables d'environnement
+WANDB_BASE_URL = "https://trace.wandb.ai"
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  # Nom de votre entité/projet W&B, par ex. "myteam/myproject"
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  # Votre clé API W&B
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# Créer l'exportateur de spans OTLP avec l'endpoint et les en-têtes
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Créer un fournisseur de traceur et ajouter l'exportateur
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+```
+
+<div id="trace-pydanticai-agents-with-otel">
+  ## Tracer les agents PydanticAI avec OTEL
+</div>
+
+Pour tracer vos agents PydanticAI et envoyer des données de trace à Weave, transmettez un objet `InstrumentationSettings` configuré avec votre fournisseur de traceur au constructeur `Agent`. Cela garantit que tous les appels d’agent et d’outil sont tracés conformément à votre configuration OTEL.
+
+L’exemple suivant montre comment créer un agent simple avec le tracing activé. L’étape clé consiste à définir l’argument `instrument` lors de l’initialisation de l’agent :
+
+```python lines
+from pydantic_ai import Agent
+from pydantic_ai.models.instrumented import InstrumentationSettings
+
+# Créer un agent PydanticAI avec le tracing OTEL
+agent = Agent(
+    "openai:gpt-4o",
+    instrument=InstrumentationSettings(tracer_provider=tracer_provider),
+)
+
+result = agent.run_sync("What is the capital of France?")
+print(result.output)
+```
+
+Tous les appels à l’agent sont tracés et envoyés à Weave.
+
+<Frame>
+  ![Visualisation d’une trace d’un agent PydanticAI simple](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png)
+</Frame>
+
+<div id="trace-pydanticai-tools-with-otel">
+  ## Tracer les outils PydanticAI avec OTEL
+</div>
+
+Weave peut tracer toutes les opérations PydanticAI instrumentées avec OTEL, y compris les appels d’agent et d’outil. Cela signifie que lorsque votre agent invoque un outil (par exemple, une fonction décorée avec `@agent.tool_plain`), l’ensemble de l’interaction est capturé et visualisé dans Weave, y compris les entrées de l’outil, les sorties et le raisonnement du modèle.
+
+L’exemple suivant montre comment créer un agent avec un prompt système et un outil. Le Tracing est automatiquement activé pour l’agent comme pour l’outil :
+
+```python lines
+from pydantic_ai import Agent
+from pydantic_ai.models.instrumented import InstrumentationSettings
+
+# Créer un agent PydanticAI avec un prompt système et le tracing OTEL
+agent = Agent(
+    "openai:gpt-4o",
+    system_prompt=(
+        "You are a helpful assistant that can multiply numbers. "
+        "When asked to multiply numbers, use the multiply tool."
+    ),
+    instrument=InstrumentationSettings(tracer_provider=tracer_provider),
+)
+
+# Définir un outil
+@agent.tool_plain
+def multiply(a: int, b: int) -> int:
+    """Multiplier deux nombres."""
+    return a * b
+
+# Demander à l'agent d'utiliser l'outil
+result = agent.run_sync("What is 7 multiplied by 8?")
+print(result.output)
+```
+
+<Frame>
+  ![Une visualisation de trace d’un appel d’outil](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png)
+</Frame>
+
+L’appel de l’agent et l’appel à l’outil sont tous deux tracés dans Weave, ce qui vous permet d’inspecter l’intégralité du raisonnement et du chemin d’exécution de votre application.
+
+<div id="instrument-all-agents-by-default">
+  ## Instrumenter tous les agents par défaut
+</div>
+
+Pour appliquer le Tracing OTEL à tous les agents PydanticAI de votre application, utilisez la méthode `Agent.instrument_all()`. Cela définit une instance `InstrumentationSettings` par défaut pour tout agent qui ne spécifie pas explicitement le paramètre `instrument`.
+
+```python lines
+from pydantic_ai import Agent
+from pydantic_ai.models.instrumented import InstrumentationSettings
+
+# Configurer l'instrumentation par défaut pour tous les agents
+Agent.instrument_all(InstrumentationSettings(tracer_provider=tracer_provider))
+
+# Désormais, tout nouvel agent utilisera cette instrumentation par défaut
+agent1 = Agent("openai:gpt-4o")
+agent2 = Agent("openai:gpt-4o", system_prompt="Be helpful.")
+
+result = agent1.run_sync("What is the capital of France?")
+print(result.output)
+```
+
+C’est utile pour les applications de plus grande taille, lorsque vous souhaitez un Tracing cohérent pour tous les agents sans dupliquer la configuration. Pour plus de détails, voir la [documentation OTEL de PydanticAI](https://ai.pydantic.dev/logfire/#using-logfire).
+
+<div id="learn-more">
+  ## En savoir plus
+</div>
+
+* [Documentation de Weave : envoyer des traces OTEL à Weave](../tracking/otel)
+* [Documentation officielle d’OTEL](https://opentelemetry.io/)
+* [Documentation officielle de PydanticAI](https://ai.pydantic.dev/)
+* [Dépôt GitHub de PydanticAI](https://github.com/pydantic/pydantic-ai)

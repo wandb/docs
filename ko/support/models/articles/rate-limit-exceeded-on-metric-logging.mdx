@@ -1,0 +1,53 @@
+---
+title: "메트릭을 로깅할 때 `Rate limit exceeded` 오류는 어떻게 해결하나요?"
+keywords: ["메트릭", "Experiments"]
+---
+
+`wandb.log()`를 호출할 때 HTTP `429 Rate limit exceeded` 오류가 발생하면, 해당 프로젝트의 요청 속도 제한 할당량을 초과한 것입니다. W&amp;B는 프로젝트별로 요청 속도 제한을 적용하며, 유료 플랜은 무료 플랜보다 더 높은 한도를 제공합니다.
+
+<div id="how-to-stay-under-the-rate-limit">
+  ## 요청 속도 제한을 넘지 않는 방법
+</div>
+
+1. **W&amp;B SDK를 업데이트하세요**: 최신 버전에는 요청 재시도와 할당량 사용을 더 효율적으로 관리하는 메커니즘이 포함되어 있습니다.
+
+   ```shell
+   pip install --upgrade wandb
+   ```
+
+2. **로깅 빈도를 줄이세요**: 메트릭을 더 드물게 기록하세요. 예를 들어, 매 에포크마다 기록하는 대신 N 에포크마다 기록하세요.
+
+   ```python
+   for epoch in range(100):
+       if epoch % 5 == 0:
+           wandb.log({"acc": accuracy, "loss": loss})
+   ```
+
+3. **데이터를 수동으로 Sync하세요**: 요청 속도 제한에 걸리면 W&amp;B는 run 데이터를 로컬에 저장합니다. 나중에 다음 명령으로 동기화할 수 있습니다.
+
+   ```shell
+   wandb sync <run-file-path>
+   ```
+
+<div id="rate-limit-headers">
+  ## 요청 속도 제한 헤더
+</div>
+
+요청 속도 제한에 걸리면 응답에 다음 헤더가 포함됩니다:
+
+| Header                | 설명                           |
+| --------------------- | ---------------------------- |
+| `RateLimit-Remaining` | 현재 구간에서 남아 있는 할당량(0~1000 범위) |
+| `RateLimit-Reset`     | 현재 할당량이 재설정되기까지 남은 시간(초)     |
+
+`RateLimit-Remaining`이 `0`이면 `RateLimit-Reset`에 지정된 초 수만큼 기다린 후 다시 시도하세요.
+
+자세한 내용은 [Experiments 한도 및 성능](/ko/models/track/limits/)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

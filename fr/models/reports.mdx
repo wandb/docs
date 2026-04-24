@@ -1,0 +1,68 @@
+---
+description: Outils de gestion et de collaboration pour les projets de machine learning
+title: Aperçu des Reports
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/fr/_includes/try-product-link.mdx';
+
+<CardGroup cols={4}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
+
+  <TryProductLink url="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" />
+</CardGroup>
+
+Utilisez W&amp;B Reports pour :
+
+* Organiser les Runs.
+* Intégrer et automatiser des visualisations.
+* Présenter vos résultats.
+* Partager des mises à jour avec vos collaborateurs, au format ZIP LaTeX ou PDF.
+
+{/* {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} */}
+
+L’image suivante montre une section d’un rapport créé à partir de métriques enregistrées dans W&amp;B au fil de l’entraînement.
+
+<Frame>
+  <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="Rapport W&B avec résultats de benchmark" max-width="90%" />
+</Frame>
+
+Consultez le rapport dont est issue l’image ci-dessus [ici](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
+
+<div id="how-it-works">
+  ## Fonctionnement
+</div>
+
+Créez un rapport collaboratif en quelques clics.
+
+1. Accédez à le Workspace de votre projet W&amp;B dans la W&amp;B App.
+2. Cliquez sur le bouton **Créer un rapport** en haut à droite de votre Workspace.
+
+<Frame>
+  <img src="/images/reports/create_a_report_button.png" alt="Bouton Créer un rapport" max-width="90%" />
+</Frame>
+
+3. Une fenêtre modale intitulée **Créer un rapport** s’affiche. Sélectionnez les graphiques et panneaux que vous souhaitez ajouter à votre rapport. (Vous pourrez ajouter ou supprimer des graphiques et des panneaux plus tard).
+4. Cliquez sur **Créer un rapport**.
+5. Modifiez le rapport comme vous le souhaitez.
+6. Cliquez sur **Publier dans le projet**.
+7. Cliquez sur le bouton **Partager** pour partager votre rapport avec vos collaborateurs.
+
+Voir la page [Créer un rapport](/fr/models/reports/create-a-report/) pour plus d’informations sur la façon de créer des rapports de manière interactive et par programmation avec le W&amp;B Python SDK.
+
+<div id="how-to-get-started">
+  ## Pour commencer
+</div>
+
+Selon votre cas d’usage, explorez les ressources suivantes pour bien démarrer avec W&amp;B Reports :
+
+* Consultez notre [vidéo de démonstration](https://www.youtube.com/watch?v=2xeJIv_K_eI) pour obtenir un aperçu de W&amp;B Reports.
+* Explorez la [galerie Reports](/fr/models/reports/reports-gallery/) pour découvrir des exemples de rapports en direct.
+* Essayez le notebook [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) pour apprendre à créer et à personnaliser votre Workspace.
+* Lisez une sélection de Reports dans [W&amp;B Fully Connected](https://wandb.me/fc).
+
+<div id="recommended-practices-and-tips">
+  ## Bonnes pratiques et conseils
+</div>
+
+Pour consulter les bonnes pratiques et conseils concernant Experiments et logging, voir [Bonnes pratiques : Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports).

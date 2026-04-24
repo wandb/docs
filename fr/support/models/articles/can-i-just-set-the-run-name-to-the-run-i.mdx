@@ -1,0 +1,22 @@
+---
+title: "Puis-je simplement attribuer le run ID comme nom de l'exécution ?"
+keywords: ["Experiments"]
+---
+
+Oui. Pour remplacer le nom de l&#39;exécution par le run ID, utilisez l&#39;extrait de code suivant :
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

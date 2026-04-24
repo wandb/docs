@@ -1,0 +1,55 @@
+---
+title: "W&B Inference에서 왜 요청 속도 제한 오류(429)가 발생하나요?"
+keywords: ["Inference"]
+---
+
+한도를 초과하면 요청 속도 제한 오류(429)가 발생합니다.
+
+**오류:** &quot;요청 동시성 한도에 도달했습니다&quot;
+
+**해결 방법:**
+
+* 병렬 요청 수를 줄이세요
+* 요청 사이에 지연 시간을 두세요
+* 지수 백오프를 구현하세요
+* 참고: 요청 속도 제한은 W&amp;B 프로젝트별로 적용됩니다
+
+<div id="best-practices-to-avoid-rate-limits">
+  ## 요청 속도 제한을 피하기 위한 모범 사례
+</div>
+
+1. **지수 백오프를 적용한 재시도 로직을 구현합니다:**
+   ```python
+   import time
+
+   def retry_with_backoff(func, max_retries=3):
+       for i in range(max_retries):
+           try:
+               return func()
+           except Exception as e:
+               if "429" in str(e) and i < max_retries - 1:
+                   time.sleep(2 ** i)
+               else:
+                   raise
+   ```
+
+2. **병렬 요청 대신 배치 처리를 사용합니다**
+
+3. **W&amp;B Billing 페이지에서 사용량을 모니터링합니다**
+
+<div id="default-spending-caps">
+  ## 기본 지출 한도
+</div>
+
+* **Pro 계정:** 월 $6,000
+* **Enterprise 계정:** 연 $700,000
+
+한도를 조정하려면 담당 account executive 또는 지원팀에 문의하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ko/support/models/tags/inference)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}
