@@ -146,9 +146,9 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 3. **Advanced legend**를 펼친 다음 범례 템플릿을 지정합니다.
 4. **Apply**를 클릭합니다.
 
-예:
+{/* 예:
 
-`${run:displayName} - ${config:dropout}`는 `royal-sweep - 0.5`와 같은 범례 이름을 생성합니다. 여기서 `royal-sweep`는 run 이름이고 `0.5`는 `dropout`이라는 이름의 설정 파라미터입니다.
+  `${run:displayName} - ${config:dropout}`는 `royal-sweep - 0.5`와 같은 범례 이름을 생성합니다. 여기서 `royal-sweep`는 run 이름이고 `0.5`는 `dropout`이라는 이름의 설정 파라미터입니다. */}
 
 <div id="point-specific-values">
   ### 포인트별 값
@@ -161,7 +161,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 3. 탭 하단에서 플롯의 메트릭 하나 이상에 대해 포인트별 값을 설정합니다.
 4. **Apply**를 클릭합니다.
 
-예: `[[ $x: $y ($original) ]]`는 &quot;2: 3 (2.9)&quot;처럼 표시됩니다.
+{/* 예: `[[ $x: $y ($original) ]]`는 "2: 3 (2.9)"처럼 표시됩니다. */}
 
 `[[ ]]` 안에서 지원되는 값:
 
@@ -180,28 +180,288 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   ## 표현식
 </div>
 
-파생 메트릭 생성을 위해 맞춤형 계산 표현식을 추가합니다.
+수학 표현식을 사용해 로깅한 메트릭, 설정 값, 요약 통계를 바탕으로 선형 플롯을 만들거나 변환할 수 있습니다. 예를 들어 두 메트릭의 차이를 계산하거나, 설정 값으로 메트릭의 스케일을 조정하거나, 메트릭의 로그값을 플롯할 수 있습니다. 표현식은 각 step을 로깅할 때마다 평가됩니다.
 
-<div id="y-axis-expressions">
-  ### Y축 표현식
+다음 섹션에서는 표현식에서 값을 레퍼런스하는 방법과 맞춤형 표현식에 사용할 수 있는 연산자 및 함수를 설명합니다. 선형 플롯에서는 x축, y축 또는 둘 다에 표현식을 사용할 수 있습니다.
+
+일반적인 사용 사례와 예시 표현식은 아래의 [예시 표현식](#example-expressions) section을 참조하세요.
+
+<div id="create-new-line-plots-with-expressions">
+  ### 표현식을 사용해 새 선형 플롯 만들기
 </div>
 
-메트릭에서 파생된 값을 플로팅합니다. 예를 들어 `1-accuracy` 또는 다른 산술 표현식을 계산할 수 있습니다. 현재는 단일 메트릭을 플로팅할 때만 작동합니다.
+1. 프로젝트의 Workspace로 이동합니다.
+2. **+ Add panel** 버튼을 클릭하고 **Line plot**을 선택합니다.
+3. **Data** 탭을 클릭합니다. x축과 y축에 사용할 선형 플롯 데이터를 선택합니다.
+4. **Expressions** 탭을 클릭합니다.
+5. **Y-axis** 필드 또는 **X-axis** 필드에 표현식을 입력합니다.
+6. **Apply**를 클릭하여 설정을 저장하고 선형 플롯을 확인합니다.
 
-지원되는 연산자: `+`, `-`, `*`, `/`, `%`, `**`(지수 계산용)
+<div id="transform-existing-line-plots-with-expressions">
+  ### 표현식을 사용해 기존 선형 플롯 변환하기
+</div>
 
-로깅된 메트릭과 하이퍼파라미터 같은 설정 값을 모두 사용해 맞춤형 라인을 계산할 수 있습니다.
+1. 변환할 선형 플롯을 여세요.
+2. 패널을 편집하려면 플롯 오른쪽 상단의 톱니바퀴 아이콘을 클릭하세요.
+3. **Expressions** 탭을 클릭하세요.
+4. **Y-axis** 필드 또는 **X-axis** 필드에 표현식을 입력하세요.
+5. **Apply**를 클릭하여 설정을 저장하고 업데이트된 선형 플롯을 확인하세요.
 
-<div id="x-axis-expressions">
+{/* ### Y축 표현식
+
+  메트릭에서 파생된 값을 플로팅합니다. 예를 들어 `1-accuracy` 또는 다른 산술 표현식을 계산할 수 있습니다. 현재는 단일 메트릭을 플로팅할 때만 작동합니다.
+
+  지원되는 연산자: `+`, `-`, `*`, `/`, `%`, `**`(지수 계산용)
+
+  로깅된 메트릭과 하이퍼파라미터 같은 설정 값을 모두 사용해 맞춤형 라인을 계산할 수 있습니다.
+
   ### X축 표현식
+
+  맞춤형 표현식으로 계산한 값을 사용해 x축을 다시 스케일링합니다.
+
+  유용한 변수:
+  * `_step`: 기본 x축 값입니다.
+  * `${summary:value}`: summary 값을 참조합니다. */}
+
+<div id="referencing-values">
+  ### 값 참조
 </div>
 
-맞춤형 표현식으로 계산한 값을 사용해 X축 크기를 다시 조정합니다.
+다음 표는 선형 플롯 표현식에서 로깅된 메트릭, 설정 파라미터, 요약 통계를 참조하는 방법을 설명합니다.
 
-유용한 변수:
+| 유형      | 구문                     | 설명                                  | 예시                                                  |
+| ------- | ---------------------- | ----------------------------------- | --------------------------------------------------- |
+| 메트릭     | `${metric_name}`       | 이름으로 로깅된 메트릭을 참조합니다.                | `${val/accuracy}`, `${"accuracy"}`                  |
+| 설정 파라미터 | `${config:param_name}` | `${config:}` 접두사를 사용하여 설정 값을 참조합니다. | `${config:lr}`, `${config:batch_size}`              |
+| 요약 통계   | `${summary:stat_name}` | `summary:` 접두사를 사용하여 요약 필드를 참조합니다.  | `${summary:final_accuracy}`, `${summary:best_loss}` |
 
-* `_step`: 기본 X축 값입니다.
-* `${summary:value}`: summary 값 레퍼런스입니다.
+`/`, `-`, 공백 등 특수 문자가 포함된 메트릭 이름, 설정 파라미터 또는 요약 필드는 `${...}`를 사용해 이스케이프하세요.
+
+예를 들어 `val/accuracy`라는 이름의 메트릭을 로깅한 경우, 나눗셈 연산자와의 혼동을 피하려면 `${val/accuracy}`로 참조하세요. `dropout-rate`라는 이름의 설정 파라미터를 로깅한 경우에는 `${config:dropout-rate}`로 참조하세요. `best loss`라는 이름의 요약 필드를 로깅한 경우에는 `${summary:best loss}`로 참조하세요.
+
+<div id="nested-configs">
+  #### 중첩된 설정
+</div>
+
+점 표기법과 다음 구문을 사용해 중첩된 설정 값에 접근하세요:
+
+```javascript
+${config:parent.child.grandchild}
+```
+
+여기서 `parent`, `child`, `grandchild`는 중첩된 설정 딕셔너리의 키입니다.
+
+예를 들어, 중첩 딕셔너리가 포함된 다음 설정을 로그한다고 가정해 보겠습니다:
+
+```python
+config = {
+    "model": {
+        "type": "resnet",
+        "layers": 50
+    },
+    "training": {
+        "batch_size": 32,
+        "learning_rate": 0.001
+    }
+}
+
+with wandb.init(project="my-project", config=config) as run:
+    ...
+```
+
+`${config:model.type}`로 모델 유형을 참조할 수 있습니다. `${config:training.batch_size}`로 배치 크기를 참조할 수 있습니다.
+
+다른 예로, 중첩된 딕셔너리가 있는 다음 `config`를 살펴보겠습니다:
+
+```json Config parameters 
+config:
+  optimizer:
+    value:
+      lr: 0.001
+      weight_decay: 0.01
+  model:
+    value:
+      hidden_size: 768
+```
+
+학습률은 `${config:optimizer.value.lr}`로, 모델의 은닉 크기는 `${config:model.value.hidden_size}`로, 가중치 감쇠는 `${config:optimizer.value.weight_decay}`로 참조하세요.
+
+<div id="available-operators">
+  ### 사용 가능한 연산자
+</div>
+
+W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
+
+| 범주    | 연산자                                            |
+| ----- | ---------------------------------------------- |
+| 산술    | `+`, `-`, `*`, `/`, `%` (모듈로), `**` (거듭제곱)     |
+| 비교    | `==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=` |
+| 비트 연산 | `\|`, `^`, `&`, `<<`, `>>`, `>>>`              |
+| 논리    | `\|\|`, `&&`                                   |
+
+<div id="math-constants-and-functions">
+  ### 수학 상수 및 함수
+</div>
+
+모든 JavaScript 수학 함수와 상수를 지원합니다. 자세한 내용은 [MDN Math 문서](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)를 참조하세요. 다음 표에서는 선형 플롯 표현식에서 가장 자주 사용되는 함수와 상수를 요약합니다.
+
+<div id="math-constants">
+  #### 수학 상수
+</div>
+
+| 상수        | 설명         |
+| --------- | ---------- |
+| `e`       | 오일러 수      |
+| `pi`      | 원주율        |
+| `ln2`     | 2의 자연로그    |
+| `ln10`    | 10의 자연로그   |
+| `log2e`   | e의 밑 2 로그  |
+| `log10e`  | e의 밑 10 로그 |
+| `sqrt2`   | 2의 제곱근     |
+| `sqrt1_2` | 1/2의 제곱근   |
+
+<div id="arithmetic-and-statistical-functions">
+  #### 산술 및 통계 함수
+</div>
+
+다음 표는 사용 가능한 산술 및 통계 함수를 설명합니다.
+
+| 함수             | 설명                   |
+| -------------- | -------------------- |
+| abs(x)         | 절댓값                  |
+| ceil(x)        | 올림 함수(가장 가까운 정수로 올림) |
+| floor(x)       | 내림 함수(가장 가까운 정수로 내림) |
+| round(x)       | 가장 가까운 정수로 반올림       |
+| min(x, y, ...) | 최솟값                  |
+| max(x, y, ...) | 최댓값                  |
+| sqrt(x)        | 제곱근                  |
+
+<div id="logarithmic-and-exponential-functions">
+  #### 로그 함수와 지수 함수
+</div>
+
+다음 표에서는 사용 가능한 로그 함수와 지수 함수를 설명합니다.
+
+| 함수        | 설명           |
+| --------- | ------------ |
+| log(x)    | 자연로그(밑 e)    |
+| log10(x)  | 밑이 10인 로그    |
+| log2(x)   | 밑이 2인 로그     |
+| exp(x)    | 지수 함수(e^x)   |
+| pow(x, y) | 거듭제곱 함수(x^y) |
+
+<div id="trigonometric-functions">
+  #### 삼각 함수
+</div>
+
+다음 표에서는 사용 가능한 삼각 함수를 설명합니다.
+
+| 함수          | 설명          |
+| ----------- | ----------- |
+| sin(x)      | 사인          |
+| cos(x)      | 코사인         |
+| tan(x)      | 탄젠트         |
+| asin(x)     | 아크사인(역사인)   |
+| acos(x)     | 아크코사인(역코사인) |
+| atan(x)     | 아크탄젠트(역탄젠트) |
+| atan2(y, x) | 2인수 아크탄젠트   |
+
+<div id="hyperbolic-functions">
+  #### 쌍곡선 함수
+</div>
+
+다음 표는 사용 가능한 쌍곡선 함수를 설명합니다:
+
+| 함수      | 설명      |
+| ------- | ------- |
+| sinh(x) | 쌍곡선 사인  |
+| cosh(x) | 쌍곡선 코사인 |
+| tanh(x) | 쌍곡선 탄젠트 |
+
+<div id="example-expressions">
+  ### 예시 표현식
+</div>
+
+다음은 선형 플롯 축에 사용할 수 있는 예시 표현식입니다. 이 예시들은 이해를 돕기 위한 것입니다. 필요에 맞는 복잡한 표현식을 만들려면 앞선 섹션에서 설명한 연산자와 함수를 원하는 방식으로 조합해 사용할 수 있습니다.
+
+다음 예시에서는 [요약 메트릭](/ko/models/track/log/log-summary#log-summary-metrics)에 `accuracy`와 `loss`가 포함되어 있으며, 각각의 값은 다음과 같다고 가정합니다:
+
+```json Summary metrics
+{
+  "accuracy": 0.7829240801794489,
+  "loss": 0.2194763318905079
+}
+```
+
+그리고 설정이 다음과 같다고 가정해 보겠습니다.
+
+```json Config parameters
+config = {
+    "epochs": 100,
+    "optimizer": {
+        "value": {
+            "lr": 0.001,
+            "weight_decay": 0.01
+        }
+    }
+}
+```
+
+상수 값을 더해 정확도 지표를 세로로 이동합니다. 다음 예에서는 정확도 지표를 1만큼 위로 이동합니다:
+
+```javascript
+1 - accuracy
+```
+
+메트릭을 일정한 값만큼 수직으로 이동합니다. 이 경우에는 학습률(`lr`)을 사용합니다:
+
+```javascript
+accuracy+${config:optimizer.value.lr}
+```
+
+메트릭의 사인을 계산합니다. 다음 예에서는 loss 메트릭의 사인을 계산합니다:
+
+```javascript
+sin(loss)
+```
+
+사인 함수를 적용해 메트릭을 위상 이동합니다. 예를 들어, 사인 함수를 적용해 loss 메트릭을 2만큼 위상 이동합니다:
+
+```javascript
+sin(loss - 2)
+```
+
+`batch_size`라는 설정 파라미터를 사용해 정확도 메트릭의 스케일을 조정합니다:
+
+```javascript
+${accuracy} / ${config:batch_size}
+```
+
+두 메트릭 중 최솟값을 계산합니다. 다음 예에서는 loss와 정확도 중 최솟값을 계산합니다:
+
+```javascript
+min(loss, accuracy)
+```
+
+두 메트릭의 제곱합의 제곱근을 계산합니다. 다음 예에서는 loss와 정확도의 제곱합의 제곱근을 계산합니다:
+
+```javascript
+sqrt(loss ** 2 + accuracy ** 2)
+```
+
+loss의 지수 함수를 계산합니다. 다음 예에서는 loss metric의 지수 함수를 계산합니다:
+
+```javascript
+sqrt(loss*100)+sqrt(loss*100000)
+```
+
+<Note>
+  표현식에서 `${summary:metric_name}` 구문을 사용해 summary 메트릭 값도 참고할 수 있습니다. 예를 들면 다음과 같습니다.
+
+  ```javascript
+  sqrt(${summary:loss}*100)+sqrt(${summary:loss}*100000)
+  ```
+</Note>
 
 <div id="multi-metric-panel-expressions">
   ### 다중 메트릭 패널 표현식

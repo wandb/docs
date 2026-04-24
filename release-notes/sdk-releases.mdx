@@ -7,6 +7,23 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.26.1" description="April 23, 2026">
+## Added
+
+- `wandb.Api` methods that return artifacts, registries, automations, and related paginators accept an optional `start` argument so you can resume iteration from a saved cursor.
+- The `stop_fn` setting on `wandb.Settings` customizes how the SDK asks the Python process to stop when a run stop is requested (the default sends SIGINT). Pass the setting with `wandb.setup(settings=...)` or `wandb.init(settings=...)`. Because the value is a callable, it cannot be set with an environment variable.
+
+## Changed
+
+- In `wandb beta leet`, WASD keys and arrow keys are interchangeable for moving focus within each pane (chart grids, list navigation). **Home**, **End**, **Page Up**, and **Page Down** keys work consistently. The media pane still uses arrow keys to scrub the X-axis and WASD keys to move between image tiles.
+
+## Fixed
+
+- `wandb.init(id=run_id, reinit="create_new")` now raises an error if another run with the same `run_id` is still active in the same script.
+- `wandb.Api` no longer raises on some operations when offline mode is enabled with the `WANDB_MODE` environment variable or the `mode` setting.
+
+</Update>
+
 <Update label="0.26.0" description="April 13, 2026">
 ## Notable Changes
 
