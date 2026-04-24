@@ -1,23 +1,45 @@
 ---
-description: 以下の推奨範囲内でログすることで、W&B のページをより高速かつ高応答に保てます。
-title: Experiments の制限とパフォーマンス
+description: このページでは、ログの取り方が W&B のパフォーマンスにどのように影響するかを説明し、大規模な project で実験管理をスケールさせるためのガイダンスを示します。
+title: 大規模な logging とパフォーマンス
 ---
 
-{/* ## ページの表示を高速に保つためのベストプラクティス */}
+パフォーマンスは通常、次の要素が組み合わさって左右されます。
 
-以下の推奨範囲内でログすることで、W&amp;B のページを高速かつ高応答に保てます。
+* project 内の run の数
+* 各 run のステップ数
+* ログする異なるメトリクスの数
+* `wandb.Run.log()` を呼び出す頻度
+* 各ログ呼び出しで送信するデータ量
+* Workspace の設定
 
-<div id="logging-considerations">
-  ## Logging に関する考慮事項
+ほとんどの場合、パフォーマンスの問題は、ステップを過剰にログすることよりも、異なるメトリクスを過剰にログすることによって発生します。
+
+<div id="key-terms">
+  ## 用語
 </div>
 
-実験のメトリクスをトラッキングするには、`wandb.Run.log()` を使用します。
+このページでは、以下の用語を使用します。
 
-<div id="distinct-metric-count">
-  ### 異なるメトリクス数
+<div id="steps">
+  ### ステップ
 </div>
 
-パフォーマンス向上のため、project 内の異なるメトリクスの総数は 10,000 未満に抑えてください。
+**step** は、run におけるメトリクスの 1 つの論理的な行です。`wandb.Run.log()` を `commit=True` で呼び出したとき、または `commit` も `step` も指定しない場合は暗黙的に、step が確定されます。
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"loss": 0.42}, commit=True)
+```
+
+<div id="metric-cardinality">
+  ### メトリクスのカーディナリティ
+</div>
+
+**メトリクスのカーディナリティ**とは、ネストされた辞書内のキーも含めて、project にログされた一意のメトリクスキーの数です。
+
+たとえば、次の例では `a`、`b.c`、`b.d.e`、`b.d.f` の 4 つの異なるメトリクスキーがログされます。
 
 ```python
 import wandb
@@ -25,48 +47,180 @@ import wandb
 with wandb.init() as run:
     run.log(
         {
-            "a": 1,  # "a" は個別のメトリクス
+            "a": 1,
             "b": {
-                "c": "hello",  # "b.c" は個別のメトリクス
-                "d": [1, 2, 3],  # "b.d" は個別のメトリクス
+                "c": 2,
+                "d": {
+                    "e": 3,
+                    "f": 4,
+                },
             },
         }
     )
 ```
 
-<Note>
-  W&amp;B はネストされた値を自動的にフラット化します。つまり、辞書を渡すと、W&amp;B はそれをドット区切りの名前に変換します。設定値では、W&amp;B は名前に含められるドットを 3 つまでサポートします。サマリー値では、W&amp;B は 4 つまでサポートします。
-</Note>
+W&amp;B は、ネストされた辞書をドット区切りのメトリクス名に展開します。
 
-メトリクス名は、GraphQL による命名制約に従う必要があります。詳しくは、[メトリクス名の命名制約](/ja/models/track/log/#metric-naming-constraints)を参照してください。
-
-{/* ### 同じメトリクス名でメディアをログする
-  関連するメディアは、同じメトリクス名でログします:
-
-  ```python
-  for i, img in enumerate(images):
-    # 推奨されません
-    run.log({f"pred_img_{i}": wandb.Image(image)})
-
-    # 推奨
-    run.log({"pred_imgs": [wandb.Image(image) for image in images]})
-  ``` */}
-
-Workspace が突然遅くなった場合は、最近の Runs で意図せず数千件もの新しいメトリクスがログされていないか確認してください。 (これは、1 つまたは 2 つの run しか表示されていないプロットが数千個あるセクションを見つけると、最も簡単に気付けます。) もしそうであれば、それらの Runs を削除し、必要なメトリクスだけを使って作成し直すことを検討してください。
-
-<div id="value-width">
-  ### 値の幅
+<div id="logged-points">
+  ### ログされたポイント
 </div>
 
-ログする単一の値のサイズは 1 MB 未満に、`wandb.Run.log()` の1回の呼び出しの合計サイズは 25 MB 未満に制限してください。この制限は、`wandb.Image`、`wandb.Audio` などの `wandb.Media` タイプには適用されません。
+**ログされたポイント** とは、記録されたメトリクス値の総数を指します。
+
+たとえば、次のどちらのコードサンプルでも、ログされたポイントは 3 つになります。
 
 ```python
 import wandb
 
-with wandb.init(project="wide-values") as run:
+with wandb.init() as run:
+    run.log({"a": 1, "b": 2, "c": 3})
+```
 
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"a": 1})
+    run.log({"a": 2})
+    run.log({"a": 3})
+```
+
+<div id="log-frequency">
+  ### ログ頻度
+</div>
+
+**ログ頻度** は、1 分あたりの `wandb.Run.log()` の呼び出し回数です。
+
+```text
+log frequency = wandb.Run.log() calls per minute
+```
+
+<div id="throughput">
+  ### スループット
+</div>
+
+**スループット** は、1 分あたりに記録されるログされたポイントの総数です。
+
+スループットは、次のように考えることができます。
+
+```text
+throughput = logged points per minute
+```
+
+あるいは、同様に:
+
+```text
+throughput = logged points × log frequency
+```
+
+<Warning>
+  以下のセクションは W&amp;B SaaS Cloud に適用されます。別の W&amp;B デプロイメント タイプを使用している場合は、デプロイメント固有のガイダンスや制限について管理者に確認してください。
+</Warning>
+
+<div id="recommendations-at-scale">
+  ## 大規模運用時の推奨事項
+</div>
+
+次の表は、大規模な logging における推奨運用範囲をまとめたものです。
+
+| Dimension                  | Guidance at scale |
+| -------------------------- | ----------------- |
+| project あたりの Runs 数        | 10,000            |
+| run あたりの step 数            | 500,000           |
+| project あたりのメトリクス カーディナリティ | 100,000           |
+| ログ頻度                       | 1 分あたり 1,000 行    |
+| スループット                     | 1 分あたり 100,000 値  |
+| 動画スループット                 | 1 分あたり 40 MB      |
+
+<Note>
+  これらの値は、大規模運用時に良好なパフォーマンスを維持するための目安です。W&amp;B はこれらの推奨値を超えるデータも引き続き受け付ける場合がありますが、ページの読み込みや操作が遅くなる可能性があります。
+</Note>
+
+<div id="throughput-examples">
+  ## スループットの例
+</div>
+
+ログの記録方法が異なっていても、同じスループットになることがあります。
+
+<div id="scalar-logging-examples">
+  ### スカラーのログの例
+</div>
+
+| 1 回のログ呼び出しあたりのメトリクス数 | ログ頻度 (1 分あたり)  | スループット (1 分あたりの値数)  |
+| -------------------- | -------------- | ------------------- |
+| 100                  | 1,000          | 100,000             |
+| 1,000                | 100            | 100,000             |
+| 10,000               | 10             | 100,000             |
+| 20,000               | 5              | 100,000             |
+
+<div id="video-logging-examples">
+  ### 動画のログ記録の例
+</div>
+
+| 動画サイズ (MB) | ログ頻度 (1分あたり)  | 動画スループット (1分あたりのMB)  |
+| ---------- | ------------- | -------------------- |
+| 1          | 46            | 46                   |
+| 5          | 8             | 40                   |
+| 10         | 4             | 40                   |
+| 50         | 1             | 50                   |
+| 100        | 0.3           | 30                   |
+| 250        | 0.1           | 25                   |
+| 500        | 0.07          | 35                   |
+
+<div id="logging-considerations">
+  ## Logging に関する考慮事項
+</div>
+
+実験のメトリクスをトラッキングするには、`wandb.Run.log()` を使用します。
+
+<div id="metric-cardinality">
+  ### メトリクスのカーディナリティ
+</div>
+
+project 内のメトリクスの総カーディナリティ (異なるメトリクスの数) は、ワークロードに応じた推奨範囲内に収めてください。メトリクスのカーディナリティが高いことは、Workspace の動作が遅くなる最も一般的な原因の 1 つです。
+
+<Tip>
+  パフォーマンスの問題は、ステップを多くログしすぎることではなく、異なるメトリクスを多くログしすぎることが原因である場合がよくあります。
+</Tip>
+
+W&amp;B ではネストされたキーがドット区切りのメトリクス名にフラット化されるため、メトリクスのカーディナリティは想定以上に増えることがあります。
+
+たとえば、次の例では `a`、`b.c`、`b.d` という 3 つの異なるメトリクスキーをログします。
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log(
+        {
+            "a": 1,
+            "b": {
+                "c": "hello",
+                "d": [1, 2, 3],
+            },
+        }
+    )
+```
+
+{/* メトリクス名は、GraphQL の命名規則に従う必要があります。詳細は [Metric naming constraints](/models/track/log/#metric-naming-constraints) を参照してください。 */}
+
+Workspace の動作が突然遅くなった場合は、最近の run で多数の新しいメトリクスキーが追加されていないか確認してください。これは、多くのプロットで 1 つまたは 2 つの run しか表示されない状態として現れることがよくあります。意図せずこの状態になった場合は、メトリクス名の数を減らして安定させたうえで、それらの run を削除して再作成することを検討してください。
+
+<div id="value-size">
+  ### 値のサイズ
+</div>
+
+1 つのログ値のサイズは 1 MB 未満、1 回の `wandb.Run.log()` 呼び出しの合計サイズは 25 MB 未満にしてください。
+
+これらの推奨事項は、`wandb.Image` や `wandb.Audio` などの `wandb.Media` タイプには当てはまりません。これらは別の方法で処理されます。
+
+```python
+import json
+import wandb
+
+with wandb.init(project="wide-values") as run:
     # 非推奨
-    run.log({"wide_key": range(10000000)})
+    run.log({"wide_key": list(range(10000000))})
 
     # 非推奨
     with open("large_file.json", "r") as f:
@@ -74,67 +228,51 @@ with wandb.init(project="wide-values") as run:
         run.log(large_data)
 ```
 
-値が大きい場合、その値を持つメトリクスだけでなく、run 内のすべてのメトリクスのプロット読み込み時間に影響する可能性があります。
+大きな値があると、その値を含むメトリクスだけでなく、run 全体のプロットの読み込みが遅くなる可能性があります。
 
-<Note>推奨量を超える値をログした場合でも、データは保存・トラッキングされます。ただし、プロットの読み込みが遅くなる場合があります。</Note>
+<Note>
+  W&amp;B では、これらの推奨値を超えるデータも引き続きログして保存されますが、ページの読み込みが遅くなる場合があります。
+</Note>
 
-<div id="metric-frequency">
-  ### メトリクスの頻度
+<div id="log-frequency-and-throughput">
+  ### ログ頻度とスループット
 </div>
 
-ログするメトリクスに適したログ頻度を選択してください。一般的な目安として、値が大きいものほどログ頻度を低くしてください。W&amp;B は以下を推奨します。
+収集しているデータの価値に応じたログ頻度を選択してください。ログの頻度が高すぎると SDK のオーバーヘッドが増え、特にメトリクスのカーディナリティが高い場合やペイロードが大きい場合には、アプリの動作が遅くなることがあります。
 
-* スカラー: メトリクスあたり 100,000 ポイント未満
-* メディア: メトリクスあたり 50,000 ポイント未満
-* ヒストグラム: メトリクスあたり 10,000 ポイント未満
+まずは、ログを次のガイドラインの範囲内に収めることを推奨します。
+
+* ログ頻度: 1 分あたり 1,000 回未満の `wandb.Run.log()` 呼び出し
+* スループット: 1 分あたり 100,000 未満のログ値
+* 動画スループット: 1 分あたり 40 MB 未満
+
+可能であれば、関連するメトリクスは同じ step にまとめてください。たとえば、次のコード スニペットでは 3 つのメトリクスを同じ step でログしており、個別にログするよりも効率的です。
 
 ```python
 import wandb
 
 with wandb.init(project="metric-frequency") as run:
-    # 非推奨
+    # 推奨: 関連するスカラーメトリクスをまとめてログする
     run.log(
         {
-            "scalar": 1,  # スカラー 100,000 個
-            "media": wandb.Image(...),  # 画像 100,000 枚
-            "histogram": wandb.Histogram(...),  # ヒストグラム 100,000 個
-        }
-    )
-
-    # 推奨
-    run.log(
-        {
-            "scalar": 1,  # スカラー 100,000 個
+            "loss": 0.12,
+            "accuracy": 0.98,
+            "lr": 1e-4,
         },
         commit=True,
-    )  # バッチ化されたステップごとのメトリクスをまとめてコミット
-
-    run.log(
-        {
-            "media": wandb.Image(...),  # 画像 50,000 枚
-        },
-        commit=False,
-    )
-
-    run.log(
-        {
-            "histogram": wandb.Histogram(...),  # ヒストグラム 10,000 個
-        },
-        commit=False,
     )
 ```
-
-{/* Enable batching in calls to `wandb.Run.log()` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](/models/ref/python/experiments/run/#method-runlog) for `run.log()` for more details. */}
-
-<Note>ガイドラインを超えた場合でも、W&amp;B はログデータを受け付け続けますが、ページの読み込みが遅くなる場合があります。</Note>
 
 <div id="config-size">
   ### 設定サイズ
 </div>
 
-run 設定 の合計サイズは 10 MB 未満に抑えてください。大きな値をログすると、プロジェクトのワークスペースやRuns tableでの操作が遅くなる可能性があります。
+run 設定 の合計サイズは 10 MB 未満に抑えてください。
+
+大きな設定は、プロジェクトのWorkspaceやRuns tableでの操作を遅くする可能性があります。
 
 ```python
+import json
 import wandb
 
 # 推奨
@@ -144,20 +282,18 @@ with wandb.init(
         "lr": 0.1,
         "batch_size": 32,
         "epochs": 4,
-    }
+    },
 ) as run:
-    # ここにトレーニング用のコードを記述します
     pass
 
 # 非推奨
 with wandb.init(
     project="config-size",
     config={
-        "large_list": list(range(10000000)),  # 大きなリスト
-        "large_string": "a" * 10000000,  # 大きな文字列
-    }
+        "large_list": list(range(10000000)),
+        "large_string": "a" * 10000000,
+    },
 ) as run:
-    # ここにトレーニング用のコードを記述します
     pass
 
 # 非推奨
@@ -166,61 +302,56 @@ with open("large_config.json", "r") as f:
     wandb.init(config=large_config)
 ```
 
-<div id="workspace-considerations">
-  ## Workspace に関する考慮事項
-</div>
-
-<div id="run-count">
-  ### run 数
-</div>
-
-読み込み時間を短縮するには、1 つのプロジェクト内の run の総数を次の値未満に保ってください。
-
-* SaaS Cloud では 100,000
-* 専用クラウドまたはセルフマネージドでは 10,000
-
-run 数がこれらのしきい値を超えると、プロジェクトのワークスペースや Runs table に関わる操作が遅くなることがあります。特に、run をグループ化する場合や、run 実行中に多数の異なるメトリクスを収集する場合に影響が大きくなります。あわせて [メトリクス数](#metric-count) セクションも参照してください。
-
-チームが同じ run のセット (最近の run のセットなど) に頻繁にアクセスする場合は、[使用頻度の低い run を一括で移動](/ja/models/runs/manage-runs/)して新しい「archive」プロジェクトに移し、作業用プロジェクトには run の数を絞って残すことを検討してください。
-
 <div id="workspace-performance">
-  ### Workspace のパフォーマンス
+  ## Workspace のパフォーマンス
 </div>
 
-このセクションでは、Workspace のパフォーマンスを最適化するためのヒントを説明します。
+Workspace のパフォーマンスは、基盤となる project のデータと Workspace の設定の両方に左右されます。
+
+<div id="runs-per-project">
+  ### project ごとの Runs
+</div>
+
+大規模な project では、最適なパフォーマンスを得るため、1 つの project 内の Runs 数を 10,000 未満に保ってください。
+
+チームで日常的に Runs の一部のみを使用する場合は、古い Runs や使用頻度の低い Runs を別のアーカイブ用 project に移すことを検討してください。[Runs の管理](/ja/models/runs/manage-runs/)を参照してください。
 
 <div id="panel-count">
-  #### パネル数
+  ### パネル数
 </div>
 
-デフォルトでは、Workspace は *automatic* で、ログされた各キーに対して標準パネルを生成します。大規模なプロジェクトの Workspace にログされた多数のキーのパネルが含まれていると、Workspace の読み込みや操作が遅くなることがあります。パフォーマンスを向上させるには、次の操作を行います。
+デフォルトでは、自動モードのWorkspaceでは、ログされた各キーに対して標準パネルが作成されます。大規模なProjectsでは、これによってパネル数が多くなりすぎ、Workspaceの動作が遅くなることがあります。
 
-1. Workspace を手動モードにリセットします。手動モードでは、デフォルトでパネルは含まれません。
-2. [Quick add](/ja/models/app/features/panels/#quick-add) を使用して、可視化したいログされたキーのパネルだけを選択して追加します。
+パフォーマンスを改善するには:
+
+1. Workspaceを手動モードにリセットします。
+2. [Quick add](/ja/models/app/features/panels/#quick-add) を使用して、必要なパネルだけを追加します。
 
 <Note>
-  不要なパネルを 1 つずつ削除しても、パフォーマンスへの影響はほとんどありません。代わりに、Workspace をリセットし、必要なパネルだけを選択して追加し直してください。
+  未使用のパネルを1つずつ削除しても、通常はほとんど効果がありません。Workspaceをリセットして、必要なパネルだけを追加し直してください。
 </Note>
 
-Workspace の設定の詳細については、[Panels](/ja/models/app/features/panels/) を参照してください。
+詳しくは、[Panels](/ja/models/app/features/panels/) を参照してください。
 
 <div id="section-count">
-  #### セクション数
+  ### セクション数
 </div>
 
-Workspace に何百ものセクションがあると、パフォーマンスに悪影響が出ることがあります。メトリクスを大まかなグループ単位でまとめてセクションを作成し、メトリクスごとに 1 つずつセクションを作るというアンチパターンは避けてください。
+Workspace に何百ものセクションがあると、パフォーマンスに悪影響が出ることがあります。
 
-セクションが多すぎてパフォーマンスが低下している場合は、サフィックスではなくプレフィックスでセクションを作成する Workspace の設定を検討してください。これにより、セクション数を減らし、パフォーマンスを改善できる場合があります。
+メトリクスごとに 1 つのセクションを作成するのではなく、メトリクスを大まかなグループ単位でまとめてセクションを作成してください。セクションが多すぎる場合は、接尾辞ではなく接頭辞でセクションを作成することを検討してください。これにより、関連するメトリクスをより少ないセクションにまとめられます。
 
 <Frame>
   <img src="/images/track/section_prefix_toggle.gif" alt="セクション作成の切り替え" />
 </Frame>
 
-<div id="metric-count">
-  ### メトリクス数
+<div id="many-metrics-per-run">
+  ### 1 run あたり多数のメトリクス
 </div>
 
-1 run あたり 5,000～100,000 件のメトリクスをログする場合、W&amp;B では [手動 Workspace](/ja/models/app/features/panels/#workspace-modes) を使用することを推奨します。手動モードでは、確認したいメトリクスのセットに応じて、パネルを一括で簡単に追加・削除できます。プロットを絞り込むことで、Workspace の読み込みが速くなります。プロットしていないメトリクスも、通常どおり収集・保存されます。
+1 run あたり数千件のメトリクスをログする場合は、可視化するメトリクスを選択できるように、手動 Workspace を使用してください。
+
+表示するパネルを絞り込むと、読み込みが速くなります。プロットしていないメトリクスも、通常どおり収集・保存されます。
 
 Workspace を手動モードにリセットするには、Workspace の **アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、次に **Workspace をリセット** をクリックします。Workspace をリセットしても、run に保存済みのメトリクスには影響しません。[Workspace パネル管理](/ja/models/app/features/panels/) を参照してください。
 
@@ -228,109 +359,119 @@ Workspace を手動モードにリセットするには、Workspace の **アク
   ### ファイル数
 </div>
 
-1 回の run でアップロードするファイルの総数は、1,000 未満にしてください。多数のファイルをログする必要がある場合は、W&amp;B Artifacts を使用してください。1 回の run で 1,000 ファイルを超えると、run ページの表示が遅くなることがあります。
+1 回の run でアップロードするファイル数は、1,000 未満にしてください。
 
-<div id="reports-vs-workspaces">
-  ### Reports と Workspaces
+多数のファイルをログする必要がある場合は、代わりに W&amp;B Artifacts を使用してください。1 回の run で 1,000 ファイルを超えると、run ページの表示が遅くなることがあります。
+
+<div id="reports-and-workspaces">
+  ### Reports と Workspace
 </div>
 
-レポートは、パネル、テキスト、メディアを自由に組み合わせて任意のレイアウトで構成できるため、得られた知見を同僚と簡単に共有できます。
+report は、共有やプレゼンテーションに適しています。Workspace は、多数の Runs とメトリクスをまたいで高密度かつ対話的に分析するためのものです。
 
-一方、Workspace では、数百から数十万の run にまたがる数十から数千のメトリクスを、高密度かつ高性能に分析できます。Workspaces は、レポートと比べて、キャッシュ、クエリ、読み込みが最適化されています。Workspaces は、プレゼンテーションよりも主に分析目的で使用するプロジェクトや、20 個以上のプロットをまとめて表示する必要がある場合に推奨されます。
+大量の Runs を比較する必要がある場合や、多数の plot をまとめて確認したい場合は、Workspace を使用します。厳選した結果を提示したい場合は、report を使用します。
 
 <div id="python-script-performance">
   ## Python スクリプトのパフォーマンス
 </div>
 
-Python スクリプトのパフォーマンスが低下する原因はいくつかあります。
+ログ記録は、トレーニング スクリプトにオーバーヘッドを生じさせることがあります。主な要因は次のとおりです。
 
-1. データサイズが大きすぎる。データサイズが大きいと、トレーニングループに 1 ms を超えるオーバーヘッドが発生することがあります。
-2. ネットワーク速度と W&amp;B バックエンドの構成
-3. `wandb.Run.log()` を 1 秒に数回以上 call している。これは、`wandb.Run.log()` が call されるたびに、トレーニングループにわずかな遅延が追加されるためです。
+1. 大きなペイロード
+2. ネットワーク速度とバックエンドの設定
+3. `wandb.Run.log()` の非常に高頻度な呼び出し
+
+`wandb.Run.log()` の呼び出し頻度が高すぎると、呼び出しのたびにトレーニング ループへわずかな遅延が加わることがあります。複数のメトリクスをまとめてログし、呼び出し回数を減らすことで、通常はパフォーマンスが向上します。
 
 <Note>
-  logging の頻度が高いために training runs が遅くなっていませんか？ ログ戦略を変えてパフォーマンスを改善する方法については、[この Colab](https://wandb.me/log-hf-colab) を確認してください。
+  頻繁なログ記録によってトレーニング runs が遅くなっていませんか？ログ パターンを調整してパフォーマンスを改善する方法については、[この Colab](https://wandb.me/log-hf-colab) を参照してください。
 </Note>
 
-W&amp;B は、レート制限以外の制限は設けていません。W&amp;B Python SDK は、制限を超えたリクエストに対して指数バックオフと再試行を自動的に実行します。W&amp;B Python SDK では、コマンドラインに「Network failure」と表示されます。無料アカウントでは、使用量が妥当な閾値を大幅に超える極端なケースで、W&amp;B から連絡することがあります。
+W&amp;B は、API のレート制限を除き、これらの推奨事項に関してプロダクト上の厳格な制限を設けていません。このページのガイダンスを超えた場合でも、W&amp;B は引き続きデータを受け付けることがありますが、アプリまたは SDK の動作が遅くなる可能性があります。
 
 <div id="rate-limits">
   ## レート制限
 </div>
 
-W&amp;B SaaS Cloud API では、システムの健全性を維持し、可用性を確保するためにレート制限を設けています。これは、共有インフラストラクチャー上の利用可能なリソースを特定のユーザーが独占するのを防ぎ、すべてのユーザーがサービスを利用できるようにするためのものです。さまざまな理由により、通常より低いレート制限が適用される場合があります。
+W&amp;B SaaS Cloud API では、サービスの信頼性と可用性を維持するためにレート制限を設けています。
 
 <Note>
   レート制限は変更される場合があります。
 </Note>
 
-レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが返され、レスポンスには[レート制限の HTTP ヘッダー](#rate-limit-http-headers)が含まれます。
+レート制限に達すると、サーバーは HTTP `429 Rate limit exceeded` を返し、レスポンスにはレート制限ヘッダーが含まれます。
 
 <div id="rate-limit-http-headers">
   ### レート制限の HTTP ヘッダー
 </div>
 
-前述の表は、レート制限の HTTP ヘッダーを示しています。
+| ヘッダー名                 | 説明                                             |
+| --------------------- | ---------------------------------------------- |
+| `RateLimit-Limit`     | 現在の時間ウィンドウで利用可能なクォータ量。値は 0～1000 の範囲にスケーリングされます |
+| `RateLimit-Remaining` | 現在のウィンドウ内で残っているクォータ量。値は 0～1000 の範囲にスケーリングされます  |
+| `RateLimit-Reset`     | 現在のクォータがリセットされるまでの秒数                           |
 
-| ヘッダー名               | 説明                                                 |
-| ------------------- | -------------------------------------------------- |
-| RateLimit-Limit     | 各時間ウィンドウで利用可能なクォータ量。値は 0～1000 の範囲にスケーリングされます       |
-| RateLimit-Remaining | 現在のレート制限ウィンドウ内で残っているクォータ量。値は 0～1000 の範囲にスケーリングされます |
-| RateLimit-Reset     | 現在のクォータがリセットされるまでの秒数                               |
-
-<div id="rate-limits-on-metric-logging-api">
-  ### メトリクスをログする API のレート制限
+<div id="metric-logging-api-rate-limits">
+  ### メトリクス logging API のレート制限
 </div>
 
-`wandb.Run.log()` は、トレーニングデータを W&amp;B にログします。この API は、オンラインまたは [オフライン Sync](/ja/models/ref/cli/wandb-sync) のいずれかで使用されます。いずれの場合も、ローリング時間枠内でレート制限のクォータが適用されます。これには、リクエストの合計サイズの制限とリクエストレートの制限が含まれます。後者は、一定時間内のリクエスト数を指します。
+`wandb.Run.log()` は、トレーニング データを W&amp;B に送信します。オンラインで直接送信することも、[offline syncing](/ja/models/ref/cli/wandb-sync) を使用して後で送信することもできます。
 
-W&amp;B は、W&amp;B プロジェクトごとにレート制限を適用します。したがって、1 つのチームに 3 つのプロジェクトがある場合、各プロジェクトにはそれぞれ独自のレート制限クォータがあります。[Paid plans](https://wandb.ai/site/pricing) の Users には、Free plans より高いレート制限が適用されます。
+メトリクス logging のレート制限は project レベルで適用され、一定時間のローリング ウィンドウ内でのリクエスト レートとリクエスト総サイズの両方が対象になります。有料プランは無料プランより高い制限が設定されています。
 
-レート制限に達すると、HTTP `429` の `Rate limit exceeded` エラーが返され、レスポンスには [レート制限の HTTP ヘッダー](#rate-limit-http-headers) が含まれます。
+レート制限を超えると、W&amp;B SDK はバックオフを使用して自動的にリクエストを再試行します。場合によっては、レート制限のウィンドウがリセットされるまで `run.finish()` が遅延することがあります。
 
-<div id="suggestions-for-staying-under-the-metrics-logging-api-rate-limit">
-  ### メトリクスログ API のレート制限を超えないためのヒント
-</div>
+レート制限に達する可能性を減らすには:
 
-レート制限を超えると、制限がリセットされるまで `run.finish()` の実行が遅れる場合があります。これを避けるには、次の対策を検討してください。
-
-* W&amp;B Python SDK のバージョンを更新する: 最新版の W&amp;B Python SDK を使用していることを確認してください。W&amp;B Python SDK は定期的に更新されており、リクエストを適切に再試行し、クォータ消費を最適化するための改善が継続的に追加されています。
-* メトリクスをログする頻度を下げる:
-  クォータを節約するには、メトリクスをログする頻度をできるだけ抑えてください。たとえば、コードを変更して、毎エポックではなく 5 エポックごとにメトリクスをログするようにできます。
+* 最新版の W&amp;B SDK を使用してください。
+* logging の頻度を下げてください。
+* 関連するメトリクスをまとめて、log の Call 回数を減らしてください。
+* 必要に応じてオフラインでログし、後で同期してください。
 
 ```python
-import wandb
 import random
+import wandb
 
 with wandb.init(project="basic-intro") as run:
     for epoch in range(10):
-        # トレーニングと評価をシミュレートする
-        accuracy = 1 - 2 ** -epoch - random.random() / epoch
-        loss = 2 ** -epoch + random.random() / epoch
+        accuracy = 1 - 2 ** -epoch - random.random() / (epoch + 1)
+        loss = 2 ** -epoch + random.random() / (epoch + 1)
 
-        # 5 エポックごとにメトリクスをログする
         if epoch % 5 == 0:
             run.log({"acc": accuracy, "loss": loss})
 ```
 
-* 手動でのデータ同期: W&amp;B は rate limit に達した場合、run データをローカルに保存します。コマンド `wandb sync <run-file-path>` を使って、データを手動で同期できます。詳細は、[`wandb sync`](/ja/models/ref/cli/wandb-sync) リファレンスを参照してください。
+手動で同期するには、`wandb sync <run-file-path>` を使用してください。[`wandb sync`](/ja/models/ref/cli/wandb-sync)を参照してください。
 
-<div id="rate-limits-on-graphql-api">
+<div id="graphql-api-rate-limits">
   ### GraphQL API のレート制限
 </div>
 
-W&amp;B Models の UI と SDK の [public API](/ja/models/ref/python/public-api/api) は、データのクエリや変更のためにサーバーへ GraphQL リクエストを送信します。SaaS Cloud 内のすべての GraphQL リクエストに対して、W&amp;B は未認証リクエストには IP アドレス単位、認証済みリクエストにはユーザー単位でレート制限を適用します。この制限は、固定時間ウィンドウ内のリクエスト率 (1 秒あたりのリクエスト数) に基づいており、デフォルトの制限値はご利用の料金プランによって決まります。プロジェクトパスを指定する関連 SDK リクエスト (たとえば、レポート、Runs、Artifacts) については、W&amp;B はデータベースのクエリ時間に基づいて、プロジェクト単位でレート制限を適用します。
+W&amp;B App と [Public API](/ja/models/ref/python/public-api/api) は、GraphQL リクエストを使用してデータをクエリおよび変更します。
 
-[Teams and Enterprise plans](https://wandb.ai/site/pricing) のユーザーは、Free プランのユーザーより高いレート制限を利用できます。
-W&amp;B Models SDK の public API の使用中にレート制限に達すると、標準出力にそのエラーを示すメッセージが表示されます。
+SaaS Cloud の場合:
 
-レート制限に達すると、HTTP `429` の `Rate limit exceeded` エラーが返され、レスポンスには[レート制限の HTTP ヘッダー](#rate-limit-http-headers)が含まれます。
+* 未認証のリクエストは、IP アドレスごとにレート制限されます
+* 認証済みのリクエストは、ユーザーごとにレート制限されます
+* project パスを指定する一部の SDK リクエストは、データベースのクエリ時間に応じて、project ごとに制限されることもあります
 
-<div id="suggestions-for-staying-under-the-graphql-api-rate-limit">
-  #### GraphQL API のレート制限の超過を避けるためのヒント
+Teams および Enterprise プランは、Free プランより高い制限が設定されています。
+
+多数の Public API リクエストを送信する場合は、可能であればリクエストの間隔を少なくとも 1 秒空けてください。HTTP `429 Rate limit exceeded` を受け取った場合、または `RateLimit-Remaining=0` が表示された場合は、`RateLimit-Reset` に示された秒数だけ待ってから再試行してください。
+
+<div id="troubleshooting-slow-projects">
+  ## 動作が遅い project のトラブルシューティング
 </div>
 
-W&amp;B Models SDK の[public API](/ja/models/ref/python/public-api/api)を使って大量のデータを取得する場合は、リクエストの間隔を少なくとも 1 秒空けることをおすすめします。HTTP `429` `Rate limit exceeded` エラーが返された場合や、レスポンスヘッダーに `RateLimit-Remaining=0` と表示されている場合は、再試行する前に `RateLimit-Reset` で指定された秒数だけ待機してください。
+project または Workspace の動作が遅いと感じる場合は、まず次の点を確認してください。
+
+1. 最近の run で、新しいメトリクス名が大量に追加されていませんか？
+2. ログする頻度が高すぎませんか？
+3. 個々の `run.log()` Call が非常に大きくありませんか？
+4. Workspace が自動モードになっていて、パネルやセクションが多すぎませんか？
+5. project に、チームが実際に使用している以上の run が含まれていませんか？
+
+多くの場合、メトリクスのカーディナリティを減らし、ログの Call をバッチ化し、大規模な Workspace を手動モードに切り替えることで、パフォーマンスは改善します。
 
 <div id="browser-considerations">
   ## ブラウザに関する注意事項
