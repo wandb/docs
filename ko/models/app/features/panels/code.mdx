@@ -40,13 +40,21 @@ wandb.init(settings=wandb.Settings(code_dir="."))
   ### UI에서 코드 저장 설정
 </div>
 
-코드로 코드 저장을 설정하는 것 외에도, W&amp;B 계정의 Settings에서 이 기능을 켜거나 끌 수 있습니다. 이 설정을 변경하면 계정과 연결된 모든 Teams에 대해 코드 저장이 활성화됩니다.
+코드로 코드 저장을 설정하는 것 외에도, 팀 또는 조직 범위에서 UI의 기본값을 구성할 수 있습니다. 팀 및 조직 제어 옵션은 [개인정보 보호 설정 구성](/ko/platform/hosting/privacy-settings)에 설명되어 있습니다.
 
-> 기본적으로 W&amp;B는 모든 Teams의 코드 저장을 비활성화합니다.
+<div id="team">
+  #### 팀
+</div>
 
-1. W&amp;B 계정에 로그인합니다.
-2. **Settings** &gt; **Privacy**로 이동합니다.
-3. **Project and content security** 아래에서 **Disable default code saving**을 켭니다.
+> 기본적으로 W&amp;B는 모든 팀에서 코드 저장을 비활성화합니다. 팀에서 이 기능을 켜려면 먼저 조직 관리자가 조직 수준에서 이를 켜야 합니다. [조직](#organization) 섹션을 참조하세요.
+
+팀 관리자는 팀 **Settings** 페이지를 열고 **Privacy** 섹션으로 이동한 다음, 해당 팀의 run에 대해 **Enable code saving by default**를 설정합니다. 이 옵션은 조직 관리자가 조직 전체에 코드 저장 제한을 강제 적용하지 않은 경우에만 사용 가능합니다. 내비게이션 단계는 [팀의 개인정보 보호 설정 구성](/ko/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team)을 참조하세요.
+
+<div id="organization">
+  #### 조직
+</div>
+
+조직 관리자는 조직 **Settings**를 열어 **Privacy** 섹션으로 이동한 다음, **Enforce default code saving restrictions**를 켜서 모든 팀에서 코드 저장이 기본적으로 꺼진 상태로 유지되도록 할 수 있습니다. 이 설정이 강제 적용되는 동안에는 팀 관리자가 팀에 대해 **Enable code saving by default**를 켤 수 없습니다. 조직 제어 기능의 전체 목록은 [모든 팀에 개인정보 보호 설정 강제 적용](/ko/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams)을 참조하세요.
 
 <div id="code-comparer">
   ## 코드 비교

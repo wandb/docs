@@ -10,13 +10,17 @@ keywords: ["管理者", "チーム管理", "メトリクス"]
 1. `WANDB_DISABLE_CODE` を `true` に設定すると、コードのトラッキングがすべて無効になります。これにより、git SHA と diff patch を取得できなくなります。
 2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定すると、diff patch のサーバーへの Sync を停止しつつ、`wandb restore` で適用できるよう、ローカルでは引き続き利用可能なままにできます。
 
-管理者の場合は、チームの設定でチームのコード保存を無効にすることもできます。
+組織管理者は、アカウントまたは組織のダッシュボードの **Settings** タブ内にある **Privacy** セクションから、組織内のすべてのチームに対してプライバシー設定を適用できます。組織管理者が設定を適用した場合、チーム管理者は各チーム内でその設定を構成できません。
 
-1. `https://wandb.ai/<team>/settings` にアクセスして、チームの設定を開きます。`<team>` はチーム名です。
-2. Privacy セクションまでスクロールします。
-3. **Enable code saving by default** を切り替えます。
+チーム管理者は、チーム内の Runs に対するデフォルトのコードの保存を無効にできます。
 
-***
+1. `https://wandb.ai/<team>` にアクセスします。`<team>` はチーム名に置き換えてください。
+2. 左側のナビゲーションで **Team settings** を選択します。
+3. **Privacy** セクションを開き、**Enable code saving by default** をオフにします。
+
+<div id="for-details-see-privacy-settings">
+  ## 詳細は、[プライバシー設定](/ja/platform/hosting/privacy-settings)を参照してください。
+</div>
 
 {/* AUTO-GENERATED: tab badges */}
 
