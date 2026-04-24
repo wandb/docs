@@ -7,6 +7,22 @@ rss: true
 
 このページには、W&amp;B Python SDK (`wandb` パッケージ) のリリースノートが含まれています。W&amp;B Server については、[W&amp;B Server release notes](/ja/release-notes/server-releases)を参照してください。
 
+<Update label="0.26.1" description="2026年4月23日">
+  ## 追加
+
+  * Artifacts、レジストリ、オートメーション、および関連するページネーターを返す `wandb.Api` メソッドで、省略可能な `start` 引数を受け取れるようになりました。これにより、保存したカーソルからイテレーションを再開できます。
+  * `wandb.Settings` の `stop_fn` 設定では、run の停止が要求されたときに SDK が Python プロセスの停止を要求する方法をカスタマイズできます (デフォルトでは SIGINT を送信します) 。この設定は `wandb.setup(settings=...)` または `wandb.init(settings=...)` で渡します。この値は callable であるため、環境変数では設定できません。
+
+  ## 変更
+
+  * `wandb beta leet` では、各ペイン (チャートグリッド、リストナビゲーション) 内でフォーカスを移動する際に、WASD キーと矢印キーを同じように使用できます。**Home**、**End**、**Page Up**、**Page Down** キーも一貫して動作します。メディアペインでは引き続き、X 軸 をスクラブするには矢印キーを、画像タイル間を移動するには WASD キーを使用します。
+
+  ## 修正
+
+  * `wandb.init(id=run_id, reinit="create_new")` で、同じスクリプト内で同じ `run_id` を持つ別の run がまだアクティブな場合は、エラーが発生するようになりました。
+  * `WANDB_MODE` 環境変数または `mode` 設定でオフラインモードが有効な場合に、`wandb.Api` が一部の操作で例外を発生させることがなくなりました。
+</Update>
+
 <Update label="0.26.0" description="2026年4月13日">
   ## 主な変更点
 
