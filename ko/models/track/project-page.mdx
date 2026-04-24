@@ -360,17 +360,27 @@ W&amp;B App에서 프로젝트를 만들거나, `wandb.init()` 호출 시 프로
   </Tab>
 </Tabs>
 
+<div id="organization-home-and-recent-activity">
+  ## 조직 홈 및 Recent Activity
+</div>
+
+W&amp;B App에서 조직 홈 페이지는 최근 작업을 요약해서 보여줍니다.
+
+**Recent Activity** 뷰어에는 최근 Runs가 표시됩니다. 내 Runs를 보려면 **Your projects**를 선택하고, 동료의 최근 Runs를 보려면 **Organization**을 선택하세요.
+
+* **Search**를 사용해 활동 목록을 필터링하세요.
+* **정렬 가능한 열**을 사용하면 원하는 column을 기준으로 행을 다시 정렬할 수 있습니다.
+* run에 이러한 세부 정보가 포함되어 있으면 **Notes** 및 **tags** column이 자동으로 표시됩니다.
+
+**Recent Activity** 뷰어 아래에서 최근에 생성한 Reports에 빠르게 액세스할 수 있습니다.
+
 <div id="star-a-project">
   ## 프로젝트에 별표 표시
 </div>
 
-프로젝트에 별표를 추가해 중요 프로젝트로 표시할 수 있습니다. 나와 팀이 별표로 중요하다고 표시한 프로젝트는 조직 홈페이지 상단에 표시됩니다.
+프로젝트에 별표를 추가해 중요 프로젝트로 표시할 수 있습니다.
 
-예를 들어, 다음 이미지는 중요 프로젝트로 표시된 `zoo_experiment`와 `registry_demo` 두 프로젝트를 보여줍니다. 두 프로젝트 모두 조직 홈페이지 상단의 **별표 표시된 프로젝트** 섹션에 나타납니다.
-
-<Frame>
-  <img src="/images/track/star-projects.png" alt="별표 표시된 프로젝트 섹션" />
-</Frame>
+별표 표시된 프로젝트는 **Projects** 페이지 상단에 그룹화되어 표시됩니다. 왼쪽 상단의 **Global navigation menu**에 있는 **Projects** 목록에서 최근 프로젝트를 최대 10개까지 빠르게 액세스할 수 있으며, 별표 표시된 프로젝트가 먼저 나열됩니다.
 
 프로젝트를 중요하다고 표시하는 방법은 두 가지입니다. 프로젝트의 Overview 탭에서 하거나 팀 프로필 페이지에서 할 수 있습니다.
 
@@ -398,7 +408,7 @@ W&amp;B App에서 프로젝트를 만들거나, `wandb.init()` 호출 시 프로
   </Tab>
 </Tabs>
 
-앱의 왼쪽 상단에서 조직 이름을 클릭해 프로젝트가 조직의 랜딩 페이지에 표시되는지 확인합니다.
+프로젝트가 표시되는지 확인합니다. 왼쪽 내비게이션의 **Project** 섹션에서 **View all**을 클릭해 **Project** 페이지를 엽니다. 검색하거나 필터링하여 이름, 팀 또는 기타 메타데이터로 프로젝트를 찾습니다. 별표 표시된 프로젝트는 **Projects** 페이지 상단과 왼쪽 내비게이션의 **Projects** 섹션 상단에 표시됩니다.
 
 <div id="delete-a-project">
   ## 프로젝트 삭제
@@ -444,12 +454,12 @@ Overview 탭 오른쪽에 있는 **액션 (<Icon icon="ellipsis" iconType="solid
 </Note>
 
 <div id="add-notes-to-run-workspace">
-  ### run Workspace에 노트 추가하기
+  ### run 워크스페이스에 노트 추가
 </div>
 
 1. W&amp;B 프로젝트로 이동합니다
-2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다
-3. 오른쪽 상단의 **Add panels** 버튼을 클릭합니다
+2. 프로젝트 사이드바에서 **워크스페이스** 탭을 선택합니다
+3. 오른쪽 상단에서 **Add panels** 버튼을 클릭합니다
 4. 표시되는 모달에서 **TEXT AND CODE** 드롭다운을 선택합니다
 5. **Markdown**을 선택합니다
-6. Workspace에 나타나는 마크다운 패널에 노트를 추가합니다
+6. 워크스페이스에 표시되는 Markdown 패널에 노트를 추가합니다
