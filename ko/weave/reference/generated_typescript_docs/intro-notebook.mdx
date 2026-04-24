@@ -42,7 +42,7 @@ const stripUserInput = weave.op(function stripUserInput(userInput: string): stri
 ```typescript lines
 async function demonstrateBasicTracking() {
     const result = await stripUserInput("    hello    ");
-    console.log('기본 추적 결과:', result);
+    console.log('Basic tracking result:', result);
 }
 ```
 
@@ -222,7 +222,7 @@ async function runEvaluation() {
             corrector.predict(args.datasetRow.userInput)
         )
     });
-    console.log('평가 요약:', summary);
+    console.log('Evaluation summary:', summary);
 }
 ```
 
@@ -237,7 +237,7 @@ async function main() {
         await demonstrateNestedTracking();
         await runEvaluation();
     } catch (error) {
-        console.error('데모 실행 중 오류 발생:', error);
+        console.error('Error running demonstrations:', error);
     }
 }
 ```

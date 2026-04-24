@@ -679,25 +679,29 @@ file(root: 'str | None' = None) → StrPath
 ### <kbd>method</kbd> `Artifact.files`
 
 ```python
-files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+files(
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
+) → ArtifactFiles
 ```
 
-この artifact に保存されているすべてのファイルをイテレートします。
+この アーティファクト に保存されているすべてのファイルをイテレートします。
 
 **引数:**
 
-* `names`:  一覧取得する対象の、artifact のルートからの相対ファイルパス。
+* `names`:  一覧取得する対象の、アーティファクト のルートからの相対ファイルパス。
 * `per_page`:  リクエストごとに返すファイル数。
+* `start`:  過去のクエリを再開するためのページネーションカーソル。前回の paginator の `.cursor` 属性から取得します。
 
 **戻り値:**
 `File` オブジェクトを含むイテレータ。
 
 **Raises:**
 
-* `ArtifactNotLoggedError`:  artifact がログされていない場合。
+* `ArtifactNotLoggedError`:  アーティファクト がログされていない場合。
 
 ***
-
 
 ### <kbd>method</kbd> `Artifact.finalize`
 

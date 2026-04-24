@@ -1,3 +1,7 @@
+---
+title: アーキテクチャ
+---
+
 <div id="knowledgebase-nav-generator-architecture">
   # Knowledgebase Nav ジェネレーターのアーキテクチャ
 </div>

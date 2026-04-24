@@ -1,13 +1,17 @@
+---
+title: 히스토그램 플롯 로깅
+---
+
 ```python
 """
-W&B에 히스토그램 플롯을 로그합니다.
+Log a histogram plot to W&B. 
 
-다음을 교체하세요:
-- 꺾쇠 괄호로 묶인 값을 본인의 값으로 교체
-- wandb.Table(data=)의 [[1, 2], [2, 3]]을 플롯할 본인의 2D 행 기반 배열로 교체
+Replace:
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to plot
 
-data에 2D 행 기반 배열을 전달하고(wandb.Table(data=)),
-`columns` 파라미터에 열 이름을 지정합니다.
+Pass a 2D row-oriented array of values to data (wandb.Table(data=)), with
+column names specified in the `columns` parameter.
 """
 import wandb
 

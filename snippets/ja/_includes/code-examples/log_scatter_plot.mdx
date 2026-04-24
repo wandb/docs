@@ -1,15 +1,19 @@
+---
+title: 散布図をログする
+---
+
 ```python
 """
-散布図をW&Bにログします。
+Log a scatter plot to W&B. 
 
-以下を置き換えてください:
-- 山括弧で囲まれた値を実際の値に置き換える
-- wandb.Table(data=) 内の [[1, 2], [2, 3]] をプロットする実際の2次元行指向配列に置き換える
+Replace:
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to plot
 
-data (wandb.Table(data=)) に2次元行指向配列を渡し、
-列名は `columns` パラメーターで指定します。
+Pass a 2D row-oriented array of values to data (wandb.Table(data=)), with
+column names specified in the `columns` parameter.
 
-列名は `wandb.plot.scatter()` プロット関数の x および y パラメーターと一致している必要があります。
+Column names must match the x and y parameters in the `wandb.plot.scatter()` plotting function.
 """
 import wandb
 

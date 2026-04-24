@@ -37,16 +37,24 @@ wandb.init(settings=wandb.Settings(code_dir="."))
 Cela inclut tous les fichiers source Python du répertoire actuel et de tous ses sous-répertoires dans un [artifact](/fr/models/ref/python/experiments/artifact). Pour mieux contrôler les types et emplacements des fichiers source enregistrés, voir la [documentation de référence](/fr/models/ref/python/experiments/run#log_code).
 
 <div id="set-code-saving-in-the-ui">
-  ### Configurer l’enregistrement du code dans l’UI
+  ### Configurer l’enregistrement du code dans l’interface utilisateur
 </div>
 
-En plus de configurer l’enregistrement du code par programmation, vous pouvez aussi activer ou désactiver cette fonctionnalité dans les **Settings** de votre compte W&amp;B. Notez que cela activera l’enregistrement du code pour toutes les Teams associées à votre compte.
+En plus de configurer l’enregistrement du code par programmation, vous pouvez définir les valeurs par défaut dans l’interface utilisateur au niveau d’une équipe ou de l’organisation. Les contrôles des équipes et de l’organisation sont documentés dans [Configurer les paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
 
-> Par défaut, W&amp;B désactive l’enregistrement du code pour toutes les Teams.
+<div id="team">
+  #### Équipe
+</div>
 
-1. Connectez-vous à votre compte W&amp;B.
-2. Accédez à **Settings** &gt; **Privacy**.
-3. Sous **Project and content security**, activez **Disable default code saving**.
+> Par défaut, W&amp;B désactive l’enregistrement du code pour toutes les équipes. Avant de pouvoir l’activer pour une équipe, un administrateur de l’organisation doit d’abord l’activer pour l’organisation. Voir la section [Organisation](#organization).
+
+Les administrateurs d’équipe ouvrent la page **Settings** de l’équipe, accèdent à la section **Privacy** et configurent **Enable code saving by default** pour les runs de l’équipe. Cette option n’est disponible que si un administrateur de l’organisation n’a pas appliqué de restrictions sur l’enregistrement du code à l’échelle de toute l’organisation. Pour les étapes de navigation, voir [Configurer les paramètres de confidentialité d’une équipe](/fr/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
+
+<div id="organization">
+  #### Organisation
+</div>
+
+Les administrateurs de l’organisation ouvrent les **Settings** de l’organisation, accèdent à la section **Privacy** et peuvent activer **Enforce default code saving restrictions** afin que l’enregistrement du code reste désactivé par défaut pour chaque équipe. Tant que ce paramètre est activé, les administrateurs d’équipe ne peuvent pas activer **Enable code saving by default** pour une équipe. Pour la liste complète des contrôles au niveau de l’organisation, voir [Enforce privacy settings for all teams](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
 
 <div id="code-comparer">
   ## comparateur de code

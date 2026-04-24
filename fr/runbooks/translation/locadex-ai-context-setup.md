@@ -1,3 +1,7 @@
+---
+title: Configuration du contexte IA de Locadex
+---
+
 <div id="agent-prompt-configure-locadex-ai-context-for-wb-docs-korean-and-later-japanese">
   # Prompt de l’agent : Configurer le contexte Locadex AI pour la documentation W&amp;B (en coréen, puis en japonais)
 </div>
