@@ -2,30 +2,435 @@
 title: Wandb Beta Leet
 ---
 
-import LEETShortcuts from "/snippets/fr/_includes/leet-keyboard-shortcuts.mdx";
+W&amp;B LEET, le Lightweight Experiment Exploration Tool, est une interface de terminal locale pour explorer les runs W&amp;B depuis la ligne de commande. Utilisez-le pour comparer des runs, inspecter des graphiques de métriques, parcourir les images enregistrées, suivre les journaux de la console en temps réel et surveiller les métriques système sans quitter votre terminal.
 
-LEET est une interface terminal locale permettant d’afficher les statistiques, les métriques et l’état du système d’un run W&amp;B. LEET est une interface pilotée au clavier, conçue pour les utilisateurs qui travaillent sur des systèmes distants ou dans des environnements HPC avec des outils comme SSH ou `tmux`.
+LEET lit les fichiers `.wandb` de run locaux, ce qui vous permet d’inspecter les runs avant de les synchroniser avec W&amp;B. LEET est une interface pilotée au clavier, conçue pour les utilisateurs qui travaillent sur des systèmes distants ou dans des environnements HPC à l’aide d’outils comme SSH ou `tmux`.
 
-![Capture d’écran montrant l’affichage d’un run dans l’interface terminal LEET](/images/leet/leet-tui.png)
+<Frame>
+  <img src="/images/leet/leet-workspace-all-panes.png" alt="Vue de l’espace de travail W&B LEET avec des volets pour les runs, les métriques, les métriques système, les médias, les journaux de la console et l’aperçu du run." />
+</Frame>
 
-Les principales fonctionnalités incluent :
+<div id="examples">
+  ## Exemples
+</div>
 
-* **Navigation axée sur le clavier** : toutes les fonctionnalités sont accessibles via des raccourcis clavier
-* **Mises à jour en direct** : surveille le fichier `.wandb` en temps réel à mesure que votre run avance
-* **Filtrage des métriques** : filtrez les métriques à l’aide de motifs glob ou de correspondances par sous-chaîne
-* **Zoom intelligent** : le zoom à la molette conserve les derniers points de données dans le champ de vision
-* **Grilles personnalisables** : configurez le nombre de lignes et de colonnes pour les affichages des métriques et du système
-* **Formatage lisible** : les métriques système affichent des unités faciles à lire (par ex., &quot;Utilisation GPU (%)&quot;, &quot;RAM utilisée (GB)&quot;)
+Ouvrez l’espace de travail par défaut :
 
-LEET propose une mise en page à trois panneaux :
+```bash
+wandb beta leet
+```
 
-* **Barre latérale gauche** : Aperçu du run affichant les variables d’environnement, la configuration et les statistiques récapitulatives
-* **Panneau central** : grille de métriques avec graphiques linéaires en style Braille pour les métriques enregistrées
-* **Barre latérale droite** : Métriques système affichant l’utilisation du GPU, la RAM, le CPU et d’autres indicateurs de l’état du système
+Ouvrez le répertoire d’un espace de travail spécifique :
 
+```bash
+wandb beta leet ./wandb
+```
+
+Ouvrez le répertoire d’un run spécifique :
+
+```bash
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns
+```
+
+Ouvrez un fichier `.wandb` spécifique :
+
+```bash
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+Ouvrez le moniteur système autonome :
+
+```bash
+wandb beta leet symon --interval 2s
+```
+
+Ouvrez l’éditeur de configuration :
+
+```bash
+wandb beta leet config
+```
+
+<div id="views">
+  ## Vues
+</div>
+
+LEET comporte trois vues principales : espace de travail, run unique et SYMON.
+
+<div id="workspace-view">
+  ### Vue de l’espace de travail
+</div>
+
+La vue de l’espace de travail est l’affichage LEET par défaut. Elle est conçue pour comparer plusieurs runs à partir du même répertoire local `wandb/`.
+
+La vue de l’espace de travail comprend :
+
+* Une barre latérale des runs pour parcourir les dossiers de runs locaux.
+* Une grille de métriques qui superpose les runs sélectionnés sur les mêmes graphiques.
+* Un panneau de métriques système pour le run en surbrillance.
+* Un volet multimédia pour les miniatures `wandb.Image`.
+* Un volet des journaux de la console.
+* Une barre latérale d’aperçu du run avec l’état, l’ID, le nom, le projet, les tags, les notes, l’environnement, la configuration et les valeurs de synthèse.
+
+Utilisez `space` pour sélectionner ou désélectionner un run. Lorsqu’un run est sélectionné, il est ajouté aux graphiques de métriques superposés et ses données spécifiques sont chargées. Utilisez `p` pour épingler ou désépingler un run. L’épinglage maintient la série de métriques de ce run au premier plan dans les graphiques de métriques superposés ; les panneaux d’aperçu du run, de métriques système, le volet multimédia et le volet des journaux de la console suivent le run en surbrillance dans la barre latérale des runs. Appuyez sur `enter` lorsque le run est en surbrillance pour l’ouvrir dans la vue d’un seul run.
+
+Les runs actifs sélectionnés continuent de se mettre à jour dans l’espace de travail. Vous pouvez donc utiliser LEET à la fois pour l’analyse après exécution et pour la surveillance en temps réel.
+
+<div id="single-run-view">
+  ### Vue d’un run
+</div>
+
+La vue d’un run est centrée sur un seul run. Elle utilise le même moteur de graphiques que la vue de l’espace de travail, mais s’articule autour de ce run :
+
+* La grille principale des métriques est au centre.
+* La barre latérale d’aperçu du run se trouve à gauche.
+* La barre latérale des métriques système se trouve à droite.
+* Les volets des médias et des journaux de la console peuvent être ouverts sous la grille des métriques.
+
+<Frame>
+  <img src="/images/leet/leet-single-run-view.png" alt="Vue d’un run W&B LEET avec les volets d’aperçu du run, les graphiques de métriques et les métriques système." />
+</Frame>
+
+Appuyez sur `esc` pour revenir de la vue d’un run à l’espace de travail.
+
+<div id="symon">
+  ### SYMON
+</div>
+
+`wandb beta leet symon` ouvre un moniteur système autonome qui n&#39;est pas associé à un run W&amp;B.
+
+Utilisez SYMON pour surveiller les métriques locales du CPU, de la mémoire, du disque, du réseau, du GPU, du TPU, de l&#39;IPU et de Trainium pendant l&#39;exécution d&#39;un autre processus. Il utilise le même moteur de graphiques des métriques système que l’espace de travail et les vues de run individuelles.
+
+Définissez la cadence d&#39;échantillonnage avec `--interval` :
+
+```bash
+wandb beta leet symon --interval 500ms
+wandb beta leet symon --interval 2s
+wandb beta leet symon --interval 1m
+```
+
+<Frame>
+  <img src="/images/leet/leet-system-metrics-heatmap.png" alt="Vue des métriques système de W&B LEET avec des graphiques GPU et un mode de carte thermique par plages." />
+</Frame>
+
+<div id="key-features">
+  ## Principales fonctionnalités
+</div>
+
+<div id="multi-run-comparison">
+  ### Comparaison de plusieurs runs
+</div>
+
+Le mode Workspace vous permet de sélectionner plusieurs runs locaux et de comparer leurs séries de métriques sur les mêmes graphiques. Chaque run sélectionné se voit attribuer une couleur fixe. LEET évite également les conflits entre couleurs de base afin de mieux distinguer les runs visibles.
+
+La liste des runs utilise des marqueurs distincts pour les runs non sélectionnés, sélectionnés et épinglés. L’épinglage est utile lorsque de nombreux runs sont sélectionnés et que vous souhaitez qu’une série de métriques s’affiche au premier plan.
+
+<div id="run-filtering">
+  ### Filtrage des runs
+</div>
+
+Appuyez sur `f` dans la vue espace de travail pour filtrer la barre latérale des runs. Les termes non qualifiés lancent une recherche dans la clé du run, le nom d’affichage, l’ID du run, le projet, les tags et les notes.
+
+Le filtre des runs prend également en charge les requêtes par champ :
+
+| Query                               | Matches                                                                        |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| `project:vision`                    | Nom du projet.                                                                 |
+| `name:baseline`                     | Nom d’affichage. Alias : `run_name`, `display`, `display_name`.                |
+| `id:abc123`                         | ID du run. Alias : `run_id`.                                                   |
+| `key:offline-run`                   | Clé du répertoire du run. Alias : `run_key`, `path`.                           |
+| `tag:prod`                          | Tags. Alias : `tags`.                                                          |
+| `note:debug`                        | Notes. Alias : `notes`.                                                        |
+| `config:adamw` or `cfg:adamw`       | N’importe quelle clé ou valeur de configuration aplatie.                       |
+| `cfg.lr>=1e-3`                      | Un chemin imbriqué précis dans la configuration. `config.lr` fonctionne aussi. |
+| `has:notes` or `exists:cfg.dataset` | Vérification de l’existence.                                                   |
+
+Les opérateurs pris en charge sont `:`, `=`, `!=`, `>`, `>=`, `<` et `<=`. Les comparaisons numériques sont utiles pour les valeurs de configuration comme le taux d’apprentissage, la taille de lot ou le nombre de couches.
+
+Utilisez des espaces ou `AND` pour la conjonction, `OR` ou `|` pour les alternatives, et `-`, `!` ou `NOT` pour la négation. Utilisez des guillemets pour les expressions contenant des espaces.
+
+Exemples :
+
+```text
+transformer
+project:vision tag:baseline
+cfg.lr>=1e-3 cfg.optimizer=adamw
+has:notes -tag:debug
+project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
+```
+
+Lorsque vous modifiez un filtre, appuyez sur `tab` pour basculer entre les modes regex et glob. Le mode regex fonctionne comme une recherche de sous-chaîne insensible à la casse, sauf si la requête contient des métacaractères regex. En mode glob, `*` représente n’importe quelle séquence et `?` n’importe quel caractère unique.
+
+<div id="metrics-and-system-metrics">
+  ### Métriques et métriques système
+</div>
+
+LEET affiche les métriques scalaires sous forme de graphiques linéaires dans le terminal. Utilisez `/` pour filtrer les métriques de run et `\` pour filtrer les métriques système. Appuyez sur `ctrl+/` pour effacer le filtre des métriques et sur `ctrl+\` pour effacer le filtre des métriques système.
+
+Cliquez sur un graphique ou déplacez le focus avec `w`, `a`, `s`, `d` ou les touches fléchées. Utilisez `N` ou `pgup` pour la page précédente, `n` ou `pgdown` pour la page suivante, et `home` ou `end` pour aller à la première ou à la dernière page.
+
+Appuyez sur `y` lorsqu’un graphique a le focus pour faire défiler les modes d’affichage du graphique :
+
+* Les graphiques de métriques de run basculent l’axe Y en échelle logarithmique lorsque le graphique contient des données positives.
+* Les graphiques de métriques système basculent l’axe Y en échelle logarithmique.
+* Les graphiques de métriques système basées sur des pourcentages peuvent aussi passer en mode carte thermique par compartiments.
+
+Utilisez la molette de la souris pour zoomer sur le graphique ayant le focus. Sur les graphiques de métriques système en direct, LEET utilise par défaut une fenêtre glissante sur les données les plus récentes, de 10 minutes par défaut. Un zoom arrière affiche davantage d’historique.
+
+Faites un clic droit et faites glisser sur un graphique pour inspecter le point le plus proche. Maintenez `alt` enfoncé tout en faisant un clic droit et en faisant glisser pour inspecter tous les graphiques visibles à la même position X.
+
+<div id="media-pane">
+  ### Volet multimédia
+</div>
+
+Le volet multimédia affiche les données `wandb.Image` sous forme de miniatures ANSI directement dans le terminal. Il est disponible à la fois dans les vues Workspace et de run unique.
+
+Ouvrez ou fermez le volet multimédia avec `3`. Lorsque le volet multimédia est actif :
+
+* `w`, `a`, `s`, `d` déplacent la sélection entre les vignettes multimédias.
+* Les touches fléchées font défiler la série multimédia sélectionnée le long de l’axe X.
+* `up` et `down` font défiler par étapes plus importantes.
+* `home` et `end` font défiler jusqu’à la première image ou à la plus récente.
+* `pgup` et `pgdown` passent d’une page multimédia à l’autre.
+* `enter` bascule en mode plein écran.
+* `esc` quitte le mode plein écran.
+
+<Frame>
+  <img src="/images/leet/leet-media-workspace.png" alt="Vue de l’espace de travail W&B LEET avec le volet multimédia affichant plusieurs séries d’images." />
+</Frame>
+
+<div id="console-logs">
+  ### Journaux de la console
+</div>
+
+Ouvrez ou fermez le volet des journaux de la console avec `4`. Le volet affiche la sortie de console du run ouvert dans la vue d’un seul run, ou du run en surbrillance dans la vue de l’espace de travail.
+
+LEET recompose la sortie brute du terminal en lignes de journal lisibles, y compris lorsqu’elle contient des codes d’échappement ANSI, des lignes incomplètes et des retours chariot.
+
+<div id="run-overview">
+  ### Aperçu du run
+</div>
+
+Le panneau latéral d’aperçu du run affiche les métadonnées du run et les valeurs enregistrées :
+
+* État, ID du run, nom d’affichage, projet, tags et notes.
+* Valeurs de l’environnement.
+* Valeurs de configuration.
+* Valeurs de synthèse.
+
+Appuyez sur `o` pour filtrer les éléments de l’aperçu. Appuyez sur `ctrl+o` pour effacer le filtre de l’aperçu.
+
+<div id="system-metrics-coverage">
+  ### Couverture des métriques système
+</div>
+
+Le volet des métriques système et SYMON peuvent afficher les métriques de l’hôte et des accélérateurs lorsque ces métriques sont disponibles à partir du fichier local du run ou de l’échantillonneur en temps réel. Les définitions de graphiques prises en charge incluent :
+
+* CPU, CPU par cœur, utilisation des P-cores et E-cores Apple, fréquence du CPU, température du CPU et puissance du CPU.
+* RAM, swap, mémoire du processus, CPU du processus, nombre de threads du processus.
+* Utilisation du disque et E/S disque.
+* Débit réseau en réception et en transmission.
+* Utilisation du GPU NVIDIA, mémoire, puissance, température, fréquences, erreurs, utilisation de l’encodeur, débit PCIe et NVLink.
+* Métriques NVML GPM sur les GPU NVIDIA Hopper et plus récents pris en charge, y compris l’activité des SM, le taux d’occupation des SM, l’activité des pipelines tensor/FP et l’activité de la DRAM.
+* Taux d’activité des Google TPU, utilisation des Tensor Cores, utilisation de la HBM, taille de la file d’attente HLO, latence de transfert et jauges TPU disponibles uniquement dans le SDK, le cas échéant.
+* Température, fréquence, puissance et utilisation des Graphcore IPU.
+* Métriques d’utilisation et de mémoire d’AWS Trainium et Neuron.
+
+<div id="configuration">
+  ## Configuration
+</div>
+
+Lancez l’éditeur de configuration avec :
+
+```bash
+wandb beta leet config
+```
+
+LEET stocke la configuration dans `wandb-leet.json`. Par défaut, le fichier est enregistré à l’emplacement suivant :
+
+```text
+~/.config/wandb/wandb-leet.json
+```
+
+Si `WANDB_CONFIG_DIR` est défini, LEET utilise ce répertoire à la place.
+
+L’éditeur de configuration vous permet de modifier :
+
+* Le mode de démarrage : `workspace_latest` ou `single_run_latest`.
+* La taille des grilles pour les vues espace de travail, run unique, média, métriques système et SYMON.
+* Les volets visibles par défaut.
+* Les schémas de couleurs pour les métriques de run, les graphiques run unique par graphique, les graphiques système, les tags de run et les cartes thermiques par bucket.
+* Le mode d’attribution des couleurs : `per_series` ou `per_plot`.
+* La fenêtre de suivi en temps réel des métriques système.
+* L’intervalle de heartbeat pour les mises à jour en direct des runs.
+
+<Frame>
+  <img src="/images/leet/leet-config-editor.png" alt="Éditeur de configuration LEET de W&B affichant les paramètres de grille, les schémas de couleurs, les paramètres de visibilité et la sélection de palette." />
+</Frame>
+
+Vous pouvez également redimensionner la grille sélectionnée depuis LEET :
+
+| Clé | Action                                          |
+| --- | ----------------------------------------------- |
+| `c` | Définir les colonnes de la grille sélectionnée. |
+| `r` | Définir les lignes de la grille sélectionnée.   |
+
+Après avoir appuyé sur `c` ou `r`, appuyez sur un chiffre de `1` à `9`, ou sur `esc` pour annuler.
+
+<div id="common-config-keys">
+  ### Clés de configuration courantes
+</div>
+
+| Clé                                                          | Par défaut         | Description                                                                                                        |
+| ------------------------------------------------------------ | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `startup_mode`                                               | `workspace_latest` | Vue initiale au lancement sans chemin de run.                                                                      |
+| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | Taille de la grille des métriques pour un seul run.                                                                |
+| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | Taille de la grille de la barre latérale des métriques système pour un seul run.                                   |
+| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | Taille de la grille des médias pour un seul run.                                                                   |
+| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | Taille de la grille des métriques de l’espace de travail.                                                          |
+| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | Taille de la grille des métriques système de l’espace de travail.                                                  |
+| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | Taille de la grille des médias de l’espace de travail.                                                             |
+| `symon_grid.rows`, `symon_grid.cols`                         | `3`, `3`           | Taille de la grille SYMON.                                                                                         |
+| `color_scheme`                                               | `wandb-vibe-10`    | Palette utilisée pour les métriques de run de l’espace de travail et les couleurs de la liste des runs.           |
+| `per_plot_color_scheme`                                      | `sunset-glow`      | Palette pour les graphiques de run unique lorsque `single_run_color_mode` vaut `per_plot`.                        |
+| `tag_color_scheme`                                           | `wandb-vibe-10`    | Palette des badges de tags dans la barre latérale d’aperçu.                                                        |
+| `system_color_scheme`                                        | `wandb-vibe-10`    | Palette pour les graphiques de métriques système.                                                                  |
+| `french_fries_color_scheme`                                  | `viridis`          | Palette pour les graphiques de cartes thermiques par compartiments.                                                |
+| `single_run_color_mode`                                      | `per_series`       | Colorer les graphiques de run unique par série ou par graphique.                                                   |
+| `system_color_mode`                                          | `per_series`       | Colorer les graphiques système par série ou par graphique.                                                         |
+| `system_tail_window_minutes`                                 | `10`               | Fenêtre de suivi en direct par défaut pour les graphiques système.                                                 |
+| `heartbeat_interval_seconds`                                 | `15`               | Intervalle d’interrogation pour les runs en direct.                                                                |
+| `workspace_overview_visible`                                 | `true`             | Afficher par défaut la barre latérale d’aperçu des runs de l’espace de travail.                                   |
+| `workspace_metrics_grid_visible`                             | `true`             | Afficher par défaut la grille des métriques de l’espace de travail.                                                |
+| `workspace_system_metrics_visible`                           | `false`            | Afficher par défaut le panneau des métriques système de l’espace de travail.                                       |
+| `workspace_console_logs_visible`                             | `false`            | Afficher par défaut le volet des journaux de la console de l’espace de travail.                                    |
+| `workspace_media_visible`                                    | `false`            | Afficher par défaut le volet multimédia de l’espace de travail.                                                    |
+| `left_sidebar_visible`                                       | `true`             | Afficher par défaut la barre latérale d’aperçu d’un seul run.                                                      |
+| `right_sidebar_visible`                                      | `true`             | Afficher par défaut la barre latérale des métriques système d’un seul run.                                         |
+| `metrics_grid_visible`                                       | `true`             | Afficher par défaut la grille des métriques d’un seul run.                                                         |
+| `console_logs_visible`                                       | `false`            | Afficher par défaut le volet des journaux de la console d’un seul run.                                             |
+| `media_visible`                                              | `false`            | Afficher par défaut le volet multimédia d’un seul run.                                                             |
+
+Les palettes de couleurs disponibles incluent `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma` et `cividis`.
+
+`dusk-shore` et `clear-signal` sont des palettes adaptées au daltonisme. Les palettes séquentielles telles que `viridis`, `plasma`, `inferno`, `magma`, `cividis` et `traffic-light` conviennent bien aux cartes thermiques par compartiments.
 
 <div id="keyboard-shortcuts">
   ## Raccourcis clavier
 </div>
 
-<LEETShortcuts />
+Appuyez sur `h` ou `?` dans LEET pour ouvrir l’écran d’aide de l’application. Les raccourcis varient légèrement selon la vue.
+
+<div id="workspace">
+  ### Espace de travail
+</div>
+
+| Clé                                        | Action                                                                            |
+| ------------------------------------------ | --------------------------------------------------------------------------------- |
+| `h`, `?`                                   | Basculer l’affichage de l’aide.                                                   |
+| `q`, `ctrl+c`                              | Quitter.                                                                          |
+| `alt+r`                                    | Redémarrer LEET.                                                                  |
+| `esc`                                      | Placer le focus sur la liste des runs.                                            |
+| `enter`                                    | Ouvrir le run en surbrillance dans la vue d’un seul run.                          |
+| `1`                                        | Basculer la grille des métriques.                                                 |
+| `[`                                        | Basculer la barre latérale des runs.                                              |
+| `2`                                        | Basculer le volet des métriques système.                                          |
+| `]`                                        | Basculer la barre latérale de l’aperçu du run.                                    |
+| `3`                                        | Basculer le volet multimédia.                                                     |
+| `4`                                        | Basculer le volet des journaux de la console.                                     |
+| `f`                                        | Filtrer les runs par nom ou métadonnées.                                          |
+| `ctrl+f`                                   | Effacer le filtre des runs.                                                       |
+| `space`                                    | Sélectionner ou désélectionner le run.                                            |
+| `p`                                        | Épingler ou désépingler le run.                                                   |
+| `/`                                        | Filtrer les métriques.                                                            |
+| `\`                                        | Filtrer les métriques système.                                                    |
+| `ctrl+/`, `ctrl+l`                         | Effacer le filtre des métriques.                                                  |
+| `ctrl+\`                                   | Effacer le filtre des métriques système.                                          |
+| `o`                                        | Filtrer les éléments de l’aperçu du run.                                          |
+| `ctrl+o`                                   | Effacer le filtre de l’aperçu.                                                    |
+| `y`                                        | Faire défiler les modes du graphique actif.                                       |
+| `c`                                        | Définir les colonnes de la grille active.                                         |
+| `r`                                        | Définir les lignes de la grille active.                                           |
+| `tab`, `shift+tab`                         | Faire passer le focus d’un volet visible à l’autre.                               |
+| `w`, `a`, `s`, `d` ou les touches fléchées | Se déplacer dans le volet actif.                                                  |
+| `N`, `pgup`                                | Page précédente.                                                                  |
+| `n`, `pgdown`                              | Page suivante.                                                                    |
+| `home`                                     | Aller au premier élément, à la première page ou à la première image du média.     |
+| `end`                                      | Aller au dernier élément, à la dernière page ou à la plus récente image du média. |
+
+<div id="single-run">
+  ### Run unique
+</div>
+
+| Clé                              | Action                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------- |
+| `h`, `?`                         | Afficher/masquer l’aide.                                                              |
+| `q`, `ctrl+c`                    | Quitter.                                                                              |
+| `alt+r`                          | Redémarrer LEET.                                                                      |
+| `esc`                            | Revenir à la vue espace de travail.                                                   |
+| `1`                              | Afficher/masquer la grille des métriques.                                             |
+| `[`                              | Afficher/masquer la barre latérale de l’aperçu du run.                                |
+| `]`                              | Afficher/masquer la barre latérale des métriques système.                             |
+| `3`                              | Afficher/masquer le volet multimédia.                                                 |
+| `4`                              | Afficher/masquer le volet des journaux de la console.                                 |
+| `/`                              | Filtrer les métriques.                                                                |
+| `\`                              | Filtrer les métriques système.                                                        |
+| `ctrl+/`, `ctrl+l`               | Effacer le filtre des métriques.                                                      |
+| `ctrl+\`                         | Effacer le filtre des métriques système.                                              |
+| `o`                              | Filtrer les éléments de l’aperçu du run.                                              |
+| `ctrl+o`                         | Effacer le filtre de l’aperçu.                                                        |
+| `y`                              | Parcourir les modes du graphique sélectionné.                                         |
+| `c`                              | Définir les colonnes de la grille sélectionnée.                                       |
+| `r`                              | Définir les lignes de la grille sélectionnée.                                         |
+| `tab`, `shift+tab`               | Faire passer le focus d’un volet visible à l’autre.                                   |
+| `w`, `a`, `s`, `d` or arrow keys | Se déplacer dans le volet sélectionné.                                                |
+| `N`, `pgup`                      | Page précédente.                                                                      |
+| `n`, `pgdown`                    | Page suivante.                                                                        |
+| `home`                           | Aller au premier élément, à la première page ou à la première image multimédia.       |
+| `end`                            | Aller au dernier élément, à la dernière page ou à l’image multimédia la plus récente. |
+
+<div id="symon">
+  ### SYMON
+</div>
+
+| Clé                                        | Action                                   |
+| ------------------------------------------ | ---------------------------------------- |
+| `h`, `?`                                   | Afficher/masquer l’aide.                 |
+| `q`, `ctrl+c`                              | Quitter.                                 |
+| `alt+r`                                    | Redémarrer.                              |
+| `y`                                        | Parcourir les modes du graphique actif.  |
+| `\`                                        | Filtrer les métriques système.           |
+| `ctrl+\`                                   | Effacer le filtre des métriques système. |
+| `c`, `C`                                   | Définir les colonnes de la grille.       |
+| `r`, `R`                                   | Définir les lignes de la grille.         |
+| `w`, `a`, `s`, `d` ou les touches fléchées | Déplacer le focus du graphique.          |
+| `N`, `pgup`                                | Page de graphiques précédente.           |
+| `n`, `pgdown`                              | Page de graphiques suivante.             |
+| `home`                                     | Première page de graphiques.             |
+| `end`                                      | Dernière page de graphiques.             |
+
+<div id="mouse">
+  ### Souris
+</div>
+
+| Entrée                           | Action                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| Clic                             | Placer le focus sur un graphique ou sélectionner une vignette multimédia. |
+| Molette                          | Zoomer sur le graphique sélectionné.                                      |
+| Clic droit et glisser            | Inspecter le point le plus proche d’un graphique.                         |
+| `alt` plus clic droit et glisser | Inspecter tous les graphiques visibles de façon synchronisée.             |
+| `shift` plus glisser             | Sélectionner le texte du terminal.                                        |
+
+<div id="changelog">
+  ## Journal des modifications
+</div>
+
+Le tableau suivant résume les modifications de LEET par version. Pour plus de détails, voir les [notes de version GitHub](https://github.com/wandb/client/releases).
+
+| Version  | Modifications de LEET                                                                                                                                                                                                                                                                                                                                                                  |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0.23.0` | Commande expérimentale initiale `wandb beta leet` pour les métriques locales des runs et la santé du système.                                                                                                                                                                                                                                                                          |
+| `0.23.1` | Filtres regex pour les métriques et l’aperçu du run, inspection des graphiques par glisser avec le bouton droit, inspection synchronisée des graphiques avec `alt`, ainsi qu’un meilleur affichage des graduations négatives de l’axe Y et des unités des métriques système.                                                                                                           |
+| `0.25.0` | Vue de l’espace de travail multi-run et éditeur `wandb beta leet config`.                                                                                                                                                                                                                                                                                                              |
+| `0.25.1` | Volet des journaux de la console, volet des métriques système de l’espace de travail et filtrage des métriques système.                                                                                                                                                                                                                                                                |
+| `0.26.0` | Filtrage des runs tenant compte des métadonnées, tags et notes dans l’aperçu, axe Y logarithmique par graphique, SYMON, cartes thermiques par bucket, palettes adaptées aux personnes daltoniennes, volet multimédia, amélioration des superpositions, de l’inspection et du zoom des métriques système, et prévention des collisions de couleurs entre runs dans l’espace de travail. |
+| `0.26.1` | Navigation unifiée entre les volets actifs avec `w`/`a`/`s`/`d`, les flèches, `home`, `end`, `pgup` et `pgdown`.                                                                                                                                                                                                                                                                       |
