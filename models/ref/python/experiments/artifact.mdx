@@ -734,7 +734,11 @@ Download a single file artifact to the directory you specify with `root`.
 ### <kbd>method</kbd> `Artifact.files`
 
 ```python
-files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+files(
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
+) → ArtifactFiles
 ```
 
 Iterate over all files stored in this artifact. 
@@ -745,6 +749,7 @@ Iterate over all files stored in this artifact.
  
  - `names`:  The filename paths relative to the root of the artifact you wish to  list. 
  - `per_page`:  The number of files to return per request. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 

@@ -35,7 +35,7 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x109961240>,
+    anonymous: 'object' = <object object at 0x107855240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -97,6 +97,7 @@ __init__(
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
+    stop_fn: 'Callable | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -160,7 +161,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 38335,
+    x_stats_pid: 'int' = 72322,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -326,6 +327,14 @@ __init__(
  - `sagemaker_disable` (bool): Flag to disable SageMaker-specific functionality.
  - `save_code` (Optional[bool]): Whether to save the code associated with the run.
  - `settings_system` (Optional[str]): Path to the system-wide settings file.
+ - `stop_fn` (Optional[Callable]): A callback to execute to stop the run.
+   A run can be stopped through the web UI, or after a fatal error
+   (if configured via a setting).
+   By default, to stop a run, W&B sends a SIGINT to the main thread.
+   Set this callback to override this behavior, like to use a different
+   signal or to take some other action before interrupting.
+   The callback runs in a separate thread. It runs soon after a stop is
+   requested, but not immediately.
  - `max_end_of_run_history_metrics` (int): Maximum number of history sparklines to display at the end of a run.
  - `max_end_of_run_summary_metrics` (int): Maximum number of summary metrics to display at the end of a run.
 

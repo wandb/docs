@@ -127,10 +127,17 @@ The date at which the artifact collection was last updated.
 ### <kbd>method</kbd> `ArtifactCollection.artifacts`
 
 ```python
-artifacts(per_page: 'int' = 50) → Artifacts
+artifacts(per_page: 'int' = 50, start: 'str | None' = None) → Artifacts
 ```
 
 Get all artifacts in the collection. 
+
+
+
+**Args:**
+ 
+ - `per_page`:  The number of artifacts to fetch per page. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 ---
 
