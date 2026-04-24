@@ -1,0 +1,51 @@
+---
+title: "Monitor conversations"
+description: "Score grouped Calls after a conversation goes idle using debounced scoring"
+---
+
+Monitors use LLM judges (scorers) to passively score production traffic and surface trends and issues in your LLM applications.
+
+When your application handles multi-turn conversations, such as audio calls or chat threads, you can use debounced scoring to score entire conversations rather than individual Calls. Debounced scoring in W&B Weave lets you group related Calls and score them after the conversation goes idle, so your scorer has access to the full context.
+
+For example, if your application uses OpenAI's Realtime APIs, each trace contains multiple `realtime.response` Calls. Debounced scoring waits for the conversation to go idle, then scores the relevant Calls as a group.
+
+For general monitor setup, see [Set up monitors](/weave/guides/evaluation/monitors).
+
+## Configure debounced scoring
+
+To enable debounced scoring on a monitor:
+
+1. [Create a new monitor](/weave/guides/evaluation/monitors#how-to-create-a-monitor-in-weave) or edit an existing one.
+2. Toggle **Debounced Scoring** on. This reveals the following fields:
+   - **Aggregation field**: The field used to group Calls. Select **Trace Id** to group Calls within a single trace, or **Thread Id** to group Calls across a broader conversation thread.
+   - **Aggregation method**: How Calls in the group are scored. Select **Last message** to score only the most recent Call in the group, or **All messages** to include all Calls in the group.
+   - **Timeout (minutes)**: How long to wait after the last Call completes before scoring. After the timeout elapses, Weave checks whether a newer Call has arrived in the group. If not, Weave scores the group.
+3. Configure the **LLM-as-a-judge configuration** section as you would for any monitor. See [Set up monitors](/weave/guides/evaluation/monitors#how-to-create-a-monitor-in-weave) for details on these fields.
+4. Select **Create monitor** or **Update monitor**.
+
+## Choose an aggregation method
+You can aggregate Calls using two different methods: last message or all messages.
+### Last message (Recommended)
+
+Use the **Last message** method when each Call in the conversation contains the full conversation history. This is the case when you use OpenAI's Realtime APIs, where every `realtime.response` Call contains the complete audio conversation up to that point.
+
+Set the **Aggregation field** to **Trace Id** and the **Aggregation method** to **Last message**. After the timeout elapses, Weave scores only the most recent Call in the trace, which already contains the full conversation.
+
+This method uses fewer resources because the scorer only processes one Call per group.
+
+### All messages
+
+Use the **All messages** method when individual Calls do not contain the full conversation history. In this case, Weave extracts content from every Call in the aggregation group and passes it all to the scorer.
+
+You can set the **Aggregation field** to **Thread Id** for broader grouping flexibility, and the **Aggregation method** to **All messages**.
+
+This method uses more resources because the scorer processes every Call in the group.
+
+## Timeout considerations
+
+The timeout value controls the trade-off between scoring latency and accuracy:
+
+- Shorter timeouts score conversations faster but risk scoring before the conversation is complete. Use shorter timeouts for debugging or when conversations have predictable end points.
+- Longer timeouts wait longer to confirm the conversation is idle, reducing the chance of premature scoring. Use longer timeouts in production, especially for conversations with variable pauses between Calls. Longer timeouts increase server load.
+
+For example, a timeout of `0.25` minutes (15 seconds) is useful during development, while a timeout of several minutes might be appropriate for production workloads.

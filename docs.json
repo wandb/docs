@@ -856,6 +856,7 @@
                       },
                       "weave/guides/tracking/redact-pii",
                       "weave/guides/evaluation/monitors",
+                      "weave/guides/evaluation/monitor-conversations",
                       "weave/guides/evaluation/automations",
                       "weave/guides/evaluation/guardrails",
                       "weave/guides/tracking/otel"
