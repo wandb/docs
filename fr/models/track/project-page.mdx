@@ -360,20 +360,19 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
   </Tab>
 </Tabs>
 
-<div id="organization-home-recent-activity">
-  ## Page d’accueil de l’organisation et activité récente
+<div id="organization-home-and-recent-activity">
+  ## Accueil de l’organisation et Recent Activity
 </div>
 
-Lorsque vous sélectionnez votre organisation dans la W&amp;B App, la page d’accueil de l’organisation résume le travail récent.
+Dans la W&amp;B App, la page d’accueil de l’organisation récapitule l’activité récente.
 
-La zone **Activité récente** comprend :
+La vue **Recent Activity** affiche les runs récents. Choisissez **Your projects** pour voir vos propres runs, ou **Organization** pour voir les runs récents de vos collègues.
 
-* Des vues distinctes pour **vos** runs récents et l’**activité récente de votre équipe**. Utilisez le contrôle en haut du tableau pour basculer.
-* Une **recherche** pour filtrer la liste d’activité.
-* Des **colonnes triables** pour réorganiser les lignes selon la colonne qui vous intéresse.
-* Des **notes** lorsque du texte de note est disponible pour un run.
+* **Search** permet de filtrer la liste d’activité.
+* Les **colonnes triables** vous permettent de réorganiser les lignes selon la colonne qui vous intéresse.
+* Les colonnes **Notes** et **tags** s’affichent automatiquement si un run contient ces informations.
 
-D’autres sections de la page d’accueil de l’organisation, comme les rapports récents, peuvent apparaître dans un ordre différent de celui des anciennes versions de l’application.
+Sous la vue **Recent Activity**, accédez rapidement à vos Reports récemment créés.
 
 <div id="star-a-project">
   ## Ajouter une étoile à un projet
@@ -381,11 +380,7 @@ D’autres sections de la page d’accueil de l’organisation, comme les rappor
 
 Ajoutez une étoile à un projet pour indiquer qu’il est important.
 
-Les projets marqués d’une étoile sont regroupés en **haut de la page Projects** de votre équipe. Dans la **navigation de gauche**, vous pouvez voir jusqu’à **10** projets à la fois. Lorsque vous ajoutez une étoile à un projet, il remonte en **haut** de cette liste.
-
-<Note>
-Sur d’anciennes présentations de l’application, les projets favoris pouvaient apparaître dans une section **Projets favoris** en haut de la page d’accueil de l’organisation. Le moment où la page d’accueil et la navigation mises à jour sont activées pour votre compte est contrôlé par votre déploiement W&amp;B Multi-tenant Cloud ou W&amp;B Server (par exemple via la barrière Statsig `enable_homepage_refresh` par utilisateur en auto-hébergement). Demandez à votre administrateur si vous n’êtes pas sûr de la présentation dont vous disposez.
-</Note>
+Les projets marqués d’une étoile sont regroupés en **haut de la page Projects**. Dans le **menu de navigation globale** en haut à gauche, vous pouvez accéder rapidement à jusqu’à 10 projets récents dans la liste **Projects**, les projets favoris apparaissant en premier.
 
 Il existe deux façons de marquer un projet comme important : dans l’onglet Aperçu d’un projet ou sur la page de profil de votre équipe.
 
@@ -393,7 +388,7 @@ Il existe deux façons de marquer un projet comme important : dans l’onglet A
   <Tab title="Aperçu du projet">
     1. Accédez à votre projet W&amp;B dans la W&amp;B App à l’adresse `https://wandb.ai/<team>/<project-name>`.
     2. Sélectionnez l’onglet **Aperçu** dans la barre latérale du projet.
-    3. Cliquez sur l’icône en forme d’étoile dans le coin supérieur droit, à côté du bouton **Modifier**.
+    3. Cliquez sur l’icône en forme d’étoile dans le coin supérieur droit, à côté du bouton **Edit**.
 
     <Frame>
       <img src="/images/track/star-project-overview-tab.png" alt="Ajouter une étoile à un projet depuis l’aperçu" />
@@ -413,7 +408,7 @@ Il existe deux façons de marquer un projet comme important : dans l’onglet A
   </Tab>
 </Tabs>
 
-Pour vérifier que votre projet est disponible, ouvrez votre organisation depuis le coin supérieur gauche de l’application. Ouvrez **Projects** dans la navigation de gauche (ou utilisez **View all** sous **Projects**) et repérez votre projet dans la liste. Les projets favoris apparaissent en haut de la page Projects.
+Vérifiez que votre projet est disponible. Dans la section **Project** de la navigation de gauche, cliquez sur **View all** pour ouvrir la page **Project**. Recherchez ou filtrez pour trouver votre projet par son nom, son équipe ou d’autres métadonnées. Les projets favoris apparaissent en haut de la page **Projects**, ainsi qu’en haut de la section **Projects** de la navigation de gauche.
 
 <div id="delete-a-project">
   ## Supprimer un projet
