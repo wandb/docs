@@ -1,31 +1,436 @@
 ---
-title: Wandb 베타 Leet
+title: Wandb 베타 LEET
 ---
 
-import LEETShortcuts from "/snippets/ko/_includes/leet-keyboard-shortcuts.mdx";
+경량 실험 탐색 도구인 W&amp;B LEET는 명령줄에서 W&amp;B Runs를 탐색할 수 있는 로컬 터미널 UI입니다. 터미널 세션을 벗어나지 않고도 Runs를 비교하고, 메트릭 차트를 살펴보고, 로깅된 이미지를 탐색하고, 콘솔 로그를 실시간으로 확인하고, 시스템 메트릭을 모니터링할 수 있습니다.
 
-LEET는 W&amp;B run의 통계, 메트릭, 시스템 상태를 확인할 수 있는 로컬 터미널 UI입니다. LEET는 SSH나 `tmux` 같은 도구를 사용해 원격 시스템이나 HPC 환경에서 작업하는 사용자를 위해 설계된 키보드 중심 인터페이스입니다.
+LEET는 로컬 `.wandb` run 파일을 읽기 때문에 W&amp;B에 동기화하기 전에 Runs를 살펴볼 수 있습니다. LEET는 SSH나 `tmux` 같은 도구를 사용해 원격 시스템 또는 HPC 환경에서 작업하는 사용자를 위해 설계된 키보드 중심 인터페이스입니다.
 
+<Frame>
+  <img src="/images/leet/leet-workspace-all-panes.png" alt="Runs, 메트릭, 시스템 메트릭, 미디어, 콘솔 로그, run 개요 패널이 표시된 W&B LEET Workspace 뷰." />
+</Frame>
 
+<div id="examples">
+  ## 예시
+</div>
 
-주요 기능은 다음과 같습니다.
+기본 Workspace를 엽니다:
 
-* **키보드 우선 내비게이션**: 모든 기능에 키보드 단축키로 접근할 수 있습니다
-* **실시간 업데이트**: run이 진행되는 동안 `.wandb` 파일을 실시간으로 모니터링합니다
-* **메트릭 필터링**: glob 패턴이나 부분 문자열 일치를 사용해 메트릭을 필터링합니다
-* **스마트 확대/축소**: 마우스 휠로 확대/축소해도 최신 데이터 포인트가 계속 뷰에 표시됩니다
-* **사용자 지정 가능한 그리드**: 메트릭 및 시스템 디스플레이의 행과 열 수를 설정할 수 있습니다
-* **읽기 쉬운 형식**: 시스템 메트릭을 이해하기 쉬운 단위로 표시합니다(예: &quot;GPU 사용량 (%)&quot;, &quot;사용된 RAM (GB)&quot;)
+```bash
+wandb beta leet
+```
 
-LEET는 3개의 패널 레이아웃을 제공합니다.
+특정 Workspace 디렉터리를 여세요:
 
-* **왼쪽 사이드바**: 환경 변수, 설정, 요약 통계를 보여주는 run Overview
-* **가운데 패널**: 로깅된 메트릭을 점자 스타일 선 차트로 보여주는 메트릭 그리드
-* **오른쪽 사이드바**: GPU 사용량, RAM, CPU 및 기타 시스템 상태 지표를 표시하는 시스템 메트릭
+```bash
+wandb beta leet ./wandb
+```
 
+특정 run 디렉터리를 여세요:
+
+```bash
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns
+```
+
+특정 `.wandb` 파일을 여세요:
+
+```bash
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+독립형 시스템 모니터를 여세요:
+
+```bash
+wandb beta leet symon --interval 2s
+```
+
+설정 편집기를 여세요:
+
+```bash
+wandb beta leet config
+```
+
+<div id="views">
+  ## 뷰
+</div>
+
+LEET에는 workspace, single-run, SYMON의 세 가지 주요 뷰가 있습니다.
+
+<div id="workspace-view">
+  ### Workspace 뷰
+</div>
+
+Workspace 뷰는 LEET의 기본 화면입니다. 동일한 로컬 `wandb/` 디렉터리에 있는 여러 run을 비교할 수 있도록 설계되었습니다.
+
+Workspace 뷰에는 다음이 포함됩니다.
+
+* 로컬 run 폴더를 탐색할 수 있는 Runs 사이드바
+* 선택한 run들을 같은 차트에 오버레이해 표시하는 메트릭 그리드
+* 강조 표시된 run의 시스템 메트릭 창
+* `wandb.Image` 썸네일을 위한 미디어 창
+* 콘솔 로그 창
+* state, ID, name, 프로젝트, tags, notes, 환경, 설정, summary 값을 표시하는 run 개요 사이드바
+
+`space`를 사용해 run을 선택하거나 선택 해제하세요. run을 선택하면 오버레이된 메트릭 차트에 추가되고 해당 run별 데이터가 로드됩니다. `p`를 사용해 run을 고정하거나 고정 해제하세요. run을 고정하면 해당 run의 메트릭 시리즈가 오버레이된 메트릭 차트에서 맨 위에 유지됩니다. run 개요, 시스템 메트릭, 미디어, 콘솔 로그 창은 Runs 사이드바에서 강조 표시된 run을 기준으로 표시됩니다. 강조 표시된 run에서 `enter`를 눌러 single-run 뷰로 여세요.
+
+선택한 실행 중인 run은 Workspace에서 계속 업데이트되므로, LEET를 run 완료 후 분석과 실시간 모니터링 모두에 사용할 수 있습니다.
+
+<div id="single-run-view">
+  ### Single-Run 뷰
+</div>
+
+Single-Run 뷰는 하나의 run에 초점을 맞춥니다. Workspace 뷰와 동일한 차트 엔진을 사용하지만, 해당 run을 중심으로 구성됩니다:
+
+* 기본 메트릭 그리드가 중앙에 있습니다.
+* run 개요 사이드바는 왼쪽에 있습니다.
+* 시스템 메트릭 사이드바는 오른쪽에 있습니다.
+* 미디어 및 콘솔 로그 창은 메트릭 그리드 아래에서 열 수 있습니다.
+
+<Frame>
+  <img src="/images/leet/leet-single-run-view.png" alt="run 개요, 메트릭 차트, 시스템 메트릭 창이 포함된 W&B LEET Single-Run 뷰" />
+</Frame>
+
+`esc`를 눌러 Single-Run 뷰에서 Workspace로 돌아가세요.
+
+<div id="symon">
+  ### SYMON
+</div>
+
+`wandb beta leet symon`은 W&amp;B run에 연결되지 않은 독립형 시스템 모니터를 엽니다.
+
+다른 프로세스가 실행되는 동안 SYMON을 사용해 로컬 CPU, 메모리, 디스크, 네트워크, GPU, TPU, IPU, Trainium 메트릭을 모니터링하세요. 워크스페이스 및 단일 run 뷰에서 사용하는 것과 동일한 시스템 메트릭 차트 엔진을 사용합니다.
+
+샘플링 주기는 `--interval`로 설정하세요:
+
+```bash
+wandb beta leet symon --interval 500ms
+wandb beta leet symon --interval 2s
+wandb beta leet symon --interval 1m
+```
+
+<Frame>
+  <img src="/images/leet/leet-system-metrics-heatmap.png" alt="GPU 차트와 버킷형 히트맵 모드가 표시된 W&B LEET 시스템 메트릭 뷰." />
+</Frame>
+
+<div id="key-features">
+  ## 주요 기능
+</div>
+
+<div id="multi-run-comparison">
+  ### 여러 Runs 비교
+</div>
+
+Workspace 모드에서는 여러 로컬 Runs를 선택해 동일한 차트에서 메트릭 시리즈를 비교할 수 있습니다. 선택한 각 run에는 일관된 색상이 할당됩니다. LEET는 기본 색상 충돌도 방지하므로 표시된 Runs를 더 쉽게 구분할 수 있습니다.
+
+Runs 목록에서는 선택되지 않은 run, 선택된 run, 고정된 run을 서로 다른 표시로 구분합니다. 많은 Runs를 선택한 상태에서 특정 run의 메트릭 시리즈가 맨 위에 렌더링되도록 하려면 고정 기능이 유용합니다.
+
+<div id="run-filtering">
+  ### Run 필터링
+</div>
+
+Workspace 뷰에서 `f`를 눌러 Runs 사이드바를 필터링하세요. 접두어 없는 검색어는 run 키, 표시 이름, run ID, 프로젝트, tags, notes 전체에서 검색합니다.
+
+Runs 필터는 필드 지정 쿼리도 지원합니다:
+
+| Query                               | Matches                                           |
+| ----------------------------------- | ------------------------------------------------- |
+| `project:vision`                    | 프로젝트 이름.                                          |
+| `name:baseline`                     | 표시 이름. 별칭: `run_name`, `display`, `display_name`. |
+| `id:abc123`                         | Run ID. 별칭: `run_id`.                             |
+| `key:offline-run`                   | Run 디렉터리 키. 별칭: `run_key`, `path`.                |
+| `tag:prod`                          | Tags. 별칭: `tags`.                                 |
+| `note:debug`                        | Notes. 별칭: `notes`.                               |
+| `config:adamw` or `cfg:adamw`       | 평탄화된 설정 키 또는 값.                                   |
+| `cfg.lr>=1e-3`                      | 특정 중첩 설정 경로. `config.lr`도 사용할 수 있습니다.             |
+| `has:notes` or `exists:cfg.dataset` | 존재 여부 확인.                                         |
+
+지원되는 연산자는 `:`, `=`, `!=`, `>`, `>=`, `<`, `<=`입니다. 숫자 비교는 학습률, 배치 크기, 레이어 수와 같은 설정 값에 유용합니다.
+
+공백 또는 `AND`는 AND 조건에, `OR` 또는 `|`는 대안 조건에, `-`, `!`, `NOT`은 부정 조건에 사용하세요. 공백이 포함된 구문에는 따옴표를 사용하세요.
+
+예시:
+
+```text
+transformer
+project:vision tag:baseline
+cfg.lr>=1e-3 cfg.optimizer=adamw
+has:notes -tag:debug
+project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
+```
+
+필터를 편집할 때 `tab`을 눌러 regex 모드와 glob 모드 사이를 전환하세요. Regex 모드는 쿼리에 regex 메타문자가 포함되어 있지 않으면 대소문자를 구분하지 않는 부분 문자열 검색처럼 동작합니다. Glob 모드에서는 `*`를 임의 길이의 문자열에, `?`를 임의의 단일 문자에 사용합니다.
+
+<div id="metrics-and-system-metrics">
+  ### 메트릭 및 시스템 메트릭
+</div>
+
+LEET는 스칼라 메트릭을 터미널 선 차트로 표시합니다. `/`를 사용해 run 메트릭을 필터링하고 `\`를 사용해 시스템 메트릭을 필터링하세요. `ctrl+/`를 눌러 메트릭 필터를 지우고 `ctrl+\`를 눌러 시스템 메트릭 필터를 지우세요.
+
+차트를 클릭하거나 `w`, `a`, `s`, `d` 또는 화살표 키로 포커스를 이동하세요. 이전 페이지로 이동하려면 `N` 또는 `pgup`을 사용하고, 다음 페이지로 이동하려면 `n` 또는 `pgdown`을 사용하세요. 첫 페이지나 마지막 페이지로 바로 이동하려면 `home` 또는 `end`를 사용하세요.
+
+포커스된 차트에서 `y`를 눌러 차트 모드를 순서대로 전환하세요.
+
+* run 메트릭 차트는 차트에 양수 데이터가 있을 때 Y축 로그 스케일을 전환합니다.
+* 시스템 메트릭 차트는 Y축 로그 스케일을 전환합니다.
+* 백분율 기반 시스템 메트릭 차트는 버킷형 히트맵 모드로도 전환할 수 있습니다.
+
+마우스 휠을 사용해 포커스된 차트를 확대/축소하세요. 실시간 시스템 메트릭 차트에서 LEET는 기본적으로 롤링 테일 윈도우를 사용하며, 기본값은 10분입니다. 축소하면 더 많은 이력이 표시됩니다.
+
+차트에서 마우스 오른쪽 버튼을 누른 채 드래그해 가장 가까운 지점을 확인하세요. `alt`를 누른 상태로 마우스 오른쪽 버튼을 누른 채 드래그하면 같은 X 위치에서 화면에 보이는 모든 차트를 확인할 수 있습니다.
+
+<div id="media-pane">
+  ### 미디어 창
+</div>
+
+미디어 창은 `wandb.Image` 데이터를 터미널에서 직접 ANSI 썸네일로 렌더링합니다. 이 기능은 workspace 뷰와 단일 run 뷰 모두에서 사용 가능합니다.
+
+`3`을 눌러 미디어 창을 열거나 닫으세요. 미디어 창에 포커스가 있을 때는 다음과 같습니다.
+
+* `w`, `a`, `s`, `d`로 미디어 타일 사이를 이동합니다.
+* 화살표 키로 선택한 미디어 시리즈를 X축을 따라 스크럽합니다.
+* `up` 및 `down`은 더 큰 단계로 스크럽합니다.
+* `home` 및 `end`는 첫 번째 또는 가장 최근 프레임으로 스크럽합니다.
+* `pgup` 및 `pgdown`으로 미디어 페이지 사이를 이동합니다.
+* `enter`는 전체 화면 모드를 표시하거나 숨깁니다.
+* `esc`는 전체 화면 모드를 종료합니다.
+
+<Frame>
+  <img src="/images/leet/leet-media-workspace.png" alt="미디어 창에 여러 이미지 시리즈가 표시된 W&B LEET workspace 뷰." />
+</Frame>
+
+<div id="console-logs">
+  ### 콘솔 로그
+</div>
+
+`4`를 눌러 콘솔 로그 패널을 열거나 닫으세요. 이 패널에는 단일 run 뷰에서는 현재 열려 있는 run의 콘솔 출력이, Workspace 뷰에서는 강조 표시된 run의 콘솔 출력이 표시됩니다.
+
+LEET는 ANSI 이스케이프 코드, 불완전한 줄, 캐리지 리턴이 포함된 출력까지 포함해 원시 터미널 출력을 읽기 쉬운 로그 줄로 정리합니다.
+
+<div id="run-overview">
+  ### run 개요
+</div>
+
+run 개요 사이드바에는 run 메타데이터와 로깅된 값이 표시됩니다:
+
+* 상태, run ID, 표시 이름, 프로젝트, tags, notes
+* 환경 값
+* 설정 값
+* 요약 값
+
+개요 항목을 필터링하려면 `o`를 누르세요. 개요 필터를 지우려면 `ctrl+o`를 누르세요.
+
+<div id="system-metrics-coverage">
+  ### 시스템 메트릭 지원 범위
+</div>
+
+시스템 메트릭 패널과 SYMON은 로컬 run 파일 또는 라이브 샘플러에서 메트릭을 사용할 수 있는 경우 호스트 및 가속기 메트릭을 표시할 수 있습니다. 지원되는 차트 정의는 다음과 같습니다.
+
+* CPU, 코어별 CPU, Apple P-core 및 E-core 사용량, CPU 주파수, CPU 온도, CPU 전력.
+* RAM, 스왑, 프로세스 메모리, 프로세스 CPU, 프로세스 스레드 수.
+* 디스크 사용량 및 디스크 I/O.
+* 네트워크 수신 및 송신 처리량.
+* NVIDIA GPU 사용량, 메모리, 전력, 온도, 클록, 오류, 인코더 사용량, PCIe 및 NVLink 처리량.
+* 지원되는 Hopper 이상 NVIDIA GPU의 NVML GPM 메트릭(예: SM 활성, SM 점유율, tensor/FP 파이프라인 활동, DRAM 활성).
+* Google TPU 듀티 사이클, tensorcore 사용량, HBM 사용량, HLO 큐 크기, 전송 지연 시간, 그리고 사용 가능한 경우 SDK 전용 TPU 게이지.
+* Graphcore IPU 온도, 클록, 전력 및 사용량.
+* AWS Trainium 및 Neuron 사용량과 메모리 메트릭.
+
+<div id="configuration">
+  ## 설정
+</div>
+
+다음과 같이 설정 편집기를 실행하세요:
+
+```bash
+wandb beta leet config
+```
+
+LEET는 설정을 `wandb-leet.json` 파일에 저장합니다. 기본적으로 이 파일은 다음 위치에 생성됩니다:
+
+```text
+~/.config/wandb/wandb-leet.json
+```
+
+`WANDB_CONFIG_DIR`이 설정되어 있으면 LEET는 해당 디렉터리를 대신 사용합니다.
+
+설정 편집기에서는 다음 항목을 변경할 수 있습니다.
+
+* 시작 모드: `workspace_latest` 또는 `single_run_latest`
+* Workspace, 단일 run, 미디어, 시스템 메트릭, SYMON 뷰의 그리드 크기
+* 기본으로 표시할 패널
+* run 메트릭, 플롯별 단일 run 차트, 시스템 차트, run 태그, 버킷 히트맵의 색상 스키마
+* 색상 부여 모드: `per_series` 또는 `per_plot`
+* 시스템 메트릭 라이브 테일 윈도우
+* 라이브 run 업데이트용 하트비트 간격
+
+<Frame>
+  <img src="/images/leet/leet-config-editor.png" alt="그리드 설정, 색상 스키마, 표시 설정, 팔레트 선택이 표시된 W&B LEET 설정 편집기" />
+</Frame>
+
+LEET 내부에서 현재 포커스된 그리드의 크기를 조정할 수도 있습니다.
+
+| 키   | 액션                    |
+| --- | --------------------- |
+| `c` | 포커스된 그리드의 열 수를 설정합니다. |
+| `r` | 포커스된 그리드의 행 수를 설정합니다. |
+
+`c` 또는 `r`를 누른 뒤 `1`부터 `9`까지의 숫자를 누르거나, `esc`를 눌러 취소하세요.
+
+<div id="common-config-keys">
+  ### 자주 사용하는 설정 키
+</div>
+
+| 키                                                            | 기본값                | 설명                                                            |
+| ------------------------------------------------------------ | ------------------ | ------------------------------------------------------------- |
+| `startup_mode`                                               | `workspace_latest` | run 경로 없이 실행할 때의 초기 뷰입니다.                                     |
+| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | 단일 run 메트릭 그리드 크기입니다.                                         |
+| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | 단일 run 시스템 메트릭 사이드바 그리드 크기입니다.                                |
+| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | 단일 run 미디어 그리드 크기입니다.                                         |
+| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | Workspace 메트릭 그리드 크기입니다.                                      |
+| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | Workspace 시스템 메트릭 그리드 크기입니다.                                  |
+| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | Workspace 미디어 그리드 크기입니다.                                      |
+| `symon_grid.rows`, `symon_grid.cols`                         | `3`, `3`           | SYMON 그리드 크기입니다.                                              |
+| `color_scheme`                                               | `wandb-vibe-10`    | Workspace run 메트릭과 run 목록 색상에 사용할 팔레트입니다.                     |
+| `per_plot_color_scheme`                                      | `sunset-glow`      | `single_run_color_mode`가 `per_plot`일 때 단일 run 차트에 사용할 팔레트입니다. |
+| `tag_color_scheme`                                           | `wandb-vibe-10`    | 개요 사이드바의 태그 배지에 사용할 팔레트입니다.                                   |
+| `system_color_scheme`                                        | `wandb-vibe-10`    | 시스템 메트릭 차트에 사용할 팔레트입니다.                                       |
+| `french_fries_color_scheme`                                  | `viridis`          | 버킷형 히트맵 차트에 사용할 팔레트입니다.                                       |
+| `single_run_color_mode`                                      | `per_series`       | 단일 run 차트에 계열별 또는 플롯별로 색상을 적용합니다.                             |
+| `system_color_mode`                                          | `per_series`       | 시스템 차트에 계열별 또는 플롯별로 색상을 적용합니다.                                |
+| `system_tail_window_minutes`                                 | `10`               | 시스템 차트의 기본 라이브 테일 윈도우입니다.                                     |
+| `heartbeat_interval_seconds`                                 | `15`               | 라이브 Runs를 폴링하는 하트비트 간격입니다.                                    |
+| `workspace_overview_visible`                                 | `true`             | 기본적으로 Workspace run 개요 사이드바를 표시합니다.                           |
+| `workspace_metrics_grid_visible`                             | `true`             | 기본적으로 Workspace 메트릭 그리드를 표시합니다.                               |
+| `workspace_system_metrics_visible`                           | `false`            | 기본적으로 Workspace 시스템 메트릭 패널을 표시합니다.                            |
+| `workspace_console_logs_visible`                             | `false`            | 기본적으로 Workspace 콘솔 로그 패널을 표시합니다.                              |
+| `workspace_media_visible`                                    | `false`            | 기본적으로 Workspace 미디어 패널을 표시합니다.                                |
+| `left_sidebar_visible`                                       | `true`             | 기본적으로 단일 run 개요 사이드바를 표시합니다.                                  |
+| `right_sidebar_visible`                                      | `true`             | 기본적으로 단일 run 시스템 메트릭 사이드바를 표시합니다.                             |
+| `metrics_grid_visible`                                       | `true`             | 기본적으로 단일 run 메트릭 그리드를 표시합니다.                                  |
+| `console_logs_visible`                                       | `false`            | 기본적으로 단일 run 콘솔 로그 패널을 표시합니다.                                 |
+| `media_visible`                                              | `false`            | 기본적으로 단일 run 미디어 패널을 표시합니다.                                   |
+
+사용 가능한 색상 구성표에는 `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma`, `cividis`가 포함됩니다.
+
+`dusk-shore`와 `clear-signal`은 색각 이상 사용자 친화적인 팔레트입니다. `viridis`, `plasma`, `inferno`, `magma`, `cividis`, `traffic-light`와 같은 순차 팔레트는 버킷형 히트맵에 적합합니다.
 
 <div id="keyboard-shortcuts">
   ## 키보드 단축키
 </div>
 
-<LEETShortcuts />
+LEET에서 `h` 또는 `?`를 눌러 앱 내 도움말 화면을 여세요. 단축키는 뷰에 따라 조금씩 다릅니다.
+
+<div id="workspace">
+  ### Workspace
+</div>
+
+| 키                                | 액션                                      |
+| -------------------------------- | --------------------------------------- |
+| `h`, `?`                         | 도움말을 표시하거나 숨깁니다.                        |
+| `q`, `ctrl+c`                    | 종료합니다.                                  |
+| `alt+r`                          | LEET를 다시 시작합니다.                         |
+| `esc`                            | Runs 목록으로 포커스를 이동합니다.                   |
+| `enter`                          | 강조 표시된 run을 single-run 뷰에서 엽니다.         |
+| `1`                              | 메트릭 그리드를 표시하거나 숨깁니다.                    |
+| `[`                              | Runs 사이드바를 표시하거나 숨깁니다.                  |
+| `2`                              | 시스템 메트릭 창을 표시하거나 숨깁니다.                  |
+| `]`                              | run overview 사이드바를 표시하거나 숨깁니다.          |
+| `3`                              | 미디어 창을 표시하거나 숨깁니다.                      |
+| `4`                              | 콘솔 로그 창을 표시하거나 숨깁니다.                    |
+| `f`                              | 이름 또는 메타데이터로 Runs를 필터링합니다.              |
+| `ctrl+f`                         | Runs 필터를 지웁니다.                          |
+| `space`                          | run을 선택하거나 선택 해제합니다.                    |
+| `p`                              | run을 고정하거나 고정 해제합니다.                    |
+| `/`                              | 메트릭을 필터링합니다.                            |
+| `\`                              | 시스템 메트릭을 필터링합니다.                        |
+| `ctrl+/`, `ctrl+l`               | 메트릭 필터를 지웁니다.                           |
+| `ctrl+\`                         | 시스템 메트릭 필터를 지웁니다.                       |
+| `o`                              | run overview 항목을 필터링합니다.                |
+| `ctrl+o`                         | overview 필터를 지웁니다.                      |
+| `y`                              | 포커스된 차트 모드를 전환합니다.                      |
+| `c`                              | 포커스된 그리드의 열 수를 설정합니다.                   |
+| `r`                              | 포커스된 그리드의 행 수를 설정합니다.                   |
+| `tab`, `shift+tab`               | 표시된 창 사이에서 포커스를 순환합니다.                  |
+| `w`, `a`, `s`, `d` or arrow keys | 포커스된 창 안에서 이동합니다.                       |
+| `N`, `pgup`                      | 이전 페이지로 이동합니다.                          |
+| `n`, `pgdown`                    | 다음 페이지로 이동합니다.                          |
+| `home`                           | 첫 번째 항목, 첫 페이지 또는 첫 번째 미디어 프레임으로 이동합니다. |
+| `end`                            | 마지막 항목, 마지막 페이지 또는 최신 미디어 프레임으로 이동합니다.  |
+
+<div id="single-run">
+  ### 단일 run
+</div>
+
+| 키                                | 액션                                      |
+| -------------------------------- | --------------------------------------- |
+| `h`, `?`                         | 도움말을 표시하거나 숨깁니다.                        |
+| `q`, `ctrl+c`                    | 종료합니다.                                  |
+| `alt+r`                          | LEET를 다시 시작합니다.                         |
+| `esc`                            | Workspace 뷰로 돌아갑니다.                     |
+| `1`                              | 메트릭 그리드를 표시하거나 숨깁니다.                    |
+| `[`                              | run 개요 사이드바를 표시하거나 숨깁니다.                |
+| `]`                              | 시스템 메트릭 사이드바를 표시하거나 숨깁니다.               |
+| `3`                              | 미디어 창을 표시하거나 숨깁니다.                      |
+| `4`                              | 콘솔 로그 창을 표시하거나 숨깁니다.                    |
+| `/`                              | 메트릭을 필터링합니다.                            |
+| `\`                              | 시스템 메트릭을 필터링합니다.                        |
+| `ctrl+/`, `ctrl+l`               | 메트릭 필터를 지웁니다.                           |
+| `ctrl+\`                         | 시스템 메트릭 필터를 지웁니다.                       |
+| `o`                              | run 개요 항목을 필터링합니다.                      |
+| `ctrl+o`                         | 개요 필터를 지웁니다.                            |
+| `y`                              | 포커스된 차트 모드를 전환합니다.                      |
+| `c`                              | 포커스된 그리드의 열 수를 설정합니다.                   |
+| `r`                              | 포커스된 그리드의 행 수를 설정합니다.                   |
+| `tab`, `shift+tab`               | 표시된 창 사이에서 포커스를 전환합니다.                  |
+| `w`, `a`, `s`, `d` or arrow keys | 포커스된 창 내에서 이동합니다.                       |
+| `N`, `pgup`                      | 이전 페이지로 이동합니다.                          |
+| `n`, `pgdown`                    | 다음 페이지로 이동합니다.                          |
+| `home`                           | 첫 번째 항목, 첫 페이지 또는 첫 번째 미디어 프레임으로 이동합니다. |
+| `end`                            | 마지막 항목, 마지막 페이지 또는 최신 미디어 프레임으로 이동합니다.  |
+
+<div id="symon">
+  ### SYMON
+</div>
+
+| 키                                | 액션                      |
+| -------------------------------- | ----------------------- |
+| `h`, `?`                         | 도움말을 표시/숨기기합니다.         |
+| `q`, `ctrl+c`                    | 종료합니다.                  |
+| `alt+r`                          | 다시 시작합니다.               |
+| `y`                              | 포커스된 차트 모드를 순환하며 전환합니다. |
+| `\`                              | 시스템 메트릭을 필터링합니다.        |
+| `ctrl+\`                         | 시스템 메트릭 필터를 지웁니다.       |
+| `c`, `C`                         | 그리드 열 수를 설정합니다.         |
+| `r`, `R`                         | 그리드 행 수를 설정합니다.         |
+| `w`, `a`, `s`, `d` or arrow keys | 차트 포커스를 이동합니다.          |
+| `N`, `pgup`                      | 이전 차트 페이지로 이동합니다.       |
+| `n`, `pgdown`                    | 다음 차트 페이지로 이동합니다.       |
+| `home`                           | 첫 번째 차트 페이지로 이동합니다.     |
+| `end`                            | 마지막 차트 페이지로 이동합니다.      |
+
+<div id="mouse">
+  ### 마우스
+</div>
+
+| 입력                              | 액션                          |
+| ------------------------------- | --------------------------- |
+| 클릭                              | 차트에 포커스를 두거나 미디어 타일을 선택합니다. |
+| 휠                               | 포커스된 차트를 확대/축소합니다.          |
+| 마우스 오른쪽 버튼을 누른 채 드래그            | 차트에서 가장 가까운 지점을 확인합니다.      |
+| `alt` plus 마우스 오른쪽 버튼을 누른 채 드래그 | 표시된 모든 차트를 동기화된 상태로 확인합니다.  |
+| `shift` plus 드래그                | 터미널 텍스트를 선택합니다.             |
+
+<div id="changelog">
+  ## 변경 로그
+</div>
+
+다음 표는 버전별 LEET 변경 사항을 요약합니다. 자세한 내용은 [GitHub 릴리스 노트](https://github.com/wandb/client/releases)를 참조하세요.
+
+| 버전       | LEET 변경 사항                                                                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `0.23.0` | 로컬 run 메트릭과 시스템 상태를 위한 실험용 `wandb beta leet` 명령이 처음 도입되었습니다.                                                                                     |
+| `0.23.1` | 메트릭 및 run 개요용 정규식 필터, 마우스 오른쪽 버튼 드래그로 차트를 검사하는 기능, `alt`를 사용한 동기화 차트 검사, 음수 Y축 눈금 표시 개선, 시스템 메트릭 단위 개선이 추가되었습니다.                                 |
+| `0.25.0` | 다중 run Workspace 뷰와 `wandb beta leet config` 편집기가 추가되었습니다.                                                                                       |
+| `0.25.1` | 콘솔 로그 패널, Workspace 시스템 메트릭 패널, 시스템 메트릭 필터링이 추가되었습니다.                                                                                            |
+| `0.26.0` | 메타데이터 인식 run 필터링, 개요의 tags 및 notes, 차트별 로그 Y축, SYMON, 버킷 기반 히트맵, 색각 이상 친화형 팔레트, 미디어 패널, 개선된 시스템 메트릭 오버레이/검사/확대, Workspace run 색상 충돌 방지가 추가되었습니다. |
+| `0.26.1` | `w`/`a`/`s`/`d`, 화살표 키, `home`, `end`, `pgup`, `pgdown`으로 포커스된 패널 전반에서 통합 내비게이션을 사용할 수 있게 되었습니다.                                                 |
