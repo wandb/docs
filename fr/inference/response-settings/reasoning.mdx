@@ -3,46 +3,86 @@ title: "Afficher les informations de raisonnement"
 description: Comment renvoyer et afficher le raisonnement dans vos réponses W&B Inference
 ---
 
-Les modèles de raisonnement, comme [GPT OSS 20B d’OpenAI](https://huggingface.co/openai/gpt-oss-20b), incluent des informations sur leurs étapes de raisonnement dans la sortie renvoyée, en plus de la réponse finale. Cela est automatique et ne nécessite aucun paramètre d’entrée supplémentaire.
+Les modèles de raisonnement, comme [Gemma 4 de Google](https://huggingface.co/google/gemma-4-31B-it), renvoient des informations sur leurs étapes de raisonnement en plus de la réponse finale. Cette page explique comment identifier les modèles compatibles avec le raisonnement sur W&amp;B Inference, où trouver le raisonnement dans une réponse et comment l’activer ou le désactiver pour les modèles qui prennent en charge cette option.
 
-Vous pouvez déterminer si un modèle prend en charge le raisonnement en consultant la section Fonctionnalités prises en charge de sa page de catalogue dans l’UI.
+Pour déterminer si un modèle prend en charge le raisonnement, consultez le tableau suivant des modèles pris en charge ou la section Supported Features de sa page de catalogue dans l’interface utilisateur.
 
-Vous trouverez les informations de raisonnement dans le champ `reasoning` des réponses. La valeur de ce champ est `null` dans les réponses des modèles sans raisonnement.
+Les informations de raisonnement apparaissent dans le champ `reasoning` des réponses. La valeur de ce champ est `null` dans les réponses des modèles qui ne prennent pas en charge le raisonnement.
+
+<div id="supported-models-with-reasoning">
+  ## Modèles pris en charge avec raisonnement
+</div>
+
+Le tableau suivant répertorie les modèles de W&amp;B Inference qui renvoient un raisonnement en sortie. Chaque modèle pris en charge peut soit toujours inclure le raisonnement, soit avoir le raisonnement activé ou désactivé par défaut :
+
+{/* takeru reasoning-models - Ce tableau est généré automatiquement, ne modifiez pas ce tableau manuellement. */}
+
+| ID du modèle (pour l’utilisation de l’API)     | Prise en charge du raisonnement |
+| ---------------------------------------------- | ------------------------------- |
+| `google/gemma-4-31B-it`                        | Activé par défaut               |
+| `MiniMaxAI/MiniMax-M2.5`                       | Always on                       |
+| `moonshotai/Kimi-K2.5`                         | Always on                       |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Activé par défaut               |
+| `openai/gpt-oss-120b`                          | Always on                       |
+| `openai/gpt-oss-20b`                           | Always on                       |
+| `Qwen/Qwen3.5-35B-A3B`                         | Activé par défaut               |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on                       |
+| `zai-org/GLM-5.1`                              | Activé par défaut               |
+
+<div id="models-with-always-on-reasoning">
+  ### Modèles avec le raisonnement `Always on`
+</div>
+
+Si un modèle figure comme `Always on` dans le [tableau des modèles pris en charge](#supported-models) ci-dessus, il inclut toujours le raisonnement et il n’est pas possible de le désactiver.
+
+<div id="disable-reasoning">
+  ### Désactiver le raisonnement
+</div>
+
+Si un modèle est indiqué comme `Activé par défaut` dans le tableau précédent [Modèles pris en charge](#supported-models), vous pouvez désactiver le raisonnement pour réduire la consommation de jetons ou simplifier la réponse. Pour désactiver le raisonnement pour une requête, dans `chat_template_kwargs`, définissez l’indicateur `enable_thinking` sur la valeur `False` (Python) ou `false` (Bash) :
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines highlight={13-17}
     import openai
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Créez une clé API à l’adresse https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="google/gemma-4-31B-it",
         messages=[
             {"role": "user", "content": "3.11 and 3.8, which is greater?"}
         ],
+        extra_body={
+            "chat_template_kwargs": {
+                "enable_thinking": False
+            }
+        },
     )
-
-    print(response.choices[0].message.reasoning)
-    print("--------------------------------")
-    print(response.choices[0].message.content)
     ```
   </Tab>
 
   <Tab title="Bash">
-    ```bash
+    ```bash lines highlight={9}
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
-        "model": "openai/gpt-oss-20b",
+        "model": "google/gemma-4-31B-it",
         "messages": [
           { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ]
+        ],
+        "chat_template_kwargs": {"enable_thinking": false}
       }'
     ```
   </Tab>
 </Tabs>
+
+<div id="enable-reasoning">
+  ### Activer le raisonnement
+</div>
+
+Si un modèle est répertorié comme `Disabled by default` dans le tableau [modèles pris en charge](#supported-models) ci-dessus, vous pouvez activer le raisonnement en définissant l’indicateur `enable_thinking` sur la valeur `True` (Python) ou `true` (Bash) dans l’extrait de code ci-dessus.

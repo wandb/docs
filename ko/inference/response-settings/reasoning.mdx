@@ -1,48 +1,88 @@
 ---
-title: "reasoning 정보 보기"
-description: W&B Inference 응답에서 reasoning을 반환하고 확인하는 방법
+title: "추론 정보 보기"
+description: W&B Inference 응답에서 추론을 반환하고 확인하는 방법
 ---
 
-[OpenAI의 GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b)와 같은 reasoning 모델은 최종 답변뿐 아니라, 반환되는 출력의 일부로 reasoning step에 대한 정보도 포함합니다. 이는 자동으로 제공되며 추가 입력 parameter는 필요하지 않습니다.
+[Google&#39;s Gemma 4](https://huggingface.co/google/gemma-4-31B-it)와 같은 추론 모델은 최종 답변과 함께 추론 단계에 대한 정보도 반환합니다. 이 페이지에서는 W&amp;B Inference에서 추론 가능한 모델을 파악하는 방법, 응답에서 추론 출력이 어디에 표시되는지, 그리고 이 기능을 전환할 수 있는 모델에서 추론을 켜거나 끄는 방법을 설명합니다.
 
-모델이 reasoning을 지원하는지 여부는 UI에서 해당 카탈로그 페이지의 Supported Features section을 확인하여 알 수 있습니다.
+모델이 추론을 지원하는지 확인하려면 다음 지원되는 모델 표 또는 UI의 해당 카탈로그 페이지에 있는 Supported Features 섹션을 확인하세요.
 
-reasoning 정보는 응답의 `reasoning` 필드에서 확인할 수 있습니다. 이 필드의 값은 non-reasoning 모델의 응답에서 `null`입니다.
+추론 정보는 응답의 `reasoning` 필드에 포함됩니다. 추론 모델이 아닌 경우 응답에서 이 필드의 값은 `null`입니다.
+
+<div id="supported-models-with-reasoning">
+  ## 추론을 지원하는 모델
+</div>
+
+다음 표에는 추론 출력이 반환되는 W&amp;B Inference 모델이 나와 있습니다. 지원되는 각 모델은 추론을 항상 포함할 수도 있고, 기본적으로 추론이 비활성화되거나 활성화될 수도 있습니다.
+
+{/* takeru reasoning-models - 이 표는 자동으로 생성되므로 직접 편집하지 마십시오. */}
+
+| 모델 ID(API 사용 시)                                | 추론 지원      |
+| ---------------------------------------------- | ---------- |
+| `google/gemma-4-31B-it`                        | 기본적으로 활성화됨 |
+| `MiniMaxAI/MiniMax-M2.5`                       | 항상 켜짐      |
+| `moonshotai/Kimi-K2.5`                         | 항상 켜짐      |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | 기본적으로 활성화됨 |
+| `openai/gpt-oss-120b`                          | 항상 켜짐      |
+| `openai/gpt-oss-20b`                           | 항상 켜짐      |
+| `Qwen/Qwen3.5-35B-A3B`                         | 기본적으로 활성화됨 |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 항상 켜짐      |
+| `zai-org/GLM-5.1`                              | 기본적으로 활성화됨 |
+
+<div id="models-with-always-on-reasoning">
+  ### `항상 켜짐` 추론이 포함된 모델
+</div>
+
+모델이 앞의 [지원되는 모델](#supported-models) 표에서 `항상 켜짐`으로 표시되어 있으면, 추론이 항상 포함되며 이를 비활성화할 수 없습니다.
+
+<div id="disable-reasoning">
+  ### 추론 비활성화
+</div>
+
+모델이 앞선 [지원되는 모델](#supported-models) 표에서 `기본적으로 활성화됨`로 표시되어 있다면, 토큰 사용량을 줄이거나 응답을 더 단순하게 만들기 위해 추론을 비활성화할 수 있습니다. 요청에서 추론을 사용하지 않으려면 `chat_template_kwargs`에서 `enable_thinking` 플래그를 `False`(Python) 또는 `false`(Bash)로 설정하세요.
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines highlight={13-17}
     import openai
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings에서 API 키를 생성하세요
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings 에서 API 키를 생성하세요
     )
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="google/gemma-4-31B-it",
         messages=[
             {"role": "user", "content": "3.11 and 3.8, which is greater?"}
         ],
+        extra_body={
+            "chat_template_kwargs": {
+                "enable_thinking": False
+            }
+        },
     )
-
-    print(response.choices[0].message.reasoning)
-    print("--------------------------------")
-    print(response.choices[0].message.content)
     ```
   </Tab>
 
   <Tab title="Bash">
-    ```bash
+    ```bash lines highlight={9}
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
-        "model": "openai/gpt-oss-20b",
+        "model": "google/gemma-4-31B-it",
         "messages": [
           { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ]
+        ],
+        "chat_template_kwargs": {"enable_thinking": false}
       }'
     ```
   </Tab>
 </Tabs>
+
+<div id="enable-reasoning">
+  ### 추론 활성화
+</div>
+
+앞선 [지원되는 모델](#supported-models) 표에서 모델이 `Disabled by default`로 표시된 경우, 앞선 코드 스니펫에서 `enable_thinking` 플래그 값을 `True`(Python) 또는 `true`(Bash)로 설정해 추론을 활성화할 수 있습니다.
