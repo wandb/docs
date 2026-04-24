@@ -226,6 +226,67 @@ For detailed instructions on using these cloud-specific modules, see [Deploy wit
 
 <SelfManagedVerifyInstallation/>
 
+## Enable the MCP server
+
+The W&B [Model Context Protocol (MCP) server](/platform/mcp-server) ships as an optional subchart in `operator-wandb`. When enabled, the operator deploys an in-cluster MCP server that is exposed through your existing ingress at `<global.host>/mcp`, so any MCP-compatible client (Cursor, VS Code, Claude Code, Gemini CLI, Claude Desktop, and others) can connect using a W&B API key. This is the same server W&B runs as the hosted offering at `https://mcp.withwandb.com/mcp`, just pointed at your deployment's data.
+
+For end-user client configuration and the tool catalog, see [Use the W&B MCP server](/platform/mcp-server). This section only covers the operator-side enablement.
+
+### Prerequisites
+
+- **Chart version**: `operator-wandb` `0.42.1` or later. The `mcp-server` subchart was introduced in `0.42.1`.
+- **Weave Traces enabled**: the MCP server calls Weave Traces for trace tools and for the `WF_TRACE_SERVER_URL` default. Set `weave-trace.install: true`. If Weave Traces is not enabled, the Helm render fails with `mcp-server requires weave-trace.install=true`.
+- **Reachable ingress**: `global.host` must already resolve and route to the W&B ingress. The MCP pod reads `WANDB_BASE_URL` from it and exposes itself at `<global.host>/mcp`.
+- **Node capacity**: the MCP pod requests `500m` CPU and `1Gi` memory by default (limits `2` CPU and `4Gi` memory). Confirm your node pool has the headroom before enabling.
+
+### Enable the subchart
+
+Add the following to the `spec.values` block of your existing `WeightsAndBiases` custom resource, alongside your existing `global`, `ingress`, and other overrides:
+
+```yaml
+spec:
+  values:
+    weave-trace:
+      install: true
+    mcp-server:
+      install: true
+```
+
+Apply the change to trigger a reconcile:
+
+```shell
+kubectl apply -f operator.yaml
+```
+
+The operator creates a `wandb-mcp-server` deployment and service in the release namespace, and extends the W&B ingress with a `/mcp` path.
+
+### Verify the MCP server
+
+Wait for the pod to become `Running`, then check the health endpoint in-cluster and through the ingress:
+
+```shell
+kubectl get pod -l app.kubernetes.io/component=mcp-server
+kubectl port-forward svc/wandb-mcp-server 8080:8080
+curl -s http://localhost:8080/mcp/health
+
+curl -s "https://<HOST_URI>/mcp/health"
+```
+
+Both requests should return `200 OK`. The in-cluster check confirms the pod is healthy; the ingress check confirms routing.
+
+### Connect a client
+
+Point your MCP client at `https://<HOST_URI>/mcp` with a W&B API key as the bearer token. For IDE and agent configurations (Cursor, VS Code, Claude Code, and others), see [Use the W&B MCP server](/platform/mcp-server).
+
+### Troubleshooting
+
+| Symptom | Likely cause and fix |
+|---------|----------------------|
+| `helm render` fails with `mcp-server requires weave-trace.install=true` | Add `weave-trace.install: true` to `spec.values`. The MCP server depends on Weave Traces for trace tools. |
+| `wandb-mcp-server` pod stuck in `Pending` with `Insufficient cpu` or `Insufficient memory` | Add node capacity, or lower `mcp-server.resources.requests` in your CR. Defaults are `500m` CPU and `1Gi` memory. |
+| `curl https://<HOST_URI>/mcp/health` returns 404 | The `/mcp` ingress path is only rendered when `mcp-server.install: true`. Re-apply the CR and wait for the ingress controller to propagate the new path. |
+| `wandb-mcp-server` pod in `ImagePullBackOff` in an air-gapped or mirrored cluster | Mirror the image to your registry and override `mcp-server.image.repository` in your CR, the same pattern used for other W&B component images in air-gapped installs. See [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/). |
+
 ## Environment-specific considerations
 
 Kubernetes is the same whether it runs on-premises or in the cloud. The main differences are in naming and managed services (for example, MySQL vs RDS, or S3 vs on-premises object storage). This section covers considerations that vary by environment.
