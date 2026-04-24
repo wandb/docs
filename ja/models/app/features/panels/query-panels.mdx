@@ -10,13 +10,21 @@ title: クエリパネルの概要
 
 クエリパネルを使用すると、データをクエリしてインタラクティブに可視化できます。
 
+クエリパネルは、次の 3 つの要素で構成されます。
+
+1. **[式](#expressions)**: 選択したデータ。
+2. **[設定](#configurations)**: パネルタイプや歯車メニューのオプションなど、パネルの省略可能な設定。
+3. **[結果パネル](#result-panels)**: 表やプロットなど、結果の表示方法。
+
+試せるさまざまなインタラクティブな例については、公開 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2) を参照してください。クエリ構文を順を追って学ぶには、[Query panel tutorial report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2) を参照してください。生成されたタイプと Ops の一覧は、[query expression language overview](/ja/models/ref/query-panel) にあります。
+
 <Frame>
   <img src="/images/weave/pretty_panel.png" alt="クエリパネル" />
 </Frame>
 
 {/* <Note>
-  このチームがクエリパネルを使ってベンチマークを可視化した方法については、[Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark)をご覧ください。
-  </Note> */}
+    このチームがクエリパネルを使ってベンチマークを可視化した方法については、[Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark)をご覧ください。
+    </Note> */}
 
 <div id="create-a-query-panel">
   ## クエリパネルを作成する
@@ -82,9 +90,7 @@ runs.summary["cifar10_sample_table"]
 
 * `runs` は、クエリパネル が Workspace 内にある場合、クエリパネル Expressions に自動的に追加される変数です。その「値」は、その Workspace で表示されている run のリストです。[run で利用できるさまざまな属性についてはこちらをご覧ください](/ja/models/track/public-api-guide/#understanding-the-different-attributes)。
 * `summary` は、Run の Summary オブジェクトを返す op です。Ops は *mapped* されるため、この op はリスト内の各 Run に適用され、結果として Summary オブジェクトのリストが得られます。
-* `["cifar10_sample_table"]` は Pick op (角括弧で表されます) で、パラメーターは `predictions` です。Summary オブジェクトは辞書やマップのように振る舞うため、この操作では各 Summary オブジェクトから `predictions` フィールドを取り出します。
-
-独自のクエリをインタラクティブに記述する方法については、[クエリパネル demo](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr) を参照してください.
+* `["cifar10_sample_table"]` は Pick op (角括弧で表されます) で、キーは `cifar10_sample_table` です。Summary オブジェクトは辞書やマップのように振る舞うため、この操作では各 Summary オブジェクトからそのフィールドを取り出します。
 
 <div id="configurations">
   ### 設定
@@ -95,6 +101,20 @@ runs.summary["cifar10_sample_table"]
 <Frame>
   <img src="/images/weave/weave_panel_config.png" alt="パネル設定メニュー" />
 </Frame>
+
+<div id="panel-options">
+  #### パネル オプション
+</div>
+
+設定メニューには、表形式の結果をどのように結合または読み込むかを変更するオプションが含まれる場合があります。表示されるラベルや利用可否は、式やパネル タイプによって異なることがあります。具体的な設定例については、[Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)を参照してください。
+
+**Concat**
+
+互換性のある表形式の結果を結合し、パネルがそれらを表示や後続の操作のために 1 つの表として扱うようにする場合は、設定で **Concat** を使用します。式レベルでの行の結合 (たとえば、クエリ内の `concat` や `join`) は、この設定とは別です。[式で表を結合する](#combine-tables-in-expressions)を参照してください。
+
+**Paginate**
+
+表の結果が大きすぎて一度に表示できない可能性がある場合は、**Paginate** を使用します。ページネーションでは行をチャンク単位で読み込むため、パネルの応答性を維持できます。このオプションは、大きな行リストを返す式と組み合わせて使用してください。ページネーションでうまく機能するパターンについては、[Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)を参照してください。
 
 <div id="result-panels">
   ### 結果パネル
@@ -109,6 +129,12 @@ runs.summary["cifar10_sample_table"]
 <Frame>
   <img src="/images/weave/result_panel_plot.png" alt="プロットの結果パネル" />
 </Frame>
+
+<div id="step-through-run-history">
+  ### run 履歴をステップごとにたどる
+</div>
+
+`runs` または `runs.history` から作成した表やプロットでは、アプリに **step** コントロール (たとえばスライダー) を表示して、ログされた step を移動しながら、Runs の進行に沿ってメトリクス、テキスト、メディアを確認できます。式を変更したら、Query panel の設定を編集し、`Render As` を `Stepper` に変更してください。データのログ方法により適している場合は、このコントロールで `_step` ではなく別のメトリクスを追跡できます。式のサンプルについては、[Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2) を参照してください。
 
 <div id="basic-operations">
   ## 基本的な操作
@@ -168,11 +194,11 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/weave_groupby.gif" alt="列オプションでグループ化" />
 </Frame>
 
-<div id="concat">
-  ### Concat
+<div id="combine-tables-in-expressions">
+  ### 式で表を結合する
 </div>
 
-concat操作では、2つの表を連結できます。連結や結合は、パネル設定から行えます。
+表の行リストを連結またはマージする必要がある場合は、式内で `concat`、`join`、および関連する演算を使用します。完全な例については、[Join](#join)を参照してください。[Panel options](#panel-options) の **Concat** と **Paginate** は、UI で表の結果をどのように結合し、読み込むかを制御する別個のコントロールです。
 
 <div id="join">
   ### 結合
@@ -215,7 +241,7 @@ runs.summary["short_table_1"].table.rows.concat
   ## Runs オブジェクト
 </div>
 
-クエリパネルを使用して `runs` オブジェクトにアクセスします。run オブジェクトには、実験の記録が保存されます。詳細は [runs オブジェクトへのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) を参照してください。ここでは、`runs` オブジェクトで利用できる主な項目を簡単に説明します。
+クエリパネルを使用して `runs` オブジェクトにアクセスします。run オブジェクトには、実験の記録が保存されます。詳細は [runs オブジェクトへのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#3.-accessing-runs-object) を参照してください。ここでは、`runs` オブジェクトで利用できる主な項目を簡単に説明します。
 
 * `summary`: run の結果を要約した情報を格納する辞書です。accuracy や損失のようなスカラー値だけでなく、大きなファイルが含まれることもあります。デフォルトでは、`wandb.Run.log()` によって、ログされた時系列の最終値が summary に設定されます。summary の内容は直接設定することもできます。summary は run の「出力」と考えてください。
 * `history`: 損失のように、モデルのトレーニング中に変化する値を保存するための辞書のリストです。`wandb.Run.log()` コマンドはこのオブジェクトに追記します。
@@ -229,7 +255,7 @@ runs.summary["short_table_1"].table.rows.concat
   ## Artifacts にアクセスする
 </div>
 
-Artifacts は W&amp;B の中核となる概念です。Artifacts は、バージョン管理された、名前付きのファイルおよびディレクトリのコレクションです。Artifacts を使用すると、モデルの重み、データセット、そのほかあらゆるファイルやディレクトリをトラッキングできます。Artifacts は W&amp;B に保存され、ダウンロードしたり、ほかの run で使用したりできます。詳細と例については、[Artifacts へのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)を参照してください。Artifacts には通常、`project` オブジェクトからアクセスします。
+Artifacts は W&amp;B の中核となる概念です。Artifacts は、バージョン管理された、名前付きのファイルおよびディレクトリのコレクションです。Artifacts を使用すると、モデルの重み、データセット、そのほかあらゆるファイルやディレクトリをトラッキングできます。Artifacts は W&amp;B に保存され、ダウンロードしたり、ほかの run で使用したりできます。詳細と例については、[Artifacts へのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#4.-accessing-artifacts)を参照してください。Artifacts には通常、`project` オブジェクトからアクセスします。
 
 * `project.artifactVersion()`: プロジェクト内の指定した名とバージョンに対応する特定の artifact バージョンを返します
 * `project.artifact("")`: プロジェクト内の指定した名に対応する artifact を返します。その後、`.versions` を使用して、この artifact のすべてのバージョンのリストを取得できます
