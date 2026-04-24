@@ -102,7 +102,7 @@ throughput = logged points × log frequency
 ```
 
 <Warning>
-The following sections apply to W&B SaaS Cloud. If you use a different W&B deployment type, check with your administrator for deployment-specific guidance or limits.
+The following sections apply to W&B Multi-tenant Cloud. If you use a different W&B deployment type, check with your administrator for deployment-specific guidance or limits.
 </Warning>
 
 ## Recommendations at scale
@@ -345,7 +345,7 @@ W&B does not enforce hard product limits for these recommendations beyond API ra
 
 ## Rate limits
 
-W&B SaaS Cloud APIs use rate limits to maintain service reliability and availability.
+W&B Multi-tenant Cloud APIs use rate limits to maintain service reliability and availability.
 
 <Note>
 Rate limits are subject to change.
@@ -395,7 +395,7 @@ For manual syncing, use `wandb sync <run-file-path>`. See [`wandb sync`](/models
 
 The W&B app and the [public API](/models/ref/python/public-api/api) use GraphQL requests to query and modify data.
 
-For SaaS Cloud:
+For Multi-tenant Cloud:
 
 * unauthorized requests are rate-limited per IP address
 * authorized requests are rate-limited per user
