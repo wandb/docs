@@ -1375,13 +1375,13 @@
                 ]
               },
               {
-                "group": "Détails de la plateforme",
+                "group": "D\u00e9tails de la plateforme",
                 "pages": [
                   {
                     "group": "Configurer W&B",
                     "pages": [
                       {
-                        "group": "Paramètres",
+                        "group": "Param\u00e8tres",
                         "pages": [
                           "fr/platform/app/settings-page",
                           "fr/platform/app/settings-page/user-settings",
@@ -1393,7 +1393,7 @@
                         ]
                       },
                       {
-                        "group": "Gestion des identités et des accès (IAM)",
+                        "group": "Gestion des identit\u00e9s et des acc\u00e8s (IAM)",
                         "pages": [
                           "fr/platform/hosting/iam/org_team_struct",
                           {
@@ -1406,7 +1406,7 @@
                             ]
                           },
                           {
-                            "group": "Gestion des accès",
+                            "group": "Gestion des acc\u00e8s",
                             "pages": [
                               "fr/platform/hosting/iam/access-management-intro",
                               "fr/platform/hosting/iam/access-management/manage-organization",
@@ -1419,7 +1419,7 @@
                         ]
                       },
                       {
-                        "group": "Sécurité des données",
+                        "group": "S\u00e9curit\u00e9 des donn\u00e9es",
                         "pages": [
                           "fr/platform/hosting/data-security/secure-storage-connector",
                           "fr/platform/hosting/data-security/presigned-urls",
@@ -1442,12 +1442,12 @@
                     ]
                   },
                   {
-                    "group": "Options de déploiement",
+                    "group": "Options de d\u00e9ploiement",
                     "pages": [
                       "fr/platform/hosting",
                       "fr/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "Cloud dédié",
+                        "group": "Cloud d\u00e9di\u00e9",
                         "pages": [
                           "fr/platform/hosting/hosting-options/dedicated-cloud",
                           "fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
@@ -1456,7 +1456,7 @@
                         ]
                       },
                       {
-                        "group": "Autogéré",
+                        "group": "Autog\u00e9r\u00e9",
                         "pages": [
                           "fr/platform/hosting/hosting-options/self-managed",
                           "fr/platform/hosting/self-managed/ref-arch",
@@ -1501,7 +1501,7 @@
                       "fr/models/track/project-page",
                       "fr/models/track/workspaces",
                       {
-                        "group": "Que sont les runs ?",
+                        "group": "Que sont les runs\u00a0?",
                         "pages": [
                           "fr/models/runs",
                           "fr/models/runs/run-identifiers",
@@ -1527,7 +1527,7 @@
                         ]
                       },
                       {
-                        "group": "Journaliser des objets et des médias",
+                        "group": "Journaliser des objets et des m\u00e9dias",
                         "pages": [
                           "fr/models/track/log",
                           "fr/models/track/log/plots",
@@ -1554,7 +1554,7 @@
                       "fr/models/sweeps/walkthrough",
                       "fr/models/sweeps/add-w-and-b-to-your-code",
                       {
-                        "group": "Définir une configuration de sweep",
+                        "group": "D\u00e9finir une configuration de sweep",
                         "pages": [
                           "fr/models/sweeps/define-sweep-configuration",
                           "fr/models/sweeps/sweep-config-keys"
@@ -1594,7 +1594,7 @@
                       "fr/models/artifacts/create-a-new-artifact-version",
                       "fr/models/artifacts/track-external-files",
                       {
-                        "group": "Gérer les données",
+                        "group": "G\u00e9rer les donn\u00e9es",
                         "pages": [
                           "fr/models/artifacts/delete-artifacts",
                           "fr/models/artifacts/ttl",
@@ -1641,7 +1641,7 @@
                     "pages": [
                       "fr/models/automations",
                       {
-                        "group": "Créer une automatisation",
+                        "group": "Cr\u00e9er une automatisation",
                         "pages": [
                           "fr/models/automations/create-automations",
                           "fr/models/automations/create-automations/slack",
@@ -1653,7 +1653,7 @@
                     ]
                   },
                   {
-                    "group": "Jobs d’évaluation LLM",
+                    "group": "Jobs d\u2019\u00e9valuation LLM",
                     "pages": [
                       "fr/models/launch",
                       "fr/models/launch/evaluate-model-checkpoint",
@@ -1662,7 +1662,7 @@
                     ]
                   },
                   {
-                    "group": "Interface de l’application W&B",
+                    "group": "Interface de l\u2019application W&B",
                     "pages": [
                       "fr/models/app/features/cascade-settings",
                       {
@@ -1686,7 +1686,7 @@
                           "fr/models/app/features/panels/parameter-importance",
                           "fr/models/app/features/panels/run-comparer",
                           {
-                            "group": "Panneaux de requête",
+                            "group": "Panneaux de requ\u00eate",
                             "pages": [
                               "fr/models/app/features/panels/query-panels",
                               "fr/models/app/features/panels/query-panels/embedding-projector"
@@ -1695,7 +1695,7 @@
                         ]
                       },
                       {
-                        "group": "Graphiques personnalisés",
+                        "group": "Graphiques personnalis\u00e9s",
                         "pages": [
                           "fr/models/app/features/custom-charts",
                           "fr/models/app/features/custom-charts/walkthrough"
@@ -1708,12 +1708,12 @@
                 ]
               },
               {
-                "group": "Intégrations",
+                "group": "Int\u00e9grations",
                 "pages": [
                   "fr/models/integrations",
                   "fr/models/integrations/add-wandb-to-any-library",
                   {
-                    "group": "Frameworks et bibliothèques ML",
+                    "group": "Frameworks et biblioth\u00e8ques ML",
                     "pages": [
                       {
                         "group": "Frameworks de ML",
@@ -1727,7 +1727,7 @@
                         ]
                       },
                       {
-                        "group": "Bibliothèques ML",
+                        "group": "Biblioth\u00e8ques ML",
                         "pages": [
                           "fr/models/integrations/huggingface",
                           "fr/models/integrations/accelerate",
@@ -1760,14 +1760,14 @@
                 ]
               },
               {
-                "group": "Référence",
+                "group": "R\u00e9f\u00e9rence",
                 "pages": [
                   "fr/models/ref",
                   {
                     "group": "Python",
                     "pages": [
                       {
-                        "group": "Aide-mémoire de programmation du SDK",
+                        "group": "Aide-m\u00e9moire de programmation du SDK",
                         "pages": [
                           "fr/models/ref/sdk-coding-cheat-sheet",
                           "fr/models/ref/sdk-coding-cheat-sheet/runs",
@@ -1793,7 +1793,7 @@
                         ]
                       },
                       {
-                        "group": "Types de données",
+                        "group": "Types de donn\u00e9es",
                         "pages": [
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
@@ -1841,7 +1841,7 @@
                         ]
                       },
                       {
-                        "group": "Graphiques personnalisés",
+                        "group": "Graphiques personnalis\u00e9s",
                         "pages": [
                           "fr/models/ref/python/custom-charts",
                           "fr/models/ref/python/custom-charts/bar",
@@ -1897,7 +1897,7 @@
                         "pages": [
                           "fr/models/ref/cli/wandb-artifact",
                           {
-                            "group": "cache d’artefact",
+                            "group": "cache d\u2019artefact",
                             "pages": [
                               "fr/models/ref/cli/wandb-artifact/wandb-artifact-cache",
                               "fr/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
@@ -1913,7 +1913,7 @@
                         "pages": [
                           "fr/models/ref/cli/wandb-beta",
                           {
-                            "group": "core bêta",
+                            "group": "core b\u00eata",
                             "pages": [
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core",
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
@@ -1921,7 +1921,7 @@
                             ]
                           },
                           {
-                            "group": "leet bêta",
+                            "group": "leet b\u00eata",
                             "pages": [
                               "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
                               "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
@@ -1968,7 +1968,7 @@
                     ]
                   },
                   {
-                    "group": "Langage d’expressions de requête",
+                    "group": "Langage d\u2019expressions de requ\u00eate",
                     "pages": [
                       "fr/models/ref/query-panel",
                       "fr/models/ref/query-panel/artifact",
@@ -2029,7 +2029,7 @@
                     "group": "Tracez votre application",
                     "pages": [
                       {
-                        "group": "Notions de base du traçage",
+                        "group": "Notions de base du tra\u00e7age",
                         "pages": [
                           "fr/weave/guides/tracking/tracing",
                           "fr/weave/guides/tracking/create-call",
@@ -2039,7 +2039,7 @@
                         ]
                       },
                       {
-                        "group": "Ops avancées",
+                        "group": "Ops avanc\u00e9es",
                         "pages": [
                           "fr/weave/guides/tracking/trace-generator-func",
                           "fr/weave/tutorial-tracing_2",
@@ -2069,7 +2069,7 @@
                     ]
                   },
                   {
-                    "group": "Évaluez votre application",
+                    "group": "\u00c9valuez votre application",
                     "pages": [
                       "fr/weave/guides/core-types/evaluations",
                       "fr/weave/guides/core-types/datasets",
@@ -2084,7 +2084,7 @@
                     ]
                   },
                   {
-                    "group": "Expérimentez avec les prompts et les modèles",
+                    "group": "Exp\u00e9rimentez avec les prompts et les mod\u00e8les",
                     "pages": [
                       "fr/weave/guides/tools/playground",
                       "fr/weave/guides/tools/evaluation_playground",
@@ -2120,7 +2120,7 @@
                     ]
                   },
                   {
-                    "group": "Intégrer votre fournisseur LLM et vos frameworks",
+                    "group": "Int\u00e9grer votre fournisseur LLM et vos frameworks",
                     "pages": [
                       "fr/weave/guides/integrations",
                       "fr/weave/guides/integrations/autopatching",
@@ -2176,7 +2176,7 @@
                     ]
                   },
                   {
-                    "group": "Déployer et passer à l’échelle",
+                    "group": "D\u00e9ployer et passer \u00e0 l\u2019\u00e9chelle",
                     "pages": [
                       "fr/weave/guides/platform",
                       "fr/weave/guides/platform/weave-self-managed"
@@ -2198,7 +2198,7 @@
                     ]
                   },
                   {
-                    "group": "Évaluations et Datasets",
+                    "group": "\u00c9valuations et Datasets",
                     "pages": [
                       "fr/weave/cookbooks/leaderboard_quickstart",
                       "fr/weave/cookbooks/hf_dataset_evals",
@@ -2215,7 +2215,7 @@
                     ]
                   },
                   {
-                    "group": "Sujets avancés",
+                    "group": "Sujets avanc\u00e9s",
                     "pages": [
                       "fr/weave/cookbooks/multi-agent-structured-output",
                       "fr/weave/cookbooks/codegen",
@@ -2236,7 +2236,7 @@
                 ]
               },
               {
-                "group": "Référence",
+                "group": "R\u00e9f\u00e9rence",
                 "pages": [
                   "fr/weave/reference",
                   {
@@ -2334,7 +2334,7 @@
                 ]
               },
               {
-                "group": "Détails et assistance",
+                "group": "D\u00e9tails et assistance",
                 "pages": [
                   "fr/weave/details/limits",
                   "fr/weave/details/support-weave"
@@ -2351,7 +2351,7 @@
               "fr/inference/lifecycle",
               "fr/inference/lora",
               {
-                "group": "Paramètres de réponse",
+                "group": "Param\u00e8tres de r\u00e9ponse",
                 "pages": [
                   "fr/inference/response-settings/json-mode",
                   "fr/inference/response-settings/reasoning",
@@ -2369,7 +2369,7 @@
                 ]
               },
               {
-                "group": "Référence de l’API",
+                "group": "R\u00e9f\u00e9rence de l\u2019API",
                 "pages": [
                   "fr/inference/api-reference",
                   "fr/inference/api-reference/chat-completions",
@@ -2403,7 +2403,7 @@
                 ]
               },
               {
-                "group": "Référence de l’API",
+                "group": "R\u00e9f\u00e9rence de l\u2019API",
                 "openapi": "fr/training/api-reference/openapi.json",
                 "pages": [
                   "fr/training/api-reference"
@@ -2455,7 +2455,7 @@
                 ]
               },
               {
-                "group": "Créer et déployer des jobs",
+                "group": "Cr\u00e9er et d\u00e9ployer des jobs",
                 "pages": [
                   "fr/platform/launch/create-and-deploy-jobs",
                   "fr/platform/launch/create-launch-job",
@@ -2465,7 +2465,7 @@
                 ]
               },
               {
-                "group": "Avancé",
+                "group": "Avanc\u00e9",
                 "pages": [
                   "fr/platform/launch/sweeps-on-launch",
                   "fr/platform/launch/launch-queue-observability",
@@ -2495,7 +2495,7 @@
                 ]
               },
               {
-                "group": "Référence de l’API de la bibliothèque Launch",
+                "group": "R\u00e9f\u00e9rence de l\u2019API de la biblioth\u00e8que Launch",
                 "pages": [
                   "fr/platform/launch/launch-library/launch",
                   "fr/platform/launch/launch-library/launch_add",
@@ -2505,7 +2505,7 @@
             ]
           },
           {
-            "tab": "Assistance : W&B Models",
+            "tab": "Assistance\u00a0: W&B Models",
             "hidden": true,
             "pages": [
               "fr/support/models",
@@ -2545,7 +2545,7 @@
             ]
           },
           {
-            "tab": "Assistance : W&B Weave",
+            "tab": "Assistance\u00a0: W&B Weave",
             "hidden": true,
             "pages": [
               "fr/support/weave",
@@ -2560,7 +2560,7 @@
             ]
           },
           {
-            "tab": "Assistance : W&B Inference",
+            "tab": "Assistance\u00a0: W&B Inference",
             "hidden": true,
             "pages": [
               "fr/support/inference",
@@ -2580,11 +2580,11 @@
             "tab": "Platform",
             "pages": [
               {
-                "group": "W&B へようこそ",
+                "group": "W&B \u3078\u3088\u3046\u3053\u305d",
                 "pages": [
                   "ja/index",
                   {
-                    "group": "はじめに",
+                    "group": "\u306f\u3058\u3081\u306b",
                     "pages": [
                       "ja/get-started",
                       "ja/platform/mcp-server",
@@ -2592,7 +2592,7 @@
                     ]
                   },
                   {
-                    "group": "リリースノート",
+                    "group": "\u30ea\u30ea\u30fc\u30b9\u30ce\u30fc\u30c8",
                     "expanded": false,
                     "pages": [
                       "ja/release-notes",
@@ -2615,7 +2615,7 @@
                 ]
               },
               {
-                "group": "プロダクト",
+                "group": "\u30d7\u30ed\u30c0\u30af\u30c8",
                 "pages": [
                   "ja/product-models",
                   "ja/product-weave",
@@ -2624,13 +2624,13 @@
                 ]
               },
               {
-                "group": "プラットフォームの詳細",
+                "group": "\u30d7\u30e9\u30c3\u30c8\u30d5\u30a9\u30fc\u30e0\u306e\u8a73\u7d30",
                 "pages": [
                   {
-                    "group": "W&B を設定する",
+                    "group": "W&B \u3092\u8a2d\u5b9a\u3059\u308b",
                     "pages": [
                       {
-                        "group": "設定",
+                        "group": "\u8a2d\u5b9a",
                         "pages": [
                           "ja/platform/app/settings-page",
                           "ja/platform/app/settings-page/user-settings",
@@ -2642,11 +2642,11 @@
                         ]
                       },
                       {
-                        "group": "アイデンティティおよびアクセス管理（IAM）",
+                        "group": "\u30a2\u30a4\u30c7\u30f3\u30c6\u30a3\u30c6\u30a3\u304a\u3088\u3073\u30a2\u30af\u30bb\u30b9\u7ba1\u7406\uff08IAM\uff09",
                         "pages": [
                           "ja/platform/hosting/iam/org_team_struct",
                           {
-                            "group": "認証",
+                            "group": "\u8a8d\u8a3c",
                             "pages": [
                               "ja/platform/hosting/iam/ldap",
                               "ja/platform/hosting/iam/sso",
@@ -2655,7 +2655,7 @@
                             ]
                           },
                           {
-                            "group": "アクセス管理",
+                            "group": "\u30a2\u30af\u30bb\u30b9\u7ba1\u7406",
                             "pages": [
                               "ja/platform/hosting/iam/access-management-intro",
                               "ja/platform/hosting/iam/access-management/manage-organization",
@@ -2668,7 +2668,7 @@
                         ]
                       },
                       {
-                        "group": "データ セキュリティ",
+                        "group": "\u30c7\u30fc\u30bf \u30bb\u30ad\u30e5\u30ea\u30c6\u30a3",
                         "pages": [
                           "ja/platform/hosting/data-security/secure-storage-connector",
                           "ja/platform/hosting/data-security/presigned-urls",
@@ -2682,7 +2682,7 @@
                     ]
                   },
                   {
-                    "group": "監視と使用状況",
+                    "group": "\u76e3\u8996\u3068\u4f7f\u7528\u72b6\u6cc1",
                     "pages": [
                       "ja/platform/hosting/monitoring-usage/audit-logging",
                       "ja/platform/hosting/monitoring-usage/slack-alerts",
@@ -2691,12 +2691,12 @@
                     ]
                   },
                   {
-                    "group": "デプロイ オプション",
+                    "group": "\u30c7\u30d7\u30ed\u30a4 \u30aa\u30d7\u30b7\u30e7\u30f3",
                     "pages": [
                       "ja/platform/hosting",
                       "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "専用クラウド",
+                        "group": "\u5c02\u7528\u30af\u30e9\u30a6\u30c9",
                         "pages": [
                           "ja/platform/hosting/hosting-options/dedicated-cloud",
                           "ja/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
@@ -2705,7 +2705,7 @@
                         ]
                       },
                       {
-                        "group": "セルフマネージド",
+                        "group": "\u30bb\u30eb\u30d5\u30de\u30cd\u30fc\u30b8\u30c9",
                         "pages": [
                           "ja/platform/hosting/hosting-options/self-managed",
                           "ja/platform/hosting/self-managed/ref-arch",
@@ -2722,7 +2722,7 @@
                 ]
               },
               {
-                "group": "リソース",
+                "group": "\u30ea\u30bd\u30fc\u30b9",
                 "pages": [
                   "ja/pricing",
                   "ja/blog",
@@ -3674,7 +3674,7 @@
             ]
           },
           {
-            "tab": "サポート",
+            "tab": "\u30b5\u30dd\u30fc\u30c8",
             "pages": [
               "ja/support"
             ]
@@ -3687,11 +3687,11 @@
               "ja/platform/launch/walkthrough",
               "ja/platform/launch/launch-terminology",
               {
-                "group": "Launch を設定する",
+                "group": "Launch \u3092\u8a2d\u5b9a\u3059\u308b",
                 "pages": [
                   "ja/platform/launch/set-up-launch",
                   {
-                    "group": "コンピュートリソースを設定する",
+                    "group": "\u30b3\u30f3\u30d4\u30e5\u30fc\u30c8\u30ea\u30bd\u30fc\u30b9\u3092\u8a2d\u5b9a\u3059\u308b",
                     "pages": [
                       "ja/platform/launch/setup-launch-docker",
                       "ja/platform/launch/setup-launch-kubernetes",
@@ -3704,7 +3704,7 @@
                 ]
               },
               {
-                "group": "ジョブを作成してデプロイする",
+                "group": "\u30b8\u30e7\u30d6\u3092\u4f5c\u6210\u3057\u3066\u30c7\u30d7\u30ed\u30a4\u3059\u308b",
                 "pages": [
                   "ja/platform/launch/create-and-deploy-jobs",
                   "ja/platform/launch/create-launch-job",
@@ -3714,7 +3714,7 @@
                 ]
               },
               {
-                "group": "高度なトピック",
+                "group": "\u9ad8\u5ea6\u306a\u30c8\u30d4\u30c3\u30af",
                 "pages": [
                   "ja/platform/launch/sweeps-on-launch",
                   "ja/platform/launch/launch-queue-observability",
@@ -3744,7 +3744,7 @@
                 ]
               },
               {
-                "group": "Launch ライブラリ API リファレンス",
+                "group": "Launch \u30e9\u30a4\u30d6\u30e9\u30ea API \u30ea\u30d5\u30a1\u30ec\u30f3\u30b9",
                 "pages": [
                   "ja/platform/launch/launch-library/launch",
                   "ja/platform/launch/launch-library/launch_add",
@@ -3754,7 +3754,7 @@
             ]
           },
           {
-            "tab": "サポート: W&B Models",
+            "tab": "\u30b5\u30dd\u30fc\u30c8: W&B Models",
             "hidden": true,
             "pages": [
               "ja/support/models",
@@ -3794,7 +3794,7 @@
             ]
           },
           {
-            "tab": "サポート: W&B Weave",
+            "tab": "\u30b5\u30dd\u30fc\u30c8: W&B Weave",
             "hidden": true,
             "pages": [
               "ja/support/weave",
@@ -3809,7 +3809,7 @@
             ]
           },
           {
-            "tab": "サポート: W&B Inference",
+            "tab": "\u30b5\u30dd\u30fc\u30c8: W&B Inference",
             "hidden": true,
             "pages": [
               "ja/support/inference",
@@ -3829,11 +3829,11 @@
             "tab": "Platform",
             "pages": [
               {
-                "group": "W&B에 오신 것을 환영합니다",
+                "group": "W&B\uc5d0 \uc624\uc2e0 \uac83\uc744 \ud658\uc601\ud569\ub2c8\ub2e4",
                 "pages": [
                   "ko/index",
                   {
-                    "group": "시작하기",
+                    "group": "\uc2dc\uc791\ud558\uae30",
                     "pages": [
                       "ko/get-started",
                       "ko/platform/mcp-server",
@@ -3841,7 +3841,7 @@
                     ]
                   },
                   {
-                    "group": "릴리스 노트",
+                    "group": "\ub9b4\ub9ac\uc2a4 \ub178\ud2b8",
                     "expanded": false,
                     "pages": [
                       "ko/release-notes",
@@ -3864,7 +3864,7 @@
                 ]
               },
               {
-                "group": "제품",
+                "group": "\uc81c\ud488",
                 "pages": [
                   "ko/product-models",
                   "ko/product-weave",
@@ -3873,13 +3873,13 @@
                 ]
               },
               {
-                "group": "플랫폼 세부 정보",
+                "group": "\ud50c\ub7ab\ud3fc \uc138\ubd80 \uc815\ubcf4",
                 "pages": [
                   {
-                    "group": "W&B 구성",
+                    "group": "W&B \uad6c\uc131",
                     "pages": [
                       {
-                        "group": "설정",
+                        "group": "\uc124\uc815",
                         "pages": [
                           "ko/platform/app/settings-page",
                           "ko/platform/app/settings-page/user-settings",
@@ -3891,11 +3891,11 @@
                         ]
                       },
                       {
-                        "group": "ID 및 액세스 관리(IAM)",
+                        "group": "ID \ubc0f \uc561\uc138\uc2a4 \uad00\ub9ac(IAM)",
                         "pages": [
                           "ko/platform/hosting/iam/org_team_struct",
                           {
-                            "group": "인증",
+                            "group": "\uc778\uc99d",
                             "pages": [
                               "ko/platform/hosting/iam/ldap",
                               "ko/platform/hosting/iam/sso",
@@ -3904,7 +3904,7 @@
                             ]
                           },
                           {
-                            "group": "액세스 관리",
+                            "group": "\uc561\uc138\uc2a4 \uad00\ub9ac",
                             "pages": [
                               "ko/platform/hosting/iam/access-management-intro",
                               "ko/platform/hosting/iam/access-management/manage-organization",
@@ -3917,7 +3917,7 @@
                         ]
                       },
                       {
-                        "group": "데이터 보안",
+                        "group": "\ub370\uc774\ud130 \ubcf4\uc548",
                         "pages": [
                           "ko/platform/hosting/data-security/secure-storage-connector",
                           "ko/platform/hosting/data-security/presigned-urls",
@@ -3931,7 +3931,7 @@
                     ]
                   },
                   {
-                    "group": "모니터링 및 사용량",
+                    "group": "\ubaa8\ub2c8\ud130\ub9c1 \ubc0f \uc0ac\uc6a9\ub7c9",
                     "pages": [
                       "ko/platform/hosting/monitoring-usage/audit-logging",
                       "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -3940,7 +3940,7 @@
                     ]
                   },
                   {
-                    "group": "배포 옵션",
+                    "group": "\ubc30\ud3ec \uc635\uc158",
                     "pages": [
                       "ko/platform/hosting",
                       "ko/platform/hosting/hosting-options/multi_tenant_cloud",
@@ -3971,7 +3971,7 @@
                 ]
               },
               {
-                "group": "리소스",
+                "group": "\ub9ac\uc18c\uc2a4",
                 "pages": [
                   "ko/pricing",
                   "ko/blog",
@@ -4411,7 +4411,7 @@
                         "pages": [
                           "ko/models/ref/cli/wandb-beta",
                           {
-                            "group": "베타 코어",
+                            "group": "\ubca0\ud0c0 \ucf54\uc5b4",
                             "pages": [
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core",
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
@@ -4419,7 +4419,7 @@
                             ]
                           },
                           {
-                            "group": "베타 리트",
+                            "group": "\ubca0\ud0c0 \ub9ac\ud2b8",
                             "pages": [
                               "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
                               "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
@@ -4452,7 +4452,7 @@
                       "ko/models/ref/cli/wandb-purge-cache",
                       "ko/models/ref/cli/wandb-restore",
                       {
-                        "group": "wandb 서버",
+                        "group": "wandb \uc11c\ubc84",
                         "pages": [
                           "ko/models/ref/cli/wandb-server",
                           "ko/models/ref/cli/wandb-server/wandb-server-start",
@@ -4923,7 +4923,7 @@
             ]
           },
           {
-            "tab": "지원",
+            "tab": "\uc9c0\uc6d0",
             "pages": [
               "ko/support"
             ]
@@ -4936,11 +4936,11 @@
               "ko/platform/launch/walkthrough",
               "ko/platform/launch/launch-terminology",
               {
-                "group": "Launch 설정하기",
+                "group": "Launch \uc124\uc815\ud558\uae30",
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
-                    "group": "컴퓨팅 리소스 구성",
+                    "group": "\ucef4\ud4e8\ud305 \ub9ac\uc18c\uc2a4 \uad6c\uc131",
                     "pages": [
                       "ko/platform/launch/setup-launch-docker",
                       "ko/platform/launch/setup-launch-kubernetes",
@@ -4953,7 +4953,7 @@
                 ]
               },
               {
-                "group": "작업 생성 및 배포",
+                "group": "\uc791\uc5c5 \uc0dd\uc131 \ubc0f \ubc30\ud3ec",
                 "pages": [
                   "ko/platform/launch/create-and-deploy-jobs",
                   "ko/platform/launch/create-launch-job",
@@ -4963,7 +4963,7 @@
                 ]
               },
               {
-                "group": "고급",
+                "group": "\uace0\uae09",
                 "pages": [
                   "ko/platform/launch/sweeps-on-launch",
                   "ko/platform/launch/launch-queue-observability",
@@ -4993,7 +4993,7 @@
                 ]
               },
               {
-                "group": "Launch Library API 레퍼런스",
+                "group": "Launch Library API \ub808\ud37c\ub7f0\uc2a4",
                 "pages": [
                   "ko/platform/launch/launch-library/launch",
                   "ko/platform/launch/launch-library/launch_add",
@@ -5003,7 +5003,7 @@
             ]
           },
           {
-            "tab": "지원: W&B Models",
+            "tab": "\uc9c0\uc6d0: W&B Models",
             "hidden": true,
             "pages": [
               "ko/support/models",
@@ -5043,7 +5043,7 @@
             ]
           },
           {
-            "tab": "지원: W&B Weave",
+            "tab": "\uc9c0\uc6d0: W&B Weave",
             "hidden": true,
             "pages": [
               "ko/support/weave",
@@ -5058,7 +5058,7 @@
             ]
           },
           {
-            "tab": "지원: W&B Inference",
+            "tab": "\uc9c0\uc6d0: W&B Inference",
             "hidden": true,
             "pages": [
               "ko/support/inference",
@@ -5956,7 +5956,7 @@
       "destination": "/support/models/articles/do-run-finished-alerts-work-in-notebooks"
     },
     {
-      "source": "/models/support/run_marked_crashed_wb’s_training_fine_locally",
+      "source": "/models/support/run_marked_crashed_wb\u2019s_training_fine_locally",
       "destination": "/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i"
     },
     {
@@ -5984,7 +5984,7 @@
       "destination": "/support/models/articles/why-is-the-same-metric-appearing-more-th"
     },
     {
-      "source": "/models/support/save_code‌",
+      "source": "/models/support/save_code\u200c",
       "destination": "/support/models/articles/how-do-i-save-code"
     },
     {
