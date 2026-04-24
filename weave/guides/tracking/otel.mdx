@@ -33,9 +33,11 @@ The following example shows how to configure authentication and project routing:
 <CodeGroup>
 ```python Python lines {7,8}
 import os
+from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 WANDB_BASE_URL = "https://trace.wandb.ai"
 ENTITY = "<your-team-name>"
@@ -55,9 +57,12 @@ tracer_provider = trace_sdk.TracerProvider(resource=Resource({
     "wandb.entity": ENTITY,
     "wandb.project": PROJECT,
 }))
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+trace.set_tracer_provider(tracer_provider)
 ```
 ```typescript TypeScript lines
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { Resource } from "@opentelemetry/resources";
 
@@ -80,9 +85,16 @@ const provider = new NodeTracerProvider({
     "wandb.entity": ENTITY,
     "wandb.project": PROJECT,
   }),
+  spanProcessors: [new BatchSpanProcessor(exporter)],
 });
+
+provider.register();
 ```
 </CodeGroup>
+
+<Note>
+This snippet shows authentication and routing configuration only. For complete, runnable examples that include application code and instrumentation, see the [Examples](#examples) section below.
+</Note>
 
 ## Examples
 
