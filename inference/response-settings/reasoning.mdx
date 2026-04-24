@@ -5,13 +5,13 @@ description: How to return and view reasoning in your W&B Inference responses
 
 Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on W&B Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it.
 
-To determine whether a model supports reasoning, check the following [Supported models](#supported-models) table or the Supported Features section of its catalog page in the UI.
+To determine whether a model supports reasoning, check the following Supported models table or the Supported Features section of its catalog page in the UI.
 
 Reasoning information appears in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
 
-## Supported models
+## Supported models with reasoning
 
-The following table lists the models on W&B Inference that return reasoning output. Each supported model might disable reasoning by default, enable reasoning by default, or always include reasoning:
+The following table lists the models on W&B Inference that return reasoning output. Each supported model might always include reasoning, or might disable or enable reasoning by default:
 
 {/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
 | Model ID (for API usage)                       | Support            |
@@ -27,13 +27,17 @@ The following table lists the models on W&B Inference that return reasoning outp
 | `zai-org/GLM-5.1`                              | Enabled by default |
 | `zai-org/GLM-5-FP8`                            | Enabled by default |
 
-## Disable reasoning
+### Models with `Always on` reasoning
 
-If a model is listed as "Enabled by default" in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. Use the `enable_thinking` flag in `chat_template_kwargs` to opt out of reasoning for a request:
+If a model is listed as `Always on` in the preceding [Supported models](#supported-models) table, it always includes reasoning and this cannot be disabled.
+
+### Disable reasoning
+
+If a model is listed as `Enabled by default` in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. To opt out of reasoning for a request, in `chat_template_kwargs`, set the `enable_thinking` flag to the value `False` (Python) or `false` (Bash):
 
 <Tabs>
   <Tab title="Python">
-    ```python highlight={13-17}
+    ```python lines highlight={13-17}
     import openai
 
     client = openai.OpenAI(
@@ -55,7 +59,7 @@ If a model is listed as "Enabled by default" in the preceding [Supported models]
     ```
   </Tab>
   <Tab title="Bash">
-    ```bash highlight={9}
+    ```bash lines highlight={9}
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer [YOUR-API-KEY]" \
@@ -70,7 +74,7 @@ If a model is listed as "Enabled by default" in the preceding [Supported models]
   </Tab>
 </Tabs>
 
-## Enable reasoning
+### Enable reasoning
 
-To enable reasoning for a model listed as "Disabled by default" in the preceding [Supported models](#supported-models) table, set the `enable_thinking` flag as in the preceding code snippet but with the value `True` (Python) or `true` (Bash).
+If a model is listed as `Disabled by default` in the preceding [Supported models](#supported-models) table, you can enable reasoning by setting the `enable_thinking` flag to the value `True` (Python) or `true` (Bash) in the preceding code snippet.
 
