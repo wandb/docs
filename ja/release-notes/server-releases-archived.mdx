@@ -428,7 +428,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.44.1" description="2023年10月12日">
   ## 機能
 
-  **SaaS と Server に OpenAI プロキシ UI を追加**
+  **W&amp;B に OpenAI プロキシ UI を追加**
 
   <Frame>
     ![新しい OpenAI プロキシ UI を示す画像](https://github.com/wandb/server/assets/7208315/8bc78df9-e0e7-455e-8c74-975caa96eccf)
@@ -456,7 +456,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * langchain を最新バージョンに更新
   * クイックスタートに W&amp;B Prompts を追加
   * AWS MI が terraform-kubernetes-wandb v1.12.0 を使用するよう更新
-  * Teams の settings ページで正しい Teams Plan の追跡時間を表示し、usage ページでは非表示に変更
+  * チーム の settings ページで正しい チーム Plan の追跡時間を表示し、usage ページでは非表示に変更
 </Update>
 
 <Update label="v0.43.0" description="2023年10月2日">
@@ -475,20 +475,20 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * &#39;length&#39; キーによる Run overview のクラッシュを修正
   * スクロールバーがある場合の Runs table 下部の余白を修正
   * 不要な history キーのキャッシュ読み取りを削除
-  * Teams Checkout モーダルのエラー処理を改善
+  * チーム Checkout モーダルのエラー処理を改善
   * Weave Python autotracer におけるメモリリーク、過剰な filestream 送信、および孤立プロセスを修正
 </Update>
 
 <Update label="v0.42.0" description="2023年9月14日">
   ## 機能
 
-  * W&amp;B Artifacts が time-to-live (TTL) ポリシーをサポートするようになりました。
+  * W&amp;B アーティファクト が time-to-live (TTL) ポリシーをサポートするようになりました。
 
     <Frame>
-      ![Artifacts の TTL ポリシーを示す画像](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
+      ![アーティファクト の TTL ポリシーを示す画像](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
     </Frame>
 
-    W&amp;B にログされた Artifacts の削除と保持を、より細かく制御できるようになりました。保持ポリシーと time-to-live (TTL) ポリシーを設定でき、特定の Artifacts をいつ削除するかを決めたり、既存の Artifacts のポリシーを更新したり、上流または下流の Artifacts に TTL ポリシーを設定したりできます。
+    W&amp;B にログされた アーティファクト の削除と保持を、より細かく制御できるようになりました。保持ポリシーと time-to-live (TTL) ポリシーを設定でき、特定の アーティファクト をいつ削除するかを決めたり、既存の アーティファクト のポリシーを更新したり、上流または下流の アーティファクト に TTL ポリシーを設定したりできます。
   * Sweeps の作成時に Launch drawer を使用
   * run キュー項目を削除
   * Min/max aggregation のネストされたドロップダウン
@@ -500,13 +500,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * 進行中の storage 計算リファクタリングに伴い、storage と artifact の請求を無効化
+  * 進行中の storage 計算リファクタリングに伴い、storage と アーティファクト の請求を無効化
   * Panel 削除の bug を修正
   * プロジェクト automation スライダーから link-version イベントタイプを削除
-  * artifact type 名の大文字スタイルを削除
+  * アーティファクト type 名の大文字スタイルを削除
   * 色の付いていないタグが表示時に色を変えないよう修正
   * 再度開いた際に Launch drawer に古いデフォルトが残る問題を修正
-  * artifact 作成時に alias automation をトリガー
+  * アーティファクト 作成時に alias automation をトリガー
   * 無限読み込みタグフィルターで発生するエッジケースの不具合を修正
 </Update>
 

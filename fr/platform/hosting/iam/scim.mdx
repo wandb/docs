@@ -27,7 +27,7 @@ Pour obtenir des exemples pratiques en Python montrant comment interagir avec l�
 * **Authentification par compte de service** : les comptes de service d’organisation peuvent accéder à l’API
 
 <Note>
-  Si vous êtes administrateur de plusieurs organisations Enterprise [Multi-tenant SaaS](/fr/platform/hosting/hosting-options/multi_tenant_cloud), vous devez configurer l’organisation cible des requêtes de l’API SCIM afin de vous assurer que les requêtes de l’API SCIM envoyées avec votre clé API s’appliquent à la bonne organisation. Cliquez sur votre image de profil, puis sur **Paramètres utilisateur**, puis vérifiez le paramètre **Organisation API par défaut**.
+  Si vous êtes administrateur de plusieurs organisations Enterprise [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), vous devez configurer l’organisation cible des requêtes de l’API SCIM afin de vous assurer que les requêtes de l’API SCIM envoyées avec votre clé API s’appliquent à la bonne organisation. Cliquez sur votre image de profil, puis sur **Paramètres utilisateur**, puis vérifiez le paramètre **Organisation API par défaut**.
 
   L’option d’hébergement choisie détermine la valeur de l’espace réservé `<host-url>` utilisé dans les exemples de cette page.
 
@@ -790,9 +790,9 @@ Désactive un utilisateur dans votre organisation. Le résultat varie selon le t
 Réactive un utilisateur précédemment désactivé dans votre organisation.
 
 <Note>
-  * La réactivation ne fonctionne que pour les utilisateurs, pas pour les comptes de service. Elle n&#39;est pas prise en charge pour les comptes de service. Gérez les comptes de service dans les paramètres de la W&amp;B Team.
+  * La réactivation ne fonctionne que pour les utilisateurs, pas pour les comptes de service. Elle n&#39;est pas prise en charge pour les comptes de service. Gérez les comptes de service dans les paramètres de l&#39;équipe W&amp;B.
 
-  * La réactivation des utilisateurs n&#39;est pas prise en charge dans le [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Pour restaurer l&#39;accès de l&#39;utilisateur, ajoutez-le à nouveau à votre organisation. Voir [Créer un utilisateur](#create-user-request-multi-tenant). Dans le Cloud mutualisé, le compte d&#39;un utilisateur n&#39;est pas géré par l&#39;organisation. Toute tentative de réactivation d&#39;un utilisateur entraîne une erreur HTTP `400` :
+  * La réactivation des utilisateurs n&#39;est pas prise en charge dans le [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Pour restaurer l&#39;accès de l&#39;utilisateur, ajoutez-le à nouveau à votre organisation. Voir [Créer un utilisateur](#create-user-request-multi-tenant). Dans le Cloud mutualisé, le compte d&#39;un utilisateur n&#39;est pas géré par l&#39;organisation. Toute tentative de réactivation d&#39;un utilisateur entraîne une erreur HTTP `400`. Le champ `detail` dans le corps de la réponse est renvoyé tel quel par l&#39;API et peut encore utiliser l&#39;ancienne terminologie du produit :
     ```json
     {
         "schemas": [
@@ -2522,7 +2522,7 @@ W&amp;B propose deux implémentations distinctes de l’API SCIM, dont les fonct
 </div>
 
 * **Nombre maximal de résultats** : 9999 éléments par requête.
-* **Environnements single-tenant** : une seule adresse e-mail est prise en charge par utilisateur.
+* **Cloud dédié et Autogéré** : ne prennent en charge qu’une seule adresse e-mail par utilisateur.
 * **Suppression de Teams** : non prise en charge via SCIM (utilisez l&#39;interface web W&amp;B).
 * **Réactivation des utilisateurs** : non prise en charge dans les environnements de Cloud mutualisé.
 * **Limites de licences** : les opérations peuvent échouer si les limites de licences de l&#39;organisation sont atteintes.
