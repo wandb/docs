@@ -311,10 +311,12 @@ Crée un nouvel utilisateur au sein de votre organisation.
   #### Paramètres
 </div>
 
-| Paramètre  | Type   | Requis | Description                                                         |
-| ---------- | ------ | ------ | ------------------------------------------------------------------- |
-| `emails`   | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale |
-| `userName` | string | Oui    | Nom d’utilisateur du nouvel utilisateur                             |
+| Paramètre    | Type   | Requis | Description                                                                                                                                                       |
+| ------------ | ------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `emails`     | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                                                               |
+| `userName`   | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                                                                           |
+| `modelsSeat` | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. **Uniquement pour Cloud dédié et Autogéré.** |
+| `weaveRole`  | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. **Uniquement pour Cloud dédié et Autogéré.**     |
 
 #### Exemple
 
@@ -335,7 +337,9 @@ Crée un nouvel utilisateur au sein de votre organisation.
                 "value": "dev-user2@example.com"
             }
         ],
-        "userName": "dev-user2"
+        "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full"
     }
     ```
   </Tab>
@@ -395,6 +399,8 @@ Crée un nouvel utilisateur au sein de votre organisation.
         "schemas": [
             "urn:ietf:params:scim:schemas:core:2.0:User"
         ],
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "userName": "dev-user2"
     }
     ```
@@ -897,9 +903,12 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
   Le rôle `viewer` au niveau de l&#39;organisation est obsolète et ne peut plus être attribué dans l&#39;interface utilisateur. Si vous utilisez SCIM pour attribuer le rôle `viewer` à un utilisateur :
 
   * Le rôle `member` lui est attribué dans l&#39;organisation.
-  * Une licence Models `viewer` lui est attribuée au lieu d&#39;une licence `full`. Cela permet un accès en lecture seule à Models et un accès complet au registre. Si aucune licence Models n&#39;est disponible, une erreur `Seat limit reached` est enregistrée et l&#39;utilisateur est ajouté sans accès à Models. Cela pourra être mis à jour plus tard si une licence devient disponible.
-  * Une licence Weave `viewer` lui est attribuée au lieu d&#39;une licence `full`. Cela permet un accès en lecture seule à Weave. Si aucune licence Weave n&#39;est disponible, une erreur `Seat limit reached` est enregistrée et l&#39;utilisateur est ajouté sans accès à Weave. Cela pourra être mis à jour plus tard si une licence devient disponible.
+  * Son `modelsSeat` est défini sur `viewer` au lieu de `full`. Cela permet un accès en lecture seule à Models et un accès complet au registre. Si aucune licence Models n&#39;est disponible, une erreur `Seat limit reached` est renvoyée. Cela pourra être mis à jour plus tard si une licence devient disponible.
+  * Son `weaveRole` est défini sur `viewer` au lieu de `full`. Cela permet un accès en lecture seule à Weave.
+  * Tous ses rôles d&#39;équipe et de projet existants sont définis sur `viewer`.
   * Le rôle `viewer` du registre lui est attribué dans les registres visibles au niveau de l&#39;organisation.
+
+  L&#39;attribution du rôle d&#39;organisation `member` ou `admin` ne modifie pas le `modelsSeat` ni le `weaveRole` de l&#39;utilisateur.
 </Note>
 
 #### Exemple
@@ -957,6 +966,166 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
             }
         ],
         "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-models-seat">
+  ### Mettre à jour la licence Models
+</div>
+
+Met à jour la licence Models attribuée à un utilisateur. **Cloud dédié** et **Autogéré** uniquement.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                    |
+| --------- | ------ | ------ | ---------------------------------------------- |
+| `id`      | string | Oui    | L&#39;ID unique de l&#39;utilisateur           |
+| `op`      | string | Oui    | `replace`                                      |
+| `path`    | string | Oui    | `modelsSeat`                                   |
+| `value`   | string | Oui    | Niveau de licence (`full`, `viewer` ou `none`) |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de mise à jour de la licence Models">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "modelsSeat",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de mise à jour de la licence Models">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-weave-role">
+  ### Mettre à jour le rôle Weave
+</div>
+
+Met à jour le rôle d&#39;un utilisateur dans Weave. **Cloud dédié** et **Autogéré** uniquement.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                 |
+| --------- | ------ | ------ | ------------------------------------------- |
+| `id`      | string | Oui    | L&#39;ID unique de l&#39;utilisateur        |
+| `op`      | string | Oui    | `replace`                                   |
+| `path`    | string | Oui    | `weaveRole`                                 |
+| `value`   | string | Oui    | Niveau de rôle (`full`, `viewer` ou `none`) |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de mise à jour du rôle Weave">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "weaveRole",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de mise à jour du rôle Weave">
+    ```bash
+    (statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
     }
     ```
   </Tab>
@@ -2338,13 +2507,15 @@ L’API SCIM renvoie des réponses d’erreur SCIM standard :
 
 W&amp;B propose deux implémentations distinctes de l’API SCIM, dont les fonctionnalités diffèrent :
 
-| Fonctionnalité                                    | Cloud dédié | Autogéré |
-| ------------------------------------------------- | ----------- | -------- |
-| Mettre à jour l’adresse e-mail de l’utilisateur   | -           | ✓        |
-| Mettre à jour le nom d’affichage de l’utilisateur | -           | ✓        |
-| Désactivation de l’utilisateur                    | ✓           | ✓        |
-| Réactivation de l’utilisateur                     | -           | ✓        |
-| Plusieurs adresses e-mail par utilisateur         | ✓           | -        |
+| Fonctionnalité                                       | Cloud mutualisé | Cloud dédié et Autogéré |
+| ---------------------------------------------------- | --------------- | ----------------------- |
+| Mettre à jour l’adresse e-mail de l’utilisateur      | -               | ✓                       |
+| Mettre à jour le nom d’affichage de l’utilisateur    | -               | ✓                       |
+| Désactivation de l’utilisateur                       | ✓               | ✓                       |
+| Réactivation de l’utilisateur                        | -               | ✓                       |
+| Plusieurs adresses e-mail par utilisateur            | ✓               | -                       |
+| Définir `modelsSeat` lors de la création/mise à jour | -               | ✓                       |
+| Définir `weaveRole` lors de la création/mise à jour  | -               | ✓                       |
 
 <div id="limitations">
   ## Limitations

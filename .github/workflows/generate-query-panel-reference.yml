@@ -1,0 +1,84 @@
+name: Generate Query Panel (QEL) reference
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-query-panel-reference:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout docs repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Enable Yarn classic
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+
+      - name: Generate QEL reference from weave-internal
+        env:
+          QUERY_PANELS_READ_TOKEN: ${{ secrets.QUERY_PANELS_READ_ONLY_PAT }}
+          GIT_TERMINAL_PROMPT: "0"
+        run: |
+          chmod +x scripts/reference-generation/query-panel/generate_query_panel_reference.sh
+          ./scripts/reference-generation/query-panel/generate_query_panel_reference.sh
+
+      - name: Run quality tests
+        run: |
+          python3 -m unittest discover -s scripts/reference-generation/query-panel/tests -p 'test_*.py' -v
+
+      - name: Generate timestamp
+        id: timestamp
+        run: |
+          echo "timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> "$GITHUB_OUTPUT"
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: ${{ github.event.repository.default_branch }}
+          commit-message: |
+            chore: regenerate Query Expression Language reference
+
+            Generated from wandb/weave-internal weave-js (generateDocs.ts).
+          branch: chore/regenerate-query-panel-reference-${{ github.run_number }}
+          delete-branch: true
+          draft: true
+          title: "Regenerate Query Expression Language reference"
+          body: |
+            Automated update of Query Expression Language (query panel) datatype pages under `models/ref/query-panel/`.
+
+            **Source:** `wandb/weave-internal` (`weave-js`), upstream `src/core/generateDocs.ts` via `vite-node`.
+
+            **Generated at:** ${{ steps.timestamp.outputs.timestamp }}
+
+            ### Review checklist
+            - [ ] Spot-check a few datatype pages in the preview build
+            - [ ] Confirm no unintended `docs.json` navigation changes outside the Query Expression Language group
+            - [ ] Japanese and Korean overview pages were not modified by this workflow (English reference only)
