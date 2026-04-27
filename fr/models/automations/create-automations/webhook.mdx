@@ -116,20 +116,20 @@ Après avoir [configuré un webhook](#create-a-webhook), sélectionnez **registr
 </div>
 
 <Tabs>
-  <Tab title="Registre">
-    Gérez les automatisations d’un registre depuis l’onglet **Automations** du registre.
+  <Tab title="Registry">
+    Gérez les automatisations d&#39;un registre dans l&#39;onglet **Automations** du registre.
 
-    * Pour afficher les détails d’une automatisation, cliquez sur son nom.
-    * Pour modifier une automatisation, cliquez sur son menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Modifier l’automatisation**.
-    * Pour supprimer une automatisation, cliquez sur son menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Supprimer l’automatisation**. Une confirmation est nécessaire.
+    * Pour afficher les détails d&#39;une automatisation, cliquez sur son nom.
+    * Pour modifier une automatisation, cliquez sur son menu **action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Edit automation**.
+    * Pour supprimer une automatisation, cliquez sur son menu **action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Delete automation**. Une confirmation est requise.
   </Tab>
 
-  <Tab title="Projet">
-    Un administrateur W&amp;B peut afficher et gérer les automatisations d’un projet depuis l’onglet **Automations** du projet.
+  <Tab title="Project">
+    Un administrateur W&amp;B peut afficher et gérer les automatisations d&#39;un projet dans l&#39;onglet **Automations** du projet.
 
-    * Pour afficher les détails d’une automatisation, cliquez sur son nom.
-    * Pour modifier une automatisation, cliquez sur son menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Modifier l’automatisation**.
-    * Pour supprimer une automatisation, cliquez sur son menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Supprimer l’automatisation**. Une confirmation est nécessaire.
+    * Pour afficher les détails d&#39;une automatisation, cliquez sur son nom.
+    * Pour modifier une automatisation, cliquez sur son menu **action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Edit automation**.
+    * Pour supprimer une automatisation, cliquez sur son menu **action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Delete automation**. Une confirmation est requise.
   </Tab>
 </Tabs>
 
@@ -310,13 +310,13 @@ Pour plus de détails sur le format utilisé par W&amp;B pour la requête `POST`
 
     1. Accédez à la page Team Settings de votre équipe W&amp;B.
     2. Faites défiler jusqu’à la section **Webhooks**.
-    3. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** à côté du nom de votre webhook.
+    3. Cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** à côté du nom de votre webhook.
     4. Sélectionnez **Test**.
     5. Dans le panneau de l’UI qui s’affiche, collez votre requête POST dans le champ qui apparaît.
        <Frame>
          <img src="/images/models/webhook_ui.png" alt="Démonstration du test d’une charge utile de webhook" />
        </Frame>
-    6. Cliquez sur **Test webhook**. Dans la W&amp;B App UI, W&amp;B affiche la réponse de votre Endpoint.
+    6. Cliquez sur **Test webhook**. Dans la W&amp;B App UI, W&amp;B affiche la réponse de votre point de terminaison.
        <Frame>
          <img src="/images/models/webhook_ui_testing.gif" alt="Démonstration du test d’un webhook" />
        </Frame>
@@ -337,22 +337,22 @@ Pour plus de détails sur le format utilisé par W&amp;B pour la requête `POST`
     ```bash webhook_test.sh
     #!/bin/bash
 
-    # Votre jeton d'accès et votre secret
+    # Votre jeton d’accès et votre secret
     ACCESS_TOKEN="your_api_key"
     SECRET="your_api_secret"
 
-    # URL de votre endpoint de webhook
+    # URL du point de terminaison de votre webhook
     API_ENDPOINT="https://your.webhook.endpoint/path"
 
     # Les données que vous souhaitez envoyer (par exemple, au format JSON)
     PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
-    # Génère la signature HMAC. Pour des raisons de sécurité, W&B inclut l'en-tête
+    # Générez la signature HMAC. Pour des raisons de sécurité, W&B inclut l’en-tête
     # X-Wandb-Signature calculé à partir de la charge utile et du secret partagé
-    # associé au webhook à l'aide de HMAC avec SHA-256.
+    # associé au webhook à l’aide de HMAC avec SHA-256.
     SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
-    # Effectue la requête cURL
+    # Effectuez la requête cURL
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $ACCESS_TOKEN" \

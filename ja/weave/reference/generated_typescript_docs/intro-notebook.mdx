@@ -222,7 +222,7 @@ async function runEvaluation() {
             corrector.predict(args.datasetRow.userInput)
         )
     });
-    console.log('評価サマリー:', summary);
+    console.log('Evaluation summary:', summary);
 }
 ```
 
@@ -237,7 +237,7 @@ async function main() {
         await demonstrateNestedTracking();
         await runEvaluation();
     } catch (error) {
-        console.error('デモの実行中にエラーが発生しました:', error);
+        console.error('Error running demonstrations:', error);
     }
 }
 ```

@@ -99,7 +99,7 @@ log frequency = wandb.Run.log() calls per minute
   ### 처리량
 </div>
 
-**처리량**은 분당 기록되는 포인트의 총개수입니다.
+**처리량**은 분당 로깅된 포인트의 총개수입니다.
 
 처리량은 다음과 같이 생각할 수 있습니다:
 
@@ -114,7 +114,7 @@ throughput = logged points × log frequency
 ```
 
 <Warning>
-  다음 섹션은 W&amp;B SaaS Cloud에 적용됩니다. 다른 W&amp;B 배포 유형을 사용하는 경우, 배포별 지침이나 제한 사항은 관리자에게 문의하세요.
+  다음 섹션은 W&amp;B Multi-tenant Cloud에 적용됩니다. 다른 W&amp;B 배포 유형을 사용하는 경우, 배포별 지침이나 제한 사항은 관리자에게 문의하세요.
 </Warning>
 
 <div id="recommendations-at-scale">
@@ -393,7 +393,7 @@ W&amp;B는 API 요청 속도 제한 외에는 이러한 권장 사항에 대해 
   ## 요청 속도 제한
 </div>
 
-W&amp;B SaaS Cloud API는 서비스 안정성과 가용성을 유지하기 위해 요청 속도 제한을 적용합니다.
+W&amp;B Multi-tenant Cloud API는 서비스 안정성과 가용성을 유지하기 위해 요청 속도 제한을 적용합니다.
 
 <Note>
   요청 속도 제한은 변경될 수 있습니다.
@@ -449,7 +449,7 @@ with wandb.init(project="basic-intro") as run:
 
 W&amp;B App과 [public API](/ko/models/ref/python/public-api/api)는 GraphQL 요청을 사용해 데이터를 쿼리하고 수정합니다.
 
-SaaS Cloud의 경우:
+Multi-tenant Cloud의 경우:
 
 * 인증되지 않은 요청에는 IP 주소별로 요청 속도 제한이 적용됩니다
 * 인증된 요청에는 사용자별로 요청 속도 제한이 적용됩니다

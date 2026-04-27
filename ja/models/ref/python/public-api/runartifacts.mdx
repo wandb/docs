@@ -15,6 +15,14 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ### <kbd>プロパティ</kbd> RunArtifacts.cursor
 
+次に取得するページの開始位置を示す不透明なカーソルです。
+
+この値は保存しておき、後続のページネーションされたクエリで `start=` として渡すことで、この paginator の続きから反復を再開できます。
+
+**戻り値:**
+
+* `str | None`: cursor のプロパティ値です。
+
 ***
 
 ### <kbd>プロパティ</kbd> RunArtifacts.more

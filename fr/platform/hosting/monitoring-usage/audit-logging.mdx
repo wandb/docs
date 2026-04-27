@@ -86,21 +86,23 @@ Les informations personnelles identifiables (PII), telles que les adresses e-mai
 
 Pour récupérer les journaux d’audit :
 
-1. Déterminez l’API endpoint approprié pour votre instance :
+1. Déterminez l’API point de terminaison approprié pour votre instance :
 
    * [Autogéré](/fr/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
    * [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud): `<instance-name>.wandb.io/admin/audit_logs`
    * [Cloud mutualisé (Enterprise requis)](/fr/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
-   Dans les étapes suivantes, remplacez `<API-endpoint>` par votre API endpoint.
-2. (Facultatif) Construisez les paramètres de requête à ajouter à l’endpoint. Dans les étapes suivantes, remplacez `<parameters>` par la chaîne obtenue.
+   Dans les étapes suivantes, remplacez `<API-endpoint>` par votre API point de terminaison.
+2. (Facultatif) Construisez les paramètres de requête à ajouter à l’point de terminaison. Dans les étapes suivantes, remplacez `<parameters>` par la chaîne obtenue.
    * `anonymize` : si l’URL inclut le paramètre `anonymize=true`, supprimez toute PII. Sinon, la PII est incluse. Référez-vous à [Exclure la PII lors de la récupération des journaux d’audit](#exclude-pii-when-fetching-audit-logs). Non pris en charge pour le Cloud mutualisé, où tous les champs sont inclus, y compris la PII.
    * Configurez la plage de dates des journaux à récupérer à l’aide d’une combinaison de `numdays` et `startDate`. Chaque paramètre est facultatif, et ils interagissent entre eux.
      * Si aucun des deux paramètres n’est inclus, seuls les journaux du jour sont récupérés.
      * `numDays` : entier indiquant le nombre de jours à remonter à partir de `startDate` pour récupérer les journaux. S’il est omis ou défini sur `0`, les journaux ne sont récupérés que pour `startDate`. Sur **Multi-tenant Cloud**, vous pouvez récupérer au maximum 7 jours de journaux d’audit, même si vous définissez `numDays` sur une valeur supérieure.
-     * `startDate` : pris en charge sur **Multi-tenant Cloud** uniquement. Contrôle les journaux les plus récents à récupérer, au format `startDate=YYYY-MM-DD`. S’il est omis ou explicitement défini sur la date du jour, les journaux sont récupérés à partir d’aujourd’hui sur `numDays` jours.
-3. Construisez l’URL complète de l’endpoint au format `<API-endpoint>?<parameters>`.
-4. Exécutez une requête HTTP `GET` sur l’API endpoint complète à l’aide d’un navigateur web ou d’un outil comme [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), ou cURL.
+     * `startDate` : facultatif. Utilisez `startDate=YYYY-MM-DD` pour définir le jour calendaire le plus récent de l’intervalle. Si vous l’omettez ou le définissez sur la date du jour, l’intervalle se termine aujourd’hui et `numDays` compte à rebours à partir de ce jour.
+       * Pris en charge dans **Multi-tenant Cloud** uniquement avec une Enterprise license.
+       * Pris en charge dans **Cloud dédié** et **Autogéré** v0.80.0 et versions ultérieures.
+3. Construisez l’URL complète du point de terminaison au format `<API-endpoint>?<parameters>`.
+4. Exécutez une requête HTTP `GET` sur l’API point de terminaison complète à l’aide d’un navigateur web ou d’un outil comme [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), ou cURL.
 
 La réponse de l’API contient des objets JSON séparés par des sauts de ligne. Les objets incluent les champs décrits dans le [schéma](#audit-log-schema), comme lorsque les journaux d’audit sont synchronisés avec un bucket au niveau de l’instance. Dans ce cas, les journaux d’audit se trouvent dans le répertoire `/wandb-audit-logs` de votre bucket.
 
