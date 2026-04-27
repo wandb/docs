@@ -122,13 +122,17 @@ artifact collection이 마지막으로 업데이트된 날짜입니다.
 ### <kbd>방법</kbd> `ArtifactCollection.artifacts`
 
 ```python
-artifacts(per_page: 'int' = 50) → Artifacts
+artifacts(per_page: 'int' = 50, start: 'str | None' = None) → Artifacts
 ```
 
-컬렉션에 있는 모든 artifact를 조회합니다.
+컬렉션에 있는 모든 아티팩트를 조회합니다.
+
+**인수:**
+
+* `per_page`:  페이지당 가져올 아티팩트 수입니다.
+* `start`:  이전 paginator의 `.cursor` 속성에서 가져온, 이전 쿼리를 다시 시작하기 위한 페이지네이션 커서입니다.
 
 ***
-
 
 ### <kbd>방법</kbd> `ArtifactCollection.change_type`
 

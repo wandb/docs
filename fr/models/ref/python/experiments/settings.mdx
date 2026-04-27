@@ -35,7 +35,7 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x109961240>,
+    anonymous: 'object' = <object object at 0x107855240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -97,6 +97,7 @@ __init__(
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
+    stop_fn: 'Callable | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -160,7 +161,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 38335,
+    x_stats_pid: 'int' = 72322,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -384,6 +385,15 @@ __init__(
 * `save_code` (Optional[bool]) : Indique s’il faut enregistrer le code associé à l’exécution.
 
 * `settings_system` (Optional[str]) : Chemin d’accès au fichier de paramètres à l’échelle du système.
+
+* `stop_fn` (Optional[Callable]): Fonction de rappel à exécuter pour arrêter le run.
+  Un run peut être arrêté via l’interface utilisateur web, ou après une erreur fatale
+  (si cela est configuré dans un paramètre).
+  Par défaut, pour arrêter un run, W&amp;B envoie un SIGINT au thread principal.
+  Définissez cette fonction de rappel pour redéfinir ce comportement, par exemple pour utiliser un autre
+  signal ou effectuer une autre action avant l’interruption.
+  La fonction de rappel s’exécute dans un thread distinct. Elle s’exécute peu après qu’un arrêt a été
+  demandé, mais pas immédiatement.
 
 * `max_end_of_run_history_metrics` (int) : Nombre maximal de mini-graphiques de l’historique à afficher à la fin d’un run.
 

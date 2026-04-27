@@ -3,17 +3,37 @@ title: Configurer les paramètres de confidentialité
 description: "Configurez et appliquez dans W&B les paramètres de confidentialité relatifs à la visibilité de l'équipe, à l'accès au projet et aux valeurs par défaut d'enregistrement du code."
 ---
 
-Les administrateurs de l’organisation et les administrateurs d’équipe peuvent configurer un ensemble de paramètres de confidentialité au niveau de l’organisation et de l’équipe, respectivement. Lorsqu’ils sont configurés au niveau de l’organisation, les administrateurs de l’organisation appliquent ces paramètres à toutes les Teams de cette organisation.
+Les administrateurs de l’organisation et les administrateurs d’équipe peuvent configurer un ensemble de paramètres de confidentialité au niveau de l’organisation et de l’équipe, respectivement. Lorsqu’ils sont configurés au niveau de l’organisation, les administrateurs de l’organisation appliquent ces paramètres à toutes les équipes de cette organisation.
 
 <Note>
-  W&amp;B recommande aux administrateurs de l’organisation d’appliquer un paramètre de confidentialité uniquement après en avoir informé à l’avance tous les administrateurs d’équipe et utilisateurs de leur organisation. Cela permet d’éviter des changements inattendus dans les flux de travail.
+  Pour éviter des changements inattendus dans les flux de travail des équipes, W&amp;B recommande aux administrateurs de l’organisation d’appliquer un paramètre de confidentialité uniquement après en avoir informé à l’avance tous les administrateurs d’équipe et utilisateurs de l’organisation.
 </Note>
+
+<div id="enforce-privacy-settings-for-all-teams">
+  ## Appliquer les paramètres de confidentialité à tous les équipes
+</div>
+
+Les Administrateurs de l’organisation peuvent appliquer des paramètres de confidentialité à tous les équipes de leur organisation depuis la section **Privacy** de l’onglet **Settings** du tableau de bord du compte ou de l’organisation. Si les Administrateurs de l’organisation appliquent un paramètre, les Administrateurs d’équipe ne peuvent pas le configurer dans leurs équipes respectifs.
+
+* **Appliquer les restrictions de visibilité de l&#39;équipe** - Masque tous les équipes pour les non-membres dans l’ensemble de l’organisation
+* **Appliquer la confidentialité aux futurs projets** - Exige que tous les nouveaux projets de tous les équipes soient privés ou [restreints](./iam/access-management/restricted-projects)
+* **Appliquer le contrôle des invitations** - Empêche les non-administrateurs d’inviter des membres dans une équipe
+* **Appliquer le contrôle du partage des Reports** - Désactive le partage public des Reports dans les projets privés et désactive les liens magiques existants
+* **Appliquer les restrictions d’adhésion autonome aux équipes** - Empêche les utilisateurs dont le domaine de messagerie correspond à celui de l’organisation de rejoindre automatiquement une équipe
+  <Note>Ce paramètre est disponible uniquement dans les déploiements [Cloud mutualisé](./hosting-options/multi_tenant_cloud).</Note>
+* **Appliquer les restrictions par défaut pour l’enregistrement du code** - Désactive l’enregistrement du code par défaut pour tous les équipes
+
+Pour ouvrir les paramètres de confidentialité de l’organisation :
+
+1. Connectez-vous en tant qu’Administrateur de l’organisation.
+2. Sur Cloud mutualisé, accédez à `https://wandb.ai/account-settings/<organization>/settings`. Remplacez `<organization>` par le nom de votre organisation. Sur les déploiements Cloud dédié ou Autogéré, ouvrez le tableau de bord de l’organisation de votre instance. Pour les URL propres à chaque environnement, voir [Add and manage users](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-users).
+3. Ouvrez la section **Privacy** et configurez **Appliquer les restrictions par défaut pour l’enregistrement du code** ainsi que tout autre contrôle à l’échelle de l’organisation dont vous avez besoin.
 
 <div id="configure-privacy-settings-for-a-team">
   ## Configurer les paramètres de confidentialité d’une équipe
 </div>
 
-Les administrateurs d’équipe peuvent configurer les paramètres de confidentialité de leurs Teams respectives dans la section `Privacy` de l’onglet **Settings** de l’équipe. Chaque paramètre peut être configuré tant qu’il n’est pas appliqué au niveau de l’organisation :
+Les administrateurs d’équipe peuvent configurer les paramètres de confidentialité de leurs équipes respectives dans la section **Privacy** de l’onglet **Settings** de l’équipe. Chaque paramètre peut être configuré tant qu’il n’est pas appliqué au niveau de l’organisation :
 
 * **Masquer cette équipe pour tous les non-membres** - Empêche l’équipe d’être visible par les utilisateurs qui n’en sont pas membres
 * **Rendre privés tous les futurs projets de l’équipe** - Garantit que tous les nouveaux projets créés dans l’équipe sont privés (partage public non autorisé)
@@ -23,16 +43,8 @@ Les administrateurs d’équipe peuvent configurer les paramètres de confidenti
   <Note>Ce paramètre est disponible uniquement dans les déploiements [Cloud mutualisé](./hosting-options/multi_tenant_cloud).</Note>
 * **Activer l’enregistrement du code par défaut** - Enregistre automatiquement le code pour tous les runs de l’équipe
 
-<div id="enforce-privacy-settings-for-all-teams">
-  ## Appliquer les paramètres de confidentialité à tous les Teams
-</div>
+Pour ouvrir les paramètres de confidentialité de l’équipe :
 
-Les Administrateurs de l’organisation peuvent appliquer des paramètres de confidentialité à tous les Teams de leur organisation depuis la section `Privacy` de l’onglet **Settings** du tableau de bord du compte ou de l’organisation. Si les Administrateurs de l’organisation appliquent un paramètre, les Administrateurs d’équipe ne peuvent pas le configurer dans leurs Teams respectifs.
-
-* **Appliquer les restrictions de visibilité de l&#39;équipe** - Masque tous les Teams pour les non-membres dans l’ensemble de l’organisation
-* **Appliquer la confidentialité aux futurs projets** - Exige que tous les nouveaux projets de tous les Teams soient privés ou [restreints](./iam/access-management/restricted-projects)
-* **Appliquer le contrôle des invitations** - Empêche les non-administrateurs d’inviter des membres dans un Team
-* **Appliquer le contrôle du partage des Reports** - Désactive le partage public des Reports dans les projets privés et désactive les liens magiques existants
-* **Appliquer les restrictions d’adhésion autonome aux Teams** - Empêche les utilisateurs dont le domaine de messagerie correspond à celui de l’organisation de rejoindre automatiquement un Team
-  <Note>Ce paramètre est disponible uniquement dans les déploiements [Cloud mutualisé](./hosting-options/multi_tenant_cloud).</Note>
-* **Appliquer les restrictions par défaut pour l’enregistrement du code** - Désactive l’enregistrement du code par défaut pour tous les Teams
+1. Accédez à `https://wandb.ai/<team>`. Remplacez `<team>` par le nom de votre équipe.
+2. Sélectionnez **Team settings** dans la navigation de gauche.
+3. Ouvrez la section **Privacy** et configurez **Activer l’enregistrement du code par défaut**.

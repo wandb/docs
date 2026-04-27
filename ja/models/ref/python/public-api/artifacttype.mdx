@@ -62,7 +62,8 @@ collection(name: 'str') → ArtifactCollection
 collections(
     filters: 'Mapping[str, Any] | None' = None,
     order: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → ArtifactCollections
 ```
 
@@ -73,5 +74,6 @@ collections(
 * `filters` (dict):  クエリに適用するフィルターを指定する省略可能なマッピングです。
 * `order` (str):  結果の並び順を指定する省略可能な文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトでは、コレクション ID の降順になります。
 * `per_page` (int):  1 ページあたりに取得するartifact collection数です。デフォルトは 50 です。
+* `start`:  過去のクエリを再開するためのページネーション カーソルです。以前の paginator の `.cursor` 属性から取得します。
 
 ***
