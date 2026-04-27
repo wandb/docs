@@ -23,7 +23,7 @@ If your organization uses W&B Dedicated Cloud or W&B Self-Managed, you must set 
 export WANDB_BASE_URL=https://your-instance.wandb.io
 ```
 
-- You can use `wandb login` with the `host` flag to persist the base URL across sessions. This writes the host URL to `$HOME/.config/wandb/settings`, which the Weave client reads automatically without requiring the environment variable to be set.
+- Run the `wandb login` command with the `host` flag to persist the base URL across sessions. This writes the host URL to `$HOME/.config/wandb/settings`, which the Weave client reads automatically without requiring the environment variable to be set.
 
 ```bash lines
 wandb login --host https://your-instance.wandb.io
