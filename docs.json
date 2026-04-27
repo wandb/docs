@@ -1409,7 +1409,7 @@
                         ]
                       },
                       {
-                        "group": "SDK W&B",
+                        "group": "SDK de W&B",
                         "pages": [
                           "fr/release-notes/sdk-releases",
                           "fr/release-notes/weave-sdk-releases"
