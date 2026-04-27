@@ -1,0 +1,260 @@
+---
+title: "Versions du SDK Weave"
+description: "Consultez les notes de version du SDK Python Weave (package `weave`), y compris les nouvelles fonctionnalités, les corrections de bugs et les améliorations des performances par version."
+sidebarTitle: "SDK Weave"
+rss: true
+---
+
+Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/project/weave/) (package `weave`). Pour le SDK Python W&amp;B Models (package `wandb`), voir [Versions du SDK W&amp;B](/fr/release-notes/sdk-releases). Les packages publiés et l’historique commit par commit sont disponibles dans les [GitHub Releases de `wandb/weave`](https://github.com/wandb/weave/releases).
+
+<Note>
+  Ces entrées résument les changements du SDK et du serveur de traces visibles par les utilisateurs, et omettent les détails sur les travaux internes de test, de CI et de refactorisation. Pour chaque modification fusionnée, consultez l’entrée de version GitHub correspondant à ce tag.
+</Note>
+
+<Update label="0.52.37" description="17 avril 2026">
+  ## Ajouts
+
+  * Les intégrations OpenTelemetry suivent les dernières conventions sémantiques.
+  * Les calculs de coûts et les intégrations de fournisseurs incluent l’utilisation des jetons de cache.
+
+  ## Modifications
+
+  * Amélioration des performances de certaines requêtes d’appels grâce à la possibilité d’ignorer une sous-requête imbriquée.
+  * `ClassifierMonitor` est exporté depuis le package `weave` de premier niveau.
+  * L’API des appels accepte un paramètre `query` facultatif pour un filtrage plus riche.
+
+  ## Correctifs
+
+  * Correction du SQL de l’API des résultats d’évaluation pour certaines combinaisons de filtres.
+  * Correction d’un bug où le SDK TypeScript pouvait supprimer à tort le schéma d’URL de `WANDB_BASE_URL`.
+  * Correction d’un bug où des appels avec plusieurs lignes de feedback pouvaient apparaître plusieurs fois dans les résultats de liste.
+  * Correction de la gestion des horodatages ISO-8601 pour les requêtes adossées à ClickHouse.
+  * Correction des mutations ClickHouse distribuées qui ajoutaient à tort un suffixe `_local` aux noms de tableau.
+  * Correction des spans manquants lors du tracing des flux OpenAI Agents SDK.
+  * Correction du tracing Google GenAI lorsque les réponses incluent des éléments non textuels.
+  * Correction de l’assainissement des chemins pour les artefacts de fichiers de traces en mémoire et de la gestion des noms d’hôte des fournisseurs dans les clients HTTP.
+</Update>
+
+<Update label="0.52.36" description="1er avril 2026">
+  ## Ajouts
+
+  * Les requêtes d’appels peuvent résoudre des noms d’utilisateur lisibles par l’humain.
+  * `ref.get()` fonctionne sans initialiser explicitement le client dans certains flux.
+  * API et chemins de stockage pour les résultats d’évaluation textuels, y compris une meilleure gestion des grands ensembles d’évaluation.
+
+  ## Modifications
+
+  * LiteLLM est épinglé pour assurer la compatibilité avec les intégrations groupées.
+  * Moonshot est disponible comme fournisseur de modèles.
+  * L’infrastructure sous-jacente de journal à écriture anticipée améliore la durabilité des écritures de traces.
+
+  ## Correctifs
+
+  * Correction d’un bug où l’abandon d’un générateur de streaming pouvait faire remonter `GeneratorExit` à tort.
+  * Correction de la désérialisation lorsque les objets stockés incluent des champs de métadonnées supplémentaires.
+  * Correction des filtres de feedback lorsqu’un appel comporte plusieurs lignes de feedback.
+  * Correction du suivi des coûts d’appels adossé à SQLite et de la gestion des `trace_id` invalides dans les upserts par lot.
+  * Amélioration du comportement des migrations ClickHouse, avec notamment de nouvelles tentatives en cas d’erreurs transitoires et un statut de sortie du migrateur plus explicite.
+  * Correction d’un bug où les exécutions d’évaluation de plus de 1000 appels pouvaient ne pas se charger pour la prédiction et le scoring.
+</Update>
+
+<Update label="0.52.35" description="19 mars 2026">
+  ## Ajouts
+
+  * Prise en charge du journal à écriture anticipée pour l’ingestion des traces.
+  * Requêtes de statistiques de feedback pour l’analyse des données de feedback.
+
+  ## Modifications
+
+  * `Ref.uri` peut être lu comme une propriété (`ref.uri`) sans appeler `ref.uri()`.
+  * Vous pouvez configurer la taille maximale de l’historique de scoring temporisé via des variables d’environnement.
+
+  ## Correctifs
+
+  * Correction du transtypage ClickHouse pour les valeurs de filtre numériques négatives.
+  * Correction des erreurs du moteur de base de données répliqué lors des migrations sur cluster.
+  * Correction de `DelegatingTraceServerMixin`, qui ne relayait pas certaines méthodes de `ServiceInterface`.
+  * Correction des nouvelles tentatives lors de l’appel à l’API W&amp;B pendant `weave.init()`.
+  * Correction d’un bug où `EvaluationLogger` pouvait planter lorsque `WEAVE_DISABLED` est défini.
+  * Correction des cas limites de `RefJSONEncoder` et de l’instanciation via méthode de classe pour les sous-classes.
+</Update>
+
+<Update label="0.52.33" description="12 mars 2026">
+  ## Ajouts
+
+  * Méthodes du SDK Python et modèles HTTP pour les tags et alias d’objets.
+  * Instrumentation pour l’API Realtime d’OpenAI, y compris les appels d’outil ainsi que la capture facultative d’audio, de texte et de voix (voir les exemples TypeScript dans les notes de version amont).
+
+  ## Correctifs
+
+  * Correction de l’accumulation des complétions de streaming Anthropic dans les traces.
+  * Correction des requêtes `PUT` authentifiées dans `RemoteHTTPTraceServer`.
+  * Correction de la gestion des requêtes de coût pour les projections `calls_complete`.
+</Update>
+
+<Update label="0.52.31" description="10 mars 2026">
+  ## Ajouts
+
+  * Prise en charge par le serveur de traces des tags et alias sur les objets stockés.
+  * Intégration de tracing pour Claude Agents.
+  * Horodatages et métriques de délai avant le premier jeton pour les sessions Realtime.
+  * Les moniteurs peuvent utiliser des évaluateurs fusionnés.
+
+  ## Modifications
+
+  * Amélioration des performances d’OpenTelemetry grâce à un cache inter-requêtes de références d’opération.
+
+  ## Correctifs
+
+  * Correction de plusieurs problèmes dans la construction des requêtes de coût, notamment l’échappement des champs internes et les configurations ClickHouse distribuées.
+  * Correction de la gestion de l’intégration LangChain pour les objets `Run` de Pydantic v2.
+  * Correction de cas limites dans les résolveurs de prédiction et d’évaluateur lorsque les entrées ou les métadonnées sont absentes.
+  * Correction de l’accumulation de texte dans Vertex AI et de la visibilité des threads dans les requêtes `calls_complete`.
+</Update>
+
+<Update label="0.52.30" description="10 mars 2026">
+  ## Ajouts
+
+  * API de backfill des scores pour recalculer les scores stockés.
+  * Suivi des requêtes Gemini dans le SDK TypeScript.
+
+  ## Modifications
+
+  * Partitionnement des tables d’appels distribuées par shard selon `trace_id` ou `project_id` afin d’améliorer les performances des requêtes.
+  * Simplification des plans de requête `calls_complete` pour réduire la latence.
+
+  ## Correctifs
+
+  * Correction d’un bug qui empêchait parfois le rendu des médias Gemini dans l’interface Weave.
+  * Les insertions par lot OpenTelemetry utilisent désormais des insertions asynchrones dans ClickHouse.
+  * Correction de la gestion de `NO_PROXY` dans les clients HTTP.
+  * Correction du nommage entité/équipe dans certains messages d’erreur.
+</Update>
+
+<Update label="0.52.29" description="27 février 2026">
+  ## Ajouts
+
+  * Les API d’utilisation exposent les métadonnées des appels non terminés.
+  * Intégration facultative de `python-magic` pour une détection MIME plus riche.
+  * Les threads Realtime sont pris en compte dans les synthèses d’utilisation.
+  * Prise en charge du schéma pour les tags et alias sur les objets Weave.
+  * API de requête `eval_results` structurée pour les tableaux d’évaluation.
+
+  ## Modifications
+
+  * Amélioration de l’indexation en stockant les horodatages sous forme de chaînes dans ClickHouse.
+  * Réduction du travail dupliqué lors de la création par lots de fichiers pendant l’upsert d’appels.
+
+  ## Correctifs
+
+  * Correction d’un bug à cause duquel les générateurs ne respectaient pas les taux d’échantillonnage configurés.
+  * Correction de la mise en mémoire tampon afin que les flux soient vidés immédiatement à la fin d’un appel.
+  * Correction des erreurs d’index dans les requêtes de tri et de la sérialisation JSON déterministe pour le calcul de l’empreinte.
+  * Correction des noms d’affichage OpenTelemetry, de la gestion de `make_safe_name` et de la sérialisation LangChain pour les modèles Pydantic.
+</Update>
+
+<Update label="0.52.28" description="14 février 2026">
+  ## Ajouts
+
+  * Les attributs de ressource OpenTelemetry peuvent transporter des variables W&amp;B de run et de project.
+  * L’ORM prend en charge les comparaisons `$lt` et `$lte`.
+  * Les projects OpenTelemetry peuvent écrire directement dans la table `calls_complete`.
+  * Améliorations de disponibilité générale pour le tracing OpenAI Realtime.
+
+  ## Modifications
+
+  * Amélioration des performances des scans de tables et des requêtes de statistiques d’appels.
+
+  ## Correctifs
+
+  * Correction du filtrage des appels par ID de thread, y compris les cas où les filtres étaient incorrectement éliminés par optimisation.
+  * Correction des mises à jour idempotentes de l’état de la file d’annotation.
+  * Correction d’un bug à cause duquel `weave.finish()` ne vidait pas toujours les données client en attente.
+  * Correction du typage de l’itérateur pour `PaginatedIterator`, de la préservation des métadonnées de `Dataset.select` et des requêtes sur des traces volumineuses qui pouvaient épuiser la mémoire.
+</Update>
+
+<Update label="0.52.26" description="3 février 2026">
+  ## Ajouts
+
+  * API de statistiques d’utilisation, ainsi que les points de terminaison `/trace/usage` et `/calls/usage` pour l’utilisation agrégée.
+  * Indicateur facultatif de mode performance pour les déploiements à haut débit.
+  * Correctif pour l’analyse structurée Anthropic.
+  * Les vues enregistrées prennent en charge un champ `column_order`.
+
+  ## Modifications
+
+  * Amélioration de l’optimisation `PREWHERE` pour les requêtes sur cluster distribué.
+
+  ## Correctifs
+
+  * Correction d’un bug à cause duquel des insertions ClickHouse échouées pouvaient laisser fuiter des lignes mises en mémoire tampon.
+  * Correction d’un bug à cause duquel l’importation d’IPython au chargement pouvait ralentir les démarrages à froid.
+  * Correction des migrations de mutation synchrones, du filtrage de synthèse sur `calls_complete` et du surcomptage des jetons Google GenAI.
+  * Correction des spans OpenTelemetry avec moniteurs et de la gestion des téléversements en double pour Google Cloud Storage.
+</Update>
+
+<Update label="0.52.25" description="20 janvier 2026">
+  ## Correctifs
+
+  * Suppression de la capture redondante des réponses HTTP dans certaines intégrations.
+  * Le tracing Google GenAI enregistre désormais les instructions système.
+  * Le tracing Google GenAI enregistre désormais séparément les jetons de réflexion et les jetons de complétion.
+</Update>
+
+<Update label="0.52.24" description="15 janvier 2026">
+  ## Ajouts
+
+  * API utilitaires TypeScript pour travailler avec les prompts dans le SDK Node.
+  * Le serveur de traces convertit automatiquement et en toute sécurité les charges utiles Base64 lorsque c’est approprié.
+  * Mises à jour du schéma du classement pour les futures fonctionnalités de comparaison.
+  * Paramètre `redact_pii_exclude_fields` pour affiner le masquage des PII.
+  * Entrées Audio dans `LLMAsAJudgeScorer` et métadonnées d’opération enrichies (types et couleurs) pour les intégrations.
+
+  ## Correctifs
+
+  * Correction des caractères non valides qui bloquaient la création d’opérations dans certains cas limites.
+  * Correction de la gestion des proxys HTTP et HTTPS pour le client HTTPX.
+  * Correction du tracing imbriqué lors de l’encapsulation de générateurs.
+</Update>
+
+<Update label="0.52.23" description="8 janvier 2026">
+  ## Ajouts
+
+  * Fonctions utilitaires de parsing pour les entrées et sorties de l’instrumentation Logfire Pydantic AI.
+
+  ## Correctifs
+
+  * Correction de l’ordre non déterministe pour les évaluations sur de grands tableaux.
+  * Correction des requêtes de coût qui omettaient les jetons d’entrée et de sortie.
+  * Correction des tables ClickHouse répliquées distribuées, et ajout d’une option de configuration pour contrôler le comportement de vidage de Kafka.
+</Update>
+
+<Update label="0.52.22" description="8 janvier 2026">
+  ## Ajouts
+
+  * Les prompts et les variables de template de `LLMStructuredCompletionModels` sont conservés lors des appels de complétion.
+
+  ## Correctifs
+
+  * Correction de problèmes de compatibilité liés à l’import de ClickHouse dans certains environnements.
+</Update>
+
+<Update label="0.52.20" description="26 novembre 2025">
+  ## Ajouts
+
+  * Les API de streaming de complétion acceptent les prompts et les variables de template.
+  * `ObjectRef.from_uri` reconstruit des objets à partir d’URI Weave.
+  * Le Tracing de l’API OpenAI Responses enregistre les en-têtes `x-request-id`.
+  * Prise en charge élargie de l’intégration Bedrock Agents.
+  * Fonction utilitaire `withAttributes` du SDK TypeScript pour les métadonnées de span.
+
+  ## Correctifs
+
+  * Correction d’une fuite de mémoire dans le processeur de Tracing OpenAI Agents.
+  * Correction d’un bug où les refs pouvaient encore publier lorsque Weave était désactivé.
+  * Correction du comportement de l’itérateur lors de la migration du code client HTTP de `requests` vers `httpx`.
+</Update>
+
+<Tip>
+  Pour les versions antérieures à 0.52.20, voir [GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases). Ces entrées utilisent le format de comparaison GitHub par défaut (liens vers les pull requests et préfixes de commit). Cette page de documentation est mise à jour pour les versions plus récentes avec une formulation destinée aux clients.
+</Tip>
