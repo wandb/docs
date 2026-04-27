@@ -15,6 +15,14 @@ Un itérateur paresseux d&#39;objets `ArtifactType` pour un projet donné.
 
 ### <kbd>propriété</kbd> ArtifactTypes.cursor
 
+Un curseur opaque qui indique le début de la page suivante à récupérer.
+
+Cette valeur peut être enregistrée et passée via `start=` à une requête paginée ultérieure pour reprendre l’itération là où ce paginateur s’est arrêté.
+
+**Retourne :**
+
+* `str | None`: La valeur de propriété du curseur.
+
 ***
 
 ### <kbd>propriété</kbd> ArtifactTypes.more
