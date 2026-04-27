@@ -53,8 +53,6 @@ Vous pouvez afficher et surveiller les métriques système à l’aide de la W&a
        wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
-    ![Capture d’écran montrant l’affichage d’un run dans l’interface terminal LEET](/images/leet/leet-tui.png)
-
     LEET affiche les métriques système dans la **barre latérale droite**, notamment :
 
     * l’utilisation du GPU (%) et de la mémoire (Go)
@@ -452,29 +450,71 @@ La liste suivante présente les métriques disponibles et leurs unités :
 
 Les Tensor Processing Units (TPU) sont des ASIC (Application Specific Integrated Circuits) conçus par Google pour accélérer les charges de travail d’apprentissage automatique.
 
-<div id="tpu-memory-usage">
-  ### Utilisation de la mémoire TPU
+<Note>
+  Les métriques exactes rapportées dépendent de la génération de la puce TPU, comme v4, v5e, v5p, v6e ou 7x, ainsi que de l’environnement d’exécution.
+</Note>
+
+Voir [les métriques prises en charge dans la documentation Cloud TPU de Google](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library) pour plus d’informations sur les métriques disponibles et leurs définitions.
+
+<div id="tpu-compute-metrics">
+  ### Métriques de calcul TPU
 </div>
 
-Utilisation actuelle de la High Bandwidth Memory, en octets, par cœur de TPU.
+* `tpu.{tpu_index}.tensorcoreUtilization` : Pourcentage d’utilisation du TensorCore pour chaque appareil. Il s’agit de la mesure la plus directe pour déterminer si les unités de calcul TensorCore sont pleinement utilisées.
 
-W&amp;B attribue à cette métrique la balise `tpu.{tpu_index}.memoryUsageBytes`.
+* `tpu.{tpu_index}.dutyCycle` : Pourcentage du temps, pendant la période d’échantillonnage, durant lequel le TensorCore de l’accélérateur traitait activement des données. Cette métrique est fournie par puce et ventilée sur tous les appareils des puces comportant plusieurs appareils. Des valeurs plus élevées indiquent une meilleure utilisation du TensorCore.
 
-<div id="tpu-memory-usage-percentage">
-  ### Pourcentage d’utilisation de la mémoire TPU
+<div id="tpu-memory-metrics">
+  ### Métriques de mémoire des TPU
 </div>
 
-Utilisation actuelle de la High Bandwidth Memory, en pourcentage, par cœur TPU.
+* `tpu.{tpu_index}.hbmCapacityTotal` : Capacité totale de mémoire à haute bande passante (HBM) en octets pour chaque appareil.
 
-W&amp;B attribue la balise `tpu.{tpu_index}.memoryUsageBytes` à cette métrique.
+* `tpu.{tpu_index}.hbmCapacityUsage` : Utilisation actuelle de la mémoire HBM en octets pour chaque appareil.
 
-<div id="tpu-duty-cycle">
-  ### Taux d’activité du TPU
+<div id="tpu-interconnect-health">
+  ### État de santé de l’interconnexion TPU
 </div>
 
-Pourcentage du taux d’activité de TensorCore pour chaque appareil TPU. Indique le pourcentage de temps, sur la période d’échantillonnage, pendant lequel l’accélérateur TensorCore traitait activement des données. Une valeur plus élevée signifie une meilleure utilisation de TensorCore.
+* `tpu.{tpu_index}.iciLinkHealth` : état de santé du lien Inter-Chip Interconnect (ICI) pour chaque appareil. Cette métrique est disponible uniquement via le chemin d’accès du SDK libtpu.
 
-W&amp;B attribue une balise `tpu.{tpu_index}.dutyCycle` à cette métrique.
+<div id="tpu-transfer-latency">
+  ### Latence des transferts TPU
+</div>
+
+Distributions de latence en microsecondes. Les statistiques rapportées peuvent inclure la moyenne, p50, p90, p95 et p999. Ces métriques sont particulièrement pertinentes pour les configurations de pods TPU multi-slices.
+
+* `tpu.bufferTransferLatency.{label}.{stat}Us` : latences de transfert de mémoire tampon DCN (Data Center Network) entre les slices.
+
+* `tpu.inboundBufferTransferLatency.{label}.{stat}Us` : latences de transfert entrant de mémoire tampon DCN.
+
+* `tpu.hostToDeviceTransferLatency.{label}.{stat}Us` : latences de transfert de données de l&#39;hôte vers le périphérique.
+
+* `tpu.deviceToHostTransferLatency.{label}.{stat}Us` : latences de transfert de données du périphérique vers l&#39;hôte.
+
+<div id="tpu-collective-communication">
+  ### Communications collectives TPU
+</div>
+
+* `tpu.collectiveE2ELatency.{label}.{stat}Us` : Latence de bout en bout des opérations collectives, telles que all-reduce et all-gather.
+
+* `tpu.hostComputeLatency.{label}.{stat}Us` : Latences de calcul côté hôte, y compris celles du calcul MXLA.
+
+<div id="tpu-network-metrics">
+  ### Métriques réseau des TPU
+</div>
+
+* `tpu.grpcTcpMinRtt.{stat}Us` : Latence aller-retour TCP minimale pour les connexions gRPC.
+
+* `tpu.grpcTcpDeliveryRate.{stat}Mbps` : Débit TCP pour les connexions gRPC, en mégabits par seconde.
+
+<div id="tpu-hlo-execution-metrics">
+  ### Métriques d&#39;exécution HLO sur TPU
+</div>
+
+* `tpu.hloExecTiming.{label}.{stat}Us` : distribution des durées d&#39;exécution HLO (High Level Operations) en microsecondes. Cette métrique indique le temps d&#39;exécution par opération.
+
+* `tpu.hloQueueSize.{label}` : taille actuelle de la file d&#39;attente d&#39;exécution HLO. Cette métrique indique combien d&#39;opérations sont en attente d&#39;exécution.
 
 {/* Nouvelle section */}
 

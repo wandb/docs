@@ -1,24 +1,45 @@
 ---
-description: Gardez vos pages W&B rapides et réactives en respectant ces limites de
-  journalisation recommandées.
-title: Limites et performances d’Experiments
+description: Cette page décrit comment les schémas de journalisation affectent les performances dans W&B et fournit des recommandations pour adapter le suivi des expériences aux projets de grande taille.
+title: Journalisation à grande échelle et performances
 ---
 
-{/* ## Bonnes pratiques pour des pages rapides */}
+Les performances sont généralement influencées par une combinaison des facteurs suivants :
 
-Pour que vos pages dans W&amp;B restent rapides et réactives, veillez à journaliser dans les limites recommandées ci-dessous.
+* le nombre de runs dans un projet
+* le nombre d’étapes dans chaque run
+* le nombre de métriques distinctes que vous journalisez
+* la fréquence à laquelle vous appelez `wandb.Run.log()`
+* la quantité de données que vous envoyez à chaque appel de journalisation
+* la façon dont votre espace de travail est configuré
 
-<div id="logging-considerations">
-  ## Considérations sur la journalisation
+Dans la plupart des cas, les problèmes de performances sont plus souvent dus à la journalisation d’un trop grand nombre de métriques distinctes qu’à celle d’un trop grand nombre d’étapes.
+
+<div id="key-terms">
+  ## Termes clés
 </div>
 
-Utilisez `wandb.Run.log()` pour suivre les métriques de l&#39;expérience.
+Les termes suivants sont utilisés sur l’ensemble de cette page.
 
-<div id="distinct-metric-count">
-  ### Nombre de métriques distinctes
+<div id="steps">
+  ### Étapes
 </div>
 
-Pour de meilleures performances, veillez à ce que le nombre total de métriques distinctes dans un projet reste inférieur à 10 000.
+Une **étape** correspond à une seule ligne logique de métriques dans un run. Une étape est finalisée lorsque `wandb.Run.log()` est appelée avec `commit=True`, ou implicitement lorsque ni `commit` ni `step` ne sont spécifiés.
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"loss": 0.42}, commit=True)
+```
+
+<div id="metric-cardinality">
+  ### Cardinalité des métriques
+</div>
+
+La **cardinalité des métriques** correspond au nombre de clés de métrique distinctes enregistrées dans un project, y compris les clés contenues dans des dictionnaires imbriqués.
+
+Par exemple, les éléments suivants enregistrent 4 clés de métrique distinctes : `a`, `b.c`, `b.d.e` et `b.d.f`.
 
 ```python
 import wandb
@@ -26,116 +47,232 @@ import wandb
 with wandb.init() as run:
     run.log(
         {
-            "a": 1,  # "a" est une métrique distincte
+            "a": 1,
             "b": {
-                "c": "hello",  # "b.c" est une métrique distincte
-                "d": [1, 2, 3],  # "b.d" est une métrique distincte
+                "c": 2,
+                "d": {
+                    "e": 3,
+                    "f": 4,
+                },
             },
         }
     )
 ```
 
-<Note>
-  W&amp;B aplatit automatiquement les valeurs imbriquées. Cela signifie que si vous transmettez un dictionnaire, W&amp;B le convertit en nom séparé par des points. Pour les valeurs de configuration, W&amp;B prend en charge jusqu’à 3 points dans le nom. Pour les valeurs de synthèse, W&amp;B prend en charge jusqu’à 4 points.
-</Note>
+W&amp;B met à plat les dictionnaires imbriqués sous forme de noms de métriques séparés par des points.
 
-Les noms de métriques doivent respecter certaines contraintes de nommage imposées par GraphQL. Voir [les contraintes de nommage des métriques](/fr/models/track/log/#metric-naming-constraints) pour en savoir plus.
-
-{/* ### Journaliser des médias sous le même nom de métrique
-  Journalisez les médias liés sous le même nom de métrique :
-
-  ```python
-  for i, img in enumerate(images):
-    # non recommandé
-    run.log({f"pred_img_{i}": wandb.Image(image)})
-
-    # recommandé
-    run.log({"pred_imgs": [wandb.Image(image) for image in images]})
-  ``` */}
-
-Si votre espace de travail ralentit soudainement, vérifiez si des runs récents ont enregistré involontairement des milliers de nouvelles métriques. (Le plus simple pour le repérer est de chercher des sections contenant des milliers de graphiques, alors qu’un ou deux runs seulement y sont visibles.) Si c’est le cas, envisagez de supprimer ces runs et de les recréer avec les métriques souhaitées.
-
-<div id="value-width">
-  ### Value width
+<div id="logged-points">
+  ### Points enregistrés
 </div>
 
-Limit the size of a single logged value to under 1 MB and the total size of a single `wandb.Run.log()` call to under 25 MB. This limit does not apply to `wandb.Media` types like `wandb.Image`, `wandb.Audio`, etc.
+Les **points enregistrés** correspondent au nombre total de valeurs de métrique enregistrées.
+
+Par exemple, les deux exemples de code suivants génèrent trois points enregistrés :
 
 ```python
 import wandb
 
+with wandb.init() as run:
+    run.log({"a": 1, "b": 2, "c": 3})
+```
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"a": 1})
+    run.log({"a": 2})
+    run.log({"a": 3})
+```
+
+<div id="log-frequency">
+  ### Fréquence de journalisation
+</div>
+
+**La fréquence de journalisation** est le nombre d’appels à `wandb.Run.log()` par minute.
+
+```text
+log frequency = wandb.Run.log() calls per minute
+```
+
+<div id="throughput">
+  ### Débit
+</div>
+
+Le **débit** correspond au nombre total de points enregistrés par minute.
+
+Vous pouvez considérer le débit comme :
+
+```text
+throughput = logged points per minute
+```
+
+Ou, de façon équivalente :
+
+```text
+throughput = logged points × log frequency
+```
+
+<Warning>
+  Les sections suivantes s&#39;appliquent à Cloud mutualisé de W&amp;B. Si vous utilisez un autre type de déploiement W&amp;B, consultez votre administrateur pour obtenir des conseils ou connaître les limites propres à ce déploiement.
+</Warning>
+
+<div id="recommendations-at-scale">
+  ## Recommandations pour le passage à l’échelle
+</div>
+
+Le tableau suivant résume les valeurs de fonctionnement recommandées pour la journalisation à grande échelle.
+
+| Dimension                            | Recommandations à grande échelle |
+| ------------------------------------ | -------------------------------- |
+| Runs par projet                      | 10 000                           |
+| Étapes par run                       | 500 000                          |
+| Cardinalité des métriques par projet | 100 000                          |
+| Fréquence de journalisation          | 1 000 lignes par minute          |
+| Débit                                | 100 000 valeurs par minute       |
+| Débit vidéo                          | 40 Mo par minute                 |
+
+<Note>
+  Ces valeurs sont fournies à titre indicatif pour maintenir de bonnes performances à grande échelle. W&amp;B peut continuer à accepter des données au-delà de ces recommandations, mais les pages peuvent devenir plus lentes à charger et à utiliser.
+</Note>
+
+<div id="throughput-examples">
+  ## Exemples de débit
+</div>
+
+Différents modes de journalisation peuvent produire le même débit.
+
+<div id="scalar-logging-examples">
+  ### Exemples de journalisation de scalaires
+</div>
+
+| Métriques par appel de journalisation | Fréquence de journalisation (par minute) | Débit (valeurs par minute) |
+| ------------------------------------- | ---------------------------------------- | -------------------------- |
+| 100                                   | 1,000                                    | 100,000                    |
+| 1,000                                 | 100                                      | 100,000                    |
+| 10,000                                | 10                                       | 100,000                    |
+| 20,000                                | 5                                        | 100,000                    |
+
+<div id="video-logging-examples">
+  ### Exemples de journalisation vidéo
+</div>
+
+| Taille de la vidéo (Mo) | Fréquence de journalisation (par minute) | Débit vidéo (Mo par minute) |
+| ----------------------- | ---------------------------------------- | --------------------------- |
+| 1                       | 46                                       | 46                          |
+| 5                       | 8                                        | 40                          |
+| 10                      | 4                                        | 40                          |
+| 50                      | 1                                        | 50                          |
+| 100                     | 0.3                                      | 30                          |
+| 250                     | 0.1                                      | 25                          |
+| 500                     | 0.07                                     | 35                          |
+
+<div id="logging-considerations">
+  ## Considérations sur la journalisation
+</div>
+
+Utilisez `wandb.Run.log()` pour suivre les métriques de l&#39;expérience.
+
+<div id="metric-cardinality">
+  ### Cardinalité des métriques
+</div>
+
+Maintenez la cardinalité totale des métriques (nombre de métriques distinctes) d’un projet dans la plage recommandée pour votre charge de travail. Une cardinalité élevée des métriques est l’une des causes les plus fréquentes de ralentissement des espaces de travail.
+
+<Tip>
+  Les problèmes de performances sont souvent dus à la journalisation d’un trop grand nombre de métriques distinctes, et non à la journalisation d’un trop grand nombre d’étapes.
+</Tip>
+
+Comme W&amp;B aplatit les clés imbriquées en noms de métriques séparés par des points, la cardinalité des métriques peut augmenter davantage que vous ne l’imaginez.
+
+Par exemple, l’exemple suivant consigne 3 clés de métrique distinctes : `a`, `b.c` et `b.d`.
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log(
+        {
+            "a": 1,
+            "b": {
+                "c": "hello",
+                "d": [1, 2, 3],
+            },
+        }
+    )
+```
+
+{/* Les noms des métriques doivent respecter les contraintes de nommage GraphQL. Voir [Contraintes de nommage des métriques](/models/track/log/#metric-naming-constraints). */}
+
+Si votre espace de travail ralentit soudainement, vérifiez si des runs récents ont introduit un grand nombre de nouvelles clés de métriques. Cela se manifeste souvent par de nombreux graphiques où seuls un ou deux runs sont visibles. Si cela s’est produit involontairement, envisagez de supprimer, puis de recréer ces runs avec un ensemble de noms de métriques plus restreint et plus stable.
+
+<div id="value-size">
+  ### Taille de la valeur
+</div>
+
+Maintenez la taille d’une valeur enregistrée sous 1 Mo, et la taille totale d’un appel unique à `wandb.Run.log()` sous 25 Mo.
+
+Ces recommandations ne s’appliquent pas aux types `wandb.Media` tels que `wandb.Image` et `wandb.Audio`, qui sont gérés différemment.
+
+```python
+import json
+import wandb
+
 with wandb.init(project="wide-values") as run:
+    # Déconseillé
+    run.log({"wide_key": list(range(10000000))})
 
-    # déconseillé
-    run.log({"wide_key": range(10000000)})
-
-    # déconseillé
+    # Déconseillé
     with open("large_file.json", "r") as f:
         large_data = json.load(f)
         run.log(large_data)
 ```
 
-Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
+Des valeurs élevées peuvent ralentir le chargement des graphiques pour l’ensemble du run, et pas seulement pour la métrique contenant cette valeur élevée.
 
-<Note>Data is saved and tracked even if you log values wider than the recommended amount. However, your plots may load more slowly.</Note>
+<Note>
+  W&amp;B stocke toujours les données enregistrées qui dépassent ces recommandations, mais les pages peuvent se charger plus lentement.
+</Note>
 
-<div id="metric-frequency">
-  ### Metric frequency
+<div id="log-frequency-and-throughput">
+  ### Fréquence de journalisation et débit
 </div>
 
-Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, log wider values less frequently than narrower values. W&amp;B recommends:
+Choisissez une fréquence de journalisation adaptée à la valeur des données que vous collectez. Journaliser trop souvent peut augmenter la charge du SDK et ralentir l’application, en particulier en cas de forte cardinalité des métriques ou de charges utiles volumineuses.
 
-* Scalars: &lt;100,000 logged points per metric
-* Media: &lt;50,000 logged points per metric
-* Histograms: &lt;10,000 logged points per metric
+Pour commencer, respectez les recommandations suivantes :
+
+* Fréquence de journalisation : moins de 1 000 appels `wandb.Run.log()` par minute
+* Débit : moins de 100 000 valeurs enregistrées par minute
+* Débit vidéo : moins de 40 Mo par minute
+
+Regroupez les métriques associées dans la même étape lorsque cela est possible. Par exemple, l’extrait de code suivant enregistre trois métriques dans la même étape, ce qui est plus efficace que de les enregistrer séparément.
 
 ```python
 import wandb
 
 with wandb.init(project="metric-frequency") as run:
-    # Non recommandé
+    # Recommandé : regrouper les métriques scalaires associées dans le même appel
     run.log(
         {
-            "scalar": 1,  # 100 000 scalaires
-            "media": wandb.Image(...),  # 100 000 images
-            "histogram": wandb.Histogram(...),  # 100 000 histogrammes
-        }
-    )
-
-    # Recommandé
-    run.log(
-        {
-            "scalar": 1,  # 100 000 scalaires
+            "loss": 0.12,
+            "accuracy": 0.98,
+            "lr": 1e-4,
         },
         commit=True,
-    )  # Valider ensemble les métriques groupées par étape
-
-    run.log(
-        {
-            "media": wandb.Image(...),  # 50 000 images
-        },
-        commit=False,
-    )
-
-    run.log(
-        {
-            "histogram": wandb.Histogram(...),  # 10 000 histogrammes
-        },
-        commit=False,
     )
 ```
-
-{/* Activez le traitement par lots des appels à `wandb.Run.log()` en passant `commit=False` afin de minimiser le nombre total d'appels à l'API pour une étape donnée. Voir [la documentation](/models/ref/python/experiments/run/#method-runlog) de `run.log()` pour plus de détails. */}
-
-<Note>W&amp;B continues to accept your logged data but pages may load more slowly if you exceed guidelines.</Note>
 
 <div id="config-size">
   ### Taille de la configuration
 </div>
 
-Limitez la taille totale de la configuration de votre run à moins de 10 Mo. L’enregistrement de valeurs volumineuses peut ralentir les Workspaces du projet et les opérations du tableau de runs.
+Limitez la taille totale de la configuration de votre run à moins de 10 Mo.
+
+Les configurations volumineuses peuvent ralentir les espaces de travail du projet et les opérations du tableau de runs.
 
 ```python
+import json
 import wandb
 
 # Recommandé
@@ -145,20 +282,18 @@ with wandb.init(
         "lr": 0.1,
         "batch_size": 32,
         "epochs": 4,
-    }
+    },
 ) as run:
-    # Votre code d'entraînement ici
     pass
 
 # Non recommandé
 with wandb.init(
     project="config-size",
     config={
-        "large_list": list(range(10000000)),  # Liste volumineuse
-        "large_string": "a" * 10000000,  # Chaîne volumineuse
-    }
+        "large_list": list(range(10000000)),
+        "large_string": "a" * 10000000,
+    },
 ) as run:
-    # Votre code d'entraînement ici
     pass
 
 # Non recommandé
@@ -167,172 +302,176 @@ with open("large_config.json", "r") as f:
     wandb.init(config=large_config)
 ```
 
-<div id="workspace-considerations">
-  ## Considérations concernant le Workspace
-</div>
-
-<div id="run-count">
-  ### Nombre de runs
-</div>
-
-Pour réduire les temps de chargement, gardez le nombre total de runs dans un même projet en dessous de :
-
-* 100,000 sur SaaS Cloud
-* 10,000 sur Cloud dédié ou Autogéré
-
-Au-delà de ces seuils, le nombre de runs peut ralentir les opérations impliquant les espaces de travail du projet ou les tableaux de runs, en particulier lors du regroupement de runs ou de la collecte d’un grand nombre de métriques distinctes pendant les runs. Voir également la section [Nombre de métriques](#metric-count).
-
-Si votre équipe accède souvent au même ensemble de runs, par exemple les runs récents, envisagez de [déplacer en masse les runs moins souvent utilisés](/fr/models/runs/manage-runs/) vers un nouveau projet « archive », afin de conserver un ensemble plus restreint de runs dans votre projet de travail.
-
 <div id="workspace-performance">
-  ### Performances du Workspace
+  ## Performances de l’espace de travail
 </div>
 
-Cette section fournit des conseils pour optimiser les performances de votre Workspace.
+Les performances de l’espace de travail dépendent à la fois des données sous-jacentes du projet et de la configuration de l’espace de travail.
+
+<div id="runs-per-project">
+  ### Runs par projet
+</div>
+
+Pour les projets volumineux, veillez à maintenir le nombre de runs d’un projet sous la barre des 10 000 pour obtenir les meilleures performances.
+
+Si votre équipe travaille régulièrement avec seulement un sous-ensemble de runs, envisagez de déplacer les runs plus anciens ou moins souvent utilisés vers un projet d’archive distinct. Voir [Gérer les runs](/fr/models/runs/manage-runs/).
 
 <div id="panel-count">
-  #### Nombre de panneaux
+  ### Nombre de panneaux
 </div>
 
-Par défaut, un Workspace est *automatique* et génère des panneaux standard pour chaque clé enregistrée. Si le Workspace d’un grand projet comprend des panneaux pour un grand nombre de clés enregistrées, il peut être lent à charger et à utiliser. Pour améliorer les performances, vous pouvez :
+Par défaut, un espace de travail en mode automatique crée des panneaux standard pour chaque clé enregistrée. Dans les projets volumineux, cela peut générer trop de panneaux et ralentir l’espace de travail.
 
-1. Réinitialiser le Workspace en mode manuel, qui n’inclut aucun panneau par défaut.
-2. Utiliser [Quick add](/fr/models/app/features/panels/#quick-add) pour ajouter de façon sélective les panneaux des clés enregistrées que vous souhaitez visualiser.
+Pour améliorer les performances :
+
+1. Réinitialisez l’espace de travail et passez-le en mode manuel.
+2. Utilisez [Ajout rapide](/fr/models/app/features/panels/#quick-add) pour n’ajouter que les panneaux dont vous avez besoin.
 
 <Note>
-  Supprimer les panneaux inutilisés un par un a peu d’effet sur les performances. Réinitialisez plutôt le Workspace, puis rajoutez uniquement les panneaux dont vous avez besoin.
+  Supprimer les panneaux inutilisés un par un a généralement peu d’effet. Réinitialisez l’espace de travail et rajoutez uniquement les panneaux souhaités.
 </Note>
 
-Pour en savoir plus sur la configuration de votre Workspace, consultez [Panels](/fr/models/app/features/panels/).
+Voir [Panneaux](/fr/models/app/features/panels/) pour en savoir plus.
 
 <div id="section-count">
-  #### Nombre de sections
+  ### Nombre de sections
 </div>
 
-Avoir des centaines de sections dans un Workspace peut nuire aux performances. Envisagez de créer des sections à partir de regroupements généraux de métriques et évitez la mauvaise pratique qui consiste à créer une section pour chaque métrique.
+Des centaines de sections dans un espace de travail peuvent nuire aux performances.
 
-Si vous constatez que vous avez trop de sections et que les performances se dégradent, envisagez d’utiliser le paramètre du Workspace qui permet de créer des sections par préfixe plutôt que par suffixe, ce qui peut réduire le nombre de sections et améliorer les performances.
+Créez des sections à partir de regroupements généraux de métriques plutôt que de créer une section par métrique. Si vous avez trop de sections, envisagez de créer des sections par préfixe plutôt que par suffixe afin de regrouper les métriques associées dans un nombre plus réduit de sections.
 
 <Frame>
   <img src="/images/track/section_prefix_toggle.gif" alt="Basculement de la création de sections" />
 </Frame>
 
-<div id="metric-count">
-  ### Nombre de métriques
+<div id="many-metrics-per-run">
+  ### De nombreuses métriques par run
 </div>
 
-Lorsque vous enregistrez entre 5 000 et 100 000 métriques par run, W&amp;B recommande d’utiliser un [Workspace manuel](/fr/models/app/features/panels/#workspace-modes). En mode manuel, vous pouvez facilement ajouter et supprimer des panneaux en masse pour explorer différents ensembles de métriques. Avec un ensemble de graphiques plus ciblé, le Workspace se charge plus rapidement. Les métriques qui ne sont pas affichées restent collectées et stockées comme d’habitude.
+Lorsque vous enregistrez des milliers de métriques par run, utilisez un espace de travail manuel afin de pouvoir choisir les métriques à visualiser.
 
-Pour réinitialiser un Workspace en mode manuel, cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** du Workspace, puis sur **Réinitialiser le Workspace**. La réinitialisation d’un Workspace n’a aucun impact sur les métriques stockées pour les Runs. Voir [la gestion des panneaux du Workspace](/fr/models/app/features/panels/).
+Un ensemble de panneaux plus ciblé se charge plus rapidement. Les métriques qui ne sont pas affichées restent collectées et stockées.
+
+Pour réinitialiser un espace de travail en mode manuel, cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de l’espace de travail, puis sur **Réinitialiser l’espace de travail**. La réinitialisation d’un espace de travail n’a aucun impact sur les métriques stockées pour les Runs. Voir [la gestion des panneaux de l’espace de travail](/fr/models/app/features/panels/).
 
 <div id="file-count">
   ### Nombre de fichiers
 </div>
 
-Gardez le nombre total de fichiers téléversés pour un seul run en dessous de 1 000. Vous pouvez utiliser W&amp;B Artifacts lorsque vous devez journaliser un grand nombre de fichiers. Dépasser 1 000 fichiers dans un seul run peut ralentir les pages de votre run.
+Gardez le nombre de fichiers téléversés pour un seul run en dessous de 1 000.
 
-<div id="reports-vs-workspaces">
-  ### Reports vs. Workspaces
+Si vous devez journaliser un grand nombre de fichiers, utilisez plutôt W&amp;B Artifacts. Dépasser 1 000 fichiers dans un seul run peut ralentir les pages de votre run.
+
+<div id="reports-and-workspaces">
+  ### Reports et espaces de travail
 </div>
 
-Un rapport est une composition libre, avec une disposition flexible de panneaux, de texte et de médias, qui vous permet de partager facilement vos analyses avec vos collègues.
+Un rapport est conçu pour la communication et la présentation. Un espace de travail est conçu pour une analyse dense et interactive sur de nombreux runs et de nombreuses métriques.
 
-À l&#39;inverse, un Workspace permet d&#39;analyser de façon dense et performante des dizaines à des milliers de métriques sur des centaines à des centaines de milliers de runs. Les Workspaces offrent des capacités optimisées de caching, de requête et de chargement par rapport aux rapports. Les Workspaces sont recommandés pour un projet principalement utilisé à des fins d&#39;analyse plutôt que de présentation, ou lorsque vous devez afficher 20 graphiques ou plus ensemble.
+Utilisez un espace de travail lorsque vous devez comparer un grand nombre de runs ou afficher de nombreux graphiques côte à côte. Utilisez un rapport lorsque vous souhaitez présenter des résultats sélectionnés.
 
 <div id="python-script-performance">
   ## Performances du script Python
 </div>
 
-Les performances de votre script Python peuvent être réduites de plusieurs façons :
+La journalisation peut ajouter une surcharge à votre script d&#39;entraînement. Les principaux facteurs sont les suivants :
 
-1. La taille de vos données est trop importante. Un volume de données élevé peut ajouter une surcharge de plus de 1 ms à la boucle d’entraînement.
-2. La vitesse de votre réseau et la façon dont le backend W&amp;B est configuré
-3. Si vous appelez `wandb.Run.log()` plus de quelques fois par seconde. Cela s’explique par une légère latence ajoutée à la boucle d’entraînement chaque fois que `wandb.Run.log()` est appelé.
+1. Charges de données volumineuses
+2. Vitesse du réseau et configuration du backend
+3. Appels très fréquents à `wandb.Run.log()`
+
+Si vous appelez `wandb.Run.log()` trop souvent, chaque appel peut ajouter un peu de latence à la boucle d&#39;entraînement. Regrouper plusieurs métriques dans un plus petit nombre d&#39;appels de journalisation améliore généralement les performances.
 
 <Note>
-  Une journalisation fréquente ralentit-elle vos runs d’entraînement ? Consultez [ce Colab](https://wandb.me/log-hf-colab) pour découvrir comment améliorer les performances en modifiant votre stratégie de journalisation.
+  Une journalisation fréquente ralentit-elle vos runs d&#39;entraînement ? Voir [ce Colab](https://wandb.me/log-hf-colab) pour découvrir des stratégies permettant d&#39;améliorer les performances en ajustant votre manière de journaliser.
 </Note>
 
-W&amp;B n’impose pas d’autres limites que la limite de débit. Le W&amp;B Python SDK applique automatiquement un « backoff » exponentiel et réessaie les requêtes qui dépassent les limites. Le W&amp;B Python SDK affiche « Network failure » en Ligne de commande. Pour les comptes non payants, W&amp;B peut vous contacter dans des cas extrêmes où l’utilisation dépasse des seuils raisonnables.
+W&amp;B n&#39;applique pas de limites strictes de produit à ces recommandations, au-delà de la limite de débit de l&#39;API. Si vous dépassez les indications de cette page, W&amp;B peut continuer à accepter vos données, mais l&#39;application ou le SDK peuvent ralentir.
 
 <div id="rate-limits">
   ## Limites de débit
 </div>
 
-L’API W&amp;B SaaS Cloud applique une limite de débit afin de préserver l’intégrité du système et d’en assurer la disponibilité. Cette mesure empêche qu’un seul utilisateur monopolise les ressources disponibles dans l’infrastructure partagée, afin que le service reste accessible à tous les utilisateurs. Vous pouvez être soumis à une limite de débit plus basse pour diverses raisons.
+Les API du Cloud mutualisé de W&amp;B utilisent des limites de débit pour préserver la fiabilité et la disponibilité du service.
 
 <Note>
   Les limites de débit sont susceptibles de changer.
 </Note>
 
-Si vous atteignez une limite de débit, vous recevez une erreur HTTP `429` `Rate limit exceeded`, et la réponse inclut des [en-têtes HTTP de limitation de débit](#rate-limit-http-headers).
+Si vous atteignez une limite de débit, le serveur renvoie le code HTTP `429 Rate limit exceeded` et inclut des en-têtes de limitation de débit dans la réponse.
 
 <div id="rate-limit-http-headers">
   ### En-têtes HTTP de limitation de débit
 </div>
 
-Le tableau ci-dessus décrit les en-têtes HTTP de limitation de débit :
+| Nom de l’en-tête      | Description                                                                               |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| `RateLimit-Limit`     | Quota disponible dans la fenêtre temporelle actuelle, exprimé sur une échelle de 0 à 1000 |
+| `RateLimit-Remaining` | Quota restant dans la fenêtre actuelle, exprimé sur une échelle de 0 à 1000               |
+| `RateLimit-Reset`     | Le nombre de secondes avant la réinitialisation du quota actuel                           |
 
-| Nom de l’en-tête    | Description                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------ |
-| RateLimit-Limit     | La quantité de quota disponible par fenêtre temporelle, exprimée sur une échelle de 0 à 1000           |
-| RateLimit-Remaining | La quantité de quota dans la fenêtre actuelle de limite de débit, exprimée sur une échelle de 0 à 1000 |
-| RateLimit-Reset     | Le nombre de secondes avant la réinitialisation du quota actuel                                        |
-
-<div id="rate-limits-on-metric-logging-api">
+<div id="metric-logging-api-rate-limits">
   ### Limites de débit de l’API de journalisation des métriques
 </div>
 
-`wandb.Run.log()` journalise vos données d’entraînement dans W&amp;B. Cette API est utilisée soit avec une synchronisation en ligne, soit avec une [synchronisation hors ligne](/fr/models/ref/cli/wandb-sync). Dans les deux cas, elle applique un quota de limite de débit sur une fenêtre temporelle glissante. Cela inclut des limites sur la taille totale des requêtes et sur leur fréquence, cette dernière correspondant au nombre de requêtes sur une durée donnée.
+`wandb.Run.log()` envoie les données d’entraînement à W&amp;B, soit directement en ligne, soit ultérieurement via la [synchronisation hors ligne](/fr/models/ref/cli/wandb-sync).
 
-W&amp;B applique des limites de débit par projet W&amp;B. Ainsi, si vous avez 3 projets dans une équipe, chaque projet a son propre quota de limite de débit. Les utilisateurs disposant de [plans payants](https://wandb.ai/site/pricing) ont des limites de débit plus élevées que ceux des plans gratuits.
+Les limites de débit de la journalisation des métriques s’appliquent au niveau du projet et incluent à la fois le taux de requêtes et la taille totale des requêtes sur une fenêtre temporelle glissante. Les offres payantes ont des limites plus élevées que les offres gratuites.
 
-Si vous atteignez une limite de débit, vous recevez une erreur HTTP `429` `Rate limit exceeded`, et la réponse inclut les [en-têtes HTTP de limitation de débit](#rate-limit-http-headers).
+Si vous dépassez une limite de débit, le SDK W&amp;B relance automatiquement les requêtes avec temporisation exponentielle. Dans certains cas, cela peut retarder `run.finish()` jusqu’à la réinitialisation de la fenêtre de limite de débit.
 
-<div id="suggestions-for-staying-under-the-metrics-logging-api-rate-limit">
-  ### Conseils pour rester sous la limite de débit de l’API de journalisation des métriques
-</div>
+Pour réduire le risque d’atteindre une limite de débit :
 
-Dépasser la limite de débit peut retarder `run.finish()` jusqu’à la réinitialisation de cette limite. Pour éviter cela, envisagez les stratégies suivantes :
-
-* Mettez à jour la version de votre SDK Python W&amp;B : assurez-vous d’utiliser la dernière version du SDK Python W&amp;B. Le SDK Python W&amp;B est régulièrement mis à jour et inclut des mécanismes améliorés pour réessayer les requêtes proprement et optimiser l’utilisation du quota.
-
-* Réduisez la fréquence de journalisation des métriques :
-  Réduisez au minimum la fréquence de journalisation des métriques afin de préserver votre quota. Par exemple, vous pouvez modifier votre code pour consigner des métriques toutes les cinq époques au lieu de chaque époque :
+* Utilisez la dernière version du SDK W&amp;B.
+* Réduisez la fréquence de journalisation.
+* Regroupez les métriques liées dans un nombre plus restreint d’appels de journalisation.
+* Utilisez la journalisation hors ligne et synchronisez plus tard si nécessaire.
 
 ```python
-import wandb
 import random
+import wandb
 
 with wandb.init(project="basic-intro") as run:
     for epoch in range(10):
-        # Simuler l'entraînement et l'évaluation
-        accuracy = 1 - 2 ** -epoch - random.random() / epoch
-        loss = 2 ** -epoch + random.random() / epoch
+        accuracy = 1 - 2 ** -epoch - random.random() / (epoch + 1)
+        loss = 2 ** -epoch + random.random() / (epoch + 1)
 
-        # Consigner des métriques toutes les 5 époques
         if epoch % 5 == 0:
             run.log({"acc": accuracy, "loss": loss})
 ```
 
-* Synchronisation manuelle des données : W&amp;B stocke localement les données de votre run si vous atteignez la limite de débit. Vous pouvez synchroniser manuellement vos données avec la commande `wandb sync <run-file-path>`. Pour plus de détails, voir la Référence [`wandb sync`](/fr/models/ref/cli/wandb-sync).
+Pour effectuer une synchronisation manuelle, utilisez `wandb sync <run-file-path>`. Voir [`wandb sync`](/fr/models/ref/cli/wandb-sync).
 
-<div id="rate-limits-on-graphql-api">
-  ### Limites de débit sur l’API GraphQL
+<div id="graphql-api-rate-limits">
+  ### Limites de débit de l’API GraphQL
 </div>
 
-L’UI de W&amp;B Models et l’[API publique](/fr/models/ref/python/public-api/api) du SDK envoient des requêtes GraphQL au serveur pour interroger et modifier des données. Pour toutes les requêtes GraphQL dans le SaaS Cloud, W&amp;B applique des limites de débit par adresse IP pour les requêtes non authentifiées et par utilisateur pour les requêtes authentifiées. La limite est basée sur le taux de requêtes (requêtes par seconde) dans une fenêtre de temps fixe, les limites par défaut étant déterminées par votre plan de tarification. Pour les requêtes SDK concernées qui spécifient un chemin de projet (par exemple, Reports, Runs, Artifacts), W&amp;B applique des limites de débit par projet, mesurées en temps de requête de base de données.
+W&amp;B App et l’[API publique](/fr/models/ref/python/public-api/api) utilisent des requêtes GraphQL pour interroger et modifier les données.
 
-Les utilisateurs des [plans Teams et Enterprise](https://wandb.ai/site/pricing) bénéficient de limites de débit plus élevées que ceux du plan Free.
-Lorsque vous atteignez la limite de débit en utilisant l’API publique du SDK W&amp;B Models, un message d’erreur correspondant s’affiche dans la sortie standard.
+Pour le Cloud mutualisé :
 
-Si vous atteignez une limite de débit, vous recevez une erreur HTTP `429` `Rate limit exceeded` et la réponse inclut les [en-têtes HTTP de limitation de débit](#rate-limit-http-headers).
+* les requêtes non authentifiées sont soumises à une limite de débit par adresse IP
+* les requêtes authentifiées sont soumises à une limite de débit par utilisateur
+* certaines requêtes du SDK qui spécifient un chemin de projet peuvent également être limitées par projet en fonction du temps d’exécution des requêtes de base de données
 
-<div id="suggestions-for-staying-under-the-graphql-api-rate-limit">
-  #### Conseils pour ne pas dépasser la limite de débit de l&#39;API GraphQL
+Les offres Teams et Enterprise ont des limites plus élevées que l’offre Free.
+
+Si vous effectuez un grand nombre de requêtes vers l’API publique, attendez au moins une seconde entre chaque requête lorsque c’est possible. Si vous recevez HTTP `429 Rate limit exceeded` ou si `RateLimit-Remaining=0` s’affiche, attendez le nombre de secondes indiqué dans `RateLimit-Reset` avant de réessayer.
+
+<div id="troubleshooting-slow-projects">
+  ## Dépannage des projets lents
 </div>
 
-Si vous récupérez un grand volume de données à l&#39;aide de l&#39;[API publique](/fr/models/ref/python/public-api/api) du SDK W&amp;B Models, envisagez d&#39;attendre au moins une seconde entre les requêtes. Si vous recevez une erreur HTTP `429` `Rate limit exceeded` ou si `RateLimit-Remaining=0` apparaît dans les en-têtes de réponse, attendez le nombre de secondes indiqué dans `RateLimit-Reset` avant de réessayer.
+Si un projet ou un espace de travail semble lent, vérifiez d’abord les points suivants :
+
+1. Des runs récents ont-ils introduit un grand nombre de nouveaux noms de métriques ?
+2. Enregistrez-vous des données trop fréquemment ?
+3. Les appels `run.log()` individuels sont-ils très volumineux ?
+4. L’espace de travail est-il en mode automatique avec trop de panneaux ou de sections ?
+5. Le projet contient-il plus de runs que votre équipe n’en utilise activement ?
+
+Dans bien des cas, les performances s’améliorent après avoir réduit la cardinalité des métriques, regroupé les appels de journalisation et basculé les grands espaces de travail en mode manuel.
 
 <div id="browser-considerations">
   ## Considérations sur le navigateur

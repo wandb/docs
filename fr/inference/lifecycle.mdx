@@ -15,6 +15,7 @@ Les modèles plus anciens sont régulièrement réexaminés et peuvent être ret
 
 Dans W&amp;B Inference, les modèles utilisent la terminologie suivante pour les différentes phases de leur cycle de vie :
 
+* **Expérimental** : Le modèle est disponible pour une expérimentation initiale, mais n’est pas couvert par notre SLA standard ni par notre processus de mise en obsolescence.
 * **Disponibilité générale** : Le modèle est entièrement pris en charge et son utilisation est recommandée.
 * **Obsolète** : Le modèle doit être supprimé prochainement. Les clients doivent passer à un modèle de remplacement recommandé dès que possible.
 * **Retiré** : Le modèle n’est plus disponible. Toute requête envoyée à un modèle retiré échoue et renvoie un code d’état `HTTP 404`.
@@ -23,7 +24,7 @@ Dans W&amp;B Inference, les modèles utilisent la terminologie suivante pour les
   ## Processus d’obsolescence
 </div>
 
-Lorsqu’un modèle est déclaré obsolète, W&amp;B publie sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
+Lorsqu’un modèle en disponibilité générale est déclaré obsolète, W&amp;B publie sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
 
 Nous essayons également de notifier par e-mail les utilisateurs ayant récemment utilisé un modèle obsolète
 et de fournir des recommandations de modèles de remplacement.
@@ -38,10 +39,9 @@ Les modèles W&amp;B Inference suivants sont **obsolètes** :
 
 {/* takeru lifecycle-deprecated - Ce tableau est généré automatiquement, n’y apportez pas de modifications manuelles. */}
 
-| Date d’obsolescence | Date de retrait | ID du modèle                                | Remplacement recommandé |
-| ------------------- | --------------- | ------------------------------------------- | ----------------------- |
-| 2026-04-07          | 2026-04-21      | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | `Qwen/Qwen3.5-35B-A3B`  |
-
+| Date d’obsolescence | Date de retrait | ID du modèle        | Remplacement recommandé |
+| ------------------- | ---------------- | ------------------- | ----------------------- |
+| 2026-04-24          | 2026-05-11       | `zai-org/GLM-5-FP8` | `zai-org/GLM-5.1`       |
 
 <div id="retired-models">
   ## Modèles retirés
@@ -51,11 +51,12 @@ Les modèles W&amp;B Inference suivants sont **retirés** :
 
 {/* takeru lifecycle-retired - Ce tableau est généré automatiquement, ne le modifiez pas manuellement. */}
 
-| Date de retrait | ID du modèle                       | Remplacement recommandé       |
-| --------------- | ---------------------------------- | ----------------------------- |
-| 2026-03-04      | `deepseek-ai/DeepSeek-R1-0528`     |                               |
-| 2026-03-04      | `deepseek-ai/DeepSeek-V3-0324`     |                               |
-| 2026-03-04      | `moonshotai/Kimi-K2-Instruct`      | `moonshotai/Kimi-K2.5`        |
-| 2026-03-04      | `moonshotai/Kimi-K2-Instruct-0905` | `moonshotai/Kimi-K2.5`        |
-| 2026-03-04      | `Qwen/Qwen2.5-14B-Instruct`        | `OpenPipe/Qwen3-14B-Instruct` |
-| 2026-03-04      | `zai-org/GLM-4.5`                  | `zai-org/GLM-5-FP8`           |
+| Date de retrait | ID du modèle                                | Remplacement recommandé       |
+| --------------- | ------------------------------------------- | ----------------------------- |
+| 2026-04-21      | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | `Qwen/Qwen3.5-35B-A3B`        |
+| 2026-03-04      | `deepseek-ai/DeepSeek-R1-0528`              |                               |
+| 2026-03-04      | `deepseek-ai/DeepSeek-V3-0324`              |                               |
+| 2026-03-04      | `moonshotai/Kimi-K2-Instruct`               | `moonshotai/Kimi-K2.5`        |
+| 2026-03-04      | `moonshotai/Kimi-K2-Instruct-0905`          | `moonshotai/Kimi-K2.5`        |
+| 2026-03-04      | `Qwen/Qwen2.5-14B-Instruct`                 | `OpenPipe/Qwen3-14B-Instruct` |
+| 2026-03-04      | `zai-org/GLM-4.5`                           | `zai-org/GLM-5-FP8`           |

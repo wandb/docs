@@ -62,7 +62,8 @@ Obtenir une collection d&#39;artifacts spécifique à partir de son nom.
 collections(
     filters: 'Mapping[str, Any] | None' = None,
     order: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → ArtifactCollections
 ```
 
@@ -73,5 +74,6 @@ Obtenir toutes les collections d&#39;artifacts associées à ce type d&#39;artif
 * `filters` (dict) :  Mappage facultatif des filtres à appliquer à la requête.
 * `order` (str) :  Chaîne facultative permettant de spécifier l’ordre des résultats.  Si vous faites précéder `order` de +, l’ordre est croissant (par défaut).  Si vous faites précéder `order` de -, l’ordre est décroissant.  Par défaut, l’ordre utilisé est l’ID de la collection, par ordre décroissant.
 * `per_page` (int) :  Le nombre de collections d&#39;artifacts à récupérer par page.  La valeur par défaut est 50.
+* `start` :  Curseur de pagination pour reprendre une requête antérieure, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.
 
 ***

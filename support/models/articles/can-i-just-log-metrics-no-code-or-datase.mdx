@@ -10,12 +10,15 @@ Two methods exist to turn off code logging with environment variables:
 1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. This action prevents retrieval of the git SHA and the diff patch.
 2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to stop syncing the diff patch to the servers, while keeping it available locally for application with `wandb restore`.
 
-As an administrator, you can also turn off code saving for your team in your team's settings:
+Organization admins can enforce privacy settings for all teams in their organization from within the **Privacy** section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
 
-1. Navigate to the settings of your team at `https://wandb.ai/<team>/settings`. Where `<team>` is the name of your team.
-2. Scroll to the Privacy section.
-3. Toggle **Enable code saving by default**.
+As a team admin, you can turn off default code saving for runs in your team:
 
+1. Navigate to `https://wandb.ai/<team>`. Replace `<team>` with your team name.
+2. Select **Team settings** in the left navigation.
+3. Open the **Privacy** section and turn **Enable code saving by default** off.
+
+For details, see [Privacy settings](/platform/hosting/privacy-settings).
 ---
 
 {/* AUTO-GENERATED: tab badges */}

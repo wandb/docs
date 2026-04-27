@@ -29,6 +29,14 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ### <kbd>プロパティ</kbd> Artifacts.cursor
 
+次に取得するページの先頭を示す不透明なカーソルです。
+
+この値は保存しておき、後でページ分割されたクエリに `start=` として渡すことで、このページネーターが停止した位置からイテレーションを再開できます。
+
+**戻り値:**
+
+* `str | None`: カーソルのプロパティ値です。
+
 ***
 
 ### <kbd>プロパティ</kbd> Artifacts.more

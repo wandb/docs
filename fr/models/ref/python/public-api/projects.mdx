@@ -36,10 +36,10 @@ __init__(
 ```python
 from wandb.apis.public.api import Api
 
-# Rechercher les projets appartenant à cette entité
+# Trouver les projets appartenant à cette entité
 projects = Api().projects(entity="entity")
 
-# Itérer sur les projets
+# Itérer sur les fichiers
 for project in projects:
     print(f"Project: {project.name}")
     print(f"- URL: {project.url}")
@@ -51,14 +51,21 @@ Une collection itérable d’objets `Project`.
 
 **Arguments :**
 
-* `client`:  Le client API utilisé pour interroger W&amp;B.
+* `client`:  Le client d’API utilisé pour interroger W&amp;B.
 * `entity`:  L’entité propriétaire des projets.
 * `per_page`:  Le nombre de projets à récupérer à chaque requête à l’API.
 
 ***
 
-
 ### <kbd>propriété</kbd> Projects.cursor
+
+Un curseur opaque qui indique le début de la page suivante à récupérer.
+
+Cette valeur peut être enregistrée et transmise via `start=` dans une requête paginée ultérieure pour reprendre l’itération là où ce paginateur s’est arrêté.
+
+**Retourne :**
+
+* `str | None`: La valeur de la propriété `cursor`.
 
 ***
 
