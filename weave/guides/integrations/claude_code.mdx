@@ -29,7 +29,7 @@ export WANDB_BASE_URL=https://your-instance.wandb.io
 wandb login --host https://your-instance.wandb.io
 ```
 
-If you ever need to change `WANDB_BASE_URL` or the `host` flag after the plugin's daemon is already running, restart the daemon for the change to take effect:
+If you need to change `WANDB_BASE_URL` or the `host` flag after the plugin's daemon is already running, restart the daemon for the change to take effect:
 
 ```bash lines
 printf '{"command":"shutdown"}' | nc -U -w1 ~/.weave_claude_plugin/daemon.sock
