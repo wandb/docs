@@ -1,0 +1,274 @@
+---
+title: "Weave SDK releases"
+description: "View release notes for the Weave Python SDK (`weave` package), including new features, bug fixes, and performance improvements by version."
+sidebarTitle: "Weave SDK"
+rss: true
+---
+
+This page includes release notes for the [Weave Python SDK](https://pypi.org/project/weave/) (`weave` package). For the W&B Models Python SDK (`wandb` package), see [W&B SDK releases](/release-notes/sdk-releases). Release packages and per-commit history are on [GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases).
+
+<Note>
+These entries summarize user-facing SDK and trace server changes, and omit details about  Internal-only test, CI, and refactor work. For every merged change, see the GitHub release entry for that tag.
+</Note>
+
+<Update label="0.52.37" description="April 17, 2026">
+## Added
+
+- OpenTelemetry integrations follow the latest semantic conventions.
+- Cost calculations and provider integrations include cache token usage.
+
+## Changed
+
+- Improved performance for some call queries by optionally skipping a nested subquery.
+- `ClassifierMonitor` is exported from the top-level `weave` package.
+- The calls API accepts an optional `query` parameter for richer filtering.
+
+## Fixed
+
+- Fixed the evaluation results API SQL for some filter combinations.
+- Fixed a bug where the TypeScript SDK could drop the URL scheme from `WANDB_BASE_URL`.
+- Fixed a bug where calls with multiple feedback rows could appear multiple times in list results.
+- Fixed ISO-8601 timestamp handling for ClickHouse-backed queries.
+- Fixed distributed ClickHouse mutations that incorrectly appended a `_local` suffix to table names.
+- Fixed missing spans when tracing OpenAI Agents SDK flows.
+- Fixed Google GenAI tracing when responses include non-text parts.
+- Fixed path sanitization for in-memory trace file artifacts and provider hostname handling in HTTP clients.
+
+</Update>
+
+<Update label="0.52.36" description="April 1, 2026">
+## Added
+
+- Call queries can resolve human-readable usernames.
+- `ref.get()` works without explicitly initializing the client in some flows.
+- APIs and storage paths for text-based evaluation results, including improved handling of large evaluation sets.
+
+## Changed
+
+- LiteLLM is pinned for compatibility with bundled integrations.
+- Moonshot is available as a model provider.
+- Underlying write-ahead logging infrastructure improves durability of trace writes.
+
+## Fixed
+
+- Fixed a bug where abandoning a streaming generator could surface `GeneratorExit` incorrectly.
+- Fixed deserialization when stored objects include extra metadata fields.
+- Fixed feedback filters when a call has multiple feedback rows.
+- Fixed SQLite-backed call cost tracking and invalid `trace_id` handling in batch upserts.
+- Improved ClickHouse migration behavior, including retries on transient errors and clearer migrator exit status.
+- Fixed a bug where evaluation runs with more than 1000 calls could fail to load for prediction and scoring.
+
+</Update>
+
+<Update label="0.52.35" description="March 19, 2026">
+## Added
+
+- Write-ahead log support for trace ingestion.
+- Feedback statistics queries for analytics over feedback data.
+
+## Changed
+
+- `Ref.uri` can be read as a property (`ref.uri`) without calling `ref.uri()`.
+- You can configure the maximum size of debounced scoring history via environment variables.
+
+## Fixed
+
+- Fixed ClickHouse casting for negative numeric filter values.
+- Fixed replicated database engine errors during on-cluster migrations.
+- Fixed `DelegatingTraceServerMixin` not forwarding some `ServiceInterface` methods.
+- Fixed retries when calling the W&B API during `weave.init()`.
+- Fixed a bug where `EvaluationLogger` could crash when `WEAVE_DISABLED` is set.
+- Fixed `RefJSONEncoder` edge cases and classmethod instantiation for subclasses.
+
+</Update>
+
+<Update label="0.52.33" description="March 12, 2026">
+## Added
+
+- Python SDK methods and HTTP models for object tags and aliases.
+- Instrumentation for the OpenAI Realtime API, including tool calls plus optional audio, text, and voice capture (see the TypeScript examples in the upstream release notes).
+
+## Fixed
+
+- Fixed accumulation of Anthropic streaming completions in traces.
+- Fixed authenticated `PUT` requests in `RemoteHTTPTraceServer`.
+- Fixed cost query handling for `calls_complete` projections.
+
+</Update>
+
+<Update label="0.52.31" description="March 10, 2026">
+## Added
+
+- Trace server support for tags and aliases on stored objects.
+- Claude Agents tracing integration.
+- Timestamps and time-to-first-token metrics for Realtime sessions.
+- Monitors can use merged scorers.
+
+## Changed
+
+- Improved OpenTelemetry performance with a cross-request operation reference cache.
+
+## Fixed
+
+- Fixed multiple issues in cost query construction, including escaping of internal fields and distributed ClickHouse setups.
+- Fixed LangChain integration handling for Pydantic v2 `Run` objects.
+- Fixed edge cases in prediction and scorer resolvers when inputs or metadata are missing.
+- Fixed Vertex AI text accumulation and thread visibility in `calls_complete` queries.
+
+</Update>
+
+<Update label="0.52.30" description="March 10, 2026">
+## Added
+
+- Score backfill API for recomputing stored scores.
+- Gemini request tracking in the TypeScript SDK.
+
+## Changed
+
+- Sharded distributed calls tables by `trace_id` or `project_id` for better query performance.
+- Simplified `calls_complete` query plans for lower latency.
+
+## Fixed
+
+- Fixed a bug where Gemini media could fail to render in the Weave UI.
+- OpenTelemetry batch inserts now use async ClickHouse inserts.
+- Fixed `NO_PROXY` handling in HTTP clients.
+- Fixed entity versus team naming in some error messages.
+
+</Update>
+
+<Update label="0.52.29" description="February 27, 2026">
+## Added
+
+- Usage APIs expose metadata for unfinished calls.
+- Optional `python-magic` integration for richer MIME detection.
+- Realtime threads participate in usage summaries.
+- Schema support for tags and aliases on Weave objects.
+- Structured `eval_results` query API for evaluation tables.
+
+## Changed
+
+- Improved indexing by storing timestamps as strings in ClickHouse.
+- Reduced duplicate work during batched file creation on call upsert.
+
+## Fixed
+
+- Fixed a bug where generators did not respect configured sampling rates.
+- Fixed buffering so streams flush immediately when a call ends.
+- Fixed sort-query index errors and deterministic JSON serialization for digest computation.
+- Fixed OpenTelemetry display names, `make_safe_name` handling, and LangChain serialization for Pydantic models.
+
+</Update>
+
+<Update label="0.52.28" description="February 14, 2026">
+## Added
+
+- OpenTelemetry resource attributes can carry W&B run and project variables.
+- The ORM supports `$lt` and `$lte` comparisons.
+- OpenTelemetry projects can write directly into the `calls_complete` table.
+- General availability improvements for OpenAI Realtime tracing.
+
+## Changed
+
+- Improved performance for table scans and call statistics queries.
+
+## Fixed
+
+- Fixed filtering calls by thread ID, including cases where filters were incorrectly optimized away.
+- Fixed idempotent annotation queue state updates.
+- Fixed a bug where `weave.finish()` did not always flush pending client data.
+- Fixed iterator typing for `PaginatedIterator`, `Dataset.select` metadata preservation, and large trace size queries that could run out of memory.
+
+</Update>
+
+<Update label="0.52.26" description="February 3, 2026">
+## Added
+
+- Usage statistics APIs plus `/trace/usage` and `/calls/usage` endpoints for aggregated usage.
+- Optional performance mode flag for high-throughput deployments.
+- Anthropic structured-parse patching.
+- Saved views support a `column_order` field.
+
+## Changed
+
+- Improved `PREWHERE` optimization for distributed cluster queries.
+
+## Fixed
+
+- Fixed a bug where failed ClickHouse inserts could leak buffered rows.
+- Fixed a bug where importing IPython at import time could slow cold starts.
+- Fixed synchronous mutation migrations, summary filtering on `calls_complete`, and Google GenAI token overcounting.
+- Fixed OpenTelemetry spans with monitors and duplicate upload handling for Google Cloud Storage.
+
+</Update>
+
+<Update label="0.52.25" description="January 20, 2026">
+## Fixed
+
+- Removed redundant HTTP response capture in some integrations.
+- Google GenAI tracing now records system instructions.
+- Google GenAI tracing now records thinking tokens separately from completion tokens.
+
+</Update>
+
+<Update label="0.52.24" description="January 15, 2026">
+## Added
+
+- TypeScript helper APIs for working with prompts in the Node SDK.
+- Trace server safely autoconverts Base64 payloads where appropriate.
+- Leaderboard schema updates for upcoming comparison features.
+- `redact_pii_exclude_fields` setting to fine-tune PII redaction.
+- Audio inputs in `LLMAsAJudgeScorer` and richer op metadata (kinds and colors) for integrations.
+
+## Fixed
+
+- Fixed invalid characters blocking op creation in edge cases.
+- Fixed HTTP and HTTPS proxy handling for the HTTPX client.
+- Fixed nested tracing when wrapping generators.
+
+</Update>
+
+<Update label="0.52.23" description="January 8, 2026">
+## Added
+
+- Parsing helpers for Logfire Pydantic AI instrumentation inputs and outputs.
+
+## Fixed
+
+- Fixed non-deterministic ordering for large-table evaluations.
+- Fixed cost queries that omitted input and output tokens.
+- Fixed distributed replicated ClickHouse tables and guarded Kafka flush behavior behind configuration.
+
+</Update>
+
+<Update label="0.52.22" description="January 8, 2026">
+## Added
+
+- Prompts and template variables on `LLMStructuredCompletionModels` persist through completion calls.
+
+## Fixed
+
+- Fixed ClickHouse import compatibility issues in some environments.
+
+</Update>
+
+<Update label="0.52.20" description="November 26, 2025">
+## Added
+
+- Completions streaming APIs accept prompts and template variables.
+- `ObjectRef.from_uri` reconstructs objects from Weave URIs.
+- OpenAI Responses API tracing records `x-request-id` headers.
+- Bedrock Agents integration coverage.
+- TypeScript SDK `withAttributes` helper for span metadata.
+
+## Fixed
+
+- Fixed a memory leak in the OpenAI Agents tracing processor.
+- Fixed a bug where refs could still publish when Weave was disabled.
+- Fixed iterator behavior when migrating HTTP client code from `requests` to `httpx`.
+
+</Update>
+
+<Tip>
+For releases older than 0.52.20, see [GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases). Those entries use the default GitHub compare format (pull request links and commit prefixes). This docs page is updated for newer versions with customer-facing wording.
+</Tip>

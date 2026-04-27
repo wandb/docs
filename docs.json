@@ -87,6 +87,28 @@
                     ]
                   },
                   {
+                    "group": "Release Notes",
+                    "expanded": false,
+                    "pages": [
+                      "release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "release-notes/server-releases",
+                          "release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDK",
+                        "pages": [
+                          "release-notes/sdk-releases",
+                          "release-notes/weave-sdk-releases"
+                        ]
+                      },
+                      "release-notes/release-policies"
+                    ]
+                  },
+                  {
                     "group": "Platform Details",
                     "pages": [
                       {
