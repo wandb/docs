@@ -52,12 +52,12 @@ PROJECT = "my-awesome-project"
 import random # 데이터 시뮬레이션용
 
 def model(training_data: int) -> int:
-    """데모 목적의 모델 시뮬레이션."""
+    """Model simulation for demonstration purposes."""
     return training_data * 2 + random.randint(-1, 1)  
 
 # 가중치 및 노이즈 시뮬레이션
 weights = random.random() # 랜덤 가중치 초기화
-noise = random.random() / 5  # 노이즈 시뮬레이션을 위한 작은 랜덤 노이즈
+noise = random.random() / 5  # 노이즈 시뮬레이션을 위한 소규모 랜덤 노이즈
 
 # 하이퍼파라미터 및 설정
 config = {
@@ -65,7 +65,7 @@ config = {
     "learning_rate": 0.01,  # 옵티마이저의 학습률
 }
 
-# 컨텍스트 매니저를 사용하여 W&B run 초기화 및 종료
+# 컨텍스트 매니저를 사용하여 W&B runs 초기화 및 종료
 with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
     # 트레이닝 루프 시뮬레이션
     for epoch in range(config["epochs"]):
@@ -73,16 +73,16 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
         yb = weights + noise * 2  # 시뮬레이션된 목표 출력 (입력 노이즈의 두 배)
         
         y_pred = model(xb)  # 모델 예측
-        loss = (yb - y_pred) ** 2  # 평균 제곱 오차 손실
+        loss = (yb - y_pred) ** 2  # 평균 제곱 오차 loss
 
         print(f"epoch={epoch}, loss={loss}")
-        # 에포크 및 손실을 W&B에 로깅
+        # 에포크 및 loss를 W&B에 로깅
         run.log({
             "epoch": epoch,
             "loss": loss,
         })
 
-    # 모델 아티팩트의 고유 이름,
+    # 모델 아티팩트의 고유 이름
     model_artifact_name = f"model-demo"  
 
     # 시뮬레이션된 모델 파일을 저장할 로컬 경로
@@ -94,7 +94,7 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
 
     # 아티팩트 객체 생성
     # 로컬에 저장된 모델을 아티팩트 객체에 추가
-    artifact = wandb.Artifact(name=model_artifact_name, type="model", description="내 트레이닝된 모델")
+    artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
     artifact.add_file(local_path=PATH)
     artifact.save()
 ```
@@ -107,13 +107,13 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
 이제 모델을 트레이닝하고 아티팩트로 저장했으므로, W&amp;B의 레지스트리에 게시할 수 있습니다. 프로젝트에서 아티팩트를 조회하고 Model 레지스트리에 게시할 준비를 하려면 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run/#method-runuse_artifact)를 사용합니다. `wandb.Run.use_artifact()`는 두 가지 핵심 용도로 사용됩니다.
 
 * 프로젝트에서 아티팩트 객체를 조회합니다.
-* 아티팩트를 run의 입력으로 표시해 재현성과 추적 가능성을 보장합니다. 자세한 내용은 [Create and view lineage map](/ko/models/registry/lineage)을 참조하세요.
+* 아티팩트를 run의 입력으로 표시해 재현성과 추적 가능성을 보장합니다. 자세한 내용은 [Create and view Lineage 맵](/ko/models/registry/lineage)을 참조하세요.
 
 <div id="view-the-training-data-in-the-dashboard">
   ## 대시보드에서 트레이닝 데이터 확인하기
 </div>
 
-https://wandb.ai/login 에서 계정에 로그인합니다.
+[https://wandb.ai/login](https://wandb.ai/login) 에서 계정에 로그인합니다.
 
 **Projects** 아래에 `my-awesome-project`(또는 위에서 프로젝트 이름으로 사용한 이름)가 표시됩니다. 이를 클릭해 프로젝트의 워크스페이스로 이동합니다.
 
@@ -130,14 +130,14 @@ https://wandb.ai/login 에서 계정에 로그인합니다.
 조직의 다른 사용자와 모델을 공유하려면 `wandb.Run.link_artifact()`를 사용해 [컬렉션](/ko/models/registry/create_collection)에 게시하세요. 다음 코드는 아티팩트를 [레지스트리](/ko/models/registry)에 연결하여 팀에서 액세스할 수 있게 합니다.
 
 ```python
-# Artifact 이름은 팀 프로젝트 내의 특정 아티팩트 버전을 지정합니다
+# 아티팩트 이름은 팀 프로젝트 내의 특정 아티팩트 버전을 지정합니다
 artifact_name = f'{TEAM_ENTITY}/{PROJECT}/{model_artifact_name}:v0'
 print("Artifact name: ", artifact_name)
 
 REGISTRY_NAME = "Model" # W&B의 레지스트리 이름
 COLLECTION_NAME = "DemoModels"  # 레지스트리의 컬렉션 이름
 
-# 레지스트리에서 아티팩트의 대상 경로를 생성합니다
+# 레지스트리에서 아티팩트의 대상 경로 생성
 target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 print("Target path: ", target_path)
 
@@ -146,7 +146,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
     run.link_artifact(artifact=model_artifact, target_path=target_path)
 ```
 
-`wandb.Run.link_artifact()`를 실행하면 모델 아티팩트가 레지스트리의 `DemoModels` 컬렉션에 추가됩니다. 여기에서 버전 이력, [리니지 맵](/ko/models/registry/lineage), 기타 [메타데이터](/ko/models/registry/registry_cards) 등의 세부 정보를 확인할 수 있습니다.
+`wandb.Run.link_artifact()`를 실행하면 모델 아티팩트가 레지스트리의 `DemoModels` 컬렉션에 추가됩니다. 여기에서 버전 이력, [Lineage 맵](/ko/models/registry/lineage), 기타 [메타데이터](/ko/models/registry/registry_cards) 등의 세부 정보를 확인할 수 있습니다.
 
 아티팩트를 레지스트리에 연결하는 방법에 대한 자세한 내용은 [아티팩트를 레지스트리에 연결하기](/ko/models/registry/link_version)를 참조하세요.
 
@@ -159,10 +159,10 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
 ```python
 REGISTRY_NAME = "Model"  # W&B의 레지스트리 이름
 COLLECTION_NAME = "DemoModels"  # 레지스트리의 컬렉션 이름
-VERSION = 0 # 조회할 아티팩트 버전
+VERSION = 0 # 조회할 아티팩트의 버전
 
 model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
-print(f"모델 아티팩트 이름: {model_artifact_name}")
+print(f"Model artifact name: {model_artifact_name}")
 
 with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
     registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
@@ -177,9 +177,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
   ## 발견한 내용을 리포트로 공유하기
 </div>
 
-<Note>
-  W&amp;B Report and Workspace API는 공개 프리뷰 상태입니다.
-</Note>
+<Note>W&amp;B Report and Workspace API는 공개 프리뷰 상태입니다.</Note>
 
 작업을 요약한 [리포트](/ko/models/reports)를 만들어 공유하세요. 프로그래밍 방식으로 리포트를 만들려면 [W&amp;B Report and Workspace API](/ko/models/ref/wandb_workspaces/reports)를 사용하세요.
 
@@ -196,26 +194,26 @@ pip install wandb wandb-workspaces -qqq
 ```python
 import wandb_workspaces.reports.v2 as wr
 
-experiment_summary = """W&B를 사용하여 단순한 모델을 트레이닝하기 위해 수행된 실험의 요약입니다."""
-dataset_info = """트레이닝에 사용된 데이터셋은 단순한 모델이 생성한 합성 데이터로 구성됩니다."""
-model_info = """이 모델은 약간의 노이즈가 포함된 입력 데이터를 기반으로 출력을 예측하는 단순한 선형 회귀 모델입니다."""
+experiment_summary = """This is a summary of the experiment conducted to train a simple model using W&B."""
+dataset_info = """The dataset used for training consists of synthetic data generated by a simple model."""
+model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
 
 report = wr.Report(
     project=PROJECT,
     entity=TEAM_ENTITY,
-    title="나의 멋진 모델 트레이닝 리포트",
+    title="My Awesome Model Training Report",
     description=experiment_summary,
     blocks= [
         wr.TableOfContents(),
-        wr.H2("실험 요약"),
+        wr.H2("Experiment Summary"),
         wr.MarkdownBlock(text=experiment_summary),
-        wr.H2("데이터셋 정보"),
+        wr.H2("Dataset Information"),
         wr.MarkdownBlock(text=dataset_info),
-        wr.H2("모델 정보"),
+        wr.H2("Model Information"),
         wr.MarkdownBlock(text = model_info),
         wr.PanelGrid(
             panels=[
-                wr.LinePlot(title="트레이닝 Loss", x="Step", y=["loss"], title_x="Step", title_y="Loss")
+                wr.LinePlot(title="Train Loss", x="Step", y=["loss"], title_x="Step", title_y="Loss")
                 ],
             ),  
     ]
@@ -242,13 +240,13 @@ import wandb
 # wandb API 초기화
 api = wandb.Api()
 
-# 문자열 `model`을 포함하고
+# 문자열 `model`을 포함하고 
 # `text-classification` 태그 또는 `latest` 별칭을 가진 모든 아티팩트 버전 찾기
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 논리 $or Operator를 사용하여 아티팩트 버전 필터링
+# 논리 $or 연산자를 사용하여 아티팩트 버전 필터링
 version_filters = {
     "$or": [
         {"tag": "text-classification"},
@@ -256,10 +254,10 @@ version_filters = {
     ]
 }
 
-# 필터 조건에 일치하는 모든 아티팩트 버전의 이터러블 반환
+# 필터와 일치하는 모든 아티팩트 버전의 이터러블 반환
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 
-# 찾은 각 아티팩트의 이름, 컬렉션, 별칭, 태그, 생성일 출력
+# 찾은 각 아티팩트의 이름, 컬렉션, 별칭, 태그, created_at 날짜 출력
 for art in artifacts:
     print(f"artifact name: {art.name}")
     print(f"collection artifact belongs to: { art.collection.name}")

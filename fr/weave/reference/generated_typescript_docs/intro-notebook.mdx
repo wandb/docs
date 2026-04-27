@@ -42,7 +42,7 @@ L’exemple suivant montre comment fonctionne le suivi de base des fonctions.
 ```typescript lines
 async function demonstrateBasicTracking() {
     const result = await stripUserInput("    hello    ");
-    console.log('Basic tracking result:', result);
+    console.log('Résultat du suivi de base :', result);
 }
 ```
 
@@ -222,7 +222,7 @@ async function runEvaluation() {
             corrector.predict(args.datasetRow.userInput)
         )
     });
-    console.log('Résumé de l\'évaluation :', summary);
+    console.log('Evaluation summary:', summary);
 }
 ```
 
@@ -237,7 +237,7 @@ async function main() {
         await demonstrateNestedTracking();
         await runEvaluation();
     } catch (error) {
-        console.error('Erreur lors de l\'exécution des démonstrations :', error);
+        console.error('Error running demonstrations:', error);
     }
 }
 ```

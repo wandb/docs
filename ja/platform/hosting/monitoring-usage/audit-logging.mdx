@@ -99,12 +99,14 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
 * `numdays` と `startDate` を組み合わせて、取得するログの日付範囲を設定します。各パラメーターは任意で、相互に影響します。
   * どちらのパラメーターも含まれない場合は、当日のログのみが取得されます。
   * `numDays`: `startDate` からさかのぼって何日分のログを取得するかを示す整数です。省略した場合、または `0` に設定した場合は、`startDate` のログのみが取得されます。**Multi-tenant Cloud** では、`numDays` にそれより大きい値を設定しても、取得できる監査ログは最大 7 日分です。
-  * `startDate`: **Multi-tenant Cloud** でのみサポートされます。取得対象の最新ログの日付を `startDate=YYYY-MM-DD` 形式で指定します。省略した場合、または明示的に当日の日付を指定した場合は、当日から `numDays` 分のログが取得されます。
+  * `startDate`: 任意です。`startDate=YYYY-MM-DD` を使用して、範囲内の最新の暦日を設定します。省略した場合、または当日の日付に設定した場合、範囲は当日で終わり、`numDays` はその日からさかのぼって数えられます。
+    * **Multi-tenant Cloud** では、Enterprise ライセンスがある場合にのみサポートされます。
+    * **専用クラウド** および **セルフマネージド** v0.80.0 以降でサポートされます。
 
 3. `<API-endpoint>?<parameters>` の形式で完全修飾エンドポイント URL を作成します。
 4. Web ブラウザーまたは [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使用して、完全修飾 API endpoint に HTTP `GET` リクエストを送信します。
 
-API レスポンスには、改行区切りの JSON オブジェクトが含まれます。これらのオブジェクトには、監査ログがインスタンスレベルの bucket に同期される場合と同様に、[スキーマ](#audit-log-schema) に記載されたフィールドが含まれます。その場合、監査ログは bucket 内の `/wandb-audit-logs` ディレクトリーに保存されます。
+API レスポンスには、改行区切りの JSON オブジェクトが含まれます。これらのオブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[スキーマ](#audit-log-schema) に記載されたフィールドが含まれます。その場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリーに保存されます。
 
 <div id="use-basic-authentication">
   ### 基本認証を使用する

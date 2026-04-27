@@ -35,7 +35,7 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x109961240>,
+    anonymous: 'object' = <object object at 0x107855240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -97,6 +97,7 @@ __init__(
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
+    stop_fn: 'Callable | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -160,7 +161,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 38335,
+    x_stats_pid: 'int' = 72322,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -204,7 +205,8 @@ __init__(
 * `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Azure インテグレーション用の、Azure アカウント URL とそれに対応するアクセス キーのマッピング。
 
 * `app_url_override` (Optional[str]): W&amp;B UI の &#39;app&#39; URL を上書きするための値です。
-  `app_url` は通常 `base_url` に基づいて計算されますが、これを使用して明示的に設定することもできます。
+  `app_url` は通常 `base_url` に基づいて計算されますが、これを使用して
+  明示的に設定することもできます。
   WANDB&#95;APP&#95;URL は対応する環境変数です。
 
 * `base_url` (str): データを同期するための W&amp;B バックエンドの URL です。
@@ -351,7 +353,7 @@ __init__(
     失敗します。
   * &quot;auto&quot;: 同じマシン上で直近に失敗した run から自動的に再開します。
 
-* `resume_from` (`Optional[RunMoment]`): 以前の run の実行において、再開元となる時点を指定します。
+* `resume_from` (Optional[RunMoment]): 以前の run の実行において、再開元となる時点を指定します。
   この時点は、run ID、メトリクス、およびその値で定義されます。
   現在サポートされているメトリクスは &#39;&#95;step&#39; のみです。
 
@@ -376,6 +378,15 @@ __init__(
 * `save_code` (Optional[bool]): run に関連付けられたコードを保存するかどうか。
 
 * `settings_system` (Optional[str]): システム全体で使用する設定ファイルのパス。
+
+* `stop_fn` (Optional[Callable]): run を停止するために実行されるコールバックです。
+  run は Web UI から、または致命的なエラーの発生後に
+  (設定で有効になっている場合) 停止できます。
+  デフォルトでは、run を停止するために、W&amp;B はメインスレッドに SIGINT を送信します。
+  このコールバックを設定すると、この動作をオーバーライドできます。たとえば、別の
+  シグナルを使用したり、中断する前に別のアクションを実行したりできます。
+  このコールバックは別スレッドで実行されます。停止が
+  要求された後まもなく実行されますが、即座ではありません。
 
 * `max_end_of_run_history_metrics` (int): run の終了時に表示する履歴スパークラインの最大数。
 

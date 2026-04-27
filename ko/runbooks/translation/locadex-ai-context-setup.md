@@ -1,3 +1,7 @@
+---
+title: Locadex AI 컨텍스트 설정
+---
+
 <div id="agent-prompt-configure-locadex-ai-context-for-wb-docs-korean-and-later-japanese">
   # Agent 프롬프트: W&amp;B 문서용 Locadex AI 컨텍스트 설정(한국어, 이후 일본어)
 </div>

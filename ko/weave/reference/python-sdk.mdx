@@ -518,7 +518,7 @@ weave.publish(dataset)
 # 데이터셋 조회
 dataset_ref = weave.ref('grammar').get()
 
-# 특정 예시 접근
+# 특정 예시 액세스
 example_label = dataset_ref.rows[2]['sentence']
 ```
 
@@ -530,7 +530,6 @@ example_label = dataset_ref.rows[2]['sentence']
 * `rows`: `trace.table.Table | trace.vals.WeaveTable`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L129" />
-
 
 ### <kbd>방법</kbd> `add_rows`
 
@@ -951,7 +950,7 @@ values_table(title: str | None = None) → Table
 
 scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 
-evaluation.evaluate(model)을 호출하면 데이터셋의 각 행이 모델에 전달되며, 이때 데이터셋의 column 이름이 model.predict의 argument 이름과 일치하도록 매핑됩니다.
+평가.evaluate(model)을 호출하면 데이터셋의 각 행이 모델에 전달되며, 이때 데이터셋의 column 이름이 model.predict의 argument 이름과 일치하도록 매핑됩니다.
 
 그런 다음 모든 scorer를 호출하고 결과를 Weave에 저장합니다.
 
@@ -967,7 +966,7 @@ examples = [
      {"question": "What is the square root of 64?", "expected": "8"},
 ]
 
-# 맞춤형 채점 함수 정의
+# 맞춤형 scoring 함수 정의
 @weave.op
 def match_score1(expected: str, model_output: dict) -> dict:
      # 모델 출력을 채점하는 로직을 여기에 정의합니다
@@ -978,12 +977,12 @@ def function_to_evaluate(question: str):
      # LLM 호출을 추가하고 출력을 반환하는 부분입니다
      return  {'generated_text': 'Paris'}
 
-# 채점 함수를 사용하여 예시 데이터 채점
+# scoring 함수를 사용하여 예시 채점
 evaluation = Evaluation(
      dataset=examples, scorers=[match_score1]
 )
 
-# 평가 추적 시작
+# 평가 tracking 시작
 weave.init('intro-example')
 # 평가 실행
 asyncio.run(evaluation.evaluate(function_to_evaluate))
@@ -1002,7 +1001,6 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 * `evaluation_name`: `str | collections.abc.Callable[trace.call.Call, str] | None`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L295" />
-
 
 ### <kbd>방법</kbd> `evaluate`
 
@@ -1043,23 +1041,23 @@ get_eval_results(model: Op | Model) → EvaluationResults
 get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
 ```
 
-이 Evaluation 객체를 사용한 모든 evaluation call을 조회합니다.
+이 Evaluation 객체를 사용한 모든 평가 call을 조회합니다.
 
-단일 evaluation에 대해 여러 evaluation call이 있을 수 있으므로(예: 동일한 evaluation을 여러 번 run한 경우), 단일 Call이 아니라 CallsIter를 반환합니다.
+단일 평가에 대해 여러 평가 call이 있을 수 있으므로(예: 동일한 평가을 여러 번 run한 경우), 단일 Call이 아니라 CallsIter를 반환합니다.
 
 **반환값:**
 
-* <b>`CallsIter`</b>: evaluation run을 나타내는 Call 객체의 이터레이터입니다.
+* <b>`CallsIter`</b>: 평가 run을 나타내는 Call 객체의 이터레이터입니다.
 
 **예외:**
 
-* <b>`ValueError`</b>: evaluation에 ref가 없는 경우(아직 저장되거나 run되지 않은 경우)
+* <b>`ValueError`</b>: 평가에 ref가 없는 경우(아직 저장되거나 run되지 않은 경우)
 
 **예시:**
 
 ```python
 evaluation = Evaluation(dataset=examples, scorers=[scorer])
-await evaluation.evaluate(model)  # 먼저 평가를 실행
+await evaluation.evaluate(model)  # 먼저 평가 실행
 calls = evaluation.get_evaluate_calls()
 for call in calls:
      print(f"Evaluation run: {call.id} at {call.started_at}")
@@ -1068,7 +1066,6 @@ for call in calls:
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L342" />
-
 
 ### <kbd>방법</kbd> `get_score_calls`
 
@@ -1121,7 +1118,7 @@ get_scores() → dict[str, dict[str, list[Any]]]
 evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
 await evaluation.evaluate(model)
 scores = evaluation.get_scores()
-# 트레이스와 scorer별 점수 조회
+# 트레이스 및 scorer별 점수 액세스
 for trace_id, trace_scores in scores.items():
          print(f"Evaluation run {trace_id}:")
          for scorer_name, outputs in trace_scores.items():
@@ -1142,7 +1139,6 @@ for trace_id, trace_scores in scores.items():
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/pydantic/_internal/_model_construction.py#L163" />
-
 
 ### <kbd>방법</kbd> `model_post_init`
 
@@ -1190,11 +1186,11 @@ summarize(eval_table: EvaluationResults) → dict
 ```python
 ev = EvaluationLogger()
 
-# 알려진 inputs/outputs로 예측 기록
+# 알려진 입력/출력으로 예측 로깅
 pred = ev.log_prediction(inputs={'q': 'Hello'}, outputs={'a': 'Hi there!'})
 pred.log_score("correctness", 0.9)
 
-# Evaluation 완료
+# 평가 완료
 ev.log_summary({"avg_score": 0.9})
 ```
 
@@ -1203,20 +1199,19 @@ ev.log_summary({"avg_score": 0.9})
 ```python
 ev = EvaluationLogger()
 
-# 중첩된 오퍼레이션을 캡처해야 할 때 컨텍스트 매니저 사용
+# 중첩 오퍼레이션을 캡처해야 할 때 컨텍스트 관리자를 사용하세요
 with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
      # 여기서 수행되는 모든 오퍼레이션(예: LLM calls)은 자동으로
-     # predict call의 자식이 됩니다
+     # predict call의 하위 항목이 됩니다
      response = your_llm_call(...)
      pred.output = response.content
      pred.log_score("correctness", 0.9)
 
-# 평가 완료
+# 평가를 완료합니다
 ev.log_summary({"avg_score": 0.9})
 ```
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L646" />
-
 
 ### <kbd>방법</kbd> `__init__`
 
@@ -1462,18 +1457,17 @@ save(dest: 'str | Path') → None
 
 렌더링할 수 있는 Markdown입니다.
 
-* <b>`dest`</b>: 파일이 복사될 대상 경로입니다(string 또는 pathlib.Path). 대상 경로는 파일일 수도 있고 디렉터리일 수도 있습니다.
-  **매개변수:**
+* <b>`dest`</b>: 파일이 복사될 대상 경로입니다(string 또는 pathlib.Path). 대상 경로는 파일일 수도 있고 디렉터리일 수도 있습니다. **매개변수:**
 
-* <b>`markup`</b> (str):  Markdown이 포함된 문자열입니다.
+* <b>`markup`</b> (str): Markdown이 포함된 문자열입니다.
 
-* <b>`code_theme`</b> (str, optional):  코드 블록에 사용할 Pygments 테마입니다. 기본값은 &quot;monokai&quot;입니다. 코드 테마는 https://pygments.org/styles/ 를 참조하세요.
+* <b>`code_theme`</b> (str, optional): 코드 블록에 사용할 Pygments 테마입니다. 기본값은 &quot;monokai&quot;입니다. 코드 테마는 [https://pygments.org/styles/](https://pygments.org/styles/) 를 참조하세요.
 
-* <b>`justify`</b> (JustifyMethod, optional):  단락의 정렬 값입니다. 기본값은 None입니다.
+* <b>`justify`</b> (JustifyMethod, optional): 단락의 정렬 값입니다. 기본값은 None입니다.
 
-* <b>`style`</b> (Union[str, Style], optional):  Markdown에 적용할 선택적 스타일입니다.
+* <b>`style`</b> (Union[str, Style], optional): Markdown에 적용할 선택적 스타일입니다.
 
-* <b>`hyperlinks`</b> (bool, optional):  하이퍼링크를 활성화합니다. 기본값은 `True`입니다.
+* <b>`hyperlinks`</b> (bool, optional): 하이퍼링크를 활성화합니다. 기본값은 `True`입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/rich/markdown.py#L548" />
 

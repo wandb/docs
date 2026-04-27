@@ -217,14 +217,14 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Collections
 ```
 
 Renvoie les collections du registre.
 
 ***
-
 
 ### <kbd>méthode de classe</kbd> `Registry.create`
 
@@ -414,8 +414,9 @@ Renvoie les Users actuellement membres de ce registre.
 ```python
 versions(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Versions
 ```
 
-Renvoie les versions du registre.
+Renvoie les versions du registre. 

@@ -1,13 +1,17 @@
+---
+title: Enregistrer un histogramme
+---
+
 ```python
 """
-Enregistrez un graphique histogramme dans W&B. 
+Log a histogram plot to W&B. 
 
-Remplacez :
-- les valeurs entre chevrons par les vôtres
-- [[1, 2], [2, 3]] dans wandb.Table(data=) par votre propre tableau de valeurs 2D orienté lignes à tracer
+Replace:
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to plot
 
-Passez un tableau de valeurs 2D orienté lignes à data (wandb.Table(data=)), avec
-les noms de colonnes spécifiés dans le paramètre `columns`.
+Pass a 2D row-oriented array of values to data (wandb.Table(data=)), with
+column names specified in the `columns` parameter.
 """
 import wandb
 

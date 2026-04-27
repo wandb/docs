@@ -13,7 +13,15 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 artifact内のファイルを対象とするページネーター。 
 
-### <kbd>プロパティ</kbd> ArtifactFiles.cursor
+### <kbd>property</kbd> ArtifactFiles.cursor
+
+次に取得するページの開始位置を示す、内部構造が公開されていないカーソルです。
+
+この値は保存しておき、後続のページ分割されたクエリに `start=` として渡すことで、このページネーターが中断した位置から反復を再開できます。
+
+**戻り値:**
+
+* `str | None`: カーソルのプロパティ値。
 
 ***
 

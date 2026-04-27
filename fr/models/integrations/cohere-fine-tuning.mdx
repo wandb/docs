@@ -8,12 +8,12 @@ Avec W&amp;B, vous pouvez journaliser les métriques de fine-tuning et la config
 Ce [guide de Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) contient un exemple complet montrant comment lancer un run de fine-tuning, et vous trouverez [ici la documentation de l&#39;API Cohere](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
 
 <div id="log-your-cohere-fine-tuning-results">
-  ## Enregistrez les résultats de votre fine-tuning Cohere
+  ## Journalisez les résultats de votre fine-tuning Cohere
 </div>
 
 Pour ajouter la journalisation du fine-tuning Cohere à votre espace de travail W&amp;B :
 
-1. Créez un `WandbConfig` avec votre clé API W&amp;B, votre `entity` W&amp;B et le nom du `project`. Créez une clé API sur https://wandb.ai/settings
+1. Créez un `WandbConfig` avec votre clé API W&amp;B, votre `entity` W&amp;B et le nom du `project`. Créez une clé API sur [https://wandb.ai/settings](https://wandb.ai/settings)
 
 2. Passez cette configuration à l&#39;objet `FinetunedModel`, avec le nom de votre modèle, le jeu de données et les hyperparamètres, pour démarrer votre run de fine-tuning.
 

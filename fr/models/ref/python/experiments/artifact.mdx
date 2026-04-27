@@ -681,7 +681,11 @@ Le chemin complet du fichier téléchargé.
 ### <kbd>méthode</kbd> `Artifact.files`
 
 ```python
-files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+files(
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
+) → ArtifactFiles
 ```
 
 Parcourez tous les fichiers stockés dans cet artifact.
@@ -690,6 +694,7 @@ Parcourez tous les fichiers stockés dans cet artifact.
 
 * `names` :  Les chemins des fichiers, relatifs à la racine de l&#39;artifact, que vous souhaitez lister.
 * `per_page` :  Le nombre de fichiers à renvoyer par requête.
+* `start` :  Curseur de pagination pour reprendre une requête précédente, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.
 
 **Retourne :**
 Un itérateur contenant des objets `File`.
@@ -699,7 +704,6 @@ Un itérateur contenant des objets `File`.
 * `ArtifactNotLoggedError` :  Si l&#39;artifact n&#39;est pas enregistré.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Artifact.finalize`
 
