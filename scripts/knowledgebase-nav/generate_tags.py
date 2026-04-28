@@ -3,14 +3,20 @@
 Knowledgebase Nav Generator
 =========================
 
-A standalone script that regenerates knowledgebase nav pages and updates the
-docs.json navigation for the Weights & Biases documentation repository.
+A standalone script that regenerates knowledgebase nav pages for the Weights
+& Biases documentation repository.
 
 This script is designed to run as part of a GitHub Actions workflow, but can
 also be run locally for testing and previewing changes.
 
-What it does (six phases)
--------------------------
+The generator never reads, parses, or writes ``docs.json``. When the set of
+tag pages changes, a human must manually edit the matching
+``Support: <display_name>`` tab in ``docs.json``. The PR report posted by
+``pr_report.py`` lists the exact page ids that were added or removed so the
+docs.json edit can be made by hand.
+
+What it does (five phases)
+--------------------------
 
 Phase 1. Crawl and parse:
     Walks each product's articles/ directory and parses YAML front matter and
@@ -42,12 +48,7 @@ Phase 4. Sync tab-page Badges:
     Runs after tag pages are generated so articles are not modified if
     earlier phases fail.
 
-Phase 5. Update docs.json navigation (meta-generator pattern):
-    Reads the existing docs.json, finds or creates hidden support tabs for
-    each product, updates the page lists to reflect current tags, and writes
-    the file back while preserving all unrelated navigation entries.
-
-Phase 6. Update support.mdx (meta-generator pattern):
+Phase 5. Update support.mdx (meta-generator pattern):
     Refreshes article and tag counts on the root support landing page.
     Count lines are wrapped in ``{/* AUTO-GENERATED: counts */}`` /
     ``{/* END AUTO-GENERATED: counts */}`` markers (located by
@@ -64,7 +65,6 @@ Inputs
 - Article MDX files under support/<product>/articles/*.mdx
 - Configuration file (config.yaml) listing products and allowed keywords
 - Jinja2 templates in the templates/ directory
-- The existing docs.json in the repo root
 
 Outputs
 -------
@@ -78,16 +78,19 @@ Outputs
   ``keywords`` is non-empty)
 - Tag page MDX files at support/<product>/tags/<tag-slug>.mdx
 - Product index MDX files at support/<product>.mdx
-- Updated docs.json with correct support navigation tabs
 - Updated support.mdx product card counts (inside marker comments)
   and featured-articles section (inside marker comments)
+
+The generator does not modify ``docs.json``. After the generator runs, a
+human must update the support navigation tabs in ``docs.json`` to reflect any
+tag pages that were added or removed.
 
 Usage
 -----
     python generate_tags.py --repo-root /path/to/wandb-docs
 
 The --repo-root argument should point to the root of the wandb-docs repo
-(the directory that contains docs.json and the support/ folder).
+(the directory that contains the support/ folder and support.mdx).
 """
 
 import argparse
@@ -131,11 +134,6 @@ _PLAIN_TEXT_TYPOGRAPHIC_TO_ASCII = str.maketrans(
         "\u2033": '"',
     }
 )
-
-# The language entry in docs.json that contains the English navigation.
-# The W&B docs site uses a multi-language navigation structure under
-# navigation.languages[]; we only modify the English ("en") entry.
-DOCS_JSON_NAV_LANGUAGE = "en"
 
 # ---------------------------------------------------------------------------
 # MDX auto-generated marker constants
@@ -182,9 +180,9 @@ def _make_markers(keyword: str):
 
 # Tab badges (Phase 4)
 _BADGE_START, _BADGE_END, _BADGE_START_RE, _BADGE_END_RE = _make_markers("tab badges")
-# Article/tag counts in support.mdx Cards (Phase 6)
+# Article/tag counts in support.mdx Cards (Phase 5)
 _COUNTS_START, _COUNTS_END, _COUNTS_START_RE, _COUNTS_END_RE = _make_markers("counts")
-# Featured articles block in support.mdx (Phase 6)
+# Featured articles block in support.mdx (Phase 5)
 _FEATURED_START, _FEATURED_END, _FEATURED_START_RE, _FEATURED_END_RE = _make_markers("featured articles")
 
 
@@ -1266,9 +1264,11 @@ def render_tag_pages(
     Returns
     -------
     list of str
-        The docs.json page paths for the generated tag pages
+        The page paths for the generated tag pages
         (for example ``["support/models/tags/experiments", ...]``), sorted
-        alphabetically.
+        alphabetically. Page paths use the docs.json page id form (no
+        ``.mdx`` suffix) so callers can list them in PR comments for the
+        human who edits ``docs.json``.
 
     Side effects
     ------------
@@ -1416,124 +1416,7 @@ def render_product_index(
 
 
 # ---------------------------------------------------------------------------
-# Phase 5: docs.json navigation update
-# ---------------------------------------------------------------------------
-
-def update_docs_json(
-    repo_root: Path,
-    products: List[Dict[str, Any]],
-    all_tag_page_paths: Dict[str, List[str]],
-) -> None:
-    """
-    Update the docs.json navigation with current support tag pages.
-
-    Reads the existing docs.json, finds the English ("en") language
-    navigation root, and for each product either updates the existing
-    hidden support tab or creates a new one.  Each tab's page list is
-    set to the product overview page followed by sorted tag page paths.
-
-    All non-support navigation entries are preserved untouched.
-
-    Parameters
-    ----------
-    repo_root : Path
-        Path to the root of the wandb-docs repository.
-    products : list of dict
-        Product definitions from config.yaml, each with ``slug`` and
-        ``display_name`` keys.
-    all_tag_page_paths : dict
-        Mapping of product slug to sorted list of tag page paths
-        (as returned by ``render_tag_pages``).
-
-    Side effects
-    ------------
-    Overwrites docs.json with updated navigation.
-
-    Raises
-    ------
-    FileNotFoundError
-        If docs.json does not exist at the repo root.
-    ValueError
-        If the English language navigation entry is not found.
-
-    Example
-    -------
-    The resulting tab structure for each product looks like::
-
-        {
-            "tab": "Support: W&B Models",
-            "hidden": true,
-            "pages": [
-                "support/models",
-                "support/models/tags/academic",
-                "support/models/tags/administrator",
-                ...
-            ]
-        }
-    """
-    docs_json_path = repo_root / "docs.json"
-    if not docs_json_path.exists():
-        raise FileNotFoundError(
-            f"docs.json not found at {docs_json_path}. "
-            "Ensure this script is run from the wandb-docs repo root."
-        )
-
-    with open(docs_json_path, "r", encoding="utf-8") as f:
-        config = json.load(f)
-
-    # Navigate to the English language navigation root.
-    # The W&B docs site uses navigation.languages[] for multi-language
-    # support; we only modify the English entry.
-    nav = config.get("navigation", {})
-    languages = nav.get("languages", [])
-    en_root = None
-    for lang_entry in languages:
-        if isinstance(lang_entry, dict) and lang_entry.get("language") == DOCS_JSON_NAV_LANGUAGE:
-            en_root = lang_entry
-            break
-
-    if en_root is None:
-        raise ValueError(
-            f"docs.json navigation.languages[] has no entry with "
-            f"language='{DOCS_JSON_NAV_LANGUAGE}'. Cannot update navigation."
-        )
-
-    tabs = en_root.setdefault("tabs", [])
-
-    for product in products:
-        slug = product["slug"]
-        display_name = product["display_name"]
-        tab_name = f"Support: {display_name}"
-
-        # The overview page is always first in the tab's page list
-        overview_page = f"support/{slug}"
-        tag_pages = all_tag_page_paths.get(slug, [])
-        new_pages = [overview_page] + tag_pages
-
-        # Find the existing tab or create a new one
-        target_tab = None
-        for tab in tabs:
-            if isinstance(tab, dict) and tab.get("tab") == tab_name:
-                target_tab = tab
-                break
-
-        if target_tab is None:
-            # Create a new hidden tab and append it
-            target_tab = {"tab": tab_name, "hidden": True, "pages": new_pages}
-            tabs.append(target_tab)
-        else:
-            # Update existing tab's pages; preserve hidden flag
-            target_tab["pages"] = new_pages
-
-    # Write the updated docs.json back.
-    # Use indent=2 and a trailing newline to match the existing format.
-    with open(docs_json_path, "w", encoding="utf-8") as f:
-        json.dump(config, f, indent=2)
-        f.write("\n")
-
-
-# ---------------------------------------------------------------------------
-# Phase 6: Update support.mdx (counts and featured articles)
+# Phase 5: Update support.mdx (counts and featured articles)
 # ---------------------------------------------------------------------------
 
 def _build_featured_section_mdx(
@@ -1749,9 +1632,13 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     Execute the full knowledgebase nav generation pipeline.
 
     Orchestrates all phases: crawl articles, generate tag pages, generate
-    product index pages, sync tab-page Badges on articles, update docs.json
-    navigation, and update support.mdx product card counts and featured
-    articles.
+    product index pages, sync tab-page Badges on articles, and update
+    support.mdx product card counts and featured articles.
+
+    The pipeline does not touch ``docs.json``. When tag pages are added or
+    removed, the surrounding workflow (see ``pr_report.py``) lists the
+    affected page ids in a PR comment so a human can update the
+    ``Support: <display_name>`` tabs in ``docs.json`` by hand.
 
     Parameters
     ----------
@@ -1767,7 +1654,6 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     - Writes tag page MDX files under support/<product>/tags/ and deletes
       stale ones that no longer correspond to any article keyword
     - Writes product index MDX files at support/<product>.mdx
-    - Overwrites docs.json with updated navigation
     - Updates support.mdx with current article/tag counts and featured articles
     - Prints summary information to stdout
     - Emits warnings for unknown keywords, invalid ``keywords`` types, skipped
@@ -1787,9 +1673,6 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     script_dir = Path(__file__).resolve().parent
     templates_dir = script_dir / "templates"
     template_env = create_template_env(templates_dir)
-
-    # Track tag page paths per product for the docs.json update step
-    all_tag_page_paths: Dict[str, List[str]] = {}
 
     # Track article and tag counts per product for the support.mdx update step
     product_stats: Dict[str, Dict[str, int]] = {}
@@ -1822,7 +1705,6 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
 
         # Phase 2: Generate tag pages and remove stale ones
         tag_page_paths = render_tag_pages(repo_root, slug, tag_index, template_env)
-        all_tag_page_paths[slug] = tag_page_paths
         print(f"  Generated {len(tag_page_paths)} tag pages")
 
         removed = cleanup_stale_tag_pages(repo_root, slug, tag_page_paths)
@@ -1846,18 +1728,13 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         if footer_updates:
             print(f"  Updated tab Badges on {footer_updates} article(s)")
 
-        # Record stats for Phase 6
+        # Record stats for Phase 5
         product_stats[slug] = {
             "article_count": len(articles),
             "tag_count": len(tag_index),
         }
 
-    # Phase 5: Update docs.json navigation
-    update_docs_json(repo_root, products, all_tag_page_paths)
-    print(f"\n--- docs.json ---")
-    print(f"  Updated navigation for {len(products)} products")
-
-    # Phase 6: Update support.mdx product card counts and featured articles
+    # Phase 5: Update support.mdx product card counts and featured articles
     update_support_index(repo_root, product_stats)
     update_support_featured(repo_root, all_featured)
     print(f"\n--- support.mdx ---")
@@ -1884,7 +1761,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Sync support article keyword footers, regenerate tag and index pages, "
-            "and update docs.json and support.mdx."
+            "and update support.mdx."
         ),
         epilog="See README.md for detailed usage instructions.",
     )
@@ -1892,7 +1769,7 @@ def main() -> None:
         "--repo-root",
         type=Path,
         required=True,
-        help="Path to the root of the wandb-docs repository (contains docs.json).",
+        help="Path to the root of the wandb-docs repository (contains the support/ folder).",
     )
     parser.add_argument(
         "--config",
