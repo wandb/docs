@@ -7,9 +7,9 @@ The W&B Model Context Protocol (MCP) server exposes your W&B data as a set of to
 
 Supported clients include Cursor, Visual Studio Code, Claude Code, OpenAI Codex, Gemini CLI, Mistral LeChat, Claude Desktop, and the OpenAI Responses API.
 
-## Which setup should I use?
+## Choose a setup
 
-The hosted MCP server is the default for every deployment. The only thing that differs between deployment types is the URL your client connects to. Running the server locally is an escape hatch when you need more flexibility than the hosted server offers.
+The hosted MCP server is the default for every deployment. The only thing that differs between deployment types is the URL your client connects to. A local install is an escape hatch when you need more flexibility than the hosted server offers.
 
 <CardGroup cols={2}>
   <Card title="Hosted server (recommended)">
@@ -28,7 +28,7 @@ The hosted MCP server is the default for every deployment. The only thing that d
 </CardGroup>
 
 <Tip>
-If you run W&B on Dedicated Cloud or Self-Managed and the hosted MCP server is not yet enabled on your instance, contact [W&B support](mailto:support@wandb.com) or your W&B account team to request it.
+If you run W&B on Dedicated Cloud or Self-Managed and the hosted MCP server isn't yet enabled on your instance, contact [W&B support](mailto:support@wandb.com) or your W&B account team to request it.
 </Tip>
 
 ## What you can do
@@ -47,7 +47,7 @@ The server registers a set of tools grouped by purpose. Each row lists the tool 
 
 <Tabs>
   <Tab title="Discovery">
-    Use these tools first when you do not know the exact entity, project, or schema to query.
+    Use these tools first when you don't know the exact entity, project, or schema to query.
 
     | Tool | Use when | Example prompt |
     |------|----------|----------------|
@@ -122,7 +122,7 @@ Most real questions need more than one tool. Ask your agent to follow one of the
 
 #### Explore an unfamiliar project
 
-Use when you land on a new entity or project and do not know what is logged.
+Use when you land on a new entity or project and don't know what is logged.
 
 1. `list_entities_tool` to find the entity.
 2. `query_wandb_entity_projects` to find the project.
@@ -166,7 +166,7 @@ Before you configure any client:
 
 ## Use the hosted server
 
-W&B runs a managed MCP server for every deployment type. There is nothing to install. Configure your client to connect over HTTP with a W&B API key in the `Authorization` header.
+W&B runs a managed MCP server for every deployment type. You don't need to install anything. Configure your client to connect over HTTP with a W&B API key in the `Authorization` header.
 
 ### Connection URL
 
@@ -316,25 +316,27 @@ resp = client.responses.create(
 print(resp.output_text)
 ```
 
-Pass the raw W&B API key as the `authorization` value. OpenAI prepends `Bearer ` when it calls the server, so do not include it yourself. The OpenAI MCP integration runs server-side, so it cannot reach a local MCP server. For local development, see [Run the MCP server locally](#run-the-mcp-server-locally).
+Pass the raw W&B API key as the `authorization` value. OpenAI prepends `Bearer ` when it calls the server, so don't include it yourself. The OpenAI MCP integration runs server-side, so it can't reach a local MCP server. For local development, see [Run the MCP server locally](#run-the-mcp-server-locally).
 </Tab>
 </Tabs>
 
 ## Run the MCP server locally
 
-Running the MCP server locally is an escape hatch, not the default path for any particular deployment. Use it when the hosted server does not fit your setup.
+A local MCP server is an escape hatch, not the default path for any particular deployment. Use it when the hosted server doesn't fit your setup.
 
 Common reasons to run locally:
 
-- **Air-gapped or offline environments** where your client cannot reach a hosted W&B endpoint.
+- **Air-gapped or offline environments** where your client can't reach a hosted W&B endpoint.
 - **Pinned version**. The hosted server follows the main branch. A local install can pin to a specific release tag.
 - **Custom server behavior** such as changing tool descriptions, adding tools, or setting a non-default response token budget.
 - **Active development** on the server itself.
 - **STDIO-only clients** or clients that require a local process.
 
-For Dedicated Cloud or Self-Managed users, the hosted path is preferred. Only fall back to a local install from [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) if the hosted server is not yet enabled on your instance or one of the reasons above applies. Set `WANDB_BASE_URL` to your instance URL.
+For Dedicated Cloud or Self-Managed users, the hosted path is preferred. Only fall back to a local install from [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) if the hosted server isn't yet enabled on your instance or one of the reasons above applies. Set `WANDB_BASE_URL` to your instance URL.
 
 ### Local prerequisites
+
+To run the server locally, make sure you have the following:
 
 - Python 3.11 or higher.
 - [`uv`](https://docs.astral.sh/uv/) is recommended. For installation instructions, see the [uv documentation](https://docs.astral.sh/uv/getting-started/installation/). You can use `pip` instead.
@@ -494,6 +496,8 @@ Update your MCP client configuration to use the tunnel URL.
 
 ### Environment variables
 
+The following environment variables control authentication, instance routing, and server behavior for local installs. Set them in your client's `env` block or export them in your shell.
+
 | Variable | Description |
 |----------|-------------|
 | `WANDB_API_KEY` | W&B API key for authentication. Required. |
@@ -507,9 +511,11 @@ For the complete command-line reference and advanced options, see the [wandb-mcp
 
 ## Usage tips
 
-The following practices apply to everyone. Read the subsection that matches your workload for more specific advice.
+The following practices help you get better results from the MCP server. Start with the general tips, then read the subsection that matches your workload for more specific advice.
 
 ### For everyone
+
+Follow these practices regardless of your workload:
 
 - **Specify the entity and project.** MCP tools need an explicit entity and project name. Include both in every question, for example "in `your-team/your-project`".
 - **Ask focused questions.** Prefer "Which eval had the highest F1 score?" to "What is my best evaluation?". Specific metrics and time ranges produce better tool calls.
@@ -518,6 +524,8 @@ The following practices apply to everyone. Read the subsection that matches your
 
 ### For trace-heavy workflows
 
+Follow these practices when working with Weave traces:
+
 - **Start with the schema.** Call `infer_trace_schema_tool` before `query_weave_traces_tool` so the agent knows which fields and filter values are valid.
 - **Pick the right `detail_level`.** Use `schema` to browse, `summary` (the default) for analysis, and `full` only when drilling into a small number of specific traces.
 - **Chain `resolve_trace_roots_tool`.** After a child-trace query, pass the resulting `trace_id` list to `resolve_trace_roots_tool` to map each trace to its root session in one batched call.
@@ -525,21 +533,27 @@ The following practices apply to everyone. Read the subsection that matches your
 
 ### For run-heavy workflows
 
+Follow these practices when working with W&B Models runs:
+
 - **Probe before you query.** Call `probe_project_tool` on an unfamiliar run-based project to discover metric keys, config keys, and tags before constructing GraphQL.
-- **Use `get_run_history_tool` for time series.** GraphQL does not sample, so for loss curves and other time-series data `get_run_history_tool` is both faster and cheaper.
+- **Use `get_run_history_tool` for time series.** GraphQL doesn't sample, so for loss curves and other time-series data `get_run_history_tool` is both faster and cheaper.
 - **Let `compare_runs_tool` do the diff.** It returns config and metric deltas with aligned history in a single call, avoiding manual comparison.
 - **Run a health check first.** When a training run looks wrong, call `diagnose_run_tool` before digging into history manually.
 
 ### For Dedicated Cloud and Self-Managed
 
-- Prefer the hosted server on your instance at `https://<your-instance>/mcp`. It exposes the same tools as the Multi-tenant server with no client-side `WANDB_BASE_URL` needed. Only fall back to a local install if the hosted server is not yet enabled.
-- When you do run locally against your instance, set `WANDB_BASE_URL` to your instance URL in the client's `env` block. Without it, the server targets `api.wandb.ai` and no data will be found.
+Keep these considerations in mind for non-multi-tenant deployments:
+
+- Prefer the hosted server on your instance at `https://<your-instance>/mcp`. It exposes the same tools as the Multi-tenant server with no client-side `WANDB_BASE_URL` needed. Only fall back to a local install if the hosted server isn't yet enabled.
+- When you do run locally against your instance, set `WANDB_BASE_URL` to your instance URL in the client's `env` block. Without it, the server targets `api.wandb.ai` and the server returns no data.
 - Rate limits on Dedicated Cloud are separate from Multi-tenant. See [Dedicated Cloud rate limits](/platform/hosting/hosting-options/dedicated-cloud/rate-limits) for defaults and how to request changes.
 
 ### For local installs
 
+Keep these considerations in mind when running the server on your own machine:
+
 - Prefer STDIO transport for desktop clients (Cursor, VS Code, Claude Code, Claude Desktop). Only switch to HTTP transport when a client explicitly requires it (for example, the OpenAI Responses API).
-- When tool calls fail silently, set `MCP_SERVER_LOG_LEVEL=DEBUG` in the client's `env` block and re-check the client's MCP logs.
+- When tool calls fail silently, set `MCP_SERVER_LOG_LEVEL=DEBUG` in the client's `env` block and recheck the client's MCP logs.
 - If you install from GitHub (`uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server`), `uvx` pins to the default branch. Pin an explicit tag by appending `@v0.3.2` to the Git URL when you need a stable version.
 
 ## Troubleshooting
@@ -553,6 +567,8 @@ The following practices apply to everyone. Read the subsection that matches your
 | Local server cannot find `uvx` in Claude Desktop | Use the full path to `uvx` in the `command` field of `claude_desktop_config.json`. |
 
 ## Related
+
+Explore these resources for observability, reusable agent patterns, and advanced server configuration:
 
 - [Trace MCP clients and servers with Weave](/weave/guides/integrations/mcp) for end-to-end observability of MCP interactions.
 - [W&B Skills](/platform/wb-skills) for reusable agent instructions that pair with the MCP server.
