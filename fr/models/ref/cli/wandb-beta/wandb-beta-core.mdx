@@ -1,0 +1,67 @@
+---
+title: wandb beta core
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/beta.py#L251" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+core [OPTIONS] COMMAND [ARGS]...
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Gérez un service wandb-core local partagé pour des charges de travail multiprocessus.
+
+wandb-core est le processus backend local qui gère les données d&#39;exécution,
+le téléversement de fichiers et la collecte des métriques système. Par défaut, chaque
+processus qui appelle `wandb.init()` démarre son propre backend. Sur une
+machine exécutant de nombreux workers indépendants, cela duplique le travail
+et gaspille du CPU et de la mémoire.
+
+Utilisez ces commandes pour démarrer une instance wandb-core détachée et
+diriger plusieurs workers sur la même machine vers celle-ci à l&#39;aide de la
+variable d&#39;environnement WANDB&#95;SERVICE.
+
+Flux de travail type :
+
+```bash
+wandb beta core start
+```
+
+```bash
+export WANDB_SERVICE=printed_value
+```
+
+```bash
+python -m your_launcher
+```
+
+```bash
+wandb beta core stop
+```
+
+Pour les scripts shell, capturez la valeur brute de WANDB&#95;SERVICE à partir de stdout :
+
+```bash
+export WANDB_SERVICE="$(wandb beta core start)"
+```
+
+Par défaut, le service partagé s&#39;arrête après 10 minutes d&#39;inactivité.
+Redéfinissez ce délai avec `--idle-timeout` dans la commande `start`.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande                | Description                             |
+| ----------------------- | --------------------------------------- |
+| `wandb beta core start` | Démarrer un service wandb-core détaché. |
+| `wandb beta core stop`  | Arrêter un service wandb-core détaché.  |

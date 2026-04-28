@@ -1,46 +1,51 @@
 ---
-title: "wandb pull"
+title: wandb pull
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<WandbPull/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3095" />
 
-Download files from a W&B run.
 
-Fetch all files associated with the specified run. Skip files that already exist locally with the same content. Create subdirectories as needed to mirror the structure of the files in W&B.
-
-Use the run ID to reference the run, and optionally specify the project and entity if not included in the run argument.
-
-For example, to download files from a run with run ID "abcd1234" in the "foobar" project and "team-awesome" entity:
-
-```bash
-$ wandb pull -p foobar -e team-awesome abcd1234
-```
 
 ## Usage
 
 ```bash
-wandb pull RUN [OPTIONS]
+pull [OPTIONS] RUN
 ```
+
+## Description
+
+Download files from a W&B run.
+
+    Fetch all files associated with the specified run. Skip files that already
+    exist locally with the same content. Create subdirectories as needed to
+    mirror the structure of the files in W&B.
+
+    Use the run ID to reference the run, and optionally specify the project
+    and entity if not included in the run argument.
+
+    For example, to download files from a run with run ID "abcd1234" in the "foobar" project
+    and "team-awesome" entity:
+
+```bash
+wandb pull -p foobar -e team-awesome abcd1234
+```
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `RUN` | No description available | Yes |
+| Name | Default | Type |
+|------|---------|------|
+| `run` | STR | True |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project containing the run to pull files from. |
-| `--entity`, `-e` | The entity that owns the project. Defaults to the value of the WANDB_ENTITY environment variable or the default entity if not set. (default: models) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--project, -p` | STR | The project containing the run to pull files from. **Default**: None |
+| `--entity, -e` | STR | The entity that owns the project. Defaults to the value of the WANDB_ENTITY environment variable or the default entity if not set. **Default**: models |
+

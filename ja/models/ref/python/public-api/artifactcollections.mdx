@@ -3,23 +3,35 @@ title: ArtifactCollections
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
 ## <kbd>class</kbd> `ArtifactCollections`
-Projects 内の特定のタイプを持つ Artifact コレクション。
 
-**Args:**
+プロジェクト内の特定の種類の Artifacts コレクションを表します。
 
- - `client`: W&B へのクエリに使用するクライアントインスタンス。
- - `entity`: Projects を所有する Entity (Users または Teams)。
- - `project`: Artifact コレクションを照会する Projects の名前。
- - `type_name`: コレクションを取得する Artifact タイプの名前。
- - `per_page`: 1ページあたりに取得する Artifact コレクションの数。デフォルトは 50。
+**引数:**
 
-### <kbd>property</kbd> ArtifactCollections.cursor
+* `client`:  W&amp;B へのクエリに使用するクライアント インスタンス。
+* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
+* `project`:  Artifacts コレクションをクエリする対象のプロジェクト名。
+* `type_name`:  コレクションを取得する対象の Artifacts タイプ名。
+* `filters`:  クエリに適用するフィルターのマッピング。省略可能です。
+* `order`:  結果の順序を指定する文字列。省略可能です。`order` の先頭に `+` を付けると昇順 (デフォルト) になり、`-` を付けると降順になります。
+* `per_page`:  1 ページあたりに取得する Artifacts コレクション数。デフォルトは 50。 
 
----
+### <kbd>プロパティ</kbd> ArtifactCollections.cursor
+
+次に取得するページの開始位置を示す不透明なカーソルです。
+
+この値は保存しておき、後続のページ分割クエリに `start=` として渡すことで、この paginator が終了した位置から反復を再開できます。
+
+**戻り値:**
+
+* `str | None`: cursor プロパティの値です。
+
+***
 
 ### <kbd>property</kbd> ArtifactCollections.more

@@ -1,0 +1,37 @@
+---
+title: "Serve"
+description: "Exposez vos ops et modèles Weave sous forme d’API endpoints pour fournir des prédictions et exécuter l’inférence en production."
+---
+
+Avec une référence Weave vers n’importe quel Weave Model, vous pouvez exécuter :
+
+```
+weave serve <ref>
+```
+
+pour exécuter un serveur FastAPI pour ce modèle. Accédez à [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs) pour interroger le modèle de manière interactive.
+
+
+<div id="install-fastapi">
+  ## Installer FastAPI
+</div>
+
+```bash
+pip install fastapi uvicorn
+```
+
+
+<div id="serve-model">
+  ## Serve un modèle
+</div>
+
+Dans un terminal, exécutez :
+
+```bash
+weave serve <your model ref>
+```
+
+Obtenez la référence de votre modèle en accédant au modèle et en la copiant dans l’UI. Elle doit se présenter comme suit :
+`weave://your_entity/project-name/YourModel:<hash>`
+
+Pour l’utiliser, accédez au lien Swagger UI, cliquez sur l’endpoint predict, puis sur &quot;Try it out!&quot;.

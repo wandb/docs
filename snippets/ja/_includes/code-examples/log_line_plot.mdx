@@ -1,0 +1,31 @@
+---
+title: 折れ線グラフをログする
+---
+
+```python
+"""
+折れ線グラフをW&Bにログします。
+
+以下を置き換えてください:
+- 山括弧で囲まれた値を独自の値に変更する
+- wandb.Table(data=) 内の [[1, 2], [2, 3]] をプロットする独自の2次元行指向配列に変更する
+
+data (wandb.Table(data=)) に2次元行指向配列を渡し、
+列名は `columns` パラメーターで指定します。
+
+列名は `wandb.plot.line()` プロット関数の x および y パラメーターと一致する必要があります。
+"""
+import wandb
+
+# 新しいrunを開始する
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # プロットする列を含む表を作成する
+    table = wandb.Table(data=[[1, 2], [2, 3]], columns=["<column_a>", "<column_b>"])
+
+    # 表を使用してさまざまなカスタムチャートにデータを入力する
+    line_plot = wandb.plot.line(table, x='<column_a>', y='<column_b>', title='<title>')
+    
+    # カスタム表をログする（UIのカスタマイズ可能なチャートに表示されます）
+    run.log({'<line_plot>': line_plot})
+```

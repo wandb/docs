@@ -230,7 +230,7 @@ def get_all_imports(tasks: List[Dict]) -> str:
         # Convert filename to component name (PascalCase)
         component_name = ''.join(word.capitalize() for word in task['script'].replace('.py', '').replace('-', '_').split('_'))
         mdx_file = task['script'].replace('.py', '.mdx')
-        imports.append(f"import {component_name} from '/snippets/en/_includes/code-examples/{mdx_file}';")
+        imports.append(f"import {component_name} from '/snippets/_includes/code-examples/{mdx_file}';")
     
     return '\n'.join(imports)
 

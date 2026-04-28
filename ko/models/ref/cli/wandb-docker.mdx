@@ -1,45 +1,81 @@
 ---
 title: wandb docker
 ---
-import WandbDocker from "/snippets/en/_includes/cli/wandb-docker.mdx";
 
-<WandbDocker/>
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-docker 컨테이너에서 코드를 실행하세요.
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L2468" />
 
-W&B docker를 사용하면 wandb가 설정된 상태로 docker 이미지에서 코드를 실행할 수 있습니다. 이 코맨드는 `WANDB_DOCKER` 및 `WANDB_API_KEY` 환경 변수를 컨테이너에 추가하고, 기본적으로 현재 디렉토리를 `/app`에 마운트합니다. 이미지 이름이 선언되기 전에 `docker run`에 추가될 추가 인수를 전달할 수 있으며, 이미지를 지정하지 않으면 기본 이미지가 선택됩니다.
-
-```sh
-wandb docker -v /mnt/dataset:/app/data
-wandb docker gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-cpu:v0.4.0 --jupyter
-wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"
-```
-
-기본적으로 W&B는 entrypoint를 오버라이드하여 wandb의 존재 여부를 확인하고, 설치되어 있지 않으면 설치합니다. `--jupyter` 플래그를 전달하면 jupyter가 설치되었는지 확인하고 8888 포트에서 jupyter lab을 시작합니다. 시스템에서 nvidia-docker가 감지되면 nvidia 런타임을 사용합니다. 기존의 docker run 코맨드에 wandb 환경 변수만 설정하고 싶다면 `wandb docker-run` 코맨드를 참조하세요.
-
-## Usage
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
+docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 ```
 
-## Arguments
+<div id="description">
+  ## 설명
+</div>
 
-| 인수 | 설명 | 필수 여부 |
-| :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | 설명 없음 | No |
-| `DOCKER_IMAGE` | 설명 없음 | No |
+W&amp;B가 설정된 도커 컨테이너에서 코드를 실행합니다.
 
-## Options
+도커 컨테이너를 시작하고 WANDB&#95;DOCKERs 환경
+변수를 주입하며, 기본적으로 현재 작업 디렉터리를 `/app`에
+마운트합니다. 로그인한 경우 WANDB&#95;API&#95;KEY도 주입합니다. `wandb`가
+설치되도록 컨테이너 엔트리포인트를 재정의합니다.
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--nvidia` | nvidia 런타임을 사용합니다. nvidia-docker가 있으면 기본값으로 nvidia를 사용합니다 (기본값: False) |
-| `--digest` | 이미지 digest를 출력하고 종료합니다 (기본값: False) |
-| `--jupyter` | 컨테이너에서 jupyter lab을 실행합니다 (기본값: False) |
-| `--dir` | 컨테이너 내에서 코드를 마운트할 디렉토리 (기본값: /app) |
-| `--no-dir` | 현재 디렉토리를 마운트하지 않습니다 (기본값: False) |
-| `--shell` | 컨테이너를 시작할 쉘 (기본값: /bin/bash) |
-| `--port` | jupyter를 바인딩할 호스트 포트 (기본값: 8888) |
-| `--cmd` | 컨테이너에서 실행할 코맨드 |
-| `--no-tty` | tty 없이 코맨드를 실행합니다 (기본값: False) |
+추가 인수를 전달하면 이미지 이름 앞의 `docker run`에
+삽입됩니다. 이미지를 지정하지 않으면 기본 이미지를 사용합니다.
+
+`--jupyter`를 사용하면 8888 포트에서 JupyterLab을 설치하고 시작합니다.
+호스트에서 NVIDIA 도커를
+사용할 수 있으면 NVIDIA 런타임을 자동으로 활성화합니다.
+
+호스트 머신에 도커가 설치되어 있고 실행 중이어야 합니다.
+
+기존 `docker run`
+명령어의 엔트리포인트를 수정하지 않고 W&amp;B 환경 변수를 주입하려면 `wandb docker-run`을 사용하세요.
+
+예를 들어, 기본 이미지를 실행하고 데이터셋을 컨테이너에 마운트하려면 다음과 같이 하세요:
+
+```bash
+wandb docker -v /mnt/dataset:/app/data
+```
+
+기본 이미지를 실행하고 JupyterLab을 시작하려면:
+
+```bash
+wandb docker -v /mnt/dataset:/app/data --jupyter
+```
+
+트레이닝 명령을 사용해 GPU 지원 이미지를 실행하려면:
+
+```bash
+wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py"
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름                | 기본값 | 유형    |
+| ----------------- | --- | ----- |
+| `docker_run_args` | STR | False |
+| `docker_image`    | STR | False |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그         | 유형      | 설명                                                                       |
+| ----------- | ------- | ------------------------------------------------------------------------ |
+| `--nvidia`  | 불리언 플래그 | NVIDIA 런타임을 사용합니다. `nvidia-docker`가 있으면 기본값은 `nvidia`입니다. **기본값**: False |
+| `--digest`  | 불리언 플래그 | 이미지 다이제스트를 출력한 후 종료합니다. **기본값**: False                                   |
+| `--jupyter` | 불리언 플래그 | 컨테이너에서 JupyterLab을 실행합니다. **기본값**: False                                 |
+| `--dir`     | STR     | 컨테이너에서 코드를 마운트할 디렉터리입니다. **기본값**: /app                                   |
+| `--no-dir`  | 불리언 플래그 | 현재 디렉터리를 마운트하지 않습니다. **기본값**: False                                      |
+| `--shell`   | STR     | 컨테이너 시작 시 사용할 셸입니다. **기본값**: /bin/bash                                   |
+| `--port`    | STR     | Jupyter를 바인딩할 호스트 포트입니다. **기본값**: 8888                                   |
+| `--cmd`     | STR     | 컨테이너에서 실행할 명령어입니다. **기본값**: None                                         |
+| `--no-tty`  | 불리언 플래그 | TTY 없이 명령어를 실행합니다. **기본값**: False                                        |

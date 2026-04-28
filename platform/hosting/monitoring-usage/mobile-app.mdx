@@ -1,6 +1,6 @@
 ---
 title: W&B Mobile App (iOS)
-description: Track training runs, view line plots, and explore your W&B Models projects from your iPhone or iPad.
+description: From your iPhone or iPad, track training runs, review console logs, view line plots, search project panels with regular expressions, and explore your W&B Models projects.
 ---
 
 <Columns cols={4}>
@@ -18,7 +18,7 @@ description: Track training runs, view line plots, and explore your W&B Models p
   </Frame>
 </Columns>
 
-The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. Track training runs in real time, view line plots, explore your projects' histories, and follow your team's progress—all from your iPhone or iPad.
+The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. From your iPhone or iPad, track training runs and read run logs in real time, view line plots, explore project histories, and follow your team's progress.
 
 <Info>
 The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) accounts. It is not available for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments.
@@ -36,7 +36,9 @@ The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/host
 ## Features
 
 - **Track training runs**: View run status, metrics, and line plots in real time.
+- **View console logs**: View [console logs](/models/runs/view-logged-runs#logs) for active or completed runs, or download logs for completed runs. The app polls active runs for new log lines every 5 seconds. The most recent 10,000 lines display by default, and you can scroll backward to view older logs.
 - **Explore project history**: Browse and search across your W&B projects. Metric charts on **project panels** include data from **all runs** in the project, not only the latest run.
+- **Search project panels**: Use the **panel search** field to filter which runs appear in each chart. You can search with [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) to match patterns in run names.
 - **Switch teams**: Use the **team picker** to change teams. The picker uses an updated layout for quicker navigation.
 - **Stay informed**: Get updates on your experiments without opening your laptop using notifications. **Remove alerts** you no longer need from the **Notifications** tab by swiping them away.
 

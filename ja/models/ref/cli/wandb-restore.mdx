@@ -2,38 +2,97 @@
 title: wandb restore
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-restore.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbRestore from "/snippets/en/_includes/cli/wandb-restore.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3155" />
 
-<WandbRestore/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-Run のコード、設定（config）、および Docker の状態を復元します。 `wandb.save()` や `wandb.init(save_code=True)` でコードが保存されていなかった場合は、最新のコミットからコードを取得します。
-
-## Usage
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
-wandb restore RUN [OPTIONS]
+restore [OPTIONS] RUN
 ```
 
-## Arguments
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `RUN` | 説明はありません | はい |
+以前の W&amp;B run から、コード、設定、または Docker 環境を復元します。
 
-## Options
+以前の run の環境を再作成して、再現できるようにします。
+W&amp;B での認証が必要です。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--no-git` | git の状態を復元しない（デフォルト: False） |
-| `--branch` | ブランチを作成するか、デタッチドヘッドでチェックアウトするか（デフォルト: True） |
-| `--project`, `-p` | アップロード先の Projects 。 |
-| `--entity`, `-e` | リストのスコープ対象となる Entities 。 |
+元の
+run に記録されている内容に応じて、最大 3 つの状態を復元します。
+
+1. 設定 (常に) : run の設定を wandb/config.yaml に書き込みます。
+
+   2. Git (利用可能な場合) : 新しい
+      wandb/run&#95;id ブランチで元のコミットをチェックアウトします。保存された diff パッチを取得して適用します。
+      元のコミットが見つからない場合は、
+      upstream のコミットにフォールバックします。
+      このコマンドは、元の run と同じ git リポジトリーで実行してください。`--no-git` を使用すると
+      この手順をスキップできます。
+
+   3. Docker (利用可能な場合) : run が Docker
+      コンテナー内で実行されていた場合は、元のコマンドで同じイメージを起動します。
+
+run に git の履歴も Docker イメージもない場合は、
+設定のみを復元します。
+
+run 識別子は、次のいずれかの形式で指定できます:
+run&#95;id、project:run&#95;id、entity/project:run&#95;id、または entity/project/run&#95;id 。
+
+たとえば、デフォルト project 内の run ID を持つ run を復元するには
+ (WANDB&#95;PROJECT 環境変数に保存されています) および entity
+ (WANDB&#95;ENTITY または認証済みユーザーのデフォルト entity から設定されます) :
+
+```bash
+wandb restore abcd1234
+```
+
+&quot;team-awesome&quot; entity の &quot;foobar&quot; project にある
+run ID abcd1234 の run を復元するには:
+
+```bash
+wandb restore team-awesome/foobar/abcd1234
+```
+
+git の状態を復元せずに run abcd1234 を復元します。設定
+と Docker の状態のみを復元します:
+
+```bash
+wandb restore --no-git abcd1234
+```
+
+ブランチを作成せずに、detached HEAD モードで run abcd1234 を復元するには:
+
+```bash
+wandb restore --no-branch abcd1234
+```
+
+別のチームの project にある run abcd1234 を復元するには:
+
+```bash
+wandb restore other-team/their-project:abcd1234
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名     | デフォルト | タイプ  |
+| ----- | ----- | ---- |
+| `run` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag            | Type      | Description                                                                   |
+| --------------- | --------- | ----------------------------------------------------------------------------- |
+| `--no-git`      | BOOL Flag | git の復元をスキップします。設定と Docker の状態のみを復元します。**デフォルト**: False                       |
+| `--branch`      | BOOL Flag | wandb/run&#95;id ブランチを作成するか、detached HEAD モードでコミットをチェックアウトします。**デフォルト**: True |
+| `--project, -p` | STR       | run を検索する対象の project を指定します。**デフォルト**: None                                   |
+| `--entity, -e`  | STR       | run を検索する対象の entity を指定します。**デフォルト**: None                                    |

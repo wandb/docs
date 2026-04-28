@@ -1,0 +1,16 @@
+---
+title: "Comment puis-je associer les runs au bon compte wandb sur une machine partagée ?"
+keywords: ["Journaux"]
+---
+
+Lorsque vous utilisez une machine partagée, assurez-vous que les runs sont associés au bon compte W&amp;B en définissant la variable d&#39;environnement `WANDB_API_KEY` pour l&#39;authentification. Si cette variable est définie dans l&#39;environnement, elle fournit les bons identifiants lors de la connexion. Vous pouvez également définir directement la variable d&#39;environnement dans le script.
+
+Exécutez la commande `export WANDB_API_KEY=X`, en remplaçant X par votre clé API. Créez une clé API sur [wandb.ai/settings](https://wandb.ai/settings).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

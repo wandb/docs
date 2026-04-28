@@ -3,7 +3,7 @@ description: "Integrate W&B with Kubeflow Pipelines to track experiments and vis
 title: Kubeflow Pipelines (kfp)
 ---
 
-import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
 [Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
 
@@ -147,9 +147,9 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 ## Fine-grain logging
 
-If you want finer control of logging, you can sprinkle in `wandb.log` and `wandb.log_artifact` calls in the component.
+If you want finer control of logging, you can sprinkle in `wandb.log()` and `wandb.log_artifact()` calls in the component.
 
-### With explicit `wandb.log_artifacts` calls
+### With explicit `wandb.log_artifact()` calls
 
 In this example below, we are training a model. The `@wandb_log` decorator will automatically track the relevant inputs and outputs. If you want to log the training process, you can explicitly add that logging like so:
 

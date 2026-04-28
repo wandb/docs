@@ -1,0 +1,85 @@
+---
+title: wandb artifact put
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L2812" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+put [OPTIONS] PATH
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Téléverser un artefact vers W&amp;B.
+
+Téléverser un fichier, un répertoire ou une référence d’URL en tant qu’artefact versionné.
+
+Le PATH peut être un fichier local, un répertoire local ou une URL
+(contenant `://`) à enregistrer comme artefact de référence.
+
+Si `--name` n’est pas spécifié, le nom de l’artefact prend par défaut le
+nom de base du chemin. Si le projet ne peut pas être déduit du
+nom, vous êtes invité à en saisir un.
+
+Par exemple, pour téléverser tous les fichiers d’un répertoire local ./data/training comme
+artefact de dataset dans W&amp;B :
+
+```bash
+wandb artifact put --type dataset ./data/training
+```
+
+Pour téléverser model.pt dans le projet &quot;foobar&quot; et attribuer à l’artefact le nom &quot;trained-model&quot; :
+
+```bash
+wandb artifact put --name foobar/trained-model --type model ./model.pt
+```
+
+Pour étiqueter l’artefact avec à la fois &quot;latest&quot; et &quot;v2.0&quot; afin qu’il puisse être
+référencé par l’un ou l’autre de ces alias :
+
+```bash
+wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+```
+
+Pour enregistrer un chemin Amazon S3 en tant que référence, sans télécharger ni téléverser à nouveau les données :
+
+```bash
+wandb artifact put --type dataset s3://my-bucket/datasets/training
+```
+
+Pour joindre à un artefact de dataset une description lisible par l’humain à des fins de documentation :
+
+```bash
+wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom    | Valeur par défaut | Type |
+| ------ | ----------------- | ---- |
+| `path` | STR               | True |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag                | Type      | Description                                                                                                                                    |
+| ------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--name, -n`        | STR       | Nom de l&#39;artefact au format project/artifact&#95;name. Par défaut, utilise le nom de base du chemin. **Par défaut** : None                 |
+| `--description, -d` | STR       | Description de cet artefact. **Par défaut** : None                                                                                             |
+| `--type, -t`        | STR       | Type de l&#39;artefact. Par défaut, &#39;dataset&#39;. **Par défaut** : dataset                                                                |
+| `--alias, -a`       | STR       | Alias à appliquer à cet artefact. Peut être spécifié plusieurs fois. Par défaut, &#39;latest&#39;. **Par défaut** : [&#39;latest&#39;]         |
+| `--id`              | STR       | Téléverser vers un run existant avec cet ID. **Par défaut** : None                                                                             |
+| `--resume`          | BOOL Flag | Reprendre le dernier run depuis votre répertoire actuel. **Par défaut** : None                                                                 |
+| `--skip_cache`      | BOOL Flag | Ignorer la mise en cache lors du téléversement des fichiers d&#39;artefact. **Par défaut** : False                                             |
+| `--policy`          | Choice    | Définit la stratégie de stockage des fichiers d&#39;artefact : &#39;mutable&#39; (par défaut) ou &#39;immutable&#39;. **Par défaut** : mutable |

@@ -1,0 +1,18 @@
+---
+title: runの再開
+---
+
+```python
+"""
+一時停止、停止、または失敗した場合のrunの再開動作を設定します。
+
+これは中断される可能性のある長時間実行のexperimentに役立ちます。すべての再開オプションの一覧については、
+wandb.init(resume=) のリファレンスドキュメントを参照してください。
+"""
+import wandb
+
+# 再開動作を指定してW&B runを初期化する
+with wandb.init(project="<project>", resume="<resume_option>") as run:
+    # トレーニングおよびloggingのコードをここに記述する
+    pass
+```

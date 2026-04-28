@@ -2,35 +2,50 @@
 title: wandb artifact cache cleanup
 ---
 
-{/*
-  このコマンドの紹介コンテンツを追加するには：
-  1. スニペットファイルを作成：/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx
-  2. そのファイルに紹介文を追加
-  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbArtifactCacheCleanup from "/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3066" />
 
-<WandbArtifactCacheCleanup/>
-
-  次回の再生成時にスニペットが自動検出されます。
-*/}
-
-Artifacts キャッシュから、使用頻度の低いファイルをクリーンアップします。
-
-## Usage（使用法）
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
-wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+cleanup [OPTIONS] TARGET_SIZE
 ```
 
-## Arguments（引数）
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `TARGET_SIZE` | 説明なし | はい |
+ローカルの artifact キャッシュのサイズを削減します。
 
-## Options（オプション）
+キャッシュが TARGET&#95;SIZE 以下になるまで、最後にアクセスされた日時が最も古いファイルから順に削除します。TARGET&#95;SIZE には、人間が読みやすい形式 (たとえば 10GB や 500MB) を指定できます。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--remove-temp` | 一時ファイルを削除する（デフォルト：False） |
+たとえば、artifact キャッシュを 10 GB に削減するには、次のようにします。
+
+```bash
+wandb artifact cache cleanup 10GB
+```
+
+一時ファイルを削除し、Artifact キャッシュを 5 GB まで減らすには:
+
+```bash
+wandb artifact cache cleanup --remove-temp 5GB
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名             | デフォルト | タイプ  |
+| ------------- | ----- | ---- |
+| `target_size` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ             | タイプ      | 説明                                   |
+| --------------- | -------- | ------------------------------------ |
+| `--remove-temp` | BOOL フラグ | キャッシュから一時ファイルも削除します。**デフォルト**: False |

@@ -1,0 +1,114 @@
+---
+description: "Découvrez les fonctionnalités de déploiement de W&B Cloud dédié, notamment en matière de conformité, de sécurité des données, d’IAM et de politiques de maintenance."
+title: Cloud dédié
+---
+
+W&amp;B Cloud dédié est une plateforme entièrement gérée dotée d’une infrastructure dédiée et isolée, déployée dans les comptes cloud AWS, Google Cloud ou Azure de W&amp;B. Chaque instance de Cloud dédié dispose de son propre réseau ainsi que de ses propres ressources de calcul et de stockage, isolés de ceux des autres instances de Cloud dédié. Vos métadonnées et données propres à W&amp;B sont stockées dans un stockage cloud isolé et traitées à l’aide de services de calcul cloud isolés.
+
+W&amp;B Cloud dédié est disponible dans [plusieurs régions mondiales pour chaque fournisseur de cloud](./dedicated-cloud/regions)&quot;
+
+<div id="rate-limits">
+  ## Limites de débit
+</div>
+
+W&amp;B applique des limites de débit par défaut dans le Cloud dédié afin de maintenir la stabilité de l’instance. Voir [Limites de débit](/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits) pour connaître les valeurs par défaut, la manière dont ces limites sont appliquées et comment demander des limites plus élevées lorsque vous passez à l’échelle pour l’entraînement.
+
+<div id="compliance">
+  ## Conformité
+</div>
+
+* **SOC 2** : la plateforme d&#39;hébergement de W&amp;B Cloud dédié répond aux exigences de [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), publiées par l&#39;[Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). Un rapport SOC 2 évalue les contrôles d&#39;une organisation de services en matière de sécurité, de disponibilité, d&#39;intégrité du traitement, de confidentialité et de respect de la vie privée. W&amp;B Cloud dédié fait l&#39;objet d&#39;audits internes et externes périodiques afin de vérifier le maintien de sa conformité. Référez-vous au [W&amp;B Security Portal](https://security.wandb.ai/) pour demander le rapport SOC 2 et d&#39;autres documents de sécurité et de conformité.
+* **HIPAA** : lorsqu&#39;il est correctement configuré, W&amp;B Cloud dédié répond aux exigences du [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). La conformité à HIPAA est une responsabilité partagée qui implique W&amp;B, le client et tous les services tiers participant au déploiement. Les organisations soumises à HIPAA doivent avoir conclu un **Business Associate Agreement** avec W&amp;B. Référez-vous au [W&amp;B Security Portal](https://security.wandb.ai/) pour demander plus d&#39;informations.
+
+<div id="data-security">
+  ## Sécurité des données
+</div>
+
+Vous pouvez utiliser votre propre bucket (BYOB) avec le [connecteur de stockage sécurisé](/fr/platform/hosting/data-security/secure-storage-connector) aux [niveaux de l&#39;instance et des équipes](/fr/platform/hosting/data-security/secure-storage-connector#configuration-options) pour stocker vos fichiers, tels que des modèles, des jeux de données, entre autres.
+
+Comme dans W&amp;B Cloud mutualisé, vous pouvez configurer un seul bucket pour plusieurs équipes ou utiliser des buckets distincts pour différentes équipes. Si vous ne configurez pas le connecteur de stockage sécurisé pour une équipe, ces données sont stockées dans le bucket de l&#39;instance.
+
+<Frame>
+  <img src="/images/hosting/dedicated_cloud_arch.png" alt="Schéma de l'architecture du Cloud dédié" />
+</Frame>
+
+En plus de BYOB avec le connecteur de stockage sécurisé, vous pouvez utiliser la [liste d&#39;autorisation IP](/fr/platform/hosting/data-security/ip-allowlisting) pour restreindre l&#39;accès à votre instance de Cloud dédié aux seuls emplacements réseau de confiance.
+
+Vous pouvez vous connecter en privé à votre instance de Cloud dédié à l&#39;aide de la [solution de connectivité sécurisée de votre fournisseur cloud](/fr/platform/hosting/data-security/private-connectivity).
+
+Il vous incombe de vous assurer que votre déploiement est conforme aux politiques de votre organisation et aux [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), le cas échéant.
+
+<div id="identity-and-access-management-iam">
+  ## Gestion des identités et des accès (IAM)
+</div>
+
+Utilisez les fonctionnalités de gestion des identités et des accès pour bénéficier d’une authentification sécurisée et d’une autorisation efficace dans votre organisation W&amp;B. Les fonctionnalités IAM suivantes sont disponibles dans les instances de Cloud dédié :
+
+* Authentifiez-vous avec le [SSO via OpenID Connect (OIDC)](/fr/platform/hosting/iam/sso) ou avec [LDAP](/fr/platform/hosting/iam/ldap).
+* [Configurez les rôles utilisateur appropriés](/fr/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) à l’échelle de l’organisation et au sein d’une équipe.
+* Définissez le périmètre d’un projet W&amp;B afin de limiter les personnes autorisées à voir, modifier et soumettre des runs W&amp;B grâce aux [projets restreints](/fr/platform/hosting/iam/access-management/restricted-projects).
+* Exploitez les JSON Web Tokens avec la [fédération d’identités](/fr/platform/hosting/iam/identity_federation) pour accéder aux API W&amp;B.
+
+<div id="monitor">
+  ## Surveillance
+</div>
+
+Utilisez les [journaux d’audit](/fr/platform/hosting/monitoring-usage/audit-logging) pour suivre l’activité des utilisateurs au sein de vos Teams et répondre à vos exigences de gouvernance d’entreprise. Vous pouvez également consulter l’utilisation de l’organisation dans notre instance de Cloud dédié à l’aide du [tableau de bord de l’organisation W&amp;B](/fr/platform/hosting/monitoring-usage/org_dashboard).
+
+<div id="maintenance">
+  ## Maintenance
+</div>
+
+Comme avec W&amp;B Cloud mutualisé, avec le Cloud dédié, vous n’avez pas à assumer la complexité ni les coûts liés au provisionnement et à la maintenance de la plateforme W&amp;B.
+
+Pour comprendre comment W&amp;B gère les mises à jour sur le Cloud dédié, référez-vous au [processus de version du serveur](/fr/platform/hosting/server-upgrade-process).
+
+<div id="compliance">
+  ## Conformité
+</div>
+
+Les contrôles de sécurité de W&amp;B Cloud dédié font l’objet d’audits périodiques internes et externes. Consultez le [W&amp;B Security Portal](https://security.wandb.ai/) pour demander les documents de sécurité et de conformité dans le cadre de votre évaluation du produit.
+
+<div id="data-retention-policy">
+  ## Politique de rétention des données
+</div>
+
+Par défaut, une instance de Cloud dédié conserve les éléments suivants pendant 7 jours après leur suppression :
+
+* Runs et leur historique
+* Fichiers de run non liés aux Artifacts, comme les médias, les fichiers de configuration et les fichiers journaux
+* Artifacts et références d&#39;Artifacts
+
+Jusqu&#39;à l&#39;expiration de cette période, ces éléments peuvent être restaurés. Contactez l&#39;[assistance](mailto:support@wandb.ai) ou votre AISE pour obtenir de l’assistance.
+
+Pour répondre à vos exigences en matière de rétention des données, vous pouvez modifier la période de rétention des données de votre instance de Cloud dédié. Selon votre cas d&#39;utilisation, sélectionnez l&#39;onglet **Variable d&#39;environnement** ou **Helm** pour plus de détails.
+
+<Tabs>
+  <Tab title="Variable d'environnement">
+    Pour modifier la politique de rétention des données, définissez la variable d&#39;environnement `GORILLA_DATA_RETENTION_PERIOD` sur un nombre d&#39;heures. Par exemple, pour conserver les données supprimées pendant 14 jours (336 heures) :
+
+    ```bash
+    export GORILLA_DATA_RETENTION_PERIOD="336h"
+    ```
+  </Tab>
+
+  <Tab title="Helm">
+    Pour modifier la politique de rétention des données, définissez la valeur Helm `env.dataRetentionPeriod` sur un nombre d&#39;heures. Par exemple, pour conserver les données supprimées pendant 14 jours (336 heures) :
+
+    ```helm
+    env: dataRetentionPeriod: "336h"
+    ```
+  </Tab>
+</Tabs>
+
+<div id="migration-options">
+  ## Options de migration
+</div>
+
+La migration vers le [Cloud dédié](/fr/platform/hosting/hosting-options/self-managed) depuis une [instance Autogérée](/fr/platform/hosting/hosting-options/self-managed) ou le [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) est prise en charge, sous réserve de limites spécifiques et de contraintes liées à la migration
+
+<div id="next-steps">
+  ## Prochaines étapes
+</div>
+
+Soumettez [ce formulaire](https://wandb.ai/site/for-enterprise/dedicated-saas-trial) si vous souhaitez utiliser le Cloud dédié.

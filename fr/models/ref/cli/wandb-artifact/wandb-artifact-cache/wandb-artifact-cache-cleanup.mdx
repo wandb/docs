@@ -1,0 +1,52 @@
+---
+title: nettoyage du cache d’artefacts wandb
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3066" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+cleanup [OPTIONS] TARGET_SIZE
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Réduisez la taille du cache local des artefacts.
+
+Supprimez d’abord les fichiers consultés le moins récemment jusqu’à ce que le cache atteigne ou passe sous TARGET&#95;SIZE. TARGET&#95;SIZE accepte des
+formats lisibles (par exemple, 10GB ou 500MB).
+
+Par exemple, pour réduire le cache d’artefacts à 10 GB :
+
+```bash
+wandb artifact cache cleanup 10GB
+```
+
+Pour supprimer les fichiers temporaires et réduire le cache des artefacts à 5 Go :
+
+```bash
+wandb artifact cache cleanup --remove-temp 5GB
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom           | Par défaut | Type |
+| ------------- | ---------- | ---- |
+| `target_size` | STR        | True |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option          | Type               | Description                                                                  |
+| --------------- | ------------------ | ---------------------------------------------------------------------------- |
+| `--remove-temp` | Indicateur booléen | Supprime également les fichiers temporaires du cache. **Par défaut** : False |

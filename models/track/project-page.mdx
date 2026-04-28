@@ -4,7 +4,7 @@ description: Compare versions of your model, explore results in a scratch worksp
 title: Projects
 ---
 
-import ProjectVisibilitySettings from "/snippets/en/_includes/project-visibility-settings.mdx";
+import ProjectVisibilitySettings from "/snippets/_includes/project-visibility-settings.mdx";
 
 
 A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
@@ -319,16 +319,23 @@ Refer to the [`wandb.init()` API reference](/models/ref/python/functions/init/#e
 </Tab>
 </Tabs>
 
+## Organization home and Recent Activity
+
+In the W&B App, the organization home page summarizes recent work.
+
+The **Recent Activity** viewer shows recent runs. Choose **Your projects** to see your own runs, or **Organization** to see recent runs by your colleagues.
+
+* **Search** to filter the activity list.
+* **Sortable columns** let you reorder rows by the column you care about.
+* **Notes** and **tags** columns display automatically if a run includes these details.
+
+Below the **Recent Activity** viewer, quickly access your recently created reports.
+
 ## Star a project
 
-Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's homepage.
+Add a star to a project to mark that project as important.
 
-
-For example, the following image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
-<Frame>
-    <img src="/images/track/star-projects.png" alt="Starred projects section"  />
-</Frame>
-
+Starred projects are grouped at the top of the **Projects** page. Quickly access up to 10 recent projects in the **Projects** list in the top-left **Global navigation menu**, with starred projects listed first.
 
 There are two ways to mark a project as important: within a project's overview tab or within your team's profile page.
 
@@ -358,8 +365,7 @@ For example, the following image shows the star icon next to the "Compare_Zoo_Mo
 
 
 
-Confirm that your project appears on the landing page of your organization by clicking on the organization name in the top left corner of the app.
-
+Confirm that your project is available.. In the **Project** section of the left navigation, click **View all** to open the **Project** page. Search or filter to find your project by its name, team, or other metadata. Starred projects appear at the top of the**Projects** page, and at the top of the **Projects** section of the left navigation.
 
 ## Delete a project
 

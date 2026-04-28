@@ -1,0 +1,84 @@
+---
+title: Accueil de l’assistance
+mode: "center"
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
+
+<Banner title="Comment pouvons-nous vous aider ?" background="/images/support/support_banner.png">
+  Trouvez de l’aide dans les articles de support, la documentation produit,<br />
+  et la communauté W&amp;B.
+</Banner>
+
+<HelpQuestionForm />
+
+<div id="browse-support-articles-by-product">
+  ## Parcourir les articles de support par produit
+</div>
+
+<CardGroup cols={3}>
+  <Card title="W&B Models" href="/fr/support/models" arrow="true" icon="/icons/cropped-models.svg">
+    {/* GÉNÉRÉ AUTOMATIQUEMENT: comptes */}
+
+    190 articles · 33 tags
+
+    {/* fin des comptes GÉNÉRÉ AUTOMATIQUEMENT */}
+  </Card>
+
+  <Card title="W&B Weave" href="/fr/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
+    {/* GÉNÉRÉ AUTOMATIQUEMENT: comptes */}
+
+    16 articles · 8 tags
+
+    {/* fin des comptes GÉNÉRÉ AUTOMATIQUEMENT */}
+  </Card>
+
+  <Card title="W&B Inference" href="/fr/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
+    {/* GÉNÉRÉ AUTOMATIQUEMENT: comptes */}
+
+    7 articles · 5 tags
+
+    {/* fin des comptes GÉNÉRÉ AUTOMATIQUEMENT */}
+  </Card>
+</CardGroup>
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: articles à la une */}
+
+<div id="featured-articles">
+  ## Articles à la une
+</div>
+
+<div id="wb-models">
+  ### W&amp;B Models
+</div>
+
+<Card title="Comment puis-je configurer le nom du run dans mon code d’entraînement ?" href="/fr/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  Au début du script d’entraînement, appelez wandb.init avec un nom d’expérience. Par exemple : wandb.init(name=&quot;my&#95;aweso ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+</Card>
+
+<Card title="Comment puis-je utiliser des commandes CLI personnalisées avec les Sweeps ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  Vous pouvez utiliser W&amp;B Sweeps avec des commandes CLI personnalisées si la configuration d’entraînement transmet des arguments de ligne de commande. Dans cet exemple  ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
+</Card>
+
+<Card title="Est-il possible d’enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d’environne ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+</Card>
+
+<Card title="Que fait wandb.init pour mon processus d’entraînement ?" href="/fr/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  Lorsque wandb.init() s’exécute dans un script d’entraînement, un appel d’API crée un objet run sur les serveurs. Un nouveau processus démarre pour st ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+</Card>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: articles à la une */}
+
+<Card title="Vous ne trouvez toujours pas ce que vous cherchez ?" href="mailto:support@wandb.com" icon="circle-info">
+  Contactez l’assistance
+</Card>

@@ -1,39 +1,40 @@
 ---
-title: "wandb launch-sweep"
+title: wandb launch-sweep
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbLaunchSweep from "/snippets/en/_includes/cli/wandb-launch-sweep.mdx";
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<WandbLaunchSweep/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L1247" />
 
-Run a W&B launch sweep (Experimental).
+
 
 ## Usage
 
 ```bash
-wandb launch-sweep [CONFIG] [OPTIONS]
+launch-sweep [OPTIONS] [CONFIG]
 ```
+
+## Description
+
+Run a W&B launch sweep (Experimental).
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `CONFIG` | No description available | No |
+| Name | Default | Type |
+|------|---------|------|
+| `config` | PATH | False |
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--queue`, `-q` | The name of a queue to push the sweep to |
-| `--project`, `-p` | Name of the project which the agent will watch. If passed in, will override the project value passed in using a config file. |
-| `--entity`, `-e` | The entity to use. Defaults to current logged-in user. |
-| `--resume_id`, `-r` | Resume a launch sweep by passing an 8-char sweep id. Queue required. |
-| `--prior_run`, `-R` | ID of an existing run to add to this sweep. |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--queue, -q` | STR | The name of a queue to push the sweep to **Default**: None |
+| `--project, -p` | STR | Name of the project which the agent will watch. If passed in, will override the project value passed in using a config file. **Default**: None |
+| `--entity, -e` | STR | The entity to use. Defaults to current logged-in user. **Default**: None |
+| `--resume_id, -r` | STR | Resume a launch sweep by passing an 8-char sweep id. Queue required. **Default**: None |
+| `--prior_run, -R` | STR | ID of an existing run to add to this sweep. **Default**: None |
+

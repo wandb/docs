@@ -1,171 +1,199 @@
 ---
 title: Sweep 設定オプション
+description: "method、metric、parameters、early termination、command などを含む、すべての W&B sweep 設定キーのリファレンス。"
 ---
 
-sweep configuration はネストされたキーと値のペアで構成されます。 sweep configuration 内のトップレベルキーを使用して、探索するパラメータ（[`parameter`](./sweep-config-keys#parameters) キー）、パラメータ空間を探索する方法（[`method`](./sweep-config-keys#method) キー）など、sweep 探索の特性を定義します。
+sweep 設定は、入れ子になったキーと値のペアで構成されます。sweep 設定内のトップレベルキーを使用して、探索対象のパラメーター ([`parameter`](./sweep-config-keys#parameters) キー) や、パラメーター空間の探索手法 ([`method`](./sweep-config-keys#method) キー) など、sweep 検索の特性を定義します。
 
-以下の表は、トップレベルの sweep configuration キーとその簡単な説明をリストしたものです。各キーの詳細については、それぞれのセクションを参照してください。
+以下の表は、トップレベルの sweep 設定キーとその簡単な説明を示しています。各キーの詳細については、それぞれのセクションを参照してください。
 
-| トップレベルキー | 説明 |
-| -------------- | ----------- |
-| `program` | (必須) 実行するトレーニングスクリプト |
-| `entity` | この sweep の Entity |
-| `project` | この sweep の Project |
-| `description` | sweep のテキスト説明 |
-| `name` | W&B UI に表示される sweep の名前 |
-| [`method`](#method) | (必須) 探索戦略 |
-| [`metric`](#metric) | 最適化するメトリクス（特定の探索戦略と停止基準でのみ使用） |
-| [`parameters`](#parameters) | (必須) 探索するパラメータの範囲 |
-| [`early_terminate`](#early_terminate) | 早期終了の基準 |
-| [`command`](#command) | トレーニングスクリプトを呼び出し、引数を渡すためのコマンド構造 |
-| `run_cap` | この sweep の最大 Run 数 |
+| Top-level keys                        | Description                              |
+| ------------------------------------- | ---------------------------------------- |
+| `program`                             |  (必須) 実行するトレーニングスクリプト                    |
+| `entity`                              | この sweep の entity                        |
+| `project`                             | この sweep のプロジェクト                         |
+| `description`                         | sweep の説明テキスト                            |
+| `name`                                | W&amp;B UI に表示される sweep の名。              |
+| [`method`](#method)                   |  (必須) 検索戦略                               |
+| [`metric`](#metric)                   | 最適化するメトリクス (一部の検索戦略および停止条件でのみ使用)         |
+| [`parameters`](#parameters)           |  (必須) 探索するパラメーターの範囲                      |
+| [`early_terminate`](#early_terminate) | 早期終了の条件                                  |
+| [`command`](#command)                 | トレーニングスクリプトの呼び出しと引数の受け渡しに使用する command 構造 |
+| `run_cap`                             | この sweep の runs の最大数                     |
 
-sweep configuration の構築方法の詳細については、 [Sweep configuration](./sweep-config-keys) の構造を参照してください。
+sweep 設定の構造化方法について詳しくは、[Sweep configuration](./sweep-config-keys) を参照してください。
 
 {/* ## `program`
 
-##  `entity`
+  ##  `entity`
 
-## `project`
+  ## `project`
 
-## `description`
+  ## `description`
 
-## `name` */}
+  ## `name` */}
 
-## `metric`
+<div id="metric">
+  ## `metric`
+</div>
 
-最適化するメトリクスの名前、目標、ターゲット値を指定するには、トップレベルの sweep configuration キー `metric` を使用します。
+`metric` の最上位の sweep 設定キーを使用して、最適化するメトリクスの名、目標、およびターゲット値を指定します。
 
-| キー | 説明 |
-| -------- | --------------------------------------------------------- |
-| `name`   | 最適化するメトリクスの名前 |
-| `goal`   | `minimize`（最小化）または `maximize`（最大化）。デフォルトは `minimize` |
-| `target` | 最適化するメトリクスの目標値。Run が指定したターゲット値に到達した場合、sweep は新しい Run を作成しません。実行中の Run があるアクティブなエージェントは、その Run が完了するまで待機してから新しい Run の作成を停止します。 |
+| Key      | Description                                                                                                                      |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `name`   | 最適化するメトリクスの名。                                                                                                                   |
+| `goal`   | `minimize` または `maximize` のいずれかです (デフォルトは `minimize`) 。                                                                          |
+| `target` | 最適化するメトリクスの目標値です。run が指定したターゲット値に達すると、sweep は新しい run を作成しなくなります。run を実行中のアクティブな エージェント は、その run が完了するまで待機し、その後は新しい run の作成を停止します。 |
 
-## `parameters`
-YAML ファイルまたは Python スクリプトで、`parameters` をトップレベルキーとして指定します。`parameters` キーの中に、最適化したいハイパーパラメーターの名前を指定します。一般的なハイパーパラメーターには、学習率、バッチサイズ、エポック、オプティマイザーなどがあります。sweep configuration で定義する各ハイパーパラメーターに対して、1 つ以上の探索制約を指定します。
+<div id="parameters">
+  ## `parameters`
+</div>
 
-以下の表は、サポートされているハイパーパラメーター探索制約を示しています。ハイパーパラメーターとユースケースに基づいて、以下の探索制約のいずれかを使用して、sweep agent にどこを（分布の場合）または何を（`value`、`values` など）探索または使用するかを指示します。
+YAML ファイルまたは Python スクリプトで、トップレベルキーとして `parameters` を指定します。`parameters` キー内では、最適化したいハイパーパラメーターの名を指定します。一般的なハイパーパラメーターには、学習率、バッチサイズ、エポック数、オプティマイザーなどがあります。sweep 設定で定義する各ハイパーパラメーターには、1 つ以上の探索制約を指定します。
 
-| 探索制約 | 説明 |
-| --------------- | ------------------------------------------------------------------------------ |
-| `values`        | このハイパーパラメーターのすべての有効な値を指定します。`grid` と互換性があります。 |
-| `value`         | このハイパーパラメーターの単一の有効な値を指定します。`grid` と互換性があります。 |
-| `distribution`  | 確率 [分布](#ランダム検索とベイズ探索の分布オプション) を指定します。デフォルト値については、この表に続く注記を参照してください。 |
-| `probabilities` | `random` を使用する際に、`values` の各要素を選択する確率を指定します。 |
-| `min`, `max`    | (`int` または `float`) 最大値と最小値。`int` の場合は `int_uniform` 分布、`float` の場合は `uniform` 分布のハイパーパラメーターに使用されます。 |
-| `mu`            | (`float`) `normal` または `lognormal` 分布の平均パラメータ。 |
-| `sigma`         | (`float`) `normal` または `lognormal` 分布の標準偏差パラメータ。 |
-| `q`             | (`float`) 量子化されたハイパーパラメーターの量子化ステップサイズ。 |
-| `parameters`    | ルートレベルのパラメータの中に他のパラメータをネストします。 |
+次の表は、サポートされるハイパーパラメーター探索の制約を示しています。ハイパーパラメーターやユースケースに応じて、以下のいずれかの探索制約を使用し、sweep エージェントに探索または使用する対象を指定します。分布を使う場合はどこを探索するか、`value` や `values` などを使う場合は何を使用するかを指定します。
 
-<Note>
-[分布](#ランダム検索とベイズ探索の分布オプション) が指定されていない場合、W&B は以下の条件に基づいて分布を設定します。
-* `values` を指定した場合は `categorical`
-* `max` と `min` を整数で指定した場合は `int_uniform`
-* `max` と `min` を浮動小数点数で指定した場合は `uniform`
-* `value` にセットを指定した場合は `constant`
-</Note>
-
-## `method`
-`method` キーでハイパーパラメーター探索戦略を指定します。グリッド検索、ランダム検索、ベイズ探索の 3 つの戦略から選択できます。
-
-#### グリッド検索 (Grid search)
-ハイパーパラメーターの値のすべての組み合わせを反復します。グリッド検索は、各反復で使用するハイパーパラメーターのセットについて、過去の試行に基づかない決定（uninformed decisions）を行います。グリッド検索は計算コストが高くなる可能性があります。
-
-連続的な探索空間内を探索する場合、グリッド検索は永久に実行されます。
-
-#### ランダム検索 (Random search)
-分布に基づいて、各反復でハイパーパラメーター値のランダムなセットを選択します。ランダム検索は、コマンドライン、Python スクリプト内、または [W&B App](/models/sweeps/sweeps-ui/) からプロセスを停止しない限り、永久に実行されます。
-
-ランダム検索（`method: random`）を選択した場合は、metric キーで分布空間を指定してください。
-
-#### ベイズ探索 (Bayesian search)
-[ランダム検索](#random-search) や [グリッド検索](#grid-search) とは対照的に、ベイズモデルは過去の試行に基づいた決定（informed decisions）を行います。ベイズ最適化は確率モデルを使用して、目的関数を評価する前にサロゲート関数上で値をテストする反復プロセスを通じて、どの値を使用するかを決定します。ベイズ探索は少数の連続パラメータに対してうまく機能しますが、スケール性は劣ります。ベイズ探索の詳細については、[Bayesian Optimization Primer の論文](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf) を参照してください。
-
-{/* さまざまなベイズ最適化手法があります。W&Bは、ハイパーパラメーターとモデルメトリクスの関係をモデル化するためにガウス過程を使用します。詳細については、この論文を参照してください。 [LINK] */}
-
-ベイズ探索は、コマンドライン、Python スクリプト内、または [W&B App](/models/sweeps/sweeps-ui/) からプロセスを停止しない限り、永久に実行されます。
-
-### ランダム検索とベイズ探索の分布オプション
-`parameter` キーの中にハイパーパラメーターの名前をネストします。次に、`distribution` キーを指定し、値の分布を指定します。
-
-以下の表は、W&B がサポートする分布をリストしたものです。
-
-| `distribution` キーの値 | 説明 |
-| ------------------------ | ------------------------------------ |
-| `constant`               | 定数分布。使用する定数値（`value`）を指定する必要があります。 |
-| `categorical`            | カテゴリカル分布。このハイパーパラメーターのすべての有効な値（`values`）を指定する必要があります。 |
-| `int_uniform`            | 整数上の離散一様分布。`max` と `min` を整数で指定する必要があります。 |
-| `uniform`                | 連続一様分布。`max` と `min` を浮動小数点数で指定する必要があります。 |
-| `q_uniform`              | 量子化一様分布。`round(X / q) * q` を返します（X は一様分布）。`q` のデフォルトは `1` です。 |
-| `log_uniform`            | 対数一様分布。自然対数が `min` と `max` の間で一様分布となるような、`exp(min)` と `exp(max)` の間の値 `X` を返します。 |
-| `log_uniform_values`     | 対数一様分布。`log(X)` が `log(min)` と `log(max)` の間で一様分布となるような、`min` と `max` の間の値 `X` を返します。 |
-| `q_log_uniform`          | 量子化対数一様分布。`round(X / q) * q` を返します（`X` は `log_uniform`）。`q` のデフォルトは `1` です。 |
-| `q_log_uniform_values`   | 量子化対数一様分布。`round(X / q) * q` を返します（`X` は `log_uniform_values`）。`q` のデフォルトは `1` です。 |
-| `inv_log_uniform`        | 逆対数一様分布。`log(1/X)` が `min` と `max` の間で一様分布となるような `X` を返します。 |
-| `inv_log_uniform_values` | 逆対数一様分布。`log(1/X)` が `log(1/max)` と `log(1/min)` の間で一様分布となるような `X` を返します。 |
-| `normal`                 | 正規分布。平均 `mu`（デフォルト `0`）、標準偏差 `sigma`（デフォルト `1`）の正規分布に従う値を返します。 |
-| `q_normal`               | 量子化正規分布。`round(X / q) * q` を返します（`X` は `normal`）。`q` のデフォルトは `1` です。 |
-| `log_normal`             | 対数正規分布。自然対数 `log(X)` が平均 `mu`（デフォルト `0`）、標準偏差 `sigma`（デフォルト `1`）の正規分布に従うような値 `X` を返します。 |
-| `q_log_normal`  | 量子化対数正規分布。`round(X / q) * q` を返します（`X` は `log_normal`）。`q` のデフォルトは `1` です。 |
-
-## `early_terminate`
-
-パフォーマンスの低い Run を停止するには、早期終了（`early_terminate`）を使用します。早期終了が発生すると、W&B は現在の Run を停止してから、新しいハイパーパラメーター値のセットで新しい Run を作成します。
+| Search constraint | Description                                                                                                    |
+| ----------------- | -------------------------------------------------------------------------------------------------------------- |
+| `values`          | このハイパーパラメーターで有効なすべての値を指定します。`grid` と互換性があります。                                                                  |
+| `value`           | このハイパーパラメーターで有効な単一の値を指定します。`grid` と互換性があります。                                                                   |
+| `distribution`    | 確率[分布](#distribution-options-for-random-and-bayesian-search)を指定します。デフォルト値については、この表の後の注記を参照してください。              |
+| `probabilities`   | `random` を使用する場合に、`values` の各要素が選択される確率を指定します。                                                                 |
+| `min`, `max`      | (`int`or `float`) 最大値と最小値です。`int` の場合は `int_uniform` 分布のハイパーパラメーター、`float` の場合は `uniform` 分布のハイパーパラメーターに使用します。 |
+| `mu`              | (`float`) `normal` 分布または `lognormal` 分布のハイパーパラメーターの平均パラメーターです。                                                 |
+| `sigma`           | (`float`) `normal` 分布または `lognormal` 分布のハイパーパラメーターの標準偏差パラメーターです。                                               |
+| `q`               | (`float`) 量子化ハイパーパラメーターの量子化 step サイズです。                                                                        |
+| `parameters`      | ルートレベルのパラメーター内に、他のパラメーターをネストします。                                                                               |
 
 <Note>
-`early_terminate` を使用する場合は、停止アルゴリズムを指定する必要があります。sweep configuration の `early_terminate` 内に `type` キーをネストしてください。
+  [分布](#distribution-options-for-random-and-bayesian-search)が指定されていない場合、W&amp;B は以下の条件に応じて次の分布を設定します。
+
+  * `values` を指定した場合は `categorical`
+  * `max` と `min` を整数で指定した場合は `int_uniform`
+  * `max` と `min` を浮動小数点数で指定した場合は `uniform`
+  * `value` に値を設定した場合は `constant`
 </Note>
 
-### 停止アルゴリズム
+<div id="method">
+  ## `method`
+</div>
+
+`method` キーを使用して、ハイパーパラメーター探索の戦略を指定します。選択できる戦略は、grid、random、ベイズ探索の 3 つです。
+
+<div id="grid-search">
+  #### グリッドサーチ
+</div>
+
+ハイパーパラメーター値のあらゆる組み合わせを順に試します。グリッドサーチでは、各反復で使用するハイパーパラメーター値の組み合わせを、過去の結果に基づかずに決定します。グリッドサーチは計算コストが高くなる場合があります。
+
+連続的な探索空間を探索する場合、グリッドサーチは終了しません。
+
+<div id="random-search">
+  #### ランダムサーチ
+</div>
+
+各反復で、分布に基づいて、事前情報を用いずにランダムなハイパーパラメーター値のセットを選択します。ランダムサーチは、コマンドライン、Python スクリプト内、または [W&amp;B App](/ja/models/sweeps/visualize-sweep-results/) からプロセスを停止しない限り、実行され続けます。
+
+ランダムサーチ (`method: random`) を選択する場合は、メトリクスキーで分布空間を指定します。
+
+<div id="bayesian-search">
+  #### ベイズ探索
+</div>
+
+[ランダム](#random-search)検索や[グリッド](#grid-search)検索とは異なり、ベイズモデルは情報に基づいて判断を行います。ベイズ最適化では、目的関数を評価する前に、サロゲート関数上で値を試す反復プロセスを通じて、どの値を使用するかを確率モデルで決定します。ベイズ探索は、少数の連続パラメーターには適していますが、スケーリング性能は高くありません。ベイズ探索の詳細については、[Bayesian Optimization Primer paper](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf)を参照してください。
+
+{/* Bayesian最適化にはさまざまな手法があります。W&Bは、ハイパーパラメーターとモデルのメトリクスの関係をモデル化するためにガウス過程を使用します。詳細は、この論文を参照してください。[LINK] */}
+
+ベイズ探索は、コマンドラインから、Pythonスクリプト内で、または [W&amp;B App](/ja/models/sweeps/visualize-sweep-results/) でプロセスを停止しない限り、実行され続けます。
+
+<div id="distribution-options-for-random-and-bayesian-search">
+  ### ランダム探索およびベイズ探索の分布オプション
+</div>
+
+`parameter` キーの中に、ハイパーパラメーターの名をネストします。次に、`distribution` キーを指定し、その値の分布を指定します。
+
+次の表に、W&amp;B がサポートする分布を示します。
+
+| Value for `distribution` key | Description                                                                              |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| `constant`                   | 定数分布。使用する定数値 (`value`) を指定する必要があります。                                                     |
+| `categorical`                | カテゴリカル分布。このハイパーパラメーターで有効な値をすべて (`values`) 指定する必要があります。                                   |
+| `int_uniform`                | 整数上の離散一様分布。`max` と `min` は整数で指定する必要があります。                                                |
+| `uniform`                    | 連続一様分布。`max` と `min` は浮動小数点数で指定する必要があります。                                                |
+| `q_uniform`                  | 量子化一様分布。`X` が一様分布に従うとき、`round(X / q) * q` を返します。`q` のデフォルトは `1` です。                      |
+| `log_uniform`                | 対数一様分布。自然対数が `min` と `max` の間で一様分布するような、`exp(min)` から `exp(max)` の間の値 `X` を返します。         |
+| `log_uniform_values`         | 対数一様分布。`log(`X`)` が `log(min)` と `log(max)` の間で一様分布するような、`min` から `max` の間の値 `X` を返します。  |
+| `q_log_uniform`              | 量子化対数一様分布。`X` が `log_uniform` に従うとき、`round(X / q) * q` を返します。`q` のデフォルトは `1` です。         |
+| `q_log_uniform_values`       | 量子化対数一様分布。`X` が `log_uniform_values` に従うとき、`round(X / q) * q` を返します。`q` のデフォルトは `1` です。  |
+| `inv_log_uniform`            | 逆対数一様分布。`log(1/X)` が `min` と `max` の間で一様分布する `X` を返します。                                  |
+| `inv_log_uniform_values`     | 逆対数一様分布。`log(1/X)` が `log(1/max)` と `log(1/min)` の間で一様分布する `X` を返します。                    |
+| `normal`                     | 正規分布。戻り値は、平均 `mu` (デフォルト `0`) 、標準偏差 `sigma` (デフォルト `1`) の正規分布に従います。                      |
+| `q_normal`                   | 量子化正規分布。`X` が `normal` に従うとき、`round(X / q) * q` を返します。`q` のデフォルトは `1` です。                |
+| `log_normal`                 | 対数正規分布。自然対数 `log(X)` が平均 `mu` (デフォルト `0`) 、標準偏差 `sigma` (デフォルト `1`) の正規分布に従う値 `X` を返します。 |
+| `q_log_normal`               | 量子化対数正規分布。`X` が `log_normal` に従うとき、`round(X / q) * q` を返します。`q` のデフォルトは `1` です。          |
+
+<div id="early_terminate">
+  ## `early_terminate`
+</div>
+
+パフォーマンスの低い run を停止するには、早期終了 (`early_terminate`) を使用します。早期終了が発生すると、W&amp;B は新しいハイパーパラメーター値のセットで新しい run を作成する前に、現在の run を停止します。
 
 <Note>
-W&B は現在、[Hyperband](https://arxiv.org/abs/1603.06560) 停止アルゴリズムをサポートしています。
+  `early_terminate` を使用する場合は、停止アルゴリズムを指定する必要があります。sweep の設定では、`type` キーを `early_terminate` の中にネストしてください。
 </Note>
 
-[Hyperband](https://arxiv.org/abs/1603.06560) ハイパーパラメーター最適化は、プログラムを停止すべきか、あるいは *bracket* と呼ばれる 1 つ以上のあらかじめ設定された反復回数で続行すべきかを評価します。
-
-W&B の Run が bracket に到達すると、sweep はその Run のメトリクスを、それまでに報告されたすべてのメトリクス値と比較します。Run のメトリクス値が高すぎる（目標が最小化の場合）または低すぎる（目標が最大化の場合）、sweep はその Run を終了します。
-
-Bracket はログに記録された反復回数に基づいています。bracket の数は、最適化しているメトリクスをログに記録した回数に対応します。反復はステップ、エポック、またはその中間の何かに対応させることができます。ステップカウンターの数値自体は bracket の計算には使用されません。
+<div id="stopping-algorithm">
+  ### 停止アルゴリズム
+</div>
 
 <Note>
-bracket スケジュールを作成するには、`min_iter` または `max_iter` のいずれかを指定してください。
+  W&amp;B は現在、[Hyperband](https://arxiv.org/abs/1603.06560) 停止アルゴリズムをサポートしています。
 </Note>
 
-| キー | 説明 |
-| ---------- | -------------------------------------------------------------- |
-| `min_iter` | 最初の bracket の反復回数を指定します |
-| `max_iter` | 最大反復回数を指定します |
-| `s`        | bracket の総数を指定します（`max_iter` には必須） |
-| `eta`      | bracket の倍率スケジュールを指定します（デフォルト: `3`） |
-| `strict`   | 元の Hyperband 論文により忠実に、より積極的に Run を整理する「厳密（strict）」モードを有効にします。デフォルトは false です。 |
+[Hyperband](https://arxiv.org/abs/1603.06560) ハイパーパラメーター最適化では、プログラムを停止すべきか、それとも *brackets* と呼ばれる 1 つ以上の事前設定された反復回数まで継続すべきかを評価します。
+
+W&amp;B run が bracket に到達すると、sweep はその run のメトリクスを、それまでに報告されたすべてのメトリクス値と比較します。目標が最小化の場合は run のメトリクス値が高すぎると run を終了し、目標が最大化の場合は run のメトリクス値が低すぎると run を終了します。
+
+brackets は、ログされた反復回数に基づいて決まります。bracket の数は、最適化対象のメトリクスをログする回数に対応します。反復は steps、epochs、またはその中間に対応する場合があります。step カウンターの数値は bracket の計算には使用されません。
 
 <Note>
-Hyperband は数分に一度、終了すべき [Runs](/models/ref/python/experiments/run) をチェックします。Run や反復が短い場合、Run の終了タイムスタンプが指定した bracket と異なる場合があります。
+  bracket スケジュールを作成するには、`min_iter` または `max_iter` のいずれかを指定します。
 </Note>
 
-## `command` 
-
-{/* [`wandb agent`](/models/ref/cli/wandb-agent) で作成されたエージェントは、デフォルトで次の形式のコマンドを受け取ります。 */}
-
-`command` キー内のネストされた値を使用して、形式と内容を変更できます。ファイル名などの固定コンポーネントを直接含めることができます。
+| Key        | Description                                                                            |
+| ---------- | -------------------------------------------------------------------------------------- |
+| `min_iter` | 最初の bracket の反復回数を指定します                                                                |
+| `max_iter` | 反復の最大回数を指定します。                                                                         |
+| `s`        | bracket の総数を指定します (`max_iter` では必須)                                                    |
+| `eta`      | bracket の乗数スケジュールを指定します (デフォルト: `3`) 。                                                 |
+| `strict`   | run を積極的に刈り込む &#39;strict&#39; モードを有効にし、元の Hyperband paper により忠実に従います。デフォルトは false です。 |
 
 <Note>
-Unix システムでは、`/usr/bin/env` を使用することで、OS が環境に基づいて正しい Python インタープリタを選択するようにします。
+  Hyperband は数分ごとに、どの[runs](/ja/models/ref/python/experiments/run)を終了するかを確認します。run や反復が短い場合、終了した run の Timestamp は指定した brackets と異なることがあります。
 </Note>
 
-W&B は、コマンドの可変コンポーネント用に以下のマクロをサポートしています。
+<div id="command">
+  ## `command`
+</div>
 
-| コマンドマクロ | 説明 |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `${env}`                   | Unix システムでは `/usr/bin/env`、Windows では省略されます。 |
-| `${interpreter}`           | `python` に展開されます。 |
-| `${program}`               | sweep configuration の `program` キーで指定されたトレーニングスクリプトのファイル名。 |
-| `${args}`                  | `--param1=value1 --param2=value2` という形式のハイパーパラメーターとその値。 |
-| `${args_no_boolean_flags}` | `--param1=value1` という形式のハイパーパラメーターとその値。ただし、boolean パラメータは `True` の場合は `--boolean_flag_param` 形式になり、`False` の場合は省略されます。 |
-| `${args_no_hyphens}`       | `param1=value1 param2=value2` という形式のハイパーパラメーターとその値。 |
-| `${args_json}`             | JSON としてエンコードされたハイパーパラメーターとその値。 |
-| `${args_json_file}`        | JSON としてエンコードされたハイパーパラメーターとその値を含むファイルへのパス。 |
-| `${envvar}`                | 環境変数を渡す方法。 `${envvar:MYENVVAR}` は環境変数 MYENVVAR の値に展開されます。 |
+{/* [`wandb agent`](/models/ref/cli/wandb-agent) で作成されたエージェントは、デフォルトで次の形式の command を受け取ります。 */}
+
+`command` キー内のネストされた値を使って、形式と内容を変更できます。ファイル名などの固定コンポーネントを直接含めることもできます。
+
+<Note>
+  Unix システムでは、`/usr/bin/env` により、環境に応じて OS が適切な Python インタープリターを選択します。
+</Note>
+
+W&amp;B は、コマンドの可変コンポーネントに対して次のマクロをサポートします。
+
+| コマンドマクロ                    | 説明                                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `${env}`                   | Unix システムでは `/usr/bin/env` に展開され、Windows では省略されます。                                                                  |
+| `${interpreter}`           | `python` に展開されます。                                                                                                   |
+| `${program}`               | sweep 設定の `program` キーで指定されたトレーニングスクリプトのファイル名です。                                                                    |
+| `${args}`                  | `--param1=value1 --param2=value2` 形式のハイパーパラメーターとその値です。                                                              |
+| `${args_no_boolean_flags}` | `--param1=value1` 形式のハイパーパラメーターとその値です。ただし、ブール値のパラメーターは、`True` の場合は `--boolean_flag_param` 形式となり、`False` の場合は省略されます。 |
+| `${args_no_hyphens}`       | `param1=value1 param2=value2` 形式のハイパーパラメーターとその値です。                                                                  |
+| `${args_json}`             | JSON としてエンコードされたハイパーパラメーターとその値です。                                                                                   |
+| `${args_json_file}`        | JSON としてエンコードされたハイパーパラメーターとその値を含むファイルへのパスです。                                                                        |
+| `${envvar}`                | 環境変数を渡すためのマクロです。`${envvar:MYENVVAR}` &#95;&#95; は、環境変数 MYENVVAR の値に展開されます。 &#95;&#95;                               |

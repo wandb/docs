@@ -1,0 +1,40 @@
+---
+title: Initialiser un balayage
+---
+
+```python
+"""
+Initialiser un balayage W&B.
+
+Remplacer :
+- les valeurs entre chevrons par les vôtres
+- sweep_configuration par votre propre dictionnaire de configuration de balayage. Voir
+    sweep_config.py pour des exemples de configurations de balayage à un et deux niveaux d'imbrication.
+"""
+
+import wandb
+
+# Exemple de configuration de balayage
+sweep_configuration = {
+    "method": "<sweep_method>",
+    "name": "<sweep_name>",
+    "metric": {
+        "goal": "<goal>", 
+        "name": "<metric_name>"
+        },
+    "parameters": {
+        "hyperparameter_1": {
+            "values": [16, 32, 64]
+            },
+        "hyperparameter_2": {
+            "values": [5, 10, 15]
+            },
+        "hyperparameter_3": {
+            "search_constraint_1": 0.1,
+            "search_constraint_2": 0.0001
+            },
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+```

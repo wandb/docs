@@ -1,0 +1,24 @@
+---
+title: "OS 오류 - 열린 파일 수가 너무 많음"
+keywords: ["성능"]
+---
+
+<div id="errno-24-too-many-open-files">
+  ### `[Errno 24]: 열린 파일 수가 너무 많음`
+</div>
+
+이 오류는 열려 있는 파일 수가 운영체제에서 설정한 한도를 초과할 때 발생합니다. Weave에서는 대용량 이미지 데이터셋으로 작업할 때 이런 문제가 발생할 수 있습니다. Weave는 이미지 처리를 위해 `PIL`을 사용하며, 이로 인해 프로그램이 실행되는 동안 파일 디스크립터가 열린 상태로 유지됩니다.
+
+이 문제를 해결하려면 `ulimit`을 사용해 열린 파일 수의 시스템 한도를 `65,536`으로 늘리세요:
+
+```bash
+ulimit -n 65536
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

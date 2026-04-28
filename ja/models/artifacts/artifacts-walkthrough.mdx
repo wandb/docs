@@ -1,13 +1,16 @@
 ---
-title: チュートリアル： Dataset アーティファクトの作成、トラッキング、および使用
-description: W&B で Dataset アーティファクトを作成、追跡、使用します。
+description:
+  W&B でデータセットArtifactを作成、トラッキング、使用します。
+title: "チュートリアル: データセットArtifactを作成、トラッキング、使用する"
 ---
 
-このチュートリアルでは、データセットの Artifacts を作成、追跡、および使用する方法について説明します。
+このチュートリアルでは、データセットArtifactを作成、トラッキング、使用する方法を説明します。
 
-## 1. W&B にログインする
+<div id="1-log-into-wb">
+  ## 1. W&amp;B にログインする
+</div>
 
-W&B ライブラリをインポートし、W&B にログインします。まだアカウントをお持ちでない場合は、無料の W&B アカウントに登録する必要があります。
+W&amp;B ライブラリをインポートして、W&amp;B にログインします。まだお済みでない場合は、無料の W&amp;B アカウントにサインアップする必要があります。
 
 ```python
 import wandb
@@ -15,55 +18,60 @@ import wandb
 wandb.login()
 ```
 
-## 2. run を初期化する
+<div id="2-initialize-a-run">
+  ## 2. run を初期化する
+</div>
 
-[`wandb.init()`](/models/ref/python/functions/init) を使用して run を初期化します。これにより、データを同期してログに記録するためのバックグラウンドプロセスが生成されます。プロジェクト名とジョブタイプを指定します。
+[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して run を初期化します。これにより、データを Sync・ログするバックグラウンドプロセスが起動します。プロジェクト名とジョブタイプを指定します:
 
 ```python
-# W&B Run を作成します。この例ではデータセットの Artifacts を作成する方法を
-# 示すため、job_type に 'dataset' を指定します。
+# W&B の run を作成します。このサンプルではデータセットの artifact を作成する方法を示すため、ジョブタイプに 'dataset' を指定しています。
 with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     # ここにコードを記述します
 ```
 
-## 3. Artifact オブジェクトを作成する
+<div id="3-create-an-artifact-object">
+  ## 3. artifact オブジェクトを作成する
+</div>
 
-[`wandb.Artifact()`](/models/ref/python/experiments/artifact) を使用して Artifact オブジェクトを作成します。`name` パラメータにアーティファクトの名前を、`type` パラメータにファイルタイプの説明をそれぞれ指定します。
+[`wandb.Artifact()`](/ja/models/ref/python/experiments/artifact) を使用して artifact オブジェクトを作成します。`name` パラメーターには artifact の名を、`type` パラメーターにはファイルタイプを表す説明を指定します。
 
-例えば、次のコードスニペットは、`‘bicycle-dataset’` という名前で `‘dataset’` というラベル（タイプ）を持つアーティファクトを作成する方法を示しています。
+たとえば、次のコードスニペットは、`‘dataset’` ラベルを持つ `‘bicycle-dataset’` という artifact を作成する方法を示しています。
 
 ```python
 artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
 
-アーティファクトの構築方法に関する詳細は、[Artifacts の構築](./construct-an-artifact) を参照してください。
+artifact の作成方法の詳細については、[Artifacts を作成する](./construct-an-artifact)を参照してください。
 
-## 4. アーティファクトにデータセットを追加する
+<div id="4-add-the-dataset-to-the-artifact">
+  ## 4. データセットをartifactに追加する
+</div>
 
-アーティファクトにファイルを追加します。一般的なファイルタイプには、Models や Datasets が含まれます。次の例では、マシンにローカルに保存されている `dataset.h5` という名前のデータセットをアーティファクトに追加しています。
+artifactにファイルを追加します。一般的なファイルタイプには、モデルやデータセットがあります。次の例では、ローカル環境に保存されている `dataset.h5` という名前のデータセットをartifactに追加します。
 
 ```python
-# アーティファクトのコンテンツにファイルを追加します
+# artifactのコンテンツにファイルを追加する
 artifact.add_file(local_path="dataset.h5")
 ```
 
-上記のコードスニペットのファイル名 `dataset.h5` を、アーティファクトに追加したいファイルへのパスに置き換えてください。
+前のコードスニペットのファイル名 `dataset.h5` を、artifact に追加するファイルのパスに置き換えます。
 
+<div id="5-log-the-dataset">
+  ## 5. データセットをログする
+</div>
 
-## 5. データセットをログに記録する
-
-W&B の run オブジェクトの `wandb.Run.log_artifact()` メソッドを使用して、アーティファクトのバージョンを保存し、そのアーティファクトを [run の出力](/models/artifacts/explore-and-traverse-an-artifact-graph) として宣言します。
+W&amp;B の run オブジェクトの `wandb.Run.log_artifact()` method を使用して、artifact のバージョンを保存すると同時に、その artifact を [run の出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) として宣言します。
 
 ```python
-# アーティファクトのバージョンを W&B に保存し、
-# この run の出力としてマークします
+# artifactのバージョンをW&Bに保存し、このrunの
+# 出力としてマークする
 run.log_artifact(artifact)
 ```
 
-アーティファクトをログに記録すると、デフォルトで `'latest'` [エイリアス](/models/artifacts/create-a-custom-alias) が作成されます。アーティファクトのエイリアスとバージョンに関する詳細は、それぞれ [カスタムエイリアスの作成](./create-a-custom-alias) および [新しいアーティファクトバージョンの作成](./create-a-new-artifact-version) を参照してください。
+artifact をログすると、デフォルトで `'latest'` の[エイリアス](/ja/models/artifacts/create-a-custom-alias)が作成されます。artifact のエイリアスとバージョンの詳細については、それぞれ[カスタムエイリアスを作成する](./create-a-custom-alias)と[新しい artifact バージョンを作成する](./create-a-new-artifact-version)を参照してください。
 
-
-これらをまとめると、ここまでのスクリプトは次のようになります。
+以上を踏まえると、ここまでのスクリプトは次のようになります。
 
 ```python
 import wandb
@@ -76,25 +84,26 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     run.log_artifact(artifact)
 ```
 
+<div id="6-download-and-use-the-artifact">
+  ## 6. artifact をダウンロードして使用する
+</div>
 
-## 6. アーティファクトをダウンロードして使用する
-
-以下のコード例は、W&B サーバーにログを記録して保存したアーティファクトを使用するための手順を示しています。
+次のコード例では、ログして W&amp;B サーバーに保存した artifact を使用する手順を示します。
 
 1. まず、**`wandb.init()`** で新しい run オブジェクトを初期化します。
-2. 次に、run オブジェクトの [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) メソッドを使用して、使用するアーティファクトを W&B に伝えます。これによりアーティファクトオブジェクトが返されます。
-3. 第三に、アーティファクトの [`wandb.Artifact.download()`](/models/ref/python/experiments/artifact#download) メソッドを使用して、アーティファクトの内容をダウンロードします。
+2. 次に、run オブジェクトの [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) method を使用して、使用する artifact を W&amp;B に指定します。これにより、artifact オブジェクトが返されます。
+3. 最後に、artifact の [`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) method を使用して、artifact の内容をダウンロードします。
 
 ```python
-# W&B Run を作成します。ここではトレーニングの追跡にこの run を
-# 使用するため、'type' に 'training' を指定します。
+# W&B の run を作成します。トレーニングのトラッキングに使用するため、
+# ここでは 'type' に 'training' を指定します。
 with wandb.init(project="artifacts-example", job_type="training") as run:
 
-  # W&B にアーティファクトを照会し、この run の入力としてマークします
+  # W&B から artifact をクエリし、この run への入力としてマークします
   artifact = run.use_artifact("bicycle-dataset:latest")
 
-  # アーティファクトのコンテンツをダウンロードします
+  # artifact の内容をダウンロードします
   artifact_dir = artifact.download()
 ```
 
-あるいは、Public API (`wandb.Api`) を使用して、Run の外部で既に W&B に保存されているデータをエクスポート（または更新）することもできます。詳細は [外部ファイルの追跡](./track-external-files) を参照してください。
+あるいは、Run の外で W&amp;B にすでに保存されているデータをエクスポートしたり、更新したりするには、Public API (`wandb.Api`) を使用できます。詳細は [外部ファイルをトラッキングする](./track-external-files) を参照してください。

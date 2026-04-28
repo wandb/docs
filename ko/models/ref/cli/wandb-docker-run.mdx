@@ -1,24 +1,46 @@
 ---
 title: wandb docker-run
 ---
-import WandbDockerRun from "/snippets/en/_includes/cli/wandb-docker-run.mdx";
 
-<WandbDockerRun/>
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-`docker run`을 래핑하여 WANDB_API_KEY 및 WANDB_DOCKER 환경 변수를 추가합니다.
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L2418" />
 
-또한 시스템에 nvidia-docker 실행 파일이 존재하고 --runtime이 설정되지 않은 경우, 런타임을 nvidia로 설정합니다.
-
-자세한 내용은 `docker run --help`를 참조하세요.
-
-## Usage
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb docker-run [DOCKER_RUN_ARGS]
+docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
 ```
 
-## Arguments
+<div id="description">
+  ## 설명
+</div>
 
-| 인수 | 설명 | 필수 여부 |
-| :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | 설명 없음 | No |
+`docker run`을 래핑하고 W&amp;B 환경 변수를 자동으로 주입합니다.
+
+다음을 주입하면서 모든 인수를 `docker run`에 그대로 전달합니다:
+
+* WANDB&#95;API&#95;KEY: 로그인되어 있으면 현재 API 키를 주입하여
+  컨테이너가 W&amp;B에 인증할 수 있도록 합니다.
+
+  * WANDB&#95;DOCKER: 인수에서 이미지를 감지할 수 있으면 확인된 이미지 ID를 주입하여
+    어떤 도커 이미지가 해당 run을 생성했는지 W&amp;B가 추적할 수 있도록 합니다.
+
+호스트에서 `nvidia-docker`가 감지되고 `--runtime`이 아직 설정되지 않은 경우
+`--runtime nvidia`를 자동으로 추가합니다.
+
+예를 들어, &quot;my-image&quot; 컨테이너 내부에서 Python 스크립트 train.py를 실행하려면:
+
+```bash
+wandb docker-run my-image python train.py
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름                | 기본값 | 유형    |
+| ----------------- | --- | ----- |
+| `docker_run_args` | STR | False |

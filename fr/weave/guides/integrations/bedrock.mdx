@@ -1,0 +1,172 @@
+---
+title: Bedrock
+description: "Suivez et surveillez les appels LLM Amazon Bedrock avec Weave, en capturant les interactions avec les modèles fondamentaux et l'utilisation de l'API `converse`."
+---
+
+Weave suit et journalise automatiquement les appels LLM effectués via Amazon Bedrock, le service entièrement géré d&#39;AWS qui propose des modèles fondamentaux de grandes entreprises de l&#39;IA via une API unifiée.
+
+Il existe plusieurs façons de journaliser dans Weave les appels LLM effectués avec Amazon Bedrock. Vous pouvez utiliser `weave.op` pour créer des opérations réutilisables afin de suivre tous les appels à un modèle Bedrock. Si vous utilisez des modèles Anthropic, vous pouvez également utiliser l&#39;intégration native de Weave avec Anthropic.
+
+<Tip>
+  Pour consulter les derniers tutoriels, rendez-vous sur [Weights &amp; Biases sur Amazon Web Services](https://wandb.ai/site/partners/aws/).
+</Tip>
+
+<div id="traces">
+  ## Traces
+</div>
+
+Weave capturera automatiquement les traces des appels à l’API Bedrock. Vous pouvez utiliser le client Bedrock comme d’habitude après avoir initialisé Weave et patché le client :
+
+```python lines
+import weave
+import boto3
+import json
+from weave.integrations.bedrock.bedrock_sdk import patch_client
+
+weave.init("my_bedrock_app")
+
+# Créer et patcher le client Bedrock
+client = boto3.client("bedrock-runtime")
+patch_client(client)
+
+# Utiliser le client normalement
+response = client.invoke_model(
+    modelId="anthropic.claude-3-5-sonnet-20240620-v1:0",
+    body=json.dumps({
+        "anthropic_version": "bedrock-2023-05-31",
+        "max_tokens": 100,
+        "messages": [
+            {"role": "user", "content": "What is the capital of France?"}
+        ]
+    }),
+    contentType='application/json',
+    accept='application/json'
+)
+response_dict = json.loads(response.get('body').read())
+print(response_dict["content"][0]["text"])
+```
+
+d’utiliser l’API `converse` :
+
+```python lines
+messages = [{"role": "user", "content": [{"text": "What is the capital of France?"}]}]
+
+response = client.converse(
+    modelId="anthropic.claude-3-5-sonnet-20240620-v1:0",
+    system=[{"text": "You are a helpful AI assistant."}],
+    messages=messages,
+    inferenceConfig={"maxTokens": 100},
+)
+print(response["output"]["message"]["content"][0]["text"])
+
+```
+
+<div id="wrapping-with-your-own-ops">
+  ## Créer vos propres ops
+</div>
+
+Vous pouvez créer des opérations réutilisables à l’aide du décorateur `@weave.op()`. Voici un exemple qui montre les API `invoke_model` et `converse` :
+
+```python lines
+@weave.op
+def call_model_invoke(
+    model_id: str,
+    prompt: str,
+    max_tokens: int = 100,
+    temperature: float = 0.7
+) -> dict:
+    body = json.dumps({
+        "anthropic_version": "bedrock-2023-05-31",
+        "max_tokens": max_tokens,
+        "temperature": temperature,
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
+    })
+
+    response = client.invoke_model(
+        modelId=model_id,
+        body=body,
+        contentType='application/json',
+        accept='application/json'
+    )
+    return json.loads(response.get('body').read())
+
+@weave.op
+def call_model_converse(
+    model_id: str,
+    messages: str,
+    system_message: str,
+    max_tokens: int = 100,
+) -> dict:
+    response = client.converse(
+        modelId=model_id,
+        system=[{"text": system_message}],
+        messages=messages,
+        inferenceConfig={"maxTokens": max_tokens},
+    )
+    return response
+```
+
+<Frame>
+  ![Intégration de Bedrock Converse avec Weave, traces d'appels d'API et données de réponse](/weave/guides/integrations/imgs/bedrock_converse.png)
+</Frame>
+
+<div id="create-a-model-for-easier-experimentation">
+  ## Créer un `Model` pour simplifier l’expérimentation
+</div>
+
+Vous pouvez créer un Weave Model pour mieux organiser vos expériences et enregistrer des paramètres. Voici un exemple utilisant l’API `converse` :
+
+```python lines
+class BedrockLLM(weave.Model):
+    model_id: str
+    max_tokens: int = 100
+    system_message: str = "You are a helpful AI assistant."
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        "Generate a response using Bedrock's converse API"
+        
+        messages = [{
+            "role": "user",
+            "content": [{"text": prompt}]
+        }]
+
+        response = client.converse(
+            modelId=self.model_id,
+            system=[{"text": self.system_message}],
+            messages=messages,
+            inferenceConfig={"maxTokens": self.max_tokens},
+        )
+        return response["output"]["message"]["content"][0]["text"]
+
+# Créer et utiliser le modèle
+model = BedrockLLM(
+    model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
+    max_tokens=100,
+    system_message="You are an expert software engineer that knows a lot of programming. You prefer short answers."
+)
+result = model.predict("What is the best way to handle errors in Python?")
+print(result)
+```
+
+Cette approche vous permet de versionner vos expériences et de suivre facilement les différentes configurations de votre application basée sur Bedrock.
+
+<div id="learn-more">
+  ## En savoir plus
+</div>
+
+Découvrez comment utiliser Amazon Bedrock avec Weave
+
+<div id="try-bedrock-in-the-weave-playground">
+  ### Essayez Bedrock dans le playground Weave
+</div>
+
+Vous voulez tester des modèles Amazon Bedrock dans Weave UI sans rien configurer ? Essayez le [LLM Playground](../tools/playground).
+
+<div id="report-compare-llms-on-bedrock-for-text-summarization-with-weave">
+  ### Rapport : comparer des LLM sur Bedrock pour le résumé de texte avec Weave
+</div>
+
+Le rapport [Évaluer des LLM sur Amazon Bedrock](https://wandb.ai/byyoung3/ML_NEWS3/reports/Compare-LLMs-on-Amazon-Bedrock-for-text-summarization-with-W-B-Weave--VmlldzoxMDI1MTIzNw) explique comment utiliser Bedrock avec Weave pour évaluer et comparer des LLM pour des tâches de résumé de texte, exemples de code à l’appui.

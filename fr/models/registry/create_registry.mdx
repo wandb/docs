@@ -1,0 +1,92 @@
+---
+title: Créer un registre
+description: "Créez un W&B Registry avec une visibilité configurable et des types d'artifacts acceptés à l'aide de l'UI de l'application ou du SDK Python."
+---
+
+Un registre offre de la flexibilité et un contrôle sur les types d&#39;artifacts que vous pouvez utiliser, vous permet de restreindre sa visibilité, et bien plus encore.
+
+<div id="create-a-registry">
+  ## Créer un registre
+</div>
+
+Créez un registre soit par programmation à l’aide de l’interface W&amp;B Registry, soit avec le W&amp;B SDK Python.
+
+<Tabs>
+  <Tab title=" W&B Registry UI">
+    1. Accédez à W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
+    2. Cliquez sur le bouton **Create registry**.
+    3. Saisissez un nom pour le registre dans le champ **Name**.
+    4. Vous pouvez également ajouter une description du registre.
+    5. Sélectionnez les personnes autorisées à voir le registre dans la liste déroulante **visibilité du registre**. Voir [Types de visibilité du registre](./configure_registry#registry-visibility-types) pour plus d’informations sur les options de visibilité du registre.
+    6. Sélectionnez **All types** ou **Specify types** dans la liste déroulante **Accepted artifacts type**.
+    7. (Si vous sélectionnez **Specify types**) Ajoutez un ou plusieurs types d’Artifacts acceptés par votre registre.
+    8. Cliquez sur le bouton **Create registry**.
+  </Tab>
+
+  <Tab title="SDK Python">
+    Utilisez la méthode [`wandb.Api().create_registry()`](/fr/models/ref/python/#method-apicreate_registry) pour créer un registre par programmation. Indiquez le nom et la [visibilité](#visibility-types) du registre à l’aide des paramètres `name` et `visibility`, respectivement.
+
+    Copiez-collez le bloc de code ci-dessous. Remplacez les valeurs entre `<>` par les vôtres :
+
+    ```python
+    import wandb
+
+    registry = wandb.Api().create_registry(
+        name="<registry_name>",
+        visibility="< 'restricted' | 'organization' >",
+    )
+    ```
+
+    Voir la référence de la méthode [`wandb.Api().create_registry()`](/fr/models/ref/python/#method-apicreate_registry) pour obtenir la liste complète des paramètres que vous pouvez fournir lors de la création d’un registre.
+  </Tab>
+</Tabs>
+
+<Note>
+  Un type d’Artifacts ne peut pas être supprimé d’un registre une fois enregistré dans les paramètres du registre.
+</Note>
+
+Par exemple, l’image suivante montre un registre nommé `Fine_Tuned_Models` qu’un utilisateur est sur le point de créer. Le registre est **Restricted** aux seuls membres qui y ont été ajoutés manuellement.
+
+<Frame>
+  <img src="/images/registry/create_registry.gif" alt="Création d’un nouveau registre" />
+</Frame>
+
+<div id="visibility-types">
+  ## Types de visibilité
+</div>
+
+La *visibilité* d’un registre détermine qui peut y accéder. Restreindre la visibilité d’un registre permet de s’assurer que seuls les membres spécifiés peuvent y accéder.
+
+Il existe deux options de visibilité pour un registre :
+
+| Visibilité   | Description                                                              |
+| ------------ | ------------------------------------------------------------------------ |
+| Restricted   | Seuls les membres invités de l’organisation peuvent accéder au registre. |
+| Organisation | Tous les membres de l’organisation peuvent accéder au registre.          |
+
+Un administrateur d’équipe ou un administrateur du registre peut définir la visibilité d’un registre.
+
+L’utilisateur qui crée un registre avec une visibilité Restricted est automatiquement ajouté au registre en tant qu’administrateur du registre.
+
+<div id="configure-the-visibility-of-a-registry">
+  ## Configurer la visibilité d’un registre
+</div>
+
+Un administrateur d’équipe ou un administrateur du registre peut définir la visibilité d’un registre pendant sa création ou après celle-ci.
+
+Pour restreindre la visibilité d’un registre existant :
+
+1. Accédez à W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
+2. Sélectionnez un registre.
+3. Cliquez sur l’icône d’engrenage dans l’angle supérieur droit.
+4. Dans le menu déroulant **Visibilité du registre**, sélectionnez la visibilité souhaitée pour le registre.
+5. Si vous sélectionnez **Visibilité Restricted** :
+   1. Ajoutez les membres de votre organisation auxquels vous souhaitez donner accès à ce registre. Faites défiler la page jusqu’à la section **Membres et rôles du registre**, puis cliquez sur le bouton **Ajouter un membre**.
+   2. Dans le champ **Membre**, saisissez l’adresse e-mail ou le nom d’utilisateur du membre à ajouter.
+   3. Cliquez sur **Ajouter un nouveau membre**.
+
+<Frame>
+  <img src="/images/registry/change_registry_visibility.gif" alt="Modification des paramètres de visibilité du registre, de privé à public ou à un accès Restricted à l’équipe" />
+</Frame>
+
+Voir [Créer un registre](./create_registry#create-a-custom-registry) pour plus d’informations sur la façon de définir la visibilité d’un registre lorsqu’un administrateur d’équipe le crée.

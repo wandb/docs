@@ -2,12 +2,12 @@
 title: TensorBoard
 description: "Sync TensorBoard logs to W&B for cloud-hosted visualization, sharing, and centralized analysis alongside system metrics."
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" />
 
 <Note>
-W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
+W&B supports embedded TensorBoard for W&B Multi-tenant Cloud.
 </Note>
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
@@ -48,7 +48,7 @@ Setting the step argument in `run.log()` is turned off when syncing Tensorboard.
 
 ### How do I configure Tensorboard when I'm using it with `wandb`?
 
-If you want more control over how TensorBoard is patched you can call `wandb.tensorboard.patch` instead of passing `sync_tensorboard=True` to `wandb.init`.
+If you want more control over how TensorBoard is patched you can call `wandb.tensorboard.patch()` instead of passing `sync_tensorboard=True` to `wandb.init()`.
 
 ```python
 import wandb
@@ -75,7 +75,7 @@ run.finish()
 ```
 
 <Warning>
-You must call either `wandb.init()` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
+You must call either `wandb.init()` or `wandb.tensorboard.patch()` **before** calling `tf.summary.create_file_writer()` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 </Warning>
 
 ### How do I sync historical TensorBoard runs?

@@ -1,0 +1,123 @@
+---
+description: "Intégrez W&B à Ray Tune pour suivre les essais de réglage des hyperparamètres, consigner des métriques et comparer les résultats des expériences."
+title: Ray Tune
+---
+
+W&amp;B s’intègre à [Ray](https://github.com/ray-project/ray) en proposant deux intégrations légères.
+
+* La fonction `WandbLoggerCallback` consigne automatiquement dans l’API Wandb les métriques transmises à Tune.
+* La fonction `setup_wandb()`, qui peut être utilisée avec l’API fonctionnelle, initialise automatiquement l’API Wandb avec les informations d’entraînement de Tune. Vous pouvez utiliser l’API Wandb comme d’habitude, par exemple avec `run.log()` pour consigner votre entraînement.
+
+<div id="configure-the-integration">
+  ## Configurer l’intégration
+</div>
+
+```python
+from ray.air.integrations.wandb import WandbLoggerCallback
+```
+
+La configuration de wandb s’effectue en passant une clé `wandb` au paramètre `config` de `tune.run()` (voir l’exemple ci-dessous).
+
+Le contenu de l’entrée de configuration `wandb` est transmis à `wandb.init()` sous forme d’arguments nommés. Exception faite des paramètres suivants, qui servent à configurer `WandbLoggerCallback` lui-même :
+
+
+<div id="parameters">
+  ### Paramètres
+</div>
+
+`project (str)`: Nom du projet wandb. Obligatoire.
+
+`api_key_file (str)`: Chemin du fichier contenant la clé API wandb.
+
+`api_key (str)`: Clé API wandb. Alternative à `api_key_file`.
+
+`excludes (list)`: Liste des métriques à exclure du journal.
+
+`log_config (bool)`: Indique s&#39;il faut journaliser le paramètre de configuration du dictionnaire de résultats. Valeur par défaut : False.
+
+`upload_checkpoints (bool)`:  Si True, les points de contrôle du modèle sont téléversés en tant qu&#39;Artifacts. Valeur par défaut : False.
+
+<div id="example">
+  ### Exemple
+</div>
+
+```python
+from ray import tune, train
+from ray.air.integrations.wandb import WandbLoggerCallback
+
+
+def train_fc(config):
+    for i in range(10):
+        train.report({"mean_accuracy": (i + config["alpha"]) / 10})
+
+
+tuner = tune.Tuner(
+    train_fc,
+    param_space={
+        "alpha": tune.grid_search([0.1, 0.2, 0.3]),
+        "beta": tune.uniform(0.5, 1.0),
+    },
+    run_config=train.RunConfig(
+        callbacks=[
+            WandbLoggerCallback(
+                project="<your-project>", api_key="<your-api-key>", log_config=True
+            )
+        ]
+    ),
+)
+
+results = tuner.fit()
+```
+
+
+<div id="setup_wandb">
+  ## setup_wandb
+</div>
+
+```python
+from ray.air.integrations.wandb import setup_wandb
+```
+
+Cette fonction utilitaire permet d’initialiser wandb pour l’utiliser avec Ray Tune. Pour une utilisation de base, appelez `setup_wandb()` dans votre fonction d’entraînement :
+
+```python
+from ray.air.integrations.wandb import setup_wandb
+
+
+def train_fn(config):
+    # Initialiser wandb
+    wandb = setup_wandb(config)
+    run = wandb.init(
+        project=config["wandb"]["project"],
+        api_key_file=config["wandb"]["api_key_file"],
+    )
+
+    for i in range(10):
+        loss = config["a"] + config["b"]
+        run.log({"loss": loss})
+        tune.report(loss=loss)
+    run.finish()
+
+
+tuner = tune.Tuner(
+    train_fn,
+    param_space={
+        # définir l'espace de recherche ici
+        "a": tune.choice([1, 2, 3]),
+        "b": tune.choice([4, 5, 6]),
+        # configuration wandb
+        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
+    },
+)
+results = tuner.fit()
+```
+
+
+<div id="example-code">
+  ## Exemple de code
+</div>
+
+Nous avons créé quelques exemples pour vous montrer comment fonctionne l’intégration :
+
+* [Colab](https://wandb.me/raytune-colab) : Une démo simple pour essayer l’intégration.
+* [Dashboard](https://wandb.ai/anmolmann/ray_tune) : Consultez le tableau de bord généré à partir de cet exemple.
