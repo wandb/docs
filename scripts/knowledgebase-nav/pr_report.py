@@ -81,11 +81,11 @@ REPORT_FALLBACK_PARAGRAPH = (
     "No updates to support articles, tag pages, or product indexes from this run."
 )
 
-# Default location of the generator config (relative to repo root).  Used by
+# Default location of the generator config (next to this script).  Used by
 # the docs.json edit section to look up the ``Support: <display_name>`` tab
 # for each product slug.  When the config cannot be read the section falls
 # back to ``Support: <slug>`` so the report still renders.
-DEFAULT_CONFIG_PATH = Path("scripts/knowledgebase-nav/config.yaml")
+DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent / "config.yaml"
 
 # Heading and intro paragraph for the "docs.json update required" section.
 # The generator never modifies docs.json; humans must edit it after the
@@ -444,6 +444,34 @@ def collect_tag_page_changes(
 # ---------------------------------------------------------------------------
 
 
+def _resolve_mintlify_root(config_path: Path) -> Path:
+    """
+    Resolve the Mintlify root from ``mintlify_root`` in ``config.yaml``.
+
+    The value is interpreted relative to the GitHub repository root, which is
+    two levels above this script (``script_dir.parent.parent``). For example,
+    a config with ``mintlify_root: "."`` resolves to the GitHub repo root and
+    ``mintlify_root: "public-docs"`` resolves to ``<repo>/public-docs/``.
+
+    This duplicates ``generate_tags.resolve_mintlify_root`` so ``pr_report``
+    stays standalone (importable without pulling in the generator's
+    dependencies). The two implementations must remain in sync.
+    """
+    if not config_path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f) or {}
+    mintlify_root = config.get("mintlify_root") if isinstance(config, dict) else None
+    if not isinstance(mintlify_root, str) or not mintlify_root:
+        raise ValueError(
+            f"Configuration file {config_path} is missing 'mintlify_root'. "
+            "Set it to '.' if the Mintlify root is the GitHub repo root, "
+            "or to a subdirectory name (for example 'public-docs')."
+        )
+    github_repo_root = Path(__file__).resolve().parent.parent.parent
+    return (github_repo_root / mintlify_root).resolve()
+
+
 def load_product_display_names(config_path: Path) -> Dict[str, str]:
     """
     Read product slug -> display name mapping from ``config.yaml``.
@@ -533,7 +561,7 @@ def build_docs_json_section(
 
     Each per-product subsection uses the form::
 
-        #### Support: W&B Models
+        #### Support: Models
 
         Add to `pages`:
         - `support/models/tags/foo`
@@ -811,12 +839,6 @@ def main() -> None:
         description="Build Knowledgebase Nav PR comment or job summary Markdown.",
     )
     parser.add_argument(
-        "--repo-root",
-        type=Path,
-        required=True,
-        help="Repository root (contains .git).",
-    )
-    parser.add_argument(
         "--warnings-file",
         type=Path,
         default=Path("generator-warnings.log"),
@@ -850,17 +872,20 @@ def main() -> None:
         type=Path,
         default=None,
         help=(
-            "Path to scripts/knowledgebase-nav/config.yaml. "
-            "Used to map product slugs to display names in the docs.json edit "
-            "section. Defaults to <repo-root>/scripts/knowledgebase-nav/config.yaml."
+            "Path to config.yaml. Used to map product slugs to display names "
+            "in the docs.json edit section and to resolve the Mintlify root "
+            "via 'mintlify_root' for git diff. Defaults to config.yaml next "
+            "to this script."
         ),
     )
     args = parser.parse_args()
 
+    config_path = args.config or DEFAULT_CONFIG_PATH
+
     if args.diff_text is not None:
         diff_out = args.diff_text
     else:
-        diff_out = git_diff_name_status_head(args.repo_root)
+        diff_out = git_diff_name_status_head(_resolve_mintlify_root(config_path))
 
     diff_lines = [ln for ln in diff_out.splitlines() if ln.strip()]
     buckets = categorize_name_status_lines(diff_lines)
@@ -870,7 +895,6 @@ def main() -> None:
     if args.warnings_file.exists():
         warnings_text = args.warnings_file.read_text(encoding="utf-8")
 
-    config_path = args.config or (args.repo_root / DEFAULT_CONFIG_PATH)
     display_names = load_product_display_names(config_path)
 
     unknown_set = distinct_unknown_keywords_from_warnings(warnings_text)

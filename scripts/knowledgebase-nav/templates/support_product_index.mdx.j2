@@ -1,7 +1,7 @@
 ---
 title: {{ ("Support: " ~ product_name) | tojson_unicode }}
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
+template: "{{ templates_root }}/support_product_index.mdx.j2"
 ---
 
 {% if featured_articles %}
@@ -11,7 +11,7 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
 <Card title="{{ article.title_attr }}" href="/{{ article.page_path }}" arrow="true" horizontal>
   {{ article.body_preview }}
 
-  {% for tl in article.tag_links %}<Badge stroke shape="pill" color="orange" size="md">[{{ tl.name }}]({{ tl.href }})</Badge> {% endfor %}
+  {% for tl in article.tag_links %}<Badge stroke shape="pill" color="{{ badge_color }}" size="md">[{{ tl.name }}]({{ tl.href }})</Badge> {% endfor %}
 
 </Card>
 {% endfor %}

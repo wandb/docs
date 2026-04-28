@@ -346,11 +346,11 @@ def test_build_docs_json_section_uses_display_names_when_available():
     section = pr_report.build_docs_json_section(
         added_tag_pages={"models": ["support/models/tags/foo"]},
         removed_tag_pages={"models": ["support/models/tags/old"]},
-        display_names={"models": "W&B Models"},
+        display_names={"models": "Models"},
     )
     assert pr_report.DOCS_JSON_SECTION_HEADING in section
     assert pr_report.DOCS_JSON_SECTION_INTRO in section
-    assert "#### Support: W&B Models" in section
+    assert "#### Support: Models" in section
     assert "Add to `pages`:" in section
     assert "- `support/models/tags/foo`" in section
     assert "Remove from `pages`:" in section
@@ -378,7 +378,7 @@ def test_build_docs_json_section_omits_empty_subheaders():
     section = pr_report.build_docs_json_section(
         added_tag_pages={"models": ["support/models/tags/foo"]},
         removed_tag_pages={},
-        display_names={"models": "W&B Models"},
+        display_names={"models": "Models"},
     )
     assert "Add to `pages`:" in section
     assert "Remove from `pages`:" not in section
@@ -397,10 +397,10 @@ def test_build_report_includes_docs_json_section_for_added_tag_page():
         "",
         added_tag_pages={"models": ["support/models/tags/foo"]},
         removed_tag_pages={},
-        display_names={"models": "W&B Models"},
+        display_names={"models": "Models"},
     )
     assert pr_report.DOCS_JSON_SECTION_HEADING in out
-    assert "#### Support: W&B Models" in out
+    assert "#### Support: Models" in out
     assert "- `support/models/tags/foo`" in out
 
 
@@ -413,7 +413,7 @@ def test_build_report_includes_docs_json_section_for_removed_tag_page():
         "",
         added_tag_pages={},
         removed_tag_pages={"models": ["support/models/tags/old"]},
-        display_names={"models": "W&B Models"},
+        display_names={"models": "Models"},
     )
     assert pr_report.DOCS_JSON_SECTION_HEADING in out
     assert "Remove from `pages`:" in out
@@ -444,7 +444,7 @@ def test_build_report_fallback_with_only_tag_page_changes_breaks_fallback():
         "",
         added_tag_pages={"models": ["support/models/tags/foo"]},
         removed_tag_pages={},
-        display_names={"models": "W&B Models"},
+        display_names={"models": "Models"},
     )
     assert out != pr_report.REPORT_FALLBACK_BODY
     assert pr_report.DOCS_JSON_SECTION_HEADING in out
@@ -461,15 +461,15 @@ def test_load_product_display_names_returns_mapping(tmp_path):
     config.write_text(
         "products:\n"
         "  - slug: models\n"
-        "    display_name: \"W&B Models\"\n"
+        "    display_name: \"Models\"\n"
         "    allowed_keywords: []\n"
         "  - slug: weave\n"
-        "    display_name: \"W&B Weave\"\n"
+        "    display_name: \"Weave\"\n"
         "    allowed_keywords: []\n",
         encoding="utf-8",
     )
     mapping = pr_report.load_product_display_names(config)
-    assert mapping == {"models": "W&B Models", "weave": "W&B Weave"}
+    assert mapping == {"models": "Models", "weave": "Weave"}
 
 
 def test_load_product_display_names_missing_file_returns_empty(tmp_path):
