@@ -6,15 +6,17 @@ the real wandb-docs repository and verifies that the output is **byte-for-byte
 identical** to the existing files on disk.
 
 If the template, slug logic, body-preview truncation, sort order, or
-navigation structure drifts even by one character, this test catches it
-and reports the exact difference as a unified diff.
+output structure drifts even by one character, this test catches it and
+reports the exact difference as a unified diff.
 
 What it tests:
     - Every tag page: support/<product>/tags/<tag>.mdx
     - Product index pages: support/<product>.mdx (for example support/models.mdx)
     - Article footers: support/<product>/articles/*.mdx (tab-page Badge sync)
-    - docs.json support navigation tabs (page lists, tab names, ordering)
     - Root support.mdx (product card count lines)
+
+The pipeline does not modify ``docs.json``, so this suite no longer asserts
+anything about ``docs.json``.
 
 How to run:
     pytest scripts/knowledgebase-nav/tests/test_golden_output.py -v -m integration
@@ -28,7 +30,6 @@ Prerequisites:
 """
 
 import difflib
-import json
 import shutil
 import textwrap
 from pathlib import Path
@@ -110,10 +111,10 @@ def golden_repo_root():
     """
     Return the path to the real wandb-docs repo.
 
-    Skips if docs.json is missing at the resolved root (for example a
+    Skips if support.mdx is missing at the resolved root (for example a
     sparse checkout or wrong working directory).
     """
-    if not (WANDB_DOCS_ROOT / "docs.json").exists():
+    if not (WANDB_DOCS_ROOT / "support.mdx").exists():
         pytest.skip(
             f"wandb-docs repo not found at {WANDB_DOCS_ROOT}. "
             "Skipping golden-file tests."
@@ -131,6 +132,9 @@ def generated_output(golden_repo_root, tmp_path_factory):
     redundant generation.  All test functions share the same generated
     output.
 
+    The generator does not read or write ``docs.json``, so this fixture
+    intentionally does not copy or read that file.
+
     Returns
     -------
     dict with keys:
@@ -138,20 +142,16 @@ def generated_output(golden_repo_root, tmp_path_factory):
         - "tag_pages": dict mapping relative path to file content
         - "product_indexes": dict mapping support/<slug>.mdx to file content
         - "article_files": dict mapping relative path to file content
-        - "docs_json": the parsed docs.json dict
         - "support_mdx": full text of generated support.mdx
     """
     tmp_root = tmp_path_factory.mktemp("golden")
 
-    # Copy the support/ directory, support.mdx, and docs.json to the temp
-    # location.  We only need these for the generator to work.
+    # Copy the support/ directory and support.mdx to the temp location.
+    # docs.json is intentionally not copied: the generator must never read
+    # or write it.
     shutil.copytree(
         golden_repo_root / "support",
         tmp_root / "support",
-    )
-    shutil.copy2(
-        golden_repo_root / "docs.json",
-        tmp_root / "docs.json",
     )
     shutil.copy2(
         golden_repo_root / "support.mdx",
@@ -180,9 +180,6 @@ def generated_output(golden_repo_root, tmp_path_factory):
                 rel_path = f"support/{product}/articles/{mdx_file.name}"
                 article_files[rel_path] = mdx_file.read_text(encoding="utf-8")
 
-    # Read the generated docs.json
-    docs_json = json.loads((tmp_root / "docs.json").read_text(encoding="utf-8"))
-
     # Read the generated support.mdx
     support_mdx = (tmp_root / "support.mdx").read_text(encoding="utf-8")
 
@@ -199,7 +196,6 @@ def generated_output(golden_repo_root, tmp_path_factory):
         "tag_pages": tag_pages,
         "product_indexes": product_indexes,
         "article_files": article_files,
-        "docs_json": docs_json,
         "support_mdx": support_mdx,
     }
 
@@ -430,112 +426,28 @@ class TestArticleFilesMatchExisting:
 
 
 # ===========================================================================
-# Tests: docs.json support tabs match existing
+# Tests: docs.json is never touched by the pipeline
 # ===========================================================================
 
-class TestDocsJsonMatchExisting:
+
+class TestDocsJsonNotTouched:
     """
-    Verify that the support navigation tabs in the generated docs.json
-    match the existing docs.json exactly: same tab names, same page
-    lists, same ordering.
+    Verify the pipeline does not create or modify ``docs.json``.
+
+    The fixture intentionally does not copy ``docs.json`` into the temp
+    tree, so any read or write of ``docs.json`` would fail loudly during
+    fixture setup.  This explicit check guards against future regressions
+    where the generator silently starts producing the file.
     """
 
     @pytest.fixture(autouse=True)
-    def _setup(self, golden_repo_root, generated_output):
-        """Store references for use by test methods."""
-        self.repo_root = golden_repo_root
-        self.generated_docs = generated_output["docs_json"]
+    def _setup(self, generated_output):
+        self.tmp_root = generated_output["root"]
 
-    def _get_support_tabs(self, docs_json: dict) -> dict:
-        """
-        Extract the support tabs from a docs.json config.
-
-        Returns a dict mapping tab name to the tab dict.
-        """
-        en_root = None
-        for lang in docs_json.get("navigation", {}).get("languages", []):
-            if lang.get("language") == "en":
-                en_root = lang
-                break
-
-        if en_root is None:
-            return {}
-
-        return {
-            tab["tab"]: tab
-            for tab in en_root.get("tabs", [])
-            if isinstance(tab, dict) and tab.get("tab", "").startswith("Support:")
-        }
-
-    def test_support_tabs_match(self):
-        """
-        The hidden support tabs in the generated docs.json should have
-        the same names, page lists, and ordering as the existing file.
-        """
-        existing_docs = json.loads(
-            _read_file(self.repo_root / "docs.json")
-        )
-
-        existing_tabs = self._get_support_tabs(existing_docs)
-        generated_tabs = self._get_support_tabs(self.generated_docs)
-
-        # Same set of tab names
-        assert set(existing_tabs.keys()) == set(generated_tabs.keys()), (
-            f"Tab names differ.\n"
-            f"  Existing: {sorted(existing_tabs.keys())}\n"
-            f"  Generated: {sorted(generated_tabs.keys())}"
-        )
-
-        # Each tab has the same pages in the same order
-        for tab_name in sorted(existing_tabs.keys()):
-            existing_pages = existing_tabs[tab_name].get("pages", [])
-            generated_pages = generated_tabs[tab_name].get("pages", [])
-
-            assert existing_pages == generated_pages, (
-                f"Pages differ for tab '{tab_name}'.\n"
-                f"  Existing:  {existing_pages}\n"
-                f"  Generated: {generated_pages}"
-            )
-
-    def test_support_tabs_are_hidden(self):
-        """All support tabs should have hidden: true."""
-        generated_tabs = self._get_support_tabs(self.generated_docs)
-        for tab_name, tab in generated_tabs.items():
-            assert tab.get("hidden") is True, (
-                f"Tab '{tab_name}' is not marked as hidden."
-            )
-
-    def test_non_support_tabs_preserved(self):
-        """
-        Non-support tabs (like Platform, Models, Weave) should be
-        completely unchanged by the generator.
-        """
-        existing_docs = json.loads(
-            _read_file(self.repo_root / "docs.json")
-        )
-
-        existing_en = None
-        generated_en = None
-        for lang in existing_docs["navigation"]["languages"]:
-            if lang.get("language") == "en":
-                existing_en = lang
-                break
-        for lang in self.generated_docs["navigation"]["languages"]:
-            if lang.get("language") == "en":
-                generated_en = lang
-                break
-
-        existing_non_support = [
-            t for t in existing_en.get("tabs", [])
-            if isinstance(t, dict) and not t.get("tab", "").startswith("Support:")
-        ]
-        generated_non_support = [
-            t for t in generated_en.get("tabs", [])
-            if isinstance(t, dict) and not t.get("tab", "").startswith("Support:")
-        ]
-
-        assert existing_non_support == generated_non_support, (
-            "Non-support tabs were modified by the generator."
+    def test_no_docs_json_after_pipeline(self):
+        """The generator must not produce a ``docs.json`` file."""
+        assert not (self.tmp_root / "docs.json").exists(), (
+            "Pipeline created docs.json; it must be edited by hand."
         )
 
 

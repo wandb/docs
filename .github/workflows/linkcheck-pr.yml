@@ -62,7 +62,7 @@ jobs:
       - name: Resolve PR and deployment URL
         id: pr-context
         if: github.event_name == 'deployment_status'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -127,7 +127,7 @@ jobs:
 
       - name: Get PR number
         id: get-pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             // For pull_request events, get PR number directly
@@ -298,7 +298,7 @@ jobs:
            steps.lychee.conclusion == 'failure') &&
           (github.event_name != 'pull_request' || 
            github.event.pull_request.head.repo.fork != true)
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
