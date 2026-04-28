@@ -38,7 +38,7 @@ with wandb.init() as run:
 </div>
 
 1. `summary`를 클릭하고 `historyTable`을 선택해 run 이력에서 데이터를 가져오는 새 쿼리를 설정합니다.
-2. `wandb.Table()`을 로깅한 키를 입력합니다. 위 코드 스니펫에서는 `my_custom_table`이었고, [예시 노트북](https://bit.ly/custom-charts-colab)에서는 키가 `pr_curve`와 `roc_curve`입니다.
+2. `wandb.Table()`을 로깅한 키를 입력합니다. 이전 코드 스니펫에서는 `custom_data_table`이었고, [예시 노트북](https://bit.ly/custom-charts-colab)에서는 키가 `pr_curve`와 `roc_curve`입니다. **`summaryTable`**, **`historyTable`**, **`tableKey`**에 대한 자세한 내용은 [GraphQL 쿼리 구축하기](/ko/models/app/features/custom-charts#build-the-graphql-query)를 참조하세요.
 
 <div id="set-vega-fields">
   ### Vega 필드 설정
