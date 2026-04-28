@@ -34,6 +34,9 @@ import generate_tags  # noqa: E402
 # Fixtures
 # ===========================================================================
 
+TEST_BADGE_COLOR = "orange"
+
+
 @pytest.fixture
 def sample_config(tmp_path):
     """
@@ -42,10 +45,13 @@ def sample_config(tmp_path):
     The config defines one product ("widgets") with two allowed keywords
     so tests can verify config loading, validation, and keyword checking.
     """
-    config_content = textwrap.dedent("""\
+    config_content = textwrap.dedent(f"""\
+        mintlify_root: "."
+        badge_color: "{TEST_BADGE_COLOR}"
+
         products:
           - slug: widgets
-            display_name: "W&B Widgets"
+            display_name: "Widgets"
             allowed_keywords:
               - Alpha
               - Beta
@@ -123,7 +129,7 @@ def sample_repo(tmp_path):
         ## Browse support articles by product
 
         <CardGroup cols={3}>
-        <Card title="W&B Widgets" href="/support/widgets" arrow="true" icon="/icons/cropped-widgets.svg">
+        <Card title="Widgets" href="/support/widgets" arrow="true" icon="/icons/cropped-widgets.svg">
           {/* auto-generated counts */}
           0 articles &middot; 0 tags
           {/* end auto-generated counts */}
@@ -152,6 +158,10 @@ def template_env():
     return generate_tags.create_template_env(templates_dir)
 
 
+# Provenance metadata recorded as ``template:`` in rendered MDX during tests.
+TEST_TEMPLATES_ROOT = "test/templates"
+
+
 # ===========================================================================
 # Tests: load_config
 # ===========================================================================
@@ -168,7 +178,7 @@ class TestLoadConfig:
         assert "products" in config
         assert len(config["products"]) == 1
         assert config["products"][0]["slug"] == "widgets"
-        assert config["products"][0]["display_name"] == "W&B Widgets"
+        assert config["products"][0]["display_name"] == "Widgets"
         assert "Alpha" in config["products"][0]["allowed_keywords"]
 
     def test_load_config_file_not_found(self, tmp_path):
@@ -442,7 +452,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
             {/* END AUTO-GENERATED: tab badges */}
         """).rstrip()
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Alpha"])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Alpha"], badge_color=TEST_BADGE_COLOR)
 
         assert generate_tags._BADGE_START in result
         assert generate_tags._BADGE_END in result
@@ -467,7 +477,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
             */}
         """).rstrip()
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"], badge_color=TEST_BADGE_COLOR)
 
         assert generate_tags._BADGE_START in result
         assert generate_tags._BADGE_END in result
@@ -489,7 +499,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
             {/* END AUTO-GENERATED: tab badges — end */}
         """).rstrip()
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", [])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", [], badge_color=TEST_BADGE_COLOR)
 
         assert "AUTO-GENERATED" not in result
         assert "Badge" not in result
@@ -510,7 +520,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
             {/* END AUTO-GENERATED: tab badges */}
         """).rstrip()
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Alpha"])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Alpha"], badge_color=TEST_BADGE_COLOR)
 
         assert "unrelated comment" in result
         assert "[Alpha]" in result
@@ -521,10 +531,10 @@ class TestReplaceTabBadgesFlexibleMarkers:
         The canonical (unmodified) marker format continues to match so
         existing articles written by prior generator runs are not broken.
         """
-        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"])
+        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"], badge_color=TEST_BADGE_COLOR)
         body = f"Body.\n\n{generate_tags._BADGE_START}\n{badges}\n{generate_tags._BADGE_END}"
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"], badge_color=TEST_BADGE_COLOR)
 
         assert "[Beta]" in result
         assert "[Alpha]" not in result
@@ -535,7 +545,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
         ``auto-generated: tab badges`` or ``Auto-Generated tab badges`` and the
         generator will still locate and replace the managed block.
         """
-        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"])
+        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"], badge_color=TEST_BADGE_COLOR)
         body = (
             "Body.\n\n"
             "{/* auto-generated: tab badges */}\n"
@@ -543,7 +553,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
             "{/* end auto-generated: tab badges */}"
         )
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"], badge_color=TEST_BADGE_COLOR)
 
         assert "[Beta]" in result
         assert "[Alpha]" not in result
@@ -553,7 +563,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
         The colon after 'generated' is optional, so ``AUTO-GENERATED tab badges``
         (no colon) is recognised as the start marker.
         """
-        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"])
+        badges = generate_tags.build_tab_badges_mdx("widgets", ["Alpha"], badge_color=TEST_BADGE_COLOR)
         body = (
             "Body.\n\n"
             "{/* AUTO-GENERATED tab badges */}\n"
@@ -561,7 +571,7 @@ class TestReplaceTabBadgesFlexibleMarkers:
             "{/* END AUTO-GENERATED tab badges */}"
         )
 
-        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"])
+        result = generate_tags._replace_tab_badges_in_body(body, "widgets", ["Beta"], badge_color=TEST_BADGE_COLOR)
 
         assert "[Beta]" in result
         assert "[Alpha]" not in result
@@ -579,8 +589,8 @@ class TestBodyPreview:
         Backtick-wrapped code should have backticks removed.  The code
         content itself is preserved.
         """
-        result = generate_tags.plain_text("Use `wandb.init()` to start.")
-        assert result == "Use wandb.init() to start."
+        result = generate_tags.plain_text("Use `client.init()` to start.")
+        assert result == "Use client.init() to start."
 
     def test_plain_text_strips_mdx_components(self):
         """
@@ -610,7 +620,7 @@ class TestBodyPreview:
     def test_plain_text_strips_markdown_links_keeps_label(self):
         """Inline link URL and brackets must not appear in the preview."""
         result = generate_tags.plain_text(
-            "Read [the guide](https://docs.wandb.ai/foo) for details."
+            "Read [the guide](https://docs.example.com/foo) for details."
         )
         assert result == "Read the guide for details."
         assert "http" not in result
@@ -618,9 +628,9 @@ class TestBodyPreview:
 
     def test_plain_text_strips_bare_urls(self):
         """Raw https URLs should not pass through to the card."""
-        result = generate_tags.plain_text("Visit https://wandb.ai today.")
+        result = generate_tags.plain_text("Visit https://example.com today.")
         assert result == "Visit today."
-        assert "wandb" not in result.lower()
+        assert "example" not in result.lower()
 
     def test_plain_text_strips_mdx_brace_expressions(self):
         """Simple MDX {expression} segments should be removed."""
@@ -1198,7 +1208,7 @@ class TestBuildTagIndex:
             assert len(w) == 1
             assert "Unknown keyword `Unknown`" in str(w[0].message)
             assert "support/widgets/articles/example.mdx" in str(w[0].message)
-            assert "scripts/knowledgebase-nav/config.yaml" in str(w[0].message)
+            assert "config.yaml" in str(w[0].message)
 
     def test_unknown_keyword_warned_only_once(self):
         """
@@ -1245,7 +1255,10 @@ class TestRenderTagPages:
             ],
         }
 
-        paths = generate_tags.render_tag_pages(tmp_path, "widgets", tag_index, template_env)
+        paths = generate_tags.render_tag_pages(
+            tmp_path, "widgets", tag_index, template_env,
+            templates_root=TEST_TEMPLATES_ROOT,
+        )
 
         assert (tags_dir / "alpha.mdx").exists()
         assert (tags_dir / "beta.mdx").exists()
@@ -1263,7 +1276,10 @@ class TestRenderTagPages:
             ],
         }
 
-        generate_tags.render_tag_pages(tmp_path, "widgets", tag_index, template_env)
+        generate_tags.render_tag_pages(
+            tmp_path, "widgets", tag_index, template_env,
+            templates_root=TEST_TEMPLATES_ROOT,
+        )
 
         content = (tmp_path / "support" / "widgets" / "tags" / "alpha.mdx").read_text()
         assert 'title: "Alpha"' in content
@@ -1284,7 +1300,10 @@ class TestRenderTagPages:
             ],
         }
 
-        generate_tags.render_tag_pages(tmp_path, "widgets", tag_index, template_env)
+        generate_tags.render_tag_pages(
+            tmp_path, "widgets", tag_index, template_env,
+            templates_root=TEST_TEMPLATES_ROOT,
+        )
         content = (tmp_path / "support" / "widgets" / "tags" / "test.mdx").read_text()
         assert 'tag: "5"' in content
 
@@ -1308,7 +1327,9 @@ class TestRenderProductIndex:
         }
 
         generate_tags.render_product_index(
-            tmp_path, "widgets", "W&B Widgets", tag_index, [], template_env
+            tmp_path, "widgets", "Widgets", tag_index, [], template_env,
+            badge_color=TEST_BADGE_COLOR,
+            templates_root=TEST_TEMPLATES_ROOT,
         )
 
         content = (tmp_path / "support" / "widgets.mdx").read_text()
@@ -1337,7 +1358,9 @@ class TestRenderProductIndex:
         ]
 
         generate_tags.render_product_index(
-            tmp_path, "widgets", "W&B Widgets", tag_index, featured, template_env
+            tmp_path, "widgets", "Widgets", tag_index, featured, template_env,
+            badge_color=TEST_BADGE_COLOR,
+            templates_root=TEST_TEMPLATES_ROOT,
         )
 
         content = (tmp_path / "support" / "widgets.mdx").read_text()
@@ -1357,7 +1380,9 @@ class TestRenderProductIndex:
         tag_index = {"Alpha": [{"title": "A"}]}
 
         generate_tags.render_product_index(
-            tmp_path, "widgets", "W&B Widgets", tag_index, [], template_env
+            tmp_path, "widgets", "Widgets", tag_index, [], template_env,
+            badge_color=TEST_BADGE_COLOR,
+            templates_root=TEST_TEMPLATES_ROOT,
         )
 
         content = (tmp_path / "support" / "widgets.mdx").read_text()
@@ -1372,11 +1397,13 @@ class TestRenderProductIndex:
         (tmp_path / "support").mkdir(parents=True, exist_ok=True)
 
         generate_tags.render_product_index(
-            tmp_path, "widgets", "W&B Widgets", {}, [], template_env
+            tmp_path, "widgets", "Widgets", {}, [], template_env,
+            badge_color=TEST_BADGE_COLOR,
+            templates_root=TEST_TEMPLATES_ROOT,
         )
 
         content = (tmp_path / "support" / "widgets.mdx").read_text()
-        assert 'title: "Support: W&B Widgets"' in content
+        assert 'title: "Support: Widgets"' in content
 
     def test_product_index_tags_sorted_alphabetically(self, tmp_path, template_env):
         """
@@ -1391,7 +1418,9 @@ class TestRenderProductIndex:
         }
 
         generate_tags.render_product_index(
-            tmp_path, "widgets", "W&B Widgets", tag_index, [], template_env
+            tmp_path, "widgets", "Widgets", tag_index, [], template_env,
+            badge_color=TEST_BADGE_COLOR,
+            templates_root=TEST_TEMPLATES_ROOT,
         )
 
         content = (tmp_path / "support" / "widgets.mdx").read_text()
@@ -1481,7 +1510,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+            <Card title="Widgets" href="/support/widgets" arrow="true">
               0 articles &middot; 0 tags
             </Card>
         """), encoding="utf-8")
@@ -1505,7 +1534,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Solo" href="/support/solo" arrow="true">
+            <Card title="Solo" href="/support/solo" arrow="true">
               0 articles &middot; 0 tags
             </Card>
         """), encoding="utf-8")
@@ -1625,7 +1654,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+            <Card title="Widgets" href="/support/widgets" arrow="true">
               {/* Note: auto-generated counts — do not edit */}
               0 articles &middot; 0 tags
               {/* end auto-generated counts */}
@@ -1651,7 +1680,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+            <Card title="Widgets" href="/support/widgets" arrow="true">
               {/* auto-generated counts */}
               0 articles &middot; 0 tags
               {/* end auto-generated counts — managed by generator */}
@@ -1682,7 +1711,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+            <Card title="Widgets" href="/support/widgets" arrow="true">
               {/* auto-generated counts */}
               0 articles &middot; 0 tags
               {/* end auto-generated counts */}
@@ -1710,7 +1739,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+            <Card title="Widgets" href="/support/widgets" arrow="true">
               {/* Auto-Generated counts */}
               0 articles &middot; 0 tags
               {/* End Auto-Generated counts */}
@@ -1735,7 +1764,7 @@ class TestUpdateSupportIndex:
             title: Support
             ---
 
-            <Card title="W&B Widgets" href="/support/widgets" arrow="true">
+            <Card title="Widgets" href="/support/widgets" arrow="true">
               {/* auto-generated: counts */}
               0 articles &middot; 0 tags
               {/* end auto-generated: counts */}
@@ -1786,7 +1815,7 @@ class TestUpdateSupportFeatured:
             end_marker="{/* ---- END AUTO-GENERATED: featured articles ---- */}",
         )
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         content = (tmp_path / "support.mdx").read_text()
         assert "AUTO-GENERATED: featured articles" in content
@@ -1803,7 +1832,7 @@ class TestUpdateSupportFeatured:
             end_marker="{/* END AUTO-GENERATED: featured articles */}",
         )
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         content = (tmp_path / "support.mdx").read_text()
         # Canonical markers are written on output
@@ -1820,7 +1849,7 @@ class TestUpdateSupportFeatured:
             end_marker="{/* END AUTO-GENERATED: featured articles — do not edit */}",
         )
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         content = (tmp_path / "support.mdx").read_text()
         assert "END AUTO-GENERATED: featured articles" in content
@@ -1845,7 +1874,7 @@ class TestUpdateSupportFeatured:
         """)
         (tmp_path / "support.mdx").write_text(content, encoding="utf-8")
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         result = (tmp_path / "support.mdx").read_text()
         assert "unrelated comment" in result
@@ -1867,7 +1896,7 @@ class TestUpdateSupportFeatured:
 
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            generate_tags.update_support_featured(tmp_path, {})
+            generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
             assert any("featured-article markers" in str(x.message) for x in w)
 
         assert (tmp_path / "support.mdx").read_text() == original
@@ -1892,7 +1921,7 @@ class TestUpdateSupportFeatured:
             ),
         )
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         content = (tmp_path / "support.mdx").read_text()
         assert "Author note" not in content
@@ -1911,7 +1940,7 @@ class TestUpdateSupportFeatured:
             end_marker="{/* end auto-generated: featured articles */}",
         )
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         content = (tmp_path / "support.mdx").read_text()
         assert "AUTO-GENERATED: featured articles" in content
@@ -1928,7 +1957,7 @@ class TestUpdateSupportFeatured:
             end_marker="{/* END AUTO-GENERATED featured articles */}",
         )
 
-        generate_tags.update_support_featured(tmp_path, {})
+        generate_tags.update_support_featured(tmp_path, {}, badge_color=TEST_BADGE_COLOR)
 
         content = (tmp_path / "support.mdx").read_text()
         assert "AUTO-GENERATED: featured articles" in content
@@ -1945,21 +1974,29 @@ class TestKeywordFooter:
 
     def test_build_keyword_footer_empty(self):
         """No keywords means no footer block (empty string)."""
-        assert generate_tags.build_keyword_footer_mdx("models", []) == ""
-        assert generate_tags.build_tab_badges_mdx("models", []) == ""
+        assert generate_tags.build_keyword_footer_mdx(
+            "models", [], badge_color=TEST_BADGE_COLOR
+        ) == ""
+        assert generate_tags.build_tab_badges_mdx(
+            "models", [], badge_color=TEST_BADGE_COLOR
+        ) == ""
 
     def test_build_keyword_footer_single(self):
         """One keyword produces a blank line, markers, and one Badge."""
-        s = generate_tags.build_keyword_footer_mdx("weave", ["Code Capture"])
+        s = generate_tags.build_keyword_footer_mdx(
+            "weave", ["Code Capture"], badge_color=TEST_BADGE_COLOR
+        )
         assert s.startswith("\n\n")
         assert "[Code Capture](/support/weave/tags/code-capture)</Badge>" in s
-        assert '<Badge stroke shape="pill" color="orange" size="md">' in s
+        assert f'<Badge stroke shape="pill" color="{TEST_BADGE_COLOR}" size="md">' in s
         assert "AUTO-GENERATED: tab badges" in s
         assert s.endswith("{/* END AUTO-GENERATED: tab badges */}")
 
     def test_build_keyword_footer_preserves_keyword_order(self):
         """Badge order follows the keywords list order, not alphabetical."""
-        s = generate_tags.build_keyword_footer_mdx("widgets", ["Beta", "Alpha"])
+        s = generate_tags.build_keyword_footer_mdx(
+            "widgets", ["Beta", "Alpha"], badge_color=TEST_BADGE_COLOR
+        )
         assert s.index("Beta") < s.index("Alpha")
 
     def test_sync_adds_footer_when_missing(self, tmp_path):
@@ -1976,7 +2013,7 @@ class TestKeywordFooter:
                 """),
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is True
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is True
         out = p.read_text()
         assert "Body only." in out
         assert "/support/widgets/tags/alpha" in out
@@ -2000,7 +2037,7 @@ class TestKeywordFooter:
             {/* END AUTO-GENERATED: tab badges */}""")
         p = tmp_path / "a.mdx"
         p.write_text(content, encoding="utf-8")
-        assert generate_tags.sync_support_article_footer(p, "widgets") is False
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is False
 
     def test_sync_preserves_blank_line_after_end_marker(self, tmp_path):
         """EOF after the end marker (for example a trailing blank line) is kept."""
@@ -2023,7 +2060,7 @@ class TestKeywordFooter:
                 """),
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is False
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is False
         out = p.read_text()
         assert out.endswith("{/* END AUTO-GENERATED: tab badges */}\n\n")
 
@@ -2045,7 +2082,7 @@ class TestKeywordFooter:
                 """),
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is True
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is True
         assert "/support/widgets/tags/alpha" in p.read_text()
 
     def test_sync_fixes_wrong_href_preserves_eof_after_badges(self, tmp_path):
@@ -2066,7 +2103,7 @@ class TestKeywordFooter:
                 """).rstrip("\n") + "\n\n",
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is True
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is True
         out = p.read_text()
         assert "/support/widgets/tags/alpha" in out
         assert out.endswith("{/* END AUTO-GENERATED: tab badges */}\n\n")
@@ -2087,7 +2124,7 @@ class TestKeywordFooter:
                 """),
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is True
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is True
         out = p.read_text()
         assert "/support/widgets/tags/alpha" in out
         body_after_fm = out.split("---", 2)[2]
@@ -2115,7 +2152,7 @@ class TestKeywordFooter:
                 """),
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is False
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is False
         out = p.read_text()
         assert "https://example.com/doc" in out
         assert "/support/widgets/tags/alpha" in out
@@ -2138,7 +2175,7 @@ class TestKeywordFooter:
                 """),
             encoding="utf-8",
         )
-        assert generate_tags.sync_support_article_footer(p, "widgets") is True
+        assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is True
         out = p.read_text()
         assert "<Badge" not in out
         assert "Body." in out
@@ -2159,7 +2196,7 @@ class TestKeywordFooter:
         )
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            assert generate_tags.sync_support_article_footer(p, "widgets") is True
+            assert generate_tags.sync_support_article_footer(p, "widgets", badge_color=TEST_BADGE_COLOR) is True
         msgs = [str(x.message).lower() for x in w]
         assert any("keywords" in m for m in msgs)
         assert any("single tag" in m for m in msgs)

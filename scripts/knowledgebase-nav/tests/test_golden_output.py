@@ -2,7 +2,7 @@
 Golden-file integration test for the Knowledgebase Nav generator.
 
 This is the most important test in the suite.  It runs the generator against
-the real wandb-docs repository and verifies that the output is **byte-for-byte
+the real Mintlify docs tree and verifies that the output is **byte-for-byte
 identical** to the existing files on disk.
 
 If the template, slug logic, body-preview truncation, sort order, or
@@ -19,12 +19,13 @@ The pipeline does not modify ``docs.json``, so this suite no longer asserts
 anything about ``docs.json``.
 
 How to run:
-    pytest scripts/knowledgebase-nav/tests/test_golden_output.py -v -m integration
+    pytest <utility-dir>/tests/test_golden_output.py -v -m integration
 
 The ``integration`` marker is registered in ``conftest.py`` in this directory.
 
 Prerequisites:
-    - The wandb-docs repo must be present at the expected location.
+    - The Mintlify root resolved from ``mintlify_root`` in ``config.yaml``
+      must be present at the expected location.
     - The test reads existing files as the "expected" golden output, then
       generates new output to a temporary directory and compares.
 """
@@ -48,13 +49,14 @@ import generate_tags  # noqa: E402
 # Constants
 # ---------------------------------------------------------------------------
 
-# Repo root: parent of scripts/ when this file lives at
-# scripts/knowledgebase-nav/tests/test_golden_output.py
-WANDB_DOCS_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-
 CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yaml"
 _config = generate_tags.load_config(CONFIG_PATH)
 PRODUCTS = [p["slug"] for p in _config["products"]]
+
+# Mintlify root resolved from ``mintlify_root`` in config.yaml. This is
+# either the GitHub repo root (when mintlify_root == ".") or a subdirectory
+# of it (for example "public-docs").
+MINTLIFY_ROOT = generate_tags.resolve_mintlify_root(CONFIG_PATH)
 
 # Mark all tests in this module as integration tests so they can be
 # run separately from the fast unit tests.
@@ -109,17 +111,17 @@ def _unified_diff(expected: str, actual: str, label: str) -> str:
 @pytest.fixture(scope="module")
 def golden_repo_root():
     """
-    Return the path to the real wandb-docs repo.
+    Return the path to the real Mintlify root.
 
     Skips if support.mdx is missing at the resolved root (for example a
     sparse checkout or wrong working directory).
     """
-    if not (WANDB_DOCS_ROOT / "support.mdx").exists():
+    if not (MINTLIFY_ROOT / "support.mdx").exists():
         pytest.skip(
-            f"wandb-docs repo not found at {WANDB_DOCS_ROOT}. "
+            f"Mintlify root not found at {MINTLIFY_ROOT}. "
             "Skipping golden-file tests."
         )
-    return WANDB_DOCS_ROOT
+    return MINTLIFY_ROOT
 
 
 @pytest.fixture(scope="module")
@@ -207,7 +209,7 @@ def generated_output(golden_repo_root, tmp_path_factory):
 class TestTagPagesMatchExisting:
     """
     Verify that every generated tag page is byte-for-byte identical to
-    the existing file in the wandb-docs repository.
+    the existing file in the Mintlify docs tree.
 
     Each tag page is tested individually so that failures pinpoint the
     exact file and show a unified diff of the mismatch.
@@ -369,7 +371,7 @@ class TestProductIndexPagesMatchExisting:
 class TestArticleFilesMatchExisting:
     """
     Verify that every article file after footer sync is byte-for-byte
-    identical to the existing file in the wandb-docs repository.
+    identical to the existing file in the Mintlify docs tree.
 
     The generator rewrites tab-page Badge links on each article to match
     ``keywords`` in front matter. Running the pipeline on already-correct

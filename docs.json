@@ -657,6 +657,7 @@
                               "weave/guides/integrations/pydantic_ai",
                               "weave/guides/integrations/google_adk",
                               "weave/guides/integrations/vercel_ai_sdk",
+                              "weave/guides/integrations/haystack",
                               "weave/guides/integrations/agno",
                               "weave/guides/integrations/koog",
                               "weave/guides/integrations/autogen",
