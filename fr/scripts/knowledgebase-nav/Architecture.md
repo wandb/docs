@@ -6,7 +6,7 @@ title: Architecture
   # Architecture du générateur de navigation de la base de connaissances
 </div>
 
-Ce document décrit le système **Knowledgebase Nav** dans le dépôt `wandb-docs` : ce qu’il génère, quels fichiers et quelles fonctions le font fonctionner, et comment l’automatisation orchestre l’ensemble. Pour les étapes à l’intention des auteurs et la configuration en local, voir [README.md](./README.md).
+Ce document décrit le système **Knowledgebase Nav** : ce qu’il génère, quels fichiers et quelles fonctions le font fonctionner, et comment l’automatisation orchestre l’ensemble. L’utilitaire se trouve dans `<utility-dir>/knowledgebase-nav/` (par exemple `scripts/knowledgebase-nav/` ou `utils/knowledgebase-nav/`) dans un dépôt de documentation Mintlify. Pour les étapes à l’intention des auteurs et la configuration en local, voir [README.md](./README.md).
 
 <div id="purpose">
   ## Objectif
@@ -18,7 +18,7 @@ Le générateur maintient la cohérence entre la navigation de l’assistance (b
   ## Contexte général
 </div>
 
-Le système réside entièrement dans `wandb-docs`. Il n’effectue aucun appel à des API externes. Il lit et écrit des fichiers dans l’arborescence de travail du dépôt.
+Le système réside entièrement dans le dépôt de documentation. Il n’effectue aucun appel à des API externes. Il lit et écrit des fichiers dans l’arborescence de travail sous la racine Mintlify (résolue à partir de `mintlify_root` dans `config.yaml`).
 
 ```mermaid
 flowchart LR
@@ -48,13 +48,13 @@ La flèche de retour vers **articles** indique que la phase 4 met à jour uniqu
   ## Flux de travail d’automatisation
 </div>
 
-Les pull requests déclenchent le flux de travail **Knowledgebase Nav** lorsque des fichiers sous `support/**` ou `scripts/knowledgebase-nav/**` sont modifiés (y compris lors de nouveaux pushes vers une PR ouverte). Il installe les dépendances Python, exécute le générateur, publie un commentaire sur la PR avec les éventuelles instructions « mise à jour de docs.json requise », et commit les chemins correspondants lorsqu’il y a des différences. Les pull requests provenant de **forks** extraient le commit HEAD du fork et exécutent tout de même le générateur, mais l’étape d’auto-commit est ignorée, car le token par défaut ne peut pas pousser vers des forks.
+Les pull requests déclenchent le flux de travail **Knowledgebase Nav** lorsque des fichiers sous le répertoire Mintlify `support/**` ou le répertoire utilitaire sont modifiés (y compris lors de nouveaux pushes vers une PR ouverte). Il installe les dépendances Python, exécute le générateur, publie un commentaire sur la PR avec les éventuelles instructions « mise à jour de docs.json requise », et commit les chemins correspondants lorsqu’il y a des différences. Les pull requests provenant de **forks** extraient le commit HEAD du fork et exécutent tout de même le générateur, mais l’étape d’auto-commit est ignorée, car le token par défaut ne peut pas pousser vers des forks.
 
 ```mermaid
 flowchart TD
   A[PR or manual workflow_dispatch] --> B[Checkout ref]
   B --> C[Python 3.11 + pip install requirements.txt]
-  C --> D["generate_tags.py --repo-root ."]
+  C --> D["generate_tags.py (mintlify_root depuis config.yaml)"]
   D --> R["pr_report.py (répertorie les ajouts/suppressions de pages de tags)"]
   R --> E{Files changed?}
   E -->|yes| F[git-auto-commit selected paths]
@@ -124,20 +124,20 @@ flowchart LR
   ## Composants et fichiers
 </div>
 
-| Composant                   | Chemin                                    | Rôle                                                                                                                                   |
-| --------------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| CLI et logique              | `generate_tags.py`                        | Toutes les phases, parsing, règles de slug, aperçus, réécritures MDX (ne touche pas à `docs.json`)                                     |
-| Rapport de PR               | `pr_report.py`                            | Rapport Markdown issu de `git diff` ; liste les pages de tag ajoutées/supprimées afin qu’une personne puisse mettre à jour `docs.json` |
-| Produit et registre de tags | `config.yaml`                             | `slug`, `display_name`, `allowed_keywords` par produit                                                                                 |
-| Modèle de liste de tags     | `templates/support_tag.mdx.j2`            | Une carte par article sur une page de tag                                                                                              |
-| Modèle du hub produit       | `templates/support_product_index.mdx.j2`  | Section mise en avant et cartes de navigation par catégorie                                                                            |
-| Dépendances                 | `requirements.txt`                        | PyYAML, Jinja2                                                                                                                         |
-| Tests unitaires             | `tests/test_generate_tags.py`             | Système de fichiers simulé                                                                                                             |
-| Tests d’intégration         | `tests/test_golden_output.py`             | Pipeline complet sur une copie temporaire du dépôt réel                                                                                |
-| Marqueurs Pytest            | `tests/conftest.py`                       | Enregistre le marqueur `integration` pour la suite golden                                                                              |
-| CI                          | `.github/workflows/knowledgebase-nav.yml` | Déclencheurs, script d’exécution, auto-commit                                                                                          |
-| Documentation auteur        | `README.md`                               | Flux de travail pour les rédacteurs et les développeurs                                                                                |
-| Notes d’architecture        | `Architecture.md`                         | Diagrammes et cartographie des modules pour les développeurs                                                                           |
+| Composant               | Chemin                                    | Rôle                                                                                                                                   |
+| ----------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| CLI et logique          | `generate_tags.py`                        | Toutes les phases, parsing, règles de slug, aperçus, réécritures MDX (ne touche pas à `docs.json`)                                     |
+| Rapport de PR           | `pr_report.py`                            | Rapport Markdown issu de `git diff` ; liste les pages de tags ajoutées/supprimées afin qu’une personne puisse mettre à jour `docs.json` |
+| Configuration           | `config.yaml`                             | `mintlify_root`, `badge_color` et registre des produits (`slug`, `display_name`, `allowed_keywords`)                                   |
+| Modèle de liste de tags | `templates/support_tag.mdx.j2`            | Une carte par article sur une page de tags                                                                                              |
+| Modèle du hub produit   | `templates/support_product_index.mdx.j2`  | Section mise en avant et cartes de navigation par catégorie                                                                            |
+| Dépendances             | `requirements.txt`                        | PyYAML, Jinja2                                                                                                                         |
+| Tests unitaires         | `tests/test_generate_tags.py`             | Système de fichiers simulé                                                                                                             |
+| Tests d’intégration     | `tests/test_golden_output.py`             | Pipeline complet sur une copie temporaire du dépôt réel                                                                                |
+| Marqueurs Pytest        | `tests/conftest.py`                       | Enregistre le marqueur `integration` pour la suite golden                                                                              |
+| CI                      | `.github/workflows/knowledgebase-nav.yml` | Déclencheurs, script d’exécution, auto-commit                                                                                          |
+| Documentation auteur    | `README.md`                               | Flux de travail pour les rédacteurs et les développeurs                                                                                |
+| Notes d’architecture    | `Architecture.md`                         | Diagrammes et cartographie des modules pour les développeurs                                                                           |
 
 <div id="functional-areas-inside-generate_tagspy">
   ## Zones fonctionnelles dans `generate_tags.py`
@@ -207,7 +207,7 @@ Le pipeline ne modifie pas `docs.json`. Les ajouts et suppressions de pages de t
   ### CLI
 </div>
 
-* **`main`** analyse `--repo-root` et `--config` (facultatif), puis appelle **`run_pipeline`**.
+* **`main`** analyse l’option facultative `--config`, détermine la racine Mintlify à partir de `mintlify_root` dans `config.yaml` via **`resolve_mintlify_root`**, puis appelle **`run_pipeline`**.
 
 <div id="constants">
   ## Constantes

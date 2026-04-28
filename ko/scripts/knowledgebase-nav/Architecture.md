@@ -6,7 +6,7 @@ title: 아키텍처
   # Knowledgebase nav 생성기 아키텍처
 </div>
 
-이 문서는 `wandb-docs` 저장소의 **Knowledgebase Nav** 시스템을 설명합니다. 이 시스템이 무엇을 생성하는지, 어떤 파일과 함수가 이를 작동하게 하는지, 그리고 자동화가 이를 어떻게 연결하는지를 다룹니다. 작성자용 step 및 로컬 설정은 [README.md](./README.md)를 참조하세요.
+이 문서는 **Knowledgebase Nav** 시스템을 설명합니다. 이 시스템이 무엇을 생성하는지, 어떤 파일과 함수가 이를 작동하게 하는지, 그리고 자동화가 이를 어떻게 연결하는지를 다룹니다. 이 유틸리티는 Mintlify 문서 저장소 내부의 `<utility-dir>/knowledgebase-nav/`(예: `scripts/knowledgebase-nav/` 또는 `utils/knowledgebase-nav/`)에 있습니다. 작성자용 step 및 로컬 설정은 [README.md](./README.md)를 참조하세요.
 
 <div id="purpose">
   ## 목적
@@ -18,11 +18,11 @@ title: 아키텍처
   ## 전체적인 맥락
 </div>
 
-이 시스템은 `wandb-docs` 내부에서만 동작합니다. 외부 API는 호출하지 않습니다. 리포지토리의 작업 트리에서 파일을 읽고 씁니다.
+이 시스템은 docs 저장소 내부에서만 동작합니다. 외부 API는 호출하지 않습니다. `config.yaml`의 `mintlify_root`에서 확인되는 Mintlify 루트 아래 작업 트리에서 파일을 읽고 씁니다.
 
 ```mermaid
 flowchart LR
-  subgraph repo ["wandb-docs 저장소"]
+  subgraph repo ["docs 저장소"]
     CFG["config.yaml"]
     TPL["templates/*.j2"]
     ART["support/*/articles/*.mdx"]
@@ -40,7 +40,7 @@ flowchart LR
   GEN --> ART
 ```
 
-**articles**로 돌아가는 화살표는 4단계에서 MDX 주석 마커로 감싼 `/support/<product>/tags/` 아래의 태그 페이지를 가리키는 `<Badge>` 링크만 업데이트한다는 의미입니다. 그 밖의 콘텐츠(`---`, 다른 Badges, 마커 밖의 텍스트 포함)는 다시 작성되지 않습니다.
+**아티클**로 돌아가는 화살표는 4단계에서 MDX 주석 마커로 감싼 `/support/<product>/tags/` 아래의 태그 페이지를 가리키는 `<Badge>` 링크만 업데이트한다는 의미입니다. 그 밖의 콘텐츠(`---`, 다른 Badges, 마커 밖의 텍스트 포함)는 다시 작성되지 않습니다.
 
 이 다이어그램에는 `docs.json`이 의도적으로 빠져 있습니다. 태그 페이지가 추가되거나 제거되면 워크플로의 PR 댓글(`pr_report.py`로 생성됨)에 사람이 `docs.json`의 해당 `Support: <display_name>` 탭에 수동으로 추가하거나 제거해야 하는 페이지 ids가 나열됩니다.
 
@@ -48,13 +48,13 @@ flowchart LR
   ## 자동화 워크플로
 </div>
 
-`support/**` 또는 `scripts/knowledgebase-nav/**` 아래 파일이 변경되면(열린 PR에 새 푸시가 추가되는 경우 포함) pull request가 **Knowledgebase Nav** 워크플로를 트리거합니다. 이 워크플로는 Python 의존성을 설치하고 생성기를 실행하며, &quot;docs.json update required&quot; 안내가 있으면 이를 PR 댓글로 게시하고, 변경 사항이 있으면 해당 경로를 커밋합니다. **forks**에서 온 pull request는 fork의 head 커밋을 체크아웃하고 생성기도 실행하지만, 기본 token으로는 fork에 푸시할 수 없기 때문에 자동 커밋 step은 건너뜁니다.
+Mintlify `support/**` 디렉터리 또는 유틸리티 디렉터리 아래 파일이 변경되면(열린 PR에 새 푸시가 추가되는 경우 포함) pull request가 **Knowledgebase Nav** 워크플로를 트리거합니다. 이 워크플로는 Python 의존성을 설치하고 생성기를 실행하며, &quot;docs.json update required&quot; 안내가 있으면 이를 PR 댓글로 게시하고, 변경 사항이 있으면 해당 경로를 커밋합니다. **forks**에서 온 pull request는 fork의 head 커밋을 체크아웃하고 생성기도 실행하지만, 기본 token으로는 fork에 푸시할 수 없기 때문에 자동 커밋 step은 건너뜁니다.
 
 ```mermaid
 flowchart TD
   A[PR or manual workflow_dispatch] --> B[Checkout ref]
   B --> C[Python 3.11 + pip install requirements.txt]
-  C --> D["generate_tags.py --repo-root ."]
+  C --> D["generate_tags.py (config.yaml의 mintlify_root)"]
   D --> R["pr_report.py (lists tag-page adds/removes)"]
   R --> E{Files changed?}
   E -->|yes| F[git-auto-commit selected paths]
@@ -124,20 +124,20 @@ flowchart LR
   ## 컴포넌트 및 파일
 </div>
 
-| 컴포넌트          | 경로                                        | 역할                                                                          |
-| ------------- | ----------------------------------------- | --------------------------------------------------------------------------- |
-| CLI 및 로직      | `generate_tags.py`                        | 모든 단계, 파싱, slug 규칙, 미리보기, MDX 재작성 (`docs.json`은 수정하지 않음)                    |
-| PR 보고서        | `pr_report.py`                            | `git diff` 기반의 Markdown 보고서; 사람이 `docs.json`을 업데이트할 수 있도록 추가/제거된 태그 페이지를 나열 |
-| 제품 및 태그 레지스트리 | `config.yaml`                             | 제품별 `slug`, `display_name`, `allowed_keywords`                              |
-| 태그 목록 템플릿     | `templates/support_tag.mdx.j2`            | 태그 페이지에서 아티클마다 Card 1개                                                      |
-| 제품 허브 템플릿     | `templates/support_product_index.mdx.j2`  | 추천 섹션 및 카테고리별 탐색 Card                                                       |
-| 의존성           | `requirements.txt`                        | PyYAML, Jinja2                                                              |
-| 단위 테스트        | `tests/test_generate_tags.py`             | 모의 파일 시스템                                                                   |
-| 인테그레이션 테스트    | `tests/test_golden_output.py`             | 실제 리포지토리의 임시 복사본에서 전체 파이프라인 실행                                              |
-| Pytest 마커     | `tests/conftest.py`                       | golden 스위트용 `integration` 마커 등록                                             |
-| CI            | `.github/workflows/knowledgebase-nav.yml` | 트리거, 실행 스크립트, 자동 커밋                                                         |
-| 작성자 문서        | `README.md`                               | 작성자와 개발자를 위한 워크플로                                                           |
-| 아키텍처 참고 사항    | `Architecture.md`                         | 개발자를 위한 다이어그램 및 모듈 맵                                                        |
+| 컴포넌트       | 경로                                        | 역할                                                                                        |
+| ---------- | ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| CLI 및 로직   | `generate_tags.py`                        | 모든 단계, 파싱, slug 규칙, 미리보기, MDX 재작성 (`docs.json`은 수정하지 않음)                                  |
+| PR 보고서     | `pr_report.py`                            | `git diff` 기반의 Markdown 보고서; 사람이 `docs.json`을 업데이트할 수 있도록 추가/제거된 태그 페이지를 나열               |
+| 설정         | `config.yaml`                             | `mintlify_root`, `badge_color`, 그리고 제품 레지스트리 (`slug`, `display_name`, `allowed_keywords`) |
+| 태그 목록 템플릿  | `templates/support_tag.mdx.j2`            | 태그 페이지에서 아티클마다 Card 1개                                                                    |
+| 제품 허브 템플릿  | `templates/support_product_index.mdx.j2`  | 추천 섹션 및 카테고리별 탐색 Card                                                                     |
+| 의존성        | `requirements.txt`                        | PyYAML, Jinja2                                                                            |
+| 단위 테스트     | `tests/test_generate_tags.py`             | 모의 파일 시스템                                                                                 |
+| 인테그레이션 테스트 | `tests/test_golden_output.py`             | 실제 리포지토리의 임시 복사본에서 전체 파이프라인 실행                                                            |
+| Pytest 마커  | `tests/conftest.py`                       | golden 스위트용 `integration` 마커 등록                                                           |
+| CI         | `.github/workflows/knowledgebase-nav.yml` | 트리거, 실행 스크립트, 자동 커밋                                                                       |
+| 작성자 문서     | `README.md`                               | 작성자와 개발자를 위한 워크플로                                                                         |
+| 아키텍처 참고 사항 | `Architecture.md`                         | 개발자를 위한 다이어그램 및 모듈 맵                                                                      |
 
 <div id="functional-areas-inside-generate_tagspy">
   ## `generate_tags.py` 내부의 기능 영역
@@ -208,7 +208,7 @@ flowchart LR
   ### CLI
 </div>
 
-* **`main`**은 `--repo-root`와 선택 사항인 `--config`를 파싱한 후 **`run_pipeline`**을 호출합니다.
+* **`main`**은 선택 사항인 `--config`를 파싱하고, **`resolve_mintlify_root`**를 통해 `config.yaml`의 `mintlify_root`에서 Mintlify 루트를 확인한 다음, **`run_pipeline`**을 Call합니다.
 
 <div id="constants">
   ## 상수

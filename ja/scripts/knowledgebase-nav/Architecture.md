@@ -6,7 +6,7 @@ title: アーキテクチャ
   # Knowledgebase Nav ジェネレーターのアーキテクチャ
 </div>
 
-このドキュメントでは、`wandb-docs`リポジトリ内の**Knowledgebase Nav**システムについて説明します。具体的には、このシステムが何を生成するのか、どのファイルと関数によって動作しているのか、そして自動化によってそれらがどのように連携しているのかを扱います。作成者向けの手順やローカルでのセットアップについては、[README.md](./README.md)を参照してください。
+このドキュメントでは、**Knowledgebase Nav**システムについて説明します。具体的には、このシステムが何を生成するのか、どのファイルと関数によって動作しているのか、そして自動化によってそれらがどのように連携しているのかを扱います。このユーティリティは、Mintlify ドキュメントリポジトリ内の`<utility-dir>/knowledgebase-nav/` (たとえば `scripts/knowledgebase-nav/` または `utils/knowledgebase-nav/`) にあります。作成者向けの手順やローカルでのセットアップについては、[README.md](./README.md)を参照してください。
 
 <div id="purpose">
   ## 目的
@@ -18,11 +18,11 @@ title: アーキテクチャ
   ## 概要
 </div>
 
-このシステムは完全に `wandb-docs` 内で動作します。外部 API は呼び出しません。リポジトリのワーキングツリー内のファイルを読み書きします。
+このシステムは完全に docs リポジトリ内で動作します。外部 API は呼び出しません。`config.yaml` の `mintlify_root` から解決される Mintlify ルート配下のワーキングツリー内のファイルを読み書きします。
 
 ```mermaid
 flowchart LR
-  subgraph repo ["wandb-docs repository"]
+  subgraph repo ["docs リポジトリ"]
     CFG["config.yaml"]
     TPL["templates/*.j2"]
     ART["support/*/articles/*.mdx"]
@@ -48,13 +48,13 @@ flowchart LR
   ## 自動化ワークフロー
 </div>
 
-プルリクエストでは、`support/**` または `scripts/knowledgebase-nav/**` 配下のファイルが変更されると (オープン中の PR への新しい push を含む) 、**Knowledgebase Nav** ワークフローがトリガーされます。このワークフローでは、Python の依存関係をインストールし、ジェネレーターを実行し、&quot;docs.json の更新が必要&quot; という案内を含む PR コメントを投稿して、差分がある場合は該当するパスをコミットします。**fork** からのプルリクエストでは、fork の HEAD コミットをチェックアウトし、ジェネレーターも実行されますが、デフォルトのトークンでは fork に push できないため、自動コミットの step はスキップされます。
+プルリクエストでは、Mintlify の `support/**` ディレクトリまたはユーティリティディレクトリ配下のファイルが変更されると (オープン中の PR への新しい push を含む) 、**Knowledgebase Nav** ワークフローがトリガーされます。このワークフローでは、Python の依存関係をインストールし、ジェネレーターを実行し、&quot;docs.json の更新が必要&quot; という案内を含む PR コメントを投稿して、差分がある場合は該当するパスをコミットします。**fork** からのプルリクエストでは、fork の HEAD コミットをチェックアウトし、ジェネレーターも実行されますが、デフォルトのトークンでは fork に push できないため、自動コミットの step はスキップされます。
 
 ```mermaid
 flowchart TD
   A[PR or manual workflow_dispatch] --> B[Checkout ref]
   B --> C[Python 3.11 + pip install requirements.txt]
-  C --> D["generate_tags.py --repo-root ."]
+  C --> D["generate_tags.py（config.yaml の mintlify_root を使用）"]
   D --> R["pr_report.py（タグページの追加/削除を一覧表示）"]
   R --> E{Files changed?}
   E -->|yes| F[git-auto-commit selected paths]
@@ -124,20 +124,20 @@ flowchart LR
   ## コンポーネントとファイル
 </div>
 
-| コンポーネント        | パス                                        | 役割                                                                                   |
-| -------------- | ----------------------------------------- | ------------------------------------------------------------------------------------ |
-| CLI とロジック      | `generate_tags.py`                        | すべてのフェーズ、パース、slug ルール、プレビュー、MDX の書き換え (`docs.json` には触れません)                          |
-| PR report      | `pr_report.py`                            | `git diff` から生成する Markdown report。追加または削除されたタグページを一覧表示し、人手で `docs.json` を更新できるようにします |
-| プロダクトとタグのレジストリ | `config.yaml`                             | プロダクトごとの `slug`、`display_name`、`allowed_keywords`                                    |
-| タグ一覧テンプレート     | `templates/support_tag.mdx.j2`            | タグページで、記事ごとに 1 つの Card を表示                                                           |
-| プロダクトハブテンプレート  | `templates/support_product_index.mdx.j2`  | 注目セクションと、カテゴリ別に閲覧するための Card                                                          |
-| 依存関係           | `requirements.txt`                        | PyYAML、Jinja2                                                                        |
-| 単体テスト          | `tests/test_generate_tags.py`             | モック化したファイルシステム                                                                       |
-| インテグレーションテスト   | `tests/test_golden_output.py`             | 実際のリポジトリの一時コピー上で完全なパイプラインを実行                                                         |
-| Pytest マーカー    | `tests/conftest.py`                       | ゴールデンスイート用の `integration` マーカーを登録                                                    |
-| CI             | `.github/workflows/knowledgebase-nav.yml` | トリガー、run スクリプト、自動コミット                                                                |
-| 作成者向けドキュメント    | `README.md`                               | ライターと開発者向けのワークフロー                                                                    |
-| アーキテクチャメモ      | `Architecture.md`                         | 開発者向けの図とモジュールマップ                                                                     |
+| コンポーネント       | パス                                        | 役割                                                                                         |
+| ------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| CLI とロジック     | `generate_tags.py`                        | すべてのフェーズ、パース、slug ルール、プレビュー、MDX の書き換え (`docs.json` には触れません)                                |
+| PR report     | `pr_report.py`                            | `git diff` から生成する Markdown report。追加または削除されたタグページを一覧表示し、人手で `docs.json` を更新できるようにします       |
+| 設定            | `config.yaml`                             | `mintlify_root`、`badge_color`、およびプロダクト Registry (`slug`、`display_name`、`allowed_keywords`) |
+| タグ一覧テンプレート    | `templates/support_tag.mdx.j2`            | タグページで、記事ごとに 1 つの Card を表示                                                                 |
+| プロダクトハブテンプレート | `templates/support_product_index.mdx.j2`  | 注目セクションと、カテゴリ別に閲覧するための Card                                                                |
+| 依存関係          | `requirements.txt`                        | PyYAML、Jinja2                                                                              |
+| 単体テスト         | `tests/test_generate_tags.py`             | モック化したファイルシステム                                                                             |
+| インテグレーションテスト  | `tests/test_golden_output.py`             | 実際のリポジトリの一時コピー上で完全なパイプラインを実行                                                               |
+| Pytest マーカー   | `tests/conftest.py`                       | ゴールデンスイート用の `integration` マーカーを登録                                                          |
+| CI            | `.github/workflows/knowledgebase-nav.yml` | トリガー、run スクリプト、自動コミット                                                                      |
+| 作成者向けドキュメント   | `README.md`                               | ライターと開発者向けのワークフロー                                                                          |
+| アーキテクチャメモ     | `Architecture.md`                         | 開発者向けの図とモジュールマップ                                                                           |
 
 <div id="functional-areas-inside-generate_tagspy">
   ## `generate_tags.py` 内の機能領域
@@ -208,7 +208,7 @@ flowchart LR
   ### CLI
 </div>
 
-* **`main`** は `--repo-root` とオプションの `--config` を解析し、その後 **`run_pipeline`** を呼び出します。
+* **`main`** は省略可能な `--config` を解析し、`config.yaml` 内の `mintlify_root` から **`resolve_mintlify_root`** を使って Mintlify ルートを特定し、最後に **`run_pipeline`** を呼び出します。
 
 <div id="constants">
   ## 定数
