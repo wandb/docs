@@ -73,10 +73,11 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référence à l’aide du navigateur de fichiers, [explorer le graphe de dépendances complet](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) et consulter l’historique versionné de votre artifact. La W&amp;B App n’affiche pas les médias enrichis tels que les images, l’audio, etc., car les données elles-mêmes ne sont pas contenues dans l’artifact.
+Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référence à l’aide du navigateur de fichiers, [explorer le graphe de dépendances complet](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/), et consulter l’historique versionné de votre artifact. La W&amp;B App n’affiche pas les médias enrichis tels que les images, l’audio, etc., car les données elles-mêmes ne sont pas contenues dans l’artifact.
 
 <Note>
-  Les W&amp;B Artifacts prennent en charge toute interface compatible avec Amazon S3, y compris CoreWeave Storage et MinIO. Les scripts décrits ci-dessous fonctionnent tels quels avec les deux fournisseurs lorsque vous définissez la variable d’environnement `AWS_S3_ENDPOINT_URL` de sorte qu’elle pointe vers votre serveur CoreWeave Storage ou MinIO.
+  Les W&amp;B Artifacts prennent en charge toute interface compatible avec Amazon S3, y compris CoreWeave Storage et MinIO. Les scripts décrits ci-dessous fonctionnent tels quels avec les deux fournisseurs, lorsque vous définissez la variable d’environnement `AWS_S3_ENDPOINT_URL`
+  de sorte qu’elle pointe vers votre serveur CoreWeave Storage ou MinIO.
 </Note>
 
 <Warning>
@@ -180,7 +181,7 @@ Pour suivre un artifact dans un système de fichiers :
 1. Initialisez un run avec `wandb.init()`.
 2. Créez un objet artifact avec `wandb.Artifact()`.
 3. Indiquez la référence vers le chemin du système de fichiers à l&#39;aide de la méthode `wandb.Artifact.add_reference()` de l&#39;objet artifact.
-4. Consignez les métadonnées de l&#39;artifact dans le journal avec `run.log_artifact()`.
+4. Enregistrez les métadonnées de l’artifact dans le journal avec `run.log_artifact()`.
 
 Faites un copier-coller de l&#39;extrait de code suivant pour suivre des fichiers dans un système de fichiers monté. Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs.
 
@@ -193,10 +194,10 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   # Créer un objet artifact
   artifact = wandb.Artifact(name="<name>", type="<type>")
 
-  # Ajouter une référence au chemin du système de fichiers
+  # Ajouter une référence vers le chemin du système de fichiers
   artifact.add_reference("file:///path/to/dataset/")
 
-  # Journaliser l'artifact (métadonnées uniquement)
+  # Enregistrer l'artifact dans le journal (métadonnées uniquement)
   run.log_artifact(artifact)
 ```
 

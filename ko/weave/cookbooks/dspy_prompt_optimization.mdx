@@ -38,7 +38,7 @@ LLM 공급업체로 [OpenAI API](https://openai.com/index/openai-api/)를 사용
 import os
 from getpass import getpass
 
-api_key = getpass("OpenAI API 키를 입력하세요: ")
+api_key = getpass("Enter you OpenAI API key: ")
 os.environ["OPENAI_API_KEY"] = api_key
 ```
 
@@ -85,7 +85,7 @@ from datasets import load_dataset
 
 @weave.op()
 def get_dataset(metadata: Metadata):
-    # Huggingface Hub에서 태스크에 해당하는 BIG-Bench Hard 데이터셋 로드
+    # Huggingface Hub에서 태스크에 해당하는 BIG-Bench Hard 데이터셋 불러오기
     dataset = load_dataset(metadata.dataset_address, metadata.big_bench_hard_task)[
         "train"
     ]
@@ -95,7 +95,7 @@ def get_dataset(metadata: Metadata):
     train_rows = rows[0 : metadata.num_train_examples]
     val_rows = rows[metadata.num_train_examples :]
 
-    # `dspy.Example` 객체로 구성된 트레이닝 및 검증 예제 생성
+    # `dspy.Example` 객체로 구성된 트레이닝 및 검증 예시 생성
     dspy_train_examples = [
         dspy.Example(row).with_inputs("question") for row in train_rows
     ]
@@ -146,10 +146,10 @@ class CausalReasoning(dspy.Signature):
     """You are an expert in causal reasoning. Analyze the given question carefully
     and answer Yes or No. Provide a detailed explanation justifying your answer."""
 
-    question: str = dspy.InputField(desc="답변할 질문")
+    question: str = dspy.InputField(desc="The question to be answered")
     answer: str = dspy.OutputField(desc="Yes or No")
-    confidence: float = dspy.OutputField(desc="0과 1 사이의 신뢰도 점수")
-    explanation: str = dspy.OutputField(desc="답변에 대한 상세 설명")
+    confidence: float = dspy.OutputField(desc="Confidence score between 0 and 1")
+    explanation: str = dspy.OutputField(desc="Detailed explanation for the answer")
 
 class CausalReasoningModule(dspy.Module):
     def __init__(self):
