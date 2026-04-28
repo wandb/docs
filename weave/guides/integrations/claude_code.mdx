@@ -46,9 +46,9 @@ npm install -g weave-claude-plugin
 weave-claude-plugin install
 ```
 
-The installer creates `~/.weave_claude_plugin/settings.json`, registers the plugin with Claude Code, and prompts you for your Weave project name and W&B API key. If `WEAVE_PROJECT` and `WANDB_API_KEY` are already set in your environment before you run `install`, the installer uses them and you can skip entering those values at the prompts. When you are done, launch or restart Claude Code. A background daemon starts with the CLI and traces are sent to Weave.
+The installer creates `~/.weave_claude_plugin/settings.json`, registers the plugin with Claude Code, and prompts you for your Weave project name and W&B API key. If `WEAVE_PROJECT` and `WANDB_API_KEY` are already set in your environment before you run `install`, the installer uses them and you can skip entering those values at the prompts. When you are done, launch or restart Claude Code. The plugin starts a background daemon when the Claude Code CLI starts, and sends traces to Weave.
 
-For CI, bootstrap scripts, or other automation where you must not be prompted, set the `--non-interactive` flag. The installer still configures the plugin and registers Claude Code the same way. It uses the environment variables when they are set and warns if either is missing:
+For CI, bootstrap scripts, or other automation where you must not be prompted, set the `--non-interactive` flag. Set your environment variables first so the installer can authenticate with W&B and configure your Weave project, then run the installer. The installer still configures the plugin and registers Claude Code the same way. It uses the environment variables when they are set and warns if either is missing:
 
 ```bash lines
 export WEAVE_PROJECT=<your-team-name/your-project-name>
@@ -89,6 +89,8 @@ claude_code.session
 
 ## Check status and logs
 
+Use these commands to confirm the plugin is running and to troubleshoot issues. Check status to verify that the daemon is active and Claude Code is registered. Check logs if traces are not appearing in Weave or if `status` reports that action is needed.
+
 From a terminal, run:
 
 ```bash lines
@@ -97,9 +99,9 @@ weave-claude-plugin status
 
 Each line in the output is marked with one of the following labels:
 
-- OK
-- Action needed
-- Not yet active
+- OK: Everything required for tracing is set up and running.
+- Action needed: Something is misconfigured or missing. Check the daemon logs as follows for more information.
+- Not yet active: Not an error. The plugin has not recorded any activity yet. Start or continue a Claude Code session, wait a moment, then re-run the command.
 
 If sessions are not showing up in Weave, you can check the daemon log to help you debug any issues:
 
