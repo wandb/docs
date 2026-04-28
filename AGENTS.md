@@ -56,7 +56,7 @@ Key directories:
 - `/platform/` - W&B Platform features and hosting documentation.
 - `/models/` - W&B Models documentation.
 - `/weave/` - W&B Weave documentation.
-- `/inference/` - W&B Inference documentation.
+- `/inference/` - Serverless Inference documentation.
 - `/training/` - W&B Training documentation.
 - `/snippets/` - Reusable content snippets.
 - `/images/` - Image assets.
