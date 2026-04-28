@@ -3,10 +3,22 @@ title: Visualiser les alertes d’infrastructure de CoreWeave
 description: "Affichez les alertes d’infrastructure de CoreWeave, comme les pannes de GPU et les violations thermiques, sur les graphiques de run de vos expériences W&B."
 ---
 
-Consultez les alertes d’infrastructure, comme les pannes de GPU, les violations thermiques, etc., pendant les expériences de machine learning que vous consignez dans W&amp;B. Pendant un [run W&amp;B](/fr/models/runs), [CoreWeave Mission Control](https://coreweave.com/mission-control) surveille votre infrastructure de calcul.
+Consultez les alertes d’infrastructure, comme les pannes de GPU, les violations thermiques, etc., pendant les expériences de machine learning que vous consignez dans W&amp;B. Lorsque vous exécutez vos workloads sur un cluster [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) pris en charge, activez cette intégration et remplissez les prérequis de cette page pour permettre à [CoreWeave Mission Control](https://www.coreweave.com/mission-control) de surveiller votre infrastructure de calcul pendant un [run W&amp;B](/fr/models/runs).
 
 <Note>
-  Cette fonctionnalité est en préversion et n’est disponible que pour l’entraînement sur un cluster CoreWeave. Contactez votre représentant W&amp;B pour obtenir l’accès.
+  Cette fonctionnalité est en préversion. Contactez votre représentant W&amp;B pour obtenir l’accès.
 </Note>
 
-Si une erreur se produit, CoreWeave envoie ces informations à W&amp;B. W&amp;B affiche ensuite les informations d’infrastructure sur les graphiques du run dans le Workspace de votre projet. CoreWeave tente de résoudre automatiquement certains problèmes, et W&amp;B affiche ces informations sur la page du run.
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Les conditions suivantes doivent être remplies pour que cette intégration fonctionne de bout en bout.
+
+| Prérequis                                     | Détails                                                                                                                                                                                                                                                                                                                                              |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plateforme CoreWeave**                      | Disponible uniquement sur les clusters [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks). Non disponible sur les clusters bare metal CoreWeave ni sur CoreWeave Classic. Les tâches d&#39;entraînement exécutées via [SUNK](https://docs.coreweave.com/products/sunk) sur CKS répondent également à cette exigence.      |
+| **SDK Python W&amp;B**                        | Pour les tâches d&#39;entraînement, utilisez le package `wandb` version `0.20.1` ou ultérieure lorsque vous journalisez un run.                                                                                                                                                                                                                      |
+| **serveur W&amp;B (Cloud dédié ou Autogéré)** | Si vous utilisez un déploiement Cloud dédié de W&amp;B ou W&amp;B Autogéré, utilisez le serveur W&amp;B version `0.73.0` ou ultérieure. Définissez la variable d&#39;environnement `SERVER_FLAG_ENABLE_CORE_WEAVE_OBSERVABILITY` sur le pod d&#39;application W&amp;B afin que le serveur puisse accepter les données d&#39;observabilité CoreWeave. |
+
+En cas d&#39;erreur, CoreWeave envoie ces informations à W&amp;B. W&amp;B ajoute les informations d&#39;infrastructure aux graphiques de votre run dans l&#39;espace de travail de votre projet. CoreWeave tente de résoudre automatiquement certains problèmes, et W&amp;B affiche ces informations sur la page du run.

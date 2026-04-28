@@ -30,7 +30,7 @@ Find your W&B entity by checking the profile page for that user or team in the W
 3. Set an environment variable for that API key: `export WANDB_API_KEY=YOUR_KEY`.
 
 
-The proceeding examples demonstrate where to specify your API key in your Dagster code. Make sure to specify your entity and project name within the `wandb_config` nested dictionary. You can pass different `wandb_config` values to different ops/assets if you want to use a different W&B Project. For more information about possible keys you can pass, see the Configuration section below.
+The following examples demonstrate where to specify your API key in your Dagster code. Make sure to specify your entity and project name within the `wandb_config` nested dictionary. You can pass different `wandb_config` values to different ops/assets if you want to use a different W&B Project. For more information about possible keys you can pass, see the Configuration section below.
 
 
 <Tabs>
@@ -111,7 +111,7 @@ Note that we are configuring the IO Manager cache duration in this example contr
 
 
 ### Configuration
-The proceeding configuration options are used as settings on the W&B-specific Dagster resource and IO Manager provided by the integration.
+The following configuration options are used as settings on the W&B-specific Dagster resource and IO Manager provided by the integration.
 
 * `wandb_resource`: Dagster [resource](https://docs.dagster.io/guides/build/external-resources) used to communicate with the W&B API. It automatically authenticates using the provided API key. Properties:
     * `api_key`: (str, required): a W&B API key necessary to communicate with the W&B API.
@@ -155,7 +155,7 @@ Return an object from a Python function to write a W&B Artifact. The following o
 * W&B objects (Table, Image, Graph…)
 * W&B Artifact objects
 
-The proceeding examples demonstrate how to write W&B Artifacts with Dagster assets (`@asset`):
+The following examples demonstrate how to write W&B Artifacts with Dagster assets (`@asset`):
 
 
 <Tabs>
@@ -227,7 +227,7 @@ For `@op`, it’s located in the output metadata through the [Out](https://docs.
 For `@asset`, it’s located in the metadata argument on the asset. 
 For `@multi_asset`, it’s located in each output metadata through the [AssetOut](https://docs.dagster.io/_apidocs/assets#dagster.AssetOut) metadata arguments.
 
-The proceeding code examples demonstrate how to configure a dictionary on an `@op`, `@asset` and `@multi_asset` computations:
+The following code examples demonstrate how to configure a dictionary on an `@op`, `@asset` and `@multi_asset` computations:
 
 <Tabs>
 <Tab title="Example for @op">
@@ -503,7 +503,7 @@ def read_artifact(context, my_artifact):
 
 
 ### Configuration
-The proceeding configuration is used to indicate what the IO Manager should collect and provide as inputs to the decorated functions. The following read patterns are supported.
+The following configuration is used to indicate what the IO Manager should collect and provide as inputs to the decorated functions. The following read patterns are supported.
 
 1. To get an named object contained within an Artifact use get:
 

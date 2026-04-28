@@ -176,7 +176,7 @@ You can use the returned `ArtifactCollection` object to retrieve information abo
 
 
 **Examples:**
- In the proceeding code snippet "type", "entity", "project", and "artifact_name" are placeholders for the collection type, your W&B entity, name of the project the artifact is in, and the name of the artifact, respectively. 
+ In the following code snippet "type", "entity", "project", and "artifact_name" are placeholders for the collection type, your W&B entity, name of the project the artifact is in, and the name of the artifact, respectively. 
 
 ```python
 import wandb
@@ -217,7 +217,7 @@ Whether an artifact collection exists within a specified project and entity.
 
 
 **Examples:**
- In the proceeding code snippet "type", and "collection_name" refer to the type of the artifact collection and the name of the collection, respectively. 
+ In the following code snippet "type", and "collection_name" refer to the type of the artifact collection and the name of the collection, respectively. 
 
 ```python
 import wandb
@@ -233,7 +233,8 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → ArtifactCollections
 ```
 
@@ -246,6 +247,7 @@ Returns a collection of matching artifact collections.
  - `project_name`:  The name of the project to filter on. 
  - `type_name`:  The name of the artifact type to filter on. 
  - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -277,7 +279,7 @@ Whether an artifact version exists within the specified project and entity.
 
 
 **Examples:**
- In the proceeding code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
+ In the following code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
 
 ```python
 import wandb
@@ -313,7 +315,10 @@ Returns the matching `ArtifactType`.
 ### <kbd>method</kbd> `Api.artifact_types`
 
 ```python
-artifact_types(project: 'str | None' = None) → ArtifactTypes
+artifact_types(
+    project: 'str | None' = None,
+    start: 'str | None' = None
+) → ArtifactTypes
 ```
 
 Returns a collection of matching artifact types. 
@@ -323,6 +328,7 @@ Returns a collection of matching artifact types.
 **Args:**
  
  - `project`:  The project name or path to filter on. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -348,7 +354,8 @@ artifacts(
     type_name: 'str',
     name: 'str',
     per_page: 'int' = 50,
-    tags: 'list[str] | None' = None
+    tags: 'list[str] | None' = None,
+    start: 'str | None' = None
 ) → Artifacts
 ```
 
@@ -362,6 +369,7 @@ Return an `Artifacts` collection.
  - `name`:  The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. 
  - `per_page`:  Sets the page size for query pagination. Usually  there is no reason to change this. 
  - `tags`:  Only return artifacts with all of these tags. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -371,12 +379,41 @@ Return an `Artifacts` collection.
 
 
 **Examples:**
- In the proceeding code snippet, "type", "entity", "project", and "artifact_name" are placeholders for the artifact type, W&B entity, name of the project the artifact was logged to, and the name of the artifact, respectively. 
+ In the following code snippet, "type", "entity", "project", and "artifact_name" are placeholders for the artifact type, W&B entity, name of the project the artifact was logged to, and the name of the artifact, respectively. 
 
 ```python
 import wandb
 
 wandb.Api().artifacts(type_name="type", name="entity/project/artifact_name")
+``` 
+
+Pause iteration and resume later from the same position by saving the paginator's `.cursor` and passing it as `start=`: 
+
+```python
+from itertools import islice
+
+import wandb
+
+api = wandb.Api()
+
+# Consume the first page of results, then save the cursor.
+page_size = 10
+artifacts = api.artifacts(
+    type_name="type",
+    name="entity/project/artifact_name",
+    per_page=page_size,
+)
+first_page = list(islice(artifacts, page_size))
+
+saved_cursor = artifacts.cursor
+
+# Later (e.g. in a new process), resume iteration from the saved cursor.
+remaining_artifacts = api.artifacts(
+    type_name="type",
+    name="entity/project/artifact_name",
+    per_page=page_size,
+    start=saved_cursor,
+)
 ``` 
 
 ---
@@ -428,7 +465,8 @@ automation = api.automation(name="other-automation", entity="my-team")
 automations(
     entity: 'str | None' = None,
     name: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[Automation]
 ```
 
@@ -443,6 +481,7 @@ If no parameters are provided, the returned iterator will contain all Automation
  - `entity`:  The entity to fetch the automations for. 
  - `name`:  The name of the automation to fetch. 
  - `per_page`:  The number of automations to fetch per page.  Defaults to 50.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -837,7 +876,7 @@ Return a run, sweep, project or report from a path.
 
 
 **Examples:**
- In the proceeding code snippets "project", "team", "run_id", "sweep_id", and "report_name" are placeholders for the project, team, run ID, sweep ID, and the name of a specific report, respectively. 
+ In the following code snippets "project", "team", "run_id", "sweep_id", and "report_name" are placeholders for the project, team, run ID, sweep ID, and the name of a specific report, respectively. 
 
 ```python
 import wandb
@@ -858,7 +897,8 @@ report = api.from_path("team/project/reports/report_name")
 ```python
 integrations(
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[Integration]
 ```
 
@@ -992,7 +1032,8 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'int' = 100
+    per_page: 'int' = 100,
+    start: 'str | None' = None
 ) → Registries
 ```
 
@@ -1007,6 +1048,7 @@ Use the iterator to search and filter registries, collections, or artifact versi
  - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
  - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
  - `per_page`:  Sets the page size for query pagination. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -1045,6 +1087,26 @@ Find all artifact versions in the registries that contain "model" and have the t
 api.registries(filter={"name": {"$regex": "model"}}).versions(
     filter={"$or": [{"tag": "prod"}, {"alias": "best"}]}
 )
+``` 
+
+Pause iteration and resume later from the same position by saving the paginator's `.cursor` and passing it as `start=`: 
+
+```python
+from itertools import islice
+
+import wandb
+
+api = wandb.Api()
+
+# Consume the first page of results, then save the cursor.
+page_size = 10
+registries = api.registries(per_page=page_size)
+first_page = list(islice(registries, page_size))
+
+saved_cursor = registries.cursor
+
+# Later (e.g. in a new process), resume iteration from the saved cursor.
+remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ``` 
 
 ---
@@ -1274,7 +1336,8 @@ Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```python
 slack_integrations(
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[SlackIntegration]
 ```
 
@@ -1525,7 +1588,8 @@ This function only works for local administrators. Use `api.viewer`  to get your
 ```python
 webhook_integrations(
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[WebhookIntegration]
 ```
 

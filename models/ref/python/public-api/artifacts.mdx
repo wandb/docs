@@ -32,10 +32,14 @@ Optionally pass in filters to narrow down the results based on specific criteria
 
 ### <kbd>property</kbd> Artifacts.cursor
 
+An opaque cursor that marks the start of the next page to fetch. 
+
+This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
 
 
 
-
+**Returns:**
+ - `str | None`: The cursor property value.
 ---
 
 ### <kbd>property</kbd> Artifacts.more

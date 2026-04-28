@@ -10,7 +10,6 @@ Run with:
     pytest scripts/knowledgebase-nav/tests/test_generate_tags.py -v
 """
 
-import json
 import textwrap
 import warnings
 from pathlib import Path
@@ -59,8 +58,10 @@ def sample_config(tmp_path):
 @pytest.fixture
 def sample_repo(tmp_path):
     """
-    Create a minimal repo structure with articles, a docs.json, and return
-    the repo root path.
+    Create a minimal repo structure with articles and return the repo root path.
+
+    No ``docs.json`` is created.  The generator never reads ``docs.json``;
+    the workflow's PR report tells humans which entries to edit there.
 
     Structure:
         <tmp_path>/
@@ -68,7 +69,7 @@ def sample_repo(tmp_path):
                 article-one.mdx   (keywords: Alpha, Beta; featured: true)
                 article-two.mdx   (keywords: Alpha)
                 article-three.mdx (keywords: Beta)
-            docs.json  (minimal with en language nav)
+            support.mdx           (with product card counts and featured markers)
     """
     articles_dir = tmp_path / "support" / "widgets" / "articles"
     articles_dir.mkdir(parents=True)
@@ -112,22 +113,6 @@ def sample_repo(tmp_path):
 
         <Badge stroke shape="pill" color="orange" size="md">[Beta](/support/widgets/tags/beta)</Badge>
     """), encoding="utf-8")
-
-    docs_json = {
-        "navigation": {
-            "languages": [
-                {
-                    "language": "en",
-                    "tabs": [
-                        {"tab": "Platform", "pages": ["index"]},
-                    ],
-                }
-            ]
-        }
-    }
-    (tmp_path / "docs.json").write_text(
-        json.dumps(docs_json, indent=2) + "\n", encoding="utf-8"
-    )
 
     # Create a support.mdx with product cards containing counts
     (tmp_path / "support.mdx").write_text(textwrap.dedent("""\
@@ -1417,108 +1402,31 @@ class TestRenderProductIndex:
 
 
 # ===========================================================================
-# Tests: update_docs_json
+# Tests: docs.json is never touched
 # ===========================================================================
 
-class TestUpdateDocsJson:
-    """Tests for the update_docs_json function."""
+class TestDocsJsonNotTouched:
+    """Verify the generator does not read or write docs.json."""
 
-    def test_creates_hidden_tabs(self, sample_repo):
-        """
-        update_docs_json should create hidden support tabs for each
-        product with the correct page listings.
-        """
-        products = [
-            {"slug": "widgets", "display_name": "W&B Widgets"},
-        ]
-        tag_paths = {
-            "widgets": ["support/widgets/tags/alpha", "support/widgets/tags/beta"],
-        }
+    def test_update_docs_json_attribute_removed(self):
+        """The legacy ``update_docs_json`` callable must no longer exist."""
+        assert not hasattr(generate_tags, "update_docs_json")
 
-        generate_tags.update_docs_json(sample_repo, products, tag_paths)
-
-        docs = json.loads((sample_repo / "docs.json").read_text())
-        en_tabs = docs["navigation"]["languages"][0]["tabs"]
-        support_tab = next(t for t in en_tabs if t["tab"] == "Support: W&B Widgets")
-
-        assert support_tab["hidden"] is True
-        assert support_tab["pages"] == [
-            "support/widgets",
-            "support/widgets/tags/alpha",
-            "support/widgets/tags/beta",
-        ]
-
-    def test_preserves_existing_tabs(self, sample_repo):
-        """
-        Non-support tabs (like 'Platform') should be preserved
-        untouched after the update.
-        """
-        products = [{"slug": "widgets", "display_name": "W&B Widgets"}]
-        generate_tags.update_docs_json(sample_repo, products, {"widgets": []})
-
-        docs = json.loads((sample_repo / "docs.json").read_text())
-        en_tabs = docs["navigation"]["languages"][0]["tabs"]
-        platform_tab = next(t for t in en_tabs if t["tab"] == "Platform")
-        assert platform_tab["pages"] == ["index"]
-
-    def test_updates_existing_support_tab(self, sample_repo):
-        """
-        If a support tab already exists, its pages should be replaced
-        (not duplicated) with the new listing.
-        """
-        # First, create the tab
-        products = [{"slug": "widgets", "display_name": "W&B Widgets"}]
-        generate_tags.update_docs_json(
-            sample_repo, products,
-            {"widgets": ["support/widgets/tags/old-tag"]},
-        )
-
-        # Then update it with different tags
-        generate_tags.update_docs_json(
-            sample_repo, products,
-            {"widgets": ["support/widgets/tags/new-tag"]},
-        )
-
-        docs = json.loads((sample_repo / "docs.json").read_text())
-        en_tabs = docs["navigation"]["languages"][0]["tabs"]
-        support_tab = next(t for t in en_tabs if t["tab"] == "Support: W&B Widgets")
-
-        assert support_tab["pages"] == [
-            "support/widgets",
-            "support/widgets/tags/new-tag",
-        ]
-        # Verify no duplicate tabs were created
-        support_tabs = [t for t in en_tabs if "Support:" in t.get("tab", "")]
-        assert len(support_tabs) == 1
-
-    def test_docs_json_not_found(self, tmp_path):
-        """
-        If docs.json doesn't exist, a FileNotFoundError should be raised.
-        """
-        with pytest.raises(FileNotFoundError, match="docs.json not found"):
-            generate_tags.update_docs_json(tmp_path, [], {})
-
-    def test_missing_en_language(self, tmp_path):
-        """
-        If the English language entry is missing from navigation.languages,
-        a ValueError should be raised with a helpful message.
-        """
-        docs = {"navigation": {"languages": [{"language": "ja", "tabs": []}]}}
-        (tmp_path / "docs.json").write_text(json.dumps(docs), encoding="utf-8")
-
-        with pytest.raises(ValueError, match="no entry with language='en'"):
-            generate_tags.update_docs_json(tmp_path, [], {})
-
-    def test_docs_json_trailing_newline(self, sample_repo):
-        """
-        The written docs.json should end with a trailing newline to
-        match standard formatting.
-        """
-        products = [{"slug": "widgets", "display_name": "W&B Widgets"}]
-        generate_tags.update_docs_json(sample_repo, products, {"widgets": []})
-
-        raw = (sample_repo / "docs.json").read_text()
-        assert raw.endswith("\n")
+    def test_module_does_not_open_docs_json(self):
+        """The generator source must not reference docs.json as an I/O target."""
+        source = Path(generate_tags.__file__).read_text(encoding="utf-8")
+        # docs.json may appear in docstrings explaining that we do not touch
+        # it, but never as a Path() / open() / read_text() / write_text()
+        # target.
+        for forbidden in (
+            'Path("docs.json")',
+            "Path('docs.json')",
+            '/ "docs.json"',
+            "/ 'docs.json'",
+        ):
+            assert forbidden not in source, (
+                f"generate_tags.py should not reference {forbidden!r}"
+            )
 
 
 # ===========================================================================
@@ -2269,7 +2177,10 @@ class TestFullPipeline:
     def test_full_pipeline(self, sample_repo, sample_config):
         """
         Running the full pipeline should create tag pages, a product
-        index page, and update docs.json navigation in one pass.
+        index page, and update support.mdx in one pass.
+
+        The pipeline must not create or modify ``docs.json``; humans edit
+        that file manually based on the workflow's PR comment.
 
         This test verifies the orchestration works end-to-end with a
         minimal mock repo.
@@ -2286,18 +2197,8 @@ class TestFullPipeline:
         assert "Browse by category" in index_content
         assert "Featured articles" in index_content
 
-        # docs.json should have the support tab
-        docs = json.loads((sample_repo / "docs.json").read_text())
-        en_tabs = docs["navigation"]["languages"][0]["tabs"]
-        support_tab = next(
-            (t for t in en_tabs if t.get("tab") == "Support: W&B Widgets"),
-            None,
-        )
-        assert support_tab is not None
-        assert support_tab["hidden"] is True
-        assert "support/widgets" in support_tab["pages"]
-        assert "support/widgets/tags/alpha" in support_tab["pages"]
-        assert "support/widgets/tags/beta" in support_tab["pages"]
+        # docs.json must not be created by the pipeline
+        assert not (sample_repo / "docs.json").exists()
 
         # support.mdx should have updated counts
         support_content = (sample_repo / "support.mdx").read_text()

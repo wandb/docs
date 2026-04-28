@@ -1,7 +1,7 @@
 ---
 description: Le guide de démarrage rapide de Sweeps montre comment définir, initialiser et exécuter un balayage. Il y
   a quatre étapes principales
-title: 'Tutoriel : définir, initialiser et exécuter un balayage'
+title: "Tutoriel : définir, initialiser et exécuter un balayage"
 ---
 
 Cette page explique comment définir, initialiser et exécuter un balayage. Il y a quatre étapes principales :
@@ -37,7 +37,7 @@ sweep_configuration = {
     },
 }
 
-# 3 : Lancer le balayage
+# 3 : Démarrer le balayage
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
@@ -58,7 +58,7 @@ Vous pouvez facultativement indiquer le nom du projet dans lequel vous souhaitez
 </Note>
 
 ```python
-# 1 : Définir la fonction objectif/d'entraînement
+# 1: Définir la fonction objectif/d'entraînement
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -81,7 +81,7 @@ L&#39;exemple suivant présente une configuration de balayage qui utilise une re
 W&amp;B minimise la métrique spécifiée dans la clé `metric` lorsque `"goal": "minimize"` y est associé. Dans ce cas, W&amp;B cherchera à minimiser la métrique `score` (`"name": "score"`).
 
 ```python
-# 2 : Définir l'espace de recherche
+# 2: Définissez l'espace de recherche
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -128,7 +128,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
   Entourer votre code de cette condition garantit qu’il n’est exécuté que lorsque le script est lancé directement, et non lorsqu’il est importé comme module dans un processus worker.
 
-  Voir [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) ou [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) pour plus d’informations sur le multiprocessing. Voir https://realpython.com/if-name-main-python/ pour plus d’informations sur la convention `if __name__ == '__main__':`.
+  Voir [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) ou [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) pour plus d’informations sur le multiprocessing. Voir [https://realpython.com/if-name-main-python/](https://realpython.com/if-name-main-python/) pour plus d’informations sur la convention `if __name__ == '__main__':`.
 </Warning>
 
 <div id="visualize-results-optional">

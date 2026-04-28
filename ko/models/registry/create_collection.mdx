@@ -19,7 +19,7 @@ description: "W&B 레지스트리 내에서 연결된 아티팩트 버전으로 
   ## 컬렉션 유형
 </div>
 
-각 컬렉션은 오직 하나의 아티팩트 *유형*만 허용합니다. 지정한 유형에 따라 여러분과 조직의 다른 구성원이 해당 컬렉션에 연결할 수 있는 아티팩트의 종류가 제한됩니다.
+각 컬렉션은 오직 하나의 아티팩트 &#95;유형&#95;만 허용합니다. 지정한 유형에 따라 여러분과 조직의 다른 구성원이 해당 컬렉션에 연결할 수 있는 아티팩트의 종류가 제한됩니다.
 
 <Note>
   아티팩트 유형은 Python 같은 프로그래밍 언어의 데이터 유형과 비슷하다고 생각하면 됩니다. 이 비유에서 컬렉션은 문자열, 정수 또는 부동소수점 값을 저장할 수 있지만, 이러한 데이터 유형을 섞어서 저장할 수는 없습니다.
@@ -39,7 +39,7 @@ description: "W&B 레지스트리 내에서 연결된 아티팩트 버전으로 
     project = "<project>"
     ) as run:
 
-    # artifact 객체 생성
+    # 아티팩트 객체 생성
     artifact = wandb.Artifact(
         name="<artifact_name>", 
         type="<artifact_type>"
@@ -123,7 +123,7 @@ f"wandb-registry-{registry_name}/{collection_name}"
   존재하지 않는 컬렉션에 아티팩트를 연결하려고 하면 W&amp;B가 해당 컬렉션을 자동으로 생성합니다. 이미 존재하는 컬렉션을 지정하면 W&amp;B는 아티팩트를 기존 컬렉션에 연결합니다.
 </Note>
 
-다음 코드 스니펫은 프로그래밍 방식으로 컬렉션을 생성하는 방법을 보여줍니다. `<>`로 묶인 값은 사용자의 값으로 바꾸세요:
+다음 코드 스니펫은 프로그래밍 방식으로 컬렉션을 만드는 방법을 보여줍니다. `<>`로 묶인 값은 사용자의 값으로 바꾸세요:
 
 ```python
 import wandb
@@ -131,7 +131,7 @@ import wandb
 # run 초기화
 with wandb.init(entity = "<team_entity>", project = "<project>") as run:
 
-  # artifact 객체 생성
+  # 아티팩트 객체 생성
   artifact = wandb.Artifact(
     name = "<artifact_name>",
     type = "<artifact_type>"
@@ -141,10 +141,9 @@ with wandb.init(entity = "<team_entity>", project = "<project>") as run:
   collection_name = "<collection_name>"
   target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-  # artifact를 collection에 연결
+  # 아티팩트를 컬렉션에 연결
   run.link_artifact(artifact = artifact, target_path = target_path)
 ```
-
 
 <div id="interactively-create-a-collection">
   ### 대화형으로 컬렉션 만들기
@@ -152,7 +151,7 @@ with wandb.init(entity = "<team_entity>", project = "<project>") as run:
 
 다음 단계에서는 W&amp;B 레지스트리를 사용해 대화형으로 컬렉션을 만드는 방법을 설명합니다.
 
-1. https://wandb.ai/registry/ 의 W&amp;B 레지스트리로 이동합니다.
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/)의 W&amp;B 레지스트리로 이동합니다.
 2. 레지스트리를 선택합니다.
 3. 오른쪽 상단의 **컬렉션 만들기** 버튼을 클릭합니다.
 4. **Name** 필드에 컬렉션의 이름을 입력합니다.

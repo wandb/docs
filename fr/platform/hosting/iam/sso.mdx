@@ -22,7 +22,7 @@ Dans le contexte de W&amp;B, les jetons d’accès autorisent les requêtes aux 
 
 Vous pouvez utiliser des variables d’environnement pour [configurer les options IAM](/fr/platform/hosting/iam/advanced_env_vars) de votre instance [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
 
-Pour vous aider à configurer des fournisseurs d’identité pour des installations W&amp;B [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), suivez les recommandations ci-dessous pour différents IdP. Si vous utilisez la version SaaS de W&amp;B, contactez [support@wandb.com](mailto:support@wandb.com) pour obtenir de l’assistance dans la configuration d’un tenant Auth0 pour votre organisation.
+Pour vous aider à configurer des fournisseurs d’identité pour des déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), suivez ces recommandations. Si vous utilisez le Cloud mutualisé de W&amp;B, contactez [support@wandb.com](mailto:support@wandb.com) pour obtenir de l’assistance.
 
 <div id="configure-your-idp">
   ## Configurez votre IdP
@@ -111,8 +111,8 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
     5. Sur l’écran intitulé &quot;New Single-Page App Integration,&quot; renseignez les champs comme suit, puis cliquez sur **Save** :
        * Nom de l’intégration d’application, par exemple &quot;W&amp;B&quot;
        * Type d’autorisation : sélectionnez **Authorization Code** et **Implicit (hybrid)**
-       * URI de redirection de connexion : https://YOUR&#95;W&#95;AND&#95;B&#95;URL/oidc/callback
-       * URI de redirection de déconnexion : https://YOUR&#95;W&#95;AND&#95;B&#95;URL/logout
+       * URI de redirection de connexion : [https://YOUR&#95;W&#95;AND&#95;B&#95;URL/oidc/callback](https://YOUR_W_AND_B_URL/oidc/callback)
+       * URI de redirection de déconnexion : [https://YOUR&#95;W&#95;AND&#95;B&#95;URL/logout](https://YOUR_W_AND_B_URL/logout)
        * Attributions : sélectionnez **Skip group assignment for now**
        <Frame>
          <img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Configuration de l’application Single-Page" />
@@ -137,7 +137,7 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
   <Tab title="Entra">
     Azure AD (Entra ID) prend en charge deux modes de configuration OIDC pour W&amp;B. Choisissez la configuration qui correspond à vos exigences de sécurité :
 
-    * [Client public](#public-client) : Utilise PKCE sans secret du client. Plus simple à configurer, il convient à la plupart des déploiements.
+    * [Client public](#public-client) : Utilise PKCE sans secret du client. Plus simple à configurer, il convient à la plupart des déploiements.
     * [Client confidentiel](#confidential-client) : utilise PKCE avec un secret du client pour une sécurité renforcée. Requis si vous devez définir la variable d&#39;environnement `GORILLA_OIDC_SECRET`.
 
     <Warning>

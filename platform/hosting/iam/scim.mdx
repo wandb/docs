@@ -22,7 +22,7 @@ For practical Python examples demonstrating how to interact with the SCIM API, v
 - **Service Account Authentication**: Organization service accounts can access the API
 
 <Note>
-If you are an admin of multiple Enterprise [Multi-tenant SaaS](/platform/hosting/hosting-options/multi_tenant_cloud) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**, then check the setting **Default API organization**.
+If you are an admin of multiple Enterprise [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**, then check the setting **Default API organization**.
 
 The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
 
@@ -697,7 +697,7 @@ Reactivates a previously deactivated user in your organization.
 <Note>
 - User reactivation works for users only, not service accounts. Reactivation is not supported for service accounts. Manage service accounts in the settings for the W&B Team.
 
-- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error:
+- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
     ```json
     {
         "schemas": [
@@ -2298,7 +2298,7 @@ W&B maintains two separate SCIM API implementations, and the features differ bet
 ## Limitations
 
 - **Maximum results**: 9999 items per request.
-- **Single-tenant environments**: Only support one email per user.
+- **Dedicated Cloud and Self-Managed**: Only support one email per user.
 - **Team deletion**: Not supported via SCIM (use the W&B web interface).
 - **User reactivation**: Not supported in Multi-tenant Cloud environments.
 - **Seat limits**: Operations may fail if organization seat limits are reached.

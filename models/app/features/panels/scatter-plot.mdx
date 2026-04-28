@@ -14,6 +14,7 @@ Use scatter plots to compare multiple runs and visualize the performance of an e
 - Control point colors.
 - Adjust axis ranges.
 - Use a log scale for the axes.
+- Configure how the **frontier line** and related points are labeled and emphasized. See [Frontier line display options](#frontier-line-display-options).
 
 ## Example
 
@@ -36,3 +37,16 @@ To create a scatter plot in the W&B UI:
 5. Set the `x` and `y` axes to plot the data you want to view. Optionally, set maximum and minimum ranges for your axes or add a `z` axis.
 6. Click **Apply** to create the scatter plot.
 7. View the new scatter plot in the Charts panel.
+
+## Frontier line display options
+
+The _frontier line_ on a scatter plot is a line that connects the highest and lowest y-axis values seen so far for the data in the plot. You can tune how that line and the surrounding points appear from the plot settings.
+
+To configure frontier line display options:
+
+1. Hover over the scatter plot panel, then click the gear icon to open the panel settings drawer.
+1. Select the **Annotations** tab.
+1. Set the desired options:
+   - **Show run labels**: Toggle whether to show a label with the run name or group name.
+   - **Dim non-frontier points**: Toggle whether to reduce the visual weight of points that are not on the frontier line so the frontier stands out.
+1. Click **Apply** to save your changes.

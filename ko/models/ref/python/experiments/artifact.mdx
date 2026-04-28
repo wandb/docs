@@ -681,25 +681,29 @@ file(root: 'str | None' = None) → StrPath
 ### <kbd>방법</kbd> `Artifact.files`
 
 ```python
-files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+files(
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
+) → ArtifactFiles
 ```
 
-이 artifact에 저장된 모든 파일을 순회합니다.
+이 아티팩트에 저장된 모든 파일을 순회합니다.
 
 **매개변수:**
 
-* `names`:  나열할 artifact 루트를 기준으로 한 파일 경로입니다.
+* `names`:  나열할 아티팩트 루트를 기준으로 한 파일 경로입니다.
 * `per_page`:  요청당 반환할 파일 수입니다.
+* `start`:  이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
 
 **반환값:**
 `File` 객체를 포함하는 이터레이터입니다.
 
 **예외:**
 
-* `ArtifactNotLoggedError`:  artifact가 로깅되지 않은 경우입니다.
+* `ArtifactNotLoggedError`:  아티팩트가 로깅되지 않은 경우입니다.
 
 ***
-
 
 ### <kbd>방법</kbd> `Artifact.finalize`
 

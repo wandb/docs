@@ -9,12 +9,13 @@ description: Choisissez le produit W&B adapté à votre cas d’usage et apprene
 
 Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produits, il est important d’identifier ceux qui correspondent à votre cas d’usage.
 
-| Produit                                   | Idéal pour                                   | Fonctionnalités clés                                                                                                  |
-| ----------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| **[W&amp;B Models](#w%26b-models)**       | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                          |
-| **[W&amp;B Weave](#w%26b-weave)**         | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                    |
-| **[W&amp;B Inference](#w%26b-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                     |
-| **[W&amp;B Training](#w%26b-training)**   | Fine-tuning de modèles                       | Créer et déployer des LoRAs et des adaptations de modèles personnalisées à l’aide de l’apprentissage par renforcement |
+| Produit                                   | Idéal pour                                   | Fonctionnalités clés                                                                                                                        |
+| ----------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[W&amp;B Models](#w%26b-models)**       | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                                                |
+| **[W&amp;B Weave](#w%26b-weave)**         | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                                          |
+| **[W&amp;B Inference](#w%26b-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                                           |
+| **[W&amp;B Training](#w%26b-training)**   | Fine-tuning de modèles                       | Créer et déployer des LoRAs et des adaptations de modèles personnalisées à l’aide de l’apprentissage par renforcement                       |
+| **[W&amp;B Sandboxes](#w%26b-sandboxes)** | Exécuter des environnements de calcul isolés | sandboxes à la demande et éphémères pour les tâches d’entraînement, l’utilisation d’outils par des agents et des expériences reproductibles |
 
 <div id="wb-models">
   ## W&amp;B Models
@@ -93,5 +94,27 @@ Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produit
 
   <Card title="Utiliser vos modèles entraînés" href="/fr/training/serverless-rl/use-trained-models">
     Une fois votre modèle entraîné, découvrez comment l&#39;utiliser dans votre code.
+  </Card>
+</Columns>
+
+<div id="wb-sandboxes">
+  ## W&amp;B Sandboxes
+</div>
+
+<Columns cols={2}>
+  <Card title="Introduction aux Sandboxes" href="/fr/sandboxes">
+    Découvrez ce que sont les W&amp;B Sandboxes et quand les utiliser pour disposer d&#39;un environnement de calcul isolé et éphémère.
+  </Card>
+
+  <Card title="Créer un sandbox" href="/fr/sandboxes/create-sandbox">
+    Créez votre premier sandbox en Python et commencez à exécuter du code en quelques secondes.
+  </Card>
+
+  <Card title="Entraîner un modèle PyTorch dans un sandbox" href="/fr/sandboxes/mltrain-in-sandbox-tutorial">
+    Un tutoriel complet qui vous guide tout au long de l&#39;entraînement d&#39;un modèle PyTorch dans un sandbox.
+  </Card>
+
+  <Card title="Invoquer un agent dans un sandbox" href="/fr/sandboxes/invoke-agent-sandbox-tutorial">
+    Donnez à un agent OpenAI accès à un sandbox pour utiliser des outils de manière sûre et isolée.
   </Card>
 </Columns>

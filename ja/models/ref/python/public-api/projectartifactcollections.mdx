@@ -23,6 +23,14 @@ import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
 ### <kbd>プロパティ</kbd> ProjectArtifactCollections.cursor
 
+次に取得するページの開始位置を示す、内部構造を意識する必要のないカーソルです。
+
+この値は保存しておき、後続のページネーションされたクエリで `start=` として渡すことで、この paginator が前回終了した位置からイテレーションを再開できます。
+
+**戻り値:**
+
+* `str | None`: カーソルのプロパティ値。
+
 ***
 
 ### <kbd>プロパティ</kbd> ProjectArtifactCollections.more
