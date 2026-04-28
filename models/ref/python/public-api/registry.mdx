@@ -3,7 +3,7 @@ title: Registry
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py" />
 
@@ -236,7 +236,8 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Collections
 ```
 
@@ -419,7 +420,9 @@ Updates the role of a member (user or team) within this registry.
 
 
 **Examples:**
- Make all users in the registry admins ```python
+Make all users in the registry admins
+
+```python
 import wandb
 
 api = wandb.Api()
@@ -429,7 +432,7 @@ registry = api.registry(name="my-registry", organization="my-org")
 
 for member in registry.user_members():
     registry.update_member(member.user, role="admin")
-``` 
+```
 
 ---
 
@@ -448,9 +451,9 @@ Returns the current member users of this registry.
 ```python
 versions(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Versions
 ```
 
 Returns the versions belonging to the registry. 
-

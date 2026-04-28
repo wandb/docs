@@ -1,0 +1,27 @@
+---
+title: Supprimer les tags d’une collection du registre
+---
+
+```python
+"""
+Supprimer un tag d'une collection dans un registre.
+"""
+import wandb
+
+# Définir les détails du registre et de la collection
+collection_name = "<collection_name>"
+collection_type = "<collection_type>"
+registry_name = "<registry_name>"
+
+# Construire le chemin complet du registre
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# Récupérer la collection d'artifacts
+collection = wandb.Api().artifact_collection(
+  type_name = collection_type, 
+  name = registry_path
+  )
+
+collection.tags.remove("<tag>")
+collection.save()
+```

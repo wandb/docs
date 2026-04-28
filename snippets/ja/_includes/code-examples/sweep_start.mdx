@@ -1,0 +1,20 @@
+---
+title: Sweep の開始
+---
+
+```python
+"""
+sweep エージェントを実行するための sweep ジョブを開始します。
+
+以下を置き換えてください:
+- 山括弧で囲まれた値を実際の値に置き換えてください
+- sweep_id を sweep の ID に置き換えてください。この ID は sweep を初期化したときに返されます。
+    sweep の初期化と sweep_id の取得方法の例については、sweep_initialize.py を参照してください。
+- count を sweep で実行する run の数に置き換えてください
+"""
+
+import wandb
+
+sweep_id, count = "<sweep_id>", 10
+wandb.agent(sweep_id, count=count)
+```

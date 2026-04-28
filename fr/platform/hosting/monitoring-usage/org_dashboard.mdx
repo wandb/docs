@@ -1,0 +1,122 @@
+---
+title: Consulter l’activité de l’organisation
+description: "Consultez le statut des utilisateurs, leur activité et les tendances d’utilisation dans le tableau de bord de l’organisation W&B pour tous les types de déploiement."
+---
+
+Cette page explique comment consulter l’activité de votre organisation W&amp;B. Sélectionnez votre type de déploiement pour continuer.
+
+<div id="view-user-status-and-activity">
+  ## Consulter le statut et l’activité des utilisateurs
+</div>
+
+<Tabs>
+  <Tab title="Cloud dédié / Autogéré">
+    1. Accédez à l’**Organization Dashboard** :
+
+       * **Cloud dédié** : `https://<org-name>.io/org/dashboard/`. Remplacez `<org-name>` par le nom de votre organisation.
+       * **Autogéré** : `https://<YOUR-W&B-SERVER-IP>/org/dashboard`. Remplacez `<YOUR-W&B-SERVER-IP>` par l’adresse IP de votre déploiement.
+
+       L’onglet **Users** s’ouvre par défaut et répertorie tous les utilisateurs de l’organisation.
+    2. Pour trier la liste par statut des utilisateurs, cliquez sur l’en-tête de la colonne **Last Active**. Le statut de chaque utilisateur peut être l’un des suivants :
+       * **Invitation en attente** : une invitation a été envoyée, mais n’a pas encore été acceptée.
+       * **Un horodatage** : l’utilisateur a accepté l’invitation et s’est connecté au moins une fois. L’horodatage indique l’activité la plus récente.
+       * **Désactivé** : un administrateur a révoqué l’accès de l’utilisateur.
+       * **Aucun statut** : indiqué par un tiret. L’utilisateur était auparavant actif, mais n’a eu aucune activité au cours des six derniers mois.
+    3. Survolez le champ **Last Active** d’un utilisateur pour voir la date à laquelle il a été ajouté ainsi que son nombre total de jours d’activité.
+
+    Un utilisateur est *actif* s’il :
+
+    * se connecte à W&amp;B.
+    * ouvre une page dans la W&amp;B App.
+    * journalise des runs.
+    * utilise le SDK pour suivre une expérience.
+    * interagit de quelque manière que ce soit avec le serveur W&amp;B.
+  </Tab>
+
+  <Tab title="Cloud mutualisé">
+    1. Ouvrez la page [**Members**](https://wandb.ai/account-settings/wandb/members/). Le tableau répertorie tous les utilisateurs de votre organisation.
+    2. Cliquez sur l’en-tête de la colonne **Last Active** pour trier par statut des utilisateurs. Le statut de chaque utilisateur peut être l’un des suivants :
+       * **Un horodatage** : l’utilisateur s’est connecté au moins une fois. L’horodatage indique l’activité la plus récente.
+       * **Aucun statut** : indiqué par un tiret. L’utilisateur n’a pas encore eu d’activité dans l’organisation.
+
+    Un utilisateur est *actif* s’il effectue, après le 8 mai 2025, une action auditée relevant de l’organisation. Pour la liste complète, voir [Actions](/fr/platform/hosting/monitoring-usage/audit-logging#actions) dans **Audit logging**.
+  </Tab>
+</Tabs>
+
+<div id="view-activity-over-time">
+  ## Voir l’activité au fil du temps
+</div>
+
+<Tabs>
+  <Tab title="Cloud dédié / Autogéré">
+    Utilisez l’onglet **Activity** pour voir combien d’utilisateurs ont été actifs sur une période donnée.
+
+    1. Ouvrez l’**Organization Dashboard**. Voir [Afficher l’activité des utilisateurs](#view-user-activity).
+    2. Cliquez sur **Activity**.
+    3. Consultez les graphiques suivants :
+       * **Total active users** : nombre d’utilisateurs actifs uniques sur la période sélectionnée (3 mois par défaut).
+       * **Users active over time** : évolution du nombre d’utilisateurs actifs sur la période (6 mois par défaut). Survolez un point pour voir le nombre exact à cette date.
+
+    Pour modifier la période couverte, utilisez la liste déroulante au-dessus d’un graphique. Les options sont Last 30 days, Last 3 months, Last 6 months, Last 12 months et All time.
+  </Tab>
+
+  <Tab title="Cloud mutualisé">
+    Utilisez l’**Activity Dashboard** pour consulter l’activité agrégée.
+
+    1. Cliquez sur votre icône utilisateur dans le coin supérieur droit de la W&amp;B App.
+    2. Sous **Account**, cliquez sur **Users**.
+    3. Au-dessus du tableau des utilisateurs, consultez le panneau Activity :
+       * **Active user count** : nombre d’utilisateurs actifs uniques sur la période sélectionnée (3 mois par défaut).
+       * **Weekly active users** : utilisateurs actifs par semaine.
+       * **Most active user** : les 10 utilisateurs les plus actifs, classés selon leur nombre de jours d’activité et leur date de dernière activité.
+    4. Pour modifier la plage de dates, cliquez sur le sélecteur de dates dans le coin supérieur droit et choisissez une nouvelle valeur : 7 jours, 30 jours (par défaut), 90 jours, 6 mois ou 12 mois. Tous les graphiques se mettent à jour automatiquement.
+  </Tab>
+</Tabs>
+
+<div id="export-user-details">
+  ## Exporter les informations des utilisateurs
+</div>
+
+Depuis l’onglet **Users**, vous pouvez télécharger un fichier CSV répertoriant les informations de chaque utilisateur (nom d’utilisateur, adresse e-mail, date et heure de dernière activité, rôles, etc.).
+
+<Tabs>
+  <Tab title="Cloud dédié / Autogéré">
+    1. Dans l’onglet **Users**, cliquez sur le menu des actions **(<Icon icon="ellipsis" iconType="solid" />)** à côté de **Inviter un nouvel utilisateur**.
+    2. Cliquez sur **Exporter au format CSV**.
+
+    ### Schéma du CSV exporté
+
+    L’export CSV utilise la virgule (`,`) comme séparateur, met les chaînes entre guillemets doubles et inclut une ligne d’en-tête définissant les colonnes suivantes :
+
+    * `"Nom"`
+    * `"Nom d'utilisateur"`
+    * `"Rôle dans l'organisation"`
+    * `"Licence Models"`
+    * `"Accès Weave"`
+    * `"E-mail"`
+    * `"Teams"`
+    * `"Last Active"`
+  </Tab>
+
+  <Tab title="Cloud mutualisé">
+    1. Dans l’onglet **Users**, cliquez sur le menu des actions **(<Icon icon="ellipsis" iconType="solid" />)** dans le coin supérieur droit.
+    2. Sélectionnez **Exporter au format CSV** pour télécharger le fichier.
+
+    ### Schéma du CSV exporté
+
+    L’export CSV utilise la virgule (`,`) comme séparateur, met les chaînes entre guillemets doubles et inclut une ligne d’en-tête définissant les colonnes suivantes :
+
+    * `"Nom"`
+    * `"Nom d'utilisateur"`
+    * `"Last Active"`
+    * `"Rôle"`
+    * `"E-mail"`
+    * `"Teams"`
+    * `"Statut"`
+    * `"Nombre de Reports"`
+    * `"Nombre de Runs"`
+    * `"Nombre de jours actifs"`
+    * `"Licence Models"`
+    * `"Accès Weave"`
+  </Tab>
+</Tabs>

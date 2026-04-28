@@ -3,7 +3,7 @@ description: Collaborate with your colleagues, share results, and track all the 
 title: Team settings
 ---
 
-import EnterpriseOnly from "/snippets/en/_includes/enterprise-only.mdx";
+import EnterpriseOnly from "/snippets/_includes/enterprise-only.mdx";
 
 Use W&B Teams as a central workspace for your ML team to build better models faster. Organization admins and team admins can view and edit a team's settings.
 
@@ -81,7 +81,7 @@ Configure webhooks that your team's [automations](/models/automations/) can run 
 
 ### Privacy
 
-Team privacy settings allow you to manage visibility and sharing abilities on your team. Only organization admins can modify privacy settings.
+Team privacy settings control visibility, invitations, report sharing, and defaults such as code saving for runs in the team. Team admins can change these options on the team **Settings** page unless an organization admin has [enforced the same category of policy](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) for all teams. Organization admins can still open the team **Settings** page to review configuration.
 
 You can change the following privacy settings:
 
@@ -92,7 +92,9 @@ You can change the following privacy settings:
 - Automatically recommend new users with matching email domains join this team upon signup.
 - Enable code saving by default.
 
-You can see the privacy settings of all team projects on the team settings page: `app.wandb.ai/teams/your-team-name`
+For step-by-step navigation and how organization enforcement interacts with team toggles, see [Configure privacy settings](/platform/hosting/privacy-settings).
+
+Open the team dashboard at `https://wandb.ai/<team>`, select **Team settings** in the left navigation, then open the **Privacy** section. Replace `<team>` with your team name.
 
 ### Usage
 

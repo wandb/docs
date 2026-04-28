@@ -1,0 +1,94 @@
+---
+description: "Intégrez W&B à Stable Baselines3 pour suivre les expériences d'apprentissage par renforcement et journaliser les performances d'entraînement."
+title: Stable Baselines 3 PyTorch
+---
+
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) (SB3) est un ensemble d&#39;implémentations fiables d&#39;algorithmes d&#39;apprentissage par renforcement en PyTorch. L&#39;intégration SB3 de W&amp;B :
+
+* Enregistre des métriques telles que les pertes et les retours d&#39;épisode.
+* Téléverse des vidéos d&#39;agents en train de jouer.
+* Enregistre le modèle entraîné.
+* Journalise les hyperparamètres du modèle.
+* Journalise les histogrammes de gradients du modèle.
+
+Consultez un [exemple de run d&#39;entraînement SB3](https://wandb.ai/wandb/sb3/runs/1jyr6z10).
+
+<div id="log-your-sb3-experiments">
+  ## Journalisez vos expériences SB3
+</div>
+
+```python
+from wandb.integration.sb3 import WandbCallback
+
+model.learn(..., callback=WandbCallback())
+```
+
+<Frame>
+  <img src="/images/integrations/stable_baselines_demo.gif" alt="Entraînement de Stable Baselines 3 avec W&B" />
+</Frame>
+
+
+<div id="wandbcallback-arguments">
+  ## Arguments de WandbCallback
+</div>
+
+| Argument             | Utilisation                                                                                                                   |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| `verbose`            | Niveau de verbosité de la sortie de sb3                                                                                       |
+| `model_save_path`    | Chemin vers le dossier où le modèle sera enregistré. La valeur par défaut est `None`, donc le modèle n&#39;est pas enregistré |
+| `model_save_freq`    | Fréquence d&#39;enregistrement du modèle                                                                                      |
+| `gradient_save_freq` | Fréquence d&#39;enregistrement des gradients. La valeur par défaut est 0, donc les gradients ne sont pas enregistrés          |
+
+<div id="basic-example">
+  ## Exemple de base
+</div>
+
+L’intégration W&amp;B SB3 utilise les journaux générés par TensorBoard pour journaliser vos métriques
+
+```python
+import gym
+from stable_baselines3 import PPO
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.vec_env import DummyVecEnv, VecVideoRecorder
+import wandb
+from wandb.integration.sb3 import WandbCallback
+
+
+config = {
+    "policy_type": "MlpPolicy",
+    "total_timesteps": 25000,
+    "env_name": "CartPole-v1",
+}
+run = wandb.init(
+    project="sb3",
+    config=config,
+    sync_tensorboard=True,  # téléverse automatiquement les métriques TensorBoard de sb3
+    monitor_gym=True,  # téléverse automatiquement les vidéos des agents pendant la partie
+    save_code=True,  # facultatif
+)
+
+
+def make_env():
+    env = gym.make(config["env_name"])
+    env = Monitor(env)  # enregistre des statistiques comme les retours cumulés
+    return env
+
+
+env = DummyVecEnv([make_env])
+env = VecVideoRecorder(
+    env,
+    f"videos/{run.id}",
+    record_video_trigger=lambda x: x % 2000 == 0,
+    video_length=200,
+)
+model = PPO(config["policy_type"], env, verbose=1, tensorboard_log=f"runs/{run.id}")
+model.learn(
+    total_timesteps=config["total_timesteps"],
+    callback=WandbCallback(
+        gradient_save_freq=100,
+        model_save_path=f"models/{run.id}",
+        verbose=2,
+    ),
+)
+run.finish()
+```

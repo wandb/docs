@@ -3,7 +3,7 @@ title: Artifact
 namespace: python_sdk_actions
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py" />
 
@@ -57,7 +57,7 @@ List of one or more semantically-friendly references or
 
 identifying "nicknames" assigned to an artifact version. 
 
-Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) for more information. 
+Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version) for more information. 
 
 
 
@@ -573,7 +573,7 @@ add_reference(
 
 Add a reference denoted by a URI to the artifact. 
 
-Unlike files or directories that you add to an artifact, references are not uploaded to W&B. For more information, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files). 
+Unlike files or directories that you add to an artifact, references are not uploaded to W&B. For more information, see [Track external files](https://docs.wandb.ai/models/artifacts/track-external-files). 
 
 By default, the following schemes are supported: 
 
@@ -734,7 +734,11 @@ Download a single file artifact to the directory you specify with `root`.
 ### <kbd>method</kbd> `Artifact.files`
 
 ```python
-files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+files(
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
+) → ArtifactFiles
 ```
 
 Iterate over all files stored in this artifact. 
@@ -745,6 +749,7 @@ Iterate over all files stored in this artifact.
  
  - `names`:  The filename paths relative to the root of the artifact you wish to  list. 
  - `per_page`:  The number of files to return per request. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 

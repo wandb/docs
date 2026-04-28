@@ -1,0 +1,94 @@
+---
+title: "W&B run을 함수 호출 트레이스에 연결하기"
+description: "실험 추적을 위해 Weave 트레이스를 W&B run에 연결합니다"
+---
+
+<div id="view-a-wb-run-in-the-traces-table">
+  ## Traces 테이블에서 W&amp;B run 보기
+</div>
+
+W&amp;B Weave를 사용하면 코드의 함수 호출을 트레이스하고, 해당 호출이 실행된 [W&amp;B runs](https://docs.wandb.ai/models/runs/)에 직접 연결할 수 있습니다.
+`@weave.op()`으로 함수를 트레이스하고 `wandb.init()` 컨텍스트 내에서 호출하면 Weave가 해당 트레이스를 W&amp;B run에 자동으로 연결합니다.
+연결된 run의 링크는 Traces 테이블에 표시됩니다.
+
+<Tabs>
+  <Tab title="Python">
+    다음 Python 코드는 트레이스된 Ops가 `wandb.init()` 컨텍스트 내에서 실행될 때 W&amp;B
+    runs에 어떻게 연결되는지 보여줍니다. 이러한 트레이스는
+    Weave UI에 표시되며 해당 run과 연결됩니다.
+
+    W&amp;B run을 Weave 트레이스로 보려면 다음과 같이 하세요.
+
+    1. 터미널에서 의존성을 설치합니다.
+
+    ```bash lines
+    pip install wandb weave
+    ```
+
+    2. W&amp;B에 로그인합니다.
+
+    ```bash lines
+    wandb login
+    ```
+
+    3. 다음 스크립트에서 `your-team-name/your-project-name`을 실제 W&amp;B entity/project로 바꾸세요.
+
+    ```python lines
+    import wandb
+    import weave
+
+    def example_wandb(projname):
+        # projname을 entity와 project로 분리
+        entity, project = projname.split("/", 1)
+
+        # 트레이싱을 위한 Weave 컨텍스트 초기화
+        weave.init(projname)
+
+        # 트레이스 가능한 Op 정의
+        @weave.op()
+        def say(message: str) -> str:
+            return f"I said: {message}"
+
+        # 첫 번째 W&B run
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 1",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world!")
+            say("How are you!")
+            run.log({"messages": 2})
+
+        # 두 번째 W&B run
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 2",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world from experiment 2!")
+            say("How are you!")
+            run.log({"messages": 2})
+
+    if __name__ == "__main__":
+        # 실제 W&B 사용자 이름/프로젝트로 바꾸세요
+        example_wandb("your-team-name/your-project-name")
+    ```
+
+    4. 스크립트를 실행합니다.
+
+    ```bash lines
+    python weave_trace_with_wandb.py
+    ```
+
+    5. [https://weave.wandb.ai](https://weave.wandb.ai)로 이동해 프로젝트를 선택합니다.
+    6. **Weave project sidebar**에서 **Traces**를 클릭합니다. 연결된 run의 링크가 Traces 테이블에 표시됩니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>

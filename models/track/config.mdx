@@ -2,7 +2,7 @@
 description: Use a dictionary-like object to save your experiment configuration
 title: Configure experiments
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" />
 
@@ -193,11 +193,32 @@ api_run.config["bar"] = 32
 api_run.update()
 ```
 
+## Highlight config values
 
+Pin config keys to the **References** section at the top of a run's overview page.
+
+Use [`wandb.Run.pin_config_keys`](/models/ref/python/experiments/run#method-run-pin_config_keys) to pin one or more config keys with the Python SDK.
+
+For example, if you use a Grafana dashboard to monitor training runs, add the dashboard URL to your config and pin the `grafana_url` key:
+
+```python
+config = {
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
+    "grafana_url": "[Grafana dashboard](https://my-grafana-instance.com/)"
+}
+
+with wandb.init(config=config) as run:
+    # Add the "grafana_url" config key to the References section.
+    run.pin_config_keys(["grafana_url"])
+```
 
 
 ## `absl.FLAGS`
-
 
 You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
 
@@ -218,7 +239,7 @@ batch_size:
   value: 32
 ```
 
-You can override the default values automatically loaded from `config-defaults.yaml` by setting updated values in the `config` argument of `wandb.init`. For example:
+You can override the default values automatically loaded from `config-defaults.yaml` by setting updated values in the `config` argument of `wandb.init()`. For example:
 
 ```python
 import wandb

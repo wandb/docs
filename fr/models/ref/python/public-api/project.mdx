@@ -1,0 +1,130 @@
+---
+title: Projet
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+
+## <kbd>class</kbd> `Project`
+
+Un projet est un espace de noms pour les runs.
+
+### <kbd>méthode</kbd> `Project.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    attrs: 'Mapping[str, Any]'
+) → Project
+```
+
+**Arguments :**
+
+* `client` :  Instance du client d’API W&amp;B.
+* `name` (str) :  Le nom du projet.
+* `entity` (str) :  Le nom de l’entité propriétaire du projet.
+
+Un projet unique associé à une entité.
+
+**Arguments :**
+
+* `client` :  Le client d’API utilisé pour effectuer des requêtes sur W&amp;B.
+* `entity` :  L’entité propriétaire du projet.
+* `project` :  Le nom du projet à interroger.
+* `attrs` :  Les attributs du projet.
+
+***
+
+
+### <kbd>propriété</kbd> Project.id
+
+***
+
+### <kbd>propriété</kbd> Project.owner
+
+Retourne le propriétaire du projet sous la forme d’un objet User.
+
+**Exceptions levées :**
+
+* `ValueError`: si aucune information sur l’utilisateur n’est trouvée pour le projet.
+
+**Retourne :**
+
+* `public.User`: La valeur de la propriété owner.
+
+***
+
+### <kbd>propriété</kbd> Project.path
+
+Renvoie le chemin du projet. Ce chemin est une liste contenant l&#39;entité et le nom du projet.
+
+**Retourne :**
+
+* `list[str]` : La valeur de la propriété de chemin.
+
+***
+
+### <kbd>propriété</kbd> Project.url
+
+Renvoie l’URL du projet.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété url.
+
+***
+
+### <kbd>méthode</kbd> `Project.artifacts_types`
+
+```python
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+```
+
+Renvoie tous les types d&#39;artifact associés à ce projet.
+
+***
+
+
+### <kbd>méthode</kbd> `Project.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
+```
+
+Renvoie toutes les collections d’artifacts associées à ce projet.
+
+**Arguments :**
+
+* `filters`:  Dictionnaire facultatif de filtres à appliquer à la requête.
+* `order`:  Chaîne facultative permettant de spécifier l’ordre des résultats. Si vous faites précéder `order` d’un +, l’ordre est croissant (par défaut). Si vous faites précéder `order` d’un -, l’ordre est décroissant.
+* `per_page`:  Le nombre de collections d’artifacts à récupérer par page. La valeur par défaut est 50.
+
+***
+
+
+### <kbd>méthode</kbd> `Project.sweeps`
+
+```python
+sweeps(per_page: 'int' = 50) → Sweeps
+```
+
+Renvoie une collection paginée de Sweeps pour ce projet.
+
+**Arguments :**
+
+* `per_page` :  Le nombre de Sweeps à récupérer par requête à l&#39;API.
+
+**Retourne :**
+Un objet `Sweeps`, qui est une collection itérable d&#39;objets `Sweep`.
+
+***

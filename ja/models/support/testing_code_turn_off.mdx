@@ -1,9 +1,0 @@
----
-title: コードのテスト時に wandb をオフにすることはできますか？
----
-
-テスト目的で W&B を何もしない（NOOP）状態に設定するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定してください。
-
-<Note>
-`wandb.init(mode="disabled")` を使用しても、W&B が `WANDB_CACHE_DIR` に Artifacts を保存するのを防ぐことはできません。
-</Note>

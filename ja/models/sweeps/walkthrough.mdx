@@ -1,22 +1,23 @@
 ---
-title: チュートリアル： Sweep の定義・初期化・実行
-description: Sweeps クイックスタートでは、 Sweep の定義、初期化、実行方法について説明します。主なステップは 4 つあります。
+description: Sweeps のクイックスタートでは、sweep を定義し、初期化して実行する方法を紹介します。主な
+  ステップは 4 つあります
+title: "チュートリアル: sweep の定義、初期化、実行"
 ---
 
-このページでは、 Sweeps の定義、初期化、および実行方法について説明します。主に以下の4つのステップがあります。
+このページでは、sweep を定義し、初期化して実行する方法を紹介します。主なステップは 4 つあります。
 
-1. [トレーニングコードのセットアップ](#トレーニングコードのセットアップ)
-2. [sweep configuration による検索空間の定義](#sweep-configuration-による検索空間の定義)
-3. [sweep の初期化](#sweep-の初期化)
-4. [sweep agent の開始](#sweep-の開始)
+1. [トレーニングコードを設定する](#set-up-your-training-code)
+2. [sweep 設定で探索空間を定義する](#define-the-search-space-with-a-sweep-configuration)
+3. [sweep を初期化する](#initialize-the-sweep)
+4. [sweep エージェントを起動する](#start-the-sweep)
 
 以下のコードを Jupyter Notebook または Python スクリプトにコピー＆ペーストしてください。
 
 ```python
-# W&B Pythonライブラリをインポートし、W&Bにログインする
+# W&B Python ライブラリをインポートして W&B にログインする
 import wandb
 
-# 1: 目的関数/トレーニング関数の定義
+# 1: 目的関数/トレーニング関数を定義する
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -26,7 +27,7 @@ def main():
         score = objective(run.config)
         run.log({"score": score})
 
-# 2: 検索空間の定義
+# 2: 探索空間を定義する
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -36,25 +37,26 @@ sweep_configuration = {
     },
 }
 
-# 3: sweep の開始
+# 3: sweep を開始する
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-以下のセクションでは、コード例の各ステップを詳しく解説します。
+以下のセクションでは、コードサンプルの各stepを分けて説明します。
 
-## トレーニングコードのセットアップ
-`wandb.Run.config` から ハイパーパラメーター の値を受け取り、それらを使用して モデル をトレーニングし、 メトリクス を返すトレーニング関数を定義します。
+<div id="set-up-your-training-code">
+  ## トレーニングコードを設定する
+</div>
 
-オプションで、 W&B Runs の出力を保存する プロジェクト 名を指定します（ [`wandb.init()`](/models/ref/python/functions/init) の project パラメータ）。 プロジェクト が指定されていない場合、 run は "Uncategorized" プロジェクト に分類されます。
+`wandb.Run.config` からハイパーパラメーターの値を受け取り、それらを使用してモデルをトレーニングし、メトリクスを返すトレーニング関数を定義します。
 
-<Note>
-sweep と run は同じ プロジェクト 内にある必要があります。したがって、 W&B を初期化する際に指定する名前は、 sweep を初期化する際に指定する プロジェクト 名と一致させる必要があります。
-</Note>
+必要に応じて、W&amp;B run の出力を保存するプロジェクト名を指定します ([`wandb.init()`](/ja/models/ref/python/functions/init) の project パラメーター) 。プロジェクトを指定しない場合、run は &quot;Uncategorized&quot; プロジェクトに配置されます。
+
+<Note>sweep と run は、どちらも同じプロジェクト内に存在する必要があります。そのため、W&amp;B の初期化時に指定する名前は、sweep の初期化時に指定するプロジェクト名と一致している必要があります。</Note>
 
 ```python
-# 1: 目的関数/トレーニング関数の定義
+# 1: 目的関数/トレーニング関数を定義する
 def objective(config):
     score = config.x**3 + config.y
     return score
@@ -66,16 +68,18 @@ def main():
         run.log({"score": score})
 ```
 
-## sweep configuration による検索空間の定義
+<div id="define-the-search-space-with-a-sweep-configuration">
+  ## sweep 設定で探索空間を定義する
+</div>
 
-辞書 形式で、 sweep 対象となる ハイパーパラメーター を指定します。設定オプションの詳細については、 [Define sweep configuration](/models/sweeps/define-sweep-configuration/) を参照してください。
+辞書で、sweep 対象のハイパーパラメーターを指定します。設定オプションについては、[sweep 設定を定義する](/ja/models/sweeps/define-sweep-configuration/)を参照してください。
 
-上記の例では、 ランダム検索 (`'method':'random'`) を使用する sweep configuration を示しています。この sweep では、設定にリストされた バッチサイズ 、 エポック 、 学習率の中からランダムに値のセットを選択します。
+次の例は、ランダムサーチ (`'method':'random'`) を使用する sweep 設定を示しています。この sweep では、バッチサイズ、エポック、学習率について、設定に列挙された値の組み合わせからランダムに選択されます。
 
-W&B は、 `metric` キーに `"goal": "minimize"` が関連付けられている場合、その メトリクス を最小化するように動作します。この例では、 メトリクス `score` (`"name": "score"`) の最小化を最適化の目標としています。
+`metric` キーに `"goal": "minimize"` が関連付けられている場合、W&amp;B はそのキーで指定されたメトリクスを最小化します。この場合、W&amp;B はメトリクス `score` (`"name": "score"`) が最小になるように最適化します。
 
 ```python
-# 2: 検索空間の定義
+# 2: 探索空間を定義する
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -86,51 +90,59 @@ sweep_configuration = {
 }
 ```
 
-## sweep の初期化
+<div id="initialize-the-sweep">
+  ## Sweep を初期化する
+</div>
 
-W&B は _Sweep コントローラ_ を使用して、 クラウド （標準設定）または 1 台以上のマシンにまたがる ローカル (local) で sweep を管理します。 Sweep コントローラ に関する詳細は、 [Search and stop algorithms locally](./local-controller) を参照してください。
+W&amp;B では、*Sweep Controller* を使用して、クラウド (standard) またはローカル (local) で、1 台以上のマシンにまたがる sweep を管理します。Sweep Controller の詳細については、[ローカルでアルゴリズムを検索および停止する](./local-controller)を参照してください。
 
-sweep を初期化すると、 sweep ID が返されます。
+sweep を初期化すると、sweep の識別番号が返されます。
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-sweep の初期化に関する詳細は、 [Initialize sweeps](./initialize-sweeps) を参照してください。
+sweeps の初期化について詳しくは、[sweeps を初期化する](./initialize-sweeps) を参照してください。
 
-## sweep の開始
+<div id="start-the-sweep">
+  ## sweep を開始する
+</div>
 
-[`wandb.agent()`](/models/ref/python/functions/agent) API コールを使用して sweep を開始します。
+sweep を開始するには、[`wandb.agent()`](/ja/models/ref/python/functions/agent) の API call を使用します。
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
 <Warning>
-**マルチプロセッシング**
+  **マルチプロセシング**
 
-Python 標準ライブラリの `multiprocessing` または PyTorch の `pytorch.multiprocessing` パッケージを使用する場合は、 `wandb.agent()` および `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` でラップする必要があります。例：
+  Python 標準ライブラリの `multiprocessing` または PyTorch の `pytorch.multiprocessing` パッケージを使用する場合は、`wandb.agent()` と `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` で囲む必要があります。例:
 
-```python
-if __name__ == '__main__':
-    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
-```
+  ```python
+  if __name__ == '__main__':
+      wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+  ```
 
-この慣習に従ってコードをラップすることで、スクリプトが直接実行されたときのみ実行され、ワーカープロセス内でモジュールとしてインポートされたときには実行されないようにします。
+  このようにコードを囲むことで、そのコードはスクリプトを直接実行した場合にのみ実行され、ワーカープロセスでモジュールとして import された場合には実行されません。
 
-マルチプロセッシングの詳細については、 [Python 標準ライブラリ `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。 `if __name__ == '__main__':` の慣習については、 https://realpython.com/if-name-main-python/ を参照してください。
+  マルチプロセシングの詳細については、[Python 標準ライブラリの `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch の `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` の慣例については、[https://realpython.com/if-name-main-python/](https://realpython.com/if-name-main-python/) を参照してください。
 </Warning>
 
-## 結果の視覚化（オプション）
+<div id="visualize-results-optional">
+  ## 結果を可視化する (任意)
+</div>
 
-プロジェクト を開き、 W&B App ダッシュボード でリアルタイムの結果を確認します。数回のクリックで、 [平行座標プロット](/models/app/features/panels/parallel-coordinates/) 、 [パラメータの重要度](/models/app/features/panels/parameter-importance/) 分析、 [その他のチャートタイプ](/models/app/features/panels/) などのリッチで インタラクティブなグラフ を作成できます。
+プロジェクトを開いて、W&amp;B Appのダッシュボードでリアルタイムの結果を確認します。数回クリックするだけで、[平行座標プロット](/ja/models/app/features/panels/parallel-coordinates/)、[パラメーター重要度分析](/ja/models/app/features/panels/parameter-importance/)、[そのほかのチャートタイプ](/ja/models/app/features/panels/)などの、豊富でインタラクティブなチャートを作成できます。
 
 <Frame>
-    <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example"  />
+  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweepsダッシュボードの例" />
 </Frame>
 
-結果の可視化方法については、 [Visualize sweep results](./visualize-sweep-results) を参照してください。 ダッシュボード の例については、こちらの [サンプル Sweeps プロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3) をご覧ください。
+結果の可視化方法の詳細については、[sweep の結果を可視化する](./visualize-sweep-results)を参照してください。ダッシュボードの例については、このサンプルの[Sweeps プロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)を参照してください。
 
-## エージェントの停止（オプション）
+<div id="stop-the-agent-optional">
+  ## エージェントを停止する (任意)
+</div>
 
-ターミナル で `Ctrl+C` を押すと、現在の run が停止します。もう一度押すと エージェント が終了します。
+ターミナルで `Ctrl+C` を押すと、現在の run を停止できます。もう一度押すと、エージェントが終了します。

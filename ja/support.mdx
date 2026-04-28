@@ -1,0 +1,84 @@
+---
+title: サポート ホーム
+mode: "center"
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
+
+<Banner title="どのようなことでお困りですか？" background="/images/support/support_banner.png">
+  サポート記事、プロダクトドキュメント、<br />
+  W&amp;Bコミュニティで情報を検索できます。
+</Banner>
+
+<HelpQuestionForm />
+
+<div id="browse-support-articles-by-product">
+  ## プロダクト別にサポート記事を参照
+</div>
+
+<CardGroup cols={3}>
+  <Card title="W&B Models" href="/ja/support/models" arrow="true" icon="/icons/cropped-models.svg">
+    {/* AUTO-GENERATED: counts */}
+
+    190記事 · 33タグ
+
+    {/* END AUTO-GENERATED: counts */}
+  </Card>
+
+  <Card title="W&B Weave" href="/ja/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
+    {/* AUTO-GENERATED: counts */}
+
+    16記事 · 8タグ
+
+    {/* END AUTO-GENERATED: counts */}
+  </Card>
+
+  <Card title="W&B Inference" href="/ja/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
+    {/* AUTO-GENERATED: counts */}
+
+    7記事 · 5タグ
+
+    {/* END AUTO-GENERATED: counts */}
+  </Card>
+</CardGroup>
+
+{/* AUTO-GENERATED: 注目の記事 */}
+
+<div id="featured-articles">
+  ## 注目の記事
+</div>
+
+<div id="wb-models">
+  ### W&amp;B Models
+</div>
+
+<Card title="トレーニングコードで run 名を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  トレーニングスクリプトの冒頭で、実験名を指定して wandb.init を呼び出します。例: wandb.init(name=&quot;my&#95;aweso ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+</Card>
+
+<Card title="Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  トレーニング設定でコマンドライン引数を渡す場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。次の例では  ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
+</Card>
+
+<Card title="メトリクスをオフラインで保存し、後で W&B に Sync できますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定します ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Metrics](/ja/support/models/tags/metrics)</Badge>
+</Card>
+
+<Card title="wandb.init はトレーニングプロセスに対して何を行いますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  トレーニングスクリプトで wandb.init() が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、st ...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+</Card>
+
+{/* END AUTO-GENERATED: 注目の記事 */}
+
+<Card title="お探しの情報がまだ見つかりませんか？" href="mailto:support@wandb.com" icon="circle-info">
+  サポートに問い合わせる
+</Card>

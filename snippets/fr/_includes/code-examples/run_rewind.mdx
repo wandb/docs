@@ -1,0 +1,26 @@
+---
+title: Rembobiner un run
+---
+
+```python
+"""
+Rembobiner un run pour modifier l'historique d'un run.
+
+Spécifiez l'ID du run et l'étape vers laquelle rembobiner avec le paramètre `resume_from` dans `wandb.init()`.
+"""
+import wandb
+import math
+
+# Initialiser un run et journaliser des métriques
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # Le code d'entraînement et de journalisation va ici
+    pass
+
+run_ID = "<run_id>" # Remplacer par l'ID du run original
+step = int("<step>") # Spécifier l'étape vers laquelle rembobiner
+
+# Démarrer un nouveau run qui reprend à partir de l'étape spécifiée du run original
+with wandb.init(project="<project>", entity="<entity>", resume_from=f"{run_ID}?_step={step}") as run:
+    # Le code d'entraînement et de journalisation va ici
+    pass    
+```

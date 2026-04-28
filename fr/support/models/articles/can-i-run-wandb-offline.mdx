@@ -1,0 +1,20 @@
+---
+title: "Puis-je utiliser wandb hors ligne ?"
+keywords: ["Experiments", "Variables d’environnement"]
+---
+
+Si l’entraînement s’effectue sur une machine sans connexion Internet, suivez les étapes ci-dessous pour envoyer les résultats vers les serveurs :
+
+1. Définissez la variable d’environnement `WANDB_MODE=offline` pour enregistrer les métriques localement sans connexion Internet.
+2. Lorsque vous êtes prêt à les envoyer, exécutez `wandb init` dans votre répertoire pour définir le nom du projet.
+3. Utilisez `wandb sync YOUR_RUN_DIRECTORY` pour transférer les métriques vers le service cloud et consulter les résultats dans l’application Web hébergée.
+
+Pour confirmer que le run est hors ligne, vérifiez `run.settings._offline` ou `run.settings.mode` après avoir exécuté `wandb.init()`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d&#39;environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

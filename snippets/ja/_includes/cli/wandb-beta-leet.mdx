@@ -1,0 +1,436 @@
+---
+title: Wandb Beta LEET
+---
+
+W&amp;B LEET (Lightweight Experiment Exploration Tool) は、コマンドラインから W&amp;B Runs を確認するためのローカルのターミナル UI です。これを使用すると、ターミナルセッションを離れることなく、Runs の比較、メトリクスのチャートの確認、ログした画像の参照、コンソールログの追跡、システムメトリクスの監視を行えます。
+
+LEET はローカルの `.wandb` run file を読み込むため、W&amp;B に Sync する前でも Runs を確認できます。LEET はキーボード操作中心のインターフェースで、SSH や `tmux` などのツールを使用してリモートシステムや HPC 環境で作業するユーザー向けに設計されています。
+
+<Frame>
+  <img src="/images/leet/leet-workspace-all-panes.png" alt="Runs、メトリクス、システムメトリクス、メディア、コンソールログ、run の Overview ペインを含む W&B LEET Workspace ビュー。" />
+</Frame>
+
+<div id="examples">
+  ## 例
+</div>
+
+デフォルトのWorkspaceを開きます:
+
+```bash
+wandb beta leet
+```
+
+特定の Workspace ディレクトリを開く:
+
+```bash
+wandb beta leet ./wandb
+```
+
+特定の run ディレクトリを開くには:
+
+```bash
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns
+```
+
+特定の `.wandb` ファイルを開くには:
+
+```bash
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+スタンドアロンのシステムモニターを開きます。
+
+```bash
+wandb beta leet symon --interval 2s
+```
+
+設定エディタを開きます:
+
+```bash
+wandb beta leet config
+```
+
+<div id="views">
+  ## ビュー
+</div>
+
+LEET には、Workspace、single-run、SYMON という3つの主要なビューがあります。
+
+<div id="workspace-view">
+  ### Workspace ビュー
+</div>
+
+Workspace ビュー は、LEET のデフォルトの表示です。同じローカル `wandb/` ディレクトリ内にある複数の run を比較できるように設計されています。
+
+Workspace ビュー には、次の要素があります。
+
+* ローカルの run フォルダを参照するための Runs サイドバー。
+* 選択した複数の run を同じチャートに重ねて表示するメトリクス グリッド。
+* ハイライトされている run のシステム メトリクス ペイン。
+* `wandb.Image` のサムネイルを表示するメディア ペイン。
+* コンソール ログ ペイン。
+* state、ID、名、project、tags、メモ、環境、設定、summary の値を表示する run 概要サイドバー。
+
+run を選択または選択解除するには、`space` を使用します。run を選択すると、重ねて表示しているメトリクス チャートに追加され、その run 固有のデータが読み込まれます。run をピン留めまたはピン留め解除するには、`p` を使用します。ピン留めすると、重ねて表示しているメトリクス チャートでその run のメトリクス系列が常に最前面に表示されます。一方、run 概要、システム メトリクス、メディア、コンソール ログの各ペインは、Runs サイドバーでハイライトされている run に追従します。ハイライトされている run で `enter` を押すと、単一 run ビュー で開きます。
+
+選択したライブ run は Workspace ビュー内で更新され続けるため、LEET は run 後の分析とライブ モニタリングの両方に使用できます。
+
+<div id="single-run-view">
+  ### 単一 run ビュー
+</div>
+
+単一 run ビュー は 1 つの run に焦点を当てた表示です。Workspace ビュー と同じチャートエンジンを使用していますが、その run を中心に構成されています。
+
+* メインのメトリクスグリッドは中央にあります。
+* run 概要サイドバーは左側にあります。
+* システムメトリクス サイドバーは右側にあります。
+* メディアペインとコンソールログペインは、メトリクスグリッドの下に開くことができます。
+
+<Frame>
+  <img src="/images/leet/leet-single-run-view.png" alt="run overview、メトリクスチャート、システムメトリクス ペインを備えた W&B LEET の 単一 run ビュー。" />
+</Frame>
+
+単一 run ビュー から Workspace に戻るには、`esc` キーを押します。
+
+<div id="symon">
+  ### SYMON
+</div>
+
+`wandb beta leet symon` は、W&amp;B の run に関連付けられていないスタンドアロンのシステムモニターを開きます。
+
+別のプロセスの実行中に、SYMON を使用してローカルの CPU、メモリ、ディスク、ネットワーク、GPU、TPU、IPU、Trainium のメトリクスを監視できます。これは、Workspace および単一 run ビューと同じシステムメトリクス チャートエンジンを使用します。
+
+`--interval` でサンプリング間隔を設定します。
+
+```bash
+wandb beta leet symon --interval 500ms
+wandb beta leet symon --interval 2s
+wandb beta leet symon --interval 1m
+```
+
+<Frame>
+  <img src="/images/leet/leet-system-metrics-heatmap.png" alt="GPUチャートとバケット分けされたヒートマップモードを表示した W&B LEET のシステムメトリクス画面。" />
+</Frame>
+
+<div id="key-features">
+  ## 主な機能
+</div>
+
+<div id="multi-run-comparison">
+  ### 複数の Runs の比較
+</div>
+
+Workspaceモードでは、複数のローカルのRunsを選択し、それぞれのメトリクス系列を同じチャート上で比較できます。選択した各 run には固定の色が割り当てられます。LEET はベース色の重複も回避するため、表示中の Runs をより簡単に見分けられます。
+
+Runs のリストでは、未選択、選択済み、固定済みの Runs がそれぞれ異なるマーカーで表示されます。多数の Runs を選択していて、1 つの run のメトリクス系列を最前面に表示したい場合は、固定が役立ちます。
+
+<div id="run-filtering">
+  ### Run のフィルタリング
+</div>
+
+Workspace view で `f` キーを押すと、Runs サイドバーをフィルターできます。修飾子なしの語句は、run key、表示名、run ID、project、tags、メモを対象に横断検索されます。
+
+Runs フィルターでは、フィールド付きクエリもサポートされています。
+
+| Query                               | 一致対象                                              |
+| ----------------------------------- | ------------------------------------------------- |
+| `project:vision`                    | project 名。                                        |
+| `name:baseline`                     | 表示名。エイリアス: `run_name`, `display`, `display_name`。 |
+| `id:abc123`                         | Run ID。エイリアス: `run_id`。                           |
+| `key:offline-run`                   | Run ディレクトリキー。エイリアス: `run_key`, `path`。            |
+| `tag:prod`                          | Tags。エイリアス: `tags`。                               |
+| `note:debug`                        | メモ。エイリアス: `notes`。                                |
+| `config:adamw` or `cfg:adamw`       | フラット化された任意の設定キーまたは値。                              |
+| `cfg.lr>=1e-3`                      | 特定のネストされた設定パス。`config.lr` も使用できます。                |
+| `has:notes` or `exists:cfg.dataset` | 存在確認。                                             |
+
+サポートされる演算子は `:`, `=`, `!=`, `>`, `>=`, `<`, `<=` です。数値比較は、学習率、バッチサイズ、レイヤー数などの設定値に対して特に便利です。
+
+論理積には空白または `AND`、選択肢の指定には `OR` または `|`、否定には `-`、`!`、または `NOT` を使用します。空白を含むフレーズは引用符で囲んでください。
+
+例:
+
+```text
+transformer
+project:vision tag:baseline
+cfg.lr>=1e-3 cfg.optimizer=adamw
+has:notes -tag:debug
+project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
+```
+
+フィルターの編集中に `tab` を押すと、regex モードと glob モードを切り替えられます。Regex モードは、クエリに regex のメタ文字が含まれていない限り、大文字と小文字を区別しない部分文字列検索として動作します。Glob モードでは、任意の文字列の並びに `*`、任意の 1 文字に `?` を使用できます。
+
+<div id="metrics-and-system-metrics">
+  ### メトリクスとシステムメトリクス
+</div>
+
+LEET はスカラーメトリクスをターミナルの折れ線チャートとして表示します。`/` を使用して run のメトリクスをフィルタリングし、`\` を使用してシステムメトリクスをフィルタリングします。`ctrl+/` を押すとメトリクスフィルターがクリアされ、`ctrl+\` を押すとシステムメトリクスフィルターがクリアされます。
+
+チャートをクリックするか、`w`、`a`、`s`、`d`、または矢印キーでフォーカスを移動します。前のページに移動するには `N` または `pgup`、次のページに移動するには `n` または `pgdown` を使用し、`home` または `end` で最初または最後のページにジャンプします。
+
+フォーカス中のチャートで `y` を押すと、チャートモードが順に切り替わります。
+
+* run メトリクスチャートは、チャートに正の値がある場合、Y 軸の対数スケールを切り替えます。
+* システムメトリクスチャートは、Y 軸の対数スケールを切り替えます。
+* パーセンテージベースのシステムメトリクスチャートは、バケット化されたヒートマップモードにも切り替えられます。
+
+マウスホイールを使用して、フォーカス中のチャートをズームします。ライブのシステムメトリクスチャートでは、LEET はデフォルトで 10 分間のローリングテールウィンドウを使用します。ズームアウトすると、より多くの履歴が表示されます。
+
+チャート上で右クリックしてドラッグすると、最も近いポイントを確認できます。`alt` を押しながら右クリックしてドラッグすると、同じ X 座標にある表示中のすべてのチャートを確認できます。
+
+<div id="media-pane">
+  ### Media Pane
+</div>
+
+メディアペインは、`wandb.Image` データを ANSI サムネイルとしてターミナルに直接表示します。Workspace ビューと単一 run ビューの両方で利用できます。
+
+`3` でメディアペインを開閉します。メディアペインにフォーカスがある場合:
+
+* `w`、`a`、`s`、`d` でメディアタイル間を移動します。
+* 矢印キーで、選択したメディアシリーズを X 軸に沿ってスクラブします。
+* `up` と `down` では、より大きな間隔でスクラブします。
+* `home` と `end` では、最初または最新のフレームにスクラブします。
+* `pgup` と `pgdown` でメディアページ間を移動します。
+* `enter` でフルスクリーンモードを切り替えます。
+* `esc` でフルスクリーンモードを終了します。
+
+<Frame>
+  <img src="/images/leet/leet-media-workspace.png" alt="複数の画像シリーズを表示するメディアペインを含む W&B LEET Workspace ビュー。" />
+</Frame>
+
+<div id="console-logs">
+  ### コンソールログ
+</div>
+
+`4` キーでコンソールログペインを開閉できます。このペインには、単一 run ビューでは開いている run のコンソール出力が表示され、Workspace ビューではハイライトされている run のコンソール出力が表示されます。
+
+LEET は、ANSI エスケープコード、途中までの行、キャリッジリターンを含む出力も含め、生のターミナル出力を読みやすいログ行に整形します。
+
+<div id="run-overview">
+  ### Run の概要
+</div>
+
+run 概要サイドバーには、run のメタデータとログ済みの値が表示されます。
+
+* State、run ID、表示名、project、tags、メモ。
+* 環境値。
+* 設定値。
+* Summary 値。
+
+概要項目をフィルターするには `o` を押します。概要フィルターをクリアするには `ctrl+o` を押します。
+
+<div id="system-metrics-coverage">
+  ### システムメトリクスの対応範囲
+</div>
+
+システムメトリクスのペインと SYMON では、ローカルの run file またはライブサンプラーからメトリクスを取得できる場合、ホストおよびアクセラレータのメトリクスを表示できます。サポートされるチャート定義には、次のものがあります。
+
+* CPU、コアごとの CPU、Apple P-core と E-core の使用率、CPU 周波数、CPU 温度、CPU 電力。
+* RAM、スワップ、プロセスメモリ、プロセス CPU、プロセスのスレッド数。
+* ディスク使用量とディスク I/O。
+* ネットワークの受信および送信スループット。
+* NVIDIA GPU の使用率、メモリ、電力、温度、クロック、エラー、エンコーダ使用率、PCIe および NVLink スループット。
+* サポートされる Hopper 以降の NVIDIA GPU の NVML GPM メトリクス。これには、SM active、SM occupancy、tensor/FP pipeline activity、DRAM active が含まれます。
+* Google TPU のデューティサイクル、tensorcore 使用率、HBM 使用量、HLO キューサイズ、転送レイテンシ、および利用可能な場合は SDK 専用の TPU ゲージ。
+* Graphcore IPU の温度、クロック、電力、使用率。
+* AWS Trainium および Neuron の使用率とメモリメトリクス。
+
+<div id="configuration">
+  ## 設定
+</div>
+
+次のコマンドで設定エディタを起動します。
+
+```bash
+wandb beta leet config
+```
+
+LEET は設定を `wandb-leet.json` に保存します。デフォルトでは、このファイルは次の場所に書き込まれます。
+
+```text
+~/.config/wandb/wandb-leet.json
+```
+
+`WANDB_CONFIG_DIR` が設定されている場合、LEET は代わりにそのディレクトリを使用します。
+
+設定エディタでは、次の項目を変更できます。
+
+* 起動モード: `workspace_latest` または `single_run_latest`
+* workspace、single-run、media、システムメトリクス、SYMON ビューのグリッドサイズ
+* デフォルトで表示するペイン
+* run メトリクス、プロットごとの single-run チャート、system チャート、run タグ、バケット化されたヒートマップのカラースキーム
+* 色の割り当てモード: `per_series` または `per_plot`
+* システムメトリクス のライブテールウィンドウ
+* live run 更新のハートビート間隔
+
+<Frame>
+  <img src="/images/leet/leet-config-editor.png" alt="グリッド設定、カラースキーム、表示設定、パレット選択を示す W&B LEET の設定エディタ。" />
+</Frame>
+
+LEET 内から、フォーカス中のグリッドのサイズを変更することもできます。
+
+| キー  | 操作                    |
+| --- | --------------------- |
+| `c` | フォーカス中のグリッドの列数を設定します。 |
+| `r` | フォーカス中のグリッドの行数を設定します。 |
+
+`c` または `r` を押したら、`1` から `9` までの数字を押すか、`esc` を押してキャンセルします。
+
+<div id="common-config-keys">
+  ### 一般的な設定キー
+</div>
+
+| キー                                                           | デフォルト              | 説明                                                                 |
+| ------------------------------------------------------------ | ------------------ | ------------------------------------------------------------------ |
+| `startup_mode`                                               | `workspace_latest` | run パスを指定せずに起動した場合の初期表示です。                                         |
+| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | 単一 run のメトリクスグリッドのサイズです。                                           |
+| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | 単一 run のシステムメトリクス用サイドバーグリッドのサイズです。                                 |
+| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | 単一 run のメディアグリッドのサイズです。                                            |
+| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | Workspace のメトリクスグリッドのサイズです。                                        |
+| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | Workspace のシステムメトリクスグリッドのサイズです。                                    |
+| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | Workspace のメディアグリッドのサイズです。                                         |
+| `symon_grid.rows`, `symon_grid.cols`                         | `3`, `3`           | SYMON グリッドのサイズです。                                                  |
+| `color_scheme`                                               | `wandb-vibe-10`    | Workspace の run メトリクスと run リストの色に使用するパレットです。                       |
+| `per_plot_color_scheme`                                      | `sunset-glow`      | `single_run_color_mode` が `per_plot` の場合に、単一 run のチャートに使用するパレットです。 |
+| `tag_color_scheme`                                           | `wandb-vibe-10`    | 概要サイドバーのタグバッジに使用するパレットです。                                          |
+| `system_color_scheme`                                        | `wandb-vibe-10`    | システムメトリクスのチャートに使用するパレットです。                                         |
+| `french_fries_color_scheme`                                  | `viridis`          | バケット化されたヒートマップチャートに使用するパレットです。                                     |
+| `single_run_color_mode`                                      | `per_series`       | 単一 run のチャートを系列ごとまたはプロットごとに色分けします。                                 |
+| `system_color_mode`                                          | `per_series`       | システムチャートを系列ごとまたはプロットごとに色分けします。                                     |
+| `system_tail_window_minutes`                                 | `10`               | システムチャートのデフォルトのライブテールウィンドウです。                                      |
+| `heartbeat_interval_seconds`                                 | `15`               | ライブ run のポーリング間隔です。                                                |
+| `workspace_overview_visible`                                 | `true`             | デフォルトで Workspace の run 概要サイドバーを表示します。                              |
+| `workspace_metrics_grid_visible`                             | `true`             | デフォルトで Workspace のメトリクスグリッドを表示します。                                 |
+| `workspace_system_metrics_visible`                           | `false`            | デフォルトで Workspace のシステムメトリクスペインを表示します。                              |
+| `workspace_console_logs_visible`                             | `false`            | デフォルトで Workspace のコンソールログペインを表示します。                                |
+| `workspace_media_visible`                                    | `false`            | デフォルトで Workspace のメディアペインを表示します。                                   |
+| `left_sidebar_visible`                                       | `true`             | デフォルトで単一 run の概要サイドバーを表示します。                                       |
+| `right_sidebar_visible`                                      | `true`             | デフォルトで単一 run のシステムメトリクスサイドバーを表示します。                                |
+| `metrics_grid_visible`                                       | `true`             | デフォルトで単一 run のメトリクスグリッドを表示します。                                     |
+| `console_logs_visible`                                       | `false`            | デフォルトで単一 run のコンソールログペインを表示します。                                    |
+| `media_visible`                                              | `false`            | デフォルトで単一 run のメディアペインを表示します。                                       |
+
+使用可能なカラースキームには、`wandb-vibe-10`、`wandb-vibe-20`、`sunset-glow`、`blush-tide`、`gilded-lagoon`、`bootstrap-vibe`、`dusk-shore`、`clear-signal`、`traffic-light`、`viridis`、`plasma`、`inferno`、`magma`、`cividis` があります。
+
+`dusk-shore` と `clear-signal` は色覚特性に配慮したパレットです。`viridis`、`plasma`、`inferno`、`magma`、`cividis`、`traffic-light` などの連続パレットは、バケット化されたヒートマップに適しています。
+
+<div id="keyboard-shortcuts">
+  ## キーボードショートカット
+</div>
+
+LEETで `h` または `?` を押すと、アプリ内ヘルプが開きます。ショートカットはビューによって若干異なります。
+
+<div id="workspace">
+  ### Workspace
+</div>
+
+| キー                               | 操作                                      |
+| -------------------------------- | --------------------------------------- |
+| `h`, `?`                         | ヘルプの表示を切り替えます。                          |
+| `q`, `ctrl+c`                    | 終了します。                                  |
+| `alt+r`                          | LEET を再起動します。                           |
+| `esc`                            | Runs リストにフォーカスします。                      |
+| `enter`                          | ハイライトされている run を 単一 run ビュー で開きます。 |
+| `1`                              | メトリクスグリッドの表示を切り替えます。                    |
+| `[`                              | Runs サイドバーの表示を切り替えます。                   |
+| `2`                              | システムメトリクスペインの表示を切り替えます。                 |
+| `]`                              | run 概要サイドバーの表示を切り替えます。           |
+| `3`                              | メディアペインの表示を切り替えます。                      |
+| `4`                              | コンソールログペインの表示を切り替えます。                   |
+| `f`                              | 名またはメタデータで Runs をフィルターします。              |
+| `ctrl+f`                         | Runs のフィルターをクリアします。                     |
+| `space`                          | run を選択または選択解除します。                      |
+| `p`                              | run をピン留めまたはピン留め解除します。                  |
+| `/`                              | メトリクスをフィルターします。                         |
+| `\`                              | システムメトリクスをフィルターします。                     |
+| `ctrl+/`, `ctrl+l`               | メトリクスのフィルターをクリアします。                     |
+| `ctrl+\`                         | システムメトリクスのフィルターをクリアします。                 |
+| `o`                              | overview 項目をフィルターします。                   |
+| `ctrl+o`                         | overview のフィルターをクリアします。                 |
+| `y`                              | フォーカス中のチャートモードを切り替えます。                  |
+| `c`                              | フォーカス中のグリッドの列数を設定します。                   |
+| `r`                              | フォーカス中のグリッドの行数を設定します。                   |
+| `tab`, `shift+tab`               | 表示中のペイン間でフォーカスを切り替えます。                  |
+| `w`, `a`, `s`, `d` or arrow keys | フォーカス中のペイン内を移動します。                      |
+| `N`, `pgup`                      | 前のページに移動します。                            |
+| `n`, `pgdown`                    | 次のページに移動します。                            |
+| `home`                           | 最初の項目、最初のページ、または最初のメディアフレームに移動します。      |
+| `end`                            | 最後の項目、最後のページ、または最新のメディアフレームに移動します。      |
+
+<div id="single-run">
+  ### 単一 run
+</div>
+
+| キー                               | 操作                                 |
+| -------------------------------- | ---------------------------------- |
+| `h`, `?`                         | ヘルプを切り替えます。                        |
+| `q`, `ctrl+c`                    | 終了します。                             |
+| `alt+r`                          | LEET を再起動します。                      |
+| `esc`                            | Workspace view に戻ります。              |
+| `1`                              | メトリクスグリッドを切り替えます。                  |
+| `[`                              | run 概要サイドバーを切り替えます。                |
+| `]`                              | システムメトリクスサイドバーを切り替えます。             |
+| `3`                              | メディアペインを切り替えます。                    |
+| `4`                              | コンソールログペインを切り替えます。                 |
+| `/`                              | メトリクスをフィルターします。                    |
+| `\`                              | システムメトリクスをフィルターします。                |
+| `ctrl+/`, `ctrl+l`               | メトリクスフィルターをクリアします。                 |
+| `ctrl+\`                         | システムメトリクスフィルターをクリアします。             |
+| `o`                              | run 概要の項目をフィルターします。                |
+| `ctrl+o`                         | 概要フィルターをクリアします。                    |
+| `y`                              | フォーカス中のチャートモードを順に切り替えます。           |
+| `c`                              | フォーカス中のグリッドの列を設定します。               |
+| `r`                              | フォーカス中のグリッドの行を設定します。               |
+| `tab`, `shift+tab`               | 表示中のペイン間でフォーカスを順に移動します。            |
+| `w`, `a`, `s`, `d` or arrow keys | フォーカス中のペイン内を移動します。                 |
+| `N`, `pgup`                      | 前のページに移動します。                       |
+| `n`, `pgdown`                    | 次のページに移動します。                       |
+| `home`                           | 最初の項目、最初のページ、または最初のメディアフレームに移動します。 |
+| `end`                            | 最後の項目、最後のページ、または最新のメディアフレームに移動します。 |
+
+<div id="symon">
+  ### SYMON
+</div>
+
+| キー                               | 操作                       |
+| -------------------------------- | ------------------------ |
+| `h`, `?`                         | ヘルプを切り替えます。              |
+| `q`, `ctrl+c`                    | 終了します。                   |
+| `alt+r`                          | 再起動します。                  |
+| `y`                              | フォーカス中のチャートモードを順に切り替えます。 |
+| `\`                              | システムメトリクスをフィルターします。      |
+| `ctrl+\`                         | システムメトリクスのフィルターをクリアします。  |
+| `c`, `C`                         | グリッドの列数を設定します。           |
+| `r`, `R`                         | グリッドの行数を設定します。           |
+| `w`, `a`, `s`, `d` or arrow keys | チャートのフォーカスを移動します。        |
+| `N`, `pgup`                      | 前のチャートページに移動します。         |
+| `n`, `pgdown`                    | 次のチャートページに移動します。         |
+| `home`                           | 最初のチャートページに移動します。        |
+| `end`                            | 最後のチャートページに移動します。        |
+
+<div id="mouse">
+  ### マウス
+</div>
+
+| 入力                              | 操作                           |
+| ------------------------------- | ---------------------------- |
+| Click                           | チャートにフォーカスするか、メディアタイルを選択します。 |
+| Wheel                           | フォーカスしたチャートをズームします。          |
+| Right-click and drag            | チャート上の最も近い点を確認します。           |
+| `alt` plus right-click and drag | 表示中のすべてのチャートを同期して確認します。      |
+| `shift` plus drag               | ターミナルのテキストを選択します。            |
+
+<div id="changelog">
+  ## 変更履歴
+</div>
+
+次の表は、バージョンごとの LEET の変更点をまとめたものです。詳細については、[GitHub リリースノート](https://github.com/wandb/client/releases)を参照してください。
+
+| バージョン    | LEET の変更点                                                                                                                                      |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0.23.0` | ローカル run のメトリクスとシステムヘルスを対象とした、実験的な `wandb beta leet` コマンドの初回リリース。                                                                              |
+| `0.23.1` | メトリクスと run の概要に対する正規表現フィルター、右クリックドラッグによるチャートの確認、`alt` によるチャート確認の同期、負の Y 軸目盛り表示とシステムメトリクスの単位の改善。                                                |
+| `0.25.0` | 複数 run の Workspace ビューと `wandb beta leet config` 設定エディタ。                                                                                        |
+| `0.25.1` | コンソールログペイン、Workspace のシステムメトリクスペイン、システムメトリクスのフィルタリング。                                                                                          |
+| `0.26.0` | メタデータ対応の run フィルタリング、概要内の tags とメモ、チャートごとの対数 Y 軸、SYMON、バケット化ヒートマップ、色覚多様性に配慮したパレット、メディアペイン、システムメトリクスのオーバーレイ/確認/ズームの改善、Workspace での run の色の重複防止。 |
+| `0.26.1` | `w`/`a`/`s`/`d`、矢印キー、`home`、`end`、`pgup`、`pgdown` による、フォーカスされたペイン間での統一されたナビゲーション。                                                              |

@@ -1,0 +1,63 @@
+---
+description: Déployer W&B Self-Managed sur une infrastructure cloud ou sur site
+title: Aperçu du déploiement de W&B Self-Managed
+sidebarTitle: Aperçu du déploiement
+---
+
+<Tip>
+  W&amp;B recommande des options de déploiement entièrement géré, comme [W&amp;B Multi-tenant Cloud](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [W&amp;B Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud). Les services entièrement gérés de W&amp;B sont simples à utiliser et sécurisés, avec peu, voire aucune, configuration requise.
+</Tip>
+
+Déployez W&amp;B Server dans votre [compte cloud AWS, Google Cloud ou Azure](#deploy-wb-server-within-Self-Managed-cloud-accounts) ou dans votre [infrastructure sur site](#deploy-wb-server-in-on-prem-infrastructure).
+
+Votre équipe IT/DevOps/MLOps est responsable de :
+
+* Assurer le provisionnement de votre déploiement.
+* Sécuriser votre infrastructure conformément aux politiques de votre organisation et, le cas échéant, aux [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide).
+* Veiller au respect des exigences réglementaires de votre organisation, telles que [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) et [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html).
+* Gérer les mises à niveau et appliquer les correctifs.
+* Assurer en continu la maintenance de votre déploiement W&amp;B Self-Managed.
+
+<Info>
+  Si votre organisation est soumise à des exigences réglementaires, envisagez un déploiement sur [W&amp;B Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud), qui est maintenu par W&amp;B.
+
+  * La plateforme d&#39;hébergement de W&amp;B Dedicated Cloud répond aux exigences de SOC 2 Type 2.
+  * Lorsqu&#39;il est correctement configuré, un déploiement W&amp;B Dedicated Cloud est conforme à HIPAA.
+
+  Référez-vous au [portail de sécurité W&amp;B](https://security.wandb.ai/) pour demander plus d&#39;informations.
+</Info>
+
+<div id="about-the-wb-kubernetes-operator">
+  ## À propos de l&#39;opérateur Kubernetes W&amp;B
+</div>
+
+Utilisez l&#39;**opérateur Kubernetes W&amp;B** pour déployer W&amp;B Self-Managed. L&#39;opérateur simplifie le déploiement, l&#39;administration, le dépannage et la mise à l&#39;échelle de W&amp;B.
+
+L&#39;opérateur se connecte à un serveur central [deploy.wandb.ai](https://deploy.wandb.ai) pour demander les dernières modifications de la spécification pour un canal de version donné et les appliquer. Les mises à jour sont reçues tant que la licence est valide. [Helm](https://helm.sh/) est utilisé à la fois pour installer l&#39;opérateur et par l&#39;opérateur pour gérer la pile Kubernetes W&amp;B. Le déploiement se compose de plusieurs pods, un par service ; le nom de chaque pod commence par `wandb-`.
+
+La configuration suit une hiérarchie : **Valeurs du canal de version** (valeurs par défaut de W&amp;B), **Valeurs saisies par l&#39;utilisateur** (remplacements via la console système) et **Valeurs de la ressource personnalisée** (votre spécification remplace les deux). Pour plus de détails, voir [Déployer W&amp;B avec l&#39;opérateur Kubernetes](/fr/platform/hosting/self-managed/operator).
+
+* Pour déployer W&amp;B Self-Managed dans le cloud public ou sur une infrastructure sur site, voir [Déployer W&amp;B avec l&#39;opérateur Kubernetes](/fr/platform/hosting/self-managed/operator).
+* Pour déployer W&amp;B Self-Managed sur une plateforme cloud personnalisée autre qu&#39;AWS, les prérequis sont similaires à ceux d&#39;un déploiement sur une [infrastructure sur site](#deploy-wb-server-in-on-prem-infrastructure).
+* Pour déployer W&amp;B Self-Managed dans des environnements air-gapped, voir [Déployer sur Kubernetes air-gapped](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped).
+
+Vous pouvez, si vous le souhaitez, [configurer des limites de débit](/fr/platform/hosting/self-managed/rate-limits) sur votre instance afin d&#39;en maintenir la stabilité. Voir [Limites de débit](/fr/platform/hosting/self-managed/rate-limits) pour les valeurs par défaut et le comportement des notifications.
+
+<div id="required-infrastructure">
+  ## Infrastructure requise
+</div>
+
+Toutes les options de déploiement reposent sur l’infrastructure suivante :
+
+* Kubernetes
+* Base de données MySQL 8
+* Stockage d’objets compatible avec Amazon S3
+* Cache Redis
+
+Voir [Requirements](/fr/platform/hosting/self-managed/requirements) pour plus de détails. W&amp;B peut recommander les différents composants et vous accompagner tout au long du processus d’installation.
+
+<div id="obtain-your-wb-server-license">
+  ## Obtenez votre licence W&amp;B Server
+</div>
+
+Vous devez disposer d&#39;une licence W&amp;B Server avant le déploiement. Pour obtenir des instructions détaillées, consultez [License](/fr/platform/hosting/self-managed/requirements#license) sur la page Requirements.

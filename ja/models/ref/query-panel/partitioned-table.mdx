@@ -1,50 +1,67 @@
 ---
-title: パーティション化されたテーブル
+title: partitioned-table
 ---
 
-## Chainable Ops
-### <a id="asset-file"></a>`asset-file`
+<div id="chainable-ops">
+  ## チェーン可能なOps
+</div>
 
-アセットの _file_ を返します。
+### <a id="asset-file" />`asset-file`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `asset` | アセット |
+asset の *file* を返します
 
-#### 返り値
-アセットの _file_
+| 引数      | 説明    |
+| :------ | :---- |
+| `asset` | asset |
 
-### <a id="partitionedtable-file"></a>`partitionedtable-file`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-_partitioned-table_ の _file_ を返します。
+asset の *ファイル*
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `partitionedTable` | _partitioned-table_ |
+### <a id="partitionedtable-file" />`partitionedtable-file`
 
-#### 返り値
-_partitioned-table_ の _file_
+*partitioned-table* の *file* を返します
 
-### <a id="partitionedtable-rows"></a>`partitionedtable-rows`
+| 引数                 | 説明                  |
+| :----------------- | :------------------ |
+| `partitionedTable` | *partitioned-table* |
 
-_partitioned-table_ の行を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `partitionedTable` | 行を取得する対象の _partitioned-table_ |
+*partitioned-table* の *ファイル*
 
-#### 返り値
-_partitioned-table_ の行
+### <a id="partitionedtable-rows" />`partitionedtable-rows`
 
+*partitioned-table* の行を返します
 
-## List Ops
-### <a id="asset-file"></a>`asset-file`
+| 引数                 | 説明                           |
+| :----------------- | :--------------------------- |
+| `partitionedTable` | 行の取得元となる *partitioned-table* |
 
-アセットの _file_ を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `asset` | アセット |
+*partitioned-table* の各行
 
-#### 返り値
-アセットの _file_
+<div id="list-ops">
+  ## Ops を一覧表示する
+</div>
+
+### <a id="asset-file-list" />`asset-file`
+
+asset の *ファイル* を返します
+
+| 引数      | 説明        |
+| :------ | :-------- |
+| `asset` | 対象の asset |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+asset の *ファイル*

@@ -24,16 +24,16 @@ The `EvaluationLogger` offers flexibility while the standard framework offers st
     To capture token usage and cost for LLM calls (e.g. OpenAI), initialize `EvaluationLogger` before any LLM invocations**. 
     If you call your LLM first and then log predictions afterward, token and cost data are not captured.
     </Note>
-2. _Log predictions:_ Call `log_prediction` for each input/output pair from your system.
-3. _Log scores:_ Use the returned `ScoreLogger` to `log_score` for the prediction. Multiple scores per prediction are supported.
+2. _Log predictions:_ Call `log_prediction()` for each input/output pair from your system.
+3. _Log scores:_ Use the returned `ScoreLogger` to `log_score()` for the prediction. Multiple scores per prediction are supported.
 4. _Finish prediction:_ Always call `finish()` after logging scores for a prediction to finalize it.
-5. _Log summary:_ After all predictions are processed, call `log_summary` to aggregate scores and add optional custom metrics.
+5. _Log summary:_ After all predictions are processed, call `log_summary()` to aggregate scores and add optional custom metrics.
 
 <Warning>
 After calling `finish()` on a prediction, no more scores can be logged for it.
 </Warning>
 
-For a Python code demonstrating the described workflow, see the [Basic example](#basic-example).
+For a Python code demonstrating the described workflow, see the [Basic example](#basic-example). If the output and all scores are available at once, Python users can combine steps 2–4 into a single call using [`log_example()`](#simplified-logging-with-log_example).
 
 ## Basic example
 
@@ -193,6 +193,52 @@ await scoreLogger.finish();
 ```
 </Tab>
 </Tabs>
+
+## Simplified logging with `log_example()`
+
+Use `log_example()` to log inputs, an output, and scores in a single call. This convenience method combines `log_prediction()`, `log_score()`, and `finish()` into one step, and is useful when you already have the inputs, model outputs, and scores ready to log, such as during batch or offline evaluations.
+
+```python lines
+import weave
+from weave import EvaluationLogger
+
+weave.init('your-team-name/your-project-name')
+
+eval_logger = EvaluationLogger(
+    model="my_model",
+    dataset="my_dataset"
+)
+
+eval_samples = [
+    {'inputs': {'a': 1, 'b': 2}, 'expected': 3},
+    {'inputs': {'a': 2, 'b': 3}, 'expected': 5},
+    {'inputs': {'a': 3, 'b': 4}, 'expected': 7},
+]
+
+for sample in eval_samples:
+    inputs = sample['inputs']
+    output = inputs['a'] + inputs['b']
+
+    eval_logger.log_example(
+        inputs=inputs,
+        output=output,
+        scores={"correctness": output == sample['expected']}
+    )
+
+eval_logger.log_summary({"avg_score": 1.0})
+```
+
+The `log_example()` call above is equivalent to:
+
+```python
+pred = eval_logger.log_prediction(inputs=inputs, output=output)
+pred.log_score(scorer="correctness", score=output == sample['expected'])
+pred.finish()
+```
+
+<Note>
+`log_example()` is not available for the Weave TypeScript SDK. TypeScript users should use the `logPrediction()` and `logScore()` pattern shown in the [basic example](#basic-example).
+</Note>
 
 ## Advanced usage
 

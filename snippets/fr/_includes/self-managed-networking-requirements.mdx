@@ -1,0 +1,19 @@
+---
+title: Exigences réseau pour les déploiements Autogérés
+---
+
+Pour un déploiement connecté au réseau, un accès sortant à ces endpoints est requis *à la fois* pendant l’installation et à l’exécution :
+
+* [https://deploy.wandb.ai](https://deploy.wandb.ai)
+* [https://charts.wandb.ai](https://charts.wandb.ai)
+* [https://quay.io](https://quay.io) (utilisé pour les images Prometheus)
+
+<Note>
+  Des registres de conteneurs supplémentaires peuvent être requis selon votre configuration de déploiement :
+
+  * `https://gcr.io` est nécessaire lors du déploiement de Bufstream et d’etcd pour les évaluations en ligne de Weave.
+</Note>
+
+Pour en savoir plus sur les déploiements air-gapped, consultez [l’opérateur Kubernetes pour les instances air-gapped](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped).
+
+L’accès à W&amp;B et au stockage d’objets est requis pour l’infrastructure d’entraînement ainsi que pour chaque système utilisé pour suivre les besoins des expériences.

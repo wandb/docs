@@ -1,0 +1,24 @@
+---
+title: CoreWeave インフラストラクチャーアラートを可視化する
+description: "GPU 障害や温度異常などの CoreWeave インフラストラクチャーアラートを、W&B の run プロット上で表示します。"
+---
+
+W&amp;B にログした機械学習実験の実行中に、GPU 障害や温度異常などのインフラストラクチャーアラートを確認できます。サポートされる [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) クラスター上で実行し、このインテグレーションを有効にして、このページの前提条件を満たすと、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) が [W&amp;B run](/ja/models/runs) の実行中にコンピュートインフラストラクチャーを監視できます。
+
+<Note>
+  この機能はプレビュー版です。アクセスするには、W&amp;B の担当者にお問い合わせください。
+</Note>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+このインテグレーションがエンドツーエンドで機能するには、以下の条件を満たしている必要があります。
+
+| 前提条件                                                 | 詳細                                                                                                                                                                                                                                        |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CoreWeave platform**                               | [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) のクラスターでのみ利用できます。CoreWeave のベアメタルクラスターおよび CoreWeave Classic では利用できません。CKS 上で [SUNK](https://docs.coreweave.com/products/sunk) 経由で実行されるトレーニングジョブも、この要件を満たします。 |
+| **W&amp;B Python SDK**                               | トレーニングジョブでは、run をログする際に `wandb` パッケージのバージョン `0.20.1` 以降を使用してください。                                                                                                                                                                         |
+| **W&amp;B Server (Dedicated Cloud or Self-Managed)** | W&amp;B Dedicated Cloud または W&amp;B Self-Managed デプロイメントを使用している場合は、W&amp;B Server バージョン `0.73.0` 以降を使用してください。サーバーが CoreWeave の observability データを受け取れるように、W&amp;B アプリの pod で `SERVER_FLAG_ENABLE_CORE_WEAVE_OBSERVABILITY` 環境変数を設定してください。 |
+
+エラーが発生した場合、CoreWeave はその情報を W&amp;B に送信します。W&amp;B は、project の Workspace 内にある run のプロットにインフラストラクチャー情報を表示します。CoreWeave は一部の問題の自動解決を試み、W&amp;B はその情報を run ページに表示します。

@@ -1,0 +1,77 @@
+---
+title: Créer un balayage
+---
+
+```python
+"""
+Définir une configuration de balayage, initialiser et démarrer un balayage W&B.
+
+sweep_configuration est une configuration de balayage à imbrication simple. Voir sweep_config.py
+pour un exemple de configuration de balayage à double imbrication.
+"""
+import wandb
+import numpy as np
+import random
+import argparse
+
+def train_one_epoch(epoch, lr, batch_size):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
+def main(args=None):
+    # Lorsqu'appelé par l'agent de balayage, args sera None,
+    # donc nous utilisons le projet issu de la configuration du balayage
+    project = args.project if args else None
+    
+    with wandb.init(project=project) as run:
+        # Récupère les valeurs des hyperparamètres depuis l'objet `wandb.Run.config`
+        lr = run.config["lr"]
+        batch_size = run.config["batch_size"]
+        epochs = run.config["epochs"]
+
+        # Exécute la boucle d'entraînement et enregistre les valeurs de performances dans W&B
+        for epoch in np.arange(1, epochs):
+            train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
+            val_acc, val_loss = evaluate_one_epoch(epoch)
+            run.log(
+                {
+                    "epoch": epoch,
+                    "train_acc": train_acc,
+                    "train_loss": train_loss,
+                    "val_acc": val_acc, # Métrique optimisée
+                    "val_loss": val_loss,
+                }
+            )
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--project", type=str, default="sweep-example", help="nom du projet W&B")
+    args = parser.parse_args()
+
+    # Définir un dictionnaire de configuration de balayage
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {
+            "goal": "maximize",
+            "name": "val_acc"
+            },
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    # Initialiser le balayage en transmettant le dictionnaire de configuration
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
+
+    # Démarrer le job de balayage
+    wandb.agent(sweep_id, function=main, count=2)
+```

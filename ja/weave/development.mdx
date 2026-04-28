@@ -1,102 +1,113 @@
 ---
-title: 開発
-description: ドキュメントを更新するためにローカルで変更をプレビューする
+title: '開発'
+description: "更新を W&B Weave ドキュメントサイトに公開する前に、ドキュメントの変更をローカルでプレビューしてテストします。"
 ---
 
 <Info>
-  **前提条件**: 続行する前に Node.js (バージョン 19 以上) をインストールしてください。 <br />
-  続行する前に ```docs.json``` にアップグレードし、レガシーな ```mint.json``` ファイルを削除してください。
+  **前提条件**: 続行する前に、Node.js (バージョン 19 以上) をインストールしてください。 <br />
+  続行する前に `docs.json` に移行し、従来の `mint.json` ファイルを削除してください。
 </Info>
 
-お使いのオペレーティングシステムに Mintlify をインストールして実行するには、以下の手順に従ってください。
+お使いのオペレーティングシステムに Mintlify をインストールして実行するには、次の step に従います:
 
-**ステップ 1**: Mintlify のインストール:
+**Step 1**: Mintlify をインストールします:
 
 <CodeGroup>
-
   ```bash npm
   npm i -g mintlify
   ```
 
-```bash yarn
-yarn global add mintlify
-```
-
+  ```bash yarn
+  yarn global add mintlify
+  ```
 </CodeGroup>
 
-**ステップ 2**: docs ディレクトリー (`docs.json` ファイルがある場所) に移動し、次の コマンド を実行します。
+**Step 2**: docs ディレクトリ (`docs.json` ファイルがある場所) にアクセスし、次のコマンドを実行します:
 
 ```bash
 mintlify dev
 ```
 
-ドキュメントのローカルプレビューが `http://localhost:3000` で確認できるようになります。
+ドキュメントのローカルプレビューは `http://localhost:3000` で確認できます。
 
-### カスタムポート
 
-デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使用することで、Mintlify が実行されるポートをカスタマイズできます。例えば、ポート 3333 で Mintlify を実行するには、次の コマンド を使用します。
+<div id="custom-ports">
+  ### カスタムポート
+</div>
+
+デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使うと、Mintlify が使用するポートを変更できます。たとえば、Mintlify をポート 3333 で実行するには、次のコマンドを使用します。
 
 ```bash
 mintlify dev --port 3333
 ```
 
-すでに使用中のポートで Mintlify を実行しようとすると、次に利用可能なポートが使用されます。
+すでに使用中のポートでMintlifyを実行しようとすると、次に空いているポートが使用されます:
 
 ```md
 Port 3000 is already in use. Trying 3001 instead.
 ```
 
-## Mintlify の バージョン
 
-各 CLI リリースは特定の バージョン の Mintlify と関連付けられていることに注意してください。ローカルのウェブサイトが プロダクション バージョン と一致しない場合は、CLI を更新してください。
+<div id="mintlify-versions">
+  ## Mintlify のバージョン
+</div>
+
+各 CLI version は、Mintlify の特定のバージョンに対応しています。ローカルの Web サイトが本番バージョンと一致しない場合は、CLI を更新してください。
 
 <CodeGroup>
+  ```bash npm
+  npm i -g mintlify@latest
+  ```
 
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
+  ```bash yarn
+  yarn global upgrade mintlify
+  ```
 </CodeGroup>
 
-## リンクの検証
+<div id="validating-links">
+  ## リンクの検証
+</div>
 
-CLI を使用して、ドキュメント内のリファレンスリンクを検証できます。リンク切れを特定するには、次の コマンド を使用します。
+CLI を使用すると、ドキュメント内の参照リンクを検証できます。リンク切れを特定するには、次のコマンドを使用します。
 
 ```bash
 mintlify broken-links
 ```
 
-## デプロイメント
+
+<div id="deployment">
+  ## デプロイ
+</div>
 
 <Tip>
-  [Pro Plan](https://mintlify.com/pricing) 以上のプランでは、エディターを無制限に利用できます。
+  [Pro
+  Plan](https://mintlify.com/pricing) 以上では、エディターを無制限に利用できます。
 </Tip>
 
-デプロイメント が成功すると、すべてのチェックに合格したことを示す確認メッセージが表示されます。
+デプロイに成功すると、すべてのチェックにパスしたことを示す確認メッセージが表示されます。
 
-## コード のフォーマット
+<div id="code-formatting">
+  ## コードのフォーマット
+</div>
 
-IDE の拡張機能を使用して MDX を認識し、フォーマットすることをお勧めします。VSCode ユーザーの場合は、構文ハイライト用の [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) と、コード のフォーマット用の [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の使用を検討してください。
+IDE で MDX を認識して整形できるよう、拡張機能を使用することをお勧めします。VSCode をお使いの場合は、シンタックスハイライトには [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードのフォーマットには [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
 
-## トラブルシューティング
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
 
 <AccordionGroup>
-  <Accordion title='エラー: "sharp" モジュールを darwin-arm64 ランタイムを使用してロードできませんでした'>
+  <Accordion title="エラー: darwin-arm64 ランタイムで &#x22;sharp&#x22; モジュールを読み込めませんでした">
+    node のバージョンが古いことが原因の可能性があります。次をお試しください。
 
-    これは Node の バージョン が古いためである可能性があります。以下を試してください：
-    1. 現在インストールされている mintlify を削除する: `npm remove -g mintlify`
-    2. Node v19 以上にアップグレードする。
-    3. mintlify を再インストールする: `npm install -g mintlify`
+    1. 現在インストールされている mintlify を削除します: `npm remove -g mintlify`
+    2. Node v19 以降にアップグレードします。
+    3. mintlify を再インストールします: `npm install -g mintlify`
   </Accordion>
 
   <Accordion title="問題: 不明なエラーが発生する">
-  
-    解決策: デバイスのルートに移動し、\~/.mintlify フォルダーを削除してください。その後、再度 `mintlify dev` を実行します。
+    対処法: `~/.mintlify` フォルダを削除してから、`mintlify dev` をもう一度実行してください。
   </Accordion>
 </AccordionGroup>
 
-CLI バージョン の変更点については、[CLI の変更履歴を確認してください。](https://www.npmjs.com/package/mintlify?activeTab=versions)
+CLI バージョンで何が変更されたか気になりますか？ [CLI の変更履歴をご覧ください。](https://www.npmjs.com/package/mintlify?activeTab=versions)

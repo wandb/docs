@@ -1,0 +1,268 @@
+---
+description: Créer une nouvelle version d'artefact à partir d'un seul run ou d'un processus
+  distribué.
+title: Créer une version d'artefact
+---
+
+Créez une nouvelle version d&#39;artefact à partir d&#39;un seul [run](/fr/models/runs/) ou de manière collaborative avec des runs distribués. Vous pouvez également créer une nouvelle version d&#39;artefact à partir d&#39;une version précédente, appelée [artefact incrémentiel](#create-a-new-artifact-version-from-an-existing-version).
+
+<Note>
+  Nous vous recommandons de créer un artefact incrémentiel lorsque vous devez appliquer des modifications à un sous-ensemble de fichiers d&#39;un artefact, en particulier si l&#39;artefact d&#39;origine est nettement plus volumineux.
+</Note>
+
+<div id="create-new-artifact-versions-from-scratch">
+  ## Créer de nouvelles versions d’artefact à partir de zéro
+</div>
+
+Il existe deux façons de créer une nouvelle version d’artefact : à partir d’un run unique ou de runs distribués. Elles se définissent comme suit :
+
+* **Run unique** : un seul run fournit toutes les données d’une nouvelle version. C’est le cas le plus courant, et il convient le mieux lorsque le run recrée entièrement les données nécessaires. Par exemple : générer des modèles enregistrés ou des prédictions de modèle dans un tableau pour analyse.
+* **Runs distribués** : un ensemble de runs fournit collectivement toutes les données d’une nouvelle version. Ce mode convient le mieux aux jobs distribués comportant plusieurs runs qui génèrent des données, souvent en parallèle. Par exemple : évaluer un modèle de manière distribuée et produire les prédictions.
+
+W&amp;B créera un nouvel artefact et lui attribuera un alias `v0` si vous transmettez à l’API `wandb.Artifact` un nom qui n’existe pas dans votre projet. W&amp;B calcule une somme de contrôle du contenu lorsque vous journalisez de nouveau dans le même artefact. Si l’artefact a été modifié, W&amp;B enregistre une nouvelle version `v1`.
+
+W&amp;B récupérera un artefact existant si vous transmettez à l’API `wandb.Artifact` un nom et un type d’artefact qui correspondent à un artefact existant dans votre projet. L’artefact récupéré aura une version supérieure à 1.
+
+<Frame>
+  <img src="/images/artifacts/single_distributed_artifacts.png" alt="Comparaison des flux de travail des artefacts" />
+</Frame>
+
+<div id="single-run">
+  ### Run unique
+</div>
+
+Enregistrez une nouvelle version d’un artefact avec un seul run qui produit tous les fichiers de l’artefact. Ce cas se présente lorsqu’un seul run génère tous les fichiers de l’artefact.
+
+Selon votre cas d’usage, sélectionnez l’un des onglets ci-dessous pour créer une nouvelle version d’artefact à l’intérieur ou à l’extérieur d’un run :
+
+<Tabs>
+  <Tab title="Dans un run">
+    Créez une version d’artefact dans un run W&amp;B :
+
+    1. Créez un run avec `wandb.init()`.
+    2. Créez un nouvel artefact ou récupérez-en un existant avec `wandb.Artifact`.
+    3. Ajoutez des fichiers à l’artefact avec `.add_file`.
+    4. Enregistrez l’artefact dans le run avec `.log_artifact`.
+
+    ```python
+    with wandb.init() as run:
+        artifact = wandb.Artifact("artifact_name", "artifact_type")
+
+        # Ajoutez des fichiers et des ressources à l’artefact avec
+        # `.add`, `.add_file`, `.add_dir` et `.add_reference`
+        artifact.add_file("image1.png")
+        run.log_artifact(artifact)
+    ```
+  </Tab>
+
+  <Tab title="En dehors d’un run">
+    Créez une version d’artefact en dehors d’un run W&amp;B :
+
+    1. Créez un nouvel artefact ou récupérez-en un existant avec `wanb.Artifact`.
+    2. Ajoutez des fichiers à l’artefact avec `.add_file`.
+    3. Enregistrez l’artefact avec `.save`.
+
+    ```python
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Ajoutez des fichiers et des ressources à l’artefact avec
+    # `.add`, `.add_file`, `.add_dir` et `.add_reference`
+    artifact.add_file("image1.png")
+    artifact.save()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="distributed-runs">
+  ### Runs distribués
+</div>
+
+Autorisez une collection de runs à collaborer sur une version avant de la valider. Cela contraste avec le mode à run unique décrit ci-dessus, dans lequel un seul run fournit toutes les données d’une nouvelle version.
+
+<Note>
+  1. Chaque run de la collection doit connaître le même ID unique (appelé `distributed_id`) afin de collaborer sur la même version. Par défaut, s’il est présent, W&amp;B utilise le `group` du run, tel que défini par `wandb.init(group=GROUP)`, comme `distributed_id`.
+  2. Un run final doit « valider » la version, ce qui verrouille définitivement son état.
+  3. Utilisez `upsert_artifact` pour ajouter du contenu à l’artefact collaboratif et `finish_artifact` pour finaliser la validation.
+</Note>
+
+Prenez l’exemple suivant. Différents runs (indiqués ci-dessous comme **Run 1**, **Run 2** et **Run 3**) ajoutent chacun un fichier image différent au même artefact avec `upsert_artifact`.
+
+<div id="run-1">
+  #### Run 1
+</div>
+
+```python
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Ajoutez des fichiers et des ressources à l'artifact avec
+    # `.add`, `.add_file`, `.add_dir` et `.add_reference`
+    artifact.add_file("image1.png")
+    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
+```
+
+<div id="run-2">
+  #### Run 2
+</div>
+
+```python
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Ajoutez des fichiers et des ressources à l'artifact avec
+    # `.add`, `.add_file`, `.add_dir`, et `.add_reference`
+    artifact.add_file("image2.png")
+    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
+```
+
+<div id="run-3">
+  #### Run 3
+</div>
+
+Doit s’exécuter une fois que Run 1 et Run 2 sont terminés. Le Run qui appelle `wandb.Run.finish_artifact()` peut inclure des fichiers dans l’artefact, mais ce n’est pas obligatoire.
+
+```python
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    # Ajouter des fichiers et des ressources à l'artifact
+    # `.add`, `.add_file`, `.add_dir`, et `.add_reference`
+    artifact.add_file("image3.png")
+    run.finish_artifact(artifact, distributed_id="my_dist_artifact")
+```
+
+<div id="create-a-new-artifact-version-from-an-existing-version">
+  ## Créer une nouvelle version d&#39;artefact à partir d&#39;une version existante
+</div>
+
+Ajoutez, modifiez ou supprimez un sous-ensemble de fichiers d&#39;une version d&#39;artifact précédente sans avoir à réindexer les fichiers qui n&#39;ont pas changé. L&#39;ajout, la modification ou la suppression d&#39;un sous-ensemble de fichiers d&#39;une version d&#39;artifact précédente crée une nouvelle version d&#39;artifact appelée *artifact incrémentiel*.
+
+<Frame>
+  <img src="/images/artifacts/incremental_artifacts.png" alt="Gestion incrémentielle des versions d’artefacts" />
+</Frame>
+
+Voici quelques scénarios pour chaque type de modification incrémentielle que vous pourriez rencontrer :
+
+* ajout : vous ajoutez régulièrement un nouveau sous-ensemble de fichiers à un jeu de données après avoir collecté un nouveau lot.
+* remove : vous avez repéré plusieurs fichiers en double et souhaitez les supprimer de votre artefact.
+* mise à jour : vous avez corrigé les annotations de certains fichiers et souhaitez remplacer les anciens fichiers par les fichiers corrects.
+
+Vous pourriez créer un artifact from scratch pour remplir la même fonction qu&#39;un artifact incrémentiel. Cependant, lors de la création d&#39;un artifact from scratch, vous devez disposer de l&#39;intégralité du contenu de votre artifact sur votre disque local. Lors d&#39;une modification incrémentielle, vous pouvez ajouter, supprimer ou modifier un seul fichier sans modifier les fichiers d&#39;une version précédente de l&#39;artifact.
+
+<Note>
+  Vous pouvez créer un artefact incrémentiel au sein d’une seule exécution ou à partir d’un ensemble d’exécutions (mode distribué).
+</Note>
+
+Suivez la procédure ci-dessous pour modifier un artefact de façon incrémentielle :
+
+1. Obtenez la version de l’artifact à laquelle vous souhaitez apporter une modification incrémentielle :
+
+<Tabs>
+  <Tab title="Dans un run">
+    ```python
+    saved_artifact = run.use_artifact("my_artifact:latest")
+    ```
+  </Tab>
+
+  <Tab title="En dehors d’un run">
+    ```python
+    client = wandb.Api()
+    saved_artifact = client.artifact("my_artifact:latest")
+    ```
+  </Tab>
+</Tabs>
+
+2. Créez un brouillon avec :
+
+```python
+draft_artifact = saved_artifact.new_draft()
+```
+
+3. Apportez les modifications incrémentielles que vous souhaitez voir apparaître dans la version suivante. Vous pouvez ajouter, supprimer ou modifier une entrée existante.
+
+Sélectionnez l&#39;un des onglets pour voir un exemple illustrant comment effectuer chacune de ces modifications :
+
+<Tabs>
+  <Tab title="Ajouter">
+    Ajoutez un fichier à une version d’artefact existante avec la méthode `add_file` :
+
+    ```python
+    draft_artifact.add_file("file_to_add.txt")
+    ```
+
+    <Note>
+      Vous pouvez également ajouter plusieurs fichiers en ajoutant un répertoire avec la méthode `add_dir`.
+    </Note>
+  </Tab>
+
+  <Tab title="Supprimer">
+    Supprimez un fichier d’une version d’artefact existante avec la méthode `remove` :
+
+    ```python
+    draft_artifact.remove("file_to_remove.txt")
+    ```
+
+    <Note>
+      Vous pouvez également supprimer plusieurs fichiers avec la méthode `remove` en fournissant le chemin d’un répertoire.
+    </Note>
+  </Tab>
+
+  <Tab title="Modifier">
+    Modifiez ou remplacez le contenu en supprimant l’ancien contenu de la version brouillon, puis en y ajoutant le nouveau contenu :
+
+    ```python
+    draft_artifact.remove("modified_file.txt")
+    draft_artifact.add_file("modified_file.txt")
+    ```
+  </Tab>
+</Tabs>
+
+{/* <Note>
+  La méthode pour ajouter ou modifier un artefact est la même. Les entrées sont remplacées (et non dupliquées) lorsque vous indiquez un nom de fichier pour une entrée existante.
+  </Note> */}
+
+4. Enfin, consignez ou enregistrez vos modifications. Les onglets suivants expliquent comment enregistrer vos modifications dans le cadre d’un run W&amp;B ou en dehors. Sélectionnez l’onglet correspondant à votre cas d’usage :
+
+<Tabs>
+  <Tab title="À l’intérieur d’un run">
+    ```python
+    run.log_artifact(draft_artifact)
+    ```
+  </Tab>
+
+  <Tab title="En dehors d’un run">
+    ```python
+    draft_artifact.save()
+    ```
+  </Tab>
+</Tabs>
+
+En combinant le tout, les exemples de code ci-dessus donnent :
+
+<Tabs>
+  <Tab title="Dans un run">
+    ```python
+    with wandb.init(job_type="modify dataset") as run:
+        saved_artifact = run.use_artifact(
+            "my_artifact:latest"
+        )  # récupère l'artefact et l'utilise comme entrée dans votre run
+        draft_artifact = saved_artifact.new_draft()  # crée une version brouillon
+
+        # modifie un sous-ensemble de fichiers dans la version brouillon
+        draft_artifact.add_file("file_to_add.txt")
+        draft_artifact.remove("dir_to_remove/")
+        run.log_artifact(
+            draft_artifact
+        )  # enregistre vos modifications pour créer une nouvelle version et la marquer comme sortie de votre run
+    ```
+  </Tab>
+
+  <Tab title="En dehors d'un run">
+    ```python
+    client = wandb.Api()
+    saved_artifact = client.artifact("my_artifact:latest")  # charge votre artefact
+    draft_artifact = saved_artifact.new_draft()  # crée une version brouillon
+
+    # modifie un sous-ensemble de fichiers dans la version brouillon
+    draft_artifact.remove("deleted_file.txt")
+    draft_artifact.add_file("modified_file.txt")
+    draft_artifact.save()  # valide les modifications du brouillon
+    ```
+  </Tab>
+</Tabs>

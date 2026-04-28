@@ -1,0 +1,69 @@
+---
+title: setup()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py" />
+
+
+### <kbd>fonction</kbd> `setup`
+
+```python
+setup(settings: 'Settings | None' = None) → _WandbSetup
+```
+
+Prépare W&amp;B à être utilisé dans le processus en cours et ses processus enfants.
+
+Vous pouvez généralement l’ignorer, car il est appelé implicitement par `wandb.init()`.
+
+Si vous utilisez wandb dans plusieurs processus, appeler `wandb.setup()` dans le processus parent avant de démarrer les processus enfants peut améliorer les performances et l’utilisation des ressources.
+
+Notez que `wandb.setup()` modifie `os.environ` et qu’il est important que les processus enfants héritent des variables d’environnement modifiées.
+
+Voir aussi `wandb.teardown()`.
+
+**Arguments :**
+
+* `settings` :  Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
+
+**Exemple :**
+
+```python
+import multiprocessing
+
+import wandb
+
+
+def run_experiment(params):
+    with wandb.init(config=params):
+         # Lancer l'expérience
+         pass
+
+
+if __name__ == "__main__":
+    # Démarrer le backend et définir la configuration globale
+    wandb.setup(settings={"project": "my_project"})
+
+    # Définir les paramètres de l'expérience
+    experiment_params = [
+         {"learning_rate": 0.01, "epochs": 10},
+         {"learning_rate": 0.001, "epochs": 20},
+    ]
+
+    # Démarrer plusieurs processus, chacun exécutant une expérience distincte
+    processes = []
+    for params in experiment_params:
+         p = multiprocessing.Process(target=run_experiment, args=(params,))
+         p.start()
+         processes.append(p)
+
+    # Attendre la fin de tous les processus
+    for p in processes:
+         p.join()
+
+    # Facultatif : arrêter explicitement le backend
+    wandb.teardown()
+```

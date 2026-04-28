@@ -4,7 +4,7 @@ description: "Browse archived release notes for older W&B Server versions that h
 sidebarTitle: "Archived releases"
 rss: true
 ---
-import EolReminder from '/snippets/en/_includes/release-notes-support-eol-reminder.mdx';
+import EolReminder from '/snippets/_includes/release-notes-support-eol-reminder.mdx';
 
 This page includes release notes for W&B Server releases that have reached end of life and are no longer supported.
 - For supported Server releases, see [W&B Server release notes](/release-notes/server-releases).
@@ -407,7 +407,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 <Update label="v0.44.1" description="October 12, 2023">
 
 ## Features
-**Add OpenAI proxy UI to SaaS and Server**
+**Add OpenAI proxy UI to W&B**
 
 <Frame>
 ![Image showing the new OpenAI proxy UI](https://github.com/wandb/server/assets/7208315/8bc78df9-e0e7-455e-8c74-975caa96eccf)
@@ -581,7 +581,7 @@ For Dedicated Cloud customers, this feature has been turned on.  For Self-Manage
 * (Launch) The loading of the Launch tab should now be much faster, typically under two seconds.
 * (Launch) There’s now an option to edit queue configs using YAML instead of JSON.  It’s also now more clear how to edit queue configs.
 * (Launch) Runs will now show error messages in the UI when they crash or fail.
-* (Launch) If you don’t specify a project when creating a job, we’ll now use the value for WANDB_PROJECT from your wandb.init.
+* (Launch) If you don’t specify a project when creating a job, we’ll now use the value for WANDB_PROJECT from your wandb.init().
 * (Launch) Updated support for custom accelerator images—these will run in noninteractive mode when building, which had been blocking some images.
 * (Launch) Fixed issue where the run author for sweeps was the agent service account, rather than the real author
 * (Launch) Clicking outside the Launch drawer will no longer close the drawer automatically.

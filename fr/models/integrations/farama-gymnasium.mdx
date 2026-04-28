@@ -1,0 +1,14 @@
+---
+description: "Intégrez W&B à Farama Gymnasium pour suivre les expériences d'apprentissage par renforcement et enregistrer des vidéos d'épisode."
+title: Farama Gymnasium
+---
+
+Si vous utilisez [Farama Gymnasium](https://gymnasium.farama.org/#), nous enregistrerons automatiquement les vidéos de votre environnement générées par `gymnasium.wrappers.Monitor`. Il vous suffit de définir l&#39;argument mot-clé `monitor_gym` de [`wandb.init()`](/fr/models/ref/python/functions/init) sur `True`.
+
+Notre intégration à Gymnasium est très légère. Nous [regardons simplement le nom du fichier vidéo](https://github.com/wandb/wandb/blob/c5fe3d56b155655980611d32ef09df35cd336872/wandb/integration/gym/__init__.py#LL69C67-L69C67) enregistré depuis `gymnasium` et l&#39;utilisons comme nom, ou revenons à `"videos"` si aucune correspondance n&#39;est trouvée. Si vous souhaitez avoir plus de contrôle, vous pouvez toujours [enregistrer une vidéo](/fr/models/track/log/media/) manuellement.
+
+Consultez ce [rapport](https://wandb.ai/raph-test/cleanrltest/reports/Mario-Bros-but-with-AI-Gymnasium-and-CleanRL---Vmlldzo0NTcxNTcw) pour en savoir plus sur comment utiliser Gymnasium avec la bibliothèque CleanRL.
+
+<Frame>
+  <img src="/images/integrations/gymnasium.png" alt="Environnement RL Gymnasium" />
+</Frame>

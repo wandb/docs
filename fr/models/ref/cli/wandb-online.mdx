@@ -1,0 +1,38 @@
+---
+title: wandb online
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3365" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+online [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Réactivez la synchronisation avec le cloud pour les runs W&amp;B.
+
+Effacez le réglage du mode hors ligne pour que les runs suivants dans ce répertoire
+synchronisent leurs données avec le cloud W&amp;B.
+
+Annule un précédent appel à `wandb offline`.
+
+Par exemple, pour réactiver la synchronisation avec le cloud après avoir travaillé hors ligne :
+
+```bash
+wandb online
+```
+
+Pour réactiver la synchronisation cloud, exécutez ensuite un script d’entraînement :
+
+```bash
+wandb online && python train.py
+```

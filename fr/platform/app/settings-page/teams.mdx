@@ -1,0 +1,251 @@
+---
+description: Collaborez avec vos collègues, partagez les résultats et suivez toutes les expériences au sein de votre équipe. Gérez les paramètres de l’équipe, notamment les membres, les alertes et la confidentialité.
+title: Team settings
+---
+
+import EnterpriseOnly from "/snippets/fr/_includes/enterprise-only.mdx";
+
+Utilisez W&amp;B équipes comme espace de travail central pour votre équipe ML afin de créer de meilleurs modèles plus rapidement. Les administrateurs de l’organisation et les administrateurs d’équipe peuvent consulter et modifier les paramètres d’une équipe.
+
+* **Suivez tous les expérience** menés par votre équipe pour ne jamais faire deux fois le même travail.
+* **Enregistrez et reproduisez** des modèles entraînés précédemment.
+* **Partagez les progrès** et les résultats avec votre responsable et vos collaborateurs.
+* **Détectez les régressions** et soyez immédiatement alerté lorsque les performances chutent.
+* **Évaluez les performances du modèle** et comparez les versions du modèle.
+
+<Frame>
+  <img src="/images/app_ui/teams_overview.webp" alt="Aperçu du workspace Teams" />
+</Frame>
+
+<Note>
+  Seuls les comptes de type Administration peuvent modifier les paramètres d’équipe ou supprimer un membre d’une équipe.
+</Note>
+
+<div id="create-a-collaborative-team">
+  ## Créer une équipe collaborative
+</div>
+
+1. [Inscrivez-vous ou connectez-vous](https://app.wandb.ai/login?signup=true) à votre compte W&amp;B gratuit.
+2. Cliquez sur **Invite Team** dans la barre de navigation.
+3. Créez votre équipe et invitez des collaborateurs.
+4. Configurez votre équipe à l’aide des paramètres décrits ci-dessous.
+
+<Note>
+  **Remarque** : seul l’administrateur d’une organisation peut créer une nouvelle équipe.
+</Note>
+
+<div id="team-configuration">
+  ## Configuration de l&#39;équipe
+</div>
+
+Vous pouvez configurer différents paramètres pour votre équipe, notamment ses membres, ses alertes et ses paramètres de confidentialité.
+
+Pour gérer les paramètres de votre équipe, accédez à la section **Teams** dans le menu de gauche, puis cliquez sur l&#39;équipe dont vous souhaitez modifier les paramètres. Vous pouvez mettre à jour les paramètres suivants :
+
+<div id="members">
+  ### Membres
+</div>
+
+La section Membres affiche la liste de toutes les invitations en attente ainsi que des membres ayant accepté l’invitation à rejoindre l’équipe. Cette liste indique le nom, le nom d’utilisateur, l’adresse e-mail, le rôle dans l’équipe et les privilèges d’accès à Models et à W&amp;B Weave de chaque membre, hérités de l’organisation. Vous pouvez choisir parmi les rôles d’équipe standard **Admin**, **Member** et **View-Only**. Si votre organisation a créé des [rôles personnalisés](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles), vous pouvez attribuer un rôle personnalisé à la place.
+
+Voir [Ajouter et gérer des équipes](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) pour savoir comment créer une équipe, gérer des équipes, ainsi que les membres et les rôles d’une équipe. Pour définir qui peut inviter de nouveaux membres et configurer d’autres paramètres de confidentialité pour l’équipe, consultez [Confidentialité](#privacy).
+
+Pour supprimer un membre de l’équipe, les administrateurs peuvent ouvrir la page des paramètres de l’équipe et cliquer sur le bouton Supprimer à côté du nom du membre concerné. Tous les runs enregistrés dans l’équipe restent disponibles après le départ d’un utilisateur.
+
+<div id="avatar">
+  ### Avatar
+</div>
+
+Pour définir un avatar pour votre équipe :
+
+1. Accédez à la section **Teams** dans le menu de gauche, puis cliquez sur l’équipe à laquelle vous souhaitez ajouter un avatar. Cela ouvre la page d’aperçu de l’équipe.
+2. Survolez l’image d’avatar par défaut de l’équipe, dans le coin supérieur gauche de la page, puis cliquez sur le bouton **Upload photo**. Cela ouvre une fenêtre de sélection de fichier.
+3. Dans la fenêtre de sélection de fichier, sélectionnez l’image que vous souhaitez utiliser, puis cliquez sur **Open**. Cela importe la photo pour votre équipe et la définit comme avatar de l’équipe.
+
+<div id="alerts">
+  ### Alertes
+</div>
+
+Vous pouvez configurer des alertes pour notifier votre équipe lorsqu’un run échoue ou se termine. Les alertes peuvent être envoyées par e-mail ou via Slack, et vous pouvez les personnaliser selon vos besoins.
+
+Dans la section **Team alerts**, basculez l’interrupteur à côté du type d’événement pour lequel vous souhaitez recevoir des alertes. Weights and Biases propose les types d’événement suivants :
+
+* **Runs finished** : indique si un run Weights and Biases s’est terminé avec succès.
+* **Run crashed** : indique si un run n’a pas pu se terminer.
+* **wandb.alert()** : une alerte personnalisée scriptable. Voir [Envoyer des alertes avec `wandb.Run.alert()`](/fr/models/runs/alert) pour plus d’informations.
+
+<div id="slack-notifications">
+  ### Notifications Slack
+</div>
+
+Configurez les destinations Slack vers lesquelles les [automatisations](/fr/models/automations/) de votre équipe peuvent envoyer des notifications lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artifact est créé ou lorsqu’une métrique de run atteint un seuil défini. Référez-vous à [Créer une automatisation Slack](/fr/models/automations/create-automations/slack).
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="webhooks">
+  ### Webhooks
+</div>
+
+Configurez les webhooks que les [automatisations](/fr/models/automations/) de votre équipe peuvent exécuter lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artifact est créé ou lorsqu’une métrique de run atteint un seuil défini. Consultez [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="privacy">
+  ### Confidentialité
+</div>
+
+Les paramètres de confidentialité de l’équipe déterminent la visibilité, les invitations, le partage des Reports et les valeurs par défaut, comme l’enregistrement du code pour les runs de l’équipe. Les administrateurs d’équipe peuvent modifier ces options sur la page **Settings** de l’équipe, sauf si un administrateur de l’organisation a [appliqué la même catégorie de politique](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) pour toutes les équipes. Les administrateurs de l’organisation peuvent toujours ouvrir la page **Settings** de l’équipe pour consulter la configuration.
+
+Vous pouvez modifier les paramètres de confidentialité suivants :
+
+* Masquer cette équipe pour toutes les personnes qui n’en sont pas membres.
+* Rendre privés tous les futurs projets de l’équipe (partage public non autorisé).
+* Autoriser n’importe quel membre de l’équipe à inviter d’autres membres de l’équipe (et pas seulement les administrateurs).
+* Désactiver le partage public en dehors de l’équipe pour les Reports des projets privés. Cela désactive les liens magiques existants.
+* Recommander automatiquement aux nouveaux utilisateurs dont le domaine de messagerie correspond de rejoindre cette équipe lors de l’inscription.
+* Activer l’enregistrement du code par défaut.
+
+Pour obtenir la procédure de navigation pas à pas et comprendre comment l’application au niveau de l’organisation interagit avec les bascules de l’équipe, voir [Configurer les paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
+
+Ouvrez le tableau de bord de l’équipe à l’adresse `https://wandb.ai/<team>`, sélectionnez **Paramètres de l’équipe** dans la navigation de gauche, puis ouvrez la section **Confidentialité**. Remplacez `<team>` par le nom de votre équipe.
+
+<div id="usage">
+  ### Utilisation
+</div>
+
+La section **Utilisation** décrit la quantité totale de mémoire utilisée par l’équipe sur les serveurs de Weights and Biases. Le plan de stockage par défaut est de 100GB. Pour en savoir plus sur le stockage et la tarification, voir la page [Tarification](https://wandb.ai/site/pricing).
+
+<div id="storage">
+  ### Stockage
+</div>
+
+La section **Stockage** décrit la configuration du bucket de stockage cloud utilisé pour les données de l’équipe. Pour plus d&#39;informations, voir [Secure Storage Connector](#secure-storage-connector) ou consultez la documentation [W&amp;B Server](/fr/platform/hosting/data-security/secure-storage-connector) si vous l’hébergez vous-même.
+
+<div id="create-a-team-profile">
+  ## Créer un profil d’équipe
+</div>
+
+Vous pouvez personnaliser la page de profil de votre équipe pour y afficher une présentation et mettre en avant des Reports et des Projects visibles par le public ou par les membres de l’équipe. Présentez des Reports, des Projects et des liens externes.
+
+* **Mettez en valeur vos meilleures recherches** auprès des visiteurs en présentant vos meilleurs Reports publics
+* **Mettez en avant les Projects les plus actifs** pour permettre aux membres de l’équipe de les trouver plus facilement
+* **Trouvez des collaborateurs** en ajoutant des liens externes vers le site web de votre entreprise ou de votre laboratoire de recherche, ainsi que vers les publications que vous avez publiées
+
+{/* À faire : afficher les profils d’équipe */}
+
+<div id="team-roles-and-permissions">
+  ## Rôles et autorisations d’équipe
+</div>
+
+Sélectionnez un rôle d’équipe lorsque vous invitez des collègues à rejoindre une équipe. Les rôles d’équipe suivants sont disponibles :
+
+* **Admin** : les administrateurs d’équipe peuvent ajouter et supprimer d’autres administrateurs ou membres de l’équipe. Ils sont autorisés à modifier tous les projets et disposent d’autorisations de suppression complètes. Cela inclut, sans s’y limiter, la suppression de runs, de projets, d’Artifacts et de Sweeps.
+* **Member** : un membre standard de l’équipe. Par défaut, seul un administrateur peut inviter un membre dans l’équipe. Pour modifier ce comportement, référez-vous à [Paramètres de confidentialité](#privacy).
+* **View-Only (fonctionnalité réservée à Enterprise)** : les membres View-Only peuvent voir les ressources de l’équipe, comme les runs, les Reports et les Workspace. Ils peuvent suivre les Reports et y ajouter des commentaires, mais ils ne peuvent pas créer, modifier ou supprimer l’Aperçu du projet, les Reports ou les runs.
+* **Rôles personnalisés (fonctionnalité réservée à Enterprise)** : les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles à partir des rôles **View-Only** ou **Member**, avec des autorisations supplémentaires afin d’obtenir un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer l’un de ces rôles personnalisés aux utilisateurs dans leurs équipes respectives. Référez-vous à [Introducing Custom Roles for W&amp;B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) pour plus de détails.
+
+Un membre de l’équipe peut supprimer uniquement les runs qu’il a créés. Supposons que vous ayez deux membres, A et B. Le membre B déplace un run du projet de l’équipe B vers un autre projet appartenant au membre A. Le membre A ne peut pas supprimer le run que le membre B a déplacé vers le projet du membre A. Un administrateur peut gérer les runs et les runs de balayage créés par n’importe quel membre de l’équipe.
+
+<div id="service-accounts">
+  ### Comptes de service
+</div>
+
+En plus des rôles utilisateur, les équipes peuvent également utiliser des **comptes de service** à des fins d’automatisation. Les comptes de service ne sont pas des utilisateurs, mais des identités non humaines utilisées pour des flux de travail automatisés. Consultez [Utiliser des comptes de service pour automatiser les flux de travail](/fr/platform/hosting/iam/service-accounts) pour plus d’informations.
+
+<Note>
+  W&amp;B recommande d’attribuer plus d’un administrateur à une équipe afin de garantir que les opérations d’administration puissent se poursuivre lorsque l’administrateur principal n’est pas disponible.
+</Note>
+
+<div id="team-settings">
+  ### équipe settings
+</div>
+
+Les équipe settings vous permettent de gérer les paramètres de votre équipe et de ses membres. Grâce à ces privilèges, vous pouvez superviser et organiser efficacement votre équipe dans W&amp;B.
+
+| Permissions                       | View-Only | équipe Member | équipe Admin |
+| --------------------------------- | --------- | ----------- | ---------- |
+| Ajouter des membres de l’équipe   |           |             | X          |
+| Supprimer des membres de l’équipe |           |             | X          |
+| Gérer les équipe settings           |           |             | X          |
+
+<div id="reports">
+  ### Reports
+</div>
+
+Les autorisations relatives aux Reports donnent accès à la création, à la consultation et à la modification des Reports. Le tableau suivant répertorie les autorisations qui s’appliquent à tous les Reports au sein d’une équipe donnée.
+
+| Autorisations         | View-Only | Team Member                                                        | Team Admin |
+| --------------------- | ------------- | ------------------------------------------------------------------------- | ----------------- |
+| Consulter les Reports | X             | X                                                                         | X                 |
+| Créer des Reports     |               | X                                                                         | X                 |
+| Modifier les Reports  |               | X (les membres de l’équipe ne peuvent modifier que leurs propres Reports) | X                 |
+| Supprimer les Reports |               | X (les membres de l’équipe ne peuvent modifier que leurs propres Reports) | X                 |
+
+<div id="experiments">
+  ### Experiments
+</div>
+
+Le tableau suivant répertorie les autorisations qui s’appliquent à toutes les expériences d’une équipe donnée.
+
+| Permissions                                                                                                                              | View-Only | Team Member                                                                                | Team Admin |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------ | ---------- |
+| Consulter les métadonnées de l’expérience (y compris les métriques de l’historique, les métriques système, les fichiers et les journaux) | X         | X                                                                                          | X          |
+| Modifier les panneaux et les Workspace de l’expérience                                                                                   |           | X                                                                                          | X          |
+| Journaliser les expériences                                                                                                              |           | X                                                                                          | X          |
+| Supprimer des expériences                                                                                                                |           | X (les membres de l’équipe peuvent uniquement supprimer les expériences qu’ils ont créées) | X          |
+| Arrêter des expériences                                                                                                                  |           | X (les membres de l’équipe peuvent uniquement arrêter les expériences qu’ils ont créées)   | X          |
+
+<div id="artifacts">
+  ### Artifacts
+</div>
+
+Le tableau suivant répertorie les autorisations qui s’appliquent à tous les Artifacts d’une équipe donnée.
+
+| Autorisations            | View-Only | Team Member | Team Admin |
+| ------------------------ | ------------- | ------------------ | ----------------- |
+| Consulter les Artifacts  | X             | X                  | X                 |
+| Télécharger un artifact  | X             | X                  | X                 |
+| Créer des Artifacts      |               | X                  | X                 |
+| Supprimer des Artifacts  |               | X                  | X                 |
+| Modifier les métadonnées |               | X                  | X                 |
+| Modifier les alias       |               | X                  | X                 |
+| Supprimer les alias      |               | X                  | X                 |
+
+<div id="system-settings-wb-server-only">
+  ### Paramètres système (W&amp;B Server uniquement)
+</div>
+
+Utilisez les autorisations système pour créer et gérer des Teams et leurs membres, ainsi que pour modifier les paramètres système. Ces privilèges vous permettent d’administrer et de maintenir efficacement l’instance W&amp;B.
+
+| Autorisations                     | View-Only | Team Member | Team Admin | Administrateur système |
+| --------------------------------- | --------- | ----------- | ---------- | ---------------------- |
+| Configurer les paramètres système |           |             |            | X                      |
+| Créer/supprimer des Teams         |           |             |            | X                      |
+
+<div id="team-service-account-behavior">
+  ### Comportement des comptes de service d&#39;équipe
+</div>
+
+* Lorsque vous configurez une équipe dans votre environnement d&#39;entraînement, vous pouvez utiliser un compte de service de cette équipe pour consigner des runs dans des projets privés ou publics de cette équipe. De plus, vous pouvez attribuer ces runs à un utilisateur si la variable **WANDB&#95;USERNAME** ou **WANDB&#95;USER&#95;EMAIL** existe dans votre environnement et que l&#39;utilisateur référencé fait partie de cette équipe.
+* Lorsque vous **ne** configurez **pas** d&#39;équipe dans votre environnement d&#39;entraînement et que vous utilisez un compte de service, les runs sont consignés dans le projet spécifié au sein de l&#39;équipe parente de ce compte de service. Dans ce cas également, vous pouvez attribuer les runs à un utilisateur si la variable **WANDB&#95;USERNAME** ou **WANDB&#95;USER&#95;EMAIL** existe dans votre environnement et que l&#39;utilisateur référencé fait partie de l&#39;équipe parente du compte de service.
+* Un compte de service ne peut pas consigner de runs dans un projet privé d&#39;une équipe autre que son équipe parente. Un compte de service peut consigner des runs dans un projet uniquement si la visibilité du projet est définie sur `Open`.
+
+<div id="team-trials">
+  ## Essais Teams
+</div>
+
+Voir la [page de tarification](https://wandb.ai/site/pricing) pour plus d’informations sur les plans W&amp;B. Vous pouvez télécharger toutes vos données à tout moment, soit via l’interface du tableau de bord, soit via l’[API d’export](/fr/models/ref/python/public-api).
+
+<div id="advanced-configuration">
+  ## Configuration avancée
+</div>
+
+<div id="secure-storage-connector">
+  ### Connecteur de stockage sécurisé
+</div>
+
+Le connecteur de stockage sécurisé au niveau des équipes permet aux équipes d’utiliser leur propre bucket de stockage cloud avec W&amp;B. Il offre un contrôle d’accès aux données plus fin ainsi qu’une meilleure isolation des données pour les équipes qui gèrent des données très sensibles ou qui ont des exigences strictes en matière de conformité. Consultez [Secure Storage Connector](/fr/platform/hosting/data-security/secure-storage-connector) pour plus d’informations.

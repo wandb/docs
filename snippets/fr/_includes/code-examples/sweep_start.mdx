@@ -1,0 +1,21 @@
+---
+title: Démarrer un balayage
+---
+
+```python
+"""
+Démarrez un job de balayage pour exécuter un agent de balayage.
+
+Remplacez :
+- les valeurs entre chevrons par les vôtres
+- sweep_id par l'ID de votre balayage, qui est renvoyé lors de l'initialisation d'un balayage.
+    Voir sweep_initialize.py pour un exemple d'initialisation d'un balayage et d'obtention
+    du sweep_id.
+- count par le nombre de runs que vous souhaitez exécuter dans votre balayage
+"""
+
+import wandb
+
+sweep_id, count = "<sweep_id>", 10
+wandb.agent(sweep_id, count=count)
+```

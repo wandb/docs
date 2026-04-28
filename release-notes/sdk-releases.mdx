@@ -1,11 +1,73 @@
 ---
 title: "W&B SDK releases"
 description: "View release notes for the W&B Python SDK including new features, bug fixes, and breaking changes by version."
-sidebarTitle: "All releases"
 rss: true
 ---
 
-This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
+This page includes release notes for the W&B Python SDK (`wandb` package) used with W&B Models. For the Weave Python SDK (`weave` package), see [Weave SDK releases](/release-notes/weave-sdk-releases). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
+
+<Update label="0.26.1" description="April 23, 2026">
+## Added
+
+- `wandb.Api` methods that return artifacts, registries, automations, and related paginators accept an optional `start` argument so you can resume iteration from a saved cursor.
+- The `stop_fn` setting on `wandb.Settings` customizes how the SDK asks the Python process to stop when a run stop is requested (the default sends SIGINT). Pass the setting with `wandb.setup(settings=...)` or `wandb.init(settings=...)`. Because the value is a callable, it cannot be set with an environment variable.
+
+## Changed
+
+- In `wandb beta leet`, WASD keys and arrow keys are interchangeable for moving focus within each pane (chart grids, list navigation). **Home**, **End**, **Page Up**, and **Page Down** keys work consistently. The media pane still uses arrow keys to scrub the X-axis and WASD keys to move between image tiles.
+
+## Fixed
+
+- `wandb.init(id=run_id, reinit="create_new")` now raises an error if another run with the same `run_id` is still active in the same script.
+- `wandb.Api` no longer raises on some operations when offline mode is enabled with the `WANDB_MODE` environment variable or the `mode` setting.
+
+</Update>
+
+<Update label="0.26.0" description="April 13, 2026">
+## Notable Changes
+
+This version drops compatibility with Server versions older than 0.63.0 for Dedicated Cloud and Self-Managed W&B deployments.
+
+## Added
+
+- `wandb beta core start|stop` commands run a detached `wandb-core` service and reuse it across multiple processes via the `WANDB_SERVICE` environment variable.
+- The `@wandb_log` decorator adds support for Kubeflow Pipelines v2 (`kfp>=2.0.0`).
+- Set the property `wandb.Settings(allow_media_symlink=true)` to link to media files to the run directory rather than copying them. This improves performance and saves disk space. A symbolic link is used if the filesystem supports it. If the filesystem does not support symbolic links, such as in Windows, a hard link is used instead. The SDK does not check whether the media file was modified locally before uploading it.
+- Use method `run.pin_config_keys(keys)` to programmatically pin specific config keys for display in the **References** section on the **Run Overview** page.
+- `Sweep.agent().Runs()` and `Sweep.agents().Runs()` methods return details about the sweep's runs running on a given agent or all agents.
+- On Google TPU infrastructure, the SDK attempts to collect new metrics such as `tensorcore_util` and latency distributions, in addition to `duty_cycle_pct` and `hbm_capacity_total`/`hbm_capacity_usage`. See [TPU monitoring library: Supported metrics](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library#list-all-supported-metric-names) in the Google Cloud documentation.
+- On Nvidia Hopper+ GPUs (H100 and newer), NVML GPU Performance Monitoring profiling metrics are collected, providing visibility into SM utilization, tensor/FP pipeline activity, DRAM bandwidth, and PCIe/NVLink throughput without running the DCGM daemon.
+- `wandb beta leet` TUI updates:
+    - Support for displaying tags and notes in the run overview.
+    - Support for filtering runs by metadata in multi-run workspace mode using the `f` keyboard shortcut.
+    - Support for displaying `wandb.Image` data as ANSI thumbnails, with grid layout, X-axis scrubbing, full-screen mode, and keyboard or pointer navigation.
+    - Cycle through the following display modes in an individual chart using the `y` keyboard shortcut:
+        - Press once to turn on log-scale display for the Y-axis.
+        - For system metrics like GPU utilization expressed as percentages, press again to turn off log-scale display and turn on bucketed heatmap mode.
+        - Press again to go back to the default display mode.
+    - New standalone system monitor mode: `wandb beta leet symon`.
+    - New colorblind-friendly color schemes:
+        - `dusk-shore`: sienna/blue/gray gradient, suitable for per-plot single-run mode.
+        - `clear-signal`: sienna/blue/gray theme with the colors interleaved for maximum differentiation between adjacent series.
+
+        Configure with `wandb beta leet config`.
+
+## Changed
+
+- JSON serialization and deserialization now use `orjson` for improved performance.
+- Improved observability of system metrics in `wandb beta leet` TUI with multi-series overlays, inspection, and live/history zoom.
+- Reduced the likelihood of run base color collisions in `wandb beta leet`. Now, a workspace-scoped run color allocator preserves hashed palette affinity, resolving collisions with nearby HSL variants.
+
+## Fixed
+
+- Fixed a bug where if no upstream tracking branch was set, the SDK would not create a `git diff` `.patch` file between the local branch and the nearest upstream branch. To opt in to this fix, pass property `wandb.Settings(disable_git_fork_point=False)`. See [Settings()](/models/ref/python/experiments/settings).
+- Fixed a bug where `update_automation()` could silently drop event filters, such as alias conditions on `OnAddArtifactAlias`, when a new event is provided.
+- Fixed a bug that could cause artifact client ID collisions in forked child processes by reseeding the fast ID generator after `fork()`.
+- Fixed a bug where the environment variable `WANDB__EXTRA_HTTP_HEADERS` was not applied to presigned object-store upload and download requests.
+- Fixed a deadlock in `artifact.download()` for artifacts with many large files.
+- Fixed a bug where `User.generate_api_key()` could fail to fetch the list of existing API key names.
+
+</Update>
 
 <Update label="0.25.1" description="March 10, 2026">
 ## Added
@@ -14,7 +76,7 @@ This page includes release notes for the W&B Python SDK (`wandb` package). For W
 - New system metrics pane in multi-run workspace mode in `wandb beta leet` command. Toggle with `s`.
 - `wandb beta leet` command now supports system metrics filtering. Toggle with `\`.
 - `ArtifactType.collections()` now supports filtering and ordering of collections.
-- A warning is now logged if `run.log_artifact` does not create a new version because the artifact content is identical to an existing version.
+- A warning is now logged if `run.log_artifact()` does not create a new version because the artifact content is identical to an existing version.
 - The new method `Project.collections()` fetches filtered and ordered artifact collections in a project.
 - The new `wandb purge-cache` CLI command cleans up cached files.
 
@@ -124,7 +186,7 @@ This version removes the legacy, deprecated `wandb.beta.workflows` module, inclu
 - Instantiating `Artifact` objects is now significantly faster.
 - `wandb.Run.save()` now falls back to hardlinks and, if needed, copying (downgrading the 'live' file policy to 'now', if applicable) when symlinks are disabled or unavailable (e.g., cross‑volume or no Developer Mode on Windows).
 - Artifact collection aliases are now fetched lazily on accessing `ArtifactCollection.aliases` instead of on instantiating `ArtifactCollection`, improving performance of `Api.artifact_collections()`, `Api.registries().collections()`, etc.
-- Use explicitly provided API key in `wandb.init(settings=wandb.Settings(api_key="..."))` for login. Use the key from run when logging artifacts via `run.log_artifact`.
+- Use explicitly provided API key in `wandb.init(settings=wandb.Settings(api_key="..."))` for login. Use the key from run when logging artifacts via `run.log_artifact()`.
 - W&B LEET TUI correctly displays negative Y axis tick values and base/display units of certain system metrics.
 - Fixed a rare infinite loop in `console_capture.py`.
 - File upload/download now respects `WANDB_X_EXTRA_HTTP_HEADERS` except for [reference artifacts](/models/artifacts/track-external-files).
@@ -345,7 +407,7 @@ This version removes the legacy implementation of the `service` process. This is
 
 ## Removed
 
-- Removed the legacy python implementation of the `service` process. The `legacy-service` option of `wandb.require` as well as the `x_require_legacy_service` and `x_disable_setproctitle` settings with the corresponding environment variables have been removed and will now raise an error if used.
+- Removed the legacy python implementation of the `service` process. The `legacy-service` option of `wandb.require()` as well as the `x_require_legacy_service` and `x_disable_setproctitle` settings with the corresponding environment variables have been removed and will now raise an error if used.
 
 - Removed the private `wandb.Run._metadata` attribute. To override the auto-detected CPU and GPU counts as well as the GPU type, please use the new settings `x_stats_{cpu_count,cpu_logical_count,gpu_count,gpu_type}`.
 
@@ -496,7 +558,7 @@ View the [v0.19.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.
 ## Fixed
 
 - Fixed ValueError on Windows when running a W&B script from a different drive.
-- Fix base_url setting was not provided to wandb.login.
+- Fix base_url setting was not provided to wandb.login().
 - `wandb.Html()` no longer raises `IsADirectoryError` with a value that matched a directory on the users system.
 
 View the [v0.19.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.10) on GitHub.
@@ -693,7 +755,7 @@ View the [v0.19.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.2
 
 ## Fixed
 
-- Fixed bug where setting WANDB__SERVICE_WAIT led to an exception during wandb.init.
+- Fixed bug where setting WANDB__SERVICE_WAIT led to an exception during wandb.init().
 
 ## Changed
 
@@ -864,12 +926,12 @@ View the [v0.18.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.3
 ## Fixed
 
 - Update the signature and docstring of `wandb.api.public.runs.Run.log_artifact()` to support artifact tags like `Run` instances returned by `wandb.init()`.
-- Add docstring for `wandb.watch` to support auto-complete.
+- Add docstring for `wandb.watch()` to support auto-complete.
 - Fix glob matching in define metric to work with logged keys containing `/`.
-- Allow `a\.b` syntax in run.define_metric to refer to a dotted metric name.
+- Allow `a\.b` syntax in run.define_metric() to refer to a dotted metric name.
   - NOTE: Not fixed if using `wandb.require("legacy-service")`
 - Fix Unknown image format error when uploading a gif through tensorboard.
-- Fix `OSError` from calling `Artifact.add_file` with file paths on mounted filesystems.
+- Fix `OSError` from calling `Artifact.add_file()` with file paths on mounted filesystems.
 - Restored compatibility for macOS versions &lt;== 10.15 for wandb-core.
 
 View the [v0.18.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.2) on GitHub.
@@ -1186,7 +1248,7 @@ View the [v0.17.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.0
 
 - Fixed `run.save()` not working with files inside `run.dir`, introduced in previous release.
 - Fixed rare panic during large artifact uploads.
-- Fixed wandb.login causing runs not to be associated with launch queue.
+- Fixed wandb.login() causing runs not to be associated with launch queue.
 - Fixed job artifact download failing silently and causing run crash when using W&B Launch by @KyleGoyette https://github.com/wandb/wandb/pull/7285.
 - Fix handling of saving training files to Artifacts in the OpenAI Fine-Tuning integration.
 
@@ -1476,7 +1538,7 @@ View the [v0.15.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.
 ## Enhancements
 
 - Add support for code saving in script mode.
-- Add support for `policy=end` in `wandb.save`.
+- Add support for `policy=end` in `wandb.save()`.
 - Add system info to metadata.
 - Add nvidia gpu system info to metadata.
 - Delete run queues with public api.
@@ -1540,7 +1602,7 @@ View the [v0.15.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.
 - Enable set types in wandb.Config.
 - Visualize images with bbox overlays for `ultralytics`.
 - Add exponential decay sampling utility for line_plot.
-- Always print the traceback inside of the `wandb.init` context manager.
+- Always print the traceback inside of the `wandb.init()` context manager.
 - Add setting to disable automatic machine info capture.
 
 ##  Fixes
@@ -2099,7 +2161,7 @@ View the [v0.13.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.9
 - Artifact.version should be the version index from the associated collection.
 - Remove duplicate generate_id functions, replace shortuuid with secrets.
 - Fix type check for jax.Array introduced in jax==0.4.1.
-- Fix hang after failed wandb.init (add cancel).
+- Fix hang after failed wandb.init() (add cancel).
 - Allow users to provide path to custom executables.
 - Fix TypeError when trying to slice a Paginator object.
 - Add `AttributeError` to the list of handled exceptions when saving a keras model.
@@ -2372,7 +2434,7 @@ View the [v0.13.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.4
 - Sanitizes numpy generics in keys.
 - Removes reassignment of run function in public api.
 - Makes pulling sweeps optional when using public api to query for runs.
-- Updates ref docs for `wandb.init` to give more info on special characters.
+- Updates ref docs for `wandb.init()` to give more info on special characters.
 
 ## Bug Fix
 
@@ -2639,7 +2701,7 @@ View the [v0.12.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Fix support for multiple finish for single run using wandb-service.
 - Fix duplicate backtrace when using wandb-service.
 - Fix wrong entity displayed in login message.
-- Fix hang when `wandb.init` is interrupted mid setup using wandb-service.
+- Fix hang when `wandb.init()` is interrupted mid setup using wandb-service.
 - Fix handling keyboard interrupt to avoid hangs with wandb-service enabled.
 - Fix console logging with very long print out when using wandb-service.
 - Fix broken artifact string in launch init config.
@@ -2778,7 +2840,7 @@ View the [v0.12.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 
 - Fix wandb launch using python dev versions.
 - Fix loading table saved with mixed types.
-- Fix ResourceWarning when calling wandb.log.
+- Fix ResourceWarning when calling wandb.log().
 - Fix missing cursor in ProjectArtifactCollections.
 - Fix windows table logging classes issue.
 - Gracefully handle string labels in wandb.sklearn.plot.classifier.calibration_curve.
@@ -2841,7 +2903,7 @@ View the [v0.12.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.8
 
 - Fix issue where console log streaming was causing excessive network traffic.
 - Metaflow: Make optional dependencies actually optional.
-- Fix docstrings for wandb.watch and ValidationDataLogger.
+- Fix docstrings for wandb.watch() and ValidationDataLogger.
 - Prevent launch agent from sending runs to a different project or entity.
 - Fix logging pr_curves through tensorboard.
 - Prevent TPU monitoring from reporting invalid metrics when not available.
@@ -3087,7 +3149,7 @@ View the [v0.11.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.0
 ## Bug Fix
 
 - Fix issue where wandb restore 404ed if the run did not have a diff.patch file.
-- Fix issue where wandb.log raised an Exception after trying to log a pandas dataframe.
+- Fix issue where wandb.log() raised an Exception after trying to log a pandas dataframe.
 - Fix issue where runs could be marked finished before files were finished uploading.
 
 ## Enhancement
@@ -3924,7 +3986,7 @@ View the [v0.9.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.2) 
 ## Bug Fix
 
 - Fix issue where files were always logged to latest run in a project.
-- Fix issue where url was not display url on first call to wandb.init.
+- Fix issue where url was not display url on first call to wandb.init().
 
 View the [v0.9.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.1) on GitHub.
 
@@ -3963,7 +4025,7 @@ View the [v0.9.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.0) 
 
 - Raw source code saving now disabled by default.
 - We now support global settings on boot to enable code saving on the server.
-- New `code_save=True` argument to wandb.init to enable code saving manually.
+- New `code_save=True` argument to wandb.init() to enable code saving manually.
 
 View the [v0.8.36 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.36) on GitHub.
 
@@ -4312,8 +4374,8 @@ View the [v0.8.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.16
 
 ## Bug Fix
 
-- Fix calling wandb.init with sync_tensorboard multiple times in Jupyter.
-- Fix RuntimeError race when using threads and calling wandb.log.
+- Fix calling wandb.init() with sync_tensorboard multiple times in Jupyter.
+- Fix RuntimeError race when using threads and calling wandb.log().
 - Don't initialize Sentry when error reporting is disabled.
 
 ## Enhancement
@@ -4332,7 +4394,7 @@ View the [v0.8.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.15
 ## Bug Fix
 
 - Improve large object warning when values reach maximum size.
-- Warn when wandb.save isn't passed a string.
+- Warn when wandb.save() isn't passed a string.
 - Run stopping from the UI works since regressing in 0.8.12.
 - Restoring a file that already exists locally works.
 - Fixed TensorBoard incorrectly placing some keys in the wrong step since 0.8.10.
@@ -4340,7 +4402,7 @@ View the [v0.8.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.15
 - SageMaker environment detection is now more robust.
 - Resuming correctly populates config.
 - Wandb.restore respects root when run.dir is set #658.
-- Calling wandb.watch multiple times properly namespaces histograms and graphs.
+- Calling wandb.watch() multiple times properly namespaces histograms and graphs.
 
 ## Enhancement
 
@@ -4366,7 +4428,7 @@ View the [v0.8.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.14
 ## Bug Fix
 
 - Create nested directory when videos are logged from tensorboard namespaces.
-- Fix race when using wandb.log `async=True`.
+- Fix race when using wandb.log() `async=True`.
 - Run.summary acts like a proper dictionary.
 - Run.summary sub dictionaries properly render.
 - Handle None when passing class_colors for segmentation masks.
@@ -4381,11 +4443,11 @@ View the [v0.8.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.14
 - Wandb.init(config=config_dict) does not update sweep specified parameters.
 - Wandb.config object now has a setdefaults method enabling improved sweep support.
 - Improved terminal and jupyter message incorporating emojii!
-- Allow wandb.watch to be called multiple times on different models.
+- Allow wandb.watch() to be called multiple times on different models.
 - Improved support for watching multiple tfevent files.
 - Windows no longer requires `wandb run` simply run `python script_name.py`.
 - `wandb agent` now works on windows.
-- Nice error message when wandb.log is called without a dict.
+- Nice error message when wandb.log() is called without a dict.
 - Keras callback has a new `log_batch_frequency` for logging metrics every N batches.
 
 View the [v0.8.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.13) on GitHub.
@@ -4444,14 +4506,14 @@ View the [v0.8.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.11
 ## Enhancement
 
 - Sweeps can now be run from within jupyter / directly from python! https://docs.wandb.com/sweeps/python.
-- New openai gym integration will automatically log videos, enabled with the monitor_gym keyword argument to wandb.init.
+- New openai gym integration will automatically log videos, enabled with the monitor_gym keyword argument to wandb.init().
 - Ray Tune logging callback in wandb.ray.WandbLogger.
 - New global config file in ~/.config/wandb for global settings.
 - Added tests for fastai, thanks @borisdayma.
 - Public api performance enhancements.
 - Deprecated username in favor of entity in the public api for consistency.
 - Anonymous login support enabled by default.
-- New wandb.login method to be used in jupyter enabling anonymous logins.
+- New wandb.login() method to be used in jupyter enabling anonymous logins.
 - Better dependency error messages for data frames.
 - Initial integration with spell.run.
 - All images are now rendered as PNG to avoid JPEG artifacts.
@@ -4502,10 +4564,10 @@ View the [v0.8.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.9) 
 - Fastai uses a fixed seed for example logging.
 - Increased the max number of images for fastai callback.
 - New wandb.Video tag for logging video.
-- Sync=False argument to wandb.log moves logging to a thread.
+- Sync=False argument to wandb.log() moves logging to a thread.
 - New local sweep controller for custom search logic.
 - Anonymous login support for easier onboarding.
-- Calling wandb.init multiple times in jupyter doesn't error out.
+- Calling wandb.init() multiple times in jupyter doesn't error out.
 
 View the [v0.8.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.8) on GitHub.
 
@@ -4552,7 +4614,7 @@ View the [v0.8.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.7) 
 - Added `WANDB_HOST` to override hostnames.
 - Store if a run was run within jupyter.
 - Wandb now supports stopping runs from the web ui.
-- Handle floats passed as step to `wandb.log`.
+- Handle floats passed as step to `wandb.log()`.
 - Wandb.config has full unicode support.
 - Sync the main file to wandb if code saving is enabled and it's untracked by git.
 - XGBoost callback: wandb.xgboost.wandb_callback().
@@ -4883,9 +4945,9 @@ View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35
 ## Enhancement
 
 - Wandb.init now degrades gracefully if a user hasn't logged in to wandb.
-- Added a **force** flag to wandb.init to require a machine to be logged in.
+- Added a **force** flag to wandb.init() to require a machine to be logged in.
 - Tensorboard and TensorboardX logging is now automatically instrumented when enabled.
-- Added a **tensorboard** to wandb.init which patches tensorboard for logging.
+- Added a **tensorboard** to wandb.init() which patches tensorboard for logging.
 - Wandb.save handles now accepts a base path to files in sub directories.
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
@@ -4906,9 +4968,9 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 ## Enhancement
 
 - Wandb.init now degrades gracefully if a user hasn't logged in to wandb.
-- Added a **force** flag to wandb.init to require a machine to be logged in.
+- Added a **force** flag to wandb.init() to require a machine to be logged in.
 - Tensorboard and TensorboardX logging is now automatically instrumented when enabled.
-- Added a **tensorboard** to wandb.init which patches tensorboard for logging.
+- Added a **tensorboard** to wandb.init() which patches tensorboard for logging.
 - Wandb.save handles now accepts a base path to files in sub directories.
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
@@ -4929,9 +4991,9 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 ## Enhancement
 
 - Wandb.init now degrades gracefully if a user hasn't logged in to wandb.
-- Added a **force** flag to wandb.init to require a machine to be logged in.
+- Added a **force** flag to wandb.init() to require a machine to be logged in.
 - Tensorboard and TensorboardX logging is now automatically instrumented when enabled.
-- Added a **tensorboard** to wandb.init which patches tensorboard for logging.
+- Added a **tensorboard** to wandb.init() which patches tensorboard for logging.
 - Wandb.save handles now accepts a base path to files in sub directories.
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
@@ -4951,11 +5013,11 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 
 ### Enhancement
 
-- wandb.init now degrades gracefully if a user hasn't logged in to wandb.
-- added a **force** flag to wandb.init to require a machine to be logged in.
+- wandb.init() now degrades gracefully if a user hasn't logged in to wandb.
+- added a **force** flag to wandb.init() to require a machine to be logged in.
 - Tensorboard and TensorboardX logging is now automatically instrumented when enabled.
-- added a **tensorboard** to wandb.init which patches tensorboard for logging.
-- wandb.save handles now accepts a base path to files in sub directories.
+- added a **tensorboard** to wandb.init() which patches tensorboard for logging.
+- wandb.save() handles now accepts a base path to files in sub directories.
 - wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
@@ -4975,9 +5037,9 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 ## Enhancement
 
 - Wandb.init now degrades gracefully if a user hasn't logged in to wandb.
-- Added a **force** flag to wandb.init to require a machine to be logged in.
+- Added a **force** flag to wandb.init() to require a machine to be logged in.
 - Tensorboard and TensorboardX logging is now automatically instrumented when enabled.
-- Added a **tensorboard** to wandb.init which patches tensorboard for logging.
+- Added a **tensorboard** to wandb.init() which patches tensorboard for logging.
 - Wandb.save handles now accepts a base path to files in sub directories.
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
@@ -4998,9 +5060,9 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 ## Enhancement
 
 - Wandb.init now degrades gracefully if a user hasn't logged in to wandb.
-- Added a **force** flag to wandb.init to require a machine to be logged in.
+- Added a **force** flag to wandb.init() to require a machine to be logged in.
 - Tensorboard and TensorboardX logging is now automatically instrumented when enabled.
-- Added a **tensorboard** to wandb.init which patches tensorboard for logging.
+- Added a **tensorboard** to wandb.init() which patches tensorboard for logging.
 - Wandb.save handles now accepts a base path to files in sub directories.
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
@@ -5108,18 +5170,18 @@ View the [v0.6.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.32
 ## Bug Fix
 
 - Really don't require numpy.
-- Better error message if wandb.log is called before wandb.init.
-- Prevent calling wandb.watch multiple times.
+- Better error message if wandb.log() is called before wandb.init().
+- Prevent calling wandb.watch() multiple times.
 - Handle datetime attributes in logs / plotly.
 
 ## Enhancement
 
 - Add environment to sweeps.
-- Enable tagging in the public API and in wandb.init.
+- Enable tagging in the public API and in wandb.init().
 - New media type wandb.Html for logging arbitrary html.
 - Add Public api.create_run method for custom integrations.
-- Added glob support to wandb.save, files save as they're written to.
-- Added wandb.restore for pulling files on resume.
+- Added glob support to wandb.save(), files save as they're written to.
+- Added wandb.restore() for pulling files on resume.
 
 View the [v0.6.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.31) on GitHub.
 
@@ -5289,8 +5351,8 @@ View the [v0.6.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.21
 
 ## Bug Fix
 
-- The first image when calling wandb.log was not being written, now it is.
-- `wandb.log` and `run.summary` now remove whitespace from keys.
+- The first image when calling wandb.log() was not being written, now it is.
+- `wandb.log()` and `run.summary` now remove whitespace from keys.
 
 View the [v0.6.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.20) on GitHub.
 
@@ -5308,7 +5370,7 @@ View the [v0.6.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.20
 ## Enhancement
 
 - Jupyter.
-  - Deprecated `wandb.monitor` in favor of automatically starting system metrics after the first wandb.log call
+  - Deprecated `wandb.monitor` in favor of automatically starting system metrics after the first wandb.log() call
   - Added new **%%wandb** jupyter magic method to display live results
   - Removed jupyter description iframe
 - The Data API now supports `per_page` and `order` options to the `api.runs` method.

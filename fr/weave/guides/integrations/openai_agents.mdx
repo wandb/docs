@@ -1,0 +1,158 @@
+---
+title: "SDK OpenAI Agents"
+description: "Utilisez W&B Weave avec le SDK OpenAI Agents pour suivre et surveiller vos applications basées sur des agents"
+---
+
+Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surveiller vos applications basées sur des agents.
+
+<Tabs>
+  <Tab title="Python">
+    Le [SDK Python d’OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger et puissant pour créer des flux de travail multi-agents.
+
+    ## Installation
+
+    Installez les dépendances requises à l’aide de `pip` :
+
+    ```bash
+    pip install weave openai-agents
+    ```
+
+    ## Pour commencer
+
+    Pour utiliser le SDK Agents d’OpenAI avec Weave :
+
+    * Initialisez Weave avec le nom de votre projet.
+    * Ajoutez le processeur de tracing Weave à vos agents.
+    * Créez et exécutez vos agents comme d’habitude.
+
+    L’exemple de code suivant crée un agent OpenAI et l’intègre à Weave pour assurer la traçabilité. Un projet Weave est initialisé et `WeaveTracingProcessor` est configuré pour capturer les traces d’exécution. Un modèle de données `Weather` représente des informations météorologiques. La fonction `get_weather` est décorée pour être utilisée comme outil par l’agent et renvoie un exemple de bulletin météo. Un agent nommé `Hello world` est configuré avec des instructions de base et l’accès à l’outil météo. La fonction `main` exécute l’agent de manière asynchrone avec un exemple d’entrée (`What's the weather in Tokyo?`) et affiche la réponse finale.
+
+    ```python lines
+    from pydantic import BaseModel
+    from agents import Agent, Runner, function_tool
+    import agents
+    import weave
+    import asyncio
+
+    weave.init("openai-agents")
+
+    class Weather(BaseModel):
+        city: str
+        temperature_range: str
+        conditions: str
+
+    @function_tool
+    def get_weather(city: str) -> Weather:
+        return Weather(city=city, temperature_range="14-20C", conditions="Sunny with wind.")
+
+    agent = Agent(
+        name="Hello world",
+        instructions="You are a helpful agent.",
+        tools=[get_weather]
+    )
+
+    async def main():
+        result = await Runner.run(agent, input="What's the weather in Tokyo?")    
+        print(result.final_output)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+    ```
+
+    ## Voir les traces
+
+    Lorsque l’exemple de code ci-dessus s’exécute, un lien vers le tableau de bord Weave est généré. Ouvrez ce lien pour examiner les traces du run de votre agent.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Le [SDK Node OpenAI Agents](https://github.com/openai/openai-node) est un framework léger et puissant pour créer des flux de travail multi-agents.
+
+    ## Installation
+
+    Installez les dépendances requises à l’aide de `npm` :
+
+    ```bash
+    npm install weave @openai/agents zod
+    ```
+
+    ## Premiers pas
+
+    Dans la plupart des environnements Node.js, l’instrumentation manuelle n’est pas nécessaire.
+    Weave instrumente automatiquement `@openai/agents` lorsque le module est chargé.
+
+    L’instrumentation automatique fonctionne en enregistrant un hook de chargement de module :
+
+    * **Projets CommonJS :** aucune configuration supplémentaire n’est nécessaire.
+    * **Projets ESM :** Node doit être démarré avec l’indicateur `--import=weave/instrument` afin que l’instrumentation soit chargée avant les autres modules.
+
+    Si vous avez besoin d’aide pour configurer votre projet ou déterminer quel type vous utilisez, consultez le [guide d’intégration de services tiers du SDK TypeScript](/fr/weave/guides/integrations/js).
+
+    L’exemple de code suivant crée un agent OpenAI et l’intègre à Weave pour assurer la traçabilité. Remplacez `your-team-name/your-project-name` dans l’initialisation du projet Weave par votre entité et votre projet. L’exemple définit un outil `get_weather` qui renvoie un exemple de bulletin météo, puis configure un agent nommé `Hello world` avec des instructions simples et un accès à l’outil météo. La fonction `main` exécute l’agent avec une entrée d’exemple (`What's the weather in Tokyo?`) et consigne la réponse finale.
+
+    ```typescript lines
+    import * as weave from "weave";
+    import { Agent, run, tool } from "@openai/agents";
+    import { z } from "zod";
+
+    const getWeather = tool({
+      name: "get_weather",
+      description: "Get the current weather for a given city.",
+      parameters: z.object({
+        city: z.string().describe("The name of the city"),
+      }),
+      async execute({ city }) {
+        return `${city}: 14-20C, Sunny with wind.`;
+      },
+    });
+
+    async function main() {
+      // METTEZ À JOUR avec les informations de votre projet.
+      await weave.init("your-team-name/your-project-name");
+
+      const agent = new Agent({
+        name: "Hello world",
+        instructions: "You are a helpful agent.",
+        tools: [getWeather],
+      });
+
+      const result = await run(agent, [
+        { role: "user", content: "What's the weather in Tokyo?" },
+      ]);
+      console.log(result.finalOutput);
+    }
+
+    main();
+    ```
+
+    En CommonJS, l’instruction `import * as weave from "weave"` doit apparaître **avant** `import { Agent, run, tool } from "@openai/agents"` pour que l’instrumentation automatique fonctionne. Si votre code ne peut pas respecter cet ordre, utilisez la technique d’instrumentation manuelle ci-dessous.
+
+    ### Instrumentation manuelle
+
+    L’instrumentation manuelle n’est nécessaire que lorsque le hook du chargeur de modules ne peut pas s’exécuter, par exemple dans les cas suivants :
+
+    * Les bundlers qui regroupent les dépendances dans un seul fichier.
+    * Les environnements où il n’est pas possible de transmettre des flags à la CLI Node.
+    * Les schémas de chargement dynamique des modules qui contournent le hook du chargeur.
+
+    Dans ces cas, vous pouvez enregistrer explicitement l’instrumentation à l’aide de `instrumentOpenAIAgents()` :
+
+    ```typescript lines
+    import * as weave from "weave";
+
+    await weave.init("openai-agents");
+    await weave.instrumentOpenAIAgents();
+    ```
+
+    Pour avoir un contrôle complet sur le processeur de Tracing, par exemple pour une configuration personnalisée du processeur ou un enregistrement conditionnel, créez-le et enregistrez-le manuellement :
+
+    ```typescript lines
+    import { addTraceProcessor } from "@openai/agents";
+    import { createOpenAIAgentsTracingProcessor } from "weave";
+
+    ...
+
+    const processor = createOpenAIAgentsTracingProcessor();
+    addTraceProcessor(processor);
+    ```
+  </Tab>
+</Tabs>
