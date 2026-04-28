@@ -4,14 +4,15 @@
 #
 # What this workflow does
 # -----------------------
-# Runs the Python script scripts/knowledgebase-nav/generate_tags.py against
-# the repo root. That script syncs keyword footers on support articles,
-# rebuilds tag pages and product index MDX, and updates the root support.mdx
-# counts. The generator never edits docs.json. When the set of tag pages
-# changes, the PR comment posted by scripts/knowledgebase-nav/pr_report.py
-# lists the page ids a human must add to or remove from each
-# "Support: <display_name>" tab in docs.json by hand. See
-# scripts/knowledgebase-nav/README.md and Architecture.md for the full
+# Runs the Python script scripts/knowledgebase-nav/generate_tags.py. The
+# script reads ``mintlify_root`` from scripts/knowledgebase-nav/config.yaml
+# to locate the Mintlify root, then syncs keyword footers on support
+# articles, rebuilds tag pages and product index MDX, and updates the root
+# support.mdx counts. The generator never edits docs.json. When the set of
+# tag pages changes, the PR comment posted by
+# scripts/knowledgebase-nav/pr_report.py lists the page ids a human must add
+# to or remove from each "Support: <display_name>" tab in docs.json by hand.
+# See scripts/knowledgebase-nav/README.md and Architecture.md for the full
 # pipeline.
 #
 # When it runs
@@ -136,7 +137,7 @@ jobs:
       # edits docs.json. stderr (Python warnings) is captured for the PR
       # comment steps below.
       - name: Generate tag pages and product index
-        run: python scripts/knowledgebase-nav/generate_tags.py --repo-root . 2>generator-warnings.log
+        run: python scripts/knowledgebase-nav/generate_tags.py 2>generator-warnings.log
 
       - name: Show generator warnings in log
         if: always()
@@ -159,7 +160,6 @@ jobs:
           MARKER="<!-- knowledgebase-nav-report -->"
 
           python scripts/knowledgebase-nav/pr_report.py \
-            --repo-root . \
             --warnings-file generator-warnings.log \
             --run-url "${RUN_URL}" \
             --run-id "${GITHUB_RUN_ID}" \
@@ -187,7 +187,6 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           python scripts/knowledgebase-nav/pr_report.py \
-            --repo-root . \
             --warnings-file generator-warnings.log \
             --run-url "${RUN_URL}" \
             --run-id "${GITHUB_RUN_ID}" \
