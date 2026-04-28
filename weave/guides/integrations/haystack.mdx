@@ -1,0 +1,78 @@
+---
+title: "Haystack"
+description: "Trace Deepset Haystack pipelines with W&B Weave using the WeaveConnector integration."
+---
+
+[Haystack](https://haystack.deepset.ai/) is an open source framework for building search and LLM applications. Deepset maintains a WeaveConnector component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
+
+For full API details and additional examples, see these Deepset resources:
+
+- Haystack's [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector).
+- Haystack's [Weave integration API reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
+- Haystack's [Trace with W&B Weave](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) example using a RAG pipeline.
+
+## Prerequisites
+
+Before you begin:
+
+- Set `WANDB_API_KEY` in your environment using your W&B [API key](https://wandb.ai/settings).
+- Set `HAYSTACK_CONTENT_TRACING_ENABLED` to `true` before you run a pipeline so Haystack emits tracing data the connector can forward.
+
+## Install
+
+Install the required dependencies using `pip`:
+
+```bash lines
+pip install weave-haystack
+```
+
+The package declares compatible versions of `haystack-ai` and `weave` as dependencies.
+
+## Trace a Haystack pipeline with Weave
+
+The following example adds Haystack's `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) and integrates with W&B Weave for tracing and monitoring your pipeline components. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
+
+In your Haystack pipeline, don't connect `WeaveConnector` to other components.
+
+```python lines
+import os
+
+os.environ["HAYSTACK_CONTENT_TRACING_ENABLED"] = "true"
+
+from haystack import Pipeline
+from haystack.components.builders import ChatPromptBuilder
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
+from haystack_integrations.components.connectors.weave import WeaveConnector
+
+pipe = Pipeline()
+pipe.add_component("prompt_builder", ChatPromptBuilder())
+pipe.add_component("llm", OpenAIChatGenerator(model="gpt-3.5-turbo"))
+pipe.connect("prompt_builder.prompt", "llm.messages")
+
+# pipeline_name becomes your W&B project name.
+connector = WeaveConnector(pipeline_name="haystack_demo")
+# Add connector to pipeline but don't connect it.
+pipe.add_component("weave", connector)
+
+messages = [
+    ChatMessage.from_system(
+        "Always respond in German even if some input data is in other languages.",
+    ),
+    ChatMessage.from_user("Tell me about {{location}}"),
+]
+
+response = pipe.run(
+    data={
+        "prompt_builder": {
+            "template_variables": {"location": "Berlin"},
+            "template": messages,
+        },
+    },
+)
+
+print(response["llm"]["replies"][0])
+```
+
+After the pipeline runs, open your W&B workspace, select the project named with `pipeline_name`, and go to **Traces** to review the completed trace.
+
