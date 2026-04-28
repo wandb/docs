@@ -1,0 +1,49 @@
+---
+title: "Pourquoi mon espace de travail se charge-t-il lentement ?"
+keywords: ["espace de travail", "Métriques"]
+---
+
+Les espaces de travail peuvent être longs à charger lorsqu&#39;un projet comporte un grand nombre de métriques, de runs ou de panneaux. Voici les causes courantes et les correctifs possibles.
+
+<div id="too-many-metrics">
+  ### Trop de métriques
+</div>
+
+Si votre espace de travail ralentit soudainement, vérifiez si des runs récents ont involontairement enregistré des milliers de nouvelles métriques. Si c’est le cas, envisagez de supprimer ces runs et de les recréer avec les métriques souhaitées.
+
+Pour les runs qui enregistrent entre 5 000 et 100 000 métriques, passez à un [espace de travail manuel](/fr/models/app/features/panels/#workspace-modes). En mode manuel, vous pouvez ajouter uniquement des panneaux pour les métriques que vous devez visualiser. Les métriques qui ne sont pas représentées dans un graphique sont malgré tout collectées et stockées.
+
+<div id="too-many-panels">
+  ### Trop de panneaux
+</div>
+
+Si un espace de travail automatique comprend des panneaux pour un grand nombre de clés enregistrées, son chargement peut être lent. Pour y remédier :
+
+1. Réinitialisez l’espace de travail pour passer en mode manuel.
+2. Utilisez [l’ajout rapide](/fr/models/app/features/panels/#quick-add) pour n’ajouter que les panneaux correspondant aux métriques dont vous avez besoin.
+
+<Note>
+  Supprimer les panneaux inutilisés un par un a peu d’effet sur les performances. Réinitialisez plutôt l’espace de travail, puis réajoutez uniquement les panneaux dont vous avez besoin.
+</Note>
+
+<div id="too-many-sections">
+  ### Trop de sections
+</div>
+
+Avoir des centaines de sections nuit aux performances. Envisagez d’utiliser le paramètre de l’espace de travail pour créer des sections par préfixe plutôt que par suffixe, ce qui peut réduire le nombre de regroupements de niveau supérieur.
+
+<div id="too-many-runs">
+  ### Trop de runs
+</div>
+
+Gardez le nombre total de runs dans un même projet en dessous de 100 000 sur W&amp;B Cloud mutualisé, ou de 10 000 sur Cloud dédié ou Autogéré. Si votre projet dépasse ces limites, envisagez de [déplacer les runs utilisés moins fréquemment](/fr/models/runs/manage-runs/) vers un projet d’archive.
+
+Pour plus d&#39;informations, voir [Experiments : limites et performances](/fr/models/track/limits/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Espaces de travail](/fr/support/models/tags/workspaces)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

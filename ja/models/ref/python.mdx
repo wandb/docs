@@ -1,35 +1,44 @@
 ---
-title: Python SDK 0.24.0
-module: null
+title: Python SDK 0.26.1
+description: "インストール手順、クラス、関数のドキュメントを含む W&B Python SDK API リファレンスを参照できます。"
+module:
 ---
 
-`wandb` からアクセス可能な W&B Python SDK を使用すると、モデルのトレーニングや ファインチューニング、さらには 実験 から プロダクション に至るまでの モデル 管理が可能になります。
+`wandb` から利用できる W&amp;B Python SDK を使用すると、モデルのトレーニングやファインチューニングを行い、実験から本番までモデルを管理できます。
 
-> この SDK を使用してトレーニングや ファインチューニング を行った後、[Public API](/models/ref/python/public-api) を使用して ログ 記録された データ のクエリや分析を行ったり、[Reports and Workspaces API](/models/ref/wandb_workspaces) を使用して作業内容をまとめたウェブ公開可能な [レポート](/models/reports/) を作成したりすることができます。
+> この SDK でトレーニングとファインチューニングを行った後は、[Public API](/ja/models/ref/python/public-api) を使用してログされたデータをクエリして分析し、[Reports and Workspaces API](/ja/models/ref/wandb_workspaces) を使用して、作業内容を要約した Web で公開可能な[レポート](/ja/models/reports/)を生成できます。
 
-## インストールとセットアップ
+<div id="installation-and-setup">
+  ## インストールと設定
+</div>
 
-### サインアップと APIキー の作成
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップしてAPIキーを発行する
+</div>
 
-マシンを W&B で認証するには、まず [User Settings](https://wandb.ai/settings) で APIキー を生成する必要があります。
+W&amp;Bでこのマシンを認証するには、まず [User Settings](https://wandb.ai/settings) でAPIキーを発行する必要があります。
 
-### パッケージのインストールとインポート
+<div id="install-and-import-packages">
+  ### パッケージのインストールとインポート
+</div>
 
-W&B ライブラリ をインストールします。
+W&amp;B ライブラリをインストールします。
 
 ```
 pip install wandb
 ```
 
-### W&B Python SDK のインポート:
+<div id="import-wb-python-sdk">
+  ### W&amp;B Python SDK をインポートする:
+</div>
 
 ```python
 import wandb
 
-# チームの entity を指定します
+# チーム entityを指定する
 entity = "<team_entity>"
 
-# run が記録される Project
+# runが記録されるproject
 project = "my-awesome-project"
 
 with wandb.init(entity=entity, project=project) as run:

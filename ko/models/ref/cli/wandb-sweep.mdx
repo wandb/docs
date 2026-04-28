@@ -1,49 +1,120 @@
 ---
-title: ' thoughtful ditch:
-
-  wandb sweep'
+title: wandb 스윕
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-import WandbSweep from "/snippets/en/_includes/cli/wandb-sweep.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L912" />
 
-<WandbSweep/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-하이퍼파라미터 스윕 을 초기화합니다. 다양한 조합을 테스트하여 기계학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
-
-## Usage
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
 ```
 
-## Arguments
+<div id="description">
+  ## 설명
+</div>
 
-| 인수 | 설명 | 필수 여부 |
-| :--- | :--- | :--- |
-| `CONFIG_YAML_OR_SWEEP_ID` | 설명 없음 | 예 |
+하이퍼파라미터 스윕을 생성, 업데이트 또는 관리합니다.
 
-## Options
+스윕을 생성하려면 YAML 설정 파일을 지정하세요. 설정에서 검색
+전략, 파라미터, 최적화할 메트릭을 정의하세요.
+스윕을 W&amp;B 서버에 등록하고 스윕 ID
+및 에이전트를 시작하는 명령을 출력합니다.
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--project`, `-p` | Sweeps 에서 생성된 W&B Runs 가 전송될 Projects 의 이름입니다. 프로젝트를 지정하지 않으면 Run 은 Uncategorized 라는 이름의 프로젝트로 전송됩니다. |
-| `--entity`, `-e` | Sweeps 에 의해 생성된 W&B Runs 를 전송할 Users 이름 또는 Teams 이름입니다. 지정하는 Entity 가 이미 존재하는지 확인하세요. Entity 를 지정하지 않으면 기본 Entity(보통 사용자 이름)로 전송됩니다. |
-| `--controller` | 로컬 컨트롤러 실행 (기본값: False) |
-| `--verbose` | 상세 출력 표시 (기본값: False) |
-| `--name` | Sweeps 의 이름입니다. 이름을 지정하지 않으면 스윕 ID가 사용됩니다. |
-| `--program` | 스윕 프로그램 설정 |
-| `--update` | 대기 중인 스윕 업데이트 |
-| `--stop` | 스윕을 종료하여 새로운 Run 의 실행을 중단하고 현재 실행 중인 Run 은 완료되도록 합니다. (기본값: False) |
-| `--cancel` | 스윕을 취소하여 모든 실행 중인 Run 을 종료하고 새로운 Run 의 실행을 중단합니다. (기본값: False) |
-| `--pause` | 스윕을 일시 중지하여 새로운 Run 의 실행을 일시적으로 중단합니다. (기본값: False) |
-| `--resume` | 스윕을 재개하여 새로운 Run 의 실행을 계속합니다. (기본값: False) |
-| `--prior_run`, `-R` | 이 스윕에 추가할 기존 Run 의 ID |
+기존 스윕을 관리하려면 상태 플래그(`--stop`, `--cancel`, `--pause`, 또는 `--resume`)와 함께
+스윕 ID(또는 전체 경로 entity/project/sweep&#95;id)를 지정하세요.
+
+스윕 ID는 스윕이 생성될 때
+W&amp;B가 생성하는 스윕의 고유 식별자입니다. 스윕 ID는 W&amp;B App에서
+또는 새 스윕을 생성할 때 `wandb sweep` 명령의 출력에서 찾을 수 있습니다.
+
+예를 들어, sweep&#95;config.yaml에 정의된 설정을 사용해 스윕을
+생성하려면 현재 사용자의 기본 entity와 프로젝트를 사용하세요:
+
+```bash
+wandb sweep sweep_config.yaml
+```
+
+스윕을 생성하고 결과를 &quot;team-awesome&quot; 엔터티의
+&quot;foobar&quot; 프로젝트에 저장하려면:
+
+```bash
+wandb sweep -p foobar -e team-awesome sweep_config.yaml
+```
+
+sweep&#95;config.yaml의 새 설정을 사용해 스윕 abcd1234를 업데이트합니다.
+활성 스윕의 매개변수나 검색 전략을 변경할 때
+유용합니다:
+
+```bash
+wandb sweep --update abcd1234 sweep_config.yaml
+```
+
+&quot;team-awesome&quot; 엔터티와
+&quot;foobar&quot; 프로젝트 아래의 스윕 abcd1234를 중지하려면:
+
+```bash
+wandb sweep --stop team-awesome/foobar/abcd1234
+```
+
+현재 사용자의 기본 entity와 프로젝트에서 스윕 abcd1234를 취소하려면:
+
+```bash
+wandb sweep --cancel abcd1234
+```
+
+현재 사용자의 기본 entity 및
+프로젝트에서 스윕 abcd1234를 일시 중지합니다. 나중에 스윕을 재개합니다:
+
+```bash
+wandb sweep --pause abcd1234
+```
+
+```bash
+wandb sweep --resume abcd1234
+```
+
+`sweep&#95;config.yaml`에 있는 설정을 사용하는 로컬 컨트롤러로 스윕을 생성하려면:
+
+```bash
+wandb sweep --controller sweep_config.yaml
+```
+
+새 스윕을 만들고 이전에 완료된 두 개의 Runs를 포함하여
+(run ID abcd1234 및 run ID efgh5678) 해당 결과가
+스윕의 하이퍼파라미터 검색에 반영되도록 하려면:
+
+```bash
+wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름                        | 기본값 | 유형   |
+| ------------------------- | --- | ---- |
+| `config_yaml_or_sweep_id` | STR | True |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그               | 유형        | 설명                                                                              |
+| ----------------- | --------- | ------------------------------------------------------------------------------- |
+| `--project, -p`   | STR       | 스윕 run에 사용할 프로젝트를 설정합니다. 설정하지 않으면 &#39;Uncategorized&#39;를 사용합니다. **기본값**: None |
+| `--entity, -e`    | STR       | 스윕에 사용할 entity를 설정합니다. 설정하지 않으면 현재 사용자의 기본 entity를 사용합니다. **기본값**: None         |
+| `--controller`    | BOOL Flag | 스윕을 생성한 후 로컬 스윕 컨트롤러를 시작합니다. **기본값**: False                               |
+| `--verbose`       | BOOL Flag | 자세한 출력을 표시합니다. **기본값**: False                                                   |
+| `--name`          | STR       | 스윕의 표시 이름을 설정합니다. 지정하지 않으면 스윕 ID를 사용합니다. **기본값**: None                       |
+| `--program`       | STR       | 스윕 설정에 지정된 트레이닝 프로그램을 재정의합니다. **기본값**: None                                     |
+| `--update`        | STR       | 기존 스윕 설정을 업데이트합니다. 스윕 ID를 전달하세요. **기본값**: None                               |
+| `--stop`          | BOOL Flag | 스윕을 중지합니다. 활성 run은 완료되도록 두고 새 run은 시작하지 않습니다. **기본값**: False                    |
+| `--cancel`        | BOOL Flag | 스윕을 취소합니다. 활성 run을 종료하고 새 run 시작도 중지합니다. **기본값**: False                         |
+| `--pause`         | BOOL Flag | 스윕을 일시 중지합니다. 새 run 시작을 일시적으로 중지합니다. **기본값**: False                             |
+| `--resume`        | BOOL Flag | 일시 중지된 스윕을 재개합니다. **기본값**: False                                                |
+| `--prior_run, -R` | STR       | 기존 run을 ID로 이 스윕에 연결합니다. 여러 run을 연결하려면 여러 번 지정하세요. **기본값**: None                |

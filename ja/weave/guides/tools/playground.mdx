@@ -1,388 +1,289 @@
 ---
-title: Playground を使用してプロンプトを 実験 します
-description: LLM のプロンプトとレスポンスを反復的に改善する プロセス を簡素化します
+title: "Playground を使ってプロンプトを試す"
+description: "LLM のプロンプトと応答を反復的に改善するプロセスをシンプルにします"
 ---
 
 <Tip>
-期間限定で、新しい W&B Inference サービスが無料枠に含まれています。W&B Inference を使用すると、API および Weave Playground を介して主要なオープンソースの基盤モデルにアクセスできます。
-- [開発者ドキュメント](../integrations/inference)
-- [製品ページ](https://wandb.ai/site/inference) 
+  期間限定で、W&amp;B Inference が無料枠に含まれています。W&amp;B Inference では、API と Weave Playground を通じて主要なオープンソースの基盤モデルにアクセスできます。
+
+  * [開発者向けドキュメント](../integrations/inference)
+  * [プロダクトページ](https://wandb.ai/site/inference)
 </Tip>
 
-LLM のプロンプトと応答を評価することは困難です。Weave Playground は、LLM のプロンプトと応答の反復プロセスを簡素化するように設計されており、さまざまなモデルやプロンプトでの実験を容易にします。プロンプトの編集、メッセージの再試行、モデル比較などの機能により、Playground は LLM アプリケーションの迅速なテストと改善を支援します。Playground は現在、OpenAI、Anthropic、Google、Groq、Amazon Bedrock、Microsoft Azure のモデル、および [カスタムプロバイダー](#llm-パラメータの調整) をサポートしています。
+LLM のプロンプトと応答を評価するのは簡単ではありません。Weave Playground は、LLM のプロンプトと応答を反復的に改善するプロセスをシンプルにし、さまざまなモデルやプロンプトをより手軽に試せるように設計されています。プロンプトの編集、メッセージの再試行、モデル比較などの機能により、Playground を使って LLM アプリケーションをすばやくテストし、改善できます。現在、Playground は OpenAI、Anthropic、Google などのプロバイダーのモデルに加え、[カスタムプロバイダー](#add-a-custom-provider) もサポートしています。
 
-- **クイックアクセス:** W&B サイドバーから新しいセッションとして、または Call ページから既存のプロジェクトをテストするために Playground を開くことができます。
-- **メッセージコントロール:** チャット内で直接メッセージの編集、再試行、削除が可能です。
-- **柔軟なメッセージング:** ユーザー入力またはシステム入力として新しいメッセージを追加し、LLM に送信できます。
-- **カスタマイズ可能な設定:** お好みの LLM プロバイダーを選択し、モデル設定を調整できます。
-- **マルチ LLM サポート:** チームレベルの API キー管理により、モデルを簡単に切り替えられます。
-- **モデル比較:** プロンプトに対して異なるモデルがどのように応答するかを比較できます。
-- **カスタムプロバイダー:** カスタムモデル用の OpenAI 互換 API エンドポイントをテストできます。
-- **保存済みモデル:** ワークフローに合わせて再利用可能なモデルプリセットを作成および設定できます。
+* **クイックアクセス:** 新しいセッションを開始するには Weave のサイドバーメニューから「Playground」を開き、既存のプロジェクトをテストするには Call ページから開きます。
+* **メッセージコントロール:** チャット内でメッセージを直接編集、再試行、削除できます。
+* **柔軟なメッセージング:** 新しいメッセージをユーザー入力またはシステム入力として追加し、LLM に送信できます。
+* **カスタマイズ可能な設定:** 使用する LLM プロバイダーを設定し、モデル設定を調整できます。
+* **複数 LLM のサポート:** チーム単位で APIキー を管理しながら、モデルを切り替えられます。
+* **モデルの比較:** 同じプロンプトに対する異なるモデルの応答を比較できます。
+* **カスタムプロバイダー:** カスタムモデル用の OpenAI 互換 API endpoint をテストできます。
+* **保存済みモデル:** ワークフローで再利用できるモデルプリセットを作成して設定できます
 
-Playground を使い始めて、LLM とのやり取りを最適化し、プロンプトエンジニアリングのプロセスと LLM アプリケーション開発を効率化しましょう。
+Playground を使い始めて LLM とのやり取りを最適化し、プロンプトエンジニアリングと LLM アプリケーション開発を効率化しましょう。
 
-- [事前準備](#prerequisites)
-  - [プロバイダーの認証情報と情報の追加](#事前準備)
-  - [Playground へのアクセス](#プロバイダーの認証情報と情報の追加)
-- [LLM の選択](#playground-へのアクセス)
-- [設定のカスタマイズ](#customize-settings)
-- [メッセージコントロール](#add-retry-edit-and-delete-messages)
-- [LLM の比較](#deepseek)
-- [カスタムプロバイダー](#設定のカスタマイズ)
-- [保存済みモデル](#メッセージの再試行編集削除) 
+* [プロバイダーの認証情報と情報を追加する](#add-provider-credentials-and-information)
+* [Playground にアクセスする](#access-the-playground)
+* [LLM を選択する](#select-an-llm)
+* [Playground の設定をカスタマイズする](#customize-playground-settings)
+* [メッセージコントロール](#message-controls)
+* [LLM を比較する](#compare-llms)
+* [カスタムプロバイダー](#custom-providers)
+* [保存済みモデル](#saved-models) 
 
-## 事前準備
+<div id="add-provider-credentials-and-information">
+  ## プロバイダの認証情報と情報を追加する
+</div>
 
-Playground を使用する前に、[プロバイダーの認証情報の追加](#事前準備) と [Playground UI の表示](#プロバイダーの認証情報と情報の追加) を行う必要があります。
+Playgroundを使用するには、まずプロバイダの認証情報を追加する必要があります。Playgroundは現在、多くのプロバイダのモデルに対応しています。利用可能なモデルのいずれかを使用するには、適切な情報をW&amp;BのSettingsにあるチームシークレットに追加してください。
 
-### プロバイダーの認証情報と情報の追加
+* Amazon Bedrock:
+  * `AWS_ACCESS_KEY_ID`
+  * `AWS_SECRET_ACCESS_KEY`
+  * `AWS_REGION_NAME`
+* Anthropic: `ANTHROPIC_API_KEY`
+* Azure:
+  * `AZURE_API_KEY`
+  * `AZURE_API_BASE`
+  * `AZURE_API_VERSION`
+* Deepseek: `DEEPSEEK_API_KEY`
+* Google: `GEMINI_API_KEY`
+* Groq: `GROQ_API_KEY`
+* Mistral: `MISTRAL_API_KEY`
+* OpenAI: `OPENAI_API_KEY`
+* X.AI: `XAI_API_KEY`
 
-Playground は現在、OpenAI、Anthropic、Google、Groq、Amazon Bedrock、Microsoft Azure のモデルをサポートしています。利用可能なモデルを使用するには、W&B 設定のチームシークレットに適切な情報を追加してください。
+<div id="access-the-playground">
+  ## Playground にアクセスする
+</div>
 
-- OpenAI: `OPENAI_API_KEY`
-- Anthropic: `ANTHROPIC_API_KEY`
-- Google: `GEMINI_API_KEY`
-- Groq: `GROQ_API_KEY`
-- Amazon Bedrock:
-  - `AWS_ACCESS_KEY_ID`
-  - `AWS_SECRET_ACCESS_KEY`
-  - `AWS_REGION_NAME`
-- Azure:
-  - `AZURE_API_KEY`
-  - `AZURE_API_BASE`
-  - `AZURE_API_VERSION`
-- X.AI:
-  - `XAI_API_KEY`
-- Deepseek
-  - `DEEPSEEK_API_KEY`
+Playground にアクセスする方法は 2 つあります。
 
-### Playground へのアクセス
-
-Playground にアクセスするには 2 つの方法があります。
-
-1. _シンプルなシステムプロンプトで新しい Playground ページを開く_: サイドバーで **Playground** を選択します。Playground が同じタブで開きます。
-2. _特定の Call に対して Playground を開く_:
-   1. サイドバーで **Traces** タブを選択します。トレースのリストが表示されます。
-   2. トレースリストで、表示したい Call の名前をクリックします。Call の詳細ページが開きます。
-   3. **Open chat in playground** をクリックします。Playground が新しいタブで開きます。
+1. *シンプルな system prompt で新しい Playground ページを開く*: Weave プロジェクトのサイドバーで **Playground** を選択します。Playground は同じタブで開きます。
+2. *特定の call の Playground を開く*:
+   1. サイドバーで **Traces** タブを選択します。トレースの一覧が表示されます。
+   2. トレースの一覧で、表示したい call の名前をクリックします。その call の詳細ページが開きます。
+   3. **Open chat in Playground** をクリックします。Playground は新しいタブで開きます。
 
 <Frame>
-![Open in Playground ボタンのスクリーンショット](/weave/guides/tools/imgs/open_chat_in_playground.png)
+  ![Playground で開くボタンのスクリーンショット](/weave/guides/tools/imgs/open_chat_in_playground.png)
 </Frame>
 
-## LLM の選択
+<div id="select-an-llm">
+  ## LLMを選択する
+</div>
 
-左上のドロップダウンメニューを使用して LLM を切り替えることができます。各プロバイダーから利用可能なモデルは以下の通りです。
+プロンプトヘッダー (Playground のメインパネル上部) にある **Select a model** ドロップダウンを使って、LLM を切り替えられます。各種プロバイダで利用可能なモデルを以下に示します。
 
-- [Amazon Bedrock](#amazon-bedrock)
-- [Anthropic](#anthropic)
-- [Azure](#azure)
-- [Google](#google)
-- [Groq](#groq)
-- [OpenAI](#openai)
-- [X.AI](#xai)
-- [Deepseek](#deepseek)
+* Amazon Bedrock
+* Anthropic
+* Azure
+* Deepseek
+* Google
+* Groq
+* Mistral
+* OpenAI
+* X.AI
 
-{/* USE make update_playground_models */}
-{/* LLM_LIST_START, DON'T EDIT THIS SECTION */}
+利用可能なモデルは、チームに設定されているプロバイダによって異なります。
 
-### [Amazon Bedrock](../integrations/bedrock)
+<div id="customize-playground-settings">
+  ## Playground の設定をカスタマイズする
+</div>
 
-- ai21.j2-mid-v1
-- ai21.j2-ultra-v1
-- amazon.nova-micro-v1:0
-- amazon.nova-lite-v1:0
-- amazon.nova-pro-v1:0
-- amazon.titan-text-lite-v1
-- amazon.titan-text-express-v1
-- mistral.mistral-7b-instruct-v0:2
-- mistral.mixtral-8x7b-instruct-v0:1
-- mistral.mistral-large-2402-v1:0
-- mistral.mistral-large-2407-v1:0
-- anthropic.claude-3-sonnet-20240229-v1:0
-- anthropic.claude-3-5-sonnet-20240620-v1:0
-- anthropic.claude-3-haiku-20240307-v1:0
-- anthropic.claude-3-opus-20240229-v1:0
-- anthropic.claude-v2
-- anthropic.claude-v2:1
-- anthropic.claude-instant-v1
-- cohere.command-text-v14
-- cohere.command-light-text-v14
-- cohere.command-r-plus-v1:0
-- cohere.command-r-v1:0
-- meta.llama2-13b-chat-v1
-- meta.llama2-70b-chat-v1
-- meta.llama3-8b-instruct-v1:0
-- meta.llama3-70b-instruct-v1:0
-- meta.llama3-1-8b-instruct-v1:0
-- meta.llama3-1-70b-instruct-v1:0
-- meta.llama3-1-405b-instruct-v1:0
+<div id="adjust-llm-parameters">
+  ### LLMパラメーターを調整する
+</div>
 
-### [Anthropic](../integrations/anthropic)
+選択したモデルで、さまざまなパラメーター値を試すことができます。Playground でパラメーターを調整するには、次の手順に従ってください。
 
-- claude-3-7-sonnet-20250219
-- claude-3-5-sonnet-20240620
-- claude-3-5-sonnet-20241022
-- claude-3-haiku-20240307
-- claude-3-opus-20240229
-- claude-3-sonnet-20240229
+1. プロンプトヘッダー (メインパネル上部) で、**Chat settings (<Icon icon="sliders" iconType="regular" />)** ボタンをクリックして、**Chat settings** パネルを開きます。
+2. **Chat settings** パネルで、必要に応じてパラメーターを調整します。また、Weave call tracking のオン/オフを切り替えたり、[関数 を追加](#add-a-function)したりすることもできます。
+3. 変更は自動的に適用されます。パネルを閉じるには、**Chat settings** をもう一度クリックするか、右上の **x** をクリックします。**Chat settings** ボタンのホバーテキストは、変更した設定を表示するよう更新されます。
 
-### [Azure](../integrations/azure)
-
-- azure/o1-mini
-- azure/o1-mini-2024-09-12
-- azure/o1
-- azure/o1-preview
-- azure/o1-preview-2024-09-12
-- azure/gpt-4o
-- azure/gpt-4o-2024-08-06
-- azure/gpt-4o-2024-11-20
-- azure/gpt-4o-2024-05-13
-- azure/gpt-4o-mini
-- azure/gpt-4o-mini-2024-07-18
-
-### [Google](../integrations/google)
-
-- gemini/gemini-2.5-pro-preview-03-25
-- gemini/gemini-2.0-pro-exp-02-05
-- gemini/gemini-2.0-flash-exp
-- gemini/gemini-2.0-flash-001
-- gemini/gemini-2.0-flash-thinking-exp
-- gemini/gemini-2.0-flash-thinking-exp-01-21
-- gemini/gemini-2.0-flash
-- gemini/gemini-2.0-flash-lite
-- gemini/gemini-2.0-flash-lite-preview-02-05
-- gemini/gemini-1.5-flash-001
-- gemini/gemini-1.5-flash-002
-- gemini/gemini-1.5-flash-8b-exp-0827
-- gemini/gemini-1.5-flash-8b-exp-0924
-- gemini/gemini-1.5-flash-latest
-- gemini/gemini-1.5-flash
-- gemini/gemini-1.5-pro-001
-- gemini/gemini-1.5-pro-002
-- gemini/gemini-1.5-pro-latest
-- gemini/gemini-1.5-pro
-
-### [Groq](../integrations/groq.mdx)
-
-- groq/deepseek-r1-distill-llama-70b
-- groq/llama-3.3-70b-versatile
-- groq/llama-3.3-70b-specdec
-- groq/llama-3.2-1b-preview
-- groq/llama-3.2-3b-preview
-- groq/llama-3.2-11b-vision-preview
-- groq/llama-3.2-90b-vision-preview
-- groq/llama-3.1-8b-instant
-- groq/llama3-70b-8192
-- groq/llama3-8b-8192
-- groq/gemma2-9b-it
-
-### [OpenAI](../integrations/openai.mdx)
-
-- gpt-4.1-mini-2025-04-14
-- gpt-4.1-mini
-- gpt-4.1-2025-04-14
-- gpt-4.1
-- gpt-4.1-nano-2025-04-14
-- gpt-4.1-nano
-- o4-mini-2025-04-16
-- o4-mini
-- gpt-4.5-preview-2025-02-27
-- gpt-4.5-preview
-- o3-2025-04-16
-- o3
-- o3-mini-2025-01-31
-- o3-mini
-- gpt-4o-mini
-- gpt-4o-2024-05-13
-- gpt-4o-2024-08-06
-- gpt-4o-mini-2024-07-18
-- gpt-4o
-- gpt-4o-2024-11-20
-- o1-mini-2024-09-12
-- o1-mini
-- o1-preview-2024-09-12
-- o1-preview
-- o1-2024-12-17
-- gpt-4-1106-preview
-- gpt-4-32k-0314
-- gpt-4-turbo-2024-04-09
-- gpt-4-turbo-preview
-- gpt-4-turbo
-- gpt-4
-- gpt-3.5-turbo-0125
-- gpt-3.5-turbo-1106
-
-### X.AI
-
-- xai/grok-3-beta
-- xai/grok-3-fast-beta
-- xai/grok-3-fast-latest
-- xai/grok-3-mini-beta
-- xai/grok-3-mini-fast-beta
-- xai/grok-3-mini-fast-latest
-- xai/grok-beta
-- xai/grok-2-1212
-- xai/grok-2
-- xai/grok-2-latest
-
-### Deepseek
-
-- deepseek/deepseek-reasoner
-- deepseek/deepseek-chat
-
-{/* LLM_LIST_END, DON'T EDIT THIS SECTION */}
-
-## 設定のカスタマイズ
-
-### LLM パラメータの調整
-
-選択したモデルに対して、異なるパラメータ値で実験することができます。パラメータを調整するには、以下の手順に従ってください。
-
-1. Playground UI の右上にある **Chat settings** をクリックして、パラメータ設定ドロップダウンを開きます。
-2. ドロップダウンで、必要に応じてパラメータを調整します。Weave の Call 追跡のオン/オフを切り替えたり、[関数の追加](#anthropicintegrationsanthropic) を行うこともできます。
-3. **Chat settings** を再度クリックしてドロップダウンを閉じ、変更を保存します。
+ページを離れると、設定は失われます。設定を保存するには、[モデルを保存](#save-a-model)してください。
+変更した設定を破棄してやり直すには、ページを更新してください。
 
 <Frame>
-![Playground 設定のスクリーンショット](/weave/guides/tools/imgs/playground_settings.png)
+  ![「Select a model」ドロップダウンが開き、右側に Chat settings パネルが表示されている Weave Playground。](/weave/guides/tools/imgs/playground_settings.png)
 </Frame>
 
-### 関数の追加
+Playground では、試行回数を設定することで、同じ入力に対して複数の出力を生成できます。デフォルト値は `1` です。試行回数を調整するには、**Chat settings** パネルを開き、**Number of trials** を調整します。
 
-ユーザーからの入力に基づいて、異なるモデルがどのように関数を使用するかをテストできます。Playground でテスト用に関数を追加するには、以下の手順に従ってください。
+<div id="add-a-function">
+  ### 関数を追加する
+</div>
 
-1. Playground UI の右上にある **Chat settings** をクリックして、パラメータ設定ドロップダウンを開きます。
-2. ドロップダウン内の **+ Add function** をクリックします。
-3. ポップアップで、関数の情報を追加します。
-4. 変更を保存して関数のポップアップを閉じるには、右上の **x** をクリックします。
-5. **Chat settings** をクリックして設定ドロップダウンを閉じ、変更を保存します。
+ユーザーから受け取った入力に基づいて、異なるモデルが関数をどのように使用するかをテストできます。Playground でテスト用の関数を追加するには、**Chat settings** パネルで **+ Add function** をクリックします。画面の案内に従って関数を定義し、変更を保存します。
 
-### 試行回数の調整
+<div id="message-controls">
+  ## メッセージ操作
+</div>
 
-Playground では、試行回数（Number of trials）を設定することで、同じ入力に対して複数の出力を生成できます。デフォルト設定は `1` です。試行回数を調整するには、以下の手順に従ってください。
+<div id="prompt-definition-area">
+  ### プロンプト定義エリア
+</div>
 
-1. Playground UI で、設定サイドバーが開いていない場合は開きます。
-2. **Number of trials** を調整します。
+**プロンプト定義エリア**では、やり取り全体を通してモデルの挙動を決める指示を定義できます。
 
-## メッセージコントロール
+このエリアは、メッセージのやり取りが始まる前に一貫して適用されるコンテキストを指定するために使用します。これには、役割の定義、トーンやスタイルのガイダンス、挙動上の制約、出力要件が含まれます。ここで加えた変更は、再度変更しない限り、その後のすべてのやり取りに影響します。
 
-### メッセージの再試行、編集、削除
+含まれる項目は次のとおりです。
 
-Playground では、メッセージの再試行、編集、削除が可能です。この機能を使用するには、編集、再試行、または削除したいメッセージの上にカーソルを置きます。**Delete**、**Edit**、**Retry** の 3 つのボタンが表示されます。
+* **プロンプトセレクター**: 保存済みの既存のプロンプトを選択するか、新しいプロンプトを作成します。
+* **メッセージロールセレクター**: 定義するメッセージの役割 (**System**、**Assistant**、または **User** ロール) を指定します。
+* **プロンプトテキスト**: モデルの応答方法を定める指示テキストを入力します。
+* **Add message** ボタン: 実行前に、プロンプトコンテキストに追加のメッセージを含められます。
 
-- **Delete**: チャットからメッセージを削除します。
-- **Edit**: メッセージの内容を修正します。
-- **Retry**: それ以降のすべてのメッセージを削除し、選択したメッセージからチャットを再試行します。
+これらのメッセージはまとめてモデルに送信され、次の目的に使用できます。
 
-### 新しいメッセージの追加
+* システムレベルの補足指示を追加する。
+* 応答を導くための **Assistant** メッセージの例を提供する (few-shot prompting など) 。
+* 特定のシナリオをテストするために **User** メッセージを事前定義する。
 
-チャットに新しいメッセージを追加するには、以下の手順に従ってください。
+<div id="messages-panel">
+  ### メッセージパネル
+</div>
 
-1. チャットボックスで、利用可能なロール（**Assistant** または **User**）のいずれかを選択します。
-2. **+ Add** をクリックします。
-3. LLM に新しいメッセージを送信するには、**Send** ボタンをクリックします。または、**Command** と **Enter** キーを同時に押します。
+**メッセージパネル**には、実行中に生成された会話が表示されます。
+
+次の内容が含まれます。
+
+* プロンプトのセットアップに含まれる、あらかじめ定義されたメッセージ
+* メッセージコンポーザーから送信されたメッセージ
+* モデルから返されたレスポンス
+
+また、パネル内のメッセージを**Copy**、**Delete**、**Edit**、**Retry**することもできます。
+
+<div id="message-composer-input-field">
+  ### Message composer (入力フィールド)
+</div>
+
+**Message composer** を使用して、モデルに新しいメッセージを送信します。
+
+メッセージのロールを選択し、実行するメッセージを送信できます。ほとんどのやり取りは **User** メッセージとして作成します。指示の変更をテストする場合は、**System** または **Assistant** メッセージを追加できます。
 
 <Frame>
-![Playground メッセージ送信のスクリーンショット](/weave/guides/tools/imgs/playground_chat_input.png)
+  ![上部にプロンプト定義領域、中央にメッセージ履歴、下部に新しいメッセージを送信するための Message composer が表示された Weave Playground。](/weave/guides/tools/imgs/playground_chat_input.png)
 </Frame>
 
-## LLM の比較
+<div id="view-message-history">
+  ## メッセージ履歴を表示する
+</div>
 
-Playground では LLM を比較できます。比較を行うには、以下の手順に従ってください。
+メッセージ履歴を表示するには、右側のPlaygroundツールバーにある **History (<Icon icon="clock-rotate-left" iconType="light" />)** ボタンをクリックします。現在のプロジェクトで送信されたすべてのメッセージを表示する History パネルが開きます。
 
-1. Playground UI で **Compare** をクリックします。元のチャットの隣に 2 つ目のチャットが開きます。
-2. 2 つ目のチャットでは、以下が可能です。
-   - [比較する LLM の選択](#playground-へのアクセス)
-   - [パラメータの調整](#amazon-bedrockintegrationsbedrock)
-   - [関数の追加](#anthropicintegrationsanthropic)
-3. メッセージボックスに、両方のモデルでテストしたいメッセージを入力し、**Send** を押します。
+履歴内の項目を選択すると、比較用の追加のチャットパネルに自動的に読み込まれます。 
 
-## カスタムプロバイダー
+<div id="compare-llms">
+  ## LLM を比較する
+</div>
 
-### カスタムプロバイダーの追加
+Playground では LLM を比較できます。比較するには、Playground の右側のツールバーにある **チャットを追加 (<Icon icon="plus" iconType="solid" />)** ボタンをクリックします。元のチャットの横に 2 つ目のチャットが開きます。
+2 つ目のチャットでは、モデルの選択、Settings の調整、関数の追加など、元のチャットと同じ機能を利用できます。
 
-[サポートされているプロバイダー](#playground-へのアクセス) に加えて、Playground を使用してカスタムモデル用の OpenAI 互換 API エンドポイントをテストできます。例としては以下があります。
+<div id="custom-providers">
+  ## カスタムプロバイダー
+</div>
 
-- サポートされているモデルプロバイダーの旧バージョン
-- ローカルモデル
+<div id="add-a-custom-provider">
+  ### カスタムプロバイダー を追加する
+</div>
 
-Playground にカスタムプロバイダーを追加するには、以下の手順に従ってください。
+組み込みのプロバイダーに加えて、Playground を使用して、カスタムモデル用の OpenAI 互換 API endpoint をテストできます。たとえば、次のようなものがあります。
 
-1. Playground UI の左上にある **Select a model** ドロップダウンをクリックします。
+* サポートされているモデルプロバイダーの旧バージョン
+* ローカルモデル
+
+Playground に カスタムプロバイダー を追加するには、次の手順に従います。
+
+1. プロンプトヘッダー (メインパネル上部) で、**Select a model** ドロップダウンをクリックします。
 2. **+ Add AI provider** を選択します。
-3. ポップアップモーダルで、プロバイダー情報を入力します。
+3. **Custom Provider** を選択します。
+4. ポップアップモーダルで、プロバイダー情報を入力します。
 
-   - _Provider name_: 例: `openai` や `ollama`。
-   - _API key_: 例: OpenAI の APIキー。
-   - _Base URL_: 例: `https://api.openai.com/v1/` や ngrok の URL `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`。
-   - _Headers_ (任意): 複数のヘッダーのキーと値を追加できます。
-   - _Models_: 1 つのプロバイダーに対して複数のモデルを追加できます。例: `deepseek-r1` や `qwq`。
-   - _Max tokens_ (任意): 各モデルについて、応答で生成できる最大トークン数を指定できます。
+* **Provider name**: `openai` や `ollama` などのプロバイダー名。
+* **API key**: OpenAI の APIキー など、プロバイダーの APIキー。
+* **Base URL**: `https://api.openai.com/v1/` や `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app` のような ngrok URL など、プロバイダーのベース API endpoint。
+* **Headers**:  (オプション) 1 つ以上のカスタム HTTP ヘッダーのキーと値のペア。
+* **Models**: `deepseek-r1` や `qwq` など、プロバイダーで使用する 1 つ以上のモデル。
+* **Max tokens**:  (オプション) 各モデルについて、レスポンスでモデルが生成できる token の最大数。
 
-4. プロバイダー情報を入力したら、**Add provider** をクリックします。
-5. Playground UI の左上にある **Select a model** ドロップダウンから、新しいプロバイダーと利用可能なモデルを選択します。
+5. プロバイダー情報を入力したら、**Add provider** をクリックします。
+6. **Select a model** ドロップダウンから、新しいプロバイダーと利用可能なモデルを選択します。
 
 <Warning>
-CORS の制限により、Playground から localhost や 127.0.0.1 の URL を直接呼び出すことはできません。Ollama などのローカルモデルサーバーを実行している場合は、ngrok のようなトンネリングサービスを使用して安全に公開してください。詳細は、[Ollama で ngrok を使用する](#use-ngrok-with-ollama) を参照してください。
+  CORS の制限により、Playground から localhost または 127.0.0.1 の URL を直接呼び出すことはできません。ローカルのモデルサーバー (Ollama など) を実行している場合は、ngrok のようなトンネリングサービスを使用して安全に公開してください。詳細については、[Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider) を参照してください。
 </Warning>
 
-これで、標準の Playground 機能を使用してカスタムプロバイダーモデルをテストできます。また、カスタムプロバイダーの [編集](#関数の追加) や [削除](#試行回数の調整) も可能です。
+これで、標準の Playground 機能を使用して カスタムプロバイダー のモデルをテストできます。また、カスタムプロバイダー を[編集](#edit-a-custom-provider)または[削除](#remove-a-custom-provider)することもできます。
 
-### カスタムプロバイダーの編集
+<div id="edit-a-custom-provider">
+  ### カスタムプロバイダーを編集する
+</div>
 
-[以前に作成したカスタムプロバイダー](#llm-パラメータの調整) の情報を編集するには、以下の手順に従ってください。
+[以前に作成したカスタムプロバイダー](#add-a-custom-provider)の情報を編集するには、次の手順を実行します。
 
-1. Weave サイドバーで **Overview** に移動します。
-2. 上部ナビゲーションメニューから **AI Providers** を選択します。
-3. **Custom providers** テーブルで、更新したいカスタムプロバイダーを見つけます。
-4. そのエントリの **Last Updated** 列にある編集ボタン（鉛筆アイコン）をクリックします。
-5. ポップアップモーダルで、プロバイダー情報を編集します。
-6. **Save** をクリックします。
+1. プロンプトヘッダー で **Select a model** ドロップダウンをクリックし、**+Configure providers** を選択します。
 
-### カスタムプロバイダーの削除
+* または、サイドバーメニューで **プロジェクト** を選択し、**AI Providers** タブを選択することもできます。
 
-[以前に作成したカスタムプロバイダー](#llm-パラメータの調整) を削除するには、以下の手順に従ってください。
+2. **Custom providers** 表で、更新するカスタムプロバイダーを検索します。
+3. カスタムプロバイダーのエントリの **Last Updated** 列で、編集ボタン (鉛筆アイコン) をクリックします。
+4. ポップアップモーダルで、プロバイダー情報を編集します。
+5. **Save** をクリックします。
 
-1. Weave サイドバーで **Overview** に移動します。
-2. 上部ナビゲーションメニューから **AI Providers** を選択します。
-3. **Custom providers** テーブルで、削除したいカスタムプロバイダーを見つけます。
-4. そのエントリの **Last Updated** 列にある削除ボタン（ゴミ箱アイコン）をクリックします。
-5. ポップアップモーダルで、プロバイダーを削除することを確認します。この操作は取り消せません。
-6. **Delete** をクリックします。
+<div id="remove-a-custom-provider">
+  ### カスタムプロバイダーを削除する
+</div>
 
-### Ollama で ngrok を使用する
+[以前に作成したカスタムプロバイダー](#add-a-custom-provider)を削除するには、次の手順に従います。
 
-Playground でローカルに実行されている Ollama モデルをテストするには、ngrok を使用して CORS 制限を回避する一時的な公開 URL を作成します。
+1. プロンプトヘッダーで **Select a model** ドロップダウンをクリックします。次に、**+Configure providers** を選択します。
 
-設定するには、以下の手順に従ってください。
+* または、サイドバーメニューで **Project** を選択し、**AI Providers** タブを選択することもできます。
 
-1. お使いの OS に合わせて [ngrok をインストール](https://ngrok.com/docs/getting-started/#step-1-install) します。
+2. **Custom providers** 表で、削除したいカスタムプロバイダーを見つけます。
+3. カスタムプロバイダーのエントリの **Last Updated** 列で、削除ボタン (ゴミ箱アイコン) をクリックします。
+4. ポップアップモーダルで、そのプロバイダーを削除することを確認します。この操作は元に戻せません。
+5. **Delete** をクリックします。
+
+<div id="use-a-local-model-as-a-custom-provider">
+  ### ローカルモデルをカスタムプロバイダーとして使用する
+</div>
+
+Playground でローカルで実行中のモデルをテストするには、ngrok と Ollama を使って、CORS の制限を回避する一時的な公開 URL を作成します。
+
+設定するには、次の手順に従います。
+
+1. ご利用のオペレーティングシステム向けの [ngrok をインストール](https://ngrok.com/docs/getting-started/#step-1-install) します。
+
 2. Ollama モデルを起動します。
 
    ```bash
    ollama run <model>
    ```
 
-3. 別のターミナルで、必要な CORS ヘッダーを指定して ngrok トンネルを作成します。
+3. 別のターミナルで、必要な CORS ヘッダーを付けて ngrok トンネルを作成します。
 
    ```bash
    ngrok http 11434 --response-header-add "Access-Control-Allow-Origin: *" --host-header rewrite
    ```
 
-ngrok が起動すると、`https://xxxx-xxxx.ngrok-free.app` のような公開 URL が表示されます。Playground で Ollama をカスタムプロバイダーとして追加する際に、この URL を Base URL として使用してください。
+4. ngrok を起動すると、`https://xxxx-xxxx.ngrok-free.app` のような公開 URL が表示されます。Playground で [カスタムプロバイダーを追加](#add-a-custom-provider) する際は、この URL を **Base URL** として使用します。
 
-次の図は、ローカル環境、ngrok プロキシ、および W&B クラウドサービス間のデータフローを示しています。
+次の図は、ローカル環境、ngrok プロキシ、W&amp;B クラウドサービス間のデータフローを示しています。
 
 ```mermaid
 flowchart LR
-    %% Style definitions
+    %% スタイル定義
     classDef clientMachine fill:#FFD95CCC,stroke:#454B52,stroke-width:2px
     classDef proxy fill:#00CDDBCC,stroke:#454B52,stroke-width:2px
     classDef wandbCloud fill:#DE72FFCC,stroke:#454B52,stroke-width:2px
     classDef publicCloud fill:#FFCBADCC,stroke:#454B52,stroke-width:2px
 
-    %% Subgraphs
+    %% サブグラフ
     subgraph Client_Machine
         browser[ブラウザ]
         llm_local[ローカル LLM プロバイダー]
@@ -393,64 +294,72 @@ flowchart LR
     end
 
     subgraph WandB_Cloud
-        trace_server[Trace サーバー]
+        trace_server[trace サーバー]
     end
 
     subgraph Public_Cloud
         llm_cloud[パブリック LLM プロバイダー]
     end
 
-    %% Apply styles to subgraphs
+    %% サブグラフにスタイルを適用
     class Client_Machine clientMachine
     class Proxy proxy
     class WandB_Cloud wandbCloud
     class Public_Cloud publicCloud
 
-    %% Current Data Flow
+    %% 現在のデータフロー
     browser -->|チャットリクエストを送信| trace_server
     trace_server -->|パブリック LLM を使用| llm_cloud
     trace_server -->|ローカル LLM を使用| ngrok
-    ngrok -->|転送先| llm_local
-    llm_cloud -->|レスポンスを返却| trace_server
-    llm_local -->|レスポンスを返却| ngrok
-    ngrok -->|転送先| trace_server
-    trace_server -->|レスポンスを返却| browser
+    ngrok -->|転送| llm_local
+    llm_cloud -->|レスポンスを返す| trace_server
+    llm_local -->|レスポンスを返す| ngrok
+    ngrok -->|転送| trace_server
+    trace_server -->|レスポンスを返す| browser
 
-    %% Future Possible Connection
-    browser -.->|将来：ローカル LLM を直接呼び出し| llm_local
+    %% 将来的に可能な接続
+    browser -.->|将来: ローカル LLM を直接呼び出す| llm_local
 
-    %% Link styles
+    %% リンクスタイル
     linkStyle default stroke:#454B52,stroke-width:2px
     linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
 ```
 
-## 保存済みモデル
 
-### モデルの保存
+<div id="saved-models">
+  ## 保存したモデル
+</div>
 
-ワークフローに合わせて再利用可能なモデルプリセットを作成および設定できます。モデルを保存すると、好みの設定、パラメータ、および関数フックを適用した状態で素早くロードできます。
+<div id="save-a-model">
+  ### モデルを保存する
+</div>
 
-1. LLM ドロップダウンから、プロバイダーを選択します。
-2. プロバイダーリストから、モデルを選択します。
-3. Playground UI の右上にある **Chat settings** をクリックして、チャット設定ウィンドウを開きます。
-4. チャット設定ウィンドウで以下を行います。
-   - **Model Name** フィールドに、保存するモデルの名前を入力します。 
-   - 必要に応じてパラメータを調整します。Weave の Call 追跡のオン/オフを切り替えたり、[関数の追加](#anthropicintegrationsanthropic) を行うこともできます。
-5. **Publish Model** をクリックします。モデルが保存され、LLM ドロップダウンの **Saved Models** からアクセスできるようになります。これで保存済みモデルを [使用](#use-a-saved-model) および [更新](#llm-の比較) できるようになります。
+ワークフローで再利用できるモデルプリセットを作成し、設定できます。モデルを保存すると、好みの設定、パラメーター、関数フックを適用した状態ですばやく読み込めます。
 
-### 保存済みモデルの使用 
+1. プロンプトヘッダー (メインパネル上部) の **Select a model** ドロップダウンで、プロバイダーとモデルを選択します。
+2. プロンプトヘッダーで、**Chat settings (<Icon icon="sliders" iconType="regular" />)** ボタンをクリックして **Chat settings** パネルを開きます。
+3. **チャット設定** パネルで、以下を設定します。
+   * **モデル名** (必須) : 保存するモデルの名前を入力します。
+   * 必要に応じてパラメーターを調整します。また、Weave call トラッキングのオン/オフを切り替えたり、[関数を追加](#add-a-function)したりすることもできます。
+4. **モデルを公開** をクリックします。モデルが保存され、**Select a model** ドロップダウンの **保存済みモデル** から利用できるようになります。これで、保存したモデルを[使用](#use-a-saved-model)したり、[更新](#update-a-saved-model)したりできます.
 
-以前に [保存したモデル](#新しいメッセージの追加) に素早く切り替えて、実験やセッション間の一貫性を維持します。これにより、中断したところからすぐに再開できます。
+<div id="use-a-saved-model">
+  ### 保存済みモデルを使用する
+</div>
 
-1. LLM ドロップダウンから **Saved Models** を選択します。
-2. 保存済みモデルのリストから、ロードしたいモデルをクリックします。モデルがロードされ、Playground で使用できる状態になります。
+以前に[保存したモデル](#save-a-model)にすばやく切り替えると、実験やセッションをまたいで一貫性を保てます。これにより、中断したところからすぐに再開できます。
 
-### 保存済みモデルの更新
+1. プロンプトヘッダー の **Select a model** ドロップダウンで、**保存済みモデル** を選択します。
+2. 保存済みモデルの一覧から、読み込みたい保存済みモデルを選択します。モデルが読み込まれ、Playground ですぐに使用できる状態になります。
 
-既存の [保存済みモデル](#新しいメッセージの追加) を編集して、パラメータを微調整したり設定を更新したりします。これにより、ユースケースの進化に合わせて保存済みモデルを対応させることができます。
+<div id="update-a-saved-model">
+  ### 保存済みモデルを更新する
+</div>
 
-1. LLM ドロップダウンから **Saved Models** を選択します。
-2. 保存済みモデルのリストから、更新したいモデルをクリックします。 
-3. Playground UI の右上にある **Chat settings** をクリックして、チャット設定ウィンドウを開きます。
-4. チャット設定ウィンドウで、必要に応じてパラメータを調整します。Weave の Call 追跡のオン/オフを切り替えたり、[関数の追加](#anthropicintegrationsanthropic) を行うこともできます。
-5. **Update model** をクリックします。モデルが更新され、LLM ドロップダウンの **Saved Models** からアクセスできるようになります。
+既存の[保存済みモデル](#save-a-model)を編集して、パラメーターを微調整したり、設定を更新したりできます。これにより、保存済みモデルをユースケースの変化に合わせて進化させることができます。
+
+1. プロンプトヘッダーの **Select a model** ドロップダウンで、**保存済みモデル** を選択します。
+2. 保存済みモデルの一覧から、更新する保存済みモデルを選択します。
+3. プロンプトヘッダーで、**Chat settings (<Icon icon="sliders" iconType="regular" />)** ボタンをクリックして **Chat settings** パネルを開きます。
+4. **Chat settings** パネルで、必要に応じてパラメーターを調整します。また、Weave call トラッキングのオン/オフを切り替えたり、[関数 を追加](#add-a-function)したりすることもできます。
+5. **Update model** をクリックします。これによりモデルが更新され、**Select a model** ドロップダウンの **保存済みモデル** から選択できるようになります。保存済みモデルのバージョンは自動的に増分されます。

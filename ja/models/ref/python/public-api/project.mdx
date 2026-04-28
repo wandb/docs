@@ -1,14 +1,17 @@
 ---
-title: プロジェクト
+title: Project
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
+
 ## <kbd>class</kbd> `Project`
-Project は Runs のネームスペースです。
+
+プロジェクトは、run の名前空間です。
 
 ### <kbd>method</kbd> `Project.__init__`
 
@@ -21,56 +24,61 @@ __init__(
 ) → Project
 ```
 
-**Args:**
- 
- - `client`: W&B API クライアントのインスタンス。
- - `name` (str): プロジェクト名。
- - `entity` (str): プロジェクトを所有する Entity 名。
+**引数:**
+
+* `client`:  W&amp;B API クライアントのインスタンス。
+* `name` (str):  プロジェクトの名。
+* `entity` (str):  プロジェクトを所有する entity の名。
+
+entity に紐づく単一のプロジェクト。
+
+**引数:**
+
+* `client`:  W&amp;B をクエリするために使用する API クライアント。
+* `entity`:  プロジェクトを所有する entity。
+* `project`:  クエリするプロジェクトの名。
+* `attrs`:  プロジェクトの属性。
+
+***
 
 
-Entity に関連付けられた単一のプロジェクト。
+### <kbd>プロパティ</kbd> Project.id
 
+***
 
+### <kbd>プロパティ</kbd> Project.owner
 
-**Args:**
- 
- - `client`: W&B へのクエリに使用される API クライアント。
- - `entity`: プロジェクトを所有する Entity。
- - `project`: クエリ対象のプロジェクト名。
- - `attrs`: プロジェクトの属性。
+プロジェクトの所有者を User オブジェクトとして返します。
 
+**例外:**
 
----
+* `ValueError`: プロジェクトのユーザー情報が見つからない場合。
 
-### <kbd>property</kbd> Project.id
+**戻り値:**
 
+* `public.User`: `owner` プロパティの値。
 
+***
 
+### <kbd>プロパティ</kbd> Project.path
 
+プロジェクトのパスを返します。パスは、entity とプロジェクト名を含むリストです。
 
----
+**戻り値:**
 
-### <kbd>property</kbd> Project.path
+* `list[str]`: パスのプロパティ値。
 
-プロジェクトのパスを返します。パスは Entity とプロジェクト名を含むリストです。
+***
 
+### <kbd>プロパティ</kbd> Project.url
 
+プロジェクトのURLを返します。
 
-**Returns:**
- - `list[str]`: path プロパティの値。
----
+**戻り値:**
 
-### <kbd>property</kbd> Project.url
+* `str`: URLプロパティの値。
 
-プロジェクトの URL を返します。
-
-
-
-
-
-**Returns:**
- - `str`: url プロパティの値。
----
+***
 
 ### <kbd>method</kbd> `Project.artifacts_types`
 
@@ -78,9 +86,31 @@ Entity に関連付けられた単一のプロジェクト。
 artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-このプロジェクトに関連付けられているすべての Artifacts タイプを返します。
+このプロジェクトに関連付けられているすべてのアーティファクトタイプを返します。
 
----
+***
+
+
+### <kbd>method</kbd> `Project.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
+```
+
+このプロジェクトに関連付けられているすべてのアーティファクトコレクションを返します。
+
+**引数:**
+
+* `filters`:  クエリに適用するフィルターのオプションのマッピング。
+* `order`:  結果の順序を指定するオプションの文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
+* `per_page`:  1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
+
+***
+
 
 ### <kbd>method</kbd> `Project.sweeps`
 
@@ -88,17 +118,13 @@ artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-このプロジェクト内の Sweeps のページネーションされたコレクションを返します。
+このプロジェクト内の sweep を、ページ分割されたコレクションとして返します。
 
+**引数:**
 
+* `per_page`:  API リクエストごとに取得する sweep の数。
 
-**Args:**
- 
- - `per_page`: API へのリクエストごとに取得する Sweeps の数。
+**戻り値:**
+反復可能な `Sweep` オブジェクトのコレクションである `Sweeps` オブジェクト。
 
-
-
-**Returns:**
- `Sweeps` オブジェクト。これは `Sweep` オブジェクトの反復可能なコレクションです。
-
----
+***

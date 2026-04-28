@@ -1,0 +1,16 @@
+---
+title: "Que se passe-t-il lorsque j’enregistre des millions d’étapes dans W&B ? Comment cela s’affiche-t-il dans le navigateur ?"
+keywords: ["Experiments", "Métriques"]
+---
+
+Le nombre de points envoyés influe sur le temps de chargement des graphiques dans l’UI. Pour les courbes de plus de 1 000 points, le backend sous-échantillonne les données à 1 000 points avant de les envoyer au navigateur. Cet échantillonnage n’est pas déterministe, de sorte que les points échantillonnés peuvent varier à chaque actualisation de la page.
+
+Enregistrez moins de 10 000 points par métrique. Enregistrer plus d’un million de points sur une courbe augmente considérablement le temps de chargement de la page. Explorez des stratégies pour réduire le volume de données journalisées sans sacrifier la précision dans ce [Colab](https://wandb.me/log-hf-colab). Avec plus de 500 colonnes de configuration et de métriques de summary, seules 500 s’affichent dans le tableau.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

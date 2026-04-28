@@ -1,0 +1,95 @@
+---
+description: "Évaluer un point de contrôle du modèle compatible avec VLLM à l’aide de l’infrastructure gérée par CoreWeave"
+title: "Évaluer un point de contrôle du modèle"
+---
+
+import ReviewEvaluationResults from "/snippets/fr/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/fr/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/fr/_includes/llm-eval-jobs/export-evaluation.mdx";
+import PreviewLink from '/snippets/fr/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+Cette page explique comment utiliser les [LLM Evaluation Jobs](/fr/models/launch) pour exécuter une série de benchmarks d’évaluation sur un modèle affiné dans W&amp;B Models, à l’aide d’une infrastructure gérée par CoreWeave. Pour évaluer un modèle d’API hébergé accessible via une URL publique, consultez plutôt [Évaluer un modèle d’API hébergé](/fr/models/launch/evaluate-hosted-model), ou exécutez un petit benchmark sur un endpoint de modèle OpenAI public avec un [Démarrage rapide](/fr/models/launch#quickstart) simplifié.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+1. Consultez les [exigences et limitations](/fr/models/launch#more-details) relatives aux jobs d’évaluation de LLM.
+2. Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter les clés API requises en tant que [secrets au niveau de l’équipe](/fr/platform/secrets#add-a-secret). Tout membre de l’équipe peut ensuite spécifier le secret lors de la configuration d’un job d’évaluation. Voir le [catalogue des modèles d’évaluation](/fr/models/launch/evaluations) pour connaître les exigences.
+   * Une **clé API OpenAPI** : utilisée par les benchmarks qui s’appuient sur des modèles OpenAI pour le scoring. Requise si le champ **Scorer API key** apparaît après la sélection d’un benchmark. Le secret doit être nommé `OPENAI_API_KEY`.
+   * Un **jeton d’accès utilisateur Hugging Face** : requis pour certains benchmarks, comme `lingoly` et `lingoly2`, qui nécessitent l’accès à un ou plusieurs Datasets Hugging Face à accès restreint. Requis si le champ **Hugging Face Token** apparaît après la sélection d’un benchmark. La clé API doit donner accès au jeu de données concerné. Consultez la documentation Hugging Face sur les [jetons d’accès utilisateur](https://huggingface.co/docs/hub/en/security-tokens) et [l’accès aux jeux de données à accès restreint](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user).
+3. Créez un nouveau [projet W&amp;B](/fr/models/track/project-page) pour les résultats de l’évaluation. Dans la barre latérale du projet, cliquez sur **Créer un projet**.
+4. Préparez le modèle dans un format compatible avec vLLM et enregistrez-le comme artifact dans W&amp;B Models. Toute tentative d’exécuter un benchmark sur un autre type d’artifact échouera. Pour une méthode possible, voir [Exemple : préparer un modèle](#example-prepare-your-model) à la fin de cette page.
+5. Consultez la documentation du benchmark concerné pour comprendre son fonctionnement et connaître ses exigences spécifiques. Pour vous faciliter la tâche, la référence [Benchmarks d’évaluation disponibles](/fr/models/launch/evaluations) inclut les liens pertinents.
+
+<div id="evaluate-your-model">
+  ## Évaluez votre modèle
+</div>
+
+Suivez ces étapes pour configurer et lancer un job d&#39;évaluation :
+
+1. Connectez-vous à W&amp;B, puis cliquez sur **Launch** dans la barre latérale du projet. La page **LLM Evaluation Jobs** s&#39;affiche.
+2. Cliquez sur **Evaluate model checkpoint** pour configurer le job d&#39;évaluation.
+3. Sélectionnez un projet de destination où enregistrer les résultats de l&#39;évaluation.
+4. Dans la section **Model artifact**, indiquez le projet, l&#39;artifact et la version du modèle préparé à évaluer.
+5. Cliquez sur **Evaluations**, puis sélectionnez jusqu&#39;à quatre benchmarks.
+6. Si vous sélectionnez des benchmarks qui utilisent des modèles OpenAI pour le scoring, le champ **Scorer API key** s&#39;affiche. Cliquez dessus, puis sélectionnez le secret `OPENAI_API_KEY`. Pour plus de commodité, un administrateur d&#39;équipe peut créer un secret depuis ce panneau en cliquant sur **Create secret**.
+7. Si vous sélectionnez des benchmarks qui nécessitent l&#39;accès à des jeux de données à accès restreint dans Hugging Face, un champ **Hugging Face token** s&#39;affiche. [Demandez l&#39;accès au jeu de données concerné](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user), puis sélectionnez le secret qui contient le jeton d&#39;accès utilisateur Hugging Face.
+8. Si vous le souhaitez, définissez **Sample limit** sur un entier positif pour limiter le nombre maximal d&#39;échantillons de benchmark à évaluer. Sinon, tous les échantillons de la tâche sont inclus.
+9. Pour créer automatiquement un classement, cliquez sur **Publish results to leaderboard**. Le classement affichera toutes les évaluations dans un panneau Workspace, et vous pourrez aussi le partager dans un rapport.
+10. Cliquez sur **Launch** pour lancer le job d&#39;évaluation.
+11. Cliquez sur l&#39;icône en forme de flèche circulaire en haut de la page pour ouvrir la fenêtre modale des runs récents. Les jobs d&#39;évaluation apparaissent avec vos autres runs récents. Cliquez sur le nom d&#39;un run terminé pour l&#39;ouvrir dans la vue d&#39;un seul run, ou cliquez sur le lien **Leaderboard** pour ouvrir directement le classement. Pour en savoir plus, voir [Afficher les résultats](#view-the-results).
+
+<Tip>
+  Après avoir évalué votre premier modèle, de nombreux champs sont préremplis avec les valeurs les plus récentes lorsque vous configurez votre prochain job d&#39;évaluation.
+</Tip>
+
+Cet exemple de job d&#39;évaluation exécute deux benchmarks sur un artifact :
+
+<Frame>
+  ![Exemple de job d'évaluation de point de contrôle du modèle](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)
+</Frame>
+
+Cet exemple de classement visualise les performances de plusieurs modèles :
+
+<Frame>
+  ![Exemple de classement visualisant les performances de plusieurs modèles sur plusieurs tâches de benchmark](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+</Frame>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />
+
+<div id="example-prepare-a-model">
+  ## Exemple : Préparer un modèle
+</div>
+
+Pour préparer votre modèle, chargez-le dans W&amp;B Models, conditionnez les poids du modèle dans un format compatible avec VLLM, puis enregistrez le résultat. Cet exemple montre une façon de procéder :
+
+```python lines
+import os
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# Charger votre modèle
+model_name = "your-model-name"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# Enregistrer au format compatible vLLM
+save_dir = "path/to/save"
+tokenizer.save_pretrained(save_dir)
+model.save_pretrained(save_dir)
+
+# Enregistrer dans W&B Models
+import wandb
+wandb_run = wandb.init(entity="your-entity-name", project="your-project-name")
+artifact = wandb.Artifact(name="your-artifact-name")
+artifact.add_dir(save_dir)
+logged_artifact = wandb_run.log_artifact(artifact)
+logged_artifact.wait()
+wandb.finish()
+```

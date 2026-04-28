@@ -1,0 +1,25 @@
+---
+title: "匿名ユーザーが利用できない機能は何ですか？"
+keywords: ["匿名"]
+---
+
+* **データは永続保存されません**: 匿名アカウントでは、Runs は 7 日間保存されます。匿名の run データは、実際のアカウントに保存することで引き継げます。
+
+<Frame>
+  <img src="/images/app_ui/anon_mode_no_data.png" alt="匿名モードのインターフェース" />
+</Frame>
+
+* **artifact はログできません**: 匿名の run に artifact をログしようとすると、コマンドラインに警告が表示されます。
+  ```bash
+  wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
+  ```
+
+* **プロフィールページや Settings ページはありません**: これらのページは実際のアカウントでのみ有用なため、UI には含まれません。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[匿名](/ja/support/models/tags/anonymous)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

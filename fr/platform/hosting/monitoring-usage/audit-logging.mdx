@@ -1,0 +1,167 @@
+---
+title: Suivre l’activité des utilisateurs avec les journaux d’audit
+description: "Accédez aux journaux d’audit W&B, récupérez-les et analysez-les selon le type de déploiement, y compris le schéma des journaux et les actions suivies."
+---
+
+Utilisez les journaux d’audit W&amp;B pour suivre l’activité des utilisateurs au sein de votre organisation et répondre à vos exigences de gouvernance d’entreprise. Les journaux d’audit sont disponibles au format JSON. Voir [Audit log schema](#audit-log-schema).
+
+La méthode d’accès aux journaux d’audit dépend du type de déploiement de votre plateforme W&amp;B :
+
+| Type de déploiement de la plateforme W&amp;B                            | Mécanisme d’accès aux journaux d’audit                                                                                                                                                                                                                                                                                                                                               |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud)        | <ul><li>[BYOB au niveau de l’instance](/fr/platform/hosting/data-security/secure-storage-connector) : synchronisés vers le bucket au niveau de l’instance (BYOB) toutes les 10 minutes. Également disponibles via [l’API](#fetch-audit-logs-using-api).</li><li>Stockage par défaut au niveau de l’instance : disponible uniquement via [l’API](#fetch-audit-logs-using-api).</li></ul> |
+| [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) | Disponible uniquement pour les plans Enterprise. Disponible uniquement via [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                                                     |
+| [Autogéré](/fr/platform/hosting/hosting-options/self-managed)              | Synchronisés vers le bucket au niveau de l’instance toutes les 10 minutes. Également disponibles via [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                           |
+
+Après avoir récupéré les journaux d’audit, vous pouvez les analyser à l’aide d’outils tels que [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) ou [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric). Certains outils d’analyse des journaux d’audit ne prennent pas en charge le format JSON ; consultez la documentation de votre outil d’analyse pour connaître les recommandations et les exigences relatives à la transformation des journaux d’audit au format JSON avant l’analyse.
+
+Pour plus de détails sur le format des journaux, voir [Audit log schema](#audit-log-schema) et [Actions](#actions).
+
+<div id="audit-log-retention">
+  ## Conservation des journaux d’audit
+</div>
+
+* Si vous devez conserver les journaux d’audit pendant une durée déterminée, W&amp;B recommande de les transférer régulièrement vers un stockage à long terme, soit à l’aide de buckets de stockage, soit via l’API Audit Logging.
+* Si vous êtes soumis au [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://hhs.gov/hipaa/for-professionals/index.html), les journaux d’audit doivent être conservés pendant au moins 6 ans dans un environnement où ils ne peuvent être ni supprimés ni modifiés par un acteur interne ou externe avant la fin de la période de conservation obligatoire. Pour les instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) conformes à HIPAA avec [BYOB](/fr/platform/hosting/data-security/secure-storage-connector), vous devez configurer des garde-fous pour votre stockage géré, y compris tout stockage de conservation à long terme.
+
+<div id="audit-log-schema">
+  ## Audit log schema
+</div>
+
+Ce tableau présente toutes les clés susceptibles d’apparaître dans une entrée du journal d’audit, par ordre alphabétique. Selon l’action et le contexte, une entrée de journal donnée peut ne contenir qu’un sous-ensemble des champs possibles.
+
+| Clé                       | Définition                                                                                                                                                            |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `action`                  | L’[action](#actions) de l’événement.                                                                                                                                  |
+| `actor_email`             | L’adresse e-mail de l’utilisateur à l’origine de l’action, le cas échéant.                                                                                            |
+| `actor_ip`                | L’adresse IP de l’utilisateur à l’origine de l’action.                                                                                                                |
+| `actor_user_id`           | L’ID de l’utilisateur connecté ayant effectué l’action, le cas échéant.                                                                                               |
+| `artifact_asset`          | L’ID de l’artifact associé à l’action, le cas échéant.                                                                                                                |
+| `artifact_digest`         | Le digest de l’artifact associé à l’action, le cas échéant.                                                                                                           |
+| `artifact_qualified_name` | Le nom complet de l’artifact associé à l’action, le cas échéant.                                                                                                      |
+| `artifact_sequence_asset` | L’ID de la séquence d’artifact associée à l’action, le cas échéant.                                                                                                   |
+| `cli_version`             | La version du SDK Python à l’origine de l’action, le cas échéant.                                                                                                     |
+| `entity_asset`            | L’ID de l’entité ou de l’équipe associée à l’action, le cas échéant.                                                                                                   |
+| `entity_name`             | Le nom de l’entité ou de l’équipe associée à l’action, le cas échéant.                                                                                                 |
+| `project_asset`           | Le projet associé à l’action, le cas échéant.                                                                                                                         |
+| `project_name`            | Le nom du projet associé à l’action, le cas échéant.                                                                                                                  |
+| `report_asset`            | L’ID du rapport associé à l’action, le cas échéant.                                                                                                                    |
+| `report_name`             | Le nom du rapport associé à l’action, le cas échéant.                                                                                                                  |
+| `response_code`           | Le code de réponse HTTP de l’action, le cas échéant.                                                                                                                  |
+| `timestamp`               | L’heure de l’événement au [format RFC3339](https://www.rfc-editor.org/rfc/rfc3339). Par exemple, `2023-01-23T12:34:56Z` représente le 23 janvier 2023 à 12:34:56 UTC. |
+| `user_asset`              | La ressource utilisateur concernée par l’action (et non l’utilisateur qui effectue l’action), le cas échéant.                                                                |
+| `user_email`              | L’adresse e-mail de l’utilisateur concerné par l’action (et non celle de l’utilisateur qui effectue l’action), le cas échéant.                                        |
+
+<div id="personally-identifiable-information-pii">
+  ### Informations personnelles identifiables (PII)
+</div>
+
+Les informations personnelles identifiables (PII), telles que les adresses e-mail et les noms des Projects, des équipes et des rapports, sont disponibles uniquement via l’option API endpoint.
+
+* Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et
+  [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d’organisation peut [exclure les PII](#exclude-pii) lors de la récupération des journaux d’audit.
+* Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), l’API endpoint renvoie toujours les champs pertinents pour les journaux d’audit, y compris les PII. Cela n’est pas configurable.
+
+<div id="before-you-begin">
+  ## Avant de commencer
+</div>
+
+1. Les administrateurs de l’organisation peuvent récupérer les journaux d’audit. Si vous recevez une erreur `403`, assurez-vous que vous ou votre compte de service disposez des autorisations nécessaires.
+2. **Cloud mutualisé** : Si vous êtes membre de plusieurs organisations en **Cloud mutualisé**, vous *devez* configurer l’**organisation API par défaut**, qui détermine vers quelle organisation sont acheminés les appels à l’API des journaux d’audit. Sinon, vous recevrez l’erreur suivante :
+
+   ```text
+   user is associated with multiple organizations but no valid org ID found in user info
+   ```
+
+   Pour définir votre organisation API par défaut :
+
+   1. Cliquez sur votre image de profil, puis sur **Paramètres utilisateur**.
+   2. Pour **l’organisation API par défaut**, sélectionnez une organisation.
+
+   Cela ne s’applique pas à un compte de service, qui ne peut être membre que d’une seule organisation en **Cloud mutualisé**.
+
+<div id="fetch-audit-logs">
+  ## Récupérer les journaux d’audit
+</div>
+
+Pour récupérer les journaux d’audit :
+
+1. Déterminez l’API point de terminaison approprié pour votre instance :
+
+   * [Autogéré](/fr/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
+   * [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud): `<instance-name>.wandb.io/admin/audit_logs`
+   * [Cloud mutualisé (Enterprise requis)](/fr/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
+
+   Dans les étapes suivantes, remplacez `<API-endpoint>` par votre API point de terminaison.
+2. (Facultatif) Construisez les paramètres de requête à ajouter à l’point de terminaison. Dans les étapes suivantes, remplacez `<parameters>` par la chaîne obtenue.
+   * `anonymize` : si l’URL inclut le paramètre `anonymize=true`, supprimez toute PII. Sinon, la PII est incluse. Référez-vous à [Exclure la PII lors de la récupération des journaux d’audit](#exclude-pii-when-fetching-audit-logs). Non pris en charge pour le Cloud mutualisé, où tous les champs sont inclus, y compris la PII.
+   * Configurez la plage de dates des journaux à récupérer à l’aide d’une combinaison de `numdays` et `startDate`. Chaque paramètre est facultatif, et ils interagissent entre eux.
+     * Si aucun des deux paramètres n’est inclus, seuls les journaux du jour sont récupérés.
+     * `numDays` : entier indiquant le nombre de jours à remonter à partir de `startDate` pour récupérer les journaux. S’il est omis ou défini sur `0`, les journaux ne sont récupérés que pour `startDate`. Sur **Multi-tenant Cloud**, vous pouvez récupérer au maximum 7 jours de journaux d’audit, même si vous définissez `numDays` sur une valeur supérieure.
+     * `startDate` : facultatif. Utilisez `startDate=YYYY-MM-DD` pour définir le jour calendaire le plus récent de l’intervalle. Si vous l’omettez ou le définissez sur la date du jour, l’intervalle se termine aujourd’hui et `numDays` compte à rebours à partir de ce jour.
+       * Pris en charge dans **Multi-tenant Cloud** uniquement avec une Enterprise license.
+       * Pris en charge dans **Cloud dédié** et **Autogéré** v0.80.0 et versions ultérieures.
+3. Construisez l’URL complète du point de terminaison au format `<API-endpoint>?<parameters>`.
+4. Exécutez une requête HTTP `GET` sur l’API point de terminaison complète à l’aide d’un navigateur web ou d’un outil comme [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), ou cURL.
+
+La réponse de l’API contient des objets JSON séparés par des sauts de ligne. Les objets incluent les champs décrits dans le [schéma](#audit-log-schema), comme lorsque les journaux d’audit sont synchronisés avec un bucket au niveau de l’instance. Dans ce cas, les journaux d’audit se trouvent dans le répertoire `/wandb-audit-logs` de votre bucket.
+
+<div id="use-basic-authentication">
+  ### Utiliser l’authentification de base
+</div>
+
+Pour utiliser l’authentification de base avec votre clé API afin d’accéder à l’API des journaux d’audit, définissez l’en-tête `Authorization` de la requête HTTP sur la chaîne `Basic`, suivie d’un espace, puis de la chaîne encodée en base 64 au format `username:API-KEY`. En d’autres termes, remplacez le nom d’utilisateur et la clé API par vos valeurs, séparées par le caractère `:`, puis encodez le résultat en base 64. Par exemple, pour vous authentifier en tant que `demo:p@55w0rd`, l’en-tête doit être `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+
+### Exclure les PII lors de la récupération des journaux d’audit <a id="exclude-pii" />
+
+Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d’organisation ou d’instance W&amp;B peut exclure les PII lors de la récupération des journaux d’audit. Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), l’API endpoint renvoie toujours les champs pertinents des journaux d’audit, y compris les PII. Ce comportement n’est pas configurable.
+
+Pour exclure les PII, passez le paramètre d’URL `anonymize=true`. Par exemple, si l’URL de votre instance W&amp;B est `https://mycompany.wandb.io` et que vous souhaitez obtenir les journaux d’audit de l’activité des utilisateurs sur la dernière semaine tout en excluant les PII, utilisez un API endpoint comme :
+
+```text
+https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameters>.
+```
+
+<div id="actions">
+  ## Actions
+</div>
+
+Ce tableau décrit les actions que W&amp;B peut enregistrer, classées par ordre alphabétique.
+
+| Action                        | Définition                                                                               |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `artifact:create`             | Artifact est créé.                                                                       |
+| `artifact:delete   `          | Artifact est supprimé.                                                                   |
+| `artifact:read`               | Artifact est lu.                                                                         |
+| `project:delete`              | Le projet est supprimé.                                                                  |
+| `project:read`                | Le projet est lu.                                                                        |
+| `report:read`                 | Le rapport est lu. <sup><a href="#1">1</a></sup>                                            |
+| `run:delete_many`             | Un lot de runs est supprimé.                                                             |
+| `run:delete`                  | Le run est supprimé.                                                                     |
+| `run:stop`                    | Le run est arrêté.                                                                       |
+| `run:undelete_many`           | Un lot de runs est restauré depuis la corbeille.                                         |
+| `run:update_many`             | Un lot de runs est mis à jour.                                                           |
+| `run:update`                  | Le run est mis à jour.                                                                   |
+| `sweep:create_agent`          | L’agent de balayage est créé.                                                            |
+| `team:create_service_account` | Un compte de service est créé pour l’équipe.                                             |
+| `team:create`                 | L’équipe est créée.                                                                         |
+| `team:delete`                 | L’équipe est supprimée.                                                                     |
+| `team:invite_user`            | L’utilisateur est invité à rejoindre l’équipe.                                                   |
+| `team:uninvite`               | L’utilisateur ou le compte de service est retiré de l’équipe.                                    |
+| `user:create_api_key`         | Une clé API est créée pour l’utilisateur ou le compte de service. <sup><a href="#1">1</a></sup>  |
+| `user:create`                 | L’utilisateur est créé. <sup><a href="#1">1</a></sup>                                            |
+| `user:deactivate`             | L’utilisateur est désactivé. <sup><a href="#1">1</a></sup>                                       |
+| `user:delete_api_key`         | La clé API de l’utilisateur ou du compte de service est supprimée. <sup><a href="#1">1</a></sup> |
+| `user:initiate_login`         | L’utilisateur lance la connexion. <sup><a href="#1">1</a></sup>                                  |
+| `user:login`                  | L’utilisateur se connecte. <sup><a href="#1">1</a></sup>                                         |
+| `user:logout`                 | L’utilisateur se déconnecte. <sup><a href="#1">1</a></sup>                                       |
+| `user:permanently_delete`     | L’utilisateur est supprimé définitivement. <sup><a href="#1">1</a></sup>                         |
+| `user:reactivate`             | L’utilisateur est réactivé. <sup><a href="#1">1</a></sup>                                        |
+| `user:read`                   | Le profil de l’utilisateur est lu. <sup><a href="#1">1</a></sup>                                 |
+| `user:update`                 | L’utilisateur est mis à jour. <sup><a href="#1">1</a></sup>                                      |
+
+<a id="1">1</a>: Sur [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), les journaux d’audit ne sont pas collectés pour :
+
+* Les projets Open ou Public.
+* L’action `report:read`.
+* Les actions `Users` qui ne sont pas liées à une organisation spécifique.

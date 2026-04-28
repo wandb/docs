@@ -1,0 +1,25 @@
+---
+title: "W&B UI에서 로깅한 차트와 미디어를 어떻게 정리할 수 있나요?"
+keywords: ["Experiments"]
+---
+
+`/` 문자는 W&amp;B UI에서 로깅된 패널을 구분합니다. 기본적으로는 로깅된 항목 이름에서 `/` 앞부분이 &quot;Panel Section&quot;이라는 패널 그룹을 정의합니다.
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
+```
+
+[Workspace](/ko/models/track/project-page#workspace-tab) 설정에서 패널 그룹화를 첫 번째 세그먼트만 기준으로 하거나 `/`로 구분된 모든 세그먼트를 기준으로 하도록 조정합니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

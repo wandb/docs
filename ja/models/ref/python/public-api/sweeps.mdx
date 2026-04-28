@@ -3,27 +3,31 @@ title: Sweeps
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
 
-## <kbd>class</kbd> `Sweeps`
-`Sweep` オブジェクトのコレクションに対するレイジーイテレータです。
 
-**Examples:**
- ```python
+## <kbd>class</kbd> `Sweeps`
+
+`Sweep` オブジェクトのコレクションを遅延的に走査するイテレータです。
+
+**例:**
+
+```python
 from wandb.apis.public import Api
 
-# 指定したプロジェクトとエンティティから sweeps を取得
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# sweep をループして詳細を表示
+# sweepを反復処理して詳細を表示する
 for sweep in sweeps:
      print(f"Sweep name: {sweep.name}")
      print(f"Sweep ID: {sweep.id}")
      print(f"Sweep URL: {sweep.url}")
      print("----------")
-``` 
+```
+
 
 ### <kbd>method</kbd> `Sweeps.__init__`
 
@@ -36,17 +40,18 @@ __init__(
 ) → Sweeps
 ```
 
-`Sweep` オブジェクトの反復可能なコレクション。
+`Sweep` オブジェクトの反復可能なコレクションです。
 
-**Args:**
- 
- - `client`: W&B へのクエリに使用される API クライアント。 
- - `entity`:  Sweeps を所有する Entities 。 
- - `project`:  Sweeps を含む Projects 。 
- - `per_page`:  API への 1 回のリクエストで取得する Sweeps の数。 
+**引数:**
 
----
+* `client`:  W&amp;B のクエリに使用する API クライアント。
+* `entity`:  sweep を所有する entity。
+* `project`:  sweep を含むプロジェクト。
+* `per_page`:  API へのリクエストごとに取得する sweep の数。
 
-### <kbd>property</kbd> Sweeps.length
+***
 
----
+
+### <kbd>プロパティ</kbd> Sweeps.length
+
+***

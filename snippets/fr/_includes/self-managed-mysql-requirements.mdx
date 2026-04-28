@@ -1,0 +1,15 @@
+---
+title: Exigences MySQL pour un déploiement autogéré
+---
+
+W&amp;B nécessite une base de données MySQL externe.
+
+Pour la Production, W&amp;B recommande fortement d’utiliser des services de base de données gérés :
+
+* [AWS RDS Aurora MySQL](https://aws.amazon.com/rds/aurora/)
+* [Google Cloud SQL for MySQL](https://cloud.google.com/sql/mysql)
+* [Azure Database for MySQL](https://azure.microsoft.com/en-us/products/mysql/)
+
+Les services de base de données gérés offrent des sauvegardes automatisées, de la supervision, une haute disponibilité et l’application des correctifs, tout en réduisant la charge opérationnelle.
+
+Voir l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#mysql) pour connaître l’ensemble des exigences MySQL, y compris les recommandations de dimensionnement et les paramètres de configuration. Pour le SQL de création de la base de données, consultez le [guide bare-metal](/fr/platform/hosting/self-managed/operator/#mysql-database). Pour toute question sur la configuration de la base de données de votre déploiement, contactez l’[assistance](mailto:support@wandb.com) ou votre AISE.

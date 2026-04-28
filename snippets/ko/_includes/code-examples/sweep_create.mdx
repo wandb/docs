@@ -1,0 +1,77 @@
+---
+title: 스윕 생성
+---
+
+```python
+"""
+스윕 설정을 정의하고, 초기화하여 W&B Sweep을 시작합니다.
+
+sweep_configuration은 단일 중첩 스윕 설정입니다. 이중 중첩 스윕 설정 예시는 sweep_config.py를
+참조하세요.
+"""
+import wandb
+import numpy as np
+import random
+import argparse
+
+def train_one_epoch(epoch, lr, batch_size):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
+def main(args=None):
+    # 스윕 에이전트에 의해 호출될 때 args는 None이므로,
+    # 스윕 설정의 프로젝트를 사용합니다
+    project = args.project if args else None
+    
+    with wandb.init(project=project) as run:
+        # `wandb.Run.config` 객체에서 하이퍼파라미터 값을 가져옵니다
+        lr = run.config["lr"]
+        batch_size = run.config["batch_size"]
+        epochs = run.config["epochs"]
+
+        # 트레이닝 루프를 실행하고 성능 값을 W&B에 기록합니다
+        for epoch in np.arange(1, epochs):
+            train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
+            val_acc, val_loss = evaluate_one_epoch(epoch)
+            run.log(
+                {
+                    "epoch": epoch,
+                    "train_acc": train_acc,
+                    "train_loss": train_loss,
+                    "val_acc": val_acc, # 최적화 대상 메트릭
+                    "val_loss": val_loss,
+                }
+            )
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--project", type=str, default="sweep-example", help="W&B 프로젝트 이름")
+    args = parser.parse_args()
+
+    # 스윕 설정 딕셔너리 정의
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {
+            "goal": "maximize",
+            "name": "val_acc"
+            },
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    # 설정 딕셔너리를 전달하여 스윕 초기화
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
+
+    # 스윕 작업 시작
+    wandb.agent(sweep_id, function=main, count=2)
+```

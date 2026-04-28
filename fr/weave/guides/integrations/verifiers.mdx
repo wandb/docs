@@ -1,0 +1,141 @@
+---
+title: Verifiers
+description: "Suivez les environnements RL de Verifiers et l'entraînement d'agents LLM avec Weave, en capturant des conversations multi-tours et des rollouts d'évaluation."
+---
+
+[Verifiers](https://github.com/willccbb/verifiers) est une bibliothèque de composants modulaires permettant de créer des environnements d&#39;apprentissage par renforcement (RL) et d&#39;entraîner des agents LLM. Les environnements créés avec Verifiers peuvent servir d&#39;évaluations pour les LLM, de pipelines de données synthétiques, de cadres d&#39;exécution d&#39;agents pour tout endpoint compatible OpenAI, ainsi que de support pour l&#39;entraînement RL.
+
+En plus d&#39;utiliser W&amp;B pour enregistrer vos métriques d&#39;entraînement, vous pouvez intégrer Weave à vos flux de travail RL avec Verifiers afin de gagner en observabilité sur les performances de votre modèle pendant l&#39;entraînement. Weave enregistre les entrées, les sorties et les horodatages de chaque étape afin que vous puissiez examiner comment les données se transforment à chaque tour, déboguer des conversations complexes à plusieurs tours et optimiser les résultats de l&#39;entraînement.
+
+Vous pouvez également utiliser Weave et Verifiers ensemble pour effectuer des évaluations.
+
+Ce guide vous montre comment installer Verifiers, W&amp;B et Weave, et fournit deux exemples d&#39;utilisation de Verifiers avec Weave et W&amp;B.
+
+![verifiers wandb run page](/images/weave/verifiers.gif)
+
+<div id="getting-started">
+  ## Premiers pas
+</div>
+
+Pour intégrer Verifiers avec Weave, commencez par installer la bibliothèque Verifiers avec `uv` ([comme le recommandent les auteurs de la bibliothèque](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Utilisez l’une des commandes suivantes pour installer la bibliothèque :
+
+```bash
+# Installe la bibliothèque principale pour le développement local et les modèles basés sur des API
+uv add verifiers
+
+# Installe la version complète de la bibliothèque avec toutes les dépendances facultatives, y compris PyTorch et la prise en charge GPU
+uv add 'verifiers[all]' && uv pip install flash-attn --no-build-isolation
+
+# Installe la dernière version de la bibliothèque directement depuis GitHub, y compris les dernières fonctionnalités et correctifs non encore publiés
+uv add verifiers @ git+https://github.com/willccbb/verifiers.git
+```
+
+Installez ensuite Weave et W&amp;B :
+
+```bash
+uv pip install weave wandb
+```
+
+Weave active par défaut le [patching implicite](/fr/weave/guides/integrations#automatic-implicit-patching) pour cette bibliothèque. Cela vous permet d’utiliser Weave avec Verifiers sans devoir recourir à des fonctions explicites de patch d’appels.
+
+<div id="trace-rollouts-and-evaluate">
+  ### Tracer les rollouts et évaluer
+</div>
+
+Une fois les bibliothèques nécessaires installées, vous pouvez utiliser Weave et Verifiers ensemble pour tracer les appels et exécuter des évaluations.
+
+L&#39;exemple de script suivant montre comment exécuter une évaluation avec Verifiers et enregistrer les résultats dans Weave. Le script teste la capacité du LLM à résoudre des problèmes de mathématiques à l&#39;aide du [jeu de données GSM8K](https://huggingface.co/datasets/openai/gsm8k). Il demande à GPT-4 de résoudre deux problèmes de mathématiques, extrait la valeur numérique de chaque réponse, puis note la tentative en utilisant Verifiers comme framework d&#39;évaluation.
+
+Exécutez l&#39;exemple et examinez les résultats dans Weave :
+
+```python lines
+import os
+from openai import OpenAI
+import verifiers as vf
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+# Initialiser Weave
+weave.init("verifiers_demo")
+
+# Environnement minimal à tour unique
+dataset = vf.load_example_dataset("gsm8k", split="train").select(range(2))
+parser = vf.ThinkParser()
+
+def correct_answer(parser, completion, answer):
+    parsed = parser.parse_answer(completion) or ""
+    return 1.0 if parsed.strip() == answer.strip() else 0.0
+
+rubric = vf.Rubric(funcs=[correct_answer, parser.get_format_reward_func()], weights=[1.0, 0.2])
+
+env = vf.SingleTurnEnv(
+    dataset=dataset,
+    system_prompt="Think step-by-step, then answer.",
+    parser=parser,
+    rubric=rubric,
+)
+
+client = OpenAI()
+results = env.evaluate(
+    client, "gpt-4.1-mini", num_examples=2, rollouts_per_example=2, max_concurrent=8
+)
+```
+
+<div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
+  ### Affiner un modèle avec le suivi des expériences et le Tracing
+</div>
+
+Weave peut être un outil puissant dans vos flux de travail de fine-tuning RL en offrant une meilleure visibilité sur les performances de vos modèles pendant l’entraînement. Utilisé aux côtés de W&amp;B, il vous donne une observabilité complète : W&amp;B suit les métriques d’entraînement et les graphiques de performances, tandis que Weave capture des traces détaillées de chaque interaction pendant le processus d’entraînement.
+
+Le dépôt `verifiers` inclut des [exemples](https://github.com/PrimeIntellect-ai/verifiers) prêts à l’emploi pour vous aider à démarrer.
+
+L’exemple suivant de pipeline d’entraînement RL exécute un serveur d’Inférence local et entraîne un modèle à l’aide du jeu de données GSM8K. Le modèle fournit des réponses aux problèmes de mathématiques, et la boucle d’entraînement attribue un score à la sortie puis met à jour le modèle en conséquence. W&amp;B enregistre les métriques d’entraînement, comme la perte, la récompense et l’exactitude, tandis que Weave capture l’entrée, la sortie, le raisonnement et l’évaluation.
+
+Pour utiliser ce pipeline :
+
+1. Installez le framework depuis la source. Les commandes suivantes installent la bibliothèque Verifiers depuis GitHub ainsi que les dépendances nécessaires :
+
+```bash
+git clone https://github.com/willccbb/verifiers
+cd verifiers
+uv sync --all-extras && uv pip install flash-attn --no-build-isolation
+```
+
+2. Installez un environnement prêt à l’emploi. La commande suivante installe l’environnement d’entraînement GSM8K préconfiguré :
+
+```bash
+vf-install gsm8k --from-repo
+```
+
+3. Entraînez votre modèle. Les commandes suivantes lancent respectivement le serveur d’inférence et la boucle d’entraînement. Dans cet exemple de flux de travail, `report_to=wandb` est défini par défaut, vous n’avez donc pas besoin d’appeler `wandb.init()` séparément. Vous serez invité à authentifier cette machine pour consigner des métriques sur W&amp;B.
+
+```bash
+# Lance le serveur d'inférence
+CUDA_VISIBLE_DEVICES=0 vf-vllm --model willcb/Qwen3-0.6B --enforce-eager --disable-log-requests
+
+# Lance la boucle d'entraînement
+CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs/zero3.yaml examples/grpo/train_gsm8k.py
+```
+
+<Note>
+  Nous avons testé avec succès cet exemple sur 2xH100 et défini les variables d’environnement suivantes pour améliorer la stabilité :
+
+  ```bash
+  # Dans LES DEUX shells (serveur et entraîneur) avant le lancement
+  export NCCL_CUMEM_ENABLE=0
+  export NCCL_CUMEM_HOST_ENABLE=0
+  ```
+
+  Ces variables désactivent la mémoire unifiée CUDA (CuMem) pour les allocations de mémoire sur le périphérique.
+</Note>
+
+Une fois l’entraînement lancé, vous pouvez [consulter les traces](/fr/weave/guides/tools/weave-in-workspaces) enregistrées pendant votre run dans l’interface utilisateur.
+
+Les traces n’incluent pas `logprobs` pour les méthodes `Environment.a_generate` et `Rubric.score_rollouts`. Cela permet de limiter la taille des charges utiles tout en conservant les données d’origine intactes pour l’entraînement.
+
+<div id="see-also">
+  ## Voir aussi
+</div>
+
+Verifiers offre une intégration native avec W&amp;B Models. Voir le [dépôt Verifiers](https://github.com/PrimeIntellect-ai/verifiers) pour en savoir plus.

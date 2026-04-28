@@ -1,0 +1,38 @@
+---
+title: wandb status
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3436" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+status [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Affiche les paramètres actuels de la configuration W&amp;B.
+
+Affiche tous les paramètres W&amp;B actifs au format JSON, y compris
+l’URL de base, la clé API, le projet, l’entité et d’autres valeurs résolues.
+
+Par exemple, pour afficher les paramètres actuels :
+
+```bash
+wandb status
+```
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag         | Type            | Description                                           |
+| ------------ | --------------- | ----------------------------------------------------- |
+| `--settings` | indicateur BOOL | Affiche les paramètres actuels. **Par défaut** : True |

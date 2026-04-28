@@ -1,0 +1,53 @@
+---
+title: "스윕 중 `Cuda out of memory` 오류를 어떻게 해결하나요?"
+keywords: ["Sweeps", "Run 충돌"]
+---
+
+스윕 중에 `Cuda out of memory`가 발생하면, 프로세스 기반 실행을 사용하도록 코드를 리팩터링하세요. 코드를 Python 스크립트로 다시 작성하고, Python SDK 대신 CLI에서 스윕 에이전트를 호출하세요.
+
+1. Python 스크립트(예: `train.py`)에 트레이닝 로직을 추가하세요.
+
+   ```python
+   if __name__ == "__main__":
+       train()
+   ```
+
+2. YAML 스윕 설정에서 해당 스크립트를 참조하세요.
+
+   ```yaml
+   program: train.py
+   method: bayes
+   metric:
+     name: validation_loss
+     goal: maximize
+   parameters:
+     learning_rate:
+       min: 0.0001
+       max: 0.1
+     optimizer:
+       values: ["adam", "sgd"]
+   ```
+
+3. CLI로 스윕을 초기화하세요.
+
+   ```shell
+   wandb sweep config.yaml
+   ```
+
+4. CLI로 스윕 에이전트를 시작하세요. `sweep_ID`는 이전 단계에서 반환된 ID로 바꾸세요.
+
+   ```shell
+   wandb agent sweep_ID
+   ```
+
+CLI 기반 에이전트(`wandb agent`)를 Python SDK(`wandb.agent`) 대신 사용하면 각 run이 자체 메모리 할당을 갖는 별도의 프로세스로 실행되므로, run 간에 CUDA 메모리가 누적되는 것을 방지할 수 있습니다.
+
+자세한 내용은 [Sweeps troubleshooting](/ko/models/sweeps/troubleshoot-sweeps/)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[run 비정상 종료](/ko/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

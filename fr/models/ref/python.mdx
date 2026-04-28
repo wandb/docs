@@ -1,0 +1,46 @@
+---
+title: Python SDK 0.26.1
+description: "Consultez la référence de l’API du SDK Python W&B, y compris les instructions d’installation, les classes et la documentation des fonctions."
+module:
+---
+
+Le SDK Python W&amp;B, accessible via `wandb`, vous permet d’entraîner et d’effectuer le fine-tuning de modèles, ainsi que de gérer des modèles de l’expérimentation à la Production.
+
+> Après avoir effectué vos opérations d’entraînement et de fine-tuning avec ce SDK, vous pouvez utiliser [l’API publique](/fr/models/ref/python/public-api) pour interroger et analyser les données qui ont été enregistrées, ainsi que [l’API Reports and Workspaces](/fr/models/ref/wandb_workspaces) pour générer un [rapport](/fr/models/reports/) publiable sur le Web et résumant votre travail.&quot;
+
+<div id="installation-and-setup">
+  ## Installation et configuration
+</div>
+
+<div id="sign-up-and-create-an-api-key">
+  ### Inscrivez-vous et créez une clé API
+</div>
+
+Pour authentifier votre machine auprès de W&amp;B, vous devez d’abord générer une clé API dans [Paramètres utilisateur](https://wandb.ai/settings).
+
+<div id="install-and-import-packages">
+  ### Installer et importer des packages
+</div>
+
+Installez la bibliothèque W&amp;B.
+
+```
+pip install wandb
+```
+
+<div id="import-wb-python-sdk">
+  ### Importer le SDK Python de W&amp;B :
+</div>
+
+```python
+import wandb
+
+# Spécifiez votre entité d'équipe
+entity = "<team_entity>"
+
+# Project dans lequel le run est enregistré
+project = "my-awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

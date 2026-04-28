@@ -1,0 +1,26 @@
+---
+title: "Op"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="op">
+  # Op
+</div>
+
+Ƭ **Op**&lt;`T`&gt;: &#123; `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: `true` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` | `Promise`&lt;`OpRef`&gt; ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`&lt;`T`&gt;  &#125; &amp; `T` &amp; (...`args`: `Parameters`&lt;`T`&gt;) =&gt; `ReturnType`&lt;`T`&gt; extends `AsyncIterable`&lt;infer U&gt; ? `AsyncIterable`&lt;`Awaited`&lt;`U`&gt;&gt; : `Promise`&lt;`Awaited`&lt;`ReturnType`&lt;`T`&gt;&gt;&gt;
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                                     |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[opType.ts:7](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/opType.ts#L7)
+
+***

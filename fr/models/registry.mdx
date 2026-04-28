@@ -1,0 +1,121 @@
+---
+title: Aperçu du registre
+description: W&B registre pour gérer et partager les versions d'artifacts dans votre organisation
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
+
+W&amp;B registre est un dépôt central organisé de [versions de W&amp;B Artifact](/fr/models/artifacts/create-a-new-artifact-version) au sein de votre organisation. Les Users qui [disposent des autorisations nécessaires](/fr/models/registry/configure_registry/) dans votre organisation peuvent [télécharger et utiliser des artifacts](/fr/models/registry/download_use_artifact/), les partager et gérer de manière collaborative le cycle de vie de tous les artifacts, quelle que soit l’équipe à laquelle l’utilisateur appartient.
+
+Utilisez le registre pour suivre les versions d’artifacts, auditer l’historique d’utilisation et des modifications d’un artifact, garantir la gouvernance et la conformité de vos artifacts, et [automatiser les processus en aval, comme le CI/CD des modèles](/fr/models/automations/).
+
+En résumé, utilisez W&amp;B registre pour :
+
+* [Promouvoir](/fr/models/registry/link_version/) des versions d’artifacts adaptées à une tâche de machine learning auprès d’autres utilisateurs de votre organisation.
+* Organiser les [artifacts avec des tags](/fr/models/registry/organize-with-tags/) afin de trouver ou référencer des artifacts spécifiques.
+* Suivre la [traçabilité d’un artifact](/fr/models/registry/lineage/) et auditer l’historique des modifications.
+* [Automatiser](/fr/models/automations/) des processus en aval, comme le CI/CD des modèles.
+* [Gérer les personnes de votre organisation](/fr/models/registry/configure_registry/) qui peuvent accéder aux artifacts dans chaque registre.
+
+{/* - Repérez rapidement des Artifacts importants ou faites-y référence grâce à un identifiant unique appelé alias. */}
+
+L’image suivante montre la page d’accueil de W&amp;B registre. Un registre nommé `Model` est marqué d’une étoile. Deux collections sont affichées : `DemoModels` et `Zoo_Classifier_Models`.
+
+<Frame>
+  <img src="/images/registry/registry_landing_page.png" alt="W&B Registry" />
+</Frame>
+
+<div id="learn-the-basics">
+  ## Découvrez les bases
+</div>
+
+Chaque organisation contient initialement deux registres que vous pouvez utiliser pour organiser vos artifacts de modèles et de jeux de données, appelés respectivement **Models** et **Datasets**. Vous pouvez [créer des registres supplémentaires pour organiser d&#39;autres types d&#39;artifact selon les besoins de votre organisation](/fr/models/registry/create_registry).
+
+Chaque [*registre*](/fr/models/registry/configure_registry/) se compose d&#39;une ou plusieurs [*collections*](/fr/models/registry/create_collection/). Chaque collection correspond à une tâche ou à un cas d&#39;utilisation distinct.
+
+{/* <Frame>
+    <img src="/images/registry/homepage_registry.png" alt="W&B Registry"  />
+  </Frame> */}
+
+Pour ajouter un artifact à un registre, vous devez d&#39;abord journaliser une [version spécifique d&#39;artifact dans W&amp;B](/fr/models/artifacts/create-a-new-artifact-version/). Chaque fois que vous journalisez un artifact, W&amp;B lui attribue automatiquement une version. Les versions d&#39;artifact utilisent une indexation à partir de 0 : la première version est donc `v0`, la deuxième `v1`, et ainsi de suite.
+
+Une fois qu&#39;un artifact est journalisé dans W&amp;B, vous pouvez ensuite lier cette version spécifique d&#39;artifact à une collection dans le registre.
+
+<Note>
+  Le terme &quot;lien&quot; désigne des pointeurs qui relient l&#39;emplacement où W&amp;B stocke l&#39;artifact et l&#39;emplacement où l&#39;artifact est accessible dans le registre. W&amp;B ne duplique pas les artifacts lorsque vous liez un artifact à une collection.
+</Note>
+
+Par exemple, l&#39;exemple de code suivant journalise et lie un artifact de modèle appelé `"my_model.txt"` à une collection nommée `"first-collection"` dans un registre appelé `"model"` :
+
+1. Initialisez un run W&amp;B avec `wandb.init()`.
+2. Journalisez l&#39;artifact dans W&amp;B avec `wandb.Run.log()`.
+3. Indiquez le nom de la collection et du registre auxquels lier votre version d&#39;artifact.
+4. Liez l&#39;artifact à la collection à l&#39;aide de `wandb.Run.link_artifact()`.
+
+Enregistrez ce code Python dans un script, puis exécutez-le. La version 0.18.6 ou ultérieure du SDK Python W&amp;B est requise.
+
+```python title="hello_collection.py"
+import wandb
+import random
+
+# Initialiser un run W&B pour suivre l'artifact
+with wandb.init(project="registry_quickstart") as run:
+    # Créer un fichier de modèle simulé pour pouvoir l'enregistrer
+    with open("my_model.txt", "w") as f:
+        f.write("Model: " + str(random.random()))
+
+    # Enregistrer l'artifact dans W&B
+    logged_artifact = run.log_artifact(
+        artifact_or_path="./my_model.txt", 
+        name="gemma-finetuned", 
+        type="model" # Spécifie le type d'artifact
+    )
+
+    # Spécifier le nom de la collection et du registre
+    # dans lesquels vous souhaitez publier l'artifact
+    COLLECTION_NAME = "first-collection"
+    REGISTRY_NAME = "model"
+
+    # Lier l'artifact au registre
+    run.link_artifact(
+        artifact=logged_artifact, 
+        target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+    )
+```
+
+W&amp;B crée automatiquement une collection pour vous si la collection que vous spécifiez dans la méthode `wandb.Run.link_artifact(target_path = "")` de l&#39;objet run renvoyé n&#39;existe pas dans le registre que vous indiquez.
+
+En reprenant l&#39;exemple précédent, après avoir exécuté le script, accédez à W&amp;B registre pour voir les versions d&#39;artifact que vous et les autres membres de votre organisation publiez. Sélectionnez **registre** dans la barre latérale du projet, sous **Applications**. Sélectionnez le registre `"Model"`. Dans le registre, vous devriez voir la collection `"first-collection"` avec votre version d&#39;artifact liée.
+
+Une fois qu&#39;une version d&#39;artifact est liée à une collection dans un registre, les membres de votre organisation peuvent [voir](/fr/models/registry/lineage), [télécharger](/fr/models/registry/download_use_artifact), [organiser](/fr/models/registry/organize-with-tags) et gérer vos versions d&#39;artifact, créer des automatisations en aval, et plus encore, s&#39;ils disposent des autorisations appropriées.
+
+<Note>
+  Si une version d&#39;artifact enregistre des métriques (par exemple avec `wandb.Run.log_artifact()`), vous pouvez consulter les métriques de cette version depuis sa page de détails, et comparer les métriques entre plusieurs versions d&#39;artifact depuis la page de la collection. Référez-vous à [Voir les artifacts liés dans un registre](/fr/models/registry/link_version/#view-linked-artifacts-in-a-registry).
+</Note>
+
+<div id="enable-wb-registry">
+  ## Activer W&amp;B Registry
+</div>
+
+Selon votre type de déploiement, remplissez les conditions suivantes pour activer W&amp;B Registry :
+
+| Type de déploiement | Comment l’activer                                                                                                                                                                                                                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cloud mutualisé     | Aucune action requise. W&amp;B Registry est disponible dans W&amp;B App.                                                                                                                                                                                                                 |
+| Cloud dédié         | Contactez l’équipe en charge de votre compte pour activer W&amp;B Registry pour votre déploiement.                                                                                                                                                                                       |
+| Autogéré            | Pour Server v0.70.0 ou version ultérieure, aucune action requise. Pour les anciennes versions de Server prises en charge, définissez la variable d’environnement `ENABLE_REGISTRY_UI` sur `true`. Référez-vous à [Configurer les variables d’environnement](/fr/platform/hosting/env-vars). |
+
+<div id="resources-to-get-started">
+  ## Ressources pour bien démarrer
+</div>
+
+Selon votre cas d’usage, consultez les ressources suivantes pour démarrer avec W&amp;B Registry :
+
+* Regardez la vidéo de tutoriel :
+  * [Bien démarrer avec W&amp;B Registry](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+* Suivez le cours W&amp;B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) et découvrez comment :
+  * Utiliser W&amp;B Registry pour gérer et versionner vos artifacts, suivre la traçabilité et faire passer vos modèles par différentes étapes de leur cycle de vie.
+  * Automatiser vos flux de travail de gestion des modèles à l’aide de webhooks.
+  * Intégrer W&amp;B Registry à des systèmes et outils ML externes pour l’évaluation, la surveillance et le déploiement des modèles.

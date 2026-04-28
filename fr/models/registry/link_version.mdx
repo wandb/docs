@@ -1,0 +1,287 @@
+---
+title: Lier une version d'artifact à une collection
+description: "Lier une version d'artifact à une collection dans W&B Registry pour la partager au sein de votre organisation."
+---
+
+Pour rendre une version d&#39;artifact accessible à votre organisation, *liez-la* à une [collection](/fr/models/registry/create_collection) dans
+W&amp;B Registry. La liaison fait passer la version d&#39;une [portée privée au niveau du projet à une portée partagée au niveau de l&#39;organisation](/fr/models/registry/create_registry#visibility-types). Vous
+pouvez lier une version d&#39;artifact [par programmation à l&#39;aide du W&amp;B Python SDK ou de manière interactive dans la W&amp;B App](/fr/models/registry/link_version#link-an-artifact-to-a-collection).
+
+Lorsque vous liez un artifact, W&amp;B crée une référence entre l&#39;artifact source et l&#39;entrée de collection. La version liée pointe vers la version de l&#39;artifact source qui a été enregistrée dans un run d&#39;un projet. Vous pouvez consulter à la fois la version liée dans la collection et la version source dans le projet où elle a été enregistrée.
+
+<div id="link-an-artifact-to-a-collection">
+  ## Lier un artifact à une collection
+</div>
+
+Selon votre cas d’usage, suivez les instructions figurant dans les onglets ci-dessous pour lier une version d’artifact.
+
+<Note>
+  Avant de commencer, vérifiez les points suivants :
+
+  * Les types d’artifacts autorisés par la collection. Pour plus d’informations sur les types de collection, voir &quot;Types de collection&quot; dans [Créer une collection](./create_collection).
+  * Le registre auquel appartient la collection existe déjà. Pour vérifier que le registre existe, accédez à [Registry App et recherchez](/fr/models/registry/search_registry) le nom du registre.
+</Note>
+
+{/* <Note>
+  Si une version d'artifact enregistre des métriques (par exemple avec `wandb.Run.log_artifact()`), vous pouvez consulter les métriques de cette version sur sa page de détails, et comparer les métriques entre différentes versions d'artifact depuis la page de l'artifact. Reportez-vous à [Voir les artifacts liés dans un registre](#view-linked-artifacts-in-a-registry).
+  </Note> */}
+
+<Tabs>
+  <Tab title="SDK Python">
+    {/* <Note>
+            Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
+            </Note> */}
+
+    Pour lier par programmation une version d&#39;artifact à une collection, utilisez [`wandb.Run.link_artifact()`](/fr/models/ref/python/experiments/run#link_artifact) ou
+    [`wandb.Artifact.link()`](/fr/models/ref/python/experiments/artifact#method-artifactlink).
+
+    <Note>
+      Utilisez `wandb.Run.link_artifact()` pour lier une version d&#39;artifact [dans le cadre d&#39;un run](#link-an-artifact-version-within-the-context-of-a-run). Utilisez `wandb.Artifact.link()` pour lier une *version d&#39;artifact existante* [hors du contexte d&#39;un run](#link-an-artifact-version-outside-the-context-of-a-run).
+    </Note>
+
+    {/* <Note>
+            `wandb.Artifact.link()` does not require you to initialize a run with `wandb.init()`. `wandb.Run.link_artifact()` requires you to initialize a run with `wandb.init()`.
+            </Note> */}
+
+    Pour les deux approches, spécifiez le nom de l&#39;artifact (`wandb.Artifact(name="<name>"`), le type de l&#39;artifact (`wandb.Artifact(type="<type>"`), ainsi que le `target_path` (`wandb.Artifact(target_path="<target_path>"`)) de la collection et du registre auxquels vous souhaitez lier la version de l&#39;artifact.
+
+    Le chemin cible est composé du préfixe `"wandb-registry"`, du nom du registre et du nom de la collection, séparés par des barres obliques :
+
+    {{/* Use the `target_path` parameter to specify the collection and registry you want to link the artifact version to. The target path consists of the prefix "wandb-registry", the name of the registry, and the name of the collection separated by a forward slashes: */}}
+
+    ```text
+    wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+    ```
+
+    ### Lier une version d&#39;artifact dans le contexte d&#39;un run
+
+    Utilisez `wandb.Run.link_artifact()` pour lier une version d&#39;artifact dans le contexte d&#39;un run. Pour ce faire, initialisez d&#39;abord un run avec `wandb.init()`. Ensuite, créez un objet artifact et ajoutez-y des fichiers. Enfin, utilisez la méthode `wandb.Run.link_artifact()` pour lier la version d&#39;artifact à la collection.
+
+    Lorsque vous utilisez cette approche, un run est créé dans votre projet W&amp;B. La version de l&#39;artifact est liée à la collection et associée à ce run.
+
+    Copiez-collez l&#39;extrait de code ci-dessous. Remplacez les valeurs entre `<>` par les vôtres :
+
+    ```python
+    import wandb
+
+    entity = "<team_entity>"          # Votre entité d'équipe
+    project = "<project_name>"        # Le nom du projet qui contient votre artifact
+
+    # Initialiser un run
+    with wandb.init(entity = entity, project = project) as run:
+
+      # Créer un objet artifact
+      # Le paramètre type spécifie à la fois le type de l'objet
+      # artifact et le type de la collection
+      artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+      # Ajouter le fichier à l'objet artifact.
+      # Spécifiez le chemin vers le fichier sur votre machine locale.
+      artifact.add_file(local_path = "<local_path_to_artifact>")
+
+      # Spécifier la collection et le registre auxquels lier l'artifact
+      REGISTRY_NAME = "<registry_name>"  
+      COLLECTION_NAME = "<collection_name>"
+      target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+      # Lier l'artifact à la collection
+      run.link_artifact(artifact = artifact, target_path = target_path)
+    ```
+
+    ### Lier une version d&#39;artifact en dehors du contexte d&#39;un run
+
+    Utilisez `wandb.Artifact.link()` pour lier une version d&#39;artifact existante en dehors du contexte d&#39;un run. Avec cette approche,
+    vous n&#39;avez pas besoin d&#39;initialiser un run avec `wandb.init()`. Aucun run n&#39;est donc créé dans votre projet W&amp;B. En d&#39;autres
+    termes, la version d&#39;artifact est liée à la collection sans être associée à un run.
+
+    Commencez par créer un objet artifact et ajoutez-y des fichiers. Utilisez ensuite la méthode `wandb.Artifact.link()` pour lier la version de l&#39;artifact à la collection.
+
+    Copiez-collez l&#39;extrait de code ci-dessous. Remplacez les valeurs entre `<>` par les vôtres :
+
+    ```python
+    import wandb
+
+    # Créer un objet artifact
+    # Le paramètre type spécifie à la fois le type de l'
+    # objet artifact et le type de la collection
+    artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+    # Ajouter le fichier à l'objet artifact. 
+    # Spécifiez le chemin vers le fichier sur votre machine locale.
+    artifact.add_file(local_path = "<local_path_to_artifact>")
+
+    # Spécifier la collection et le registre auxquels lier l'artifact
+    REGISTRY_NAME = "<registry_name>"  
+    COLLECTION_NAME = "<collection_name>"
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+    # Lier l'artifact à la collection
+    artifact.link(target_path = target_path)
+    ```
+  </Tab>
+
+  <Tab title="W&B Registry">
+    1. Accédez à W&amp;B Registry.
+       <Frame>
+         <img src="/images/registry/navigate_to_registry_app.png" alt="Interface de W&B Registry avec la barre latérale du projet" />
+       </Frame>
+    2. Survolez le nom de la collection à laquelle vous souhaitez lier une version d&#39;artifact.
+    3. Sélectionnez le menu **action (<Icon icon="ellipsis" iconType="solid" />)** à côté de **View details**.
+    4. Dans le menu déroulant, sélectionnez **Link new version**.
+    5. Dans la barre latérale qui s&#39;affiche, sélectionnez le nom d&#39;une équipe dans le menu déroulant **Team**.
+    6. Dans le menu déroulant **Project**, sélectionnez le nom du projet qui contient votre artifact.
+    7. Dans le menu déroulant **Artifact**, sélectionnez le nom de l&#39;artifact.
+    8. Dans le menu déroulant **Version**, sélectionnez la version d&#39;artifact que vous souhaitez lier à la collection.
+
+    {/* TO DO insert gif */}
+  </Tab>
+
+  <Tab title="Explorateur d'artefacts">
+    1. Accédez au navigateur d&#39;Artifacts de votre projet dans l&#39;application W&amp;B à l&#39;adresse suivante : `https://wandb.ai/<entity>/<project>/artifacts`
+    2. Sélectionnez l&#39;icône Artifacts dans la barre latérale du projet.
+    3. Cliquez sur la version d&#39;artifact que vous souhaitez lier à votre registre.
+    4. Dans la section **Aperçu de la version**, cliquez sur le bouton **Lier au registre**.
+    5. Dans la fenêtre modale qui s&#39;affiche à droite de l&#39;écran, sélectionnez un artifact dans le menu déroulant **Sélectionner un modèle du registre**.
+    6. Cliquez sur **Étape suivante**.
+    7. (Facultatif) Sélectionnez un alias dans le menu déroulant **Alias**.
+    8. Cliquez sur **Lier au registre**.
+
+    {/* Mettez à jour ce GIF */}
+
+    {/* <Frame>
+              <img src="/images/models/manual_linking.gif"  />
+            </Frame> */}
+  </Tab>
+</Tabs>
+
+{/* <Note>
+  **Versions d’artifact liées ou source**
+
+  * Version source : la version de l’artifact au sein du projet d’une équipe, qui est enregistrée dans un [run](/models/track/runs/).
+  * Version liée : la version de l’artifact publiée dans le registre. Il s’agit d’un pointeur vers l’artifact source, et c’est exactement la même version d’artifact, simplement mise à disposition dans le périmètre du registre.
+  </Note> */}
+
+Vous pouvez [consulter les métadonnées, les informations de version, l’utilisation et les informations de traçabilité d’un artifact lié](/fr/models/registry/link_version#view-linked-artifacts-in-a-registry") ainsi que d’autres éléments dans la Registry App.
+
+<div id="view-linked-artifacts-in-a-registry">
+  ## Afficher les artifacts liés dans un registre
+</div>
+
+Affichez des informations sur les artifacts liés, comme les métadonnées, la traçabilité et les informations d’utilisation, dans le W&amp;B Registry.
+
+1. Accédez au W&amp;B Registry.
+2. Sélectionnez le nom du registre auquel vous avez lié l’artifact.
+3. Sélectionnez le nom de la collection.
+4. Si les artifacts de la collection consignent des métriques, comparez les métriques entre les versions en cliquant sur **Afficher les métriques**.
+5. Dans la liste des versions d’artifact, sélectionnez la version à laquelle vous souhaitez accéder. Les numéros de version sont attribués de façon incrémentielle à chaque version d’artifact liée, à partir de `v0`.
+6. Pour afficher les détails d’une version d’artifact, cliquez sur la version. Dans les onglets de cette page, vous pouvez consulter les métadonnées de cette version (y compris les métriques enregistrées), sa traçabilité et ses informations d’utilisation.
+
+Notez le champ **Nom complet** dans l’onglet **Version**. Le nom complet d’un artifact lié se compose du registre, du nom de la collection, ainsi que de l’alias ou de l’index de la version d’artifact.
+
+```text title="Full name of a linked artifact"
+wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
+```
+
+Vous avez besoin du nom complet d’un artifact lié pour accéder à la version de l’artifact par programmation.
+
+<div id="troubleshooting">
+  ## Dépannage
+</div>
+
+Voici quelques points courants à vérifier si vous ne parvenez pas à lier un artifact.
+
+<div id="logging-artifacts-from-a-personal-account">
+  ### Enregistrer des Artifacts depuis un compte personnel
+</div>
+
+Les Artifacts enregistrés dans W&amp;B avec une entité personnelle ne peuvent pas être liés au registre. Veillez à enregistrer les Artifacts à l’aide d’une entité d’équipe au sein de votre organisation. Seuls les Artifacts enregistrés au sein de l’équipe d’une organisation peuvent être liés au registre de l’organisation.
+
+<Note>
+  Veillez à enregistrer un artifact avec une entité d’équipe si vous souhaitez le lier à un registre.
+</Note>
+
+<div id="find-your-team-entity">
+  #### Trouvez votre entité d’équipe
+</div>
+
+W&amp;B utilise le nom de votre équipe comme entité d’équipe. Par exemple, si votre équipe s’appelle **team-awesome**, votre entité d’équipe est `team-awesome`.
+
+Vous pouvez confirmer le nom de votre équipe en :
+
+1. Accédez à la page de profil W&amp;B de votre équipe.
+2. Copiez l’URL du site. Elle se présente sous la forme `https://wandb.ai/<team>`, où `<team>` correspond à la fois au nom de votre équipe et à son entité.
+
+<div id="log-from-a-team-entity">
+  #### Journal depuis une entité d’équipe
+</div>
+
+1. Spécifiez l’équipe comme entité lorsque vous initialisez un run avec [`wandb.init()`](/fr/models/ref/python/functions/init). Si vous ne spécifiez pas `entity` lors de l’initialisation d’un run, le run utilise votre entité par défaut, qui peut être ou non votre entité d’équipe.
+
+   ```python
+   import wandb   
+
+   with wandb.init(entity='<team_entity>', project='<project_name>') as run:
+       # Journalisez votre artifact ici
+   ```
+
+2. Journalisez l&#39;artifact dans le run soit avec `wandb.Run.log_artifact()`, soit en créant un objet Artifact puis en y ajoutant des fichiers avec :
+
+   ```python
+   artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+   ```
+
+   Pour journaliser des Artifacts, voir [Créer des Artifacts](/fr/models/artifacts/construct-an-artifact/).
+
+3. Si un artifact est enregistré dans votre entité personnelle, vous devrez le journaliser à nouveau dans une entité de votre organisation.
+
+<div id="confirm-the-path-of-a-registry-in-the-wb-app-ui">
+  ### Confirmer le chemin d’un registre dans la W&amp;B App UI
+</div>
+
+Il existe deux façons de confirmer le chemin d’un registre dans la W&amp;B App UI : créer une collection vide et consulter les détails de la collection, ou copier-coller le code généré automatiquement depuis la page d’accueil de la collection.
+
+<div id="copy-and-paste-autogenerated-code">
+  #### Copier-coller le code généré automatiquement
+</div>
+
+1. Accédez au W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
+2. Cliquez sur le registre auquel vous souhaitez lier un artifact.
+3. En haut de la page, vous verrez un bloc de code généré automatiquement.
+4. Copiez-collez ce code dans le vôtre, en veillant à remplacer la dernière partie du chemin par le nom de votre collection.
+
+<Frame>
+  <img src="/images/registry/get_autogenerated_code.gif" alt="Extrait de code généré automatiquement" />
+</Frame>
+
+<div id="create-an-empty-collection">
+  #### Créer une collection vide
+</div>
+
+1. Accédez au W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
+2. Cliquez sur le registre auquel vous souhaitez lier un artifact.
+3. Cliquez sur la collection vide. Si aucune collection vide n’existe, créez-en une.
+4. Dans l’extrait de code qui s’affiche, identifiez le champ `target_path` dans `.link_artifact()`.
+5. (Facultatif) Supprimez la collection.
+
+<Frame>
+  <img src="/images/registry/check_empty_collection.gif" alt="Créer une collection vide" />
+</Frame>
+
+Par exemple, une fois ces étapes terminées, vous trouverez le bloc de code contenant le paramètre `target_path` :
+
+```python
+target_path = 
+      "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
+```
+
+En le décomposant en composants, vous pouvez voir ce que vous devrez utiliser pour créer par programmation le chemin permettant de lier votre artifact :
+
+```python
+ORG_ENTITY_NAME = "smle-registries-bug-bash"
+REGISTRY_NAME = "Golden Datasets"
+COLLECTION_NAME = "raw_images"
+```
+
+<Note>
+  Assurez-vous de remplacer le nom de la collection temporaire par celui de la collection à laquelle vous souhaitez lier votre artifact.
+</Note>

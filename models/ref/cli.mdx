@@ -1,15 +1,15 @@
 ---
-title: "CLI Reference SDK 0.26.0"
+title: "CLI Reference SDK 0.26.1"
 description: "Use the W&B Command Line Interface (CLI) to log in, run jobs, execute sweeps, and more using shell commands"
 ---
 
 {/*
   To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb.mdx
+  1. Create the snippet file: /snippets/_includes/cli/wandb.mdx
   2. Add your intro content to that file
   3. Delete this entire comment block and keep only the two lines below:
 
-import Wandb from "/snippets/en/_includes/cli/wandb.mdx";
+import Wandb from "/snippets/_includes/cli/wandb.mdx";
 
 <Wandb/>
 
@@ -45,13 +45,9 @@ wandb [OPTIONS] COMMAND [ARGS]...
 | [launch](/models/ref/cli/wandb-launch) | Launch or queue a W&B Job. |
 | [launch-agent](/models/ref/cli/wandb-launch-agent) | Run a W&B launch agent. |
 | [launch-sweep](/models/ref/cli/wandb-launch-sweep) | Run a W&B launch sweep (Experimental). |
-| [local](/models/ref/cli/wandb-local) | Start a local W&B container (deprecated, see wandb server --help) |
 | [login](/models/ref/cli/wandb-login) | Authenticate your machine with W&B. |
-| [off](/models/ref/cli/wandb-off) | No description available |
 | [offline](/models/ref/cli/wandb-offline) | Save data logged to W&B locally without uploading it to the cloud. |
-| [on](/models/ref/cli/wandb-on) | No description available |
 | [online](/models/ref/cli/wandb-online) | Re-enable cloud syncing for W&B runs. |
-| [projects](/models/ref/cli/wandb-projects) | List projects for the current entity. |
 | [pull](/models/ref/cli/wandb-pull) | Download files from a W&B run. |
 | [purge-cache](/models/ref/cli/wandb-purge-cache) | Purges cached logs, run history, and artifacts from the local W&B cache. |
 | [restore](/models/ref/cli/wandb-restore) | Restore the code, config, or Docker environement from a previous W&B run. |

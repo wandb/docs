@@ -1,0 +1,4602 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "W&B Training",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/chat/completions/": {
+      "post": {
+        "tags": [
+          "chat-completions"
+        ],
+        "summary": "Créer une Chat Completion",
+        "description": "Créer une nouvelle Chat Completion.",
+        "operationId": "create_chat_completion_v1_chat_completions__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "tags": [
+          "chat-completions"
+        ],
+        "summary": "Créer une Chat Completion",
+        "description": "Créer une nouvelle Chat Completion.",
+        "operationId": "create_chat_completion_v1_chat_completions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/models": {
+      "post": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Créer un modèle",
+        "description": "Créer un nouveau modèle.",
+        "operationId": "create_model_v1_preview_models_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/models/{model_id}/checkpoints": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Lister les points de contrôle du modèle",
+        "operationId": "list_model_checkpoints_v1_preview_models__model_id__checkpoints_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Curseur de pagination - ID du dernier élément de la page précédente",
+              "title": "After"
+            },
+            "description": "Curseur de pagination - ID du dernier élément de la page précédente"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Nombre d'éléments à retourner",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Nombre d'éléments à retourner"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "description": "Ordre de tri",
+              "default": "asc",
+              "title": "Order"
+            },
+            "description": "Ordre de tri"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_CheckpointResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Supprimer les points de contrôle du modèle",
+        "description": "Supprimer des points de contrôle spécifiques d'un modèle.",
+        "operationId": "delete_model_checkpoints_v1_preview_models__model_id__checkpoints_delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteCheckpointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteCheckpointsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/models/{model_id}": {
+      "delete": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Supprimer le modèle",
+        "description": "Supprimez un modèle, tous ses points de contrôle, ses Artifacts et le run W&B associé.",
+        "operationId": "delete_model_v1_preview_models__model_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteModelResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/models/{model_id}/log": {
+      "post": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Log",
+        "description": "Enregistrez les trajectoires et calculez les métriques.",
+        "operationId": "log_v1_preview_models__model_id__log_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/training-jobs": {
+      "post": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "Créer une tâche d'entraînement RL",
+        "description": "Créez une nouvelle tâche d'entraînement RL (apprentissage par renforcement).",
+        "operationId": "Create_RL_Training_Job_v1_preview_training_jobs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTrainingJob"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/sft-training-jobs": {
+      "post": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "Créer une tâche d'entraînement SFT",
+        "description": "Créez une nouvelle tâche d'entraînement SFT (Fine-Tuning supervisé).",
+        "operationId": "Create_SFT_Training_Job_v1_preview_sft_training_jobs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSFTTrainingJob"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/training-jobs/{training_job_id}": {
+      "get": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "Obtenir la tâche d'entraînement",
+        "description": "Obtenir une tâche d'entraînement par ID.",
+        "operationId": "get_training_job_v1_preview_training_jobs__training_job_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "training_job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Training Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/training-jobs/{training_job_id}/events": {
+      "get": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "Obtenir les événements de la tâche d'entraînement",
+        "description": "Obtenir les événements d'une tâche d'entraînement.",
+        "operationId": "get_training_job_events_v1_preview_training_jobs__training_job_id__events_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "training_job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Training Job Id"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Curseur de pagination",
+              "title": "After"
+            },
+            "description": "Curseur de pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Nombre d'éléments à renvoyer",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Nombre d'éléments à renvoyer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_TrainingJobEventResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Contrôle de santé",
+        "operationId": "health_check_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system-check": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Vérification du système",
+        "description": "Vérifie l'état de santé de tous les composants du système.\n\nRetourne :\n    Un JSON avec le statut de :\n    - api : Toujours true (si l'endpoint est accessible)\n    - database : Si la connexion à la base de données fonctionne\n    - cpu_queue : Succès, durée et éventuelles erreurs\n    - gpu_queue : Succès, durée et éventuelles erreurs\n\nRenvoie HTTP 503 si l'une des vérifications échoue.",
+        "operationId": "system_check_v1_system_check_get",
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Annotation": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "url_citation",
+            "title": "Type"
+          },
+          "url_citation": {
+            "$ref": "#/components/schemas/AnnotationURLCitation"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type",
+          "url_citation"
+        ],
+        "title": "Annotation",
+        "description": "Une citation d'URL lors de l'utilisation de la recherche web."
+      },
+      "AnnotationURLCitation": {
+        "properties": {
+          "end_index": {
+            "type": "integer",
+            "title": "End Index"
+          },
+          "start_index": {
+            "type": "integer",
+            "title": "Start Index"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "end_index",
+          "start_index",
+          "title",
+          "url"
+        ],
+        "title": "AnnotationURLCitation",
+        "description": "Une citation d'URL lors de l'utilisation de la recherche web."
+      },
+      "Audio": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "Audio",
+        "description": "Données concernant une réponse audio précédente du modèle.\n[En savoir plus](https://platform.openai.com/docs/guides/audio)."
+      },
+      "AudioURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "AudioURL"
+      },
+      "Author": {
+        "properties": {
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "Author"
+      },
+      "ChatCompletionAssistantMessageParam": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "const": "assistant",
+            "title": "Role"
+          },
+          "audio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Audio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartRefusalParam"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FunctionCall-Input"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          },
+          "tool_calls": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionMessageFunctionToolCallParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionMessageCustomToolCallParam"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Tool Calls"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "ChatCompletionAssistantMessageParam",
+        "description": "Messages envoyés par le modèle en réponse aux messages de l'utilisateur."
+      },
+      "ChatCompletionAudio": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "expires_at": {
+            "type": "integer",
+            "title": "Expires At"
+          },
+          "transcript": {
+            "type": "string",
+            "title": "Transcript"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "data",
+          "expires_at",
+          "transcript"
+        ],
+        "title": "ChatCompletionAudio",
+        "description": "Si la modalité de sortie audio est demandée, cet objet contient des données\nsur la réponse audio du modèle. [En savoir plus](https://platform.openai.com/docs/guides/audio)."
+      },
+      "ChatCompletionContentPartAudioEmbedsParam": {
+        "properties": {
+          "audio_embeds": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Embeds"
+          },
+          "type": {
+            "type": "string",
+            "const": "audio_embeds",
+            "title": "Type"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "ChatCompletionContentPartAudioEmbedsParam"
+      },
+      "ChatCompletionContentPartAudioParam": {
+        "properties": {
+          "audio_url": {
+            "$ref": "#/components/schemas/AudioURL"
+          },
+          "type": {
+            "type": "string",
+            "const": "audio_url",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "audio_url",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartAudioParam"
+      },
+      "ChatCompletionContentPartImageEmbedsParam": {
+        "properties": {
+          "image_embeds": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Embeds"
+          },
+          "type": {
+            "type": "string",
+            "const": "image_embeds",
+            "title": "Type"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "ChatCompletionContentPartImageEmbedsParam"
+      },
+      "ChatCompletionContentPartImageParam": {
+        "properties": {
+          "image_url": {
+            "$ref": "#/components/schemas/ImageURL"
+          },
+          "type": {
+            "type": "string",
+            "const": "image_url",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "image_url",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartImageParam",
+        "description": "En savoir plus sur les [entrées d'image](https://platform.openai.com/docs/guides/vision)."
+      },
+      "ChatCompletionContentPartInputAudioParam": {
+        "properties": {
+          "input_audio": {
+            "$ref": "#/components/schemas/InputAudio"
+          },
+          "type": {
+            "type": "string",
+            "const": "input_audio",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "input_audio",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartInputAudioParam",
+        "description": "En savoir plus sur les [entrées Audio](https://platform.openai.com/docs/guides/audio)."
+      },
+      "ChatCompletionContentPartRefusalParam": {
+        "properties": {
+          "refusal": {
+            "type": "string",
+            "title": "Refusal"
+          },
+          "type": {
+            "type": "string",
+            "const": "refusal",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "refusal",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartRefusalParam"
+      },
+      "ChatCompletionContentPartTextParam": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "type": {
+            "type": "string",
+            "const": "text",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "text",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartTextParam",
+        "description": "En savoir plus sur les [entrées de texte](https://platform.openai.com/docs/guides/text-generation)."
+      },
+      "ChatCompletionContentPartVideoParam": {
+        "properties": {
+          "video_url": {
+            "$ref": "#/components/schemas/VideoURL"
+          },
+          "type": {
+            "type": "string",
+            "const": "video_url",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "video_url",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartVideoParam"
+      },
+      "ChatCompletionDeveloperMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "developer",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role"
+        ],
+        "title": "ChatCompletionDeveloperMessageParam",
+        "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l’utilisateur. Avec les modèles o1 et versions ultérieures, les messages `developer` remplacent les anciens messages `system`."
+      },
+      "ChatCompletionFunctionMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "role": {
+            "type": "string",
+            "const": "function",
+            "title": "Role"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "name",
+          "role"
+        ],
+        "title": "ChatCompletionFunctionMessageParam"
+      },
+      "ChatCompletionFunctionToolParam": {
+        "properties": {
+          "function": {
+            "$ref": "#/components/schemas/openai__types__shared_params__function_definition__FunctionDefinition"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function",
+          "type"
+        ],
+        "title": "ChatCompletionFunctionToolParam",
+        "description": "Un outil de fonction pouvant être utilisé pour générer une réponse."
+      },
+      "ChatCompletionLogProb": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob",
+            "default": -9999
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "ChatCompletionLogProb"
+      },
+      "ChatCompletionLogProbs": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionLogProbsContent"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "ChatCompletionLogProbs"
+      },
+      "ChatCompletionLogProbsContent": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob",
+            "default": -9999
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          },
+          "top_logprobs": {
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionLogProb"
+            },
+            "type": "array",
+            "title": "Top Logprobs"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "ChatCompletionLogProbsContent"
+      },
+      "ChatCompletionMessage": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          },
+          "role": {
+            "type": "string",
+            "const": "assistant",
+            "title": "Role"
+          },
+          "annotations": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Annotation"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotations"
+          },
+          "audio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatCompletionAudio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FunctionCall-Input"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_calls": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionMessageFunctionToolCall"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionMessageCustomToolCall"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Calls"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "ChatCompletionMessage",
+        "description": "Un message de Chat Completion généré par le modèle."
+      },
+      "ChatCompletionMessageCustomToolCall": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "custom": {
+            "$ref": "#/components/schemas/Custom"
+          },
+          "type": {
+            "type": "string",
+            "const": "custom",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "custom",
+          "type"
+        ],
+        "title": "ChatCompletionMessageCustomToolCall",
+        "description": "Un appel à un outil personnalisé créé par le modèle."
+      },
+      "ChatCompletionMessageCustomToolCallParam": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "custom": {
+            "$ref": "#/components/schemas/Custom"
+          },
+          "type": {
+            "type": "string",
+            "const": "custom",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "custom",
+          "type"
+        ],
+        "title": "ChatCompletionMessageCustomToolCallParam",
+        "description": "Un appel à un outil personnalisé créé par le modèle."
+      },
+      "ChatCompletionMessageFunctionToolCall": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "function",
+          "type"
+        ],
+        "title": "ChatCompletionMessageFunctionToolCall",
+        "description": "Un appel à un outil de fonction créé par le modèle."
+      },
+      "ChatCompletionMessageFunctionToolCallParam": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "function",
+          "type"
+        ],
+        "title": "ChatCompletionMessageFunctionToolCallParam",
+        "description": "Un appel à un outil de fonction créé par le modèle."
+      },
+      "ChatCompletionNamedFunction": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ChatCompletionNamedFunction"
+      },
+      "ChatCompletionNamedToolChoiceParam": {
+        "properties": {
+          "function": {
+            "$ref": "#/components/schemas/ChatCompletionNamedFunction"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type",
+            "default": "function"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function"
+        ],
+        "title": "ChatCompletionNamedToolChoiceParam"
+      },
+      "ChatCompletionRequest": {
+        "properties": {
+          "messages": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionDeveloperMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionSystemMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionUserMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionAssistantMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionToolMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/CustomChatCompletionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/Message"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Messages"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "frequency_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frequency Penalty",
+            "default": 0
+          },
+          "logit_bias": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logit Bias"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logprobs",
+            "default": false
+          },
+          "top_logprobs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top Logprobs",
+            "default": 0
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens",
+            "deprecated": true
+          },
+          "max_completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Completion Tokens"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N",
+            "default": 1
+          },
+          "presence_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Presence Penalty",
+            "default": 0
+          },
+          "response_format": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResponseFormat"
+              },
+              {
+                "$ref": "#/components/schemas/StructuralTagResponseFormat"
+              },
+              {
+                "$ref": "#/components/schemas/LegacyStructuralTagResponseFormat"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Format"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9223372036854776000,
+                "minimum": -9223372036854776000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "stop": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop",
+            "default": []
+          },
+          "stream": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stream",
+            "default": false
+          },
+          "stream_options": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StreamOptions"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature"
+          },
+          "top_p": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top P"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionToolsParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          },
+          "tool_choice": {
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "none"
+              },
+              {
+                "type": "string",
+                "const": "auto"
+              },
+              {
+                "type": "string",
+                "const": "required"
+              },
+              {
+                "$ref": "#/components/schemas/ChatCompletionNamedToolChoiceParam"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Choice",
+            "default": "none"
+          },
+          "reasoning_effort": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Effort"
+          },
+          "include_reasoning": {
+            "type": "boolean",
+            "title": "Include Reasoning",
+            "default": true
+          },
+          "parallel_tool_calls": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parallel Tool Calls",
+            "default": true
+          },
+          "user": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User"
+          },
+          "use_beam_search": {
+            "type": "boolean",
+            "title": "Use Beam Search",
+            "default": false
+          },
+          "top_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top K"
+          },
+          "min_p": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min P"
+          },
+          "repetition_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repetition Penalty"
+          },
+          "length_penalty": {
+            "type": "number",
+            "title": "Length Penalty",
+            "default": 1
+          },
+          "stop_token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Token Ids",
+            "default": []
+          },
+          "include_stop_str_in_output": {
+            "type": "boolean",
+            "title": "Include Stop Str In Output",
+            "default": false
+          },
+          "ignore_eos": {
+            "type": "boolean",
+            "title": "Ignore Eos",
+            "default": false
+          },
+          "min_tokens": {
+            "type": "integer",
+            "title": "Min Tokens",
+            "default": 0
+          },
+          "skip_special_tokens": {
+            "type": "boolean",
+            "title": "Skip Special Tokens",
+            "default": true
+          },
+          "spaces_between_special_tokens": {
+            "type": "boolean",
+            "title": "Spaces Between Special Tokens",
+            "default": true
+          },
+          "truncate_prompt_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9223372036854776000,
+                "minimum": -1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Truncate Prompt Tokens"
+          },
+          "prompt_logprobs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Logprobs"
+          },
+          "allowed_token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allowed Token Ids"
+          },
+          "bad_words": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Bad Words"
+          },
+          "echo": {
+            "type": "boolean",
+            "title": "Echo",
+            "description": "Si la valeur est true, le nouveau message sera ajouté au début avec le dernier message s’ils ont le même rôle.",
+            "default": false
+          },
+          "add_generation_prompt": {
+            "type": "boolean",
+            "title": "Add Generation Prompt",
+            "description": "Si la valeur est true, l’invite de génération sera ajoutée au modèle de chat. Il s’agit d’un paramètre utilisé par le modèle de chat dans la configuration du tokenizer du modèle.",
+            "default": true
+          },
+          "continue_final_message": {
+            "type": "boolean",
+            "title": "Continue Final Message",
+            "description": "Si cette valeur est définie, le chat sera formaté de sorte que le dernier message dans le chat reste ouvert, sans aucun token EOS. Le modèle poursuivra ce message au lieu d’en commencer un nouveau. Cela vous permet de « préremplir » une partie de la réponse du modèle. Ne peut pas être utilisé en même temps que `add_generation_prompt`.",
+            "default": false
+          },
+          "add_special_tokens": {
+            "type": "boolean",
+            "title": "Add Special Tokens",
+            "description": "Si la valeur est true, des token spéciaux (par ex. BOS) seront ajoutés à l’invite en plus de ceux ajoutés par le modèle de chat. Pour la plupart des modèles, le modèle de chat se charge d’ajouter les token spéciaux ; cette valeur doit donc être définie sur false (valeur par défaut).",
+            "default": false
+          },
+          "documents": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Documents",
+            "description": "Une liste de dicts représentant des documents auxquels le modèle aura accès s’il effectue du RAG (génération augmentée par récupération). Si le modèle ne prend pas en charge le RAG, cet argument n’aura aucun effet. Nous recommandons que chaque document soit un dict contenant les clés \"title\" et \"text\"."
+          },
+          "chat_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Template",
+            "description": "Un modèle Jinja à utiliser pour cette conversion. À partir de transformers v4.44, le modèle de chat par défaut n’est plus autorisé ; vous devez donc fournir un modèle de chat si le tokenizer n’en définit pas."
+          },
+          "chat_template_kwargs": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Template Kwargs",
+            "description": "Arguments nommés supplémentaires à transmettre au moteur de rendu du modèle. Ils seront accessibles depuis le modèle de chat."
+          },
+          "mm_processor_kwargs": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mm Processor Kwargs",
+            "description": "Arguments nommés supplémentaires à transmettre au processeur HF."
+          },
+          "structured_outputs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StructuredOutputsParams"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Arguments nommés supplémentaires pour les sorties structurées"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "description": "La priorité de la requête (une valeur plus faible signifie un traitement plus tôt ; valeur par défaut : 0). Toute priorité autre que 0 entraînera une erreur si le modèle servi n’utilise pas d’ordonnancement par priorité.",
+            "default": 0
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Le request_id associé à cette requête. Si l’appelant ne le définit pas, un random_uuid est généré. Cet ID est utilisé tout au long du processus d’inférence et renvoyé dans la réponse."
+          },
+          "logits_processors": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/LogitsProcessorConstructor"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logits Processors",
+            "description": "Une liste contenant soit des noms qualifiés de processeurs de logits, soit des objets constructeur, à appliquer lors de l’échantillonnage. Un constructeur est un objet JSON avec un champ obligatoire 'qualname' qui spécifie le nom qualifié de la classe/factory du processeur, ainsi que des champs facultatifs 'args' et 'kwargs' contenant respectivement les arguments positionnels et nommés. Par exemple : {'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}."
+          },
+          "return_tokens_as_token_ids": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Tokens As Token Ids",
+            "description": "Si spécifié avec 'logprobs', les tokens sont représentés sous forme de chaînes au format 'token_id:{token_id}', afin de pouvoir identifier les tokens qui ne peuvent pas être encodés en JSON."
+          },
+          "return_token_ids": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Token Ids",
+            "description": "Si spécifié, le résultat inclut les ID de token en plus du texte généré. En mode streaming, prompt_token_ids n’est inclus que dans le premier bloc, et token_ids contient les tokens delta de chaque bloc. Cela est utile pour le débogage ou lorsque vous devez faire correspondre le texte généré aux tokens d’entrée."
+          },
+          "cache_salt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Salt",
+            "description": "Si spécifié, le cache de préfixes sera salé avec la chaîne fournie afin d’empêcher un attaquant de deviner les prompts dans des environnements multi-utilisateurs. Le sel doit être aléatoire, protégé contre tout accès de tiers et suffisamment long pour être imprévisible (par exemple, 43 caractères encodés en base64, correspondant à 256 bits)."
+          },
+          "kv_transfer_params": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kv Transfer Params",
+            "description": "Paramètres KVTransfer utilisés pour le serving désagrégé."
+          },
+          "vllm_xargs": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "type": "array"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vllm Xargs",
+            "description": "Paramètres de requête supplémentaires avec des valeurs de type chaîne ou numérique, ou des listes de telles valeurs, utilisés par des extensions personnalisées."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "messages"
+        ],
+        "title": "ChatCompletionRequest"
+      },
+      "ChatCompletionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "object": {
+            "type": "string",
+            "const": "chat.completion",
+            "title": "Object",
+            "default": "chat.completion"
+          },
+          "created": {
+            "type": "integer",
+            "title": "Created"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionResponseChoice"
+            },
+            "type": "array",
+            "title": "Choices"
+          },
+          "service_tier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "default",
+                  "flex",
+                  "scale",
+                  "priority"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Service Tier"
+          },
+          "system_fingerprint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "System Fingerprint"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/UsageInfo"
+          },
+          "prompt_logprobs": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": {
+                        "$ref": "#/components/schemas/Logprob"
+                      },
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Logprobs"
+          },
+          "prompt_token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Token Ids"
+          },
+          "kv_transfer_params": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kv Transfer Params",
+            "description": "Paramètres KVTransfer."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "model",
+          "choices",
+          "usage"
+        ],
+        "title": "ChatCompletionResponse"
+      },
+      "ChatCompletionResponseChoice": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatCompletionLogProbs"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "finish_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Reason",
+            "default": "stop"
+          },
+          "stop_reason": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Reason"
+          },
+          "token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Token Ids"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "index",
+          "message"
+        ],
+        "title": "ChatCompletionResponseChoice"
+      },
+      "ChatCompletionSystemMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "system",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role"
+        ],
+        "title": "ChatCompletionSystemMessageParam",
+        "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l’utilisateur. Avec les modèles o1 et plus récents, utilisez plutôt des messages `developer` à cette fin."
+      },
+      "ChatCompletionTokenLogprob": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob"
+          },
+          "top_logprobs": {
+            "items": {
+              "$ref": "#/components/schemas/TopLogprob"
+            },
+            "type": "array",
+            "title": "Top Logprobs"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token",
+          "logprob",
+          "top_logprobs"
+        ],
+        "title": "ChatCompletionTokenLogprob"
+      },
+      "ChatCompletionToolMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "tool",
+            "title": "Role"
+          },
+          "tool_call_id": {
+            "type": "string",
+            "title": "Tool Call Id"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role",
+          "tool_call_id"
+        ],
+        "title": "ChatCompletionToolMessageParam"
+      },
+      "ChatCompletionToolsParam": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type",
+            "default": "function"
+          },
+          "function": {
+            "$ref": "#/components/schemas/vllm__entrypoints__openai__engine__protocol__FunctionDefinition"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function"
+        ],
+        "title": "ChatCompletionToolsParam"
+      },
+      "ChatCompletionUserMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartImageParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartInputAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/File"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "user",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role"
+        ],
+        "title": "ChatCompletionUserMessageParam",
+        "description": "Messages envoyés par un utilisateur final, contenant des prompts ou des informations de contexte supplémentaires."
+      },
+      "ChatMessage": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          },
+          "annotations": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Annotation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatCompletionAudio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FunctionCall-Output"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            },
+            "type": "array",
+            "title": "Tool Calls"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning"
+          },
+          "reasoning_content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Content"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "ChatMessage"
+      },
+      "CheckpointResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "step": {
+            "type": "integer",
+            "title": "Step"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Metrics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "step",
+          "metrics"
+        ],
+        "title": "CheckpointResponse",
+        "description": "Schéma de réponse pour un point de contrôle."
+      },
+      "Choice": {
+        "properties": {
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "tool_calls",
+              "content_filter",
+              "function_call"
+            ],
+            "title": "Finish Reason"
+          },
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChoiceLogprobs"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatCompletionMessage"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "finish_reason",
+          "index",
+          "message"
+        ],
+        "title": "Choice"
+      },
+      "ChoiceLogprobs": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionTokenLogprob"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionTokenLogprob"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "ChoiceLogprobs",
+        "description": "Informations de probabilité logarithmique pour ce choix."
+      },
+      "Content": {
+        "properties": {},
+        "type": "object",
+        "title": "Content"
+      },
+      "CreateSFTTrainingJob": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "training_data_url": {
+            "type": "string",
+            "title": "Training Data Url",
+            "description": "Chemin d’artifact W&B pour les données d’entraînement (par exemple, 'wandb-artifact:///entity/project/artifact-name:version')"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SFTTrainingConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "experimental_config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experimental Config"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "training_data_url"
+        ],
+        "title": "CreateSFTTrainingJob",
+        "description": "Schéma pour créer un nouveau TrainingJob SFT (Supervised Fine-Tuning).\n\nLe client doit téléverser les données d’entraînement (trajectories.jsonl et metadata.json) vers W&B Artifacts et fournir l’URL de l’artifact."
+      },
+      "CreateTrainingJob": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "trajectory_groups": {
+            "items": {
+              "$ref": "#/components/schemas/TrajectoryGroup"
+            },
+            "type": "array",
+            "title": "Trajectory Groups"
+          },
+          "experimental_config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExperimentalTrainingConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "trajectory_groups"
+        ],
+        "title": "CreateTrainingJob",
+        "description": "Schéma pour créer un nouveau TrainingJob."
+      },
+      "Custom": {
+        "properties": {
+          "input": {
+            "type": "string",
+            "title": "Input"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "input",
+          "name"
+        ],
+        "title": "Custom",
+        "description": "L’outil personnalisé appelé par le modèle."
+      },
+      "CustomChatCompletionContentSimpleAudioParam": {
+        "properties": {
+          "audio_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "CustomChatCompletionContentSimpleAudioParam",
+        "description": "Une version simplifiée du paramètre qui accepte uniquement un simple audio_url.\n\nExemple :\n{\n    \"audio_url\": \"https://example.com/audio.mp3\"\n}"
+      },
+      "CustomChatCompletionContentSimpleImageParam": {
+        "properties": {
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "CustomChatCompletionContentSimpleImageParam",
+        "description": "Une version simplifiée du paramètre qui accepte uniquement un `image_url` simple.\nCette option est prise en charge par l’API OpenAI, bien qu’elle ne soit pas documentée.\n\nExemple :\n{\n    \"image_url\": \"https://example.com/image.jpg\"\n}"
+      },
+      "CustomChatCompletionContentSimpleVideoParam": {
+        "properties": {
+          "video_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Video Url"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "CustomChatCompletionContentSimpleVideoParam",
+        "description": "Une version simplifiée du paramètre qui accepte uniquement un `audio_url` simple.\n\nExemple :\n{\n    \"video_url\": \"https://example.com/video.mp4\"\n}"
+      },
+      "CustomChatCompletionMessageParam": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartImageParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartInputAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/File"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartVideoParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartRefusalParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomChatCompletionContentSimpleImageParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartImageEmbedsParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartAudioEmbedsParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomChatCompletionContentSimpleAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomChatCompletionContentSimpleVideoParam"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomThinkCompletionContentParam"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "tool_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Id"
+          },
+          "tool_calls": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionMessageFunctionToolCallParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Calls"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionToolParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "CustomChatCompletionMessageParam",
+        "description": "Active les rôles personnalisés dans l’API Chat Completion."
+      },
+      "CustomThinkCompletionContentParam": {
+        "properties": {
+          "thinking": {
+            "type": "string",
+            "title": "Thinking"
+          },
+          "closed": {
+            "type": "boolean",
+            "title": "Closed"
+          },
+          "type": {
+            "type": "string",
+            "const": "thinking",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "thinking",
+          "type"
+        ],
+        "title": "CustomThinkCompletionContentParam",
+        "description": "Paramètre de contenu Think Completion qui accepte du texte brut et un booléen.\n\nExemple :\n{\n    \"thinking\": \"I am thinking about the answer\",\n    \"closed\": True,\n    \"type\": \"thinking\"\n}"
+      },
+      "DeleteCheckpointsRequest": {
+        "properties": {
+          "steps": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "steps"
+        ],
+        "title": "DeleteCheckpointsRequest",
+        "description": "Schéma pour la suppression des points de contrôle."
+      },
+      "DeleteCheckpointsResponse": {
+        "properties": {
+          "deleted_count": {
+            "type": "integer",
+            "title": "Deleted Count"
+          },
+          "not_found_steps": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Not Found Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "deleted_count",
+          "not_found_steps"
+        ],
+        "title": "DeleteCheckpointsResponse",
+        "description": "Schéma de la réponse de suppression des points de contrôle."
+      },
+      "DeleteModelResponse": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "deleted_checkpoints": {
+            "type": "integer",
+            "title": "Deleted Checkpoints"
+          },
+          "deleted_run": {
+            "type": "boolean",
+            "title": "Deleted Run"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "deleted_checkpoints",
+          "deleted_run"
+        ],
+        "title": "DeleteModelResponse",
+        "description": "Schéma de la réponse de suppression de modèle."
+      },
+      "ExperimentalTrainingConfig": {
+        "properties": {
+          "advantage_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Advantage Balance"
+          },
+          "epsilon": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epsilon"
+          },
+          "epsilon_high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epsilon High"
+          },
+          "importance_sampling_level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "token",
+                  "sequence",
+                  "average",
+                  "geometric_average"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Importance Sampling Level"
+          },
+          "kimi_k2_tau": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kimi K2 Tau"
+          },
+          "learning_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learning Rate"
+          },
+          "mask_prob_ratio": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mask Prob Ratio"
+          },
+          "max_negative_advantage_importance_sampling_weight": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Negative Advantage Importance Sampling Weight"
+          },
+          "ppo": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ppo"
+          },
+          "precalculate_logprobs": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precalculate Logprobs"
+          },
+          "scale_rewards": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scale Rewards"
+          }
+        },
+        "type": "object",
+        "title": "ExperimentalTrainingConfig",
+        "description": "Schéma de la configuration d’entraînement expérimentale."
+      },
+      "File": {
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/FileFile"
+          },
+          "type": {
+            "type": "string",
+            "const": "file",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "file",
+          "type"
+        ],
+        "title": "File",
+        "description": "En savoir plus sur les [entrées de fichier](https://platform.openai.com/docs/guides/text) pour la génération de texte."
+      },
+      "FileFile": {
+        "properties": {
+          "file_data": {
+            "type": "string",
+            "title": "File Data"
+          },
+          "file_id": {
+            "type": "string",
+            "title": "File Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "FileFile"
+      },
+      "Function": {
+        "properties": {
+          "arguments": {
+            "type": "string",
+            "title": "Arguments"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "arguments",
+          "name"
+        ],
+        "title": "Function",
+        "description": "La fonction appelée par le modèle."
+      },
+      "FunctionCall-Input": {
+        "properties": {
+          "arguments": {
+            "type": "string",
+            "title": "Arguments"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "arguments",
+          "name"
+        ],
+        "title": "FunctionCall",
+        "description": "Obsolète et remplacé par `tool_calls`.\n\nNom et arguments d’une fonction à appeler, tels que générés par le modèle."
+      },
+      "FunctionCall-Output": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "arguments": {
+            "type": "string",
+            "title": "Arguments"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name",
+          "arguments"
+        ],
+        "title": "FunctionCall"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "History": {
+        "properties": {
+          "messages_and_choices": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionDeveloperMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionSystemMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionUserMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionAssistantMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionToolMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/Choice"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Messages And Choices"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionToolParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          }
+        },
+        "type": "object",
+        "required": [
+          "messages_and_choices"
+        ],
+        "title": "History"
+      },
+      "ImageURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "detail": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "high"
+            ],
+            "title": "Detail"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "ImageURL"
+      },
+      "InputAudio": {
+        "properties": {
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "wav",
+              "mp3"
+            ],
+            "title": "Format"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "data",
+          "format"
+        ],
+        "title": "InputAudio"
+      },
+      "JsonSchemaResponseFormat": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema"
+          },
+          "strict": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strict"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "JsonSchemaResponseFormat"
+      },
+      "LegacyStructuralTag": {
+        "properties": {
+          "begin": {
+            "type": "string",
+            "title": "Begin"
+          },
+          "schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "begin",
+          "end"
+        ],
+        "title": "LegacyStructuralTag"
+      },
+      "LegacyStructuralTagResponseFormat": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "structural_tag",
+            "title": "Type"
+          },
+          "structures": {
+            "items": {
+              "$ref": "#/components/schemas/LegacyStructuralTag"
+            },
+            "type": "array",
+            "title": "Structures"
+          },
+          "triggers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Triggers"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type",
+          "structures",
+          "triggers"
+        ],
+        "title": "LegacyStructuralTagResponseFormat"
+      },
+      "LogRequest": {
+        "properties": {
+          "split": {
+            "type": "string",
+            "title": "Split"
+          },
+          "trajectory_groups": {
+            "items": {
+              "$ref": "#/components/schemas/TrajectoryGroup"
+            },
+            "type": "array",
+            "title": "Trajectory Groups"
+          }
+        },
+        "type": "object",
+        "required": [
+          "split",
+          "trajectory_groups"
+        ],
+        "title": "LogRequest",
+        "description": "Schéma pour la journalisation des trajectoires."
+      },
+      "LogitsProcessorConstructor": {
+        "properties": {
+          "qualname": {
+            "type": "string",
+            "title": "Qualname"
+          },
+          "args": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Args"
+          },
+          "kwargs": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kwargs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "qualname"
+        ],
+        "title": "LogitsProcessorConstructor"
+      },
+      "Logprob": {
+        "properties": {
+          "logprob": {
+            "type": "number",
+            "title": "Logprob"
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rank"
+          },
+          "decoded_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decoded Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "logprob"
+        ],
+        "title": "Logprob"
+      },
+      "Message": {
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/Author"
+          },
+          "content": {
+            "items": {
+              "$ref": "#/components/schemas/Content"
+            },
+            "type": "array",
+            "title": "Content"
+          },
+          "channel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Channel"
+          },
+          "recipient": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recipient"
+          },
+          "content_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "author"
+        ],
+        "title": "Message"
+      },
+      "ModelCreate": {
+        "properties": {
+          "entity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity",
+            "description": "Teams ou nom d’utilisateur du développeur dont la clé API W&B est utilisée",
+            "examples": [
+              "my-team"
+            ]
+          },
+          "project": {
+            "type": "string",
+            "title": "Project",
+            "description": "Nom du projet dans W&B où le modèle sera stocké",
+            "examples": [
+              "my-awesome-project"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Nom unique du modèle au sein du projet",
+            "examples": [
+              "my-awesome-model"
+            ]
+          },
+          "base_model": {
+            "type": "string",
+            "title": "Base Model",
+            "description": "Identifiant du modèle de base ou chemin du modèle HuggingFace à partir duquel effectuer le fine-tuning",
+            "examples": [
+              "OpenPipe/Qwen3-14B-Instruct"
+            ]
+          },
+          "return_existing": {
+            "type": "boolean",
+            "title": "Return Existing",
+            "description": "Si la valeur est true, renvoie le modèle existant si un modèle portant le même nom existe déjà, au lieu d’en créer un nouveau",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "project",
+          "name",
+          "base_model"
+        ],
+        "title": "ModelCreate",
+        "description": "Schéma pour la création d’un nouveau modèle."
+      },
+      "ModelResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "entity": {
+            "type": "string",
+            "title": "Entity"
+          },
+          "project": {
+            "type": "string",
+            "title": "Project"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "base_model": {
+            "type": "string",
+            "title": "Base Model"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity",
+          "project",
+          "name",
+          "base_model"
+        ],
+        "title": "ModelResponse",
+        "description": "Schéma de la réponse du modèle."
+      },
+      "PaginatedResponse_CheckpointResponse_": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "description": "Identifiant du type d’objet",
+            "default": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/CheckpointResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "Tableau d’éléments"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "description": "ID du premier élément de la page actuelle",
+            "default": ""
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "description": "ID du dernier élément de la page actuelle",
+            "default": ""
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "Indique si d’autres éléments sont disponibles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "has_more"
+        ],
+        "title": "PaginatedResponse[CheckpointResponse]"
+      },
+      "PaginatedResponse_TrainingJobEventResponse_": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "description": "Identifiant du type d’objet",
+            "default": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/TrainingJobEventResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "Tableau d’éléments"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "description": "ID du premier élément de la page actuelle",
+            "default": ""
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "description": "ID du dernier élément de la page actuelle",
+            "default": ""
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "Indique si d’autres éléments sont disponibles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "has_more"
+        ],
+        "title": "PaginatedResponse[TrainingJobEventResponse]"
+      },
+      "PromptTokenUsageInfo": {
+        "properties": {
+          "cached_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cached Tokens"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "PromptTokenUsageInfo"
+      },
+      "ResponseFormat": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "json_object",
+              "json_schema"
+            ],
+            "title": "Type"
+          },
+          "json_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JsonSchemaResponseFormat"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "ResponseFormat"
+      },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "user",
+          "assistant",
+          "system",
+          "developer",
+          "tool"
+        ],
+        "title": "Role",
+        "description": "Rôle de l’auteur d’un message (reflète ``chat::Role``)."
+      },
+      "SFTTrainingConfig": {
+        "properties": {
+          "batch_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string",
+                "const": "auto"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batch Size"
+          },
+          "learning_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learning Rate"
+          }
+        },
+        "type": "object",
+        "title": "SFTTrainingConfig",
+        "description": "Schéma de la configuration d’entraînement SFT."
+      },
+      "StreamOptions": {
+        "properties": {
+          "include_usage": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Usage",
+            "default": true
+          },
+          "continuous_usage_stats": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Continuous Usage Stats",
+            "default": false
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "StreamOptions"
+      },
+      "StructuralTagResponseFormat": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "structural_tag",
+            "title": "Type"
+          },
+          "format": {
+            "title": "Format"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type",
+          "format"
+        ],
+        "title": "StructuralTagResponseFormat"
+      },
+      "StructuredOutputsParams": {
+        "properties": {
+          "json": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json"
+          },
+          "regex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex"
+          },
+          "choice": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Choice"
+          },
+          "grammar": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grammar"
+          },
+          "json_object": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json Object"
+          },
+          "disable_fallback": {
+            "type": "boolean",
+            "title": "Disable Fallback",
+            "default": false
+          },
+          "disable_any_whitespace": {
+            "type": "boolean",
+            "title": "Disable Any Whitespace",
+            "default": false
+          },
+          "disable_additional_properties": {
+            "type": "boolean",
+            "title": "Disable Additional Properties",
+            "default": false
+          },
+          "whitespace_pattern": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Whitespace Pattern"
+          },
+          "structural_tag": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Structural Tag"
+          },
+          "_backend": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Backend"
+          },
+          "_backend_was_auto": {
+            "type": "boolean",
+            "title": "Backend Was Auto",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "StructuredOutputsParams"
+      },
+      "ToolCall": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type",
+            "default": "function"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionCall-Output"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function"
+        ],
+        "title": "ToolCall"
+      },
+      "TopLogprob": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token",
+          "logprob"
+        ],
+        "title": "TopLogprob"
+      },
+      "TrainingJobEventResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TrainingJobEventType"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "data"
+        ],
+        "title": "TrainingJobEventResponse",
+        "description": "Schéma de la réponse TrainingJobEvent."
+      },
+      "TrainingJobEventType": {
+        "type": "string",
+        "enum": [
+          "training_started",
+          "gradient_step",
+          "training_ended",
+          "training_failed"
+        ],
+        "title": "TrainingJobEventType",
+        "description": "Énumération du type d’événement de la tâche d’entraînement."
+      },
+      "TrainingJobResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "TrainingJobResponse",
+        "description": "Schéma de la réponse de TrainingJob."
+      },
+      "Trajectory": {
+        "properties": {
+          "messages_and_choices": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionDeveloperMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionSystemMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionUserMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionAssistantMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionToolMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/Choice"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Messages And Choices",
+            "default": []
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionToolParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          },
+          "additional_histories": {
+            "items": {
+              "$ref": "#/components/schemas/History"
+            },
+            "type": "array",
+            "title": "Additional Histories",
+            "default": []
+          },
+          "reward": {
+            "type": "number",
+            "title": "Reward",
+            "default": 0
+          },
+          "initial_policy_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Initial Policy Version"
+          },
+          "final_policy_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Policy Version"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Metrics",
+            "default": {}
+          },
+          "metadata": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Metadata",
+            "default": {}
+          },
+          "logs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Logs",
+            "default": []
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Time"
+          }
+        },
+        "type": "object",
+        "title": "Trajectory"
+      },
+      "TrajectoryGroup": {
+        "properties": {
+          "trajectories": {
+            "items": {
+              "$ref": "#/components/schemas/Trajectory"
+            },
+            "type": "array",
+            "title": "Trajectories"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trajectories"
+        ],
+        "title": "TrajectoryGroup"
+      },
+      "UsageInfo": {
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer",
+            "title": "Prompt Tokens",
+            "default": 0
+          },
+          "total_tokens": {
+            "type": "integer",
+            "title": "Total Tokens",
+            "default": 0
+          },
+          "completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completion Tokens",
+            "default": 0
+          },
+          "prompt_tokens_details": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PromptTokenUsageInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "UsageInfo"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VideoURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "VideoURL"
+      },
+      "openai__types__shared_params__function_definition__FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "parameters": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Parameters"
+          },
+          "strict": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strict"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      },
+      "vllm__entrypoints__openai__engine__protocol__FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

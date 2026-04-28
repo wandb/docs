@@ -2,167 +2,242 @@
 title: プロジェクト
 ---
 
-## Chainable Ops
-### <a id="project-artifact"></a>`project-artifact`
+<div id="chainable-ops">
+  ## チェーン可能な Ops
+</div>
 
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifact](/models/ref/query-panel/artifact/) を返します。
+### <a id="project-artifact" />`project-artifact`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
-| `artifactName` | [artifact](/models/ref/query-panel/artifact/) の名前 |
+[プロジェクト](/ja/models/ref/query-panel/project)内で、指定した名前の[アーティファクト](/ja/models/ref/query-panel/artifact)を返します
 
-#### 返り値
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifact](/models/ref/query-panel/artifact/)
+| Argument       | Description                                      |
+| :------------- | :----------------------------------------------- |
+| `project`      | [プロジェクト](/ja/models/ref/query-panel/project)        |
+| `artifactName` | [アーティファクト](/ja/models/ref/query-panel/artifact) の名前 |
 
-### <a id="project-artifactType"></a>`project-artifactType`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifactType](/models/ref/query-panel/artifact-type) を返します。
+指定した名に対応する[プロジェクト](/ja/models/ref/query-panel/project)内の[アーティファクト](/ja/models/ref/query-panel/artifact)
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
-| `artifactType` | [artifactType](/models/ref/query-panel/artifact-type) の名前 |
+### <a id="project-artifactType" />`project-artifactType`
 
-#### 返り値
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifactType](/models/ref/query-panel/artifact-type)
+[プロジェクト](/ja/models/ref/query-panel/project)内で、指定した名前の[artifactType](/ja/models/ref/query-panel/artifact-type)を返します
 
-### <a id="project-artifactTypes"></a>`project-artifactTypes`
+| 引数             | 説明                                                       |
+| :------------- | :------------------------------------------------------- |
+| `project`      | [プロジェクト](/ja/models/ref/query-panel/project)                |
+| `artifactType` | [artifactType](/ja/models/ref/query-panel/artifact-type)の名前 |
 
-[project](/models/ref/query-panel/project/) の [artifactType](/models/ref/query-panel/artifact-type) を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+[プロジェクト](/ja/models/ref/query-panel/project)内の指定した名前に対応する[artifactType](/ja/models/ref/query-panel/artifact-type)
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の [artifactType](/models/ref/query-panel/artifact-type)
+### <a id="project-artifactTypes" />`project-artifactTypes`
 
-### <a id="project-artifactVersion"></a>`project-artifactVersion`
+[プロジェクト](/ja/models/ref/query-panel/project)の[artifactTypes](/ja/models/ref/query-panel/artifact-type)を返します
 
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前とバージョンの [artifactVersion](/models/ref/query-panel/artifact-version) を返します。
+| 引数        | 説明                                        |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
-| `artifactName` | [artifactVersion](/models/ref/query-panel/artifact-version) の名前 |
-| `artifactVersionAlias` | [artifactVersion](/models/ref/query-panel/artifact-version) のバージョンエイリアス |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前とバージョンの [artifactVersion](/models/ref/query-panel/artifact-version)
+[プロジェクト](/ja/models/ref/query-panel/project) の [artifactTypes](/ja/models/ref/query-panel/artifact-type)
 
-### <a id="project-createdAt"></a>`project-createdAt`
+### <a id="project-artifactVersion" />`project-artifactVersion`
 
-[project](/models/ref/query-panel/project/) の作成日時を返します。
+指定した名とバージョンに対応する、[プロジェクト](/ja/models/ref/query-panel/project)内の[artifactVersion](/ja/models/ref/query-panel/artifact-version)を返します
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+| 引数                     | 説明                                                                     |
+| :--------------------- | :--------------------------------------------------------------------- |
+| `project`              | [プロジェクト](/ja/models/ref/query-panel/project)                              |
+| `artifactName`         | [artifactVersion](/ja/models/ref/query-panel/artifact-version)の名          |
+| `artifactVersionAlias` | [artifactVersion](/ja/models/ref/query-panel/artifact-version)のバージョンエイリアス |
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の作成日時
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="project-name"></a>`project-name`
+指定された名とバージョンに対応する、[プロジェクト](/ja/models/ref/query-panel/project)内の[artifactVersion](/ja/models/ref/query-panel/artifact-version)
 
-[project](/models/ref/query-panel/project/) の名前を返します。
+### <a id="project-createdAt" />`project-createdAt`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+[プロジェクト](/ja/models/ref/query-panel/project)の作成日時を返します
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の名前
+| 引数        | 説明                                        |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
 
-### <a id="project-runs"></a>`project-runs`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[project](/models/ref/query-panel/project/) の [runs](/models/ref/query-panel/run/) を返します。
+[プロジェクト](/ja/models/ref/query-panel/project)の作成時刻
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+### <a id="project-name" />`project-name`
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の [runs](/models/ref/query-panel/run/)
+[プロジェクト](/ja/models/ref/query-panel/project)の名を返します
 
+| 引数        | 説明                                        |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
 
-## List Ops
-### <a id="project-artifact"></a>`project-artifact`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifact](/models/ref/query-panel/artifact/) を返します。
+[プロジェクト](/ja/models/ref/query-panel/project)の名前
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
-| `artifactName` | [artifact](/models/ref/query-panel/artifact/) の名前 |
+### <a id="project-runs" />`project-runs`
 
-#### 返り値
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifact](/models/ref/query-panel/artifact/)
+[プロジェクト](/ja/models/ref/query-panel/project)の[runs](/ja/models/ref/query-panel/run)を返します
 
-### <a id="project-artifactType"></a>`project-artifactType`
+| Argument  | Description                               |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
 
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifactType](/models/ref/query-panel/artifact-type) を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
-| `artifactType` | [artifactType](/models/ref/query-panel/artifact-type) の名前 |
+[プロジェクト](/ja/models/ref/query-panel/project) の [Runs](/ja/models/ref/query-panel/run)
 
-#### 返り値
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前の [artifactType](/models/ref/query-panel/artifact-type)
+### <a id="project-updatedAt" />`project-updatedAt`
 
-### <a id="project-artifactTypes"></a>`project-artifactTypes`
+[プロジェクト](/ja/models/ref/query-panel/project)の更新時刻を返します
 
-[project](/models/ref/query-panel/project/) の [artifactType](/models/ref/query-panel/artifact-type) を返します。
+| 引数        | 説明                                        |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の [artifactType](/models/ref/query-panel/artifact-type)
+[プロジェクト](/ja/models/ref/query-panel/project)の更新時刻
 
-### <a id="project-artifactVersion"></a>`project-artifactVersion`
+<div id="list-ops">
+  ## Ops の一覧
+</div>
 
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前とバージョンの [artifactVersion](/models/ref/query-panel/artifact-version) を返します。
+### <a id="project-artifact-list" />`project-artifact`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
-| `artifactName` | [artifactVersion](/models/ref/query-panel/artifact-version) の名前 |
-| `artifactVersionAlias` | [artifactVersion](/models/ref/query-panel/artifact-version) のバージョンエイリアス |
+[プロジェクト](/ja/models/ref/query-panel/project)内で、指定した名前の[アーティファクト](/ja/models/ref/query-panel/artifact)を返します
 
-#### 返り値
-指定された [project](/models/ref/query-panel/project/) 内の、指定された名前とバージョンの [artifactVersion](/models/ref/query-panel/artifact-version)
+| Argument       | Description                                      |
+| :------------- | :----------------------------------------------- |
+| `project`      | [プロジェクト](/ja/models/ref/query-panel/project)        |
+| `artifactName` | [アーティファクト](/ja/models/ref/query-panel/artifact) の名前 |
 
-### <a id="project-createdAt"></a>`project-createdAt`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[project](/models/ref/query-panel/project/) の作成日時を返します。
+指定した名に対応する[プロジェクト](/ja/models/ref/query-panel/project)内の[アーティファクト](/ja/models/ref/query-panel/artifact)
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+### <a id="project-artifactType-list" />`project-artifactType`
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の作成日時
+[プロジェクト](/ja/models/ref/query-panel/project)内で、指定した名前の[artifactType](/ja/models/ref/query-panel/artifact-type)を返します
 
-### <a id="project-name"></a>`project-name`
+| 引数             | 説明                                                       |
+| :------------- | :------------------------------------------------------- |
+| `project`      | [プロジェクト](/ja/models/ref/query-panel/project)                |
+| `artifactType` | [artifactType](/ja/models/ref/query-panel/artifact-type)の名前 |
 
-[project](/models/ref/query-panel/project/) の名前を返します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+[プロジェクト](/ja/models/ref/query-panel/project)内の指定した名前に対応する[artifactType](/ja/models/ref/query-panel/artifact-type)
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の名前
+### <a id="project-artifactTypes-list" />`project-artifactTypes`
 
-### <a id="project-runs"></a>`project-runs`
+[プロジェクト](/ja/models/ref/query-panel/project)の[artifactTypes](/ja/models/ref/query-panel/artifact-type)を返します
 
-[project](/models/ref/query-panel/project/) の [runs](/models/ref/query-panel/run/) を返します。
+| 引数        | 説明                                        |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `project` | [project](/models/ref/query-panel/project/) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### 返り値
-[project](/models/ref/query-panel/project/) の [runs](/models/ref/query-panel/run/)
+[プロジェクト](/ja/models/ref/query-panel/project) の [artifactTypes](/ja/models/ref/query-panel/artifact-type)
+
+### <a id="project-artifactVersion-list" />`project-artifactVersion`
+
+指定した名とバージョンに対応する、[プロジェクト](/ja/models/ref/query-panel/project)内の[artifactVersion](/ja/models/ref/query-panel/artifact-version)を返します
+
+| 引数                     | 説明                                                                     |
+| :--------------------- | :--------------------------------------------------------------------- |
+| `project`              | [プロジェクト](/ja/models/ref/query-panel/project)                              |
+| `artifactName`         | [artifactVersion](/ja/models/ref/query-panel/artifact-version)の名          |
+| `artifactVersionAlias` | [artifactVersion](/ja/models/ref/query-panel/artifact-version)のバージョンエイリアス |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+指定された名とバージョンに対応する、[プロジェクト](/ja/models/ref/query-panel/project)内の[artifactVersion](/ja/models/ref/query-panel/artifact-version)
+
+### <a id="project-createdAt-list" />`project-createdAt`
+
+[project](/ja/models/ref/query-panel/project)の作成時刻を返します
+
+| 引数        | 説明                                         |
+| :-------- | :----------------------------------------- |
+| `project` | [project](/ja/models/ref/query-panel/project) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[プロジェクト](/ja/models/ref/query-panel/project)の作成時刻
+
+### <a id="project-name-list" />`project-name`
+
+[project](/ja/models/ref/query-panel/project)の名を返します
+
+| 引数        | 説明                                         |
+| :-------- | :----------------------------------------- |
+| `project` | [project](/ja/models/ref/query-panel/project) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[プロジェクト](/ja/models/ref/query-panel/project)の名前
+
+### <a id="project-runs-list" />`project-runs`
+
+[project](/ja/models/ref/query-panel/project)の[Runs](/ja/models/ref/query-panel/run)を返します
+
+| 引数        | 説明                                         |
+| :-------- | :----------------------------------------- |
+| `project` | [project](/ja/models/ref/query-panel/project) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[プロジェクト](/ja/models/ref/query-panel/project) の [Runs](/ja/models/ref/query-panel/run)
+
+### <a id="project-updatedAt-list" />`project-updatedAt`
+
+[プロジェクト](/ja/models/ref/query-panel/project)の更新時刻を返します
+
+| 引数        | 説明                                        |
+| :-------- | :---------------------------------------- |
+| `project` | [プロジェクト](/ja/models/ref/query-panel/project) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[プロジェクト](/ja/models/ref/query-panel/project)の更新時刻

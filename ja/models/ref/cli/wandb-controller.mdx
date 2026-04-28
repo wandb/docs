@@ -1,36 +1,57 @@
 ---
-title: wandb コントローラ
+title: wandb controller
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-controller.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbController from "/snippets/en/_includes/cli/wandb-controller.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L2381" />
 
-<WandbController/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-W&B ローカル Sweep controller を実行します。
-
-## Usage（使用法）
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
-wandb controller SWEEP_ID [OPTIONS]
+controller [OPTIONS] SWEEP_ID
 ```
 
-## Arguments（引数）
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | 説明なし | はい |
+W&amp;B ハイパーパラメーター sweep 用のローカル sweep コントローラーを起動します。
 
-## Options（オプション）
+指定した sweep をオーケストレーションするローカルプロセスを起動します。W&amp;B から
+sweep の設定を読み取り、設定された探索戦略 (grid、random、ベイズ など) に基づいて
+ハイパーパラメーターの組み合わせを選択し、
+run を sweep エージェントに割り当てます。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--verbose` | 詳細な出力を表示（デフォルト: False） |
+デフォルトでは、W&amp;B は sweep コントローラーをマネージド インフラストラクチャー上で実行します。
+代わりにコントローラーをローカルで実行するには、このコマンドを使用します。たとえば、
+このコマンドは動作のデバッグや、接続が制限された環境での運用に
+使用できます。
+
+sweep&#95;id は、sweep の作成時に `wandb sweep` によって出力されます。これは
+sweep の一意の ID で構成され、entity と
+project のパス (entity/project/sweep&#95;id) を含む場合があります。
+
+たとえば、sweep ID が wbyz9876 の sweep に対してローカル sweep コントローラーを起動するには:
+
+```bash
+wandb controller wbyz9876
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名          | デフォルト | タイプ  |
+| ---------- | ----- | ---- |
+| `sweep_id` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag        | タイプ      | 説明                                  |
+| ----------- | -------- | ----------------------------------- |
+| `--verbose` | BOOL フラグ | コントローラーの詳細出力を表示します。**デフォルト**: False |
