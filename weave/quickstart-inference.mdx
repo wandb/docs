@@ -1,6 +1,6 @@
 ---
-title: Learn Weave with W&B Inference
-description: "Learn Weave fundamentals using W&B Inference to trace model calls, compare outputs, and run evaluations."
+title: Learn Weave with Serverless Inference
+description: "Learn Weave fundamentals using Serverless Inference to trace model calls, compare outputs, and run evaluations."
 ---
 
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
@@ -12,13 +12,13 @@ import WeaveQuickstartPrereqs from "/snippets/_includes/weave-quickstart-prereqs
 <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
 </div>
 
-This guide shows you how to use W&B Weave with [W&B Inference](https://docs.wandb.ai/inference/). Use W&B Inference, to build and trace LLM applications using live open-source models without setting up your own infrastructure or managing API keys from multiple providers. With your W&B API key, you can interact with [all models hosted by W&B Inference](https://docs.wandb.ai/inference/models/).
+This guide shows you how to use W&B Weave with [Serverless Inference](https://docs.wandb.ai/inference/). Use Serverless Inference, to build and trace LLM applications using live open-source models without setting up your own infrastructure or managing API keys from multiple providers. With your W&B API key, you can interact with [all models hosted by Serverless Inference](https://docs.wandb.ai/inference/models/).
 
 ## What you'll learn
 
 This guide shows you how to:
 
-- Set up Weave and W&B Inference
+- Set up Weave and Serverless Inference
 - Build a basic LLM application with automatic tracing
 - Compare multiple models
 - Evaluate model performance on a dataset
@@ -28,7 +28,7 @@ This guide shows you how to:
 
 ## Trace your first LLM call
 
-To begin, copy and paste the following code example. The code example uses Llama 3.1-8B from W&B Inference. 
+To begin, copy and paste the following code example. The code example uses Llama 3.1-8B from Serverless Inference. 
 
 When you run this code, Weave:
 - Traces your LLM call automatically
@@ -44,7 +44,7 @@ import openai
 # Initialize Weave - replace with your-team/your-project
 weave.init("<team-name>/inference-quickstart")
 
-# Create an OpenAI-compatible client pointing to W&B Inference
+# Create an OpenAI-compatible client pointing to Serverless Inference
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
@@ -76,9 +76,9 @@ import OpenAI from 'openai';
 // Initialize Weave - Replace values enclosed in "<>" with your own.
 await weave.init("<team-name>/inference-quickstart")
 
-// Create an OpenAI-compatible client pointing to W&B Inference
+// Create an OpenAI-compatible client pointing to Serverless Inference
 const client = new OpenAI({
-    baseURL: 'https://api.inference.wandb.ai/v1',  // W&B Inference endpoint
+    baseURL: 'https://api.inference.wandb.ai/v1',  // Serverless Inference endpoint
     apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // Replace with your API key or set the WANDB_API_KEY environment variable
 });
 
@@ -235,7 +235,7 @@ console.log('\nSummary:', result.summary);
 
 ## Compare multiple models
 
-W&B Inference provides access to multiple models. Use the following code to compare the performance of Llama and DeepSeek's respective responses:
+Serverless Inference provides access to multiple models. Use the following code to compare the performance of Llama and DeepSeek's respective responses:
 
 <Tabs>
 <Tab title="Python">
@@ -358,7 +358,7 @@ def accuracy_scorer(expected: str, output: str, expected_one_of: Optional[list[s
 def evaluate_model(model: InferenceModel, dataset: list[dict]):
     """Run evaluation on a dataset using Weave's built-in evaluation framework."""
     # Initialize EvaluationLogger BEFORE calling the model to capture token usage
-    # This is especially important for W&B Inference to track costs
+    # This is especially important for Serverless Inference to track costs
     # Convert model name to a valid format (replace non-alphanumeric chars with underscores)
     safe_model_name = model.model_name.replace("/", "_").replace("-", "_").replace(".", "_")
     eval_logger = EvaluationLogger(
@@ -452,7 +452,7 @@ async function evaluateModel(
   dataset: DatasetExample[]
 ): Promise<void> {
   // Initialize EvaluationLogger BEFORE calling the model to capture token usage
-  // This is especially important for W&B Inference to track costs
+  // This is especially important for Serverless Inference to track costs
   // Convert model name to a valid format (replace non-alphanumeric chars with underscores)
   const safeModelName = modelName.replace(/\//g, '_').replace(/-/g, '_').replace(/\./g, '_');
   const evalLogger = new EvaluationLogger({
@@ -518,7 +518,7 @@ In the Weave UI, you can:
 
 ## Available models
 
-For a complete list of available models, see the [Available Models section](https://docs.wandb.ai/inference/models/) in the W&B Inference documentation.
+For a complete list of available models, see the [Available Models section](https://docs.wandb.ai/inference/models/) in the Serverless Inference documentation.
 
 ## Next steps
 
@@ -541,12 +541,12 @@ If you get authentication errors:
 <details>
 <summary>Rate limit errors</summary>
 
-W&B Inference has concurrency limits per project. If you hit rate limits:
+Serverless Inference has concurrency limits per project. If you hit rate limits:
 - Reduce the number of concurrent requests
 - Add delays between calls
 - Consider upgrading your plan for higher limits
 
-For more details, see the [limits documentation for W&B Inference](https://docs.wandb.ai/inference/usage-limits/).
+For more details, see the [limits documentation for Serverless Inference](https://docs.wandb.ai/inference/usage-limits/).
 
 </details>
 

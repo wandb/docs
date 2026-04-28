@@ -1,15 +1,15 @@
 ---
-title: W&B Sandboxes
+title: Serverless Sandboxes
 mode: wide
 ---
 
 <Warning>
-W&B Sandboxes is in private preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
+Serverless Sandboxes is in private preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
 </Warning>
 
-W&B Sandboxes gives you on-demand, isolated compute environments that you can create, use, and discard using Python.
+Serverless Sandboxes gives you on-demand, isolated compute environments that you can create, use, and discard using Python.
 
-W&B Sandboxes is built using the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox).
+Serverless Sandboxes is built using the CoreWeave Sandbox library. For the underlying API reference and library docs, see the [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox).
 
 ## How it works
 
@@ -38,25 +38,25 @@ Follow these steps to create a sandbox and run a command inside it:
 3. Copy and paste the following code snippet into a Python file and run it. The code snippet accomplishes the following:
 
     1. Create a sandbox with [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run). 
-    2. Run the command `echo "Hello from W&B Sandboxes!"` inside the sandbox using the [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) method. 
+    2. Run the command `echo "Hello from Serverless Sandboxes!"` inside the sandbox using the [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) method. 
     3. Print the output to the console using the `Process` object returned by `Sandbox.exec()`.
 
     ```python show lines title="hello_sandbox.py"
     from wandb.sandbox import Sandbox
 
     with Sandbox.run() as sandbox:
-        process = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
+        process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
         print(process.stdout)
     ```
 
-    You should see the output `Hello from W&B Sandboxes!` printed to the console. 
+    You should see the output `Hello from Serverless Sandboxes!` printed to the console. 
 
     The sandbox automatically stops when the context manager (the `with` block) exits. For more information on sandbox lifecycle and states, see [Lifecycle of sandboxes](/sandboxes/lifecycle).
 
 
-## W&B Sandboxes tutorials
+## Serverless Sandboxes tutorials
 
 For more in-depth examples, see:
 
-* [Invoke an agent in a W&B Sandbox tutorial](/sandboxes/invoke-agent-sandbox-tutorial)
-* [Train a PyTorch model in a W&B Sandbox tutorial](/sandboxes/mltrain-in-sandbox-tutorial)
+* [Invoke an agent in a Serverless Sandbox tutorial](/sandboxes/invoke-agent-sandbox-tutorial)
+* [Train a PyTorch model in a Serverless Sandbox tutorial](/sandboxes/mltrain-in-sandbox-tutorial)
