@@ -1,6 +1,8 @@
 # Knowledgebase Nav Generator
 
-A standalone script that regenerates knowledgebase nav pages for the W&B documentation repository.
+A standalone script that regenerates knowledgebase nav pages for a Mintlify documentation repository.
+
+This utility lives at `<utility>/knowledgebase-nav/` inside the docs repo (for example `scripts/knowledgebase-nav/` or `utils/knowledgebase-nav/`); throughout this README, paths shown as `<utility>/knowledgebase-nav/...` mean the same directory the README itself lives in. The script locates its own `config.yaml` and resolves the **Mintlify root** (the directory containing `support/` and `support.mdx`) from the `mintlify_root` key in that file, so it does not need a path passed on the command line.
 
 The generator reads MDX article files from `support/<product>/articles/`, aggregates them by keyword tags, and:
 
@@ -11,7 +13,7 @@ The generator reads MDX article files from `support/<product>/articles/`, aggreg
 
 The generator never reads, parses, or writes `docs.json`. When tag pages are added or removed, a human must update the matching `Support: <display_name>` tab under `navigation.languages[language="en"].tabs[]` by hand. The PR comment posted by `pr_report.py` lists the exact page ids to add or remove, grouped by product, so the edit can be made with copy and paste.
 
-The generator runs automatically through GitHub Actions (workflow file `.github/workflows/knowledgebase-nav.yml`) when a pull request is opened, updated with new commits, or reopened, and at least one changed file matches `support/**` or `scripts/knowledgebase-nav/**`. You can also run that workflow manually from the Actions tab for previews.
+The generator runs automatically through GitHub Actions (workflow file `.github/workflows/knowledgebase-nav.yml`) when a pull request is opened, updated with new commits, or reopened, and at least one changed file matches the Mintlify `support/**` directory or the utility directory. You can also run that workflow manually from the Actions tab for previews.
 
 ---
 
@@ -54,14 +56,14 @@ If you want to run the generator locally (for example to preview footers and tag
 
 If you want to use a keyword that is not yet recognized for a product, you need to add it to the configuration file:
 
-1. Open `scripts/knowledgebase-nav/config.yaml`.
+1. Open `<utility>/knowledgebase-nav/config.yaml` (the `config.yaml` file next to this README).
 
 2. Find the product entry under `products:` and add your new keyword to its `allowed_keywords` list, in alphabetical order.
 
    **Before:**
    ```yaml
    - slug: models
-     display_name: "W&B Models"
+     display_name: "Models"
      allowed_keywords:
        - Academic
        - Administrator
@@ -71,7 +73,7 @@ If you want to use a keyword that is not yet recognized for a product, you need 
    **After (adding "API Keys"):**
    ```yaml
    - slug: models
-     display_name: "W&B Models"
+     display_name: "Models"
      allowed_keywords:
        - Academic
        - Administrator
@@ -131,8 +133,8 @@ The Card preview appears in three places:
 ---
 title: "How do I reset my API key?"
 keywords: ["Security", "Administrator"]
-docengineDescription: "Step-by-step instructions for resetting your W&B API key from the user settings page."
-description: "Reset your W&B API key."
+docengineDescription: "Step-by-step instructions for resetting your API key from the user settings page."
+description: "Reset your API key."
 ---
 ```
 
@@ -158,7 +160,7 @@ These steps are written for **macOS**. They use a **virtual environment** so pac
 
 **Prerequisites:** [Python](https://www.python.org/downloads/) 3.11 or another current Python 3 release (3.11 is what CI uses).
 
-1. Open Terminal and go to the root of the `wandb-docs` clone (the directory that contains the `support/` folder).
+1. Open Terminal and go to the root of the docs repo clone.
 
 2. Create a virtual environment in a folder named `.venv` (you can pick another name, but keep that folder out of git commits), then activate it:
 
@@ -169,17 +171,17 @@ These steps are written for **macOS**. They use a **virtual environment** so pac
 
    After activation, your prompt usually starts with `(.venv)`.
 
-3. Upgrade `pip` (recommended once per new venv), then install the generator dependencies:
+3. Upgrade `pip` (recommended once per new venv), then install the generator dependencies (replace `<utility>/knowledgebase-nav` below with the actual directory; it is the directory that contains this README):
 
    ```bash
    python -m pip install --upgrade pip
-   python -m pip install -r scripts/knowledgebase-nav/requirements.txt
+   python -m pip install -r <utility>/knowledgebase-nav/requirements.txt
    ```
 
-4. Run the script from the repo root:
+4. Run the script (the path it scans is read from `mintlify_root` in `config.yaml`):
 
    ```bash
-   python scripts/knowledgebase-nav/generate_tags.py --repo-root .
+   python <utility>/knowledgebase-nav/generate_tags.py
    ```
 
    The command updates article footers, tag pages, product indexes, and `support.mdx` in your working tree. It does not modify `docs.json`. Review the changes with `git diff` before you commit.
@@ -199,9 +201,10 @@ Next time you want to run the generator, activate the same `.venv` again (repeat
 ### File layout
 
 ```
-scripts/knowledgebase-nav/
+<utility>/knowledgebase-nav/
   generate_tags.py          Main generator script (single file, all phases below)
-  config.yaml               Products and allowed keywords configuration
+  pr_report.py              Builds the GitHub PR comment / job summary Markdown
+  config.yaml               mintlify_root, badge_color, products, and allowed keywords
   requirements.txt          Python dependencies (pyyaml, jinja2)
   README.md                 This file
   Architecture.md           Architecture overview and Mermaid diagrams for developers
@@ -211,7 +214,8 @@ scripts/knowledgebase-nav/
   tests/
     __init__.py             Package marker for tests
     conftest.py             Registers the `integration` pytest marker
-    test_generate_tags.py   Unit tests (pytest, mocked filesystem)
+    test_generate_tags.py   Unit tests for generate_tags.py (mocked filesystem)
+    test_pr_report.py       Unit tests for pr_report.py (synthetic git diff input)
     test_golden_output.py   Golden-file integration tests (real repo layout)
 ```
 
@@ -227,7 +231,7 @@ The script runs one pipeline after loading `config.yaml` and Jinja2 templates. T
 
 4. **Sync tab Badges** (`sync_all_support_article_footers`, `sync_support_article_footer`, `build_tab_badges_mdx`, `build_keyword_footer_mdx`): For each `support/<product>/articles/*.mdx` file, replaces managed `<Badge>` links with one Badge per `keywords` entry (in list order). Managed Badges are located via `_BADGE_START_RE` and `_BADGE_END_RE`: any `{/* ... */}` comment containing `AUTO-GENERATED: tab badges` anywhere inside it is the start; any comment containing `END AUTO-GENERATED: tab badges` anywhere inside it is the end — authors can add notes anywhere in these comments without breaking the generator. The generator falls back to regex matching for articles that predate markers. Other Badges and the rest of the body are not edited. If there are no such Badges yet and `keywords` is non-empty, appends a blank line, canonical markers, and the tab Badges (no `---`). If `keywords` is empty, removes the marker block (or bare tab-page Badges). Runs after tag pages are generated so articles are not modified if earlier phases fail.
 
-5. **Update support landing page** (`update_support_index`, `update_support_featured`): Edits the repository root `support.mdx` in place. Count lines inside each product `<Card>` are located via `_COUNTS_START_RE` / `_COUNTS_END_RE` (any `{/* ... */}` comment containing `AUTO-GENERATED: counts` / `END AUTO-GENERATED: counts`, falling back to a bare count-line pattern for migration) and replaced with current article and tag counts (including singular or plural labels). The featured-articles section is regenerated between markers located via `_FEATURED_START_RE` / `_FEATURED_END_RE` (any comment containing `AUTO-GENERATED: featured articles` / `END AUTO-GENERATED: featured articles`). All marker matching is case-insensitive with an optional colon after "generated".
+5. **Update support landing page** (`update_support_index`, `update_support_featured`): Edits the Mintlify root `support.mdx` in place. Count lines inside each product `<Card>` are located via `_COUNTS_START_RE` / `_COUNTS_END_RE` (any `{/* ... */}` comment containing `AUTO-GENERATED: counts` / `END AUTO-GENERATED: counts`, falling back to a bare count-line pattern for migration) and replaced with current article and tag counts (including singular or plural labels). The featured-articles section is regenerated between markers located via `_FEATURED_START_RE` / `_FEATURED_END_RE` (any comment containing `AUTO-GENERATED: featured articles` / `END AUTO-GENERATED: featured articles`). All marker matching is case-insensitive with an optional colon after "generated".
 
 `docs.json` is intentionally not on this list. The generator does not read or write that file. After the generator runs, the workflow's PR comment (built by `pr_report.py`) lists the page ids of any tag pages that were added or removed, grouped by `Support: <display_name>`, so a human can update the matching tab in `docs.json` by hand.
 
@@ -236,10 +240,10 @@ The script runs one pipeline after loading `config.yaml` and Jinja2 templates. T
 On macOS, set up a virtual environment as in [Running the generator locally](#running-the-generator-locally) (same steps as in the tech writers section), then from the repo root:
 
 ```bash
-python scripts/knowledgebase-nav/generate_tags.py --repo-root .
+python <utility>/knowledgebase-nav/generate_tags.py
 ```
 
-Use `--config /path/to/config.yaml` to point at a different config file. If you omit `--config`, the script uses `scripts/knowledgebase-nav/config.yaml` next to `generate_tags.py`.
+Use `--config /path/to/config.yaml` to point at a different config file. If you omit `--config`, the script uses `config.yaml` next to `generate_tags.py`. The Mintlify root scanned by the generator is always read from `mintlify_root` in that config file.
 
 The script prints a progress summary to stdout. The `warnings` module emits unknown keywords, skipped articles, and missing `support.mdx` product cards to stderr.
 
@@ -249,8 +253,9 @@ With the same virtual environment activated, install `pytest` and run:
 
 ```bash
 python -m pip install pytest
-pytest scripts/knowledgebase-nav/tests/test_generate_tags.py -v
-pytest scripts/knowledgebase-nav/tests/test_golden_output.py -v -m integration
+pytest <utility>/knowledgebase-nav/tests/test_generate_tags.py -v
+pytest <utility>/knowledgebase-nav/tests/test_pr_report.py -v
+pytest <utility>/knowledgebase-nav/tests/test_golden_output.py -v -m integration
 ```
 
 The unit tests use mocked file systems and run fast.
@@ -263,7 +268,7 @@ The golden-file module (`test_golden_output.py`) is marked `@pytest.mark.integra
 - No `docs.json` file is created in the temp tree, so the pipeline never reads or writes it.
 - Root `support.mdx` matches the real file byte-for-byte.
 
-If `support.mdx` is not found at the repository root the tests resolve to (the parent directory of `scripts/`, when this package lives at `scripts/knowledgebase-nav/`), the golden tests skip.
+If `support.mdx` is not found at the Mintlify root resolved from `mintlify_root` in `config.yaml`, the golden tests skip.
 
 ### Adding a new product
 
@@ -273,7 +278,7 @@ If `support.mdx` is not found at the repository root the tests resolve to (the p
 4. Add a product `<Card>` to the root `support.mdx` with `href="/support/<slug>"` and a marker-wrapped count line:
 
    ```
-   <Card title="W&B NewProduct" href="/support/<slug>" arrow="true" icon="/icons/cropped-newproduct.svg">
+   <Card title="NewProduct" href="/support/<slug>" arrow="true" icon="/icons/cropped-newproduct.svg">
      {/* AUTO-GENERATED: counts */}
      0 articles &middot; 0 tags
      {/* END AUTO-GENERATED: counts */}
@@ -286,7 +291,7 @@ If `support.mdx` is not found at the repository root the tests resolve to (the p
 
    ```json
    {
-     "tab": "Support: W&B NewProduct",
+     "tab": "Support: NewProduct",
      "hidden": true,
      "pages": [
        "support/<slug>"
@@ -298,7 +303,7 @@ If `support.mdx` is not found at the repository root the tests resolve to (the p
 
 ### How docs.json edits are coordinated
 
-The W&B docs site uses a multi-language navigation structure:
+The docs site uses a multi-language navigation structure:
 
 ```json
 {
@@ -311,7 +316,7 @@ The W&B docs site uses a multi-language navigation structure:
 }
 ```
 
-Hidden tabs named `"Support: <display_name>"` (for example `"Support: W&B Models"`) live under the English (`"en"`) language entry. Each tab's `pages` list looks like:
+Hidden tabs named `"Support: <display_name>"` (for example `"Support: Models"`) live under the English (`"en"`) language entry. Each tab's `pages` list looks like:
 
 ```
 ["support/<slug>", "support/<slug>/tags/tag-a", "support/<slug>/tags/tag-b", ...]
@@ -323,7 +328,7 @@ The generator never edits this file. When tag pages change, the workflow's PR co
 
 Workflow name: **Knowledgebase Nav** (file `.github/workflows/knowledgebase-nav.yml`). The job does not run `pytest`; run tests locally as above.
 
-- **Pull requests**: Runs when a PR is opened, synchronized (new pushes to the branch), or reopened, and the path filter matches. Only runs that include changes under `support/**` or `scripts/knowledgebase-nav/**` trigger the workflow (see GitHub path filters for `pull_request`). After generation, `stefanzweifel/git-auto-commit-action` commits only if something changed, using `file_pattern`: `support.mdx`, `support/*/articles/*.mdx`, `support/*/tags/*.mdx`, and `support/*.mdx`. `docs.json` is intentionally not in this list — it is edited by humans only.
+- **Pull requests**: Runs when a PR is opened, synchronized (new pushes to the branch), or reopened, and the path filter matches. Only runs that include changes under the Mintlify `support/**` directory or the utility directory trigger the workflow (see GitHub path filters for `pull_request`). After generation, `stefanzweifel/git-auto-commit-action` commits only if something changed, using `file_pattern`: `support.mdx`, `support/*/articles/*.mdx`, `support/*/tags/*.mdx`, and `support/*.mdx`. `docs.json` is intentionally not in this list — it is edited by humans only.
 
 - **workflow_dispatch**: Run from the Actions tab. Optional input `branch`: when set, checkout uses that branch name. When empty, checkout uses `github.ref` (the branch selected in the "Use workflow from" dropdown). On `pull_request` events, checkout uses the PR head repository and head commit SHA (including forks); auto-commit runs only for same-repo PRs, not forks.
 

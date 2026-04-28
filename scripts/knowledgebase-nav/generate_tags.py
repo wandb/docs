@@ -3,8 +3,8 @@
 Knowledgebase Nav Generator
 =========================
 
-A standalone script that regenerates knowledgebase nav pages for the Weights
-& Biases documentation repository.
+A standalone script that regenerates knowledgebase nav pages for a Mintlify
+documentation repository.
 
 This script is designed to run as part of a GitHub Actions workflow, but can
 also be run locally for testing and previewing changes.
@@ -87,10 +87,12 @@ tag pages that were added or removed.
 
 Usage
 -----
-    python generate_tags.py --repo-root /path/to/wandb-docs
+    python generate_tags.py
 
-The --repo-root argument should point to the root of the wandb-docs repo
-(the directory that contains the support/ folder and support.mdx).
+The script reads ``mintlify_root`` from ``config.yaml`` (resolved relative
+to the GitHub repo root, which is two levels above this script) to locate
+the directory that contains ``support/`` and ``support.mdx``. Pass
+``--config`` to point at a different config file.
 """
 
 import argparse
@@ -261,7 +263,7 @@ def parse_frontmatter(file_path: Path) -> Tuple[Dict[str, Any], str]:
     """
     Parse YAML front matter and body text from an MDX file.
 
-    MDX files in the W&B docs repo follow this structure::
+    MDX files in the Mintlify docs repo follow this structure::
 
         ---
         title: "Article title"
@@ -403,9 +405,9 @@ def plain_text(body: str) -> str:
 
     Example
     -------
-    >>> plain_text("Use `wandb.init()` to **start** a run.")
-    'Use wandb.init() to start a run.'
-    >>> plain_text("See [docs](https://wandb.ai) for **more**.")
+    >>> plain_text("Use `client.init()` to **start** a run.")
+    'Use client.init() to start a run.'
+    >>> plain_text("See [docs](https://example.com) for **more**.")
     'See docs for more.'
     """
     text = body
@@ -797,24 +799,35 @@ def _tab_badge_pattern(product_slug: str) -> re.Pattern[str]:
     )
 
 
-def build_tab_badges_mdx(product_slug: str, keywords: List[str]) -> str:
+def build_tab_badges_mdx(
+    product_slug: str,
+    keywords: List[str],
+    *,
+    badge_color: str,
+) -> str:
     """
     Build concatenated ``<Badge>`` elements for tag navigation (no ``---``).
 
     One Badge per keyword, in list order, linking to
-    ``/support/<product>/tags/<tag-slug>``.
+    ``/support/<product>/tags/<tag-slug>``. ``badge_color`` is the Mintlify
+    Badge color attribute (loaded from ``config.yaml``).
     """
     if not keywords:
         return ""
     return "".join(
-        '<Badge stroke shape="pill" color="orange" size="md">'
+        f'<Badge stroke shape="pill" color="{badge_color}" size="md">'
         f"[{kw}](/support/{product_slug}/tags/{tag_slug(kw)})"
         "</Badge>"
         for kw in keywords
     )
 
 
-def build_keyword_footer_mdx(product_slug: str, keywords: List[str]) -> str:
+def build_keyword_footer_mdx(
+    product_slug: str,
+    keywords: List[str],
+    *,
+    badge_color: str,
+) -> str:
     """
     Build text to append when an article has no tab Badges yet.
 
@@ -824,7 +837,7 @@ def build_keyword_footer_mdx(product_slug: str, keywords: List[str]) -> str:
     """
     if not keywords:
         return ""
-    badges = build_tab_badges_mdx(product_slug, keywords)
+    badges = build_tab_badges_mdx(product_slug, keywords, badge_color=badge_color)
     return f"\n\n{_BADGE_START}\n{badges}\n{_BADGE_END}"
 
 
@@ -832,6 +845,8 @@ def _replace_tab_badges_in_body(
     body_and_footer: str,
     product_slug: str,
     keywords: List[str],
+    *,
+    badge_color: str,
 ) -> str:
     """
     Replace or remove only tab-page Badges; append a default footer if needed.
@@ -860,7 +875,8 @@ def _replace_tab_badges_in_body(
 
     if start_m is not None and end_m is not None:
         if keywords:
-            new_block = f"{_BADGE_START}\n{build_tab_badges_mdx(product_slug, keywords)}\n{_BADGE_END}"
+            badges = build_tab_badges_mdx(product_slug, keywords, badge_color=badge_color)
+            new_block = f"{_BADGE_START}\n{badges}\n{_BADGE_END}"
         else:
             new_block = ""
         return body_and_footer[:start_m.start()] + new_block + body_and_footer[end_m.end():]
@@ -875,17 +891,26 @@ def _replace_tab_badges_in_body(
             out = out[: m.start()] + out[m.end() :]
         insert_pos = matches[0].start()
         if keywords:
-            new_block = f"{_BADGE_START}\n{build_tab_badges_mdx(product_slug, keywords)}\n{_BADGE_END}"
+            badges = build_tab_badges_mdx(product_slug, keywords, badge_color=badge_color)
+            new_block = f"{_BADGE_START}\n{badges}\n{_BADGE_END}"
         else:
             new_block = ""
         return out[:insert_pos] + new_block + out[insert_pos:]
 
     if keywords:
-        return body_and_footer.rstrip() + build_keyword_footer_mdx(product_slug, keywords)
+        footer = build_keyword_footer_mdx(
+            product_slug, keywords, badge_color=badge_color
+        )
+        return body_and_footer.rstrip() + footer
     return body_and_footer
 
 
-def sync_support_article_footer(article_path: Path, product_slug: str) -> bool:
+def sync_support_article_footer(
+    article_path: Path,
+    product_slug: str,
+    *,
+    badge_color: str,
+) -> bool:
     """
     Align tab-page ``<Badge>`` links with ``keywords`` in front matter.
 
@@ -913,7 +938,9 @@ def sync_support_article_footer(article_path: Path, product_slug: str) -> bool:
     frontmatter = yaml.safe_load(inner_yaml) or {}
     keywords = _keywords_list_for_footer(frontmatter, article_path)
 
-    new_body = _replace_tab_badges_in_body(body_and_footer, product_slug, keywords)
+    new_body = _replace_tab_badges_in_body(
+        body_and_footer, product_slug, keywords, badge_color=badge_color
+    )
     new_text = fm_block + new_body
 
     if new_text == text:
@@ -923,7 +950,12 @@ def sync_support_article_footer(article_path: Path, product_slug: str) -> bool:
     return True
 
 
-def sync_all_support_article_footers(repo_root: Path, product_slug: str) -> int:
+def sync_all_support_article_footers(
+    repo_root: Path,
+    product_slug: str,
+    *,
+    badge_color: str,
+) -> int:
     """
     Run ``sync_support_article_footer`` on every ``*.mdx`` under
     ``support/<product_slug>/articles/``.
@@ -942,7 +974,9 @@ def sync_all_support_article_footers(repo_root: Path, product_slug: str) -> int:
     updated = 0
     for mdx_path in sorted(articles_dir.glob("*.mdx")):
         try:
-            if sync_support_article_footer(mdx_path, product_slug):
+            if sync_support_article_footer(
+                mdx_path, product_slug, badge_color=badge_color
+            ):
                 updated += 1
         except ValueError as exc:
             warnings.warn(f"Skipping footer sync for {mdx_path}: {exc}")
@@ -965,7 +999,7 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support/``).
     product_slug : str
         The product identifier (for example "models", "weave", or "inference").
 
@@ -1000,7 +1034,7 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
     -------
     >>> articles = crawl_articles(Path("/repo"), "models")
     >>> articles[0]["title"]
-    'Can I run wandb offline?'
+    'Can I run offline?'
     >>> articles[0]["keywords"]
     ['Experiments', 'Environment Variables']
     """
@@ -1099,7 +1133,7 @@ def build_tag_index(
     articles: List[Dict[str, Any]],
     allowed_keywords: List[str],
     *,
-    config_yaml_path: str = "scripts/knowledgebase-nav/config.yaml",
+    config_yaml_path: str = "config.yaml",
 ) -> Dict[str, List[Dict[str, Any]]]:
     """
     Build a mapping from tag names to lists of articles that use that tag.
@@ -1116,8 +1150,9 @@ def build_tag_index(
     allowed_keywords : list of str
         The keywords recognized for this product (from config.yaml).
     config_yaml_path : str, optional
-        Repo-relative path to the config file, shown in unknown-keyword
-        warnings. Defaults to ``scripts/knowledgebase-nav/config.yaml``.
+        Path to the config file, shown in unknown-keyword warnings. Defaults
+        to ``"config.yaml"``; ``run_pipeline`` overrides this with the
+        path resolved relative to the Mintlify root for friendlier messages.
 
     Returns
     -------
@@ -1239,6 +1274,8 @@ def render_tag_pages(
     product_slug: str,
     tag_index: Dict[str, List[Dict[str, Any]]],
     template_env: Environment,
+    *,
+    templates_root: str,
 ) -> List[str]:
     """
     Generate tag page MDX files for a product.
@@ -1253,13 +1290,16 @@ def render_tag_pages(
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support/``).
     product_slug : str
         The product identifier (for example "models").
     tag_index : dict
         Mapping of tag names to article lists (from ``build_tag_index``).
     template_env : jinja2.Environment
         The configured Jinja2 environment.
+    templates_root : str
+        Path of the templates directory relative to the GitHub repo root,
+        recorded as ``template:`` provenance metadata in rendered MDX.
 
     Returns
     -------
@@ -1295,7 +1335,11 @@ def render_tag_pages(
             for a in articles
         ]
 
-        content = template.render(tag=tag_name, articles=articles_ctx)
+        content = template.render(
+            tag=tag_name,
+            articles=articles_ctx,
+            templates_root=templates_root,
+        )
         output_path.write_text(content, encoding="utf-8")
 
         page_path = f"support/{product_slug}/tags/{slug}"
@@ -1319,7 +1363,7 @@ def cleanup_stale_tag_pages(
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support/``).
     product_slug : str
         The product identifier (for example "models").
     generated_page_paths : list of str
@@ -1357,6 +1401,9 @@ def render_product_index(
     tag_index: Dict[str, List[Dict[str, Any]]],
     featured_articles: List[Dict[str, Any]],
     template_env: Environment,
+    *,
+    badge_color: str,
+    templates_root: str,
 ) -> None:
     """
     Generate the product index MDX page for a product.
@@ -1373,17 +1420,22 @@ def render_product_index(
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support/``).
     product_slug : str
         The product identifier (for example "models").
     product_display_name : str
-        The human-readable product name (for example "W&B Models").
+        The human-readable product name (for example "Models").
     tag_index : dict
         Mapping of tag names to article lists.
     featured_articles : list of dict
         Articles with ``featured: true``, sorted by title.
     template_env : jinja2.Environment
         The configured Jinja2 environment.
+    badge_color : str
+        Mintlify Badge color attribute used for tag link Badges.
+    templates_root : str
+        Path of the templates directory relative to the GitHub repo root,
+        recorded as ``template:`` provenance metadata in rendered MDX.
 
     Side effects
     ------------
@@ -1409,6 +1461,8 @@ def render_product_index(
         product_name=product_display_name,
         featured_articles=featured_articles,
         tag_categories=tag_categories,
+        badge_color=badge_color,
+        templates_root=templates_root,
     )
 
     output_path = repo_root / "support" / f"{product_slug}.mdx"
@@ -1421,6 +1475,8 @@ def render_product_index(
 
 def _build_featured_section_mdx(
     all_featured: Dict[str, Tuple[str, List[Dict[str, Any]]]],
+    *,
+    badge_color: str,
 ) -> str:
     """
     Build the auto-managed featured-articles block for support.mdx.
@@ -1448,7 +1504,7 @@ def _build_featured_section_mdx(
         parts.append(f"\n### {display_name}\n")
         for article in articles:
             badges = " ".join(
-                f'<Badge stroke shape="pill" color="orange" size="md">'
+                f'<Badge stroke shape="pill" color="{badge_color}" size="md">'
                 f'[{tl["name"]}]({tl["href"]})</Badge>'
                 for tl in article["tag_links"]
             )
@@ -1469,6 +1525,8 @@ def _build_featured_section_mdx(
 def update_support_featured(
     repo_root: Path,
     all_featured: Dict[str, Tuple[str, List[Dict[str, Any]]]],
+    *,
+    badge_color: str,
 ) -> None:
     """
     Replace the featured-articles section of support.mdx between markers.
@@ -1485,9 +1543,11 @@ def update_support_featured(
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support.mdx``).
     all_featured : dict
         Mapping of product slug to ``(display_name, featured_articles)``.
+    badge_color : str
+        Mintlify Badge color attribute used for tag link Badges.
     """
     support_path = repo_root / "support.mdx"
     content = support_path.read_text(encoding="utf-8")
@@ -1502,7 +1562,7 @@ def update_support_featured(
         )
         return
 
-    new_block = _build_featured_section_mdx(all_featured)
+    new_block = _build_featured_section_mdx(all_featured, badge_color=badge_color)
     new_content = content[:start_m.start()] + new_block + content[end_m.end():]
 
     if new_content != content:
@@ -1519,7 +1579,7 @@ def update_support_index(
     The support.mdx page is human-authored and contains product Cards
     with article and tag counts in the format::
 
-        <Card title="W&B Models" href="/support/models" ...>
+        <Card title="Models" href="/support/models" ...>
           180 articles &middot; 33 tags
         </Card>
 
@@ -1530,7 +1590,7 @@ def update_support_index(
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support.mdx``).
     product_stats : dict
         Mapping of product slug to a dict with ``article_count`` and
         ``tag_count`` keys.  For example::
@@ -1553,7 +1613,7 @@ def update_support_index(
     -------
     Given a Card like::
 
-        <Card title="W&B Models" href="/support/models" arrow="true" ...>
+        <Card title="Models" href="/support/models" arrow="true" ...>
           180 articles &middot; 33 tags
         </Card>
 
@@ -1566,7 +1626,8 @@ def update_support_index(
     if not support_index_path.exists():
         raise FileNotFoundError(
             f"support.mdx not found at {support_index_path}. "
-            "Ensure this script is run from the wandb-docs repo root."
+            "Ensure 'mintlify_root' in config.yaml points at the directory "
+            "that contains support.mdx."
         )
 
     content = support_index_path.read_text(encoding="utf-8")
@@ -1643,7 +1704,8 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     Parameters
     ----------
     repo_root : Path
-        Path to the root of the wandb-docs repository.
+        Path to the Mintlify root (the directory containing ``support/`` and
+        ``support.mdx``).
     config_path : Path
         Path to the config.yaml file.
 
@@ -1661,6 +1723,7 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     """
     config = load_config(config_path)
     products = config["products"]
+    badge_color = config.get("badge_color", "blue")
 
     try:
         config_yaml_display = config_path.resolve().relative_to(
@@ -1669,10 +1732,20 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     except ValueError:
         config_yaml_display = config_path.as_posix()
 
-    # Set up Jinja2 templates from the templates/ directory next to this script
+    # Set up Jinja2 templates from the templates/ directory next to this script.
+    # ``templates_root`` is the path of that directory relative to the GitHub
+    # repo root; it is recorded as ``template:`` provenance metadata in the
+    # generated MDX files so authors can locate the source template.
     script_dir = Path(__file__).resolve().parent
     templates_dir = script_dir / "templates"
     template_env = create_template_env(templates_dir)
+    github_repo_root = script_dir.parent.parent
+    try:
+        templates_root = (
+            templates_dir.resolve().relative_to(github_repo_root.resolve()).as_posix()
+        )
+    except ValueError:
+        templates_root = templates_dir.as_posix()
 
     # Track article and tag counts per product for the support.mdx update step
     product_stats: Dict[str, Dict[str, int]] = {}
@@ -1704,7 +1777,9 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         print(f"  Found {len(tag_index)} unique tags")
 
         # Phase 2: Generate tag pages and remove stale ones
-        tag_page_paths = render_tag_pages(repo_root, slug, tag_index, template_env)
+        tag_page_paths = render_tag_pages(
+            repo_root, slug, tag_index, template_env, templates_root=templates_root
+        )
         print(f"  Generated {len(tag_page_paths)} tag pages")
 
         removed = cleanup_stale_tag_pages(repo_root, slug, tag_page_paths)
@@ -1714,7 +1789,14 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         # Phase 3: Generate product index page
         featured = get_featured_articles(articles)
         render_product_index(
-            repo_root, slug, display_name, tag_index, featured, template_env
+            repo_root,
+            slug,
+            display_name,
+            tag_index,
+            featured,
+            template_env,
+            badge_color=badge_color,
+            templates_root=templates_root,
         )
         print(f"  Generated product index (featured: {len(featured)} articles)")
 
@@ -1724,7 +1806,9 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         # Phase 4: Sync tab-page Badges from front matter keywords
         # Runs after tag pages exist so articles are not updated if
         # earlier phases fail.
-        footer_updates = sync_all_support_article_footers(repo_root, slug)
+        footer_updates = sync_all_support_article_footers(
+            repo_root, slug, badge_color=badge_color
+        )
         if footer_updates:
             print(f"  Updated tab Badges on {footer_updates} article(s)")
 
@@ -1736,11 +1820,47 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
 
     # Phase 5: Update support.mdx product card counts and featured articles
     update_support_index(repo_root, product_stats)
-    update_support_featured(repo_root, all_featured)
+    update_support_featured(repo_root, all_featured, badge_color=badge_color)
     print(f"\n--- support.mdx ---")
     print(f"  Updated product card counts and featured articles")
     print(f"\n{'=' * 60}")
     print("Done.")
+
+
+def resolve_mintlify_root(config_path: Path) -> Path:
+    """
+    Resolve the Mintlify root from ``mintlify_root`` in ``config.yaml``.
+
+    The value is interpreted relative to the GitHub repository root, which is
+    two levels above this script (``script_dir.parent.parent``). For example,
+    a config with ``mintlify_root: "."`` resolves to the GitHub repo root and
+    ``mintlify_root: "public-docs"`` resolves to ``<repo>/public-docs/``.
+
+    Parameters
+    ----------
+    config_path : Path
+        Path to the config.yaml file.
+
+    Returns
+    -------
+    Path
+        Absolute resolved path to the Mintlify root.
+
+    Raises
+    ------
+    ValueError
+        If ``mintlify_root`` is missing from the config.
+    """
+    config = load_config(config_path)
+    mintlify_root = config.get("mintlify_root")
+    if not isinstance(mintlify_root, str) or not mintlify_root:
+        raise ValueError(
+            f"Configuration file {config_path} is missing 'mintlify_root'. "
+            "Set it to '.' if the Mintlify root is the GitHub repo root, "
+            "or to a subdirectory name (for example 'public-docs')."
+        )
+    github_repo_root = Path(__file__).resolve().parent.parent.parent
+    return (github_repo_root / mintlify_root).resolve()
 
 
 def main() -> None:
@@ -1753,10 +1873,10 @@ def main() -> None:
 
     Usage::
 
-        python generate_tags.py --repo-root /path/to/wandb-docs
+        python generate_tags.py
 
-    If ``--config`` is not specified, the script looks for ``config.yaml``
-    in the same directory as this script.
+    The script reads ``mintlify_root`` from ``config.yaml`` to locate the
+    Mintlify root. Pass ``--config`` to point at a different config file.
     """
     parser = argparse.ArgumentParser(
         description=(
@@ -1764,12 +1884,6 @@ def main() -> None:
             "and update support.mdx."
         ),
         epilog="See README.md for detailed usage instructions.",
-    )
-    parser.add_argument(
-        "--repo-root",
-        type=Path,
-        required=True,
-        help="Path to the root of the wandb-docs repository (contains the support/ folder).",
     )
     parser.add_argument(
         "--config",
@@ -1780,12 +1894,12 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    # Default config path: same directory as this script
     if args.config is None:
         args.config = Path(__file__).resolve().parent / "config.yaml"
 
     try:
-        run_pipeline(args.repo_root, args.config)
+        repo_root = resolve_mintlify_root(args.config)
+        run_pipeline(repo_root, args.config)
     except (FileNotFoundError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         sys.exit(1)

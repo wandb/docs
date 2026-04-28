@@ -1,6 +1,6 @@
 # Knowledgebase nav generator architecture
 
-This document describes the **Knowledgebase Nav** system in the `wandb-docs` repository: what it generates, which files and functions make it work, and how automation ties it together. For author-facing steps and local setup, see [README.md](./README.md).
+This document describes the **Knowledgebase Nav** system: what it generates, which files and functions make it work, and how automation ties it together. The utility lives at `<utility-dir>/knowledgebase-nav/` (for example `scripts/knowledgebase-nav/` or `utils/knowledgebase-nav/`) inside a Mintlify documentation repository. For author-facing steps and local setup, see [README.md](./README.md).
 
 ## Purpose
 
@@ -8,11 +8,11 @@ The generator keeps support (knowledgebase) navigation consistent with article c
 
 ## High-level context
 
-The system lives entirely inside `wandb-docs`. It does not call external APIs. It reads and writes files in the repo working tree.
+The system lives entirely inside the docs repository. It does not call external APIs. It reads and writes files in the working tree under the Mintlify root (resolved from `mintlify_root` in `config.yaml`).
 
 ```mermaid
 flowchart LR
-  subgraph repo["wandb-docs repository"]
+  subgraph repo["docs repository"]
     CFG["config.yaml"]
     TPL["templates/*.j2"]
     ART["support/*/articles/*.mdx"]
@@ -36,13 +36,13 @@ The arrow back to **articles** means phase 4 updates only `<Badge>` links that p
 
 ## Automation workflow
 
-Pull requests trigger the **Knowledgebase Nav** workflow when files under `support/**` or `scripts/knowledgebase-nav/**` change (including new pushes to an open PR). It installs Python dependencies, runs the generator, posts a PR comment with any "docs.json update required" instructions, and commits matching paths when there are diffs. Pull requests from **forks** check out the fork head commit and still run the generator, but the auto-commit step is skipped because the default token cannot push to forks.
+Pull requests trigger the **Knowledgebase Nav** workflow when files under the Mintlify `support/**` directory or the utility directory change (including new pushes to an open PR). It installs Python dependencies, runs the generator, posts a PR comment with any "docs.json update required" instructions, and commits matching paths when there are diffs. Pull requests from **forks** check out the fork head commit and still run the generator, but the auto-commit step is skipped because the default token cannot push to forks.
 
 ```mermaid
 flowchart TD
   A[PR or manual workflow_dispatch] --> B[Checkout ref]
   B --> C[Python 3.11 + pip install requirements.txt]
-  C --> D["generate_tags.py --repo-root ."]
+  C --> D["generate_tags.py (mintlify_root from config.yaml)"]
   D --> R["pr_report.py (lists tag-page adds/removes)"]
   R --> E{Files changed?}
   E -->|yes| F[git-auto-commit selected paths]
@@ -110,7 +110,7 @@ flowchart LR
 |-----------|------|------|
 | CLI and logic | `generate_tags.py` | All phases, parsing, slug rules, previews, MDX rewrites (does not touch `docs.json`) |
 | PR report | `pr_report.py` | Markdown report from `git diff`; lists added/removed tag pages so a human can update `docs.json` |
-| Product and tag registry | `config.yaml` | `slug`, `display_name`, `allowed_keywords` per product |
+| Configuration | `config.yaml` | `mintlify_root`, `badge_color`, and product registry (`slug`, `display_name`, `allowed_keywords`) |
 | Tag listing template | `templates/support_tag.mdx.j2` | One Card per article on a tag page |
 | Product hub template | `templates/support_product_index.mdx.j2` | Featured section and browse-by-category Cards |
 | Dependencies | `requirements.txt` | PyYAML, Jinja2 |
@@ -171,7 +171,7 @@ The pipeline does not edit `docs.json`. Tag-page additions and removals are surf
 
 ### CLI
 
-- **`main`** parses `--repo-root` and optional `--config`, then calls **`run_pipeline`**.
+- **`main`** parses an optional `--config`, resolves the Mintlify root from `mintlify_root` in `config.yaml` via **`resolve_mintlify_root`**, then calls **`run_pipeline`**.
 
 ## Constants
 
