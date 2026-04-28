@@ -4,7 +4,7 @@ This document describes the **Knowledgebase Nav** system in the `wandb-docs` rep
 
 ## Purpose
 
-The generator keeps support (knowledgebase) navigation consistent with article content. It runs over configured products (for example models, weave, inference), reads MDX articles under `support/<product>/articles/`, and updates generated MDX pages, root `support.mdx` counts, and English support tabs in `docs.json`.
+The generator keeps support (knowledgebase) navigation consistent with article content. It runs over configured products (for example models, weave, inference), reads MDX articles under `support/<product>/articles/`, and updates generated MDX pages and root `support.mdx` counts. The generator never reads or writes `docs.json`; humans edit that file by hand based on the workflow's PR comment.
 
 ## High-level context
 
@@ -19,7 +19,6 @@ flowchart LR
     GEN["generate_tags.py"]
     OUT1["support/*/tags/*.mdx"]
     OUT2["support/<product>.mdx"]
-    DJ["docs.json"]
     SM["support.mdx"]
   end
   CFG --> GEN
@@ -27,32 +26,34 @@ flowchart LR
   ART --> GEN
   GEN --> OUT1
   GEN --> OUT2
-  GEN --> DJ
   GEN --> SM
   GEN --> ART
 ```
 
 The arrow back to **articles** means phase 4 updates only `<Badge>` links that point at tag pages under `/support/<product>/tags/`, wrapped in MDX comment markers. Other content (including `---`, other Badges, and text outside the markers) is not rewritten.
 
+`docs.json` is intentionally absent from this diagram. When tag pages are added or removed, the workflow's PR comment (built by `pr_report.py`) lists the page ids that a human must add to or remove from the matching `Support: <display_name>` tab in `docs.json` by hand.
+
 ## Automation workflow
 
-Pull requests trigger the **Knowledgebase Nav** workflow when files under `support/**` or `scripts/knowledgebase-nav/**` change (including new pushes to an open PR). It installs Python dependencies, runs the generator, and commits matching paths when there are diffs. Pull requests from **forks** check out the fork head commit and still run the generator, but the auto-commit step is skipped because the default token cannot push to forks.
+Pull requests trigger the **Knowledgebase Nav** workflow when files under `support/**` or `scripts/knowledgebase-nav/**` change (including new pushes to an open PR). It installs Python dependencies, runs the generator, posts a PR comment with any "docs.json update required" instructions, and commits matching paths when there are diffs. Pull requests from **forks** check out the fork head commit and still run the generator, but the auto-commit step is skipped because the default token cannot push to forks.
 
 ```mermaid
 flowchart TD
   A[PR or manual workflow_dispatch] --> B[Checkout ref]
   B --> C[Python 3.11 + pip install requirements.txt]
   C --> D["generate_tags.py --repo-root ."]
-  D --> E{Files changed?}
+  D --> R["pr_report.py (lists tag-page adds/removes)"]
+  R --> E{Files changed?}
   E -->|yes| F[git-auto-commit selected paths]
   E -->|no| G[No commit]
 ```
 
-Committed path patterns include `support.mdx`, `support/*/articles/*.mdx`, `support/*/tags/*.mdx`, `support/*.mdx` (product indexes), and `docs.json`.
+Committed path patterns include `support.mdx`, `support/*/articles/*.mdx`, `support/*/tags/*.mdx`, and `support/*.mdx` (product indexes). `docs.json` is intentionally excluded; humans update it manually.
 
 ## Pipeline orchestration
 
-`run_pipeline(repo_root, config_path)` is the single entry point used by the CLI and tests. It loads `config.yaml`, builds one Jinja2 environment for all products, then loops each product. After the loop it updates `docs.json` once and `support.mdx` once.
+`run_pipeline(repo_root, config_path)` is the single entry point used by the CLI and tests. It loads `config.yaml`, builds one Jinja2 environment for all products, then loops each product. After the loop it updates `support.mdx` once. It does not touch `docs.json`.
 
 ```mermaid
 flowchart TD
@@ -67,10 +68,9 @@ flowchart TD
   P4 --> P5[sync_all_support_article_footers]
   P5 --> P6[Record product_stats]
   P6 --> LOOP
-  LOOP -->|done| P7[update_docs_json]
-  P7 --> P8[update_support_index]
-  P8 --> P9[update_support_featured]
-  P9 --> DONE([Done])
+  LOOP -->|done| P7[update_support_index]
+  P7 --> P8[update_support_featured]
+  P8 --> DONE([Done])
 ```
 
 ## Per-product data flow
@@ -102,18 +102,19 @@ flowchart LR
   PATHS --> TAGS
 ```
 
-`render_tag_pages` returns sorted page id strings (for example `support/models/tags/security`) that `update_docs_json` merges into the English navigation tab for that product.
+`render_tag_pages` returns sorted page id strings (for example `support/models/tags/security`). `pr_report.py` consumes the same ids when it builds the "docs.json update required" section in the workflow's PR comment so a human can update the matching `Support: <display_name>` tab in `docs.json`.
 
 ## Components and files
 
 | Component | Path | Role |
 |-----------|------|------|
-| CLI and logic | `generate_tags.py` | All phases, parsing, slug rules, previews, JSON and MDX rewrites |
+| CLI and logic | `generate_tags.py` | All phases, parsing, slug rules, previews, MDX rewrites (does not touch `docs.json`) |
+| PR report | `pr_report.py` | Markdown report from `git diff`; lists added/removed tag pages so a human can update `docs.json` |
 | Product and tag registry | `config.yaml` | `slug`, `display_name`, `allowed_keywords` per product |
 | Tag listing template | `templates/support_tag.mdx.j2` | One Card per article on a tag page |
 | Product hub template | `templates/support_product_index.mdx.j2` | Featured section and browse-by-category Cards |
 | Dependencies | `requirements.txt` | PyYAML, Jinja2 |
-| Unit tests | `tests/test_generate_tags.py` | Mocked filesystem and `docs.json` |
+| Unit tests | `tests/test_generate_tags.py` | Mocked filesystem |
 | Integration tests | `tests/test_golden_output.py` | Full pipeline on a temp copy of the real repo |
 | Pytest markers | `tests/conftest.py` | Registers the `integration` marker for the golden suite |
 | CI | `.github/workflows/knowledgebase-nav.yml` | Triggers, run script, auto-commit |
@@ -158,14 +159,15 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 - **`tojson_unicode`**, **`create_template_env`** configure Jinja2 for MDX (templates use the `tojson_unicode` filter for YAML front matter values).
 - **`render_tag_pages`** writes `support/<product>/tags/<tag-slug>.mdx`.
-- **`cleanup_stale_tag_pages`** deletes `.mdx` files in the tags directory that were not just generated, keeping the directory and `docs.json` free of stale entries.
+- **`cleanup_stale_tag_pages`** deletes `.mdx` files in the tags directory that were not just generated, keeping the tags directory free of stale entries.
 - **`render_product_index`** writes `support/<product>.mdx`.
 
 ### Site-wide updates
 
-- **`update_docs_json`** updates or creates hidden `Support: <display_name>` tabs under `navigation.languages` where `language` is `en`, setting `pages` to the product index plus sorted tag paths.
 - **`update_support_index`** updates count lines on product Cards in root `support.mdx`. Locates markers via `_COUNTS_START_RE` / `_COUNTS_END_RE`; falls back to a bare count-line pattern for migration.
 - **`update_support_featured`** regenerates the featured-articles section in root `support.mdx`, locating the block via `_FEATURED_START_RE` / `_FEATURED_END_RE`.
+
+The pipeline does not edit `docs.json`. Tag-page additions and removals are surfaced to humans through `pr_report.py`, which lists the affected page ids in the workflow's PR comment.
 
 ### CLI
 
@@ -174,7 +176,6 @@ Functions are grouped below the way they appear in the source file. Names refer 
 ## Constants
 
 - **`BODY_PREVIEW_MAX_LENGTH`** and **`BODY_PREVIEW_SUFFIX`** control Card preview length and ellipsis.
-- **`DOCS_JSON_NAV_LANGUAGE`** is `"en"` and scopes navigation edits to the English tree only.
 - **`_make_markers(keyword)`** generates the four constants below for each managed section: canonical start/end strings for writing and compiled `re.Pattern` objects for reading.
 - **`_BADGE_START`** / **`_BADGE_END`** — canonical `{/* AUTO-GENERATED: tab badges */}` strings written to article files. **`_BADGE_START_RE`** / **`_BADGE_END_RE`** — patterns used to locate the block (case-insensitive, colon optional, keyword anywhere in the comment).
 - **`_COUNTS_START`** / **`_COUNTS_END`** — canonical `{/* AUTO-GENERATED: counts */}` strings written to `support.mdx`. **`_COUNTS_START_RE`** / **`_COUNTS_END_RE`** — patterns used inside the Card-anchored structural pattern that locates and replaces count lines.
@@ -185,9 +186,10 @@ Functions are grouped below the way they appear in the source file. Names refer 
 - **Monolithic script**: one file holds all logic so the workflow and contributors have a single place to read and change behavior.
 - **Allowed keywords**: `config.yaml` lists valid tags per product; unknown tags still generate pages but emit warnings so content is never dropped silently.
 - **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. These are wrapped in marker comments located by `_BADGE_START_RE` / `_BADGE_END_RE`. The `---` line between body and badges is cosmetic; `_extract_body` uses `_BADGE_START_RE` as the boundary and trims a trailing `---` only as cleanup.
-- **Stale tag cleanup**: tag pages that no longer correspond to any article keyword are deleted after generation, before `docs.json` is updated. This keeps the tags directory and navigation free of orphaned entries.
+- **Stale tag cleanup**: tag pages that no longer correspond to any article keyword are deleted after generation. This keeps the tags directory free of orphaned entries; the workflow's PR comment then asks a human to remove the matching entries from `docs.json`.
 - **Marker-based editing**: all auto-generated sections (article tab Badges, `support.mdx` count lines, and featured articles) use MDX comment markers generated by `_make_markers`. Matching is case-insensitive with an optional colon, and the keyword can appear anywhere inside the comment, so authors can freely annotate markers without breaking the generator. Each marker pair has a migration path that wraps bare content on first run.
-- **Golden tests**: compare generated tag pages, product index pages, article files (including footer markers), support tabs in `docs.json`, and root `support.mdx` to the committed tree so output drift is visible as a unified diff.
+- **`docs.json` is human-edited**: the generator never reads or writes `docs.json`. Tag page additions and removals are surfaced through `pr_report.py`, which lists page ids grouped by `Support: <display_name>` so a human can update the matching tab by hand.
+- **Golden tests**: compare generated tag pages, product index pages, article files (including footer markers), and root `support.mdx` to the committed tree so output drift is visible as a unified diff. The golden suite also asserts that `docs.json` is never produced in the temp tree.
 
 ## Related reading
 
