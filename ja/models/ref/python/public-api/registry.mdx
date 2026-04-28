@@ -217,14 +217,14 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Collections
 ```
 
-レジストリに属するコレクションを返します。
+Registryに属するコレクションを返します。
 
 ***
-
 
 ### <kbd>クラスメソッド</kbd> `Registry.create`
 
@@ -418,8 +418,9 @@ user_members() → list[UserMember]
 ```python
 versions(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Versions
 ```
 
-そのRegistryに属するバージョンを返します。
+そのRegistryに属するバージョンを返します。 

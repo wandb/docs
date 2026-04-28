@@ -1,23 +1,23 @@
 ---
-description: Télécharger et utiliser des Artifacts à partir de plusieurs projets.
-title: Télécharger et utiliser des artifacts
+description: Téléchargez et utilisez des artefacts de plusieurs projets.
+title: Télécharger et utiliser des artefacts
 ---
 
-Téléchargez et utilisez un artifact déjà stocké sur le serveur W&amp;B, ou créez un objet artifact et transmettez-le pour déduplication si nécessaire.
+Téléchargez et utilisez un artefact déjà stocké sur le serveur W&amp;B, ou créez un objet artefact et passez-le pour la déduplication si nécessaire.
 
 <Note>
-  Les membres de l’équipe disposant de licences View-Only ne peuvent pas télécharger d’artifacts.
+  Les membres de l’équipe disposant d’une licence en lecture seule ne peuvent pas télécharger d’artefacts.
 </Note>
 
 <div id="download-and-use-an-artifact-stored-on-wb">
-  ### Télécharger et utiliser un artifact stocké dans W&amp;B
+  ### Télécharger et utiliser un artefact stocké sur W&amp;B
 </div>
 
-Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou à l’extérieur d’un W&amp;B Run. Utilisez l’API publique ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour exporter (ou mettre à jour) des données déjà enregistrées dans W&amp;B.
+Téléchargez et utilisez un artefact stocké dans W&amp;B, à l’intérieur ou à l’extérieur d’un W&amp;B Run. Utilisez l’API publique ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour exporter des données déjà enregistrées dans W&amp;B (ou les mettre à jour).
 
 <Tabs>
   <Tab title="Pendant un run">
-    Commencez par importer le W&amp;B Python SDK. Ensuite, créez un W&amp;B [Run](/fr/models/ref/python/experiments/run) :
+    Commencez par importer le SDK Python W&amp;B. Ensuite, créez un W&amp;B [Run](/fr/models/ref/python/experiments/run) :
 
     ```python
     import wandb
@@ -26,21 +26,21 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
         # Voir l'étape suivante
     ```
 
-    Indiquez l’artifact que vous souhaitez utiliser avec la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact). Cette méthode renvoie un objet run. Dans l’extrait de code suivant, un artifact nommé `'bike-dataset'` avec l’alias `'latest'` est spécifié :
+    Indiquez l’artefact que vous souhaitez utiliser avec la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact). Cette méthode renvoie un objet run. Dans l’extrait de code suivant, l’artefact nommé `'bike-dataset'` avec l’alias `'latest'` est spécifié :
 
     ```python
-    # Indiquer l'artifact à utiliser. Le format est "name:alias"
+    # Indiquer l'artefact à utiliser. Le format est "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
     ```
 
-    Utilisez l’objet renvoyé pour télécharger l’intégralité du contenu de l’artifact :
+    Utilisez l’objet renvoyé pour télécharger tout le contenu de l’artefact :
 
     ```python
-    # Télécharger l'artifact entier
+    # Télécharger l'artefact complet
     datadir = artifact.download()
     ```
 
-    Vous pouvez également passer un chemin au paramètre root pour télécharger le contenu de l’artifact dans un répertoire spécifique.
+    Vous pouvez également passer un chemin au paramètre root pour télécharger le contenu de l’artefact dans un répertoire spécifique.
 
     Utilisez la méthode [`wandb.Artifact.get_entry()`](/fr/models/ref/python/experiments/artifact#get_entry) pour télécharger uniquement un sous-ensemble de fichiers :
 
@@ -49,16 +49,16 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
     entry = artifact.get_entry(name)
     ```
 
-    En regroupant le tout, l’exemple de code complet ressemble à ceci :
+    En réunissant tous ces éléments, l’exemple de code complet ressemble à ceci :
 
     ```python
     import wandb    
 
     with wandb.init(project="<example>", job_type="<job-type>") as run:
-        # Indiquer l'artifact à utiliser. Le format est "name:alias"
+        # Indiquer l'artefact à utiliser. Le format est "name:alias"
         artifact = run.use_artifact("bike-dataset:latest")
 
-        # Télécharger l'artifact entier
+        # Télécharger l'artefact complet
         datadir = artifact.download()
 
         # Télécharger un fichier spécifique
@@ -67,14 +67,14 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
 
     Cela récupère uniquement le fichier situé au chemin `name`. Cette méthode renvoie un objet `Entry` avec les méthodes suivantes :
 
-    * `Entry.download` : télécharge le fichier de l’artifact au chemin `name`
+    * `Entry.download` : télécharge le fichier depuis l’artefact au chemin `name`
     * `Entry.ref` : si `add_reference` a stocké l’entrée comme référence, renvoie l’URI
 
-    {/* Les références dont le schéma est pris en charge par W&B sont téléchargées comme les fichiers d’artifact. Pour plus d'informations, voir [Track external files](/models/artifacts/track-external-files/). */}
+    {/* References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](/models/artifacts/track-external-files/). */}
   </Tab>
 
-  <Tab title="En dehors d’un run">
-    Commencez par importer le SDK W&amp;B. Ensuite, créez un objet artifact à partir de la classe API publique. Fournissez l’entité, le projet, l’artifact et l’alias associés à cet artifact :
+  <Tab title="En dehors d'un run">
+    Commencez par importer le SDK W&amp;B. Ensuite, créez un objet artefact à partir de la classe API publique. Fournissez l’entité, le projet, l’artefact et l’alias associé à cet artefact :
 
     ```python
     import wandb
@@ -83,17 +83,17 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
     artifact = api.artifact("entity/project/artifact:alias")
     ```
 
-    Utilisez l’objet renvoyé pour télécharger le contenu de l’artifact :
+    Utilisez l’objet renvoyé pour télécharger le contenu de l’artefact :
 
     ```python
     artifact.download()
     ```
 
-    Vous pouvez également passer un chemin au paramètre `root` pour télécharger le contenu de l’artifact dans un répertoire spécifique. Pour plus d&#39;informations, voir le [Guide de référence du SDK Python](/fr/models/ref/python/experiments/artifact#download).
+    Vous pouvez également passer un chemin au paramètre `root` pour télécharger le contenu de l’artefact dans un répertoire spécifique. Pour plus d&#39;informations, voir le [Guide de référence du SDK Python](/fr/models/ref/python/experiments/artifact#download).
   </Tab>
 
   <Tab title="W&B CLI">
-    Utilisez la commande `wandb artifact get` pour télécharger un artifact depuis le serveur W&amp;B.
+    Utilisez la commande `wandb artifact get` pour télécharger un artefact depuis le serveur W&amp;B.
 
     ```
     $ wandb artifact get project/artifact:alias --root mnist/
@@ -102,52 +102,52 @@ Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou
 </Tabs>
 
 <div id="partially-download-an-artifact">
-  ### Télécharger partiellement un artifact
+  ### Télécharger partiellement un artefact
 </div>
 
-Vous pouvez télécharger, si vous le souhaitez, une partie d’un artifact à l’aide d’un préfixe. Utilisez le paramètre `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) pour télécharger un seul fichier ou le contenu d’un sous-dossier.
+Vous pouvez, si vous le souhaitez, télécharger une partie d’un artefact en fonction d’un préfixe. Utilisez le paramètre `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) pour télécharger un seul fichier ou le contenu d’un sous-dossier.
 
 ```python
 with wandb.init(project="<example>", job_type="<job-type>") as run:
-    # Indiquer l'artifact à utiliser. Le format est "nom:alias"
+    # Indiquez l'artefact à utiliser. Le format est "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
-    # Télécharger un fichier spécifique ou un sous-dossier
+    # Téléchargez un fichier spécifique ou un sous-dossier
     artifact.download(path_prefix="bike.png") # télécharge uniquement bike.png
 ```
 
-Vous pouvez aussi télécharger des fichiers depuis un répertoire donné. Pour ce faire, indiquez ce répertoire à l’aide du paramètre `path_prefix=`. En reprenant à partir de l’extrait de code précédent :
+Vous pouvez également télécharger des fichiers à partir d’un répertoire donné. Pour ce faire, indiquez le répertoire dans le paramètre `path_prefix=`. En reprenant l’extrait de code précédent :
 
 ```python
-# télécharge les fichiers dans le répertoire images/bikes
+# télécharge les fichiers du répertoire images/bikes
 artifact.download(path_prefix="images/bikes/") 
 ```
 
 <div id="use-an-artifact-from-a-different-project">
-  ### Utiliser un artifact d’un autre projet
+  ### Utiliser un artefact d&#39;un autre projet
 </div>
 
-Spécifiez le nom de l’artifact ainsi que celui du projet pour faire référence à un artifact. Vous pouvez également faire référence à des artifacts d’autres entités en indiquant le nom de l’artifact avec le nom de l’entité.
+Spécifiez le nom de l&#39;artefact ainsi que le nom du projet pour faire référence à un artefact. Vous pouvez également faire référence à des artefacts d&#39;une entité à l&#39;autre en indiquant le nom de l&#39;artefact avec le nom de son entité.
 
-L’exemple de code suivant montre comment récupérer un artifact d’un autre projet comme entrée pour le run W&amp;B en cours.
+L&#39;exemple de code suivant montre comment interroger un artefact d&#39;un autre projet en entrée du run W&amp;B actuel.
 
 ```python
 with wandb.init(project="<example>", job_type="<job-type>") as run:
-    # Récupérer depuis W&B un artifact d'un autre projet et le marquer
+    # Récupérer depuis W&B un artefact d'un autre projet et le marquer
     # comme entrée de ce run.
     artifact = run.use_artifact("my-project/artifact:alias")
 
-    # Utiliser un artifact d'une autre entité et le marquer comme entrée
+    # Utiliser un artefact d'une autre entité et le marquer comme entrée
     # de ce run.
     artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 
 ```
 
 <div id="construct-and-use-an-artifact-simultaneously">
-  ### Construire et utiliser un artifact en même temps
+  ### Construire et utiliser un artefact simultanément
 </div>
 
-Construisez et utilisez un artifact en même temps. Créez un objet artifact et passez-le à use&#95;artifact. Cela crée un artifact dans W&amp;B s&#39;il n&#39;existe pas encore. L&#39;API [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact) est idempotente, vous pouvez donc l&#39;appeler autant de fois que vous le souhaitez.
+Construisez et utilisez un artefact simultanément. Créez un objet artefact et passez-le à use&#95;artifact. Cela crée un artefact dans W&amp;B s&#39;il n&#39;existe pas encore. L&#39;API [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact) est idempotente ; vous pouvez donc l&#39;appeler autant de fois que vous le souhaitez.
 
 ```python
 import wandb
@@ -158,4 +158,4 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     run.use_artifact(artifact)
 ```
 
-Pour en savoir plus sur la création d’un artifact, voir [Construire un artifact](/fr/models/artifacts/construct-an-artifact/).
+Pour en savoir plus sur la création d’un artefact, voir [Créer un artefact](/fr/models/artifacts/construct-an-artifact/).

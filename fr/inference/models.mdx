@@ -7,9 +7,11 @@ mode: wide
 
 W&amp;B Inference donne accès à plusieurs modèles de fondation open source. Chaque modèle a ses propres points forts et cas d&#39;utilisation.
 
-<div id="model-catalog">
-  ## Catalogue des modèles
+<div id="generally-available-models">
+  ## Modèles généralement disponibles
 </div>
+
+Les modèles suivants sont [généralement disponibles](/fr/inference/lifecycle#model-lifecycle-stages) :
 
 {/* takeru inference-models - Ce tableau est généré automatiquement, ne le modifiez pas manuellement. */}
 
@@ -32,9 +34,29 @@ W&amp;B Inference donne accès à plusieurs modèles de fondation open source. C
 | Qwen3 235B A22B-2507          | `Qwen/Qwen3-235B-A22B-Instruct-2507`           | Texte         | 262k                | 22B-235B (actifs-total)    | Modèle multilingue efficace de type Mixture-of-Experts, affiné sur des instructions et optimisé pour le raisonnement logique.                                                          |
 | Qwen3 30B A3B                 | `Qwen/Qwen3-30B-A3B-Instruct-2507`             | Texte         | 262k                | 3.3B-30.5B (actifs-total)  | Qwen3-30B-A3B-Instruct-2507 est un modèle MoE de 30,5B ajusté par instruction, avec des capacités renforcées en raisonnement, en programmation et en compréhension de contextes longs. |
 | Qwen3 Coder 480B A35B         | `Qwen/Qwen3-Coder-480B-A35B-Instruct`          | Texte         | 262k                | 35B-480B (actifs-total)    | Modèle à mélange d’experts optimisé pour les tâches de programmation agentique, comme l’appel de fonctions, l’utilisation d’outils et le raisonnement en contexte long.                |
-| Z.AI GLM 5.1                  | `zai-org/GLM-5.1`                              | Texte         | 203k                | 40B-744B (Actifs-Total)    | Puissant modèle MoE pour l’ingénierie agentique à long horizon et le raisonnement avancé.                                                                                              |
-| Z.AI GLM 5                    | `zai-org/GLM-5-FP8`                            | Texte         | 200k                | 40B-744B (Actifs-Total)    | Modèle Mixture-of-Experts pour les tâches agentiques à long horizon, avec de solides performances en raisonnement et en programmation.                                                 |
-| Meta Llama 4 Scout (obsolète) | `meta-llama/Llama-4-Scout-17B-16E-Instruct`    | Texte, vision | 64k                 | 17B-109B (actifs-total)    | Modèle multimodal intégrant la compréhension du texte et des images, idéal pour les tâches visuelles et l’analyse combinée.                                                            |
+| Z.AI GLM 5.1                  | `zai-org/GLM-5.1`                              | Texte         | 203k                | 40B-744B (Actifs-Total)    | Puissant modèle MoE conçu pour l’ingénierie agentique à long horizon et le raisonnement avancé.                                                                                        |
+
+<div id="experimental-models">
+  ## Modèles expérimentaux
+</div>
+
+Les modèles suivants sont [expérimentaux](/fr/inference/lifecycle#model-lifecycle-stages) :
+
+{/* takeru inference-models-experimental - Ce tableau est généré automatiquement ; ne le modifiez pas manuellement. */}
+
+*Aucun pour le moment*
+
+<div id="deprecated-models">
+  ## Modèles obsolètes
+</div>
+
+Les modèles suivants sont [obsolètes](/fr/inference/lifecycle#model-lifecycle-stages) :
+
+{/* takeru inference-models-deprecated - Ce tableau est généré automatiquement ; ne le modifiez pas manuellement. */}
+
+| Modèle     | ID du modèle (pour une utilisation avec l’API) | Type  | Fenêtre de contexte | Paramètres              | Description                                                                                                                       |
+| ---------- | ---------------------------------------------- | ----- | ------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Z.AI GLM 5 | `zai-org/GLM-5-FP8`                            | Texte | 200k                | 40B-744B (Active-Total) | Modèle Mixture-of-Experts pour les tâches agentiques de longue durée, offrant de solides performances en raisonnement et en code. |
 
 <div id="using-model-ids">
   ## Utilisation des ID de modèle

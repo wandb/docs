@@ -40,13 +40,21 @@ wandb.init(settings=wandb.Settings(code_dir="."))
   ### UIでコードの保存を設定する
 </div>
 
-プログラムからコードの保存を設定するだけでなく、W&amp;Bアカウントの**Settings**でこの機能のオン/オフを切り替えることもできます。これにより、アカウントに関連付けられているすべてのTeamsでコードの保存が有効になる点に注意してください。
+プログラムからコードの保存を設定するだけでなく、UIではチームまたは組織単位でデフォルトを設定することもできます。チームおよび組織の設定については、[プライバシー設定を構成する](/ja/platform/hosting/privacy-settings)を参照してください。
 
-> デフォルトでは、W&amp;BではすべてのTeamsでコードの保存が無効になっています。
+<div id="team">
+  #### チーム
+</div>
 
-1. W&amp;Bアカウントにログインします。
-2. **Settings** &gt; **Privacy** にアクセスします。
-3. **Project and content security** で、**Disable default code saving** をオンにします。
+> デフォルトでは、W&amp;B はすべてのチームでコードの保存を無効にしています。チームでこれを有効にするには、まず組織管理者が組織に対して有効にする必要があります。[組織](#organization)セクションをご覧ください。
+
+チーム管理者は、チームの **Settings** ページを開き、**Privacy** セクションに移動して、そのチームの Runs に対する **Enable code saving by default** を設定します。このオプションは、組織管理者が組織全体にコードの保存に関する制限を適用していない場合にのみ利用できます。画面の移動手順については、[チームのプライバシー設定を構成する](/ja/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team)をご覧ください。
+
+<div id="organization">
+  #### 組織
+</div>
+
+組織管理者は、組織の **Settings** を開いて **Privacy** セクションに移動し、**Enforce default code saving restrictions** をオンにすることで、すべてのチームでコードの保存がデフォルトでオフのままになるよう設定できます。この強制設定が有効な間、チーム管理者はチームに対して **Enable code saving by default** をオンにできません。組織で利用できる制御項目の一覧については、[Enforce privacy settings for all teams](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) を参照してください。
 
 <div id="code-comparer">
   ## コード比較

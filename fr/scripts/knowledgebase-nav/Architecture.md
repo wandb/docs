@@ -1,3 +1,7 @@
+---
+title: Architecture
+---
+
 <div id="knowledgebase-nav-generator-architecture">
   # Architecture du générateur de navigation de la base de connaissances
 </div>

@@ -1,11 +1,26 @@
 ---
 title: "W&B SDK 릴리스"
 description: "버전별 새로운 기능, 버그 수정, 호환성이 깨지는 변경 사항을 포함한 W&B Python SDK 릴리스 노트를 확인합니다."
-sidebarTitle: "모든 릴리스"
 rss: true
 ---
 
-이 페이지에는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트가 포함되어 있습니다. W&amp;B Server에 대해서는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
+이 페이지에는 W&amp;B Models와 함께 사용되는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트가 포함되어 있습니다. Weave Python SDK(`weave` 패키지)에 대해서는 [Weave SDK 릴리스](/ko/release-notes/weave-sdk-releases)를 참조하세요. W&amp;B Server에 대해서는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
+
+<Update label="0.26.1" description="2026년 4월 23일">
+  ## 추가됨
+
+  * 아티팩트, 레지스트리, 자동화 및 관련 페이지네이터를 반환하는 `wandb.Api` 메서드는 선택적 `start` 인수를 허용하므로, 저장된 커서에서 반복을 재개할 수 있습니다.
+  * `wandb.Settings`의 `stop_fn` 설정은 run 중지 요청이 있을 때 SDK가 Python 프로세스에 중지를 요청하는 방식을 사용자 지정합니다(기본값은 SIGINT를 보냄). 이 설정은 `wandb.setup(settings=...)` 또는 `wandb.init(settings=...)`로 전달하세요. 값이 호출 가능한 객체이므로 환경 변수로는 설정할 수 없습니다.
+
+  ## 변경됨
+
+  * `wandb beta leet`에서는 각 창 내에서 포커스를 이동할 때(차트 그리드, 목록 내비게이션) WASD 키와 화살표 키를 서로 바꿔 사용할 수 있습니다. **Home**, **End**, **Page Up**, **Page Down** 키도 일관되게 동작합니다. 미디어 창에서는 여전히 화살표 키로 X축을 스크럽하고 WASD 키로 이미지 타일 사이를 이동합니다.
+
+  ## 수정됨
+
+  * `wandb.init(id=run_id, reinit="create_new")`는 이제 같은 스크립트에서 동일한 `run_id`를 가진 다른 run이 아직 활성 상태이면 오류를 발생시킵니다.
+  * `WANDB_MODE` 환경 변수 또는 `mode` 설정으로 오프라인 모드가 활성화된 경우, 이제 `wandb.Api`는 일부 오퍼레이션에서 더 이상 예외를 발생시키지 않습니다.
+</Update>
 
 <Update label="0.26.0" description="2026년 4월 13일">
   ## 주요 변경 사항

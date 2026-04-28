@@ -15,6 +15,14 @@ Paginateur des fichiers d’un artifact.
 
 ### <kbd>propriété</kbd> ArtifactFiles.cursor
 
+Un curseur opaque qui indique le début de la page suivante à récupérer.
+
+Cette valeur peut être enregistrée et transmise via `start=` à une requête paginée ultérieure afin de reprendre l’itération là où ce pagineur s’est arrêté.
+
+**Retourne :**
+
+* `str | None`: La valeur de propriété du curseur.
+
 ***
 
 ### <kbd>propriété</kbd> ArtifactFiles.more

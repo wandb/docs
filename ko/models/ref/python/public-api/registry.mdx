@@ -217,14 +217,14 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Collections
 ```
 
 레지스트리에 속한 컬렉션을 반환합니다.
 
 ***
-
 
 ### <kbd>클래스 메서드</kbd> `Registry.create`
 
@@ -414,8 +414,9 @@ user_members() → list[UserMember]
 ```python
 versions(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Versions
 ```
 
-레지스트리에 속한 버전들을 반환합니다.
+레지스트리에 속한 버전들을 반환합니다. 

@@ -1,11 +1,26 @@
 ---
 title: "Versions du SDK W&B"
 description: "Consultez les notes de version du W&B Python SDK, y compris les nouvelles fonctionnalités, les correctifs de bugs et les changements incompatibles, par version."
-sidebarTitle: "Toutes les versions"
 rss: true
 ---
 
-Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`). Pour W&amp;B Server, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
+Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), voir les [versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour W&amp;B Server, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
+
+<Update label="0.26.1" description="23 avril 2026">
+  ## Ajouts
+
+  * Les méthodes `wandb.Api` qui renvoient des artifacts, des registres, des automatisations et les paginateurs associés acceptent un argument `start` facultatif, ce qui vous permet de reprendre l’itération à partir d’un curseur enregistré.
+  * Le paramètre `stop_fn` de `wandb.Settings` permet de personnaliser la façon dont le SDK demande au processus Python de s’arrêter lorsqu’un arrêt de run est demandé (par défaut, il envoie SIGINT). Transmettez ce paramètre avec `wandb.setup(settings=...)` ou `wandb.init(settings=...)`. Comme la valeur est un callable, elle ne peut pas être définie via une variable d’environnement.
+
+  ## Modifications
+
+  * Dans `wandb beta leet`, les touches WASD et les touches fléchées sont interchangeables pour déplacer le focus dans chaque volet (grilles de graphiques, navigation dans les listes). Les touches **Home**, **End**, **Page Up** et **Page Down** fonctionnent de manière cohérente. Le volet multimédia utilise toujours les touches fléchées pour parcourir l’axe X et les touches WASD pour se déplacer entre les vignettes d’image.
+
+  ## Correctifs
+
+  * `wandb.init(id=run_id, reinit="create_new")` renvoie désormais une erreur si un autre run avec le même `run_id` est encore actif dans le même script.
+  * `wandb.Api` ne renvoie plus d’erreur pour certaines opérations lorsque le mode hors ligne est activé avec la variable d’environnement `WANDB_MODE` ou le paramètre `mode`.
+</Update>
 
 <Update label="0.26.0" description="13 avril 2026">
   ## Modifications notables
