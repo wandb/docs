@@ -65,13 +65,14 @@ Quel que soit votre cas d’utilisation, l’agent Launch comporte des options d
 * `queues` : le nom d’une ou plusieurs files d’attente que l’agent doit surveiller
 
 <Note>
-  Vous pouvez utiliser la CLI W&amp;B pour spécifier des options de configuration universelles pour l’agent Launch (au lieu du fichier YAML de configuration) : nombre maximal de jobs, entité W&amp;B et files d’attente Launch. Voir la commande [`wandb launch-agent`](/fr/models/ref/cli/wandb-launch-agent) pour plus d’informations.
+  Vous pouvez utiliser la CLI W&amp;B pour spécifier des options de configuration universelles pour l’agent Launch (au lieu du fichier YAML de configuration) : nombre maximal de jobs, entité W&amp;B et files d’attente Launch. Voir la commande [`wandb
+        launch-agent`](/fr/models/ref/cli/wandb-launch-agent) pour plus d’informations.
 </Note>
 
 L’extrait YAML suivant montre comment spécifier les clés de configuration de base de l’agent Launch :
 
 ```yaml title="launch-config.yaml"
-# Nombre maximum de runs simultanés à effectuer. -1 = aucune limite
+# Nombre maximal de runs simultanés à effectuer. -1 = aucune limite
 max_jobs: -1
 
 entity: <entity-name>
