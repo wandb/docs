@@ -17,19 +17,51 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      # Pushes from other workflows (e.g. image compression with GITHUB_TOKEN) do not
+      # trigger pull_request workflows; branch protection may still need a human push
+      # or workflow_dispatch to refresh checks.
+      - name: Determine if Mintlify validation is needed
+        id: scope
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "needs_validation=true" >> "$GITHUB_OUTPUT"
+            echo "Runs full validation for push/workflow_dispatch (not a PR diff)."
+            exit 0
+          fi
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          # Pathspecs do not support regex alternation like *.(mdx|json); filter with grep instead.
+          # Includes .json for docs.json / mint.json / OpenAPI specs that affect generated pages.
+          if git diff --name-only "$base" "$head" | grep -Eq '\.(mdx|json|ya?ml|png|jpe?g|webp)$'; then
+            echo "needs_validation=true" >> "$GITHUB_OUTPUT"
+            echo "Found changed Mintlify-relevant files (.mdx, config JSON/YAML, OpenAPI JSON, or images); will run Mintlify validation."
+          else
+            echo "needs_validation=false" >> "$GITHUB_OUTPUT"
+            echo "No Mintlify-relevant files in this PR diff; skipping Mintlify install and validation."
+          fi
+
+      - name: No Mintlify-relevant changes — skipping validation
+        if: steps.scope.outputs.needs_validation == 'false'
+        run: |
+          echo "Check passes: no .mdx, doc JSON/YAML, or image changes in this PR."
+
       - uses: actions/setup-node@v6
+        if: steps.scope.outputs.needs_validation == 'true'
         with:
           node-version: '20'
-      
+
       - name: Get npm paths and cache key
         id: npm-config
+        if: steps.scope.outputs.needs_validation == 'true'
         run: |
           echo "date=$(date +%Y)-$(( $(date +%j) / 4 ))" >> "$GITHUB_OUTPUT"
           echo "npm_prefix=$(npm config get prefix)" >> "$GITHUB_OUTPUT"
           echo "npm_cache=$(npm config get cache)" >> "$GITHUB_OUTPUT"
-      
+
       - name: Cache Mintlify CLI
         id: cache-mint
+        if: steps.scope.outputs.needs_validation == 'true'
         uses: actions/cache@v5
         with:
           path: |
@@ -40,16 +72,20 @@ jobs:
           key: ${{ runner.os }}-mint-${{ steps.npm-config.outputs.date }}
           restore-keys: |
             ${{ runner.os }}-mint-
-      
+
       - name: Install Mintlify CLI (latest)
-        if: steps.cache-mint.outputs.cache-hit != 'true'
+        if: steps.scope.outputs.needs_validation == 'true' && steps.cache-mint.outputs.cache-hit != 'true'
         run: npm install -g mint@latest --loglevel=error --no-fund --no-audit
-      
+
       - name: Verify Mintlify CLI (from cache)
-        if: steps.cache-mint.outputs.cache-hit == 'true'
+        if: steps.scope.outputs.needs_validation == 'true' && steps.cache-mint.outputs.cache-hit == 'true'
         run: |
           echo "Using cached Mintlify CLI"
           mint --version
-      
+
       - name: Validate MDX with Mintlify
+        if: steps.scope.outputs.needs_validation == 'true'
+        env:
+          PR_BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}
+          PR_HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
         run: ./scripts/mdx-validation/validate-mdx-mintlify.sh
