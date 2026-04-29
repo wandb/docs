@@ -1,0 +1,83 @@
+---
+title: "Haystack"
+description: "WeaveConnector インテグレーションを使用して、W&B Weave で Deepset Haystack パイプラインをトレースします。"
+---
+
+[Haystack](https://haystack.deepset.ai/) は、検索や LLM アプリケーションを構築するためのオープンソース フレームワークです。Deepset は WeaveConnector コンポーネントを提供しており、Haystack パイプラインのトレースを W&amp;B Weave に転送できます。これにより、Weave UI でコンポーネントの実行、プロンプト、出力を確認できます。
+
+API の詳細と追加の例については、以下の Deepset リソースを参照してください。
+
+* Haystack の [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector)。
+* Haystack の [Weave インテグレーション API リファレンス](https://docs.haystack.deepset.ai/reference/integrations-weave)。
+* RAG パイプラインを使用した Haystack の [W&amp;B Weave でトレースする](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) 例。
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+開始する前に、以下を行ってください。
+
+* W&amp;Bの[APIキー](https://wandb.ai/settings)を使用して、環境に`WANDB_API_KEY`を設定してください。
+* コネクタが転送するトレースデータをHaystackが出力するように、パイプラインを実行する前に`HAYSTACK_CONTENT_TRACING_ENABLED`を`true`に設定してください。
+
+<div id="install">
+  ## インストール
+</div>
+
+`pip` を使用して、必要な依存パッケージをインストールします：
+
+```bash lines
+pip install weave-haystack
+```
+
+このパッケージでは、依存関係として `haystack-ai` と `weave` の互換性のあるバージョンを指定しています。
+
+<div id="trace-a-haystack-pipeline-with-weave">
+  ## Weave で Haystack パイプラインをトレースする
+</div>
+
+以下の例では、Haystack の `WeaveConnector` を Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) に追加し、W&amp;B Weave と統合して、パイプラインのコンポーネントのトレースと監視を行います。指定した `pipeline_name` は、そのパイプラインからのトレースに使用する Weave プロジェクト名として使用されます。
+
+Haystack パイプラインでは、`WeaveConnector` を他のコンポーネントに接続しないでください。
+
+```python lines
+import os
+
+os.environ["HAYSTACK_CONTENT_TRACING_ENABLED"] = "true"
+
+from haystack import Pipeline
+from haystack.components.builders import ChatPromptBuilder
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
+from haystack_integrations.components.connectors.weave import WeaveConnector
+
+pipe = Pipeline()
+pipe.add_component("prompt_builder", ChatPromptBuilder())
+pipe.add_component("llm", OpenAIChatGenerator(model="gpt-3.5-turbo"))
+pipe.connect("prompt_builder.prompt", "llm.messages")
+
+# pipeline_name が W&B のプロジェクト名になります。
+connector = WeaveConnector(pipeline_name="haystack_demo")
+# コネクタをパイプラインに追加しますが、他のコンポーネントには接続しません。
+pipe.add_component("weave", connector)
+
+messages = [
+    ChatMessage.from_system(
+        "Always respond in German even if some input data is in other languages.",
+    ),
+    ChatMessage.from_user("Tell me about {{location}}"),
+]
+
+response = pipe.run(
+    data={
+        "prompt_builder": {
+            "template_variables": {"location": "Berlin"},
+            "template": messages,
+        },
+    },
+)
+
+print(response["llm"]["replies"][0])
+```
+
+パイプラインの実行後、W&amp;B Workspace を開き、`pipeline_name` という名前の project を選択して、**Traces** で完了したトレースを確認します。

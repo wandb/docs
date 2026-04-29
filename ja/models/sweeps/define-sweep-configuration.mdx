@@ -423,7 +423,6 @@ early_terminate:
   </Tab>
 </Tabs>
 
-
 <div id="macro-and-custom-command-arguments-example">
   ### マクロとカスタムコマンド引数の例
 </div>
@@ -465,13 +464,12 @@ parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=T
 parser.add_argument('--test', type=str2bool, default=False)
 args = parser.parse_args()
 
-# W&B Runを初期化する
+# W&B Run を初期化する
 with wandb.init('test-project') as run:
     run.log({'validation_loss':1})
 ```
 
-[sweep 設定で使用できる、あらかじめ定義されたマクロの一覧については、[sweep 設定オプション](./sweep-config-keys) の [コマンドマクロ](./sweep-config-keys#command-macros) セクションを参照してください。](./sweep-config-keys#command-macros)
-
+[sweep 設定で使用できる、あらかじめ定義されたマクロの一覧については、[Sweep configuration options](./sweep-config-keys) の [コマンドマクロ](./sweep-config-keys#command-macros) セクションを参照してください。](./sweep-config-keys#command-macros) 
 
 <div id="boolean-arguments">
   #### ブール引数
@@ -489,15 +487,15 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--test', action='store_true')
 args = parser.parse_args()
 
-args.test  # --test が渡された場合は True、それ以外は False
+args.test  # --test が渡された場合は True、そうでない場合は False
 ```
 
 ブール値の文字列表現をブール型に変換するカスタム関数を定義することもできます。たとえば、次のコードスニペットでは、文字列をブール値に変換する`str2bool`関数を定義しています。
 
 ```python
 def str2bool(v: str) -> bool:
-  """文字列をブール値に変換する。argparse はデフォルトでブール引数を
-  サポートしていないため、この関数が必要となる。
+  """Convert a string to a boolean. This is required because
+  argparse does not support boolean arguments by default.
   """
   if isinstance(v, bool):
       return v
