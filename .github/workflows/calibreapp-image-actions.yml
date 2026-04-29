@@ -22,6 +22,12 @@ jobs:
       - name: Compress Images
         uses: calibreapp/image-actions@main
         with:
+          jpegQuality: '85'
+          jpegProgressive: false
+          pngQuality: '80'
+          webpQuality: '85'
+          avifQuality: '75'
+          minPctChange: '10'
           # PAT with contents read-write (repo secret). Unlike the default workflow `GITHUB_TOKEN`,
           # commits pushed with this token trigger other workflows (e.g. Validate MDX).
           # Fork PRs are already excluded by the job `if` above.
