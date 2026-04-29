@@ -752,7 +752,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "inference",
                   "inference/prerequisites",
@@ -818,7 +818,7 @@
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "sandboxes",
                   "sandboxes/lifecycle",
@@ -1191,7 +1191,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "inference/api-reference",
                   "inference/api-reference/chat-completions",
@@ -1290,7 +1290,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "support/inference",
                   "support/inference/tags/administrator",
@@ -1614,7 +1614,7 @@
                           "fr/models/track/project-page",
                           "fr/models/track/workspaces",
                           {
-                            "group": "Que sont les ex\u00e9cutions\u00a0?",
+                            "group": "Que sont les exécutions ?",
                             "pages": [
                               "fr/models/runs",
                               "fr/models/runs/run-identifiers",
@@ -2129,7 +2129,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "fr/inference",
                   "fr/inference/prerequisites",
@@ -2195,7 +2195,7 @@
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "fr/sandboxes",
                   "fr/sandboxes/lifecycle",
@@ -2568,7 +2568,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "fr/inference/api-reference",
                   "fr/inference/api-reference/chat-completions",
@@ -2667,7 +2667,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "fr/support/inference",
                   "fr/support/inference/tags/administrator",
@@ -3439,7 +3439,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ja/inference",
                   "ja/inference/prerequisites",
@@ -3505,7 +3505,7 @@
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "ja/sandboxes",
                   "ja/sandboxes/lifecycle",
@@ -3878,7 +3878,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "ja/inference/api-reference",
                   "ja/inference/api-reference/chat-completions",
@@ -3977,7 +3977,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ja/support/inference",
                   "ja/support/inference/tags/administrator",
@@ -4749,7 +4749,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ko/inference",
                   "ko/inference/prerequisites",
@@ -4815,7 +4815,7 @@
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "ko/sandboxes",
                   "ko/sandboxes/lifecycle",
@@ -5188,7 +5188,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "ko/inference/api-reference",
                   "ko/inference/api-reference/chat-completions",
@@ -5287,7 +5287,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ko/support/inference",
                   "ko/support/inference/tags/administrator",

@@ -2,14 +2,14 @@
 title: "Use Serverless LoRA Inference"
 linkTitle: "Use Serverless LoRA Inference"
 description: >
-  Bring your own custom LoRA for serving fine-tuned models on W&B Inference.
+  Bring your own custom LoRA for serving fine-tuned models on Serverless Inference.
 ---
 
 LoRA (Low-Rank Adaptation) lets you personalize large language models by training and storing only a lightweight ‘add-on’ instead of a full new model. This makes customization faster, cheaper, and easier to deploy.
 
 You can train or upload a LoRA to give a base model new capabilities, such as specializing it for customer support, creative writing, or a particular technical field. This allows you to adapt the model’s behavior without having to retrain or redeploy the entire model.
 
-## Why use W&B Inference for LoRAs?
+## Why use Serverless Inference for LoRAs?
 
 - Upload once, deploy instantly — no servers to manage.
 - Track exactly which version is live with artifact versioning.
@@ -21,7 +21,7 @@ You can train or upload a LoRA to give a base model new capabilities, such as sp
 2. Reference the artifact URI as your model name in the API
 3. W&B dynamically loads your weights for inference
 
-Here's an example of calling your custom LoRA model using W&B Inference:
+Here's an example of calling your custom LoRA model using Serverless Inference:
 
 ```python
 from openai import OpenAI

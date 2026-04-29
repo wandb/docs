@@ -82,7 +82,7 @@ products:
       - UI Rendering
 
   - slug: inference
-    display_name: "W&B Inference"
+    display_name: "Serverless Inference"
     allowed_keywords:
       - Administrator
       - Authentication & Access

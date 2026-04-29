@@ -1,15 +1,15 @@
 ---
-title: "W&B Inference"
+title: "Serverless Inference"
 description: Access open-source foundation models through W&B Weave and an OpenAI-compatible API
 mode: wide
 ---
 
-W&B Inference gives you access to leading open-source foundation models through W&B Weave and an OpenAI-compatible API. You can:
+Serverless Inference gives you access to leading open-source foundation models through W&B Weave and an OpenAI-compatible API. You can:
 
 - Build AI applications and agents without signing up for a hosting provider or self-hosting a model
 - Try [supported models](/inference/models) in the [W&B Weave Playground](/weave/guides/tools/playground)
 
-With Weave, you can trace, evaluate, monitor, and improve your W&B Inference-powered applications.
+With Weave, you can trace, evaluate, monitor, and improve your Serverless Inference-powered applications.
 
 
 ## Quickstart
@@ -20,7 +20,7 @@ Here's a simple example using Python:
 import openai
 
 client = openai.OpenAI(
-    # The custom base URL points to W&B Inference
+    # The custom base URL points to Serverless Inference
     base_url='https://api.inference.wandb.ai/v1',
 
     # Create an API key at https://wandb.ai/settings

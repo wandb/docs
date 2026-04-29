@@ -1,10 +1,10 @@
 ---
 title: "Creating a fine-tuned LoRA"
 description: >
-  Learn how to create a fine-tuned LoRA to use with W&B Inference.
+  Learn how to create a fine-tuned LoRA to use with Serverless Inference.
 ---
 
-W&B Inference allows you to use a custom LoRA with some base models. This tutorial demonstrates how to create a fine-tuned LoRA using supervised post-training
+Serverless Inference allows you to use a custom LoRA with some base models. This tutorial demonstrates how to create a fine-tuned LoRA using supervised post-training
 via the [TRL](https://huggingface.co/docs/trl/index) library. This example uses a dataset of query/response pairs to fine-tune a model to respond like a cowboy.
 
 You can also create a LoRA using [W&B Training](/training) which provides serverless reinforcement learning.
@@ -74,7 +74,7 @@ The example file contains one JSON object per line. Save the following data in y
 
 ## Post-training
 
-This script trains a LoRA adapter on examples from the JSONL file and uploads it to W&B as an artifact for use with the W&B Inference API or Playground.
+This script trains a LoRA adapter on examples from the JSONL file and uploads it to W&B as an artifact for use with the Serverless Inference API or Playground.
 
 At a high level, this script does the following:
 
@@ -82,7 +82,7 @@ At a high level, this script does the following:
 2. Loads the base model ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) from Hugging Face.
 3. Configures the LoRA using hyperparameters, such as rank and alpha defined as constants near the top of the file.
 4. Loads the examples from the file into a dataset and then runs [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer). By default, the script uses all examples.
-5. Saves the LoRA and uploads it to W&B as an [Artifact](/models/artifacts) so it can be used with W&B Inference.
+5. Saves the LoRA and uploads it to W&B as an [Artifact](/models/artifacts) so it can be used with Serverless Inference.
 
 When the script completes, open the last printed URL in your browser to see the persisted Artifact. It looks like this:
 `Artifact URL: https://wandb.ai/<yourentity>/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
