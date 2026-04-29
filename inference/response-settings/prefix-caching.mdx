@@ -1,13 +1,13 @@
 ---
-title: "Prefix Caching"
+title: "Prefix caching"
 description: "Reduce latency for repeated prompts with prefix caching, and isolate cache reuse with cache_salt when needed."
 ---
 
 W&B Inference uses prefix caching on supported hosted models to speed up repeated requests with identical prompt prefixes.
 
-When a request shares the same prompt prefix as an earlier request on the same backend, the model can reuse previously computed KV cache for that prefix instead of recomputing it from scratch. This can reduce latency for repeated prompts, long system prompts, and workloads with a stable shared prefix.
+When a request shares the same prompt prefix as an earlier request on the same backend, the model reuses the previously computed key-value (KV) cache instead of recomputing the entire prefix. This reduces latency for repeated prompts, long system prompts, and workloads with a stable shared prefix.
 
-Prefix caching is automatic on supported models. You do not need to enable it in your request.
+Prefix caching is automatic on supported models, so you don't need to enable it in your request. This page describes when prefix caching is most effective and how to control cache isolation with `cache_salt`.
 
 ## When prefix caching helps
 
@@ -18,25 +18,31 @@ Prefix caching is most useful when you repeatedly send requests that share a lon
 - Repeated evaluation prompts with only small per-request changes.
 - Multi-turn workloads where much of the conversation history stays the same.
 
-## Cache Isolation
+## Cache isolation
 
-By default, identical prompt prefixes may reuse cache on shared infrastructure when the backend allows it.
+In some environments, you might need to prevent cache reuse across different users or applications. The `cache_salt` parameter provides this control.
 
-If you want to isolate cache reuse to a specific trust boundary, set the `cache_salt` request parameter. Requests only reuse prefix cache when both the prompt prefix and the `cache_salt` match.
+By default, requests with identical prompt prefixes may reuse cache on shared infrastructure when the backend allows it.
 
-Use `cache_salt` when you want cache reuse within a single user, tenant, session, or application boundary, but do not want reuse across other callers.
+To isolate cache reuse to a specific trust boundary, set the `cache_salt` request parameter. Requests only reuse prefix cache when both the prompt prefix and the `cache_salt` match.
+
+Use `cache_salt` when you want cache reuse within a single user, tenant, session, or application boundary, but don't want reuse across other callers.
 
 ### How it works
 
+The presence and value of `cache_salt` affect cache reuse as follows:
+
 - Same prompt prefix, no `cache_salt`: cache may be reused across matching requests.
 - Same prompt prefix, same `cache_salt`: cache can be reused.
-- Same prompt prefix, different `cache_salt`: cache is isolated and will not be reused across salts.
+- Same prompt prefix, different `cache_salt`: cache is isolated and not reused across salts.
 
 <Note>
 `cache_salt` must be a non-empty string when provided.
 </Note>
 
 ## Examples
+
+The following examples show how to send a chat completion request with `cache_salt` to isolate cache reuse.
 
 <Tabs>
   <Tab title="Python">
@@ -86,9 +92,11 @@ Use `cache_salt` when you want cache reuse within a single user, tenant, session
 
 ## Response behavior
 
-On some models, usage details may include cached token counts in `usage.prompt_tokens_details.cached_tokens` when prefix cache is reused. Availability of that field may vary by model and backend.
+To confirm that prefix caching is active for a request, check the response usage details. On some models, usage details may include cached token counts in `usage.prompt_tokens_details.cached_tokens` when prefix cache is reused. The availability of that field varies by model and backend.
 
 ## Related pages
+
+The following pages cover related topics:
 
 - [Chat Completions](/inference/api-reference/chat-completions)
 - [Enable streaming responses](/inference/response-settings/streaming)
