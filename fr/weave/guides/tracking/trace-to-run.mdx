@@ -13,8 +13,8 @@ Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
 
 <Tabs>
   <Tab title="Python">
-    Le code Python suivant montre comment les Ops tracées sont liées aux
-    runs W&amp;B lorsqu&#39;elles sont exécutées dans un contexte `wandb.init()`. Ces traces apparaissent dans la
+    Le code Python suivant montre comment les Ops tracées sont liées aux runs W&amp;B
+    lorsqu&#39;elles sont exécutées dans un contexte `wandb.init()`. Ces traces apparaissent dans la
     Weave UI et sont associées au run correspondant.
 
     Pour afficher un run W&amp;B sous forme de trace Weave :
@@ -38,13 +38,13 @@ Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
     import weave
 
     def example_wandb(projname):
-        # Séparer projname en entité et projet
+        # Diviser projname en entité et projet
         entity, project = projname.split("/", 1)
 
-        # Initialiser le contexte Weave pour le tracing
+        # Initialiser le contexte Weave pour le traçage
         weave.init(projname)
 
-        # Définir une op traçable
+        # Définir une Op traçable
         @weave.op()
         def say(message: str) -> str:
             return f"I said: {message}"
@@ -82,7 +82,7 @@ Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
     python weave_trace_with_wandb.py
     ```
 
-    5. Accédez à [https://weave.wandb.ai](https://weave.wandb.ai) et sélectionnez votre projet.
+    5. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
     6. Dans la **barre latérale du projet Weave**, cliquez sur **Traces**. Les liens vers les runs associés s&#39;affichent dans le tableau Traces.
   </Tab>
 
