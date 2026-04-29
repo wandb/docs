@@ -1,0 +1,83 @@
+---
+title: "Haystack"
+description: "WeaveConnector 인테그레이션을 사용하여 W&B Weave에서 Deepset Haystack 파이프라인을 트레이싱하세요."
+---
+
+[Haystack](https://haystack.deepset.ai/)는 검색 및 LLM 애플리케이션을 구축하기 위한 오픈 소스 프레임워크입니다. Deepset은 Haystack 파이프라인 트레이스를 W&amp;B Weave로 전달하는 WeaveConnector 컴포넌트를 유지 관리하므로, Weave UI에서 컴포넌트 실행, 프롬프트, 출력을 확인할 수 있습니다.
+
+전체 API 세부 정보와 추가 예시는 다음 Deepset 리소스를 참조하세요:
+
+* Haystack의 [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector).
+* Haystack의 [Weave 인테그레이션 API 레퍼런스](https://docs.haystack.deepset.ai/reference/integrations-weave).
+* RAG 파이프라인을 사용하는 Haystack의 [W&amp;B Weave로 트레이스하기](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) 예시.
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+시작하기 전에 다음을 수행하세요:
+
+* W&amp;B [API 키](https://wandb.ai/settings)를 사용해 환경 변수 `WANDB_API_KEY`를 설정하세요.
+* 파이프라인을 실행하기 전에 `HAYSTACK_CONTENT_TRACING_ENABLED`를 `true`로 설정하여, Haystack이 커넥터가 전달할 수 있는 트레이싱 데이터를 내보내도록 하세요.
+
+<div id="install">
+  ## 설치
+</div>
+
+`pip`로 필요한 의존성을 설치하세요:
+
+```bash lines
+pip install weave-haystack
+```
+
+이 패키지는 `haystack-ai`와 `weave`의 호환 버전을 의존성으로 지정합니다.
+
+<div id="trace-a-haystack-pipeline-with-weave">
+  ## Weave로 Haystack 파이프라인 트레이스하기
+</div>
+
+다음 예시에서는 Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines)에 Haystack의 `WeaveConnector`를 추가해, 파이프라인 컴포넌트를 트레이싱하고 모니터링할 수 있도록 W&amp;B Weave와 통합합니다. 전달한 `pipeline_name`은 해당 파이프라인에서 생성된 트레이스의 Weave 프로젝트 이름으로 사용됩니다.
+
+Haystack 파이프라인에서는 `WeaveConnector`를 다른 컴포넌트와 연결하지 마세요.
+
+```python lines
+import os
+
+os.environ["HAYSTACK_CONTENT_TRACING_ENABLED"] = "true"
+
+from haystack import Pipeline
+from haystack.components.builders import ChatPromptBuilder
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
+from haystack_integrations.components.connectors.weave import WeaveConnector
+
+pipe = Pipeline()
+pipe.add_component("prompt_builder", ChatPromptBuilder())
+pipe.add_component("llm", OpenAIChatGenerator(model="gpt-3.5-turbo"))
+pipe.connect("prompt_builder.prompt", "llm.messages")
+
+# pipeline_name이 W&B 프로젝트 이름으로 사용됩니다.
+connector = WeaveConnector(pipeline_name="haystack_demo")
+# 커넥터를 파이프라인에 추가하되 다른 컴포넌트와 연결하지 마세요.
+pipe.add_component("weave", connector)
+
+messages = [
+    ChatMessage.from_system(
+        "Always respond in German even if some input data is in other languages.",
+    ),
+    ChatMessage.from_user("Tell me about {{location}}"),
+]
+
+response = pipe.run(
+    data={
+        "prompt_builder": {
+            "template_variables": {"location": "Berlin"},
+            "template": messages,
+        },
+    },
+)
+
+print(response["llm"]["replies"][0])
+```
+
+파이프라인 실행이 완료되면 W&amp;B Workspace를 열고, `pipeline_name`으로 이름이 지정된 프로젝트를 선택한 다음 **Traces**로 이동하여 완료된 트레이스를 검토하세요.

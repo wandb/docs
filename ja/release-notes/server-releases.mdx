@@ -5,7 +5,7 @@ sidebarTitle: "サポートされる version"
 rss: true
 ---
 
-import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-reminder.mdx"
+import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-reminder.mdx';
 
 このページには、サポート対象の W&amp;B Server リリースのリリースノートが含まれています。
 
@@ -13,6 +13,92 @@ import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-remind
 * W&amp;B Server のリリーススケジュールとサポートの詳細については、[W&amp;B Server release policies](/ja/release-notes/release-policies)を参照してください。
 
 <EolReminder />
+
+<Update label="v0.80.0" description="2026年4月28日">
+  **2026年4月28日**
+
+  W&amp;B 0.80.0 では、実験の効率的な観察と分析を支援する新機能、バグ修正、およびセキュリティ改善が導入されました。更新されたホームページでは、組織全体の最近のアクティビティを表示、検索、フィルタリングできます。run メトリクスの z スコアに基づくオートメーションと、メディアの並列比較が一般提供 (GA) になりました。表パネル、平行座標プロット、散布図も改善されました。artifact のリネージグラフの操作と共有がより効率的になりました。エンタープライズ環境でのプロビジョニングを効率化するため、SCIM API が Models シートおよび Weave ロールの管理をサポートするようになりました。
+
+  ## サポートとサポート終了
+
+  * W&amp;B Server v0.68 はサポート終了となりました。
+
+  [リリースポリシーとプロセス](/ja/release-notes/release-policies)をご参照ください。サポートや質問については、[サポート](mailto:support@wandb.com)までお問い合わせください。
+
+  ## 機能
+
+  * [Compare mode](/ja/models/app/features/panels/media#compare-mode) が、メディアパネルで一般提供になりました。Compare mode では、Runs、ステップ、インデックスを任意に組み合わせて 2 ～ 4 個の画像または動画を選択し、ファイルをダウンロードしたりタブを切り替えたりすることなく、1 つのグリッドで表示できます。
+
+    <Frame>
+      ![Media パネルの Compare mode グリッド](/images/release-notes/v0-80-0/media-compare-mode.png)
+    </Frame>
+
+  * W&amp;B App のホーム画面が改善されました。
+
+    * 自分や同僚の最近のアクティビティを表示、検索、またはフィルターできます。
+    * ホームページから最近の Reports に直接アクセスできます。
+    * スターを付けた Projects はホームページには表示されなくなりましたが、Projects ページの上部と左側のナビゲーションには表示されます。
+
+    <Frame>
+      ![最近のアクティビティが表示されたホームページ](/images/release-notes/v0-80-0/home-page-improved.png)
+    </Frame>
+
+  * 新しいメソッド `run.pin_config_keys()` を使用すると、選択した設定キーを run の Overview タブ上部にプログラムからピン留めできます。ピン留めしたキーは、**メモ** の上にある新しい **References** セクションに表示され、ハイパーパラメーター、外部リンク、識別子など、run の重要な詳細をひと目で確認できます。ピン留めした各キーは値とともに個別に表示され、リンクはクリックできます。[W&amp;B SDK v0.26.0](/ja/release-notes/sdk-releases#0-26-0)+ が必要です。
+
+    <Frame>
+      ![References セクションにピン留めされた設定キー](/images/release-notes/v0-80-0/pin-config-keys-references.png)
+    </Frame>
+
+  * メトリクスの z-score に基づいてオートメーションをトリガーする機能は、一般提供されています。z-score は、project 内の設定可能な期間の Runs 全体において、そのメトリクスの値が平均値から何標準偏差離れているかを示します。詳しくは [Automation events and scopes](/ja/models/automations/automation-events#run-metrics-z-score-change) を参照してください。
+
+  * Runs リストで run にカーソルを合わせると、平行座標プロット内の対応する線がハイライトされるようになりました。
+
+  * 散布図で、これまでの Y 軸の最大値と最小値を結ぶ線であるフロンティア ラインに関する新しい表示オプションを利用できるようになりました。これらのオプションは、プロットの設定にある **Annotations** タブで設定します。
+    * **run ラベルを表示**: 必要に応じて、run 名またはグループ名のラベルを表示します。
+    * **非フロンティアのポイントを薄く表示**: 必要に応じて、非フロンティアのポイントの表示を薄くします。
+
+  * ダウンロード中でも、表パネル内でオーディオを再生できるようになりました。
+
+  * 手動で追加したカスタム パネルでは、再読み込み後も位置のオーバーライドが保持されるようになりました。
+
+  * W&amp;B App 内から、デプロイメントの現在のバージョンのリリースノートを確認できます。上部のナビゲーションで **?** をクリックして **Resources &amp; Help** メニューを開き、**Release Notes** をクリックします。
+
+  * Lineage DAG ナビゲーションの改善: リネージを artifact タイプや上流/下流のホップ数でフィルターできるようになりました。フィルターで除外されたノードや非表示のノードもプレースホルダーとして表示されたままになるため、フィルターを調整しながらでもグラフ構造を把握しやすくなります。
+
+  * URL で artifact のリネージビューを共有すると、共有相手にもフィルター、非表示ノード、手動で設定した位置、ビューポート、ズーム レベルを含む、まったく同じグラフ設定が表示されるようになりました。
+
+  ### Weave
+
+  * **Project overview** ページの新しい **Scorer dashboard** ビューでは、スコアラーごとの合格/不合格率やヒストグラム分布、フィルター可能な例のリスト、さらに各例の試行スコアを含む詳細を表示できます。
+    ![Scorer dashboard の動画デモ](/images/release-notes/v0-80-0/weave_scorer_dashboards.gif)
+  * **Monitors** ページの時間ごとに集計された **Feedback** と **Score** のチャートには、モニターでフィルタリングされた数値の推移とブール値の件数が表示されます。
+  * Playground で評価結果のストリーミングをサポートするようになりました。Evaluation Playground から評価を実行すると、比較ビューがすぐに表示され、モデルごとに 1 つの列が表示されます。各列には、そのモデルの評価が正常に完了すると実データが表示され、まだ実行中の場合はスケルトン表示になり、評価が失敗した場合は失敗したことが表示されます。結果は、すべての評価が完了するのを待つのではなく、各評価の完了に応じて順次ストリーミング表示されます。進行状況バーは、Call ごとのステータスのポーリングに応じて更新されます。
+  * **Monitors** ページでは、提案された分類器カードから分類器モニターを作成して管理できます。
+  * **Monitors** ページでシグナルプロンプトを直接編集できます。歯車アイコンをクリックし、次にシグナルの鉛筆アイコンをクリックします。
+  * **Calls** 表では、ユーザー ID がユーザー名として表示されるようになりました。
+
+  ## セキュリティ
+
+  * [SCIM](/ja/platform/hosting/iam/automate_iam) を使用して、Models のシートまたは Weave のロールを割り当てます。
+  * [監査ログを取得する](/ja/platform/hosting/monitoring-usage/audit-logging#fetch-audit-logs)場合、`startDate` パラメーターは、取得対象とする最新のログを指定します。
+  * 組織管理者は、`graphql-disable-introspection` 設定オプションまたは環境変数 `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` を使用して、GraphQL のイントロスペクションを無効にできます。[W&amp;B SDK v0.26.0](/ja/release-notes/sdk-releases#0-26-0)+ が必要です。
+  * SQL の構築時に、特定の構造化された run フィルターが一貫してエスケープされておらず、認可されたクライアントが本来指定できる範囲を超えて、悪意のあるフィルターの構造がクエリ生成に干渉できる可能性があったバグを修正しました。フィルター処理では、他の箇所と同じ列のエスケープを適用するようになり、フィルターキーがクエリ構造を変更できないようになりました。
+  * Sweeps に関連する run-queue 操作やキューの直接削除において、特定のケースで、呼び出し元が意図したスコープ外のキューまたはキュー項目に対して処理が実行されるバグを修正しました。現在は、Sweeps からキューに追加したりキューエントリを削除したりする前に、認可によってキューへのアクセス権と項目の所有権を検証します。
+  * run メタデータのキー候補で、サニタイズされていないユーザー入力がデータベースクエリに組み込まれる可能性があるバグを修正しました。キー パスは、安全で想定どおりの列参照のみが候補パスに使われるよう制限されるようになりました。
+  * 呼び出し元が管理するチームと一致しない組織識別子をサービスアカウント作成 API が受け付けてしまい、その結果、誤った組織への関連付けが許可されるバグを修正しました。現在、サーバーは整合性のない組織入力を拒否し、組織メンバーシップは entity が実際に属する組織に基づいて決定されます。
+  * キューからデキューする際に、エンキューではより厳密なチェックを行っていたにもかかわらず、名前だけに基づいてキューを内部の「public」Launch queue として扱ってしまうことがある問題と、push 時に呼び出し元が指定したジョブ作成者がそのまま採用されることがあるバグを修正しました。現在、デキューではエンキューと同じ public-queue の検証を使用し、ジョブ作成者は認証済みユーザーに合わせて統一されるため、偽装されたキューや偽造された作成者によって内部認証情報の注入がトリガーされることはありません。
+  * トレースサーバーが provider の設定を読み込む際に、custom LLM provider の設定で許可されていないホストを指定できたり、安全でない HTTP ヘッダーを含められたりするバグを修正しました。Base URL とヘッダーが検証されるようになり、providers が機密性の高いメタデータ系エンドポイントを指したり、ブロック対象のヘッダーパターンを含めたりできないようになりました。
+  * インメモリ trace artifact 向けに指定されたファイルパスが、デシリアライズ中に意図した一時 Workspace の外へ抜け出せてしまうバグを修正しました。artifact file が想定されたディレクトリレイアウト内に限定されるよう、パスはサニタイズされるようになりました。
+  * 評価ジョブ中に evaluate-model worker が安全でないカスタムのシリアライズ済みペイロードを処理できてしまうバグを修正しました。これらのペイロードは、評価スタック内の他の強化されたパスとの整合性を保つため、デシリアライズ前に拒否されるようになりました。
+
+  ## Fixes
+
+  * 表パネルは、デフォルトでsummary表として表示されるようになり、表が複数の step にまたがってログされている場合は、ボタンでstepper表示に切り替えられるようになりました。これにより、表パネルを含む Workspace の読み込み時間が短縮され、再開した run の履歴を表示する際の非互換性も軽減されます。
+  * 500 件を超える sweep を Sweeps テーブルで読み込めないバグを修正しました。
+  * 列エディターでは、列にカーソルを合わせると、専用の **Show/Hide** ボタンが表示されるようになりました。
+  * Runs の検索時に、run ID (`run.name` の値) もあいまい検索の対象になりました。
+  * 表パネルでのオーディオの読み込みパフォーマンスを改善しました。
+</Update>
 
 <Update label="v0.79.2" description="2026年4月10日">
   ## 修正
@@ -23,7 +109,7 @@ import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.79.1" description="2026年4月1日">
   ## 修正
 
-  * 新しい run、特に新しいプロジェクトで、404 `run not found` エラーが発生する bug を修正しました。
+  * 新しい run、特に新しい project で、404 `run not found` エラーが発生する bug を修正しました。
   * 1000 日を超える監査ログがあるデプロイで、監査ログをクエリできなくなる可能性がある bug を修正しました。
 </Update>
 
@@ -60,7 +146,7 @@ import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-remind
   * run selector と Runs list が強化されました。
     * Git commit によるフィルタリングをサポートしました。
     * config パラメーターを指定する run で、`CONTAINS` operator をサポートしました。
-  * データベース負荷を軽減するため、プロジェクト fields に防御的キャッシュを追加しました。
+  * データベース負荷を軽減するため、project fields に防御的キャッシュを追加しました。
 
   ### Registry
 
@@ -83,15 +169,15 @@ import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-remind
   * gallery mode で実サイズの画像が重なってしまう bug を修正しました。
   * 長いキャプションで発生していた bounding box の位置ずれを修正しました。
   * panel と hover overlay のドロップシャドウを削除しました。
-  * panel search の結果に custom charts が含まれるようになりました。
+  * panel search の結果に カスタム チャート が含まれるようになりました。
 </Update>
 
 <Update label="v0.78.2" description="2026年3月10日">
-  <Note>Weaveを使用するデプロイでは、v0.78にアップグレードする前にClickhouse v0.25.8以降が必須です。</Note>
+  <Note>Weave を使用するデプロイでは、v0.78 へアップグレードする前に Clickhouse v0.25.8+ が必要です。</Note>
 
   ## 修正
 
-  アーティファクトへの不正アクセスを許してしまう、以前に対処済みの重大なセキュリティ問題の修正に関するリグレッションを修正しました。このリグレッションはv0.78.0およびv0.78.1に存在します。これらのversionはインストールまたはアップグレードしないでください。代わりに、修正が含まれるv0.78.2をインストールしてください。
+  以前に対応した重大なセキュリティ修正にリグレッションがあり、アーティファクト への未承認アクセスが可能になる問題を修正しました。このリグレッションは v0.78.0 と v0.78.1 に存在します。これらの version はインストールまたはアップグレードしないでください。代わりに、修正を含む v0.78.2 をインストールしてください。
 </Update>
 
 <Update label="v0.78.1" description="2026年3月5日">
@@ -830,75 +916,4 @@ import EolReminder from "/snippets/ja/_includes/release-notes-support-eol-remind
   * 旧モデルレジストリのコレクションURLを修正しました。
   * ページ上の利用可能な領域をすべて埋めるように Netron ビューアが拡張されない不具合を修正しました。
   * プロジェクトの **Delete** をクリックすると、確認モーダルにそのプロジェクト名が表示されるようになりました。
-</Update>
-
-<Update label="v0.68.2" description="2025年5月7日">
-  ## 修正
-
-  * `Run.create()` を使用して run を作成する際、`state` パラメーターに `pending` または `running` を設定することで、run の初期状態を指定できるようになりました。
-  * **Action History** をクリックすると、誤って **Version** ビューが読み込まれる不具合を修正しました。
-  * Parquet ストアサービスのメモリ使用効率を改善しました。
-</Update>
-
-<Update label="v0.68.1" description="2025年5月2日">
-  ## 修正
-
-  * v0.68.0 で導入された不具合を修正しました。この不具合により、メディアパネルでメディアが読み込まれないことがありました。
-</Update>
-
-<Update label="v0.68.0" description="2025年4月29日">
-  <Note>
-    v0.68.0で不具合が導入され、[v0.68.1](#0_68_1)で修正されました。この不具合により、メディアパネルでメディアを読み込めなくなる場合がありました。この不具合を回避するには、修正を含むパッチをインストールするか、そのバージョンへアップグレードしてください。サポートが必要な場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
-  </Note>
-
-  ## 機能
-
-  * Registry 管理者は、開発パイプラインの重要な段階を表すために、[*保護されたエイリアス*](/ja/models/registry/aliases#protected-aliases)を定義し、割り当てることができます。保護されたエイリアスを割り当てられるのは、Registry 管理者のみです。W&amp;B は、API または UI を使用して、他のユーザーがレジストリ内のバージョンに保護されたエイリアスを追加または削除することを禁止しています。
-  * run の `x_label` 値に基づいてコンソールログをフィルターできるようになりました。[分散トレーニング](/ja/models/track/log/distributed-training/#track-all-processes-to-a-single-run)では、このオプションのパラメーターで run をログしたノードをトラッキングします。
-  * これで、`Groups` 間で run を 1 つずつ、または一括で移動できるようになりました。また、最初にログした後でも新しい `Groups` を作成できるようになりました。
-  * 折れ線グラフで **同期ズーム** モードが利用できるようになりました。このモードでは、1 つのプロットで特定の範囲にズームすると、共通の x-axis を持つほかのすべての折れ線グラフも自動的に同じ範囲にズームされます。これを有効にするには、[Workspace の折れ線グラフ表示設定](/ja/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)でオンにしてください。
-  * 折れ線グラフで、カスタムメトリクスをタイムスタンプ形式で表示できるようになりました。これは、別のシステムから run を同期またはアップロードする際に便利です。
-  * `epoch` や `train/global_step` (またはその他の任意の値) など、`_step` 以外のフィールドを使って、[media panels](/ja/models/app/features/panels/media) をスライドして閲覧できるようになりました。
-  * [Query Panels](/ja/models/app/features/panels/query-panels) 内で `runs` または `runs.history` 式を使用する Tables とプロットでは、step スライダーを使って、run の進行に沿ったメトリクス、テキスト、メディアの推移を順に確認できます。このスライダーは、`_step` 以外のメトリクスでも step を進めて確認する操作をサポートします。
-  * フォントサイズの設定を使って、[棒グラフ](/ja/models/app/features/panels/bar-plot)のラベルをカスタマイズできるようになりました。
-
-  ### プライベートプレビュー
-
-  プライベートプレビュー機能は招待制でのみご利用いただけます。プライベートプレビューへの参加をご希望の場合は、[サポート](mailto:support@wandb.com)またはAISEまでお問い合わせください。
-
-  * **個人用Workspaceテンプレート**を使用すると、Workspaceの設定を保存して、新しい[projects](/ja/models/track/project-page)に自動的に適用できます。現在は、デフォルトの X 軸メトリクス、スムージングアルゴリズム、スムージング係数など、一部の折れ線グラフ設定を設定できます。
-  * **改良版の指数加重移動平均 (EMA) スムージング**により、完全な未ビニングデータを扱う際に、より信頼性の高い[平滑化された線](/ja/models/app/features/panels/line-plot/smoothing)を表示できます。ほとんどの場合、パフォーマンス向上のため、スムージングはバックエンドで処理されます。
-
-  ### Weave
-
-  * W&amp;B インスタンス内からファインチューニングしたモデルとチャットできます。[Playground](/ja/weave/guides/tools/playground) が専用クラウドでもサポートされるようになりました。Playground は、過去のトレースに対してさまざまな LLM を比較するためのチャットインターフェースです。管理者は、各種モデルプロバイダーに APIキー を追加したり、[カスタムホスト型 LLM プロバイダー](/ja/weave/guides/tools/playground/#add-a-custom-provider) を接続したりできるため、チームは Weave 内からそれらを利用できます。
-  * OpenTelemetry のサポート。OpenTelemetry (OTel) 経由でトレースをログすることができるようになりました。[OpenTelemetry トレース](/ja/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)を参照してください。
-  * Weaveの[トレース](/ja/weave/guides/tracking)で、新たにCrewAI、OpenAI&#39;s Agent SDK、DSPy 2.x、Google&#39;s genai Python SDKとのインテグレーションが利用できるようになりました。
-  * Playground は新たに [OpenAI モデル](/ja/weave/guides/tools/playground/#openai) をサポートしています：GPT‑4.1、GPT‑4.1 mini、GPT‑4.1 nano。
-  * トレースから直接ラベル付きデータセットを作成でき、アノテーションは自動的にデータセットの列に変換されます。詳しくは、[トレースからのデータセット作成](/ja/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui)をご覧ください。
-
-  ## セキュリティ
-
-  * Registry 管理者は、レジストリ内の[サービスアカウント](/ja/platform/hosting/iam/service-accounts)を Registry Admin または Member として指定できるようになりました。以前は、サービスアカウントのロールは常に Registry Admin でした。詳細は、[Registry サービスアカウントの設定](/ja/models/registry/configure_registry)を参照してください。
-
-  ## パフォーマンス
-
-  * 多くのワークスペース操作、特に大規模なワークスペースでのパフォーマンスを改善しました。たとえば、セクションの展開や run selector の使用時の応答性が大幅に向上しました。
-  * Fork と巻き戻しのパフォーマンスが向上。
-
-    runを[Forking](/ja/models/runs/forking)すると、既存のrunと同じ設定を使用する新しいrunが作成されます。フォークしたrunへの変更は親runに影響せず、その逆も同様です。フォークしたrunと親runの間のポインタは維持されます。runを[巻き戻し](/ja/models/runs/rewind)すると、既存のデータを失うことなく、その時点から新しいデータをログできます。
-
-    多数のネストされたフォークを持つプロジェクトでは、キャッシュの改善により、新しいrunのフォークが大幅に効率化されました。
-
-  ## 修正
-
-  * 組織のサービスアカウントを新しいTeamsに追加できない場合がある不具合を修正しました。
-  * グループ化された線グラフで、ホバーマーカーが表示されないことがある不具合を修正しました。
-  * Report パネルの**Import**ドロップダウンに無効なプロジェクト名が表示されることがある不具合を修正しました。
-  * run selector 内のフィルターの配置ずれに関する表示上の不具合を修正しました。
-  * Timestamp の **Within Last** フィルター追加時にページがクラッシュする問題を修正
-  * グローバルの折れ線グラフ設定で、X軸を **Wall Time** に設定できないことがある不具合を修正しました。
-  * 表にログした際に、画像キャプションが表示されなくなることがある不具合を修正しました。
-  * スパースメトリクスがパネルに表示されない場合がある不具合を修正しました。
-  * **Run Overview** ページでは、**Description** フィールドの名称が **メモ** に変更されました。
 </Update>

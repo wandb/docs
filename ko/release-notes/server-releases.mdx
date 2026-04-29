@@ -5,7 +5,7 @@ sidebarTitle: "지원되는 릴리스"
 rss: true
 ---
 
-import EolReminder from "/snippets/ko/_includes/release-notes-support-eol-reminder.mdx"
+import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-reminder.mdx';
 
 이 페이지에는 지원되는 W&amp;B Server 릴리스의 릴리스 노트가 포함되어 있습니다.
 
@@ -13,6 +13,92 @@ import EolReminder from "/snippets/ko/_includes/release-notes-support-eol-remind
 * W&amp;B Server 릴리스 일정 및 지원에 관한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참조하세요.
 
 <EolReminder />
+
+<Update label="v0.80.0" description="2026년 4월 28일">
+  **2026년 4월 28일**
+
+  W&amp;B 0.80.0에는 실험을 효율적으로 관찰하고 분석하는 데 도움이 되는 새로운 기능, 버그 수정 및 보안 개선 사항이 포함되어 있습니다. 업데이트된 홈 페이지에서 조직 전반의 최근 활동을 보고, 검색하고, 필터링할 수 있습니다. run 지표의 z-점수 기반 자동화와 미디어 나란히 비교 기능이 정식 출시(generally available)되었습니다. 테이블 패널, 평행 좌표 플롯, 산점도도 개선되었습니다. 아티팩트 리니지 그래프 상호작용 및 공유가 더욱 효율적으로 개선되었습니다. 엔터프라이즈 배포의 프로비저닝 간소화를 위해 SCIM API에서 이제 Models 시트 및 Weave 역할 관리를 지원합니다.
+
+  ## 지원 및 서비스 종료
+
+  * W&amp;B Server v0.68의 지원이 종료되었습니다.
+
+  [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참고하세요. 도움이 필요하거나 문의 사항이 있으면 [지원팀](mailto:support@wandb.com)에 문의하세요.
+
+  ## 특성
+
+  * 미디어 패널용 [Compare mode](/ko/models/app/features/panels/media#compare-mode)를 이제 정식으로 사용할 수 있습니다. Compare mode를 사용하면 파일을 다운로드하거나 탭을 전환하지 않고도 Runs, step 또는 인덱스를 자유롭게 조합해 이미지나 비디오 2~4개를 선택하고 하나의 그리드에서 볼 수 있습니다.
+
+    <Frame>
+      ![미디어 패널 Compare mode 그리드](/images/release-notes/v0-80-0/media-compare-mode.png)
+    </Frame>
+
+  * W&amp;B App의 홈 페이지가 개선되었습니다.
+
+    * 본인과 동료의 최근 활동을 확인하고, 검색하거나 필터링할 수 있습니다.
+    * 홈 페이지에서 최근 Reports에 직접 액세스할 수 있습니다.
+    * 별표 표시한 Projects는 더 이상 홈 페이지에 표시되지 않지만, Projects 페이지 상단과 왼쪽 내비게이션에는 표시됩니다.
+
+    <Frame>
+      ![최근 활동이 표시된 홈페이지](/images/release-notes/v0-80-0/home-page-improved.png)
+    </Frame>
+
+  * 새 메서드 `run.pin_config_keys()`를 사용하면 선택한 설정 키를 run의 Overview tab 상단에 프로그래밍 방식으로 고정할 수 있습니다. 고정된 키는 **Notes** 위의 새 **References** 섹션에 표시되며, 여기에서 하이퍼파라미터, 외부 링크, 식별자 등 run의 가장 중요한 세부 정보를 한눈에 확인할 수 있습니다. 고정한 각 키는 해당 값과 함께 개별적으로 표시되며, 링크는 클릭할 수 있습니다. [W&amp;B SDK v0.26.0](/ko/release-notes/sdk-releases#0-26-0)+ 이상이 필요합니다.
+
+    <Frame>
+      ![References 섹션에 고정된 설정 키](/images/release-notes/v0-80-0/pin-config-keys-references.png)
+    </Frame>
+
+  * 메트릭의 z-score를 기준으로 자동화를 트리거하는 기능이 정식으로 제공됩니다. z-score는 프로젝트에서 설정 가능한 run 범위 전반에 걸쳐 해당 메트릭의 평균으로부터 값이 몇 표준편차만큼 벗어나 있는지를 나타냅니다. 자세한 내용은 [Automation events and scopes](/ko/models/automations/automation-events#run-metrics-z-score-change)를 참조하세요.
+
+  * Runs 목록에서 run에 마우스를 올리면 이제 병렬 좌표 플롯에서 해당 선이 강조 표시됩니다.
+
+  * 산점도는 현재까지의 가장 높은 Y축 값과 가장 낮은 Y축 값을 잇는 선인 프런티어 라인과 관련된 새로운 표시 옵션을 지원합니다. 이러한 옵션은 플롯 설정의 **Annotations** 탭에서 구성하세요.
+    * **run 라벨 표시**: 필요에 따라 run 이름 또는 그룹 이름이 포함된 라벨을 표시합니다.
+    * **프런티어가 아닌 포인트 흐리게 표시**: 필요에 따라 프런티어가 아닌 포인트를 덜 두드러지게 표시합니다.
+
+  * 이제 table 패널에서 오디오를 다운로드하는 동안에도 재생할 수 있습니다.
+
+  * 수동으로 추가한 맞춤형 패널의 위치 재정의 설정은 이제 다시 로드해도 유지됩니다.
+
+  * W&amp;B App에서 deployment의 현재 버전에 대한 릴리스 노트에 액세스하세요. 상단 내비게이션에서 **?**를 클릭해 **Resources &amp; Help** 메뉴를 연 다음, **Release Notes**를 클릭하세요.
+
+  * 개선된 리니지 DAG 내비게이션: 이제 아티팩트 유형과 업스트림/다운스트림 홉을 기준으로 리니지를 필터링할 수 있습니다. 필터링되거나 숨겨진 노드는 이제 플레이스홀더로 계속 표시되므로, 필터를 반복해서 조정하는 동안에도 그래프 구조를 더 쉽게 파악할 수 있습니다.
+
+  * URL로 아티팩트의 리니지 뷰를 공유하면 이제 받는 사람도 필터, 숨겨진 노드, 수동 위치, 뷰포트, 확대/축소 수준을 포함한 동일한 그래프 설정을 그대로 볼 수 있습니다.
+
+  ### Weave
+
+  * **Project overview** 페이지의 새로운 **Scorer dashboard** 뷰에서는 스코어러별 통과/실패 비율과 히스토그램 분포, 필터링할 수 있는 예시 목록, 그리고 예시별 세부 정보와 trial별 점수를 보여줍니다.
+    ![Scorer 대시보드 비디오 데모](/images/release-notes/v0-80-0/weave_scorer_dashboards.gif)
+  * **Monitors** 페이지의 시간 구간별 **Feedback** 및 **Score** 차트에는 모니터별로 필터링된 숫자 추세와 불리언 값 개수가 표시됩니다.
+  * 이제 Playground에서 Evaluation 결과 스트리밍을 지원합니다. Evaluation Playground에서 Evaluation을 실행하면 모델당 하나의 열이 있는 compare 뷰가 즉시 표시됩니다. 각 열에는 해당 모델의 Evaluation이 성공적으로 완료되면 실제 데이터가 표시되고, 아직 실행 중이면 스켈레톤이 표시되며, Evaluation이 실패한 경우에는 실패 상태가 표시됩니다. 결과는 모든 Evaluation이 끝날 때까지 기다리지 않고 각 Evaluation이 완료되는 대로 스트리밍됩니다. 진행률 표시줄은 call별 status를 폴링해 업데이트됩니다.
+  * 추천 분류기 Card를 사용해 **Monitors** 페이지에서 분류기 모니터를 생성하고 관리하세요.
+  * **Monitors** 페이지에서 시그널 프롬프트를 바로 편집하세요. 톱니바퀴 아이콘을 클릭한 다음 시그널의 연필 아이콘을 클릭하세요.
+  * **Calls** 테이블에서 이제 사용자 ID가 사용자 이름으로 표시됩니다.
+
+  ## 보안
+
+  * [SCIM](/ko/platform/hosting/iam/automate_iam)을 사용해 Models 시트 또는 Weave 역할을 부여하세요.
+  * [감사 로그를 가져올 때](/ko/platform/hosting/monitoring-usage/audit-logging#fetch-audit-logs) `startDate` 파라미터는 가져올 가장 최신 로그를 제어합니다.
+  * 조직 관리자는 `graphql-disable-introspection` 설정 옵션이나 환경 변수 `GORILLA_GRAPHQL_DISABLE_INTROSPECTION`를 사용해 GraphQL 인트로스펙션을 비활성화할 수 있습니다. [W&amp;B SDK v0.26.0](/ko/release-notes/sdk-releases#0-26-0)+ 이상이 필요합니다.
+  * SQL을 생성할 때 특정 구조화된 run 필터가 일관되게 이스케이프되지 않던 버그를 수정했습니다. 이로 인해 악의적인 필터 형태가 권한이 있는 클라이언트가 표현할 수 있어야 하는 범위를 넘어 쿼리 생성에 영향을 줄 수 있었습니다. 이제 필터 처리에는 다른 곳에서 사용하는 것과 동일한 컬럼 이스케이프가 적용되므로 필터 키로 쿼리 구조를 변경할 수 없습니다.
+  * 특정한 경우, Sweeps에 연결된 run-큐 오퍼레이션과 직접적인 큐 삭제가 호출자가 의도한 범위를 벗어난 큐 또는 큐 항목에 영향을 줄 수 있던 버그를 수정했습니다. 이제 권한 확인은 Sweeps에서 큐에 추가하거나 큐 항목을 삭제하기 전에 큐 액세스 권한과 항목 소유권을 검증합니다.
+  * run 메타데이터 키 제안이 검증되지 않은 사용자 입력을 데이터베이스 쿼리에 반영할 수 있던 버그를 수정했습니다. 이제 키 경로를 제한해 안전하고 예상된 컬럼 레퍼런스만 제안 처리 경로에 사용되도록 했습니다.
+  * 서비스 계정 생성 API가 호출자가 관리하는 팀과 일치하지 않는 조직 식별자를 허용해, 서로 맞지 않는 조직 연결이 발생할 수 있었던 버그를 수정했습니다. 이제 서버는 일치하지 않는 조직 입력을 거부하고, entity의 실제 조직을 기준으로 조직 멤버십을 결정합니다.
+  * 큐에서 항목을 꺼낼 때 이름만을 기준으로 큐를 내부 “public” Launch 큐로 처리할 수 있었던 반면, 큐에 넣을 때는 더 엄격한 검사를 사용했고, 푸시 시 호출자가 제공한 작업 작성자가 그대로 적용될 수 있었던 버그를 수정했습니다. 이제 디큐는 인큐와 동일한 public 큐 검증을 사용하며, 작업 작성자는 인증된 사용자와 일치하도록 맞춰져 스푸핑된 큐나 위조된 작성자로 인해 내부 자격 증명 주입이 트리거되지 않도록 했습니다.
+  * trace server가 공급자 설정을 로드할 때 맞춤형 LLM 공급자 설정이 허용되지 않은 호스트를 대상으로 하거나 안전하지 않은 HTTP 헤더를 포함할 수 있던 버그를 수정했습니다. 이제 기본 URL과 헤더를 검증하므로 공급자가 민감한 메타데이터 유형의 엔드포인트를 가리키거나 차단된 헤더 패턴을 포함하지 못합니다.
+  * 역직렬화 중 메모리 내 트레이스 아티팩트에 제공된 파일 경로가 의도된 임시 작업 공간을 벗어날 수 있던 버그를 수정했습니다. 이제 경로를 안전하게 정제하여 아티팩트 파일이 예상된 디렉터리 레이아웃 내에만 저장되도록 합니다.
+  * 평가 작업 중 evaluate-model 워커가 안전하지 않은 맞춤형 직렬화 페이로드를 처리할 수 있던 버그를 수정했습니다. 이제 이러한 페이로드는 역직렬화 전에 거부되며, 평가 스택의 다른 보안 강화 경로와 일관되게 처리됩니다.
+
+  ## Fixes
+
+  * 이제 테이블 패널은 기본적으로 summary 테이블로 표시되며, 테이블이 여러 step에 걸쳐 로깅된 경우 stepper 뷰로 전환할 수 있는 버튼이 제공됩니다. 이를 통해 테이블 패널이 있는 Workspace의 로드 시간이 개선되고, 재개된 run의 이력을 볼 때 발생하던 비호환성도 완화됩니다.
+  * 스윕 테이블에서 500개가 넘는 스윕을 로드하지 못하던 버그를 수정했습니다.
+  * 이제 열 편집기에서 열에 마우스를 올리면 전용 **Show/Hide** 버튼이 표시됩니다.
+  * 이제 Runs를 검색하면 퍼지 검색에 run ID(`run.name`의 값)도 포함됩니다.
+  * 테이블 패널에서 오디오 로딩 성능이 개선되었습니다.
+</Update>
 
 <Update label="v0.79.2" description="2026년 4월 10일">
   ## 수정 사항
@@ -50,15 +136,16 @@ import EolReminder from "/snippets/ko/_includes/release-notes-support-eol-remind
     * UI 컨트롤 또는 키보드 단축키를 사용해 확대 수준을 설정하거나, 100%로 재설정하거나, 화면에 맞게 확대할 수 있습니다.
     * 확대된 상태에서는 클릭하여 드래그하면 이미지를 이동할 수 있습니다.
 
-    <Frame>![전체 화면 이미지 모달의 이동 및 확대/축소 컨트롤](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)</Frame>
-
+    <Frame>
+      ![전체 화면 이미지 모달의 이동 및 확대/축소 컨트롤](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
+    </Frame>
   * 고정된 run과 baseline run의 경우 [summary metric deltas](/ko/models/runs/compare-runs#summary-metric-deltas)에 각 run이 baseline과 비교해 어떻게 다른지 표시됩니다. 빠르게 시각적으로 확인할 수 있도록 의미 기반 색상을 사용하려면 열의 Metric directionality를 설정하면 됩니다. 이 기능은 이제 정식 제공됩니다.
-    <Frame>![baseline과 비교한 runs table의 summary metric deltas](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)</Frame>
-
+    <Frame>
+      ![baseline과 비교한 runs table의 summary metric deltas](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
+    </Frame>
   * run selector와 Runs 목록이 개선되었습니다:
     * Git 커밋으로 필터링하는 기능이 추가되었습니다.
     * 설정 매개변수를 지정한 run에 대해 `CONTAINS` Operator 지원이 추가되었습니다.
-
   * 데이터베이스 부하를 줄이기 위해 프로젝트 필드에 방어적 캐싱이 추가되었습니다.
 
   ### 레지스트리
@@ -90,7 +177,7 @@ import EolReminder from "/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 수정 사항
 
-  권한이 없는 사용자가 아티팩트에 액세스할 수 있게 하는, 이전에 해결된 치명적인 보안 수정 사항의 회귀를 수정했습니다. 이 회귀는 v0.78.0 및 v0.78.1에 존재합니다. 이 버전들은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 v0.78.2를 설치하세요.
+  이전의 중요 보안 수정에서 다시 발생한 문제를 수정했습니다. 이 문제로 인해 아티팩트에 대한 무단 액세스가 허용될 수 있습니다. 이 회귀는 v0.78.0 및 v0.78.1에 존재합니다. 이러한 버전을 설치하거나 이 버전으로 업그레이드하지 마세요. 대신 이 수정이 포함된 v0.78.2를 설치하세요.
 </Update>
 
 <Update label="v0.78.1" description="2026년 3월 5일">
@@ -832,75 +919,4 @@ import EolReminder from "/snippets/ko/_includes/release-notes-support-eol-remind
   * 레거시 모델 레지스트리 컬렉션 URL을 수정했습니다.
   * 페이지에서 사용 가능한 모든 공간을 채우도록 Netron 뷰어가 확장되지 않던 버그를 수정했습니다.
   * 이제 프로젝트에서 **Delete**를 클릭하면 확인 모달에 프로젝트 이름이 표시됩니다.
-</Update>
-
-<Update label="v0.68.2" description="2025년 5월 7일">
-  ## 수정 사항
-
-  * 이제 `Run.create()`로 run을 생성할 때 `state` 매개변수를 `pending` 또는 `running`으로 설정해 run의 초기 상태를 지정할 수 있습니다.
-  * **작업 이력**을 클릭하면 **버전** 뷰가 잘못 로드되던 버그를 수정했습니다.
-  * Parquet store 서비스의 메모리 효율을 개선했습니다.
-</Update>
-
-<Update label="v0.68.1" description="2025년 5월 2일">
-  ## 수정 사항
-
-  * 미디어 패널에서 미디어가 로드되지 않을 수 있게 하던 v0.68.0의 버그를 수정했습니다.
-</Update>
-
-<Update label="v0.68.0" description="2025년 4월 29일">
-  <Note>
-    v0.68.0에는 미디어 패널에서 미디어가 로드되지 않을 수 있는 버그가 포함되어 있었으며, 이 문제는 [v0.68.1](#0_68_1)에서 수정되었습니다. 이 버그를 피하려면 수정 사항이 포함된 패치를 설치하거나 해당 버전으로 업그레이드하세요. 도움이 필요하면 [지원팀](mailto:support@wandb.com)에 문의하세요.
-  </Note>
-
-  ## 특성
-
-  * 레지스트리 관리자는 개발 파이프라인의 주요 단계를 나타내는 [*보호된 별칭*](/ko/models/registry/aliases#protected-aliases)을 정의하고 지정할 수 있습니다. 보호된 별칭은 레지스트리 관리자만 지정할 수 있습니다. W&amp;B는 다른 사용자가 API 또는 UI를 통해 레지스트리의 버전에 보호된 별칭을 추가하거나 제거하지 못하도록 차단합니다.
-  * 이제 run의 `x_label` 값을 기준으로 콘솔 로그를 필터링할 수 있습니다. [분산 트레이닝](/ko/models/track/log/distributed-training/#track-all-processes-to-a-single-run) 중에는 이 선택 매개변수로 해당 run을 로깅한 노드를 추적할 수 있습니다.
-  * 이제 `Groups` 간에 run을 개별적으로 또는 일괄 이동할 수 있습니다. 또한 이제 최초 logging 이후에도 새 `Groups`를 만들 수 있습니다.
-  * 선형 플롯은 이제 **동기화 확대/축소** 모드를 지원합니다. 이 모드에서는 하나의 플롯에서 특정 범위로 확대/축소하면 공통 x-axis를 사용하는 다른 모든 선형 플롯도 자동으로 같은 범위로 확대/축소됩니다. 이 기능은 [선형 플롯의 Workspace display settings](/ko/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)에서 켤 수 있습니다.
-  * 선형 플롯은 이제 커스텀 메트릭을 타임스탬프 형식으로 표시할 수 있습니다. 이는 다른 시스템에서 run을 동기화하거나 업로드할 때 유용합니다.
-  * 이제 `epoch`나 `train/global_step`(또는 그 밖의 다른 값)처럼 `_step`이 아닌 필드를 사용해 [미디어 패널](/ko/models/app/features/panels/media)을 넘겨 보며 탐색할 수 있습니다.
-  * `runs` 또는 `runs.history` 표현식을 사용하는 [Query Panels](/ko/models/app/features/panels/query-panels)의 Tables 및 플롯에서는 step 슬라이더를 사용해 run 전반에 걸쳐 메트릭, 텍스트 또는 미디어의 변화를 step 단위로 확인할 수 있습니다. 이 슬라이더는 `_step`이 아닌 메트릭도 step 단위로 탐색할 수 있도록 지원합니다.
-  * 이제 글꼴 크기 조절로 [막대 차트](/ko/models/app/features/panels/bar-plot) 레이블을 사용자 지정할 수 있습니다.
-
-  ### 비공개 미리보기
-
-  비공개 미리보기 기능은 초대받은 사용자만 이용할 수 있습니다. 비공개 미리보기 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
-
-  * **개인 워크스페이스 템플릿**을 사용하면 워크스페이스 설정을 저장해 새 [projects](/ko/models/track/project-page)에 자동으로 적용할 수 있습니다. 초기에는 기본 X축 지표, 스무딩 알고리즘, 스무딩 계수와 같은 일부 선형 플롯 설정을 구성할 수 있습니다.
-  * **개선된 지수 가중 이동 평균(EMA) 스무딩**은 완전한 비집계 데이터에 적용할 때 더 신뢰할 수 있는 [평활화된 선](/ko/models/app/features/panels/line-plot/smoothing)을 제공합니다. 대부분의 경우 성능 향상을 위해 스무딩은 백엔드에서 처리됩니다.
-
-  ### Weave
-
-  * W&amp;B 인스턴스 내에서 파인튜닝된 모델과 채팅할 수 있습니다. [플레이그라운드](/ko/weave/guides/tools/playground)는 이제 Dedicated Cloud에서 지원됩니다. 플레이그라운드는 과거 트레이스를 바탕으로 여러 LLM을 비교할 수 있는 채팅 인터페이스입니다. 관리자는 다양한 모델 제공업체에 API 키를 추가하거나 [맞춤형 호스팅 LLM 제공업체](/ko/weave/guides/tools/playground/#add-a-custom-provider)를 연결해 팀이 Weave 내에서 이들과 상호작용할 수 있도록 할 수 있습니다.
-  * OpenTelemetry 지원. 이제 OpenTelemetry(OTel)를 통해 트레이스를 기록할 수 있습니다. [OpenTelemetry 트레이싱](/ko/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)을 참조하세요.
-  * Weave [트레이싱](/ko/weave/guides/tracking)에 새로운 프레임워크 인테그레이션이 추가되었습니다: CrewAI, OpenAI의 Agent SDK, DSPy 2.x, Google의 genai Python SDK.
-  * 플레이그라운드에서 새로운 [OpenAI 모델](/ko/weave/guides/tools/playground/#openai)을 지원합니다: GPT‑4.1, GPT‑4.1 mini, GPT‑4.1 nano.
-  * 트레이스에서 직접 레이블된 데이터셋을 만들고, 어노테이션은 자동으로 데이터셋 열로 변환됩니다. [트레이스에서 데이터셋 생성](/ko/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui)을 참조하세요.
-
-  ## 보안
-
-  * 이제 레지스트리 관리자는 레지스트리에서 [service account](/ko/platform/hosting/iam/service-accounts)를 레지스트리 관리자 또는 Member로 지정할 수 있습니다. 이전에는 service account의 역할이 항상 레지스트리 관리자였습니다. 자세한 내용은 [레지스트리 service account 설정](/ko/models/registry/configure_registry)을 참조하세요.
-
-  ## Performance
-
-  * 많은 Workspace 상호작용의 성능이 개선되었으며, 특히 대규모 Workspace에서 더욱 그렇습니다. 예를 들어, section을 펼치거나 run selector를 사용할 때 응답성이 크게 향상되었습니다.
-  * Fork 및 Rewind의 성능이 개선되었습니다.
-
-    run을 [포크](/ko/models/runs/forking)하면 기존 run과 동일한 설정을 사용하는 새 run이 생성됩니다. 포크된 run의 변경 사항은 부모 run에 영향을 주지 않으며, 반대의 경우도 마찬가지입니다. 포크된 run과 부모 run 사이의 포인터는 유지됩니다. run을 [되돌리기](/ko/models/runs/rewind)하면 기존 데이터를 잃지 않고 해당 시점부터 새 데이터를 기록할 수 있습니다.
-
-    중첩된 포크가 많은 프로젝트에서는 캐싱이 개선되어 이제 새 run을 포크하는 작업이 훨씬 더 효율적입니다.
-
-  ## Fixes
-
-  * 조직 서비스 계정을 새 Teams에 추가하지 못하게 할 수 있던 버그를 수정했습니다.
-  * 그룹화된 선에서 호버 표시가 누락될 수 있는 버그를 수정했습니다.
-  * Report 패널의 **Import** 드롭다운에 유효하지 않은 프로젝트 이름이 포함될 수 있던 버그를 수정했습니다.
-  * run selector의 필터 정렬이 잘못 표시되던 버그를 수정했습니다.
-  * 타임스탬프 **최근 기간 내** 필터를 추가할 때 발생하던 페이지 충돌 문제를 수정했습니다
-  * 전역 선형 플롯 설정에서 X축을 **Wall Time**으로 설정하지 못할 수 있는 버그를 수정했습니다.
-  * Table에 로깅할 때 이미지 캡션이 표시되지 않을 수 있는 문제를 수정했습니다.
-  * 패널에 희소 메트릭이 표시되지 않을 수 있던 버그를 수정했습니다.
-  * **Run Overview** 페이지에서 **설명** 필드 이름이 이제 **Notes**로 변경되었습니다.
 </Update>
