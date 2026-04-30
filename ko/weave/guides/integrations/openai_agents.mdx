@@ -69,7 +69,7 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
 
     ## 설치
 
-    `npm`을 사용해 필요한 의존성을 설치합니다:
+    `npm`을 사용해 필요한 의존성을 설치합니다. Weave의 TypeScript 인테그레이션을 사용하려면 `@openai/agents` 버전 `0.4.15` 이상이 필요합니다:
 
     ```bash
     npm install weave @openai/agents zod
@@ -87,7 +87,7 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
 
     프로젝트 설정에 도움이 필요하거나 현재 사용 중인 유형을 확인해야 한다면, [TypeScript SDK: 서드파티 인테그레이션 가이드](/ko/weave/guides/integrations/js)를 참조하세요.
 
-    다음 코드 예제는 OpenAI Agent를 생성하고 추적할 수 있도록 Weave와 통합합니다. Weave 프로젝트 초기화의 `your-team-name/your-project-name`을 자신의 entity와 프로젝트로 바꾸세요. 이 예제는 샘플 날씨 보고서를 반환하는 `get_weather` 도구를 정의한 다음, 기본 지침과 날씨 도구에 대한 액세스 권한이 있는 `Hello world`라는 이름의 agent를 설정합니다. `main` 함수는 샘플 입력(`What's the weather in Tokyo?`)으로 agent를 실행하고 최종 응답을 로그에 기록합니다.
+    다음 코드 예제는 OpenAI Agent를 생성하고 추적할 수 있도록 Weave와 통합합니다. Weave 프로젝트 초기화의 `your-team-name/your-project-name`을 자신의 entity와 프로젝트로 바꾸세요. 이 예제는 샘플 날씨 보고서를 반환하는 `get_weather` 도구를 정의한 다음, 기본 지침과 날씨 도구에 대한 액세스 권한이 있는 `Hello world`라는 이름의 에이전트를 설정합니다. `main` 함수는 샘플 입력(`What's the weather in Tokyo?`)으로 에이전트를 실행하고 최종 응답을 로그에 기록합니다.
 
     ```typescript lines
     import * as weave from "weave";
@@ -143,7 +143,7 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
     await weave.instrumentOpenAIAgents();
     ```
 
-    맞춤형 프로세서 설정이나 조건부 등록처럼 Tracing 프로세서를 완전히 제어해야 하는 경우에는, 수동으로 하나를 생성하고 등록하세요:
+    맞춤형 프로세서 설정이나 조건부 등록처럼 트레이싱 프로세서를 완전히 제어해야 하는 경우에는, 수동으로 하나를 생성하고 등록하세요:
 
     ```typescript lines
     import { addTraceProcessor } from "@openai/agents";

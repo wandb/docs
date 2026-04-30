@@ -21,11 +21,11 @@ title: 외부 파일 추적
   ## 외부 버킷에서 아티팩트 추적하기
 </div>
 
-W&amp;B Python SDK를 사용해 W&amp;B 외부에 저장된 파일에 대한 참조를 추적합니다.
+W&amp;B Python SDK를 사용해 W&amp;B 외부에 저장된 파일에 대한 레퍼런스를 추적합니다.
 
 1. `wandb.init()`로 run을 초기화합니다.
 2. `wandb.Artifact()`로 아티팩트 객체를 생성합니다.
-3. 아티팩트 객체의 `wandb.Artifact.add_reference()` 방법을 사용해 버킷 경로에 대한 참조를 지정합니다.
+3. 아티팩트 객체의 `wandb.Artifact.add_reference()` 방법을 사용해 버킷 경로에 대한 레퍼런스를 지정합니다.
 4. `run.log_artifact()`로 아티팩트의 메타데이터를 기록합니다.
 
 ```python
@@ -34,13 +34,13 @@ import wandb
 # W&B run 초기화
 with wandb.init(project="my-project") as run:
 
-  # artifact 객체 생성
+  # 아티팩트 객체 생성
   artifact = wandb.Artifact(name="name", type="type")
 
-  # bucket 경로에 레퍼런스 추가
+  # 버킷 경로에 대한 레퍼런스 추가
   artifact.add_reference(uri = "uri/to/your/bucket/path")
 
-  # artifact 메타데이터 로그
+  # 아티팩트의 메타데이터 기록
   run.log_artifact(artifact)
 ```
 
@@ -62,7 +62,7 @@ s3://my-bucket
 3. `wandb.Artifact.add_reference()`를 호출할 때 `datasets/mnist/` 디렉터리 경로를 Amazon S3 URI(`s3://my-bucket/datasets/mnist/`)로 지정합니다.
 4. `run.log_artifact()`로 아티팩트를 기록합니다.
 
-다음 코드 샘플은 참조 아티팩트 `mnist:latest`를 생성합니다:
+다음 코드 샘플은 레퍼런스 아티팩트 `mnist:latest`를 생성합니다:
 
 ```python
 import wandb
@@ -73,15 +73,14 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-W&amp;B App에서는 파일 브라우저를 사용해 참조 아티팩트의 내용을 살펴보고, [전체 종속성 그래프를 탐색](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/)하며, 아티팩트의 버전별 이력을 검토할 수 있습니다. 데이터 자체는 아티팩트에 포함되어 있지 않으므로 W&amp;B App은 이미지, 오디오 등의 리치 미디어를 렌더링하지 않습니다.
+W&amp;B App에서는 파일 브라우저를 사용해 레퍼런스 아티팩트의 내용을 살펴보고, [전체 종속성 그래프를 탐색](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/)하며, 아티팩트의 버전별 이력을 검토할 수 있습니다. 데이터 자체는 아티팩트에 포함되어 있지 않으므로 W&amp;B App은 이미지, 오디오 등의 리치 미디어를 렌더링하지 않습니다.
 
 <Note>
-  W&amp;B Artifacts는 CoreWeave Storage 및 MinIO를 포함한 모든 Amazon S3 호환 인터페이스를 지원합니다. 아래에 설명된 스크립트는 `AWS_S3_ENDPOINT_URL` 환경 변수가 CoreWeave Storage 또는 MinIO 서버를 가리키도록 설정하면 두 제공업체 모두에서 별도 수정 없이 그대로 작동합니다.
+  W&amp;B Artifacts는 CoreWeave Storage 및 MinIO를 포함한 모든 Amazon S3 호환 인터페이스를 지원합니다. 아래에 설명된 스크립트는 `AWS_S3_ENDPOINT_URL`
+  환경 변수가 CoreWeave Storage 또는 MinIO 서버를 가리키도록 설정하면 두 제공업체 모두에서 별도 수정 없이 그대로 작동합니다.
 </Note>
 
-<Warning>
-  기본적으로 W&amp;B는 객체 접두사를 추가할 때 객체 수를 10,000개로 제한합니다. `wandb.Artifact.add_reference()`를 호출할 때 `max_objects=`를 지정하면 이 제한을 조정할 수 있습니다.
-</Warning>
+<Warning>기본적으로 W&amp;B는 객체 접두사를 추가할 때 객체 수를 10,000개로 제한합니다. `wandb.Artifact.add_reference()`를 호출할 때 `max_objects=`를 지정하면 이 제한을 조정할 수 있습니다.</Warning>
 
 <div id="download-an-artifact-from-an-external-bucket">
   ## 외부 버킷에서 아티팩트 다운로드
@@ -111,7 +110,7 @@ with wandb.init(project="my-project") as run:
   ## 버킷에서 external을 추가하고 다운로드하기
 </div>
 
-다음 코드 예제는 Amazon S3 버킷에 데이터셋을 업로드하고, 레퍼런스 artifact로 추적한 다음, 이를 다운로드합니다:
+다음 코드 예제는 Amazon S3 버킷에 데이터셋을 업로드하고, 참조 아티팩트로 추적한 다음, 이를 다운로드합니다:
 
 ```python
 import boto3
@@ -123,13 +122,13 @@ with wandb.init() as run:
   s3_client = boto3.client("s3")
   s3_client.upload_file(file_name="my_model.h5", bucket="my-bucket", object_name="models/cnn/my_model.h5")
 
-  # 모델 artifact 로깅
+  # 모델 아티팩트 로그
   model_artifact = wandb.Artifact("cnn", type="model")
   model_artifact.add_reference("s3://my-bucket/models/cnn/")
   run.log_artifact(model_artifact)
 ```
 
-나중에 모델 artifact를 다운로드할 수 있습니다. artifact의 이름과 유형을 지정하세요:
+나중에 모델 아티팩트를 다운로드할 수 있습니다. 아티팩트의 이름과 유형을 지정하세요:
 
 ```python
 import wandb
@@ -190,19 +189,19 @@ import wandb
 # run 초기화
 with wandb.init(entity="<entity>", project="<project>") as run:
 
-  # artifact 객체 생성
+  # 아티팩트 객체 생성
   artifact = wandb.Artifact(name="<name>", type="<type>")
 
-  # 파일시스템 경로에 대한 레퍼런스 추가
+  # 파일 시스템 경로에 대한 레퍼런스 추가
   artifact.add_reference("file:///path/to/dataset/")
 
-  # artifact 로그 (메타데이터만)
+  # 아티팩트 기록 (메타데이터만)
   run.log_artifact(artifact)
 ```
 
-URL에 슬래시가 세 개 있다는 점에 유의하세요. 첫 번째 컴포넌트는 파일시스템 레퍼런스를 사용함을 나타내는 `file://` 접두사입니다. 두 번째 컴포넌트는 파일시스템의 루트 `/`입니다. 나머지 컴포넌트는 추적하려는 디렉터리 또는 파일의 경로입니다.
+URL에 슬래시가 세 개 있다는 점에 유의하세요. 첫 번째 컴포넌트는 파일 시스템 레퍼런스를 사용함을 나타내는 `file://` 접두사입니다. 두 번째 컴포넌트는 파일 시스템의 루트 `/`입니다. 나머지 컴포넌트는 추적하려는 디렉터리 또는 파일의 경로입니다.
 
-예를 들어, `/mount`에 다음과 같은 구조로 파일시스템이 마운트되어 있다고 가정해 보겠습니다.
+예를 들어, `/mount`에 다음과 같은 구조로 파일 시스템이 마운트되어 있다고 가정해 보겠습니다.
 
 ```text
 mount
@@ -240,13 +239,13 @@ with wandb.init() as run:
 
   # 모델을 디스크에 저장
 
-  # artifact 객체 생성
+  # 아티팩트 객체 생성
   model_artifact = wandb.Artifact("cnn", type="model")
 
   # 모델 파일 경로에 대한 레퍼런스 추가
   model_artifact.add_reference("file:///mount/cnn/my_model.h5")
 
-  # W&B에 artifact 로그
+  # W&B에 아티팩트 기록
   run.log_artifact(model_artifact)
 ```
 
@@ -254,11 +253,11 @@ with wandb.init() as run:
   ## 외부 파일 시스템에서 아티팩트 다운로드하기
 </div>
 
-참조된 파일 시스템의 파일은 비참조 아티팩트와 동일한 API를 사용해 다운로드할 수 있습니다:
+레퍼런스된 파일 시스템의 파일은 비레퍼런스 아티팩트와 동일한 API를 사용해 다운로드할 수 있습니다:
 
 1. `wandb.init()`으로 run을 초기화합니다.
 2. 다운로드하려는 아티팩트를 지정하려면 `wandb.Run.use_artifact()`를 사용합니다.
-3. 참조된 파일 시스템에서 파일을 다운로드하려면 아티팩트의 `wandb.Artifact.download()`를 call합니다.
+3. 레퍼런스된 파일 시스템에서 파일을 다운로드하려면 아티팩트의 `wandb.Artifact.download()`를 call합니다.
 
 ```python
 with wandb.init() as run:
@@ -269,17 +268,17 @@ with wandb.init() as run:
 W&amp;B는 `/mount/datasets/mnist`의 내용을 `artifacts/mnist:v0/` 디렉터리로 복사합니다.
 
 <Info>
-  `Artifact.download()`는 artifact를 재구성할 수 없으면 오류를 발생시킵니다. 예를 들어 artifact에 덮어쓴 파일에 대한 참조가 포함되어 있으면 더 이상 artifact를 재구성할 수 없으므로 `Artifact.download()`에서 오류가 발생합니다.
+  `Artifact.download()`는 아티팩트를 재구성할 수 없으면 오류를 발생시킵니다. 예를 들어 아티팩트에 덮어쓴 파일에 대한 레퍼런스가 포함되어 있으면 더 이상 아티팩트를 재구성할 수 없으므로 `Artifact.download()`에서 오류가 발생합니다.
 </Info>
 
-{/* ### run 외부에서 artifact 기록
+{/* ### run 외부에서 아티팩트 기록
 
-  W&B는 run 외부에서 artifact를 기록하면 run을 생성합니다. 각 artifact는 하나의 run에 속하고, 각 run은 다시 하나의 프로젝트에 속합니다. artifact(버전)도 하나의 컬렉션에 속하며, 유형을 가집니다.
+  W&B는 run 외부에서 아티팩트를 기록하면 run을 생성합니다. 각 아티팩트는 하나의 run에 속하고, 각 run은 다시 하나의 프로젝트에 속합니다. 아티팩트(버전)도 하나의 컬렉션에 속하며, 유형을 가집니다.
 
-  W&B run 외부에서 W&B Server에 artifact를 업로드하려면 [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put) 명령어를 사용하세요. artifact가 속할 프로젝트 이름과 artifact 이름(`project/artifact_name`)을 함께 지정하세요. 필요에 따라 유형(`TYPE`)도 지정할 수 있습니다. 아래 코드 스니펫의 `PATH`를 업로드하려는 artifact의 파일 경로로 바꾸세요.
+  W&B run 외부에서 W&B Server에 아티팩트를 업로드하려면 [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put) 명령어를 사용하세요. 아티팩트가 속할 프로젝트 이름과 아티팩트 이름(`project/artifact_name`)을 함께 지정하세요. 필요에 따라 유형(`TYPE`)도 지정할 수 있습니다. 아래 코드 스니펫의 `PATH`를 업로드하려는 아티팩트의 파일 경로로 바꾸세요.
 
   ```bash
   $ wandb artifact put --name project/artifact_name --type TYPE PATH
   ```
 
-  지정한 프로젝트가 없으면 W&B가 새 프로젝트를 생성합니다. artifact를 다운로드하는 방법은 [artifact 다운로드 및 사용](/models/artifacts/download-and-use-an-artifact)을 참조하세요. */}
+  지정한 프로젝트가 없으면 W&B가 새 프로젝트를 생성합니다. 아티팩트를 다운로드하는 방법은 [아티팩트 다운로드 및 사용](/models/artifacts/download-and-use-an-artifact)을 참조하세요. */}

@@ -2030,28 +2030,6 @@
             "title": "Request Id",
             "description": "이 요청과 관련된 request_id입니다. 호출자가 이를 설정하지 않으면 random_uuid가 생성됩니다. 이 ID는 Inference 과정 전반에서 사용되며 Response에 반환됩니다."
           },
-          "logits_processors": {
-            "anyOf": [
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "$ref": "#/components/schemas/LogitsProcessorConstructor"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logits Processors",
-            "description": "샘플링 시 적용할 logits processor의 정규화된 이름 목록 또는 생성자 객체 목록입니다. 생성자는 processor 클래스/팩토리의 정규화된 이름을 지정하는 필수 'qualname' 필드와, 위치 인수 및 키워드 인수를 담는 선택적 'args' 및 'kwargs' 필드를 포함하는 JSON 객체입니다. 예: {'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}."
-          },
           "return_tokens_as_token_ids": {
             "anyOf": [
               {
@@ -2141,6 +2119,17 @@
             ],
             "title": "Vllm Xargs",
             "description": "맞춤형 확장에서 사용하는 추가 요청 매개변수로, 문자열 값 또는 숫자 값(또는 그 목록)을 받습니다."
+          },
+          "repetition_detection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RepetitionDetectionParams"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "출력 토큰에서 반복되는 N-gram 패턴을 감지하기 위한 매개변수입니다. 이러한 반복이 감지되면 생성이 조기에 종료됩니다. LLM은 때때로 반복적이고 유용하지 않은 토큰 패턴을 생성하며, 최대 출력 길이에 도달할 때까지 멈추지 않을 수 있습니다(예: 'abcdabcdabcd...' 또는 '\\emoji \\emoji \\emoji ...'). 이 기능은 이러한 동작을 감지해 조기에 종료함으로써 시간과 토큰을 절약합니다."
           }
         },
         "additionalProperties": true,
@@ -2458,7 +2447,7 @@
             "default": "function"
           },
           "function": {
-            "$ref": "#/components/schemas/vllm__entrypoints__openai__engine__protocol__FunctionDefinition"
+            "$ref": "#/components/schemas/FunctionDefinition"
           }
         },
         "additionalProperties": true,
@@ -2591,17 +2580,6 @@
               }
             ],
             "title": "Reasoning"
-          },
-          "reasoning_content": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reasoning Content"
           }
         },
         "additionalProperties": true,
@@ -3342,6 +3320,43 @@
         ],
         "title": "FunctionCall"
       },
+      "FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -3584,44 +3599,6 @@
         ],
         "title": "LogRequest",
         "description": "trajectory 로깅용 스키마입니다."
-      },
-      "LogitsProcessorConstructor": {
-        "properties": {
-          "qualname": {
-            "type": "string",
-            "title": "Qualname"
-          },
-          "args": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Args"
-          },
-          "kwargs": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Kwargs"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "qualname"
-        ],
-        "title": "LogitsProcessorConstructor"
       },
       "Logprob": {
         "properties": {
@@ -3912,6 +3889,28 @@
         "additionalProperties": true,
         "type": "object",
         "title": "PromptTokenUsageInfo"
+      },
+      "RepetitionDetectionParams": {
+        "properties": {
+          "max_pattern_size": {
+            "type": "integer",
+            "title": "Max Pattern Size",
+            "default": 0
+          },
+          "min_pattern_size": {
+            "type": "integer",
+            "title": "Min Pattern Size",
+            "default": 0
+          },
+          "min_count": {
+            "type": "integer",
+            "title": "Min Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "RepetitionDetectionParams",
+        "description": "출력 토큰에서 반복되는 N-gram 패턴을 감지하기 위한 매개변수입니다."
       },
       "ResponseFormat": {
         "properties": {
@@ -4489,13 +4488,6 @@
           "type": {
             "type": "string",
             "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
           }
         },
         "type": "object",
@@ -4545,43 +4537,6 @@
               }
             ],
             "title": "Strict"
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "FunctionDefinition"
-      },
-      "vllm__entrypoints__openai__engine__protocol__FunctionDefinition": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "parameters": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parameters"
           }
         },
         "additionalProperties": true,

@@ -13,15 +13,15 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 프로그래밍 방식으로 W&amp;B Workspace API를 사용하기 위한 Python 라이브러리입니다.
 
 ```python
-# 임포트하는 방법
+# 임포트 방법
 import wandb_workspaces.workspaces as ws
 import wandb_workspaces.reports.v2 as wr
 
-# Workspace 생성 예시
+# 워크스페이스 생성 예시
 ws.Workspace(
      name="Example W&B Workspace",
-     entity="entity", # workspace를 소유하는 entity
-     project="project", # workspace와 연결된 프로젝트
+     entity="entity", # 워크스페이스를 소유하는 entity
+     project="project", # 워크스페이스와 연결된 프로젝트
      sections=[
          ws.Section(
              name="Validation Metrics",
@@ -36,7 +36,6 @@ ws.Workspace(
 )
 workspace.save()
 ```
-
 
 ## <kbd>class</kbd> `RunSettings`
 
@@ -86,7 +85,6 @@ Workspace에서 runset(run이 표시되는 왼쪽 바)에 대한 설정입니다
 ```
 
 ***
-
 
 ### <kbd>메서드</kbd> `convert_filterexpr_list_to_string`
 
@@ -243,4 +241,4 @@ save_as_new_view()
 * `max_runs` (int):  패널별로 표시할 최대 run 수입니다(runset의 처음 10개 run이 표시됨).
 * `point_visualization_method` (Literal[&quot;line&quot;, &quot;point&quot;, &quot;line&#95;point&quot;]):  포인트의 시각화 방법입니다.
 * `panel_search_query` (str):  패널 검색 바의 쿼리입니다(regex 표현식일 수 있음).
-* `auto_expand_panel_search_results` (bool):  패널 검색 결과를 자동으로 확장할지 여부입니다.
+* `auto_expand_panel_search_results` (bool):  패널 검색 결과를 자동으로 확장할지 여부입니다。
