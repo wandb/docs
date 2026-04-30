@@ -1,44 +1,185 @@
 ---
 title: NewAutomation
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.automations
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
 
 
-## <kbd>class</kbd> `NewAutomation`
+```python
+*,
+name: Optional[str] = None,
+description: Optional[str] = None,
+enabled: Optional[bool] = None,
+event: Optional[Annotated[Union[wandb.automations.events.OnLinkArtifact, wandb.automations.events.OnAddArtifactAlias, wandb.automations.events.OnCreateArtifact, wandb.automations.events.OnRunMetric, wandb.automations.events.OnRunState], FieldInfo(annotation=NoneType, required=True, discriminator='event_type')]] = None,
+action: Optional[Annotated[Union[wandb.automations.actions.SendNotification, wandb.automations.actions.SendWebhook, wandb.automations.actions.DoNothing], BeforeValidator(func=<function parse_input_action at 0x108b82840>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
+```
+
+## Description
+
 A new automation to be created.
 
 
-### <kbd>method</kbd> `NewAutomation.__init__`
 
-```python
-__init__(
-    name: 'str | None' = None,
-    description: 'str | None' = None,
-    enabled: 'bool | None' = None,
-    event: 'Annotated | None' = None,
-    action: 'Annotated | None' = None
-) → None
-```
+## Args:
 
-**Args:**
- 
- - `name` (Optional[str]): The name of this automation.
- - `description` (Optional[str]): An optional description of this automation.
- - `enabled` (Optional[bool]): Whether this automation is enabled.  Only enabled automations will trigger.
- - `event` (Optional[Annotated]): The event that will trigger this automation.
- - `action` (Optional[Annotated]): The action that will execute when this automation is triggered.
+- **name**: 
+- **description**: 
+- **enabled**: 
+- **event**: 
+- **action**: 
 
-**Returns:**
- An `NewAutomation` object.
 
-### <kbd>property</kbd> `NewAutomation.scope`
+## Properties:
+
+### scope
 
 The scope in which the triggering event must occur.
 
-**Returns:**
- - `Optional[AutomationScope]`: The scope property value.
+
+
+## Methods:
+
+### construct
+
+
+
+### copy
+
+Returns a copy of the model.
+
+!!! warning "Deprecated"
+    This method is now deprecated; use `model_copy` instead.
+
+If you need `include` or `exclude`, use:
+
+```python {test="skip" lint="skip"}
+data = self.model_dump(include=include, exclude=exclude, round_trip=True)
+data = {**data, **(update or {})}
+copied = self.model_validate(data)
+```
+
+### dict
+
+
+
+### from_orm
+
+
+
+### json
+
+
+
+### model_construct
+
+Creates a new instance of the `Model` class with validated data.
+
+Creates a new model setting `__dict__` and `__pydantic_fields_set__` from trusted or pre-validated data.
+Default values are respected, but no other validation is performed.
+
+!!! note
+    `model_construct()` generally respects the `model_config.extra` setting on the provided model.
+    That is, if `model_config.extra == 'allow'`, then all extra passed values are added to the model instance's `__dict__`
+    and `__pydantic_extra__` fields. If `model_config.extra == 'ignore'` (the default), then all extra passed values are ignored.
+    Because no validation is performed with a call to `model_construct()`, having `model_config.extra == 'forbid'` does not result in
+    an error if extra values are passed, but they will be ignored.
+
+### model_copy
+
+!!! abstract "Usage Documentation"
+    [`model_copy`](../concepts/serialization.md#model_copy)
+
+Returns a copy of the model.
+
+!!! note
+    The underlying instance's [`__dict__`][object.__dict__] attribute is copied. This
+    might have unexpected side effects if you store anything in it, on top of the model
+    fields (e.g. the value of [cached properties][functools.cached_property]).
+
+### model_dump
+
+!!! abstract "Usage Documentation"
+    [`model_dump`](../concepts/serialization.md#modelmodel_dump)
+
+Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
+
+### model_dump_json
+
+!!! abstract "Usage Documentation"
+    [`model_dump_json`](../concepts/serialization.md#modelmodel_dump_json)
+
+Generates a JSON representation of the model using Pydantic's `to_json` method.
+
+### model_json_schema
+
+Generates a JSON schema for a model class.
+
+### model_parametrized_name
+
+Compute the class name for parametrizations of generic classes.
+
+This method can be overridden to achieve a custom naming scheme for generic BaseModels.
+
+### model_post_init
+
+Override this method to perform additional initialization after `__init__` and `model_construct`.
+This is useful if you want to do some validation that requires the entire model to be initialized.
+
+### model_rebuild
+
+Try to rebuild the pydantic-core schema for the model.
+
+This may be necessary when one of the annotations is a ForwardRef which could not be resolved during
+the initial attempt to build the schema, and automatic rebuilding fails.
+
+### model_validate
+
+Validate a pydantic model instance.
+
+### model_validate_json
+
+!!! abstract "Usage Documentation"
+    [JSON Parsing](../concepts/json.md#json-parsing)
+
+Validate the given JSON data against the Pydantic model.
+
+### model_validate_strings
+
+Validate the given object with string data against the Pydantic model.
+
+### parse_file
+
+
+
+### parse_obj
+
+
+
+### parse_raw
+
+
+
+### schema
+
+
+
+### schema_json
+
+
+
+### update_forward_refs
+
+
+
+### validate
+
+
+
+
+

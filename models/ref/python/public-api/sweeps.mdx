@@ -1,66 +1,56 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L54" />
 
 
 
 
-## <kbd>class</kbd> `Sweeps`
-A lazy iterator over a collection of `Sweep` objects. 
 
+## Description
 
+A lazy iterator over a collection of `Sweep` objects.
 
-**Examples:**
- ```python
+## Examples:
+
+```python
 from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
 # Iterate over sweeps and print details
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
-``` 
-
-### <kbd>method</kbd> `Sweeps.__init__`
-
-```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
 ```
 
-An iterable collection of `Sweep` objects. 
+## Args:
 
-
-
-**Args:**
- 
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the sweeps. 
- - `project`:  The project which contains the sweeps. 
- - `per_page`:  The number of sweeps to fetch per request to the API. 
-
-
----
-
-
-### <kbd>property</kbd> Sweeps.length
+- **client**: The API client used to query W&B.
+- **entity**: The entity which owns the sweeps.
+- **project**: The project which contains the sweeps.
+- **per_page**: The number of sweeps to fetch per request to the API.
 
 
 
 
+## Methods:
 
----
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
+
 
 

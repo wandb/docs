@@ -1,54 +1,51 @@
 ---
 title: Artifacts
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
-
-
-
-## <kbd>class</kbd> `Artifacts`
-An iterable collection of artifact versions associated with a project. 
-
-Optionally pass in filters to narrow down the results based on specific criteria. 
-
-
-
-**Args:**
- 
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifacts. 
- - `collection_name`:  The name of the artifact collection to query. 
- - `type`:  The type of the artifacts to query. Common examples include  "dataset" or "model". 
- - `filters`:  Optional mapping of filters to apply to the query. 
- - `order`:  Optional string to specify the order of the results. 
- - `per_page`:  The number of artifact versions to fetch per page. Default is 50. 
- - `tags`:  Optional string or list of strings to filter artifacts by tags. 
-
-
-### <kbd>property</kbd> Artifacts.cursor
-
-An opaque cursor that marks the start of the next page to fetch. 
-
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
-
-
-
-**Returns:**
- - `str | None`: The cursor property value.
----
-
-### <kbd>property</kbd> Artifacts.more
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L845" />
 
 
 
 
 
+## Description
+
+An iterable collection of artifact versions associated with a project.
+
+Optionally pass in filters to narrow down the results based on specific criteria.
 
 
----
+
+## Args:
+
+- **client**: The client instance to use for querying W&B.
+- **entity**: The entity  that owns the project.
+- **project**: The name of the project to query for artifacts.
+- **collection_name**: The name of the artifact collection to query.
+- **type**: The type of the artifacts to query. Common examples include "dataset" or "model".
+- **filters**: Optional mapping of filters to apply to the query.
+- **order**: Optional string to specify the order of the results.
+- **per_page**: The number of artifact versions to fetch per page. Default is 50.
+- **tags**: Optional string or list of strings to filter artifacts by tags.
+- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+
+
+
+
+## Methods:
+
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
+
+
 

@@ -1,54 +1,99 @@
 ---
 title: Object3D
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.object_3d
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L242" />
 
 
-
-
-## <kbd>class</kbd> `Object3D`
-W&B class for 3D point clouds. 
-
-### <kbd>method</kbd> `Object3D.__init__`
 
 ```python
-__init__(
-    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
-    caption: 'str | None' = None,
-    **kwargs: 'str | FileFormat3D | None'
-) → None
+data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-Creates a W&B Object3D object. 
+## Description
+
+W&B class for 3D point clouds.
 
 
 
-**Args:**
- 
- - `data_or_path`:  Object3D can be initialized from a file or a numpy array. 
- - `caption`:  Caption associated with the object for display. 
+## Args:
 
-
-
-**Examples:**
- The shape of the numpy array must be one of either 
-
-```text
-[[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
-``` 
+- **data_or_path**: 
+- **caption**: 
+- **kwargs**: 
 
 
 
 
----
+## Methods:
+
+### bind_to_run
+
+Bind this object to a particular Run.
+
+Calling this function is necessary so that we have somewhere specific to put the
+file associated with this object, from which other Runs can refer to it.
+
+### captions
 
 
+
+### file_is_set
+
+
+
+### from_file
+
+Initializes Object3D from a file or stream.
+
+### from_json
+
+Likely will need to override for any more complicated media objects.
+
+### from_numpy
+
+Initializes Object3D from a numpy array.
+
+### from_point_cloud
+
+Initializes Object3D from a python object.
+
+### init_from_json
+
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+### is_bound
+
+
+
+### path_is_reference
+
+
+
+### to_data_array
+
+Convert the object to a list of primitives representing the underlying data.
+
+### type_mapping
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+### with_suffix
+
+Get the name with the appropriate suffix.
 
 
 

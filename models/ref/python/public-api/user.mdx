@@ -1,106 +1,83 @@
 ---
 title: User
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.users
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
 
-
-
-
-## <kbd>class</kbd> `User`
-A user on a W&B instance. 
-
-This allows managing a user's API keys and accessing information like team memberships. The `create` class method can be used to create a new user. 
-
-
-
-**Args:**
- 
- - `client`:  The GraphQL client to use for network operations. 
- - `attrs`:  A subset of the User type in the GraphQL schema. 
-
-
-### <kbd>property</kbd> User.api_keys
-
-Names of the user's API keys. 
-
-This property returns the names of the API keys, *not* the secret associated with the key. The name of the key cannot be used as an API key.
-
-The list is empty if the user has no API keys or if API keys have not been loaded. 
-
-
-
-**Returns:**
- - `list[str]`: The api_keys property value.
----
-
-### <kbd>property</kbd> User.teams
-
-Names of the user's teams. 
-
-This is an empty list if the user has no team memberships or if teams data was not loaded. 
-
-
-
-**Returns:**
- - `list[str]`: The teams property value.
----
-
-### <kbd>property</kbd> User.user_api
-
-A `wandb.Api` instance using the user's credentials. 
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L25" />
 
 
 
 
 
-**Returns:**
- - `Api | None`: The user_api property value.
----
+## Description
 
+A user on a W&B instance.
 
-### <kbd>method</kbd> `User.delete_api_key`
-
-```python
-delete_api_key(api_key: 'str') → bool
-```
-
-Delete a user's API key. 
-
-Only the owner of the key or an admin can delete it. 
+This allows managing a user's API keys and accessing information like
+team memberships. The `create` class method can be used to create a new
+user.
 
 
 
-**Args:**
- 
- - `api_key`:  The name of the API key to delete. Use one of  the names returned by the `api_keys` property. 
+## Args:
+
+- **client**: The GraphQL client to use for network operations.
+- **attrs**: A subset of the User type in the GraphQL schema.
+- **api_key**: An optional API key for the user, used to create a `wandb.Api` instance for the user. This is required for some operations, such as generating new API keys for the user.
+
+
+## Properties:
+
+### user_api
+
+A `wandb.Api` instance using the user's credentials.
+
+### api_keys
+
+Names of the user's API keys.
+
+This property returns the names of the the API keys, *not* the secret
+associated with the key. The name of the key cannot be used as an API
+key.
+
+The list is empty if the user has no API keys or if API keys have not
+been loaded.
+
+### teams
+
+Names of the user's teams.
+
+This is an empty list if the user has no team memberships or if teams
+data was not loaded.
 
 
 
-**Returns:**
- True on success, false on failure. 
+## Methods:
 
----
+### create
 
-### <kbd>method</kbd> `User.generate_api_key`
+Create a new user.
 
-```python
-generate_api_key(description: 'str | None' = None) → str | None
-```
+This is an internal method. Use the `create_user()` method of
+`wandb.Api` instead.
 
-Generate a new API key. 
+### delete_api_key
+
+Delete a user's API key.
+
+Only the owner of the key or an admin can delete it.
+
+### display
+
+Display this object in jupyter.
+
+### generate_api_key
+
+Generate a new API key.
 
 
-
-**Args:**
- 
- - `description`:  A description for the new API key. This can be  used to identify the purpose of the API key. 
-
-
-
-**Returns:**
- The generated API key (the full secret, not just the name), or None on failure. 
 

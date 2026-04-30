@@ -1,182 +1,100 @@
 ---
 title: ArtifactCollection
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L489" />
 
 
 
-## <kbd>class</kbd> `ArtifactCollection`
-An artifact collection that represents a group of related artifacts. 
 
 
+## Description
 
-**Args:**
- 
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact collections. 
- - `name`:  The name of the artifact collection. 
- - `type`:  The type of the artifact collection (e.g., "dataset", "model"). 
- - `organization`:  Optional organization name if applicable. 
- - `attrs`:  Optional mapping of attributes to initialize the artifact collection.  If not provided, the object will load its attributes from W&B upon  initialization. 
+An artifact collection that represents a group of related artifacts.
 
 
-### <kbd>property</kbd> ArtifactCollection.aliases
 
-The aliases for all artifact versions contained in this collection. 
+## Args:
 
+- **client**: The client instance to use for querying W&B.
+- **entity**: The entity that owns the project.
+- **project**: The name of the project to query for artifact collections.
+- **name**: The name of the artifact collection.
+- **type**: The type of the artifact collection (e.g., "dataset", "model").
+- **organization**: Optional organization name if applicable.
+- **attrs**: Optional mapping of attributes to initialize the artifact collection. If not provided, the object will load its attributes from W&B upon initialization.
 
 
-**Returns:**
- - `list[str]`: The aliases property value.
----
+## Properties:
 
-### <kbd>property</kbd> ArtifactCollection.created_at
+### id
 
-The creation date of the artifact collection. 
+The unique identifier of the artifact collection.
 
+### entity
 
+The entity that owns the project.
 
-**Returns:**
- - `str`: The created_at property value.
----
+### project
 
-### <kbd>property</kbd> ArtifactCollection.description
+The project that contains the artifact collection.
 
-A description of the artifact collection. 
+### aliases
 
+The aliases for all artifact versions contained in this collection.
 
+### created_at
 
-**Returns:**
- - `str | None`: The description property value.
----
+The creation date of the artifact collection.
 
-### <kbd>property</kbd> ArtifactCollection.entity
+### updated_at
 
-The entity (user or team) that owns the project. 
+The date at which the artifact collection was last updated.
 
+### description
 
+A description of the artifact collection.
 
-**Returns:**
- - `str`: The entity property value.
----
+### tags
 
-### <kbd>property</kbd> ArtifactCollection.id
+The tags associated with the artifact collection.
 
-The unique identifier of the artifact collection. 
+### name
 
+The name of the artifact collection.
 
+### type
 
-**Returns:**
- - `str`: The id property value.
----
+Returns the type of the artifact collection.
 
-### <kbd>property</kbd> ArtifactCollection.name
 
-The name of the artifact collection. 
 
+## Methods:
 
+### artifacts
 
-**Returns:**
- - `str`: The name property value.
----
+Get all artifacts in the collection.
 
-### <kbd>property</kbd> ArtifactCollection.project
+### change_type
 
-The project that contains the artifact collection. 
+Deprecated, change type directly with `save` instead.
 
+### delete
 
+Delete the entire artifact collection.
 
-**Returns:**
- - `str`: The project property value.
----
+### is_sequence
 
-### <kbd>property</kbd> ArtifactCollection.tags
+Return whether the artifact collection is a sequence.
 
-The tags associated with the artifact collection. 
+### save
 
+Persist any changes made to the artifact collection.
 
 
-**Returns:**
- - `list[str]`: The tags property value.
----
-
-### <kbd>property</kbd> ArtifactCollection.type
-
-Returns the type of the artifact collection. 
-
----
-
-### <kbd>property</kbd> ArtifactCollection.updated_at
-
-The date at which the artifact collection was last updated. 
-
-
-
-
-
-**Returns:**
- - `str | None`: The updated_at property value.
----
-
-### <kbd>method</kbd> `ArtifactCollection.artifacts`
-
-```python
-artifacts(per_page: 'int' = 50, start: 'str | None' = None) → Artifacts
-```
-
-Get all artifacts in the collection. 
-
-
-
-**Args:**
- 
- - `per_page`:  The number of artifacts to fetch per page. 
- - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
-
----
-
-### <kbd>method</kbd> `ArtifactCollection.change_type`
-
-```python
-change_type(new_type: 'str') → None
-```
-
-Deprecated, change type directly with `save` instead. 
-
----
-
-### <kbd>method</kbd> `ArtifactCollection.delete`
-
-```python
-delete() → None
-```
-
-Delete the entire artifact collection. 
-
----
-
-### <kbd>method</kbd> `ArtifactCollection.is_sequence`
-
-```python
-is_sequence() → bool
-```
-
-Return whether the artifact collection is a sequence. 
-
----
-
-
-### <kbd>method</kbd> `ArtifactCollection.save`
-
-```python
-save() → None
-```
-
-Persist any changes made to the artifact collection. 
 

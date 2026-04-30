@@ -1,36 +1,44 @@
 ---
 title: ArtifactTypes
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L116" />
 
 
 
 
-## <kbd>class</kbd> `ArtifactTypes`
-An lazy iterator of `ArtifactType` objects for a specific project. 
 
+## Description
 
-### <kbd>property</kbd> ArtifactTypes.cursor
-
-An opaque cursor that marks the start of the next page to fetch. 
-
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
+A lazy iterator of `ArtifactType` objects for a specific project.
 
 
 
-**Returns:**
- - `str | None`: The cursor property value.
----
+## Args:
 
-### <kbd>property</kbd> ArtifactTypes.more
+- **client**: The client instance to use for querying W&B.
+- **entity**: The entity that owns the project.
+- **project**: The name of the project to query for artifact types.
+- **per_page**: The number of artifact types to fetch per page. Defaults to 50.
+- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
 
+## Methods:
+
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
 
 
 

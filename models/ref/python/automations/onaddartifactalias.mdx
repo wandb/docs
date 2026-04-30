@@ -1,18 +1,29 @@
 ---
 title: OnAddArtifactAlias
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.events
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L257" />
 
 
 
-## <kbd>class</kbd> `OnAddArtifactAlias`
+```python
+*,
+event_type: Literal[ADD_ARTIFACT_ALIAS] = ADD_ARTIFACT_ALIAS,
+scope: Annotated[Union[wandb.automations.scopes._ArtifactSequenceScope, wandb.automations.scopes._ArtifactPortfolioScope, wandb.automations.scopes.ProjectScope], BeforeValidator(func=<function parse_scope at 0x108b82980>, json_schema_input_type=PydanticUndefined)],
+filter: Annotated[Union[wandb.automations._filters.operators.And, wandb.automations._filters.operators.Or, wandb.automations._filters.operators.Nor, wandb.automations._filters.operators.Not, wandb.automations._filters.operators.Lt, wandb.automations._filters.operators.Gt, wandb.automations._filters.operators.Lte, wandb.automations._filters.operators.Gte, wandb.automations._filters.operators.Eq, wandb.automations._filters.operators.Ne, wandb.automations._filters.operators.In, wandb.automations._filters.operators.NotIn, wandb.automations._filters.operators.Exists, wandb.automations._filters.operators.Regex, wandb.automations._filters.operators.Contains, wandb.automations._filters.expressions.FilterExpr, Dict[str, Any]], Json, BeforeValidator(func=<function ensure_json at 0x108cdcae0>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json at 0x106c66a20>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter at 0x108b82700>)] = And(())
+```
+
+## Description
+
 A new alias is assigned to an artifact.
 
-Examples:
+## Examples:
+
 Define an event that triggers whenever the alias "prod" is assigned to
 any artifact in the collection "my-collection":
 
@@ -29,22 +40,156 @@ event = OnAddArtifactAlias(
 )
 ```
 
+## Args:
 
-### <kbd>method</kbd> `OnAddArtifactAlias.__init__`
+- **event_type**: 
+- **scope**: 
+- **filter**: 
 
-```python
-__init__(
-    event_type: 'Literal[ADD_ARTIFACT_ALIAS]' = ADD_ARTIFACT_ALIAS,
-    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
-    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
-) → None
+
+
+
+## Methods:
+
+### construct
+
+
+
+### copy
+
+Returns a copy of the model.
+
+!!! warning "Deprecated"
+    This method is now deprecated; use `model_copy` instead.
+
+If you need `include` or `exclude`, use:
+
+```python {test="skip" lint="skip"}
+data = self.model_dump(include=include, exclude=exclude, round_trip=True)
+data = {**data, **(update or {})}
+copied = self.model_validate(data)
 ```
 
-**Args:**
- 
- - `event_type` (Literal[ADD_ARTIFACT_ALIAS]): 
- - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): The scope of the event.
- - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): Additional conditions(s), if any, that are required for this event to trigger.
+### dict
 
-**Returns:**
- An `OnAddArtifactAlias` object.
+
+
+### from_orm
+
+
+
+### json
+
+
+
+### model_construct
+
+Creates a new instance of the `Model` class with validated data.
+
+Creates a new model setting `__dict__` and `__pydantic_fields_set__` from trusted or pre-validated data.
+Default values are respected, but no other validation is performed.
+
+!!! note
+    `model_construct()` generally respects the `model_config.extra` setting on the provided model.
+    That is, if `model_config.extra == 'allow'`, then all extra passed values are added to the model instance's `__dict__`
+    and `__pydantic_extra__` fields. If `model_config.extra == 'ignore'` (the default), then all extra passed values are ignored.
+    Because no validation is performed with a call to `model_construct()`, having `model_config.extra == 'forbid'` does not result in
+    an error if extra values are passed, but they will be ignored.
+
+### model_copy
+
+!!! abstract "Usage Documentation"
+    [`model_copy`](../concepts/serialization.md#model_copy)
+
+Returns a copy of the model.
+
+!!! note
+    The underlying instance's [`__dict__`][object.__dict__] attribute is copied. This
+    might have unexpected side effects if you store anything in it, on top of the model
+    fields (e.g. the value of [cached properties][functools.cached_property]).
+
+### model_dump
+
+!!! abstract "Usage Documentation"
+    [`model_dump`](../concepts/serialization.md#modelmodel_dump)
+
+Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
+
+### model_dump_json
+
+!!! abstract "Usage Documentation"
+    [`model_dump_json`](../concepts/serialization.md#modelmodel_dump_json)
+
+Generates a JSON representation of the model using Pydantic's `to_json` method.
+
+### model_json_schema
+
+Generates a JSON schema for a model class.
+
+### model_parametrized_name
+
+Compute the class name for parametrizations of generic classes.
+
+This method can be overridden to achieve a custom naming scheme for generic BaseModels.
+
+### model_post_init
+
+Override this method to perform additional initialization after `__init__` and `model_construct`.
+This is useful if you want to do some validation that requires the entire model to be initialized.
+
+### model_rebuild
+
+Try to rebuild the pydantic-core schema for the model.
+
+This may be necessary when one of the annotations is a ForwardRef which could not be resolved during
+the initial attempt to build the schema, and automatic rebuilding fails.
+
+### model_validate
+
+Validate a pydantic model instance.
+
+### model_validate_json
+
+!!! abstract "Usage Documentation"
+    [JSON Parsing](../concepts/json.md#json-parsing)
+
+Validate the given JSON data against the Pydantic model.
+
+### model_validate_strings
+
+Validate the given object with string data against the Pydantic model.
+
+### parse_file
+
+
+
+### parse_obj
+
+
+
+### parse_raw
+
+
+
+### schema
+
+
+
+### schema_json
+
+
+
+### then
+
+Define a new Automation in which this event triggers the given action.
+
+### update_forward_refs
+
+
+
+### validate
+
+
+
+
+

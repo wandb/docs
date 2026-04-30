@@ -1,64 +1,81 @@
 ---
 title: Audio
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.audio
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
 
-
-
-## <kbd>class</kbd> `Audio`
-W&B class for audio clips. 
-
-### <kbd>method</kbd> `Audio.__init__`
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | list | np.ndarray',
-    sample_rate: 'int | None' = None,
-    caption: 'str | None' = None
-)
+(data_or_path: 'str | pathlib.Path | list | np.ndarray',
+sample_rate: 'int | None' = None,
+caption: 'str | None' = None)
 ```
 
-Accept a path to an audio file or a numpy array of audio data. 
+## Description
+
+W&B class for audio clips.
 
 
 
-**Args:**
- 
- - `data_or_path`:  A path to an audio file or a NumPy array of audio data. 
- - `sample_rate`:  Sample rate, required when passing in raw NumPy array of audio data. 
- - `caption`:  Caption to display with audio. 
+## Args:
+
+- **data_or_path**: 
+- **sample_rate**: 
+- **caption**: 
 
 
 
 
----
+## Methods:
+
+### durations
+
+Calculate the duration of the audio files.
+
+### file_is_set
 
 
 
-### <kbd>classmethod</kbd> `Audio.durations`
+### init_from_json
 
-```python
-durations(audio_list)
-```
+Initialize a `WBValue` from a JSON blob based on the class that created it.
 
-Calculate the duration of the audio files. 
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
 
----
+### is_bound
 
 
 
-### <kbd>classmethod</kbd> `Audio.sample_rates`
+### path_is_reference
 
-```python
-sample_rates(audio_list)
-```
 
-Get sample rates of the audio files. 
 
----
+### sample_rates
+
+Get sample rates of the audio files.
+
+### to_data_array
+
+Convert the object to a list of primitives representing the underlying data.
+
+### type_mapping
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+### with_suffix
+
+Get the name with the appropriate suffix.
+
+
 

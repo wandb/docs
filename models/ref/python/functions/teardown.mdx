@@ -1,23 +1,43 @@
 ---
-title: teardown()
-namespace: python_sdk_actions
-python_object_type: function
+title: teardown
+kind: function
+namespace: wandb.sdk.wandb_setup
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.11.10/lib/python3.11/contextlib.py#L574" />
 
 
-
-
-### <kbd>function</kbd> `teardown`
 
 ```python
-teardown(exit_code: 'int | None' = None) → None
+exit_code: 'int | None' = None
 ```
 
-Waits for W&B to finish and frees resources. 
+## Description
 
-Completes any runs that were not explicitly finished using `run.finish()` and waits for all data to be uploaded. 
+Waits for W&B to finish and frees resources.
 
-It is recommended to call this at the end of a session that used `wandb.setup()`. It is invoked automatically in an `atexit` hook, but this is not reliable in certain setups such as when using Python's `multiprocessing` module. 
+Completes any runs that were not explicitly finished
+using `run.finish()` and waits for all data to be uploaded.
+
+It is recommended to call this at the end of a session
+that used `wandb.setup()`. It is invoked automatically
+in an `atexit` hook, but this is not reliable in certain setups
+such as when using Python's `multiprocessing` module.
+
+## Args:
+
+- **exit_code**: 
+
+
+## Returns:
+
+- **return**: None
+
+
+
+
+
+

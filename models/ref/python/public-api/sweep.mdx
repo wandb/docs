@@ -1,190 +1,103 @@
 ---
 title: Sweep
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
 
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L192" />
 
 
 
-## <kbd>class</kbd> `Sweep`
-The set of runs associated with the sweep. 
 
 
+## Description
 
-**Attributes:**
- 
- - `runs` (Runs):  List of runs 
- - `id` (str):  Sweep ID 
- - `project` (str):  The name of the project the sweep belongs to 
- - `config` (dict):  Dictionary containing the sweep configuration 
- - `state` (str):  The state of the sweep. Can be "Finished", "Failed",  "Crashed", or "Running". 
- - `expected_run_count` (int):  The number of expected runs for the sweep 
+The set of runs associated with the sweep.
 
-### <kbd>method</kbd> `Sweep.__init__`
 
-```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
-```
 
+## Args:
 
+- **client**: The API client used to query W&B.
+- **entity**: The entity which owns the sweep.
+- **project**: The project which contains the sweep.
+- **sweep_id**: The unique identifier for the sweep.
+- **attrs**: The attributes of the sweep, typically obtained from a GraphQL response.
 
 
+## Properties:
 
+### entity
 
----
+The entity associated with the sweep.
 
-### <kbd>property</kbd> Sweep.config
+### username
 
-The sweep configuration used for the sweep. 
+Deprecated. Use `Sweep.entity` instead.
 
----
+### config
 
-### <kbd>property</kbd> Sweep.entity
+The sweep configuration used for the sweep.
 
-The entity associated with the sweep. 
+### order
 
+Return the order key for the sweep.
 
+### expected_run_count
 
-**Returns:**
- - `str`: The entity property value.
----
+Return the number of expected runs in the sweep or None for infinite runs.
 
-### <kbd>property</kbd> Sweep.expected_run_count
+### path
 
-Return the number of expected runs in the sweep or None for infinite runs. 
+Returns the path of the project.
 
+The path is a list containing the entity, project name, and sweep ID.
 
+### url
 
-**Returns:**
- - `int | None`: The expected_run_count property value.
----
+The URL of the sweep.
 
-### <kbd>property</kbd> Sweep.name
+The sweep URL is generated from the entity, project, the term
+"sweeps", and the sweep ID.run_id. For
+SaaS users, it takes the form
+of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
 
-The name of the sweep. 
+### name
 
-Returns the first name that exists in the following priority order: 
+The name of the sweep.
 
-1. User-edited display name 2. Name configured at creation time 3. Sweep ID 
+Returns the first name that exists in the following priority order:
 
----
+1. User-edited display name
+2. Name configured at creation time
+3. Sweep ID
 
-### <kbd>property</kbd> Sweep.order
 
-Return the order key for the sweep. 
 
----
+## Methods:
 
-### <kbd>property</kbd> Sweep.path
+### agent
 
-Returns the path of the project. 
+Query an agent by ID for this sweep.
 
-The path is a list containing the entity, project name, and sweep ID. 
+### agents
 
----
+Query the list of all agents for this sweep.
 
-### <kbd>property</kbd> Sweep.url
+### best_run
 
-The URL of the sweep. 
+Return the best run sorted by the metric defined in config or the order passed in.
 
-The sweep URL is generated from the entity, project, the term "sweeps", and the sweep ID.run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/sweeps/sweeps_ID`. 
+### display
 
----
+Display this object in jupyter.
 
-### <kbd>property</kbd> Sweep.username
+### get
 
-Deprecated. Use `Sweep.entity` instead. 
+Execute a query against the cloud backend.
 
 
-
-
-
-**Returns:**
- - `str`: The username property value.
----
-
-### <kbd>method</kbd> `Sweep.agent`
-
-```python
-agent(agent_id: 'str') → Agent
-```
-
-Query an agent by ID for this sweep. 
-
-
-
-**Args:**
- 
- - `agent_id`:  The ID of the agent to look up. 
-
----
-
-### <kbd>method</kbd> `Sweep.agents`
-
-```python
-agents() → list[Agent]
-```
-
-Query the list of all agents for this sweep. 
-
----
-
-### <kbd>method</kbd> `Sweep.best_run`
-
-```python
-best_run(order=None)
-```
-
-Return the best run sorted by the metric defined in config or the order passed in. 
-
----
-
-### <kbd>classmethod</kbd> `Sweep.get`
-
-```python
-get(
-    client: 'RetryingClient',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'Document | None' = None,
-    **kwargs
-)
-```
-
-Execute a query against the cloud backend. 
-
-
-
-**Args:**
- 
- - `client`:  The client to use to execute the query. 
- - `entity`:  The entity (username or team) that owns the project. 
- - `project`:  The name of the project to fetch sweep from. 
- - `sid`:  The sweep ID to query. 
- - `order`:  The order in which the sweep's runs are returned. 
- - `query`:  The query to use to execute the query. 
- - `**kwargs`:  Additional keyword arguments to pass to the query. 
-
----
-
-
-### <kbd>method</kbd> `Sweep.to_html`
-
-```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
-```
-
-Generate HTML containing an iframe displaying this sweep. 
 
