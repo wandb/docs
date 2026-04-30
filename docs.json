@@ -436,7 +436,8 @@
                             ]
                           },
                           "models/app/console-logs",
-                          "models/app/keyboard-shortcuts"
+                          "models/app/keyboard-shortcuts",
+                          "models/app/wandb_project_agent",
                         ]
                       }
                     ]
