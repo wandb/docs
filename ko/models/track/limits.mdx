@@ -113,24 +113,24 @@ throughput = logged points per minute
 throughput = logged points × log frequency
 ```
 
-<Warning>
-  다음 섹션은 W&amp;B Multi-tenant Cloud에 적용됩니다. 다른 W&amp;B 배포 유형을 사용하는 경우, 배포별 지침이나 제한 사항은 관리자에게 문의하세요.
-</Warning>
-
 <div id="recommendations-at-scale">
   ## 대규모 환경에서의 권장 사항
 </div>
 
+<Warning>
+  이 section에 설명된 권장 사항은 W&amp;B Multi-tenant Cloud에만 적용됩니다. 다른 W&amp;B 배포 유형을 사용하는 경우, 배포별 지침이나 limits는 관리자에게 확인하세요.
+</Warning>
+
 다음 표는 대규모 로깅에 권장되는 운영 범위를 요약한 것입니다.
 
-| Dimension          | Guidance at scale |
-| ------------------ | ----------------- |
-| 프로젝트당 Runs         | 10,000            |
-| run당 step 수        | 500,000           |
+| Dimension       | Guidance at scale |
+| --------------- | ----------------- |
+| 프로젝트당 Runs      | 10,000            |
+| run당 step 수     | 500,000           |
 | 프로젝트당 메트릭 카디널리티 | 100,000           |
-| 로그 빈도             | 분당 1,000행         |
-| 처리량                | 분당 100,000개 값     |
-| 비디오 처리량            | 분당 40 MB          |
+| 로그 빈도           | 분당 1,000행         |
+| 처리량             | 분당 100,000개 값     |
+| 비디오 처리량         | 분당 40 MB          |
 
 <Note>
   이 값은 대규모 환경에서 우수한 성능을 유지하기 위한 가이드라인입니다. W&amp;B는 이러한 권장 범위를 초과하는 데이터도 계속 수용할 수 있지만, 페이지 로드 및 사용 속도가 느려질 수 있습니다.
@@ -146,6 +146,10 @@ throughput = logged points × log frequency
   ### 스칼라 로깅 예시
 </div>
 
+<Warning>
+  표에 나열된 값은 W&amp;B Multi-tenant Cloud에만 적용됩니다. 다른 W&amp;B 배포 유형을 사용하는 경우, 배포별 지침이나 제한 사항은 관리자에게 문의하세요.
+</Warning>
+
 | 로그 호출당 메트릭 수 | 로그 빈도(분당 호출 수) | 처리량(분당 값 수) |
 | ------------ | -------------- | ----------- |
 | 100          | 1,000          | 100,000     |
@@ -156,6 +160,10 @@ throughput = logged points × log frequency
 <div id="video-logging-examples">
   ### 비디오 로깅 예시
 </div>
+
+<Warning>
+  표에 나열된 값은 W&amp;B Multi-tenant Cloud에만 적용됩니다. 다른 W&amp;B 배포 유형을 사용하는 경우, 해당 배포에 맞는 지침이나 제한 사항은 관리자에게 문의하세요.
+</Warning>
 
 | 비디오 크기 (MB) | 로그 빈도 (분당) | 비디오 처리량 (MB/분) |
 | ----------- | ---------- | -------------- |
