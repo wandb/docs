@@ -1,0 +1,183 @@
+---
+title: "Claude Code"
+description: "W&B Weave を使用すると、Claude Code セッションのトレースを自動的に取得し、詳しく確認できます。これには、会話の各ターン、ツール呼び出し、サブエージェントとのやり取りが含まれます。"
+---
+
+`weave-claude-plugin` は、[Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) のコマンドライン インターフェース (CLI) 向けプラグインで、Claude Code セッションからトレースを自動的に取得して W&amp;B Weave に送信します。会話の各ターン、ツール呼び出し、サブエージェントとのやり取りは、コードやワークフローを変更することなく、すべて記録されます。これは、エージェントの動作のデバッグ、セッション履歴の監査、チーム全体での Claude Code の使用状況の監視に役立ちます。
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+プラグインをインストールする前に、以下を用意していることを確認してください。
+
+* [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) がインストールされていること
+* [Node.js](https://nodejs.org/) と `npm` がインストールされていること
+* 有効なAPIキーを持つW&amp;Bアカウント。APIキーを取得するには、[API keys](/ja/platform/app/settings-page/user-settings#api-keys)を参照してください。
+
+<div id="wb-dedicated-cloud-and-self-managed-instances">
+  ## W&amp;B 専用クラウドおよびセルフマネージド インスタンス
+</div>
+
+組織で W&amp;B Dedicated Cloud または W&amp;B Self-Managed を使用している場合は、Claude Code を起動する前に、次のいずれかの方法でデプロイメントのベース URL を設定する必要があります。
+
+* `WANDB_BASE_URL` 環境変数に、デプロイメントのベース URL を設定します。
+
+```bash lines
+export WANDB_BASE_URL=https://your-instance.wandb.io
+```
+
+* `host` フラグを付けて `wandb login` コマンドを実行すると、ベース URL をセッションをまたいで保持できます。これにより、ホスト URL が `$HOME/.config/wandb/settings` に書き込まれ、環境変数を設定しなくても Weave クライアントが自動的に読み込みます。
+
+```bash lines
+wandb login --host https://your-instance.wandb.io
+```
+
+`WANDB_BASE_URL` または `host` フラグを、プラグインのデーモンの起動後に変更する必要がある場合は、変更を反映するためにデーモンを再起動してください。
+
+```bash lines
+printf '{"command":"shutdown"}' | nc -U -w1 ~/.weave_claude_plugin/daemon.sock
+```
+
+その後、Claude Code を再起動します。デーモンは更新後のベース URL で起動します。
+
+<div id="install-the-plugin">
+  ## プラグインをインストールする
+</div>
+
+CLI をグローバルにインストールし、その後インストーラーを一度実行します:
+
+```bash lines
+npm install -g weave-claude-plugin
+weave-claude-plugin install
+```
+
+インストーラーは `~/.weave_claude_plugin/settings.json` を作成し、Claude Code にプラグインを登録したうえで、Weave プロジェクト名と W&amp;B APIキーの入力を求めます。`install` を実行する前に、環境で `WEAVE_PROJECT` と `WANDB_API_KEY` がすでに設定されている場合、インストーラーはそれらを使用するため、プロンプトでこれらの値を入力する必要はありません。完了したら、Claude Code を起動または再起動してください。プラグインは Claude Code CLI の起動時にバックグラウンドデーモンを開始し、トレースを Weave に送信します。
+
+CI、ブートストラップスクリプト、またはプロンプトを表示してはいけないその他のオートメーションでは、`--non-interactive` フラグを設定してください。最初に環境変数を設定して、インストーラーが W&amp;B で認証し、Weave プロジェクトを設定できるようにしてから、インストーラーを実行します。インストーラーは引き続き同じ方法でプラグインを設定し、Claude Code を登録します。環境変数が設定されている場合はそれらを使用し、いずれかが不足している場合は警告を表示します。
+
+```bash lines
+export WEAVE_PROJECT=<your-team-name/your-project-name>
+export WANDB_API_KEY=<your-api-key>
+weave-claude-plugin install --non-interactive
+```
+
+`<your-team-name/your-project-name>` と `<your-api-key>` を、ご自身の値に置き換えてください。
+
+<div id="data-disclosure">
+  ## データの開示
+</div>
+
+このプラグインは、Claude Code のセッションデータを Weave に送信します。このデータには、次のような機密性の高い内容が含まれる場合があります。
+
+* ユーザーのプロンプトとモデルの応答
+* ツールへの入力とツールの出力
+* Claude Code のツールが読み取ったファイルパスとファイル内容
+* シェルコマンドとシェルの出力
+* 取得した URL と取得したページの内容
+
+セッション中に Claude Code がシークレット、認証情報、専有のソースコード、個人データ、またはその他の機密情報に触れた場合、その情報はトレースの一部として Weave にログされる可能性があります。
+
+<Note>
+  現在のプラグインでは、PII のスクラビングや機密データのマスキングは実装されていません。セキュリティ要件またはコンプライアンス要件上、この種のデータを Weave に送信できない場合は、プラグインをインストールまたは有効化しないでください。
+</Note>
+
+<div id="view-traces-in-weave">
+  ## Weave でトレースを表示する
+</div>
+
+プラグインをインストールして Claude Code を実行したら、Weave プロジェクト の Traces タブを開いてトレースを表示します。各 Claude Code セッションは最上位のトレースとして表示され、その子エントリとして個々のターンとツールの Call が含まれます。各トレースには、token 使用量、モデル名、ツールの入力と出力、タイミング、さらにプロンプトと応答に関連付けられたテキスト内容が含まれます。
+
+```text
+claude_code.session
+  └─ claude_code.turn                          (ユーザーメッセージごとに1つ。)
+       ├─ claude_code.tool.*                   (Read、Bash、Grep などの各ツール呼び出し。)
+       │    └─ claude_code.permission_request  (ユーザーの承認が必要な場合。)
+       └─ claude_code.subagent                 (Claude がサブエージェントを生成した場合。)
+            └─ claude_code.tool.*
+```
+
+<div id="check-status-and-logs">
+  ## ステータスとログを確認する
+</div>
+
+これらのコマンドを使用して、プラグインが実行中であることを確認し、問題のトラブルシューティングを行います。ステータスを確認して、デーモンがアクティブであり、Claude Code が登録されていることを確認してください。Weave にトレースが表示されない場合や、`status` に対応が必要と表示される場合は、ログを確認してください。
+
+ターミナルで、次を実行します。
+
+```bash lines
+weave-claude-plugin status
+```
+
+出力の各行には、次のいずれかのラベルが付きます。
+
+* OK: トレースに必要なものはすべて設定されており、正常に動作しています。
+* Action needed: 設定に問題があるか、必要なものが不足しています。詳細については、以下のようにデーモンのログを確認してください。
+* Not yet active: エラーではありません。プラグインはまだアクティビティを記録していません。Claude Code セッションを開始または継続し、少し待ってからコマンドを再実行してください。
+
+セッションが Weave に表示されない場合は、問題のデバッグに役立てるため、デーモンのログを確認できます。
+
+```bash lines
+weave-claude-plugin logs
+```
+
+リアルタイムでログを確認するには:
+
+```bash lines
+weave-claude-plugin logs --follow
+```
+
+`~/.weave_claude_plugin/logs/daemon.log` のログファイルを直接開くこともできます。
+
+<div id="skills-in-claude-code">
+  ## Claude Code のスキル
+</div>
+
+プラグインをインストールすると、以下のスキルをどの Claude Code セッションでもスラッシュコマンドとして使用できます。Claude Code に組み込まれているスキルとの競合を避けるため、以下のとおりスキル名には `weave:weave-*` を使用しています。
+
+<div id="weaveweave-install">
+  ### `/weave:weave-install`
+</div>
+
+インストールと設定をインタラクティブに案内します。新しいマシンで使用する場合や、セットアップの不具合を診断する場合に使ってください。Claude は CLI を確認し、インストーラーを実行して、不足している値の入力を促し、すべてが正しく動作することを検証します。
+
+```text
+/weave:weave-install
+```
+
+<div id="weaveweave-status">
+  ### `/weave:weave-status`
+</div>
+
+現在のプラグインのステータスを報告し、修正が必要な点を説明します。これは `weave-claude-plugin status` を実行するのと同等で、Claude がその出力を解釈してくれます。
+
+```text
+/weave:weave-status
+```
+
+<div id="weaveweave-config">
+  ### `/weave:weave-config`
+</div>
+
+Claude Codeを離れずに、プラグインの設定を確認または更新できます。
+
+```text
+# 現在の設定を表示します。
+/weave:weave-config
+
+# 値を直接設定します。
+/weave:weave-config set weave_project <your-team-name/your-project-name>
+/weave:weave-config set wandb_api_key <your-api-key>
+```
+
+<div id="uninstall">
+  ## アンインストール
+</div>
+
+プラグインとその設定を削除するには、次の手順を実行します。
+
+```bash lines
+weave-claude-plugin uninstall
+```
+
+これにより、設定ディレクトリが削除され、デーモンが停止されます。

@@ -107,7 +107,7 @@ examples = [
     {"id": "2", "sentence": sentences[2], "target": labels[2]},
 ]
 
-# 3. Définir une fonction de scoring pour votre évaluation
+# 3. Définir une fonction de score pour votre évaluation
 @weave.op()
 def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
@@ -116,7 +116,7 @@ def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     matches = any(tf in of for tf in target_flavors for of in output_flavors)
     return {"correct": matches}
 
-# 4. Lancer votre évaluation
+# 4. Exécuter votre évaluation
 evaluation = weave.Evaluation(
     name="fruit_eval",
     dataset=examples,
