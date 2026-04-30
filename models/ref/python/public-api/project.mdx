@@ -1,146 +1,73 @@
 ---
 title: Project
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L130" />
 
 
 
 
-## <kbd>class</kbd> `Project`
+
+## Description
+
 A project is a namespace for runs.
 
-### <kbd>method</kbd> `Project.__init__`
-
-```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    attrs: 'Mapping[str, Any]'
-) → Project
-```
-
-**Args:**
- 
- - `client`:  W&B API client instance. 
- - `name` (str):  The name of the project. 
- - `entity` (str):  The entity name that owns the project. 
 
 
-A single project associated with an entity. 
+## Args:
+
+- **client**: W&B API client instance.
+- **entity**: The entity name that owns the project.
+- **project**: The name of the project.
+- **attrs**: A dictionary of project attributes, typically obtained from a GraphQL response.
 
 
+## Properties:
 
-**Args:**
- 
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the project. 
- - `project`:  The name of the project to query. 
- - `attrs`:  The attributes of the project. 
+### owner
 
+Returns the project owner as a User object.
 
----
+Raises:
+    ValueError: when no user information is found for the project.
 
-### <kbd>property</kbd> Project.id
+### path
+
+Returns the path of the project. The path is a list containing the
+entity and project name.
+
+### url
+
+Returns the URL of the project.
+
+### id
+
+Returns the unique identifier of the project.
 
 
 
+## Methods:
+
+### artifacts_types
+
+Returns all artifact types associated with this project.
+
+### collections
+
+Returns all artifact collections associated with this project.
+
+### display
+
+Display this object in jupyter.
+
+### sweeps
+
+Return a paginated collection of sweeps in this project.
 
 
----
-
-### <kbd>property</kbd> Project.owner
-
-Returns the project owner as a User object. 
-
-
-
-**Raises:**
- 
- - `ValueError`:  when no user information is found for the project. 
-
-
-
-**Returns:**
- - `public.User`: The owner property value.
----
-
-### <kbd>property</kbd> Project.path
-
-Returns the path of the project. The path is a list containing the entity and project name. 
-
-
-
-**Returns:**
- - `list[str]`: The path property value.
----
-
-### <kbd>property</kbd> Project.url
-
-Returns the URL of the project. 
-
-
-
-
-
-**Returns:**
- - `str`: The url property value.
----
-
-### <kbd>method</kbd> `Project.artifacts_types`
-
-```python
-artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
-```
-
-Returns all artifact types associated with this project. 
-
----
-
-### <kbd>method</kbd> `Project.collections`
-
-```python
-collections(
-    filters: 'Mapping[str, Any] | None' = None,
-    order: 'str | None' = None,
-    per_page: 'int' = 50
-) → public.ProjectArtifactCollections
-```
-
-Returns all artifact collections associated with this project. 
-
-
-
-**Args:**
- 
- - `filters`:  Optional mapping of filters to apply to the query. 
- - `order`:  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending. 
- - `per_page`:  The number of artifact collections to fetch per page.  Default is 50. 
-
----
-
-### <kbd>method</kbd> `Project.sweeps`
-
-```python
-sweeps(per_page: 'int' = 50) → Sweeps
-```
-
-Return a paginated collection of sweeps in this project. 
-
-
-
-**Args:**
- 
- - `per_page`:  The number of sweeps to fetch per request to the API. 
-
-
-
-**Returns:**
- A `Sweeps` object, which is an iterable collection of `Sweep` objects. 
-
----
 

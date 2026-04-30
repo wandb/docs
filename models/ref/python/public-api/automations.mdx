@@ -1,13 +1,44 @@
 ---
 title: Automations
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.automations
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/automations.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/automations.py#L23" />
 
 
+
+
+
+## Description
+
+A lazy iterator of `Automation` objects.
+
+
+
+## Args:
+
+- **client**: The client instance to use for querying W&B.
+- **variables**: A mapping of variables to use in the GraphQL query.
+- **per_page**: The number of automations to fetch per page. Default is 50.
+- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- **_query**: 
+
+
+
+
+## Methods:
+
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
 
 
 

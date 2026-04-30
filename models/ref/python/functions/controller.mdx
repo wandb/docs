@@ -1,31 +1,43 @@
 ---
-title: controller()
-namespace: python_sdk_actions
-python_object_type: function
+title: controller
+kind: function
+namespace: wandb.sdk.wandb_sweep
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L99" />
 
 
-
-
-### <kbd>function</kbd> `controller`
 
 ```python
-controller(
-    sweep_id_or_config: 'str | dict | None' = None,
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-) → _WandbController
+sweep_id_or_config: 'str | dict | None' = None,
+entity: 'str | None' = None,
+project: 'str | None' = None
 ```
 
-Public sweep controller constructor. 
+## Description
+
+Public sweep controller constructor.
+
+## Args:
+
+- **sweep_id_or_config**: 
+- **entity**: 
+- **project**: 
+
+
+## Returns:
+
+- **return**: _WandbController
 
 
 
-**Examples:**
- ```python
+
+## Examples:
+
+```python
 import wandb
 
 tuner = wandb.controller(...)
@@ -33,4 +45,5 @@ print(tuner.sweep_config)
 print(tuner.sweep_id)
 tuner.configure_search(...)
 tuner.configure_stopping(...)
-``` 
+```
+

@@ -1,88 +1,54 @@
 ---
 title: ArtifactType
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
-
-
-
-## <kbd>class</kbd> `ArtifactType`
-An artifact object that satisfies query based on the specified type. 
-
-
-
-**Args:**
- 
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact types. 
- - `type_name`:  The name of the artifact type. 
- - `attrs`:  Optional attributes to initialize the ArtifactType.  If omitted, the object will load its attributes from W&B upon  initialization. 
-
-
-### <kbd>property</kbd> ArtifactType.id
-
-The unique identifier of the artifact type. 
-
-
-
-**Returns:**
- - `str`: The id property value.
----
-
-### <kbd>property</kbd> ArtifactType.name
-
-The name of the artifact type. 
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L174" />
 
 
 
 
 
-**Returns:**
- - `str`: The name property value.
----
+## Description
 
-### <kbd>method</kbd> `ArtifactType.collection`
-
-```python
-collection(name: 'str') → ArtifactCollection
-```
-
-Get a specific artifact collection by name. 
+An artifact object that satisfies query based on the specified type.
 
 
 
-**Args:**
- 
- - `name` (str):  The name of the artifact collection to retrieve. 
+## Args:
 
----
-
-### <kbd>method</kbd> `ArtifactType.collections`
-
-```python
-collections(
-    filters: 'Mapping[str, Any] | None' = None,
-    order: 'str | None' = None,
-    per_page: 'int' = 50,
-    start: 'str | None' = None
-) → ArtifactCollections
-```
-
-Get all artifact collections associated with this artifact type. 
+- **client**: The client instance to use for querying W&B.
+- **entity**: The entity that owns the project.
+- **project**: The name of the project to query for artifact types.
+- **type_name**: The name of the artifact type.
+- **attrs**: Optional attributes to initialize the ArtifactType. If omitted, the object will load its attributes from W&B upon initialization.
 
 
+## Properties:
 
-**Args:**
- 
- - `filters` (dict):  Optional mapping of filters to apply to the query. 
- - `order` (str):  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is the collection ID in descending order. 
- - `per_page` (int):  The number of artifact collections to fetch per page.  Default is 50. 
- - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
+### id
 
----
+The unique identifier of the artifact type.
+
+### name
+
+The name of the artifact type.
+
+
+
+## Methods:
+
+### collection
+
+Get a specific artifact collection by name.
+
+### collections
+
+Get all artifact collections associated with this artifact type.
+
+
 

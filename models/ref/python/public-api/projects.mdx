@@ -1,40 +1,27 @@
 ---
 title: Projects
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L58" />
 
 
 
 
-## <kbd>class</kbd> `Projects`
-An lazy iterator of `Project` objects. 
+
+## Description
+
+A lazy iterator of `Project` objects.
 
 An iterable interface to access projects created and saved by the entity.
 
-### <kbd>method</kbd> `Projects.__init__`
+## Examples:
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    per_page: 'int' = 50
-) → Projects
-```
-
-**Args:**
- 
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
- - `entity` (str):  The entity name (username or team) to fetch projects for. 
- - `per_page` (int):  Number of projects to fetch per request (default is 50). 
-
-
-
-**Example:**
- ```python
 from wandb.apis.public.api import Api
 
 # Find projects that belong to this entity
@@ -46,40 +33,26 @@ for project in projects:
     print(f"- URL: {project.url}")
     print(f"- Created at: {project.created_at}")
     print(f"- Is benchmark: {project.is_benchmark}")
-``` 
+```
 
+## Args:
 
-An iterable collection of `Project` objects. 
-
-
-
-**Args:**
- 
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the projects. 
- - `per_page`:  The number of projects to fetch per request to the API. 
-
-
----
-
-### <kbd>property</kbd> Projects.cursor
-
-An opaque cursor that marks the start of the next page to fetch. 
-
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
-
-
-
-**Returns:**
- - `str | None`: The cursor property value.
----
-
-
-### <kbd>property</kbd> Projects.more
+- **client**: The API client instance to use.
+- **entity**: The entity name (username or team) to fetch projects for.
+- **per_page**: Number of projects to fetch per request (default is 50).
 
 
 
 
+## Methods:
+
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
 
 
 

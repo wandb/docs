@@ -1,20 +1,42 @@
 ---
 title: IncompleteRunHistoryError
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.runhistory.downloads
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py#L18" />
 
 
 
 
-## <kbd>class</kbd> `IncompleteRunHistoryError`
-Raised when run history has incomplete history. 
 
-Incomplete history occurs when some data has not been exported to parquet files yet, typically because the run is still ongoing. 
+## Description
 
+Raised when run history has incomplete history.
+
+Incomplete history occurs when some data has not been exported to
+parquet files yet, typically because the run is still ongoing.
+
+
+
+
+
+
+
+## Methods:
+
+### add_note
+
+Exception.add_note(note) --
+add a note to the exception
+
+### with_traceback
+
+Exception.with_traceback(tb) --
+set self.__traceback__ to tb and return self.
 
 
 

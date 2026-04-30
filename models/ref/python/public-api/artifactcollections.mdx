@@ -1,48 +1,47 @@
 ---
 title: ArtifactCollections
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L288" />
 
 
 
 
-## <kbd>class</kbd> `ArtifactCollections`
-Artifact collections of a specific type in a project. 
+
+## Description
+
+Artifact collections of a specific type in a project.
 
 
 
-**Args:**
- 
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact collections. 
- - `type_name`:  The name of the artifact type for which to fetch collections. 
- - `filters`:  Optional mapping of filters to apply to the query. 
- - `order`:  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending. 
- - `per_page`:  The number of artifact collections to fetch per page. Default is 50. 
+## Args:
 
-
-### <kbd>property</kbd> ArtifactCollections.cursor
-
-An opaque cursor that marks the start of the next page to fetch. 
-
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
-
-
-
-**Returns:**
- - `str | None`: The cursor property value.
----
-
-### <kbd>property</kbd> ArtifactCollections.more
+- **client**: The client instance to use for querying W&B.
+- **entity**: The entity that owns the project.
+- **project**: The name of the project to query for artifact collections.
+- **type_name**: The name of the artifact type for which to fetch collections.
+- **filters**: Optional mapping of filters to apply to the query.
+- **order**: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
+- **per_page**: The number of artifact collections to fetch per page. Default is 50.
+- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
 
+## Methods:
+
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
 
 
 

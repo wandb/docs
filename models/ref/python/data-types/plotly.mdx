@@ -1,35 +1,84 @@
 ---
 title: Plotly
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.plotly
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py#L36" />
 
 
-
-
-## <kbd>class</kbd> `Plotly`
-W&B class for Plotly plots. 
-
-### <kbd>method</kbd> `Plotly.__init__`
 
 ```python
-__init__(val: 'plotly.Figure | matplotlib.artist.Artist')
+(val: 'plotly.Figure | matplotlib.artist.Artist')
 ```
 
-Initialize a Plotly object. 
+## Description
+
+W&B class for Plotly plots.
 
 
 
-**Args:**
- 
- - `val`:  Matplotlib or Plotly figure. 
+## Args:
+
+- **val**: 
 
 
 
 
----
+## Methods:
+
+### bind_to_run
+
+Bind this object to a particular Run.
+
+Calling this function is necessary so that we have somewhere specific to put the
+file associated with this object, from which other Runs can refer to it.
+
+### captions
+
+
+
+### file_is_set
+
+
+
+### from_json
+
+Likely will need to override for any more complicated media objects.
+
+### init_from_json
+
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+### is_bound
+
+
+
+### path_is_reference
+
+
+
+### to_data_array
+
+Convert the object to a list of primitives representing the underlying data.
+
+### type_mapping
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+### with_suffix
+
+Get the name with the appropriate suffix.
+
 
 

@@ -1,58 +1,84 @@
 ---
 title: Html
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.html
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py#L22" />
 
 
-
-
-## <kbd>class</kbd> `Html`
-W&B class for logging HTML content to W&B. 
-
-### <kbd>method</kbd> `Html.__init__`
 
 ```python
-__init__(
-    data: 'str | pathlib.Path | TextIO',
-    inject: 'bool' = True,
-    data_is_not_path: 'bool' = False
-) → None
+data: 'str | pathlib.Path | TextIO',
+inject: 'bool' = True,
+data_is_not_path: 'bool' = False
 ```
 
-Creates a W&B HTML object. 
+## Description
+
+W&B class for logging HTML content to W&B.
 
 
 
-**Args:**
-  data:  A string that is a path to a file with the extension ".html",  or a string or IO object containing literal HTML. 
- - `inject`:  Add a stylesheet to the HTML object. If set  to False the HTML will pass through unchanged. 
- - `data_is_not_path`:  If set to False, the data will be  treated as a path to a file. 
+## Args:
 
-
-
-**Examples:**
- It can be initialized by providing a path to a file: 
-
-```python
-with wandb.init() as run:
-    run.log({"html": wandb.Html("./index.html")})
-``` 
-
-Alternatively, it can be initialized by providing literal HTML, in either a string or IO object: 
-
-```python
-with wandb.init() as run:
-    run.log({"html": wandb.Html("<h1>Hello, world!</h1>")})
-``` 
+- **data**: 
+- **inject**: 
+- **data_is_not_path**: 
 
 
 
 
----
+## Methods:
+
+### bind_to_run
+
+Bind this object to a particular Run.
+
+Calling this function is necessary so that we have somewhere specific to put the
+file associated with this object, from which other Runs can refer to it.
+
+### captions
+
+
+
+### file_is_set
+
+
+
+### init_from_json
+
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+### is_bound
+
+
+
+### path_is_reference
+
+
+
+### to_data_array
+
+Convert the object to a list of primitives representing the underlying data.
+
+### type_mapping
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+### with_suffix
+
+Get the name with the appropriate suffix.
 
 
 

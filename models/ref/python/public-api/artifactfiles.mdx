@@ -1,47 +1,50 @@
 ---
 title: ArtifactFiles
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
-
-
-
-## <kbd>class</kbd> `ArtifactFiles`
-A paginator for files in an artifact. 
-
-
-### <kbd>property</kbd> ArtifactFiles.cursor
-
-An opaque cursor that marks the start of the next page to fetch. 
-
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
-
-
-
-**Returns:**
- - `str | None`: The cursor property value.
----
-
-### <kbd>property</kbd> ArtifactFiles.more
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1023" />
 
 
 
 
 
----
+## Description
 
-### <kbd>property</kbd> ArtifactFiles.path
-
-Returns the path of the artifact. 
+A paginator for files in an artifact.
 
 
 
+## Args:
+
+- **client**: The client instance to use for querying W&B.
+- **artifact**: The artifact for which to fetch files.
+- **names**: Optional list of file names to filter by. If None, fetches all files.
+- **per_page**: The number of files to fetch per page. Default is 50.
+- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+
+
+## Properties:
+
+### path
+
+Returns the path of the artifact.
 
 
 
-**Returns:**
- - `list[str]`: The path property value.
+## Methods:
+
+### next
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### update_variables
+
+Update the query variables for the next page fetch.
+
+
+
