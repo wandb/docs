@@ -4,24 +4,30 @@ description: W&B Weave와 OpenAI 호환 API를 통해 오픈 소스 파운데이
 mode: wide
 ---
 
-W&amp;B Inference를 사용하면 W&amp;B Weave와 OpenAI 호환 API를 통해 대표적인 오픈 소스 파운데이션 모델을 이용할 수 있습니다. 할 수 있는 작업은 다음과 같습니다.
+W&amp;B Inference를 사용하면 W&amp;B Weave와 OpenAI 호환 API를 통해 대표적인 오픈 소스 파운데이션 모델을 이용할 수 있습니다.
 
-* 호스팅 서비스를 신청하거나 모델을 자체 호스팅하지 않고도 AI 애플리케이션과 에이전트를 구축할 수 있습니다
-* [지원되는 모델](/ko/inference/models)을 [W&amp;B Weave 플레이그라운드](/ko/weave/guides/tools/playground)에서 사용해 볼 수 있습니다
+* Inference를 사용하면 호스팅 서비스를 신청하거나 모델을 자체 호스팅하지 않고도 AI 애플리케이션과 에이전트를 구축할 수 있습니다.
+* Weave를 사용하면 W&amp;B Inference 기반 애플리케이션을 트레이스하고, 평가하고, 모니터링하고, 개선할 수 있습니다.
 
-Weave를 사용하면 W&amp;B Inference 기반 애플리케이션을 트레이스하고, 평가하고, 모니터링하고, 개선할 수 있습니다.
-
-<div id="quickstart">
-  ## 퀵스타트
+<div id="try-out-inference-in-the-ui">
+  ## UI에서 Inference 사용해 보기
 </div>
 
-다음은 Python을 사용하는 간단한 예시입니다:
+사용 가능한 모델을 살펴보고 Weave 플레이그라운드에서 직접 사용해 보려면 [https://wandb.ai/inference](https://wandb.ai/inference)로 이동하세요.
 
-```python
+웹 인터페이스에 대한 자세한 내용은 [UI Guide](/ko/inference/ui-guide/)를 참조하세요.
+
+<div id="use-inference-through-the-api">
+  ## API를 통해 Inference 사용하기
+</div>
+
+이 Python 예시에서는 Inference를 사용해 LLM에 Chat Completion 요청을 보냅니다.
+
+```python lines
 import openai
 
 client = openai.OpenAI(
-    # 맞춤형 base URL은 W&B Inference를 가리킵니다
+    # 맞춤형 기본 URL은 W&B Inference를 가리킵니다
     base_url='https://api.inference.wandb.ai/v1',
 
     # https://wandb.ai/settings 에서 API 키를 생성하세요
@@ -46,14 +52,11 @@ print(response.choices[0].message.content)
   ## 다음 단계
 </div>
 
-1. [사용 가능한 모델](/ko/inference/models)과 [사용 정보 및 한도](/ko/inference/usage-limits/)을 검토합니다.
-2. [사전 요구 사항](/ko/inference/prerequisites/)에 따라 계정을 설정합니다.
-3. [API](/ko/inference/api-reference/) 또는 [UI](/ko/inference/ui-guide/)를 통해 서비스를 사용합니다.
-4. [사용 예시](/ko/inference/examples/)를 사용해 봅니다.
-
-<div id="usage-details">
-  ## 사용 상세 정보
-</div>
+1. [사전 요구 사항](/ko/inference/prerequisites/)에 따라 계정을 설정하세요.
+2. [사용 가능한 모델](/ko/inference/models)과 [사용 정보 및 한도](/ko/inference/usage-limits/)를 확인하세요.
+3. [API](/ko/inference/api-reference/) 또는 [UI](/ko/inference/ui-guide/)를 통해 서비스를 사용하세요.
+4. [W&amp;B Weave Playground](/ko/weave/guides/tools/playground)에서 지원되는 모델을 사용해 보세요.
+5. [사용 예시](/ko/inference/examples/)를 살펴보세요.
 
 <Info>
   가격, 사용 한도, 크레딧에 관한 정보는 [사용 정보 및 한도](/ko/inference/usage-limits/)를 참조하세요.
