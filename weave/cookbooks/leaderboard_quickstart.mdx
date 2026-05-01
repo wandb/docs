@@ -76,7 +76,7 @@ Next we will author 3 scoring functions:
 
 1. `check_concrete_fields`: Checks if the model output matches the expected city and state.
 2. `check_value_fields`: Checks if the model output is within 10% of the expected population and median income.
-3. `check_subjective_fields`: Uses a LLM to check if the model output matches the expected "known for" field.
+3. `check_subjective_fields`: Uses an LLM to check if the model output matches the expected "known for" field.
 
 ```python lines
 @weave.op
