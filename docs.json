@@ -87,28 +87,6 @@
                     ]
                   },
                   {
-                    "group": "Release Notes",
-                    "expanded": false,
-                    "pages": [
-                      "release-notes",
-                      {
-                        "group": "W&B Server",
-                        "pages": [
-                          "release-notes/server-releases",
-                          "release-notes/server-releases-archived"
-                        ]
-                      },
-                      {
-                        "group": "W&B SDKs",
-                        "pages": [
-                          "release-notes/sdk-releases",
-                          "release-notes/weave-sdk-releases"
-                        ]
-                      },
-                      "release-notes/release-policies"
-                    ]
-                  },
-                  {
                     "group": "Platform Details",
                     "pages": [
                       {
@@ -1219,9 +1197,10 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "W&B SDKs",
                 "pages": [
-                  "release-notes/sdk-releases"
+                  "release-notes/sdk-releases",
+                  "release-notes/weave-sdk-releases"
                 ]
               },
               "release-notes/release-policies"
@@ -1463,28 +1442,6 @@
                       "fr/product-inference",
                       "fr/product-training",
                       "fr/product-sandboxes"
-                    ]
-                  },
-                  {
-                    "group": "Notes de version",
-                    "expanded": false,
-                    "pages": [
-                      "fr/release-notes",
-                      {
-                        "group": "Serveur W&B",
-                        "pages": [
-                          "fr/release-notes/server-releases",
-                          "fr/release-notes/server-releases-archived"
-                        ]
-                      },
-                      {
-                        "group": "SDK de W&B",
-                        "pages": [
-                          "fr/release-notes/sdk-releases",
-                          "fr/release-notes/weave-sdk-releases"
-                        ]
-                      },
-                      "fr/release-notes/release-policies"
                     ]
                   },
                   {
@@ -2598,9 +2555,10 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "SDK de W&B",
                 "pages": [
-                  "fr/release-notes/sdk-releases"
+                  "fr/release-notes/sdk-releases",
+                  "fr/release-notes/weave-sdk-releases"
                 ]
               },
               "fr/release-notes/release-policies"
@@ -2842,28 +2800,6 @@
                       "ja/product-inference",
                       "ja/product-training",
                       "ja/product-sandboxes"
-                    ]
-                  },
-                  {
-                    "group": "リリースノート",
-                    "expanded": false,
-                    "pages": [
-                      "ja/release-notes",
-                      {
-                        "group": "W&B Server",
-                        "pages": [
-                          "ja/release-notes/server-releases",
-                          "ja/release-notes/server-releases-archived"
-                        ]
-                      },
-                      {
-                        "group": "W&B SDK",
-                        "pages": [
-                          "ja/release-notes/sdk-releases",
-                          "ja/release-notes/weave-sdk-releases"
-                        ]
-                      },
-                      "ja/release-notes/release-policies"
                     ]
                   },
                   {
@@ -3979,7 +3915,8 @@
               {
                 "group": "W&B SDK",
                 "pages": [
-                  "ja/release-notes/sdk-releases"
+                  "ja/release-notes/sdk-releases",
+                  "ja/release-notes/weave-sdk-releases"
                 ]
               },
               "ja/release-notes/release-policies"
@@ -4221,28 +4158,6 @@
                       "ko/product-inference",
                       "ko/product-training",
                       "ko/product-sandboxes"
-                    ]
-                  },
-                  {
-                    "group": "릴리스 노트",
-                    "expanded": false,
-                    "pages": [
-                      "ko/release-notes",
-                      {
-                        "group": "W&B Server",
-                        "pages": [
-                          "ko/release-notes/server-releases",
-                          "ko/release-notes/server-releases-archived"
-                        ]
-                      },
-                      {
-                        "group": "W&B SDK",
-                        "pages": [
-                          "ko/release-notes/sdk-releases",
-                          "ko/release-notes/weave-sdk-releases"
-                        ]
-                      },
-                      "ko/release-notes/release-policies"
                     ]
                   },
                   {
@@ -5358,7 +5273,8 @@
               {
                 "group": "W&B SDK",
                 "pages": [
-                  "ko/release-notes/sdk-releases"
+                  "ko/release-notes/sdk-releases",
+                  "ko/release-notes/weave-sdk-releases"
                 ]
               },
               "ko/release-notes/release-policies"
