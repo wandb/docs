@@ -2555,7 +2555,7 @@
                 ]
               },
               {
-                "group": "SDK de W&B",
+                "group": "SDKs W&B",
                 "pages": [
                   "fr/release-notes/sdk-releases",
                   "fr/release-notes/weave-sdk-releases"
@@ -2809,7 +2809,7 @@
                         "group": "W&B の設定",
                         "pages": [
                           {
-                            "group": "設定",
+                            "group": "Settings",
                             "pages": [
                               "ja/platform/app/settings-page",
                               "ja/platform/app/settings-page/user-settings",
@@ -2821,7 +2821,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティとアクセス管理（IAM）",
+                            "group": "アイデンティティおよびアクセス管理（IAM）",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -3913,7 +3913,7 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "W&B SDKs",
                 "pages": [
                   "ja/release-notes/sdk-releases",
                   "ja/release-notes/weave-sdk-releases"
@@ -4164,7 +4164,7 @@
                     "group": "플랫폼 상세 정보",
                     "pages": [
                       {
-                        "group": "W&B 구성",
+                        "group": "W&B 설정",
                         "pages": [
                           {
                             "group": "설정",
@@ -4219,7 +4219,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용량",
+                        "group": "모니터링 및 사용 현황",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -5271,7 +5271,7 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "W&B SDKs",
                 "pages": [
                   "ko/release-notes/sdk-releases",
                   "ko/release-notes/weave-sdk-releases"
