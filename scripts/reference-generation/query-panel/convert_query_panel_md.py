@@ -259,8 +259,15 @@ def replace_generated_types_section(landing_text: str, bullets: str) -> str:
     if start in landing_text and end in landing_text:
         pre, rest = landing_text.split(start, 1)
         _, post = rest.split(end, 1)
-        block = f"{start}\n{bullets.rstrip()}\n{end}\n"
-        return pre + block + post
+        # Avoid accumulating blank lines: the replacement ends with a newline and
+        # post often begins with one (or many from prior runs). Normalize to a
+        # single blank line before the following section, or a single trailing
+        # newline when nothing follows the end marker.
+        post = post.lstrip("\n")
+        block_core = f"{start}\n{bullets.rstrip()}\n{end}"
+        if post:
+            return pre + block_core + "\n\n" + post
+        return pre + block_core + "\n"
 
     legacy = re.compile(
         r"(## Data Types\n\n)(?:\* \[[^\]]+\]\(\./query-panel/[^\)]+\)\n)+",
@@ -293,20 +300,19 @@ def update_docs_json_nav(docs_json_path: Path, slugs: list[str]) -> None:
         base = f"{prefix}models/ref/query-panel"
         return [base] + [f"{base}/{s}" for s in slugs]
 
-    targets = {
-        "en": build_pages(""),
-        "ja": build_pages("ja/"),
-        "ko": build_pages("ko/"),
-    }
+    # English only: this workflow generates MDX under models/ref/query-panel/
+    # (no ja/ko/fr copies). Localized nav is maintained separately (e.g. Locadex);
+    # overwriting ja/ko pages lists here caused spurious docs.json churn.
+    en_pages = build_pages("")
 
     def walk(node: object, lang: str | None) -> None:
         if isinstance(node, dict):
             if (
-                node.get("group") == "Query Expression Language"
+                lang == "en"
+                and node.get("group") == "Query Expression Language"
                 and isinstance(node.get("pages"), list)
-                and lang in targets
             ):
-                node["pages"] = targets[lang]
+                node["pages"] = en_pages
             for v in node.values():
                 walk(v, lang)
         elif isinstance(node, list):
@@ -320,7 +326,10 @@ def update_docs_json_nav(docs_json_path: Path, slugs: list[str]) -> None:
         walk(lang_entry, lang)
 
     with docs_json_path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+        # Preserve UTF-8 literals (Mintlify / repo style). Default ensure_ascii=True
+        # would escape every non-ASCII string in the whole file, making French and
+        # other localized nav look "changed" when only English QEL pages were edited.
+        json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
 
