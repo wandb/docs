@@ -300,20 +300,19 @@ def update_docs_json_nav(docs_json_path: Path, slugs: list[str]) -> None:
         base = f"{prefix}models/ref/query-panel"
         return [base] + [f"{base}/{s}" for s in slugs]
 
-    targets = {
-        "en": build_pages(""),
-        "ja": build_pages("ja/"),
-        "ko": build_pages("ko/"),
-    }
+    # English only: this workflow generates MDX under models/ref/query-panel/
+    # (no ja/ko/fr copies). Localized nav is maintained separately (e.g. Locadex);
+    # overwriting ja/ko pages lists here caused spurious docs.json churn.
+    en_pages = build_pages("")
 
     def walk(node: object, lang: str | None) -> None:
         if isinstance(node, dict):
             if (
-                node.get("group") == "Query Expression Language"
+                lang == "en"
+                and node.get("group") == "Query Expression Language"
                 and isinstance(node.get("pages"), list)
-                and lang in targets
             ):
-                node["pages"] = targets[lang]
+                node["pages"] = en_pages
             for v in node.values():
                 walk(v, lang)
         elif isinstance(node, list):
