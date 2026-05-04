@@ -326,7 +326,10 @@ def update_docs_json_nav(docs_json_path: Path, slugs: list[str]) -> None:
         walk(lang_entry, lang)
 
     with docs_json_path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+        # Preserve UTF-8 literals (Mintlify / repo style). Default ensure_ascii=True
+        # would escape every non-ASCII string in the whole file, making French and
+        # other localized nav look "changed" when only English QEL pages were edited.
+        json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
 
