@@ -21,18 +21,25 @@ jobs:
       # Do not use actions/checkout for wandb/docs-code-eval. GITHUB_TOKEN is scoped
       # to this repository only, so the REST get-repository call for another repo returns
       # Not Found for a private docs-code-eval. Clone in the script instead.
-      #
-      # For a private docs-code-eval, add repository secret DOCS_CODE_EVAL_READ_PAT
-      # (PAT with contents:read on wandb/docs-code-eval). Optional if the eval repo is public.
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+
+      - name: Create docs-code-eval read token
+        id: docs-code-eval-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.DOCS_SOURCE_READER_APP_ID }}
+          private-key: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: docs-code-eval
+          permission-contents: read
       
       - name: Run sync script
         env:
-          DOCS_CODE_EVAL_READ_TOKEN: ${{ secrets.DOCS_CODE_EVAL_READ_PAT }}
+          DOCS_CODE_EVAL_READ_TOKEN: ${{ steps.docs-code-eval-token.outputs.token }}
           GIT_TERMINAL_PROMPT: "0"
         run: |
           chmod +x scripts/sync_code_examples.sh
@@ -42,10 +49,10 @@ jobs:
         id: check_changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "changes=true" >> "$GITHUB_OUTPUT"
             echo "✅ Changes detected"
           else
-            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "changes=false" >> "$GITHUB_OUTPUT"
             echo "ℹ️  No changes detected"
           fi
       
@@ -55,17 +62,19 @@ jobs:
         run: |
           # Count changed files
           CHANGED_FILES=$(git status --porcelain | wc -l | tr -d ' ')
-          CHANGED_PY=$(git status --porcelain | grep '\.py$' | wc -l | tr -d ' ')
+          CHANGED_PY=$(git status --porcelain | awk '/\.py$/ { count++ } END { print count + 0 }')
           
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
-          echo "changed_py=$CHANGED_PY" >> $GITHUB_OUTPUT
+          {
+            echo "changed_files=$CHANGED_FILES"
+            echo "changed_py=$CHANGED_PY"
           
-          # Get short summary
-          echo "summary<<EOF" >> $GITHUB_OUTPUT
-          echo "Synced $CHANGED_FILES file(s) from docs-code-eval:" >> $GITHUB_OUTPUT
-          echo "- $CHANGED_PY Python example(s) updated" >> $GITHUB_OUTPUT
-          echo "- Cheat sheet regenerated" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+            # Get short summary
+            echo "summary<<EOF"
+            echo "Synced $CHANGED_FILES file(s) from docs-code-eval:"
+            echo "- $CHANGED_PY Python example(s) updated"
+            echo "- Cheat sheet regenerated"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
       
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes == 'true'

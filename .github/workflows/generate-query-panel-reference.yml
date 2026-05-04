@@ -31,9 +31,19 @@ jobs:
           corepack enable
           corepack prepare yarn@1.22.22 --activate
 
+      - name: Create weave-internal read token
+        id: weave-internal-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.DOCS_SOURCE_READER_APP_ID }}
+          private-key: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: weave-internal
+          permission-contents: read
+
       - name: Generate QEL reference from weave-internal
         env:
-          QUERY_PANELS_READ_TOKEN: ${{ secrets.QUERY_PANELS_READ_ONLY_PAT }}
+          QUERY_PANELS_READ_TOKEN: ${{ steps.weave-internal-token.outputs.token }}
           GIT_TERMINAL_PROMPT: "0"
         run: |
           chmod +x scripts/reference-generation/query-panel/generate_query_panel_reference.sh
