@@ -108,7 +108,7 @@ jobs:
             
             ### Files Updated
             
-            - **Code Examples**: `snippets/en/_includes/code-examples/*.mdx`
+            - **Code Examples**: `snippets/_includes/code-examples/*.mdx`
             - **Cheat Sheet**: `models/ref/sdk-coding-cheat-sheet/`
             
             ### Review Checklist
