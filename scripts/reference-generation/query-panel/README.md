@@ -18,7 +18,7 @@ This pipeline is **not** related to W&B Weave. It targets the Models **query pan
 ## Prerequisites
 
 - `git`, `yarn` (classic v1), `python3.11+`, Node **20** (matches CI; avoids native `canvas` install on dev machines).
-- Read access to `wandb/weave-internal` (SSH, HTTPS, or PAT).
+- Read access to `wandb/weave-internal` (SSH, HTTPS, or a GitHub App token).
 
 ## Local usage
 
@@ -29,10 +29,10 @@ export WEAVE_JS_ROOT=/path/to/weave-internal/weave-js
 ./scripts/reference-generation/query-panel/generate_query_panel_reference.sh
 ```
 
-Or let the script clone using a read token (same pattern as `sync-code-examples`):
+Or let the script clone using a read token:
 
 ```bash
-export QUERY_PANELS_READ_TOKEN="ghp_..."  # fine-grained or classic PAT; contents:read on weave-internal
+export QUERY_PANELS_READ_TOKEN="..."  # contents:read on weave-internal
 ./scripts/reference-generation/query-panel/generate_query_panel_reference.sh
 ```
 
@@ -46,7 +46,7 @@ export QUERY_PANELS_READ_TOKEN="ghp_..."  # fine-grained or classic PAT; content
 
 ## CI
 
-See `.github/workflows/generate-query-panel-reference.yml`. Uses repository secret `QUERY_PANELS_READ_ONLY_PAT` as `QUERY_PANELS_READ_TOKEN`.
+See `.github/workflows/generate-query-panel-reference.yml`. CI creates a GitHub App installation token and passes it as `QUERY_PANELS_READ_TOKEN`.
 
 ## Tests
 
