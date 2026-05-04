@@ -11,9 +11,9 @@ Created these GitHub Apps under the `wandb` organization:
 
 Stored the app credentials in `wandb/docs`:
 
-- Repository variable `DOCS_SOURCE_READER_APP_ID`: app ID for `wandb-docs-source-reader`.
+- Repository variable `DOCS_SOURCE_READER_CLIENT_ID`: client ID for `wandb-docs-source-reader` (alphanumeric string shown on the app's settings page, for example `Iv1.abc123`; not the numeric App ID).
 - Repository secret `DOCS_SOURCE_READER_PRIVATE_KEY`: private key for `wandb-docs-source-reader`.
-- Repository variable `DOCS_PR_WRITER_APP_ID`: app ID for `wandb-docs-pr-writer`.
+- Repository variable `DOCS_PR_WRITER_CLIENT_ID`: client ID for `wandb-docs-pr-writer` (same format as above).
 - Repository secret `DOCS_PR_WRITER_PRIVATE_KEY`: private key for `wandb-docs-pr-writer`.
 
 The workflows use `actions/create-github-app-token@v3` to create short-lived installation tokens from these credentials.
