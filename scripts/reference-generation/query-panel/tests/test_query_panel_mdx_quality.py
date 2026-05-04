@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -91,6 +93,68 @@ class ConverterUnitTests(unittest.TestCase):
             msg=f"expected single blank line after end marker, got repr: {tail[:40]!r}",
         )
         self.assertNotRegex(tail, r"\n{4,}")
+
+    def test_update_docs_json_nav_only_english_query_panel_pages(self) -> None:
+        m = _load_converter()
+        ja_before = ["ja/models/ref/query-panel", "ja/models/ref/query-panel/run"]
+        data = {
+            "navigation": {
+                "languages": [
+                    {
+                        "language": "en",
+                        "groups": [
+                            {
+                                "group": "Query Expression Language",
+                                "pages": ["models/ref/query-panel", "models/ref/query-panel/old"],
+                            }
+                        ],
+                    },
+                    {
+                        "language": "ja",
+                        "groups": [
+                            {
+                                "group": "Query Expression Language",
+                                "pages": list(ja_before),
+                            }
+                        ],
+                    },
+                ]
+            }
+        }
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".json", delete=False, encoding="utf-8"
+        ) as f:
+            json.dump(data, f)
+            path = Path(f.name)
+        try:
+            m.update_docs_json_nav(path, ["run", "table"])
+            updated = json.loads(path.read_text(encoding="utf-8"))
+            langs = updated["navigation"]["languages"]
+            en_pages = next(
+                g["pages"]
+                for L in langs
+                if L["language"] == "en"
+                for g in L["groups"]
+                if g["group"] == "Query Expression Language"
+            )
+            ja_pages = next(
+                g["pages"]
+                for L in langs
+                if L["language"] == "ja"
+                for g in L["groups"]
+                if g["group"] == "Query Expression Language"
+            )
+            self.assertEqual(
+                en_pages,
+                [
+                    "models/ref/query-panel",
+                    "models/ref/query-panel/run",
+                    "models/ref/query-panel/table",
+                ],
+            )
+            self.assertEqual(ja_pages, ja_before)
+        finally:
+            path.unlink(missing_ok=True)
 
 
 class QueryPanelMdxQualityTests(unittest.TestCase):
