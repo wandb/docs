@@ -39,7 +39,7 @@ Removing a user from a team also removes that user's access to the registry.
 
 ### Change the owner of a registry
 
-A registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
+A registry admin can designate any member as a registry's owner, including a **Restricted viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
 
 To change the owner:
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
@@ -75,12 +75,12 @@ W&B automatically assigns a default **registry role** to a user or team when the
 
 | Entity                                 | Default registry role<br />(Dedicated Cloud / Self-Managed)               | Default registry role<br />(Multi-tenant Cloud)            |
 |----------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------|
-| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
-| User or service account (non admin)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
+| Team                                   | Restricted viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted viewer                               |
+| User or service account (non admin)    | Restricted viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted viewer                               |
 | Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
 | Org admin                              | Admin                                                       | Admin                                           |
 
-<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles.
+<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted viewer** roles.
 
 A registry admin can assign or modify roles for users and teams in the registry.
 See [Configure user roles in a registry](/models/registry/configure_registry/#configure-registry-roles) for more information.
@@ -88,7 +88,7 @@ See [Configure user roles in a registry](/models/registry/configure_registry/#co
 ### Role permissions
 The following table lists each Registry role, along with the permissions provided by each role:
 
-| Permission                                                                                                            | Permission Group | Restricted Viewer<br />(Multi-tenant Cloud, by invitation) | Viewer | Member | Admin |
+| Permission                                                                                                            | Permission Group | Restricted viewer<br />(Multi-tenant Cloud, by invitation) | Viewer | Member | Admin |
 |-----------------------------------------------------------------------------------------------------------------------|------------------|------------------------------------------------------------|:------:|:------:|:-----:|
 | View a collection's details                                                                                           | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
 | View a linked artifact's details                                                                                      | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
@@ -131,12 +131,12 @@ A user's effective role in a particular registry matches their _highest_ role am
 - A registry **Viewer** with the **Member** role in the team is effectively a **Member** of the registry.
 - A team **Viewer** with the **Member** role in a particular registry is effectively a **Member** of the registry.
 
-### Restricted Viewer role details
-The **Restricted Viewer** role is Generally Available (GA). For Dedicated Cloud and Self-Managed, Server v0.75.0 or newer is required.
+### Restricted viewer role details
+The **Restricted viewer** role is Generally Available (GA). For Dedicated Cloud and Self-Managed, Server v0.75.0 or newer is required.
 
 This role provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources.
 
-Unlike a **Viewer**, a **Restricted Viewer**:
+Unlike a **Viewer**, a **Restricted viewer**:
 - Cannot download artifact files or access file contents.
 - Cannot use artifacts with `wandb.Run.use_artifact()` in the W&B SDK.
 
@@ -146,11 +146,11 @@ Unlike a **Viewer**, a **Restricted Viewer**:
 
 **SDK version requirement**
 
-To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, some SDK commands will result in permission errors.
+To use the W&B SDK to access artifacts as a **Restricted viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, some SDK commands will result in permission errors.
 
 </Note>
 
-When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
+When a **Restricted viewer** uses the SDK, certain functions are not available or work differently.
 
 The following methods are not available and result in permission errors:
 - [`Run.use_artifact()`](/models/ref/python/experiments/run/#method-runuse_artifact)
@@ -166,9 +166,9 @@ The following methods are limited to artifact metadata:
 
 ### Cross-registry permissions
 
-A user can have different roles in different registries. For example, a user can be a **Restricted Viewer** in Registry A but a **Viewer** in Registry B. In this case:
+A user can have different roles in different registries. For example, a user can be a **Restricted viewer** in Registry A but a **Viewer** in Registry B. In this case:
 
 - The same artifact linked to both registries will have different access levels
-- In Registry A, the user is a **Restricted Viewer** and cannot download files or use the artifact
+- In Registry A, the user is a **Restricted viewer** and cannot download files or use the artifact
 - In Registry B, the user is a **Viewer** and can download files and use the artifact
 - In other words, access is determined by the registry in which the artifact is accessed
