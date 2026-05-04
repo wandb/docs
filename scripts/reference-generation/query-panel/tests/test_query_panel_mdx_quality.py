@@ -70,6 +70,28 @@ class ConverterUnitTests(unittest.TestCase):
         self.assertNotIn("/models/ref/query-panel/run/", out)
         self.assertIn("https://example.com/a/", out)
 
+    def test_replace_generated_types_section_idempotent_no_extra_blank_lines(self) -> None:
+        """Re-running landing replacement must not grow vertical whitespace after {end}."""
+        m = _load_converter()
+        bullets = "* [a](./query-panel/a)\n* [b](./query-panel/b)\n"
+        end = "{/* query-panel-generated-data-types:end */}"
+        base = (
+            "intro\n\n## Data Types\n\n"
+            "{/* query-panel-generated-data-types:start */}\n"
+            "* old\n"
+            f"{end}\n"
+            "## Next section\n"
+        )
+        out1 = m.replace_generated_types_section(base, bullets)
+        out2 = m.replace_generated_types_section(out1, bullets)
+        self.assertEqual(out1, out2)
+        tail = out1.split(end, 1)[1]
+        self.assertTrue(
+            tail.startswith("\n\n## Next"),
+            msg=f"expected single blank line after end marker, got repr: {tail[:40]!r}",
+        )
+        self.assertNotRegex(tail, r"\n{4,}")
+
 
 class QueryPanelMdxQualityTests(unittest.TestCase):
     def test_no_duplicate_anchor_ids_in_generated_pages(self) -> None:
