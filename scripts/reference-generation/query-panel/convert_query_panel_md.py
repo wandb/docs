@@ -259,8 +259,15 @@ def replace_generated_types_section(landing_text: str, bullets: str) -> str:
     if start in landing_text and end in landing_text:
         pre, rest = landing_text.split(start, 1)
         _, post = rest.split(end, 1)
-        block = f"{start}\n{bullets.rstrip()}\n{end}\n"
-        return pre + block + post
+        # Avoid accumulating blank lines: the replacement ends with a newline and
+        # post often begins with one (or many from prior runs). Normalize to a
+        # single blank line before the following section, or a single trailing
+        # newline when nothing follows the end marker.
+        post = post.lstrip("\n")
+        block_core = f"{start}\n{bullets.rstrip()}\n{end}"
+        if post:
+            return pre + block_core + "\n\n" + post
+        return pre + block_core + "\n"
 
     legacy = re.compile(
         r"(## Data Types\n\n)(?:\* \[[^\]]+\]\(\./query-panel/[^\)]+\)\n)+",
