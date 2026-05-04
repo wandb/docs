@@ -1,0 +1,32 @@
+```python
+'''
+Trace images using Weave
+'''
+
+import weave
+from weave import Content
+from PIL import Image, ImageDraw
+from typing import Annotated
+
+weave.init('<your-team-name>/<your-project-name>')
+
+# Create and save a sample image
+img = Image.new('RGB', (200, 100), color='lightblue')
+draw = ImageDraw.Draw(img)
+draw.text((50, 40), "Hello Weave!", fill='black')
+img.save("sample_image.png")
+
+# Method 1: Content annotation (recommended)
+@weave.op
+def load_image_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
+    with open(path, 'rb') as f:
+        return f.read()
+
+# Method 2: PIL Image object  
+@weave.op
+def load_image_pil(path: Annotated[str, Content]) -> Image.Image:
+    return Image.open(path)
+
+result1 = load_image_content("sample_image.png")
+result2 = load_image_pil("sample_image.png")
+```
