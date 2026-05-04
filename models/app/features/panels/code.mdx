@@ -54,12 +54,38 @@ Compare code used in different W&B runs:
     <img src="/images/app_ui/code_comparer.png" alt="Code comparer panel"  />
 </Frame>
 
+## View unstaged changes
+
+View unstaged changes in your project workspace.
+
+1. Navigate to your project's workspace.
+2. Select the **Files** tab.
+3. From the list of files, click on the `diff.patch` file.
+4. Select a file from the list to expand the diff of unstaged changes for that file.
+
+W&B supports two modes to view the diff of unstaged or unpushed changes across runs: *unified* and *split*.
+
+- Unified view shows the diff of unstaged changes in a single pane:
+    <Frame>
+        <img src="/images/app_ui/diff_unified_view.png" alt="Diff patch unified view"  />
+    </Frame>
+
+- Split view shows the diff of unstaged changes in two panes side by side:
+
+    <Frame>
+        <img src="/images/app_ui/diff_split_view.png" alt="Diff patch split view"  />
+    </Frame>
+
+Toggle between the two views by selecting either the **Unified** or **Split** buttons in the upper right corner of the diff view, below the **Download** button.
+
+
+
 ## Jupyter session history
 
 W&B saves the history of code executed in your Jupyter notebook session. When you call **wandb.init()** inside of Jupyter, W&B adds a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. 
 
 
-1. Navigate to your project workspaces that contains your code.
+1. Navigate to your project's workspace that contains your code.
 2. Select the **Artifacts** tab in the project sidebar.
 3. Expand the **code** artifact.
 4. Select the **Files** tab.
