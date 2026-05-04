@@ -31,7 +31,7 @@ jobs:
         id: docs-code-eval-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.DOCS_SOURCE_READER_APP_ID }}
+          client-id: ${{ vars.DOCS_SOURCE_READER_CLIENT_ID }}
           private-key: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: docs-code-eval
