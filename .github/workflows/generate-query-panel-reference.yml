@@ -91,4 +91,4 @@ jobs:
             ### Review checklist
             - [ ] Spot-check a few datatype pages in the preview build
             - [ ] Confirm no unintended `docs.json` navigation changes outside the Query Expression Language group
-            - [ ] Japanese and Korean overview pages were not modified by this workflow (English reference only)
+            - [ ] `docs.json` diff only updates the English nav tree for Query Expression Language (no ja/ko/fr TOC edits from this workflow)
