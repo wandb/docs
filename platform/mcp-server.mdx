@@ -58,7 +58,7 @@ W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no
 Select the tab containing your MCP client's instructions:
 
 <Tabs>
-<Tab title="Claude CLI">
+<Tab title="Claude Code CLI">
 
 To add the W&B MCP server to Claude CLI, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
 
@@ -72,7 +72,7 @@ Add `--scope user` for a global configuration, or omit it to configure for the c
 For more detailed information, see [Claude's documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
 
 </Tab>
-<Tab title="Claude Desktop">
+<Tab title="Claude Code Desktop">
 
 Claude Desktop's built-in custom connectors interface does not support API key authentication for remote MCP servers. To work around this, use the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) npm proxy to connect Claude Desktop to the W&B remote MCP server. The proxy runs locally and forwards requests to `https://mcp.withwandb.com/mcp` with your Bearer token.
 
@@ -109,6 +109,16 @@ The full header value is set through the `env` field rather than directly in `ar
 
 Restart Claude Desktop to activate the new configuration. Verify the connection by entering the prompt "List the projects in my W&B account."
 </Tab>
+<Tab title="Codex">
+
+To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
+
+```bash
+export WANDB_API_KEY=<your-wandb-api-key>
+codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
+```
+
+</Tab>
 <Tab title="Cursor">
 
 You can install the W&B server in Cursor automatically using a [one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually using the following instructions:
@@ -138,41 +148,6 @@ You can install the W&B server in Cursor automatically using a [one-click instal
 
 For more detailed information, see [Cursor's documentation](https://cursor.com/docs/context/mcp).
 
-</Tab>
-<Tab title="Codex">
-
-To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
-
-```bash
-export WANDB_API_KEY=<your-wandb-api-key>
-codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
-```
-
-</Tab>
-<Tab title="OpenAI">
-To add the W&B MCP server to your OpenAI calls, add the server's information to the `tools` field of your OpenAI responses configuration:
-
-```python
-from openai import OpenAI
-import os
-
-client = OpenAI()
-
-resp = client.responses.create(
-    model="gpt-4o",
-    tools=[{
-        "type": "mcp",
-        "server_label": "wandb",
-        "server_description": "Query W&B data",
-        "server_url": "https://mcp.withwandb.com/mcp",
-        "authorization": os.getenv("<your-wandb-api-key>"),
-        "require_approval": "never",
-    }],
-    input="List the projects in my W&B account.",
-)
-
-print(resp.output_text)
-```
 </Tab>
 <Tab title="Gemini CLI">
 To add the W&B MCP server to Gemini CLI:
@@ -206,6 +181,31 @@ To add the W&B MCP server to Mistral LeChat:
 4. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For more detailed information, see [LeChat's documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
+</Tab>
+<Tab title="OpenAI">
+To add the W&B MCP server to your OpenAI calls, add the server's information to the `tools` field of your OpenAI responses configuration:
+
+```python
+from openai import OpenAI
+import os
+
+client = OpenAI()
+
+resp = client.responses.create(
+    model="gpt-4o",
+    tools=[{
+        "type": "mcp",
+        "server_label": "wandb",
+        "server_description": "Query W&B data",
+        "server_url": "https://mcp.withwandb.com/mcp",
+        "authorization": os.getenv("<your-wandb-api-key>"),
+        "require_approval": "never",
+    }],
+    input="List the projects in my W&B account.",
+)
+
+print(resp.output_text)
+```
 </Tab>
 </Tabs>
 
@@ -250,7 +250,7 @@ pip install git+https://github.com/wandb/wandb-mcp-server
 Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue:
 
 <Tabs>
-<Tab title="Claude CLI">
+<Tab title="Claude Code CLI">
 
 Run the following command in your terminal. Add `--scope user` for a global configuration, or omit it to configure for the current project only.
 
@@ -262,13 +262,13 @@ claude mcp add wandb \
 ```
 
 </Tab>
-<Tab title="Claude Desktop">
-Open your Claude config file in a text editor. You can find the config file at the locations for your OS:
+<Tab title="Claude Code Desktop">
+Open your Claude Code Desktop config file in a text editor. You can find the config file at the locations for your OS:
 
 * **macOS**: ~/Library/Application\ Support/Claude/claude_desktop_config.json
 * **Windows**: %APPDATA%\Claude\claude_desktop_config.json
 
-Add the following to your JSON object to your Claude config file. Use the full path to `uvx` because Claude Desktop may not find your `uvx` installation otherwise.
+Add the following to your JSON object to your Claude Code Desktop config file. Use the full path to `uvx` because Claude Code Desktop may not find your `uvx` installation otherwise.
 
 ```json
 {
@@ -292,6 +292,18 @@ Add the following to your JSON object to your Claude config file. Use the full p
 Restart Claude Desktop to activate the new configuration.
 
 </Tab>
+<Tab title="Codex">
+
+Run the following command in your terminal:
+
+```bash
+codex mcp add wandb \
+  --env WANDB_API_KEY=your_api_key_here \
+  --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
+  -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+```
+
+</Tab>
 <Tab title="Cursor">
 
 Add the following to your `mcp.json` configuration:
@@ -313,18 +325,6 @@ Add the following to your `mcp.json` configuration:
     }
   }
 }
-```
-
-</Tab>
-<Tab title="Codex">
-
-Run the following command in your terminal:
-
-```bash
-codex mcp add wandb \
-  --env WANDB_API_KEY=your_api_key_here \
-  --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
-  -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
 ```
 
 </Tab>
