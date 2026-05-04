@@ -35,6 +35,12 @@
   "contextual": {
     "options": [
       {
+        "title": "Install W&B MCP in Claude",
+        "description": "Install W&B MCP server to Claude.",
+        "icon": "plug",
+        "href": "https://docs.wandb.ai/platform/mcp-server#use-w&b’s-remote-mcp-server"
+      },
+      {
         "title": "Install W&B MCP in Cursor",
         "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
         "icon": "plug",
@@ -1571,7 +1577,7 @@
                           "fr/models/track/project-page",
                           "fr/models/track/workspaces",
                           {
-                            "group": "Que sont les exécutions ?",
+                            "group": "Que sont les exécutions ?",
                             "pages": [
                               "fr/models/runs",
                               "fr/models/runs/run-identifiers",
@@ -2714,7 +2720,7 @@
             ]
           },
           {
-            "tab": "Assistance : W&B Models",
+            "tab": "Assistance : W&B Models",
             "hidden": true,
             "pages": [
               "fr/support/models",
@@ -2754,7 +2760,7 @@
             ]
           },
           {
-            "tab": "Assistance : W&B Weave",
+            "tab": "Assistance : W&B Weave",
             "hidden": true,
             "pages": [
               "fr/support/weave",
@@ -2769,7 +2775,7 @@
             ]
           },
           {
-            "tab": "Assistance : W&B Inference",
+            "tab": "Assistance : W&B Inference",
             "hidden": true,
             "pages": [
               "fr/support/inference",
