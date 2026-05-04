@@ -35,6 +35,12 @@
   "contextual": {
     "options": [
       {
+        "title": "Install W&B MCP in Claude",
+        "description": "Install W&B MCP server to Claude Code.",
+        "icon": "plug",
+        "href": "https://docs.wandb.ai/platform/mcp-server#use-w&b’s-remote-mcp-server"
+      },
+      {
         "title": "Install W&B MCP in Cursor",
         "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
         "icon": "plug",
@@ -84,6 +90,28 @@
                       "product-inference",
                       "product-training",
                       "product-sandboxes"
+                    ]
+                  },
+                  {
+                    "group": "Release Notes",
+                    "expanded": false,
+                    "pages": [
+                      "release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "release-notes/server-releases",
+                          "release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDKs",
+                        "pages": [
+                          "release-notes/sdk-releases",
+                          "release-notes/weave-sdk-releases"
+                        ]
+                      },
+                      "release-notes/release-policies"
                     ]
                   },
                   {
@@ -1197,10 +1225,9 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
-                  "release-notes/sdk-releases",
-                  "release-notes/weave-sdk-releases"
+                  "release-notes/sdk-releases"
                 ]
               },
               "release-notes/release-policies"
@@ -1442,6 +1469,28 @@
                       "fr/product-inference",
                       "fr/product-training",
                       "fr/product-sandboxes"
+                    ]
+                  },
+                  {
+                    "group": "Notes de version",
+                    "expanded": false,
+                    "pages": [
+                      "fr/release-notes",
+                      {
+                        "group": "Serveur W&B",
+                        "pages": [
+                          "fr/release-notes/server-releases",
+                          "fr/release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "SDK de W&B",
+                        "pages": [
+                          "fr/release-notes/sdk-releases",
+                          "fr/release-notes/weave-sdk-releases"
+                        ]
+                      },
+                      "fr/release-notes/release-policies"
                     ]
                   },
                   {
@@ -2555,10 +2604,9 @@
                 ]
               },
               {
-                "group": "SDKs W&B",
+                "group": "W&B SDK",
                 "pages": [
-                  "fr/release-notes/sdk-releases",
-                  "fr/release-notes/weave-sdk-releases"
+                  "fr/release-notes/sdk-releases"
                 ]
               },
               "fr/release-notes/release-policies"
@@ -2803,13 +2851,35 @@
                     ]
                   },
                   {
+                    "group": "リリースノート",
+                    "expanded": false,
+                    "pages": [
+                      "ja/release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "ja/release-notes/server-releases",
+                          "ja/release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDK",
+                        "pages": [
+                          "ja/release-notes/sdk-releases",
+                          "ja/release-notes/weave-sdk-releases"
+                        ]
+                      },
+                      "ja/release-notes/release-policies"
+                    ]
+                  },
+                  {
                     "group": "プラットフォームの詳細",
                     "pages": [
                       {
                         "group": "W&B の設定",
                         "pages": [
                           {
-                            "group": "Settings",
+                            "group": "設定",
                             "pages": [
                               "ja/platform/app/settings-page",
                               "ja/platform/app/settings-page/user-settings",
@@ -2821,7 +2891,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティおよびアクセス管理（IAM）",
+                            "group": "アイデンティティとアクセス管理（IAM）",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -3913,10 +3983,9 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
-                  "ja/release-notes/sdk-releases",
-                  "ja/release-notes/weave-sdk-releases"
+                  "ja/release-notes/sdk-releases"
                 ]
               },
               "ja/release-notes/release-policies"
@@ -4161,10 +4230,32 @@
                     ]
                   },
                   {
+                    "group": "릴리스 노트",
+                    "expanded": false,
+                    "pages": [
+                      "ko/release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "ko/release-notes/server-releases",
+                          "ko/release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDK",
+                        "pages": [
+                          "ko/release-notes/sdk-releases",
+                          "ko/release-notes/weave-sdk-releases"
+                        ]
+                      },
+                      "ko/release-notes/release-policies"
+                    ]
+                  },
+                  {
                     "group": "플랫폼 상세 정보",
                     "pages": [
                       {
-                        "group": "W&B 설정",
+                        "group": "W&B 구성",
                         "pages": [
                           {
                             "group": "설정",
@@ -4219,7 +4310,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용 현황",
+                        "group": "모니터링 및 사용량",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -5271,10 +5362,9 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
-                  "ko/release-notes/sdk-releases",
-                  "ko/release-notes/weave-sdk-releases"
+                  "ko/release-notes/sdk-releases"
                 ]
               },
               "ko/release-notes/release-policies"

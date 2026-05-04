@@ -58,6 +58,81 @@ W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no
 Select the tab containing your MCP client's instructions:
 
 <Tabs>
+<Tab title="Claude Code CLI">
+
+To add the W&B MCP server to Claude Code, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
+
+```bash
+claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
+  --header "Authorization: Bearer <your-wandb-api-key>"
+```
+
+Add `--scope user` for a global configuration, or omit it to configure for the current project only.
+
+For more detailed information, see [Claude Code's documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
+
+</Tab>
+<Tab title="Claude Code Desktop">
+
+Claude Desktop's built-in custom connectors interface does not support API key authentication for remote MCP servers. To work around this, use the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) npm proxy to connect Claude Desktop to the W&B remote MCP server. The proxy runs locally and forwards requests to `https://mcp.withwandb.com/mcp` with your Bearer token.
+
+You need [Node.js](https://nodejs.org/) installed on your system.
+
+Open your Claude Desktop config file in a text editor. You can find the config file at the following location for your OS:
+
+* **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+* **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the following to the JSON object in your config file, replacing `<your-wandb-api-key>` with your W&B API key:
+
+```json
+{
+  "mcpServers": {
+    "wandb": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.withwandb.com/mcp",
+        "--header",
+        "Authorization:${AUTH_HEADER}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <your-wandb-api-key>"
+      }
+    }
+  }
+}
+```
+
+The full header value is set through the `env` field rather than directly in `args` to work around a space-escaping issue in some Claude Desktop versions.
+
+Restart Claude Desktop to activate the new configuration. Verify the connection by entering the prompt "List the projects in my W&B account."
+</Tab>
+<Tab title="Codex">
+
+To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
+
+```bash
+export WANDB_API_KEY=<your-wandb-api-key>
+codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
+```
+
+</Tab>
+<Tab title="Claude Code">
+
+To add the W&B MCP server to Claude Code, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
+
+```bash
+claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
+  --header "Authorization: Bearer <your-wandb-api-key>"
+```
+
+Add `--scope user` for a global configuration, or omit it to configure for the current project only.
+
+For more detailed information, see [Claude Code's documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
+
+</Tab>
 <Tab title="Cursor">
 
 You can install the W&B server in Cursor automatically using a [one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually using the following instructions:
@@ -86,30 +161,6 @@ You can install the W&B server in Cursor automatically using a [one-click instal
 6. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For more detailed information, see [Cursor's documentation](https://cursor.com/docs/context/mcp).
-
-</Tab>
-<Tab title="Claude Code">
-
-To add the W&B MCP server to Claude Code, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
-
-```bash
-claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
-  --header "Authorization: Bearer <your-wandb-api-key>"
-```
-
-Add `--scope user` for a global configuration, or omit it to configure for the current project only.
-
-For more detailed information, see [Claude Code's documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
-
-</Tab>
-<Tab title="Codex">
-
-To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
-
-```bash
-export WANDB_API_KEY=<your-wandb-api-key>
-codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
-```
 
 </Tab>
 <Tab title="OpenAI">
