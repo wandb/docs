@@ -1,0 +1,75 @@
+---
+title: "Tutorial: Project run-failure alert automation"
+description: Build a run-failure alert that sends a Slack notification when a run in your project fails.
+---
+import TutorialDiagramProject from "/snippets/en/_includes/automations/tutorial-diagram-project.mdx";
+import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
+import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
+
+This tutorial walks you through building a **project** automation triggered by run status: when a run in your project transitions to **Failed**, W&B sends a Slack notification.
+
+<TutorialDiagramProject/>
+
+<Tip>For guidance creating a Registry automation, see [Tutorial: Registry artifact alias automation](/models/automations/registry-automation-tutorial).</Tip>
+
+## Prerequisites
+
+- A W&B project.
+- A [Slack integration](/models/automations/create-automations/slack#add-a-slack-integration) configured in **Team Settings**.
+
+## Create a project automation
+
+Follow these instructions to set up a project-scoped automation: When a run in the project transitions to **Failed**, W&B sends a Slack notification.
+
+<Tabs>
+<Tab title="W&B App">
+1. Open the project and click the **Automations** tab in the sidebar, then click **Create automation**.
+1. Choose the event **Run state change**. Set the state to **Failed**. Optionally add a run name or user filter to limit which runs trigger the automation.
+1. Click **Next step**. Set **Action type** to **Slack notification** and select the Slack channel.
+1. Click **Next step**. Give the automation a name (for example, "Run failure alert") and an optional description, then click **Create automation**.
+
+For more detail, see [Create a Slack automation](/models/automations/create-automations/slack#create-an-automation) (Project tab).
+</Tab>
+<Tab title="Python">
+Use the public API to create the same automation with a project scope and run-state filter:
+
+```python
+import wandb
+from wandb.automations import OnRunState, RunEvent, SendNotification
+
+api = wandb.Api()
+
+project = api.project("my-project", entity="my-team")
+slack_integration = next(api.slack_integrations(entity="my-team"))
+
+event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["failed"]),
+)
+action = SendNotification.from_integration(slack_integration)
+
+automation = api.create_automation(
+    event >> action,
+    name="run-failure-alert",
+    description="Notify the team when a run fails.",
+)
+```
+</Tab>
+</Tabs>
+
+## Test the automation
+Create a run and log it to the project, explicitly marking it as failed:
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    run.log({"loss": 1.23})
+    run.finish(exit_code=1)
+```
+
+Within a short time you should see a Slack message with the run link and status.
+
+<TutorialNotebook/>
+
+<TutorialGoFurther/>
