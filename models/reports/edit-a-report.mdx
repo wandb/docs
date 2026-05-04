@@ -43,7 +43,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
 
-The proceeding examples demonstrates how to create a line plot and scatter plot.
+The following examples demonstrate how to create a line plot and scatter plot.
 
 ```python
 import wandb
@@ -92,7 +92,7 @@ If you import a panel into a report, run names are inherited from the project. I
 1. Click **Publish report**.
 </Tab>
 <Tab title="Report and Workspace API">
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The following procedure describes how to add a runset:
 
 1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the run sets for the project parameter and the entity that owns the project for the entity parameter.
 2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `run sets` parameter.
@@ -507,7 +507,7 @@ Select the name of the programming language on the right hand of the code block.
 <Tab title="Report and Workspace API">
 Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
-For example the proceeding example demonstrates a list in YAML file:
+For example the following example demonstrates a list in YAML file:
 
 ```python
 import wandb
@@ -535,7 +535,7 @@ cool:
 - file
 ```
 
-The proceeding example demonstrates a Python code block:
+The following example demonstrates a Python code block:
 
 ```python
 report = wr.Report(project="report-editing")
@@ -594,7 +594,7 @@ Add HTML elements to your report interactively with the App UI or with the W&B S
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
 </Tab>
 <Tab title="Report and Workspace API">
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
+Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
 
 ```python
 import wandb
@@ -653,7 +653,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 </Frame>
 </Tab>
 <Tab title="Report and Workspace API">
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
+Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
 
 ```python
 import wandb
@@ -690,7 +690,7 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 ## Collapse headers to organize Reports
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
+Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The following gif demonstrates the process.
 
 <Frame>
     <img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report."  />

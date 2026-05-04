@@ -29,8 +29,10 @@ title: run 필터링
 
 1. 프로젝트 사이드바에서 **Runs** 탭으로 이동합니다.
 2. Runs 테이블 위에 있는 깔때기 모양의 **Filter** 버튼을 선택합니다.
-3. 왼쪽부터 차례로 열 이름, 논리 Operator, 필터 값을 선택해 필터 표현식을 만듭니다.
-4. 필요한 경우 **New Filter**를 선택하여 필터를 추가로 적용합니다.
+3. 왼쪽부터 차례로 열 이름, 논리 Operator, 필터 값을 선택해 필터 표현식을 만듭니다. 필터 값은 선택하는 즉시 적용됩니다.
+4. 필요한 경우 **New Filter**를 선택하여 추가 AND 또는 OR 조건을 적용합니다.
+5. 필요한 경우 **New group**을 선택하여 괄호로 필터를 함께 그룹화합니다. 이를 통해 [A AND (B OR C)](#example-combine-filters-with-and-and-or-conditions)와 같은 복잡한 필터 표현식을 만들 수 있습니다.
+6. 오른쪽 상단의 **x** 아이콘을 클릭하여 필터 표현식 편집기를 닫습니다.
 
 다음 이미지는 loss 값이 `1` 이하인 run을 필터링한 예를 보여줍니다:
 
@@ -54,6 +56,25 @@ title: run 필터링
 
 <Frame>
   <img src="/images/app_ui/filter_runs.gif" alt="태그로 run 필터링" />
+</Frame>
+
+<div id="example-combine-filters-with-and-and-or-conditions">
+  ### 예시: AND 및 OR 조건으로 필터 조합하기
+</div>
+
+이 섹션에서는 `A AND (B OR C)`와 같은 복잡한 필터 표현식을 만드는 방법을 설명합니다. 이 예시에서 A는 `loss` ≤ `1`, B는 `State` = `finished`, C는 `State` = `crashed`입니다.
+
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭하세요.
+2. Runs 테이블 위에 있는 깔때기 모양의 **Filter** 버튼을 선택하세요.
+3. 왼쪽부터 차례대로 첫 번째 드롭다운 메뉴에서 `loss`를 선택하고, 두 번째 드롭다운 메뉴에서 ≤를 선택한 다음, 세 번째 드롭다운 메뉴에 `1`을 입력하세요. 그러면 필터 A가 생성됩니다.
+4. **New Filter**를 클릭한 다음 **New group**을 선택하여 필터 B와 C용 새 그룹을 만드세요.
+5. 필터 B의 경우 첫 번째 드롭다운 메뉴에서 `State`를 선택하고, 두 번째 드롭다운 메뉴에서 `=`를 선택한 다음, 세 번째 드롭다운 메뉴에서 `finished`를 선택하세요.
+6. 필터 C를 만들려면 **New Filter**를 클릭한 다음, 첫 번째 드롭다운 메뉴에서 `State`를 선택하고, 두 번째 드롭다운 메뉴에서 `=`를 선택한 다음, 세 번째 드롭다운 메뉴에서 `crashed`를 선택하세요.
+
+다음 이미지는 생성된 필터 표현식이 필터 표현식 편집기에 어떻게 표시되는지 보여줍니다.
+
+<Frame>
+  <img src="/images/runs/run_expressions_and_or.png" alt="AND 및 OR 조건으로 필터 조합하기" />
 </Frame>
 
 <div id="default-filters">

@@ -6,9 +6,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/internal.py" />
 
-<Note>
-  L&#39;API W&amp;B Report and Workspace est en aperçu public.
-</Note>
+<Note>L&#39;API W&amp;B Report and Workspace est en aperçu public.</Note>
 
 Bibliothèque Python pour interagir de manière programmatique avec l&#39;API W&amp;B Workspace.
 
@@ -21,7 +19,7 @@ import wandb_workspaces.reports.v2 as wr
 ws.Workspace(
      name="Example W&B Workspace",
      entity="entity", # entité propriétaire du workspace
-     project="project", # projet associé au workspace
+     project="project", # projet auquel le workspace est associé
      sections=[
          ws.Section(
              name="Validation Metrics",
@@ -36,7 +34,6 @@ ws.Workspace(
 )
 workspace.save()
 ```
-
 
 ## <kbd>class</kbd> `RunSettings`
 
@@ -66,7 +63,7 @@ Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
 * `run_settings` (Dict[str, RunSettings]):  Un dictionnaire de paramètres de run, où la clé est l’ID du run et la valeur un objet RunSettings.
 * `pinned_columns` (LList[str]):  Liste des noms de colonnes à épingler.
 * `Column names use format`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
-* `run`: displayName est ajouté automatiquement s’il n’est pas déjà présent.
+* `run`:  displayName est ajouté automatiquement s’il n’est pas déjà présent.
 * `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
 
 **Exemple :**
@@ -78,7 +75,7 @@ Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
         pinned_columns=["summary:accuracy", "summary:loss"],
     )
 
-    # Utilisation d'une liste FilterExpr (méthode originale)
+    # Utilisation d'une liste FilterExpr (méthode d'origine)
     RunsetSettings(
         filters=[expr.Config("learning_rate") == 0.001],
         pinned_columns=["summary:accuracy", "summary:loss"],
@@ -86,7 +83,6 @@ Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
 ```
 
 ***
-
 
 ### <kbd>méthode</kbd> `convert_filterexpr_list_to_string`
 
@@ -138,15 +134,15 @@ Paramètres de mise en page des panneaux d’une section, généralement visible
 
 ## <kbd>class</kbd> `SectionPanelSettings`
 
-Paramètres du panneau d’une section, similaires à `WorkspaceSettings` pour une section.
+Paramètres de panneau pour une section, similaires à `WorkspaceSettings` pour une section.
 
 Les paramètres appliqués ici peuvent être remplacés par des paramètres de panneau plus précis, selon l’ordre de priorité suivant : Section &lt; Panel.
 
 **Attributs :**
 
-* `x_axis` (str):  Paramètre du nom de la métrique de l’axe x. Par défaut, la valeur est &quot;Step&quot;.
-* `x_min Optional[float]`:  Valeur minimale de l’axe x.
-* `x_max Optional[float]`:  Valeur maximale de l’axe x.
+* `x_axis` (str):  Paramètre du nom de la métrique de l’axe X. Par défaut, la valeur est &quot;Step&quot;.
+* `x_min Optional[float]`:  Valeur minimum pour l’axe x.
+* `x_max Optional[float]`:  Valeur maximum pour l’axe x.
 * `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  Type de lissage appliqué à tous les panneaux.
 * `smoothing_weight` (int):  Poids du lissage appliqué à tous les panneaux.
 

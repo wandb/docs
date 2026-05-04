@@ -1,159 +1,165 @@
 ---
-title: "사용자 정의 비용 추적"
-description: "Weave에서 LLM 오퍼레이션의 비용을 추적하고 관리합니다"
+title: "비용 추적"
+description: "Weave에서 LLM 오퍼레이션의 자동 비용 추적과 맞춤형 비용 추적을 이해하세요"
 ---
 
-W&amp;B Weave는 token 사용량을 추적하고 사용한 모델의 가격을 적용해 각 LLM call의 비용을 자동으로 계산하므로, 트레이스와 평가에서 애플리케이션 비용을 직접 모니터링하고 분석할 수 있습니다.
+Weave는 두 가지 방법으로 LLM 호출 비용을 추적합니다:
 
-또한 다른 가격 기준이 필요하거나 내부 비용 모델을 사용해야 하거나 Weave가 자동으로 가격을 책정하지 않는 오퍼레이션의 비용을 추적해야 하는 경우에는 사용자 정의 비용도 추적할 수 있습니다.
+* **자동 비용 추적**: [지원되는 인테그레이션](/ko/weave/guides/integrations)의 경우, Weave는 API 응답에서 토큰 사용량을 캡처하고 모델의 기본 가격을 적용하므로 추가 코드가 필요하지 않습니다.
+* **맞춤형 비용 추적**: 파인튜닝된 모델, 자체 호스팅 모델 또는 Weave가 자동으로 통합하지 않는 모델의 경우, 사용 가능한 API 방법을 사용해 맞춤형 비용을 추적하도록 Weave를 설정하세요.
 
-<div id="adding-a-custom-cost">
-  ## 사용자 정의 비용 추가
+<Note>
+  현재 Weave TypeScript는 비용 추적을 지원하지 않습니다.
+</Note>
+
+<div id="use-automatic-cost-tracking">
+  ## 자동 비용 추적 사용
 </div>
 
-<Tabs>
-  <Tab title="Python">
-    [`add_cost`](/ko/weave/reference/python-sdk/trace/weave_client#method-add-cost) 방법을 사용해 사용자 정의 비용을 추가할 수 있습니다.
-    필수 필드는 `llm_id`, `prompt_token_cost`, `completion_token_cost`의 세 가지입니다.
-    `llm_id`는 LLM의 이름(예: `gpt-4o`)입니다. `prompt_token_cost`와 `completion_token_cost`는 LLM의 토큰당 비용입니다(LLM 가격이 백만 토큰 기준으로 지정된 경우 값을 반드시 변환하세요).
-    `effective_date`를 datetime으로 설정해 특정 날짜부터 비용이 적용되도록 할 수도 있으며, 기본값은 현재 날짜입니다.
+`weave.init()`를 호출하고 OpenAI, Anthropic, Cohere 또는 Mistral과 같은 [지원되는 LLM 인테그레이션](/ko/weave/guides/integrations)을 사용하면 Weave가 자동으로 토큰 사용량을 기록하고 각 호출의 비용을 계산합니다. 비용은 트레이스 트리와 Weave UI의 Call 테이블에 표시되며, `include_costs` 파라미터를 `true`로 설정해 호출을 쿼리하면 `call.summary["weave"]["costs"]`에서 프로그래밍 방식으로 조회할 수 있습니다.
 
-    ```python lines
-    import weave
-    from datetime import datetime
+자동 비용 추적을 사용하려면 두 가지 조건이 필요합니다:
 
-    client = weave.init("my_custom_cost_model")
+* LLM 공급자가 지원되는 인테그레이션이어야 합니다.
+* API 응답에 토큰 사용량이 포함되어야 합니다(대부분의 공급자는 기본적으로 이를 반환합니다).
 
-    client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=0.01,
-        completion_token_cost=0.02
-    )
+두 조건 중 하나라도 충족되지 않으면 대신 사용자 정의 비용 추적을 사용하세요.
 
-    client.add_cost(
-        llm_id="your_model_name",
-        prompt_token_cost=10,
-        completion_token_cost=20,
-        # 예를 들어 특정 날짜 이후에 모델 가격을 올리려는 경우
-        effective_date=datetime(2025, 4, 22),
-    )
-    ```
-  </Tab>
+다음 예시는 자동 비용 데이터를 프로그래밍 방식으로 조회하는 방법을 보여줍니다:
 
-  <Tab title="TypeScript">
-    ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다.  조금만 기다려 주세요!
-    ```
-  </Tab>
-</Tabs>
+```python lines
+import weave
+from openai import OpenAI
 
-<div id="querying-for-costs">
-  ## 비용 쿼리하기
+weave.init("your-team/project-name")
+client = OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "What is 2 + 2?"}],
+)
+
+import time
+time.sleep(2)
+
+# Weave 클라이언트의 현재 인스턴스 조회
+weave_client = weave.get_client()
+# 인스턴스의 Call 및 비용 액세스
+calls = list(weave_client.get_calls(include_costs=True, limit=1))
+call = calls[0]
+
+# Call 요약에 액세스하고 사용 가능한 비용 필드 조회
+costs = call.summary.get("weave", {}).get("costs", {})
+if not costs:
+    print("No costs found in summary.weave.costs")
+for model, cost in costs.items():
+    print(f"Model: {model}")
+    print(f"  Input cost:  ${cost['prompt_tokens_total_cost']:.6f}")
+    print(f"  Output cost: ${cost['completion_tokens_total_cost']:.6f}")
+```
+
+<div id="add-a-custom-cost">
+  ## 맞춤형 비용 추가
 </div>
 
-<Tabs>
-  <Tab title="Python">
-    [`query_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-query-costs) 방법을 사용해 비용을 쿼리할 수 있습니다.
-    비용을 쿼리하는 방법은 몇 가지가 있으며, 단일 비용 ID를 전달하거나 LLM 모델 이름 목록을 전달할 수 있습니다.
+[`add_cost`](/ko/weave/reference/python-sdk/trace/weave_client#method-add-cost) 방법을 사용해 맞춤형 비용을 추가할 수 있습니다.
+필수 필드는 `llm_id`, `prompt_token_cost`, `completion_token_cost`의 세 가지입니다.
+`llm_id`는 LLM의 이름(예: `gpt-4o`)입니다. `prompt_token_cost`와 `completion_token_cost`는 LLM의 토큰당 비용입니다(LLM 가격이 백만 토큰 기준으로 지정된 경우 값을 반드시 변환하세요).
+`effective_date`를 datetime으로 설정해 특정 날짜부터 비용이 적용되도록 할 수도 있으며, 기본값은 현재 날짜입니다.
 
-    ```python lines
-    import weave
+```python lines
+import weave
+from datetime import datetime
 
-    client = weave.init("my_custom_cost_model")
+client = weave.init("your-team/project-name")
 
-    costs = client.query_costs(llm_ids=["your_model_name"])
+client.add_cost(
+    llm_id="your_model_name",
+    prompt_token_cost=0.01,
+    completion_token_cost=0.02
+)
 
-    cost = client.query_costs(costs[0].id)
-    ```
-  </Tab>
+client.add_cost(
+    llm_id="your_model_name",
+    prompt_token_cost=10,
+    completion_token_cost=20,
+    effective_date=datetime(2025, 4, 22),
+)
+```
 
-  <Tab title="TypeScript">
-    ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다. 조금만 기다려 주세요!
-    ```
-  </Tab>
-</Tabs>
+<div id="querying-custom-costs">
+  ### 맞춤형 비용 쿼리하기
+</div>
+
+[`query_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-query-costs) 방법을 사용해 비용을 쿼리할 수 있습니다.
+비용을 쿼리하는 방법은 몇 가지가 있으며, 단일 비용 ID를 전달하거나 LLM 모델 이름 목록을 전달할 수 있습니다.
+
+```python lines
+import weave
+
+client = weave.init("your-team/project-name")
+
+costs = client.query_costs(llm_ids=["your_model_name"])
+
+cost = client.query_costs(costs[0].id)
+```
 
 <div id="purging-a-custom-cost">
-  ## 사용자 정의 비용 삭제
+  ### 맞춤형 비용 삭제
 </div>
 
-<Tabs>
-  <Tab title="Python">
-    [`purge_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-purge-costs) 방법을 사용해 사용자 정의 비용을 삭제할 수 있습니다. 비용 ID 목록을 전달하면 해당 ID를 가진 비용이 삭제됩니다.
+[`purge_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-purge-costs) 방법을 사용해 맞춤형 비용을 삭제할 수 있습니다. 비용 ID 목록을 전달하면 해당 ID를 가진 비용이 삭제됩니다.
 
-    ```python lines
-    import weave
+```python lines
+import weave
 
-    client = weave.init("my_custom_cost_model")
+client = weave.init("your-team/project-name")
 
-    costs = client.query_costs(llm_ids=["your_model_name"])
-    client.purge_costs([cost.id for cost in costs])
-    ```
-  </Tab>
+costs = client.query_costs(llm_ids=["your_model_name"])
+client.purge_costs([cost.id for cost in costs])
+```
 
-  <Tab title="TypeScript">
-    ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다.  곧 지원될 예정입니다!
-    ```
-  </Tab>
-</Tabs>
-
-<div id="calculating-costs-for-a-project">
-  ## 프로젝트 비용 계산
+<div id="calculating-custom-costs-for-a-project">
+  ### 프로젝트의 맞춤형 비용 계산하기
 </div>
 
-<Tabs>
-  <Tab title="Python">
-    약간의 설정만 거치면 `calls_query`를 사용하고 `include_costs=True`를 추가해 프로젝트 비용을 계산할 수 있습니다.
+`include_costs=True`로 `get_calls()`를 사용하면 프로젝트의 맞춤형 비용을 계산할 수 있습니다.
 
-    ```python lines
-    import weave
+```python lines
+import weave
 
-    weave.init("project_costs")
-    @weave.op()
-    def get_costs_for_project(project_name: str):
-        total_cost = 0
-        requests = 0
+weave.init("your-team/project-name")
 
-        client = weave.init(project_name)
-        # 프로젝트의 모든 call을 가져옵니다
-        calls = list(
-            client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
-        )
+@weave.op()
+def get_costs_for_project(project_name: str):
+    total_cost = 0
+    requests = 0
 
-        for call in calls:
-            # call에 비용이 있으면 총비용에 더합니다
-            if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
-                for k, cost in call.summary["weave"]["costs"].items():
-                    requests += cost["requests"]
-                    total_cost += cost["prompt_tokens_total_cost"]
-                    total_cost += cost["completion_tokens_total_cost"]
+    client = weave.init(project_name)
+    calls = list(
+        client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
+    )
 
-        # 총비용, 요청 수, call 수를 반환합니다
-        return {
-            "total_cost": total_cost,
-            "requests": requests,
-            "calls": len(calls),
-        }
+    for call in calls:
+        if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
+            for k, cost in call.summary["weave"]["costs"].items():
+                requests += cost["requests"]
+                total_cost += cost["prompt_tokens_total_cost"]
+                total_cost += cost["completion_tokens_total_cost"]
 
-    # 함수를 @weave.op()으로 데코레이팅했기 때문에
-    # 총합은 과거 비용 총계를 계산할 수 있도록 Weave에 저장됩니다
-    get_costs_for_project("my_custom_cost_model")
-    ```
-  </Tab>
+    return {
+        "total_cost": total_cost,
+        "requests": requests,
+        "calls": len(calls),
+    }
 
-  <Tab title="TypeScript">
-    ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다. Stay tuned!
-    ```
-  </Tab>
-</Tabs>
+get_costs_for_project("my_custom_cost_model")
+```
 
 <div id="setting-up-a-custom-model-with-custom-costs">
-  ## 사용자 정의 비용을 사용하는 맞춤형 모델 설정하기
+  ### 맞춤형 비용을 사용하는 맞춤형 모델 설정하기
 </div>
 
-[맞춤형 모델에 사용자 정의 비용 설정하기](/ko/weave/cookbooks/custom_model_cost) 쿡북을 사용해 보세요.
+[맞춤형 모델에 맞춤형 비용 설정하기](/ko/weave/cookbooks/custom_model_cost) 쿡북을 사용해 보세요.
 
 <Card title="Colab에서 사용해 보기" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />

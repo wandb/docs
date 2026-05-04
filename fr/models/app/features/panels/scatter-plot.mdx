@@ -16,6 +16,7 @@ Utilisez des nuages de points pour comparer plusieurs runs et visualiser les per
 * Définissez la couleur des points.
 * Ajustez les plages des axes.
 * Utilisez une échelle logarithmique pour les axes.
+* Configurez la façon dont la **ligne frontière** et les points associés sont étiquetés et mis en évidence. Voir [Options d’affichage de la ligne frontière](#frontier-line-display-options).
 
 <div id="example">
   ## Exemple
@@ -42,3 +43,18 @@ Pour créer un nuage de points dans l’interface W&amp;B :
 5. Définissez les axes `x` et `y` pour tracer les données que vous souhaitez afficher. Vous pouvez également définir des valeurs minimale et maximale pour vos axes ou ajouter un axe `z`.
 6. Cliquez sur **Apply** pour créer le nuage de points.
 7. Affichez le nouveau nuage de points dans le panneau **Charts**.
+
+<div id="frontier-line-display-options">
+  ## Options d’affichage de la ligne frontière
+</div>
+
+Sur un nuage de points, la *ligne frontière* relie les valeurs les plus hautes et les plus basses de l’axe Y observées jusque-là dans les données du graphique. Vous pouvez ajuster l’apparence de cette ligne et des points environnants dans les paramètres du graphique.
+
+Pour configurer les options d’affichage de la ligne frontière :
+
+1. Survolez le panneau du nuage de points, puis cliquez sur l’icône d’engrenage pour ouvrir le volet latéral des paramètres du panneau.
+2. Sélectionnez l’onglet **Annotations**.
+3. Définissez les options souhaitées :
+   * **Show run labels** : Basculez l’affichage d’une étiquette contenant le nom du run ou du groupe.
+   * **Dim non-frontier points** : Basculez l’atténuation visuelle des points qui ne se trouvent pas sur la ligne frontière afin de mieux faire ressortir celle-ci.
+4. Cliquez sur **Apply** pour enregistrer vos modifications.

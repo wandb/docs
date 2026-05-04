@@ -1,5 +1,23 @@
 # GitHub Actions Workflows
 
+## GitHub App authentication
+
+Several workflows need permissions that the native `GITHUB_TOKEN` cannot provide. Use GitHub App installation tokens instead of personal access tokens for those cases.
+
+Created these GitHub Apps under the `wandb` organization:
+
+- `wandb-docs-source-reader`: install only on `wandb/docs-code-eval` and `wandb/weave-internal` with **Contents** read access.
+- `wandb-docs-pr-writer`: install only on `wandb/docs` with **Contents** read and write access and **Pull requests** read and write access.
+
+Stored the app credentials in `wandb/docs`:
+
+- Repository variable `DOCS_SOURCE_READER_CLIENT_ID`: client ID for `wandb-docs-source-reader` (alphanumeric string shown on the app's settings page, for example `Iv1.abc123`; not the numeric App ID).
+- Repository secret `DOCS_SOURCE_READER_PRIVATE_KEY`: private key for `wandb-docs-source-reader`.
+- Repository variable `DOCS_PR_WRITER_CLIENT_ID`: client ID for `wandb-docs-pr-writer` (same format as above).
+- Repository secret `DOCS_PR_WRITER_PRIVATE_KEY`: private key for `wandb-docs-pr-writer`.
+
+The workflows use `actions/create-github-app-token@v3` to create short-lived installation tokens from these credentials.
+
 ## Sync Code Examples
 
 **Workflow**: `sync-code-examples.yml`
@@ -68,17 +86,18 @@ When the draft PR is created:
 The workflow uses:
 - **Python**: 3.11
 - **Permissions**: `contents: write`, `pull-requests: write`
+- **Token action**: `actions/create-github-app-token@v3`
 - **Action**: `peter-evans/create-pull-request@v8`
 
 **Authentication and `docs-code-eval`**
 
-The automatic `GITHUB_TOKEN` is scoped to this repository (`wandb/docs`) only. It does not grant read access to other private repositories in the org, so it cannot replace a PAT for cloning `wandb/docs-code-eval` when that repo is private.
+The automatic `GITHUB_TOKEN` is scoped to this repository (`wandb/docs`) only. It does not grant read access to other private repositories in the org, so it cannot clone a private `wandb/docs-code-eval`.
 
-To sync from a **private** `docs-code-eval`, add a repository secret named `DOCS_CODE_EVAL_READ_PAT`: a fine-grained personal access token (or classic PAT) with **Contents** read access to `wandb/docs-code-eval`. The sync script uses it only for `git clone`. If the secret is not set and `docs-code-eval` is public, the workflow clones without a token.
+To sync from a private `docs-code-eval`, install `wandb-docs-source-reader` on `wandb/docs-code-eval`. The workflow creates a GitHub App installation token and passes it to the sync script as `DOCS_CODE_EVAL_READ_TOKEN`.
 
 **Clone fails with `could not read Username for 'https://github.com'`**
 
-That usually means Git tried to prompt for credentials (no TTY in Actions) or a credential helper failed. The sync script clears `credential.helper` for the clone and uses HTTPS with `x-access-token` when `DOCS_CODE_EVAL_READ_PAT` is set. If the log shows **anonymous** clone but the repo is private, the secret is missing, misnamed, or not available to this workflow (for example some fork contexts). Re-check the secret name `DOCS_CODE_EVAL_READ_PAT` and that the job log line above the clone says **PAT over HTTPS**.
+That usually means Git tried to prompt for credentials (no TTY in Actions) or a credential helper failed. The sync script clears `credential.helper` for the clone and uses HTTPS with `x-access-token` when `DOCS_CODE_EVAL_READ_TOKEN` is set. If the log shows an anonymous clone but the repo is private, check the GitHub App installation and the `DOCS_SOURCE_READER_APP_ID` and `DOCS_SOURCE_READER_PRIVATE_KEY` credentials.
 
 ### Troubleshooting
 
@@ -123,4 +142,3 @@ git add .
 git commit -m "Sync code examples from docs-code-eval"
 git push
 ```
-

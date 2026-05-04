@@ -7,7 +7,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
 <Tabs>
   <Tab title="Python">
-    Le [SDK Python d’OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger et puissant pour créer des flux de travail multi-agents.
+    Le [SDK Python OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger et puissant pour créer des flux de travail multi-agents.
 
     ## Installation
 
@@ -19,7 +19,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     ## Pour commencer
 
-    Pour utiliser le SDK Agents d’OpenAI avec Weave :
+    Pour utiliser le SDK OpenAI Agents avec Weave :
 
     * Initialisez Weave avec le nom de votre projet.
     * Ajoutez le processeur de tracing Weave à vos agents.
@@ -69,7 +69,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     ## Installation
 
-    Installez les dépendances requises à l’aide de `npm` :
+    Installez les dépendances requises à l’aide de `npm`. L’intégration TypeScript de Weave nécessite `@openai/agents` version `0.4.15` ou ultérieure :
 
     ```bash
     npm install weave @openai/agents zod
@@ -106,7 +106,7 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
     });
 
     async function main() {
-      // METTEZ À JOUR avec les informations de votre projet.
+      // Mettez à jour avec les informations de votre projet.
       await weave.init("your-team-name/your-project-name");
 
       const agent = new Agent({
