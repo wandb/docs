@@ -21,6 +21,16 @@
 # keyword to this file.
 # ---------------------------------------------------------------------------
 
+# Project-specific settings
+# -------------------------
+# mintlify_root: Path from the GitHub repository root to the Mintlify root
+#   (the directory containing support/ and support.mdx). Use "." when the
+#   Mintlify root is the GitHub repo root, or a subdirectory name (for
+#   example "public-docs") when the docs live in a subfolder.
+# badge_color: Mintlify <Badge> color used for tab and featured Badges.
+mintlify_root: "."
+badge_color: "orange"
+
 products:
   - slug: models
     display_name: "W&B Models"

@@ -48,7 +48,7 @@ import json
 
 import requests
 
-# ヘッダーとURL
+# ヘッダーと URL
 headers = {"Content-Type": "application/json"}
 url_start = "https://trace.wandb.ai/call/start"
 url_end = "https://trace.wandb.ai/call/end"
@@ -59,7 +59,6 @@ team_id = ""
 project_id = ""
 wandb_token = ""
 ```
-
 
 <div id="simple-trace">
   ## シンプルなトレース
@@ -82,7 +81,7 @@ wandb_token = ""
 Call started. ID: 01939cdc-38d2-7d61-940d-dcca0a56c575, Trace ID: 01939cdc-38d2-7d61-940d-dcd0e76c5f34
 python
 ## ------------
-## トレースの開始
+## トレースを開始する
 ## ------------
 payload_start = {
     "start": {
@@ -90,7 +89,7 @@ payload_start = {
         "op_name": "simple_trace",
         "started_at": datetime.datetime.now().isoformat(),
         "inputs": {
-            # 展開されたトレースでチャットUIを生成するには、この "messages" スタイルを使用してください。
+            # 展開されたトレースでチャット UI を生成するには、この "messages" スタイルを使用してください。
             "messages": [{"role": "user", "content": "Why is the sky blue?"}],
             "model": "gpt-4o",
         },
@@ -104,19 +103,18 @@ if response.status_code == 200:
     data = response.json()
     call_id = data.get("id")
     trace_id = data.get("trace_id")
-    print(f"callが開始されました。ID: {call_id}, Trace ID: {trace_id}")
+    print(f"Call started. ID: {call_id}, Trace ID: {trace_id}")
 else:
-    print("開始リクエストが失敗しました。ステータス:", response.status_code)
+    print("Start request failed with status:", response.status_code)
     print(response.text)
     exit()
 ```
-
 
 <div id="end-a-simple-trace">
   ### シンプルなトレースを終了する
 </div>
 
-シンプルなトレースを完了するには、次のコードでサンプルの LLM call `payload_end` を作成し、`url_end` エンドポイントを使って Weave にログします。`payload_end` オブジェクトは、クエリ `Why is the sky blue?` に対する OpenAI&#39;s `gpt-4o` からのレスポンスを模倣したものです。このオブジェクトは、Weave ダッシュボードの Trace view で料金サマリー情報と Chat Completion が生成されるように整形されています。
+シンプルなトレースを完了するには、次のコードでサンプルの LLM call `payload_end` を作成し、`url_end` エンドポイントを使って Weave にログします。`payload_end` オブジェクトは、クエリ `Why is the sky blue?` に対する OpenAI&#39;s `gpt-4o` からの応答を模倣したものです。このオブジェクトは、Weave ダッシュボードの Trace view で料金サマリー情報と Chat Completion が生成されるように整形されています。
 
 成功すると、このコードはトレースが完了したことを示すメッセージを出力します:
 
@@ -132,7 +130,7 @@ payload_end = {
         "id": call_id,
         "ended_at": datetime.datetime.now().isoformat(),
         "output": {
-            # 展開されたトレースのチャットUIに補完を追加するには、この "choices" スタイルを使用する。
+            # 展開されたトレースの Chat UI に Completion を追加するには、この "choices" スタイルを使用します。
             "choices": [
                 {
                     "message": {
@@ -141,7 +139,7 @@ payload_end = {
                 },
             ]
         },
-        # トレース表にpricingのsummary情報を生成するには、このようにsummaryをフォーマットする。
+        # トレース表に料金サマリー情報を生成するには、このようにサマリーを整形します。
         "summary": {
             "usage": {
                 "gpt-4o": {
@@ -158,12 +156,11 @@ response = requests.post(
     url_end, headers=headers, json=payload_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("callが終了しました。")
+    print("Call ended.")
 else:
-    print("終了リクエストが失敗しました。ステータス:", response.status_code)
+    print("End request failed with status:", response.status_code)
     print(response.text)
 ```
-
 
 <div id="complex-trace">
   ## 複雑なtrace
@@ -182,15 +179,15 @@ else:
 
 次のコードは、複数のスパンを含む、より複雑なトレースを作成する方法を示しています。たとえば、Retrieval-Augmented Generation (RAG) のルックアップを行い、その後に LLM の call を実行するケースです。最初の部分では、処理全体を表す親トレース (`payload_parent_start`) を初期化します。この場合の操作は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
 
-`payload_parent_start` オブジェクトは、複数の step から成る workflow の最初の step を模しており、`url_start` エンドポイントを使用してその操作を Weave にログします。
+`payload_parent_start` オブジェクトは、複数の step から成る ワークフロー の最初の step を模しており、`url_start` エンドポイントを使用してその操作を Weave にログします。
 
 成功すると、このコードは親 call がログされたことを示すメッセージを出力します。
 
 ```
-親 call が開始されました。ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
+Parent call started. ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
 python
 ## ------------
-## トレースを開始（親）
+## トレースを開始する（親）
 ## ------------
 
 # 親 call: 開始
@@ -210,19 +207,18 @@ if response.status_code == 200:
     data = response.json()
     parent_call_id = data.get("id")
     trace_id = data.get("trace_id")
-    print(f"親 call が開始されました。ID: {parent_call_id}, Trace ID: {trace_id}")
+    print(f"Parent call started. ID: {parent_call_id}, Trace ID: {trace_id}")
 else:
-    print("親の開始リクエストが失敗しました。ステータス:", response.status_code)
+    print("Parent start request failed with status:", response.status_code)
     print(response.text)
     exit()
 ```
-
 
 <div id="add-a-child-span-for-a-rag-document-lookup">
   ### RAG ドキュメント検索用の子スパンを追加する
 </div>
 
-次のコードは、前の step で開始した複雑な親トレースに子スパンを追加する方法を示しています。この step では、全体の workflow における RAG ドキュメント検索のサブ operation を表現しています。
+次のコードは、前の step で開始した複雑な親トレースに子スパンを追加する方法を示しています。この step では、全体の ワークフロー における RAG ドキュメント検索のサブ operation を表現しています。
 
 子トレースは `payload_child_start` オブジェクトで開始され、これには次の内容が含まれます。
 
@@ -231,18 +227,18 @@ else:
 * `inputs`: 検索クエリをログします。例:
   `"探しているドキュメントの検索クエリです。"`
 
-`url_start` endpoint への call が成功すると、子 call が開始され、完了したことを示すメッセージが出力されます。
+`url_start` エンドポイント への call が成功すると、子 call が開始され、完了したことを示すメッセージが出力されます。
 
 ```
-子callが開始されました。ID: 01939d32-23d6-75f2-9128-36a4a806f179
-子callが終了しました。
+Child call started. ID: 01939d32-23d6-75f2-9128-36a4a806f179
+Child call ended.
 python
 ## ------------
 ## 子スパン:
-## 例: RAGドキュメント検索
+## 例: RAG ドキュメント検索
 ## ------------
 
-# 子call: 開始
+# 子 call: 開始
 payload_child_start = {
     "start": {
         "project_id": f"{team_id}/{project_id}",
@@ -262,13 +258,13 @@ response = requests.post(
 if response.status_code == 200:
     data = response.json()
     child_call_id = data.get("id")
-    print(f"子callが開始されました。ID: {child_call_id}")
+    print(f"Child call started. ID: {child_call_id}")
 else:
-    print("子callの開始リクエストが失敗しました。ステータス:", response.status_code)
+    print("Child start request failed with status:", response.status_code)
     print(response.text)
     exit()
 
-# 子call: 終了
+# 子 call: 終了
 payload_child_end = {
     "end": {
         "project_id": f"{team_id}/{project_id}",
@@ -284,12 +280,11 @@ response = requests.post(
     url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("子callが終了しました。")
+    print("Child call ended.")
 else:
-    print("子callの終了リクエストが失敗しました。ステータス:", response.status_code)
+    print("Child end request failed with status:", response.status_code)
     print(response.text)
 ```
-
 
 <div id="add-a-child-span-for-an-llm-completion-call">
   ### LLM completion call の子スパンを追加する
@@ -300,14 +295,14 @@ else:
 LLM completion トレースは `payload_child_start` オブジェクトで開始され、これには次が含まれます。
 
 * `trace_id`: この子スパンを親トレースに紐付けます。
-* `parent_id`: この子スパンを全体の workflow に関連付けます。
+* `parent_id`: この子スパンを全体の ワークフロー に関連付けます。
 * `inputs`: ユーザークエリと追加されたドキュメントコンテキストを含む、LLM への入力メッセージをログします。
 * `model`: この operation に使用するモデル (`gpt-4o`) を指定します。
 
 成功すると、コードは LLM の子スパンのトレースが開始され、終了したことを示すメッセージを出力します。
 
 ```
-子callが開始されました。ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
 ```
 
 処理が完了すると、`payload_child_end` オブジェクトは、LLM が生成した応答を `output` フィールドにログして、トレースを終了します。Usage のサマリー情報もログされます。
@@ -320,10 +315,10 @@ Child call ended.
 python
 ## ------------
 ## 子スパン:
-## LLM補完callを作成する
+## LLM completion call を作成する
 ## ------------
 
-# 子call: 開始
+# 子 call: 開始
 payload_child_start = {
     "start": {
         "project_id": f"{team_id}/{project_id}",
@@ -335,7 +330,7 @@ payload_child_start = {
             "messages": [
                 {
                     "role": "user",
-                    "content": "以下のドキュメントコンテキストを参考に、次の質問への回答をお願いします:\n このドキュメントの要点をまとめてください。\n [+ 追加されたドキュメントコンテキスト]",
+                    "content": "With the following document context, could you help me answer:\n Can you summarize the key points of this document?\n [+ appended document context]",
                 }
             ],
             "model": "gpt-4o",
@@ -349,13 +344,13 @@ response = requests.post(
 if response.status_code == 200:
     data = response.json()
     child_call_id = data.get("id")
-    print(f"子callが開始されました。ID: {child_call_id}")
+    print(f"Child call started. ID: {child_call_id}")
 else:
-    print("子callの開始リクエストが失敗しました。ステータス:", response.status_code)
+    print("Child start request failed with status:", response.status_code)
     print(response.text)
     exit()
 
-# 子call: 終了
+# 子 call: 終了
 payload_child_end = {
     "end": {
         "project_id": f"{team_id}/{project_id}",
@@ -363,7 +358,7 @@ payload_child_end = {
         "ended_at": datetime.datetime.now().isoformat(),
         "output": {
             "choices": [
-                {"message": {"content": "これはLLMが生成したレスポンスです。"}},
+                {"message": {"content": "This is the response generated by the LLM."}},
             ]
         },
         "summary": {
@@ -382,26 +377,25 @@ response = requests.post(
     url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("子callが終了しました。")
+    print("Child call ended.")
 else:
-    print("子callの終了リクエストが失敗しました。ステータス:", response.status_code)
+    print("Child end request failed with status:", response.status_code)
     print(response.text)
 ```
 
-
 <div id="end-a-complex-trace">
-  ### 複雑な trace を終了する
+  ### 複雑なトレースを終了する
 </div>
 
-次のコードは、親 trace を完了してワークフロー全体の終了を示す方法を示しています。この step では、すべての子 span (例: RAG lookup や LLM completion) の結果を集約し、最終的な出力とメタデータをログします。
+次のコードは、親トレースを完了してワークフロー全体の終了を示す方法を示しています。この step では、すべての子 スパン (例: RAG lookup や LLM completion) の結果を集約し、最終的な出力とメタデータをログします。
 
-trace は `payload_parent_end` object を使用して完了します。これには次が含まれます。
+トレースは `payload_parent_end` object を使用して完了します。これには次が含まれます。
 
-* `id`: 最初に親 trace を開始したときの `parent_call_id`。
+* `id`: 最初に親トレースを開始したときの `parent_call_id`。
 * `output`: ワークフロー全体の最終出力を表します。
 * `summary`: ワークフロー全体の使用状況データを集約します。
 * `prompt_tokens`: すべてのプロンプトで使用された token の合計数。
-* `completion_tokens`: すべての Response で生成された token の合計数。
+* `completion_tokens`: すべての応答で生成された token の合計数。
 * `total_tokens`: ワークフロー全体の token 総数。
 * `requests`: 実行された Request の総数 (この場合は `1`) 。
 
@@ -411,10 +405,10 @@ trace は `payload_parent_end` object を使用して完了します。これに
 Parent call ended.
 python
 ## ------------
-## トレースの終了
+## トレースを終了する
 ## ------------
 
-# 親call: 終了
+# 親 call: 終了
 payload_parent_end = {
     "end": {
         "project_id": f"{team_id}/{project_id}",
@@ -422,7 +416,7 @@ payload_parent_end = {
         "ended_at": datetime.datetime.now().isoformat(),
         "output": {
             "choices": [
-                {"message": {"content": "これはLLMによって生成されたレスポンスです。"}},
+                {"message": {"content": "This is the response generated by the LLM."}},
             ]
         },
         "summary": {
@@ -441,12 +435,11 @@ response = requests.post(
     url_end, headers=headers, json=payload_parent_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("親callが終了しました。")
+    print("Parent call ended.")
 else:
-    print("親callの終了リクエストが失敗しました。ステータス:", response.status_code)
+    print("Parent end request failed with status:", response.status_code)
     print(response.text)
 ```
-
 
 <div id="run-a-lookup-query">
   ## ルックアップクエリを実行する
@@ -466,7 +459,7 @@ else:
 * `sort_by`: `started_at` タイムスタンプの降順で結果を並べます。
 * `include_feedback`: 結果からフィードバックデータを除外します。
 
-クエリが成功すると、レスポンスにはクエリパラメーターに一致するトレースデータが含まれます。
+クエリが成功すると、応答にはクエリパラメーターに一致するトレースデータが含まれます。
 
 ```
 {'id': '01939cf3-541f-76d3-ade3-50cfae068b39', 'project_id': 'cool-new-team/uncategorized', 'op_name': 'simple_trace', 'display_name': None, 'trace_id': '01939cf3-541f-76d3-ade3-50d5cfabe2db', 'parent_id': None, 'started_at': '2024-12-06T17:10:12.590000Z', 'attributes': {}, 'inputs': {'messages': [{'role': 'user', 'content': 'Why is the sky blue?'}], 'model': 'gpt-4o'}, 'ended_at': '2024-12-06T17:47:08.553000Z', 'exception': None, 'output': {'choices': [{'message': {'content': 'It’s due to Rayleigh scattering, where shorter blue wavelengths of sunlight scatter in all directions.'}}]}, 'summary': {'usage': {'gpt-4o': {'prompt_tokens': 10, 'completion_tokens': 20, 'requests': 1, 'total_tokens': 30}}, 'weave': {'status': 'success', 'trace_name': 'simple_trace', 'latency_ms': 2215963}}, 'wb_user_id': 'VXNlcjoyMDk5Njc0', 'wb_run_id': None, 'deleted_at': None}

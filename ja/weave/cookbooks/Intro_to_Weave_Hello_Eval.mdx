@@ -33,21 +33,21 @@ from pydantic import BaseModel
 import weave
 
 # 🔑 APIキーの設定
-# このセルを実行すると、`getpass` でAPIキーの入力を求められます。入力内容はターミナルに表示されません。
+# このセルを実行すると、`getpass` を使用してAPIキーの入力を求められます。入力内容はターミナルに表示されません。
 #####
 print("---")
 print(
-    "W&B APIキーの作成はこちら: https://wandb.ai/settings#apikeys"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("W&B APIキーを入力してください: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
-print("OpenAI APIキーはこちらで生成できます: https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("OpenAI APIキーを入力してください: ")
+print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 W&Bのプロジェクト名を入力してください
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&Bのプロジェクト名
+# 🏠 W&B のプロジェクト名を入力してください
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B のプロジェクト名
 ```
 
 <div id="run-your-first-evaluation">
@@ -112,7 +112,7 @@ examples = [
 def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
     output_flavors = [f.strip().lower() for f in output.flavor.split(",")]
-    # 出力フレーバーにターゲットフレーバーが含まれているかチェックする
+    # ターゲットのフレーバーが出力フレーバーに含まれているか確認する
     matches = any(tf in of for tf in target_flavors for of in output_flavors)
     return {"correct": matches}
 

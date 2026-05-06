@@ -65,7 +65,8 @@ artifact.add_file(local_path="dataset.h5")
 W&amp;B run 객체의 `wandb.Run.log_artifact()` 방법을 사용해 아티팩트 버전을 저장하고, 해당 아티팩트를 [run의 출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph)으로 선언합니다.
 
 ```python
-# 아티팩트 버전을 W&B에 저장하고 이 run의 출력으로 표시
+# 아티팩트 버전을 W&B에 저장하고
+# 이 run의 출력으로 표시합니다
 run.log_artifact(artifact)
 ```
 
@@ -95,14 +96,14 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 3. 마지막으로, 아티팩트의 내용을 다운로드하려면 아티팩트의 [`wandb.Artifact.download()`](/ko/models/ref/python/experiments/artifact#download) 방법을 사용합니다.
 
 ```python
-# W&B Run을 생성합니다. 트레이닝을 추적하는 데 이 run을 사용할 것이므로
-# 'type'에 'training'을 지정합니다.
+# W&B Run을 생성합니다. 여기서는 'type'에 'training'을 지정합니다.
+# 이 run을 트레이닝 추적에 사용할 것이기 때문입니다.
 with wandb.init(project="artifacts-example", job_type="training") as run:
 
-  # W&B에서 아티팩트를 쿼리하고 이 run의 입력으로 표시합니다
+  # W&B에서 아티팩트를 쿼리하고 이 run의 입력으로 표시합니다.
   artifact = run.use_artifact("bicycle-dataset:latest")
 
-  # 아티팩트의 콘텐츠를 다운로드합니다
+  # 아티팩트의 내용을 다운로드합니다.
   artifact_dir = artifact.download()
 ```
 

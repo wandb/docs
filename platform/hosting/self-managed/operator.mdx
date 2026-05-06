@@ -409,7 +409,7 @@ The steps in this section are common for any deployment option.
 
    The combination of `subdomain` and `domain` forms the FQDN for your W&B instance. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
 
-   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
+   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The following example permits access from any source to the W&B installation.
 
 3. Create the file `versions.tf`
 
@@ -1088,7 +1088,7 @@ This section describes how to update the W&B Kubernetes operator.
 
 <Note>
 * Updating the W&B Kubernetes operator does not update the W&B server application.
-* See the instructions [here](#migrate-Self-Managed-instances-to-wb-operator) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
+* See the instructions [here](#migrate-Self-Managed-instances-to-wb-operator) if you use a Helm chart that does not use the W&B Kubernetes operator before you follow the following instructions to update the W&B operator.
 </Note>
 
 Copy and paste the code snippets below into your terminal. 
@@ -1110,7 +1110,7 @@ The operator automatically updates your W&B Server application when a new versio
 
 
 ## Migrate Self-Managed instances to W&B Operator
-The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
+The following section describes how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
 
 <Note>
 The W&B Operator is the default and recommended installation method for W&B Server. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.

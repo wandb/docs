@@ -26,7 +26,7 @@ Ce tutoriel nécessite les bibliothèques suivantes :
 
 * [DSPy](https://dspy.ai) pour construire le flux de travail LLM et l’optimiser.
 * [Weave](/fr/weave) pour suivre notre flux de travail LLM et évaluer nos stratégies de prompting.
-* [datasets](https://huggingface.co/docs/datasets/index) pour accéder au jeu de données Big-Bench Hard sur le Hub Hugging Face.
+* [datasets](https://huggingface.co/docs/datasets/index) pour accéder au jeu de données Big-Bench Hard depuis le Hub Hugging Face.
 
 ```python lines
 !pip install -qU dspy weave "datasets<4"
@@ -85,7 +85,7 @@ from datasets import load_dataset
 
 @weave.op()
 def get_dataset(metadata: Metadata):
-    # charger le jeu de données BIG-Bench Hard correspondant à la tâche depuis Huggingface Hug
+    # charger le jeu de données BIG-Bench Hard correspondant à la tâche depuis Huggingface Hub
     dataset = load_dataset(metadata.dataset_address, metadata.big_bench_hard_task)[
         "train"
     ]
@@ -101,7 +101,7 @@ def get_dataset(metadata: Metadata):
     ]
     dspy_val_examples = [dspy.Example(row).with_inputs("question") for row in val_rows]
 
-    # publier les jeux de données sur Weave, ce qui permet de versionner les données et de les utiliser pour l'évaluation
+    # publier les jeux de données sur Weave, ce qui nous permettra de versionner les données et de les utiliser pour l'évaluation
     weave.publish(
         weave.Dataset(
             name=f"bigbenchhard_{metadata.big_bench_hard_task}_train", rows=train_rows

@@ -31,9 +31,19 @@ jobs:
           corepack enable
           corepack prepare yarn@1.22.22 --activate
 
+      - name: Create weave-internal read token
+        id: weave-internal-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.DOCS_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: weave-internal
+          permission-contents: read
+
       - name: Generate QEL reference from weave-internal
         env:
-          QUERY_PANELS_READ_TOKEN: ${{ secrets.QUERY_PANELS_READ_ONLY_PAT }}
+          QUERY_PANELS_READ_TOKEN: ${{ steps.weave-internal-token.outputs.token }}
           GIT_TERMINAL_PROMPT: "0"
         run: |
           chmod +x scripts/reference-generation/query-panel/generate_query_panel_reference.sh
@@ -81,4 +91,4 @@ jobs:
             ### Review checklist
             - [ ] Spot-check a few datatype pages in the preview build
             - [ ] Confirm no unintended `docs.json` navigation changes outside the Query Expression Language group
-            - [ ] Japanese and Korean overview pages were not modified by this workflow (English reference only)
+            - [ ] `docs.json` diff only updates the English nav tree for Query Expression Language (no ja/ko/fr TOC edits from this workflow)
