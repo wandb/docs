@@ -12,6 +12,29 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.80.1" description="May 6, 2026">
+**May 6, 2026**
+
+## Fixes
+
+- Fixed OIDC sign-in for deployments that use PKCE with a confidential client secret by reverting an earlier change that omitted the client secret on PKCE token requests. When a client secret is configured, the server no longer adds redundant client IDs to token URL parameters, which avoids conflicts with the `Authorization` header.
+- Fixed SCIM list fields for Microsoft Entra ID: the API returns empty JSON arrays instead of `null`, which restores connection tests and group flows.
+- Improved the reliability of SCIM Push operations sent to Okta:
+    - Fixed a bug where a SCIM Group Push operation could fail if the Okta group name is different from the W&B team name. These operations are now sent as pathless `PATCH` operations.
+    - Added guardrails to prevent inadvertently removing all members from a team if a SCIM Group Push operation did not include all members.
+    - Improved serialization of SCIM User objects in the payload sent to Okta. The payload now better aligns with what Okta expects.
+    - Fixed a bug that could lead to incorrect casing of email addresses and names in a SCIM User object.
+- Fixed a bug when using SCIM to create a team with bring your own bucket (BYOB) on Dedicated Cloud when the request omits organization context.
+- Fixed a bug that could lead to incorrect run history in a forked run when using the parquet history store with the query executor. For example, the history of a forked run could include incorrect merges at the live store boundary or incorrect step metadata.
+- Improved line plot performance for projects with very large run counts by skipping expensive total-count queries. The legend shows a warning if the UI cannot cannot tell whether additional runs match the panel filters, and these warnings could appear more often.
+- Fixed incorrect redirects from the organization **Usage Alerts** page.
+
+### Weave
+- Fixed a JSON serialization bug in Weave when writing artifact metadata to the ClickHouse search index.
+- Fixed a bug in the Weave trace server where migrations could select an incorrect database engine.
+
+</Update>
+
 <Update label="v0.80.0" description="April 28, 2026">
 **April 28, 2026**
 
@@ -89,7 +112,6 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - The run ID (the value of `run.name`) is now included in fuzzy search when searching for runs.
 - Improved performance of loading audio in table panels.
 </Update>
-
 
 <Update label="v0.79.2" description="April 10, 2026">
 ## Fixes
