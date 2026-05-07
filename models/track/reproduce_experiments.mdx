@@ -10,7 +10,7 @@ Obtain the code that created the experiment and the dependencies required to run
 <Tabs>
 <Tab title="Replicate code state with GitHub repository">
 
-The following steps show you how to replicate the code state of the GitHub repository that your teammate used to create the experiment:
+The following steps show you how to replicate the code state of the GitHub repository:
 
 1. Navigate to the project where the run is logged to.
 1. Select the **Workspace** tab from the project sidebar.
@@ -19,8 +19,8 @@ The following steps show you how to replicate the code state of the GitHub repos
 
     <img src="/images/experiments/reproduce_run_button.png" alt="Reproduce run button" width="500"/>
 
-
-{/* 
+Alternatively, you can manually reproduce an experiment with the following steps:
+ 
 1. Copy and paste the **Git repository** field into your terminal to clone the repository. The following code snippet shows an example. Replace `your-repo` with the name of your repository:
     ```bash
     git clone https://github.com/your-repo.git && cd your-repo
@@ -28,7 +28,7 @@ The following steps show you how to replicate the code state of the GitHub repos
 1. Copy and paste the **Git state** field into your terminal to checkout the exact commit that your teammate used to create the experiment. TThe following code snippet shows an example of how to do this. Replace values specified in the following code snippet with your own:
     ```bash
     git checkout -b "<run-name>" 0123456789012345678901234567890123456789
-    ``` */}
+    ```
 
 </Tab>
 <Tab title="Download source code">
@@ -48,25 +48,7 @@ The following steps show you how to download the Python script or notebook that 
     pip install -r requirements.txt
     ```
 
-
 </Tab>
 </Tabs>
 
-Once you have the code, you can run the script or notebook to reproduce the experiment. You might need to navigate to the directory where the script or notebook is located before running it.
-
-
-{/* <Tabs>
-<Tab title="Python notebook">
-If you downloaded a Python notebook, navigate to the directory where you downloaded the notebook and run the following command in your terminal:
-```bash
-jupyter notebook
-```
-</Tab>
-<Tab title="Python script">
-If you downloaded a Python script, navigate to the directory where you downloaded the script and run the following command in your terminal; Replace values enclosed in `<>` with your own:
-
-```bash
-python <your-script-name>.py
-```
-</Tab>
-</Tabs> */}
+{/* Once you have the code, you can run the script or notebook to reproduce the experiment. You might need to navigate to the directory where the script or notebook is located before running it. */}
