@@ -42,7 +42,7 @@ export QUERY_PANELS_READ_TOKEN="..."  # contents:read on weave-internal
 2. Copies `src/core/docs/README.md` to `docs/README.md` inside `weave-js` (upstream `generateDocs.ts` expects that path).
 3. Runs `yarn install --ignore-scripts` in `weave-js` to avoid optional native builds (for example `canvas`) that are not required for doc generation.
 4. Runs `npx vite-node@3.1.3 src/core/generateDocs.ts` to produce Markdown under `weave-js/docs_gen/`.
-5. Runs `convert_query_panel_md.py` to write Mintlify MDX, refresh the data-type list in `models/ref/query-panel.mdx`, and align `docs.json` navigation for `en`, `ja`, and `ko`.
+5. Runs `convert_query_panel_md.py` to write Mintlify MDX, refresh the data-type list in `models/ref/query-panel.mdx`, and align the **English** `docs.json` navigation entry for Query Expression Language (localized nav is not modified).
 
 ## CI
 
