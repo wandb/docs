@@ -54,13 +54,15 @@ Compare code used in different W&B runs:
     <img src="/images/app_ui/code_comparer.png" alt="Code comparer panel"  />
 </Frame>
 
-## View unstaged changes
+## View local changes
 
-View unstaged changes in your project workspace.
+View local changes in your project workspace. W&B saves the diff of unstaged changes across runs in a `diff.patch` or `diff_<sha>.patch` file in the **Files** tab of your project workspace. The diff files are generated when you log code with W&B and have unstaged changes in your git repository. To view the diff of unstaged changes across runs:
 
 1. Navigate to your project's workspace.
+2. Click on the **Workspace** tab in the left sidebar. 
+3. From the run list, select the run that you want to view the diff of unstaged changes for. This will open the run overview page.
 2. Select the **Files** tab.
-3. From the list of files, click on the `diff.patch` file.
+3. From the list of files, click on the `diff.patch` or the `diff_<sha>.patch` file.
 4. Select a file from the list to expand the diff of unstaged changes for that file.
 
 W&B supports two modes to view the diff of unstaged or unpushed changes across runs: *unified* and *split*.
