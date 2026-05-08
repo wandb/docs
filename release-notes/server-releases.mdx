@@ -20,7 +20,7 @@ This page includes release notes for supported releases of W&B Server.
 - Fixed OIDC sign-in for deployments that use PKCE with a confidential client secret by reverting an earlier change that omitted the client secret on PKCE token requests. When a client secret is configured, the server no longer adds redundant client IDs to token URL parameters, which avoids conflicts with the `Authorization` header.
 - Fixed SCIM list fields for Microsoft Entra ID: the API returns empty JSON arrays instead of `null`, which restores connection tests and group flows.
 - Improved the reliability of SCIM Push operations sent to Okta:
-    - Fixed a bug where a SCIM Group Push operation could fail if the Okta group name is different from the W&B team name. These operations are now sent as pathless `PATCH` operations.
+    - Fixed a bug where a SCIM Group Push operation could fail if the Okta group name is different from the W&B team name. These operations are now sent as pathless `PATCH` operations. **This is a breaking change for integrations that parse SCIM User JSON.** See [Breaking changes](#breaking-changes).
     - Added guardrails to prevent inadvertently removing all members from a team if a SCIM Group Push operation did not include all members.
     - Improved serialization of SCIM User objects in the payload sent to Okta. The payload now better aligns with what Okta expects.
     - Fixed a bug that could lead to incorrect casing of email addresses and names in a SCIM User object.
@@ -28,6 +28,16 @@ This page includes release notes for supported releases of W&B Server.
 - Fixed a bug that could lead to incorrect run history in a forked run when using the parquet history store with the query executor. For example, the history of a forked run could include incorrect merges at the live store boundary or incorrect step metadata.
 - Improved line plot performance for projects with very large run counts by skipping expensive total-count queries. The legend shows a warning if the UI cannot cannot tell whether additional runs match the panel filters, and these warnings could appear more often.
 - Fixed incorrect redirects from the organization **Usage Alerts** page.
+
+## Breaking changes
+This release includes a breaking change for integrations that parse SCIM User JSON:
+
+- In Dedicated Cloud and Self-Managed v0.80.1+, responses from `/scim/Users` (including `GET` user, `GET` users, and `PATCH` responses that return a User) serialize `emails` as a JSON array of objects using lowercase field names (`value`, `primary`, and optional `type` or `display`), matching SCIM 2.0.
+- Deployments on older releases return `emails` as a single JSON object with PascalCase keys (`Value`, `Primary`, and similar).
+
+If your code reads `emails` from SCIM _responses_, treat `emails` as an array and read the primary entry (or the first element).
+
+Request bodies for creating or updating users already used the array form and are unchanged. The `list-users` filter `emails.value eq "..."` is also unchanged.
 
 ### Weave
 - Fixed a JSON serialization bug in Weave when writing artifact metadata to the ClickHouse search index.
