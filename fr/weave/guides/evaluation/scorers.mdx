@@ -1,22 +1,22 @@
 ---
-title: "Aperçu des évaluateurs"
-description: "Évaluez les sorties de l’IA et renvoyez des métriques d’évaluation avec les évaluateurs Weave"
+title: "Aperçu des scorers"
+description: "Évaluez les sorties de l’IA et renvoyez des métriques d’évaluation avec les scorers Weave"
 ---
 
-Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à renvoyer des métriques d’évaluation. Ils prennent la sortie de l’IA, l’analysent et renvoient un dictionnaire de résultats. Les évaluateurs peuvent utiliser vos données d’entrée comme référence si nécessaire et produire également des informations supplémentaires, comme des explications ou le raisonnement issu de l’évaluation.
+Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer des métriques d’évaluation. Ils prennent la sortie de l’IA, l’analysent et renvoient un dictionnaire de résultats. Les scorers peuvent utiliser vos données d’entrée comme référence si nécessaire et produire également des informations supplémentaires, comme des explications ou le raisonnement issu de l’évaluation.
 
 <Tabs>
   <Tab title="Python">
-    Les évaluateurs sont transmis à un objet `weave.Evaluation` pendant l’évaluation. Il existe deux types d’évaluateurs dans Weave :
+    Les scorers sont transmis à un objet `weave.Evaluation` pendant l’évaluation. Il existe deux types de scorers dans Weave :
 
-    1. **évaluateurs basés sur des fonctions :** fonctions Python simples décorées avec `@weave.op`.
-    2. **évaluateurs basés sur des classes :** classes Python qui héritent de `weave.Scorer` pour des évaluations plus complexes.
+    1. **scorers basés sur des fonctions :** fonctions Python simples décorées avec `@weave.op`.
+    2. **scorers basés sur des classes :** classes Python qui héritent de `weave.Scorer` pour des évaluations plus complexes.
 
-    Les évaluateurs doivent renvoyer un dictionnaire et peuvent renvoyer plusieurs métriques, des métriques imbriquées et des valeurs non numériques, comme du texte renvoyé par un LLM-évaluateur sur son raisonnement.
+    Les scorers doivent renvoyer un dictionnaire et peuvent renvoyer plusieurs métriques, des métriques imbriquées et des valeurs non numériques, comme du texte renvoyé par un LLM-scorer sur son raisonnement.
   </Tab>
 
   <Tab title="TypeScript">
-    Les évaluateurs sont des ops spéciales transmises à un objet `weave.Evaluation` pendant l’évaluation.
+    Les scorers sont des ops spéciales transmises à un objet `weave.Evaluation` pendant l’évaluation.
   </Tab>
 </Tabs>
 
