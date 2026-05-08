@@ -3,60 +3,89 @@ title: Save and diff code
 description: "Enable code saving, compare code across W&B runs with the code comparer, and capture Jupyter session history."
 ---
 
-By default, W&B only saves the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.
+{/* By default, W&B only saves the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI. */}
 
-Starting with `wandb` version 0.8.28, W&B can save the code from your main training file where you call `wandb.init()`. 
+Use W&B to save your code, compare code across runs, view local changes, and capture Jupyter session history.
 
-## Save library code
 
-When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options:
+## Enable code saving
 
-### Call `wandb.Run.log_code(".")` after calling `wandb.init()`
+Configure code saving for your team or organization. Team and organization controls are documented in [Configure privacy settings](/platform/hosting/privacy-settings).
+
+<Info>
+By default, W&B disables code saving for all teams. Before you can turn it on for a team, an organization admin must turn it on for the organization. See the [Organization](#organization) section.
+</Info>
+
+### Team
+
+Team admins open the team **Settings** page, go to the **Privacy** section, and configure **Enable code saving by default** for runs in that team. This option is available only when an organization admin has not enforced code saving restrictions for the whole organization. For navigation steps, see [Configure privacy settings for a team](/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
+
+### Organization
+
+Organization admins open organization **Settings**, go to the **Privacy** section, and can turn on **Enforce default code saving restrictions** so code saving stays off by default for every team. While this enforcement is on, team admins cannot turn on **Enable code saving by default** for a team. For the full list of organization controls, see [Enforce privacy settings for all teams](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+
+## Save code
+
+{/* When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options: */}
+
+Capture source code that produced a run as a code [artifact](/models/ref/python/experiments/artifact). The code artifact is viewable within your project's workspace.
+
+There are two ways approaches to save code: a fine-grained approached and an automatic approach.
+
+### Fine grain control
+
+Use `wandb.Run.log_code()` to log specific files or directories as a code [artifact](/models/ref/python/experiments/artifact). The following example shows how to use `wandb.Run.log_code()` to log the current directory:
 
 ```python
 import wandb
 
 with wandb.init() as run:
-  run.log_code(".")
+    # Log the current directory as a code artifact
+    run.log_code(root=".")
 ```
 
-### Pass a settings object to `wandb.init()` with `code_dir` set
+The following example shows how to use `wandb.Run.log_code()` with `include_fn=` and `exclude_fn=` parameters to specify which files to include and exclude when you log code:
 
 ```python
 import wandb
 
-wandb.init(settings=wandb.Settings(code_dir="."))
+with wandb.init() as run:
+    run.log_code(
+         root="../",
+         include_fn=lambda path: path.endswith(".py") or path.endswith(".ipynb"),
+         exclude_fn=lambda path, root: os.path.relpath(path, root).startswith(
+             "cache/"
+         ),
+    )
 ```
 
-This captures all python source code files in the current directory and all subdirectories as an [artifact](/models/ref/python/experiments/artifact). For more control over the types and locations of source code files that are saved, see the [reference docs](/models/ref/python/experiments/run#log_code).
+For more control over the types and locations of source code files that are saved, see the [reference docs](/models/ref/python/experiments/run#log_code).
 
-### Set code saving in the UI
+### Automatically capture code
 
-In addition to setting code saving programmatically, you can configure defaults in the UI at the scope of a team or the organization. Team and organization controls are documented in [Configure privacy settings](/platform/hosting/privacy-settings).
+Use `wandb.init(settings=wandb.Settings(code_dir="."))` to automatically capture all code in the current directory and subdirectories. By default, W&B captures:
 
-#### Team
-> By default, W&B disables code saving for all teams. Before you can turn it on for a team, an organization admin must turn it on for the organization. See the [Organization](#organization) section.
+- Files ending in `.py`
+- requirements.txt
+- Dockerfile
+- Excludes anything under `wandb/` or `.wandb/`
 
-Team admins open the team **Settings** page, go to the **Privacy** section, and configure **Enable code saving by default** for runs in that team. This option is available only when an organization admin has not enforced code saving restrictions for the whole organization. For navigation steps, see [Configure privacy settings for a team](/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
+The following example shows how capture all code in the current directory and subdirectories:
 
-#### Organization
+```python
+import wandb
 
-Organization admins open organization **Settings**, go to the **Privacy** section, and can turn on **Enforce default code saving restrictions** so code saving stays off by default for every team. While this enforcement is on, team admins cannot turn on **Enable code saving by default** for a team. For the full list of organization controls, see [Enforce privacy settings for all teams](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+with wandb.init(settings=wandb.Settings(code_dir=".")) as run:
+    # Your training code here
+```
 
-## Code comparer
-Compare code used in different W&B runs:
-
-1. Select the **Add panels** button in the top right corner of the page.
-2. Expand **TEXT AND CODE** dropdown and select **Code**.
-
-
-<Frame>
-    <img src="/images/app_ui/code_comparer.png" alt="Code comparer panel"  />
-</Frame>
+You can also specify a different directory by replacing `.` with the path to the directory that you want to capture.
 
 ## View local changes
 
-View local changes in your project workspace. W&B saves the diff of unstaged changes across runs in a `diff.patch` or `diff_<sha>.patch` file in the **Files** tab of your project workspace. The diff files are generated when you log code with W&B and have unstaged changes in your git repository. To view the diff of unstaged changes across runs:
+View local changes in your project workspace. W&B saves the diff of unstaged changes across runs in a `diff.patch` or `diff_<sha>.patch` file in project workspace.
+
+W&B generates diff files when you log code with W&B and have unstaged changes in your git repository. To view the diff of unstaged changes across runs:
 
 1. Navigate to your project's workspace.
 2. Click on the **Workspace** tab in the left sidebar. 
@@ -80,12 +109,9 @@ W&B supports two modes to view the diff of unstaged or unpushed changes across r
 
 Toggle between the two views by selecting either the **Unified** or **Split** buttons in the upper right corner of the diff view, below the **Download** button.
 
-
-
 ## Jupyter session history
 
-W&B saves the history of code executed in your Jupyter notebook session. When you call **wandb.init()** inside of Jupyter, W&B adds a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. 
-
+W&B saves the history of code executed in your Jupyter notebook session. When you call `wandb.init()` inside of Jupyter, W&B adds a hook to automatically save a Jupyter notebook containing the history of code executed in your current session.
 
 1. Navigate to your project's workspace that contains your code.
 2. Select the **Artifacts** tab in the project sidebar.
@@ -100,4 +126,14 @@ This displays the cells that were run in your session along with any outputs cre
 
 <Frame>
     <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output"  />
+</Frame>
+
+## Compare code across runs
+Compare code used in different W&B runs:
+
+1. Select the **Add panels** button in the top right corner of the page.
+2. Expand **TEXT AND CODE** dropdown and select **Code**.
+
+<Frame>
+    <img src="/images/app_ui/code_comparer.png" alt="Code comparer panel"  />
 </Frame>
