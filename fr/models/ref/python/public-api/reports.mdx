@@ -1,0 +1,60 @@
+---
+title: Reports
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+
+## <kbd>class</kbd> `Reports`
+
+Reports est un itérateur différé d’objets `BetaReport`.
+
+### <kbd>méthode</kbd> `Reports.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    project: 'Project',
+    name: 'str | None' = None,
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+)
+```
+
+**Arguments :**
+
+* `client` (`wandb.apis.internal.Api`) :  Instance du client API à utiliser.
+* `project` (`wandb.sdk.internal.Project`) :  Le projet depuis lequel récupérer les Reports.
+* `name` (str, facultatif) :  Le nom du rapport à utiliser pour le filtrage. Si `None`, récupère tous les Reports.
+* `entity` (str, facultatif) :  Le nom de l’entité du projet. Par défaut, utilise l’entité du projet.
+* `per_page` (int) :  Nombre de Reports à récupérer par page (50 par défaut).
+
+***
+
+
+### <kbd>propriété</kbd> Reports.length
+
+***
+
+### <kbd>méthode</kbd> `Reports.convert_objects`
+
+```python
+convert_objects() → list[BetaReport]
+```
+
+Convertit les edges GraphQL en objets File.
+
+***
+
+
+### <kbd>méthode</kbd> `Reports.update_variables`
+
+```python
+update_variables() → None
+```
+
+Met à jour les variables de la requête GraphQL pour la pagination.

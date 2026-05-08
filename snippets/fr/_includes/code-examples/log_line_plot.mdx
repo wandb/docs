@@ -1,0 +1,31 @@
+---
+title: Enregistrer un graphique en courbes
+---
+
+```python
+"""
+Enregistrez un graphique en courbes dans W&B. 
+
+Remplacez :
+- les valeurs entre chevrons par les vôtres
+- [[1, 2], [2, 3]] dans wandb.Table(data=) par votre propre tableau de valeurs 2D orienté par lignes à tracer
+
+Passez un tableau de valeurs 2D orienté par lignes à data (wandb.Table(data=)), avec
+les noms de colonnes spécifiés dans le paramètre `columns`.
+
+Les noms de colonnes doivent correspondre aux paramètres x et y de la fonction de tracé `wandb.plot.line()`.
+"""
+import wandb
+
+# Démarrer un nouveau run
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # Créer un tableau avec les colonnes à tracer
+    table = wandb.Table(data=[[1, 2], [2, 3]], columns=["<column_a>", "<column_b>"])
+
+    # Utiliser le tableau pour remplir différents graphiques personnalisés
+    line_plot = wandb.plot.line(table, x='<column_a>', y='<column_b>', title='<title>')
+    
+    # Enregistrer les tableaux personnalisés, qui apparaîtront dans les graphiques personnalisables de l'interface utilisateur
+    run.log({'<line_plot>': line_plot})
+```

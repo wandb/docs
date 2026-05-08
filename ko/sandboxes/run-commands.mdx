@@ -1,0 +1,112 @@
+---
+title: 샌드박스에서 명령 실행하기
+description: 샌드박스 환경에서 명령을 실행하고 출력과 종료 코드를 조회하는 방법을 알아보세요.
+---
+
+<Warning>W&amp;B Sandboxes는 현재 비공개 프리뷰로 제공되며, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE에 문의하세요.</Warning>
+
+<br />
+
+[샌드박스에서 명령 실행](#run-commands-in-a-sandbox), [출력과 종료 코드 조회](#read-output-and-exit-codes), [오류 확인](#check-for-errors)을 할 수 있습니다. 이러한 기능을 사용해 샌드박스에서 스크립트, 트레이닝 작업, 기타 프로세스를 실행하고 결과를 프로그래밍 방식으로 확인하세요.
+
+<div id="run-commands-in-a-sandbox">
+  ## 샌드박스에서 명령 실행하기
+</div>
+
+사용 사례에 맞게 다음 패턴 중 하나를 사용해 샌드박스에서 명령을 실행하세요:
+
+* [단일 명령](#run-a-single-command): 명령을 `Sandbox.run()`에 전달한 다음 `Sandbox.wait_until_complete()`를 호출해 완료될 때까지 기다리세요. 배치 작업, 테스트 또는 트레이닝 실행에 가장 적합합니다.
+* [여러 명령](#run-multiple-commands-sequentially): 인수 없이 `Sandbox.run()`을 호출한 다음, 각 step에서 `Sandbox.exec()`를 사용하세요. 설정, 실행, 결과 가져오기를 결합하는 워크플로에 가장 적합합니다.
+
+<div id="run-a-single-command">
+  ### 단일 명령 실행
+</div>
+
+명령을 `Sandbox.run()`에 전달한 다음, `Sandbox.wait_until_complete()`를 호출하여 샌드박스가 최종 상태에 도달할 때까지 기다리세요.
+
+다음 예제에서는 `python train.py`를 실행하는 샌드박스를 시작한 다음, 샌드박스가 완료될 때까지 최대 3600초 동안 기다립니다.
+
+```python
+from wandb.sandbox import Sandbox
+
+sandbox = Sandbox.run("python", "train.py")
+sandbox.wait_until_complete(timeout=3600.0).result()
+print(f"Exit code: {sandbox.returncode}")
+```
+
+<div id="run-multiple-commands-sequentially">
+  ### 여러 명령을 순차적으로 실행하기
+</div>
+
+의존성을 설치하고, 파일을 작성하고, 스크립트를 실행하고, 결과를 조회하는 등 여러 step이 있는 워크플로에서는 동일한 샌드박스에서 여러 명령을 실행하세요.
+
+샌드박스에서 여러 명령을 실행하려면 메인 명령 없이 샌드박스를 시작하세요. 일련의 `Sandbox.exec()`를 사용하여 각 명령을 실행하고 완료될 때까지 기다리세요.
+
+다음 예제는 메인 명령 없이 샌드박스를 시작한 뒤, 동일한 샌드박스에서 두 개의 명령을 순차적으로 실행합니다.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["pip", "install", "torch"]).result()
+    print(result.stdout)
+
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+`Sandbox.exec()`는 샌드박스에서 명령을 실행하고 `Process` 객체를 반환합니다. 반환된 객체를 사용해 명령이 완료될 때까지 기다리거나, 출력을 조회하거나, 종료 코드를 확인할 수 있습니다.
+
+`Sandbox.exec()` 및 해당 매개변수에 대한 자세한 내용은 CoreWeave Sandboxes 레퍼런스 문서의 [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec)를 참조하세요.
+
+<div id="keep-the-sandbox-running-for-additional-commands">
+  #### 추가 명령을 위해 샌드박스를 계속 실행 상태로 유지하기
+</div>
+
+경우에 따라 `Sandbox.exec()`로 다른 명령을 실행하는 동안 샌드박스를 계속 사용할 수 있도록, 오래 실행되는 메인 프로세스로 샌드박스를 시작할 수 있습니다.
+
+다음 예제에서는 메인 프로세스로 `sleep infinity`를 사용해 샌드박스를 시작한 다음, Sandbox.exec()으로 샌드박스 내부에서 트레이닝 스크립트를 실행합니다.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run("sleep", "infinity") as sandbox:
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```
+
+<div id="read-output-and-exit-codes">
+  ## 출력 및 종료 코드 조회
+</div>
+
+`Sandbox.exec()`는 [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) 객체를 반환합니다. `Process.result()`를 호출하면 명령이 완료될 때까지 기다린 후 결과를 가져올 수 있습니다. `Process.result()`에는 표준 출력(`stdout`), 표준 오류(`stderr`), 종료 코드(`returncode`)가 포함됩니다.
+
+종료 코드를 사용해 명령이 성공했는지 확인하세요. 관례적으로 종료 코드가 0이면 성공을 의미합니다. 가능한 종료 코드와 그 의미는 명령에 따라 달라집니다.
+
+예를 들어, 다음 코드 스니펫은 표준 출력(`stdout`)과 종료 코드(`returncode`)를 출력하는 Python 명령을 실행합니다. 명령이 완료되면 표준 출력, 표준 오류, 종료 코드를 콘솔에 출력합니다.
+
+```python
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    result = sandbox.exec(["python", "-c", "print('hello')"]).result()
+    print(result.stdout)      # "hello\\n"
+    print(result.returncode)  # 0
+```
+
+<div id="check-for-sandbox-execution-errors">
+  ## 샌드박스 실행 오류 확인
+</div>
+
+명령이 0이 아닌 종료 코드로 종료될 때 오류를 발생시키려면 `check=True`(`Sandbox.exec(check=True)`)를 지정하세요. 명령이 0이 아닌 종료 코드로 종료되면 [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror)가 발생합니다. 이 예제에서는 `might_fail.py` 스크립트를 실행하고 결과를 확인합니다.
+
+```python
+from wandb.sandbox import Sandbox, SandboxExecutionError
+
+with Sandbox.run() as sandbox:
+    try:
+        sandbox.exec(["python", "might_fail.py"], check=True).result()
+    except SandboxExecutionError as e:
+        print(f"명령이 종료 코드 {e.exec_result.returncode}(으)로 실패했습니다")
+        print(e.exec_result.stderr)
+```

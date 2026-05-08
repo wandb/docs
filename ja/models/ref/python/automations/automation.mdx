@@ -1,20 +1,23 @@
 ---
-title: オートメーション
+title: Automation
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
 
-## <kbd>class</kbd> `Automation`
-編集をサポートする、保存済み W&B オートメーションのローカルインスタンス。
+
+## <kbd>クラス</kbd> `Automation`
+
+保存済みの W&amp;B automation を編集できるローカルインスタンスです。
 
 ### <kbd>method</kbd> `Automation.__init__`
 
 ```python
 __init__(
-    typename__: 'Literal' = 'Trigger',
+    typename__: 'Literal['Trigger']' = 'Trigger',
     id: 'str',
     created_at: 'datetime',
     updated_at: 'datetime | None' = None,
@@ -27,18 +30,18 @@ __init__(
 ) → None
 ```
 
-**Args:**
+**引数:**
 
- - `typename__` (Literal): 
- - `id` (str): 
- - `created_at` (datetime): このオートメーションが作成された日時。
- - `updated_at` (Optional[datetime]): このオートメーションが最後に更新された日時（該当する場合）。
- - `name` (str): このオートメーションの名前。
- - `description` (Optional[str]): このオートメーションのオプションの説明。
- - `enabled` (bool): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
- - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): トリガーイベントが発生する必要があるスコープ。
- - `event` (SavedEvent): このオートメーションをトリガーするイベント。
- - `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): このオートメーションがトリガーされたときに実行されるアクション。
+* `typename__` (Literal[&#39;Trigger&#39;]):
+* `id` (str):
+* `created_at` (datetime): この automation が作成された日時。
+* `updated_at` (Optional[datetime]): 該当する場合、この automation が最後に更新された日時。
+* `name` (str): この automation の名前。
+* `description` (Optional[str]): この automation のオプションの説明。
+* `enabled` (bool): この automation が有効かどうか。有効な automation のみがトリガーされます。
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): トリガーとなるイベントが発生するスコープ。
+* `event` (SavedEvent): この automation をトリガーするイベント。
+* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): この automation がトリガーされたときに実行されるアクション。
 
-**Returns:**
- `Automation` オブジェクト。
+**戻り値:**
+`Automation` オブジェクト。

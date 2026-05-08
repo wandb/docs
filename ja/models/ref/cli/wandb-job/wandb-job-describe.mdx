@@ -2,29 +2,29 @@
 title: wandb job describe
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-job-describe.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbJobDescribe from "/snippets/en/_includes/cli/wandb-job-describe.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L2172" />
 
-<WandbJobDescribe/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-Launch ジョブの詳細を表示します。 Launch ジョブは `entity/project/job-name:alias-or-version` の形式で指定してください。
-
-## Usage
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
-wandb job describe JOB
+describe [OPTIONS] JOB
 ```
 
-## Arguments
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `JOB` | 説明なし | はい |
+Launch ジョブの説明。Launch ジョブは、entity/project/job-name:alias-or-version の形式
+で指定します。
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名     | デフォルト | タイプ  |
+| ----- | ----- | ---- |
+| `job` | STR   | True |

@@ -1,0 +1,67 @@
+---
+title: "Lister les modèles"
+description: "Récupérez la liste de tous les modèles W&B Inference disponibles et de leurs ID via l'API endpoint models."
+---
+
+Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la pour sélectionner des modèles dynamiquement ou vérifier ceux qui sont disponibles.
+
+<div id="request-examples">
+  ## Exemples de requêtes
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="<your-api-key>",
+        project="<your-team>/<your-project>"  # facultatif, pour le suivi de l’utilisation
+    )
+
+    response = client.models.list()
+
+    for model in response.data:
+        print(model.id)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/models \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -H "OpenAI-Project: <your-team>/<your-project>"
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-format">
+  ## Format de la réponse
+</div>
+
+L’API renvoie des réponses dans un format compatible avec OpenAI :
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "deepseek-ai/DeepSeek-V3.1",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "deepseek-ai/DeepSeek-V3.1"
+    },
+    {
+      "id": "openai/gpt-oss-20b",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "openai/gpt-oss-20b"
+    }
+    // ... plus de modèles
+  ]
+}
+```

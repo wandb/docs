@@ -1,0 +1,36 @@
+---
+title: wandb beta leet
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+import WandbBetaLeet from "/snippets/fr/_includes/cli/wandb-beta-leet.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/beta.py#L59" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+leet [PATH] | COMMAND [ARGS]...
+```
+
+<div id="description">
+  ## Description
+</div>
+
+W&amp;B LEET : l’outil léger d’exploration des expériences.
+
+Une interface de terminal pour consulter localement vos runs W&amp;B.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande                 | Description                          |
+| ------------------------ | ------------------------------------ |
+| `wandb beta leet config` | Modifiez la configuration de LEET.   |
+| `wandb beta leet run`    | Lancez l’interface TUI de LEET.      |
+| `wandb beta leet symon`  | Lancez le moniteur système autonome. |
+
+<WandbBetaLeet />

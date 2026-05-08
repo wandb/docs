@@ -1,36 +1,39 @@
 ---
-title: NVIDIA NeMo Inference Microservice Deploy Job
+title: NVIDIA NeMo Inference Microservice デプロイジョブ
+description: "スケーラブルなモデルサービングのために、W&B Launch を使用して W&B のモデルアーティファクトを NVIDIA NeMo Inference Microservice にデプロイします。"
 ---
 
-W&B の モデル Artifacts を NVIDIA NeMo Inference Microservice (NIM) にデプロイします。これを行うには、W&B Launch を使用します。W&B Launch は、モデル Artifacts を NVIDIA NeMo Model に変換し、実行中の NIM/Triton サーバーにデプロイします。
+W&amp;B から NVIDIA NeMo Inference Microservice にモデルアーティファクトをデプロイします。これを行うには、W&amp;B Launch を使用します。W&amp;B Launch はモデルアーティファクトを NVIDIA NeMo Model に変換し、実行中の NIM/Triton サーバーにデプロイします。
 
-W&B Launch は現在、以下の互換性のあるモデルタイプを受け入れています。
+W&amp;B Launch は現在、以下の互換性のあるモデルタイプをサポートしています。
 
 1. [Llama2](https://llama.meta.com/llama2/)
 2. [StarCoder](https://github.com/bigcode-project/starcoder)
-3. NV-GPT (近日公開予定)
+3. NV-GPT (近日対応予定)
 
 <Note>
-デプロイ時間は、モデルやマシンのタイプによって異なります。ベースの Llama2-7b 設定では、Google Cloud の `a2-ultragpu-1g` で約1分かかります。
+  デプロイ時間は、モデルとマシンタイプによって異なります。ベースの Llama2-7b 設定では、Google Cloud の `a2-ultragpu-1g` で約 1 分かかります。
 </Note>
 
-## Quickstart
+<div id="quickstart">
+  ## クイックスタート
+</div>
 
-1. まだ作成していない場合は、 [Launch キューを作成](/platform/launch/add-job-to-queue/) してください。以下にキュー設定の例を示します。
+1. まだ作成していない場合は、[Launch queue を作成](/ja/platform/launch/add-job-to-queue/)します。以下にキュー設定の例を示します。
 
    ```yaml
    net: host
-   gpus: all # 特定の GPU セット、または `all` を指定してすべてを使用できます
+   gpus: all # 特定の GPU セット、またはすべてを使用する場合は `all` を指定できます
    runtime: nvidia # nvidia container runtime も必要です
    volume:
      - model-store:/model-store/
    ```
 
    <Frame>
-    <img src="/images/integrations/nim1.png" alt="image"  />
+     <img src="/images/integrations/nim1.png" alt="image" />
    </Frame>
 
-2. プロジェクト 内にこのジョブを作成します。
+2. プロジェクト内でこのジョブを作成します。
 
    ```bash
    wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
@@ -41,12 +44,13 @@ W&B Launch は現在、以下の互換性のあるモデルタイプを受け入
       git https://github.com/wandb/launch-jobs
    ```
 
-3. GPU マシンで エージェント を起動します。
+3. GPU マシンでエージェントを起動します。
    ```bash
    wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
    ```
-4. [Launch UI](https://wandb.ai/launch) から、希望の設定でデプロイ用の Launch ジョブを送信します。
-   1. CLI から送信することも可能です。
+
+4. [Launch UI](https://wandb.ai/launch) から、必要な設定を指定してデプロイ用の launch ジョブを送信します。
+   1. CLI から送信することもできます。
       ```bash
       wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
         -e $ENTITY \
@@ -55,13 +59,15 @@ W&B Launch は現在、以下の互換性のあるモデルタイプを受け入
         -c $CONFIG_JSON_FNAME
       ```
       <Frame>
-      <img src="/images/integrations/nim2.png" alt="image"  />
+        <img src="/images/integrations/nim2.png" alt="image" />
       </Frame>
-5. Launch UI でデプロイ プロセスの進行状況を追跡できます。
+
+5. Launch UI でデプロイの進行状況をトラッキングできます。
    <Frame>
-    <img src="/images/integrations/nim3.png" alt="image"  />
+     <img src="/images/integrations/nim3.png" alt="image" />
    </Frame>
-6. 完了したら、すぐにエンドポイントに curl を実行して モデル をテストできます。モデル 名は常に `ensemble` になります。
+
+6. 完了したら、すぐにエンドポイントに curl リクエストを送ってモデルをテストできます。モデル名は常に `ensemble` です。
    ```bash
     #!/bin/bash
     curl -X POST "http://0.0.0.0:9999/v1/completions" \

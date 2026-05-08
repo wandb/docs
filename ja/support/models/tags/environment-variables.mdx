@@ -1,0 +1,54 @@
+---
+title: "環境変数"
+tag: "12"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="wandb をオフラインで実行できますか？" href="/ja/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
+  オフラインのマシンでトレーニングを行う場合は、次の手順で結果をサーバーにアップロードします: 1. 環境変数を設定し ...
+</Card>
+
+<Card title="環境変数は wandb.init() に渡したパラメーターを上書きしますか？" href="/ja/support/models/articles/do-environment-variables-overwrite-the-p" arrow="true" horizontal>
+  wandb.init に渡した引数は、環境変数より優先されます。システムのデフォルト以外の既定のディレクトリを設定するには ...
+</Card>
+
+<Card title="`wandb` ファイルのローカル保存場所を指定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
+  WANDB&#95;DIR= または wandb.init(dir= ): トレーニングスクリプト用に作成される wandb フォルダーの場所を制御します。デフォルトは ...
+</Card>
+
+<Card title="'Failed to query for notebook' エラーにどう対処すればよいですか？" href="/ja/support/models/articles/how-do-i-handle-the-failed-to-query-for-" arrow="true" horizontal>
+  &quot;Failed to query for notebook name, you can set it manually with the WANDB&#95;NOTEBOOK&#95;N ... &quot; というエラーメッセージが表示された場合は、手動で設定できます
+</Card>
+
+<Card title="W&B の情報メッセージを非表示にするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-silence-wb-info-messages" arrow="true" horizontal>
+  ノートブックでこのようなログメッセージを抑制するには: ログレベルを logging.ERROR に設定して、エラーのみを表示します ...
+</Card>
+
+<Card title="wandb がターミナルや Jupyter notebook の出力に書き込まないようにするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t" arrow="true" horizontal>
+  環境変数 WANDB&#95;SILENT を true に設定します。
+</Card>
+
+<Card title="同じマシンでアカウントを切り替えるにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-switch-between-accounts-on-the-" arrow="true" horizontal>
+  同じマシンから 2 つの W&amp;B アカウントを管理するには、両方の APIキー をファイルに保存します。リポジトリで次のコードを使用し ...
+</Card>
+
+<Card title="wandb はどのようにログをストリーミングし、ディスクに書き込みますか？" href="/ja/support/models/articles/how-does-wandb-stream-logs-and-writes-to" arrow="true" horizontal>
+  W&amp;B は障害に対応し、WANDB&#95;MODE=offline をサポートするために、イベントをメモリにキューイングし、非同期でディスクに書き込みます ...
+</Card>
+
+<Card title="メトリクスをオフラインで保存し、後で W&B に Sync できますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定します ...
+</Card>
+
+<Card title="wandb.init はトレーニングプロセスで何をしますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  トレーニングスクリプトで wandb.init() が実行されると、API call によってサーバー上に run object が作成されます。新しいプロセスが開始され、st ...
+</Card>
+
+<Card title="モデルのトレーニング中にインターネット接続が失われるとどうなりますか？" href="/ja/support/models/articles/what-happens-if-internet-connection-is-l" arrow="true" horizontal>
+  ライブラリがインターネットに接続できない場合、再試行ループに入り、接続が回復するまでメトリクスのストリーミングを試み続けます ...
+</Card>
+
+<Card title="Artifacts はどこにダウンロードされ、どうすれば制御できますか？" href="/ja/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
+  デフォルトでは、Artifacts は artifacts/ フォルダーにダウンロードされます。場所を変更するには: wandb.Artifact().download に渡します: S ...
+</Card>

@@ -22,7 +22,7 @@ Use the identity and access management capabilities for secure authentication an
 
 ## Data security
 
-- **SaaS Cloud:** Data for all Weave users is stored in a shared Clickhouse Cloud cluster, encrypted using cloud-native encryption. Shared compute services process the data, ensuring isolation through a security context comprising your W&B organization, team, and project.
+- **Multi-tenant Cloud:** Data for all Weave users is stored in a shared Clickhouse Cloud cluster, encrypted using cloud-native encryption. Shared compute services process the data, ensuring isolation through a security context comprising your W&B organization, team, and project.
 
 - **Dedicated Cloud:** Data is stored in a unique Clickhouse Cloud cluster in the cloud and region of your choice. A unique compute environment processes the data, with the following additional protections:
   - **[IP allowlisting](/platform/hosting/data-security/ip-allowlisting):** Authorize access to your instance from specific IP addresses. This is an optional capability.
@@ -36,7 +36,7 @@ Use the identity and access management capabilities for secure authentication an
 
 ## Maintenance 
 
-If you're using Weave on SaaS Cloud or Dedicated Cloud, you avoid the overhead and costs of provisioning, operating, and maintaining the W&B platform, as it is fully managed for you.
+If you're using Weave on Multi-tenant Cloud or Dedicated Cloud, you avoid the overhead and costs of provisioning, operating, and maintaining the W&B platform, as it is fully managed for you.
 
 ## Compliance
 
@@ -44,4 +44,4 @@ If you're using Weave on SaaS Cloud or Dedicated Cloud, you avoid the overhead a
 To request SOC 2 reports and other security and compliance documents, refer to the [W&B Security Portal](https://security.wandb.ai/) or contact your W&B team for more information.
 </Tip>
 
-Security controls for both SaaS Cloud and Dedicated Cloud are periodically audited internally and externally. Both platforms are SOC 2 Type II compliant. Additionally, Dedicated Cloud is HIPAA-compliant for organizations managing PHI data while building Generative AI applications.
+Security controls for both Multi-tenant Cloud and Dedicated Cloud are periodically audited internally and externally. Both platforms are SOC 2 Type II compliant. Additionally, Dedicated Cloud is HIPAA-compliant for organizations managing PHI data while building Generative AI applications.

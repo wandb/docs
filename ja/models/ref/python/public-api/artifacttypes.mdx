@@ -3,15 +3,26 @@ title: ArtifactTypes
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
+
 ## <kbd>class</kbd> `ArtifactTypes`
-特定の Projects における `ArtifactType` オブジェクトのレイジーイテレータです。
 
-### <kbd>property</kbd> ArtifactTypes.cursor
+特定のプロジェクトにおける`ArtifactType`オブジェクトの遅延評価イテレータ。 
 
----
+### <kbd>プロパティ</kbd> ArtifactTypes.cursor
 
-### <kbd>property</kbd> ArtifactTypes.more
+次に取得するページの先頭を示す不透明なカーソルです。
+
+この値は保存しておき、後続のページネーション付きクエリで `start=` として渡すことで、このページネーターが中断した位置からイテレーションを再開できます。
+
+**戻り値:**
+
+* `str | None`: cursor のプロパティ値です。
+
+***
+
+### <kbd>プロパティ</kbd> ArtifactTypes.more

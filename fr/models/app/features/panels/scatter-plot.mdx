@@ -1,0 +1,60 @@
+---
+title: Nuages de points
+description: "Créez et personnalisez des nuages de points dans W&B pour comparer des runs et visualiser les relations entre les métriques d’expérience."
+---
+
+Cette page explique comment utiliser les nuages de points dans W&amp;B.
+
+<div id="use-case">
+  ## Cas d’usage
+</div>
+
+Utilisez des nuages de points pour comparer plusieurs runs et visualiser les performances d’une expérience :
+
+* Affichez des lignes pour les valeurs minimales, maximales et moyennes.
+* Personnalisez les infobulles des métadonnées.
+* Définissez la couleur des points.
+* Ajustez les plages des axes.
+* Utilisez une échelle logarithmique pour les axes.
+* Configurez la façon dont la **ligne frontière** et les points associés sont étiquetés et mis en évidence. Voir [Options d’affichage de la ligne frontière](#frontier-line-display-options).
+
+<div id="example">
+  ## Exemple
+</div>
+
+L’exemple suivant montre un nuage de points affichant l’accuracy de validation de différents modèles sur plusieurs semaines d’expérimentation. L’infobulle inclut la taille de lot, le dropout et les valeurs des axes. Une ligne affiche également la moyenne mobile de l’accuracy de validation.
+
+[Voir un exemple interactif →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
+
+<Frame>
+  <img src="/images/general/scatter-plots-1.png" alt="Nuage de points de l’accuracy de validation" />
+</Frame>
+
+<div id="create-a-scatter-plot">
+  ## Créer un nuage de points
+</div>
+
+Pour créer un nuage de points dans l’interface W&amp;B :
+
+1. Accédez à l’onglet **Workspaces**.
+2. Dans le panneau **Charts**, cliquez sur le menu d’action **(<Icon icon="ellipsis" iconType="solid" />)**.
+3. Dans le menu contextuel, sélectionnez **Add panels**.
+4. Dans le menu **Add panels**, sélectionnez **Scatter plot**.
+5. Définissez les axes `x` et `y` pour tracer les données que vous souhaitez afficher. Vous pouvez également définir des valeurs minimale et maximale pour vos axes ou ajouter un axe `z`.
+6. Cliquez sur **Apply** pour créer le nuage de points.
+7. Affichez le nouveau nuage de points dans le panneau **Charts**.
+
+<div id="frontier-line-display-options">
+  ## Options d’affichage de la ligne frontière
+</div>
+
+Sur un nuage de points, la *ligne frontière* relie les valeurs les plus hautes et les plus basses de l’axe Y observées jusque-là dans les données du graphique. Vous pouvez ajuster l’apparence de cette ligne et des points environnants dans les paramètres du graphique.
+
+Pour configurer les options d’affichage de la ligne frontière :
+
+1. Survolez le panneau du nuage de points, puis cliquez sur l’icône d’engrenage pour ouvrir le volet latéral des paramètres du panneau.
+2. Sélectionnez l’onglet **Annotations**.
+3. Définissez les options souhaitées :
+   * **Show run labels** : Basculez l’affichage d’une étiquette contenant le nom du run ou du groupe.
+   * **Dim non-frontier points** : Basculez l’atténuation visuelle des points qui ne se trouvent pas sur la ligne frontière afin de mieux faire ressortir celle-ci.
+4. Cliquez sur **Apply** pour enregistrer vos modifications.

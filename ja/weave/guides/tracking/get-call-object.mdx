@@ -1,0 +1,66 @@
+---
+title: "実行中にCallオブジェクトへの参照を取得する"
+description: "フィードバック、表示名、その他のメタデータのために、実行時にW&B WeaveのCallオブジェクトにアクセスします"
+---
+
+Weave では、Op を使用する際、通常の関数と同じように関数を直接呼び出せます。
+
+<CodeGroup>
+  ```python Python lines
+  @weave.op
+  def my_op():
+      ...
+
+  my_op()
+  ```
+
+  ```typescript Typescript lines
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+ただし、`op.call` メソッドを呼び出して、`Call` オブジェクトに直接アクセスすることもできます。このメソッドは、結果と `Call` オブジェクトの両方を返します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    @weave.op
+    def my_op():
+    ...
+
+    output, call = my_op.call()
+    ```
+
+    ここで、`call` オブジェクトには、入力、出力、その他のメタデータを含む、Call に関するすべての情報が格納されています。`call` を使用して、プロパティの設定や更新、追加のプロパティの取得、フィードバックの追加を行えます。
+
+    Op がクラスのメソッドである場合は、クラスのインスタンスを最初の引数として `call` に渡す必要があります。次の例は、クラスのメソッドである Call オブジェクトへの参照を取得する方法を示しています。
+
+    ```python lines
+    import weave
+
+    # Weave トレースを初期化
+    weave.init("intro-example")
+
+    class MyClass:
+        # メソッドをデコレート
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # `instance` を最初の引数として `call` に渡します。
+    result, call = instance.my_method.call(instance, "World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>

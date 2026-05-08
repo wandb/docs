@@ -1,0 +1,39 @@
+---
+title: "Code d’erreur API 401 - Échec de l’authentification"
+keywords: ["Authentification et accès"]
+---
+
+Une erreur 401 accompagnée du message &quot;Échec de l’authentification&quot; signifie que vos identifiants d’authentification sont incorrects, ou que l’entité de projet W&amp;B et/ou le nom sont incorrects.
+
+<div id="why-this-happens">
+  ## Pourquoi cela se produit
+</div>
+
+W&amp;B Inference API nécessite des identifiants d’authentification valides pour traiter les requêtes. Cette erreur se produit lorsque :
+
+* Votre clé API est invalide, expirée ou révoquée
+* Le nom de votre entité de projet W&amp;B est incorrect
+* Le nom de votre projet W&amp;B est incorrect
+
+<div id="what-you-can-do">
+  ## Ce que vous pouvez faire
+</div>
+
+1. **Vérifier votre clé API**
+   * Vérifiez que vous utilisez la bonne clé API pour votre compte
+   * Régénérez votre clé API si nécessaire depuis vos [Settings W&amp;B](https://wandb.ai/settings)
+
+2. **Vérifier les détails de votre projet**
+   * Assurez-vous que l’entité de votre projet W&amp;B (organisation ou nom d’utilisateur) est correcte
+   * Vérifiez que le nom du projet correspond bien à un projet existant
+
+3. **Contacter l’assistance**
+   * Si le problème persiste après avoir vérifié vos identifiants, contactez l’[assistance W&amp;B](mailto:support@wandb.com)
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Authentification et accès](/fr/support/inference/tags/authentication-access)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

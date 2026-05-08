@@ -1,0 +1,29 @@
+---
+title: wandb beta core start
+---
+
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/beta.py#L281" />
+
+<div id="usage">
+  ## 사용
+</div>
+
+```bash
+start [OPTIONS]
+```
+
+<div id="description">
+  ## 설명
+</div>
+
+분리 모드로 wandb-core 서비스를 start합니다.
+
+<div id="options">
+  ## 옵션
+</div>
+
+| Flag             | 유형  | 설명                                                                                                                                       |
+| ---------------- | --- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `--idle-timeout` | STR | 연결된 클라이언트가 없는 유휴 상태가 이 시간만큼 지속되면 wandb-core를 종료합니다. Go duration 구문을 사용하며, 예를 들어 30s, 10m을 지정할 수 있고 유휴 종료를 비활성화하려면 0을 사용합니다. **기본값**: 10m |

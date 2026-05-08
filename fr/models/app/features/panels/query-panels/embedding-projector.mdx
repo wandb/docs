@@ -1,0 +1,128 @@
+---
+description: Le projecteur d’embeddings de W&B permet aux utilisateurs de visualiser des embeddings multidimensionnels
+  sur un plan 2D à l’aide d’algorithmes courants de réduction de dimension comme PCA, UMAP et t-SNE.
+title: Intégrer des objets
+---
+
+<Frame>
+  <img src="/images/weave/embedding_projector.png" alt="Projecteur d’embeddings" />
+</Frame>
+
+Les [embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) servent à représenter des objets (personnes, images, publications, mots, etc.) sous forme de liste de nombres, parfois appelée *vecteur*. Dans les cas d’usage en machine learning et en science des données, les embeddings peuvent être générés de différentes manières pour un large éventail d’applications. Cette page suppose que le lecteur connaît déjà les embeddings et souhaite les analyser visuellement dans W&amp;B.
+
+<div id="embedding-examples">
+  ## Exemples d&#39;embeddings
+</div>
+
+* [Rapport de démonstration interactif](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq)
+* [Exemple Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
+
+<div id="hello-world">
+  ### Hello World
+</div>
+
+W&amp;B vous permet de journaliser des embeddings avec la classe `wandb.Table`. Prenez l’exemple suivant de 3 embeddings, chacun composé de 5 dimensions :
+
+```python
+import wandb
+
+with wandb.init(project="embedding_tutorial") as run:
+  embeddings = [
+      # D1   D2   D3   D4   D5
+      [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
+      [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
+      [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
+  ]
+  run.log(
+      {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
+  )
+  run.finish()
+```
+
+Après avoir exécuté le code ci-dessus, le tableau de bord W&amp;B affichera un nouveau tableau contenant vos données. Vous pouvez sélectionner `2D Projection` dans le sélecteur de panneau en haut à droite pour représenter les embeddings en 2 dimensions. L’option `Smart default` sera sélectionnée automatiquement, mais vous pouvez facilement la remplacer dans le menu de configuration accessible en cliquant sur l’icône d’engrenage. Dans cet exemple, nous utilisons automatiquement les 5 dimensions numériques disponibles.
+
+<Frame>
+  <img src="/images/app_ui/weave_hello_world.png" alt="exemple de projection 2D" />
+</Frame>
+
+
+<div id="digits-mnist">
+  ### Chiffres MNIST
+</div>
+
+Bien que l’exemple ci-dessus illustre les mécanismes de base de la journalisation des embeddings, en pratique, vous travaillez généralement avec un nombre bien plus élevé de dimensions et d’échantillons. Prenons le jeu de données MNIST Digits ([jeu de données UCI ML de chiffres manuscrits](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)), mis à disposition via [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html). Ce jeu de données contient 1 797 enregistrements, chacun comportant 64 dimensions. Il s’agit d’un cas d’usage de classification en 10 classes. Nous pouvons également convertir les données d’entrée en image pour les visualiser.
+
+```python
+import wandb
+from sklearn.datasets import load_digits
+
+with wandb.init(project="embedding_tutorial") as run:
+
+  # Charger le jeu de données
+  ds = load_digits(as_frame=True)
+  df = ds.data
+
+  # Créer une colonne "target"
+  df["target"] = ds.target.astype(str)
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
+
+  # Créer une colonne "image"
+  df["image"] = df.apply(
+      lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
+  )
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
+
+  run.log({"digits": df})
+```
+
+Après avoir exécuté le code ci-dessus, nous voyons de nouveau un tableau dans l&#39;UI. En sélectionnant `2D Projection`, vous pouvez configurer la définition de l&#39;embedding, la couleur, l&#39;algorithme (PCA, UMAP, t-SNE), les paramètres de l&#39;algorithme, et même la superposition (dans ce cas, l&#39;image s&#39;affiche lorsque vous survolez un point). Dans ce cas précis, il s&#39;agit uniquement de &quot;valeurs par défaut intelligentes&quot;, et vous devriez obtenir quelque chose de très similaire en cliquant simplement sur `2D Projection`. ([Interagissez avec cet exemple du tutoriel sur les embeddings](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney)).
+
+<Frame>
+  <img src="/images/weave/embedding_projector.png" alt="Projection des chiffres MNIST" />
+</Frame>
+
+
+<div id="logging-options">
+  ## Options de journalisation
+</div>
+
+Vous pouvez journaliser des embeddings dans différents formats :
+
+1. **Colonne d&#39;embedding unique :** Souvent, vos données sont déjà dans un format de type « matrice ». Dans ce cas, vous pouvez créer une seule colonne d&#39;embedding, où le type de données des valeurs de cellule peut être `list[int]`, `list[float]` ou `np.ndarray`.
+2. **Plusieurs colonnes numériques :** Dans les deux exemples ci-dessus, nous utilisons cette approche et créons une colonne pour chaque dimension. Nous acceptons actuellement des `int` ou `float` Python pour les cellules.
+
+<Frame>
+  <img src="/images/weave/logging_options.png" alt="Colonne d'embedding unique" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/logging_option_image_right.png" alt="Plusieurs colonnes numériques" />
+</Frame>
+
+De plus, comme pour tous les tableaux, vous avez plusieurs possibilités pour construire le tableau :
+
+1. Directement à partir d&#39;un **dataframe** avec `wandb.Table(dataframe=df)`
+2. Directement à partir d&#39;une **liste de données** avec `wandb.Table(data=[...], columns=[...])`
+3. Construire le tableau **de manière incrémentielle, ligne par ligne** (idéal si vous avez une boucle dans votre code). Ajoutez des lignes à votre tableau avec `table.add_data(...)`
+4. Ajouter une **colonne d&#39;embedding** à votre tableau (idéal si vous avez une liste de prédictions sous forme d&#39;embeddings) : `table.add_col("col_name", ...)`
+5. Ajouter une **colonne calculée** (idéal si vous avez une fonction ou un modèle à appliquer à votre tableau) : `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
+
+<div id="plotting-options">
+  ## Options de tracé
+</div>
+
+Après avoir sélectionné `2D Projection`, vous pouvez cliquer sur l’icône d’engrenage pour modifier les paramètres de rendu. En plus de sélectionner les colonnes souhaitées (voir ci-dessus), vous pouvez choisir l’algorithme voulu (ainsi que les paramètres souhaités). Ci-dessous, vous pouvez voir les paramètres d’UMAP et de t-SNE, respectivement.
+
+<Frame>
+  <img src="/images/weave/plotting_options_left.png" alt="Paramètres d’UMAP" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/plotting_options_right.png" alt="Paramètres de t-SNE" />
+</Frame>
+
+<Note>
+  Remarque : nous sous-échantillonnons actuellement un sous-ensemble aléatoire de 1 000 lignes et 50 dimensions pour les trois algorithmes.
+</Note>

@@ -1,0 +1,111 @@
+---
+title: "제너레이터 함수 트레이스"
+description: "W&B Weave 트레이싱으로 동기 및 비동기 제너레이터 함수를 추적합니다"
+---
+
+W&amp;B Weave는 깊게 중첩된 패턴을 포함해 동기 및 비동기 제너레이터 함수를 모두 트레이싱할 수 있습니다.
+
+<Warning>
+  제너레이터는 값을 지연 생성하므로, Weave는 제너레이터가 완전히 소비된 경우에만 출력을 로그합니다(예: 목록으로 변환할 때). Weave가 트레이스에서 출력을 캡처하도록 하려면,
+  제너레이터를 완전히 소비하세요(예: `list()` 사용).
+</Warning>
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    from typing import Generator
+    import weave
+
+    weave.init("my-project")
+
+    # 이 함수는 단순한 동기 제너레이터를 사용합니다.
+    # Weave는 Call과 해당 입력(`x`)을 트레이스하지만,
+    # 출력 값은 제너레이터가 소비된 후에만 캡처됩니다(예: `list()` 사용).
+    @weave.op
+    def basic_gen(x: int) -> Generator[int, None, None]:
+        yield from range(x)
+
+    # 제너레이터 파이프라인 내에서 사용되는 일반 동기 함수입니다.
+    # 이 함수의 Call도 Weave가 별도로 트레이스합니다.
+    @weave.op
+    def inner(x: int) -> int:
+        return x + 1
+
+    # 다른 트레이스된 함수(`inner`)를 호출하는 동기 제너레이터입니다.
+    # 각 yield 값은 `inner`에 대한 개별 트레이스된 Call에서 나옵니다.
+    @weave.op
+    def nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            yield inner(i)
+
+    # 위 제너레이터를 조합하는 더 복잡한 제너레이터입니다.
+    # 여기서 트레이싱하면 계층형 Call 트리가 생성됩니다:
+    # - `deeply_nested_generator` (부모)
+    #   - `nested_generator` (자식)
+    #     - `inner` (손자)
+    @weave.op
+    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            for j in nested_generator(i):
+                yield j
+
+    # Weave가 출력을 캡처하려면 제너레이터를 반드시 *소비*해야 합니다.
+    # 이는 동기 및 비동기 제너레이터 모두에 해당합니다.
+    res = deeply_nested_generator(4)
+    list(res)  # 중첩된 모든 Call과 yield의 트레이싱을 트리거합니다
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+다음 스크린샷은 앞선 코드에서 선택한 트레이스가 표시된 **Traces** 페이지를 보여줍니다. 가운데 패널에는 선택한 트레이스의 트레이스 트리가 표시됩니다. 트레이스 트리에는 `deeply_nested_generator`, `nested_generator`, `inner` Ops가 계층 구조로 표시됩니다.
+![Weave Traces page showing a selected trace tree illustrating deeply nested Ops](/weave/guides/tracking/imgs/generators.png)
+
+<div id="consuming-generators">
+  ## 제너레이터 소비하기
+</div>
+
+Weave는 제너레이터를 완전히 소비한 후에만 제너레이터 출력을 캡처합니다. 제너레이터는 반복 순회하여 소비하세요(예: `list()`, `for` 루프 또는 모두 소진될 때까지 `next()` 사용). `async for` 또는 이에 준하는 소비 방식을 사용할 때는 비동기 제너레이터에도 동일하게 적용됩니다.
+
+함수와 메서드에 `@weave.op`를 데코레이터로 적용하는 방법에 대한 자세한 내용은 [call 생성](/ko/weave/guides/tracking/create-call)을 참조하세요.
+
+<div id="accumulate-yielded-values-into-a-single-trace">
+  ## yield된 값을 단일 트레이스로 누적하기
+</div>
+
+`weave.op`의 `accumulator` 파라미터를 사용하면 제너레이터 함수에서 yield된 값들을 어떻게 결합할지 사용자 지정할 수 있습니다. 예를 들어, 스트리밍된 텍스트 토큰을 하나의 문자열로 합칠 수 있습니다. accumulator는 두 개의 인수를 받는 함수이며, Weave는 yield된 각 값에 대해 이 함수를 한 번씩 호출하여 결과를 점진적으로 구축합니다.
+
+<Note>
+  `accumulator` 파라미터는 TypeScript에서는 사용할 수 없습니다.
+</Note>
+
+다음 예제에서는 각 yield된 값을 목록에 추가하는 맞춤형 accumulator를 보여줍니다. 이렇게 하면 제너레이터가 모두 소비된 후 Weave가 해당 목록을 Call 출력으로 기록합니다.
+
+```python
+from typing import Generator
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+# Weave는 각 yield 이후 이 함수를 호출합니다. 첫 번째 호출 시 acc는 None입니다.
+# 마지막으로 반환한 값이 트레이스된 Op 출력이 됩니다.
+def list_accumulator(acc, value):
+    if acc is None:
+        acc = []
+    acc.append(value)
+    return acc
+
+# accumulator 파라미터 설정
+@weave.op(accumulator=list_accumulator)
+def basic_gen_with_accumulator(x: int) -> Generator[int, None, None]:
+    yield from range(x)
+
+# 모든 yield가 실행되고 accumulator가 최종 트레이스 출력을 생성할 수 있도록 끝까지 반복합니다.
+result = list(basic_gen_with_accumulator(3))
+print(result)
+```

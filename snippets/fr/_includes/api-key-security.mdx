@@ -1,0 +1,71 @@
+---
+title: Sécurité des clés API
+---
+
+<div id="store-and-handle-api-keys-securely">
+  ## Stockez et manipulez les clés API en toute sécurité
+</div>
+
+Les clés API donnent accès à votre compte W&amp;B et doivent être protégées comme des mots de passe. Suivez ces bonnes pratiques :
+
+<div id="recommended-storage-methods">
+  ### Méthodes de stockage recommandées
+</div>
+
+* **Gestionnaire de secrets** : Utilisez un système dédié de gestion des secrets, tel que [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [HashiCorp Vault](https://developer.hashicorp.com/vault), [Azure Key Vault](https://azure.microsoft.com/en-us/products/key-vault) ou [Google Secret Manager](https://cloud.google.com/security/products/secret-manager).
+* **Gestionnaire de mots de passe** : Utilisez une application de gestion de mots de passe fiable.
+* **Trousseaux du système d’exploitation** : Stockez les clés dans le Trousseau macOS, le Gestionnaire d’identifiants Windows ou le service de secrets Linux. Déconseillé en production.
+
+<div id="what-to-avoid">
+  ### Ce qu’il faut éviter
+</div>
+
+* N’enregistrez jamais de clés API dans un système de gestion de versions comme Git.
+* Ne stockez pas de clés API dans des fichiers de configuration en texte brut.
+* Ne transmettez pas de clés API en ligne de commande, car elles seront visibles dans la sortie de commandes du système d’exploitation telles que `ps`.
+* Évitez de partager des clés API par e-mail, via le chat ou par d’autres canaux non chiffrés.
+* N’intégrez pas de clés API en dur dans votre code source.
+
+Si une clé API est exposée, supprimez-la immédiatement de votre compte W&amp;B et contactez l’[assistance](mailto:support@wandb.ai) ou votre AISE.
+
+<div id="environment-variables">
+  ### Variables d’environnement
+</div>
+
+Lorsque vous utilisez des clés API dans votre code, transmettez-les via des variables d’environnement :
+
+```bash
+export WANDB_API_KEY="your-api-key-here"
+```
+
+Cette approche évite d’exposer les clés dans votre code source et facilite leur renouvellement si nécessaire.
+
+<Warning>
+  Évitez de définir la variable d’environnement sur la même ligne que la commande, car elle sera visible dans la sortie de commandes système comme `ps` :
+
+  ```bash
+  # Évitez cette pratique, qui peut exposer la clé API dans les gestionnaires de processus
+  export WANDB_API_KEY="your-api-key-here" ./my-script.sh
+  ```
+</Warning>
+
+
+<div id="sdk-version-compatibility">
+  ### Compatibilité des versions du SDK
+</div>
+
+Les nouvelles clés API sont plus longues que les clés héritées. Lors de l’authentification avec des versions antérieures des SDK `wandb` ou `weave`, vous pouvez rencontrer une erreur liée à la longueur de la clé API.
+
+**Solution** : mettez à jour vers une version plus récente du SDK :
+
+* SDK `wandb` v0.22.3+
+
+  ```bash
+  pip install --upgrade wandb==0.22.3
+  ```
+* SDK `weave` v0.52.17+
+  ```bash
+  pip install --upgrade weave==0.52.17
+  ```
+
+Si vous ne pouvez pas mettre à jour le SDK immédiatement, utilisez la variable d’environnement `WANDB_API_KEY` pour définir la clé API en guise de solution de contournement.

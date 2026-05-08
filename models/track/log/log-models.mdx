@@ -2,7 +2,7 @@
 title: Log models
 description: "Log model artifacts to a W&B run and retrieve them later using the log_model and use_model SDK methods."
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
 
@@ -97,7 +97,7 @@ with wandb.init(entity="charlie", project="mnist-experiments", config=config) as
     run.log_model(path=full_path, name="MNIST")
 ```
 
-When you call `log_model`, a model artifact named `MNIST` is created and the file `model.h5` is added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
+When you call `wandb.Run.log_model()`, a model artifact named `MNIST` is created and the file `model.h5` is added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
 
 ```python
 View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw

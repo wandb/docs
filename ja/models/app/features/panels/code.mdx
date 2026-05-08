@@ -1,73 +1,91 @@
 ---
-title: コード の保存と差分表示
+title: コードを保存して差分を比較する
+description: "コードの保存を有効にし、コード比較 を使って W&B の Runs 間でコードを比較し、Jupyter セッション履歴を記録します。"
 ---
 
-デフォルトでは、W&B は最新の git コミットハッシュのみを保存します。追加のコード機能を有効にすると、UI 上で動的に Experiments 間のコードを比較できるようになります。
+デフォルトでは、W&amp;B は最新の Git のコミットハッシュのみを保存します。UI 上で実験間のコードを動的に比較できるようにするには、追加のコード関連機能を有効にします。
 
-`wandb` バージョン 0.8.28 以降、W&B は `wandb.init()` を呼び出したメインのトレーニングファイルのコードを保存できます。
+`wandb` バージョン 0.8.28 以降では、W&amp;B は `wandb.init()` を呼び出すメインのトレーニングファイルのコードを保存できます。
 
-## ライブラリコードの保存
+<div id="save-library-code">
+  ## ライブラリコードを保存
+</div>
 
-コード保存を有効にすると、W&B は `wandb.init()` を呼び出したファイルのコードを保存します。追加のライブラリコードを保存するには、次の 3 つのオプションがあります。
+コードの保存を有効にすると、W&amp;B は `wandb.init()` を呼び出したファイルのコードを保存します。追加のライブラリコードを保存するには、3 つの方法があります。
 
-### `wandb.init()` の呼び出し後に `wandb.Run.log_code(".")` を呼び出す
+<div id="call-wandbrunlog_code-after-calling-wandbinit">
+  ### `wandb.init()` を呼び出した後で `wandb.Run.log_code(".")` を呼び出す
+</div>
 
 ```python
 import wandb
 
-# wandb.init() を実行し、run オブジェクトを取得
 with wandb.init() as run:
-  # カレントディレクトリのコードをログに記録
   run.log_code(".")
 ```
 
-### `code_dir` を設定した settings オブジェクトを `wandb.init()` に渡す
+<div id="pass-a-settings-object-to-wandbinit-with-code_dir-set">
+  ### `code_dir` を設定した settings オブジェクトを `wandb.init()` に渡す
+</div>
 
 ```python
 import wandb
 
-# settings 引数に code_dir を指定して初期化
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-これにより、カレントディレクトリおよびすべてのサブディレクトリ内にあるすべての Python ソースコードファイルが [Artifacts](/models/ref/python/experiments/artifact) としてキャプチャされます。保存するソースコードファイルの種類や場所をより細かく制御するには、[リファレンスドキュメント](/models/ref/python/experiments/run#log_code) を参照してください。
+これにより、現在のディレクトリとその配下のすべてのサブディレクトリにある Python のソースコードファイルが、[artifact](/ja/models/ref/python/experiments/artifact) として保存されます。保存するソースコードファイルのタイプや場所をより細かく指定するには、[リファレンスドキュメント](/ja/models/ref/python/experiments/run#log_code)を参照してください。
 
-### UI でコード保存を設定する
+<div id="set-code-saving-in-the-ui">
+  ### UIでコードの保存を設定する
+</div>
 
-プログラムでコード保存を設定するだけでなく、W&B アカウントの Settings でこの機能を切り替えることもできます。これにより、アカウントに関連付けられているすべての Teams でコード保存が有効になることに注意してください。
+プログラムからコードの保存を設定するだけでなく、UIではチームまたは組織単位でデフォルトを設定することもできます。チームおよび組織の設定については、[プライバシー設定を構成する](/ja/platform/hosting/privacy-settings)を参照してください。
 
-> デフォルトでは、W&B はすべての Teams に対してコード保存を無効にしています。
+<div id="team">
+  #### チーム
+</div>
 
-1. W&B アカウントにログインします。
-2. **Settings** > **Privacy** に移動します。
-3. **Project and content security** の下にある **Disable default code saving** をオフに切り替えます。
+> デフォルトでは、W&amp;B はすべてのチームでコードの保存を無効にしています。チームでこれを有効にするには、まず組織管理者が組織に対して有効にする必要があります。[組織](#organization)セクションをご覧ください。
 
-## Code comparer
+チーム管理者は、チームの **Settings** ページを開き、**Privacy** セクションに移動して、そのチームの Runs に対する **Enable code saving by default** を設定します。このオプションは、組織管理者が組織全体にコードの保存に関する制限を適用していない場合にのみ利用できます。画面の移動手順については、[チームのプライバシー設定を構成する](/ja/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team)をご覧ください。
 
-異なる W&B Runs で使用されたコードを比較します：
+<div id="organization">
+  #### 組織
+</div>
 
-1. ページ右上の **Add panels** ボタンを選択します。
-2. **TEXT AND CODE** ドロップダウンを展開し、**Code** を選択します。
+組織管理者は、組織の **Settings** を開いて **Privacy** セクションに移動し、**Enforce default code saving restrictions** をオンにすることで、すべてのチームでコードの保存がデフォルトでオフのままになるよう設定できます。この強制設定が有効な間、チーム管理者はチームに対して **Enable code saving by default** をオンにできません。組織で利用できる制御項目の一覧については、[Enforce privacy settings for all teams](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) を参照してください。
+
+<div id="code-comparer">
+  ## コード比較
+</div>
+
+異なるW&amp;B runで使用されたコードを比較します。
+
+1. ページの画面右上にある **Add panels** ボタンを選択します。
+2. **TEXT AND CODE** のドロップダウンを展開し、**Code** を選択します。
 
 <Frame>
-    <img src="/images/app_ui/code_comparer.png" alt="Code comparer panel"  />
+  <img src="/images/app_ui/code_comparer.png" alt="コード比較パネル" />
 </Frame>
 
-## Jupyter セッション履歴
+<div id="jupyter-session-history">
+  ## Jupyter セッション履歴
+</div>
 
-W&B は、Jupyter Notebook セッションで実行されたコードの履歴を保存します。Jupyter 内で **wandb.init()** を呼び出すと、W&B はフックを追加して、現在のセッションで実行されたコードの履歴を含む Jupyter Notebook を自動的に保存します。
+W&amp;B は、Jupyter ノートブックのセッションで実行されたコードの履歴を保存します。Jupyter 内で **wandb.init()** を call すると、W&amp;B はフックを追加し、現在のセッションで実行されたコードの履歴を含む Jupyter ノートブックを自動的に保存します。
 
-1. コードが含まれているプロジェクトの Workspace に移動します。
-2. 左側のナビゲーションバーにある **Artifacts** タブを選択します。
-3. **code** アーティファクトを展開します。
+1. コードを含むプロジェクトのワークスペースにアクセスします。
+2. プロジェクトのサイドバーで **Artifacts** タブを選択します。
+3. **code** artifact を展開します。
 4. **Files** タブを選択します。
 
 <Frame>
-    <img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter session history"  />
+  <img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter セッション履歴" />
 </Frame>
 
-これにより、セッションで実行されたセルと、iPython の display メソッドを呼び出すことによって作成された出力が表示されます。これにより、特定の run において Jupyter 内でどのようなコードが実行されたかを正確に確認できます。可能な場合は、W&B はノートブックの最新バージョンも保存し、それも code ディレクトリーに保存されます。
+これにより、セッション中に実行されたセルと、iPython の display method を call して生成された出力が表示されます。これにより、特定の run で Jupyter 内のどのコードが実行されたかを正確に確認できます。可能な場合、W&amp;B はノートブックの最新バージョンも保存します。これは code ディレクトリ内にあります。
 
 <Frame>
-    <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output"  />
+  <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter セッション出力" />
 </Frame>

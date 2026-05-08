@@ -3,8 +3,8 @@ title: Hugging Face Transformers
 description: "Use W&B with Hugging Face Transformers Trainer for experiment tracking, model checkpointing, and dataset versioning."
 ---
 
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Optimize_Hugging_Face_models_with_Weights_&_Biases.ipynb" />
 
@@ -453,9 +453,9 @@ WANDB_SILENT=true
 </Tabs>
 
 
-### How do I customize `wandb.init`?
+### How do I customize `wandb.init()`?
 
-The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
+The `WandbCallback` that `Trainer` uses will call `wandb.init()` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init()` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
 
 An example of what you might want to pass to `init` is below. For `wandb.init()` details, see the [`wandb.init()` reference](/models/ref/python/functions/init).
 

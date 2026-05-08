@@ -1,0 +1,30 @@
+---
+title: "Hydra と W&B を使用すると、プロセスがハングするのはなぜですか？"
+keywords: ["Experiments", "run のクラッシュ"]
+---
+
+Hydra で起動したときにプロセスがハングする場合、これは Hydra と W&amp;B の間のマルチプロセッシングの競合が原因である可能性が高いです。
+
+これを解決するには、W&amp;B のマルチプロセッシングプロトコルを `"thread"` に変更してください。これを行う方法は 2 つあります。
+
+**オプション 1**: `wandb.init()` に Settings パラメーターを渡します。
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+
+**オプション 2**: グローバル環境変数を設定します。
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+詳細は、[Hydraインテグレーションガイド](/ja/models/integrations/hydra/)および[分散トレーニングのトラブルシューティング](/ja/models/track/log/distributed-training/)をご覧ください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[run の異常終了](/ja/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

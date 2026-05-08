@@ -14,13 +14,13 @@ AI runbooks are detailed, step-by-step instructions designed to help AI agents p
 
 ## Available runbooks
 
-### [test-github-action-changes.md](./test-github-action-changes.md)
-Tests updates to a to GitHub Actions workflow using the default branch in a fork. These procedures are required because once a GitHub Action has been merged to a repository's default branch, it can only run from the default branch.
+### [locadex-writer-guide.mdx](./translation/locadex-writer-guide.mdx)
+Day-to-day guide for English-language tech writers: what Locadex translates on `main`, the English merge to Locadex PR workflow, console versus GitHub responsibilities, glossary import and export, using an LLM to help review a translation round, and manual fixes versus Retranslate.
 
 **Use cases:**
-- Testing dependency upgrades (for example, Dependabot PRs)
-- Verifying workflow functionality changes
-- Debugging GitHub Actions issues
+- Understanding what happens after an English PR merges when Locadex is enabled
+- Deciding whether to edit the console, `gt.config.json`, or localized files in GitHub
+- Reviewing a Locadex PR with glossary-backed LLM assistance
 
 ### [TEMPLATE.md](./TEMPLATE.md)
 A template for creating new runbooks. Copy this file and fill in the sections to create standardized, AI-friendly runbooks.

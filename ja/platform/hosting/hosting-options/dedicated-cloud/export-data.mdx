@@ -1,0 +1,19 @@
+---
+description: "Python SDK API を使用して、W&B 専用クラウドインスタンスから Runs、メトリクス、Artifacts、Reports をエクスポートします。"
+title: 専用クラウドからデータをエクスポート
+---
+
+専用クラウドインスタンスで管理されているすべてのデータをエクスポートするには、W&amp;B SDK API の [Import and Export API](/ja/models/ref/python/public-api/) を使用して、Runs、メトリクス、Artifacts などを抽出できます。以下の表では、主なエクスポートのユースケースをいくつか紹介します。
+
+| 目的                    | ドキュメント                                                                                                                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| プロジェクトのメタデータをエクスポート   | [Projects API](/ja/models/ref/python/public-api/projects)                                                                                                                                               |
+| プロジェクト内の Runs をエクスポート | [Runs API](/ja/models/ref/python/public-api/runs)                                                                                                                                                       |
+| Reports をエクスポート       | [Report and Workspace API](/ja/models/reports/clone-and-export-reports/)                                                                                                                                |
+| Artifacts をエクスポート     | [artifact グラフを探索する](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [Artifacts をダウンロードして使用する](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+
+[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) を使用して専用クラウドに保存された Artifacts を管理している場合は、W&amp;B SDK API を使用して Artifacts をエクスポートする必要がないこともあります。
+
+<Note>
+  W&amp;B SDK API を使用してすべてのデータをエクスポートすると、Runs や Artifacts などが大量にある場合、時間がかかることがあります。W&amp;B では、専用クラウドインスタンスに過度な負荷をかけないよう、適切なサイズのバッチでエクスポート処理を実行することを推奨しています。
+</Note>

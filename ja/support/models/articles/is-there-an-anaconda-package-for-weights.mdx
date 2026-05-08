@@ -1,0 +1,36 @@
+---
+title: "Weights and Biases 用の Anaconda パッケージはありますか？"
+keywords: ["Python"]
+---
+
+`pip` または `conda` のどちらでもインストールできる Anaconda パッケージがあります。`conda` の場合は、[conda-forge](https://conda-forge.org) チャネルからパッケージを入手してください。
+
+<Tabs>
+  <Tab title="pip">
+    ```shell
+    # conda 環境を作成する
+    conda create -n wandb-env python=3.8 anaconda
+    # 環境をアクティベートする
+    conda activate wandb-env
+    # pip を使用して wandb をインストールする
+    pip install wandb
+    ```
+  </Tab>
+
+  <Tab title="conda">
+    ```shell
+    conda activate myenv
+    conda install wandb --channel conda-forge
+    ```
+  </Tab>
+</Tabs>
+
+インストールで問題が発生した場合は、Anaconda の[パッケージ管理に関するドキュメント](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html)を参照してください。
+
+***
+
+{/* 自動生成: タブ バッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Python](/ja/support/models/tags/python)</Badge>
+
+{/* END AUTO-GENERATED: タブバッジ */}

@@ -1,461 +1,709 @@
 ---
-title: 'Class: WeaveClient'
-description: TypeScript SDK 레퍼런스
+title: "클래스: WeaveClient"
+description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / WeaveClient
 
-## 목차
+<div id="table-of-contents">
+  ## 목차
+</div>
 
-### 생성자 (Constructors)
+<div id="constructors">
+  ### 생성자
+</div>
 
-- [constructor](./weaveclient#constructor)
+* [생성자](./weaveclient#constructor)
 
-### 속성 (Properties)
+<div id="properties">
+  ### 속성
+</div>
 
-- [projectId](./weaveclient#projectid)
-- [settings](./weaveclient#settings)
-- [traceServerApi](./weaveclient#traceserverapi)
+* [projectId](./weaveclient#projectid)
+* [settings](./weaveclient#settings)
+* [traceServerApi](./weaveclient#traceserverapi)
 
-### 메소드 (Methods)
+<div id="methods">
+  ### 메서드
+</div>
 
-- [addScore](./weaveclient#addscore)
-- [createCall](./weaveclient#createcall)
-- [finishCall](./weaveclient#finishcall)
-- [finishCallWithException](./weaveclient#finishcallwithexception)
-- [get](./weaveclient#get)
-- [getCall](./weaveclient#getcall)
-- [getCallStack](./weaveclient#getcallstack)
-- [getCalls](./weaveclient#getcalls)
-- [getCallsIterator](./weaveclient#getcallsiterator)
-- [getCurrentAttributes](./weaveclient#getcurrentattributes)
-- [publish](./weaveclient#publish)
-- [pushNewCall](./weaveclient#pushnewcall)
-- [runWithAttributes](./weaveclient#runwithattributes)
-- [runWithCallStack](./weaveclient#runwithcallstack)
-- [saveOp](./weaveclient#saveop)
-- [updateCall](./weaveclient#updatecall)
-- [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
+* [addScore](./weaveclient#addscore)
+* [createCall](./weaveclient#createcall)
+* [finishCall](./weaveclient#finishcall)
+* [finishCallWithException](./weaveclient#finishcallwithexception)
+* [get](./weaveclient#get)
+* [getCall](./weaveclient#getcall)
+* [getCallStack](./weaveclient#getcallstack)
+* [getCalls](./weaveclient#getcalls)
+* [getCallsIterator](./weaveclient#getcallsiterator)
+* [getCurrentAttributes](./weaveclient#getcurrentattributes)
+* [publish](./weaveclient#publish)
+* [pushNewCall](./weaveclient#pushnewcall)
+* [runWithAttributes](./weaveclient#runwithattributes)
+* [runWithCallStack](./weaveclient#runwithcallstack)
+* [saveCallEnd](./weaveclient#savecallend)
+* [saveCallStart](./weaveclient#savecallstart)
+* [saveOp](./weaveclient#saveop)
+* [serializeAudio](./weaveclient#serializeaudio)
+* [updateCall](./weaveclient#updatecall)
+* [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
 
-## 생성자 (Constructors)
+## 생성자
 
-### constructor
+<div id="constructors">
+  ### 생성자
+</div>
 
 • **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `traceServerApi` | `Api`\<`any`\> |
-| `wandbServerApi` | `WandbServerApi` |
-| `projectId` | `string` |
-| `settings` | `Settings` |
+| 이름               | 유형                 |
+| :--------------- | :----------------- |
+| `traceServerApi` | `Api`&lt;`any`&gt; |
+| `wandbServerApi` | `WandbServerApi`   |
+| `projectId`      | `string`           |
+| `settings`       | `Settings`         |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 [`WeaveClient`](./weaveclient)
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:93](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L93)
+[weaveClient.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L100)
 
-## 속성 (Properties)
+## 속성
 
-### projectId
+<div id="projectid">
+  ### projectId
+</div>
 
 • **projectId**: `string`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L96)
+[weaveClient.ts:103](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L103)
 
-___
+***
 
-### settings
+<div id="settings">
+  ### settings
+</div>
 
 • **settings**: `Settings`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:97](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L97)
+[weaveClient.ts:104](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L104)
 
-___
+***
 
-### traceServerApi
+<div id="traceserverapi">
+  ### traceServerApi
+</div>
 
-• **traceServerApi**: `Api`\<`any`\>
+• **traceServerApi**: `Api`&lt;`any`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:94](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L94)
+[weaveClient.ts:101](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L101)
 
-## 메소드 (Methods)
+## 메서드
 
-### addScore
+<div id="addscore">
+  ### addScore
+</div>
 
-▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
+▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`&lt;`string`&gt;
 
-Call에 scorer 결과(예: scorer 출력값)를 추가합니다.
-명령형 평가(imperative evaluation)에서 scorer 결과를 predict call에 연결하는 데 사용됩니다.
+call에 scorer 결과(예: scorer 출력)를 추가합니다.
+명령형 평가에서 scorer 결과를 predict call에 연결할 때 사용됩니다.
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `predictCallId` | `string` | 피드백을 연결할 predict call의 ID |
-| `scorerCallId` | `string` | 피드백을 생성한 scorer call의 ID |
-| `runnableRefUri` | `string` | scorer의 URI (Op 또는 Object 참조) |
-| `scorerOutput` | `any` | scorer의 출력값 |
+| 이름               | 유형       | 설명                            |
+| :--------------- | :------- | :---------------------------- |
+| `predictCallId`  | `string` | 피드백을 연결할 predict call의 ID     |
+| `scorerCallId`   | `string` | 피드백을 생성한 scorer call의 ID      |
+| `runnableRefUri` | `string` | scorer의 URI(Op 또는 Object ref) |
+| `scorerOutput`   | `any`    | scorer의 출력값                   |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`string`\>
+`Promise`&lt;`string`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:865](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L865)
+[weaveClient.ts:908](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L908)
 
-___
+***
 
-### createCall
+<div id="createcall">
+  ### createCall
+</div>
 
-▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
+▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`&lt;`void`&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `internalCall` | `InternalCall` |
-| `opRef` | `any` |
-| `params` | `any`[] |
-| `parameterNames` | `ParameterNamesOption` |
-| `thisArg` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `startTime` | `Date` |
-| `displayName?` | `string` |
-| `attributes?` | `Record`\<`string`, `any`\> |
+| 이름               | 유형                              |
+| :--------------- | :------------------------------ |
+| `internalCall`   | `InternalCall`                  |
+| `opRef`          | `any`                           |
+| `params`         | `any`[]                         |
+| `parameterNames` | `ParameterNamesOption`          |
+| `thisArg`        | `any`                           |
+| `currentCall`    | `CallStackEntry`                |
+| `parentCall`     | `undefined` | `CallStackEntry`  |
+| `startTime`      | `Date`                          |
+| `displayName?`   | `string`                        |
+| `attributes?`    | `Record`&lt;`string`, `any`&gt; |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:720](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L720)
+[weaveClient.ts:763](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L763)
 
-___
+***
 
-### finishCall
+<div id="finishcall">
+  ### finishCall
+</div>
 
-▸ **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+▸ **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `call` | `InternalCall` |
-| `result` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `summarize` | `undefined` \| (`result`: `any`) => `Record`\<`string`, `any`\> |
-| `endTime` | `Date` |
-| `startCallPromise` | `Promise`\<`void`\> |
+| 이름                 | 유형                                                                    |
+| :----------------- | :-------------------------------------------------------------------- |
+| `call`             | `InternalCall`                                                        |
+| `result`           | `any`                                                                 |
+| `currentCall`      | `CallStackEntry`                                                      |
+| `parentCall`       | `undefined` | `CallStackEntry`                                        |
+| `summarize`        | `undefined` | (`result`: `any`) =&gt; `Record`&lt;`string`, `any`&gt; |
+| `endTime`          | `Date`                                                                |
+| `startCallPromise` | `Promise`&lt;`void`&gt;                                               |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:772](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L772)
+[weaveClient.ts:815](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L815)
 
-___
+***
 
-### finishCallWithException
+<div id="finishcallwithexception">
+  ### finishCallWithException
+</div>
 
-▸ **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+▸ **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `call` | `InternalCall` |
-| `error` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `endTime` | `Date` |
-| `startCallPromise` | `Promise`\<`void`\> |
+| 이름                 | 유형                             |
+| :----------------- | :----------------------------- |
+| `call`             | `InternalCall`                 |
+| `error`            | `any`                          |
+| `currentCall`      | `CallStackEntry`               |
+| `parentCall`       | `undefined` | `CallStackEntry` |
+| `endTime`          | `Date`                         |
+| `startCallPromise` | `Promise`&lt;`void`&gt;        |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:812](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L812)
+[weaveClient.ts:855](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L855)
 
-___
+***
 
-### get
+<div id="get">
+  ### get
+</div>
 
-▸ **get**(`ref`): `Promise`\<`any`\>
+▸ **get**(`ref`): `Promise`&lt;`any`&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
+| 이름    | 유형                         |
+| :---- | :------------------------- |
 | `ref` | [`ObjectRef`](./objectref) |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`any`\>
+`Promise`&lt;`any`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:282](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L282)
+[weaveClient.ts:289](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L289)
 
-___
+***
 
-### getCall
+<div id="getcall">
+  ### getCall
+</div>
 
-▸ **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
+▸ **getCall**(`callId`, `includeCosts?`): `Promise`&lt;`Call`&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `callId` | `string` | `undefined` |
-| `includeCosts` | `boolean` | `false` |
+| 이름             | 유형        | 기본값         |
+| :------------- | :-------- | :---------- |
+| `callId`       | `string`  | `undefined` |
+| `includeCosts` | `boolean` | `false`     |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`Call`\>
+`Promise`&lt;`Call`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:213](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L213)
+[weaveClient.ts:220](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L220)
 
-___
+***
 
-### getCallStack
+<div id="getcallstack">
+  ### getCallStack
+</div>
 
 ▸ **getCallStack**(): `CallStack`
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 `CallStack`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:636](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L636)
+[weaveClient.ts:674](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L674)
 
-___
+***
 
-### getCalls
+<div id="getcalls">
+  ### getCalls
+</div>
 
-▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
+▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `filter` | [`CallsFilter`](../interfaces/callsfilter) | `{}` |
-| `includeCosts` | `boolean` | `false` |
-| `limit` | `number` | `1000` |
+| 이름             | 유형                                         | 기본값     |
+| :------------- | :----------------------------------------- | :------ |
+| `filter`       | [`CallsFilter`](../interfaces/callsfilter) | `{}`    |
+| `includeCosts` | `boolean`                                  | `false` |
+| `limit`        | `number`                                   | `1000`  |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`Call`[]\>
+`Promise`&lt;`Call`[]&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:223](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L223)
+[weaveClient.ts:230](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L230)
 
-___
+***
 
-### getCallsIterator
+<div id="getcallsiterator">
+  ### getCallsIterator
+</div>
 
-▸ **getCallsIterator**(`filter?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+▸ **getCallsIterator**(`filter?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `filter` | [`CallsFilter`](../interfaces/callsfilter) | `{}` |
-| `includeCosts` | `boolean` | `false` |
-| `limit` | `number` | `1000` |
+| 이름             | 유형                                         | 기본값     |
+| :------------- | :----------------------------------------- | :------ |
+| `filter`       | [`CallsFilter`](../interfaces/callsfilter) | `{}`    |
+| `includeCosts` | `boolean`                                  | `false` |
+| `limit`        | `number`                                   | `1000`  |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:237](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L237)
+[weaveClient.ts:244](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L244)
 
-___
+***
 
-### getCurrentAttributes
+<div id="getcurrentattributes">
+  ### getCurrentAttributes
+</div>
 
-▸ **getCurrentAttributes**(): `Record`\<`string`, `any`\>
+▸ **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Record`\<`string`, `any`\>
+`Record`&lt;`string`, `any`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:640](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L640)
+[weaveClient.ts:678](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L678)
 
-___
+***
 
-### publish
+<div id="publish">
+  ### publish
+</div>
 
-▸ **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](./objectref)\>
+▸ **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `obj` | `any` |
+| 이름       | 유형       |
+| :------- | :------- |
+| `obj`    | `any`    |
 | `objId?` | `string` |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<[`ObjectRef`](./objectref)\>
+`Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:201](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L201)
+[weaveClient.ts:208](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L208)
 
-___
+***
 
-### pushNewCall
+<div id="pushnewcall">
+  ### pushNewCall
+</div>
 
-▸ **pushNewCall**(): `Object`
+▸ **pushNewCall**(): `객체`
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Object`
+`객체`
 
-| Name | Type |
-| :------ | :------ |
+| 이름            | 유형               |
+| :------------ | :--------------- |
 | `currentCall` | `CallStackEntry` |
-| `newStack` | `CallStack` |
+| `newStack`    | `CallStack`      |
 | `parentCall?` | `CallStackEntry` |
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:644](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L644)
+[weaveClient.ts:682](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L682)
 
-___
+***
 
-### runWithAttributes
+<div id="runwithattributes">
+  ### runWithAttributes
+</div>
 
-▸ **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
+▸ **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
 
-#### 타입 파라미터
+<div id="type-parameters">
+  #### 유형 매개변수
+</div>
 
-| Name |
-| :------ |
+| 이름  |
+| :-- |
 | `T` |
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `attributes` | `Record`\<`string`, `any`\> |
-| `fn` | () => `T` |
+| 이름           | 유형                              |
+| :----------- | :------------------------------ |
+| `attributes` | `Record`&lt;`string`, `any`&gt; |
+| `fn`         | () =&gt; `T`                    |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 `T`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:652](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L652)
+[weaveClient.ts:690](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L690)
 
-___
+***
 
-### runWithCallStack
+<div id="runwithcallstack">
+  ### runWithCallStack
+</div>
 
-▸ **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
+▸ **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`): `T`
 
-#### 타입 파라미터
+<div id="type-parameters">
+  #### 유형 매개변수
+</div>
 
-| Name |
-| :------ |
+| 이름  |
+| :-- |
 | `T` |
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `callStack` | `CallStack` |
-| `fn` | () => `T` |
+| 이름          | 유형           |
+| :---------- | :----------- |
+| `callStack` | `CallStack`  |
+| `fn`        | () =&gt; `T` |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 `T`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:648](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L648)
+[weaveClient.ts:686](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L686)
 
-___
+***
 
-### saveOp
+<div id="savecallend">
+  ### saveCallEnd
+</div>
 
-▸ **saveOp**(`op`, `objId?`): `Promise`\<`any`\>
-
-#### 파라미터
-
-| Name | Type |
-| :------ | :------ |
-| `op` | [`Op`](../#op)\<(...`args`: `any`[]) => `any`\> |
-| `objId?` | `string` |
-
-#### 반환값
-
-`Promise`\<`any`\>
-
-#### 정의 위치
-
-[weaveClient.ts:686](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L686)
-
-___
-
-### updateCall
-
-▸ **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
+▸ **saveCallEnd**(`callEnd`): `void`
 
 #### 파라미터
 
-| Name | Type |
-| :------ | :------ |
-| `callId` | `string` |
+| 이름        | 유형                         |
+| :-------- | :------------------------- |
+| `callEnd` | `EndedCallSchemaForInsert` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[weaveClient.ts:669](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L669)
+
+***
+
+<div id="savecallstart">
+  ### saveCallStart
+</div>
+
+▸ **saveCallStart**(`callStart`): `void`
+
+#### 파라미터
+
+| 이름          | 유형                           |
+| :---------- | :--------------------------- |
+| `callStart` | `StartedCallSchemaForInsert` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[weaveClient.ts:664](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L664)
+
+***
+
+<div id="saveop">
+  ### saveOp
+</div>
+
+▸ **saveOp**(`op`, `objId?`): `Promise`&lt;`any`&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름       | 유형                                                     |
+| :------- | :----------------------------------------------------- |
+| `op`     | [`Op`](../#op)&lt;(...`args`: `any`[]) =&gt; `any`&gt; |
+| `objId?` | `string`                                               |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[weaveClient.ts:729](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L729)
+
+***
+
+<div id="serializeaudio">
+  ### serializeAudio
+</div>
+
+▸ **serializeAudio**(`data`, `audioType?`): `Promise`&lt;`any`&gt;
+
+원시 오디오 바이트를 Weave 콘텐츠 저장소에 업로드하고,
+call 출력에 포함할 수 있는 `CustomWeaveType` 플레이스홀더를 반환합니다.
+
+`finishCall`의 자동 직렬화 파이프라인을 사용하지 않는 경우
+(예: `saveCallEnd`를 통해) call 출력을 수동으로 구축할 때 사용하세요.
+
+#### 파라미터
+
+| 이름          | 유형       | 기본값                  | 설명                                  |
+| :---------- | :------- | :------------------- | :---------------------------------- |
+| `data`      | `Buffer` | `undefined`          | 원시 오디오 바이트(WAV 형식이 브라우저 호환성에 가장 좋음) |
+| `audioType` | `"wav"`  | `DEFAULT_AUDIO_TYPE` | 파일 형식 — 현재는 &#39;wav&#39;만 지원됩니다    |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[weaveClient.ts:616](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L616)
+
+***
+
+<div id="updatecall">
+  ### updateCall
+</div>
+
+▸ **updateCall**(`callId`, `displayName`): `Promise`&lt;`void`&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형       |
+| :------------ | :------- |
+| `callId`      | `string` |
 | `displayName` | `string` |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:848](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L848)
+[weaveClient.ts:891](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L891)
 
-___
+***
 
-### waitForBatchProcessing
+<div id="waitforbatchprocessing">
+  ### waitForBatchProcessing
+</div>
 
-▸ **waitForBatchProcessing**(): `Promise`\<`void`\>
+▸ **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[weaveClient.ts:114](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L114)
+[weaveClient.ts:121](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L121)

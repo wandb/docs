@@ -1,41 +1,76 @@
 ---
-title: ' start_thought
-
-  wandb 에이전트'
+title: wandb 에이전트
 ---
 
-{/*
-  이 명령어에 대한 도입부 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-agent.mdx
-  2. 해당 파일에 도입부 내용을 추가하세요.
-  3. 이 주석 블록 전체를 삭제하고 아래의 두 줄만 남겨두세요:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-import WandbAgent from "/snippets/en/_includes/cli/wandb-agent.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L1992" />
 
-<WandbAgent/>
-
-  다음 재생성 시 스니펫이 자동으로 감지됩니다.
-*/}
-
-W&B 에이전트를 실행합니다.
-
-## 사용법
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb agent SWEEP_ID [OPTIONS]
+agent [OPTIONS] SWEEP_ID
 ```
 
-## 인수
+<div id="description">
+  ## 설명
+</div>
 
-| 인수 | 설명 | 필수 여부 |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | 설명 없음 | 예 |
+스윕 에이전트를 시작합니다.
 
-## 옵션
+스윕에서 하이퍼파라미터 설정을 가져오기 위해
+W&amp;B 서버를 폴링하고, 각 설정에 대해 run을 시작합니다.
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--project`, `-p` | Sweeps 에서 생성된 W&B Runs 가 전송될 Projects 의 이름입니다. Projects 를 지정하지 않으면 Run 은 'Uncategorized'로 표시된 프로젝트로 전송됩니다. |
-| `--entity`, `-e` | Sweeps 에 의해 생성된 W&B Runs 를 전송할 Entities (사용자 이름 또는 팀 이름)입니다. 지정하는 Entity 가 이미 존재하는지 확인하세요. Entity 를 지정하지 않으면 Run 은 대개 사용자 이름인 기본 Entity 로 전송됩니다. |
-| `--count` | 이 에이전트가 실행할 최대 Runs 수입니다. |
-| `--forward-signals`, `-f` | 에이전트에 전달된 신호(예: SIGINT/SIGTERM)를 자식 Runs 에 전달하여 정상적으로 종료될 수 있도록 합니다. (기본값: False) |
+스윕이 완료되거나, 중지되거나, 취소되거나,
+`--count` 제한에 도달하면 에이전트가 종료됩니다.
+
+W&amp;B App의 Sweeps 탭에서
+또는 새 스윕을 만들 때 `wandb sweep` 명령어의 출력에서 스윕 ID를 찾으세요.
+
+스윕 ID에는 entity 및 프로젝트 경로
+(entity/project/sweep&#95;id) 또는 8자리 스윕 ID가 포함될 수 있습니다.
+
+예를 들어, 스윕 ID가 wbyz9876인 스윕의 에이전트를 시작하려면 다음과 같이 하세요:
+
+```bash
+wandb agent wbyz9876
+```
+
+스윕에 대해 run 한도를 10으로 설정한 에이전트를 시작하려면:
+
+```bash
+wandb agent --count 10 wbyz9876
+```
+
+스윕 에이전트를 시작하고 이를 &quot;team-awesome&quot; entity에 속한 &quot;sweeps-project&quot; 프로젝트에 저장하려면:
+
+```bash
+wandb agent -p sweeps-project -e team-awesome wbyz9876
+```
+
+하위 run으로 시그널을 전달해 정상 종료되도록 하려면:
+
+```bash
+wandb agent --forward-signals wbyz9876
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름         | 기본값 | 유형   |
+| ---------- | --- | ---- |
+| `sweep_id` | STR | True |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| Flag                    | Type      | Description                                                              |
+| ----------------------- | --------- | ------------------------------------------------------------------------ |
+| `--project, -p`         | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: None                                     |
+| `--entity, -e`          | STR       | 프로젝트에 적용할 entity를 설정합니다. **기본값**: None                                   |
+| `--count`               | INT       | 이 에이전트가 실행할 최대 run 수입니다. 설정하지 않으면 스윕이 완료될 때까지 계속 실행됩니다. **기본값**: None    |
+| `--forward-signals, -f` | BOOL Flag | 시그널(예: SIGINT/SIGTERM)을 하위 run에 전달해 run이 정상적으로 종료되도록 합니다. **기본값**: False |

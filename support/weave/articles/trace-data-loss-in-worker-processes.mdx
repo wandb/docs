@@ -49,6 +49,8 @@ with weave.init("your-team-name/your-project-name") as client:
 
 You can also improve the performance of your application using `weave.flush()`. See [Flushing](/support/weave/articles/long-eval-clean-up-times) for more information.
 
+For additional resilience against data loss, consider enabling the [write-ahead log](/weave/guides/tracking/write-ahead-log), which writes trace data to disk before sending it to the server.
+
 ---
 
 {/* AUTO-GENERATED: tab badges */}

@@ -1,0 +1,14 @@
+---
+title: "환경 변수가 `wandb.init()`에 전달된 파라미터를 덮어쓰나요?"
+keywords: ["환경 변수"]
+---
+
+`wandb.init`에 전달된 인수는 환경 변수보다 우선합니다. 환경 변수가 설정되지 않은 경우 시스템 기본값 대신 사용할 기본 디렉터리를 지정하려면 `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`를 사용하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

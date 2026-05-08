@@ -3,15 +3,15 @@ title: DoNothing
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
 
 
+## <kbd>クラス</kbd> `DoNothing`
 
-## <kbd>class</kbd> `DoNothing`
-意図的に何もしない オートメーション アクションを定義します。
-
+意図的に何もしないオートメーションアクションを定義します。
 
 ### <kbd>method</kbd> `DoNothing.__init__`
 
@@ -22,11 +22,11 @@ __init__(
 ) → None
 ```
 
-**Args:**
- 
- - `no_op` (bool): バックエンドのスキーマ要件を満たすためにのみ存在するプレースホルダーフィールド。
-   この値は無視されるため、明示的に設定する必要はありません。
- - `action_type` (Literal[NO_OP]): 
+**引数:**
 
-**Returns:**
- `DoNothing` オブジェクト 。
+* `no_op` (bool): バックエンドのスキーマ要件を満たすためだけに存在するプレースホルダーフィールドです。
+  このフィールドの値は無視されるため、明示的に設定する必要はありません。
+* `action_type` (Literal[NO&#95;OP]):
+
+**戻り値:**
+`DoNothing` オブジェクト。

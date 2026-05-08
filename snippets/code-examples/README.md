@@ -7,7 +7,7 @@ This directory contains code examples synced from the [docs-code-eval](https://g
 
 ## Files
 
-- **`snippets/en/_includes/code-examples/`**: Python code examples synced from docs-code-eval.
+- **`snippets/_includes/code-examples/`**: Python code examples synced from docs-code-eval.
 - **`snippets/CodeSnippet.jsx`**: Auto-generated React component that imports all code examples.
 
 ## Syncing examples
@@ -36,7 +36,7 @@ To update these examples manually from the latest version in `docs-code-eval`, r
 This script will:
 
 1. Clone the latest `docs-code-eval` repository (temporarily).
-2. Copy Python files from `ground_truth/` to `snippets/en/_includes/code-examples/`.
+2. Copy Python files from `ground_truth/` to `snippets/_includes/code-examples/`.
 3. Generate the `CodeSnippet.jsx` component with imports for all Python files.
 4. Generate the cheat sheet pages at `models/ref/sdk-coding-cheat-sheet/` by extracting metadata directly from the Python docstrings.
 5. Clean up the temporary clone.

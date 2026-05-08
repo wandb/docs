@@ -1,16 +1,16 @@
 ---
-title: W&B にコンテナをビルドしてほしくないのですが、それでも Launch を使用することはできますか？
+title: W&B にコンテナーをビルドさせたくない場合でも、Launch を使用できますか？
 ---
 
-作成済みの Docker イメージを Launch するには、以下のコマンドを実行します。 `<>` 内のプレースホルダを実際の情報に置き換えてください：
+事前にビルド済みの Docker イメージを起動するには、次のコマンドを実行します。`<>` 内のプレースホルダーは、実際の情報に置き換えてください。
 
 ```bash
 wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
 ```
 
-このコマンドは Job を作成し、Run を開始します。
+このコマンドはジョブを作成し、run を開始します。
 
-イメージから Job を作成するには、以下のコマンドを使用します：
+イメージからジョブを作成するには、次のコマンドを使用します。
 
 ```bash
 wandb job create image <image-name> -p <project> -e <entity>

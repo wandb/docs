@@ -1,0 +1,45 @@
+---
+title: "eval 정리 시간이 오래 걸림"
+keywords: ["성능", "평가"]
+---
+
+대용량 데이터셋으로 평가를 실행할 때 성능을 높이려면 다음 두 가지 방법을 함께 사용해야 합니다.
+
+<div id="flushing">
+  ### 플러시
+</div>
+
+대규모 데이터셋으로 평가를 실행할 때는 데이터셋이 백그라운드 스레드에서 업로드되는 동안 프로그램 실행이 시작되기까지 시간이 오래 걸릴 수 있습니다. 이는 일반적으로 백그라운드 정리가 완료되기 전에 메인 스레드 실행이 끝났을 때 발생합니다. `client.flush()`를 호출하면 모든 백그라운드 작업이 메인 스레드에서 처리되도록 강제하여 메인 스레드 실행 중 병렬 처리가 이루어지도록 합니다. 이렇게 하면 데이터가 서버에 업로드되기 전에 사용자 코드 실행이 끝나는 경우 성능이 향상될 수 있습니다.
+
+예시:
+
+```python
+client = weave.init("fast-upload")
+
+# ... 평가 설정
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
+<div id="increasing-client-parallelism">
+  ### 클라이언트 병렬성 늘리기
+</div>
+
+클라이언트 병렬성은 환경에 따라 자동으로 결정되지만, 다음 환경 변수를 사용해 수동으로 설정할 수도 있습니다:
+
+* `WEAVE_CLIENT_PARALLELISM`: 병렬 처리에 사용할 수 있는 스레드 수입니다. 이 값을 늘리면 병렬 처리에 사용할 수 있는 스레드 수도 함께 늘어나 데이터셋 업로드와 같은 백그라운드 작업의 성능이 향상될 수 있습니다.
+
+또한 `weave.init()`의 `settings` 인수를 사용해 프로그래밍 방식으로 설정할 수도 있습니다:
+
+```python
+client = weave.init("fast-upload", settings={"client_parallelism": 100})
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge><Badge stroke shape="pill" color="orange" size="md">[평가](/ko/support/weave/tags/evaluation)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

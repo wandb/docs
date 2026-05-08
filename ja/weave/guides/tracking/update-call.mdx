@@ -1,0 +1,170 @@
+---
+title: "Call の更新と削除"
+description: "W&B Weave で表示名を変更し、フィードバックを追加し、Call を削除する"
+---
+
+ほとんどの Call プロパティは、作成後は不変です。サポートされている変更操作は次のとおりです。
+
+* [表示名を設定する](#set-display-name)
+* [フィードバックを追加する](#add-feedback)
+* [Call を削除する](#delete-a-call)
+
+これらの操作はすべて、UI で Call の詳細ページにアクセスして実行できます。
+Web アプリで Call を更新するには、次の手順に従います。
+
+1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
+2. Weave プロジェクトのサイドバーで、**Traces** をクリックします。
+3. 表で確認したい Call を検索します。
+4. Call をクリックして詳細ページを開きます。
+5. Call 詳細ページのタブバーで `Feedback` タブをクリックします。
+
+ここでは、Call の表示名を編集したり、フィードバックを追加したり、Call を削除したりできます。
+
+<Frame>
+  ![Call の名前変更や削除の方法を示す、選択した Call details パネルの Weave Traces ページの抜粋](/images/call_edit_screenshot.png)
+</Frame>
+
+<div id="set-display-name">
+  ### 表示名を設定する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Call の表示名を設定するには、[`Call.set_display_name()`](/ja/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method を使用します。
+
+    ```python lines
+    import weave
+
+    # クライアントを初期化する
+    client = weave.init("your-project-name")
+
+    # ID で特定の Call を取得する
+    call = client.get_call("call-uuid-here")
+
+    # Call の表示名を設定する
+    call.set_display_name("My Custom Display Name")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Call の表示名を設定するには、[`client.updateCall`](/ja/weave/reference/typescript-sdk/classes/weaveclient#updatecall) を使用して、call ID を直接更新します。
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // クライアントを初期化する
+    const client = await weave.init('your-project-name')
+
+    // ID を指定して Call の表示名を更新する
+    await client.updateCall('call-uuid-here', 'My Custom Display Name')
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    Service API を使用して Call の表示名を設定するには、[`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) エンドポイントにリクエストを送信します。
+
+    ```bash lines
+    curl -L 'https://trace.wandb.ai/call/update' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "project_id": "string",
+        "call_id": "string",
+        "display_name": "string",
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+また、[実行時に Call の表示名を設定する](/ja/weave/guides/tracking/get-call-object)こともできます。
+
+<div id="add-feedback">
+  ### フィードバックを追加
+</div>
+
+詳しくは、[Feedback Documentation](/ja/weave/guides/tracking/feedback)を参照してください。
+
+<div id="delete-a-call">
+  ### Call を削除する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API を使用して Call を削除するには、[`Call.delete`](/ja/weave/reference/python-sdk/trace/weave_client#method-delete) method を使用します。
+
+    ```python lines
+    import weave
+
+    # クライアントを初期化
+    client = weave.init("your-project-name")
+
+    # ID を使って特定の Call を取得
+    call = client.get_call("call-uuid-here")
+
+    # Call を削除
+    call.delete()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    Service API を使用して Call を削除するには、[`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) エンドポイント にリクエストを送信します。
+
+    ```bash lines
+    curl -L 'https://trace.wandb.ai/calls/delete' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "project_id": "string",
+        "call_ids": [
+            "string"
+        ],
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-multiple-calls">
+  ### 複数のCallを削除
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API を使用して Call をまとめて削除するには、Call ID のリストを `delete_calls()` に渡します。
+
+    <Important>
+      * 削除できる Call の最大数は `1000` です。
+      * Call を削除すると、そのすべての子 Call も削除されます。
+    </Important>
+
+    ```python lines
+    import weave
+
+    # クライアントを初期化
+    client = weave.init("my-project")
+
+    # client からすべての Call を取得
+    all_calls = client.get_calls()
+
+    # 最初の 1000 件の Call オブジェクトのリストを取得
+    first_1000_calls = all_calls[:1000]
+
+    # 最初の 1000 件の Call ID のリストを取得
+    first_1000_calls_ids = [c.id for c in first_1000_calls]
+
+    # ID を指定して最初の 1000 件の Call を削除
+    client.delete_calls(call_ids=first_1000_calls_ids)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>

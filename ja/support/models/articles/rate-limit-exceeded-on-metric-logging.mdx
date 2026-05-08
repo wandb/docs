@@ -1,0 +1,53 @@
+---
+title: "メトリクスのログ時に `Rate limit exceeded` エラーが発生した場合、どうすればよいですか？"
+keywords: ["メトリクス", "Experiments"]
+---
+
+`wandb.log()` の呼び出し時に HTTP `429 Rate limit exceeded` エラーが返された場合は、project のレート制限のクォータを超過しています。W&amp;B ではレート制限は project ごとに適用され、有料プランでは無料プランより高い制限が設定されています。
+
+<div id="how-to-stay-under-the-rate-limit">
+  ## レート制限を超えないようにする方法
+</div>
+
+1. **W&amp;B SDK を更新する**: 最新バージョンでは、リクエストの再試行やクォータ使用量の管理が最適化されています。
+
+   ```shell
+   pip install --upgrade wandb
+   ```
+
+2. **ログの頻度を下げる**: メトリクスをログする頻度を減らします。たとえば、毎エポックではなく、N エポックごとにログします。
+
+   ```python
+   for epoch in range(100):
+       if epoch % 5 == 0:
+           wandb.log({"acc": accuracy, "loss": loss})
+   ```
+
+3. **データを手動で同期する**: レート制限に達した場合、W&amp;B は run データをローカルに保存します。後で次のコマンドで同期できます。
+
+   ```shell
+   wandb sync <run-file-path>
+   ```
+
+<div id="rate-limit-headers">
+  ## レート制限ヘッダー
+</div>
+
+レート制限に達すると、レスポンスには次のヘッダーが含まれます。
+
+| Header                | 説明                              |
+| --------------------- | ------------------------------- |
+| `RateLimit-Remaining` | 現在のウィンドウで残っているクォータ (0〜1000 の範囲) |
+| `RateLimit-Reset`     | 現在のクォータがリセットされるまでの秒数            |
+
+`RateLimit-Remaining` が `0` の場合は、再試行する前に `RateLimit-Reset` で指定された秒数だけ待機してください。
+
+詳細は、[Experiments の制限とパフォーマンス](/ja/models/track/limits/)を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

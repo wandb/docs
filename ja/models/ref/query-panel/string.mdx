@@ -2,543 +2,701 @@
 title: string
 ---
 
-## Chainable Ops
-### <a id="string-notEqual"></a>`string-notEqual`
+<div id="chainable-ops">
+  ## チェーン可能な Ops
+</div>
 
-2つの値が等しくないかどうかを判定します。
+### <a id="string-notEqual" />`string-notEqual`
 
-| Argument | Description |
-| :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+2 つの値が等しくないことを判定します。
 
-#### Return Value
-2つの値が等しくないかどうか。
+| 引数    | 説明           |
+| :---- | :----------- |
+| `lhs` | 比較する最初の値。    |
+| `rhs` | 比較する 2 番目の値。 |
 
-### <a id="string-add"></a>`string-add`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-2つの [strings](/models/ref/query-panel/string/) を連結します。
+2 つの値が等しくないかどうかを示します。
 
-| Argument | Description |
-| :--- | :--- |
-| `lhs` | 最初の [string](/models/ref/query-panel/string) |
-| `rhs` | 2番目の [string](/models/ref/query-panel/string) |
+### <a id="string-add" />`string-add`
 
-#### Return Value
-連結された [string](/models/ref/query-panel/string)
+2 つの[strings](/ja/models/ref/query-panel/string)を連結します
 
-### <a id="string-equal"></a>`string-equal`
+| 引数    | 説明                                         |
+| :---- | :----------------------------------------- |
+| `lhs` | 1 つ目の[string](/ja/models/ref/query-panel/string) |
+| `rhs` | 2 つ目の[string](/ja/models/ref/query-panel/string) |
 
-2つの値が等しいかどうかを判定します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+連結された[string](/ja/models/ref/query-panel/string)
 
-#### Return Value
-2つの値が等しいかどうか。
+### <a id="string-equal" />`string-equal`
 
-### <a id="string-append"></a>`string-append`
+2 つの値が等しいかどうかを判定します。
 
-[string](/models/ref/query-panel/string) にサフィックス（接尾辞）を追加します。
+| 引数    | 説明           |
+| :---- | :----------- |
+| `lhs` | 比較する最初の値。    |
+| `rhs` | 比較する 2 番目の値。 |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 追加対象の [string](/models/ref/query-panel/string) |
-| `suffix` | 追加するサフィックス |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-サフィックスが追加された [string](/models/ref/query-panel/string)
+2 つの値が等しいかどうかを示します。
 
-### <a id="string-contains"></a>`string-contains`
+### <a id="string-append" />`string-append`
 
-[string](/models/ref/query-panel/string) にサブストリング（部分文字列）が含まれているか確認します。
+[string](/ja/models/ref/query-panel/string) の末尾に接尾辞を追加します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
-| `sub` | 検索するサブストリング |
+| 引数       | 説明                                            |
+| :------- | :-------------------------------------------- |
+| `str`    | 追加先の [string](/ja/models/ref/query-panel/string) |
+| `suffix` | 追加する接尾辞                                       |
 
-#### Return Value
-[string](/models/ref/query-panel/string) にサブストリングが含まれているかどうか。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-endsWith"></a>`string-endsWith`
+サフィックスが付加された[string](/ja/models/ref/query-panel/string)
 
-[string](/models/ref/query-panel/string) が特定のサフィックスで終わるか確認します。
+### <a id="string-contains" />`string-contains`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
-| `suffix` | 検索するサフィックス |
+[string](/ja/models/ref/query-panel/string) に部分文字列が含まれているかどうかを判定します
 
-#### Return Value
-[string](/models/ref/query-panel/string) がサフィックスで終わるかどうか。
+| 引数    | 説明                                             |
+| :---- | :--------------------------------------------- |
+| `str` | 判定対象の [string](/ja/models/ref/query-panel/string) |
+| `sub` | 含まれているかどうかを確認する部分文字列                           |
 
-### <a id="string-findAll"></a>`string-findAll`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) 内で見つかったすべてのサブストリングの位置を検索します。
+[string](/ja/models/ref/query-panel/string) にその部分文字列が含まれているかどうか
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | サブストリングを検索する対象の [string](/models/ref/query-panel/string) |
-| `sub` | 検索するサブストリング |
+### <a id="string-endsWith" />`string-endsWith`
 
-#### Return Value
-[string](/models/ref/query-panel/string) 内のサブストリングのインデックスの _list_
+[string](/ja/models/ref/query-panel/string) が接尾辞で終わるかどうかを判定します
 
-### <a id="string-isAlnum"></a>`string-isAlnum`
+| 引数       | 説明                                             |
+| :------- | :--------------------------------------------- |
+| `str`    | 判定対象の [string](/ja/models/ref/query-panel/string) |
+| `suffix` | 判定する接尾辞                                        |
 
-[string](/models/ref/query-panel/string) が英数字のみで構成されているか確認します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string) が接尾辞で終わるかどうか
 
-#### Return Value
-[string](/models/ref/query-panel/string) が英数字かどうか。
+### <a id="string-findAll" />`string-findAll`
 
-### <a id="string-isAlpha"></a>`string-isAlpha`
+[string](/ja/models/ref/query-panel/string) 内で部分文字列が出現するすべての位置を検索します
 
-[string](/models/ref/query-panel/string) が英字のみで構成されているか確認します。
+| 引数    | 説明                                                          |
+| :---- | :---------------------------------------------------------- |
+| `str` | 部分文字列の出現位置を検索する対象の [string](/ja/models/ref/query-panel/string) |
+| `sub` | 検索する部分文字列                                                   |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-[string](/models/ref/query-panel/string) が英字かどうか。
+[string](/ja/models/ref/query-panel/string) 内で部分文字列が現れる位置のインデックスの *リスト*
 
-### <a id="string-isNumeric"></a>`string-isNumeric`
+### <a id="string-isAlnum" />`string-isAlnum`
 
-[string](/models/ref/query-panel/string) が数字のみで構成されているか確認します。
+[string](/ja/models/ref/query-panel/string) が英数字のみで構成されているかどうかを確認します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+| 引数    | 説明                                             |
+| :---- | :--------------------------------------------- |
+| `str` | 確認対象の [string](/ja/models/ref/query-panel/string) |
 
-#### Return Value
-[string](/models/ref/query-panel/string) が数字かどうか。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-lStrip"></a>`string-lStrip`
+[string](/ja/models/ref/query-panel/string) が英数字かどうか
 
-先頭の空白を削除します。
+### <a id="string-isAlpha" />`string-isAlpha`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 削除対象の [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string) が英字のみで構成されているかどうかを確認します
 
-#### Return Value
-空白が削除された [string](/models/ref/query-panel/string)
+| 引数    | 説明                                             |
+| :---- | :--------------------------------------------- |
+| `str` | 確認対象の [string](/ja/models/ref/query-panel/string) |
 
-### <a id="string-len"></a>`string-len`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) の長さを返します。
+[string](/ja/models/ref/query-panel/string) が英字のみで構成されているかどうか
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+### <a id="string-isNumeric" />`string-isNumeric`
 
-#### Return Value
-[string](/models/ref/query-panel/string) の長さ。
+[string](/ja/models/ref/query-panel/string) が数値であるかどうかを確認します
 
-### <a id="string-lower"></a>`string-lower`
+| 引数    | 説明                                             |
+| :---- | :--------------------------------------------- |
+| `str` | 確認対象の [string](/ja/models/ref/query-panel/string) |
 
-[string](/models/ref/query-panel/string) を小文字に変換します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 小文字に変換する [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string)が数値であるかどうか
 
-#### Return Value
-小文字の [string](/models/ref/query-panel/string)
+### <a id="string-lStrip" />`string-lStrip`
 
-### <a id="string-partition"></a>`string-partition`
+先頭の空白を削除
 
-[string](/models/ref/query-panel/string) を分割して、 [strings](/models/ref/query-panel/string/) の _list_ に変換します。
+| 引数    | 説明                                                  |
+| :---- | :-------------------------------------------------- |
+| `str` | 空白を削除する対象の[string](/ja/models/ref/query-panel/string)。 |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 分割する [string](/models/ref/query-panel/string) |
-| `sep` | 分割に使用するセパレータ |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-[strings](/models/ref/query-panel/string/) の _list_: セパレータより前の [string](/models/ref/query-panel/string) 、セパレータ自体、およびセパレータより後の [string](/models/ref/query-panel/string)
+前後の空白を削除した[string](/ja/models/ref/query-panel/string)。
 
-### <a id="string-prepend"></a>`string-prepend`
+### <a id="string-len" />`string-len`
 
-[string](/models/ref/query-panel/string) にプレフィックス（接頭辞）を追加します。
+[string](/ja/models/ref/query-panel/string) の長さを返します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 追加対象の [string](/models/ref/query-panel/string) |
-| `prefix` | 追加するプレフィックス |
+| 引数    | 説明                                               |
+| :---- | :----------------------------------------------- |
+| `str` | 長さを確認する [string](/ja/models/ref/query-panel/string) |
 
-#### Return Value
-プレフィックスが追加された [string](/models/ref/query-panel/string)
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-rStrip"></a>`string-rStrip`
+[string](/ja/models/ref/query-panel/string) の長さ
 
-末尾の空白を削除します。
+### <a id="string-lower" />`string-lower`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 削除対象の [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string) を小文字に変換します
 
-#### Return Value
-空白が削除された [string](/models/ref/query-panel/string)
+| 引数    | 説明                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 小文字に変換する [string](/ja/models/ref/query-panel/string) |
 
-### <a id="string-replace"></a>`string-replace`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) 内で見つかったすべてのサブストリングを置換します。
+小文字の [string](/ja/models/ref/query-panel/string)
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 内容を置換する [string](/models/ref/query-panel/string) |
-| `sub` | 置換対象のサブストリング |
-| `newSub` | 新しいサブストリング |
+### <a id="string-partition" />`string-partition`
 
-#### Return Value
-置換が行われた [string](/models/ref/query-panel/string)
+[string](/ja/models/ref/query-panel/string) を [strings](/ja/models/ref/query-panel/string) の&#95;リスト&#95;に分割します
 
-### <a id="string-slice"></a>`string-slice`
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 分割する [string](/ja/models/ref/query-panel/string) |
+| `sep` | 分割に使用する区切り文字                                  |
 
-開始インデックスと終了インデックスに基づいて、 [string](/models/ref/query-panel/string) をサブストリングにスライスします。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | スライスする [string](/models/ref/query-panel/string) |
-| `begin` | サブストリングの開始インデックス |
-| `end` | サブストリングの終了インデックス |
+[strings](/ja/models/ref/query-panel/string)の&#95;リスト&#95;：区切り文字の前の[string](/ja/models/ref/query-panel/string)、区切り文字、および区切り文字の後の[string](/ja/models/ref/query-panel/string)
 
-#### Return Value
-スライスされたサブストリング。
+### <a id="string-prepend" />`string-prepend`
 
-### <a id="string-split"></a>`string-split`
+[string](/ja/models/ref/query-panel/string) の先頭に接頭辞を追加します
 
-[string](/models/ref/query-panel/string) を [strings](/models/ref/query-panel/string/) の _list_ に分割します。
+| 引数       | 説明                                                   |
+| :------- | :--------------------------------------------------- |
+| `str`    | 接頭辞を追加する対象の [string](/ja/models/ref/query-panel/string) |
+| `prefix` | 先頭に追加する接頭辞                                           |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 分割する [string](/models/ref/query-panel/string) |
-| `sep` | 分割に使用するセパレータ |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-[strings](/models/ref/query-panel/string/) の _list_
+先頭に接頭辞が追加された [string](/ja/models/ref/query-panel/string)
 
-### <a id="string-startsWith"></a>`string-startsWith`
+### <a id="string-rStrip" />`string-rStrip`
 
-[string](/models/ref/query-panel/string) が特定のプレフィックスで始まるか確認します。
+末尾の空白を削除します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
-| `prefix` | 検索するプレフィックス |
+| 引数    | 説明                                                  |
+| :---- | :-------------------------------------------------- |
+| `str` | 末尾の空白を削除する対象の[文字列](/ja/models/ref/query-panel/string)。 |
 
-#### Return Value
-[string](/models/ref/query-panel/string) がプレフィックスで始まるかどうか。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-strip"></a>`string-strip`
+前後の空白を削除した[string](/ja/models/ref/query-panel/string)。
 
-[string](/models/ref/query-panel/string) の両端から空白を削除します。
+### <a id="string-replace" />`string-replace`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 削除対象の [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string) 内で、指定した部分文字列に一致するすべての箇所を置換します
 
-#### Return Value
-空白が削除された [string](/models/ref/query-panel/string)
+| 引数       | 説明                                                  |
+| :------- | :-------------------------------------------------- |
+| `str`    | 内容を置換する対象の [string](/ja/models/ref/query-panel/string) |
+| `sub`    | 置換対象の部分文字列                                          |
+| `newSub` | 元の部分文字列を置き換える新しい部分文字列                               |
 
-### <a id="string-upper"></a>`string-upper`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) を大文字に変換します。
+置換後の[string](/ja/models/ref/query-panel/string)
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 大文字に変換する [string](/models/ref/query-panel/string) |
+### <a id="string-slice" />`string-slice`
 
-#### Return Value
-大文字の [string](/models/ref/query-panel/string)
+開始インデックスと終了インデックスを指定して、[string](/ja/models/ref/query-panel/string) から部分文字列を切り出します
 
-### <a id="string-levenshtein"></a>`string-levenshtein`
+| 引数      | 説明                                            |
+| :------ | :-------------------------------------------- |
+| `str`   | 切り出す [string](/ja/models/ref/query-panel/string) |
+| `begin` | 部分文字列の開始インデックス                                |
+| `end`   | 部分文字列の終了インデックス                                |
 
-2つの [strings](/models/ref/query-panel/string/) 間のレーベンシュタイン距離を計算します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str1` | 最初の [string](/models/ref/query-panel/string) |
-| `str2` | 2番目の [string](/models/ref/query-panel/string) |
+部分文字列
 
-#### Return Value
-2つの [strings](/models/ref/query-panel/string/) 間のレーベンシュタイン距離。
+### <a id="string-split" />`string-split`
 
+[string](/ja/models/ref/query-panel/string) を [string](/ja/models/ref/query-panel/string) の *リスト* に分割します
 
-## List Ops
-### <a id="string-notEqual"></a>`string-notEqual`
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 分割する [string](/ja/models/ref/query-panel/string) |
+| `sep` | 分割に使う区切り文字                                    |
 
-2つの値が等しくないかどうかを判定します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+[strings](/ja/models/ref/query-panel/string) の *リスト*
 
-#### Return Value
-2つの値が等しくないかどうか。
+### <a id="string-startsWith" />`string-startsWith`
 
-### <a id="string-add"></a>`string-add`
+[string](/ja/models/ref/query-panel/string) が指定した接頭辞で始まるかどうかを確認します
 
-2つの [strings](/models/ref/query-panel/string/) を連結します。
+| 引数       | 説明                                             |
+| :------- | :--------------------------------------------- |
+| `str`    | 確認対象の [string](/ja/models/ref/query-panel/string) |
+| `prefix` | 判定に使用する接頭辞                                     |
 
-| Argument | Description |
-| :--- | :--- |
-| `lhs` | 最初の [string](/models/ref/query-panel/string) |
-| `rhs` | 2番目の [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-連結された [string](/models/ref/query-panel/string)
+[string](/ja/models/ref/query-panel/string) がプレフィックスで始まるかどうか
 
-### <a id="string-equal"></a>`string-equal`
+### <a id="string-strip" />`string-strip`
 
-2つの値が等しいかどうかを判定します。
+[string](/ja/models/ref/query-panel/string) の先頭と末尾の空白文字を削除します。
 
-| Argument | Description |
-| :--- | :--- |
-| `lhs` | 比較する最初の値。 |
-| `rhs` | 比較する2番目の値。 |
+| 引数    | 説明                                             |
+| :---- | :--------------------------------------------- |
+| `str` | 削除する [string](/ja/models/ref/query-panel/string)。 |
 
-#### Return Value
-2つの値が等しいかどうか。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-append"></a>`string-append`
+前後の空白を削除した[string](/ja/models/ref/query-panel/string)。
 
-[string](/models/ref/query-panel/string) にサフィックスを追加します。
+### <a id="string-upper" />`string-upper`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 追加対象の [string](/models/ref/query-panel/string) |
-| `suffix` | 追加するサフィックス |
+[string](/ja/models/ref/query-panel/string) を大文字に変換します。
 
-#### Return Value
-サフィックスが追加された [string](/models/ref/query-panel/string)
+| 引数    | 説明                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 大文字に変換する [string](/ja/models/ref/query-panel/string) |
 
-### <a id="string-contains"></a>`string-contains`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) にサブストリングが含まれているか確認します。
+大文字に変換された[string](/ja/models/ref/query-panel/string)
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
-| `sub` | 検索するサブストリング |
+### <a id="string-levenshtein" />`string-levenshtein`
 
-#### Return Value
-[string](/models/ref/query-panel/string) にサブストリングが含まれているかどうか。
+2 つの[strings](/ja/models/ref/query-panel/string)間のレーベンシュタイン距離を計算します。
 
-### <a id="string-endsWith"></a>`string-endsWith`
+| 引数     | 説明                                             |
+| :----- | :--------------------------------------------- |
+| `str1` | 1 つ目の[string](/ja/models/ref/query-panel/string)。 |
+| `str2` | 2 つ目の[string](/ja/models/ref/query-panel/string)。 |
 
-[string](/models/ref/query-panel/string) が特定のサフィックスで終わるか確認します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
-| `suffix` | 検索するサフィックス |
+2 つの[strings](/ja/models/ref/query-panel/string)間のレーベンシュタイン距離。
 
-#### Return Value
-[string](/models/ref/query-panel/string) がサフィックスで終わるかどうか。
+### <a id="local-sqlconnection" />`local-sqlconnection`
 
-### <a id="string-findAll"></a>`string-findAll`
+hello
 
-[string](/models/ref/query-panel/string) 内で見つかったすべてのサブストリングの位置を検索します。
+| 引数     | 説明    |
+| :----- | :---- |
+| `conf` | hello |
+| `size` | hello |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | サブストリングを検索する対象の [string](/models/ref/query-panel/string) |
-| `sub` | 検索するサブストリング |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-[string](/models/ref/query-panel/string) 内のサブストリングのインデックスの _list_
+こんにちは
 
-### <a id="string-isAlnum"></a>`string-isAlnum`
+<div id="list-ops">
+  ## Ops の一覧
+</div>
 
-[string](/models/ref/query-panel/string) が英数字のみで構成されているか確認します。
+### <a id="string-notEqual-list" />`string-notEqual`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+2 つの値が等しくないことを判定します
 
-#### Return Value
-[string](/models/ref/query-panel/string) が英数字かどうか。
+| 引数    | 説明          |
+| :---- | :---------- |
+| `lhs` | 比較する 1 つ目の値 |
+| `rhs` | 比較する 2 つ目の値 |
 
-### <a id="string-isAlpha"></a>`string-isAlpha`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) が英字のみで構成されているか確認します。
+2 つの値が等しくないかどうかを示します。
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+### <a id="string-add-list" />`string-add`
 
-#### Return Value
-[string](/models/ref/query-panel/string) が英字かどうか。
+2 つの[strings](/ja/models/ref/query-panel/string)を連結します
 
-### <a id="string-isNumeric"></a>`string-isNumeric`
+| 引数    | 説明                                         |
+| :---- | :----------------------------------------- |
+| `lhs` | 1 つ目の[string](/ja/models/ref/query-panel/string) |
+| `rhs` | 2 つ目の[string](/ja/models/ref/query-panel/string) |
 
-[string](/models/ref/query-panel/string) が数字のみで構成されているか確認します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+連結された[string](/ja/models/ref/query-panel/string)
 
-#### Return Value
-[string](/models/ref/query-panel/string) が数字かどうか。
+### <a id="string-equal-list" />`string-equal`
 
-### <a id="string-lStrip"></a>`string-lStrip`
+2 つの値が等しいかどうかを判定します。
 
-先頭の空白を削除します。
+| 引数    | 説明           |
+| :---- | :----------- |
+| `lhs` | 比較する 1 つ目の値。 |
+| `rhs` | 比較する 2 つ目の値。 |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 削除対象の [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-空白が削除された [string](/models/ref/query-panel/string)
+2 つの値が等しいかどうかを示します。
 
-### <a id="string-len"></a>`string-len`
+### <a id="string-append-list" />`string-append`
 
-[string](/models/ref/query-panel/string) の長さを返します。
+[string](/ja/models/ref/query-panel/string) に接尾辞を追加します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
+| 引数       | 説明                                            |
+| :------- | :-------------------------------------------- |
+| `str`    | 追加先の [string](/ja/models/ref/query-panel/string) |
+| `suffix` | 追加する接尾辞                                       |
 
-#### Return Value
-[string](/models/ref/query-panel/string) の長さ。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-lower"></a>`string-lower`
+サフィックスが付加された[string](/ja/models/ref/query-panel/string)
 
-[string](/models/ref/query-panel/string) を小文字に変換します。
+### <a id="string-contains-list" />`string-contains`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 小文字に変換する [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string) に部分文字列が含まれているかどうかを確認します
 
-#### Return Value
-小文字の [string](/models/ref/query-panel/string)
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 確認する [string](/ja/models/ref/query-panel/string) |
+| `sub` | 含まれているか確認する部分文字列                              |
 
-### <a id="string-partition"></a>`string-partition`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) を分割して、 [strings](/models/ref/query-panel/string/) の _list_ に変換します。
+[string](/ja/models/ref/query-panel/string) にその部分文字列が含まれているかどうか
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 分割する [string](/models/ref/query-panel/string) |
-| `sep` | 分割に使用するセパレータ |
+### <a id="string-endsWith-list" />`string-endsWith`
 
-#### Return Value
-[strings](/models/ref/query-panel/string/) の _list_: セパレータより前の [string](/models/ref/query-panel/string) 、セパレータ自体、およびセパレータより後の [string](/models/ref/query-panel/string)
+[string](/ja/models/ref/query-panel/string) が指定した接尾辞で終わるかどうかを確認します
 
-### <a id="string-prepend"></a>`string-prepend`
+| 引数       | 説明                                            |
+| :------- | :-------------------------------------------- |
+| `str`    | 確認する [string](/ja/models/ref/query-panel/string) |
+| `suffix` | 確認する接尾辞                                       |
 
-[string](/models/ref/query-panel/string) にプレフィックスを追加します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 追加対象の [string](/models/ref/query-panel/string) |
-| `prefix` | 追加するプレフィックス |
+[string](/ja/models/ref/query-panel/string) が接尾辞で終わるかどうか
 
-#### Return Value
-プレフィックスが追加された [string](/models/ref/query-panel/string)
+### <a id="string-findAll-list" />`string-findAll`
 
-### <a id="string-rStrip"></a>`string-rStrip`
+[string](/ja/models/ref/query-panel/string) 内で部分文字列が出現する箇所をすべて検索します
 
-末尾の空白を削除します。
+| 引数    | 説明                                                       |
+| :---- | :------------------------------------------------------- |
+| `str` | 部分文字列の出現箇所を検索する [string](/ja/models/ref/query-panel/string) |
+| `sub` | 検索する部分文字列                                                |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 削除対象の [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-空白が削除された [string](/models/ref/query-panel/string)
+[string](/ja/models/ref/query-panel/string) 内で部分文字列が現れる位置のインデックスの *リスト*
 
-### <a id="string-replace"></a>`string-replace`
+### <a id="string-isAlnum-list" />`string-isAlnum`
 
-[string](/models/ref/query-panel/string) 内で見つかったすべてのサブストリングを置換します。
+[string](/ja/models/ref/query-panel/string) が英数字かどうかを確認します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 内容を置換する [string](/models/ref/query-panel/string) |
-| `sub` | 置換対象のサブストリング |
-| `newSub` | 新しいサブストリング |
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 確認する [string](/ja/models/ref/query-panel/string) |
 
-#### Return Value
-置換が行われた [string](/models/ref/query-panel/string)
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-slice"></a>`string-slice`
+[string](/ja/models/ref/query-panel/string) が英数字かどうか
 
-開始インデックスと終了インデックスに基づいて、 [string](/models/ref/query-panel/string) をサブストリングにスライスします。
+### <a id="string-isAlpha" />`string-isAlpha`
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | スライスする [string](/models/ref/query-panel/string) |
-| `begin` | サブストリングの開始インデックス |
-| `end` | サブストリングの終了インデックス |
+[string](/ja/models/ref/query-panel/string) が英字のみで構成されているかどうかを確認します
 
-#### Return Value
-スライスされたサブストリング。
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 確認する [string](/ja/models/ref/query-panel/string) |
 
-### <a id="string-split"></a>`string-split`
+<div id="return-value">
+  #### 戻り値
+</div>
 
-[string](/models/ref/query-panel/string) を [strings](/models/ref/query-panel/string/) の _list_ に分割します。
+[string](/ja/models/ref/query-panel/string) が英字のみで構成されているかどうか
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 分割する [string](/models/ref/query-panel/string) |
-| `sep` | 分割に使用するセパレータ |
+### <a id="string-isNumeric-list" />`string-isNumeric`
 
-#### Return Value
-[strings](/models/ref/query-panel/string/) の _list_
+[string](/ja/models/ref/query-panel/string) が数値かどうかを確認します
 
-### <a id="string-startsWith"></a>`string-startsWith`
+| 引数    | 説明                                             |
+| :---- | :--------------------------------------------- |
+| `str` | 確認対象の [string](/ja/models/ref/query-panel/string) |
 
-[string](/models/ref/query-panel/string) が特定のプレフィックスで始まるか確認します。
+<div id="return-value">
+  #### 戻り値
+</div>
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | チェック対象の [string](/models/ref/query-panel/string) |
-| `prefix` | 検索するプレフィックス |
+[string](/ja/models/ref/query-panel/string)が数値であるかどうか
 
-#### Return Value
-[string](/models/ref/query-panel/string) がプレフィックスで始まるかどうか。
+### <a id="string-lStrip" />`string-lStrip`
 
-### <a id="string-strip"></a>`string-strip`
+先頭の空白を削除します
 
-[string](/models/ref/query-panel/string) の両端から空白を削除します。
+| 引数    | 説明                                                   |
+| :---- | :--------------------------------------------------- |
+| `str` | 空白を削除する対象の [string](/ja/models/ref/query-panel/string)。 |
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 削除対象の [string](/models/ref/query-panel/string) |
+<div id="return-value">
+  #### 戻り値
+</div>
 
-#### Return Value
-空白が削除された [string](/models/ref/query-panel/string)
+前後の空白を削除した[string](/ja/models/ref/query-panel/string)。
 
-### <a id="string-upper"></a>`string-upper`
+### <a id="string-len-list" />`string-len`
 
-[string](/models/ref/query-panel/string) を大文字に変換します。
+[string](/ja/models/ref/query-panel/string) の長さを返します
 
-| Argument | Description |
-| :--- | :--- |
-| `str` | 大文字に変換する [string](/models/ref/query-panel/string) |
+| 引数    | 説明                                               |
+| :---- | :----------------------------------------------- |
+| `str` | 長さを確認する [string](/ja/models/ref/query-panel/string) |
 
-#### Return Value
-大文字の [string](/models/ref/query-panel/string)
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="string-levenshtein"></a>`string-levenshtein`
+[string](/ja/models/ref/query-panel/string) の長さ
 
-2つの [strings](/models/ref/query-panel/string/) 間のレーベンシュタイン距離を計算します。
+### <a id="string-lower-list" />`string-lower`
 
-| Argument | Description |
-| :--- | :--- |
-| `str1` | 最初の [string](/models/ref/query-panel/string) |
-| `str2` | 2番目の [string](/models/ref/query-panel/string) |
+[string](/ja/models/ref/query-panel/string) を小文字に変換します
 
-#### Return Value
-2つの [strings](/models/ref/query-panel/string/) 間のレーベンシュタイン距離。
+| 引数    | 説明                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 小文字に変換する [string](/ja/models/ref/query-panel/string) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+小文字の [string](/ja/models/ref/query-panel/string)
+
+### <a id="string-partition-list" />`string-partition`
+
+[string](/ja/models/ref/query-panel/string) を [strings](/ja/models/ref/query-panel/string) の&#95;リスト&#95;に分割します
+
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 分割する [string](/ja/models/ref/query-panel/string) |
+| `sep` | 分割に使用する区切り文字                                  |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[strings](/ja/models/ref/query-panel/string)の&#95;リスト&#95;：区切り文字の前の[string](/ja/models/ref/query-panel/string)、区切り文字、および区切り文字の後の[string](/ja/models/ref/query-panel/string)
+
+### <a id="string-prepend-list" />`string-prepend`
+
+[string](/ja/models/ref/query-panel/string) の先頭に接頭辞を付加します
+
+| 引数       | 説明                                                |
+| :------- | :------------------------------------------------ |
+| `str`    | 接頭辞を付加する [string](/ja/models/ref/query-panel/string) |
+| `prefix` | 付加する接頭辞                                           |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+先頭に接頭辞が追加された [string](/ja/models/ref/query-panel/string)
+
+### <a id="string-rStrip-list" />`string-rStrip`
+
+末尾の空白を削除します
+
+| 引数    | 説明                                                 |
+| :---- | :------------------------------------------------- |
+| `str` | 空白を削除する [string](/ja/models/ref/query-panel/string) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+前後の空白を削除した[string](/ja/models/ref/query-panel/string)。
+
+### <a id="string-replace-list" />`string-replace`
+
+[string](/ja/models/ref/query-panel/string) 内にある部分文字列をすべて置換します
+
+| 引数       | 説明                                               |
+| :------- | :----------------------------------------------- |
+| `str`    | 内容を置換する [string](/ja/models/ref/query-panel/string) |
+| `sub`    | 置換する部分文字列                                        |
+| `newSub` | 置換後の新しい部分文字列                                     |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+置換後の[string](/ja/models/ref/query-panel/string)
+
+### <a id="string-slice-list" />`string-slice`
+
+[string](/ja/models/ref/query-panel/string) を、開始インデックスと終了インデックスに基づいて部分文字列に切り出します
+
+| 引数      | 説明                                            |
+| :------ | :-------------------------------------------- |
+| `str`   | 切り出す [string](/ja/models/ref/query-panel/string) |
+| `begin` | 部分文字列の開始インデックス                                |
+| `end`   | 部分文字列の終了インデックス                                |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+部分文字列
+
+### <a id="string-split-list" />`string-split`
+
+[string](/ja/models/ref/query-panel/string) を [strings](/ja/models/ref/query-panel/string) の *リスト* に分割します
+
+| 引数    | 説明                                            |
+| :---- | :-------------------------------------------- |
+| `str` | 分割する [string](/ja/models/ref/query-panel/string) |
+| `sep` | 分割に使う区切り文字                                    |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[strings](/ja/models/ref/query-panel/string) の *リスト*
+
+### <a id="string-startsWith-list" />`string-startsWith`
+
+[string](/ja/models/ref/query-panel/string) が指定した接頭辞で始まるかどうかを確認します
+
+| 引数       | 説明                                            |
+| :------- | :-------------------------------------------- |
+| `str`    | 確認する [string](/ja/models/ref/query-panel/string) |
+| `prefix` | 確認する接頭辞                                       |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[string](/ja/models/ref/query-panel/string) がプレフィックスで始まるかどうか
+
+### <a id="string-strip-list" />`string-strip`
+
+[string](/ja/models/ref/query-panel/string) の両端の空白を削除します。
+
+| 引数    | 説明                                                  |
+| :---- | :-------------------------------------------------- |
+| `str` | 空白を削除する [string](/ja/models/ref/query-panel/string)。 |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+前後の空白を削除した[string](/ja/models/ref/query-panel/string)。
+
+### <a id="string-upper-list" />`string-upper`
+
+[string](/ja/models/ref/query-panel/string) を大文字に変換します
+
+| 引数    | 説明                                                |
+| :---- | :------------------------------------------------ |
+| `str` | 大文字に変換する [string](/ja/models/ref/query-panel/string) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+大文字に変換された[string](/ja/models/ref/query-panel/string)
+
+### <a id="string-levenshtein-list" />`string-levenshtein`
+
+2 つの[strings](/ja/models/ref/query-panel/string)間のレーベンシュタイン距離を計算します。
+
+| 引数     | 説明                                             |
+| :----- | :--------------------------------------------- |
+| `str1` | 1 つ目の[string](/ja/models/ref/query-panel/string)。 |
+| `str2` | 2 つ目の[string](/ja/models/ref/query-panel/string)。 |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+2 つの[strings](/ja/models/ref/query-panel/string)間のレーベンシュタイン距離。

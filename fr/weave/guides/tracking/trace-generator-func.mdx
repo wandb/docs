@@ -1,0 +1,111 @@
+---
+title: "Tracer les fonctions générateur"
+description: "Suivez les fonctions générateur synchrones et asynchrones avec le tracing de W&B Weave"
+---
+
+W&amp;B Weave prend en charge le tracing des fonctions générateur synchrones et asynchrones, y compris dans des schémas profondément imbriqués.
+
+<Warning>
+  Comme les générateurs produisent leurs valeurs de façon paresseuse, Weave ne journalise les sorties que lorsque le générateur est entièrement consommé (par exemple, lorsque vous le convertissez en liste). Pour vous assurer que Weave capture les sorties dans la trace,
+  consommez entièrement le générateur (par exemple, avec `list()`).
+</Warning>
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    from typing import Generator
+    import weave
+
+    weave.init("my-project")
+
+    # Cette fonction utilise un générateur synchrone simple.
+    # Weave tracera l'Appel et son entrée (`x`),
+    # mais les valeurs de sortie ne sont capturées qu'une fois le générateur consommé (par exemple, avec `list()`).
+    @weave.op
+    def basic_gen(x: int) -> Generator[int, None, None]:
+        yield from range(x)
+
+    # Une fonction synchrone normale utilisée dans le pipeline du générateur.
+    # Ses appels sont également tracés séparément par Weave.
+    @weave.op
+    def inner(x: int) -> int:
+        return x + 1
+
+    # Un générateur synchrone qui appelle une autre fonction tracée (`inner`).
+    # Chaque valeur générée provient d'un Appel tracé distinct à `inner`.
+    @weave.op
+    def nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            yield inner(i)
+
+    # Un générateur plus complexe qui compose le générateur ci-dessus.
+    # Le tracing produit ici une arborescence d'Appels hiérarchique :
+    # - `deeply_nested_generator` (parent)
+    #   - `nested_generator` (enfant)
+    #     - `inner` (petit-enfant)
+    @weave.op
+    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            for j in nested_generator(i):
+                yield j
+
+    # Le générateur doit être *consommé* pour que Weave capture les sorties.
+    # Cela vaut pour les générateurs synchrones comme asynchrones.
+    res = deeply_nested_generator(4)
+    list(res)  # Déclenche le tracing de tous les appels imbriqués et des valeurs générées
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+La capture d&#39;écran suivante montre la page **Traces** avec une trace sélectionnée du code précédent. Le panneau central affiche l&#39;arborescence de trace de la trace sélectionnée. Cette arborescence montre les Ops `deeply_nested_generator`, `nested_generator` et `inner` dans la hiérarchie des traces.
+![Page Weave Traces montrant une arborescence de trace sélectionnée illustrant des Ops profondément imbriquées](/weave/guides/tracking/imgs/generators.png)
+
+<div id="consuming-generators">
+  ## Consommer des générateurs
+</div>
+
+Weave ne capture les sorties d’un générateur qu’après sa consommation complète. Consommez le générateur en itérant dessus (par exemple avec `list()`, une boucle `for` ou `next()` jusqu’à épuisement). Il en va de même pour les générateurs asynchrones lorsque vous utilisez `async for` ou tout autre mode de consommation équivalent.
+
+Pour en savoir plus sur la décoration de fonctions et de méthodes avec `@weave.op`, voir [Créer des appels](/fr/weave/guides/tracking/create-call).
+
+<div id="accumulate-yielded-values-into-a-single-trace">
+  ## Accumuler les valeurs produites par `yield` dans une seule trace
+</div>
+
+Vous pouvez utiliser le paramètre `accumulator` de `weave.op` pour personnaliser la manière dont les valeurs produites par des fonctions génératrices sont combinées, par exemple pour concaténer des jetons de texte diffusés en continu en une seule chaîne. L’accumulateur est une fonction à deux arguments que Weave appelle une fois par valeur produite, afin de construire un résultat de manière incrémentielle.
+
+<Note>
+  Le paramètre `accumulator` n&#39;est pas disponible en TypeScript.
+</Note>
+
+L’exemple suivant montre un accumulateur personnalisé qui ajoute chaque valeur produite à une liste, afin que Weave enregistre cette liste comme sortie de l’appel une fois le générateur entièrement consommé.
+
+```python
+from typing import Generator
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+# Weave appelle cette fonction après chaque yield ; acc vaut None lors du premier appel.
+# La dernière valeur retournée devient la sortie de l'Op tracé.
+def list_accumulator(acc, value):
+    if acc is None:
+        acc = []
+    acc.append(value)
+    return acc
+
+# Définir le paramètre accumulator
+@weave.op(accumulator=list_accumulator)
+def basic_gen_with_accumulator(x: int) -> Generator[int, None, None]:
+    yield from range(x)
+
+# Itérer jusqu'à la fin pour que chaque yield s'exécute et que l'accumulateur produise la sortie tracée finale.
+result = list(basic_gen_with_accumulator(3))
+print(result)
+```

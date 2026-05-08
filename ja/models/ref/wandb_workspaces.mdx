@@ -1,34 +1,41 @@
 ---
-title: Reports と Workspace API の概要
-description: W&B Reports と Workspaces API を使用して、 Reports と Workspace をプログラムで作成・管理します。
+title: Reports and Workspaces API の概要
+description: W&B Reports and Workspaces API を使用して、Reports と Workspace をプログラムから作成・管理します
 ---
 
-`wandb_workspaces` からアクセスできる W&B Reports および Workspaces API を使用すると、 学び を Web 上で共有するための [Reports](/models/reports/) を作成したり、 トレーニング や ファインチューニング を行った [Workspace](/models/app/features/cascade-settings/) をカスタマイズしたりできます。
+`wandb_workspaces` から利用できる W&amp;B Reports and Workspaces API を使用すると、調査結果の共有に向けて Web 上で公開できる [Reports](/ja/models/reports/) を作成できるほか、トレーニングやファインチューニングの作業を行った [Workspace](/ja/models/app/features/cascade-settings/) をカスタマイズできます。
 
-
-<Card title="ソースコードを見る" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github"/>
+<Card title="ソースコードを表示" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github" />
 
 <Note>
-W&B Report および Workspace API はパブリックプレビュー版です。
+  W&amp;B Report and Workspace API はパブリックプレビューです。
 </Note>
 
-## インストールとセットアップ
+<div id="installation-and-setup">
+  ## インストールと設定
+</div>
 
-### サインアップと APIキー の作成
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップしてAPIキーを発行する
+</div>
 
-マシンを W&B で認証するには、まず [User Settings](https://wandb.ai/settings) で APIキー を生成する必要があります。
+お使いのマシンをW&amp;Bに対して認証するには、まず [User Settings](https://wandb.ai/settings) でAPIキーを発行する必要があります。
 
-### パッケージのインストールとインポート
+<div id="install-and-import-packages">
+  ### パッケージのインストールとインポート
+</div>
 
-W&B Report および Workspaces ライブラリ をインストールします。
+W&amp;B Reports および Workspaces のライブラリをインストールします。
 
 ```python
 pip install wandb-workspaces
 ```
 
-### Report の作成
+<div id="create-a-report">
+  ### レポートを作成する
+</div>
 
-Report を作成するには、 チーム の Entities を指定し、 Report の名前を入力します。括弧内のテキストを実際の 値 に置き換えてください。
+レポートを作成するには、Team の entity を指定し、レポートの名を入力します。囲まれたテキストを実際の値に置き換えてください。
 
 ```python
 import wandb_workspaces.reports.v2 as wr 
@@ -44,7 +51,7 @@ report = wr.Report(
 report.save()
 ```
 
-次に、 Report にブロックや パネル を追加します。例えば、以下の コード は目次、見出し、段落を含む Report を作成します。
+次に、レポートにブロックとパネルを追加します。たとえば、次のコードは、目次、ヘッダー、段落を含むレポートを作成します。
 
 ```python
 report.blocks = [
@@ -55,20 +62,22 @@ report.blocks = [
 report.save()
 ```
 
-エンドツーエンドの例については、 [Reports API Quickstart](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) Google Colab を参照してください。
+エンドツーエンドの例は、[レポート API クイックスタート](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) の Google Colab を参照してください。
 
-### Workspace の作成
+<div id="create-a-workspace">
+  ### Workspace を作成する
+</div>
 
-以下の コード は、折れ線グラフ、棒グラフ、スカラーチャートの3つの パネル を含むセクションを持つ Workspace を作成する方法を示しています。括弧内のテキストを実際の 値 に置き換えてください。
+次のコードは、折れ線グラフ、棒グラフ、スカラーチャートの 3 つのパネルを含むセクションを持つ Workspace を作成する方法を示しています。角括弧で囲まれたテキストは、実際の値に置き換えてください。
 
 ```python
 # インポート方法
 import wandb_workspaces.workspaces as ws
 
-# Workspace の作成
+# Workspaceを作成する
 ws.Workspace(
-     entity="<team_entity>", # Workspace を所有する entity
-     project="<project_name>", # Workspace が関連付けられている project
+     entity="<team_entity>", # Workspaceを所有するentity
+     project="<project_name>", # Workspaceに関連付けられたプロジェクト
      sections=[
          ws.Section(
              name="<Validation Metrics>",
@@ -84,4 +93,4 @@ ws.Workspace(
 workspace.save()
 ```
 
-エンドツーエンドの例については、 [Workspace API Quickstart](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) Google Colab を参照してください。
+一連の流れを通した例については、[Workspace API クイックスタート](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) の Google Colab を参照してください。

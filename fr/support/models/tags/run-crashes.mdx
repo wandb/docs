@@ -1,0 +1,46 @@
+---
+title: "Plantages de run"
+tag: "10"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="Comment corriger une erreur du type `AttributeError: module 'wandb' has no attribute ...` ?" href="/fr/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
+  Si vous rencontrez une erreur du type AttributeError: module &#39;wandb&#39; has no attribute &#39;init&#39; ou AttributeError: module &#39;wandb&#39;  ...
+</Card>
+
+<Card title="Comment corriger `Cuda out of memory` pendant un sweep ?" href="/fr/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  Si vous voyez Cuda out of memory pendant un sweep, remaniez votre code pour utiliser une exécution basée sur des processus. Réécrivez votre code sous la forme d’un  ...
+</Card>
+
+<Card title="Comment arrêter un job avec wandb ?" href="/fr/support/models/articles/how-do-i-kill-a-job-with-wandb" arrow="true" horizontal>
+  Appuyez sur Ctrl+D pour arrêter un script instrumenté avec W&amp;B.
+</Card>
+
+<Card title="Comment résoudre une erreur de délai d’expiration lors de l’initialisation d’un run dans wandb ?" href="/fr/support/models/articles/how-do-i-resolve-a-run-initialization-ti" arrow="true" horizontal>
+  Pour résoudre une erreur de délai d’expiration lors de l’initialisation d’un run, suivez ces étapes : relancez l’initialisation, puis essayez de redémarrer le run. Vérifiez ...
+</Card>
+
+<Card title="Si wandb plante, cela peut-il aussi faire planter mon run d’entraînement ?" href="/fr/support/models/articles/if-wandb-crashes-will-it-possibly-crash-" arrow="true" horizontal>
+  Il est essentiel d’éviter toute interférence avec les runs d’entraînement. W&amp;B fonctionne dans un processus distinct, ce qui garantit que l’entraînement cont ...
+</Card>
+
+<Card title="InitStartError: erreur de communication avec le processus wandb" href="/fr/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  Cette erreur indique que la bibliothèque rencontre un problème lors du lancement du processus qui synchronise les données avec le serveur. Th ...
+</Card>
+
+<Card title="L’état de mon run est `crashed` dans l’UI, mais il est toujours en cours d’exécution sur ma machine. Que faire pour récupérer mes données ?" href="/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+  Vous avez probablement perdu la connexion à votre machine pendant l’entraînement. Récupérez vos données en exécutant wandb sync PATH&#95;TO&#95;RUN (/models/ref/ ...
+</Card>
+
+<Card title="Pourquoi mon processus se bloque-t-il lorsque j’utilise Hydra avec W&B ?" href="/fr/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  Si votre processus se bloque lorsqu’il est démarré avec Hydra, cela est probablement dû à un conflit de multiprocessing entre Hydra et W&amp;B ...
+</Card>
+
+<Card title="Pourquoi mon entraînement se bloque-t-il avec l’entraînement distribué ?" href="/fr/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  Il existe deux raisons courantes pour lesquelles l’entraînement se bloque lors de l’utilisation de W&amp;B avec l’entraînement distribué : 1. Blocage au début de l’entra ...
+</Card>
+
+<Card title="Pourquoi un run est-il marqué comme crashed dans W&B alors qu’il s’entraîne correctement en local ?" href="/fr/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
+  Cela indique un problème de connexion. Si le serveur perd l’accès à Internet et que les données cessent d’être synchronisées avec W&amp;B, le système marque ...
+</Card>

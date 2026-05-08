@@ -1,0 +1,18 @@
+---
+title: "run이 완료된 후 추가 메트릭을 기록하려면 어떻게 해야 하나요?"
+keywords: ["Runs", "메트릭"]
+---
+
+실험을 관리하는 방법은 여러 가지가 있습니다.
+
+복잡한 워크플로의 경우 여러 run을 사용하고, 하나의 실험에 속한 모든 프로세스에서 [`wandb.init()`](/ko/models/track/create-an-experiment)의 group 파라미터를 동일한 고유 값으로 설정하세요. 그러면 [**Runs** tab](/ko/models/track/project-page#runs-tab)에서 테이블이 group ID를 기준으로 그룹화되어 시각화가 올바르게 작동합니다. 이 방식은 결과를 한곳에 기록하면서 동시에 여러 실험과 트레이닝 run을 수행할 수 있게 해줍니다.
+
+더 단순한 워크플로의 경우 `resume=True` 및 `id=UNIQUE_ID`로 `wandb.init()`을 호출한 다음, 같은 `id=UNIQUE_ID`로 `wandb.init()`을 다시 호출하세요. [`run.log()`](/ko/models/track/log/) 또는 `run.summary()`를 사용해 평소처럼 기록하면 run 값이 그에 맞게 업데이트됩니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

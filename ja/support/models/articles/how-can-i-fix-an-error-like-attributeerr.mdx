@@ -1,0 +1,18 @@
+---
+title: "`AttributeError: module 'wandb' has no attribute ...` のようなエラーを修正するにはどうすればよいですか？"
+keywords: ["run の異常終了"]
+---
+
+Python で `wandb` を import した際に、`AttributeError: module 'wandb' has no attribute 'init'` や `AttributeError: module 'wandb' has no attribute 'login'` のようなエラーが発生する場合は、`wandb` がインストールされていないか、インストールが破損している一方で、現在の作業ディレクトリに `wandb` ディレクトリが存在している可能性があります。このエラーを修正するには、`wandb` をアンインストールし、そのディレクトリを削除してから、`wandb` を再インストールします。
+
+```bash
+pip uninstall wandb; rm -rI wandb; pip install wandb
+```
+
+***
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runのクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

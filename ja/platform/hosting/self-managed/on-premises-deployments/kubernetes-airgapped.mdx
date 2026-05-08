@@ -1,0 +1,941 @@
+---
+description: エアギャップ および切り離されたネットワークの Kubernetes 環境に W&B Platform をデプロイする
+title: エアギャップ Kubernetes へのデプロイ
+---
+
+import SelfManagedVersionRequirements from "/snippets/ja/_includes/self-managed-version-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/ja/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/ja/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/ja/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/ja/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/ja/_includes/self-managed-object-storage-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/ja/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedVerifyInstallation from "/snippets/ja/_includes/self-managed-verify-installation.mdx";
+
+<div id="introduction">
+  ## はじめに
+</div>
+
+このガイドでは、エアギャップ環境、完全に切り離された環境、または制限付きネットワークの顧客管理環境に W&amp;B Platform をデプロイするためのステップごとの手順を説明します。エアギャップデプロイは、次のような環境で一般的です。
+
+* セキュアな政府施設
+* 厳格なネットワーク分離が求められる金融機関
+* コンプライアンス要件のある医療機関
+* 産業用制御システム (ICS) 環境
+* 機密ネットワークを持つ研究施設
+
+必要な W&amp;B イメージとチャートをホストするために、内部コンテナーレジストリと Helm リポジトリ を使用します。これらのコマンドは、Kubernetes クラスターに適切にアクセスできるシェルコンソールで実行してください。
+
+これらのコマンドは、Kubernetes アプリケーションのデプロイに使用している任意の CI/CD ツールで動作するように調整できます。
+
+インターネット接続のある標準的なオンプレミス Kubernetes デプロイについては、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+始める前に、エアギャップ環境が以下の要件を満たしていることを確認してください。
+
+<div id="version-requirements">
+  ### バージョン要件
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="ssltls-requirements">
+  ### SSL/TLS 要件
+</div>
+
+<SelfManagedSslTlsRequirements />
+
+<div id="hardware-requirements">
+  ### ハードウェア要件
+</div>
+
+<SelfManagedHardwareRequirements />
+
+<div id="mysql-database">
+  ### MySQL データベース
+</div>
+
+<SelfManagedMysqlRequirements />
+
+セルフマネージドインスタンス向けの MySQL の設定パラメーターについては、[リファレンスアーキテクチャの MySQL 設定セクション](/ja/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters)を参照してください。
+
+<div id="redis">
+  ### Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+<div id="object-storage">
+  ### オブジェクトストレージ
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+オブジェクトストレージのプロビジョニングに関する詳細は、[Bring Your Own Bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) ガイドを参照してください。エアギャップ 環境では、通常、MinIO Enterprise、NetApp StorageGRID、Dell ECS などのオンプレミスの S3 互換ストレージを使用します。
+
+<div id="air-gapped-specific-requirements">
+  ### エアギャップ環境固有の要件
+</div>
+
+上記の標準的な要件に加えて、エアギャップ環境でのデプロイには次のものが必要です。
+
+* **内部コンテナーレジストリ**: 必要なすべての W&amp;B コンテナーイメージを含むプライベートなコンテナーレジストリ (Harbor、JFrog Artifactory、Nexus など) へのアクセス
+* **内部 Helm リポジトリ**: W&amp;B Helm チャートを含むプライベートな Helm チャートリポジトリへのアクセス
+* **イメージ転送機能**: インターネットに接続されたシステムからエアギャップ環境のレジストリにコンテナーイメージを転送するための手段
+* **ライセンスファイル**: 有効な W&amp;B Enterprise ライセンス。ライセンスを取得するには (たとえば、インターネットに接続されたマシンから取得する場合) 、要件ページの [License](/ja/platform/hosting/self-managed/requirements#license) セクションを参照するか、W&amp;B の担当アカウントチームにお問い合わせください。
+
+ネットワークやロードバランサーの設定を含む、完全なインフラストラクチャー要件については、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch#infrastructure-requirements) を参照してください。
+
+<div id="prepare-your-air-gapped-environment">
+  ## エアギャップ環境を準備する
+</div>
+
+<div id="step-1-set-up-internal-container-registry">
+  ### Step 1: 内部コンテナーレジストリを設定する
+</div>
+
+エアギャップ環境でデプロイを成功させるには、必要なすべてのコンテナーイメージを、エアギャップ環境内のコンテナーレジストリで利用できるようにしておく必要があります。
+
+<Note>
+  W&amp;B Operator の要件を把握し、コンテナーレジストリ内のイメージを定期的に更新して維持する責任は、お客様にあります。必要なコンテナーイメージとそのバージョンの最新一覧については、Helm チャートを参照するか、[W&amp;B サポート](mailto:support@wandb.com) または担当の W&amp;B サポートエンジニアにお問い合わせください。
+</Note>
+
+<div id="core-wb-component-containers">
+  #### 主要なW&amp;Bコンポーネントのコンテナー
+</div>
+
+以下の主要なイメージは必須です。
+
+* [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller) - W&amp;B Kubernetes Operator
+* [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local) - W&amp;Bアプリケーションサーバー
+* [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console) - W&amp;B管理コンソール
+* [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary) - W&amp;Bマイクロサービス (API、executor、glue、parquet)
+
+<div id="dependency-containers">
+  #### 依存コンテナー
+</div>
+
+次のサードパーティ製依存イメージが必要です。
+
+* [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis) - テストおよび開発時のローカル Redis デプロイに必要です。本番 Redis の要件については、前提条件の [Redis セクション](#redis) を参照してください。
+* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) - メトリクスとログを収集するための OpenTelemetry エージェント
+* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus) - メトリクス収集用の Prometheus
+* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader) - Prometheus の依存イメージ
+
+<div id="get-the-complete-image-list">
+  #### 完全なイメージ一覧を取得する
+</div>
+
+必要なイメージとバージョンの完全な一覧を Helm チャートから抽出するには、次の手順を実行します。
+
+1. インターネットに接続されたシステムで、[W&amp;B Helm charts repository](https://github.com/wandb/helm-charts) から W&amp;B Helm チャートをダウンロードします。
+
+   ```bash
+   # helm-charts リポジトリをクローンする
+   git clone https://github.com/wandb/helm-charts.git
+   cd helm-charts
+   ```
+
+2. `values.yaml` ファイルを確認し、すべてのコンテナーイメージとそのバージョンを特定します。
+
+   ```bash
+   # operator チャートからイメージ参照を抽出する
+   helm show values charts/operator | grep -E "repository:|tag:" | grep -v "^#"
+
+   # platform チャートからイメージ参照を抽出する
+   helm show values charts/operator-wandb | grep -E "repository:|tag:" | grep -v "^#"
+   ```
+
+   または、次のコマンドを使用してリポジトリ名のみを抽出できます (バージョンタグは除く) 。
+
+   ```bash
+   helm show values charts/operator-wandb \
+     | awk -F': *' '/^[[:space:]]*repository:/{print $2}' \
+     | grep -v "^#" \
+     | sort -u
+   ```
+
+   リポジトリの一覧は、次のようになります。
+
+   ```text
+   wandb/controller
+   wandb/local
+   wandb/console
+   wandb/megabinary
+   wandb/weave-python
+   wandb/weave-trace
+   otel/opentelemetry-collector-contrib
+   prometheus/prometheus
+   prometheus-operator/prometheus-config-reloader
+   bitnamilegacy/redis
+   ```
+
+   各イメージの具体的なバージョンタグを取得するには、上記の最初のコマンド (`grep -E "repository:|tag:"`) を使用します。このコマンドでは、リポジトリ名と対応するバージョンタグの両方が表示されます。
+
+<div id="transfer-images-to-air-gapped-registry">
+  #### イメージを エアギャップ レジストリに転送する
+</div>
+
+1. インターネットに接続されたシステムで、必要なイメージをすべて pull して保存します。
+
+   <Note>
+     以下の例にあるバージョン番号は、上記の step 2 で確認した Helm チャートの実際のバージョンに置き換えてください。ここで示しているバージョンはあくまで例であり、古くなる可能性があります。
+   </Note>
+
+   シェル変数を使用して、バージョンを一貫して管理します。
+
+   ```bash
+   # バージョン変数を設定する（Helm チャートのバージョンに合わせて更新してください）
+   CONTROLLER_VERSION="1.13.3"
+   APP_VERSION="0.59.2"
+   CONSOLE_VERSION="2.12.2"
+
+   # イメージを pull する
+   docker pull wandb/controller:${CONTROLLER_VERSION}
+   docker pull wandb/local:${APP_VERSION}
+   docker pull wandb/console:${CONSOLE_VERSION}
+   docker pull wandb/megabinary:${APP_VERSION}
+   # ...そのほかの必要なイメージも、それぞれのバージョンで pull する
+
+   # イメージを .tar ファイルに保存する
+   docker save wandb/controller:${CONTROLLER_VERSION} -o wandb-controller-${CONTROLLER_VERSION}.tar
+   docker save wandb/local:${APP_VERSION} -o wandb-local-${APP_VERSION}.tar
+   docker save wandb/console:${CONSOLE_VERSION} -o wandb-console-${CONSOLE_VERSION}.tar
+   docker save wandb/megabinary:${APP_VERSION} -o wandb-megabinary-${APP_VERSION}.tar
+   # ...そのほかのすべてのイメージも保存する
+   ```
+
+2. 承認済みの方法 (USB ドライブ、セキュアなファイル転送など) を使用して、`.tar` ファイルを エアギャップ 環境に転送します。
+
+3. エアギャップ 環境で、イメージをロードし、内部レジストリに push します。
+
+   ```bash
+   # 上で使用したものと同じバージョン変数を設定する
+   CONTROLLER_VERSION="1.13.3"
+   APP_VERSION="0.59.2"
+   CONSOLE_VERSION="2.12.2"
+   INTERNAL_REGISTRY="registry.yourdomain.com"
+
+   # イメージをロードする
+   docker load -i wandb-controller-${CONTROLLER_VERSION}.tar
+   docker load -i wandb-local-${APP_VERSION}.tar
+   docker load -i wandb-console-${CONSOLE_VERSION}.tar
+   docker load -i wandb-megabinary-${APP_VERSION}.tar
+   # ...そのほかのすべてのイメージもロードする
+
+   # 内部レジストリ用のタグを付ける
+   docker tag wandb/controller:${CONTROLLER_VERSION} ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+   docker tag wandb/local:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+   docker tag wandb/console:${CONSOLE_VERSION} ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+   docker tag wandb/megabinary:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+   # ...そのほかのすべてのイメージにもタグを付ける
+
+   # 内部レジストリに push する
+   docker push ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+   docker push ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+   # ...そのほかのすべてのイメージも push する
+   ```
+
+<div id="step-2-set-up-internal-helm-chart-repository">
+  ### Step 2: 内部 Helm チャートリポジトリを設定する
+</div>
+
+コンテナーイメージに加えて、次の Helm チャートを内部 Helm リポジトリで利用できるようにしてください。
+
+* [W&amp;B Operator chart](https://github.com/wandb/helm-charts/tree/main/charts/operator)
+* [W&amp;B Platform chart](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
+
+1. インターネットに接続されたシステムで、チャートをダウンロードします。
+
+   ```bash
+   # W&B Helm リポジトリを追加
+   helm repo add wandb https://wandb.github.io/helm-charts
+   helm repo update
+
+   # チャートをダウンロード
+   helm pull wandb/operator --version 1.13.3
+   helm pull wandb/operator-wandb --version 0.18.0
+   ```
+
+2. `.tgz` のチャートファイルを エアギャップ 環境に転送し、リポジトリの手順に従って内部 Helm リポジトリにアップロードします。
+
+   `operator` チャートは W&amp;B Kubernetes Operator (Controller Manager) をデプロイします。`operator-wandb` チャートは、Custom Resource (CR) で設定した値を使用して W&amp;B Platform をデプロイします。
+
+<div id="step-3-configure-helm-repository-access">
+  ### Step 3: Helm リポジトリへのアクセスを設定する
+</div>
+
+1. エアギャップ環境で、Helm が内部リポジトリを使用するように設定します。
+
+   ```bash
+   helm repo add local-repo https://charts.yourdomain.com
+   helm repo update
+   ```
+
+2. チャートが利用可能であることを確認します。
+
+   ```bash
+   helm search repo local-repo/operator
+   helm search repo local-repo/operator-wandb
+   ```
+
+<div id="deploy-wb-in-air-gapped-environment">
+  ## エアギャップ環境に W&amp;B をデプロイする
+</div>
+
+<div id="step-4-install-the-kubernetes-operator">
+  ### Step 4: Kubernetes Operator をインストールする
+</div>
+
+W&amp;B Kubernetes Operator (コントローラーマネージャー) は、W&amp;B プラットフォームの各コンポーネントを管理します。これをエアギャップ環境にインストールするには、内部コンテナーレジストリを使用するように設定します。
+
+1. 次の内容で `values.yaml` ファイルを作成します。
+
+   ```yaml
+   image:
+     repository: registry.yourdomain.com/wandb/controller
+     tag: 1.13.3
+
+   airgapped: true
+   ```
+
+   <Note>
+     repository と tag は、Step 1 で内部レジストリに転送した実際のバージョンに置き換えてください。ここに示したバージョン (`1.13.3`) はあくまで例であり、いずれ古くなります。
+   </Note>
+
+2. operator と Custom Resource Definition (CRD) をインストールします。
+
+   ```bash
+   helm upgrade --install operator local-repo/operator \
+     --namespace wandb \
+     --create-namespace \
+     --values values.yaml
+   ```
+
+3. operator が実行中であることを確認します。
+
+   ```bash
+   kubectl get pods -n wandb
+   ```
+
+   `Running` 状態の operator pod が表示されるはずです。
+
+サポートされる values の詳細については、[Kubernetes operator GitHub repository の values ファイル](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)を参照してください。
+
+<div id="step-5-set-up-mysql-database">
+  ### Step 5: MySQL データベースを設定する
+</div>
+
+W&amp;B Custom Resource を設定する前に、外部の MySQL データベースを設定してください。本番デプロイでは、利用可能であればマネージドデータベースサービスを使用することを W&amp;B は強く推奨しています。ただし、独自の MySQL インスタンスを運用している場合は、データベースとユーザーを作成してください。
+
+<SelfManagedMysqlDatabaseCreation />
+
+MySQL の設定パラメーターについては、[リファレンスアーキテクチャの MySQL 設定パラメーターのセクション](/ja/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters)を参照してください。
+
+<div id="step-6-configure-wb-custom-resource">
+  ### Step 6: W&amp;B Custom Resource を設定する
+</div>
+
+W&amp;B Kubernetes Operator をインストールしたら、Custom Resource (CR) を設定して、社内の Helm リポジトリ と コンテナーレジストリ を参照するようにします。
+
+この設定により、W&amp;B プラットフォームに必要なコンポーネントのデプロイ時に、Kubernetes operator は社内の registry と repository を使用します。
+
+<Note>
+  以下の設定例には、いずれ古くなるイメージのバージョン tags が含まれています。すべての `tag:` の値を、Step 1 で社内 registry に転送した実際のバージョンに置き換えてください。
+</Note>
+
+`wandb.yaml` という名前のファイルを作成し、次の内容を記述します。
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/instance: wandb
+    app.kubernetes.io/name: weightsandbiases
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.yourdomain.com
+      license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      
+      bucket:
+        accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+      
+      api:
+        enabled: true
+      
+      glue:
+        enabled: true
+      
+      executor:
+        enabled: true
+      
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
+
+    # すべてのコンポーネントイメージを内部レジストリを使用するよう設定する
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+
+    api:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    executor:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    glue:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    parquet:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    weave:
+      image:
+        repository: registry.yourdomain.com/wandb/weave-python
+        tag: 0.59.2
+
+    otel:
+      image:
+        repository: registry.yourdomain.com/otel/opentelemetry-collector-contrib
+        tag: 0.97.0
+
+    prometheus:
+      server:
+        image:
+          repository: registry.yourdomain.com/prometheus/prometheus
+          tag: v2.47.0
+      configmapReload:
+        prometheus:
+          image:
+            repository: registry.yourdomain.com/prometheus-operator/prometheus-config-reloader
+            tag: v0.67.0
+
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      class: nginx
+```
+
+<Note>
+  すべてのプレースホルダー値 (ホスト名、パスワード、タグなど) は、実際の設定値に置き換えてください。上記の例では、最も一般的に使用されるコンポーネントを示しています。
+</Note>
+
+デプロイ要件によっては、次のような追加コンポーネントのイメージリポジトリも設定する必要がある場合があります。
+
+* `settingsMigrationJob`
+* `weave-trace`
+* `filestream`
+* `flat-runs-table`
+
+設定可能なコンポーネントの完全な一覧については、[W&amp;B Helm リポジトリ values file](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml)を参照してください.
+
+<div id="step-7-deploy-the-wb-platform">
+  ### Step 7: W&amp;B プラットフォームをデプロイする
+</div>
+
+1. W&amp;B Custom Resource を適用して、プラットフォームをデプロイします。
+
+   ```bash
+   kubectl apply -f wandb.yaml
+   ```
+
+2. デプロイの進行状況を監視します。
+
+   ```bash
+   # 作成中の pod を監視
+   kubectl get pods -n wandb --watch
+
+   # デプロイのステータスを確認
+   kubectl get weightsandbiases -n wandb
+
+   # operator のログを表示
+   kubectl logs -n wandb deployment/wandb-operator-controller-manager
+   ```
+
+   operator が必要なコンポーネントをすべて作成するため、デプロイには数分かかる場合があります。
+
+<div id="openshift-configuration">
+  ## OpenShift の設定
+</div>
+
+W&amp;B は、エアギャップ環境の OpenShift Kubernetes クラスターへのデプロイを完全にサポートしています。OpenShift へのデプロイでは、OpenShift のより厳格なセキュリティポリシーに対応するため、追加のセキュリティコンテキスト設定が必要です。
+
+<div id="openshift-security-context-constraints">
+  ### OpenShift のセキュリティコンテキスト制約
+</div>
+
+OpenShift では、pod の権限を制御するために Security Context Constraints (SCC) を使用します。デフォルトでは、pod には `restricted` SCC が割り当てられ、root としての実行が禁止されるほか、特定のユーザー ID が必要になります。
+
+<div id="option-1-use-restricted-scc-recommended">
+  #### オプション1: `restricted` SCCを使用する (推奨)
+</div>
+
+Custom Resource で適切なセキュリティコンテキストを設定し、W&amp;B コンポーネントが `restricted` SCC で実行されるように構成します。
+
+```yaml
+spec:
+  values:
+    # すべてのpodにセキュリティコンテキストを設定する
+    app:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # 他のcomponentsにも同様に繰り返す: api, executor, glue, parquet, weave
+```
+
+<div id="option-2-create-custom-scc-if-required">
+  #### オプション 2: カスタム SCC を作成する (必要な場合)
+</div>
+
+デプロイに `restricted` SCC では利用できないケーパビリティが必要な場合は、カスタム SCC を作成します。
+
+```yaml
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: wandb-scc
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: false
+allowPrivilegedContainer: false
+allowedCapabilities: []
+defaultAddCapabilities: []
+fsGroup:
+  type: MustRunAs
+  ranges:
+    - min: 1000
+      max: 65535
+readOnlyRootFilesystem: false
+requiredDropCapabilities:
+  - ALL
+runAsUser:
+  type: MustRunAsRange
+  uidRangeMin: 1000
+  uidRangeMax: 65535
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+volumes:
+  - configMap
+  - downwardAPI
+  - emptyDir
+  - persistentVolumeClaim
+  - projected
+  - secret
+```
+
+1. SCC を適用します。
+
+   ```bash
+   oc apply -f wandb-scc.yaml
+   ```
+
+2. SCC を W&amp;B のサービスアカウントに関連付けます。
+
+   ```bash
+   oc adm policy add-scc-to-user wandb-scc -z wandb-app -n wandb
+   oc adm policy add-scc-to-user wandb-scc -z wandb-console -n wandb
+   ```
+
+<div id="openshift-routes">
+  ### OpenShift Routes
+</div>
+
+OpenShift では、標準の Kubernetes Ingress ではなく Routes を使用します。W&amp;B で OpenShift Routes を使用するように設定します。
+
+```yaml
+spec:
+  values:
+    ingress:
+      enabled: false
+    
+    route:
+      enabled: true
+      host: wandb.apps.openshift.yourdomain.com
+      tls:
+        enabled: true
+        termination: edge
+        insecureEdgeTerminationPolicy: Redirect
+```
+
+<div id="openshift-image-pull-configuration">
+  ### OpenShift のイメージプル設定
+</div>
+
+OpenShift クラスターで認証が必要な内部イメージレジストリを使用している場合:
+
+1. イメージプルシークレットを作成します。
+
+   ```bash
+   kubectl create secret docker-registry wandb-registry-secret \
+     --docker-server=registry.yourdomain.com \
+     --docker-username=<username> \
+     --docker-password=<password> \
+     --namespace=wandb
+   ```
+
+2. Custom Resource でこのシークレットを参照します。
+
+   ```yaml
+   spec:
+     values:
+       imagePullSecrets:
+         - name: wandb-registry-secret
+   ```
+
+<div id="openshift-complete-example">
+  ### OpenShift の完全な設定例
+</div>
+
+以下に、OpenShift のエアギャップ環境へのデプロイ向けの完全な CR の例を示します。
+
+<Note>
+  この例のすべての `tag:` の値を、Step 1 で内部レジストリに転送した実際のバージョンに置き換えてください。ここに示しているバージョンはあくまで例であり、いずれ古くなります。
+</Note>
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.apps.openshift.yourdomain.com
+      license: <your-license>
+      
+      bucket:
+        accessKey: <your-access-key>
+        secretKey: <your-secret-key>
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+
+    # OpenShift固有: IngressではなくRouteを使用
+    ingress:
+      enabled: false
+    
+    route:
+      enabled: true
+      host: wandb.apps.openshift.yourdomain.com
+      tls:
+        enabled: true
+        termination: edge
+
+    # 内部レジストリ用のイメージプルシークレット
+    imagePullSecrets:
+      - name: wandb-registry-secret
+
+    # OpenShift制限付きSCC用のセキュリティコンテキスト
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # api、executor、glue、parquet、weaveにも同様のセキュリティコンテキストを設定
+    # （簡略化のため省略）
+```
+
+<Note>
+  セキュリティ要件に合わせた包括的な OpenShift の設定例については、[W&amp;B サポート](mailto:support@wandb.com) または担当の W&amp;B サポートエンジニアにお問い合わせください。
+</Note>
+
+<div id="verify-your-installation">
+  ## インストールを確認する
+</div>
+
+W&amp;B をデプロイしたら、インストールが正常に機能していることを確認してください。
+
+<SelfManagedVerifyInstallation />
+
+<div id="additional-air-gapped-verification">
+  ### エアギャップ 環境での追加検証
+</div>
+
+エアギャップ デプロイでは、次の点も確認してください。
+
+1. **イメージプル**: すべての Pod が内部レジストリからイメージを正常にプルできていることを確認します。
+
+   ```bash
+   kubectl get pods -n wandb -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.phase}{"\t"}{.status.containerStatuses[*].image}{"\n"}{end}'
+   ```
+
+   すべてのイメージが内部レジストリを参照しており、すべての Pod が `Running` 状態である必要があります。
+
+2. **外部接続**: W&amp;B が外部への接続を試みていないことを確認します (エアギャップ モードでは試行しないはずです) 。
+
+   ```bash
+   kubectl logs -n wandb deployment/wandb-app --tail=100 | grep -i "connection"
+   ```
+
+3. **ライセンス検証**: W&amp;B コンソールにアクセスし、ライセンスが有効になっていることを確認します。
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+<div id="image-pull-errors">
+  ### イメージプルエラー
+</div>
+
+Pod がイメージをプルできない場合:
+
+1. イメージが内部レジストリに存在することを確認します
+2. イメージプルシークレットが正しく設定されていることを確認します
+3. Kubernetes ノードからレジストリへのネットワーク接続を確認します
+4. レジストリの認証情報を確認します
+
+   ```bash
+   # イメージプルを手動でテストする
+   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
+   kubectl logs test-pull -n wandb
+   kubectl delete pod test-pull -n wandb
+   ```
+
+<div id="openshift-scc-errors">
+  ### OpenShift の SCC エラー
+</div>
+
+OpenShift で Pod が権限エラーで失敗する場合:
+
+```bash
+# 使用されているSCCを確認する
+oc get pod <pod-name> -n wandb -o yaml | grep scc
+
+# サービスアカウントの権限を確認する
+oc describe scc wandb-scc
+oc get rolebinding -n wandb
+```
+
+<div id="helm-chart-not-found">
+  ### Helm チャートが見つからない
+</div>
+
+operator が platform チャートを見つけられない場合:
+
+1. Custom Resource 内のチャートリポジトリ URL を確認します
+2. operator の pod から内部 Helm リポジトリにアクセスできることを確認します
+3. リポジトリ内にチャートが存在することを確認します:
+
+   ```bash
+   helm search repo local-repo/operator-wandb
+   ```
+
+<div id="frequently-asked-questions">
+  ## よくある質問
+</div>
+
+<div id="can-i-use-a-different-ingress-class">
+  ### 別の ingress class を使用できますか？
+</div>
+
+はい。Custom Resource の ingress 設定を変更して、使用する ingress class を設定できます。
+
+```yaml
+spec:
+  values:
+    ingress:
+      class: your-ingress-class
+```
+
+<div id="how-do-i-handle-certificate-bundles-with-multiple-certificates">
+  ### 複数の証明書を含む証明書バンドルはどうすればよいですか
+</div>
+
+証明書を `customCACerts` セクションで複数のエントリに分割します。
+
+```yaml
+spec:
+  values:
+    customCACerts:
+      cert1.crt: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+      cert2.crt: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+```
+
+<div id="how-do-i-prevent-automatic-updates">
+  ### どうすれば自動更新を防止できますか
+</div>
+
+W&amp;B が自動更新されないように operator を設定します。
+
+1. operator のインストール時に `airgapped: true` を設定します (これにより自動更新のチェックが無効になります)
+2. Custom Resource の `spec.chart.version` を手動で更新して、version の更新を管理します
+3. 必要に応じて、W&amp;B System Console から自動更新を無効にします
+
+詳しくは、[自動アプリ version 更新を無効にする](/ja/platform/hosting/self-managed/disable-automatic-app-version-updates)を参照してください。
+
+<Note>
+  W&amp;B では、セルフマネージド環境のインスタンスをご利用のお客様に対し、サポートを維持し、最新の機能、パフォーマンス改善、修正を利用できるようにするため、少なくとも四半期に 1 回はデプロイを最新 version に更新することを強く推奨しています。W&amp;B は、各メジャーリリースを初回リリース日から 12 か月間サポートします。詳しくは、[リリースポリシーとプロセス](/ja/release-notes/release-policies)を参照してください。
+</Note>
+
+<div id="does-the-deployment-work-with-no-connection-to-public-repositories">
+  ### このデプロイはパブリックリポジトリに接続しなくても動作しますか？
+</div>
+
+はい。Operator の設定で `airgapped: true` を指定すると、Kubernetes Operator は内部リソースのみを使用し、パブリックリポジトリへの接続は試みません。
+
+<div id="how-do-i-update-wb-in-an-air-gapped-environment">
+  ### エアギャップ環境で W&amp;B を更新するにはどうすればよいですか？
+</div>
+
+W&amp;B を更新するには、次の手順を実行します。
+
+1. インターネットに接続されたシステムで新しいコンテナーイメージを取得します
+2. イメージをエアギャップ環境のレジストリに転送します
+3. 新しい Helm チャートを内部リポジトリにアップロードします
+4. Custom Resource の `spec.chart.version` とイメージタグを更新します
+5. 更新した Custom Resource を適用します
+
+   オペレーターによって W&amp;B コンポーネントのローリングアップデートが実行されます。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+デプロイが正常に完了したら:
+
+1. **ユーザー認証を設定する**: [SSO](/ja/platform/hosting/iam/sso) またはその他の認証方式を設定します
+2. **監視を設定する**: W&amp;B インスタンスとインフラストラクチャーの監視を設定します
+3. **更新を計画する**: [Server upgrade process](/ja/platform/hosting/server-upgrade-process) を確認し、更新の実施頻度を定めます
+4. **バックアップを設定する**: MySQL データベースのバックアップ手順を確立します
+5. **プロセスを文書化する**: ご利用の エアギャップ 環境向けの更新手順の runbook を作成します
+
+<div id="getting-help">
+  ## サポートを受ける
+</div>
+
+デプロイ中に問題が発生した場合:
+
+* インフラストラクチャーに関するガイダンスは、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch)を参照してください
+* 設定の詳細は、[Operator ガイド](/ja/platform/hosting/self-managed/operator)を確認してください
+* [W&amp;B サポート](mailto:support@wandb.com)または担当の W&amp;B サポートエンジニアに連絡してください
+* OpenShift 固有の問題については、Red Hat OpenShift のドキュメントを参照してください

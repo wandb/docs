@@ -1,0 +1,148 @@
+---
+title: Ultralytics YOLO
+description: "Utilisez W&B avec les modèles Ultralytics YOLO pour le suivi des expériences, l’enregistrement de points de contrôle du modèle et la visualisation en vision par ordinateur."
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" />
+
+[Ultralytics](https://github.com/ultralytics/ultralytics) est la référence pour les modèles de vision par ordinateur de pointe destinés à des tâches comme la classification d’images, la détection d’objets, la segmentation d’images et l’estimation de pose. Il héberge non seulement [YOLOv8](https://docs.ultralytics.com/models/yolov8/), la dernière itération de la série YOLO de modèles de détection d’objets en temps réel, mais aussi d’autres modèles puissants de vision par ordinateur comme [SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [RT-DETR](https://docs.ultralytics.com/models/rtdetr/), [YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/), etc. En plus de proposer des implémentations de ces modèles, Ultralytics fournit également des flux de travail prêts à l’emploi pour entraîner, effectuer le Fine-tuning et utiliser ces modèles à l’aide d’une API simple d’utilisation.
+
+<div id="get-started">
+  ## Premiers pas
+</div>
+
+1. Installez `ultralytics` et `wandb`.
+
+   <Tabs>
+     <Tab title="Ligne de commande">
+       ```shell
+           pip install --upgrade ultralytics==8.0.238 wandb
+
+           # ou
+           # conda install ultralytics
+       ```
+     </Tab>
+
+     <Tab title="Notebook">
+       ```bash
+           !pip install --upgrade ultralytics==8.0.238 wandb
+       ```
+     </Tab>
+   </Tabs>
+
+   L&#39;équipe de développement a testé l&#39;intégration avec `ultralyticsv8.0.238` et les versions antérieures. Pour signaler tout problème lié à l&#39;intégration, créez une [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) avec le tag `yolov8`.
+
+<div id="track-experiments-and-visualize-validation-results">
+  ## Suivre les expériences et visualiser les résultats de validation
+</div>
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" />
+
+Cette section présente un flux de travail typique qui consiste à utiliser un modèle [Ultralytics](https://docs.ultralytics.com/modes/predict/) pour l&#39;entraînement, le fine-tuning et la validation, ainsi qu&#39;à effectuer le suivi des expériences, l&#39;enregistrement de point de contrôle du modèle et la visualisation des performances du modèle avec [W&amp;B](https://wandb.ai/site).
+
+Vous pouvez également en savoir plus sur l&#39;intégration dans ce rapport : [Supercharging Ultralytics with W&amp;B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+
+Pour utiliser l&#39;intégration W&amp;B avec Ultralytics, importez la fonction `wandb.integration.ultralytics.add_wandb_callback`.
+
+```python
+import wandb
+from wandb.integration.ultralytics import add_wandb_callback
+
+from ultralytics import YOLO
+```
+
+Initialisez le modèle `YOLO` de votre choix, puis appelez la fonction `add_wandb_callback` sur celui-ci avant d&#39;exécuter une inférence avec le modèle. Cela garantit que, lors de l&#39;entraînement, du fine-tuning, de la validation ou de l&#39;inférence, les logs de l&#39;expérience ainsi que les images avec la vérité terrain et les résultats de prédiction correspondants superposés sont automatiquement enregistrés dans W&amp;B à l&#39;aide des [superpositions interactives pour les tâches de vision par ordinateur](/fr/models/track/log/media/#image-overlays-in-tables), ainsi que des informations supplémentaires dans un [`wandb.Table`](/fr/models/tables/).
+
+```python
+with wandb.init(project="ultralytics", job_type="train") as run:
+
+    # Initialiser le modèle YOLO
+    model = YOLO("yolov8n.pt")
+
+    # Ajouter le callback W&B pour Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
+
+    # Entraîner/affiner votre modèle
+    # À la fin de chaque époque, les prédictions sur les lots de validation sont enregistrées
+    # dans un tableau W&B avec des superpositions interactives et pertinentes pour
+    # les tâches de vision par ordinateur
+    model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
+```
+
+Voici à quoi ressemblent les expériences suivies avec W&amp;B dans un flux de travail Ultralytics d&#39;entraînement ou de fine-tuning :
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"><a href="https://imgur.com/a/TB76U9O">Expériences de fine-tuning YOLO</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+
+Voici comment les résultats de validation à chaque époque sont visualisés à l&#39;aide d&#39;une [W&amp;B Table](/fr/models/tables/) :
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4"><a href="https://imgur.com/a/kU5h7W4">Table de visualisation de validation W&amp;B</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+
+<div id="visualize-prediction-results">
+  ## Visualiser les résultats de prédiction
+</div>
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/00_inference.ipynb" />
+
+Cette section présente un flux de travail typique qui consiste à utiliser un modèle [Ultralytics](https://docs.ultralytics.com/modes/predict/) pour l’inférence et à visualiser les résultats avec [W&amp;B](https://wandb.ai/site).
+
+Vous pouvez essayer le code dans Google Colab : [Ouvrir dans Colab](https://wandb.me/ultralytics-inference).
+
+Vous pouvez également en savoir plus sur cette intégration dans ce rapport : [Supercharging Ultralytics with W&amp;B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+
+Pour utiliser l’intégration W&amp;B avec Ultralytics, vous devez importer la fonction `wandb.integration.ultralytics.add_wandb_callback`.
+
+```python
+import wandb
+from wandb.integration.ultralytics import add_wandb_callback
+
+from ultralytics.engine.model import YOLO
+```
+
+Téléchargez quelques images pour tester l’intégration. Vous pouvez utiliser des images fixes, des vidéos ou des flux de caméra. Pour plus d’informations sur les sources d’inférence, consultez la [documentation Ultralytics](https://docs.ultralytics.com/modes/predict/).
+
+```bash
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img1.png
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img2.png
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img4.png
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img5.png
+```
+
+Initialisez un run W&amp;B [run](/fr/models/runs/) à l’aide de `wandb.init()`. Ensuite, initialisez le modèle `YOLO` de votre choix et appelez la fonction `add_wandb_callback` sur celui-ci avant d’exécuter une inférence avec le modèle. Cela garantit que, lorsque vous exécutez une inférence, les images avec vos [superpositions interactives pour les tâches de vision par ordinateur](/fr/models/track/log/media/#image-overlays-in-tables) sont automatiquement journalisées, avec des informations supplémentaires dans un [`wandb.Table`](/fr/models/tables/).
+
+```python
+# Initialiser le run W&B
+with wandb.init(project="ultralytics", job_type="inference") as run:
+    # Initialiser le modèle YOLO
+    model = YOLO("yolov8n.pt")
+
+    # Ajouter le callback W&B pour Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
+
+    # Effectuer une prédiction qui journalise automatiquement dans un tableau W&B
+    # avec des superpositions interactives pour les boîtes englobantes et les masques de segmentation
+    model(
+        [
+            "./assets/img1.jpeg",
+            "./assets/img3.png",
+            "./assets/img4.jpeg",
+            "./assets/img5.jpeg",
+        ]
+    )
+```
+
+Vous n’avez pas besoin d’initialiser explicitement un run avec `wandb.init()` dans le cadre d’un flux de travail d’entraînement ou de fine-tuning. En revanche, si le code effectue uniquement de la prédiction, vous devez créer explicitement un run.
+
+Voici à quoi ressemble la superposition interactive de bbox :
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"><a href="https://imgur.com/a/UTSiufs">Superposition d’image W&amp;B</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+
+Pour en savoir plus, voir le [guide des superpositions d’images W&amp;B](/fr/models/track/log/media/#image-overlays).
+
+<div id="more-resources">
+  ## Autres ressources
+</div>
+
+* [Optimiser Ultralytics avec W&amp;B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+* [Détection d’objets avec YOLOv8 : un flux de travail de bout en bout](https://wandb.ai/reviewco/object-detection-bdd/reports/Object-Detection-using-YOLOv8-An-End-to-End-Workflow--Vmlldzo1NTAyMDQ1)

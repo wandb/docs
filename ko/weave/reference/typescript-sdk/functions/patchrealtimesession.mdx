@@ -1,0 +1,43 @@
+---
+title: "patchRealtimeSession"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="patchrealtimesession">
+  # patchRealtimeSession
+</div>
+
+▸ **patchRealtimeSession**(): `void`
+
+`@openai/agents-realtime`의 `RealtimeSession` 클래스를 수동으로 패치하여
+새로 생성되는 모든 인스턴스가 Weave에서 자동으로 트레이스되도록 합니다.
+
+**참고: 일반적으로는 이 함수를 호출할 필요가 없습니다!** `@openai/agents-realtime`는
+Weave를 임포트하면 모듈 로더 훅을 통해 자동으로 계측됩니다. 이 함수는 자동 계측이
+작동하지 않는 예외적인 상황(예: 동적 임포트, 훅을 우회하는 번들러)에서 사용할 수 있도록 제공됩니다.
+
+앱 시작 시점에 `RealtimeSession`이 하나라도 생성되기 전에 이 함수를 **한 번만** 호출하세요.
+이 함수는 멱등적이므로 여러 번 호출해도 안전합니다.
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+`예시`
+
+```typescript
+import { patchRealtimeSession } from 'weave';
+patchRealtimeSession();
+// 이제 모든 새로운 RealtimeSession(...)이 자동으로 계측됩니다
+```
+
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[integrations/openai.realtime.agent.ts:797](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.realtime.agent.ts#L797)
+
+***

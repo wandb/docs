@@ -1,0 +1,36 @@
+---
+title: ProjectArtifactCollections
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+## <kbd>class</kbd> `ProjectArtifactCollections`
+
+프로젝트에 속한 artifact collection입니다.
+
+**매개변수:**
+
+* `client`:  W&amp;B를 쿼리하는 데 사용할 클라이언트 인스턴스입니다.
+* `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
+* `project`:  artifact collection을 쿼리할 프로젝트 이름입니다.
+* `filters`:  쿼리에 적용할 필터의 매핑입니다(선택 사항).
+* `order`:  결과 순서를 지정하는 문자열입니다(선택 사항). `order` 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다.
+* `per_page`:  페이지당 가져올 artifact collection 수입니다. 기본값은 50입니다. 
+
+### <kbd>속성</kbd> ProjectArtifactCollections.cursor
+
+다음에 가져올 페이지의 시작 위치를 나타내는 불투명 커서입니다.
+
+이 값은 저장해 두었다가 나중에 페이지가 매겨진 쿼리의 `start=`에 전달하면, 이 paginator가 멈춘 지점부터 반복을 재개할 수 있습니다.
+
+**반환값:**
+
+* `str | None`: 커서 속성 값입니다.
+
+***
+
+### <kbd>속성</kbd> ProjectArtifactCollections.more

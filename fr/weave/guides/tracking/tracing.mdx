@@ -1,0 +1,72 @@
+---
+title: "Comprendre les Ops, les Appels et les Traces"
+description: "Découvrez comment les Ops, les Appels et les Traces forment la base du système de Tracing de W&B Weave."
+---
+
+<div id="ops">
+  ## Ops
+</div>
+
+Un **Op** est une fonction suivie et versionnée. Lorsque vous décorez une fonction avec `@weave.op()` (Python) ou l’enveloppez avec `weave.op()` (TypeScript), Weave capture automatiquement son code, ses entrées, ses sorties et ses métadonnées d’exécution. Les Ops sont les éléments de base du tracing, des scorers d’évaluation et de tout calcul suivi.
+
+<CodeGroup>
+  ```python Python
+      @weave.op
+      async def my_function(){
+        ...  }
+  ```
+
+  ```typescript Typescript
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+<div id="calls">
+  ## Appels
+</div>
+
+Un **Appel** est une exécution enregistrée d’une op. Chaque fois qu’une op s’exécute, Weave crée un Appel qui enregistre :
+
+* Les arguments d’entrée
+* La valeur de sortie
+* Le temps d’exécution et la latence
+* Les relations parent-enfant (pour les appels imbriqués)
+* Toutes les erreurs survenues
+
+Les appels apparaissent sous forme de **Traces** dans la Weave UI et fournissent les données nécessaires au débogage, à l’analyse et à l’évaluation. Pour la structure complète de l’objet Appel et ses propriétés, voir la [référence du schéma d’appel](/fr/weave/guides/tracking/call-schema-reference).
+
+Les appels sont comparables aux spans dans le modèle de données [OpenTelemetry](https://opentelemetry.io). Un Appel peut :
+
+* Appartenir à une trace (une collection d’appels dans le même contexte d’exécution)
+* Avoir des Appels parents et enfants, formant une structure arborescente
+
+<div id="traces">
+  ## Traces
+</div>
+
+Les traces sont des arborescences complètes d&#39;appels qui partagent le même contexte d&#39;exécution. Chaque trace contient un identifiant (`trace_id`) que vous pouvez utiliser pour récupérer l&#39;arborescence complète des appels. Si vous récupérez les informations d&#39;un appel à l&#39;aide de son ID, vous n&#39;obtenez que les données de l&#39;appel spécifié, et non celles de ses appels enfants.
+
+<div id="threads">
+  ## Threads
+</div>
+
+Les threads sont des ensembles de traces associés à une même session ou conversation. Les threads peuvent être utilisés pour effectuer une analyse ou un scoring sur la [conversation entière] dans son ensemble, plutôt que sur des appels individuels.
+
+Le schéma suivant illustre les relations entre les threads, les traces et les appels :
+
+```
+Thread: "session-abc"
+  ├── Turn 1 (trace_id: aaa) → user says "Hi"
+  │     ├── LLM call
+  │     └── format response
+  ├── Turn 2 (trace_id: bbb) → user says "What is the capitol of Paris?"
+  │     ├── RAG retrieval
+  │     ├── LLM call
+  │     └── format response
+  └── Turn 3 (trace_id: ccc) → user says "Thanks"
+        └── LLM call
+```

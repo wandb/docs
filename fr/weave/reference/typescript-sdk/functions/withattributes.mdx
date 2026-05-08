@@ -1,0 +1,55 @@
+---
+title: "withAttributes"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="withattributes">
+  # withAttributes
+</div>
+
+▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+
+Associe des attributs au contexte d’exécution actuel afin que tous les appels créés
+dans `fn` en héritent automatiquement. Les attributs sont écrits dans l’enregistrement de l’appel
+sur le serveur de trace et apparaissent dans Weave UI/le filtrage. Ils sont donc
+idéaux pour étiqueter des Runs avec des ID de requête, des tenants, des Experiments, etc.
+
+Exemple :
+
+```ts
+await withAttributes({requestId: 'abc'}, async () => {
+  await myOp();
+});
+```
+
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type                                |
+| :------ | :---------------------------------- |
+| `attrs` | `Record`&lt;`string`, `any`&gt;     |
+| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`T`&gt; | `T`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[clientApi.ts:193](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/clientApi.ts#L193)
+
+***

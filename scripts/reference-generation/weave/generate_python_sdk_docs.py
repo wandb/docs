@@ -201,7 +201,7 @@ title: "{title}"
 description: "Python SDK reference for {module_name}"
 ---
 
-import {{ SourceLink }} from '/snippets/en/_includes/source-link.mdx';
+import {{ SourceLink }} from '/snippets/_includes/source-link.mdx';
 
 """
         content = frontmatter + content

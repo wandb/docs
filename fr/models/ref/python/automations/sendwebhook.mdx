@@ -1,0 +1,45 @@
+---
+title: SendWebhook
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+
+
+## <kbd>class</kbd> `SendWebhook`
+
+Définit une action d’automatisation qui envoie une requête webhook.
+
+### <kbd>méthode</kbd> `SendWebhook.__init__`
+
+```python
+__init__(
+    integration_id: 'str',
+    request_payload: 'Annotated | None' = None,
+    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
+) → None
+```
+
+**Arguments :**
+
+* `integration_id` (str): L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
+* `request_payload` (Optional[Annotated]): La charge utile, éventuellement avec des variables de template, à envoyer dans la requête webhook.
+* `action_type` (Literal[GENERIC&#95;WEBHOOK]):
+
+**Retourne :**
+Un objet `SendWebhook`.
+
+
+### <kbd>méthode de classe</kbd> `SendWebhook.from_integration`
+
+```python
+from_integration(
+    integration: 'WebhookIntegration',
+    payload: 'Optional[JsonEncoded[dict[str, Any]]]' = None
+) → Self
+```
+
+Définissez une action webhook qui envoie à l’intégration (webhook) spécifiée.

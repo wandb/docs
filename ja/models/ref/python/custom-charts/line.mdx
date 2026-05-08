@@ -3,11 +3,13 @@ title: line()
 namespace: python_sdk_custom_charts
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py" />
 
-### <kbd>function</kbd> `line`
+
+### <kbd>関数</kbd> `line`
 
 ```python
 line(
@@ -22,46 +24,46 @@ line(
 
 カスタマイズ可能な折れ線グラフを作成します。
 
-**Args:**
+**引数:**
 
-- `table`: チャートのデータを含むテーブル。
-- `x`: x 軸の値に使用する列名。
-- `y`: y 軸の値に使用する列名。
-- `stroke`: 線の種類を区別するための列名（例：線をグループ化する場合など）。
-- `title`: チャートのタイトル。
-- `split_table`: W&B UI でテーブルを別のセクションに分割するかどうか。 `True` の場合、テーブルは "Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False` です。
+* `table`:   グラフ用のデータを含む表。
+* `x`:  x軸の値の列名。
+* `y`:  y軸の値の列名。
+* `stroke`:  線を区別するための列名 (例: 線のグループ化) 。
+* `title`:  グラフのタイトル。
+* `split_table`:  表を W&amp;B UI 内の別のセクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 
-**Returns:**
+**戻り値:**
 
-- `CustomChart`: W&B にログを記録できるカスタムチャートオブジェクト。チャートをログに記録するには、 `wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムグラフオブジェクト。グラフをログするには、これを `wandb.log()` に渡します。
 
-**Example:**
+**例:**
 
 ```python
 import math
 import random
 import wandb
 
-# 異なるパターンを持つ複数のデータシリーズを作成
+# 異なるパターンを持つ複数のデータ系列を作成する
 data = []
 for i in range(100):
-     # シリーズ 1: ランダムなノイズを含む正弦波パターン
+     # 系列1: ランダムノイズを含む正弦波パターン
      data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
-     # シリーズ 2: ランダムなノイズを含む余弦波パターン
+     # 系列2: ランダムノイズを含む余弦波パターン
      data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
-     # シリーズ 3: ランダムなノイズを含む線形増加
+     # 系列3: ランダムノイズを含む線形増加
      data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
 
-# テーブルの列を定義
+# 表の列を定義する
 table = wandb.Table(data=data, columns=["step", "value", "series"])
 
-# wandb run を初期化し、折れ線グラフをログに記録
+# wandb runを初期化して折れ線グラフをログする
 with wandb.init(project="line_chart_example") as run:
      line_chart = wandb.plot.line(
          table=table,
          x="step",
          y="value",
-         stroke="series",  # "series" 列でグループ化
+         stroke="series",  # "series"列でグループ化
          title="Multi-Series Line Plot",
      )
      run.log({"line-chart": line_chart})

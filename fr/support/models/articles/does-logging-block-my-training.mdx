@@ -1,0 +1,16 @@
+---
+title: "Le logging bloque-t-il mon entraînement ?"
+keywords: ["Experiments", "Logs"]
+---
+
+&quot;Le logging fonctionne-t-il en différé ? Je ne veux pas dépendre du réseau pour envoyer les résultats vers vos serveurs pendant l&#39;exécution d&#39;opérations locales.&quot;
+
+La fonction `wandb.log` écrit une ligne dans un fichier local et ne bloque pas les appels réseau. Lors de l&#39;appel à `wandb.init`, un nouveau processus démarre sur la même machine. Ce processus surveille les modifications du système de fichiers et communique de manière asynchrone avec le service web, ce qui permet aux opérations locales de se poursuivre sans interruption.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

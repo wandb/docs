@@ -3,7 +3,7 @@ title: fastai
 description: "Integrate W&B with fastai using the WandbCallback to track experiments, log metrics, and visualize model performance."
 ---
 
-import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
 You can integrate **fastai** with W&B using the `WandbCallback` class. Check out these [interactive docs with examples](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA) for more details.
 
@@ -179,7 +179,7 @@ notebook_launcher(train, num_processes=2)
 
 ### Log only on the main process
 
-In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
+In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init()` in all other processes)
 
 <Tabs>
 <Tab title="Script">

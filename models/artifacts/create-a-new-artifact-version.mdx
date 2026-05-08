@@ -35,7 +35,7 @@ Based on your use case, select one of the tabs below to create a new artifact ve
 <Tab title="Inside a run">
 Create an artifact version within a W&B run:
 
-1. Create a run with `wandb.init`.
+1. Create a run with `wandb.init()`.
 2. Create a new artifact or retrieve an existing one with `wandb.Artifact`.
 3. Add files to the artifact with `.add_file`.
 4. Log the artifact to the run with `.log_artifact`.
@@ -108,7 +108,7 @@ with wandb.init() as run:
 
 #### Run 3
 
-Must run after Run 1 and Run 2 complete. The Run that calls `finish_artifact` can include files in the artifact, but does not need to.
+Must run after Run 1 and Run 2 complete. The Run that calls `wandb.Run.finish_artifact()` can include files in the artifact, but does not need to.
 
 ```python
 with wandb.init() as run:

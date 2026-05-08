@@ -1,0 +1,20 @@
+---
+title: "コードを保存するにはどうすればよいですか‌"
+keywords: ["Artifacts"]
+---
+
+run を開始するメイン スクリプトまたはノートブックを保存するには、`wandb.init` で `save_code=True` を使用します。run のすべてのコードを保存するには、Artifacts でコードをバージョン管理します。次の例は、このプロセスを示しています。
+
+```python
+code_artifact = wandb.Artifact(type="code")
+code_artifact.add_file("./train.py")
+wandb.log_artifact(code_artifact)
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

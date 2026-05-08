@@ -1,0 +1,20 @@
+---
+title: "wandb をオフラインで実行できますか？"
+keywords: ["Experiments", "環境変数"]
+---
+
+オフラインのマシンでトレーニングを行う場合は、次の手順で結果をサーバーにアップロードします。
+
+1. 環境変数 `WANDB_MODE=offline` を設定すると、インターネット接続がなくてもメトリクスをローカルに保存できます。
+2. アップロードする準備ができたら、対象のディレクトリで `wandb init` を実行してプロジェクト名を設定します。
+3. `wandb sync YOUR_RUN_DIRECTORY` でメトリクスをクラウドサービスに転送し、ホスト型の Web アプリで結果を確認します。
+
+run がオフラインであることを確認するには、`wandb.init()` の実行後に `run.settings._offline` または `run.settings.mode` を確認します。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

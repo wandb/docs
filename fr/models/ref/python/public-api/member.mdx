@@ -1,0 +1,40 @@
+---
+title: Member
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+
+## <kbd>class</kbd> `Member`
+
+Un membre d’une équipe.
+
+### <kbd>méthode</kbd> `Member.__init__`
+
+```python
+__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+```
+
+**Arguments :**
+
+* `client` (`wandb.apis.internal.Api`) :  l’instance cliente à utiliser
+* `team` (str) :  le nom de l’équipe à laquelle appartient ce membre
+* `attrs` (dict) :  les attributs du membre
+
+***
+
+
+### <kbd>méthode</kbd> `Member.delete`
+
+```python
+delete()
+```
+
+Supprime un membre d’une équipe.
+
+**Retourne :**
+Booléen indiquant si l’opération a réussi

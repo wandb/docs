@@ -1,0 +1,16 @@
+---
+title: "ノートブックで「Run Finished」アラートは機能しますか？"
+keywords: ["アラート", "ノートブック"]
+---
+
+いいえ。**Run Finished** アラート (User Settings の **Run Finished** 設定で有効化) は Python スクリプトでのみ動作し、セルを実行するたびに通知が送られるのを避けるため、Jupyter Notebook 環境ではオフのままになります。
+
+代わりに、ノートブック環境では `run.alert()` を使用してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[アラート](/ja/support/models/tags/alerts)</Badge><Badge stroke shape="pill" color="orange" size="md">[ノートブック](/ja/support/models/tags/notebooks)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

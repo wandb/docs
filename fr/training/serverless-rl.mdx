@@ -1,0 +1,40 @@
+---
+title: Serverless RL
+description: Découvrez comment post-entraîner plus efficacement vos modèles à l’aide de l’apprentissage par renforcement
+---
+
+Désormais disponible en aperçu public, Serverless RL aide les développeurs à post-entraîner des LLM afin de leur faire acquérir de nouveaux comportements et d’améliorer la fiabilité, la rapidité et les coûts lors de l’exécution de tâches agentiques multi-tours. W&amp;B provisionne pour vous l’infrastructure d’entraînement ([sur CoreWeave](https://docs.coreweave.com/docs/platform)) tout en vous laissant une totale flexibilité dans la configuration de votre environnement. Serverless RL vous donne un accès immédiat à un cluster d’entraînement géré, capable de s’adapter automatiquement à plusieurs dizaines de GPU. En divisant les flux de travail RL en phases d’inférence et d’entraînement, puis en les multiplexant entre plusieurs jobs, Serverless RL augmente l’utilisation des GPU et réduit le temps d’entraînement ainsi que les coûts.
+
+Serverless RL est idéal pour des tâches telles que :
+
+* Agents vocaux
+* Assistants de recherche avancée
+* Modèles sur site
+* Agents d’analyse de contenu marketing
+
+Serverless RL entraîne des adaptateurs de bas rang (LoRA) afin de spécialiser un modèle pour la tâche spécifique de votre agent. Cela étend les capacités du modèle original grâce à l’expérience acquise en situation réelle. Les LoRA que vous entraînez sont automatiquement stockés en tant qu’Artifacts dans votre compte W&amp;B et peuvent être enregistrés localement ou chez un tiers à des fins de sauvegarde. Les modèles que vous entraînez avec Serverless RL sont également automatiquement hébergés sur W&amp;B Inférence.
+
+Voir le [Démarrage rapide](https://art.openpipe.ai/getting-started/quick-start) d’ART ou le [notebook Google Colab](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) pour commencer.
+
+<div id="why-serverless-rl">
+  ## Pourquoi Serverless RL ?
+</div>
+
+L’apprentissage par renforcement (RL) regroupe un ensemble de techniques d&#39;entraînement puissantes que vous pouvez utiliser dans de nombreux types de configurations d&#39;entraînement, y compris sur des GPU que vous possédez ou louez directement. Serverless RL peut offrir les avantages suivants pour votre post-entraînement RL :
+
+* **Coûts d&#39;entraînement réduits** : En mutualisant une infrastructure partagée entre de nombreux utilisateurs, en évitant le processus de configuration pour chaque job et en ramenant vos coûts GPU à 0 lorsque vous n&#39;entraînez pas activement, Serverless RL réduit considérablement les coûts d&#39;entraînement.
+* **Entraînement plus rapide** : En répartissant les requêtes d&#39;inférence sur de nombreux GPU et en provisionnant immédiatement l&#39;infrastructure d&#39;entraînement lorsque vous en avez besoin, Serverless RL accélère vos tâches d&#39;entraînement et vous permet d&#39;itérer plus rapidement.
+* **Déploiement automatique** : Serverless RL déploie automatiquement chaque checkpoint que vous entraînez, ce qui évite de configurer manuellement une infrastructure d&#39;hébergement. Les modèles entraînés sont immédiatement accessibles et testables dans des environnements locaux, de staging ou de production.
+
+<div id="how-serverless-rl-uses-wb-services">
+  ## Comment Serverless RL utilise les services W&amp;B
+</div>
+
+Serverless RL s&#39;appuie sur une combinaison des composants W&amp;B suivants pour fonctionner :
+
+* [Inférence](/fr/inference) : pour exécuter vos modèles
+* [Models](/fr/models) : pour suivre les métriques de performance pendant l&#39;entraînement de l&#39;adaptateur LoRA
+* [Artifacts](/fr/models/artifacts) : pour stocker et versionner les adaptateurs LoRA
+* [Weave (facultatif)](/fr/weave) : pour observer comment le modèle répond à chaque étape de la boucle d&#39;entraînement
+
+Serverless RL est en aperçu public. Pendant cette période, seuls l&#39;utilisation de l&#39;inférence et le stockage des Artifacts vous sont facturés. W&amp;B ne facture pas l&#39;entraînement des adaptateurs pendant la période d&#39;aperçu.

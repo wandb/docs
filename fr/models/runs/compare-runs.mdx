@@ -1,0 +1,239 @@
+---
+description: Apprenez à utiliser les runs épinglés et les runs de référence pour suivre les runs importants et évaluer efficacement les expériences de modèles.
+title: Épingler et comparer des runs
+---
+
+import PinRunsCondensed from '/snippets/fr/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
+
+Dans un Workspace comportant de nombreux runs, il peut être difficile de garder une vue d’ensemble de vos meilleurs résultats, de vos modèles de Production, de vos expériences ayant échoué ou de vos points de référence importants. L’application W&amp;B propose des fonctionnalités pour vous aider à organiser et comparer les runs :
+
+* **Runs épinglés** : Épinglez jusqu’à 6 runs pour les garder visibles dans le Workspace et en haut de la liste des runs. Si vous avez un run de référence, vous pouvez épingler jusqu’à 5 runs, car le run de référence est épinglé implicitement.
+* **Run de référence** : Définissez un run de référence comme référence pour les comparaisons. Le run de référence est toujours visible dans le Workspace et en haut de la liste des runs. Dans le tableau des runs, les deltas des métriques de synthèse montrent comment chaque run se compare au run de référence. Dans les graphiques en courbes, le run de référence apparaît avec un style visuellement distinct afin de faciliter la comparaison.
+
+![Graphique en courbes avec run de référence et runs épinglés](/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png)
+
+Ces fonctionnalités sont particulièrement utiles pour :
+
+* Comparer de nouvelles expériences à votre modèle de Production.
+* Suivre plusieurs modèles candidats pendant l’expérimentation.
+* Évaluer si de nouveaux runs améliorent vos meilleurs résultats.
+
+Voir [Limitations](#limitations).
+
+<div id="pin-runs">
+  ## Épingler des Runs
+</div>
+
+<PinRunsCondensed />
+
+<Frame>
+  ![Tableau des Runs avec des Runs épinglés](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+</Frame>
+
+Pour désépingler un run, cliquez sur l’icône en forme d’épingle, ou suivez la procédure pour épingler le run, puis sélectionnez **Désépingler le run**.
+
+<div id="manage-the-baseline-run">
+  ## Gérer le run de référence
+</div>
+
+Vous pouvez désigner un run comme référence du Workspace afin de l&#39;utiliser comme point de comparaison pour évaluer les autres runs de votre Workspace.
+
+Dans le sélecteur de runs et le tableau des runs, le run de référence apparaît en haut, à côté des runs épinglés, avec une icône de signet au lieu d&#39;une épingle.
+
+Dans les graphiques en courbes, les lignes du run de référence apparaissent plus épaisses que les autres. Lorsque vous survolez le graphique ou la légende, la ligne du run de référence s&#39;affiche en pointillés.
+
+<Frame>
+  ![Démo de la comparaison d'un autre run avec le run de référence](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+</Frame>
+
+<div id="set-a-baseline-run">
+  ### Définir un run de référence
+</div>
+
+Pour définir un run de référence :
+
+1. Accédez à votre Workspace.
+2. Dans le sélecteur de runs ou le tableau des runs, repérez le run que vous souhaitez utiliser comme référence.
+3. Cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)**, puis sélectionnez **Définir comme référence**.
+
+Le run de référence apparaît en haut du sélecteur de runs, séparé des autres runs par un séparateur visuel. Le run de référence est indiqué par une icône de signet au lieu d’un cercle.
+
+<Frame>
+  ![Tableau Runs montrant un run de référence et des runs épinglés](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
+</Frame>
+
+<div id="change-the-baseline-run">
+  ### Changer le run de référence
+</div>
+
+Un seul run peut servir de référence à la fois. Pour changer le run de référence :
+
+1. Accédez à votre Workspace.
+2. Dans le sélecteur de runs ou le tableau des Runs, trouvez le run que vous souhaitez utiliser comme nouvelle référence.
+3. Cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)**, puis sélectionnez **Remplacer la référence**. <Note>Si l’élément de menu est inactif, assurez-vous qu’au moins un emplacement d’épinglage est disponible. Si nécessaire, désépinglez un run épinglé en cliquant sur l’icône d’épingle circulaire à côté de ce run.</Note>
+4. Le nouveau run devient la référence, et la référence précédente est automatiquement épinglée afin que vous puissiez la retrouver facilement. Si vous le souhaitez, désépinglez-la en cliquant sur son icône d’épingle.
+
+<div id="remove-the-baseline-designation">
+  ### Supprimer la désignation de référence
+</div>
+
+Pour supprimer la désignation de référence :
+
+1. Accédez à votre Workspace.
+2. Dans le sélecteur de runs ou le tableau des Runs, recherchez le run de référence actuel.
+3. Cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)**, puis sélectionnez **Supprimer la référence**. <Note>Si cette option de menu est grisée, assurez-vous qu’au moins un emplacement d’épinglage est disponible. Si nécessaire, désépinglez un run épinglé en cliquant sur l’icône d’épingle circulaire à côté de ce run.</Note>
+4. La référence précédente est automatiquement épinglée afin que vous puissiez la retrouver facilement. Si vous le souhaitez, désépinglez-la en cliquant sur son icône d’épingle.
+
+<div id="compare-runs-to-the-baseline">
+  ## Comparez les runs au run de référence
+</div>
+
+Le run de référence est toujours visible dans les graphiques en courbes pour les métriques qu’il a enregistrées. Dans les graphiques en courbes, les lignes du run de référence apparaissent plus épaisses que les autres lignes.
+
+* Survolez une partie du graphique pour afficher une info-bulle contenant les valeurs de tous les runs visibles, y compris le run de référence et les runs épinglés.
+  <Frame>
+    ![Démonstration montrant les détails de tous les runs visibles à un point donné](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
+  </Frame>
+* Survolez l’étiquette de légende du run de référence pour mettre la ligne en évidence. Elle apparaît sous la forme d’une ligne pointillée épaisse. Les lignes des autres runs visibles apparaissent avec une saturation réduite.
+  <Frame>
+    ![Démonstration montrant les détails du run de référence](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
+  </Frame>
+* Survolez l’étiquette de légende d’un autre run pour mettre en évidence la ligne de ce run et la comparer au run de référence, qui apparaît sous la forme d’une ligne pointillée épaisse. Les lignes des autres runs visibles apparaissent avec une saturation réduite.
+  <Frame>
+    ![Démonstration de la comparaison d’un autre run avec le run de référence](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+  </Frame>
+
+<div id="summary-metric-deltas">
+  ### Deltas des métriques de synthèse
+</div>
+
+Lorsqu’un run est défini comme référence, chaque autre run qui enregistre la même métrique de synthèse que le run de référence affiche, par défaut, le delta (la variation) de cette métrique par rapport à la référence. Le delta apparaît à droite de la valeur de la métrique, sur la ligne du run dans le tableau des runs.
+
+Par défaut, le delta s’affiche en gris foncé sur un fond gris foncé. Pour activer une coloration sémantique permettant un repérage visuel rapide, vous pouvez définir la **directionnalité de la métrique** pour une colonne. Une fois la directionnalité définie :
+
+* Si l’autre run **surpasse** (est directionnellement meilleur que) la référence, le delta s’affiche en rouge foncé sur un fond rouge clair.
+* Si l’autre run **est moins performant** (est directionnellement moins bon que) la référence, le delta s’affiche en bleu canard foncé sur un fond bleu canard clair.
+
+Pour définir la directionnalité d’une métrique :
+
+1. Dans le tableau des runs, survolez l’en-tête de la colonne de la métrique.
+2. Cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** qui apparaît.
+3. Définissez **Directionnalité de la métrique** sur **Les valeurs les plus élevées sont préférables** ou **Les valeurs les plus faibles sont préférables**.
+
+La capture d’écran suivante montre comment les runs `nanochat-train-base` et `nanochat-train-mid` se comparent au run de référence `nanochat-train`. Des métriques delta sont affichées pour `TOTAL_TRAINING_TIME`, `TRAIN/DT` et `TRAIN/GRAD_NORM`.
+![Capture d’écran comparant les deltas des métriques de synthèse par rapport au run de référence](/images/models/pinned-and-baseline-runs/baseline_run_deltas.png)
+
+<div id="hide-summary-metric-deltas-in-a-workspace">
+  ## Masquer les deltas des métriques de synthèse dans un workspace
+</div>
+
+Par défaut, un workspace avec un run de référence affiche toujours les deltas des métriques de synthèse. Pour les masquer dans un workspace :
+
+1. Dans le workspace, cliquez sur **Settings**.
+2. Dans le volet qui s’ouvre, cliquez sur **Runs**.
+3. Dans l’onglet **Baseline**, basculez **Show value deltas in the runs table**.
+4. Fermez le volet des paramètres du workspace.
+
+<div id="use-cases">
+  ## Cas d’usage
+</div>
+
+Cette section décrit quelques scénarios dans lesquels les runs épinglés et les runs de référence peuvent vous aider à orienter vos expériences.
+
+* **Suivre les modèles en Production** : assurez-vous que les nouveaux modèles atteignent votre niveau de qualité avant le déploiement.
+  1. Définissez votre modèle en Production comme référence.
+  2. Comparez toutes les expériences à votre modèle déployé afin d’identifier les candidats plus performants que celui en Production.
+* **Comparer des expériences d’hyperparamètres** : évaluez des Sweeps d’hyperparamètres ou des expériences manuelles par rapport à votre meilleure configuration connue.
+  1. Définissez votre meilleure configuration connue comme référence.
+  2. Épinglez les candidats prometteurs à mesure que vous les identifiez.
+  3. Utilisez les graphiques en courbes pour comparer visuellement les runs à la référence.
+  4. Continuez à mettre à jour la référence à mesure que vous trouvez de meilleures configurations.
+
+<div id="example-workflow">
+  ## Exemple de flux de travail
+</div>
+
+Cette section montre comment les runs épinglés et les runs de référence peuvent vous aider à comparer des runs.
+
+1. Exécutez cet exemple de code, qui simule un scénario d&#39;ajustement d&#39;hyperparamètres avec une série de runs. Remplacez les espaces réservés entourés de chevrons (`<>`) par vos propres valeurs.
+
+   ```python
+   import wandb
+   import random
+   import math
+
+   def train_model(learning_rate, batch_size, run_name, tags=None):
+       """Simuler l'entraînement d'un modèle avec les hyperparamètres donnés."""
+       config = {
+           "learning_rate": learning_rate,
+           "batch_size": batch_size,
+           "optimizer": "adam",
+           "architecture": "resnet50"
+       }
+       
+       with wandb.init(
+         # Remplacez par le nom de votre équipe et de votre projet
+           project="hyperparameter-tuning",
+           entity="<team>",
+           name=run_name,
+           config=config,
+           tags=tags or []
+       ) as run:
+           # Simuler la boucle d'entraînement
+           for epoch in range(50):
+               # Métriques simulées
+               accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+               loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+               
+               run.log({
+                   "epoch": epoch,
+                   "accuracy": accuracy,
+                   "loss": loss
+               })
+
+   # Créer un run de référence avec la configuration standard
+   train_model(
+       learning_rate=0.001,
+       batch_size=64,
+       run_name="baseline-config",
+       tags=["baseline", "production"]
+   )
+
+   # Tester différentes valeurs de taux d'apprentissage
+   train_model(
+       learning_rate=0.003,
+       batch_size=64,
+       run_name="lr-experiment-0.003",
+       tags=["experiment"]
+   )
+
+   train_model(
+       learning_rate=0.0001,
+       batch_size=64,
+       run_name="lr-experiment-0.0001",
+       tags=["experiment"]
+   )
+   ```
+
+   Après avoir exécuté ce code, votre Workspace contient trois runs.
+2. Définissez `baseline-config` comme run de référence.
+3. Épinglez `baseline-config` pour le garder visible.
+4. Comparez les runs d&#39;expérience au run de référence.
+
+* Dans le tableau des runs, examinez les deltas des métriques de synthèse affichés à côté des valeurs de chaque run pour comparer ce run à la référence.
+  * Dans les graphiques en courbes, comparez les performances d&#39;un ou de plusieurs runs à la référence, qui reste toujours visible.
+
+5. Épinglez les expériences prometteuses pour les examiner plus en détail. Dans cet exemple, après 50 époques, `lr-experiment-0.003` a l&#39;accuracy la plus élevée (`~0.64`) et la perte la plus faible (`~0.86`).
+
+{/* TODO capture d'écran */}
+
+<div id="limitations">
+  ## Limitations
+</div>
+
+Les fonctionnalités suivantes ne sont pas encore prises en charge pour les runs épinglés et les runs de référence :
+
+* **Regroupement** : lors de la [consultation des runs](/fr/models/runs#view-logged-runs) dans le sélecteur de runs ou le tableau des runs, si les runs sont regroupés selon une colonne, les runs épinglés et les runs de référence ne se distinguent pas visuellement des autres runs.
+* **Reports** : dans un ensemble de runs d’un [W&amp;B Report](/fr/models/reports), les runs épinglés et les runs de référence ne se distinguent pas visuellement des autres runs.
+* **Vue Workspace uniquement** : le run de référence n’apparaît pas lors de l’affichage du Workspace d’un seul run.
+* **Graphiques en courbes uniquement** : la comparaison avec la référence est disponible uniquement pour les graphiques en courbes et n’est pas encore disponible pour les autres panneaux, comme les graphiques en barres ou les panneaux média.

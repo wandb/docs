@@ -1,0 +1,96 @@
+---
+description: L'entraînement et l'inférence à grande échelle en toute simplicité, avec efficacité et flexibilité
+title: Hugging Face Accelerate
+---
+
+Hugging Face Accelerate est une bibliothèque qui permet d&#39;exécuter le même code PyTorch sur n&#39;importe quelle configuration distribuée, afin de simplifier l&#39;entraînement des modèles et l&#39;inférence à grande échelle.
+
+Accelerate inclut un suivi W&amp;B, que nous expliquons comment utiliser ci-dessous. Vous pouvez aussi en savoir plus sur les [suivis Accelerate dans Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
+
+<div id="start-logging-with-accelerate">
+  ## Commencez à journaliser avec Accelerate
+</div>
+
+Pour démarrer avec Accelerate et W&amp;B, vous pouvez suivre le pseudocode ci-dessous :
+
+```python
+from accelerate import Accelerator
+
+# Indiquer à l'objet Accelerator de journaliser avec wandb
+accelerator = Accelerator(log_with="wandb")
+
+# Initialiser votre run wandb en transmettant les paramètres wandb et toute information de configuration
+accelerator.init_trackers(
+    project_name="my_project",
+    config={"dropout": 0.1, "learning_rate": 1e-2}
+    init_kwargs={"wandb": {"entity": "my-wandb-team"}}
+    )
+
+...
+
+# Journaliser dans wandb en appelant accelerator.log() ; step est facultatif
+accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
+
+
+# S'assurer que le suivi wandb se termine correctement
+accelerator.end_training()
+```
+
+Plus précisément, vous devez :
+
+1. Passer `log_with="wandb"` lors de l&#39;initialisation de la classe Accelerator
+2. Appeler la méthode [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) et lui transmettre :
+
+* un nom de projet via `project_name`
+* tous les paramètres que vous souhaitez passer à [`wandb.init()`](/fr/models/ref/python/functions/init) via un `dict` imbriqué dans `init_kwargs`
+* toute autre information de configuration de l&#39;expérience que vous souhaitez journaliser dans votre run wandb, via `config`
+
+3. Utiliser la méthode `wandb.Run.log()` pour journaliser dans Weights &amp; Biases ; l&#39;argument `step` est facultatif
+4. Appeler `.end_training()` une fois l&#39;entraînement terminé
+
+<div id="access-the-wb-tracker">
+  ## Accéder à l’outil de suivi W&amp;B
+</div>
+
+Pour accéder à l’outil de suivi W&amp;B, utilisez la méthode `Accelerator.get_tracker()`. Passez la chaîne correspondant à l’attribut `.name` d’un outil de suivi ; la méthode renvoie alors cet outil de suivi sur le processus `main`.
+
+```python
+wandb_tracker = accelerator.get_tracker("wandb")
+
+```
+
+Vous pouvez ensuite interagir normalement avec l’objet run de wandb :
+
+```python
+wandb_tracker.log_artifact(some_artifact_to_log)
+```
+
+<Warning>
+  Les suivis intégrés à Accelerate s’exécutent automatiquement sur le bon processus. Ainsi, si un suivi ne doit être exécuté que sur le processus principal, il le sera automatiquement.
+
+  Si vous souhaitez vraiment supprimer complètement l’encapsulation d’Accelerate, vous pouvez obtenir le même résultat avec :
+
+  ```python
+  wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
+  with accelerator.on_main_process:
+      wandb_tracker.log_artifact(some_artifact_to_log)
+  ```
+</Warning>
+
+<div id="accelerate-articles">
+  ## Articles sur Accelerate
+</div>
+
+Vous trouverez ci-dessous un article sur Accelerate susceptible de vous intéresser
+
+<details>
+  <summary>HuggingFace Accelerate optimisé avec W&amp;B</summary>
+
+  * Dans cet article, nous examinons ce que HuggingFace Accelerate a à offrir et à quel point il est simple d&#39;effectuer un entraînement et une évaluation distribués, tout en enregistrant les résultats dans W&amp;B.
+
+  Lire le [rapport Hugging Face Accelerate optimisé avec W&amp;B](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W\&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs\&utm_medium=docs\&utm_campaign=accelerate-docs).
+</details>
+
+<br />
+
+<br />

@@ -1,0 +1,122 @@
+---
+title: "Configurer les automatisations"
+description: "Créez des automatisations basées sur des événements qui déclenchent des actions en fonction des métriques des monitors et de l’activité des traces."
+---
+
+Les automatisations vous permettent de définir des règles basées sur des événements qui déclenchent des actions lorsque certaines conditions sont remplies dans votre project. Au lieu de surveiller manuellement les tableaux de bord pour repérer les changements de métriques, vous configurez une automatisation une seule fois, et W&amp;B Weave exécute une action pour vous lorsque l’événement se produit. Cas d’usage :
+
+* **Alerte de seuil** : Envoyez une notification Slack lorsque le score moyen d’un monitor franchit un seuil.
+* **Détection de régression** : Envoyez une alerte lorsqu’un scorer détecte une baisse de la précision ou une hausse de la toxicité.
+* **Contrôle de déploiement** : Déclenchez un webhook lorsqu’une métrique de qualité dépasse un seuil de confiance sur une fenêtre glissante.
+* **Surveillance opérationnelle** : Envoyez une alerte lorsque les taux d’erreur ou les métriques de latence évoluent.
+
+Vous gérez les automatisations dans l’interface Weave, sans aucune modification de code.
+
+<div id="create-an-automation">
+  ## Créer une automatisation
+</div>
+
+Créez une automatisation en configurant l’événement déclencheur, puis en sélectionnant l’action à exécuter.
+
+<div id="prerequisites">
+  ### Prérequis
+</div>
+
+L&#39;événement déclencheur (par exemple un Op ou un monitor) et l&#39;action (par exemple une intégration Slack) doivent exister avant de créer l&#39;automatisation qui les relie.
+
+* Dans Weave, configurez un [Op](/fr/weave/guides/tracking/create-call) ou un [monitor](/fr/weave/guides/evaluation/monitors) qui vous intéresse.
+* Dans Team Settings, configurez une [intégration Slack](/fr/models/automations/create-automations/slack#add-a-slack-integration) ou un [webhook](/fr/models/automations/create-automations/webhook#create-a-webhook).
+
+<div id="step-1-event-configuration">
+  ### Étape 1 : Configuration de l&#39;événement
+</div>
+
+La configuration de l&#39;événement définit la condition qui déclenche l&#39;automatisation. Vous sélectionnez une métrique de monitor, une fenêtre temporelle et un seuil.
+
+Pour créer une automatisation :
+
+1. Accédez à [wandb.ai](https://wandb.ai) et ouvrez votre projet.
+2. Dans la barre latérale du projet, cliquez sur **Automatisations**.
+3. Dans l&#39;en-tête de la page **Automatisations**, cliquez sur **Create automation**.
+4. Dans la boîte de dialogue modale **Create automation**, configurez l&#39;événement :
+   * **Event** : sélectionnez le type d&#39;événement qui déclenche cette automatisation, par exemple un seuil de métrique Weave.
+   * **Source** : sélectionnez la source de l&#39;automatisation, **Operation** ou **Monitor**, dans votre projet.
+     * **Operation** : sélectionnez le **Op name** dont les traces sont évaluées par le monitor. La liste contient les Ops ayant enregistré au moins une trace dans le projet.
+     * **Monitor** : sélectionnez le **Monitor** qui produit la métrique que vous souhaitez suivre.
+   * **métrique** : sélectionnez la métrique à mesurer pour l&#39;alerte.
+   * **Seuil de métrique** : définissez la condition qui déclenche l&#39;automatisation. Sélectionnez un comparateur (par exemple, « is above ») et indiquez la valeur de seuil (par exemple, `0.9`).
+   * **Fenêtre** : configurez la fenêtre utilisée pour déclencher l&#39;automatisation sur **Time-based** ou **Count-based**. Sélectionnez la fonction d&#39;agrégation (par exemple, **Average**) et la période glissante (par exemple, **1 day**).
+   * **agrégation** : définissez la fonction d&#39;agrégation (par exemple, moyenne, médiane ou minimum) à appliquer aux valeurs de métrique dans la fenêtre avant de les comparer au seuil.
+5. Vérifiez le graphique **Alert preview** pour confirmer que les seuils sont configurés de façon à déclencher l&#39;alerte comme attendu.
+6. Cliquez sur **Next step** pour passer à la configuration de l&#39;action.
+
+<div id="step-2-action-configuration">
+  ### Étape 2 : Configuration de l&#39;action
+</div>
+
+La configuration de l&#39;action définit l&#39;action qui se produit lorsque la condition de l&#39;événement est remplie.
+
+Pour configurer l&#39;action :
+
+1. Dans le panneau **Step 2 of 3**, configurez :
+   * **Team** : Sélectionnez l&#39;équipe qui doit recevoir la notification.
+   * **Action type** : Sélectionnez le type d&#39;action à effectuer, par exemple l&#39;envoi d&#39;une **notification Slack**.
+   * **Action details** : Selon le type d&#39;action, fournissez la configuration requise :
+     * Pour les notifications Slack, sélectionnez le **Slack channel** auquel envoyer la notification.
+     * Pour les webhooks, fournissez le nom du **Webhook** et le **Payload**.
+2. Cliquez sur **Next step** pour passer à la synthèse.
+
+<div id="step-3-summary">
+  ### Étape 3 : Synthèse
+</div>
+
+L&#39;étape de synthèse affiche un aperçu complet de l&#39;automatisation avant de l&#39;enregistrer.
+
+Pour enregistrer :
+
+1. Configurez les métadonnées de l&#39;automatisation :
+   * **Nom de l&#39;automatisation** : Fournissez un nom pour l&#39;automatisation, qui sera affiché dans le tableau Automatisations.
+   * **Description** (facultatif) : Ajoutez une description pour aider à identifier l&#39;objectif de l&#39;automatisation.
+2. Cliquez sur **Create automation** pour créer l&#39;automatisation.
+
+La nouvelle automatisation apparaît dans le tableau Automatisations de la page Automatisations.
+
+<div id="create-an-automation-from-a-monitor">
+  ## Créer une automatisation à partir d’un monitor
+</div>
+
+Vous pouvez également créer des automatisations directement depuis la vue détaillée d’un monitor. Cette approche préremplit la configuration de l’événement avec le contexte du monitor, ce qui accélère la configuration. Avant de créer l’automatisation, configurez une [intégration Slack](/fr/models/automations/create-automations/slack#add-a-slack-integration) ou un [webhook](/fr/models/automations/create-automations/webhook#create-a-webhook) que vous souhaitez utiliser comme action sélectionnée.
+
+Pour créer une automatisation à partir d’un monitor :
+
+1. Dans la barre latérale du projet Weave, cliquez sur **Monitors**.
+2. Dans le tableau **Monitors**, cliquez sur le nom du monitor pour ouvrir son panneau de détails.
+3. Dans le panneau de détails du monitor, sélectionnez l’onglet **Automatisations** pour afficher les automatisations existantes pour ce monitor.
+4. Dans la barre d’outils de la section **Automatisations**, cliquez sur **Create automation**.
+5. Dans le panneau **Create automation**, la configuration de l’événement est préremplie avec les détails du monitor sélectionné. Ajustez la configuration selon vos besoins :
+   * **métrique** : Sélectionnez la métrique à mesurer pour l’alerte.
+   * **Seuil de métrique** : Définissez la condition qui déclenche l’automatisation. Sélectionnez un comparateur (par exemple « is above ») et indiquez la valeur seuil (par exemple `0.9`).
+   * **Fenêtre** : Configurez la fenêtre utilisée pour déclencher l’automatisation afin qu’elle soit soit **basée sur le temps**, soit **basée sur le nombre**. Sélectionnez la fonction d’agrégation (par exemple **Average**) et la période glissante (par exemple **1 day**).
+   * **agrégation** : Définissez la fonction d’agrégation (par exemple moyenne, médiane, minimum) à appliquer aux valeurs de la métrique dans la fenêtre avant de les comparer au seuil.
+6. Cliquez sur **Next**, puis effectuez les étapes restantes (sélectionner une action et enregistrer) comme décrit dans [Créer une automatisation](#create-an-automation).
+
+<div id="view-and-manage-automations">
+  ## Afficher et gérer les automatisations
+</div>
+
+Toutes les automatisations de votre projet sont répertoriées sur la page **Automatisations**. Le tableau affiche les informations suivantes pour chaque automatisation :
+
+* **Automatisation** : le nom et la description de l’automatisation.
+* **Type d’événement** : le type d’événement qui déclenche l’automatisation.
+* **Type d’action** : l’action déclenchée, par exemple la génération d’une notification Slack.
+* **Date de création** : la date de création de l’automatisation.
+* **Dernière exécution** : la date du dernier déclenchement de l’automatisation.
+
+Pour afficher les automatisations :
+
+1. Dans la barre latérale du projet Weave, cliquez sur **Automatisations**.
+2. Utilisez le champ de recherche dans la barre d’outils du tableau pour filtrer les automatisations par nom.
+
+Vous pouvez cliquer sur le nom d’une automatisation pour ouvrir son volet latéral et consulter ses détails complets.
+
+L’onglet History affiche l’historique de toutes les automatisations déclenchées. Lorsqu’une automatisation se déclenche, Weave crée une instance d’automatisation qui enregistre ce qui s’est passé. Vous pouvez examiner ces instances pour comprendre quand et pourquoi une automatisation s’est déclenchée.

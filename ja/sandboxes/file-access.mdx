@@ -1,0 +1,95 @@
+---
+title: ファイル操作
+description: W&B Sandboxes でファイルを読み取り、書き込み、マウントする方法を学びます。
+---
+
+<Warning>W&amp;B Sandboxes は招待制のプライベートプレビューです。登録をリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。</Warning>
+
+ファイル操作を使用すると、ローカル環境とサンドボックスの間でデータを共有できます。サンドボックスからファイルを読み取ったり、サンドボックスにファイルを書き込んだり、ローカルのファイルやディレクトリをサンドボックスにマウントしたりできます。
+
+たとえば、Python スクリプトをサンドボックスに書き込んで実行し、出力ファイルをローカル環境に読み戻すことができます。また、機械学習ジョブ用のトレーニングデータ ディレクトリをサンドボックスにマウントすることもできます。
+
+<Tip>
+  **適切なファイルアクセス方法を選択してください**
+
+  コピーせずにサンドボックスからローカル データにアクセスする必要がある場合は、ファイルまたはディレクトリをマウントします。
+
+  ローカル環境とサンドボックスの間で小さなファイルを転送する場合や、サンドボックスの出力をローカルに保存する場合は、ファイルの読み取りと書き込みを使用します。
+</Tip>
+
+<div id="write-a-file-to-the-sandbox">
+  ## サンドボックスにファイルを書き込む
+</div>
+
+{/* データの作成、更新、変更、保存 */}
+
+{/* ファイルを サンドボックス に転送します。サンドボックス コードで必要な入力（スクリプト、設定、データ ファイル）をアップロードするために使用します。 */}
+
+[`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) メソッドを使用して、ローカル環境からサンドボックスへファイルを転送します。
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+# サンドボックスに書き込むローカルファイルのパス
+text_file = Path("hello.txt")
+
+with Sandbox.run() as sandbox:
+    # サンドボックスにファイルを書き込む
+    sandbox.write_file("hello.txt", text_file.read_bytes()).result()
+```
+
+`Sandbox` クラスのリファレンスドキュメントで、[`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) のパラメーターとオプションの完全な一覧を参照してください。
+
+<div id="read-a-file-from-the-sandbox">
+  ## サンドボックス内のファイルを読み込む
+</div>
+
+[`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) メソッドを使用して、サンドボックスからローカル環境へファイルを保存します。
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    # デモ: 読み返すためのファイルをサンドボックス内に作成する
+    sandbox.exec(["sh", "-c", "echo 'Hello, world.' > hello.txt"]).result()
+
+    # ローカルマシンにファイルを保存する（サンドボックス外）
+    content = sandbox.read_file("hello.txt").result()  # b"Hello, world.\n"
+    Path("hello.txt").write_bytes(content)
+```
+
+パラメーターとオプションの一覧については、[`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) の `Sandbox` クラスのリファレンスドキュメントを参照してください。
+
+<div id="mount-a-file-or-directory">
+  ## ファイルまたはディレクトリをマウントする
+</div>
+
+マウントしたファイルを使用すると、作成時にローカルファイルをサンドボックスに渡せます。実行中のサンドボックスにファイルを転送する `Sandbox.write_file()` とは異なり、マウントしたファイルはサンドボックスの起動直後から利用できます。マウントしたファイルは、指定したパスでサンドボックス内から利用できます。
+
+<Info>マウントしたファイルは、サンドボックス内では読み取り専用です。サンドボックス内でファイルを変更する必要がある場合は、代わりに `Sandbox.write_file()` を使用してください。</Info>
+
+次のコードスニペットでは、ローカルファイルの `train.py` と `requirements.txt` をサンドボックスのルートディレクトリにマウントしています。サンドボックスは `requirements.txt` から依存関係をインストールし、その後 `train.py` を実行します。
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+mounted_files = [
+    {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
+    {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
+        ]
+
+print("Starting sandbox...")
+with Sandbox.run(mounted_files=mounted_files) as sandbox:
+
+    # マウントされたファイルは、指定されたマウントパスでサンドボックス内で利用可能です
+    print("Installing dependencies...")
+    result = sandbox.exec(["pip", "install", "-r", "requirements.txt"], check=True).result()
+    print(result.stdout)
+
+    print("Running script...")
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```

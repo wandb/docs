@@ -1,0 +1,108 @@
+---
+title: "Call 표시 이름 설정"
+description: "W&B Weave 트레이싱에서 Call의 표시 이름을 설정하거나 재정의합니다"
+---
+
+Ops는 Calls를 생성합니다. Op는 `@weave.op`으로 데코레이션한 함수 또는 메서드입니다. 기본적으로 Op의 이름은 함수 이름이며, 해당 Op에 연결된 Calls도 동일한 표시 이름을 가집니다.
+
+특정 Op의 모든 Calls에 대한 표시 이름은 여러 가지 방법으로 재정의할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    1. Op를 호출할 때 표시 이름을 변경합니다.
+       다음 예제에서는 `__weave` 딕셔너리를 사용해 Op 표시 이름보다 우선하는 Call 표시 이름을 설정합니다:
+
+    ```python lines
+    result = my_function("World", __weave={"display_name": "My Custom Display Name"})
+    ```
+
+    2. Call별로 표시 이름을 변경합니다.
+       다음 예제에서는 [`Op.call`](/ko/weave/reference/python-sdk/trace/op#function-call) 메서드를 사용해 `call` 객체를 반환한 다음, [`call.set_display_name`](/ko/weave/reference/python-sdk/trace/weave_client#method-set_display_name)을 사용해 표시 이름을 설정합니다:
+
+    ```python lines
+    result, call = my_function.call("World")
+    call.set_display_name("My Custom Display Name")
+    ```
+
+    3. 특정 Op의 모든 Calls에 대한 표시 이름을 변경합니다.
+       다음 예제에서는 `@weave.op` 함수 데코레이터 자체에 새 표시 이름을 설정하여 해당 Op의 모든 Calls에 적용합니다:
+
+    ```python lines
+    @weave.op(call_display_name="My Custom Display Name")
+    def my_function(name: str):
+        return f"Hello, {name}!"
+    ```
+
+    `call_display_name`은 `call` 객체를 받아 문자열을 반환하는 함수일 수도 있습니다. 함수가 실행될 때 Weave가 `call` 객체를 자동으로 전달하므로, 이를 사용해 함수 이름, Call 입력값, 필드 등을 기반으로 이름을 동적으로 생성할 수 있습니다.
+
+    일반적인 사용 사례 중 하나는 함수 이름에 타임스탬프를 덧붙이는 것입니다.
+
+    ```python lines
+    from datetime import datetime
+
+    @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
+    def func():
+        return ...
+    ```
+
+    `.attributes`를 사용해 맞춤형 메타데이터를 로깅할 수도 있습니다.
+
+    ```python lines
+    def custom_attribute_name(call):
+        model = call.attributes["model"]
+        revision = call.attributes["revision"]
+        now = call.attributes["date"]
+
+        return f"{model}__{revision}__{now}"
+
+    @weave.op(call_display_name=custom_attribute_name)
+    def func():
+        return ...
+
+    with weave.attributes(
+        {
+            "model": "finetuned-llama-3.1-8b",
+            "revision": "v0.1.2",
+            "date": "2024-08-01",
+        }
+    ):
+        func()  # 표시 이름은 "finetuned-llama-3.1-8b__v0.1.2__2024-08-01"이 됩니다
+
+        with weave.attributes(
+            {
+                "model": "finetuned-gpt-4o",
+                "revision": "v0.1.3",
+                "date": "2024-08-02",
+            }
+        ):
+            func()  # 표시 이름은 "finetuned-gpt-4o__v0.1.3__2024-08-02"이 됩니다
+    ```
+
+    4. Op 자체의 표시 이름을 변경합니다.
+       Op와 연결된 Calls는 동일한 표시 이름을 가집니다. Op 자체의 이름을 재정의하면 Call의 표시 이름도 함께 변경됩니다. 다음 두 가지 방법으로 설정할 수 있습니다:
+
+    * Calls가 로깅되기 전에 Op의 `name` 속성을 설정합니다:
+
+    ```python lines
+    my_function.name = "My Custom Op Name"
+    ```
+
+    * Op 데코레이터에서 `name` 옵션을 설정합니다:
+
+    ```python lines
+    @weave.op(name="My Custom Op Name")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    call의 기본 이름을 재정의하려면 `weave.op()`을 호출할 때 `callDisplayName` 옵션을 사용합니다.
+
+    ```typescript lines {2}
+    const extractDinosOp = weave.op(extractDinos, {
+    callDisplayName: (input: string) => `Your New Display Name`
+    });
+    ```
+  </Tab>
+</Tabs>
+
+실행 후에도 [call의 표시 이름을 업데이트](/ko/weave/guides/tracking/update-call)할 수 있습니다.

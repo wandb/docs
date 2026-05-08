@@ -1,0 +1,26 @@
+---
+title: "Comment puis-je résoudre une erreur de délai d’attente lors de l’initialisation d’un run dans wandb ?"
+keywords: ["Connectivité", "Plantage de run"]
+---
+
+Pour résoudre une erreur de délai d’attente lors de l’initialisation d’un run, suivez ces étapes :
+
+* **Réessayer l’initialisation** : Essayez de relancer le run.
+* **Vérifier la connexion réseau** : Assurez-vous que votre connexion Internet est stable.
+* **Mettre à jour la version de wandb** : Installez la dernière version de wandb.
+* **Augmenter le délai d’attente** : Modifiez la variable d’environnement `WANDB_INIT_TIMEOUT` :
+  ```python
+  import os
+  os.environ['WANDB_INIT_TIMEOUT'] = '600'
+  ```
+* **Activer le débogage** : Définissez `WANDB_DEBUG=true` et `WANDB_CORE_DEBUG=true` pour obtenir des journaux détaillés.
+* **Vérifier la configuration** : Vérifiez que la clé API et les paramètres du projet sont corrects.
+* **Examiner les journaux** : Inspectez `debug.log`, `debug-internal.log`, `debug-core.log` et `output.log` pour repérer les erreurs.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Connectivité](/fr/support/models/tags/connectivity)</Badge><Badge stroke shape="pill" color="orange" size="md">[Crashs de run](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

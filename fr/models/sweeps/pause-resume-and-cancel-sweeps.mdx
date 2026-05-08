@@ -1,0 +1,91 @@
+---
+description: Mettre en pause, reprendre et annuler un balayage W&B avec la CLI.
+title: Gérer les balayages
+---
+
+Utilisez la [W&amp;B CLI](/fr/models/ref/cli/wandb-sweep) pour mettre en pause, reprendre et annuler un balayage. La commande `sweep` de la CLI utilise des indicateurs tels que `--pause` et `--resume` pour contrôler la capacité du balayage à créer de nouveaux runs W&amp;B, avec des effets différents sur les runs existants :
+
+* `--pause` : lorsque vous mettez un balayage en pause, l&#39;agent ne crée plus de nouveau run tant que vous ne reprenez pas le balayage. Les runs existants continuent de s&#39;exécuter normalement.
+* `--resume` : lorsque vous reprenez un balayage, l&#39;agent recommence à créer de nouveaux runs selon la stratégie de recherche.
+* `--stop` : lorsque vous arrêtez un balayage, l&#39;agent cesse de créer de nouveaux runs. Les runs existants continuent jusqu&#39;à leur terme.
+* `--cancel` : lorsque vous annulez un balayage, l&#39;agent arrête immédiatement tous les runs en cours d&#39;exécution et cesse de créer de nouveaux runs.
+
+Suivez les instructions ci-dessous pour mettre en pause, reprendre et annuler un balayage. Dans chaque cas, indiquez l’ID du balayage généré lorsque vous avez initialisé un balayage.
+
+<div id="pause-a-sweep">
+  ### Mettre en pause un balayage
+</div>
+
+Mettez un balayage en pause afin qu&#39;il cesse temporairement de créer de nouveaux runs. Les Runs déjà en cours d&#39;exécution se poursuivront jusqu&#39;à leur achèvement. Utilisez la commande [`wandb sweep --pause`](/fr/models/ref/cli/wandb-sweep) pour mettre un balayage en pause. Indiquez l&#39;ID du balayage que vous souhaitez mettre en pause.
+
+```bash
+wandb sweep --pause entity/project/sweep_ID
+```
+
+<div id="resume-a-sweep">
+  ### Reprendre un balayage
+</div>
+
+Reprenez un balayage en pause avec la commande [`wandb sweep --resume`](/fr/models/ref/cli/wandb-sweep). Le balayage recommencera alors à créer de nouveaux runs selon sa stratégie de recherche. Saisissez l’ID du balayage que vous souhaitez reprendre :
+
+```bash
+wandb sweep --resume entity/project/sweep_ID
+```
+
+<div id="stop-a-sweep">
+  ### Arrêter un balayage
+</div>
+
+Mettez fin à un balayage pour arrêter la création de nouveaux runs tout en laissant les runs en cours se terminer normalement. Utilisez la commande [`wandb sweep --stop`](/fr/models/ref/cli/wandb-sweep) :
+
+```bash
+wandb sweep --stop entity/project/sweep_ID
+```
+
+<Warning>
+  W&amp;B n’arrête pas les [balayages](/fr/models/sweeps) ni les agents en cours lorsque vous supprimez un projet.
+</Warning>
+
+<div id="cancel-a-sweep">
+  ### Annuler un balayage
+</div>
+
+Annulez un balayage pour arrêter immédiatement tous les runs en cours et empêcher la création de nouveaux runs. Il s&#39;agit de la seule commande de balayage qui interrompt de force les runs existants. Les runs sont arrêtés brutalement ; les processus en cours n&#39;ont aucune possibilité d&#39;exécuter des gestionnaires de signaux définis par l&#39;utilisateur. Utilisez la commande [`wandb sweep --cancel`](/fr/models/ref/cli/wandb-sweep) pour annuler un balayage. Indiquez l&#39;ID du balayage que vous souhaitez annuler. Pour en savoir plus sur les signaux et les runs de balayage, voir [Gestion des signaux et runs de balayage](/fr/models/sweeps/signal-handling-sweep-runs).
+
+```bash
+wandb sweep --cancel entity/project/sweep_ID
+```
+
+Pour la liste complète des options de la commande CLI, voir le guide de référence CLI [wandb sweep](/fr/models/ref/cli/wandb-sweep).
+
+<Warning>
+  W&amp;B ne met pas fin aux [balayages](/fr/models/sweeps) ni aux agents actifs lorsque vous supprimez un projet.
+</Warning>
+
+<div id="understanding-sweep-and-run-statuses">
+  ## Comprendre les statuts des balayages et des runs
+</div>
+
+Un balayage orchestre plusieurs runs afin d’explorer des combinaisons d’hyperparamètres. Comprendre l’interaction entre le statut du balayage et celui du run est essentiel pour gérer efficacement l’optimisation de vos hyperparamètres.
+
+<div id="key-differences">
+  ### Différences clés
+</div>
+
+* Le **statut du balayage** détermine si de nouveaux runs sont créés (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed)
+* Le **statut du run** indique l’état d’exécution de chaque run (Pending, Running, Finished, Failed, Crashed, Killed)
+
+<div id="stop-an-individual-run">
+  ### Arrêter un run spécifique
+</div>
+
+Lorsque vous [arrêtez un run](/fr/models/runs/stop-runs) dans un balayage, l’agent de balayage lance automatiquement le run suivant. Cela vous permet d’ignorer les configurations peu performantes sans interrompre la progression globale du balayage.
+
+<div id="best-practices">
+  ### Bonnes pratiques
+</div>
+
+* Utilisez `--pause` plutôt que annuler lorsque vous souhaitez interrompre temporairement l&#39;exploration sans perdre les expériences en cours
+* Surveillez le statut de chaque run pour identifier les échecs systématiques
+* Utilisez `--stop` pour un arrêt propre lorsque vous avez trouvé des hyperparamètres satisfaisants
+* Réservez `--cancel` aux situations d&#39;urgence, lorsque les runs consomment trop de ressources ou produisent des erreurs

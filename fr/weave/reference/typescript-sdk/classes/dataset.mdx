@@ -1,0 +1,319 @@
+---
+title: "Classe : Dataset<R>"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / Dataset
+
+Objet Dataset avec enregistrement simple et gestion automatique des versions
+
+`Exemple`
+
+```ts
+// Créer un jeu de données
+const dataset = new Dataset({
+  id: 'grammar-dataset',
+  rows: [
+    { id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream." },
+    { id: '1', sentence: "She goed to the store.", correction: "She went to the store." },
+    { id: '2', sentence: "They plays video games all day.", correction: "They play video games all day." }
+  ]
+})
+
+// Accéder à un exemple spécifique
+const exampleLabel = dataset.getRow(2).sentence;
+
+// Enregistrer le jeu de données
+const ref = await dataset.save()
+```
+
+
+## Paramètres de type
+
+| Nom | Type                 |
+| :-- | :------------------- |
+| `R` | extends `DatasetRow` |
+
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
+
+* [`WeaveObject`](./weaveobject)
+
+  ↳ `Dataset`
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="constructors">
+  ### Constructeurs
+</div>
+
+* [constructeur](./dataset#constructor)
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [&#95;&#95;savedRef](./dataset#__savedref)
+* [rows](./dataset#rows)
+
+<div id="accessors">
+  ### Accesseurs
+</div>
+
+* [description](./dataset#description)
+* [longueur](./dataset#length)
+* [nom](./dataset#name)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [[asyncIterator]](./dataset#\[asynciterator])
+* [getRow](./dataset#getrow)
+* [save](./dataset#save)
+* [saveAttrs](./dataset#saveattrs)
+
+## Constructeurs
+
+<div id="constructor">
+  ### constructeur
+</div>
+
+• **new Dataset**&lt;`R`&gt;(`parameters`): [`Dataset`](./dataset)&lt;`R`&gt;
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                 |
+| :-- | :------------------- |
+| `R` | extends `DatasetRow` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type                           |
+| :----------- | :----------------------------- |
+| `parameters` | `DatasetParameters`&lt;`R`&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Dataset`](./dataset)&lt;`R`&gt;
+
+<div id="overrides">
+  #### Redéfinitions
+</div>
+
+[WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[dataset.ts:51](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L51)
+
+## Propriétés
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+• `Facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+[WeaveObject](./weaveobject).[&#95;&#95;savedRef](./weaveobject#__savedref)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+
+***
+
+<div id="rows">
+  ### rows
+</div>
+
+• **rows**: `Table`&lt;`R`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[dataset.ts:49](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L49)
+
+## Accesseurs
+
+<div id="description">
+  ### description
+</div>
+
+• `get` **description**(): `undefined` | `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`undefined` | `string`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+WeaveObject.description
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+
+***
+
+<div id="length">
+  ### length
+</div>
+
+• `get` **length**(): `number`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`number`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[dataset.ts:64](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L64)
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+• `get` **nom**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+WeaveObject.name
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+
+## Méthodes
+
+<div id="asynciterator">
+  ### [asyncIterator]
+</div>
+
+▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[dataset.ts:68](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L68)
+
+***
+
+<div id="getrow">
+  ### getRow
+</div>
+
+▸ **getRow**(`index`): `R`
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type     |
+| :------ | :------- |
+| `index` | `number` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`R`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[dataset.ts:74](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L74)
+
+***
+
+<div id="save">
+  ### save
+</div>
+
+▸ **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[dataset.ts:60](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L60)
+
+***
+
+<div id="saveattrs">
+  ### saveAttrs
+</div>
+
+▸ **saveAttrs**(): `Object`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Object`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+[WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)

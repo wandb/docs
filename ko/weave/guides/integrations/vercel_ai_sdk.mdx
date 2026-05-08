@@ -1,0 +1,156 @@
+---
+title: "Vercel AI SDK"
+description: "OpenTelemetry를 사용해 Weave에서 Vercel AI SDK Call을 트레이스하세요"
+---
+
+[OpenTelemetry (OTel)](https://opentelemetry.io/)를 사용해 Weave에서 [Vercel AI SDK](https://ai-sdk.dev/) Call을 트레이스할 수 있습니다. Vercel AI SDK는 Next.js, Nuxt, SvelteKit 및 기타 프레임워크를 지원하며, AI 기반 애플리케이션을 구축하기 위한 TypeScript 툴킷입니다. `experimental_telemetry` 옵션을 통해 OpenTelemetry를 기본적으로 지원합니다.
+
+이 가이드에서는 Vercel AI SDK의 트레이스를 Weave로 전송하도록 OTel을 설정하는 방법을 설명합니다. AI SDK는 Next.js와 함께 사용하거나 독립형 Node.js 애플리케이션으로 사용할 수 있습니다.
+
+Weave에서 OTel 트레이싱에 대한 자세한 내용은 [Send OTel traces to Weave](../tracking/otel)를 참조하세요.
+
+<div id="prerequisites">
+  ### 사전 요구 사항
+</div>
+
+이 가이드의 Next.js 및 Node.js 예제에는 동일한 의존성이 필요합니다. 시작하려면 다음을 수행하세요.
+
+1. 다음 Vercel 및 OTel 라이브러리를 설치하세요.
+
+   ```bash
+   npm install ai @ai-sdk/openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources zod
+   ```
+
+2. 다음 환경 변수를 설정하세요.
+
+   ```bash
+   export WANDB_API_KEY="your-wandb-api-key"
+   export OPENAI_API_KEY="your-openai-api-key"
+   ```
+
+   W&amp;B API 키는 [User Settings](https://wandb.ai/settings)에서 확인할 수 있습니다.
+
+<div id="configure-otel-tracing-for-nextjs">
+  ## Next.js용 트레이싱 설정
+</div>
+
+이 섹션에서는 Next.js 앱에서 Weave를 설정하는 방법을 설명합니다. 이 예제에는 전체 앱이 아니라 계측 설정과 Vercel AI SDK 함수에서 계측을 호출하는 방법만 포함되어 있습니다. 여기서는 OpenAI에 대한 단순한 호출을 예시로 사용합니다.
+
+<div id="configure-instrumentation">
+  ### 계측 설정
+</div>
+
+Next.js 애플리케이션은 OTel을 설정하기 위해 `instrumentation.ts` 파일을 사용합니다. 이 파일은 서버가 시작될 때 한 번 실행되며, AI SDK가 사용하는 트레이서 프로바이더를 구성합니다.
+
+Weave를 Vercel의 OTel 기능과 통합하려면 프로젝트 루트에 `instrumentation.ts` 파일을 만들고 다음 코드를 추가하세요. 이때 `resourceFromAttributes()` 함수의 팀 이름과 프로젝트 이름을 사용 중인 값으로 업데이트하세요:
+
+```typescript instrumentation.ts lines {17-19}
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+
+export function register() {
+  const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+// W&B Weave 엔드포인트를 사용하도록 OTel 익스포터를 설정합니다.
+  const exporter = new OTLPTraceExporter({
+    url: "https://trace.wandb.ai/otel/v1/traces",
+    headers: { "wandb-api-key": WANDB_API_KEY },
+  });
+
+// W&B 자격 증명을 설정합니다.
+  const provider = new NodeTracerProvider({
+    resource: resourceFromAttributes({
+      "wandb.entity": "<your-team-name>",
+      "wandb.project": "<your-project-name>",
+    }),
+    spanProcessors: [new BatchSpanProcessor(exporter)],
+  });
+
+  provider.register();
+}
+```
+
+이렇게 하면 W&amp;B API 키를 사용해 인증하고, 트레이스 데이터를 Weave의 OTel 엔드포인트로 전송하도록 구성된 OTLP 익스포터를 생성합니다.
+
+
+<div id="configure-telemetry-on-a-function">
+  ### 함수에 텔레메트리 설정하기
+</div>
+
+계측을 추가한 후에는 AI SDK의 함수 호출에서 Vercel의 `experimental_telemetry` 옵션을 사용해 OTel 스팬을 내보내세요:
+
+```typescript route.ts lines {10}
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+
+export async function POST(req: Request) {
+  const { prompt } = await req.json();
+
+// 함수에 experimental_telemetry 필드를 추가합니다.
+  const result = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt,
+    experimental_telemetry: { isEnabled: true },
+  });
+
+  return Response.json({ text: result.text });
+}
+```
+
+텔레메트리가 활성화된 모든 `generateText` Call은 Weave로 내보내는 OTel 스팬을 생성합니다.
+
+
+<div id="configure-otel-tracing-for-nodejs">
+  ## Node.js용 OTel 트레이싱 설정
+</div>
+
+독립 실행형 Node.js 애플리케이션(Next.js 제외)의 경우, AI SDK를 호출하기 전에 엔트리 파일의 맨 위에서 트레이서 프로바이더를 설정하세요.
+
+사전 요구 사항을 충족한 후에는 추가 설정 없이 이 예제를 실행해 스팬을 생성할 수 있습니다.
+
+```typescript lines {11-14,18-19,31} title="test-app.ts"
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+
+const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+// W&B Weave 엔드포인트를 사용하도록 OTel 익스포터를 설정합니다.
+const exporter = new OTLPTraceExporter({
+  url: "https://trace.wandb.ai/otel/v1/traces",
+  headers: { "wandb-api-key": WANDB_API_KEY },
+});
+
+// W&B 자격 증명을 설정합니다.
+const provider = new NodeTracerProvider({
+  resource: resourceFromAttributes({
+    "wandb.entity": "<your-team-name>",
+    "wandb.project": "<your-project-name>",
+  }),
+  spanProcessors: [new BatchSpanProcessor(exporter)],
+});
+
+provider.register();
+
+// 함수에 experimental_telemetry 필드를 추가합니다.
+async function main() {
+  const result = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt: "Explain OpenTelemetry in one sentence.",
+    experimental_telemetry: { isEnabled: true },
+  });
+
+  console.log(result.text);
+
+  await provider.shutdown();
+}
+
+main();
+```
+
+`BatchSpanProcessor`는 스팬을 비동기적으로 플러시합니다. 독립형 스크립트, 서버리스 함수, CLI 도구처럼 수명이 짧은 프로세스에서는 프로세스가 종료되기 전에 `provider.shutdown()`을 호출해 모든 스팬이 Weave로 전송되도록 하세요. 반면 `instrumentation.ts`를 통해 시작한 Next.js dev 서버처럼 장시간 실행되는 서버에서는 이 작업이 필요하지 않습니다.

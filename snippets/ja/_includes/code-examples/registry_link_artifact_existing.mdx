@@ -1,0 +1,24 @@
+---
+title: 既存のartifactをRegistryにリンクする
+---
+
+```python
+"""
+W&B のartifactを作成し、registryのcollectionにリンクします。
+collectionが存在しない場合、W&B が自動的に作成します。
+"""
+import wandb
+
+# artifactオブジェクトを作成する
+artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+
+# registryとcollectionの名前を定義する
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# runを初期化する
+with wandb.init(entity = "<entity>", project = "<project>") as run:
+  # artifactをcollectionにリンクする。collectionが存在しない場合、W&B が作成する。
+  run.link_artifact(artifact = artifact, target_path = target_path)
+```

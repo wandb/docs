@@ -1,0 +1,107 @@
+---
+title: BetaReport
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+
+## <kbd>classe</kbd> `BetaReport`
+
+BetaReport est une classe associée aux rapports créés dans W&amp;B.
+
+Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, spec, horodatages), ainsi qu&#39;à des méthodes permettant de récupérer les runs et les sections associés et d&#39;effectuer le rendu du rapport en HTML.
+
+**Attributs :**
+
+* `id` (string) :  Identifiant unique du rapport.
+* `display_name` (string) :  Nom d&#39;affichage du rapport, lisible par l&#39;utilisateur.
+* `name` (string) :  Nom du rapport. Utilisez `display_name` pour un nom plus convivial.
+* `description` (string) :  Description du rapport.
+* `user` (User) :  Dictionnaire contenant les informations de l&#39;utilisateur (nom d&#39;utilisateur, e-mail) ayant créé le rapport.
+* `spec` (dict) :  Spécification du rapport.
+* `url` (string) :  URL du rapport.
+* `updated_at` (string) :  Timestamp de la dernière mise à jour.
+* `created_at` (string) :  Timestamp de création du rapport. 
+
+### <kbd>méthode</kbd> `BetaReport.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    attrs: 'dict',
+    entity: 'str | None' = None,
+    project: 'str | None' = None
+)
+```
+
+***
+
+
+### <kbd>propriété</kbd> BetaReport.created_at
+
+***
+
+### <kbd>propriété</kbd> BetaReport.description
+
+***
+
+### <kbd>propriété</kbd> BetaReport.display_name
+
+***
+
+### <kbd>propriété</kbd> BetaReport.id
+
+***
+
+### <kbd>propriété</kbd> BetaReport.nom
+
+***
+
+### <kbd>propriété</kbd> BetaReport.sections
+
+Obtient les sections (groupes) de panneaux du rapport.
+
+***
+
+### <kbd>propriété</kbd> BetaReport.spec
+
+***
+
+### <kbd>propriété</kbd> BetaReport.updated_at
+
+***
+
+### <kbd>propriété</kbd> BetaReport.url
+
+***
+
+### <kbd>propriété</kbd> BetaReport.user
+
+***
+
+### <kbd>méthode</kbd> `BetaReport.runs`
+
+```python
+runs(
+    section: 'dict[str, Any]',
+    per_page: 'int' = 50,
+    only_selected: 'bool' = True
+) → public.Runs
+```
+
+Obtenir les runs associés à une section de rapports.
+
+***
+
+
+### <kbd>méthode</kbd> `BetaReport.to_html`
+
+```python
+to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+```
+
+Générez du code HTML contenant une iframe qui affiche ce rapport.

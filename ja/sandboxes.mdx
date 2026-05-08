@@ -1,0 +1,65 @@
+---
+title: W&B Sandboxes
+mode: wide
+---
+
+<Warning>W&amp;B Sandboxes は招待制のプライベートプレビューとして提供されています。登録をリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。</Warning>
+
+W&amp;B Sandboxes では、Python を使用して、必要に応じて分離されたコンピュート環境を作成、使用し、不要になったら破棄できます。
+
+W&amp;B Sandboxes は CoreWeave Sandbox ライブラリを使用して構築されています。基盤となる API リファレンスとライブラリのドキュメントについては、[CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox) を参照してください。
+
+<div id="how-it-works">
+  ## 仕組み
+</div>
+
+*サンドボックス* は、単一の分離されたコンピュート環境です。[作成](/ja/sandboxes/create-sandbox)して、[内部でコマンドを実行](/ja/sandboxes/run-commands)し、不要になったら停止します。各サンドボックスは、それぞれ独自のファイルシステム、ネットワーク、プロセス空間を持つ専用のコンテナー内で実行されます。
+
+サンドボックスを作成および管理する際、W&amp;B はユーザーのアイデンティティを認証します。サンドボックス内で W&amp;B または Weave を使用するには、[W&amp;B Secrets Manager](/ja/platform/secrets#manage-access-to-secrets) または環境変数を使って APIキー を渡してください。サンドボックスでシークレットを使用する方法の詳細は、[Secrets](/ja/sandboxes/secrets) を参照してください。
+
+サンドボックスは、[ライフサイクルの中で複数の状態](/ja/sandboxes/lifecycle) を遷移します。コンテナーが実行中であれば、その内部で [コマンドを実行](/ja/sandboxes/run-commands) できます。
+
+[ファイルの読み取り、書き込み、読み取り専用マウント](/ja/sandboxes/file-access) を使用して、サンドボックスとの間でファイルを扱えます。一般的な例としては、実行する Python スクリプトを読み込む、ログや結果を書き出す、またはサンドボックスからアクセスできるようにデータのディレクトリーを読み取り専用でマウントする、といったものがあります。
+
+共有の設定を持つ複数のサンドボックスを管理するには、*セッション* を使用します。セッションが閉じられると、そのセッション内のすべてのサンドボックスは自動的に停止します。詳しくは、[複数のサンドボックスを管理する](/ja/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session) を参照してください。
+
+<div id="basic-usage">
+  ## 基本的な使い方
+</div>
+
+次の手順に従ってサンドボックスを作成し、その中でコマンドを実行します。
+
+1. サポート チームまたは AISE の担当者から提供されたソースから、W&amp;B Python SDK (`wandb`) をインストールします。
+
+2. [`wandb login`](/ja/models/ref/cli/wandb-login) CLI コマンドを使用して W&amp;B にログインします。プロンプトが表示されたら、APIキーを入力してアイデンティティを認証し、W&amp;B アカウントにアクセスします。
+
+   ```bash
+   wandb login
+   ```
+
+3. 次のコードスニペットを Python ファイルにコピー＆ペーストして実行してください。このコードスニペットでは、次のことを行います。
+
+   1. [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) を使用してサンドボックスを作成します。
+   2. [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) メソッドを使用して、サンドボックス内でコマンド `echo "Hello from W&B Sandboxes!"` を実行します。
+   3. `Sandbox.exec()` から返される `Process` オブジェクトを使用して、出力をコンソールに表示します。
+
+   ```python show lines title="hello_sandbox.py"
+   from wandb.sandbox import Sandbox
+
+   with Sandbox.run() as sandbox:
+       process = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+   コンソールに `Hello from W&B Sandboxes!` と出力されます。
+
+   サンドボックスは、コンテキストマネージャー (`with` ブロック) を抜けると自動的に停止します。サンドボックスのライフサイクルと状態の詳細については、[サンドボックスのライフサイクル](/ja/sandboxes/lifecycle)を参照してください。
+
+<div id="wb-sandboxes-tutorials">
+  ## W&amp;B Sandboxes のチュートリアル
+</div>
+
+より詳しい例については、以下を参照してください。
+
+* [W&amp;B Sandbox でエージェントを呼び出すチュートリアル](/ja/sandboxes/invoke-agent-sandbox-tutorial)
+* [W&amp;B Sandbox で PyTorch モデルをトレーニングするチュートリアル](/ja/sandboxes/mltrain-in-sandbox-tutorial)

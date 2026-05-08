@@ -1,0 +1,83 @@
+---
+title: "Tables に Plotly または Bokeh のチャートを追加するにはどうすればよいですか?"
+keywords: ["Experiments", "Tables", "チャート"]
+---
+
+Plotly または Bokeh の図をテーブルに直接組み込むことはサポートされていません。代わりに、図を HTML としてエクスポートし、その HTML をテーブルに含めてください。以下に、インタラクティブな Plotly および Bokeh のチャートでこれを行う例を示します。
+
+<Tabs>
+  <Tab title="Plotly を使用する">
+    ```python
+    import wandb
+    import plotly.express as px
+
+    # 新しい run を初期化
+    with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
+
+        # テーブルを作成
+        table = wandb.Table(columns=["plotly_figure"])
+
+        # Plotly 図のパスを定義
+        path_to_plotly_html = "./plotly_figure.html"
+
+        # Plotly 図を作成
+        fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+
+        # Plotly 図を HTML にエクスポート
+        # auto_play を False に設定すると、アニメーション付きの Plotly チャートが自動再生されるのを防げます
+        fig.write_html(path_to_plotly_html, auto_play=False)
+
+        # Plotly 図を HTML ファイルとしてテーブルに追加
+        table.add_data(wandb.Html(path_to_plotly_html))
+
+        # テーブルをログする
+        run.log({"test_table": table})
+
+    ```
+  </Tab>
+
+  <Tab title="Bokeh を使用する">
+    ```python
+    from scipy.signal import spectrogram
+    import holoviews as hv
+    import panel as pn
+    from scipy.io import wavfile
+    import numpy as np
+    from bokeh.resources import INLINE
+
+    hv.extension("bokeh", logo=False)
+    import wandb
+
+    def save_audio_with_bokeh_plot_to_html(audio_path, html_file_name):
+        sr, wav_data = wavfile.read(audio_path)
+        duration = len(wav_data) / sr
+        f, t, sxx = spectrogram(wav_data, sr)
+        spec_gram = hv.Image((t, f, np.log10(sxx)), ["Time (s)", "Frequency (Hz)"]).opts(
+            width=500, height=150, labelled=[]
+        )
+        audio = pn.pane.Audio(wav_data, sample_rate=sr, name="Audio", throttle=500)
+        slider = pn.widgets.FloatSlider(end=duration, visible=False)
+        line = hv.VLine(0).opts(color="white")
+        slider.jslink(audio, value="time", bidirectional=True)
+        slider.jslink(line, value="glyph.location")
+        combined = pn.Row(audio, spec_gram * line, slider).save(html_file_name)
+
+    html_file_name = "audio_with_plot.html"
+    audio_path = "hello.wav"
+    save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
+
+    wandb_html = wandb.Html(html_file_name)
+    with wandb.init(project="audio_test") as run:
+        my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
+        run.log({"audio_table": my_table})
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Tables](/ja/support/models/tags/tables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Charts](/ja/support/models/tags/charts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

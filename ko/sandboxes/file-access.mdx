@@ -1,0 +1,95 @@
+---
+title: 파일 작업
+description: W&B Sandboxes에서 파일을 조회하고, 쓰고, 마운트하는 방법을 알아보세요.
+---
+
+<Warning>W&amp;B Sandboxes는 비공개 프리뷰로, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE 담당자에게 문의하세요.</Warning>
+
+파일 작업을 사용하면 로컬 환경과 샌드박스 간에 데이터를 공유할 수 있습니다. 샌드박스에서 파일을 조회하고, 파일을 샌드박스에 쓰거나, 로컬 파일 및 디렉터리를 샌드박스에 마운트할 수 있습니다.
+
+예를 들어, Python 스크립트를 샌드박스에 쓴 뒤 실행하고, 출력 파일을 다시 로컬 환경으로 가져올 수 있습니다. 또한 머신 러닝 작업을 위해 트레이닝 데이터 디렉터리를 샌드박스에 마운트할 수도 있습니다.
+
+<Tip>
+  **적절한 파일 액세스 방법을 선택하세요**
+
+  복사하지 않고 샌드박스가 로컬 데이터에 액세스해야 한다면 파일이나 디렉터리를 마운트하세요.
+
+  로컬 환경과 샌드박스 간에 작은 파일을 전송하거나 샌드박스 출력을 로컬에 저장하려면 파일을 조회하고 쓰세요.
+</Tip>
+
+<div id="write-a-file-to-the-sandbox">
+  ## 샌드박스에 파일 쓰기
+</div>
+
+{/* 데이터를 생성, 업데이트, 수정 또는 저장 */}
+
+{/* 파일을 샌드박스로 전송합니다. 샌드박스 코드에 필요한 입력 파일(스크립트, 설정, 데이터 파일)을 업로드할 때 사용하세요. */}
+
+[`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) 방법을 사용해 로컬 환경의 파일을 샌드박스로 전송하세요.
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+# 샌드박스에 쓰려는 로컬 파일 경로
+text_file = Path("hello.txt")
+
+with Sandbox.run() as sandbox:
+    # 샌드박스에 파일 쓰기
+    sandbox.write_file("hello.txt", text_file.read_bytes()).result()
+```
+
+`Sandbox` 클래스 레퍼런스 문서에서 [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file)의 매개변수와 옵션 전체 목록을 확인하세요.
+
+<div id="read-a-file-from-the-sandbox">
+  ## 샌드박스에서 파일 조회
+</div>
+
+[`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) 방법을 사용해 샌드박스에서 파일을 로컬 환경으로 저장하세요.
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox
+
+with Sandbox.run() as sandbox:
+    # 데모: 샌드박스에서 조회할 파일 생성
+    sandbox.exec(["sh", "-c", "echo 'Hello, world.' > hello.txt"]).result()
+
+    # 로컬 머신에 파일 저장 (샌드박스 아님)
+    content = sandbox.read_file("hello.txt").result()  # b"Hello, world.\n"
+    Path("hello.txt").write_bytes(content)
+```
+
+`Sandbox` 클래스 레퍼런스 문서에서 [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file)에 대한 매개변수와 옵션의 전체 목록을 확인하세요.
+
+<div id="mount-a-file-or-directory">
+  ## 파일 또는 디렉터리 마운트
+</div>
+
+마운트된 파일을 사용하면 생성 시점에 로컬 파일을 샌드박스에 제공할 수 있습니다. 실행 중인 샌드박스로 파일을 전송하는 `Sandbox.write_file()`와 달리, 마운트된 파일은 샌드박스가 시작되자마자 사용할 수 있습니다. 마운트된 파일은 샌드박스에서 지정한 경로에 표시됩니다.
+
+<Info>마운트된 파일은 샌드박스에서 읽기 전용입니다. 샌드박스에서 파일을 수정해야 하는 경우에는 대신 `Sandbox.write_file()`을 사용하세요.</Info>
+
+다음 코드 스니펫에서는 로컬 파일 `train.py`와 `requirements.txt`를 샌드박스 루트 디렉터리에 마운트합니다. 샌드박스는 `requirements.txt`의 의존성을 설치한 다음 `train.py`를 실행합니다.
+
+```python
+from pathlib import Path
+from wandb.sandbox import Sandbox, NetworkOptions
+
+mounted_files = [
+    {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
+    {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
+        ]
+
+print("샌드박스를 시작하는 중...")
+with Sandbox.run(mounted_files=mounted_files) as sandbox:
+
+    # 마운트된 파일은 지정된 마운트 경로에서 샌드박스 내에서 사용 가능합니다
+    print("의존성을 설치하는 중...")
+    result = sandbox.exec(["pip", "install", "-r", "requirements.txt"], check=True).result()
+    print(result.stdout)
+
+    print("스크립트를 실행하는 중...")
+    result = sandbox.exec(["python", "train.py"]).result()
+    print(result.stdout)
+```

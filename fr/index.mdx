@@ -1,0 +1,60 @@
+---
+title: "Documentation de Weights & Biases"
+description: "Consultez la documentation de tous les produits Weights & Biases"
+sidebarTitle: "Accueil de la documentation"
+mode: wide
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/fr/models" subtitle="Développez des modèles d'IA">
+      Utilisez W&amp;B Models pour gérer le développement de modèles d&#39;IA. Les fonctionnalités incluent l&#39;entraînement, le Fine-tuning, les rapports, l&#39;automatisation des sweeps d&#39;hyperparamètres et l&#39;utilisation du registre de modèles pour la gestion des versions et la reproductibilité.
+
+      <br />
+
+      <br />
+
+      • <a href="/fr/models">Introduction</a><br />
+      • <a href="/fr/models/quickstart">Démarrage rapide</a><br />
+      • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">Tutoriel YouTube</a><br />
+    </ProductCard>
+
+    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/fr/weave" subtitle="Utilisez des modèles d'IA dans votre application">
+      Utilisez W&amp;B Weave pour gérer les modèles d&#39;IA dans votre code. Les fonctionnalités incluent le Tracing, l&#39;évaluation des sorties, les estimations de coût, ainsi qu&#39;un service d&#39;inférence hébergé et un playground pour comparer différents grands modèles de langage (LLM) et paramètres.
+
+      <br />
+
+      <br />
+
+      • <a href="/fr/weave">Introduction</a><br />
+      • <a href="/fr/weave/quickstart">Démarrage rapide</a><br />
+      • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">Démo YouTube</a><br />
+    </ProductCard>
+
+    <ProductCard title="W&B Inference" iconSrc="icons/cropped-inference.svg" href="/fr/inference" subtitle="Accédez à des modèles fondamentaux">
+      Utilisez W&amp;B Inference pour accéder aux principaux modèles fondamentaux open source via une API compatible avec OpenAI. Les fonctionnalités incluent plusieurs modèles au choix, le suivi de l&#39;utilisation et l&#39;intégration avec Weave pour le Tracing et l&#39;Évaluation.
+
+      <br />
+
+      <br />
+
+      • <a href="/fr/inference">Introduction</a><br />
+      • <a href="https://wandb.ai/inference">Essayer dans le playground</a>
+    </ProductCard>
+
+    <ProductCard title="W&B Training" iconSrc="icons/cropped-training.svg" href="/fr/training" subtitle="Effectuez le post-entraînement de vos modèles">
+      Désormais en aperçu public, utilisez W&amp;B Training pour le post-entraînement de grands modèles de langage à l&#39;aide de l&#39;apprentissage par renforcement (RL) sans serveur. Les fonctionnalités incluent une infrastructure GPU entièrement gérée, l&#39;intégration avec ART et RULER, ainsi qu&#39;une mise à l&#39;échelle automatique pour les tâches agentiques à plusieurs tours.
+
+      <br />
+
+      <br />
+
+      • <a href="/fr/training">Introduction</a><br />
+      • <a href="/fr/training/prerequisites">Démarrage rapide</a><br />
+    </ProductCard>
+  </div>
+</HomeWrapper>

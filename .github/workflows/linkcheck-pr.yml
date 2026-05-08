@@ -45,7 +45,7 @@ jobs:
       - name: Early exit if no docs changed (fork PRs only)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true
         id: fork-docs-check
-        uses: tj-actions/changed-files@v47.0.5
+        uses: tj-actions/changed-files@v47.0.6
         with:
           files: |
             **/*.mdx
@@ -62,7 +62,7 @@ jobs:
       - name: Resolve PR and deployment URL
         id: pr-context
         if: github.event_name == 'deployment_status'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -118,7 +118,7 @@ jobs:
           (github.event_name == 'deployment_status' && 
            steps.pr-context.outputs.pr_number != '') ||
           github.event_name == 'workflow_dispatch'
-        uses: tj-actions/changed-files@v47.0.5
+        uses: tj-actions/changed-files@v47.0.6
         with:
           base_sha: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
           sha: ${{ steps.pr-context.outputs.head_sha || github.event.pull_request.head.sha }}
@@ -127,7 +127,7 @@ jobs:
 
       - name: Get PR number
         id: get-pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             // For pull_request events, get PR number directly
@@ -298,7 +298,7 @@ jobs:
            steps.lychee.conclusion == 'failure') &&
           (github.event_name != 'pull_request' || 
            github.event.pull_request.head.repo.fork != true)
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');

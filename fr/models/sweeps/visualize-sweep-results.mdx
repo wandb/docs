@@ -1,0 +1,32 @@
+---
+description: Visualisez les résultats de vos Sweeps W&B dans l'interface W&B App.
+title: Visualiser les résultats d'un sweep
+---
+
+Visualisez les résultats de vos Sweeps W&amp;B avec la W&amp;B App. Accédez à la [W&amp;B App](https://wandb.ai/home). Choisissez le projet que vous avez indiqué lorsque vous avez initialisé un sweep. Vous serez redirigé vers le [Workspace](/fr/models/track/workspaces/) de votre projet. Sélectionnez l&#39;**icône Sweep** dans la barre latérale du projet (icône de balai). Dans l&#39;interface Sweep, sélectionnez le nom de votre Sweep dans la liste.
+
+La liste des sweeps affiche l&#39;état de chaque sweep (**State**), sa date de création (**Created**), la personne qui l&#39;a lancé (**Creator**), le nombre de runs terminés (**Run count**) et le **Compute time** total. Pour une recherche sur grille sur un espace de recherche discret, W&amp;B affiche également **Est. Runs** (le nombre attendu de runs). Ouvrez un sweep depuis la liste pour le mettre en pause, le reprendre, l&#39;arrêter ou forcer son arrêt depuis l&#39;application. Pour accéder aux mêmes commandes avec le CLI, voir [Gérer les sweeps](/fr/models/sweeps/pause-resume-and-cancel-sweeps/).
+
+Par défaut, W&amp;B crée automatiquement un graphique en coordonnées parallèles, un graphique d&#39;importance des paramètres et un nuage de points lorsque vous démarrez un job Sweep W&amp;B.
+
+<Frame>
+  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="Interface Sweep dans la barre latérale du projet" />
+</Frame>
+
+Les graphiques en coordonnées parallèles résument d&#39;un seul coup d&#39;œil la relation entre un grand nombre d&#39;hyperparamètres et les métriques du modèle. Pour plus d&#39;informations sur les graphiques en coordonnées parallèles, voir [coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates/).
+
+<Frame>
+  <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="Exemple de graphique en coordonnées parallèles." />
+</Frame>
+
+Le nuage de points (à gauche) compare les Runs W&amp;B générés pendant le Sweep. Pour plus d&#39;informations sur les nuages de points, voir [Scatter Plots](/fr/models/app/features/panels/scatter-plot/).
+
+Le graphique d&#39;importance des paramètres (à droite) répertorie les hyperparamètres qui prédisaient le mieux les valeurs souhaitables de vos métriques et qui leur étaient fortement corrélés. Pour plus d&#39;informations sur les graphiques d&#39;importance des paramètres, voir [Parameter Importance](/fr/models/app/features/panels/parameter-importance/).
+
+<Frame>
+  <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="Nuage de points et importance des paramètres" />
+</Frame>
+
+Vous pouvez modifier les valeurs dépendantes et indépendantes (axes x et y) utilisées automatiquement. Dans chaque panneau, une icône en forme de crayon appelée **Edit panel** est disponible. Choisissez **Edit panel**. Une fenêtre modale s&#39;ouvre. Dans cette fenêtre modale, vous pouvez modifier le comportement du graphique.
+
+Pour plus d&#39;informations sur toutes les options de visualisation W&amp;B par défaut, voir [Panels](/fr/models/app/features/panels/). Consultez la [documentation Data Visualization](/fr/models/tables/) pour savoir comment créer des graphiques à partir de Runs W&amp;B qui ne font pas partie d&#39;un Sweep W&amp;B.

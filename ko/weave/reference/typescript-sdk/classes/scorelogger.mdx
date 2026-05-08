@@ -1,12 +1,12 @@
 ---
-title: 'Class: ScoreLogger'
-description: TypeScript SDK 레퍼런스
+title: "클래스: ScoreLogger"
+description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / ScoreLogger
 
-ScoreLogger는 단일 예측값에 대한 스코어링을 관리합니다.
-EvaluationLogger.logPrediction()에서 반환됩니다.
+ScoreLogger는 단일 예측의 점수 산정을 관리합니다.
+EvaluationLogger.logPrediction()에서 반환되는 객체입니다.
 
 `Example`
 
@@ -14,99 +14,136 @@ EvaluationLogger.logPrediction()에서 반환됩니다.
 const pred = await ev.logPrediction(example, output);
 await pred.logScore("accuracy", 0.95);
 await pred.logScore("relevance", 0.8);
-await pred.finish(); // 예측값을 최종 확정합니다.
+await pred.finish(); // prediction을 완료합니다
 ```
 
-## 목차
 
-### 생성자 (Constructors)
+<div id="table-of-contents">
+  ## 목차
+</div>
 
-- [constructor](./scorelogger#constructor)
+<div id="constructors">
+  ### 생성자
+</div>
 
-### 접근자 (Accessors)
+* [생성자](./scorelogger#constructor)
 
-- [isFinishCalled](./scorelogger#isfinishcalled)
+<div id="accessors">
+  ### 접근자
+</div>
 
-### 메소드 (Methods)
+* [isFinishCalled](./scorelogger#isfinishcalled)
 
-- [finish](./scorelogger#finish)
-- [logScore](./scorelogger#logscore)
+<div id="methods">
+  ### 메서드
+</div>
 
-## 생성자 (Constructors)
+* [finish](./scorelogger#finish)
+* [logScore](./scorelogger#logscore)
 
-### constructor
+## 생성자
+
+<div id="constructors">
+  ### 생성자
+</div>
 
 • **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./scorelogger)
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| 이름 | 타입 |
-| :------ | :------ |
+| 이름           | 유형                                       |
+| :----------- | :--------------------------------------- |
 | `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 [`ScoreLogger`](./scorelogger)
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[evaluationLogger.ts:319](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L319)
+[evaluationLogger.ts:319](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L319)
 
-## 접근자 (Accessors)
+## 접근자
 
-### isFinishCalled
+<div id="isfinishcalled">
+  ### isFinishCalled
+</div>
 
 • `get` **isFinishCalled**(): `boolean`
 
 finish()가 호출되었는지 확인합니다.
-EvaluationLogger에서 완료되지 않은 예측값을 감지하는 데 사용됩니다.
+완료되지 않은 예측을 감지하기 위해 EvaluationLogger에서 사용됩니다.
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 `boolean`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[evaluationLogger.ts:349](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L349)
+[evaluationLogger.ts:349](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L349)
 
-## 메소드 (Methods)
+## 메서드
 
-### finish
+<div id="finish">
+  ### finish
+</div>
 
-▸ **finish**(): `Promise`\<`void`\>
+▸ **finish**(): `Promise`&lt;`void`&gt;
 
-해당 예측값에 대한 스코어링 프로세스를 종료합니다.
-누적된 스코어와 함께 predict_and_score 호출을 최종 확정합니다.
-증분 집계를 업데이트하고 메모리를 해제합니다.
+예측의 점수 산정 과정을 완료합니다.
+누적된 점수로 predict&#95;and&#95;score call을 완료합니다.
+incremental 집계를 업데이트하고 메모리를 해제합니다.
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[evaluationLogger.ts:451](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L451)
+[evaluationLogger.ts:451](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L451)
 
----
+***
 
-### logScore
+<div id="logscore">
+  ### logScore
+</div>
 
-▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
+▸ **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
-이 예측값에 대한 스코어를 로그합니다.
-predict_and_score의 하위 항목으로 scorer 호출을 생성합니다.
+이 예측의 점수를 기록합니다.
+predict&#95;and&#95;score의 자식으로 scorer call을 생성합니다.
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| 이름 | 타입 | 설명 |
-| :------ | :------ | :------ |
-| `scorerName` | `string` | Scorer의 이름 (예: "accuracy", "f1_score") |
-| `score` | `any` | 스코어 값 |
+| 이름           | 유형       | 설명                                                           |
+| :----------- | :------- | :----------------------------------------------------------- |
+| `scorerName` | `string` | scorer 이름(예: &quot;accuracy&quot;, &quot;f1&#95;score&quot;) |
+| `score`      | `any`    | 점수 값                                                         |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
-[evaluationLogger.ts:360](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L360)
+[evaluationLogger.ts:360](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L360)

@@ -1,0 +1,24 @@
+---
+title: "Pourquoi des étapes manquent-elles dans une exportation CSV de métriques ?"
+keywords: ["Experiments", "Runs"]
+---
+
+Les limites d’exportation peuvent empêcher l’exportation de l’historique complet du run au format CSV ou via l’API `run.history`. Pour accéder à l’historique complet du run, téléchargez l’artifact d’historique du run au format Parquet :
+
+```python
+import wandb
+import pandas as pd
+
+run = wandb.init()
+artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
+artifact_dir = artifact.download()
+df = pd.read_parquet('<path to .parquet file>')
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

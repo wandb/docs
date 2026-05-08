@@ -40,7 +40,7 @@ A powerful feature of cohere models is using [connectors](https://docs.cohere.co
 [![cohere_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <Note>
-We patch the Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream`, and `AsyncClient.chat_stream` methods for you to keep track of your LLM calls.
+We patch the Cohere `Client.chat()`, `AsyncClient.chat()`, `Client.chat_stream()`, and `AsyncClient.chat_stream()` methods for you to keep track of your LLM calls.
 </Note>
 
 ## Wrapping with your own ops

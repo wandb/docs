@@ -1,0 +1,21 @@
+---
+title: Artifactの更新
+---
+
+```python
+"""
+W&B run 内で既存の W&B artifact の説明を更新します。
+
+このコードは W&B run を初期化し、名前と alias で指定された artifact を取得して、
+説明を更新し、変更を保存します。
+"""
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # 名前と alias で artifact を取得する
+    artifact = run.use_artifact(artifact_or_name="<artifact>:<alias>")
+    # artifact の説明を更新する
+    artifact.description = "<description>"
+    # 更新した artifact を保存する
+    artifact.save()
+```

@@ -1,172 +1,204 @@
 ---
-title: Registry へのアクセスを設定する
+title: レジストリへのアクセスを設定する
+description: "ユーザーとチームを管理し、ロールを割り当て、ロールベースの権限を設定して、W&B Registry へのアクセスを設定します。"
 ---
 
-レジストリ管理者は、レジストリの設定を構成することで、[レジストリロールの設定](/models/registry/configure_registry/#configure-registry-roles)、[ユーザーの追加](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry)、またはレジストリからの [ユーザーの削除](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) を行うことができます。
+Registry 管理者は、レジストリの設定で、[Registry ロールを設定する](/ja/models/registry/configure_registry/#configure-registry-roles)、[ユーザーを追加する](/ja/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry)、または[ユーザーを削除する](/ja/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry)ことができます。
 
-## ユーザーの管理
+<div id="manage-users">
+  ## ユーザーの管理
+</div>
 
-### ユーザーまたはチームの追加
+<div id="add-a-user-or-a-team">
+  ### ユーザーまたはチームを追加する
+</div>
 
-レジストリ管理者は、個別の Users または Teams 全体をレジストリに追加できます。ユーザーまたはチームをレジストリに追加するには：
+Registry 管理者は、個々のユーザーまたはチーム全体を Registry に追加できます。Registry にユーザーまたはチームを追加するには、次の手順に従います。
 
-1. W&B Registry に移動します。
-2. ユーザーまたはチームを追加したいレジストリを選択します。
-3. 右上隅にあるギアアイコンをクリックして、レジストリ設定にアクセスします。
+1. W&amp;B Registry にアクセスします。
+2. ユーザーまたはチームを追加する Registry を選択します。
+3. 右上隅にある gear icon をクリックして、Registry 設定にアクセスします。
 4. **Registry access** セクションで、**Add access** をクリックします。
-5. **Include users and teams** フィールドに、1つ以上のユーザー名、メールアドレス、またはチーム名を指定します。
+5. **Include users and teams** フィールドに、1 つ以上のユーザー名、メールアドレス、またはチーム名を入力します。
 6. **Add access** をクリックします。
 
 <Frame>
-    <img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry"  />
+  <img src="/images/registry/add_team_registry.gif" alt="Registry へのチームの追加" />
 </Frame>
 
-[レジストリでのユーザーロールの設定](/models/registry/configure_registry/#configure-registry-roles) や [レジストリロールの権限](/models/registry/configure_registry/#registry-role-permissions) についての詳細もあわせてご確認ください。
+[Registry でのユーザーロールの設定](/ja/models/registry/configure_registry/#configure-registry-roles) または [Registry ロールの権限](/ja/models/registry/configure_registry/#registry-role-permissions) について詳しくは、こちらを参照してください。
 
-### ユーザーまたはチームの削除
-レジストリ管理者は、個別の Users または Teams 全体をレジストリから削除できます。ユーザーまたはチームをレジストリから削除するには：
+<div id="remove-a-user-or-team">
+  ### ユーザーまたはチームを削除する
+</div>
 
-1. W&B Registry ( https://wandb.ai/registry/ ) に移動します。
-2. ユーザーを削除したいレジストリを選択します。
-3. 右上隅にあるギアアイコンをクリックして、レジストリ設定にアクセスします。
-4. **Registry access** セクションに移動し、削除したいユーザー名、メールアドレス、またはチーム名を入力します。
+Registry 管理者は、レジストリから個々のユーザーまたは Teams 全体を削除できます。レジストリからユーザーまたはチームを削除するには、次の手順に従います。
+
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&amp;B Registry にアクセスします。
+2. ユーザーを削除する対象のレジストリを選択します。
+3. 右上隅の歯車アイコンをクリックして、Registry 設定にアクセスします。
+4. **Registry access** セクションに移動し、削除するユーザー名、メールアドレス、またはチームを入力します。
 5. **Delete** ボタンをクリックします。
 
 <Note>
-チームからユーザーを削除すると、そのユーザーのレジストリへのアクセス権も削除されます。
+  チームからユーザーを削除すると、そのユーザーのレジストリへのアクセス権も削除されます。
 </Note>
 
-### レジストリのオーナーの変更
+<div id="change-the-owner-of-a-registry">
+  ### レジストリの所有者を変更する
+</div>
 
-レジストリ管理者は、**Restricted Viewer** や **Viewer** を含む、任意のメンバーをレジストリのオーナーとして指名できます。レジストリの所有権は主に責任の所在を明確にするためのものであり、ユーザーに割り当てられたロールによって付与される権限以上の追加権限を与えるものではありません。
+Registry 管理者は、**Restricted Viewer** や **Viewer** を含む任意のメンバーをレジストリの所有者に指定できます。レジストリの所有権は主に責任の所在を明確にするためのもので、ユーザーに割り当てられたロールで付与される権限を超える追加の権限は付与されません。
 
-オーナーを変更するには：
-1. W&B Registry ( https://wandb.ai/registry/ ) に移動します。
-2. 設定したいレジストリを選択します。
-3. 右上隅にあるギアアイコンをクリックします。
+所有者を変更するには:
+
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&amp;B Registry にアクセスします。
+2. 設定するレジストリを選択します。
+3. 右上にある歯車アイコンをクリックします。
 4. **Registry members and roles** セクションまでスクロールします。
-5. メンバーの行にマウスを合わせます。
-6. 行の末尾にある **...** アクションメニューをクリックし、**Make owner** をクリックします。
+5. メンバーの行にカーソルを合わせます。
+6. 行の末尾にある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Make owner** をクリックします。
 
+<div id="configure-registry-roles">
+  ## Registry ロールを設定する
+</div>
 
-## レジストリロールの設定 (Configure Registry roles)
+このセクションでは、Registry メンバーのロールを設定する方法を説明します。各ロールの機能、優先順位、デフォルトなど、Registry ロールの詳細については、[Registry ロールの詳細](#details-about-registry-roles)を参照してください。
 
-このセクションでは、レジストリメンバーのロールを設定する方法を説明します。各ロールの機能、優先順位、デフォルト値など、レジストリロールの詳細については、[レジストリロールの詳細](#レジストリロールの詳細) を参照してください。
-
-1. W&B Registry ( https://wandb.ai/registry/ ) に移動します。
-2. 設定したいレジストリを選択します。
-3. 右上隅にあるギアアイコンをクリックします。
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&amp;B Registry にアクセスします。
+2. 設定する Registry を選択します。
+3. 右上にある歯車アイコンをクリックします。
 4. **Registry members and roles** セクションまでスクロールします。
-5. **Member** フィールド内で、権限を編集したいユーザーまたはチームを検索します。
-6. **Registry role** カラムで、ユーザーの現在のロールをクリックします。
-7. ドロップダウンから、ユーザーに割り当てたいロールを選択します。
+5. **Member** フィールドで、権限を編集するユーザーまたはチームを検索します。
+6. **Registry role** 列で、ユーザーのロールをクリックします。
+7. ドロップダウンから、ユーザーに割り当てるロールを選択します。
 
-## レジストリロールの詳細
+<div id="details-about-registry-roles">
+  ## Registry ロールの詳細
+</div>
 
-以下のセクションでは、レジストリロールの詳細について説明します。
+以下のセクションでは、Registry ロールについて詳しく説明します。
 
 <Note>
-[チーム内でのロール](/platform/app/settings-page/teams/#team-roles-and-permissions) は、レジストリ内でのロールとは一切関係がなく、影響も与えません。
+  [チーム内でのロール](/ja/platform/app/settings-page/teams/#team-roles-and-permissions)は、いずれのレジストリでのロールにも影響せず、関連もありません。
 </Note>
 
-### デフォルトロール
-W&B は、ユーザーまたはチームがレジストリに追加される際、自動的にデフォルトの **registry role** を割り当てます。このロールによって、そのレジストリ内で何ができるかが決まります。
+<div id="default-roles">
+  ### デフォルトロール
+</div>
 
-| Entity                                 | デフォルトの registry role<br />(専用クラウド / セルフマネージド)               | デフォルトの registry role<br />(マルチテナントクラウド)            |
-|----------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------|
-| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以下) | Restricted Viewer                               |
-| ユーザーまたはサービスアカウント (管理者以外)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以下) | Restricted Viewer                               |
-| サービスアカウント (管理者以外)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
-| Org admin                              | Admin                                                       | Admin                                           |
+W&amp;B では、ユーザーまたはチームが Registry に追加されると、自動的にデフォルトの**Registry ロール**が割り当てられます。このロールによって、その Registry 内で実行できる操作が決まります。
 
-<a id="service_account_footnote">1</a>: サービスアカウントに **Viewer** または **Restricted Viewer** ロールを割り当てることはできません。
+| Entity                    | デフォルトの Registry ロール<br />(専用クラウド / セルフマネージド)                         | デフォルトの Registry ロール<br />(Multi-tenant Cloud)              |
+| ------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| チーム                       | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以前) | Restricted Viewer                                          |
+| ユーザーまたはサービスアカウント (管理者以外)  | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以前) | Restricted Viewer                                          |
+| サービスアカウント (管理者以外)         | Member<sup><a href="#service_account_footnote">1</a></sup>           | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| 組織管理者                     | Admin                                                                | Admin                                                      |
 
-レジストリ管理者は、レジストリ内のユーザーやチームに対してロールを割り当てたり変更したりできます。詳細については、[レジストリでのユーザーロールの設定](/models/registry/configure_registry/#configure-registry-roles) を参照してください。
+<a id="service_account_footnote">1</a>: サービスアカウントには **Viewer** または **Restricted Viewer** ロールを割り当てることはできません。
 
-### ロールの権限
-以下の表は、各レジストリロールと、それぞれのロールに提供される権限をリストしたものです。
+Registry 管理者は、Registry 内の Users および Teams のロールを割り当てたり変更したりできます。
+詳細については、[Registry でユーザーロールを設定する](/ja/models/registry/configure_registry/#configure-registry-roles) を参照してください。
 
-| 権限                                                                                                            | 権限グループ | Restricted Viewer<br />(マルチテナントクラウド、招待による) | Viewer | Member | Admin |
-|-----------------------------------------------------------------------------------------------------------------------|------------------|------------------------------------------------------------|:------:|:------:|:-----:|
-| コレクションの詳細を表示する                                                                                           | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
-| リンクされたアーティファクトの詳細を表示する                                                                                      | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
-| 使用方法: `use_artifact` でレジストリ内のアーティファクトを利用する                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
-| リンクされたアーティファクトをダウンロードする                                                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
-| アーティファクトのファイルビューアーからファイルをダウンロードする                                                                         | Read             |                                                            |   ✓    |   ✓    |   ✓   |
-| レジストリを検索する                                                                                                     | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
-| レジストリの設定とユーザーリストを表示する                                                                              | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
-| コレクションに対して新しいオートメーションを作成する                                                                              | Create           |                                                            |        |   ✓    |   ✓   |
-| 新しいバージョンが追加された際の Slack 通知をオンにする                                                               | Create           |                                                            |        |   ✓    |   ✓   |
-| 新しいコレクションを作成する                                                                                               | Create           |                                                            |        |   ✓    |   ✓   |
-| 新しいレジストリを作成する                                                                                                 | Create           |                                                            |        |   ✓    |   ✓   |
-| コレクションカード（説明）を編集する                                                                                    | Update           |                                                            |        |   ✓    |   ✓   |
-| リンクされたアーティファクトの説明を編集する                                                                                      | Update           |                                                            |        |   ✓    |   ✓   |
-| コレクションのタグを追加または削除する                                                                                      | Update           |                                                            |        |   ✓    |   ✓   |
-| リンクされたアーティファクトからエイリアスを追加または削除する                                                                         | Update           |                                                            |        |   ✓    |   ✓   |
-| リンクされたアーティファクトから [保護されたエイリアス](/models/registry/aliases#protected-aliases) を追加または削除する                  | Update           |                                                            |        |        |   ✓   |
-| [保護されたエイリアス](/models/registry/aliases#protected-aliases) を作成または削除する                                      | Update           |                                                            |        |        |   ✓   |
-| 新しいアーティファクトをリンクする                                                                                                   | Update           |                                                            |        |   ✓    |   ✓   |
-| レジストリの許可されたタイプ（Allowed types）リストを編集する                                                                                | Update           |                                                            |        |   ✓    |   ✓   |
-| レジストリ名を編集する                                                                                                    | Update           |                                                            |        |   ✓    |   ✓   |
-| コレクションを削除する                                                                                                   | Delete           |                                                            |        |   ✓    |   ✓   |
-| オートメーションを削除する                                                                                                  | Delete           |                                                            |        |   ✓    |   ✓   |
-| レジストリからアーティファクトのリンクを解除する                                                                                    | Delete           |                                                            |        |   ✓    |   ✓   |
-| レジストリで受け入れられるアーティファクトタイプを編集する                                                                           | Admin            |                                                            |        |        |   ✓   |
-| レジストリの公開範囲（組織または制限付き）を変更する                                                               | Admin            |                                                            |        |        |   ✓   |
-| レジストリにユーザーを追加する                                                                                               | Admin            |                                                            |        |        |   ✓   |
-| レジストリ内でのユーザーロールを割り当て、または変更する                                                                          | Admin            |                                                            |        |        |   ✓   |
+<div id="role-permissions">
+  ### ロール権限
+</div>
 
-### 継承されたレジストリロール
-レジストリのメンバーリストには、各ユーザーの継承された（有効な）レジストリロールが、各行のロール選択ドロップダウンの横に（薄い灰色で）表示されます。
+次の表は、各 Registry ロールと、それぞれのロールに付与される権限を示しています。
+
+| 権限                                                                                    | 権限グループ | Restricted Viewer<br />(Multi-tenant Cloud、招待制) | Viewer | Member | Admin |
+| ------------------------------------------------------------------------------------- | ------ | ----------------------------------------------- | :----: | :----: | :---: |
+| collection の詳細を表示する                                                                   | Read   | ✓                                               |    ✓   |    ✓   |   ✓   |
+| リンクされた artifact の詳細を表示する                                                              | Read   | ✓                                               |    ✓   |    ✓   |   ✓   |
+| Usage: `use_artifact` を使用して Registry 内の artifact を利用する                                | Read   |                                                 |    ✓   |    ✓   |   ✓   |
+| リンクされた artifact をダウンロードする                                                             | Read   |                                                 |    ✓   |    ✓   |   ✓   |
+| artifact のファイルビューアからファイルをダウンロードする                                                     | Read   |                                                 |    ✓   |    ✓   |   ✓   |
+| Registry を検索する                                                                        | Read   | ✓                                               |    ✓   |    ✓   |   ✓   |
+| Registry の Settings とユーザー一覧を表示する                                                      | Read   | ✓                                               |    ✓   |    ✓   |   ✓   |
+| collection の新しい automation を作成する                                                      | Create |                                                 |        |    ✓   |   ✓   |
+| 新しいバージョンが Added されたときの Slack notifications を有効にする                                     | Create |                                                 |        |    ✓   |   ✓   |
+| 新しい collection を作成する                                                                  | Create |                                                 |        |    ✓   |   ✓   |
+| 新しい Registry を作成する                                                                    | Create |                                                 |        |    ✓   |   ✓   |
+| collection カード (説明) を編集する                                                             | Update |                                                 |        |    ✓   |   ✓   |
+| リンクされた artifact の説明を編集する                                                              | Update |                                                 |        |    ✓   |   ✓   |
+| collection のタグを追加または削除する                                                              | Update |                                                 |        |    ✓   |   ✓   |
+| リンクされた artifact のエイリアスを追加または削除する                                                      | Update |                                                 |        |    ✓   |   ✓   |
+| リンクされた artifact の [保護されたエイリアス](/ja/models/registry/aliases#protected-aliases) を追加または削除する | Update |                                                 |        |        |   ✓   |
+| [保護されたエイリアス](/ja/models/registry/aliases#protected-aliases) を作成または削除する                   | Update |                                                 |        |        |   ✓   |
+| 新しい artifact をリンクする                                                                   | Update |                                                 |        |    ✓   |   ✓   |
+| Registry の許可されたタイプ一覧を編集する                                                             | Update |                                                 |        |    ✓   |   ✓   |
+| Registry 名を編集する                                                                       | Update |                                                 |        |    ✓   |   ✓   |
+| collection を削除する                                                                      | Delete |                                                 |        |    ✓   |   ✓   |
+| automation を削除する                                                                      | Delete |                                                 |        |    ✓   |   ✓   |
+| Registry から artifact のリンクを解除する                                                        | Delete |                                                 |        |    ✓   |   ✓   |
+| Registry の Accepted artifact types を編集する                                              | Admin  |                                                 |        |        |   ✓   |
+| Registry の可視性 (Organization または Restricted) を変更する                                     | Admin  |                                                 |        |        |   ✓   |
+| Registry に Users を追加する                                                                | Admin  |                                                 |        |        |   ✓   |
+| Registry 内のユーザーのロールを割り当てまたは変更する                                                       | Admin  |                                                 |        |        |   ✓   |
+
+<div id="inherited-registry-role">
+  ### 継承された Registry ロール
+</div>
+
+Registry のメンバーシップ一覧には、各ユーザーの継承された (有効な) Registry ロールが、各行のロールドロップダウンの横に薄いグレーで表示されます。
 
 <Frame>
-    <img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role"  />
+  <img src="/images/registry/role_conflict.png" alt="ユーザーの有効な Registry ロールを示す Registry メンバーシップ一覧" />
 </Frame>
 
-特定のレジストリにおけるユーザーの有効なロールは、組織内、レジストリ内、およびレジストリを所有するチーム内でのロール（継承されたもの、または明示的に割り当てられたもの）の中で、最も _高い_ ロールと一致します。例：
+特定の Registry におけるユーザーの有効ロールは、継承によるものか明示的に割り当てられたものかを問わず、組織、Registry、その Registry を所有するチームで持つロールのうち、*最も高い* ロールになります。たとえば、次のとおりです。
 
-- チームの **Admin** または組織の **Admin** が、そのチームが所有する特定のレジストリで **Viewer** ロールを持っている場合、実質的にはそのレジストリの **Admin** となります。
-- レジストリの **Viewer** であり、チーム内で **Member** ロールを持っている場合、実質的にはそのレジストリの **Member** となります。
-- チームの **Viewer** であり、特定のレジストリで **Member** ロールを持っている場合、実質的にはそのレジストリの **Member** となります。
+* チームの **Admin** または組織の **Admin** が、チームが所有する特定の Registry で **Viewer** ロールを持っている場合、そのユーザーの Registry での実効ロールは **Admin** です。
+* Registry の **Viewer** が、チームで **Member** ロールを持っている場合、そのユーザーの Registry での実効ロールは **Member** です。
+* チームの **Viewer** が、特定の Registry で **Member** ロールを持っている場合、そのユーザーの Registry での実効ロールは **Member** です。
 
-### Restricted Viewer ロールの詳細
-**Restricted Viewer** ロールは一般公開（GA）されています。専用クラウドおよびセルフマネージドの場合、Server v0.75.0 以降が必要です。
+<div id="restricted-viewer-role-details">
+  ### Restricted Viewer ロールの詳細
+</div>
 
-このロールは、レジストリアーティファクトへの読み取り専用アクセスを提供しますが、コレクション、オートメーション、またはその他のレジストリリソースを作成、更新、または削除することはできません。
+**Restricted Viewer** ロールは一般提供 (GA) です。専用クラウドおよびセルフマネージドでは、Server v0.75.0 以降が必須です。
 
-**Viewer** とは異なり、**Restricted Viewer** は以下のことができません：
-- アーティファクトファイルのダウンロードやファイル内容へのアクセス。
-- W&B SDK での `wandb.Run.use_artifact()` を使用したアーティファクトの利用。
+このロールでは、コレクション、自動化、その他の Registry リソースを作成、更新、削除することはできず、Registry 内の Artifacts に読み取り専用でアクセスできます。
 
-#### SDK の互換性
+**Viewer** とは異なり、**Restricted Viewer** では次のことはできません:
+
+* artifact ファイルをダウンロードしたり、ファイルの内容にアクセスしたりできません。
+* W&amp;B SDK で `wandb.Run.use_artifact()` を使用して artifact を利用できません。
+
+<div id="sdk-compatibility">
+  #### SDK の互換性
+</div>
 
 <Note>
+  **SDK バージョン要件**
 
-**SDK バージョンの要件**
-
-**Restricted Viewer** として W&B SDK を使用してアーティファクトにアクセスするには、W&B SDK バージョン 0.19.9 以上を使用する必要があります。それ以前のバージョンでは、一部の SDK コマンドで権限エラーが発生します。
-
+  **Restricted Viewer** として W&amp;B SDK を使用して artifact にアクセスするには、W&amp;B SDK バージョン 0.19.9 以降を使用する必要があります。そうしないと、一部の SDK コマンドで権限エラーが発生します。
 </Note>
 
-**Restricted Viewer** が SDK を使用する場合、特定の機能が利用できないか、動作が異なります。
+**Restricted Viewer** が SDK を使用する場合、特定の function は利用できないか、動作が異なります。
 
-以下のメソッドは利用できず、権限エラーが発生します：
-- [`Run.use_artifact()`](/models/ref/python/experiments/run/#method-runuse_artifact)
-- [`Artifact.download()`](/models/ref/python/experiments/artifact/#method-artifactdownload)
-- [`Artifact.file()`](/models/ref/python/experiments/artifact/#method-artifactfile)
-- [`Artifact.files()`](/models/ref/python/experiments/artifact/#method-artifactfiles)
+次の method は利用できず、権限エラーが発生します。
 
-以下のメソッドは、アーティファクトのメタデータへのアクセスに限定されます：
-- [`Artifact.get_entry()`](/models/ref/python/experiments/artifact/#method-artifactget_entry)
-- [`Artifact.get_path()`](/models/ref/python/experiments/artifact/#method-artifactget_path)
-- [`Artifact.get()`](/models/ref/python/experiments/artifact/#method-artifactget)
-- [`Artifact.verify()`](/models/ref/python/experiments/artifact/#method-artifactverify)
+* [`Run.use_artifact()`](/ja/models/ref/python/experiments/run/#method-runuse_artifact)
+* [`Artifact.download()`](/ja/models/ref/python/experiments/artifact/#method-artifactdownload)
+* [`Artifact.file()`](/ja/models/ref/python/experiments/artifact/#method-artifactfile)
+* [`Artifact.files()`](/ja/models/ref/python/experiments/artifact/#method-artifactfiles)
 
-### レジストリをまたぐ権限
+次の method でアクセスできるのは artifact のメタデータのみです。
 
-ユーザーはレジストリごとに異なるロールを持つことができます。例えば、Registry A では **Restricted Viewer** であっても、Registry B では **Viewer** であるといったことが可能です。この場合：
+* [`Artifact.get_entry()`](/ja/models/ref/python/experiments/artifact/#method-artifactget_entry)
+* [`Artifact.get_path()`](/ja/models/ref/python/experiments/artifact/#method-artifactget_path)
+* [`Artifact.get()`](/ja/models/ref/python/experiments/artifact/#method-artifactget)
+* [`Artifact.verify()`](/ja/models/ref/python/experiments/artifact/#method-artifactverify)
 
-- 両方のレジストリにリンクされている同じアーティファクトであっても、アクセスレベルは異なります。
-- Registry A では、ユーザーは **Restricted Viewer** であり、ファイルをダウンロードしたりアーティファクトを使用したりすることはできません。
-- Registry B では、ユーザーは **Viewer** であり、ファイルをダウンロードしたりアーティファクトを使用したりすることができます。
-- つまり、アクセス権限は、そのアーティファクトが「どのレジストリ経由で」アクセスされているかによって決定されます。
+<div id="cross-registry-permissions">
+  ### Registry 間の権限
+</div>
+
+1 人のユーザーが、複数の Registry でそれぞれ異なるロールを持つことがあります。たとえば、あるユーザーは Registry A では **Restricted Viewer** で、Registry B では **Viewer** である場合があります。この場合:
+
+* 両方の Registry にリンクされている同じ artifact でも、アクセスレベルは異なります
+* Registry A では、そのユーザーは **Restricted Viewer** であるため、ファイルをダウンロードしたり artifact を使用したりできません
+* Registry B では、そのユーザーは **Viewer** であるため、ファイルをダウンロードして artifact を使用できます
+* つまり、アクセス権は artifact にアクセスした Registry によって決まります

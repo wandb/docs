@@ -1,0 +1,30 @@
+---
+title: "`.call()` が例外を送出しないのはなぜですか？"
+keywords: ["Trace Data"]
+---
+
+デフォルトでは、Weave の [`.call()`](/ja/weave/guides/tracking/tracing#creating-calls) メソッドは例外を取得し、送出する代わりに `call.exception` に保存します。これは想定どおりの動作です。
+
+実行中に例外を送出する必要がある場合は、`__should_raise` パラメーターを設定してください。
+
+```python
+result, call = my_op.call(__should_raise=True)
+```
+
+`__should_raise=True` がない場合、op の実行中に発生した例外はすべて、表に出されることなく取得されて保存されます。エラーを調べるには、`call.exception` を確認してください。
+
+```python
+result, call = my_op.call()
+if call.exception:
+    print(f"Op failed with: {call.exception}")
+```
+
+詳細は、[制限と想定される動作](/ja/weave/details/limits)を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[トレースデータ](/ja/support/weave/tags/trace-data)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

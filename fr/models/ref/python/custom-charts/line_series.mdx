@@ -1,0 +1,129 @@
+---
+title: line_series()
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py" />
+
+
+### <kbd>fonction</kbd> `line_series`
+
+```python
+line_series(
+    xs: 'Iterable[Iterable[Any]] | Iterable[Any]',
+    ys: 'Iterable[Iterable[Any]]',
+    keys: 'Iterable[str] | None' = None,
+    title: 'str' = '',
+    xname: 'str' = 'x',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Construit un graphique en courbes.
+
+**Arguments :**
+
+* `xs`:  Séquence de valeurs x. Si un seul tableau est fourni, toutes les valeurs y sont tracées par rapport à ce tableau x. Si un tableau de tableaux est fourni, chaque valeur y est tracée par rapport au tableau x correspondant.
+* `ys`:  Séquence de valeurs y, où chaque itérable représente une série de lignes distincte.
+* `keys`:  Séquence de clés pour étiqueter chaque série de lignes. Si elle n&#39;est pas fournie, les clés seront automatiquement générées sous la forme &quot;line&#95;1&quot;,  &quot;line&#95;2&quot;, etc.
+* `title`:  Titre du graphique.
+* `xname`:  Libellé de l&#39;axe des x.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+
+**Exemples :**
+Enregistrement d&#39;un seul tableau x, où toutes les séries y sont tracées par rapport aux mêmes valeurs x :
+
+```python
+import wandb
+
+# Initialiser le run W&B
+with wandb.init(project="line_series_example") as run:
+    # Valeurs x partagées entre toutes les séries y
+    xs = list(range(10))
+
+    # Plusieurs séries y à tracer
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x²
+         [i**3 for i in range(10)],  # y = x³
+    ]
+
+    # Générer et enregistrer le graphique de série de lignes
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         title="title",
+         xname="step",
+    )
+    run.log({"line-series-single-x": line_series_chart})
+```
+
+Dans cet exemple, une seule série `xs` (valeurs x partagées) est utilisée pour toutes les séries `ys`. Chaque série y est donc représentée en fonction des mêmes valeurs x (0-9).
+
+Journalisation de plusieurs tableaux x, où chaque série y est représentée en fonction du tableau x correspondant :
+
+```python
+import wandb
+
+# Initialiser le run W&B
+with wandb.init(project="line_series_example") as run:
+    # Valeurs x séparées pour chaque série y
+    xs = [
+         [i for i in range(10)],  # x pour la première série
+         [2 * i for i in range(10)],  # x pour la deuxième série (étirée)
+         [3 * i for i in range(10)],  # x pour la troisième série (encore plus étirée)
+    ]
+
+    # Séries y correspondantes
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # Générer et enregistrer le graphique de série de lignes
+    line_series_chart = wandb.plot.line_series(
+         xs, ys, title="Multiple X Arrays Example", xname="Step"
+    )
+    run.log({"line-series-multiple-x": line_series_chart})
+```
+
+Dans cet exemple, chaque série de valeurs y est tracée en fonction de sa propre série de valeurs x. Cela offre davantage de flexibilité lorsque les valeurs x ne sont pas uniformes d’une série de données à l’autre.
+
+Personnalisation des étiquettes de ligne avec `keys` :
+
+
+```python
+import wandb
+
+# Initialiser le run W&B
+with wandb.init(project="line_series_example") as run:
+    xs = list(range(10))  # Tableau x unique
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x²
+         [i**3 for i in range(10)],  # y = x³
+    ]
+
+    # Étiquettes personnalisées pour chaque ligne
+    keys = ["Linear", "Quadratic", "Cubic"]
+
+    # Générer et journaliser le graphique de séries de lignes
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         keys=keys,  # Clés personnalisées (étiquettes de ligne)
+         title="Custom Line Labels Example",
+         xname="Step",
+    )
+    run.log({"line-series-custom-keys": line_series_chart})
+```
+
+Cet exemple montre comment définir des libellés personnalisés pour les courbes à l’aide de l’argument `keys`. Les valeurs de `keys` apparaîtront dans la légende sous la forme &quot;Linear&quot;, &quot;Quadratic&quot; et &quot;Cubic&quot;.

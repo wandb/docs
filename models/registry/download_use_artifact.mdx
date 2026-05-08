@@ -12,7 +12,7 @@ Once you know the properties of the artifact, you can [construct the path to the
 
 To download an artifact linked to a registry, you must know the path of that linked artifact. The path consists of the registry name, collection name, and the alias or index of the artifact version you want to access. 
 
-Once you have the registry, collection, and alias or index of the artifact version, you can construct the path to the linked artifact using the proceeding string template:
+Once you have the registry, collection, and alias or index of the artifact version, you can construct the path to the linked artifact using the following string template:
 
 ```python
 # Artifact name with version index specified
@@ -25,7 +25,7 @@ f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 Replace the values within the curly braces `{}` with the name of the registry, collection, and the alias or index of the artifact version you want to access.
 
 
-Use the `wandb.Run.use_artifact()` method to access the artifact and download its contents once you have the path of the linked artifact. The proceeding code snippet shows how to use and download an artifact linked to the W&B Registry. Ensure to replace values within `<>` with your own:
+Use the `wandb.Run.use_artifact()` method to access the artifact and download its contents once you have the path of the linked artifact. The following code snippet shows how to use and download an artifact linked to the W&B Registry. Ensure to replace values within `<>` with your own:
 
 ```python
 import wandb

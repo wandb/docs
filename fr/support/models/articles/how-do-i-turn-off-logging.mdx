@@ -1,0 +1,23 @@
+---
+title: "Comment puis-je désactiver le logging ?"
+keywords: ["Logs"]
+---
+
+La commande `wandb offline` définit la variable d&#39;environnement `WANDB_MODE=offline`, ce qui empêche la synchronisation des données avec le serveur W&amp;B distant. Cette action affecte tous les Projects et arrête le logging des données vers les serveurs W&amp;B.
+
+Pour masquer les messages d&#39;avertissement, utilisez le code suivant :
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

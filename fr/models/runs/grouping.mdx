@@ -1,0 +1,147 @@
+---
+description: Organisez vos runs en groupes et selon d’autres propriétés.
+title: Organiser les runs
+---
+
+Organisez vos runs en *groupes*. Un groupe est une collection de runs qui partagent un objectif commun, comme des runs d&#39;entraînement pour un modèle spécifique ou des runs d&#39;évaluation pour un jeu de données spécifique.
+
+Vous pouvez également organiser les runs selon d&#39;autres propriétés, comme le *type de job*. Les [types de job](/fr/models/runs/grouping#organize-runs-by-job-type) indiquent la fonction d&#39;un run, par exemple `preprocessing`, `training` ou `evaluation`.
+
+{/* 
+  ### Définir des groupes à l’aide de variables d’environnement
+
+  Utilisez `WANDB_RUN_GROUP` pour définir un groupe pour vos runs comme variable d’environnement. Pour en savoir plus, consultez notre documentation sur les [variables d’environnement](/models/track/environment-variables/). **Group** doit être unique au sein de votre projet et commun à tous les runs du groupe. Vous pouvez utiliser `wandb.util.generate_id()` pour générer une chaîne unique de 8 caractères à utiliser dans l’ensemble de vos processus — par exemple, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
+
+<div id="organize-runs-into-groups">
+  ## Organiser les runs en groupes
+</div>
+
+Vous pouvez ajouter des runs à un groupe par code avec le W&amp;B Python SDK ou de manière interactive dans la W&amp;B App.
+
+<Note>
+  W&amp;B stocke les noms de groupe comme propriété [`wandb.Run.group`](/fr/models/ref/python/experiments/run#property-run-group) d’un run.
+</Note>
+
+<Tabs>
+  <Tab title="Python SDK">
+    Ajoutez par code un ou plusieurs runs à un groupe avec le W&amp;B Python SDK. Passez le nom de votre groupe comme argument du paramètre `group` lorsque vous initialisez un run avec `wandb.init(group="")`. Vous pouvez utiliser les noms de groupe pour organiser et filtrer les runs dans la W&amp;B App.
+
+    L’exemple suivant crée trois groupes nommés `A`, `B` et `C`. Chaque groupe contient trois runs.
+
+    ```python
+    import wandb
+
+    entity = "<entity>"
+    project = "<project>"
+
+    for group in ["A", "B", "C"]:
+        for i in range(3):
+            with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
+                # Simulate some training
+                for step in range(100):
+                    run.log({
+                        "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                        "loss": 1.0 - (step / 100) * 0.5
+                    })
+    ```
+
+    Dans le Workspace du projet, vous pouvez afficher les runs organisés par groupe. L’image suivante montre le tableau des Runs organisé par nom de groupe. Trois groupes nommés `A`, `B` et `C` apparaissent dans le tableau des Runs, chacun contenant trois runs.
+
+    <Frame>
+      <img src="/images/runs/group_name_3_groups.png" alt="Tableau des Runs organisé par nom de groupe" />
+    </Frame>
+  </Tab>
+
+  <Tab title="W&B App">
+    1. Accédez à votre projet W&amp;B.
+    2. Sélectionnez l’onglet **Runs** dans la barre latérale du projet.
+    3. Au-dessus de la liste des runs, cliquez sur le bouton **Group**.
+    4. Cochez la case à côté d’un ou de plusieurs runs à regrouper.
+    5. Sélectionnez **Move to group**.
+    6. Dans le panneau latéral, sélectionnez un groupe existant ou créez-en un nouveau.
+  </Tab>
+</Tabs>
+
+<div id="view-groups">
+  ### Voir les groupes
+</div>
+
+Affichez les runs organisés par groupe dans W&amp;B App :
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Au-dessus de la liste des runs, cliquez sur le bouton **Group**.
+3. Dans le menu déroulant, sélectionnez un **Group**.
+
+<div id="move-runs-between-groups">
+  ### Déplacer des runs entre des groupes
+</div>
+
+Déplacez des runs d’un groupe à un autre :
+
+1. Accédez à votre projet W&amp;B.
+2. Sélectionnez l’onglet **Runs** dans la barre latérale du projet.
+3. Sélectionnez un ou plusieurs runs en cochant leurs cases.
+4. Au-dessus du tableau, cliquez sur **Move to group**.
+5. Dans le panneau latéral, sélectionnez le groupe de destination ou créez-en un nouveau.
+6. Cliquez sur **Move**.
+
+<div id="remove-runs-from-a-group">
+  ### Retirer des runs d’un groupe
+</div>
+
+1. Accédez à votre projet W&amp;B.
+2. Sélectionnez l’onglet **Runs** dans la barre latérale du projet.
+3. Au-dessus de la liste des runs, cliquez sur le bouton **Group**.
+4. Dans le menu déroulant, sélectionnez le **X** à côté du nom du groupe à retirer.
+
+<div id="delete-a-group">
+  ### Supprimer un groupe
+</div>
+
+Pour supprimer un groupe, retirez-en tous les runs. Le groupe sera alors automatiquement supprimé.
+
+<div id="organize-runs-by-job-type">
+  ## Organiser les runs par type de job
+</div>
+
+Organisez les runs par *type de job*. Un type de job indique la fonction d’un run, par exemple `preprocessing`, `training` ou `evaluation`.
+
+<Note>
+  Consultez le type de job d’un run via la propriété [`wandb.Run.job_type`](/fr/models/ref/python/experiments/run#property-run-job-type) du run.
+</Note>
+
+Ajoutez un type de job à un run en passant le paramètre `job_type` à `wandb.init(job_type="")`. Par exemple, l’extrait de code suivant crée des runs avec un type de job `training` ou `evaluation` :
+
+```python
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+for job_type in ["training", "evaluation"]:
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # Simuler un processus
+            for step in range(50):
+                run.log({
+                    "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
+                    "metric2": 0.8 - (step / 50) * 0.3
+                })
+
+```
+
+L’image suivante montre les runs organisés par type de job :
+
+<Frame>
+  <img src="/images/runs/group_job_type.png" alt="Tableau des runs non groupés" />
+</Frame>
+
+<div id="view-runs-organized-by-job-type">
+  ### Afficher les runs organisés par type de job
+</div>
+
+Affichez les runs organisés par groupe dans la W&amp;B App :
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Au-dessus de la liste des runs, cliquez sur le bouton **Group**.
+3. Dans le menu déroulant, sélectionnez **Job Type**.

@@ -1,0 +1,17 @@
+---
+title: "sweep の実行中に Python ファイルを編集するとどうなりますか？"
+keywords: ["Sweeps"]
+---
+
+sweep の実行中は、次のようになります。
+
+* sweep が使用する `train.py` スクリプトに変更があっても、sweep は引き続き元の `train.py` を使用します
+* `train.py` スクリプトが参照しているファイル (たとえば `helper.py` スクリプト内のヘルパー関数など) が変更された場合、sweep は更新後の `helper.py` を使用するようになります。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
+
+{/* END AUTO-GENERATED: タブバッジ */}

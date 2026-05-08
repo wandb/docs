@@ -1,0 +1,450 @@
+---
+title: "예시 코드 및 노트북"
+description: "각 W&B 제품에 대한 실습형 튜토리얼, 워크스루 및 Colab 노트북입니다."
+---
+
+제품별로 정리된 엔드 투 엔드 예시를 살펴보세요. 아래의 각 페이지는 튜토리얼, 워크스루 또는 실행 가능한 Colab 노트북이 포함된 페이지로 연결됩니다.
+
+<div id="quickstarts">
+  ## 퀵스타트
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B 시작하기" href="/ko/get-started">
+    Weights &amp; Biases를 빠르게 시작할 수 있는 통합 시작점입니다.
+  </Card>
+
+  <Card title="W&B Models: 퀵스타트" href="/ko/models/quickstart">
+    W&amp;B를 설치하고 몇 분 만에 실험 추적을 시작하세요.
+  </Card>
+
+  <Card title="W&B Models: 실험 시작하기" href="/ko/models/models_quickstart">
+    실험을 추적하고 메트릭을 기록하며 결과를 시각화하세요.
+  </Card>
+
+  <Card title="W&B Weave: 퀵스타트" href="/ko/weave/quickstart">
+    LLM 애플리케이션에 트레이싱을 추가하여 모델 상호작용을 디버그하고 모니터링하세요.
+  </Card>
+
+  <Card title="W&B Weave: W&B Inference로 Weave 익히기" href="/ko/weave/quickstart-inference">
+    모델 호출을 트레이스하고, 출력을 비교하고, W&amp;B Inference를 사용해 평가를 실행하세요.
+  </Card>
+
+  <Card title="W&B Weave: Leaderboard 퀵스타트" href="/ko/weave/cookbooks/leaderboard_quickstart">
+    모델과 실험을 비교할 수 있는 리더보드를 구축하세요.
+  </Card>
+</CardGroup>
+
+<div id="wb-models">
+  ## W&amp;B Models
+</div>
+
+<div id="experiments">
+  ### 실험
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: 실험 개요" href="/ko/models/track">
+    메트릭, 하이퍼파라미터, 시스템 메트릭, 모델 아티팩트를 추적하는 방법을 소개합니다.
+  </Card>
+
+  <Card title="W&B Models: 실험 설정" href="/ko/models/track/config">
+    딕셔너리와 유사한 객체를 사용해 실험 설정을 저장하세요.
+  </Card>
+
+  <Card title="W&B Models: 실험 결과 보기" href="/ko/models/track/workspaces">
+    대화형 워크스페이스에서 run 데이터를 탐색하세요.
+  </Card>
+
+  <Card title="W&B Models: 미디어 및 객체 로깅하기" href="/ko/models/track/log/media">
+    3D 포인트 클라우드, 분자, HTML, 히스토그램 등 리치 미디어를 로깅하세요.
+  </Card>
+
+  <Card title="W&B Models: 모델 로깅하기" href="/ko/models/track/log/log-models">
+    `run.log_model()` 및 `run.use_model()`을 사용해 모델 아티팩트를 run에 로깅하세요.
+  </Card>
+
+  <Card title="W&B Models: 플롯 생성 및 추적" href="/ko/models/track/log/plots">
+    ML 실험에서 플롯을 생성하고 추적하세요.
+  </Card>
+</CardGroup>
+
+<div id="sweeps-artifacts-tables">
+  ### Sweeps, Artifacts, Tables
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Sweeps 개요" href="/ko/models/sweeps">
+    Sweeps를 사용한 하이퍼파라미터 검색과 모델 최적화 소개입니다.
+  </Card>
+
+  <Card title="W&B Models: 스윕 실행" href="/ko/models/sweeps/walkthrough">
+    하이퍼파라미터 스윕을 정의하고, 초기화하고, 실행합니다.
+  </Card>
+
+  <Card title="W&B Models: Artifacts 개요" href="/ko/models/artifacts">
+    W&amp;B Artifacts를 소개하고 시작하는 방법을 설명합니다.
+  </Card>
+
+  <Card title="W&B Models: 데이터셋 아티팩트 생성 및 사용" href="/ko/models/artifacts/artifacts-walkthrough">
+    여러 실험에서 데이터셋 아티팩트를 생성하고, 추적하고, 사용합니다.
+  </Card>
+
+  <Card title="W&B Models: 아티팩트 보존 관리" href="/ko/models/artifacts/ttl">
+    저장소 사용을 관리하기 위해 아티팩트에 TTL 정책을 설정합니다.
+  </Card>
+
+  <Card title="W&B Models: Tables 개요" href="/ko/models/tables">
+    데이터셋을 반복 개선하고 Tables로 모델 예측을 이해합니다.
+  </Card>
+
+  <Card title="W&B Models: Tables 로깅 및 데이터 쿼리" href="/ko/models/tables/tables-walkthrough">
+    Tables를 로깅하고, 시각화하고, 구조화된 데이터를 쿼리합니다.
+  </Card>
+
+  <Card title="W&B Models: Tables 시각화 및 분석" href="/ko/models/tables/visualize-tables">
+    병합 뷰 또는 나란히 보기에서 Tables를 비교하고, 필터링하고, 그룹화하고, 정렬합니다.
+  </Card>
+</CardGroup>
+
+<div id="registry-reports-ui-features">
+  ### 레지스트리, Reports, UI 기능
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: 레지스트리 개요" href="/ko/models/registry">
+    조직 전체에서 아티팩트 버전을 관리하고 공유하세요.
+  </Card>
+
+  <Card title="W&B Models: 별칭으로 아티팩트 버전 참조하기" href="/ko/models/registry/aliases">
+    레지스트리에서 기본 별칭, 맞춤형 별칭, 보호된 별칭을 사용하세요.
+  </Card>
+
+  <Card title="W&B Models: Reports 개요" href="/ko/models/reports">
+    ML 프로젝트를 위한 프로젝트 관리 및 협업 도구입니다.
+  </Card>
+
+  <Card title="W&B Models: Report 만들기" href="/ko/models/reports/create-a-report">
+    App UI에서 또는 프로그래밍 방식으로 W&amp;B Report를 만드세요.
+  </Card>
+
+  <Card title="W&B Models: Report 편집하기" href="/ko/models/reports/edit-a-report">
+    대화형으로 또는 Report API를 사용해 Report를 편집하세요.
+  </Card>
+
+  <Card title="W&B Models: 맞춤형 차트 개요" href="/ko/models/app/features/custom-charts">
+    Vega 시각화를 사용해 W&amp;B 프로젝트에서 맞춤형 차트를 만드세요.
+  </Card>
+
+  <Card title="W&B Models: 맞춤형 차트 만들기" href="/ko/models/app/features/custom-charts/walkthrough">
+    맞춤형 차트를 사용해 W&amp;B UI에서 목적에 맞는 시각화를 만드세요.
+  </Card>
+
+  <Card title="W&B Models: 객체 임베딩" href="/ko/models/app/features/panels/query-panels/embedding-projector">
+    임베딩 프로젝터를 사용해 객체 임베딩을 탐색하세요.
+  </Card>
+</CardGroup>
+
+<div id="ml-framework-integrations">
+  ### ML 프레임워크 인테그레이션
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Keras" href="/ko/models/integrations/keras">
+    실험을 추적하고, 모델 체크포인트를 저장하고, Keras 콜백으로 예측을 시각화하세요.
+  </Card>
+
+  <Card title="W&B Models: PyTorch" href="/ko/models/integrations/pytorch">
+    PyTorch 인테그레이션으로 메트릭, 그라디언트, 모델을 추적하세요.
+  </Card>
+
+  <Card title="W&B Models: PyTorch Lightning" href="/ko/models/integrations/lightning">
+    PyTorch Lightning에서 기본 제공되는 `WandbLogger`를 사용하세요.
+  </Card>
+
+  <Card title="W&B Models: PyTorch Ignite" href="/ko/models/integrations/ignite">
+    트레이닝 메트릭, 모델 파라미터, 설정을 자동으로 로깅하세요.
+  </Card>
+
+  <Card title="W&B Models: PyTorch torchtune" href="/ko/models/integrations/torchtune">
+    torchtune WandBLogger로 LLM 파인튜닝 실험을 추적하세요.
+  </Card>
+
+  <Card title="W&B Models: TensorFlow" href="/ko/models/integrations/tensorflow">
+    커스텀 메트릭을 로깅하고, Estimator 훅을 사용하고, TensorBoard 로그를 동기화하세요.
+  </Card>
+
+  <Card title="W&B Models: XGBoost" href="/ko/models/integrations/xgboost">
+    그래디언트 부스팅 메트릭, 피처 중요도, 모델 성능을 로깅하세요.
+  </Card>
+
+  <Card title="W&B Models: YOLOv5" href="/ko/models/integrations/yolov5">
+    실험 추적과 버전 관리를 위해 YOLOv5에 기본 제공되는 W&amp;B 인테그레이션을 사용하세요.
+  </Card>
+</CardGroup>
+
+<div id="ml-library-integrations">
+  ### ML 라이브러리 인테그레이션
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Models: Hugging Face" href="/ko/models/integrations/huggingface">
+    W&amp;B로 Hugging Face 모델 성능을 시각화하고 추적하세요.
+  </Card>
+
+  <Card title="W&B Models: Hugging Face Transformers" href="/ko/models/integrations/huggingface_transformers">
+    Hugging Face Transformers Trainer와 함께 W&amp;B를 사용하세요.
+  </Card>
+
+  <Card title="W&B Models: Simple Transformers" href="/ko/models/integrations/simpletransformers">
+    Hugging Face Simple Transformers와 W&amp;B를 통합하세요.
+  </Card>
+
+  <Card title="W&B Models: Hugging Face Diffusers" href="/ko/models/integrations/diffusers">
+    프롬프트, 생성된 미디어, 파이프라인 아키텍처를 자동으로 로깅하세요.
+  </Card>
+
+  <Card title="W&B Models: OpenAI API" href="/ko/models/integrations/openai-api">
+    Chat Completion, 파인튜닝 작업, token 사용 메트릭을 로깅하세요.
+  </Card>
+
+  <Card title="W&B Models: Azure OpenAI 파인튜닝" href="/ko/models/integrations/azure-openai-fine-tuning">
+    W&amp;B 실험 추적을 사용해 Azure OpenAI 모델을 파인튜닝하세요.
+  </Card>
+</CardGroup>
+
+<div id="wb-weave">
+  ## W&amp;B Weave
+</div>
+
+<div id="tutorials">
+  ### 튜토리얼
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: 평가 파이프라인 구축하기" href="/ko/weave/tutorial-eval">
+    Weave Models 및 평가를 사용해 평가 파이프라인을 구축하세요.
+  </Card>
+
+  <Card title="W&B Weave: RAG 애플리케이션 구축 및 평가하기" href="/ko/weave/tutorial-rag">
+    LLM judges를 사용해 RAG 애플리케이션을 구축하고 평가하세요.
+  </Card>
+
+  <Card title="W&B Weave: 중첩된 함수 트레이스하기" href="/ko/weave/tutorial-tracing_2">
+    W&amp;B 트레이싱으로 깊이 중첩된 Call 구조를 추적하세요.
+  </Card>
+
+  <Card title="W&B Weave: 애플리케이션 버전 관리하기" href="/ko/weave/tutorial-weave_models">
+    Weave Model로 애플리케이션과 해당 파라미터를 추적하고 버전을 관리하세요.
+  </Card>
+</CardGroup>
+
+<div id="cookbooks">
+  ### 쿡북
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: 트레이스 소개" href="/ko/weave/cookbooks/Intro_to_Weave_Hello_Trace">
+    Weave의 트레이싱을 처음 시작하는 사용자를 위한 입문 가이드입니다.
+  </Card>
+
+  <Card title="W&B Weave: 평가 소개" href="/ko/weave/cookbooks/Intro_to_Weave_Hello_Eval">
+    Weave에서 평가를 실행하는 방법을 직접 실습해 보세요.
+  </Card>
+
+  <Card title="W&B Weave: Hugging Face 데이터셋 평가" href="/ko/weave/cookbooks/hf_dataset_evals">
+    Weave를 사용해 Hugging Face 데이터셋에서 평가를 실행하세요.
+  </Card>
+
+  <Card title="W&B Weave: CSV에서 데이터셋 임포트하기" href="/ko/weave/cookbooks/import_from_csv">
+    CSV를 Weave 데이터셋으로 불러와 평가에 활용하세요.
+  </Card>
+
+  <Card title="W&B Weave: W&B Models와 함께 Weave 사용하기" href="/ko/weave/cookbooks/Models_and_Weave_Integration_Demo">
+    W&amp;B Models와 Weave를 하나의 워크플로로 결합하세요.
+  </Card>
+
+  <Card title="W&B Weave: Chain of density 요약" href="/ko/weave/cookbooks/chain_of_density">
+    반복적 요약을 위해 chain-of-density 프롬프팅을 구현하세요.
+  </Card>
+
+  <Card title="W&B Weave: DSPy 프롬프트 최적화" href="/ko/weave/cookbooks/dspy_prompt_optimization">
+    DSPy로 프롬프트를 최적화하고 결과를 Weave에서 추적하세요.
+  </Card>
+
+  <Card title="W&B Weave: NotDiamond 맞춤형 라우팅" href="/ko/weave/cookbooks/notdiamond_custom_routing">
+    NotDiamond를 사용해 모델 간 라우팅을 동적으로 수행하세요.
+  </Card>
+
+  <Card title="W&B Weave: 멀티 에이전트 구조화 출력" href="/ko/weave/cookbooks/multi-agent-structured-output">
+    구조화된 출력을 생성하는 여러 에이전트를 조율하세요.
+  </Card>
+
+  <Card title="W&B Weave: 코드 생성" href="/ko/weave/cookbooks/codegen">
+    Weave로 코드 생성 파이프라인을 구축하고 평가하세요.
+  </Card>
+
+  <Card title="W&B Weave: OCR 파이프라인" href="/ko/weave/cookbooks/ocr-pipeline">
+    컴퓨터 비전 OCR 파이프라인을 트레이스하고 평가하세요.
+  </Card>
+
+  <Card title="W&B Weave: Weave로 오디오 다루기" href="/ko/weave/cookbooks/audio_with_weave">
+    Weave 트레이스에서 오디오 입력과 출력을 다루세요.
+  </Card>
+
+  <Card title="W&B Weave: 온라인 모니터링" href="/ko/weave/cookbooks/online_monitoring">
+    Weave로 프로덕션 LLM 애플리케이션을 모니터링하세요.
+  </Card>
+
+  <Card title="W&B Weave: 프로덕션 피드백" href="/ko/weave/cookbooks/feedback_prod">
+    프로덕션 트래픽에서 사용자 피드백을 수집하고 반영하세요.
+  </Card>
+
+  <Card title="W&B Weave: 가드레일로서의 Scorer" href="/ko/weave/cookbooks/scorers_as_guardrails">
+    프로덕션 LLM 호출의 가드레일로 Weave Scorer를 사용하세요.
+  </Card>
+
+  <Card title="W&B Weave: 맞춤형 모델 비용" href="/ko/weave/cookbooks/custom_model_cost">
+    트레이스와 함께 모델별 맞춤형 비용을 추적하세요.
+  </Card>
+
+  <Card title="W&B Weave: PII 데이터 처리" href="/ko/weave/cookbooks/pii">
+    민감한 워크로드를 위해 Weave 트레이스에서 PII를 마스킹하세요.
+  </Card>
+
+  <Card title="W&B Weave: Weave Service API 사용하기" href="/ko/weave/cookbooks/weave_via_service_api">
+    트레이스를 기록하기 위해 Weave Service API를 직접 호출하세요.
+  </Card>
+</CardGroup>
+
+<div id="evaluation-and-tracking">
+  ### 평가 및 추적
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: 로컬 Scorer를 사용한 평가" href="/ko/weave/guides/evaluation/weave_local_scorers">
+    소규모 로컬 언어 모델을 사용해 AI 안전성과 품질을 평가하세요.
+  </Card>
+
+  <Card title="W&B Weave: 어노테이션 큐 설정" href="/ko/weave/guides/tracking/annotation-queues">
+    트레이스를 도메인 전문가에게 라우팅하고 구조화된 피드백을 내보내세요.
+  </Card>
+
+  <Card title="W&B Weave: 사용자 정의 비용 추적" href="/ko/weave/guides/tracking/costs">
+    LLM 오퍼레이션 비용을 추적하고 관리하세요.
+  </Card>
+</CardGroup>
+
+<div id="llm-provider-integrations">
+  ### LLM 공급자 인테그레이션
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: Anthropic" href="/ko/weave/guides/integrations/anthropic">
+    Anthropic SDK를 통해 이루어지는 LLM Call을 자동으로 추적하고 로깅합니다.
+  </Card>
+
+  <Card title="W&B Weave: Cohere" href="/ko/weave/guides/integrations/cohere">
+    Cohere Python 라이브러리를 통해 이루어지는 LLM Call을 자동으로 추적하고 로깅합니다.
+  </Card>
+
+  <Card title="W&B Weave: Google" href="/ko/weave/guides/integrations/google">
+    Google GenAI 모델 Call을 트레이스하고 로깅합니다.
+  </Card>
+
+  <Card title="W&B Weave: Groq" href="/ko/weave/guides/integrations/groq">
+    Weave로 Groq LPU 추론을 추적하고 모니터링합니다.
+  </Card>
+
+  <Card title="W&B Weave: MistralAI" href="/ko/weave/guides/integrations/mistral">
+    Weave로 Mistral AI 모델 Call을 트레이스하고 평가합니다.
+  </Card>
+
+  <Card title="W&B Weave: OpenAI" href="/ko/weave/guides/integrations/openai">
+    트레이싱, 평가, 모니터링을 위해 OpenAI를 Weave와 통합합니다.
+  </Card>
+
+  <Card title="W&B Weave: LiteLLM" href="/ko/weave/guides/integrations/litellm">
+    LiteLLM을 통해 이루어지는 LLM Call을 자동으로 추적하고 로깅합니다.
+  </Card>
+</CardGroup>
+
+<div id="framework-and-protocol-integrations">
+  ### 프레임워크 및 프로토콜 인테그레이션
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Weave: CrewAI" href="/ko/weave/guides/integrations/crewai">
+    CrewAI로 멀티 에이전트 애플리케이션을 모니터링하고 트레이스하세요.
+  </Card>
+
+  <Card title="W&B Weave: DSPy" href="/ko/weave/guides/integrations/dspy">
+    DSPy 모듈과 함수를 사용해 수행된 Call을 추적하고 로깅하세요.
+  </Card>
+
+  <Card title="W&B Weave: Instructor" href="/ko/weave/guides/integrations/instructor">
+    Instructor를 통해 수행된 구조화된 출력 Call을 트레이스하세요.
+  </Card>
+
+  <Card title="W&B Weave: LangChain" href="/ko/weave/guides/integrations/langchain">
+    LangChain Python 라이브러리를 통해 수행된 모든 Call을 추적하고 로깅하세요.
+  </Card>
+
+  <Card title="W&B Weave: Verdict" href="/ko/weave/guides/integrations/verdict">
+    Verdict 평가 프레임워크를 사용해 LLM 평가 파이프라인을 모니터링하세요.
+  </Card>
+
+  <Card title="W&B Weave: Hugging Face Hub" href="/ko/weave/guides/integrations/huggingface">
+    Hugging Face Hub로 ML 애플리케이션을 추적하고 분석하세요.
+  </Card>
+
+  <Card title="W&B Weave: Model Context Protocol (MCP)" href="/ko/weave/guides/integrations/mcp">
+    MCP 클라이언트와 MCP 서버 간의 활동을 트레이스하세요.
+  </Card>
+</CardGroup>
+
+<div id="wb-inference">
+  ## W&amp;B Inference
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Inference: 파인튜닝된 LoRA 만들기" href="/ko/inference/tutorials/creating-lora">
+    W&amp;B Inference로 LoRA 어댑터를 파인튜닝하고 배포하세요.
+  </Card>
+
+  <Card title="W&B Inference: Cline을 W&B Inference와 함께 사용하기" href="/ko/inference/tutorials/integration-cline">
+    Cline을 W&amp;B Inference endpoints에 통합하세요.
+  </Card>
+</CardGroup>
+
+<div id="wb-training">
+  ## W&amp;B Training
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Training: Serverless RL" href="/ko/training/serverless-rl">
+    W&amp;B에서 강화 학습으로 모델을 포스트 트레이닝하세요.
+  </Card>
+
+  <Card title="W&B Training: Serverless SFT 사용" href="/ko/training/sft-training/sft-training">
+    OpenPipe ART 프레임워크를 사용해 Serverless SFT로 모델을 파인튜닝하세요.
+  </Card>
+
+  <Card title="W&B Training: 학습된 모델 사용" href="/ko/training/serverless-rl/use-trained-models">
+    트레이닝한 모델에 추론 요청을 보내세요.
+  </Card>
+</CardGroup>
+
+<div id="wb-sandboxes">
+  ## W&amp;B Sandboxes
+</div>
+
+<CardGroup cols={2}>
+  <Card title="W&B Sandboxes: PyTorch 모델 학습하기" href="/ko/sandboxes/mltrain-in-sandbox-tutorial">
+    W&amp;B Sandbox 환경에서 PyTorch 모델을 학습합니다.
+  </Card>
+
+  <Card title="W&B Sandboxes: 샌드박스에서 에이전트 호출하기" href="/ko/sandboxes/invoke-agent-sandbox-tutorial">
+    W&amp;B Sandbox에서 OpenAI 에이전트를 호출합니다.
+  </Card>
+</CardGroup>

@@ -1,93 +1,241 @@
 ---
-title: 'TypeScript SDK: サードパーティ Integration ガイド'
-description: Weave TypeScript SDK を使用したサードパーティライブラリとの統合
+title: "TypeScript SDK: サードパーティインテグレーションガイド"
+description: "サードパーティライブラリを Weave TypeScript SDK に統合する"
 ---
 
-このガイドでは、Weave TypeScript SDK を使用してサードパーティライブラリ（例：OpenAI）をインテグレーションする方法について説明します。Weave は自動計装をサポートしており、セットアップを簡素化し、手動での configuration（設定）の必要性を減らします。
+このガイドでは、サードパーティライブラリ (例: OpenAI) を Weave TypeScript SDK に統合する方法を説明します。Weave は自動インストルメンテーションをサポートしているため、セットアップが簡単になり、手動設定の必要性も減ります。
 
 <Warning>
-**変更点**
-[PR #4554](https://github.com/wandb/weave/pull/4554) 以降、OpenAI などのサポートされているライブラリは、Weave がロードされる際に自動的にパッチが適用されます。以前のように手動でラップする必要はなくなりました。
+  **何が変わりましたか？**
+  [PR #4554](https://github.com/wandb/weave/pull/4554) 以降、OpenAI などのサポート対象ライブラリは、Weave の読み込み時に自動的にパッチされるようになりました。以前のように手動でラップする必要はありません。
 
-```ts lines
-weave.wrapOpenAI(new OpenAI());
-```
+  ```ts lines
+  weave.wrapOpenAI(new OpenAI());
+  ```
 
-通常、Weave はこれを自動的に処理します。ただし、[エッジケース](#advanced-usage) が発生する可能性があります。
+  通常、これは Weave が自動的に処理します。ただし、[エッジケース](#advanced-usage) が発生する場合があります。
 </Warning>
 
-## 使用方法
+<div id="use-weave-integrations-with-your-typescript-project">
+  ## TypeScript プロジェクトで Weave インテグレーションを使用する
+</div>
 
-CommonJS と ESM の両方を使用できます。
+TypeScript プロジェクトでは、CommonJS または ESM のいずれかのモジュールシステムを使用できます。
 
-### CommonJS 
+<div id="if-youre-unsure-which-type-of-project-you-have">
+  ### どのタイプのプロジェクトかわからない場合
+</div>
 
-CommonJS の場合、特別な configuration は必要ありません。自動パッチ適用がそのまま機能します。単純に Weave をインストールしてください。
+次のようなツールでTypeScriptファイルを直接実行している場合:
 
 ```bash
-npm install weave
+npx tsx test.ts
 ```
 
-### ESM 
+モジュールシステムは、環境に応じて暗黙的に決まる場合があります。動作を一貫させるため、`package.json` と `tsconfig.json` を明示的に用意することを推奨します。
 
-ESM の場合、Node の `--import` フラグを使用して自動計装を有効にします。`weave` パッケージがインストールされていれば、`weave/instrument` モジュールが利用可能です。
+プロジェクトで CommonJS と ESM のどちらを使用しているかを判断するには、`package.json` の `type` フィールドを確認します。
 
-1. Weave をインストールします。
-    ```bash
-    npm install weave
-    ```
-2. `weave/instrument` モジュールをインポートします。
-    ```bash
-    node --import=weave/instrument dist/main.js
-    ```
+```json
+"type": "module"
+```
 
-## 高度な使用法とトラブルシューティング
+* `type` が `"module"` の場合、プロジェクトでは **ESM** が使用されます。
+* `type` フィールドが存在しないか、`"commonjs"` に設定されている場合、プロジェクトではデフォルトで **CommonJS** が使用されます。
 
-このセクションでは、TypeScript SDK の自動パッチ適用が期待通りに動作しない場合のエッジケースと回避策について説明します。例えば、ESM 専用の 環境、Next.js などのバンドラー設定、または制約のあるランタイム環境では、予期しない問題が発生することがあります。Traces が見当たらない場合やインテグレーションの問題が発生している場合は、ここから確認してください。
 
-### `NODE_OPTIONS` の使用（ESM のみ）
+<div id="set-up-a-commonjs-project">
+  ### CommonJS プロジェクトを設定する
+</div>
+
+CommonJS プロジェクトでは、自動インストルメンテーションは追加の設定なしで動作します。
+
+プロジェクトを CommonJS 用に設定するには、次の手順に従います。
+
+1. `package.json` を作成または更新します。
+
+   ```json
+   {
+     "type": "commonjs"
+   }
+   ```
+
+2. CommonJS と互換性のある設定で `tsconfig.json` を作成します。
+
+   ```json
+   {
+     "compilerOptions": {
+       "module": "CommonJS",
+       "target": "es2022",
+       "rootDir": ".",
+       "outDir": "dist"
+     }
+   }
+   ```
+
+   これらの設定により、TypeScript は CommonJS 向けにコンパイルされます。
+
+   * **`module: "CommonJS"`** — モジュールを CommonJS 形式 (`require`/`module.exports`) にコンパイルします。
+     このコンパイラオプションの詳細については、[TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module) を参照してください。
+
+   * **`target: "es2022"`** *(推奨)* — 最近の Node.js バージョンと互換性のあるモダンな JavaScript を出力します。
+     このコンパイラオプションの詳細については、[TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target) を参照してください。
+
+   * **`rootDir: "."`** — `tsconfig.json` を含むディレクトリを入力ファイルのルートとして扱います。TypeScript はこれを `outDir` と組み合わせて使用し、出力先でソースフォルダーの Layout を反映します。
+     このコンパイラオプションの詳細については、[TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir) を参照してください。
+
+   * **`outDir: "dist"`** — 生成された JavaScript (およびその他のコンパイラ出力) を `dist` フォルダーに書き込みます。
+     このコンパイラオプションの詳細については、[TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir) を参照してください。
+
+3. Weave と、必要なその他のライブラリをインストールします。
+
+   ```bash
+   npm install weave
+   ```
+
+4. TypeScript ファイルをコンパイルします。
+
+   たとえば `test.ts` というファイルの場合は、次を実行します。
+
+   ```bash
+   npx tsc
+   ```
+
+   これにより、ファイルは `dist/test.js` にコンパイルされます。
+
+5. コンパイルしたファイルを Node.js で実行します。
+
+   ```bash
+   node dist/test.js
+   ```
+
+CommonJS は Node.js の `require` モジュールローダーを使用するため、Weave は ESM プロジェクトで使用される `--import` フラグなしで、サポートされるライブラリを自動的にインストルメントできます。
+
+<div id="set-up-an-esm-project">
+  ### ESM プロジェクトを設定する
+</div>
+
+ESM TypeScript プロジェクトで Weave を使用するには、プロジェクトを Node.js ESM 用に設定し、コードをコンパイルしたうえで、`--import` フラグ付きで Node.js を起動します。これにより、他のモジュールが読み込まれる前に Weave がインストルメンテーションを登録できます。
+
+プロジェクトを ESM 向けに設定するには、次の手順に従います。
+
+1. `package.json` を作成または更新します。
+
+   ```json
+   {
+     "type": "module"
+   }
+   ```
+
+2. Node.js 互換の ESM 設定を含む `tsconfig.json` を作成します。
+
+   ```json
+   {
+     "compilerOptions": {
+       "module": "nodenext",
+       "moduleResolution": "nodenext",
+       "target": "es2022",
+       "rootDir": ".",
+       "outDir": "dist"
+     }
+   }
+   ```
+
+   これらの設定により、TypeScript はモダンな Node.js ESM 向けにコンパイルされます。
+
+   * **`module: "nodenext"`** — Node.js ESM のセマンティクスを使用してモジュールをコンパイルします。
+     このコンパイラオプションの詳細は、[TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module) を参照してください。
+
+   * **`moduleResolution: "nodenext"`** — モジュール解決が Node.js ESM のルールに従うようにします。
+     このコンパイラオプションの詳細は、[TypeScript - Module Resolution](https://www.typescriptlang.org/tsconfig/#moduleResolution) を参照してください。
+
+   * **`target: "es2022"`** *(推奨)* — 新しい Node.js バージョンと互換性のあるモダンな JavaScript を出力します。
+     このコンパイラオプションの詳細は、[TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target) を参照してください。
+
+   * **`rootDir: "."`** — `tsconfig.json` を含むディレクトリを入力ファイルのルートとして扱います。TypeScript はこれを `outDir` と組み合わせて使用し、出力先でもソースフォルダの Layout を反映します。
+     このコンパイラオプションの詳細は、[TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir) を参照してください。
+
+   * **`outDir: "dist"`** — 出力された JavaScript (およびその他のコンパイラ出力) を `dist` フォルダに書き込みます。
+     このコンパイラオプションの詳細は、[TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir) を参照してください。
+
+3. Weave と必要なライブラリをインストールします。
+
+   ```bash
+   npm install weave
+   ```
+
+4. TypeScript ファイルをコンパイルします。
+
+   たとえば `test.ts` というファイルの場合は、次のように実行します。
+
+   ```bash
+   npx tsc
+   ```
+
+   これにより、ファイルは `dist/test.js` にコンパイルされます。
+
+5. Node.js でコンパイル済みファイルを実行し、Weave のインストルメンテーションを事前に読み込みます。
+
+   ```bash
+   node --import=weave/instrument dist/test.js
+   ```
+
+`--import` フラグにより、`weave/instrument` モジュールが他のモジュールより先に読み込まれるため、Weave はサポートされるライブラリやインテグレーションに自動でインストルメンテーションを適用できます。
+
+Weave は、実行するプロジェクトにローカルインストールされている必要があります。
+
+<div id="advanced-usage-and-troubleshooting">
+  ## 高度な使い方とトラブルシューティング
+</div>
+
+このセクションでは、TypeScript SDK の自動パッチ適用が期待どおりに動作しない場合のエッジケースと回避策を説明します。たとえば、ESM 専用の環境、Next.js のようなバンドラー構成、または制約のあるランタイム環境では、想定外の問題が発生することがあります。トレースが欠落している場合やインテグレーションに問題がある場合は、まずこのセクションを確認してください。
+
+<div id="use-node_options-only-for-esm">
+  ### `NODE_OPTIONS` を使用する (ESM の場合のみ)
+</div>
 
 <Warning>
-`NODE_OPTIONS` は環境内のすべての Node.js プロセスに影響を与え、副作用を引き起こす可能性があるため、注意して使用してください。
+  `NODE_OPTIONS` の使用には注意してください。環境内のすべての Node.js プロセスに影響し、意図しない副作用を招く可能性があります。
 </Warning>
 
-ESM プロジェクトを使用していて、CLI ツールやフレームワークの制約により CLI フラグを渡せない場合は、`NODE_OPTIONS` 環境変数を設定してください。
+ESM のプロジェクトを使用していて、CLI フラグを渡せない場合 (たとえば、CLI ツールやフレームワークの制約がある場合) は、`NODE_OPTIONS` 環境変数を設定してください：
 
 ```bash
 export NODE_OPTIONS="--import=weave/instrument"
 ```
 
 
-### バンドラーの互換性
+<div id="bundler-compatibility">
+  ### バンドラーの互換性
+</div>
 
-Next.js などの一部のフレームワークやバンドラーは、実行時に Node がサードパーティライブラリにパッチを適用する機能を妨げる方法でライブラリをバンドルする場合があります。
+Next.js などの一部のフレームワークやバンドラーでは、Node.js が実行時にパッチを適用できない形でサードパーティライブラリがバンドルされることがあります。
 
-お使いのセットアップがこれに該当する場合は、以下の手順を試してください。
+これが現在の設定に当てはまる場合は、次の手順を試してください。
 
-1. バンドラーの設定で LLM ライブラリを `external` としてマークします。これにより、ライブラリがバンドルされるのを防ぎ、Weave が実行時に正しくパッチを適用できるようになります。
+1. バンドラーの設定で、LLM ライブラリを外部として指定します。これによりそれらはバンドルされなくなるため、Weave が実行時に正しくパッチを適用できるようになります。
 
-   次の例は、`next.config.js` の設定で `openai` パッケージを external としてマークし、バンドルされないようにする方法を示しています。モジュールは実行時にロードされるため、Weave は自動的にパッチを適用して追跡できます。自動計装を有効にするために、Next.js などのフレームワークを使用する場合にこの設定を利用してください。
+   次の例は、`next.config.js` の設定で `openai` パッケージを外部として指定する方法を示しています。これにより、`openai` はバンドルされません。モジュールは実行時に読み込まれるため、Weave が自動的にパッチを適用してトラッキングできます。Next.js のようなフレームワークを使用している場合は、自動インストルメンテーションを有効にするためにこの設定を使用してください。
 
-    ```js
-    externals: {
-    'openai': 'commonjs openai'
-    }
-    ```
+   ```js
+   externals: {
+   'openai': 'commonjs openai'
+   }
+   ```
 
+2. それでもパッチの適用に失敗する場合は、[手動インストルメンテーション](#manual-patching-fallback-option) に切り替えてください。
 
-2. パッチの適用が依然として失敗する場合は、[手動パッチ（フォールバックオプション）](#手動パッチフォールバックオプション) を試してください。
-
-
-### 手動パッチ（フォールバックオプション）
+<div id="manual-patching-fallback-option">
+  ### 手動パッチ適用 (フォールバックオプション)
+</div>
 
 <Warning>
-手動パッチはレガシーな手法であり、自動パッチが機能しない場合にのみ使用してください。
+  手動パッチ適用は従来の方法です。自動パッチ適用が機能しない場合にのみ使用してください。
 </Warning>
 
-場合によっては、引き続き手動計装を使用する必要があるかもしれません。
+場合によっては、引き続き手動インストルメンテーションが必要になることがあります：
 
 ```ts lines
 import { wrapOpenAI } from 'weave';
-// OpenAI クライアントを手動でラップする
 const client = wrapOpenAI(new OpenAI());
 ```

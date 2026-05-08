@@ -1,0 +1,34 @@
+---
+title: controller()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+
+
+### <kbd>fonction</kbd> `controller`
+
+```python
+controller(
+    sweep_id_or_config: 'str | dict | None' = None,
+    entity: 'str | None' = None,
+    project: 'str | None' = None
+) → _WandbController
+```
+
+Constructeur public du contrôleur de balayage.
+
+**Exemples :**
+
+```python
+import wandb
+
+tuner = wandb.controller(...)
+print(tuner.sweep_config)
+print(tuner.sweep_id)
+tuner.configure_search(...)
+tuner.configure_stopping(...)
+```

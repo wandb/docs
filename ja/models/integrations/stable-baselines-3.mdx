@@ -1,19 +1,21 @@
 ---
-title: Stable Baselines 3
-description: Stable Baseline 3 と W&B を統合する方法。
+description: "W&B を Stable Baselines3 と統合して、強化学習の実験をトラッキングし、トレーニングのパフォーマンスをログします。"
+title: Stable Baselines 3 PyTorch
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) は、 PyTorch による信頼性の高い強化学習アルゴリズムの実装セットです。W&B の SB3 インテグレーションは以下の機能を提供します。
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) (SB3) は、PyTorch で実装された信頼性の高い強化学習アルゴリズム群です。W&amp;B の SB3 インテグレーションでは、次のことができます。
 
 * 損失やエピソードごとのリターンなどのメトリクスを記録します。
-* エージェントがゲームをプレイしている動画をアップロードします。
-* トレーニング済み モデル を保存します。
-* モデル の ハイパーパラメーター を ログ に記録します。
-* モデル の 勾配 ヒストグラムを ログ に記録します。
+* ゲームをプレイするエージェントの動画をアップロードします。
+* トレーニング済みモデルを保存します。
+* モデルのハイパーパラメーターをログします。
+* モデルの勾配ヒストグラムをログします。
 
-[SB3 トレーニングの Run 例](https://wandb.ai/wandb/sb3/runs/1jyr6z10) をご確認ください。
+[SB3 のトレーニング run の例](https://wandb.ai/wandb/sb3/runs/1jyr6z10)をご覧ください。
 
-## SB3 Experiments のログを記録する
+<div id="log-your-sb3-experiments">
+  ## SB3 Experimentsをログする
+</div>
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -22,21 +24,26 @@ model.learn(..., callback=WandbCallback())
 ```
 
 <Frame>
-    <img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 training with W&B"  />
+  <img src="/images/integrations/stable_baselines_demo.gif" alt="W&BでのStable Baselines 3のトレーニング" />
 </Frame>
 
-## WandbCallback の引数
 
-| 引数 | 使用方法 |
-| :--- | :--- |
-| `verbose` | SB3 出力の冗長性 |
-| `model_save_path` | モデル が保存されるフォルダーへのパス。デフォルト 値 は \`None\` で、 モデル は ログ に記録されません |
-| `model_save_freq` | モデル を保存する頻度 |
-| `gradient_save_freq` | 勾配 を ログ に記録する頻度。デフォルト 値 は 0 で、 勾配 は ログ に記録されません |
+<div id="wandbcallback-arguments">
+  ## WandbCallback の引数
+</div>
 
-## 基本的な例
+| 引数                   | 用途                                                |
+| :------------------- | :------------------------------------------------ |
+| `verbose`            | sb3 出力の詳細レベル                                      |
+| `model_save_path`    | モデルを保存するフォルダーのパス。デフォルト値は `None` で、その場合モデルはログされません |
+| `model_save_freq`    | モデルを保存する頻度                                        |
+| `gradient_save_freq` | 勾配をログする頻度。デフォルト値は 0 のため、勾配はログされません                |
 
-W&B の SB3 インテグレーションは、TensorBoard から出力される ログ を使用して メトリクス を記録します。
+<div id="basic-example">
+  ## 基本的な例
+</div>
+
+W&amp;B SB3 インテグレーションでは、TensorBoard から出力されるログを使用してメトリクスをログします
 
 ```python
 import gym
@@ -55,15 +62,15 @@ config = {
 run = wandb.init(
     project="sb3",
     config=config,
-    sync_tensorboard=True,  # SB3 の TensorBoard メトリクスを自動アップロード
-    monitor_gym=True,  # エージェントがゲームをプレイしている動画を自動アップロード
-    save_code=True,  # オプション
+    sync_tensorboard=True,  # sb3のtensorboardメトリクスを自動アップロード
+    monitor_gym=True,  # エージェントがゲームをプレイする動画を自動アップロード
+    save_code=True,  # 任意
 )
 
 
 def make_env():
     env = gym.make(config["env_name"])
-    env = Monitor(env)  # リターンなどの統計情報を記録
+    env = Monitor(env)  # リターンなどの統計を記録
     return env
 
 

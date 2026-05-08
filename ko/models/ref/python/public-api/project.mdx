@@ -3,14 +3,17 @@ title: 프로젝트
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
-## <kbd>class</kbd> `Project`
-Project는 Runs를 위한 네임스페이스입니다.
 
-### <kbd>method</kbd> `Project.__init__`
+## <kbd>class</kbd> `Project`
+
+프로젝트는 run의 네임스페이스입니다.
+
+### <kbd>방법</kbd> `Project.__init__`
 
 ```python
 __init__(
@@ -21,68 +24,107 @@ __init__(
 ) → Project
 ```
 
-**Args:**
- 
- - `client`: W&B API 클라이언트 인스턴스. 
- - `name` (str): 프로젝트의 이름. 
- - `entity` (str): 프로젝트를 소유한 엔티티 이름. 
+**매개변수:**
 
-엔티티와 연결된 단일 프로젝트입니다. 
+* `client`:  W&amp;B API 클라이언트 인스턴스입니다.
+* `name` (str):  프로젝트 이름입니다.
+* `entity` (str):  프로젝트를 소유한 entity의 이름입니다.
 
-**Args:**
- 
- - `client`: W&B 쿼리에 사용되는 API 클라이언트. 
- - `entity`: 프로젝트를 소유한 엔티티. 
- - `project`: 쿼리할 프로젝트의 이름. 
- - `attrs`: 프로젝트의 속성. 
+entity에 속한 단일 프로젝트입니다.
 
----
+**매개변수:**
 
-### <kbd>property</kbd> Project.id
+* `client`:  W&amp;B를 쿼리하는 데 사용하는 API 클라이언트입니다.
+* `entity`:  프로젝트를 소유한 entity입니다.
+* `project`:  쿼리할 프로젝트의 이름입니다.
+* `attrs`:  프로젝트의 속성입니다.
 
----
+***
 
-### <kbd>property</kbd> Project.path
 
-프로젝트의 경로를 반환합니다. 경로는 엔티티와 프로젝트 이름을 포함하는 리스트입니다. 
+### <kbd>속성</kbd> Project.id
 
-**Returns:**
- - `list[str]`: 경로 속성 값.
+***
 
----
+### <kbd>속성</kbd> Project.owner
 
-### <kbd>property</kbd> Project.url
+프로젝트 소유자를 User 객체로 반환합니다.
 
-프로젝트의 URL을 반환합니다. 
+**예외:**
 
-**Returns:**
- - `str`: url 속성 값.
+* `ValueError`: 프로젝트의 사용자 정보를 찾을 수 없는 경우.
 
----
+**반환값:**
 
-### <kbd>method</kbd> `Project.artifacts_types`
+* `public.User`: 소유자 속성 값입니다.
+
+***
+
+### <kbd>속성</kbd> Project.path
+
+프로젝트의 경로를 반환합니다. 경로는 entity와 프로젝트 이름을 포함하는 목록입니다.
+
+**반환값:**
+
+* `list[str]`: 경로 속성 값입니다.
+
+***
+
+### <kbd>속성</kbd> Project.url
+
+프로젝트의 URL을 반환합니다.
+
+**반환값:**
+
+* `str`: URL 속성 값입니다.
+
+***
+
+### <kbd>방법</kbd> `Project.artifacts_types`
 
 ```python
 artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-이 프로젝트와 관련된 모든 Artifacts 타입을 반환합니다. 
+이 프로젝트에 연결된 모든 artifact 유형을 반환합니다.
 
----
+***
 
-### <kbd>method</kbd> `Project.sweeps`
+
+### <kbd>방법</kbd> `Project.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
+```
+
+이 프로젝트와 연결된 모든 artifact collection을 반환합니다.
+
+**매개변수:**
+
+* `filters`:  쿼리에 적용할 필터의 선택적 매핑입니다.
+* `order`:  결과 순서를 지정하는 선택적 문자열입니다.  `order` 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다.
+* `per_page`:  페이지당 가져올 artifact collection의 수입니다.  기본값은 50입니다.
+
+***
+
+
+### <kbd>방법</kbd> `Project.sweeps`
 
 ```python
 sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-이 프로젝트에 포함된 Sweeps의 페이지네이션된 컬렉션을 반환합니다. 
+이 프로젝트의 Sweeps를 페이지로 나누어 반환합니다.
 
-**Args:**
- 
- - `per_page`: API 요청당 가져올 Sweeps의 수. 
+**매개변수:**
 
-**Returns:**
- `Sweep` 오브젝트의 반복 가능한 컬렉션인 `Sweeps` 오브젝트. 
+* `per_page`: API 요청당 가져올 sweep 수입니다.
 
----
+**반환값:**
+반복 가능한 `Sweep` 객체 모음인 `Sweeps` 객체입니다.
+
+***

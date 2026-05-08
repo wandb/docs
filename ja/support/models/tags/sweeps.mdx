@@ -1,0 +1,82 @@
+---
+title: "Sweeps"
+tag: "19"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="ハイパーパラメーター探索を整理するためのベストプラクティス" href="/ja/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
+  wandb.init(tags=&#39;your&#95;tag&#39;) を使って一意のタグを設定します。これにより、該当するタグを選択して、プロジェクトの Runs を効率的にフィルタリングできるようになります ...
+</Card>
+
+<Card title="グリッドサーチを再実行できますか?" href="/ja/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
+  グリッドサーチが完了しても、クラッシュにより一部の W&amp;B Runs を再実行する必要がある場合は、該当する W&amp;B Runs を削除して再実行できます。T ...
+</Card>
+
+<Card title="Sweeps と SageMaker を併用できますか?" href="/ja/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
+  W&amp;B を認証するには、次の手順を実行します。Amazon SageMaker の組み込み環境を使用している場合は requirements.txt ファイルを作成し、e ...
+</Card>
+
+<Card title="ブール変数をハイパーパラメーターとして指定できますか?" href="/ja/support/models/articles/can-we-flag-boolean-variables-as-hyperpa" arrow="true" horizontal>
+  ハイパーパラメーターをブールフラグとして渡すには、設定の command セクションでマクロを使用します。このマクロにより自動的に ...
+</Card>
+
+<Card title="W&B Sweeps を AWS Batch や ECS などのクラウドインフラストラクチャーで使用できますか?" href="/ja/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
+  任意の W&amp;B Sweep agent がアクセスできるように sweep&#95;id を公開するには、これらの agent が読み取って実行できる method を実装し ...
+</Card>
+
+<Card title="W&B Sweep では、すべてのハイパーパラメーターに値を指定する必要がありますか。デフォルトを設定できますか?" href="/ja/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
+  sweep の設定からハイパーパラメーターの名と値にアクセスするには、(run.config()) を使用します。これは辞書のように動作します。 ...
+</Card>
+
+<Card title="sweep がローカルにログを保存するディレクトリを変更するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
+  環境変数 WANDB&#95;DIR を設定して、W&amp;B run データのログ保存先ディレクトリを指定します。例:
+</Card>
+
+<Card title="Python コードを使って sweep を再開するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-resume-a-sweep-using-python-co" arrow="true" horizontal>
+  sweep を再開するには、wandb.agent() function に sweep&#95;id を渡します。
+</Card>
+
+<Card title="sweep 内の runs からモデルをログする最適な方法は何ですか?" href="/ja/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  sweep でモデルをログする効果的な方法の 1 つは、sweep 用のモデル artifact を作成することです。各バージョンは ...
+</Card>
+
+<Card title="Sweeps でコード ログする を有効にするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
+  sweeps でコード ログする を有効にするには、W&amp;B Run を初期化した後に wandb.log&#95;code() を追加します。これは、たとえ ...
+</Card>
+
+<Card title="sweep 中に `CommError, Run does not exist` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  sweep 中に CommError, Run does not exist と ERROR Error uploading の両方が表示される場合、最も可能性が高い原因は、使用している ...
+</Card>
+
+<Card title="sweep 中に `Cuda out of memory` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  sweep 中に Cuda out of memory が表示される場合は、プロセスベースの実行を使用するようにコードをリファクタリングしてください。コードを次のように書き換えます ...
+</Card>
+
+<Card title="sweep 中に `anaconda 400 error` を解決するにはどうすればよいですか?" href="/ja/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  次のエラーは通常、最適化しているメトリクスをログしていない場合に発生します。これを修正するには、適切に ...
+</Card>
+
+<Card title="sweeps でカスタム CLI command を使用するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  トレーニング設定で command-line argument を渡せる場合は、W&amp;B Sweeps でカスタム CLI command を使用できます。例では ...
+</Card>
+
+<Card title="SLURM で sweeps を実行するにはどうすればよいですか?" href="/ja/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  SLURM スケジューリングシステムで sweeps を使用する場合は、スケジュールされた各ジョブで wandb agent --count 1 SWEEP&#95;ID を実行します。このコマ ...
+</Card>
+
+<Card title="sweep に追加の値を加える方法はありますか? それとも新しく開始する必要がありますか?" href="/ja/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
+  W&amp;B Sweep は一度開始すると、Sweep 設定を変更できません。ただし、任意の表 view にアクセスし、select することで ...
+</Card>
+
+<Card title="複数のメトリクスの最適化" href="/ja/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  1 回の run で複数のメトリクスを最適化するには、各メトリクスの加重和を使用します。新しい結合メトリクスをログし ...
+</Card>
+
+<Card title="sweep の実行中に Python ファイルを編集するとどうなりますか?" href="/ja/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
+  sweep の実行中: sweep で使用している train.py スクリプトが変更されても、sweep は元の train.py を引き続き使用します ...
+</Card>
+
+<Card title="`Est. Runs` 列とは何ですか?" href="/ja/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
+  W&amp;B では、離散的な探索空間で W&amp;B Sweep を作成する際に生成される Runs の推定数を表示します。この合計は ...
+</Card>

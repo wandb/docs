@@ -1,0 +1,112 @@
+---
+title: init()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py" />
+
+
+### <kbd>fonction</kbd> `init`
+
+```python
+init(
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    dir: 'StrPath | None' = None,
+    id: 'str | None' = None,
+    name: 'str | None' = None,
+    notes: 'str | None' = None,
+    tags: 'Sequence[str] | None' = None,
+    config: 'dict[str, Any] | str | None' = None,
+    config_exclude_keys: 'list[str] | None' = None,
+    config_include_keys: 'list[str] | None' = None,
+    allow_val_change: 'bool | None' = None,
+    group: 'str | None' = None,
+    job_type: 'str | None' = None,
+    mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
+    force: 'bool | None' = None,
+    reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
+    resume: "bool | Literal['allow', 'never', 'must', 'auto'] | None" = None,
+    resume_from: 'str | None' = None,
+    fork_from: 'str | None' = None,
+    save_code: 'bool | None' = None,
+    tensorboard: 'bool | None' = None,
+    sync_tensorboard: 'bool | None' = None,
+    monitor_gym: 'bool | None' = None,
+    settings: 'Settings | dict[str, Any] | None' = None,
+    anonymous: 'DoNotSet' = <object object at 0x107855240>
+) → Run
+```
+
+Démarrez un nouveau run pour suivre et journaliser dans W&amp;B.
+
+Dans un pipeline d&#39;entraînement ML, vous pouvez ajouter `wandb.init()` au début de votre script d&#39;entraînement ainsi que de votre script d&#39;évaluation, et chacun d&#39;eux sera suivi en tant que run dans W&amp;B.
+
+`wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run, et synchronise également les données avec [https://wandb.ai](https://wandb.ai) par défaut, afin que vous puissiez voir vos résultats en temps réel. Une fois que vous avez fini de journaliser des données, appelez `wandb.Run.finish()` pour mettre fin au run. Si vous n&#39;appelez pas `run.finish()`, le run se terminera lorsque votre script s&#39;arrêtera.
+
+Les ID de run ne doivent contenir aucun des caractères spéciaux suivants `/ \ # ? % :`
+
+**Arguments :**
+
+* `entity`:  Le nom d&#39;utilisateur ou le nom d&#39;équipe auquel les runs sont enregistrés.  L&#39;entité doit déjà exister, veillez donc à créer votre compte  ou votre équipe dans l&#39;UI avant de commencer à enregistrer des runs. Si elle n&#39;est pas spécifiée, le  run utilisera par défaut votre entité par défaut. Pour modifier l&#39;entité par défaut,  accédez à vos paramètres et mettez à jour  &quot;Emplacement par défaut pour créer de nouveaux projets&quot; sous &quot;Équipe par défaut&quot;.
+* `project`:  Le nom du projet sous lequel ce run sera enregistré.  S’il n’est pas spécifié, nous utilisons une heuristique pour déterminer le nom du projet en fonction du système, par exemple en vérifiant la racine git ou le fichier du programme en cours. Si nous ne pouvons pas déterminer le nom du projet, le projet prendra par défaut la valeur  `"uncategorized"`.
+* `dir`:  Le chemin absolu du répertoire où sont stockés les journaux d&#39;expérience et les fichiers de métadonnées. S&#39;il n&#39;est pas spécifié, la valeur par défaut est le répertoire `./wandb`. Notez que cela n&#39;affecte pas l&#39;emplacement où les Artifacts sont stockés lors de l&#39;appel à `download()`.
+* `id`:  Un identifiant unique pour ce run, utilisé pour reprendre un run. Il doit être unique  au sein du projet et ne peut pas être réutilisé une fois qu’un run est supprimé. Pour  un nom court et descriptif, utilisez le champ `name` ;  pour enregistrer des hyperparamètres afin de comparer les runs, utilisez `config`.
+* `name` : un nom d&#39;affichage court pour ce run, qui apparaît dans l&#39;UI pour  vous aider à l&#39;identifier. Par défaut, nous générons un nom aléatoire  de deux mots qui permet de faire facilement le lien entre les Runs, des tableaux aux graphiques. Des noms de run courts  améliorent la lisibilité dans les légendes de graphiques et les tableaux. Pour  enregistrer les hyperparamètres, nous recommandons d&#39;utiliser le champ `config`.
+* `notes`:  Une description détaillée du run, similaire à un message de commit dans  Git. Utilisez cet argument pour consigner tout contexte ou détail pouvant  vous aider à vous rappeler l&#39;objectif ou la configuration de ce run à l&#39;avenir.
+* `tags` : liste de tags permettant d’étiqueter ce run dans l’UI. Les tags sont utiles pour organiser les runs ou ajouter des identifiants temporaires comme &quot;baseline&quot; ou &quot;production&quot;. Vous pouvez facilement ajouter ou supprimer des tags, ou filtrer par tag dans l’UI. Si vous reprenez un run, les tags fournis ici remplaceront tous les tags existants. Pour ajouter des tags à un run repris sans écraser les tags actuels, utilisez `run.tags += ("new_tag",)` après avoir appelé `run = wandb.init()`.
+* `config` : définit `wandb.config`, un objet de type dictionnaire permettant de stocker les paramètres d’entrée de votre run, comme les hyperparamètres du modèle ou les paramètres de prétraitement des données. La configuration apparaît dans l’UI sur une page d’aperçu, ce qui vous permet de regrouper, filtrer et trier les runs en fonction de ces paramètres. Les clés ne doivent pas contenir de points (`.`) et les valeurs doivent être inférieures à 10 Mo. Si un dictionnaire, `argparse.Namespace` ou `absl.flags.FLAGS` est fourni, les paires clé-valeur seront chargées directement dans `wandb.config`. Si une chaîne est fournie, elle est interprétée comme le chemin d’un fichier YAML, dont les valeurs de configuration seront chargées dans `wandb.config`.
+* `config_exclude_keys`:  Une liste de clés spécifiques à exclure de `wandb.config`.
+* `config_include_keys`:  Une liste de clés spécifiques à inclure dans `wandb.config`.
+* `allow_val_change` : indique si les valeurs de configuration peuvent être modifiées après leur définition initiale. Par défaut, une exception est levée si une valeur de configuration est écrasée. Pour suivre les variables qui changent pendant l’entraînement, comme le taux d’apprentissage, utilisez plutôt `wandb.log()`. Par défaut, cette valeur est `False` dans les scripts et `True` dans les notebooks.
+* `group`: Spécifiez un nom de groupe pour organiser des runs individuels au sein d’une expérience plus vaste. Cela est utile, par exemple, pour la validation croisée ou pour exécuter plusieurs jobs qui entraînent et évaluent un modèle sur différents ensembles de test. Le regroupement vous permet de gérer ensemble les runs associés dans l’interface utilisateur, ce qui facilite le basculement et l’examen des résultats comme une expérience unifiée.
+* `job_type`:  Spécifiez le type de run, ce qui est particulièrement utile pour organiser les runs  au sein d&#39;un groupe dans le cadre d&#39;une expérience plus large. Par exemple, dans un groupe,  vous pouvez attribuer aux runs des types de job comme &quot;train&quot; et &quot;eval&quot;.  La définition de types de job vous permet de filtrer et de regrouper facilement des runs  similaires dans l&#39;interface utilisateur, afin de faciliter les comparaisons directes.
+* `mode` : indique comment les données du run sont gérées, avec les options suivantes :
+  * `"online"` (par défaut) : Active la synchronisation en direct avec W&amp;B lorsqu’une connexion réseau est disponible, avec des mises à jour des visualisations en temps réel.
+  * `"offline"` : Adapté aux environnements isolés du réseau ou hors ligne ; les données sont enregistrées localement et peuvent être synchronisées ultérieurement. Assurez-vous de conserver le dossier du run pour permettre une synchronisation future.
+  * `"disabled"` : Désactive toutes les fonctionnalités W&amp;B, ce qui rend les méthodes du run sans effet. Généralement utilisé pour les tests afin de contourner les opérations W&amp;B.
+  * `"shared"` : (Il s’agit d’une fonctionnalité expérimentale.) Permet à plusieurs processus, éventuellement sur des machines différentes, de journaliser simultanément dans le même run. Dans cette approche, vous utilisez un nœud principal et un ou plusieurs nœuds de travail pour journaliser des données dans le même run. Sur le nœud principal, vous initialisez un run. Pour chaque nœud de travail, initialisez un run à l’aide du run ID utilisé par le nœud principal.
+* `force` : détermine si une connexion à W&amp;B est requise pour exécuter le script. Si `True`, l’utilisateur doit être connecté à W&amp;B ; sinon, le script ne pourra pas continuer. Si `False` (par défaut), le script peut continuer sans connexion et basculer en mode hors ligne si l’utilisateur n’est pas connecté.
+* `reinit` :  Forme abrégée du paramètre &quot;reinit&quot;. Détermine le comportement de `wandb.init()` lorsqu’un run est actif.
+* `resume` : contrôle le comportement lors de la reprise d’un run avec l’`id` spécifié. Les options disponibles sont :
+  * `"allow"` : Si un run avec l’`id` spécifié existe, il reprendra à partir de la dernière étape ; sinon, un nouveau run sera créé.
+  * `"never"` : Si un run avec l’`id` spécifié existe, une erreur sera générée. Si aucun run correspondant n’est trouvé, un nouveau run sera créé.
+  * `"must"` : Si un run avec l’`id` spécifié existe, il reprendra à partir de la dernière étape. Si aucun run n’est trouvé, une erreur sera générée.
+  * `"auto"` : Reprend automatiquement le run précédent s’il a planté sur cette machine ; sinon, démarre un nouveau run.
+  * `True` : Obsolète. Utiliser `"auto"` à la place.
+  * `False` : Obsolète. Utiliser le comportement par défaut (en laissant `resume` non défini) pour toujours démarrer un nouveau run.  Si `resume` est défini, `fork_from` et `resume_from` ne peuvent pas être utilisés. Lorsque `resume` n’est pas défini, le système démarrera toujours un nouveau run.
+* `resume_from` : spécifie un point dans un run précédent à partir duquel reprendre un run, en utilisant le format `{run_id}?_step={step}`. Cela permet aux utilisateurs de tronquer l’historique enregistré pour un run à une étape intermédiaire et de reprendre l’enregistrement à partir de cette étape. Le run cible doit se trouver dans le même projet. Si un argument `id` est également fourni, l’argument `resume_from` est prioritaire. `resume`, `resume_from` et `fork_from` ne peuvent pas être utilisés ensemble : un seul peut être utilisé à la fois. Notez que cette fonctionnalité est en bêta et pourra changer à l’avenir.
+* `fork_from` : spécifie un point d’un run précédent à partir duquel créer un nouveau  run, au format `{id}?_step={step}`. Cela crée un nouveau run qui  reprend la journalisation à partir de l’étape spécifiée dans l’historique du run cible.  Le run cible doit faire partie du projet actuel.  Si un argument `id` est également fourni, il doit être différent de l’argument  `fork_from` ; sinon, une erreur sera générée s’ils sont identiques.  `resume`, `resume_from` et `fork_from` ne peuvent pas être utilisés ensemble ; un  seul d’entre eux peut être utilisé à la fois.  Notez que cette fonctionnalité est en bêta et pourra changer à l’avenir.
+* `save_code`:  Permet d’enregistrer le script principal ou le notebook dans W&amp;B, afin de faciliter la reproductibilité des expériences et de comparer le code entre les runs dans l’interface. Par défaut, cette option est désactivée, mais vous pouvez modifier ce comportement par défaut pour l’activer sur votre page Settings.
+* `tensorboard`:  Obsolète. Utilisez plutôt `sync_tensorboard`.
+* `sync_tensorboard` : active automatiquement la synchronisation des journaux W&amp;B depuis TensorBoard ou TensorBoardX, et enregistre les fichiers d’événements pertinents pour les consulter dans l’UI W&amp;B.
+* `monitor_gym`:  Permet d’enregistrer automatiquement des vidéos de l’environnement lors de l’utilisation d’OpenAI Gym.
+* `settings`:  Spécifie un dictionnaire ou un objet `wandb.Settings` contenant les paramètres avancés du run. 
+
+**Retourne :**
+Un objet `Run`.
+
+**Exceptions levées :**
+
+* `Error` : Si une erreur inconnue ou interne se produit lors de l&#39;initialisation du run.
+* `AuthenticationError` : Si l&#39;utilisateur ne fournit pas d&#39;identifiants valides.
+* `CommError` : En cas de problème de communication avec le serveur WandB.
+* `UsageError` : Si l&#39;utilisateur fournit des arguments non valides.
+* `KeyboardInterrupt` : Si l&#39;utilisateur interrompt le run.
+
+**Exemples :**
+`wandb.init()` renvoie un objet `Run`. Utilisez l&#39;objet run pour journaliser des données, enregistrer des Artifacts et gérer le cycle de vie du run.
+
+```python
+import wandb
+
+config = {"lr": 0.01, "batch_size": 32}
+with wandb.init(config=config) as run:
+    # Journaliser la précision et la perte dans le run
+    acc = 0.95  # Exemple de précision
+    loss = 0.05  # Exemple de perte
+    run.log({"accuracy": acc, "loss": loss})
+``` 

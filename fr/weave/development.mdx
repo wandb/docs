@@ -1,0 +1,113 @@
+---
+title: 'Développement'
+description: "Prévisualisez et testez localement les modifications de la documentation avant de publier des mises à jour sur le site de documentation de W&B Weave."
+---
+
+<Info>
+  **Prérequis** : Veuillez installer Node.js (version 19 ou ultérieure) avant de poursuivre. <br />
+  Veuillez migrer vers `docs.json` avant de poursuivre et supprimer l’ancien fichier `mint.json`.
+</Info>
+
+Suivez ces étapes pour installer et exécuter Mintlify sur votre système d’exploitation :
+
+**Étape 1** : Installez Mintlify :
+
+<CodeGroup>
+  ```bash npm
+  npm i -g mintlify
+  ```
+
+  ```bash yarn
+  yarn global add mintlify
+  ```
+</CodeGroup>
+
+**Étape 2** : Accédez au répertoire docs (où se trouve le fichier `docs.json`) et exécutez la commande suivante :
+
+```bash
+mintlify dev
+```
+
+Un aperçu local de votre documentation sera accessible à l’adresse `http://localhost:3000`.
+
+
+<div id="custom-ports">
+  ### Ports personnalisés
+</div>
+
+Par défaut, Mintlify utilise le port 3000. Vous pouvez personnaliser le port sur lequel Mintlify s’exécute à l’aide de l’indicateur `--port`. Pour exécuter Mintlify sur le port 3333, par exemple, utilisez cette commande :
+
+```bash
+mintlify dev --port 3333
+```
+
+Si vous essayez de lancer Mintlify sur un port déjà utilisé, il utilisera le port disponible suivant :
+
+```md
+Port 3000 is already in use. Trying 3001 instead.
+```
+
+
+<div id="mintlify-versions">
+  ## Versions de Mintlify
+</div>
+
+Veuillez noter que chaque version de la CLI est associée à une version spécifique de Mintlify. Si votre site web local ne correspond pas à la version en Production, mettez à jour la CLI :
+
+<CodeGroup>
+  ```bash npm
+  npm i -g mintlify@latest
+  ```
+
+  ```bash yarn
+  yarn global upgrade mintlify
+  ```
+</CodeGroup>
+
+<div id="validating-links">
+  ## Vérification des liens
+</div>
+
+Le CLI peut vous aider à valider les liens de référence de votre documentation. Pour repérer les liens brisés, utilisez la commande suivante :
+
+```bash
+mintlify broken-links
+```
+
+
+<div id="deployment">
+  ## Déploiement
+</div>
+
+<Tip>
+  Nombre illimité d’éditeurs inclus avec le [plan
+  Pro](https://mintlify.com/pricing) et les plans supérieurs.
+</Tip>
+
+Si le déploiement réussit, un message de confirmation devrait s’afficher pour indiquer que toutes les vérifications ont été effectuées avec succès.
+
+<div id="code-formatting">
+  ## Formatage du code
+</div>
+
+Nous vous recommandons d&#39;utiliser des extensions dans votre IDE pour reconnaître et formater le MDX. Si vous utilisez VSCode, pensez à l&#39;[extension MDX pour VSCode](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) pour la coloration syntaxique et à [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) pour le formatage du code.
+
+<div id="troubleshooting">
+  ## Dépannage
+</div>
+
+<AccordionGroup>
+  <Accordion title="Erreur : impossible de charger le module &#x22;sharp&#x22; avec le runtime darwin-arm64">
+    Cela peut être dû à une version obsolète de Node. Essayez les étapes suivantes :
+
+    1. Supprimez la version actuellement installée de mintlify : `npm remove -g mintlify`
+    2. Passez à Node v19 ou à une version ultérieure.
+    3. Réinstallez mintlify : `npm install -g mintlify`
+  </Accordion>
+
+  <Accordion title="Problème : vous rencontrez une erreur inconnue">
+    Solution : accédez à la racine de votre machine et supprimez le dossier ~/.mintlify. Ensuite, exécutez de nouveau `mintlify dev`.
+  </Accordion>
+</AccordionGroup>
+
+Vous voulez savoir ce qui a changé dans la CLI ? [Consultez le changelog de la CLI.](https://www.npmjs.com/package/mintlify?activeTab=versions)

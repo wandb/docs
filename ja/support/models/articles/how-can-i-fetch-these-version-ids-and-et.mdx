@@ -1,0 +1,21 @@
+---
+title: "W&B でこれらのバージョン ID と ETag を取得するにはどうすればよいですか？"
+keywords: ["Artifacts"]
+---
+
+artifact の参照が W&amp;B にログされており、バケットでバージョン管理が有効になっている場合、バージョン ID は Amazon S3 UI に表示されます。W&amp;B でこれらのバージョン ID と ETag を取得するには、artifact を取得し、対応するマニフェストエントリにアクセスします。たとえば、次のようになります。
+
+```python
+artifact = run.use_artifact("my_table:latest")
+for entry in artifact.manifest.entries.values():
+    versionID = entry.extra.get("versionID")
+    etag = entry.extra.get("etag")
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

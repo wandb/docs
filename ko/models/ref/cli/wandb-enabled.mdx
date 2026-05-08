@@ -1,30 +1,50 @@
 ---
-title: wandb 활성화됨
+title: wandb enabled
 ---
 
-{/*
-  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
-  1. 스니펫 파일 생성: /snippets/en/_includes/cli/wandb-enabled.mdx
-  2. 해당 파일에 도입 콘텐츠 추가
-  3. 이 주석 블록을 모두 삭제하고 아래 두 줄만 유지하세요:
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3499" />
 
-<WandbEnabled/>
-
-  다음 재생성 시 스니펫이 자동으로 감지됩니다.
-*/}
-
-W&B를 활성화합니다.
-
-## 사용법
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb enabled [OPTIONS]
+enabled [OPTIONS]
 ```
 
-## 옵션
+<div id="description">
+  ## 설명
+</div>
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--service` | W&B 서비스 활성화 (기본값: True) |
+`wandb disabled`로 비활성화한 W&amp;B를 다시 활성화합니다.
+
+모드를 `online`으로 설정하면 클라우드 동기화와 아티팩트 저장소를 포함한
+W&amp;B의 전체 기능이 복원됩니다.
+
+W&amp;B가 `disabled`로 설정되어 있는 동안 로깅된 데이터는 업로드되지 않지만,
+새 데이터는 로깅하고 동기화할 수 있습니다.
+
+W&amp;B를 완전히 비활성화하지 않고 online 모드와 offline 모드 사이를 전환하려면,
+대신 `wandb online` 또는 `wandb offline`을 사용하세요.
+
+예를 들어, `wandb disabled`로 비활성화한 뒤 W&amp;B 기능을 복원하려면 다음과 같이 하세요:
+
+```bash
+wandb enabled
+```
+
+W&amp;B 로깅 및 동기화가 다시 활성화된 상태로 트레이닝 스크립트를 실행하려면:
+
+```bash
+python train.py # W&B에 데이터를 로그하고 동기화합니다
+```
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그         | 유형       | 설명                                                 |
+| ----------- | -------- | -------------------------------------------------- |
+| `--service` | BOOL 플래그 | 아무런 영향이 없습니다. 이전 버전과의 호환성을 위해 허용됩니다. **기본값**: True |

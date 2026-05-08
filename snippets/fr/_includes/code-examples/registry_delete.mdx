@@ -1,0 +1,26 @@
+---
+title: Supprimer un registre
+---
+
+```python
+"""
+Supprimer un registre de W&B.
+"""
+import wandb
+
+# Définir les détails du registre et de la collection
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+
+# Construire le chemin complet du registre
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# Initialiser l'API W&B
+api = wandb.Api()
+
+# Récupérer le registre à supprimer
+fetched_registry = api.registry("<registry_name>")
+
+# Suppression d'un registre
+fetched_registry.delete()
+```

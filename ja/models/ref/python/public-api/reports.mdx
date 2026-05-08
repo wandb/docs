@@ -3,47 +3,58 @@ title: Reports
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
 
+
 ## <kbd>class</kbd> `Reports`
-Reports は、 `BetaReport` オブジェクト のレイジーイテレータ（遅延イテレータ）です。
+
+Reports は `BetaReport` オブジェクトの遅延評価イテレータです。
 
 ### <kbd>method</kbd> `Reports.__init__`
 
 ```python
-__init__(client, project, name=None, entity=None, per_page=50)
+__init__(
+    client: 'RetryingClient',
+    project: 'Project',
+    name: 'str | None' = None,
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+)
 ```
 
-**Args:**
+**引数:**
 
- - `client` (`wandb.apis.internal.Api`): 使用する API クライアントインスタンス。
- - `project` (`wandb.sdk.internal.Project`): レポートを取得する Projects 。
- - `name` (str, optional): フィルタリングに使用するレポート名。 `None` の場合、すべてのレポートを取得します。
- - `entity` (str, optional): プロジェクトの Entities 名。デフォルトはプロジェクトのエンティティです。
- - `per_page` (int): 1ページあたりに取得するレポート数（デフォルトは50）。
+* `client` (`wandb.apis.internal.Api`): 使用する API クライアントのインスタンス。
+* `project` (`wandb.sdk.internal.Project`): Reports を取得する対象のプロジェクト。
+* `name` (str, optional): フィルター対象のレポート名。`None` の場合は、すべての Reports を取得します。
+* `entity` (str, optional): プロジェクトの entity 名。デフォルトでは、プロジェクトの entity が使用されます。
+* `per_page` (int): 1 ページあたりに取得する Reports の数 (デフォルトは 50) 。
 
----
+***
 
-### <kbd>property</kbd> Reports.length
 
----
+### <kbd>プロパティ</kbd> Reports.length
+
+***
 
 ### <kbd>method</kbd> `Reports.convert_objects`
 
 ```python
-convert_objects()
+convert_objects() → list[BetaReport]
 ```
 
-GraphQL の edge を File オブジェクト に変換します。
+GraphQL のエッジを File オブジェクトに変換します。
 
----
+***
+
 
 ### <kbd>method</kbd> `Reports.update_variables`
 
 ```python
-update_variables()
+update_variables() → None
 ```
 
-ページネーションのための GraphQL クエリ変数を更新します。
+ページネーション用のGraphQLクエリ変数を更新します。

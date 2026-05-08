@@ -1,0 +1,150 @@
+---
+description: W&B Sweeps が sweep run における UNIX シグナル、終了コード、プリエンプションをどのように処理するかを学びます。
+title: sweep run のシグナル処理
+---
+
+このページでは、SLURM、EC2 Spot、Google Cloud のプリエンプト可能 VM などのプリエンプト可能な環境で sweeps を確実に実行できるように、W&amp;B Sweeps がシステムシグナルとプロセス終了コードをどのように処理するかを詳しく説明します。これらのセクションでは、キーボードから run を適切に中断する方法を説明し、run をキューに入れ直す挙動を理解して予測するのに役立つ詳細を示します。プリエンプト時に runs がどのようにキューに入れ直されるかについて詳しくは、[プリエンプト可能な Sweeps run を再開する](/ja/models/runs/resuming#resume-preemptible-sweeps-runs)を参照してください。
+
+<div id="exit-status-and-signals">
+  ## 終了ステータスとシグナル
+</div>
+
+W&amp;B は、トレーニングプロセスの終了ステータスをもとに、run をキューに入れ直すかどうかと、run の状態をどのように記録するかを判断します。
+
+**終了コードの取り決め:**
+
+* **終了コード 0**: run は正常に完了したと見なされ、キューに入れ直されません。
+* **0 以外の終了コード**: run は失敗またはプリエンプトされたものとして扱われます。[`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を使用すると、W&amp;B は run をキューに入れ直し、別の agent (または再起動後の同じ agent) が再開できるようにします。
+
+これは、プロセスがシグナルハンドラ、例外、または明示的な `sys.exit()` 呼び出しによって終了した場合のいずれにも当てはまります。プリエンプト可能な環境やクラスター 環境では、この取り決めを理解し、それに基づいて動作することが極めて重要です。
+
+プロセスが [**捕捉可能な** シグナル](#catchable-signals-and-preemption) によって終了する場合、ハンドラ内で必要な処理を実行できます。run をキューに入れ直したい場合は [`wandb.run.mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、クリーンアップ (たとえば checkpoint の保存) を行ったうえで、0 以外のコードで終了します。一般的な慣例は、シグナルによる終了時に `sys.exit(128 + signum)` を使用することです。W&amp;B はその終了コードを記録し、同じ [キューに入れ直しのルール](/ja/models/runs/resuming#resume-preemptible-sweeps-runs) が適用されます。プロセスが [**`SIGKILL`**](#sigkill-uncatchable) によってオペレーティングシステムのカーネルに kill された場合、プロセスは終了フックを実行できないため、最終的な summary は書き込まれず、run は crashed または killed として表示されることがあります。それでも、agent は次の run を開始します。
+
+<div id="stale-runs-and-server-side-timeouts">
+  ## 応答のない run とサーバー側のタイムアウト
+</div>
+
+run が長時間にわたって終了せず、新しいメトリクスも送信しない場合 (およそ 5 分程度) 、W&amp;B Server はその run を **crashed** としてマークします。これは、トレーニングプロセスがハングしたり、メトリクスのログ送信が止まったり、正常な終了処理を行わないまま停止されたりした場合 (たとえば `SIGKILL` の後) によく発生します。一定の間隔でメトリクスをログするか、明示的な終了コードで終了すると、実際に起きたことと run の状態を一致させやすくなります。
+
+<div id="catchable-signals-and-preemption">
+  ## 捕捉可能なシグナルとプリエンプション
+</div>
+
+トレーニングスクリプトにカスタムのシグナルハンドラーを登録できます。捕捉可能なシグナルを受信すると、ハンドラーが実行されます。すでに W&amp;B に送信されたメトリクスは保持され、agent はプロセスの終了を検知して次の run を開始します。
+
+**ベストプラクティス:**
+
+* ハンドラーは早い段階で登録してください (たとえば、メインのトレーニングループに入る前) 。
+* ハンドラー内では、プリエンプション後に run をキューに入れ直す場合は [`wandb.run.mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、クリーンアップ (たとえば checkpoint の保存) を行ってから、非ゼロのコードで終了してください。
+
+次の例では、`SIGUSR1` (クラスター で一般的なプリエンプションシグナル) と `SIGTERM` のハンドラーを登録します。`SIGINT` は対話的な用途 (たとえば、ターミナルからの手動キャンセル) のために使えるよう残しています。ハンドラーは `wandb.run.mark_preempting()` を呼び出し、`128 + signum` を使って終了します:
+
+```python
+import signal
+import sys
+import wandb
+
+
+def signal_handler(signum, frame):
+    if wandb.run is not None:
+        # オプション: モデル チェックポイントの保存、バッファのフラッシュなど。
+        print(f"Preempted with signal: {signal.Signals(signum).name}.")
+        wandb.run.mark_preempting()
+    sys.exit(128 + signum)
+
+
+def train():
+    signal.signal(signal.SIGUSR1, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+    with wandb.init() as run:
+        config = wandb.config
+        for epoch in range(100):
+            # トレーニング step; 必要に応じて wandb.log(...) を呼び出す
+            pass
+
+
+if __name__ == "__main__":
+    train()
+```
+
+<div id="sigkill-uncatchable">
+  ## `SIGKILL` (捕捉不可)
+</div>
+
+`SIGKILL` は捕捉も無視もできません。プロセスは即座に終了するため、ハンドラーや atexit コールバックを実行する余地はありません。W&amp;B はその run の最終 summary を書き込めません。agent は復旧して引き続き sweep を継続しますが、その run のデータは不完全になります。`SIGKILL` の使用は最後の手段にとどめ、正常にシャットダウンする必要がある場合は `SIGTERM` または `SIGINT` を優先してください。
+
+<div id="forwarding-signals-from-agent-to-child">
+  ## agent から子プロセスへのシグナル転送
+</div>
+
+[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使用すると、agent はトレーニングスクリプトを**子プロセス**として実行します。**agent** を中断しても (たとえば Ctrl+C を押した場合や、スケジューラがジョブに `SIGTERM` を送信した場合) 、既定では **子プロセス** (トレーニングプロセス) にそのシグナルは渡されません。そのため、トレーニングスクリプトはハンドラを実行したり、`mark_preempting()` を呼び出したりできません。これは [GitHub #3667](https://github.com/wandb/wandb/issues/3667) で説明されています。
+
+子プロセスが正常にシャットダウンし、ハンドラ内で `wandb.run.mark_preempting()` を呼び出せるようにするには、CLI agent を `--forward-signals` 付きで実行します。
+
+```bash
+wandb agent --forward-signals entity/project/sweep_ID
+```
+
+Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) では、シグナル転送は**サポートされていません**。この経路ではトレーニング関数は独立した子プロセスではなくスレッド内で実行されるため、同じ転送動作は適用されません。
+
+転送を有効にした CLI agent が `SIGINT` または `SIGTERM` を受信すると、そのシグナルを子プロセスに中継します。これによりトレーニングスクリプトのハンドラーが実行され、必要に応じて `wandb.run.mark_preempting()` と、非ゼロの終了コードを指定した [`wandb.finish()`](/ja/models/ref/python/experiments/run#finish) を呼び出し、非ゼロコードで終了できます。agent プロセスで Ctrl+C を 2 回押すと、デフォルトでは agent は `SIGTERM` を受信します。`--forward-signals` を使用すると、`SIGINT` を子プロセスに転送してハンドラーを実行できます。
+
+詳しくは、[wandb agent](/ja/models/ref/cli/wandb-agent) CLI リファレンスを参照してください。
+
+<div id="preemptible-clusters-like-slurm">
+  ## `SLURM` のようなプリエンプト可能なクラスター
+</div>
+
+プリエンプト時には、**トレーニングプロセス**がシグナルを受け取り、run をプリエンプト中としてマークしたうえで、run がキューに入れ直されるよう非ゼロの終了コードで終了する必要があります。そうすると、新しい agent (またはジョブがキューに入れ直された後の同じ agent) が run を再開できます。
+
+**トレーニングプロセスがシグナルを受け取るようにしてください。**
+
+1. **スケジューラがagentにシグナルを送る場合**: `wandb agent --forward-signals` を指定してagentを実行してください。これにより、スケジューラ (またはユーザー) がagentにシグナルを送信したとき、そのシグナルが子プロセスに転送されます。すると子プロセスのハンドラで `wandb.run.mark_preempting()`、非ゼロコードを指定した [`wandb.finish(exit_code=...)`](/ja/models/ref/python/experiments/run#finish)、および `sys.exit(128 + signum)` (または別の非ゼロ終了コード) を呼び出せます。
+2. **スケジューラが起動スクリプトにシグナルを送る場合 (agentに直接送らない場合)&#x20;**: 起動スクリプトからプリエンプトシグナルをトレーニングプロセスに直接送るようにしてください。たとえば、トレーニングスクリプトが自分のプロセス ID をファイルに書き込み、起動スクリプトがクラスターのシグナル (たとえば `SIGUSR1`) を捕捉して `kill -SIGUSR1 $(cat $PID_FILE)` を実行すれば、トレーニングプロセスのハンドラが実行されます。
+
+**トレーニングスクリプト内:** クラスターで使用されるシグナル (たとえば `SIGTERM` または `SIGUSR1`) のハンドラを登録してください。ハンドラ内では、run がアクティブなら `wandb.run.mark_preempting()` を呼び出し、その後、run がキューに入れ直されるよう非ゼロの終了コードで run を終了し、`sys.exit(128 + signum)` (または別の非ゼロコード) を実行してください。run がいつキューに入れ直されるか、およびそれが `mark_preempting()` とどう関係するかについては、[プリエンプト可能な Sweeps の run を再開する](/ja/models/runs/resuming#resume-preemptible-sweeps-runs)を参照してください。
+
+**Sweep の状態:** agentを起動する前に `wandb sweep entity/project/sweep_ID --resume` を実行し、sweep を再開モードにして、キューに入れ直された run が割り当てられるようにしてください。
+
+**複数agentの協調:** 多数のagentが同時に実行される場合 (SLURM の array job など) 、同じプリエンプト済み run の取得を競合することがあります。これは既知の制限事項です。この問題を回避しやすくするため、agentの起動タイミングをずらすか、lock などの外部協調メカニズムを使用してください。
+
+<div id="wandb-sweep-cancel">
+  ## `wandb sweep --cancel`
+</div>
+
+sweep をキャンセルするには、OS シグナルではなく W&amp;B API を使用します。`wandb sweep --cancel entity/project/sweep_ID` のようなコマンドを実行してください。サーバーが agent に終了を指示し、その後 agent は実行中の子プロセスを終了して停止します。キャンセルが有効になるまで、短い遅延 (agent の API ポーリング間隔と同程度) が生じることがあります。
+
+キャンセルでは、run に **`SIGKILL`** が送られます。子プロセスは、ユーザー定義のシグナルハンドラーを実行する機会がありません。これは、Sweeps UI の **Cancel** コントロールを使用した場合も同様です。sweep 全体を停止してキャンセル済みとしてマークしたい場合は、`--cancel` を使用してください。現在の run を正常終了させるには、run に捕捉可能なシグナルを送ります (または、CLI agent で `--forward-signals` を使用し、agent にシグナルを送ります) 。sweep を正常に完了させるには、`--cancel` ではなく [`wandb sweep --stop`](/ja/models/sweeps/pause-resume-and-cancel-sweeps#stop-a-sweep) を使用してください。
+
+一時停止、再開、停止、キャンセルのオプションについては、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
+
+<div id="killing-the-agent-vs-the-run">
+  ## agent の終了と run の終了
+</div>
+
+**agent** プロセス (子のトレーニングプロセスではなく) にシグナルを送ると、子プロセスは孤立したまま実行を続け、**agent** だけが終了することがあります。孤立したプロセスはターミナルへの出力を続けることがあり、Enter キーを押すまでシェルに新しいプロンプトが表示されない場合があります。
+
+CLI agent で `--forward-signals` を使用しない限り、agent を停止しても子のトレーニングプロセスが停止するとは限りません。
+
+agent が終了したことを確認するには、プロンプトが表示されるかどうかで判断するのではなく、`ps -p <agent_pid>` や `pgrep -f "wandb agent"` のような OS コマンドを使用してください。
+
+<div id="reference-mark_preempting-and-final-run-state">
+  ## 参照: `mark_preempting()` と最終的な run の状態
+</div>
+
+以下の表は、`mark_preempting()` を**いつ**呼び出すかと、プロセスがどのように終了するかに応じて、run の状態がどうなるかをまとめたものです。これは、トレーニングプログラムをサブプロセスとして [`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使用することを前提としています。
+
+| シナリオ                                           | `mark_preempting()` なし | シグナルハンドラが `mark_preempting()` を呼び出して非ゼロで終了 | `init()` の直後に常に `mark_preempting()` を呼び出す |
+| ---------------------------------------------- | ---------------------- | ------------------------------------------ | ----------------------------------------- |
+| run が終了コード 0 で正常に完了する                          | FINISHED               | FINISHED                                   | FINISHED                                  |
+| run が非ゼロの終了コードで失敗する                            | FAILED                 | FAILED                                     | PREEMPTED                                 |
+| run が `SIGKILL` を受信する                          | 約 5 分後に CRASHED        | 約 5 分後に CRASHED (捕捉不可)                     | 約 5 分後に PREEMPTED                         |
+| run が `SIGINT` を受信する                           | KILLED                 | PREEMPTED (`SIGINT` ハンドラがある場合)             | PREEMPTED                                 |
+| run が別のシグナル (たとえば `SIGTERM` や `SIGUSR1`) を受信する | 約 5 分後に CRASHED        | PREEMPTED (対応するハンドラがある場合)                  | 約 5 分後に PREEMPTED                         |
+
+`mark_preempting()` をシグナルハンドラ内でしか呼び出さない場合は、`SIGKILL` のようにハンドラがまったく実行されないケースをカバーできません。
+
+`wandb.init()` の直後に常に `mark_preempting()` を呼び出すと、あらゆる失敗がプリエンプションとして扱われる可能性があり、bug や不適切な設定が原因の場合でも、run が繰り返しキューに入れ直されることがあります。
+
+プリエンプションシグナルが明確に定義されている環境では、一般的には `mark_preempting()` を呼び出して非ゼロで終了する**シグナルハンドラ**を使用し、`init()` の直後に無条件で呼び出すことはしません。

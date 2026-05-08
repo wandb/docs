@@ -2,34 +2,33 @@
 title: wandb launch-agent
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch-agent.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbLaunchAgent from "/snippets/en/_includes/cli/wandb-launch-agent.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L1899" />
 
-<WandbLaunchAgent/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-W&B Launch エージェント を実行します。
-
-## Usage (使用法)
+<div id="usage">
+  ## 使用法
+</div>
 
 ```bash
-wandb launch-agent [OPTIONS]
+launch-agent [OPTIONS]
 ```
 
-## Options (オプション)
+<div id="description">
+  ## 説明
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--queue`, `-q` | エージェント が監視するキューの名前。複数の -q フラグがサポートされています。 |
-| `--entity`, `-e` | 使用する Entities。デフォルトは現在ログインしている Users です。 |
-| `--log-file`, `-l` | 内部 エージェント ログ の出力先。stdout の場合は - を使用します。デフォルトでは、すべての エージェント ログ は `wandb/` サブディレクトリー 内の `debug.log`、または `WANDB_DIR` が設定されている場合はその場所に保存されます。 |
-| `--max-jobs`, `-j` | この エージェント が並列で実行できる Launch ジョブの最大数。デフォルトは 1 です。上限をなくすには -1 を設定してください。 |
-| `--config`, `-c` | 使用する エージェント 設定 yaml へのパス。 |
-| `--verbose`, `-v` | 詳細な出力を表示します (デフォルト: 0)。 |
+W&amp;B Launch エージェントを起動します。
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ              | タイプ | 説明                                                                                                                                          |
+| ---------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--queue, -q`    | STR | エージェントが監視するキューの名です。`-q` フラグは複数指定できます。**デフォルト**: None                                                                                        |
+| `--entity, -e`   | STR | 使用する entity です。デフォルトでは、現在ログイン中のユーザーが使用されます。**デフォルト**: None                                                                                  |
+| `--log-file, -l` | STR | エージェント内部ログの出力先です。標準出力には `-` を使用します。デフォルトでは、すべてのエージェントのログは `wandb/` サブディレクトリ、または設定されている場合は `WANDB_DIR` の `debug.log` に出力されます。**デフォルト**: None |
+| `--max-jobs, -j` | STR | このエージェントが並列で実行できる Launch ジョブの最大数です。デフォルトは 1 です。上限を設けない場合は `-1` を設定します。**デフォルト**: None                                                       |
+| `--config, -c`   | STR | 使用するエージェント設定 YAML へのパスです。**デフォルト**: None                                                                                                    |
+| `--verbose, -v`  | INT | 詳細な出力を表示します。**デフォルト**: 0                                                                                                                    |

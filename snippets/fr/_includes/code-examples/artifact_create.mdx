@@ -1,0 +1,30 @@
+---
+title: "Création d’un Artifact"
+---
+
+```python
+"""
+Crée et enregistre un artifact W&B. Commencez par créer un
+objet artifact. Ensuite, ajoutez des fichiers, des répertoires ou des références externes à l'artifact.
+Enfin, enregistrez l'artifact dans un run W&B.
+"""
+import wandb
+
+# Créer un objet artifact
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# Ajouter un ou plusieurs fichiers à l'artifact
+artifact.add_file(local_path="data/file1.csv")
+
+# Ajouter récursivement un répertoire à l'artifact
+artifact.add_dir(local_path="data/directory")
+
+# Ajouter une référence URI externe à l'artifact
+artifact.add_reference(uri="s3://my-bucket/path/to/data.csv")
+
+with wandb.init(project="<project>") as run:
+    # Le code d'entraînement et de logging se place ici
+
+    # Exemple d'enregistrement d'un artifact
+    run.log_artifact(artifact)
+```

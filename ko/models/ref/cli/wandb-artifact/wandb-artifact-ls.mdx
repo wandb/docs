@@ -2,35 +2,55 @@
 title: wandb artifact ls
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3006" />
 
-<WandbArtifactLs/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-W&B 프로젝트의 모든 Artifacts 목록을 출력합니다.
-
-## Usage
+<div id="usage">
+  ## 사용
+</div>
 
 ```bash
-wandb artifact ls PATH [OPTIONS]
+ls [OPTIONS] PATH
 ```
 
-## Arguments
+<div id="description">
+  ## 설명
+</div>
 
-| 인수 | 설명 | 필수 여부 |
-| :--- | :--- | :--- |
-| `PATH` | 설명 없음 | 예 |
+W&amp;B 프로젝트의 모든 아티팩트를 나열합니다.
 
-## Options
+프로젝트에서 각 아티팩트 컬렉션의 최신 버전을 표시합니다.
+유형, 마지막 업데이트 시간, 크기, 이름을 보여줍니다.
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--type`, `-t` | 나열할 Artifacts의 타입 |
+PATH는 아티팩트를 나열할 대상의 entity와 프로젝트(entity/project)로
+구성됩니다.
+
+예를 들어, &quot;team-awesome&quot; entity 아래의 &quot;foobar&quot;
+프로젝트에 있는 모든 아티팩트를 나열하려면 다음과 같이 하세요:
+
+```bash
+wandb artifact ls team-awesome/foobar
+```
+
+같은 프로젝트에서 유형이 &quot;model&quot;인 아티팩트만 나열하려면:
+
+```bash
+wandb artifact ls --type model team-awesome/foobar
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름     | 기본값 | 유형   |
+| ------ | --- | ---- |
+| `path` | STR | True |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그          | 유형  | 설명                             |
+| ------------ | --- | ------------------------------ |
+| `--type, -t` | STR | 아티팩트를 유형별로 필터링합니다. **기본값**: 없음 |

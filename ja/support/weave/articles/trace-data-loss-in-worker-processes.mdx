@@ -1,0 +1,60 @@
+---
+title: "ワーカープロセスでの Trace Data 損失"
+keywords: ["Trace Data", "パフォーマンス"]
+---
+
+Weave は、アプリケーションのパフォーマンスへの影響を最小限に抑えるために、バックグラウンドスレッドで Trace Data をアップロードします。ただし、multiprocessing やタスクキューシステム、あるいは Celery のようなワーカープロセスを使用している場合、トレースのアップロードがバックグラウンドスレッドで完了する前にワーカープロセスが終了すると、Weave は Trace Data を失います。
+
+ワーカープロセスでのデータ損失を防ぐには、ワーカータスクが完了する前に `client.flush()` または `client.finish()` を呼び出し、バックグラウンドアップロードを完了させる必要があります。これは、[AWS Lambda](https://aws.amazon.com/lambda/)、[Google Cloud Run](https://cloud.google.com/run)、または実行直後に終了するノートブックのような短命な環境で作業する場合に役立ちます。
+
+これらの method には、それぞれ異なる用途があります。
+
+* `weave.flush()`: シンプルで通知のないフラッシュです。Weave をワーカープロセスや CI 環境に統合する場合に推奨されます。
+* `weave.finish()`: プログレスバーやステータスコールバックによる進行状況のフィードバックが含まれます。対話的なスクリプトやノートブックに推奨されます。
+
+どちらの method も、すべてのバックグラウンドアップロードが完了するまでブロックするため、ワーカープロセスの終了時に Trace Data が失われることはありません。
+
+次の例では、`client.finish()` を示します。
+
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+
+    try:
+        # トレースを作成するタスクロジック
+        result = your_processing_function(input_data)
+
+        # タスク完了前にすべてのトレースがアップロードされていることを確認する
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
+
+`with` コンテキストマネージャーを使うと、終了時に `weave.finish()` が自動的に呼び出されます：
+
+```python
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+`weave.flush()` を使うことで、アプリケーションのパフォーマンスを改善することもできます。詳しくは、[Flushing](/ja/support/weave/articles/long-eval-clean-up-times) を参照してください。
+
+データ損失に対する耐性をさらに高めるには、サーバーに送信する前に Trace Data をディスクに書き込む [write-ahead log](/ja/weave/guides/tracking/write-ahead-log) を有効にすることも検討してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Trace Data](/ja/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

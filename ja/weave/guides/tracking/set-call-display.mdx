@@ -1,0 +1,108 @@
+---
+title: "Call の表示名を設定する"
+description: "W&B Weave のトレースで Call の表示名を設定または上書きする"
+---
+
+Op は Call を生成します。Op は、`@weave.op` でデコレートした関数または method です。デフォルトでは、Op の名は関数名になり、関連付けられた Call も同じ表示名になります。
+
+特定の Op に属するすべての Call の表示名は、いくつかの方法で上書きできます。
+
+<Tabs>
+  <Tab title="Python">
+    1. Op の呼び出し時に表示名を変更します。
+       次の例では、`__weave` 辞書を使用して、Op の表示名より優先される Call の表示名を設定します。
+
+    ```python lines
+    result = my_function("World", __weave={"display_name": "My Custom Display Name"})
+    ```
+
+    2. Call ごとに表示名を変更します。
+       次の例では、[`Op.call`](/ja/weave/reference/python-sdk/trace/op#function-call) method を使用して `call` オブジェクトを返し、その後 [`call.set_display_name`](/ja/weave/reference/python-sdk/trace/weave_client#method-set_display_name) を使って表示名を設定します。
+
+    ```python lines
+    result, call = my_function.call("World")
+    call.set_display_name("My Custom Display Name")
+    ```
+
+    3. 特定の Op に属するすべての Call の表示名を変更します。
+       次の例では、`@weave.op` 関数デコレータ自体で新しい表示名を設定し、その Op のすべての Call に反映させます。
+
+    ```python lines
+    @weave.op(call_display_name="My Custom Display Name")
+    def my_function(name: str):
+        return f"Hello, {name}!"
+    ```
+
+    `call_display_name` には、`call` オブジェクトを受け取り文字列を返す関数も指定できます。関数の実行時に Weave が `call` オブジェクトを自動的に渡すため、それを使って関数名、Call の inputs、フィールドなどに基づいて動的に名を生成できます。
+
+    よくあるユースケースの 1 つは、関数名に Timestamp を付けることです。
+
+    ```python lines
+    from datetime import datetime
+
+    @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
+    def func():
+        return ...
+    ```
+
+    `.attributes` を使って custom メタデータをログすることもできます。
+
+    ```python lines
+    def custom_attribute_name(call):
+        model = call.attributes["model"]
+        revision = call.attributes["revision"]
+        now = call.attributes["date"]
+
+        return f"{model}__{revision}__{now}"
+
+    @weave.op(call_display_name=custom_attribute_name)
+    def func():
+        return ...
+
+    with weave.attributes(
+        {
+            "model": "finetuned-llama-3.1-8b",
+            "revision": "v0.1.2",
+            "date": "2024-08-01",
+        }
+    ):
+        func()  # 表示名は "finetuned-llama-3.1-8b__v0.1.2__2024-08-01" になります
+
+        with weave.attributes(
+            {
+                "model": "finetuned-gpt-4o",
+                "revision": "v0.1.3",
+                "date": "2024-08-02",
+            }
+        ):
+            func()  # 表示名は "finetuned-gpt-4o__v0.1.3__2024-08-02" になります
+    ```
+
+    4. Op 自体の表示名を変更します。
+       Op に関連付けられた Call は同じ表示名を持ちます。Op 自体の名を上書きすると、Call の表示名も変わります。これを行う方法は 2 つあります。
+
+    * Call がログされる前に Op の `name` プロパティを設定します:
+
+    ```python lines
+    my_function.name = "My Custom Op Name"
+    ```
+
+    * Op デコレータで `name` オプションを設定します:
+
+    ```python lines
+    @weave.op(name="My Custom Op Name")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    call のデフォルト名を上書きするには、`weave.op()` の呼び出し時に `callDisplayName` オプションを使用します。
+
+    ```typescript lines {2}
+    const extractDinosOp = weave.op(extractDinos, {
+    callDisplayName: (input: string) => `Your New Display Name`
+    });
+    ```
+  </Tab>
+</Tabs>
+
+実行後に [call の表示名を更新する](/ja/weave/guides/tracking/update-call) こともできます。

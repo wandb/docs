@@ -1,0 +1,14 @@
+---
+title: "wandb va-t-il ralentir mon entraînement ?"
+keywords: ["Experiments"]
+---
+
+W&amp;B a un impact minimal sur les performances de l’entraînement dans des conditions d’utilisation normales. Une utilisation normale consiste à effectuer un logging à une fréquence inférieure à une fois par seconde et à limiter les données à quelques mégaoctets par étape. W&amp;B s’exécute dans un processus distinct avec des appels de fonction non bloquants, ce qui garantit que de brèves interruptions réseau ou des problèmes intermittents de lecture/écriture sur le disque n’affectent pas les performances. Un logging excessif de grandes quantités de données peut entraîner des problèmes d’E/S disque. Pour toute question supplémentaire, contactez l’assistance.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

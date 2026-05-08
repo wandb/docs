@@ -1,0 +1,35 @@
+---
+title: MetricZScoreFilter
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+## <kbd>class</kbd> `MetricZScoreFilter`
+
+Filtre qui compare le z-score d’une métrique à un seuil défini par l’utilisateur.
+
+### <kbd>méthode</kbd> `MetricZScoreFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    window: 'int' = 30,
+    threshold: 'Annotated | Annotated' = 3.0,
+    change_dir: 'ChangeDir' = ANY
+) → None
+```
+
+**Arguments :**
+
+* `name` (str): Nom de la métrique observée.
+* `window` (int): Taille de la fenêtre sur laquelle calculer la moyenne et l’écart-type de la métrique.
+* `threshold` (Union[Annotated, Annotated]): Seuil du z-score.
+* `change_dir` (ChangeDir): Direction de variation du z-score à surveiller.
+
+**Retourne :**
+Un objet `MetricZScoreFilter`.

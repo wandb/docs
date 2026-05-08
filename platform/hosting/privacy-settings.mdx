@@ -6,12 +6,30 @@ description: "Configure and enforce privacy settings for team visibility, projec
 Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.
 
 <Note>
-W&B recommends organization admins to enforce a privacy setting only after communicating that in advance to all team admins and users in their organization. This is to avoid unexpected changes in their workflows.
+To avoid unexpected changes in team workflows, W&B recommends organization admins to enforce a privacy setting only after communicating in advance to all team admins and users in the organization.
 </Note>
+
+## Enforce privacy settings for all teams
+
+Organization admins can enforce privacy settings for all teams in their organization from within the **Privacy** section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
+
+* **Enforce team visibility restrictions** - Hides all teams from non-members across the organization
+* **Enforce privacy for future projects** - Requires all new projects in all teams to be private or [restricted](./iam/access-management/restricted-projects)
+* **Enforce invitation control** - Prevents non-admins from inviting members to any team
+* **Enforce report sharing control** - Turns off public sharing of reports in private projects and deactivates existing magic links
+* **Enforce team self-joining restrictions** - Restricts users with matching organization email domain from automatically joining any team
+  <Note>This setting is only available in [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) deployments.</Note>
+* **Enforce default code saving restrictions** - Turns off code saving by default for all teams
+
+To open organization privacy settings:
+
+1. Sign in as an organization admin.
+2. On Multi-tenant Cloud, navigate to `https://wandb.ai/account-settings/<organization>/settings`. Replace `<organization>` with your organization name. On Dedicated Cloud or Self-Managed deployments, open your instance organization dashboard. For environment-specific URLs, see [Add and manage users](/platform/hosting/iam/access-management/manage-organization#add-and-manage-users).
+3. Open the **Privacy** section and configure **Enforce default code saving restrictions** and any other organization-wide controls you need.
 
 ## Configure privacy settings for a team
 
-Team admins can configure privacy settings for their respective teams from within the `Privacy` section of the team **Settings** tab. Each setting is configurable as long as it's not enforced at the organization scope:
+Team admins can configure privacy settings for their respective teams from within the **Privacy** section of the team **Settings** tab. Each setting is configurable as long as it's not enforced at the organization scope:
 
 * **Hide this team from all non-members** - Prevents the team from being visible to users who are not members
 * **Make all future team projects private** - Ensures all new projects created in the team are private (public sharing not allowed)
@@ -21,14 +39,8 @@ Team admins can configure privacy settings for their respective teams from withi
   <Note>This setting is only available in [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) deployments.</Note>
 * **Enable code saving by default** - Automatically saves code for all runs in the team
 
-## Enforce privacy settings for all teams
+To open team privacy settings:
 
-Organization admins can enforce privacy settings for all teams in their organization from within the `Privacy` section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
-
-* **Enforce team visibility restrictions** - Hides all teams from non-members across the organization
-* **Enforce privacy for future projects** - Requires all new projects in all teams to be private or [restricted](./iam/access-management/restricted-projects)
-* **Enforce invitation control** - Prevents non-admins from inviting members to any team
-* **Enforce report sharing control** - Turns off public sharing of reports in private projects and deactivates existing magic links
-* **Enforce team self-joining restrictions** - Restricts users with matching organization email domain from automatically joining any team
-  <Note>This setting is only available in [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) deployments.</Note>
-* **Enforce default code saving restrictions** - Turns off code saving by default for all teams
+1. Navigate to `https://wandb.ai/<team>`. Replace `<team>` with your team name.
+2. Select **Team settings** in the left navigation.
+3. Open the **Privacy** section and configure **Enable code saving by default**.

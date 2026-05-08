@@ -1,0 +1,61 @@
+---
+title: "Prérequis"
+linkTitle: "Prérequis"
+description: "Configurez votre environnement, votre clé API et les dépendances avant d'utiliser W&B Inference via l'API ou l'UI."
+---
+
+import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
+
+Suivez ces étapes avant d’utiliser le service W&amp;B Inference via l’API ou l’UI.
+
+<Tip>
+  Avant de commencer, consultez les [informations sur l’utilisation et les limites](/fr/inference/usage-limits/) pour comprendre les coûts et les restrictions.
+</Tip>
+
+<div id="set-up-your-wb-account-and-project">
+  ## Configurez votre compte W&amp;B et votre projet
+</div>
+
+Vous avez besoin des éléments suivants pour accéder à W&amp;B Inference :
+
+1. **Un compte W&amp;B**
+   Créez votre compte sur [W&amp;B](https://app.wandb.ai/login?signup=true)
+
+2. **Une clé API W&amp;B**
+
+   <ApiKeyCreate />
+
+3. **Un projet W&amp;B**
+   Créez un projet dans votre compte W&amp;B pour suivre l’utilisation
+
+<div id="set-up-your-environment-python">
+  ## Configurer votre environnement (Python)
+</div>
+
+Pour utiliser l’API Inference avec Python, vous devez également :
+
+1. Remplir les prérequis généraux ci-dessus
+
+2. Installer les bibliothèques requises :
+
+   ```bash
+   pip install openai weave
+   ```
+
+<Note>
+  **Remarque**
+
+  La bibliothèque `weave` est facultative, mais recommandée. Elle vous permet de tracer vos applications LLM. Pour en savoir plus, consultez le [Démarrage rapide de Weave](/fr/models/quickstart/).
+
+  Voir les [exemples d&#39;utilisation](/fr/inference/examples/) pour des exemples de code avec W&amp;B Inference et Weave.
+</Note>
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+Une fois les prérequis remplis :
+
+* Consultez la [référence de l’API](/fr/inference/api-reference/) pour découvrir les points de terminaison disponibles
+* Essayez les [exemples d&#39;utilisation](/fr/inference/examples/) pour voir le service en action
+* Utilisez le [guide UI](/fr/inference/ui-guide/) pour accéder aux modèles via l’interface web

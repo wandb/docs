@@ -1,0 +1,85 @@
+---
+title: "instrumentOpenAIAgents"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="instrumentopenaiagents">
+  # instrumentOpenAIAgents
+</div>
+
+▸ **instrumentOpenAIAgents**(): `Promise`&lt;`boolean`&gt;
+
+패키지를 사용할 수 있으면 OpenAI Agents에 Weave tracing을 수동으로 등록합니다.
+
+**참고: 일반적으로는 이 함수를 호출할 필요가 없습니다!** Weave를 임포트하면 OpenAI Agents는
+모듈 로더 후크를 통해 자동으로 계측됩니다. 이 함수는 자동 계측이 작동하지 않는
+예외적인 경우(예: 동적 임포트, 후크를 우회하는 번들러)를 위해 제공됩니다.
+
+이 함수는 사용자의 node&#95;modules에서 @openai/agents를 동적으로 임포트하려고 시도하고
+TracingProcessor를 등록합니다. 패키지가 설치되어 있지 않으면 오류를 발생시키지 않고
+false를 반환합니다.
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`boolean`&gt;
+
+Promise&lt;`boolean`&gt; - 등록에 성공하면 true, @openai/agents를 사용할 수 없으면 false
+
+`Example`
+
+```typescript
+// ✅ 권장: Weave를 임포트하기만 하면 계측이 자동으로 이루어집니다!
+import * as weave from 'weave';
+await weave.init('my-project');
+
+// OpenAI Agents는 이미 훅을 통해 계측되어 있으므로 수동 설정이 필요하지 않습니다
+import { Agent } from '@openai/agents';
+const agent = new Agent({ ... });
+await agent.run(input); // Weave에서 자동으로 트레이스됩니다
+```
+
+`예제`
+
+```typescript
+// ⚠️ 자동 훅이 작동하지 않는 예외적인 경우에서만 필요합니다
+import { instrumentOpenAIAgents } from 'weave';
+
+const registered = await instrumentOpenAIAgents();
+if (!registered) {
+  console.log('OpenAI Agents를 찾을 수 없습니다 - tracing을 활성화하려면 @openai/agents를 설치하세요');
+}
+```
+
+`참고`
+
+**자동 계측이 작동하는 방식**: Weave를 임포트하면 `addCJSInstrumentation()` 및 `addESMInstrumentation()`을 통해 모듈 로더
+훅을 등록합니다. 이후 코드에서 `@openai/agents`를 임포트하면, 이 훅이 해당 임포트를 가로채
+모듈에 Weave tracing을 자동으로 패치합니다. 이 과정은 자동으로 투명하게 처리되므로 사용자가 별도로 할 일은 없습니다!
+
+**이 함수를 사용해야 하는 경우**: 자동 계측이 실패할 때만 이 함수를 사용하세요. 예를 들면 다음과 같습니다.
+
+* 모듈 훅을 우회하는 동적 임포트를 사용하는 경우
+* import-in-the-middle을 지원하지 않는 번들러를 사용하는 경우
+* 계측이 수행되는 시점을 명시적으로 제어해야 하는 경우
+
+**맞춤형 프로세서 로직을 위한 대안**: 맞춤형 tracing 동작이 필요한 경우,
+`createOpenAIAgentsTracingProcessor()`를 사용해 수동으로 등록하세요:
+
+```typescript
+import { addTraceProcessor } from '@openai/agents';
+import { createOpenAIAgentsTracingProcessor } from 'weave';
+
+const processor = createOpenAIAgentsTracingProcessor();
+addTraceProcessor(processor);
+```
+
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[integrations/openai.agent.ts:674](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.agent.ts#L674)
+
+***

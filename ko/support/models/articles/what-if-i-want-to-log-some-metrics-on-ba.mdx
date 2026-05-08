@@ -1,0 +1,22 @@
+---
+title: "배치에서는 일부 메트릭을 기록하고, 일부 메트릭은 에포크에서만 기록하려면 어떻게 해야 하나요?"
+keywords: ["Experiments", "메트릭"]
+---
+
+각 배치에서 특정 메트릭을 기록하고 플롯을 일관되게 표시하려면, 원하는 x축 값을 메트릭과 함께 기록하세요. 맞춤형 플롯에서 편집을 클릭한 다음 맞춤형 x축을 선택하세요.
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"batch": batch_idx, "loss": 0.3})
+    run.log({"epoch": epoch, "val_acc": 0.94})
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

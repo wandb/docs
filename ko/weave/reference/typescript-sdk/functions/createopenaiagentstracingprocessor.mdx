@@ -1,0 +1,39 @@
+---
+title: "createOpenAIAgentsTracingProcessor"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="createopenaiagentstracingprocessor">
+  # createOpenAIAgentsTracingProcessor
+</div>
+
+▸ **createOpenAIAgentsTracingProcessor**(): `TracingProcessor`
+
+OpenAI Agents용 새 Weave 트레이싱 프로세서를 생성합니다.
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`TracingProcessor`
+
+OpenAI Agents에 등록할 수 있는 `TracingProcessor` 인스턴스입니다.
+
+`Example`
+
+```typescript
+import { addTraceProcessor } from '@openai/agents';
+import { createOpenAIAgentsTracingProcessor } from 'weave';
+
+const processor = createOpenAIAgentsTracingProcessor();
+addTraceProcessor(processor);
+```
+
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[integrations/openai.agent.ts:612](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.agent.ts#L612)
+
+***

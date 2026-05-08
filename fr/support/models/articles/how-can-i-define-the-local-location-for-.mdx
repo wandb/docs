@@ -1,0 +1,18 @@
+---
+title: "Comment définir l’emplacement local des fichiers `wandb` ?"
+keywords: ["Variables d’environnement", "Experiments"]
+---
+
+* `WANDB_DIR=<path>` or `wandb.init(dir=<path>)` : Définit l’emplacement du dossier `wandb` créé pour votre script d’entraînement. La valeur par défaut est `./wandb`. Ce dossier stocke les données et les journaux du run.
+* `WANDB_ARTIFACT_DIR=<path>` or `wandb.Artifact().download(root="<path>")` : Définit l’emplacement de téléchargement des Artifacts. La valeur par défaut est `./artifacts`
+* `WANDB_CACHE_DIR=<path>` : Il s’agit de l’emplacement où les Artifacts sont créés et stockés lorsque vous appelez `wandb.Artifact`. La valeur par défaut est `~/.cache/wandb`
+* `WANDB_CONFIG_DIR=<path>` : Emplacement où les fichiers de configuration sont stockés. La valeur par défaut est `~/.config/wandb`
+* `WANDB_DATA_DIR=<PATH>` : Définit l’emplacement utilisé pour la préparation des Artifacts pendant le téléversement. La valeur par défaut est `~/.cache/wandb-data/`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

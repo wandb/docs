@@ -1,0 +1,36 @@
+---
+title: Gestion des identités et des accès (IAM)
+description: "Découvrez les trois périmètres IAM dans W&B (organisations, Teams et projets) et leur correspondance avec votre entreprise."
+---
+
+W&amp;B Platform comporte trois périmètres IAM au sein de W&amp;B : [Organisations](#organization), [Teams](#team) et [Projets](#project).
+
+<div id="organization">
+  ## Organisation
+</div>
+
+Une *organisation* est le périmètre racine de votre compte ou instance W&amp;B. Toutes les actions effectuées dans votre compte ou instance s&#39;inscrivent dans le contexte de ce périmètre racine, notamment la gestion des Users, la gestion des Teams, la gestion des projets au sein des Teams, le suivi de l&#39;utilisation, etc.
+
+Si vous utilisez [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), vous pouvez avoir plusieurs organisations, chacune pouvant correspondre à une unité opérationnelle, à un utilisateur individuel, à un partenariat avec une autre entreprise, etc.
+
+Si vous utilisez [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou une [instance Autogérée](/fr/platform/hosting/hosting-options/self-managed), cela correspond à une seule organisation. Votre entreprise peut avoir plusieurs instances Cloud dédié ou Autogérées afin de les faire correspondre à différentes unités opérationnelles ou à différents départements, bien qu&#39;il s&#39;agisse strictement d&#39;un moyen facultatif de gérer les praticiens de l&#39;IA au sein de vos entreprises ou départements.
+
+Pour plus d&#39;informations, voir [Gérer les organisations](./access-management/manage-organization).
+
+<div id="team">
+  ## Équipe
+</div>
+
+Une *équipe* est un sous-ensemble au sein d’une organisation, qui peut correspondre à une unité métier / fonction, un département ou une équipe projet dans votre entreprise. Vous pouvez avoir plusieurs équipes dans votre organisation selon votre type de déploiement et votre plan tarifaire.
+
+Les projets d’IA sont organisés dans le cadre d’une équipe. Le contrôle d’accès au sein d’une équipe est géré par les administrateurs d’équipe, qui peuvent, ou non, être administrateurs au niveau de l’organisation parente.
+
+Pour plus d&#39;informations, voir [Ajouter et gérer les équipes](./access-management/manage-organization#add-and-manage-teams).
+
+<div id="project">
+  ## Projet
+</div>
+
+Un *projet* est un sous-ensemble au sein d&#39;une équipe, qui correspond à un projet d&#39;IA concret avec des objectifs précis. Vous pouvez avoir plusieurs projets au sein d&#39;une équipe. Chaque projet possède un mode de visibilité qui détermine qui peut y accéder.
+
+Chaque projet se compose de [Workspaces](/fr/models/track/workspaces/) et de [Reports](/fr/models/reports/), et est associé aux [Artifacts](/fr/models/artifacts/), [Sweeps](/fr/models/sweeps/) et [Automations](/fr/models/automations/) correspondants.

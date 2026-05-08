@@ -1,0 +1,63 @@
+---
+title: "W&B Inférence"
+description: Accédez à des modèles fondamentaux open source via W&B Weave et une API compatible avec OpenAI
+mode: wide
+---
+
+W&amp;B Inférence vous donne accès à des modèles fondamentaux open source de premier plan via W&amp;B Weave et une API compatible avec OpenAI.
+
+* Avec Inférence, vous pouvez créer des applications d&#39;IA et des agents sans vous inscrire chez un fournisseur d&#39;hébergement ni héberger vous-même un modèle.
+* Avec Weave, vous pouvez tracer, évaluer, surveiller et améliorer vos applications basées sur W&amp;B Inférence.
+
+<div id="try-out-inference-in-the-ui">
+  ## Essayez Inférence dans l’interface utilisateur
+</div>
+
+Accédez à [https://wandb.ai/inference](https://wandb.ai/inference) pour explorer les modèles disponibles et les essayer dans le Weave Playground.
+
+Pour plus d’informations sur l’interface web, voir le [guide de l’interface utilisateur](/fr/inference/ui-guide/).
+
+<div id="use-inference-through-the-api">
+  ## Utiliser Inférence via l’API
+</div>
+
+Cet exemple Python utilise Inférence pour envoyer une requête de complétion de chat à un LLM.
+
+```python lines
+import openai
+
+client = openai.OpenAI(
+    # L'URL de base personnalisée pointe vers W&B Inference
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # Créez une clé API sur https://wandb.ai/settings
+    api_key="<your-api-key>",
+
+    # Facultatif : équipe et projet pour le suivi d'utilisation
+    project="<your-team>/<your-project>",
+)
+
+response = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Tell me a joke."}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+<div id="next-steps">
+  ## Prochaines étapes
+</div>
+
+1. Configurez votre compte à l’aide des [prérequis](/fr/inference/prerequisites/).
+2. Consultez les [modèles disponibles](/fr/inference/models) ainsi que les [informations sur l’utilisation et les limites](/fr/inference/usage-limits/).
+3. Utilisez le service via l’[API](/fr/inference/api-reference/) ou l’[interface utilisateur](/fr/inference/ui-guide/).
+4. Essayez les modèles pris en charge dans le [W&amp;B Weave Playground](/fr/weave/guides/tools/playground).
+5. Essayez les [exemples d&#39;utilisation](/fr/inference/examples/).
+
+<Info>
+  Pour en savoir plus sur la tarification, les limites d’utilisation et les crédits, voir [Informations sur l’utilisation et les limites](/fr/inference/usage-limits/).
+</Info>

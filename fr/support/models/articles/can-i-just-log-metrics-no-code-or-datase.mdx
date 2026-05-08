@@ -1,0 +1,29 @@
+---
+title: "Puis-je simplement consigner des métriques, sans code ni exemples de jeu de données ?"
+keywords: ["Administrateur", "Gestion des équipes", "Métriques"]
+---
+
+Par défaut, W&amp;B ne consigne pas d’exemples de jeu de données. Par défaut, W&amp;B consigne le code et les métriques système.
+
+Il existe deux façons de désactiver l’enregistrement du code à l’aide de variables d’environnement :
+
+1. Définissez `WANDB_DISABLE_CODE` sur `true` pour désactiver tout le suivi du code. Cette action empêche la récupération du SHA git et du patch de diff.
+2. Définissez `WANDB_IGNORE_GLOBS` sur `*.patch` pour arrêter la synchronisation du patch de diff vers les serveurs, tout en le conservant disponible localement pour pouvoir l’appliquer avec `wandb restore`.
+
+Les administrateurs de l’organisation peuvent appliquer les paramètres de confidentialité pour toutes les équipes de leur organisation depuis la section **Confidentialité** de l’onglet **Paramètres** du tableau de bord du compte ou de l’organisation. Si les administrateurs de l’organisation appliquent un paramètre, les administrateurs d’équipe ne sont pas autorisés à le configurer dans leurs équipes respectives.
+
+En tant qu’administrateur d’équipe, vous pouvez désactiver l’enregistrement du code par défaut pour les runs de votre équipe :
+
+1. Accédez à `https://wandb.ai/<team>`. Remplacez `<team>` par le nom de votre équipe.
+2. Sélectionnez **Team settings** dans la navigation de gauche.
+3. Ouvrez la section **Confidentialité** et désactivez **Enable code saving by default**.
+
+<div id="for-details-see-privacy-settings">
+  ## Pour plus de détails, voir [Paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
+</div>
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des équipes](/fr/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets */}

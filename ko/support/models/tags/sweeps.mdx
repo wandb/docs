@@ -1,0 +1,82 @@
+---
+title: "Sweeps"
+tag: "19"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="하이퍼파라미터 검색을 구성하는 모범 사례" href="/ko/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
+  wandb.init(tags=&#39;your&#95;tag&#39;)로 고유한 태그를 설정하세요. 이렇게 하면 올바른 ...를 선택해 프로젝트 run을 효율적으로 필터링할 수 있습니다.
+</Card>
+
+<Card title="그리드 검색을 다시 실행할 수 있나요?" href="/ko/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
+  그리드 검색이 완료되었지만 일부 W&amp;B Runs를 충돌 때문에 다시 실행해야 하는 경우, 해당 W&amp;B Runs를 삭제해 다시 실행하세요. T ...
+</Card>
+
+<Card title="Sweeps와 SageMaker를 함께 사용할 수 있나요?" href="/ko/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
+  W&amp;B 인증을 위해 다음 단계를 완료하세요. 기본 제공 Amazon SageMaker e ...를 사용하는 경우 requirements.txt 파일을 만드세요.
+</Card>
+
+<Card title="불리언 변수를 하이퍼파라미터로 지정할 수 있나요?" href="/ko/support/models/articles/can-we-flag-boolean-variables-as-hyperpa" arrow="true" horizontal>
+  하이퍼파라미터를 불리언 플래그로 전달하려면 설정의 command 섹션에서 매크로를 사용하세요. 이 매크로는 자동으로 ...
+</Card>
+
+<Card title="AWS Batch, ECS 등 클라우드 인프라와 함께 W&B Sweeps를 사용할 수 있나요?" href="/ko/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
+  모든 W&amp;B Sweep agent가 sweep&#95;id에 액세스할 수 있도록 게시하려면, 이러한 agent가 이를 조회하고 실행할 수 있는 방법을 구현하 ...
+</Card>
+
+<Card title="W&B Sweep의 일부로 모든 하이퍼파라미터 값들을 제공해야 하나요? 기본값을 설정할 수 있나요?" href="/ko/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
+  딕셔너리처럼 동작하는 (run.config())를 사용해 sweep 설정에서 하이퍼파라미터 이름과 값에 액세스하세요. ...
+</Card>
+
+<Card title="sweep 로그가 로컬에 기록되는 디렉터리를 어떻게 변경하나요?" href="/ko/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
+  환경 변수 WANDB&#95;DIR를 설정해 W&amp;B run 데이터의 로깅 디렉터리를 지정하세요. 예:
+</Card>
+
+<Card title="Python 코드로 sweep을 재개하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-resume-a-sweep-using-python-co" arrow="true" horizontal>
+  sweep을 재개하려면 wandb.agent() 함수에 sweep&#95;id를 전달하세요.
+</Card>
+
+<Card title="sweep의 run에서 모델을 로깅하는 가장 좋은 방법은 무엇인가요?" href="/ko/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  sweep에서 모델을 로깅하는 효과적인 방법 중 하나는 sweep용 모델 artifact를 만드는 것입니다. 각 버전은 ...
+</Card>
+
+<Card title="Sweeps에서 코드 로깅을 활성화하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
+  sweeps에서 코드 로깅을 활성화하려면 W&amp;B Run을 초기화한 후 wandb.log&#95;code()를 추가하세요. 이 작업은 ...하더라도 필요합니다.
+</Card>
+
+<Card title="sweep 중 `CommError, Run does not exist`를 어떻게 해결하나요?" href="/ko/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  sweep 중 CommError, Run does not exist와 ERROR Error uploading가 모두 표시되면, 가장 가능성 높은 원인은 사용자가 ...이기 때문입니다.
+</Card>
+
+<Card title="sweep 중 `Cuda out of memory`를 어떻게 해결하나요?" href="/ko/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  sweep 중 Cuda out of memory가 표시되면 프로세스 기반 실행을 사용하도록 코드를 리팩터링하세요. 코드를 ...로 다시 작성하세요.
+</Card>
+
+<Card title="sweep 중 `anaconda 400 error`를 어떻게 해결하나요?" href="/ko/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  다음 오류는 일반적으로 최적화 중인 메트릭을 로깅하지 않을 때 발생합니다. 이를 해결하려면 ...하고 있는지 확인하세요.
+</Card>
+
+<Card title="sweeps에서 맞춤형 CLI command를 사용하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  트레이닝 설정이 command-line argument를 전달한다면 맞춤형 CLI command와 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예제에서 ...
+</Card>
+
+<Card title="SLURM에서 sweeps를 실행하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  SLURM 스케줄링 시스템에서 sweeps를 사용할 때는 예약된 각 작업에서 wandb agent --count 1 SWEEP&#95;ID를 실행하세요. 이 command는 ...
+</Card>
+
+<Card title="sweep에 값을 더 추가할 방법이 있나요, 아니면 새로 시작해야 하나요?" href="/ko/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
+  W&amp;B Sweep가 시작되면 Sweep 설정을 변경할 수 없습니다. 하지만 아무 table 뷰로 이동해 선택할 수는 있습니다 ...
+</Card>
+
+<Card title="여러 메트릭 최적화하기" href="/ko/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  단일 run에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중합을 사용하세요. 새 결합 메트릭을 로깅하세요 ...
+</Card>
+
+<Card title="sweep가 실행되는 동안 Python 파일을 편집하면 어떻게 되나요?" href="/ko/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
+  sweep가 실행되는 동안: sweep에서 사용하는 train.py 스크립트가 변경되면, sweep은 계속 원래 t ...를 사용합니다.
+</Card>
+
+<Card title="`Est. Runs` column이란 무엇인가요?" href="/ko/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
+  W&amp;B는 이산 검색 공간으로 W&amp;B Sweep를 생성할 때 만들어지는 Runs의 예상 수를 제공합니다. 이 총계는 ...
+</Card>

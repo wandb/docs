@@ -1,0 +1,1113 @@
+---
+title: Run
+namespace: python_sdk_actions
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+
+## <kbd>class</kbd> `Run`
+
+Une unité de calcul enregistrée par W&amp;B. Il s&#39;agit généralement d&#39;une expérience de machine learning.
+
+Appelez [`wandb.init()`](https://docs.wandb.ai/models/ref/python/functions/init) pour créer un nouveau run. `wandb.init()` démarre un nouveau run et renvoie un objet `wandb.Run`. Chaque run est associé à un ID unique (ID du run). W&amp;B recommande d&#39;utiliser un gestionnaire de contexte (instruction `with`) pour terminer automatiquement le run.
+
+Pour les expériences d&#39;entraînement distribué, vous pouvez soit suivre chaque processus séparément avec un run par processus, soit suivre tous les processus dans un run unique. Voir [Log distributed training experiments](https://docs.wandb.ai/models/track/log/distributed-training) pour plus d&#39;informations.
+
+Vous pouvez enregistrer des données dans un run avec `wandb.Run.log()`. Tout ce que vous enregistrez avec `wandb.Run.log()` est envoyé à ce run. Voir [Create an experiment](https://docs.wandb.ai/models/track/create-an-experiment) ou la page de référence de l&#39;API [`wandb.init`](https://docs.wandb.ai/models/ref/python/functions/init) pour plus d&#39;informations.
+
+Il existe un autre objet `Run` dans l&#39;espace de noms [`wandb.apis.public`](https://docs.wandb.ai/models/ref/python/public-api/api). Utilisez cet objet pour interagir avec des runs déjà créés.
+
+**Attributs :**
+
+* `summary`: (Synthèse) Synthèse du run, sous la forme d&#39;un objet de type dictionnaire. Pour plus d&#39;informations, voir
+* `[Log summary metrics](https`: //docs.wandb.ai/models/track/log/log-summary).
+
+**Exemples :**
+Créez un run avec `wandb.init()` :
+
+```python
+import wandb
+
+# Démarrer un nouveau run et enregistrer des données
+# Utiliser un gestionnaire de contexte (instruction `with`) pour terminer automatiquement le run
+with wandb.init(entity="entity", project="project") as run:
+    run.log({"accuracy": acc, "loss": loss})
+``` 
+
+### <kbd>propriété</kbd> Run.config
+
+Objet de configuration associé à ce run.
+
+**Retourne :**
+
+* `wandb_config.Config` : La valeur de propriété `config`.
+
+***
+
+### <kbd>propriété</kbd> Run.config_static
+
+Objet de configuration statique associé à ce run.
+
+**Retourne :**
+
+* `wandb_config.ConfigStatic` : La valeur de propriété config&#95;static.
+
+***
+
+### <kbd>propriété</kbd> Run.dir
+
+Répertoire dans lequel sont enregistrés les fichiers associés au run.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `dir`.
+
+***
+
+### <kbd>propriété</kbd> Run.disabled
+
+Vrai si le run est désactivé, faux sinon.
+
+**Retourne :**
+
+* `bool` : La valeur de propriété disabled.
+
+***
+
+### <kbd>propriété</kbd> Run.entity
+
+Le nom de l’entité W&amp;B associée au run.
+
+L’entité peut correspondre à un nom d’utilisateur ou au nom d’une équipe ou d’une organisation.
+
+**Retourne :**
+
+* `str` : La valeur de propriété entité.
+
+***
+
+### <kbd>propriété</kbd> Run.group
+
+Renvoie le nom du groupe associé à ce run.
+
+Le regroupement de runs permet d’organiser et de visualiser ensemble des expériences liées dans l’UI W&amp;B. Cela est particulièrement utile dans des cas comme l’entraînement distribué ou la validation croisée, où plusieurs runs doivent être affichés et gérés comme une expérience unique.
+
+En mode partagé, où tous les processus partagent le même objet run, définir un groupe est généralement inutile, puisqu’il n’y a qu’un seul run et qu’aucun regroupement n’est nécessaire.
+
+**Retourne :**
+
+* `str` : La valeur de propriété group.
+
+***
+
+### <kbd>propriété</kbd> Run.id
+
+L’identifiant de ce run.
+
+**Retourne :**
+
+* `str` : La valeur de propriété id.
+
+***
+
+### <kbd>propriété</kbd> Run.job_type
+
+Nom du type de job associé au run.
+
+Vous pouvez voir le type de job d&#39;un run sur la page Aperçu du run dans la W&amp;B App.
+
+Vous pouvez l&#39;utiliser pour classer les runs par type de job, par exemple « entraînement », « évaluation » ou « inférence ». C&#39;est utile pour organiser et filtrer les runs dans l&#39;interface W&amp;B, en particulier lorsque vous avez plusieurs runs avec différents types de job dans le même projet. Pour plus d&#39;informations, voir [Organiser les runs](https://docs.wandb.ai/models/runs#organize-runs).
+
+**Retourne :**
+
+* `str` : La valeur de propriété job&#95;type.
+
+***
+
+### <kbd>propriété</kbd> Run.name
+
+Nom d’affichage du run.
+
+Les noms d’affichage ne sont pas nécessairement uniques et peuvent être descriptifs. Par défaut, ils sont générés aléatoirement.
+
+**Retourne :**
+
+* `str | None`: La valeur de propriété `name`.
+
+***
+
+### <kbd>propriété</kbd> Run.notes
+
+Notes associées au run, s’il y en a.
+
+Les notes peuvent être une chaîne multilignes et utiliser également du Markdown ainsi que des équations LaTeX entre `$$`, par exemple `$x + 3$`.
+
+**Retourne :**
+
+* `str | None`: La valeur de propriété `notes`.
+
+***
+
+### <kbd>propriété</kbd> Run.offline
+
+True si le run est hors ligne, False sinon.
+
+**Retourne :**
+
+* `bool` : La valeur de propriété offline.
+
+***
+
+### <kbd>propriété</kbd> Run.path
+
+Chemin du run.
+
+Les chemins de run incluent l&#39;entité, le projet et l&#39;ID du run, au format `entity/project/run_id`.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `path`.
+
+***
+
+### <kbd>propriété</kbd> Run.project
+
+Nom du projet W&amp;B associé au run.
+
+**Retourne :**
+
+* `str` : La valeur de propriété du projet.
+
+***
+
+### <kbd>propriété</kbd> Run.project_url
+
+URL du projet W&amp;B associé au run, le cas échéant.
+
+Les runs hors ligne n&#39;ont pas d&#39;URL de projet.
+
+**Retourne :**
+
+* `str | None` : La valeur de propriété project&#95;url.
+
+***
+
+### <kbd>propriété</kbd> Run.resumed
+
+Vrai si le run a été repris, Faux sinon.
+
+**Retourne :**
+
+* `bool` : La valeur de propriété `resumed`.
+
+***
+
+### <kbd>propriété</kbd> Run.settings
+
+Une copie immuable de l&#39;objet Settings du run.
+
+**Retourne :**
+
+* `Settings` : La valeur de propriété settings.
+
+***
+
+### <kbd>propriété</kbd> Run.start_time
+
+Horodatage Unix (en secondes) indiquant quand le run a démarré.
+
+**Retourne :**
+
+* `float` : La valeur de propriété start&#95;time.
+
+***
+
+### <kbd>propriété</kbd> Run.sweep_id
+
+Identifiant du balayage associé au run, le cas échéant.
+
+**Retourne :**
+
+* `str | None`: La valeur de propriété `sweep_id`.
+
+***
+
+### <kbd>propriété</kbd> Run.sweep_url
+
+URL du balayage associé au run, le cas échéant.
+
+Les runs hors ligne n&#39;ont pas d&#39;URL de balayage.
+
+**Retourne :**
+
+* `str | None` : La valeur de propriété `sweep_url`.
+
+***
+
+### <kbd>propriété</kbd> Run.tags
+
+Les tags associés au run, le cas échéant.
+
+**Retourne :**
+
+* `tuple | None` : La valeur de propriété tags.
+
+***
+
+### <kbd>propriété</kbd> Run.url
+
+L’URL du run W&amp;B, s’il en existe une.
+
+Les runs hors ligne n’ont pas d’URL.
+
+**Retourne :**
+
+* `str | None`: La valeur de la propriété url.
+
+***
+
+### <kbd>méthode</kbd> `Run.alert`
+
+```python
+alert(
+    title: 'str',
+    text: 'str',
+    level: 'str | AlertLevel | None' = None,
+    wait_duration: 'int | float | timedelta | None' = None
+) → None
+```
+
+Crée une alerte avec le titre et le texte indiqués.
+
+**Arguments :**
+
+* `title` :  Le titre de l’alerte ; il doit comporter moins de 64 caractères.
+* `text` :  Le corps de l’alerte.
+* `level` :  Le niveau d’alerte à utiliser, parmi : `INFO`, `WARN` ou `ERROR`.
+* `wait_duration` :  Le délai d’attente (en secondes) avant d’envoyer une autre alerte avec ce titre.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.define_metric`
+
+```python
+define_metric(
+    name: 'str',
+    step_metric: 'str | wandb_metric.Metric | None' = None,
+    step_sync: 'bool | None' = None,
+    hidden: 'bool | None' = None,
+    summary: 'str | None' = None,
+    goal: 'str | None' = None,
+    overwrite: 'bool | None' = None
+) → wandb_metric.Metric
+```
+
+Personnalisez les métriques enregistrées avec `wandb.Run.log()`.
+
+**Arguments :**
+
+* `name`:  Le nom de la métrique à personnaliser.
+* `step_metric`:  Le nom d&#39;une autre métrique qui servira d&#39;axe X pour cette métrique dans les graphiques générés automatiquement.
+* `step_sync`:  Insère automatiquement la dernière valeur de step&#95;metric dans `wandb.Run.log()` si elle n&#39;est pas fournie explicitement. La valeur par défaut est True si step&#95;metric est spécifiée.
+* `hidden`:  Masque cette métrique dans les graphiques générés automatiquement.
+* `summary`:  Spécifie les métriques agrégées ajoutées à summary. Les agrégations prises en charge incluent &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;best&quot;, &quot;copy&quot; et &quot;none&quot;. &quot;none&quot; empêche la génération d&#39;un summary. &quot;best&quot; est utilisé avec le paramètre goal, mais &quot;best&quot; est obsolète et ne doit pas être utilisé ; utilisez &quot;min&quot; ou &quot;max&quot; à la place. &quot;copy&quot; est obsolète et ne doit pas être utilisé.
+* `goal`:  Spécifie comment interpréter le type de summary &quot;best&quot;. Les options prises en charge sont &quot;minimize&quot; et &quot;maximize&quot;. &quot;goal&quot; est obsolète et ne doit pas être utilisé ; utilisez &quot;min&quot; ou &quot;max&quot; à la place.
+* `overwrite`:  Si false, cet appel est fusionné avec les appels précédents à `define_metric` pour la même métrique en utilisant leurs valeurs pour tous les paramètres non spécifiés. Si true, les paramètres non spécifiés remplacent les valeurs définies par les appels précédents.
+
+**Retourne :**
+Un objet qui représente cet appel, mais qui peut autrement être ignoré.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.display`
+
+```python
+display(height: 'int' = 420, hidden: 'bool' = False) → bool
+```
+
+Affiche ce run dans Jupyter.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.finish`
+
+```python
+finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+```
+
+Terminez un run et envoyez toutes les données restantes.
+
+Marque la fin d’un run W&amp;B et garantit que toutes les données sont synchronisées avec le serveur. L’état final du run est déterminé par ses conditions de sortie et son statut de synchronisation.
+
+Run States:
+
+* Running : run actif qui journalise des données et/ou envoie des signaux de pulsation.
+* Crashed : run qui a cessé d’envoyer des signaux de pulsation de façon inattendue.
+* Finished : run terminé avec succès (`exit_code=0`) et dont toutes les données sont synchronisées.
+* Failed : run terminé avec des erreurs (`exit_code!=0`).
+* Killed : run arrêté de force avant d’avoir pu se terminer.
+
+**Arguments :**
+
+* `exit_code` :  Entier indiquant le statut de sortie du run. Utilisez 0 pour signaler une réussite ; toute autre valeur marque le run comme échoué.
+* `quiet` :  Obsolète. Configurez la verbosité du logging avec `wandb.Settings(quiet=...)`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.finish_artifact`
+
+```python
+finish_artifact(
+    artifact_or_path: 'Artifact | str',
+    name: 'str | None' = None,
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    distributed_id: 'str | None' = None
+) → Artifact
+```
+
+Finalise un artifact non finalisé comme sortie d’un run.
+
+Les &quot;upserts&quot; ultérieurs avec le même ID distribué créeront une nouvelle version.
+
+**Arguments :**
+
+* `artifact_or_path`:  Chemin vers le contenu de cet artifact, pouvant prendre les formes suivantes :
+  * `/local/directory`
+  * `/local/directory/file.txt`
+  * `s3://bucket/path`  Vous pouvez également passer un objet Artifact créé en appelant  `wandb.Artifact`.
+* `name`:  Nom d’un artifact. Peut être préfixé par entité/projet.  Les noms valides peuvent prendre les formes suivantes :
+  * name:version
+  * name:alias
+  * digest  S’il n’est pas spécifié, la valeur par défaut sera le nom de base du chemin, précédé de l’ID du run actuel.
+* `type`:  Le type d’artifact à journaliser, par exemple `dataset`, `model`
+* `aliases`:  Alias à appliquer à cet artifact,  valeurs par défaut : `["latest"]`
+* `distributed_id`:  Chaîne unique partagée par tous les jobs distribués. Si None,  la valeur par défaut est le nom du groupe du run.
+
+**Retourne :**
+Un objet `Artifact`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.link_artifact`
+
+```python
+link_artifact(
+    artifact: 'Artifact',
+    target_path: 'str',
+    aliases: 'list[str] | None' = None
+) → Artifact
+```
+
+Liez l&#39;artifact à une collection.
+
+Le terme « link » désigne des pointeurs qui relient l’emplacement où W&amp;B stocke l&#39;artifact à celui où l&#39;artifact est accessible dans le registre. W&amp;B ne duplique pas les artifacts lorsque vous liez un artifact à une collection.
+
+Affichez les artifacts liés dans l’interface utilisateur du registre pour la collection spécifiée.
+
+**Arguments :**
+
+* `artifact`:  L’objet artifact à lier à la collection.
+* `target_path`:  Le chemin de la collection. Il se compose du préfixe &quot;wandb-registry-&quot;, ainsi que du nom du registre et du nom de la collection : `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
+* `aliases`:  Ajoutez un ou plusieurs alias à l&#39;artifact lié. L’alias &quot;latest&quot; est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
+
+**Retourne :**
+L&#39;artifact lié.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.link_model`
+
+```python
+link_model(
+    path: 'StrPath',
+    registered_model_name: 'str',
+    name: 'str | None' = None,
+    aliases: 'list[str] | None' = None
+) → Artifact | None
+```
+
+Enregistrer une version d’un artifact de modèle et la lier à un modèle enregistré dans le registre de modèles.
+
+Les versions de modèle liées sont visibles dans l’UI pour le modèle enregistré spécifié.
+
+Cette méthode :
+
+* Vérifie si l’artifact de modèle &#39;name&#39; a été enregistré. Si c’est le cas, utilise la version de l’artifact correspondant aux fichiers situés à &#39;path&#39; ou enregistre une nouvelle version. Sinon, elle enregistre les fichiers sous &#39;path&#39; en tant que nouvel artifact de modèle, &#39;name&#39;, de type &#39;model&#39;.
+* Vérifie si un modèle enregistré nommé &#39;registered&#95;model&#95;name&#39; existe dans le projet &#39;model-registry&#39;. Sinon, crée un nouveau modèle enregistré nommé &#39;registered&#95;model&#95;name&#39;.
+* Lie la version de l’artifact de modèle &#39;name&#39; au modèle enregistré &#39;registered&#95;model&#95;name&#39;.
+* Attache les alias de la liste &#39;aliases&#39; à la version de l’artifact de modèle nouvellement liée.
+
+**Arguments :**
+
+* `path`:  (str) Chemin vers le contenu de ce modèle, pouvant prendre les formes suivantes :
+  * `/local/directory`
+  * `/local/directory/file.txt`
+  * `s3://bucket/path`
+* `registered_model_name`:  Nom du modèle enregistré auquel lier le  modèle. Un modèle enregistré est une collection de  versions de modèle liées au registre de modèles, représentant  généralement une tâche de ML propre à une équipe. L’entité à laquelle ce  modèle enregistré appartient est dérivée du run.
+* `name`:  Nom de l’artifact de modèle dans lequel les fichiers de &#39;path&#39; seront  enregistrés. Par défaut, il s’agit du nom de base du chemin,  précédé de l’ID du run actuel, s’il n’est pas spécifié.
+* `aliases`:  Alias appliqués uniquement à cet artifact lié  dans le modèle enregistré. L’alias &quot;latest&quot; est toujours  appliqué à la version la plus récente d’un artifact lié.
+
+**Exceptions levées :**
+
+* `AssertionError`:  Si registered&#95;model&#95;name est un chemin ou  si l’artifact de modèle &#39;name&#39; est d’un type ne contenant pas  la sous-chaîne &#39;model&#39;.
+* `ValueError`:  Si name contient des caractères spéciaux non valides.
+
+**Retourne :**
+L’artifact lié si la liaison a réussi, sinon `None`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.log`
+
+```python
+log(
+    data: 'dict[str, Any]',
+    step: 'int | None' = None,
+    commit: 'bool | None' = None
+) → None
+```
+
+Téléversez les données d&#39;un run.
+
+Utilisez `log` pour journaliser les données des runs, comme des scalaires, des images, des vidéos, des histogrammes, des graphiques et des tableaux. Voir [Journaliser des objets et des médias](https://docs.wandb.ai/models/track/log) pour des extraits de code, des bonnes pratiques, etc.
+
+Utilisation de base :
+
+```python
+import wandb
+
+with wandb.init() as run:
+     run.log({"train-loss": 0.5, "accuracy": 0.9})
+```
+
+L’extrait de code précédent enregistre la perte et la précision dans l’historique du run et met à jour les valeurs de synthèse de ces métriques.
+
+Visualisez les données enregistrées dans un espace de travail sur [wandb.ai](https://wandb.ai), ou localement sur une [instance auto-hébergée](https://docs.wandb.ai/platform/hosting) de l’application W&amp;B, ou exportez les données pour les visualiser et les explorer en local, par exemple dans un notebook Jupyter, avec l’[API publique](https://docs.wandb.ai/models/track/public-api-guide).
+
+Les valeurs enregistrées ne doivent pas nécessairement être des scalaires. Vous pouvez enregistrer n’importe quel [type de données pris en charge par W&amp;B](https://docs.wandb.ai/models/ref/python/data-types), comme des images, de l’audio, de la vidéo, etc. Par exemple, vous pouvez utiliser `wandb.Table` pour enregistrer des données structurées. Voir le tutoriel [Enregistrer des tableaux, visualiser et interroger des données](https://docs.wandb.ai/models/tables/tables-walkthrough) pour plus de détails.
+
+W&amp;B organise les métriques dont le nom contient une barre oblique (`/`) en sections nommées d’après le texte situé avant la dernière barre oblique. Par exemple, le résultat suivant comporte deux sections nommées &quot;train&quot; et &quot;validate&quot; :
+
+```python
+with wandb.init() as run:
+     # Consigner les métriques dans la section "train".
+     run.log(
+         {
+             "train/accuracy": 0.9,
+             "train/loss": 30,
+             "validate/accuracy": 0.8,
+             "validate/loss": 20,
+         }
+     )
+```
+
+Un seul niveau d’imbrication est pris en charge ; `run.log({"a/b/c": 1})` crée une section nommée &quot;a&quot;.
+
+`run.log()` n’est pas conçu pour être appelé plus de quelques fois par seconde. Pour des performances optimales, limitez votre journalisation à une fois toutes les N itérations, ou collectez les données sur plusieurs itérations et journalisez-les en une seule étape.
+
+Par défaut, chaque appel à `log` crée une nouvelle &quot;étape&quot;. L’étape doit toujours augmenter, et il n’est pas possible de journaliser des données sur une étape précédente. Vous pouvez utiliser n’importe quelle métrique comme axe des X dans les graphiques. Voir [Axes de journalisation personnalisés](https://docs.wandb.ai/models/track/log/customize-logging-axes) pour plus de détails.
+
+Dans de nombreux cas, il est préférable de traiter l’étape W&amp;B comme un horodatage plutôt que comme une étape d’entraînement.
+
+```python
+with wandb.init() as run:
+     # Exemple : journaliser une métrique "epoch" à utiliser comme axe X.
+     run.log({"epoch": 40, "train-loss": 0.5})
+```
+
+Il est possible d’utiliser plusieurs appels à `wandb.Run.log()` pour consigner des données à la même étape à l’aide des paramètres `step` et `commit`. Les exemples suivants sont tous équivalents :
+
+```python
+with wandb.init() as run:
+     # Utilisation normale :
+     run.log({"train-loss": 0.5, "accuracy": 0.8})
+     run.log({"train-loss": 0.4, "accuracy": 0.9})
+
+     # Étape implicite sans auto-incrémentation :
+     run.log({"train-loss": 0.5}, commit=False)
+     run.log({"accuracy": 0.8})
+     run.log({"train-loss": 0.4}, commit=False)
+     run.log({"accuracy": 0.9})
+
+     # Étape explicite :
+     run.log({"train-loss": 0.5}, step=current_step)
+     run.log({"accuracy": 0.8}, step=current_step)
+     current_step += 1
+     run.log({"train-loss": 0.4}, step=current_step)
+     run.log({"accuracy": 0.9}, step=current_step, commit=True)
+```
+
+**Arguments :**
+
+* `data` : un `dict` avec des clés `str` et des valeurs sérialisables
+* `Objets Python, y compris` : `int`, `float` et chaînes de caractères ; n’importe lequel des `wandb.data_types` ; des listes, tuples et tableaux NumPy d’objets Python sérialisables ; d’autres `dict` de cette structure.
+* `step` : le numéro d’étape à journaliser. Si `None`, une étape implicite avec auto-incrémentation est utilisée. Voir les notes dans la description.
+* `commit` : si vrai, finalisez et téléversez l’étape. Si faux, accumulez les données pour l’étape. Voir les notes dans la description. Si `step` est `None`, la valeur par défaut est `commit=True` ; sinon, la valeur par défaut est `commit=False`.
+
+**Exemples :**
+Pour davantage d’exemples, plus détaillés, voir [nos guides sur la journalisation](https://docs.wandb.ai/models/track/log).
+
+Utilisation de base
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"train-loss": 0.5, "accuracy": 0.9
+```
+
+Journalisation incrémentielle
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"loss": 0.2}, commit=False)
+    # Ailleurs, quand je suis prêt à enregistrer cette étape :
+    run.log({"accuracy": 0.8})
+```
+
+Histogramme
+
+```python
+import numpy as np
+import wandb
+
+# échantillonner des gradients aléatoirement depuis une distribution normale
+gradients = np.random.randn(100, 100)
+with wandb.init() as run:
+    run.log({"gradients": wandb.Histogram(gradients)})
+```
+
+Image depuis NumPy
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+Image provenant de PIL
+
+```python
+import numpy as np
+from PIL import Image as PILImage
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(
+             low=0,
+             high=256,
+             size=(100, 100, 3),
+             dtype=np.uint8,
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+Vidéo depuis NumPy
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # les axes sont (temps, canal, hauteur, largeur)
+    frames = np.random.randint(
+         low=0,
+         high=256,
+         size=(10, 3, 100, 100),
+         dtype=np.uint8,
+    )
+    run.log({"video": wandb.Video(frames, fps=4)})
+```
+
+Graphique Matplotlib
+
+```python
+from matplotlib import pyplot as plt
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 10)
+    y = x * x
+    ax.plot(x, y)  # graphique y = x^2
+    run.log({"chart": fig})
+```
+
+Courbe précision-rappel
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
+```
+
+Objet 3D
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log(
+         {
+             "generated_samples": [
+                 wandb.Object3D(open("sample.obj")),
+                 wandb.Object3D(open("sample.gltf")),
+                 wandb.Object3D(open("sample.glb")),
+             ]
+         }
+    )
+```
+
+**Exceptions levées :**
+
+* `wandb.Error` : si la méthode est appelée avant `wandb.init()`.
+* `ValueError` : si des données non valides sont transmises.
+
+***
+
+### <kbd>méthode</kbd> `Run.log_artifact`
+
+```python
+log_artifact(
+    artifact_or_path: 'Artifact | StrPath',
+    name: 'str | None' = None,
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    tags: 'list[str] | None' = None
+) → Artifact
+```
+
+Déclare un artifact comme sortie d’un run.
+
+**Arguments :**
+
+* `artifact_or_path`:  (str ou Artifact) Chemin vers le contenu de cet artifact, sous l’une des formes suivantes :
+  * `/local/directory`
+  * `/local/directory/file.txt`
+  * `s3://bucket/path`  Vous pouvez également transmettre un objet Artifact créé en appelant `wandb.Artifact`.
+* `name`:  (str, facultatif) Nom d’artifact. Les noms valides peuvent prendre les formes suivantes :
+  * name:version
+  * name:alias
+  * digest  Si ce paramètre n’est pas spécifié, la valeur par défaut est le nom de base du chemin, préfixé par l’ID du run actuel.
+* `type`:  (str) Type d’artifact à enregistrer, par exemple `dataset`, `model`
+* `aliases`:  (list, facultatif) Alias à appliquer à cet artifact. La valeur par défaut est `["latest"]`
+* `tags`:  (list, facultatif) Tags à appliquer à cet artifact, le cas échéant.
+
+**Retourne :**
+Un objet `Artifact`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.log_code`
+
+```python
+log_code(
+    root: 'str | None' = '.',
+    name: 'str | None' = None,
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x109456480>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ab1bec0>
+) → Artifact | None
+```
+
+Enregistre l’état actuel de votre code dans un Artifact W&amp;B.
+
+Par défaut, la méthode parcourt le répertoire courant et consigne tous les fichiers dont le nom se termine par `.py`.
+
+**Arguments :**
+
+* `root`: Le chemin relatif (par rapport à `os.getcwd()`) ou absolu à partir duquel rechercher le code de manière récursive.
+* `name`: (`str`, facultatif) Le nom de notre artifact de code. Par défaut, l&#39;artifact sera nommé `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. Dans certains cas, vous pouvez vouloir que plusieurs runs partagent le même artifact. Spécifier un nom vous permet de le faire.
+* `include_fn`: Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être inclus et `False` sinon. Par défaut, c’est
+* `defaults to `lambda path, root`:  path.endswith(".py")`.
+* `exclude_fn`: Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être exclu et `False` sinon. Par défaut, une fonction exclut tous les fichiers des répertoires `<root>/.wandb/` et `<root>/wandb/`.
+
+**Exemples :**
+Utilisation de base
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log_code()
+```
+
+Utilisation avancée
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log_code(
+         root="../",
+         include_fn=lambda path: path.endswith(".py") or path.endswith(".ipynb"),
+         exclude_fn=lambda path, root: os.path.relpath(path, root).startswith(
+             "cache/"
+         ),
+    )
+```
+
+**Retourne :**
+Un objet `Artifact` si du code a été enregistré
+
+***
+
+### <kbd>méthode</kbd> `Run.log_model`
+
+```python
+log_model(
+    path: 'StrPath',
+    name: 'str | None' = None,
+    aliases: 'list[str] | None' = None
+) → None
+```
+
+Journalise un artifact de modèle contenant le contenu du &#39;path&#39; dans un run et le marque comme sortie de ce run.
+
+Le nom de l&#39;artifact de modèle ne peut contenir que des caractères alphanumériques, des traits de soulignement et des traits d&#39;union.
+
+**Arguments :**
+
+* `path`:  (str) Chemin vers le contenu de ce modèle, pouvant prendre les formes suivantes :
+  * `/local/directory`
+  * `/local/directory/file.txt`
+  * `s3://bucket/path`
+* `name`:  Nom à attribuer à l&#39;artifact de modèle auquel le contenu du fichier sera ajouté. Par défaut, il s&#39;agit du nom de base du chemin, précédé de l&#39;ID du run actuel, s&#39;il n&#39;est pas spécifié.
+* `aliases`:  Alias à appliquer à l&#39;artifact de modèle créé, avec `["latest"]` comme valeur par défaut
+
+**Exceptions levées :**
+
+* `ValueError`:  Si `name` contient des caractères spéciaux non valides.
+
+**Retourne :**
+None
+
+***
+
+
+### <kbd>méthode</kbd> `Run.mark_preempting`
+
+```python
+mark_preempting() → None
+```
+
+Marquez cette run comme préemptée.
+
+Indique également au processus interne de le signaler immédiatement au serveur.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.pin_config_keys`
+
+```python
+pin_config_keys(keys: 'Sequence[str]' = ()) → None
+```
+
+Épinglez les clés de configuration à afficher dans la section References de Run Overview.
+
+Les clés épinglées apparaissent bien en évidence au-dessus de Notes sur la page Run Overview. Les valeurs de type chaîne sont affichées en markdown ; les valeurs non textuelles sont affichées en texte brut. Un nouvel appel remplace la liste précédemment épinglée.
+
+**Arguments :**
+
+* `keys`: Noms des clés de configuration à épingler, correspondant aux clés définies via `run.config`. Il s’agit de chaînes de clés exactes (les points et les barres obliques sont interprétés littéralement, et non comme des séparateurs de chemin). L’ordre est conservé et détermine l’ordre d’affichage.
+
+***
+
+### <kbd>méthode</kbd> `Run.restore`
+
+```python
+restore(
+    name: 'str',
+    run_path: 'str | None' = None,
+    replace: 'bool' = False,
+    root: 'str | None' = None
+) → None | TextIO
+```
+
+Télécharge le fichier spécifié depuis le stockage cloud.
+
+Le fichier est placé dans le répertoire courant ou dans le répertoire du run. Par défaut, il n’est téléchargé que s’il n’existe pas déjà.
+
+**Arguments :**
+
+* `name`:  Le nom du fichier.
+* `run_path`:  Chemin facultatif vers un run à partir duquel récupérer des fichiers, c.-à-d. `username/project_name/run_id`  si wandb.init n’a pas été appelé, ce paramètre est requis.
+* `replace`:  Indique s’il faut télécharger le fichier même s’il existe déjà localement
+* `root`:  Le répertoire dans lequel télécharger le fichier.  Valeur par défaut : le répertoire courant, ou le répertoire du run si wandb.init a été appelé.
+
+**Retourne :**
+`None` s’il est impossible de trouver le fichier, sinon un objet fichier ouvert en lecture.
+
+**Exceptions levées :**
+
+* `CommError`:  Si W&amp;B ne peut pas se connecter au backend W&amp;B.
+* `ValueError`:  Si le fichier est introuvable ou si `run_path` est introuvable.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.save`
+
+```python
+save(
+    glob_str: 'str | os.PathLike',
+    base_path: 'str | os.PathLike | None' = None,
+    policy: 'PolicyName' = 'live'
+) → bool | list[str]
+```
+
+Synchronisez un ou plusieurs fichiers dans W&amp;B.
+
+Les chemins relatifs sont interprétés par rapport au répertoire de travail actuel.
+
+Un glob Unix, tel que &quot;myfiles/*&quot;, est développé au moment de l&#39;appel à `save`, quelle que soit la valeur de `policy`. En particulier, les nouveaux fichiers ne sont pas ajoutés automatiquement.
+
+Vous pouvez fournir un `base_path` pour contrôler la structure de répertoires des fichiers téléversés. Il doit être un préfixe de `glob_str`, et la structure de répertoires située en dessous est conservée.
+
+Lorsqu&#39;un chemin absolu ou un glob est fourni sans `base_path`, un niveau de répertoire est conservé, comme dans l&#39;exemple ci-dessus.
+
+Les fichiers sont automatiquement dédupliqués : appeler `save()` plusieurs fois sur le même fichier sans le modifier ne le téléverse pas à nouveau.
+
+**Arguments :**
+
+* `glob_str` : Un chemin relatif ou absolu, ou un glob Unix.
+* `base_path` : Un chemin utilisé pour déduire une structure de répertoires ; voir les exemples.
+* `policy` : L&#39;une des valeurs `live`, `now` ou `end`.
+  * live: téléverser le fichier à mesure qu&#39;il change, en remplaçant la version précédente
+  * now: téléverser le fichier une seule fois, immédiatement
+  * end: téléverser le fichier à la fin du run
+
+**Retourne :**
+Les chemins des liens symboliques créés pour les fichiers correspondants.
+
+Pour des raisons historiques, cette méthode peut renvoyer un booléen dans du code hérité.
+
+```python
+import wandb
+
+run = wandb.init()
+
+run.save("these/are/myfiles/*")
+# => Enregistre les fichiers dans un dossier "these/are/myfiles/" dans le run.
+
+run.save("these/are/myfiles/*", base_path="these")
+# => Enregistre les fichiers dans un dossier "are/myfiles/" dans le run.
+
+run.save("/Users/username/Documents/run123/*.txt")
+# => Enregistre les fichiers dans un dossier "run123/" dans le run. Voir la remarque ci-dessous.
+
+run.save("/Users/username/Documents/run123/*.txt", base_path="/Users")
+# => Enregistre les fichiers dans un dossier "username/Documents/run123/" dans le run.
+
+run.save("files/*/saveme.txt")
+# => Enregistre chaque fichier "saveme.txt" dans un sous-répertoire approprié
+#    de "files/".
+
+# Terminer explicitement le run car aucun gestionnaire de contexte n'est utilisé.
+run.finish()
+```
+
+***
+
+### <kbd>méthode</kbd> `Run.status`
+
+```python
+status() → RunStatus
+```
+
+Obtenir les informations de synchronisation du run actuel depuis le backend interne.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.unwatch`
+
+```python
+unwatch(
+    models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
+) → None
+```
+
+Supprime la topologie du modèle PyTorch ainsi que les hooks de gradient et de paramètres.
+
+**Arguments :**
+
+* `models` :  liste facultative de modèles PyTorch sur lesquels `watch` a été appelé.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.upsert_artifact`
+
+```python
+upsert_artifact(
+    artifact_or_path: 'Artifact | str',
+    name: 'str | None' = None,
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    distributed_id: 'str | None' = None
+) → Artifact
+```
+
+Déclarez (ou ajoutez à) un artifact non finalisé comme sortie d’un run.
+
+Notez que vous devez appeler run.finish&#95;artifact() pour finaliser l’artifact. Cela est utile lorsque plusieurs jobs distribués doivent tous contribuer au même artifact.
+
+**Arguments :**
+
+* `artifact_or_path`:  Chemin vers le contenu de cet artifact. Il peut prendre les formes suivantes :
+  * `/local/directory`
+  * `/local/directory/file.txt`
+  * `s3://bucket/path`
+* `name`:  Nom d’artifact. Peut être préfixé par &quot;entité/projet&quot;. Par défaut, s’il n’est pas spécifié, il correspond au nom de base du chemin, précédé du current run ID. Les noms valides peuvent prendre les formes suivantes :
+  * name:version
+  * name:alias
+  * digest
+* `type`:  Type d’artifact à journaliser. Exemples courants : `dataset`, `model`.
+* `aliases`:  Alias à appliquer à cet artifact. La valeur par défaut est `["latest"]`.
+* `distributed_id`:  Chaîne unique partagée par tous les jobs distribués. Si `None`, la valeur par défaut est le nom du groupe du run.
+
+**Retourne :**
+Un objet `Artifact`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.use_artifact`
+
+```python
+use_artifact(
+    artifact_or_name: 'str | Artifact',
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    use_as: 'str | None' = None
+) → Artifact
+```
+
+Déclare un artifact comme entrée d’un run.
+
+Appelez `download` ou `file` sur l’objet renvoyé pour récupérer son contenu en local.
+
+**Arguments :**
+
+* `artifact_or_name`: Le nom de l&#39;artifact à utiliser. Il peut être préfixé par le nom du projet dans lequel l&#39;artifact a été enregistré (&quot;entité&quot; ou &quot;entité/projet&quot;). Si aucune entité n&#39;est spécifiée dans le nom, l&#39;entité du Run ou de la configuration de l&#39;API est utilisée. Les noms valides peuvent prendre les formes suivantes
+  * nom:version
+  * nom:alias
+* `type`: Le type d&#39;artifact à utiliser.
+* `aliases`: Alias à appliquer à cet artifact
+* `use_as`: Cet argument est obsolète et n&#39;a aucun effet.
+
+**Retourne :**
+Un objet `Artifact`.
+
+**Exemples :**
+
+```python
+import wandb
+
+run = wandb.init(project="<example>")
+
+# Utiliser un artifact par nom et alias
+artifact_a = run.use_artifact(artifact_or_name="<name>:<alias>")
+
+# Utiliser un artifact par nom et version
+artifact_b = run.use_artifact(artifact_or_name="<name>:v<version>")
+
+# Utiliser un artifact par entité/projet/nom:alias
+artifact_c = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:<alias>"
+)
+
+# Utiliser un artifact par entité/projet/nom:version
+artifact_d = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:v<version>"
+)
+
+# Terminer explicitement le run car aucun gestionnaire de contexte n'est utilisé.
+run.finish()
+```
+
+***
+
+### <kbd>méthode</kbd> `Run.use_model`
+
+```python
+use_model(name: 'str') → FilePathStr
+```
+
+Télécharge les fichiers enregistrés dans un artifact de modèle `name`.
+
+**Arguments :**
+
+* `name` :  nom d’un artifact de modèle. `name` doit correspondre au nom d’un artifact de modèle existant déjà enregistré. Peut être préfixé par `entity/project/`. Les noms valides peuvent prendre les formes suivantes
+  * model&#95;artifact&#95;name:version
+  * model&#95;artifact&#95;name:alias
+
+**Retourne :**
+
+* `path` (str) :  chemin d’accès au(x) fichier(s) de l’artifact de modèle téléchargé(s).
+
+**Exceptions levées :**
+
+* `AssertionError` :  si l’artifact de modèle `name` est d’un type qui ne contient pas la sous-chaîne `model`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.watch`
+
+```python
+watch(
+    models: 'torch.nn.Module | Sequence[torch.nn.Module]',
+    criterion: 'torch.F | None' = None,
+    log: "Literal['gradients', 'parameters', 'all'] | None" = 'gradients',
+    log_freq: 'int' = 1000,
+    idx: 'int | None' = None,
+    log_graph: 'bool' = False
+) → None
+```
+
+Ajoutez un hook au modèle PyTorch donné pour surveiller les gradients et le graphe de calcul du modèle.
+
+Cette fonction peut suivre les paramètres, les gradients, ou les deux pendant l&#39;entraînement.
+
+**Arguments :**
+
+* `models`:  Un seul modèle ou une séquence de modèles à surveiller.
+* `criterion`:  La fonction de perte en cours d&#39;optimisation (facultatif).
+* `log`:  Indique s&#39;il faut journaliser &quot;gradients&quot;, &quot;parameters&quot; ou &quot;all&quot;. Définissez cette valeur sur None pour désactiver la journalisation. (par défaut=&quot;gradients&quot;).
+* `log_freq`:  Fréquence (en lots) à laquelle journaliser les gradients et les paramètres. (par défaut=1000)
+* `idx`:  Indice utilisé lors du suivi de plusieurs modèles avec `wandb.watch`. (par défaut=None)
+* `log_graph`:  Indique s&#39;il faut journaliser le graphe de calcul du modèle. (par défaut=False)
+
+**Exceptions levées :**
+ValueError:  Si `wandb.init()` n&#39;a pas été appelé ou si l&#39;un des modèles n&#39;est pas une instance de `torch.nn.Module`.

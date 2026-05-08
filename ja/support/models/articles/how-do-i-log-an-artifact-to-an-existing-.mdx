@@ -1,0 +1,21 @@
+---
+title: "既存のrunにartifactをログするにはどうすればよいですか？"
+keywords: ["Artifacts"]
+---
+
+場合によっては、artifactを過去にログしたrunの出力としてマークする必要があります。この場合は、そのrunを再初期化し、次のように新しいartifactをログします。
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

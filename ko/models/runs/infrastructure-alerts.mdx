@@ -1,0 +1,24 @@
+---
+title: CoreWeave 인프라 경고 시각화
+description: "W&B 실험 run 플롯에서 GPU 장애 및 온도 이상과 같은 CoreWeave 인프라 경고를 확인합니다."
+---
+
+W&amp;B에 로깅한 머신 러닝 실험 중에 GPU 장애, 온도 이상 등 인프라 경고를 확인할 수 있습니다. 지원되는 [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) 클러스터에서 실행하고, 이 인테그레이션을 활성화하며, 이 페이지의 사전 요구 사항을 충족하면 [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 [W&amp;B run](/ko/models/runs) 중에 컴퓨팅 인프라를 모니터링할 수 있습니다.
+
+<Note>
+  이 기능은 Preview 상태입니다. 액세스 권한이 필요하면 W&amp;B 담당자에게 문의하세요.
+</Note>
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+이 인테그레이션이 end-to-end로 작동하려면 다음 조건이 충족되어야 합니다.
+
+| 사전 요구 사항                                             | 세부 정보                                                                                                                                                                                                                                               |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CoreWeave platform**                               | [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) 클러스터에서만 사용할 수 있습니다. CoreWeave 베어 메탈 클러스터 또는 CoreWeave Classic에서는 사용할 수 없습니다. CKS에서 [SUNK](https://docs.coreweave.com/products/sunk)를 통해 실행되는 트레이닝 작업도 이 요구 사항을 충족합니다. |
+| **W&amp;B Python SDK**                               | 트레이닝 작업의 경우, run을 로깅할 때 `wandb` 패키지 버전 `0.20.1` 이상을 사용하세요.                                                                                                                                                                                          |
+| **W&amp;B Server (Dedicated Cloud or Self-Managed)** | W&amp;B Dedicated Cloud 또는 W&amp;B Self-Managed 배포를 사용하는 경우 W&amp;B Server 버전 `0.73.0` 이상을 사용하세요. 서버가 CoreWeave observability 데이터를 수신할 수 있도록 W&amp;B 앱 파드에서 `SERVER_FLAG_ENABLE_CORE_WEAVE_OBSERVABILITY` 환경 변수를 설정하세요.                             |
+
+오류가 발생하면 CoreWeave는 해당 정보를 W&amp;B로 전송합니다. W&amp;B는 프로젝트 워크스페이스의 run 플롯에 인프라 정보를 표시합니다. CoreWeave는 일부 문제를 자동으로 해결하려고 시도하며, W&amp;B는 해당 정보를 run 페이지에 표시합니다.

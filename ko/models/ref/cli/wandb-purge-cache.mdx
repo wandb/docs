@@ -1,0 +1,31 @@
+---
+title: wandb purge-cache
+---
+
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3610" />
+
+<div id="usage">
+  ## 사용
+</div>
+
+```bash
+purge-cache [OPTIONS]
+```
+
+<div id="description">
+  ## 설명
+</div>
+
+로컬 W&amp;B 캐시에 저장된 로그, run 이력 및 아티팩트를
+제거합니다.
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그       | 유형        | 설명                                                                                                                          |
+| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `--age`   | STR       | 지정한 기간보다 오래된 항목을 제거합니다(예: &#39;10s&#39;, &#39;5m&#39;, &#39;8h&#39;, &#39;7d&#39;, &#39;6M&#39;, &#39;1y&#39;). **기본값**: 0d |
+| `--force` | BOOL Flag | 파일 삭제 시 확인 메시지를 표시하지 않습니다. **기본값**: False                                                                                   |

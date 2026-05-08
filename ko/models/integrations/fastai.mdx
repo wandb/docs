@@ -1,60 +1,70 @@
 ---
 title: fastai
+description: "WandbCallback을 사용해 fastai를 W&B와 통합하여 실험를 추적하고, 메트릭을 기록하며, 모델 성능을 시각화합니다."
 ---
 
-import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-streamlined.mdx";
 
-`WandbCallback` 클래스를 사용하여 **fastai**를 W&B와 인테그레이션할 수 있습니다. 자세한 내용은 [예제가 포함된 대화형 문서](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)를 확인하세요.
+`WandbCallback` 클래스를 사용해 **fastai**를 W&amp;B와 통합할 수 있습니다. 자세한 내용은 예제가 포함된 [대화형 문서](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)를 확인하세요.
 
-## 가입 및 API 키 생성
+<div id="sign-up-and-create-an-api-key">
+  ## 가입하고 API 키 만들기
+</div>
 
-API 키는 사용자 머신을 W&B에 인증합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
 
-<ApiKeyCreateStreamlined/>
+<ApiKeyCreateStreamlined />
 
-1. 오른쪽 상단 모서리에 있는 사용자 프로필 아이콘을 클릭합니다.
-1. **User Settings**를 선택한 다음 **API Keys** 섹션으로 스크롤합니다.
+1. 오른쪽 상단에 있는 사용자 프로필 아이콘을 클릭합니다.
+2. **User Settings**를 선택한 다음 **API Keys** 섹션으로 스크롤합니다.
 
-## `wandb` 라이브러리 설치 및 로그인
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` 라이브러리 설치 및 로그인
+</div>
 
-로컬에 `wandb` 라이브러리를 설치하고 로그인하려면:
+로컬에 `wandb` 라이브러리를 설치하고 로그인하려면 다음 단계를 따르세요.
 
 <Tabs>
-<Tab title="Command Line">
-1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/)를 해당 API 키로 설정합니다.
+  <Tab title="명령줄">
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 API 키로 설정합니다.
 
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` 라이브러리를 설치하고 로그인합니다.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
     ```bash
-    export WANDB_API_KEY=<your_api_key>
-    ```
-
-1. `wandb` 라이브러리를 설치하고 로그인합니다.
-
-    ```shell
     pip install wandb
-
-    wandb login
     ```
-</Tab>
-<Tab title="Python">
-```bash
-pip install wandb
-```
-```python
-import wandb
-wandb.login()
-```
-</Tab>
-<Tab title="Python notebook">
-```notebook
-!pip install wandb
 
-import wandb
-wandb.login()
-```
-</Tab>
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
 </Tabs>
 
-## `learner` 또는 `fit` 메소드에 `WandbCallback` 추가
+<div id="add-the-wandbcallback-to-the-learner-or-fit-method">
+  ## `learner` 또는 `fit` 방법에 `WandbCallback` 추가하기
+</div>
 
 ```python
 import wandb
@@ -63,191 +73,203 @@ from fastai.callback.wandb import *
 # wandb run 로깅 시작
 wandb.init(project="my_project")
 
-# 하나의 트레이닝 단계 동안만 로깅하려는 경우
+# 하나의 트레이닝 단계에서만 로깅하려면
 learn.fit(..., cbs=WandbCallback())
 
-# 모든 트레이닝 단계에 대해 지속적으로 로깅하려는 경우
+# 모든 트레이닝 단계에서 지속적으로 로깅하려면
 learn = learner(..., cbs=WandbCallback())
 ```
 
-<Note>
-Fastai 버전 1을 사용하는 경우, [Fastai v1 문서](/models/integrations/fastai/v1/)를 참조하세요.
-</Note>
+<Note>If you use version 1 of Fastai, refer to the [Fastai v1 docs](/ko/models/integrations/fastai/v1/).</Note>
 
-## WandbCallback 인수
+<div id="wandbcallback-arguments">
+  ## WandbCallback 매개변수
+</div>
 
-`WandbCallback`은 다음 인수를 허용합니다:
+`WandbCallback`은 다음 매개변수를 받습니다:
 
-| 인수 | 설명 |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| log                      | 모델의 `gradients`, `parameters`, `all` 또는 `None` (기본값) 중 무엇을 로그할지 결정합니다. Losses 및 메트릭은 항상 로그됩니다. |
-| log_preds               | 예측값 샘플을 로그할지 여부 (기본값은 `True`). |
-| log_preds_every_epoch | 매 에포크마다 예측값을 로그할지 아니면 마지막에 로그할지 여부 (기본값은 `False`). |
-| log_model               | 모델을 로그할지 여부 (기본값은 `False`). 이 기능을 사용하려면 `SaveModelCallback`이 필요합니다. |
-| model_name              | 저장할 `file`의 이름으로, `SaveModelCallback` 설정을 덮어씁니다. |
-| log_dataset             | <ul><li><code>False</code> (기본값)</li><li><code>True</code>로 설정하면 learn.dls.path가 참조하는 폴더를 로그합니다.</li><li>로그할 폴더를 지정하기 위해 경로를 명시적으로 정의할 수 있습니다.</li></ul><p><em>참고: 하위 폴더 "models"는 항상 무시됩니다.</em></p> |
-| dataset_name            | 로그된 데이터셋의 이름 (기본값은 `folder name`). |
-| valid_dl                | 예측값 샘플링에 사용될 아이템을 포함하는 `DataLoaders` (기본값은 `learn.dls.valid`에서 임의로 추출된 아이템). |
-| n_preds                 | 로그할 예측값의 개수 (기본값은 36). |
-| seed                     | 랜덤 샘플을 정의하는 데 사용되는 시드값. |
+| Args                              | Description                                                                                                                                                                                               |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| log                               | 모델의 `gradients`, `parameters`, `all` 또는 `None`(기본값)을 로깅할지 여부입니다. loss 및 메트릭은 항상 로깅됩니다.                                                                                                                    |
+| log&#95;preds                     | 예측 샘플을 로깅할지 여부입니다(기본값은 `True`).                                                                                                                                                                           |
+| log&#95;preds&#95;every&#95;epoch | 매 에포크마다 예측을 로깅할지, 아니면 마지막에 로깅할지 여부입니다(기본값은 `False`).                                                                                                                                                      |
+| log&#95;model                     | 모델을 로깅할지 여부입니다(기본값은 `False`). 이 옵션을 사용하려면 `SaveModelCallback`도 필요합니다.                                                                                                                                     |
+| model&#95;name                    | 저장할 `file` 이름입니다. `SaveModelCallback`을 재정의합니다.                                                                                                                                                            |
+| log&#95;dataset                   | <ul><li><code>False</code> (기본값)</li><li><code>True</code>이면 learn.dls.path가 가리키는 폴더를 로깅합니다.</li><li>로깅할 폴더를 가리키도록 경로를 명시적으로 지정할 수 있습니다.</li></ul><p><em>참고: &quot;models&quot; 하위 폴더는 항상 무시됩니다.</em></p> |
+| dataset&#95;name                  | 로깅되는 데이터셋의 이름입니다(기본값은 `folder name`).                                                                                                                                                                     |
+| valid&#95;dl                      | 예측 샘플에 사용할 항목이 들어 있는 `DataLoaders`입니다(기본값은 `learn.dls.valid`에서 무작위로 선택한 항목).                                                                                                                              |
+| n&#95;preds                       | 로깅할 예측 수입니다(기본값은 36).                                                                                                                                                                                     |
+| seed                              | 무작위 샘플을 정하는 데 사용됩니다.                                                                                                                                                                                      |
 
-커스텀 워크플로우의 경우, 데이터셋과 모델을 수동으로 로그할 수 있습니다:
+맞춤형 워크플로의 경우 데이터셋과 모델을 수동으로 로깅할 수 있습니다:
 
 * `log_dataset(path, name=None, metadata={})`
 * `log_model(path, name=None, metadata={})`
 
-_참고: 하위 폴더 "models"는 무시됩니다._
+*참고: &quot;models&quot; 하위 폴더는 모두 무시됩니다.*
 
-## 분산 트레이닝 (Distributed Training)
+<div id="distributed-training">
+  ## 분산 트레이닝
+</div>
 
-`fastai`는 컨텍스트 매니저 `distrib_ctx`를 사용하여 분산 트레이닝을 지원합니다. W&B는 이를 자동으로 지원하며 별도의 설정 없이 Multi-GPU 실험을 추적할 수 있도록 해줍니다.
+`fastai`는 컨텍스트 매니저 `distrib_ctx`를 사용해 분산 트레이닝을 지원합니다. W&amp;B는 이를 자동으로 지원하므로, 별도 설정 없이 멀티 GPU 실험을 추적할 수 있습니다.
 
 다음의 최소 예제를 살펴보세요:
 
 <Tabs>
-<Tab title="Script">
-```python
-import wandb
-from fastai.vision.all import *
-from fastai.distributed import *
-from fastai.callback.wandb import WandbCallback
+  <Tab title="스크립트">
+    ```python
+    import wandb
+    from fastai.vision.all import *
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
 
-wandb.require(experiment="service")
-path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+    wandb.require(experiment="service")
+    path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
 
-def train():
-    dls = ImageDataLoaders.from_name_func(
-        path,
-        get_image_files(path),
-        valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(),
-        item_tfms=Resize(224),
-    )
-    wandb.init("fastai_ddp", entity="capecape")
-    cb = WandbCallback()
-    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
-    with learn.distrib_ctx(sync_bn=False):
-        learn.fit(1)
+    def train():
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        wandb.init("fastai_ddp", entity="capecape")
+        cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(sync_bn=False):
+            learn.fit(1)
 
-if __name__ == "__main__":
-    train()
-```
+    if __name__ == "__main__":
+        train()
+    ```
 
-그 다음, 터미널에서 다음을 실행합니다:
+    그런 다음 터미널에서 다음 명령을 실행합니다:
 
-```shell
-$ torchrun --nproc_per_node 2 train.py
-```
+    ```shell
+    $ torchrun --nproc_per_node 2 train.py
+    ```
 
-이 경우, 머신에는 2개의 GPU가 있습니다.
-</Tab>
-<Tab title="Python notebook">
-이제 노트북 내부에서 직접 분산 트레이닝을 실행할 수 있습니다.
+    이 경우 이 머신에는 GPU가 2개 있습니다.
+  </Tab>
 
-```python
-import wandb
-from fastai.vision.all import *
+  <Tab title="Python notebook">
+    이제 노트북 안에서 직접 분산 트레이닝을 실행할 수 있습니다.
 
-from accelerate import notebook_launcher
-from fastai.distributed import *
-from fastai.callback.wandb import WandbCallback
+    ```python
+    import wandb
+    from fastai.vision.all import *
 
-wandb.require(experiment="service")
-path = untar_data(URLs.PETS) / "images"
+    from accelerate import notebook_launcher
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
 
-def train():
-    dls = ImageDataLoaders.from_name_func(
-        path,
-        get_image_files(path),
-        valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(),
-        item_tfms=Resize(224),
-    )
-    wandb.init("fastai_ddp", entity="capecape")
-    cb = WandbCallback()
-    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
-    with learn.distrib_ctx(in_notebook=True, sync_bn=False):
-        learn.fit(1)
+    wandb.require(experiment="service")
+    path = untar_data(URLs.PETS) / "images"
 
-notebook_launcher(train, num_processes=2)
-```
-</Tab>
+    def train():
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        wandb.init("fastai_ddp", entity="capecape")
+        cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(in_notebook=True, sync_bn=False):
+            learn.fit(1)
+
+    notebook_launcher(train, num_processes=2)
+    ```
+  </Tab>
 </Tabs>
 
-### 메인 프로세스에서만 로깅하기
+<div id="log-only-on-the-main-process">
+  ### 메인 프로세스에서만 로깅하기
+</div>
 
-위의 예제에서 `wandb`는 프로세스당 하나씩 run을 시작합니다. 트레이닝이 끝나면 두 개의 run이 생기게 됩니다. 이는 때때로 혼란을 줄 수 있으므로, 메인 프로세스에서만 로깅하고 싶을 수도 있습니다. 이를 위해서는 현재 어떤 프로세스에 있는지 수동으로 감지하여 (다른 모든 프로세스에서 `wandb.init` 호출을 방지함으로써) run 생성을 피해야 합니다.
+위 예시에서는 `wandb`가 프로세스마다 하나의 run을 생성합니다. 트레이닝이 끝나면 run이 두 개 생깁니다. 이 때문에 혼란스러울 수 있으므로, 메인 프로세스에서만 로깅하고 싶을 수 있습니다. 이렇게 하려면 현재 어떤 프로세스에서 실행 중인지 직접 확인하고, 다른 모든 프로세스에서는 run을 생성하지 않도록(`wandb.init()`를 호출하지 않도록) 해야 합니다.
 
 <Tabs>
-<Tab title="Script">
-```python
-import wandb
-from fastai.vision.all import *
-from fastai.distributed import *
-from fastai.callback.wandb import WandbCallback
+  <Tab title="스크립트">
+    ```python
+    import wandb
+    from fastai.vision.all import *
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
 
-wandb.require(experiment="service")
-path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+    wandb.require(experiment="service")
+    path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
 
-def train():
+    def train():
     cb = []
     dls = ImageDataLoaders.from_name_func(
-        path,
-        get_image_files(path),
-        valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(),
-        item_tfms=Resize(224),
+    path,
+    get_image_files(path),
+    valid_pct=0.2,
+    label_func=lambda x: x[0].isupper(),
+    item_tfms=Resize(224),
     )
     if rank_distrib() == 0:
-        run = wandb.init("fastai_ddp", entity="capecape")
-        cb = WandbCallback()
+    run = wandb.init("fastai_ddp", entity="capecape")
+    cb = WandbCallback()
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(sync_bn=False):
-        learn.fit(1)
+    learn.fit(1)
 
-if __name__ == "__main__":
+    if **name** == "**main**":
     train()
-```
-터미널에서 다음을 호출합니다:
 
-```
-$ torchrun --nproc_per_node 2 train.py
-```
-</Tab>
-<Tab title="Python notebook">
-```python
-import wandb
-from fastai.vision.all import *
+    ```
 
-from accelerate import notebook_launcher
-from fastai.distributed import *
-from fastai.callback.wandb import WandbCallback
+    터미널에서 다음을 실행합니다:
 
-wandb.require(experiment="service")
-path = untar_data(URLs.PETS) / "images"
+    ```
 
-def train():
-    cb = []
-    dls = ImageDataLoaders.from_name_func(
-        path,
-        get_image_files(path),
-        valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(),
-        item_tfms=Resize(224),
-    )
-    if rank_distrib() == 0:
-        run = wandb.init("fastai_ddp", entity="capecape")
-        cb = WandbCallback()
-    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
-    with learn.distrib_ctx(in_notebook=True, sync_bn=False):
-        learn.fit(1)
+    $ torchrun --nproc_per_node 2 train.py
 
-notebook_launcher(train, num_processes=2)
-```
-</Tab>
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```python
+    import wandb
+    from fastai.vision.all import *
+
+    from accelerate import notebook_launcher
+    from fastai.distributed import *
+    from fastai.callback.wandb import WandbCallback
+
+    wandb.require(experiment="service")
+    path = untar_data(URLs.PETS) / "images"
+
+    def train():
+        cb = []
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        if rank_distrib() == 0:
+            run = wandb.init("fastai_ddp", entity="capecape")
+            cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(in_notebook=True, sync_bn=False):
+            learn.fit(1)
+
+    notebook_launcher(train, num_processes=2)
+    ```
+  </Tab>
 </Tabs>
 
-## 예제
+<div id="examples">
+  ## 예제
+</div>
 
-* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 상세하게 문서화된 튜토리얼입니다.
-* [Image Segmentation on CamVid](https://bit.ly/fastai-wandb): 인테그레이션의 이미지 세그멘테이션 유스 케이스 샘플입니다.
+* [Fastai 모델을 시각화하고 추적하며 비교하기](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 문서화가 충실한 워크스루입니다.
+* [CamVid 이미지 분할](https://colab.research.google.com/drive/1IWrhwcJoncCKHm6VXsNwOr9Yukhz3B49?usp=sharing): 이 인테그레이션의 사용 사례 예시입니다.

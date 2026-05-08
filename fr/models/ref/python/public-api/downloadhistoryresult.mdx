@@ -1,0 +1,30 @@
+---
+title: DownloadHistoryResult
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
+
+
+## <kbd>class</kbd> `DownloadHistoryResult`
+
+Résultat du téléchargement des exports de l’historique d’un run.
+
+**Attributs :**
+
+* `paths` : chemins des fichiers d’historique téléchargés.
+* `errors` : dictionnaire associant les chemins de fichiers aux messages d’erreur des fichiers dont le téléchargement a échoué. `None` si tous les téléchargements ont réussi.
+* `contains_live_data` : indique si le run contient des données en temps réel, qui n’ont pas encore été exportées vers des fichiers parquet. 
+
+### <kbd>méthode</kbd> `DownloadHistoryResult.__init__`
+
+```python
+__init__(
+    paths: 'list[pathlib.Path]',
+    contains_live_data: 'bool',
+    errors: 'dict[pathlib.Path, str] | None' = None
+) → None
+```

@@ -1,0 +1,26 @@
+---
+title: "トレース ページの読み込みが遅い"
+keywords: ["Trace Data"]
+---
+
+トレース ページの読み込みが遅い場合は、表示行数を減らすことで読み込み時間を短縮できます。デフォルト値は `50` です。表示行数は、UI で減らすか、クエリパラメーターを使用して減らせます。
+
+<div id="adjust-via-the-ui-recommended">
+  ### UI で調整する (推奨)
+</div>
+
+トレース ページの右下にある **Per page** コントロールを使用して、表示する行数を調整します。デフォルトの `50` に加えて、`10`、`25`、または `100` に設定することもできます。
+
+<div id="use-query-parameters">
+  ### クエリパラメーターを使用する
+</div>
+
+手動で対応したい場合は、クエリURL内の `pageSize` クエリパラメーターを、最大値である `100` 未満の値に変更できます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Trace Data](/ja/support/weave/tags/trace-data)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

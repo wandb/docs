@@ -1,0 +1,77 @@
+---
+title: wandb agent
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L1992" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+agent [OPTIONS] SWEEP_ID
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Démarrez un agent de sweep.
+
+Interrogez le serveur W&amp;B pour obtenir des configurations d’hyperparamètres
+du sweep et démarrez un run pour chaque configuration.
+
+L’agent s’arrête lorsque le sweep est terminé, arrêté, annulé,
+ou lorsque la limite `--count` est atteinte.
+
+Trouvez l’ID du sweep dans l’onglet Sweeps de l’application W&amp;B
+ou dans la sortie de la commande `wandb sweep` lorsque vous créez un nouveau sweep.
+
+L’ID du sweep peut inclure le chemin de l’entité et du projet
+(entity/project/sweep&#95;id) ou l’ID du sweep à huit caractères.
+
+Par exemple, pour démarrer un agent pour un sweep avec l’ID du sweep wbyz9876 :
+
+```bash
+wandb agent wbyz9876
+```
+
+Pour démarrer un agent limité à 10 run pour le sweep :
+
+```bash
+wandb agent --count 10 wbyz9876
+```
+
+Pour lancer un agent pour un sweep et l’enregistrer dans un projet
+appelé &quot;sweeps-project&quot;, qui appartient à l’entité &quot;team-awesome&quot; :
+
+```bash
+wandb agent -p sweeps-project -e team-awesome wbyz9876
+```
+
+Pour transmettre les signaux aux run enfants afin d’assurer un arrêt propre :
+
+```bash
+wandb agent --forward-signals wbyz9876
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom        | Par défaut | Type |
+| ---------- | ---------- | ---- |
+| `sweep_id` | STR        | True |
+
+<div id="options">
+  ## Options
+</div>
+
+| Flag                    | Type      | Description                                                                                                                                       |
+| ----------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p`         | STR       | Définit le projet vers lequel téléverser les runs. **Par défaut** : None                                                                          |
+| `--entity, -e`          | STR       | Définit l&#39;entité dans laquelle inscrire le projet. **Par défaut** : None                                                                      |
+| `--count`               | INT       | Nombre maximal de runs que cet agent exécutera. Continue jusqu&#39;à la fin du sweep si cette option n&#39;est pas définie. **Par défaut** : None |
+| `--forward-signals, -f` | BOOL Flag | Transmet les signaux (par ex. SIGINT/SIGTERM) aux runs enfants afin qu&#39;ils puissent s&#39;arrêter proprement. **Par défaut** : False          |

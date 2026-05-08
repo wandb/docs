@@ -3,7 +3,7 @@ title: Projects
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
@@ -64,10 +64,14 @@ An iterable collection of `Project` objects.
 
 ### <kbd>property</kbd> Projects.cursor
 
+An opaque cursor that marks the start of the next page to fetch. 
+
+This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
 
 
 
-
+**Returns:**
+ - `str | None`: The cursor property value.
 ---
 
 

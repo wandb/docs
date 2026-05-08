@@ -1,0 +1,115 @@
+---
+title: "Gérer les projets Weave"
+description: "Utilisez les projets Weave pour organiser les ressources associées, comme les traces, les prompts, les évaluations, les modèles et les tableaux de bord."
+---
+
+Les projets Weave permettent d&#39;organiser les ressources associées, notamment les traces, les évaluations, les modèles, les Datasets et d&#39;autres ressources Weave. Ils aident votre équipe à rester organisée, facilitent la collaboration et le partage, et vous permettent de suivre l&#39;évolution de vos applications LLM au fil du temps.
+
+<div id="project-resources">
+  ## Ressources de projets
+</div>
+
+Les projets stockent les ressources suivantes :
+
+| Ressource        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Traces**       | Appels LLM individuels, exécutions de fonctions et flux de l&#39;application qui capturent les entrées, les sorties, la latence et l&#39;utilisation des tokens à des fins de débogage et d&#39;analyse. Voir [Traces](/fr/weave/guides/tracking/tracing).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| **Évaluations**  | Résultats de test qui comparent la performance du modèle sur des jeux de données à l&#39;aide de fonctions de scoring afin de mesurer la qualité, la précision et d&#39;autres métriques. Voir [Evaluations](/fr/weave/guides/core-types/evaluations).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **Monitors**     | Processus d&#39;arrière-plan qui attribuent automatiquement un score à un sous-ensemble d&#39;appels de fonctions à l&#39;aide d&#39;évaluateurs LLM-as-a-judge pour suivre les métriques de qualité dans le temps en production. Voir [Monitors](/fr/weave/guides/evaluation/monitors).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Leaderboards** | Comparaisons classées des performances du modèle entre différentes exécutions d&#39;évaluation, pour vous aider à identifier les configurations les plus performantes. Voir [Leaderboards](/fr/weave/guides/core-types/leaderboards).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| **Threads**      | Conversations multi-tours et flux de travail basés sur des sessions qui regroupent les appels associés sous un ID de thread partagé afin d&#39;analyser l&#39;ensemble des interactions utilisateur. Voir [Threads](/fr/weave/guides/tracking/threads).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| **Assets**       | L&#39;onglet **Assets** stocke et organise les objets versionnés dans votre projet : <ul><li>**Models**: Définitions de modèles versionnées qui capturent les prompts, les paramètres et la configuration, tout en suivant automatiquement les modifications pour garantir la reproductibilité et faciliter la comparaison. Voir [Models](/fr/weave/guides/core-types/models).</li><li>**Datasets**: Collections d&#39;exemples de test stockées sous forme d&#39;objets Weave, qui peuvent être téléchargées, parcourues et utilisées pour exécuter des évaluations. Voir [Datasets](/fr/weave/guides/core-types/datasets).</li><li>**Prompts**: Prompts système versionnés que vous pouvez tester et réutiliser dans vos configurations de modèle. Voir [Prompts](/fr/weave/guides/core-types/prompts).</li><li>**Scorers**: Fonctions qui évaluent les entrées et les sorties du modèle pour mesurer la qualité, la sécurité ou des métriques personnalisées. Voir [Scorers](/fr/weave/guides/evaluation/scorers).</li><li>**Ops**: Fonctions automatiquement versionnées et suivies, décorées avec `@weave.op()`, qui produisent des appels et conservent un historique des modifications de la fonction. Voir [Ops](/fr/weave/guides/tracking/ops).</li><li>**Other objects and metadata**: Objets Weave supplémentaires, types personnalisés et métadonnées associées stockés dans le projet.</li></ul> |
+
+<div id="project-paths">
+  ## Chemins de projet
+</div>
+
+[Teams](/fr/platform/hosting/iam/org_team_struct#team) (également appelées Entities) possèdent et gèrent des projets dans votre organisation W&amp;B. Le nom de votre équipe et le nom de votre projet forment le chemin d’accès à votre projet dans l’UI W&amp;B. Vous utilisez également ce chemin dans votre code pour associer vos ressources Weave au projet.
+
+Par exemple, si le nom de votre équipe est `my-team` et le nom de votre projet est `my-project`, le chemin vers votre projet est :
+
+```
+my-team/my-project
+```
+
+Utilisez ce chemin lorsque vous initialisez Weave dans votre code pour associer les données de votre application au projet :
+
+```
+weave.init('my-team/my-project')
+```
+
+<div id="create-and-find-projects">
+  ## Créer et trouver des projets
+</div>
+
+Vous pouvez créer un projet Weave à l’aide de la W&amp;B UI ou en définissant un nouveau chemin de projet dans votre code.
+
+<Tabs>
+  <Tab title="W&B UI">
+    Pour créer un nouveau projet à l’aide de la W&amp;B UI :
+
+    1. Accédez à [wandb.ai](https://wandb.ai).
+    2. Sélectionnez **New project**. La boîte de dialogue **Create a new project** s’ouvre.
+    3. Dans la fenêtre modale, configurez les champs suivants :
+       * **Team** : l’équipe existante à associer au projet.
+       * **Name** : un nom pour votre projet.
+       * **Project visibility** : les personnes autorisées à voir et modifier le projet.
+       * **Description** : (Facultatif) une brève description du projet pour vous aider à en suivre et organiser l’objectif.
+    4. Après avoir configuré les champs requis, sélectionnez **Create project**. Le projet est alors créé.
+
+    Pour retrouver votre projet nouvellement créé, sélectionnez le **logo Weights &amp; Biases** dans le coin supérieur gauche pour ouvrir le menu de **navigation globale**. Le menu répertorie vos projets les plus récents et les Teams dont vous faites partie, ce qui vous permet de changer rapidement de contexte. Sélectionnez votre projet pour ouvrir le Workspace du projet.
+
+    Vous pouvez également ouvrir votre **Profile** depuis le menu sous votre nom, dans le coin supérieur droit. L’onglet **Projects** répertorie tous vos projets.
+
+    Lorsque vous ouvrez le Workspace du nouveau projet, la W&amp;B UI propose des démarrages rapides pour W&amp;B Models et W&amp;B Weave. La barre d’outils du projet contient également des outils pour chaque produit. Une fois que vous associez des données Weave à votre projet via votre code, la barre latérale n’affiche plus que les outils Weave et le tableau de bord Weave devient disponible.
+  </Tab>
+
+  <Tab title="Weave SDK">
+    Pour créer un projet Weave directement depuis votre code, fournissez un nouveau chemin de projet comme argument à `weave.init()` :
+
+    <CodeGroup>
+      ```python
+      import weave
+
+      weave.init('my-team/my-llm-app')
+      ```
+
+      ```typescript
+      import * as weave from 'weave';
+
+      await weave.init('my-team/my-llm-app');
+      ```
+    </CodeGroup>
+
+    Lorsque vous exécutez ce code, Weave crée le nouveau projet dans votre compte W&amp;B et téléverse vers le projet toutes les données pertinentes du run. Weave configure également le projet comme un projet Weave (et non comme un projet W&amp;B Models), et la barre latérale de l’interface n’affiche que les outils Weave.
+  </Tab>
+</Tabs>
+
+<div id="view-projects-in-the-ui">
+  ## Voir les projets dans l’UI
+</div>
+
+Pour accéder à un projet dans la Weave UI :
+
+1. Accédez à [wandb.ai](https://wandb.ai).
+2. Cliquez sur le **logo Weights &amp; Biases** dans le coin supérieur gauche pour ouvrir le **menu de navigation globale**, puis sélectionnez votre projet dans la barre latérale **Projects**. Cela ouvre la page d’aperçu du projet, ou la page **Traces** si vous avez déjà enregistré des traces dans le projet.
+3. Depuis la page d’aperçu, vous pouvez :
+   * Consulter les statistiques de votre projet, comme le nombre de traces enregistrées dans le projet et l’espace de stockage qu’il utilise.
+   * Accéder aux traces, aux évaluations et à d’autres ressources à l’aide de la barre latérale.
+   * Accéder aux traces, évaluations, modèles et Datasets récemment enregistrés.
+
+<Frame>
+  ![Projet Weave](/weave/guides/platform/imgs/weave-project.png)
+</Frame>
+
+<div id="delete-a-project">
+  ## Supprimer un projet
+</div>
+
+Pour supprimer un projet de votre compte W&amp;B :
+
+1. Accédez à [wandb.ai](https://wandb.ai).
+2. Sélectionnez votre projet dans la barre latérale **Projects**. Cela ouvre la page d’aperçu du projet, ou la page **Traces** si vous avez déjà enregistré des traces pour ce projet.
+3. Sélectionnez le bouton **Project** (<Icon icon="circle-info" size={16} />) dans la barre latérale pour ouvrir la page d’aperçu du projet si elle n’est pas déjà ouverte.
+4. Sélectionnez le menu **action (<Icon icon="ellipsis" iconType="solid" />)** et choisissez **Delete Project** dans la liste. Cela ouvre la boîte de dialogue modale **Delete project**.
+5. Dans la fenêtre modale, saisissez le nom du projet dans le champ de confirmation, puis cliquez sur **Delete**. Le projet est définitivement supprimé de votre compte W&amp;B.

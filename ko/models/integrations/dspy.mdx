@@ -1,75 +1,82 @@
 ---
+description: "W&B와 함께 DSPy 프로그램을 추적하고 최적화해 프롬프트, 평가, 컴파일된 모듈 성능을 기록합니다."
 title: DSPy
-description: W&B를 사용하여 DSPy 프로그램을 추적하고 최적화하세요.
 ---
 
-W&B와 DSPy를 함께 사용하여 언어 모델 프로그램을 트래킹하고 최적화하세요. W&B는 다음과 같은 기능을 제공함으로써 [Weave DSPy integration](/weave/guides/integrations/dspy)을 보완합니다:
+W&amp;B를 DSPy와 함께 사용해 언어 모델 프로그램을 추적하고 최적화하세요. W&amp;B는 [Weave DSPy 인테그레이션](/ko/weave/guides/integrations/dspy)을 보완하며 다음을 제공합니다:
 
-- 시간에 따른 평가 메트릭 (Evaluation metrics) 트래킹
-- 프로그램 시그니처의 진화를 확인하기 위한 W&B Tables
-- MIPROv2와 같은 DSPy 옵티마이저와의 인테그레이션
+* 시간에 따른 평가 메트릭 추적
+* 프로그램 시그니처 변화 확인을 위한 W&amp;B Tables
+* MIPROv2와 같은 DSPy 옵티마이저와의 인테그레이션
 
-DSPy 모듈을 최적화할 때 포괄적인 관측성을 확보하려면 W&B와 Weave 양쪽 모두에서 인테그레이션을 활성화하세요.
+DSPy 모듈을 최적화할 때 보다 포괄적인 관측 가능성을 확보하려면 W&amp;B와 Weave 모두에서 인테그레이션을 활성화하세요.
 
 <Info>
-**안내**
+  **참고**
 
-`wandb==0.21.2` 및 `weave==0.52.5` 버전부터는 W&B와 함께 사용할 때 Weave가 자동으로 초기화됩니다:
+  `wandb==0.21.2` 및 `weave==0.52.5`부터는 W&amp;B와 함께 사용할 때 Weave가 자동으로 초기화됩니다:
 
-- `weave`를 임포트한 후 `wandb.init()`을 호출하는 경우 (스크립트 사례)
-- `wandb.init()`을 호출한 후 나중에 `weave`를 임포트하는 경우 (노트북/Jupyter 사례)
+  * `weave`를 임포트한 다음 `wandb.init()`를 호출하는 경우(스크립트 환경)
+  * `wandb.init()`를 호출한 뒤 나중에 `weave`를 임포트하는 경우(노트북/Jupyter 환경)
 
-별도로 `weave.init(...)`을 호출할 필요가 없습니다.
+  명시적으로 `weave.init(...)`를 호출할 필요는 없습니다.
 </Info>
 
-## 설치 및 인증
+<div id="install-and-authenticate">
+  ## 설치 및 인증
+</div>
 
-필요한 라이브러리를 설치하고 W&B에 인증합니다:
+필요한 라이브러리를 설치한 다음 W&amp;B에 로그인합니다:
 
 <Tabs>
-<Tab title="Command Line">
-1. 필요한 라이브러리를 설치합니다:
+  <Tab title="명령줄">
+    1. 필요한 라이브러리를 설치합니다:
 
-    ```shell
-    pip install wandb weave dspy
-    ```
+       ```shell
+       pip install wandb weave dspy
+       ```
 
-1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/)를 설정하고 로그인합니다:
+    2. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 설정하고 로그인합니다:
 
-    ```bash
-    export WANDB_API_KEY=<your_api_key>
-    wandb login
-    ```
-</Tab>
-<Tab title="Python">
-1. 필요한 라이브러리를 설치합니다:
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       wandb login
+       ```
+  </Tab>
 
-    ```bash
-    pip install wandb weave dspy
-    ```
-1. 코드에서 W&B에 로그인합니다:
+  <Tab title="Python">
+    1. 필요한 라이브러리를 설치합니다:
 
-    ```python
+       ```bash
+       pip install wandb weave dspy
+       ```
+    2. 코드에서 W&amp;B에 로그인합니다:
+
+       ```python
+       import wandb
+       wandb.login()
+       ```
+  </Tab>
+
+  <Tab title="Notebook">
+    필요한 라이브러리를 설치하고 임포트한 다음 W&amp;B에 로그인합니다:
+
+    ```notebook
+    !pip install wandb weave dspy
+
     import wandb
     wandb.login()
     ```
-</Tab>
-<Tab title="Notebook">
-필요한 라이브러리를 설치 및 임포트한 다음, W&B에 로그인합니다:
-```notebook
-!pip install wandb weave dspy
-
-import wandb
-wandb.login()
-```
-</Tab>
+  </Tab>
 </Tabs>
 
-W&B가 처음이신가요? [퀵스타트 가이드](/models/quickstart/)를 확인해 보세요.
+W&amp;B가 처음이신가요? [퀵스타트 가이드](/ko/models/quickstart/)를 참조하세요.
 
-## 프로그램 최적화 트래킹 (실험적 기능)
+<div id="track-program-optimization-experimental">
+  ## 프로그램 최적화 추적 (실험적)
+</div>
 
-`dspy.Evaluate`를 사용하는 DSPy 옵티마이저(MIPROv2 등)의 경우, `WandbDSPyCallback`을 사용하여 시간에 따른 평가 메트릭을 로그하고 W&B Tables에서 프로그램 시그니처의 변화를 트래킹할 수 있습니다.
+`dspy.Evaluate`를 사용하는 DSPy 옵티마이저(MIPROv2 등)의 경우 `WandbDSPyCallback`을 사용해 시간에 따른 평가 메트릭을 기록하고, W&amp;B Tables에서 프로그램 시그니처가 어떻게 변화하는지 추적하세요.
 
 ```python
 import dspy
@@ -79,7 +86,7 @@ import weave
 import wandb
 from wandb.integration.dspy import WandbDSPyCallback
 
-# W&B 초기화 (weave를 임포트하는 것만으로 충분하며, 명시적인 weave.init은 필요하지 않습니다)
+# W&B 초기화 (weave를 임포트하는 것으로 충분하며, 명시적인 weave.init 호출 불필요)
 project_name = "dspy-optimization"
 with wandb.init(project=project_name) as run:
     # DSPy에 W&B 콜백 추가
@@ -113,53 +120,60 @@ with wandb.init(project=project_name) as run:
     )
 ```
 
-이 코드를 실행하면 W&B Run URL과 Weave URL을 모두 받게 됩니다. W&B는 시간에 따른 평가 메트릭과 프로그램 시그니처의 진화를 보여주는 Tables를 표시합니다. Run의 **Overview** 탭에는 상세 분석을 위한 Weave 트레이스 링크가 포함되어 있습니다.
+이 코드를 실행하면 W&amp;B Run URL과 Weave URL을 모두 받게 됩니다. W&amp;B는 시간에 따른 평가 메트릭과 함께 프로그램 시그니처의 변화를 보여주는 Tables를 표시합니다. run의 **Overview** 탭에는 자세히 확인할 수 있는 Weave 트레이스 링크가 포함되어 있습니다.
 
-`WandbDSPyCallback`에 `run` 오브젝트를 전달하지 않으면 글로벌 `run` 오브젝트가 사용됩니다.
+`run` 객체가 `WandbDSPyCallback`에 전달되지 않으면 전역 `run` 객체가 사용됩니다.
 
 <Frame>
-    <img src="/images/integrations/dspy_run_page.png" alt="W&B에서의 DSPy 최적화 run"  />
+  <img src="/images/integrations/dspy_run_page.png" alt="W&B의 DSPy 최적화 run" />
 </Frame>
 
-DSPy를 사용한 Weave 트레이싱, 평가 및 최적화에 대한 자세한 내용은 [Weave DSPy integration 가이드](/weave/guides/integrations/dspy)를 참조하세요.
+DSPy와 함께 사용하는 Weave 트레이싱, 평가, 최적화에 대한 자세한 내용은 [Weave DSPy 인테그레이션 가이드](/ko/weave/guides/integrations/dspy)를 참조하세요.
 
-## W&B Tables에 예측값 로그하기
+<div id="log-predictions-to-wb-tables">
+  ## 예측을 W&amp;B Tables에 기록하기
+</div>
 
-최적화 과정에서 개별 예시를 검사하기 위해 상세한 예측값 로그를 활성화하세요. 콜백은 각 평가 단계마다 W&B Tables를 생성하며, 이를 통해 특정 성공 및 실패 사례를 분석할 수 있습니다.
+최적화 중 개별 예시를 살펴볼 수 있도록 상세한 예측 로깅을 활성화하세요. 이 콜백은 각 evaluation step마다 W&amp;B Tables를 생성하므로, 특정 성공 사례와 실패 사례를 분석하는 데 도움이 됩니다.
 
 ```python
 from wandb.integration.dspy import WandbDSPyCallback
 
-# 예측값 로그 활성화 (기본값으로 활성화되어 있음)
+# 예측 로깅 활성화 (기본적으로 활성화됨)
 callback = WandbDSPyCallback(log_results=True)
 dspy.settings.callbacks.append(callback)
 
 # 최적화 실행
 optimized_program = optimizer.compile(program, trainset=train_data)
 
-# 필요한 경우 예측값 로그 비활성화
+# 필요한 경우 예측 로깅 비활성화
 # callback = WandbDSPyCallback(log_results=False)
 ```
 
-### 예측값 데이터 엑세스
+<div id="access-prediction-data">
+  ### 예측 데이터 액세스
+</div>
 
-최적화가 완료된 후 W&B에서 예측값 데이터를 확인할 수 있습니다:
+최적화 후 W&amp;B에서 예측 데이터를 확인할 수 있습니다.
 
-1. 해당 run의 **Overview** 페이지로 이동합니다.
-2. `predictions_0`, `predictions_1` 등과 같은 패턴으로 명명된 Table 패널을 찾습니다.
-3. `is_correct`로 필터링하여 실패 사례를 분석합니다.
-4. 프로젝트 Workspace에서 여러 run의 테이블을 비교해 봅니다.
+1. run의 **Overview** 페이지로 이동합니다.
+2. `predictions_0`, `predictions_1` 등과 같은 패턴으로 이름이 지정된 Table 패널을 찾습니다.
+3. 실패 사례를 분석하려면 `is_correct`로 필터링합니다.
+4. 프로젝트 Workspace에서 여러 run의 테이블을 비교합니다.
 
-각 테이블에는 다음 컬럼들이 포함됩니다:
-- `example`: 입력 데이터
-- `prediction`: 모델 출력
-- `is_correct`: 평가 결과
+각 table에는 다음 column이 포함됩니다.
 
-자세한 내용은 [W&B Tables 가이드](/models/tables/visualize-tables/) 및 [Tables 튜토리얼](/ko/models/tutorials/tables)에서 확인할 수 있습니다.
+* `example`: 입력 데이터
+* `prediction`: 모델 출력
+* `is_correct`: Evaluation 결과
 
-## DSPy 프로그램 저장 및 버전 관리
+자세한 내용은 [W&amp;B Tables 가이드](/ko/models/tables/visualize-tables/)를 참조하세요.
 
-최고의 DSPy 프로그램을 재현하고 버전 관리하려면 W&B Artifacts로 저장하세요. 전체 프로그램을 저장하거나 상태(state)만 저장하는 방식 중 선택할 수 있습니다.
+<div id="save-and-version-dspy-programs">
+  ## DSPy 프로그램 저장 및 버전 관리
+</div>
+
+가장 성능이 좋은 DSPy 프로그램을 재현하고 버전 관리하려면 W&amp;B Artifacts에 저장하세요. 전체 프로그램을 저장할지, 상태만 저장할지 선택할 수 있습니다.
 
 ```python
 from wandb.integration.dspy import WandbDSPyCallback
@@ -173,16 +187,16 @@ optimized_program = optimizer.compile(program, trainset=train_data)
 
 # 저장 옵션:
 
-# 1. 전체 프로그램 (권장) - 아키텍처와 상태를 포함
+# 1. 전체 프로그램 (권장) - 아키텍처 및 상태 포함
 callback.log_best_model(optimized_program, save_program=True)
 
-# 2. JSON 형태의 상태만 저장 - 가볍고 사람이 읽기 쉬움
+# 2. JSON으로 상태만 저장 - 더 가볍고 사람이 읽기 쉬운 형식
 callback.log_best_model(optimized_program, save_program=False, filetype="json")
 
-# 3. pickle 형태의 상태만 저장 - Python 오브젝트 보존
+# 3. pickle로 상태만 저장 - Python 객체 보존
 callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
 
-# 버전 관리를 위한 커스텀 에일리어스 추가
+# 버전 관리를 위한 맞춤형 alias 추가
 callback.log_best_model(
     optimized_program,
     save_program=True,

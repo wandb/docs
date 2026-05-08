@@ -1,0 +1,23 @@
+---
+title: Runs をタイプ別に整理する
+---
+
+```python
+"""
+Organize runs by their job type.
+
+Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`.
+"""
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+# runを作成し、ジョブタイプごとに整理します。
+for job_type in ["<JobType1>", "<JobType2>"]: # ジョブタイプ名に置き換えてください
+    # 各ジョブタイプに対して2つのrunを作成するシミュレーションです。
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # トレーニングおよびloggingのコードをここに記述します
+            pass    
+```

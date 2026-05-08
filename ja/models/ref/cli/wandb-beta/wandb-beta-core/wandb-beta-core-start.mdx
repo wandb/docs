@@ -1,0 +1,29 @@
+---
+title: wandb beta core start
+---
+
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/beta.py#L281" />
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+start [OPTIONS]
+```
+
+<div id="description">
+  ## 説明
+</div>
+
+wandb-core サービスをデタッチ モードで起動します。
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ              | タイプ | 説明                                                                                                                                      |
+| ---------------- | --- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `--idle-timeout` | STR | 接続中のクライアントがないアイドル状態がこの時間続くと、wandb-core をシャットダウンします。Go の duration 構文を使用します。たとえば、30s、10m、またはアイドル時のシャットダウンを無効にするには 0 を指定します。**デフォルト**: 10m |

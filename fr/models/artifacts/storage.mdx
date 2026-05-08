@@ -1,0 +1,34 @@
+---
+description: Gérer le stockage et l'allocation de mémoire de W&B artifacts.
+title: Gérer le stockage des artifacts et l'allocation de mémoire
+---
+
+Par défaut, W&amp;B stocke les fichiers d&#39;artifact dans un bucket privé Google Cloud Storage situé aux États-Unis. Tous les fichiers sont chiffrés au repos et en transit.
+
+Pour les fichiers sensibles, nous vous recommandons de configurer [Private Hosting](/fr/platform/hosting/) ou d&#39;utiliser des [artifacts de référence](/fr/models/artifacts/track-external-files/).
+
+Pendant l&#39;entraînement, W&amp;B enregistre localement les journaux, les artifacts et les fichiers de configuration dans les répertoires locaux suivants :
+
+| Fichier                                        | Emplacement par défaut | Pour modifier l&#39;emplacement par défaut, définissez :                 |
+| ---------------------------------------------- | ---------------------- | ------------------------------------------------------------------------ |
+| journaux                                       | `./wandb`              | `dir` dans `wandb.init()` ou la variable d&#39;environnement `WANDB_DIR` |
+| artifacts                                      | `~/.cache/wandb`       | la variable d&#39;environnement `WANDB_CACHE_DIR`                        |
+| configurations                                 | `~/.config/wandb`      | la variable d&#39;environnement `WANDB_CONFIG_DIR`                       |
+| artifacts intermédiaires pour le téléversement | `~/.cache/wandb-data/` | la variable d&#39;environnement `WANDB_DATA_DIR`                         |
+| artifacts téléchargés                          | `./artifacts`          | la variable d&#39;environnement `WANDB_ARTIFACT_DIR`                     |
+
+Pour un guide complet sur l&#39;utilisation des variables d&#39;environnement pour configurer W&amp;B, voir la [référence des variables d&#39;environnement](/fr/models/track/environment-variables/).
+
+<Warning>Selon la machine sur laquelle `wandb` est initialisé, il se peut que ces dossiers par défaut ne se trouvent pas dans une zone accessible en écriture du système de fichiers. Cela peut entraîner une erreur.</Warning>
+
+<div id="clean-up-local-artifact-cache">
+  ### Nettoyer le cache local des artifacts
+</div>
+
+W&amp;B met en cache les fichiers d’artifact afin d’accélérer les téléchargements entre les versions qui partagent des fichiers. Au fil du temps, ce répertoire de cache peut prendre beaucoup de place. Exécutez la commande [`wandb artifact cache cleanup`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-cache/) pour purger le cache et supprimer les fichiers qui n’ont pas été utilisés récemment.
+
+L’extrait de code suivant montre comment limiter la taille du cache à 1 Go. Copiez-collez l’extrait de code dans votre terminal :
+
+```bash
+$ wandb artifact cache cleanup 1GB
+```

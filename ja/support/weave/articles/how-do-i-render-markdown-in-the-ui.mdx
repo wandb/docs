@@ -1,0 +1,14 @@
+---
+title: "UI で Markdown を表示するにはどうすればよいですか?"
+keywords: ["UI レンダリング"]
+---
+
+保存する前に、文字列を `weave.Markdown(...)` でラップし、`weave.publish(...)` を使用して保存します。Weave はオブジェクトのタイプに基づいて表示方法を判断し、`weave.Markdown` は既知の UI レンダラーにマッピングされます。値は UI 上で書式付きの Markdown オブジェクトとして表示されます。完全なコード例については、[calls を表示する](/ja/weave/guides/tracking/tracing#viewing-calls) を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[UIレンダリング](/ja/support/weave/tags/ui-rendering)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,44 @@
+---
+title: "아티팩트를 레지스트리에 연결할 수 없는 이유는 무엇인가요?"
+keywords: ["Artifacts"]
+---
+
+아티팩트를 W&amp;B Registry에 연결할 수 없다면, 가장 흔한 원인은 해당 아티팩트가 팀 entity가 아니라 개인 entity로 로깅되었기 때문입니다. 조직의 팀에서 로깅된 아티팩트만 해당 조직의 레지스트리에 연결할 수 있습니다.
+
+<div id="fix-log-artifacts-with-a-team-entity">
+  ## 수정: 팀 entity로 아티팩트 로깅하기
+</div>
+
+run을 초기화할 때 `entity`에 팀을 지정하세요:
+
+```python
+import wandb
+
+with wandb.init(entity="<team_entity>", project="<project_name>") as run:
+    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    # 파일을 추가하고 아티팩트를 로그합니다
+```
+
+`entity`를 지정하지 않으면 run은 기본 entity를 사용하며, 이 기본 entity는 개인 계정일 수도 있습니다.
+
+<div id="find-your-team-entity">
+  ## 팀 entity 찾기
+</div>
+
+팀 entity는 팀 이름과 동일합니다. 팀의 W&amp;B 프로필 페이지로 이동해 확인하세요. URL은 `https://wandb.ai/<team>` 형식이며, 여기서 `<team>`은 팀 entity입니다.
+
+<div id="already-logged-with-a-personal-entity">
+  ## 이미 개인 entity에 로깅하셨나요?
+</div>
+
+아티팩트를 이미 개인 entity에 로깅했다면, 조직 내 팀 entity에 다시 로깅해야 합니다.
+
+자세한 내용은 [버전을 컬렉션에 연결하기](/ko/models/registry/link_version/)를 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

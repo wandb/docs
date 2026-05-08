@@ -1,0 +1,77 @@
+---
+title: YOLOv5
+description: "Utilisez l’intégration W&B native de YOLOv5 pour le suivi des expériences, la gestion des versions des modèles et la visualisation des prédictions."
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" />
+
+[YOLOv5 d&#39;Ultralytics](https://www.ultralytics.com/yolo) (&quot;You Only Look Once&quot;) est une famille de modèles qui permet la détection d&#39;objets en temps réel avec des réseaux de neurones convolutifs, sans les tracas habituels.
+
+[W&amp;B](https://wandb.com) est directement intégré à YOLOv5 et offre le suivi des métriques d&#39;expérience, la gestion des versions des modèles et des jeux de données, des visualisations riches des prédictions du modèle, et plus encore. **Il suffit d&#39;exécuter un simple `pip install` avant de lancer vos expériences YOLO.**
+
+<Note>
+  Toutes les fonctionnalités de journalisation de W&amp;B sont compatibles avec l&#39;entraînement multi-GPU avec parallélisme de données, par exemple avec [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
+</Note>
+
+<div id="track-core-experiments">
+  ## Suivre les Experiments essentiels
+</div>
+
+Il suffit d’installer `wandb` pour activer les [fonctionnalités de journalisation](/fr/models/track/log/) intégrées de W&amp;B : métriques système, métriques de modèle et médias enregistrés dans des [tableaux de bord](/fr/models/track/workspaces/) interactifs.
+
+```python
+pip install wandb
+git clone https://github.com/ultralytics/yolov5.git
+python yolov5/train.py  # entraîner un petit réseau sur un petit jeu de données
+```
+
+Il vous suffit de suivre les liens affichés dans la sortie standard de wandb.
+
+<Frame>
+  <img src="/images/integrations/yolov5_experiment_tracking.png" alt="Tous ces graphiques, et bien plus encore." />
+</Frame>
+
+<div id="customize-the-integration">
+  ## Personnaliser l’intégration
+</div>
+
+En passant quelques arguments simples en ligne de commande à YOLO, vous pouvez tirer parti d’encore plus de fonctionnalités W&amp;B.
+
+* Si vous passez un nombre à `--save_period`, W&amp;B enregistre une [version du modèle](/fr/models/registry/) à la fin de chaque période de `save_period` époques. La version du modèle inclut les poids du modèle et ajoute un tag au modèle le plus performant sur l’ensemble de validation.
+* L’activation de l’option `--upload_dataset` téléverse également le jeu de données pour la gestion des versions des données.
+* Passer un nombre à `--bbox_interval` active [Data Visualization](../). À la fin de chaque période de `bbox_interval` époques, les sorties du modèle sur l’ensemble de validation sont téléversées vers W&amp;B.
+
+<Tabs>
+  <Tab title="Gestion des versions du modèle uniquement">
+    ```python
+    python yolov5/train.py --epochs 20 --save_period 1
+    ```
+  </Tab>
+
+  <Tab title="Gestion des versions du modèle et Data Visualization">
+    ```python
+    python yolov5/train.py --epochs 20 --save_period 1 \
+      --upload_dataset --bbox_interval 1
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Chaque compte W&amp;B inclut 100 Go de stockage gratuit pour les jeux de données et les modèles.
+</Note>
+
+Voici à quoi cela ressemble.
+
+<Frame>
+  <img src="/images/integrations/yolov5_model_versioning.png" alt="Gestion des versions du modèle" />
+</Frame>
+
+<Frame>
+  <img src="/images/integrations/yolov5_data_visualization.png" alt="Data Visualization" />
+</Frame>
+
+<Note>
+  Avec la gestion des versions des données et des modèles, vous pouvez reprendre des expériences mises en pause ou interrompues depuis n’importe quel appareil, sans configuration. Consultez [le Colab ](https://wandb.me/yolo-colab) pour en savoir plus.
+</Note>

@@ -1,0 +1,43 @@
+---
+title: "patchRealtimeSession"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="patchrealtimesession">
+  # patchRealtimeSession
+</div>
+
+▸ **patchRealtimeSession**(): `void`
+
+`@openai/agents-realtime` の `RealtimeSession` クラスに手動でパッチを適用し、
+新しく作成されるすべてのインスタンスが Weave によって自動的にトレースされるようにします。
+
+**注: 通常、この関数を呼び出す必要はありません。** `@openai/agents-realtime` は、
+Weave をインポートすると、モジュールローダーフックを介して自動的にインストルメントされます。この関数は、
+自動インストルメンテーションが機能しないエッジケース (たとえば、動的インポートやフックをバイパスするバンドラー) 向けに提供されています。
+
+アプリの起動時に、`RealtimeSession` が作成される前に、この関数を **一度だけ** 呼び出してください。
+この関数は冪等です。複数回呼び出しても安全です。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+`例`
+
+```typescript
+import { patchRealtimeSession } from 'weave';
+patchRealtimeSession();
+// 新しい RealtimeSession(...) はすべて自動インストルメント化されます
+```
+
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[integrations/openai.realtime.agent.ts:797](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.realtime.agent.ts#L797)
+
+***

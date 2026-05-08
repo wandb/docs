@@ -1,0 +1,156 @@
+---
+title: "Vercel AI SDK"
+description: "Tracer les appels du Vercel AI SDK dans Weave à l’aide d’OpenTelemetry"
+---
+
+Vous pouvez tracer les appels de [Vercel AI SDK](https://ai-sdk.dev/) dans Weave à l’aide d’[OpenTelemetry (OTel)](https://opentelemetry.io/). Le Vercel AI SDK est une boîte à outils TypeScript permettant de créer des applications d’IA, avec prise en charge de frameworks comme Next.js, Nuxt, SvelteKit et d’autres frameworks. Il inclut une prise en charge native d’OpenTelemetry via son option `experimental_telemetry`.
+
+Ce guide vous montre comment configurer OTel pour envoyer des traces du Vercel AI SDK vers Weave. Vous pouvez utiliser le SDK AI avec Next.js ou comme application Node.js autonome.
+
+Pour plus d’informations sur le traçage OTel dans Weave, voir [Send OTel traces to Weave](../tracking/otel).
+
+<div id="prerequisites">
+  ### Prérequis
+</div>
+
+Les exemples Next.js et Node.js de ce guide nécessitent tous deux les mêmes dépendances. Pour commencer :
+
+1. Installez les bibliothèques Vercel et OTel suivantes :
+
+   ```bash
+   npm install ai @ai-sdk/openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources zod
+   ```
+
+2. Définissez les variables d’environnement suivantes :
+
+   ```bash
+   export WANDB_API_KEY="your-wandb-api-key"
+   export OPENAI_API_KEY="your-openai-api-key"
+   ```
+
+   Vous pouvez obtenir votre clé API W&amp;B dans les [Paramètres utilisateur](https://wandb.ai/settings).
+
+<div id="configure-otel-tracing-for-nextjs">
+  ## Configurer le traçage OTel pour Next.js
+</div>
+
+Cette section explique comment configurer Weave dans une application Next.js. L’exemple ne contient pas d’application complète, seulement la configuration de l’instrumentation et la façon d’invoquer l’instrumentation sur une fonction du Vercel AI SDK, en l’occurrence un simple appel à OpenAI.
+
+<div id="configure-instrumentation">
+  ### Configurer l’instrumentation
+</div>
+
+Les applications Next.js utilisent un fichier `instrumentation.ts` pour configurer OTel. Ce fichier s’exécute une seule fois au démarrage du serveur et configure le fournisseur de traceurs utilisé par l’AI SDK.
+
+Pour intégrer Weave à la fonctionnalité OTel de Vercel, créez un fichier `instrumentation.ts` à la racine de votre projet et ajoutez-y le code suivant, en mettant à jour la fonction `resourceFromAttributes()` avec les noms de votre équipe et de votre projet :
+
+```typescript instrumentation.ts lines {17-19}
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+
+export function register() {
+  const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+// Configurez l'exportateur OTel pour utiliser le point de terminaison W&B Weave.
+  const exporter = new OTLPTraceExporter({
+    url: "https://trace.wandb.ai/otel/v1/traces",
+    headers: { "wandb-api-key": WANDB_API_KEY },
+  });
+
+// Configurez vos identifiants W&B.
+  const provider = new NodeTracerProvider({
+    resource: resourceFromAttributes({
+      "wandb.entity": "<your-team-name>",
+      "wandb.project": "<your-project-name>",
+    }),
+    spanProcessors: [new BatchSpanProcessor(exporter)],
+  });
+
+  provider.register();
+}
+```
+
+Cela crée un exportateur OTLP configuré pour envoyer des données de trace vers le point de terminaison OTel de Weave et s&#39;authentifier avec votre clé API W&amp;B.
+
+
+<div id="configure-telemetry-on-a-function">
+  ### Configurer la télémétrie pour une fonction
+</div>
+
+Une fois l’instrumentation ajoutée, utilisez l’option `experimental_telemetry` de Vercel lors de n’importe quel appel de fonction de l’AI SDK pour émettre des spans OTel :
+
+```typescript route.ts lines {10}
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+
+export async function POST(req: Request) {
+  const { prompt } = await req.json();
+
+// Ajouter le champ experimental_telemetry à la fonction.
+  const result = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt,
+    experimental_telemetry: { isEnabled: true },
+  });
+
+  return Response.json({ text: result.text });
+}
+```
+
+Tous les appels à `generateText` avec la télémétrie activée produisent des spans OTel exportés vers Weave.
+
+
+<div id="configure-otel-tracing-for-nodejs">
+  ## Configurer le traçage OTel pour Node.js
+</div>
+
+Pour les applications Node.js autonomes (sans Next.js), configurez le fournisseur de traceurs au début de votre fichier d’entrée, avant tout appel à l’AI SDK.
+
+Une fois les prérequis satisfaits, vous pouvez exécuter cet exemple et générer des spans sans configuration supplémentaire.
+
+```typescript lines {11-14,18-19,31} title="test-app.ts"
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+
+const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+// Configurer l'exportateur OTel pour utiliser le point de terminaison W&B Weave.
+const exporter = new OTLPTraceExporter({
+  url: "https://trace.wandb.ai/otel/v1/traces",
+  headers: { "wandb-api-key": WANDB_API_KEY },
+});
+
+// Configurer vos identifiants W&B.
+const provider = new NodeTracerProvider({
+  resource: resourceFromAttributes({
+    "wandb.entity": "<your-team-name>",
+    "wandb.project": "<your-project-name>",
+  }),
+  spanProcessors: [new BatchSpanProcessor(exporter)],
+});
+
+provider.register();
+
+// Ajouter le champ experimental_telemetry à la fonction.
+async function main() {
+  const result = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt: "Explain OpenTelemetry in one sentence.",
+    experimental_telemetry: { isEnabled: true },
+  });
+
+  console.log(result.text);
+
+  await provider.shutdown();
+}
+
+main();
+```
+
+`BatchSpanProcessor` exporte les spans de manière asynchrone. En bref, dans les processus de courte durée, comme les scripts autonomes, les fonctions serverless ou les outils CLI, appelez `provider.shutdown()` avant que le processus ne se termine pour vous assurer que tous les spans sont envoyés vers Weave. Pour les serveurs de longue durée (comme un serveur de dév Next.js démarré via `instrumentation.ts`), ce n’est pas nécessaire.

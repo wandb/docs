@@ -1,0 +1,92 @@
+---
+title: Runs
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+
+## <kbd>class</kbd> `Runs`
+
+Un itérateur paresseux d’objets `Run` associés à un projet et à un filtre facultatif.
+
+Les Runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
+
+Cette classe s’utilise généralement de manière indirecte via l’espace de noms `Api.runs`.
+
+### <kbd>méthode</kbd> `Runs.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    service_api: 'ServiceApi | None' = None
+)
+```
+
+**Arguments :**
+
+* `client`:  (`wandb.apis.public.RetryingClient`) Le client API à utiliser pour les requêtes.
+* `entity`:  (str) L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+* `project`:  (str) Le nom du projet depuis lequel récupérer les runs.
+* `filters`:  (Optional[Dict[str, Any]]) Un dictionnaire de filtres à appliquer à la requête de runs.
+* `order`:  (str) L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si l’ordre est précédé de `+`, le tri est croissant (par défaut).  Si l’ordre est précédé de `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
+* `per_page`:  (int) Le nombre de runs à récupérer par requête (50 par défaut).
+* `include_sweeps`:  (bool) Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
+
+***
+
+
+### <kbd>propriété</kbd> Runs.length
+
+***
+
+### <kbd>méthode</kbd> `Runs.histories`
+
+```python
+histories(
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    format: "Literal['default', 'pandas', 'polars']" = 'default',
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
+```
+
+Renvoie des métriques d’historique échantillonnées pour tous les runs qui satisfont aux conditions des filtres.
+
+**Arguments :**
+
+* `samples` :  Nombre d’échantillons à renvoyer par run
+* `keys` :  Renvoie uniquement les métriques pour des clés spécifiques
+* `x_axis` :  Utilisez cette métrique comme xAxis ; la valeur par défaut est &#95;step
+* `format` :  Format dans lequel renvoyer les données ; les options sont &quot;default&quot;, &quot;pandas&quot;,  &quot;polars&quot;
+* `stream` :  &quot;default&quot; pour les métriques, &quot;system&quot; pour les métriques système
+
+**Retourne :**
+
+* `pandas.DataFrame` :  Si `format="pandas"`, renvoie un `pandas.DataFrame`  de métriques d’historique.
+* `polars.DataFrame` :  Si `format="polars"`, renvoie un `polars.DataFrame`  de métriques d’historique.
+* `list of dicts` :  Si `format="default"`, renvoie une liste de dicts  contenant des métriques d’historique avec une clé `run_id`.
+
+***
+
+
+### <kbd>méthode</kbd> `Runs.upgrade_to_full`
+
+```python
+upgrade_to_full() → None
+```
+
+Met à niveau cette collection de Runs du mode paresseux au mode complet.
+
+Bascule vers la récupération des données complètes des runs et met à niveau tous les objets Run déjà chargés afin qu&#39;ils contiennent l&#39;ensemble des données. Utilise le chargement en parallèle pour de meilleures performances lors de la mise à niveau de plusieurs runs.

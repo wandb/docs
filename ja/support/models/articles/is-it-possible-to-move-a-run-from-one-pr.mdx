@@ -1,0 +1,22 @@
+---
+title: "あるプロジェクトから別のプロジェクトへ run を移動できますか？"
+keywords: ["Runs"]
+---
+
+次の手順で、run をあるプロジェクトから別のプロジェクトへ移動できます。
+
+* 移動したい run があるプロジェクトページにアクセスします。
+* **Runs** タブをクリックして Runs 表を開きます。
+* 移動する runs を選択します。
+* **Move** ボタンをクリックします。
+* 移動先のプロジェクトを選択し、操作を確定します。
+
+W&amp;B は UI での runs の移動をサポートしていますが、runs のコピーには対応していません。runs とともにログされた Artifacts は、新しいプロジェクトには移動されません。artifact を run の新しい場所へ手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用して artifact をダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して run の新しい場所にアップロードします。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

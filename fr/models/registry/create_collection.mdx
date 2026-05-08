@@ -1,0 +1,169 @@
+---
+title: Créer une collection
+description: "Créez une collection de versions d'artifact liées dans un W&B Registry et configurez les types d'artifact acceptés."
+---
+
+Une *collection* est un ensemble de versions d&#39;artifact liées au sein d&#39;un registre. Chaque collection représente une tâche ou un cas d&#39;usage distinct.
+
+Par exemple, dans un registre, vous pouvez avoir plusieurs collections. Chaque collection contient un jeu de données différent, comme MNIST, CIFAR-10 ou ImageNet.
+
+Autre exemple : vous pouvez avoir un registre appelé &quot;chatbot&quot; qui contient une collection pour les artifacts de modèle, une autre pour les artifacts de jeu de données et une autre pour les artifacts de modèle affiné.
+
+Vous êtes libre d&#39;organiser un registre et ses collections comme vous le souhaitez.
+
+<Note>
+  Si vous connaissez W&amp;B Model Registry, vous connaissez peut-être les Registered Models. Dans le Model Registry, les Registered Models sont désormais appelés collections dans le W&amp;B Registry.
+</Note>
+
+<div id="collection-types">
+  ## Types de collection
+</div>
+
+Chaque collection n&#39;accepte qu&#39;un seul *type* d&#39;artifact. Le type que vous spécifiez détermine quels artifacts vous, ainsi que les autres membres de votre organisation, pouvez lier à cette collection.
+
+<Note>
+  Vous pouvez considérer les types d&#39;artifact comme l&#39;équivalent des types de données dans des langages de programmation tels que Python. Dans cette analogie, une collection peut stocker des chaînes de caractères, des entiers ou des nombres à virgule flottante, mais pas un mélange de ces types de données.
+</Note>
+
+Par exemple, supposons que vous créiez une collection qui accepte les artifacts de type &quot;dataset&quot;. Cela signifie que vous ne pouvez lier à cette collection que les futures versions d&#39;artifact de type &quot;dataset&quot;. De même, vous ne pouvez lier des artifacts de type &quot;model&quot; qu&#39;à une collection qui n&#39;accepte que ce type d&#39;artifact.
+
+<Note>
+  Vous spécifiez le type d&#39;un artifact lorsque vous créez cet objet. Notez le champ `type` dans `wandb.Artifact()` :
+
+  ```python
+  import wandb
+
+  # Initialiser un run
+  with wandb.init(
+    entity = "<team_entity>",
+    project = "<project>"
+    ) as run:
+
+    # Créer un objet artifact
+    artifact = wandb.Artifact(
+        name="<artifact_name>", 
+        type="<artifact_type>"
+        )
+  ```
+</Note>
+
+Lorsque vous créez une collection, vous pouvez choisir parmi une liste de types d&#39;artifact prédéfinis. Les types d&#39;artifact disponibles dépendent du registre auquel appartient la collection.
+
+Avant de lier un artifact à une collection ou de créer une nouvelle collection, [vérifiez les types d&#39;artifact que cette collection accepte](#check-the-types-of-artifact-that-a-collection-accepts).
+
+<div id="check-the-types-of-artifact-that-a-collection-accepts">
+  ### Vérifier les types d’artifact qu’une collection accepte
+</div>
+
+Avant de créer un lien vers une collection, vérifiez le type d’artifact qu’elle accepte. Vous pouvez vérifier par programmation les types d’artifact qu’une collection accepte avec le W&amp;B Python SDK, ou de manière interactive avec la W&amp;B App.
+
+<Note>
+  Un message d’erreur s’affiche si vous essayez de créer un lien entre un artifact et une collection qui n’accepte pas ce type d’artifact.
+</Note>
+
+<Tabs>
+  <Tab title="W&B App">
+    Vous pouvez trouver les types d’artifact acceptés sur la carte du registre, sur la page d’accueil, ou dans la page des paramètres d’un registre.
+
+    Dans les deux cas, accédez d’abord à votre W&amp;B Registry.
+
+    Sur la page d’accueil du W&amp;B Registry, vous pouvez voir les types d’artifact acceptés en faisant défiler la page jusqu’à la carte du registre concerné. Les ovales horizontaux gris de la carte du registre listent les types d’artifact que ce registre accepte.
+
+    <Frame>
+      <img src="/images/registry/artifact_types_model_card.png" alt="Sélection des types d’artifact" />
+    </Frame>
+
+    Par exemple, l’image suivante montre plusieurs cartes de registre sur la page d’accueil du W&amp;B Registry. Sur la carte du registre **Model**, vous pouvez voir deux types d’artifact : **model** et **model-new**.
+
+    Pour voir les types d’artifact acceptés dans la page des paramètres d’un registre :
+
+    1. Cliquez sur la carte du registre dont vous voulez afficher les paramètres.
+    2. Cliquez sur l’icône d’engrenage dans le coin supérieur droit.
+    3. Faites défiler jusqu’au champ **Types d’artifact acceptés**.
+  </Tab>
+
+  <Tab title="Python SDK (Beta)">
+    Affichez par programmation les types d’artifact qu’un registre accepte avec le W&amp;B Python SDK :
+
+    ```python
+    import wandb
+
+    registry_name = "<registry_name>"
+    artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").artifact_types()
+    print(artifact_type.name for artifact_type in artifact_types)
+    ```
+
+    <Note>
+      Notez que vous n’initialisez pas de run avec l’extrait de code suivant. En effet, il n’est pas nécessaire de créer un run si vous interrogez uniquement l’API W&amp;B et que vous ne suivez pas une expérience, un artifact, etc.
+    </Note>
+  </Tab>
+</Tabs>
+
+Une fois que vous savez quel type d’artifact une collection accepte, vous pouvez [créer une collection](#create-a-collection).
+
+<div id="create-a-collection">
+  ## Créer une collection
+</div>
+
+Créez une collection de manière interactive ou par programmation dans un registre. Vous ne pouvez pas modifier le type d’artifact accepté par une collection après sa création.
+
+<div id="programmatically-create-a-collection">
+  ### Créer une collection par programmation
+</div>
+
+Utilisez la méthode `wandb.Run.link_artifact()` pour lier un artifact à une collection. Indiquez la collection et le registre dans le champ `target_path`, sous la forme d’un chemin au format suivant :
+
+```python
+f"wandb-registry-{registry_name}/{collection_name}"
+```
+
+où `registry_name` est le nom du registre et `collection_name` est le nom de la collection. Veillez à ajouter le préfixe `wandb-registry-` au nom du registre.
+
+<Note>
+  W&amp;B crée automatiquement une collection pour vous si vous essayez de lier un artifact à une collection qui n&#39;existe pas. Si vous indiquez une collection existante, W&amp;B lie l&#39;artifact à cette collection.
+</Note>
+
+L&#39;extrait de code suivant montre comment créer une collection par programmation. Veillez à remplacer les valeurs entre `<>` par les vôtres :
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(entity = "<team_entity>", project = "<project>") as run:
+
+  # Créer un objet artifact
+  artifact = wandb.Artifact(
+    name = "<artifact_name>",
+    type = "<artifact_type>"
+    )
+
+  registry_name = "<registry_name>"
+  collection_name = "<collection_name>"
+  target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+  # Lier l'artifact à une collection
+  run.link_artifact(artifact = artifact, target_path = target_path)
+```
+
+<div id="interactively-create-a-collection">
+  ### Créer une collection de manière interactive
+</div>
+
+Les étapes suivantes expliquent comment créer une collection de manière interactive à l’aide du W&amp;B Registry :
+
+1. Accédez au W&amp;B Registry à l’adresse [https://wandb.ai/registry/](https://wandb.ai/registry/).
+2. Sélectionnez un registre.
+3. Cliquez sur le bouton **Create collection** dans le coin supérieur droit.
+4. Saisissez un nom pour votre collection dans le champ **Name**.
+5. Sélectionnez un type dans la liste déroulante **Type**. Ou, si le registre autorise des types d’artifact personnalisés, indiquez un ou plusieurs types d’artifact que cette collection accepte.
+6. Si vous le souhaitez, saisissez une description de votre collection dans le champ **Description**.
+7. Si vous le souhaitez, ajoutez un ou plusieurs tags dans le champ **Tags**.
+8. Cliquez sur **Link version**.
+9. Dans la liste déroulante **Project**, sélectionnez le projet où votre artifact est stocké.
+10. Dans la liste déroulante de la collection **Artifact**, sélectionnez votre artifact.
+11. Dans la liste déroulante **Version**, sélectionnez la version d’artifact que vous souhaitez lier à votre collection.
+12. Cliquez sur le bouton **Create collection**.
+
+<Frame>
+  <img src="/images/registry/create_collection.gif" alt="Créer une nouvelle collection" />
+</Frame>

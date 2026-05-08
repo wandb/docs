@@ -1,0 +1,111 @@
+---
+title: "ジェネレーター関数をトレースする"
+description: "W&B Weave のトレースで sync / async ジェネレーター関数をトラッキングする"
+---
+
+W&amp;B Weave は、深くネストされたパターンを含む sync / async の両方のジェネレーター関数のトレースをサポートします。
+
+<Warning>
+  ジェネレーターは値を遅延的に `yield` するため、Weave が出力をログするのは、ジェネレーターが完全に消費された場合のみです (たとえば、`list` に変換したとき) 。Weave がトレース内で出力を確実に取得できるよう、
+  ジェネレーターは最後まで消費してください (たとえば、`list()` を使用します) 。
+</Warning>
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    from typing import Generator
+    import weave
+
+    weave.init("my-project")
+
+    # この関数では、シンプルな sync ジェネレーターを使用します。
+    # Weave は Call とその入力 (`x`) をトレースしますが、
+    # 出力値が取得されるのは、ジェネレーターが消費された後のみです (たとえば、`list()` を使用した場合) 。
+    @weave.op
+    def basic_gen(x: int) -> Generator[int, None, None]:
+        yield from range(x)
+
+    # ジェネレーター パイプライン内で使用される通常の sync 関数です。
+    # この関数の Call も Weave によって個別にトレースされます。
+    @weave.op
+    def inner(x: int) -> int:
+        return x + 1
+
+    # 別のトレース対象関数 (`inner`) を呼び出す sync ジェネレーターです。
+    # `yield` される各値は、`inner` への個別にトレースされた Call から生成されます。
+    @weave.op
+    def nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            yield inner(i)
+
+    # 上記のジェネレーターを組み合わせた、より複雑なジェネレーターです。
+    # ここでのトレースにより、階層的な Call ツリーが生成されます:
+    # - `deeply_nested_generator` (親)
+    #   - `nested_generator` (子)
+    #     - `inner` (孫)
+    @weave.op
+    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            for j in nested_generator(i):
+                yield j
+
+    # Weave が出力を取得するには、ジェネレーターを *消費* する必要があります。
+    # これは sync / async ジェネレーターの両方に当てはまります。
+    res = deeply_nested_generator(4)
+    list(res)  # ネストされたすべての Call と yield のトレースをトリガーします
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+次のスクリーンショットは、前述のコードの選択されたトレースを表示した **Traces** ページです。中央のパネルには、選択したトレースのトレース ツリーが表示されます。トレース ツリーには、`deeply_nested_generator`、`nested_generator`、`inner` の Ops が階層構造で表示されています。
+![Weave Traces ページ。深くネストされた Ops を示す選択されたトレース ツリーを表示](/weave/guides/tracking/imgs/generators.png)
+
+<div id="consuming-generators">
+  ## ジェネレーターの消費
+</div>
+
+Weave は、ジェネレーターを最後まで消費した場合にのみ、その出力をキャプチャします。ジェネレーターを消費するには、反復処理を行います (たとえば、`list()`、`for` ループ、または終了するまで `next()` を使用します) 。同様に、async ジェネレーターでも、`async for` または同等の方法で最後まで消費した場合に出力がキャプチャされます。
+
+関数や method を `@weave.op` でデコレートする方法について詳しくは、[call の作成](/ja/weave/guides/tracking/create-call) を参照してください。
+
+<div id="accumulate-yielded-values-into-a-single-trace">
+  ## yield された値を 1 つのトレースに集約する
+</div>
+
+`weave.op` の `accumulator` パラメーターを使用すると、ジェネレーター function から yield される値をどのように結合するかをカスタマイズできます。たとえば、ストリーミングされたテキスト token を 1 つの文字列に連結できます。accumulator は 2 つの引数を取る関数で、Weave は yield された値ごとに 1 回これを呼び出し、結果を段階的に構築します。
+
+<Note>
+  `accumulator` パラメーターは TypeScript では使用できません。
+</Note>
+
+次の例は、各 yield 値を list に追加する custom accumulator を示しています。これにより、ジェネレーター が最後まで消費されると、Weave はその list を Call の output として記録します。
+
+```python
+from typing import Generator
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+# Weave は yield のたびにこの関数を呼び出します。最初の呼び出し時、acc は None です。
+# 最後に返した値がトレースされた Op の出力になります。
+def list_accumulator(acc, value):
+    if acc is None:
+        acc = []
+    acc.append(value)
+    return acc
+
+# accumulator パラメーターを設定する
+@weave.op(accumulator=list_accumulator)
+def basic_gen_with_accumulator(x: int) -> Generator[int, None, None]:
+    yield from range(x)
+
+# すべての yield が実行され accumulator が最終的なトレース出力を生成できるよう、最後まで反復処理します。
+result = list(basic_gen_with_accumulator(3))
+print(result)
+```

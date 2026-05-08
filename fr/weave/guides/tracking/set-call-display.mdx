@@ -1,0 +1,108 @@
+---
+title: "Définir le nom d'affichage d'un Appel"
+description: "Définir ou remplacer le nom d'affichage d'un Appel dans le Tracing W&B Weave"
+---
+
+Les Ops produisent des Appels. Un Op est une fonction ou une méthode que vous décorez avec `@weave.op`. Par défaut, le nom de l&#39;Op correspond au nom de la fonction, et les Appels associés ont le même nom d&#39;affichage.
+
+Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donné de plusieurs façons.
+
+<Tabs>
+  <Tab title="Python">
+    1. Modifiez le nom d&#39;affichage au moment d&#39;appeler l&#39;Op.
+       L&#39;exemple suivant utilise le dictionnaire `__weave` pour définir le nom d&#39;affichage de l&#39;Appel, qui prévaut sur le nom d&#39;affichage de l&#39;Op :
+
+    ```python lines
+    result = my_function("World", __weave={"display_name": "My Custom Display Name"})
+    ```
+
+    2. Modifiez le nom d&#39;affichage Appel par Appel.
+       L&#39;exemple suivant utilise la méthode [`Op.call`](/fr/weave/reference/python-sdk/trace/op#function-call) pour renvoyer un objet `call`, que vous pouvez ensuite utiliser pour définir le nom d&#39;affichage avec [`call.set_display_name`](/fr/weave/reference/python-sdk/trace/weave_client#method-set_display_name) :
+
+    ```python lines
+    result, call = my_function.call("World")
+    call.set_display_name("My Custom Display Name")
+    ```
+
+    3. Modifiez le nom d&#39;affichage de tous les Appels d&#39;un Op donné.
+       L&#39;exemple suivant définit le nouveau nom d&#39;affichage directement dans le décorateur de fonction `@weave.op` afin qu&#39;il s&#39;applique à tous les Appels de l&#39;Op :
+
+    ```python lines
+    @weave.op(call_display_name="My Custom Display Name")
+    def my_function(name: str):
+        return f"Hello, {name}!"
+    ```
+
+    `call_display_name` peut aussi être une fonction qui prend un objet `call` et renvoie une chaîne. Weave transmet automatiquement l&#39;objet `call` lorsque la fonction s&#39;exécute. Vous pouvez donc l&#39;utiliser pour générer dynamiquement des noms à partir du nom de la fonction, des entrées de l&#39;Appel, des champs, etc.
+
+    Un cas d&#39;usage courant consiste à ajouter un horodatage au nom de la fonction.
+
+    ```python lines
+    from datetime import datetime
+
+    @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
+    def func():
+        return ...
+    ```
+
+    Vous pouvez également journaliser des métadonnées personnalisées avec `.attributes`.
+
+    ```python lines
+    def custom_attribute_name(call):
+        model = call.attributes["model"]
+        revision = call.attributes["revision"]
+        now = call.attributes["date"]
+
+        return f"{model}__{revision}__{now}"
+
+    @weave.op(call_display_name=custom_attribute_name)
+    def func():
+        return ...
+
+    with weave.attributes(
+        {
+            "model": "finetuned-llama-3.1-8b",
+            "revision": "v0.1.2",
+            "date": "2024-08-01",
+        }
+    ):
+        func()  # le nom d'affichage sera "finetuned-llama-3.1-8b__v0.1.2__2024-08-01"
+
+        with weave.attributes(
+            {
+                "model": "finetuned-gpt-4o",
+                "revision": "v0.1.3",
+                "date": "2024-08-02",
+            }
+        ):
+            func()  # le nom d'affichage sera "finetuned-gpt-4o__v0.1.3__2024-08-02"
+    ```
+
+    4. Modifiez le nom d&#39;affichage de l&#39;Op lui-même.
+       Les Appels associés à un Op ont le même nom d&#39;affichage. Si vous remplacez le nom de l&#39;Op lui-même, le nom d&#39;affichage de l&#39;Appel change également. Vous pouvez le faire de deux façons :
+
+    * Définissez la propriété `name` de l&#39;Op avant que des Appels ne soient enregistrés :
+
+    ```python lines
+    my_function.name = "My Custom Op Name"
+    ```
+
+    * Définissez l&#39;option `name` sur le décorateur de l&#39;Op :
+
+    ```python lines
+    @weave.op(name="My Custom Op Name")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Pour remplacer le nom par défaut d&#39;un appel, utilisez l&#39;option `callDisplayName` lors de l&#39;appel à `weave.op()`.
+
+    ```typescript lines {2}
+    const extractDinosOp = weave.op(extractDinos, {
+    callDisplayName: (input: string) => `Your New Display Name`
+    });
+    ```
+  </Tab>
+</Tabs>
+
+Vous pouvez aussi [mettre à jour le nom d&#39;affichage d&#39;un appel](/fr/weave/guides/tracking/update-call) après l&#39;exécution.

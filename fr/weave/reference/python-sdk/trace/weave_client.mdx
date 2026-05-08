@@ -1,0 +1,916 @@
+---
+title: "weave_client"
+description: "Référence du SDK Python pour weave.trace.weave_client"
+---
+
+import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
+
+
+<div id="api-overview">
+  # Aperçu de l’API
+</div>
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L183" />
+
+## <kbd>classe</kbd> `CrossProjectRefError`
+
+Levée lorsque le calcul de digest côté client rencontre une référence à un autre projet qui ne peut pas être résolue en ID interne.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2606" />
+
+## <kbd>classe</kbd> `FlushStatus`
+
+Informations sur le statut de l’opération de vidage en cours.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L177" />
+
+## <kbd>classe</kbd> `NoInternalProjectIDError`
+
+Levée lorsque le calcul du digest côté client ne peut pas se poursuivre, car aucun ID de projet interne n’a encore été résolu.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2596" />
+
+## <kbd>classe</kbd> `PendingJobCounts`
+
+Nombre de jobs en attente par type.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L320" />
+
+## <kbd>classe</kbd> `WeaveClient`
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L345" />
+
+### <kbd>méthode</kbd> `__init__`
+
+```python
+__init__(
+    entity: 'str',
+    project: 'str',
+    server: 'TraceServerClientInterface',
+    ensure_project_exists: 'bool' = True
+)
+```
+
+***
+
+
+#### <kbd>propriété</kbd> num_outstanding_jobs
+
+Renvoie le nombre total de jobs en attente sur l’ensemble des exécuteurs et le serveur.
+
+Cette propriété permet de suivre l’avancement des tâches en arrière-plan sans bloquer le thread principal.
+
+**Retourne :**
+
+* <b>`int`</b>:  Le nombre total de jobs en attente
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1512" />
+
+### <kbd>méthode</kbd> `add_cost`
+
+```python
+add_cost(
+    llm_id: 'str',
+    prompt_token_cost: 'float',
+    completion_token_cost: 'float',
+    effective_date: 'datetime | None' = None,
+    prompt_token_cost_unit: 'str | None' = 'USD',
+    completion_token_cost_unit: 'str | None' = 'USD',
+    provider_id: 'str | None' = 'default'
+) → CostCreateRes
+```
+
+Ajoutez un coût au projet en cours.
+
+**Exemples :**
+
+```python
+client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=1, completion_token_cost=2)
+client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, completion_token_cost=1000, effective_date=datetime(1998, 10, 3))
+```
+
+**Arguments :**
+
+* <b>`llm_id`</b> : L’ID du LLM. p. ex. &quot;gpt-4o-mini-2024-07-18&quot;
+* <b>`prompt_token_cost`</b> : Le coût par token du prompt. p. ex. .0005
+* <b>`completion_token_cost`</b> : Le coût par token de complétion. p. ex. .0015
+* <b>`effective_date`</b> : Valeur par défaut : la date du jour. Objet `datetime.datetime`.
+* <b>`provider_id`</b> : Le fournisseur du LLM. Valeur par défaut : &quot;default&quot;. p. ex. &quot;openai&quot;
+* <b>`prompt_token_cost_unit`</b> : L’unité du coût des tokens du prompt. Valeur par défaut : &quot;USD&quot;. (Actuellement inutilisé, sera utilisé à l’avenir pour spécifier le type d’unité du coût, p. ex. &quot;tokens&quot; ou &quot;time&quot;)
+* <b>`completion_token_cost_unit`</b> : L’unité du coût des tokens de complétion. Valeur par défaut : &quot;USD&quot;. (Actuellement inutilisé, sera utilisé à l’avenir pour spécifier le type d’unité du coût, p. ex. &quot;tokens&quot; ou &quot;time&quot;)
+  **Retourne :**
+  Un objet CostCreateRes. Il comporte un champ nommé ids, qui est une liste de tuples. Chaque tuple contient le llm&#95;id et l’ID de l’objet de coût créé.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1220" />
+
+
+### <kbd>méthode</kbd> `add_tags`
+
+```python
+add_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
+```
+
+Ajoutez des tags à une version d’objet.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1098" />
+
+
+### <kbd>méthode</kbd> `clear_wandb_run_context`
+
+```python
+clear_wandb_run_context() → None
+```
+
+Efface la surcharge du contexte de run de wandb.
+
+Après cet appel, les appels reviendront à utiliser le wandb.run global (s&#39;il est disponible) pour les informations de run&#95;id et d&#39;étape.
+
+* <b>`obj_ref`</b>: Référence à la version de l’objet, soit un ObjectRef, soit une chaîne d’URI Weave.
+* <b>`tags`</b>: Liste des chaînes de tag à ajouter.
+  **Exemples :**
+
+```python
+client = weave.init("my-project")
+client.set_wandb_run_context(run_id="my-run-id", step=5)
+# ... effectuer quelques appels ...
+client.clear_wandb_run_context()
+# Les appels utiliseront à nouveau le wandb.run global
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
+
+
+### <kbd>méthode</kbd> `create_call`
+
+```python
+create_call(
+    op: 'str | Op',
+    inputs: 'dict[str, Any]',
+    parent: 'Call | None' = None,
+    attributes: 'dict[str, Any] | None' = None,
+    display_name: 'str | Callable[[Call], str] | None' = None,
+    use_stack: 'bool' = True,
+    _call_id_override: 'str | None' = None,
+    started_at: 'datetime | None' = None
+) → Call
+```
+
+Créer, journaliser et empiler un appel sur la pile d’exécution.
+
+**Arguments :**
+
+* <b>`op`</b> : L’opération qui produit l’appel, ou le nom d’une opération anonyme.
+* <b>`inputs`</b> : Les entrées de l’opération.
+* <b>`parent`</b> : L’appel parent. Si `parent` n’est pas fourni, le run actuel est utilisé comme parent.
+* <b>`display_name`</b> : Le nom d’affichage de l’appel. La valeur par défaut est `None`.
+* <b>`attributes`</b> : Les attributs de l’appel. La valeur par défaut est `None`.
+* <b>`use_stack`</b> : Indique s’il faut empiler l’appel sur la pile d’exécution. La valeur par défaut est `True`.
+* <b>`started_at`</b> : Redéfinit l’heure de début de l’appel. Si `None`, utilise l’heure actuelle.
+  **Retourne :**
+  L’objet Appel créé.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1174" />
+
+
+### <kbd>méthode</kbd> `delete_all_object_versions`
+
+```python
+delete_all_object_versions(object_name: 'str') → int
+```
+
+Supprime toutes les versions d’un objet.
+
+**Arguments :**
+
+* <b>`object_name`</b> : Le nom de l’objet dont toutes les versions doivent être supprimées.
+  **Retourne :**
+  Le nombre de versions supprimées.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1402" />
+
+
+### <kbd>méthode</kbd> `delete_all_op_versions`
+
+```python
+delete_all_op_versions(op_name: 'str') → int
+```
+
+Supprime toutes les versions d’une op.
+
+**Arguments :**
+
+* <b>`op_name`</b> : Le nom de l’op dont les versions doivent être supprimées.
+  **Retourne :**
+  Le nombre de versions supprimées.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1139" />
+
+
+### <kbd>méthode</kbd> `delete_call`
+
+```python
+delete_call(call: 'Call') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1148" />
+
+
+### <kbd>méthode</kbd> `delete_calls`
+
+```python
+delete_calls(call_ids: 'list[str]') → None
+```
+
+Supprimez les appels à l’aide de leurs IDs.
+
+La suppression d’un appel supprime également tous ses appels enfants.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1164" />
+
+
+### <kbd>méthode</kbd> `delete_object_version`
+
+```python
+delete_object_version(object: 'ObjectRef') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1193" />
+
+
+### <kbd>méthode</kbd> `delete_object_versions`
+
+```python
+delete_object_versions(object_name: 'str', digests: 'list[str]') → int
+```
+
+Supprime des versions spécifiques d’un objet.
+
+* <b>`call_ids`</b> : Une liste d’ID d’appel à supprimer. Ex. : [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
+  **Arguments :**
+
+* <b>`object_name`</b> : Le nom de l’objet dont les versions doivent être supprimées.
+
+* <b>`digests`</b> : Liste des digests à supprimer. Peut inclure des alias comme &quot;latest&quot; ou &quot;v0&quot;.
+  **Retourne :**
+  Le nombre de versions supprimées.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1392" />
+
+
+### <kbd>méthode</kbd> `delete_op_version`
+
+```python
+delete_op_version(op: 'OpRef') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1069" />
+
+
+### <kbd>méthode</kbd> `fail_call`
+
+```python
+fail_call(call: 'Call', exception: 'BaseException') → None
+```
+
+Signale l&#39;échec d&#39;un appel avec une exception. Il s&#39;agit d&#39;une méthode utilitaire pour finish&#95;call.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2410" />
+
+
+### <kbd>méthode</kbd> `finish`
+
+```python
+finish(
+    use_progress_bar: 'bool' = True,
+    callback: 'Callable[[FlushStatus], None] | None' = None
+) → None
+```
+
+Vide toutes les tâches en arrière-plan afin de s&#39;assurer qu&#39;elles sont traitées.
+
+Cette méthode bloque jusqu&#39;à ce que tous les jobs actuellement en file d&#39;attente soient traités, en affichant une barre de progression pour indiquer le statut des tâches en attente. Elle permet le traitement en parallèle pendant l&#39;exécution du thread principal et peut améliorer les performances lorsque le code utilisateur se termine avant que les données n&#39;aient été envoyées au serveur.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L893" />
+
+
+### <kbd>méthode</kbd> `finish_call`
+
+```python
+finish_call(
+    call: 'Call',
+    output: 'Any' = None,
+    exception: 'BaseException | None' = None,
+    op: 'Op | None' = None,
+    ended_at: 'datetime | None' = None
+) → None
+```
+
+Finaliser un appel et enregistrer ses résultats.
+
+Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière récursive avec les statistiques récapitulatives calculées (par ex. les nombres d’utilisations et de statuts) avant d’être écrites dans la base de données.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2442" />
+
+
+### <kbd>méthode</kbd> `flush`
+
+```python
+flush() → None
+```
+
+Vide les tâches asynchrones en arrière-plan ; peut être appelée sans risque plusieurs fois.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L419" />
+
+
+### <kbd>méthode</kbd> `get`
+
+```python
+get(ref: 'ObjectRef', objectify: 'bool' = True) → Any
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1349" />
+
+
+### <kbd>méthode</kbd> `get_aliases`
+
+```python
+get_aliases(obj_ref: 'ObjectRef | str') → list[str]
+```
+
+Obtenir les alias d’une version d’objet.
+
+* <b>`use_progress_bar`</b> : Indique s’il faut afficher une barre de progression pendant le vidage. Définissez-la sur False dans les environnements où une barre de progression ne s’afficherait pas correctement (par ex., les environnements CI).
+
+* <b>`callback`</b> : Fonction de rappel facultative qui reçoit des mises à jour de statut. Remplace use&#95;progress&#95;bar.
+  **Arguments :**
+
+* <b>`obj_ref`</b> : Référence à la version de l’objet, soit un ObjectRef, soit une chaîne d’URI Weave.
+  **Retourne :**
+  Liste de chaînes d’alias. Inclut l’alias virtuel &quot;latest&quot; si la version de l’objet est la plus récente.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L635" />
+
+
+### <kbd>méthode</kbd> `get_call`
+
+```python
+get_call(
+    call_id: 'str',
+    include_costs: 'bool' = False,
+    include_feedback: 'bool' = False,
+    columns: 'list[str] | None' = None
+) → WeaveObject
+```
+
+Obtenir un appel unique par son ID.
+
+**Arguments :**
+
+* <b>`call_id`</b> : L’ID de l’appel à récupérer.
+* <b>`include_costs`</b> : Si true, les informations de coût sont incluses dans summary.weave
+* <b>`include_feedback`</b> : Si true, les informations de feedback sont incluses dans summary.weave.feedback
+* <b>`columns`</b> : Liste des colonnes à inclure dans la réponse. Si None, toutes les colonnes sont incluses. Spécifier moins de colonnes peut améliorer les performances. Certaines colonnes sont toujours incluses  id, project&#95;id, trace&#95;id, op&#95;name, started&#95;at
+  **Retourne :**
+  Un objet appel.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L555" />
+
+
+### <kbd>méthode</kbd> `get_calls`
+
+```python
+get_calls(
+    filter: 'CallsFilterLike | None' = None,
+    limit: 'int | None' = None,
+    offset: 'int | None' = None,
+    sort_by: 'list[SortByLike] | None' = None,
+    query: 'QueryLike | None' = None,
+    include_costs: 'bool' = False,
+    include_feedback: 'bool' = False,
+    include_storage_size: 'bool' = False,
+    include_total_storage_size: 'bool' = False,
+    columns: 'list[str] | None' = None,
+    expand_columns: 'list[str] | None' = None,
+    return_expanded_column_values: 'bool' = True,
+    scored_by: 'str | list[str] | None' = None,
+    page_size: 'int' = 1000
+) → CallsIter
+```
+
+Récupère une liste d’appels tracés (opérations) pour ce projet.
+
+Cette méthode fournit une interface puissante et flexible pour interroger les données de trace. Elle prend en charge la pagination, le filtrage, le tri, la projection de champs et les métadonnées de scoring, et peut servir à créer des interfaces utilisateur de trace personnalisées ou des outils d’analyse.
+
+Conseil de performance : spécifiez `columns` et utilisez `filter` ou `query` pour réduire la taille des résultats.
+
+**Arguments :**
+
+* <b>`filter`</b>:  Filtre de haut niveau permettant d’affiner les résultats à partir de champs comme `op_name`, `parent_ids`, etc.
+* <b>`limit`</b>:  Nombre maximal d’appels à renvoyer.
+* <b>`offset`</b>:  Nombre d’appels à ignorer avant de renvoyer les résultats (utilisé pour la pagination).
+* <b>`sort_by`</b>:  Liste des champs selon lesquels trier les résultats (par exemple, `started_at desc`).
+* <b>`query`</b>:  Expression de type Mongo pour un filtrage avancé. Tous les opérateurs Mongo ne sont pas pris en charge.
+* <b>`include_costs`</b>:  Si True, inclut les informations de token/coût dans `summary.weave`.
+* <b>`include_feedback`</b>:  Si True, inclut les retours dans `summary.weave.feedback`.
+* <b>`include_storage_size`</b>:  Si True, inclut la taille de stockage d’un appel.
+* <b>`include_total_storage_size`</b>:  Si True, inclut la taille de stockage totale d’une trace.
+* <b>`columns`</b>:  Liste des champs à renvoyer pour chaque appel. Réduire cette liste peut considérablement améliorer les performances.  (Certains champs comme `id`, `trace_id`, `op_name` et `started_at` sont toujours inclus.)
+* <b>`scored_by`</b>:  Filtre sur un ou plusieurs évaluateurs (nom ou URI de référence). Plusieurs évaluateurs sont combinés avec un ET.
+* <b>`page_size`</b>:  Nombre d’appels récupérés par page. Ajustez cette valeur pour optimiser les performances dans les requêtes volumineuses.
+
+**Retourne :**
+
+* <b>`CallsIter`</b>:  Un itérateur sur des objets `Call`. Prend en charge le découpage, l’itération et `.to_pandas()`.
+
+**Exemple :**
+
+```python
+calls = client.get_calls(
+     filter=CallsFilter(op_names=["my_op"]),
+     columns=["inputs", "output", "summary"],
+     limit=100,
+)
+for call in calls:
+     print(call.inputs, call.output)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L481" />
+
+
+### <kbd>méthode</kbd> `get_evaluation`
+
+```python
+get_evaluation(uri: 'str') → Evaluation
+```
+
+Récupérer un objet `Evaluation` spécifique à partir de son URI.
+
+Les URI d&#39;évaluation suivent généralement le format : `weave:///entity/project/object/Evaluation:version`
+
+Vous pouvez également obtenir l&#39;évaluation par son nom « convivial » : get&#95;evaluation(&quot;Evaluation:v1&quot;)
+
+**Arguments :**
+
+* <b>`uri`</b> (str) :  L&#39;identifiant de ressource unique de l&#39;évaluation à récupérer.
+
+**Retourne :**
+
+* <b>`Evaluation`</b> :  L&#39;objet `Evaluation` correspondant à l&#39;URI fourni.
+
+**Exceptions levées :**
+
+* <b>`TypeError`</b> :  Si l&#39;objet situé à l&#39;URI n&#39;est pas une instance de `Evaluation`.
+* <b>`ValueError`</b> :  Si l&#39;URI n&#39;est pas valide ou si l&#39;objet est introuvable.
+
+**Exemples :**
+
+```python
+client = weave.init("my-project")
+evaluation = client.get_evaluation("weave:///entity/project/object/my-eval:v1")
+print(evaluation.name)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L516" />
+
+
+### <kbd>méthode</kbd> `get_evaluations`
+
+```python
+get_evaluations() → list[Evaluation]
+```
+
+Récupère tous les objets Évaluation du projet actuel.
+
+**Retourne :**
+
+* <b>`list[Evaluation]`</b>:  Une liste de tous les objets Évaluation du projet actuel.  Une liste vide si aucune évaluation n’est trouvée ou si toutes les conversions échouent.
+
+**Exemples :**
+
+```python
+client = weave.init("my-project")
+evaluations = client.get_evaluations()
+print(f"Found {len(evaluations)} evaluations")
+for eval in evaluations:
+     print(f"Evaluation: {eval.name}")
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1421" />
+
+
+### <kbd>méthode</kbd> `get_feedback`
+
+```python
+get_feedback(
+    query: 'Query | str | None' = None,
+    reaction: 'str | None' = None,
+    offset: 'int' = 0,
+    limit: 'int' = 100
+) → FeedbackQuery
+```
+
+Interroger le projet pour obtenir des retours.
+
+**Exemples :**
+
+```python
+# Récupère un objet de feedback spécifique.
+# Notez que cela renvoie toujours une collection, qui est censée
+# contenir zéro ou un élément(s).
+client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
+
+# Trouve tous les objets de feedback ayant une réaction spécifique.
+client.get_feedback(reaction="👍", limit=10)
+
+# Trouve tous les objets de feedback d'un type spécifique
+# via une requête de style mongo.
+from weave.trace_server.interface.query import Query
+
+query = Query(
+    **{
+        "$expr": {
+            "$eq": [
+                {"$getField": "feedback_type"},
+                {"$literal": "wandb.reaction.1"},
+            ],
+        }
+    }
+)
+client.get_feedback(query=query)
+```
+
+**Arguments :**
+
+* <b>`query`</b>: Une expression de requête au format Mongo. Pour plus de simplicité, accepte également une chaîne UUID de feedback.
+* <b>`reaction`</b>: Pour plus de simplicité, permet de filtrer par un emoji de réaction spécifique.
+* <b>`offset`</b>: Le décalage à partir duquel commencer à récupérer les objets de feedback.
+* <b>`limit`</b>: Le nombre maximal d’objets de feedback à récupérer.
+  **Retourne :**
+  Un objet FeedbackQuery.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
+
+
+### <kbd>méthode</kbd> `get_tags`
+
+```python
+get_tags(obj_ref: 'ObjectRef | str') → list[str]
+```
+
+Obtenir les tags d’une version d’objet.
+
+**Arguments :**
+
+* <b>`obj_ref`</b> : Référence à la version d’objet, soit un ObjectRef, soit une chaîne d’URI weave ///.
+  **Retourne :**
+  Liste de chaînes de caractères de tag. Renvoie une liste vide si la version d’objet n’a aucun tag.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1281" />
+
+
+### <kbd>méthode</kbd> `get_tags_and_aliases`
+
+```python
+get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
+```
+
+Obtenir les tags et les alias d&#39;une version d&#39;objet en un appel unique.
+
+**Arguments :**
+
+* <b>`obj_ref`</b> : Référence à la version de l&#39;objet, soit un `ObjectRef`, soit une chaîne d&#39;URI `weave:///`.
+  **Retourne :**
+  Un tuple `(tags, alias)`. Chacun correspond à une liste de chaînes. Renvoie des listes vides si la version de l&#39;objet n&#39;a ni tags ni alias.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1382" />
+
+
+### <kbd>méthode</kbd> `list_aliases`
+
+```python
+list_aliases() → list[str]
+```
+
+Listez tous les alias distincts du projet.
+
+**Retourne :**
+Liste de tous les alias du projet sous forme de chaînes.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1372" />
+
+
+### <kbd>méthode</kbd> `list_tags`
+
+```python
+list_tags() → list[str]
+```
+
+Listez tous les tags distincts du projet.
+
+**Retourne :**
+Liste de toutes les chaînes de caractères des tags du projet.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1558" />
+
+
+### <kbd>méthode</kbd> `purge_costs`
+
+```python
+purge_costs(ids: 'list[str] | str') → None
+```
+
+Supprime les coûts du projet actuel.
+
+**Exemples :**
+
+```python
+client.purge_costs([ids])
+client.purge_costs(ids)
+```
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1582" />
+
+
+### <kbd>méthode</kbd> `query_costs`
+
+```python
+query_costs(
+    query: 'Query | str | None' = None,
+    llm_ids: 'list[str] | None' = None,
+    offset: 'int' = 0,
+    limit: 'int' = 100
+) → list[CostQueryOutput]
+```
+
+Interroge le projet pour récupérer les coûts.
+
+* <b>`ids`</b> : les ID de coûts à purger. Peut s’agir d’un seul ID ou d’une liste d’ID.
+  **Exemples :**
+
+```python
+# Récupère un objet de coût spécifique.
+# Notez que cela renvoie toujours une collection, qui est censée
+# contenir zéro ou un élément.
+client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
+
+# Trouve tous les objets de coût avec une réaction spécifique.
+client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
+```
+
+**Arguments :**
+
+* <b>`query`</b> : Une expression de requête de type Mongo. Pour plus de commodité, accepte également un UUID de coût sous forme de chaîne.
+* <b>`llm_ids`</b> : Pour plus de commodité, permet de filtrer sur un ensemble de llm&#95;ids.
+* <b>`offset`</b> : Le décalage à partir duquel commencer à récupérer les objets de coût.
+* <b>`limit`</b> : Le nombre maximal d’objets de coût à récupérer.
+  **Retourne :**
+  Un objet CostQuery.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
+
+
+### <kbd>méthode</kbd> `remove_aliases`
+
+```python
+remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
+```
+
+Supprimez un ou plusieurs alias d’un objet.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1239" />
+
+
+### <kbd>méthode</kbd> `remove_tags`
+
+```python
+remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
+```
+
+Supprimez les tags d’une version d’objet.
+
+* <b>`obj_ref`</b> : Référence à l’objet, soit un ObjectRef, soit une chaîne d’URI Weave (le digest n’est pas utilisé, car les alias ont une portée limitée à l’objet).
+* <b>`alias`</b> : Nom d’alias ou liste de noms d’alias à supprimer.
+  **Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L390" />
+
+
+### <kbd>méthode</kbd> `save`
+
+```python
+save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
+```
+
+N’appelez pas directement cette méthode ; utilisez plutôt weave.publish().
+
+* <b>`obj_ref`</b> : Référence vers la version de l’objet, soit un ObjectRef, soit une chaîne d’URI weave ///.
+
+* <b>`tags`</b> : Liste des chaînes de caractères des tags à supprimer.
+  **Arguments :**
+
+* <b>`val`</b> : L’objet à enregistrer.
+
+* <b>`name`</b> : Le nom sous lequel enregistrer l’objet.
+
+* <b>`branch`</b> : La branche sous laquelle enregistrer l’objet. La valeur par défaut est &quot;latest&quot;.
+  **Retourne :**
+  Une version désérialisée de l’objet enregistré.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1306" />
+
+
+### <kbd>méthode</kbd> `set_aliases`
+
+```python
+set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
+```
+
+Définissez un ou plusieurs alias pour une version d’objet.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1074" />
+
+
+### <kbd>méthode</kbd> `set_wandb_run_context`
+
+```python
+set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
+```
+
+Surcharge le run&#95;id wandb et l’étape pour les appels créés par ce client.
+
+Cela vous permet d’associer des appels Weave à un run wandb spécifique qui n’est pas rattaché au symbole global wandb.run.
+
+* <b>`obj_ref`</b>: Référence vers la version de l’objet, soit un ObjectRef, soit une chaîne d’URI weave ///.
+
+* <b>`alias`</b>: Un nom d’alias ou une liste de noms d’alias à définir (par exemple, &quot;production&quot;).
+  **Arguments :**
+
+* <b>`run_id`</b>: L’ID du run (sans le préfixe entité/projet). Le client ajoutera automatiquement le préfixe entité/projet.
+
+* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si `None`, l’étape ne sera pas définie.
+  **Exemples :**
+
+```python
+client = weave.init("my-project")
+client.set_wandb_run_context(run_id="my-run-id", step=5)
+# Tous les appels seront désormais associés à entity/project/my-run-id à l'étape 5
+
+# Ou sans étape
+client.set_wandb_run_context(run_id="my-run-id")
+# Les appels seront associés à entity/project/my-run-id sans étape
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
+
+
+### <kbd>fonction</kbd> `get_obj_name`
+
+```python
+get_obj_name(val: 'Any') → str
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2623" />
+
+
+### <kbd>fonction</kbd> `get_parallelism_settings`
+
+```python
+get_parallelism_settings() → tuple[int | None, int | None]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L262" />
+
+
+### <kbd>fonction</kbd> `map_to_refs`
+
+```python
+map_to_refs(obj: 'Any') → Any
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L192" />
+
+
+### <kbd>fonction</kbd> `print_call_link`
+
+```python
+print_call_link(call: 'Call') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2662" />
+
+
+### <kbd>fonction</kbd> `redact_sensitive_keys`
+
+```python
+redact_sensitive_keys(obj: 'Any') → Any
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2698" />
+
+
+### <kbd>fonction</kbd> `sanitize_object_name`
+
+```python
+sanitize_object_name(name: 'str') → str
+```

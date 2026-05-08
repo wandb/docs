@@ -1,0 +1,129 @@
+---
+title: Koog
+description: "Tracez des agents Koog écrits en Kotlin avec Weave à l'aide d'OpenTelemetry afin de capturer les appels aux outils, les prompts et les complétions pour les applications d'IA."
+---
+
+[Koog](https://docs.koog.ai/) est un framework Kotlin permettant de créer des agents à exécution unique ainsi que des agents pour des flux de travail complexes. Koog inclut une prise en charge native d&#39;OpenTelemetry (OTEL) et peut exporter directement des traces vers Weave, vous offrant une visibilité détaillée sur les prompts, les complétions, les appels aux outils et l&#39;exécution de l&#39;agent de bout en bout.
+
+Avec l&#39;exportateur Weave activé, Koog transmet les spans OpenTelemetry à votre projet Weave afin que vous puissiez déboguer, analyser les performances et itérer plus rapidement.
+
+<Frame>
+  ![Koog](/weave/guides/integrations/imgs/koog.png)
+</Frame>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Définissez les variables d’environnement suivantes avant d’exécuter votre agent :
+
+```bash
+export WEAVE_API_KEY="<your-api-key>"
+export WEAVE_ENTITY="<your-entity>"           # votre équipe/entité W&B
+export WEAVE_PROJECT_NAME="koog-tracing"      # n'importe quel nom de projet ; créé à la première utilisation
+```
+
+
+<div id="install-koog-gradle">
+  ## Installer Koog (Gradle)
+</div>
+
+Ajoutez Koog à votre projet Kotlin (exemple en Kotlin DSL) :
+
+```kotlin
+dependencies {
+    implementation("ai.koog:koog-agents:LATEST_VERSION")
+}
+```
+
+Voir la documentation de Koog pour [plus d’informations sur l’installation](https://docs.koog.ai/).
+
+
+<div id="enable-weave-export-opentelemetry">
+  ## Activer l’export Weave (OpenTelemetry)
+</div>
+
+Installez la fonctionnalité OpenTelemetry de Koog et ajoutez l’exportateur Weave. Cela fait correspondre les spans Koog aux traces Weave à l’aide du point de terminaison OpenTelemetry de Weave.
+
+L’exemple suivant montre comment utiliser `addWeaveExporter` :
+
+```kotlin
+fun main() = runBlocking {
+    val apiKey = "api-key"
+    val entity = System.getenv()["WEAVE_ENTITY"] ?: throw IllegalArgumentException("WEAVE_ENTITY is not set")
+    val projectName = System.getenv()["WEAVE_PROJECT_NAME"] ?: "koog-tracing"
+
+    val agent = AIAgent(
+        executor = simpleOpenAIExecutor(apiKey),
+        llmModel = OpenAIModels.CostOptimized.GPT4oMini,
+        systemPrompt = "You are a code assistant. Provide concise code examples."
+    ) {
+        install(OpenTelemetry) {
+            addWeaveExporter()
+        }
+    }
+
+    println("Running agent with Weave tracing")
+
+    val result = agent.run("""
+        Create a Python function to calculate fibonacci numbers efficiently,
+        include error handling, type hints, and unit tests.
+        Verify the implementation works for n=50.
+    """)
+
+    println("Result: $result\nSee traces on https://wandb.ai/$entity/$projectName/weave/traces")
+}
+```
+
+La fonction lit automatiquement les variables d’environnement Weave, mais vous pouvez aussi configurer [des paramètres spécifiques](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter\(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds\)) pour l’exportateur, comme suit :
+
+```kotlin
+install(OpenTelemetry) {
+    addWeaveExporter(
+        weaveOtelBaseUrl = "https://trace.wandb.ai",
+        weaveEntity = System.getenv()["WEAVE_ENTITY"],
+        weaveProjectName = System.getenv()["WEAVE_PROJECT_NAME"],
+        weaveApiKey = System.getenv()["WEAVE_API_KEY"],
+        timeout = 10.seconds
+    )
+}
+```
+
+L’exemple ci-dessus :
+
+* Utilise `weaveEntity` et `weaveProjectName` pour acheminer les traces vers une équipe et un projet spécifiques.
+* Définit `weaveOtelBaseUrl` comme point de terminaison de vos traces (par exemple, `https://<your-subdomain>.wandb.io/<path>`). Utilisez ce paramètre pour les instances Weave dédiées.
+
+Si vous débutez avec Koog et Weave, nous vous recommandons de consulter les pages de documentation suivantes :
+
+* [Guide de l’exportateur Weave de Koog](https://docs.koog.ai/opentelemetry-weave-exporter/) pour plus d’informations sur l’exportateur
+* [Guide de prise en charge d’OpenTelemetry par Koog](https://docs.koog.ai/opentelemetry-support/) pour les concepts de base sur le fonctionnement d’OpenTelemetry avec Koog
+* [Documentation OTEL de Weave](../tracking/otel) pour savoir comment Weave ingère les données OTLP
+
+
+<div id="what-gets-traced">
+  ## Ce qui est tracé
+</div>
+
+Lorsqu&#39;il est activé, l&#39;exportateur Weave de Koog capture les mêmes spans que l&#39;intégration OTEL standard de Koog, notamment :
+
+* Événements du cycle de vie de l&#39;agent (démarrage, arrêt, erreurs)
+* Interactions avec le LLM (prompts, complétion, utilisation des tokens, latence)
+* Appels d&#39;outils et d&#39;API (appels de fonction et requêtes externes)
+* Contexte système (nom du modèle, version de Koog, métadonnées de l&#39;environnement)
+
+Vous pouvez visualiser ces traces dans la Weave UI pour mieux comprendre les performances et la qualité. Voir [l&#39;Aperçu du tracing de Weave](../tracking/tracing) pour une introduction à la capture de traces avec Weave.
+
+<div id="example-notebook">
+  ## Notebook d’exemple
+</div>
+
+Voir la documentation de Koog pour des [notebooks exécutables](https://docs.koog.ai/examples/Weave/) qui transmettent des traces à Weave.
+
+<div id="troubleshooting">
+  ## Dépannage
+</div>
+
+* Si des traces manquent, vérifiez d&#39;abord que `WEAVE_API_KEY`, `WEAVE_ENTITY` et `WEAVE_PROJECT_NAME` sont correctement définis.
+* Vérifiez que votre environnement peut accéder à `https://trace.wandb.ai` et que l&#39;exportateur est configuré comme indiqué ci-dessus.
+* Pour plus d&#39;informations sur le dépannage et l&#39;échantillonnage, voir la [prise en charge d&#39;OpenTelemetry par Koog](https://docs.koog.ai/opentelemetry-support/).

@@ -1,0 +1,75 @@
+---
+title: "Utiliser les graphiques de traces"
+description: "Visualisez les métriques de trace à l’aide de graphiques interactifs dans Weave pour explorer les tendances de latence, de coût et d’utilisation des tokens pour les applications LLM."
+---
+
+L’outil *graphiques de traces* de W&amp;B Weave vous permet d’explorer, de visualiser et de déboguer les métriques de trace (par ex. la latence, le coût, les tokens) à l’aide de graphiques interactifs. Vous pouvez utiliser les graphiques de traces par défaut ou créer les vôtres à l’aide du générateur de graphiques de traces personnalisés.
+
+<Frame>
+  ![Graphiques de trace en action](/weave/guides/tracking/imgs/plots-example.png)
+</Frame>
+
+<div id="get-started">
+  ## Pour commencer
+</div>
+
+1. Accédez à la page **Traces** de votre projet.
+2. (Facultatif) Sélectionnez **Filtre** pour filtrer les traces sélectionnées (par exemple, par date/heure ou par opération).
+3. Dans le coin supérieur droit de la vue **Traces**, cliquez sur l’icône **Afficher les métriques** pour ouvrir le panneau latéral des graphiques de traces.
+
+   ![L’icône Afficher les métriques](/weave/guides/tracking/imgs/plots-show-metrics-icon.png)
+
+   À partir de là, vous pouvez :
+
+   * Afficher les [graphiques de traces par défaut](#default-trace-plots).
+   * Créer un [graphique de traces personnalisé](#create-a-custom-trace-plot).
+4. Les graphiques se mettent à jour dynamiquement en fonction de vos filtres et de vos sélections de traces.
+
+<div id="default-trace-plots">
+  ## Graphiques de traces par défaut
+</div>
+
+Lorsque vous ouvrez pour la première fois le panneau des graphiques de traces, Weave génère automatiquement quelques graphiques de traces à partir des données de trace disponibles dans votre projet :
+
+* Graphique en barres (coût ou latence regroupés par intervalle de temps)
+* Graphique linéaire (latence au fil du temps)
+* Nuage de points (par ex. tokens d&#39;invite vs. tokens de complétion)
+
+Chaque graphique de traces est interactif :
+
+* Survolez pour voir les infobulles
+* Faites glisser pour zoomer
+* Double-cliquez pour réinitialiser
+* Cliquez sur un point d’un nuage de points pour ouvrir une trace spécifique
+
+<div id="create-a-custom-trace-plot">
+  ## Créer un graphique de traces personnalisé
+</div>
+
+Vous pouvez également créer un graphique de traces personnalisé. Pour créer un graphique de traces personnalisé, procédez comme suit :
+
+1. Dans le volet latéral des graphiques de trace, cliquez sur **➕ Add Chart**.
+
+   ![Bouton ➕ Add Chart.](/weave/guides/tracking/imgs/plots-add-chart.png)
+
+2. Dans la fenêtre contextuelle, sélectionnez l’un des types de graphiques de trace disponibles :
+
+   ![Types de graphiques de traces personnalisés disponibles](/weave/guides/tracking/imgs/plots-custom-chart-types.png)
+
+3. Pour le type de graphique de traces sélectionné, configurez votre graphique de traces. Pour plus d’informations sur les options de configuration selon le type de graphique de traces, voir [Paramètres des graphiques de trace par type de graphique](#trace-plot-settings-by-plot-type).
+
+4. Cliquez sur **Save chart** pour enregistrer votre graphique.
+
+<div id="trace-plot-settings-by-plot-type">
+  ### Paramètres du graphique de traces par type de graphique
+</div>
+
+Lors de l’ajout ou de la modification d’un graphique de traces personnalisé, les options de configuration disponibles varient légèrement selon le type de graphique de traces sélectionné. Le tableau ci-dessous détaille les options configurables.
+
+| Paramètre               | Nuage de points | Graphique linéaire  | Graphique en barres  |
+| ----------------------- | ----------------------- | ------------------- | ------------------- |
+| Axe Y                   | ✅ Requis                | ✅ Requis            | ✅ Requis            |
+| Axe X                   | ✅ Sélectionnable        | Fixe (`started at`) | Fixe (`started at`) |
+| Regroupement            | ✅ Facultatif            | ✅ Facultatif        | ✅ Facultatif        |
+| Regroupement en classes | ❌ Non utilisé           | ✅ Utilisé           | ✅ Utilisé           |
+| Agrégation              | ❌ Non utilisé           | ✅ Utilisé           | ✅ Utilisé           |

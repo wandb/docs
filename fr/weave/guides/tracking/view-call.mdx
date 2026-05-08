@@ -1,0 +1,141 @@
+---
+title: "Voir et personnaliser l’affichage des traces"
+description: "Voir les appels dans l’UI et personnaliser la façon dont les données de trace s’affichent"
+---
+
+Après avoir créé des appels dans W&amp;B Weave, vous souhaitez souvent en ouvrir un pour inspecter ses entrées, ses sorties et ses métadonnées. Cette page explique comment afficher un appel dans l’UI ou dans le SDK, et comment personnaliser le rendu des données de trace dans l’UI à l’aide de `weave.Markdown`.
+
+<Tabs>
+  <Tab title="Application web">
+    Pour afficher un appel dans l’UI :
+
+    1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
+    2. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
+    3. Repérez l’appel que vous souhaitez afficher dans le tableau.
+    4. Cliquez sur l’appel pour ouvrir sa page de détails.
+
+    Pour plus d’informations sur la Vue de trace, consultez [Naviguer dans la vue de trace Weave](/fr/weave/guides/tracking/trace-tree).
+  </Tab>
+
+  <Tab title="Python">
+    Pour afficher un appel à l’aide du SDK Python W&amp;B Weave, utilisez la méthode [`get_call`](/fr/weave/reference/python-sdk/trace/weave_client#method-get_call) :
+
+    ```python lines
+    import weave
+
+    # Initialiser le client
+    client = weave.init("your-project-name")
+
+    # Obtenir un appel spécifique par son ID
+    call = client.get_call("call-uuid-here")
+
+    print(call)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // Initialiser le client
+    const client = await weave.init('intro-example')
+
+    // Obtenir un appel spécifique par son ID
+    const call = await client.getCall('call-uuid-here')
+
+    console.log(call)
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    Pour afficher un appel à l’aide de la Service API, effectuez une requête vers le point de terminaison [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read).
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/call/read' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "project_id": "string",
+        "id": "string",
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="customize-rendered-traces-with-weavemarkdown">
+  ## Personnaliser le rendu des traces avec `weave.Markdown`
+</div>
+
+Utilisez `weave.Markdown` pour personnaliser l’affichage de vos informations de trace sans perdre les données d’origine. Vous pouvez ainsi afficher vos entrées et sorties sous forme de blocs de contenu formaté lisibles, tout en préservant la structure de données sous-jacente.
+
+<Tabs>
+  <Tab title="Python">
+    Utilisez les fonctions `postprocess_inputs` et `postprocess_output` dans votre décorateur `@weave.op` pour mettre en forme vos données de trace. L’exemple de code suivant utilise des postprocesseurs pour afficher un appel dans Weave avec des émojis et une mise en forme plus lisible :
+
+    ```python lines
+    import weave
+
+    def postprocess_inputs(query) -> weave.Markdown:
+        search_box = f"""
+    **Search Query:**
+    ``+`
+    {query}
+    ``+`
+    """
+        return {"search_box": weave.Markdown(search_box),
+                "query": query}
+
+    def postprocess_output(docs) -> weave.Markdown:
+        formatted_docs = f"""
+    # {docs[0]["title"]}
+
+    {docs[0]["content"]}
+
+    [Read more]({docs[0]["url"]})
+
+    ---
+
+    # {docs[1]["title"]}
+
+    {docs[1]["content"]}
+
+    [Read more]({docs[1]["url"]})
+    """
+        return weave.Markdown(formatted_docs)
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs,
+        postprocess_output=postprocess_output,
+    )
+    def rag_step(query):
+        # exemples d'articles de journaux sur les entreprises du S&P 500
+        docs = [
+            {
+                "title": "OpenAI",
+                "content": "OpenAI is a company that makes AI models.",
+                "url": "https://www.openai.com",
+            },
+            {
+                "title": "Google",
+                "content": "Google is a company that makes search engines.",
+                "url": "https://www.google.com",
+            },
+        ]
+        return docs
+
+    if __name__ == "__main__":
+        weave.init('markdown_renderers')
+        rag_step("Tell me about OpenAI")
+    ```
+  </Tab>
+
+  <Tab title="Typescript">
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+  </Tab>
+</Tabs>
+
+Dans la capture d’écran suivante, vous pouvez voir côte à côte les sorties formatées et non formatées.
+
+![Un appel affiché dans la Weave UI à l’aide de l’exemple de code.](/weave/guides/tracking/imgs/md-call-render.png)

@@ -1,0 +1,121 @@
+---
+description: "Intégrez W&B à la bibliothèque DeepChem pour le suivi des expériences et la visualisation des modèles de ML moléculaire."
+title: DeepChem
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+La [bibliothèque DeepChem](https://github.com/deepchem/deepchem) fournit des outils open source qui démocratisent l’usage du deep learning dans la découverte de médicaments, la science des matériaux, la chimie et la biologie. Cette intégration W&amp;B ajoute un suivi des expériences simple et facile à utiliser, ainsi que la gestion des points de contrôle du modèle pendant l’entraînement des modèles avec DeepChem.
+
+<div id="deepchem-logging-in-3-lines-of-code">
+  ## Journalisation avec DeepChem en 3 lignes de code
+</div>
+
+```python
+logger = WandbLogger(…)
+model = TorchModel(…, wandb_logger=logger)
+model.fit(…)
+```
+
+<Frame>
+  <img src="/images/integrations/cd.png" alt="Analyse moléculaire avec DeepChem" />
+</Frame>
+
+<div id="report-and-google-colab">
+  ## Rapport et Google Colab
+</div>
+
+Consultez l’article [W&amp;B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) pour voir des exemples de graphiques générés à l’aide de l’intégration DeepChem de W&amp;B.
+
+Pour passer directement à du code opérationnel, consultez ce [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
+
+<div id="track-experiments">
+  ## Suivre les expériences
+</div>
+
+Configurez W&amp;B pour les modèles DeepChem de type [KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) ou [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models).
+
+<div id="sign-up-and-create-an-api-key">
+  ### Inscrivez-vous et générez une clé API
+</div>
+
+Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil dans l’angle supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ### Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer la bibliothèque `wandb` localement et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-your-training-and-evaluation-data-to-wb">
+  ### Consignez vos données d&#39;entraînement et d&#39;évaluation dans W&amp;B
+</div>
+
+La perte d&#39;entraînement et les métriques d&#39;évaluation peuvent être automatiquement consignées dans W&amp;B. Vous pouvez activer l&#39;évaluation facultative à l&#39;aide du [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) de DeepChem ; `WandbLogger` détectera alors le callback `ValidationCallback` et consignera les métriques générées.
+
+<Tabs>
+  <Tab title="TorchModel">
+    ```python
+    from deepchem.models import TorchModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # facultatif
+    model = TorchModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+
+  <Tab title="KerasModel">
+    ```python
+    from deepchem.models import KerasModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # facultatif
+    model = KerasModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+</Tabs>

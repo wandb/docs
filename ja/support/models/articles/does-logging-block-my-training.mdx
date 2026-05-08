@@ -1,0 +1,16 @@
+---
+title: "logging によってトレーニングはブロックされますか？"
+keywords: ["Experiments", "ログ"]
+---
+
+&quot;logging 関数は lazy ですか？ ローカルの処理を実行している間に、結果をサーバーに送信するためネットワークに依存したくありません。&quot;
+
+`wandb.log` 関数はローカルファイルに1行書き込み、ネットワーク通信をブロックしません。`wandb.init` を呼び出すと、同じマシン上で新しいプロセスが起動します。このプロセスはファイルシステムの変更を監視し、非同期でウェブサービスと通信するため、ローカルの処理は中断されることなく継続できます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

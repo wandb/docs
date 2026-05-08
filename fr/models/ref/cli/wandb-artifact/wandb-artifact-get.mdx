@@ -1,0 +1,55 @@
+---
+title: wandb artifact get
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L2944" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+get [OPTIONS] PATH
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Téléchargez un artefact depuis W&amp;B à l’aide de son chemin.
+
+Le format de PATH est entity/project/artifact&#95;name:version. Si
+la version est omise, utilisez l’alias &quot;latest&quot;.
+
+Par exemple, pour télécharger la dernière version d’un artefact nommé &quot;processed-training-set&quot;
+du projet &quot;foobar&quot; dans l’entité &quot;team-awesome&quot; :
+
+```bash
+wandb artifact get team-awesome/foobar/processed-training-set:latest
+```
+
+Pour télécharger une version précise (v2) de l&#39;artefact &quot;processed-training-set&quot;
+dans un répertoire local (./data) :
+
+```bash
+wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2
+```
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom    | Par défaut | Type |
+| ------ | ---------- | ---- |
+| `path` | STR        | True |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option   | Type | Description                                                                                                                                       |
+| -------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--root` | STR  | Répertoire dans lequel télécharger l’artefact. Utilise le cache d’artefacts par défaut si cette option n’est pas définie. **Par défaut** : Aucune |
+| `--type` | STR  | Type d’artefact attendu. Échoue si l’artefact ne correspond pas. **Par défaut** : Aucune                                                          |

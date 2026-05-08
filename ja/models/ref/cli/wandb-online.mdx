@@ -2,23 +2,37 @@
 title: wandb online
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-online.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbOnline from "/snippets/en/_includes/cli/wandb-online.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3365" />
 
-<WandbOnline/>
+<div id="usage">
+  ## 使い方
+</div>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+```bash
+online [OPTIONS]
+```
 
-`wandb offline` 設定を解除します。
+<div id="description">
+  ## 説明
+</div>
 
-## 使用方法
+W&amp;B Runs のクラウド同期を再び有効にします。
+
+オフライン モードの設定を解除すると、このディレクトリで以降に作成される Runs のデータが
+W&amp;B クラウドに同期されます。
+
+以前に実行した `wandb offline` を取り消します。
+
+たとえば、オフラインで作業した後にクラウド同期を再び有効にするには、次のようにします。
 
 ```bash
 wandb online
+```
+
+クラウド同期を再度有効にしてから、トレーニングスクリプトを実行します:
+
+```bash
+wandb online && python train.py
 ```

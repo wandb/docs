@@ -1,0 +1,75 @@
+---
+title: Reproduire des Experiments
+description: "Reproduisez une expérience W&B d’un coéquipier en téléchargeant le code, les dépendances et la configuration associés depuis un run."
+---
+
+Reproduisez une expérience créée par un membre de l’équipe afin de vérifier et de valider ses résultats.
+
+Avant de reproduire une expérience, vous devez noter les éléments suivants :
+
+* Nom du projet dans lequel le run a été enregistré
+* Nom du run que vous souhaitez reproduire
+
+Pour reproduire une expérience :
+
+1. Accédez au projet dans lequel le run a été enregistré.
+2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
+3. Cliquez sur le run que vous souhaitez reproduire. La page du run s’ouvre avec l’onglet **Aperçu** affiché par défaut.
+
+Pour continuer, téléchargez le code de l’expérience pour un hachage donné ou clonez l’intégralité du dépôt de l’expérience.
+
+<Tabs>
+  <Tab title="Télécharger un script ou notebook Python">
+    Téléchargez le script ou notebook Python de l’expérience :
+
+    1. Dans l’onglet **Aperçu** (affiché par défaut), dans le champ **Command**, notez le nom du script qui a créé l’expérience.
+    2. Sélectionnez l’onglet **Code** sur la page du run.
+    3. Cliquez sur **Download** à côté du fichier correspondant au script ou au notebook.
+  </Tab>
+
+  <Tab title="GitHub">
+    Clonez le dépôt GitHub que votre coéquipier a utilisé pour créer l’expérience. Pour ce faire :
+
+    1. Si nécessaire, assurez-vous d’avoir accès au dépôt GitHub que votre coéquipier a utilisé pour créer l’expérience.
+    2. Copiez le champ **Git repository**, qui contient l’URL du dépôt GitHub.
+    3. Clonez le dépôt :
+       ```bash
+       git clone https://github.com/your-repo.git && cd your-repo
+       ```
+    4. Copiez-collez le champ **Git state** dans votre terminal. L’état Git est un ensemble de commandes Git qui extrait le commit exact que votre coéquipier a utilisé pour créer l’expérience. Remplacez les valeurs indiquées dans l’extrait de code suivant par les vôtres :
+       ```bash
+       git checkout -b "<run-name>" 0123456789012345678901234567890123456789
+       ```
+  </Tab>
+</Tabs>
+
+5. Sur la page du run, sélectionnez l’onglet **Files**.
+
+6. Téléchargez le fichier `requirements.txt` et placez-le dans votre répertoire de travail. Ce répertoire doit contenir soit le dépôt GitHub cloné, soit le script ou notebook Python téléchargé.
+
+7. (Recommandé) Créez un environnement virtuel Python.
+
+8. Installez les dépendances indiquées dans le fichier `requirements.txt`.
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+9. Maintenant que vous avez le code et les dépendances, vous pouvez exécuter le script ou le notebook pour reproduire l’expérience. Si vous avez cloné un dépôt, vous devrez peut-être accéder au répertoire dans lequel se trouve le script ou le notebook. Sinon, vous pouvez exécuter le script ou le notebook depuis votre répertoire de travail.
+
+<Tabs>
+  <Tab title="Notebook Python">
+    Si vous avez téléchargé un notebook Python, accédez au répertoire dans lequel vous l’avez téléchargé et exécutez la commande suivante dans votre terminal :
+
+    ```bash
+    jupyter notebook
+    ```
+  </Tab>
+
+  <Tab title="Script Python">
+    Si vous avez téléchargé un script Python, accédez au répertoire dans lequel vous l’avez téléchargé et exécutez la commande suivante dans votre terminal ; remplacez les valeurs entre `<>` par les vôtres :
+
+    ```bash
+    python <your-script-name>.py
+    ```
+  </Tab>
+</Tabs>

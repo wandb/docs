@@ -1,0 +1,15 @@
+---
+title: 맞춤형 Summary 메트릭 기록
+---
+
+```python
+"""
+W&B에 맞춤형 summary 지표를 기록합니다.
+"""
+import wandb
+import random 
+
+with wandb.init(project="<project>") as run:
+    # 1에서 10 사이의 임의 정수 값으로 맞춤형 summary 지표를 기록합니다
+    run.summary["<metric_name>"] = random.randint(1, 10)
+```

@@ -1,0 +1,31 @@
+---
+title: "Code d'erreur API 500 - Le serveur a rencontré une erreur lors du traitement de votre requête"
+keywords: ["Erreurs du serveur"]
+---
+
+Une erreur 500 avec le message &quot;Le serveur a rencontré une erreur lors du traitement de votre requête&quot; indique une erreur interne du serveur côté W&amp;B Inference.
+
+<div id="why-this-happens">
+  ## Pourquoi cela arrive
+</div>
+
+Les erreurs internes du serveur sont généralement passagères et dues à des problèmes temporaires côté serveur. Elles ne sont pas causées par votre requête ni par votre configuration.
+
+<div id="what-you-can-do">
+  ## Ce que vous pouvez faire
+</div>
+
+1. **Réessayez après un court délai**
+   * Attendez quelques secondes, puis réessayez votre requête
+   * Utilisez un backoff exponentiel pour les nouvelles tentatives automatiques
+
+2. **Contactez l’assistance si le problème persiste**
+   * Si vous continuez à voir des erreurs 500 après plusieurs nouvelles tentatives, contactez [l’assistance W&amp;B](mailto:support@wandb.com) en fournissant des détails sur votre requête
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Erreurs du serveur](/fr/support/inference/tags/server-errors)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

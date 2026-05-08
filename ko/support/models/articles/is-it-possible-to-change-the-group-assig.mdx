@@ -1,0 +1,23 @@
+---
+title: "완료 후 run에 할당된 그룹을 변경할 수 있나요?"
+keywords: ["Runs"]
+---
+
+API를 사용하면 완료된 run에 할당된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에서는 제공되지 않습니다. 다음 코드를 사용해 그룹을 업데이트하세요:
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<ENTITY>/<PROJECT>/<RUN_ID>")
+run.group = "NEW-GROUP-NAME"
+run.update()
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* 종료 AUTO-GENERATED: 탭 배지 */}

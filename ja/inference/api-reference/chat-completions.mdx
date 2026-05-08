@@ -1,69 +1,77 @@
 ---
-title: チャットコンプリーション
-description: OpenAI 互換エンドポイントを使用して chat completions を作成する
+title: "Chat Completions"
+description: "OpenAI互換のエンドポイントを使用して、チャット補完を作成します"
 ---
 
-`/chat/completions` エンドポイントを使用してチャットの補完（chat completion）を作成します。このエンドポイントは、メッセージの送信とレスポンスの受信に OpenAI フォーマットを採用しています。
+`/chat/completions` エンドポイントを使用してチャット補完を作成します。このエンドポイントは、メッセージの送信とレスポンスの受信について OpenAI 形式に準拠しています。
 
-## 要件
+<div id="requirements">
+  ## 要件
+</div>
 
-チャットの補完を作成するには、以下を提供してください：
-- Inference サービスのベース URL: `https://api.inference.wandb.ai/v1`
-- W&B APIキー: `<your-api-key>`
-- オプション: W&B の Teams と Projects: `<your-team>/<your-project>`
-- [利用可能な Models](/inference/models) リストにあるモデル ID
+チャット補完 を作成するには、以下を指定します。
 
-## リクエストの例
+* Inference サービスのベース URL: `https://api.inference.wandb.ai/v1`
+* W&amp;B APIキー: `<your-api-key>`
+* オプション: W&amp;B チームとプロジェクト: `<your-team>/<your-project>`
+* [利用可能なモデル](/ja/inference/models) から選択したモデル ID
+
+<div id="request-examples">
+  ## リクエスト例
+</div>
 
 <Tabs>
-<Tab title="Python">
-```python
-import openai
+  <Tab title="Python">
+    ```python
+    import openai
 
-client = openai.OpenAI(
-    # カスタムベース URL は W&B Inference を指します
-    base_url='https://api.inference.wandb.ai/v1',
+    client = openai.OpenAI(
+        # カスタムのベースURLは W&B Inference を指しています
+        base_url='https://api.inference.wandb.ai/v1',
 
-    # https://wandb.ai/settings で APIキーを作成してください
-    # 安全のため、環境変数 OPENAI_API_KEY に設定することを検討してください
-    api_key="<your-api-key>",
+        # https://wandb.ai/settings で APIキー を作成します
+        # 安全のため、代わりに環境変数 OPENAI_API_KEY として設定することを検討してください
+        api_key="<your-api-key>",
 
-    # オプション: 使用状況を追跡するための Team と Project
-    project="<your-team>/<your-project>",
-)
+        # オプション: 使用状況をトラッキングするための チーム とプロジェクト
+        project="<your-team>/<your-project>",
+    )
 
-# <model-id> を利用可能なモデルリストの任意のモデル ID に置き換えてください
-response = client.chat.completions.create(
-    model="<model-id>",
-    messages=[
-        {"role": "system", "content": "<your-system-prompt>"},
-        {"role": "user", "content": "<your-prompt>"}
-    ],
-)
+    # <model-id> を、利用可能なモデル一覧にある任意のモデル ID に置き換えます
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
 
-print(response.choices[0].message.content)
-```
-</Tab>
-<Tab title="Bash">
-```bash
-curl https://api.inference.wandb.ai/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>" \
-  -d '{
-    "model": "<model-id>",
-    "messages": [
-      { "role": "system", "content": "You are a helpful assistant." },
-      { "role": "user", "content": "Tell me a joke." }
-    ]
-  }'
-```
-</Tab>
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -H "OpenAI-Project: <your-team>/<your-project>" \
+      -d '{
+        "model": "<model-id>",
+        "messages": [
+          { "role": "system", "content": "You are a helpful assistant." },
+          { "role": "user", "content": "Tell me a joke." }
+        ]
+      }'
+    ```
+  </Tab>
 </Tabs>
 
-## レスポンス形式
+<div id="response-format">
+  ## レスポンス形式
+</div>
 
-API は OpenAI 互換の形式でレスポンスを返します：
+API は、OpenAI 互換形式のレスポンスを返します。
 
 ```json
 {

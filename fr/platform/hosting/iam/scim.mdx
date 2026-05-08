@@ -1,0 +1,2528 @@
+---
+title: Gérer les Users, groupes et rôles avec SCIM
+description: "Utilisez l'API SCIM pour gérer les Users, les groupes et les rôles personnalisés dans une organisation W&B grâce au provisionnement automatisé."
+---
+
+<Note>
+  Regardez une [vidéo de démonstration de SCIM en action](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12 min)
+</Note>
+
+<div id="overview">
+  ## Aperçu
+</div>
+
+L’API System for Cross-domain Identity Management (SCIM) permet aux administrateurs de l’instance ou de l’organisation de gérer les utilisateurs, les groupes et les rôles personnalisés dans leur organisation W&amp;B. Les groupes SCIM correspondent aux Teams W&amp;B.
+
+L’API SCIM de W&amp;B est compatible avec les principaux fournisseurs d’identité, notamment Okta, ce qui permet le provisionnement et le déprovisionnement automatisés des utilisateurs. Pour configurer le SSO avec Okta et d’autres fournisseurs d’identité, voir la [documentation SSO](/fr/platform/hosting/iam/sso/).
+
+Pour obtenir des exemples pratiques en Python montrant comment interagir avec l’API SCIM, consultez notre dépôt [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim).
+
+<div id="supported-features">
+  ### Fonctionnalités prises en charge
+</div>
+
+* **Filtrage** : l’API prend en charge le filtrage pour les points de terminaison `/Users` et `/Groups`
+* **Opérations PATCH** : prise en charge de PATCH pour les mises à jour partielles des ressources
+* **Prise en charge des ETags** : mises à jour conditionnelles à l’aide d’ETags pour détecter les conflits
+* **Authentification par compte de service** : les comptes de service d’organisation peuvent accéder à l’API
+
+<Note>
+  Si vous êtes administrateur de plusieurs organisations Enterprise [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), vous devez configurer l’organisation cible des requêtes de l’API SCIM afin de vous assurer que les requêtes de l’API SCIM envoyées avec votre clé API s’appliquent à la bonne organisation. Cliquez sur votre image de profil, puis sur **Paramètres utilisateur**, puis vérifiez le paramètre **Organisation API par défaut**.
+
+  L’option d’hébergement choisie détermine la valeur de l’espace réservé `<host-url>` utilisé dans les exemples de cette page.
+
+  De plus, les exemples utilisent des ID utilisateur comme `abc` et `def`. Dans les requêtes et réponses réelles, les ID utilisateur ont des valeurs hachées.
+</Note>
+
+<div id="authentication">
+  ## Authentification
+</div>
+
+Les Administrateurs de l’organisation peuvent s’authentifier avec un **jeton Bearer** ou des identifiants **HTTP Basic**. Les deux méthodes utilisent la *même clé API* lorsqu’une clé est utilisée. Choisissez une identité utilisateur ou un compte de service limité à l’organisation après avoir pris connaissance des principales différences.
+
+<div id="key-differences">
+  ### Principales différences
+</div>
+
+* Qui devrait l’utiliser : les utilisateurs conviennent mieux aux actions d’administration interactives et ponctuelles ; les comptes de service conviennent mieux à l’automatisation et aux intégrations (CI/CD, outils de provisionnement).
+* Identifiants : les utilisateurs envoient un nom d’utilisateur et une clé API pour l’authentification Basic ; les comptes de service envoient uniquement une clé API (sans nom d’utilisateur) pour l’authentification Basic. Pour l’authentification Bearer, envoyez uniquement la clé API dans l’en-tête (sans nom d’utilisateur).
+* Bearer versus Basic : Bearer utilise `Authorization: Bearer <API-KEY>` avec la clé telle quelle. Basic utilise `Authorization: Basic <base64(...)>` (les utilisateurs encodent `username:API-KEY` ; les comptes de service encodent `:API-KEY` avec un deux-points au début et un nom d’utilisateur vide).
+* Portée et autorisations : utilisez une clé API d’un utilisateur administrateur de l’instance ou de l’organisation, ou d’un [compte de service limité à l’organisation](/fr/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Les clés des [comptes de service à portée d&#39;équipe](/fr/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) ne peuvent pas s’authentifier auprès de l’API SCIM. Les comptes de service qui utilisent SCIM sont limités à l’organisation et non interactifs, ce qui offre des pistes d’audit plus claires pour l’automatisation.
+* Où obtenir les identifiants : les utilisateurs copient leur clé API depuis les Paramètres utilisateur ; les clés des comptes de service limités à l’organisation se trouvent dans le tableau de bord de l’organisation, sous l’onglet **Compte de service**.
+* Cloud mutualisé : si vous avez accès à plusieurs organisations dans le Cloud mutualisé, vous devez définir l’organisation API par défaut afin de garantir que les appels à l’API SCIM sont acheminés vers l’organisation prévue.
+
+<div id="bearer-token">
+  ### Jeton Bearer
+</div>
+
+Envoyez la clé API sous la forme d’un jeton Bearer :
+
+```bash
+Authorization: Bearer <API-KEY>
+```
+
+La valeur `<API-KEY>` est la même chaîne que celle que vous utiliseriez comme mot de passe pour l’authentification HTTP Basic de ce principal. N’encodez pas la clé en Base64 pour les requêtes Bearer.
+
+<Note>
+  L’authentification Bearer pour l’API SCIM est disponible dans W&amp;B Cloud mutualisé, ainsi que dans Cloud dédié et Autogéré à partir de la version v0.79.0.
+</Note>
+
+Les exemples suivants utilisent `<YOUR_API_KEY>` comme espace réservé. Remplacez-le par une clé réelle provenant d’un utilisateur administrateur ou d’un compte de service limité à l’organisation.
+
+**Lister les utilisateurs**
+
+```bash
+curl -s -S \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/scim+json" \
+  "<host-url>/scim/Users"
+```
+
+**Créer un utilisateur**
+
+```bash
+curl -s -S -X POST \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/scim+json" \
+  "<host-url>/scim/Users" \
+  -d '{
+    "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+    "userName": "dev-user2",
+    "emails": [{"primary": true, "value": "dev-user2@example.com"}]
+  }'
+```
+
+Pour plus de détails, voir [Créer un utilisateur](#create-user).
+
+<div id="users">
+  ### Users
+</div>
+
+Utilisez vos identifiants personnels d’administrateur lorsque vous effectuez des tâches d’administration interactives. Construisez l’en-tête HTTP `Authorization` de la manière suivante : `Basic <base64(username:API-KEY)>`.
+
+Par exemple, authentifiez-vous avec `demo:p@55w0rd` :
+
+```bash
+Authorization: Basic ZGVtbzpwQDU1dzByZA==
+```
+
+<div id="service-accounts">
+  ### Comptes de service
+</div>
+
+Utilisez un compte de service limité à l’organisation pour l’automatisation ou les intégrations. Formatez l’en-tête HTTP `Authorization` comme suit : `Basic <base64(:API-KEY)>` (notez les deux-points initiaux et le nom d’utilisateur vide). Vous trouverez les clés API des comptes de service dans le tableau de bord de l’organisation, sous l’onglet **Compte de service**. Consultez [Comptes de service limités à l’organisation](/fr/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts).
+
+Par exemple, authentifiez-vous avec la clé API `sa-p@55w0rd` :
+
+```bash
+Authorization: Basic OnNhLXBANTV3MHJk
+```
+
+<div id="user-management">
+  ## Gestion des utilisateurs
+</div>
+
+La ressource utilisateur SCIM est associée aux Users de W&amp;B. Utilisez ces endpoints pour gérer les utilisateurs de votre organisation.
+
+<div id="get-user">
+  ### Obtenir un utilisateur
+</div>
+
+Récupère les informations d’un utilisateur précis de votre organisation.
+
+<Note>Cette opération ne récupère pas les comptes de service.</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: GET
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                  |
+| --------- | ------ | ------ | ---------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête Obtenir un utilisateur">
+    ```bash
+    GET /scim/Users/abc
+    ```
+  </Tab>
+
+  <Tab title="Réponse Obtenir un utilisateur">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "daysActive": 42,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "lastActiveAt": "2023-10-15T14:32:10Z",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1"
+    }
+    ```
+
+    La réponse inclut des informations sur l’activité de l’utilisateur dans l’organisation :
+
+    * **`daysActive`** : nombre total de jours pendant lesquels l’utilisateur a été actif dans l’organisation.
+    * **`lastActiveAt`** : horodatage ISO 8601 de l’activité la plus récente de l’utilisateur. Renvoie `null` si l’utilisateur n’a jamais été actif.
+
+    La définition d’un utilisateur « actif » varie selon le type de déploiement :
+
+    * **Cloud dédié / Autogéré** : un utilisateur est considéré comme actif s’il se connecte, ouvre une page dans la W&amp;B App, enregistre des runs, utilise le SDK ou interagit de quelque manière que ce soit avec le serveur W&amp;B.
+    * **Cloud mutualisé** : un utilisateur est considéré comme actif s’il effectue, après le 8 mai 2025, une action auditable dans le périmètre de l’organisation. Voir [Audit logging actions](/fr/platform/hosting/monitoring-usage/audit-logging#actions) pour la liste complète.
+  </Tab>
+</Tabs>
+
+<div id="list-users">
+  ### Lister les Users
+</div>
+
+Récupère la liste de tous les Users de votre organisation.
+
+<Note>Cette opération ne récupère pas les comptes de service.</Note>
+
+<div id="filter-users">
+  #### Filtrer les Users
+</div>
+
+Le point de terminaison `/Users` permet de filtrer les Users par nom d’utilisateur ou adresse e-mail :
+
+* `userName eq "value"` - Filtrer par nom d’utilisateur
+* `emails.value eq "value"` - Filtrer par adresse e-mail
+
+<div id="example">
+  ##### Exemple
+</div>
+
+```bash
+GET /scim/Users?filter=userName eq "john.doe"
+GET /scim/Users?filter=emails.value eq "john@example.com"
+```
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users`
+* **Méthode**: GET
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de liste des Users">
+    ```bash
+    GET /scim/Users
+    ```
+  </Tab>
+
+  <Tab title="Réponse de liste des Users">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "Resources": [
+            {
+                "active": true,
+                "daysActive": 42,
+                "displayName": "Dev User 1",
+                "emails": {
+                    "Value": "dev-user1@example.com",
+                    "Display": "",
+                    "Type": "",
+                    "Primary": true
+                },
+                "id": "abc",
+                "lastActiveAt": "2023-10-15T14:32:10Z",
+                "meta": {
+                    "resourceType": "User",
+                    "created": "2023-10-01T00:00:00Z",
+                    "lastModified": "2023-10-01T00:00:00Z",
+                    "location": "Users/abc"
+                },
+                "schemas": [
+                    "urn:ietf:params:scim:schemas:core:2.0:User"
+                ],
+                "userName": "dev-user1"
+            }
+        ],
+        "itemsPerPage": 9999,
+        "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+        ],
+        "startIndex": 1,
+        "totalResults": 1
+    }
+    ```
+
+    La réponse comprend des détails sur l’activité de chaque utilisateur dans l’organisation :
+
+    * **`daysActive`** : nombre total de jours pendant lesquels l’utilisateur a été actif dans l’organisation.
+    * **`lastActiveAt`** : horodatage ISO 8601 de l’activité la plus récente de l’utilisateur. Renvoie `null` si l’utilisateur n’a jamais été actif.
+
+    La définition de « active » varie selon le type de déploiement :
+
+    * **Cloud dédié / Autogéré** : un utilisateur est actif s’il se connecte, ouvre une page dans la W&amp;B App, enregistre des runs, utilise le SDK ou interagit de quelque manière que ce soit avec le serveur W&amp;B.
+    * **Cloud mutualisé** : un utilisateur est actif s’il effectue une action auditable dans le périmètre de l’organisation après le 8 mai 2025. Voir [Actions de journalisation d’audit](/fr/platform/hosting/monitoring-usage/audit-logging#actions) pour la liste complète.
+  </Tab>
+</Tabs>
+
+<div id="create-user">
+  ### Créer un utilisateur
+</div>
+
+Crée un nouvel utilisateur au sein de votre organisation.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users`
+* **Méthode**: POST
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre    | Type   | Requis | Description                                                                                                                                                       |
+| ------------ | ------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `emails`     | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                                                               |
+| `userName`   | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                                                                           |
+| `modelsSeat` | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. **Uniquement pour Cloud dédié et Autogéré.** |
+| `weaveRole`  | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. **Uniquement pour Cloud dédié et Autogéré.**     |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de création d’utilisateur (Dedicated/Autogéré)">
+    ```bash
+    POST /scim/Users
+    ```
+
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user2@example.com"
+            }
+        ],
+        "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full"
+    }
+    ```
+  </Tab>
+
+  <Tab title="Requête de création d’utilisateur (Multi-tenant)">
+    ```bash
+    POST /scim/Users
+    ```
+
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+        ],
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user2@example.com"
+            }
+        ],
+        "userName": "dev-user2",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+            "teams": ["my-team"]
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response">
+  #### Réponse
+</div>
+
+<Tabs>
+  <Tab title="Réponse de création d’utilisateur (Dedicated/Autogéré)">
+    ```bash
+    (Status 201)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 2",
+        "emails": {
+            "Value": "dev-user2@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "def",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/def"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "modelsSeat": "full",
+        "weaveRole": "full",
+        "userName": "dev-user2"
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de création d’utilisateur (Multi-tenant)">
+    ```bash
+    (Status 201)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 2",
+        "emails": {
+            "Value": "dev-user2@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "def",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/def"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+        ],
+        "userName": "dev-user2",
+        "organizationRole": "member",
+        "teamRoles": [
+            {
+                "teamName": "my-team",
+                "roleName": "member"
+            }
+        ],
+        "groups": [
+            {
+                "value": "my-team-id"
+            }
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-user">
+  ### Supprimer un utilisateur
+</div>
+
+<Warning>
+  **Conservez l’accès administrateur**
+
+  Vous devez vous assurer qu’au moins un utilisateur administrateur existe en permanence dans votre instance ou votre organisation. Sinon, aucun utilisateur ne pourra configurer ni gérer le compte W&amp;B de votre organisation. Si une organisation utilise SCIM ou un autre processus automatisé pour retirer des utilisateurs de W&amp;B, une opération de déprovisionnement pourrait supprimer par inadvertance le dernier administrateur de l’instance ou de l’organisation.
+
+  Pour obtenir de l’assistance concernant la mise en place de procédures opérationnelles, ou pour rétablir l’accès administrateur, contactez [l’assistance](mailto:support@wandb.com).
+</Warning>
+
+Supprime définitivement un utilisateur de votre organisation.
+
+<Note>Cette opération s’applique uniquement aux utilisateurs, pas aux comptes de service. Supprimez un compte de service dans les paramètres du W&amp;B Team.</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: DELETE
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                              |
+| --------- | ------ | ------ | ---------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur à supprimer |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de suppression de l’utilisateur">
+    ```bash
+    DELETE /scim/Users/abc
+    ```
+  </Tab>
+
+  <Tab title="Réponse de suppression de l’utilisateur">
+    ```bash
+    (Statut 204)
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Pour désactiver temporairement l’utilisateur, référez-vous à l’API [Désactiver l’utilisateur](#deactivate-user), qui utilise l’endpoint `PATCH`.
+</Note>
+
+<div id="update-user-email">
+  ### Mettre à jour l’adresse e-mail d’un utilisateur
+</div>
+
+Met à jour l’adresse e-mail principale d’un utilisateur.
+**Non pris en charge dans le Cloud mutualisé**, où le compte d’un utilisateur n’est pas géré par l’organisation.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                        |
+| --------- | ------ | ------ | -------------------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur                       |
+| `op`      | string | Oui    | `replace`                                          |
+| `path`    | string | Oui    | `emails`                                           |
+| `value`   | array  | Oui    | Tableau contenant le nouvel objet d’adresse e-mail |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de mise à jour de l’adresse e-mail">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "emails",
+                "value": [
+                    {
+                        "value": "newemail@example.com",
+                        "primary": true
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de mise à jour de l’adresse e-mail">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "newemail@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-user-display-name">
+  ### Mettre à jour le nom d’affichage de l’utilisateur
+</div>
+
+Met à jour le nom d’affichage d’un utilisateur.
+**Non pris en charge dans le Cloud mutualisé**, où le compte d’un utilisateur n’est pas géré par l’organisation.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                  |
+| --------- | ------ | ------ | ---------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur |
+| `op`      | string | Oui    | `replace`                    |
+| `path`    | string | Oui    | `displayName`                |
+| `value`   | string | Oui    | Nouveau nom d’affichage      |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de mise à jour du nom affiché">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "displayName",
+                "value": "John Doe"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de mise à jour du nom affiché">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "John Doe",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2025-7-01T00:00:00Z",
+            "lastModified": "2025-7-01T00:00:00Z",
+            "location": "users/dev-user1"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="deactivate-user">
+  ### Désactiver un utilisateur
+</div>
+
+Désactive un utilisateur dans votre organisation. Le résultat varie selon le type de déploiement :
+
+* **Cloud dédié** / **Autogéré** : définit le champ `active` de l’utilisateur sur `false`. Pour rétablir l’accès d’un utilisateur désactivé à votre organisation, voir [Réactiver un utilisateur](#reactivate-user).
+* **Cloud mutualisé** : supprime l’utilisateur de l’organisation. Pour rétablir l’accès de l’utilisateur, ajoutez-le de nouveau à votre organisation. Voir [Créer un utilisateur](#create-user-request-multi-tenant). Dans le Cloud mutualisé, le compte d’un utilisateur n’est pas géré par l’organisation.
+
+<Note>Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. La désactivation d’un compte de service n’est pas prise en charge. Gérez les comptes de service d’équipe dans les Settings de la W&amp;B Team.</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                               |
+| --------- | ------ | ------ | ----------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur à désactiver |
+| `op`      | string | Oui    | `replace`                                 |
+| `value`   | objet  | Oui    | Objet contenant `{"active": false}`       |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de désactivation d’un utilisateur (Dedicated/Autogéré)">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "value": {"active": false}
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Requête de désactivation d’un utilisateur (Multi-tenant)">
+    ```bash
+    PATCH /scim/Users
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "value": {"active": false}
+            }
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response">
+  #### Réponse
+</div>
+
+<Tabs>
+  <Tab title="Réponse de désactivation d’un utilisateur (Dedicated/Autogéré)">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": false,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1"
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de désactivation d’un utilisateur (Multi-tenant)">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "value": {"active": true}
+            }
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="reactivate-user">
+  ### Réactiver un utilisateur
+</div>
+
+Réactive un utilisateur précédemment désactivé dans votre organisation.
+
+<Note>
+  * La réactivation ne fonctionne que pour les utilisateurs, pas pour les comptes de service. Elle n&#39;est pas prise en charge pour les comptes de service. Gérez les comptes de service dans les paramètres de l&#39;équipe W&amp;B.
+
+  * La réactivation des utilisateurs n&#39;est pas prise en charge dans le [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Pour restaurer l&#39;accès de l&#39;utilisateur, ajoutez-le à nouveau à votre organisation. Voir [Créer un utilisateur](#create-user-request-multi-tenant). Dans le Cloud mutualisé, le compte d&#39;un utilisateur n&#39;est pas géré par l&#39;organisation. Toute tentative de réactivation d&#39;un utilisateur entraîne une erreur HTTP `400`. Le champ `detail` dans le corps de la réponse est renvoyé tel quel par l&#39;API et peut encore utiliser l&#39;ancienne terminologie du produit :
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:Error"
+        ],
+        "detail": "User reactivation operations are not supported in SaaS Cloud",
+        "status": "400"
+    }
+    ```
+</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                              |
+| --------- | ------ | ------ | ---------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur à réactiver |
+| `op`      | string | Oui    | `replace`                                |
+| `value`   | objet  | Oui    | Objet contenant `{"active": true}`       |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de réactivation de l’utilisateur">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "value": {"active": true}
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de réactivation de l’utilisateur">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="assign-organization-role">
+  ### Attribuer un rôle au niveau de l’organisation
+</div>
+
+Attribue à un utilisateur un rôle au niveau de l’organisation.
+
+<Note>Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. Les rôles personnalisés ne sont pas pris en charge pour les comptes de service.</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                          |
+| --------- | ------ | ------ | ------------------------------------ |
+| `id`      | string | Oui    | L&#39;ID unique de l&#39;utilisateur |
+| `op`      | string | Oui    | `replace`                            |
+| `path`    | string | Oui    | `organizationRole`                   |
+| `value`   | string | Oui    | Nom du rôle (`admin` ou `member`)    |
+
+<Note>
+  Le rôle `viewer` au niveau de l&#39;organisation est obsolète et ne peut plus être attribué dans l&#39;interface utilisateur. Si vous utilisez SCIM pour attribuer le rôle `viewer` à un utilisateur :
+
+  * Le rôle `member` lui est attribué dans l&#39;organisation.
+  * Son `modelsSeat` est défini sur `viewer` au lieu de `full`. Cela permet un accès en lecture seule à Models et un accès complet au registre. Si aucune licence Models n&#39;est disponible, une erreur `Seat limit reached` est renvoyée. Cela pourra être mis à jour plus tard si une licence devient disponible.
+  * Son `weaveRole` est défini sur `viewer` au lieu de `full`. Cela permet un accès en lecture seule à Weave.
+  * Tous ses rôles d&#39;équipe et de projet existants sont définis sur `viewer`.
+  * Le rôle `viewer` du registre lui est attribué dans les registres visibles au niveau de l&#39;organisation.
+
+  L&#39;attribution du rôle d&#39;organisation `member` ou `admin` ne modifie pas le `modelsSeat` ni le `weaveRole` de l&#39;utilisateur.
+</Note>
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête d’attribution d’un rôle d’organisation">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "organizationRole",
+                "value": "admin"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse d’attribution d’un rôle d’organisation">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "teamRoles": [
+            {
+                "teamName": "team1",
+                "roleName": "admin"
+            }
+        ],
+        "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-models-seat">
+  ### Mettre à jour la licence Models
+</div>
+
+Met à jour la licence Models attribuée à un utilisateur. **Cloud dédié** et **Autogéré** uniquement.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                    |
+| --------- | ------ | ------ | ---------------------------------------------- |
+| `id`      | string | Oui    | L&#39;ID unique de l&#39;utilisateur           |
+| `op`      | string | Oui    | `replace`                                      |
+| `path`    | string | Oui    | `modelsSeat`                                   |
+| `value`   | string | Oui    | Niveau de licence (`full`, `viewer` ou `none`) |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de mise à jour de la licence Models">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "modelsSeat",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de mise à jour de la licence Models">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-weave-role">
+  ### Mettre à jour le rôle Weave
+</div>
+
+Met à jour le rôle d&#39;un utilisateur dans Weave. **Cloud dédié** et **Autogéré** uniquement.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                 |
+| --------- | ------ | ------ | ------------------------------------------- |
+| `id`      | string | Oui    | L&#39;ID unique de l&#39;utilisateur        |
+| `op`      | string | Oui    | `replace`                                   |
+| `path`    | string | Oui    | `weaveRole`                                 |
+| `value`   | string | Oui    | Niveau de rôle (`full`, `viewer` ou `none`) |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de mise à jour du rôle Weave">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "weaveRole",
+                "value": "full"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de mise à jour du rôle Weave">
+    ```bash
+    (statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": {
+            "Value": "dev-user1@example.com",
+            "Display": "",
+            "Type": "",
+            "Primary": true
+        },
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="assign-team-role">
+  ### Attribuer un rôle d’équipe
+</div>
+
+Attribue à un utilisateur un rôle d’équipe.
+
+<Note>Cette opération s’applique uniquement aux utilisateurs, et non aux comptes de service. Les rôles personnalisés ne sont pas pris en charge pour les comptes de service.</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                         |
+| --------- | ------ | ------ | --------------------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur                        |
+| `op`      | string | Oui    | `replace`                                           |
+| `path`    | string | Oui    | `teamRoles`                                         |
+| `value`   | array  | Oui    | Tableau d’objets contenant `teamName` et `roleName` |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête d’attribution d’un rôle d’équipe">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "teamRoles",
+          "value": [
+            {
+              "roleName": "admin",
+              "teamName": "team1"
+            }
+          ]
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse d’attribution d’un rôle d’équipe">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "teamRoles": [
+        {
+          "teamName": "team1",
+          "roleName": "admin"
+        }
+      ],
+      "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-to-registry">
+  ### Ajouter au registre
+</div>
+
+Ajoute un utilisateur à un registre en lui attribuant un rôle au niveau du registre.
+
+<Note>Cette opération fonctionne uniquement pour les utilisateurs, et non pour les comptes de service. Les rôles personnalisés ne sont pas pris en charge pour les comptes de service.</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                             |
+| --------- | ------ | ------ | ------------------------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur                            |
+| `op`      | string | Oui    | `add`                                                   |
+| `path`    | string | Oui    | `registryRoles`                                         |
+| `value`   | array  | Oui    | Tableau d’objets contenant `registryName` et `roleName` |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête d’ajout au registre">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "registryRoles",
+          "value": [
+            {
+              "roleName": "admin",
+              "registryName": "hello-registry"
+            }
+          ]
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse d’ajout au registre">
+    ```bash
+    (Status 200)
+    ```
+
+    ```json
+    {
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "registryRoles": [
+        {
+          "registryName": "hello-registry",
+          "roleName": "admin"
+        }
+      ],
+      "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="remove-from-registry">
+  ### Retirer du registre
+</div>
+
+Retire un utilisateur d’un registre.
+
+<Note>
+  * Les opérations de suppression suivent les spécifications du protocole SCIM RFC 7644. Utilisez la syntaxe de filtre `"registryRoles[registryName eq \"{registry_name}\"]"` pour retirer un utilisateur d’un registre spécifique, ou `"registryRoles"` pour retirer l’utilisateur de tous les registres.
+  * Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. Retirez les comptes de service d’un registre dans les paramètres de la Team W&amp;B.
+</Note>
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **Méthode**: PATCH
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                                                 |
+| --------- | ------ | ------ | --------------------------------------------------------------------------- |
+| `id`      | string | Yes    | L’ID unique de l’utilisateur                                                |
+| `op`      | string | Yes    | `remove`                                                                    |
+| `path`    | string | Yes    | `"registryRoles[registryName eq \"{registry_name}\"]"` ou `"registryRoles"` |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de suppression d’un registre">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "registryRoles[registryName eq \"goodbye-registry\"]"
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de suppression d’un registre">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "registryRoles": [
+        {
+          "registryName": "hello-registry",
+          "roleName": "admin"
+        }
+      ],
+      "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Tabs>
+  <Tab title="Requête de suppression de tous les registres">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "replace",
+          "path": "registryRoles"
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de suppression de tous les registres">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+      "active": true,
+      "displayName": "Dev User 1",
+      "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+      },
+      "id": "abc",
+      "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+      "userName": "dev-user1",
+      "organizationRole": "admin"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="group-resource">
+  ## Ressource de groupe
+</div>
+
+Lorsque vous créez un groupe SCIM dans votre IAM, cela crée un mappage vers une équipe W&amp;B, et les autres opérations sur les groupes SCIM s’appliquent à cette équipe. Pour configurer un stockage personnalisé lors de la création de l’équipe, incluez `storageBucket` dans la requête.
+
+<div id="service-accounts">
+  ### Comptes de service
+</div>
+
+Lorsqu’une équipe W&amp;B est créée à l’aide de SCIM, tous les comptes de service au niveau de l’organisation y sont automatiquement ajoutés afin de préserver leur accès aux ressources de l’équipe.
+
+<div id="filtering-groups">
+  ### Filtrage des groupes
+</div>
+
+Le point de terminaison `/Groups` permet de filtrer les résultats pour rechercher des Teams spécifiques :
+
+<div id="supported-filters">
+  #### Filtres pris en charge
+</div>
+
+* `displayName eq "value"` - Filtrer par nom d’affichage de l’équipe
+
+#### Exemple
+
+```bash
+GET /scim/Groups?filter=displayName eq "engineering-team"
+```
+
+<div id="get-team">
+  ### Obtenir l’équipe
+</div>
+
+Récupérez les informations d’une équipe à l’aide de son ID unique.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Groups/{id}`
+* **Méthode**: GET
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    GET /scim/Groups/ghi
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "displayName": "acme-devs",
+        "id": "ghi",
+        "members": [
+            {
+                "Value": "abc",
+                "Ref": "",
+                "Type": "",
+                "Display": "dev-user1"
+            }
+        ],
+        "meta": {
+            "resourceType": "Group",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Groups/ghi"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:Group"
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="list-teams">
+  ### Liste des équipes
+</div>
+
+Récupérez la liste des équipes.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Groups`
+* **Méthode**: GET
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    GET /scim/Groups
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "Resources": [
+            {
+                "displayName": "acme-devs",
+                "id": "ghi",
+                "members": [
+                    {
+                        "Value": "abc",
+                        "Ref": "",
+                        "Type": "",
+                        "Display": "dev-user1"
+                    }
+                ],
+                "meta": {
+                    "resourceType": "Group",
+                    "created": "2023-10-01T00:00:00Z",
+                    "lastModified": "2023-10-01T00:00:00Z",
+                    "location": "Groups/ghi"
+                },
+                "schemas": [
+                    "urn:ietf:params:scim:schemas:core:2.0:Group"
+                ]
+            }
+        ],
+        "itemsPerPage": 9999,
+        "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+        ],
+        "startIndex": 1,
+        "totalResults": 1
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="create-team">
+  ### Créer une équipe
+</div>
+
+* **Endpoint**: **`<host-url>/scim/Groups`**
+* **Méthode**: POST
+* **Description**: Crée une nouvelle ressource d’équipe.
+* **Champs pris en charge**:
+
+| Champ           | Type                | Requis                                                                         |
+| --------------- | ------------------- | ------------------------------------------------------------------------------ |
+| `displayName`   | Chaîne              | Oui                                                                            |
+| `members`       | Tableau multivaleur | Oui (le sous-champ `value` est requis et correspond à un ID d&#39;utilisateur) |
+| `storageBucket` | Objet               | Non                                                                            |
+
+Vous pouvez configurer [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector) au niveau de l’équipe lors de sa création en incluant un objet `storageBucket`. S&#39;il est omis, l’équipe utilise le stockage par défaut ou le stockage au niveau de l&#39;instance. Provisionnez le bucket (stratégie, CORS, identifiants) et déterminez, à l&#39;aide du guide BYOB, le format d&#39;adresse de stockage selon le fournisseur. L&#39;objet `storageBucket` comporte les sous-champs suivants :
+
+* **Requis**: `name` (nom du bucket), `provider` (l&#39;une des valeurs suivantes : `COREWEAVE`, `AWS`, `AZURE`, `GCP` ou `MINIO`). La valeur est sensible à la casse ; utilisez les majuscules comme indiqué.
+* **Facultatif**: `path` (préfixe de chemin dans le bucket), `kmsKeyId` (clé KMS pour le chiffrement, par exemple pour AWS), `awsExternalId` (accès AWS inter-comptes), `azureTenantId` (ID du locataire Azure), `azureClientId` (ID client de l&#39;identité managée Azure).
+
+W&amp;B valide que le bucket existe et est accessible avant de créer l’équipe. Si la validation échoue, la requête SCIM échoue et l’équipe n&#39;est pas créée.
+
+Une valeur `provider` invalide renvoie `400 Bad Request` avec une erreur SCIM qui répertorie les valeurs autorisées.
+
+<div id="examples">
+  #### Exemples
+</div>
+
+Ces exemples montrent comment créer une équipe sans stockage personnalisé et avec un stockage BYOB chez un fournisseur donné. Sélectionnez un onglet correspondant à la configuration de stockage souhaitée pour afficher un exemple de requête, puis sélectionnez l’onglet **Réponse** pour voir un exemple de réponse.
+
+<Tabs>
+  <Tab title="Requête (sans BYOB)">
+    ```bash
+    POST /scim/Groups
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "wandb-support",
+      "members": [
+        {
+          "value": "def"
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="CoreWeave">
+    ```bash
+    POST /scim/Groups
+    Content-Type: application/scim+json
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "ml-training-team",
+      "members": [
+        {
+          "value": "user@example.com",
+          "display": "user@example.com"
+        }
+      ],
+      "storageBucket": {
+        "name": "wandb-coreweave-bucket",
+        "provider": "COREWEAVE",
+        "path": "ml-training/experiments"
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="AWS S3">
+    ```bash
+    POST /scim/Groups
+    Content-Type: application/scim+json
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "ml-team",
+      "members": [
+        {
+          "value": "user@example.com",
+          "display": "user@example.com"
+        }
+      ],
+      "storageBucket": {
+        "name": "my-company-wandb-data",
+        "provider": "AWS",
+        "path": "ml-team/experiments",
+        "kmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012",
+        "awsExternalId": "wandb-external-id-abc123"
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Azure">
+    ```bash
+    POST /scim/Groups
+    Content-Type: application/scim+json
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "research-team",
+      "members": [],
+      "storageBucket": {
+        "name": "wandbstorage",
+        "provider": "AZURE",
+        "path": "research/artifacts",
+        "azureTenantId": "12345678-1234-1234-1234-123456789012",
+        "azureClientId": "87654321-4321-4321-4321-210987654321"
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="GCP">
+    ```bash
+    POST /scim/Groups
+    Content-Type: application/scim+json
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+      "displayName": "data-science-team",
+      "members": [
+        {
+          "value": "VXNlcjox",
+          "display": "jane.doe@example.com"
+        },
+        {
+          "value": "VXNlcjoy",
+          "display": "john.smith@example.com"
+        }
+      ],
+      "storageBucket": {
+        "name": "my-gcs-bucket",
+        "provider": "GCP",
+        "path": "data-science/runs"
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 201)
+    ```
+
+    ```json
+    {
+      "displayName": "wandb-support",
+      "id": "jkl",
+      "members": [
+        {
+          "Value": "def",
+          "Ref": "",
+          "Type": "",
+          "Display": "dev-user2"
+        }
+      ],
+      "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Groups/jkl"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-team">
+  ### Mettre à jour l’équipe
+</div>
+
+* **Endpoint** : **`<host-url>/scim/Groups/{id}`**
+* **Méthode** : PATCH
+* **Description** : Mettre à jour la liste des membres d’une équipe existante.
+* **Opérations prises en charge** : `add` un membre, `remove` un membre, `replace` les membres
+
+<Note>
+  - Les opérations de suppression suivent les spécifications du protocole SCIM RFC 7644. Utilisez la syntaxe de filtre `members[value eq "{user_id}"]` pour supprimer un utilisateur spécifique, ou `members` pour supprimer tous les utilisateurs de l’équipe.
+
+    **Identification de l’utilisateur** : le `{user_id}` dans les opérations sur les membres peut être :
+
+    * Un ID utilisateur W&amp;B
+    * Une adresse e-mail (par exemple, &quot;user@example.com&quot;)
+  - Ces opérations fonctionnent uniquement pour les utilisateurs, pas pour les comptes de service. Mettez à jour les comptes de service d’une équipe dans les Settings de l’équipe W&amp;B.
+</Note>
+
+<Info>
+  Remplacez `{team_id}` par l’ID réel de l’équipe et `{user_id}` par l’ID utilisateur réel ou l’adresse e-mail réelle dans vos requêtes.
+</Info>
+
+<div id="replace-team-members">
+  ### Remplacer les membres de l’équipe
+</div>
+
+Remplace tous les membres d’une équipe par une nouvelle liste.
+
+<Note>Cette opération s’applique uniquement aux utilisateurs, pas aux comptes de service. Gérez les comptes de service dans les Settings de l’équipe W&amp;B.</Note>
+
+* **Endpoint** : **`<host-url>/scim/Groups/{id}`**
+* **Méthode** : PUT
+* **Description** : Remplacer l’intégralité de la liste des membres de l’équipe.
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PUT /scim/Groups/{team_id}
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+        "displayName": "acme-devs",
+        "members": [
+            {
+                "value": "{user_id_1}"
+            },
+            {
+                "value": "{user_id_2}"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "displayName": "acme-devs",
+        "id": "ghi",
+        "members": [
+            {
+                "Value": "user_id_1",
+                "Ref": "",
+                "Type": "",
+                "Display": "user1"
+            },
+            {
+                "Value": "user_id_2",
+                "Ref": "",
+                "Type": "",
+                "Display": "user2"
+            }
+        ],
+        "meta": {
+            "resourceType": "Group",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:01:00Z",
+            "location": "Groups/ghi"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:Group"
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+**Ajouter un utilisateur à une équipe**
+
+Ajout de `dev-user2` à `acme-devs` :
+
+<Note>Cette opération s’applique uniquement aux utilisateurs, pas aux comptes de service. Gérez les comptes de service dans les Settings de l’équipe W&amp;B.</Note>
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PATCH /scim/Groups/{team_id}
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "add",
+                "path": "members",
+                "value": [
+                    {
+                        "value": "{user_id}"
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "displayName": "acme-devs",
+        "id": "ghi",
+        "members": [
+            {
+                "Value": "abc",
+                "Ref": "",
+                "Type": "",
+                "Display": "dev-user1"
+            },
+            {
+                "Value": "def",
+                "Ref": "",
+                "Type": "",
+                "Display": "dev-user2"
+            }
+        ],
+        "meta": {
+            "resourceType": "Group",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:01:00Z",
+            "location": "Groups/ghi"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:Group"
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+**Supprimer un utilisateur spécifique d’une équipe**
+
+Suppression de `dev-user2` de `acme-devs` :
+
+<Note>Cette opération s’applique uniquement aux utilisateurs, pas aux comptes de service. Gérez les comptes de service dans les Settings de l’équipe W&amp;B.</Note>
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PATCH /scim/Groups/{team_id}
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "remove",
+          "path": "members[value eq \"{user_id}\"]"
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+      "displayName": "acme-devs",
+      "id": "ghi",
+      "members": [
+        {
+          "Value": "abc",
+          "Display": "dev-user1"
+        }
+      ],
+      "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+**Suppression de tous les Users d&#39;une équipe**
+
+Suppression de tous les Users de `acme-devs` :
+
+<Note>Cette opération fonctionne uniquement pour les Users, pas pour les comptes de service. Gérez les comptes de service dans les Settings de l’équipe W&amp;B.</Note>
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PATCH /scim/Groups/{team_id}
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      "Operations": [
+        {
+          "op": "remove",
+          "path": "members"
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+      "displayName": "acme-devs",
+      "id": "ghi",
+      "members": null,
+      "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+      },
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-team">
+  ### Supprimer une équipe
+</div>
+
+* La suppression des équipes n’est actuellement pas prise en charge par l’API SCIM, car des données supplémentaires y sont associées. Supprimez les équipes depuis l’application pour confirmer que vous souhaitez tout supprimer.
+
+<div id="role-resource">
+  ## Ressource de rôle
+</div>
+
+La ressource de rôle SCIM correspond aux rôles personnalisés de W&amp;B. Comme indiqué précédemment, les endpoints `/Roles` ne font pas partie du schéma SCIM officiel. W&amp;B ajoute ces endpoints `/Roles` pour permettre la gestion automatisée des rôles personnalisés dans les organisations W&amp;B.
+
+<div id="get-custom-role">
+  ### Obtenir un rôle personnalisé
+</div>
+
+Récupérez les informations d’un rôle personnalisé en indiquant son ID unique.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Roles/{id}`
+* **Méthode**: GET
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    GET /scim/Roles/abc
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "description": "Exemple de rôle personnalisé",
+        "id": "Um9sZTo3",
+        "inheritedFrom": "member", // indique le rôle prédéfini
+        "meta": {
+            "resourceType": "Role",
+            "created": "2023-11-20T23:10:14Z",
+            "lastModified": "2023-11-20T23:31:23Z",
+            "location": "Roles/Um9sZTo3"
+        },
+        "name": "Rôle personnalisé d’exemple",
+        "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+        "permissions": [
+            {
+                "name": "artifact:read",
+                "isInherited": true // hérité du rôle prédéfini member
+            },
+            ...
+            ...
+            {
+                "name": "project:update",
+                "isInherited": false // autorisation personnalisée ajoutée par l’administrateur
+            }
+        ],
+        "schemas": [
+            ""
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="list-custom-roles">
+  ### Lister les rôles personnalisés
+</div>
+
+Récupérez les informations sur tous les rôles personnalisés de l’organisation W&amp;B.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL**: `<host-url>/scim/Roles`
+* **Méthode**: GET
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    GET /scim/Roles
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 200)
+    ```
+
+    ```json
+    {
+       "Resources": [
+            {
+                "description": "Exemple de rôle personnalisé",
+                "id": "Um9sZTo3",
+                "inheritedFrom": "member", // indique le rôle prédéfini dont hérite le rôle personnalisé
+                "meta": {
+                    "resourceType": "Role",
+                    "created": "2023-11-20T23:10:14Z",
+                    "lastModified": "2023-11-20T23:31:23Z",
+                    "location": "Roles/Um9sZTo3"
+                },
+                "name": "Rôle personnalisé d’exemple",
+                "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+                "permissions": [
+                    {
+                        "name": "artifact:read",
+                        "isInherited": true // hérité du rôle prédéfini member
+                    },
+                    ...
+                    ...
+                    {
+                        "name": "project:update",
+                        "isInherited": false // autorisation personnalisée ajoutée par l’administrateur
+                    }
+                ],
+                "schemas": [
+                    ""
+                ]
+            },
+            {
+                "description": "Autre exemple de rôle personnalisé",
+                "id": "Um9sZToxMg==",
+                "inheritedFrom": "viewer", // indique le rôle prédéfini dont hérite le rôle personnalisé
+                "meta": {
+                    "resourceType": "Role",
+                    "created": "2023-11-21T01:07:50Z",
+                    "location": "Roles/Um9sZToxMg=="
+                },
+                "name": "Rôle personnalisé d’exemple 2",
+                "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+                "permissions": [
+                    {
+                        "name": "launchagent:read",
+                        "isInherited": true // hérité du rôle prédéfini viewer
+                    },
+                    ...
+                    ...
+                    {
+                        "name": "run:stop",
+                        "isInherited": false // autorisation personnalisée ajoutée par l’administrateur
+                    }
+                ],
+                "schemas": [
+                    ""
+                ]
+            }
+        ],
+        "itemsPerPage": 9999,
+        "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+        ],
+        "startIndex": 1,
+        "totalResults": 2
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="create-custom-role">
+  ### Créer un rôle personnalisé
+</div>
+
+* **Endpoint**: **`<host-url>/scim/Roles`**
+* **Méthode**: POST
+* **Description**: Crée un nouveau rôle personnalisé dans l’organisation W&amp;B.
+* **Champs pris en charge**:
+
+| Champ           | Type         | Requis                                                                                                                                                                                                                                                                             |
+| --------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`          | String       | Nom du rôle personnalisé                                                                                                                                                                                                                                                           |
+| `description`   | String       | Description du rôle personnalisé                                                                                                                                                                                                                                                   |
+| `permissions`   | Object array | Tableau d’objets d’autorisation, où chaque objet contient un champ de type chaîne `name` dont la valeur est de la forme `w&bobject:operation`. Par exemple, pour une opération de suppression sur des runs W&amp;B, un objet d’autorisation aurait `name` défini sur `run:delete`. |
+| `inheritedFrom` | String       | Le rôle prédéfini dont hérite le rôle personnalisé. Il peut s’agir de `member` ou de `viewer`.                                                                                                                                                                                     |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    POST /scim/Roles
+    ```
+
+    ```json
+    {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
+      "name": "Sample custom role",
+      "description": "A sample custom role for example",
+      "permissions": [
+        {
+          "name": "project:update"
+        }
+      ],
+      "inheritedFrom": "member"
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (statut 201)
+    ```
+
+    ```json
+    {
+      "description": "A sample custom role for example",
+      "id": "Um9sZTo3",
+      "inheritedFrom": "member", // indique le rôle prédéfini
+      "meta": {
+        "resourceType": "Role",
+        "created": "2023-11-20T23:10:14Z",
+        "lastModified": "2023-11-20T23:31:23Z",
+        "location": "Roles/Um9sZTo3"
+      },
+      "name": "Sample custom role",
+      "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
+      "permissions": [
+        {
+          "name": "artifact:read",
+          "isInherited": true // hérité du rôle prédéfini member
+        },
+        ...
+        ...
+        {
+          "name": "project:update",
+          "isInherited": false // autorisation personnalisée ajoutée par l’administrateur
+        }
+      ],
+      "schemas": [
+        ""
+      ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-custom-role">
+  ### Mettre à jour un rôle personnalisé
+</div>
+
+<div id="add-permissions-to-role">
+  #### Ajouter des autorisations à un rôle
+</div>
+
+* **Endpoint** : **`<host-url>/scim/Roles/{id}`**
+* **Méthode** : PATCH
+* **Description** : Ajouter des autorisations à un rôle personnalisé existant.
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PATCH /scim/Roles/{role_id}
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "add",
+                "path": "permissions",
+                "value": [
+                    {
+                        "name": "project:delete"
+                    },
+                    {
+                        "name": "run:stop"
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Status 200)
+    ```
+
+    Renvoie le rôle mis à jour, avec les nouvelles autorisations ajoutées.
+  </Tab>
+</Tabs>
+
+<div id="remove-a-permission-from-a-role">
+  #### Supprimer une autorisation d’un rôle
+</div>
+
+* **Endpoint**: **`<host-url>/scim/Roles/{id}`**
+* **Méthode**: PATCH
+* **Description**: Supprime des autorisations d’un rôle personnalisé existant.
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PATCH /scim/Roles/{role_id}
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "remove",
+                "path": "permissions",
+                "value": [
+                    {
+                        "name": "project:update"
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Status 200)
+    ```
+
+    Renvoie le rôle mis à jour, avec les autorisations spécifiées supprimées.
+  </Tab>
+</Tabs>
+
+<div id="replace-custom-role">
+  ### Remplacer le rôle personnalisé
+</div>
+
+* **Endpoint**: **`<host-url>/scim/Roles/{id}`**
+* **Méthode**: PUT
+* **Description**: Remplace intégralement la définition d’un rôle personnalisé.
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    PUT /scim/Roles/{role_id}
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
+        "name": "Updated custom role",
+        "description": "Updated description for the custom role",
+        "permissions": [
+            {
+                "name": "project:read"
+            },
+            {
+                "name": "run:read"
+            },
+            {
+                "name": "artifact:read"
+            }
+        ],
+        "inheritedFrom": "viewer"
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Status 200)
+    ```
+
+    Renvoie la définition du rôle après son remplacement complet.
+  </Tab>
+</Tabs>
+
+<div id="delete-custom-role">
+  ### Supprimer un rôle personnalisé
+</div>
+
+Supprimez un rôle personnalisé dans l’organisation W&amp;B. **À utiliser avec prudence**. Le rôle prédéfini dont héritait le rôle personnalisé est désormais attribué à tous les utilisateurs auxquels ce rôle personnalisé était attribué avant l’opération.
+
+<div id="endpoint">
+  #### Endpoint
+</div>
+
+* **URL** : `<host-url>/scim/Roles/{id}`
+* **Méthode** : DELETE
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête">
+    ```bash
+    DELETE /scim/Roles/abc
+    ```
+  </Tab>
+
+  <Tab title="Réponse">
+    ```bash
+    (Statut 204 No Content)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="advanced-features">
+  ## Fonctionnalités avancées
+</div>
+
+<div id="etag-support">
+  ### Prise en charge des ETags
+</div>
+
+L’API SCIM prend en charge les ETags pour les mises à jour conditionnelles afin d’éviter les conflits liés aux modifications simultanées. Les ETags sont renvoyés dans l’en-tête de réponse `ETag` et dans le champ `meta.version`.
+
+<div id="etags">
+  #### ETags
+</div>
+
+Pour utiliser les ETags :
+
+1. **Obtenir l’ETag actuel** : lorsque vous envoyez une requête GET sur une ressource, relevez l’en-tête ETag dans la réponse
+2. **Mise à jour conditionnelle** : incluez l’ETag dans l’en-tête `If-Match` lors de la mise à jour
+
+#### Exemple
+
+```
+# Obtenir l'utilisateur et noter l'ETag
+GET /scim/Users/abc
+# La réponse inclut : ETag: W/"xyz123"
+
+# Mettre à jour avec l'ETag
+PATCH /scim/Users/abc
+If-Match: W/"xyz123"
+
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "organizationRole",
+            "value": "admin"
+        }
+    ]
+}
+```
+
+Une réponse d’erreur `412 Precondition Failed` indique que la ressource a été modifiée depuis que vous l’avez récupérée.
+
+<div id="error-handling">
+  ### Gestion des erreurs
+</div>
+
+L’API SCIM renvoie des réponses d’erreur SCIM standard :
+
+| Code de statut | Description                                                               |
+| -------------- | ------------------------------------------------------------------------- |
+| `200`          | Succès                                                                    |
+| `201`          | Création réussie                                                          |
+| `204`          | No Content (suppression réussie)                                          |
+| `400`          | Requête incorrecte - paramètres invalides ou corps de la requête invalide |
+| `401`          | Non autorisé - Échec de l’authentification                                |
+| `403`          | Interdit - Permissions insuffisantes                                      |
+| `404`          | Introuvable - La ressource n’existe pas                                   |
+| `409`          | Conflit - La ressource existe déjà                                        |
+| `412`          | Échec de la précondition - ETag non correspondant                         |
+| `500`          | Erreur interne du serveur                                                 |
+
+<div id="implementation-differences-per-deployment-type">
+  ### Différences d’implémentation selon le type de déploiement
+</div>
+
+W&amp;B propose deux implémentations distinctes de l’API SCIM, dont les fonctionnalités diffèrent :
+
+| Fonctionnalité                                       | Cloud mutualisé | Cloud dédié et Autogéré |
+| ---------------------------------------------------- | --------------- | ----------------------- |
+| Mettre à jour l’adresse e-mail de l’utilisateur      | -               | ✓                       |
+| Mettre à jour le nom d’affichage de l’utilisateur    | -               | ✓                       |
+| Désactivation de l’utilisateur                       | ✓               | ✓                       |
+| Réactivation de l’utilisateur                        | -               | ✓                       |
+| Plusieurs adresses e-mail par utilisateur            | ✓               | -                       |
+| Définir `modelsSeat` lors de la création/mise à jour | -               | ✓                       |
+| Définir `weaveRole` lors de la création/mise à jour  | -               | ✓                       |
+
+<div id="limitations">
+  ## Limitations
+</div>
+
+* **Nombre maximal de résultats** : 9999 éléments par requête.
+* **Cloud dédié et Autogéré** : ne prennent en charge qu’une seule adresse e-mail par utilisateur.
+* **Suppression de Teams** : non prise en charge via SCIM (utilisez l&#39;interface web W&amp;B).
+* **Réactivation des utilisateurs** : non prise en charge dans les environnements de Cloud mutualisé.
+* **Limites de licences** : les opérations peuvent échouer si les limites de licences de l&#39;organisation sont atteintes.

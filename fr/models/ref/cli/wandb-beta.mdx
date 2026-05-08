@@ -1,0 +1,33 @@
+---
+title: wandb beta
+---
+
+import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/beta.py#L40" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+beta [OPTIONS] COMMAND [ARGS]...
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Versions bêta des commandes de la CLI wandb.
+
+Ces commandes peuvent changer, voire cesser complètement de fonctionner, d’une version de wandb à l’autre.
+
+<div id="subcommands">
+  ## Sous-commandes
+</div>
+
+| Commande          | Description                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `wandb beta core` | Gère un service wandb-core local partagé pour les charges de travail multiprocessus. |
+| `wandb beta leet` | W&amp;B LEET : l’outil léger d’exploration d’expériences.                            |
+| `wandb beta sync` | Importe les fichiers .wandb spécifiés par PATHS.                                     |

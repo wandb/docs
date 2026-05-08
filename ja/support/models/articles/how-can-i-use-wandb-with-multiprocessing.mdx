@@ -1,0 +1,23 @@
+---
+title: "multiprocessing（分散トレーニングなど）で wandb を使用するには？"
+keywords: ["Experiments"]
+---
+
+トレーニングプログラムで複数のプロセスを使用する場合は、`wandb.init()` を実行していないプロセスから wandb の method を呼び出さないようにプログラムを構成してください。
+
+マルチプロセスのトレーニングは、次の方法で管理できます。
+
+1. すべてのプロセスで `wandb.init` を呼び出し、[group](/ja/models/runs/grouping) キーワード引数を使用して共有グループを作成します。各プロセスはそれぞれ独自の wandb run を持ち、UI ではそれらのトレーニングプロセスがグループ化されて表示されます。
+2. 1 つのプロセスでのみ `wandb.init` を呼び出し、ログするデータを [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) 経由で渡します。
+
+<Note>
+  これらの方法の詳細な説明については、Torch DDP を使ったコード例を含む [Distributed Training Guide](/ja/models/track/log/distributed-training) を参照してください。
+</Note>
+
+***
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* 終了 AUTO-GENERATED: タブバッジ */}

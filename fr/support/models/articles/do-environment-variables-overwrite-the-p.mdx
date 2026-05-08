@@ -1,0 +1,14 @@
+---
+title: "Les variables d'environnement remplacent-elles les paramètres passés à wandb.init() ?"
+keywords: ["Variables d'environnement"]
+---
+
+Les arguments passés à `wandb.init` priment sur les variables d&#39;environnement. Pour définir un répertoire par défaut autre que celui du système lorsque la variable d&#39;environnement n&#39;est pas définie, utilisez `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets */}

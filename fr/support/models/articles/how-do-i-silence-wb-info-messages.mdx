@@ -1,0 +1,45 @@
+---
+title: "Comment puis-je désactiver les messages d’information de W&B ?"
+keywords: ["Notebooks", "Variables d’environnement"]
+---
+
+Pour supprimer les messages du journal dans votre notebook, comme celui-ci :
+
+```
+INFO SenderThread:11484 [sender.py:finish():979]
+```
+
+Définissez le niveau de journalisation sur `logging.ERROR` pour n’afficher que les erreurs et masquer les messages de niveau info.
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.ERROR)
+```
+
+Pour réduire considérablement la sortie des journaux, définissez la variable d’environnement `WANDB_QUIET` sur `True`. Pour désactiver complètement la sortie des journaux, définissez la variable d’environnement `WANDB_SILENT` sur `True`. Dans un notebook, définissez `WANDB_QUIET` ou `WANDB_SILENT` avant d’appeler `wandb.login` :
+
+<Tabs>
+  <Tab title="Notebook">
+    ```python
+    %env WANDB_SILENT=True
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_SILENT"] = "True"
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Notebooks](/fr/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

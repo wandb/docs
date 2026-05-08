@@ -1,0 +1,66 @@
+---
+title: W&B Mobile App（iOS）
+description: iPhone や iPad から、トレーニング Runs をトラッキングし、コンソールログを確認し、折れ線グラフを表示し、正規表現を使ってプロジェクトパネルを検索し、W&B Models のプロジェクトを確認できます。
+---
+
+<Columns cols={4}>
+  <Frame>
+    ![メトリクスチャートを表示した W\&B モバイルアプリのプロジェクトパネル](/images/mobile-app/project-panels.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの通知管理画面](/images/mobile-app/manage-alerts.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの Projects リストとチームピッカー](/images/mobile-app/projects.png)
+  </Frame>
+
+  <Frame>
+    ![プロジェクトの Runs リストを表示した W\&B モバイルアプリ](/images/mobile-app/project-runs.png)
+  </Frame>
+</Columns>
+
+iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のプロジェクトを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフを表示し、プロジェクトの履歴を確認し、チームの進捗を把握できます。
+
+<Info>
+  モバイルアプリを利用できるのは、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントのみです。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
+</Info>
+
+<div id="download-the-app">
+  ## アプリをダウンロード
+</div>
+
+<Card title="App Storeからダウンロード" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="features">
+  ## 機能
+</div>
+
+* **トレーニング run をトラッキングする**: run のステータス、メトリクス、折れ線グラフをリアルタイムで確認できます。
+* **コンソール ログを確認する**: アクティブな run または完了した run の [コンソール ログ](/ja/models/runs/view-logged-runs#logs) を確認したり、完了した run のログをダウンロードしたりできます。アプリはアクティブな run を 5 秒ごとにポーリングして、新しいログ行を取得します。デフォルトでは最新の 10,000 行が表示され、過去のログを確認するには上方向にスクロールできます。
+* **プロジェクトの履歴を確認する**: W&amp;B プロジェクト 全体を参照して検索できます。**プロジェクト パネル**のメトリクス チャートには、最新の run だけでなく、プロジェクト内の**すべての Runs**のデータが含まれます。
+* **プロジェクト パネルを検索する**: 各チャートに表示される run をフィルターするには、**パネル検索**フィールドを使用します。run 名のパターンに一致する項目を、[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) を使って検索できます。
+* **Teams を切り替える**: **チーム ピッカー**を使用して Teams を切り替えます。ピッカーには、よりすばやく移動できるよう更新された Layout が使用されています。
+* **常に最新情報を把握する**: 通知 を使うと、ラップトップを開かなくても Experiments の更新を受け取れます。不要になった**アラートを削除する**には、**通知** タブでスワイプして消します。
+
+<div id="set-up-notifications">
+  ## 通知を設定する
+</div>
+
+通知は、次の 2 つの方法で設定できます。
+
+**メトリクスしきい値アラート**
+
+1. run にアクセスします。
+2. グラフをタップして全画面表示に切り替えます。
+3. 右上のベルアイコンをタップします。
+4. 今後の Runs が指定したメトリクスしきい値を超えたときに通知を受け取るよう設定します。
+
+**run 失敗アラート**
+
+1. プロジェクトにアクセスします。
+2. 右上の **アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをタップします。
+3. **Run failed alert** を選択すると、そのプロジェクトで今後 run が失敗したときに通知を受け取れます。
+
+**通知管理** 画面では、両方の設定を 1 か所で一覧でき、各セクションで制御する内容を説明する短い説明も表示されます。

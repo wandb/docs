@@ -1,0 +1,61 @@
+---
+description: Parallélisez les agents balayage W&B sur une machine multicœur ou multi-GPU.
+title: Paralléliser les agents
+---
+
+Parallélisez vos agents W&amp;B Sweep sur une machine multicœur ou multi-GPU. Avant de commencer, assurez-vous d’avoir initialisé votre balayage W&amp;B. Pour plus d’informations sur l’initialisation d’un balayage W&amp;B, voir [Initialiser les Sweeps](./initialize-sweeps).
+
+<div id="parallelize-on-a-multi-cpu-machine">
+  ### Paralléliser sur une machine multi-CPU
+</div>
+
+Selon votre cas d’usage, consultez les onglets suivants pour découvrir comment paralléliser des agents de balayage W&amp;B à l’aide de la CLI ou dans un notebook Jupyter.
+
+<Tabs>
+  <Tab title="CLI">
+    Utilisez la commande [`wandb agent`](/fr/models/ref/cli/wandb-agent) pour paralléliser votre agent de balayage sur plusieurs CPU depuis le terminal. Fournissez l’ID du balayage renvoyé lorsque vous avez [initialisé le balayage](./initialize-sweeps).
+
+    1. Ouvrez plusieurs fenêtres de terminal sur votre machine locale.
+    2. Copiez-collez l’extrait de code ci-dessous, puis remplacez `sweep_id` par votre ID du balayage :
+
+    ```bash
+    wandb agent sweep_id
+    ```
+  </Tab>
+
+  <Tab title="Jupyter Notebook">
+    Utilisez la bibliothèque W&amp;B Python SDK pour paralléliser votre agent de balayage W&amp;B sur plusieurs CPU dans des notebooks Jupyter. Assurez-vous de disposer de l’ID du balayage renvoyé lorsque vous avez [initialisé le balayage](./initialize-sweeps). En outre, indiquez le nom de la fonction que le balayage doit exécuter pour le paramètre `function` :
+
+    1. Ouvrez plusieurs notebooks Jupyter.
+    2. Copiez-collez l’ID du balayage W&amp;B dans plusieurs notebooks Jupyter pour paralléliser un balayage W&amp;B. Par exemple, vous pouvez coller l’extrait de code suivant dans plusieurs notebooks Jupyter pour paralléliser votre balayage si l’ID du balayage est stocké dans une variable appelée `sweep_id` et si le nom de la fonction est `function_name` :
+
+    ```python
+    wandb.agent(sweep_id=sweep_id, function=function_name)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="parallelize-on-a-multi-gpu-machine">
+  ### Paralléliser sur une machine multi-GPU
+</div>
+
+Suivez la procédure ci-dessous pour paralléliser votre agent de balayage W&amp;B sur plusieurs GPU à l’aide d’un terminal et de CUDA Toolkit :
+
+1. Ouvrez plusieurs fenêtres de terminal sur votre machine locale.
+2. Spécifiez le GPU à utiliser avec `CUDA_VISIBLE_DEVICES` lorsque vous lancez un job de balayage W&amp;B ([`wandb agent`](/fr/models/ref/cli/wandb-agent)). Donnez à `CUDA_VISIBLE_DEVICES` une valeur entière correspondant au GPU à utiliser.
+
+Par exemple, supposons que vous disposiez de deux GPU NVIDIA sur votre machine locale. Ouvrez une fenêtre de terminal et définissez `CUDA_VISIBLE_DEVICES` sur `0` (`CUDA_VISIBLE_DEVICES=0`). Remplacez `sweep_ID` dans l’exemple suivant par l’ID du balayage W&amp;B renvoyé lorsque vous avez initialisé un balayage W&amp;B :
+
+Terminal 1
+
+```bash
+CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
+```
+
+Ouvrez une deuxième fenêtre de terminal. Définissez `CUDA_VISIBLE_DEVICES` sur `1` (`CUDA_VISIBLE_DEVICES=1`). Collez le même ID de balayage W&amp;B pour le `sweep_ID` mentionné dans l’extrait de code suivant :
+
+Terminal 2
+
+```bash
+CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID
+```

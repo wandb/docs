@@ -1,46 +1,48 @@
 ---
-title: Dockerfile を指定して、 W&B に Docker イメージをビルドさせることはできますか？
+title: Dockerfile を指定して、W&B に Docker イメージをビルドさせることはできますか？
 ---
 
-この機能は、要件は安定しているものの、コードベースが頻繁に変更される プロジェクト に適しています。
+この機能は、依存関係は安定している一方で、コードベースが頻繁に変わるプロジェクトに適しています。
 
 <Warning>
-マウントを使用するように Dockerfile をフォーマットしてください。詳細については、Docker 公式ドキュメントの [Mounts に関するドキュメント](https://docs.docker.com/build/guide/mounts/) を参照してください。
+  Dockerfile はマウントを使用する形式で記述してください。詳細は、[Docker Docs の Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)を参照してください。
 </Warning>
 
-Dockerfile の設定が完了したら、以下の 3 つのいずれかの方法で W&B に指定します。
+Dockerfile を設定したら、次の 3 つのいずれかの方法で W&amp;B に指定します。
 
 * Dockerfile.wandb を使用する
-* W&B CLI を使用する
-* W&B App を使用する
+* W&amp;B CLI を使用する
+* W&amp;B App を使用する
 
 <Tabs>
-<Tab title="Dockerfile.wandb">
-W&B run のエントリーポイントと同じ ディレクトリー に `Dockerfile.wandb` ファイルを含めます。W&B は、組み込みの Dockerfile の代わりにこのファイルを使用します。
-</Tab>
-<Tab title="W&B CLI">
-`wandb launch` コマンドで `--dockerfile` フラグを使用して、ジョブをキューに入れます。
+  <Tab title="Dockerfile.wandb">
+    W&amp;B run のエントリポイントと同じディレクトリに `Dockerfile.wandb` ファイルを配置します。W&amp;B は組み込みの Dockerfile の代わりにこのファイルを使用します。
+  </Tab>
 
-```bash
-wandb launch --dockerfile path/to/Dockerfile
-```
-</Tab>
-<Tab title="W&B app">
-W&B App でジョブをキューに追加する際、**Overrides** セクションで Dockerfile のパスを指定します。 キー を `"dockerfile"`、値 を Dockerfile へのパスとした キー / 値 ペアとして入力してください。
+  <Tab title="W&B CLI">
+    `wandb launch` コマンドで `--dockerfile` フラグを使用して、ジョブをキューに追加します。
 
-次の JSON は、ローカル ディレクトリー にある Dockerfile を含める方法を示しています。
+    ```bash
+    wandb launch --dockerfile path/to/Dockerfile
+    ```
+  </Tab>
 
-```json title="Launch job W&B App"
-{
-  "args": [],
-  "run_config": {
-    "lr": 0,
-    "batch_size": 0,
-    "epochs": 0
-  },
-  "entrypoint": [],
-  "dockerfile": "./Dockerfile"
-}
-```
-</Tab>
+  <Tab title="W&B App">
+    W&amp;B App でキューにジョブを追加する際は、**Overrides** セクションで Dockerfile のパスを指定します。キーを `"dockerfile"`、値を Dockerfile へのパスとするキーと値のペアとして入力します。
+
+    次の JSON は、ローカルディレクトリ内の Dockerfile を指定する方法を示しています。
+
+    ```json title="Launch job W&B App"
+    {
+      "args": [],
+      "run_config": {
+        "lr": 0,
+        "batch_size": 0,
+        "epochs": 0
+      },
+      "entrypoint": [],
+      "dockerfile": "./Dockerfile"
+    }
+    ```
+  </Tab>
 </Tabs>

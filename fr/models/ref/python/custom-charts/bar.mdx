@@ -1,0 +1,67 @@
+---
+title: bar()
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py" />
+
+
+### <kbd>fonction</kbd> `bar`
+
+```python
+bar(
+    table: 'wandb.Table',
+    label: 'str',
+    value: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Crée un graphique à barres à partir d’un `wandb.Table` de données.
+
+**Arguments :**
+
+* `table`:  Un tableau contenant les données du graphique à barres.
+* `label`:  Le nom de la colonne à utiliser pour les libellés de chaque barre.
+* `value`:  Le nom de la colonne à utiliser pour les valeurs de chaque barre.
+* `title`:  Le titre du graphique à barres.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau s’affiche dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, transmettez-le à `wandb.log()`.
+
+**Exemple :**
+
+```python
+import random
+import wandb
+
+# Générer des données aléatoires pour le tableau
+data = [
+    ["car", random.uniform(0, 1)],
+    ["bus", random.uniform(0, 1)],
+    ["road", random.uniform(0, 1)],
+    ["person", random.uniform(0, 1)],
+]
+
+# Créer un tableau avec les données
+table = wandb.Table(data=data, columns=["class", "accuracy"])
+
+# Initialiser un run W&B et enregistrer le graphique en barres
+with wandb.init(project="bar_chart") as run:
+    # Créer un graphique en barres à partir du tableau
+    bar_plot = wandb.plot.bar(
+         table=table,
+         label="class",
+         value="accuracy",
+         title="Object Classification Accuracy",
+    )
+
+    # Enregistrer le graphique en barres dans W&B
+    run.log({"bar_plot": bar_plot})
+```

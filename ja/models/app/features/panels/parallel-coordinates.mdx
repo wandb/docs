@@ -1,31 +1,35 @@
 ---
-title: パラレル座標プロット
-description: 機械学習の Experiments 間で結果を比較する
+description: 機械学習 experiment 間で結果を比較する
+title: 平行座標
 ---
 
-Parallel coordinates （並列座標）チャートは、多数の ハイパーパラメーター と モデル メトリクス の関係を一目で要約します。
+平行座標チャートでは、多数のハイパーパラメーターとモデルのメトリクスの関係をひと目で把握できます。
 
 <Frame>
-    <img src="/images/app_ui/parallel_coordinates.gif" alt="Parallel coordinates plot"  />
+  <img src="/images/app_ui/parallel_coordinates.gif" alt="平行座標プロット" />
 </Frame>
 
-* **Axes（軸）**: [`wandb.Run.config`](/models/evaluate-models/) からの異なる ハイパーパラメーター や、[`wandb.Run.log()`](/models/evaluate-models/) からの メトリクス を表します。
-* **Lines（線）**: 各線は単一の Run を表します。線の上にマウスを置くと、その Run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべての線が表示されますが、目のアイコンをオフにすると、それらの線はグレーアウトされます。
+* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) のさまざまなハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) のメトリクス。
+* **Lines**: 各ラインは1つの run を表します。ラインにマウスオーバーすると、run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべてのラインが表示されますが、目のアイコンをオフにすると、ラインはグレーアウトされます。
 
-## parallel coordinates パネルの作成
+<div id="create-a-parallel-coordinates-panel">
+  ## 平行座標 パネルを作成する
+</div>
 
-1. Workspace のランディングページに移動します
+1. Workspace のランディングページにアクセスします
 2. **Add Panels** をクリックします
-3. **Parallel coordinates** を選択します
+3. **平行座標** を選択します
 
-## パネル 設定
+<div id="panel-settings">
+  ## パネル設定
+</div>
 
-パネルを 設定 するには、パネルの右上隅にある編集ボタンをクリックします。
+パネルを設定するには、パネルの右上にある編集ボタンをクリックします。
 
-* **Tooltip**: ホバー時に、各 Run に関する 情報 を含む凡例が表示されます
-* **Titles**: 軸のタイトルを読みやすく編集できます
-* **Gradient**: 勾配 をお好みの色範囲にカスタマイズできます
-* **Log scale**: 各軸を個別にログスケールで表示するように設定できます
-* **Flip axis**: 軸の方向を切り替えます。これは、精度（accuracy）と損失（loss）の両方の列がある場合に便利です
+* **ツールチップ**: ホバーすると、各 run の情報を示す凡例が表示されます
+* **タイトル**: 軸タイトルを編集して、より読みやすくできます
+* **グラデーション**: 好みの色の範囲にグラデーションをカスタマイズできます
+* **対数スケール**: 各軸はそれぞれ個別に対数スケールで表示するよう設定できます
+* **軸の反転**: 軸の向きを切り替えます。精度と損失の両方を列として使用している場合に便利です
 
-[ライブ状態の parallel coordinates パネルを操作する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[ライブの平行座標パネルを試す](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

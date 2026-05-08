@@ -2,32 +2,59 @@
 title: wandb init
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-init.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-import WandbInit from "/snippets/en/_includes/cli/wandb-init.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L381" />
 
-<WandbInit/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-ディレクトリーに Weights & Biases の設定を行います。
-
-## 使用法
+<div id="usage">
+  ## 使用法
+</div>
 
 ```bash
-wandb init [OPTIONS]
+init [OPTIONS]
 ```
 
-## オプション
+<div id="description">
+  ## 説明
+</div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | 使用する Projects を指定します。 |
-| `--entity`, `-e` | Projects のスコープ対象となる Entities を指定します。 |
-| `--reset` | 設定 をリセットします (デフォルト: False) |
-| `--mode`, `-m` | "online", "offline", または "disabled" を指定できます。デフォルトは online です。 |
+現在のディレクトリの W&amp;B 設定を初期化または更新します。
+
+project と entity を設定し、ローカルの W&amp;B 設定を作成して、
+実験管理を行うための準備をディレクトリに対して行います。
+
+たとえば、チームと project を選択するための対話形式のプロンプトを使用して、
+現在のディレクトリに W&amp;B を設定します。
+
+```bash
+wandb init
+```
+
+デフォルトのprojectを&quot;foobar&quot;に、デフォルトのentityを&quot;team-awesome&quot;に、確認プロンプトを表示せずに設定するには:
+
+```bash
+wandb init --project foobar --entity team-awesome
+```
+
+W&amp;B をオフライン モードに設定するには:
+
+```bash
+wandb init --mode offline
+```
+
+現在のディレクトリにある既存のW&amp;B設定をリセットするには:
+
+```bash
+wandb init --reset
+```
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ             | タイプ       | 説明                                                                                                 |
+| --------------- | --------- | -------------------------------------------------------------------------------------------------- |
+| `--project, -p` | STR       | runs のアップロード先の project を設定します。**デフォルト**: なし                                                        |
+| `--entity, -e`  | STR       | project のスコープ先となる entity を設定します。**デフォルト**: なし                                                      |
+| `--reset`       | BOOL Flag | このディレクトリの既存の W&amp;B 設定をリセットします。**デフォルト**: False                                                   |
+| `--mode, -m`    | STR       | W&amp;B のモードを設定します。&#39;online&#39;、&#39;offline&#39;、または &#39;disabled&#39; のいずれかです。**デフォルト**: なし |

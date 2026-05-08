@@ -1,0 +1,27 @@
+---
+title: 맞춤형 summary 메트릭 기록
+---
+
+```python
+"""
+W&B에 맞춤형 summary 메트릭을 기록합니다.
+
+다음을 교체하세요:
+- 꺾쇠 괄호로 묶인 값을 실제 값으로 교체
+- run.define_metric()의 <summary_function_a>와 <summary_function_b>를
+    "max", "min", "last", "mean", "best", "none" 중 하나로 교체
+"""
+import wandb
+import random
+
+with wandb.init() as run:
+    # metric_name_a에 대한 summary_function_a 및 summary_function_b summary 값
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_a>")
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_b>")
+
+    for i in range(10):
+        log_dict = {
+            "metric_name_a": random.uniform(0, 1 / (i + 1)),
+        }
+        run.log(log_dict)
+```

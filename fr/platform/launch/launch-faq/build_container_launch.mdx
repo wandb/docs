@@ -1,0 +1,17 @@
+---
+title: "Je ne veux pas que W&B génère un conteneur pour moi : puis-je quand même utiliser Launch ?"
+---
+
+Pour lancer une image Docker déjà créée, exécutez la commande suivante. Remplacez les éléments entre `<>` par vos propres informations :
+
+```bash
+wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
+```
+
+Cette commande crée un job et lance un run.
+
+Pour créer un job à partir d’une image, utilisez la commande suivante :
+
+```bash
+wandb job create image <image-name> -p <project> -e <entity>
+```

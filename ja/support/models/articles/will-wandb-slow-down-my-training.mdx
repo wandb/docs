@@ -1,0 +1,14 @@
+---
+title: "wandb を使うとトレーニングは遅くなりますか？"
+keywords: ["Experiments"]
+---
+
+通常の使用条件であれば、W&amp;B がトレーニングのパフォーマンスに与える影響は最小限です。通常の使用とは、1 秒に 1 回未満の頻度でログし、データ量を 1 step あたり数メガバイト程度に抑えることを指します。W&amp;B はノンブロッキングの関数呼び出しを用いる別プロセスで動作するため、短時間のネットワーク障害や断続的なディスクの読み書きの問題が発生しても、パフォーマンスに支障をきたしません。大量のデータを過剰にログすると、ディスク I/O の問題が発生する可能性があります。さらにご不明な点がある場合は、サポートにお問い合わせください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

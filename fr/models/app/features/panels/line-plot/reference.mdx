@@ -1,0 +1,484 @@
+---
+title: Référence du graphique en courbes
+description: "Référence des paramètres du panneau de graphique linéaire, notamment l’axe X, l’axe Y, le lissage, l’agrégation et les options de regroupement."
+---
+
+import LinePlotCaptureGroups from "/snippets/fr/_includes/line-plot-capture-groups.mdx";
+
+Cette page présente des informations détaillées sur les paramètres du graphique en courbes. Pour en savoir plus sur l’utilisation des graphiques en courbes, voir l’[Aperçu des graphiques en courbes](/fr/models/app/features/panels/line-plot).
+
+<div id="data-settings">
+  ## Paramètres des données
+</div>
+
+<div id="x-axis">
+  ### Axe X
+</div>
+
+<Frame>
+  <img src="/images/app_ui/reference_x_axis.png" alt="Sélection de l’axe X" />
+</Frame>
+
+Définissez la plage de l’axe X sur n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec `wandb.Run.log()`.
+
+Options d’axe X basées sur le temps disponibles :
+
+* **Étape**: S’incrémente à chaque appel de `wandb.Run.log()`. Reflète le nombre d’étapes d’entraînement enregistrées par votre modèle. (Par défaut)
+* **Temps relatif (horloge)**: Temps écoulé depuis le démarrage du processus. Si vous démarrez un run, le mettez en pause pendant une journée, puis le reprenez et enregistrez, ce point apparaît à 24 heures.
+* **Temps relatif (processus)**: Temps écoulé dans le processus en cours d’exécution. Si vous démarrez un run, l’exécutez pendant 10 secondes, le mettez en pause pendant une journée, puis le reprenez, ce point apparaît à 10 secondes.
+* **Temps réel**: Minutes écoulées depuis le début du premier run sur le graphique.
+* **Plage X**: Va par défaut de la plus petite à la plus grande valeur de votre axe X. Vous pouvez personnaliser les valeurs minimale et maximale.
+
+<div id="y-axis">
+  ### Axe Y
+</div>
+
+Définissez les variables de l’axe y sur n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec`wandb.Run.log()`. Indiquez une valeur unique, un tableau de valeurs ou un histogramme de valeurs. Si vous avez enregistré plus de 1500 points pour une variable, W&amp;B en échantillonne 1500.
+
+<Note>
+  Personnalisez la couleur des lignes de l’axe y en modifiant la couleur du run dans la Runs table.
+</Note>
+
+Options disponibles pour l’axe y :
+
+* **Plage Y** : Par défaut, elle s’étend de la plus petite valeur positive de vos métriques (0 inclus) à la plus grande. Vous pouvez personnaliser les valeurs minimale et maximale.
+
+<div id="point-aggregation-method">
+  ### Méthode d’agrégation des points
+</div>
+
+Choisissez le mode d’échantillonnage pour afficher les points de données :
+
+* **Échantillonnage aléatoire** (par défaut) : Voir [Échantillonnage aléatoire](/fr/models/app/features/panels/line-plot/sampling/#random-sampling).
+* **Fidélité totale** : Voir [Fidélité totale](/fr/models/app/features/panels/line-plot/sampling/#full-fidelity).
+
+<div id="smoothing">
+  ### Lissage
+</div>
+
+Définissez le [coefficient de lissage](/fr/support/models/articles/what-formula-do-you-use-for-your-smoothi) entre 0 et 1, où 0 signifie aucun lissage et 1 un lissage maximal.
+
+Méthodes de lissage disponibles :
+
+* **EMA pondérée dans le temps** (par défaut) : technique de lissage des données de séries temporelles qui réduit de façon exponentielle le poids des points précédents.
+* **Moyenne mobile** : remplace un point par la moyenne des points d’une fenêtre située avant et après la valeur x donnée.
+* **Gaussienne** : calcule une moyenne pondérée des points, où les poids correspondent à une distribution gaussienne dont l’écart type est défini comme paramètre de lissage.
+* **Aucun lissage**
+
+Pour plus de détails, voir [Lissage des graphiques en courbes](/fr/models/app/features/panels/line-plot/smoothing).
+
+<div id="ignore-outliers">
+  ### Ignorer les valeurs aberrantes
+</div>
+
+Redimensionnez le graphique pour exclure les valeurs aberrantes de l&#39;échelle min./max. par défaut. L&#39;impact de ce paramètre dépend du mode d&#39;échantillonnage du graphique :
+
+* **Mode d&#39;échantillonnage aléatoire** : ignorer les valeurs aberrantes omet du graphique les points en dessous de 5 % et au-dessus de 95 %.
+* **Mode de fidélité totale** : ignorer les valeurs aberrantes affiche tous les points, ramenés à la dernière valeur de chaque bucket, et grise la zone en dessous de 5 % et au-dessus de 95 %.
+
+<div id="max-runs-or-groups">
+  ### Nombre maximal de runs ou de groupes
+</div>
+
+Par défaut, les graphiques incluent seulement les 10 premiers runs ou groupes de runs de la liste ou de l’ensemble de runs. Modifiez l’ordre de tri pour choisir quels runs ou groupes afficher.
+
+<Note>
+  Un Workspace ne peut afficher que 1000 runs maximum, quelle que soit sa configuration.
+</Note>
+
+<div id="chart-type">
+  ### Type de graphique
+</div>
+
+Choisissez le style du graphique :
+
+* **Graphique en courbes**
+  <Frame>
+    <img src="/images/app_ui/plot_style_line_plot.png" alt="Style de graphique en courbes" />
+  </Frame>
+* **Graphique en aires**
+  <Frame>
+    <img src="/images/app_ui/plot_style_area_plot.png" alt="Style de graphique en aires" />
+  </Frame>
+* **Graphique en aires en pourcentage :**
+  <Frame>
+    <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Style de graphique en aires en pourcentage" />
+  </Frame>
+
+Configurez le type de graphique dans l&#39;onglet **Data**. Reportez-vous à [](/fr/models/app/features/panels/line-plot#individual-line-plot).
+
+<div id="grouping-settings">
+  ## Paramètres de regroupement
+</div>
+
+Regroupez tous les runs en activant le regroupement, ou regroupez-les selon une variable donnée. Lorsque vous activez le regroupement dans le tableau des runs, les groupes s’affichent automatiquement dans le graphique.
+
+* **Regrouper les runs** : Active le regroupement des runs dans le graphique. Requis pour configurer la zone ombrée du graphique ci-dessous.
+* **Regrouper par** : Sélectionnez éventuellement une colonne. Tous les runs ayant la même valeur dans cette colonne sont regroupés ensemble.
+* **Agrégation** : La valeur de la courbe sur le graphique. Les options sont la moyenne, la médiane, le minimum et le maximum du groupe.
+* **Plage** : Configurez la zone ombrée d’un graphique en courbes complet. Les options sont Min/Max, écart-type, erreur standard ou aucune.
+
+<div id="chart-settings">
+  ## Paramètres du graphique
+</div>
+
+Configurez les titres et l’affichage de la légende :
+
+* **Titre du panneau** : Titre affiché en haut du panneau.
+* **Titre de l’axe x** : Libellé de l’axe x.
+* **Titre de l’axe y** : Libellé de l’axe y.
+* **Légende** : Affichez ou masquez la légende et configurez sa position.
+
+<div id="legend-settings">
+  ## Paramètres de la légende
+</div>
+
+Personnalisez la légende pour afficher n’importe quelle valeur de configuration enregistrée ainsi que les métadonnées des runs, comme la date de création ou l’utilisateur ayant créé le run.
+
+<div id="legend-template">
+  ### Modèle de légende
+</div>
+
+Définissez un modèle pour le nom affiché dans la légende.
+
+1. Cliquez sur l’icône d’engrenage pour ouvrir les paramètres du graphique.
+2. Accédez à l’onglet **Préférences d’affichage**.
+3. Développez **Légende avancée**, puis indiquez le modèle de légende.
+4. Cliquez sur **Appliquer**.
+
+{/* Exemple :
+
+  `${run:displayName} - ${config:dropout}` produit un nom de légende comme `royal-sweep - 0.5`, où `royal-sweep` est le nom de l&#39;exécution et `0.5` est le paramètre de configuration appelé `dropout`. */}
+
+<div id="point-specific-values">
+  ### Valeurs spécifiques à un point
+</div>
+
+Définissez des valeurs entre `[[ ]]` pour afficher des valeurs spécifiques à un point dans le réticule lorsque vous survolez un graphique.
+
+1. Cliquez sur l’icône d’engrenage pour ouvrir les paramètres du graphique.
+2. Accédez à l’onglet **Préférences d’affichage**.
+3. En bas de l’onglet, configurez des valeurs spécifiques à un point pour une ou plusieurs métriques du graphique.
+4. Cliquez sur **Appliquer**.
+
+{/* Exemple : `[[ $x: $y ($original) ]]` affiche quelque chose comme "2: 3 (2.9)" */}
+
+Valeurs prises en charge entre `[[ ]]` :
+
+| Valeur        | Signification                                                |
+| ------------- | ------------------------------------------------------------ |
+| `${x}`        | Valeur X                                                     |
+| `${y}`        | Valeur Y (y compris l’ajustement du lissage)                 |
+| `${original}` | Valeur Y sans l’ajustement du lissage                        |
+| `${mean}`     | Moyenne des runs groupés                                     |
+| `${stddev}`   | Écart type des runs groupés                                  |
+| `${min}`      | Minimum des runs groupés                                     |
+| `${max}`      | Maximum des runs groupés                                     |
+| `${percent}`  | Pourcentage du total (pour les graphiques en aires empilées) |
+
+<div id="expressions">
+  ## Expressions
+</div>
+
+Formulez des expressions mathématiques pour créer ou transformer des graphiques en courbes à partir de vos métriques enregistrées, des valeurs de configuration et des statistiques de synthèse. Par exemple, vous pouvez calculer la différence entre deux métriques, mettre à l’échelle une métrique à l’aide d’une valeur de configuration, ou tracer le logarithme d’une métrique. Les expressions sont évaluées à chaque étape que vous consignez.
+
+Les sections suivantes montrent comment faire référence à des valeurs dans des expressions et décrivent les opérateurs et les fonctions que vous pouvez utiliser dans des expressions personnalisées. Dans un graphique en courbes, vous pouvez utiliser une expression pour l’axe des x, l’axe des y, ou les deux.
+
+Voir la section [Exemples d’expressions](#example-expressions) ci-dessous pour des cas d’usage courants et des expressions types.
+
+<div id="create-new-line-plots-with-expressions">
+  ### Créer de nouveaux graphiques en courbes avec des expressions
+</div>
+
+1. Accédez au workspace de votre projet.
+2. Cliquez sur le bouton **+ Add panel**, puis sélectionnez **graphique en courbes**.
+3. Cliquez sur l’onglet **Data**. Sélectionnez les données que vous souhaitez représenter sur le graphique en courbes pour les axes x et y.
+4. Cliquez sur l’onglet **Expressions**.
+5. Dans le champ **axe Y** ou **axe X**, saisissez votre expression.
+6. Cliquez sur **appliquer** pour enregistrer vos paramètres et afficher le graphique en courbes.
+
+<div id="transform-existing-line-plots-with-expressions">
+  ### Transformez des graphiques en courbes existants à l’aide d’expressions
+</div>
+
+1. Ouvrez le graphique en courbes que vous souhaitez transformer.
+2. Cliquez sur l’icône d’engrenage dans le coin supérieur droit du graphique pour modifier le panneau.
+3. Cliquez sur l’onglet **Expressions**.
+4. Dans le champ **axe Y** ou le champ **axe X**, saisissez votre expression.
+5. Cliquez sur **Appliquer** pour enregistrer vos paramètres et afficher le graphique en courbes mis à jour.
+
+{/* ### Expressions de l’axe Y
+
+  Tracez des valeurs calculées à partir de métriques. Par exemple, calculez `1-accuracy` ou d’autres expressions arithmétiques. Pour le moment, cela fonctionne uniquement lorsque vous tracez une seule métrique.
+
+  Opérateurs pris en charge : `+`, `-`, `*`, `/`, `%` et `**` (pour les puissances).
+
+  Vous pouvez calculer des lignes personnalisées à partir à la fois de métriques enregistrées et de valeurs de configuration telles que des hyperparamètres.
+
+  ### Expressions de l’axe X
+
+  Redimensionnez l’axe X à l’aide de valeurs calculées avec des expressions personnalisées.
+
+  Variables utiles :
+  * `_step` : la valeur par défaut de l’axe X.
+  * `${summary:value}` : valeurs de synthèse de référence. */}
+
+<div id="referencing-values">
+  ### Référencer des valeurs
+</div>
+
+Le tableau suivant décrit comment référencer des métriques enregistrées, des paramètres de configuration et des statistiques de synthèse dans les expressions de graphique en courbes.
+
+| Type                       | Syntaxe                | Description                                                                         | Exemples                                            |
+| -------------------------- | ---------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Métrique                   | `${metric_name}`       | Fait référence à une métrique enregistrée par son nom.                              | `${val/accuracy}`, `${"accuracy"}`                  |
+| Paramètre de configuration | `${config:param_name}` | Fait référence à des valeurs de configuration à l&#39;aide du préfixe `${config:}`. | `${config:lr}`, `${config:batch_size}`              |
+| Statistique de synthèse    | `${summary:stat_name}` | Fait référence à des champs de synthèse à l&#39;aide du préfixe `summary:`          | `${summary:final_accuracy}`, `${summary:best_loss}` |
+
+Utilisez `${...}` pour échapper tout nom de métrique, paramètre de configuration ou champ de synthèse contenant des caractères spéciaux ou des espaces, comme `/`, `-` ou des espaces.
+
+Par exemple, si vous enregistrez une métrique nommée `val/accuracy`, référencez-la sous la forme `${val/accuracy}` pour éviter toute confusion avec l&#39;opérateur de division. Si vous enregistrez un paramètre de configuration nommé `dropout-rate`, référencez-le sous la forme `${config:dropout-rate}`. Si vous enregistrez un champ de synthèse nommé `best loss`, référencez-le sous la forme `${summary:best loss}`.
+
+<div id="nested-configs">
+  #### Configurations imbriquées
+</div>
+
+Accédez aux valeurs de configuration imbriquées à l’aide de la notation pointée et de la syntaxe suivante :
+
+```javascript
+${config:parent.child.grandchild}
+```
+
+Où `parent`, `child` et `grandchild` sont les clés du dictionnaire de configuration imbriqué.
+
+Par exemple, supposons que vous enregistriez la configuration suivante avec des dictionnaires imbriqués :
+
+```python
+config = {
+    "model": {
+        "type": "resnet",
+        "layers": 50
+    },
+    "training": {
+        "batch_size": 32,
+        "learning_rate": 0.001
+    }
+}
+
+with wandb.init(project="my-project", config=config) as run:
+    ...
+```
+
+Vous pouvez faire référence au type de modèle avec : `${config:model.type}`. Vous pouvez faire référence à la taille de lot avec : `${config:training.batch_size}`.
+
+Prenons un autre exemple avec la configuration suivante et des dictionnaires imbriqués :
+
+```json Config parameters 
+config:
+  optimizer:
+    value:
+      lr: 0.001
+      weight_decay: 0.01
+  model:
+    value:
+      hidden_size: 768
+```
+
+Faites référence au taux d’apprentissage avec `${config:optimizer.value.lr}`, à la taille de la couche cachée du modèle avec `${config:model.value.hidden_size}`, ou à la décroissance des poids avec `${config:optimizer.value.weight_decay}`.
+
+<div id="available-operators">
+  ### Opérateurs disponibles
+</div>
+
+W&amp;B prend en charge les opérateurs suivants dans les expressions de graphique en courbes :
+
+| Catégorie    | Opérateurs                                         |
+| ------------ | -------------------------------------------------- |
+| Arithmétique | `+`, `-`, `*`, `/`, `%` (modulo), `**` (puissance) |
+| Comparaison  | `==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`     |
+| Bit à bit    | `\|`, `^`, `&`, `<<`, `>>`, `>>>`                  |
+| Logique      | `\|\|` , `&&`                                      |
+
+<div id="math-constants-and-functions">
+  ### Constantes et fonctions mathématiques
+</div>
+
+Toutes les fonctions et constantes mathématiques de JavaScript sont prises en charge. Pour plus de détails, voir la [documentation MDN sur Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math). Les tableaux suivants résument les fonctions et constantes les plus couramment utilisées dans les expressions de graphique en courbes.
+
+<div id="math-constants">
+  #### Constantes mathématiques
+</div>
+
+| Constante | Description                |
+| --------- | -------------------------- |
+| `e`       | nombre d’Euler             |
+| `pi`      | pi                         |
+| `ln2`     | logarithme naturel de 2    |
+| `ln10`    | logarithme naturel de 10   |
+| `log2e`   | logarithme en base 2 de e  |
+| `log10e`  | logarithme en base 10 de e |
+| `sqrt2`   | racine carrée de 2         |
+| `sqrt1_2` | racine carrée de 1/2       |
+
+<div id="arithmetic-and-statistical-functions">
+  #### Fonctions arithmétiques et statistiques
+</div>
+
+Le tableau suivant décrit les fonctions arithmétiques et statistiques disponibles :
+
+| Fonction       | Description                                                     |
+| -------------- | --------------------------------------------------------------- |
+| abs(x)         | Valeur absolue                                                  |
+| ceil(x)        | Fonction plafond (arrondi à l’entier supérieur le plus proche)  |
+| floor(x)       | Fonction plancher (arrondi à l’entier inférieur le plus proche) |
+| round(x)       | Arrondi à l’entier le plus proche                               |
+| min(x, y, ...) | Valeur minimale                                                 |
+| max(x, y, ...) | Valeur maximale                                                 |
+| sqrt(x)        | Racine carrée                                                   |
+
+<div id="logarithmic-and-exponential-functions">
+  #### Fonctions logarithmiques et exponentielles
+</div>
+
+Le tableau suivant présente les fonctions logarithmiques et exponentielles disponibles :
+
+| Fonction  | Description                  |
+| --------- | ---------------------------- |
+| log(x)    | Logarithme naturel (base e)  |
+| log10(x)  | Logarithme en base 10        |
+| log2(x)   | Logarithme en base 2         |
+| exp(x)    | Fonction exponentielle (e^x) |
+| pow(x, y) | Fonction puissance (x^y)     |
+
+<div id="trigonometric-functions">
+  #### Fonctions trigonométriques
+</div>
+
+Le tableau suivant décrit les fonctions trigonométriques disponibles :
+
+| Fonction    | Description                    |
+| ----------- | ------------------------------ |
+| sin(x)      | Sinus                          |
+| cos(x)      | Cosinus                        |
+| tan(x)      | Tangente                       |
+| asin(x)     | Arcsinus (sinus inverse)       |
+| acos(x)     | Arccosinus (cosinus inverse)   |
+| atan(x)     | Arctangente (tangente inverse) |
+| atan2(y, x) | Arctangente à deux arguments   |
+
+<div id="hyperbolic-functions">
+  #### Fonctions hyperboliques
+</div>
+
+Le tableau suivant décrit les fonctions hyperboliques disponibles :
+
+| Fonction | Description           |
+| -------- | --------------------- |
+| sinh(x)  | Sinus hyperbolique    |
+| cosh(x)  | Cosinus hyperbolique  |
+| tanh(x)  | Tangente hyperbolique |
+
+<div id="example-expressions">
+  ### Exemples d&#39;expressions
+</div>
+
+Voici quelques exemples d&#39;expressions pour les axes d&#39;un graphique en courbes. Ces exemples sont fournis à titre illustratif. Vous pouvez utiliser n&#39;importe quelle combinaison d&#39;opérateurs et de fonctions décrits dans les sections précédentes pour créer des expressions complexes adaptées à vos besoins.
+
+Pour les exemples suivants, supposons que vos [métriques de synthèse](/fr/models/track/log/log-summary#log-summary-metrics) incluent `accuracy` et `loss` avec les valeurs suivantes :
+
+```json Summary metrics
+{
+  "accuracy": 0.7829240801794489,
+  "loss": 0.2194763318905079
+}
+```
+
+Supposons que votre configuration ressemble à ceci :
+
+```json Config parameters
+config = {
+    "epochs": 100,
+    "optimizer": {
+        "value": {
+            "lr": 0.001,
+            "weight_decay": 0.01
+        }
+    }
+}
+```
+
+Décalez verticalement la métrique de précision en lui ajoutant une valeur constante. Dans l’exemple suivant, augmentez la précision de 1 :
+
+```javascript
+1 - accuracy
+```
+
+Décalez verticalement une métrique d’une valeur constante, ici le taux d’apprentissage (`lr`) :
+
+```javascript
+accuracy+${config:optimizer.value.lr}
+```
+
+Calculez le sinus d’une métrique. Dans l’exemple suivant, calculez le sinus de la métrique de perte :
+
+```javascript
+sin(loss)
+```
+
+Décalez la phase d’une métrique en lui appliquant une fonction sinus. Par exemple, appliquez une fonction sinus et décalez la phase de la métrique de perte de 2 :
+
+```javascript
+sin(loss - 2)
+```
+
+Remettez à l’échelle la métrique de précision à l’aide du paramètre de configuration `batch_size` :
+
+```javascript
+${accuracy} / ${config:batch_size}
+```
+
+Calculez la valeur minimale de deux métriques. Dans l’exemple suivant, calculez la valeur minimale de la perte et de la précision :
+
+```javascript
+min(loss, accuracy)
+```
+
+Calculez la racine carrée de la somme des carrés de deux métriques. Dans l’exemple suivant, calculez la racine carrée de la somme des carrés de la perte et de la précision :
+
+```javascript
+sqrt(loss ** 2 + accuracy ** 2)
+```
+
+Calculez l’exponentielle de la perte. Dans l’exemple suivant, calculez l’exponentielle de la métrique « perte » :
+
+```javascript
+sqrt(loss*100)+sqrt(loss*100000)
+```
+
+<Note>
+  Vous pouvez également utiliser les valeurs de synthèse des métriques dans les expressions avec la syntaxe `${summary:metric_name}`. Par exemple :
+
+  ```javascript
+  sqrt(${summary:loss}*100)+sqrt(${summary:loss}*100000)
+  ```
+</Note>
+
+<div id="multi-metric-panel-expressions">
+  ### Expressions de panneau à plusieurs métriques
+</div>
+
+Utilisez une expression régulière pour créer un seul graphique en courbes affichant plusieurs métriques ensemble (y compris les métriques correspondantes qui seront enregistrées ultérieurement). Pour des instructions détaillées, voir [Ajouter un graphique en courbes](/fr/models/app/features/panels/line-plot#multi-metric-line-plot).
+
+Par exemple :
+
+* Au lieu de créer des panneaux distincts pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques avec un schéma de nommage cohérent, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss`, vous pouvez utiliser une expression régulière comme `layer_\d+_loss` pour afficher toutes les pertes des couches sur un même graphique.
+* Faites correspondre toutes les métriques qui partagent un schéma de nommage commun. Par exemple :
+  * `train_.*` correspond à toutes les métriques d’entraînement comme `train_loss`, `train_accuracy`, `train_f1_score`
+  * `.*_accuracy` correspond aux métriques d’accuracy sur différents jeux de données comme `train_accuracy`, `val_accuracy`, `test_accuracy`
+* Utilisez l’alternance pour faire correspondre uniquement les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
+
+<div id="capture-groups">
+  #### Groupes de capture
+</div>
+
+<LinePlotCaptureGroups />

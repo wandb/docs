@@ -1,37 +1,44 @@
 ---
-title: Query Expression Language 개요
-description: W&B의 데이터를 선택하고 집계하기 위한 베타 쿼리 언어
+title: Query Expression Language Overview
+description: W&B에서 데이터를 선택하고 집계하는 베타 쿼리 언어
 ---
 
- thoughtful mini templating edit 
+여러 run과 프로젝트 전반에서 데이터를 선택하고 집계하려면 쿼리 표현식을 사용하세요.
+[query panels](/ko/models/app/features/panels/query-panels)에 대해 자세히 알아보세요.
 
-쿼리 표현식을 사용하여 여러 run과 프로젝트 전체에 걸쳐 데이터를 선택하고 집계하세요.
-[쿼리쿼리 표현식을 사용하여 여러 run과 프로젝트 전체에 걸쳐 데이터를 선택하고 집계하세요. 
-[쿼리 패널](/models/app/features/panels/query-panels/)에 대해 자세히 알아보세요.
+<Tip>
+  공개 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)에서 대화형 예제를 확인하세요. 패널 생성, run 이력을 단계별로 살펴보는 방법, 그리고 **Concat** 및 **Paginate**와 같은 설정 옵션에 대한 자세한 내용은 [Query panels overview](/ko/models/app/features/panels/query-panels)를 참조하세요.
+</Tip>
 
-## 데이터 타입
+<div id="data-types">
+  ## 데이터 유형
+</div>
 
-* [artifact](./query-panel/artifact)
-* [artifactType](./query-panel/artifact-type)
-* [artifactVersion](./query-panel/artifact-version)
-* [audio-file](./query-panel/audio-file)
-* [bokeh-file](./query-panel/bokeh-file)
-* [boolean](./query-panel/boolean)
+{/* query-panel-generated-data-types:start */}
+
+* [아티팩트](./query-panel/artifact)
+* [아티팩트 유형](./query-panel/artifact-type)
+* [아티팩트 버전](./query-panel/artifact-version)
+* [오디오 파일](./query-panel/audio-file)
+* [Bokeh 파일](./query-panel/bokeh-file)
+* [불리언](./query-panel/boolean)
 * [entity](./query-panel/entity)
-* [file](./query-panel/file)
+* [파일](./query-panel/file)
 * [float](./query-panel/float)
-* [html-file](./query-panel/html-file)
-* [image-file](./query-panel/image-file)
+* [HTML 파일](./query-panel/html-file)
+* [이미지 파일](./query-panel/image-file)
 * [int](./query-panel/int)
-* [joined-table](./query-panel/joined-table)
-* [molecule-file](./query-panel/molecule-file)
-* [number](./query-panel/number)
-* [object3D-file](./query-panel/object-3-d-file)
-* [partitioned-table](./query-panel/partitioned-table)
-* [project](./query-panel/project)
-* [pytorch-model-file](./query-panel/pytorch-model-file)
+* [조인 테이블](./query-panel/joined-table)
+* [분자 파일](./query-panel/molecule-file)
+* [숫자](./query-panel/number)
+* [3D 객체 파일](./query-panel/object-3-d-file)
+* [파티션 테이블](./query-panel/partitioned-table)
+* [프로젝트](./query-panel/project)
+* [PyTorch 모델 파일](./query-panel/pytorch-model-file)
 * [run](./query-panel/run)
-* [string](./query-panel/string)
-* [table](./query-panel/table)
-* [user](./query-panel/user)
-* [video-file](./query-panel/video-file)
+* [문자열](./query-panel/string)
+* [테이블](./query-panel/table)
+* [사용자](./query-panel/user)
+* [비디오 파일](./query-panel/video-file)
+
+{/* query-panel-generated-data-types:end */}

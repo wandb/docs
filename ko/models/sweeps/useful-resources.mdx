@@ -1,36 +1,44 @@
 ---
-title: Sweeps 에 대해 더 알아보기
-description: Sweeps 에 관한 유용한 리소스 모음입니다.
+description: "더 자세히 알아볼 수 있도록 학술 논문, 예시 리포트, 튜토리얼, 그리고 Sweeps GitHub 저장소 링크를 확인하세요."
+title: Sweeps에 대해 더 알아보기
 ---
 
-### 학술 논문
+<div id="academic-papers">
+  ### 학술 논문
+</div>
 
-Li, Lisha, et al. "[Hyperband: A novel bandit-based approach to hyperparameter optimization.](https://arxiv.org/pdf/1603.06560.pdf)" _The Journal of Machine Learning Research_ 18.1 (2017): 6765-6816.
+Li, Lisha, et al. &quot;[Hyperband: 하이퍼파라미터 최적화를 위한 새로운 밴딧 기반 방법.](https://arxiv.org/pdf/1603.06560.pdf)&quot; *The   Journal of Machine Learning Research* 18.1 (2017): 6765-6816.
 
-### Sweep Experiments
+<div id="sweep-experiments">
+  ### Sweep Experiments
+</div>
 
-다음 W&B Reports 는 W&B Sweeps 를 사용하여 하이퍼파라미터 튜닝을 탐색하는 프로젝트의 예시를 보여줍니다.
+다음 W&amp;B Reports는 W&amp;B Sweeps를 사용해 하이퍼파라미터 최적화를 탐색하는 프로젝트 예시를 보여줍니다.
 
 * [Drought Watch Benchmark Progress](https://wandb.ai/stacey/droughtwatch/reports/Drought-Watch-Benchmark-Progress--Vmlldzo3ODQ3OQ)
-  * 설명: 베이스라인 개발 및 Drought Watch 벤치마크 제출물 탐색.
+  * 설명: 베이스라인을 개발하고 Drought Watch 벤치마크 제출 결과를 탐색합니다.
 * [Tuning Safety Penalties in Reinforcement Learning](https://wandb.ai/safelife/benchmark-sweeps/reports/Tuning-Safety-Penalties-in-Reinforcement-Learning---VmlldzoyNjQyODM)
-  * 설명: 패턴 생성, 패턴 제거, 내비게이션 등 세 가지 작업에서 서로 다른 부작용 페널티로 학습된 에이전트를 조사합니다.
-* [Meaning and Noise in Hyperparameter Search with W&B](https://wandb.ai/stacey/pytorch_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
-  * 설명: 어떻게 실제 신호와 변상증(가상의 패턴)을 구분할 수 있을까요? 이 기사는 W&B 로 가능한 것들을 소개하며 더 깊은 탐구를 독려합니다.
+  * 설명: 패턴 생성, 패턴 제거, 내비게이션의 세 가지 작업에서 서로 다른 부작용 페널티로 학습된 agent를 살펴봅니다.
+* [Meaning and Noise in Hyperparameter Search with W&amp;B](https://wandb.ai/stacey/pytorch_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
+  * 설명: 신호와 파레이돌리아(상상 속 패턴)를 어떻게 구분할 수 있을까요? 이 글은 W&amp;B로 무엇이 가능한지 보여주고, 더 깊이 탐색해 보도록 영감을 주는 것을 목표로 합니다.
 * [Who is Them? Text Disambiguation with Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
-  * 설명: Hugging Face를 사용하여 자연어 이해 모델 탐색.
+  * 설명: 자연어 이해를 위한 모델을 탐색하기 위해 Hugging Face를 사용합니다.
 * [DeepChem: Molecular Solubility](https://wandb.ai/stacey/deepchem_molsol/reports/DeepChem-Molecular-Solubility--VmlldzoxMjQxMjM)
-  * 설명: 랜덤 포레스트와 딥러닝 네트워크를 통해 분자 구조로부터 화학적 특성을 예측합니다.
+  * 설명: 랜덤 포레스트와 딥 네트워크를 사용해 분자 구조로부터 화학적 특성을 예측합니다.
 * [Intro to MLOps: Hyperparameter Tuning](https://wandb.ai/iamleonie/Intro-to-MLOps/reports/Intro-to-MLOps-Hyperparameter-Tuning--VmlldzozMTg2OTk3)
-  * 설명: 하이퍼파라미터 튜닝이 중요한 이유를 알아보고, 기계학습 모델의 하이퍼파라미터 튜닝을 자동화하는 세 가지 알고리즘을 살펴봅니다.
+  * 설명: 하이퍼파라미터 최적화가 왜 중요한지 살펴보고, 머신 러닝 모델의 하이퍼파라미터 튜닝을 자동화하는 세 가지 알고리즘을 알아봅니다.
 
-### self-managed
+<div id="selfm-anaged">
+  ### 셀프 관리형
+</div>
 
-다음 사용 가이드는 실제 문제를 W&B 로 해결하는 방법을 보여줍니다:
+다음 사용 방법 가이드에서는 W&amp;B로 실제 문제를 해결하는 방법을 보여줍니다:
 
-* [Sweeps with XGBoost ](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
-  * 설명: XGBoost를 사용하여 하이퍼파라미터 튜닝을 위해 W&B Sweeps 를 사용하는 방법.
+* [XGBoost와 함께 사용하는 Sweeps ](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
+  * 설명: XGBoost를 사용해 하이퍼파라미터를 튜닝할 때 W&amp;B Sweeps를 사용하는 방법.
 
-### Sweep GitHub 저장소
+<div id="sweep-github-repository">
+  ### Sweep GitHub 저장소
+</div>
 
-W&B 는 오픈 소스를 지지하며 커뮤니티의 기여를 환영합니다. [W&B Sweeps GitHub 저장소](https://github.com/wandb/sweeps)를 확인해 보세요. W&B 오픈 소스 저장소에 기여하는 방법에 대한 정보는 W&B GitHub [기여 가이드라인](https://github.com/wandb/wandb/blob/main/CONTRIBUTING.md)을 참조하세요.
+W&amp;B는 오픈 소스를 지향하며 커뮤니티의 기여를 환영합니다. [W&amp;B Sweeps GitHub 저장소](https://github.com/wandb/sweeps)에서 확인할 수 있습니다. W&amp;B 오픈 소스 저장소에 기여하는 방법에 대한 자세한 내용은 W&amp;B GitHub의 [기여 가이드라인](https://github.com/wandb/wandb/blob/main/CONTRIBUTING.md)을 참조하세요.

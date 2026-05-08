@@ -1,0 +1,16 @@
+---
+title: "Weave は関数の実行速度に影響しますか？"
+keywords: ["パフォーマンス"]
+---
+
+Weave のログ記録によるオーバーヘッドは、通常、LLM を呼び出す場合に比べて無視できる程度です。
+Op の実行速度に対する Weave の影響を最小限に抑えるため、ネットワークアクティビティはバックグラウンドスレッドで処理されます。
+プログラムの終了時には、キューに残っているデータがログされる間、一時的に停止したように見えることがあります。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,79 @@
+---
+title: ArtifactType
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `ArtifactType`
+
+Un objet artifact qui correspond à une requête basée sur le type spécifié.
+
+**Arguments :**
+
+* `client`:  L&#39;instance client à utiliser pour interroger W&amp;B.
+* `entity`:  L&#39;entité (utilisateur ou équipe) propriétaire du projet.
+* `project`:  Le nom du projet à interroger pour les types d&#39;artifact.
+* `type_name`:  Le nom du type d&#39;artifact.
+* `attrs`:  Attributs facultatifs pour initialiser l&#39;ArtifactType.  S&#39;ils sont omis, l&#39;objet chargera ses attributs depuis W&amp;B lors de l&#39;initialisation. 
+
+### <kbd>propriété</kbd> ArtifactType.id
+
+L’ID unique du type d’artifact.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété id.
+
+***
+
+### <kbd>propriété</kbd> ArtifactType.name
+
+Nom du type d&#39;artifact.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété nom.
+
+***
+
+### <kbd>méthode</kbd> `ArtifactType.collection`
+
+```python
+collection(name: 'str') → ArtifactCollection
+```
+
+Obtenir une collection d&#39;artifacts spécifique à partir de son nom.
+
+**Arguments :**
+
+* `name` (str):  Le nom de la collection d&#39;artifacts à récupérer.
+
+***
+
+
+### <kbd>méthode</kbd> `ArtifactType.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
+) → ArtifactCollections
+```
+
+Obtenir toutes les collections d&#39;artifacts associées à ce type d&#39;artifact.
+
+**Arguments :**
+
+* `filters` (dict) :  Mappage facultatif des filtres à appliquer à la requête.
+* `order` (str) :  Chaîne facultative permettant de spécifier l’ordre des résultats.  Si vous faites précéder `order` de +, l’ordre est croissant (par défaut).  Si vous faites précéder `order` de -, l’ordre est décroissant.  Par défaut, l’ordre utilisé est l’ID de la collection, par ordre décroissant.
+* `per_page` (int) :  Le nombre de collections d&#39;artifacts à récupérer par page.  La valeur par défaut est 50.
+* `start` :  Curseur de pagination pour reprendre une requête antérieure, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.
+
+***

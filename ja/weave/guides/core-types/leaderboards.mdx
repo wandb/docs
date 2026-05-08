@@ -1,60 +1,68 @@
 ---
-title: Models の比較とランキング
-description: 評価メトリクス に基づいて異なる モデル バージョンを比較し、順位付けします
+title: "モデルを比較してランク付けする"
+description: "評価メトリクスに基づいて異なるモデルバージョンを比較し、ランク付けする"
 ---
 
-Weave の _Leaderboards_ を使用すると、複数のメトリクスにわたって複数の Models を評価・比較し、精度、生成の質、レイテンシ、またはカスタム評価ロジックを測定できます。Leaderboard を活用することで、モデルのパフォーマンスを中央の場所で可視化し、時間の経過に伴う変化を追跡し、チーム全体でベンチマークを共有できます。
+Weave の *リーダーボード* を使用すると、複数のメトリクスにわたって複数のモデルを評価・比較し、精度、生成品質、レイテンシ、またはカスタム評価ロジックを測定できます。リーダーボード を使うと、モデル性能を一元的に可視化し、経時的な変化をトラッキングし、チーム全体でベンチマークを共有できます。
 
-Leaderboard は以下のような場合に最適です：
+リーダーボード は、次の用途に最適です。
 
-- モデルパフォーマンスの回帰（デグレード）の追跡
-- 共有された評価ワークフローの調整
+* モデル性能のリグレッションをトラッキングする
+* 共有の評価ワークフローを調整する
 
 <Note>
-Leaderboard の作成は、Weave UI および Weave Python SDK でのみ利用可能です。TypeScript ユーザーは [Weave UI](#ui-を使用する場合) を使用して Leaderboard を作成および管理できます。
+  リーダーボード を作成できるのは、Weave UI と Weave Python SDK のみです。TypeScript ユーザーは、[Weave UI](#using-the-ui) を使用して リーダーボード を作成および管理できます。
 </Note>
 
-## Leaderboard の作成
+<div id="create-a-leaderboard">
+  ## リーダーボードを作成
+</div>
 
-Leaderboard は [Weave UI](#ui) または [プログラム](#python) から作成できます。
+[Weave UI](#ui) または [コードから](#python) リーダーボードを作成できます。
 
-### UI を使用する場合
+<div id="using-the-ui">
+  ### UI を使う
+</div>
 
-Weave UI で直接 Leaderboard を作成・カスタマイズするには：
+Weave UI でリーダーボードを直接作成およびカスタマイズするには、次の手順に従います。
 
-1. Weave UI で **Leaders** セクションに移動します。表示されていない場合は、**More** → **Leaders** をクリックします。
+1. Weave UI で、**Leaders** セクションにアクセスします。表示されていない場合は、**More** → **Leaders** をクリックします。
 2. **+ New Leaderboard** をクリックします。
-3. **Leaderboard Title** フィールドに、分かりやすい名前（例：`summarization-benchmark-v1`）を入力します。
-4. 任意で、この Leaderboard が何を比較するものか説明を追加します。
-5. [列を追加](#add-columns) して、表示する評価とメトリクスを定義します。
-6. レイアウトが完成したら、Leaderboard を保存して公開し、他のユーザーと共有します。
+3. **Leaderboard Title** フィールドに、わかりやすい名 (例: `summarization-benchmark-v1`) を入力します。
+4. 必要に応じて、このリーダーボードで何を比較するのかがわかる説明を追加します。
+5. 表示する評価とメトリクスを定義するために、[列を追加](#add-columns)します。
+6. レイアウトに問題がなければ、リーダーボードを保存して公開し、他のユーザーと共有します。
 
-#### 列を追加する
+<div id="add-columns">
+  #### 列を追加
+</div>
 
-Leaderboard の各列は、特定の評価からのメトリクスを表します。列を設定するには、以下を指定します：
+リーダーボードの各列は、特定の評価のメトリクスを表します。列を設定するには、次を指定します。
 
-- **Evaluation**: ドロップダウンから評価 run を選択します（事前に作成されている必要があります）。
-- **Scorer**: その評価で使用されたスコアリング関数（例：`jaccard_similarity`, `simple_accuracy`）を選択します。
-- **Metric**: 表示する集計メトリクスを選択します（例：`mean`, `true_fraction` など）。
+* **評価**: ドロップダウンから評価 run を選択します (事前に作成されている必要があります) 。
+* **Scorer**: その評価で使用するスコアリング関数 (例: `jaccard_similarity`、`simple_accuracy`) を選択します。
+* **メトリクス**: 表示するサマリー メトリクス (例: `mean`、`true_fraction` など) を選択します。
 
-さらに列を追加するには、**Add Column** をクリックします。
+列をさらに追加するには、**列を追加** をクリックします。
 
-列を編集するには、右側の 3 つのドットメニュー (`⋯`) をクリックします。以下の操作が可能です：
+列を編集するには、右側の **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックします。次の操作ができます。
 
-- **Move before / after** – 列の順序を入れ替える
-- **Duplicate** – 列の定義をコピーする
-- **Delete** – 列を削除する
-- **Sort ascending** – Leaderboard のデフォルトのソート順を設定する（再度クリックすると降順に切り替わります）
+* **前 / 後に移動** – 列の順序を変更
+* **複製** – 列の定義をコピー
+* **削除** – 列を削除
+* **昇順で並べ替え** – リーダーボードのデフォルトの並べ替え順を設定 (もう一度クリックすると降順に切り替わります)
 
-### Python
+<div id="python">
+  ### Python
+</div>
 
 <Tip>
-すぐに実行可能な完全なコードサンプルをお探しですか？[エンドツーエンドの Python 例](#エンドツーエンドの-python-例) をご覧ください。
+  完全な実行可能コードのサンプルをお探しの場合は、[エンドツーエンドの Python の例](#end-to-end-python-example)を参照してください。
 </Tip>
 
-Leaderboard を作成して公開するには：
+リーダーボードを作成して公開するには、次の手順に従います。
 
-1. テスト用の Datasets を定義します。組み込みの [`Dataset`](./datasets) を使用するか、入力とターゲットのリストを手動で定義できます。
+1. テスト用データセットを定義します。組み込みの[`Dataset`](./datasets)を使用することも、input と target のリストを手動で定義することもできます。
 
    ```python lines
    dataset = [
@@ -63,7 +71,7 @@ Leaderboard を作成して公開するには：
    ]
    ```
 
-2. 1 つ以上の [scorers](../evaluation/scorers) を定義します。
+2. 1 つ以上の[Scorer](../evaluation/scorers)を定義します。
 
    ```python lines
    @weave.op
@@ -71,7 +79,7 @@ Leaderboard を作成して公開するには：
        ...
    ```
 
-3. [`Evaluation`](../core-types/evaluations) を作成します。
+3. [`評価`](../core-types/evaluations)を作成します。
 
    ```python lines
    evaluation = weave.Evaluation(
@@ -81,7 +89,7 @@ Leaderboard を作成して公開するには：
    )
    ```
 
-4. 評価対象の Models を定義します。
+4. 評価するモデルを定義します。
 
    ```python lines
    @weave.op
@@ -100,7 +108,7 @@ Leaderboard を作成して公開するには：
    asyncio.run(run_all())
    ```
 
-6. Leaderboard を作成します。
+6. リーダーボードを作成します。
 
    ```python lines
    spec = leaderboard.Leaderboard(
@@ -116,7 +124,7 @@ Leaderboard を作成して公開するには：
    )
    ```
 
-7. Leaderboard を公開します。
+7. リーダーボードを公開します。
 
    ```python lines
    weave.publish(spec)
@@ -129,9 +137,11 @@ Leaderboard を作成して公開するには：
    print(results)
    ```
 
-## エンドツーエンドの Python 例
+<div id="end-to-end-python-example">
+  ## エンドツーエンドの Python の例
+</div>
 
-次の例では、Weave Evaluations を使用し、共通のデータセット上で 3 つの要約モデルをカスタムメトリクスを用いて比較する Leaderboard を作成します。小さなベンチマークを作成し、各モデルを評価し、[Jaccard 類似度](https://www.learndatasci.com/glossary/jaccard-similarity/) で各モデルをスコアリングし、その結果を Weave Leaderboard に公開します。
+次の例では、Weave の評価機能を使用して、カスタムメトリクスで共有データセット上の 3 つの要約モデルを比較するリーダーボードを作成します。小規模なベンチマークを作成し、各モデルを評価し、[ジャッカード類似度](https://www.learndatasci.com/glossary/jaccard-similarity/)で各モデルをスコアリングし、その結果を Weave リーダーボードに公開します。
 
 ```python lines
 import weave
@@ -139,10 +149,8 @@ from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 import asyncio
 
-# プロジェクトの初期化
 client = weave.init("leaderboard-demo")
 
-# データセットの定義
 dataset = [
     {
         "input": "Weave is a tool for building interactive LLM apps. It offers observability, trace inspection, and versioning.",
@@ -158,7 +166,6 @@ dataset = [
     }
 ]
 
-# スコアラーの定義
 @weave.op
 def jaccard_similarity(target: str, output: str) -> float:
     target_tokens = set(target.lower().split())
@@ -167,14 +174,12 @@ def jaccard_similarity(target: str, output: str) -> float:
     union = len(target_tokens | output_tokens)
     return intersection / union if union else 0.0
 
-# 評価の定義
 evaluation = weave.Evaluation(
     name="Summarization Quality",
     dataset=dataset,
     scorers=[jaccard_similarity],
 )
 
-# 評価対象モデルの定義
 @weave.op
 def model_vanilla(input: str) -> str:
     return input[:50]
@@ -192,7 +197,6 @@ def model_humanlike(input: str) -> str:
 def model_messy(input: str) -> str:
     return "Summarizer summarize models model input text LLMs."
 
-# 全モデルの評価実行
 async def run_all():
     await evaluation.evaluate(model_vanilla)
     await evaluation.evaluate(model_humanlike)
@@ -200,7 +204,6 @@ async def run_all():
 
 asyncio.run(run_all())
 
-# Leaderboard スペックの定義
 spec = leaderboard.Leaderboard(
     name="Summarization Model Comparison",
     description="Evaluate summarizer models using Jaccard similarity on 3 short samples.",
@@ -213,29 +216,30 @@ spec = leaderboard.Leaderboard(
     ]
 )
 
-# Leaderboard の公開
 weave.publish(spec)
 
-# 結果の取得と表示
 results = leaderboard.get_leaderboard_results(spec, client)
 print(results)
 ```
 
-### Leaderboard の表示と解釈
 
-スクリプトの実行が完了したら、Leaderboard を確認します：
+<div id="view-and-interpret-the-leaderboard">
+  ### リーダーボード を表示して読み解く
+</div>
 
-1. **Weave UI** で **Leaders** タブに移動します。表示されていない場合は **More** をクリックし、**Leaders** を選択します。
-2. 作成した Leaderboard の名前（例：`Summarization Model Comparison`）をクリックします。
+スクリプトの実行が完了したら、リーダーボード を表示します。
 
-Leaderboard のテーブルでは、各行が特定のモデル（`model_humanlike`, `model_vanilla`, `model_messy`）を表します。`mean` 列は、モデルの出力と参照用要約との間の平均 Jaccard 類似度を示しています。
+1. **Weave UI** で **Leaders** タブに移動します。表示されていない場合は、**More** をクリックして **Leaders** を選択します。
+2. リーダーボード の名をクリックします。例: `Summarization Model Comparison`。
+
+リーダーボード の表では、各行が各モデル (`model_humanlike`、`model_vanilla`、`model_messy`) を表します。`mean` 列には、モデルの出力と参照サマリーの間のジャッカード類似度の平均が表示されます。
 
 <Frame>
-![Weave UI の Leaderboard 例](/weave/guides/core-types/imgs/leaderboard-example.png)
+  ![Weave UI の リーダーボード](/weave/guides/core-types/imgs/leaderboard-example.png)
 </Frame>
 
-この例の結果：
+この例では:
 
-- `model_humanlike` が最も優れており、約 46% の重複があります。
-- `model_vanilla`（単純な切り捨て）は約 21% です。
-- 意図的に質の低くした `model_messy` は、約 2% のスコアとなります。
+* `model_humanlike` が最も良い結果で、重複率は ~46% です。
+* `model_vanilla` (単純な切り詰め) は ~21% です。
+* `model_messy` は意図的に性能を悪くしたモデルで、スコアは ~2% です。

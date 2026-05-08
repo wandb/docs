@@ -1,0 +1,17 @@
+---
+title: "複数のアーキテクチャとrunでArtifactsを使用するには？"
+keywords: ["Artifacts"]
+---
+
+モデルをバージョン管理する方法はいくつかあります。Artifacts は、特定のニーズに合わせたモデルのバージョン管理のためのツールを提供します。複数のモデルアーキテクチャを検討するプロジェクトで一般的な方法は、アーキテクチャごとにartifactを分けることです。以下の手順を検討してください。
+
+1. モデルアーキテクチャごとに、個別のartifactを作成します。artifact の `metadata` 属性を使用して、run の `config` と同様に、アーキテクチャの詳細な説明を追加します。
+2. 各モデルについて、`log_artifact` を使用してcheckpointを定期的にログします。W&amp;B はこれらのcheckpointの履歴を作成し、最新のものに `latest` alias を付けます。どのモデルアーキテクチャでも、`architecture-name:latest` を使用して最新のcheckpointを参照できます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

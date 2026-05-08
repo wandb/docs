@@ -1,0 +1,53 @@
+---
+title: Self Managed インストールを確認する
+---
+
+インストールを確認するには、W&amp;B では [W&amp;B CLI](/ja/models/ref/cli/) の使用を推奨しています。`verify` command は、すべてのコンポーネントと設定を検証する複数のテストを実行します。
+
+<Note>
+  この step では、最初の管理者ユーザーアカウントがブラウザで作成済みであることを前提としています。
+</Note>
+
+インストールを確認するには、次の step に従います。
+
+1. W&amp;B CLI をインストールします:
+
+```bash
+pip install wandb
+```
+
+2. W&amp;B にログインします:
+
+```bash
+wandb login --host=https://YOUR_DNS_DOMAIN
+```
+
+例えば、
+
+```bash
+wandb login --host=https://wandb.company-name.com
+```
+
+3. インストールを確認する:
+
+```bash
+wandb verify
+```
+
+インストールが成功し、W&amp;B デプロイが正常に動作している場合、次のような出力が表示されます：
+
+```console
+Default host selected:  https://wandb.company-name.com
+Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+Checking if logged in...................................................✅
+Checking signed URL upload..............................................✅
+Checking ability to send large payloads through proxy...................✅
+Checking requests to base url...........................................✅
+Checking requests made over signed URLs.................................✅
+Checking CORs configuration of the bucket...............................✅
+Checking wandb package version is up to date............................✅
+Checking logged metrics, saving and downloading a file..................✅
+Checking artifact save and download workflows...........................✅
+```
+
+エラーが発生した場合は、W&amp;Bサポートまでお問い合わせください。

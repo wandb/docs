@@ -2,36 +2,51 @@
 title: wandb pull
 ---
 
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/cli.py#L3095" />
 
-<WandbPull/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
-
-Weights & Biases からファイルをプルします。
-
-## Usage（使用法）
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
-wandb pull RUN [OPTIONS]
+pull [OPTIONS] RUN
 ```
 
-## Arguments（引数）
+<div id="description">
+  ## 説明
+</div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `RUN` | 説明なし | はい |
+W&amp;B の run からファイルをダウンロードします。
 
-## Options（オプション）
+指定した run に関連付けられているすべてのファイルを取得します。内容が同一のファイルが
+すでにローカルに存在する場合は、そのファイルをスキップします。必要に応じて
+サブディレクトリを作成し、W&amp;B 内のファイル構造を再現します。
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--project`, `-p` | ダウンロードしたい Projects。 |
-| `--entity`, `-e` | リストのスコープを制限する Entities。（デフォルト: models） |
+run ID を使用して run を参照し、run 引数に含まれていない場合は、
+必要に応じて project と entity を指定します。
+
+たとえば、&quot;foobar&quot; project の
+&quot;team-awesome&quot; entity にある run ID &quot;abcd1234&quot; の run からファイルをダウンロードするには:
+
+```bash
+wandb pull -p foobar -e team-awesome abcd1234
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名     | デフォルト | タイプ  |
+| ----- | ----- | ---- |
+| `run` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag            | Type | Description                                                                                                     |
+| --------------- | ---- | --------------------------------------------------------------------------------------------------------------- |
+| `--project, -p` | STR  | ファイルの取得元となる run を含む project。**デフォルト**: なし                                                                       |
+| `--entity, -e`  | STR  | project を所有する entity。設定されている場合は WANDB&#95;ENTITY 環境変数の値が使用され、設定されていない場合はデフォルトの entity が使用されます。**デフォルト**: models |

@@ -1,0 +1,62 @@
+---
+title: "Artifacts"
+tag: "14"
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+---
+
+<Card title="コードのテスト時に wandb をオフにできますか？" href="/ja/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod" arrow="true" horizontal>
+  テスト目的で W&amp;B を no-operation (NOOP) として設定するには、wandb.init(mode=&quot;disabled&quot;) を使用するか、WANDB&#95;MODE=disabled を設定します ...
+</Card>
+
+<Card title="W&B でこれらの Version IDs と ETags を取得するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-fetch-these-version-ids-and-et" arrow="true" horizontal>
+  artifact の参照が W&amp;B にログされ、bucket でバージョン管理が有効になっている場合、Version IDs は Amaz ... に表示されます
+</Card>
+
+<Card title="run でログまたは使用された artifact を検索するにはどうすればよいですか？ artifact を生成または使用した Runs を検索するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-find-the-artifacts-logged-or-c" arrow="true" horizontal>
+  W&amp;B は、各 run でログされた artifact と各 run で使用された artifact をトラッキングして artifact グラフを構築します。このグラフは二部 ... です
+</Card>
+
+<Card title="sweep の Runs からモデルをログする最適な方法は何ですか？" href="/ja/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  sweep でモデルをログする効果的な方法の 1 つは、その sweep 用のモデル artifact を作成することです。各バージョンは ... を表します
+</Card>
+
+<Card title="sweep の最良の run から artifact を検索するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-find-an-artifact-from-the-best-" arrow="true" horizontal>
+  sweep で最も高い性能を示した run から artifact を取得するには、次のコードを使用します:
+</Card>
+
+<Card title="既存の run に artifact をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-an-artifact-to-an-existing-" arrow="true" horizontal>
+  以前にログした run の出力として artifact をマークする必要が生じることがあります。この場合は、... を再初期化します
+</Card>
+
+<Card title="コードを保存するにはどうすればよいですか？‌" href="/ja/support/models/articles/how-do-i-save-code" arrow="true" horizontal>
+  run を開始するメインのスクリプトまたはノートブックを保存するには、wandb.init で save&#95;code=True を使用します。run のすべてのコードを保存するには、 ...
+</Card>
+
+<Card title="artifact に保持ポリシーまたは有効期限ポリシーを設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-set-a-retention-or-expiration-p" arrow="true" horizontal>
+  機密データを含む artifact を管理したり、artifact バージョンの削除をスケジュールしたりするには、TTL (time-to-liv ...) を設定します
+</Card>
+
+<Card title="各 artifact バージョンはどれくらいのストレージを使用しますか？" href="/ja/support/models/articles/how-much-storage-does-each-artifact-vers" arrow="true" horizontal>
+  ストレージコストが発生するのは、2 つの artifact バージョン間で変更されたファイルだけです。animals という名前の画像 artifact を考えてみましょう ...
+</Card>
+
+<Card title="run とともに削除された artifact は、その後に復元できますか？" href="/ja/support/models/articles/is-it-possible-to-recover-an-artifact-af" arrow="true" horizontal>
+  run を削除すると、関連する artifact も削除するかどうかを確認するプロンプトが表示されます。このオプションを選択すると、... が完全に削除されます
+</Card>
+
+<Card title="複数のアーキテクチャと Runs で artifact を使用するには？" href="/ja/support/models/articles/using-artifacts-with-multiple-architectu" arrow="true" horizontal>
+  モデルをバージョン管理する方法はいくつかあります。Artifacts は、特定のニーズに合わせたモデルのバージョン管理のための手段を提供します。 ...
+</Card>
+
+<Card title="artifact はどこにダウンロードされ、どうすればそれを制御できますか？" href="/ja/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
+  デフォルトでは、artifact は artifacts/ フォルダーにダウンロードされます。場所を変更するには: wandb.Artifact().download に渡します: S ...
+</Card>
+
+<Card title="自分の artifact にアクセスできるのは誰ですか？" href="/ja/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
+  Artifacts は親プロジェクトからアクセス権限を継承します: 非公開プロジェクトでは、team members のみが artifact にアクセスできます ...
+</Card>
+
+<Card title="artifact を Registry にリンクできないのはなぜですか？" href="/ja/support/models/articles/cannot-link-artifact-to-registry-from-p" arrow="true" horizontal>
+  artifact を W&amp;B Registry にリンクできない場合、最も一般的な原因は、その artifact が個人の ... でログされていることです
+</Card>

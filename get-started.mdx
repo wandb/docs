@@ -13,6 +13,7 @@ Welcome to Weights & Biases! Before getting started with our products, it's impo
 | **[W&B Weave](#w%26b-weave)** | Building LLM applications | Tracing, prompt management, evaluation, cost tracking for production AI apps |
 | **[W&B Inference](#w%26b-inference)** | Using pre-trained models | Hosted open-source models, API access, model playground for testing |
 | **[W&B Training](#w%26b-training)** | Fine-tuning models | Create and deploy LoRAs and custom model adaptations with reinforcement learning |
+| **[W&B Sandboxes](#w%26b-sandboxes)** | Running isolated compute environments | On-demand, disposable sandboxes for training jobs, agent tool use, and reproducible experiments |
 
 ## W&B Models
 
@@ -74,5 +75,22 @@ Welcome to Weights & Biases! Before getting started with our products, it's impo
   </Card>
   <Card title="Use your trained models" href="/training/serverless-rl/use-trained-models">
     After creating your trained model, learn how to use it in your code.
+  </Card>
+</Columns>
+
+## W&B Sandboxes
+
+<Columns cols={2}>
+  <Card title="Sandboxes Introduction" href="/sandboxes">
+    Learn what W&B Sandboxes are and when to use them for isolated, disposable compute.
+  </Card>
+  <Card title="Create a sandbox" href="/sandboxes/create-sandbox">
+    Spin up your first sandbox in Python and start running code in seconds.
+  </Card>
+  <Card title="Train a PyTorch model in a sandbox" href="/sandboxes/mltrain-in-sandbox-tutorial">
+    A full tutorial that walks through training a PyTorch model inside a sandbox from start to finish.
+  </Card>
+  <Card title="Invoke an agent in a sandbox" href="/sandboxes/invoke-agent-sandbox-tutorial">
+    Give an OpenAI agent access to a sandbox for safe, isolated tool use.
   </Card>
 </Columns>

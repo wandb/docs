@@ -1,0 +1,65 @@
+---
+title: wandb beta core
+---
+
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.26.1/wandb/cli/beta.py#L251" />
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+core [OPTIONS] COMMAND [ARGS]...
+```
+
+<div id="description">
+  ## 説明
+</div>
+
+マルチプロセスのワークロード向けに、共有のローカル wandb-core サービスを管理します。
+
+wandb-core は、run データ、ファイルのアップロード、システム メトリクスの収集を処理するローカル バックエンド プロセスです。デフォルトでは、`wandb.init()` を呼び出す各
+プロセスがそれぞれ独自のバックエンドを起動します。多数の独立したワーカーが動作する
+マシンでは、これにより処理が重複し、CPU とメモリを無駄に消費します。
+
+これらのコマンドを使用して、1 つのバックグラウンドで実行される wandb-core インスタンスを起動し、
+WANDB&#95;SERVICE 環境変数を使って、同じマシン上の複数のワーカーが
+そのインスタンスを使用するように設定します。
+
+一般的なワークフロー:
+
+```bash
+wandb beta core start
+```
+
+```bash
+export WANDB_SERVICE=printed_value
+```
+
+```bash
+python -m your_launcher
+```
+
+```bash
+wandb beta core stop
+```
+
+シェルスクリプトの場合は、stdout から未加工の WANDB&#95;SERVICE 値を取得します:
+
+```bash
+export WANDB_SERVICE="$(wandb beta core start)"
+```
+
+共有サービスは、デフォルトでは 10 分間アイドル状態が続くと終了します。
+これを変更するには、start コマンドで --idle-timeout を指定してください。
+
+<div id="subcommands">
+  ## サブコマンド
+</div>
+
+| コマンド                    | 説明                                    |
+| ----------------------- | ------------------------------------- |
+| `wandb beta core start` | バックグラウンドで実行される wandb-core サービスを起動します。 |
+| `wandb beta core stop`  | バックグラウンドで実行される wandb-core サービスを停止します。 |

@@ -1,0 +1,293 @@
+---
+title: "Interroger et exporter des appels"
+description: "Filtrez, triez et exportez les données d’appels Weave à l’aide du SDK Python, de l’API REST ou de Weave UI pour une analyse personnalisée."
+---
+
+Dans Weave UI, vous pouvez exporter vos données dans plusieurs formats. Elle affiche également le code Python et cURL que vous pouvez utiliser pour exporter les lignes de manière programmatique.
+Pour exporter des appels :
+
+1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
+2. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
+3. Sélectionnez plusieurs appels à exporter en cochant les lignes correspondantes.
+4. Dans la barre d’outils du tableau **Traces**, cliquez sur le bouton d’export/téléchargement.
+5. Dans la fenêtre modale **Export**, choisissez **Selected rows** ou **All rows**, puis cliquez sur **Export**.
+
+<Frame>
+  ![Page Traces montrant des appels sélectionnés prêts à être exportés dans la fenêtre modale Export.](/weave/guides/tracking/imgs/trace_export_modal.png)
+</Frame>
+
+<div id="fetch-calls-programmatically">
+  ## Récupérer les appels par programmation
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Pour récupérer des appels avec l’API Python, vous pouvez utiliser la méthode [`client.get_calls`](/fr/weave/reference/python-sdk/trace/weave_client#method-get_calls) :
+
+    ```python lines
+    import weave
+
+    # Initialiser le client
+    client = weave.init("your-project-name")
+
+    # Récupérer les appels
+    calls = client.get_calls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Pour récupérer des appels avec l’API TypeScript, vous pouvez utiliser la méthode [`client.getCalls`](/fr/weave/reference/typescript-sdk/classes/weaveclient#getcalls).
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // Initialiser le client
+    const client = await weave.init('intro-example')
+
+    // Récupérer les appels
+    const calls = await client.getCalls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    La couche de requête la plus puissante se trouve dans la Service API. Pour récupérer des appels avec la Service API, vous pouvez envoyer une requête à l’endpoint [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream).
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/calls/stream_query' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+    "project_id": "string",
+    "filter": {
+        "op_names": [
+            "string"
+        ],
+        "input_refs": [
+            "string"
+        ],
+        "output_refs": [
+            "string"
+        ],
+        "parent_ids": [
+            "string"
+        ],
+        "trace_ids": [
+            "string"
+        ],
+        "call_ids": [
+            "string"
+        ],
+        "trace_roots_only": true,
+        "wb_user_ids": [
+            "string"
+        ],
+        "wb_run_ids": [
+            "string"
+        ]
+    },
+    "limit": 100,
+    "offset": 0,
+    "sort_by": [
+        {
+        "field": "string",
+        "direction": "asc"
+        }
+    ],
+    "query": {
+        "$expr": {}
+    },
+    "include_costs": true,
+    "include_feedback": true,
+    "columns": [
+        "string"
+    ],
+    "expand_columns": [
+        "string"
+    ]
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+Pour plus de détails sur les propriétés et les champs des appels, voir la [référence du schéma des appels](/fr/weave/guides/tracking/call-schema-reference).
+
+<div id="export-call-metrics">
+  ## Exporter les métriques d&#39;appel
+</div>
+
+Vous pouvez également utiliser l&#39;[endpoint `POST /calls/stats` de la Service API de Weave](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) pour récupérer des métriques sur vos Appels sans récupérer les données d&#39;Appel elles-mêmes. Cela vous permet de récupérer rapidement et efficacement des informations sur vos Appels, comme la latence et le coût, et de les agréger par somme, moyenne, minimum, maximum et nombre. Par exemple, vous pouvez récupérer :
+
+* L&#39;utilisation totale des tokens
+* La latence moyenne
+* Le maximum de tokens utilisés
+* Le coût total
+* Le minimum de tokens d&#39;entrée
+
+L&#39;endpoint propose plusieurs options de filtrage qui vous permettent de cibler les Appels effectués sur des périodes données, ainsi qu&#39;en fonction d&#39;autres propriétés, telles que :
+
+* Nom de l&#39;op
+* ID de trace
+* ID de thread
+* ID utilisateur
+
+L&#39;exemple suivant montre comment récupérer les Appels générés à partir d&#39;une op nommée `web_app` sur une période de deux jours :
+
+<CodeGroup>
+  ```python Python lines {10-11,16-24}
+  import requests
+  import json
+  import os
+
+  url = "https://trace.wandb.ai/calls/stats"
+
+  payload = {
+      "project_id": "<your-team-name/your-project-name>",
+      "start": "2026-03-01T00:00:00Z",
+  # Spécifiez la taille des buckets, en secondes.
+      "granularity": 86400,
+      "filter": {
+          "trace_roots_only": True,
+          "op_names": ["web_app"]
+      },
+  # Spécifiez les métriques et leur fonction d'agrégation
+      "usage_metrics": [
+          {"metric": "total_tokens", "aggregations": ["sum"]},
+          {"metric": "total_cost", "aggregations": ["sum"]}
+      ],
+      "call_metrics": [
+          {"metric": "call_count", "aggregations": ["sum"]},
+          {"metric": "error_count", "aggregations": ["sum"]},
+          {"metric": "latency_ms", "aggregations": ["avg", "min", "max"], "percentiles": [50, 95, 99]}
+      ]
+  }
+
+  API_KEY = os.getenv("WANDB_API_KEY")
+
+  response = requests.post(url, json=payload, auth=("api", API_KEY))
+
+  print(json.dumps(response.json(), indent=2))
+  ```
+
+  ```typescript TypeScript lines {6-7,13-20}
+  const url = "https://trace.wandb.ai/calls/stats";
+
+  const payload = {
+    project_id: "<your-team-name/your-project-name>",
+    start: "2026-03-01T00:00:00Z",
+  // Spécifiez la taille des buckets, en secondes.
+    granularity: 86400,
+    filter: {
+      trace_roots_only: true,
+      op_names: ["web_app"],
+    },
+  // Spécifiez les métriques et leur fonction d'agrégation
+    usage_metrics: [
+      { metric: "total_tokens", aggregations: ["sum"] },
+      { metric: "total_cost", aggregations: ["sum"] },
+    ],
+    call_metrics: [
+      { metric: "call_count", aggregations: ["sum"] },
+      { metric: "error_count", aggregations: ["sum"] },
+      { metric: "latency_ms", aggregations: ["avg", "min", "max"], percentiles: [50, 95, 99] },
+    ],
+  };
+
+  const API_KEY = process.env.WANDB_API_KEY!;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + btoa(`api:${API_KEY}`),
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  console.log(JSON.stringify(data, null, 2));
+  ```
+</CodeGroup>
+
+La requête précise également comment agréger les métriques. Vous pouvez agréger les métriques avec `sum`, `count`, `avg`, `min`, `max` et `count`.
+
+L&#39;endpoint renvoie un objet JSON. L&#39;exemple de réponse suivant montre deux jours de métriques. Chaque jour (`bucket`) correspond à un objet distinct dans les tableaux `usage_buckets` et `call_buckets`. Chaque tableau ventile les métriques différemment :
+
+* `usage_buckets` : regroupe les métriques d&#39;Appel de chaque jour par modèle utilisé.
+* `call_buckets` : regroupe les métriques d&#39;Appel de chaque jour, quel que soit le modèle utilisé.
+
+Définissez le champ `granularity` (en secondes) dans la requête pour modifier la taille des buckets.
+
+```json lines
+{
+  "start": "2026-03-03T00:00:00Z",
+  "end": "2026-03-04T21:34:39.746539Z",
+  "granularity": 86400,
+  "timezone": "UTC",
+  "usage_buckets": [
+    {
+      "timestamp": "2026-03-03T00:00:00",
+      "model": "gpt-4o-2024-08-06",
+      "sum_total_tokens": 498.0,
+      "sum_input_tokens": 219.0,
+      "sum_output_tokens": 279.0,
+      "count": 5,
+      "sum_total_cost": 0.0033374999156876584
+    },
+    {
+      "timestamp": "2026-03-03T00:00:00",
+      "model": "gpt-5-2025-08-07",
+      "sum_total_tokens": 0.0,
+      "sum_input_tokens": 0.0,
+      "sum_output_tokens": 0.0,
+      "count": 0,
+      "sum_total_cost": 0.0
+    },
+    {
+      "timestamp": "2026-03-04T00:00:00",
+      "model": "gpt-4o-2024-08-06",
+      "sum_total_tokens": 58.0,
+      "sum_input_tokens": 27.0,
+      "sum_output_tokens": 31.0,
+      "count": 1,
+      "sum_total_cost": 0.0003774999904635479
+    },
+    {
+      "timestamp": "2026-03-04T00:00:00",
+      "model": "gpt-5-2025-08-07",
+      "sum_total_tokens": 427.0,
+      "sum_input_tokens": 26.0,
+      "sum_output_tokens": 401.0,
+      "count": 1,
+      "sum_total_cost": 0.00404249989787786
+    }
+  ],
+  "call_buckets": [
+    {
+      "timestamp": "2026-03-03T00:00:00",
+      "sum_call_count": 6,
+      "sum_error_count": 1,
+      "avg_latency_ms": 1505.6666666666667,
+      "min_latency_ms": 525,
+      "max_latency_ms": 2524,
+      "p50_latency_ms": 1534.0,
+      "p95_latency_ms": 2328.5,
+      "p99_latency_ms": 2484.9000000000005,
+      "count": 6
+    },
+    {
+      "timestamp": "2026-03-04T00:00:00",
+      "sum_call_count": 2,
+      "sum_error_count": 0,
+      "avg_latency_ms": 3645.0,
+      "min_latency_ms": 1739,
+      "max_latency_ms": 5551,
+      "p50_latency_ms": 3645.0,
+      "p95_latency_ms": 5360.4,
+      "p99_latency_ms": 5512.88,
+      "count": 2
+    }
+  ]
+}
+```
+
+Vous pouvez interroger les métriques sur une période maximale de 31 jours. Voir la [référence de la Service API](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) pour plus de détails et connaître les options disponibles.
