@@ -1,0 +1,176 @@
+/* ==========================================================================
+   Buttons — in-content button-style links, plus form-bound primary buttons
+   Owns custom button-link components used inside MDX content (Open in Colab,
+   Try in product, View source on GitHub, source-link badges) and the
+   form-bound Ask AI submit button.
+   Topbar-located buttons (Sign Up, Ask AI in topbar, Dismiss Banner) live
+   in topbar.css. Color tokens come from colors.css; color-mix() resolves
+   var() at computed time so dark-mode overrides are picked up automatically.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Button-link components
+   .colab-link, .try-product-link, .github-source-link — large pill-shaped
+   call-to-action links typically placed at the top of MDX pages.
+   -------------------------------------------------------------------------- */
+
+.colab-link,
+.try-product-link,
+.github-source-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--color-stroke) 70%, transparent);
+  border-radius: 12px;
+  font-size: var(--font-size-md); /* 16px */
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-sans);
+  color: var(--color-text-secondary);
+  background-color: color-mix(in srgb, var(--color-card-hover) 50%, transparent);
+  text-decoration: none;
+  line-height: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+  min-width: fit-content;
+}
+
+.colab-link:hover,
+.try-product-link:hover,
+.github-source-link:hover {
+  background-color: color-mix(in srgb, var(--color-card-hover) 80%, transparent);
+  border-color: var(--color-stroke);
+}
+
+/* In dark mode the bg/border variables are already overridden by .dark in
+   colors.css. Only text color needs an explicit rule since dark primary is
+   lighter than secondary. */
+.dark .colab-link,
+.dark .try-product-link,
+.dark .github-source-link {
+  color: var(--color-text-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Compact source link — small "View source" badge used in SDK reference
+   docs, floated to the right of the heading.
+   -------------------------------------------------------------------------- */
+
+.source-link {
+  float: right;
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid color-mix(in srgb, var(--color-stroke) 70%, transparent);
+  border-radius: 6px;
+  font-size: var(--font-size-xs); /* 12px */
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background-color: color-mix(in srgb, var(--color-card-hover) 50%, transparent);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.source-link:hover {
+  background-color: color-mix(in srgb, var(--color-card-hover) 80%, transparent);
+  border-color: var(--color-stroke);
+  text-decoration: none;
+}
+
+.dark .source-link {
+  color: var(--color-text-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Ask AI submit button (the form-bound one, e.g. "Ask your question..." →
+   submit). Mintlify ships this with bg-primary (amber, already correct) but
+   mint-text-white, making the label and icon white-on-amber. Switch text +
+   icon to the dark primary color. The SVG uses inline fill="white" /
+   stroke="white" attributes; override via attribute selectors so currentColor
+   (set by the button) flows through.
+   -------------------------------------------------------------------------- */
+
+button[type="submit"].bg-primary.mint-text-white {
+  color: var(--color-button-fg) !important;
+}
+
+button[type="submit"].bg-primary.mint-text-white [fill="white"] {
+  fill: currentColor !important;
+}
+
+button[type="submit"].bg-primary.mint-text-white [stroke="white"] {
+  stroke: currentColor !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   Chat assistant — floating input panel + send button
+   Mintlify renders the chat assistant as an outer wrapper <div> containing
+   an inner <div>, which holds a <textarea class="chat-assistant-input"> and
+   a <button class="chat-assistant-send-button">. We style three things:
+     1. Wrapper: drop shadow so the panel doesn't blend into the page bg.
+     2. Textarea: clamp height to a single line (Mintlify's inline
+        `height: 60px !important` makes it three lines tall by default).
+     3. Send button: amber bg + dark icon (matches topbar Ask AI button).
+   -------------------------------------------------------------------------- */
+
+/* Wrapper — no unique class on the wrapper <div>, so we match it via :has()
+   on the descendant textarea. The two `>` combinators pin the match to the
+   direct wrapper (not ancestors further up the tree). The shadow color is
+   fixed-dark (not theme-tied) so it reads as elevation against both light
+   and dark page bgs.
+
+   The same wrapper renders in two places:
+     - Floating on the page (homepage Ask AI box) — wants elevation.
+     - Inside #chat-assistant-sheet (the side panel) — already has its own
+       panel chrome, so a shadow looks redundant.
+   `:not(#chat-assistant-sheet *)` excludes any descendant of the sheet so
+   only the standalone floating instance picks up the shadow. */
+div:has(> div > textarea.chat-assistant-input):not(#chat-assistant-sheet *) {
+  box-shadow: 0 8px 24px #00000026; /* black at ~15% alpha (0x26 / 255) */
+}
+
+/* The shadow extends ~24px beyond the wrapper's edges, but a parent in the
+   Mintlify layout has `overflow: hidden` (likely for rounded corners or
+   panel clipping) and crops the left/right halves. Force overflow:visible
+   on every ancestor of the textarea so the shadow can render fully.
+   z-index won't help here — z-index re-stacks within a containing block,
+   but overflow clipping happens unconditionally.
+
+   Scoped to match the shadow rule: we exclude #chat-assistant-sheet itself
+   and everything inside it, since the sheet relies on its own overflow
+   handling (its #chat-content child uses overflow-y-auto for scrolling,
+   which would break under overflow:visible). */
+*:has(textarea.chat-assistant-input):not(#chat-assistant-sheet):not(#chat-assistant-sheet *) {
+  overflow: visible !important;
+}
+
+/* Textarea — Mintlify hardcodes `height: 60px !important` inline, which
+   external CSS can't beat with another `height` rule. min/max-height
+   *clamp* the rendered height after `height` is computed, regardless of
+   the inline value, so we use them to force a single line.
+   Math: text-sm (14px) line + py-2.5 (10px × 2) padding ≈ 40px;
+         2.5rem = 40px gives a few px of buffer to avoid clipping descenders. */
+textarea.chat-assistant-input {
+  min-height: 2.5rem !important; /* 40px — single line */
+  max-height: 2.5rem !important;
+}
+
+/* Send button — Mintlify renders this with bg-primary/30 (a dimmed amber)
+   plus text-white on the inner <svg>. Force the bg to the full amber primary
+   token (so it matches the topbar Ask AI button and the form-bound submit)
+   and switch the icon to dark for contrast. The arrow path uses
+   stroke="currentColor", so setting `color` on the svg propagates down
+   without per-attribute overrides. */
+button.chat-assistant-send-button {
+  background-color: var(--color-button) !important;
+}
+
+button.chat-assistant-send-button svg {
+  color: var(--color-button-fg) !important;
+}

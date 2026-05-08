@@ -1,0 +1,219 @@
+/* ==========================================================================
+   Top bar — header, banner, logo, navigation tabs, and topbar buttons
+   Owns everything inside <div id="navbar">: the bg layer, logo image, top
+   nav tabs (Products/Get Started/etc), the dropdown menus that hang from
+   them, the right-side topbar items (search/Ask AI/Sign Up), and the
+   Dismiss Banner button.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Navbar background (solid color + scaled dot texture overlay)
+   -------------------------------------------------------------------------- */
+
+/* Mintlify's <div id="navbar"> contains an absolute inner div
+   <div class="z-0 absolute inset-0 bg-background-light dark:bg-background-dark">
+   that paints the solid bg behind the banner+navbar. We keep it solid (so
+   scrolling content doesn't bleed through the sticky navbar), but layer a
+   smaller dot-pattern PNG on top, positioned at 75% horizontally with the
+   image shifted up so only the bottom slice is visible inside the navbar. */
+
+/* Removed because it conflicts on mobile
+
+#navbar > div.bg-background-light {
+  background-image: var(--page-texture);
+  background-size: 300px auto;
+  background-position: 75% -150px;
+  background-repeat: no-repeat;
+}
+*/
+
+
+/* --------------------------------------------------------------------------
+   Logo
+   -------------------------------------------------------------------------- */
+
+/* Mintlify's <img class="nav-logo w-auto h-7 ..."> defaults to 28px tall and
+   sits in a flex row that can squeeze it on narrow viewports. SVG is 579×154
+   (aspect ≈ 3.76:1) so 62px tall ≈ 233px wide. Lock min/max on both axes plus
+   flex-shrink/grow: 0 so neither the image nor its flex parents can resize it. */
+img.nav-logo {
+  height: 62px !important;
+  min-height: 62px !important;
+  max-height: 62px !important;
+  width: 233px !important;
+  min-width: 233px !important;
+  max-width: 233px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+}
+
+/* The wrapping <a> around the logo doesn't carry shrink-0, so the flex parent
+   can squeeze the <a> on cramped widths. Even though the <img> inside has its
+   own size locked, the <a>'s overflow may visually clip it. Pin it. */
+a:has(> img.nav-logo) {
+  flex-shrink: 0;
+  min-width: 233px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Top nav tabs — colors, sizing, and active states
+   -------------------------------------------------------------------------- */
+
+/* Inactive items — both plain link <a>s and dropdown trigger inner <div>s.
+   Use the secondary text color (#4B535C light / #C5C7CC dark) so it matches
+   the rest of the secondary-text palette. The single rule covers both because
+   Mintlify nests the dropdown label in <div class="text-gray-600 …">, while
+   plain links carry the label directly on the <a>. */
+a.nav-tabs-item.font-medium:not([data-active="true"]),
+button.nav-tabs-item:not(.text-primary) > div:first-child {
+  color: var(--color-text-secondary);
+}
+
+/* Dropdown chevrons — Mintlify hardcodes text-gray-400 on the chevron <svg>,
+   which is lighter than our secondary text color. Keep that quieter default
+   when the dropdown is idle, then darken the chevron to --color-text-primary
+   when the parent button is selected (.text-primary) or hovered, so the
+   chevron tracks the bolder active label rather than reading as washed-out
+   next to it. !important matches the convention used by the active-button
+   rule below; Mintlify's class-level utilities otherwise win the cascade
+   when hover: variants are involved. */
+button.nav-tabs-item.text-primary > div:first-child svg,
+button.nav-tabs-item:hover > div:first-child svg {
+  color: var(--color-text-primary) !important;
+}
+
+/* Top nav font size — override Mintlify's .text-sm (14px) on the parent
+   .nav-tabs. font-size inherits, so setting on .nav-tabs-item propagates
+   down to both plain link <a>s and dropdown <button>s. */
+.nav-tabs-item {
+  font-size: var(--font-size-md); /* 16px */
+}
+
+/* Active link — Mintlify applies text-primary (amber) and a [text-shadow]
+   faux-bold class. Override to the dark/light primary text color, remove the
+   shadow, and bump weight to 600 so the active item reads heavier than the
+   secondary-color inactive items. (Active dropdown buttons already get
+   font-semibold from Mintlify's class, so this is mainly for plain links.) */
+[data-active="true"].text-primary,
+[data-active="true"].hover\:text-primary:hover {
+  color: var(--color-text-primary); /* #2B3038 light / #E8E8E9 dark */
+  text-shadow: none;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Selected dropdown button — outer button gets text-primary when its section
+   is active. Target the first child div (the text container) structurally so
+   the rule holds even if React hydration swaps text-gray-800 for another
+   class. The second child is the underline bar; we skip it via :first-child.
+   Mintlify's font-semibold class is set on both the outer button and inner
+   div but for some reason isn't winning the cascade — set weight 600 here so
+   the active dropdown matches the active plain link's heavier weight. */
+button.nav-tabs-item.text-primary,
+button.nav-tabs-item.text-primary > div:first-child {
+  color: var(--color-text-primary) !important;
+  font-weight: var(--font-weight-semibold) !important;
+}
+
+/* Underline bars — all nav-tabs-item children with bg-primary (both the
+   active <a> and dropdown <button> elements share this pattern).
+   height: 2px overrides the default h-px (1px) Tailwind class. */
+.nav-tabs-item .bg-primary {
+  background-color: var(--color-text-primary);
+  height: 2px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Top nav dropdown menus (Products → W&B Models / Weave / Inference / etc.)
+   The <a> carries class nav-dropdown-item and group. Active items have an
+   inner <span class="text-primary font-semibold">; non-active items have
+   <span class="group-hover:text-primary"> (amber on hover).
+   -------------------------------------------------------------------------- */
+
+.nav-dropdown-item:has(.text-primary) {
+  background-color: var(--color-sidebar-hover);
+}
+
+.nav-dropdown-item .text-primary {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.nav-dropdown-item.group:hover .group-hover\:text-primary {
+  color: var(--color-text-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Top bar items other than the nav tabs — language select, search, AI,
+   Log in / Sign Up. Mintlify renders these with .text-sm (14px) on the
+   inner spans/buttons; target each known ID/container so the override
+   sticks regardless of nested .text-sm classes.
+   -------------------------------------------------------------------------- */
+
+#localization-select-trigger,
+#localization-select-trigger span,
+#search-bar-entry,
+#search-bar-entry > div > div,
+#assistant-entry,
+#assistant-entry span,
+.topbar-right-container nav,
+.topbar-right-container nav a,
+#topbar-cta-button a,
+#topbar-cta-button a span {
+  font-size: var(--font-size-sm); /* 15px */
+}
+
+
+/* --------------------------------------------------------------------------
+   Topbar buttons — Sign Up, Ask AI, Dismiss Banner
+   -------------------------------------------------------------------------- */
+
+/* Sign Up button — Mintlify hardcodes text-white on the inner span. Override
+   by ID; #topbar-cta-button outweighs any class. The amber bg stays in both
+   modes, so we use --color-button-fg (mode-invariant) rather than the
+   theme-dependent --color-text-primary. */
+#topbar-cta-button a,
+#topbar-cta-button a span,
+#topbar-cta-button a svg {
+  color: var(--color-button-fg);
+}
+
+/* Ask AI button — match the amber primary used by Sign Up. Mintlify renders
+   this with bg-gray-950/[0.03] (a very faint gray); override to amber and
+   set the inner icon + label text to dark for contrast. */
+#assistant-entry {
+  background-color: var(--color-button) !important;
+}
+#assistant-entry:hover {
+  background-color: var(--color-button) !important;
+  opacity: 0.9;
+}
+#assistant-entry,
+#assistant-entry span,
+#assistant-entry svg {
+  color: var(--color-button-fg) !important;
+}
+
+/* Banner — <div id="banner"> ships with bg-primary-dark (amber) and forces
+   every descendant to text-white/95 via Tailwind's `[&_*]:!text-white/95`
+   arbitrary selector. The banner bg is amber regardless of theme, so the
+   body text, the survey link, and the dismiss X should all be dark in both
+   modes. --color-button-fg holds the same dark value (#2B3038) in light
+   and dark mode and matches the topbar Sign Up / Ask AI buttons that sit
+   on the same amber surface. !important is required because Mintlify's
+   text-white/95 utility compiles with !important. The descendant rule
+   (#banner *) covers <p>, the survey <a>, and the dismiss <button> in one
+   go — no per-element overrides needed for color.
+   The explicit svg stroke override is kept because the X is rendered via
+   <svg stroke="currentColor">; currentColor normally inherits, but the
+   override is a guard if Mintlify ever stops setting color on the button. */
+#banner,
+#banner * {
+  color: var(--color-button-fg) !important;
+}
+button[aria-label="Dismiss banner"] svg {
+  stroke: var(--color-button-fg) !important;
+}

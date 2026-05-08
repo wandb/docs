@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Cards and labels — home page product cards, Mintlify card hover, and
+   in-content version labels.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Home page product cards (.product-card) — used by ProductCard.jsx on the
+   docs home page. Layout (icon, title, body) is in the JSX; this file owns
+   the card chrome + typography.
+   Resting bg matches the page bg exactly (--color-card-rest), so the card
+   reads as an outlined region with no fill — only the stroke border
+   defines it. Hover swaps to --color-card-active to lift the card forward.
+   Both tokens auto-switch with light/dark via colors.css, so no separate
+   .dark rule is needed here.
+   -------------------------------------------------------------------------- */
+
+.product-card {
+  background-color: var(--color-card-rest);
+  border: 1px solid var(--color-stroke);
+}
+
+.product-card:hover {
+  background-color: var(--color-card-active);
+}
+
+/* Product card title — Source Sans 24px medium. Override typography.css
+   h-tag rules: font-family is forced to serif (no !important on family),
+   font-weight is locked to 400 with !important. Use !important on both
+   so we win cleanly. */
+.product-card-title {
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-lg); /* 24px */
+  font-weight: var(--font-weight-semibold) !important;
+}
+
+/* Product card body text — Source Sans regular in the secondary text color. */
+.product-card-body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm); /* 15px */
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Mintlify Card component — Mintlify renders <Card> as a <div class="card
+   block ..."> with role="link" (no anchor wrapper). Match the .product-card
+   chrome (subtle white tint at rest, brighten on hover) so MDX cards and
+   home-page cards read identically. !important is required because Mintlify
+   uses hover:!border-primary (amber) which compiles with !important.
+   -------------------------------------------------------------------------- */
+
+/* Same tokens as .product-card so MDX cards and home cards stay in lockstep.
+   Tokens auto-switch with .dark. */
+.card.block {
+  background-color: var(--color-card-rest) !important;
+  border-color: var(--color-stroke) !important;
+}
+
+.card.block:hover {
+  background-color: var(--color-card-active) !important;
+  border-color: var(--color-stroke) !important;
+}
+
+/* Card title — Mintlify renders <Card title="..."> as a heading element
+   (h2/h3) inside the card chrome. The global h1-h6 rule in typography.css
+   forces serif + medium (500) on every heading, but cards should read
+   with the body sans font (matching the .product-card-title rule above
+   for home-page cards) and one step heavier on the weight scale so the
+   title still reads as the dominant element inside the card chrome.
+   Using `.card.block h2, .card.block h3, ...` gives specificity (0,0,2,1)
+   which beats the bare `h1, h2, ...` rule on family without !important;
+   weight needs !important because the global rule on weight is
+   !important. */
+.card.block h1,
+.card.block h2,
+.card.block h3,
+.card.block h4,
+.card.block h5,
+.card.block h6 {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-semibold) !important; /* 650 — next step up from medium */
+}
+
+
+/* --------------------------------------------------------------------------
+   Page footer prev/next links — Mintlify wraps the prev/next anchors in
+   a <div id="pagination" class="grid …"> at the bottom of every page.
+   The anchors ship with only a border (no bg), so the page texture shows
+   through them; repaint with the card chrome so they sit in the same
+   visual family as cards.
+   We use `#pagination > a` (specificity 0,1,0,1 — beats Tailwind class
+   utilities at 0,0,2,0) instead of `[data-nav-processed]` because that
+   attribute is only added post-hydration by Mintlify's JS, so a CSS rule
+   keyed to it doesn't apply until the client-side bundle runs.
+   -------------------------------------------------------------------------- */
+
+#pagination > a {
+  background-color: var(--color-card-rest);
+  border-color: var(--color-stroke);
+}
+
+#pagination > a:hover {
+  background-color: var(--color-card-active);
+  border-color: var(--color-stroke);
+}
+
+
+/* --------------------------------------------------------------------------
+   Update labels — changelog version pills. Mintlify uses bg-primary/10
+   (amber tint) with text-primary (amber). Keep the soft amber bg but switch
+   the text to the secondary color so the version reads as muted metadata
+   rather than as a CTA.
+   -------------------------------------------------------------------------- */
+
+[data-component-part="update-label"] {
+  color: var(--color-text-secondary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Badges (data-color="orange") — Mintlify's <Badge color="orange"> ships with
+   a pure-orange palette. Repaint to the brand amber so the badge sits in the
+   gold family. The bg + disabled-bg are the SAME amber in both modes (it's
+   the brand color), so they only need to be declared once on the base rule
+   — the .dark rule only needs to override the text colors (light uses
+   --color-icon for darker amber, dark uses --color-button for full amber).
+
+   Alpha is required because Mintlify's badge is a "soft pastel chip" — a
+   translucent tint of the brand color rather than a solid swatch. Solid
+   amber would read as a CTA button. color-mix() derives the translucent
+   value from the brand variable so a future palette tweak propagates.
+   -------------------------------------------------------------------------- */
+
+[data-badge="true"][data-color="orange"] {
+  --color-bg:           color-mix(in srgb, var(--color-button) 20%, transparent);
+  --color-text:         var(--color-icon);   /* #D4870D — darker amber for contrast on light tint */
+  --color-bg-disabled:  color-mix(in srgb, var(--color-button) 8%, transparent);
+  --color-text-disabled: color-mix(in srgb, var(--color-icon) 50%, transparent);
+}
+
+/* The badge wraps an <a class="link"> inside. Mintlify's prose styles paint
+   link underlines with `border-bottom: 1px solid` (not text-decoration), and
+   :hover bumps it to 2px — strip both so the badge reads as a chip. */
+[data-badge="true"] a,
+[data-badge="true"] a:hover {
+  text-decoration: none !important;
+  border-bottom: 0 !important;
+}
+
+.dark [data-badge="true"][data-color="orange"] {
+  --color-text:         var(--color-button); /* #FCBC32 — full amber reads on dark page bg */
+  --color-text-disabled: color-mix(in srgb, var(--color-button) 50%, transparent);
+}
