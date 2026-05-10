@@ -83,7 +83,8 @@
                       "product-weave",
                       "product-inference",
                       "product-training",
-                      "product-sandboxes"
+                      "product-sandboxes",
+                      "product-agent"
                     ]
                   },
                   {
@@ -807,6 +808,15 @@
                   "sandboxes/secrets",
                   "sandboxes/mltrain-in-sandbox-tutorial",
                   "sandboxes/invoke-agent-sandbox-tutorial"
+                ]
+              },
+              {
+                "item": "W&B Agent",
+                "pages": [
+                  "agent",
+                  "agent/wandb_project_agent",
+                  "agent/governance"
+
                 ]
               }
             ]
