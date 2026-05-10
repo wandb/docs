@@ -28,13 +28,17 @@ Organization admins open organization **Settings**, go to the **Privacy** sectio
 
 {/* When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options: */}
 
-Capture source code that produced a run as a code [artifact](/models/ref/python/experiments/artifact). The code artifact is viewable within your project's workspace.
+Capture source code that produced a run as an [artifact](/models/ref/python/experiments/artifact). The code artifact is viewable within your project's workspace.
 
 There are two ways approaches to save code: a fine-grained approached and an automatic approach.
 
 ### Fine grain control
 
-Use `wandb.Run.log_code()` to log specific files or directories as a code [artifact](/models/ref/python/experiments/artifact). The following example shows how to use `wandb.Run.log_code()` to log the current directory:
+Use `wandb.Run.log_code()` to log specific files or directories as an [artifact](/models/ref/python/experiments/artifact). 
+
+By default, W&B walks through the current directory and logs all files that end with `.py`.
+
+The following example shows how to use `wandb.Run.log_code()` to log the current directory:
 
 ```python
 import wandb
@@ -63,7 +67,7 @@ For more control over the types and locations of source code files that are save
 
 ### Automatically capture code
 
-Use `wandb.init(settings=wandb.Settings(code_dir="."))` to automatically capture all code in the current directory and subdirectories. By default, W&B captures:
+Use `wandb.init(settings=wandb.Settings(code_dir=))` to automatically capture all code in the current directory and subdirectories. By default, W&B captures:
 
 - Files ending in `.py`
 - requirements.txt
