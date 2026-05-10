@@ -3,7 +3,7 @@
 Build redirect mapping and delete list for models/support -> support/models migration.
 
 Reads:
-- snippets/en/kb_article_map.mdx (page + title per article)
+- snippets/kb_article_map.mdx (page + title per article)
 - support/models/articles/*.mdx (frontmatter title)
 - models/support/ and support/models/tags/ for tag page mapping
 
@@ -98,7 +98,7 @@ def parse_kb_article_map(mdx_path: Path) -> list[dict]:
 
 def main() -> None:
     repo = Path(__file__).resolve().parent.parent
-    kb_path = repo / "snippets" / "en" / "kb_article_map.mdx"
+    kb_path = repo / "snippets" / "kb_article_map.mdx"
     articles_dir = repo / "support" / "models" / "articles"
     old_support_dir = repo / "models" / "support"
     new_tags_dir = repo / "support" / "models" / "tags"
