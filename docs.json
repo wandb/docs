@@ -814,7 +814,6 @@
                 "item": "W&B Agent",
                 "pages": [
                   "agent",
-                  "agent/wandb_project_agent",
                   "agent/governance"
 
                 ]
