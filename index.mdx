@@ -9,6 +9,9 @@ import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
 
 <HomeWrapper>
+
+## W&B Products
+
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <ProductCard
         title="W&B Models"
@@ -29,26 +32,13 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
         iconSrc="icons/cropped-weave.svg"
         href="/weave"
         subtitle="Use AI models in your app"
-    >   
+    >
         Use W&B Weave to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
         <br/>
         <br/>
         • <a href="/weave">Introduction</a><br/>
         • <a href="/weave/quickstart">Quickstart</a><br/>
         • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube Demo</a><br/>
-    </ProductCard>
-    
-    <ProductCard
-        title="Serverless Inference"
-        iconSrc="icons/cropped-inference.svg"
-        href="/inference"
-        subtitle="Access foundation models"
-    >
-        Use Serverless Inference to access leading open-source foundation models through an OpenAI-compatible API. Features include multiple model options, usage tracking, and integration with Weave for tracing and evaluation.
-        <br/>
-        <br/>
-        • <a href="/inference">Introduction</a><br/>
-        • <a href="https://wandb.ai/inference">Try in Playground</a>
     </ProductCard>
 
     <ProductCard
@@ -64,4 +54,35 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
         • <a href="/training/prerequisites">Quickstart</a><br/>
     </ProductCard>
 </div>
+
+## CoreWeave Products
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard
+        title="Serverless Inference"
+        iconSrc="icons/cropped-inference.svg"
+        href="/inference"
+        subtitle="Access foundation models"
+    >
+        Use Serverless Inference to access leading open-source foundation models through an OpenAI-compatible API. Features include multiple model options, usage tracking, and integration with Weave for tracing and evaluation.
+        <br/>
+        <br/>
+        • <a href="/inference">Introduction</a><br/>
+        • <a href="https://wandb.ai/inference">Try in Playground</a>
+    </ProductCard>
+
+    <ProductCard
+        title="Serverless Sandboxes"
+        iconSrc="icons/cropped-inference.svg"
+        href="/sandboxes"
+        subtitle="Run code in isolated environments"
+    >
+        Now in private preview by invitation, use Serverless Sandboxes to run code in on-demand, isolated compute environments. Features include lifecycle management, secrets handling, file access, and a Python SDK built on the CoreWeave Sandbox library.
+        <br/>
+        <br/>
+        • <a href="/sandboxes">Introduction</a><br/>
+        • <a href="/sandboxes/create-sandbox">Quickstart</a><br/>
+    </ProductCard>
+</div>
+
 </HomeWrapper>
