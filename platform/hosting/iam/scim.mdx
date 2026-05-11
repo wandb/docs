@@ -697,7 +697,7 @@ Reactivates a previously deactivated user in your organization.
 <Note>
 - User reactivation works for users only, not service accounts. Reactivation is not supported for service accounts. Manage service accounts in the settings for the W&B Team.
 
-- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
+- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in an HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
     ```json
     {
         "schemas": [
