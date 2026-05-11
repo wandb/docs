@@ -1,6 +1,6 @@
 ---
 title: Application mobile W&B (iOS)
-description: Depuis votre iPhone ou iPad, suivez les runs d'entraînement, consultez les journaux de la console, consultez des graphiques en courbes, effectuez des recherches dans les panneaux de projet à l'aide d'expressions régulières et explorez vos projets W&B Models.
+description: Depuis votre iPhone ou iPad, suivez les runs d'entraînement, consultez les journaux de la console, consultez des graphiques en courbes avec des infobulles précises pour les métriques, effectuez des recherches dans les panneaux de projet à l'aide d'expressions régulières et explorez vos projets W&B Models.
 ---
 
 <Columns cols={4}>
@@ -37,12 +37,19 @@ L&#39;application mobile W&amp;B pour iOS vous permet de rester connecté à vos
   ## Fonctionnalités
 </div>
 
-* **Suivre les runs d&#39;entraînement** : Consultez le statut des runs, les métriques et les graphiques en courbes en temps réel.
-* **Afficher les journaux de la console** : Consultez les [journaux de la console](/fr/models/runs/view-logged-runs#logs) des runs actifs ou terminés, ou téléchargez les journaux des runs terminés. L’application interroge les runs actifs toutes les 5 secondes pour récupérer les nouvelles lignes de journal. Les 10 000 lignes les plus récentes s’affichent par défaut, et vous pouvez faire défiler vers le haut pour consulter des journaux plus anciens.
-* **Explorer l&#39;historique du projet** : Parcourez vos projets W&amp;B et effectuez des recherches dans ceux-ci. Les graphiques de métriques des **panneaux de projet** incluent les données de **tous les runs** du projet, pas seulement celles du run le plus récent.
-* **Rechercher dans les panneaux de projet** : Utilisez le champ de **recherche des panneaux** pour filtrer les runs affichés dans chaque graphique. Vous pouvez effectuer une recherche avec des [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) pour faire correspondre des motifs dans les noms de run.
-* **Basculer entre les équipes** : Utilisez le **sélecteur d&#39;équipe** pour changer d&#39;équipes. Le sélecteur utilise une mise en page actualisée pour une navigation plus rapide.
-* **Rester informé** : Obtenez des mises à jour sur vos Experiments sans ouvrir votre ordinateur grâce aux notifications. **Supprimez les alertes** dont vous n&#39;avez plus besoin depuis l&#39;onglet **Notifications** en les faisant glisser.
+* **Explorer les Projects** : Parcourez et recherchez dans vos projets W&amp;B.
+  * **Historique complet du projet** : Les graphiques de métriques dans les panneaux du projet incluent les données de *tous les runs* du projet, pas seulement celles du dernier run.
+  * **Mettre des projets en favoris** : Repérez vos projets les plus importants en un coup d’œil. Cliquez sur l’icône en forme d’étoile à côté d’un projet pour le mettre en favoris. Pour filtrer la liste et n’afficher que les projets favoris, cliquez sur l’onglet **Starred** en haut de la liste.
+* **Suivre les expériences** : Consultez en temps réel le statut des runs, les métriques et les graphiques en courbes de vos expériences.
+  * **Onglet d’aperçu du run** : Pour chaque run, ouvrez l’onglet **Overview** pour afficher une synthèse dédiée des détails du run, ainsi que les métriques et les journaux.
+  * **Regroupement des panneaux optimisé pour mobile** : Les panneaux sont automatiquement regroupés par nom dans des sections repliables. Les sections ne comportent qu’un seul niveau (sans imbrication), et le regroupement suit les mêmes règles que les [panneaux de Workspace](/fr/models/app/features/panels) dans l’application web W&amp;B, afin que la mise en page reste cohérente lorsque vous passez de l’ordinateur à votre téléphone.
+  * **Mettre des panneaux en favoris** : Repérez vos panneaux les plus importants en un coup d’œil. Lorsque vous consultez un run ou un projet, cliquez sur l’icône en forme d’étoile en haut d’un panneau pour le mettre en favoris. Pour filtrer la liste et n’afficher que les panneaux favoris, cliquez sur l’onglet **Starred** en haut de la liste.
+  * **Rechercher des panneaux** : Lorsque vous consultez un run ou un projet, utilisez le champ **panel search** en bas de l’écran pour filtrer les runs qui apparaissent dans chaque graphique. Vous pouvez utiliser des [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) pour faire correspondre des motifs dans les noms de run.
+  * **Info-bulles des graphiques** : Dans les graphiques en courbes, les info-bulles affichent les valeurs des métriques avec jusqu’à quatre décimales afin que vous puissiez lire précisément les petites variations.
+  * **Arrêter des runs** : Lorsque vous consultez un run en cours, cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Stop run**.
+  * **Afficher les journaux de la console** : Consultez les [journaux de la console](/fr/models/runs/view-logged-runs#logs) des runs actifs ou terminés, ou téléchargez les journaux des runs terminés. L’application interroge les runs actifs toutes les 5 secondes pour récupérer les nouvelles lignes de journal. Les 10 000 lignes les plus récentes s’affichent par défaut, et vous pouvez faire défiler l’écran pour consulter les journaux plus anciens. La recherche dans les journaux reste réactive même avec de très grandes sorties.
+* **Changer d’équipe** : Utilisez le **sélecteur d&#39;équipe** pour changer d’équipe. Le sélecteur utilise une mise en page actualisée pour une navigation plus rapide.
+* **Rester informé** : Recevez des mises à jour sur vos expériences sans ouvrir votre ordinateur portable grâce aux notifications. **Supprimez les alertes** dont vous n’avez plus besoin depuis l’onglet **Notifications** en les balayant.
 
 <div id="set-up-notifications">
   ## Configurer les notifications
