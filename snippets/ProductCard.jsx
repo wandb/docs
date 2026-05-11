@@ -21,7 +21,7 @@ export const ProductCard = ({ title, iconSrc, href, subtitle, children, classNam
 
   return (
     <div
-      className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-all px-6 pt-0 pb-6"
+      className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-all px-4 sm:px-6 pt-0 pb-6"
       onClick={handleCardClick}
       style={{ cursor: href ? 'pointer' : 'default' }}
     >
