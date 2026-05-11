@@ -12,7 +12,7 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
 
 ## W&B Products
 
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <ProductCard
         title="W&B Models"
         iconSrc="icons/cropped-models.svg"
@@ -38,24 +38,11 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
         • <a href="/weave">Introduction</a><br/>
         • <a href="/weave/quickstart">Quickstart</a><br/>
     </ProductCard>
-
-    <ProductCard
-        title="W&B Training"
-        iconSrc="icons/cropped-training.svg"
-        href="/training"
-        subtitle="Post-train your models"
-    >
-        Now in public preview. Post-train LLMs with serverless reinforcement learning, managed GPU infrastructure, ART and RULER integration, and auto-scaling for multi-turn agentic tasks.
-        <br/>
-        <br/>
-        • <a href="/training">Introduction</a><br/>
-        • <a href="/training/prerequisites">Quickstart</a><br/>
-    </ProductCard>
 </div>
 
 ## CoreWeave Products
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     <ProductCard
         title="Serverless Inference"
         iconSrc="icons/cropped-inference.svg"
@@ -67,6 +54,19 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
         <br/>
         • <a href="/inference">Introduction</a><br/>
         • <a href="https://wandb.ai/inference">Try in Playground</a>
+    </ProductCard>
+
+    <ProductCard
+        title="Serverless RL"
+        iconSrc="icons/cropped-training.svg"
+        href="/serverless-rl"
+        subtitle="Post-train your models"
+    >
+        Now in public preview. Post-train LLMs with serverless reinforcement learning, managed GPU infrastructure, ART and RULER integration, and auto-scaling for multi-turn agentic tasks.
+        <br/>
+        <br/>
+        • <a href="/serverless-rl">Introduction</a><br/>
+        • <a href="/serverless-rl/prerequisites">Quickstart</a><br/>
     </ProductCard>
 
     <ProductCard

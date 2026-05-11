@@ -57,7 +57,7 @@ Key directories:
 - `/models/` - W&B Models documentation.
 - `/weave/` - W&B Weave documentation.
 - `/inference/` - Serverless Inference documentation.
-- `/training/` - W&B Training documentation.
+- `/serverless-rl/` - Serverless RL documentation (formerly W&B Training).
 - `/snippets/` - Reusable content snippets.
 - `/images/` - Image assets.
 - `ja/` - Content localized to Japanese.

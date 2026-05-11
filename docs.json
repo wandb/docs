@@ -80,14 +80,14 @@
                     "group": "W&B Products",
                     "pages": [
                       "product-models",
-                      "product-weave",
-                      "product-training"
+                      "product-weave"
                     ]
                   },
                   {
                     "group": "CoreWeave Products",
                     "pages": [
                       "product-inference",
+                      "product-serverless-rl",
                       "product-sandboxes"
                     ]
                   },
@@ -772,30 +772,25 @@
                 ]
               },
               {
-                "item": "W&B Training",
+                "item": "Serverless RL",
                 "pages": [
-                  "training",
-                  "training/prerequisites",
-                  {
-                    "group": "Serverless RL",
-                    "pages": [
-                      "training/serverless-rl",
-                      "training/serverless-rl/available-models",
-                      "training/serverless-rl/usage-limits",
-                      "training/serverless-rl/use-trained-models"
-                    ]
-                  },
+                  "serverless-rl",
+                  "serverless-rl/prerequisites",
+                  "serverless-rl/usage",
+                  "serverless-rl/available-models",
+                  "serverless-rl/usage-limits",
+                  "serverless-rl/use-trained-models",
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "training/sft-training",
-                      "training/sft-training/sft-training"
+                      "serverless-rl/sft",
+                      "serverless-rl/sft/usage"
                     ]
                   },
                   {
                     "group": "API Reference",
                     "pages": [
-                      "training/ref-link-api"
+                      "serverless-rl/ref-link-api"
                     ]
                   }
                 ]
@@ -1182,10 +1177,10 @@
                 ]
               },
               {
-                "group": "W&B Training",
-                "openapi": "training/api-reference/openapi.json",
+                "group": "Serverless RL",
+                "openapi": "serverless-rl/api-reference/openapi.json",
                 "pages": [
-                  "training/api-reference"
+                  "serverless-rl/api-reference"
                 ]
               }
             ]
@@ -5412,7 +5407,7 @@
     },
     {
       "source": "/guides/training/:slug*",
-      "destination": "/training/:slug*"
+      "destination": "/serverless-rl/:slug*"
     },
     {
       "source": "/guides/:slug*",
@@ -6408,7 +6403,7 @@
     },
     {
       "source": "/ref/training",
-      "destination": "/training/api-reference"
+      "destination": "/serverless-rl/api-reference"
     },
     {
       "source": "/ref/wandb_workspaces/:slug*",
@@ -6437,6 +6432,46 @@
     {
       "source": "/sweeps/faq/",
       "destination": "/support"
+    },
+    {
+      "source": "/training/api-reference/:slug*",
+      "destination": "/serverless-rl/api-reference/:slug*"
+    },
+    {
+      "source": "/training/api-reference",
+      "destination": "/serverless-rl/api-reference"
+    },
+    {
+      "source": "/training/serverless-rl",
+      "destination": "/serverless-rl/usage"
+    },
+    {
+      "source": "/training/serverless-rl/:slug*",
+      "destination": "/serverless-rl/:slug*"
+    },
+    {
+      "source": "/training/sft-training/sft-training",
+      "destination": "/serverless-rl/sft/usage"
+    },
+    {
+      "source": "/training/sft-training/:slug*",
+      "destination": "/serverless-rl/sft/:slug*"
+    },
+    {
+      "source": "/training/sft-training",
+      "destination": "/serverless-rl/sft"
+    },
+    {
+      "source": "/training/prerequisites",
+      "destination": "/serverless-rl/prerequisites"
+    },
+    {
+      "source": "/training",
+      "destination": "/serverless-rl"
+    },
+    {
+      "source": "/training/:slug*",
+      "destination": "/serverless-rl/:slug*"
     },
     {
       "source": "/tutorials/:slug*",
