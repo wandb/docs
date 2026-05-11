@@ -68,7 +68,7 @@ Les zones ombrées d’un graphique en courbes en fidélité totale peuvent affi
 
 * **None** : aucun ombrage (par défaut).
 
-L’image ci-dessous montre un graphique en courbes bleu. La zone ombrée bleu clair représente les valeurs minimale et maximale pour chaque bucket.
+L’image suivante montre un graphique en courbes bleu. La zone ombrée bleu clair représente les valeurs minimale et maximale pour chaque bucket.
 
 <Frame>
   <img src="/images/app_ui/shaded-areas.png" alt="Zones de confiance ombrées" />
@@ -159,7 +159,7 @@ Par défaut, W&amp;B utilise le mode de fidélité totale. Pour activer l’éch
 Vous pouvez accéder à l’historique complet des métriques enregistrées au cours d’un run à l’aide de la [W&amp;B Run API](/fr/models/ref/python/public-api/runs). L’exemple suivant montre comment récupérer et traiter les valeurs de perte d’un run spécifique :
 
 ```python
-# Initialiser l'API W&B
+# Initialiser la W&B API
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
 
 # Récupérer l'historique de la métrique 'Loss'

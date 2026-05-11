@@ -343,7 +343,7 @@ For details, see [Create a bucket](https://docs.cloud.google.com/storage/docs/cr
           gsutil cors get gs://<bucket_name>
           ```
 
-1. If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), grant the `storage.admin` role to the Google Cloud service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
+1. If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), grant the `storage.admin` role to the Google Cloud service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in an HTTP 403 error.
 
     * For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
     * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) the account is: `deploy@wandb-production.iam.gserviceaccount.com`

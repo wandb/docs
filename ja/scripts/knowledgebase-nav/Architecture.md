@@ -6,30 +6,29 @@ title: アーキテクチャ
   # Knowledgebase Nav ジェネレーターのアーキテクチャ
 </div>
 
-このドキュメントでは、`wandb-docs`リポジトリ内の**Knowledgebase Nav**システムについて説明します。具体的には、このシステムが何を生成するのか、どのファイルと関数によって動作しているのか、そして自動化によってそれらがどのように連携しているのかを扱います。作成者向けの手順やローカルでのセットアップについては、[README.md](./README.md)を参照してください。
+このドキュメントでは、**Knowledgebase Nav**システムについて説明します。具体的には、このシステムが何を生成するのか、どのファイルと関数によって動作しているのか、そして自動化によってそれらがどのように連携しているのかを扱います。このユーティリティは、Mintlify ドキュメントリポジトリ内の`<utility-dir>/knowledgebase-nav/` (たとえば `scripts/knowledgebase-nav/` または `utils/knowledgebase-nav/`) にあります。作成者向けの手順やローカルでのセットアップについては、[README.md](./README.md)を参照してください。
 
 <div id="purpose">
   ## 目的
 </div>
 
-このジェネレーターは、サポート (ナレッジベース) のナビゲーションと記事コンテンツの整合性を保ちます。設定されたプロダクト (たとえば models、weave、inference) を対象に実行され、`support/<product>/articles/` 配下の MDX 記事を読み取り、生成済みの MDX ページ、ルートの `support.mdx` の件数、および `docs.json` 内の英語のサポートタブを更新します。
+このジェネレーターは、サポート (ナレッジベース) のナビゲーションと記事コンテンツの整合性を保ちます。設定されたプロダクト (たとえば models、weave、inference) を対象に実行され、`support/<product>/articles/` 配下の MDX 記事を読み取り、生成済みの MDX ページとルートの `support.mdx` の件数を更新します。このジェネレーターが `docs.json` を読み書きすることはありません。このファイルは、ワークフローの PR コメントに基づいて人が手動で編集します。
 
 <div id="high-level-context">
   ## 概要
 </div>
 
-このシステムは完全に `wandb-docs` 内で動作します。外部 API は呼び出しません。リポジトリのワーキングツリー内のファイルを読み書きします。
+このシステムは完全に docs リポジトリ内で動作します。外部 API は呼び出しません。`config.yaml` の `mintlify_root` から解決される Mintlify ルート配下のワーキングツリー内のファイルを読み書きします。
 
 ```mermaid
 flowchart LR
-  subgraph repo["wandb-docs repository"]
+  subgraph repo ["docs リポジトリ"]
     CFG["config.yaml"]
     TPL["templates/*.j2"]
     ART["support/*/articles/*.mdx"]
     GEN["generate_tags.py"]
     OUT1["support/*/tags/*.mdx"]
     OUT2["support/<product>.mdx"]
-    DJ["docs.json"]
     SM["support.mdx"]
   end
   CFG --> GEN
@@ -37,58 +36,56 @@ flowchart LR
   ART --> GEN
   GEN --> OUT1
   GEN --> OUT2
-  GEN --> DJ
   GEN --> SM
   GEN --> ART
 ```
 
 **articles** に戻る矢印は、フェーズ 4 で、MDX コメントマーカーで囲まれた `/support/<product>/tags/` 配下のタグページを指す `<Badge>` リンクだけが更新対象であることを意味します。その他のコンテンツ (`---`、他の `<Badge>`、マーカー外のテキストを含む) は書き換えられません。
 
+`docs.json` は意図的にこの図から除外されています。タグページが追加または削除されると、ワークフローの PR コメント (`pr_report.py` によって生成) に、人が対応する `docs.json` の `Support: <display_name>` タブへ手動で追加または削除しなければならないページ Ids が一覧表示されます。
 
 <div id="automation-workflow">
   ## 自動化ワークフロー
 </div>
 
-プルリクエストでは、`support/**` または `scripts/knowledgebase-nav/**` 配下のファイルが変更されると (オープン中の PR への新しい push を含む) 、**Knowledgebase Nav** ワークフローがトリガーされます。このワークフローでは、Python の依存関係をインストールし、ジェネレーターを実行して、差分がある場合は該当するパスをコミットします。**fork** からのプルリクエストでは、fork の HEAD コミットをチェックアウトし、ジェネレーターも実行されますが、デフォルトのトークンでは fork に push できないため、自動コミットの step はスキップされます。
+プルリクエストでは、Mintlify の `support/**` ディレクトリまたはユーティリティディレクトリ配下のファイルが変更されると (オープン中の PR への新しい push を含む) 、**Knowledgebase Nav** ワークフローがトリガーされます。このワークフローでは、Python の依存関係をインストールし、ジェネレーターを実行し、&quot;docs.json の更新が必要&quot; という案内を含む PR コメントを投稿して、差分がある場合は該当するパスをコミットします。**fork** からのプルリクエストでは、fork の HEAD コミットをチェックアウトし、ジェネレーターも実行されますが、デフォルトのトークンでは fork に push できないため、自動コミットの step はスキップされます。
 
 ```mermaid
 flowchart TD
   A[PR or manual workflow_dispatch] --> B[Checkout ref]
   B --> C[Python 3.11 + pip install requirements.txt]
-  C --> D["generate_tags.py --repo-root ."]
-  D --> E{Files changed?}
+  C --> D["generate_tags.py（config.yaml の mintlify_root を使用）"]
+  D --> R["pr_report.py（タグページの追加/削除を一覧表示）"]
+  R --> E{Files changed?}
   E -->|yes| F[git-auto-commit selected paths]
   E -->|no| G[No commit]
 ```
 
-コミットされるパスパターンには、`support.mdx`、`support/*/articles/*.mdx`、`support/*/tags/*.mdx`、`support/*.mdx` (プロダクトのインデックス) 、および `docs.json` が含まれます。
-
+コミットされるパスパターンには、`support.mdx`、`support/*/articles/*.mdx`、`support/*/tags/*.mdx`、および `support/*.mdx` (プロダクトのインデックス) が含まれます。`docs.json` は意図的に除外されており、人が手動で更新します。
 
 <div id="pipeline-orchestration">
   ## パイプラインのオーケストレーション
 </div>
 
-`run_pipeline(repo_root, config_path)` は、CLI とテストで使用する唯一のエントリポイントです。`config.yaml` を読み込み、すべてのプロダクトで共通の Jinja2 環境を 1 つ構築してから、各プロダクトを順に処理します。ループの完了後、`docs.json` を 1 回、`support.mdx` を 1 回だけ更新します。
+`run_pipeline(repo_root, config_path)` は、CLI とテストで使用する唯一のエントリポイントです。`config.yaml` を読み込み、すべてのプロダクトで共通の Jinja2 環境を 1 つ構築してから、各プロダクトを順に処理します。ループの完了後、`support.mdx` を 1 回だけ更新します。`docs.json` には触れません。
 
 ```mermaid
 flowchart TD
-  START([run_pipeline]) --> LOAD[load_config]
-  LOAD --> JINJA[create_template_env]
-  JINJA --> LOOP{For each product in config}
-  LOOP --> P1[crawl_articles]
-  P1 --> P2[build_tag_index]
-  P2 --> P3[render_tag_pages]
-  P3 --> P3b[cleanup_stale_tag_pages]
-  P3b --> P4[render_product_index]
-  P4 --> P5[sync_all_support_article_footers]
-  P5 --> P6[Record product_stats]
+  START([パイプラインを実行]) --> LOAD[設定を読み込む]
+  LOAD --> JINJA[テンプレート環境を作成]
+  JINJA --> LOOP{設定内の各プロダクトに対して}
+  LOOP --> P1[記事をクロール]
+  P1 --> P2[タグインデックスを構築]
+  P2 --> P3[タグページを生成]
+  P3 --> P3b[古いタグページをクリーンアップ]
+  P3b --> P4[プロダクトインデックスを生成]
+  P4 --> P5[すべてのサポート記事のフッターを同期]
+  P5 --> P6[product_statsを記録]
   P6 --> LOOP
-  LOOP -->|done| P7[update_docs_json]
-  P7 --> P8[update_support_index]
-  P8 --> P9[update_support_featured]
-  P9 --> DONE([Done])
+  LOOP -->|完了| P7[サポートインデックスを更新]
+  P7 --> P8[注目のサポート記事を更新]
+  P8 --> DONE([完了])
 ```
-
 
 <div id="per-product-data-flow">
   ## プロダクトごとのデータフロー
@@ -98,16 +95,16 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  subgraph inputs["Inputs"]
+  subgraph inputs ["Inputs"]
     MDX["*.mdx articles"]
     KW["allowed_keywords"]
   end
-  subgraph memory["In memory"]
+  subgraph memory ["In memory"]
     ART["List of article dicts"]
     IDX["tag to articles map"]
     PATHS["Tag page path list"]
   end
-  subgraph outputs["Outputs"]
+  subgraph outputs ["Outputs"]
     TAGS["tags/<slug>.mdx"]
     IDXPG["<product>.mdx"]
   end
@@ -121,26 +118,26 @@ flowchart LR
   PATHS --> TAGS
 ```
 
-`render_tag_pages` は、`update_docs_json` がそのプロダクトの英語版ナビゲーションタブに取り込む、ソート済みのページ ID 文字列 (たとえば `support/models/tags/security`) を返します。
-
+`render_tag_pages` は、ソート済みのページ ID 文字列 (たとえば `support/models/tags/security`) を返します。`pr_report.py` は、workflow の PR コメント内にある &quot;docs.json の更新が必要&quot; セクションを生成する際に同じ ID を使用するため、担当者は `docs.json` 内の対応する `Support: <display_name>` タブを更新できます。
 
 <div id="components-and-files">
   ## コンポーネントとファイル
 </div>
 
-| コンポーネント        | パス                                        | 役割                                                |
-| -------------- | ----------------------------------------- | ------------------------------------------------- |
-| CLI とロジック      | `generate_tags.py`                        | すべてのフェーズ、パース、slug ルール、プレビュー、JSON と MDX の書き換え      |
-| プロダクトとタグのレジストリ | `config.yaml`                             | プロダクトごとの `slug`、`display_name`、`allowed_keywords` |
-| タグ一覧テンプレート     | `templates/support_tag.mdx.j2`            | タグページで、記事ごとに 1 つの Card を表示                        |
-| プロダクトハブテンプレート  | `templates/support_product_index.mdx.j2`  | 注目セクションと、カテゴリ別に閲覧するための Card                       |
-| 依存関係           | `requirements.txt`                        | PyYAML、Jinja2                                     |
-| 単体テスト          | `tests/test_generate_tags.py`             | モック化したファイルシステムと `docs.json`                       |
-| インテグレーションテスト   | `tests/test_golden_output.py`             | 実際のリポジトリの一時コピー上で完全なパイプラインを実行                      |
-| Pytest マーカー    | `tests/conftest.py`                       | ゴールデンスイート用の `integration` マーカーを登録                 |
-| CI             | `.github/workflows/knowledgebase-nav.yml` | トリガー、run スクリプト、自動コミット                             |
-| 作成者向けドキュメント    | `README.md`                               | ライターと開発者向けのワークフロー                                 |
-| アーキテクチャメモ      | `Architecture.md`                         | 開発者向けの図とモジュールマップ                                  |
+| コンポーネント       | パス                                        | 役割                                                                                         |
+| ------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| CLI とロジック     | `generate_tags.py`                        | すべてのフェーズ、パース、slug ルール、プレビュー、MDX の書き換え (`docs.json` には触れません)                                |
+| PR report     | `pr_report.py`                            | `git diff` から生成する Markdown report。追加または削除されたタグページを一覧表示し、人手で `docs.json` を更新できるようにします       |
+| 設定            | `config.yaml`                             | `mintlify_root`、`badge_color`、およびプロダクト Registry (`slug`、`display_name`、`allowed_keywords`) |
+| タグ一覧テンプレート    | `templates/support_tag.mdx.j2`            | タグページで、記事ごとに 1 つの Card を表示                                                                 |
+| プロダクトハブテンプレート | `templates/support_product_index.mdx.j2`  | 注目セクションと、カテゴリ別に閲覧するための Card                                                                |
+| 依存関係          | `requirements.txt`                        | PyYAML、Jinja2                                                                              |
+| 単体テスト         | `tests/test_generate_tags.py`             | モック化したファイルシステム                                                                             |
+| インテグレーションテスト  | `tests/test_golden_output.py`             | 実際のリポジトリの一時コピー上で完全なパイプラインを実行                                                               |
+| Pytest マーカー   | `tests/conftest.py`                       | ゴールデンスイート用の `integration` マーカーを登録                                                          |
+| CI            | `.github/workflows/knowledgebase-nav.yml` | トリガー、run スクリプト、自動コミット                                                                      |
+| 作成者向けドキュメント   | `README.md`                               | ライターと開発者向けのワークフロー                                                                          |
+| アーキテクチャメモ     | `Architecture.md`                         | 開発者向けの図とモジュールマップ                                                                           |
 
 <div id="functional-areas-inside-generate_tagspy">
   ## `generate_tags.py` 内の機能領域
@@ -195,29 +192,29 @@ flowchart LR
 
 * **`tojson_unicode`**、**`create_template_env`** は、MDX 用に Jinja2 を設定します (テンプレートでは、YAML フロントマターの値に `tojson_unicode` フィルターを使用します) 。
 * **`render_tag_pages`** は `support/<product>/tags/<tag-slug>.mdx` に書き込みます。
-* **`cleanup_stale_tag_pages`** は、`tags` ディレクトリ内の、今回生成されなかった `.mdx` ファイルを削除し、ディレクトリと `docs.json` に古いエントリが残らないようにします。
+* **`cleanup_stale_tag_pages`** は、`tags` ディレクトリ内の、今回生成されなかった `.mdx` ファイルを削除し、`tags` ディレクトリに古いエントリが残らないようにします。
 * **`render_product_index`** は `support/<product>.mdx` に書き込みます。
 
 <div id="site-wide-updates">
   ### サイト全体の更新
 </div>
 
-* **`update_docs_json`** は、`language` が `en` の `navigation.languages` 配下で、非表示の `Support: <display_name>` タブを更新または作成し、`pages` をプロダクトのインデックスとソート済みのタグパスに設定します。
 * **`update_support_index`** は、ルートの `support.mdx` にあるプロダクトCardの件数行を更新します。`_COUNTS_START_RE` / `_COUNTS_END_RE` を使用してマーカーを特定し、移行時は単純な件数行パターンにフォールバックします。
 * **`update_support_featured`** は、ルートの `support.mdx` にある注目記事セクションを再生成し、`_FEATURED_START_RE` / `_FEATURED_END_RE` を使用してブロックを特定します。
+
+このパイプラインは `docs.json` を編集しません。タグページの追加や削除は `pr_report.py` を通じて人が確認できるように提示され、影響を受けるページ ID は workflow の PR コメントに一覧表示されます。
 
 <div id="cli">
   ### CLI
 </div>
 
-* **`main`** は `--repo-root` とオプションの `--config` を解析し、その後 **`run_pipeline`** を呼び出します。
+* **`main`** は省略可能な `--config` を解析し、`config.yaml` 内の `mintlify_root` から **`resolve_mintlify_root`** を使って Mintlify ルートを特定し、最後に **`run_pipeline`** を呼び出します。
 
 <div id="constants">
   ## 定数
 </div>
 
 * **`BODY_PREVIEW_MAX_LENGTH`** と **`BODY_PREVIEW_SUFFIX`** は、Card プレビューの長さと省略記号を制御します。
-* **`DOCS_JSON_NAV_LANGUAGE`** は `"en"` で、ナビゲーションの編集対象を英語ツリーのみに限定します。
 * **`_make_markers(keyword)`** は、管理対象の各セクションについて、以下の 4 つの定数を生成します。書き込み用の正規の開始/終了文字列と、読み取り用にコンパイルされた `re.Pattern` オブジェクトです。
 * **`_BADGE_START`** / **`_BADGE_END`** — article ファイルに書き込まれる正規の `{/* AUTO-GENERATED: tab badges */}` 文字列です。**`_BADGE_START_RE`** / **`_BADGE_END_RE`** — ブロックの位置特定に使用するパターンです (大文字と小文字を区別せず、コロンは省略可能で、キーワードはコメント内の任意の位置にあっても可) 。
 * **`_COUNTS_START`** / **`_COUNTS_END`** — `support.mdx` に書き込まれる正規の `{/* AUTO-GENERATED: counts */}` 文字列です。**`_COUNTS_START_RE`** / **`_COUNTS_END_RE`** — カウント行を特定して置換する、Card をアンカーにした構造パターン内で使用するパターンです。
@@ -230,9 +227,10 @@ flowchart LR
 * **モノリシックなスクリプト**: 1 つのファイルにすべてのロジックをまとめることで、ワークフローやコントリビューターが動作を確認・変更する場所を 1 か所に集約しています。
 * **許可されたキーワード**: `config.yaml` には、プロダクトごとの有効なタグが定義されています。未知のタグでもページは生成されますが、警告が出力されるため、コンテンツが気づかれないまま失われることはありません。
 * **Tab Badge の管理範囲**: `/support/<product>/tags/...` にリンクする `<Badge>` 要素だけが `keywords` から導出されます。これらは `_BADGE_START_RE` / `_BADGE_END_RE` で特定されるマーカーコメントで囲まれています。本文と Badge の間にある `---` 行は見た目のためのもので、`_extract_body` は境界として `_BADGE_START_RE` を使用し、末尾の `---` はクリーンアップとしてのみ削除します。
-* **古いタグのクリーンアップ**: どの記事キーワードにも対応しなくなったタグページは、`docs.json` の更新前に、生成後の処理として削除されます。これにより、tags ディレクトリとナビゲーションに孤立したエントリが残りません。
+* **古いタグのクリーンアップ**: どの記事キーワードにも対応しなくなったタグページは、生成後に削除されます。これにより、tags ディレクトリに孤立したエントリが残りません。その後、ワークフローの PR コメントで、人が `docs.json` から対応するエントリを削除するよう求められます。
 * **マーカーベースの編集**: 自動生成されるすべてのセクション (記事タブの Badges、`support.mdx` の件数行、注目の記事) では、`_make_markers` によって生成される MDX コメントマーカーを使用します。マッチングでは大文字と小文字が区別されず、コロンは省略可能で、キーワードはコメント内のどこにあってもよいため、執筆者はジェネレーターを壊すことなく自由にマーカーへ注釈を追加できます。各マーカーペアには、初回実行時に素のコンテンツを囲む移行パスがあります。
-* **ゴールデンテスト**: 生成されたタグページ、プロダクトのインデックスページ、記事ファイル (フッターマーカーを含む) 、`docs.json` 内の support タブ、およびルートの `support.mdx` をコミット済みツリーと比較し、出力のずれが unified diff として見えるようにします。
+* **`docs.json` は人が編集します**: ジェネレーターが `docs.json` を読み書きすることはありません。タグページの追加と削除は `pr_report.py` を通じて示され、`Support: <display_name>` ごとにグループ化されたページ ids が一覧表示されるため、人が対応するタブを手動で更新できます。
+* **ゴールデンテスト**: 生成されたタグページ、プロダクトのインデックスページ、記事ファイル (フッターマーカーを含む)、およびルートの `support.mdx` をコミット済みツリーと比較し、出力のずれが unified diff として見えるようにします。また、ゴールデンスイートでは、`docs.json` が temp ツリーに生成されないことも検証します。
 
 <div id="related-reading">
   ## 関連資料

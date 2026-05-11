@@ -247,7 +247,7 @@ Dans votre script Python ou notebook, vous pouvez ensuite regrouper les runs par
 runset = wr.Runset(
   project=project,
   entity=entity,
-  groupby=["config.group"]  # Grouper par la valeur de configuration "group"
+  groupby=["config.group"]  # Regrouper par la valeur de configuration "group"
 )
 ```
 
@@ -281,21 +281,21 @@ En reprenant l’exemple précédent, vous pouvez regrouper vos runs par leur no
 runset = wr.Runset(
   project=project,
   entity=entity,
-  groupby=["Name"]  # Grouper par noms de run
+  groupby=["Name"]  # Regrouper par noms de run
 )
 ```
 
 <Note>
   Le nom du run correspond au nom que vous indiquez dans le paramètre `wandb.init(name=)`. Si vous n’en indiquez pas, W&amp;B génère un nom aléatoire pour le run.
 
-  Vous pouvez trouver le nom du run dans la page **Aperçu** d’un run dans l’application W&amp;B, ou par programmation avec `Api.runs().run.name`.
+  Vous pouvez trouver le nom du run dans la page **Aperçu** d’un run dans la W&amp;B App, ou par programmation avec `Api.runs().run.name`.
 </Note>
 
 <div id="group-runs-by-summary-metrics">
   ### Regrouper les runs par métriques de synthèse
 </div>
 
-Les exemples suivants montrent comment regrouper les runs par métriques de synthèse. Les métriques de synthèse sont les valeurs que vous consignez dans un run avec `wandb.Run.log()`. Après avoir consigné un run, vous pouvez retrouver les noms de vos métriques de synthèse dans l’application W&amp;B, dans la section **Summary** de la page **Aperçu** d’un run.
+Les exemples suivants montrent comment regrouper les runs par métriques de synthèse. Les métriques de synthèse sont les valeurs que vous consignez dans un run avec `wandb.Run.log()`. Après avoir consigné un run, vous pouvez retrouver les noms de vos métriques de synthèse dans la W&amp;B App, dans la section **Summary** de la page **Aperçu** d’un run.
 
 La syntaxe pour regrouper les runs par métriques de synthèse est `summary.<key>`, où `<key>` est le nom de la métrique de synthèse selon laquelle vous souhaitez regrouper.
 
@@ -326,7 +326,7 @@ Vous pouvez ensuite regrouper les runs en fonction de la métrique summary `summ
 runset = wr.Runset(
   project=project,
   entity=entity,
-  groupby=["summary.acc"]  # Grouper par valeurs de summary 
+  groupby=["summary.acc"]  # Regrouper par valeurs de synthèse 
 )
 ```
 
@@ -361,7 +361,7 @@ Les exemples suivants montrent comment filtrer des ensembles de runs dans un rap
 
 Filtrez un ensemble de runs à l’aide d’une ou plusieurs valeurs de configuration. Les valeurs de configuration sont des paramètres que vous spécifiez dans la configuration de votre run (`wandb.init(config=)`).
 
-Par exemple, l’extrait de code suivant initialise d’abord un run avec des valeurs de configuration pour `learning_rate` et `batch_size`, puis filtre les runs dans Reports en fonction de la valeur de configuration `learning_rate`.
+Par exemple, l’extrait de code suivant initialise d’abord un run avec des valeurs de configuration pour `learning_rate` et `batch_size`, puis filtre les runs dans rapports en fonction de la valeur de configuration `learning_rate`.
 
 ```python
 import wandb
@@ -398,7 +398,7 @@ runset = wr.Runset(
 )
 ```
 
-En reprenant l’exemple précédent, vous pouvez créer un Report à partir du runset filtré comme suit :
+En reprenant l’exemple précédent, vous pouvez créer un rapport à partir du runset filtré comme suit :
 
 ```python
 report = wr.Report(
@@ -619,7 +619,7 @@ Ajoutez du Markdown à votre rapport de manière interactive avec l’UI de l’
 Ajoutez des éléments HTML à votre rapport de manière interactive avec l’interface de l’application ou le SDK W&amp;B.
 
 <Tabs>
-  <Tab title="App UI">
+  <Tab title="interface de l’application">
     Saisissez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Dans ce menu, sélectionnez un type de bloc de texte. Par exemple, pour créer un bloc de titre H2, sélectionnez l’option `Heading 2`.
   </Tab>
 
@@ -653,10 +653,10 @@ Ajoutez des éléments HTML à votre rapport de manière interactive avec l’in
   ## Intégrer des liens de médias enrichis
 </div>
 
-Intégrez des médias enrichis dans le rapport à l’aide de l’App UI ou du SDK W&amp;B.
+Intégrez des médias enrichis dans le rapport à l’aide de l’interface de l’application ou du SDK W&amp;B.
 
 <Tabs>
-  <Tab title="App UI">
+  <Tab title="interface de l’application">
     Copiez-collez des URL dans les rapports pour y intégrer des médias enrichis. Les animations suivantes montrent comment copier-coller des URL depuis Twitter, YouTube et SoundCloud.
 
     ### Twitter

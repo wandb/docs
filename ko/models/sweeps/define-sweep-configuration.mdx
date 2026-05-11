@@ -423,7 +423,6 @@ early_terminate:
   </Tab>
 </Tabs>
 
-
 <div id="macro-and-custom-command-arguments-example">
   ### 매크로 및 맞춤형 명령줄 인수 예시
 </div>
@@ -452,7 +451,7 @@ command:
   - "--test=True"
 ```
 
-그러면 연결된 Python 스크립트(`run.py`)에서 `argparse` 모듈을 사용해 이러한 명령줄 인자를 파싱할 수 있습니다.
+그러면 연결된 Python 스크립트(`run.py`)에서 `argparse` 모듈을 사용해 이러한 명령줄 인수를 파싱할 수 있습니다.
 
 ```python title="run.py"
 # run.py  
@@ -470,8 +469,7 @@ with wandb.init('test-project') as run:
     run.log({'validation_loss':1})
 ```
 
-Sweep 설정에서 사용할 수 있는 미리 정의된 매크로 목록은 [Sweep 설정 옵션](./sweep-config-keys)의 [Command 매크로](./sweep-config-keys#command-macros) 섹션을 참조하세요.
-
+Sweep 설정에서 사용할 수 있는 미리 정의된 매크로 목록은 [Sweep configuration options](./sweep-config-keys)의 [Command 매크로](./sweep-config-keys#command-macros) 섹션을 참조하세요. 
 
 <div id="boolean-arguments">
   #### 불리언 인수
@@ -496,8 +494,8 @@ args.test  # --test가 전달되면 True, 그렇지 않으면 False
 
 ```python
 def str2bool(v: str) -> bool:
-  """문자열을 불리언으로 변환합니다. argparse가 기본적으로
-  불리언 인수를 지원하지 않기 때문에 이 함수가 필요합니다.
+  """Convert a string to a boolean. This is required because
+  argparse does not support boolean arguments by default.
   """
   if isinstance(v, bool):
       return v

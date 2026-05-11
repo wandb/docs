@@ -37,17 +37,17 @@ import weave
 #####
 print("---")
 print(
-    "W&B APIキーの作成はこちら: https://wandb.ai/settings#apikeys"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("W&B APIキーを入力してください: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
-print("OpenAI APIキーの生成はこちら: https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("OpenAI APIキーを入力してください: ")
+print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 W&Bのプロジェクト名を入力してください
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&Bのプロジェクト名
+# 🏠 W&B のプロジェクト名を入力してください
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B のプロジェクト名
 ```
 
 <div id="run-your-first-trace">
@@ -57,7 +57,7 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&Bのプロジェクト名
 次のコードサンプルでは、`@weave.op` デコレータを使って、Weave でトレースをキャプチャして可視化する方法を示します。ここでは `extract_fruit` という関数を定義し、OpenAI の GPT-4o にプロンプトを送信して、文から構造化データ (果物、色、風味) を抽出します。関数を `@weave.op` でデコレートすると、Weave は入力、出力、および中間 step を含む関数の実行を自動的にトラッキングします。サンプルの文でこの関数を呼び出すと、完全なトレースが保存され、Weave UI で確認できます。
 
 ```python lines
-@weave.op()  # 🐝 リクエストをトラッキングするデコレーター
+@weave.op()  # 🐝 リクエストをトラッキングするデコレータ
 def extract_fruit(sentence: str) -> dict:
     client = OpenAI()
     system_prompt = (

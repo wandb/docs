@@ -33,7 +33,7 @@ from pydantic import BaseModel
 import weave
 
 # 🔑 API 키 설정
-# 이 셀을 실행하면 `getpass`를 통해 API 키를 입력하라는 메시지가 표시되며, 터미널에 입력 내용이 출력되지 않습니다.
+# 이 셀을 실행하면 `getpass`를 통해 API 키를 입력하라는 메시지가 표시되며, 터미널에 입력 내용이 표시되지 않습니다.
 #####
 print("---")
 print(
@@ -107,12 +107,12 @@ examples = [
     {"id": "2", "sentence": sentences[2], "target": labels[2]},
 ]
 
-# 3. 평가용 채점 함수 정의
+# 3. 평가를 위한 스코어링 함수 정의
 @weave.op()
 def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
     output_flavors = [f.strip().lower() for f in output.flavor.split(",")]
-    # output flavor 중에 target flavor가 하나라도 있는지 확인
+    # 대상 flavor 중 하나라도 출력 flavor에 포함되어 있는지 확인
     matches = any(tf in of for tf in target_flavors for of in output_flavors)
     return {"correct": matches}
 

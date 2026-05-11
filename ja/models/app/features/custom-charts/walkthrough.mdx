@@ -1,9 +1,9 @@
 ---
-description: W&B UI のカスタムチャート機能を使用するチュートリアル
-title: 'チュートリアル: カスタムチャートを使用する'
+description: W&B UI のカスタム チャート機能を使用するチュートリアル
+title: 'チュートリアル: カスタム チャートを使用する'
 ---
 
-カスタムチャートを使用すると、パネルに読み込むデータとその可視化を制御できます。
+カスタム チャートを使用すると、パネルに読み込むデータとその可視化を制御できます。
 
 <div id="1-log-data-to-wb">
   ## 1. データを W&amp;B にログする
@@ -14,14 +14,14 @@ title: 'チュートリアル: カスタムチャートを使用する'
 ```python
 with wandb.init() as run: 
 
-  # カスタムデータ表のログ
+  # カスタムデータの表をログする
   my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
   run.log(
     {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
   )
 ```
 
-[データテーブルをログする簡単なサンプルノートブックをお試しください](https://bit.ly/custom-charts-colab)。次のstepでは、カスタムチャートを設定します。作成されたチャートがどのように表示されるかは、[ライブレポート](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)で確認できます。
+[データテーブルをログする簡単なサンプルノートブックをお試しください](https://bit.ly/custom-charts-colab)。次のstepでは、カスタムチャートを設定します。作成されたチャートがどのように表示されるかは、[ライブreport](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)で確認できます。
 
 <div id="2-create-a-query">
   ## 2. クエリを作成する
@@ -38,7 +38,7 @@ with wandb.init() as run:
 </div>
 
 1. `summary` をクリックし、`historyTable` を選択して、run の履歴からデータを取得する新しいクエリを設定します。
-2. `wandb.Table()` をログしたキーを入力します。上記のコードスニペットでは `my_custom_table` です。[サンプルノートブック](https://bit.ly/custom-charts-colab) では、キーは `pr_curve` と `roc_curve` です。
+2. `wandb.Table()` をログしたキーを入力します。前のコードスニペットでは `custom_data_table` です。[サンプルノートブック](https://bit.ly/custom-charts-colab) では、キーは `pr_curve` と `roc_curve` です。**`summaryTable`**、**`historyTable`**、および **`tableKey`** の詳細については、[GraphQL クエリを構築する](/ja/models/app/features/custom-charts#build-the-graphql-query) を参照してください。
 
 <div id="set-vega-fields">
   ### Vega フィールドを設定する
