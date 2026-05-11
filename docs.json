@@ -77,12 +77,17 @@
                 "pages": [
                   "index",
                   {
-                    "group": "Products",
+                    "group": "W&B Products",
                     "pages": [
                       "product-models",
                       "product-weave",
+                      "product-training"
+                    ]
+                  },
+                  {
+                    "group": "CoreWeave Products",
+                    "pages": [
                       "product-inference",
-                      "product-training",
                       "product-sandboxes"
                     ]
                   },
@@ -1372,8 +1377,13 @@
                     "pages": [
                       "fr/product-models",
                       "fr/product-weave",
+                      "fr/product-training"
+                    ]
+                  },
+                  {
+                    "group": "Produits CoreWeave",
+                    "pages": [
                       "fr/product-inference",
-                      "fr/product-training",
                       "fr/product-sandboxes"
                     ]
                   },
@@ -2663,8 +2673,13 @@
                     "pages": [
                       "ja/product-models",
                       "ja/product-weave",
+                      "ja/product-training"
+                    ]
+                  },
+                  {
+                    "group": "CoreWeave プロダクト",
+                    "pages": [
                       "ja/product-inference",
-                      "ja/product-training",
                       "ja/product-sandboxes"
                     ]
                   },
@@ -3954,8 +3969,13 @@
                     "pages": [
                       "ko/product-models",
                       "ko/product-weave",
+                      "ko/product-training"
+                    ]
+                  },
+                  {
+                    "group": "CoreWeave 제품",
+                    "pages": [
                       "ko/product-inference",
-                      "ko/product-training",
                       "ko/product-sandboxes"
                     ]
                   },
