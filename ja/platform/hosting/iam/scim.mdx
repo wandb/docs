@@ -122,7 +122,18 @@ Authorization: Basic OnNhLXBANTV3MHJk
   ## ユーザー管理
 </div>
 
-SCIM のユーザーリソースは、W&amp;B の Users に対応しています。これらの endpoints を使用して、組織内の Users を管理します。
+SCIM の user リソースは、W&amp;B Users に対応します。これらの endpoints を使用して、組織内のユーザーを管理します。
+
+<Note>
+  **SCIM ユーザー JSON をパースするインテグレーションに対する破壊的変更**
+
+  * 専用クラウドおよび セルフマネージド v0.80.1+、ならびに 2026 年 4 月 30 日以降の Multi-tenant Cloud deployment では、`/scim/Users` からの応答 (`GET` user、`GET` users、および ユーザー を返す `PATCH` 応答を含む) で、`emails` は SCIM 2.0 に準拠し、小文字のフィールド名 (`value`、`primary`、および省略可能な `type` または `display`) を持つオブジェクトの JSON 配列としてシリアライズされます。
+  * それ以前の release の deployment では、`emails` は PascalCase のキー (`Value`、`Primary` など) を持つ単一の JSON オブジェクトとして返されます。
+
+  コードで SCIM の *responses* から `emails` を読み取る場合は、`emails` を配列として扱い、primary のエントリ (または先頭の要素) を読み取ってください。
+
+  ユーザーを作成または更新するための Request body では、すでに配列形式が使われており、変更はありません。`list-users` のフィルター `emails.value eq "..."` も変更ありません。
+</Note>
 
 <div id="get-user">
   ### ユーザーを取得
@@ -166,12 +177,12 @@ SCIM のユーザーリソースは、W&amp;B の Users に対応しています
         "active": true,
         "daysActive": 42,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "lastActiveAt": "2023-10-15T14:32:10Z",
         "meta": {
@@ -253,12 +264,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
                 "active": true,
                 "daysActive": 42,
                 "displayName": "Dev User 1",
-                "emails": {
-                    "Value": "dev-user1@example.com",
-                    "Display": "",
-                    "Type": "",
-                    "Primary": true
-                },
+                "emails": [
+                    {
+                        "primary": true,
+                        "value": "dev-user1@example.com"
+                    }
+                ],
                 "id": "abc",
                 "lastActiveAt": "2023-10-15T14:32:10Z",
                 "meta": {
@@ -384,12 +395,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 2",
-        "emails": {
-            "Value": "dev-user2@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user2@example.com"
+            }
+        ],
         "id": "def",
         "meta": {
             "resourceType": "User",
@@ -415,12 +426,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 2",
-        "emails": {
-            "Value": "dev-user2@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user2@example.com"
+            }
+        ],
         "id": "def",
         "meta": {
             "resourceType": "User",
@@ -561,12 +572,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "newemail@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "newemail@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -639,12 +650,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "John Doe",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -743,12 +754,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": false,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -851,12 +862,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -942,12 +953,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1026,12 +1037,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1106,12 +1117,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1193,12 +1204,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1258,19 +1269,19 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
     ```json
     {
-      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-      "Operations": [
-        {
-          "op": "replace",
-          "path": "registryRoles",
-          "value": [
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
             {
-              "roleName": "admin",
-              "registryName": "hello-registry"
+                "op": "replace",
+                "path": "registryRoles",
+                "value": [
+                    {
+                        "roleName": "admin",
+                        "registryName": "hello-registry"
+                    }
+                ]
             }
-          ]
-        }
-      ]
+        ]
     }
     ```
   </Tab>
@@ -1282,30 +1293,32 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
     ```json
     {
-      "active": true,
-      "displayName": "Dev User 1",
-      "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-      },
-      "id": "abc",
-      "meta": {
-        "resourceType": "User",
-        "created": "2023-10-01T00:00:00Z",
-        "lastModified": "2023-10-01T00:00:00Z",
-        "location": "Users/abc"
-      },
-      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
-      "userName": "dev-user1",
-      "registryRoles": [
-        {
-          "registryName": "hello-registry",
-          "roleName": "admin"
-        }
-      ],
-      "organizationRole": "admin"
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "registryRoles": [
+            {
+                "registryName": "hello-registry",
+                "roleName": "admin"
+            }
+        ],
+        "organizationRole": "admin"
     }
     ```
   </Tab>
@@ -1369,12 +1382,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1426,12 +1439,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
