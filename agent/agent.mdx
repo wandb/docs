@@ -1,0 +1,83 @@
+---
+title: "Overview"
+description: "W&B Agent is your personalized AI research assistant that helps you to investigate your project's data, find patterns across runs, recommend next steps, build visualizations, build reports and more."
+mode: wide
+---
+
+<Warning>
+The W&B Agent is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+</Warning>
+
+Use the W&B Agent as your AI research assistant to help you find patterns across runs, recommend next experiments, build visualizations, and answer questions about W&B features and best practices.
+
+[Ask the agent](/agent/chat_agent) about your project data, such as your runs, panels, logs, and files. The agent can analyze your data to surface patterns, explain trade-offs, identify potential issues, and recommend next steps. The agent can also build visualizations, saved views, and reports to help you share insights with your team using [tools](/agent/agent_tools).
+
+<Frame>
+    <img src="/images/agent/agent_overview.png" alt="W&B Agent overview" />
+</Frame>
+
+Use the W&B Agent as your project's AI research assistant to help you:
+
+* Find patterns across runs, individual examples, panels, logs, and files.
+* Recommend your next experiment based on previous runs.
+* Build visualizations, saved views, and reports.
+* Answer questions about W&B features and best practices.
+
+{/* <Frame>
+    <img src="/images/app_ui/agent_demo_19sec.gif" alt="W&B Agent overview" />
+</Frame> */}
+
+For information about how W&B handles data usage for the W&B Agent, see [Governance and security](/agent/governance).
+
+## Examples
+
+The following are example conversations with the W&B Agent.
+
+
+<Accordion title="What patterns do you see across my runs?">
+Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed, identify potential issues, and decide on your next steps.
+
+To do this, you navigate to your the project where you logged runs. You open the W&B Agent and ask: 
+
+```text title="User prompt"
+What patterns do you see across my runs?
+```
+
+The following is an example of how the W&B Agent might respond to this question. First, the agent makes reasoning steps to determine how to approach the question:
+
+```text title="W&B Agent reasoning steps"
+I’m considering running a state breakdown scan with counts by state using
+specific server filters. I’ll look at the array of states: ['finished',
+'running', 'crashed', 'failed', 'killed', 'pending', 'preempting'] and
+determine the length of each. Summing these metrics could provide
+useful insights. I should also focus on identifying objective metrics
+from sample keys while excluding those that start with "_" or "system/".
+It’s important to compute the best min/max for numeric summary metrics too.
+```
+
+{/* The following animation shows an example of how the W&B Agent might respond to this question. First, the agent makes reasoning steps to determine how to approach the question.
+
+<Frame>
+    <img src="/images/agent/reasoning_step.png" alt="W&B Agent thought process reasoning steps" />
+</Frame> */}
+
+The agent identifies that it needs to analyze the data across runs to answer the question. To do this, the agent creates a Python script (`analyze_patterns.py`) that uses the W&B Python SDK to query previously logged runs to identify patterns in the data. Once the script is generated, the agent executes it within a sandbox environment. 
+
+<Frame>
+    <img src="/images/agent/agent_analyze_project.gif" alt="W&B Agent thought process" />
+</Frame>
+
+The agent uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
+
+<Frame>
+    <img src="/images/agent/agent_analyze_summary_results.gif" alt="W&B Agent summary of patterns across runs" />
+</Frame>
+
+The agent was able to identify that my current experiment does not log validation/test metrics and recommended logging those metrics in future runs to better understand the model's performance. 
+
+As a next step, I can then ask the agent to help me set up my next experiment with validation metrics logged, and the agent can generate a script for me to use as a starting point.
+</Accordion>
+
+<Accordion title="I am an Accordion.">
+Insert text.
+</Accordion>
