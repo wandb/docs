@@ -3,7 +3,7 @@ title: Serverless RL
 description: 強化学習を使ってモデルをより効率的にポストトレーニングする方法を学びます
 ---
 
-現在パブリックプレビュー中の Serverless RL は、開発者が LLM をポストトレーニングして新しい振る舞いを学習させ、マルチターンのエージェントタスクの実行における信頼性向上、速度向上、コスト削減を実現できるよう支援します。W&amp;B は、環境設定の自由度を保ちながら、トレーニング用インフラストラクチャー ([CoreWeave 上](https://docs.coreweave.com/docs/platform)) をプロビジョニングします。Serverless RL を使うと、数十台の GPU まで弾力的に自動スケールするマネージドトレーニングクラスターをすぐに利用できます。RL ワークフローを推論フェーズとトレーニングフェーズに分け、それらを複数のジョブにまたがって多重化することで、Serverless RL は GPU 使用率を高め、トレーニング時間とコストを削減します。
+Serverless RL を使用して、LLM をポストトレーニングし、新しい振る舞いを学習させ、マルチターンのエージェントタスクの実行における信頼性向上、速度向上、コスト削減を実現します。Serverless RL は現在パブリックプレビュー中です。W&amp;B は、環境設定の自由度を保ちながら、トレーニング用インフラストラクチャー ([CoreWeave 上](https://docs.coreweave.com/docs/platform)) をプロビジョニングします。Serverless RL を使うと、数十台の GPU まで弾力的に自動スケールするマネージドトレーニングクラスターをすぐに利用できます。RL ワークフローを推論フェーズとトレーニングフェーズに分け、それらを複数のジョブにまたがって多重化することで、Serverless RL は GPU 使用率を高め、トレーニング時間とコストを削減します。
 
 Serverless RL は、次のようなタスクに最適です。
 
@@ -12,7 +12,7 @@ Serverless RL は、次のようなタスクに最適です。
 * オンプレミスモデル
 * コンテンツマーケティング分析エージェント
 
-Serverless RL は、エージェントの特定タスク向けにモデルを特化させるため、低ランクアダプター (LoRA) をトレーニングします。これにより、元のモデルの能力を実運用での経験によって拡張できます。トレーニングした LoRA は自動的に W&amp;B アカウント内に Artifacts として保存され、バックアップ用にローカルまたはサードパーティにも保存できます。Serverless RL でトレーニングしたモデルは、W&amp;B Inference 上でも自動的にホストされます。
+Serverless RL は、エージェントの特定タスク向けにモデルを特化させるため、低ランクアダプター (LoRA アダプター) をトレーニングします。これにより、元のモデルの能力を実運用での経験によって拡張できます。W&amp;B は、トレーニングした LoRA アダプターをアカウント内に Artifacts として自動的に保存します。バックアップ用にローカルまたはサードパーティにも保存できます。Serverless RL でトレーニングしたモデルは、W&amp;B Inference 上でも自動的にホストされます。
 
 開始するには、ART の[クイックスタート](https://art.openpipe.ai/getting-started/quick-start)または [Google Colab ノートブック](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) を参照してください。
 
@@ -37,4 +37,4 @@ Serverless RL は、動作にあたって以下の W&amp;B コンポーネント
 * [Artifacts](/ja/models/artifacts): LoRA アダプターを保存し、バージョン管理するため
 * [Weave (オプション) ](/ja/weave): トレーニングループの各 step でモデルがどのように応答するかを把握するため
 
-Serverless RL は現在パブリックプレビュー中です。プレビュー期間中は、Inference の使用分と Artifacts の保存分に対してのみ課金されます。W&amp;B は、プレビュー期間中のアダプターのトレーニングについては課金しません。
+Serverless RL は現在パブリックプレビュー中です。プレビュー期間中、W&amp;B は Inference の使用分と Artifacts の保存分に対してのみ課金します。W&amp;B は、プレビュー期間中のアダプターのトレーニングについては課金しません。
