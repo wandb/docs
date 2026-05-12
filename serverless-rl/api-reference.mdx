@@ -1,0 +1,62 @@
+---
+title: API overview
+description: "Browse the Serverless RL API endpoints for chat completions, models, training jobs, and health checks with authentication details."
+---
+
+<Note>
+The Serverless RL API provides endpoints for managing and interacting with training jobs, including serverless reinforcement learning (RL) and supervised fine-tuning (SFT). The API is OpenAI-compatible for chat completions.
+</Note>
+
+## Authentication
+
+All API requests require authentication using your W&B API key. Create an API key at [wandb.ai/settings](https://wandb.ai/settings).
+
+Include your API key in the `Authorization` header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Base URL
+
+```
+https://api.training.wandb.ai/v1
+```
+
+## Available endpoints
+
+
+### chat-completions
+
+- **[POST /v1/chat/completions](/serverless-rl/api-reference/chat-completions/create-chat-completion)** - Create Chat Completion
+- **[POST /v1/chat/completions/](/serverless-rl/api-reference/chat-completions/create-chat-completion)** - Create Chat Completion
+
+### models
+
+- **[POST /v1/preview/models](/serverless-rl/api-reference/models/create-model)** - Create Model
+- **[DELETE /v1/preview/models/{model_id}](/serverless-rl/api-reference/models/delete-model)** - Delete Model
+- **[DELETE /v1/preview/models/{model_id}/checkpoints](/serverless-rl/api-reference/models/delete-model-checkpoints)** - Delete Model Checkpoints
+- **[GET /v1/preview/models/{model_id}/checkpoints](/serverless-rl/api-reference/models/list-model-checkpoints)** - List Model Checkpoints
+- **[POST /v1/preview/models/{model_id}/log](/serverless-rl/api-reference/models/log)** - Log
+
+### training-jobs
+
+- **[POST /v1/preview/sft-training-jobs](/serverless-rl/api-reference/training-jobs/create-sft-training-job)** - Create Sft Training Job
+- **[POST /v1/preview/training-jobs](/serverless-rl/api-reference/training-jobs/create-rl-training-job)** - Create Rl Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}](/serverless-rl/api-reference/training-jobs/get-training-job)** - Get Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}/events](/serverless-rl/api-reference/training-jobs/get-training-job-events)** - Get Training Job Events
+
+### health
+
+- **[GET /v1/health](/serverless-rl/api-reference/health/health-check)** - Health Check
+- **[GET /v1/system-check](/serverless-rl/api-reference/health/system-check)** - System Check
+
+## Related resources
+
+- [Serverless RL overview](/serverless-rl)
+- [Prerequisites](/serverless-rl/prerequisites)
+- [Serverless SFT](/serverless-rl/sft)
+- [Use your trained models](/serverless-rl/use-trained-models)
+- [Available models](/serverless-rl/available-models)
+- [Usage limits](/serverless-rl/usage-limits)
+
