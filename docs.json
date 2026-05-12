@@ -77,14 +77,14 @@
                 "pages": [
                   "index",
                   {
-                    "group": "W&B Products",
+                    "group": "Weights & Biases",
                     "pages": [
                       "product-models",
                       "product-weave"
                     ]
                   },
                   {
-                    "group": "CoreWeave Products",
+                    "group": "Powered by CoreWeave",
                     "pages": [
                       "product-inference",
                       "product-serverless-rl",
