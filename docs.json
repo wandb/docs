@@ -630,6 +630,7 @@
                             "pages": [
                               "weave/guides/integrations/openai_agents",
                               "weave/guides/integrations/openai-realtime-audio",
+                              "weave/guides/integrations/bedrock_agents",
                               "weave/guides/integrations/claude_agent",
                               "weave/guides/integrations/claude_code",
                               "weave/guides/integrations/langchain",
