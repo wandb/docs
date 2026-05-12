@@ -1,6 +1,6 @@
 ---
 title: "W&B Agent"
-description:  Text
+description: "W&B Agent is your personalized AI research assistant that helps you to investigate your project's data, find patterns across runs, recommend next steps, build visualizations, build reports and more."
 mode: wide
 ---
 
@@ -8,60 +8,74 @@ mode: wide
 The W&B Agent is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-Use the W&B Agent as your project's AI research assistant to help you:
+Use the W&B Agent as your AI research assistant to help you find patterns across runs, recommend next experiments, build visualizations, and answer questions about W&B features and best practices.
 
-1. Find patterns across runs, individual examples, panels, logs, and files.
-2. Recommend your next experiment based on previous runs.
-3. Build visualizations, saved views, and reports.
-4. Answer questions about W&B features and best practices.
+The W&B Agent analyzes experiment, evaluation, and production data to surface patterns explain trade-offs, identify potential issues, and recommend next steps. The agent can also build visualizations, saved views, and reports to help you share insights with your team.
 
 <Frame>
-    <img src="/images/app_ui/agent_demo_19sec.gif" alt="W&B Agent overview" />
+    <img src="/images/agent/agent_overview.png" alt="W&B Agent overview" />
 </Frame>
 
-## Ask W&B Agent a question
+Use the W&B Agent as your project's AI research assistant to help you:
 
-The W&B Agent has access to the project that you're currently viewing. To ask the agent about a different project, navigate to that project, then open W&B Agent. The input field shows which project the agent can access.
+* Find patterns across runs, individual examples, panels, logs, and files.
+* Recommend your next experiment based on previous runs.
+* Build visualizations, saved views, and reports.
+* Answer questions about W&B features and best practices.
 
-To ask the agent a question:
+{/* <Frame>
+    <img src="/images/app_ui/agent_demo_19sec.gif" alt="W&B Agent overview" />
+</Frame> */}
 
-1. Navigate to your project's workspace.
-2. Click **W&B Agent** in the upper-right corner of the page.
-3. In the modal, enter your question or request.
-4. Click **Send** (button with an up arrow).
+## Examples
 
-For example, you can ask:
+The following are example conversations with the W&B Agent.
 
-- What patterns do you see across my runs?
-- Can you recommend my next experiment based on what I've already run?
 
-## View W&B Agent's response
+<Accordion title="What patterns do you see across my runs?">
+Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed, identify potential issues, and decide on your next steps.
 
-After you submit your question, the agent processes your request and shows a response in the chat window.
+To do this, you navigate to your the project where you logged runs. You open the W&B Agent and ask: 
 
-Depending on the complexity of your question, the agent might take a few moments to respond. While the agent works, you might see **Reasoning** and **tool** steps:
+```text title="User prompt"
+What patterns do you see across my runs?
+```
 
-- **Reasoning** steps summarize how theagent is approaching your question.
-- **Tool** steps show when the agent uses a W&B tool, such as creating a panel or filtering runs.
+The following is an example of how the W&B Agent might respond to this question. First, the agent makes reasoning steps to determine how to approach the question:
 
-To view more details, click a **Reasoning** or **tool** step.
+```text title="W&B Agent reasoning steps"
+I’m considering running a state breakdown scan with counts by state using
+specific server filters. I’ll look at the array of states: ['finished',
+'running', 'crashed', 'failed', 'killed', 'pending', 'preempting'] and
+determine the length of each. Summing these metrics could provide
+useful insights. I should also focus on identifying objective metrics
+from sample keys while excluding those that start with "_" or "system/".
+It’s important to compute the best min/max for numeric summary metrics too.
+```
 
-## Start a new chat
+{/* The following animation shows an example of how the W&B Agent might respond to this question. First, the agent makes reasoning steps to determine how to approach the question.
 
-To start a new chat, open the W&B Agent, then click **Start a new chat** (pencil icon).
+<Frame>
+    <img src="/images/agent/reasoning_step.png" alt="W&B Agent thought process reasoning steps" />
+</Frame> */}
 
-Starting a new chat does not delete your previous conversations. To view previous conversations, open the **Chat history** tab.
+The agent identifies that it needs to analyze the data across runs to answer the question. To do this, the agent creates a Python script (`analyze_patterns.py`) that uses the W&B Python SDK to query previously logged runs to identify patterns in the data. Once the script is generated, the agent executes it within a sandbox environment. 
 
-## View chat history
+<Frame>
+    <img src="/images/agent/agent_analyze_project.gif" alt="W&B Agent thought process" />
+</Frame>
 
-To view previous conversations with the W&B Agent:
+The agent uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
 
-1. Open the W&B Agent.
-2. Click **Chat history**.
-3. Select a conversation.
+<Frame>
+    <img src="/images/agent/agent_analyze_summary_results.gif" alt="W&B Agent summary of patterns across runs" />
+</Frame>
 
-## Provide feedback
+The agent was able to identify that my current experiment does not log validation/test metrics and recommended logging those metrics in future runs to better understand the model's performance. 
 
-Click the thumbs up or thumbs down icon at the end of the response to provide feedback on W&B Agent's response.
+As a next step, I can then ask the agent to help me set up my next experiment with validation metrics logged, and the agent can generate a script for me to use as a starting point.
+</Accordion>
 
-Your feedback helps W&B improve W&B Agent's performance and accuracy.
+<Accordion title="I am an Accordion.">
+Insert text.
+</Accordion>

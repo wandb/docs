@@ -1,0 +1,26 @@
+---
+title: "Available tools"
+description: "The following page describes the tools that the W&B Agent uses to answer your questions and complete your requests."
+---
+
+The W&B Agent uses built-in *tools* to help it answer your questions and complete your requests. 
+
+<Info>
+Tools expand the capabilities of the agent and enable it to to gather information, analyze data, and interact with your W&B project.
+</Info>
+
+The specific tools the agent uses depend on the context of your question.
+
+## Available tools
+
+The following table lists a non-exhaustive list of tools that the W&B Agent may use to answer your questions and complete your requests.
+
+| Tool | Description |
+| --- | --- |
+| Python scripts | The agent can generate and run Python scripts that use the W&B Python SDK to query and analyze your W&B data. For example, the agent might generate a Python script to analyze patterns across runs, then run the script in a sandbox environment to get the results of the analysis. |
+| Shell commands | The agent can run shell commands to interact with your W&B project. For example, the agent might use the W&B CLI to filter runs or create panels. |  
+| Reports and Workspaces API | The agent can use the Reports and Workspaces API to create and modify panels, saved views, and reports in your W&B project. For example, the agent might create a panel that shows the top performing runs based on a specific metric. |
+| Python SDK | The agent can use the W&B Python SDK to query your W&B data and generate insights. For example, the agent might use the Python SDK to identify which runs have missing validation metrics. |
+| W&B Weave | The agent can use W&B Weave for project analysis, runs, traces, evals, reports, monitors.|
+
+All scripts and shell commands are executed in a sandbox environment.

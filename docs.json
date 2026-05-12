@@ -813,6 +813,8 @@
                 "item": "W&B Agent",
                 "pages": [
                   "agent",
+                  "agent/chat_agent",
+                  "agent/agent_tools",
                   "agent/governance"
 
                 ]
