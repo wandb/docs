@@ -19,7 +19,7 @@ La tarification des requêtes d’inférence RL sans serveur correspond à celle
   ### Entraînement
 </div>
 
-À chaque étape d&#39;entraînement, Serverless RL collecte des lots de trajectoires comprenant les sorties de votre agent et les récompenses associées (calculées par votre fonction de récompense). Ces trajectoires, regroupées en lots, servent ensuite à mettre à jour les poids d&#39;un adaptateur LoRA qui spécialise un modèle de base pour votre tâche. Les tâches d&#39;entraînement qui mettent à jour ces LoRA s&#39;exécutent sur des clusters GPU dédiés gérés par Serverless RL.
+À chaque étape d&#39;entraînement, Serverless RL collecte des lots de trajectoires comprenant les sorties de votre agent et les récompenses associées (calculées par votre fonction de récompense). Serverless RL utilise ensuite ces trajectoires, regroupées en lots, pour mettre à jour les poids d&#39;un adaptateur LoRA qui spécialise un modèle de base pour votre tâche. Les tâches d&#39;entraînement qui mettent à jour ces LoRA s&#39;exécutent sur des clusters GPU dédiés gérés par Serverless RL.
 
 L&#39;entraînement est gratuit pendant la phase de préversion publique.
 
@@ -27,7 +27,7 @@ L&#39;entraînement est gratuit pendant la phase de préversion publique.
   ### Stockage des modèles
 </div>
 
-Serverless RL stocke les checkpoints de vos LoRA entraînés afin que vous puissiez les évaluer, les mettre en service avec Serve ou reprendre leur entraînement à tout moment. Le stockage est facturé mensuellement en fonction de la taille totale des checkpoints et de votre [plan de tarification](https://wandb.ai/site/pricing). Chaque plan inclut au moins 5 Go de stockage gratuit, ce qui suffit pour environ 30 LoRA. Nous vous recommandons de supprimer les LoRA les moins performants pour économiser de l’espace. Voir le [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) pour savoir comment procéder.
+Serverless RL stocke les checkpoints de vos LoRA entraînés afin que vous puissiez les évaluer, les mettre en service avec Serve ou reprendre leur entraînement à tout moment. W&amp;B facture le stockage mensuellement en fonction de la taille totale des checkpoints et de votre [plan de tarification](https://wandb.ai/site/pricing). Chaque plan inclut au moins 5 Go de stockage gratuit, ce qui suffit pour environ 30 LoRA. Supprimez les LoRA les moins performants pour économiser de l’espace. Voir le [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) pour les instructions.
 
 <div id="limits">
   ## Limites
