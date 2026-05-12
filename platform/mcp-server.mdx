@@ -58,9 +58,9 @@ W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no
 Select the tab containing your MCP client's instructions:
 
 <Tabs>
-<Tab title="Claude Code CLI">
+<Tab title="Claude Code">
 
-To add the W&B MCP server to Claude CLI, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
+To add the W&B MCP server to Claude Code, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
 
 ```bash
 claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
@@ -74,11 +74,11 @@ For more detailed information, see [Claude's documentation](https://docs.anthrop
 </Tab>
 <Tab title="Claude Code Desktop">
 
-Claude Desktop's built-in custom connectors interface does not support API key authentication for remote MCP servers. To work around this, use the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) npm proxy to connect Claude Desktop to the W&B remote MCP server. The proxy runs locally and forwards requests to `https://mcp.withwandb.com/mcp` with your Bearer token.
+Claude Code Desktop's built-in custom connectors interface does not support API key authentication for remote MCP servers. To work around this, use the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) npm proxy to connect Claude Code Desktop to the W&B remote MCP server. The proxy runs locally and forwards requests to `https://mcp.withwandb.com/mcp` with your Bearer token.
 
 You need [Node.js](https://nodejs.org/) installed on your system.
 
-Open your Claude Desktop config file in a text editor. You can find the config file at the following location for your OS:
+Open your Claude Code Desktop config file in a text editor. You can find the config file at the following location for your OS:
 
 * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
@@ -107,7 +107,7 @@ Add the following to the JSON object in your config file, replacing `<your-wandb
 
 The full header value is set through the `env` field rather than directly in `args` to work around a space-escaping issue in some Claude Desktop versions.
 
-Restart Claude Desktop to activate the new configuration. Verify the connection by entering the prompt "List the projects in my W&B account."
+Restart Claude Code Desktop to activate the new configuration. Verify the connection by entering the prompt "List the projects in my W&B account."
 </Tab>
 <Tab title="Codex">
 
