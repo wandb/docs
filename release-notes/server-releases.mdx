@@ -26,7 +26,7 @@ This page includes release notes for supported releases of W&B Server.
     - Fixed a bug that could lead to incorrect casing of email addresses and names in a SCIM User object.
 - Fixed a bug when using SCIM to create a team with bring your own bucket (BYOB) on Dedicated Cloud when the request omits organization context.
 - Fixed a bug that could lead to incorrect run history in a forked run when using the parquet history store with the query executor. For example, the history of a forked run could include incorrect merges at the live store boundary or incorrect step metadata.
-- Improved line plot performance for projects with very large run counts by skipping expensive total-count queries. The legend shows a warning if the UI cannot cannot tell whether additional runs match the panel filters, and these warnings could appear more often.
+- Improved line plot performance for projects with very large run counts by skipping expensive total-count queries. The legend shows a warning if the UI cannot cannot tell whether additional runs match the panel filters, and these warnings may be less accurate.
 - Fixed incorrect redirects from the organization **Usage Alerts** page.
 
 ## Breaking changes
