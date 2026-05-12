@@ -75,7 +75,7 @@ def generate_endpoint_url(summary: str, tag: str, path: str) -> str:
         # Fallback: use path to generate a slug
         url_slug = path.strip('/').replace('/v1/', '').replace('/', '-')
     
-    return f"https://docs.wandb.ai/serverless-rl/api-reference/{tag_segment}/{url_slug}"
+    return f"/serverless-rl/api-reference/{tag_segment}/{url_slug}"
 
 
 def generate_endpoints_section(endpoints: Dict[str, List[Tuple[str, str, str, str]]]) -> str:
