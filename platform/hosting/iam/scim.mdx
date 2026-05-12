@@ -104,6 +104,17 @@ Authorization: Basic OnNhLXBANTV3MHJk
 
 The SCIM user resource maps to W&B users. Use these endpoints to manage users in your organization.
 
+<Note>
+**Breaking change for integrations that parse SCIM User JSON**
+
+- In Dedicated Cloud and Self-Managed v0.80.1+, and in Multi-tenant Cloud deployments after April 30, 2026, responses from `/scim/Users` (including `GET` user, `GET` users, and `PATCH` responses that return a User) serialize `emails` as a JSON array of objects using lowercase field names (`value`, `primary`, and optional `type` or `display`), matching SCIM 2.0.
+- Deployments on older releases return `emails` as a single JSON object with PascalCase keys (`Value`, `Primary`, and similar).
+
+If your code reads `emails` from SCIM _responses_, treat `emails` as an array and read the primary entry (or the first element).
+
+Request bodies for creating or updating users already used the array form and are unchanged. The `list-users` filter `emails.value eq "..."` is also unchanged.
+</Note>
+
 ### Get user
 
 Retrieves information for a specific user in your organization.
@@ -137,12 +148,12 @@ GET /scim/Users/abc
     "active": true,
     "daysActive": 42,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "lastActiveAt": "2023-10-15T14:32:10Z",
     "meta": {
@@ -213,12 +224,12 @@ GET /scim/Users
             "active": true,
             "daysActive": 42,
             "displayName": "Dev User 1",
-            "emails": {
-                "Value": "dev-user1@example.com",
-                "Display": "",
-                "Type": "",
-                "Primary": true
-            },
+            "emails": [
+                {
+                    "primary": true,
+                    "value": "dev-user1@example.com"
+                }
+            ],
             "id": "abc",
             "lastActiveAt": "2023-10-15T14:32:10Z",
             "meta": {
@@ -332,12 +343,12 @@ POST /scim/Users
 {
     "active": true,
     "displayName": "Dev User 2",
-    "emails": {
-        "Value": "dev-user2@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user2@example.com"
+        }
+    ],
     "id": "def",
     "meta": {
         "resourceType": "User",
@@ -362,12 +373,12 @@ POST /scim/Users
 {
     "active": true,
     "displayName": "Dev User 2",
-    "emails": {
-        "Value": "dev-user2@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user2@example.com"
+        }
+    ],
     "id": "def",
     "meta": {
         "resourceType": "User",
@@ -489,12 +500,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "newemail@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "newemail@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -558,12 +569,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "John Doe",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -652,12 +663,12 @@ PATCH /scim/Users
 {
     "active": false,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -697,7 +708,7 @@ Reactivates a previously deactivated user in your organization.
 <Note>
 - User reactivation works for users only, not service accounts. Reactivation is not supported for service accounts. Manage service accounts in the settings for the W&B Team.
 
-- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
+- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in an HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
     ```json
     {
         "schemas": [
@@ -748,12 +759,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -829,12 +840,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -904,12 +915,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -975,12 +986,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -1053,12 +1064,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -1137,12 +1148,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -1216,12 +1227,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
@@ -1272,12 +1283,12 @@ PATCH /scim/Users/abc
 {
     "active": true,
     "displayName": "Dev User 1",
-    "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    },
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user1@example.com"
+        }
+    ],
     "id": "abc",
     "meta": {
         "resourceType": "User",
