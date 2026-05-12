@@ -377,7 +377,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ### Weave
 
-  * 専用クラウドでは利用できない W&amp;B Inference へのリンクが、専用クラウドの Weave UI に表示されていた不具合を修正しました。
+  * 専用クラウドでは利用できない Serverless Inference へのリンクが、専用クラウドの Weave UI に表示されていた不具合を修正しました。
   * 詳細ドロワーが開いている場合に、[評価](/ja/weave/guides/core-types/evaluations)の比較ページで棒グラフの幅を必要以上に狭く変更できてしまう不具合を修正しました。
   * [Weave Playground](https://wandb.ai/site/playground/)で入力中に、カーソルが画面の表示範囲から消えてしまうことがあるUIバグを修正しました。
   * [Weave Playground](https://wandb.ai/site/playground/) で call を読み込む際にテンプレート変数を編集できなかった不具合を修正しました。
@@ -393,7 +393,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 修正
 
   * スクロールバーが常に表示される設定の macOS で発生することがあった表示上の不具合を修正しました。Workspace に [Query panel](/ja/models/app/features/panels/query-panels) がある場合、Workspace でズームアウトすると、Query panel の表のサイズが毎秒何度も変動するリサイズループが発生することがありました。
-  * 専用クラウドの UI に W&amp;B Inference が誤って表示される不具合を修正しました。専用クラウドでは Inference は利用できません。
+  * 専用クラウドの UI に Serverless Inference が誤って表示される不具合を修正しました。専用クラウドでは Inference は利用できません。
 </Update>
 
 <Update label="v0.76.2" description="2025年12月10日">
@@ -403,7 +403,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * **Organization Dashboard** ページの不正確な **Usage** カードを、**Usage** ページへのリンクに置き換えました。これは UI 上の不具合のみで、billing への影響はありません。
   * Parquet の読み取りがオフなのに、エクスポートがオンになることがある不具合を修正しました。
-  * 保留状態で run config がまったくない run を手動で upsert した際に発生する nil ポインタ逆参照を修正しました。
+  * 保留状態で run 設定 がまったくない run を手動で upsert した際に発生する nil ポインタ逆参照を修正しました。
 </Update>
 
 <Update label="v0.76.1" description="2025年12月4日">
@@ -411,7 +411,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * ワークスペースからレポートに折れ線グラフをインポートする際、プロット内で極端な外れ値が非表示になっていると処理が停止することがある不具合を修正しました。
+  * Workspace からレポートに折れ線グラフをインポートする際、プロット内で極端な外れ値が非表示になっていると処理が停止することがある不具合を修正しました。
   * 高さを小さくした場合に、表パネルのサイズが正しく変更されないことがある不具合を修正しました。
   * キャプション付き画像で、マスクのオーバーレイが画像からはみ出すことがある不具合を修正しました。
   * run ノートの編集ボックスの幅が狭すぎて編集しづらかった不具合を修正しました。編集ボックスは、表示モードのテキストと同じサイズになりました。

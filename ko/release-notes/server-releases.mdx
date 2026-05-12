@@ -377,7 +377,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ### Weave
 
-  * Dedicated Cloud의 Weave UI에 Dedicated Cloud에서 사용할 수 없는 W&amp;B Inference 링크가 표시되던 버그를 수정했습니다.
+  * Dedicated Cloud의 Weave UI에 Dedicated Cloud에서 사용할 수 없는 Serverless Inference 링크가 표시되던 버그를 수정했습니다.
   * 세부 정보 drawer가 열려 있으면 [Evaluation](/ko/weave/guides/core-types/evaluations) 비교 페이지에서 막대 차트 너비가 지나치게 좁아질 수 있던 버그를 수정했습니다.
   * [Weave 플레이그라운드](https://wandb.ai/site/playground/)에 입력할 때 커서가 화면에 표시된 영역에서 사라질 수 있던 UI 버그를 수정했습니다.
   * [Weave 플레이그라운드](https://wandb.ai/site/playground/)에서 call을 불러올 때 템플릿 변수를 편집할 수 없던 버그를 수정했습니다.
@@ -392,8 +392,8 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 수정 사항
 
-  * 스크롤 막대가 항상 표시되도록 설정된 macOS에서 발생할 수 있는 표시 버그를 수정했습니다. 워크스페이스에 [Query panel](/ko/models/app/features/panels/query-panels)이 있는 경우, 워크스페이스를 축소하면 쿼리 패널 table 크기가 초당 여러 차례 오르내리는 크기 조정 루프가 트리거될 수 있었습니다.
-  * W&amp;B Inference가 Dedicated Cloud UI에 잘못 표시되던 버그를 수정했습니다. Dedicated Cloud에서는 Inference를 사용할 수 없습니다.
+  * 스크롤 막대가 항상 표시되도록 설정된 macOS에서 발생할 수 있는 표시 버그를 수정했습니다. 워크스페이스에 [쿼리 패널](/ko/models/app/features/panels/query-panels)이 있는 경우, 워크스페이스를 축소하면 쿼리 패널 table 크기가 초당 여러 차례 오르내리는 크기 조정 루프가 트리거될 수 있었습니다.
+  * Serverless Inference가 Dedicated Cloud UI에 잘못 표시되던 버그를 수정했습니다. Dedicated Cloud에서는 Inference를 사용할 수 없습니다.
 </Update>
 
 <Update label="v0.76.2" description="2025년 12월 10일">
@@ -403,7 +403,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   * **Organization Dashboard** 페이지의 부정확한 사용 카드를 **Usage** 페이지 링크로 대체했습니다. 이는 UI 버그일 뿐이며 billing에는 영향이 없습니다.
   * Parquet 조회는 꺼져 있지만 내보내기는 켜진 상태가 될 수 있던 버그를 수정했습니다.
-  * 보류 상태에서 run config 없이 run을 수동으로 upsert할 때 발생하던 nil 포인터 역참조를 수정했습니다.
+  * 보류 상태에서 run 설정 없이 run을 수동으로 upsert할 때 발생하던 nil 포인터 역참조를 수정했습니다.
 </Update>
 
 <Update label="v0.76.1" description="2025년 12월 4일">

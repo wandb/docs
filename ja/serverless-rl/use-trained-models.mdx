@@ -1,0 +1,81 @@
+---
+title: トレーニング済みのモデルを使用する
+description: トレーニングしたモデルに推論リクエストを送信する
+---
+
+Serverless RL でモデルをトレーニングすると、そのモデルは自動的に推論で使用できるようになります。
+
+トレーニングしたモデルにリクエストを送信するには、以下が必要です。
+
+* [W&amp;B APIキー](https://wandb.ai/settings)
+* [Serverless RL API](/ja/serverless-rl/api-reference) のベース URL、`https://api.training.wandb.ai/v1/`
+* モデルのエンドポイント
+
+モデルのエンドポイントは、次のスキーマを使用します。
+
+```
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
+```
+
+スキーマは次の要素で構成されます。
+
+* W&amp;B entity (チーム) の名
+* モデルに関連付けられた project の名
+* トレーニング済みモデルの名
+* デプロイするモデルのトレーニング step (通常、これは評価でモデルの性能が最も高かった step です)
+
+たとえば、W&amp;B チームの名が `email-specialists`、project の名が `mail-search`、トレーニング済みモデルの名が `agent-001` で、step 25 のモデルをデプロイする場合、エンドポイントは次のようになります。
+
+```
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
+```
+
+エンドポイントを取得したら、それを通常の推論ワークフローに統合できます。以下の例では、cURL リクエストまたは [Python OpenAI SDK](https://github.com/openai/openai-python) を使用して、トレーニング済みのモデルに推論リクエストを送信する方法を示します。
+
+<div id="curl">
+  ### cURL
+</div>
+
+```shell
+curl https://api.training.wandb.ai/v1/chat/completions \
+    -H "Authorization: Bearer $WANDB_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+            "model": "wandb-artifact://<entity>/<project>/<model-name>:<step>",
+            "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Summarize our training run."}
+            ],
+            "temperature": 0.7,
+            "top_p": 0.95
+        }'
+```
+
+<div id="openai-sdk">
+  ### OpenAI SDK
+</div>
+
+```python
+from openai import OpenAI
+
+WANDB_API_KEY = "your-wandb-api-key"
+ENTITY = "my-entity"
+PROJECT = "my-project"
+
+client = OpenAI(
+    base_url="https://api.training.wandb.ai/v1",
+    api_key=WANDB_API_KEY
+)
+
+response = client.chat.completions.create(
+    model=f"wandb-artifact:///{ENTITY}/{PROJECT}/my-model:step100",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarize our training run."},
+    ],
+    temperature=0.7,
+    top_p=0.95,
+)
+
+print(response.choices[0].message.content)
+```

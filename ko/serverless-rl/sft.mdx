@@ -1,0 +1,39 @@
+---
+title: Serverless SFT
+description: W&B에서 지도 파인튜닝(SFT)으로 모델을 파인튜닝하는 방법을 알아보세요
+---
+
+Serverless SFT를 사용하면 엄선된 데이터셋으로 LLM을 지도 학습 기반으로 파인튜닝할 수 있습니다. Serverless SFT는 현재 공개 프리뷰로 제공됩니다. W&amp;B가 트레이닝 인프라를 대신 프로비저닝([CoreWeave](https://docs.coreweave.com/docs/platform)에서)해 주면서도, 환경 설정은 자유롭게 구성할 수 있습니다. 트레이닝 워크로드에 맞춰 탄력적으로 자동 확장되는 관리형 트레이닝 클러스터에 즉시 액세스할 수 있습니다.
+
+Serverless SFT는 다음과 같은 작업에 적합합니다.
+
+* **증류**: 더 크고 성능이 뛰어난 모델의 지식을 더 작고 빠른 모델로 이전
+* **출력 스타일과 형식 학습**: 모델이 특정 응답 형식, 어조, 또는 구조를 따르도록 트레이닝
+* **RL 전 워밍업**: 강화 학습으로 추가 개선을 적용하기 전에 지도 예시로 모델을 사전 트레이닝
+
+Serverless SFT는 저랭크 어댑터(LoRA)를 트레이닝하여 특정 작업에 맞게 모델을 특화합니다. W&amp;B는 트레이닝한 LoRA를 계정의 아티팩트로 자동 저장합니다. 백업용으로 로컬 또는 서드파티에 저장할 수도 있습니다. 또한 Serverless Inference는 Serverless SFT로 트레이닝한 모델을 자동으로 호스팅합니다.
+
+시작하려면 ART [Serverless SFT docs](https://art.openpipe.ai/fundamentals/sft-training)를 참조하세요.
+
+<div id="why-serverless-sft">
+  ## 왜 Serverless SFT를 사용하나요?
+</div>
+
+지도 파인튜닝(SFT)은 모델이 선별된 입력-출력 예시를 통해 학습하는 트레이닝 기법입니다. W&amp;B의 Serverless SFT는 다음과 같은 이점을 제공합니다:
+
+* **더 낮은 트레이닝 비용**: 많은 사용자 간에 공유 인프라를 멀티플렉싱하고, 각 작업마다 필요한 설정 과정을 생략하며, 실제로 트레이닝하지 않을 때는 GPU 비용을 0까지 낮출 수 있으므로 Serverless SFT는 트레이닝 비용을 크게 절감합니다.
+* **더 빠른 트레이닝 시간**: 필요할 때 즉시 트레이닝 인프라를 프로비저닝하므로, Serverless SFT는 트레이닝 작업을 더 빠르게 실행하고 반복 속도도 높여줍니다.
+* **자동 배포**: Serverless SFT는 트레이닝한 모든 checkpoint를 자동으로 배포하므로 호스팅 인프라를 수동으로 설정할 필요가 없습니다. 로컬, 스테이징 또는 프로덕션 환경에서 트레이닝된 모델에 즉시 액세스해 테스트할 수 있습니다.
+
+<div id="how-serverless-sft-uses-wb-services">
+  ## Serverless SFT에서 W&amp;B 서비스를 사용하는 방식
+</div>
+
+Serverless SFT는 다음 W&amp;B 컴포넌트를 조합해 작동합니다:
+
+* [Inference](/ko/inference): 모델을 실행합니다
+* [Models](/ko/models): LoRA 어댑터의 트레이닝 중 성능 메트릭을 추적합니다
+* [Artifacts](/ko/models/artifacts): LoRA 어댑터를 저장하고 버전을 관리합니다
+* [Weave (선택)](/ko/weave): 트레이닝 루프의 각 단계에서 모델이 어떻게 응답하는지 관찰할 수 있습니다
+
+Serverless SFT는 공개 프리뷰 상태입니다. 프리뷰 기간 동안 W&amp;B는 Inference 사용량과 아티팩트 저장소에 대해서만 요금을 청구합니다. W&amp;B는 프리뷰 기간 동안 어댑터 트레이닝에 대해서는 요금을 청구하지 않습니다.

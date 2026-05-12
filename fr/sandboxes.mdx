@@ -1,13 +1,15 @@
 ---
-title: W&B Sandboxes
+title: Serverless Sandboxes
 mode: wide
 ---
 
-<Warning>W&amp;B Sandboxes est en aperçu privé, disponible uniquement sur invitation. Pour demander à y participer, contactez [l’assistance](mailto:support@wandb.com) ou votre AISE.</Warning>
+<Warning>
+  Serverless Sandboxes est en aperçu privé, disponible uniquement sur invitation. Pour demander à y participer, contactez [l’assistance](mailto:support@wandb.com) ou votre AISE.
+</Warning>
 
-W&amp;B Sandboxes vous offre des environnements de calcul isolés à la demande, que vous pouvez créer, utiliser et supprimer avec Python.
+Serverless Sandboxes vous offre des environnements de calcul isolés à la demande, que vous pouvez créer, utiliser et supprimer avec Python.
 
-W&amp;B Sandboxes repose sur la bibliothèque CoreWeave Sandbox. Pour la référence de l’API sous-jacente et la documentation de la bibliothèque, voir la [documentation CoreWeave Sandbox](https://docs.coreweave.com/products/coreweave-sandbox).
+Serverless Sandboxes repose sur la bibliothèque CoreWeave Sandbox. Pour la référence de l’API sous-jacente et la documentation de la bibliothèque, voir la [documentation CoreWeave Sandbox](https://docs.coreweave.com/products/coreweave-sandbox).
 
 <div id="how-it-works">
   ## Fonctionnement
@@ -40,26 +42,26 @@ Suivez ces étapes pour créer un sandbox et y exécuter une commande :
 3. Copiez-collez l’extrait de code suivant dans un fichier Python, puis exécutez-le. L’extrait de code effectue les opérations suivantes :
 
    1. Créez un sandbox avec [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run).
-   2. Exécutez la commande `echo "Hello from W&B Sandboxes!"` dans le sandbox à l’aide de la méthode [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec).
+   2. Exécutez la commande `echo "Hello from Serverless Sandboxes!"` dans le sandbox à l’aide de la méthode [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec).
    3. Affichez la sortie dans la console à l’aide de l’objet `Process` renvoyé par `Sandbox.exec()`.
 
    ```python show lines title="hello_sandbox.py"
    from wandb.sandbox import Sandbox
 
    with Sandbox.run() as sandbox:
-       process = sandbox.exec(["echo", "Hello from W&B Sandboxes!"]).result()
+       process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
        print(process.stdout)
    ```
 
-   Vous devriez voir le message `Hello from W&B Sandboxes!` s’afficher dans la console.
+   Vous devriez voir le message `Hello from Serverless Sandboxes!` s’afficher dans la console.
 
    Le sandbox s’arrête automatiquement à la sortie du gestionnaire de contexte (le bloc `with`). Pour plus d’informations sur le cycle de vie et les états du sandbox, voir [Cycle de vie des sandboxes](/fr/sandboxes/lifecycle).
 
-<div id="wb-sandboxes-tutorials">
-  ## Tutoriels W&amp;B Sandboxes
+<div id="serverless-sandboxes-tutorials">
+  ## Tutoriels Serverless Sandboxes
 </div>
 
 Pour des exemples plus détaillés, voir :
 
-* [Tutoriel : invoquer un agent dans un W&amp;B Sandbox](/fr/sandboxes/invoke-agent-sandbox-tutorial)
-* [Tutoriel : entraîner un modèle PyTorch dans un W&amp;B Sandbox](/fr/sandboxes/mltrain-in-sandbox-tutorial)
+* [Tutoriel : invoquer un agent dans un Serverless Sandbox](/fr/sandboxes/invoke-agent-sandbox-tutorial)
+* [Tutoriel : entraîner un modèle PyTorch dans un Serverless Sandbox](/fr/sandboxes/mltrain-in-sandbox-tutorial)

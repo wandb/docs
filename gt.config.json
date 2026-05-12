@@ -6,6 +6,9 @@
       "inferTitleFromFilename": true,
       "openapi": {
         "files": [
+          "./fr/training/api-reference/openapi.json",
+          "./ja/training/api-reference/openapi.json",
+          "./ko/training/api-reference/openapi.json",
           "./serverless-rl/api-reference/openapi.json",
           "./weave/reference/service-api/openapi.json"
         ]
@@ -43,6 +46,15 @@
       },
       "./weave/reference/service-api/openapi.json": {
         "preset": "openapi"
+      },
+      "./fr/training/api-reference/openapi.json": {
+        "preset": "openapi"
+      },
+      "./ja/training/api-reference/openapi.json": {
+        "preset": "openapi"
+      },
+      "./ko/training/api-reference/openapi.json": {
+        "preset": "openapi"
       }
     },
     "docsUrlPattern": "/[locale]",
@@ -60,9 +72,24 @@
       "include": [
         "./docs.json",
         "./serverless-rl/api-reference/openapi.json",
-        "./weave/reference/service-api/openapi.json"
+        "./weave/reference/service-api/openapi.json",
+        "./fr/training/api-reference/openapi.json",
+        "./ja/training/api-reference/openapi.json",
+        "./ko/training/api-reference/openapi.json"
       ],
       "transform": [
+        {
+          "match": "^fr/training/api-reference/openapi.json$",
+          "replace": "{locale}/fr/training/api-reference/openapi.json"
+        },
+        {
+          "match": "^ja/training/api-reference/openapi.json$",
+          "replace": "{locale}/ja/training/api-reference/openapi.json"
+        },
+        {
+          "match": "^ko/training/api-reference/openapi.json$",
+          "replace": "{locale}/ko/training/api-reference/openapi.json"
+        },
         {
           "match": "^serverless-rl/api-reference/openapi.json$",
           "replace": "{locale}/serverless-rl/api-reference/openapi.json"
