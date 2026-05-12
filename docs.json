@@ -1178,7 +1178,10 @@
               },
               {
                 "group": "Serverless RL",
-                "openapi": "serverless-rl/api-reference/openapi.json",
+                "openapi": {
+                  "source": "serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
+                },
                 "pages": [
                   "serverless-rl/api-reference"
                 ]
