@@ -35,7 +35,7 @@
   "contextual": {
     "options": [
       {
-        "title": "Install W&B MCP in Claude Code",
+        "title": "Install W&B MCP",
         "description": "Install W&B MCP server to Claude Code.",
         "icon": "plug",
         "href": "https://docs.wandb.ai/platform/mcp-server#use-w&b’s-remote-mcp-server"
