@@ -87,6 +87,16 @@ h1 {
    --color-text-primary, which is near-black in light mode and overrides the
    h2's `text-white` Tailwind utility via !important. Scope an exception via
    a .banner-title class added to the h2 in Banner.jsx. */
-.banner-title {
+
+   /* Banner body — MDX content inside the Banner renders inside a `.prose`
+   region, so its paragraphs pick up `.prose :where(p) { color: var(--tw-prose-body) }`,
+   which inverts with theme. The banner is overlaid on a dark image with a
+   black 40%-opacity scrim regardless of mode, so the children need a fixed
+   light color in BOTH themes. The Tailwind `text-gray-200` utility on the
+   wrapper div in Banner.jsx loses to the prose selector's specificity; lock
+   the wrapper and all descendants to gray-200 via the .banner-body hook on
+   the wrapper div. */
+
+.banner-title, .banner-body, .banner-body * {
   color: #E8E8E9 !important;
 }
