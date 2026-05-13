@@ -827,7 +827,6 @@
                 "group" : "W&B Agent",
                 "pages": [
                   "agent/agent",
-                  "agent/chat_agent",
                   "agent/governance"
                 ]
               },
