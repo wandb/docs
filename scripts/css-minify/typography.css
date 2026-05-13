@@ -80,3 +80,13 @@ h1 {
 .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
   margin-top: 0;
 }
+
+/* Banner snippet (snippets/Banner.jsx) renders a title overlaid on a dark
+   image with a black 40%-opacity scrim. The title must read as light text
+   in BOTH light and dark mode. The global h1-h6 rule above forces color to
+   --color-text-primary, which is near-black in light mode and overrides the
+   h2's `text-white` Tailwind utility via !important. Scope an exception via
+   a .banner-title class added to the h2 in Banner.jsx. */
+.banner-title {
+  color: #E8E8E9 !important;
+}
