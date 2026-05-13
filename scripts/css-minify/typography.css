@@ -63,3 +63,20 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: var(--font-size-xl); /* 40px */
 }
+
+/* Drop the prose plugin's h2 top margin. Mintlify's @tailwindcss/typography
+   build emits
+     .prose :where(h2):not(:where([class~=not-prose],[class~=not-prose] *))
+       { margin-top: 2em; … }
+   which resolves to 48px (2em × the h2's 1.5em font-size × 16px root). We
+   match the prose selector exactly so specificity ties (0,1,0,0); cascade
+   order then resolves in our favor because main.css imports typography.css
+   after Mintlify's bundled chunks load.
+   Trade-off: this strips top spacing from every h2 inside a .prose region,
+   not just the home page. On regular docs pages an h2 following a paragraph
+   will now butt up against it. If that becomes a problem, narrow the
+   selector (e.g. scope to the home page's content id) or restore a smaller
+   value here. */
+.prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  margin-top: 0;
+}
