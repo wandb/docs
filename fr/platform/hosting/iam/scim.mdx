@@ -122,7 +122,18 @@ Authorization: Basic OnNhLXBANTV3MHJk
   ## Gestion des utilisateurs
 </div>
 
-La ressource utilisateur SCIM est associée aux Users de W&amp;B. Utilisez ces endpoints pour gérer les utilisateurs de votre organisation.
+La ressource utilisateur SCIM correspond aux utilisateurs W&amp;B. Utilisez ces points de terminaison pour gérer les utilisateurs de votre organisation.
+
+<Note>
+  **Modification incompatible pour les intégrations qui analysent le JSON de l’objet User SCIM**
+
+  * Dans Cloud dédié et Autogéré v0.80.1+, ainsi que dans les déploiements Cloud mutualisé après le 30 avril 2026, les réponses de `/scim/Users` (y compris `GET` user, `GET` users et les réponses `PATCH` qui renvoient un User) sérialisent `emails` sous forme de tableau JSON d’objets avec des noms de champs en minuscules (`value`, `primary`, et `type` ou `display` facultatifs), conformément à SCIM 2.0.
+  * Les déploiements sur des versions antérieures renvoient `emails` sous la forme d’un unique objet JSON avec des clés en PascalCase (`Value`, `Primary` et similaires).
+
+  Si votre code lit `emails` dans les *réponses* SCIM, traitez `emails` comme un tableau et lisez l’entrée principale (ou le premier élément).
+
+  Les corps de requête utilisés pour créer ou mettre à jour des utilisateurs sont déjà au format tableau et ne changent pas. Le filtre `list-users` `emails.value eq "..."` reste lui aussi inchangé.
+</Note>
 
 <div id="get-user">
   ### Obtenir un utilisateur
@@ -166,12 +177,12 @@ Récupère les informations d’un utilisateur précis de votre organisation.
         "active": true,
         "daysActive": 42,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "lastActiveAt": "2023-10-15T14:32:10Z",
         "meta": {
@@ -195,7 +206,7 @@ Récupère les informations d’un utilisateur précis de votre organisation.
     La définition d’un utilisateur « actif » varie selon le type de déploiement :
 
     * **Cloud dédié / Autogéré** : un utilisateur est considéré comme actif s’il se connecte, ouvre une page dans la W&amp;B App, enregistre des runs, utilise le SDK ou interagit de quelque manière que ce soit avec le serveur W&amp;B.
-    * **Cloud mutualisé** : un utilisateur est considéré comme actif s’il effectue, après le 8 mai 2025, une action auditable dans le périmètre de l’organisation. Voir [Audit logging actions](/fr/platform/hosting/monitoring-usage/audit-logging#actions) pour la liste complète.
+    * **Cloud mutualisé** : un utilisateur est considéré comme actif s’il effectue, après le 8 mai 2025, une action auditable dans le périmètre de l’organisation. Voir [Actions de journalisation d’audit](/fr/platform/hosting/monitoring-usage/audit-logging#actions) pour la liste complète.
   </Tab>
 </Tabs>
 
@@ -253,12 +264,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
                 "active": true,
                 "daysActive": 42,
                 "displayName": "Dev User 1",
-                "emails": {
-                    "Value": "dev-user1@example.com",
-                    "Display": "",
-                    "Type": "",
-                    "Primary": true
-                },
+                "emails": [
+                    {
+                        "primary": true,
+                        "value": "dev-user1@example.com"
+                    }
+                ],
                 "id": "abc",
                 "lastActiveAt": "2023-10-15T14:32:10Z",
                 "meta": {
@@ -384,12 +395,12 @@ Crée un nouvel utilisateur au sein de votre organisation.
     {
         "active": true,
         "displayName": "Dev User 2",
-        "emails": {
-            "Value": "dev-user2@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user2@example.com"
+            }
+        ],
         "id": "def",
         "meta": {
             "resourceType": "User",
@@ -415,12 +426,12 @@ Crée un nouvel utilisateur au sein de votre organisation.
     {
         "active": true,
         "displayName": "Dev User 2",
-        "emails": {
-            "Value": "dev-user2@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user2@example.com"
+            }
+        ],
         "id": "def",
         "meta": {
             "resourceType": "User",
@@ -561,12 +572,12 @@ Met à jour l’adresse e-mail principale d’un utilisateur.
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "newemail@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "newemail@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -639,12 +650,12 @@ Met à jour le nom d’affichage d’un utilisateur.
     {
         "active": true,
         "displayName": "John Doe",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -743,12 +754,12 @@ Désactive un utilisateur dans votre organisation. Le résultat varie selon le t
     {
         "active": false,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -851,12 +862,12 @@ Réactive un utilisateur précédemment désactivé dans votre organisation.
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -942,12 +953,12 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1026,12 +1037,12 @@ Met à jour la licence Models attribuée à un utilisateur. **Cloud dédié** et
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1106,12 +1117,12 @@ Met à jour le rôle d&#39;un utilisateur dans Weave. **Cloud dédié** et **Aut
     {
         "active": true,
         "displayName": "Dev User 1",
-        "emails": {
-            "Value": "dev-user1@example.com",
-            "Display": "",
-            "Type": "",
-            "Primary": true
-        },
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
         "id": "abc",
         "meta": {
             "resourceType": "User",
@@ -1167,19 +1178,19 @@ Attribue à un utilisateur un rôle d’équipe.
 
     ```json
     {
-      "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-      "Operations": [
-        {
-          "op": "replace",
-          "path": "teamRoles",
-          "value": [
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
             {
-              "roleName": "admin",
-              "teamName": "team1"
+                "op": "replace",
+                "path": "teamRoles",
+                "value": [
+                    {
+                        "roleName": "admin",
+                        "teamName": "team1"
+                    }
+                ]
             }
-          ]
-        }
-      ]
+        ]
     }
     ```
   </Tab>
@@ -1191,30 +1202,32 @@ Attribue à un utilisateur un rôle d’équipe.
 
     ```json
     {
-      "active": true,
-      "displayName": "Dev User 1",
-      "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-      },
-      "id": "abc",
-      "meta": {
-        "resourceType": "User",
-        "created": "2023-10-01T00:00:00Z",
-        "lastModified": "2023-10-01T00:00:00Z",
-        "location": "Users/abc"
-      },
-      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
-      "userName": "dev-user1",
-      "teamRoles": [
-        {
-          "teamName": "team1",
-          "roleName": "admin"
-        }
-      ],
-      "organizationRole": "admin"
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "teamRoles": [
+            {
+                "teamName": "team1",
+                "roleName": "admin"
+            }
+        ],
+        "organizationRole": "admin"
     }
     ```
   </Tab>
@@ -1282,12 +1295,12 @@ Ajoute un utilisateur à un registre en lui attribuant un rôle au niveau du reg
     {
       "active": true,
       "displayName": "Dev User 1",
-      "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-      },
+      "emails": [
+        {
+          "primary": true,
+          "value": "dev-user1@example.com"
+        }
+      ],
       "id": "abc",
       "meta": {
         "resourceType": "User",
@@ -1367,12 +1380,12 @@ Retire un utilisateur d’un registre.
     {
       "active": true,
       "displayName": "Dev User 1",
-      "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-      },
+      "emails": [
+        {
+          "primary": true,
+          "value": "dev-user1@example.com"
+        }
+      ],
       "id": "abc",
       "meta": {
         "resourceType": "User",
@@ -1422,12 +1435,12 @@ Retire un utilisateur d’un registre.
     {
       "active": true,
       "displayName": "Dev User 1",
-      "emails": {
-        "Value": "dev-user1@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-      },
+      "emails": [
+        {
+          "primary": true,
+          "value": "dev-user1@example.com"
+        }
+      ],
       "id": "abc",
       "meta": {
         "resourceType": "User",

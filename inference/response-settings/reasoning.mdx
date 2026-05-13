@@ -1,9 +1,9 @@
 ---
 title: "View reasoning information"
-description: How to return and view reasoning in your W&B Inference responses
+description: How to return and view reasoning in your Serverless Inference responses
 ---
 
-Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on W&B Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it.
+Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on Serverless Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it.
 
 To determine whether a model supports reasoning, check the following Supported models table or the Supported Features section of its catalog page in the UI.
 
@@ -11,21 +11,23 @@ Reasoning information appears in the `reasoning` field of responses. The value o
 
 ## Supported models with reasoning
 
-The following table lists the models on W&B Inference that return reasoning output. Each supported model might always include reasoning, or might disable or enable reasoning by default:
+The following table lists the models on Serverless Inference that return reasoning output. Each supported model might always include reasoning, or might disable or enable reasoning by default:
 
 {/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
-| Model ID (for API usage)                       | Reasoning support  |
-| ---------------------------------------------- | ------------------ |
-| `google/gemma-4-31B-it`                        | Enabled by default |
-| `MiniMaxAI/MiniMax-M2.5`                       | Always on          |
-| `moonshotai/Kimi-K2.6`                         | Always on          |
-| `moonshotai/Kimi-K2.5`                         | Always on          |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Enabled by default |
-| `openai/gpt-oss-120b`                          | Always on          |
-| `openai/gpt-oss-20b`                           | Always on          |
-| `Qwen/Qwen3.5-35B-A3B`                         | Enabled by default |
-| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on          |
-| `zai-org/GLM-5.1`                              | Enabled by default |
+| Model ID (for API usage)                       | Reasoning support   |
+| ---------------------------------------------- | ------------------- |
+| `deepseek-ai/DeepSeek-V4-Flash`                | Disabled by default |
+| `google/gemma-4-31B-it`                        | Enabled by default  |
+| `MiniMaxAI/MiniMax-M2.5`                       | Always on           |
+| `moonshotai/Kimi-K2.6`                         | Always on           |
+| `moonshotai/Kimi-K2.5`                         | Always on           |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Enabled by default  |
+| `openai/gpt-oss-120b`                          | Always on           |
+| `openai/gpt-oss-20b`                           | Always on           |
+| `Qwen/Qwen3.5-35B-A3B`                         | Enabled by default  |
+| `Qwen/Qwen3.5-27B`                             | Enabled by default  |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on           |
+| `zai-org/GLM-5.1`                              | Enabled by default  |
 
 ### Models with `Always on` reasoning
 

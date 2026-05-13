@@ -6,7 +6,7 @@
       "inferTitleFromFilename": true,
       "openapi": {
         "files": [
-          "./training/api-reference/openapi.json",
+          "./serverless-rl/api-reference/openapi.json",
           "./weave/reference/service-api/openapi.json"
         ]
       }
@@ -38,7 +38,7 @@
           }
         }
       },
-      "./training/api-reference/openapi.json": {
+      "./serverless-rl/api-reference/openapi.json": {
         "preset": "openapi"
       },
       "./weave/reference/service-api/openapi.json": {
@@ -59,13 +59,13 @@
     "json": {
       "include": [
         "./docs.json",
-        "./training/api-reference/openapi.json",
+        "./serverless-rl/api-reference/openapi.json",
         "./weave/reference/service-api/openapi.json"
       ],
       "transform": [
         {
-          "match": "^training/api-reference/openapi.json$",
-          "replace": "{locale}/training/api-reference/openapi.json"
+          "match": "^serverless-rl/api-reference/openapi.json$",
+          "replace": "{locale}/serverless-rl/api-reference/openapi.json"
         },
         {
           "match": "^weave/reference/service-api/openapi.json$",
