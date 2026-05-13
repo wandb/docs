@@ -1,11 +1,11 @@
 ---
 title: "Modèles disponibles"
 description: >
-  Parcourez les modèles de fondation disponibles dans W&B Inference
+  Parcourez les modèles de fondation disponibles dans Serverless Inference
 mode: wide
 ---
 
-W&amp;B Inference donne accès à plusieurs modèles de fondation open source. Chaque modèle a ses propres points forts et cas d&#39;utilisation.
+Serverless Inference donne accès à plusieurs modèles de fondation open source. Chaque modèle a ses propres points forts et cas d&#39;utilisation.
 
 <div id="generally-available-models">
   ## Modèles généralement disponibles
@@ -17,6 +17,7 @@ Les modèles suivants sont [généralement disponibles](/fr/inference/lifecycle#
 
 | Modèle                        | ID du modèle (pour l’utilisation de l’API)     | Type          | Fenêtre de contexte | Paramètres                 | Description                                                                                                                                                                            |
 | ----------------------------- | ---------------------------------------------- | ------------- | ------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DeepSeek V4-Flash             | `deepseek-ai/DeepSeek-V4-Flash`                | Texte         | 1049k               | 13B-284B (Active-Total)    | DeepSeek V4-Flash est un modèle MoE doté d’une fenêtre de contexte de 1M, idéal pour le codage, le raisonnement et les flux de travail agentiques.                                     |
 | DeepSeek V3.1                 | `deepseek-ai/DeepSeek-V3.1`                    | Texte         | 161k                | 37B-671B (Active-Total)    | Un grand modèle hybride qui prend en charge les modes avec et sans raisonnement via des templates de prompt.                                                                           |
 | Google Gemma 4 31B            | `google/gemma-4-31B-it`                        | Texte, vision | 262k                | 31B (total)                | Gemma 4 31B Dense est conçu pour le raisonnement avancé, les flux de travail agentiques et les contextes plus longs, et il a été entraîné nativement sur plus de 140 langues.          |
 | IBM Granite 4.1 8B            | `ibm-granite/granite-4.1-8b`                   | Texte         | 131k                | 8B (au total)              | Granite 4.1 8B est un modèle instruct à contexte long offrant des capacités améliorées d’appel à des outils, de suivi des instructions et de conversation.                             |
@@ -46,10 +47,9 @@ Les modèles suivants sont [expérimentaux](/fr/inference/lifecycle#model-lifecy
 
 {/* takeru inference-models-experimental - Ce tableau est généré automatiquement ; ne le modifiez pas manuellement. */}
 
-| Modèle            | ID du modèle (pour l’utilisation avec l’API) | Type          | Fenêtre de contexte | Paramètres              | Description                                                                                                                                       |
-| ----------------- | -------------------------------------------- | ------------- | ------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| DeepSeek V4-Flash | `deepseek-ai/DeepSeek-V4-Flash`              | Texte         | 1049k               | 13B-284B (Active-Total) | DeepSeek V4-Flash est un modèle MoE avec une longueur de contexte de 1M, idéal pour le codage, le raisonnement et les charges de travail d’agent. |
-| Qwen3.5 27B       | `Qwen/Qwen3.5-27B`                           | Texte, vision | 262k                | 27B (Total)             | Qwen3.5-27B est un modèle dense de la famille Qwen3.5, conçu pour offrir de hautes performances sur un large éventail de benchmarks.              |
+| Modèle      | ID du modèle (pour l’utilisation avec l’API) | Type          | Fenêtre de contexte | Paramètres  | Description                                                                                                                          |
+| ----------- | -------------------------------------------- | ------------- | ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Qwen3.5 27B | `Qwen/Qwen3.5-27B`                           | Texte, vision | 262k                | 27B (Total) | Qwen3.5-27B est un modèle dense de la famille Qwen3.5, conçu pour offrir de hautes performances sur un large éventail de benchmarks. |
 
 <div id="deprecated-models">
   ## Modèles obsolètes

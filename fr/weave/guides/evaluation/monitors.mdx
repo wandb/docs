@@ -17,9 +17,9 @@ Si vous devez intervenir activement sur le comportement de votre application en 
 
 Pour créer un moniteur dans Weave :
 
-1. Ouvrez la [W&amp;B UI](https://wandb.ai/home), puis ouvrez votre projet Weave.
+1. Ouvrez la [interface W&amp;B](https://wandb.ai/home), puis ouvrez votre projet Weave.
 
-2. Dans la barre latérale de Weave, sélectionnez **Monitors**, puis cliquez sur le bouton **+ New Monitor**. La boîte de dialogue **Create new monitor** s&#39;ouvre.
+2. Dans la barre latérale de navigation de Weave, sélectionnez **Monitors**, puis cliquez sur le bouton **+ New Monitor**. La boîte de dialogue **Create new monitor** s&#39;ouvre.
 
 3. Dans le menu Create new monitor, configurez les champs suivants :
    * **Nom** : doit commencer par une lettre ou un chiffre. Peut contenir des lettres, des chiffres, des tirets et des tirets bas.
@@ -36,7 +36,7 @@ Pour créer un moniteur dans Weave :
      * **Nom du scorer** : doit commencer par une lettre ou un chiffre. Peut contenir des lettres, des chiffres, des tirets et des tirets bas.
      * **Scorer l&#39;audio** : filtre les modèles LLM disponibles pour n&#39;afficher que les modèles compatibles avec l&#39;audio, et ouvre le champ Media Scoring JSON Paths.
      * **Scorer les images** : filtre les modèles LLM disponibles pour n&#39;afficher que les modèles compatibles avec les images, et ouvre le champ Media Scoring JSON Paths.
-     * **Modèle juge** : sélectionnez le modèle qui scorera vos ops. Le menu contient les modèles LLM commerciaux que vous avez configurés dans votre compte W&amp;B, ainsi que les [modèles W&amp;B Inference](/fr/inference/models). Les modèles compatibles avec l&#39;audio affichent le libellé **Audio Input** à côté de leur nom. Pour le modèle sélectionné, configurez les paramètres suivants :
+     * **Modèle juge** : sélectionnez le modèle qui scorera vos ops. Le menu contient les modèles LLM commerciaux que vous avez configurés dans votre compte W&amp;B, ainsi que les [modèles Serverless Inference](/fr/inference/models). Les modèles compatibles avec l&#39;audio affichent le libellé **Audio Input** à côté de leur nom. Pour le modèle sélectionné, configurez les paramètres suivants :
        * **Nom de la configuration** : un nom pour cette configuration de modèle.
        * **Prompt système** : définit le rôle et la personnalité du modèle juge, par exemple, &quot;You are an impartial AI judge.&quot;
        * **Format de réponse** : le format dans lequel le juge doit produire sa réponse, par exemple un `json_object` ou du `text` brut.

@@ -1,15 +1,17 @@
 ---
 title: 샌드박스 라이프사이클
-description: 상태, 상태 변경을 기다리는 방법, 샌드박스를 중지하는 방법을 포함하여 W&B 샌드박스의 라이프사이클에 대해 알아보세요.
+description: 상태, 상태 변경을 기다리는 방법, 샌드박스를 중지하는 방법을 포함하여 Serverless 샌드박스의 라이프사이클에 대해 알아보세요.
 ---
 
-<Warning>W&amp;B Sandboxes는 비공개 프리뷰로, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE에 문의하세요.</Warning>
+<Warning>
+  Serverless Sandboxes는 비공개 프리뷰로, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE에 문의하세요.
+</Warning>
 
-W&amp;B 샌드박스는 라이프사이클 동안 여러 상태를 거칩니다. 샌드박스의 상태에 따라 사용 가능한 오퍼레이션이 결정됩니다.
+Serverless 샌드박스는 라이프사이클 동안 여러 상태를 거칩니다. 샌드박스의 상태에 따라 사용 가능한 오퍼레이션이 결정됩니다.
 
 대부분의 경우 샌드박스는 `PENDING` 상태에서 시작하고, container가 프로비저닝되는 동안 `CREATING` 상태로 이동한 다음, 사용할 준비가 되면 `RUNNING` 상태가 됩니다.
 
-메인 command와 함께 샌드박스를 시작하면 해당 command가 샌드박스의 메인 프로세스가 됩니다. 메인 프로세스가 종료되면 샌드박스는 `COMPLETED`(종료 코드 `0`) 또는 `FAILED`(시작 또는 실행 중 오류)와 같은 종료 상태로 들어갑니다. 샌드박스는 외부에서 중지되거나 최대 수명을 초과한 경우 `TERMINATED` 상태가 될 수도 있습니다.
+메인 명령과 함께 샌드박스를 시작하면 해당 command가 샌드박스의 메인 프로세스가 됩니다. 메인 프로세스가 종료되면 샌드박스는 `COMPLETED`(종료 코드 `0`) 또는 `FAILED`(시작 또는 실행 중 오류)와 같은 종료 상태로 들어갑니다. 샌드박스는 외부에서 중지되거나 최대 수명을 초과한 경우 `TERMINATED` 상태가 될 수도 있습니다.
 
 ```text
 PENDING -> CREATING -> RUNNING -> COMPLETED

@@ -26,18 +26,18 @@ description: "OpenAI互換のエンドポイントを使用して、チャット
     import openai
 
     client = openai.OpenAI(
-        # カスタムのベースURLは W&B Inference を指しています
+        # カスタムの ベース URL は Serverless Inference を指定します
         base_url='https://api.inference.wandb.ai/v1',
 
-        # https://wandb.ai/settings で APIキー を作成します
+        # https://wandb.ai/settings で APIキーを作成します
         # 安全のため、代わりに環境変数 OPENAI_API_KEY として設定することを検討してください
         api_key="<your-api-key>",
 
-        # オプション: 使用状況をトラッキングするための チーム とプロジェクト
+        # 任意: 使用状況をトラッキングするためのチームと project
         project="<your-team>/<your-project>",
     )
 
-    # <model-id> を、利用可能なモデル一覧にある任意のモデル ID に置き換えます
+    # <model-id> を、利用可能なモデルのリストにある任意のモデル ID に置き換えます
     response = client.chat.completions.create(
         model="<model-id>",
         messages=[
