@@ -69,6 +69,29 @@
 
 
 /* --------------------------------------------------------------------------
+   Sidebar item layout — Mintlify renders each nav anchor as
+     <a class="flex …">
+       <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+         <div class="… flex-1 flex-wrap …">{label}</div>
+         <div class="h-[1lh] flex items-center flex-1 justify-end">{chevron}</div>
+       </div>
+     </a>
+   Both children of the inner row use `flex-1` (= `flex: 1 1 0%`), so the
+   chevron's 8px SVG sits in a container that hoards ~50% of the row width
+   and the label only gets the other half — labels longer than ~10 chars
+   wrap unnecessarily ("Serverless Inference", "W&B Tutorials & Blog", etc).
+   Collapse the chevron container to its content width via `flex: none`
+   (`0 0 auto`); the label's own `flex-1` then expands into the freed space.
+   Targeted by `.justify-end` because that class only appears on the chevron
+   wrapper in this part of the tree (label wrappers don't carry it, and the
+   dropdown `<button>` variant uses `shrink-0` for its chevron and so isn't
+   affected by this rule). */
+#sidebar-content .sidebar-group a .justify-end {
+  flex: none;
+}
+
+
+/* --------------------------------------------------------------------------
    Table of contents (right rail) — text and left border use text-primary
    / border-primary (amber) when active; override both to the dark primary
    text color so it matches the sidebar's active state.
