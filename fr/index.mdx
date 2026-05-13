@@ -1,79 +1,45 @@
 ---
-title: "Documentation Weights & Biases"
-description: "Consultez la documentation de tous les produits Weights & Biases"
+title: "Développez des agents, des applications et des modèles d’IA"
+description: ""
 sidebarTitle: "Accueil de la documentation"
-mode: wide
+mode: "wide"
 ---
 
 import {Banner} from "/snippets/Banner.jsx";
-import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
 
-<HomeWrapper>
+<div id="weights-biases">
   ## Weights &amp; Biases
+</div>
 
-  Développez des modèles d’IA et déployez des applications LLM avec la plateforme W&amp;B pour le suivi des expériences, l’évaluation et l’observabilité.
+<h3 className="home-h3">Développez des modèles d’IA et déployez des applications LLM avec la plateforme W&amp;B pour le suivi des expériences, l’évaluation et l’observabilité.</h3>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginTop: '2rem' }}>
-    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/fr/models" subtitle="Développez des modèles d’IA">
-      Gérez le développement de modèles d’IA avec le suivi des expériences, le fine-tuning, le reporting, les sweeps d’hyperparamètres et un registre de modèles pour la gestion des versions et la reproductibilité.
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginTop: '2rem' }}>
+  <ProductCard title="W&B Models" iconSrc="icons/Models.svg" href="/fr/models" subtitle="Développer des modèles d’IA" iconSize={24}>
+    Gérez le développement de modèles d’IA grâce au suivi des expériences, au fine-tuning, aux rapports, aux Sweeps d’hyperparamètres et à un registre de modèles pour la gestion des versions et la reproductibilité.
+  </ProductCard>
 
-      <br />
+  <ProductCard title="W&B Weave" iconSrc="icons/Weave.svg" href="/fr/weave" subtitle="Utiliser des modèles d’IA dans votre application" iconSize={24}>
+    Gérez les modèles d’IA dans votre code grâce au tracing, à l’évaluation des résultats, aux estimations de coût et à un playground pour comparer les grands modèles de langage (LLM) et les paramètres.
+  </ProductCard>
+</div>
 
-      <br />
-
-      • <a href="/fr/models">Introduction</a><br />
-      • <a href="/fr/models/quickstart">Démarrage rapide</a><br />
-    </ProductCard>
-
-    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/fr/weave" subtitle="Utilisez des modèles d’IA dans votre application">
-      Gérez des modèles d’IA dans votre code avec le traçage, l’évaluation des résultats, les estimations de coût et un playground pour comparer les grands modèles de langage (LLM) et les paramètres.
-
-      <br />
-
-      <br />
-
-      • <a href="/fr/weave">Introduction</a><br />
-      • <a href="/fr/weave/quickstart">Démarrage rapide</a><br />
-    </ProductCard>
-  </div>
-
+<div id="powered-by-coreweave">
   ## Propulsé par CoreWeave
+</div>
 
-  Services managés s’exécutant sur l’infrastructure CoreWeave.
+<h3 className="home-h3">Services managés exécutés sur l’infrastructure CoreWeave.</h3>
 
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginTop: '2rem' }}>
-    <ProductCard title="Serverless Inference" iconSrc="icons/cropped-inference.svg" href="/fr/inference" subtitle="Accédez aux modèles fondamentaux">
-      Accédez aux principaux modèles fondamentaux open source via une API compatible OpenAI, avec le suivi de l’utilisation et l’intégration Weave pour le traçage et l’évaluation.
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginTop: '2rem' }}>
+  <ProductCard title="Serverless Inference" iconSrc="icons/Inference.svg" href="/fr/inference" subtitle="Accéder aux modèles de base" iconSize={24}>
+    Accédez aux principaux modèles de base open source via une API compatible avec OpenAI, avec suivi de l’utilisation et intégration à Weave pour le tracing et l’évaluation.
+  </ProductCard>
 
-      <br />
+  <ProductCard title="Serverless RL" iconSrc="icons/Training.svg" href="/fr/serverless-rl" subtitle="Affiner vos modèles" iconSize={24}>
+    Désormais en préversion publique. Affinez des LLM avec de l’apprentissage par renforcement serverless, une infrastructure GPU managée, l’intégration d’ART et de RULER, et une mise à l’échelle automatique pour les tâches agentiques sur plusieurs tours de conversation.
+  </ProductCard>
 
-      <br />
-
-      • <a href="/fr/inference">Introduction</a><br />
-      • <a href="https://wandb.ai/inference">Essayer dans le Playground</a>
-    </ProductCard>
-
-    <ProductCard title="Serverless RL" iconSrc="icons/cropped-training.svg" href="/fr/serverless-rl" subtitle="Post-entraînez vos modèles">
-      Désormais en préversion publique. Post-entraînez des LLM avec l’apprentissage par renforcement serverless, une infrastructure GPU managée, l’intégration d’ART et RULER, et la mise à l’échelle automatique pour les tâches agentiques multi-tours.
-
-      <br />
-
-      <br />
-
-      • <a href="/fr/serverless-rl">Introduction</a><br />
-      • <a href="/fr/serverless-rl/prerequisites">Démarrage rapide</a><br />
-    </ProductCard>
-
-    <ProductCard title="Serverless Sandboxes" iconSrc="icons/cropped-sdk.svg" href="/fr/sandboxes" subtitle="Exécutez du code dans des environnements isolés">
-      Désormais en préversion privée sur invitation. Exécutez du code dans des environnements de calcul isolés avec la gestion du cycle de vie, la gestion des secrets, l’accès aux fichiers et un SDK Python.
-
-      <br />
-
-      <br />
-
-      • <a href="/fr/sandboxes">Introduction</a><br />
-      • <a href="/fr/sandboxes/create-sandbox">Démarrage rapide</a><br />
-    </ProductCard>
-  </div>
-</HomeWrapper>
+  <ProductCard title="Serverless Sandboxes" iconSrc="icons/cropped-sdk.svg" href="/fr/sandboxes" subtitle="Exécuter du code dans des environnements isolés" iconSize={24}>
+    Désormais en préversion privée sur invitation. Exécutez du code dans des environnements de calcul isolés avec gestion du cycle de vie, gestion des secrets, accès aux fichiers et un SDK Python.
+  </ProductCard>
+</div>

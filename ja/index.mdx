@@ -1,79 +1,45 @@
 ---
-title: "Weights & Biases ドキュメント"
-description: "Weights & Biases のすべてのプロダクトに関するドキュメントをご覧ください"
+title: "AIエージェント、アプリケーション、モデルを開発"
+description: ""
 sidebarTitle: "ドキュメント ホーム"
-mode: wide
+mode: "wide"
 ---
 
 import {Banner} from "/snippets/Banner.jsx";
-import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
 
-<HomeWrapper>
+<div id="weights-biases">
   ## Weights &amp; Biases
+</div>
 
-  実験管理、評価、オブザーバビリティのためのW&amp;Bプラットフォームで、AIモデルを開発し、LLMアプリケーションを本番展開できます。
+<h3 className="home-h3">実験管理、評価、可観測性のためのW&amp;Bプラットフォームで、AIモデルを開発し、LLMアプリケーションを本番環境に展開します。</h3>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginTop: '2rem' }}>
-    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/ja/models" subtitle="AIモデルを開発">
-      実験管理、ファインチューニング、レポート、ハイパーパラメーター sweep、バージョン管理と再現性のためのモデル Registry を使用して、AIモデル開発を管理します。
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginTop: '2rem' }}>
+  <ProductCard title="W&B Models" iconSrc="icons/Models.svg" href="/ja/models" subtitle="AIモデルを開発" iconSize={24}>
+    実験管理、ファインチューニング、レポート、ハイパーパラメーター sweep、そしてバージョン管理と再現性を支えるモデル Registry により、AIモデル開発を管理します。
+  </ProductCard>
 
-      <br />
+  <ProductCard title="W&B Weave" iconSrc="icons/Weave.svg" href="/ja/weave" subtitle="アプリケーションでAIモデルを使用" iconSize={24}>
+    トレース、output の評価、コスト見積もり、そして大規模言語モデル (LLM) と設定を比較するためのプレイグラウンドにより、コード内のAIモデルを管理します。
+  </ProductCard>
+</div>
 
-      <br />
+<div id="powered-by-coreweave">
+  ## CoreWeave を基盤とするサービス
+</div>
 
-      • <a href="/ja/models">概要</a><br />
-      • <a href="/ja/models/quickstart">クイックスタート</a><br />
-    </ProductCard>
+<h3 className="home-h3">CoreWeave インフラストラクチャー上で提供されるマネージドサービスです。</h3>
 
-    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/ja/weave" subtitle="アプリでAIモデルを使用">
-      トレース、出力の評価、コスト見積もり、さらに大規模言語モデル (LLM) とSettingsを比較するためのPlaygroundを使って、コード内のAIモデルを管理します。
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginTop: '2rem' }}>
+  <ProductCard title="Serverless Inference" iconSrc="icons/Inference.svg" href="/ja/inference" subtitle="基盤モデルにアクセス" iconSize={24}>
+    OpenAI 互換 API を通じて、主要なオープンソース基盤モデルにアクセスできます。使用状況のトラッキングに加え、トレースと評価のための Weave インテグレーションも利用できます。
+  </ProductCard>
 
-      <br />
+  <ProductCard title="Serverless RL" iconSrc="icons/Training.svg" href="/ja/serverless-rl" subtitle="モデルを事後トレーニング" iconSize={24}>
+    現在、パブリックプレビューで提供中です。サーバーレス強化学習、マネージド GPU インフラストラクチャー、ART と RULER のインテグレーション、マルチターンのエージェント型タスク向けオートスケーリングにより、LLM を事後トレーニングできます。
+  </ProductCard>
 
-      <br />
-
-      • <a href="/ja/weave">概要</a><br />
-      • <a href="/ja/weave/quickstart">クイックスタート</a><br />
-    </ProductCard>
-  </div>
-
-  ## CoreWeave による提供
-
-  CoreWeave のインフラストラクチャー上で稼働するマネージドサービスです。
-
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginTop: '2rem' }}>
-    <ProductCard title="Serverless Inference" iconSrc="icons/cropped-inference.svg" href="/ja/inference" subtitle="基盤モデルにアクセス">
-      OpenAI互換APIを通じて主要なオープンソースの基盤モデルにアクセスでき、Usage のトラッキングと、トレースおよび評価のためのWeaveインテグレーションを利用できます。
-
-      <br />
-
-      <br />
-
-      • <a href="/ja/inference">概要</a><br />
-      • <a href="https://wandb.ai/inference">Playgroundで試す</a>
-    </ProductCard>
-
-    <ProductCard title="Serverless RL" iconSrc="icons/cropped-training.svg" href="/ja/serverless-rl" subtitle="モデルをポストトレーニング">
-      現在パブリックプレビュー中です。サーバーレス強化学習、マネージドGPUインフラストラクチャー、ARTおよびRULERインテグレーション、マルチターンのエージェントタスク向けのオートスケーリングを使用して、LLMをポストトレーニングできます。
-
-      <br />
-
-      <br />
-
-      • <a href="/ja/serverless-rl">概要</a><br />
-      • <a href="/ja/serverless-rl/prerequisites">クイックスタート</a><br />
-    </ProductCard>
-
-    <ProductCard title="Serverless Sandboxes" iconSrc="icons/cropped-sdk.svg" href="/ja/sandboxes" subtitle="分離された環境でコードを実行">
-      現在、招待制のプライベートプレビュー中です。ライフサイクル管理、シークレットの処理、file へのアクセス、Python SDKを備えた分離コンピュート環境でコードを実行できます。
-
-      <br />
-
-      <br />
-
-      • <a href="/ja/sandboxes">概要</a><br />
-      • <a href="/ja/sandboxes/create-sandbox">クイックスタート</a><br />
-    </ProductCard>
-  </div>
-</HomeWrapper>
+  <ProductCard title="Serverless Sandboxes" iconSrc="icons/cropped-sdk.svg" href="/ja/sandboxes" subtitle="分離された環境でコードを実行" iconSize={24}>
+    現在、招待制のプライベートプレビューです。ライフサイクル管理、シークレットの処理、file へのアクセス、Python SDK を備えた分離コンピュート環境でコードを実行できます。
+  </ProductCard>
+</div>
