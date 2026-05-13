@@ -21,14 +21,18 @@ This tutorial walks you through building a **project** automation triggered by r
 
 Follow these instructions to set up a project-scoped automation: When a run in the project transitions to **Failed**, W&B sends a Slack notification.
 
+{/* W&B App vs Python tab temporarily hidden pending Python SDK fix for `create_automation` / run-state automations (internal WB-34263). Restore when the regression is shipped.
+
 <Tabs>
 <Tab title="W&B App">
+*/}
 1. Open the project and click the **Automations** tab in the sidebar, then click **Create automation**.
 1. Choose the event **Run state change**. Set the state to **Failed**. Optionally add a run name or user filter to limit which runs trigger the automation.
 1. Click **Next step**. Set **Action type** to **Slack notification** and select the Slack channel.
 1. Click **Next step**. Give the automation a name (for example, "Run failure alert") and an optional description, then click **Create automation**.
 
 For more detail, see [Create a Slack automation](/models/automations/create-automations/slack#create-an-automation) (Project tab).
+{/*
 </Tab>
 <Tab title="Python">
 Use the public API to create the same automation with a project scope and run-state filter:
@@ -56,6 +60,7 @@ automation = api.create_automation(
 ```
 </Tab>
 </Tabs>
+*/}
 
 ## Test the automation
 Create a run and log it to the project, explicitly marking it as failed:
