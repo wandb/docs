@@ -29,9 +29,17 @@
    font-weight is locked to 400 with !important. Use !important on both
    so we win cleanly. */
 .product-card-title {
-  font-family: var(--font-sans) !important;
+  /* font-family: var(--font-sans) !important; */
   font-size: var(--font-size-lg); /* 24px */
-  font-weight: var(--font-weight-semibold) !important;
+  font-weight: var(--font-weight-medium) !important;
+}
+
+/* Product card body text — Source Sans regular in the secondary text color. */
+.product-card-subtitle, .home-h3 {
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-xm); /* 18px */
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
 }
 
 /* Product card body text — Source Sans regular in the secondary text color. */

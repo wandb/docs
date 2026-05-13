@@ -32,7 +32,7 @@
 .sidebar-group-header > h5 {
   font-family: var(--font-sans) !important;
   font-size: var(--font-size-md); /* 16px */
-  font-weight: var(--font-weight-semibold) !important;
+  font-weight: var(--font-weight-medium) !important;
 }
 
 .sidebar-group a,

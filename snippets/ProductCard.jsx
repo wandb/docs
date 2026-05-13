@@ -56,11 +56,11 @@ export const ProductCard = ({
         />
       )}
 
-      <h2 className="product-card-title mb-2" style={{ marginTop: 0 }}>
+      <h2 className="product-card-title">
         {title}
       </h2>
       {subtitle && (
-        <h3 className="text-base font-semibold mb-3 text-gray-700 dark:text-gray-300">
+        <h3 className="product-card-subtitle">
           {subtitle}
         </h3>
       )}

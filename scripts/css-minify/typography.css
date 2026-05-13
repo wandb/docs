@@ -19,6 +19,7 @@
   --font-size-xs: 0.75rem;    /* 12px — micro labels (e.g. source-link badge) */
   --font-size-sm: 0.9375rem;  /* 15px — compact UI/body text (sidebar, topbar) */
   --font-size-md: 1rem;       /* 16px — default body, top nav tabs, group headers */
+  --font-size-xm: 1.125rem;   /* 18px — default heading size in prose */
   --font-size-lg: 1.5rem;     /* 24px — card titles */
   --font-size-xl: 2.5rem;     /* 40px — page H1 */
 }
