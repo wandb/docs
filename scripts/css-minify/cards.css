@@ -32,6 +32,7 @@
   /* font-family: var(--font-sans) !important; */
   font-size: var(--font-size-lg); /* 24px */
   font-weight: var(--font-weight-medium) !important;
+  margin-top: 0;
 }
 
 /* Product card body text — Source Sans regular in the secondary text color. */
