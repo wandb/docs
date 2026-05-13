@@ -11,7 +11,7 @@ Serverless RL is ideal for tasks like:
 * On-prem models
 * Content marketing analysis agents
 
-Serverless RL trains low-rank adapters (LoRAs) to specialize a model for your agent's specific task. This extends the original model's capabilities with on-the-job experience. W&B automatically stores the LoRAs you train as artifacts in your account. You can also save them locally or to a third party for backup. W&B Inference also automatically hosts models that you train through Serverless RL.
+Serverless RL trains low-rank adapters (LoRAs) to specialize a model for your agent's specific task. This extends the original model's capabilities with on-the-job experience. W&B automatically stores the LoRAs you train as artifacts in your account. You can also save them locally or to a third party for backup. Serverless Inference also automatically hosts models that you train through Serverless RL.
 
 See the ART [quickstart](https://art.openpipe.ai/getting-started/quick-start) or [Google Colab notebook](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) to get started.
 
@@ -33,3 +33,7 @@ Serverless RL uses a combination of the following W&B components to operate:
 * [Weave (optional)](/weave): To gain observability into how the model responds at each step of the training loop
 
 Serverless RL is in public preview. During the preview, W&B charges you only for inference usage and artifact storage. W&B does not charge for adapter training during the preview period.
+
+## Serverless SFT
+
+In addition to reinforcement learning, you can use [Serverless SFT](/serverless-rl/sft) to fine-tune models with curated datasets. Use SFT for distillation, teaching output style and format, or warming up a model before applying RL.

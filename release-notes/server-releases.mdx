@@ -12,6 +12,43 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.80.1" description="May 6, 2026">
+**May 6, 2026**
+
+## Fixes
+
+- Fixed a critical authorization bug that allowed exposure of artifacts to unauthorized users.
+- Fixed a critical security bug in validation of serialized payloads, allowing execution of code.
+- Fixed a high-severity authorization bug that allowed any non-viewer organization member to become organization administrator.
+- Fixed a high-severity authorization bug where testing a generic webhook integration required only entity read permission while creating or updating webhooks required admin. Testing a webhook now requires admin, consistent with other webhook configuration actions.
+- Fixed a high-severity bug that allowed cross-project modification of automation triggers.
+- Fixed a high-severity bug in user input sanitization of labels and URLs that would have allowed cross-site scripting.
+- Fixed OIDC sign-in for deployments that use PKCE with a confidential client secret by reverting an earlier change that omitted the client secret on PKCE token requests. When a client secret is configured, the server no longer adds redundant client IDs to token URL parameters, which avoids conflicts with the `Authorization` header.
+- Fixed SCIM list fields for Microsoft Entra ID: the API returns empty JSON arrays instead of `null`, which restores connection tests and group flows.
+- Improved the reliability of SCIM Push operations sent to Okta:
+    - Fixed a bug where a SCIM Group Push operation could fail if the Okta group name is different from the W&B team name. These operations are now sent as pathless `PATCH` operations. **This is a breaking change for integrations that parse SCIM User JSON.** See [Breaking changes](#breaking-changes).
+    - Added guardrails to prevent inadvertently removing all members from a team if a SCIM Group Push operation did not include all members.
+    - Improved serialization of SCIM User objects in the payload sent to Okta. The payload now better aligns with what Okta expects.
+    - Fixed a bug that could lead to incorrect casing of email addresses and names in a SCIM User object.
+- Fixed a bug when using SCIM to create a team with bring your own bucket (BYOB) on Dedicated Cloud when the request omits organization context.
+- Fixed a bug that could lead to incorrect run history in a forked run when using the parquet history store with the query executor. For example, the history of a forked run could include incorrect merges at the live store boundary or incorrect step metadata.
+- Improved line plot performance for projects with very large run counts by skipping expensive total-count queries. The legend shows a warning if the UI cannot cannot tell whether additional runs match the panel filters, and these warnings may be less accurate.
+- Fixed incorrect redirects from the organization **Usage Alerts** page.
+- Fixed a JSON serialization bug in Weave when writing artifact metadata to the ClickHouse search index.
+- Fixed a bug in the Weave trace server where migrations could select an incorrect database engine.
+
+## Breaking changes
+This release includes a breaking change for integrations that parse SCIM User JSON:
+
+- In Dedicated Cloud and Self-Managed v0.80.1+, responses from `/scim/Users` (including `GET` user, `GET` users, and `PATCH` responses that return a User) serialize `emails` as a JSON array of objects using lowercase field names (`value`, `primary`, and optional `type` or `display`), matching SCIM 2.0.
+- Deployments on older releases return `emails` as a single JSON object with PascalCase keys (`Value`, `Primary`, and similar).
+
+If your code reads `emails` from SCIM _responses_, treat `emails` as an array and read the primary entry (or the first element).
+
+Request bodies for creating or updating users already used the array form and are unchanged. The `list-users` filter `emails.value eq "..."` is also unchanged.
+
+</Update>
+
 <Update label="v0.80.0" description="April 28, 2026">
 **April 28, 2026**
 
@@ -89,7 +126,6 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - The run ID (the value of `run.name`) is now included in fuzzy search when searching for runs.
 - Improved performance of loading audio in table panels.
 </Update>
-
 
 <Update label="v0.79.2" description="April 10, 2026">
 ## Fixes
@@ -359,7 +395,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - Fixed a bug where line plots with multiple runsets in a Report could show incorrect data for runs that shared the same name across runsets. Runs are now uniquely keyed by runset and name.
 
 ### Weave
-- Fixed a bug where the Weave UI in Dedicated Cloud showed links to W&B Inference, which is not available in Dedicated Cloud.
+- Fixed a bug where the Weave UI in Dedicated Cloud showed links to Serverless Inference, which is not available in Dedicated Cloud.
 - Fixed a bug where bar charts in the [Evaluation](/weave/guides/core-types/evaluations) comparison page could be resized too narrowly if the details drawer is open.
 - Fixed a UI bug where the cursor could disappear from the visible portion of the screen when typing in [Weave Playground](https://wandb.ai/site/playground/).
 - Fixed a bug where you could not edit template variables when loading a call in [Weave Playground](https://wandb.ai/site/playground/).
@@ -375,7 +411,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 
 ## Fixes
 - Fixed a display bug that could occur on macOS when scroll bars are configured to always display. If a workspace has a [Query panel](/models/app/features/panels/query-panels), zooming out in the workspace could trigger a resize loop where the query panel table size oscillates several times a second.
-- Fixed a bug where W&B Inference erroneously appeared in the Dedicated Cloud UI. Inference is not available in Dedicated Cloud.
+- Fixed a bug where Serverless Inference erroneously appeared in the Dedicated Cloud UI. Inference is not available in Dedicated Cloud.
 </Update>
 
 <Update label="v0.76.2" description="December 10, 2025">

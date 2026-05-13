@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Update the Training API landing page with the current endpoints from the OpenAPI spec.
+Update the Serverless RL API landing page with the current endpoints from the OpenAPI spec.
 
 This script fetches the OpenAPI spec (either from local file or remote URL) and
-updates the Available Endpoints section in the training/api-reference.mdx landing page.
+updates the Available Endpoints section in the serverless-rl/api-reference.mdx landing page.
 """
 import requests
 import json
@@ -15,7 +15,7 @@ from typing import Dict, List, Tuple
 def fetch_openapi_spec() -> dict:
     """Fetch OpenAPI spec from local file or remote URL."""
     # First try local file
-    local_spec = Path("training/api-reference/openapi.json")
+    local_spec = Path("serverless-rl/api-reference/openapi.json")
     if local_spec.exists():
         print(f"  Using local OpenAPI spec: {local_spec}")
         with open(local_spec, 'r') as f:
@@ -75,7 +75,7 @@ def generate_endpoint_url(summary: str, tag: str, path: str) -> str:
         # Fallback: use path to generate a slug
         url_slug = path.strip('/').replace('/v1/', '').replace('/', '-')
     
-    return f"https://docs.wandb.ai/training/api-reference/{tag_segment}/{url_slug}"
+    return f"/serverless-rl/api-reference/{tag_segment}/{url_slug}"
 
 
 def generate_endpoints_section(endpoints: Dict[str, List[Tuple[str, str, str, str]]]) -> str:
@@ -104,8 +104,8 @@ def generate_endpoints_section(endpoints: Dict[str, List[Tuple[str, str, str, st
 
 
 def update_landing_page(endpoints_section: str):
-    """Update the training/api-reference.mdx landing page with new endpoints section."""
-    landing_page = Path("training/api-reference.mdx")
+    """Update the serverless-rl/api-reference.mdx landing page with new endpoints section."""
+    landing_page = Path("serverless-rl/api-reference.mdx")
     
     if not landing_page.exists():
         print(f"  ✗ Landing page not found at {landing_page}")
