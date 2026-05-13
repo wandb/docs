@@ -1,11 +1,11 @@
 {
-  "theme": "mint",
+  "theme": "aspen",
   "$schema": "https://mintlify.com/docs.json",
   "name": "Weights & Biases Documentation",
   "colors": {
-    "primary": "#ffb633",
-    "light": "#ffb633",
-    "dark": "#ffb633"
+    "primary": "#FCBC32",
+    "light": "#FCBC32",
+    "dark": "#FCBC32"
   },
   "integrations": {
     "ga4": {
@@ -17,11 +17,11 @@
   },
   "styling": {
     "eyebrows": "breadcrumbs",
-    "stylesheet": "/button-links.css"
+    "stylesheet": "/css/styles.css"
   },
   "logo": {
-    "light": "/icons/logo_light.svg",
-    "dark": "/icons/logo_dark.svg",
+    "light": "/icons/Endorsed_primary_blackwhite.svg",
+    "dark": "/icons/Endorsed_primary_goldwhite.svg",
     "href": "https://docs.wandb.ai/"
   },
   "favicon": "/favicon.png",
@@ -5257,8 +5257,11 @@
   "fonts": {
     "heading": {
       "family": "Source Serif 4",
-      "weight": 600,
-      "format": "woff2"
+      "weight": 400
+    },
+    "body": {
+      "family": "Source Sans 3",
+      "weight": 400
     }
   },
   "redirects": [

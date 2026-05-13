@@ -1,0 +1,8 @@
+node_modules/
+
+# The repo's top-level .gitignore excludes package-lock.json globally
+# (legacy from when the docs repo had no Node tooling). We need this
+# lockfile committed so `npm ci` and the setup-node cache key both work
+# in CI, so explicitly un-ignore it here. A nearer gitignore beats a
+# parent's pattern, including for negations.
+!package-lock.json
