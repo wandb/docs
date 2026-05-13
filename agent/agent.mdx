@@ -6,7 +6,7 @@ title: "Overview"
 The W&B Agent is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-Use W&B Agent as your personalized AI research assistant. Just as coding agents help you write code, W&B Agent helps you analyze experiments and understand results. The W&B Agent can help you investigate your project's data, find patterns across runs, recommend next steps, build visualizations, build reports and more.
+Use W&B Agent as your personalized AI research assistant that helps you analyze experiments and understand results. The W&B Agent can help you investigate your project's data, find patterns across runs, recommend next steps, build visualizations, reports and more.
 
 <Frame>
     <img src="/images/agent/agent_basic.png" alt="W&B Agent overview" />
@@ -14,12 +14,12 @@ Use W&B Agent as your personalized AI research assistant. Just as coding agents 
 
 Common tasks your W&B Agent can assist with include:
 
-* Analyzing your experiments to find patterns and insights across your experiments.
+* Analyzing your experiments to find patterns and insights.
 * Propose next steps for your experiments, such as recommending hyperparameters to try.
 * Creating new plot and panels to visualize your data.
-* Building reports to share insights with your team.
+* Building saved views and reports to share insights with your team.
 
-To start collaborating with your W&B Agent, navigate to your project and click on the W&B Agent icon in the upper right corner of the page. The agent has access to the data within the project you are currently in, so to ask the agent questions about a different project, navigate to that project and open the agent.
+To start collaborating with your W&B Agent, navigate to your project and click on the W&B Agent icon in the upper right corner of the page.
 
 For information about how W&B handles data usage for the W&B Agent, see [Governance and security](/agent/governance).
 
@@ -97,7 +97,7 @@ The agent identifies that it needs to analyze the hyperparameters used in previo
 
 The agent identifies that the given project used a learning rate of `0.01` for all runs. Based on these insights, the agent recommends trying a lower learning rate, such as `0.001`, in future runs to see if that helps improve the model's performance.
 
-The agent also identifies that of the runs use the SGD optimizer. Based on this insight, the agent recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
+The agent also identifies that of the runs that use the SGD optimizer. Based on this insight, the agent recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
 
 The following image shows a portion of the agent's response with its recommendations for hyperparameter tuning:
 

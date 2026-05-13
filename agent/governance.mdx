@@ -4,16 +4,24 @@ description: "The following section describes how W&B Admins can control how you
 ---
 
 <Info>
-The following applies to Multi-tenant SaaS, Dedicated Cloud, and On-Prem customers that have signed an MSA with W&B. Contact your account executive or W&B support if you have questions about your MSA or data usage.
+The following applies to Enterprise license and Pro plans.
+
+Contact your account executive or W&B support if you have questions about your MSA or data usage.
 </Info>
 
-[W&B Admins](/platform/hosting/iam/access-management-intro#manage-users-and-teams-within-an-organization) can control how your organization's data is used by W&B's AI features. Admins can choose to allow or disallow the following:
+[W&B Admins](/platform/hosting/iam/access-management-intro#manage-users-and-teams-within-an-organization) can toggle settings to allow or disallow the following:
 
-* **Enable LLM-powered features**: Controls whether your organization's W&B data may be processed by OpenAI and/or Anthropic to power AI features.
-* **Share AI traces with W&B for improvement**: Permit W&B to use your shared data to improve AI models.
-* **Allow model training on shared data**: Permit W&B to use your shared data to train AI models. Enabling this may improve future model quality. Learn more
+* **Enable AI-powered features**: Allow Customer Data to be processed by third parties to power AI features.
+* **Use Customer Data for product improvement**: Allow W&B to use Customer Data to improve and build products. When off, data isn’t used by default, but users can still manually submit specific interactions through the UI.
+* **Allow model training on Customer Data**: Allow W&B to use Customer Data to train AI models and improve performance over time.
 
-To control your organization's data usage:
+<Note>
+W&B defaults these toggle to OFF for Enterprise users with a pre-existing custom MSA that does not allow for sending their data to AI models, using their data for product improvement, or training AI on their data.
+
+An Org Admin cannot adjust these settings unless they reach out to support to change their contract first.
+</Note>
+
+To toggle these settings:
 
 1. Navigate to your organization's home page.
 1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
