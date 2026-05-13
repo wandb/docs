@@ -107,6 +107,16 @@ button[type="submit"].bg-primary.mint-text-white [stroke="white"] {
   stroke: currentColor !important;
 }
 
+/* The inner <svg> carries its own `mint-text-gray-700 dark:mint-text-gray-400`
+   utilities, which set `color` directly on the SVG and so win over the
+   button's inherited `color`. That paints the sparkle as muted gray on the
+   amber button bg in both modes. The button bg is amber in both light and
+   dark mode, so force the SVG to the dark button-fg token (matching the
+   button's text color) for full contrast in both modes. */
+button[type="submit"].bg-primary.mint-text-white svg {
+  color: var(--color-button-fg) !important;
+}
+
 
 /* --------------------------------------------------------------------------
    Chat assistant — floating input panel + send button
@@ -135,18 +145,24 @@ div:has(> div > textarea.chat-assistant-input):not(#chat-assistant-sheet *) {
   box-shadow: 0 8px 24px #00000026; /* black at ~15% alpha (0x26 / 255) */
 }
 
-/* The shadow extends ~24px beyond the wrapper's edges, but a parent in the
-   Mintlify layout has `overflow: hidden` (likely for rounded corners or
-   panel clipping) and crops the left/right halves. Force overflow:visible
-   on every ancestor of the textarea so the shadow can render fully.
-   z-index won't help here — z-index re-stacks within a containing block,
-   but overflow clipping happens unconditionally.
+/* The shadow extends ~24px beyond the wrapper's edges, but the immediate
+   parent — a sticky <div class="left-0 right-0 sticky bottom-0 w-full
+   overflow-hidden …"> that Mintlify wraps the floating chat input in —
+   carries `overflow: hidden` (likely to keep the offstage hidden state from
+   leaking into the layout) and crops the shadow's left/right halves.
 
-   Scoped to match the shadow rule: we exclude #chat-assistant-sheet itself
-   and everything inside it, since the sheet relies on its own overflow
-   handling (its #chat-content child uses overflow-y-auto for scrolling,
-   which would break under overflow:visible). */
-*:has(textarea.chat-assistant-input):not(#chat-assistant-sheet):not(#chat-assistant-sheet *) {
+   Target ONLY that wrapper via `:has(> .chat-assistant-floating-input)` so
+   we kill the clip on exactly one element. An earlier broader form
+   (`*:has(textarea.chat-assistant-input)` / `body :has(…)`) also matched
+   higher ancestors — notably Mintlify's `<div class="…lg:overflow-x-clip">`
+   content column, which is the page's horizontal-overflow safety net.
+   Stripping that produced a horizontal scrollbar on every page whenever any
+   element inside the column extended past the viewport edge. This narrower
+   selector leaves that safety net intact.
+
+   z-index won't help here — z-index re-stacks within a containing block,
+   but overflow clipping happens unconditionally. */
+div:has(> .chat-assistant-floating-input) {
   overflow: visible !important;
 }
 
