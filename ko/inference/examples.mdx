@@ -2,20 +2,18 @@
 title: "사용 예시"
 linkTitle: "예시"
 description: >
-  실용적인 코드 예시를 통해 W&B Inference 사용 방법을 알아보세요
+  실용적인 코드 예시를 통해 Serverless Inference 사용 방법을 알아보세요
 ---
 
-이 예시에서는 트레이싱, 평가, 비교를 위해 Weave와 함께 W&amp;B Inference를 사용하는 방법을 보여줍니다.
+이 예시에서는 트레이싱, 평가, 비교를 위해 Weave와 함께 Serverless Inference를 사용하는 방법을 보여줍니다.
 
 <div id="basic-example-trace-llama-31-8b-with-weave">
   ## 기본 예제: Weave로 Llama 3.1 8B 트레이스하기
 </div>
 
-이 예제에서는 **Llama 3.1 8B** 모델에 프롬프트를 보내고 Weave로 call을 트레이스하는 방법을 보여줍니다. Tracing은 LLM call의 전체 입력과 출력을 캡처하고, 성능을 모니터링하며, Weave UI에서 결과를 분석할 수 있게 해줍니다.
+이 예제에서는 **Llama 3.1 8B** 모델에 프롬프트를 보내고 Weave로 call을 트레이스하는 방법을 보여줍니다. 트레이싱은 LLM call의 전체 입력과 출력을 캡처하고, 성능을 모니터링하며, Weave UI에서 결과를 분석할 수 있게 해줍니다.
 
-<Tip>
-  [Weave에서 tracing](/ko/weave/guides/tracking/tracing)에 대해 자세히 알아보세요.
-</Tip>
+<Tip>[Weave에서 트레이싱](/ko/weave/guides/tracking/tracing)에 대해 자세히 알아보세요.</Tip>
 
 이 예제에서는 다음을 수행합니다:
 
@@ -55,7 +53,7 @@ def run_chat():
     )
     return response.choices[0].message.content
 
-# 트레이스된 call 실행 및 로그 기록
+# 트레이스된 call 실행 및 로깅
 output = run_chat()
 print(output)
 ```
@@ -100,7 +98,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # https://wandb.ai/settings 에서 API 키 생성
+            # https://wandb.ai/settings 에서 API 키를 생성하세요
             api_key="<your-api-key>",
             # 선택 사항: 사용량 추적을 위한 팀 및 프로젝트
             project="<your-team>/<your-project>",

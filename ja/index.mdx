@@ -1,6 +1,6 @@
 ---
 title: "Weights & Biases ドキュメント"
-description: "すべての Weights & Biases プロダクトのドキュメントを参照できます"
+description: "Weights & Biases のすべてのプロダクトに関するドキュメントをご覧ください"
 sidebarTitle: "ドキュメント ホーム"
 mode: wide
 ---
@@ -10,9 +10,13 @@ import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
 
 <HomeWrapper>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/ja/models" subtitle="AI モデルを開発">
-      W&amp;B Models を使用して、AI モデル開発を管理します。機能には、トレーニング、ファインチューニング、レポート、ハイパーパラメーター Sweeps の自動化、モデルレジストリを使ったバージョン管理と再現性の確保が含まれます。
+  ## Weights &amp; Biases
+
+  実験管理、評価、オブザーバビリティのためのW&amp;Bプラットフォームで、AIモデルを開発し、LLMアプリケーションを本番展開できます。
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginTop: '2rem' }}>
+    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/ja/models" subtitle="AIモデルを開発">
+      実験管理、ファインチューニング、レポート、ハイパーパラメーター sweep、バージョン管理と再現性のためのモデル Registry を使用して、AIモデル開発を管理します。
 
       <br />
 
@@ -20,11 +24,10 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
 
       • <a href="/ja/models">概要</a><br />
       • <a href="/ja/models/quickstart">クイックスタート</a><br />
-      • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube チュートリアル</a><br />
     </ProductCard>
 
-    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/ja/weave" subtitle="アプリで AI モデルを活用">
-      W&amp;B Weave を使用して、コード内の AI モデルを管理します。機能には、トレース、出力の評価、コスト見積もりに加え、さまざまな大規模言語モデル (LLM) や設定を比較できるホスト型の推論サービスとプレイグラウンドが含まれます。
+    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/ja/weave" subtitle="アプリでAIモデルを使用">
+      トレース、出力の評価、コスト見積もり、さらに大規模言語モデル (LLM) とSettingsを比較するためのPlaygroundを使って、コード内のAIモデルを管理します。
 
       <br />
 
@@ -32,29 +35,45 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
 
       • <a href="/ja/weave">概要</a><br />
       • <a href="/ja/weave/quickstart">クイックスタート</a><br />
-      • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube デモ</a><br />
     </ProductCard>
+  </div>
 
-    <ProductCard title="W&B Inference" iconSrc="icons/cropped-inference.svg" href="/ja/inference" subtitle="基盤モデルにアクセス">
-      W&amp;B Inference を使用して、OpenAI 互換 API 経由で主要なオープンソースの基盤モデルにアクセスします。機能には、複数のモデルオプション、使用状況のトラッキング、トレースと評価のための Weave とのインテグレーションが含まれます。
+  ## CoreWeave による提供
+
+  CoreWeave のインフラストラクチャー上で稼働するマネージドサービスです。
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginTop: '2rem' }}>
+    <ProductCard title="Serverless Inference" iconSrc="icons/cropped-inference.svg" href="/ja/inference" subtitle="基盤モデルにアクセス">
+      OpenAI互換APIを通じて主要なオープンソースの基盤モデルにアクセスでき、Usage のトラッキングと、トレースおよび評価のためのWeaveインテグレーションを利用できます。
 
       <br />
 
       <br />
 
       • <a href="/ja/inference">概要</a><br />
-      • <a href="https://wandb.ai/inference">プレイグラウンドで試す</a>
+      • <a href="https://wandb.ai/inference">Playgroundで試す</a>
     </ProductCard>
 
-    <ProductCard title="W&B Training" iconSrc="icons/cropped-training.svg" href="/ja/training" subtitle="モデルを事後トレーニング">
-      現在パブリックプレビュー中の W&amp;B Training を使用すると、サーバーレスの強化学習 (RL) で大規模言語モデルを事後トレーニングできます。機能には、完全マネージドの GPU インフラストラクチャー、ART および RULER とのインテグレーション、マルチターンのエージェント型タスク向けの自動スケーリングが含まれます。
+    <ProductCard title="Serverless RL" iconSrc="icons/cropped-training.svg" href="/ja/serverless-rl" subtitle="モデルをポストトレーニング">
+      現在パブリックプレビュー中です。サーバーレス強化学習、マネージドGPUインフラストラクチャー、ARTおよびRULERインテグレーション、マルチターンのエージェントタスク向けのオートスケーリングを使用して、LLMをポストトレーニングできます。
 
       <br />
 
       <br />
 
-      • <a href="/ja/training">概要</a><br />
-      • <a href="/ja/training/prerequisites">クイックスタート</a><br />
+      • <a href="/ja/serverless-rl">概要</a><br />
+      • <a href="/ja/serverless-rl/prerequisites">クイックスタート</a><br />
+    </ProductCard>
+
+    <ProductCard title="Serverless Sandboxes" iconSrc="icons/cropped-sdk.svg" href="/ja/sandboxes" subtitle="分離された環境でコードを実行">
+      現在、招待制のプライベートプレビュー中です。ライフサイクル管理、シークレットの処理、file へのアクセス、Python SDKを備えた分離コンピュート環境でコードを実行できます。
+
+      <br />
+
+      <br />
+
+      • <a href="/ja/sandboxes">概要</a><br />
+      • <a href="/ja/sandboxes/create-sandbox">クイックスタート</a><br />
     </ProductCard>
   </div>
 </HomeWrapper>
