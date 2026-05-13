@@ -1,0 +1,3 @@
+- **Start small**: Begin with one or two automations for high-value events (for example, run failures or production alias changes). Validate that they work as expected before adding more.
+- **Test before production**: Create automations in a test project or with a test webhook or Slack channel first. Manually trigger the event and confirm the action runs and the payload or message looks correct.
+- **Avoid alert fatigue**: Use run filters, metric thresholds, or alias patterns to limit how often an automation fires. Route different severities to different channels if needed.
