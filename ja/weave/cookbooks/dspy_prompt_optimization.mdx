@@ -85,23 +85,23 @@ from datasets import load_dataset
 
 @weave.op()
 def get_dataset(metadata: Metadata):
-    # HuggingFace Hub からタスクに対応する BIG-Bench Hard データセットを読み込む
+    # HuggingFace HubからタスクにあったBIG-Bench Hardデータセットを読み込む
     dataset = load_dataset(metadata.dataset_address, metadata.big_bench_hard_task)[
         "train"
     ]
 
-    # トレーニングデータセットと検証データセットを作成する
+    # トレーニング用データセットと検証用データセットを作成する
     rows = [{"question": data["input"], "answer": data["target"]} for data in dataset]
     train_rows = rows[0 : metadata.num_train_examples]
     val_rows = rows[metadata.num_train_examples :]
 
-    # `dspy.Example` オブジェクトで構成されるトレーニング用および検証用のサンプルを作成する
+    # `dspy.Example`オブジェクトで構成されるトレーニング用サンプルと検証用サンプルを作成する
     dspy_train_examples = [
         dspy.Example(row).with_inputs("question") for row in train_rows
     ]
     dspy_val_examples = [dspy.Example(row).with_inputs("question") for row in val_rows]
 
-    # データセットを Weave に公開する。これによりデータのバージョン管理と評価への活用が可能になる
+    # データセットをWeaveに公開する。これによりデータのバージョン管理と評価への活用が可能になる
     weave.publish(
         weave.Dataset(
             name=f"bigbenchhard_{metadata.big_bench_hard_task}_train", rows=train_rows
@@ -146,10 +146,10 @@ class CausalReasoning(dspy.Signature):
     """You are an expert in causal reasoning. Analyze the given question carefully
     and answer Yes or No. Provide a detailed explanation justifying your answer."""
 
-    question: str = dspy.InputField(desc="回答すべき質問")
+    question: str = dspy.InputField(desc="The question to be answered")
     answer: str = dspy.OutputField(desc="Yes or No")
-    confidence: float = dspy.OutputField(desc="0から1の間の信頼スコア")
-    explanation: str = dspy.OutputField(desc="回答の詳細な説明")
+    confidence: float = dspy.OutputField(desc="Confidence score between 0 and 1")
+    explanation: str = dspy.OutputField(desc="Detailed explanation for the answer")
 
 class CausalReasoningModule(dspy.Module):
     def __init__(self):
@@ -230,7 +230,7 @@ await evaluation.evaluate(predict)
 </Note>
 
 <Warning>
-  causal reasoning データセットで評価を実行すると、OpenAI クレジットで約 $0.24 の費用がかかります。
+  因果推論 データセットで評価を実行すると、OpenAI クレジットで約 $0.24 の費用がかかります。
 </Warning>
 
 <div id="optimizing-our-dspy-program">

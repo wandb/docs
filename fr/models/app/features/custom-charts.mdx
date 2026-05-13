@@ -202,7 +202,7 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
 Modifiez un préréglage intégré, ou créez un nouveau préréglage, puis enregistrez le graphique. Utilisez l’ID du graphique pour journaliser des données dans ce préréglage personnalisé directement depuis votre script. [Essayez un notebook d’exemple Google Colab](https://tiny.cc/custom-charts).
 
 ```python
-# Créer un tableau avec les colonnes à tracer
+# Créer un tableau avec les colonnes à représenter
 table = wandb.Table(data=data, columns=["step", "height"])
 
 # Associer les colonnes du tableau aux champs du graphique
@@ -241,7 +241,7 @@ Utilisez `wandb.Table()` pour journaliser vos données sous la forme d’un tabl
 
 ```python
 with wandb.init() as run:
-  # Enregistrement d'un tableau de données personnalisé
+  # Journalisation d'un tableau personnalisé de données
   my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
   run.log(
       {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
@@ -252,10 +252,40 @@ with wandb.init() as run:
   ## Personnaliser le graphique
 </div>
 
-Pour commencer, ajoutez un nouveau graphique personnalisé, puis modifiez la requête pour sélectionner les données à partir de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données à partir des champs configuration, summary et historique de vos runs.
+Pour commencer, ajoutez un nouveau graphique personnalisé, puis modifiez la requête pour sélectionner les données à partir de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données à partir des champs configuration, synthèse et historique de vos runs.
+
+<div id="build-the-graphql-query">
+  ### Créer la requête GraphQL
+</div>
+
+L’éditeur de graphiques personnalisés exécute une requête GraphQL sur les runs que vous avez sélectionnés dans l’espace de travail du projet ou le rapport. Dans l’éditeur de requête, ajoutez les champs dont vous avez besoin. Vous pouvez choisir parmi `config`, `summary`, `history`, `summaryTable` et `historyTable`, ce qui vous évite, dans la plupart des cas, d’écrire la requête de zéro.
+
+Chaque source de la requête correspond à un type différent de données enregistrées :
+
+* **configuration** récupère les valeurs de [configuration du run](/fr/models/track/config/) (hyperparamètres et autres paramètres).
+* **Summary** récupère les valeurs de [synthèse](/fr/models/track/log/). Par défaut, la synthèse d’une clé enregistrée avec `wandb.Run.log()` contient la dernière valeur écrite pour cette clé. Pour utiliser un autre agrégat, appelez `wandb.Run.define_metric(..., summary=...)` avec `"min"`, `"max"`, `"mean"`, `"best"` ou `"none"`. Pour définir directement une valeur, attribuez `wandb.Run.summary["key"] = value`.
+* **historique** récupère des séries temporelles scalaires à partir de l’historique du run (par exemple, `loss` ou `accuracy` à chaque étape). Utilisez **historique** lorsque vous avez besoin de la courbe complète, et pas seulement de la valeur finale.
+* **`summaryTable`** charge un [`wandb.Table`](/fr/models/ref/python/data-types/table) depuis la synthèse du run. Utilisez-le lorsque le tableau qui vous intéresse est stocké comme un instantané unique sur le run (par exemple, une matrice de confusion enregistrée une seule fois à la fin).
+* **`historyTable`** charge un [`wandb.Table`](/fr/models/ref/python/data-types/table) depuis l’historique du run. Chaque fois que vous enregistrez un tableau avec `wandb.Run.log()`, vous ajoutez une étape à l’historique du run qui inclut ce tableau. Utilisez **`historyTable`** lorsque le tableau change au fil du temps ou lorsque vous voulez activer le sélecteur d’étape dans l’éditeur de graphiques personnalisés (voir [Comment afficher un curseur d’étape dans un graphique personnalisé ?](/fr/support/models/articles/how-do-you-show-a-step-slider-in-a-custo)).
+
+Pour **`summaryTable`** et **`historyTable`**, définissez **`tableKey`** sur la clé de dictionnaire utilisée dans `wandb.Run.log()`, et non sur un nom de colonne dans le [`wandb.Table`](/fr/models/ref/python/data-types/table).
+
+Les exemples suivants couvrent les cas les plus courants :
+
+* Tracer les colonnes d’un tableau que vous enregistrez à chaque étape (par exemple, une courbe PR) : ajoutez **`historyTable`**, définissez **`tableKey`** sur votre clé enregistrée (par exemple, `pr_curve`), puis mapgez les colonnes du tableau dans **Chart fields**. Voir le [tutoriel sur les graphiques personnalisés](/fr/models/app/features/custom-charts/walkthrough).
+* Tracer les colonnes d’un tableau présent dans une synthèse (par exemple, des scores de classe pour un histogramme composite) : ajoutez **`summaryTable`**, définissez **`tableKey`** sur cette clé (le tutoriel utilise `class_scores`). Voir [Bonus : histogrammes composites](/fr/models/app/features/custom-charts/walkthrough#bonus-composite-histograms).
+* Tracer une métrique scalaire au fil des étapes d’entraînement : ajoutez la métrique depuis **historique**. Si vous l’ajoutez uniquement depuis **summary**, le graphique n’affiche qu’une seule valeur par run.
+
+**Noms des champs du graphique**
+
+Une fois la requête exécutée, **Chart fields** répertorie les colonnes que vous pouvez lier dans la spécification Vega. Les noms commencent souvent par `runSets_` et reflètent les champs de requête sélectionnés. Choisissez-les dans les listes déroulantes à côté de chaque espace réservé `${field:...}` au lieu de les saisir manuellement.
+
+Si une colonne n’apparaît jamais, vérifiez que la clé existe bien sur les runs sélectionnés, ouvrez la page du run pour voir comment les données ont été enregistrées, et vérifiez si **`summaryTable`** ou **`historyTable`** correspond à ce mode de journalisation.
+
+Les graphiques personnalisés utilisent cette requête de panneau basée sur GraphQL. Les [panneaux de requête](/fr/models/app/features/panels/query-panels) utilisent un langage d’expression différent et sont documentés séparément.
 
 <Frame>
-  <img src="/images/app_ui/customize_chart.gif" alt="Création d'un graphique personnalisé" max-width="90%" />
+  <img src="/images/app_ui/customize_chart.gif" alt="Création de graphique personnalisé" max-width="90%" />
 </Frame>
 
 <div id="custom-visualizations">

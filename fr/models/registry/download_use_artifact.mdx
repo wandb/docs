@@ -13,7 +13,7 @@ Une fois que vous connaissez les propriétés de l’artifact, vous pouvez [cons
 
 Pour télécharger un artifact lié à un registre, vous devez connaître le chemin de cet artifact lié. Ce chemin se compose du nom du registre, du nom de la collection, ainsi que de l&#39;alias ou de l&#39;index de la version de l&#39;artifact à laquelle vous souhaitez accéder.
 
-Une fois que vous disposez du registre, de la collection et de l&#39;alias ou de l&#39;index de la version de l&#39;artifact, vous pouvez construire le chemin vers l&#39;artifact lié à l&#39;aide du modèle de chaîne ci-dessous :
+Une fois que vous disposez du registre, de la collection et de l&#39;alias ou de l&#39;index de la version de l&#39;artifact, vous pouvez construire le chemin vers l&#39;artifact lié à l&#39;aide du modèle de chaîne suivant :
 
 ```python
 # Nom de l'artifact avec l'index de version spécifié
@@ -36,7 +36,7 @@ ALIAS = '<artifact_alias>'
 
 with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
     artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-    # artifact_name = '<artifact_name>' # Copier-coller le nom complet spécifié dans l'interface utilisateur W&B Registry
+    # artifact_name = '<artifact_name>' # Copiez-collez le nom complet indiqué dans l’interface utilisateur de W&B Registry
     fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
     download_path = fetched_artifact.download()  
 ```
@@ -73,12 +73,12 @@ artifact = api.artifact(name = artifact_name)
   COLLECTION = "phi3-finetuned"
   ALIAS = 'production'
 
-  # Initialiser un run dans l’équipe et le projet spécifiés
+  # Initialiser un run au sein de l’équipe et du projet spécifiés
   with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
 
       artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
-      # Accéder à un artifact et le marquer comme entrée de votre run pour assurer le suivi de la traçabilité
+      # Accéder à un artifact et le marquer comme entrée de votre run pour le suivi de la traçabilité
       fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
 
       # Télécharger l’artifact. Renvoie le chemin vers le contenu téléchargé
@@ -100,7 +100,7 @@ Voir [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_arti
   COLLECTION = "<collection_name>"
   VERSION = "<version>"
 
-  # Assurez-vous d’utiliser votre entité d’équipe pour instancier l’API
+  # Veillez à utiliser votre entité d’équipe pour instancier l’API
   api = wandb.Api(overrides={"entity": "<team-entity>"})
   artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
   artifact = api.artifact(name = artifact_name)

@@ -17,6 +17,77 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 {/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
     de server-releases.mdx juste en dessous */}
 
+<Update label="v0.68.2" description="7 mai 2025">
+  ## Correctifs
+
+  * Vous pouvez désormais définir l’état initial d’un run lors de sa création avec `Run.create()`, en définissant le paramètre `state` sur `pending` ou `running`.
+  * Correctif d’un bug qui faisait qu’un clic sur **Action History** chargeait incorrectement la vue **Version**.
+  * Amélioration des performances mémoire du service Parquet Store.
+</Update>
+
+<Update label="v0.68.1" description="2 mai 2025">
+  ## Correctifs
+
+  * Correctif d’un bug introduit dans la v0.68.0 qui pouvait empêcher le chargement des médias dans les volets multimédia.
+</Update>
+
+<Update label="v0.68.0" description="29 avril 2025">
+  <Note>
+    v0.68.0 a introduit un bug, corrigé dans [v0.68.1](#0_68_1), qui pouvait empêcher le chargement des médias dans les volets multimédia. Pour éviter ce bug, installez ou mettez à niveau vers une version qui inclut ce correctif. Si vous avez besoin d’assistance, contactez [l’assistance](mailto:support@wandb.com).
+  </Note>
+
+  ## Fonctionnalités
+
+  * Les administrateurs du registre peuvent définir et attribuer des [*alias protégés*](/fr/models/registry/aliases#protected-aliases) pour représenter les étapes clés de votre pipeline de développement. Un alias protégé ne peut être attribué que par un administrateur du registre. W&amp;B empêche les autres utilisateurs d’ajouter ou de supprimer des alias protégés sur des versions dans un registre à l’aide de l’API ou de l’interface utilisateur.
+  * Vous pouvez désormais filtrer les journaux de console en fonction de la valeur `x_label` d&#39;un run. Lors d’un [entraînement distribué](/fr/models/track/log/distributed-training/#track-all-processes-to-a-single-run), ce paramètre facultatif permet d’identifier le nœud qui a enregistré le run.
+  * Vous pouvez désormais déplacer des exécutions entre des `Groups`, une par une ou en bloc. Vous pouvez également créer de nouveaux `Groups` après la journalisation initiale.
+  * Les graphiques en courbes prennent désormais en charge le mode de **zoom synchronisé** : lorsque vous zoomez sur une plage donnée dans un graphique, le même zoom est automatiquement appliqué à tous les autres graphiques en courbes partageant un axe X commun. Activez cette option dans les [paramètres d’affichage de l’espace de travail pour les graphiques en courbes](/fr/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace).
+  * Les graphiques en courbes permettent désormais de formater les métriques personnalisées sous forme d’horodatages. C’est utile lorsque vous synchronisez ou téléversez des runs à partir d’un autre système.
+  * Vous pouvez désormais parcourir les [volets multimédias](/fr/models/app/features/panels/media) à l’aide de champs autres que `_step`, tels que `epoch` ou `train/global_step` (ou tout autre champ).
+  * Dans les tableaux et graphiques des [panneaux de requête](/fr/models/app/features/panels/query-panels) qui utilisent des expressions `runs` ou `runs.history`, un curseur d’étape vous permet de suivre, étape par étape, l’évolution de vos métriques, textes ou médias tout au long de vos runs. Le curseur permet également de naviguer à l’aide de métriques autres que `_step`.
+  * Vous pouvez désormais personnaliser les libellés du [graphique à barres](/fr/models/app/features/panels/bar-plot) grâce à un réglage de la taille de police.
+
+  ### Aperçu privé
+
+  Les fonctionnalités en préversion privée sont disponibles sur invitation uniquement. Pour demander à participer à une préversion privée, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
+
+  * Les **modèles d’espace de travail personnels** vous permettent d’enregistrer la configuration de votre espace de travail afin qu’elle soit automatiquement appliquée à vos nouveaux [projects](/fr/models/track/project-page). Dans un premier temps, vous pouvez configurer certains paramètres des graphiques en courbes, comme la métrique par défaut de l’axe X, l’algorithme de lissage et le facteur de lissage.
+  * **Le lissage amélioré par moyenne mobile exponentielle (EMA)** fournit des [courbes lissées](/fr/models/app/features/panels/line-plot/smoothing) plus fiables lorsqu’il est appliqué à des données complètes non agrégées. Dans la plupart des cas, le lissage est effectué côté serveur pour de meilleures performances.
+
+  ### Weave
+
+  * Discutez avec des modèles affinés directement depuis votre instance W&amp;B. [Playground](/fr/weave/guides/tools/playground) est désormais pris en charge dans le Cloud dédié. Playground est une interface de chat qui permet de comparer différents LLM sur des traces historiques. Les administrateurs peuvent ajouter des clés API pour différents fournisseurs de modèles ou configurer des [fournisseurs de LLM personnalisés hébergés](/fr/weave/guides/tools/playground/#add-a-custom-provider) afin que votre équipe puisse interagir avec eux depuis Weave.
+  * Prise en charge d’OpenTelemetry. Vous pouvez désormais enregistrer des traces via OpenTelemetry (OTel). Voir [le traçage OpenTelemetry](/fr/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink).
+  * Le [traçage](/fr/weave/guides/tracking) de Weave bénéficie de nouvelles intégrations avec des frameworks : CrewAI, l&#39;Agent SDK d&#39;OpenAI, DSPy 2.x et le SDK Python genai de Google.
+  * Playground prend en charge de nouveaux [modèles OpenAI](/fr/weave/guides/tools/playground/#openai) : GPT‑4.1, GPT‑4.1 mini et GPT‑4.1 nano.
+  * Créez des datasets étiquetés directement à partir de traces, vos annotations étant automatiquement converties en colonnes de dataset. Voir [Création de datasets à partir de traces](/fr/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui).
+
+  ## Sécurité
+
+  * Les administrateurs du registre peuvent désormais désigner un [compte de service](/fr/platform/hosting/iam/service-accounts) dans un registre avec le rôle Registry Admin ou membre. Auparavant, le rôle du compte de service était toujours Registry Admin. Voir [la configuration du compte de service pour Registry](/fr/models/registry/configure_registry).
+
+  ## Performances
+
+  * Les performances de nombreuses interactions dans les espaces de travail ont été améliorées, en particulier dans les grands espaces de travail. Par exemple, le dépliement des sections et l’utilisation du sélecteur de run sont nettement plus réactifs.
+  * Amélioration des performances de Fork et de Rewind.
+
+    [Forker](/fr/models/runs/forking) un run crée un nouveau run qui reprend la même configuration qu’un run existant. Les modifications apportées au run forké n’affectent pas le run parent, et inversement. Un lien est conservé entre le run forké et le run parent. [Rembobiner](/fr/models/runs/rewind) un run vous permet de journaliser de nouvelles données à partir de ce moment-là sans perdre les données existantes.
+
+    Dans les Projects comportant de nombreux forks imbriqués, le fork de nouveaux runs est désormais beaucoup plus efficace grâce aux améliorations apportées à la mise en cache.
+
+  ## Correctifs
+
+  * Correctif d’un bug qui pouvait empêcher l’ajout d’un compte de service d’une organisation à de nouvelles équipes.
+  * Correctif d’un bug pouvant entraîner l’absence de repères au survol pour les lignes groupées.
+  * Correctif d’un bug pouvant entraîner l’inclusion de noms de projet non valides dans le menu déroulant **Import** d’un panneau Report.
+  * Correctif d’un bug d’affichage dans l’alignement des filtres du sélecteur de runs.
+  * Correctif d’un plantage de page lors de l’ajout d’un filtre d’horodatage **Within Last**
+  * Correctif d’un bug pouvant empêcher de définir **Wall Time** comme axe X dans les paramètres globaux du graphique en courbes.
+  * Correctif d’un bug pouvant empêcher les légendes d’image de s’afficher lorsqu’elles sont enregistrées dans un tableau.
+  * Correctif d’un bug pouvant empêcher l’affichage de métriques éparses dans les panneaux.
+  * Dans les pages **Run Overview**, le champ **Description** s’appelle désormais **Notes**.
+</Update>
+
 <Update label="v0.67.0" description="28 mars 2025">
   ## Fonctionnalités
 

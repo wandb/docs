@@ -1,31 +1,34 @@
 ---
 title: "推論情報を表示する"
-description: W&B Inference のレスポンスで推論情報を返し、表示する方法
+description: Serverless Inference のレスポンスで推論情報を返し、表示する方法
 ---
 
-[Google&#39;s Gemma 4](https://huggingface.co/google/gemma-4-31B-it) のような推論モデルは、最終的な回答に加えて、推論ステップに関する情報も返します。このページでは、W&amp;B Inference で推論対応モデルを識別する方法、レスポンス内のどこで推論出力を確認できるか、また推論の切り替えをサポートするモデルで推論のオン/オフを切り替える方法について説明します。
+[Google&#39;s Gemma 4](https://huggingface.co/google/gemma-4-31B-it) のような推論モデルは、最終的な回答に加えて、推論ステップに関する情報も返します。このページでは、Serverless Inference で推論対応モデルを識別する方法、レスポンス内のどこで推論出力を確認できるか、また推論の切り替えをサポートするモデルで推論のオン/オフを切り替える方法について説明します。
 
 モデルが推論をサポートするかどうかを判断するには、次の サポートされるモデル の表、または UI のそのカタログページにある Supported Features セクションを確認してください。
 
 推論情報は、レスポンスの `reasoning` フィールドに表示されます。推論非対応モデルのレスポンスでは、このフィールドの値は `null` です。
 
 <div id="supported-models-with-reasoning">
-  ## 推論がサポートされるモデル
+  ## サポートされるモデル (推論対応)
 </div>
 
-次の表は、W&amp;B Inference で 推論 output を返すモデルを示しています。サポートされる各モデルでは、推論 が常に含まれる場合や、既定で 推論 が無効または有効になっている場合があります。
+次の表は、Serverless Inference で 推論 output を返すモデルを示しています。サポートされる各モデルでは、推論 が常に含まれる場合や、既定で 推論 が無効または有効になっている場合があります。
 
 {/* takeru reasoning-models - この表は自動生成されるため、手動で編集しないでください。 */}
 
 | モデル ID (API 用)                                 | 推論 サポート  |
 | ---------------------------------------------- | -------- |
+| `deepseek-ai/DeepSeek-V4-Flash`                | デフォルトで無効 |
 | `google/gemma-4-31B-it`                        | デフォルトで有効 |
 | `MiniMaxAI/MiniMax-M2.5`                       | 常時有効     |
+| `moonshotai/Kimi-K2.6`                         | 常時有効     |
 | `moonshotai/Kimi-K2.5`                         | 常時有効     |
 | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | デフォルトで有効 |
 | `openai/gpt-oss-120b`                          | 常時有効     |
 | `openai/gpt-oss-20b`                           | 常時有効     |
 | `Qwen/Qwen3.5-35B-A3B`                         | デフォルトで有効 |
+| `Qwen/Qwen3.5-27B`                             | デフォルトで有効 |
 | `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 常時有効     |
 | `zai-org/GLM-5.1`                              | デフォルトで有効 |
 

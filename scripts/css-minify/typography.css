@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Typography — fonts, size scale, and global type rules
+   Source Serif 4 (serif)     — headings and titles
+   Source Sans 3 (sans-serif) — body text and UI
+
+   - Sizes expressed in rem so they scale with user's font-size preference
+   - Assume 1rem = 16px (the unmodified browser root)
+   ========================================================================== */
+
+:root {
+  --font-serif: "Source Serif 4", "Times New Roman", serif;
+  --font-sans:  "Source Sans 3", Calibri, sans-serif;
+
+  --font-weight-regular:  400;    /* body copy, supporting text */
+  --font-weight-medium:   500;    /* headings, card titles, nav items */
+  --font-weight-bold:     650;    /* group headers, active nav, emphasis */
+
+  /* Math:   px ÷ 16 = rem.   e.g. 15 ÷ 16 = 0.9375rem. */
+  --font-size-xs: 0.75rem;    /* 12px — micro labels (e.g. source-link badge) */
+  --font-size-sm: 0.9375rem;  /* 15px — compact UI/body text (sidebar, topbar) */
+  --font-size-md: 1rem;       /* 16px — default body, top nav tabs, group headers */
+  --font-size-xm: 1.125rem;   /* 18px — default heading size in prose */
+  --font-size-lg: 1.5rem;     /* 24px — card titles */
+  --font-size-xl: 2.5rem;     /* 40px — page H1 */
+}
+
+/* Set the inherited default to sans on <body>. Children pick this up via
+   normal inheritance, so the heading rule below can override family on
+   <h1>-<h6> and have it cascade into any wrapper elements (such as the
+   <span class="cursor-pointer"> Mintlify's prose plugin injects around
+   heading text for the anchor-link UI). Using a universal selector here
+   instead would set font-family directly on every descendant, defeating
+   inheritance and causing those inner spans to render as sans even though
+   their heading parent is serif. Tailwind's preflight already forwards
+   font-family on form elements (button/input/select/textarea) via
+   `font-family: inherit`, so they pick up the body font correctly. */
+body {
+  font-family: var(--font-sans);
+}
+
+/* All headings are serif at medium weight in the brand primary text color.
+   !important on weight + color overrides Mintlify Aspen's default bold and
+   its prose-plugin heading color (typically a Tailwind gray-900). Family
+   does not need !important since nothing else competes.
+   The color token --color-text-primary auto-switches in dark mode (defined
+   in colors.css), so this single declaration covers both themes. Setting
+   color in the base layer also means custom-mode pages (which lose
+   Mintlify's prose wrapper) inherit brand-correct heading color without
+   needing per-page utility classes. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-medium) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Page title — Mintlify renders the page heading as <h1>. The h-tag rule
+   above sets serif + weight 500; this just adds size. Sizes for h2-h6 are
+   intentionally not set here so Mintlify's prose plugin (on regular pages)
+   and component-internal headings (such as Card titles, which render as
+   heading elements) keep their existing sizes. Per-page custom-mode
+   layouts can opt into specific sizes with utility classes on the heading
+   itself. */
+h1 {
+  font-size: var(--font-size-xl); /* 40px */
+}
+
+/* Drop the prose plugin's h2 top margin. Mintlify's @tailwindcss/typography
+   build emits
+     .prose :where(h2):not(:where([class~=not-prose],[class~=not-prose] *))
+       { margin-top: 2em; … }
+   which resolves to 48px (2em × the h2's 1.5em font-size × 16px root). We
+   match the prose selector exactly so specificity ties (0,1,0,0); cascade
+   order then resolves in our favor because main.css imports typography.css
+   after Mintlify's bundled chunks load.
+   Trade-off: this strips top spacing from every h2 inside a .prose region,
+   not just the home page. On regular docs pages an h2 following a paragraph
+   will now butt up against it. If that becomes a problem, narrow the
+   selector (e.g. scope to the home page's content id) or restore a smaller
+   value here. */
+.prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  margin-top: 0;
+}
+
+/* Banner snippet (snippets/Banner.jsx) renders a title overlaid on a dark
+   image with a black 40%-opacity scrim. The title must read as light text
+   in BOTH light and dark mode. The global h1-h6 rule above forces color to
+   --color-text-primary, which is near-black in light mode and overrides the
+   h2's `text-white` Tailwind utility via !important. Scope an exception via
+   a .banner-title class added to the h2 in Banner.jsx. */
+.banner-title {
+  color: #E8E8E9 !important;
+}

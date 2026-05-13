@@ -30,15 +30,21 @@ What this script does (high level)
    like ``M\\tsupport/models/articles/foo.mdx`` where the first letter is the
    **change type** (Modified, Added, Deleted, Renamed, and so on).
 2. We **parse** those lines and **count** how many paths fall into each bucket
-   (articles, tag pages, ``docs.json``, and others).
-3. We read **stderr** that was saved to ``generator-warnings.log`` and count
+   (articles, tag pages, and others).
+3. We collect the page ids of any tag pages that were **added** or
+   **removed** so the report can ask a human to update the matching
+   ``Support: <display_name>`` tab in ``docs.json``. The generator never edits
+   ``docs.json`` itself.
+4. We read **stderr** that was saved to ``generator-warnings.log`` and count
    distinct **unknown keyword** warnings so tech writers see how many tags are
    not in ``config.yaml`` yet.
-4. We **build Markdown** (plain text with ``#`` headings and bullet lists) and
+5. We **build Markdown** (plain text with ``#`` headings and bullet lists) and
    print it to **stdout**. The workflow captures that output and posts it.
 
 This file is intentionally **standalone**: it does not import ``generate_tags.py``
-so you can test the reporting logic without running the full generator.
+so you can test the reporting logic without running the full generator. It
+does optionally read ``config.yaml`` to map product slugs to display names so
+the docs.json edit instructions can name the right ``Support:`` tab.
 
 See also
 --------
@@ -55,6 +61,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
+import yaml
+
 # ---------------------------------------------------------------------------
 # Constants (shared with tests via REPORT_FALLBACK_BODY and REPORT_MARKER)
 # ---------------------------------------------------------------------------
@@ -70,7 +78,23 @@ REPORT_TITLE = "## Knowledgebase navigation update"
 # Paragraph when there is nothing to report: no file changes vs HEAD,
 # no unknown-keyword warnings parsed from the log, and an empty warnings file.
 REPORT_FALLBACK_PARAGRAPH = (
-    "No updates to support articles, tag pages, product indexes or docs.json from this run."
+    "No updates to support articles, tag pages, or product indexes from this run."
+)
+
+# Default location of the generator config (next to this script).  Used by
+# the docs.json edit section to look up the ``Support: <display_name>`` tab
+# for each product slug.  When the config cannot be read the section falls
+# back to ``Support: <slug>`` so the report still renders.
+DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent / "config.yaml"
+
+# Heading and intro paragraph for the "docs.json update required" section.
+# The generator never modifies docs.json; humans must edit it after the
+# workflow posts this comment.
+DOCS_JSON_SECTION_HEADING = "### docs.json update required"
+DOCS_JSON_SECTION_INTRO = (
+    "A human must update `docs.json` because tag pages were added or removed. "
+    "Edit the matching `Support: <display_name>` tab under "
+    "`navigation.languages[language=\"en\"].tabs[]`."
 )
 
 # Full Markdown for the empty case: title plus fallback paragraph.
@@ -229,20 +253,34 @@ def _is_root_support_mdx(path: str) -> bool:
     return path == "support.mdx"
 
 
-def _is_docs_json(path: str) -> bool:
-    """True if ``path`` is the Mintlify navigation file at the repo root."""
-    return path == "docs.json"
-
-
 def _is_deleted_pages_scope(path: str) -> bool:
     """
     True if a **deleted** path should count toward the "pages deleted" bucket.
 
-    We include anything under ``support/`` plus ``docs.json``. We do not count
-    deletions only under ``scripts/knowledgebase-nav/`` in that bucket so the
-    report stays focused on reader-facing content.
+    We include anything under ``support/``. We do not count deletions only
+    under ``scripts/knowledgebase-nav/`` in that bucket so the report stays
+    focused on reader-facing content.
     """
-    return path == "docs.json" or path.startswith("support/")
+    return path.startswith("support/")
+
+
+def _tag_page_id_from_path(path: str) -> Optional[Tuple[str, str]]:
+    """
+    Convert a ``support/<product>/tags/<slug>.mdx`` path to a docs.json id.
+
+    Returns
+    -------
+    tuple of (product_slug, page_id) or None
+        ``page_id`` is the docs.json page id form (no ``.mdx`` suffix), for
+        example ``support/models/tags/experiments``.  Returns ``None`` if
+        ``path`` is not a tag-page filesystem path.
+    """
+    if not _is_tag_page_path(path):
+        return None
+    parts = path.split("/")
+    product_slug = parts[1]
+    file_stem = parts[3][: -len(".mdx")]
+    return product_slug, f"support/{product_slug}/tags/{file_stem}"
 
 
 # ---------------------------------------------------------------------------
@@ -283,7 +321,6 @@ def categorize_name_status_lines(lines: List[str]) -> Dict[str, int]:
         "deleted_pages": 0,
         "new_keywords_tag_pages": 0,
         "keywords_no_longer_in_use": 0,
-        "docs_json": 0,
     }
 
     for raw in lines:
@@ -310,8 +347,6 @@ def categorize_name_status_lines(lines: List[str]) -> Dict[str, int]:
             # Tag renames are counted as new + removed keywords, not as "modified".
             if _is_root_support_mdx(new_p):
                 buckets["support_mdx_root"] += 1
-            if _is_docs_json(new_p):
-                buckets["docs_json"] += 1
             continue
 
         path = first
@@ -329,8 +364,6 @@ def categorize_name_status_lines(lines: List[str]) -> Dict[str, int]:
                 buckets["product_index_pages"] += 1
             if _is_root_support_mdx(path):
                 buckets["support_mdx_root"] += 1
-            if _is_docs_json(path):
-                buckets["docs_json"] += 1
         elif st == "M":
             if _is_article_path(path):
                 buckets["articles_badges_updated"] += 1
@@ -340,10 +373,146 @@ def categorize_name_status_lines(lines: List[str]) -> Dict[str, int]:
                 buckets["product_index_pages"] += 1
             if _is_root_support_mdx(path):
                 buckets["support_mdx_root"] += 1
-            if _is_docs_json(path):
-                buckets["docs_json"] += 1
 
     return buckets
+
+
+def collect_tag_page_changes(
+    lines: List[str],
+) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
+    """
+    Collect tag page additions and removals grouped by product slug.
+
+    Walks ``git diff --name-status HEAD`` lines and returns two dicts mapping
+    product slug to the docs.json **page ids** (no ``.mdx`` suffix) of the
+    affected tag pages.  Renames produce one entry in each dict (the new path
+    is added, the old path is removed).
+
+    Parameters
+    ----------
+    lines
+        Complete lines from ``git diff --name-status HEAD``.
+
+    Returns
+    -------
+    tuple of (added, removed)
+        ``added`` maps product slug to a sorted list of new tag page ids.
+        ``removed`` maps product slug to a sorted list of removed tag page
+        ids.  Each list is deduplicated and sorted alphabetically so the
+        output of the report is deterministic.
+    """
+    added: Dict[str, set] = {}
+    removed: Dict[str, set] = {}
+
+    def _add(bucket: Dict[str, set], product: str, page_id: str) -> None:
+        bucket.setdefault(product, set()).add(page_id)
+
+    for raw in lines:
+        parsed = parse_name_status_line(raw)
+        if parsed is None:
+            continue
+        status, first, second = parsed
+        st = status[0]
+
+        if st in ("R", "C"):
+            assert second is not None
+            old_info = _tag_page_id_from_path(first)
+            new_info = _tag_page_id_from_path(second)
+            if old_info is not None:
+                _add(removed, *old_info)
+            if new_info is not None:
+                _add(added, *new_info)
+            continue
+
+        if st == "A":
+            info = _tag_page_id_from_path(first)
+            if info is not None:
+                _add(added, *info)
+        elif st == "D":
+            info = _tag_page_id_from_path(first)
+            if info is not None:
+                _add(removed, *info)
+
+    return (
+        {slug: sorted(ids) for slug, ids in added.items()},
+        {slug: sorted(ids) for slug, ids in removed.items()},
+    )
+
+
+# ---------------------------------------------------------------------------
+# Loading product display names from config.yaml
+# ---------------------------------------------------------------------------
+
+
+def _resolve_mintlify_root(config_path: Path) -> Path:
+    """
+    Resolve the Mintlify root from ``mintlify_root`` in ``config.yaml``.
+
+    The value is interpreted relative to the GitHub repository root, which is
+    two levels above this script (``script_dir.parent.parent``). For example,
+    a config with ``mintlify_root: "."`` resolves to the GitHub repo root and
+    ``mintlify_root: "public-docs"`` resolves to ``<repo>/public-docs/``.
+
+    This duplicates ``generate_tags.resolve_mintlify_root`` so ``pr_report``
+    stays standalone (importable without pulling in the generator's
+    dependencies). The two implementations must remain in sync.
+    """
+    if not config_path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f) or {}
+    mintlify_root = config.get("mintlify_root") if isinstance(config, dict) else None
+    if not isinstance(mintlify_root, str) or not mintlify_root:
+        raise ValueError(
+            f"Configuration file {config_path} is missing 'mintlify_root'. "
+            "Set it to '.' if the Mintlify root is the GitHub repo root, "
+            "or to a subdirectory name (for example 'public-docs')."
+        )
+    github_repo_root = Path(__file__).resolve().parent.parent.parent
+    return (github_repo_root / mintlify_root).resolve()
+
+
+def load_product_display_names(config_path: Path) -> Dict[str, str]:
+    """
+    Read product slug -> display name mapping from ``config.yaml``.
+
+    The mapping is used to build the ``Support: <display_name>`` heading in
+    the docs.json edit section.  Returns an empty dict if the file is
+    missing, unreadable, or malformed; the caller falls back to the slug.
+
+    Parameters
+    ----------
+    config_path
+        Path to ``scripts/knowledgebase-nav/config.yaml`` (or any file with
+        the same shape).
+
+    Returns
+    -------
+    dict
+        Mapping of product slug to display name.  Products missing either
+        ``slug`` or ``display_name`` are skipped silently.
+    """
+    if not config_path.exists():
+        return {}
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = yaml.safe_load(f) or {}
+    except (OSError, yaml.YAMLError):
+        return {}
+
+    products = config.get("products") if isinstance(config, dict) else None
+    if not isinstance(products, list):
+        return {}
+
+    mapping: Dict[str, str] = {}
+    for product in products:
+        if not isinstance(product, dict):
+            continue
+        slug = product.get("slug")
+        display_name = product.get("display_name")
+        if isinstance(slug, str) and isinstance(display_name, str):
+            mapping[slug] = display_name
+    return mapping
 
 
 def distinct_unknown_keywords_from_warnings(warnings_text: str) -> Set[str]:
@@ -375,23 +544,103 @@ def distinct_unknown_keywords_from_warnings(warnings_text: str) -> Set[str]:
 # ---------------------------------------------------------------------------
 
 
+def build_docs_json_section(
+    added_tag_pages: Dict[str, List[str]],
+    removed_tag_pages: Dict[str, List[str]],
+    display_names: Dict[str, str],
+) -> str:
+    """
+    Build the "docs.json update required" Markdown section.
+
+    Returns an empty string when both ``added_tag_pages`` and
+    ``removed_tag_pages`` are empty.  Otherwise produces a heading
+    (``DOCS_JSON_SECTION_HEADING``), a one-paragraph intro
+    (``DOCS_JSON_SECTION_INTRO``), and one subsection per affected product
+    (sorted by slug) listing entries to add to and remove from the
+    product's ``Support: <display_name>`` ``pages`` array.
+
+    Each per-product subsection uses the form::
+
+        #### Support: Models
+
+        Add to `pages`:
+        - `support/models/tags/foo`
+
+        Remove from `pages`:
+        - `support/models/tags/old`
+
+    Either "Add" or "Remove" subsections are omitted when their list is
+    empty for that product.
+
+    Parameters
+    ----------
+    added_tag_pages
+        Mapping of product slug to a sorted list of newly added tag page
+        ids (page ids, not filesystem paths).
+    removed_tag_pages
+        Mapping of product slug to a sorted list of removed tag page ids.
+    display_names
+        Mapping of product slug to display name (from ``config.yaml``).
+        Slugs not present in this mapping fall back to ``Support: <slug>``
+        so the section still renders.
+
+    Returns
+    -------
+    str
+        Markdown for the docs.json edit section, without a leading or
+        trailing blank line.  Empty string when there are no changes.
+    """
+    if not added_tag_pages and not removed_tag_pages:
+        return ""
+
+    lines: List[str] = [DOCS_JSON_SECTION_HEADING, "", DOCS_JSON_SECTION_INTRO]
+
+    product_slugs = sorted(set(added_tag_pages) | set(removed_tag_pages))
+    for slug in product_slugs:
+        display_name = display_names.get(slug, slug)
+        lines.append("")
+        lines.append(f"#### Support: {display_name}")
+
+        added = added_tag_pages.get(slug, [])
+        removed = removed_tag_pages.get(slug, [])
+
+        if added:
+            lines.append("")
+            lines.append("Add to `pages`:")
+            for page_id in added:
+                lines.append(f"- `{page_id}`")
+        if removed:
+            lines.append("")
+            lines.append("Remove from `pages`:")
+            for page_id in removed:
+                lines.append(f"- `{page_id}`")
+
+    return "\n".join(lines)
+
+
 def build_report_markdown(
     buckets: Dict[str, int],
     unknown_keywords: Set[str],
     warnings_text: str,
     run_url: Optional[str] = None,
     run_id: Optional[str] = None,
+    added_tag_pages: Optional[Dict[str, List[str]]] = None,
+    removed_tag_pages: Optional[Dict[str, List[str]]] = None,
+    display_names: Optional[Dict[str, str]] = None,
 ) -> str:
     """
     Build the Markdown body **without** the HTML comment marker.
 
-    If every bucket is zero, there are no unknown keywords, and the warnings
-    text is blank, returns ``REPORT_FALLBACK_BODY`` (``REPORT_TITLE`` plus
+    If every bucket is zero, there are no unknown keywords, no added or
+    removed tag pages, and the warnings text is blank, returns
+    ``REPORT_FALLBACK_BODY`` (``REPORT_TITLE`` plus
     ``REPORT_FALLBACK_PARAGRAPH``).
 
     Otherwise builds a short report starting with ``REPORT_TITLE``, then bullet
     lines (counts only), optional "no categorized file changes" when warnings
-    exist but nothing matched our path rules, a fenced code block with the raw
+    exist but nothing matched our path rules, an optional "docs.json update
+    required" section listing the exact tag page ids a human must add to or
+    remove from each ``Support:`` tab, a fenced code block with the raw
     warnings log if present, and an optional footer link when ``run_url`` is
     set (with ``run_id`` in the link text when provided).
 
@@ -411,6 +660,14 @@ def build_report_markdown(
         GitHub Actions ``GITHUB_RUN_ID`` (same number as in ``/actions/runs/<id>``).
         If set with ``run_url``, the link text is ``workflow run <id>`` so the
         number is visible without hovering.
+    added_tag_pages, removed_tag_pages
+        Tag page ids grouped by product slug, from
+        :func:`collect_tag_page_changes`.  When either is non-empty, the
+        report includes a "docs.json update required" section.
+    display_names
+        Product slug to display-name mapping (see
+        :func:`load_product_display_names`).  Used to label
+        ``Support: <display_name>`` subsections.
 
     Returns
     -------
@@ -419,11 +676,17 @@ def build_report_markdown(
     """
     lines_out: List[str] = []
 
+    added_tag_pages = added_tag_pages or {}
+    removed_tag_pages = removed_tag_pages or {}
+    display_names = display_names or {}
+
     uk_count = len(unknown_keywords)
     if (
         not any(buckets[k] > 0 for k in buckets)
         and uk_count == 0
         and not warnings_text.strip()
+        and not added_tag_pages
+        and not removed_tag_pages
     ):
         return REPORT_FALLBACK_BODY
 
@@ -473,12 +736,16 @@ def build_report_markdown(
             f"- Keywords not on the allowed list: {uk_count} distinct keyword{'s' if uk_count != 1 else ''}."
         )
         added_bullet = True
-    if buckets["docs_json"] > 0:
-        lines_out.append("- docs.json updated.")
-        added_bullet = True
 
     if not added_bullet and warnings_text.strip():
         lines_out.append("- (No categorized file changes.)")
+
+    docs_json_section = build_docs_json_section(
+        added_tag_pages, removed_tag_pages, display_names
+    )
+    if docs_json_section:
+        lines_out.append("")
+        lines_out.append(docs_json_section)
 
     if warnings_text.strip():
         lines_out.append("")
@@ -572,12 +839,6 @@ def main() -> None:
         description="Build Knowledgebase Nav PR comment or job summary Markdown.",
     )
     parser.add_argument(
-        "--repo-root",
-        type=Path,
-        required=True,
-        help="Repository root (contains .git).",
-    )
-    parser.add_argument(
         "--warnings-file",
         type=Path,
         default=Path("generator-warnings.log"),
@@ -606,19 +867,35 @@ def main() -> None:
         default=None,
         help="For tests: use this text instead of running git diff.",
     )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=None,
+        help=(
+            "Path to config.yaml. Used to map product slugs to display names "
+            "in the docs.json edit section and to resolve the Mintlify root "
+            "via 'mintlify_root' for git diff. Defaults to config.yaml next "
+            "to this script."
+        ),
+    )
     args = parser.parse_args()
+
+    config_path = args.config or DEFAULT_CONFIG_PATH
 
     if args.diff_text is not None:
         diff_out = args.diff_text
     else:
-        diff_out = git_diff_name_status_head(args.repo_root)
+        diff_out = git_diff_name_status_head(_resolve_mintlify_root(config_path))
 
     diff_lines = [ln for ln in diff_out.splitlines() if ln.strip()]
     buckets = categorize_name_status_lines(diff_lines)
+    added_tag_pages, removed_tag_pages = collect_tag_page_changes(diff_lines)
 
     warnings_text = ""
     if args.warnings_file.exists():
         warnings_text = args.warnings_file.read_text(encoding="utf-8")
+
+    display_names = load_product_display_names(config_path)
 
     unknown_set = distinct_unknown_keywords_from_warnings(warnings_text)
     inner = build_report_markdown(
@@ -627,6 +904,9 @@ def main() -> None:
         warnings_text,
         run_url=args.run_url,
         run_id=args.run_id,
+        added_tag_pages=added_tag_pages,
+        removed_tag_pages=removed_tag_pages,
+        display_names=display_names,
     )
     out = format_pr_body(inner, include_marker=args.include_marker)
     sys.stdout.write(out)

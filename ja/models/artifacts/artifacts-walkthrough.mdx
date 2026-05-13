@@ -25,7 +25,8 @@ wandb.login()
 [`wandb.init()`](/ja/models/ref/python/functions/init) を使用して run を初期化します。これにより、データを Sync・ログするバックグラウンドプロセスが起動します。プロジェクト名とジョブタイプを指定します:
 
 ```python
-# W&B の run を作成します。このサンプルではデータセットの artifact を作成する方法を示すため、ジョブタイプに 'dataset' を指定しています。
+# W&B の run を作成します。ここでは、このサンプルがデータセット artifact の作成方法を示すため、
+# ジョブタイプとして 'dataset' を指定しています。
 with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     # ここにコードを記述します
 ```
@@ -64,8 +65,8 @@ artifact.add_file(local_path="dataset.h5")
 W&amp;B の run オブジェクトの `wandb.Run.log_artifact()` method を使用して、artifact のバージョンを保存すると同時に、その artifact を [run の出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) として宣言します。
 
 ```python
-# artifactのバージョンをW&Bに保存し、このrunの
-# 出力としてマークする
+# artifact のバージョンを W&B に保存し、
+# この run の出力としてマークする
 run.log_artifact(artifact)
 ```
 
@@ -95,11 +96,11 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 3. 最後に、artifact の [`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) method を使用して、artifact の内容をダウンロードします。
 
 ```python
-# W&B の run を作成します。トレーニングのトラッキングに使用するため、
-# ここでは 'type' に 'training' を指定します。
+# W&B の Run を作成します。ここでは 'type' に 'training' を指定します
+# この run をトレーニングのトラッキングに使用するためです。
 with wandb.init(project="artifacts-example", job_type="training") as run:
 
-  # W&B から artifact をクエリし、この run への入力としてマークします
+  # W&B に artifact をクエリし、この run への入力としてマークします
   artifact = run.use_artifact("bicycle-dataset:latest")
 
   # artifact の内容をダウンロードします

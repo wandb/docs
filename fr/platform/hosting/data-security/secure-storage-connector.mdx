@@ -96,9 +96,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
 <Tabs>
   <Tab title="CoreWeave">
-    <a id="coreweave-requirements" aria-label="CoreWeave requirements" />
-
-    **Prérequis** :
+    <a id="coreweave-requirements" aria-label="CoreWeave requirements" />**Prérequis** :
 
     * **Cloud mutualisé**, ou
     * **Cloud dédié** v0.73.0 ou version ultérieure, ou
@@ -328,9 +326,9 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
           Remplacez `<wandb_bucket>` par la valeur appropriée et notez le nom du bucket. Ensuite, [configurez W&amp;B](#configure-byob).
 
-          Si vous utilisez [Multi-tenant Cloud](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), remplacez `<aws_principal_and_role_arn>` par la valeur correspondante.
+          Si vous utilisez [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), remplacez `<aws_principal_and_role_arn>` par la valeur correspondante.
 
-          * Pour [Multi-tenant Cloud](/fr/platform/hosting/hosting-options/multi_tenant_cloud) : `arn:aws:iam::725579432336:role/WandbIntegration`
+          * Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) : `arn:aws:iam::725579432336:role/WandbIntegration`
           * Pour [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) : `arn:aws:iam::830241207209:root`
 
     Pour plus de détails, voir le [guide d&#39;hébergement autogéré AWS](/fr/platform/hosting/hosting-options).
@@ -399,7 +397,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
        Pour les déploiements autogérés, ainsi que pour les déploiements Cloud dédié qui n’utilisent pas [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), suivez les étapes ci-dessous pour provisionner un conteneur Azure Blob Storage dans votre abonnement Azure :
 
-       1. Créez un conteneur avec le nom de votre choix. Vous pouvez également créer un dossier que vous configurerez comme sous-chemin pour stocker tous les fichiers W&amp;B.
+       1. Créez un conteneur avec le nom de votre choix. Vous pouvez également créer un dossier que vous configururez comme sous-chemin pour stocker tous les fichiers W&amp;B.
        2. Configurez la stratégie CORS sur le conteneur.
 
           Pour définir la stratégie CORS dans l’interface utilisateur, accédez à blob storage, faites défiler jusqu’à `Settings/Resource Sharing (CORS)`, puis définissez les valeurs suivantes :

@@ -1,10 +1,10 @@
 ---
-title: "W&B Inference와 함께 Cline 사용하기"
+title: "Serverless Inference와 함께 Cline 사용하기"
 description: >
-  Cline 코딩 에이전트가 W&B Inference를 사용하도록 설정하는 방법을 알아보세요.
+  Cline 코딩 에이전트가 Serverless Inference를 사용하도록 설정하는 방법을 알아보세요.
 ---
 
-[Cline](https://cline.bot)은 AI 기반 코딩 어시스턴트입니다. 이 튜토리얼에서는 Cline이 W&amp;B Inference에서 제공하는 모델을 사용하도록 설정하는 방법을 설명합니다.
+[Cline](https://cline.bot)은 AI 기반 코딩 어시스턴트입니다. 이 튜토리얼에서는 Cline이 Serverless Inference에서 제공하는 모델을 사용하도록 설정하는 방법을 설명합니다.
 
 Cline 에이전트는 명령줄 도구로도, 다양한 IDE와의 인테그레이션으로도 사용할 수 있습니다. 이 페이지에서는 Cline CLI를 사용한 설정과 Visual Studio Code 확장 프로그램으로 Cline을 설정하는 방법을 보여주지만, 다른 IDE에서의 설정도 비슷합니다.
 
@@ -34,7 +34,7 @@ npm install -g cline
 cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
 ```
 
-이렇게 하면 Cline이 W&amp;B Inference의 OpenAI 호환 엔드포인트와 Kimi K2.5 모델을 사용하도록 구성됩니다. 모델 사용 가능 여부와 가격은 [모델 카탈로그](https://wandb.ai/inference)에서 확인하세요.
+이렇게 하면 Cline이 Serverless Inference의 OpenAI 호환 엔드포인트와 Kimi K2.5 모델을 사용하도록 구성됩니다. 모델 사용 가능 여부와 가격은 [모델 카탈로그](https://wandb.ai/inference)에서 확인하세요.
 
 모든 것이 제대로 작동하는지 확인하려면 간단한 테스트를 실행하세요:
 
@@ -45,7 +45,6 @@ cline "What is 2 + 2?"
 Cline이 응답하면 설치와 인증이 완료된 것입니다.
 
 Cline CLI 사용에 대한 자세한 내용은 [Cline 퀵스타트](https://docs.cline.bot/cline-cli/installation#quick-start)를 참조하세요.
-
 
 <div id="set-up-cline-in-visual-studio-code">
   ## Visual Studio Code에서 Cline 설정

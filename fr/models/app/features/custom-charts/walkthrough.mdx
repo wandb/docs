@@ -6,10 +6,10 @@ title: 'Tutoriel : Utiliser des graphiques personnalisés'
 Utilisez des graphiques personnalisés pour contrôler les données chargées dans un panneau et la manière dont elles sont visualisées.
 
 <div id="1-log-data-to-wb">
-  ## 1. Enregistrez des données dans W&amp;B
+  ## 1. Journalisez des données dans W&amp;B
 </div>
 
-Commencez par enregistrer des données dans votre script. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour plusieurs points au fil du temps, et enregistrez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons d’enregistrer jusqu’à 10 000 points de données par clé enregistrée.
+Commencez par journaliser des données dans votre script. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour plusieurs points au fil du temps, et journalisez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons de journaliser jusqu’à 10 000 points de données par clé enregistrée.
 
 ```python
 with wandb.init() as run: 
@@ -38,7 +38,7 @@ Une fois que vous avez enregistré des données à visualiser, accédez à la pa
 </div>
 
 1. Cliquez sur `summary` et sélectionnez `historyTable` pour configurer une nouvelle requête qui extrait des données de l’historique du run.
-2. Saisissez la clé sous laquelle vous avez enregistré le `wandb.Table()`. Dans le code snippet ci-dessus, c’était `my_custom_table` . Dans le [notebook d’exemple](https://bit.ly/custom-charts-colab), les clés sont `pr_curve` et `roc_curve`.
+2. Saisissez la clé sous laquelle vous avez enregistré le `wandb.Table()`. Dans l’extrait de code précédent, c’était `custom_data_table`. Dans le [notebook d’exemple](https://bit.ly/custom-charts-colab), les clés sont `pr_curve` et `roc_curve`. Pour plus d’informations sur **`summaryTable`**, **`historyTable`** et **`tableKey`**, voir [Construire la requête GraphQL](/fr/models/app/features/custom-charts#build-the-graphql-query).
 
 <div id="set-vega-fields">
   ### Définir les champs Vega

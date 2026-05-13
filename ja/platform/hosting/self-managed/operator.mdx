@@ -445,7 +445,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
        Terraform が作成するすべてのリソース名の先頭に付与される文字列が `namespace` 変数であるため、デプロイ前に `tvfars` ファイルで変数を必ず定義してください。
 
-       `subdomain` と `domain` を組み合わせると、W&amp;B インスタンスの FQDN が構成されます。上記の例では、W&amp;B の FQDN は `wandb-aws.wandb.ml` で、FQDN レコードは DNS の `zone_id` に作成されます。
+       `subdomain` と `domain` を組み合わせると、W&amp;B インスタンスの FQDN が構成されます。上記の例では、W&amp;B の FQDN は `wandb-aws.wandb.ml` となり、FQDN レコードは DNS の `zone_id` に作成されます。
 
        `allowed_inbound_cidr` と `allowed_inbound_ipv6_cidr` は、どちらも設定する必要があります。モジュールでは、これは必須入力です。次の例では、任意のソースから W&amp;B インストールへのアクセスを許可します。
 
@@ -658,7 +658,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     オプションのコンポーネントには以下が含まれます：
 
-    * Pub/Subメッセージシステム
+    * Pub/Sub メッセージング システム
 
     ### 前提条件の権限
 
@@ -795,7 +795,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        }
        ```
 
-    2. W&amp;Bをデプロイします。
+    2. W&amp;B をデプロイします。
 
        W&amp;B をデプロイするには、以下のコマンドを実行します。
 
@@ -865,7 +865,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     * Azure リソース グループ
     * Azure Virtual Network (VPC)
     * Azure MySQL Flexible Server
-    * Azure Storage Account &amp; Blob Storage
+    * Azure Storage アカウント &amp; Blob Storage
     * Azure Kubernetes Service
     * Azure Application Gateway
 
@@ -886,7 +886,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     1. 開発環境を準備します。
        * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールします
-       * W&amp;B では、使用するコードを含む Git リポジトリを作成することを推奨していますが、ファイルはローカルに置いたままでも構いません。
+       * W&amp;B では、使用するコードを含む Git リポジトリを作成することを推奨していますが、ファイルをローカルに置いたままでも構いません。
 
     2. `terraform.tfvars` ファイルを作成します。
 
@@ -1048,7 +1048,7 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     Azure Event Gridを使用して外部メッセージブローカーを有効にするには、`main.tf`ファイルに`use_internal_queue = false`オプションを追加します。
 
     <Note>
-      これは省略可能です。W&amp;B には組み込みのブローカーが含まれているためです。このオプションを使用しても、パフォーマンスは向上しません。
+      W&amp;B には組み込みのブローカーが含まれているため、これは省略可能です。このオプションを使用しても、パフォーマンスは向上しません。
     </Note>
 
     ```bash

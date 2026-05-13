@@ -1,11 +1,11 @@
 {
-  "theme": "mint",
+  "theme": "aspen",
   "$schema": "https://mintlify.com/docs.json",
   "name": "Weights & Biases Documentation",
   "colors": {
-    "primary": "#ffb633",
-    "light": "#ffb633",
-    "dark": "#ffb633"
+    "primary": "#FCBC32",
+    "light": "#FCBC32",
+    "dark": "#FCBC32"
   },
   "integrations": {
     "ga4": {
@@ -17,11 +17,11 @@
   },
   "styling": {
     "eyebrows": "breadcrumbs",
-    "stylesheet": "/button-links.css"
+    "stylesheet": "/css/styles.css"
   },
   "logo": {
-    "light": "/icons/logo_light.svg",
-    "dark": "/icons/logo_dark.svg",
+    "light": "/icons/Endorsed_primary_blackwhite.svg",
+    "dark": "/icons/Endorsed_primary_goldwhite.svg",
     "href": "https://docs.wandb.ai/"
   },
   "favicon": "/favicon.png",
@@ -35,16 +35,16 @@
   "contextual": {
     "options": [
       {
+        "title": "Install W&B MCP",
+        "description": "Set up the W&B MCP server in Claude Code, Codex, VS Code and or other LLM agents.",
+        "icon": "plug",
+        "href": "/platform/mcp-server"
+      },
+      {
         "title": "Install W&B MCP in Cursor",
         "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
         "icon": "plug",
         "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0="
-      },
-      {
-        "title": "Install W&B MCP in other clients",
-        "description": "Set up the W&B MCP server in VS Code, Claude, and or other LLM agents.",
-        "icon": "plug",
-        "href": "/platform/mcp-server"
       },
       "chatgpt",
       "claude",
@@ -77,12 +77,17 @@
                 "pages": [
                   "index",
                   {
-                    "group": "Products",
+                    "group": "Weights & Biases",
                     "pages": [
                       "product-models",
-                      "product-weave",
+                      "product-weave"
+                    ]
+                  },
+                  {
+                    "group": "Powered by CoreWeave",
+                    "pages": [
                       "product-inference",
-                      "product-training",
+                      "product-serverless-rl",
                       "product-sandboxes"
                     ]
                   },
@@ -634,6 +639,7 @@
                               "weave/guides/integrations/openai_agents",
                               "weave/guides/integrations/openai-realtime-audio",
                               "weave/guides/integrations/claude_agent",
+                              "weave/guides/integrations/claude_code",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -643,6 +649,7 @@
                               "weave/guides/integrations/pydantic_ai",
                               "weave/guides/integrations/google_adk",
                               "weave/guides/integrations/vercel_ai_sdk",
+                              "weave/guides/integrations/haystack",
                               "weave/guides/integrations/agno",
                               "weave/guides/integrations/koog",
                               "weave/guides/integrations/autogen",
@@ -737,7 +744,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "inference",
                   "inference/prerequisites",
@@ -774,36 +781,31 @@
                 ]
               },
               {
-                "item": "W&B Training",
+                "item": "Serverless RL",
                 "pages": [
-                  "training",
-                  "training/prerequisites",
-                  {
-                    "group": "Serverless RL",
-                    "pages": [
-                      "training/serverless-rl",
-                      "training/serverless-rl/available-models",
-                      "training/serverless-rl/usage-limits",
-                      "training/serverless-rl/use-trained-models"
-                    ]
-                  },
+                  "serverless-rl",
+                  "serverless-rl/prerequisites",
+                  "serverless-rl/usage",
+                  "serverless-rl/available-models",
+                  "serverless-rl/usage-limits",
+                  "serverless-rl/use-trained-models",
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "training/sft-training",
-                      "training/sft-training/sft-training"
+                      "serverless-rl/sft",
+                      "serverless-rl/sft/usage"
                     ]
                   },
                   {
                     "group": "API Reference",
                     "pages": [
-                      "training/ref-link-api"
+                      "serverless-rl/ref-link-api"
                     ]
                   }
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "sandboxes",
                   "sandboxes/lifecycle",
@@ -1176,7 +1178,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "inference/api-reference",
                   "inference/api-reference/chat-completions",
@@ -1184,10 +1186,13 @@
                 ]
               },
               {
-                "group": "W&B Training",
-                "openapi": "training/api-reference/openapi.json",
+                "group": "Serverless RL",
+                "openapi": {
+                  "source": "serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
+                },
                 "pages": [
-                  "training/api-reference"
+                  "serverless-rl/api-reference"
                 ]
               }
             ]
@@ -1204,9 +1209,10 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "W&B SDKs",
                 "pages": [
-                  "release-notes/sdk-releases"
+                  "release-notes/sdk-releases",
+                  "release-notes/weave-sdk-releases"
                 ]
               },
               "release-notes/release-policies"
@@ -1275,7 +1281,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "support/inference",
                   "support/inference/tags/administrator",
@@ -1374,12 +1380,17 @@
                 "pages": [
                   "fr/index",
                   {
-                    "group": "Produits",
+                    "group": "Weights & Biases",
                     "pages": [
                       "fr/product-models",
-                      "fr/product-weave",
+                      "fr/product-weave"
+                    ]
+                  },
+                  {
+                    "group": "Propulsé par CoreWeave",
+                    "pages": [
                       "fr/product-inference",
-                      "fr/product-training",
+                      "fr/product-serverless-rl",
                       "fr/product-sandboxes"
                     ]
                   },
@@ -1387,7 +1398,7 @@
                     "group": "Détails de la plateforme",
                     "pages": [
                       {
-                        "group": "Configurer W&B",
+                        "group": "Configurez W&B",
                         "pages": [
                           {
                             "group": "Paramètres",
@@ -1510,7 +1521,7 @@
                           "fr/models/track/project-page",
                           "fr/models/track/workspaces",
                           {
-                            "group": "Que sont les exécutions ?",
+                            "group": "Que sont les exécutions ?",
                             "pages": [
                               "fr/models/runs",
                               "fr/models/runs/run-identifiers",
@@ -1922,6 +1933,7 @@
                               "fr/weave/guides/integrations/openai_agents",
                               "fr/weave/guides/integrations/openai-realtime-audio",
                               "fr/weave/guides/integrations/claude_agent",
+                              "fr/weave/guides/integrations/claude_code",
                               "fr/weave/guides/integrations/langchain",
                               "fr/weave/guides/integrations/llamaindex",
                               "fr/weave/guides/integrations/dspy",
@@ -1931,6 +1943,7 @@
                               "fr/weave/guides/integrations/pydantic_ai",
                               "fr/weave/guides/integrations/google_adk",
                               "fr/weave/guides/integrations/vercel_ai_sdk",
+                              "fr/weave/guides/integrations/haystack",
                               "fr/weave/guides/integrations/agno",
                               "fr/weave/guides/integrations/koog",
                               "fr/weave/guides/integrations/autogen",
@@ -2025,7 +2038,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "fr/inference",
                   "fr/inference/prerequisites",
@@ -2062,36 +2075,31 @@
                 ]
               },
               {
-                "item": "W&B Training",
+                "item": "Serverless RL",
                 "pages": [
-                  "fr/training",
-                  "fr/training/prerequisites",
+                  "fr/serverless-rl",
+                  "fr/serverless-rl/prerequisites",
+                  "fr/serverless-rl/usage",
+                  "fr/serverless-rl/available-models",
+                  "fr/serverless-rl/usage-limits",
+                  "fr/serverless-rl/use-trained-models",
                   {
-                    "group": "RL sans serveur",
+                    "group": "Serverless SFT",
                     "pages": [
-                      "fr/training/serverless-rl",
-                      "fr/training/serverless-rl/available-models",
-                      "fr/training/serverless-rl/usage-limits",
-                      "fr/training/serverless-rl/use-trained-models"
-                    ]
-                  },
-                  {
-                    "group": "SFT sans serveur",
-                    "pages": [
-                      "fr/training/sft-training",
-                      "fr/training/sft-training/sft-training"
+                      "fr/serverless-rl/sft",
+                      "fr/serverless-rl/sft/usage"
                     ]
                   },
                   {
                     "group": "Référence de l’API",
                     "pages": [
-                      "fr/training/ref-link-api"
+                      "fr/serverless-rl/ref-link-api"
                     ]
                   }
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "fr/sandboxes",
                   "fr/sandboxes/lifecycle",
@@ -2464,7 +2472,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "fr/inference/api-reference",
                   "fr/inference/api-reference/chat-completions",
@@ -2472,10 +2480,13 @@
                 ]
               },
               {
-                "group": "W&B Training",
-                "openapi": "fr/training/api-reference/openapi.json",
+                "group": "Serverless RL",
+                "openapi": {
+                  "source": "fr/serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
+                },
                 "pages": [
-                  "fr/training/api-reference"
+                  "fr/serverless-rl/api-reference"
                 ]
               }
             ]
@@ -2492,9 +2503,10 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "SDKs W&B",
                 "pages": [
-                  "fr/release-notes/sdk-releases"
+                  "fr/release-notes/sdk-releases",
+                  "fr/release-notes/weave-sdk-releases"
                 ]
               },
               "fr/release-notes/release-policies"
@@ -2563,7 +2575,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "fr/support/inference",
                   "fr/support/inference/tags/administrator",
@@ -2662,12 +2674,17 @@
                 "pages": [
                   "ja/index",
                   {
-                    "group": "プロダクト",
+                    "group": "Weights & Biases",
                     "pages": [
                       "ja/product-models",
-                      "ja/product-weave",
+                      "ja/product-weave"
+                    ]
+                  },
+                  {
+                    "group": "CoreWeave 提供",
+                    "pages": [
                       "ja/product-inference",
-                      "ja/product-training",
+                      "ja/product-serverless-rl",
                       "ja/product-sandboxes"
                     ]
                   },
@@ -2678,7 +2695,7 @@
                         "group": "W&B を設定する",
                         "pages": [
                           {
-                            "group": "Settings",
+                            "group": "設定",
                             "pages": [
                               "ja/platform/app/settings-page",
                               "ja/platform/app/settings-page/user-settings",
@@ -2690,7 +2707,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティおよびアクセス管理（IAM）",
+                            "group": "アイデンティティとアクセス管理（IAM）",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -2730,7 +2747,7 @@
                         ]
                       },
                       {
-                        "group": "監視と使用状況",
+                        "group": "モニタリングと使用状況",
                         "pages": [
                           "ja/platform/hosting/monitoring-usage/audit-logging",
                           "ja/platform/hosting/monitoring-usage/slack-alerts",
@@ -3210,6 +3227,7 @@
                               "ja/weave/guides/integrations/openai_agents",
                               "ja/weave/guides/integrations/openai-realtime-audio",
                               "ja/weave/guides/integrations/claude_agent",
+                              "ja/weave/guides/integrations/claude_code",
                               "ja/weave/guides/integrations/langchain",
                               "ja/weave/guides/integrations/llamaindex",
                               "ja/weave/guides/integrations/dspy",
@@ -3219,6 +3237,7 @@
                               "ja/weave/guides/integrations/pydantic_ai",
                               "ja/weave/guides/integrations/google_adk",
                               "ja/weave/guides/integrations/vercel_ai_sdk",
+                              "ja/weave/guides/integrations/haystack",
                               "ja/weave/guides/integrations/agno",
                               "ja/weave/guides/integrations/koog",
                               "ja/weave/guides/integrations/autogen",
@@ -3313,7 +3332,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ja/inference",
                   "ja/inference/prerequisites",
@@ -3350,36 +3369,31 @@
                 ]
               },
               {
-                "item": "W&B Training",
+                "item": "Serverless RL",
                 "pages": [
-                  "ja/training",
-                  "ja/training/prerequisites",
-                  {
-                    "group": "Serverless RL",
-                    "pages": [
-                      "ja/training/serverless-rl",
-                      "ja/training/serverless-rl/available-models",
-                      "ja/training/serverless-rl/usage-limits",
-                      "ja/training/serverless-rl/use-trained-models"
-                    ]
-                  },
+                  "ja/serverless-rl",
+                  "ja/serverless-rl/prerequisites",
+                  "ja/serverless-rl/usage",
+                  "ja/serverless-rl/available-models",
+                  "ja/serverless-rl/usage-limits",
+                  "ja/serverless-rl/use-trained-models",
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ja/training/sft-training",
-                      "ja/training/sft-training/sft-training"
+                      "ja/serverless-rl/sft",
+                      "ja/serverless-rl/sft/usage"
                     ]
                   },
                   {
                     "group": "API リファレンス",
                     "pages": [
-                      "ja/training/ref-link-api"
+                      "ja/serverless-rl/ref-link-api"
                     ]
                   }
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless サンドボックス",
                 "pages": [
                   "ja/sandboxes",
                   "ja/sandboxes/lifecycle",
@@ -3752,7 +3766,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "ja/inference/api-reference",
                   "ja/inference/api-reference/chat-completions",
@@ -3760,10 +3774,13 @@
                 ]
               },
               {
-                "group": "W&B Training",
-                "openapi": "ja/training/api-reference/openapi.json",
+                "group": "Serverless RL",
+                "openapi": {
+                  "source": "ja/serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
+                },
                 "pages": [
-                  "ja/training/api-reference"
+                  "ja/serverless-rl/api-reference"
                 ]
               }
             ]
@@ -3780,9 +3797,10 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "W&B SDKs",
                 "pages": [
-                  "ja/release-notes/sdk-releases"
+                  "ja/release-notes/sdk-releases",
+                  "ja/release-notes/weave-sdk-releases"
                 ]
               },
               "ja/release-notes/release-policies"
@@ -3851,7 +3869,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ja/support/inference",
                   "ja/support/inference/tags/administrator",
@@ -3950,23 +3968,28 @@
                 "pages": [
                   "ko/index",
                   {
-                    "group": "제품",
+                    "group": "Weights & Biases",
                     "pages": [
                       "ko/product-models",
-                      "ko/product-weave",
+                      "ko/product-weave"
+                    ]
+                  },
+                  {
+                    "group": "CoreWeave 제공",
+                    "pages": [
                       "ko/product-inference",
-                      "ko/product-training",
+                      "ko/product-serverless-rl",
                       "ko/product-sandboxes"
                     ]
                   },
                   {
-                    "group": "플랫폼 세부 정보",
+                    "group": "플랫폼 정보",
                     "pages": [
                       {
-                        "group": "W&B 구성",
+                        "group": "W&B 설정",
                         "pages": [
                           {
-                            "group": "Settings",
+                            "group": "설정",
                             "pages": [
                               "ko/platform/app/settings-page",
                               "ko/platform/app/settings-page/user-settings",
@@ -4018,7 +4041,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용량",
+                        "group": "모니터링 및 사용",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -4498,6 +4521,7 @@
                               "ko/weave/guides/integrations/openai_agents",
                               "ko/weave/guides/integrations/openai-realtime-audio",
                               "ko/weave/guides/integrations/claude_agent",
+                              "ko/weave/guides/integrations/claude_code",
                               "ko/weave/guides/integrations/langchain",
                               "ko/weave/guides/integrations/llamaindex",
                               "ko/weave/guides/integrations/dspy",
@@ -4507,6 +4531,7 @@
                               "ko/weave/guides/integrations/pydantic_ai",
                               "ko/weave/guides/integrations/google_adk",
                               "ko/weave/guides/integrations/vercel_ai_sdk",
+                              "ko/weave/guides/integrations/haystack",
                               "ko/weave/guides/integrations/agno",
                               "ko/weave/guides/integrations/koog",
                               "ko/weave/guides/integrations/autogen",
@@ -4601,7 +4626,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ko/inference",
                   "ko/inference/prerequisites",
@@ -4638,36 +4663,31 @@
                 ]
               },
               {
-                "item": "W&B Training",
+                "item": "Serverless RL",
                 "pages": [
-                  "ko/training",
-                  "ko/training/prerequisites",
+                  "ko/serverless-rl",
+                  "ko/serverless-rl/prerequisites",
+                  "ko/serverless-rl/usage",
+                  "ko/serverless-rl/available-models",
+                  "ko/serverless-rl/usage-limits",
+                  "ko/serverless-rl/use-trained-models",
                   {
-                    "group": "서버리스 RL",
+                    "group": "Serverless SFT",
                     "pages": [
-                      "ko/training/serverless-rl",
-                      "ko/training/serverless-rl/available-models",
-                      "ko/training/serverless-rl/usage-limits",
-                      "ko/training/serverless-rl/use-trained-models"
-                    ]
-                  },
-                  {
-                    "group": "서버리스 SFT",
-                    "pages": [
-                      "ko/training/sft-training",
-                      "ko/training/sft-training/sft-training"
+                      "ko/serverless-rl/sft",
+                      "ko/serverless-rl/sft/usage"
                     ]
                   },
                   {
                     "group": "API 레퍼런스",
                     "pages": [
-                      "ko/training/ref-link-api"
+                      "ko/serverless-rl/ref-link-api"
                     ]
                   }
                 ]
               },
               {
-                "item": "W&B Sandboxes",
+                "item": "Serverless 샌드박스",
                 "pages": [
                   "ko/sandboxes",
                   "ko/sandboxes/lifecycle",
@@ -5040,7 +5060,7 @@
                 ]
               },
               {
-                "group": "W&B Inference",
+                "group": "Serverless Inference",
                 "pages": [
                   "ko/inference/api-reference",
                   "ko/inference/api-reference/chat-completions",
@@ -5048,10 +5068,13 @@
                 ]
               },
               {
-                "group": "W&B Training",
-                "openapi": "ko/training/api-reference/openapi.json",
+                "group": "Serverless RL",
+                "openapi": {
+                  "source": "ko/serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
+                },
                 "pages": [
-                  "ko/training/api-reference"
+                  "ko/serverless-rl/api-reference"
                 ]
               }
             ]
@@ -5068,9 +5091,10 @@
                 ]
               },
               {
-                "group": "W&B SDK",
+                "group": "W&B SDKs",
                 "pages": [
-                  "ko/release-notes/sdk-releases"
+                  "ko/release-notes/sdk-releases",
+                  "ko/release-notes/weave-sdk-releases"
                 ]
               },
               "ko/release-notes/release-policies"
@@ -5139,7 +5163,7 @@
                 ]
               },
               {
-                "item": "W&B Inference",
+                "item": "Serverless Inference",
                 "pages": [
                   "ko/support/inference",
                   "ko/support/inference/tags/administrator",
@@ -5242,8 +5266,11 @@
   "fonts": {
     "heading": {
       "family": "Source Serif 4",
-      "weight": 600,
-      "format": "woff2"
+      "weight": 400
+    },
+    "body": {
+      "family": "Source Sans 3",
+      "weight": 400
     }
   },
   "redirects": [
@@ -5389,7 +5416,7 @@
     },
     {
       "source": "/guides/training/:slug*",
-      "destination": "/training/:slug*"
+      "destination": "/serverless-rl/:slug*"
     },
     {
       "source": "/guides/:slug*",
@@ -6385,7 +6412,7 @@
     },
     {
       "source": "/ref/training",
-      "destination": "/training/api-reference"
+      "destination": "/serverless-rl/api-reference"
     },
     {
       "source": "/ref/wandb_workspaces/:slug*",
@@ -6414,6 +6441,46 @@
     {
       "source": "/sweeps/faq/",
       "destination": "/support"
+    },
+    {
+      "source": "/training/api-reference/:slug*",
+      "destination": "/serverless-rl/api-reference/:slug*"
+    },
+    {
+      "source": "/training/api-reference",
+      "destination": "/serverless-rl/api-reference"
+    },
+    {
+      "source": "/training/serverless-rl",
+      "destination": "/serverless-rl/usage"
+    },
+    {
+      "source": "/training/serverless-rl/:slug*",
+      "destination": "/serverless-rl/:slug*"
+    },
+    {
+      "source": "/training/sft-training/sft-training",
+      "destination": "/serverless-rl/sft/usage"
+    },
+    {
+      "source": "/training/sft-training/:slug*",
+      "destination": "/serverless-rl/sft/:slug*"
+    },
+    {
+      "source": "/training/sft-training",
+      "destination": "/serverless-rl/sft"
+    },
+    {
+      "source": "/training/prerequisites",
+      "destination": "/serverless-rl/prerequisites"
+    },
+    {
+      "source": "/training",
+      "destination": "/serverless-rl"
+    },
+    {
+      "source": "/training/:slug*",
+      "destination": "/serverless-rl/:slug*"
     },
     {
       "source": "/tutorials/:slug*",

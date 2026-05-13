@@ -1,6 +1,6 @@
 ---
 title: "JSONモードを有効にする"
-description: "W&B InferenceでJSONモードを設定し、モデルの応答から構造化されたJSON出力を取得して、解析しやすくします。"
+description: "Serverless InferenceでJSONモードを設定し、モデルの応答から構造化されたJSON出力を取得して、解析しやすくします。"
 ---
 
 JSONモードを有効にすると、モデルに有効なJSON形式で応答を返すよう指示できます。ただし、応答のスキーマには一貫性がなかったり、特定の構造に従わなかったりする場合があります。一貫した構造化JSON応答が必要な場合は、可能であれば[structured output](/ja/inference/response-settings/structured-output)を使用することをおすすめします。
@@ -24,7 +24,7 @@ JSONモードを有効にするには、リクエストで`"response_format"`と
             {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
             {"role": "user", "content": "Give me a list of three fruits with their colors."},
         ],
-        response_format={"type": "json_object"}  # これによりJSONモードが有効になります
+        response_format={"type": "json_object"}  # これでJSONモードを有効にします
     )
 
     content = response.choices[0].message.content

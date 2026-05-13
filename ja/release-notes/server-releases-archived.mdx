@@ -15,7 +15,78 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <EolReminder />
 
 {/* リリースをアーカイブするには、server-releases.mdx からその <Update> エントリ（パッチを含む）を
-    この直下に移動します */}
+      この直下に移動します */}
+
+<Update label="v0.68.2" description="2025年5月7日">
+  ## 修正
+
+  * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
+  * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
+  * Parquet Store サービス のメモリ使用効率を改善しました。
+</Update>
+
+<Update label="v0.68.1" description="2025年5月2日">
+  ## 修正
+
+  * v0.68.0 で導入された、メディアパネルでメディアが読み込まれなくなる可能性があるバグを修正しました。
+</Update>
+
+<Update label="v0.68.0" description="2025年4月29日">
+  <Note>
+    v0.68.0 でバグが発生し、[v0.68.1](#0_68_1) で修正されました。このバグにより、メディアパネルでメディアを読み込めない場合がありました。このバグを回避するには、修正が含まれるパッチをインストールするか、そのバージョンにアップグレードしてください。サポートが必要な場合は、[サポート](mailto:support@wandb.com) にお問い合わせください。
+  </Note>
+
+  ## 機能
+
+  * Registry 管理者は、開発パイプラインの主要な段階を表すために、[*保護されたエイリアス*](/ja/models/registry/aliases#protected-aliases)を定義して割り当てることができます。保護されたエイリアスを割り当てられるのは、Registry 管理者のみです。W&amp;B では、他のユーザーが API または UI を使用して Registry 内のバージョンに保護されたエイリアスを追加または削除することはできません。
+  * run の `x_label` 値に基づいて、コンソールログをフィルターできるようになりました。[分散トレーニング](/ja/models/track/log/distributed-training/#track-all-processes-to-a-single-run)中、このオプションのパラメーターは、run をログしたノードをトラッキングします。
+  * これで、run を `Groups` 間で 1 件ずつまたは一括で移動できるようになりました。また、初回のログ時以降でも新しい `Groups` を作成できるようになりました。
+  * 折れ線グラフで **同期ズーム** モードをサポートするようになりました。このモードでは、1 つのグラフで特定の範囲にズームすると、共通の X 軸を持つ他のすべての折れ線グラフも同じ範囲に自動的にズームします。[折れ線グラフの Workspace 表示設定](/ja/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace) で有効にできます。
+  * 折れ線グラフで、カスタムメトリクスをタイムスタンプ形式で表示できるようになりました。これは、別のシステムからRunsを同期またはアップロードする際に便利です。
+  * `epoch` や `train/global_step` (または任意のその他のフィールド) など、`_step` 以外のフィールドを使用して、[メディアパネル](/ja/models/app/features/panels/media)を切り替えながら表示できるようになりました。
+  * `runs` または `runs.history` の式を使用する [Query Panels](/ja/models/app/features/panels/query-panels) 内の Tables とプロットでは、ステップスライダーを使って、Runs 全体を通じたメトリクス、テキスト、またはメディアの変化を順に確認できます。このスライダーは、`_step` 以外のメトリクスでもステップ移動をサポートします。
+  * フォントサイズの設定を使って、[棒チャート](/ja/models/app/features/panels/bar-plot)のラベルをカスタマイズできるようになりました。
+
+  ### プライベートプレビュー
+
+  プライベートプレビュー機能は招待制でのみご利用いただけます。プライベートプレビューへの参加をご希望の場合は、[サポート](mailto:support@wandb.com)またはAISEまでお問い合わせください。
+
+  * **Personal workspace templates** を使用すると、Workspace の設定を保存し、新しい [projects](/ja/models/track/project-page) に自動的に適用できます。現時点では、デフォルトの X 軸メトリクス、スムージング アルゴリズム、スムージング係数など、一部の折れ線グラフ設定を行えます。
+  * **改良された指数加重移動平均 (EMA) スムージング**により、完全な未ビニングデータを処理する場合でも、より信頼性の高い[平滑化ライン](/ja/models/app/features/panels/line-plot/smoothing)を利用できます。ほとんどの場合、スムージングはパフォーマンス向上のため、バックエンドで処理されます。
+
+  ### Weave
+
+  * W&amp;B インスタンス内から、ファインチューニングしたモデルとチャットできるようになりました。[Playground](/ja/weave/guides/tools/playground) が専用クラウドでサポートされるようになりました。Playground は、過去のトレースに対してさまざまな LLM を比較するためのチャットインターフェースです。管理者は、さまざまなモデルプロバイダに APIキーを追加したり、[カスタムホスト型の LLM プロバイダ](/ja/weave/guides/tools/playground/#add-a-custom-provider) を接続したりできるため、チームは Weave 内からそれらを利用できます。
+  * OpenTelemetry サポート。OpenTelemetry (OTel) 経由でトレースをログできるようになりました。詳細は、[OpenTelemetry によるトレース](/ja/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)をご覧ください。
+  * Weaveの[トレース](/ja/weave/guides/tracking)に、CrewAI、OpenAIのAgent SDK、DSPy 2.x、Googleのgenai Python SDK向けの新しいフレームワーク インテグレーションが追加されました。
+  * Playground は新しい[OpenAI モデル](/ja/weave/guides/tools/playground/#openai)に対応しています: GPT‑4.1、GPT‑4.1 mini、GPT‑4.1 nano。
+  * トレースからラベル付きデータセットを直接作成でき、アノテーションは自動的にデータセットの列へ変換されます。詳しくは、[トレースからのデータセット作成](/ja/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui)をご覧ください。
+
+  ## セキュリティ
+
+  * Registry 管理者は、Registry 内の[サービスアカウント](/ja/platform/hosting/iam/service-accounts)を、Registry 管理者 または Member のいずれかに指定できるようになりました。以前は、サービスアカウントのロールは常に Registry 管理者 でした。詳細は、[Registry のサービスアカウント設定](/ja/models/registry/configure_registry)を参照してください。
+
+  ## パフォーマンス
+
+  * 多くの Workspace 操作のパフォーマンスを改善しました。特に大規模な Workspace で効果があります。たとえば、セクションの展開や run セレクターの操作への応答性が大幅に向上しました。
+  * Fork と Rewind のパフォーマンスが向上しました。
+
+    run を [Forking](/ja/models/runs/forking) すると、既存の run と同じ設定を使用する新しい run が作成されます。フォークされた run に加えた変更は親 run に影響せず、その逆も同様です。フォークされた run と親 run の間のポインタは維持されます。run を [Rewinding](/ja/models/runs/rewind) すると、既存のデータを失うことなく、その時点から新しいデータをログできます。
+
+    fork が多重にネストされた project では、キャッシュの改善により、新しい run の fork が大幅に効率化されました。
+
+  ## Fixes
+
+  * 組織のサービスアカウントを新しいチームに追加できないことがあるバグを修正しました。
+  * グループ化されたラインでホバーマークが表示されなくなることがあるバグを修正しました。
+  * Report パネルの**Import**ドロップダウンに無効な project 名が表示されることがあるバグを修正しました。
+  * run セレクター内のフィルターの配置ずれによる表示バグを修正しました。
+  * timestamp の **Within Last** フィルターを追加したときにページがクラッシュする問題を修正しました
+  * グローバルな折れ線グラフの設定で、X-axis を **Wall Time** に設定できない場合があるバグを修正しました。
+  * 画像キャプションをTableにログした際に表示されないことがあるバグを修正しました。
+  * パネルにスパースメトリクスが表示されないことがあるバグを修正しました。
+  * **Run Overview** ページでは、**Description** フィールド名が **Notes** に変更されました。
+</Update>
 
 <Update label="v0.67.0" description="2025年3月28日">
   ## 機能

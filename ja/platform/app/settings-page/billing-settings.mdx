@@ -31,13 +31,13 @@ title: 課金設定を管理する
 
 使用量アラートは、現在の請求期間中に、特定のカテゴリで組織の使用量が上限の 85% または 100% に達したとき、組織管理者と請求管理者にメールで通知します。
 
-| カテゴリ      | 説明                                                                                                                                                                  |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ストレージ     | 組織に保存されている Artifacts と run データの累積総量です。GB 単位で計測されます。                                                                                                                 |
-| トラッキング時間  | 請求期間中の実時間ベースのトラッキング対象トレーニング時間です。時間単位で計測されます。                                                                                                                        |
-| Weave     | 請求期間中のデータ取り込み総量です。MB 単位で計測されます。デプロイで Weave が有効な場合にのみ表示されます。                                                                                                         |
-| Inference | Inference で使用された入力トークンと出力トークンの総量です。[Inference Pricing](https://wandb.ai/site/pricing/inference/) を参照してください。デプロイで Inference が有効な場合にのみ表示されます。                         |
-| トレーニング  | トークンベースの推論と計算使用量です。GPU/時間単位で計測されます。[Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/) を参照してください。デプロイで W&amp;B トレーニング が有効な場合にのみ表示されます。 |
+| カテゴリ      | 説明                                                                                                                                                               |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ストレージ     | 組織に保存されている Artifacts と run データの累積総量です。GB 単位で計測されます。                                                                                                              |
+| トラッキング時間  | 請求期間中の実時間ベースのトラッキング対象トレーニング時間です。時間単位で計測されます。                                                                                                                     |
+| Weave     | 請求期間中のデータ取り込み総量です。MB 単位で計測されます。デプロイで Weave が有効な場合にのみ表示されます。                                                                                                      |
+| Inference | Inference で使用された入力トークンと出力トークンの総量です。[Inference Pricing](https://wandb.ai/site/pricing/inference/) を参照してください。デプロイで Inference が有効な場合にのみ表示されます。                      |
+| トレーニング    | トークンベースの推論と計算使用量です。GPU/時間単位で計測されます。[Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/) を参照してください。デプロイで Serverless RL が有効な場合にのみ表示されます。 |
 
 **Enterprise** プランでは、すべての **組織管理者** と **請求管理者** が使用量アラートを受信します。[Pro plan](https://wandb.ai/site/pricing/) では、**請求管理者** のみが使用量アラートを受信します。
 
@@ -57,13 +57,13 @@ title: 課金設定を管理する
 
 支出アラートは、各請求期間中に、組織の支出額が米ドル建てのカスタマイズ可能なしきい値を1つ以上超えた時点で、組織管理者と請求管理者にメールで通知します。カテゴリごとに、最大5件の異なる支出アラートを設定できます。
 
-| カテゴリ      | 説明                                                                                                                                                                                  |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ストレージ     | 請求期間中の組織のストレージ[利用量](#usage-alerts)に対する料金です。[Pricing](https://wandb.ai/site/pricing/)を参照してください。                                                                                      |
-| トラッキング時間  | 請求期間中の組織のトレーニング[利用量](#usage-alerts)に対する料金です。[Pricing](https://wandb.ai/site/pricing/)を参照してください。                                                                                     |
-| Weave     | 請求期間中の組織の Weave [利用量](#usage-alerts)に対する料金です。[Pricing](https://wandb.ai/site/pricing/)を参照してください。Weave がデプロイで有効な場合にのみ表示されます。                                                         |
-| Inference | 請求期間中の組織の Inference [利用量](#usage-alerts)に対する料金です。[Inference Pricing](https://wandb.ai/site/pricing/inference/)を参照してください。Inference がデプロイで有効な場合にのみ表示されます。                             |
-| トレーニング    | 請求期間中の組織の Serverless RL [利用量](#usage-alerts)に対する料金です。[Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)を参照してください。W&amp;B Training がデプロイで有効な場合にのみ表示されます。 |
+| カテゴリ      | 説明                                                                                                                                                                               |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ストレージ     | 請求期間中の組織のストレージ[利用量](#usage-alerts)に対する料金です。[Pricing](https://wandb.ai/site/pricing/)を参照してください。                                                                                   |
+| トラッキング時間  | 請求期間中の組織のトレーニング[利用量](#usage-alerts)に対する料金です。[Pricing](https://wandb.ai/site/pricing/)を参照してください。                                                                                  |
+| Weave     | 請求期間中の組織の Weave [利用量](#usage-alerts)に対する料金です。[Pricing](https://wandb.ai/site/pricing/)を参照してください。Weave がデプロイで有効な場合にのみ表示されます。                                                      |
+| Inference | 請求期間中の組織の Inference [利用量](#usage-alerts)に対する料金です。[Inference Pricing](https://wandb.ai/site/pricing/inference/)を参照してください。Inference がデプロイで有効な場合にのみ表示されます。                          |
+| トレーニング    | 請求期間中の組織の Serverless RL [利用量](#usage-alerts)に対する料金です。[Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)を参照してください。Serverless RL がデプロイで有効な場合にのみ表示されます。 |
 
 メッセージは `support@wandb.com` から送信されます。
 

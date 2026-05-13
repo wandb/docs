@@ -29,8 +29,10 @@ La liste des opérateurs affichés (par exemple, is, in, ≥, within last) dépe
 
 1. Accédez à l’onglet **Runs** dans la barre latérale du projet.
 2. Sélectionnez le bouton **Filtre**, en forme d’entonnoir, au-dessus du tableau des Runs.
-3. De gauche à droite, sélectionnez un nom de colonne, un opérateur logique et une valeur de filtre pour créer une expression de filtre.
-4. Vous pouvez aussi sélectionner **New Filter** pour appliquer des filtres supplémentaires.
+3. De gauche à droite, sélectionnez un nom de colonne, un opérateur logique et une valeur de filtre pour créer une expression de filtre. Le filtre est appliqué dès que vous sélectionnez une valeur de filtre.
+4. Vous pouvez aussi sélectionner **Nouveau filtre** pour appliquer des conditions AND ou OR supplémentaires.
+5. Vous pouvez aussi sélectionner **New group** pour regrouper des filtres entre parenthèses. Cela vous permet de créer des expressions de filtre complexes telles que [A AND (B OR C)](#example-combine-filters-with-and-and-or-conditions).
+6. Fermez l’éditeur d’expression de filtre en cliquant sur l’icône **x** dans le coin supérieur droit.
 
 L’image suivante filtre les Runs selon des valeurs de perte inférieures ou égales à `1` :
 
@@ -54,6 +56,25 @@ Filtrez les runs en fonction de leurs tags :
 
 <Frame>
   <img src="/images/app_ui/filter_runs.gif" alt="Filtrer les runs par tags" />
+</Frame>
+
+<div id="example-combine-filters-with-and-and-or-conditions">
+  ### Exemple : combiner des filtres avec des conditions AND et OR
+</div>
+
+Cette section explique comment créer une expression de filtre complexe comme `A AND (B OR C)`. Dans cet exemple, A correspond à `loss` ≤ `1`, B à `State` = `finished` et C à `State` = `crashed`.
+
+1. Cliquez sur l’onglet **Runs** dans la barre latérale du projet.
+2. Sélectionnez le bouton **Filtre**, qui a la forme d’un entonnoir, au-dessus du tableau des Runs.
+3. De gauche à droite, sélectionnez `loss` dans le premier menu déroulant, puis ≤ dans le deuxième, puis saisissez `1` dans le troisième. Cela crée le filtre A.
+4. Cliquez sur **Nouveau filtre**, puis sélectionnez **New group** pour créer un nouveau groupe pour les filtres B et C.
+5. Pour le filtre B, sélectionnez `State` dans le premier menu déroulant, `=` dans le deuxième, puis `finished` dans le troisième.
+6. Cliquez sur **Nouveau filtre** pour créer le filtre C, puis sélectionnez `State` dans le premier menu déroulant, `=` dans le deuxième, puis `crashed` dans le troisième.
+
+L’image suivante montre comment l’expression de filtre obtenue s’affiche dans l’éditeur d’expressions de filtre :
+
+<Frame>
+  <img src="/images/runs/run_expressions_and_or.png" alt="Combiner des filtres avec des conditions AND et OR" />
 </Frame>
 
 <div id="default-filters">

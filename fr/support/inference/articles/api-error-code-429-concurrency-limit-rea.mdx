@@ -3,13 +3,13 @@ title: "Code d’erreur d’API 429 - Limite de concurrence atteinte pour les re
 keywords: ["Quotas et limites de débit"]
 ---
 
-Une erreur 429 accompagnée du message &quot;Concurrency limit reached for requests&quot; signifie que vous envoyez trop de requêtes simultanées à la W&amp;B Inference API.
+Une erreur 429 accompagnée du message &quot;Concurrency limit reached for requests&quot; signifie que vous envoyez trop de requêtes simultanées à la Serverless Inference API.
 
 <div id="why-this-happens">
   ## Pourquoi cela arrive
 </div>
 
-W&amp;B Inference applique des limites de concurrence afin de garantir une utilisation équitable et la stabilité du service. Lorsque le nombre de requêtes simultanées émises depuis votre compte dépasse la limite autorisée, les requêtes supplémentaires sont rejetées avec un code de statut 429.
+Serverless Inference applique des limites de concurrence afin de garantir une utilisation équitable et la stabilité du service. Lorsque le nombre de requêtes simultanées émises depuis votre compte dépasse la limite autorisée, les requêtes supplémentaires sont rejetées avec un code de statut 429.
 
 <div id="what-you-can-do">
   ## Ce que vous pouvez faire

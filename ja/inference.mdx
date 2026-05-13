@@ -1,33 +1,39 @@
 ---
-title: "W&B Inference"
+title: "Serverless Inference"
 description: W&B Weave と OpenAI 互換 API 経由でオープンソースの基盤モデルにアクセス
 mode: wide
 ---
 
-W&amp;B Inference を使うと、W&amp;B Weave と OpenAI 互換 API 経由で主要なオープンソースの基盤モデルにアクセスできます。次のことができます。
+Serverless Inference を使うと、W&amp;B Weave と OpenAI 互換 API 経由で主要なオープンソースの基盤モデルにアクセスできます。
 
-* ホスティングプロバイダーへの登録やモデルのセルフホスティングをせずに、AI アプリケーションやエージェントを構築する
-* [サポート対象モデル](/ja/inference/models) を [W&amp;B Weave Playground](/ja/weave/guides/tools/playground) で試す
+* Inference を使うと、ホスティングプロバイダーへの登録やモデルのセルフホスティングをせずに、AI アプリケーションやエージェントを構築できます。
+* Weave を使うと、Serverless Inference を利用したアプリケーションをトレース、評価、監視、改善できます。
 
-Weave を使えば、W&amp;B Inference を利用したアプリケーションをトレース、評価、監視、改善できます。
-
-<div id="quickstart">
-  ## クイックスタート
+<div id="try-out-inference-in-the-ui">
+  ## UI で Inference を試す
 </div>
 
-以下は、Python を使った簡単な例です。
+[https://wandb.ai/inference](https://wandb.ai/inference) にアクセスして、利用可能なモデルを確認し、Weave Playground で試してみてください。
 
-```python
+Web インターフェイスの詳細については、[UI Guide](/ja/inference/ui-guide/) を参照してください。
+
+<div id="use-inference-through-the-api">
+  ## API 経由で Inference を使用する
+</div>
+
+この Python の例では、Inference を使用して LLM への chat completion リクエストを送信します。
+
+```python lines
 import openai
 
 client = openai.OpenAI(
-    # カスタムベースURLはW&B Inferenceを指します
+    # カスタムベースURLはServerless Inferenceを指しています
     base_url='https://api.inference.wandb.ai/v1',
 
-    # https://wandb.ai/settings でAPIキーを作成してください
+    # Create an API key at https://wandb.ai/settings
     api_key="<your-api-key>",
 
-    # 省略可能: 使用状況トラッキング用のTeamとプロジェクト
+    # Optional: Team and project for usage tracking
     project="<your-team>/<your-project>",
 )
 
@@ -46,14 +52,11 @@ print(response.choices[0].message.content)
   ## 次のステップ
 </div>
 
-1. [利用可能なモデル](/ja/inference/models)と[利用情報と制限](/ja/inference/usage-limits/)を確認します
-2. [前提条件](/ja/inference/prerequisites/)を参照してアカウントを設定します
-3. [API](/ja/inference/api-reference/)または[UI](/ja/inference/ui-guide/)からサービスを利用します
-4. [使用例](/ja/inference/examples/)を試します
-
-<div id="usage-details">
-  ## 利用の詳細
-</div>
+1. [前提条件](/ja/inference/prerequisites/)に従ってアカウントを設定してください。
+2. [利用可能なモデル](/ja/inference/models)と[利用情報と制限](/ja/inference/usage-limits/)を確認してください。
+3. [API](/ja/inference/api-reference/)または[UI](/ja/inference/ui-guide/)からサービスを使用してください。
+4. [W&amp;B Weave Playground](/ja/weave/guides/tools/playground)でサポートされるモデルを試してください。
+5. [使用例](/ja/inference/examples/)を試してください。
 
 <Info>
   料金、利用制限、クレジットについては、[利用情報と制限](/ja/inference/usage-limits/)を参照してください。

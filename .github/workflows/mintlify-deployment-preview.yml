@@ -25,7 +25,7 @@ jobs:
 
       - name: Get PR number from deployment ref
         id: get-pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             // The deployment ref is the branch name
@@ -79,7 +79,7 @@ jobs:
       - name: Get all PR changed files
         if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true'
         id: changed
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
@@ -128,7 +128,7 @@ jobs:
 
       - name: Update PR comment with preview links
         if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true' && steps.changed.outputs.any_changed == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PR_NUMBER: ${{ steps.get-pr.outputs.pr_number }}
           PREVIEW_URL: ${{ github.event.deployment_status.environment_url }}

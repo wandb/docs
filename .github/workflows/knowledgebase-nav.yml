@@ -4,11 +4,16 @@
 #
 # What this workflow does
 # -----------------------
-# Runs the Python script scripts/knowledgebase-nav/generate_tags.py against
-# the repo root. That script syncs keyword footers on support articles,
-# rebuilds tag pages and product index MDX, and updates docs.json and the
-# root support.mdx counts. See scripts/knowledgebase-nav/README.md and
-# Architecture.md for the full pipeline.
+# Runs the Python script scripts/knowledgebase-nav/generate_tags.py. The
+# script reads ``mintlify_root`` from scripts/knowledgebase-nav/config.yaml
+# to locate the Mintlify root, then syncs keyword footers on support
+# articles, rebuilds tag pages and product index MDX, and updates the root
+# support.mdx counts. The generator never edits docs.json. When the set of
+# tag pages changes, the PR comment posted by
+# scripts/knowledgebase-nav/pr_report.py lists the page ids a human must add
+# to or remove from each "Support: <display_name>" tab in docs.json by hand.
+# See scripts/knowledgebase-nav/README.md and Architecture.md for the full
+# pipeline.
 #
 # When it runs
 # ------------
@@ -101,7 +106,7 @@ jobs:
         id: nav_commit
         if: github.event_name == 'pull_request'
         run: |
-          CHORE_SUBJECT="chore: regenerate support tag pages and docs.json navigation"
+          CHORE_SUBJECT="chore: regenerate support tag pages"
           FIRST="$(git log -1 --pretty=%B | head -n1)"
           if [ "${FIRST}" = "${CHORE_SUBJECT}" ]; then
             echo "is_auto_nav_commit=true" >> "${GITHUB_OUTPUT}"
@@ -128,10 +133,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/knowledgebase-nav/requirements.txt
 
-      # Writes into the working tree (support/, docs.json, support.mdx, etc.).
-      # stderr (Python warnings) is captured for the PR comment steps below.
-      - name: Generate tag pages and update docs.json
-        run: python scripts/knowledgebase-nav/generate_tags.py --repo-root . 2>generator-warnings.log
+      # Writes into the working tree (support/, support.mdx, etc.). Never
+      # edits docs.json. stderr (Python warnings) is captured for the PR
+      # comment steps below.
+      - name: Generate tag pages and product index
+        run: python scripts/knowledgebase-nav/generate_tags.py 2>generator-warnings.log
 
       - name: Show generator warnings in log
         if: always()
@@ -154,7 +160,6 @@ jobs:
           MARKER="<!-- knowledgebase-nav-report -->"
 
           python scripts/knowledgebase-nav/pr_report.py \
-            --repo-root . \
             --warnings-file generator-warnings.log \
             --run-url "${RUN_URL}" \
             --run-id "${GITHUB_RUN_ID}" \
@@ -182,7 +187,6 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           python scripts/knowledgebase-nav/pr_report.py \
-            --repo-root . \
             --warnings-file generator-warnings.log \
             --run-url "${RUN_URL}" \
             --run-id "${GITHUB_RUN_ID}" \
@@ -195,11 +199,12 @@ jobs:
           echo "::notice::Fork PR: auto-commit is skipped. Push regenerated files from scripts/knowledgebase-nav (see README) or a maintainer can run the generator after merge."
 
       # Commits only if the generator changed files; file_pattern limits
-      # which paths are staged. Skipped for fork PRs and unnecessary for
-      # pushes with no diff (action is a no-op).
+      # which paths are staged. docs.json is excluded so generator runs never
+      # mutate it. Skipped for fork PRs and unnecessary for pushes with no
+      # diff (action is a no-op).
       - name: Commit generated changes
         if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) }}
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          commit_message: "chore: regenerate support tag pages and docs.json navigation"
-          file_pattern: "support.mdx support/*/articles/*.mdx support/*/tags/*.mdx support/*.mdx docs.json"
+          commit_message: "chore: regenerate support tag pages"
+          file_pattern: "support.mdx support/*/articles/*.mdx support/*/tags/*.mdx support/*.mdx"

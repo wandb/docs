@@ -1,0 +1,76 @@
+---
+title: API 概要
+description: "認証の詳細と併せて、chat completions、モデル、トレーニングジョブ、ヘルスチェック用の Serverless RL API エンドポイントを確認できます。"
+---
+
+<Note>
+  Serverless RL API は、サーバーレス強化学習 (RL) や教師ありファインチューニング (SFT) などのトレーニングジョブを管理し、操作するためのエンドポイントを提供します。この API は、chat completions で OpenAI 互換です。
+</Note>
+
+<div id="authentication">
+  ## 認証
+</div>
+
+すべての API リクエストでは、W&amp;B の APIキーを使用した認証が必要です。[wandb.ai/settings](https://wandb.ai/settings) で APIキーを作成してください。
+
+`Authorization` ヘッダーに APIキーを含めます。
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+<div id="base-url">
+  ## ベース URL
+</div>
+
+```
+https://api.training.wandb.ai/v1
+```
+
+<div id="available-endpoints">
+  ## 利用可能なエンドポイント
+</div>
+
+<div id="chat-completions">
+  ### chat-completions
+</div>
+
+* **[POST /v1/chat/completions](https://docs.wandb.ai/serverless-rl/api-reference/chat-completions/create-chat-completion-1)** - Chat Completion を作成します
+* **[POST /v1/chat/completions/](https://docs.wandb.ai/serverless-rl/api-reference/chat-completions/create-chat-completion)** - Chat Completion を作成します
+
+<div id="models">
+  ### モデル
+</div>
+
+* **[POST /v1/preview/models](https://docs.wandb.ai/serverless-rl/api-reference/models/create-model)** - モデルを作成
+* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/serverless-rl/api-reference/models/delete-model)** - モデルを削除
+* **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/serverless-rl/api-reference/models/delete-model-checkpoints)** - モデル チェックポイントを削除
+* **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/serverless-rl/api-reference/models/list-model-checkpoints)** - モデル チェックポイントを一覧表示
+* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/serverless-rl/api-reference/models/log)** - ログする
+
+<div id="training-jobs">
+  ### training-jobs
+</div>
+
+* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/serverless-rl/api-reference/training-jobs/create-sft-training-job)** - SFTトレーニングジョブを作成
+* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/serverless-rl/api-reference/training-jobs/create-rl-training-job)** - RLトレーニングジョブを作成
+* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/serverless-rl/api-reference/training-jobs/get-training-job)** - トレーニングジョブを取得
+* **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/serverless-rl/api-reference/training-jobs/get-training-job-events)** - トレーニングジョブのイベントを取得
+
+<div id="health">
+  ### ヘルス
+</div>
+
+* **[GET /v1/health](https://docs.wandb.ai/serverless-rl/api-reference/health/health-check)** - ヘルスチェック
+* **[GET /v1/system-check](https://docs.wandb.ai/serverless-rl/api-reference/health/system-check)** - システムチェック
+
+<div id="related-resources">
+  ## 関連リソース
+</div>
+
+* [Serverless RL の概要](/ja/serverless-rl)
+* [前提条件](/ja/serverless-rl/prerequisites)
+* [Serverless SFT](/ja/serverless-rl/sft)
+* [トレーニング済みモデルを使用する](/ja/serverless-rl/use-trained-models)
+* [利用可能なモデル](/ja/serverless-rl/available-models)
+* [利用制限](/ja/serverless-rl/usage-limits)

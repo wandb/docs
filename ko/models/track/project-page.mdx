@@ -23,7 +23,7 @@ import ProjectVisibilitySettings from "/snippets/ko/_includes/project-visibility
 * [Artifacts](#artifacts-tab): 모든 run과 해당 run에 연결된 아티팩트를 포함합니다
 
 <div id="overview-tab">
-  ## Overview tab
+  ## Overview 탭
 </div>
 
 W&amp;B는 프로젝트 필드에 지정한 이름으로 run을 초기화하면 프로젝트를 생성합니다.
@@ -67,12 +67,12 @@ W&amp;B는 프로젝트 필드에 지정한 이름으로 run을 초기화하면 
 **Project Roles** 탭은 프로젝트 소유자와 **Admin** 역할이 있는 사용자에게만 표시됩니다. 프로젝트에 액세스할 수 있는 사용자를 목록에서 확인하고 검색하거나, 멤버의 역할을 변경할 수 있습니다.
 
 <div id="workspace-tab">
-  ## Workspace tab
+  ## 워크스페이스 탭
 </div>
 
 프로젝트의 *워크스페이스*는 실험을 비교할 수 있는 개인용 샌드박스입니다. Projects를 사용하면 서로 비교할 수 있는 모델을 정리할 수 있습니다. 예를 들어 같은 문제를 다루지만 아키텍처, 하이퍼파라미터, 데이터셋, 전처리 등이 서로 다른 모델을 정리할 수 있습니다.
 
-**Runs Sidebar**: 프로젝트의 모든 run 목록입니다.
+**Runs sidebar**: 프로젝트의 모든 run 목록입니다.
 
 * **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴: 사이드바에서 행 위에 마우스를 올리면 왼쪽에 메뉴가 나타납니다. 이 메뉴를 사용해 run 이름을 바꾸거나, run을 삭제하거나, 활성 상태인 run을 중지할 수 있습니다.
 * **Visibility icon**: 눈 아이콘을 클릭해 그래프에서 run 표시를 켜거나 끕니다
@@ -82,12 +82,12 @@ W&amp;B는 프로젝트 필드에 지정한 이름으로 run을 초기화하면 
 * **Group**: 설정 열을 선택해 run을 동적으로 그룹화합니다. 예를 들어 아키텍처별로 그룹화할 수 있습니다. 그룹화하면 플롯에 평균값을 따라가는 선과 그래프 점들의 분산을 나타내는 음영 영역이 표시됩니다.
 * **Sort**: 값을 선택해 run을 정렬합니다. 예를 들어 loss가 가장 낮거나 accuracy가 가장 높은 run을 기준으로 정렬할 수 있습니다. 정렬은 그래프에 어떤 run이 표시되는지에 영향을 줍니다.
 * **Expand button**: 사이드바를 전체 table로 확장합니다
-* **Minimize**: **Cmd+.** (macOS) 또는 **Ctrl+.** (Windows/Linux)를 눌러 Runs selector를 접거나 다시 펼칩니다. 자세한 내용은 [Keyboard shortcuts](/ko/models/app/keyboard-shortcuts)를 참조하세요.
+* **Minimize**: **Cmd+.** (macOS) 또는 **Ctrl+.** (Windows/Linux)를 눌러 Runs 선택기를 접거나 다시 펼칩니다. 자세한 내용은 [Keyboard shortcuts](/ko/models/app/keyboard-shortcuts)를 참조하세요.
 * **Run count**: 상단 괄호 안의 숫자는 프로젝트의 전체 run 수입니다. (N visualized) 숫자는 눈 아이콘이 켜져 있어 각 플롯에서 시각화할 수 있는 run 수를 뜻합니다. 아래 예시에서는 그래프가 183개 run 중 처음 10개만 표시합니다. 그래프를 편집해 표시되는 최대 run 수를 늘리세요.
 
 [Runs tab](#runs-tab)에서 열을 고정하거나 숨기거나 순서를 바꾸면 Runs sidebar에도 이러한 맞춤 설정이 반영됩니다.
 
-**Panels layout**: 이 작업 공간에서 결과를 탐색하고, chart를 추가하거나 제거하고, 서로 다른 메트릭을 기준으로 모델 버전을 비교할 수 있습니다
+**Panels layout**: 이 작업 공간에서 결과를 탐색하고, 차트를 추가하거나 제거하고, 서로 다른 메트릭을 기준으로 모델 버전을 비교할 수 있습니다
 
 [실제 예시 보기](https://wandb.ai/example-team/sweep-demo)
 
@@ -99,21 +99,21 @@ W&amp;B는 프로젝트 필드에 지정한 이름으로 run을 초기화하면 
   ### 패널 섹션 추가
 </div>
 
-섹션 드롭다운 메뉴에서 &quot;섹션 추가&quot;를 클릭해 패널용 새 섹션을 만드세요. 섹션 이름을 바꾸고, 드래그해 순서를 재정렬하고, 섹션을 펼치거나 접을 수 있습니다.
+섹션 드롭다운 메뉴를 클릭한 다음 **섹션 추가**를 클릭해 패널용 새 섹션을 만드세요. 섹션 이름을 바꾸고, 드래그해 순서를 재정렬하고, 섹션을 펼치거나 접을 수 있습니다.
 
 각 섹션의 오른쪽 상단에는 다음 옵션이 있습니다:
 
 * **섹션 추가**: 드롭다운 메뉴에서 위 또는 아래에 섹션을 추가하거나, 페이지 하단의 버튼을 클릭해 새 섹션을 추가합니다.
 * **섹션 이름 바꾸기**: 섹션 제목을 변경합니다.
 * **섹션을 리포트로 내보내기**: 이 패널 섹션을 새 리포트로 저장합니다.
-* **섹션 삭제**: 전체 섹션과 모든 차트를 삭제합니다. 이 작업은 Workspace 바의 페이지 하단에 있는 실행 취소 버튼으로 되돌릴 수 있습니다.
+* **섹션 삭제**: 전체 섹션과 모든 차트를 삭제합니다. 이 작업은 워크스페이스 바의 페이지 하단에 있는 실행 취소 버튼으로 되돌릴 수 있습니다.
 * **패널 추가**: 더하기 버튼을 클릭해 섹션에 패널을 추가합니다.
 
 <div id="move-panels-between-sections">
   ### 섹션 간 패널 이동
 </div>
 
-패널을 끌어다 놓아 순서를 바꾸고 섹션별로 정리할 수 있습니다. 패널 오른쪽 상단의 &quot;Move&quot; 버튼을 클릭한 다음, 패널을 이동할 섹션을 선택할 수도 있습니다.
+패널을 끌어다 놓아 순서를 바꾸고 섹션별로 정리할 수 있습니다. 패널 오른쪽 상단의 **Move** 버튼을 클릭한 다음, 패널을 이동할 섹션을 선택할 수도 있습니다.
 
 <Frame>
   <img src="/images/app_ui/move-panel.png" alt="섹션 간 패널 이동" />
@@ -159,7 +159,7 @@ Runs 탭을 사용해 run을 필터링, 그룹화, 정렬할 수 있습니다.
     Runs 탭에는 프로젝트의 run 세부 정보가 표시됩니다. 기본적으로 많은 수의 열이 표시됩니다.
 
     <Note>
-      Runs 탭을 사용자 지정하면 해당 설정이 [Workspace 탭](#workspace-tab)의 **Runs** 선택기에도 반영됩니다.
+      Runs 탭을 사용자 지정하면 해당 설정이 [워크스페이스 탭](#workspace-tab)의 **Runs** 선택기에도 반영됩니다.
     </Note>
 
     * 표시된 모든 열을 보려면 페이지를 가로로 스크롤하세요.
@@ -186,15 +186,13 @@ Runs 탭을 사용해 run을 필터링, 그룹화, 정렬할 수 있습니다.
   </Tab>
 
   <Tab title="필터">
-    대시보드 왼쪽 상단의 **Filter** 버튼을 사용해 식으로 모든 행을 필터링하세요.
-
-    **New filter**를 클릭해 행에 하나 이상의 필터를 추가하세요.
-    필터를 설정할 수 있는 드롭다운 메뉴 3개가 나타납니다.
-    왼쪽부터 차례대로 열 이름, Operator, 필터 값입니다.
+    필터 표현식을 적용해 시각화하려는 run 범위를 좁히세요.
 
     <Frame>
       <img src="/images/data_vis/filter.png" alt="run 테이블 필터 설정" />
     </Frame>
+
+    필터 표현식을 작성하는 방법에 대한 자세한 내용은 [필터 표현식 만들기](/ko/models/runs/filter-runs#create-a-filter-expression)를 참조하세요.
   </Tab>
 
   <Tab title="그룹화">

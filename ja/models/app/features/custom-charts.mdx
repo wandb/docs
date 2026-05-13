@@ -171,8 +171,8 @@ W&amp;B には、スクリプトから直接ログできる組み込みのチャ
       ground_truth = [0, 1, 0, 1, 0, 1]
       predictions = [0.1, 0.4, 0.35, 0.8, 0.7, 0.9]
 
-      # ROC曲線のプロットを作成する
-      # labels はクラス名のオプションリスト、classes_to_plot は可視化するラベルのオプションのサブセット
+      # ROC 曲線プロットを作成する
+      # labels はクラス名の任意のリスト、classes_to_plot は可視化するラベルの任意のサブセット
       plot = wandb.plot.roc_curve(
           ground_truth, predictions, labels=None, classes_to_plot=None
       )
@@ -208,8 +208,8 @@ table = wandb.Table(data=data, columns=["step", "height"])
 # 表の列をチャートのフィールドにマッピングする
 fields = {"x": "step", "value": "height"}
 
-# 表を使用して新しいカスタムチャートプリセットにデータを入力する
-# 保存済みのカスタムチャートプリセットを使用するには、vega_spec_name を変更する
+# 表を使用して新しいカスタム チャートプリセットにデータを入力する
+# 保存済みのカスタム チャートプリセットを使用するには、vega_spec_name を変更する
 my_custom_chart = wandb.plot_table(
     vega_spec_name="carey/new_chart",
     data_table=table,
@@ -241,7 +241,7 @@ my_custom_chart = wandb.plot_table(
 
 ```python
 with wandb.init() as run:
-  # カスタムデータの表をログする
+  # カスタムデータ表をログする
   my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
   run.log(
       {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
@@ -254,8 +254,38 @@ with wandb.init() as run:
 
 まず新しいカスタムチャートを追加して開始し、その後クエリを編集して表示中のRunsからデータを選択します。クエリでは、[GraphQL](https://graphql.org)を使用して、Runs内の`config`、`summary`、`history`フィールドからデータを取得します。
 
+<div id="build-the-graphql-query">
+  ### GraphQL クエリを作成する
+</div>
+
+カスタム チャート エディターは、ワークスペースまたは report で選択した run に対して GraphQL クエリを実行します。クエリ エディターで必要なフィールドを追加してください。`config`、`summary`、`history`、`summaryTable`、`historyTable` から選択できるため、多くの場合、クエリを最初から記述する必要はありません。
+
+クエリ内の各ソースは、それぞれ異なるログ済みデータに対応しています。
+
+* **Config** は、[run 設定](/ja/models/track/config/) の値 (ハイパーパラメーターやその他の設定) を取得します。
+* **Summary** は、[summary](/ja/models/track/log/) の値を取得します。デフォルトでは、`wandb.Run.log()` でログしたキーの summary には、そのキーに最後に書き込まれた値が保持されます。別の集計方法を使用するには、`wandb.Run.define_metric(..., summary=...)` を `"min"`、`"max"`、`"mean"`、`"best"`、`"none"` のいずれかとともに呼び出します。値を直接設定するには、`wandb.Run.summary["key"] = value` を代入します。
+* **History** は、run 履歴からスカラー時系列を取得します (たとえば、各 step における `loss` や `accuracy`) 。最後の数値だけでなく曲線全体が必要な場合は、**history** を使用してください。
+* **`summaryTable`** は、run summary から [`wandb.Table`](/ja/models/ref/python/data-types/table) を読み込みます。対象の表が run に単一のスナップショットとして保存されている場合 (たとえば、最後に一度だけログする混同行列) に使用してください。
+* **`historyTable`** は、run 履歴から [`wandb.Table`](/ja/models/ref/python/data-types/table) を読み込みます。`wandb.Run.log()` で表をログするたびに、その表を含む新しい step が run 履歴に追加されます。表が時間とともに変化する場合や、カスタム チャート エディターで step セレクターを有効にしたい場合は、**`historyTable`** を使用してください ([カスタム チャートで step スライダーを表示するにはどうすればよいですか？](/ja/support/models/articles/how-do-you-show-a-step-slider-in-a-custo) を参照してください) 。
+
+**`summaryTable`** と **`historyTable`** では、**`tableKey`** には [`wandb.Table`](/ja/models/ref/python/data-types/table) 内の列名ではなく、`wandb.Run.log()` 内で使用した辞書キーを設定してください。
+
+以下の例は、よくあるケースを示しています。
+
+* 各 step でログした表の列をプロットする場合 (たとえば PR 曲線) : **`historyTable`** を追加し、**`tableKey`** をログしたキー (たとえば `pr_curve`) に設定してから、**Chart fields** で表の列をマッピングします。[カスタム チャート チュートリアル](/ja/models/app/features/custom-charts/walkthrough) を参照してください。
+* summary にある表の列をプロットする場合 (たとえば、複合ヒストグラムのクラス スコア) : **`summaryTable`** を追加し、**`tableKey`** をそのキーに設定します (チュートリアルでは `class_scores` を使用しています) 。[おまけ: 複合ヒストグラム](/ja/models/app/features/custom-charts/walkthrough#bonus-composite-histograms) を参照してください。
+* トレーニング step に対するスカラー メトリクスをプロットする場合: **history** からそのメトリクスを追加します。**summary** からのみ追加すると、チャートには run ごとに 1 つの値だけが表示されます。
+
+**チャート フィールド名**
+
+クエリの実行後、**Chart fields** には Vega spec にバインドできる列が一覧表示されます。名前は `runSets_` で始まることが多く、選択したクエリ フィールドを反映しています。手入力するのではなく、各 `${field:...}` プレースホルダーの横にあるドロップダウンから選択してください。
+
+列がまったく表示されない場合は、選択した run にそのキーが存在することを確認し、run ページを開いてデータがどのようにログされたかを確認したうえで、**`summaryTable`** と **`historyTable`** のどちらがそのログ パターンに合っているかを確認してください。
+
+カスタム チャートでは、この GraphQL ベースのパネル クエリを使用します。[Query panels](/ja/models/app/features/panels/query-panels) では別の式言語を使用しており、ドキュメントも分かれています。
+
 <Frame>
-  <img src="/images/app_ui/customize_chart.gif" alt="カスタムチャートの作成" max-width="90%" />
+  <img src="/images/app_ui/customize_chart.gif" alt="カスタム チャートの作成" max-width="90%" />
 </Frame>
 
 <div id="custom-visualizations">

@@ -38,7 +38,7 @@ Le code suivant définit les URL des endpoints qui seront utilisées pour accéd
 
 De plus, vous devez définir les variables suivantes :
 
-* `project_id`: Le nom du projet W&amp;B dans lequel vous souhaitez consigner vos traces.
+* `project_id`: Le nom du projet W&amp;B dans lequel vous souhaitez journaliser vos traces.
 * `team_id`: Le nom de votre équipe W&amp;B.
 * `wandb_token`: Votre [clé API W&amp;B](https://wandb.ai/settings).
 
@@ -60,7 +60,6 @@ project_id = ""
 wandb_token = ""
 ```
 
-
 <div id="simple-trace">
   ## Trace simple
 </div>
@@ -79,7 +78,7 @@ Le code suivant crée un exemple d’appel LLM `payload_start` et le journalise 
 En cas de succès, ce code affichera un message indiquant que la trace a été démarrée :
 
 ```
-Appel démarré. ID : 01939cdc-38d2-7d61-940d-dcca0a56c575, Trace ID : 01939cdc-38d2-7d61-940d-dcd0e76c5f34
+Call started. ID: 01939cdc-38d2-7d61-940d-dcca0a56c575, Trace ID: 01939cdc-38d2-7d61-940d-dcd0e76c5f34
 python
 ## ------------
 ## Démarrer la trace
@@ -104,19 +103,18 @@ if response.status_code == 200:
     data = response.json()
     call_id = data.get("id")
     trace_id = data.get("trace_id")
-    print(f"Appel démarré. ID : {call_id}, Trace ID : {trace_id}")
+    print(f"Call started. ID: {call_id}, Trace ID: {trace_id}")
 else:
-    print("La requête de démarrage a échoué avec le statut :", response.status_code)
+    print("Start request failed with status:", response.status_code)
     print(response.text)
     exit()
 ```
-
 
 <div id="end-a-simple-trace">
   ### Terminer une trace simple
 </div>
 
-Pour terminer la trace simple, le code suivant crée un exemple de charge utile d&#39;appel LLM, `payload_end`, et l&#39;enregistre dans Weave à l&#39;aide de l&#39;endpoint `url_end`. L&#39;objet `payload_end` imite la réponse de `gpt-4o` d&#39;OpenAI à la requête `Why is the sky blue?`. L&#39;objet est formaté de sorte que les informations récapitulatives de tarification et la chat complétion soient générées dans la vue de trace du tableau de bord Weave.
+Pour terminer la trace simple, le code suivant crée un exemple de charge utile d&#39;appel LLM, `payload_end`, et le journalise dans Weave à l&#39;aide de l&#39;endpoint `url_end`. L&#39;objet `payload_end` imite la réponse de `gpt-4o` d&#39;OpenAI à la requête `Why is the sky blue?`. L&#39;objet est formaté de sorte que les informations récapitulatives de tarification et la chat complétion soient générées dans la vue de trace du tableau de bord Weave.
 
 En cas de réussite, ce code affichera un message indiquant que la trace est terminée :
 
@@ -124,7 +122,7 @@ En cas de réussite, ce code affichera un message indiquant que la trace est ter
 Call ended.
 python
 ## ------------
-## End trace
+## Fin de la trace
 ## ------------
 payload_end = {
     "end": {
@@ -141,7 +139,7 @@ payload_end = {
                 },
             ]
         },
-        # Formatez le résumé de cette façon pour générer les informations de résumé de tarification dans le tableau des traces.
+        # Formatez la synthèse de cette façon pour générer les informations récapitulatives de tarification dans le tableau des traces.
         "summary": {
             "usage": {
                 "gpt-4o": {
@@ -164,7 +162,6 @@ else:
     print(response.text)
 ```
 
-
 <div id="complex-trace">
   ## Trace complexe
 </div>
@@ -182,15 +179,15 @@ Les sections suivantes vous guident dans la création d&#39;une trace plus compl
 
 Le code suivant montre comment créer une trace plus complexe avec plusieurs spans. Un exemple serait une recherche de type Retrieval-Augmented Generation (RAG), suivie d&#39;un Appel à un LLM. La première partie initialise une trace parente (`payload_parent_start`) qui représente l&#39;opération globale. Dans ce cas, l&#39;opération consiste à traiter la requête utilisateur `Can you summarize the key points of this document?`.
 
-L&#39;objet `payload_parent_start` reproduit l&#39;étape initiale d&#39;un flux de travail à plusieurs étapes, en enregistrant l&#39;opération dans Weave à l&#39;aide de l&#39;endpoint `url_start`.
+L&#39;objet `payload_parent_start` reproduit l&#39;étape initiale d&#39;un flux de travail à plusieurs étapes, en journalisant l&#39;opération dans Weave à l&#39;aide de l&#39;endpoint `url_start`.
 
-En cas de réussite, ce code affichera un message indiquant que l&#39;Appel parent a été enregistré :
+En cas de réussite, ce code affichera un message indiquant que l&#39;Appel parent a été journalisé :
 
 ```
-Appel parent démarré. ID : 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID : 01939d26-0844-7c43-94bb-cdd97dc296c8
+Parent call started. ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
 python
 ## ------------
-## Démarrer la trace (parent)
+## Démarrer la trace (parente)
 ## ------------
 
 # Appel parent : Démarrage
@@ -210,13 +207,12 @@ if response.status_code == 200:
     data = response.json()
     parent_call_id = data.get("id")
     trace_id = data.get("trace_id")
-    print(f"Appel parent démarré. ID : {parent_call_id}, Trace ID : {trace_id}")
+    print(f"Parent call started. ID: {parent_call_id}, Trace ID: {trace_id}")
 else:
-    print("La requête de démarrage parent a échoué avec le statut :", response.status_code)
+    print("Parent start request failed with status:", response.status_code)
     print(response.text)
     exit()
 ```
-
 
 <div id="add-a-child-span-for-a-rag-document-lookup">
   ### Ajouter un span enfant pour une recherche de documents RAG
@@ -228,18 +224,18 @@ La trace enfant est initiée avec l’objet `payload_child_start`, qui inclut :
 
 * `trace_id` : relie ce span enfant à la trace parente.
 * `parent_id` : associe le span enfant à l’opération parente.
-* `inputs` : consigne la requête de recherche, par ex. :
+* `inputs` : journalise la requête de recherche, par ex. :
   `"Ceci est une requête de recherche pour les documents que je cherche."`
 
 Si l’appel à l’endpoint `url_start` réussit, le code affiche un message indiquant que l’appel enfant a démarré et s’est terminé :
 
 ```
-Appel enfant démarré. ID : 01939d32-23d6-75f2-9128-36a4a806f179
-Appel enfant terminé.
+Child call started. ID: 01939d32-23d6-75f2-9128-36a4a806f179
+Child call ended.
 python
 ## ------------
 ## Span enfant :
-## Ex. Recherche de documents RAG
+## Ex. recherche de documents RAG
 ## ------------
 
 # Appel enfant : Début
@@ -251,7 +247,7 @@ payload_child_start = {
         "parent_id": parent_call_id,
         "started_at": datetime.datetime.now().isoformat(),
         "inputs": {
-            "document_search": "Voici une requête de recherche des documents que je cherche."
+            "document_search": "This is a search query of the documents I'm looking for."
         },
         "attributes": {},
     }
@@ -262,9 +258,9 @@ response = requests.post(
 if response.status_code == 200:
     data = response.json()
     child_call_id = data.get("id")
-    print(f"Appel enfant démarré. ID : {child_call_id}")
+    print(f"Child call started. ID: {child_call_id}")
 else:
-    print("Échec de la requête de démarrage enfant avec le statut :", response.status_code)
+    print("Child start request failed with status:", response.status_code)
     print(response.text)
     exit()
 
@@ -275,7 +271,7 @@ payload_child_end = {
         "id": child_call_id,
         "ended_at": datetime.datetime.now().isoformat(),
         "output": {
-            "document_results": "Voici le texte du document RAG qui sera renvoyé par la requête de recherche."
+            "document_results": "This will be the RAG'd document text which will be returned from the search query."
         },
         "summary": {},
     }
@@ -284,12 +280,11 @@ response = requests.post(
     url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("Appel enfant terminé.")
+    print("Child call ended.")
 else:
-    print("Échec de la requête de fin enfant avec le statut :", response.status_code)
+    print("Child end request failed with status:", response.status_code)
     print(response.text)
 ```
-
 
 <div id="add-a-child-span-for-an-llm-completion-call">
   ### Ajouter un span enfant pour un appel de complétion LLM
@@ -301,22 +296,22 @@ La trace de complétion LLM est lancée avec l’objet `payload_child_start`, qu
 
 * `trace_id` : relie ce span enfant à la trace parente.
 * `parent_id` : associe le span enfant au flux de travail global.
-* `inputs` : enregistre les messages d’entrée pour le LLM, y compris la requête de l’utilisateur et le contexte documentaire ajouté.
+* `inputs` : journalise les messages d’entrée pour le LLM, y compris la requête de l’utilisateur et le contexte documentaire ajouté.
 * `model` : spécifie le modèle utilisé pour l’opération (`gpt-4o`).
 
 En cas de réussite, le code affiche un message indiquant que la trace du span enfant LLM a démarré et s’est terminée :
 
 ```
-Appel enfant démarré. ID : 0245acdf-83a9-4c90-90df-dcb2b89f234a
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
 ```
 
-Une fois l’opération terminée, l’objet `payload_child_end` met fin à la trace en enregistrant la réponse générée par le LLM dans le champ `output`. Les informations récapitulatives d’utilisation sont également enregistrées.
+Une fois l’opération terminée, l’objet `payload_child_end` met fin à la trace en journalisant la réponse générée par le LLM dans le champ `output`. Les informations récapitulatives d’utilisation sont également journalisées.
 
 En cas de réussite, le code affiche un message indiquant que la trace du span enfant du LLM a démarré puis s’est terminée :
 
 ```
-Appel enfant démarré. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
-Appel enfant terminé.
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
+Child call ended.
 python
 ## ------------
 ## Span enfant :
@@ -335,7 +330,7 @@ payload_child_start = {
             "messages": [
                 {
                     "role": "user",
-                    "content": "Avec le contexte de document suivant, pourriez-vous m'aider à répondre :\n Pouvez-vous résumer les points clés de ce document ?\n [+ contexte de document ajouté]",
+                    "content": "With the following document context, could you help me answer:\n Can you summarize the key points of this document?\n [+ appended document context]",
                 }
             ],
             "model": "gpt-4o",
@@ -349,9 +344,9 @@ response = requests.post(
 if response.status_code == 200:
     data = response.json()
     child_call_id = data.get("id")
-    print(f"Appel enfant démarré. ID : {child_call_id}")
+    print(f"Child call started. ID: {child_call_id}")
 else:
-    print("La requête de démarrage de l'appel enfant a échoué avec le statut :", response.status_code)
+    print("Child start request failed with status:", response.status_code)
     print(response.text)
     exit()
 
@@ -363,7 +358,7 @@ payload_child_end = {
         "ended_at": datetime.datetime.now().isoformat(),
         "output": {
             "choices": [
-                {"message": {"content": "Voici la réponse générée par le LLM."}},
+                {"message": {"content": "This is the response generated by the LLM."}},
             ]
         },
         "summary": {
@@ -382,18 +377,17 @@ response = requests.post(
     url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("Appel enfant terminé.")
+    print("Child call ended.")
 else:
-    print("La requête de fin de l'appel enfant a échoué avec le statut :", response.status_code)
+    print("Child end request failed with status:", response.status_code)
     print(response.text)
 ```
-
 
 <div id="end-a-complex-trace">
   ### Terminer une trace complexe
 </div>
 
-Le code suivant montre comment finaliser la trace parente afin de marquer l’achèvement de l’ensemble du flux de travail. Cette étape agrège les résultats de toutes les spans enfants (par exemple, la recherche RAG et la complétion LLM) et consigne la sortie finale ainsi que les métadonnées.
+Le code suivant montre comment finaliser la trace parente afin de marquer l’achèvement de l’ensemble du flux de travail. Cette étape agrège les résultats de toutes les spans enfants (par exemple, la recherche RAG et la complétion LLM) et journalise la sortie finale ainsi que les métadonnées.
 
 La trace est finalisée à l’aide de l’objet `payload_parent_end`, qui comprend :
 
@@ -414,7 +408,7 @@ python
 ## Fin de la trace
 ## ------------
 
-# Appel parent : Fin
+# Appel parent : fin
 payload_parent_end = {
     "end": {
         "project_id": f"{team_id}/{project_id}",
@@ -422,7 +416,7 @@ payload_parent_end = {
         "ended_at": datetime.datetime.now().isoformat(),
         "output": {
             "choices": [
-                {"message": {"content": "Voici la réponse générée par le LLM."}},
+                {"message": {"content": "This is the response generated by the LLM."}},
             ]
         },
         "summary": {
@@ -441,12 +435,11 @@ response = requests.post(
     url_end, headers=headers, json=payload_parent_end, auth=("api", wandb_token)
 )
 if response.status_code == 200:
-    print("Appel parent terminé.")
+    print("Parent call ended.")
 else:
-    print("La requête de fin de l'appel parent a échoué avec le statut :", response.status_code)
+    print("Parent end request failed with status:", response.status_code)
     print(response.text)
 ```
-
 
 <div id="run-a-lookup-query">
   ## Exécuter une requête de recherche

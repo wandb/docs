@@ -31,13 +31,13 @@ title: billing 설정 관리
 
 사용량 알림은 현재 청구 기간 동안 특정 카테고리의 사용량이 조직의 사용 한도의 85% 및 100%에 도달하면 조직 관리자와 청구 관리자에게 이메일로 알립니다.
 
-| Category  | Description                                                                                                                                                                   |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 저장소       | 조직에 저장된 artifact 및 run 데이터의 총 누적 용량이며, GB 단위로 측정됩니다.                                                                                                                          |
-| 추적 시간     | 청구 기간 동안의 실제 경과 트레이닝 시간이며, 시간 단위로 측정됩니다.                                                                                                                                      |
-| Weave     | 청구 기간 동안 수집된 데이터의 총량이며, MB 단위로 측정됩니다. 배포에서 Weave가 활성화된 경우에만 표시됩니다.                                                                                                            |
-| Inference | Inference에서 사용한 총 입력 및 출력 token 수입니다. [Inference Pricing](https://wandb.ai/site/pricing/inference/)을 참조하세요. 배포에서 Inference가 활성화된 경우에만 표시됩니다.                                  |
-| 트레이닝      | 토큰 기반 Inference 및 컴퓨팅 사용량이며, GPU/시간 단위로 측정됩니다. [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)을 참조하세요. 배포에서 W&amp;B Training이 활성화된 경우에만 표시됩니다. |
+| Category  | Description                                                                                                                                                                |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 저장소       | 조직에 저장된 artifact 및 run 데이터의 총 누적 용량이며, GB 단위로 측정됩니다.                                                                                                                       |
+| 추적 시간     | 청구 기간 동안의 실제 경과 트레이닝 시간이며, 시간 단위로 측정됩니다.                                                                                                                                   |
+| Weave     | 청구 기간 동안 수집된 데이터의 총량이며, MB 단위로 측정됩니다. 배포에서 Weave가 활성화된 경우에만 표시됩니다.                                                                                                         |
+| Inference | Inference에서 사용한 총 입력 및 출력 token 수입니다. [Inference Pricing](https://wandb.ai/site/pricing/inference/)을 참조하세요. 배포에서 Inference가 활성화된 경우에만 표시됩니다.                               |
+| 트레이닝      | 토큰 기반 Inference 및 컴퓨팅 사용량이며, GPU/시간 단위로 측정됩니다. [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)을 참조하세요. 배포에서 Serverless RL이 활성화된 경우에만 표시됩니다. |
 
 **Enterprise** 플랜의 조직에서는 모든 **조직 관리자**와 **청구 관리자**가 사용량 알림을 받습니다. [Pro plan](https://wandb.ai/site/pricing/)에서는 **청구 관리자**만 사용량 알림을 받습니다.
 
@@ -57,13 +57,13 @@ title: billing 설정 관리
 
 특정 청구 기간 동안 지출 알림은 조직이 USD 기준의 사용자 지정 가능한 지출 임계값에 하나 이상 도달하면 조직 관리자와 청구 관리자에게 이메일로 알립니다. 카테고리별로 서로 다른 지출 알림을 최대 5개까지 설정할 수 있습니다:
 
-| Category  | Description                                                                                                                                                                              |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 저장소       | 청구 기간 동안 조직의 저장소 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                             |
-| 추적 시간     | 청구 기간 동안 조직의 트레이닝 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                            |
-| Weave     | 청구 기간 동안 조직의 Weave [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요. 배포에서 Weave가 활성화된 경우에만 표시됩니다.                                                              |
-| Inference | 청구 기간 동안 조직의 Inference [사용](#usage-alerts)에 대한 요금입니다. [Inference Pricing](https://wandb.ai/site/pricing/inference/)을 참조하세요. 배포에서 Inference가 활성화된 경우에만 표시됩니다.                             |
-| 트레이닝      | 청구 기간 동안 조직의 Serverless RL [사용](#usage-alerts)에 대한 요금입니다. [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)을 참조하세요. 배포에서 W&amp;B Training이 활성화된 경우에만 표시됩니다. |
+| Category  | Description                                                                                                                                                                           |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 저장소       | 청구 기간 동안 조직의 저장소 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                          |
+| 추적 시간     | 청구 기간 동안 조직의 트레이닝 [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요.                                                                                         |
+| Weave     | 청구 기간 동안 조직의 Weave [사용](#usage-alerts)에 대한 요금입니다. [가격](https://wandb.ai/site/pricing/)을 참조하세요. 배포에서 Weave가 활성화된 경우에만 표시됩니다.                                                           |
+| Inference | 청구 기간 동안 조직의 Inference [사용](#usage-alerts)에 대한 요금입니다. [Inference Pricing](https://wandb.ai/site/pricing/inference/)을 참조하세요. 배포에서 Inference가 활성화된 경우에만 표시됩니다.                          |
+| 트레이닝      | 청구 기간 동안 조직의 Serverless RL [사용](#usage-alerts)에 대한 요금입니다. [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/)을 참조하세요. 배포에서 Serverless RL이 활성화된 경우에만 표시됩니다. |
 
 메시지는 `support@wandb.com`에서 발송됩니다.
 

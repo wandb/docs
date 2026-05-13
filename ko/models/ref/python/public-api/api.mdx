@@ -141,20 +141,20 @@ wandb.Api().artifact(name="entity/project/artifact:version")
 artifact_collection(type_name: 'str', name: 'str') → ArtifactCollection
 ```
 
-유형별 단일 artifact 컬렉션을 반환합니다.
+유형별 단일 아티팩트 컬렉션을 반환합니다.
 
-반환된 `ArtifactCollection` 객체를 사용해 해당 컬렉션의 특정 artifact에 대한 정보를 조회하는 등 추가 작업을 수행할 수 있습니다.
+반환된 `ArtifactCollection` 객체를 사용해 해당 컬렉션의 특정 아티팩트에 대한 정보를 조회하는 등 추가 작업을 수행할 수 있습니다.
 
 **인수:**
 
-* `type_name`: 가져올 artifact 컬렉션의 유형입니다.
-* `name`: artifact 컬렉션 이름입니다. 필요에 따라 artifact를 로깅한 entity를 접두사로 추가한 뒤 슬래시(`/`)를 붙일 수 있습니다.
+* `type_name`: 가져올 아티팩트 컬렉션의 유형입니다.
+* `name`: 아티팩트 컬렉션 이름입니다. 필요에 따라 아티팩트를 로깅한 entity를 접두사로 추가한 뒤 슬래시(`/`)를 붙일 수 있습니다.
 
 **반환값:**
 `ArtifactCollection` 객체입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;는 각각 컬렉션 유형, 사용자의 W&amp;B entity, artifact가 속한 프로젝트 이름, artifact 이름을 나타내는 플레이스홀더입니다.
+다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;는 각각 컬렉션 유형, 사용자의 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -178,18 +178,18 @@ artifact_example.download()
 artifact_collection_exists(name: 'str', type: 'str') → bool
 ```
 
-지정된 프로젝트와 entity 내에 artifact collection이 존재하는지 여부입니다.
+지정된 프로젝트와 entity 내에 아티팩트 컬렉션이 존재하는지 여부입니다.
 
 **매개변수:**
 
-* `name`:  artifact collection 이름입니다. 선택적으로 artifact를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 collection을 추론합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
-* `type`:  artifact collection의 유형입니다.
+* `name`:  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 collection을 추론합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
+* `type`:  아티팩트 컬렉션의 유형입니다.
 
 **반환값:**
-artifact collection이 존재하면 True, 그렇지 않으면 False를 반환합니다.
+아티팩트 컬렉션이 존재하면 True, 그렇지 않으면 False를 반환합니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;과 &quot;collection&#95;name&quot;은 각각 artifact collection의 유형과 collection의 이름을 의미합니다.
+다음 코드 스니펫에서 &quot;type&quot;과 &quot;collection&#95;name&quot;은 각각 아티팩트 컬렉션의 유형과 collection의 이름을 의미합니다.
 
 ```python
 import wandb
@@ -198,7 +198,6 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
 ***
-
 
 ### <kbd>방법</kbd> `Api.artifact_collections`
 
@@ -231,18 +230,18 @@ artifact_collections(
 artifact_exists(name: 'str', type: 'str | None' = None) → bool
 ```
 
-지정된 프로젝트와 entity 내에 artifact 버전이 존재하는지 여부입니다.
+지정된 프로젝트와 entity 내에 아티팩트 버전이 존재하는지 여부입니다.
 
 **매개변수:**
 
-* `name`:  artifact의 이름입니다. artifact의 entity와 프로젝트를 접두사로 추가합니다. artifact의 버전 또는 alias를 콜론(:)과 함께 뒤에 붙입니다. entity 또는 프로젝트를 지정하지 않으면, 값이 설정되어 있는 경우 W&amp;B가 override 매개변수를 사용합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 &quot;Uncategorized&quot;로 설정됩니다.
-* `type`:  artifact의 유형입니다.
+* `name`:  아티팩트의 이름입니다. 아티팩트의 entity와 프로젝트를 접두사로 추가합니다. 아티팩트의 버전 또는 alias를 콜론(:)과 함께 뒤에 붙입니다. entity 또는 프로젝트를 지정하지 않으면, 값이 설정되어 있는 경우 W&amp;B가 override 매개변수를 사용합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 &quot;Uncategorized&quot;로 설정됩니다.
+* `type`:  아티팩트의 유형입니다.
 
 **반환값:**
-artifact 버전이 존재하면 True, 그렇지 않으면 False입니다.
+아티팩트 버전이 존재하면 True, 그렇지 않으면 False입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;, &quot;version&quot;, &quot;alias&quot;는 각각 W&amp;B entity, artifact가 속한 프로젝트 이름, artifact 이름, 그리고 artifact 버전을 나타내는 플레이스홀더입니다.
+다음 코드 스니펫에서 &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;, &quot;version&quot;, &quot;alias&quot;는 각각 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트 버전을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -252,7 +251,6 @@ wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
 ***
-
 
 ### <kbd>방법</kbd> `Api.artifact_type`
 
@@ -321,17 +319,17 @@ artifacts(
 
 **매개변수:**
 
-* `type_name`: 가져올 artifact의 유형입니다.
-* `name`: artifact의 컬렉션 이름입니다. 선택적으로 artifact를 로깅한 entity를 접두사로 추가하고 그 뒤에 슬래시를 붙일 수 있습니다.
+* `type_name`: 가져올 아티팩트의 유형입니다.
+* `name`: 아티팩트의 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가하고 그 뒤에 슬래시를 붙일 수 있습니다.
 * `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로 이 값을 변경할 이유는 없습니다.
-* `tags`: 지정한 tags를 모두 가진 artifact만 반환합니다.
+* `tags`: 지정한 tags를 모두 가진 아티팩트만 반환합니다.
 * `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 다시 이어서 실행하기 위한 페이지네이션 커서입니다.
 
 **반환값:**
 반복 가능한 `Artifacts` 객체입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;은 각각 artifact 유형, W&amp;B entity, artifact가 로깅된 프로젝트 이름, artifact 이름을 나타내는 플레이스홀더입니다.
+다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;은 각각 아티팩트 유형, W&amp;B entity, 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -763,11 +761,11 @@ api 객체는 run의 로컬 캐시를 유지하므로, 스크립트 실행 중 r
 from_path(path: 'str')
 ```
 
-경로로부터 run, sweep, 프로젝트 또는 리포트를 반환합니다.
+경로로부터 run, 스윕, 프로젝트 또는 리포트를 반환합니다.
 
 **매개변수:**
 
-* `path`: 프로젝트, run, sweep 또는 리포트의 경로
+* `path`: 프로젝트, run, 스윕 또는 리포트의 경로
 
 **반환값:**
 `Project`, `Run`, `Sweep` 또는 `BetaReport` 인스턴스입니다.
@@ -776,7 +774,7 @@ from_path(path: 'str')
 경로가 잘못되었거나 객체가 존재하지 않으면 `wandb.Error` 예외가 발생합니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;, &quot;report&#95;name&quot;은 각각 프로젝트, 팀, run ID, sweep ID, 특정 리포트 이름을 나타내는 플레이스홀더입니다.
+다음 코드 스니펫에서 &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;, &quot;report&#95;name&quot;은 각각 프로젝트, 팀, run ID, 스윕 ID, 특정 리포트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -791,7 +789,6 @@ report = api.from_path("team/project/reports/report_name")
 ```
 
 ***
-
 
 ### <kbd>방법</kbd> `Api.integrations`
 

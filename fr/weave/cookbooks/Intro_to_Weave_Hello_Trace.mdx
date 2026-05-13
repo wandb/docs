@@ -21,7 +21,7 @@ Avant de commencer à utiliser Tracing dans Weave, assurez-vous de remplir les p
 3. Initialisez votre projet W&amp;B.
 
 ```python lines
-# Installer les dépendances et les imports
+# Installer les dépendances et importer les modules
 !pip install wandb weave openai -q
 
 import json
@@ -46,8 +46,8 @@ os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 Entrez votre nom de projet W&B
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Votre nom de projet W&B
+# 🏠 Entrez le nom de votre projet W&B
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
 ```
 
 <div id="run-your-first-trace">
@@ -61,7 +61,7 @@ L’exemple de code suivant montre comment capturer et visualiser une trace dans
 def extract_fruit(sentence: str) -> dict:
     client = OpenAI()
     system_prompt = (
-        "Analysez les phrases en un dict JSON avec les clés : fruit, color et flavor."
+        "Parse sentences into a JSON dict with keys: fruit, color and flavor."
     )
     response = client.chat.completions.create(
         model="gpt-4o",

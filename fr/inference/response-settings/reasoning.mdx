@@ -1,9 +1,9 @@
 ---
 title: "Afficher les informations de raisonnement"
-description: Comment renvoyer et afficher le raisonnement dans vos réponses W&B Inference
+description: Comment renvoyer et afficher le raisonnement dans vos réponses Serverless Inference
 ---
 
-Les modèles de raisonnement, comme [Gemma 4 de Google](https://huggingface.co/google/gemma-4-31B-it), renvoient des informations sur leurs étapes de raisonnement en plus de la réponse finale. Cette page explique comment identifier les modèles compatibles avec le raisonnement sur W&amp;B Inference, où trouver le raisonnement dans une réponse et comment l’activer ou le désactiver pour les modèles qui prennent en charge cette option.
+Les modèles de raisonnement, comme [Gemma 4 de Google](https://huggingface.co/google/gemma-4-31B-it), renvoient des informations sur leurs étapes de raisonnement en plus de la réponse finale. Cette page explique comment identifier les modèles compatibles avec le raisonnement sur Serverless Inference, où trouver le raisonnement dans une réponse et comment l’activer ou le désactiver pour les modèles qui prennent en charge cette option.
 
 Pour déterminer si un modèle prend en charge le raisonnement, consultez le tableau suivant des modèles pris en charge ou la section Supported Features de sa page de catalogue dans l’interface utilisateur.
 
@@ -13,19 +13,22 @@ Les informations de raisonnement apparaissent dans le champ `reasoning` des rép
   ## Modèles pris en charge avec raisonnement
 </div>
 
-Le tableau suivant répertorie les modèles de W&amp;B Inference qui renvoient un raisonnement en sortie. Chaque modèle pris en charge peut soit toujours inclure le raisonnement, soit avoir le raisonnement activé ou désactivé par défaut :
+Le tableau suivant répertorie les modèles de Serverless Inference qui renvoient un raisonnement en sortie. Chaque modèle pris en charge peut soit toujours inclure le raisonnement, soit avoir le raisonnement activé ou désactivé par défaut :
 
-{/* takeru reasoning-models - Ce tableau est généré automatiquement, ne modifiez pas ce tableau manuellement. */}
+{/* takeru reasoning-models - Ce tableau est généré automatiquement, ne le modifiez pas manuellement. */}
 
 | ID du modèle (pour l’utilisation de l’API)     | Prise en charge du raisonnement |
 | ---------------------------------------------- | ------------------------------- |
+| `deepseek-ai/DeepSeek-V4-Flash`                | Désactivé par défaut            |
 | `google/gemma-4-31B-it`                        | Activé par défaut               |
 | `MiniMaxAI/MiniMax-M2.5`                       | Always on                       |
+| `moonshotai/Kimi-K2.6`                         | Always on                       |
 | `moonshotai/Kimi-K2.5`                         | Always on                       |
 | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Activé par défaut               |
 | `openai/gpt-oss-120b`                          | Always on                       |
 | `openai/gpt-oss-20b`                           | Always on                       |
 | `Qwen/Qwen3.5-35B-A3B`                         | Activé par défaut               |
+| `Qwen/Qwen3.5-27B`                             | Activé par défaut               |
 | `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on                       |
 | `zai-org/GLM-5.1`                              | Activé par défaut               |
 

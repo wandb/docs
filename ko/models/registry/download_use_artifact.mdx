@@ -11,19 +11,19 @@ description: "경로를 구성하고 Python SDK를 사용하여 W&B 레지스트
   ## 연결된 아티팩트의 경로 구성
 </div>
 
-레지스트리에 연결된 아티팩트를 다운로드하려면 해당 아티팩트의 경로를 알아야 합니다. 이 경로는 레지스트리 이름, 컬렉션 이름, 그리고 사용하려는 아티팩트 버전의 alias 또는 인덱스로 구성됩니다.
+레지스트리에 연결된 아티팩트를 다운로드하려면 해당 아티팩트의 경로를 알아야 합니다. 이 경로는 레지스트리 이름, 컬렉션 이름, 그리고 사용하려는 아티팩트 버전의 별칭 또는 인덱스로 구성됩니다.
 
-아티팩트 버전의 레지스트리, 컬렉션, 그리고 alias 또는 인덱스를 알고 있으면 다음 문자열 템플릿을 사용해 연결된 아티팩트의 경로를 구성할 수 있습니다:
+아티팩트 버전의 레지스트리, 컬렉션, 그리고 별칭 또는 인덱스를 알고 있으면 다음 문자열 템플릿을 사용해 연결된 아티팩트의 경로를 구성할 수 있습니다:
 
 ```python
-# 버전 인덱스가 지정된 Artifact 이름
+# 버전 인덱스가 지정된 아티팩트 이름
 f"wandb-registry-{REGISTRY}/{COLLECTION}:v{INDEX}"
 
-# 별칭이 지정된 Artifact 이름
+# 별칭이 지정된 아티팩트 이름
 f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 ```
 
-중괄호 `{}` 안의 값을, 액세스하려는 아티팩트 버전의 레지스트리 이름, 컬렉션, 그리고 alias 또는 인덱스로 바꾸세요.
+중괄호 `{}` 안의 값을, 액세스하려는 아티팩트 버전의 레지스트리 이름, 컬렉션, 그리고 별칭 또는 인덱스로 바꾸세요.
 
 연결된 아티팩트의 경로를 알고 있다면 `wandb.Run.use_artifact()` 방법을 사용해 아티팩트에 액세스하고 그 내용을 다운로드하세요. 다음 코드 스니펫은 W&amp;B 레지스트리에 연결된 아티팩트를 사용하고 다운로드하는 방법을 보여줍니다. `<>` 안의 값은 자신의 값으로 바꾸세요:
 
@@ -36,7 +36,7 @@ ALIAS = '<artifact_alias>'
 
 with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
     artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-    # artifact_name = '<artifact_name>' # W&B Registry UI에 표시된 전체 이름을 복사하여 붙여넣기
+    # artifact_name = '<artifact_name>' # W&B Registry UI에 지정된 전체 이름을 복사하여 붙여넣기
     fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
     download_path = fetched_artifact.download()  
 ```
@@ -61,7 +61,7 @@ artifact = api.artifact(name = artifact_name)
 <details>
   <summary>예시: W&amp;B 레지스트리에 연결된 아티팩트 사용 및 다운로드</summary>
 
-  다음 코드 예제는 사용자가 **Fine-tuned Models** 레지스트리의 `phi3-finetuned`라는 컬렉션에 연결된 아티팩트를 다운로드하는 방법을 보여줍니다. 아티팩트 버전의 alias는 `production`으로 설정되어 있습니다.
+  다음 코드 예제는 사용자가 **Fine-tuned Models** 레지스트리의 `phi3-finetuned`라는 컬렉션에 연결된 아티팩트를 다운로드하는 방법을 보여줍니다. 아티팩트 버전의 별칭은 `production`으로 설정되어 있습니다.
 
   ```python
   import wandb
@@ -73,15 +73,15 @@ artifact = api.artifact(name = artifact_name)
   COLLECTION = "phi3-finetuned"
   ALIAS = 'production'
 
-  # 지정한 팀과 프로젝트 내에서 run 초기화
+  # 지정된 팀과 프로젝트 내에서 run 초기화
   with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
 
       artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
-      # 아티팩트에 액세스하고 리니지 추적을 위해 현재 run의 입력으로 표시
+      # 아티팩트에 액세스하고 리니지 추적을 위해 해당 run의 입력으로 표시
       fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
 
-      # 아티팩트 다운로드. 다운로드된 콘텐츠의 경로를 반환
+      # 아티팩트 다운로드. 반환값은 다운로드된 콘텐츠의 경로
       downloaded_path = fetched_artifact.download()  
   ```
 </details>
@@ -100,7 +100,7 @@ artifact = api.artifact(name = artifact_name)
   COLLECTION = "<collection_name>"
   VERSION = "<version>"
 
-  # API를 초기화할 때 팀 entity를 사용해야 합니다.
+  # API를 초기화할 때 팀 entity를 사용하고 있는지 확인하세요
   api = wandb.Api(overrides={"entity": "<team-entity>"})
   artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
   artifact = api.artifact(name = artifact_name)
