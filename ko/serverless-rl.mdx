@@ -1,0 +1,46 @@
+---
+title: Serverless RL
+description: 강화 학습을 사용해 모델을 더 효율적으로 포스트 트레이닝하는 방법을 알아보세요
+---
+
+Serverless RL을 사용하면 여러 턴의 에이전트 작업을 수행할 때 새로운 동작을 학습하고 신뢰성, 속도, 비용 효율을 개선하는 LLM을 포스트 트레이닝할 수 있습니다. Serverless RL은 현재 공개 프리뷰로 제공되고 있습니다. W&amp;B는 환경 설정의 전체 유연성은 유지하면서 트레이닝 인프라([on CoreWeave](https://docs.coreweave.com/docs/platform))를 프로비저닝해 드립니다. 즉시 액세스할 수 있는 관리형 트레이닝 클러스터는 수십 개의 GPU까지 탄력적으로 자동 확장됩니다. Serverless RL은 RL 워크플로를 추론 단계와 트레이닝 단계로 분리하고, 이를 여러 작업에 멀티플렉싱해 GPU 사용량을 높이고 트레이닝 시간과 비용을 줄입니다.
+
+Serverless RL은 다음과 같은 작업에 적합합니다:
+
+* 음성 에이전트
+* 딥 리서치 어시스턴트
+* 온프레미스 모델
+* 콘텐츠 마케팅 분석 에이전트
+
+Serverless RL은 에이전트의 특정 작업에 맞게 모델을 특화하기 위해 저랭크 어댑터(LoRA)를 트레이닝합니다. 이를 통해 실제 작업 수행 과정에서 얻은 경험으로 원래 모델의 기능을 확장합니다. W&amp;B는 트레이닝한 LoRA를 계정에 아티팩트로 자동 저장합니다. 백업을 위해 로컬이나 타사에 저장할 수도 있습니다. Serverless Inference는 Serverless RL을 통해 트레이닝한 모델도 자동으로 호스팅합니다.
+
+시작하려면 ART [퀵스타트](https://art.openpipe.ai/getting-started/quick-start) 또는 [Google Colab notebook](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb)을 참조하세요.
+
+<div id="why-serverless-rl">
+  ## 왜 Serverless RL인가요?
+</div>
+
+강화 학습(RL)은 강력한 트레이닝 기법 모음으로, 직접 소유하거나 임대한 GPU를 사용하는 경우를 포함해 다양한 트레이닝 환경에서 활용할 수 있습니다. Serverless RL은 RL 사후학습(Post-training)에서 다음과 같은 이점을 제공합니다.
+
+* **더 낮은 트레이닝 비용**: Serverless RL은 여러 사용자에게 공유 인프라를 다중화해 활용하고, 각 작업마다 설정 과정을 반복하지 않으며, 실제로 트레이닝하지 않을 때는 GPU 비용을 0까지 낮춰 트레이닝 비용을 크게 절감합니다.
+* **더 빠른 트레이닝 시간**: Serverless RL은 추론 요청을 여러 GPU에 분산하고 필요할 때 즉시 트레이닝 인프라를 프로비저닝하여 트레이닝 작업을 더 빠르게 실행하고 반복 주기를 단축할 수 있게 합니다.
+* **자동 배포**: Serverless RL은 트레이닝한 모든 체크포인트를 자동으로 배포하므로 호스팅 인프라를 수동으로 설정할 필요가 없습니다. 로컬, 스테이징, 프로덕션 환경에서 트레이닝된 모델에 즉시 액세스해 테스트할 수 있습니다.
+
+<div id="how-serverless-rl-uses-wb-services">
+  ## Serverless RL이 W&amp;B 서비스를 사용하는 방법
+</div>
+
+Serverless RL은 다음과 같은 W&amp;B 컴포넌트를 함께 사용해 작동합니다:
+
+* [Inference](/ko/inference): 모델을 실행합니다
+* [Models](/ko/models): LoRA 어댑터의 트레이닝 중 성능 메트릭을 추적합니다
+* [Artifacts](/ko/models/artifacts): LoRA 어댑터를 저장하고 버전을 관리합니다
+* [Weave (선택)](/ko/weave): 트레이닝 루프의 각 단계에서 모델이 어떻게 응답하는지 관찰할 수 있습니다
+
+Serverless RL은 현재 공개 프리뷰입니다. 프리뷰 기간 동안 W&amp;B는 Inference 사용량과 아티팩트 저장에 대해서만 요금을 청구합니다. W&amp;B는 프리뷰 기간 동안 어댑터 트레이닝에 대해서는 요금을 청구하지 않습니다.
+
+<div id="serverless-sft">
+  ## Serverless SFT
+</div>
+
+강화 학습 외에도 [Serverless SFT](/ko/serverless-rl/sft)를 사용해 엄선된 데이터셋으로 모델을 미세 조정할 수 있습니다. 증류, 출력 스타일과 형식 학습, 또는 RL을 적용하기 전 모델 워밍업에 SFT를 사용하세요.

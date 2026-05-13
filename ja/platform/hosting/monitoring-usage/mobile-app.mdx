@@ -1,11 +1,11 @@
 ---
 title: W&B Mobile App（iOS）
-description: iPhone や iPad から、トレーニング Runs をトラッキングし、コンソールログを確認し、折れ線グラフを表示し、正規表現を使ってプロジェクトパネルを検索し、W&B Models のプロジェクトを確認できます。
+description: iPhone や iPad から、トレーニング Runs をトラッキングし、コンソールログを確認し、正確なメトリクスツールチップ付きで折れ線グラフを表示し、正規表現を使って projectパネルを検索し、W&B Models のprojectを確認できます。
 ---
 
 <Columns cols={4}>
   <Frame>
-    ![メトリクスチャートを表示した W\&B モバイルアプリのプロジェクトパネル](/images/mobile-app/project-panels.png)
+    ![メトリクスチャートを表示した W\&B モバイルアプリのprojectパネル](/images/mobile-app/project-panels.png)
   </Frame>
 
   <Frame>
@@ -17,11 +17,11 @@ description: iPhone や iPad から、トレーニング Runs をトラッキン
   </Frame>
 
   <Frame>
-    ![プロジェクトの Runs リストを表示した W\&B モバイルアプリ](/images/mobile-app/project-runs.png)
+    ![projectの Runs リストを表示した W\&B モバイルアプリ](/images/mobile-app/project-runs.png)
   </Frame>
 </Columns>
 
-iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のプロジェクトを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフを表示し、プロジェクトの履歴を確認し、チームの進捗を把握できます。
+iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のprojectを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフを表示し、project の履歴を確認し、チームの進捗を把握できます。
 
 <Info>
   モバイルアプリを利用できるのは、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントのみです。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
@@ -37,12 +37,19 @@ iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Model
   ## 機能
 </div>
 
-* **トレーニング run をトラッキングする**: run のステータス、メトリクス、折れ線グラフをリアルタイムで確認できます。
-* **コンソール ログを確認する**: アクティブな run または完了した run の [コンソール ログ](/ja/models/runs/view-logged-runs#logs) を確認したり、完了した run のログをダウンロードしたりできます。アプリはアクティブな run を 5 秒ごとにポーリングして、新しいログ行を取得します。デフォルトでは最新の 10,000 行が表示され、過去のログを確認するには上方向にスクロールできます。
-* **プロジェクトの履歴を確認する**: W&amp;B プロジェクト 全体を参照して検索できます。**プロジェクト パネル**のメトリクス チャートには、最新の run だけでなく、プロジェクト内の**すべての Runs**のデータが含まれます。
-* **プロジェクト パネルを検索する**: 各チャートに表示される run をフィルターするには、**パネル検索**フィールドを使用します。run 名のパターンに一致する項目を、[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) を使って検索できます。
-* **Teams を切り替える**: **チーム ピッカー**を使用して Teams を切り替えます。ピッカーには、よりすばやく移動できるよう更新された Layout が使用されています。
-* **常に最新情報を把握する**: 通知 を使うと、ラップトップを開かなくても Experiments の更新を受け取れます。不要になった**アラートを削除する**には、**通知** タブでスワイプして消します。
+* **Projects を見る**: W&amp;B のプロジェクトを横断して閲覧、検索できます。
+  * **project の全履歴**: project パネルのメトリクス チャートには、最新の run だけでなく、その project の *すべての run* のデータが含まれます。
+  * **Projects にスターを付ける**: 重要な Projects をひと目で確認できます。project の横にあるスター アイコンをクリックすると、スターを付けられます。スター付きの Projects のみを表示するには、リスト上部の **Starred** タブをクリックします。
+* **実験をトラッキングする**: 実験の run のステータス、メトリクス、折れ線グラフをリアルタイムで確認できます。
+  * **run overview タブ**: 各 run で **Overview** タブを開くと、メトリクスやログとあわせて、run の詳細をまとめた専用サマリーを確認できます。
+  * **モバイル向けに最適化されたパネルのグループ化**: パネルは名前ごとに自動的にグループ化され、折りたたみ可能なセクションにまとめられます。セクションは 1 階層のみで、ネストはされません。また、グループ化は W&amp;B Web アプリの [workspace パネル](/ja/models/app/features/panels) と同じルールに従うため、デスクトップとスマートフォンの間で移動してもレイアウトの一貫性が保たれます。
+  * **パネルにスターを付ける**: 重要なパネルをひと目で確認できます。run または project の表示中に、パネル上部のスター アイコンをクリックすると、スターを付けられます。スター付きのパネルのみを表示するには、リスト上部の **Starred** タブをクリックします。
+  * **パネルを検索する**: run または project の表示中に、画面下部の **パネル search** フィールドを使用して、各チャートに表示する run を絞り込めます。[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) を使用して、run 名のパターンに一致する検索ができます。
+  * **チャートのツールチップ**: 折れ線グラフでは、ツールチップにメトリクス値が小数点以下最大 4 桁まで表示されるため、小さな変化も正確に読み取れます。
+  * **run を停止する**: 実行中の run を表示しているときに、**action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Stop run** をクリックします。
+  * **コンソールログを表示する**: アクティブまたは完了済みの run の [console logs](/ja/models/runs/view-logged-runs#logs) を表示したり、完了済み run のログをダウンロードしたりできます。アプリはアクティブな run の新しいログ行を 5 秒ごとにポーリングします。デフォルトでは最新 10,000 行が表示され、過去のログを表示するには上方向にスクロールできます。非常に大きな出力でも、ログ検索は快適に動作します。
+* **Teams を切り替える**: **チーム ピッカー** を使用して Teams を切り替えます。ピッカーには、よりすばやく移動できる更新済みレイアウトが採用されています。
+* **最新情報を把握する**: 通知を使用すると、ノート PC を開かなくても実験の更新を受け取れます。不要になった **アラートを削除** するには、**Notifications** タブでスワイプして消去します。
 
 <div id="set-up-notifications">
   ## 通知を設定する

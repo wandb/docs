@@ -4,7 +4,7 @@ description: "Simplifiez l'itération sur les prompts et les réponses de LLM"
 ---
 
 <Tip>
-  Pendant une durée limitée, W&amp;B Inference est inclus dans votre offre gratuite. W&amp;B Inference vous donne accès à des modèles de fondation open source de premier plan via l&#39;API et le Weave Playground.
+  Pendant une durée limitée, Serverless Inference est inclus dans votre offre gratuite. Serverless Inference vous donne accès à des modèles de fondation open source de premier plan via l&#39;API et le Weave Playground.
 
   * [Documentation pour les développeurs](../integrations/inference)
   * [Page produit](https://wandb.ai/site/inference)
@@ -277,54 +277,53 @@ Le schéma suivant illustre le flux de données entre votre environnement local,
 
 ```mermaid
 flowchart LR
-    %% Définitions de styles
+    %% Style definitions
     classDef clientMachine fill:#FFD95CCC,stroke:#454B52,stroke-width:2px
     classDef proxy fill:#00CDDBCC,stroke:#454B52,stroke-width:2px
     classDef wandbCloud fill:#DE72FFCC,stroke:#454B52,stroke-width:2px
     classDef publicCloud fill:#FFCBADCC,stroke:#454B52,stroke-width:2px
 
-    %% Sous-graphes
-    subgraph Client_Machine
+    %% Subgraphs
+    subgraph Machine_client
         browser[Navigateur]
         llm_local[Fournisseur LLM local]
     end
 
     subgraph Proxy
-        ngrok[Proxy Ngrok]
+        ngrok[Proxy ngrok]
     end
 
-    subgraph WandB_Cloud
-        trace_server[Serveur de traces]
+    subgraph Cloud_W&B
+        trace_server[Serveur de traçage]
     end
 
-    subgraph Public_Cloud
+    subgraph Cloud_public
         llm_cloud[Fournisseur LLM public]
     end
 
-    %% Appliquer les styles aux sous-graphes
+    %% Apply styles to subgraphs
     class Client_Machine clientMachine
     class Proxy proxy
     class WandB_Cloud wandbCloud
     class Public_Cloud publicCloud
 
-    %% Flux de données actuel
+    %% Current Data Flow
     browser -->|Envoie une requête de chat| trace_server
-    trace_server -->|Utilise le LLM public| llm_cloud
-    trace_server -->|Utilise le LLM local| ngrok
-    ngrok -->|Transfère vers| llm_local
-    llm_cloud -->|Renvoie la réponse| trace_server
-    llm_local -->|Renvoie la réponse| ngrok
-    ngrok -->|Transfère vers| trace_server
-    trace_server -->|Renvoie la réponse| browser
+    trace_server -->|Utilise un LLM public| llm_cloud
+    trace_server -->|Utilise un LLM local| ngrok
+    ngrok -->|Transmet à| llm_local
+    llm_cloud -->|Renvoie une réponse| trace_server
+    llm_local -->|Renvoie une réponse| ngrok
+    ngrok -->|Transmet à| trace_server
+    trace_server -->|Renvoie une réponse| browser
 
-    %% Connexion future possible
-    browser -.->|Futur : Appel direct au LLM local| llm_local
+    %% Future Possible Connection
+    browser -.->|À l’avenir : appel direct au LLM local| llm_local
 
-    %% Styles des liens
+    %% Link styles
     linkStyle default stroke:#454B52,stroke-width:2px
     linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
 ```
-
 
 <div id="saved-models">
   ## Modèles enregistrés
