@@ -3,7 +3,7 @@ title: "Call schema reference"
 description: "Reference for the Call object structure and properties"
 ---
 
-This page provides a reference for the Call object schema in W&B Weave. For information on querying calls, see [Query and export calls](/weave/guides/tracking/querying-calls).
+This reference describes the Call object schema in W&B Weave. For information on querying calls, see [Query and export calls](/weave/guides/tracking/querying-calls).
 
 ## Call properties
 
@@ -33,14 +33,14 @@ The table below outlines the key properties of a Call in Weave. For the complete
 
 ## Property details
 
-`CallSchema` properties play an important role in tracking and managing function calls:
+`CallSchema` properties help you track and manage Calls:
 
 - The `id`, `trace_id`, and `parent_id` properties help organize and relate Calls within the system.
 - Timing information (`started_at`, `ended_at`) supports performance analysis.
 - The `attributes` and `inputs` properties provide context for the Call. Attributes are frozen once the Call starts, so set them before invocation using the `weave.attributes()` context manager. `output` and `summary` capture the results.
-- Integration with W&B is facilitated through `wb_user_id` and `wb_run_id`.
+- Use `wb_user_id` and `wb_run_id` to link the Call to a W&B user and run.
 
-This comprehensive set of properties enables detailed tracking and analysis of function calls throughout your project.
+Together, these properties support detailed tracking and analysis of Calls throughout your project.
 
 ## Use Call summary
 
@@ -48,8 +48,8 @@ The `summary` property is a dictionary you can write to during a Call's executio
 
 The dictionary has two zones:
 
-- **Your keys**: anything you write to `call.summary` directly, such as `call.summary["accuracy"] = 0.95`. These sit at the top level of the summary dict.
-- **`summary["weave"]`**: a reserved namespace Weave populates automatically at Call completion. Do not write to this key directly.
+- Your custom keys: anything you write to `call.summary` directly, such as `call.summary["accuracy"] = 0.95`. These sit at the top level of the summary dict.
+- `summary["weave"]`: a reserved namespace Weave populates automatically at Call completion. Don't write to this key directly.
 
 Weave also captures raw LLM token counts from the model response at `summary["usage"]` (keyed by model name). This is source data passed through from the provider, not a Weave computation. The `costs` field inside `summary["weave"]` is what Weave derives from that usage data using token pricing.
 
@@ -60,16 +60,17 @@ Weave's computed fields inside `summary["weave"]`:
 | `status` | Execution status: `SUCCESS`, `ERROR`, `RUNNING`, or `DESCENDANT_ERROR` (the Call succeeded but a child Call errored). |
 | `latency_ms` | Duration in milliseconds between `started_at` and `ended_at`. `null` if `status` is `RUNNING`. |
 | `costs` | Cost breakdown per model, derived from `summary["usage"]` and token pricing data. See [Track costs](/weave/guides/tracking/costs). |
-| `trace_name` | Human-readable op name, parsed from the internal op ref URI. Used for display and filtering. |
+| `trace_name` | Human-readable Op name, parsed from the internal Op reference URI. Used for display and filtering. |
 
 ### Write during a Call
 
-In Python, assign values to `call.summary` at any point during execution using `weave.get_current_call()`.
-
-In TypeScript, provide a `summarize` function as an option to `op()`. It receives the final result and returns summary data at Call completion.
+You can add custom data values during your Call using the `summary` dictionary.
 
 <Tabs>
   <Tab title="Python">
+
+In Python, assign values to `call.summary` at any point during execution using `weave.get_current_call()`.
+
 ```python lines
 import weave
 
@@ -84,6 +85,9 @@ def my_op(x):
 ```
   </Tab>
   <Tab title="TypeScript">
+
+In TypeScript, provide a `summarize` function as an option to `op()`. It receives the final result and returns summary data at Call completion.
+
 ```typescript lines
 const myOp = weave.op(
   async (x: any) => {
@@ -116,14 +120,14 @@ client = weave.init("my-team/my-project")
 call = client.get_call("<call-id>")
 weave_summary = (call.summary or {}).get("weave", {})
 
-print(weave_summary.get("status"))       # "success", "error", "running", or "descendant_error".
+print(weave_summary.get("status"))       # TraceStatus enum: SUCCESS, ERROR, RUNNING, or DESCENDANT_ERROR.
 print(weave_summary.get("latency_ms"))   # Is null if the Call is still running.
 print(weave_summary.get("costs"))        # Cost breakdown per model.
 print(call.summary.get("usage"))         # Raw token counts from the LLM provider.
 print(call.summary.get("accuracy"))      # Your custom field.
 
 # Iterate over multiple Calls with server-side filtering.
-for call in client.calls(filter={"op_names": ["my_op"]}):
+for call in client.get_calls(filter={"op_names": ["weave:///my-team/my-project/op/my_op:*"]}):
     s = call.summary or {}
     weave_s = s.get("weave", {})
     print(call.id, weave_s.get("status"), weave_s.get("latency_ms"), s.get("accuracy"))
@@ -145,7 +149,7 @@ console.log(call.summary?.usage);        // Raw token counts from the LLM provid
 console.log(call.summary?.accuracy);     // Your custom field.
 
 // Fetch multiple Calls with server-side filtering.
-const calls = await client.getCalls({ filter: { op_names: ['my_op'] } });
+const calls = await client.getCalls({ filter: { op_names: ['weave:///my-team/my-project/op/my_op:*'] } });
 for (const call of calls) {
   const weaveS = call.summary?.weave;
   console.log(call.id, weaveS?.status, weaveS?.latency_ms, call.summary?.accuracy);
