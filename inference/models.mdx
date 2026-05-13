@@ -14,6 +14,7 @@ The following models are [generally available](/inference/lifecycle#model-lifecy
 {/* takeru inference-models - This table is automatically generated, do not edit manually. */}
 | Model                         | Model ID (for API usage)                       | Type         | Context Window | Parameters                | Description                                                                                                                                       |
 | ----------------------------- | ---------------------------------------------- | ------------ | -------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DeepSeek V4-Flash             | `deepseek-ai/DeepSeek-V4-Flash`                | Text         | 1049k          | 13B-284B (Active-Total)   | DeepSeek V4-Flash is an MoE model with 1M context length great for coding, reasoning, and agentic workloads.                                      |
 | DeepSeek V3.1                 | `deepseek-ai/DeepSeek-V3.1`                    | Text         | 161k           | 37B-671B (Active-Total)   | A large hybrid model that supports both thinking and non-thinking modes via prompt templates.                                                     |
 | Google Gemma 4 31B            | `google/gemma-4-31B-it`                        | Text, Vision | 262k           | 31B (Total)               | Gemma 4 31B Dense is designed for advanced reasoning, agentic workflows, and longer context and is natively trained on 140+ languages.            |
 | IBM Granite 4.1 8B            | `ibm-granite/granite-4.1-8b`                   | Text         | 131k           | 8B (Total)                | Granite 4.1 8B is a long-context instruct model capable of enhanced tool calling, instruction following, and chat capabilities.                   |
@@ -40,10 +41,9 @@ The following models are [generally available](/inference/lifecycle#model-lifecy
 The following models are [experimental](/inference/lifecycle#model-lifecycle-stages):
 
 {/* takeru inference-models-experimental - This table is automatically generated, do not edit manually. */}
-| Model             | Model ID (for API usage)        | Type         | Context Window | Parameters              | Description                                                                                                         |
-| ----------------- | ------------------------------- | ------------ | -------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| DeepSeek V4-Flash | `deepseek-ai/DeepSeek-V4-Flash` | Text         | 1049k          | 13B-284B (Active-Total) | DeepSeek V4-Flash is an MoE model with 1M context length great for coding, reasoning, and agentic workloads.        |
-| Qwen3.5 27B       | `Qwen/Qwen3.5-27B`              | Text, Vision | 262k           | 27B (Total)             | Qwen3.5-27B is a dense model from the Qwen3.5 family built for high performance across a large range of benchmarks. |
+| Model       | Model ID (for API usage) | Type         | Context Window | Parameters  | Description                                                                                                         |
+| ----------- | ------------------------ | ------------ | -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| Qwen3.5 27B | `Qwen/Qwen3.5-27B`       | Text, Vision | 262k           | 27B (Total) | Qwen3.5-27B is a dense model from the Qwen3.5 family built for high performance across a large range of benchmarks. |
 
 
 ## Deprecated models
