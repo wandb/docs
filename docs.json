@@ -36,7 +36,7 @@
     "options": [
       {
         "title": "Install W&B MCP",
-        "description": "Set up the W&B MCP server in VS Code, Claude, and or other LLM agents.",
+        "description": "Set up the W&B MCP server in Claude Code, Codex, VS Code and or other LLM agents.",
         "icon": "plug",
         "href": "/platform/mcp-server"
       },
