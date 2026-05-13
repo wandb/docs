@@ -6,27 +6,26 @@ title: "Overview"
 The W&B Agent is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-The W&B Agent is your personalized AI research assistant that helps you to investigate your project's data, find patterns across runs, recommend next steps, build visualizations, build reports and more. The agent has access to your project data, such as your runs, panels, logs, and files, and can analyze this data.
+Use W&B Agent as your personalized AI research assistant. Just as coding agents help you write code, W&B Agent helps you analyze experiments and understand results. The W&B Agent can help you investigate your project's data, find patterns across runs, recommend next steps, build visualizations, build reports and more.
 
 <Frame>
-    <img src="/images/agent/agent_overview.png" alt="W&B Agent overview" />
+    <img src="/images/agent/agent_basic.png" alt="W&B Agent overview" />
 </Frame>
 
-Use the W&B Agent as your project's AI research assistant to help you:
+Common tasks your W&B Agent can assist with include:
 
-* Find patterns across runs, individual examples, panels, logs, and files.
-* Recommend your next experiment based on previous runs.
-* Build visualizations, saved views, and reports.
-* Answer questions about W&B features and best practices.
+* Analyzing your experiments to find patterns and insights across your experiments.
+* Propose next steps for your experiments, such as recommending hyperparameters to try.
+* Creating new plot and panels to visualize your data.
+* Building reports to share insights with your team.
 
 To start collaborating with your W&B Agent, navigate to your project and click on the W&B Agent icon in the upper right corner of the page. The agent has access to the data within the project you are currently in, so to ask the agent questions about a different project, navigate to that project and open the agent.
 
 For information about how W&B handles data usage for the W&B Agent, see [Governance and security](/agent/governance).
 
-## Example tasks
+## Example chats
 
 The following are example conversations with the W&B Agent.
-
 
 <Accordion title="Gain insights on your experiments">
 Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed, identify potential issues, and decide on your next steps.
@@ -55,17 +54,90 @@ The agent identifies that it needs to analyze the data across runs to answer the
     <img src="/images/agent/agent_analyze_project.gif" alt="W&B Agent thought process" />
 </Frame>
 
-The agent uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
+Next, the agent uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
 
 <Frame>
     <img src="/images/agent/agent_analyze_summary_results.gif" alt="W&B Agent summary of patterns across runs" />
 </Frame>
 
-The agent was able to identify that my current experiment does not log validation/test metrics and recommended logging those metrics in future runs to better understand the model's performance. 
+The agent was able to identify that my current experiment does not log `validation/test` metrics and recommended logging those metrics in future runs to better understand the model's performance. 
 
-As a next step, I can then ask the agent to help me set up my next experiment with validation metrics logged, and the agent can generate a script for me to use as a starting point.
+As a next step, you can ask the agent to help set up an experiment with validation metrics logged. To do this, you can ask the agent:
+
+```text title="User prompt"
+Can you help me update my Python script to also log validation metrics?
+```
+The agent can then generate the code to log validation metrics in your training script, which you can copy and paste into your codebase.
 </Accordion>
 
-<Accordion title="I am an Accordion.">
-Insert text.
+<Accordion title="Get recommendations for hyperparameter tuning">
+
+Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed and get recommendations for how to improve your model's performance in future runs. You decide to ask your W&B Agent for recommendations on hyperparameter tuning.
+
+You might ask the agent:
+
+```text title="User prompt"
+I want to conduct a sweep to improve lower my training model's loss. Do you have suggestions on what hyperparameters I should try?
+```
+
+The agent might respond with the following reasoning steps:
+
+```text title="W&B Agent reasoning steps"
+ The user is looking for insights to improve training loss, so I
+ should suggest ranges for learning rate, optimizer, batch size,
+ weight decay, and other relevant parameters.
+
+Since the user wants to conduct a sweep, I need to show the code or
+instrumentation with a clear yet concise YAML or Python configuration.
+I might also suggest using random or Bayesian techniques for more
+effective hyperparameter selection.
+``` 
+
+The agent identifies that it needs to analyze the hyperparameters used in previous runs and their relationship to the training loss to provide recommendations for hyperparameter tuning. 
+
+The agent identifies that the given project used a learning rate of `0.01` for all runs. Based on these insights, the agent recommends trying a lower learning rate, such as `0.001`, in future runs to see if that helps improve the model's performance.
+
+The agent also identifies that of the runs use the SGD optimizer. Based on this insight, the agent recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
+
+The following image shows a portion of the agent's response with its recommendations for hyperparameter tuning:
+
+<Frame>
+    <img src="/images/agent/agent_recommend_hyperparameter.png" alt="W&B Agent recommendations for hyperparameter tuning" />
+</Frame>
+
+</Accordion>
+
+<Accordion title="Create a report to share with my team">
+
+Suppose you are a data scientist who has been analyzing your project's runs and identified interesting patterns in the data. You want to share these insights with your team in an easy-to-digest format. You decide to ask your W&B Agent to help you create a [W&B Report](/models/reports).
+
+To do this, you open the W&B Agent and ask:
+
+```text title="User prompt"
+Create a report to share my findings with my team.
+```
+
+The agent might respond with the following reasoning steps:
+
+```text title="W&B Agent reasoning steps"
+I’m looking to query the recent 50 runs, summarizing key frequencies 
+and counts by using api.runs to slice them down. I'll be counting
+lengths with lazy evaluation and weaving together the stats
+for a proper report.  I need to include a description that might
+require importing different report libraries.
+```
+
+The agent identifies that it needs to create a W&B Report that summarizes the insights it found in the data. As part of it's reasoning process, it generates a Python script that uses the W&B SDK to create a report with the relevant data and insights. The agent executes this script in a sandbox environment, which creates a W&B Report in your project.
+
+The following image shows the how the agent creates a W&B Report in the sandbox environment and then returns the link to the report in the chat:
+
+<Frame>
+    <img src="/images/agent/agent_create_report.png" alt="W&B Agent creating a report" />
+</Frame>
+
+
+<Info>
+Under the hood, the W&B Agent creates a W&B Report using the Workspaces and Reports API.
+</Info>
+
 </Accordion>
