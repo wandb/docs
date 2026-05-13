@@ -89,7 +89,7 @@
 .card.block h5,
 .card.block h6 {
   font-family: var(--font-sans);
-  font-weight: var(--font-weight-semibold) !important; /* 650 — next step up from medium */
+  font-weight: var(--font-weight-bold) !important;
 }
 
 

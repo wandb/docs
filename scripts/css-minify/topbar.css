@@ -100,7 +100,7 @@ button.nav-tabs-item:hover > div:first-child svg {
 [data-active="true"].hover\:text-primary:hover {
   color: var(--color-text-primary); /* #2B3038 light / #E8E8E9 dark */
   text-shadow: none;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
 }
 
 /* Selected dropdown button — outer button gets text-primary when its section
@@ -113,7 +113,7 @@ button.nav-tabs-item:hover > div:first-child svg {
 button.nav-tabs-item.text-primary,
 button.nav-tabs-item.text-primary > div:first-child {
   color: var(--color-text-primary) !important;
-  font-weight: var(--font-weight-semibold) !important;
+  font-weight: var(--font-weight-bold) !important;
 }
 
 /* Underline bars — all nav-tabs-item children with bg-primary (both the

@@ -11,9 +11,9 @@
   --font-serif: "Source Serif 4", "Times New Roman", serif;
   --font-sans:  "Source Sans 3", Calibri, sans-serif;
 
-  --font-weight-regular:  400; /* body copy, supporting text */
-  --font-weight-medium:   500; /* headings, card titles, nav items */
-  --font-weight-semibold: 650; /* group headers, active nav, emphasis */
+  --font-weight-regular:  400;    /* body copy, supporting text */
+  --font-weight-medium:   500;    /* headings, card titles, nav items */
+  --font-weight-bold:     650;    /* group headers, active nav, emphasis */
 
   /* Math:   px ÷ 16 = rem.   e.g. 15 ÷ 16 = 0.9375rem. */
   --font-size-xs: 0.75rem;    /* 12px — micro labels (e.g. source-link badge) */
