@@ -228,7 +228,7 @@ For detailed instructions on using these cloud-specific modules, see [Deploy wit
 
 ## Enable the MCP server
 
-The W&B [Model Context Protocol (MCP) server](/platform/mcp-server) ships as an optional subchart in `operator-wandb`. When enabled, the operator deploys an in-cluster MCP server exposed through your existing ingress at `<global.host>/mcp`, so any MCP-compatible client (Cursor, VS Code, Claude Code, Gemini CLI, Claude Desktop, and others) can connect using a W&B API key. This is the same server W&B runs as the hosted offering at `https://mcp.withwandb.com/mcp`, just pointed at your deployment's data.
+The [W&B MCP Server](/platform/mcp-server) ships as an optional subchart in `operator-wandb`. When enabled, the operator deploys an in-cluster MCP server exposed through your existing ingress at `<global.host>/mcp`, so any MCP-compatible client can connect using a W&B API key. This is the same server W&B runs as the hosted offering at `https://mcp.withwandb.com/mcp`, but pointed at your deployment's data.
 
 For end-user client configuration and the tool catalog, see [Use the W&B MCP server](/platform/mcp-server). This section only covers the operator-side enablement.
 
@@ -236,7 +236,7 @@ For end-user client configuration and the tool catalog, see [Use the W&B MCP ser
 
 Make sure your deployment meets the following requirements before you enable the MCP server:
 
-- **Chart version**: `operator-wandb` `0.42.3` or later. The `mcp-server` subchart was introduced in `0.42.1`. The example below uses Datadog and privacy settings added after that initial release.
+- **Chart version**: `operator-wandb` `0.42.3` or later. The `mcp-server` subchart was introduced in `0.42.1`, but the Datadog and privacy fields used in the example below were added later.
 - **Weave Traces enabled**: the MCP server depends on Weave Traces for trace tools and for the `WF_TRACE_SERVER_URL` default. Set `weave-trace.install: true`. If Weave Traces isn't enabled, the Helm render fails with `mcp-server requires weave-trace.install=true`.
 - **Reachable ingress**: `global.host` must already resolve and route to the W&B ingress. The MCP pod reads `WANDB_BASE_URL` from `global.host` and is available at `<global.host>/mcp`.
 - **Node capacity**: the MCP pod requests `500m` CPU and `1Gi` memory by default (limits `2` CPU and `4Gi` memory). Confirm your node pool has enough headroom before you enable the subchart.
@@ -270,11 +270,14 @@ spec:
         logLevel: "standard"
 ```
 
-Keep `weave-trace.install: true` unless you set `mcp-server.env.WF_TRACE_SERVER_URL` yourself. Use `datadog.mode: "agent"` for Kubernetes deployments where the Datadog Agent DaemonSet owns log and trace collection. In agent mode, the MCP pod doesn't need a Datadog API key. Set `service`, `env`, `deploymentType`, `customer`, and `extraTags` to match your deployment's observability naming conventions. Set `customer` to an empty string if you don't want a customer tag.
+Configure each block:
 
-Use `privacy.logLevel: "standard"` for most self-managed Kubernetes installations. This redacts free-text parameter values in logs while preserving deployment identifiers that operators commonly use for debugging. Use `"strict"` when entity, project, run, or user identifiers should not remain in plaintext logs. Use `"off"` only when you explicitly want plaintext logging for those values.
+- **`weave-trace.install: true`**: required unless you set `mcp-server.env.WF_TRACE_SERVER_URL` yourself.
+- **`datadog.mode: "agent"`**: use for Kubernetes deployments where the Datadog Agent DaemonSet owns log and trace collection. In agent mode, the MCP pod doesn't need a Datadog API key.
+- **`datadog.service`, `env`, `deploymentType`, `customer`, `extraTags`**: set these to match your deployment's observability naming conventions. Set `customer` to an empty string if you don't want a customer tag.
+- **`privacy.logLevel`**: use `"standard"` for most self-managed Kubernetes installations. This redacts free-text parameter values in logs while preserving deployment identifiers that operators commonly use for debugging. Use `"strict"` when entity, project, run, or user identifiers should not remain in plaintext logs. Use `"off"` only when you explicitly want plaintext logging for those values.
 
-Apply the change to trigger a reconcile:
+Apply the change to trigger reconciliation:
 
 ```bash
 kubectl apply -f operator.yaml
@@ -294,19 +297,19 @@ curl -s http://localhost:8080/mcp/health
 curl -s "https://<HOST_URI>/mcp/health"
 ```
 
-Both requests should return `200 OK`. The in-cluster check confirms the pod is healthy. The ingress check confirms routing. If you enabled Datadog, MCP server logs should also appear under the configured `mcp-server.datadog.service` and `mcp-server.datadog.env` values.
+Both requests should return `200 OK`. The in-cluster check confirms the pod is healthy. The ingress check confirms routing. If the in-cluster check returns `200 OK` but the ingress check returns `404 Not Found`, see [Troubleshooting](#troubleshooting). If you enabled Datadog, MCP server logs should also appear in Datadog with the configured `mcp-server.datadog.service` and `mcp-server.datadog.env` values.
 
 ### Connect a client
 
-After the MCP server is running and healthy, point your MCP client at `https://<HOST_URI>/mcp` with a W&B API key as the bearer token. For IDE and agent configurations (Cursor, VS Code, Claude Code, and others), see [Use the W&B MCP server](/platform/mcp-server).
+After the MCP server is healthy, configure your MCP client to use `https://<HOST_URI>/mcp` with a W&B API key as the bearer token. For IDE and agent configurations, see [Use the W&B MCP server](/platform/mcp-server).
 
 ### Troubleshooting
 
-| Symptom | Likely cause and fix |
-|---------|----------------------|
+| Symptom | Cause and fix |
+|---------|---------------|
 | `helm render` fails with `mcp-server requires weave-trace.install=true` | Add `weave-trace.install: true` to `spec.values`. The MCP server depends on Weave Traces for trace tools. |
 | `wandb-mcp-server` pod stuck in `Pending` with `Insufficient cpu` or `Insufficient memory` | Add node capacity, or lower `mcp-server.resources.requests` in your CR. Defaults are `500m` CPU and `1Gi` memory. |
-| `curl https://<HOST_URI>/mcp/health` returns 404 | The `/mcp` ingress path is only rendered when `mcp-server.install: true`. Reapply the CR and wait for the ingress controller to propagate the new path. |
+| `curl https://<HOST_URI>/mcp/health` returns 404 | The chart renders the `/mcp` ingress path only when `mcp-server.install: true`. Reapply the CR and wait for the ingress controller to propagate the new path. |
 | MCP logs don't appear in Datadog | Confirm `mcp-server.datadog.enabled: true`, `mcp-server.datadog.mode: "agent"`, and that the Datadog Agent DaemonSet collects pod stdout. Search Datadog with the configured `service` and `env` values. |
 | MCP logs include more user-supplied text than expected | Set `mcp-server.privacy.logLevel` to `"standard"` or `"strict"`. Use `"strict"` when identifiers such as entity, project, run, or user names should not remain in plaintext logs. |
 | `wandb-mcp-server` pod in `ImagePullBackOff` in an air-gapped or mirrored cluster | Mirror the image to your registry and override `mcp-server.image.repository` in your CR, the same pattern used for other W&B component images in air-gapped installs. See [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/). |
