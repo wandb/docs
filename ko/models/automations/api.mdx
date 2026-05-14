@@ -1,0 +1,19 @@
+---
+title: API로 자동화 관리
+description: Python API를 사용한 프로그래밍 방식의 자동화 관리(일부 클라이언트 버전에서는 생성 및 업데이트에 영향이 있을 수 있으므로, SDK 수정 버전이 배포될 때까지는 W&B App을 우선 사용하세요).
+---
+
+<Note>
+  `wandb.Api().create_automation()` 및 관련 헬퍼를 통한 자동화의 프로그래밍 방식 **생성** 및 **업데이트**는 클라이언트 측 기능 검사(예: run 상태 자동화) 때문에 최신 `wandb` Python 클라이언트에서 실패할 수 있습니다. 수정된 SDK가 배포될 때까지는 [W&amp;B App](/ko/models/automations/create-automations)에서 자동화를 생성하고 편집하세요. 사용 중인 버전에서는 목록, 조회, 삭제가 계속 작동할 수도 있지만, 오류가 발생하면 App을 사용하세요. 내부 추적: WB-34263.
+</Note>
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+* [자동화 개요](/ko/models/automations)
+* [자동화 생성하기](/ko/models/automations/create-automations) (W&amp;B App)
+* [자동화 이벤트 및 스코프](/ko/models/automations/automation-events)
+* [자동화 API 레퍼런스](/ko/models/ref/python/public-api/automations) (Python 유형 및 `Api` 메서드)
+
+{/* Python SDK 회귀 문제가 수정되면 git 이력에서 list/get/create/update/delete 예시를 복원하세요 (WB-34263). 이전 리비전에서는 Automations 튜토리얼 노트북도 링크했습니다 (wandb/examples PR 618). */}

@@ -1,6 +1,6 @@
 ---
 title: Créer une automatisation par webhook
-description: "Créez une automatisation par webhook dans W&B pour envoyer des requêtes HTTP à des services externes lorsque certains événements se produisent."
+description: "Créez une automatisation webhook dans W&B pour envoyer des requêtes HTTP à des services externes lorsque certains événements se produisent."
 ---
 
 import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
@@ -9,13 +9,13 @@ import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-Cette page explique comment créer une [automatisation webhook](/fr/models/automations/). Pour créer une automatisation Slack, veuillez plutôt vous référer à [Créer une automatisation Slack](/fr/models/automations/create-automations/slack/).
+Cette page explique comment créer une [automatisation webhook](/fr/models/automations). Pour créer une automatisation Slack, veuillez plutôt vous référer à [Créer une automatisation Slack](/fr/models/automations/create-automations/slack).
 
 Dans les grandes lignes, pour créer une automatisation webhook, suivez ces étapes :
 
-1. Si nécessaire, [créez un secret W&amp;B](/fr/platform/secrets/) pour chaque valeur sensible requise par l’automatisation, comme un jeton d’accès, un mot de passe ou une clé SSH. Les secrets sont définis dans vos **Team Settings**.
-2. [Créez un webhook](#create-a-webhook) pour définir l’endpoint et les détails d’autorisation, et accordez à l’intégration l’accès à tous les secrets dont elle a besoin.
-3. [Créez l’automatisation](#create-an-automation) pour définir l’[événement](/fr/models/automations/automation-events/) à surveiller et la charge utile que W&amp;B enverra. Accordez à l’automatisation l’accès à tous les secrets dont elle a besoin pour la charge utile.
+1. Si nécessaire, [créez un secret W&amp;B](/fr/platform/secrets) pour chaque valeur sensible requise par l’automatisation, comme un jeton d’accès, un mot de passe ou une clé SSH. Les secrets sont définis dans vos **Team Settings**.
+2. [Créez un webhook](#create-a-webhook) pour définir le point de terminaison et les détails d’autorisation, et accordez à l’intégration l’accès à tous les secrets dont elle a besoin.
+3. [Créez l’automatisation](#create-an-automation) pour définir l’[événement](/fr/models/automations/automation-events) à surveiller et la charge utile que W&amp;B enverra. Accordez à l’automatisation l’accès à tous les secrets dont elle a besoin pour la charge utile.
 
 <div id="create-a-webhook">
   ## Créer un webhook
@@ -30,15 +30,15 @@ Un administrateur d’équipe peut ajouter un webhook pour l’équipe.
 1. Connectez-vous à W&amp;B, puis accédez à la page **Team Settings**.
 2. Dans la section **Webhooks**, cliquez sur **New webhook**.
 3. Saisissez un nom pour le webhook.
-4. Saisissez l’URL de l’endpoint du webhook.
-5. Si le webhook nécessite un Bearer token, définissez **Access token** sur le [secret](/fr/platform/secrets/) qui le contient. Lorsque vous utilisez l’automatisation par webhook, W&amp;B définit l’en-tête HTTP `Authorization: Bearer` avec le jeton d’accès, et vous pouvez accéder au token dans la [variable de charge utile](#payload-variables) `${ACCESS_TOKEN}`. Pour en savoir plus sur la structure de la requête `POST` que W&amp;B envoie au service de webhook, consultez [Troubleshoot your webhook](#troubleshoot-your-webhook).
+4. Saisissez l’URL du point de terminaison du webhook.
+5. Si le webhook nécessite un Bearer token, définissez **Access token** sur le [secret](/fr/platform/secrets) qui le contient. Lorsque vous utilisez l’automatisation webhook, W&amp;B définit l’en-tête HTTP `Authorization: Bearer` avec le jeton d’accès, et vous pouvez accéder au token dans la [variable de charge utile](#payload-variables) `${ACCESS_TOKEN}`. Pour en savoir plus sur la structure de la requête `POST` que W&amp;B envoie au service de webhook, consultez [Troubleshoot your webhook](#troubleshoot-your-webhook).
 6. Si le webhook nécessite un mot de passe ou une autre chaîne sensible dans sa charge utile, définissez **Secret** sur le secret qui le contient. Lorsque vous configurez l’automatisation qui utilise le webhook, vous pouvez accéder au secret en tant que [variable de charge utile](#payload-variables) en faisant précéder son nom de `$`.
 
    Si le jeton d’accès du webhook est stocké dans un secret, vous devez *également* effectuer l’étape suivante pour spécifier ce secret comme jeton d’accès.
-7. Pour vérifier que W&amp;B peut se connecter à l’endpoint et s’y authentifier :
+7. Pour vérifier que W&amp;B peut se connecter au point de terminaison et s’y authentifier :
 
    1. Si vous le souhaitez, fournissez une charge utile de test. Pour se référer à un secret auquel le webhook a accès dans la charge utile, faites précéder son nom de `$`. Cette charge utile est utilisée uniquement pour les tests et n’est pas enregistrée. Vous configurez la charge utile d’une automatisation lorsque vous [créez l’automatisation](#create-a-webhook-automation). Consultez [Troubleshoot your webhook](#troubleshoot-your-webhook) pour voir où le secret et le jeton d’accès sont spécifiés dans la requête `POST`.
-   2. Cliquez sur **Test**. W&amp;B tente de se connecter à l’endpoint du webhook à l’aide des identifiants que vous avez configurés. Si vous avez fourni une charge utile, W&amp;B l’envoie.
+   2. Cliquez sur **Test**. W&amp;B tente de se connecter au point de terminaison du webhook à l’aide des identifiants que vous avez configurés. Si vous avez fourni une charge utile, W&amp;B l’envoie.
 
    Si le test échoue, vérifiez la configuration du webhook et essayez à nouveau. Si nécessaire, consultez [Troubleshoot your webhook](#troubleshoot-your-webhook).
 
@@ -52,11 +52,11 @@ Vous pouvez maintenant [créer une automatisation](#create-a-webhook-automation)
   ## Créer une automatisation
 </div>
 
-Après avoir [configuré un webhook](#create-a-webhook), sélectionnez **registre** ou **projet**, puis suivez ces étapes pour créer une automatisation qui déclenche le webhook.
+Après avoir [configuré un webhook](#create-a-webhook), sélectionnez **Registry** ou **projet**, puis suivez ces étapes pour créer une automatisation qui déclenche le webhook.
 
 <Tabs>
-  <Tab title="registre">
-    Un administrateur du registre peut créer des automatisations dans ce registre. Les automatisations au niveau du registre s&#39;appliquent à toutes les collections du registre, y compris celles qui seront ajoutées ultérieurement.
+  <Tab title="Registry">
+    Un administrateur du Registry peut créer des automatisations dans ce registre. Les automatisations au niveau du registre s&#39;appliquent à toutes les collections du registre, y compris celles qui seront ajoutées ultérieurement.
 
     1. Connectez-vous à W&amp;B.
 
@@ -145,20 +145,20 @@ Utilisez ces sections pour construire la charge utile de votre webhook. Pour plu
 
 Cette section décrit les variables que vous pouvez utiliser pour construire la charge utile de votre webhook.
 
-| Variable                      | Détails                                                                                                                                                                                                                                                                                                   |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `${project_name}`             | Le nom du projet auquel appartient la mutation qui a déclenché l&#39;action.                                                                                                                                                                                                                              |
-| `${entity_name}`              | Le nom de l&#39;entité ou de l&#39;équipe à laquelle appartient la mutation qui a déclenché l&#39;action.                                                                                                                                                                                                 |
-| `${event_type}`               | Le type d&#39;événement qui a déclenché l&#39;action.                                                                                                                                                                                                                                                     |
-| `${event_author}`             | L&#39;utilisateur qui a déclenché l&#39;action.                                                                                                                                                                                                                                                           |
-| `${alias}`                    | Contient l&#39;alias d&#39;un artifact si l&#39;automatisation est déclenchée par l&#39;événement **Un alias d&#39;artifact est ajouté**. Pour les autres automatisations, cette variable est vide.                                                                                                       |
-| `${tag}`                      | Contient les tags d&#39;un artifact si l&#39;automatisation est déclenchée par l&#39;événement **Un tag d&#39;artifact est ajouté**. Pour les autres automatisations, cette variable est vide.                                                                                                            |
-| `${artifact_collection_name}` | Le nom de la collection d&#39;artifacts à laquelle est liée la version d&#39;artifact.                                                                                                                                                                                                                    |
+| Variable                      | Détails                                                                                                                                                                                                                                                                                                        |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `${project_name}`             | Le nom du projet auquel appartient la mutation qui a déclenché l&#39;action.                                                                                                                                                                                                                                   |
+| `${entity_name}`              | Le nom de l&#39;entité ou de l&#39;équipe à laquelle appartient la mutation qui a déclenché l&#39;action.                                                                                                                                                                                                      |
+| `${event_type}`               | Le type d&#39;événement qui a déclenché l&#39;action.                                                                                                                                                                                                                                                          |
+| `${event_author}`             | L&#39;utilisateur qui a déclenché l&#39;action.                                                                                                                                                                                                                                                                |
+| `${alias}`                    | Contient l&#39;alias d&#39;un artifact si l&#39;automatisation est déclenchée par l&#39;événement **Un alias d&#39;artifact est ajouté**. Pour les autres automatisations, cette variable est vide.                                                                                                            |
+| `${tag}`                      | Contient les tags d&#39;un artifact si l&#39;automatisation est déclenchée par l&#39;événement **Un tag d&#39;artifact est ajouté**. Pour les autres automatisations, cette variable est vide.                                                                                                                 |
+| `${artifact_collection_name}` | Le nom de la collection d&#39;artifacts à laquelle est liée la version d&#39;artifact.                                                                                                                                                                                                                         |
 | `${artifact_metadata.<KEY>}`  | La valeur d&#39;une clé de métadonnées arbitraire de premier niveau de la version d&#39;artifact qui a déclenché l&#39;action. Remplacez `<KEY>` par le nom d&#39;une clé de métadonnées de premier niveau. Seules les clés de métadonnées de premier niveau sont disponibles dans la charge utile du webhook. |
-| `${artifact_version}`         | La représentation [`Wandb.Artifact`](/fr/models/ref/python/experiments/artifact.md/) de la version d&#39;artifact qui a déclenché l&#39;action.                                                                                                                                                              |
-| `${artifact_version_string}`  | La représentation sous forme de `string` de la version d&#39;artifact qui a déclenché l&#39;action.                                                                                                                                                                                                       |
-| `${ACCESS_TOKEN}`             | La valeur du jeton d&#39;accès configuré dans le [webhook](#create-a-webhook), si un jeton d&#39;accès est configuré. Le jeton d&#39;accès est automatiquement transmis dans l&#39;en-tête HTTP `Authorization: Bearer`.                                                                                  |
-| `${SECRET_NAME}`              | Si elle est configurée, la valeur d&#39;un secret configuré dans le [webhook](#create-a-webhook). Remplacez `SECRET_NAME` par le nom du secret.                                                                                                                                                           |
+| `${artifact_version}`         | La représentation [`Wandb.Artifact`](/fr/models/ref/python/experiments/artifact) de la version d&#39;artifact qui a déclenché l&#39;action.                                                                                                                                                                       |
+| `${artifact_version_string}`  | La représentation sous forme de `string` de la version d&#39;artifact qui a déclenché l&#39;action.                                                                                                                                                                                                            |
+| `${ACCESS_TOKEN}`             | La valeur du jeton d&#39;accès configuré dans le [webhook](#create-a-webhook), si un jeton d&#39;accès est configuré. Le jeton d&#39;accès est automatiquement transmis dans l&#39;en-tête HTTP `Authorization: Bearer`.                                                                                       |
+| `${SECRET_NAME}`              | Si elle est configurée, la valeur d&#39;un secret configuré dans le [webhook](#create-a-webhook). Remplacez `SECRET_NAME` par le nom du secret.                                                                                                                                                                |
 
 <div id="payload-examples">
   ### Exemples de charges utiles
@@ -213,7 +213,7 @@ Cette section présente des exemples de charges utiles de webhook pour certains 
     ${entity_name} --> "<entity>"
     ```
 
-    Utilisez des chaînes de gabarit pour transmettre dynamiquement le contexte de W&amp;B à GitHub Actions et à d&#39;autres outils. Si ces outils peuvent appeler des scripts Python, ils peuvent utiliser les artifacts de modèle enregistrés via l&#39;[API W&amp;B](/fr/models/artifacts/download-and-use-an-artifact/).
+    Utilisez des chaînes de gabarit pour transmettre dynamiquement le contexte de W&amp;B à GitHub Actions et à d&#39;autres outils. Si ces outils peuvent appeler des scripts Python, ils peuvent utiliser les artifacts de modèle enregistrés via l&#39;[API W&amp;B](/fr/models/artifacts/download-and-use-an-artifact).
 
     * Pour plus d&#39;informations sur repository dispatch, consultez la [documentation officielle sur GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).
 
