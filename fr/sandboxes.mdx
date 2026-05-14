@@ -4,7 +4,7 @@ mode: wide
 ---
 
 <Warning>
-  Serverless Sandboxes est en aperçu privé, disponible uniquement sur invitation. Pour demander à y participer, contactez [l’assistance](mailto:support@wandb.com) ou votre AISE.
+  Serverless Sandboxes est en préversion publique.
 </Warning>
 
 Serverless Sandboxes vous offre des environnements de calcul isolés à la demande, que vous pouvez créer, utiliser et supprimer avec Python.
@@ -31,7 +31,10 @@ Utilisez une *session* pour gérer plusieurs sandboxes qui partagent une configu
 
 Suivez ces étapes pour créer un sandbox et y exécuter une commande :
 
-1. Installez le SDK Python W&amp;B (`wandb`) à partir de la source fournie par votre équipe d’assistance ou votre contact AISE.
+1. Installez le SDK Python W&amp;B (`wandb`) et les dépendances du sandbox serverless avec la commande suivante :
+   ```bash
+   pip install wandb[sandbox]
+   ```
 
 2. Connectez-vous à W&amp;B avec la commande CLI [`wandb login`](/fr/models/ref/cli/wandb-login). Lorsque vous y êtes invité, fournissez votre clé API pour authentifier votre identité et accéder à votre compte W&amp;B :
 

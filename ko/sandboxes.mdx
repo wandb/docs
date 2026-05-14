@@ -4,7 +4,7 @@ mode: wide
 ---
 
 <Warning>
-  Serverless Sandboxes는 비공개 프리뷰로 제공되며, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
+  Serverless Sandboxes는 공개 프리뷰 상태입니다.
 </Warning>
 
 Serverless Sandboxes는 Python으로 생성하고 사용한 뒤 삭제할 수 있는 주문형 격리 컴퓨팅 환경을 제공합니다.
@@ -31,7 +31,10 @@ Serverless Sandboxes는 CoreWeave Sandbox 라이브러리를 기반으로 합니
 
 다음 단계에 따라 샌드박스를 생성하고 그 안에서 명령어를 실행하세요:
 
-1. 지원팀 또는 AISE 담당자가 제공한 소스에서 W&amp;B Python SDK(`wandb`)를 설치하세요.
+1. 다음 명령어로 W&amp;B Python SDK(`wandb`)와 Serverless Sandboxes 의존성을 설치하세요:
+   ```bash
+   pip install wandb[sandbox]
+   ```
 
 2. [`wandb login`](/ko/models/ref/cli/wandb-login) CLI 명령어로 W&amp;B에 로그인하세요. 메시지가 표시되면 API 키를 입력하여 ID를 인증하고 W&amp;B 계정에 액세스하세요:
 
