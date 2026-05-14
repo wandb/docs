@@ -365,8 +365,17 @@
                               "models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "Tutorials",
+                            "pages": [
+                              "models/automations/tutorial",
+                              "models/automations/project-automation-tutorial",
+                              "models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "models/automations/view-automation-history",
-                          "models/automations/automation-events"
+                          "models/automations/automation-events",
+                          "models/automations/api"
                         ]
                       },
                       {
@@ -1659,8 +1668,17 @@
                               "fr/models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "Tutoriels",
+                            "pages": [
+                              "fr/models/automations/tutorial",
+                              "fr/models/automations/project-automation-tutorial",
+                              "fr/models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "fr/models/automations/view-automation-history",
-                          "fr/models/automations/automation-events"
+                          "fr/models/automations/automation-events",
+                          "fr/models/automations/api"
                         ]
                       },
                       {
@@ -2953,8 +2971,17 @@
                               "ja/models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "チュートリアル",
+                            "pages": [
+                              "ja/models/automations/tutorial",
+                              "ja/models/automations/project-automation-tutorial",
+                              "ja/models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "ja/models/automations/view-automation-history",
-                          "ja/models/automations/automation-events"
+                          "ja/models/automations/automation-events",
+                          "ja/models/automations/api"
                         ]
                       },
                       {
@@ -4247,8 +4274,17 @@
                               "ko/models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "튜토리얼",
+                            "pages": [
+                              "ko/models/automations/tutorial",
+                              "ko/models/automations/project-automation-tutorial",
+                              "ko/models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "ko/models/automations/view-automation-history",
-                          "ko/models/automations/automation-events"
+                          "ko/models/automations/automation-events",
+                          "ko/models/automations/api"
                         ]
                       },
                       {
