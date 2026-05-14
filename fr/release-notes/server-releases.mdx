@@ -1,18 +1,55 @@
 ---
-title: "Versions prises en charge de W&B Server"
-description: "Consultez les notes de version de W&B Server, y compris les nouvelles fonctionnalités, les améliorations, les correctifs de bug et les instructions de mise à niveau."
+title: "Versions prises en charge du serveur W&B"
+description: "Consultez les notes de version du serveur W&B, y compris les nouvelles fonctionnalités, les améliorations, les corrections de bugs et les instructions de mise à niveau."
 sidebarTitle: "Versions prises en charge"
 rss: true
 ---
 
 import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
 
-Cette page présente les notes de version des versions prises en charge de W&amp;B Server.
+Cette page inclut les notes de version des versions de W&amp;B Server prises en charge.
 
-* Pour les versions qui ne sont plus prises en charge, voir [Versions archivées de Server](/fr/release-notes/server-releases-archived).
-* Pour plus d’informations sur le calendrier des versions de W&amp;B Server et l’assistance, voir [Politiques de version de W&amp;B Server](/fr/release-notes/release-policies).
+* Pour les versions qui ne sont plus prises en charge, voir [Archived Server releases](/fr/release-notes/server-releases-archived).
+* Pour plus d’informations sur le calendrier de publication et l’assistance de W&amp;B Server, voir [W&amp;B Server release policies](/fr/release-notes/release-policies).
 
 <EolReminder />
+
+<Update label="v0.80.1" description="6 mai 2026">
+  **6 mai 2026**
+
+  ## Correctifs
+
+  * Correction d’un bug critique d’autorisation qui permettait d’exposer des artifacts à des utilisateurs non autorisés.
+  * Correction d’un bug de sécurité critique dans la validation des charges utiles sérialisées, qui permettait l’exécution de code.
+  * Correction d’un bug d’autorisation de sévérité élevée qui permettait à tout membre d’une organisation autre qu’un viewer de devenir administrateur de l’organisation.
+  * Correction d’un bug d’autorisation de sévérité élevée où le test d’une intégration webhook générique ne nécessitait que l’autorisation de lecture sur l’entité, alors que la création ou la mise à jour de webhooks nécessitait des droits d’administrateur. Tester un webhook nécessite désormais des droits d’administrateur, conformément aux autres actions de configuration de webhook.
+  * Correction d’un bug de sévérité élevée qui permettait de modifier des déclencheurs d’automatisation entre projets.
+  * Correction d’un bug de sévérité élevée dans la neutralisation des entrées utilisateur pour les libellés et les URL, qui aurait permis des attaques de type cross-site scripting.
+  * Correction de la connexion OIDC pour les déploiements qui utilisent PKCE avec un secret de client confidentiel, en annulant une modification précédente qui omettait le secret client dans les requêtes de jeton PKCE. Lorsqu’un secret client est configuré, le serveur n’ajoute plus d’ID client redondants aux paramètres d’URL du jeton, ce qui évite les conflits avec l’en-tête `Authorization`.
+  * Correction des champs de liste SCIM pour Microsoft Entra ID : l’API renvoie des tableaux JSON vides au lieu de `null`, ce qui rétablit les tests de connexion et les flux de groupe.
+  * Amélioration de la fiabilité des opérations SCIM Push envoyées à Okta :
+    * Correction d’un bug où une opération SCIM Group Push pouvait échouer si le nom du groupe Okta était différent du nom de l’équipe W&amp;B. Ces opérations sont désormais envoyées sous forme d’opérations `PATCH` sans chemin. **Il s’agit d’une modification incompatible pour les intégrations qui analysent le JSON SCIM User.** Voir [Breaking changes](#breaking-changes).
+    * Ajout de garde-fous pour éviter de supprimer par inadvertance tous les membres d’une équipe si une opération SCIM Group Push n’incluait pas tous les membres.
+    * Amélioration de la sérialisation des objets SCIM User dans la charge utile envoyée à Okta. La charge utile correspond désormais davantage à ce qu’Okta attend.
+    * Correction d’un bug pouvant entraîner une casse incorrecte des adresses e-mail et des noms dans un objet SCIM User.
+  * Correction d’un bug lors de l’utilisation de SCIM pour créer une équipe avec bring your own bucket (BYOB) sur Cloud dédié lorsque la requête omet le contexte de l’organisation.
+  * Correction d’un bug pouvant entraîner un historique de run incorrect dans une run forkée lors de l’utilisation du stockage d’historique parquet avec l’exécuteur de requêtes. Par exemple, l’historique d’une run forkée pouvait inclure des fusions incorrectes à la frontière du stockage live ou des métadonnées d’étape incorrectes.
+  * Amélioration des performances des graphiques en courbes pour les Projects comportant un très grand nombre de runs, en ignorant les requêtes coûteuses de comptage total. La légende affiche un avertissement si l’interface utilisateur ne peut pas déterminer si des runs supplémentaires correspondent aux filtres du panneau, et ces avertissements peuvent être moins précis.
+  * Correction de redirections incorrectes depuis la page **Usage Alerts** de l’organisation.
+  * Correction d’un bug de sérialisation JSON dans Weave lors de l’écriture des métadonnées d’artifact dans l’index de recherche ClickHouse.
+  * Correction d’un bug dans le trace server de Weave où les migrations pouvaient sélectionner un moteur de base de données incorrect.
+
+  ## Breaking changes
+
+  Cette version inclut une modification incompatible pour les intégrations qui analysent le JSON SCIM User :
+
+  * Dans Cloud dédié et Autogéré v0.80.1+, les réponses de `/scim/Users` (y compris `GET` user, `GET` users et les réponses `PATCH` qui renvoient un User) sérialisent `emails` comme un tableau JSON d’objets utilisant des noms de champs en minuscules (`value`, `primary` et `type` ou `display` facultatif), conformément à SCIM 2.0.
+  * Les déploiements sur des versions antérieures renvoient `emails` comme un objet JSON unique avec des clés en PascalCase (`Value`, `Primary` et similaires).
+
+  Si votre code lit `emails` dans des *réponses* SCIM, traitez `emails` comme un tableau et lisez l’entrée principale (ou le premier élément).
+
+  Les corps de requête pour créer ou mettre à jour des utilisateurs utilisaient déjà la forme tableau et restent inchangés. Le filtre `list-users` `emails.value eq "..."` reste également inchangé.
+</Update>
 
 <Update label="v0.80.0" description="28 avril 2026">
   **28 avril 2026**
@@ -306,7 +343,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
   W&amp;B 0.77 introduit des améliorations en matière de sécurité et d&#39;ergonomie conçues pour assurer la sécurité et la productivité de votre organisation.
 
-  Cette version inclut des améliorations de sécurité pour les clés API, une navigation simplifiée avec une configuration partagée entre les Workspaces à run unique et à runs multiples, de nouvelles options d&#39;ombrage pour les graphiques en courbes, ainsi que la disponibilité générale de la synchronisation et de la mise en boucle du panneau multimédia, et des améliorations notables de l&#39;expérience utilisateur ainsi que des corrections de bugs.
+  Cette version inclut des améliorations de sécurité pour les clés API, une navigation simplifiée avec une configuration partagée entre les Workspaces à run unique et à runs multiples, de nouvelles options d&#39;ombrage pour les graphiques en courbes, ainsi que la disponibilité générale de la synchronisation et de la mise en boucle du volet multimédia, et des améliorations notables de l&#39;expérience utilisateur ainsi que des corrections de bugs.
 
   ## Assistance et fin de vie
 
@@ -380,7 +417,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
   ### Weave
 
-  * Correction d’un bug à cause duquel le Weave UI du Cloud dédié affichait des liens vers W&amp;B Inférence, qui n’est pas disponible dans le Cloud dédié.
+  * Correction d’un bug à cause duquel le Weave UI du Cloud dédié affichait des liens vers Serverless Inference, qui n’est pas disponible dans le Cloud dédié.
   * Correction d’un bug qui permettait de redimensionner les graphiques à barres de la page de comparaison [Évaluation](/fr/weave/guides/core-types/evaluations) à une largeur trop faible lorsque le panneau de détails était ouvert.
   * Correction d’un bug de l’interface utilisateur où le curseur pouvait disparaître de la zone visible de l’écran lors de la saisie dans [Weave Playground](https://wandb.ai/site/playground/).
   * Correction d’un bug qui empêchait de modifier les variables du template lors du chargement d’un appel dans [Weave Playground](https://wandb.ai/site/playground/).
@@ -396,7 +433,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
   ## Correctifs
 
   * Correction d&#39;un bug d&#39;affichage pouvant survenir sur macOS lorsque les barres de défilement sont configurées pour être toujours visibles. Si un workspace comporte un [Query panel](/fr/models/app/features/panels/query-panels), le fait de dézoomer dans le workspace pouvait déclencher une boucle de redimensionnement dans laquelle la taille du tableau du Query panel variait plusieurs fois par seconde.
-  * Correction d&#39;un bug où W&amp;B Inférence apparaissait à tort dans l&#39;interface utilisateur de Cloud dédié. Inférence n&#39;est pas disponible dans Cloud dédié.
+  * Correction d&#39;un bug où Serverless Inference apparaissait à tort dans l&#39;interface utilisateur de Cloud dédié. Inférence n&#39;est pas disponible dans Cloud dédié.
 </Update>
 
 <Update label="v0.76.2" description="10 décembre 2025">

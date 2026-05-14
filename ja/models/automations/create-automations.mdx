@@ -9,7 +9,7 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-このページでは、W&amp;Bの[オートメーション](/ja/models/automations/)の作成と管理の概要を説明します。詳しい手順については、[Slack オートメーション を作成する](/ja/models/automations/create-automations/slack/)または[webhook オートメーション を作成する](/ja/models/automations/create-automations/webhook/)を参照してください。
+このページでは、W&amp;Bの[オートメーション](/ja/models/automations)の作成と管理の概要を説明します。詳しい手順については、[Slack オートメーション を作成する](/ja/models/automations/create-automations/slack)または[webhook オートメーション を作成する](/ja/models/automations/create-automations/webhook)を参照してください。
 
 <Note>
   オートメーション の関連チュートリアルをお探しですか？
@@ -23,19 +23,19 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   ## 要件
 </div>
 
-* チーム管理者は、チームのプロジェクトに対するオートメーションに加えて、Webhook、シークレット、Slack インテグレーションなど、オートメーションを構成するコンポーネントも作成および管理できます。[Team settings](/ja/platform/app/settings-page/teams/)を参照してください。
-* レジストリのオートメーションを作成するには、レジストリへのアクセス権が必要です。[Configure Registry access](/ja/models/registry/configure_registry/#registry-roles)を参照してください。
+* チーム管理者は、チームの project に対するオートメーションに加えて、Webhook、シークレット、Slack インテグレーションなど、オートメーションを構成するコンポーネントも作成および管理できます。[Team settings](/ja/platform/app/settings-page/teams)を参照してください。
+* Registry のオートメーションを作成するには、Registry へのアクセス権が必要です。[Configure Registry access](/ja/models/registry/configure_registry/#registry-roles)を参照してください。
 * Slack オートメーションを作成するには、選択した Slack インスタンスおよびチャンネルに投稿する権限が必要です。
 
 <div id="create-an-automation">
   ## オートメーションを作成する
 </div>
 
-プロジェクトまたはレジストリの **Automations** タブからオートメーションを作成します。オートメーションの作成手順の概要は次のとおりです。
+project または Registry の **Automations** タブからオートメーションを作成します。オートメーションの作成手順の概要は次のとおりです。
 
-1. 必要に応じて、アクセストークン、パスワード、SSH キーなど、オートメーションに必要な機密文字列ごとに [W&amp;B シークレットを作成](/ja/platform/secrets/)します。シークレットは **Team Settings** で定義します。シークレットは webhook オートメーションで最もよく使われます。
+1. 必要に応じて、アクセストークン、パスワード、SSH キーなど、オートメーションに必要な機密文字列ごとに [W&amp;B シークレットを作成](/ja/platform/secrets)します。シークレットは **Team Settings** で定義します。シークレットは webhook オートメーションで最もよく使われます。
 2. チームレベルの webhook または Slack インテグレーションを設定して、W&amp;B が代理で Slack に投稿したり、webhook を実行したりできるように認可します。1 つの webhook または Slack インテグレーションを複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義します。
-3. プロジェクトまたはレジストリでオートメーションを作成し、監視するイベントと実行するアクション (Slack への投稿や webhook の実行など) を指定します。webhook オートメーションを作成する場合は、送信するペイロードを設定します。
+3. project または Registry でオートメーションを作成し、監視するイベントと実行するアクション (Slack への投稿や webhook の実行など) を指定します。webhook オートメーションを作成する場合は、送信するペイロードを設定します。
 
 また、Workspace の折れ線グラフから、そのグラフに表示されているメトリクス用の [run メトリクス オートメーション](/ja/models/automations/automation-events/#run-events) をすばやく作成することもできます。
 
@@ -48,8 +48,8 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
 
 詳細は、以下を参照してください。
 
-* [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack/)
-* [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook/)
+* [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack)
+* [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook)
 
 <div id="view-and-manage-automations">
   ## オートメーションの表示と管理
@@ -66,7 +66,12 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   ## 次のステップ
 </div>
 
-* [オートメーションイベントとスコープ](/ja/models/automations/automation-events/) の詳細を見る
-* [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack/).
-* [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook/).
-* [シークレットを作成する](/ja/platform/secrets/).
+* [Automations チュートリアル](/ja/models/automations/tutorial): W&amp;B App で、[project の run 失敗アラート](/ja/models/automations/project-automation-tutorial) または [Registry の alias から webhook へのオートメーション](/ja/models/automations/registry-automation-tutorial) を作成します。
+* [Automation events and scopes](/ja/models/automations/automation-events)。
+* [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack)。
+* [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook)。
+* [シークレット を作成する](/ja/platform/secrets)。
+
+{/* Python SDK の `create_automation` のリグレッションが修正されたら元に戻します（内部 WB-34263）:
+  - [API でオートメーションを管理する](/models/automations/api).
+  */}

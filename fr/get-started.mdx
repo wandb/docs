@@ -9,13 +9,13 @@ description: Choisissez le produit W&B adapté à votre cas d’usage et apprene
 
 Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produits, il est important d’identifier ceux qui correspondent à votre cas d’usage.
 
-| Produit                                   | Idéal pour                                   | Fonctionnalités clés                                                                                                                        |
-| ----------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **[W&amp;B Models](#w%26b-models)**       | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                                                |
-| **[W&amp;B Weave](#w%26b-weave)**         | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                                          |
-| **[W&amp;B Inference](#w%26b-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                                           |
-| **[W&amp;B Training](#w%26b-training)**   | Fine-tuning de modèles                       | Créer et déployer des LoRAs et des adaptations de modèles personnalisées à l’aide de l’apprentissage par renforcement                       |
-| **[W&amp;B Sandboxes](#w%26b-sandboxes)** | Exécuter des environnements de calcul isolés | sandboxes à la demande et éphémères pour les tâches d’entraînement, l’utilisation d’outils par des agents et des expériences reproductibles |
+| Produit                                           | Idéal pour                                   | Fonctionnalités clés                                                                                                                        |
+| ------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[W&amp;B Models](#w%26b-models)**               | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                                                |
+| **[W&amp;B Weave](#w%26b-weave)**                 | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                                          |
+| **[Serverless Inference](#serverless-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                                           |
+| **[Serverless RL](#serverless-rl)**               | Fine-tuning de modèles                       | Créer et déployer des LoRAs et des adaptations de modèles personnalisées à l’aide de l’apprentissage par renforcement                       |
+| **[Serverless Sandboxes](#serverless-sandboxes)** | Exécuter des environnements de calcul isolés | sandboxes à la demande et éphémères pour les tâches d’entraînement, l’utilisation d’outils par des agents et des expériences reproductibles |
 
 <div id="wb-models">
   ## W&amp;B Models
@@ -48,8 +48,8 @@ Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produit
     Découvrez comment décorer votre code afin que les appels à un LLM journalisent des traces Weave et vous mettent sur la voie d’un flux de travail LLM optimal.
   </Card>
 
-  <Card title="Découvrir Weave avec W&B Inference" href="/fr/weave/quickstart-inference">
-    Un tutoriel complet qui montre comment Weave effectue, en conditions réelles, l’évaluation des performances de différents modèles hébergés par W&amp;B Inference
+  <Card title="Découvrir Weave avec Serverless Inference" href="/fr/weave/quickstart-inference">
+    Un tutoriel complet qui montre comment Weave effectue, en conditions réelles, l’évaluation des performances de différents modèles hébergés par Serverless Inference
   </Card>
 
   <Card title="Cours W&B Weave 101" href="https://site.wandb.ai/courses/weave/">
@@ -61,49 +61,49 @@ Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produit
   </Card>
 </Columns>
 
-<div id="wb-inference">
-  ## W&amp;B Inference
+<div id="serverless-inference">
+  ## Serverless Inference
 </div>
 
 <Columns cols={2}>
-  <Card title="Introduction à W&B Inference" href="/fr/inference">
-    Comprend un démarrage rapide qui montre comment utiliser l’API REST OpenAI standard pour appeler n’importe quel modèle hébergé sur W&amp;B Inference.
+  <Card title="Introduction à Serverless Inference" href="/fr/inference">
+    Comprend un démarrage rapide qui montre comment utiliser l’API REST OpenAI standard pour appeler n’importe quel modèle hébergé sur Serverless Inference.
   </Card>
 
-  <Card title="Découvrir Weave avec W&B Inference" href="/fr/weave/quickstart-inference">
-    Un tutoriel complet qui montre comment Weave effectue une évaluation en conditions réelles des performances de différents modèles hébergés sur W&amp;B Inference
+  <Card title="Découvrir Weave avec Serverless Inference" href="/fr/weave/quickstart-inference">
+    Un tutoriel complet qui montre comment Weave effectue une évaluation en conditions réelles des performances de différents modèles hébergés sur Serverless Inference
   </Card>
 
-  <Card title="Essayez le playground Inference" href="https://wandb.ai/inference">
-    W&amp;B Inference est très simple à utiliser. Cliquez sur n’importe quel modèle que nous hébergeons, commencez à tester des prompts et voyez notre couche d’observabilité se mettre en action.
+  <Card title="Essayez l’Inference Playground" href="https://wandb.ai/inference">
+    Serverless Inference est très simple à utiliser. Cliquez sur n’importe quel modèle que nous hébergeons, commencez à tester des prompts et voyez notre couche d’observabilité entrer en action.
   </Card>
 
   <Card title="Exemples" href="/fr/inference/examples">
-    Parcourez quelques exemples rapides montrant comment W&amp;B Inference assure le Tracing des appels à des LLM populaires et évalue les résultats.
+    Parcourez quelques exemples rapides montrant comment Serverless Inference assure le Tracing des appels à des LLM populaires et évalue les résultats.
   </Card>
 </Columns>
 
-<div id="wb-training">
-  ## W&amp;B Training
+<div id="serverless-rl">
+  ## Serverless RL
 </div>
 
 <Columns cols={2}>
   <Card title="Démarrage rapide" href="https://art.openpipe.ai/getting-started/quick-start">
-    Utilisez W&amp;B Training avec la bibliothèque ART d&#39;OpenPipe pour entraîner un modèle afin qu&#39;il joue au 2048.
+    Utilisez Serverless RL avec la bibliothèque ART d&#39;OpenPipe pour entraîner un modèle afin qu&#39;il joue au 2048.
   </Card>
 
-  <Card title="Utiliser vos modèles entraînés" href="/fr/training/serverless-rl/use-trained-models">
+  <Card title="Utiliser vos modèles entraînés" href="/fr/serverless-rl/use-trained-models">
     Une fois votre modèle entraîné, découvrez comment l&#39;utiliser dans votre code.
   </Card>
 </Columns>
 
-<div id="wb-sandboxes">
-  ## W&amp;B Sandboxes
+<div id="serverless-sandboxes">
+  ## Serverless Sandboxes
 </div>
 
 <Columns cols={2}>
   <Card title="Introduction aux Sandboxes" href="/fr/sandboxes">
-    Découvrez ce que sont les W&amp;B Sandboxes et quand les utiliser pour disposer d&#39;un environnement de calcul isolé et éphémère.
+    Découvrez ce que sont les Serverless Sandboxes et quand les utiliser pour disposer d&#39;un environnement de calcul isolé et éphémère.
   </Card>
 
   <Card title="Créer un sandbox" href="/fr/sandboxes/create-sandbox">

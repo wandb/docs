@@ -1,0 +1,109 @@
+---
+title: "튜토리얼: 레지스트리 아티팩트 별칭 자동화"
+description: 레지스트리 아티팩트에 \"production\"과 같은 특정 별칭이 지정되면 웹훅을 실행하는 자동화를 만드세요.
+---
+
+import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
+import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
+import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
+
+이 튜토리얼에서는 아티팩트 메타데이터를 기반으로 트리거되는 **레지스트리** 자동화를 구축하는 방법을 안내합니다. 레지스트리의 아티팩트에 특정 별칭(예: **프로덕션**)이 추가되면 W&amp;B가 사용자의 웹훅으로 POST 요청을 보냅니다.
+
+<TutorialDiagramRegistry />
+
+<Tip>프로젝트 자동화를 만드는 방법은 [튜토리얼: 프로젝트 run 실패 알림 자동화](/ko/models/automations/project-automation-tutorial)를 참조하세요.</Tip>
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* **팀 settings**에서 구성한 [웹훅](/ko/models/automations/create-automations/webhook#create-a-webhook).
+* 하나 이상의 컬렉션이 있는 W&amp;B [레지스트리](/ko/models/registry/create_registry) 또는 기존 레지스트리.
+
+<div id="create-a-registry-automation">
+  ## 레지스트리 자동화 만들기
+</div>
+
+다음 지침에 따라 레지스트리 범위 자동화를 설정하세요. 해당 레지스트리의 어떤 컬렉션에 있는 아티팩트에 특정 별칭(예: **프로덕션**)이 지정되면 W&amp;B가 사용자의 웹훅으로 POST 요청을 보냅니다.
+
+{/* `create_automation`에 대한 Python SDK 수정(내부 WB-34263)이 배포될 때까지 W&B App 및 Python 탭을 일시적으로 숨깁니다. 회귀 수정이 배포되면 다시 표시하세요.
+
+  <Tabs>
+  <Tab title="W&B App">
+  */}
+
+1. 레지스트리를 열고 **Automations** 탭을 클릭한 다음 **Create automation**을 클릭하세요.
+2. 이벤트 **An artifact alias is added**를 선택하세요. 원하는 별칭과 일치하는 **Alias regex**를 입력하세요(예: **production** 또는 **staging**).
+3. **Next step**을 클릭하세요. **Action type**을 **Webhooks**로 설정하고 웹훅을 선택하세요. 웹훅이 페이로드를 받는 경우 JSON 본문을 붙여넣고 `${artifact_collection_name}` 및 `${artifact_version_string}` 같은 [payload variables](/ko/models/automations/create-automations/webhook#payload-variables)를 사용하세요.
+4. **Next step**을 클릭하세요. 자동화 이름과 선택 사항인 설명을 입력한 다음 **Create automation**을 클릭하세요.
+
+자세한 내용은 [Create a webhook automation](/ko/models/automations/create-automations/webhook#create-an-automation) (레지스트리 탭)을 참조하세요.
+
+{/*
+  </Tab>
+  <Tab title="Python">
+  Public API를 사용하여 컬렉션 범위와 별칭 필터를 적용한 동일한 자동화를 생성하세요:
+
+  ```python
+  import wandb
+  from wandb.automations import OnAddArtifactAlias, ArtifactEvent, SendWebhook
+
+  api = wandb.Api()
+
+  collection = api.artifact_collection(name="my-model", type_name="model")
+  webhook_integration = next(api.webhook_integrations(entity="my-team"))
+
+  event = OnAddArtifactAlias(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("production"),
+  )
+  action = SendWebhook.from_integration(
+    webhook_integration,
+    payload={
+        "event": "${event_type}",
+        "model": "${artifact_collection_name}",
+        "version": "${artifact_version_string}",
+    },
+  )
+
+  automation = api.create_automation(
+    event >> action,
+    name="production-alias-webhook",
+    description="프로덕션 별칭이 추가되면 웹훅을 트리거합니다.",
+  )
+  ```
+  </Tab>
+  </Tabs>
+  */}
+
+<div id="test-the-automation">
+  ## 자동화 테스트하기
+</div>
+
+W&amp;B App 또는 공개 API를 사용해 레지스트리의 아티팩트 버전에 별칭(예: **프로덕션**)을 추가하세요. 예를 들어 다음과 같습니다:
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    artifact = wandb.Artifact("my-model", type="model")
+    # ... 필요에 따라 아티팩트에 파일 또는 메타데이터를 로깅합니다 ...
+    run.log_artifact(artifact)
+    run.wait()  # 아티팩트 로깅이 완료될 때까지 대기합니다
+
+# 컬렉션의 최신 버전에 별칭을 추가합니다
+api = wandb.Api()
+collection = api.artifact_collection(name="my-model", type_name="model")
+version = next(collection.versions())  # 최신 버전을 조회합니다
+
+version.aliases.append("production")
+version.save()
+print("Added alias 'production' to", version.name)
+
+```
+
+잠시 후 웹훅 엔드포인트로 설정한 페이로드가 포함된 POST 요청이 도착해야 합니다.
+
+<TutorialNotebook />
+
+<TutorialGoFurther />

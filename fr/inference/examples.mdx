@@ -2,10 +2,10 @@
 title: "Exemples d'utilisation"
 linkTitle: "Exemples"
 description: >
-  Découvrez comment utiliser W&B Inference à l'aide d'exemples de code concrets
+  Découvrez comment utiliser Serverless Inference à l'aide d'exemples de code concrets
 ---
 
-Ces exemples montrent comment utiliser W&amp;B Inference avec Weave pour le tracing, l&#39;évaluation et la comparaison.
+Ces exemples montrent comment utiliser Serverless Inference avec Weave pour le tracing, l&#39;évaluation et la comparaison.
 
 <div id="basic-example-trace-llama-31-8b-with-weave">
   ## Exemple de base : Tracing de Llama 3.1 8B avec Weave
@@ -36,14 +36,14 @@ weave.init("<your-team>/<your-project>")
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Créer une clé API sur https://wandb.ai/settings
+    # Créez une clé API sur https://wandb.ai/settings
     api_key="<your-api-key>",
 
-    # Facultatif : équipe et projet pour le suivi de l'utilisation
+    # Facultatif : équipe et projet pour le suivi d'utilisation
     project="wandb/inference-demo",
 )
 
-# Tracer l'appel du modèle dans Weave
+# Tracer l'appel au modèle dans Weave
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -69,7 +69,7 @@ Après avoir exécuté le code, affichez la trace dans Weave de l’une des faç
   ## Exemple avancé : utiliser Weave Evaluations et les classements
 </div>
 
-En plus du Tracing des appels de modèle, vous pouvez également évaluer les performances et publier des classements. Cet exemple compare deux modèles sur un jeu de données de questions-réponses.
+En plus du tracing des appels de modèle, vous pouvez également évaluer les performances et publier des classements. Cet exemple compare deux modèles sur un jeu de données de questions-réponses.
 
 Avant d’exécuter cet exemple, suivez les [prérequis](/fr/inference/prerequisites/).
 
@@ -81,7 +81,7 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# Définir l'équipe et le projet Weave pour le tracing
+# Définir l'équipe et le projet Weave pour le suivi
 weave.init("<your-team>/<your-project>")
 
 dataset = [
@@ -100,7 +100,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Créer une clé API sur https://wandb.ai/settings
+            # Créez une clé API sur https://wandb.ai/settings
             api_key="<your-api-key>",
             # Facultatif : équipe et projet pour le suivi de l'utilisation
             project="<your-team>/<your-project>",

@@ -1,84 +1,107 @@
 ---
 title: Accueil de l’assistance
-mode: "center"
+mode: "custom"
 ---
 
 import {Banner} from "/snippets/Banner.jsx";
 import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
-<Banner title="Comment pouvons-nous vous aider ?" background="/images/support/support_banner.png">
-  Trouvez de l’aide dans les articles de support, la documentation produit,<br />
-  et la communauté W&amp;B.
-</Banner>
+{/*
+  mode: "custom" supprime les éléments d’interface de contenu par défaut de Mintlify (barre latérale, table des matières,
+  pied de page) ainsi que les marges internes standard du contenu. Le conteneur ci-dessous rétablit
+  un espacement comparable au mode: "center" dans les thèmes Mint :
+    - max-w-4xl    limite la largeur à une colonne de lecture centrée confortable
+                   (approximativement la largeur utilisée par Mintlify sur les pages d’accueil et
+                   les pages en mode center)
+    - mx-auto      centre horizontalement la colonne
+    - px-6 lg:px-8 marges intérieures horizontales qui augmentent sur les vues plus larges
+    - py-10        espace vertical entre la barre de navigation et le contenu
+                   (le mode custom n’affiche pas l’en-tête de page standard,
+                   donc, sinon, le corps de page serait collé à la barre de navigation)
+  Conformément aux recommandations de Mintlify, la mise en page utilise des classes utilitaires Tailwind plutôt que
+  la prop style afin d’éviter un décalage de mise en page au chargement de la page.
+  */}
 
-<HelpQuestionForm />
+<div className="max-w-4xl mx-auto px-6 lg:px-8 py-10">
+  {/*
+      En mode : "custom", Mintlify n’affiche pas le titre du frontmatter comme un
+      H1 sur la page, et le corps n’est pas entouré d’un conteneur de prose. Les titres HTML
+      (<h1>/<h2>/<h3>) héritent donc des valeurs par défaut du navigateur ainsi que de la règle
+      typography.css du projet (police avec empattements, graisse 400). Le guide des custom-layouts de Mintlify
+      résout ce point en écrivant des titres HTML bruts avec des classes Tailwind
+      explicites ; faites de même ici afin que les titres correspondent à ceux de la documentation standard.
+      */}
 
-<div id="browse-support-articles-by-product">
-  ## Parcourir les articles de support par produit
-</div>
+  <h1 className="tracking-tight mb-8" style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}>Accueil de l&#39;assistance</h1>
 
-<CardGroup cols={3}>
-  <Card title="W&B Models" href="/fr/support/models" arrow="true" icon="/icons/cropped-models.svg">
-    {/* GÉNÉRÉ AUTOMATIQUEMENT: comptes */}
+  <Banner title="Comment pouvons-nous vous aider ?" background="/images/support/support_banner.png">
+    Consultez les articles de support, la documentation produit,<br />
+    et la communauté W&amp;B pour trouver de l’aide.
+  </Banner>
 
-    190 articles · 33 tags
+  <HelpQuestionForm />
 
-    {/* fin des comptes GÉNÉRÉ AUTOMATIQUEMENT */}
+  <h2 className="tracking-tight mt-12 mb-4" style={{ fontSize: '1.5rem' }}>Parcourir les articles de support par produit</h2>
+
+  <CardGroup cols={3}>
+    <Card title="W&B Models" href="/fr/support/models" arrow="true" icon="/icons/cropped-models.svg">
+      {/* GÉNÉRÉ AUTOMATIQUEMENT: totaux */}
+
+      190 articles · 33 tags
+
+      {/* END GÉNÉRÉ AUTOMATIQUEMENT: totaux */}
+    </Card>
+
+    <Card title="W&B Weave" href="/fr/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
+      {/* GÉNÉRÉ AUTOMATIQUEMENT: totaux */}
+
+      16 articles · 8 tags
+
+      {/* END GÉNÉRÉ AUTOMATIQUEMENT: totaux */}
+    </Card>
+
+    <Card title="Serverless Inference" href="/fr/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
+      {/* GÉNÉRÉ AUTOMATIQUEMENT: totaux */}
+
+      7 articles · 5 tags
+
+      {/* END GÉNÉRÉ AUTOMATIQUEMENT: totaux */}
+    </Card>
+  </CardGroup>
+
+  {/* GÉNÉRÉ AUTOMATIQUEMENT: articles à la une */}
+
+  <h2 className="tracking-tight mt-12 mb-4" style={{ fontSize: '1.5rem' }}>Articles à la une</h2>
+
+  <h3 className="tracking-tight mt-8 mb-3" style={{ fontSize: '1.25rem' }}>W&amp;B Models</h3>
+
+  <Card title="Comment puis-je configurer le nom du run dans mon code d’entraînement ?" href="/fr/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+    Au début du script d’entraînement, appelez wandb.init avec un nom d’expérience. Par exemple : wandb.init(name=&quot;my&#95;aweso ...
+
+    <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
   </Card>
 
-  <Card title="W&B Weave" href="/fr/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
-    {/* GÉNÉRÉ AUTOMATIQUEMENT: comptes */}
+  <Card title="Comment puis-je utiliser des commandes CLI personnalisées avec les Sweeps ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+    Vous pouvez utiliser W&amp;B Sweeps avec des commandes CLI personnalisées si la configuration d’entraînement transmet des arguments de ligne de commande. Dans cet exemple  ...
 
-    16 articles · 8 tags
-
-    {/* fin des comptes GÉNÉRÉ AUTOMATIQUEMENT */}
+    <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
   </Card>
 
-  <Card title="W&B Inference" href="/fr/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
-    {/* GÉNÉRÉ AUTOMATIQUEMENT: comptes */}
+  <Card title="Est-il possible d’enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+    Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d’environne ...
 
-    7 articles · 5 tags
-
-    {/* fin des comptes GÉNÉRÉ AUTOMATIQUEMENT */}
+    <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
   </Card>
-</CardGroup>
 
-{/* GÉNÉRÉ AUTOMATIQUEMENT: articles à la une */}
+  <Card title="Que fait wandb.init pour mon processus d’entraînement ?" href="/fr/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+    Lorsque wandb.init() s’exécute dans un script d’entraînement, un appel d’API crée un objet run sur les serveurs. Un nouveau processus démarre pour st ...
 
-<div id="featured-articles">
-  ## Articles à la une
+    <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+  </Card>
+
+  {/* END GÉNÉRÉ AUTOMATIQUEMENT: Articles à la une */}
+
+  <Card title="Vous ne trouvez toujours pas ce que vous cherchez ?" href="mailto:support@wandb.com" icon="circle-info">
+    Contactez l’assistance
+  </Card>
 </div>
-
-<div id="wb-models">
-  ### W&amp;B Models
-</div>
-
-<Card title="Comment puis-je configurer le nom du run dans mon code d’entraînement ?" href="/fr/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  Au début du script d’entraînement, appelez wandb.init avec un nom d’expérience. Par exemple : wandb.init(name=&quot;my&#95;aweso ...
-
-  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
-</Card>
-
-<Card title="Comment puis-je utiliser des commandes CLI personnalisées avec les Sweeps ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  Vous pouvez utiliser W&amp;B Sweeps avec des commandes CLI personnalisées si la configuration d’entraînement transmet des arguments de ligne de commande. Dans cet exemple  ...
-
-  <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
-</Card>
-
-<Card title="Est-il possible d’enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d’environne ...
-
-  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
-</Card>
-
-<Card title="Que fait wandb.init pour mon processus d’entraînement ?" href="/fr/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  Lorsque wandb.init() s’exécute dans un script d’entraînement, un appel d’API crée un objet run sur les serveurs. Un nouveau processus démarre pour st ...
-
-  <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
-</Card>
-
-{/* END GÉNÉRÉ AUTOMATIQUEMENT: articles à la une */}
-
-<Card title="Vous ne trouvez toujours pas ce que vous cherchez ?" href="mailto:support@wandb.com" icon="circle-info">
-  Contactez l’assistance
-</Card>

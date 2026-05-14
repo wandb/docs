@@ -1,17 +1,25 @@
 /**
- * ProductCard component that mimics Hugo's card styling and behavior
- * - Header row: icon (optional) on left with title and subtitle to its right
- * - Body content below spans the full card width
+ * ProductCard component for the home page product grid.
+ * - Icon at top-left of card, recolored to brand amber via CSS mask
  * - Card background clicks navigate to the main href
  * - Internal links are independently clickable
+ *
+ * iconSize defaults to 24; pass iconSize={xx} to override for a specific card.
  */
-export const ProductCard = ({ title, iconSrc, href, subtitle, children, className = '' }) => {
+export const ProductCard = ({
+  title,
+  iconSrc,
+  href,
+  subtitle,
+  children,
+  iconSize = 24,
+  className = '',
+}) => {
   const handleCardClick = (e) => {
+    // Walk up to the card root to see if the click landed on a link
     let target = e.target;
     while (target && target !== e.currentTarget) {
-      if (target.tagName === 'A') {
-        return;
-      }
+      if (target.tagName === 'A') return;
       target = target.parentElement;
     }
     if (href) {
@@ -21,41 +29,42 @@ export const ProductCard = ({ title, iconSrc, href, subtitle, children, classNam
 
   return (
     <div
-      className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-all px-4 sm:px-6 pt-0 pb-6"
+      className={`product-card group flex flex-col rounded-lg p-6 transition-all ${className}`}
       onClick={handleCardClick}
       style={{ cursor: href ? 'pointer' : 'default' }}
     >
-      {/* Header row: icon (optional) + title */}
-      <div className="flex items-center mb-2">
-        {iconSrc && (
-          <div className="flex-shrink-0 mr-3">
-            <img
-              src={iconSrc}
-              alt={title}
-              className="h-10 w-auto"
-            />
-          </div>
-        )}
-        <h2
-          className="text-xl font-normal flex-1"
-          style={{ fontFamily: '"Source Serif 4", serif', marginTop: 0, marginBottom: 0 }}
-        >
-          {title}
-        </h2>
-      </div>
+      {iconSrc && (
+        <span
+          className="product-card-icon"
+          aria-hidden="true"
+          style={{
+            display: 'block',
+            width: `${iconSize}px`,
+            height: `${iconSize}px`,
+            backgroundColor: '#D4870D',
+            WebkitMaskImage: `url(${iconSrc})`,
+            maskImage: `url(${iconSrc})`,
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain',
+            WebkitMaskPosition: 'left center',
+            maskPosition: 'left center',
+            marginBottom: '8px',
+            lineHeight: 1,
+          }}
+        />
+      )}
 
-      {/* Subtitle spans full card width */}
+      <h2 className="product-card-title">
+        {title}
+      </h2>
       {subtitle && (
-        <h3
-          className="text-base font-semibold mb-3 text-gray-700 dark:text-gray-300"
-          style={{ marginTop: '-12px' }}
-        >
+        <h3 className="product-card-subtitle">
           {subtitle}
         </h3>
       )}
-
-      {/* Body content spans full card width */}
-      <div className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+      <div className="product-card-body leading-relaxed">
         {children}
       </div>
     </div>

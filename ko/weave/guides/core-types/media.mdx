@@ -40,11 +40,9 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   ## 이미지 로깅
 </div>
 
-다음 예제에서는 이미지를 생성하고 Weave UI에 로깅하는 방법을 보여줍니다.
+다음 예시에서는 이미지를 생성하고 Weave UI에 로깅하는 방법을 보여줍니다.
 
-<Frame>
-  ![호박을 쓴 고양이 트레이스 뷰 스크린샷](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
-</Frame>
+<Frame>![호박 모자를 쓴 고양이 트레이스 뷰 스크린샷](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)</Frame>
 
 <Tabs>
   <Tab title="Python">
@@ -137,7 +135,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
         image.thumbnail(max_size, Image.Resampling.LANCZOS)
         return image
 
-    # 로깅 전 이미지 크기 조정을 위한 출력 후처리
+    # 로깅 전에 이미지 크기를 조정하기 위한 출력 후처리
     def postprocess_output(output: ImageResult) -> ImageResult:
         resized = resize_image(output.image)
         return ImageResult(label=output.label, image=resized)
@@ -155,7 +153,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   </Tab>
 
   <Tab title="TypeScript">
-    다음 예제에서는 `weaveImage` 함수를 사용해 이미지를 로깅합니다.
+    다음 예제에서는 `weaveImage` 함수를 사용해 이미지를 로깅합니다:
 
     ```typescript
     import * as weave from 'weave';
@@ -164,13 +162,13 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
     async function main() {
         await weave.init('your-team-name/your-project-name');
 
-        // weaveImage를 사용하여 이미지 로드 및 기록
+        // weaveImage를 사용하여 이미지 로드 및 로깅
         const loadImage = weave.op(async function loadImage(path: string) {
             const data = fs.readFileSync(path);
             return weave.weaveImage({ data });
         });
 
-        // PNG 이미지 파일이 있다고 가정
+        // PNG 이미지 파일이 있다고 가정합니다
         await loadImage('sample_image.png');
     }
 
@@ -218,15 +216,15 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   ## 비디오 로깅
 </div>
 
-다음 예제에서는 비디오를 생성하고 Weave UI에 로깅하는 방법을 보여줍니다.
+다음 예시에서는 비디오를 생성하고 Weave UI에 로깅하는 방법을 보여줍니다.
 
 <Frame>
-  ![Weave의 비디오 로깅](/images/weave/video.png)
+  ![Weave에서 비디오 로깅](/images/weave/video.png)
 </Frame>
 
 <Tabs>
   <Tab title="Python">
-    함수에 `Annotated[bytes, Content]` 타입 어노테이션을 사용해 비디오를 로깅합니다. Weave는 `mp4` 비디오를 자동으로 처리합니다. 다음은 간단한 예제입니다:
+    함수에 `Annotated[bytes, Content]` 타입으로 어노테이션하여 비디오를 로깅하세요. Weave는 `mp4` 비디오를 자동으로 처리합니다. 다음은 간단한 예시입니다:
 
     ```python lines {15}
     import weave
@@ -237,7 +235,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
     weave.init('your-team-name/your-project-name')
 
     def download_big_buck_bunny():
-        """Big Buck Bunny 샘플 비디오 다운로드"""
+        """Download Big Buck Bunny sample video"""
         url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         response = requests.get(url)
         with open("big_buck_bunny.mp4", "wb") as f:
@@ -245,7 +243,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
 
     @weave.op
     def load_video_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
-        """디스크에서 비디오 파일 로드"""
+        """Load a video file from disk"""
         with open(path, 'rb') as f:
             return f.read()
 
@@ -255,9 +253,9 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
 
     Weave는 비디오를 로깅하고, 비디오를 볼 수 있는 트레이스로 연결되는 링크를 반환합니다.
 
-    ### 고급 예제: 비디오 분석 프로젝트 내에서 비디오 로깅
+    ### 고급 예시: 비디오 분석 프로젝트 내에서 비디오 로깅
 
-    다음 예제에서는 비디오 이해 프로젝트 내에서 비디오를 로깅하는 방법을 보여줍니다:
+    다음 예시에서는 비디오 이해 프로젝트 내에서 비디오를 로깅하는 방법을 보여줍니다:
 
     ```python lines {25}
     import weave
@@ -269,7 +267,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
     import yt_dlp
     import time
 
-    # 참고: https://aistudio.google.com/app/apikey 에서 API 키를 가져오세요
+    # 참고: https://aistudio.google.com/app/apikey 에서 API 키를 조회하세요
     client = genai.Client()
     weave.init('your-team-name/your-project-name')
 
@@ -318,11 +316,9 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   ## 문서 로깅
 </div>
 
-다음 예제에서는 문서를 생성해 Weave UI에 로깅합니다.
+다음 예시에서는 문서를 생성해 Weave UI에 로깅합니다.
 
-<Frame>
-  ![Weave에서 PDF 문서 로깅](/images/weave/pdf.png)
-</Frame>
+<Frame>![Weave에서 PDF 문서 로깅](/images/weave/pdf.png)</Frame>
 
 <Tabs>
   <Tab title="Python">
@@ -330,7 +326,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
 
     Weave는 `pdf`, `csv`, `md`, `text`, `json`, `xml` 파일 유형을 자동으로 처리합니다. `Annotated[str, Content]`를 사용해 파일 경로로도 로깅할 수 있습니다.
 
-    다음 예제는 입력 PDF 및 CSV 파일의 복사본을 저장한 다음, 함수가 반환한 파일 내용도 저장하는 방법을 보여줍니다:
+    다음 예시는 입력 PDF 및 CSV 파일의 복사본을 저장한 다음, 함수가 반환한 파일 내용도 저장하는 방법을 보여줍니다:
 
     ```python lines {25}
     import weave
@@ -368,9 +364,9 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
     csv_result = load_document("sample_data.csv")
     ```
 
-    ### 고급 예제: RAG 시스템 내 문서 로깅
+    ### 고급 예시: RAG 시스템 내 문서 로깅
 
-    이 예제는 Retrieval-Augmented Generation(RAG) 시스템 내에서 문서를 로깅하는 방법을 보여줍니다:
+    이 예시는 Retrieval-Augmented Generation(RAG) 시스템 내에서 문서를 로깅하는 방법을 보여줍니다:
 
     ```python lines {27}
     import weave
@@ -439,7 +435,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   ## 오디오 로깅
 </div>
 
-다음 예제에서는 Weave에 오디오를 로깅하는 방법을 보여줍니다.
+다음 예시에서는 오디오를 Weave에 로깅하는 방법을 보여줍니다.
 
 <Frame>
   ![오디오 트레이스 뷰 스크린샷](/weave/guides/core-types/imgs/audio-trace.png)
@@ -462,7 +458,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
 
     weave.init('your-team-name/your-project-name')
 
-    # 간단한 비프음 오디오 파일 생성
+    # 단순한 비프음 오디오 파일 생성
     frames = np.sin(2 * np.pi * 440 * np.linspace(0, 1, 44100))
     audio_data = (frames * 32767 * 0.3).astype(np.int16)
 
@@ -482,7 +478,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
 
     ### 고급 예제: AI가 생성한 오디오를 만들고 로깅하기
 
-    이 예제에서는 `Content` annotation을 사용해 AI가 생성한 오디오를 만들고 로깅합니다:
+    이 예제에서는 `Content` 어노테이션을 사용해 AI가 생성한 오디오를 만들고 로깅합니다:
 
     ```python lines {11}
     import weave
@@ -523,7 +519,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
       ![Weave의 오디오 로깅](/images/weave/audio.png)
     </Frame>
 
-    다음 예제는 OpenAI API의 스트리밍 응답을 사용해 오디오를 로깅하는 방법을 보여줍니다.
+    다음 예제는 OpenAI API의 스트리밍 응답을 사용해 오디오를 로깅하는 방법을 보여줍니다:
 
     ```python lines
     import weave
@@ -543,7 +539,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
         ) as res:
             res.stream_to_file("output.wav")
 
-        # 오디오로 로깅할 wave.Wave_read 객체 반환
+        # 오디오로 로깅할 wave.Wave_read 객체를 반환합니다
         return wave.open("output.wav")
 
     make_audio_file_streaming("Hello, how are you?")
@@ -560,7 +556,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
     async function main() {
         await weave.init('your-team-name/your-project-name');
 
-        // weaveAudio를 사용하여 오디오 로드 및 로그
+        // weaveAudio를 사용해 오디오 로드 및 로깅
         const loadAudio = weave.op(async function loadAudio(path: string) {
             const data = fs.readFileSync(path);
             return weave.weaveAudio({ data });
@@ -608,15 +604,13 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   </Tab>
 </Tabs>
 
-<Tip>
-  [Audio Logging](/ko/weave/cookbooks/audio_with_weave) 쿡북도 사용해 보세요. 이 쿡북에는 Weave로 통합된 Real Time Audio API 기반 어시스턴트의 고급 예제도 포함되어 있습니다.
-</Tip>
+<Tip>[오디오 로깅](/ko/weave/cookbooks/audio_with_weave) cookbook도 사용해 보세요. 이 cookbook에는 Weave로 통합된 Real Time Audio API 기반 어시스턴트의 고급 예제도 포함되어 있습니다.</Tip>
 
 <div id="log-html">
   ## HTML 로깅
 </div>
 
-다음 예제에서는 HTML을 생성해 Weave UI에 로깅하는 방법을 보여줍니다.
+다음 예시에서는 HTML을 생성해 Weave UI에 로깅하는 방법을 보여줍니다.
 
 <Frame>
   ![Weave에서의 HTML 로깅](/images/weave/html.png)
@@ -626,7 +620,7 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
   <Tab title="Python">
     함수에 `Annotated[bytes, Content[Literal['html']]]`를 어노테이션해 대화형 HTML을 로깅합니다.
 
-    다음 예제에서는 단순한 HTML 페이지를 생성해 Weave에 로깅합니다:
+    다음 예시에서는 단순한 HTML 페이지를 생성해 Weave에 로깅합니다:
 
     ```python lines {8}
     import weave
@@ -658,9 +652,9 @@ W&amp;B Weave는 다양한 콘텐츠 유형의 로깅과 표시를 지원하며,
     result = create_simple_html()
     ```
 
-    ### 고급 예제: W&amp;B Inference를 사용해 독립형 HTML 페이지를 생성하고 Weave에 로깅하기
+    ### 고급 예시: Serverless Inference를 사용해 독립형 HTML 페이지를 생성하고 Weave에 로깅하기
 
-    이 예제에서는 [W&amp;B Inference](https://docs.wandb.ai/inference/)를 사용해 독립형 HTML 페이지를 생성하고 이를 Weave에 로깅합니다:
+    이 예시에서는 [Serverless Inference](/ko/inference)를 사용해 독립형 HTML 페이지를 생성하고 이를 Weave에 로깅합니다:
 
     ```python lines {21}
     import weave
@@ -744,7 +738,7 @@ def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Conten
     return data
 
 # 입력과 출력 모두 Weave에서 MP4 파일로 표시됩니다
-# 입력은 문자열이고 반환값은 bytes입니다
+# 입력은 string이고 반환값은 bytes입니다
 bytes_data = content_annotation('./path/to/your/file.mp4')
 ```
 
@@ -812,11 +806,11 @@ markdown_content('path/to/your/document.md')
 ```python lines
 video_bytes = Path('/path/to/video.mp4').read_bytes()
 
-# 'mp4' 또는 '.mp4'와 같은 확장자를 extension 매개변수에 전달합니다
+# 'mp4' 또는 '.mp4'와 같은 확장자를 extension 매개변수에 전달하세요
 # (`from_path`에서는 사용 불가)
 content = Content.from_bytes(video_bytes, extension='.mp4')
 
-# 'video/mp4'와 같은 mimetype을 mimetype 매개변수에 전달합니다
+# 'video/mp4'와 같은 mimetype을 mimetype 매개변수에 전달하세요
 content = Content.from_bytes(video_bytes, mimetype='video/mp4')
 ```
 
