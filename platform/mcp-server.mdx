@@ -247,20 +247,20 @@ Common reasons to run locally:
 - **Active development** on the server itself.
 - **STDIO-only clients** or clients that require a local process.
 
-For Dedicated Cloud or Self-Managed users, the hosted path is preferred. Only fall back to a local install from [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) if the hosted server isn't yet enabled on your instance or one of the reasons above applies. Set `WANDB_BASE_URL` to your instance URL.
+For Dedicated Cloud or Self-Managed users, the hosted path is preferred. Only use a local install from [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) if the hosted server isn't yet enabled on your instance or one of the reasons above applies. Set a `WANDB_BASE_URL` environment variable to your instance URL.
 
 ### Local prerequisites
 
 To run the server locally, make sure you have the following:
 
 - Python 3.11 or higher.
-- [`uv`](https://docs.astral.sh/uv/) is recommended. For installation instructions, see the [uv documentation](https://docs.astral.sh/uv/getting-started/installation/). You can use `pip` instead.
+- [`uv`](https://docs.astral.sh/uv/) or `pip`.
 - A W&B API key, set as `WANDB_API_KEY`.
 - `WANDB_BASE_URL` set to your instance URL if you use Dedicated Cloud or Self-Managed.
 
 ### Install the server
 
-Choose an install method:
+Choose an install method and run the following command to install the MCP server:
 
 <Tabs>
 <Tab title="uvx (no permanent install)">
@@ -287,7 +287,7 @@ pip install git+https://github.com/wandb/wandb-mcp-server
 
 ### Configure your client
 
-Select your MCP client:
+Select your MCP client and then run the following configuration, replacing `<your-wandb-api-key>` with your W&B API key as necessary:
 
 <Tabs>
 <Tab title="Claude Code">
