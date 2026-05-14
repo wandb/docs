@@ -1,0 +1,109 @@
+---
+title: "チュートリアル: Registry artifact エイリアス のオートメーション"
+description: Registry artifact に "production" などの特定の エイリアス が付いたときに webhook を実行するオートメーションを作成します。
+---
+
+import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
+import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
+import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
+
+このチュートリアルでは、artifact のメタデータによってトリガーされる **Registry** オートメーションの構築方法を説明します。Registry 内の artifact に特定のエイリアス (たとえば **本番**) が付与されると、W&amp;B は webhook に POST リクエストを送信します。
+
+<TutorialDiagramRegistry />
+
+<Tip>project オートメーションの作成手順については、[チュートリアル: project の run 失敗アラート オートメーション](/ja/models/automations/project-automation-tutorial)を参照してください。</Tip>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* **Team Settings** で設定済みの [webhook](/ja/models/automations/create-automations/webhook#create-a-webhook)。
+* 少なくとも 1 つのコレクションを含む W&amp;B の [Registry](/ja/models/registry/create_registry) (既存の Registry を再利用してもかまいません) 。
+
+<div id="create-a-registry-automation">
+  ## Registry のオートメーションを作成する
+</div>
+
+次の手順に従って、Registry スコープのオートメーションを設定します。このオートメーションでは、その Registry 内の任意のコレクションにある artifact に特定の エイリアス (たとえば **production**) が付与されると、W&amp;B から webhook に POST リクエストが送信されます。
+
+{/* Python SDK の `create_automation` の修正が完了するまで、W&B App / Python タブは一時的に非表示にしています（内部 WB-34263）。このリグレッション修正がリリースされたら復元してください。
+
+  <Tabs>
+  <Tab title="W&B App">
+  */}
+
+1. Registry を開き、**Automations** タブをクリックしてから **Create automation** をクリックします。
+2. イベント **An artifact エイリアス is added** を選択します。対象の エイリアス に一致する **Alias regex** を入力します (例: **production** または **staging**) 。
+3. **Next step** をクリックします。**Action type** を **Webhooks** に設定し、webhook を選択します。webhook がペイロードを想定している場合は、JSON 本文を貼り付け、`${artifact_collection_name}` や `${artifact_version_string}` などの [payload variables](/ja/models/automations/create-automations/webhook#payload-variables) を使用します。
+4. **Next step** をクリックします。オートメーションの名前と任意の説明を入力し、**Create automation** をクリックします。
+
+詳細については、[Create a webhook automation](/ja/models/automations/create-automations/webhook#create-an-automation) (Registry タブ) を参照してください。
+
+{/*
+  </Tab>
+  <Tab title="Python">
+  Public API を使用して、コレクション スコープと エイリアス フィルターを指定した同じオートメーションを作成します。
+
+  ```python
+  import wandb
+  from wandb.automations import OnAddArtifactAlias, ArtifactEvent, SendWebhook
+
+  api = wandb.Api()
+
+  collection = api.artifact_collection(name="my-model", type_name="model")
+  webhook_integration = next(api.webhook_integrations(entity="my-team"))
+
+  event = OnAddArtifactAlias(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("production"),
+  )
+  action = SendWebhook.from_integration(
+    webhook_integration,
+    payload={
+        "event": "${event_type}",
+        "model": "${artifact_collection_name}",
+        "version": "${artifact_version_string}",
+    },
+  )
+
+  automation = api.create_automation(
+    event >> action,
+    name="production-alias-webhook",
+    description="production alias が追加されたときに webhook をトリガーします。",
+  )
+  ```
+  </Tab>
+  </Tabs>
+  */}
+
+<div id="test-the-automation">
+  ## オートメーションをテストする
+</div>
+
+W&amp;B App または public API を使用して、Registry 内の artifact バージョンに エイリアス (たとえば **本番**) を追加します。例:
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    artifact = wandb.Artifact("my-model", type="model")
+    # ... 必要に応じてファイルまたはメタデータをartifactにログする ...
+    run.log_artifact(artifact)
+    run.wait()  # artifactのログが完了するまで待機する
+
+# コレクションの最新バージョンにaliasを追加する
+api = wandb.Api()
+collection = api.artifact_collection(name="my-model", type_name="model")
+version = next(collection.versions())  # 最新バージョンを取得する
+
+version.aliases.append("production")
+version.save()
+print("Added alias 'production' to", version.name)
+
+```
+
+しばらくすると、webhook エンドポイントに、設定したペイロードを含む POST リクエストが届くはずです。
+
+<TutorialNotebook />
+
+<TutorialGoFurther />
