@@ -846,7 +846,7 @@
               {
                 "group" : "W&B Agent",
                 "pages": [
-                  "agent/agent",
+                  "agent/agent_overview",
                   "agent/governance"
                 ]
               },
