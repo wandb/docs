@@ -5,11 +5,19 @@ description: "Trace Amazon Bedrock Agents invocations with Weave, capturing agen
 
 [Amazon Bedrock Agents](https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html) let you build managed AI agents on AWS that orchestrate foundation models, knowledge bases, and action groups. Weave traces calls to the `bedrock-agent-runtime` client so you can inspect each `invoke_agent` invocation, including the foundation model, token usage, session ID, and the agent's response.
 
+<Note>
+The Weave TypeScript SDK doesn't currently Bedrock Agent integration.
+</Note>
+
 ## Prerequisites
 
-- AWS credentials configured for an account with access to Bedrock Agents (see [Authentication](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)).
-- An existing Bedrock agent and alias. Note the `agentId` and `agentAliasId`.
 - A W&B API key. For more information, see [API keys](/platform/app/settings-page/user-settings#api-keys).
+- AWS credentials configured for an account with access to Bedrock Agents (see [Authentication](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)).
+- An existing Bedrock agent and alias. Note the `agentId` and `agentAliasId`. You can return a list of agents associated with your ID by running the following AWS CLI command, replacing `<your-region>` with the region slug your agent resides in:
+
+    ```bash
+    aws bedrock-agent list-agents --region us-east-1
+    ```
 
 ## Installation
 
@@ -23,7 +31,7 @@ pip install weave boto3
 
 Create a `bedrock-agent-runtime` client and pass it to `patch_client`. Weave detects the client type and wraps the `invoke_agent` method. After patching, use the client as you normally would.
 
-```python lines
+```python lines highlight="15-17"
 import boto3
 
 import weave
@@ -62,13 +70,11 @@ Each `invoke_agent` call appears in the Weave UI as a `BedrockAgentRuntime.invok
 - The underlying foundation model used by the agent (extracted from the orchestration trace).
 - Token usage (`prompt_tokens`, `completion_tokens`, `total_tokens`) when reported by the agent.
 
-<Note>
 Foundation model and token usage are extracted from `orchestrationTrace` events, which Bedrock only emits when `invoke_agent` is called with `enableTrace=True`. Without this flag, traces still capture the inputs and the generated response text, but the foundation model falls back to `bedrock-agent:<agentId>` and token counts are unavailable.
-</Note>
 
 ## Wrap an agent call with `weave.op`
 
-To group an `invoke_agent` call with related logic — preprocessing, postprocessing, or chained API calls — wrap your function with `@weave.op`. Weave nests the patched `invoke_agent` trace inside the parent op.
+To group an `invoke_agent` call with related logic, such as preprocessing, postprocessing, or chained API calls, wrap your function with `@weave.op`. Weave nests the patched `invoke_agent` trace inside the parent op.
 
 ```python lines
 @weave.op
@@ -104,7 +110,7 @@ with weave.thread("support-conversation") as t:
         ask_agent(prompt, session_id=t.thread_id)
 ```
 
-Each turn appears as a child of the thread, so you can see the full conversation flow alongside the agent's intermediate reasoning and tool calls.
+Weave displays each turn in the UI as individual rows in the Threads view.
 
 ## View traces
 
