@@ -816,14 +816,14 @@
                   "sandboxes/mltrain-in-sandbox-tutorial",
                   "sandboxes/invoke-agent-sandbox-tutorial",
                   {
-                    "group" : "API Reference",
+                    "group": "API Reference",
                     "pages": [
                       "sandboxes/ref-link-core",
                       "sandboxes/ref-link-types",
                       "sandboxes/ref-link-configuration",
                       "sandboxes/ref-link-discovery",
                       "sandboxes/ref-link-exceptions",
-                      "sandboxes/ref-link-util"                                                                                  
+                      "sandboxes/ref-link-util"
                     ]
                   }
                 ]
@@ -2128,7 +2128,18 @@
                   "fr/sandboxes/file-access",
                   "fr/sandboxes/secrets",
                   "fr/sandboxes/mltrain-in-sandbox-tutorial",
-                  "fr/sandboxes/invoke-agent-sandbox-tutorial"
+                  "fr/sandboxes/invoke-agent-sandbox-tutorial",
+                  {
+                    "group": "Référence de l’API",
+                    "pages": [
+                      "fr/sandboxes/ref-link-core",
+                      "fr/sandboxes/ref-link-types",
+                      "fr/sandboxes/ref-link-configuration",
+                      "fr/sandboxes/ref-link-discovery",
+                      "fr/sandboxes/ref-link-exceptions",
+                      "fr/sandboxes/ref-link-util"
+                    ]
+                  }
                 ]
               }
             ]
@@ -3431,7 +3442,18 @@
                   "ja/sandboxes/file-access",
                   "ja/sandboxes/secrets",
                   "ja/sandboxes/mltrain-in-sandbox-tutorial",
-                  "ja/sandboxes/invoke-agent-sandbox-tutorial"
+                  "ja/sandboxes/invoke-agent-sandbox-tutorial",
+                  {
+                    "group": "API リファレンス",
+                    "pages": [
+                      "ja/sandboxes/ref-link-core",
+                      "ja/sandboxes/ref-link-types",
+                      "ja/sandboxes/ref-link-configuration",
+                      "ja/sandboxes/ref-link-discovery",
+                      "ja/sandboxes/ref-link-exceptions",
+                      "ja/sandboxes/ref-link-util"
+                    ]
+                  }
                 ]
               }
             ]
@@ -4734,7 +4756,18 @@
                   "ko/sandboxes/file-access",
                   "ko/sandboxes/secrets",
                   "ko/sandboxes/mltrain-in-sandbox-tutorial",
-                  "ko/sandboxes/invoke-agent-sandbox-tutorial"
+                  "ko/sandboxes/invoke-agent-sandbox-tutorial",
+                  {
+                    "group": "API 레퍼런스",
+                    "pages": [
+                      "ko/sandboxes/ref-link-core",
+                      "ko/sandboxes/ref-link-types",
+                      "ko/sandboxes/ref-link-configuration",
+                      "ko/sandboxes/ref-link-discovery",
+                      "ko/sandboxes/ref-link-exceptions",
+                      "ko/sandboxes/ref-link-util"
+                    ]
+                  }
                 ]
               }
             ]
