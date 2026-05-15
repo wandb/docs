@@ -11,7 +11,7 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
 This version drops support for Python 3.9 and Pydantic v1. Pydantic v2.6 or newer is now required.
 
 ## Added
-- The new package `wandb.sandbox` package and the `wandb beta sandbox` CLI for using [W&B Sandboxes](/sandboxes).
+- The new package `wandb.sandbox` package and the `wandb beta sandbox` CLI for using [Serverless Sandboxes](/sandboxes).
 - The new setting `stop_on_fatal_error` stops a run after a fatal error that prevents it from uploading metrics.
 - The new setting `finish_timeout` and corresponding environment variable `WANDB_FINISH_TIMEOUT` let you specify how many seconds to wait for data to upload at the end of a run. If a run times out, a warning message is printed. Use boolean setting `finish_timeout_raises` or corresponding environment variable `WANDB_FINISH_TIMEOUT_RAISES` to raise an error in addition to printing a warning message.
 - The new setting `capture_loggers` lets you control Python loggers to capture into the run's **Logs** tab, using a mapping of logger name to minimum log level. When set, `wandb` installs a `logging.Handler` on each named logger and removes it when the run finishes. Log records emitted by those loggers are published as console output to the run, similar to `stdout`/`stderr` capture.
