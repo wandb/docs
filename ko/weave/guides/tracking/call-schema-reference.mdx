@@ -3,7 +3,7 @@ title: "Call 스키마 레퍼런스"
 description: "Call 객체의 구조와 속성에 대한 레퍼런스"
 ---
 
-이 페이지에서는 W&amp;B Weave의 Call 객체 스키마에 대한 레퍼런스를 제공합니다. Call를 쿼리하는 방법은 [Call 쿼리 및 내보내기](/ko/weave/guides/tracking/querying-calls)를 참조하세요.
+이 레퍼런스에서는 W&amp;B Weave의 Call 객체 스키마를 설명합니다. Call를 쿼리하는 방법은 [Call 쿼리 및 내보내기](/ko/weave/guides/tracking/querying-calls)를 참조하세요.
 
 <div id="call-properties">
   ## Call 속성
@@ -11,8 +11,8 @@ description: "Call 객체의 구조와 속성에 대한 레퍼런스"
 
 아래 표는 Weave에서 Call의 주요 속성을 보여줍니다. 전체 구현은 다음을 참조하세요:
 
-* Python SDK의 [클래스: CallSchema](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)
-* TypeScript SDK의 [인터페이스: CallSchema](/ko/weave/reference/typescript-sdk/interfaces/callschema)
+* Python SDK의 [클래스: CallSchema](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema).
+* TypeScript SDK의 [인터페이스: CallSchema](/ko/weave/reference/typescript-sdk/interfaces/callschema).
 
 | 속성             | 유형                   | 설명                                                  |
 | -------------- | -------------------- | --------------------------------------------------- |
@@ -27,7 +27,7 @@ description: "Call 객체의 구조와 속성에 대한 레퍼런스"
 | `inputs`       | Dict[str, Any]       | Call의 입력 파라미터                                       |
 | `ended_at`     | datetime (선택)        | Call이 종료된 타임스탬프                                     |
 | `exception`    | string (선택)          | Call이 실패한 경우의 오류 메시지                                |
-| `output`       | Any (선택)             | Call의 결과                                            |
+| `output`       | Any (선택)             | Call의 출력                                            |
 | `summary`      | Optional[SummaryMap] | 실행 후 요약 정보입니다. 실행 중에 이 값을 수정하여 커스텀 메트릭을 기록할 수 있습니다. |
 | `wb_user_id`   | Optional[str]        | 연결된 W&amp;B 사용자 ID                                  |
 | `wb_run_id`    | Optional[str]        | 연결된 W&amp;B run ID                                  |
@@ -37,19 +37,133 @@ description: "Call 객체의 구조와 속성에 대한 레퍼런스"
   ## 속성 세부 정보
 </div>
 
-`CallSchema` 속성은 함수 call을 추적하고 관리하는 데 중요한 역할을 합니다.
+`CallSchema` 속성은 Call을 추적하고 관리하는 데 도움이 됩니다.
 
-* `id`, `trace_id`, `parent_id` 속성은 시스템 내에서 call을 정리하고 서로 연관시키는 데 도움이 됩니다.
+* `id`, `trace_id`, `parent_id` 속성은 시스템 내에서 Call을 정리하고 서로 연관시키는 데 도움이 됩니다.
+* 시간 정보(`started_at`, `ended_at`)는 성능 분석에 활용됩니다.
+* `attributes` 및 `inputs` 속성은 Call의 컨텍스트를 제공합니다. `attributes`는 Call이 시작되면 고정되므로, 호출 전에 `weave.attributes()` 컨텍스트 관리자를 사용하여 설정하세요. `output` 및 `summary`는 출력을 캡처합니다.
+* `wb_user_id` 및 `wb_run_id`를 사용해 Call을 W&amp;B 사용자 및 run에 연결하세요.
 
-* 시간 정보(`started_at`, `ended_at`)는 성능 분석을 지원합니다.
+이러한 속성을 함께 사용하면 프로젝트 전반에서 Call을 세부적으로 추적하고 분석할 수 있습니다.
 
-* `attributes` 및 `inputs` 속성은 call의 컨텍스트를 제공합니다. `attributes`는 call이 시작되면 고정되므로 호출 전에 `weave.attributes`로 설정하세요. `output` 및 `summary`는 결과를 캡처합니다.
-  -`summary` 속성에는 메트릭이나 기타 호출 후 값을 저장할 수 있습니다. 실행 중에 `call.summary`를 수정하세요. 추가한 값은 Call이 완료될 때 Weave가 계산한 summary 데이터와 병합됩니다.
-  * Weave가 계산한 summary 데이터:
-    * `costs`: LLM 모델 사용 데이터와 token 가격 데이터를 기반으로 계산된 call의 총비용입니다. 비용 계산에 대한 자세한 내용은 [Track costs](/ko/weave/guides/tracking/costs)를 참조하세요.
-    * `latency_ms`: `started_at`와 `ended_at` 사이의 경과 시간을 밀리초 단위로 나타낸 값입니다. `status`가 `RUNNING`이면 `null`입니다.
-    * `status`: 실행 상태입니다: `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR`(즉, call 자체는 성공했지만 하위 call에서 오류가 발생했음을 의미). {/* [empty ref](/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
+<div id="use-call-summary">
+  ## Call summary 사용
+</div>
 
-* W&amp;B와의 인테그레이션은 `wb_user_id` 및 `wb_run_id`를 통해 이루어집니다.
+`summary` 속성은 Call 실행 중에 값을 쓸 수 있는 딕셔너리입니다. Call이 완료되면 Weave는 사용자가 쓴 값과 자체적으로 계산한 데이터를 깊게 병합(deep merge)하여 결과를 저장합니다.
 
-이 포괄적인 속성 집합을 사용하면 프로젝트 전반에서 함수 call을 상세하게 추적하고 분석할 수 있습니다.
+이 딕셔너리에는 두 개의 영역이 있습니다.
+
+* 맞춤형 키: `call.summary["accuracy"] = 0.95`처럼 `call.summary`에 직접 쓰는 모든 항목입니다. 이 값들은 summary dict의 최상위 레벨에 위치합니다.
+* `summary["weave"]`: Weave가 Call 완료 시 자동으로 채우는 예약 네임스페이스입니다. 이 키에는 직접 쓰지 마세요.
+
+Weave는 모델 응답의 원시 LLM token 수를 `summary["usage"]`에도 캡처합니다(모델 이름을 키로 사용). 이는 공급자로부터 그대로 전달된 소스 데이터이며, Weave가 계산한 값이 아닙니다. `summary["weave"]` 안의 `costs` 필드는 Weave가 이 사용 데이터와 token 가격을 바탕으로 계산한 값입니다.
+
+`summary["weave"]` 안의 Weave 계산 필드:
+
+| Field        | 설명                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------------ |
+| `status`     | 실행 상태: `SUCCESS`, `ERROR`, `RUNNING`, 또는 `DESCENDANT_ERROR`입니다(`Call`은 성공했지만 하위 `Call`에서 오류가 발생한 경우).  |
+| `latency_ms` | `started_at`과 `ended_at` 사이의 시간(밀리초)입니다. `status`가 `RUNNING`이면 `null`입니다.                              |
+| `costs`      | `summary["usage"]`와 token 가격 데이터를 바탕으로 계산한 모델별 비용 내역입니다. [비용 추적](/ko/weave/guides/tracking/costs)을 참조하세요. |
+| `trace_name` | 내부 Op 레퍼런스 URI에서 파싱한 사람이 읽기 쉬운 Op 이름입니다. 표시 및 필터링에 사용됩니다.                                         |
+
+<div id="write-during-a-call">
+  ### Call 실행 중에 작성하기
+</div>
+
+`summary` 딕셔너리를 사용하면 Call 실행 중에 맞춤형 데이터 값을 추가할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    Python에서는 `weave.get_current_call()`을 사용해 실행 중 어느 시점에서나 `call.summary`에 값을 부여할 수 있습니다.
+
+    ```python lines
+    import weave
+
+    @weave.op()
+    def my_op(x):
+        result = do_work(x)
+        call = weave.get_current_call()
+        # summary에 맞춤형 데이터 값을 추가합니다.
+        call.summary["accuracy"] = 0.95
+        call.summary["num_retries"] = 2
+        return result
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript에서는 `op()`에 옵션으로 `summarize` 함수를 제공하세요. 이 함수는 최종 결과를 받아 Call이 완료될 때 summary 데이터를 반환합니다.
+
+    ```typescript lines
+    const myOp = weave.op(
+      async (x: any) => {
+        const result = await doWork(x);
+        return result;
+      },
+      {
+        name: 'my_op',
+        summarize: (result) => ({
+          accuracy: result.accuracy,
+          numRetries: result.numRetries,
+        }),
+      }
+    );
+    ```
+  </Tab>
+</Tabs>
+
+<div id="read-summary-data">
+  ### summary 데이터 조회
+</div>
+
+`getCall`로 ID를 사용해 단일 Call을 조회하거나, `getCalls`로 여러 Call을 조회할 수 있습니다. 두 경우 모두 `summary`는 동일한 병합된 딕셔너리입니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    client = weave.init("my-team/my-project")
+
+    # ID로 단일 Call을 조회합니다.
+    call = client.get_call("<call-id>")
+    weave_summary = (call.summary or {}).get("weave", {})
+
+    print(weave_summary.get("status"))       # TraceStatus enum: SUCCESS, ERROR, RUNNING 또는 DESCENDANT_ERROR.
+    print(weave_summary.get("latency_ms"))   # Call이 아직 실행 중이면 null입니다.
+    print(weave_summary.get("costs"))        # 모델별 비용 세부 내역.
+    print(call.summary.get("usage"))         # LLM 공급자가 제공한 원시 token 수입니다.
+    print(call.summary.get("accuracy"))      # 사용자의 맞춤형 필드입니다.
+
+    # 서버 측 필터링을 사용해 여러 Call을 순회합니다.
+    for call in client.get_calls(filter={"op_names": ["weave:///my-team/my-project/op/my_op:*"]}):
+        s = call.summary or {}
+        weave_s = s.get("weave", {})
+        print(call.id, weave_s.get("status"), weave_s.get("latency_ms"), s.get("accuracy"))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    const client = await weave.init('my-team/my-project');
+
+    // ID로 단일 Call을 조회합니다.
+    const call = await client.getCall('<call-id>');
+    const weaveSummary = call.summary?.weave;
+
+    console.log(weaveSummary?.status);       // "success", "error", "running" 또는 "descendant_error".
+    console.log(weaveSummary?.latency_ms);   // Call이 아직 실행 중이면 undefined입니다.
+    console.log(weaveSummary?.costs);        // 모델별 비용 세부 내역.
+    console.log(call.summary?.usage);        // LLM 공급자가 제공한 원시 token 수입니다.
+    console.log(call.summary?.accuracy);     // 사용자의 맞춤형 필드입니다.
+
+    // 서버 측 필터링을 사용해 여러 Call을 조회합니다.
+    const calls = await client.getCalls({ filter: { op_names: ['weave:///my-team/my-project/op/my_op:*'] } });
+    for (const call of calls) {
+      const weaveS = call.summary?.weave;
+      console.log(call.id, weaveS?.status, weaveS?.latency_ms, call.summary?.accuracy);
+    }
+    ```
+  </Tab>
+</Tabs>
