@@ -20,13 +20,15 @@ __init__(
     client: 'RetryingClient',
     entity: 'str',
     project: 'str',
-    attrs: 'Mapping[str, Any]'
+    attrs: 'Mapping[str, Any]',
+    service_api: 'ServiceApi'
 ) → Project
 ```
 
 **Args:**
  
- - `client`:  W&B API client instance. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this project. 
  - `name` (str):  The name of the project. 
  - `entity` (str):  The entity name that owns the project. 
 
@@ -37,7 +39,8 @@ A single project associated with an entity.
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this project. 
  - `entity`:  The entity which owns the project. 
  - `project`:  The name of the project to query. 
  - `attrs`:  The attributes of the project. 
