@@ -20,6 +20,7 @@ For practical Python examples demonstrating how to interact with the SCIM API, v
 - **PATCH Operations**: Supports PATCH for partial resource updates
 - **ETag Support**: Conditional updates using ETags for conflict detection  
 - **Service Account Authentication**: Organization service accounts can access the API
+- **Service account lifecycle**: Provision and deprovision [team-scoped and organization-scoped service accounts](/platform/hosting/iam/service-accounts). Supported on **Multi-tenant Cloud** and on **Dedicated Cloud** and **Self-Managed** v0.81.0+.
 
 <Note>
 If you are an admin of multiple Enterprise [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**, then check the setting **Default API organization**.
@@ -102,7 +103,9 @@ Authorization: Basic OnNhLXBANTV3MHJk
 
 ## User management
 
-The SCIM user resource maps to W&B users. Use these endpoints to manage users in your organization.
+The SCIM user resource maps to W&B users and service accounts. Use these endpoints to manage users and service accounts in your organization.
+
+For service account concepts and UI workflows, see [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts/).
 
 <Note>
 **Breaking change for integrations that parse SCIM User JSON**
@@ -117,9 +120,9 @@ Request bodies for creating or updating users already used the array form and ar
 
 ### Get user
 
-Retrieves information for a specific user in your organization.
+Retrieves information for a specific user or service account in your organization by user ID, or for a user by email address.
 
-<Note>This operation does not retrieve service accounts.</Note>
+Service account responses include `accountType` (`SERVICE` for team-scoped service accounts, `ORG_SERVICE` for organization-scoped service accounts). Service accounts do not include `emails`.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -183,9 +186,7 @@ The definition of "active" differs by deployment type:
 
 ### List users
 
-Retrieves a list of all users in your organization.
-
-<Note>This operation does not retrieve service accounts.</Note>
+Retrieves a list of all users and service accounts in your organization. Each resource includes `accountType` (`USER`, `SERVICE`, or `ORG_SERVICE`).
 
 #### Filter users
 
@@ -407,6 +408,152 @@ POST /scim/Users
 </Tab>
 </Tabs>
 
+### Provision service account
+
+Creates a team-scoped or organization-scoped service account in your organization. Omit `accountType` to create a regular user instead; see [Create user](#create-user).
+
+<Note>
+Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**.
+
+- Set `userName` to the service account name. The API uses `userName` for the account's display name; `displayName` in the request body is ignored.
+- `emails` are not required for service accounts.
+- `modelsSeat` and `weaveRole` are not supported on create and return `400 Bad Request` if present.
+- Service accounts cannot be updated with `PATCH` or `PUT`, cannot be deactivated, and cannot be assigned organization, team, or registry roles through SCIM. Create API keys in the W&B App after provisioning.
+</Note>
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users`
+- **Method**: POST
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `userName` | string | Yes | Unique name for the service account |
+| `accountType` | string | Yes | `SERVICE` for a [team-scoped service account](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts), or `ORG_SERVICE` for an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts) |
+| `urn:ietf:params:scim:schemas:extension:teams:2.0:User` | object | Yes | Teams extension object |
+| `defaultTeam` | string | Yes | Sub-field of the teams extension. Name of an existing W&B Team. The service account is created as a member of this team. For team-scoped service accounts, this is the only team they join. Organization-scoped service accounts are also added automatically to teams created later through SCIM. |
+| `teams` | array | No | **Multi-tenant Cloud only.** Team names to add the account to. Include the same team as `defaultTeam` when you use this field. |
+
+#### Example
+
+<Tabs>
+<Tab title="Provision Team Service Account Request">
+```bash
+POST /scim/Users
+```
+
+```json
+{
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "userName": "sa-deploy-bot",
+    "accountType": "SERVICE",
+    "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+        "defaultTeam": "ml-platform"
+    }
+}
+```
+</Tab>
+<Tab title="Provision Org Service Account Request">
+```bash
+POST /scim/Users
+```
+
+```json
+{
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "userName": "sa-ci-runner",
+    "accountType": "ORG_SERVICE",
+    "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+        "defaultTeam": "ml-platform"
+    }
+}
+```
+</Tab>
+</Tabs>
+
+#### Response
+
+<Tabs>
+<Tab title="Provision Service Account Response">
+```bash
+(Status 201)
+```
+
+```json
+{
+    "accountType": "SERVICE",
+    "active": true,
+    "displayName": "sa-deploy-bot",
+    "id": "xyz",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "location": "Users/xyz"
+    },
+    "organizationRole": "member",
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:wandb:2.0:User"
+    ],
+    "teamRoles": [
+        {
+            "teamName": "ml-platform",
+            "roleName": "member"
+        }
+    ],
+    "urn:ietf:params:scim:schemas:extension:wandb:2.0:User": {
+        "organizationRole": "member"
+    },
+    "userName": "sa-deploy-bot"
+}
+```
+</Tab>
+</Tabs>
+
+For an organization-scoped service account, `accountType` is `ORG_SERVICE`.
+
+In **Self-Managed** deployments, `organizationRole` is `service` or `org_service` instead of `member`, matching the account type.
+
+A duplicate `userName` returns `409 Conflict`. A missing or unknown `defaultTeam` returns `400 Bad Request`.
+
+### Deprovision service account
+
+Permanently deletes a service account and its organization membership. This is a hard delete; the account cannot be reactivated through SCIM.
+
+<Note>
+Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**. Use the service account's SCIM user `id` from the provision response or from [Get user](#get-user). Deprovisioning does not delete API keys that were already issued; revoke keys separately in the W&B App if needed.
+</Note>
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: DELETE
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the service account |
+
+#### Example
+
+<Tabs>
+<Tab title="Deprovision Service Account Request">
+```bash
+DELETE /scim/Users/xyz
+```
+</Tab>
+<Tab title="Deprovision Service Account Response">
+```bash
+(Status 204)
+```
+</Tab>
+</Tabs>
+
 ### Delete user
 
 <Warning>
@@ -417,9 +564,7 @@ You must ensure that at least one admin user exists in your instance or organiza
 For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
 </Warning>
 
-Fully deletes a user from your organization.
-
-<Note>This operation works for users only, not service accounts. Delete a service account in the settings for the W&B Team.</Note>
+Fully deletes a user from your organization. To delete a service account, see [Deprovision service account](#deprovision-service-account).
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -2305,6 +2450,8 @@ W&B maintains two separate SCIM API implementations, and the features differ bet
 | Multiple emails per user        |    &check;      |      -       |
 | Set `modelsSeat` on create/update |    -    |    &check;   |
 | Set `weaveRole` on create/update  |    -    |    &check;   |
+| Provision service accounts (`POST` with `accountType`) | &check; | &check; (v0.81.0+) |
+| Deprovision service accounts (`DELETE` by id) | &check; | &check; (v0.81.0+) |
 
 ## Limitations
 
