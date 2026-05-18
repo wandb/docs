@@ -1,0 +1,39 @@
+```python
+'''
+Trace a basic request to an LLM using W&B Weave's autopatching.
+'''
+
+# Import W&B
+import weave
+from openai import OpenAI
+
+client = OpenAI()
+
+# Define a function that sends a request to a Weave supported LLM
+def llm_request(question: str) -> dict:
+    response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {
+            "role": "system",
+            "content": """You are a helpful assistant."""
+        },
+        {
+            "role": "user",
+            "content": question
+        }
+        ],
+        response_format={ "type": "text" }
+    )
+    return response.choices[0].message.content
+
+# Initialize Weave with your team and project names
+weave.init('<your-team-name>/<your-project-name>')
+
+question = "What is the capitol of Paris?"
+
+# Invoke function after Weave has been initialized
+result = llm_request(question)
+
+print(result)
+```
