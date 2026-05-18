@@ -1,0 +1,22 @@
+---
+title: Weave Trace Op
+---
+
+```python
+'''
+Trace any function using a W&B Weave decorator
+'''
+
+# W&B Weave をインポートする
+import weave
+
+# トレースしたい関数に Weave デコレーターを追加する
+@weave.op
+def helloUser(name: str):
+    return "Hello, " + name
+
+# チームと project 名を指定して Weave を初期化する
+weave.init('your-team-name/your-project-name')
+
+print(helloUser('<your-name>'))
+```

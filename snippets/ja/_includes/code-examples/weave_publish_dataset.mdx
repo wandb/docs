@@ -1,0 +1,33 @@
+---
+title: Weave でデータセットを公開する
+---
+
+```python
+'''
+データセットを Weave に公開する
+'''
+
+import weave
+from weave import Dataset
+# Weave を初期化する
+weave.init('<your-team-name>/<your-project-name>')
+
+# データセットを作成する
+dataset = Dataset(
+    name='grammar',
+    rows=[
+        {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+        {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+        {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+    ]
+)
+
+# データセットを公開する
+weave.publish(dataset)
+
+# データセットを取得する
+dataset_ref = weave.ref('grammar').get()
+
+# データセット内の特定のサンプルにアクセスする
+example_label = dataset_ref.rows[2]['sentence']
+```

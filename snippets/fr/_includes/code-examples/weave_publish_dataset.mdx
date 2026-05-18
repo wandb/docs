@@ -1,0 +1,33 @@
+---
+title: Publier un jeu de données dans Weave
+---
+
+```python
+'''
+Publier un jeu de données vers Weave
+'''
+
+import weave
+from weave import Dataset
+# Initialiser Weave
+weave.init('<your-team-name>/<your-project-name>')
+
+# Créer un jeu de données
+dataset = Dataset(
+    name='grammar',
+    rows=[
+        {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+        {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+        {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+    ]
+)
+
+# Publier le jeu de données
+weave.publish(dataset)
+
+# Récupérer le jeu de données
+dataset_ref = weave.ref('grammar').get()
+
+# Accéder à un exemple spécifique dans le jeu de données
+example_label = dataset_ref.rows[2]['sentence']
+```

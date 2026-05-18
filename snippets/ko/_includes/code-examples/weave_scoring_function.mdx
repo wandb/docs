@@ -1,0 +1,24 @@
+---
+title: Weave 점수화 함수
+---
+
+```python
+'''
+맞춤형 점수화 함수 정의
+'''
+
+import weave
+
+# 예시 수집
+examples = [
+    {"question": "What is the capital of France?", "expected": "Paris"},
+    {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+    {"question": "What is the square root of 64?", "expected": "8"},
+]
+
+# 맞춤형 점수화 함수 정의
+@weave.op()
+def match_score1(expected: str, output: dict) -> dict:
+    # 출력 점수화 로직 정의
+    return {'match': expected == output['generated_text']}
+```

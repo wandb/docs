@@ -1,0 +1,43 @@
+---
+title: Weave Trace Call
+---
+
+```python
+'''
+W&B Weave の自動パッチ機能を使用して、LLM への基本的なリクエストをトレースします。
+'''
+
+# W&B をインポートする
+import weave
+from openai import OpenAI
+
+client = OpenAI()
+
+# Weave がサポートする LLM にリクエストを送信する関数を定義する
+def llm_request(question: str) -> dict:
+    response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {
+            "role": "system",
+            "content": """You are a helpful assistant."""
+        },
+        {
+            "role": "user",
+            "content": question
+        }
+        ],
+        response_format={ "type": "text" }
+    )
+    return response.choices[0].message.content
+
+# チーム名と project 名を指定して Weave を初期化する
+weave.init('<your-team-name>/<your-project-name>')
+
+question = "What is the capitol of Paris?"
+
+# Weave の初期化後に関数を呼び出す
+result = llm_request(question)
+
+print(result)
+```
