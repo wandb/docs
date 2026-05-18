@@ -3,7 +3,7 @@ title: "How do I download the console log file from a run?"
 keywords: ["Logs", "Runs"]
 ---
 
-W&B captures your training script's stdout and stderr output and stores it as `output.log` in the run's file storage. You can access and download it from the W&B UI or programmatically via the API.
+W&B captures your training script's stdout and stderr output and stores it as `output.log` in the run's file storage. Where to retrieve it depends on whether the run finished cleanly, is still active, or crashed.
 
 **From the UI**
 
@@ -11,7 +11,7 @@ W&B captures your training script's stdout and stderr output and stores it as `o
 2. Click the **Files** tab.
 3. Find `output.log` in the file list and click the download icon.
 
-If the run crashed before finishing, the log file may still be available in the Files tab. If the download button is missing on a crashed run, the log was not fully synced before the crash. In this case, check your local `wandb/` directory — W&B writes a local copy of the log to `wandb/run-<timestamp>-<run-id>/logs/output.log`.
+By default, `output.log` is only uploaded when the run finishes — while a run is active the file will not appear in the Files tab. See "While the run is still running" below for the workaround.
 
 **Programmatically via the API**
 
@@ -25,13 +25,44 @@ run = api.run("entity/project/run_id")
 run.file("output.log").download(replace=True)
 ```
 
-**Viewing logs longer than 10,000 lines**
+**While the run is still running**
 
-The W&B UI displays up to 10,000 lines of console output. To access the full log for long training jobs, download the file using one of the methods above.
+Upload cadence cannot be changed after a run has started, so you must opt in at `wandb.init` time using multipart console logging. With `console_multipart=True` (SDK v0.22.3+), the SDK writes console output to timestamped chunks under a `logs/` folder and uploads each chunk as soon as it closes, giving you live access to logs while the run is active.
+
+```python
+import wandb
+
+with wandb.init(settings=wandb.Settings(
+    console_multipart=True,
+    console_chunk_max_bytes=1_000_000,   # rotate at ~1MB
+    console_chunk_max_seconds=60,        # or every 60s, whichever first
+)):
+    ...
+```
+
+Both limits can be combined — whichever fires first triggers a new chunk. Setting both to `0` reverts to the default behavior (single upload at run finish). Uploaded chunks are immutable; terminal control sequences that modify previous lines (e.g., progress bars using carriage returns) only affect the current chunk.
+
+**If the run crashed**
+
+Without multipart logging enabled, a crashed run produces no `output.log` in the Files tab and no download button appears. Enabling `console_multipart=True` means chunks uploaded before the crash are preserved on the server and remain downloadable.
+
+If you didn't have multipart enabled, check your local `wandb/` directory — W&B writes a local copy of the log to `wandb/run-<timestamp>-<run-id>/logs/output.log` before sync.
 
 **Resuming the output.log across restarts**
 
-If you resume a run using `wandb.init(resume="allow", id="RUN_ID")`, W&B appends new output to the same `output.log` file. You can download the combined log after all restarts complete.
+When using `wandb.init(resume="allow", id="RUN_ID")` without multipart logging, the run's single `output.log` is overwritten on resume — earlier content is lost. From **SDK v0.20.1+** with `console_multipart=True`, the original and resumed sessions each get their own chunks under `logs/`, so nothing is lost.
+
+```python
+wandb.init(
+    id=run_id,
+    resume="allow",
+    settings=wandb.Settings(console_multipart=True),
+)
+```
+
+**Viewing logs longer than 10,000 lines**
+
+The Logs tab in the UI applies a display limit for performance: for runs with 0–100,000 lines total, it shows the latest 10,000 lines; once a run exceeds 100,000 lines, the tab may show stale lines rather than the latest tail. The underlying `output.log` (or multipart chunks) always contains the full output — to access all lines, download the file using one of the methods above.
 
 ---
 

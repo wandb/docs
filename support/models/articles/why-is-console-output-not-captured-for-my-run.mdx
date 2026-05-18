@@ -3,11 +3,20 @@ title: "Why is console output not captured for my run?"
 keywords: ["Logs", "Runs"]
 ---
 
-W&B captures your script's stdout and stderr output and stores it as `output.log` on the run's Files tab. If the log file is empty, missing, or incomplete, there are several possible causes.
+W&B captures your script's stdout and stderr output and stores it as `output.log` on the run's Files tab. By default, the full file is uploaded **when the run finishes** — so an "empty" or "missing" log is often a question of *when* it appears, not whether it was captured. Most reports fall into one of the situations below, and the single workaround that resolves the majority of them is `console_multipart=True` (SDK v0.22.3+), which writes console output to timestamped chunks and uploads each chunk as soon as it closes.
 
-**Output printed before `wandb.init()`**
+```python
+import wandb
 
-W&B begins capturing console output when `wandb.init()` is called. Anything printed before that point—such as import-time messages, argument parsing output, or environment checks—is not captured. Move `wandb.init()` as early in your script as possible, before other print statements.
+with wandb.init(settings=wandb.Settings(
+    console_multipart=True,
+    console_chunk_max_bytes=1_000_000,   # rotate at ~1MB
+    console_chunk_max_seconds=60,        # or every 60s, whichever first
+)):
+    ...
+```
+
+Both limits can be set together — whichever is hit first triggers an upload. Set both to `0` to upload only at run finish (the default behavior).
 
 **Console capture is disabled**
 
@@ -25,28 +34,46 @@ WANDB_CONSOLE=off python my_script.py
 
 Check whether either of these is set in your environment or launch configuration. To re-enable, remove the setting or set `WANDB_CONSOLE=wrap`.
 
-**Jupyter notebooks capture differently**
+**Distributed training (DDP / multiprocessing): only the owning process is captured**
 
-In Jupyter notebooks, stdout is routed through the notebook kernel, not the standard Python stream, so W&B may not capture cell output in the same way. Console capture in notebooks can be incomplete or delayed. To ensure logs are captured, write explicitly to `sys.stdout` or log messages using `wandb.log()` with string values instead of relying on console capture.
-
-**Multiprocessing and subprocess output**
-
-W&B only hooks into the stdout and stderr of the process that called `wandb.init()`. Output from child processes spawned with `multiprocessing`, `subprocess`, or similar mechanisms is not automatically captured. To log output from worker processes, write to the parent process's stream or use explicit `wandb.log()` calls from the rank-0 process.
-
-**Run crashed before flush**
-
-If your script crashes or is killed before W&B has a chance to flush the log buffer to the server, the `output.log` file on the UI may be truncated or absent. A local copy is always written to `wandb/run-<timestamp>-<run-id>/logs/output.log`; check there for the full output even if the server-side file is missing.
-
-**Long-running jobs hitting the 10,000-line display limit**
-
-The W&B UI displays up to 10,000 lines in the Logs panel. If your job produces more output than that, the display is truncated but the full file is still stored. Download `output.log` from the Files tab or via the API to access all lines:
+The Logs tab records output only from the process that owns the active W&B run. In Lightning/DDP, calls like `wandb.termlog()` or `print()` from worker processes that don't own the run will only appear in the local terminal, not in W&B. Initialize the run on rank 0 only and switch console capture to `wrap`, which is more robust than the default under DDP:
 
 ```python
 import wandb
-api = wandb.Api()
-run = api.run("entity/project/run_id")
-run.file("output.log").download(replace=True)
+from lightning.pytorch.loggers import WandbLogger
+
+wandb_logger = WandbLogger(
+    project="my_project",
+    settings=wandb.Settings(console="wrap"),   # or set WANDB_CONSOLE=wrap
+)
+trainer = Trainer(logger=wandb_logger, strategy="ddp", devices=..., accelerator="gpu")
 ```
+
+If `wrap` still leaves the Logs tab empty, fall back to `console="redirect"` — output will then appear in `output.log` on the Files tab even if it doesn't render live in the Logs tab.
+
+**The run is still running and you want the log now**
+
+By default, `output.log` is only uploaded when a run finishes. While a run is active, the Logs tab streams output for viewing but no downloadable file appears on the Files tab, and upload cadence cannot be changed after the run has started. Enable `console_multipart=True` at `wandb.init` time (see the settings block above). Chunks appear in the Files tab under `logs/` while the run is active and are downloadable individually.
+
+**Run crashed before flush**
+
+When a run is killed (OOM, SIGKILL, machine loss, etc.) without multipart enabled, no `output.log` is uploaded and the download button does not appear on the run page. `console_multipart=True` uploads chunks as they close, so logs written before the crash are preserved on the server. A local copy is also always written to `wandb/run-<timestamp>-<run-id>/logs/output.log` — check there for the full output even if the server-side file is missing.
+
+**Resumed runs lose the previous `output.log`**
+
+On older SDKs, calling `wandb.init(resume="allow", id=...)` overwrites the run's single `output.log` — earlier log content is lost. Upgrade to **SDK v0.20.1+** and pass `console_multipart=True`; each session then gets its own chunks under `logs/`, so the original output is preserved alongside the resumed output.
+
+```python
+wandb.init(
+    id=run_id,
+    resume="allow",
+    settings=wandb.Settings(console_multipart=True),
+)
+```
+
+**Long-running jobs and the Logs tab display limit**
+
+The Logs tab in the UI applies a display limit for performance: for runs with 0–100,000 lines total, it shows the latest 10,000 lines; once a run exceeds 100,000 lines, the tab may show stale lines rather than the latest tail. This is a UI display constraint only — the full content is always in `output.log` (or the multipart chunks). To access all lines, download the file from the Files tab or via the API. See [How do I download the console log file from a run?](/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
 
 ---
 
