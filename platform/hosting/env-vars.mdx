@@ -29,6 +29,7 @@ In addition to configuring instance-level settings through the System Settings a
 | `GORILLA_DATA_RETENTION_PERIOD`    | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. Append an `h` to the input value. For example, `"24h"`. |
 | `GORILLA_DISABLE_PERSONAL_ENTITY`  | When set to true, turns off [personal entities](/support/models/articles/what-is-the-difference-between-team-and-). Prevents creation of new personal projects in their personal entities and prevents writing to existing personal projects. |
 | `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` | When set to true, disables GraphQL introspection: `__type` and `__schema` queries return no schema data while the request still succeeds. On **Self-Managed**, setting the Gorilla configuration field `graphql-disable-introspection` has the same effect. Set this variable under `spec.values.global.extraEnv` in your `WeightsAndBiases` custom resource (see the [`global.extraEnv` example](/platform/hosting/self-managed/operator#ldap) in the Operator guide). **Client applications need [W&B SDK v0.26.0](/release-notes/sdk-releases#0-26-0) or later** against deployments with introspection already turned off. |
+| `GRAPHQL_REJECT_UNAUTHED_REQUESTS` | When set to `true` on the **API** service, rejects GraphQL requests that do not have an authenticated user. Unauthenticated requests receive HTTP 401. **Self-Managed** and **Dedicated Cloud** v0.80.0+ only; not available on Multi-tenant Cloud. This feature is opt-in: if the environment variable is unset or not `true`, behavior is unchanged. Set on the API component only (for example, `api.env` in Helm values). Before activating, confirm that workflows that rely on anonymous GraphQL access (such as viewing shared reports without signing in, or open projects) still meet your requirements. On **Self-Managed**, setting the Gorilla configuration field `graphql-reject-unauthed-requests` to `true` has the same effect. |
 | `ENABLE_REGISTRY_UI`               | When set to true, enables the new W&B Registry UI.            |
 | `GORILLA_ARTIFACT_GC_ENABLED`      | When set to true, enables garbage collection for deleted artifacts. Required for self-managed deployments. See [Delete an artifact](/models/artifacts/delete-artifacts) for more information. |
 | `WANDB_ARTIFACT_DIR`               | Where to store all downloaded artifacts. If unset, defaults to the `artifacts` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of generated metadata files, which you can set using the `WANDB_DIR` environment variable. |
@@ -36,10 +37,20 @@ In addition to configuring instance-level settings through the System Settings a
 | `WANDB_DIR`                        | Where to store all generated files. If unset, defaults to the `wandb` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of downloaded artifacts, which you can set using the `WANDB_ARTIFACT_DIR` environment variable. |
 | `WANDB_IDENTITY_TOKEN_FILE`        | For [identity federation](/platform/hosting/iam/identity_federation/), the absolute path to the local directory where Java Web Tokens (JWTs) are stored. |
 <Note>
-Use the `GORILLA_DATA_RETENTION_PERIOD` environment variable cautiously. It applies to **deleted run data** (including run-associated files such as media after deletion flows). It does **not** delete artifacts; use artifact deletion and `GORILLA_ARTIFACT_GC_ENABLED` as described in [Delete an artifact](/models/artifacts/delete-artifacts). For how deleting runs and files relates to storage and this setting, see [When deleted run data is removed from storage](/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) in **Delete runs**. Data is removed according to the retention window once the variable is set. Back up both the database and the storage bucket before you enable or change this value.
+- Use the `GORILLA_DATA_RETENTION_PERIOD` environment variable cautiously. It applies to **deleted run data** (including run-associated files such as media after deletion flows). It does **not** delete artifacts; use artifact deletion and `GORILLA_ARTIFACT_GC_ENABLED` as described in [Delete an artifact](/models/artifacts/delete-artifacts). For how deleting runs and files relates to storage and this setting, see [When deleted run data is removed from storage](/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) in **Delete runs**. Data is removed according to the retention window once the variable is set. Back up both the database and the storage bucket before you enable or change this value.
 
-Background removal of objects from your bucket is **best-effort** and not guaranteed to finish within a specific time. For expectations, troubleshooting, and how this relates to storage costs, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
+    Background removal of objects from your bucket is **best-effort** and not guaranteed to finish within a specific time. For expectations, troubleshooting, and how this relates to storage costs, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
+- To enable `GRAPHQL_REJECT_UNAUTHED_REQUESTS` with the [Kubernetes Operator](/platform/hosting/self-managed/operator), set it on the API component only:
+
+    ```yaml
+    api:
+    env:
+        GRAPHQL_REJECT_UNAUTHED_REQUESTS: "true"
+    ```
+
+    Apply your changes and wait for the API pods to roll out before you verify the setting. You can disable the behavior by removing the variable or setting it to another value.
 </Note>
+
 
 ## Advanced reliability settings
 
