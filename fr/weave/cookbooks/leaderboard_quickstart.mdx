@@ -77,10 +77,10 @@ weave.init("leaderboard-demo")
 
 
 <div id="step-2-author-scoring-functions">
-  ## Étape 2 : Créez des fonctions de scoring
+  ## Étape 2 : Créez des fonctions de score
 </div>
 
-Nous allons ensuite créer 3 fonctions de scoring :
+Nous allons ensuite créer 3 fonctions de score :
 
 1. `check_concrete_fields` : vérifie si la sortie du modèle correspond à la ville et à l’État attendus.
 2. `check_value_fields` : vérifie si la sortie du modèle se situe dans une marge de 10 % par rapport à la population et au revenu médian attendus.
@@ -132,7 +132,6 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
 
     return json.loads(completion.choices[0].message.content)
 ```
-
 
 <div id="step-3-create-a-simple-evaluation">
   ## Étape 3 : Créer une Évaluation simple
@@ -289,12 +288,12 @@ for evaluation in evaluations:
 
 
 <div id="step-7-review-the-leaderboard">
-  ## Étape 7 : Consulter le leaderboard
+  ## Étape 7 : consultez le Leaderboard
 </div>
 
-Vous pouvez créer un nouveau leaderboard en accédant à l’onglet du leaderboard dans l’UI et en cliquant sur &quot;Create Leaderboard&quot;.
+Vous pouvez créer un nouveau Leaderboard en accédant à l’onglet Leaderboard dans l’interface utilisateur, puis en cliquant sur &quot;Create Leaderboard&quot;.
 
-Vous pouvez également générer un leaderboard directement depuis Python :
+Vous pouvez également générer un Leaderboard directement depuis Python :
 
 ```python lines
 from weave.flow import leaderboard

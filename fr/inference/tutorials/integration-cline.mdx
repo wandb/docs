@@ -1,10 +1,10 @@
 ---
-title: "Cline avec W&B Inference"
+title: "Cline avec Serverless Inference"
 description: >
-  Découvrez comment configurer l'agent de codage Cline pour utiliser W&B Inference.
+  Découvrez comment configurer l'agent de codage Cline pour utiliser Serverless Inference.
 ---
 
-[Cline](https://cline.bot) est un assistant de codage basé sur l&#39;IA. Ce tutoriel explique comment configurer Cline pour utiliser les modèles fournis par W&amp;B Inference.
+[Cline](https://cline.bot) est un assistant de codage basé sur l&#39;IA. Ce tutoriel explique comment configurer Cline pour utiliser les modèles fournis par Serverless Inference.
 
 L&#39;agent Cline est disponible sous forme d&#39;outil en ligne de commande ou d&#39;intégration avec de nombreux IDE. Cette page montre comment le configurer avec la CLI Cline et comme extension Visual Studio Code, mais la configuration dans d&#39;autres IDE devrait être similaire.
 
@@ -18,7 +18,7 @@ Vous aurez besoin de votre [clé API W&amp;B](../prerequisites#set-up-your-wb-ac
   ## Configurer Cline en ligne de commande
 </div>
 
-Installez le [Cline CLI](https://docs.cline.bot/cline-cli/installation).
+Installez le [CLI Cline](https://docs.cline.bot/cline-cli/installation).
 
 ```
 npm install -g cline
@@ -26,7 +26,7 @@ npm install -g cline
 
 Voir les [instructions d’installation de Cline](https://docs.cline.bot/cline-cli/installation) en cas de problème.
 
-Ces instructions ont été testées avec la version `2.5.1` de Cline CLI. Vous pouvez exécuter `cline version` pour vérifier la version installée.
+Ces instructions ont été testées avec la version `2.5.1` de CLI Cline. Vous pouvez exécuter `cline version` pour vérifier la version installée.
 
 Exécutez la commande suivante en remplaçant `<your_api_key>` par votre clé API W&amp;B.
 
@@ -34,7 +34,7 @@ Exécutez la commande suivante en remplaçant `<your_api_key>` par votre clé AP
 cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
 ```
 
-Cela configurera Cline pour utiliser l’endpoint compatible OpenAI de W&amp;B Inference et le modèle Kimi K2.5. Pour connaître la disponibilité des modèles et la tarification, voir [notre catalogue de modèles](https://wandb.ai/inference).
+Cela configurera Cline pour utiliser l’endpoint compatible OpenAI de Serverless Inference et le modèle Kimi K2.5. Pour connaître la disponibilité des modèles et la tarification, voir [notre catalogue de modèles](https://wandb.ai/inference).
 
 Exécutez un test simple pour vérifier que tout fonctionne :
 
@@ -45,7 +45,6 @@ cline "What is 2 + 2?"
 Si Cline renvoie une réponse, votre installation et votre authentification sont terminées.
 
 Pour plus d’informations sur l’utilisation de la CLI Cline, voir le [Démarrage rapide de Cline](https://docs.cline.bot/cline-cli/installation#quick-start).
-
 
 <div id="set-up-cline-in-visual-studio-code">
   ## Configurer Cline dans Visual Studio Code

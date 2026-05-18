@@ -26,18 +26,18 @@ Pour créer un Chat Completion, fournissez :
     import openai
 
     client = openai.OpenAI(
-        # L'URL de base personnalisée pointe vers W&B Inference
+        # L'URL de base personnalisée pointe vers Serverless Inference
         base_url='https://api.inference.wandb.ai/v1',
 
         # Créez une clé API sur https://wandb.ai/settings
-        # Pour plus de sécurité, il est préférable de la définir dans l'environnement sous OPENAI_API_KEY
+        # Pour plus de sécurité, envisagez plutôt de la définir dans l'environnement sous le nom OPENAI_API_KEY
         api_key="<your-api-key>",
 
         # Facultatif : équipe et projet pour le suivi de l'utilisation
         project="<your-team>/<your-project>",
     )
 
-    # Remplacez <model-id> par n'importe quel ID de modèle de la liste des modèles disponibles
+    # Remplacez <model-id> par n'importe quel ID du modèle de la liste des modèles disponibles
     response = client.chat.completions.create(
         model="<model-id>",
         messages=[

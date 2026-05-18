@@ -1,0 +1,35 @@
+---
+title: 前提条件
+description: "Serverless RL の環境を設定するには、アカウントを作成し、APIキーを生成して、project を設定します。"
+---
+
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+
+OpenPipe ART フレームワークまたは API を通じて Serverless RL 機能を使用する前に、以下の手順を完了してください。
+
+<Tip>
+  始める前に、コストと制限事項を把握するため、[利用情報と制限](/ja/serverless-rl/usage-limits)を確認してください。
+</Tip>
+
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを発行する
+</div>
+
+お使いのマシンをW&amp;Bで認証するには、まずAPIキーを発行する必要があります。
+
+<ApiKeyCreate />
+
+<div id="create-a-project-in-wb">
+  ## W&amp;B で project を作成する
+</div>
+
+利用状況をトラッキングし、トレーニングメトリクスを記録して、トレーニング済みモデルを保存するには、W&amp;B アカウントに project を作成します。詳細については、[Projects ガイド](https://docs.wandb.ai/models/track/project-page)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+前提条件を完了したら、次を行ってください。
+
+* 利用可能なエンドポイントについては、[API リファレンス](/ja/serverless-rl/api-reference)を参照してください
+* [ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start)をお試しください

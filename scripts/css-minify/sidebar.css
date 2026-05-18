@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Left sidebar and table of contents
+   Owns the left sidebar's background, item styling, group headers, font
+   sizing, and the count-pill badges. Also covers the right-side table of
+   contents (TOC) since it's another nav-style element.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Sidebar background
+   Mintlify uses one of two sidebar layouts. Some themes render
+   <div id="sidebar"> as the outer wrapper containing <div id="sidebar-content">.
+   Other themes (this docs site's layout) render <div id="sidebar-content">
+   as the standalone sidebar wrapper. Cover both so the sidebar shows as
+   #F9F7F3 in light mode (and #20242B in dark) regardless.
+   -------------------------------------------------------------------------- */
+
+#sidebar,
+#sidebar-content {
+  background-color: var(--color-sidebar-bg);
+}
+
+
+/* --------------------------------------------------------------------------
+   Sidebar typography — Source Sans throughout. Group headers are 16px
+   semibold; nav items are 15px medium. The header h5 needs !important on
+   font-family + font-weight because typography.css forces all h-tags to
+   serif and weight 400.
+   -------------------------------------------------------------------------- */
+
+.sidebar-group-header,
+.sidebar-group-header > h5 {
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium) !important;
+}
+
+.sidebar-group a,
+.sidebar-group button {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm); /* 15px */
+  font-weight: var(--font-weight-medium);
+}
+
+
+/* --------------------------------------------------------------------------
+   Sidebar active item — uses text-primary (amber text), bg-primary/10
+   (amber tint background), and a [text-shadow] faux-bold class.
+   #sidebar-content ID gives sufficient specificity without !important.
+   -------------------------------------------------------------------------- */
+
+#sidebar-content a.text-primary {
+  color: var(--color-text-primary);
+  background-color: var(--color-sidebar-hover);
+  text-shadow: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   Sidebar nav tag pills — small badges showing item counts next to nav
+   entries. Mintlify uses text-primary (amber) which clashes with the rest
+   of the sidebar palette. Switch to secondary so the numbers read as muted
+   metadata; the bg-primary/10 tint is kept.
+   -------------------------------------------------------------------------- */
+
+.nav-tag-pill-text {
+  color: var(--color-text-secondary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Sidebar item layout — Mintlify renders each nav anchor as
+     <a class="flex …">
+       <div class="flex-1 flex min-w-0 items-start gap-x-2.5">
+         <div class="… flex-1 flex-wrap …">{label}</div>
+         <div class="h-[1lh] flex items-center flex-1 justify-end">{chevron}</div>
+       </div>
+     </a>
+   Both children of the inner row use `flex-1` (= `flex: 1 1 0%`), so the
+   chevron's 8px SVG sits in a container that hoards ~50% of the row width
+   and the label only gets the other half — labels longer than ~10 chars
+   wrap unnecessarily ("Serverless Inference", "W&B Tutorials & Blog", etc).
+   Collapse the chevron container to its content width via `flex: none`
+   (`0 0 auto`); the label's own `flex-1` then expands into the freed space.
+   Targeted by `.justify-end` because that class only appears on the chevron
+   wrapper in this part of the tree (label wrappers don't carry it, and the
+   dropdown `<button>` variant uses `shrink-0` for its chevron and so isn't
+   affected by this rule). */
+#sidebar-content .sidebar-group a .justify-end {
+  flex: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   Table of contents (right rail) — text and left border use text-primary
+   / border-primary (amber) when active; override both to the dark primary
+   text color so it matches the sidebar's active state.
+   -------------------------------------------------------------------------- */
+
+.toc-item[data-active="true"] > a,
+.toc-item[data-active="true"] > a:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}

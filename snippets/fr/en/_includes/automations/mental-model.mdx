@@ -1,0 +1,12 @@
+---
+title: Modèle conceptuel
+---
+
+Les Automatisations W&amp;B suivent un schéma simple : lorsqu’un **événement** se produit et que des **conditions** facultatives sont remplies, une **action** s’exécute automatiquement. Par exemple :
+
+* Lorsqu’un run échoue (événement), notifier un canal Slack (action).
+  <TutorialDiagramProject />
+* Lorsque l’alias `production` est ajouté à un artefact (événement), appeler un webhook pour déclencher un déploiement (action).
+  <TutorialDiagramRegistry />
+
+Les événements et les conditions disponibles diffèrent selon que les automatisations s’appliquent à un [projet](/fr/models/automations/automation-events#project) ou à un [Registry](/fr/models/automations/automation-events#registry). Voir [événements et portée des automatisations](/fr/models/automations/automation-events).

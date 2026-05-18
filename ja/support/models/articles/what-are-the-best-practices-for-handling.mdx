@@ -1,9 +1,9 @@
 ---
-title: "W&B Inference エラー処理のベストプラクティスは何ですか？"
+title: "Serverless Inference エラー処理のベストプラクティスは何ですか？"
 keywords: ["Inference"]
 ---
 
-W&amp;B Inference のエラーを適切に処理し、アプリケーションの信頼性を維持するには、以下のベストプラクティスに従ってください。
+Serverless Inference のエラーを適切に処理し、アプリケーションの信頼性を維持するには、以下のベストプラクティスに従ってください。
 
 <div id="1-always-implement-error-handling">
   ## 1. 常にエラー処理を実装してください
@@ -25,7 +25,7 @@ except Exception as e:
 ```
 
 <div id="2-use-retry-logic-with-exponential-backoff">
-  ## 2. 指数バックオフを使用したリトライロジックを使用する
+  ## 2. 指数バックオフによる再試行ロジックを使用する
 </div>
 
 ```python
@@ -52,7 +52,7 @@ def call_inference_with_retry(
             
             # 指数バックオフで遅延を計算する
             delay = base_delay * (2 ** attempt)
-            print(f"試行 {attempt + 1} 失敗、{delay}秒後に再試行します...")
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
             time.sleep(delay)
     
     return None
@@ -67,7 +67,7 @@ def call_inference_with_retry(
 * アプリケーションで API の使用状況をログする
 
 <div id="4-handle-specific-error-codes">
-  ## 4. 特定のエラーコードを処理する
+  ## 4. 特定のエラーコードに対応する
 </div>
 
 ```python
@@ -76,10 +76,10 @@ def handle_inference_error(error):
     
     if "401" in error_str:
         # 認証が無効です
-        raise ValueError("APIキーとプロジェクトの設定を確認してください")
+        raise ValueError("Check your API key and project configuration")
     elif "402" in error_str:
         # クレジット不足
-        raise ValueError("クレジットが不足しています")
+        raise ValueError("Insufficient credits")
     elif "429" in error_str:
         # レート制限中
         return "retry"
@@ -98,7 +98,7 @@ def handle_inference_error(error):
 用途に応じて適切なタイムアウトを設定します。
 
 ```python
-# 長いレスポンスの場合
+# 長い応答の場合
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="your-api-key",

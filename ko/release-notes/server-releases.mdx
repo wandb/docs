@@ -1,6 +1,6 @@
 ---
 title: "지원되는 W&B Server 릴리스"
-description: "새로운 특성, 개선 사항, 버그 수정, 업그레이드 지침을 포함한 W&B Server 릴리스 노트를 확인하세요."
+description: "새로운 특성, 개선 사항, 버그 수정, 업그레이드 지침이 포함된 W&B Server 릴리스 노트를 확인하세요."
 sidebarTitle: "지원되는 릴리스"
 rss: true
 ---
@@ -9,10 +9,47 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 이 페이지에는 지원되는 W&amp;B Server 릴리스의 릴리스 노트가 포함되어 있습니다.
 
-* 더 이상 지원되지 않는 릴리스는 [Archived Server releases](/ko/release-notes/server-releases-archived)를 참조하세요.
-* W&amp;B Server 릴리스 일정 및 지원에 관한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참조하세요.
+* 더 이상 지원되지 않는 릴리스에 대해서는 [Archived Server releases](/ko/release-notes/server-releases-archived)를 참조하세요.
+* W&amp;B Server 릴리스 일정 및 지원에 대한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참조하세요.
 
 <EolReminder />
+
+<Update label="v0.80.1" description="2026년 5월 6일">
+  **2026년 5월 6일**
+
+  ## 수정 사항
+
+  * 권한이 없는 사용자에게 아티팩트가 노출될 수 있었던 치명적인 권한 부여 버그를 수정했습니다.
+  * 직렬화된 페이로드 검증 과정에서 코드가 실행될 수 있었던 치명적인 보안 버그를 수정했습니다.
+  * Viewer가 아닌 모든 조직 멤버가 조직 관리자가 될 수 있었던 심각한 권한 부여 버그를 수정했습니다.
+  * 일반 웹훅 인테그레이션 테스트에는 entity 조회 권한만 필요했지만, 웹훅 생성 또는 업데이트에는 admin 권한이 필요했던 심각한 권한 부여 버그를 수정했습니다. 이제 웹훅 테스트에는 다른 웹훅 설정 액션과 마찬가지로 admin 권한이 필요합니다.
+  * 프로젝트 간 자동화 트리거를 수정할 수 있었던 심각한 버그를 수정했습니다.
+  * 레이블 및 URL의 사용자 입력을 정제하는 과정에서 교차 사이트 스크립팅이 가능할 수 있었던 심각한 버그를 수정했습니다.
+  * 이전 변경으로 인해 PKCE 토큰 요청에서 client secret이 누락되던 문제를 되돌려, 기밀 client secret과 함께 PKCE를 사용하는 배포에서 OIDC 로그인이 정상 동작하도록 수정했습니다. client secret이 설정된 경우 이제 서버는 토큰 URL 매개변수에 중복된 client ID를 추가하지 않으므로, `Authorization` 헤더와의 충돌을 방지합니다.
+  * Microsoft Entra ID용 SCIM 목록 필드를 수정했습니다. 이제 API는 `null` 대신 빈 JSON 배열을 반환하므로 연결 테스트와 그룹 플로우가 다시 정상 동작합니다.
+  * Okta로 전송되는 SCIM Push 오퍼레이션의 안정성을 개선했습니다:
+    * Okta 그룹 이름이 W&amp;B 팀 이름과 다를 경우 SCIM Group Push 오퍼레이션이 실패할 수 있던 버그를 수정했습니다. 이제 이러한 오퍼레이션은 경로 없는 `PATCH` 오퍼레이션으로 전송됩니다. **이는 SCIM User JSON을 파싱하는 인테그레이션에 영향을 주는 호환성 변경입니다.** [Breaking changes](#breaking-changes)를 참조하세요.
+    * SCIM Group Push 오퍼레이션에 모든 멤버가 포함되지 않았을 때 실수로 팀의 모든 멤버가 제거되는 일을 방지하는 가드레일을 추가했습니다.
+    * Okta로 전송되는 페이로드에서 SCIM User 객체의 직렬화를 개선했습니다. 이제 페이로드가 Okta에서 기대하는 형식에 더 잘 맞습니다.
+    * SCIM User 객체에서 이메일 주소와 이름의 대소문자가 잘못 처리될 수 있던 버그를 수정했습니다.
+  * 요청에 조직 컨텍스트가 누락된 경우, Dedicated Cloud에서 BYOB(bring your own bucket)를 사용해 SCIM으로 팀을 생성할 때 발생하던 버그를 수정했습니다.
+  * 쿼리 실행기와 함께 parquet 이력 저장소를 사용할 때 포크된 run에 잘못된 run 이력이 표시될 수 있던 버그를 수정했습니다. 예를 들어 포크된 run의 이력에 라이브 저장소 경계에서 잘못된 병합이나 잘못된 step 메타데이터가 포함될 수 있었습니다.
+  * 비용이 큰 총개수 쿼리를 건너뛰어 매우 많은 run 수를 가진 프로젝트의 선형 플롯 성능을 개선했습니다. UI가 추가 run이 패널 필터와 일치하는지 판단할 수 없는 경우 범례에 경고가 표시되며, 이러한 경고의 정확도는 다소 떨어질 수 있습니다.
+  * 조직 **Usage Alerts** 페이지에서 잘못된 리디렉션이 발생하던 문제를 수정했습니다.
+  * Weave에서 아티팩트 메타데이터를 ClickHouse 검색 인덱스에 기록할 때 발생하던 JSON 직렬화 버그를 수정했습니다.
+  * Weave trace server에서 마이그레이션이 잘못된 데이터베이스 엔진을 선택할 수 있던 버그를 수정했습니다.
+
+  ## 호환성에 영향을 주는 변경 사항
+
+  이 릴리스에는 SCIM User JSON을 파싱하는 인테그레이션에 영향을 주는 호환성 변경이 포함되어 있습니다.
+
+  * Dedicated Cloud 및 Self-Managed v0.80.1+에서는 `/scim/Users` 응답(`GET` user, `GET` users, User를 반환하는 `PATCH` 응답 포함)에서 `emails`를 SCIM 2.0에 맞게 소문자 필드 이름(`value`, `primary`, 선택적 `type` 또는 `display`)을 사용하는 객체의 JSON 배열로 직렬화합니다.
+  * 이전 릴리스를 사용하는 배포에서는 `emails`를 PascalCase 키(`Value`, `Primary` 등)를 사용하는 단일 JSON 객체로 반환합니다.
+
+  코드가 SCIM *응답*에서 `emails`를 읽는 경우 `emails`를 배열로 처리하고, 기본 항목(또는 첫 번째 요소)을 읽으세요.
+
+  사용자를 생성하거나 업데이트하는 요청 본문은 이미 배열 형식을 사용하고 있었으며 변경되지 않았습니다. `list-users` 필터 `emails.value eq "..."`도 변경되지 않았습니다.
+</Update>
 
 <Update label="v0.80.0" description="2026년 4월 28일">
   **2026년 4월 28일**
@@ -377,7 +414,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ### Weave
 
-  * Dedicated Cloud의 Weave UI에 Dedicated Cloud에서 사용할 수 없는 W&amp;B Inference 링크가 표시되던 버그를 수정했습니다.
+  * Dedicated Cloud의 Weave UI에 Dedicated Cloud에서 사용할 수 없는 Serverless Inference 링크가 표시되던 버그를 수정했습니다.
   * 세부 정보 drawer가 열려 있으면 [Evaluation](/ko/weave/guides/core-types/evaluations) 비교 페이지에서 막대 차트 너비가 지나치게 좁아질 수 있던 버그를 수정했습니다.
   * [Weave 플레이그라운드](https://wandb.ai/site/playground/)에 입력할 때 커서가 화면에 표시된 영역에서 사라질 수 있던 UI 버그를 수정했습니다.
   * [Weave 플레이그라운드](https://wandb.ai/site/playground/)에서 call을 불러올 때 템플릿 변수를 편집할 수 없던 버그를 수정했습니다.
@@ -392,8 +429,8 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 수정 사항
 
-  * 스크롤 막대가 항상 표시되도록 설정된 macOS에서 발생할 수 있는 표시 버그를 수정했습니다. 워크스페이스에 [Query panel](/ko/models/app/features/panels/query-panels)이 있는 경우, 워크스페이스를 축소하면 쿼리 패널 table 크기가 초당 여러 차례 오르내리는 크기 조정 루프가 트리거될 수 있었습니다.
-  * W&amp;B Inference가 Dedicated Cloud UI에 잘못 표시되던 버그를 수정했습니다. Dedicated Cloud에서는 Inference를 사용할 수 없습니다.
+  * 스크롤 막대가 항상 표시되도록 설정된 macOS에서 발생할 수 있는 표시 버그를 수정했습니다. 워크스페이스에 [쿼리 패널](/ko/models/app/features/panels/query-panels)이 있는 경우, 워크스페이스를 축소하면 쿼리 패널 table 크기가 초당 여러 차례 오르내리는 크기 조정 루프가 트리거될 수 있었습니다.
+  * Serverless Inference가 Dedicated Cloud UI에 잘못 표시되던 버그를 수정했습니다. Dedicated Cloud에서는 Inference를 사용할 수 없습니다.
 </Update>
 
 <Update label="v0.76.2" description="2025년 12월 10일">
@@ -403,7 +440,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   * **Organization Dashboard** 페이지의 부정확한 사용 카드를 **Usage** 페이지 링크로 대체했습니다. 이는 UI 버그일 뿐이며 billing에는 영향이 없습니다.
   * Parquet 조회는 꺼져 있지만 내보내기는 켜진 상태가 될 수 있던 버그를 수정했습니다.
-  * 보류 상태에서 run config 없이 run을 수동으로 upsert할 때 발생하던 nil 포인터 역참조를 수정했습니다.
+  * 보류 상태에서 run 설정 없이 run을 수동으로 upsert할 때 발생하던 nil 포인터 역참조를 수정했습니다.
 </Update>
 
 <Update label="v0.76.1" description="2025년 12월 4일">
