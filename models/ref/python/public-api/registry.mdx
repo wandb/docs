@@ -21,7 +21,8 @@ __init__(
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None
+    attrs: 'RegistryFragment | None' = None,
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
@@ -254,7 +255,8 @@ create(
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None
+    artifact_types: 'list[str] | None' = None,
+    service_api: 'ServiceApi | None' = None
 ) → Self
 ```
 
@@ -266,7 +268,8 @@ The registry name must be unique within the organization. This function should b
 
 **Args:**
  
- - `client`:  The GraphQL client. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for the created registry. 
  - `organization`:  The name of the organization. 
  - `name`:  The name of the registry (without the `wandb-registry-` prefix). 
  - `visibility`:  The visibility level ('organization' or 'restricted'). 
@@ -420,9 +423,7 @@ Updates the role of a member (user or team) within this registry.
 
 
 **Examples:**
-Make all users in the registry admins
-
-```python
+ Make all users in the registry admins ```python
 import wandb
 
 api = wandb.Api()
@@ -432,7 +433,7 @@ registry = api.registry(name="my-registry", organization="my-org")
 
 for member in registry.user_members():
     registry.update_member(member.user, role="admin")
-```
+``` 
 
 ---
 
@@ -457,3 +458,4 @@ versions(
 ```
 
 Returns the versions belonging to the registry. 
+
