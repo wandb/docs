@@ -1,6 +1,6 @@
 ---
 title: "Experiments"
-tag: "39"
+tag: "51"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -59,14 +59,38 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How do I launch multiple runs from one script?" href="/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
   Finish previous runs before starting new runs to log multiple runs within a single script. The recommended way to do thi ...
 </Card>
+<Card title="How do I log NLP metrics and text outputs in W&B?" href="/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  W&B handles NLP experiments well through scalar metric logging for corpus-level scores (BLEU, ROUGE, perplexity) and wan ...
+</Card>
 <Card title="How do I log a list of values?" href="/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   These examples show logging losses a couple of different ways using wandb.Run.log(). For more, see the documentation on  ...
+</Card>
+<Card title="How do I log gradients and model weights with wandb.watch()?" href="/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() hooks into a PyTorch model's parameters and gradients and logs histograms of their values at regular inter ...
+</Card>
+<Card title="How do I paginate through large API results in W&B?" href="/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  The W&B Public API returns results in pages. For projects with hundreds or thousands of runs, loading everything at once ...
 </Card>
 <Card title="How do I plot multiple lines on a plot with a legend?" href="/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
   Create a multi-line custom chart with wandb.plot.line_series(). Navigate to the project page to view the line chart. To  ...
 </Card>
 <Card title="How do I programmatically access the human-readable run name?" href="/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
   The .name attribute of a wandb.Run is accessible as follows:
+</Card>
+<Card title="How do I run sweeps with distributed training on SLURM?" href="/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm" arrow="true" horizontal>
+  When running a W&B sweep with distributed training on SLURM (for example, multi-GPU jobs with --gpus-per-node), only one ...
+</Card>
+<Card title="How do I set up W&B alerts and notifications?" href="/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  W&B supports two types of alerts: automated alerts configured in User Settings (run finished, run crashed) and programma ...
+</Card>
+<Card title="How do I update run config, tags, and notes via the W&B API?" href="/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  After a run finishes you can edit its config values, display name, tags, and notes using the Public API without re-runni ...
+</Card>
+<Card title="How do I use W&B with JAX?" href="/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&B does not have a JAX-specific integration, but works well with JAX training loops through direct calls to wandb.log() ...
+</Card>
+<Card title="How do I use the parallel coordinates chart in W&B?" href="/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  The parallel coordinates chart visualizes the relationship between hyperparameters and metrics across many runs. Each ru ...
 </Card>
 <Card title="I didn't name my run. Where is the run name coming from?" href="/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
   If a run is not explicitly named, W&B assigns a random name to identify it in your project. Examples of random names are ...
@@ -101,17 +125,29 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="Why am I seeing fewer data points than I logged?" href="/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
   When visualizing metrics against an X-axis other than Step, expect to see fewer data points. Metrics must log at the sam ...
 </Card>
+<Card title="Why are my metrics missing from wandb.log()?" href="/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  If metrics logged with wandb.log() are not appearing in the W&B UI, there are several common causes. SDK version issue C ...
+</Card>
 <Card title="Why are steps missing from a CSV metric export?" href="/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
   Export limits can prevent the entire run history from being exported as a CSV or using the run.history API. To access th ...
 </Card>
 <Card title="Why can't I sort or filter metrics with certain characters?" href="/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
   Metric names in W&B must follow GraphQL naming conventions to ensure they can be properly sorted and filtered in the UI. ...
 </Card>
+<Card title="Why do my workspace settings not persist between sessions?" href="/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace layout changes (panel positions, filters, grouping) are stored in your browser session by default. If you clos ...
+</Card>
 <Card title="Why does my process hang when using Hydra with W&B?" href="/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
   If your process hangs when started with Hydra, this is likely caused by a multiprocessing conflict between Hydra and W&B ...
 </Card>
 <Card title="Why does my training hang with distributed training?" href="/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
   There are two common reasons training hangs when using W&B with distributed training: 1. Hanging at the beginning of tra ...
+</Card>
+<Card title="Why is my W&B run slow to initialize or upload?" href="/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  Slow wandb.init() or sluggish metric uploads are usually caused by one of four things: network latency, large media payl ...
+</Card>
+<Card title="Why is my sweep agent not picking up new runs?" href="/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  If your sweep agent starts but does not receive new run configurations, or receives one run and then idles, there are se ...
 </Card>
 <Card title="Why is nothing showing up in my graphs?" href="/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
   If the message "No visualization data logged yet" appears, the script has not executed the first wandb.log call. This si ...

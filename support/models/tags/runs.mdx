@@ -1,6 +1,6 @@
 ---
 title: "Runs"
-tag: "19"
+tag: "31"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -38,17 +38,41 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How can I recover deleted runs?" href="/support/models/articles/how-can-i-recover-deleted-runs" arrow="true" horizontal>
   Learn how to recover recently deleted runs in the W&B App for up to 7 days.
 </Card>
+<Card title="How do I download the console log file from a run?" href="/support/models/articles/how-do-i-download-the-console-log-file-from-a-run" arrow="true" horizontal>
+  W&B captures your training script's stdout and stderr output and stores it as output.log in the run's file storage. You  ...
+</Card>
 <Card title="How do I fix `CommError, Run does not exist` during a sweep?" href="/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
   If you see both CommError, Run does not exist and ERROR Error uploading during a sweep, the most likely cause is that yo ...
 </Card>
 <Card title="How do I fix the error `resume='must' but run (<run_id>) doesn't exist`?" href="/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru" arrow="true" horizontal>
   If you encounter the error resume='must' but run ( ) doesn't exist, the run you are attempting to resume does not exist  ...
 </Card>
+<Card title="How do I log NLP metrics and text outputs in W&B?" href="/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  W&B handles NLP experiments well through scalar metric logging for corpus-level scores (BLEU, ROUGE, perplexity) and wan ...
+</Card>
+<Card title="How do I log gradients and model weights with wandb.watch()?" href="/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() hooks into a PyTorch model's parameters and gradients and logs histograms of their values at regular inter ...
+</Card>
 <Card title="How do I log runs launched by continuous integration or internal tools?" href="/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
   To launch automated tests or internal tools that log to W&B, create a Service Account on the team settings page. This ac ...
 </Card>
+<Card title="How do I paginate through large API results in W&B?" href="/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  The W&B Public API returns results in pages. For projects with hundreds or thousands of runs, loading everything at once ...
+</Card>
 <Card title="How do I resolve permission errors when logging a run?" href="/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
   To resolve permission errors when logging a run to a W&B entity, follow these steps: Verify entity and project names: En ...
+</Card>
+<Card title="How do I set up W&B alerts and notifications?" href="/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  W&B supports two types of alerts: automated alerts configured in User Settings (run finished, run crashed) and programma ...
+</Card>
+<Card title="How do I update run config, tags, and notes via the W&B API?" href="/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  After a run finishes you can edit its config values, display name, tags, and notes using the Public API without re-runni ...
+</Card>
+<Card title="How do I use W&B with JAX?" href="/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&B does not have a JAX-specific integration, but works well with JAX training loops through direct calls to wandb.log() ...
+</Card>
+<Card title="How do I use the parallel coordinates chart in W&B?" href="/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  The parallel coordinates chart visualizes the relationship between hyperparameters and metrics across many runs. Each ru ...
 </Card>
 <Card title="How many runs can I create per project?" href="/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
   Limit each project to approximately 10,000 runs for optimal performance.
@@ -61,4 +85,16 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Why are steps missing from a CSV metric export?" href="/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
   Export limits can prevent the entire run history from being exported as a CSV or using the run.history API. To access th ...
+</Card>
+<Card title="Why do my workspace settings not persist between sessions?" href="/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace layout changes (panel positions, filters, grouping) are stored in your browser session by default. If you clos ...
+</Card>
+<Card title="Why is console output not captured for my run?" href="/support/models/articles/why-is-console-output-not-captured-for-my-run" arrow="true" horizontal>
+  W&B captures your script's stdout and stderr output and stores it as output.log on the run's Files tab. If the log file  ...
+</Card>
+<Card title="Why is my W&B run slow to initialize or upload?" href="/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  Slow wandb.init() or sluggish metric uploads are usually caused by one of four things: network latency, large media payl ...
+</Card>
+<Card title="Why is my run showing as crashed?" href="/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&B marks a run as Crashed when it stops receiving heartbeats from the process that called wandb.init(), without the pro ...
 </Card>

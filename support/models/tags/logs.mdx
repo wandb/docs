@@ -1,6 +1,6 @@
 ---
 title: "Logs"
-tag: "7"
+tag: "10"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -10,6 +10,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How can I overwrite the logs from previous steps?" href="/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
   To overwrite logs from previous steps, use forking and rewind.
+</Card>
+<Card title="How do I download the console log file from a run?" href="/support/models/articles/how-do-i-download-the-console-log-file-from-a-run" arrow="true" horizontal>
+  W&B captures your training script's stdout and stderr output and stores it as output.log in the run's file storage. You  ...
 </Card>
 <Card title="How do I log a list of values?" href="/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   These examples show logging losses a couple of different ways using wandb.Run.log(). For more, see the documentation on  ...
@@ -25,4 +28,10 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Which files should I check when my code crashes?" href="/support/models/articles/which-files-should-i-check-when-my-code-" arrow="true" horizontal>
   For the affected run, check debug.log and debug-internal.log in wandb/run- _ - /logs in the directory where your code is ...
+</Card>
+<Card title="Why are my metrics missing from wandb.log()?" href="/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  If metrics logged with wandb.log() are not appearing in the W&B UI, there are several common causes. SDK version issue C ...
+</Card>
+<Card title="Why is console output not captured for my run?" href="/support/models/articles/why-is-console-output-not-captured-for-my-run" arrow="true" horizontal>
+  W&B captures your script's stdout and stderr output and stores it as output.log on the run's Files tab. If the log file  ...
 </Card>

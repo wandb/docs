@@ -1,6 +1,6 @@
 ---
 title: "Sweeps"
-tag: "19"
+tag: "23"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -10,6 +10,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Can I rerun a grid search?" href="/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
   If a grid search completes but some W&B Runs need re-execution due to crashes, delete the specific W&B Runs to re-run. T ...
+</Card>
+<Card title="Can I resume a run inside a sweep?" href="/support/models/articles/can-i-resume-a-run-inside-a-sweep" arrow="true" horizontal>
+  Run resumption is not supported inside a W&B sweep. If you pass a run_id or use wandb.init(resume=...) while a sweep age ...
 </Card>
 <Card title="Can I use Sweeps and SageMaker?" href="/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
   To authenticate W&B, complete the following steps: create a requirements.txt file if using a built-in Amazon SageMaker e ...
@@ -44,8 +47,14 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
   The following error usually occurs when you do not log the metric that you are optimizing: To fix this, make sure you ar ...
 </Card>
+<Card title="How do I run sweeps with distributed training on SLURM?" href="/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm" arrow="true" horizontal>
+  When running a W&B sweep with distributed training on SLURM (for example, multi-GPU jobs with --gpus-per-node), only one ...
+</Card>
 <Card title="How do I use custom CLI commands with sweeps?" href="/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
   You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments. In the example  ...
+</Card>
+<Card title="How do I use the parallel coordinates chart in W&B?" href="/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  The parallel coordinates chart visualizes the relationship between hyperparameters and metrics across many runs. Each ru ...
 </Card>
 <Card title="How should I run sweeps on SLURM?" href="/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
   When using sweeps with the SLURM scheduling system, run wandb agent --count 1 SWEEP_ID in each scheduled job. This comma ...
@@ -61,4 +70,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="What is the `Est. Runs` column?" href="/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
   W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total re ...
+</Card>
+<Card title="Why is my sweep agent not picking up new runs?" href="/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  If your sweep agent starts but does not receive new run configurations, or receives one run and then idles, there are se ...
 </Card>

@@ -1,6 +1,6 @@
 ---
 title: "Metrics"
-tag: "19"
+tag: "23"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -29,6 +29,15 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
   The following error usually occurs when you do not log the metric that you are optimizing: To fix this, make sure you ar ...
 </Card>
+<Card title="How do I log NLP metrics and text outputs in W&B?" href="/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  W&B handles NLP experiments well through scalar metric logging for corpus-level scores (BLEU, ROUGE, perplexity) and wan ...
+</Card>
+<Card title="How do I log gradients and model weights with wandb.watch()?" href="/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() hooks into a PyTorch model's parameters and gradients and logs histograms of their values at regular inter ...
+</Card>
+<Card title="How do I use W&B with JAX?" href="/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&B does not have a JAX-specific integration, but works well with JAX training loops through direct calls to wandb.log() ...
+</Card>
 <Card title="How often are system metrics collected?" href="/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
   Metrics collect by default every 10 seconds. For higher resolution metrics, email contact@wandb.com.
 </Card>
@@ -49,6 +58,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Why am I seeing fewer data points than I logged?" href="/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
   When visualizing metrics against an X-axis other than Step, expect to see fewer data points. Metrics must log at the sam ...
+</Card>
+<Card title="Why are my metrics missing from wandb.log()?" href="/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  If metrics logged with wandb.log() are not appearing in the W&B UI, there are several common causes. SDK version issue C ...
 </Card>
 <Card title="Why can't I sort or filter metrics with certain characters?" href="/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
   Metric names in W&B must follow GraphQL naming conventions to ensure they can be properly sorted and filtered in the UI. ...
