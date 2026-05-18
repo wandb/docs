@@ -24,13 +24,14 @@ __init__(
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    service_api: 'ServiceApi'
 )
 ```
 
 **引数:**
 
-* `client`:  W&amp;B API クライアント。
+* `client`:  API 互換性のために保持されているレガシー GraphQL クライアント。
+* `service_api`:  この run に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `entity`:  run に関連付けられた entity。
 * `project`:  run に関連付けられたプロジェクト。
 * `run_id`:  run の一意の識別子。
@@ -41,7 +42,7 @@ __init__(
 
 * `tags` ([str]):  run に関連付けられたタグのリスト
 * `url` (str):  この run の URL
-* `id` (str):  run の一意の識別子 (デフォルトは 8 文字) 
+* `id` (str):  run の一意の識別子 (デフォルトは 8 文字)
 * `name` (str):  run の名前
 * `state` (str):  次のいずれか: running, finished, crashed, killed, preempting, preempted
 * `config` (dict):  run に関連付けられたハイパーパラメーターの dict
@@ -63,7 +64,6 @@ Run オブジェクトを初期化します。
 Run は、api が wandb.Api のインスタンスである場合、常に api.runs() を呼び出して初期化されます。
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Run.config
 

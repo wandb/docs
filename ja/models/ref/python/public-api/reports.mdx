@@ -21,20 +21,21 @@ __init__(
     project: 'Project',
     name: 'str | None' = None,
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    service_api: 'ServiceApi'
 )
 ```
 
 **引数:**
 
-* `client` (`wandb.apis.internal.Api`): 使用する API クライアントのインスタンス。
+* `client`: API 互換性のために保持されているレガシー GraphQL クライアント。
+* `service_api`: このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `project` (`wandb.sdk.internal.Project`): Reports を取得する対象のプロジェクト。
 * `name` (str, optional): フィルター対象のレポート名。`None` の場合は、すべての Reports を取得します。
 * `entity` (str, optional): プロジェクトの entity 名。デフォルトでは、プロジェクトの entity が使用されます。
 * `per_page` (int): 1 ページあたりに取得する Reports の数 (デフォルトは 50) 。
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Reports.length
 

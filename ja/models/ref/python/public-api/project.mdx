@@ -20,13 +20,15 @@ __init__(
     client: 'RetryingClient',
     entity: 'str',
     project: 'str',
-    attrs: 'Mapping[str, Any]'
+    attrs: 'Mapping[str, Any]',
+    service_api: 'ServiceApi'
 ) → Project
 ```
 
 **引数:**
 
-* `client`:  W&amp;B API クライアントのインスタンス。
+* `client`:  API 互換性のために保持されているレガシー GraphQL クライアント。
+* `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `name` (str):  プロジェクトの名。
 * `entity` (str):  プロジェクトを所有する entity の名。
 
@@ -34,13 +36,13 @@ entity に紐づく単一のプロジェクト。
 
 **引数:**
 
-* `client`:  W&amp;B をクエリするために使用する API クライアント。
+* `client`:  API 互換性のために保持されているレガシー GraphQL クライアント。
+* `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `entity`:  プロジェクトを所有する entity。
 * `project`:  クエリするプロジェクトの名。
 * `attrs`:  プロジェクトの属性。
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Project.id
 

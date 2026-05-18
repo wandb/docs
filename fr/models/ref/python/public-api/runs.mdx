@@ -29,13 +29,14 @@ __init__(
     per_page: 'int' = 50,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    service_api: 'ServiceApi'
 )
 ```
 
 **Arguments :**
 
-* `client`:  (`wandb.apis.public.RetryingClient`) Le client API à utiliser pour les requêtes.
+* `client`:  Client GraphQL historique conservé pour la compatibilité de l’API.
+* `service_api`:  Interface vers le service wandb-core qui effectue les appels d’API W&amp;B pour cette collection.
 * `entity`:  (str) L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
 * `project`:  (str) Le nom du projet depuis lequel récupérer les runs.
 * `filters`:  (Optional[Dict[str, Any]]) Un dictionnaire de filtres à appliquer à la requête de runs.
@@ -44,7 +45,6 @@ __init__(
 * `include_sweeps`:  (bool) Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
 
 ***
-
 
 ### <kbd>propriété</kbd> Runs.length
 

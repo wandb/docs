@@ -21,12 +21,12 @@ __init__(
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None
+    attrs: 'RegistryFragment | None' = None,
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
 ***
-
 
 ### <kbd>속성</kbd> Registry.allow_all_artifact_types
 
@@ -198,7 +198,10 @@ import wandb
 
 api = wandb.Api()
 
-# 기존 레지스트리 가져오기
+<div id="fetch-an-existing-registry">
+  # 기존 레지스트리 가져오기
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -235,7 +238,8 @@ create(
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None
+    artifact_types: 'list[str] | None' = None,
+    service_api: 'ServiceApi | None' = None
 ) → Self
 ```
 
@@ -245,7 +249,8 @@ create(
 
 **매개변수:**
 
-* `client`:  GraphQL 클라이언트입니다.
+* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
+* `service_api`:  생성된 레지스트리에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
 * `organization`:  조직 이름입니다.
 * `name`:  레지스트리 이름입니다(`wandb-registry-` 접두사 제외).
 * `visibility`:  공개 범위입니다(&#39;organization&#39; 또는 &#39;restricted&#39;).
@@ -261,7 +266,6 @@ create(
 * `ValueError`:  조직 내에 같은 이름의 레지스트리가 이미 있거나 생성에 실패한 경우입니다.
 
 ***
-
 
 ### <kbd>방법</kbd> `Registry.delete`
 
@@ -323,7 +327,10 @@ import wandb
 
 api = wandb.Api()
 
-# 기존 레지스트리 가져오기
+<div id="fetch-an-existing-registry">
+  # 기존 레지스트리 가져오기
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -373,7 +380,11 @@ update_member(
 **매개변수:**
 
 * `member`: 역할을 업데이트할 사용자 또는 팀입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받을 수 있습니다.
-* `role`: 멤버에게 할당할 새 역할입니다. 다음 중 하나일 수 있습니다: - &quot;admin&quot; - &quot;member&quot; - &quot;viewer&quot; - &quot;restricted&#95;viewer&quot; (W&amp;B 서버에서 지원하는 경우)
+* `role`: 멤버에게 할당할 새 역할입니다. 다음 중 하나일 수 있습니다:
+  * &quot;admin&quot;
+  * &quot;member&quot;
+  * &quot;viewer&quot;
+  * &quot;restricted&#95;viewer&quot; (W&amp;B 서버에서 지원하는 경우)
 
 **반환값:**
 필요한 경우 후속 메서드 체이닝에 사용할 수 있도록 이 레지스트리를 반환합니다.
@@ -383,29 +394,31 @@ update_member(
 * `ValueError`: 사용자 또는 팀 ID를 식별할 수 없는 경우 발생합니다.
 
 **예제:**
-레지스트리의 모든 사용자를 관리자로 설정하기
-
-```python
+레지스트리의 모든 사용자를 관리자로 설정하기 ```python
 import wandb
 
 api = wandb.Api()
 
-# 기존 레지스트리 가져오기
-registry = api.registry(name="my-registry", organization="my-org")
+<div id="fetch-an-existing-registry">
+  # 기존 레지스트리 가져오기
+</div>
 
-for member in registry.user_members():
-    registry.update_member(member.user, role="admin")
-```
+registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
 
-***
+for member in registry.user&#95;members():
+registry.update&#95;member(member.user, role=&quot;admin&quot;)
+
+````
+
+---
 
 ### <kbd>방법</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-```
+````
 
-이 레지스트리의 현재 Member Users를 반환합니다.
+이 레지스트리의 현재 멤버인 Users를 반환합니다.
 
 ***
 

@@ -733,8 +733,8 @@ artifact를 run의 출력으로 선언합니다.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x109456480>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ab1bec0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10b282660>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ca1d1c0>
 ) → Artifact | None
 ```
 
@@ -1095,18 +1095,36 @@ watch(
 ) → None
 ```
 
-주어진 PyTorch 모델에 hook을 걸어 그라디언트와 모델의 계산 그래프를 모니터링합니다.
+주어진 PyTorch 모델에 훅을 걸어 그라디언트와 모델의 계산 그래프를 모니터링합니다.
 
-이 함수는 트레이닝 중에 매개변수, 그라디언트 또는 둘 다 추적할 수 있습니다.
+이 함수는 트레이닝 중에 파라미터, 그라디언트 또는 둘 다 추적할 수 있습니다.
 
-**매개변수:**
+**파라미터:**
 
 * `models`:  모니터링할 단일 모델 또는 모델 시퀀스입니다.
 * `criterion`:  최적화 중인 loss 함수입니다(선택).
 * `log`:  `"gradients"`, `"parameters"`, 또는 `"all"` 중 무엇을 로깅할지 지정합니다. 로깅을 비활성화하려면 None으로 설정합니다. (기본값=`"gradients"`).
-* `log_freq`:  그라디언트와 매개변수를 로깅하는 빈도(배치 단위)입니다. (기본값=1000)
+* `log_freq`:  그라디언트와 파라미터를 로깅하는 빈도(배치 단위)입니다. (기본값=1000)
 * `idx`:  `wandb.watch`로 여러 모델을 추적할 때 사용하는 인덱스입니다. (기본값=None)
 * `log_graph`:  모델의 계산 그래프를 로깅할지 여부입니다. (기본값=False)
 
 **예외:**
 ValueError:  `wandb.init()`이 호출되지 않았거나, 모델 중 하나라도 `torch.nn.Module`의 인스턴스가 아닌 경우입니다.
+
+***
+
+### <kbd>방법</kbd> `Run.write_logs`
+
+```python
+write_logs(text: 'str') → None
+```
+
+run의 Logs 탭에 텍스트를 작성합니다.
+
+자동 stdout/stderr 캡처에 의존하지 않고 `write_logs`를 사용해 Logs 탭에 직접 텍스트를 작성하세요. run이 완료된 뒤에 호출하면 조용히 무시됩니다.
+
+Python의 `logging` 모듈과 통합되는 `capture_loggers` 설정을 사용하는 것도 고려해 보세요.
+
+**인수:**
+
+* `text`:  작성할 텍스트입니다. 끝에 개행 문자가 없으면 자동으로 추가됩니다. 

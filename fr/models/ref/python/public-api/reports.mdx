@@ -21,20 +21,21 @@ __init__(
     project: 'Project',
     name: 'str | None' = None,
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    service_api: 'ServiceApi'
 )
 ```
 
 **Arguments :**
 
-* `client` (`wandb.apis.internal.Api`) :  Instance du client API à utiliser.
+* `client` :  Client GraphQL existant conservé pour la compatibilité de l’API.
+* `service_api` :  Interface vers le service wandb-core qui effectue les appels d’API W&amp;B pour cette collection.
 * `project` (`wandb.sdk.internal.Project`) :  Le projet depuis lequel récupérer les Reports.
 * `name` (str, facultatif) :  Le nom du rapport à utiliser pour le filtrage. Si `None`, récupère tous les Reports.
 * `entity` (str, facultatif) :  Le nom de l’entité du projet. Par défaut, utilise l’entité du projet.
 * `per_page` (int) :  Nombre de Reports à récupérer par page (50 par défaut).
 
 ***
-
 
 ### <kbd>propriété</kbd> Reports.length
 

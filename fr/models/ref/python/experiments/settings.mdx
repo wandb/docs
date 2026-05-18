@@ -35,7 +35,7 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107855240>,
+    anonymous: 'object' = <object object at 0x10482d250>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -46,6 +46,7 @@ __init__(
     console_multipart: 'bool' = False,
     console_chunk_max_bytes: 'int' = 0,
     console_chunk_max_seconds: 'int' = 0,
+    capture_loggers: 'dict[str, str] | None' = None,
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
@@ -68,6 +69,8 @@ __init__(
     identity_token_file: 'str | None' = None,
     ignore_globs: 'Sequence' = (),
     init_timeout: 'float' = 90.0,
+    finish_timeout: 'float' = 0.0,
+    finish_timeout_raises: 'bool' = False,
     insecure_disable_ssl: 'bool' = False,
     job_name: 'str | None' = None,
     job_source: 'Literal['repo', 'artifact', 'image'] | None' = None,
@@ -107,6 +110,7 @@ __init__(
     show_warnings: 'bool' = True,
     silent: 'bool' = False,
     start_method: 'str | None' = None,
+    stop_on_fatal_error: 'bool' = False,
     strict: 'bool | None' = None,
     summary_timeout: 'int' = 60,
     summary_warnings: 'int' = 5,
@@ -161,7 +165,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 72322,
+    x_stats_pid: 'int' = 92619,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -178,6 +182,7 @@ __init__(
     x_stats_coreweave_metadata_base_url: 'str' = 'http://169.254.169.254',
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
     x_stats_track_process_tree: 'bool' = False,
+    x_stats_no_cgroup: 'bool' = False,
     x_sync: 'bool' = False,
     x_sync_dir_suffix: 'str' = '',
     x_update_finish_state: 'bool' = True
@@ -253,6 +258,29 @@ __init__(
   atteinte clôt la partie. Une valeur de `0` désactive la limite
   temporelle.
 
+* `capture_loggers` (Optional[Dict[str, str]]): Noms des loggers Python à capturer dans l’onglet Logs du run.
+  Correspondance entre le nom du logger et le niveau de journalisation minimum. Lorsqu’elle est définie, wandb installe un
+  `logging.Handler` sur chaque logger nommé et le supprime lorsque le run se termine.
+  Les enregistrements de journal émis par ces loggers sont publiés comme sortie de console dans le
+  run, de façon similaire à la capture de stdout/stderr.
+  Les enregistrements de journal sont formatés de la même manière que `logging.basicConfig()`, par exemple
+  `INFO:my_module:Some message.` Cela n’est actuellement pas personnalisable.
+  Pour capturer tous les journaux, transmettez le nom du logger racine, qui est &#39;root&#39;.
+  Cela est indépendant du paramètre `console` : les deux peuvent être actifs
+  simultanément.
+  Exemple :
+  ```python
+  wandb.init(
+  settings=wandb.Settings(
+  console="off",
+  capture_loggers={
+  "my_app": "INFO",
+  "my_app.training": "ERROR",
+  },
+  ),
+  )
+  ```
+
 * `credentials_file` (str): Chemin du fichier dans lequel écrire des jetons d’accès temporaires.
 
 * `disable_code` (bool): Indique s’il faut désactiver l’enregistrement du code.
@@ -302,6 +330,31 @@ __init__(
 * `ignore_globs` (Sequence) : motifs glob Unix relatifs à `files_dir`, indiquant les fichiers à exclure du téléversement.
 
 * `init_timeout` (float) : durée d’attente, en secondes, avant l’expiration du délai pour que l’appel `wandb.init` se termine.
+
+* `finish_timeout` (float): Temps d’attente, en secondes, pour que les données soient téléversées à la fin d’un run.
+  Définir cette valeur peut limiter les coûts causés par des téléversements lents vers W&amp;B à la fin d’un
+  run, avec comme contrepartie que le run sera marqué comme planté et qu’il pourra
+  manquer certaines données. Par défaut, `run.finish()` bloque jusqu’à ce que toutes les
+  données aient fini d’être téléversées.
+  Si cette valeur est définie sur un nombre supérieur à zéro, W&amp;B abandonne le téléversement des
+  données d’un run après ce nombre de secondes à la fin d’un run, ce qui débloque votre
+  script. Après un certain temps, le run devient Crashed ou Failed dans l’interface utilisateur. Toutes les
+  données non téléversées restent stockées sur le disque et peuvent être téléversées avec `wandb
+  sync`.
+  Utilisez le paramètre `finish_timeout_raises` pour lever une erreur en plus de
+  l’affichage d’un message d’avertissement.
+  Les runs arrêtés par `wandb.teardown()` (qui s’exécute automatiquement à la fin
+  d’un script dans un hook atexit) respecteront également ce paramètre.
+
+* `finish_timeout_raises` (bool): Indique s’il faut lever une TimeoutError si finish&#95;timeout expire.
+  L’utiliser avec le paramètre `finish_timeout` fait que `run.finish()`
+  lève une TimeoutError lorsqu’un délai d’expiration est atteint, en plus d’afficher un message.
+  Notez que `run.finish()` est appelé implicitement lorsque vous utilisez un Run comme gestionnaire
+  de contexte :
+  with wandb.init() as run:
+  ...  # run.finish() s’exécute à la fin du bloc `with`
+  Cela ne fait pas lever d’erreur à `wandb.teardown()` (puisqu’il s’exécute
+  de toute façon à la fin d’un script).
 
 * `insecure_disable_ssl` (bool): Indique s’il faut désactiver de façon non sécurisée la vérification SSL.
 
@@ -407,6 +460,16 @@ __init__(
 
 * `silent` (bool) : indicateur permettant de désactiver toute sortie.
 
+* `stop_on_fatal_error` (bool): Indique s’il faut arrêter le run après une erreur fatale.
+  Une fois que W&amp;B rencontre une erreur irrécupérable lors du téléversement des données, il affiche
+  un message et arrête le téléversement, tout en permettant toujours de
+  journaliser davantage de données.
+  C’est généralement souhaitable : vos métriques d’entraînement sont stockées sur le disque
+  et peuvent être récupérées avec `wandb sync`, même si elles ne sont pas téléversées.
+  Cela n’est pas utile si vos fichiers sont supprimés après l’entraînement.
+  Dans ce cas, définir cette valeur sur True arrêtera le run après une erreur fatale,
+  comme si le bouton d’arrêt avait été pressé dans l’interface utilisateur web.
+
 * `strict` (Optional[bool]) : Indique s’il faut activer le mode strict pour la validation et le contrôle des erreurs.
 
 * `summary_timeout` (int): Temps d’attente, en secondes, avant l’expiration du délai pour les opérations de synthèse.
@@ -459,10 +522,10 @@ __init__(
 
 * `x_stats_dcgm_exporter` (Optional[str]) : point de terminaison depuis lequel extraire les métriques DCGM de Nvidia.
   Options :
-  * Extraire les métriques liées à DCGM à partir d&#39;une requête envoyée au point de terminaison Prometheus `/api/v1/query`.
+  * Extraire les métriques liées à DCGM à partir d&#39;une requête adressée au point de terminaison Prometheus `/api/v1/query`.
     Il est courant d&#39;agréger avec Prometheus les métriques rapportées par les instances de DCGM Exporter
-    exécutées sur différents nœuds d&#39;un cluster.
-  * TODO: Analyser les métriques directement à partir du point de terminaison `/metrics` de DCGM Exporter.
+    s&#39;exécutant sur différents nœuds d&#39;un cluster.
+  * TODO: Analyser directement les métriques à partir du point de terminaison `/metrics` de DCGM Exporter.
     Exemples :
   * `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
@@ -497,6 +560,8 @@ __init__(
   Lorsque `True`, le moniteur système agrège la mémoire RSS, le pourcentage de CPU et le nombre de threads
   du processus ayant le PID `x_stats_pid` ainsi que de tous ses descendants.
   Cela peut avoir un impact sur les performances et est désactivé par défaut.
+
+* `x_stats_no_cgroup` (bool): Désactiver la prise en compte des limites CPU et mémoire de cgroup v2 dans les pourcentages des métriques système.
 
 * `x_sync_dir_suffix` (str) : suffixe à ajouter au nom du répertoire du run (`sync_dir`).
   Cette valeur est définie dans wandb.init() pour éviter les conflits de noms.

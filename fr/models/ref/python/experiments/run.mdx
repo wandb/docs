@@ -733,8 +733,8 @@ Un objet `Artifact`.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x109456480>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ab1bec0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10b282660>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ca1d1c0>
 ) → Artifact | None
 ```
 
@@ -1104,10 +1104,28 @@ Cette fonction peut suivre les paramètres, les gradients, ou les deux pendant l
 
 * `models`:  Un seul modèle ou une séquence de modèles à surveiller.
 * `criterion`:  La fonction de perte en cours d&#39;optimisation (facultatif).
-* `log`:  Indique s&#39;il faut journaliser &quot;gradients&quot;, &quot;parameters&quot; ou &quot;all&quot;. Définissez cette valeur sur None pour désactiver la journalisation. (par défaut=&quot;gradients&quot;).
-* `log_freq`:  Fréquence (en lots) à laquelle journaliser les gradients et les paramètres. (par défaut=1000)
+* `log`:  Indique s&#39;il faut mettre dans le journal &quot;gradients&quot;, &quot;parameters&quot; ou &quot;all&quot;. Définissez cette valeur sur None pour désactiver le journal. (par défaut=&quot;gradients&quot;).
+* `log_freq`:  Fréquence (en lots) à laquelle mettre dans le journal les gradients et les paramètres. (par défaut=1000)
 * `idx`:  Indice utilisé lors du suivi de plusieurs modèles avec `wandb.watch`. (par défaut=None)
-* `log_graph`:  Indique s&#39;il faut journaliser le graphe de calcul du modèle. (par défaut=False)
+* `log_graph`:  Indique s&#39;il faut mettre dans le journal le graphe de calcul du modèle. (par défaut=False)
 
 **Exceptions levées :**
 ValueError:  Si `wandb.init()` n&#39;a pas été appelé ou si l&#39;un des modèles n&#39;est pas une instance de `torch.nn.Module`.
+
+***
+
+### <kbd>méthode</kbd> `Run.write_logs`
+
+```python
+write_logs(text: 'str') → None
+```
+
+Écrivez du texte dans l&#39;onglet Logs du run.
+
+Utilisez `write_logs` pour écrire directement du texte dans l&#39;onglet Logs, au lieu de vous fier à la capture automatique de stdout/stderr. Les appels effectués après la fin du run sont simplement ignorés.
+
+Vous pouvez utiliser le paramètre `capture_loggers`, qui s&#39;intègre au module `logging` de Python.
+
+**Arguments :**
+
+* `text` :  Le texte à écrire. Un saut de ligne final est ajouté s&#39;il n&#39;est pas déjà présent. 

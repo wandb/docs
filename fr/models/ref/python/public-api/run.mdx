@@ -24,18 +24,19 @@ __init__(
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    service_api: 'ServiceApi'
 )
 ```
 
 **Arguments :**
 
-* `client`:  Le client de l&#39;API W&amp;B.
+* `client`:  Client GraphQL hérité conservé pour la compatibilité de l&#39;API.
+* `service_api`:  Interface vers le service wandb-core qui effectue les appels à l&#39;API W&amp;B pour ce run.
 * `entity`:  L&#39;entité associée au run.
 * `project`:  Le projet associé au run.
 * `run_id`:  L&#39;identifiant unique du run.
 * `attrs`:  Les attributs du run.
-* `include_sweeps`:  Indique s&#39;il faut inclure les Sweeps dans le run.
+* `include_sweeps`:  Indique s&#39;il faut inclure les balayages dans le run.
 
 **Attributs :**
 
@@ -63,7 +64,6 @@ Initialise un objet Run.
 Run est toujours initialisé en appelant `api.runs()`, où `api` est une instance de `wandb.Api`.
 
 ***
-
 
 ### <kbd>propriété</kbd> Run.config
 

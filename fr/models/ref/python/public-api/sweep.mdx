@@ -30,12 +30,12 @@ __init__(
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
+    attrs: 'Mapping[str, Any] | None' = None,
+    service_api: 'ServiceApi'
 )
 ```
 
 ***
-
 
 ### <kbd>propriété</kbd> Sweep.config
 
@@ -150,6 +150,7 @@ get(
     sid: 'str | None' = None,
     order: 'str | None' = None,
     query: 'Document | None' = None,
+    service_api: 'ServiceApi',
     **kwargs
 )
 ```
@@ -158,7 +159,8 @@ Exécute une requête sur le backend cloud.
 
 **Arguments :**
 
-* `client`:  Le client à utiliser pour exécuter la requête.
+* `client`:  Client GraphQL hérité conservé pour la compatibilité de l’API.
+* `service_api`:  Interface vers le service wandb-core qui effectue les appels à l’API W&amp;B pour le balayage renvoyé.
 * `entity`:  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
 * `project`:  Le nom du projet depuis lequel récupérer le balayage.
 * `sid`:  L’ID du balayage à interroger.
@@ -167,7 +169,6 @@ Exécute une requête sur le backend cloud.
 * `**kwargs`:  Arguments nommés supplémentaires à transmettre à la requête.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Sweep.to_html`
 

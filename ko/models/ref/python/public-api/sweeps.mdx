@@ -20,14 +20,13 @@ from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# sweep을 반복하며 세부 정보 출력
+# 스윕을 순회하며 세부 정보 출력
 for sweep in sweeps:
      print(f"Sweep name: {sweep.name}")
      print(f"Sweep ID: {sweep.id}")
      print(f"Sweep URL: {sweep.url}")
      print("----------")
-```
-
+``` 
 
 ### <kbd>방법</kbd> `Sweeps.__init__`
 
@@ -36,7 +35,8 @@ __init__(
     client: 'RetryingClient',
     entity: 'str',
     project: 'str',
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    service_api: 'ServiceApi'
 ) → Sweeps
 ```
 
@@ -44,13 +44,13 @@ __init__(
 
 **매개변수:**
 
-* `client`:  W&amp;B를 쿼리하는 데 사용하는 API 클라이언트입니다.
-* `entity`:  Sweep를 소유한 entity입니다.
-* `project`:  Sweep가 포함된 프로젝트입니다.
-* `per_page`:  API에 대한 각 요청마다 가져올 Sweep 수입니다.
+* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
+* `service_api`:  이 컬렉션에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스 인터페이스입니다.
+* `entity`:  스윕을 소유한 entity입니다.
+* `project`:  스윕이 포함된 프로젝트입니다.
+* `per_page`:  API에 대한 각 요청마다 가져올 스윕 수입니다.
 
 ***
-
 
 ### <kbd>속성</kbd> Sweeps.length
 
