@@ -2,15 +2,15 @@
 title: "Utiliser l'inférence LoRA serverless"
 linkTitle: "Utiliser l'inférence LoRA serverless"
 description: >
-  Utilisez votre propre LoRA personnalisé pour servir des modèles affinés sur W&B Inference.
+  Utilisez votre propre LoRA personnalisé pour servir des modèles affinés sur Serverless Inference.
 ---
 
 LoRA (Low-Rank Adaptation) vous permet de personnaliser de grands modèles de langage en n&#39;entraînant et en ne stockant qu&#39;un léger « module complémentaire », au lieu d&#39;un tout nouveau modèle complet. Cela rend la personnalisation plus rapide, moins coûteuse et plus facile à déployer.
 
 Vous pouvez entraîner ou téléverser un LoRA pour donner à un modèle de base de nouvelles capacités, par exemple le spécialiser pour l&#39;assistance client, l&#39;écriture créative ou un domaine technique particulier. Cela vous permet d&#39;adapter le comportement du modèle sans avoir à réentraîner ni à redéployer le modèle entier.
 
-<div id="why-use-wb-inference-for-loras">
-  ## Pourquoi utiliser W&amp;B Inference pour les LoRAs ?
+<div id="why-use-serverless-inference-for-loras">
+  ## Pourquoi utiliser Serverless Inference pour les LoRAs ?
 </div>
 
 * Chargez une fois, déployez instantanément — aucun serveur à gérer.
@@ -25,7 +25,7 @@ Vous pouvez entraîner ou téléverser un LoRA pour donner à un modèle de base
 2. Utilisez l&#39;URI de l&#39;artifact comme nom de votre modèle dans l&#39;API
 3. W&amp;B charge dynamiquement vos poids pour l&#39;inférence
 
-Voici un exemple d&#39;appel à votre modèle LoRA personnalisé avec W&amp;B Inference :
+Voici un exemple d&#39;appel à votre modèle LoRA personnalisé avec Serverless Inference :
 
 ```python
 from openai import OpenAI
@@ -45,7 +45,7 @@ resp = client.chat.completions.create(
 print(resp.choices[0].message.content)
 ```
 
-Consultez ce [notebook Getting Started](https://wandb.me/lora_nb) pour une démonstration interactive montrant comment créer une LoRA et la téléverser vers W&amp;B en tant qu’artifact.
+Consultez ce [notebook premiers pas](https://wandb.me/lora_nb) pour une démonstration interactive montrant comment créer une LoRA et la téléverser vers W&amp;B en tant qu’artifact.
 
 <div id="prerequisites">
   ## Prérequis
@@ -68,7 +68,7 @@ Vous pouvez ajouter des LoRA à votre compte W&amp;B et commencer à les utilise
   <Tab title="Importer un LoRA entraîné ailleurs">
     Importez votre propre répertoire LoRA personnalisé en tant qu&#39;artifact W&amp;B. C&#39;est idéal si vous avez entraîné votre LoRA ailleurs (dans un environnement local, chez un fournisseur cloud ou via un service partenaire).
 
-    Ce code Python importe les poids de votre LoRA stockés localement dans W&amp;B en tant qu&#39;artifact versionné. Il crée un artifact de type `lora` avec les métadonnées requises (modèle de base et région de stockage), ajoute vos fichiers LoRA depuis un répertoire local, puis l&#39;enregistre dans votre projet W&amp;B pour l&#39;utiliser avec Inference.
+    Ce code Python importe les poids de votre LoRA stockés localement dans W&amp;B en tant qu&#39;artifact versionné. Il crée un artifact de type `lora` avec les métadonnées requises (modèle de base et région de stockage), ajoute vos fichiers LoRA depuis un répertoire local, puis l&#39;enregistre dans votre projet W&amp;B pour l&#39;utiliser avec Inférence.
 
     ```python
     import wandb
@@ -88,7 +88,7 @@ Vous pouvez ajouter des LoRA à votre compte W&amp;B et commencer à les utilise
 
     ### Exigences clés
 
-    Pour utiliser vos propres LoRA avec Inference :
+    Pour utiliser vos propres LoRA avec Inférence :
 
     * Le LoRA doit avoir été entraîné à l&#39;aide de l&#39;un des modèles listés dans la [section Modèles de base pris en charge](#supported-base-models).
     * Le LoRA doit être enregistré au format PEFT en tant qu&#39;artifact de type `lora` dans votre compte W&amp;B.
@@ -97,7 +97,7 @@ Vous pouvez ajouter des LoRA à votre compte W&amp;B et commencer à les utilise
   </Tab>
 
   <Tab title="Entraîner un nouveau LoRA avec W&B">
-    Entraînez un nouveau LoRA avec [W&amp;B Training (RL serverless)](/fr/training). Votre LoRA devient automatiquement un artifact W&amp;B que vous pouvez utiliser directement.
+    Entraînez un nouveau LoRA avec [Serverless RL](/fr/serverless-rl). Votre LoRA devient automatiquement un artifact W&amp;B que vous pouvez utiliser directement.
 
     Pour obtenir des informations détaillées sur l&#39;entraînement de votre propre LoRA, consultez le [démarrage rapide ART d&#39;OpenPipe](https://art.openpipe.ai/getting-started/quick-start).
 

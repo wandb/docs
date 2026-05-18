@@ -1,0 +1,17 @@
+---
+title: Manage automations with the API
+description: Programmatic automation management with the Python API (create and update may be affected on some client versions; prefer the W&B App until the SDK fix ships).
+---
+
+<Note>
+Programmatic **create** and **update** for automations through `wandb.Api().create_automation()` and related helpers can fail on recent `wandb` Python clients because of a client-side feature check (for example, run-state automations). Use the [W&B App](/models/automations/create-automations) to create and edit automations until a fixed SDK ships. List, get, and delete may still work for your version; if you hit errors, rely on the App. Internal tracking: WB-34263.
+</Note>
+
+## Next steps
+
+- [Automations overview](/models/automations)
+- [Create an automation](/models/automations/create-automations) (W&B App)
+- [Automation events and scopes](/models/automations/automation-events)
+- [Automations API reference](/models/ref/python/public-api/automations) (Python types and `Api` methods)
+
+{/* Restore list/get/create/update/delete examples from git history when the Python SDK regression is fixed (WB-34263). Previous revision also linked the Automations tutorial notebook (wandb/examples PR 618). */}

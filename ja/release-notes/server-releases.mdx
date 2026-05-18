@@ -1,18 +1,55 @@
 ---
-title: "サポートされる W&B Server version"
-description: "新機能、改善、不具合修正、アップグレード手順を含む、W&B Server の version メモを参照してください。"
-sidebarTitle: "サポートされる version"
+title: "サポート対象の W&B Server リリース"
+description: "新機能、改善点、バグ修正、アップグレード手順を含む W&B Server のリリースノートを参照できます。"
+sidebarTitle: "サポート対象リリース"
 rss: true
 ---
 
 import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-reminder.mdx';
 
-このページには、サポート対象の W&amp;B Server リリースのリリースノートが含まれています。
+このページには、サポートされる W&amp;B Server リリースのリリースノートが含まれています。
 
-* サポートが終了した version については、[Archived Server version](/ja/release-notes/server-releases-archived)を参照してください。
+* サポートが終了したリリースについては、[Archived Server releases](/ja/release-notes/server-releases-archived)を参照してください。
 * W&amp;B Server のリリーススケジュールとサポートの詳細については、[W&amp;B Server release policies](/ja/release-notes/release-policies)を参照してください。
 
 <EolReminder />
+
+<Update label="v0.80.1" description="2026年5月6日">
+  **2026年5月6日**
+
+  ## 修正
+
+  * 認可されていないユーザーにアーティファクトが公開される可能性があった重大な認可バグを修正しました。
+  * シリアル化されたペイロードの検証における重大なセキュリティバグを修正しました。この問題により、コードが実行される可能性がありました。
+  * Viewer 以外の任意の組織メンバーが組織管理者になれてしまう高重大度の認可バグを修正しました。
+  * 汎用 webhook インテグレーションのテストには entity の読み取り権限だけで十分で、webhook の作成または更新には admin が必要だった高重大度の認可バグを修正しました。webhook のテストには、他の webhook 設定アクションと同様に admin が必要になりました。
+  * project をまたいでオートメーション トリガーを変更できてしまう高重大度のバグを修正しました。
+  * ラベルおよび URL に対するユーザー入力のサニタイズにおける高重大度のバグを修正しました。この問題により、クロスサイトスクリプティングが可能になるおそれがありました。
+  * 以前の変更で PKCE のトークンリクエスト時にクライアントシークレットが省略されていた問題を元に戻し、機密クライアントシークレットを使用する PKCE 構成のデプロイメントでの OIDC サインインを修正しました。クライアントシークレットが設定されている場合、サーバーはトークン URL パラメーターに冗長なクライアント ID を追加しなくなり、`Authorization` ヘッダーとの競合を回避します。
+  * Microsoft Entra ID 向けの SCIM リスト フィールドを修正しました。API は `null` ではなく空の JSON 配列を返すようになり、接続テストとグループ フローが復旧します。
+  * Okta に送信される SCIM Push 操作の信頼性を向上しました。
+    * Okta のグループ名が W&amp;B チーム名と異なる場合に SCIM Group Push 操作が失敗することがあったバグを修正しました。これらの操作は、パスなしの `PATCH` 操作として送信されるようになりました。**これは、SCIM User JSON を解析するインテグレーションにとって破壊的変更です。** [Breaking changes](#breaking-changes)を参照してください。
+    * SCIM Group Push 操作にすべてのメンバーが含まれていない場合に、チームからすべてのメンバーが意図せず削除されることを防ぐガードレールを追加しました。
+    * Okta に送信されるペイロード内の SCIM User オブジェクトのシリアル化を改善しました。ペイロードは、Okta が期待する形式により近くなりました。
+    * SCIM User オブジェクト内のメールアドレスと名前の大文字と小文字が誤って処理される可能性があったバグを修正しました。
+  * リクエストで組織コンテキストが省略された場合に、専用クラウドで bring your own bucket (BYOB) を有効にしたチームを SCIM で作成すると発生していたバグを修正しました。
+  * クエリ実行エンジンで parquet history store を使用している場合に、fork された run の run 履歴が不正になる可能性があったバグを修正しました。たとえば、fork された run の履歴に live store 境界での誤ったマージや、不正な step メタデータが含まれることがありました。
+  * コストの高い総数クエリをスキップすることで、非常に多くの run 数を持つ Projects における折れ線グラフのパフォーマンスを改善しました。追加の Runs がパネル フィルターに一致するかどうかを UI で判別できない場合は、凡例に警告が表示されます。これらの警告の精度はやや低下する可能性があります。
+  * 組織の **Usage Alerts** ページからの誤ったリダイレクトを修正しました。
+  * ClickHouse 検索インデックスにアーティファクト メタデータを書き込む際の Weave の JSON シリアル化バグを修正しました。
+  * マイグレーションで誤ったデータベース推論エンジンが選択される可能性があった Weave トレースサーバーのバグを修正しました。
+
+  ## 破壊的変更
+
+  このリリースには、SCIM User JSON を解析するインテグレーション向けの破壊的変更が含まれています。
+
+  * 専用クラウドおよびセルフマネージド v0.80.1+ では、`/scim/Users` からの応答 (`GET` user、`GET` users、および User を返す `PATCH` 応答を含む) で、`emails` は SCIM 2.0 に合わせて、小文字のフィールド名 (`value`、`primary`、および省略可能な `type` または `display`) を使用するオブジェクトの JSON 配列としてシリアル化されます。
+  * 古いリリースのデプロイメントでは、`emails` は PascalCase キー (`Value`、`Primary` など) を持つ単一の JSON オブジェクトとして返されます。
+
+  コードが SCIM の*応答*から `emails` を読み取る場合は、`emails` を配列として扱い、primary のエントリ (または最初の要素) を読み取ってください。
+
+  ユーザーの作成または更新のためのリクエスト本文では、すでに配列形式が使用されており、変更はありません。`list-users` フィルター `emails.value eq "..."` にも変更はありません。
+</Update>
 
 <Update label="v0.80.0" description="2026年4月28日">
   **2026年4月28日**
@@ -377,7 +414,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ### Weave
 
-  * 専用クラウドでは利用できない W&amp;B Inference へのリンクが、専用クラウドの Weave UI に表示されていた不具合を修正しました。
+  * 専用クラウドでは利用できない Serverless Inference へのリンクが、専用クラウドの Weave UI に表示されていた不具合を修正しました。
   * 詳細ドロワーが開いている場合に、[評価](/ja/weave/guides/core-types/evaluations)の比較ページで棒グラフの幅を必要以上に狭く変更できてしまう不具合を修正しました。
   * [Weave Playground](https://wandb.ai/site/playground/)で入力中に、カーソルが画面の表示範囲から消えてしまうことがあるUIバグを修正しました。
   * [Weave Playground](https://wandb.ai/site/playground/) で call を読み込む際にテンプレート変数を編集できなかった不具合を修正しました。
@@ -393,7 +430,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 修正
 
   * スクロールバーが常に表示される設定の macOS で発生することがあった表示上の不具合を修正しました。Workspace に [Query panel](/ja/models/app/features/panels/query-panels) がある場合、Workspace でズームアウトすると、Query panel の表のサイズが毎秒何度も変動するリサイズループが発生することがありました。
-  * 専用クラウドの UI に W&amp;B Inference が誤って表示される不具合を修正しました。専用クラウドでは Inference は利用できません。
+  * 専用クラウドの UI に Serverless Inference が誤って表示される不具合を修正しました。専用クラウドでは Inference は利用できません。
 </Update>
 
 <Update label="v0.76.2" description="2025年12月10日">
@@ -403,7 +440,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * **Organization Dashboard** ページの不正確な **Usage** カードを、**Usage** ページへのリンクに置き換えました。これは UI 上の不具合のみで、billing への影響はありません。
   * Parquet の読み取りがオフなのに、エクスポートがオンになることがある不具合を修正しました。
-  * 保留状態で run config がまったくない run を手動で upsert した際に発生する nil ポインタ逆参照を修正しました。
+  * 保留状態で run 設定 がまったくない run を手動で upsert した際に発生する nil ポインタ逆参照を修正しました。
 </Update>
 
 <Update label="v0.76.1" description="2025年12月4日">
@@ -411,7 +448,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * ワークスペースからレポートに折れ線グラフをインポートする際、プロット内で極端な外れ値が非表示になっていると処理が停止することがある不具合を修正しました。
+  * Workspace からレポートに折れ線グラフをインポートする際、プロット内で極端な外れ値が非表示になっていると処理が停止することがある不具合を修正しました。
   * 高さを小さくした場合に、表パネルのサイズが正しく変更されないことがある不具合を修正しました。
   * キャプション付き画像で、マスクのオーバーレイが画像からはみ出すことがある不具合を修正しました。
   * run ノートの編集ボックスの幅が狭すぎて編集しづらかった不具合を修正しました。編集ボックスは、表示モードのテキストと同じサイズになりました。
