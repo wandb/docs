@@ -29,13 +29,14 @@ __init__(
     per_page: 'int' = 50,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    service_api: 'ServiceApi'
 )
 ```
 
 **Args:**
  
- - `client`:  (`wandb.apis.public.RetryingClient`) The API client to use  for requests. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `entity`:  (str) The entity (username or team) that owns the project. 
  - `project`:  (str) The name of the project to fetch runs from. 
  - `filters`:  (Optional[Dict[str, Any]]) A dictionary of filters to apply  to the runs query. 
