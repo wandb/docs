@@ -1,0 +1,104 @@
+---
+title: "How do I paginate through large API results in W&B?"
+keywords: ["Runs", "Experiments", "API", "Artifacts"]
+---
+
+The W&B Public API returns results in pages. For projects with hundreds or thousands of runs, loading everything at once can be slow or hit memory limits. Use the lazy iterator pattern to process results page by page.
+
+**Default behavior**
+
+`api.runs()` returns a `Runs` object that fetches results in batches of 50 (the default `per_page` value). When you iterate over it, W&B fetches the next page automatically as needed:
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# This does NOT load all runs at once — it fetches pages on demand
+runs = api.runs("my-entity/my-project")
+
+for run in runs:
+    process(run)   # pages are fetched as this loop progresses
+```
+
+Avoid wrapping large queries in `list()` unless you need random access — it forces all pages to load at once:
+
+```python
+# Avoid for large projects:
+all_runs = list(api.runs("my-entity/my-project"))  # may be very slow
+
+# Prefer iteration:
+for run in api.runs("my-entity/my-project"):
+    process(run)
+```
+
+**Adjusting page size**
+
+Increase `per_page` to reduce the number of round-trips for large datasets, or decrease it to reduce memory usage per page:
+
+```python
+# Fetch 200 runs per page (max is 1000)
+runs = api.runs("my-entity/my-project", per_page=200)
+```
+
+The maximum supported `per_page` value is 1000.
+
+**Accessing a specific page range**
+
+To skip the first N runs and process a window (useful for resuming interrupted processing):
+
+```python
+runs = api.runs("my-entity/my-project", per_page=100)
+
+for i, run in enumerate(runs):
+    if i < 500:
+        continue   # skip first 500
+    if i >= 1000:
+        break      # stop after processing 500 more
+    process(run)
+```
+
+For more reliable checkpointing on very large projects, record processed run IDs to a file and skip IDs already seen:
+
+```python
+import json, pathlib
+
+checkpoint_file = pathlib.Path("processed_ids.json")
+processed = set(json.loads(checkpoint_file.read_text())) if checkpoint_file.exists() else set()
+
+for run in api.runs("my-entity/my-project"):
+    if run.id in processed:
+        continue
+    process(run)
+    processed.add(run.id)
+    checkpoint_file.write_text(json.dumps(list(processed)))
+```
+
+**Paginating artifacts**
+
+The same pattern applies to `api.artifacts()`:
+
+```python
+artifacts = api.artifacts(type_name="model", project="my-entity/my-project", per_page=100)
+
+for artifact in artifacts:
+    print(artifact.name, artifact.version)
+```
+
+**Rate limits**
+
+The W&B API enforces rate limits. If you are processing thousands of runs and making additional per-run API calls (e.g., `run.file("output.log").download()`), add a small delay between calls:
+
+```python
+import time
+
+for run in api.runs("my-entity/my-project"):
+    run.file("output.log").download()
+    time.sleep(0.1)   # avoid rate-limit errors on bulk file downloads
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/support/models/tags/api)</Badge><Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

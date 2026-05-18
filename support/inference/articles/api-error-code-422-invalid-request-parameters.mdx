@@ -1,0 +1,33 @@
+---
+title: "API error code 422 - Invalid request parameters"
+keywords: ["Authentication & Access"]
+---
+
+A 422 error means the request was understood by the server but could not be processed because one or more parameters are invalid, missing, or out of range.
+
+## Why this happens
+
+- **Unsupported parameter for the model**: Some parameters (such as `frequency_penalty`, `logprobs`, or `response_format`) are not supported by all models. Passing an unsupported parameter returns a 422.
+- **Parameter value out of range**: Values like `temperature` must fall within a valid range (typically 0–2). Passing a value outside that range causes a 422.
+- **Malformed messages array**: The `messages` field must be a list of objects with `role` and `content` keys. Missing or incorrectly typed fields return a 422.
+- **Invalid `response_format`**: Requesting JSON mode (`response_format: {"type": "json_object"}`) with a model that does not support structured outputs causes a 422.
+
+## What you can do
+
+1. **Check the error message body**
+   - The 422 response body contains a `detail` field that identifies which parameter is invalid and why. Read it before troubleshooting.
+
+2. **Verify parameter support for your model**
+   - Review the [W&B Inference supported models list](/inference/supported-models) for the specific parameters and ranges each model accepts.
+
+3. **Validate your messages array**
+   - Each message must have a `role` (`system`, `user`, or `assistant`) and a `content` string. Tool call messages require additional fields—consult the API reference for the correct schema.
+
+4. **Remove unsupported parameters**
+   - If you are adapting code from another provider, remove any parameters that are not in the W&B Inference API reference. Extra parameters that the model does not support will trigger a 422.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Authentication & Access](/support/inference/tags/authentication-access)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,65 @@
+---
+title: "How do I set up W&B alerts and notifications?"
+keywords: ["Alerts", "Experiments", "Runs"]
+---
+
+W&B supports two types of alerts: automated alerts configured in User Settings (run finished, run crashed) and programmatic alerts fired from inside your training code with `wandb.alert()`.
+
+**Automated alerts via User Settings**
+
+Go to [wandb.ai/settings](https://wandb.ai/settings) and scroll to the **Alerts** section. You can enable:
+
+- **Run finished** — notifies you when any run in your projects completes successfully.
+- **Run crashed** — notifies you when a run exits without calling `wandb.finish()`.
+
+Notifications can be delivered to email, Slack, or both. To connect Slack, click **Connect Slack** in the Alerts settings and follow the OAuth flow. Note: Run Finished alerts do not fire in Jupyter notebook environments—use `wandb.alert()` in notebooks instead.
+
+**Programmatic alerts with `wandb.alert()`**
+
+Send an alert from anywhere in your training loop:
+
+```python
+import wandb
+
+wandb.init(project="my-project")
+
+for step in range(1000):
+    loss = train_step()
+    wandb.log({"loss": loss}, step=step)
+
+    if loss > 10.0:
+        wandb.alert(
+            title="Loss spike detected",
+            text=f"Loss jumped to {loss:.2f} at step {step}",
+            level=wandb.AlertLevel.WARN,
+        )
+```
+
+Alert levels are `wandb.AlertLevel.INFO`, `wandb.AlertLevel.WARN`, and `wandb.AlertLevel.ERROR`. The level controls the visual appearance of the notification but does not affect delivery.
+
+**Preventing alert spam with `wait_duration`**
+
+If your training loop could trigger the same alert repeatedly, use `wait_duration` to throttle:
+
+```python
+import datetime
+
+wandb.alert(
+    title="High loss",
+    text=f"Loss is {loss:.2f}",
+    level=wandb.AlertLevel.WARN,
+    wait_duration=datetime.timedelta(minutes=30),  # at most one alert per 30 min
+)
+```
+
+With `wait_duration` set, subsequent calls with the same title are silently skipped until the duration has elapsed.
+
+**Team-level alerts**
+
+Automated alerts in User Settings apply to your personal account. For team-wide alerting (for example, notifying a shared Slack channel when any team member's run crashes), each team member must connect their own Slack in their User Settings, or use a shared service account with Slack connected. Team-level alert configuration is not available directly in the UI today—`wandb.alert()` in code with a shared Slack webhook is the recommended workaround.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Alerts](/support/models/tags/alerts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

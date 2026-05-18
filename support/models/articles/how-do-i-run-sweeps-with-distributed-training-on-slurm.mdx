@@ -1,0 +1,39 @@
+---
+title: "How do I run sweeps with distributed training on SLURM?"
+keywords: ["Sweeps", "Experiments"]
+---
+
+When running a W&B sweep with distributed training on SLURM (for example, multi-GPU jobs with `--gpus-per-node`), only one process per SLURM job should call `wandb.agent()`. All other processes on the same node should join the run directly.
+
+Use the `SLURM_PROCID` environment variable to restrict `wandb.agent()` to rank 0:
+
+```python
+import os
+import wandb
+
+def train():
+    wandb.init()
+    # your training code here
+
+if os.environ.get("SLURM_PROCID", "0") == "0":
+    wandb.agent(sweep_id, function=train, count=1)
+else:
+    # Non-rank-0 processes join the run created by rank 0
+    train()
+```
+
+This pattern ensures that:
+
+- Each SLURM job registers exactly one run with the sweep controller.
+- Other ranks on the same node participate in the distributed run without creating duplicate sweep entries.
+- The sweep controller correctly tracks progress and schedules new hyperparameter configurations.
+
+If you use `submitit` or a similar launcher, apply the same check in your training entry point before calling `wandb.agent()`.
+
+For single-GPU or non-distributed jobs, use `wandb agent --count 1 SWEEP_ID` as described in [How should I run sweeps on SLURM?](/support/models/articles/how-should-i-run-sweeps-on-slurm).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

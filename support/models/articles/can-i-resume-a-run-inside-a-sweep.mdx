@@ -1,0 +1,30 @@
+---
+title: "Can I resume a run inside a sweep?"
+keywords: ["Sweeps", "Resuming"]
+---
+
+Run resumption is not supported inside a W&B sweep. If you pass a `run_id` or use `wandb.init(resume=...)` while a sweep agent is running, W&B ignores the run ID and starts a fresh run instead. You will see the following warning:
+
+```
+wandb: WARNING Ignoring run_id when running a sweep
+```
+
+This is expected behavior, not a bug. Sweep agents are designed to launch independent runs for each hyperparameter configuration. Resuming a specific run would conflict with the sweep controller's job scheduling.
+
+**Workarounds**
+
+If you need fault tolerance for long sweep runs, consider these approaches:
+
+- **Checkpoint and reload within a single run**: Save model checkpoints at regular intervals inside your training function. On restart, load the latest checkpoint at the beginning of `train()`. The sweep starts a new run, but training picks up from the saved state.
+
+- **Use `--count 1` on SLURM with requeue**: Submit each sweep agent job with `wandb agent --count 1 SWEEP_ID`. If the job is preempted, SLURM can requeue it and the sweep controller will assign a new configuration.
+
+- **Mark a run as failed and requeue manually**: If a run crashes mid-way, the sweep controller will eventually mark it as failed and may assign the same configuration to a new agent depending on your sweep settings.
+
+If you need to continue an interrupted training job outside of a sweep, use `wandb.init(resume="allow", id="YOUR_RUN_ID")` in a standalone script instead.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Resuming](/support/models/tags/resuming)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

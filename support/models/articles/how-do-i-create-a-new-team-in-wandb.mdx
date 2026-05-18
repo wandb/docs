@@ -1,0 +1,47 @@
+---
+title: "How do I create a new team in W&B?"
+keywords: ["Teams", "Org Management"]
+---
+
+Teams are the primary unit of collaboration in W&B. A team has its own entity name, shared projects, and member roster. Anyone with a W&B account can create a team.
+
+**Creating a team**
+
+1. Log in to [wandb.ai](https://wandb.ai).
+2. Click the **+** icon or **Create new team** in the left sidebar (or navigate to [wandb.ai/create-team](https://wandb.ai/create-team)).
+3. Enter a **team name**. This becomes the team's entity name (e.g., `wandb.ai/my-team`). Team names must be globally unique, lowercase, and can contain letters, numbers, and hyphens.
+4. Click **Create team**.
+
+You are automatically made an admin of the new team.
+
+**Inviting members after creation**
+
+After creating the team, go to **Team settings → Members → Invite members** to add colleagues. See [How do I invite a user to my W&B team?](/support/models/articles/how-do-i-invite-a-user-to-my-wb-team) for full details.
+
+**Choosing a team name**
+
+The team name becomes part of every project and run URL under that team, so choose a name that will remain meaningful long-term. Team names cannot be changed after creation without contacting W&B support.
+
+**Personal accounts vs. team accounts**
+
+Your personal W&B account has its own entity (your username) that is separate from any teams you belong to. Runs logged to your personal entity are not visible to your team unless you explicitly log them to the team entity:
+
+```python
+import wandb
+
+# Log to a team project (visible to all team members)
+wandb.init(entity="my-team", project="shared-project")
+
+# Log to personal entity (only visible to you)
+wandb.init(entity="my-username", project="personal-experiments")
+```
+
+**Team limits**
+
+On the free plan, teams support a limited number of seats and storage. Check your plan details at **Team settings → Billing** or [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Org Management](/support/models/tags/org-management)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

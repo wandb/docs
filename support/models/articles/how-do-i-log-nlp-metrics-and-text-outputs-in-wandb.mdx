@@ -1,0 +1,105 @@
+---
+title: "How do I log NLP metrics and text outputs in W&B?"
+keywords: ["Experiments", "Metrics", "Runs"]
+---
+
+W&B handles NLP experiments well through scalar metric logging for corpus-level scores (BLEU, ROUGE, perplexity) and `wandb.Table` for per-example text comparisons.
+
+**Logging scalar NLP metrics**
+
+Log BLEU, ROUGE, perplexity, and any other scalar scores the same way you log loss:
+
+```python
+import wandb
+from sacrebleu.metrics import BLEU
+from rouge_score import rouge_scorer
+
+wandb.init(project="nmt-project")
+
+bleu = BLEU()
+scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"])
+
+for epoch in range(num_epochs):
+    train(model)
+    hypotheses, references = evaluate(model, val_set)
+
+    bleu_score = bleu.corpus_score(hypotheses, [references])
+    rouge_scores = [scorer.score(ref, hyp) for ref, hyp in zip(references, hypotheses)]
+
+    wandb.log({
+        "epoch": epoch,
+        "val/bleu": bleu_score.score,
+        "val/rouge1": sum(s.rouge1.fmeasure for s in rouge_scores) / len(rouge_scores),
+        "val/rougeL": sum(s.rougeL.fmeasure for s in rouge_scores) / len(rouge_scores),
+        "val/perplexity": compute_perplexity(model, val_loader),
+    })
+
+wandb.finish()
+```
+
+**Logging text predictions as a table**
+
+Track model outputs alongside source and reference translations to spot qualitative changes across epochs:
+
+```python
+text_table = wandb.Table(columns=["source", "reference", "hypothesis", "bleu"])
+
+for src, ref, hyp in zip(sources[:50], references[:50], hypotheses[:50]):
+    sent_bleu = bleu.sentence_score(hyp, [ref]).score
+    text_table.add_data(src, ref, hyp, round(sent_bleu, 2))
+
+wandb.log({"val/text_outputs": text_table})
+```
+
+In the UI, sort the table by `bleu` ascending to surface the worst-performing examples.
+
+**Logging token-level probabilities**
+
+For language model analysis, log per-token log-probabilities as a custom chart:
+
+```python
+token_table = wandb.Table(columns=["token", "log_prob", "position"])
+for pos, (tok, lp) in enumerate(zip(tokens, log_probs)):
+    token_table.add_data(tok, float(lp), pos)
+
+wandb.log({"token_probs": token_table})
+```
+
+**Tracking vocabulary and data statistics**
+
+Log dataset characteristics as config values so they are searchable across runs:
+
+```python
+wandb.init(project="lm-project", config={
+    "vocab_size": tokenizer.vocab_size,
+    "max_seq_len": 512,
+    "train_tokens": total_train_tokens,
+    "dataset": "c4-en",
+})
+```
+
+**Using W&B with Hugging Face `evaluate`**
+
+The `evaluate` library from Hugging Face computes many NLP metrics and returns dicts that map cleanly to `wandb.log()`:
+
+```python
+import evaluate
+
+bleu_metric = evaluate.load("sacrebleu")
+rouge_metric = evaluate.load("rouge")
+
+bleu_result = bleu_metric.compute(predictions=hypotheses, references=[[r] for r in references])
+rouge_result = rouge_metric.compute(predictions=hypotheses, references=references)
+
+wandb.log({
+    "val/bleu": bleu_result["score"],
+    "val/rouge1": rouge_result["rouge1"],
+    "val/rougeL": rouge_result["rougeL"],
+})
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

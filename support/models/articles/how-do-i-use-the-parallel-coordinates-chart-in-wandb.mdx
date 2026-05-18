@@ -1,0 +1,48 @@
+---
+title: "How do I use the parallel coordinates chart in W&B?"
+keywords: ["Runs", "Experiments", "Workspace", "Sweeps"]
+---
+
+The parallel coordinates chart visualizes the relationship between hyperparameters and metrics across many runs. Each run is a line; each axis is a config parameter or metric. Lines that converge toward good metric values reveal which hyperparameter combinations work best.
+
+**Adding a parallel coordinates panel**
+
+1. In your workspace, click **Add panel**.
+2. Select **Parallel coordinates** from the panel type list.
+3. The panel auto-populates axes using the config keys and summary metrics logged by your runs.
+
+**Choosing which axes to display**
+
+Click the pencil icon on the panel to open settings. Under **Columns**, add or remove axes:
+- Config keys (e.g., `learning_rate`, `batch_size`, `optimizer`) appear as categorical or continuous axes.
+- Summary metrics (e.g., `val/accuracy`, `val/loss`) appear as the outcome axes — usually placed on the right.
+
+Drag axes to reorder them. The most useful layout puts hyperparameters on the left and the target metric on the right.
+
+**Coloring lines by a metric**
+
+To make the best-performing runs visually stand out, set the **Color** option to a summary metric such as `val/accuracy`. Lines are colored on a gradient from worst (cool colors) to best (warm colors), making patterns immediately visible.
+
+**Filtering to a region of interest**
+
+Click and drag on any axis to create a selection brush. Only runs whose values fall within the brushed range on that axis are highlighted; others dim. Brushing multiple axes narrows the selection to runs that satisfy all brushed ranges simultaneously.
+
+This is the primary way to answer questions like "which combinations of learning rate and batch size produce accuracy above 90%?"
+
+**Reading the chart**
+
+- Lines that **cross** between two adjacent axes indicate an inverse relationship between those parameters.
+- Lines that **run parallel** between two axes indicate a positive correlation.
+- A tight **bundle of lines** converging on a good metric value marks the optimal hyperparameter region.
+
+**Using parallel coordinates with sweeps**
+
+Parallel coordinates are especially powerful after a sweep. All sweep trials appear as runs in the chart, making it easy to visualize the full search space explored and identify the most promising hyperparameter region for a follow-up targeted sweep.
+
+To see only sweep runs, apply a filter (**Filter → Sweep → your-sweep-id**) before opening or refreshing the panel.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Workspace](/support/models/tags/workspace)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

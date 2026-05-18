@@ -1,0 +1,31 @@
+---
+title: "API error code 404 - Model not found"
+keywords: ["Authentication & Access"]
+---
+
+A 404 error with the message "Model not found" means the model identifier in your request does not match any model available through the W&B Inference API.
+
+## Why this happens
+
+- **Incorrect model ID**: The model name or path in your request is misspelled or formatted incorrectly.
+- **Model is not available on W&B Inference**: Not all models hosted on other providers are available through the W&B Inference API. The model you are requesting may not have been onboarded.
+- **Using the wrong base URL**: If you are pointing at a different provider's endpoint but using a W&B API key, the model ID will not resolve correctly.
+- **Model was removed**: A model that was previously available may have been deprecated or removed.
+
+## What you can do
+
+1. **Check the model ID**
+   - Verify the exact model identifier against the [W&B Inference supported models list](/inference/supported-models).
+   - Model IDs are case-sensitive and typically use the format `provider/model-name` (for example, `meta-llama/Llama-3.3-70B-Instruct`).
+
+2. **Confirm the base URL**
+   - The W&B Inference base URL is `https://api.wandb.ai/v1`. Ensure your client is pointed at this URL and not another provider's endpoint.
+
+3. **Request access to a new model**
+   - If the model you need is not currently supported, contact [W&B support](mailto:support@wandb.com) to request it be added.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Authentication & Access](/support/inference/tags/authentication-access)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

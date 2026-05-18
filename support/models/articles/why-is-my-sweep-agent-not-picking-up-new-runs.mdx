@@ -1,0 +1,48 @@
+---
+title: "Why is my sweep agent not picking up new runs?"
+keywords: ["Sweeps", "Experiments"]
+---
+
+If your sweep agent starts but does not receive new run configurations, or receives one run and then idles, there are several common causes.
+
+**The sweep has exhausted its search space (grid search)**
+
+In `grid` search, the sweep controller assigns every combination of hyperparameter values exactly once. Once all combinations are assigned, no new runs are generated. If you started multiple agents simultaneously, they may have collectively consumed all configurations before any single agent finished its current run.
+
+To confirm: open the sweep page in the W&B UI and check the run count against the total grid size. If they match, the sweep is complete.
+
+**The `--count` flag is limiting the agent**
+
+Running `wandb agent --count N SWEEP_ID` tells the agent to accept at most N runs before exiting. If you set `--count 1`, the agent exits after a single run. This is intentional for SLURM and other job schedulers, but can be surprising if you expected the agent to loop.
+
+Remove `--count` (or increase it) to allow the agent to keep pulling runs:
+
+```bash
+wandb agent SWEEP_ID
+```
+
+**The sweep is paused or stopped**
+
+Check the sweep status in the W&B UI (Sweeps → your sweep → Status). If the sweep was manually paused or stopped, agents will not receive new configurations until the sweep is resumed.
+
+**The agent is waiting for a crashed run to time out**
+
+By default, the sweep controller marks a run as failed after it does not report progress for a configurable timeout. If an agent crashes mid-run without cleanly signaling failure, the controller holds the run's slot until the timeout expires. You can monitor this in the sweep UI and manually mark hung runs as failed to unblock the queue.
+
+**Multiple processes calling `wandb.agent()` on the same job**
+
+In distributed training setups, if every process on a node calls `wandb.agent()`, each process registers as a separate agent and consumes a run configuration. This leads to runs that crash immediately (because only one process was meant to drive the sweep) and a quickly exhausted configuration pool. Restrict `wandb.agent()` to rank 0 only. See [How do I run sweeps with distributed training on SLURM?](/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm) for the recommended pattern.
+
+**SDK version bug after upgrade**
+
+Some SDK versions between 0.19.6 and 0.19.10 introduced a regression where the sweep agent teardown raised an error that caused the agent loop to exit prematurely rather than requesting the next run. If you recently upgraded and agents stop after one run with a teardown-related traceback, upgrade to the latest SDK version:
+
+```bash
+pip install --upgrade wandb
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,53 @@
+---
+title: "Why is my run showing as crashed?"
+keywords: ["Runs", "Run Crashes"]
+---
+
+W&B marks a run as **Crashed** when it stops receiving heartbeats from the process that called `wandb.init()`, without the process having called `wandb.finish()`. This happens when the training process is killed, exits unexpectedly, or loses connectivity before it can report a clean finish.
+
+**Common causes**
+
+- **Out-of-memory (OOM) error**: The process is killed by the OS or GPU driver when it exceeds available memory. Check `output.log` for `CUDA out of memory` or `Killed` messages.
+- **Uncaught exception**: An unhandled Python exception causes the process to exit without calling `wandb.finish()`. The exception appears in `output.log`.
+- **Job scheduler preemption**: On SLURM or other cluster schedulers, jobs can be preempted and killed without warning. The run never gets a chance to finish cleanly.
+- **Network loss**: In rare cases, a long network outage causes the W&B backend to time out waiting for heartbeats and mark the run as crashed, even though the process is still running. The run will resume uploading when connectivity is restored.
+- **Process killed manually**: Using `kill -9` or `SIGKILL` bypasses Python's signal handlers, preventing `wandb.finish()` from being called.
+
+**How to debug**
+
+1. Open the run page and click the **Files** tab.
+2. Download `output.log` for stdout/stderr — this usually contains the error that caused the crash.
+3. Download `debug.log` and `debug-internal.log` for W&B-level diagnostics (connectivity issues, upload errors).
+4. If the run was on a cluster, also check the scheduler's job log for preemption or OOM signals.
+
+**Data from a crashed run**
+
+Metrics logged before the crash are preserved and visible in the UI. The run's charts, system metrics, and any artifacts that were fully uploaded before the crash are all accessible. Partially-uploaded artifacts may be incomplete.
+
+**Preventing crashes from losing data**
+
+Wrap your training loop in a try/except and call `wandb.finish(exit_code=1)` explicitly on error to ensure the run is marked as **Failed** (rather than **Crashed**) and all buffered data is flushed:
+
+```python
+import wandb
+
+wandb.init(project="my-project")
+
+try:
+    for step in range(1000):
+        # training logic
+        wandb.log({"loss": loss})
+except Exception as e:
+    wandb.finish(exit_code=1)
+    raise
+```
+
+**Re-marking a crashed run**
+
+Crashed runs can be manually re-marked as **Failed** in the UI (run page → kebab menu → Mark as failed). This is useful for sweeps, where crashed runs may block the controller from scheduling new configurations.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/support/models/tags/run-crashes)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

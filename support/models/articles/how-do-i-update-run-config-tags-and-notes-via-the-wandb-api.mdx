@@ -1,0 +1,82 @@
+---
+title: "How do I update run config, tags, and notes via the W&B API?"
+keywords: ["Runs", "Experiments", "API"]
+---
+
+After a run finishes you can edit its config values, display name, tags, and notes using the Public API without re-running the experiment.
+
+**Updating config values**
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("my-entity/my-project/run_id_here")
+
+# Add or overwrite config keys
+run.config["post_hoc_label"] = "baseline-v2"
+run.config["dataset_version"] = 3
+run.update()
+```
+
+`run.update()` persists all pending changes (config, name, tags, notes) in a single API call.
+
+**Renaming a run**
+
+```python
+run = api.run("my-entity/my-project/run_id_here")
+run.name = "resnet50-lr1e-3-aug-v2"
+run.update()
+```
+
+**Adding and removing tags**
+
+```python
+run = api.run("my-entity/my-project/run_id_here")
+
+# Add tags
+run.tags.append("production-ready")
+run.tags.append("reviewed")
+run.update()
+
+# Remove a specific tag
+run.tags = [t for t in run.tags if t != "wip"]
+run.update()
+```
+
+**Updating run notes**
+
+Notes appear in the run detail page and support Markdown:
+
+```python
+run = api.run("my-entity/my-project/run_id_here")
+run.notes = "Final baseline. Trained on v3 dataset with Aug-v2. Val accuracy: 92.4%."
+run.update()
+```
+
+**Bulk-updating many runs**
+
+To apply changes across a set of runs (e.g., tag all runs from a sweep as reviewed):
+
+```python
+runs = api.runs(
+    "my-entity/my-project",
+    filters={"sweep": "sweep_id_here", "state": "finished"}
+)
+
+for run in runs:
+    run.tags.append("sweep-reviewed")
+    run.update()
+```
+
+Iterate carefully — each `run.update()` is a separate API call. For very large sets, add a short sleep between calls to avoid hitting rate limits.
+
+**What you cannot change after a run finishes**
+
+You cannot add new logged metrics (summary values or history) to a finished run via the API. The `summary` object is readable but not writable through the Public API. If you need to attach computed post-hoc metrics, use a new run with `wandb.init(job_type="evaluation")` and log there, then link it to the original via tags or artifact lineage.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/support/models/tags/api)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

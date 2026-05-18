@@ -1,0 +1,57 @@
+---
+title: "Why does my API key fail with 'must be 40 characters long'?"
+keywords: ["API Keys", "Authentication", "SDK"]
+---
+
+W&B introduced a new API key format that is approximately 92 characters long (format: `wandb_v1_<key_id>_<secret>`). Older versions of the `wandb` SDK validate that keys are exactly 40 characters and reject the new format with this error:
+
+```
+ValueError: API key must be 40 characters long, yours was 92
+```
+
+or, on some dedicated instances:
+
+```
+ERROR API key must be 40 characters long, yours was 92
+```
+
+**Fix: upgrade the wandb SDK**
+
+The simplest fix is to upgrade to the latest `wandb` package, which accepts both the legacy 40-character format and the new 92-character format:
+
+```bash
+pip install -U wandb
+```
+
+After upgrading, re-authenticate with your new key:
+
+```bash
+wandb login --relogin
+```
+
+**Note on the new key generation flow**
+
+When you generate a new key from [wandb.ai/authorize](https://wandb.ai/authorize), W&B now displays the key only once at creation time. Copy it immediately — you cannot retrieve it again after closing the dialog. If you lose it, you will need to generate a new key.
+
+**If you cannot upgrade the SDK**
+
+If your environment requires a pinned SDK version that predates the new key format:
+
+- Check whether your account still has an older-format key active. If so, keep using it — legacy 40-character keys continue to work and are not automatically revoked when the new format is issued.
+- If you have already deleted your legacy key and cannot upgrade the SDK, contact W&B support. In some cases a legacy-format key can be issued for dedicated or on-premises instances.
+- As a temporary workaround, you can pass the key via the `WANDB_API_KEY` environment variable rather than using `wandb login`, which may bypass the local validation in older SDK versions:
+
+```bash
+export WANDB_API_KEY=<your-92-character-key>
+python train.py
+```
+
+**Related error: key reported as too short (20 characters)**
+
+A separate error — `API key must have 40+ characters, has 20` — can appear when calling `wandb.Api().viewer.generate_api_key()` programmatically in certain SDK versions. This is a different issue from the key format migration. Upgrade the SDK to resolve it; if the error persists after upgrading, contact support.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[API Keys](/support/models/tags/api-keys)</Badge><Badge stroke shape="pill" color="orange" size="md">[Authentication](/support/models/tags/authentication)</Badge><Badge stroke shape="pill" color="orange" size="md">[SDK](/support/models/tags/sdk)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

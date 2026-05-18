@@ -1,0 +1,64 @@
+---
+title: "Why is my W&B run slow to initialize or upload?"
+keywords: ["Runs", "Experiments", "Connectivity"]
+---
+
+Slow `wandb.init()` or sluggish metric uploads are usually caused by one of four things: network latency, large media payloads, too many log calls per second, or the W&B service process starting up slowly.
+
+**Slow `wandb.init()`**
+
+`wandb.init()` contacts the W&B API to create the run and verify credentials. If it hangs for more than a few seconds:
+
+- **Check connectivity**: Run `curl -I https://api.wandb.ai` to confirm your machine can reach the W&B API. Firewall rules or proxy configurations on clusters are a common cause.
+- **Increase the init timeout**: If the connection is intermittent, give `wandb.init()` more time before it gives up:
+  ```python
+  import os
+  os.environ["WANDB_INIT_TIMEOUT"] = "120"   # seconds
+  ```
+- **Use offline mode during testing**: If you are iterating quickly and do not need live syncing, run offline and sync later:
+  ```bash
+  WANDB_MODE=offline python train.py
+  wandb sync wandb/run-<timestamp>-<id>
+  ```
+
+**Slow metric uploads during training**
+
+W&B uploads metrics asynchronously in background threads so your training loop is not blocked. Uploads can fall behind when:
+
+- **You log too frequently**: Calling `wandb.log()` every step on a fast GPU can generate more data than the background threads can upload. Log every N steps instead:
+  ```python
+  if step % 50 == 0:
+      wandb.log({"loss": loss}, step=step)
+  ```
+- **You log large media on every step**: `wandb.Image`, `wandb.Table`, and `wandb.Video` objects are significantly larger than scalar metrics. Log rich media every epoch or every N steps rather than every step.
+- **Rate limits**: If you hit the `429 Rate limit exceeded` error, see [How do I fix rate limit exceeded errors?](/support/models/articles/rate-limit-exceeded-on-metric-logging).
+
+**Run finalization is slow**
+
+After your script calls `wandb.finish()` (or exits), W&B flushes any remaining buffered data. This can take time if a large backlog built up during training. To prevent a long wait at the end, keep logging frequency reasonable throughout training rather than batching everything at the end.
+
+**The W&B service process**
+
+Recent SDK versions use a separate service process (`wandb-service`) to handle uploads. On some machines, starting this process for the first time can be slow due to Python startup overhead. Subsequent runs on the same machine are faster. If the service process is consistently slow, you can disable it (reverts to the older thread-based backend):
+
+```bash
+WANDB_DISABLE_SERVICE=true python train.py
+```
+
+Note that disabling the service process removes some reliability improvements in newer SDK versions.
+
+**Diagnosing with debug logs**
+
+Enable debug logging to see exactly where time is being spent:
+
+```bash
+WANDB_DEBUG=true python train.py
+```
+
+This writes detailed timing information to `wandb/debug.log` and `wandb/debug-internal.log`.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Connectivity](/support/models/tags/connectivity)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

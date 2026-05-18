@@ -1,0 +1,83 @@
+---
+title: "How do I connect to a self-hosted W&B Server?"
+keywords: ["Administrator", "User Management", "Environment Variables"]
+---
+
+W&B Server is a self-hosted deployment of W&B that runs within your own infrastructure. Connecting the W&B SDK and CLI to a self-hosted instance requires pointing them at your server's URL instead of `api.wandb.ai`.
+
+**Authenticating via the CLI**
+
+```bash
+wandb login --host https://your-wandb-server.company.com
+```
+
+This stores the host and your API key in `~/.netrc`. You will be prompted to enter your API key, which you can retrieve from your user profile on the self-hosted instance.
+
+**Setting the host via environment variable**
+
+For containerized jobs or CI/CD pipelines where you cannot run interactive login:
+
+```bash
+export WANDB_BASE_URL=https://your-wandb-server.company.com
+export WANDB_API_KEY=your_api_key
+python train.py
+```
+
+`WANDB_BASE_URL` takes precedence over any value stored in `~/.netrc`.
+
+**Setting the host in Python**
+
+```python
+import wandb
+
+wandb.login(
+    host="https://your-wandb-server.company.com",
+    key="your_api_key",
+)
+
+wandb.init(project="my-project")
+```
+
+**Verifying the connection**
+
+```bash
+wandb status
+```
+
+This prints the current host, logged-in user, and API key (masked). Confirm the host matches your server URL.
+
+**SSL / certificate issues**
+
+If your server uses a self-signed or internal CA certificate, Python's `requests` library may reject the connection. Set the path to your CA bundle:
+
+```bash
+export REQUESTS_CA_BUNDLE=/path/to/ca-bundle.crt
+```
+
+Or in Python before initializing W&B:
+
+```python
+import os
+os.environ["REQUESTS_CA_BUNDLE"] = "/path/to/ca-bundle.crt"
+```
+
+**Switching between cloud and self-hosted**
+
+To switch back to W&B cloud (`api.wandb.ai`) from a self-hosted instance, either unset `WANDB_BASE_URL` or re-run `wandb login` without the `--host` flag:
+
+```bash
+unset WANDB_BASE_URL
+wandb login
+```
+
+**Common issues**
+
+- **401 on `wandb.init()`**: Your API key does not exist on the self-hosted instance. API keys are not shared between W&B cloud and self-hosted deployments — generate a new key from your profile on the self-hosted instance.
+- **Connection refused / timeout**: The server URL may be wrong, or your machine may need VPN access to reach the internal network.
+- **License not recognized**: See [Why is my enterprise license not recognized?](/support/models/articles/enterprise-license-not-recognized) for license validation steps.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[User Management](/support/models/tags/user-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* END AUTO-GENERATED: tab badges */}
