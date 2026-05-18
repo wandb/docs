@@ -814,7 +814,18 @@
                   "sandboxes/file-access",
                   "sandboxes/secrets",
                   "sandboxes/mltrain-in-sandbox-tutorial",
-                  "sandboxes/invoke-agent-sandbox-tutorial"
+                  "sandboxes/invoke-agent-sandbox-tutorial",
+                  {
+                    "group" : "API Reference",
+                    "pages": [
+                      "sandboxes/ref-link-core",
+                      "sandboxes/ref-link-types",
+                      "sandboxes/ref-link-configuration",
+                      "sandboxes/ref-link-discovery",
+                      "sandboxes/ref-link-exceptions",
+                      "sandboxes/ref-link-util"                                                                                  
+                    ]
+                  }
                 ]
               }
             ]
@@ -1668,8 +1679,17 @@
                               "fr/models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "Tutoriels",
+                            "pages": [
+                              "fr/models/automations/tutorial",
+                              "fr/models/automations/project-automation-tutorial",
+                              "fr/models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "fr/models/automations/view-automation-history",
-                          "fr/models/automations/automation-events"
+                          "fr/models/automations/automation-events",
+                          "fr/models/automations/api"
                         ]
                       },
                       {
@@ -2962,8 +2982,17 @@
                               "ja/models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "チュートリアル",
+                            "pages": [
+                              "ja/models/automations/tutorial",
+                              "ja/models/automations/project-automation-tutorial",
+                              "ja/models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "ja/models/automations/view-automation-history",
-                          "ja/models/automations/automation-events"
+                          "ja/models/automations/automation-events",
+                          "ja/models/automations/api"
                         ]
                       },
                       {
@@ -4256,8 +4285,17 @@
                               "ko/models/automations/create-automations/webhook"
                             ]
                           },
+                          {
+                            "group": "튜토리얼",
+                            "pages": [
+                              "ko/models/automations/tutorial",
+                              "ko/models/automations/project-automation-tutorial",
+                              "ko/models/automations/registry-automation-tutorial"
+                            ]
+                          },
                           "ko/models/automations/view-automation-history",
-                          "ko/models/automations/automation-events"
+                          "ko/models/automations/automation-events",
+                          "ko/models/automations/api"
                         ]
                       },
                       {

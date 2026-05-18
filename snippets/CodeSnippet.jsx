@@ -12,7 +12,6 @@
  * AUTO-GENERATED: Do not edit manually. Run sync_code_examples.sh to regenerate.
  */
 
-
 // Import all MDX-wrapped code examples
 import ArtifactAddAlias from '/snippets/_includes/code-examples/artifact_add_alias.mdx';
 import ArtifactAddAliasExisting from '/snippets/_includes/code-examples/artifact_add_alias_existing.mdx';
@@ -61,6 +60,13 @@ import SweepConfig from '/snippets/_includes/code-examples/sweep_config.mdx';
 import SweepCreate from '/snippets/_includes/code-examples/sweep_create.mdx';
 import SweepInitialize from '/snippets/_includes/code-examples/sweep_initialize.mdx';
 import SweepStart from '/snippets/_includes/code-examples/sweep_start.mdx';
+import WeaveEvalBasic from '/snippets/_includes/code-examples/weave_eval_basic.mdx';
+import WeaveExportMetrics from '/snippets/_includes/code-examples/weave_export_metrics.mdx';
+import WeavePublishDataset from '/snippets/_includes/code-examples/weave_publish_dataset.mdx';
+import WeaveScoringFunction from '/snippets/_includes/code-examples/weave_scoring_function.mdx';
+import WeaveTraceCall from '/snippets/_includes/code-examples/weave_trace_call.mdx';
+import WeaveTraceImages from '/snippets/_includes/code-examples/weave_trace_images.mdx';
+import WeaveTraceOp from '/snippets/_includes/code-examples/weave_trace_op.mdx';
 
 // Map filenames to imported content
 const snippets = {
@@ -111,11 +117,18 @@ const snippets = {
   'sweep_create.py': SweepCreate,
   'sweep_initialize.py': SweepInitialize,
   'sweep_start.py': SweepStart,
+  'weave_eval_basic.py': WeaveEvalBasic,
+  'weave_export_metrics.py': WeaveExportMetrics,
+  'weave_publish_dataset.py': WeavePublishDataset,
+  'weave_scoring_function.py': WeaveScoringFunction,
+  'weave_trace_call.py': WeaveTraceCall,
+  'weave_trace_images.py': WeaveTraceImages,
+  'weave_trace_op.py': WeaveTraceOp,
 };
 
 export const CodeSnippet = ({ file }) => {
   const Component = snippets[file];
-
+  
   if (!Component) {
     return (
       <div style={{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}>
@@ -123,7 +136,7 @@ export const CodeSnippet = ({ file }) => {
       </div>
     );
   }
-
+  
   return <Component />;
 };
 
