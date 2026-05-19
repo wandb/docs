@@ -1,6 +1,6 @@
 ---
 title: Application mobile W&B (iOS)
-description: Depuis votre iPhone ou iPad, suivez les runs d'entraînement, consultez les journaux de la console, consultez des graphiques en courbes avec des infobulles précises pour les métriques, effectuez des recherches dans les panneaux de projet à l'aide d'expressions régulières et explorez vos projets W&B Models.
+description: Depuis votre iPhone ou iPad, suivez les runs d'entraînement, consultez les journaux de la console, consultez des graphiques en courbes et les métriques système, effectuez des recherches dans les panneaux de projet à l'aide d'expressions régulières et explorez vos projets W&B Models.
 ---
 
 <Columns cols={4}>
@@ -21,7 +21,7 @@ description: Depuis votre iPhone ou iPad, suivez les runs d'entraînement, consu
   </Frame>
 </Columns>
 
-L&#39;application mobile W&amp;B pour iOS vous permet de rester connecté à vos projets W&amp;B Models où que vous soyez. Depuis votre iPhone ou iPad, suivez les runs d&#39;entraînement et lisez les journaux de run en temps réel, consultez des graphiques en courbes, explorez l&#39;historique des projets et suivez l&#39;avancement de votre équipe.
+L&#39;application mobile W&amp;B pour iOS vous permet de rester connecté à vos projets W&amp;B Models où que vous soyez. Depuis votre iPhone ou iPad, suivez les runs d&#39;entraînement et lisez les journaux de run en temps réel, consultez des graphiques en courbes et les métriques système, explorez l&#39;historique des projets et suivez l&#39;avancement de votre équipe.
 
 <Info>
   L&#39;application mobile est disponible uniquement pour les comptes [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Elle n&#39;est pas disponible pour les déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
@@ -37,11 +37,12 @@ L&#39;application mobile W&amp;B pour iOS vous permet de rester connecté à vos
   ## Fonctionnalités
 </div>
 
-* **Explorer les Projects** : Parcourez et recherchez dans vos projets W&amp;B.
+* **Explorer les projets** : Parcourez et recherchez dans vos projets W&amp;B.
   * **Historique complet du projet** : Les graphiques de métriques dans les panneaux du projet incluent les données de *tous les runs* du projet, pas seulement celles du dernier run.
   * **Mettre des projets en favoris** : Repérez vos projets les plus importants en un coup d’œil. Cliquez sur l’icône en forme d’étoile à côté d’un projet pour le mettre en favoris. Pour filtrer la liste et n’afficher que les projets favoris, cliquez sur l’onglet **Starred** en haut de la liste.
 * **Suivre les expériences** : Consultez en temps réel le statut des runs, les métriques et les graphiques en courbes de vos expériences.
-  * **Onglet d’aperçu du run** : Pour chaque run, ouvrez l’onglet **Overview** pour afficher une synthèse dédiée des détails du run, ainsi que les métriques et les journaux.
+  * **Onglet d’aperçu du run** : Pour chaque run, ouvrez l’onglet **Overview** pour afficher une synthèse dédiée des détails du run, ainsi que les métriques et les journaux. Les valeurs de configuration longues du run sont renvoyées à la ligne sur plusieurs lignes au lieu d’être tronquées.
+  * **Afficher les métriques système** : Pour chaque run, ouvrez l’onglet **Metrics** pour afficher les [métriques système](/fr/models/ref/python/experiments/system-metrics) que W&amp;B journalise automatiquement pendant l’entraînement, comme l’utilisation du GPU, l’utilisation du CPU, la mémoire, les E/S disque et le trafic réseau. Les métriques système apparaissent dans une section **System** repliable à côté de vos métriques enregistrées. Chaque métrique s’affiche sous forme de graphique en courbes avec le même comportement d’info-bulle et de recherche que les autres métriques de l’onglet.
   * **Regroupement des panneaux optimisé pour mobile** : Les panneaux sont automatiquement regroupés par nom dans des sections repliables. Les sections ne comportent qu’un seul niveau (sans imbrication), et le regroupement suit les mêmes règles que les [panneaux de Workspace](/fr/models/app/features/panels) dans l’application web W&amp;B, afin que la mise en page reste cohérente lorsque vous passez de l’ordinateur à votre téléphone.
   * **Mettre des panneaux en favoris** : Repérez vos panneaux les plus importants en un coup d’œil. Lorsque vous consultez un run ou un projet, cliquez sur l’icône en forme d’étoile en haut d’un panneau pour le mettre en favoris. Pour filtrer la liste et n’afficher que les panneaux favoris, cliquez sur l’onglet **Starred** en haut de la liste.
   * **Rechercher des panneaux** : Lorsque vous consultez un run ou un projet, utilisez le champ **panel search** en bas de l’écran pour filtrer les runs qui apparaissent dans chaque graphique. Vous pouvez utiliser des [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) pour faire correspondre des motifs dans les noms de run.

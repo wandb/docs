@@ -1,6 +1,6 @@
 ---
 title: W&B Mobile App（iOS）
-description: iPhone や iPad から、トレーニング Runs をトラッキングし、コンソールログを確認し、正確なメトリクスツールチップ付きで折れ線グラフを表示し、正規表現を使って projectパネルを検索し、W&B Models のprojectを確認できます。
+description: iPhone や iPad から、トレーニング Runs をトラッキングし、コンソールログを確認し、折れ線グラフとシステムメトリクスを表示し、正規表現を使って projectパネルを検索し、W&B Models のprojectを確認できます。
 ---
 
 <Columns cols={4}>
@@ -21,7 +21,7 @@ description: iPhone や iPad から、トレーニング Runs をトラッキン
   </Frame>
 </Columns>
 
-iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のprojectを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフを表示し、project の履歴を確認し、チームの進捗を把握できます。
+iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Models のprojectを確認できます。iPhone や iPad から、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフとシステムメトリクスを表示し、project の履歴を確認し、チームの進捗を把握できます。
 
 <Info>
   モバイルアプリを利用できるのは、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントのみです。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
@@ -41,7 +41,8 @@ iOS 向けの W&amp;B Mobile App を使えば、どこにいても W&amp;B Model
   * **project の全履歴**: project パネルのメトリクス チャートには、最新の run だけでなく、その project の *すべての run* のデータが含まれます。
   * **Projects にスターを付ける**: 重要な Projects をひと目で確認できます。project の横にあるスター アイコンをクリックすると、スターを付けられます。スター付きの Projects のみを表示するには、リスト上部の **Starred** タブをクリックします。
 * **実験をトラッキングする**: 実験の run のステータス、メトリクス、折れ線グラフをリアルタイムで確認できます。
-  * **run overview タブ**: 各 run で **Overview** タブを開くと、メトリクスやログとあわせて、run の詳細をまとめた専用サマリーを確認できます。
+  * **run overview タブ**: 各 run で **Overview** タブを開くと、メトリクスやログとあわせて、run の詳細をまとめた専用サマリーを確認できます。長い run の設定値は切り詰められず、複数行に折り返して表示されます。
+  * **システムメトリクスを表示する**: 各 run で **Metrics** タブを開くと、トレーニング中に W&amp;B が自動的にログする [システムメトリクス](/ja/models/ref/python/experiments/system-metrics) (GPU 使用率、CPU 使用率、メモリ、ディスク I/O、ネットワーク トラフィックなど) を確認できます。システムメトリクスは、ログしたメトリクスと並んで、折りたたみ可能な **System** セクションに表示されます。各メトリクスは折れ線グラフとして表示され、タブ内の他のメトリクスと同じツールチップと検索の動作になります。
   * **モバイル向けに最適化されたパネルのグループ化**: パネルは名前ごとに自動的にグループ化され、折りたたみ可能なセクションにまとめられます。セクションは 1 階層のみで、ネストはされません。また、グループ化は W&amp;B Web アプリの [workspace パネル](/ja/models/app/features/panels) と同じルールに従うため、デスクトップとスマートフォンの間で移動してもレイアウトの一貫性が保たれます。
   * **パネルにスターを付ける**: 重要なパネルをひと目で確認できます。run または project の表示中に、パネル上部のスター アイコンをクリックすると、スターを付けられます。スター付きのパネルのみを表示するには、リスト上部の **Starred** タブをクリックします。
   * **パネルを検索する**: run または project の表示中に、画面下部の **パネル search** フィールドを使用して、各チャートに表示する run を絞り込めます。[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) を使用して、run 名のパターンに一致する検索ができます。
