@@ -246,6 +246,106 @@ api:
 
 <SelfManagedVerifyInstallation />
 
+<div id="enable-the-mcp-server">
+  ## MCP server を有効にする
+</div>
+
+[W&amp;B MCP Server](/ja/platform/mcp-server) は、`operator-wandb` のオプションのサブチャートとして提供されています。有効にすると、operator は既存の ingress を通じて `<global.host>/mcp` で公開されるクラスター内の MCP server をデプロイするため、MCP 対応クライアントであれば W&amp;B APIキーを使用して接続できます。これは、W&amp;B が `https://mcp.withwandb.com/mcp` で hosted 版として提供しているものと同じ server ですが、接続先はお使いの deployment のデータになります。
+
+エンドユーザー向けのクライアント設定と tool カタログについては、[W&amp;B MCP server を使用する](/ja/platform/mcp-server) を参照してください。このセクションでは、operator 側での有効化のみを説明します。
+
+<div id="prerequisites">
+  ### 前提条件
+</div>
+
+MCP server を有効にする前に、デプロイメントが次の要件を満たしていることを確認してください。
+
+* **チャート バージョン**: `operator-wandb` `0.42.3` 以降。`mcp-server` サブチャートは `0.42.1` で導入されましたが、以下の例で使用する Datadog フィールドと `privacy` フィールドはその後に追加されました。
+* **Weave Traces が有効**: MCP server は、トレース用ツールと `WF_TRACE_SERVER_URL` のデフォルト値のために Weave Traces に依存します。`weave-trace.install: true` を設定してください。Weave Traces が有効になっていない場合、Helm のレンダリングは `mcp-server requires weave-trace.install=true` というエラーで失敗します。
+* **アクセス可能な ingress**: `global.host` は、すでに名前解決されて W&amp;B ingress にルーティングされている必要があります。MCP pod は `global.host` から `WANDB_BASE_URL` を読み取り、`<global.host>/mcp` で利用できます。
+* **ノード容量**: MCP pod はデフォルトで `500m` CPU と `1Gi` メモリを要求します (制限は `2` CPU と `4Gi` メモリ) 。サブチャートを有効にする前に、ノードプールに十分な空き容量があることを確認してください。
+
+<div id="enable-the-subchart">
+  ### サブチャートを有効にする
+</div>
+
+既存の `WeightsAndBiases` カスタムリソース (CR) の `spec.values` ブロックに、すでに設定している `global`、`ingress`、その他のオーバーライドとあわせて、以下を追加します。Datadog ブロックは任意ですが、クラスター内で Datadog Agent DaemonSet がすでに pod のログとトレースを収集している場合は、追加することを推奨します。
+
+```yaml
+spec:
+  values:
+    weave-trace:
+      install: true
+
+    mcp-server:
+      install: true
+      image:
+        repository: us-docker.pkg.dev/wandb-production/public/wandb/mcp-server
+        tag: "0.3.3"
+      datadog:
+        enabled: true
+        mode: "agent"
+        service: "wandb-mcp-server-<environment>"
+        env: "<environment>"
+        deploymentType: "self-managed"
+        customer: "<customer-name>"
+        extraTags:
+          - "region:<region>"
+          - "tier:<tier>"
+      privacy:
+        logLevel: "standard"
+```
+
+各ブロックを設定します。
+
+* **`weave-trace.install: true`**: `mcp-server.env.WF_TRACE_SERVER_URL` を自分で設定しない限り、必須です。
+* **`datadog.mode: "agent"`**: Datadog Agent DaemonSet がログとトレースの収集を管理する Kubernetes デプロイで使用します。agent モードでは、MCP pod に Datadog APIキーは必要ありません。
+* **`datadog.service`, `env`, `deploymentType`, `customer`, `extraTags`**: デプロイの可観測性の命名規則に合わせて設定します。顧客タグが不要な場合は、`customer` を空文字列に設定します。
+* **`privacy.logLevel`**: ほとんどのセルフマネージド Kubernetes 環境では `"standard"` を使用します。これは、運用担当者がデバッグで一般的に使用するデプロイ識別子は保持したまま、ログ内の自由記述のパラメーター値をマスクします。entity、project、run、またはユーザー識別子を平文ログに残したくない場合は、`"strict"` を使用します。これらの値を明示的に平文でログに記録したい場合にのみ、`"off"` を使用します。
+
+変更を適用してリコンシリエーションをトリガーします。
+
+```bash
+kubectl apply -f operator.yaml
+```
+
+operator は、release namespace に `wandb-mcp-server` の deployment と service を作成し、W&amp;B ingress に `/mcp` パスを追加します。
+
+<div id="verify-the-mcp-server">
+  ### MCP server を確認する
+</div>
+
+pod が `Running` になるまで待ってから、クラスター内および ingress 経由でヘルスエンドポイントを確認します。
+
+```bash
+kubectl get pod -l app.kubernetes.io/component=mcp-server
+kubectl port-forward svc/wandb-mcp-server 8080:8080
+curl -s http://localhost:8080/mcp/health
+
+curl -s "https://<HOST_URI>/mcp/health"
+```
+
+どちらのリクエストでも `200 OK` が返るはずです。クラスター内チェックでは、pod が正常であることを確認します。ingress チェックでは、ルーティングを確認します。クラスター内チェックで `200 OK` が返っても、ingress チェックで `404 Not Found` が返る場合は、[Troubleshooting](#troubleshooting)を参照してください。Datadog を有効にしている場合は、設定した `mcp-server.datadog.service` および `mcp-server.datadog.env` の値で、MCP server のログも Datadog に表示されるはずです。
+
+<div id="connect-a-client">
+  ### クライアントを接続する
+</div>
+
+MCP server が正常に稼働したら、Bearer token に W&amp;B APIキーを指定して `https://<HOST_URI>/mcp` を使用するよう、MCP クライアントを設定してください。IDE およびエージェントの設定については、[W&amp;B MCP server を使用する](/ja/platform/mcp-server)を参照してください。
+
+<div id="troubleshooting">
+  ### トラブルシューティング
+</div>
+
+| 症状                                                                                          | 原因と対処方法                                                                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `helm render` が `mcp-server requires weave-trace.install=true` で失敗する                        | `spec.values` に `weave-trace.install: true` を追加してください。MCP server はトレースツールのために Weave Traces に依存しています。                                                                                                                                                                     |
+| `wandb-mcp-server` pod が `Pending` のままで、`Insufficient cpu` または `Insufficient memory` が表示される | ノードの容量を増やすか、CR の `mcp-server.resources.requests` を引き下げてください。デフォルトは `500m` CPU と `1Gi` メモリです。                                                                                                                                                                             |
+| `curl https://<HOST_URI>/mcp/health` が 404 を返す                                              | chart は、`mcp-server.install: true` の場合にのみ `/mcp` の ingress path をレンダリングします。CR を再適用し、ingress controller に新しい path が反映されるまで待ってください。                                                                                                                                        |
+| MCP のログが Datadog に表示されない                                                                    | `mcp-server.datadog.enabled: true`、`mcp-server.datadog.mode: "agent"`、および Datadog Agent DaemonSet が pod の stdout を収集していることを確認してください。設定した `service` と `env` の値で Datadog を検索してください。                                                                                        |
+| MCP のログに、想定より多くのユーザー入力テキストが含まれる                                                             | `mcp-server.privacy.logLevel` を `"standard"` または `"strict"` に設定してください。entity、project、run、またはユーザー名などの識別子を平文ログに残したくない場合は、`"strict"` を使用してください。                                                                                                                             |
+| エアギャップ環境またはミラーリングされたクラスターで `wandb-mcp-server` pod が `ImagePullBackOff` になる                  | イメージを使用中の Registry にミラーリングし、CR で `mcp-server.image.repository` をオーバーライドしてください。これは、エアギャップ環境でのインストール時に他の W&amp;B コンポーネントイメージで使用するのと同じパターンです。詳細は [Deploy on Air-Gapped Kubernetes](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) を参照してください。 |
+
 <div id="environment-specific-considerations">
   ## 環境固有の考慮事項
 </div>
