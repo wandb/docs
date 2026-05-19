@@ -18,9 +18,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Pushes from other workflows (e.g. image compression with GITHUB_TOKEN) do not
-      # trigger pull_request workflows; branch protection may still need a human push
-      # or workflow_dispatch to refresh checks.
+      # Pushes made with the default workflow GITHUB_TOKEN do not trigger other
+      # pull_request workflows. Workflows that push with the wandb-docs-pr-writer
+      # App token (Compress Images, Build CSS, Knowledgebase Nav) avoid that.
+      # Otherwise branch protection may need a human push or workflow_dispatch.
       - name: Determine if Mintlify validation is needed
         id: scope
         run: |

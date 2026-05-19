@@ -27,13 +27,17 @@
 #
 # Same-repo PRs vs forks
 # ----------------------
-# Same-repo PR: checkout uses the PR head commit; git-auto-commit can push
-# back to the PR branch so generated files land on the PR.
+# Same-repo PR: checkout uses the PR head branch; git-auto-commit pushes back
+# using a wandb-docs-pr-writer installation token (same pattern as
+# calibreapp-image-actions.yml and build-css.yml). Unlike the default
+# workflow GITHUB_TOKEN, that push triggers downstream pull_request workflows
+# (for example Validate MDX).
 #
 # Fork PR: checkout still uses the fork and head SHA so the generator runs on
-# the contributor's content. GITHUB_TOKEN cannot push to the fork, so the
-# commit step is skipped. A notice step explains that. Contributors run the
-# generator locally or a maintainer regenerates after merge.
+# the contributor's content. Base-repo secrets are not available, so there is
+# no App token step; checkout uses GITHUB_TOKEN. The workflow cannot push to the
+# fork, so the commit step is skipped. A notice step explains that.
+# Contributors run the generator locally or a maintainer regenerates after merge.
 #
 # Why checkout uses repository + ref expressions
 # -----------------------------------------------
@@ -83,9 +87,11 @@ concurrency:
   group: knowledgebase-nav-${{ github.ref }}
   cancel-in-progress: true
 
-# contents: write for git-auto-commit; pull-requests: write for PR comments.
+# Pushes use the GitHub App token (contents write on the installation). The
+# workflow GITHUB_TOKEN stays read-only for contents; pull-requests: write for
+# gh PR comments on same-repo PRs.
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
 
 jobs:
@@ -94,12 +100,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create GitHub App token (same-repo pushes and workflow_dispatch)
+        id: app-token
+        if: >
+          github.event_name == 'workflow_dispatch' ||
+          (github.event_name == 'pull_request' &&
+           github.event.pull_request.head.repo.fork == false)
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: docs
+          permission-contents: write
+          permission-pull-requests: write
+
       # Resolve repository and ref as described in the header comment.
       - name: Check out repository
         uses: actions/checkout@v6
         with:
           repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork && github.event.pull_request.head.sha || github.head_ref) || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
+          token: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork && github.token || steps.app-token.outputs.token }}
 
       # Same message as git-auto-commit-action below (first line only).
       - name: Detect chore-only navigation commit (skip PR comment on next run)
@@ -205,6 +227,10 @@ jobs:
       - name: Commit generated changes
         if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) }}
         uses: stefanzweifel/git-auto-commit-action@v7
+        env:
+          # Same as calibreapp-image-actions / build-css: App token push so
+          # pull_request workflows (Validate MDX, etc.) run on the chore commit.
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           commit_message: "chore: regenerate support tag pages"
           file_pattern: "support.mdx support/*/articles/*.mdx support/*/tags/*.mdx support/*.mdx"
