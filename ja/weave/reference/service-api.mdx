@@ -37,148 +37,149 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### Call
 </div>
 
-* **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - Call の終了
-* **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - Call の読み取り
-* **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - Call の開始
-* **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - Call の更新
-* **[POST /call/upsert&#95;batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - Call のバッチ開始
-* **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - Call の削除
-* **[POST /calls/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - Call のクエリ統計
-* **[POST /calls/stats](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats)** - Call の統計
-* **[POST /calls/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - Call のクエリストリーム
-* **[POST /calls/usage](https://docs.wandb.ai/weave/reference/service-api/calls/calls-usage)** - Call の使用状況
-* **[POST /trace/usage](https://docs.wandb.ai/weave/reference/service-api/calls/trace-usage)** - Trace の使用状況
+* **[POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - コール終了
+* **[POST `/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - コール読み取り
+* **[POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - コール開始
+* **[POST `/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - コール更新
+* **[POST `/call/upsert_batch`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - コール一括開始
+* **[POST `/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - Call削除
+* **[POST `/calls/query_stats`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - Callクエリ統計
+* **[POST `/calls/stats`](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats)** - コール統計
+* **[POST `/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - Callクエリストリーム
+* **[POST `/calls/usage`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-usage)** - Call使用状況
+* **[POST `/trace/usage`](https://docs.wandb.ai/weave/reference/service-api/calls/trace-usage)** - トレース使用状況
 
 <div id="costs">
   ### コスト
 </div>
 
-* **[POST /cost/create](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create)** - コストの作成
-* **[POST /cost/purge](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge)** - コストのパージ
-* **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - コストのクエリ
+* **[POST `/cost/create`](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create)** - コストの作成
+* **[POST `/cost/purge`](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge)** - コストのパージ
+* **[POST `/cost/query`](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - コストのクエリ
 
 <div id="feedback">
   ### フィードバック
 </div>
 
-* **[POST /feedback/batch/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create-batch)** - フィードバックのバッチ作成
-* **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - フィードバックの作成
-* **[POST /feedback/payload&#95;schema](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-payload-schema)** - フィードバックのペイロードスキーマ
-* **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - フィードバックのパージ
-* **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - フィードバックのクエリ
-* **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - フィードバックの置換
-* **[POST /feedback/stats](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-stats)** - フィードバックの統計情報
+* **[POST `/feedback/batch/create`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create-batch)** - フィードバックのバッチ作成
+* **[POST `/feedback/create`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - フィードバックの作成
+* **[POST `/feedback/payload_schema`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-payload-schema)** - フィードバックのペイロードスキーマ
+* **[POST `/feedback/purge`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - フィードバックのパージ
+* **[POST `/feedback/query`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - フィードバックのクエリ
+* **[POST `/feedback/replace`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - フィードバックの置換
+* **[POST `/feedback/stats`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-stats)** - フィードバックの統計
 
 <div id="files">
   ### ファイル
 </div>
 
-* **[POST /file/content](https://docs.wandb.ai/weave/reference/service-api/files/file-content)** - ファイル内容
-* **[POST /file/create](https://docs.wandb.ai/weave/reference/service-api/files/file-create)** - ファイル作成
-* **[POST /files/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/files/files-stats)** - ファイルの統計
+* **[POST `/file/content`](https://docs.wandb.ai/weave/reference/service-api/files/file-content)** - ファイル内容
+* **[POST `/file/create`](https://docs.wandb.ai/weave/reference/service-api/files/file-create)** - ファイル作成
+* **[POST `/files/query_stats`](https://docs.wandb.ai/weave/reference/service-api/files/files-stats)** - ファイルの統計
 
 <div id="objects">
   ### オブジェクト
 </div>
 
-* **[GET /aliases](https://docs.wandb.ai/weave/reference/service-api/objects/aliases-list)** - エイリアス一覧
-* **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - Obj 作成
-* **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - Obj 削除
-* **[POST /obj/read](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read)** - Obj 取得
-* **[POST /objs/query](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query)** - Objs クエリ
-* **[PUT /objs/{object_id}/aliases](https://docs.wandb.ai/weave/reference/service-api/objects/obj-set-aliases)** - Obj エイリアス設定
-* **[POST /objs/{object_id}/aliases/remove](https://docs.wandb.ai/weave/reference/service-api/objects/obj-remove-aliases)** - Obj エイリアス削除
-* **[PUT /objs/{object_id}/versions/{digest}/tags](https://docs.wandb.ai/weave/reference/service-api/objects/obj-add-tags)** - Obj Tags 追加
-* **[POST /objs/{object_id}/versions/{digest}/tags/remove](https://docs.wandb.ai/weave/reference/service-api/objects/obj-remove-tags)** - Obj Tags 削除
-* **[GET /tags](https://docs.wandb.ai/weave/reference/service-api/objects/tags-list)** - Tags 一覧
+* **[GET `/aliases`](https://docs.wandb.ai/weave/reference/service-api/objects/aliases-list)** - エイリアス一覧
+* **[POST `/obj/create`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - Obj の作成
+* **[POST `/obj/delete`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - Obj の削除
+* **[POST `/obj/read`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read)** - Obj の読み取り
+* **[POST `/objs/query`](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query)** - Objs のクエリ
+* **[PUT `/objs/{object_id}/aliases`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-set-aliases)** - Obj のエイリアス設定
+* **[POST `/objs/{object_id}/aliases/remove`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-remove-aliases)** - Obj からエイリアスを削除
+* **[PUT `/objs/{object_id}/versions/{digest}/tags`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-add-tags)** - Obj にタグを追加
+* **[POST `/objs/{object_id}/versions/{digest}/tags/remove`](https://docs.wandb.ai/weave/reference/service-api/objects/obj-remove-tags)** - Obj からタグを削除
+* **[GET `/tags`](https://docs.wandb.ai/weave/reference/service-api/objects/tags-list)** - タグ一覧
 
 <div id="opentelemetry">
   ### OpenTelemetry
 </div>
 
-* **[POST /otel/v1/traces](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - トレースのエクスポート
+* **[POST `/otel/v1/traces`](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - トレースのエクスポート
 
 <div id="refs">
   ### Refs
 </div>
 
-* **[POST /refs/read&#95;batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Refs の一括読み取り
+* **[POST `/refs/read_batch`](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Refs の一括読み取り
 
 <div id="service">
   ### サービス
 </div>
 
-* **[GET /geolocate](https://docs.wandb.ai/weave/reference/service-api/service/get-caller-location)** - 呼び出し元の場所を取得
-* **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - ルートを取得
-* **[GET /server&#95;info](https://docs.wandb.ai/weave/reference/service-api/service/server-info)** - サーバー情報
-* **[POST /service/projects&#95;info](https://docs.wandb.ai/weave/reference/service-api/service/projects-info)** - Projects 情報
-* **[GET /version](https://docs.wandb.ai/weave/reference/service-api/service/read-version)** - バージョンを取得
+* **[GET `/geolocate`](https://docs.wandb.ai/weave/reference/service-api/service/get-caller-location)** - 呼び出し元の位置情報を取得
+* **[GET `/health`](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - ルート情報を取得
+* **[GET `/server_info`](https://docs.wandb.ai/weave/reference/service-api/service/server-info)** - サーバー情報
+* **[POST `/service/projects_info`](https://docs.wandb.ai/weave/reference/service-api/service/projects-info)** - Projects 情報
+* **[GET `/version`](https://docs.wandb.ai/weave/reference/service-api/service/read-version)** - バージョン情報を取得
 
 <div id="tables">
   ### Tables
 </div>
 
-* **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - 表の作成
-* **[POST /table/create&#95;from&#95;digests](https://docs.wandb.ai/weave/reference/service-api/tables/table-create-from-digests)** - ダイジェストから表を作成
-* **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - 表のクエリ
-* **[POST /table/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - 表のクエリ統計
-* **[POST /table/query&#95;stats&#95;batch](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats-batch)** - 表のクエリ統計のバッチ
-* **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - 表の更新
+* **[POST `/table/create`](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - 表の作成
+* **[POST `/table/create_from_digests`](https://docs.wandb.ai/weave/reference/service-api/tables/table-create-from-digests)** - ダイジェストから表を作成
+* **[POST `/table/query`](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - 表をクエリする
+* **[POST `/table/query_stats`](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - 表クエリの統計
+* **[POST `/table/query_stats_batch`](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats-batch)** - 表クエリ統計のバッチ
+* **[POST `/table/update`](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - 表の更新
+* **[POST `/table/query_stream`](https://docs.wandb.ai/weave/reference/service-api/table-query-stream)** - 表クエリのストリーム
 
 <div id="threads">
   ### スレッド
 </div>
 
-* **[POST /threads/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - スレッドのクエリストリーム
+* **[POST `/threads/stream_query`](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - スレッドのクエリストリーム
 
 <div id="inference">
   ### Inference
 </div>
 
-* **[GET /inference/analysis/artificialanalysis/models](https://docs.wandb.ai/weave/reference/service-api/inference/inference-analysis-artificialanalysis-models)** - Inference Analysis Artificialanalysis モデル
-* **[GET /inference/nvidia/v2/hardware](https://docs.wandb.ai/weave/reference/service-api/inference/nvidia-hardware)** - NVIDIA ハードウェア
-* **[GET /inference/router/openrouter/models](https://docs.wandb.ai/weave/reference/service-api/inference/inference-router-openrouter-models)** - Inference Router OpenRouter モデル
+* **[GET `/inference/analysis/artificialanalysis/models`](https://docs.wandb.ai/weave/reference/service-api/inference/inference-analysis-artificialanalysis-models)** - Inference Analysis Artificialanalysis モデル
+* **[GET `/inference/nvidia/v2/hardware`](https://docs.wandb.ai/weave/reference/service-api/inference/nvidia-hardware)** - NVIDIA ハードウェア
+* **[GET `/inference/router/openrouter/models`](https://docs.wandb.ai/weave/reference/service-api/inference/inference-router-openrouter-models)** - Inference Router OpenRouter モデル
 
 <div id="annotation-queues">
   ### アノテーションキュー
 </div>
 
-* **[POST /annotation&#95;queues](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-create)** - アノテーションキューの作成
-* **[POST /annotation&#95;queues/query](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queues-query-stream)** - アノテーションキューのクエリ ストリーム
-* **[POST /annotation&#95;queues/stats](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queues-stats)** - アノテーションキューの統計情報
-* **[DELETE /annotation&#95;queues/{queue_id}](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-delete)** - アノテーションキューの削除
-* **[GET /annotation&#95;queues/{queue_id}](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-read)** - アノテーションキューの取得
-* **[PUT /annotation&#95;queues/{queue_id}](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-update)** - アノテーションキューの更新
-* **[POST /annotation&#95;queues/{queue_id}/items](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-add-calls)** - アノテーションキューへのCallの追加
-* **[POST /annotation&#95;queues/{queue_id}/items/query](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-items-query)** - アノテーションキューアイテムのクエリ
-* **[POST /annotation&#95;queues/{queue_id}/items/{item_id}/progress](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update)** - アノテーションキューアイテムの進捗更新
+* **[POST `/annotation_queues`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-create)** - アノテーションキューの作成
+* **[POST `/annotation_queues/query`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queues-query-stream)** - アノテーションキューのクエリストリーム
+* **[POST `/annotation_queues/stats`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queues-stats)** - アノテーションキューの統計情報
+* **[DELETE `/annotation_queues/{queue_id}`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-delete)** - アノテーションキューの削除
+* **[GET `/annotation_queues/{queue_id}`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-read)** - アノテーションキューの取得
+* **[PUT `/annotation_queues/{queue_id}`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-update)** - アノテーションキューの更新
+* **[POST `/annotation_queues/{queue_id}/items`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-add-calls)** - アノテーションキューへのCallの追加
+* **[POST `/annotation_queues/{queue_id}/items/query`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-items-query)** - アノテーションキュー項目のクエリ
+* **[POST `/annotation_queues/{queue_id}/items/{item_id}/progress`](https://docs.wandb.ai/weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update)** - アノテーションキュー項目の進捗更新
 
 <div id="evaluations">
   ### 評価
 </div>
 
-* **[POST /evaluations/evaluate&#95;model](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluate-model)** - モデルを評価
-* **[POST /evaluations/status](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-status)** - 評価のステータス
-* **[GET /v2/{entity}/{project}/evaluations](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-list)** - 評価一覧
-* **[POST /v2/{entity}/{project}/evaluations](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-create)** - 評価を作成
-* **[DELETE /v2/{entity}/{project}/evaluations/{object_id}](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-delete)** - 評価を削除
-* **[GET /v2/{entity}/{project}/evaluations/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-read)** - 評価を取得
+* **[POST `/evaluations/evaluate_model`](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluate-model)** - モデルを評価
+* **[POST `/evaluations/status`](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-status)** - 評価ステータス
+* **[GET `/v2/{entity}/{project}/evaluations`](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-list)** - 評価一覧
+* **[POST `/v2/{entity}/{project}/evaluations`](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-create)** - 評価を作成
+* **[DELETE `/v2/{entity}/{project}/evaluations/{object_id}`](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-delete)** - 評価を削除
+* **[GET `/v2/{entity}/{project}/evaluations/{object_id}/versions/{digest}`](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-read)** - 評価を取得
 
 <div id="scores">
   ### スコア
 </div>
 
-* **[POST /calls/score](https://docs.wandb.ai/weave/reference/service-api/scores/calls-score)** - Call のスコア
-* **[DELETE /v2/{entity}/{project}/scores](https://docs.wandb.ai/weave/reference/service-api/scores/score-delete)** - スコアの削除
-* **[GET /v2/{entity}/{project}/scores](https://docs.wandb.ai/weave/reference/service-api/scores/score-list)** - スコアの一覧
-* **[POST /v2/{entity}/{project}/scores](https://docs.wandb.ai/weave/reference/service-api/scores/score-create)** - スコアの作成
-* **[GET /v2/{entity}/{project}/scores/{score_id}](https://docs.wandb.ai/weave/reference/service-api/scores/score-read)** - スコアの取得
+* **[POST `/calls/score`](https://docs.wandb.ai/weave/reference/service-api/scores/calls-score)** - Call スコア
+* **[DELETE `/v2/{entity}/{project}/scores`](https://docs.wandb.ai/weave/reference/service-api/scores/score-delete)** - スコアの削除
+* **[GET `/v2/{entity}/{project}/scores`](https://docs.wandb.ai/weave/reference/service-api/scores/score-list)** - スコア一覧
+* **[POST `/v2/{entity}/{project}/scores`](https://docs.wandb.ai/weave/reference/service-api/scores/score-create)** - スコアの作成
+* **[GET `/v2/{entity}/{project}/scores/{score_id}`](https://docs.wandb.ai/weave/reference/service-api/scores/score-read)** - スコアの取得
 
 <div id="images">
   ### 画像
 </div>
 
-* **[POST /image/create](https://docs.wandb.ai/weave/reference/service-api/images/image-create)** - 画像作成
+* **[POST `/image/create`](https://docs.wandb.ai/weave/reference/service-api/images/image-create)** - 画像作成
 
 <div id="registry">
   ### Registry
@@ -190,60 +191,60 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### Ops
 </div>
 
-* **[GET /v2/{entity}/{project}/ops](https://docs.wandb.ai/weave/reference/service-api/ops/op-list)** - Op の一覧
-* **[POST /v2/{entity}/{project}/ops](https://docs.wandb.ai/weave/reference/service-api/ops/op-create)** - Op を作成
-* **[DELETE /v2/{entity}/{project}/ops/{object_id}](https://docs.wandb.ai/weave/reference/service-api/ops/op-delete)** - Op を削除
-* **[GET /v2/{entity}/{project}/ops/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/ops/op-read)** - Op を取得
+* **[GET `/v2/{entity}/{project}/ops`](https://docs.wandb.ai/weave/reference/service-api/ops/op-list)** - Op 一覧
+* **[POST `/v2/{entity}/{project}/ops`](https://docs.wandb.ai/weave/reference/service-api/ops/op-create)** - Op 作成
+* **[DELETE `/v2/{entity}/{project}/ops/{object_id}`](https://docs.wandb.ai/weave/reference/service-api/ops/op-delete)** - Op 削除
+* **[GET `/v2/{entity}/{project}/ops/{object_id}/versions/{digest}`](https://docs.wandb.ai/weave/reference/service-api/ops/op-read)** - Op 取得
 
 <div id="datasets">
   ### Datasets
 </div>
 
-* **[GET /v2/{entity}/{project}/datasets](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-list)** - データセット一覧
-* **[POST /v2/{entity}/{project}/datasets](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-create)** - データセット作成
-* **[DELETE /v2/{entity}/{project}/datasets/{object_id}](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-delete)** - データセット削除
-* **[GET /v2/{entity}/{project}/datasets/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-read)** - データセット取得
+* **[GET `/v2/{entity}/{project}/datasets`](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-list)** - データセット一覧
+* **[POST `/v2/{entity}/{project}/datasets`](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-create)** - データセット作成
+* **[DELETE `/v2/{entity}/{project}/datasets/{object_id}`](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-delete)** - データセット削除
+* **[GET `/v2/{entity}/{project}/datasets/{object_id}/versions/{digest}`](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-read)** - データセット取得
 
 <div id="scorers">
   ### Scorers
 </div>
 
-* **[GET /v2/{entity}/{project}/scorers](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-list)** - Scorer の一覧
-* **[POST /v2/{entity}/{project}/scorers](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-create)** - Scorer の作成
-* **[DELETE /v2/{entity}/{project}/scorers/{object_id}](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-delete)** - Scorer の削除
-* **[GET /v2/{entity}/{project}/scorers/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-read)** - Scorer の取得
+* **[GET `/v2/{entity}/{project}/scorers`](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-list)** - Scorer 一覧取得
+* **[POST `/v2/{entity}/{project}/scorers`](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-create)** - Scorer 作成
+* **[DELETE `/v2/{entity}/{project}/scorers/{object_id}`](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-delete)** - Scorer 削除
+* **[GET `/v2/{entity}/{project}/scorers/{object_id}/versions/{digest}`](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-read)** - Scorer 取得
 
 <div id="models">
-  ### Models
+  ### モデル
 </div>
 
-* **[GET /v2/{entity}/{project}/models](https://docs.wandb.ai/weave/reference/service-api/models/model-list)** - モデル一覧
-* **[POST /v2/{entity}/{project}/models](https://docs.wandb.ai/weave/reference/service-api/models/model-create)** - モデル作成
-* **[DELETE /v2/{entity}/{project}/models/{object_id}](https://docs.wandb.ai/weave/reference/service-api/models/model-delete)** - モデル削除
-* **[GET /v2/{entity}/{project}/models/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/models/model-read)** - モデル取得
+* **[GET `/v2/{entity}/{project}/models`](https://docs.wandb.ai/weave/reference/service-api/models/model-list)** - モデル一覧
+* **[POST `/v2/{entity}/{project}/models`](https://docs.wandb.ai/weave/reference/service-api/models/model-create)** - モデル作成
+* **[DELETE `/v2/{entity}/{project}/models/{object_id}`](https://docs.wandb.ai/weave/reference/service-api/models/model-delete)** - モデル削除
+* **[GET `/v2/{entity}/{project}/models/{object_id}/versions/{digest}`](https://docs.wandb.ai/weave/reference/service-api/models/model-read)** - モデル取得
 
 <div id="evaluation-runs">
-  ### 評価 run
+  ### 評価 Runs
 </div>
 
-* **[DELETE /v2/{entity}/{project}/evaluation&#95;runs](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-delete)** - 評価 run の削除
-* **[GET /v2/{entity}/{project}/evaluation&#95;runs](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-list)** - 評価 run の一覧
-* **[POST /v2/{entity}/{project}/evaluation&#95;runs](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-create)** - 評価 run の作成
-* **[GET /v2/{entity}/{project}/evaluation&#95;runs/{evaluation_run_id}](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-read)** - 評価 run の取得
-* **[POST /v2/{entity}/{project}/evaluation&#95;runs/{evaluation_run_id}/finish](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-finish)** - 評価 run の完了
+* **[DELETE `/v2/{entity}/{project}/evaluation_runs`](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-delete)** - 評価 run の削除
+* **[GET `/v2/{entity}/{project}/evaluation_runs`](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-list)** - 評価 run の一覧取得
+* **[POST `/v2/{entity}/{project}/evaluation_runs`](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-create)** - 評価 run の作成
+* **[GET `/v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}`](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-read)** - 評価 run の取得
+* **[POST `/v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}/finish`](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-finish)** - 評価 run の終了
 
 <div id="predictions">
   ### 予測
 </div>
 
-* **[DELETE /v2/{entity}/{project}/predictions](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-delete)** - 予測の削除
-* **[GET /v2/{entity}/{project}/predictions](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-list)** - 予測一覧
-* **[POST /v2/{entity}/{project}/predictions](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-create)** - 予測の作成
-* **[GET /v2/{entity}/{project}/predictions/{prediction_id}](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-read)** - 予測の取得
-* **[POST /v2/{entity}/{project}/predictions/{prediction_id}/finish](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-finish)** - 予測の完了
+* **[DELETE `/v2/{entity}/{project}/predictions`](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-delete)** - 予測の削除
+* **[GET `/v2/{entity}/{project}/predictions`](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-list)** - 予測の一覧取得
+* **[POST `/v2/{entity}/{project}/predictions`](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-create)** - 予測の作成
+* **[GET `/v2/{entity}/{project}/predictions/{prediction_id}`](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-read)** - 予測の取得
+* **[POST `/v2/{entity}/{project}/predictions/{prediction_id}/finish`](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-finish)** - 予測の完了
 
 <div id="eval-results">
   ### 評価結果
 </div>
 
-* **[POST /v2/{entity}/{project}/eval&#95;results/query](https://docs.wandb.ai/weave/reference/service-api/eval-results/eval-results-query)** - 評価結果クエリ
+* **[POST `/v2/{entity}/{project}/eval_results/query`](https://docs.wandb.ai/weave/reference/service-api/eval-results/eval-results-query)** - 評価結果クエリ
