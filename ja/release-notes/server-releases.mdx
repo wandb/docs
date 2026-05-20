@@ -119,6 +119,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * [SCIM](/ja/platform/hosting/iam/automate_iam) を使用して、Models のシートまたは Weave のロールを割り当てます。
   * [監査ログを取得する](/ja/platform/hosting/monitoring-usage/audit-logging#fetch-audit-logs)場合、`startDate` パラメーターは、取得対象とする最新のログを指定します。
   * 組織管理者は、**専用クラウド** と **セルフマネージド** の両方で、環境変数 `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` を使用して GraphQL のイントロスペクションを無効にできます。セルフマネージドでは、代わりに Gorilla の設定フィールド `graphql-disable-introspection` を設定することもできます。詳しくは [環境変数を設定する](/ja/platform/hosting/env-vars) を参照してください。**イントロスペクションがすでに無効になっているデプロイメントに接続するクライアントアプリケーションでは、[W&amp;B SDK v0.26.0](/ja/release-notes/sdk-releases#0-26-0)+ が必要です。**
+  * **専用クラウド** および **セルフマネージド** の組織管理者は、API サービスで `GRAPHQL_REJECT_UNAUTHED_REQUESTS=true` を設定することで、すべての GraphQL リクエストで認証を必須にできます。この設定はオプトイン方式であり、有効にしない限り動作は変わりません。詳しくは [環境変数を設定する](/ja/platform/hosting/env-vars) を参照してください。
   * SQL の構築時に、特定の構造化された run フィルターが一貫してエスケープされておらず、認可されたクライアントが本来指定できる範囲を超えて、悪意のあるフィルターの構造がクエリ生成に干渉できる可能性があったバグを修正しました。フィルター処理では、他の箇所と同じ列のエスケープを適用するようになり、フィルターキーがクエリ構造を変更できないようになりました。
   * Sweeps に関連する run-queue 操作やキューの直接削除において、特定のケースで、呼び出し元が意図したスコープ外のキューまたはキュー項目に対して処理が実行されるバグを修正しました。現在は、Sweeps からキューに追加したりキューエントリを削除したりする前に、認可によってキューへのアクセス権と項目の所有権を検証します。
   * run メタデータのキー候補で、サニタイズされていないユーザー入力がデータベースクエリに組み込まれる可能性があるバグを修正しました。キー パスは、安全で想定どおりの列参照のみが候補パスに使われるよう制限されるようになりました。
