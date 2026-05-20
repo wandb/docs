@@ -105,7 +105,7 @@ Authorization: Basic OnNhLXBANTV3MHJk
 
 The SCIM user resource maps to W&B users and service accounts. Use these endpoints to manage users and service accounts in your organization.
 
-For service account concepts and UI workflows, see [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts/).
+For service account concepts and UI workflows, see [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts).
 
 <Note>
 **Breaking change for integrations that parse SCIM User JSON**
@@ -410,7 +410,7 @@ POST /scim/Users
 
 ### Provision service account
 
-Creates a team-scoped or organization-scoped service account in your organization. Omit `accountType` to create a regular user instead; see [Create user](#create-user).
+Creates a team-scoped or organization-scoped service account in your organization. Omit `accountType` to create a regular user instead. See [Create user](#create-user).
 
 <Note>
 Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**.
@@ -428,9 +428,9 @@ Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-te
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `userName` | string | Yes | Unique name for the service account |
-| `accountType` | string | Yes | `SERVICE` for a [team-scoped service account](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts), or `ORG_SERVICE` for an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts) |
-| `urn:ietf:params:scim:schemas:extension:teams:2.0:User` | object | Yes | Teams extension object |
+| `userName` | string | Yes | Unique name for the service account. |
+| `accountType` | string | Yes | `SERVICE` for a [team-scoped service account](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts), or `ORG_SERVICE` for an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). |
+| `urn:ietf:params:scim:schemas:extension:teams:2.0:User` | object | Yes | Teams extension object. |
 | `defaultTeam` | string | Yes | Sub-field of the teams extension. Name of an existing W&B Team. The service account is created as a member of this team. For team-scoped service accounts, this is the only team they join. Organization-scoped service accounts are also added automatically to teams created later through SCIM. |
 | `teams` | array | No | **Multi-tenant Cloud only.** Team names to add the account to. Include the same team as `defaultTeam` when you use this field. |
 
