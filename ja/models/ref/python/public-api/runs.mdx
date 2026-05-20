@@ -29,13 +29,14 @@ __init__(
     per_page: 'int' = 50,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    service_api: 'ServiceApi'
 )
 ```
 
 **引数:**
 
-* `client`:  (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。
+* `client`:  API 互換性のために維持されているレガシー GraphQL クライアント。
+* `service_api`:  このコレクションに対する W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `entity`:  (str) プロジェクトを所有する entity (ユーザー名またはチーム) 。
 * `project`:  (str) run を取得するプロジェクトの名。
 * `filters`:  (Optional[Dict[str, Any]]) run のクエリに適用するフィルターの辞書。
@@ -44,7 +45,6 @@ __init__(
 * `include_sweeps`:  (bool) run に sweep 情報を含めるかどうか。デフォルトは True です。
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Runs.length
 

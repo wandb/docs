@@ -1,6 +1,6 @@
 ---
 title: W&B Mobile App (iOS)
-description: From your iPhone or iPad, track training runs, review console logs, view line plots with precise metric tooltips, search project panels with regular expressions, and explore your W&B Models projects.
+description: From your iPhone or iPad, track training runs, review console logs, view line plots and system metrics, search project panels with regular expressions, and explore your W&B Models projects.
 ---
 
 <Columns cols={4}>
@@ -18,7 +18,7 @@ description: From your iPhone or iPad, track training runs, review console logs,
   </Frame>
 </Columns>
 
-The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. From your iPhone or iPad, track training runs and read run logs in real time, view line plots, explore project histories, and follow your team's progress.
+The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. From your iPhone or iPad, track training runs and read run logs in real time, view line plots and system metrics, explore project histories, and follow your team's progress.
 
 <Info>
 The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) accounts. It is not available for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments.
@@ -39,7 +39,8 @@ The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/host
     - **Full project history**: Metric charts on project panels include data from _all runs_ in the project, not only the latest run.
     - **Star projects**: See your most important projects at a glance. Click the star icon next to a project to star it. To filter the list to only starred projects, click the **Starred** tab at the top of the list.
 - **Track experiments**: View run status, metrics, and line plots for your experiments in real time.
-    - **Run overview tab**: On each run, open the **Overview** tab for a dedicated summary of run details alongside metrics and logs.
+    - **Run overview tab**: On each run, open the **Overview** tab for a dedicated summary of run details alongside metrics and logs. Long run config values wrap to multiple lines instead of truncating.
+    - **View system metrics**: On each run, open the **Metrics** tab to view [system metrics](/models/ref/python/experiments/system-metrics) that W&B logs automatically during training, such as GPU utilization, CPU usage, memory, disk I/O, and network traffic. System metrics appear in a collapsible **System** section alongside your logged metrics. Each metric displays as a line chart with the same tooltip and search behavior as other metrics on the tab.
     - **Mobile-optimized panel grouping**: Panels are automatically grouped by name into collapsible sections. Sections are a single level (not nested), and grouping follows the same rules as [workspace panels](/models/app/features/panels) in the W&B web app, so the layout stays consistent when you move between desktop and your phone.
     - **Star panels**: See your most important panels at a glance. When viewing a run or a project, click the star icon at the top of a panel to star it. To filter the list to only starred panels, click the **Starred** tab at the top of the list.
     - **Search panels**: When viewing a run or a project, use the **panel search** field at the bottom of the screen to filter which runs appear in each chart. You can search with [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) to match patterns in run names.

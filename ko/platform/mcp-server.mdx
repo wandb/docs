@@ -1,92 +1,94 @@
 ---
-title: W&B MCP Server 사용
-description: "IDE 또는 AI 에이전트를 W&B Model Context Protocol (MCP) 서버에 연결해 워크스페이스 데이터와 문서에 액세스하세요."
+title: W&B MCP Server 사용하기
+description: "IDE 또는 AI 에이전트를 W&B Model Context Protocol (MCP) 서버에 연결하여 자연어로 W&B 데이터와 문서를 쿼리하고 분석하세요."
 ---
 
-import McpConfig from '/snippets/ko/_includes/mcp-config.mdx';
+Model Context Protocol(MCP)은 AI 에이전트가 외부 도구를 호출할 수 있도록 하는 개방형 표준입니다. W&amp;B MCP Server는 IDE, 코딩 도우미 또는 채팅 에이전트가 W&amp;B 데이터와 문서에 직접 액세스할 수 있게 해주므로, 복사해서 붙여넣지 않아도 Runs, 트레이스, evaluations, 아티팩트에 관한 질문에 답할 수 있습니다. 서버로 수행할 수 있는 작업의 전체 목록은 [W&amp;B MCP Server 기능](#w\&b-mcp-server-capabilities) 섹션을 참조하세요.
 
-Model Context Protocol (MCP)을 사용하면 LLM 에이전트가 토큰 비용을 최소화하면서 데이터를 효율적으로 쿼리하고 분석할 수 있습니다. 이 페이지에서는 IDE 또는 MCP 클라이언트에서 W&amp;B MCP 서버를 사용해 W&amp;B 데이터를 쿼리하고 분석하는 방법과, 클라이언트가 W&amp;B 문서에 프로그래밍 방식으로 액세스할 수 있도록 하여 W&amp;B 관련 쿼리에 대해 더 정확한 응답을 생성하게 하는 방법을 설명합니다.
+다음을 포함한 대부분의 IDE, 코딩 클라이언트, 채팅 에이전트와 기본적으로 통합됩니다:
 
-다음을 포함한 대부분의 IDE, 코딩 클라이언트, 채팅 에이전트와 기본적으로 통합됩니다.
-
-* Claude Code
-* Claude Code Desktop
-* Codex
 * Cursor
+* Visual Studio Code (VS Code)
+* Claude Code
+* Codex
 * Gemini CLI
 * Mistral LeChat
-* Visual Studio Code (VS Code)
+* Claude Desktop
 
-W&amp;B MCP 서버는 [호스팅](#use-w\&b’s-remote-mcp-server) 및 [로컬](#set-up-a-local-version-of-the-w\&b-mcp-server) 버전을 지원합니다. 호스팅 버전은 [W&amp;B Dedicated Cloud deployments](/ko/platform/hosting/hosting-options/dedicated-cloud)만 지원합니다. 로컬 버전은 Dedicated Cloud와 [Self-Managed deployments](/ko/platform/hosting/hosting-options/self-managed)를 모두 지원합니다.
-
-<div id="wb-mcp-server-capabilities">
-  ## W&amp;B MCP 서버 기능
+<div id="deployment-types">
+  ## 배포 유형
 </div>
 
-MCP 서버를 사용해 실험을 분석하고, 트레이스를 디버그하고, Reports를 만들고, 애플리케이션을 W&amp;B 기능과 통합하는 데 필요한 도움을 받을 수 있습니다.
+더 높은 격리 수준과 유연성이 필요하다면 Hosted MCP 서버를 사용하거나 로컬 버전을 설정할 수 있습니다. 로컬 버전을 사용하려면 클라이언트에서 서버에 액세스하는 데 다른 URL을 사용해야 합니다.
 
-다음 예시 프롬프트는 MCP 서버에 연결되었을 때 에이전트가 수행할 수 있는 작업 유형의 일부를 보여줍니다:
+<CardGroup cols={2}>
+  <Card title="Hosted 서버(권장)">
+    클라이언트가 W&amp;B API 키를 사용해 HTTP로 연결하는 W&amp;B 관리형 MCP 서버입니다. 설치할 필요가 없고, 유지 관리해야 할 로컬 프로세스도 없습니다.
 
-* your-team-name/your-project-name에서 eval/accuracy 기준 상위 5개 run을 보여줘?
-* 지난 몇 달 동안 내 채용 에이전트의 predict 트레이스 지연 시간은 어떻게 변화해 왔나요?
-* 지난달 채용 에이전트가 내린 결정을 비교하는 wandb 리포트를 생성해줘.
-* Weave에서 리더보드를 만들려면 어떻게 해야 하나요? - SupportBot에 물어보세요?
+    [Hosted 서버 사용](#use-the-hosted-server)
+  </Card>
 
-<div id="available-tools">
-  ### 사용 가능한 도구
-</div>
+  <Card title="로컬 설치">
+    MCP 서버를 자신의 머신에서 STDIO 또는 HTTP로 실행하세요. 에어갭 환경에서의 오퍼레이션, 특정 릴리스에 고정, 맞춤형 서버 동작, 활발한 서버 개발, 또는 STDIO만 지원하는 클라이언트를 지원해야 할 때 사용합니다.
 
-W&amp;B MCP 서버는 에이전트에 다음 도구에 대한 액세스를 제공합니다:
+    [MCP 서버를 로컬에서 실행](#run-the-mcp-server-locally)
+  </Card>
+</CardGroup>
 
-| Tool                                        | 설명                                | 예시 쿼리                                |
-| ------------------------------------------- | --------------------------------- | ------------------------------------ |
-| **query&#95;wandb&#95;tool**                | W&amp;B run, 메트릭, 실험을 쿼리 | *&quot;loss가 0.1 미만인 run을 보여줘&quot;* |
-| **query&#95;weave&#95;traces&#95;tool**     | LLM 트레이스 및 평가 분석         | *&quot;평균 지연 시간은 얼마야?&quot;*         |
-| **count&#95;weave&#95;traces&#95;tool**     | 트레이스 수를 세고 저장소 메트릭 조회             | *&quot;실패한 트레이스는 몇 개야?&quot;*        |
-| **create&#95;wandb&#95;report&#95;tool**    | W&amp;B Reports를 프로그래밍 방식으로 생성    | *&quot;성능 리포트를 생성해줘&quot;*           |
-| **query&#95;wandb&#95;entity&#95;projects** | entity의 프로젝트 목록 조회                | *&quot;어떤 프로젝트가 있나요?&quot;*          |
-| **query&#95;wandb&#95;support&#95;bot**     | W&amp;B 문서에서 도움 받기                | *&quot;Sweeps는 어떻게 사용하나요?&quot;*     |
-
-<div id="use-wbs-remote-mcp-server">
-  ## W&amp;B의 원격 MCP 서버 사용
-</div>
-
-W&amp;B는 설치 없이 사용할 수 있는 호스팅 MCP 서버를 `https://mcp.withwandb.com`에서 제공합니다. 다음 지침에서는 다양한 AI 어시스턴트와 IDE에서 이 호스팅 서버를 설정하는 방법을 설명합니다.
+<Tip>
+  W&amp;B를 Dedicated Cloud 또는 Self-Managed에서 실행 중인데 인스턴스에서 Hosted MCP 서버가 아직 활성화되어 있지 않다면, [W&amp;B 지원팀](mailto:support@wandb.com) 또는 W&amp;B account team에 문의해 요청하세요.
+</Tip>
 
 <div id="prerequisites">
-  ### 사전 요구 사항
+  ## 사전 요구 사항
 </div>
 
-* W&amp;B Dedicated Cloud 배포.
-* W&amp;B API 키. [wandb.ai/authorize](https://wandb.ai/authorize)에서 새로 생성할 수 있습니다.
-* 키를 `WANDB_API_KEY`라는 이름의 환경 변수로 설정합니다.
+클라이언트를 설정하기 전에 다음을 수행하세요:
 
-<div id="configure-your-mcp-client">
-  ### MCP 클라이언트 설정
+* [wandb.ai/authorize](https://wandb.ai/authorize)에서 W&amp;B API 키를 생성하세요.
+* 키를 `WANDB_API_KEY` 환경 변수로 설정하거나 클라이언트에 Bearer 토큰으로 전달하세요.
+* 기본 인스턴스가 아닌 다른 인스턴스에 연결하는 Dedicated Cloud, Self-Managed 및 로컬 설치의 경우 `WANDB_BASE_URL` 환경 변수를 해당 인스턴스 URL로 설정하세요.
+
+<div id="use-the-hosted-server">
+  ## W&amp;B 호스팅 서버 사용
 </div>
 
-MCP 클라이언트 안내가 있는 탭을 선택하세요:
+W&amp;B는 모든 배포 유형에 대해 관리형 MCP 서버를 운영합니다. 별도로 설치할 필요는 없습니다. `Authorization` 헤더에 W&amp;B API 키를 포함해 HTTP로 연결하도록 클라이언트를 설정하세요.
+
+<div id="connection-url">
+  ### 연결 URL
+</div>
+
+URL은 W&amp;B 배포 유형에 따라 달라집니다.
+
+| Deployment         | Server URL                      |
+| ------------------ | ------------------------------- |
+| Multi-tenant Cloud | `https://mcp.withwandb.com/mcp` |
+| Dedicated Cloud    | `https://<your-instance>/mcp`   |
+| Self-Managed       | `https://<your-instance>/mcp`   |
+
+Dedicated Cloud 또는 Self-Managed를 사용하는 경우 `https://mcp.withwandb.com/mcp`를 `https://<your-instance>/mcp`로 바꾸고, 나머지는 그대로 유지하세요. 아래 클라이언트 설정은 Multi-tenant URL을 사용합니다.
 
 <Tabs>
   <Tab title="Claude Code">
-    W&amp;B MCP 서버를 Claude Code에 추가하려면 아래 명령어의 `Authorization` 헤더를 W&amp;B API 키로 업데이트한 다음, 터미널에서 실행하세요:
+    터미널에서 다음 명령어를 실행하되, Bearer 토큰을 W&amp;B API 키로 바꾸세요:
 
     ```bash
     claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
       --header "Authorization: Bearer <your-wandb-api-key>"
     ```
 
-    전역 설정을 하려면 `--scope user`를 추가하고, 현재 프로젝트에만 설정하려면 생략하세요.
+    Claude Code를 전역으로 구성하려면 `--scope user`를 추가하세요. 현재 프로젝트만 구성하려면 이 옵션을 생략하세요.
 
-    자세한 내용은 [Claude 문서](https://docs.anthropic.com/en/docs/claude-code/mcp)를 참조하세요.
+    `List my W&B entities.`라고 요청해 연결을 확인하세요. 에이전트가 `list_entities_tool`을 호출하고 사용자 이름과 속한 모든 Teams를 반환해야 합니다. 연결에 실패하면 [문제 해결](#troubleshooting)을 참조하세요. 자세한 내용은 [Claude Code&#39;s MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp)을 참조하세요.
   </Tab>
 
-  <Tab title="Claude Code Desktop">
-    Claude Code Desktop의 기본 제공 맞춤형 Connector 인터페이스는 원격 MCP 서버에 대한 API 키 인증을 지원하지 않습니다. 이를 우회하려면 [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) npm 프록시를 사용해 Claude Code Desktop을 W&amp;B 원격 MCP 서버에 연결하세요. 이 프록시는 로컬에서 실행되며 사용자의 Bearer 토큰을 사용해 요청을 `https://mcp.withwandb.com/mcp`로 전달합니다.
+  <Tab title="Claude Desktop">
+    Claude Desktop에 기본으로 제공되는 맞춤형 connector 인터페이스는 원격 MCP 서버에 대한 API 키 인증을 지원하지 않습니다. 이를 우회하려면 [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) npm 프록시를 사용해 Claude Desktop을 W&amp;B 원격 MCP 서버에 연결하세요. 이 프록시는 로컬에서 실행되며, Bearer 토큰을 사용해 요청을 `https://mcp.withwandb.com/mcp`로 전달합니다.
 
     시스템에 [Node.js](https://nodejs.org/)가 설치되어 있어야 합니다.
 
-    텍스트 편집기에서 Claude Code Desktop 설정 파일을 여세요. 설정 파일은 운영체제에 따라 다음 위치에 있습니다:
+    텍스트 편집기에서 Claude Desktop 설정 파일을 여세요. OS별 설정 파일 위치는 다음과 같습니다.
 
     * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
     * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
@@ -113,93 +115,93 @@ MCP 클라이언트 안내가 있는 탭을 선택하세요:
     }
     ```
 
-    일부 Claude Desktop 버전의 공백 이스케이프 문제를 우회하기 위해 전체 헤더 값은 `args`에 직접 설정하지 않고 `env` 필드에서 설정합니다.
+    전체 헤더 값은 일부 Claude Desktop 버전의 공백 이스케이프 문제를 우회하기 위해 `args`에 직접 설정하지 않고 `env` 필드를 통해 설정합니다.
 
-    새 설정을 활성화하려면 Claude Code Desktop을 다시 시작하세요. &quot;List the projects in my W&amp;B account.&quot;라는 프롬프트를 입력하여 연결을 확인하세요.
+    새 설정을 적용하려면 Claude Desktop을 다시 시작하세요. `List my W&B entities.` 라고 입력해 연결을 확인하세요. 에이전트가 `list_entities_tool`을 호출하고 사용자 이름과 속한 모든 팀을 반환해야 합니다. 연결에 실패하면 [문제 해결](#troubleshooting)을 참조하세요.
   </Tab>
 
   <Tab title="Codex">
-    W&amp;B MCP 서버를 Codex에 추가하려면, 다음 명령어에서 `--bearer-token-env-var` 인자 값을 W&amp;B API 키가 포함된 환경 변수로 바꾼 후 터미널에서 실행하세요:
+    W&amp;B API 키를 환경 변수로 내보낸 다음, 다음을 실행하세요:
 
     ```bash
     export WANDB_API_KEY=<your-wandb-api-key>
-    codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
+    codex mcp add wandb \
+      --url https://mcp.withwandb.com/mcp \
+      --bearer-token-env-var WANDB_API_KEY
     ```
+
+    `List my W&B entities.`라고 요청해 연결을 확인하세요. 에이전트는 `list_entities_tool`을 호출하고 사용자 이름과 속한 팀을 반환해야 합니다. 연결에 실패하면 [문제 해결](#troubleshooting)을 참조하세요.
   </Tab>
 
   <Tab title="Cursor">
-    Cursor에서 [원클릭 설치 링크](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb\&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=)를 사용해 W&amp;B 서버를 자동으로 설치할 수 있습니다(`Authorization` 필드에 `Bearer <your-wandb-api-key>`를 추가해야 함). 또는 아래 지침에 따라 수동으로 설치할 수도 있습니다:
+    [원클릭 설치 링크](https://cursor.com/en/install-mcp?name=wandb\&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIge3tXQU5EQl9BUElfS0VZfX0iLCJBY2NlcHQiOiJhcHBsaWNhdGlvbi9qc29uLCB0ZXh0L2V2ZW50LXN0cmVhbSJ9fQ%3D%3D)를 사용해 Cursor에 서버를 자동으로 설치한 다음, `Authorization` 필드의 placeholder를 W&amp;B API 키로 바꾸세요.
 
-    1. macOS에서는 **Cursor** 메뉴를 열고 **Settings**를 선택한 다음 **Cursor Settings**를 선택합니다. Windows 또는 Linux에서는 **Preferences** 메뉴를 열고 **Settings**를 선택한 다음 **Cursor Settings**를 선택합니다.
-    2. Cursor Settings 메뉴에서 **Tools and MCP**를 선택합니다. 그러면 Tools 메뉴가 열립니다.
-    3. Installed MCP Servers 섹션에서 **Add Custom MCP**를 선택합니다. 그러면 `mcp.json` 설정 파일이 열립니다.
-    4. 설정 파일의 `mcpServers` JSON 객체에 다음 `wandb` 객체를 추가합니다:
+    Cursor를 수동으로 설정하려면 다음 단계를 따르세요.
 
-    ```json
-    {
-      "mcpServers": {
-        "wandb": {
-          "transport": "http",
-          "url": "https://mcp.withwandb.com/mcp",
-          "headers": {
-            "Authorization": "Bearer <your-wandb-api-key>",
-            "Accept": "application/json, text/event-stream"
-          }
-        }
-      }
-    }
-    ```
+    1. macOS에서는 **Cursor** &gt; **Settings** &gt; **Cursor Settings**를 여세요. Windows 또는 Linux에서는 **Preferences** &gt; **Settings** &gt; **Cursor Settings**를 여세요.
 
-    5. 변경 사항을 적용하려면 Cursor를 다시 시작합니다.
-    6. &quot;내 W&amp;B 계정의 Projects 목록을 보여줘.&quot;라는 프롬프트를 입력해 채팅 agent가 W&amp;B MCP 서버에 액세스할 수 있는지 확인합니다.
+    2. **Tools and MCP**를 선택하세요.
 
-    더 자세한 내용은 [Cursor 문서](https://cursor.com/docs/context/mcp)를 참조하세요.
+    3. **Installed MCP Servers**에서 **Add Custom MCP**를 선택하세요. Cursor가 `mcp.json` 설정 파일을 엽니다.
+
+    4. `mcpServers` 객체에 다음 내용을 추가하세요.
+
+       ```json
+       {
+         "mcpServers": {
+           "wandb": {
+             "transport": "http",
+             "url": "https://mcp.withwandb.com/mcp",
+             "headers": {
+               "Authorization": "Bearer <your-wandb-api-key>",
+               "Accept": "application/json, text/event-stream"
+             }
+           }
+         }
+       }
+       ```
+
+    5. Cursor를 다시 시작하세요.
+
+    6. `List my W&B entities.`라고 입력해 연결을 확인하세요. 에이전트가 `list_entities_tool`을 호출하고 사용자 이름과 소속된 팀을 반환해야 합니다.
+
+    연결에 실패하면 [문제 해결](#troubleshooting)을 참조하세요. 자세한 내용은 [Cursor의 MCP 문서](https://cursor.com/docs/context/mcp)를 참조하세요.
   </Tab>
 
   <Tab title="Gemini CLI">
-    W&amp;B MCP 서버를 Gemini CLI에 추가하려면 다음 단계를 따르세요.
+    W&amp;B MCP 확장 프로그램을 설치하세요:
 
-    1. 명령어 하나로 W&amp;B MCP 확장 프로그램을 설치합니다.
+    ```bash
+    gemini extensions install https://github.com/wandb/wandb-mcp-server
+    ```
 
-       ```bash
-       # 확장 프로그램 설치
-       gemini extensions install https://github.com/wandb/wandb-mcp-server
-       ```
-    2. 설치가 완료되면 Gemini CLI를 다시 시작합니다.
-    3. &quot;내 W&amp;B 계정의 Projects를 나열해 줘.&quot;라는 프롬프트를 입력해 채팅 에이전트가 W&amp;B MCP 서버에 액세스할 수 있는지 확인합니다.
+    Gemini CLI를 다시 시작하세요. `List my W&B entities.`라고 입력해 연결을 확인하세요. 에이전트는 `list_entities_tool`을 호출하고 사용자 이름과 속한 모든 팀을 반환해야 합니다.
 
-    더 자세한 내용은 [Gemini 문서](https://geminicli.com/docs/tools/mcp-server/)를 참조하세요.
+    연결에 실패하면 [문제 해결](#troubleshooting)을 참조하세요. 자세한 내용은 [Gemini CLI의 MCP 문서](https://geminicli.com/docs/tools/mcp-server/)를 참조하세요.
   </Tab>
 
   <Tab title="Mistral LeChat">
-    W&amp;B MCP 서버를 Mistral LeChat에 추가하려면:
-
-    1. **Intelligence** 메뉴에서 **Add Connector**를 선택해 Connector 창을 엽니다.
-
-    2. **Custom MCP Connector** 탭을 선택합니다.
-
-    3. 다음 값으로 필드를 설정합니다.
-
+    1. LeChat에서 **Intelligence** 메뉴를 열고 **Add Connector**를 선택하세요.
+    2. **Custom MCP Connector**를 선택하세요.
+    3. 다음 필드를 설정하세요.
        * **Connector Server**: `https://mcp.withwandb.com/mcp`
-       * **Description**: (선택) 연결에 대한 짧은 임의의 설명입니다.
-       * **Authentication Method**: **API Token Authentication**을 선택합니다. 그러면 추가 필드가 표시됩니다.
-       * **Header name**: 기본값인 **Authorization**을 그대로 둡니다.
-       * **Header type**: **Bearer**를 선택합니다.
-       * **Header value**: W&amp;B API 토큰을 입력합니다.
+       * **Description**: (선택 사항) 짧은 설명
+       * **Authentication Method**: **API Token Authentication**을 선택하세요.
+       * **Header name**: `Authorization`으로 그대로 두세요.
+       * **Header type**: **Bearer**를 선택하세요.
+       * **Header value**: W&amp;B API 키
+    4. **Create**를 선택하세요.
+    5. `List my W&B entities.`라고 입력해 연결을 확인하세요. 에이전트가 `list_entities_tool`을 호출하고 사용자 이름과 속한 Teams를 반환해야 합니다.
 
-    4. 모든 필드 설정을 마치면 **Create**를 선택합니다. LeChat이 MCP 서버를 설정에 추가합니다.
-
-    5. &quot;List the projects in my W&amp;B account.&quot; 프롬프트를 입력해 채팅 에이전트가 W&amp;B MCP 서버에 액세스할 수 있는지 확인합니다.
-
-    더 자세한 내용은 [LeChat 문서](https://mistral.ai/news/le-chat-mcp-connectors-memories)를 참조하세요.
+    연결에 실패하면 [Troubleshooting](#troubleshooting)을 참조하세요. 자세한 내용은 [LeChat의 MCP 문서](https://mistral.ai/news/le-chat-mcp-connectors-memories)를 참조하세요.
   </Tab>
 
-  <Tab title="OpenAI">
-    W&amp;B MCP 서버를 OpenAI 호출에 추가하려면 OpenAI Responses 설정의 `tools` 필드에 서버 정보를 추가하세요:
+  <Tab title="OpenAI Responses API">
+    OpenAI Responses API 호출에서 `tools` 필드에 서버를 추가하세요:
 
     ```python
-    from openai import OpenAI
     import os
+    from openai import OpenAI
 
     client = OpenAI()
 
@@ -210,44 +212,81 @@ MCP 클라이언트 안내가 있는 탭을 선택하세요:
             "server_label": "wandb",
             "server_description": "Query W&B data",
             "server_url": "https://mcp.withwandb.com/mcp",
-            "authorization": os.getenv("<your-wandb-api-key>"),
+            "authorization": os.getenv("WANDB_API_KEY"),
             "require_approval": "never",
         }],
-        input="List the projects in my W&B account.",
+        input="List my W&B entities.",
     )
 
     print(resp.output_text)
     ```
+
+    W&amp;B API 키 자체를 `authorization` 값으로 전달하세요. OpenAI는 서버를 호출할 때 `Bearer `를 앞에 붙이므로 직접 포함하지 마세요. OpenAI MCP 인테그레이션은 서버 측에서 실행되므로 로컬 MCP 서버에 연결할 수 없습니다. 로컬에서 개발하는 경우 [MCP 서버를 로컬에서 실행하기](#run-the-mcp-server-locally)를 참조하세요.
+  </Tab>
+
+  <Tab title="VS Code">
+    전역 또는 워크스페이스 `mcp.json`(예: `~/.vscode/mcp.json` 또는 `.vscode/mcp.json`)을 열고 다음을 추가하세요:
+
+    ```json
+    {
+      "servers": {
+        "wandb": {
+          "type": "http",
+          "url": "https://mcp.withwandb.com/mcp",
+          "headers": {
+            "Authorization": "Bearer <your-wandb-api-key>"
+          }
+        }
+      }
+    }
+    ```
+
+    VS Code를 다시 시작하고, MCP 패널에 서버가 표시되는지 확인한 다음, `List my W&B entities.`를 입력해 연결을 확인하세요. 에이전트는 `list_entities_tool`을 호출하고 사용자 이름과 속한 Teams를 반환해야 합니다.
+
+    연결에 실패하면 [문제 해결](#troubleshooting)을 참조하세요.
   </Tab>
 </Tabs>
 
-<div id="set-up-a-local-version-of-the-wb-mcp-server">
-  ## W&amp;B MCP 서버의 로컬 버전 설정하기
+<div id="run-the-mcp-server-locally">
+  ## MCP 서버를 로컬에서 실행
 </div>
 
-W&amp;B Self-Managed 배포 환경, 개발, 테스트 또는 폐쇄망 환경에서 MCP server를 로컬에서 실행해야 하는 경우, 사용 중인 머신에 이를 설치해 실행할 수 있습니다.
+로컬 설치는 호스팅 서버의 대안이며, 어떤 배포 유형에서도 기본값은 아닙니다. 호스팅 서버가 현재 설정에 맞지 않을 때 사용하세요.
 
-<div id="prerequisites">
-  ### 사전 요구 사항
+로컬에서 실행하는 일반적인 이유는 다음과 같습니다.
+
+* 클라이언트가 호스팅된 W&amp;B 엔드포인트에 연결할 수 없는 **에어갭 또는 오프라인 환경**.
+* **버전 고정**. 호스팅 서버는 main 브랜치를 따릅니다. 로컬 설치는 특정 릴리스 태그에 고정할 수 있습니다.
+* 도구 설명 변경, 도구 추가, 기본값이 아닌 응답 token 예산 설정과 같은 **맞춤형 서버 동작**.
+* 서버 자체를 **활발히 개발 중인 경우**.
+* **STDIO 전용 클라이언트** 또는 로컬 프로세스가 필요한 클라이언트.
+
+Dedicated Cloud 또는 Self-Managed 사용자의 경우 호스팅 방식이 권장됩니다. 인스턴스에서 호스팅 서버가 아직 활성화되지 않았거나 위 이유 중 하나에 해당하는 경우에만 [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) 의 로컬 설치를 사용하세요. `WANDB_BASE_URL` 환경 변수를 인스턴스 URL로 설정하세요.
+
+<div id="local-prerequisites">
+  ### 로컬 사전 요구 사항
 </div>
 
-* W&amp;B API 키. [wandb.ai/authorize](https://wandb.ai/authorize)에서 새로 생성할 수 있습니다.
-* 키를 `WANDB_API_KEY`라는 이름의 환경 변수로 설정합니다.
-* [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우 `WANDB_BASE_URL` 환경 변수를 설정합니다.
-* Python 3.10 이상
-* [uv](https://docs.astral.sh/uv/) (권장) 또는 pip
+서버를 로컬에서 실행하려면 다음이 준비되어 있어야 합니다:
 
-[설치 지침](https://docs.astral.sh/uv/getting-started/installation/)은 uv 문서를 참조하세요.
+* Python 3.11 이상
+* [`uv`](https://docs.astral.sh/uv/) 또는 `pip`
+* `WANDB_API_KEY`로 설정된 W&amp;B API 키
+* Dedicated Cloud 또는 Self-Managed를 사용하는 경우, 인스턴스 URL로 설정된 `WANDB_BASE_URL`
 
-<div id="install-and-configure-the-mcp-server">
-  ### MCP 서버 설치 및 설정
+<div id="install-the-server">
+  ### 서버 설치
 </div>
 
-로컬에 MCP 서버를 설치하려면:
-
-로컬 머신에 W&amp;B MCP 서버를 설치하려면 다음 설치 명령어 중 하나를 사용하세요:
+설치 방법을 선택한 다음 다음 명령어를 실행해 MCP 서버를 설치하세요:
 
 <Tabs>
+  <Tab title="uvx (영구 설치 없이)">
+    ```bash
+    uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+    ```
+  </Tab>
+
   <Tab title="uv">
     ```bash
     uv pip install wandb-mcp-server
@@ -260,34 +299,38 @@ W&amp;B Self-Managed 배포 환경, 개발, 테스트 또는 폐쇄망 환경에
     ```
   </Tab>
 
-  <Tab title="GitHub에서 직접 설치">
+  <Tab title="GitHub에서 설치">
     ```bash
     pip install git+https://github.com/wandb/wandb-mcp-server
     ```
   </Tab>
 </Tabs>
 
-MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이언트를 설정하세요. 계속하려면 MCP 클라이언트를 선택하세요:
+<div id="configure-your-client">
+  ### 클라이언트 설정
+</div>
+
+MCP 클라이언트를 선택한 다음 아래 설정을 실행하세요. 필요에 따라 `<your-wandb-api-key>`를 W&amp;B API 키로 바꾸세요:
 
 <Tabs>
-  <Tab title="Claude Code CLI">
-    터미널에서 다음 명령어를 실행하세요. 전역 설정을 하려면 `--scope user`를 추가하고, 현재 프로젝트에만 설정하려면 생략하세요.
+  <Tab title="Claude Code">
+    다음 명령어를 실행하세요. 전역 설정을 하려면 `--scope user`를 추가하세요.
 
     ```bash
     claude mcp add wandb \
-      -e WANDB_API_KEY=your-api-key \
+      -e WANDB_API_KEY=<your-wandb-api-key> \
       -e WANDB_BASE_URL=https://your-wandb-instance.example.com \
       -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
     ```
   </Tab>
 
-  <Tab title="Claude Code Desktop">
-    텍스트 편집기에서 Claude Code Desktop 설정 파일을 여세요. OS별 설정 파일 위치는 다음과 같습니다:
+  <Tab title="Claude Desktop">
+    Claude Desktop 설정 파일을 여세요:
 
-    * **macOS**: ~/Library/Application\ Support/Claude/claude&#95;desktop&#95;config.json
-    * **Windows**: %APPDATA%\Claude\claude&#95;desktop&#95;config.json
+    * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+    * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-    Claude Code Desktop 설정 파일의 JSON 객체에 다음 내용을 추가하세요. 그렇지 않으면 Claude Code Desktop이 `uvx` 설치를 찾지 못할 수 있으므로 `uvx`의 전체 경로를 사용하세요.
+    다음 JSON을 추가하세요. 그렇지 않으면 Claude Desktop이 `PATH`에서 `uvx`를 찾지 못할 수 있으므로 `uvx`의 전체 경로를 사용하세요.
 
     ```json
     {
@@ -308,15 +351,13 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
     }
     ```
 
-    새 설정을 적용하려면 Claude Desktop을 다시 시작하세요.
+    설정을 적용하려면 Claude Desktop을 다시 시작하세요.
   </Tab>
 
   <Tab title="Codex">
-    터미널에서 다음 명령어를 실행하세요:
-
     ```bash
     codex mcp add wandb \
-      --env WANDB_API_KEY=your_api_key_here \
+      --env WANDB_API_KEY=<your-wandb-api-key> \
       --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
       -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
     ```
@@ -343,6 +384,8 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
       }
     }
     ```
+
+    기본 W&amp;B API endpoint를 사용하려면 `WANDB_BASE_URL`을 생략하세요.
   </Tab>
 
   <Tab title="VS Code">
@@ -369,27 +412,263 @@ MCP 서버를 로컬에 설치한 후에는 이를 사용하도록 MCP 클라이
   </Tab>
 </Tabs>
 
+<div id="run-the-server-with-http-transport">
+  ### HTTP 전송으로 서버 실행
+</div>
+
 웹 기반 클라이언트 또는 테스트용으로는 HTTP 전송을 사용해 서버를 실행하세요:
 
 ```bash
 uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 ```
 
-OpenAI와 같은 외부 클라이언트가 로컬 서버에 접근할 수 있도록 하려면 ngrok을 사용하세요:
+OpenAI Responses API와 같은 외부 클라이언트에 로컬 서버를 노출하려면 터널을 사용하세요:
 
 ```bash
 uvx wandb_mcp_server --transport http --port 8080
 
-# 다른 터미널에서 ngrok으로 노출하기
+# 다른 터미널에서
 ngrok http 8080
 ```
 
-If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
+터널 URL을 사용하도록 MCP 클라이언트 설정을 업데이트하세요.
+
+<div id="environment-variables">
+  ### 환경 변수
+</div>
+
+다음 환경 변수는 로컬 설치 환경에서 인증, 인스턴스 라우팅, 서버 동작을 제어합니다. 클라이언트의 `env` 블록에 설정하거나 셸에서 export하세요.
+
+| Variable               | Description                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| `WANDB_API_KEY`        | 인증에 사용하는 W&amp;B API 키입니다. 필수입니다.                                                         |
+| `WANDB_BASE_URL`       | Dedicated Cloud 또는 Self-Managed용 맞춤형 W&amp;B 인스턴스 URL입니다. 기본값은 `https://api.wandb.ai`입니다. |
+| `WANDB_MCP_PROXY_DOCS` | `search_wandb_docs_tool` 문서 검색 프록시를 활성화합니다. 기본값: `true`.                                  |
+| `WANDBOT_BASE_URL`     | 문서 검색 프록시용 맞춤형 엔드포인트입니다.                                                                  |
+| `MAX_RESPONSE_TOKENS`  | 도구 응답 잘림에 사용할 토큰 한도입니다. 기본값: `30000`.                                                     |
+| `MCP_SERVER_LOG_LEVEL` | 로그 상세 수준입니다. `DEBUG`, `INFO`, `WARNING`, `ERROR` 중 하나입니다.                                 |
+
+전체 명령줄 레퍼런스와 고급 옵션은 [wandb-mcp-server README](https://github.com/wandb/wandb-mcp-server#readme)를 참조하세요.
+
+<div id="wb-mcp-server-capabilities">
+  ## W&amp;B MCP Server 기능
+</div>
+
+MCP 서버를 사용해 실험을 분석하고, 트레이스를 디버깅하고, Reports를 생성하고, 레지스트리와 아티팩트를 관리하고, W&amp;B 문서에 관한 질문에 답할 수 있습니다. 다음 예시 프롬프트는 에이전트가 W&amp;B MCP Server에 연결되었을 때 수행하도록 요청할 수 있는 작업의 일부를 보여줍니다.
+
+* &quot;`your-team/your-project`에서 `eval/accuracy` 기준 상위 5개 run을 보여줘.&quot;
+* &quot;내 채용 에이전트의 predict 트레이스 지연 시간은 지난 한 달 동안 어떻게 변화했나요?&quot;
+* &quot;지난주 채용 에이전트가 내린 결정을 비교하는 W&amp;B Reports를 생성해줘.&quot;
+* &quot;`production-model` 아티팩트에는 어떤 버전이 있으며, `v2`와 `v3` 사이에 무엇이 변경되었나요?&quot;
+* &quot;Weave에서 리더보드를 어떻게 만드나요?&quot;
+
+<div id="available-tools">
+  ### 사용 가능한 도구
+</div>
+
+서버는 다양한 용도로 여러 도구를 제공합니다. 다음 표에는 각 도구의 이름, 에이전트가 해당 도구를 사용해야 하는 경우, 그리고 그 도구를 호출할 때 사용할 수 있는 구체적인 프롬프트가 나와 있습니다.
+
+<Tabs>
+  <Tab title="검색">
+    프로젝트와 entity 이름을 찾고 스키마를 확인하는 데 도움이 되는 도구입니다.
+
+    | Tool                          | 사용하는 경우                                                                        | 예시 프롬프트                                                         |
+    | ----------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+    | `list_entities_tool`          | entity가 지정되지 않았거나, API 키로 액세스할 수 있는 팀과 계정을 나열해야 하는 경우입니다.                      | &quot;내가 액세스할 수 있는 W&amp;B 팀은 무엇인가요?&quot;                      |
+    | `query_wandb_entity_projects` | entity는 알고 있지만 프로젝트 이름은 모르거나, 이전 쿼리가 &quot;project not found&quot;로 실패한 경우입니다. | &quot;`your-team` 아래의 모든 프로젝트를 나열하세요.&quot;                     |
+    | `probe_project_tool`          | 익숙하지 않은 run 기반 프로젝트에서 사용 가능한 메트릭, 설정 키, tags를 파악해야 하는 경우입니다.                   | &quot;`your-team/your-project`를 살펴보고 어떤 메트릭이 로깅되는지 알려주세요.&quot; |
+    | `infer_trace_schema_tool`     | 익숙하지 않은 Weave 트레이스 프로젝트를 쿼리하기 전에 필드 이름, 유형, 샘플 값을 파악해야 하는 경우입니다.               | &quot;`your-team/your-project`의 Weave 트레이스에는 어떤 필드가 있나요?&quot;  |
+  </Tab>
+
+  <Tab title="Experiments 및 Runs">
+    W&amp;B Models의 run을 쿼리, 비교, 진단하는 도구입니다.
+
+    | Tool                   | Use when                                                                                              | Example prompt                                                              |
+    | ---------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+    | `query_wandb_tool`     | 질문이 W&amp;B Models의 run, Sweeps, 설정, 요약 또는 아티팩트에 관한 경우에 사용합니다. GraphQL 쿼리를 실행합니다.                     | &quot;`your-team/your-project`에서 `eval/accuracy` 기준 상위 5개 run을 보여주세요.&quot; |
+    | `get_run_history_tool` | 질문이 트레이닝 곡선, 시간에 따른 metric 추이 또는 run에 로깅된 시계열 데이터에 관한 경우에 사용합니다.                                      | &quot;`your-team/your-project`의 run `abc123`에 대한 loss 곡선을 그려주세요.&quot;      |
+    | `compare_runs_tool`    | 질문이 두 run 사이에 무엇이 달라졌는지, 또는 두 run 중 어느 쪽이 더 나은지에 관한 경우에 사용합니다. 설정 diff, metric 변화량, 선택적 정렬 이력을 반환합니다. | &quot;`your-team/your-project`에서 run `abc123`와 `def456`를 비교해주세요.&quot;      |
+    | `diagnose_run_tool`    | 질문이 run이 수렴했는지, 과적합되고 있는지, 또는 NaN 값이 발생했는지에 관한 경우에 사용합니다. 실행 가능한 권장 사항을 반환합니다.                        | &quot;`your-team/your-project`의 run `abc123`는 과적합되고 있나요?&quot;              |
+  </Tab>
+
+  <Tab title="Weave 트레이스">
+    LLM 트레이스와 평가를 쿼리하고 집계하는 도구입니다.
+
+    | Tool                        | Use when                                                                                                  | Example prompt                                                     |
+    | --------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+    | `query_weave_traces_tool`   | 트레이스 데이터가 필요할 때 사용합니다(LLM 호출, 평가, 에이전트 실행). `detail_level="summary"`로 시작하고, 특정 트레이스에 대해서만 `"full"`로 높이세요. | &quot;지난 24시간 동안 `your-team/your-project`에서 실패한 트레이스를 보여주세요.&quot; |
+    | `count_weave_traces_tool`   | 질문이 트레이스 개수나 오류 개수에 관한 것이고, 트레이스 데이터 자체는 필요하지 않을 때 사용합니다.                                                 | &quot;이번 주에 `your-team/your-project`에서 실패한 트레이스는 몇 개인가요?&quot;     |
+    | `resolve_trace_roots_tool`  | `query_weave_traces_tool`로 하위 트레이스를 찾은 뒤, 각 트레이스를 해당 루트 세션 또는 워크플로에 한 번의 배치 호출로 매핑할 때 사용합니다.              | &quot;`rate limit`를 포함하는 LLM 호출을 찾고, 어떤 세션에 속하는지 알려주세요.&quot;      |
+    | `summarize_evaluation_tool` | 질문이 eval 결과, 통과율 또는 가장 많이 실패하는 작업에 관한 것일 때 사용합니다. `Evaluation.evaluate` 계층을 집계합니다.                        | &quot;`your-team/your-project`의 가장 최근 eval을 요약해주세요.&quot;          |
+  </Tab>
+
+  <Tab title="Reports">
+    분석 결과를 W&amp;B에 다시 저장하는 도구입니다.
+
+    | Tool                       | Use when                                                                                     | Example prompt                                                 |
+    | -------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+    | `create_wandb_report_tool` | 리포트를 만들거나 결과를 저장해 달라는 명시적 요청이 있을 때 사용합니다. Markdown과 선형 플롯, 막대 플롯, run 비교용 `panels` 배열을 받습니다. | &quot;run `abc123`와 `def456`를 비교하는 W&amp;B 리포트를 만들어 주세요.&quot; |
+    | `log_analysis_to_wandb`    | MCP 세션에서 계산된 값(지연 시간 분포, 오류 세부 내역)을 리포트에서 참조하기 전에 분석 run으로 저장해야 할 때 사용합니다.                   | &quot;이 지연 시간 백분위수를 분석 run으로 W&amp;B에 기록해 주세요.&quot;           |
+  </Tab>
+
+  <Tab title="Artifacts와 레지스트리">
+    모델, 데이터셋 및 기타 버전이 지정된 아티팩트를 검사하고 차이를 비교할 수 있는 도구입니다.
+
+    | Tool                             | Use when                                                      | Example prompt                                                        |
+    | -------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | `list_registries_tool`           | 질문이 조직의 모델 레지스트리, Registered Models 또는 등록된 데이터셋에 관한 경우 사용합니다. | &quot;`your-org`에는 어떤 레지스트리가 있나요?&quot;                               |
+    | `list_registry_collections_tool` | 특정 레지스트리 안에 어떤 모델 또는 데이터셋이 있는지 확인할 때 사용합니다.                   | &quot;`your-org`의 `model` 레지스트리에는 어떤 컬렉션이 있나요?&quot;                  |
+    | `list_artifact_versions_tool`    | 모델, 데이터셋 또는 기타 아티팩트 컬렉션의 사용 가능한 버전을 나열할 때 사용합니다.              | &quot;`your-team/your-project`의 `production-model` 버전을 나열해 주세요.&quot; |
+    | `get_artifact_details_tool`      | 리니지와 파일을 포함해 특정 아티팩트 버전 하나를 검사할 때 사용합니다.                      | &quot;`production-model:v3`에는 무엇이 들어 있나요?&quot;                       |
+    | `compare_artifact_versions_tool` | 두 아티팩트 버전 사이에서 무엇이 변경되었는지 확인할 때 사용합니다.                        | &quot;`production-model:v2`와 `production-model:v3`의 차이를 보여주세요.&quot;  |
+  </Tab>
+
+  <Tab title="문서">
+    공식 W&amp;B 문서의 제품 관련 질문에 답하는 도구입니다.
+
+    | Tool                     | 사용 시점                                                                                          | 예시 프롬프트                                 |
+    | ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------- |
+    | `search_wandb_docs_tool` | 질문이 W&amp;B 또는 Weave 기능이나 API 사용 방법에 관한 경우입니다. [docs.wandb.ai](https://docs.wandb.ai)를 프록시합니다. | &quot;Weave에서 리더보드를 만들려면 어떻게 하나요?&quot; |
+  </Tab>
+</Tabs>
+
+<div id="schema-first-trace-queries">
+  ### 스키마 우선 트레이스 쿼리
+</div>
+
+Weave 트레이스 쿼리에서는 먼저 `infer_trace_schema_tool`을 호출해 사용 가능한 필드를 확인한 다음, 정확한 column 목록과 `detail_level`을 지정해 `query_weave_traces_tool`을 호출하세요:
+
+| `detail_level` | 반환값                                 | 사용 시점                  |
+| -------------- | ----------------------------------- | ---------------------- |
+| `schema`       | 구조 필드만 반환합니다. 가장 빠릅니다.              | 둘러보거나 개수를 셀 때          |
+| `summary`      | 잘린 inputs 및 outputs를 반환합니다. 기본값입니다. | 대부분의 분석 작업             |
+| `full`         | 잘리지 않은 전체 내용을 반환합니다.                | 소수의 특정 트레이스를 자세히 확인할 때 |
+
+이 패턴을 사용하면 광범위한 질문에 대한 token 사용량을 낮게 유지하고, 중요한 트레이스에 대해서만 에이전트가 `full`로 확장할 수 있습니다.
 
 <div id="usage-tips">
   ## 사용 팁
 </div>
 
-* **W&amp;B 프로젝트와 entity 이름을 제공하세요**: 정확한 결과를 위해 쿼리에 W&amp;B entity와 프로젝트를 지정하세요.
-* **지나치게 광범위한 질문은 피하세요**: &quot;내 최고의 평가는 무엇인가요?&quot; 대신 &quot;어떤 eval이 가장 높은 f1 score를 기록했나요?&quot;라고 질문하세요.
-* **데이터 조회를 확인하세요**: &quot;가장 성능이 좋은 run은 무엇인가요?&quot;처럼 범위가 넓은 질문을 할 때는, 어시스턴트가 사용 가능한 모든 run을 조회했는지 확인하도록 하세요.
+다음 권장 사항과 워크플로를 따르면 W&amp;B MCP Server를 사용할 때 더 나은 결과를 얻을 수 있습니다. 먼저 일반적인 권장 사항부터 살펴본 다음, 더 구체적인 조언과 여러 단계의 도구 체인이 필요한 경우에는 자신의 워크로드에 맞는 하위 섹션을 조회하세요.
+
+<div id="general-best-practices">
+  ### 일반적인 모범 사례
+</div>
+
+사용 사례와 관계없이 다음 권장 사항을 따르세요:
+
+* **entity와 프로젝트를 지정하세요.** MCP 도구에는 명시적인 entity(팀 또는 개인 계정)와 프로젝트 이름이 필요합니다. 모든 질문에 이 두 가지를 모두 포함하세요. 예: &quot;`your-team/your-project`에서&quot;
+* **구체적인 질문을 하세요.** &quot;내 최고의 평가는 무엇인가요?&quot;보다는 &quot;어떤 eval이 가장 높은 F1 score를 기록했나요?&quot;라고 묻는 편이 좋습니다. 구체적인 메트릭과 시간 범위를 지정하면 더 나은 도구 Call이 생성됩니다.
+* **전체 조회인지 확인하세요.** &quot;가장 성능이 좋은 Runs는 무엇인가요?&quot;와 같은 광범위한 질문의 경우, 가장 최근 run만이 아니라 사용 가능한 모든 Runs를 조회했는지 에이전트에 확인하도록 요청하세요.
+* **W&amp;B Skills와 함께 사용하세요.** [W&amp;B Skills](/ko/platform/wb-skills)는 코딩 에이전트가 W&amp;B 워크플로를 구성하는 방법을 알려줍니다. Skills는 패턴을 제공하고 MCP는 데이터 액세스를 제공하므로, 두 기능을 함께 사용하면 효과적입니다.
+
+<div id="for-trace-heavy-workflows">
+  ### 트레이스 중심 워크플로의 경우
+</div>
+
+Weave 트레이스로 작업할 때는 다음 권장 사항을 따르세요.
+
+* **스키마부터 시작하세요.** 에이전트가 어떤 필드와 필터 값이 유효한지 알 수 있도록 `query_weave_traces_tool`보다 먼저 `infer_trace_schema_tool`을 호출하세요.
+* **적절한 `detail_level`을 선택하세요.** 둘러볼 때는 `schema`를, 분석할 때는 `summary`(기본값)를, 소수의 특정 트레이스를 자세히 확인할 때만 `full`을 사용하세요.
+* **`resolve_trace_roots_tool`을 연이어 사용하세요.** 하위 트레이스를 쿼리한 후 결과로 나온 `trace_id` 목록을 `resolve_trace_roots_tool`에 전달하면, 각 트레이스를 루트 세션에 한 번의 배치 호출로 매핑할 수 있습니다.
+* **eval에는 `summarize_evaluation_tool`을 우선 사용하세요.** 이 도구는 `Evaluation.evaluate` 및 `predict_and_score` 계층을 자동으로 집계합니다. 원시 트레이스 데이터가 필요할 때만 `query_weave_traces_tool`을 사용하세요.
+
+전체 워크플로는 [실패한 LLM calls 트리아지](#triage-failing-llm-calls)를 참조하세요.
+
+<div id="for-run-heavy-workflows">
+  ### run 중심 워크플로의 경우
+</div>
+
+W&amp;B Models run으로 작업할 때는 다음 권장 사항을 따르세요:
+
+* **쿼리하기 전에 먼저 프로브하세요.** 익숙하지 않은 run 기반 프로젝트에서는 GraphQL 쿼리를 작성하기 전에 `probe_project_tool`을 호출해 metric 키, 설정 키, tags를 파악하세요.
+* **시계열 데이터에는 `get_run_history_tool`을 사용하세요.** GraphQL은 샘플링을 하지 않으므로, loss 곡선과 기타 시계열 데이터에는 `get_run_history_tool`이 더 빠르고 비용도 더 적게 듭니다.
+* **차이 비교는 `compare_runs_tool`에 맡기세요.** 이 도구는 단일 Call로 config 및 metric 델타와 정렬된 이력 데이터를 반환하므로 수동 비교를 피할 수 있습니다.
+* **먼저 헬스 체크를 실행하세요.** 트레이닝 run이 이상해 보이면, 이력을 수동으로 자세히 살펴보기 전에 `diagnose_run_tool`을 호출하세요.
+
+엔드투엔드 워크플로는 [문제가 있는 트레이닝 run 진단](#diagnose-a-bad-training-run) 및 [eval 요약과 모델 버전 비교](#summarize-evals-and-compare-model-versions)를 참조하세요.
+
+<div id="for-dedicated-cloud-and-self-managed">
+  ### Dedicated Cloud 및 Self-Managed의 경우
+</div>
+
+Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
+
+* 인스턴스의 호스팅 서버인 `https://<your-instance>/mcp`를 우선 사용하는 것이 좋습니다. 이 서버는 클라이언트 측 `WANDB_BASE_URL` 설정 없이도 Multi-tenant 서버와 동일한 도구를 노출합니다. 호스팅 서버가 아직 활성화되지 않은 경우에만 로컬 설치로 대체하세요.
+* 인스턴스를 대상으로 로컬에서 실행하는 경우, 클라이언트의 `env` 블록에서 `WANDB_BASE_URL`을 인스턴스 URL로 설정하세요. 이를 설정하지 않으면 서버가 `api.wandb.ai`를 대상으로 하므로 데이터를 반환하지 않습니다.
+* Dedicated Cloud의 요청 속도 제한은 Multi-tenant와 별도로 적용됩니다. 기본값과 변경 요청 방법은 [Dedicated Cloud rate limits](/ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits)를 참조하세요.
+
+<div id="for-local-installs">
+  ### 로컬 설치 시
+</div>
+
+자신의 머신에서 서버를 실행할 때는 다음 권장 사항을 따르세요:
+
+* 데스크톱 클라이언트(Cursor, VS Code, Claude Code, Claude Desktop)에는 STDIO 전송 방식을 우선 사용하세요. 클라이언트가 명시적으로 요구하는 경우에만 HTTP 전송 방식으로 전환하세요(예: OpenAI Responses API).
+* 도구 Call이 아무 오류 메시지 없이 실패하면 클라이언트의 `env` 블록에서 `MCP_SERVER_LOG_LEVEL=DEBUG`를 설정한 다음, 클라이언트의 MCP 로그를 다시 확인하세요.
+* GitHub에서 설치하는 경우(`uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server`), `uvx`는 기본 브랜치에 고정됩니다. 안정적인 버전이 필요하면 Git URL 끝에 `@v0.3.2`를 추가해 명시적인 태그로 고정하세요.
+
+<div id="recommended-workflows">
+  ## 권장 워크플로
+</div>
+
+대부분의 실제 질문에는 두 개 이상의 도구가 필요합니다. 에이전트에게 다음 체인 중 하나를 따르도록 요청하세요.
+
+<div id="explore-an-unfamiliar-project">
+  ### 낯선 프로젝트 살펴보기
+</div>
+
+프로젝트에 무엇이 로깅되었는지 살펴보려면 다음 도구를 순서대로 사용하세요:
+
+1. entity 또는 팀을 찾으려면 `list_entities_tool`을 사용합니다.
+2. 프로젝트를 찾으려면 `query_wandb_entity_projects`를 사용합니다.
+3. run 기반 프로젝트에는 `probe_project_tool`을, Weave 트레이스 프로젝트에는 `infer_trace_schema_tool`을 사용합니다.
+4. 찾은 키를 사용해 `query_wandb_tool` 또는 `query_weave_traces_tool`을 대상에 맞게 호출합니다.
+
+<div id="triage-failing-llm-calls">
+  ### 실패한 LLM calls 선별하기
+</div>
+
+문제가 있는 트레이스와 이를 생성한 세션을 찾으려면 다음 도구를 순서대로 연결해 사용하세요:
+
+1. 오류 또는 예외 필드에 Filter를 적용하고 `detail_level="summary"`로 `query_weave_traces_tool`을 실행합니다.
+2. 결과 `trace_id` 목록에 `resolve_trace_roots_tool`을 적용해 각 실패를 해당 루트 세션에 매핑합니다.
+3. 일부 특정 루트에 대해 `detail_level="full"`로 `query_weave_traces_tool`을 실행해 자세히 살펴봅니다.
+4. `create_wandb_report_tool`로 결과를 문서화합니다.
+
+<div id="diagnose-a-bad-training-run">
+  ### 문제가 있는 트레이닝 run 진단하기
+</div>
+
+의심스러운 트레이닝 run에 대해 헬스 체크를 수행하려면 다음 도구를 순서대로 연결하세요:
+
+1. `get_run_history_tool`로 loss 및 검증 곡선을 가져옵니다.
+2. `diagnose_run_tool`로 수렴, 과적합, NaN을 자동으로 점검합니다.
+3. `compare_runs_tool`로 정상으로 확인된 기준 run과 비교합니다.
+4. `create_wandb_report_tool`로 선 그래프 Panel이 포함된 report를 만들어 진단 결과를 공유합니다.
+
+<div id="summarize-evals-and-compare-model-versions">
+  ### 평가를 요약하고 모델 버전 비교하기
+</div>
+
+평가에서 어떤 모델 버전이 가장 좋은 성능을 보였는지 확인하려면 다음 도구를 차례대로 사용하세요:
+
+1. 각 Scorer별 통과율과 오류 수를 확인하려면 `summarize_evaluation_tool`
+2. 관련 모델 컬렉션의 `list_artifact_versions_tool`
+3. 후보 버전과 현재 프로덕션 버전을 비교하려면 `compare_artifact_versions_tool`
+4. 비교 결과를 게시하려면 `log_analysis_to_wandb` 및 `create_wandb_report_tool`
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+다음 표를 사용하여 W&amp;B MCP 서버 사용 중 발생하는 문제를 진단하고 해결하세요.
+
+| 증상                                                                         | 원인 및 해결 방법                                                                                                                                                                                                |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `401 Unauthorized` 또는 `Invalid API key`                                    | W&amp;B API 키가 없거나 형식이 잘못되었거나, 대상 entity 또는 팀에 대한 권한이 없습니다. [wandb.ai/authorize](https://wandb.ai/authorize)에서 키를 다시 생성한 뒤, Bearer 토큰으로 전달되었거나 `WANDB_API_KEY`에 설정되어 있는지 확인하세요.                           |
+| 성공할 것으로 예상한 쿼리에서 빈 결과가 반환됨                                                 | 팀/entity 또는 프로젝트 이름이 올바르지 않거나 API 키에 액세스 권한이 없습니다. 에이전트와 함께 두 항목을 모두 확인한 후 다시 시도하세요.                                                                                                                      |
+| `https://<your-instance>/mcp`에서 `404 Not Found` 또는 `connection refused` 발생 | 호스팅된 MCP 서버가 Dedicated Cloud 또는 Self-Managed 인스턴스에서 아직 활성화되지 않았거나, 클라이언트가 잘못된 URL을 가리키고 있습니다. 활성화를 요청하려면 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의한 다음, [Connection URL](#connection-url)에서 URL을 확인하세요. |
+| Dedicated Cloud에서 `429 Too Many Requests` 발생                               | 인스턴스의 요청 속도 제한에 도달했습니다. 더 높은 제한을 요청하는 방법은 [Dedicated Cloud rate limits](/ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits)를 참조하세요.                                                            |
+| Claude Desktop에서 로컬 서버가 `uvx`를 찾지 못함                                       | `claude_desktop_config.json`의 `command` 필드에 `uvx`의 전체 경로를 사용하세요.                                                                                                                                          |
