@@ -30,12 +30,12 @@ __init__(
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
+    attrs: 'Mapping[str, Any] | None' = None,
+    service_api: 'ServiceApi'
 )
 ```
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Sweep.config
 
@@ -150,6 +150,7 @@ get(
     sid: 'str | None' = None,
     order: 'str | None' = None,
     query: 'Document | None' = None,
+    service_api: 'ServiceApi',
     **kwargs
 )
 ```
@@ -158,7 +159,8 @@ get(
 
 **引数:**
 
-* `client`:  クエリの実行に使用するクライアント。
+* `client`:  API 互換性のために保持されているレガシー GraphQL クライアント。
+* `service_api`:  返される sweep に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `entity`:  プロジェクトを所有する entity (ユーザー名またはチーム) 。
 * `project`:  sweep を取得する元のプロジェクト名。
 * `sid`:  クエリ対象の sweep ID。
@@ -167,7 +169,6 @@ get(
 * `**kwargs`:  クエリに渡す追加のキーワード引数。
 
 ***
-
 
 ### <kbd>method</kbd> `Sweep.to_html`
 

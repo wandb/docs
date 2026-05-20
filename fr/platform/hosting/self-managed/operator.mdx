@@ -248,6 +248,106 @@ Choisissez votre méthode de déploiement :
 
 <SelfManagedVerifyInstallation />
 
+<div id="enable-the-mcp-server">
+  ## Activer le serveur MCP
+</div>
+
+Le [serveur MCP de W&amp;B](/fr/platform/mcp-server) est fourni comme sous-chart facultatif dans `operator-wandb`. Lorsqu&#39;il est activé, l&#39;opérateur déploie un serveur MCP au sein du cluster, exposé via votre ingress existant à l&#39;adresse `<global.host>/mcp`, afin que tout client compatible MCP puisse s&#39;y connecter à l&#39;aide d&#39;une clé API W&amp;B. Il s&#39;agit du même serveur que W&amp;B propose dans sa version hébergée à l&#39;adresse `https://mcp.withwandb.com/mcp`, mais pointé vers les données de votre déploiement.
+
+Pour la configuration du client côté utilisateur final et le catalogue des outils, voir [Utiliser le serveur MCP de W&amp;B](/fr/platform/mcp-server). Cette section couvre uniquement l&#39;activation côté opérateur.
+
+<div id="prerequisites">
+  ### Prérequis
+</div>
+
+Assurez-vous que votre déploiement remplit les exigences suivantes avant d’activer le serveur MCP :
+
+* **Version du chart** : `operator-wandb` `0.42.3` ou ultérieure. Le sous-chart `mcp-server` a été introduit dans `0.42.1`, mais les champs Datadog et Confidentialité utilisés dans l’exemple ci-dessous ont été ajoutés plus tard.
+* **Weave Traces activé** : le serveur MCP dépend de Weave Traces pour les outils de trace et pour la valeur par défaut de `WF_TRACE_SERVER_URL`. Définissez `weave-trace.install: true`. Si Weave Traces n’est pas activé, le rendu Helm échoue avec `mcp-server requires weave-trace.install=true`.
+* **Ingress accessible** : `global.host` doit déjà se résoudre et acheminer le trafic vers l’ingress W&amp;B. Le pod MCP lit `WANDB_BASE_URL` depuis `global.host` et est disponible à l’adresse `<global.host>/mcp`.
+* **Capacité des nœuds** : le pod MCP demande par défaut `500m` de CPU et `1Gi` de mémoire (limites : `2` CPU et `4Gi` de mémoire). Vérifiez que votre pool de nœuds dispose d’une marge de capacité suffisante avant d’activer le sous-chart.
+
+<div id="enable-the-subchart">
+  ### Activez le sous-chart
+</div>
+
+Ajoutez les éléments suivants au bloc `spec.values` de votre ressource personnalisée `WeightsAndBiases` (CR) existante, aux côtés de vos valeurs `global`, `ingress` et autres redéfinitions existantes. Le bloc Datadog est facultatif, mais recommandé si un DaemonSet Datadog Agent collecte déjà les journaux et les traces des pods dans votre cluster.
+
+```yaml
+spec:
+  values:
+    weave-trace:
+      install: true
+
+    mcp-server:
+      install: true
+      image:
+        repository: us-docker.pkg.dev/wandb-production/public/wandb/mcp-server
+        tag: "0.3.3"
+      datadog:
+        enabled: true
+        mode: "agent"
+        service: "wandb-mcp-server-<environment>"
+        env: "<environment>"
+        deploymentType: "self-managed"
+        customer: "<customer-name>"
+        extraTags:
+          - "region:<region>"
+          - "tier:<tier>"
+      privacy:
+        logLevel: "standard"
+```
+
+Configurez chaque bloc :
+
+* **`weave-trace.install: true`** : requis, sauf si vous définissez vous-même `mcp-server.env.WF_TRACE_SERVER_URL`.
+* **`datadog.mode: "agent"`** : à utiliser pour les déploiements Kubernetes où le DaemonSet Datadog Agent prend en charge la collecte des journaux et des traces. En mode agent, le pod MCP n’a pas besoin de clé API Datadog.
+* **`datadog.service`, `env`, `deploymentType`, `customer`, `extraTags`** : définissez ces valeurs pour qu’elles correspondent aux conventions de nommage d’observabilité de votre déploiement. Définissez `customer` sur une chaîne vide si vous ne souhaitez pas de tag client.
+* **`privacy.logLevel`** : utilisez `"standard"` pour la plupart des installations Kubernetes autogérées. Cela masque les valeurs de paramètres en texte libre dans les journaux tout en conservant les identifiants de déploiement que les opérateurs utilisent couramment pour le débogage. Utilisez `"strict"` lorsque les identifiants d’entité, de projet, de run ou d’utilisateur ne doivent pas rester en clair dans les journaux. Utilisez `"off"` uniquement si vous souhaitez explicitement une journalisation en clair pour ces valeurs.
+
+Appliquez la modification pour déclencher la réconciliation :
+
+```bash
+kubectl apply -f operator.yaml
+```
+
+L’opérateur crée un déploiement `wandb-mcp-server` et un service dans l’espace de noms de la version, et ajoute le chemin `/mcp` à l’ingress W&amp;B.
+
+<div id="verify-the-mcp-server">
+  ### Vérifier le serveur MCP
+</div>
+
+Attendez que le pod passe à l’état `Running`, puis vérifiez le point de terminaison d’état de santé au sein du cluster et via l’ingress :
+
+```bash
+kubectl get pod -l app.kubernetes.io/component=mcp-server
+kubectl port-forward svc/wandb-mcp-server 8080:8080
+curl -s http://localhost:8080/mcp/health
+
+curl -s "https://<HOST_URI>/mcp/health"
+```
+
+Les deux requêtes doivent renvoyer `200 OK`. La vérification depuis le cluster confirme que le pod est sain. La vérification de l’ingress confirme que le routage fonctionne. Si la vérification depuis le cluster renvoie `200 OK` mais que la vérification de l’ingress renvoie `404 Not Found`, voir [Troubleshooting](#troubleshooting). Si vous avez activé Datadog, les journaux du serveur MCP doivent également apparaître dans Datadog avec les valeurs configurées de `mcp-server.datadog.service` et `mcp-server.datadog.env`.
+
+<div id="connect-a-client">
+  ### Connecter un client
+</div>
+
+Une fois le serveur MCP opérationnel, configurez votre client MCP pour utiliser `https://<HOST_URI>/mcp` avec une clé API W&amp;B comme jeton Bearer. Pour la configuration des IDE et des agents, voir [Utiliser le serveur MCP de W&amp;B](/fr/platform/mcp-server).
+
+<div id="troubleshooting">
+  ### Dépannage
+</div>
+
+| Symptôme                                                                                                   | Cause et correctif                                                                                                                                                                                                                                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `helm render` échoue avec `mcp-server requires weave-trace.install=true`                                   | Ajoutez `weave-trace.install: true` à `spec.values`. Le serveur MCP dépend de Weave Traces pour les outils de trace.                                                                                                                                                                                                                                      |
+| Le pod `wandb-mcp-server` reste bloqué à l’état `Pending` avec `Insufficient cpu` ou `Insufficient memory` | Ajoutez de la capacité aux nœuds, ou réduisez `mcp-server.resources.requests` dans votre CR. Les valeurs par défaut sont `500m` de CPU et `1Gi` de mémoire.                                                                                                                                                                                               |
+| `curl https://<HOST_URI>/mcp/health` renvoie 404                                                           | Le chart ne génère le chemin d’ingress `/mcp` que lorsque `mcp-server.install: true`. Réappliquez le CR et attendez que le contrôleur d’ingress propage le nouveau chemin.                                                                                                                                                                                |
+| Les journaux MCP n’apparaissent pas dans Datadog                                                           | Vérifiez que `mcp-server.datadog.enabled: true` et `mcp-server.datadog.mode: "agent"` sont bien définis, et que le DaemonSet Datadog Agent collecte la sortie stdout du pod. Effectuez une recherche dans Datadog avec les valeurs `service` et `env` configurées.                                                                                        |
+| Les journaux MCP incluent plus de texte fourni par les utilisateurs que prévu                              | Définissez `mcp-server.privacy.logLevel` sur `"standard"` ou `"strict"`. Utilisez `"strict"` lorsque des identifiants tels que des noms d’entité, de projet, de run ou d’utilisateur ne doivent pas rester dans les journaux en texte brut.                                                                                                              |
+| Le pod `wandb-mcp-server` est en `ImagePullBackOff` dans un cluster isolé du réseau ou en miroir           | Mettez l’image en miroir dans votre registry et redéfinissez `mcp-server.image.repository` dans votre CR, selon le même principe que pour les autres images de composants W&amp;B dans les installations isolées du réseau. Voir [Déployer sur Kubernetes isolé du réseau](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/). |
+
 <div id="environment-specific-considerations">
   ## Considérations spécifiques à l’environnement
 </div>

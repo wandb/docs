@@ -20,13 +20,15 @@ __init__(
     client: 'RetryingClient',
     entity: 'str',
     project: 'str',
-    attrs: 'Mapping[str, Any]'
+    attrs: 'Mapping[str, Any]',
+    service_api: 'ServiceApi'
 ) → Project
 ```
 
 **매개변수:**
 
-* `client`:  W&amp;B API 클라이언트 인스턴스입니다.
+* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
+* `service_api`:  이 프로젝트에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스의 인터페이스입니다.
 * `name` (str):  프로젝트 이름입니다.
 * `entity` (str):  프로젝트를 소유한 entity의 이름입니다.
 
@@ -34,13 +36,13 @@ entity에 속한 단일 프로젝트입니다.
 
 **매개변수:**
 
-* `client`:  W&amp;B를 쿼리하는 데 사용하는 API 클라이언트입니다.
+* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
+* `service_api`:  이 프로젝트에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스의 인터페이스입니다.
 * `entity`:  프로젝트를 소유한 entity입니다.
 * `project`:  쿼리할 프로젝트의 이름입니다.
 * `attrs`:  프로젝트의 속성입니다.
 
 ***
-
 
 ### <kbd>속성</kbd> Project.id
 

@@ -11,17 +11,18 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactCollection`
 
-関連する Artifacts のグループを表す artifact collection。
+関連する アーティファクト のグループを表す アーティファクト コレクション。
 
 **引数:**
 
-* `client`:  W&amp;B のクエリに使用するクライアントインスタンス。
+* `client`:  API 互換性のために保持されている従来の GraphQL クライアント。
+* `service_api`:  このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
 * `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
-* `project`:  artifact collection をクエリする対象のプロジェクト名。
-* `name`:  artifact collection の名。
-* `type`:  artifact collection のタイプ (例: &quot;dataset&quot;、&quot;model&quot;) 。
+* `project`:  アーティファクト コレクション をクエリする対象のプロジェクト名。
+* `name`:  アーティファクト コレクション の名。
+* `type`:  アーティファクト コレクション のタイプ (例: &quot;dataset&quot;、&quot;model&quot;) 。
 * `organization`:  該当する場合のオプションの組織名。
-* `attrs`:  artifact collection の初期化に使用する属性のオプションのマッピング。指定しない場合、オブジェクトは初期化時に W&amp;B から属性を読み込みます。 
+* `attrs`:  アーティファクト コレクション の初期化に使用する属性のオプションのマッピング。指定しない場合、オブジェクトは初期化時に W&amp;B から属性を読み込みます。 
 
 ### <kbd>プロパティ</kbd> ArtifactCollection.aliases
 

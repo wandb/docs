@@ -21,12 +21,12 @@ __init__(
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None
+    attrs: 'RegistryFragment | None' = None,
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
 ***
-
 
 ### <kbd>property</kbd> Registry.allow_all_artifact_types
 
@@ -235,7 +235,8 @@ create(
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None
+    artifact_types: 'list[str] | None' = None,
+    service_api: 'ServiceApi | None' = None
 ) → Self
 ```
 
@@ -245,7 +246,8 @@ create(
 
 **引数:**
 
-* `client`:  GraphQL クライアント。
+* `client`:  API 互換性のために保持されている Legacy GraphQL クライアント。
+* `service_api`:  作成されるレジストリに対して W&amp;B API 呼び出しを実行する wandb-core サービスへのインターフェース。
 * `organization`:  組織の名。
 * `name`:  レジストリの名 (`wandb-registry-` プレフィックスを除く) 。
 * `visibility`:  公開レベル (&#39;organization&#39; または &#39;restricted&#39;) 。
@@ -261,7 +263,6 @@ create(
 * `ValueError`:  組織内に同じ名のレジストリがすでに存在する場合、または作成に失敗した場合。
 
 ***
-
 
 ### <kbd>method</kbd> `Registry.delete`
 
@@ -377,7 +378,7 @@ update_member(
   * &quot;admin&quot;
   * &quot;member&quot;
   * &quot;viewer&quot;
-  * &quot;restricted&#95;viewer&quot;  (W&amp;B サーバーでサポートされる場合)
+  * &quot;restricted&#95;viewer&quot; (W&amp;B サーバーでサポートされる場合)
 
 **戻り値:**
 必要に応じて、さらに method チェーンを行えるよう、このRegistry自身を返します。
@@ -387,29 +388,31 @@ update_member(
 * `ValueError`:  ユーザーまたはチームの ID を特定できない場合。
 
 **例:**
-Registry内のすべてのUsersを管理者にします
-
-```python
+Registry内のすべてのUsersを管理者にします ```python
 import wandb
 
 api = wandb.Api()
 
-# 既存のRegistryを取得する
-registry = api.registry(name="my-registry", organization="my-org")
+<div id="fetch-an-existing-registry">
+  # 既存のRegistryを取得する
+</div>
 
-for member in registry.user_members():
-    registry.update_member(member.user, role="admin")
-```
+registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
 
-***
+for member in registry.user&#95;members():
+registry.update&#95;member(member.user, role=&quot;admin&quot;)
+
+````
+
+---
 
 ### <kbd>method</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-```
+````
 
-このRegistryに現在所属しているメンバーユーザーを返します。
+このRegistryに現在所属しているメンバーUsersを返します。
 
 ***
 
