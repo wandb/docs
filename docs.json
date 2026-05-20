@@ -530,7 +530,15 @@
                     "pages": [
                       "weave/concepts/what-is-weave",
                       {
-                        "group": "Trace your application",
+                        "group": "Trace your agents",
+                        "pages": [
+                          "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-multi-turn-agents",
+                          "weave/guides/tracking/navigate-agents-view"
+                        ]
+                      },
+                      {
+                        "group": "Trace your applications",
                         "pages": [
                           {
                             "group": "Tracing basics",
@@ -573,9 +581,10 @@
                         ]
                       },
                       {
-                        "group": "Evaluate your application",
+                        "group": "Evaluate your agents and applications",
                         "pages": [
                           "weave/guides/core-types/evaluations",
+                          "weave/evaluation/evaluate-agents",
                           "weave/guides/core-types/datasets",
                           "weave/guides/evaluation/scorers",
                           "weave/guides/evaluation/builtin_scorers",
