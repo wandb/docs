@@ -555,7 +555,11 @@ For an organization-scoped service account, `accountType` is `ORG_SERVICE`.
 
 In **Self-Managed** deployments, `organizationRole` is `service` or `org_service` instead of `member`, matching the account type.
 
-A duplicate `userName` returns `409 Conflict`. A missing or unknown `defaultTeam` returns `400 Bad Request`.
+If the response returns one of these errors, check the request for these common problems:
+
+- `409 Conflict`: The request includes duplicate `userName` keys for the same service account.
+- `400 Bad Request`: The request is missing  `defaultTeam` or sets it to an invalid value.
+
 
 ### Deprovision service account
 
@@ -572,7 +576,7 @@ Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-te
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | The unique ID of the service account |
+| `id` | string | Yes | The unique ID of the service account. |
 
 #### Example
 
