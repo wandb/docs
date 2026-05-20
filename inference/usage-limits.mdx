@@ -7,6 +7,10 @@ description: >
 
 Learn about pricing, limits, and other important usage information before using Serverless Inference.
 
+<Info>
+  If you have questions about pricing, limits, or your account that aren't answered on this page, contact [Support](https://wandb.ai/site/contact) to discuss your requirements.
+</Info>
+
 ## Pricing
 
 For detailed model pricing information, visit [Serverless Inference pricing](https://wandb.ai/site/pricing/inference).
@@ -33,9 +37,11 @@ If you need to change your cap, contact your account executive or support to adj
 
 ## Concurrency limits
 
-If you exceed the rate limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests. For detailed troubleshooting, see [Concurrency limits](#concurrency-limits).
+If you exceed the concurrency limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests.
 
-W&B applies rate limits per W&B project. For example, if you have 3 projects in a team, each project has its own rate limit quota.
+W&B applies concurrency limits per W&B project and per user. For example, if you have 3 projects in a team, each project has its own concurrency limit quota.
+
+If your use case requires increased limits, contact [Support](https://wandb.ai/site/contact) to discuss your requirements.
 
 ## Geographic restrictions
 
@@ -44,4 +50,4 @@ The Inference service is only available from supported geographic locations. For
 ## Next steps
 
 - Review the [prerequisites](/inference/prerequisites/) before getting started.
-- See [available models](/inference/models) and their specific pricing. 
+- See [available models](/inference/models) and their specific pricing.
