@@ -21,12 +21,12 @@ __init__(
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None
+    attrs: 'RegistryFragment | None' = None,
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
 ***
-
 
 ### <kbd>propriété</kbd> Registry.allow_all_artifact_types
 
@@ -198,7 +198,10 @@ import wandb
 
 api = wandb.Api()
 
-# Récupérer un registre existant
+<div id="fetch-an-existing-registry">
+  # Récupérer un registre existant
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -235,7 +238,8 @@ create(
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None
+    artifact_types: 'list[str] | None' = None,
+    service_api: 'ServiceApi | None' = None
 ) → Self
 ```
 
@@ -245,7 +249,8 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 
 **Arguments :**
 
-* `client`:  Le client GraphQL.
+* `client`:  Client GraphQL hérité conservé pour la compatibilité de l’API.
+* `service_api`:  Interface vers le service wandb-core qui effectue les appels d’API W&amp;B pour le registre créé.
 * `organization`:  Le nom de l’organisation.
 * `name`:  Le nom du registre (sans le préfixe `wandb-registry-`).
 * `visibility`:  Le niveau de visibilité (`'organization'` ou `'restricted'`).
@@ -261,7 +266,6 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 * `ValueError`:  Si un registre portant le même nom existe déjà dans l’organisation, ou si sa création échoue.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Registry.delete`
 
@@ -323,7 +327,10 @@ import wandb
 
 api = wandb.Api()
 
-# Récupérer un registre existant
+<div id="fetch-an-existing-registry">
+  # Récupérer un registre existant
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -372,40 +379,46 @@ Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
 
 **Arguments :**
 
-* `member`: L’utilisateur ou l’équipe dont le rôle doit être mis à jour. Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
-* `role`: Le nouveau rôle à attribuer au membre. Peut être l’un des suivants : - &quot;admin&quot; - &quot;member&quot; - &quot;viewer&quot; - &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
+* `member`:  L’utilisateur ou l’équipe dont le rôle doit être mis à jour.  Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
+* `role`:  Le nouveau rôle à attribuer au membre. Peut être l’un des suivants :
+  * &quot;admin&quot;
+  * &quot;member&quot;
+  * &quot;viewer&quot;
+  * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
 
 **Retourne :**
 Ce registre, pour permettre un chaînage de méthodes supplémentaire si nécessaire.
 
 **Exceptions levées :**
 
-* `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
+* `ValueError`:  S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
 
 **Exemples :**
-Attribuez le rôle d’administrateur à tous les utilisateurs du registre
-
-```python
+Attribuez le rôle d’administrateur à tous les utilisateurs du registre ```python
 import wandb
 
 api = wandb.Api()
 
-# Récupérer un registre existant
-registry = api.registry(name="my-registry", organization="my-org")
+<div id="fetch-an-existing-registry">
+  # Récupérer un registre existant
+</div>
 
-for member in registry.user_members():
-    registry.update_member(member.user, role="admin")
-```
+registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
 
-***
+for member in registry.user&#95;members():
+registry.update&#95;member(member.user, role=&quot;admin&quot;)
+
+````
+
+---
 
 ### <kbd>méthode</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-```
+````
 
-Renvoie les Users actuellement membres de ce registre.
+Renvoie les utilisateurs actuellement membres de ce registre.
 
 ***
 

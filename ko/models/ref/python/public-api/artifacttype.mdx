@@ -15,7 +15,8 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 **매개변수:**
 
-* `client`:  W&amp;B를 쿼리하는 데 사용할 클라이언트 인스턴스입니다.
+* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
+* `service_api`:  이 artifact 유형에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
 * `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
 * `project`:  artifact 유형을 쿼리할 프로젝트 이름입니다.
 * `type_name`:  artifact 유형의 이름입니다.
