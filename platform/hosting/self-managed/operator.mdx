@@ -4,6 +4,7 @@ title: Deploy W&B with Kubernetes Operator
 ---
 
 import SelfManagedMysqlRequirements from "/snippets/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/_includes/self-managed-mysql-eol-upgrade.mdx";
 import SelfManagedRedisRequirements from "/snippets/_includes/self-managed-redis-requirements.mdx";
 import SelfManagedObjectStorageRequirements from "/snippets/_includes/self-managed-object-storage-requirements.mdx";
 import ByobProvisioningLink from "/snippets/_includes/byob-provisioning-link.mdx";
@@ -28,9 +29,14 @@ Before deploying W&B with the Kubernetes Operator, ensure your infrastructure me
 For additional context, see the [reference architecture](/platform/hosting/self-managed/ref-arch/) page.
 
 ### MySQL Database
+
+<SelfManagedMysqlEolUpgrade/>
+
 <SelfManagedMysqlRequirements/>
 
 For complete MySQL setup instructions including configuration parameters and database creation, see the [MySQL section in the requirements page](/platform/hosting/self-managed/requirements/#mysql-database).
+
+If you are upgrading from MySQL 8.0.x, see [Upgrade MySQL to 8.4.x](#upgrade-mysql-to-84x).
 
 ### Redis
 <SelfManagedRedisRequirements/>
@@ -1196,6 +1202,40 @@ You no longer need to update W&B Server application if you use the W&B Kubernete
 
 The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
 
+## Upgrade MySQL to 8.4.x
+
+MySQL 8.0.x is end of life. Self-Managed deployments must run **MySQL 8.4.x** or a managed service your provider documents as compatible with MySQL 8.4.x (for example Amazon RDS for MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL). W&B has validated the platform against MySQL 8.4.0 and current 8.4.x releases.
+
+These steps describe the sequence from W&B's perspective. For how to upgrade MySQL itself, including backups and version paths, follow your MySQL distribution's or cloud provider's documentation. The same sequence applies to [standard](/platform/hosting/self-managed/operator) and [air-gapped](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) Operator deployments. In air-gapped environments, obtain MySQL 8.4.x software through your internal distribution process before you upgrade the database.
+
+<Note>
+Plan a maintenance window and notify users before you begin. Contact [Customer Support](mailto:support@wandb.com) or your W&B team if you have questions about compatibility or your deployment topology.
+</Note>
+
+Before you upgrade MySQL, you can run the [MySQL Shell upgrade checker](https://dev.mysql.com/doc/mysql-shell/8.4/en/mysql-shell-utilities-upgrade.html) against your database to surface compatibility issues for your target version. Resolve any errors or warnings in the checker output before you proceed, following the MySQL documentation for your distribution.
+
+1. Review MySQL release notes and documentation for your target version and any intervening versions for requirements and other details.
+2. Drain and shut down your W&B deployment so the application is not writing to the database during the upgrade.
+    ```bash
+    # Scale down the `wandb-operator` deployment to 0 replicas
+    kubectl scale deployment wandb-operator -n <NAMESPACE> --replicas=0
+
+    # Scale down the `wandb-server` deployment to 0 replicas
+    kubectl scale deployment wandb-server -n <NAMESPACE> --replicas=0
+    ```
+3. Take a full backup of your MySQL database according to your MySQL distribution's documentation.
+4. Upgrade MySQL to 8.4.x according to your MySQL distribution's documentation.
+5. Restart MySQL and verify that it is operational.
+6. When MySQL is up, scale your W&B deployment to its original size. In each command, replace `[N]` with the desired number of replicas. These commands are similar to those in step 2, run in reverse order.
+    ```bash
+    # Scale the `wandb-server` deployment to the original number of replicas
+    kubectl scale deployment wandb-server -n <NAMESPACE> --replicas=[N]
+
+    # Scale the `wandb-operator` deployment to the original number of replicas
+    kubectl scale deployment wandb-operator -n <NAMESPACE> --replicas=[N]
+    ```
+7. Run `wandb verify` to validate your deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
+8. After validation completes, users can resume normal operations.
 
 ## Migrate Self-Managed instances to W&B Operator
 The following section describes how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
