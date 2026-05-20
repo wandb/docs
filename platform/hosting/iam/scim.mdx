@@ -480,7 +480,7 @@ POST /scim/Users
 #### Response
 
 <Tabs>
-<Tab title="Provision Service Account Response">
+<Tab title="Provision Team Service Account Response">
 ```bash
 (Status 201)
 ```
@@ -514,7 +514,42 @@ POST /scim/Users
 }
 ```
 </Tab>
+<Tab title="Provision Org Service Account Response">
+```bash
+(Status 201)
+```
+
+```json
+{
+    "accountType": "ORG_SERVICE",
+    "active": true,
+    "displayName": "sa-ci-runner",
+    "id": "xyz",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "location": "Users/xyz"
+    },
+    "organizationRole": "member",
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:wandb:2.0:User"
+    ],
+    "teamRoles": [
+        {
+            "teamName": "ml-platform",
+            "roleName": "member"
+        }
+    ],
+    "urn:ietf:params:scim:schemas:extension:wandb:2.0:User": {
+        "organizationRole": "member"
+    },
+    "userName": "sa-ci-runner"
+}
+```
+</Tab>
 </Tabs>
+
 
 For an organization-scoped service account, `accountType` is `ORG_SERVICE`.
 
