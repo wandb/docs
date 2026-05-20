@@ -27,19 +27,19 @@ BetaReport는 W&B에서 생성된 리포트와 연관된 클래스입니다.
  - `updated_at` (string):  마지막으로 업데이트된 시각의 타임스탬프. 
  - `created_at` (string):  리포트가 생성된 시각의 타임스탬프. 
 
-### <kbd>method</kbd> `BetaReport.__init__`
+### <kbd>방법</kbd> `BetaReport.__init__`
 
 ```python
 __init__(
     client: 'RetryingClient',
     attrs: 'dict',
     entity: 'str | None' = None,
-    project: 'str | None' = None
+    project: 'str | None' = None,
+    service_api: 'ServiceApi'
 )
 ```
 
 ***
-
 
 ### <kbd>속성</kbd> BetaReport.created_at
 
