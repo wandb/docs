@@ -11,17 +11,18 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactCollection`
 
-관련된 artifact를 그룹으로 나타내는 artifact collection입니다.
+관련된 아티팩트를 그룹으로 나타내는 아티팩트 컬렉션입니다.
 
-**매개변수:**
+**인수:**
 
-* `client`:  W&amp;B를 쿼리하는 데 사용할 클라이언트 인스턴스입니다.
+* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
+* `service_api`:  이 컬렉션에 대한 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
 * `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
-* `project`:  artifact collection을 쿼리할 프로젝트 이름입니다.
-* `name`:  artifact collection의 이름입니다.
-* `type`:  artifact collection의 유형입니다(예: &quot;dataset&quot;, &quot;model&quot;).
+* `project`:  아티팩트 컬렉션을 쿼리할 프로젝트 이름입니다.
+* `name`:  아티팩트 컬렉션의 이름입니다.
+* `type`:  아티팩트 컬렉션의 유형입니다(예: &quot;dataset&quot;, &quot;model&quot;).
 * `organization`:  해당하는 경우 조직 이름(선택 사항)입니다.
-* `attrs`:  artifact collection을 초기화하는 속성 매핑(선택 사항)입니다. 제공하지 않으면 초기화 시 객체가 W&amp;B에서 해당 속성을 로드합니다. 
+* `attrs`:  아티팩트 컬렉션을 초기화하는 속성 매핑(선택 사항)입니다. 제공하지 않으면 초기화 시 객체가 W&amp;B에서 해당 속성을 로드합니다. 
 
 ### <kbd>속성</kbd> ArtifactCollection.aliases
 
