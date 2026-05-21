@@ -1,20 +1,20 @@
 ---
-title: Log agent traces after the fact
-description: Use weave.log_turn and weave.log_session to record agent traces post-hoc when your framework manages its own LLM call lifecycle.
+title: Batch logging for your agent
+description: Manually log agent traces for frameworks that have already completed the LLM call and just need to record it.
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
 
-This guide explains how to record agent traces after a turn has already completed. Use this approach when an agent framework manages its own LLM call lifecycle and exposes completed responses for logging, rather than letting you instrument calls in real time.
+For frameworks that have already completed the LLM call and just need to record it, use `weave.log_turn` and `weave.log_session`. All spans are created and ended immediately without keeping any context managers open.
+
+Data logged this way can be historical — no live session is needed. Set `session_id` to any stable string that uniquely identifies the conversation. Turns that share the same `session_id` are grouped as a single session in the **Agents** view.
 
 If you are building your own agent loop, use the real-time instrumentation APIs described in [Trace your agents](/weave/guides/tracking/trace-agents) instead.
 
 ## `weave.log_turn`
 
-`weave.log_turn` accepts a fully-formed turn — including all LLM and tool spans — and emits them immediately without keeping any context managers open.
+`weave.log_turn` accepts a fully-formed turn, including all LLM and tool spans.
 
-```python
+```python lines
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 from weave.session.session import LLM, Message, Tool, Usage
@@ -41,6 +41,7 @@ llm_span2 = LLM(
     usage=Usage(input_tokens=150, output_tokens=30),
 )
 
+# Log a turn with all its spans.
 weave.log_turn(
     session_id="my-session-abc",
     agent_name="weather-bot",
@@ -54,11 +55,13 @@ weave.log_turn(
 
 `log_turn` returns a `LogResult` containing the trace IDs of the emitted spans.
 
+An optional `model` parameter on `log_turn` sets the model on the turn's own span, not on the child LLM spans. Each `LLM` span carries its own `model` independently. If a turn uses multiple models, set `model` on `log_turn` to whichever you consider the primary model for that turn.
+
 ## `weave.log_session`
 
-`weave.log_session` is a convenience wrapper that calls `log_turn` for each turn in a list. Use it when you have a complete multi-turn session to record at once.
+To bulk-import a complete, multi-turn session at once, use `weave.log_session`. The `turns` parameter accepts a list of `Turn` objects, each constructed the same way as the `log_turn` example above.
 
-```python
+```python lines
 weave.log_session(
     session_id="my-session-abc",
     agent_name="weather-bot",
