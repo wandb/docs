@@ -533,6 +533,7 @@
                         "group": "Trace your agents",
                         "pages": [
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-multi-turn-agents",
                           "weave/guides/tracking/navigate-agents-view"
                         ]

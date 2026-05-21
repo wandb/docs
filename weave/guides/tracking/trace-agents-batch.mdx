@@ -1,0 +1,67 @@
+---
+title: Log agent traces after the fact
+description: Use weave.log_turn and weave.log_session to record agent traces post-hoc when your framework manages its own LLM call lifecycle.
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+This guide explains how to record agent traces after a turn has already completed. Use this approach when an agent framework manages its own LLM call lifecycle and exposes completed responses for logging, rather than letting you instrument calls in real time.
+
+If you are building your own agent loop, use the real-time instrumentation APIs described in [Trace your agents](/weave/guides/tracking/trace-agents) instead.
+
+## `weave.log_turn`
+
+`weave.log_turn` accepts a fully-formed turn — including all LLM and tool spans — and emits them immediately without keeping any context managers open.
+
+```python
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+from weave.session.session import LLM, Message, Tool, Usage
+
+llm_span = LLM(
+    model="gpt-4o",
+    provider_name="openai",
+    input_messages=[Message(role="user", content="What is the weather?")],
+    output_messages=[Message(role="assistant", content="Let me check.")],
+    usage=Usage(input_tokens=100, output_tokens=20),
+)
+
+tool_span = Tool(
+    name="get_weather",
+    arguments='{"city": "Tokyo"}',
+    result='"24°C, sunny"',
+)
+
+llm_span2 = LLM(
+    model="gpt-4o",
+    provider_name="openai",
+    input_messages=[Message(role="user", content="What is the weather?")],
+    output_messages=[Message(role="assistant", content="It is 24°C and sunny.")],
+    usage=Usage(input_tokens=150, output_tokens=30),
+)
+
+weave.log_turn(
+    session_id="my-session-abc",
+    agent_name="weather-bot",
+    messages=[
+        Message(role="user", content="What is the weather in Tokyo?"),
+        Message(role="assistant", content="It is 24°C and sunny in Tokyo."),
+    ],
+    spans=[llm_span, tool_span, llm_span2],
+)
+```
+
+`log_turn` returns a `LogResult` containing the trace IDs of the emitted spans.
+
+## `weave.log_session`
+
+`weave.log_session` is a convenience wrapper that calls `log_turn` for each turn in a list. Use it when you have a complete multi-turn session to record at once.
+
+```python
+weave.log_session(
+    session_id="my-session-abc",
+    agent_name="weather-bot",
+    turns=[turn_1, turn_2],
+)
+```
