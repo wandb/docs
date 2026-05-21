@@ -533,6 +533,7 @@
                         "group": "Trace your agents",
                         "pages": [
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-multi-turn-agents",
                           "weave/guides/tracking/navigate-agents-view"
                         ]
@@ -638,6 +639,17 @@
                           "weave/guides/integrations",
                           "weave/guides/integrations/autopatching",
                           "weave/guides/integrations/js",
+                          {
+                            "group": "Trace agents",
+                            "pages": [
+                              "weave/guides/integrations/agents/google-adk",
+                              "weave/guides/integrations/agents/openai-agents",
+                              "weave/guides/integrations/agents/claude-agents-sdk",
+                              "weave/guides/integrations/agents/claude-code-harness",
+                              "weave/guides/integrations/agents/codex-harness",
+                              "weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM Providers",
                             "pages": [
