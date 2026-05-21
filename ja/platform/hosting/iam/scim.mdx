@@ -25,6 +25,7 @@ SCIM API の操作方法を示す実践的な Python の例については、[`w
 * **PATCH 操作**: リソースの一部更新に PATCH をサポートします
 * **ETag サポート**: 競合検出のため、ETag を使用した条件付き更新をサポートします
 * **サービスアカウント認証**: 組織のサービスアカウントは API にアクセスできます
+* **サービスアカウントのライフサイクル**: [チームスコープおよび組織スコープのサービスアカウント](/ja/platform/hosting/iam/service-accounts)のプロビジョニングとプロビジョニング解除を行えます。**Multi-tenant Cloud**、**専用クラウド**、および **セルフマネージド** v0.81.0+ でサポートされます。
 
 <Note>
   複数の Enterprise [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合は、APIキーを使用して送信した SCIM API リクエストが正しい組織に適用されるよう、SCIM API リクエストの送信先となる組織を設定する必要があります。プロフィール画像をクリックし、**User Settings** をクリックしてから、**Default API organization** の設定を確認してください。
@@ -122,7 +123,9 @@ Authorization: Basic OnNhLXBANTV3MHJk
   ## ユーザー管理
 </div>
 
-SCIM の user リソースは、W&amp;B Users に対応します。これらの endpoints を使用して、組織内のユーザーを管理します。
+SCIM の user リソースは、W&amp;B Users とサービスアカウントに対応します。これらの endpoints を使用して、組織内のユーザーとサービスアカウントを管理します。
+
+サービスアカウントの概念と UI ワークフローについては、[サービスアカウントを使用してワークフローを自動化する](/ja/platform/hosting/iam/service-accounts) を参照してください。
 
 <Note>
   **SCIM ユーザー JSON をパースするインテグレーションに対する破壊的変更**
@@ -139,9 +142,9 @@ SCIM の user リソースは、W&amp;B Users に対応します。これらの 
   ### ユーザーを取得
 </div>
 
-組織内の特定のユーザーに関する情報を取得します。
+ユーザー ID を使用して、組織内の特定のユーザーまたはサービスアカウントの情報を取得できます。メールアドレスを使用してユーザーの情報を取得することもできます。
 
-<Note>この操作では、サービスアカウントの情報は取得されません。</Note>
+サービスアカウントの応答には、`accountType` (チームスコープのサービスアカウントは `SERVICE`、組織スコープのサービスアカウントは `ORG_SERVICE`) が含まれます。サービスアカウントには `emails` は含まれません。
 
 #### エンドポイント
 
@@ -214,9 +217,7 @@ SCIM の user リソースは、W&amp;B Users に対応します。これらの 
   ### Usersを一覧表示する
 </div>
 
-組織内のすべてのユーザーの一覧を取得します。
-
-<Note>この操作ではサービスアカウントは取得されません。</Note>
+組織内のすべてのユーザーとサービスアカウントの一覧を取得します。各リソースには `accountType` (`USER`、`SERVICE`、または `ORG_SERVICE`) が含まれます。
 
 <div id="filter-users">
   #### Users をフィルター
@@ -460,6 +461,210 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
+<div id="provision-service-account">
+  ### サービスアカウントをプロビジョニング
+</div>
+
+組織内に、チームスコープまたは組織スコープのサービスアカウントを作成します。通常のユーザーを作成する場合は、`accountType` を省略します。[Create user](#create-user) を参照してください。
+
+<Note>
+  **専用クラウド**、**セルフマネージド** v0.81.0+、および **Multi-tenant Cloud** で利用できます。
+
+  * `userName` にはサービスアカウント名を設定します。API はアカウントの表示名として `userName` を使用するため、リクエストボディ内の `displayName` は無視されます。
+  * サービスアカウントでは `emails` は必須ではありません。
+  * `modelsSeat` と `weaveRole` は作成時にはサポートされておらず、指定すると `400 Bad Request` を返します。
+  * サービスアカウントは `PATCH` または `PUT` で更新できず、無効化することもできません。また、SCIM を通じて組織、チーム、または Registry のロールを割り当てることもできません。プロビジョニング後に W&amp;B App でAPIキーを作成してください。
+</Note>
+
+#### エンドポイント
+
+* **URL**: `<host-url>/scim/Users`
+* **method**: POST
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| パラメーター                                                  | タイプ    | 必須  | 説明                                                                                                                                                                                                                               |
+| ------------------------------------------------------- | ------ | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `userName`                                              | string | Yes | サービスアカウントの一意の名前。                                                                                                                                                                                                                 |
+| `accountType`                                           | string | Yes | [チームスコープのサービスアカウント](/ja/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) には `SERVICE`、[組織スコープのサービスアカウント](/ja/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts) には `ORG_SERVICE` を指定します。 |
+| `urn:ietf:params:scim:schemas:extension:teams:2.0:User` | object | Yes | Teams 拡張オブジェクト。                                                                                                                                                                                                                  |
+| `defaultTeam`                                           | string | Yes | Teams 拡張のサブフィールドです。既存の W&amp;B Team の名前を指定します。サービスアカウントはこのチームの Member として作成されます。チームスコープのサービスアカウントが参加するチームは、このチームのみです。組織スコープのサービスアカウントは、後から SCIM によって作成されるチームにも自動的に追加されます。                                                        |
+| `teams`                                                 | array  | No  | **Multi-tenant Cloud のみ。** アカウントを追加するチーム名の配列です。このフィールドを使用する場合は、`defaultTeam` と同じチームも含めてください。                                                                                                                                     |
+
+<div id="examples">
+  #### 例
+</div>
+
+<Tabs>
+  <Tab title="チーム サービスアカウントをプロビジョニングするリクエスト">
+    ```bash
+    POST /scim/Users
+    ```
+
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+        ],
+        "userName": "sa-deploy-bot",
+        "accountType": "SERVICE",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+            "defaultTeam": "ml-platform"
+        }
+    }
+    ```
+  </Tab>
+
+  <Tab title="組織サービスアカウントをプロビジョニングするリクエスト">
+    ```bash
+    POST /scim/Users
+    ```
+
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+        ],
+        "userName": "sa-ci-runner",
+        "accountType": "ORG_SERVICE",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+            "defaultTeam": "ml-platform"
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response">
+  #### レスポンス
+</div>
+
+<Tabs>
+  <Tab title="チームサービスアカウントのプロビジョニング レスポンス">
+    ```bash
+    (Status 201)
+    ```
+
+    ```json
+    {
+        "accountType": "SERVICE",
+        "active": true,
+        "displayName": "sa-deploy-bot",
+        "id": "xyz",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/xyz"
+        },
+        "organizationRole": "member",
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:wandb:2.0:User"
+        ],
+        "teamRoles": [
+            {
+                "teamName": "ml-platform",
+                "roleName": "member"
+            }
+        ],
+        "urn:ietf:params:scim:schemas:extension:wandb:2.0:User": {
+            "organizationRole": "member"
+        },
+        "userName": "sa-deploy-bot"
+    }
+    ```
+  </Tab>
+
+  <Tab title="組織サービスアカウントのプロビジョニング レスポンス">
+    ```bash
+    (Status 201)
+    ```
+
+    ```json
+    {
+        "accountType": "ORG_SERVICE",
+        "active": true,
+        "displayName": "sa-ci-runner",
+        "id": "xyz",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "location": "Users/xyz"
+        },
+        "organizationRole": "member",
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "urn:ietf:params:scim:schemas:extension:wandb:2.0:User"
+        ],
+        "teamRoles": [
+            {
+                "teamName": "ml-platform",
+                "roleName": "member"
+            }
+        ],
+        "urn:ietf:params:scim:schemas:extension:wandb:2.0:User": {
+            "organizationRole": "member"
+        },
+        "userName": "sa-ci-runner"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+組織スコープのサービスアカウントでは、`accountType` は `ORG_SERVICE` です。
+
+**セルフマネージド**環境では、`organizationRole` はアカウントタイプに応じて、`member` ではなく `service` または `org_service` になります。
+
+レスポンスでこれらのいずれかのエラーが返された場合は、リクエストに次のような一般的な問題がないか確認してください。
+
+* `409 Conflict`: リクエストに、同じサービスアカウントに対する重複した `userName` キーが含まれています。
+* `400 Bad Request`: リクエストで `defaultTeam` が指定されていないか、無効な値が設定されています。
+
+<div id="deprovision-service-account">
+  ### サービスアカウントのプロビジョニング解除
+</div>
+
+サービスアカウントと、その組織へのメンバーシップを完全に削除します。これはハード削除であり、SCIM を介してアカウントを再有効化することはできません。
+
+<Note>
+  **専用クラウド**、**セルフマネージド** v0.81.0+、および **Multi-tenant Cloud** で利用できます。サービスアカウントの SCIM ユーザー `id` は、プロビジョニング時のレスポンス、または [Get user](#get-user) から取得したものを使用してください。プロビジョニングを解除しても、すでに発行済みの APIキー は削除されません。必要に応じて、W&amp;B App でキーを個別に失効してください。
+</Note>
+
+#### エンドポイント
+
+* **URL**: `<host-url>/scim/Users/{id}`
+* **method**: DELETE
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| パラメーター | タイプ    | 必須  | 説明                  |
+| ------ | ------ | --- | ------------------- |
+| `id`   | string | Yes | サービスアカウントの一意の IDです。 |
+
+<div id="examples">
+  #### 例
+</div>
+
+<Tabs>
+  <Tab title="サービスアカウントのプロビジョニング解除リクエスト">
+    ```bash
+    DELETE /scim/Users/xyz
+    ```
+  </Tab>
+
+  <Tab title="サービスアカウントのプロビジョニング解除レスポンス">
+    ```bash
+    (ステータス 204)
+    ```
+  </Tab>
+</Tabs>
+
 <div id="delete-user">
   ### ユーザーを削除
 </div>
@@ -472,9 +677,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   運用手順の策定に関する支援、または管理者アクセスの復旧については、[サポート](mailto:support@wandb.com) にお問い合わせください。
 </Warning>
 
-組織からユーザーを完全に削除します。
-
-<Note>この操作はユーザーにのみ適用され、サービスアカウントには使用できません。サービスアカウントは W&amp;B Team の Settings で削除してください。</Note>
+組織からユーザーを完全に削除します。サービスアカウントを削除するには、[サービスアカウントのプロビジョニング解除](#deprovision-service-account) を参照してください。
 
 #### エンドポイント
 
@@ -2534,15 +2737,17 @@ SCIM APIは標準のSCIMエラーレスポンスを返します。
 
 W&amp;B では 2 種類の SCIM API 実装を提供しており、利用できる機能はそれぞれ異なります。
 
-| 機能                       | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
-| ------------------------ | ------------------ | --------------- |
-| ユーザーのメールアドレスを更新          | -                  | ✓               |
-| ユーザーの表示名を更新              | -                  | ✓               |
-| ユーザーの無効化                 | ✓                  | ✓               |
-| ユーザーの再有効化                | -                  | ✓               |
-| ユーザーごとに複数のメールアドレス        | ✓                  | -               |
-| 作成/更新時に `modelsSeat` を設定 | -                  | ✓               |
-| 作成/更新時に `weaveRole` を設定  | -                  | ✓               |
+| 機能                                               | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
+| ------------------------------------------------ | ------------------ | --------------- |
+| ユーザーのメールアドレスを更新                                  | -                  | ✓               |
+| ユーザーの表示名を更新                                      | -                  | ✓               |
+| ユーザーの無効化                                         | ✓                  | ✓               |
+| ユーザーの再有効化                                        | -                  | ✓               |
+| ユーザーごとに複数のメールアドレス                                | ✓                  | -               |
+| 作成/更新時に `modelsSeat` を設定                         | -                  | ✓               |
+| 作成/更新時に `weaveRole` を設定                          | -                  | ✓               |
+| サービスアカウントをプロビジョニング (`accountType` を指定した `POST`)  | ✓                  | ✓ (v0.81.0+)    |
+| サービスアカウントのプロビジョニング解除 (ID を指定した `DELETE`)         | ✓                  | ✓ (v0.81.0+)    |
 
 <div id="limitations">
   ## 制限事項
