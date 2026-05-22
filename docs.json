@@ -534,7 +534,6 @@
                         "pages": [
                           "weave/guides/tracking/trace-agents",
                           "weave/guides/tracking/trace-agents-batch",
-                          "weave/guides/tracking/trace-multi-turn-agents",
                           "weave/guides/tracking/navigate-agents-view"
                         ]
                       },
@@ -585,7 +584,6 @@
                         "group": "Evaluate your agents and applications",
                         "pages": [
                           "weave/guides/core-types/evaluations",
-                          "weave/evaluation/evaluate-agents",
                           "weave/guides/core-types/datasets",
                           "weave/guides/evaluation/scorers",
                           "weave/guides/evaluation/builtin_scorers",
