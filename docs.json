@@ -442,6 +442,7 @@
                               "models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "models/app/leet-tui",
                           "models/app/console-logs",
                           "models/app/keyboard-shortcuts"
                         ]
