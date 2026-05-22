@@ -520,6 +520,7 @@
                   {
                     "group": "Get Started",
                     "pages": [
+                      "weave/agents-quickstart",
                       "weave/quickstart",
                       "weave/tutorial-eval",
                       "weave/tutorial-rag"
