@@ -7,6 +7,10 @@ description: >
 
 Serverless Inference を使用する前に、料金、制限、その他の重要な利用情報を確認してください。
 
+<Info>
+  料金、制限、またはアカウントについて、このページで解決しない疑問がある場合は、要件についてご相談いただくために [Support](https://wandb.ai/site/contact) までお問い合わせください。
+</Info>
+
 <div id="pricing">
   ## 料金
 </div>
@@ -41,9 +45,11 @@ Serverless Inference クレジットは、期間限定で Free、Pro、Academic 
   ## 同時実行制限
 </div>
 
-レート制限を超えると、API は `429 Concurrency limit reached for requests` というレスポンスを返します。このエラーを解消するには、同時に送信するリクエスト数を減らしてください。詳しいトラブルシューティングについては、[同時実行制限](#concurrency-limits)を参照してください。
+同時実行制限を超えると、API は `429 Concurrency limit reached for requests` というレスポンスを返します。このエラーを解消するには、同時に送信するリクエスト数を減らしてください。
 
-W&amp;B では、W&amp;B プロジェクトごとにレート制限が適用されます。たとえば、1 つのチームに 3 つの プロジェクト がある場合、各プロジェクトにはそれぞれ独自のレート制限枠があります。
+W&amp;B では、W&amp;B プロジェクトごと、およびユーザーごとに同時実行制限が適用されます。たとえば、1 つのチームに 3 つの プロジェクト がある場合、各プロジェクトにはそれぞれ独自の同時実行制限枠があります。
+
+ユースケースで制限の引き上げが必要な場合は、要件について相談するために[サポート](https://wandb.ai/site/contact)までお問い合わせください。
 
 <div id="geographic-restrictions">
   ## 地理的制限
