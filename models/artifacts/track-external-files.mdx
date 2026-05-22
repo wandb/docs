@@ -3,7 +3,7 @@ description: Track files saved in an external bucket, HTTP file server, or an NF
 title: Track external files
 ---
 
-Use *reference artifacts* to track and use files saved outside of W&B servers. Common external storage solutions include: CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
+Use *reference artifacts* to track and use files saved outside of W&B servers. Common external storage solutions include: CoreWeave AI Object Storage, Backblaze B2 Cloud Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
 
 Reference artifacts behave similar to non-reference artifacts. The key difference is that the reference artifacts only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
@@ -74,7 +74,7 @@ with wandb.init(project="my-project") as run:
 Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
 
 <Note>
-W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave Storage and MinIO. The scripts described below work as-is with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave Storage or MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave Storage, Backblaze B2 Cloud Storage, and MinIO. The scripts described below work as-is with these providers when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your S3-compatible server (for example, `https://s3.us-west-001.backblazeb2.com` for Backblaze B2).
 </Note>
 
 <Warning>
@@ -147,6 +147,7 @@ W&B uses the default mechanism to look for credentials based on the cloud provid
 | Cloud provider | Credentials Documentation |
 | -------------- | ------------------------- |
 | CoreWeave AI Object Storage | [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
+| Backblaze B2 Cloud Storage  | [Backblaze B2 Application Keys documentation](https://www.backblaze.com/docs/cloud-storage-application-keys?utm_source=wandb-docs&utm_medium=referral&utm_campaign=ai_artifacts&utm_content=b2ai-wandb) |
 | AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | Google Cloud            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
