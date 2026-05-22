@@ -6,6 +6,26 @@ rss: true
 
 Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), voir les [versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour W&amp;B Server, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
 
+<Update label="0.27.0" description="13 mai 2026">
+  ## Changements notables
+
+  Cette version ne prend plus en charge Python 3.9 ni Pydantic v1. Pydantic v2.6 ou une version ultérieure est désormais requis.
+
+  ## Ajouts
+
+  * Le nouveau package `wandb.sandbox` et la CLI `wandb beta sandbox` pour utiliser [Serverless Sandboxes](/fr/sandboxes).
+  * Le nouveau paramètre `stop_on_fatal_error` et la variable d’environnement `WANDB_STOP_ON_FATAL_ERROR` arrêtent un run après une erreur fatale qui l’empêche de téléverser des métriques.
+  * Le nouveau paramètre `finish_timeout` et la variable d’environnement correspondante `WANDB_FINISH_TIMEOUT` vous permettent de spécifier le nombre de secondes à attendre pour le téléversement des données à la fin d’un run. Si un run expire, un message d’avertissement est affiché. Utilisez le paramètre booléen `finish_timeout_raises` ou la variable d’environnement correspondante `WANDB_FINISH_TIMEOUT_RAISES` pour lever une erreur en plus d’afficher un message d’avertissement.
+  * Le nouveau paramètre `capture_loggers` vous permet de spécifier les loggers Python à capturer dans l’onglet **Logs** du run, à l’aide d’une correspondance entre le nom du logger et le niveau de journalisation minimum. Les enregistrements émis par ces loggers sont publiés comme sortie de console dans le run, de façon similaire à la capture de `stdout`/`stderr`.
+  * La nouvelle méthode `run.write_logs()` écrit du texte directement dans l’onglet **Logs** du run au lieu de s’appuyer sur la capture automatique de `stdout`/`stderr`.
+
+  ## Modifications
+
+  * Les métriques système des runs dans des conteneurs Linux signalent désormais l’utilisation du CPU et de la mémoire par rapport aux limites cgroup v2 du conteneur plutôt qu’aux totaux de l’hôte.
+  * Python 3.9 n’est plus pris en charge.
+  * Pydantic 2.6 ou version ultérieure est désormais requis. Pydantic v1 n’est plus pris en charge.
+</Update>
+
 <Update label="0.26.1" description="23 avril 2026">
   ## Ajouts
 

@@ -7,6 +7,10 @@ description: >
 
 Serverless Inference를 사용하기 전에 가격, 한도 및 기타 중요한 사용 정보를 확인하세요.
 
+<Info>
+  이 페이지에서 가격, 한도 또는 계정 관련 궁금증이 해결되지 않았다면, 요구 사항을 논의하려면 [지원팀](https://wandb.ai/site/contact)에 문의하세요.
+</Info>
+
 <div id="pricing">
   ## 가격
 </div>
@@ -41,9 +45,11 @@ Serverless Inference 크레딧은 한시적으로 Free, Pro, Academic 플랜에 
   ## 동시성 제한
 </div>
 
-요청 속도 제한을 초과하면 API가 `429 Concurrency limit reached for requests` 응답을 반환합니다. 이 오류를 해결하려면 동시에 보내는 요청 수를 줄이세요. 자세한 문제 해결 방법은 [동시성 제한](#concurrency-limits)을 참조하세요.
+동시성 제한을 초과하면 API가 `429 Concurrency limit reached for requests` 응답을 반환합니다. 이 오류를 해결하려면 동시에 보내는 요청 수를 줄이세요.
 
-W&amp;B는 W&amp;B 프로젝트별로 요청 속도 제한을 적용합니다. 예를 들어 Teams에 프로젝트가 3개 있으면 각 프로젝트에 개별 요청 속도 제한 한도가 적용됩니다.
+W&amp;B는 W&amp;B 프로젝트별로 그리고 사용자별로 동시성 제한을 적용합니다. 예를 들어 팀에 프로젝트가 3개 있으면 각 프로젝트에는 각각의 동시성 제한 한도가 적용됩니다.
+
+사용 사례에 더 높은 한도가 필요하면 요구 사항을 논의하기 위해 [지원팀](https://wandb.ai/site/contact)에 문의하세요.
 
 <div id="geographic-restrictions">
   ## 지리적 제한
