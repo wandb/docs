@@ -55,13 +55,14 @@ pip install weave openai requests
 `weave.init()` authenticates with W&B and configures the OTel exporter that sends agent spans to the **Agents** view. If the project does not exist on your team, Weave creates it the first time you write to it.
 
 ```python
+import getpass
 import os
 
-os.environ["WANDB_API_KEY"] = "your-wandb-api-key"
-os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
+os.environ["WANDB_API_KEY"] = getpass.getpass("Enter your W&B API key: ")
+os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
 
-TEAM = "<your-team-name>"
-PROJECT = "<your-project-name>"
+TEAM = input("Enter your W&B team name: ")
+PROJECT = input("Enter your W&B project name: ")
 
 import weave
 weave.init(f"{TEAM}/{PROJECT}")
