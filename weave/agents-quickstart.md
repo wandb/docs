@@ -5,11 +5,13 @@ description: Trace a multi-turn agent with the Weave SDK. Sessions, turns, LLM c
 
 [Try in Colab](https://colab.research.google.com/github/wandb/weave/blob/master/docs/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub source](https://github.com/wandb/weave/blob/master/docs/weave/cookbooks/source/agents-quickstart.ipynb)
 
-The Weave SDK allows you to trace custom agents or agents created using popular SDKs. This quickstart guides you through how to manually integrate Weave into a custom-built multi-turn agent to emit and capture OpenTelemetry spans in Weave.
+The Weave SDK allows you to trace custom agents or agents created using popular SDKs. This quickstart guides you through how to manually integrate Weave into a custom-built multi-turn agent to emit and capture OpenTelemetry spans and render them in Weave's Agents view.
 
-Weave also autopatches into several popular agent-building SDKs and agent harnesses for quick integration. See the [Weave integration section](TBD) for more options and information.
+If you are looking to integrate Weave with popular SDKs or harnesses, such as the Claude Agents SDK or Codex, see the [Weave integration section](/weave/guides/integrations). Weave autopatches into several popular agent-building SDKs and agent harnesses for quick integration.
 
 ## What you'll learn
+
+The code in this guide sets up a small research agent that can look things up on Wikipedia. It asks three questions (three turns), lets the AI decide when to search Wikipedia for an answer, and uses Weave to record every step (the conversation, each question, each AI response, and each Wikipedia lookup) so you can see exactly what happened in the Weave Agents view.
 
 This guide shows you how to:
 
@@ -21,7 +23,7 @@ This guide shows you how to:
 
 ## How the Weave SDK works with agents
 
-The Weave SDK includes a generic OTeL ingest system for agents, meaning that Weave can capture information from any OTeL span in your agent's code. However, Weave requires special handling of the following spans to render your agent's traces in the Agents view of the Weave UI.
+The Weave SDK includes a generic OTel ingest system for agents, meaning that Weave can capture information from any OTel span in your agent's code. However, Weave requires special handling of the following spans to render your agent's traces in the Agents view of the Weave UI.
 
 | Function | Maps to | OTel span |
 | --- | --- | --- |
@@ -30,7 +32,7 @@ The Weave SDK includes a generic OTeL ingest system for agents, meaning that Wea
 | `weave.start_llm(...)` | One LLM API call | `chat` |
 | `weave.start_tool(...)` | One tool execution | `execute_tool` |
 
-All four are context managers. On exit they end the span and flush attributes, including on exceptions.
+All four are context managers. On exit, they end the span and flush attributes, including on exceptions.
 
 Other [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/), such as `gen_ai.usage.*` and `gen_ai.agent.name`, enable additional rendering, but they are optional.
 
@@ -67,7 +69,7 @@ weave.init(f"{TEAM}/{PROJECT}")
 
 ## Define a tool
 
-The agent has one tool: a Wikipedia search backed by Wikipedia's public REST API. Define a plain Python function plus an OpenAI tool schema — no Weave-specific wrapping needed at this stage.
+The following code defines the agent's Wikipedia search tool and an OpenAI tool schema to determine when and how to use the tool.
 
 ```python
 import json
@@ -183,3 +185,5 @@ Click into any turn to inspect the inputs, outputs, tool arguments, and tool res
 
 ## Next steps
 
+* Get a better understanding of how to [trace agents with Weave](weave/guides/tracking/trace-agents) and what features and options are available in the Weave SDK.
+* See the [integration section](/weave/guides/integrations) for more options on how to integrate Weave with your agents.
