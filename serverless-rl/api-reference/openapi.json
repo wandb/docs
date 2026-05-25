@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Serverless RL",
+    "title": "W&B Training",
     "version": "1.0.0"
   },
   "paths": {
