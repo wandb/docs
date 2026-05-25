@@ -1,19 +1,50 @@
 ---
 title: Integrations overview
-description: "Trace and monitor LLM calls across 30+ providers and frameworks with Weave's automatic patching for OpenAI, Anthropic, and more."
+description: "Trace agents and LLM applications with Weave's integrations for popular agent SDKs, harnesses, LLM providers, and orchestration frameworks."
 ---
 
+Weave provides two ways to integrate with your AI stack:
 
+- **Trace agents**: For multi-turn agentic applications built with agent SDKs (such as the OpenAI Agents SDK or Google ADK) or run inside agent harnesses (such as Claude Code, Codex, or Pi.dev). These integrations capture sessions, turns, LLM calls, and tool calls, and render them in the Weave **Agents** view.
+- **Trace LLM applications**: For code that calls LLM providers (OpenAI, Anthropic, Bedrock, and others) or uses orchestration frameworks (LangChain, LlamaIndex, DSPy, and others). These integrations capture individual LLM calls and pipeline steps as Weave **Calls** in the **Traces** view.
 
+If you're not sure which path to take, start with [Trace your agents](/weave/guides/tracking/trace-agents) for new multi-turn agent work, or [Trace LLM applications](/weave/guides/tracking/tracing) for existing LLM-call workflows.
 
-W&B Weave provides logging integrations for popular LLM providers and orchestration frameworks. These integrations allow you to seamlessly trace calls made through various libraries, enhancing your ability to monitor and analyze your AI applications.
+## Trace agents
 
-If you use LLM provider libraries (such as OpenAI, Anthropic, Cohere, or Mistral) in your application, you want those API calls to show up in W&B Weave as traced Calls: inputs, outputs, latency, token usage, and cost. Without help, you would have to wrap every `client.chat.completions.create()` (or equivalent) in `@weave.op` or manual instrumentation, which is tedious and easy to miss something.
+The Weave SDK models the full lifecycle of a multi-turn agent: sessions, turns, LLM calls, and tool calls. For supported agent SDKs and harnesses, Weave autopatches the framework so you only need to call `weave.init()` — every agent invocation, sub-agent handoff, model call, and tool call is captured automatically and rendered in the **Agents** view.
 
-Weave automatically intercepts (patches) supported LLM client libraries. Your application code stays unchanged: you use the provider SDK as usual, and each request is recorded as a Weave Call. You get full tracing with minimal setup.
+For custom agents, you can instrument any agent code by hand using `weave.start_session`, `weave.start_turn`, `weave.start_llm`, and `weave.start_tool`. See the [agents quickstart](/weave/agents-quickstart) for a walkthrough.
 
+### Integrate Weave with agent SDKs
 
-## LLM providers
+Agent SDKs are libraries for building agents and multi-agent workflows in your own application code. Weave autopatches the following SDKs:
+
+- **[OpenAI Agents SDK](/weave/guides/integrations/agents/openai-agents-sdk)**
+- **[Google Agent Development Kit (ADK)](/weave/guides/integrations/agents/google-adk)**
+- **[Claude Agent SDK](/weave/guides/integrations/agents/claude-agents-sdk)**
+
+### Integrate Weave with agent harnesses
+
+Agent harnesses are end-user agent runtimes (such as coding agents and developer tools) that produce spans Weave can capture. Install the appropriate plugin or extension and your harness sessions are routed to the **Agents** view:
+
+- **[Claude Code](/weave/guides/integrations/agents/claude-code-harness)**
+- **[Codex](/weave/guides/integrations/agents/codex-harness)**
+- **[Pi.dev](/weave/guides/integrations/agents/pi-dev-harness)**
+
+### Build your own
+
+Use the Weave SDK directly to instrument custom agents, including any agent that emits OpenTelemetry spans. Weave accepts any OTel span and has special handling for [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) so your spans render correctly in the **Agents** view of the Weave UI.
+
+See the the [Trace an agent quickstart](/weave/agents-quickstart) for information on how to trace custom agents.
+
+## Trace LLM applications
+
+If your application calls an LLM provider's API directly or uses an orchestration framework, Weave can automatically intercept traces (using autopatching) for many popular libraries and frameworks. By importing the Weave SDK into your code and initializing with `weave.init`, each request is recorded as a Weave **Call** with inputs, outputs, latency, token usage, and cost.
+
+For libraries Weave doesn't autopatch, you can manually apply [Weave Ops](/weave/guides/tracking/create-call#2-tracking-of-custom-functions) to your code to capture traces.
+
+### LLM providers
 
 LLM providers are the vendors that offer access to large language models for generating predictions. Weave integrates with these providers to log and trace the interactions with their APIs:
 
@@ -35,12 +66,13 @@ LLM providers are the vendors that offer access to large language models for gen
 
 **[Local Models](/weave/guides/integrations/local_models)**: For when you're running models on your own infrastructure.
 
-## Frameworks
+### Frameworks
 
-Frameworks help orchestrate the actual execution pipelines in AI applications. They provide tools and abstractions for building complex workflows. Weave integrates with these frameworks to trace the entire pipeline:
+Frameworks help orchestrate the execution pipelines in AI applications. They provide tools and abstractions for building complex workflows. Weave integrates with these frameworks to trace the entire pipeline:
 
-- **[OpenAI Agents SDK](/weave/guides/integrations/openai_agents)**
-- **[Claude Code](/weave/guides/integrations/claude_code)**
+- **[OpenAI Agents SDK (call-level tracing)](/weave/guides/integrations/openai_agents)**
+- **[Claude Agent SDK (call-level tracing)](/weave/guides/integrations/claude_agent)**
+- **[Claude Code (call-level tracing)](/weave/guides/integrations/claude_code)**
 - **[LangChain](/weave/guides/integrations/langchain)**
 - **[LlamaIndex](/weave/guides/integrations/llamaindex)**
 - **[Haystack](/weave/guides/integrations/haystack)**
@@ -49,7 +81,7 @@ Frameworks help orchestrate the actual execution pipelines in AI applications. T
 - **[CrewAI](/weave/guides/integrations/crewai)**
 - **[Smolagents](/weave/guides/integrations/smolagents)**
 - **[PydanticAI](/weave/guides/integrations/pydantic_ai)**
-- **[Google Agent Development Kit (ADK)](/weave/guides/integrations/google_adk)**
+- **[Google Agent Development Kit (ADK, call-level tracing)](/weave/guides/integrations/google_adk)**
 - **[AutoGen](/weave/guides/integrations/autogen)**
 - **[Verdict](/weave/guides/integrations/verdict)**
 - **[TypeScript SDK](/weave/guides/integrations/js)**
@@ -57,13 +89,12 @@ Frameworks help orchestrate the actual execution pipelines in AI applications. T
 - **[Agno](/weave/guides/integrations/agno)**
 - **[Koog](/weave/guides/integrations/koog)**
 
-## RL Frameworks
+### RL Frameworks
+
 - **[Verifiers](/weave/guides/integrations/verifiers)**
 
-## Protocols
+### Protocols
 
 Weave integrates with standardized protocols that enable communication between AI applications and their supporting services:
 
 - **[Model Context Protocol (MCP)](/weave/guides/integrations/mcp)**
-
-Choose an integration from the lists above to learn more about how to use Weave with your preferred LLM provider, framework, or protocol. Whether you're directly accessing LLM APIs, building complex pipelines, or using standardized protocols, Weave provides the tools to trace and analyze your AI applications effectively.
