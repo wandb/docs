@@ -522,8 +522,7 @@
                     "pages": [
                       "weave/agents-quickstart",
                       "weave/quickstart",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/guides/integrations"
                     ]
                   },
                   {
@@ -585,6 +584,8 @@
                         "group": "Evaluate your agents and applications",
                         "pages": [
                           "weave/guides/core-types/evaluations",
+                          "weave/tutorial-eval",
+                          "weave/tutorial-rag",
                           "weave/guides/core-types/datasets",
                           "weave/guides/evaluation/scorers",
                           "weave/guides/evaluation/builtin_scorers",
