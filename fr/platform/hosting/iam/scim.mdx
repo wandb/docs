@@ -323,12 +323,12 @@ Crée un nouvel utilisateur au sein de votre organisation.
   #### Paramètres
 </div>
 
-| Paramètre    | Type   | Requis | Description                                                                                                                                                       |
-| ------------ | ------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `emails`     | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                                                               |
-| `userName`   | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                                                                           |
-| `modelsSeat` | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. **Uniquement pour Cloud dédié et Autogéré.** |
-| `weaveRole`  | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. **Uniquement pour Cloud dédié et Autogéré.**     |
+| Paramètre    | Type   | Requis | Description                                                                                                          |
+| ------------ | ------ | ------ | -------------------------------------------------------------------------------------------------------------------- |
+| `emails`     | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                  |
+| `userName`   | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                              |
+| `modelsSeat` | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. |
+| `weaveRole`  | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.     |
 
 #### Exemple
 
@@ -356,7 +356,7 @@ Crée un nouvel utilisateur au sein de votre organisation.
     ```
   </Tab>
 
-  <Tab title="Requête de création d’utilisateur (Multi-tenant)">
+  <Tab title="Requête de création d’utilisateur (multilocataire)">
     ```bash
     POST /scim/Users
     ```
@@ -374,6 +374,8 @@ Crée un nouvel utilisateur au sein de votre organisation.
             }
         ],
         "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
             "teams": ["my-team"]
         }
@@ -418,7 +420,7 @@ Crée un nouvel utilisateur au sein de votre organisation.
     ```
   </Tab>
 
-  <Tab title="Réponse de création d’utilisateur (Multi-tenant)">
+  <Tab title="Réponse de création d’utilisateur (Multilocataire)">
     ```bash
     (Status 201)
     ```
@@ -445,6 +447,8 @@ Crée un nouvel utilisateur au sein de votre organisation.
         ],
         "userName": "dev-user2",
         "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "teamRoles": [
             {
                 "teamName": "my-team",
@@ -1189,7 +1193,7 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
   ### Mettre à jour la licence Models
 </div>
 
-Met à jour la licence Models attribuée à un utilisateur. **Cloud dédié** et **Autogéré** uniquement.
+Met à jour la licence Models attribuée à un utilisateur.
 
 <div id="endpoint">
   #### Endpoint
@@ -1269,7 +1273,7 @@ Met à jour la licence Models attribuée à un utilisateur. **Cloud dédié** et
   ### Mettre à jour le rôle Weave
 </div>
 
-Met à jour le rôle d&#39;un utilisateur dans Weave. **Cloud dédié** et **Autogéré** uniquement.
+Met à jour le rôle d&#39;un utilisateur dans Weave.
 
 <div id="endpoint">
   #### Endpoint
@@ -2723,17 +2727,15 @@ L’API SCIM renvoie des réponses d’erreur SCIM standard :
 
 W&amp;B propose deux implémentations distinctes de l’API SCIM, dont les fonctionnalités diffèrent :
 
-| Fonctionnalité                                                     | Cloud mutualisé | Cloud dédié et Autogéré |
-| ------------------------------------------------------------------ | --------------- | ----------------------- |
-| Mettre à jour l’adresse e-mail de l’utilisateur                    | -               | ✓                       |
-| Mettre à jour le nom d’affichage de l’utilisateur                  | -               | ✓                       |
-| Désactivation de l’utilisateur                                     | ✓               | ✓                       |
-| Réactivation de l’utilisateur                                      | -               | ✓                       |
-| Plusieurs adresses e-mail par utilisateur                          | ✓               | -                       |
-| Définir `modelsSeat` lors de la création/mise à jour               | -               | ✓                       |
-| Définir `weaveRole` lors de la création/mise à jour                | -               | ✓                       |
-| Provisionnement des comptes de service (`POST` avec `accountType`) | ✓               | ✓ (v0.81.0+)            |
-| Déprovisionnement des comptes de service (`DELETE` par ID)         | ✓               | ✓ (v0.81.0+)            |
+| Fonctionnalité                                       | Cloud mutualisé | Cloud dédié et Autogéré |
+| ---------------------------------------------------- | --------------- | ----------------------- |
+| Mettre à jour l’adresse e-mail de l’utilisateur      | -               | ✓                       |
+| Mettre à jour le nom d’affichage de l’utilisateur    | -               | ✓                       |
+| Désactivation de l’utilisateur                       | ✓               | ✓                       |
+| Réactivation de l’utilisateur                        | -               | ✓                       |
+| Plusieurs adresses e-mail par utilisateur            | ✓               | -                       |
+| Définir `modelsSeat` lors de la création/mise à jour | ✓               | ✓                       |
+| Définir `weaveRole` lors de la création/mise à jour  | ✓               | ✓                       |
 
 <div id="limitations">
   ## Limitations

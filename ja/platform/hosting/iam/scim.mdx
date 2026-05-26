@@ -321,12 +321,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### パラメーター
 </div>
 
-| パラメーター       | タイプ    | 必須  | 説明                                                                                                  |
-| ------------ | ------ | --- | --------------------------------------------------------------------------------------------------- |
-| `emails`     | array  | はい  | メールオブジェクトの配列。メインメールアドレスを含める必要があります                                                                  |
-| `userName`   | string | はい  | 新規ユーザーのユーザー名                                                                                        |
-| `modelsSeat` | string | いいえ | Models のシートレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。**専用クラウドおよびセルフマネージドでのみ使用できます。** |
-| `weaveRole`  | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。**専用クラウドおよびセルフマネージドでのみ使用できます。**     |
+| パラメーター       | タイプ    | 必須  | 説明                                                                |
+| ------------ | ------ | --- | ----------------------------------------------------------------- |
+| `emails`     | array  | はい  | メールオブジェクトの配列。メインメールアドレスを含める必要があります                                |
+| `userName`   | string | はい  | 新規ユーザーのユーザー名                                                      |
+| `modelsSeat` | string | いいえ | Models のシートレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。 |
+| `weaveRole`  | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。  |
 
 <div id="examples">
   #### 例
@@ -374,6 +374,8 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
             }
         ],
         "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
             "teams": ["my-team"]
         }
@@ -445,6 +447,8 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
         ],
         "userName": "dev-user2",
         "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "teamRoles": [
             {
                 "teamName": "my-team",
@@ -1189,7 +1193,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   ### シートを更新
 </div>
 
-ユーザーのシートを更新します。**専用クラウド** と **セルフマネージド** でのみ利用できます。
+ユーザーのシートを更新します。
 
 #### エンドポイント
 
@@ -1269,7 +1273,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   ### Weave ロールを更新する
 </div>
 
-ユーザーの Weave ロールを更新します。**専用クラウド**および**セルフマネージド**でのみ利用できます。
+ユーザーの Weave ロールを更新します。
 
 #### エンドポイント
 
@@ -2737,17 +2741,15 @@ SCIM APIは標準のSCIMエラーレスポンスを返します。
 
 W&amp;B では 2 種類の SCIM API 実装を提供しており、利用できる機能はそれぞれ異なります。
 
-| 機能                                               | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
-| ------------------------------------------------ | ------------------ | --------------- |
-| ユーザーのメールアドレスを更新                                  | -                  | ✓               |
-| ユーザーの表示名を更新                                      | -                  | ✓               |
-| ユーザーの無効化                                         | ✓                  | ✓               |
-| ユーザーの再有効化                                        | -                  | ✓               |
-| ユーザーごとに複数のメールアドレス                                | ✓                  | -               |
-| 作成/更新時に `modelsSeat` を設定                         | -                  | ✓               |
-| 作成/更新時に `weaveRole` を設定                          | -                  | ✓               |
-| サービスアカウントをプロビジョニング (`accountType` を指定した `POST`)  | ✓                  | ✓ (v0.81.0+)    |
-| サービスアカウントのプロビジョニング解除 (ID を指定した `DELETE`)         | ✓                  | ✓ (v0.81.0+)    |
+| 機能                       | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
+| ------------------------ | ------------------ | --------------- |
+| ユーザーのメールアドレスを更新          | -                  | ✓               |
+| ユーザーの表示名を更新              | -                  | ✓               |
+| ユーザーの無効化                 | ✓                  | ✓               |
+| ユーザーの再有効化                | -                  | ✓               |
+| ユーザーごとに複数のメールアドレス        | ✓                  | -               |
+| 作成/更新時に `modelsSeat` を設定 | ✓                  | ✓               |
+| 作成/更新時に `weaveRole` を設定  | ✓                  | ✓               |
 
 <div id="limitations">
   ## 制限事項
