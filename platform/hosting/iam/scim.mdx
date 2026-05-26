@@ -278,8 +278,8 @@ Creates a new user in your organization.
 |-----------|------|----------|-------------|
 | `emails` | array | Yes | Array of email objects. Must include a primary email |
 | `userName` | string | Yes | The username for the new user |
-| `modelsSeat` | string | No | Models seat level. One of `full`, `viewer`, or `none`. Defaults to `full`. **Dedicated Cloud and Self-Managed only.** |
-| `weaveRole` | string | No | Weave role level. One of `full`, `viewer`, or `none`. Defaults to `full`. **Dedicated Cloud and Self-Managed only.** |
+| `modelsSeat` | string | No | Models seat level. One of `full`, `viewer`, or `none`. Defaults to `full`. |
+| `weaveRole` | string | No | Weave role level. One of `full`, `viewer`, or `none`. Defaults to `full`. |
 
 #### Example
 
@@ -324,6 +324,8 @@ POST /scim/Users
         }
     ],
     "userName": "dev-user2",
+    "modelsSeat": "full",
+    "weaveRole": "full",
     "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
         "teams": ["my-team"]
     }
@@ -392,6 +394,8 @@ POST /scim/Users
     ],
     "userName": "dev-user2",
     "organizationRole": "member",
+    "modelsSeat": "full",
+    "weaveRole": "full",
     "teamRoles": [
         {
             "teamName": "my-team",
@@ -1055,7 +1059,7 @@ PATCH /scim/Users/abc
 
 ### Update Models seat
 
-Updates a user's Models seat. **Dedicated Cloud** and **Self-Managed** only.
+Updates a user's Models seat.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -1126,7 +1130,7 @@ PATCH /scim/Users/abc
 
 ### Update Weave role
 
-Updates a user's Weave role. **Dedicated Cloud** and **Self-Managed** only.
+Updates a user's Weave role.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -2487,10 +2491,9 @@ W&B maintains two separate SCIM API implementations, and the features differ bet
 | User deactivation               |    &check;      |    &check;   |
 | User reactivation               |        -        |    &check;   |
 | Multiple emails per user        |    &check;      |      -       |
-| Set `modelsSeat` on create/update |    -    |    &check;   |
-| Set `weaveRole` on create/update  |    -    |    &check;   |
-| Provision service accounts (`POST` with `accountType`) | &check; | &check; (v0.81.0+) |
-| Deprovision service accounts (`DELETE` by id) | &check; | &check; (v0.81.0+) |
+| Set `modelsSeat` on create/update |    &check;    |    &check;   |
+| Set `weaveRole` on create/update  |    &check;    |    &check;   |
+
 
 ## Limitations
 
