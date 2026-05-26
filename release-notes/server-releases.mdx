@@ -36,6 +36,12 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - When viewing a run in a project, the run status and tags now display in the heading near the run's name.
 - Run filters now support `OR` conditions and grouping with parentheses, so you can build complex expressions. In the filter editor, click **New Filter** to add additional `AND` or `OR` conditions, or click **New group** to combine conditions together, such as `job_type = "train" AND (tags = "baseline" OR tags = "production")`. See [Filter runs](/models/runs/filter-runs).
 - Run filters now support filtering by run ID. To display the run ID column, click the column selector button, then select **Run ID**. Then, enter a partial or full run ID in the search field.
+- To crop the Y-axis on line plots, you can now click and drag vertically in the plot. Cropping one axis preserves the viewport on the other axis.
+
+- Configure the video seek step to control the time to control the time increment when skipping forward or back in a video panel using keyboard arrow keys. You can customize the setting for an individual panel, a section, or a workspace.
+
+- You can now navigate full-screen videos using keyboard arrow keys. Click a video to focus it, then use left and right arrow keys to step through the video. This can help you efficiently spot issues like motion artifacts, flicker, or timing problems.
+
 - In the **Artifacts** page, you can now download the artifact from the **Files** tab.
 - In an artifact's [lineage graph](/models/artifacts/explore-and-traverse-an-artifact-graph), you can now filter lineage runs by job type.
 - Automations support additional triggers when created from the UI:
