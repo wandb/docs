@@ -3,6 +3,9 @@ title: Batch logging for your agent
 description: Manually log agent traces for frameworks that have already completed the LLM call and just need to record it.
 ---
 
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
 
 For frameworks that have already completed the LLM call and just need to record it, use `weave.log_turn` and `weave.log_session`. All spans are created and ended immediately without keeping any context managers open.
 
