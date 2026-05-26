@@ -534,6 +534,7 @@
                         "pages": [
                           "weave/guides/tracking/trace-agents",
                           "weave/guides/tracking/trace-agents-batch",
+                          "weave/guides/tracking/trace-sub-agents",
                           "weave/guides/tracking/navigate-agents-view"
                         ]
                       },
