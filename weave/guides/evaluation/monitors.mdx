@@ -1,6 +1,6 @@
 ---
 title: "Set up monitors"
-description: "Passively score production traffic to surface trends and issues"
+description: "Enable preset signals or create custom monitors to passively score production traffic"
 ---
 
 Monitors use LLM judges to passively score production traffic to surface trends and issues in your LLM applications. For example, you can monitor your application's responses for correctness or helpfulness, or you can monitor user input to identify trends in what they're asking your agents about. Monitors automatically store all scoring results in Weave's database, allowing you to analyze historical trends and patterns.
@@ -10,6 +10,92 @@ You can monitor text, images, and audio in your application's input and output.
 Monitors require no code changes to your application. Set them up using the W&B Weave UI.
 
 If you need to actively intervene in your application's behavior based on scores, use [guardrails](/weave/guides/evaluation/guardrails) instead.
+
+## Enable preset signals
+
+Signals are preset classifier monitors that automatically score production traces for common quality issues and error categories. Each signal uses a benchmarked LLM prompt to classify traces as binary labels (true/false) with confidence scores and reasoning.
+
+Signals require no prompt engineering or scorer configuration. Enable signals from the Monitors page to start classifying traces immediately.
+
+Signals use a [W&B Inference](/inference/models) model to score traces, so no external API keys are required.
+
+### Available signals
+
+Weave provides 13 preset signals organized into two groups.
+
+#### Quality signals
+
+Quality signals evaluate successful root-level traces for output quality and safety issues.
+
+| Signal | What it detects |
+|--------|----------------|
+| **Hallucination** | Fabricated facts or claims that contradict the provided input context |
+| **Low quality** | Responses with poor format, insufficient effort, or incomplete content |
+| **User frustration** | Signs of user frustration such as repeated questions, negative sentiment, or complaints |
+| **Jailbreaking** | Prompt injection and jailbreak attempts that try to bypass safety guidelines |
+| **NSFW** | Explicit, violent, or otherwise inappropriate content in inputs or outputs |
+| **Lazy** | Low-effort responses such as excessive brevity, refusals to help, or deferred work |
+| **Forgetful** | Failure to use context from earlier in the conversation, ignoring previously stated facts or instructions |
+
+#### Error signals
+
+Error signals categorize failed traces by root cause to help you identify and resolve infrastructure and application issues.
+
+| Signal | What it detects |
+|--------|----------------|
+| **Network Error** | DNS failures, timeouts, connection resets, and other connectivity issues |
+| **Ratelimited** | HTTP 429 responses, quota exhaustion, and throttling from upstream APIs |
+| **Request Too Large** | Requests exceeding size or token limits, such as context window exceeded |
+| **Bad Request** | Client-side errors where the server rejected the request (4xx except 429) |
+| **Bad Response** | Invalid, unexpected, or unusable responses from remote services (5xx) |
+| **Bug** | Flaws in application code such as `KeyError`, `TypeError`, or logic errors |
+
+### Enable signals from the Monitors page
+
+To enable signals:
+
+1. Open the [W&B UI](https://wandb.ai/home) and then open your Weave project.
+2. From the Weave side-nav, select **Monitors**.
+3. At the top of the Monitors page, a row of suggested signal cards appears. Each card shows the signal name, a description, and an **Enable** button.
+4. To enable a single signal, select the **Enable** button on the signal card. The signal begins scoring new traces immediately.
+5. To enable multiple signals at once, select the **Add signals** button. This opens a drawer that lists all available signals grouped by category (Quality and Error). Select the signals you want to enable, then select **Apply**.
+
+After enabling signals, Weave scores incoming traces and stores the results as feedback on each [Call](/weave/guides/tracking/tracing#calls) object. View signal results in the **Traces** tab by selecting a trace and reviewing the feedback panel.
+
+### Manage active signals
+
+To view or remove active signals:
+
+1. From the Monitors page, select the **Manage signals** button (gear icon). This opens a drawer listing all currently active signals grouped by category.
+2. Hover over a signal and select the **Remove** button (trash icon) to disable the signal.
+
+Removing a signal stops scoring new traces. Existing scores from the signal are preserved.
+
+### How signals work
+
+Each signal uses an LLM-as-a-judge approach to classify traces:
+
+1. **Trace selection**: Quality signals evaluate successful root-level traces. Error signals evaluate failed traces. Child spans and intermediate calls are not scored.
+2. **Prompt construction**: Weave constructs a prompt that includes the trace metadata, inputs, outputs, exception details (if any), and the operation's source code. The signal's classifier prompt is appended with instructions for the specific issue to detect.
+3. **LLM scoring**: A W&B Inference model evaluates the trace and returns a structured JSON response with:
+   - A binary classification (whether the issue was detected)
+   - A confidence score (0.0 to 1.0)
+   - A reason citing specific evidence from the trace
+4. **Result storage**: Results are stored as feedback on the Call object and are queryable from the Traces tab.
+
+When multiple signals from the same group (Quality or Error) are active, Weave batches the signals into a single LLM call for efficiency. The model evaluates all active classifiers in one pass and returns results for each.
+
+### Signals compared to custom monitors
+
+| | Signals | Custom monitors |
+|---|---------|----------------|
+| **Configuration** | One-click enable, no prompt writing | Full control over scoring prompt, model, and parameters |
+| **Scope** | Preset quality and error classifiers | Any evaluation criteria you define |
+| **Trace selection** | Automatic (successful root traces for quality, failed traces for errors) | Configurable operations, filters, and sampling rate |
+| **Model** | W&B Inference (preset) | Any commercial or W&B Inference model |
+| **Use case** | Quick production monitoring with proven classifiers | Custom evaluation criteria specific to your application |
+
+Use signals to get started with production monitoring quickly, then create [custom monitors](#how-to-create-a-monitor-in-weave) for evaluation criteria specific to your application.
 
 ## How to create a monitor in Weave
 
