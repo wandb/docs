@@ -1,0 +1,273 @@
+---
+title: "Interface: LLM"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / LLM
+
+
+
+Defined in: [genai/llm.ts:71](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L71)
+
+An LLM call. Emits a `chat` span with `gen_ai.*` attributes.
+
+Created by `weave.startLLM()` (or `turn.startLLM()`) and terminated with
+`end()`. Only one LLM may be active in an async context at a time; nest
+tool/subagent calls under it via `startTool` / `startSubagent`.
+
+Populate `inputMessages` / `outputMessages` / `usage` / `reasoning` directly,
+or via the helper functions (`output`, `think`, `attachMedia`, `record`).
+
+All recorded data is flushed to the span at `end()`.
+
+## Example
+
+```ts
+const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+try {
+  llm.inputMessages = [{role: 'user', content: prompt}];
+  const resp = await openai.chat.completions.create({...});
+  llm.output(resp.choices[0].message.content ?? '');
+  llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+## Properties
+
+### inputMessages
+
+> **inputMessages**: [`Message`](./message)[] = `[]`
+
+Defined in: [genai/llm.ts:78](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L78)
+
+Input messages sent to the model. Flushed to `gen_ai.input.messages` on
+`end()`.
+
+***
+
+### model
+
+> `readonly` **model**: `string`
+
+Defined in: [genai/llm.ts:98](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L98)
+
+***
+
+### outputMessages
+
+> **outputMessages**: [`Message`](./message)[] = `[]`
+
+Defined in: [genai/llm.ts:83](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L83)
+
+Assistant messages returned by the model. Flushed to
+`gen_ai.output.messages` on `end()`.
+
+***
+
+### providerName
+
+> `readonly` **providerName**: `string`
+
+Defined in: [genai/llm.ts:99](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L99)
+
+***
+
+### reasoning?
+
+> `optional` **reasoning?**: [`Reasoning`](./reasoning)
+
+Defined in: [genai/llm.ts:90](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L90)
+
+Chain-of-thought content. Folded into the last assistant message as a
+ReasoningPart at serialization time.
+
+***
+
+### usage
+
+> **usage**: [`Usage`](./usage) = `{}`
+
+Defined in: [genai/llm.ts:85](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L85)
+
+Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
+
+## Methods
+
+### attachMedia()
+
+> **attachMedia**(`opts`): `this`
+
+Defined in: [genai/llm.ts:168](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L168)
+
+Attach a media part to the last input message. Pick exactly one of
+ `content` (inline base64 bytes), `uri` (URI reference), or `fileId`
+ (pre-uploaded file id).
+
+#### Parameters
+
+##### opts
+
+`AttachMediaOpts`
+
+#### Returns
+
+`this`
+
+***
+
+### attachMediaUrl()
+
+> **attachMediaUrl**(`url`, `opts`): `this`
+
+Defined in: [genai/llm.ts:186](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L186)
+
+Convenience for `attachMedia({uri, modality})`.
+
+#### Parameters
+
+##### url
+
+`string`
+
+##### opts
+
+###### modality
+
+[`Modality`](../type-aliases/modality)
+
+#### Returns
+
+`this`
+
+***
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Defined in: [genai/llm.ts:246](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L246)
+
+Flush accumulated state to the span and close it. Idempotent. Pass
+`error` to mark the span as failed.
+
+#### Parameters
+
+##### opts?
+
+###### error?
+
+`Error`
+
+#### Returns
+
+`void`
+
+***
+
+### output()
+
+> **output**(`content`): `this`
+
+Defined in: [genai/llm.ts:141](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L141)
+
+Append an assistant message to the response.
+
+#### Parameters
+
+##### content
+
+`string`
+
+#### Returns
+
+`this`
+
+***
+
+### record()
+
+> **record**(`opts`): `this`
+
+Defined in: [genai/llm.ts:197](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L197)
+
+Bulk-set any subset of the mutable fields. Replaces (does not merge).
+Useful for assigning everything at once after a provider call returns.
+
+#### Parameters
+
+##### opts
+
+`LLMRecordOpts`
+
+#### Returns
+
+`this`
+
+***
+
+### startSubagent()
+
+> **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+Defined in: [genai/llm.ts:230](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L230)
+
+Start a child SubAgent span nested under this LLM.
+
+#### Parameters
+
+##### opts
+
+[`SubAgentInit`](./subagentinit)
+
+#### Returns
+
+[`SubAgent`](./subagent)
+
+***
+
+### startTool()
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+Defined in: [genai/llm.ts:221](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L221)
+
+Start a child Tool span nested under this LLM.
+
+#### Parameters
+
+##### opts
+
+[`ToolInit`](./toolinit)
+
+#### Returns
+
+[`Tool`](./tool)
+
+***
+
+### think()
+
+> **think**(`content`): `this`
+
+Defined in: [genai/llm.ts:153](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/llm.ts#L153)
+
+Set or extend the model's reasoning/chain-of-thought content. Accumulates
+ into `this.reasoning.content`. Folded into the last assistant message as
+ a `ReasoningPart` at serialization time, matching the Python SDK's
+ on-the-wire shape.
+
+#### Parameters
+
+##### content
+
+`string`
+
+#### Returns
+
+`this`

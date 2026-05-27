@@ -3,478 +3,588 @@ title: "Class: WeaveClient"
 description: "TypeScript SDK reference"
 ---
 
+[**weave**](../)
+
+***
+
 [weave](../) / WeaveClient
 
 
 
-## Table of contents
-
-### Constructors
-
-- [constructor](./weaveclient#constructor)
-
-### Properties
-
-- [projectId](./weaveclient#projectid)
-- [settings](./weaveclient#settings)
-- [traceServerApi](./weaveclient#traceserverapi)
-
-### Methods
-
-- [addScore](./weaveclient#addscore)
-- [createCall](./weaveclient#createcall)
-- [finishCall](./weaveclient#finishcall)
-- [finishCallWithException](./weaveclient#finishcallwithexception)
-- [get](./weaveclient#get)
-- [getCall](./weaveclient#getcall)
-- [getCallStack](./weaveclient#getcallstack)
-- [getCalls](./weaveclient#getcalls)
-- [getCallsIterator](./weaveclient#getcallsiterator)
-- [getCurrentAttributes](./weaveclient#getcurrentattributes)
-- [publish](./weaveclient#publish)
-- [pushNewCall](./weaveclient#pushnewcall)
-- [runWithAttributes](./weaveclient#runwithattributes)
-- [runWithCallStack](./weaveclient#runwithcallstack)
-- [saveCallEnd](./weaveclient#savecallend)
-- [saveCallStart](./weaveclient#savecallstart)
-- [saveOp](./weaveclient#saveop)
-- [serializeAudio](./weaveclient#serializeaudio)
-- [updateCall](./weaveclient#updatecall)
-- [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
+Defined in: [weaveClient.ts:179](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L179)
 
 ## Constructors
 
-### constructor
+### Constructor
 
-• **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
+> **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): `WeaveClient`
+
+Defined in: [weaveClient.ts:190](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L190)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `traceServerApi` | `Api`\<`any`\> |
-| `wandbServerApi` | `WandbServerApi` |
-| `projectId` | `string` |
-| `settings` | `Settings` |
+##### traceServerApi
+
+`Api`\<`any`\>
+
+##### wandbServerApi
+
+`WandbServerApi`
+
+##### projectId
+
+`string`
+
+##### settings?
+
+`Settings` = `...`
 
 #### Returns
 
-[`WeaveClient`](./weaveclient)
-
-#### Defined in
-
-[weaveClient.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L100)
+`WeaveClient`
 
 ## Properties
 
 ### projectId
 
-• **projectId**: `string`
+> **projectId**: `string`
 
-#### Defined in
+Defined in: [weaveClient.ts:193](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L193)
 
-[weaveClient.ts:103](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L103)
-
-___
+***
 
 ### settings
 
-• **settings**: `Settings`
+> **settings**: `Settings`
 
-#### Defined in
+Defined in: [weaveClient.ts:194](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L194)
 
-[weaveClient.ts:104](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L104)
-
-___
+***
 
 ### traceServerApi
 
-• **traceServerApi**: `Api`\<`any`\>
+> **traceServerApi**: `Api`\<`any`\>
 
-#### Defined in
-
-[weaveClient.ts:101](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L101)
+Defined in: [weaveClient.ts:191](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L191)
 
 ## Methods
 
-### addScore
+### addScore()
 
-▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
+> **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
+
+Defined in: [weaveClient.ts:1128](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L1128)
 
 Add a scorer result (e.g., scorer output) to a call.
 Used in imperative evaluation to attach scorer results to predict calls.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `predictCallId` | `string` | ID of the predict call to attach feedback to |
-| `scorerCallId` | `string` | ID of the scorer call that generated the feedback |
-| `runnableRefUri` | `string` | URI of the scorer (Op or Object ref) |
-| `scorerOutput` | `any` | Output of the scorer |
+##### predictCallId
+
+`string`
+
+ID of the predict call to attach feedback to
+
+##### scorerCallId
+
+`string`
+
+ID of the scorer call that generated the feedback
+
+##### runnableRefUri
+
+`string`
+
+URI of the scorer (Op or Object ref)
+
+##### scorerOutput
+
+`any`
+
+Output of the scorer
 
 #### Returns
 
 `Promise`\<`string`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:908](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L908)
+### createCall()
 
-___
+> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
 
-### createCall
-
-▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
+Defined in: [weaveClient.ts:975](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L975)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `internalCall` | `InternalCall` |
-| `opRef` | `any` |
-| `params` | `any`[] |
-| `parameterNames` | `ParameterNamesOption` |
-| `thisArg` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `startTime` | `Date` |
-| `displayName?` | `string` |
-| `attributes?` | `Record`\<`string`, `any`\> |
+##### internalCall
+
+`InternalCall`
+
+##### opRef
+
+`any`
+
+##### params
+
+`any`[]
+
+##### parameterNames
+
+`ParameterNamesOption`
+
+##### thisArg
+
+`any`
+
+##### currentCall
+
+`CallStackEntry`
+
+##### parentCall
+
+`CallStackEntry` \| `undefined`
+
+##### startTime
+
+`Date`
+
+##### displayName?
+
+`string`
+
+##### attributes?
+
+`Record`\<`string`, `any`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:763](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L763)
+### finishCall()
 
-___
+> **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-### finishCall
-
-▸ **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+Defined in: [weaveClient.ts:1035](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L1035)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `call` | `InternalCall` |
-| `result` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `summarize` | `undefined` \| (`result`: `any`) => `Record`\<`string`, `any`\> |
-| `endTime` | `Date` |
-| `startCallPromise` | `Promise`\<`void`\> |
+##### call
+
+`InternalCall`
+
+##### result
+
+`any`
+
+##### currentCall
+
+`CallStackEntry`
+
+##### parentCall
+
+`CallStackEntry` \| `undefined`
+
+##### summarize
+
+((`result`) => `Record`\<`string`, `any`\>) \| `undefined`
+
+##### endTime
+
+`Date`
+
+##### startCallPromise
+
+`Promise`\<`void`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:815](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L815)
+### finishCallWithException()
 
-___
+> **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-### finishCallWithException
-
-▸ **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+Defined in: [weaveClient.ts:1075](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L1075)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `call` | `InternalCall` |
-| `error` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `endTime` | `Date` |
-| `startCallPromise` | `Promise`\<`void`\> |
+##### call
+
+`InternalCall`
+
+##### error
+
+`any`
+
+##### currentCall
+
+`CallStackEntry`
+
+##### parentCall
+
+`CallStackEntry` \| `undefined`
+
+##### endTime
+
+`Date`
+
+##### startCallPromise
+
+`Promise`\<`void`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:855](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L855)
+### get()
 
-___
+> **get**(`ref`): `Promise`\<`any`\>
 
-### get
-
-▸ **get**(`ref`): `Promise`\<`any`\>
+Defined in: [weaveClient.ts:435](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L435)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ref` | [`ObjectRef`](./objectref) |
+##### ref
+
+[`ObjectRef`](./objectref)
 
 #### Returns
 
 `Promise`\<`any`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:289](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L289)
+### getCall()
 
-___
+> **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
 
-### getCall
-
-▸ **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
+Defined in: [weaveClient.ts:312](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L312)
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `callId` | `string` | `undefined` |
-| `includeCosts` | `boolean` | `false` |
+##### callId
+
+`string`
+
+##### includeCosts?
+
+`boolean` = `false`
 
 #### Returns
 
 `Promise`\<`Call`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:220](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L220)
+### getCalls()
 
-___
+#### Call Signature
 
-### getCallStack
+> **getCalls**(`options?`): `Promise`\<`Call`[]\>
 
-▸ **getCallStack**(): `CallStack`
+Defined in: [weaveClient.ts:345](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L345)
+
+##### Parameters
+
+###### options?
+
+[`GetCallsOptions`](../interfaces/getcallsoptions)
+
+##### Returns
+
+`Promise`\<`Call`[]\>
+
+#### Call Signature
+
+> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
+
+Defined in: [weaveClient.ts:346](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L346)
+
+##### Parameters
+
+###### options?
+
+[`CallsFilter`](../interfaces/callsfilter)
+
+###### includeCosts?
+
+`boolean`
+
+###### limit?
+
+`number`
+
+##### Returns
+
+`Promise`\<`Call`[]\>
+
+***
+
+### getCallsIterator()
+
+#### Call Signature
+
+> **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+
+Defined in: [weaveClient.ts:367](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L367)
+
+##### Parameters
+
+###### options?
+
+[`CallsFilter`](../interfaces/callsfilter)
+
+###### includeCosts?
+
+`boolean`
+
+###### limit?
+
+`number`
+
+##### Returns
+
+`AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+
+#### Call Signature
+
+> **getCallsIterator**(`options?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+
+Defined in: [weaveClient.ts:372](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L372)
+
+##### Parameters
+
+###### options?
+
+[`GetCallsOptions`](../interfaces/getcallsoptions)
+
+##### Returns
+
+`AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+
+***
+
+### getCallStack()
+
+> **getCallStack**(): `CallStack`
+
+Defined in: [weaveClient.ts:886](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L886)
 
 #### Returns
 
 `CallStack`
 
-#### Defined in
+***
 
-[weaveClient.ts:674](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L674)
+### getCurrentAttributes()
 
-___
+> **getCurrentAttributes**(): `Record`\<`string`, `any`\>
 
-### getCalls
-
-▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `filter` | [`CallsFilter`](../interfaces/callsfilter) | `{}` |
-| `includeCosts` | `boolean` | `false` |
-| `limit` | `number` | `1000` |
-
-#### Returns
-
-`Promise`\<`Call`[]\>
-
-#### Defined in
-
-[weaveClient.ts:230](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L230)
-
-___
-
-### getCallsIterator
-
-▸ **getCallsIterator**(`filter?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `filter` | [`CallsFilter`](../interfaces/callsfilter) | `{}` |
-| `includeCosts` | `boolean` | `false` |
-| `limit` | `number` | `1000` |
-
-#### Returns
-
-`AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
-
-#### Defined in
-
-[weaveClient.ts:244](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L244)
-
-___
-
-### getCurrentAttributes
-
-▸ **getCurrentAttributes**(): `Record`\<`string`, `any`\>
+Defined in: [weaveClient.ts:890](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L890)
 
 #### Returns
 
 `Record`\<`string`, `any`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:678](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L678)
+### linkPromptToRegistry()
 
-___
+> **linkPromptToRegistry**(`prompt`, `options`): `Promise`\<`LinkAssetToRegistryRes`\>
 
-### publish
+Defined in: [weaveClient.ts:591](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L591)
 
-▸ **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](./objectref)\>
+Link a published prompt version into a registry portfolio.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `obj` | `any` |
-| `objId?` | `string` |
+##### prompt
+
+`RegistryLinkable`
+
+##### options
+
+`LinkPromptToRegistryOptions`
+
+#### Returns
+
+`Promise`\<`LinkAssetToRegistryRes`\>
+
+***
+
+### publish()
+
+> **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](./objectref)\>
+
+Defined in: [weaveClient.ts:300](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L300)
+
+#### Parameters
+
+##### obj
+
+`any`
+
+##### objId?
+
+`string`
 
 #### Returns
 
 `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### Defined in
+***
 
-[weaveClient.ts:208](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L208)
+### pushNewCall()
 
-___
+> **pushNewCall**(): `object`
 
-### pushNewCall
-
-▸ **pushNewCall**(): `Object`
+Defined in: [weaveClient.ts:894](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L894)
 
 #### Returns
 
-`Object`
+`object`
 
-| Name | Type |
-| :------ | :------ |
-| `currentCall` | `CallStackEntry` |
-| `newStack` | `CallStack` |
-| `parentCall?` | `CallStackEntry` |
+##### currentCall
 
-#### Defined in
+> **currentCall**: `CallStackEntry`
 
-[weaveClient.ts:682](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L682)
+##### newStack
 
-___
+> **newStack**: `CallStack`
 
-### runWithAttributes
+##### parentCall?
 
-▸ **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
+> `optional` **parentCall?**: `CallStackEntry`
 
-#### Type parameters
+***
 
-| Name |
-| :------ |
-| `T` |
+### runWithAttributes()
+
+> **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
+
+Defined in: [weaveClient.ts:902](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L902)
+
+#### Type Parameters
+
+##### T
+
+`T`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `attributes` | `Record`\<`string`, `any`\> |
-| `fn` | () => `T` |
+##### attributes
+
+`Record`\<`string`, `any`\>
+
+##### fn
+
+() => `T`
 
 #### Returns
 
 `T`
 
-#### Defined in
+***
 
-[weaveClient.ts:690](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L690)
+### runWithCallStack()
 
-___
+> **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
 
-### runWithCallStack
+Defined in: [weaveClient.ts:898](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L898)
 
-▸ **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
+#### Type Parameters
 
-#### Type parameters
+##### T
 
-| Name |
-| :------ |
-| `T` |
+`T`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `callStack` | `CallStack` |
-| `fn` | () => `T` |
+##### callStack
+
+`CallStack`
+
+##### fn
+
+() => `T`
 
 #### Returns
 
 `T`
 
-#### Defined in
+***
 
-[weaveClient.ts:686](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L686)
+### saveCallEnd()
 
-___
+> **saveCallEnd**(`callEnd`): `void`
 
-### saveCallEnd
-
-▸ **saveCallEnd**(`callEnd`): `void`
+Defined in: [weaveClient.ts:881](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L881)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `callEnd` | `EndedCallSchemaForInsert` |
+##### callEnd
+
+`EndedCallSchemaForInsert`
 
 #### Returns
 
 `void`
 
-#### Defined in
+***
 
-[weaveClient.ts:669](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L669)
+### saveCallStart()
 
-___
+> **saveCallStart**(`callStart`): `void`
 
-### saveCallStart
-
-▸ **saveCallStart**(`callStart`): `void`
+Defined in: [weaveClient.ts:876](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L876)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `callStart` | `StartedCallSchemaForInsert` |
+##### callStart
+
+`StartedCallSchemaForInsert`
 
 #### Returns
 
 `void`
 
-#### Defined in
+***
 
-[weaveClient.ts:664](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L664)
+### saveOp()
 
-___
+> **saveOp**(`op`, `objId?`): `Promise`\<`OpRef`\>
 
-### saveOp
-
-▸ **saveOp**(`op`, `objId?`): `Promise`\<`any`\>
+Defined in: [weaveClient.ts:941](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L941)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `op` | [`Op`](../#op)\<(...`args`: `any`[]) => `any`\> |
-| `objId?` | `string` |
+##### op
+
+[`Op`](../type-aliases/op)\<(...`args`) => `any`\>
+
+##### objId?
+
+`string`
 
 #### Returns
 
-`Promise`\<`any`\>
+`Promise`\<`OpRef`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:729](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L729)
+### serializeAudio()
 
-___
+> **serializeAudio**(`data`, `audioType?`): `Promise`\<`SerializedFileBlob`\>
 
-### serializeAudio
-
-▸ **serializeAudio**(`data`, `audioType?`): `Promise`\<`any`\>
+Defined in: [weaveClient.ts:828](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L828)
 
 Upload raw audio bytes to the Weave content store and return the
 `CustomWeaveType` placeholder that can be embedded in a call output.
@@ -484,50 +594,52 @@ where the automatic serialization pipeline from `finishCall` is not used.
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `data` | `Buffer` | `undefined` | Raw audio bytes (WAV for best browser compatibility) |
-| `audioType` | ``"wav"`` | `DEFAULT_AUDIO_TYPE` | File format — currently only 'wav' is supported |
+##### data
+
+`Buffer`
+
+Raw audio bytes (WAV for best browser compatibility)
+
+##### audioType?
+
+`"wav"` = `DEFAULT_AUDIO_TYPE`
+
+File format — currently only 'wav' is supported
 
 #### Returns
 
-`Promise`\<`any`\>
+`Promise`\<`SerializedFileBlob`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:616](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L616)
+### updateCall()
 
-___
+> **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
 
-### updateCall
-
-▸ **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
+Defined in: [weaveClient.ts:1111](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L1111)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `callId` | `string` |
-| `displayName` | `string` |
+##### callId
+
+`string`
+
+##### displayName
+
+`string`
 
 #### Returns
 
 `Promise`\<`void`\>
 
-#### Defined in
+***
 
-[weaveClient.ts:891](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L891)
+### waitForBatchProcessing()
 
-___
+> **waitForBatchProcessing**(): `Promise`\<`void`\>
 
-### waitForBatchProcessing
-
-▸ **waitForBatchProcessing**(): `Promise`\<`void`\>
+Defined in: [weaveClient.ts:211](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/weaveClient.ts#L211)
 
 #### Returns
 
 `Promise`\<`void`\>
-
-#### Defined in
-
-[weaveClient.ts:121](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L121)

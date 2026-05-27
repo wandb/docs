@@ -1,112 +1,134 @@
 ---
-title: "op"
+title: "Function: op()"
 description: "TypeScript SDK reference"
 ---
 
-# op
+[**weave**](../)
 
-▸ **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+***
 
-#### Type parameters
+[weave](../) / op
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
 
-#### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `fn` | `T` |
-| `options?` | `OpOptions`\<`T`\> |
+## Call Signature
 
-#### Returns
+> **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
 
-[`Op`](../type-aliases/op)\<`T`\>
+Defined in: [op.ts:381](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/op.ts#L381)
 
-#### Defined in
+### Type Parameters
 
-[op.ts:381](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/op.ts#L381)
+#### T
 
-▸ **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+`T` *extends* (...`args`) => `any`
 
-#### Type parameters
+### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+#### fn
 
-#### Parameters
+`T`
 
-| Name | Type |
-| :------ | :------ |
-| `thisArg` | `any` |
-| `fn` | `T` |
-| `options?` | `OpOptions`\<`T`\> |
+#### options?
 
-#### Returns
+`OpOptions`\<`T`\>
+
+### Returns
 
 [`Op`](../type-aliases/op)\<`T`\>
 
-#### Defined in
+## Call Signature
 
-[op.ts:386](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/op.ts#L386)
+> **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
 
-▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+Defined in: [op.ts:386](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/op.ts#L386)
 
-#### Parameters
+### Type Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `target` | `Object` |
-| `propertyKey` | `string` \| `symbol` |
-| `descriptor` | `TypedPropertyDescriptor`\<`any`\> |
+#### T
 
-#### Returns
+`T` *extends* (...`args`) => `any`
+
+### Parameters
+
+#### thisArg
+
+`any`
+
+#### fn
+
+`T`
+
+#### options?
+
+`OpOptions`\<`T`\>
+
+### Returns
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+## Call Signature
+
+> **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+
+Defined in: [op.ts:392](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/op.ts#L392)
+
+### Parameters
+
+#### target
+
+`Object`
+
+#### propertyKey
+
+`string` \| `symbol`
+
+#### descriptor
 
 `TypedPropertyDescriptor`\<`any`\>
 
-#### Defined in
+### Returns
 
-[op.ts:392](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/op.ts#L392)
+`TypedPropertyDescriptor`\<`any`\>
 
-▸ **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
+## Call Signature
 
-#### Type parameters
+> **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+Defined in: [op.ts:398](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/op.ts#L398)
 
-#### Parameters
+### Type Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `value` | `T` |
-| `context` | `MethodDecoratorContext` |
+#### T
 
-#### Returns
+`T` *extends* (...`args`) => `any`
+
+### Parameters
+
+#### value
+
+`T`
+
+#### context
+
+`MethodDecoratorContext`
+
+### Returns
 
 [`Op`](../type-aliases/op)\<`T`\>
 
-#### Defined in
+## Call Signature
 
-[op.ts:398](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/op.ts#L398)
+> **op**(`options`): `MethodDecorator`
 
-▸ **op**(`options`): `MethodDecorator`
+Defined in: [op.ts:403](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/op.ts#L403)
 
-#### Parameters
+### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `options` | `Partial`\<`OpOptions`\<`any`\>\> |
+#### options
 
-#### Returns
+`Partial`\<`OpOptions`\<`any`\>\>
+
+### Returns
 
 `MethodDecorator`
-
-#### Defined in
-
-[op.ts:403](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/op.ts#L403)
-
-___

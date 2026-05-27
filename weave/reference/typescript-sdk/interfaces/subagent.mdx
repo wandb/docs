@@ -1,0 +1,71 @@
+---
+title: "Interface: SubAgent"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / SubAgent
+
+
+
+Defined in: [genai/subagent.ts:35](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/subagent.ts#L35)
+
+A nested agent invocation — used when the current agent hands work to
+another named agent (e.g. a planner calling a researcher). Emits an
+`invoke_agent` span tagged with the sub-agent's name and (optionally)
+its model.
+
+Created by `weave.startSubagent()` (or `turn.startAgent()`, or
+`llm.startAgent()`) and terminated with `end()`.
+
+## Example
+
+```ts
+const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
+try {
+  // ... orchestrate the sub-agent's LLM/Tool calls ...
+} finally {
+  sub.end();
+}
+```
+
+## Properties
+
+### model
+
+> `readonly` **model**: `string`
+
+Defined in: [genai/subagent.ts:41](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/subagent.ts#L41)
+
+***
+
+### name
+
+> `readonly` **name**: `string`
+
+Defined in: [genai/subagent.ts:40](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/subagent.ts#L40)
+
+## Methods
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Defined in: [genai/subagent.ts:65](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/subagent.ts#L65)
+
+Close the SubAgent span. Idempotent. Pass `error` to mark it as failed.
+
+#### Parameters
+
+##### opts?
+
+###### error?
+
+`Error`
+
+#### Returns
+
+`void`

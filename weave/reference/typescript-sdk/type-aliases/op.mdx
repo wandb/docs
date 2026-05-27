@@ -1,20 +1,52 @@
 ---
-title: "Op"
+title: "Type Alias: Op<T>"
 description: "TypeScript SDK reference"
 ---
 
-# Op
+[**weave**](../)
 
-Ƭ **Op**\<`T`\>: \{ `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: ``true`` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` \| `Promise`\<`OpRef`\> ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`\<`T`\>  } & `T` & (...`args`: `Parameters`\<`T`\>) => `ReturnType`\<`T`\> extends `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
+***
 
-#### Type parameters
+[weave](../) / Op
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
 
-#### Defined in
 
-[opType.ts:7](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/opType.ts#L7)
+> **Op**\<`T`\> = `object` & `T` & (...`args`) => `ReturnType`\<`T`\> *extends* `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
 
-___
+Defined in: [opType.ts:7](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/opType.ts#L7)
+
+## Type Declaration
+
+### \_\_boundThis?
+
+> `optional` **\_\_boundThis?**: [`WeaveObject`](../classes/weaveobject)
+
+### \_\_isOp
+
+> **\_\_isOp**: `true`
+
+### \_\_name
+
+> **\_\_name**: `string`
+
+### \_\_parameterNames?
+
+> `optional` **\_\_parameterNames?**: `ParameterNamesOption`
+
+### \_\_savedRef?
+
+> `optional` **\_\_savedRef?**: `OpRef` \| `Promise`\<`OpRef`\>
+
+### \_\_wrappedFunction
+
+> **\_\_wrappedFunction**: `T`
+
+### invoke
+
+> **invoke**: `CallMethod`\<`T`\>
+
+## Type Parameters
+
+### T
+
+`T` *extends* (...`args`) => `any`
