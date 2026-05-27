@@ -1,29 +1,27 @@
 ---
-title: "Function: startSession()"
+title: "startSession"
 description: "TypeScript SDK reference"
 ---
 
-[**weave**](../)
+# startSession
 
-***
-
-[weave](../) / startSession
-
-
-
-> **startSession**(`opts?`): [`Session`](../interfaces/session)
-
-Defined in: [genai/api.ts:12](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/api.ts#L12)
+▸ **startSession**(`opts?`): [`Session`](../classes/session)
 
 Start a new Session and install it as the current session.
 Subsequent calls to `startTurn` will pick it up automatically.
 
-## Parameters
+#### Parameters
 
-### opts?
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`SessionInit`](../interfaces/sessioninit) |
 
-[`SessionInit`](../interfaces/sessioninit) = `{}`
+#### Returns
 
-## Returns
+[`Session`](../classes/session)
 
-[`Session`](../interfaces/session)
+#### Defined in
+
+[genai/api.ts:12](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/api.ts#L12)
+
+___

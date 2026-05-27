@@ -1,29 +1,27 @@
 ---
-title: "Function: startLLM()"
+title: "startLLM"
 description: "TypeScript SDK reference"
 ---
 
-[**weave**](../)
+# startLLM
 
-***
-
-[weave](../) / startLLM
-
-
-
-> **startLLM**(`opts`): [`LLM`](../interfaces/llm)
-
-Defined in: [genai/api.ts:32](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/api.ts#L32)
+▸ **startLLM**(`opts`): [`LLM`](../classes/llm)
 
 Start an LLM span as a child of the current Turn. Throws if no Turn is
 active.
 
-## Parameters
+#### Parameters
 
-### opts
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
 
-[`LLMInit`](../interfaces/llminit)
+#### Returns
 
-## Returns
+[`LLM`](../classes/llm)
 
-[`LLM`](../interfaces/llm)
+#### Defined in
+
+[genai/api.ts:32](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/api.ts#L32)
+
+___

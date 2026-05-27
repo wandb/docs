@@ -1,29 +1,27 @@
 ---
-title: "Function: startTurn()"
+title: "startTurn"
 description: "TypeScript SDK reference"
 ---
 
-[**weave**](../)
+# startTurn
 
-***
-
-[weave](../) / startTurn
-
-
-
-> **startTurn**(`opts?`): [`Turn`](../interfaces/turn)
-
-Defined in: [genai/api.ts:20](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/api.ts#L20)
+▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
 
 Start a new Turn. If a Session is active, the turn inherits its
 `conversationId`; otherwise the turn has no conversation id.
 
-## Parameters
+#### Parameters
 
-### opts?
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
 
-[`TurnInit`](../interfaces/turninit) = `{}`
+#### Returns
 
-## Returns
+[`Turn`](../classes/turn)
 
-[`Turn`](../interfaces/turn)
+#### Defined in
+
+[genai/api.ts:20](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/api.ts#L20)
+
+___

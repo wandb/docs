@@ -1,19 +1,11 @@
 ---
-title: "Function: runIsolated()"
+title: "runIsolated"
 description: "TypeScript SDK reference"
 ---
 
-[**weave**](../)
+# runIsolated
 
-***
-
-[weave](../) / runIsolated
-
-
-
-> **runIsolated**\<`T`\>(`fn`): `T`
-
-Defined in: [genai/context.ts:88](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/context.ts#L88)
+▸ **runIsolated**\<`T`\>(`fn`): `T`
 
 Run `fn` in a fresh, isolated GenAI state frame. Any Session / Turn / LLM
 started inside `fn` lives in this frame only — it does not clash with
@@ -30,18 +22,24 @@ Use this to safely run parallel GenAI work:
 Sequential single-flight usage doesn't require this wrapper — the
 process-wide default state handles it.
 
-## Type Parameters
+#### Type parameters
 
-### T
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `fn` | () => `T` |
+
+#### Returns
 
 `T`
 
-## Parameters
+#### Defined in
 
-### fn
+[genai/context.ts:88](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/context.ts#L88)
 
-() => `T`
-
-## Returns
-
-`T`
+___
