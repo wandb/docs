@@ -1,13 +1,14 @@
 ---
 title: "Tutoriel : automatisation des alias d’artefact dans le registre"
 description: "Créez une automatisation qui déclenche un webhook lorsqu’un artefact du registre reçoit un alias spécifique, comme \"production\"."
+keywords: ["alias d’artefact", "promotion de modèle", "webhook MLOps", "regex d’alias", "cycle de vie du modèle"]
 ---
 
 import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
 import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
 import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
 
-Ce tutoriel vous montre comment créer une automatisation de **registre** déclenchée par les métadonnées d’un artefact : lorsqu’un artefact de votre **registre** reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête POST à votre webhook.
+Ce tutoriel vous montre comment créer une automatisation de **registre** déclenchée par les métadonnées d’un artefact : lorsqu’un artefact de votre **registre** reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête `POST` à votre webhook. Utilisez ce modèle pour notifier des systèmes en aval tels que des pipelines de déploiement, des services d’astreinte ou des canaux de notification chaque fois que vous faites passer un modèle à une étape prédéfinie. Ce tutoriel s’adresse aux ingénieurs ML et aux praticiens MLOps qui gèrent le cycle de vie des modèles dans W&amp;B Registry.
 
 <TutorialDiagramRegistry />
 
@@ -24,7 +25,7 @@ Ce tutoriel vous montre comment créer une automatisation de **registre** décle
   ## Créer une automatisation du registre
 </div>
 
-Suivez ces instructions pour configurer une automatisation au niveau du registre : lorsqu’un artefact d’une collection de ce registre reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête POST à votre webhook.
+Configurez une automatisation au niveau du registre afin que, lorsqu’un artefact d’une collection de ce registre reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête POST à votre webhook.
 
 {/* Onglet W&B App/Python temporairement masqué dans l’attente d’un correctif du SDK Python pour `create_automation` (interne WB-34263). Le rétablir une fois la correction de la régression déployée.
 
@@ -37,7 +38,7 @@ Suivez ces instructions pour configurer une automatisation au niveau du registre
 3. Cliquez sur **Next step**. Définissez **Action type** sur **Webhooks** et sélectionnez votre webhook. Si le webhook attend une charge utile, collez un corps JSON et utilisez des [variables de charge utile](/fr/models/automations/create-automations/webhook#payload-variables) telles que `${artifact_collection_name}` et `${artifact_version_string}`.
 4. Cliquez sur **Next step**. Donnez un nom à l’automatisation et, éventuellement, une description, puis cliquez sur **Create automation**.
 
-Pour plus de détails, voir [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook#create-an-automation) (onglet registre).
+Pour plus d&#39;informations, voir [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook#create-an-automation) (onglet registre).
 
 {/*
   </Tab>
@@ -80,7 +81,7 @@ Pour plus de détails, voir [Créer une automatisation webhook](/fr/models/autom
   ## Tester l’automatisation
 </div>
 
-Ajoutez l’alias (par exemple, **production**) à une version d’artefact dans le registre, à l’aide de l’application W&amp;B ou de l’API publique. Par exemple :
+Pour vérifier que l’automatisation se déclenche de bout en bout, déclenchez l’événement configuré en ajoutant l’alias à une version d’artefact. Ajoutez l’alias (par exemple, **production**) à une version d’artefact dans le registre, à l’aide de W&amp;B App ou de l’API publique. Par exemple :
 
 ```python
 import wandb
@@ -102,7 +103,7 @@ print("Added alias 'production' to", version.name)
 
 ```
 
-Dans quelques instants, votre point de terminaison webhook devrait recevoir une requête POST avec la charge utile que vous avez configurée.
+Dans quelques instants, votre point de terminaison webhook reçoit une requête `POST` avec la charge utile que vous avez configurée. Vous disposez maintenant d’une automatisation du registre fonctionnelle qui se déclenche chaque fois qu’un alias correspondant est appliqué à un artefact dans ce registre.
 
 <TutorialNotebook />
 
