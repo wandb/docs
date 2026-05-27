@@ -7,7 +7,7 @@ import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial
 import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
 import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
 
-This tutorial walks you through building a **registry** automation triggered by artifact metadata: when an artifact in your registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook. Use this pattern to notify downstream systems (such as a deployment pipeline, paging service, or notification channel) whenever you promote a model to a known stage. This tutorial is intended for ML engineers and MLOps practitioners who manage model lifecycles in W&B Registry.
+This tutorial walks you through building a **registry** automation triggered by artifact metadata: when an artifact in your registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook. Use this pattern to notify downstream systems like deployment pipelines, paging services, or notification channels, whenever you promote a model to a known stage. This tutorial is intended for ML engineers and MLOps practitioners who manage model lifecycles in W&B Registry.
 
 <TutorialDiagramRegistry/>
 
@@ -20,7 +20,7 @@ This tutorial walks you through building a **registry** automation triggered by 
 
 ## Create a registry automation
 
-Follow these instructions to set up a registry-scoped automation. When an artifact in any collection in that registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook.
+Set up a registry-scoped automation so that when an artifact in any collection in the registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook.
 
 {/* W&B App vs Python tab temporarily hidden pending Python SDK fix for `create_automation` (internal WB-34263). Restore when the regression is shipped.
 

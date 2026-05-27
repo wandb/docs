@@ -42,16 +42,16 @@ This section describes the events related to an artifact that can trigger an aut
 
 - **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a time.
-- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Use artifact tags for grouping and filtering. You can assign a given tag to multiple artifact versions simultaneously.
+- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Use artifact tags for grouping and filtering. You can assign the same tag to multiple artifact versions.
 
 ### Run events
 
-The following sections describe the events related to runs that can trigger an automation. A change in a [run's status](/models/runs/run-states) or a change in a [metric value](/models/track/log#what-data-is-logged-with-specific-wb-api-calls) can trigger an automation.
+The following sections describe how to configure an automation that starts based on a change in a [run's status](/models/runs/run-states) or a change in a [run's metric value](/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
 
 #### Run status change
 <Note>
 - <MultiTenantCloudOnly/>
-- A run with **Killed** status can't trigger an automation. This status indicates that an admin user forcibly stopped the run.
+- A run with **Killed** status can't trigger an automation. This status indicates that an admin forcibly stopped the run.
 </Note>
 
 Trigger a workflow when a run changes its [status](/models/runs/run-states) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
@@ -152,14 +152,20 @@ Z-score values have the following meanings:
 
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the automation when the event occurs. You can limit which runs trigger an automation by configuring one of the following filters:
-  - **Filter to one user's runs**: Include only runs created by the specified user.
-  - **Filter on run name**: Include only runs whose names match the given regular expression.
+By default, any run in the project triggers the automation when the event occurs. You can limit which runs trigger an automation by configuring one of the following filters:
 
-  For details, see [Create automations](/models/automations/create-automations).
+| Filter | Description |
+|--------|-------------|
+| **Filter to one user's runs** | Include only runs created by the specified user. |
+| **Filter on run name** | Include only runs whose names match the given regular expression. |
+
+The automation evaluates each run as follows:
+
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24-hour period, a particular automation can fire at most once per run.
+
+For details, see [Create automations](/models/automations/create-automations).
 
 ## Next steps
 - [Create a Slack automation](/models/automations/create-automations/slack)

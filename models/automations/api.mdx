@@ -7,7 +7,7 @@ keywords: ["Python API", "programmatic automation", "wandb.Api", "automation scr
 Manage W&B automations programmatically with the `wandb` Python API when you script automation workflows instead of using the W&B App.
 
 <Note>
-Programmatic **create** and **update** for automations through `wandb.Api().create_automation()` and related helpers can fail on some `wandb` Python client versions because of a client-side feature check (for example, run-state automations). Until a fixed SDK ships, use the [W&B App](/models/automations/create-automations) to create and edit automations. The `list`, `get`, and `delete` methods might still work for your version. If you encounter errors, use the W&B App. Internal tracking: WB-34263.
+Programmatic **create** and **update** for automations through `wandb.Api().create_automation()` and related helpers can fail on some `wandb` Python client versions because of a client-side feature check (for example, run-state automations). Until a fixed SDK ships, use the [W&B App](/models/automations/create-automations) to create and edit automations. The `list`, `get`, and `delete` methods aren't affected. Internal tracking: WB-34263.
 </Note>
 
 ## Next steps
