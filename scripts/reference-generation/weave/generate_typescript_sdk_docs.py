@@ -144,6 +144,7 @@ def generate_typedoc(sdk_path, output_path):
     # Create typedoc config
     config = {
         "entryPoints": ["src/index.ts"],
+        "tsconfig": "./tsconfig.esm.json",
         "out": str(output_path),
         "plugin": ["typedoc-plugin-markdown"],
         "readme": "none",
