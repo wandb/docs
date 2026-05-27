@@ -1,11 +1,13 @@
 ---
-title: "Do I need to provide values for all hyperparameters as part of the W&B Sweep. Can I set defaults?"
+title: "Do I need to provide values for all hyperparameters as part of the W&B Sweep? Can I set defaults?"
 keywords: ["Sweeps"]
 ---
 
+You don't need to provide values for every hyperparameter in a W&B Sweep. You can set defaults and let the sweep override them.
+
 Access hyperparameter names and values from the sweep configuration using `(run.config())`, which acts like a dictionary.
 
-For runs outside a sweep, set `wandb.Run.config()` values by passing a dictionary to the `config` argument in `wandb.init()`. In a sweep, any configuration supplied to `wandb.init()` serves as a default value, which the sweep can override.
+For runs outside a sweep, set `wandb.Run.config()` values by passing a dictionary to the `config` argument in `wandb.init()`. In a sweep, any configuration you pass to `wandb.init()` serves as a default value that the sweep can override.
 
 Use `rwandb.Run.config.setdefaults()` for explicit behavior. The following code snippets illustrate both methods:
 

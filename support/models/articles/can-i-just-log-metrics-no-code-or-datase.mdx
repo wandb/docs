@@ -3,22 +3,34 @@ title: "Can I just log metrics, no code or dataset examples?"
 keywords: ["Administrator", "Team Management", "Metrics"]
 ---
 
-By default, W&B does not log dataset examples. By default, W&B logs code and system metrics.
+To keep proprietary source code or training data out of W&B for privacy or compliance reasons, limit what W&B captures so that your runs log only metrics.
 
-Two methods exist to turn off code logging with environment variables:
+By default, W&B logs code and system metrics but doesn't log dataset examples.
 
-1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. This action prevents retrieval of the git SHA and the diff patch.
-2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to stop syncing the diff patch to the servers, while keeping it available locally for application with `wandb restore`.
+To turn off code logging, use environment variables at the run level or change team-wide defaults as an admin.
 
-Organization admins can enforce privacy settings for all teams in their organization from within the **Privacy** section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
+## Turn off code logging with environment variables
+
+Use one of the following environment variables to turn off code logging for an individual run or process:
+
+- Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. This action prevents retrieval of the Git SHA and the diff patch.
+- Set `WANDB_IGNORE_GLOBS` to `*.patch` to stop syncing the diff patch to W&B servers while keeping it available locally for application with `wandb restore`.
+
+## Enforce settings at the organization or team level
+
+If you want to turn off code saving for everyone on a team (rather than relying on each user to set environment variables), change the default in your team or organization settings.
+
+Organization admins can enforce privacy settings for all teams in their organization from the **Privacy** section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins can't configure that setting in their teams.
 
 As a team admin, you can turn off default code saving for runs in your team:
 
-1. Navigate to `https://wandb.ai/<team>`. Replace `<team>` with your team name.
+1. Go to `https://wandb.ai/[TEAM-NAME]`, replacing `[TEAM-NAME]` with your team name.
 2. Select **Team settings** in the left navigation.
-3. Open the **Privacy** section and turn **Enable code saving by default** off.
+3. Open the **Privacy** section and turn off **Enable code saving by default**.
 
-For details, see [Privacy settings](/platform/hosting/privacy-settings).
+After you complete these steps, new runs in your team no longer save code by default. W&B continues to log metrics and system information.
+
+For more information, see [Privacy settings](/platform/hosting/privacy-settings).
 ---
 
 {/* AUTO-GENERATED: tab badges */}

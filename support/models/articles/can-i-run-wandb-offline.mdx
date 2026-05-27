@@ -3,11 +3,11 @@ title: "Can I run wandb offline?"
 keywords: ["Experiments", "Environment Variables"]
 ---
 
-If training occurs on an offline machine, use the following steps to upload results to the servers:
+Yes. If you train on an offline machine, follow these steps to upload your results to W&B:
 
 1. Set the environment variable `WANDB_MODE=offline` to save metrics locally without an internet connection.
-2. When ready to upload, run `wandb init` in your directory to set the project name. 
-3. Use `wandb sync YOUR_RUN_DIRECTORY` to transfer metrics to the cloud service and access results in the hosted web app.
+2. When you're ready to upload, run `wandb init` in your directory to set the project name.
+3. Use `wandb sync [RUN-DIRECTORY]` to transfer your metrics to W&B and view your results in the web app. Replace `[RUN-DIRECTORY]` with the path to your local run directory.
 
 To confirm the run is offline, check `run.settings._offline` or `run.settings.mode` after executing `wandb.init()`.
 

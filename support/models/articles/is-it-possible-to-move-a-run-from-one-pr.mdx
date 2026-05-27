@@ -3,15 +3,17 @@ title: "Is it possible to move a run from one project to another?"
 keywords: ["Runs"]
 ---
 
-You can move a run from one project to another by following these steps:
+You can move a run from one project to another to reorganize your work, consolidate related experiments, or relocate a run that was logged to the wrong project. Follow these steps to move a run through the W&B UI:
 
-- Navigate to the project page with the run to be moved.
-- Click on the **Runs** tab to open the runs table.
-- Select the runs to move.
-- Click the **Move** button.
-- Choose the destination project and confirm the action.
+1. Navigate to the project page that contains the run to move.
+2. Click the **Runs** tab to open the runs table.
+3. Select the runs to move.
+4. Click the **Move** button.
+5. Choose the destination project and confirm the action.
 
-W&B supports moving runs through the UI, but does not support copying runs. Artifacts logged with the runs do not transfer to the new project. To move artifacts to the run's new location manually, you can use the [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK command or the [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) to download the artifact, then use [wandb artifact put](/models/ref/cli/wandb-artifact/wandb-artifact-put/) or the `Api.artifact` API to upload it to the run's new location.
+The selected runs now appear in the destination project.
+
+W&B supports moving runs through the UI, but doesn't support copying runs. Artifacts logged with the runs don't transfer to the new project. To manually move artifacts to the run's new location, use the [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK command or the [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) to download the artifact, then use [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put/) or the `Api.artifact` API to upload it to the run's new location.
 
 ---
 
