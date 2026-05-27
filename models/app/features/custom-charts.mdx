@@ -1,42 +1,52 @@
 ---
 title: Custom charts overview
 description: Create custom charts in W&B projects with Vega visualizations
+keywords:
+  - Vega
+  - wandb.plot_table
+  - precision-recall curve
+  - ROC curve
+  - GraphQL query
 ---
 
-Create custom charts in your W&B project. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
+Custom charts let you visualize logged data exactly how you want, beyond the defaults W&B provides. Use them when you need to plot relationships, distributions, or model evaluation metrics that the built-in panels don't cover, such as precision-recall curves, custom histograms, or overlays of multiple experiments.
 
-* Code: Try an example [Colab Colab notebook](https://tiny.cc/custom-charts).
+Create custom charts in your W&B project. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with [Vega](https://vega.github.io/vega/).
+
+* Code: Try an example [Colab notebook](https://tiny.cc/custom-charts).
 * Video: Watch a [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM).
-* Example: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
+* Example: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing).
 
 <Frame>
     <img src="/images/app_ui/supported_charts.png" alt="Supported charts from vega.github.io/vega" max-width="90%"  />
 </Frame>
 
-### How it works
+## How it works
 
 1. **Log data**: From your script, log [config](/models/track/config/) and summary data.
-2. **Customize the chart**: Pull in logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
+2. **Customize the chart**: Pull in logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a visualization grammar.
 3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
 
 <Frame>
     <img src="/images/app_ui/pr_roc.png" alt="PR and ROC curves"  />
 </Frame>
 
-If you do not see the expected data, the column you are looking for might not be logged in the selected runs. Save your chart, go back out to the runs table, and verify selected runs using the **eye** icon.
+If you don't see the expected data, the column you're looking for might not be logged in the selected runs. Save your chart, go back out to the runs table, and verify selected runs using the **eye** icon.
 
 
 ## Log charts from a script
 
-### Builtin presets
+The following sections describe two ways to log charts directly from your training script: built-in chart presets that cover common visualizations, and custom presets that let you reuse your own Vega specifications.
 
-W&B has a number of builtin chart presets that you can log directly from your script. These include line plots, scatter plots, bar charts, histograms, PR curves, and ROC curves.
+### Built-in presets
+
+W&B has several built-in chart presets that you can log directly from your script. These include line plots, scatter plots, bar charts, histograms, PR curves, and ROC curves.
 
 <Tabs>
 <Tab title="Line plot">
 `wandb.plot.line()`
 
-  Log a custom line plot—a list of connected and ordered points (x,y) on arbitrary axes x and y.
+  Log a custom line plot, a list of connected and ordered points (x,y) on arbitrary axes x and y.
 
   ```python
   with wandb.init() as run:
@@ -62,7 +72,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 <Tab title="Scatter plot">
 `wandb.plot.scatter()`
 
-  Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
+  Log a custom scatter plot, a list of points (x, y) on a pair of arbitrary axes x and y.
 
   ```python
   with wandb.init() as run:
@@ -82,7 +92,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 <Tab title="Bar chart">
 `wandb.plot.bar()`
 
-  Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
+  Log a custom bar chart (a list of labeled values as bars):
 
   ```python
   with wandb.init() as run:
@@ -108,7 +118,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 <Tab title="Histogram">
 `wandb.plot.histogram()`
 
-  Log a custom histogram—sort list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
+  Log a custom histogram (sort a list of values into bins by count or frequency of occurrence). For example, suppose you have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
 
   ```python
   with wandb.init() as run:
@@ -139,10 +149,10 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   You can log this whenever your code has access to:
 
-  * a model's predicted scores (`predictions`) on a set of examples
-  * the corresponding ground truth labels (`ground_truth`) for those examples
-  * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-  * (optionally) a subset (still in list format) of the labels to visualize in the plot
+  * A model's predicted scores (`predictions`) on a set of examples.
+  * The corresponding ground truth labels (`ground_truth`) for those examples.
+  * `labels` (Optional): A list of the labels or class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, and so on).
+  * `classes_to_plot` (Optional): A subset (still in list format) of the labels to visualize in the plot.
 
   <Frame>
     <img src="/images/app_ui/demo_average_precision_lines.png" alt="Precision-recall curves"  />
@@ -173,10 +183,10 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
   You can log this whenever your code has access to:
 
-  * a model's predicted scores (`predictions`) on a set of examples
-  * the corresponding ground truth labels (`ground_truth`) for those examples
-  * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-  * (optionally) a subset (still in list format) of these labels to visualize on the plot
+  * A model's predicted scores (`predictions`) on a set of examples.
+  * The corresponding ground truth labels (`ground_truth`) for those examples.
+  * `labels` (Optional): A list of the labels or class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, and so on).
+  * `classes_to_plot` (Optional): A subset (still in list format) of these labels to visualize on the plot.
 
   <Frame>
     <img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="ROC curve"  />
@@ -188,7 +198,7 @@ W&B has a number of builtin chart presets that you can log directly from your sc
 
 ### Custom presets
 
-Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script. [Try an example Google Colab notebook](https://tiny.cc/custom-charts).
+Tweak a built-in preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script. [Try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
 ```python
 # Create a table with the columns to plot
@@ -214,17 +224,17 @@ my_custom_chart = wandb.plot_table(
 
 ## Log data
 
-You can log the following data types from your script and use them in a custom chart:
+Before you can visualize anything in a custom chart, your script must log the underlying data in a format the chart editor can query. You can log the following data types from your script and use them in a custom chart:
 
-* **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.Run.config` at the start of your training. For example: `wandb.Run.config.learning_rate = 0.0001`
-* **Summary**: Single values logged during training (your results or dependent variables). For example, `wandb.Run.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.Run.log()`, the summary is set to the final value of that key.
-* **History**: The full time series of the logged scalar is available to the query via the `history` field
-* **summaryTable**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
-* **historyTable**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
+* **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.Run.config` at the start of your training. For example, `wandb.Run.config.learning_rate = 0.0001`.
+* **Summary**: Single values logged during training (your results or dependent variables). For example, `wandb.Run.log({"val_acc" : 0.8})`. If you write to this key multiple times during training through `wandb.Run.log()`, the summary is set to the final value of that key.
+* **History**: The full time series of the logged scalar is available to the query through the `history` field.
+* **`summaryTable`**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
+* **`historyTable`**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
 
-### How to log a custom table
+### Log a custom table
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.Run.log()`(`custom_data_table` below), and the individual fields will be accessible via the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows. [Try an example a Google Colab](https://tiny.cc/custom-charts).
+Use `wandb.Table()` to log your data as a 2D array. Typically, each row of this table represents one data point, and each column denotes the relevant fields or dimensions for each data point that you want to plot. As you configure a custom panel, the whole table is accessible through the named key passed to `wandb.Run.log()` (`custom_data_table` in the following example). The individual fields are accessible through the column names (`x`, `y`, and `z`). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows. [Try an example Google Colab notebook](https://tiny.cc/custom-charts).
 
 
 
@@ -239,7 +249,7 @@ with wandb.init() as run:
 
 ## Customize the chart
 
-Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
+After you log data, build a chart in the W&B app by choosing which logged values to pull in and how to render them. Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
 
 ### Build the GraphQL query
 
@@ -277,38 +287,42 @@ Custom charts use this GraphQL-based panel query. [Query panels](/models/app/fea
 
 Select a **Chart** in the upper right corner to start with a default preset. Next, select **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart.
 
-The following image shows an example on how to select a metric then mapping that into the bar chart fields below.
+The following image shows how to select a metric and then map it into the bar chart fields.
 
 <Frame>
     <img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart" max-width="90%"  />
 </Frame>
 
-### How to edit Vega
+### Edit Vega
 
-Click **Edit** at the top of the panel to go into [Vega](https://vega.github.io/vega/) edit mode. Here you can define a [Vega specification](https://vega.github.io/vega/docs/specification/) that creates an interactive chart in the UI. You can change any aspect of the chart. For example, you can change the title, pick a different color scheme, show curves as a series of points instead of as connected lines. You can also make changes to the data itself, such as using a Vega transform to bin an array of values into a histogram. The panel preview will update interactively, so you can see the effect of your changes as you edit the Vega spec or query. Refer to the [Vega documentation and tutorials ](https://vega.github.io/vega/).
+Click **Edit** at the top of the panel to go into [Vega](https://vega.github.io/vega/) edit mode. Here you can define a [Vega specification](https://vega.github.io/vega/docs/specification/) that creates an interactive chart in the UI. You can change any aspect of the chart. For example, you can change the title, pick a different color scheme, or show curves as a series of points instead of as connected lines. You can also make changes to the data itself, such as using a Vega transform to bin an array of values into a histogram. The panel preview updates interactively, so you can see the effect of your changes as you edit the Vega spec or query. For more information, see the [Vega documentation and tutorials](https://vega.github.io/vega/).
 
 **Field references**
 
-To pull data into your chart from W&B, add template strings of the form `"${field:<field-name>}"` anywhere in your Vega spec. This will create a dropdown in the **Chart Fields** area on the right side, which users can use to select a query result column to map into Vega.
+To pull data into your chart from W&B, add template strings of the form `"${field:<field-name>}"` anywhere in your Vega spec. This creates a dropdown in the **Chart fields** area on the right side, which you can use to select a query result column to map into Vega.
 
 To set a default value for a field, use this syntax: `"${field:<field-name>:<placeholder text>}"`
 
-### Saving chart presets
+### Save chart presets
 
-Apply any changes to a specific visualization panel with the button at the bottom of the modal. Alternatively, you can save the Vega spec to use elsewhere in your project. To save the reusable chart definition, click **Save as** at the top of the Vega editor and give your preset a name.
+Saving a preset lets you reuse the same Vega definition across panels and projects, rather than recreating it each time. Apply any changes to a specific visualization panel with the button at the bottom of the modal. Alternatively, you can save the Vega spec to use elsewhere in your project. To save the reusable chart definition, click **Save as** at the top of the Vega editor and give your preset a name.
 
 ## Articles and guides
 
-1. [The W&B Machine Learning Visualization IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-2. [Visualizing NLP Attention Based Models](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
-3. [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
-4. [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
+The following articles show end-to-end examples and deeper explorations of custom charts in practice.
+
+* [The W&B Machine Learning Visualization IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
+* [Visualizing NLP Attention Based Models](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
+* [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
+* [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
 
 ## Common use cases
 
-* Customize bar plots with error bars
-* Show model validation metrics which require custom x-y coordinates (like precision-recall curves)
-* Overlay data distributions from two different models/experiments as histograms
-* Show changes in a metric via snapshots at multiple points during training
-* Create a unique visualization not yet available in W&B (and hopefully share it with the world)
+Custom charts are most useful when the default panels can't represent what you need to show. Typical examples include:
+
+* Customizing bar plots with error bars
+* Showing model validation metrics that require custom x-y coordinates (like precision-recall curves)
+* Overlaying data distributions from two different models or experiments as histograms
+* Showing changes in a metric through snapshots at multiple points during training
+* Creating a unique visualization not yet available in W&B and sharing it with others
