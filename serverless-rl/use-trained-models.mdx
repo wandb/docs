@@ -1,19 +1,20 @@
 ---
 title: Use your trained models
 description: Make inference requests to the models you've trained
+keywords: ["wandb-artifact", "model endpoint", "OpenAI SDK", "cURL", "checkpoint step"]
 ---
 
-After you train a model with Serverless RL, it is automatically available for inference.
+After you train a model with Serverless RL, it's automatically available for inference. This page shows you how to construct the endpoint for a trained model and send inference requests to it. Use this endpoint to integrate your model into your application or evaluation workflows.
 
-To send requests to your trained model, you need:
+To send requests to your trained model, you need the following:
 * Your [W&B API key](https://wandb.ai/settings)
 * The [Serverless RL API's](/serverless-rl/api-reference) base URL, `https://api.training.wandb.ai/v1/`
 * Your model's endpoint
 
 The model's endpoint uses the following schema:
 
-```
-wandb-artifact:///<entity>/<project>/<model-name>:<step>
+```text
+wandb-artifact:///[ENTITY]/[PROJECT]/[MODEL-NAME]:[STEP]
 ```
 
 The schema consists of:
@@ -21,24 +22,24 @@ The schema consists of:
 * Your W&B entity's (team) name
 * The name of the project associated with your model
 * The trained model's name
-* The training step of the model you want to deploy (this is usually the step where the model performed best in your evaluations)
+* The training step of the model you want to deploy. This is usually the step where the model performed best in your evaluations.
 
-For example, if your W&B team is named `email-specialists`, your project is called `mail-search`, your trained model is named `agent-001`, and you wanted to deploy it on step 25, the endpoint looks like this:
+For example, if your W&B team is named `email-specialists`, your project is called `mail-search`, your trained model is named `agent-001`, and you want to deploy it on step 25, the endpoint looks like this:
 
-```
+```text
 wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
-Once you have your endpoint, you can integrate it into your normal inference workflows. The following examples show how to make inference requests to your trained model using a cURL request or the [Python OpenAI SDK](https://github.com/openai/openai-python).
+After you have your endpoint, you can integrate it into your normal inference workflows. The following examples show how to make inference requests to your trained model using a cURL request or the [Python OpenAI SDK](https://github.com/openai/openai-python). Choose the example that matches your environment.
 
-### cURL
+## cURL
 
-```shell
+```bash
 curl https://api.training.wandb.ai/v1/chat/completions \
     -H "Authorization: Bearer $WANDB_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-            "model": "wandb-artifact://<entity>/<project>/<model-name>:<step>",
+            "model": "wandb-artifact://[ENTITY]/[PROJECT]/[MODEL-NAME]:[STEP]",
             "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": "Summarize our training run."}
@@ -48,7 +49,7 @@ curl https://api.training.wandb.ai/v1/chat/completions \
         }'
 ```
 
-### OpenAI SDK
+## OpenAI SDK
 
 ```python
 from openai import OpenAI
