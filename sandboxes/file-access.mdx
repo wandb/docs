@@ -25,7 +25,7 @@ Read and write files when you want to transfer smaller files between your local 
 {/* creating, updating, modifying, or saving data  */}
 {/* transfers a file into the sandbox. Use it to upload inputs your sandbox code needs (scripts, configs, data files). */}
 
-Transfer a file from your local environment to the sandbox using the [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) method. 
+Write a file to the sandbox when you need to upload inputs your sandbox code uses, such as scripts, configs, or data files. Transfer a file from your local environment to the sandbox using the [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) method.
 
 
 ```python
@@ -44,7 +44,7 @@ See the `Sandbox` class reference documentation for a full list of parameters an
 
 ## Read a file from the sandbox
 
-Save a file from the sandbox to your local environment using the [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) method.
+Read a file from the sandbox when you want to save its output or generated artifacts back to your local environment. Save a file from the sandbox to your local environment using the [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) method.
 
 ```python
 from pathlib import Path
@@ -70,7 +70,7 @@ Use mounted files to provide local files to the sandbox at creation time. Unlike
 Mounted files are read-only in the sandbox. If you need to modify files in the sandbox, use `Sandbox.write_file()` instead.
 </Info>
 
-In the following code snippet, local files `train.py` and `requirements.txt` are mounted to the sandbox root directory. The sandbox installs dependencies from `requirements.txt` and then runs `train.py`.
+The following code snippet mounts the local files `train.py` and `requirements.txt` to the sandbox root directory. The sandbox installs dependencies from `requirements.txt` and then runs `train.py`.
 
 ```python
 from pathlib import Path
