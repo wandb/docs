@@ -28,7 +28,7 @@ For an example of how to programmatically create a report, see this [Google Cola
     <img src="/images/reports/create_a_report_modal.png" alt="Create report modal" />
     </Frame>
 
-4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. After you click **Create report**, a draft report is available in the report tab to continue working on.
+4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. A draft report is saved automatically. Access it in the **Reports** tab.
 </Tab>
 <Tab title="Report tab">
 1. Navigate to your project workspace in the W&B App.
@@ -46,7 +46,7 @@ Create a report programmatically:
     ```bash
     pip install wandb wandb-workspaces
     ```
-2. Import workspaces.
+2. Import the W&B Python SDK and the Report and Workspace API.
     ```python
     import wandb
     import wandb_workspaces.reports.v2 as wr
@@ -56,11 +56,11 @@ Create a report programmatically:
     report = wr.Report(project="report_standard")
     ```
 
-4. Save the report. Reports aren't uploaded to the W&B server until you call the `.save()` method:
+4. Save the report. Reports aren't uploaded to W&B until you call the `.save()` method:
     ```python
     report.save()
     ```
 
-For more information about how to edit a report interactively with the App UI or programmatically, see [Edit a report](/models/reports/edit-a-report/).
+For more information, see [Edit a report](/models/reports/edit-a-report).
 </Tab>
 </Tabs>

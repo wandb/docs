@@ -4,7 +4,7 @@ title: Embed a report
 keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 ---
 
-Embed W&B reports in external pages and tools so that your team can view live experiment results alongside other documentation. This page describes how to generate an embed code from a report and how to use it in HTML, Confluence, Notion, and Gradio.
+Embed a W&B report in an external page or tool so that your team can view live experiment results alongside other documentation. This page describes how to generate an embed code from a report and use it in HTML, Confluence, Notion, or Gradio.
 
 ## HTML `iframe` element
 
@@ -38,7 +38,7 @@ The following animation demonstrates how to insert a report into a Notion docume
 
 ## Gradio
 
-To embed a W&B report in a Gradio app, including apps hosted on Hugging Face Spaces, use Gradio's `gr.HTML` element to render an `iframe` that points to the report URL.
+To embed a W&B report in a Gradio app, including an app hosted on Hugging Face Spaces, use Gradio's `gr.HTML` element to render an `iframe` that points to the report URL.
 
 ```python
 import gradio as gr

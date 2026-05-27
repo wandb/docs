@@ -11,13 +11,13 @@ W&B Report and Workspace API is in Public Preview.
 
 This page describes how to edit a report interactively with the App UI or programmatically with the W&B SDK. It covers adding plots, run sets, code blocks, markdown, HTML elements, and rich media, as well as filtering and grouping run sets, organizing report layout, and visualizing multi-dimensional relationships.
 
-Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and runs, and panel grids.
+A report's body consists of _blocks_. Blocks contain text, images, embedded visualizations, plots from experiments and runs, and panel grids.
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
 
 <Note>
-See the [Programmatic workspaces notebook](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) for a step-by-step example of how to create and customize a saved workspace view.
+Run the [Programmatic workspaces notebook](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) for an end-to-end tutorial of creating a customized saved workspace view.
 </Note>
 
 <Note>
@@ -327,17 +327,17 @@ Programmatically filter run sets and add them to a report with the [Workspace an
 The general syntax for a filter expression is:
 
 ```text
-Filter('KEY') operation [VALUE]
+Filter('[KEY]') operation [VALUE]
 ```
 
-In this expression, `KEY` is the name of the filter, `operation` is a comparison operator (for example, `>`, `<`, `==`, `in`, `not in`, `or`, and `and`), and `[VALUE]` is the value to compare against. `Filter` is a placeholder for the type of filter you want to apply. The following table lists the available filters and their descriptions:
+In this expression, `[KEY]` is the name of the filter, `operation` is a comparison operator (for example, `>`, `<`, `==`, `in`, `not in`, `or`, and `and`), and `[VALUE]` is the value to compare against. `Filter` is a placeholder for the type of filter you want to apply. The following table lists the available filters and their descriptions:
 
 | Filter | Description | Available keys |
 | ---|---| --- |
-|`Config('KEY')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
-|`SummaryMetric('KEY')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
-|`Tags('KEY')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
-|`Metric('KEY')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
+|`Config('[KEY]')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
+|`SummaryMetric('[KEY]')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
+|`Tags('[KEY]')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
+|`Metric('[KEY]')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
 
 After you define your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information about how to add various elements to a report programmatically.
 
@@ -416,7 +416,7 @@ Filter run sets based on a run's tag (`tags`), run state (`state`), run name (`d
 `Metric` filters use a different syntax than other filters. You must pass values as a list.
 
 ```text
-Metric('KEY') operation [VALUE]
+Metric('[KEY]') operation [VALUE]
 ```
 </Note>
 
@@ -510,7 +510,7 @@ Select the name of the programming language on the right side of the code block 
 <Tab title="Report and Workspace API">
 Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
-For example, the following example demonstrates a list in a YAML file:
+The following example demonstrates a list in a YAML file:
 
 ```python
 import wandb
@@ -675,15 +675,17 @@ report.save()
 </Tab>
 </Tabs>
 
-## Duplicate and delete panel grids
+## Duplicate panel grids
 
-Duplicating and deleting panel grids helps you reuse layouts and remove content you no longer need. If you have a layout that you want to reuse, select a panel grid and copy-paste it to duplicate it in the same report or paste it into a different report.
+Duplicate a panel grid to reuse its layout in the same report or in a different report. Select a panel grid and copy-paste it to duplicate it in the same report or paste it into a different report.
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
 <Frame>
     <img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="Copying panel grids"  />
 </Frame>
+
+## Delete panel grids
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
@@ -701,8 +703,8 @@ Collapse headers in a report to hide content within a text block. When the repor
 
 ## Visualize relationships across multiple dimensions
 
-When you want to compare more variables than a 2D plot can show, you can use a color gradient as an additional dimension. W&B recommends using a color gradient to represent one of the variables, which enhances clarity and makes patterns easier to interpret.
+To compare more variables than a 2D plot can show, you can use a color gradient as an additional dimension. Using a color gradient to represent one of the variables can make patterns easier to interpret.
 
-1. Choose a variable to represent with a color gradient (for example, penalty scores or learning rates). This provides a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
+1. Choose a variable to represent with a color gradient, like penalty scores or learning rates. This provides a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
 2. Highlight key trends. Hover over a specific group of runs to highlight them in the visualization.
 
