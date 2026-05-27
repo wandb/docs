@@ -1,0 +1,47 @@
+---
+title: "Function: runIsolated()"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / runIsolated
+
+
+
+> **runIsolated**\<`T`\>(`fn`): `T`
+
+Defined in: [genai/context.ts:88](https://github.com/wandb/weave/blob/68509dddcf91f8cd4bfacf04fc6849c92bff20d6/sdks/node/src/genai/context.ts#L88)
+
+Run `fn` in a fresh, isolated GenAI state frame. Any Session / Turn / LLM
+started inside `fn` lives in this frame only — it does not clash with
+sibling `runIsolated` frames running concurrently, and it does not leak
+to the outer async chain.
+
+Use this to safely run parallel GenAI work:
+
+  await Promise.all([
+    weave.runIsolated(async () => { ... }),
+    weave.runIsolated(async () => { ... }),
+  ]);
+
+Sequential single-flight usage doesn't require this wrapper — the
+process-wide default state handles it.
+
+## Type Parameters
+
+### T
+
+`T`
+
+## Parameters
+
+### fn
+
+() => `T`
+
+## Returns
+
+`T`
