@@ -2,8 +2,8 @@
 title: Are there best practices for using Launch effectively?
 ---
 
-1. Create the queue before starting the agent to enable easy configuration. Failure to do this results in errors that prevent the agent from functioning until a queue is added.
+Follow these practices to avoid common setup errors and keep your Launch workflows maintainable:
 
-2. Create a W&B service account to initiate the agent, ensuring it is not linked to an individual user account.
-
-3. Use `wandb.Run.config` to manage hyperparameters, allowing for overwriting during job re-runs. Refer to the [configuration with argparse guide](/models/track/config/#set-the-configuration-with-argparse) for details on using argparse.
+- Create the queue before you start the agent to streamline configuration. Otherwise, the agent fails with errors until you add a queue.
+- Create a W&B service account to start the agent so that it doesn't link to an individual user account.
+- Use `wandb.Run.config` to manage hyperparameters, which lets you overwrite values during job re-runs. For more information about using `argparse`, see [Set the configuration with argparse](/models/track/config/#set-the-configuration-with-argparse).
