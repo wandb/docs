@@ -2,17 +2,17 @@
 description: "Fine-tune Cohere models with W&B experiment tracking to log training metrics and monitor model performance."
 title: Cohere fine-tuning
 ---
-With W&B you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues.
+With W&B, you can log your Cohere model's fine-tuning metrics and configuration to analyze your models' performance and share results with your colleagues. This page shows you how to connect a Cohere fine-tuning run to a W&B project so that W&B captures training and validation metrics, hyperparameters, and run metadata automatically in your workspace. It's intended for users who are already fine-tuning Cohere models and want centralized experiment tracking.
 
-This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) has a full example of how to kick off a fine-tuning run and you can find the [Cohere API docs here](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
+For a full example of how to start a fine-tuning run, see the [Cohere fine-tuning guide](https://docs.cohere.com/page/convfinqa-finetuning-wandb), and refer to the [Cohere API reference for the `wandb` setting](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb).
 
-## Log your Cohere fine-tuning results
+## Log Cohere fine-tuning results
 
-To add Cohere fine-tuning logging to your W&B workspace:
+To add Cohere fine-tuning logging to your W&B workspace, do the following:
 
-1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. Create an API key at https://wandb.ai/settings
+1. Create a `WandbConfig` with your W&B API key, W&B `entity`, and `project` name. The API key authenticates the Cohere job with W&B, and the entity and project determine where W&B logs your runs. Create an API key in your [W&B user settings](https://wandb.ai/settings). Replace `[WANDB-API-KEY]` in the following example with your API key.
 
-2. Pass this config to the `FinetunedModel` object along with your model name, dataset and hyperparameters to kick off your fine-tuning run.
+2. Pass this config to the `FinetunedModel` object along with your model name, dataset, and hyperparameters to start your fine-tuning run. The `wandb` setting configures Cohere to stream metrics to your W&B project during the run.
 
 
     ```python
@@ -20,7 +20,7 @@ To add Cohere fine-tuning logging to your W&B workspace:
 
     # create a config with your W&B details
     wandb_ft_config = WandbConfig(
-        api_key="<wandb_api_key>",
+        api_key="[WANDB-API-KEY]",
         entity="my-entity", # must be a valid enitity associated with the provided API key
         project="cohere-ft",
     )
@@ -44,17 +44,18 @@ To add Cohere fine-tuning logging to your W&B workspace:
 3. View your model's fine-tuning training and validation metrics and hyperparameters in the W&B project that you created.
 
     <Frame>
-        <img src="/images/integrations/cohere_ft.png" alt="Cohere fine-tuning dashboard"  />
+        <img src="/images/integrations/cohere_ft.png" alt="Cohere fine-tuning dashboard" />
     </Frame>
 
+After the run starts, your Cohere fine-tuning job reports metrics to W&B in real time, giving you a single place to compare runs and inspect training progress.
 
 ## Organize runs
 
-Your W&B runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate and any other hyper-parameter.
+W&B organizes your runs automatically. You can filter and sort them by any configuration parameter such as job type, base model, learning rate, and any other hyperparameter.
 
-In addition, you can rename your runs, add notes or create tags to group them.
+You can also rename your runs, add notes, or create tags to group them.
 
 
 ## Resources
 
-* [Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)
+For a complete example, see the [Cohere fine-tuning example notebook](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb).

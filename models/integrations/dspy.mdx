@@ -3,14 +3,15 @@ description: "Track and optimize DSPy programs with W&B to log prompts, evaluati
 title: DSPy
 ---
 
+This guide shows how to use W&B with DSPy to track and optimize your language model programs, so you can monitor evaluation metrics, inspect how program signatures evolve during optimization, and version the resulting programs as reproducible artifacts. It's intended for DSPy users who want experiment tracking and observability for their compiled modules.
 
-Use W&B with DSPy to track and optimize your language model programs. W&B complements the [Weave DSPy integration](/weave/guides/integrations/dspy) by providing:
+W&B complements the [Weave DSPy integration](/weave/guides/integrations/dspy) by providing:
 
 - Evaluation metrics tracking over time
 - W&B Tables for program signature evolution
 - Integration with DSPy optimizers like MIPROv2
 
-For comprehensive observability when optimizing DSPy modules, enable the integration in both W&B and Weave.
+For full observability when optimizing DSPy modules, enable the integration in both W&B and Weave.
 
 <Info>
 **Note**
@@ -28,17 +29,17 @@ No explicit `weave.init(...)` call is required.
 Install the required libraries and authenticate with W&B:
 
 <Tabs>
-<Tab title="Command Line">
+<Tab title="Command line">
 1. Install the required libraries:
 
     ```shell
     pip install wandb weave dspy
     ```
 
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) and log in:
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) and log in. Replace `[YOUR-API-KEY]` with your W&B API key:
 
     ```bash
-    export WANDB_API_KEY=<your_api_key>
+    export WANDB_API_KEY=[YOUR-API-KEY]
     wandb login
     ```
 </Tab>
@@ -66,13 +67,13 @@ wandb.login()
 </Tab>
 </Tabs>
 
-New to W&B? See our [quickstart guide](/models/quickstart/).
+New to W&B? See the [Quickstart](/models/quickstart/).
 
+With the libraries installed and authentication in place, you're ready to instrument a DSPy optimization run.
 
 ## Track program optimization (experimental)
 
-
-For DSPy optimizers that use `dspy.Evaluate` (such as MIPROv2), use the `WandbDSPyCallback` to log evaluation metrics over time and track program signature evolution in W&B Tables.
+For DSPy optimizers that use `dspy.Evaluate` (such as MIPROv2), use the `WandbDSPyCallback` to log evaluation metrics over time and track program signature evolution in W&B Tables. Attaching the callback lets you observe how the optimizer's score changes and how the program's prompts and signatures evolve across iterations.
 
 ```python
 import dspy
@@ -118,17 +119,17 @@ with wandb.init(project=project_name) as run:
 
 After running this code, you receive both a W&B Run URL and a Weave URL. W&B displays evaluation metrics over time, along with Tables that show the evolution of program signatures. The run's **Overview** tab includes links to Weave traces for detailed inspection.
 
-If a `run` object is not passed to `WandbDSPyCallback`, the global `run` object is used.
+If you don't pass a `run` object to `WandbDSPyCallback`, the callback uses the global `run` object.
 
 <Frame>
-    <img src="/images/integrations/dspy_run_page.png" alt="DSPy optimization run in W&B"  />
+    <img src="/images/integrations/dspy_run_page.png" alt="DSPy optimization run in W&B" />
 </Frame>
 
-For comprehensive details about Weave tracing, evaluation, and optimization with DSPy, see the [Weave DSPy integration guide](/weave/guides/integrations/dspy).
+For details about Weave tracing, evaluation, and optimization with DSPy, see the [Weave DSPy integration guide](/weave/guides/integrations/dspy).
 
 ## Log predictions to W&B Tables
 
-Enable detailed prediction logging to inspect individual examples during optimization. The callback creates a W&B Tables for each evaluation step, which can help you to analyze specific successes and failures.
+In addition to aggregate metrics, you can enable detailed prediction logging to inspect individual examples during optimization. The callback creates a W&B Table for each evaluation step, which helps you analyze specific successes and failures.
 
 ```python
 from wandb.integration.dspy import WandbDSPyCallback
@@ -149,7 +150,7 @@ optimized_program = optimizer.compile(program, trainset=train_data)
 After optimization, find your prediction data in W&B:
 
 1. Navigate to your run's **Overview** page.
-2. Look for Table panels named with a pattern like `predictions_0`, `predictions_1`, and so forth.
+2. Look for Table panels named with a pattern like `predictions_0` or `predictions_1`.
 3. Filter by `is_correct` to analyze failures.
 4. Compare tables across runs in the project workspace.
 
@@ -162,7 +163,7 @@ Learn more in the [W&B Tables guide](/models/tables/visualize-tables/).
 
 ## Save and version DSPy programs
 
-To reproduce and version your best DSpy programs, save them as W&B Artifacts. Choose between saving the complete program or only the state.
+Once you've identified a high-performing optimized program, save it as a W&B Artifact so you can reproduce results and track versions over time. Choose between saving the complete program or only the state, depending on whether you need the full architecture or a lighter-weight checkpoint.
 
 ```python
 from wandb.integration.dspy import WandbDSPyCallback

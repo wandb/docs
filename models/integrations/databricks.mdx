@@ -3,17 +3,19 @@ description: "Integrate W&B with Databricks for experiment tracking, metric logg
 title: Databricks
 ---
 
-W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
+W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment. This page shows you how to install and authenticate W&B on a Databricks cluster so that you can track experiments and log metrics from notebooks running on Spark.
 
 ## Configure Databricks
 
-1. Install wandb in the cluster
+To use W&B from a Databricks notebook, you must install the `wandb` package on the cluster and configure authentication so your notebooks can log to W&B.
 
-    Navigate to your cluster configuration, choose your cluster, click **Libraries**. Click **Install New**, choose **PyPI**, and add the package `wandb`.
+1. Install `wandb` in the cluster
+
+    In your cluster configuration, choose your cluster, then click **Libraries** > **Install New** > **PyPI**, and add the package `wandb`.
 
 2. Set up authentication
 
-    To authenticate your W&B account you can add a Databricks secret which your notebooks can query.
+    To authenticate your W&B account, add a Databricks secret that your notebooks can query at runtime. This avoids hard-coding your API key in notebooks.
 
     ```bash
     # install databricks cli
@@ -34,7 +36,9 @@ W&B integrates with [Databricks](https://www.databricks.com/) by customizing the
 
 ## Examples
 
-### Simple example
+The following examples show how to use the preceding secret to log in and begin logging from a Databricks notebook.
+
+### Basic example
 
 ```python
 import os
@@ -49,12 +53,11 @@ with wandb.init() as run:
 
 ### Sweeps
 
-Setup required (temporary) for notebooks attempting to use wandb.sweep() or wandb.agent():
+Notebooks that use `wandb.sweep()` or `wandb.agent()` must set the entity and project as environment variables:
 
 ```python
 import os
 
-# These will not be necessary in the future
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

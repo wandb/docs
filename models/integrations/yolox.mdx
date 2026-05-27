@@ -5,7 +5,9 @@ title: YOLOX
 
 import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX W&B integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO for object detection. You can use the YOLOX W&B integration to turn on logging of metrics related to training, validation, and the system, and to interactively validate predictions with a single command-line argument.
+
+This guide shows you how to authenticate with W&B, install the integration, and enable W&B logging when you train a YOLOX object detection model so you can track metrics and inspect predictions in the W&B UI.
 
 ## Sign up and create an API key
 
@@ -21,16 +23,14 @@ An API key authenticates your machine to W&B. You can generate an API key from y
 To install the `wandb` library locally and log in:
 
 <Tabs>
-<Tab title="Command Line">
+<Tab title="Command line">
 1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
 
     ```bash
-    export WANDB_API_KEY=<your_api_key>
+    export WANDB_API_KEY=[YOUR-API-KEY]
     ```
 
 1. Install the `wandb` library and log in.
-
-
 
     ```shell
     pip install wandb
@@ -59,31 +59,45 @@ wandb.login()
 
 ## Log metrics
 
-Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init()`](/models/ref/python/functions/init) expects; prepend each argument with `wandb-`.
+With the `wandb` library installed and your machine authenticated, you can enable W&B logging from the YOLOX training script.
 
-`num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
+Use the `--logger wandb` command-line argument to turn on logging with `wandb`. Optionally, you can also pass all of the arguments that [`wandb.init()`](/models/ref/python/functions/init) expects. Prepend each argument with `wandb-`.
+
+`num_eval_imges` controls the number of validation set images and predictions that W&B logs to tables for model evaluation.
+
+Replace the following placeholders before you run the command:
+
+- `[PROJECT-NAME]`: The name of your W&B project.
+- `[ENTITY]`: Your W&B entity (username or team name).
+- `[RUN-NAME]`: A name for this training run.
+- `[RUN-ID]`: A unique identifier for this run.
+- `[SAVE-DIR]`: The directory where YOLOX saves checkpoints and logs.
+- `[NUM-IMAGES]`: The number of validation images to log.
+- `[BOOL]`: Whether to log checkpoints (`true` or `false`).
 
 ```shell
-# login to wandb
+# Log in to W&B
 wandb login
 
-# call your yolox training script with the `wandb` logger argument
+# Call your YOLOX training script with the wandb logger argument
 python tools/train.py .... --logger wandb \
-                wandb-project <project-name> \
-                wandb-entity <entity>
-                wandb-name <run-name> \
-                wandb-id <run-id> \
-                wandb-save_dir <save-dir> \
-                wandb-num_eval_imges <num-images> \
-                wandb-log_checkpoints <bool>
+                wandb-project [PROJECT-NAME] \
+                wandb-entity [ENTITY]
+                wandb-name [RUN-NAME] \
+                wandb-id [RUN-ID] \
+                wandb-save_dir [SAVE-DIR] \
+                wandb-num_eval_imges [NUM-IMAGES] \
+                wandb-log_checkpoints [BOOL]
 ```
 
 ## Example
 
-[Example dashboard with YOLOX training and validation metrics ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+After your training run starts, YOLOX streams training, validation, and system metrics to your W&B project, where you can compare runs and inspect predictions. See the following example for what a populated dashboard looks like.
+
+See the [example dashboard with YOLOX training and validation metrics](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom).
 
 <Frame>
     <img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard"  />
 </Frame>
 
-Any questions or issues about this W&B integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).
+If you have questions or issues about this W&B integration, open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).

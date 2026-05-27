@@ -5,7 +5,7 @@ description: "Use W&B to visualize and compare scikit-learn model performance wi
 
 import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
-You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [Try an example →](https://wandb.me/scikit-colab)
+This page shows scikit-learn users how to use W&B to track experiments and automatically log charts that visualize and compare model performance. You can use wandb to visualize and compare your scikit-learn models' performance with a few lines of code. [Try an example](https://wandb.me/scikit-colab).
 
 ## Get started
 
@@ -27,7 +27,7 @@ To install the `wandb` library locally and log in:
 1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
 
     ```bash
-    export WANDB_API_KEY=<your_api_key>
+    export WANDB_API_KEY=[YOUR-API-KEY]
     ```
 
 1. Install the `wandb` library and log in.
@@ -61,6 +61,8 @@ wandb.login()
 
 ### Log metrics
 
+After installing and logging in, log metrics from your scikit-learn training code so you can compare runs in W&B.
+
 ```python
 import wandb
 
@@ -78,7 +80,9 @@ wandb.init(project="visualize-sklearn") as run:
 
 ### Make plots
 
-#### Step 1: Import wandb and initialize a new run
+In addition to logging metrics, you can generate diagnostic plots for your scikit-learn models and log them as part of a run. The following steps initialize a run and then visualize either individual plots or a full set of plots for a given model type.
+
+#### Import wandb and initialize a new run
 
 ```python
 import wandb
@@ -86,20 +90,22 @@ import wandb
 run = wandb.init(project="visualize-sklearn")
 ```
 
-#### Step 2: Visualize plots
+#### Visualize plots
 
-#### Individual plots
+The following sections describe how to visualize individual plots or all plots for a given model type.
 
-After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts.
+##### Individual plots
+
+After training a model and making predictions, you can generate plots in wandb to analyze your predictions. For more information about supported charts, see the **Supported plots** section.
 
 ```python
 # Visualize single plot
 wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
 ```
 
-#### All plots
+##### All plots
 
-W&B has functions such as `plot_classifier` that will plot several relevant plots:
+W&B has functions such as `plot_classifier` that plot several relevant plots:
 
 ```python
 # Visualize all classifier plots
@@ -129,13 +135,13 @@ run.finish()
 
 #### Existing Matplotlib plots
 
-Plots created on Matplotlib can also be logged on W&B Dashboard. To do that, it is first required to install `plotly`.
+If you already create plots with Matplotlib, you can log them on the W&B dashboard alongside your scikit-learn plots. To do that, you must first install `plotly`.
 
 ```bash
 pip install plotly
 ```
 
-Finally, the plots can be logged on W&B's dashboard as follows:
+Finally, log the plots on the W&B dashboard as follows:
 
 ```python
 import matplotlib.pyplot as plt
@@ -152,13 +158,15 @@ with wandb.init(project="visualize-sklearn") as run:
 
 ## Supported plots
 
+The following sections describe each plot type that `wandb.sklearn` can produce, along with the function signature and arguments. Use these as a reference when calling individual plot functions or interpreting the output of `plot_classifier`, `plot_regressor`, and `plot_clusterer`.
+
 ### Learning curve
 
 <Frame>
     <img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn learning curve"  />
 </Frame>
 
-Trains model on datasets of varying lengths and generates a plot of cross validated scores vs dataset size, for both training and test sets.
+Trains model on datasets of varying lengths and generates a plot of cross-validated scores versus dataset size, for both training and test sets.
 
 `wandb.sklearn.plot_learning_curve(model, X, y)`
 
@@ -172,7 +180,7 @@ Trains model on datasets of varying lengths and generates a plot of cross valida
     <img src="/images/integrations/scikit_roc.png" alt="Scikit-learn ROC curve"  />
 </Frame>
 
-ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The ideal score is a TPR = 1 and FPR = 0, which is the point on the top left. Typically we calculate the area under the ROC curve (AUC-ROC), and the greater the AUC-ROC the better.
+ROC curves plot true positive rate (y-axis) versus false positive rate (x-axis). The ideal score is a TPR = 1 and FPR = 0, which is the point on the top left. You calculate the area under the ROC curve (AUC-ROC), and the greater the AUC-ROC the better.
 
 `wandb.sklearn.plot_roc(y_true, y_probas, labels)`
 
@@ -202,7 +210,7 @@ Plots the distribution of target classes in training and test sets. Useful for d
 
 Computes the tradeoff between precision and recall for different thresholds. A high area under the curve represents both high recall and high precision, where high precision relates to a low false positive rate, and high recall relates to a low false negative rate.
 
-High scores for both show that the classifier is returning accurate results (high precision), as well as returning a majority of all positive results (high recall). PR curve is useful when the classes are very imbalanced.
+High scores for both show that the classifier is returning accurate results (high precision), as well as returning a majority of all positive results (high recall). The precision-recall curve is useful when the classes are imbalanced.
 
 `wandb.sklearn.plot_precision_recall(y_true, y_probas, labels)`
 
@@ -216,7 +224,7 @@ High scores for both show that the classifier is returning accurate results (hig
     <img src="/images/integrations/scikit_feature_importances.png" alt="Scikit-learn feature importance chart"  />
 </Frame>
 
-Evaluates and plots the importance of each feature for the classification task. Only works with classifiers that have a `feature_importances_` attribute, like trees.
+Evaluates and plots the importance of each feature for the classification task. Only works with classifiers that have a `feature_importances_` attribute, such as trees.
 
 `wandb.sklearn.plot_feature_importances(model, ['width', 'height, 'length'])`
 
@@ -231,7 +239,7 @@ Evaluates and plots the importance of each feature for the classification task. 
 
 Plots how well calibrated the predicted probabilities of a classifier are and how to calibrate an uncalibrated classifier. Compares estimated predicted probabilities by a baseline logistic regression model, the model passed as an argument, and by both its isotonic calibration and sigmoid calibrations.
 
-The closer the calibration curves are to a diagonal the better. A transposed sigmoid like curve represents an overfitted classifier, while a sigmoid like curve represents an underfitted classifier. By training isotonic and sigmoid calibrations of the model and comparing their curves we can figure out whether the model is over or underfitting and if so which calibration (sigmoid or isotonic) might help fix this.
+The closer the calibration curves are to a diagonal the better. A transposed sigmoid-like curve represents an overfitted classifier, while a sigmoid-like curve represents an underfitted classifier. By training isotonic and sigmoid calibrations of the model and comparing their curves, you can figure out whether the model is over or underfitting and, if so, which calibration (sigmoid or isotonic) might help fix this.
 
 For more details, check out [sklearn's docs](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html).
 
@@ -240,7 +248,7 @@ For more details, check out [sklearn's docs](https://scikit-learn.org/stable/aut
 * model (clf): Takes in a fitted classifier.
 * X (arr): Training set features.
 * y (arr): Training set labels.
-* model_name (str): Model name. Defaults to 'Classifier'
+* model_name (str): Model name. Defaults to `"Classifier"`.
 
 ### Confusion matrix
 
@@ -248,7 +256,7 @@ For more details, check out [sklearn's docs](https://scikit-learn.org/stable/aut
     <img src="/images/integrations/scikit_confusion_matrix.png" alt="Scikit-learn confusion matrix"  />
 </Frame>
 
-Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in the predictions the model gets wrong. The diagonal represents the predictions the model got right, such as where the actual label is equal to the predicted label.
+Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in incorrect predictions. The diagonal represents the predictions where the actual label is equal to the predicted label.
 
 `wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
 
@@ -270,7 +278,7 @@ Computes the confusion matrix to evaluate the accuracy of a classification. It's
 * model (clf or reg): Takes in a fitted regressor or classifier.
 * X (arr): Training set features.
 * y (arr): Training set labels.
-  * X_test (arr): Test set features.
+* X_test (arr): Test set features.
 * y_test (arr): Test set labels.
 
 ### Elbow plot
@@ -292,17 +300,17 @@ Measures and plots the percentage of variance explained as a function of the num
     <img src="/images/integrations/scikit_silhouette_plot.png" alt="Scikit-learn silhouette plot"  />
 </Frame>
 
-Measures & plots how close each point in one cluster is to points in the neighboring clusters. The thickness of the clusters corresponds to the cluster size. The vertical line represents the average silhouette score of all the points.
+Measures and plots how close each point in one cluster is to points in the neighboring clusters. The thickness of the clusters corresponds to the cluster size. The vertical line represents the average silhouette score of all the points.
 
-Silhouette coefficients near +1 indicate that the sample is far away from the neighboring clusters. A value of 0 indicates that the sample is on or very close to the decision boundary between two neighboring clusters and negative values indicate that those samples might have been assigned to the wrong cluster.
+Silhouette coefficients near +1 indicate that the sample is far away from the neighboring clusters. A value of 0 indicates that the sample is on or close to the decision boundary between two neighboring clusters, and negative values indicate that those samples might have been assigned to the wrong cluster.
 
-In general we want all silhouette cluster scores to be above average (past the red line) and as close to 1 as possible. We also prefer cluster sizes that reflect the underlying patterns in the data.
+You want all silhouette cluster scores to be above average (past the red line) and as close to 1 as possible. You also prefer cluster sizes that reflect the underlying patterns in the data.
 
 `wandb.sklearn.plot_silhouette(model, X_train, ['spam', 'not spam'])`
 
 * model (clusterer): Takes in a fitted clusterer.
 * X (arr): Training set features.
-  * cluster_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
+* cluster_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
 
 ### Outlier candidates plot
 
@@ -310,7 +318,7 @@ In general we want all silhouette cluster scores to be above average (past the r
     <img src="/images/integrations/scikit_outlier_plot.png" alt="Scikit-learn outlier plot"  />
 </Frame>
 
-Measures a datapoint's influence on regression model via cook's distance. Instances with heavily skewed influences could potentially be outliers. Useful for outlier detection.
+Measures a datapoint's influence on regression model through Cook's distance. Instances with heavily skewed influences could be outliers. Useful for outlier detection.
 
 `wandb.sklearn.plot_outlier_candidates(model, X, y)`
 
@@ -324,18 +332,18 @@ Measures a datapoint's influence on regression model via cook's distance. Instan
     <img src="/images/integrations/scikit_residuals_plot.png" alt="Scikit-learn residuals plot"  />
 </Frame>
 
-Measures and plots the predicted target values (y-axis) vs the difference between actual and predicted target values (x-axis), as well as the distribution of the residual error.
+Measures and plots the predicted target values (y-axis) versus the difference between actual and predicted target values (x-axis), as well as the distribution of the residual error.
 
-Generally, the residuals of a well-fit model should be randomly distributed because good models will account for most phenomena in a data set, except for random error.
+The residuals of a well-fit model should be randomly distributed because good models account for most phenomena in a data set, except for random error.
 
 `wandb.sklearn.plot_residuals(model, X, y)`
 
 * model (regressor): Takes in a fitted classifier.
 * X (arr): Training set features.
-*   y (arr): Training set labels.
+* y (arr): Training set labels.
 
-    If you have any questions, we'd love to answer them in our [slack community](https://wandb.me/slack).
+If you have any questions, ask them in the [Slack community](https://wandb.me/slack).
 
 ## Example
 
-* [Run in colab](https://wandb.me/scikit-colab): A simple notebook to get you started.
+[Run in colab](https://wandb.me/scikit-colab): A simple notebook to get you started.

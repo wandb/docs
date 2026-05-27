@@ -5,9 +5,11 @@ description: "Integrate W&B with PyTorch Geometric for graph visualization and e
 
 import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments. 
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) (PyG) is a library for geometric deep learning, and W&B works with it for visualizing graphs and tracking experiments.
 
-After you have installed PyTorch Geometric, follow these steps to get started.
+This guide shows you how to authenticate to W&B, install the `wandb` library, visualize PyG graphs with PyVis or Plotly, and log training metrics from your PyG workflows. It's intended for PyG users who want to track experiments and share graph visualizations in W&B.
+
+After you install PyTorch Geometric, follow these steps to get started.
 
 ## Sign up and create an API key
 
@@ -27,14 +29,14 @@ To install the `wandb` library locally and log in:
 1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
 
     ```bash
-    export WANDB_API_KEY=<your_api_key>
+    export WANDB_API_KEY=[YOUR-API-KEY]
     ```
 
 1. Install the `wandb` library and log in.
 
 
 
-    ```shell
+    ```bash
     pip install wandb
 
     wandb login
@@ -50,7 +52,7 @@ wandb.login()
 ```
 </Tab>
 <Tab title="Python notebook">
-```notebook
+```python
 !pip install wandb
 
 import wandb
@@ -61,17 +63,19 @@ wandb.login()
 
 ## Visualize the graphs
 
-You can save details about the input graphs including number of edges, number of nodes and more. W&B supports logging plotly charts and HTML panels so any visualizations you create for your graph can then also be logged to W&B.
+After you log in, you can begin sending graph visualizations and run data to W&B.
+
+You can save details about the input graphs, including number of edges, number of nodes, and more. W&B supports logging Plotly charts and HTML panels, so you can also log any visualizations you create for your graph to W&B. The following sections show two common approaches: PyVis for interactive HTML visualizations and Plotly for chart-based visualizations.
 
 ### Use PyVis
 
-The following snippet shows how you could do that with PyVis and HTML.
+The following snippet shows how to do that with PyVis and HTML.
 
 ```python
 from pyvis.network import Network
 import wandb
 
-with wandb.init(project=’graph_vis’) as run:
+with wandb.init(project="graph_vis") as run:
     net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
     # Add the edges from the PyG graph to the PyVis network
@@ -95,7 +99,7 @@ with wandb.init(project=’graph_vis’) as run:
 
 ### Use Plotly
 
-To use plotly to create a graph visualization, first you need to convert the PyG graph to a networkx object. Following this you will need to create Plotly scatter plots for both nodes and edges. The snippet below can be used for this task.
+To use Plotly to create a graph visualization, first convert the PyG graph to a networkx object. Then create Plotly scatter plots for both nodes and edges. Use the following snippet for this task.
 
 ```python
 def create_vis(graph):
@@ -140,8 +144,8 @@ def create_vis(graph):
     return fig
 
 
-with wandb.init(project=’visualize_graph’) as run:
-    run.log({‘graph’: wandb.Plotly(create_vis(graph))})
+with wandb.init(project="visualize_graph") as run:
+    run.log({"graph": wandb.Plotly(create_vis(graph))})
 ```
 
 <Frame>
@@ -150,7 +154,7 @@ with wandb.init(project=’visualize_graph’) as run:
 
 ## Log metrics
 
-You can use W&B to track your experiments and related metrics, such as loss functions, accuracy, and more. Add the following line to your training loop:
+In addition to graph visualizations, you can use W&B to track your experiments and related metrics, such as loss functions, accuracy, and more. Add the following lines to your training loop:
 
 ```python
 with wandb.init(project="my_project", entity="my_entity") as run:
@@ -166,7 +170,11 @@ with wandb.init(project="my_project", entity="my_entity") as run:
     <img src="/images/integrations/pyg_metrics.png" alt="hits@K metrics over epochs"  />
 </Frame>
 
+With graph visualizations and training metrics logged to W&B, you can compare runs and share results from your PyG experiments in your W&B workspace.
+
 ## More resources
+
+The following W&B reports show PyG in action:
 
 - [Recommending Amazon Products using Graph Neural Networks in PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
 - [Point Cloud Classification using PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
