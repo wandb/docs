@@ -1,5 +1,6 @@
 ---
 title: How to make W&B Launch work with TensorFlow on GPU
+keywords: ["TensorFlow GPU", "CUDA launch", "GPU container", "accelerator image"]
 ---
 
 To run TensorFlow jobs on GPUs with W&B Launch, specify a custom base image for the container build. This lets the resulting container access the GPU. Add an image tag under the `builder.accelerator.base_image` key in the resource configuration. For example:
