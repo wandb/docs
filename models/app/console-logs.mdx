@@ -26,43 +26,17 @@ Within the W&B App you can modify the fields shown in the console logs table. */
 
 ## Types of console logs
 
-W&B captures several types of console logs: informational messages, warnings, and errors, with a prefix to indicate the log's severity. The prefix helps you scan logs and identify the messages most relevant to debugging.
+W&B captures three types of console logs and adds a prefix to indicate each log's severity. The prefix helps you scan logs and identify the messages most relevant to debugging. The following table summarizes each type, ordered from most to least severe.
 
-### Informational messages
-
-Informational messages provide updates about the run's progress and status. They're typically prefixed with `wandb:`.
-
-```text
-wandb: Starting Run: abc123
-wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
-```
-
-### Warning messages
-
-Warnings about potential issues that don't stop execution are prefixed with `WARNING:`.
-
-```text
-WARNING Found .wandb file, not streaming tensorboard metrics.
-WARNING These runs were logged with a previous version of wandb.
-```
-
-### Error messages
-
-Error messages for serious issues are prefixed with `ERROR:`. These indicate problems that might prevent the run from completing successfully.
-
-```text
-ERROR Unable to save notebook session history.
-ERROR Failed to save notebook.
-```
+| Severity | Prefix | Description | Example |
+| --- | --- | --- | --- |
+| Error | `ERROR` | Serious issues that might prevent the run from completing successfully. | `ERROR Failed to save notebook.` |
+| Warning | `WARNING` | Potential issues that don't stop execution. | `WARNING Found .wandb file, not streaming tensorboard metrics.` |
+| Info | `wandb:` | Updates about the run's progress and status. | `wandb: Starting Run: abc123` |
 
 ## Console log settings
 
-To control which types of console output W&B captures and displays, pass a `wandb.Settings` object to `wandb.init()` when you initialize a run. Within `wandb.Settings`, you can set the following parameters to control console log behavior:
-
-- `show_errors`: If set to `True`, error messages are displayed in the W&B App. If set to `False`, error messages aren't shown.
-- `silent`: If set to `True`, W&B suppresses all console output. This is useful for production environments where you want to minimize console noise.
-- `show_warnings`: If set to `True`, warning messages are displayed in the W&B App. If set to `False`, warning messages aren't shown.
-- `show_info`: If set to `True`, informational messages are displayed in the W&B App. If set to `False`, informational messages aren't shown.
+To control which types of console output W&B captures and displays, pass a `wandb.Settings` object to `wandb.init()` when you initialize a run. The relevant parameters are `show_errors`, `show_warnings`, `show_info`, and `silent`. For details on each parameter and its default value, see the [`wandb.Settings` reference](/models/ref/python/experiments/settings).
 
 The following example shows how to configure these settings:
 
@@ -112,7 +86,7 @@ The console logs look similar to the following:
 
 W&B automatically adds timestamps to each console log entry. This lets you track when each log message was generated.
 
-To show or hide timestamps in the console logs, select the **Timestamp visible** drop-down list on the console page.
+To show or hide timestamps in the console logs, select the **Timestamp visible** drop-down list on the console logs page.
 
 ## Search console logs
 
@@ -124,7 +98,7 @@ To quickly locate relevant entries, use the search bar on the console logs page 
 Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
 </Warning>
 
-You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings`. Enter the label in the search bar on the console log page.
+You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings`. Enter the label in the search bar on the console logs page.
 
 ```python
 import wandb

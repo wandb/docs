@@ -69,7 +69,7 @@ Update the Vega spec to customize the visualization:
     <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="PR curve Vega spec" />
 </Frame>
 
-Saving a preset lets you reuse the same chart configuration on other panels in the project. To save this as a preset that you can use elsewhere in this project, click **Save as** at the top of the page. Here's what the result looks like, along with an ROC curve.
+Save a preset to reuse the same chart configuration on other panels in the project. To save this as a preset that you can use elsewhere in this project, click **Save as** at the top of the page. Here's what the result looks like, along with an ROC curve.
 
 <Frame>
     <img src="/images/general/custom-charts-2.png" alt="PR curve chart" />
@@ -87,7 +87,7 @@ Histograms can visualize numerical distributions to help you understand larger d
 
 To create your own version of the custom composite histogram panel:
 
-1. Create a new Custom Chart panel in your Workspace or Report (by adding a **Custom Chart** visualization). Click **Edit** in the top right to modify the Vega spec starting from any built-in panel type.
+1. Create a new custom chart panel in your workspace or report (by adding a **Custom Chart** visualization). Click **Edit** in the top right to modify the Vega spec starting from any built-in panel type.
 2. Replace that built-in Vega spec with the [starter code for a composite histogram in Vega](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21). You can modify the main title, axis titles, input domain, and any other details directly in this Vega spec [using Vega syntax](https://vega.github.io/). For example, you can change the colors or add a third histogram.
 3. Modify the query in the right panel to load the correct data from your wandb logs. Add the field `summaryTable` and set the corresponding `tableKey` to `class_scores` to fetch the `wandb.Table` logged by your run. This lets you populate the two histogram bin sets (`red_bins` and `blue_bins`) through the dropdown menus with the columns of the `wandb.Table` logged as `class_scores`. For example, you can choose the `animal` class prediction scores for the red bins and `plant` for the blue bins.
 4. You can keep making changes to the Vega spec and query until the plot you see in the preview rendering matches what you want. After you're done, click **Save as** in the top and give your custom plot a name so you can reuse it. Then click **Apply from panel library** to finish your plot.
