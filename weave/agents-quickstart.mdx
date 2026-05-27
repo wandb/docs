@@ -20,45 +20,53 @@ The code in this guide sets up a small research agent that can look things up on
 This guide shows you how to:
 
 - Initialize Weave for agent tracing with `weave.init()`
-- Open a session and a turn with `weave.start_session()` and `weave.start_turn()`
-- Wrap LLM calls with `weave.start_llm()` and record usage
-- Wrap tool executions with `weave.start_tool()` and record results
+- Open a session and a turn with `start_session` / `startSession` and `start_turn` / `startTurn`
+- Wrap LLM calls with `start_llm` / `startLLM` and record usage
+- Wrap tool executions with `start_tool` / `startTool` and record results
 - View the resulting session, turns, and tool calls in the Agents view
 
 ## How the Weave SDK works with agents
 
 The Weave SDK includes a generic OTel ingest system for agents, meaning that Weave can capture information from any OTel span in your agent's code. However, Weave requires special handling of the following spans to render your agent's traces in the Agents view of the Weave UI.
 
-| Function | Maps to | OTel span |
-| --- | --- | --- |
-| `weave.start_session(...)` | A conversation | (no span — groups turns) |
-| `weave.start_turn(...)` | One user / agent exchange | `invoke_agent` |
-| `weave.start_llm(...)` | One LLM API call | `chat` |
-| `weave.start_tool(...)` | One tool execution | `execute_tool` |
+| Concept | Python | TypeScript | OTel span |
+| --- | --- | --- | --- |
+| A conversation | `weave.start_session(...)` | `weave.startSession(...)` | (no span — groups turns) |
+| One user / agent exchange | `weave.start_turn(...)` | `weave.startTurn(...)` | `invoke_agent` |
+| One LLM API call | `weave.start_llm(...)` | `weave.startLLM(...)` | `chat` |
+| One tool execution | `weave.start_tool(...)` | `weave.startTool(...)` | `execute_tool` |
 
-All four are context managers. On exit, they end the span and flush attributes, including on exceptions.
+In Python, all four functions work as context managers (`with weave.start_*(...) as obj:`). On exit, they end the span and flush attributes, including on exceptions. In TypeScript, call `.end()` on each returned object — use `try { ... } finally { obj.end(); }` to guarantee cleanup on exceptions.
 
 Other [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/), such as `gen_ai.usage.*` and `gen_ai.agent.name`, enable additional rendering, but they are optional.
 
 ## Prerequisites
 
 - A W&B account and [API key](https://wandb.ai/authorize)
-- Python 3.10+
 - An OpenAI API key
+- Python 3.10+ (for the Python examples)
+- Node.js 18+ (for the TypeScript examples — built-in `fetch` is required)
 
 ## Install packages
 
 Install the following packages into your developer environment:
 
-```bash
+<CodeGroup>
+```bash Python
 pip install weave openai requests
 ```
+
+```bash TypeScript
+npm install weave openai
+```
+</CodeGroup>
 
 ## Initialize Weave
 
 `weave.init()` authenticates with W&B and configures the OTel exporter that sends agent spans to the **Agents** view. If the project does not exist on your team, Weave creates it the first time you write to it.
 
-```python
+<CodeGroup>
+```python Python
 import getpass
 import os
 
@@ -72,11 +80,24 @@ import weave
 weave.init(f"{TEAM}/{PROJECT}")
 ```
 
+```typescript TypeScript
+// Set WANDB_API_KEY, OPENAI_API_KEY, WANDB_TEAM, and WANDB_PROJECT
+// in your environment before running this script.
+import * as weave from 'weave';
+
+const TEAM = process.env.WANDB_TEAM!;
+const PROJECT = process.env.WANDB_PROJECT!;
+
+await weave.init(`${TEAM}/${PROJECT}`);
+```
+</CodeGroup>
+
 ## Define a tool
 
 The following code defines the agent's Wikipedia search tool and an OpenAI tool schema to determine when and how to use the tool.
 
-```python
+<CodeGroup>
+```python Python
 import json
 import requests
 
@@ -105,6 +126,41 @@ wikipedia_tool_schema = {
 }
 ```
 
+```typescript TypeScript
+async function wikipediaSearch(query: string): Promise<string> {
+  const url = new URL('https://en.wikipedia.org/w/api.php');
+  url.search = new URLSearchParams({
+    action: 'query',
+    generator: 'search',
+    gsrsearch: query,
+    gsrlimit: '1',
+    prop: 'extracts',
+    exintro: 'true',
+    explaintext: 'true',
+    format: 'json',
+  }).toString();
+  const res = await fetch(url, { headers: { 'User-Agent': 'weave-demo' } });
+  const data = (await res.json()) as {
+    query: { pages: Record<string, { extract: string }> };
+  };
+  return Object.values(data.query.pages)[0].extract;
+}
+
+const wikipediaToolSchema = {
+  type: 'function' as const,
+  function: {
+    name: 'wikipedia_search',
+    description: 'Search Wikipedia for a topic and return its intro paragraph.',
+    parameters: {
+      type: 'object',
+      properties: { query: { type: 'string' } },
+      required: ['query'],
+    },
+  },
+};
+```
+</CodeGroup>
+
 ## Run a traced multi-turn agent
 
 The example below runs three turns in a single session. Each turn:
@@ -113,7 +169,8 @@ The example below runs three turns in a single session. Each turn:
 2. If the LLM requested a tool, opens an `execute_tool` span around the call and feeds the result back to the LLM
 3. Opens a second `chat` span to produce the final answer
 
-```python
+<CodeGroup>
+```python Python
 from openai import OpenAI
 
 openai_client = OpenAI()
@@ -176,6 +233,99 @@ with weave.start_session(agent_name="research-bot") as session:
         print(f"USER: {question}")
         print(f"AGENT: {run_turn(history, question)}\n")
 ```
+
+```typescript TypeScript
+import OpenAI from 'openai';
+
+const openaiClient = new OpenAI();
+const MODEL = 'gpt-4o-mini';
+
+// history is a list of OpenAI chat messages; typed loosely for brevity.
+async function runTurn(history: any[], userMessage: string): Promise<string | null> {
+  history.push({ role: 'user', content: userMessage });
+
+  const turn = weave.startTurn({ userMessage, model: MODEL });
+  try {
+    // LLM call 1 — the model may decide to use a tool.
+    const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
+    let msg;
+    try {
+      const resp = await openaiClient.chat.completions.create({
+        model: MODEL,
+        messages: history,
+        tools: [wikipediaToolSchema],
+      });
+      msg = resp.choices[0].message;
+      llm1.output(msg.content ?? '');
+      llm1.usage = {
+        inputTokens: resp.usage?.prompt_tokens,
+        outputTokens: resp.usage?.completion_tokens,
+      };
+      history.push(msg);
+    } finally {
+      llm1.end();
+    }
+
+    // If no tool was requested, the first LLM response is the answer.
+    if (!msg.tool_calls?.length) {
+      return msg.content ?? null;
+    }
+
+    // Execute each requested tool call.
+    for (const tc of msg.tool_calls) {
+      const tool = weave.startTool({
+        name: tc.function.name,
+        args: tc.function.arguments,
+        toolCallId: tc.id,
+      });
+      try {
+        const { query } = JSON.parse(tc.function.arguments);
+        tool.result = await wikipediaSearch(query);
+        history.push({ role: 'tool', tool_call_id: tc.id, content: tool.result });
+      } finally {
+        tool.end();
+      }
+    }
+
+    // LLM call 2 — synthesize the final answer.
+    const llm2 = weave.startLLM({ model: MODEL, providerName: 'openai' });
+    try {
+      const resp = await openaiClient.chat.completions.create({
+        model: MODEL,
+        messages: history,
+      });
+      const msg2 = resp.choices[0].message;
+      llm2.output(msg2.content ?? '');
+      llm2.usage = {
+        inputTokens: resp.usage?.prompt_tokens,
+        outputTokens: resp.usage?.completion_tokens,
+      };
+      history.push({ role: 'assistant', content: msg2.content });
+      return msg2.content ?? null;
+    } finally {
+      llm2.end();
+    }
+  } finally {
+    turn.end();
+  }
+}
+
+const session = weave.startSession({ agentName: 'research-bot' });
+try {
+  const history: any[] = [];
+  for (const question of [
+    'Who founded Anthropic?',
+    'What is Claude (the AI assistant)?',
+    'Summarize what we discussed in one sentence.',
+  ]) {
+    console.log(`USER: ${question}`);
+    console.log(`AGENT: ${await runTurn(history, question)}\n`);
+  }
+} finally {
+  session.end();
+}
+```
+</CodeGroup>
 
 ## See your agent traces in the Agents view
 
