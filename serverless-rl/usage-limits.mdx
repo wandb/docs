@@ -3,13 +3,15 @@ title: Usage information and limits
 description: Understand pricing, usage limits, and account restrictions for W&B Serverless RL
 ---
 
+This page describes the pricing model, concurrency limits, and geographic restrictions that apply to W&B Serverless RL. Review this information to estimate costs and to understand the constraints that affect how you run training and inference workloads.
+
 ## Pricing
 
-Pricing has three components: inference, training, and storage. For specific billing rates, visit our [pricing page](https://site.wandb.ai/pricing/training).
+Pricing has three components: inference, training, and storage. For specific billing rates, visit our [pricing page](https://site.wandb.ai/pricing/training). The following sections describe each component.
 
 ### Inference
 
-Pricing for Serverless RL inference requests matches Serverless Inference pricing. See [model-specific costs](https://site.wandb.ai/pricing/reinforcement-learning) for more details. Learn more about purchasing credits, account tiers, and usage caps in the [Serverless Inference docs](/inference/usage-limits#purchase-more-credits).
+Pricing for Serverless RL inference requests matches Serverless Inference pricing. See [model-specific costs](https://site.wandb.ai/pricing/reinforcement-learning). Learn more about purchasing credits, account tiers, and usage caps in the [Serverless Inference docs](/inference/usage-limits#purchase-more-credits).
 
 ### Training
 
@@ -19,10 +21,12 @@ Training is free during the public preview period.
 
 ### Model storage
 
-Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. W&B bills storage monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. Delete low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) for instructions.
+Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. W&B bills storage monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5 GB of free storage, which is enough for roughly 30 LoRAs. To save space, delete low-performing LoRAs. See the [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) for instructions.
 
 ## Limits
 
-* **Inference concurrency limits**: By default, Serverless RL currently supports up to 2000 concurrent requests per user and 6000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
+The following limits apply to Serverless RL usage. Review them when sizing workloads or when planning to use the service from a new region.
+
+* **Inference concurrency limits**: By default, Serverless RL supports up to 2,000 concurrent requests per user and 6,000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, request one at support@wandb.com.
 
 * **Geographic restrictions**: Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://site.wandb.ai/terms/).
