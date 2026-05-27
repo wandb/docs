@@ -2,38 +2,44 @@
 description: Edit a report interactively with the App UI or programmatically with
   the W&B SDK.
 title: Edit a report
+keywords:
+  - wandb-workspaces
+  - PanelGrid
+  - RunSet
+  - report blocks
+  - report filters
 ---
 
 <Note>
 W&B Report and Workspace API is in Public Preview.
 </Note>
 
-Edit a report interactively with the App UI or programmatically with the W&B SDK.
+This page describes how to edit a report interactively with the App UI or programmatically with the W&B SDK. It covers adding plots, run sets, code blocks, markdown, HTML elements, and rich media, as well as filtering and grouping run sets, organizing report layout, and visualizing multi-dimensional relationships.
 
-Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
+Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and runs, and panel grids.
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
 
 <Note>
-Check out the [Programmatic workspaces notebook](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) for a step by step example on how create and customize a saved workspace view.
+See the [Programmatic workspaces notebook](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) for a step-by-step example of how to create and customize a saved workspace view.
 </Note>
 
 <Note>
-Verify that you have the W&B Report and Workspace API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+To programmatically edit a report, you must have the W&B Report and Workspace API (`wandb-workspaces`) installed along with the W&B Python SDK:
 
-```pip
+```bash
 pip install wandb wandb-workspaces
 ```
 </Note>
 
 ## Add plots
 
-Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
+Plots let you visualize run data inside a report. Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data appears on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
 
 <Tabs>
 <Tab title="W&B App">
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B, including a line plot, scatter plot or parallel coordinates chart.
+Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that W&B supports, including a line plot, scatter plot, or parallel coordinates chart.
 
 <Frame>
     <img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report"  />
@@ -51,8 +57,8 @@ import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
+    title="Report title",
+    description="Report description.",
 )
 
 blocks = [
@@ -79,25 +85,27 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
 
 <Tabs>
 <Tab title="W&B App">
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. This will automatically import the run set from the project the report was created from.
+Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. W&B automatically imports the run set from the project the report was created from.
 
 If you import a panel into a report, run names are inherited from the project. In the report, you can optionally [rename a run](/models/runs/#rename-a-run) to give the reader more context. The run is renamed only in the individual panel. If you clone the panel in the same report, the run is also renamed in the cloned panel.
 
 1. In the report, click the pencil icon to open the report editor.
-1. In the run set, find the run to rename. Hover over the report name, click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Select one of the following choices, then submit the form.
+1. In the run set, find the run to rename. Hover over the report name and click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Select one of the following choices, then submit the form.
 
-    - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
-    - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
+    - **Rename run for project**: Rename the run across the entire project. To generate a new random name, leave the field blank.
+    - **Rename run for panel grid**: Rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
 
 1. Click **Publish report**.
 </Tab>
 <Tab title="Report and Workspace API">
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The following procedure describes how to add a runset:
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. To add a runset, follow these steps:
 
 1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the run sets for the project parameter and the entity that owns the project for the entity parameter.
 2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `run sets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
 4. Update the report instance blocks attribute with the list of panel grid instances.
+
+Replace `[PROJECT-NAME]` with your W&B project name and `[ENTITY-NAME]` with your W&B entity name in the following example:
 
 ```python
 import wandb
@@ -105,12 +113,12 @@ import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
+    title="Report title",
+    description="Report description.",
 )
 
 panel_grids = wr.PanelGrid(
-    runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")]
+    runsets=[wr.RunSet(project="[PROJECT-NAME]", entity="[ENTITY-NAME]")]
 )
 
 report.blocks = [panel_grids]
@@ -124,8 +132,8 @@ import wandb
 
 report = wr.Report(
     project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
+    title="Report title",
+    description="Report description.",
 )
 
 panel_grids = wr.PanelGrid(
@@ -170,7 +178,7 @@ panel_grids = wr.PanelGrid(
             regression=True,
         ),
     ],
-    runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
+    runsets=[wr.RunSet(project="[PROJECT-NAME]", entity="[ENTITY-NAME]")],
 )
 
 
@@ -183,7 +191,7 @@ report.save()
 
 ## Freeze a run set
 
-A report automatically updates run sets to show the latest data from the project. You can preserve the run set in a report by *freezing* that run set. When you freeze a run set, you preserve the state of the run set in a report at a point in time.
+A report automatically updates run sets to show the latest data from the project. Freeze a run set when you want to preserve its state in a report at a point in time, so that later runs don't change what the report displays.
 
 To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
 
@@ -193,11 +201,11 @@ To freeze a run set when viewing a report, click the snowflake icon in its panel
 
 ## Group a run set programmatically
 
-Group runs in a run set programmatically with the [Workspace and Reports API](/models/ref/wandb_workspaces/reports).
+Group runs in a run set programmatically with the [Workspace and Reports API](/models/ref/wandb_workspaces/reports). Grouping organizes related runs together in panels, which makes it easier to compare configurations and results.
 
-You can group runs in a run set by config values, run metadata or summary metrics. The following table lists the available grouping methods along with the available keys for that grouping method:
+You can group runs in a run set by config values, run metadata, or summary metrics. The following table lists the available grouping methods along with the available keys for each grouping method:
 
-| Grouping Method | Description |Available keys |
+| Grouping method | Description | Available keys |
 | ---|------| --- |
 | Config values| Group runs by config values | Values specified in config parameter in `wandb.init(config=)` |
 | Run metadata| Group runs by run metadata | `State`, `Name`, `JobType` |
@@ -210,16 +218,16 @@ You can group runs in a run set by config values, run metadata or summary metric
 
 ### Group runs by config values
 
-Group runs by config values to compare runs with similar configurations. Config values are parameters you specify in your run configuration `(wandb.init(config=))`. To group runs by config values, use the `config.<key>` syntax, where `<key>` is the name of the config value you want to group by. 
+Group runs by config values to compare runs with similar configurations. Config values are parameters you specify in your run configuration `(wandb.init(config=))`. To group runs by config values, use the `config.[KEY]` syntax, where `[KEY]` is the name of the config value you want to group by.
 
-For example, the following code snippet first initializes a run with a config value for `group`, then groups runs in a report based on the `group` config value. Replace values for `<entity>` and `<project>` with your W&B entity and project names.
+For example, the following code snippet first initializes a run with a config value for `group`, then groups runs in a report based on the `group` config value. Replace `[ENTITY]` and `[PROJECT]` with your W&B entity and project names.
 
 ```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
-entity = "<entity>"
-project = "<project>"
+entity = "[ENTITY]"
+project = "[PROJECT]"
 
 for group in ["control", "experiment_a", "experiment_b"]:
     for i in range(3):
@@ -262,7 +270,7 @@ report.save()
 
 ### Group runs by run metadata
 
-Group runs by a run's name (`Name`), state (`State`), or job type (`JobType`). 
+Group runs by a run's name (`Name`), state (`State`), or job type (`JobType`).
 
 Continuing from the previous example, you can group your runs by their name with the following code snippet:
 
@@ -275,7 +283,7 @@ runset = wr.Runset(
 ```
 
 <Note>
-The name of the run is the name you specify in the `wandb.init(name=)` parameter. If you do not specify a name, W&B generates a random name for the run.
+The name of the run is the name you specify in the `wandb.init(name=)` parameter. If you don't specify a name, W&B generates a random name for the run.
 
 You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
 </Note>
@@ -284,16 +292,16 @@ You can find the name of the run in the **Overview** page of a run in the W&B Ap
 
 The following examples demonstrate how to group runs by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
 
-The syntax for grouping runs by summary metrics is `summary.<key>`, where `<key>` is the name of the summary metric you want to group by. 
+The syntax for grouping runs by summary metrics is `summary.[KEY]`, where `[KEY]` is the name of the summary metric you want to group by.
 
-For example, suppose you log a summary metric called `acc`:
+For example, suppose you log a summary metric called `acc`. Replace `[ENTITY]` and `[PROJECT]` with your W&B entity and project names:
 
 ```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
-entity = "<entity>"
-project = "<project>"
+entity = "[ENTITY]"
+project = "[PROJECT]"
 
 for group in ["control", "experiment_a", "experiment_b"]:
     for i in range(3):
@@ -313,32 +321,32 @@ You can then group runs by the `summary.acc` summary metric:
 runset = wr.Runset(
   project=project,
   entity=entity,
-  groupby=["summary.acc"]  # Group by summary values 
+  groupby=["summary.acc"]  # Group by summary values
 )
 ```
 
 ## Filter a run set programmatically
 
-Programmatically filter run sets and add them to a report with the [Workspace and Reports API](/models/ref/wandb_workspaces/reports).
+Programmatically filter run sets and add them to a report with the [Workspace and Reports API](/models/ref/wandb_workspaces/reports). Filtering narrows a run set to the specific runs you want to display, based on config values, metrics, tags, or run properties.
 
 The general syntax for a filter expression is:
 
 ```text
-Filter('key') operation <value>
+Filter('KEY') operation [VALUE]
 ```
 
-Where `key` is the name of the filter, `operation` is a comparison operator (e.g., `>`, `<`, `==`, `in`, `not in`, `or`, and `and`), and `<value>` is the value to compare against. `Filter` is a placeholder for the type of filter you want to apply. The following table lists the available filters and their descriptions:
+In this expression, `KEY` is the name of the filter, `operation` is a comparison operator (for example, `>`, `<`, `==`, `in`, `not in`, `or`, and `and`), and `[VALUE]` is the value to compare against. `Filter` is a placeholder for the type of filter you want to apply. The following table lists the available filters and their descriptions:
 
 | Filter | Description | Available keys |
 | ---|---| --- |
-|`Config('key')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
-|`SummaryMetric('key')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
-|`Tags('key')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
-|`Metric('key')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
+|`Config('KEY')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
+|`SummaryMetric('KEY')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
+|`Tags('KEY')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
+|`Metric('KEY')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
 
-Once you have defined your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information on how to add various elements to a report programmatically.
+After you define your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information about how to add various elements to a report programmatically.
 
-The following examples demonstrate how to filter run sets in a report. Replace values enclosed in `<>` with your own values.
+The following examples demonstrate how to filter run sets in a report. Replace values enclosed in brackets (for example, `[ENTITY]` and `[PROJECT]`) with your own values.
 
 ### Config filters
 
@@ -354,7 +362,7 @@ config = {
     "batch_size": 32,
 }
 
-with wandb.init(project="<project>", entity="<entity>", config=config) as run:
+with wandb.init(project="[PROJECT]", entity="[ENTITY]", config=config) as run:
     # Your training code here
     pass
 ```
@@ -365,18 +373,18 @@ Within your Python script or notebook, you can then programmatically filter runs
 import wandb_workspaces.reports.v2 as wr
 
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Config('learning_rate') > 0.01"
 )
 ```
 
 You can also filter by multiple config values with the `and` operator:
- 
+
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
 )
 ```
@@ -385,8 +393,8 @@ Continuing from the previous example, you can create a report with the filtered 
 
 ```python
 report = wr.Report(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   title="My Report"
 )
 
@@ -407,13 +415,13 @@ report.save()
 
 ### Metric filters
 
-Filter run sets based on a run's: tag (`tags`), run state (`state`), run name (`displayName`), or job type (`jobType`).
+Filter run sets based on a run's tag (`tags`), run state (`state`), run name (`displayName`), or job type (`jobType`).
 
 <Note>
-`Metric` filters posses a different syntax. Pass a list of values as a list.
+`Metric` filters use a different syntax than other filters. You must pass values as a list.
 
 ```text
-Metric('key') operation [<value>]
+Metric('KEY') operation [VALUE]
 ```
 </Note>
 
@@ -422,7 +430,7 @@ For example, consider the following Python snippet that creates three runs and a
 ```python
 import wandb
 
-with wandb.init(project="<project>", entity="<entity>") as run:
+with wandb.init(project="[PROJECT]", entity="[ENTITY]") as run:
     for i in range(3):
         run.name = f"run{i+1}"
         # Your training code here
@@ -433,8 +441,8 @@ When you create your report, you can filter runs by their display name. For exam
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('displayName') in ['run1', 'run2', 'run3']"
 )
 ```
@@ -447,16 +455,16 @@ The following examples demonstrate how to filter a runset by the run's state (`f
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('state') in ['finished']"
 )
 ```
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('state') not in ['crashed']"
 )
 ```
@@ -468,16 +476,16 @@ The following examples demonstrate how to filter a run set by summary metrics. S
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="SummaryMetric('accuracy') > 0.9"
 )
 ```
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
 )
 ```
@@ -488,8 +496,8 @@ The following code snippet shows how to filter a runs set by its tags. Tags are 
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Tags('training') == 'training'"
 )
 ```
@@ -500,14 +508,14 @@ Add code blocks to your report interactively with the App UI or with the W&B SDK
 
 <Tabs>
 <Tab title="App UI">
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Code**.
+Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Code**.
 
-Select the name of the programming language on the right hand of the code block. This will expand a dropdown. From the dropdown, select your programming language syntax. You can choose from Javascript, Python, CSS, JSON, HTML, Markdown, and YAML.
+Select the name of the programming language on the right side of the code block to expand a dropdown. From the dropdown, select your programming language syntax. You can choose from JavaScript, Python, CSS, JSON, HTML, Markdown, and YAML.
 </Tab>
 <Tab title="Report and Workspace API">
 Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
-For example the following example demonstrates a list in YAML file:
+For example, the following example demonstrates a list in a YAML file:
 
 ```python
 import wandb
@@ -524,7 +532,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a code block similar to:
+This renders a code block similar to:
 
 ```yaml
 this:
@@ -546,7 +554,7 @@ report.blocks = [wr.CodeBlock(code=["Hello, World!"], language="python")]
 report.save()
 ```
 
-This will render a code block similar to:
+This renders a code block similar to:
 
 ```md
 Hello, World!
@@ -560,7 +568,7 @@ Add markdown to your report interactively with the App UI or with the W&B SDK.
 
 <Tabs>
 <Tab title="App UI">
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Markdown**.
+Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Markdown**.
 </Tab>
 <Tab title="Report and Workspace API">
 Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
@@ -576,7 +584,7 @@ report.blocks = [
 ]
 ```
 
-This will render a markdown block similar to:
+This renders a markdown block similar to:
 
 <Frame>
     <img src="/images/reports/markdown.png" alt="Rendered markdown block"  />
@@ -591,7 +599,7 @@ Add HTML elements to your report interactively with the App UI or with the W&B S
 
 <Tabs>
 <Tab title="App UI">
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
+Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
 </Tab>
 <Tab title="Report and Workspace API">
 Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
@@ -611,7 +619,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render the HTML elements to the following:
+This renders the HTML elements to the following:
 
 
 <Frame>
@@ -674,7 +682,7 @@ report.save()
 
 ## Duplicate and delete panel grids
 
-If you have a layout that you would like to reuse, you can select a panel grid and copy-paste it to duplicate it in the same report or even paste it into a different report.
+Duplicating and deleting panel grids helps you reuse layouts and remove content you no longer need. If you have a layout that you want to reuse, select a panel grid and copy-paste it to duplicate it in the same report or paste it into a different report.
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
@@ -688,9 +696,9 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
     <img src="/images/reports/delete_panel_grid.gif" alt="Deleting panel grids"  />
 </Frame>
 
-## Collapse headers to organize Reports
+## Collapse headers to organize reports
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The following gif demonstrates the process.
+Collapse headers in a report to hide content within a text block. When the report loads, only expanded headers show content. Collapsing headers in reports helps organize your content and prevents excessive data loading. The following gif demonstrates the process.
 
 <Frame>
     <img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report."  />
@@ -698,8 +706,8 @@ Collapse headers in a Report to hide content within a text block. When the repor
 
 ## Visualize relationships across multiple dimensions
 
-To effectively visualize relationships across multiple dimensions, use a color gradient to represent one of the variables. This enhances clarity and makes patterns easier to interpret.
+When you want to compare more variables than a 2D plot can show, you can use a color gradient as an additional dimension. W&B recommends using a color gradient to represent one of the variables, which enhances clarity and makes patterns easier to interpret.
 
-1. Choose a variable to represent with a color gradient (e.g., penalty scores, learning rates, etc.). This allows for a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
-2. Highlight key trends. Hovering over a specific group of runs highlights them in the visualization.
+1. Choose a variable to represent with a color gradient (for example, penalty scores or learning rates). This provides a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
+2. Highlight key trends. Hover over a specific group of runs to highlight them in the visualization.
 
