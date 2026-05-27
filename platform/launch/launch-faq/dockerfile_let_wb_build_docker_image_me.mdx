@@ -1,33 +1,33 @@
 ---
 title: Can I specify a Dockerfile and let W&B build a Docker image for me?
 ---
-This feature suits projects with stable requirements but frequently changing codebases.
+Yes. You can provide your own Dockerfile and have W&B Launch build the image for your run. This lets you control the build environment while still using Launch to queue and run jobs. This approach works well for projects with stable requirements but changing codebases.
 
 <Warning>
-Format your Dockerfile to use mounts. For further details, visit the [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/).
+Format your Dockerfile to use mounts. For details, see the [Docker mounts documentation](https://docs.docker.com/build/guide/mounts/).
 </Warning>
 
-After configuring the Dockerfile, specify it in one of three ways to W&B:
+After you configure the Dockerfile, specify it to W&B in one of the following ways:
 
-* Use Dockerfile.wandb
+* Use `Dockerfile.wandb`
 * Use W&B CLI
 * Use W&B App
 
 <Tabs>
 <Tab title="Dockerfile.wandb">
-Include a `Dockerfile.wandb` file in the same directory as the W&B run's entrypoint. W&B utilizes this file instead of the built-in Dockerfile.
+Include a `Dockerfile.wandb` file in the same directory as the W&B run's entrypoint. W&B uses this file instead of the built-in Dockerfile.
 </Tab>
 <Tab title="W&B CLI">
-Use the `--dockerfile` flag with the `wandb launch` command to queue a job:
+To queue a job, use the `--dockerfile` flag with the `wandb launch` command:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
 </Tab>
-<Tab title="W&B app">
-When adding a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path to the Dockerfile as the value.
+<Tab title="W&B App">
+When you add a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path as the value.
 
-The following JSON demonstrates how to include a Dockerfile in a local directory:
+The following JSON shows how to include a Dockerfile from a local directory:
 
 ```json title="Launch job W&B App"
 {

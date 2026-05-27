@@ -3,22 +3,24 @@ title: Configure private connectivity to Dedicated Cloud
 description: "Connect to a W&B Dedicated Cloud instance over a private network using AWS PrivateLink, GCP, or Azure Private Link."
 ---
 
-You can connect to your [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) instance over the cloud provider's secure private network. This applies to the access from your AI workloads to the W&B APIs and optionally from your user browsers to the W&B app UI as well. When using private connectivity, the relevant requests and responses do not transit through the public network or internet.
+This document explains how to connect to a W&B Dedicated Cloud instance over a cloud provider's secure private network, so that traffic between your environment and W&B avoids the public internet. It's intended for cloud and security administrators who manage Dedicated Cloud instances and want to harden network access for AI workloads and user traffic.
+
+You can connect to your [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) instance over the cloud provider's secure private network. This applies to access from your AI workloads to the W&B APIs and optionally from your user browsers to the W&B app UI. When you use private connectivity, the relevant requests and responses don't transit through the public network or internet. This reduces exposure to the public internet and helps satisfy network isolation requirements for sensitive workloads.
 
 <Note>
-Secure private connectivity is coming soon as an advanced security option with Dedicated Cloud.
+Secure private connectivity is offered as an advanced security option with Dedicated Cloud.
 </Note>
 
-Secure private connectivity is available on Dedicated Cloud instances on AWS, Google Cloud and Azure:
+Secure private connectivity is available on Dedicated Cloud instances on AWS, Google Cloud, and Azure:
 
-* Using [AWS Privatelink](https://aws.amazon.com/privatelink/) on AWS
-* Using [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) on Google Cloud
-* Using [Azure Private Link](https://azure.microsoft.com/products/private-link) on Azure
+* Use [AWS PrivateLink](https://aws.amazon.com/privatelink/) on AWS.
+* Use [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) on Google Cloud.
+* Use [Azure Private Link](https://azure.microsoft.com/products/private-link) on Azure.
 
-Once enabled, W&B creates a private endpoint service for your instance and provides you the relevant DNS URI to connect to. With that, you can create private endpoints in your cloud accounts that can route the relevant traffic to the private endpoint service. Private endpoints are easier to set up for your AI training workloads running within your cloud VPC or VNet. To use the same mechanism for traffic from your user browsers to the W&B app UI, you must configure appropriate DNS based routing from your corporate network to the private endpoints in your cloud accounts.
+After W&B enables the feature, W&B creates a private endpoint service for your instance and provides you the relevant DNS URI to connect to. With that, you can create private endpoints in your cloud accounts that route the relevant traffic to the private endpoint service. You can set up private endpoints for your AI training workloads that run within your cloud VPC or VNet. To use the same mechanism for traffic from your user browsers to the W&B app UI, you must configure appropriate DNS-based routing from your corporate network to the private endpoints in your cloud accounts. The DNS configuration ensures browser traffic resolves to your private endpoint instead of the public W&B endpoint.
 
 <Note>
-If you would like to use this feature, contact your W&B team.
+To use this feature, contact your W&B team.
 </Note>
 
-You can use secure private connectivity with [IP allowlisting](./ip-allowlisting). If you use secure private connectivity for IP allowlisting, W&B recommends that you secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
+You can use secure private connectivity with [IP allowlisting](./ip-allowlisting) to combine network isolation with location-based access controls. If you combine the two, W&B recommends that you use secure private connectivity for all traffic from your AI workloads and for browser traffic from your users where possible, and use IP allowlisting for instance administration from privileged locations.

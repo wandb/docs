@@ -3,12 +3,16 @@ title: Configure IP allowlisting for Dedicated Cloud
 description: "Restrict access to a W&B Dedicated Cloud instance to authorized IP addresses using IP allowlisting."
 ---
 
-You can restrict access to your [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) instance from only an authorized list of IP addresses. This applies to the access from your AI workloads to the W&B APIs and from your user browsers to the W&B app UI as well. Once IP allowlisting has been set up for your Dedicated Cloud instance, W&B denies any requests from other unauthorized locations. Reach out to your W&B team to configure IP allowlisting for your Dedicated Cloud instance.
+This page explains how IP allowlisting works on W&B [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and how to request it for your instance. Use IP allowlisting to restrict access to your Dedicated Cloud instance to an authorized list of IP addresses, so that only traffic from approved locations can reach the W&B APIs and the W&B app UI.
 
-IP allowlisting is available on Dedicated Cloud instances on AWS, Google Cloud and Azure.
+IP allowlisting applies to access from your AI workloads to the W&B APIs and from your user browsers to the W&B app UI. After you set up IP allowlisting for your Dedicated Cloud instance, W&B denies any requests from other unauthorized locations.
 
-You can use IP allowlisting with [secure private connectivity](./private-connectivity). If you use IP allowlisting with secure private connectivity, W&B recommends using secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
+IP allowlisting is available on Dedicated Cloud instances on AWS, Google Cloud, and Azure.
+
+To configure IP allowlisting for your Dedicated Cloud instance, contact your W&B team.
+
+You can use IP allowlisting with [secure private connectivity](./private-connectivity). If you use both, W&B recommends that you use secure private connectivity for all traffic from your AI workloads and most of the traffic from your user browsers, and use IP allowlisting for instance administration from privileged locations.
 
 <Warning>
-W&B strongly recommends to use [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) assigned to your corporate or business egress gateways rather than individual `/32` IP addresses. Using individual IP addresses is not scalable and has strict limits per cloud.
+W&B recommends that you use [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) assigned to your corporate or business egress gateways rather than individual `/32` IP addresses. Using individual IP addresses doesn't scale and has strict limits per cloud.
 </Warning>
