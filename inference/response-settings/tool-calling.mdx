@@ -3,9 +3,11 @@ title: Call tools
 description: "Use function and tool calling with Serverless Inference to let models invoke external tools and APIs during generation."
 ---
 
-Tool calling allows you to extend a model's capabilities to include invoking tools as part of its response. Serverless Inference only supports calling functions at this time. 
+Tool calling extends a model's capabilities to include invoking tools as part of its response. This lets the model fetch live data, trigger actions in your application, or otherwise reach beyond its training data to fulfill a request. Serverless Inference only supports calling functions.
 
-To call functions, specify them and their arguments as part of your request to the model. The model determines whether it needs to run the function to fulfill a request, and then specifies the function's argument values if needed.
+To call functions, specify them and their arguments as part of your request to the model. The model decides whether to run a function to answer the prompt, and if so, supplies the argument values.
+
+The following example defines a `get_weather` function and asks the model a question that requires invoking it.
 
 <Tabs>
   <Tab title="Python">
@@ -14,7 +16,7 @@ To call functions, specify them and their arguments as part of your request to t
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Create an API key at https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(
@@ -49,7 +51,7 @@ To call functions, specify them and their arguments as part of your request to t
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-20b",
             "messages": [

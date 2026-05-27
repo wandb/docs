@@ -4,18 +4,23 @@ description: >
   Learn how to create a fine-tuned LoRA to use with Serverless Inference.
 ---
 
-Serverless Inference allows you to use a custom LoRA with some base models. This tutorial demonstrates how to create a fine-tuned LoRA using supervised post-training
-via the [TRL](https://huggingface.co/docs/trl/index) library. This example uses a dataset of query/response pairs to fine-tune a model to respond like a cowboy.
+Serverless Inference lets you use a custom LoRA with some base models. This tutorial walks you through creating a fine-tuned LoRA using supervised post-training through the [TRL](https://huggingface.co/docs/trl/index) library, then uploading it to W&B as an artifact for use with the Serverless Inference API or Playground. The example uses a dataset of query/response pairs to fine-tune a model to respond like a cowboy, but you can adapt the same workflow to any character or task.
 
-You can also create a LoRA using [Serverless RL](/serverless-rl) which provides serverless reinforcement learning.
+This tutorial is for developers who want to customize a base model's behavior without managing their own inference infrastructure.
+
+You can also create a LoRA using [Serverless RL](/serverless-rl), which provides serverless reinforcement learning.
+
+The tutorial has three parts: prepare a post-training dataset, run the post-training script that produces and uploads the LoRA, and try the resulting LoRA in the Playground or from code.
 
 ## Post-training dataset
 
-The following dataset contains 50 query and response pairs that are formatted as a list of messages, such as:
+This section provides the example dataset used to fine-tune the model.
+
+The following dataset contains 50 query and response pairs formatted as a list of messages, such as:
 
 > User: "What is your favorite color?"
 
-> Assistant: "Well, pardner, my favorite color's the blazin' orange of a desert sunset…"
+> Assistant: "Well, pardner, my favorite color's the blazin' orange of a desert sunset."
 
 The example file contains one JSON object per line. Save the following data in your working directory as `cowboy_examples.jsonl`.
 
@@ -72,22 +77,27 @@ The example file contains one JSON object per line. Save the following data in y
 {"messages": [{"role": "user", "content": "Can submarines swim?"}, {"role": "assistant", "content": "Well howdy there, partner! Now that's a rootin'-tootin' puzzler if I ever heard one!  \n\nSee, submarines don't \"swim\" like a river trout at a Saturday fish-fry. They ain't got no fins flappin' or gills puffin'. Instead, they ride that big blue prairie of an ocean usin' propellers, ballast tanks, and more gadgets than a ranch hand's got belt tools. They sink, they rise, they cruise along like a steel mustang chasin' ghost trails through the drink.  \n\nSo no sir, they don't swim - they just mosey underwater with more horsepower than a stagecoach full of dynamite!"}]}
 ```
 
+After you save this dataset, you're ready to run post-training.
+
 ## Post-training
 
-This script trains a LoRA adapter on examples from the JSONL file and uploads it to W&B as an artifact for use with the Serverless Inference API or Playground.
+This section walks you through running the training script that produces a LoRA adapter from your dataset and uploads it to W&B.
+
+
+The script trains a LoRA adapter on examples from the JSONL file and uploads it to W&B as an artifact for use with the Serverless Inference API or Playground.
 
 At a high level, this script does the following:
 
 1. Logs in to W&B. The [Hugging Face Transformers integration](https://docs.wandb.ai/models/integrations/huggingface) of W&B Models automatically records training progress and metrics.
 2. Loads the base model ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) from Hugging Face.
-3. Configures the LoRA using hyperparameters, such as rank and alpha defined as constants near the top of the file.
+3. Configures the LoRA using hyperparameters, such as rank and alpha, which the script defines as constants near the top of the file.
 4. Loads the examples from the file into a dataset and then runs [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer). By default, the script uses all examples.
-5. Saves the LoRA and uploads it to W&B as an [Artifact](/models/artifacts) so it can be used with Serverless Inference.
+5. Saves the LoRA and uploads it to W&B as an [Artifact](/models/artifacts) for use with Serverless Inference.
 
-When the script completes, open the last printed URL in your browser to see the persisted Artifact. It looks like this:
-`Artifact URL: https://wandb.ai/<yourentity>/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
+When the script finishes, open the last printed URL in your browser to see the persisted artifact. It looks like this:
+`Artifact URL: https://wandb.ai/[YOUR-ENTITY]/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
 
-Save the following program as `create_lora.py` and update the `ENTITY` value with your W&B entity. To simplify execution the script uses [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) to declare dependencies. 
+Save the following program as `create_lora.py` and update the `ENTITY` value with your W&B entity. The script uses [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) to declare its dependencies, so you can run it directly with `uv` without managing a separate virtual environment.
 
 ```python title="create_lora.py" expandable lines highlight={37}
 # /// script
@@ -308,23 +318,27 @@ Run the script using `uv`:
 uv run create_lora.py cowboy_examples.jsonl
 ```
 
-Execution time depends on hardware. You can add the `--max-examples=10` argument to speed up training but it affects how well the LLM responds in character.
+Execution time depends on hardware. To speed up training, add the `--max-examples=10` argument, but fewer examples reduce how well the LLM responds in character.
 
-## Using the LoRA
+When the script finishes, you have a trained LoRA adapter stored as a W&B artifact, ready for use with Serverless Inference.
 
-You can quickly try your new LoRA in the [W&B Weave](/weave) Playground. When you open the artifact URL, click the "Try in playground" button.
+## Use the LoRA
+
+This section shows how to try the LoRA you created, either interactively in the Playground or programmatically.
+
+You can try your LoRA in the [W&B Weave](/weave) Playground. When you open the artifact URL, click **Try in playground**.
 
 <Frame>![LoRA in Artifacts UI](/images/inference/inference-lora-artifact.png)</Frame>
 
-Then input your prompt at the bottom of the chat interface.
+Then enter your prompt at the bottom of the chat interface.
 
 <Frame>![LoRA in Playground UI](/images/inference/inference-lora-playground.png)</Frame>
 
-To use your newly created LoRA from code, see the [Use Serverless LoRA Inference](/inference/lora#workflow) guide for step-by-step instructions.
+To use your LoRA from code, see the [Use Serverless LoRA Inference](/inference/lora#workflow) guide for step-by-step instructions.
 
 ## Next steps
 
-Once you have created the LoRA, you can experiment with its training, such as:
+Now that you have a working LoRA, you can experiment further to see how training choices affect the result:
 
-- Training the LoRA with a smaller number of examples to see if it still provides the desired effect.
-- Changing the responses in the dataset to showcase another character, such as a pirate or a ninja.
+- Train the LoRA with fewer examples to see if it still provides the desired effect.
+- Change the responses in the dataset to showcase another character, such as a pirate or a ninja.
