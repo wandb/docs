@@ -106,7 +106,7 @@ jobs:
         # Create isolated environment for TypeScript SDK generation
         python -m venv venv_typescript
         source venv_typescript/bin/activate
-        python scripts/reference-generation/weave/generate_typescript_sdk_docs.py "${VERSION:-latest}"
+        python scripts/reference-generation/weave/generate_typescript_sdk_docs.py "master"
         deactivate
         rm -rf venv_typescript
         
