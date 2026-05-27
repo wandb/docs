@@ -115,7 +115,7 @@ def generate_endpoints_section(endpoints: Dict[str, List[Tuple[str, str, str, st
             seen_endpoints.add(endpoint_key)
             
             url = generate_endpoint_url(operation_id, category)
-            lines.append(f"- **[{method} {path}]({url})** - {summary}\n")
+            lines.append(f"- **[{method} `{path}`]({url})** - {summary}\n")
     
     return "".join(lines)
 
@@ -131,9 +131,9 @@ def update_landing_page(endpoints_section: str):
     with open(landing_page, 'r') as f:
         content = f.read()
     
-    # Find and replace the Available Endpoints section
-    # Match from "## Available Endpoints" to the end of file or next ## section
-    pattern = r'## Available Endpoints\n.*?(?=\n##|\Z)'
+    # Match from "## Available Endpoints" to the end of file or next H2 section.
+    # Use (?!\#) so H3 headings like "### Calls" are not mistaken for H2.
+    pattern = r'## Available Endpoints\n.*?(?=\n##(?!\#)|\Z)'
     
     if not re.search(pattern, content, re.DOTALL):
         print("  ✗ Could not find 'Available Endpoints' section in landing page")
