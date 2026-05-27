@@ -1,6 +1,7 @@
 ---
 title: "Enable JSON mode"
 description: "Configure JSON mode in Serverless Inference to get structured JSON output from model responses for easier parsing."
+keywords: ["json_object", "response_format", "parse model output", "structured response"]
 ---
 
 JSON mode is useful when you need to programmatically parse model responses without handling free-form text. Enabling JSON mode instructs the model to return the response in a valid JSON format, which makes it easier to consume the output in downstream code. However, the response's schema isn't guaranteed to be consistent or to follow a particular structure. For consistent, structured JSON responses, we recommend [structured output](/inference/response-settings/structured-output) when possible.

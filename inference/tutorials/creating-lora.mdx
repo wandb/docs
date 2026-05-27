@@ -2,6 +2,7 @@
 title: "Creating a fine-tuned LoRA"
 description: >
   Learn how to create a fine-tuned LoRA to use with Serverless Inference.
+keywords: ["TRL library", "supervised fine-tuning", "SFT", "post-training", "upload artifact"]
 ---
 
 Serverless Inference lets you use a custom LoRA with some base models. This tutorial walks you through creating a fine-tuned LoRA using supervised post-training through the [TRL](https://huggingface.co/docs/trl/index) library, then uploading it to W&B as an artifact for use with the Serverless Inference API or Playground. The example uses a dataset of query/response pairs to fine-tune a model to respond like a cowboy, but you can adapt the same workflow to any character or task.
