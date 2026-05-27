@@ -327,12 +327,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### 매개변수
 </div>
 
-| 매개변수         | 유형     | 필수  | 설명                                                                                                              |
-| ------------ | ------ | --- | --------------------------------------------------------------------------------------------------------------- |
-| `emails`     | 배열     | 예   | 이메일 객체 배열입니다. 기본 이메일이 포함되어야 합니다.                                                                                |
-| `userName`   | string | 예   | 새로 생성할 사용자의 사용자 이름입니다.                                                                                          |
-| `modelsSeat` | string | 아니요 | Models 시트 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다. **Dedicated Cloud 및 Self-Managed에서만 지원됩니다.** |
-| `weaveRole`  | string | 아니요 | Weave 역할 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다. **Dedicated Cloud 및 Self-Managed에서만 지원됩니다.**  |
+| 매개변수         | 유형     | 필수  | 설명                                                                 |
+| ------------ | ------ | --- | ------------------------------------------------------------------ |
+| `emails`     | 배열     | 예   | 이메일 객체 배열입니다. 기본 이메일이 포함되어야 합니다.                                   |
+| `userName`   | string | 예   | 새로 생성할 사용자의 사용자 이름입니다.                                             |
+| `modelsSeat` | string | 아니요 | Models 시트 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다. |
+| `weaveRole`  | string | 아니요 | Weave 역할 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다.  |
 
 <div id="examples">
   #### 예시
@@ -380,6 +380,8 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
             }
         ],
         "userName": "dev-user2",
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
             "teams": ["my-team"]
         }
@@ -451,6 +453,8 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
         ],
         "userName": "dev-user2",
         "organizationRole": "member",
+        "modelsSeat": "full",
+        "weaveRole": "full",
         "teamRoles": [
             {
                 "teamName": "my-team",
@@ -1211,7 +1215,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   ### Models 시트 업데이트
 </div>
 
-사용자의 Models 시트를 업데이트합니다. **Dedicated Cloud** 및 **Self-Managed**에서만 지원됩니다.
+사용자의 Models 시트를 업데이트합니다.
 
 <div id="endpoint">
   #### 엔드포인트
@@ -1293,7 +1297,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   ### Weave 역할 업데이트
 </div>
 
-사용자의 Weave 역할을 업데이트합니다. **Dedicated Cloud** 및 **Self-Managed**에서만 지원됩니다.
+사용자의 Weave 역할을 업데이트합니다.
 
 <div id="endpoint">
   #### 엔드포인트
@@ -2779,17 +2783,15 @@ SCIM API는 표준 SCIM 오류 응답을 반환합니다.
 
 W&amp;B는 별도의 SCIM API 구현 두 가지를 유지 관리하며, 지원되는 특성은 다음과 같이 서로 다릅니다:
 
-| 특성                                       | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
-| ---------------------------------------- | ------------------ | -------------------------------- |
-| 사용자 이메일 업데이트                             | -                  | ✓                                |
-| 사용자 표시 이름 업데이트                           | -                  | ✓                                |
-| 사용자 비활성화                                 | ✓                  | ✓                                |
-| 사용자 재활성화                                 | -                  | ✓                                |
-| 사용자당 여러 이메일                              | ✓                  | -                                |
-| 생성/업데이트 시 `modelsSeat` 설정                | -                  | ✓                                |
-| 생성/업데이트 시 `weaveRole` 설정                 | -                  | ✓                                |
-| 서비스 계정 프로비저닝 (`POST` with `accountType`) | ✓                  | ✓ (v0.81.0+)                     |
-| 서비스 계정 프로비저닝 해제 (`DELETE` by id)         | ✓                  | ✓ (v0.81.0+)                     |
+| 특성                        | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
+| ------------------------- | ------------------ | -------------------------------- |
+| 사용자 이메일 업데이트              | -                  | ✓                                |
+| 사용자 표시 이름 업데이트            | -                  | ✓                                |
+| 사용자 비활성화                  | ✓                  | ✓                                |
+| 사용자 재활성화                  | -                  | ✓                                |
+| 사용자당 여러 이메일               | ✓                  | -                                |
+| 생성/업데이트 시 `modelsSeat` 설정 | ✓                  | ✓                                |
+| 생성/업데이트 시 `weaveRole` 설정  | ✓                  | ✓                                |
 
 <div id="limitations">
   ## 제한 사항
