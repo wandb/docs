@@ -1,35 +1,42 @@
 ---
-description: "Exportez des rapports W&B au format PDF ou LaTeX, et clonez des rapports via l’UI de l’application ou la rapport and Workspace API."
+description: "Exportez des rapports W&B au format PDF ou LaTeX, et clonez des rapports via l’UI de l’application ou la Report and Workspace API."
 title: Cloner et exporter des rapports
+keywords: ["exporter un rapport", "cloner un rapport", "PDF", "LaTeX", "Report and Workspace API"]
 ---
 
 <Note>
-  La W&amp;B rapport and Workspace API est en préversion publique.
+  La W&amp;B Report and Workspace API est en préversion publique.
 </Note>
 
-<div id="export-reports">
-  ## Exporter des rapports
+Cette page décrit comment exporter un rapport W&amp;B vers un format de fichier portable. Elle explique également comment cloner un rapport existant afin de réutiliser sa structure comme point de départ pour de nouveaux travaux.
+
+<div id="export-a-report">
+  ## Exporter un rapport
 </div>
 
-Exportez un rapport au format PDF ou LaTeX. Dans votre rapport, sélectionnez le menu **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** pour ouvrir le menu déroulant. Choisissez **Download and**, puis sélectionnez le format de sortie PDF ou LaTeX.
+Exportez un rapport au format PDF ou LaTeX pour partager son contenu en dehors de W&amp;B ou pour archiver une version statique de votre analyse. Dans votre rapport, sélectionnez le **menu d’actions (<Icon icon="ellipsis-vertical" iconType="solid" />)**. Choisissez **Download** et sélectionnez le format de sortie PDF ou LaTeX.
 
-<div id="cloning-reports">
-  ## Cloner des rapports
+<div id="clone-a-report">
+  ## Cloner un rapport
 </div>
+
+Clonez un rapport pour réutiliser le modèle et la mise en forme d’un projet existant comme base d’un nouveau rapport. Vous pouvez cloner des rapports dans l’interface de l’application W&amp;B ou par programmation avec la Report and Workspace API.
 
 <Tabs>
   <Tab title="W&B App">
-    Dans votre rapport, sélectionnez le menu **d’action (<Icon icon="ellipsis-vertical" iconType="solid" />)** pour afficher le menu déroulant. Cliquez sur le bouton **Cloner ce rapport**. Dans la fenêtre modale, choisissez une destination pour le rapport cloné. Cliquez sur **Cloner le rapport**.
+    Dans votre rapport, sélectionnez le **menu d’actions (<Icon icon="ellipsis-vertical" iconType="solid" />)**. Cliquez sur **Cloner ce rapport**. Dans la fenêtre modale, choisissez une destination pour le rapport cloné. Cliquez sur **Cloner le rapport**.
 
     <Frame>
       <img src="/images/reports/clone_reports.gif" alt="Clonage de rapports" />
     </Frame>
 
-    Clonez un rapport pour réutiliser le modèle et le format d’un projet. Les projets clonés sont visibles par votre équipe si vous clonez un projet dans le compte de l’équipe. Les projets clonés dans le compte d’un utilisateur individuel ne sont visibles que par cet utilisateur.
+    Lorsque vous clonez un rapport, vous en définissez la destination. Si vous le clonez dans une équipe, tous les membres de l’équipe peuvent le voir. Si vous le clonez dans votre compte personnel, vous seul pouvez le voir par défaut.
   </Tab>
 
   <Tab title="Report and Workspace API">
-    Chargez un rapport à partir d’une URL pour l’utiliser comme modèle.
+    Utilisez la Report and Workspace API pour charger un rapport existant à partir de son URL et le réutiliser comme modèle pour un nouveau rapport.
+
+    Chargez un rapport à partir d’une URL pour l’utiliser comme modèle. Remplacez `PROJECT` par le nom de votre projet W&amp;B.
 
     ```python
     report = wr.Report(
@@ -39,7 +46,7 @@ Exportez un rapport au format PDF ou LaTeX. Dans votre rapport, sélectionnez le
     new_report = wr.Report.from_url(report.url)  # Charger
     ```
 
-    Modifiez le contenu de `new_report.blocks`.
+    Après avoir chargé le rapport, modifiez le contenu de `new_report.blocks` pour personnaliser le rapport cloné, puis enregistrez-le. Remplacez `ENTITY` par le nom de votre entité W&amp;B.
 
     ```python
     pg = wr.PanelGrid(
