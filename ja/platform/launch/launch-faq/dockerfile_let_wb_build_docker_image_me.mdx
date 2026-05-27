@@ -2,15 +2,15 @@
 title: Dockerfile を指定して、W&B に Docker イメージをビルドさせることはできますか？
 ---
 
-この機能は、依存関係は安定している一方で、コードベースが頻繁に変わるプロジェクトに適しています。
+はい。独自の Dockerfile を指定して、W&amp;B Launch に run 用のイメージをビルドさせることができます。これにより、Launch を使用してジョブをキューに入れて実行しながら、ビルド環境を制御できます。この方法は、requirements は安定している一方でコードベースが変化する project に適しています。
 
 <Warning>
-  Dockerfile はマウントを使用する形式で記述してください。詳細は、[Docker Docs の Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)を参照してください。
+  Dockerfile はマウントを使用する形式で記述してください。詳しくは、[Docker mounts documentation](https://docs.docker.com/build/guide/mounts/)を参照してください。
 </Warning>
 
-Dockerfile を設定したら、次の 3 つのいずれかの方法で W&amp;B に指定します。
+Dockerfile を設定したら、次のいずれかの方法で W&amp;B に指定します。
 
-* Dockerfile.wandb を使用する
+* `Dockerfile.wandb` を使用する
 * W&amp;B CLI を使用する
 * W&amp;B App を使用する
 
@@ -20,7 +20,7 @@ Dockerfile を設定したら、次の 3 つのいずれかの方法で W&amp;B 
   </Tab>
 
   <Tab title="W&B CLI">
-    `wandb launch` コマンドで `--dockerfile` フラグを使用して、ジョブをキューに追加します。
+    ジョブをキューに入れるには、`wandb launch` コマンドで `--dockerfile` フラグを使用します。
 
     ```bash
     wandb launch --dockerfile path/to/Dockerfile
@@ -28,11 +28,11 @@ Dockerfile を設定したら、次の 3 つのいずれかの方法で W&amp;B 
   </Tab>
 
   <Tab title="W&B App">
-    W&amp;B App でキューにジョブを追加する際は、**Overrides** セクションで Dockerfile のパスを指定します。キーを `"dockerfile"`、値を Dockerfile へのパスとするキーと値のペアとして入力します。
+    W&amp;B App でジョブをキューに追加する際は、**Overrides** セクションで Dockerfile のパスを指定します。キーを `"dockerfile"`、値をそのパスとするキーと値のペアとして入力します。
 
-    次の JSON は、ローカルディレクトリ内の Dockerfile を指定する方法を示しています。
+    次の JSON は、ローカルディレクトリの Dockerfile を含める方法を示しています。
 
-    ```json title="Launch job W&B App"
+    ```json title="W&B App の Launch ジョブ"
     {
       "args": [],
       "run_config": {

@@ -3,7 +3,7 @@ description: "Exportez les runs, métriques, Artifacts et Reports depuis une ins
 title: Exporter des données depuis Cloud dédié
 ---
 
-Si vous souhaitez exporter toutes les données gérées dans votre instance Cloud dédié, vous pouvez utiliser l’API du SDK W&amp;B pour extraire les runs, métriques, Artifacts, etc. avec l’[API d’importation et d’exportation](/fr/models/ref/python/public-api/). Le tableau suivant présente certains des principaux cas d’usage de l’exportation.
+Pour exporter les données gérées dans votre instance Cloud dédié, vous pouvez utiliser l’API du SDK W&amp;B pour extraire les runs, métriques, Artifacts, etc. avec l’[API d’importation et d’exportation](/fr/models/ref/python/public-api/). Le tableau suivant présente certains des principaux cas d’usage de l’exportation.
 
 | Objectif                             | Documentation                                                                                                                                                                                                                     |
 | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -15,5 +15,5 @@ Si vous souhaitez exporter toutes les données gérées dans votre instance Clou
 Si vous gérez des Artifacts stockés dans le Cloud dédié avec [Secure Storage Connector](/fr/platform/app/settings-page/teams/#secure-storage-connector), il se peut que vous n’ayez pas besoin d’exporter les Artifacts à l’aide de l’API du SDK W&amp;B.
 
 <Note>
-  L’utilisation de l’API du SDK W&amp;B pour exporter toutes vos données peut être lente si vous avez un grand nombre de runs, d’Artifacts, etc. W&amp;B recommande d’exécuter le processus d’exportation par lots de taille appropriée afin de ne pas surcharger votre instance Cloud dédié.
+  Si vous avez de nombreux runs, Artifacts et autres ressources, l’utilisation de l’API du SDK W&amp;B pour exporter toutes vos données peut être lente. W&amp;B recommande d’exécuter le processus d’exportation par lots de taille appropriée afin de ne pas surcharger votre instance Cloud dédié.
 </Note>

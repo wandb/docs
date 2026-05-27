@@ -5,64 +5,64 @@ title: Créer des balayages avec W&B Launch
 
 <Card title="Essayer dans Colab" href="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" icon="python" />
 
-Créez un job d’optimisation d’hyperparamètres ([sweeps](/fr/models/sweeps/)) avec W&amp;B Launch. Avec les balayages dans Launch, un ordonnanceur de balayage est envoyé vers une Launch Queue avec les hyperparamètres spécifiés à explorer. L’ordonnanceur de balayage démarre dès qu’il est pris en charge par l’agent, en lançant des runs de balayage dans la même file d’attente avec les hyperparamètres sélectionnés. Ce processus se poursuit jusqu’à la fin du balayage ou jusqu’à son arrêt.
+Cette page décrit comment créer un job d’optimisation d’hyperparamètres ([sweeps](/fr/models/sweeps/)) avec W&amp;B Launch, afin d’automatiser l’exploration des hyperparamètres sur la même infrastructure qui exécute vos autres jobs Launch. Avec les balayages dans Launch, un ordonnanceur de balayage est envoyé vers une Launch Queue avec les hyperparamètres spécifiés à explorer. L’ordonnanceur de balayage démarre dès qu’il est pris en charge par l’agent, en lançant des runs de balayage dans la même file d’attente avec les hyperparamètres sélectionnés. Ce processus se poursuit jusqu’à la fin du balayage ou jusqu’à son arrêt.
 
-Vous pouvez utiliser le moteur de planification W&amp;B Sweep par défaut ou implémenter votre propre ordonnanceur personnalisé :
+Vous pouvez utiliser le moteur de planification de balayage W&amp;B par défaut ou implémenter votre propre ordonnanceur personnalisé :
 
-1. Ordonnanceur de balayage standard : utilisez le moteur de planification W&amp;B Sweep par défaut qui contrôle [W&amp;B Sweeps](/fr/models/sweeps/). Les méthodes habituelles `bayes`, `grid` et `random` sont disponibles.
-2. Ordonnanceur de balayage personnalisé : configurez l’ordonnanceur de balayage pour qu’il s’exécute en tant que job. Cette option permet une personnalisation complète. Vous trouverez dans la section ci-dessous un exemple montrant comment étendre l’ordonnanceur de balayage standard pour inclure davantage de logging.
+1. Ordonnanceur de balayage standard : utilisez le moteur de planification de balayage W&amp;B par défaut qui contrôle [W&amp;B Sweeps](/fr/models/sweeps/). Les méthodes habituelles `bayes`, `grid` et `random` sont disponibles.
+2. Ordonnanceur de balayage personnalisé : configurez l’ordonnanceur de balayage pour qu’il s’exécute en tant que job. Cette option permet une personnalisation complète. La section suivante montre un exemple de la façon d’étendre l’ordonnanceur de balayage standard pour inclure davantage de logging.
 
 <Note>
   Ce guide suppose que W&amp;B Launch a déjà été configuré. Si W&amp;B Launch n’est pas configuré, consultez la section [pour bien démarrer](./#how-to-get-started) de la documentation Launch.
 </Note>
 
 <Note>
-  Nous vous recommandons de créer un balayage dans Launch avec la méthode &#39;basic&#39; si vous utilisez les balayages dans Launch pour la première fois. Utilisez un ordonnanceur personnalisé pour les balayages dans Launch lorsque le moteur de planification W&amp;B standard ne répond pas à vos besoins.
+  Nous vous recommandons de créer un balayage dans Launch avec la méthode `basic` si vous utilisez les balayages dans Launch pour la première fois. Utilisez un ordonnanceur personnalisé pour les balayages dans Launch lorsque le moteur de planification W&amp;B standard ne répond pas à vos besoins.
 </Note>
 
 <div id="create-a-sweep-with-a-wb-standard-scheduler">
-  ## Créer un balayage avec un ordonnanceur standard W&amp;B
+  ## Créer un balayage avec l’ordonnanceur standard de W&amp;B
 </div>
 
-Créez des W&amp;B Sweeps avec Launch. Vous pouvez créer un balayage de manière interactive dans la W&amp;B App ou par programmation avec la W&amp;B CLI. Pour les configurations avancées des balayages Launch, notamment pour personnaliser l’ordonnanceur, utilisez la CLI.
+Cette section explique comment créer des W&amp;B Sweeps avec Launch à l’aide du moteur de planification standard. Vous pouvez créer un balayage de manière interactive dans la W&amp;B App ou par programmation avec la CLI W&amp;B. Pour les configurations avancées des balayages Launch, notamment pour personnaliser l’ordonnanceur, utilisez la CLI.
 
 <Note>
-  Avant de créer un balayage avec W&amp;B Launch, assurez-vous d’avoir d’abord créé un job sur lequel effectuer le balayage. Voir la page [Create a Job](/fr/platform/launch/create-launch-job/) pour plus d’informations.
+  Avant de créer un balayage avec W&amp;B Launch, assurez-vous d’avoir d’abord créé un job à utiliser pour le balayage. Voir la page [Create a Job](/fr/platform/launch/create-launch-job/) pour plus d’informations.
 </Note>
 
 <Tabs>
-  <Tab title="W&B app">
+  <Tab title="W&B App">
     Créez un balayage de manière interactive dans la W&amp;B App.
 
     1. Accédez à votre projet W&amp;B dans la W&amp;B App.
-    2. Sélectionnez l’icône des Sweeps dans la barre latérale du projet (icône de balai).
-    3. Ensuite, sélectionnez le bouton **Create Sweep**.
+    2. Sélectionnez l’icône des balayages dans la barre latérale du projet (icône en forme de balai).
+    3. Sélectionnez le bouton **Create Sweep**.
     4. Cliquez sur le bouton **Configure Launch**.
     5. Dans le menu déroulant **Job**, sélectionnez le nom de votre job et la version du job à partir desquels vous souhaitez créer un balayage.
-    6. Sélectionnez la file d&#39;attente sur laquelle exécuter le balayage à l’aide du menu déroulant **Queue**.
-    7. Utilisez le menu déroulant **Job Priority** pour définir la priorité de votre launch job. La priorité d’un launch job est définie sur &quot;Medium&quot; si la Launch queue ne prend pas en charge la priorisation.
-    8. (Facultatif) Configurez les arguments d’override pour le run ou l’ordonnanceur du balayage. Par exemple, à l’aide des overrides de l’ordonnanceur, configurez le nombre de runs simultanés gérés par l’ordonnanceur avec `num_workers`.
-    9. (Facultatif) Sélectionnez le projet dans lequel enregistrer le balayage à l’aide du menu déroulant **Destination Project**.
-    10. Cliquez sur **Save**
+    6. Dans le menu déroulant **Queue**, sélectionnez une file d’attente sur laquelle exécuter le balayage.
+    7. Dans le menu déroulant **Job Priority**, indiquez la priorité de votre job Launch. La priorité d’un job Launch est définie sur &quot;Medium&quot; si la file d’attente Launch ne prend pas en charge la priorisation.
+    8. Facultatif : configurez des arguments de redéfinition pour l’exécution ou l’ordonnanceur du balayage. Par exemple, à l’aide des redéfinitions de l’ordonnanceur, configurez le nombre d’exécutions simultanées gérées par l’ordonnanceur avec `num_workers`.
+    9. Facultatif : dans le menu déroulant **Destination Project**, sélectionnez un projet dans lequel enregistrer le balayage.
+    10. Cliquez sur **Save**.
     11. Sélectionnez **Launch Sweep**.
 
     <Frame>
-      <img src="/images/launch/create_sweep_with_launch.png" alt="Configuration d’un balayage Launch" />
+      <img src="/images/launch/create_sweep_with_launch.png" alt="Configuration du balayage Launch" />
     </Frame>
   </Tab>
 
   <Tab title="CLI">
-    Créez par programmation un W&amp;B Sweep avec Launch à l’aide de la W&amp;B CLI.
+    Créez par programmation un balayage W&amp;B avec Launch à l’aide de la CLI W&amp;B.
 
-    1. Créez une configuration de Sweep
-    2. Spécifiez le nom complet du job dans votre configuration de Sweep
+    1. Créez une configuration de balayage.
+    2. Spécifiez le nom complet du job dans votre configuration de balayage.
     3. Initialisez un agent de balayage.
 
     <Note>
-      Les étapes 1 et 3 sont les mêmes que celles que vous suivez normalement pour créer un W&amp;B Sweep.
+      Les étapes 1 et 3 sont les mêmes que celles que vous suivez normalement lorsque vous créez un balayage W&amp;B.
     </Note>
 
-    Par exemple, dans l’extrait de code suivant, nous indiquons `'wandb/jobs/Hello World 2:latest'` comme valeur du job :
+    Par exemple, l’extrait de code suivant spécifie `'wandb/jobs/Hello World 2:latest'` comme valeur du job :
 
     ```yaml
     # launch-sweep-config.yaml
@@ -87,27 +87,27 @@ Créez des W&amp;B Sweeps avec Launch. Vous pouvez créer un balayage de manièr
     # Paramètres facultatifs de l’ordonnanceur :
 
     # scheduler:
-    #   num_workers: 1  # runs de sweep simultanés
-    #   docker_image: <image de base pour l’ordonnanceur>
-    #   resource: <par ex. local-container...>
-    #   resource_args:  # arguments de ressource transmis aux runs
+    #   num_workers: 1  # exécutions de balayage simultanées
+    #   docker_image: [BASE-IMAGE-FOR-THE-SCHEDULER]
+    #   resource: [RESOURCE-TYPE-FOR-EXAMPLE-LOCAL-CONTAINER]
+    #   resource_args:  # arguments de ressource transmis aux exécutions
     #     env: 
     #         - WANDB_API_KEY
 
     # Paramètres Launch facultatifs
     # launch: 
-    #    registry: <registre pour la récupération d’image>
+    #    registry: [REGISTRY-FOR-IMAGE-PULLING]
     ```
 
     Pour savoir comment créer une configuration de balayage, voir la page [Define sweep configuration](/fr/platform/launch/sweeps-on-launch/).
 
-    4. Ensuite, initialisez un balayage. Fournissez le chemin vers votre fichier de configuration, le nom de votre file d&#39;attente de jobs, votre entité W&amp;B et le nom du projet.
+    4. Initialisez un balayage. Fournissez le chemin vers votre fichier de configuration, le nom de votre file d’attente de jobs, votre entité W&amp;B et le nom du projet.
 
     ```bash
-    wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
+    wandb launch-sweep [PATH-TO-YAML-FILE] --queue [QUEUE-NAME] --entity [YOUR-ENTITY] --project [PROJECT-NAME]
     ```
 
-    Pour plus d’informations sur les W&amp;B Sweeps, voir le chapitre [Tune Hyperparameters](/fr/models/sweeps/).
+    Pour plus d’informations sur W&amp;B Sweeps, voir le chapitre [Tune Hyperparameters](/fr/models/sweeps/).
   </Tab>
 </Tabs>
 
@@ -115,31 +115,31 @@ Créez des W&amp;B Sweeps avec Launch. Vous pouvez créer un balayage de manièr
   ## Créer un ordonnanceur de balayage personnalisé
 </div>
 
-Créez un ordonnanceur de balayage personnalisé avec l’ordonnanceur W&amp;B ou un ordonnanceur personnalisé.
+Cette section décrit comment créer un ordonnanceur de balayage personnalisé lorsque le moteur de planification standard ne répond pas à vos besoins. Créez un ordonnanceur de balayage personnalisé soit avec l’ordonnanceur W&amp;B, soit avec un ordonnanceur personnalisé.
 
 <Note>
-  L’utilisation des jobs d’ordonnanceur nécessite la version `0.15.4` ou ultérieure de wandb CLI.
+  L’utilisation de jobs d’ordonnanceur nécessite la version `wandb` CLI &gt;= `0.15.4`
 </Note>
 
 <Tabs>
   <Tab title="ordonnanceur W&B">
-    Créez un balayage Launch en utilisant la logique de planification des balayages de W&amp;B sous forme de job.
+    Créez un sweep avec Launch en utilisant la logique de planification des sweeps de W&amp;B comme job.
 
-    1. Identifiez le job du planificateur wandb dans le projet public wandb/sweep-jobs, ou utilisez le nom de job suivant :
-       `'wandb/sweep-jobs/job-wandb-sweep-scheduler:latest'`
-    2. Créez une configuration yaml avec un bloc `scheduler` supplémentaire incluant une clé `job` qui pointe vers ce nom, comme dans l&#39;exemple ci-dessous.
+    1. Identifiez le job de planification W&amp;B dans le projet public wandb/sweep-jobs, ou utilisez le nom de job suivant :
+       `'wandb/sweep-jobs/job-wandb-sweep-scheduler:latest'`.
+    2. Créez un fichier de configuration YAML avec un bloc `scheduler` supplémentaire qui inclut une clé `job` pointant vers ce nom, comme dans l&#39;exemple suivant.
     3. Utilisez la commande `wandb launch-sweep` avec la nouvelle configuration.
 
     Exemple de configuration :
 
     ```yaml
     # launch-sweep-config.yaml  
-    description: Configuration de balayage Launch utilisant un job planificateur
+    description: Launch sweep config using a scheduler job
     scheduler:
       job: wandb/sweep-jobs/job-wandb-sweep-scheduler:latest
-      num_workers: 8  # autorise 8 runs de balayage simultanés
+      num_workers: 8  # autorise 8 exécutions de sweep simultanées
 
-    # job d'entraînement/réglage que les runs de balayage exécuteront
+    # job d'entraînement/réglage que les exécutions du sweep vont exécuter
     job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
     method: grid
     parameters:
@@ -150,36 +150,36 @@ Créez un ordonnanceur de balayage personnalisé avec l’ordonnanceur W&amp;B o
   </Tab>
 
   <Tab title="Ordonnanceur personnalisé">
-    Des ordonnanceurs personnalisés peuvent être créés en créant un scheduler-job. Dans le cadre de ce guide, nous allons modifier le `WandbScheduler` pour ajouter davantage de journalisation.
+    Créez des planificateurs personnalisés en créant un scheduler-job. Dans ce guide, modifiez `WandbScheduler` pour ajouter davantage de journalisation.
 
     1. Clonez le dépôt `wandb/launch-jobs` (plus précisément : `wandb/launch-jobs/jobs/sweep_schedulers`)
-    2. Modifiez ensuite `wandb_scheduler.py` pour obtenir le niveau de journalisation supplémentaire souhaité. Exemple : ajoutez de la journalisation à la fonction `_poll`. Elle est appelée une fois par cycle d’interrogation (fréquence configurable), avant le lancement de nouveaux runs de balayage.
-    3. Exécutez le fichier modifié pour créer un job avec : `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
-    4. Identifiez le nom du job créé, soit dans l’UI, soit dans la sortie de l’appel précédent ; il s’agira d’un job de type code-artifact (sauf indication contraire).
-    5. Créez ensuite une configuration de balayage dans laquelle l’ordonnanceur pointe vers votre nouveau job.
+    2. Modifiez `wandb_scheduler.py` pour obtenir le niveau de journalisation souhaité. Exemple : ajoutez de la journalisation à la fonction `_poll`. Elle est appelée une fois à chaque cycle d’interrogation (fréquence configurable), avant le lancement de nouvelles exécutions de sweep.
+    3. Exécutez le fichier modifié pour créer un job, avec : `python wandb_scheduler.py --project [PROJECT] --entity [ENTITY] --name CustomWandbScheduler`
+    4. Identifiez le nom du job créé, soit dans l’interface utilisateur, soit dans la sortie de la commande précédente ; il s’agit d’un job code-artifact (sauf indication contraire).
+    5. Créez une configuration de sweep dans laquelle le scheduler pointe vers votre nouveau job.
 
     ```yaml
     ...
     scheduler:
-      job: '<entity>/<project>/job-CustomWandbScheduler:latest'
+      job: '[ENTITY]/[PROJECT]/job-CustomWandbScheduler:latest'
     ...
     ```
   </Tab>
 
-  <Tab title="Planificateur Optuna">
-    Optuna est un framework d&#39;optimisation d&#39;hyperparamètres qui utilise divers algorithmes pour trouver les meilleurs hyperparamètres pour un modèle donné (à l&#39;instar de W&amp;B). En plus des [algorithmes d&#39;échantillonnage](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna fournit également divers [algorithmes d&#39;élagage](https://optuna.readthedocs.io/en/stable/reference/pruners.html) qui peuvent être utilisés pour arrêter prématurément les runs peu performants. Cela est particulièrement utile lorsque vous exécutez un grand nombre de runs, car cela peut vous faire gagner du temps et économiser des ressources. Ces classes sont très configurables : il suffit de renseigner les paramètres attendus dans le bloc `scheduler.settings.pruner/sampler.args` du fichier de configuration.
+  <Tab title="Ordonnanceur Optuna">
+    Optuna est un framework d’optimisation d’hyperparamètres qui utilise différents algorithmes pour trouver les meilleurs hyperparamètres pour un modèle donné (comme W&amp;B). En plus des [algorithmes d’échantillonnage](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna fournit également différents [algorithmes de pruning](https://optuna.readthedocs.io/en/stable/reference/pruners.html) que vous pouvez utiliser pour arrêter rapidement les exécutions peu performantes. Cela est utile lorsque vous lancez de nombreuses exécutions, car cela peut vous faire gagner du temps et économiser des ressources. Les classes sont configurables. Transmettez les paramètres attendus dans le bloc `scheduler.settings.pruner/sampler.args` du fichier de configuration.
 
-    Créez un balayage Launch à l&#39;aide de la logique d&#39;ordonnancement d&#39;Optuna avec un job.
+    Créez un sweep Launch à l’aide de la logique d’ordonnancement d’Optuna avec un job.
 
-    1. Commencez par créer votre propre job ou utilisez un job basé sur une image de scheduler Optuna préconstruite.
-       * Voir le dépôt [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) pour obtenir des exemples de création de votre propre job.
-       * Pour utiliser une image Optuna préconstruite, vous pouvez soit accéder à `job-optuna-sweep-scheduler` dans le projet `wandb/sweep-jobs`, soit utiliser le nom de job suivant : `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`.
+    1. Commencez par créer votre propre job ou utilisez un job d’image de scheduler Optuna prédéfini.
+       * Voir le dépôt [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) pour des exemples montrant comment créer votre propre job.
+       * Pour utiliser une image Optuna prédéfinie, vous pouvez soit accéder à `job-optuna-sweep-scheduler` dans le projet `wandb/sweep-jobs`, soit utiliser le nom de job suivant : `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`.
 
-    2. Après avoir créé un job, vous pouvez créer un balayage. Créez une configuration de balayage qui inclut un bloc `scheduler` avec une clé `job` pointant vers le job de scheduler Optuna (exemple ci-dessous).
+    2. Après avoir créé un job, vous pouvez créer un sweep. Créez une configuration de sweep qui inclut un bloc `scheduler` avec une clé `job` pointant vers le job de scheduler Optuna, comme dans l’exemple suivant.
 
     ```yaml
       # optuna_config_basic.yaml
-      description: Un planificateur Optuna de base
+      description: A basic Optuna scheduler
       job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
       run_cap: 5
       metric:
@@ -188,7 +188,7 @@ Créez un ordonnanceur de balayage personnalisé avec l’ordonnanceur W&amp;B o
 
       scheduler:
         job: wandb/sweep-jobs/job-optuna-sweep-scheduler:latest
-        resource: local-container  # requis pour les jobs de planificateur provenant d'images
+        resource: local-container  # requis pour les jobs de planificateur issus d'images
         num_workers: 2
 
         # paramètres spécifiques à Optuna
@@ -196,7 +196,7 @@ Créez un ordonnanceur de balayage personnalisé avec l’ordonnanceur W&amp;B o
           pruner:
             type: PercentilePruner
             args:
-              percentile: 25.0  # arrête 75 % des runs
+              percentile: 25.0  # interrompre 75 % des runs
               n_warmup_steps: 10  # élagage désactivé pour les x premières étapes
 
       parameters:
@@ -205,32 +205,32 @@ Créez un ordonnanceur de balayage personnalisé avec l’ordonnanceur W&amp;B o
           max: 0.1
     ```
 
-    3. Enfin, lancez le balayage dans une file d&#39;attente active avec la commande launch-sweep :
+    3. Enfin, lancez le sweep dans une file d&#39;attente active avec la commande `launch-sweep` :
 
     ```bash
-    wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
+    wandb launch-sweep [CONFIG-YAML] -q [QUEUE] -p [PROJECT] -e [ENTITY]
     ```
 
-    Pour l’implémentation exacte du job du planificateur de balayage Optuna, voir [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). Pour d’autres exemples de ce qu’il est possible de faire avec le planificateur Optuna, consultez [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
+    Pour l’implémentation exacte du job du planificateur de sweep Optuna, voir [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). Pour découvrir d’autres exemples de ce qu’il est possible de faire avec le planificateur Optuna, consultez [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
   </Tab>
 </Tabs>
 
-Des exemples de ce qu’il est possible de faire avec des jobs personnalisés d’ordonnancement de balayage sont disponibles dans le dépôt [wandb/launch-jobs](https://github.com/wandb/launch-jobs), sous `jobs/sweep_schedulers`. Ce guide montre comment utiliser le **Wandb Scheduler Job** accessible au public et présente également un processus de création de jobs personnalisés d’ordonnancement de balayage.
+Des exemples de jobs d’ordonnanceur de balayage personnalisés sont disponibles dans le dépôt [wandb/launch-jobs](https://github.com/wandb/launch-jobs) sous `jobs/sweep_schedulers`. Ce guide montre comment utiliser le **W&amp;B Scheduler Job** publiquement disponible et présente une méthode de création de jobs d’ordonnanceur de balayage personnalisés.
 
-<div id="how-to-resume-sweeps-on-launch">
-  ## Comment reprendre des balayages dans Launch
+<div id="resume-sweeps-on-launch">
+  ## Reprendre des balayages dans Launch
 </div>
 
-Il est également possible de reprendre un balayage Launch à partir d&#39;un balayage lancé précédemment. Bien que les hyperparamètres et la tâche d&#39;entraînement ne puissent pas être modifiés, les paramètres propres à l&#39;ordonnanceur peuvent l&#39;être, ainsi que la file d&#39;attente à laquelle il est envoyé.
+Cette section décrit comment reprendre un balayage Launch à partir d’un balayage lancé précédemment, ce qui est utile lorsque vous souhaitez poursuivre l’exploration avec des paramètres d’ordonnanceur mis à jour ou dans une autre file d’attente. Bien que vous ne puissiez pas modifier les hyperparamètres ni la tâche d’entraînement, vous pouvez modifier les paramètres propres à l’ordonnanceur ainsi que la file d’attente à laquelle il est envoyé.
 
 <Note>
-  Si le balayage initial utilisait une tâche d&#39;entraînement avec un alias comme &#39;latest&#39;, la reprise peut produire des résultats différents si la dernière version du job a été modifiée depuis la dernière exécution.
+  Si le balayage initial utilisait une tâche d’entraînement avec un alias comme `latest`, la reprise peut produire des résultats différents si la dernière version du job a changé depuis la dernière exécution.
 </Note>
 
-1. Identifiez le nom ou l&#39;ID d&#39;un balayage Launch exécuté précédemment. L&#39;ID du balayage est une chaîne de huit caractères (par exemple, `hhd16935`) que vous pouvez trouver dans votre projet dans la W&amp;B App.
-2. Si vous modifiez les paramètres de l&#39;ordonnanceur, créez un fichier de configuration mis à jour.
-3. Dans votre terminal, exécutez la commande suivante. Remplacez le contenu entouré de `<` et `>` par vos informations :
+1. Identifiez le nom ou l’ID d’un balayage Launch exécuté précédemment. L’ID du balayage est une chaîne de huit caractères (par exemple, `hhd16935`) que vous pouvez trouver dans votre projet dans la W&amp;B App.
+2. Si vous modifiez les paramètres de l’ordonnanceur, créez un fichier de configuration mis à jour.
+3. Dans votre terminal, exécutez la commande suivante. Remplacez le contenu entouré de `[` et `]` par vos informations :
 
 ```bash
-wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
+wandb launch-sweep [OPTIONAL-CONFIG-YAML] --resume_id [SWEEP-ID] --queue [QUEUE-NAME]
 ```

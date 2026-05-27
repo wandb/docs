@@ -1,6 +1,8 @@
 ---
-title: Comment W&B Launch construit-il des images ?
+title: Comment W&B Launch construit des images
 ---
+
+Cette page explique comment W&amp;B Launch construit des images de conteneur pour vos jobs, afin que vous puissiez anticiper les actions de build effectuées par Launch et configurer votre file d&#39;attente ou votre job en conséquence.
 
 Les étapes de construction d&#39;une image dépendent de la source du job et de l&#39;image de base de l&#39;accélérateur spécifiée dans la configuration des ressources.
 
@@ -11,7 +13,7 @@ Les étapes de construction d&#39;une image dépendent de la source du job et de
   {
       "builder": {
           "accelerator": {
-              "base_image": "image-name"
+              "base_image": "[IMAGE-NAME]"
           }
       }
   }

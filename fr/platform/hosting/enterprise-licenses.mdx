@@ -5,30 +5,32 @@ description: Découvrez les licences Enterprise de W&B, les fonctionnalités qu�
 
 Une licence Enterprise débloque des fonctionnalités W&amp;B conçues pour les organisations qui ont besoin de capacités avancées en matière de sécurité, de conformité ou d’administration. Voir la liste des [fonctionnalités Enterprise](#enterprise-features).
 
+Une licence Enterprise inclut les éléments suivants :
+
 * **Sécurité** : authentification renforcée, chiffrement et contrôles d’accès.
 * **Conformité** : journalisation d’audit, options de conformité HIPAA et contrôles de gouvernance des données.
 * **Administration** : fonctionnalités de gestion des utilisateurs, comme le provisionnement SCIM, les rôles personnalisés et les capacités d’automatisation.
 
-Cette page propose un aperçu complet des licences Enterprise, notamment des fonctionnalités qu’elles activent, ainsi que de la manière de les obtenir et de les configurer pour votre déploiement.
+Cette page s’adresse aux administrateurs responsables des déploiements W&amp;B. Elle explique quelles fonctionnalités Enterprise sont disponibles, comment obtenir une licence, ainsi que la manière de la configurer et de la vérifier pour votre déploiement.
 
 <div id="deployment-options">
   ## Options de déploiement
 </div>
 
-Des licences Enterprise sont disponibles pour les déploiements Cloud dédié de W&amp;B et Autogéré.
+Des licences Enterprise sont disponibles pour les déploiements Cloud dédié de W&amp;B et Autogéré. Les étapes de configuration diffèrent selon le déploiement que vous utilisez.
 
-* [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud) propose une infrastructure dédiée et isolée gérée par W&amp;B, déployée sur Google Cloud. Les déploiements Cloud dédié de W&amp;B incluent automatiquement une licence Enterprise. Aucune configuration supplémentaire n’est requise, et toutes les fonctionnalités Enterprise sont disponibles immédiatement après la mise à disposition.
-* [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) est déployé sur votre propre infrastructure, ce qui vous donne un contrôle complet sur votre déploiement et vos données. Les déploiements air-gapped sont pris en charge. Sans licence Enterprise, les [fonctionnalités Enterprise](#enterprise-features) ne sont pas disponibles.
+* [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud) propose une infrastructure dédiée et isolée gérée par W&amp;B, déployée sur Google Cloud. Les déploiements Cloud dédié de W&amp;B incluent automatiquement une licence Enterprise. Vous n’avez rien à configurer, et toutes les fonctionnalités Enterprise sont disponibles dès que W&amp;B met votre déploiement à disposition.
+* [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) se déploie sur votre propre infrastructure, ce qui vous donne un contrôle complet sur votre déploiement et vos données. W&amp;B Autogéré prend en charge les déploiements isolés du réseau. Sans licence Enterprise, les [fonctionnalités Enterprise](#enterprise-features) ne sont pas disponibles.
 
 <div id="obtain-an-enterprise-license">
   ## Obtenir une licence Enterprise
 </div>
 
-Cette section explique comment obtenir une licence Enterprise. Selon votre cas d’usage, sélectionnez un onglet pour continuer.
+La manière d’obtenir une licence Enterprise dépend de votre type de déploiement. Sélectionnez l’onglet qui correspond à votre cas d’usage pour continuer.
 
 <Tabs>
   <Tab title="Cloud dédié">
-    W&amp;B Dedicated Cloud inclut une licence Enterprise et aucune action n’est requise. [Démarrer un essai Enterprise](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) ou contactez [Sales](https://wandb.ai/site/contact-sales) pour discuter de vos besoins.
+    Cloud dédié de W&amp;B inclut une licence Enterprise et aucune action n’est requise. [Démarrer un essai Enterprise](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) ou contactez [Sales](https://wandb.ai/site/contact-sales) pour discuter de vos besoins.
   </Tab>
 
   <Tab title="Autogéré">
@@ -45,18 +47,19 @@ Cette section explique comment obtenir une licence Enterprise. Selon votre cas d
   ## Configurer une licence Enterprise
 </div>
 
-<Info>Cette section s’applique uniquement à W&amp;B Autogéré.</Info>
+<Info>Cette section s’applique uniquement à W&amp;B Autogéré. Les déploiements en Cloud dédié ne nécessitent pas de configuration manuelle.</Info>
 
-Après avoir [obtenu une licence Enterprise](#obtain-an-enterprise-license), vous pouvez la configurer de manière programmatique ou dans la W&amp;B App après le déploiement. Sélectionnez un onglet pour afficher les instructions.
+Après avoir [obtenu une licence Enterprise](#obtain-an-enterprise-license), vous pouvez la configurer de manière programmatique dans le cadre de votre déploiement ou dans W&amp;B App après le déploiement. Sélectionnez l’onglet correspondant à votre méthode de déploiement.
 
 <Tabs>
   <Tab title="Opérateur Kubernetes">
-    1. Mettez à jour votre fichier `operator.yaml` (la ressource personnalisée `WeightsAndBiases`) pour définir la licence :
+    1. Mettez à jour votre fichier `operator.yaml` (la ressource personnalisée `WeightsAndBiases`) pour définir la licence. Remplacez `[YOUR-LICENSE-KEY]` par la clé de licence que vous avez reçue de la part de W&amp;B :
+
        ```yaml
        spec:
          values:
            global:
-             license: "YOUR_LICENSE_KEY_HERE"
+             license: "[YOUR-LICENSE-KEY]"
        ```
 
     2. Appliquez la configuration mise à jour :
@@ -66,10 +69,11 @@ Après avoir [obtenu une licence Enterprise](#obtain-an-enterprise-license), vou
   </Tab>
 
   <Tab title="Terraform">
-    1. Mettez à jour vos variables Terraform :
+    1. Mettez à jour vos variables Terraform. Remplacez `[YOUR-LICENSE-KEY]` par la clé de licence que vous avez reçue de la part de W&amp;B :
+
        ```hcl
        variable "license" {
-         default = "YOUR_LICENSE_KEY_HERE"
+         default = "[YOUR-LICENSE-KEY]"
        }
        ```
 
@@ -80,35 +84,35 @@ Après avoir [obtenu une licence Enterprise](#obtain-an-enterprise-license), vou
   </Tab>
 
   <Tab title="W&B App">
-    Pour les déploiements existants sans configuration par variable d’environnement :
+    Pour les déploiements existants sans variable d’environnement configurée :
 
-    1. Connectez-vous en tant qu’administrateur
-    2. Accédez à **System Settings**
-    3. Repérez la section **License**
-    4. Saisissez votre nouvelle clé de licence
-    5. Enregistrez les modifications
+    1. Connectez-vous en tant qu’administrateur.
+    2. Accédez à **System Settings**.
+    3. Repérez la section **License**.
+    4. Saisissez votre nouvelle clé de licence.
+    5. Enregistrez les modifications.
   </Tab>
 
   <Tab title="Docker">
-    <Warning>Le déploiement de W&amp;B avec Docker est obsolète. W&amp;B recommande vivement de migrer vers un déploiement [opérateur Kubernetes]() géré par Helm ou Terraform. Consultez l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch.mdx) ou contactez l’[assistance](mailto:support@wandb.ai) pour obtenir de l’aide.</Warning>
-    Définissez la clé de licence comme variable d’environnement :
+    <Warning>Le déploiement de W&amp;B avec Docker est obsolète. W&amp;B vous encourage vivement à migrer vers un déploiement [Opérateur Kubernetes]() géré par Helm ou Terraform. Consultez l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch.mdx) ou contactez l’[assistance](mailto:support@wandb.ai) pour obtenir des conseils.</Warning>
+    Définissez la variable d’environnement `LICENSE`. Remplacez `[YOUR-LICENSE-KEY]` par la clé de licence que vous avez reçue de la part de W&amp;B :
 
     ```bash
     docker run -d \
-      -e LICENSE="YOUR_LICENSE_KEY_HERE" \
+      -e LICENSE="[YOUR-LICENSE-KEY]" \
       -e OTHER_ENV_VARS \
       wandb/local
     ```
   </Tab>
 </Tabs>
 
-Ensuite, [vérifiez votre licence Enterprise](#verify-or-update-an-enterprise-license).
+Ensuite, [vérifiez votre licence Enterprise](#verify-and-manage-an-enterprise-license).
 
 <div id="verify-and-manage-an-enterprise-license">
   ## Vérifier et gérer une licence Enterprise
 </div>
 
-En tant qu’administrateur d’instance ou d’organisation, suivez ces étapes pour vérifier et gérer votre licence Enterprise :
+Après avoir configuré une licence, vérifiez qu’elle est active et examinez les droits associés. En tant qu’administrateur d’instance ou d’organisation, suivez ces étapes :
 
 1. Dans W&amp;B App, cliquez sur l’icône de votre profil utilisateur en haut à droite, puis sur **System Console**.
 2. Accédez à l’onglet **License**. Un tableau de bord récapitule les droits associés à la licence, sa date d’expiration et son utilisation au fil du temps. Si une erreur s’affiche, voir [Problèmes courants](#common-issues).
@@ -117,12 +121,12 @@ En tant qu’administrateur d’instance ou d’organisation, suivez ces étapes
    Depuis cette page, vous pouvez également commander une nouvelle licence d’essai ou de production. En haut de la page, cliquez sur **New license order** et soumettez le formulaire.
 4. Pour renouveler une licence expirée ou mettre à jour la clé de licence, cliquez sur **Update License**.
 
-   <Tip>
-     Pour garantir un service ininterrompu, W&amp;B vous contacte :
+<Tip>
+  Pour garantir un service ininterrompu, W&amp;B vous contacte :
 
-     * 30 jours avant l’expiration de la licence
-     * Lorsque la licence a expiré
-   </Tip>
+  * 30 jours avant l’expiration de la licence.
+  * Lorsque la licence a expiré.
+</Tip>
 
 <div id="enterprise-features">
   ## fonctionnalités Enterprise
@@ -134,29 +138,37 @@ Pour consulter la liste complète des fonctionnalités Enterprise disponibles, c
   ## Problèmes courants
 </div>
 
+Si vous rencontrez des problèmes lors de la configuration ou de l’utilisation de votre licence Enterprise, consultez la liste ci-dessous avant de contacter l’assistance.
+
 <div id="license-not-recognized">
   ### Licence non reconnue
 </div>
 
-* Vérifiez que la clé de licence est correctement formatée (sans espaces supplémentaires)
-* Assurez-vous que la licence n’a pas expiré
-* Vérifiez que la licence est définie au bon emplacement dans la configuration
+Si votre licence n’est pas reconnue, vérifiez les éléments suivants :
+
+* Vérifiez que la clé de licence est correctement formatée (sans espaces supplémentaires).
+* Assurez-vous que la licence n’a pas expiré.
+* Vérifiez que la licence est définie au bon emplacement dans la configuration.
 
 <div id="features-not-available-after-setting-license">
   ### Fonctionnalités non disponibles après la configuration de la licence
 </div>
 
-* Redémarrez vos services W&amp;B après avoir configuré la licence
-* Vérifiez que la licence inclut les fonctionnalités spécifiques auxquelles vous essayez d’accéder
-* Consultez les journaux système pour détecter toute erreur de validation de la licence
+Si des fonctionnalités ne sont pas disponibles après avoir configuré la licence, essayez ce qui suit :
+
+* Redémarrez vos services W&amp;B après avoir configuré la licence.
+* Vérifiez que la licence inclut les fonctionnalités spécifiques auxquelles vous essayez d’accéder.
+* Consultez les journaux système pour détecter toute erreur de validation de la licence.
 
 <div id="license-expiration-warnings">
   ### Alertes d’expiration de licence
 </div>
 
-* Surveillez la page System Settings pour les notifications d’expiration
-* Configurez des alertes d’expiration de licence dans votre système de surveillance
-* Tenez à jour les coordonnées de votre contact au sein de l’équipe de compte
+Pour anticiper l’expiration de la licence :
+
+* Surveillez la page **System Settings** pour les notifications d’expiration.
+* Configurez des alertes d’expiration de licence dans votre système de surveillance.
+* Tenez à jour les coordonnées de votre contact au sein de l’équipe de compte.
 
 <div id="get-support">
   ### Obtenir de l’assistance

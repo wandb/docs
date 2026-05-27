@@ -11,74 +11,78 @@ import ByobContextNote from "/snippets/fr/_includes/byob-context-note.mdx";
   ## Aperçu
 </div>
 
-Le modèle Bring Your Own Bucket (BYOB) vous permet de stocker les Artifacts W&amp;B et d&#39;autres données sensibles associées dans votre propre cloud ou sur votre infrastructure sur site. Dans le cas du [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou du [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), les données que vous stockez dans votre bucket ne sont pas copiées vers l&#39;infrastructure gérée par W&amp;B.
+Bring your own bucket (BYOB) vous permet de stocker les artefacts W&amp;B et d&#39;autres données sensibles dans votre propre infrastructure cloud ou sur site. Avec [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), W&amp;B ne copie pas les données que vous stockez dans votre bucket vers l&#39;infrastructure gérée par W&amp;B. Cette page s&#39;adresse aux administrateurs W&amp;B et aux ingénieurs plateforme qui doivent conserver la maîtrise du stockage des artefacts afin de répondre à des exigences de gouvernance des données, de résidence des données ou de conformité.
 
 <Note>
-  * La communication entre le SDK / CLI / UI de W&amp;B et vos buckets s&#39;effectue au moyen d&#39;[URL pré-signées](./presigned-urls).
-  * W&amp;B utilise un mécanisme de récupération de place et des processus associés pour supprimer au fil du temps les **artifacts** et les **données d&#39;exécution** supprimés de votre bucket. La suppression d&#39;un artifact est décrite dans [Supprimer un artifact](/fr/models/artifacts/delete-artifacts). La suppression des données d&#39;exécution sur les déploiements Cloud dédié et Autogéré dépend également de `GORILLA_DATA_RETENTION_PERIOD`, comme décrit dans [Configurer les variables d&#39;environnement](/fr/platform/hosting/env-vars). Le délai de nettoyage n&#39;est pas garanti. Pour une vue d&#39;ensemble de l&#39;utilisation et des coûts du bucket, voir [Gérer le stockage et les coûts du bucket](/fr/platform/hosting/managing-bucket-storage).
-  * Vous pouvez spécifier un sous-chemin lors de la configuration d&#39;un bucket afin de garantir que W&amp;B ne stocke aucun fichier dans un dossier situé à la racine du bucket. Cela peut vous aider à mieux respecter la politique de gouvernance des buckets de votre organisation.
+  * La communication entre le SDK / CLI / l&#39;interface utilisateur W&amp;B et vos buckets s&#39;effectue à l&#39;aide d&#39;[URL pré-signées](./presigned-urls).
+  * W&amp;B utilise des mécanismes de garbage collection et des processus associés pour supprimer au fil du temps les **artefacts** et les **données de run** supprimés de votre bucket. Pour la suppression d&#39;un artefact, voir [Supprimer un artefact](/fr/models/artifacts/delete-artifacts). La suppression des données de run dans les déploiements Cloud dédié et Autogéré dépend également de `GORILLA_DATA_RETENTION_PERIOD`, comme décrit dans [Configurer les variables d&#39;environnement](/fr/platform/hosting/env-vars). W&amp;B ne garantit pas le délai de nettoyage. Pour obtenir une vue d&#39;ensemble de l&#39;utilisation des buckets et des coûts associés, voir [Gérer le stockage et les coûts des buckets](/fr/platform/hosting/managing-bucket-storage).
+  * Vous pouvez spécifier un sous-chemin lorsque vous configurez un bucket, afin de garantir que W&amp;B ne stocke aucun fichier dans un dossier à la racine du bucket. Cela vous aide à mieux respecter la politique de gouvernance des buckets de votre organisation.
 </Note>
 
 <div id="data-stored-in-the-central-database-vs-buckets">
-  ### Données stockées dans la base de données centrale et dans les buckets
+  ### Données stockées dans la base de données centrale ou dans les buckets
 </div>
 
-Lorsque vous utilisez la fonctionnalité BYOB, certains types de données sont stockés dans la base de données centrale de W&amp;B, tandis que d&#39;autres le sont dans votre bucket.
+Lorsque vous utilisez la fonctionnalité BYOB, W&amp;B stocke certains types de données dans la base de données centrale de W&amp;B, et d’autres dans votre bucket. Utilisez les listes suivantes pour comprendre quelles données restent dans l’infrastructure gérée par W&amp;B et lesquelles W&amp;B écrit dans votre propre espace de stockage.
 
 <div id="database">
   #### Base de données
 </div>
 
-* Métadonnées des utilisateurs, des équipes, des Artifacts, des expériences et des projets
-* Reports
-* Journaux d&#39;expérience
-* Métriques système
-* Journaux de la console
+La base de données centrale de W&amp;B stocke les données suivantes :
+
+* Métadonnées des utilisateurs, des équipes, des Artifacts, des expériences et des projets.
+* Reports.
+* Journaux d&#39;expérience.
+* Métriques système.
+* Journaux de la console.
 
 <div id="buckets">
   #### Buckets
 </div>
 
-* Fichiers d’expérience et métriques
-* Fichiers d’artifact
-* Fichiers multimédias
-* Fichiers de run
-* Métriques de l’historique exportées et événements système au format Parquet
+Votre bucket de stockage contient les données suivantes :
+
+* Fichiers d’expérience et métriques.
+* Fichiers d’artifact.
+* Fichiers multimédias.
+* Fichiers de run.
+* Métriques de l’historique exportées et événements système au format Parquet.
 
 <div id="bucket-scopes">
   ### Portées des buckets
 </div>
 
-Il existe deux portées possibles pour votre bucket de stockage :
+Vous pouvez configurer votre bucket de stockage selon l’une des deux portées suivantes :
 
-| Portée               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Niveau de l’instance | Dans [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) et [Autogéré](/fr/platform/hosting/hosting-options/self-managed), tout utilisateur disposant des autorisations requises au sein de votre organisation ou de votre instance peut accéder aux fichiers stockés dans le bucket de stockage de l’instance. Ne s’applique pas au [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| Niveau de l’équipe   | Si une Team W&amp;B est configurée pour utiliser un bucket de stockage au niveau de l’équipe, les membres de l’équipe peuvent accéder aux fichiers qui y sont stockés. Les buckets de stockage au niveau de l’équipe offrent un contrôle d’accès aux données plus strict et une meilleure isolation des données pour les équipes qui manipulent des données très sensibles ou sont soumises à des exigences de conformité strictes.<br /><br />Le stockage au niveau de l’équipe peut aider différentes unités métier ou différents départements partageant une instance à utiliser efficacement l’infrastructure et les ressources administratives. Il peut également permettre à des équipes projet distinctes de gérer des flux de travail d’IA pour différents clients. Disponible pour tous les types de déploiement. Vous configurez le BYOB au niveau de l’équipe lors de la configuration de l’équipe. |
+| Portée               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Niveau de l’instance | Dans [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) et [Autogéré](/fr/platform/hosting/hosting-options/self-managed), tout utilisateur disposant des autorisations requises au sein de votre organisation ou de votre instance peut accéder aux fichiers stockés dans le bucket de stockage de l’instance. Ne s’applique pas au [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud).                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Niveau de l’équipe   | Si vous configurez une équipe W&amp;B pour utiliser un bucket de stockage au niveau de l’équipe, les membres de l’équipe peuvent accéder aux fichiers qui y sont stockés. Les buckets de stockage au niveau de l’équipe offrent un contrôle d’accès aux données plus strict et une meilleure isolation des données pour les équipes qui manipulent des données sensibles ou sont soumises à des exigences de conformité strictes.<br /><br />Le stockage au niveau de l’équipe aide différentes unités métier ou différents départements partageant une instance à utiliser efficacement l’infrastructure et les ressources administratives. Il permet également à des équipes projet distinctes de gérer des flux de travail d’IA pour différents clients. Disponible pour tous les types de déploiement. Vous configurez le BYOB au niveau de l’équipe lors de la configuration de l’équipe. |
 
-Cette conception flexible permet de mettre en place de nombreuses topologies de stockage, selon les besoins de votre organisation. Par exemple :
+Cette conception prend en charge différentes topologies de stockage, selon les besoins de votre organisation. Par exemple :
 
-* Le même bucket peut être utilisé pour l’instance et une ou plusieurs équipes.
+* Le même bucket peut servir pour l’instance et une ou plusieurs équipes.
 * Chaque équipe peut utiliser un bucket distinct, certaines équipes peuvent choisir d’écrire dans le bucket de l’instance, ou plusieurs équipes peuvent partager un bucket en écrivant dans des sous-chemins.
-* Les buckets de différentes équipes peuvent être hébergés dans différents environnements ou régions d’infrastructure cloud, et être gérés par différentes équipes d’administration du stockage.
+* Les buckets de différentes équipes peuvent se trouver dans différents environnements ou régions d’infrastructure cloud, et différentes équipes d’administration du stockage peuvent les gérer.
 
-Par exemple, supposons que vous ayez une équipe appelée Kappa dans votre organisation. Votre organisation (et Team Kappa) utilise par défaut le bucket de stockage au niveau de l’instance. Ensuite, vous créez une équipe appelée Omega. Lorsque vous créez Team Omega, vous configurez un bucket de stockage au niveau de l’équipe pour cette équipe. Les fichiers générés par Team Omega ne sont pas accessibles à Team Kappa. En revanche, les fichiers créés par Team Kappa sont accessibles à Team Omega. Si vous souhaitez isoler les données de Team Kappa, vous devez également configurer un bucket de stockage au niveau de l’équipe pour cette équipe.
+Par exemple, supposons que vous ayez une équipe appelée Kappa dans votre organisation. Votre organisation (et l’équipe Kappa) utilise par défaut le bucket de stockage au niveau de l’instance. Ensuite, vous créez une équipe appelée Omega. Lorsque vous créez l’équipe Omega, vous configurez un bucket de stockage au niveau de l’équipe pour cette équipe. L’équipe Kappa ne peut pas accéder aux fichiers que l’équipe Omega génère. En revanche, l’équipe Omega peut accéder aux fichiers que l’équipe Kappa crée. Pour isoler les données de l’équipe Kappa, vous devez également configurer un bucket de stockage au niveau de l’équipe pour celle-ci.
 
 <div id="availability-matrix">
   ### Matrice de disponibilité
 </div>
 
-W&amp;B peut se connecter aux fournisseurs de stockage suivants :
+Avant de commencer, confirmez que BYOB est disponible pour votre type de déploiement et votre fournisseur de stockage. W&amp;B peut se connecter aux fournisseurs de stockage suivants :
 
 * [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage) : service de stockage d’objets haute performance, compatible S3, optimisé pour les charges de travail d’IA.
-* [Amazon S3](https://aws.amazon.com/s3/) : service de stockage d’objets offrant une évolutivité, une disponibilité des données, une sécurité et des performances de premier plan.
+* [Amazon S3](https://aws.amazon.com/s3/) : service de stockage d’objets offrant une évolutivité, une disponibilité des données, une sécurité et des performances.
 * [Google Cloud Storage](https://cloud.google.com/storage) : service géré permettant de stocker des données non structurées à grande échelle.
 * [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) : solution de stockage d’objets dans le cloud permettant de stocker de très grandes quantités de données non structurées, comme du texte, des données binaires, des images, des vidéos et des journaux.
 * Un stockage compatible S3 tel que [MinIO Enterprise (AIStor)](https://min.io/product/aistor) ou d’autres solutions de classe entreprise hébergées dans votre cloud ou sur votre infrastructure sur site.
 
 Le tableau suivant indique la disponibilité de BYOB à chaque niveau pour chaque type de déploiement W&amp;B.
 
-| Type de déploiement W&amp;B | Niveau instance | Niveau équipe                           | Informations supplémentaires                                                                                                                                                                                                                                                                                                         |
+| Type de déploiement W&amp;B | Niveau de l’instance | Niveau de l’équipe                      | Informations supplémentaires                                                                                                                                                                                                                                                                                                         |
 | --------------------------- | --------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Cloud dédié                 | ✓               | ✓                                       | Le BYOB au niveau de l’instance et de l’équipe est pris en charge pour CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage et le stockage compatible S3 tel que [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor) hébergé dans votre cloud ou sur votre infrastructure sur site. |
 | Cloud mutualisé             | Non applicable  | ✓<sup><a href="#footnote_1">1</a></sup> | Le BYOB au niveau de l’équipe est pris en charge pour CoreWeave AI Object Storage, Amazon S3 et Google Cloud Storage.                                                                                                                                                                                                                |
@@ -92,7 +96,7 @@ Les sections suivantes vous guident dans le processus de configuration de BYOB.
   ## Provision your bucket
 </div>
 
-Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez provisionner votre bucket de stockage, y compris sa politique d’accès et la configuration CORS. Sélectionnez un onglet pour continuer.
+Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez provisionner votre bucket de stockage, y compris sa politique d’accès et la configuration CORS. Le provisionnement crée le bucket dans lequel W&amp;B écrit et accorde à la plateforme W&amp;B les autorisations nécessaires pour générer des URL pré-signées en votre nom. Sélectionnez un onglet pour continuer.
 
 <Tabs>
   <Tab title="CoreWeave">
@@ -110,7 +114,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
        1. Connectez-vous à l’[app W&amp;B](https://wandb.ai/site).
        2. Dans la barre de navigation de gauche, cliquez sur **Créer une nouvelle équipe**.
        3. Dans le panneau latéral qui s’ouvre, copiez l’ID de l’organisation W&amp;B, situé au-dessus de **Inviter des membres de l’équipe**.
-       4. Laissez cette page ouverte. Vous l’utiliserez pour [configurer W&amp;B](#configure-byob).
+       4. Laissez cette page ouverte. Vous l’utilisez pour [configurer W&amp;B](#configure-byob).
 
     2. <a id="coreweave-customer-namespace" aria-label="Espace de noms client CoreWeave" />**Cloud dédié** / **Autogéré** : Obtenez votre espace de noms client, nécessaire pour la stratégie de votre bucket.
        1. Dans l’application W&amp;B, cliquez sur l’icône de votre profil, puis sur **System Console**.
@@ -142,9 +146,9 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
          }
        ]
        ```
-       Le stockage CoreWeave est compatible avec S3. Pour en savoir plus sur CORS, référez-vous à [Configuration du partage de ressources entre origines (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) dans la documentation AWS.
+       Le stockage CoreWeave est compatible avec S3. Pour en savoir plus sur CORS, voir [Configuration du partage de ressources entre origines (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) dans la documentation AWS.
 
-    5. Configurez une stratégie de bucket accordant les autorisations requises pour permettre à votre déploiement W&amp;B d&#39;accéder au bucket et de générer des [URL pré-signées](./presigned-urls), utilisées par les charges de travail d&#39;IA de votre infrastructure cloud ou par les navigateurs des utilisateurs pour accéder au bucket. Référez-vous à la [référence sur les stratégies de bucket](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/bucket-access/bucket-policies) dans la documentation CoreWeave.
+    5. Configurez une stratégie de bucket accordant les autorisations requises pour permettre à votre déploiement W&amp;B d&#39;accéder au bucket et de générer des [URL pré-signées](./presigned-urls), utilisées par les charges de travail d&#39;IA de votre infrastructure cloud ou par les navigateurs des utilisateurs pour accéder au bucket. Voir la [référence sur les stratégies de bucket](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/bucket-access/bucket-policies) dans la documentation CoreWeave.
 
        ```json
        {
@@ -209,7 +213,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     7. **Cloud dédié** : Contactez l’[assistance](mailto:support@wandb.ai) pour suivre des étapes supplémentaires.
 
-    8. <a id="set-environment-variable" aria-label="Définir la variable d'environnement" />**Autogéré** : Mettez à jour votre déploiement W&amp;B afin de définir la variable d&#39;environnement `GORILLA_SUPPORTED_FILE_STORES` sur la valeur exacte `cw://`, puis redémarrez W&amp;B. Sinon, CoreWeave n&#39;apparaîtra pas comme option lors de la configuration du stockage de Teams.
+    8. <a id="set-environment-variable" aria-label="Définir la variable d'environnement" />**Autogéré** : Mettez à jour votre déploiement W&amp;B afin de définir la variable d&#39;environnement `GORILLA_SUPPORTED_FILE_STORES` sur la valeur exacte `cw://`, puis redémarrez W&amp;B. Sinon, CoreWeave n&#39;apparaît pas comme option lors de la configuration du stockage de l’équipe.
 
     Ensuite, [configurez W&amp;B](#configure-byob).
   </Tab>
@@ -395,9 +399,9 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     1. Provisionnez le conteneur Azure Blob Storage.
 
-       Pour les déploiements autogérés, ainsi que pour les déploiements Cloud dédié qui n’utilisent pas [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), suivez les étapes ci-dessous pour provisionner un conteneur Azure Blob Storage dans votre abonnement Azure :
+       Pour les déploiements autogérés, ainsi que pour les déploiements Cloud dédié qui n’utilisent pas [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), suivez ces étapes pour provisionner un conteneur Azure Blob Storage dans votre abonnement Azure :
 
-       1. Créez un conteneur avec le nom de votre choix. Vous pouvez également créer un dossier que vous configururez comme sous-chemin pour stocker tous les fichiers W&amp;B.
+       1. Créez un conteneur avec le nom de votre choix. Vous pouvez également créer un dossier que vous pouvez configurer comme sous-chemin pour stocker tous les fichiers W&amp;B.
        2. Configurez la stratégie CORS sur le conteneur.
 
           Pour définir la stratégie CORS dans l’interface utilisateur, accédez à blob storage, faites défiler jusqu’à `Settings/Resource Sharing (CORS)`, puis définissez les valeurs suivantes :
@@ -433,7 +437,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
     * Clé d’accès secrète
     * URL de l’endpoint
     * Nom du bucket
-    * Chemin du dossier, le cas échéant.
+    * Chemin du dossier, le cas échéant
     * Région
   </Tab>
 </Tabs>
@@ -444,8 +448,7 @@ Ensuite, [déterminez l’adresse de stockage](#determine-the-storage-address).
   ## Déterminer l’adresse de stockage
 </div>
 
-Cette section explique la syntaxe à utiliser pour connecter un Team W&amp;B à un bucket de stockage BYOB. Dans les exemples, remplacez les valeurs entre chevrons (`<>`) par les informations de votre bucket.
-Choisissez un onglet pour afficher les instructions détaillées.
+Après avoir provisionné le bucket, vous avez besoin d’une adresse de stockage que W&amp;B utilise pour le localiser et s’y authentifier. Les sections suivantes décrivent la syntaxe à utiliser pour connecter une équipe W&amp;B à un bucket de stockage BYOB. Dans les exemples, remplacez les valeurs entre chevrons (`<>`) par les informations de votre bucket. Choisissez un onglet pour afficher les instructions détaillées.
 
 <Tabs>
   <Tab title="CoreWeave">
@@ -455,11 +458,11 @@ Choisissez un onglet pour afficher les instructions détaillées.
 
     **Format du bucket** :
 
-    ```none
+    ```text
     cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
     ```
 
-    Le point de terminaison HTTPS `cwobject.com` est pris en charge. TLS 1.3 est requis. Contactez l’[assistance](mailto:support@wandb.com) si vous souhaitez utiliser d’autres endpoints CoreWeave.
+    W&amp;B prend en charge le point de terminaison HTTPS `cwobject.com`. TLS 1.3 est requis. Contactez l’[assistance](mailto:support@wandb.com) si vous souhaitez utiliser d’autres endpoints CoreWeave.
   </Tab>
 
   <Tab title="AWS">
@@ -513,7 +516,7 @@ Après avoir déterminé l’adresse de stockage, vous pouvez passer à [configu
   ## Configurer W&amp;B
 </div>
 
-Après avoir [provisionné votre bucket](#provision-your-bucket) et [déterminé son adresse](#determine-the-storage-address), vous pouvez configurer BYOB au [niveau de l’instance](#instance-level-byob) ou au [niveau de l’équipe](#team-level-byob).
+Après avoir [provisionné votre bucket](#provision-your-bucket) et [déterminé son adresse](#determine-the-storage-address), vous pouvez configurer BYOB au [niveau de l’instance](#instance-level-byob) ou au [niveau de l’équipe](#team-level-byob). Cette dernière étape indique à W&amp;B de diriger vers votre bucket le stockage des artefacts, des fichiers de run et d’autres objets volumineux.
 
 <Warning>
   Planifiez soigneusement l’organisation de votre bucket de stockage. Après avoir configuré un bucket de stockage pour W&amp;B, la migration de ses données vers un autre bucket est complexe et nécessite l’assistance de W&amp;B. Cela s’applique au stockage pour Cloud dédié et Autogéré, ainsi qu’au stockage au niveau de l’équipe pour Cloud mutualisé. Pour toute question, contactez [l’assistance](mailto:support@wandb.com).
@@ -527,7 +530,7 @@ Après avoir [provisionné votre bucket](#provision-your-bucket) et [déterminé
   Pour CoreWeave AI Object Storage au niveau de l’instance, contactez [l’assistance W&amp;B](mailto:support@wandb.com) au lieu de suivre ces instructions. La configuration en libre-service n’est pas encore prise en charge.
 </Note>
 
-Pour **Cloud dédié** : partagez les informations du bucket avec votre équipe W&amp;B, qui configurera votre instance Cloud dédié.
+Pour **Cloud dédié** : partagez les informations du bucket avec votre équipe W&amp;B, qui configure votre instance Cloud dédié.
 
 Pour **Autogéré**, vous pouvez configurer le BYOB au niveau de l’instance à l’aide de la W&amp;B App :
 
@@ -537,22 +540,24 @@ Pour **Autogéré**, vous pouvez configurer le BYOB au niveau de l’instance à
 4. Dans la section **Bucket Storage**, assurez-vous que l’identité indiquée dans le champ **Identity** a accès au nouveau bucket.
 5. Sélectionnez **Provider**.
 6. Saisissez **Bucket Name**.
-7. Si nécessaire, saisissez le **Path** à utiliser dans le nouveau bucket.
-8. Cliquez sur **Save**
+7. Facultatif : saisissez le **Path** à utiliser dans le nouveau bucket.
+8. Cliquez sur **Save**.
+
+Après l’enregistrement, W&amp;B utilise le bucket configuré comme destination de stockage par défaut pour les nouveaux artefacts et les fichiers de run au niveau de l’instance.
 
 <div id="team-level-byob">
   ### BYOB au niveau de l’équipe
 </div>
 
-Vous pouvez configurer le BYOB au niveau de l’équipe lors de la création d’une équipe dans la W&amp;B App ou via l’[API SCIM](/fr/platform/hosting/iam/scim#create-team) (POST Groups avec `storageBucket` facultatif). Deux options s’offrent à vous :
+Vous pouvez configurer le BYOB au niveau de l’équipe lorsque vous créez une équipe dans la W&amp;B App ou via l’[API SCIM](/fr/platform/hosting/iam/scim#create-team) (POST Groups avec `storageBucket` facultatif). Deux options s’offrent à vous :
 
-* **Utiliser un bucket existant** : vous devrez d’abord [déterminer l’emplacement de stockage](#determine-the-storage-address) de votre bucket.
-* **Créer un bucket** (Cloud mutualisé uniquement) : W&amp;B peut créer automatiquement un bucket chez votre fournisseur de cloud lorsque vous créez l’équipe. Cette option est prise en charge pour CoreWeave, AWS et Google Cloud.
+* **Utiliser un bucket existant** : vous devez d’abord [déterminer l’emplacement de stockage](#determine-the-storage-address) de votre bucket.
+* **Créer un bucket** (Cloud mutualisé uniquement) : W&amp;B peut créer automatiquement un bucket chez votre fournisseur de cloud lorsque vous créez l’équipe. W&amp;B prend en charge cette option pour CoreWeave, AWS et Google Cloud.
 
 <Note>
-  - Une fois l’équipe créée, son stockage ne peut plus être modifié.
+  - Une fois que vous avez créé une équipe, vous ne pouvez plus modifier son stockage.
   - Pour le BYOB au niveau de l’instance, reportez-vous plutôt à [BYOB au niveau de l’instance](#instance-level-byob).
-  - Si vous prévoyez de configurer le stockage CoreWeave pour l’équipe, consultez les [prérequis CoreWeave](#coreweave-requirements) et contactez l’[assistance](mailto:support@wandb.com) pour vérifier que votre bucket est correctement configuré dans CoreWeave et valider la configuration de votre équipe, car les détails de stockage ne peuvent pas être modifiés après la création de l’équipe.
+  - Si vous prévoyez de configurer le stockage CoreWeave pour l’équipe, consultez les [prérequis CoreWeave](#coreweave-requirements) et contactez l’[assistance](mailto:support@wandb.com) pour vérifier que votre bucket est correctement configuré dans CoreWeave et valider la configuration de votre équipe, car vous ne pouvez pas modifier les détails de stockage après la création de l’équipe.
 </Note>
 
 Sélectionnez votre type de déploiement pour continuer.
@@ -561,7 +566,7 @@ Sélectionnez votre type de déploiement pour continuer.
   <Tab title="Cloud dédié / Auto-hébergé">
     1. **Cloud dédié** : vous **devez** fournir le chemin du bucket à l’équipe en charge de votre compte afin qu’elle puisse l’ajouter aux stockages de fichiers pris en charge par votre instance avant de suivre le reste de cette procédure pour utiliser le bucket de stockage pour une équipe.
 
-    2. **Autogéré** : vous **devez** ajouter le chemin du bucket à votre variable d’environnement `GORILLA_SUPPORTED_FILE_STORES`, puis redémarrer W&amp;B avant de suivre le reste de cette procédure pour utiliser le bucket de stockage pour une équipe.
+    2. **Autogéré** : vous **devez** ajouter le chemin du bucket à la variable d’environnement `GORILLA_SUPPORTED_FILE_STORES`, puis redémarrer W&amp;B avant de suivre le reste de cette procédure pour utiliser le bucket de stockage pour une équipe.
 
     3. Connectez-vous à W&amp;B avec un utilisateur ayant le rôle `admin`, cliquez sur l’icône en haut à gauche pour ouvrir le panneau de navigation de gauche, puis cliquez sur **Créer une équipe pour collaborer**.
 
@@ -594,11 +599,11 @@ Sélectionnez votre type de déploiement pour continuer.
 
     9. Cliquez sur **Créer l’équipe**.
 
-    Si W&amp;B rencontre des erreurs lors de l’accès au bucket ou détecte des paramètres non valides, une erreur ou un avertissement s’affiche en bas de la page. Sinon, l’équipe est créée.
+    Si W&amp;B rencontre des erreurs lors de l’accès au bucket ou détecte des paramètres non valides, une erreur ou un avertissement s’affiche en bas de la page. Sinon, W&amp;B crée l’équipe.
   </Tab>
 
   <Tab title="Cloud mutualisé">
-    1. Revenez à la fenêtre du navigateur dans laquelle vous aviez commencé à créer la nouvelle équipe pour retrouver l’ID de l’organisation W&amp;B obtenu précédemment. Sinon, connectez-vous à W&amp;B avec un utilisateur ayant le rôle `admin`, cliquez sur l’icône en haut à gauche pour ouvrir le panneau de navigation de gauche, puis cliquez sur **Créer une équipe pour collaborer**.
+    1. Revenez à la fenêtre du navigateur dans laquelle vous aviez commencé à créer la nouvelle équipe pour retrouver l’ID de l’organisation W&amp;B. Sinon, connectez-vous à W&amp;B avec un utilisateur ayant le rôle `admin`, cliquez sur l’icône en haut à gauche pour ouvrir le panneau de navigation de gauche, puis cliquez sur **Créer une équipe pour collaborer**.
 
     2. Indiquez un nom pour l’équipe.
 
@@ -623,17 +628,19 @@ Sélectionnez votre type de déploiement pour continuer.
          Lorsque vous cliquez sur **Créer l’équipe**, W&amp;B crée automatiquement le bucket chez votre cloud provider avec la configuration spécifiée.
        </Note>
 
-    7. Invitez des membres dans l’équipe. Dans **Inviter des membres de l’équipe**, indiquez une liste d’adresses e-mail séparées par des virgules. Sinon, vous pourrez inviter des membres dans l’équipe après sa création.
+    7. Invitez des membres dans l’équipe. Dans **Inviter des membres de l’équipe**, indiquez une liste d’adresses e-mail séparées par des virgules. Sinon, vous pourrez inviter des membres dans l’équipe après l’avoir créée.
 
     8. Cliquez sur **Créer l’équipe**.
 
-    Si W&amp;B rencontre des erreurs lors de l’accès au bucket ou détecte des paramètres non valides, une erreur ou un avertissement s’affiche en bas de la page. Sinon, l’équipe est créée.
+    Si W&amp;B rencontre des erreurs lors de l’accès au bucket ou détecte des paramètres non valides, une erreur ou un avertissement s’affiche en bas de la page. Sinon, W&amp;B crée l’équipe.
   </Tab>
 </Tabs>
 
 <div id="troubleshooting">
   ## Dépannage
 </div>
+
+Si W&amp;B signale des erreurs lors de la validation de votre bucket ou de la connexion à celui-ci, utilisez les sections suivantes pour diagnostiquer les causes les plus courantes selon le fournisseur de stockage.
 
 <div id="coreweave">
   ### CoreWeave
@@ -642,21 +649,21 @@ Sélectionnez votre type de déploiement pour continuer.
 Cette section vous aide à résoudre les problèmes de connexion à CoreWeave AI Object Storage.
 
 * **Erreurs de connexion**
-  * Vérifiez que votre instance W&amp;B peut se connecter aux endpoints réseau de CoreWeave.
-  * CoreWeave utilise des chemins de type virtual-hosted, où le nom du bucket est un sous-domaine au début du chemin. Par exemple : `cw://bucket-name.cwobject.com` est correct, tandis que `cw://cwobject.com/bucket-name/` ne l’est pas.
-  * Les noms de bucket ne doivent pas contenir de caractères de soulignement (`_`) ni d’autres caractères incompatibles avec les règles DNS.
-  * Les noms de bucket doivent être globalement uniques parmi les emplacements CoreWeave.
+  * Vérifiez que votre instance W&amp;B peut se connecter aux points de terminaison réseau de CoreWeave.
+  * CoreWeave utilise des chemins au format virtual-hosted, où le nom du bucket est un sous-domaine au début du chemin. Par exemple, `cw://bucket-name.cwobject.com` est correct, tandis que `cw://cwobject.com/bucket-name/` ne l’est pas.
+  * Les noms de bucket ne doivent pas contenir de tirets de soulignement (`_`) ni d’autres caractères incompatibles avec les règles DNS.
+  * Les noms de bucket doivent être globalement uniques sur l’ensemble des emplacements CoreWeave.
   * Les noms de bucket ne doivent pas commencer par `cw-` ou `vip-`, qui sont des préfixes réservés.
 * **Échecs de validation CORS**
-  * Une politique CORS est requise. CoreWeave est compatible S3 ; pour plus de détails sur le CORS, voir [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) dans la documentation AWS.
+  * Une politique CORS est requise. CoreWeave est compatible S3. Pour plus de détails sur CORS, consultez [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) dans la documentation AWS.
   * `AllowedMethods` doit inclure les méthodes `GET`, `PUT` et `HEAD`.
   * `ExposeHeaders` doit inclure `ETag`.
-  * Les domaines du front-end W&amp;B doivent être inclus dans `AllowedOrigins` de la politique CORS. Les exemples de politiques CORS fournis sur cette page incluent tous les domaines à l’aide de `*`.
-* **Problèmes d’endpoint LOTA**
-  * La connexion aux endpoints LOTA à partir de W&amp;B n’est pas encore prise en charge. Pour exprimer votre intérêt, [contactez l’assistance](mailto:support@wandb.com).
+  * `AllowedOrigins` de la politique CORS doit inclure les domaines du frontend W&amp;B. Les exemples de politiques CORS fournis sur cette page incluent tous les domaines à l’aide de `*`.
+* **Problèmes de point de terminaison LOTA**
+  * W&amp;B ne prend pas encore en charge les connexions aux points de terminaison LOTA. Pour exprimer votre intérêt, [contactez l’assistance](mailto:support@wandb.com).
 * **Erreurs de clé d’accès et d’autorisations**
-  * Vérifiez que votre clé d’accès API CoreWeave n’a pas expiré.
-  * Vérifiez que votre clé d’accès API CoreWeave et votre clé secrète disposent des autorisations suffisantes `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. Les exemples de cette page répondent à cette exigence. Référez-vous à [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) dans la documentation CoreWeave.
+  * Vérifiez que votre clé d’accès à l’API CoreWeave n’a pas expiré.
+  * Vérifiez que votre clé d’accès à l’API CoreWeave et votre clé secrète disposent des autorisations suffisantes `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. Les exemples de cette page répondent à cette exigence. Consultez [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) dans la documentation CoreWeave.
 
 <div id="google-cloud">
   ### Google Cloud

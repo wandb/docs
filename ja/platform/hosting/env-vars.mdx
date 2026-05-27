@@ -3,11 +3,13 @@ description: "データベース、ストレージ、Redis、IAM の設定用の
 title: 環境変数を設定する
 ---
 
-System Settings 管理 UI でインスタンスレベルの設定を行うだけでなく、W&amp;B では環境変数を使用してコード経由でこれらの値を設定することもできます。あわせて、[IAM の高度な設定](./iam/advanced_env_vars)を参照してください。
+System Settings 管理 UI でインスタンスレベルの設定を行うだけでなく、W&amp;B では環境変数を使用してコード経由でこれらの値を設定することもできます。このページでは、セルフマネージド W&amp;B Server デプロイメントにおけるデータベース、ストレージ、Redis、アイデンティティ プロバイダ、その他のインスタンスレベルの動作を制御するために設定できる環境変数を一覧で示します。これらの変数を使用すると、管理 UI ではなく、コードで設定を管理できます。IAM 固有の変数については、[IAM の高度な設定](./iam/advanced_env_vars)を参照してください。
 
 <div id="environment-variable-reference">
   ## 環境変数リファレンス
 </div>
+
+次の表では、各環境変数、制御される動作、およびその値に関する制約について説明します。
 
 | 環境変数                                    | 説明                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -20,7 +22,7 @@ System Settings 管理 UI でインスタンスレベルの設定を行うだけ
 | `HOST`                                  | インスタンスの FQD。たとえば `https://my.domain.net`                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `OIDC_ISSUER`                           | OpenID Connect アイデンティティ プロバイダーの URL。たとえば `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd`                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `OIDC_CLIENT_ID`                        | アイデンティティ プロバイダー内のアプリケーションのクライアント ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `OIDC_AUTH_METHOD`                      | Implicit (デフォルト) または pkce。詳細は以下を参照してください。                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `OIDC_AUTH_METHOD`                      | Implicit (デフォルト) または pkce。詳細については、以下のセクションを参照してください。                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `SLACK_CLIENT_ID`                       | アラートに使用する Slack アプリケーションのクライアント ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `SLACK_SECRET`                          | アラートに使用する Slack アプリケーションのシークレット                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `LOCAL_RESTORE`                         | インスタンスにアクセスできない場合は、これを一時的に true に設定できます。一時的な認証情報については、コンテナーのログを確認してください。                                                                                                                                                                                                                                                                                                                                                                                                                                    |
@@ -41,7 +43,7 @@ System Settings 管理 UI でインスタンスレベルの設定を行うだけ
 <Note>
   * `GORILLA_DATA_RETENTION_PERIOD` 環境変数は、慎重に使用してください。これは**削除された run データ** (削除フロー後のメディアなど、run に関連付けられたファイルを含む) に適用されます。Artifacts は削除されません。Artifacts の削除については、[Delete an artifact](/ja/models/artifacts/delete-artifacts) で説明しているように、Artifacts の削除と `GORILLA_ARTIFACT_GC_ENABLED` を使用してください。run とファイルの削除がストレージ およびこの設定にどのように関係するかについては、**Delete runs** の [When deleted run data is removed from storage](/ja/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) を参照してください。この変数を設定すると、保持期間のウィンドウに従ってデータが削除されます。この値を有効にするまたは変更する前に、データベースと ストレージ バケット の両方をバックアップしてください。
 
-    バケット からの object のバックグラウンド削除は**ベストエフォート**で実行されるため、特定の時間内に完了する保証はありません。想定される動作、トラブルシューティング、および ストレージ コストとの関係については、[Manage bucket storage and costs](/ja/platform/hosting/managing-bucket-storage) を参照してください。
+    バケット からの object のバックグラウンド削除は**近似的**であり、特定の時間内に完了する保証はありません。想定される動作、トラブルシューティング、および ストレージ コストとの関係については、[Manage bucket storage and costs](/ja/platform/hosting/managing-bucket-storage) を参照してください。
   * [Kubernetes Operator](/ja/platform/hosting/self-managed/operator) で `GRAPHQL_REJECT_UNAUTHED_REQUESTS` を有効にするには、API コンポーネントにのみ設定してください。
 
     ```yaml
@@ -54,21 +56,23 @@ System Settings 管理 UI でインスタンスレベルの設定を行うだけ
 </Note>
 
 <div id="advanced-reliability-settings">
-  ## 信頼性の詳細設定
+  ## 高度な信頼性設定
 </div>
+
+以下のセクションでは、W&amp;B Server デプロイメントの信頼性とパフォーマンスを向上させるために適用できるオプション設定について説明します。
 
 <div id="redis">
   ### Redis
 </div>
 
-外部 Redis サーバーの設定は必須ではありませんが、本番環境では推奨されます。Redis を使用すると、特に大規模なプロジェクトで、サービスの信頼性が向上し、キャッシュを有効にしてロード時間を短縮できます。高可用性 (HA) を備え、以下の仕様を満たす ElastiCache などのマネージド Redis サービスを使用してください。
+外部 Redis サーバーは必須ではありませんが、本番環境では推奨されます。Redis を使用すると、特に大規模なプロジェクトで、サービスの信頼性が向上し、キャッシュを有効にしてロード時間を短縮できます。高可用性 (HA) を備え、以下の仕様を満たす ElastiCache などのマネージド Redis サービスを使用してください。
 
-* メモリは最小 4GB、推奨 8GB
+* メモリは最小 4 GB、推奨 8 GB
 * Redis バージョン 6.x
 * 転送中暗号化
 * 認証を有効化
 
-W&amp;B で Redis インスタンスを設定するには、`http(s)://YOUR-W&B-SERVER-HOST/system-admin` の W&amp;B Settings ページにアクセスします。&quot;Use an external Redis instance&quot; オプションを有効にし、以下の形式で Redis の接続文字列を入力します。
+W&amp;B で Redis インスタンスを設定するには、`http(s)://YOUR-W&B-SERVER-HOST/system-admin` の W&amp;B Settings ページにアクセスします。**Use an external Redis instance** オプションを有効にし、以下の形式で Redis の接続文字列を入力します。
 
 <Frame>
   <img src="/images/hosting/configure_redis.png" alt="W&B で Redis を設定する" />
@@ -76,4 +80,4 @@ W&amp;B で Redis インスタンスを設定するには、`http(s)://YOUR-W&B-
 
 Redis は、コンテナー上または Kubernetes デプロイで環境変数 `REDIS` を使用して設定することもできます。あるいは、`REDIS` を Kubernetes シークレットとして設定することもできます。
 
-このページでは、Redis インスタンスがデフォルトポート `6379` で実行されていることを前提としています。別のポートを設定し、認証も設定し、さらに `redis` インスタンスで TLS を有効にする場合、接続文字列の形式は次のようになります。`redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
+このページでは、Redis インスタンスがデフォルトポート `6379` で実行されていることを前提としています。別のポートを設定し、認証を設定し、`redis` インスタンスで TLS を有効にする場合、接続文字列の形式は次のとおりです。`redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`

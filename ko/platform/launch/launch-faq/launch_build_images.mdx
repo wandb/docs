@@ -1,6 +1,8 @@
 ---
-title: W&B Launch에서 이미지를 어떻게 빌드하나요?
+title: W&B Launch에서 이미지가 빌드되는 방식
 ---
+
+이 페이지에서는 W&amp;B Launch가 작업용 컨테이너 이미지를 어떻게 빌드하는지 설명합니다. 따라서 Launch가 어떤 빌드 작업을 수행하는지 예측하고, 그에 맞게 큐 또는 작업을 설정할 수 있습니다.
 
 이미지 빌드 단계는 작업 소스와 리소스 설정에서 지정한 가속기 베이스 이미지에 따라 달라집니다.
 
@@ -11,7 +13,7 @@ title: W&B Launch에서 이미지를 어떻게 빌드하나요?
   {
       "builder": {
           "accelerator": {
-              "base_image": "image-name"
+              "base_image": "[IMAGE-NAME]"
           }
       }
   }

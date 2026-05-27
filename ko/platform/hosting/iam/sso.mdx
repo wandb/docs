@@ -3,16 +3,16 @@ title: OIDC로 SSO 구성
 description: "Okta, Azure AD, AWS Cognito와 같은 ID 공급자와 OpenID Connect를 사용하여 W&B 인스턴스의 SSO를 구성합니다."
 ---
 
-W&amp;B는 OpenID Connect(OIDC) 호환 ID 공급자를 지원하므로, Okta, Keycloak, Auth0, Google, Entra와 같은 외부 ID 공급자를 통해 사용자 ID와 그룹 멤버십을 관리할 수 있습니다.
+이 가이드는 OpenID Connect(OIDC) 호환 ID 공급자를 사용해 single sign-on(SSO)을 활성화하려는 W&amp;B Dedicated Cloud 또는 Self-Managed 인스턴스 관리자를 위한 것입니다. 이 과정을 마치면 ID 공급자를 구성하고 W&amp;B에 연결하여 사용자가 조직의 기존 ID 시스템을 통해 로그인할 수 있게 되며, Okta, Keycloak, Auth0, Google, Entra와 같은 공급자를 통해 사용자 ID와 그룹 멤버십을 관리할 수 있습니다.
 
-<div id="openid-connect-oidc">
-  ## OpenID Connect (OIDC)
+<div id="openid-connect">
+  ## OpenID Connect
 </div>
 
-W&amp;B는 외부 ID 공급자(IdP)와 통합할 수 있도록 다음 OIDC 인증 플로를 지원합니다.
+W&amp;B는 외부 ID 공급자(IdP)와 통합할 수 있도록 다음 OIDC 인증 플로를 지원합니다:
 
-1. Form Post를 사용하는 Implicit Flow
-2. PKCE(Proof Key for Code Exchange)를 사용하는 Authorization Code Flow
+* Form Post를 사용하는 Implicit Flow.
+* PKCE(Proof Key for Code Exchange)를 사용하는 Authorization Code Flow.
 
 이러한 플로는 사용자를 인증하고, 접근 제어를 관리하는 데 필요한 ID 정보(ID 토큰 형태)를 W&amp;B에 제공합니다.
 
@@ -25,266 +25,266 @@ W&amp;B에서는 액세스 토큰이 사용자를 대신해 API 요청을 승인
 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 배포에서 ID 공급자를 구성하는 데 도움이 되도록, 아래 가이드라인을 따르세요. W&amp;B Multi-tenant Cloud를 사용 중이라면 지원이 필요할 경우 [support@wandb.com](mailto:support@wandb.com)으로 문의하세요.
 
 <div id="configure-your-idp">
-  ## IdP 설정
+  ## IdP를 설정하세요
 </div>
 
-이 섹션에서는 OIDC용 ID 공급자(IdP)를 설정하는 방법을 설명합니다. 자세한 내용은 사용하는 IdP의 탭을 선택하세요.
+다음 섹션에서는 OIDC용 ID 공급자(IdP)를 설정하는 방법을 설명합니다. 먼저 IdP 설정 단계를 완료하세요. 다음 섹션에서 W&amp;B에서 SSO를 설정할 때 이 과정에서 얻은 **Client ID**, **Issuer URL**, 그리고 **Client Secret**(선택 사항)을 사용합니다. 자세한 내용은 해당 IdP의 탭을 선택하세요.
 
 <Tabs>
   <Tab title="Cognito">
-    아래 절차에 따라 인가를 위해 AWS Cognito를 설정하세요:
+    AWS Cognito를 IdP로 설정하려면 다음 절차를 따르세요. 완료되면 W&amp;B를 설정할 때 사용할 **Client ID**와 **OIDC issuer URL**을 얻게 됩니다.
 
-    1. 먼저 AWS 계정에 로그인한 다음 [AWS Cognito](https://aws.amazon.com/cognito/) 앱으로 이동합니다.
+    1. AWS 계정에 로그인한 다음 [AWS Cognito](https://aws.amazon.com/cognito/) App으로 이동하세요.
 
        <Frame>
          <img src="/images/hosting/setup_aws_cognito.png" alt="AWS Cognito 설정" />
        </Frame>
 
-    2. IdP에서 애플리케이션을 설정할 수 있도록 허용된 콜백 URL을 지정합니다:
-       * 콜백 URL로 `http(s)://YOUR-W&B-HOST/oidc/callback`를 추가합니다. `YOUR-W&B-HOST`를 W&amp;B 호스트 경로로 바꾸세요.
+    2. IdP에서 애플리케이션을 설정하려면 허용된 callback URL을 제공하세요. callback URL로 `http(s)://[YOUR-W-AND-B-HOST]/oidc/callback`를 추가하세요. `[YOUR-W-AND-B-HOST]`를 W&amp;B 호스트 경로로 바꾸세요.
 
-    3. IdP가 범용 로그아웃을 지원하는 경우 Logout URL을 `http(s)://YOUR-W&B-HOST`로 설정합니다. `YOUR-W&B-HOST`를 W&amp;B 호스트 경로로 바꾸세요.
+    3. IdP가 universal logout을 지원하는 경우 Logout URL을 `http(s)://[YOUR-W-AND-B-HOST]`로 설정하세요. `[YOUR-W-AND-B-HOST]`를 W&amp;B 호스트 경로로 바꾸세요.
 
-       예를 들어 애플리케이션이 `https://wandb.mycompany.com`에서 실행 중이라면 `YOUR-W&B-HOST`를 `wandb.mycompany.com`으로 바꾸면 됩니다.
+       예를 들어 애플리케이션이 `https://wandb.mycompany.com`에서 실행되는 경우 `[YOUR-W-AND-B-HOST]`를 `wandb.mycompany.com`으로 바꾸세요.
 
-       아래 이미지는 AWS Cognito에서 허용된 콜백 URL과 로그아웃 URL을 설정하는 방법을 보여줍니다.
+       다음 이미지는 AWS Cognito에서 허용된 callback URL과 sign-out URL을 지정하는 방법을 보여줍니다.
 
        <Frame>
          <img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="호스트 설정" />
        </Frame>
 
-       *wandb/local*은 기본적으로 [`form_post` 응답 유형을 사용하는 `implicit` grant](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post)를 사용합니다.
+       `wandb/local`은 기본적으로 [`form_post` response type을 사용하는 `implicit` grant](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post)를 사용합니다.
 
-       *wandb/local*이 [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) 흐름을 사용하는 `authorization_code` grant를 수행하도록 설정할 수도 있습니다.
+       `wandb/local`이 [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow를 사용하는 `authorization_code` grant를 수행하도록 설정할 수도 있습니다.
 
-    4. AWS Cognito가 앱에 토큰을 전달하는 방식을 설정하려면 하나 이상의 OAuth grant 유형을 선택합니다.
+    4. AWS Cognito가 앱에 토큰을 전달하는 방식을 설정하려면 하나 이상의 OAuth grant 유형을 선택하세요.
 
-    5. W&amp;B에서는 특정 OpenID Connect (OIDC) 스코프가 필요합니다. AWS Cognito 앱에서 다음 항목을 선택합니다:
+    5. W&amp;B에는 특정 OpenID Connect (OIDC) scope가 필요합니다. AWS Cognito App에서 다음을 선택하세요.
 
-       * &quot;openid&quot;
-       * &quot;profile&quot;
-       * &quot;email&quot;
+       * `openid`
+       * `profile`
+       * `email`
 
-       예를 들어 AWS Cognito 앱 UI는 다음 이미지와 비슷해야 합니다:
+       예를 들어 AWS Cognito App UI는 다음 이미지와 비슷하게 표시되어야 합니다.
 
        <Frame>
          <img src="/images/hosting/setup_aws_required_fields.png" alt="필수 필드" />
        </Frame>
 
-       설정 페이지에서 **Auth Method**를 선택하거나 OIDC&#95;AUTH&#95;METHOD 환경 변수를 설정해 *wandb/local*이 사용할 grant를 지정합니다.
+       settings 페이지에서 **Auth Method**를 선택하거나 `OIDC_AUTH_METHOD` 환경 변수를 설정해 `wandb/local`이 사용할 grant를 지정하세요.
 
-       Auth Method를 `pkce`로 설정해야 합니다.
+       **Auth Method**를 `pkce`로 설정해야 합니다.
 
-    6. 클라이언트 ID와 OIDC issuer URL이 필요합니다. OpenID discovery document는 `$OIDC_ISSUER/.well-known/openid-configuration`에서 사용할 수 있어야 합니다.
+    6. **Client ID**와 OIDC issuer URL이 필요합니다. OpenID discovery document는 `$OIDC_ISSUER/.well-known/openid-configuration`에서 사용할 수 있어야 합니다.
 
-       예를 들어 **User Pools** 섹션의 **App Integration** 탭에 있는 Cognito IdP URL에 User Pool ID를 덧붙여 issuer URL을 생성할 수 있습니다:
+       예를 들어 **User Pools** 섹션의 **App Integration** 탭에서 Cognito IdP URL에 User Pool ID를 덧붙여 issuer URL을 생성할 수 있습니다.
 
        <Frame>
          <img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="AWS Cognito issuer URL" />
        </Frame>
 
-       IdP URL에 &quot;Cognito domain&quot;을 사용하지 마세요. Cognito는 `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`에서 discovery document를 제공합니다.
+       IdP URL에 Cognito domain을 사용하지 마세요. Cognito는 discovery document를 `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`에서 제공합니다.
 
-    다음으로, [W&amp;B에서 SSO를 설정하세요](#set-up-sso-in-w%26b).
+    다음으로, [W&amp;B에서 SSO 설정](#set-up-sso-in-w%26b)을 진행하세요.
   </Tab>
 
   <Tab title="Okta">
-    권한 부여를 위해 아래 절차에 따라 Okta를 설정하세요.
+    Okta를 IdP로 설정하려면 다음 절차를 따르세요. 완료하면 W&amp;B를 설정할 때 사용할 **Client ID**와 **OIDC issuer URL**을 확인할 수 있습니다.
 
-    1. [Okta Portal](https://login.okta.com/)에 로그인합니다.
+    1. [Okta Portal](https://login.okta.com/)에 로그인하세요.
 
-    2. 왼쪽에서 **Applications**를 선택한 다음 **Applications**를 다시 선택합니다.
+    2. 왼쪽에서 **Applications**를 선택한 다음, 다시 **Applications**를 선택하세요.
        <Frame>
          <img src="/images/hosting/okta_select_applications.png" alt="Okta Applications 메뉴" />
        </Frame>
 
-    3. &quot;Create App integration&quot;을 클릭합니다.
+    3. **Create App integration**을 클릭하세요.
        <Frame>
          <img src="/images/hosting/okta_create_new_app_integration.png" alt="Create App integration 버튼" />
        </Frame>
 
-    4. &quot;Create a new app integration&quot; 화면에서 **OIDC - OpenID Connect**와 **Single-Page Application**을 선택합니다. 그런 다음 &quot;Next&quot;를 클릭합니다.
+    4. **Create a new app integration** 화면에서 **OIDC - OpenID Connect**와 **Single-Page Application**을 선택하세요. 그런 다음 **Next**를 클릭하세요.
        <Frame>
          <img src="/images/hosting/okta_create_a_new_app_integration.png" alt="OIDC Single-Page Application 선택" />
        </Frame>
 
-    5. &quot;New Single-Page App Integration&quot; 화면에서 다음과 같이 값을 입력한 후 **Save**를 클릭합니다.
-       * App integration name, 예: &quot;W&amp;B&quot;
-       * Grant type: **Authorization Code**와 **Implicit (hybrid)**를 모두 선택합니다
-       * Sign-in redirect URIs: [https://YOUR&#95;W&#95;AND&#95;B&#95;URL/oidc/callback](https://YOUR_W_AND_B_URL/oidc/callback)
-       * Sign-out redirect URIs: [https://YOUR&#95;W&#95;AND&#95;B&#95;URL/logout](https://YOUR_W_AND_B_URL/logout)
-       * Assignments: **Skip group assignment for now**를 선택합니다
+    5. **New Single-Page App Integration** 화면에서 다음과 같이 값을 입력한 후 **Save**를 클릭하세요.
+       * **App integration name**에 예를 들어 `W&B`를 입력하세요.
+       * **Grant type**: **Authorization Code**와 **Implicit (hybrid)**를 모두 선택하세요.
+       * **Sign-in redirect URIs**: `https://[YOUR-W-AND-B-URL]/oidc/callback`.
+       * **Sign-out redirect URIs**: `https://[YOUR-W-AND-B-URL]/logout`.
+       * **Assignments**: **Skip group assignment for now**를 선택하세요.
        <Frame>
          <img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Single-Page App 설정" />
        </Frame>
 
-    6. 방금 생성한 Okta 애플리케이션의 Overview 화면에서 **General** 탭의 **Client Credentials** 아래에 있는 **Client ID**를 메모해 둡니다.
+    6. 생성한 Okta 애플리케이션의 개요 화면에서 **General** 탭의 **Client Credentials** 아래에 있는 **Client ID**를 기록해 두세요.
        <Frame>
          <img src="/images/hosting/okta_make_note_of_client_id.png" alt="Okta Client ID 위치" />
        </Frame>
 
-    7. Okta OIDC Issuer URL을 파악하려면 왼쪽에서 **Settings**를 선택한 다음 **Account**를 선택합니다.
+    7. Okta **OIDC Issuer URL**을 파악하려면 왼쪽에서 **Settings**를 선택한 다음 **Account**를 선택하세요.
        Okta UI에는 **Organization Contact** 아래에 회사 이름이 표시됩니다.
        <Frame>
          <img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="Okta 조직 설정" />
        </Frame>
 
-    OIDC issuer URL은 다음 형식입니다. `https://COMPANY.okta.com`
-    COMPANY를 해당 값으로 바꾸세요. 이 값도 메모해 두세요.
+    OIDC issuer URL은 다음 형식입니다. `https://[COMPANY].okta.com` `[COMPANY]`를 해당 값으로 바꾸세요. 이 값도 기록해 두세요.
 
-    다음으로, [W&amp;B에서 SSO 설정](#set-up-sso-in-w%26b)을 진행하세요.
+    다음으로, [W&amp;B에서 SSO를 설정하세요](#set-up-sso-in-w%26b).
   </Tab>
 
   <Tab title="Entra">
     Azure AD (Entra ID)는 W&amp;B에 대해 두 가지 OIDC 설정 모드를 지원합니다. 보안 요구 사항에 맞는 설정을 선택하세요:
 
-    * [공개 클라이언트](#public-client): 클라이언트 시크릿 없이 PKCE를 사용합니다. 설정이 더 간단하며, 대부분의 배포 환경에 적합합니다.
-    * [Confidential Client](#confidential-client): 보안 강화를 위해 클라이언트 시크릿과 함께 PKCE를 사용합니다. `GORILLA_OIDC_SECRET` 환경 변수를 설정해야 한다면 필수입니다.
+    * [Public client](#public-client): 클라이언트 시크릿 없이 PKCE를 사용합니다. 설정이 간단하며 대부분의 deployment에 적합합니다.
+    * [기밀 클라이언트](#confidential-client): 클라이언트 시크릿과 함께 PKCE를 사용합니다. `GORILLA_OIDC_SECRET` 환경 변수를 설정해야 한다면 필수입니다.
 
     <Warning>
-      설정을 혼용하지 마세요. Azure AD에서 &quot;Single-page application&quot;을 선택한 경우 클라이언트 시크릿을 입력하지 마세요. 클라이언트 시크릿이 필요하면 플랫폼 유형으로 &quot;Web&quot;을 선택해야 합니다.
+      설정을 혼용하지 마세요. Azure AD에서 **Single-page application**을 선택한 경우 클라이언트 시크릿을 입력하지 마세요. 클라이언트 시크릿이 필요한 경우 플랫폼 유형으로 **Web**을 선택해야 합니다.
     </Warning>
 
     <AccordionGroup>
       <Accordion title="퍼블릭 클라이언트" defaultOpen="true">
-        클라이언트 시크릿을 지정할 필요가 없으면 이 설정을 사용하세요. 이 설정은 고급 보안 요구 사항이 없는 배포에 적합합니다.
+        클라이언트 시크릿을 지정할 필요가 없는 경우 이 설정을 사용하세요. 고급 보안 요구 사항이 없는 배포 환경에 적합합니다.
 
-        1. [Azure Portal](https://portal.azure.com/)에 로그인합니다.
-        2. **Microsoft Entra ID** 서비스로 이동한 다음 왼쪽 사이드바에서 **App registrations**를 선택합니다.
-        3. 페이지 상단에서 **New registration**을 클릭합니다.
-        4. &quot;애플리케이션 등록&quot; 화면에서 다음 항목을 설정합니다.
-           * **Name**: 식별하기 쉬운 이름을 입력합니다.
-           * **Supported account types**: 기본값인 &quot;Single tenant&quot;를 유지하거나 필요에 따라 변경합니다.
-           * **Redirect URI**: 플랫폼 유형으로 **Single-page application**을 선택하고 `https://YOUR_W_AND_B_URL/oidc/callback`를 입력합니다.
-           * **Register**를 클릭합니다.
-        5. 등록이 완료되면 Overview 페이지에서 다음 값을 기록해 둡니다.
+        1. [Azure Portal](https://portal.azure.com/)에 로그인하세요.
+        2. **Microsoft Entra ID** 서비스로 이동한 다음 왼쪽 사이드바에서 **App registrations**를 선택하세요.
+        3. 페이지 상단에서 **New registration**을 클릭하세요.
+        4. **Register an application** 화면에서 다음과 같이 설정하세요.
+           * **Name**: 식별하기 쉬운 설명형 이름을 입력하세요.
+           * **Supported account types**: 기본값인 **Single tenant**를 유지하거나 필요에 따라 변경하세요.
+           * **Redirect URI**: 플랫폼 유형으로 **Single-page application**을 선택하고 `https://[YOUR-W-AND-B-URL]/oidc/callback`을 입력하세요.
+           * **Register**를 클릭하세요.
+        5. 등록이 완료되면 **Overview** 페이지에서 다음 값을 기록해 두세요.
            * **Application (client) ID**: OIDC Client ID입니다.
            * **Directory (tenant) ID**: OIDC Issuer URL입니다.
            <Frame>
              <img src="/images/hosting/entra_app_overview_make_note.png" alt="애플리케이션 및 디렉터리 ID" />
            </Frame>
-        6. 인증 설정을 구성합니다.
-           * 왼쪽 사이드바에서 **Authentication**을 선택합니다.
-           * **Front-channel logout URL** 아래에 `https://YOUR_W_AND_B_URL/logout`를 입력합니다.
-           * **Save**를 클릭합니다.
+        6. 인증 설정을 구성하세요.
+           * 왼쪽 사이드바에서 **Authentication**을 선택하세요.
+           * **Front-channel logout URL** 아래에 `https://[YOUR-W-AND-B-URL]/logout`을 입력하세요.
+           * **Save**를 클릭하세요.
 
-        다음 세부 정보를 기록해 두세요.
+        다음 정보를 기록해 두세요.
 
-        * **OIDC Client ID**: 5단계의 Application (client) ID
-        * **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` ({TenantID}를 5단계의 Directory ID로 바꾸세요)
+        * **OIDC Client ID**: 5단계의 Application (client) ID입니다.
+        * **OIDC Issuer URL**: `https://login.microsoftonline.com/[TENANT-ID]/v2.0` (`[TENANT-ID]`를 5단계의 Directory ID로 바꾸세요).
 
-        W&amp;B를 설정할 때는 다음을 사용하세요.
+        W&amp;B를 설정할 때는 다음 값을 사용하세요.
 
-        * **Auth Method**: `pkce`
-        * **OIDC Client Secret**: 비워 두세요 (`GORILLA_OIDC_SECRET`는 설정하지 마세요)
+        * **Auth Method**: `pkce`.
+        * **OIDC Client Secret**: 비워 두세요(`GORILLA_OIDC_SECRET`은 설정하지 마세요).
 
-        다음으로, [W&amp;B에서 SSO 설정](#set-up-sso-in-w%26b)으로 이동하세요.
+        다음으로, [W&amp;B에서 SSO를 설정하세요](#set-up-sso-in-w%26b).
       </Accordion>
 
       <Accordion title="기밀 클라이언트">
         클라이언트 시크릿을 사용해 인증해야 하는 경우 이 설정을 사용하세요.
 
-        1. [Azure Portal](https://portal.azure.com/)에 로그인합니다.
-        2. **Microsoft Entra ID** 서비스로 이동한 다음, 왼쪽 사이드바에서 **App registrations**를 선택합니다.
-        3. 페이지 상단에서 **New registration**을 클릭합니다.
-        4. &quot;Register an application&quot; 화면에서 다음과 같이 설정합니다.
-           * **Name**: 알아보기 쉬운 설명형 이름을 입력합니다.
-           * **Supported account types**: 기본값인 &quot;Single tenant&quot;를 그대로 사용하거나 필요에 따라 변경합니다.
-           * **Redirect URI**: 플랫폼 유형으로 **Web**을 선택하고 `https://YOUR_W_AND_B_URL/oidc/callback`를 입력합니다.
-           * **Register**를 클릭합니다.
-        5. 등록이 완료되면 Overview 페이지에서 다음 값을 기록해 둡니다.
-           * **Application (client) ID**: OIDC 클라이언트 ID입니다.
-           * **Directory (tenant) ID**: OIDC 발급자 URL입니다.
+        1. [Azure Portal](https://portal.azure.com/)에 로그인하세요.
+        2. **Microsoft Entra ID** 서비스로 이동한 다음, 왼쪽 사이드바에서 **App registrations**를 선택하세요.
+        3. 페이지 상단에서 **New registration**을 클릭하세요.
+        4. **Register an application** 화면에서 다음 항목을 설정하세요.
+           * **Name**: 알아보기 쉬운 설명용 이름을 입력하세요.
+           * **Supported account types**: 기본값인 **Single tenant**를 유지하거나 필요에 따라 수정하세요.
+           * **Redirect URI**: 플랫폼 유형으로 **Web**을 선택하고 `https://[YOUR-W-AND-B-URL]/oidc/callback`을 입력하세요.
+           * **Register**를 클릭하세요.
+        5. 등록이 완료되면 **Overview** 페이지에서 다음 값을 기록해 두세요.
+           * **Application (client) ID**: OIDC Client ID입니다.
+           * **Directory (tenant) ID**: OIDC Issuer URL에 사용할 값입니다.
            <Frame>
-             <img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs" />
+             <img src="/images/hosting/entra_app_overview_make_note.png" alt="애플리케이션 및 디렉터리 ID" />
            </Frame>
-        6. 인증 설정을 구성합니다.
-           * 왼쪽 사이드바에서 **Authentication**을 선택합니다.
-           * **Front-channel logout URL** 아래에 `https://<YOUR_W_AND_B_URL>/logout`를 입력합니다.
-           * **Save**를 클릭합니다.
-        7. 클라이언트 시크릿을 생성합니다.
-           * 왼쪽 사이드바에서 **Certificates &amp; secrets**를 선택합니다.
-           * **New client secret**을 클릭합니다.
-           * 시크릿에 대한 설명을 추가합니다.
-           * 만료 기간을 선택합니다.
-           * **Add**를 클릭합니다. <Warning>시크릿 **Value**를 즉시 복사해 저장하세요(Secret ID가 아님)</Warning>.
+        6. 인증 설정을 구성하세요.
+           * 왼쪽 사이드바에서 **Authentication**을 선택하세요.
+           * **Front-channel logout URL** 아래에 `https://[YOUR-W-AND-B-URL]/logout`을 입력하세요.
+           * **Save**를 클릭하세요.
+        7. 클라이언트 시크릿을 생성하세요.
+           * 왼쪽 사이드바에서 **Certificates &amp; secrets**를 선택하세요.
+           * **New client secret**을 클릭하세요.
+           * 시크릿에 대한 설명을 추가하세요.
+           * 만료 기간을 선택하세요.
+           * **Add**를 클릭하세요. <Warning>시크릿 **Value**를 즉시 복사해 저장하세요(Secret ID가 아님).</Warning>
            <Frame>
-             <img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value" />
+             <img src="/images/hosting/entra_make_note_of_secret_value.png" alt="클라이언트 시크릿 값" />
            </Frame>
 
         다음 세부 정보를 기록해 두세요.
 
-        * **OIDC Client ID**: step 5의 Application (client) ID
-        * **OIDC Client Secret**: step 7의 시크릿 값
-        * **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` ({TenantID}를 step 5의 Directory ID로 바꾸세요)
+        * **OIDC Client ID**: 5단계의 Application (client) ID입니다.
+        * **OIDC Client Secret**: 7단계의 시크릿 값입니다.
+        * **OIDC Issuer URL**: `https://login.microsoftonline.com/[TENANT-ID]/v2.0` (`[TENANT-ID]`를 5단계의 Directory ID로 바꾸세요.)
 
-        W&amp;B를 설정할 때는 다음을 사용합니다.
+        W&amp;B를 설정할 때는 다음을 사용하세요.
 
-        * **Auth Method**: `pkce`
-        * **OIDC Client Secret**: `GORILLA_OIDC_SECRET` 환경 변수를 step 7의 시크릿 값으로 설정합니다
+        * **Auth Method**: `pkce`.
+        * **OIDC Client Secret**: `GORILLA_OIDC_SECRET` 환경 변수를 7단계의 시크릿 값으로 설정하세요.
 
         <Note>
-          v2.0 엔드포인트는 개인 Microsoft 계정과 회사/학교 계정을 모두 지원합니다. 조직에서 v1.0 엔드포인트가 필요하면 대신 `https://login.microsoftonline.com/{TenantID}`를 사용하세요.
+          v2.0 엔드포인트는 개인 Microsoft 계정과 회사/학교 계정을 모두 지원합니다. 조직에서 v1.0 엔드포인트를 요구하는 경우에는 대신 `https://login.microsoftonline.com/[TENANT-ID]`를 사용하세요.
         </Note>
 
-        다음으로, [W&amp;B에서 SSO 설정](#set-up-sso-in-w%26b)을 진행하세요.
+        다음으로, [W&amp;B에서 SSO를 설정하세요](#set-up-sso-in-w%26b).
       </Accordion>
     </AccordionGroup>
   </Tab>
 </Tabs>
 
 <div id="set-up-sso-in-wb">
-  ## W&amp;B에서 SSO 설정
+  ## W&amp;B에서 SSO 설정하기
 </div>
+
+IdP 구성을 완료한 후, 인스턴스에서 IdP를 연결하고 SSO를 활성화하려면 W&amp;B에서 다음 단계를 수행하세요.
 
 SSO를 설정하려면 관리자 권한과 다음 정보가 필요합니다.
 
-* OIDC Client ID
-* OIDC 인증 방법(`implicit` 또는 `pkce`)
-* OIDC Issuer URL
-* OIDC Client Secret(선택 사항, IdP 설정 방식에 따라 다름)
+* **OIDC Client ID**.
+* **OIDC Auth method** (`implicit` 또는 `pkce`).
+* **OIDC Issuer URL**.
+* **OIDC Client Secret** (선택 사항이며, IdP를 어떻게 설정했는지에 따라 달라집니다).
 
-IdP에 OIDC Client Secret이 필요하면 [환경 변수](/ko/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`를 설정해 지정합니다.
+IdP에 OIDC Client Secret이 필요한 경우, [환경 변수](/ko/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`를 전달하여 지정하세요.
 
-* W&amp;B App에서 **System Console** &gt; **Settings** &gt; **Advanced** &gt; **User Spec**으로 이동한 다음, 아래와 같이 `extraENV` 섹션에 `GORILLA_OIDC_SECRET`를 추가합니다.
-* Helm에서는 아래와 같이 `values.global.extraEnv`를 설정합니다.
+* W&amp;B App에서 **System Console** &gt; **Settings** &gt; **Advanced** &gt; **User Spec**으로 이동한 다음, 아래 예시와 같이 `extraENV` 섹션에 `GORILLA_OIDC_SECRET`를 추가하세요.
+* Helm에서는 아래 예시와 같이 `values.global.extraEnv`를 설정하세요.
   ```yaml
   values:
   global:
       extraEnv:
-      GORILLA_OIDC_SECRET="<your_secret>"
+      GORILLA_OIDC_SECRET="[YOUR-SECRET]"
   ```
 
 <Note>
-  SSO를 설정한 후 인스턴스에 로그인할 수 없는 경우, `LOCAL_RESTORE=true` 환경 변수를 설정한 상태로 인스턴스를 재시작할 수 있습니다. 그러면 컨테이너 로그에 임시 비밀번호가 출력되고 SSO가 비활성화됩니다. SSO 관련 문제를 해결한 후에는 SSO를 다시 활성화하기 위해 해당 환경 변수를 반드시 제거해야 합니다.
+  SSO를 구성한 후 인스턴스에 로그인할 수 없는 경우, `LOCAL_RESTORE=true` 환경 변수를 설정한 상태로 인스턴스를 다시 시작할 수 있습니다. 그러면 컨테이너 로그에 임시 비밀번호가 출력되고 SSO가 비활성화됩니다. SSO 관련 문제를 해결한 후에는 SSO를 다시 활성화하려면 해당 환경 변수를 제거해야 합니다.
 </Note>
 
 <Tabs>
   <Tab title="System Console">
-    System Console은 System Settings 페이지를 대체하는 기능입니다. [W&amp;B Kubernetes Operator](/ko/platform/hosting/self-managed/operator) 기반 배포에서 사용할 수 있습니다.
+    W&amp;B Kubernetes Operator로 W&amp;B를 배포한 경우 이 탭을 사용하세요. System Console은 System Settings 페이지의 후속 기능입니다. 이 기능은 [W&amp;B Kubernetes Operator](/ko/platform/hosting/self-managed/operator) 기반 배포에서 사용할 수 있습니다.
 
     1. [Access the W&amp;B Management Console](/ko/platform/hosting/self-managed/operator#access-the-wb-management-console)을 참고하세요.
 
     2. **Settings**로 이동한 다음 **Authentication**으로 이동합니다. **Type** 드롭다운에서 **OIDC**를 선택합니다.
        <Frame>
-         <img src="/images/hosting/sso_configure_via_console.png" alt="System Console OIDC 구성" />
+         <img src="/images/hosting/sso_configure_via_console.png" alt="System Console OIDC 설정" />
        </Frame>
 
     3. 값을 입력합니다.
 
     4. **Save**를 클릭합니다.
 
-    5. 로그아웃한 다음 다시 로그인합니다. 이번에는 IdP 로그인 화면을 사용합니다.
+    5. 로그아웃한 다음 다시 로그인합니다. 이번에는 IdP 로그인 화면을 사용하세요.
 
     ## 고객 네임스페이스 찾기
 
-    W&amp;B Dedicated Cloud 또는 Self-Managed에서 CoreWeave 저장소를 사용해 팀 수준 BYOB를 설정하려면 먼저 조직의 **Customer Namespace**를 확인해야 합니다. 이 값은 **Authentication** 탭 하단에서 확인하고 복사할 수 있습니다.
+    W&amp;B Dedicated Cloud 또는 Self-Managed에서 CoreWeave 저장소로 팀 수준 BYOB를 구성하려면 먼저 조직의 **Customer Namespace**를 획득해야 합니다. **Authentication** 탭 하단에서 이를 확인하고 복사할 수 있습니다.
 
-    Customer Namespace를 사용해 CoreWeave 저장소를 설정하는 자세한 방법은 [CoreWeave requirements for Dedicated Cloud / Self-Managed](/ko/platform/hosting/data-security/secure-storage-connector#coreweave-customer-namespace)를 참조하세요.
+    Customer Namespace를 사용해 CoreWeave 저장소를 구성하는 자세한 방법은 [CoreWeave requirements for Dedicated Cloud or Self-Managed](/ko/platform/hosting/data-security/secure-storage-connector#coreweave-customer-namespace)를 참고하세요.
   </Tab>
 
   <Tab title="System settings">
-    1. Weights &amp; Biases 인스턴스에 로그인합니다.
+    1. W&amp;B 인스턴스에 로그인합니다.
 
     2. W&amp;B App으로 이동합니다.
 
@@ -298,18 +298,18 @@ IdP에 OIDC Client Secret이 필요하면 [환경 변수](/ko/platform/hosting/e
          <img src="/images/hosting/system_settings_select_settings.png" alt="System Settings 드롭다운" />
        </Frame>
 
-    4. Issuer, Client ID, Authentication Method를 입력합니다.
+    4. **Issuer**, **Client ID**, **Authentication Method** 값을 입력합니다.
 
     5. **Update settings**를 선택합니다.
 
     <Frame>
-      <img src="/images/hosting/system_settings_select_update.png" alt="Update settings 버튼" />
+      <img src="/images/hosting/system_settings_select_update.png" alt="설정 업데이트 버튼" />
     </Frame>
   </Tab>
 </Tabs>
 
 <Note>
-  SSO를 설정한 후 인스턴스에 로그인할 수 없는 경우, `LOCAL_RESTORE=true` 환경 변수를 설정한 상태로 인스턴스를 재시작할 수 있습니다. 그러면 컨테이너 로그에 임시 비밀번호가 출력되고 SSO가 꺼집니다. SSO 관련 문제를 해결한 후에는 SSO를 다시 활성화하기 위해 해당 환경 변수를 반드시 제거해야 합니다.
+  SSO를 구성한 후 인스턴스에 로그인할 수 없는 경우, `LOCAL_RESTORE=true` 환경 변수를 설정한 상태로 인스턴스를 다시 시작할 수 있습니다. 그러면 컨테이너 로그에 임시 비밀번호가 출력되고 SSO가 비활성화됩니다. SSO 관련 문제를 해결한 후에는 SSO를 다시 활성화하려면 해당 환경 변수를 제거해야 합니다.
 </Note>
 
 <div id="security-assertion-markup-language-saml">

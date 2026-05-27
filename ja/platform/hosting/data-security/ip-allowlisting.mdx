@@ -1,14 +1,18 @@
 ---
-title: 専用クラウドの IP 許可リストを設定する
-description: "IP 許可リストを使用して、W&B 専用クラウドインスタンスへのアクセスを許可された IP アドレスのみに制限します。"
+title: Dedicated Cloud の IP allowlisting を設定する
+description: "IP allowlisting を使用して、W&B Dedicated Cloud インスタンスへのアクセスを許可された IP アドレスに制限します。"
 ---
 
-[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)インスタンスへのアクセスは、許可された IP アドレスのリストのみに制限できます。これは、AI ワークロードから W&amp;B API へのアクセスと、ユーザーのブラウザーから W&amp;B App UI へのアクセスの両方に適用されます。専用クラウドインスタンスに IP 許可リストを設定すると、W&amp;B は許可されていない場所からのリクエストをすべて拒否します。専用クラウドインスタンスの IP 許可リストを設定するには、担当の W&amp;B チームにお問い合わせください。
+このページでは、W&amp;B [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) における IP allowlisting の仕組みと、お使いのインスタンスでこれをリクエストする方法について説明します。IP allowlisting を使用すると、Dedicated Cloud インスタンスへのアクセスを許可済みの IP アドレス一覧に制限できるため、承認された場所からのトラフィックのみが W&amp;B API と W&amp;B App UI に到達できます。
 
-IP 許可リストは、AWS、Google Cloud、Azure 上の専用クラウドインスタンスで利用できます。
+IP allowlisting は、AI ワークロードから W&amp;B API へのアクセスと、ユーザーのブラウザーから W&amp;B App UI へのアクセスに適用されます。Dedicated Cloud インスタンスに IP allowlisting を設定すると、W&amp;B は許可されていない場所からのリクエストをすべて拒否します。
 
-IP 許可リストは、[セキュアなプライベート接続](./private-connectivity)と併用できます。IP 許可リストをセキュアなプライベート接続と併用する場合、W&amp;B では、可能であれば AI ワークロードからのすべてのトラフィックと、ユーザーのブラウザーからのトラフィックの大部分にセキュアなプライベート接続を使用し、特権アクセス可能な場所からのインスタンス管理には IP 許可リストを使用することを推奨しています。
+IP allowlisting は、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
+
+Dedicated Cloud インスタンスの IP allowlisting を設定するには、担当の W&amp;B チームにお問い合わせください。
+
+IP allowlisting は、[secure private connectivity](./private-connectivity) と組み合わせて使用できます。両方を使用する場合、W&amp;B は、AI ワークロードからのすべてのトラフィックと、ユーザーのブラウザーからのトラフィックの大部分に secure private connectivity を使用し、特権的な場所からのインスタンス管理には IP allowlisting を使用することを推奨します。
 
 <Warning>
-  W&amp;B では、個別の `/32` IP アドレスではなく、企業またはビジネスの egress ゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)を使用することを強く推奨しています。個別の IP アドレスを使用する方法はスケーラブルではなく、クラウドごとに厳しい制限があります。
+  W&amp;B は、個別の `/32` IP アドレスではなく、企業または業務用のエグレス ゲートウェイに割り当てられた [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) を使用することを推奨します。個別の IP アドレスの使用はスケーラブルではなく、クラウドごとの制限も厳しくなります。
 </Warning>

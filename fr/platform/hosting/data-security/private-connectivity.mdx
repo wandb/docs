@@ -1,24 +1,26 @@
 ---
-title: Configurer la connectivité privée pour Cloud dédié
-description: "Connectez-vous à une instance W&B Dedicated Cloud via un réseau privé sécurisé à l'aide d'AWS PrivateLink, de GCP ou d'Azure Private Link."
+title: Configurer la connectivité privée pour le Cloud dédié
+description: "Connectez-vous à une instance de Cloud dédié de W&B via un réseau privé à l’aide d’AWS PrivateLink, de GCP ou d’Azure Private Link."
 ---
 
-Vous pouvez vous connecter à votre instance [Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud) via le réseau privé sécurisé de votre fournisseur cloud. Cela s&#39;applique à l&#39;accès entre vos charges de travail d&#39;IA et les API W&amp;B, et éventuellement aussi entre les navigateurs de vos utilisateurs et l&#39;interface de l&#39;application W&amp;B. Lorsque vous utilisez une connectivité privée, les requêtes et réponses concernées ne transitent ni par le réseau public ni par Internet.
+Ce document explique comment vous connecter à une instance de Cloud dédié de W&amp;B via le réseau privé sécurisé d’un fournisseur de cloud, afin que le trafic entre votre environnement et W&amp;B n’emprunte pas l’internet public. Il s’adresse aux administrateurs cloud et sécurité qui gèrent des instances de Cloud dédié et souhaitent renforcer l’accès réseau pour les charges de travail d’IA et le trafic des utilisateurs.
+
+Vous pouvez vous connecter à votre instance de [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) via le réseau privé sécurisé du fournisseur de cloud. Cela s’applique à l’accès de vos charges de travail d’IA aux API de W&amp;B et, en option, à l’accès des navigateurs de vos utilisateurs à l’interface de l’application W&amp;B. Lorsque vous utilisez la connectivité privée, les requêtes et réponses concernées ne transitent pas par le réseau public ou par internet. Cela réduit l’exposition à l’internet public et aide à respecter les exigences d’isolation réseau pour les charges de travail sensibles.
 
 <Note>
-  La connectivité privée sécurisée sera bientôt disponible comme option de sécurité avancée avec Cloud dédié.
+  La connectivité privée sécurisée est proposée comme option de sécurité avancée avec le Cloud dédié.
 </Note>
 
-La connectivité privée sécurisée est disponible sur les instances Dedicated Cloud sur AWS, Google Cloud et Azure :
+La connectivité privée sécurisée est disponible pour les instances de Cloud dédié sur AWS, Google Cloud et Azure :
 
-* En utilisant [AWS Privatelink](https://aws.amazon.com/privatelink/) sur AWS
-* En utilisant [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) sur Google Cloud
-* En utilisant [Azure Private Link](https://azure.microsoft.com/products/private-link) sur Azure
+* Utilisez [AWS PrivateLink](https://aws.amazon.com/privatelink/) sur AWS.
+* Utilisez [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) sur Google Cloud.
+* Utilisez [Azure Private Link](https://azure.microsoft.com/products/private-link) sur Azure.
 
-Une fois cette fonctionnalité activée, W&amp;B crée un service d&#39;endpoint privé pour votre instance et vous fournit l&#39;URI DNS correspondante à utiliser pour vous y connecter. Vous pouvez ensuite créer des endpoints privés dans vos comptes cloud afin d&#39;acheminer le trafic concerné vers ce service d&#39;endpoint privé. Les endpoints privés sont plus simples à configurer pour vos charges de travail d&#39;entraînement de l&#39;IA exécutées dans votre VPC ou VNet cloud. Pour utiliser ce même mécanisme pour le trafic entre les navigateurs de vos utilisateurs et l&#39;interface de l&#39;application W&amp;B, vous devez configurer un routage basé sur DNS approprié depuis votre réseau d&#39;entreprise vers les endpoints privés dans vos comptes cloud.
+Une fois la fonctionnalité activée par W&amp;B, W&amp;B crée un service de point de terminaison privé pour votre instance et vous fournit l’URI DNS correspondante à laquelle vous connecter. Vous pouvez ensuite créer des points de terminaison privés dans vos comptes cloud qui acheminent le trafic concerné vers ce service de point de terminaison privé. Vous pouvez configurer des points de terminaison privés pour vos charges de travail d’entraînement d’IA exécutées dans votre VPC ou VNet cloud. Pour utiliser le même mécanisme pour le trafic provenant des navigateurs de vos utilisateurs vers l’interface de l’application W&amp;B, vous devez configurer un routage DNS approprié depuis votre réseau d’entreprise vers les points de terminaison privés dans vos comptes cloud. La configuration DNS garantit que le trafic du navigateur est dirigé vers votre point de terminaison privé plutôt que vers le point de terminaison public de W&amp;B.
 
 <Note>
-  Si vous souhaitez utiliser cette fonctionnalité, contactez votre équipe W&amp;B.
+  Pour utiliser cette fonctionnalité, contactez votre équipe W&amp;B.
 </Note>
 
-Vous pouvez utiliser la connectivité privée sécurisée avec la [liste d&#39;autorisation d&#39;IP](./ip-allowlisting). Si vous utilisez la connectivité privée sécurisée avec la liste d&#39;autorisation d&#39;IP, W&amp;B recommande de sécuriser la connectivité privée pour tout le trafic provenant de vos charges de travail d&#39;IA et, si possible, pour la majorité du trafic provenant des navigateurs de vos utilisateurs, tout en réservant la liste d&#39;autorisation d&#39;IP à l&#39;administration des instances depuis des emplacements privilégiés.
+Vous pouvez utiliser la connectivité privée sécurisée avec la [liste d’autorisation IP](./ip-allowlisting) pour combiner l’isolation réseau avec des contrôles d’accès basés sur l’emplacement. Si vous combinez les deux, W&amp;B recommande d’utiliser la connectivité privée sécurisée pour tout le trafic provenant de vos charges de travail d’IA et, dans la mesure du possible, pour le trafic navigateur de vos utilisateurs, et d’utiliser la liste d’autorisation IP pour l’administration des instances depuis des emplacements privilégiés.
