@@ -1,11 +1,12 @@
 ---
 description: Launch에서 하이퍼파라미터 스윕을 자동화하는 방법을 알아보세요.
 title: W&B Launch로 스윕 만들기
+keywords: ["스윕 스케줄러", "하이퍼파라미터 튜닝", "분산 스윕", "스윕 자동화"]
 ---
 
 <Card title="Colab에서 사용해 보기" href="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" icon="python" />
 
-이 페이지에서는 W&amp;B Launch로 하이퍼파라미터 튜닝 작업([sweeps](/ko/models/sweeps/))을 만들어, 다른 Launch 작업을 실행하는 동일한 인프라에서 하이퍼파라미터 탐색을 자동화하는 방법을 설명합니다. Launch에서 스윕을 사용하면, 스윕할 하이퍼파라미터가 지정된 스윕 스케줄러가 Launch Queue에 푸시됩니다. 스윕 스케줄러는 agent가 가져가는 즉시 시작되며, 선택된 하이퍼파라미터로 동일한 큐에 스윕 run을 실행합니다. 이 과정은 스윕이 완료되거나 중지될 때까지 계속됩니다.
+이 페이지에서는 W&amp;B Launch로 하이퍼파라미터 튜닝 작업([sweeps](/ko/models/sweeps/))을 만들어, 다른 Launch 작업을 실행하는 동일한 인프라에서 하이퍼파라미터 탐색을 자동화하는 방법을 설명합니다. Launch에서 스윕을 사용하면, 스윕할 하이퍼파라미터가 지정된 스윕 스케줄러가 Launch Queue에 푸시됩니다. 스윕 스케줄러는 에이전트가 가져가는 즉시 시작되며, 선택된 하이퍼파라미터로 동일한 큐에 스윕 run을 실행합니다. 이 과정은 스윕이 완료되거나 중지될 때까지 계속됩니다.
 
 기본 W&amp;B Sweep 스케줄링 엔진을 사용할 수도 있고, 직접 맞춤형 스케줄러를 구현할 수도 있습니다:
 

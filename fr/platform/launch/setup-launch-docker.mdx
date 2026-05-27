@@ -1,6 +1,7 @@
 ---
 title: 'Tutoriel : Configurer W&B Launch avec Docker'
 description: "Configurez W&B Launch pour exécuter des jobs de ML avec Docker sur une machine locale, à la fois comme environnement d’agent et comme cible de calcul."
+keywords: ["file d’attente Docker", "Docker local", "agent Docker", "lancement sur machine locale"]
 ---
 
 Ce tutoriel explique comment configurer W&amp;B Launch pour utiliser Docker sur une machine locale, à la fois comme environnement de l’agent Launch et comme ressource cible de la file d’attente. À la fin, vous disposerez d’une file d’attente Launch basée sur Docker, opérationnelle, ainsi que d’un agent Launch local prêt à exécuter des jobs de ML.
@@ -11,7 +12,7 @@ Utiliser Docker pour exécuter des jobs et comme environnement de l’agent Laun
   Cette configuration est courante pour les utilisateurs qui exécutent des expériences sur leur machine locale ou qui se connectent en SSH à une machine distante pour soumettre des jobs Launch.
 </Note>
 
-Lorsque vous utilisez Docker avec Launch, W&amp;B génère d’abord une image, puis crée et exécute un conteneur à partir de cette image. W&amp;B génère l’image à l’aide de la commande Docker `docker run [IMAGE-URI]`. W&amp;B interprète la configuration de la file d’attente comme des arguments supplémentaires transmis à la commande `docker run`.
+Lorsque vous utilisez Docker avec Launch, W&amp;B construit d’abord une image, puis crée et exécute un conteneur à partir de cette image. W&amp;B construit l’image à l’aide de la commande Docker `docker run [IMAGE-URI]`. W&amp;B interprète la configuration de la file d’attente comme des arguments supplémentaires transmis à la commande `docker run`.
 
 {/* À venir : insérer un schéma */}
 

@@ -1,11 +1,12 @@
 ---
 title: '튜토리얼: Docker로 W&B Launch 설정'
 description: "로컬 머신에서 Docker를 에이전트 환경이자 컴퓨팅 대상으로 사용해 ML 작업을 실행하도록 W&B Launch를 설정합니다."
+keywords: ["Docker 큐", "로컬 Docker", "Docker 에이전트", "로컬 머신 Launch"]
 ---
 
-이 튜토리얼에서는 로컬 머신에서 Docker를 Launch 에이전트 환경과 큐의 대상 리소스로 모두 사용하도록 W&amp;B Launch를 설정하는 방법을 설명합니다. 이 튜토리얼을 마치면 Docker 기반 Launch queue와 ML 작업을 실행할 준비가 된 로컬 Launch 에이전트를 사용할 수 있습니다.
+이 튜토리얼에서는 로컬 머신에서 Docker를 Launch 에이전트 환경과 큐의 대상 리소스로 모두 사용하도록 W&amp;B Launch를 설정하는 방법을 설명합니다. 이 튜토리얼을 마치면 Docker 기반 Launch 큐와 ML 작업을 실행할 준비가 된 로컬 Launch 에이전트를 사용할 수 있습니다.
 
-같은 로컬 머신에서 Docker를 작업 실행용으로 사용하고, 동시에 Launch 에이전트 환경으로도 사용하는 방식은 컴퓨팅 환경이 클러스터 관리 시스템(예: Kubernetes) 없이 머신에 설치되어 있는 경우에 유용합니다. Docker queue를 사용하면 워크스테이션에서 워크로드를 실행할 수도 있습니다.
+같은 로컬 머신에서 Docker를 작업 실행용으로 사용하고, 동시에 Launch 에이전트 환경으로도 사용하는 방식은 컴퓨팅 환경이 클러스터 관리 시스템(예: Kubernetes) 없이 머신에 설치되어 있는 경우에 유용합니다. Docker 큐를 사용하면 워크스테이션에서 워크로드를 실행할 수도 있습니다.
 
 <Note>
   이 설정은 로컬 머신에서 실험을 실행하거나, 원격 머신에 SSH로 접속해 Launch 작업을 제출하는 사용자에게 일반적입니다.

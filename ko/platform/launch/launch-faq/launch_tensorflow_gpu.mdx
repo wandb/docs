@@ -1,5 +1,6 @@
 ---
 title: GPU에서 W&B Launch를 TensorFlow와 함께 작동시키는 방법
+keywords: ["TensorFlow GPU", "CUDA 실행", "GPU 컨테이너", "가속기 이미지"]
 ---
 
 W&amp;B Launch로 GPU에서 TensorFlow 작업을 실행하려면 컨테이너 빌드에 맞춤형 베이스 이미지를 지정하세요. 이렇게 하면 생성된 컨테이너가 GPU에 액세스할 수 있습니다. 예를 들어, 리소스 설정의 `builder.accelerator.base_image` 키 아래에 이미지 태그를 추가합니다.

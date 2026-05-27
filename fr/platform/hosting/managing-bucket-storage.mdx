@@ -1,6 +1,7 @@
 ---
 title: Gérer le stockage des buckets et les coûts
 description: Comprenez comment W&B utilise le stockage d’objets, comment la suppression se répercute sur les octets du bucket et comment réduire l’utilisation dans les déploiements W&B Autogéré, Cloud dédié et Utiliser votre propre bucket.
+keywords: ["nettoyage du stockage", "garbage collection", "suppression d’artefact", "octets du bucket", "coûts S3"]
 ---
 
 Lorsque vous utilisez [Utiliser votre propre bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector), [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed), votre équipe paie souvent directement les fournisseurs de stockage cloud. Cette page explique ce qui occupe de l’espace dans votre bucket, comment W&amp;B supprime les objets après leur suppression dans l’application ou via l’API, et ce à quoi vous pouvez vous attendre. Utilisez-la pour comprendre l’utilisation du bucket, planifier le nettoyage et définir des attentes réalistes quant au moment où l’espace de stockage est récupéré.

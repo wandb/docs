@@ -1,6 +1,7 @@
 ---
 title: 버킷 저장소 및 비용 관리
 description: W&B가 객체 저장소를 어떻게 사용하는지, 삭제가 버킷 바이트 사용량에 어떻게 반영되는지, 그리고 Self-Managed, Dedicated Cloud, BYOB 배포에서 사용량을 줄이는 방법을 알아보세요.
+keywords: ["저장소 정리", "가비지 컬렉션", "아티팩트 삭제", "버킷 바이트", "S3 비용"]
 ---
 
 [자체 버킷 사용 (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector), [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud), 또는 [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우, 팀이 클라우드 저장소 공급자에 비용을 직접 지불하는 일이 많습니다. 이 페이지에서는 어떤 항목이 버킷 공간을 차지하는지, 앱 또는 API에서 삭제한 뒤 W&amp;B가 객체를 어떻게 제거하는지, 그리고 실제로 어떤 동작을 기대할 수 있는지 설명합니다. 이 페이지를 통해 버킷 사용량을 이해하고, 정리를 계획하며, 저장소가 회수되는 시점에 대해 현실적인 기대치를 설정할 수 있습니다.

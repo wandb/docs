@@ -1,13 +1,14 @@
 ---
 title: '튜토리얼: Kubernetes에서 W&B Launch 설정하기'
-description: "Helm 차트, Kaniko 이미지 빌드, Kubernetes 작업 사양을 사용해 Kubernetes 클러스터에 W&B Launch를 설정합니다."
+description: "Helm 차트, Kaniko 이미지 빌드, job spec을 사용해 Kubernetes 클러스터에 W&B Launch를 설정합니다."
+keywords: ["Kubernetes Launch", "EKS Launch", "GKE Launch", "K8s 워크로드"]
 ---
 
 이 튜토리얼에서는 클러스터 관리자가 Kubernetes 클러스터에 W&amp;B Launch를 설정하여 ML 엔지니어가 W&amp;B에서 직접 트레이닝 워크로드를 제출하고 관리할 수 있도록 하는 방법을 안내합니다. W&amp;B Launch를 사용하면 ML 워크로드를 Kubernetes 클러스터로 전송할 수 있으며, ML 엔지니어는 W&amp;B 내에서 바로 Kubernetes로 이미 관리 중인 리소스를 사용할 수 있습니다.
 
 W&amp;B는 공식 [Launch 에이전트 image](https://hub.docker.com/r/wandb/launch-agent)를 제공하며, W&amp;B에서 유지 관리하는 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용해 이를 클러스터에 배포할 수 있습니다.
 
-W&amp;B는 [Kaniko](https://github.com/GoogleContainerTools/kaniko) 빌더를 사용하여 Launch 에이전트가 Kubernetes 클러스터에서 도커 이미지를 빌드할 수 있도록 지원합니다. Launch 에이전트용 Kaniko를 설정하는 방법이나 작업 빌드를 비활성화하고 사전 빌드된 도커 이미지만 사용하는 방법을 알아보려면 [고급 에이전트 설정](./setup-agent-advanced)을 참조하세요.
+W&amp;B는 [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder를 사용하여 Launch 에이전트가 Kubernetes 클러스터에서 도커 이미지를 빌드할 수 있도록 지원합니다. Launch 에이전트용 Kaniko를 설정하는 방법이나 작업 빌드를 비활성화하고 사전 빌드된 도커 이미지만 사용하는 방법을 알아보려면 [고급 에이전트 설정](./setup-agent-advanced)을 참조하세요.
 
 <Note>
   W&amp;B Launch 에이전트 Helm chart를 설치하고 적용 또는 업그레이드하려면, Kubernetes 리소스를 생성, 업데이트, 삭제할 수 있는 충분한 권한이 있는 클러스터에 대해 `kubectl` 액세스 권한이 있어야 합니다. 일반적으로는 `cluster-admin` 권한이 있는 사용자 또는 이에 상응하는 권한을 가진 커스텀 역할이 필요합니다.

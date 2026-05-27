@@ -1,9 +1,10 @@
 ---
 title: Configurer le SSO avec LDAP
 description: "Configurez l’authentification SSO basée sur LDAP pour le serveur W&B, y compris les paramètres de connexion et les variables d’environnement."
+keywords: ["Active Directory", "liaison LDAP", "service d’annuaire", "nom distinctif", "liaison anonyme"]
 ---
 
-Ce guide s’adresse aux administrateurs de W&amp;B qui activent l’authentification unique (SSO) basée sur LDAP pour le serveur W&amp;B, afin que les utilisateurs puissent s’authentifier auprès d’un annuaire LDAP existant au lieu de gérer des identifiants W&amp;B distincts. Il explique comment configurer la connexion LDAP dans l’interface utilisateur des paramètres système de W&B App ou à l’aide de variables d’environnement. Il décrit également les paramètres de configuration requis et facultatifs, notamment l’adresse, le nom distinctif (DN) de base et les attributs. Vous pouvez configurer soit une liaison anonyme, soit une liaison avec le DN et le mot de passe d’un administrateur.
+Ce guide s’adresse aux administrateurs de W&amp;B qui activent l’authentification unique (SSO) basée sur LDAP pour le serveur W&amp;B, afin que les utilisateurs puissent s’authentifier auprès d’un annuaire LDAP existant au lieu de gérer des identifiants W&amp;B distincts. Il explique comment configurer la connexion LDAP dans l’interface utilisateur des paramètres système de W&amp;B App ou à l’aide de variables d’environnement. Il décrit également les paramètres de configuration requis et facultatifs, notamment l’adresse, le nom distinctif (DN) de base et les attributs. Vous pouvez configurer soit une liaison anonyme, soit une liaison avec le DN et le mot de passe d’un administrateur.
 
 {/* <Note>
   En tant qu’administrateur de l’équipe W&B, vous pouvez configurer une liaison anonyme ou une liaison avec un DN et un mot de passe d’administrateur.

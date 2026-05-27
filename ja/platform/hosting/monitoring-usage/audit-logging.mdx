@@ -1,6 +1,7 @@
 ---
 title: 監査ログでユーザーアクティビティをトラッキングする
 description: "ログスキーマや記録されるアクションを含め、各デプロイメントタイプで W&B 監査ログにアクセスし、取得して分析します。"
+keywords: ["監査証跡", "コンプライアンス ログ", "ユーザーアクティビティログ", "PII フィルタリング", "ログスキーマ"]
 ---
 
 W&amp;B 監査ログを使用すると、組織内のユーザーアクティビティをトラッキングし、エンタープライズ ガバナンス要件への準拠に役立てることができます。このページは、W&amp;B の各デプロイメントタイプで監査ログデータにアクセスし、取得して分析する必要がある組織レベルの管理者向けです。監査ログは JSON 形式で利用できます。[監査ログスキーマ](#audit-log-schema) を参照してください。
@@ -9,9 +10,9 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
 
 | W&amp;B Platform deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                                       |
 | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)       | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): 10 分ごとにインスタンスレベルのバケット (BYOB) に同期されます。[API](#fetch-audit-logs-using-api) でも利用できます。</li><li>デフォルトのインスタンスレベル ストレージ: [API](#fetch-audit-logs-using-api) でのみ利用できます。</li></ul> |
+| [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)                | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): 10 分ごとにインスタンスレベルのバケット (BYOB) に同期されます。[API](#fetch-audit-logs-using-api) でも利用できます。</li><li>デフォルトのインスタンスレベル ストレージ: [API](#fetch-audit-logs-using-api) でのみ利用できます。</li></ul> |
 | [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用できます。[API](#fetch-audit-logs-using-api) でのみ利用できます。                                                                                                                                                                                             |
-| [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)             | 10 分ごとにインスタンスレベルのバケットに同期されます。[API](#fetch-audit-logs-using-api) でも利用できます。                                                                                                                                                                                         |
+| [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)                 | 10 分ごとにインスタンスレベルのバケットに同期されます。[API](#fetch-audit-logs-using-api) でも利用できます。                                                                                                                                                                                         |
 
 監査ログを取得した後は、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) などのツールで分析できます。一部の監査ログ分析ツールは JSON をサポートしていません。分析前に JSON 形式の監査ログを変換するためのガイドラインや要件については、使用する分析ツールのドキュメントを参照してください。
 

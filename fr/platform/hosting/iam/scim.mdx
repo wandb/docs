@@ -1,6 +1,7 @@
 ---
-title: Gérer les Users, groupes et rôles avec SCIM
-description: "Utilisez l'API SCIM pour gérer les Users, les groupes et les rôles personnalisés dans une organisation W&B grâce au provisionnement automatisé."
+title: Gérer les utilisateurs, groupes et rôles avec SCIM
+description: "Utilisez l'API SCIM pour gérer les utilisateurs, les groupes et les rôles personnalisés dans une organisation W&B grâce au provisionnement automatisé."
+keywords: ["SCIM 2.0", "provisionnement Okta", "synchronisation automatique des utilisateurs", "synchronisation des groupes", "provisionnement de l'annuaire"]
 ---
 
 <Note>
@@ -718,7 +719,7 @@ Met à jour l’adresse e-mail principale d’un utilisateur.
 
 **Non pris en charge dans le Cloud mutualisé**, où le compte d’un utilisateur n’est pas géré par l’organisation.
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`
@@ -800,7 +801,7 @@ Met à jour le nom d’affichage d’un utilisateur.
 
 **Non pris en charge dans le Cloud mutualisé**, où le compte d’un utilisateur n’est pas géré par l’organisation.
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`
@@ -880,7 +881,7 @@ Désactive un utilisateur dans votre organisation. Le résultat varie selon le t
 
 <Note>Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. La désactivation d’un compte de service n’est pas prise en charge. Gérez les comptes de service d’équipe dans les Settings de l’équipe W&amp;B.</Note>
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`
@@ -1010,7 +1011,7 @@ Réactive un utilisateur précédemment désactivé dans votre organisation.
     ```
 </Note>
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`
@@ -1085,7 +1086,7 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
 
 <Note>Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. Les rôles personnalisés ne sont pas pris en charge pour les comptes de service.</Note>
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`
@@ -1179,7 +1180,7 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
 
 Met à jour la licence Models attribuée à un utilisateur.
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`
@@ -1257,7 +1258,7 @@ Met à jour la licence Models attribuée à un utilisateur.
 
 Met à jour le rôle d&#39;un utilisateur dans Weave.
 
-#### Endpoint
+#### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **Méthode**: `PATCH`

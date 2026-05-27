@@ -1,23 +1,24 @@
 ---
 description: Launch でハイパーパラメーター sweep を自動化する方法を紹介します。
 title: W&B Launch で sweep を作成する
+keywords: ["sweep スケジューラー", "ハイパーパラメーター調整", "分散 sweep", "sweep の自動化"]
 ---
 
 <Card title="Colab で試す" href="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" icon="python" />
 
-このページでは、W&amp;B Launch を使用してハイパーパラメーター調整ジョブ ([sweeps](/ja/models/sweeps/)) を作成する方法を説明します。これにより、他の launch jobs を実行しているのと同じインフラストラクチャー上で、ハイパーパラメーター探索を自動化できます。Launch 上の sweeps では、sweep 対象として指定したハイパーパラメーターとともに、sweep スケジューラー が Launch キュー に送られます。sweep スケジューラー は agent によって取得されると開始し、選択されたハイパーパラメーターを使って sweep runs を同じキューに起動します。これは、sweep が完了するか停止されるまで続きます。
+このページでは、W&amp;B Launch を使用してハイパーパラメーター調整ジョブ ([sweeps](/ja/models/sweeps/)) を作成する方法を説明します。これにより、他の launch jobs を実行しているのと同じインフラストラクチャー上で、ハイパーパラメーター探索を自動化できます。Launch で Sweeps では、sweep 対象として指定したハイパーパラメーターとともに、sweep スケジューラー が Launch キュー に送られます。sweep スケジューラー は agent によって取得されると開始し、選択されたハイパーパラメーターを使って sweep runs を同じキューに起動します。これは、sweep が完了するか停止されるまで続きます。
 
-デフォルトの W&amp;B Sweep scheduling engine を使用することも、独自の カスタムスケジューラー を実装することもできます。
+デフォルトの W&amp;B Sweep スケジューリングエンジン を使用することも、独自の カスタムスケジューラー を実装することもできます。
 
-1. 標準 sweep スケジューラー: [W&amp;B Sweeps](/ja/models/sweeps/) を制御する、デフォルトの W&amp;B Sweep scheduling engine を使用します。おなじみの `bayes`、`grid`、`random` の method を利用できます。
-2. custom sweep スケジューラー: sweep スケジューラー をジョブとして実行するように設定します。このオプションでは、完全にカスタマイズできます。次のセクションでは、標準の sweep スケジューラー を拡張して logging を追加する方法の例を示します。
+1. 標準 sweep スケジューラー: [W&amp;B Sweeps](/ja/models/sweeps/) を制御する、デフォルトの W&amp;B Sweep スケジューリングエンジン を使用します。おなじみの `bayes`、`grid`、`random` の method を利用できます。
+2. カスタム sweep スケジューラー: sweep スケジューラー をジョブとして実行するように設定します。このオプションでは、完全にカスタマイズできます。次のセクションでは、標準の sweep スケジューラー を拡張して logging を追加する方法の例を示します。
 
 <Note>
   このガイドでは、W&amp;B Launch が事前に設定済みであることを前提としています。W&amp;B Launch が設定されていない場合は、Launch ドキュメントの [how to get started](./#how-to-get-started) セクションを参照してください。
 </Note>
 
 <Note>
-  Launch 上の sweeps を初めて使用する場合は、`basic` method で sweep を作成することをおすすめします。標準の W&amp;B scheduling engine で要件を満たせない場合は、Launch 上の custom sweeps scheduler を使用してください。
+  Launch で Sweeps を初めて使用する場合は、`basic` method で sweep を作成することをおすすめします。標準の W&amp;B スケジューリングエンジン で要件を満たせない場合は、Launch 上の custom sweeps scheduler を使用してください。
 </Note>
 
 <div id="create-a-sweep-with-a-wb-standard-scheduler">
