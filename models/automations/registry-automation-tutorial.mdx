@@ -1,12 +1,13 @@
 ---
 title: "Tutorial: Registry artifact alias automation"
 description: Build an automation that runs a webhook when a Registry artifact gets a specific alias like "production".
+keywords: ["artifact alias", "model promotion", "MLOps webhook", "alias regex", "model lifecycle"]
 ---
 import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
 import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
 import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
 
-This tutorial walks you through building a **registry** automation triggered by artifact metadata: when an artifact in your registry gets a specific alias (for example, **production**), W&B sends a POST request to your webhook.
+This tutorial walks you through building a **registry** automation triggered by artifact metadata: when an artifact in your registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook. Use this pattern to notify downstream systems like deployment pipelines, paging services, or notification channels, whenever you promote a model to a known stage. This tutorial is intended for ML engineers and MLOps practitioners who manage model lifecycles in W&B Registry.
 
 <TutorialDiagramRegistry/>
 
@@ -19,7 +20,7 @@ This tutorial walks you through building a **registry** automation triggered by 
 
 ## Create a registry automation
 
-Follow these instructions to set up a registry-scoped automation: When an artifact in any collection in that registry gets a specific alias (for example, **production**), W&B sends a POST request to your webhook.
+Set up a registry-scoped automation so that when an artifact in any collection in the registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook.
 
 {/* W&B App vs Python tab temporarily hidden pending Python SDK fix for `create_automation` (internal WB-34263). Restore when the regression is shipped.
 
@@ -31,7 +32,7 @@ Follow these instructions to set up a registry-scoped automation: When an artifa
 1. Click **Next step**. Set **Action type** to **Webhooks** and select your webhook. If the webhook expects a payload, paste a JSON body and use [payload variables](/models/automations/create-automations/webhook#payload-variables) such as `${artifact_collection_name}` and `${artifact_version_string}`.
 1. Click **Next step**. Give the automation a name and optional description, then click **Create automation**.
 
-For more detail, see [Create a webhook automation](/models/automations/create-automations/webhook#create-an-automation) (Registry tab).
+For more information, see [Create a webhook automation](/models/automations/create-automations/webhook#create-an-automation) (Registry tab).
 {/*
 </Tab>
 <Tab title="Python">
@@ -71,7 +72,7 @@ automation = api.create_automation(
 
 ## Test the automation
 
-Add the alias (for example, **production**) to an artifact version in the registry, using the W&B App or the public API. For example:
+To confirm that the automation fires end-to-end, trigger the configured event by adding the alias to an artifact version. Add the alias (for example, **production**) to an artifact version in the registry, using the W&B App or the public API. For example:
 
 ```python
 import wandb
@@ -93,7 +94,7 @@ print("Added alias 'production' to", version.name)
 
 ```
 
-Within a short time your webhook endpoint should receive a POST with the payload you configured.
+Within a short time, your webhook endpoint receives a `POST` with the payload you configured. You now have a working registry automation that fires whenever a matching alias is applied to an artifact in this registry.
 
 <TutorialNotebook/>
 
