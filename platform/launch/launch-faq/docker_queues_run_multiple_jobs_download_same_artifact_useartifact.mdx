@@ -3,6 +3,6 @@ title: When multiple jobs in a Docker queue download the same artifact, is any c
   used, or is it re-downloaded every run?
 ---
 
-No caching exists. Each launch job operates independently. Configure the queue or agent to mount a shared cache using Docker arguments in the queue configuration.
+Launch jobs share no cache. Each launch job runs independently. To share a cache, configure the queue or agent to mount one with Docker arguments in the queue configuration.
 
-Additionally, mount the W&B artifacts cache as a persistent volume for specific use cases.
+For specific use cases, you can also mount the W&B artifacts cache as a persistent volume.

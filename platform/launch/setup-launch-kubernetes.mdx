@@ -2,21 +2,19 @@
 title: 'Tutorial: Set up W&B Launch on Kubernetes'
 description: "Set up W&B Launch on a Kubernetes cluster using Helm charts, Kaniko image building, and Kubernetes job specs."
 ---
-You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
+This tutorial walks cluster administrators through setting up W&B Launch on a Kubernetes cluster so ML engineers can submit and manage training workloads directly from W&B. You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers an interface right in W&B to use the resources you already manage with Kubernetes.
 
-W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
+W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that you can deploy to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains.
 
-W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to turn off job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced).
+W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to let the Launch agent build Docker images in a Kubernetes cluster. To learn more about how to set up Kaniko for the Launch agent, or how to turn off job building and only use prebuilt Docker images, see [Advanced agent setup](./setup-agent-advanced).
 
 <Note>
-To install Helm and apply or upgrade W&B's Launch agent Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
+To install Helm and apply or upgrade the W&B Launch agent Helm chart, you must have `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, this requires a user with `cluster-admin` or a custom role with equivalent permissions.
 </Note>
-
-{/* Future: insert diagram here */}
 
 ## Configure a queue for Kubernetes
 
-The Launch queue configuration for a Kubernetes target resource will resemble either a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+A Launch queue defines the Kubernetes workload spec that the agent uses to run each job. The Launch queue configuration for a Kubernetes target resource resembles either a [Kubernetes job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a [Kubernetes custom resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 
 You can control any aspect of the Kubernetes workload resource spec when you create a Launch queue.
 
@@ -41,7 +39,7 @@ namespace: wandb
 ```
 </Tab>
 <Tab title="Custom resource spec">
-In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
+In some use cases, you might want to use `CustomResource` definitions. For example, `CustomResource` definitions are useful when you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case is when you want to use Launch with Kubeflow.
 
 The following YAML snippet shows a sample Launch queue config that uses Kubeflow:
 
@@ -76,24 +74,24 @@ kubernetes:
 </Tab>
 </Tabs>
 
-For security reasons, W&B will inject the following resources into your Launch queue if they are not specified:
+For security reasons, W&B injects the following resources into your Launch queue if you don't specify them:
 
 - `securityContext`
 - `backOffLimit`
 - `ttlSecondsAfterFinished`
 
-The following YAML snippet demonstrates how these values will appear in your launch queue:
+The following YAML snippet shows how these values appear in your Launch queue:
 
 ```yaml title="example-spec.yaml"
 spec:
   template:
-    `backOffLimit`: 0
+    backOffLimit: 0
     ttlSecondsAfterFinished: 60
     securityContext:
-      allowPrivilegeEscalation: False,
+      allowPrivilegeEscalation: false
       capabilities:
         drop:
-          - ALL,
+          - ALL
       seccompProfile:
         type: "RuntimeDefault"
 ```
@@ -103,36 +101,36 @@ spec:
 Create a queue in the W&B App that uses Kubernetes as its compute resource:
 
 1. Navigate to the [Launch page](https://wandb.ai/launch).
-2. Click on the **Create Queue** button.
-3. Select the **Entity** you would like to create the queue in.
+2. Click the **Create Queue** button.
+3. Select the **Entity** in which you want to create the queue.
 4. Provide a name for your queue in the **Name** field.
 5. Select **Kubernetes** as the **Resource**.
-6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section](#configure-a-queue-for-kubernetes).
+6. Within the **Configuration** field, provide the Kubernetes job workflow spec or custom resource spec you configured in [Configure a queue for Kubernetes](#configure-a-queue-for-kubernetes).
 
 ## Configure a Launch agent with Helm
 
-Use the [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) provided by W&B to deploy the Launch agent into your Kubernetes cluster. Control the behavior of the launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
+With a queue in place, you next deploy the Launch agent that pulls jobs from the queue and runs them on your cluster. Use the [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) provided by W&B to deploy the Launch agent into your Kubernetes cluster. Control the behavior of the Launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
 
-Specify the contents that would normally by defined in your launch agent config file (`~/.config/wandb/launch-config.yaml`) within the `launchConfig` key in the`values.yaml` file.
+Within the `launchConfig` key in the `values.yaml` file, specify the contents that you would normally define in your Launch agent config file (`~/.config/wandb/launch-config.yaml`).
 
-For example, suppose you have Launch agent config that enables you to run a Launch agent in EKS that uses the Kaniko Docker image builder:
+For example, suppose you have a Launch agent config that lets you run a Launch agent in EKS that uses the Kaniko Docker image builder. Replace `[QUEUE-NAME]`, `[MAX-CONCURRENT-JOBS]`, `[MY-REGISTRY-URI]`, and `[S3-BUCKET-URI]` with your own values:
 
 ```yaml title="launch-config.yaml"
 queues:
-	- <queue name>
-max_jobs: <n concurrent jobs>
+  - [QUEUE-NAME]
+max_jobs: [MAX-CONCURRENT-JOBS]
 environment:
-	type: aws
-	region: us-east-1
+  type: aws
+  region: us-east-1
 registry:
-	type: ecr
-	uri: <my-registry-uri>
+  type: ecr
+  uri: [MY-REGISTRY-URI]
 builder:
-	type: kaniko
-	build-context-store: <s3-bucket-uri>
+  type: kaniko
+  build-context-store: [S3-BUCKET-URI]
 ```
 
-Within your `values.yaml` file, this might look like:
+Within your `values.yaml` file, this might look like the following. Replace `[QUEUE-NAME]`, `[MAX-CONCURRENT-JOBS]`, `[AWS-REGION]`, `[MY-REGISTRY-URI]`, and `[S3-BUCKET-URI]` with your own values:
 
 ```yaml title="values.yaml"
 agent:
@@ -163,17 +161,17 @@ additionalTargetNamespaces:
 # This should be set to the literal contents of your launch agent config.
 launchConfig: |
   queues:
-    - <queue name>
-  max_jobs: <n concurrent jobs>
+    - [QUEUE-NAME]
+  max_jobs: [MAX-CONCURRENT-JOBS]
   environment:
     type: aws
-    region: <aws-region>
+    region: [AWS-REGION]
   registry:
     type: ecr
-    uri: <my-registry-uri>
+    uri: [MY-REGISTRY-URI]
   builder:
     type: kaniko
-    build-context-store: <s3-bucket-uri>
+    build-context-store: [S3-BUCKET-URI]
 
 # The contents of a git credentials file. This will be stored in a k8s secret
 # and mounted into the agent container. Set this if you want to clone private
@@ -190,4 +188,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-For more information on registries, environments, and required agent permissions see [Advanced agent set up](./setup-agent-advanced).
+For more information about registries, environments, and required agent permissions, see [Advanced agent setup](./setup-agent-advanced).

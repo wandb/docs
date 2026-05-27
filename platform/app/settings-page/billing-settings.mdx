@@ -3,32 +3,38 @@ description: "View plan details, monitor usage, and configure usage and spending
 title: Manage billing settings
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Billing**, or choose **Settings** and then select the **Billing** tab.
+The **Billing** settings page lets organization and billing admins review the current plan, monitor usage, configure usage and spending alerts, manage payment methods, and access invoices. Use this page to keep your organization within its usage limits and to stay informed about upcoming charges.
+
+To open billing settings:
+
+1. In the top right corner, click your user icon.
+1. From the dropdown, choose **Billing**, or choose **Settings** and then select the **Billing** tab.
 
 ## Plan details
 
-The **Plan details** section summarizes your organization's current plan, charges, limits, and usage.
+The **Plan details** section summarizes your organization's current plan, charges, limits, and usage. From here, you can compare plans or talk to Sales.
+
+From the **Plan details** section, you can take the following actions:
 
 - For details and a list of users, click **Manage users**.
 - For details about usage, click **View usage**.
-- Amount of storage your organization uses, both free and paid. From here, you can purchase additional storage and manage storage that is currently in use. Learn more about [storage settings](/platform/app/settings-page/storage/).
-
-From here, you can compare plans or talk to Sales.
+- To view the amount of storage your organization uses, both free and paid, see the storage summary. From here, you can purchase additional storage and manage storage that is in use. Learn more about [storage settings](/platform/app/settings-page/storage/).
 
 ## Plan usage
-This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
+
+The **Plan usage** section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
 
 For questions about usage or billing, contact your AISE or [Support](mailto:support@wandb.com).
 
 ### Usage alerts
 
-Usage alerts notify organization and billing admins by email when your organization reaches 85% and 100% of your usage limit for the current billing period in a given category:
+Usage alerts notify organization and billing admins by email when your organization reaches 85% and 100% of its usage limit for the current billing period in a given category. Configure usage alerts to monitor consumption and avoid unexpected overages. The following categories are tracked:
 
 | Category      | Description |
 |---------------|-------------|
 | Storage       | Total accumulated volume of your organization's stored artifacts and run data, measured in GB. |
 | Tracked hours | Wall-clock training time during the billing period, measured in hours. |
-| Weave         | Total volume of data ingestion during the billing period, measured in MB. Shown only if Weave is active in the deployment. |
+| Weave         | Total volume of data imported during the billing period, measured in MB. Shown only if Weave is active in the deployment. |
 | Inference     | Total input and output tokens used by Inference. See [Inference Pricing](https://wandb.ai/site/pricing/inference/). Shown only if Inference is active in the deployment. |
 | Training      | Token-based inference and compute, measured in GPU/hour. See [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/). Shown only if Serverless RL is active in the deployment. |
 
@@ -36,63 +42,70 @@ For organizations on the **Enterprise** plan, all **Organization admins** and **
 
 Messages are sent from `support@wandb.com`. The thresholds are not configurable, but you can selectively turn off one or both alerts per category.
 
-An **Organization admin** or **Billing admin** can configure usage alerts for your organization:
+To configure usage alerts for your organization, you must be an **Organization admin** or **Billing admin**:
 
-1. Click your user profile icon in the top right corner.
+1. In the top right corner, click your user profile icon.
 1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
 1. From the sidebar, select a category.
-1. Click **Usage** tab to view your organization's usage and alert settings for that category.
-1. If desired, turn on or off the **85% usage alert** or **100% usage alert** for that category. <Warning>If you turn off both usage alerts, no alerts will be sent for that category of usage.</Warning>
+1. Click the **Usage** tab to view your organization's usage and alert settings for that category.
+1. Turn on or off the **85% usage alert** or **100% usage alert** for that category. <Warning>If you turn off both usage alerts, no alerts are sent for that category of usage.</Warning>
 
 ### Spending alerts
 
-In a given billing period, spending alerts notify organization and billing admins by email when your organization reaches one or more customizable spending thesholds expressed in USD. You can configure up to 5 unique spending alerts per category:
+In a given billing period, spending alerts notify organization and billing admins by email when your organization reaches one or more customizable spending thresholds expressed in USD. Use spending alerts to track costs against a budget you define. You can configure up to five unique spending alerts per category:
 
 | Category      | Description |
 |---------------|-------------|
 | Storage       | Charges for your organization's storage [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). |
 | Tracked hours | Charges for your organization's training [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). |
-| Weave         | Charges for your organizations' Weave [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Weave is active in the deployment. |
+| Weave         | Charges for your organization's Weave [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Weave is active in the deployment. |
 | Inference     | Charges for your organization's Inference [usage](#usage-alerts) during the billing period. See [Inference Pricing](https://wandb.ai/site/pricing/inference/). Shown only if Inference is active in the deployment. |
 | Training      | Charges for your organization's Serverless RL [usage](#usage-alerts) during the billing period. See [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/). Shown only if Serverless RL is active in the deployment. |
 
 Messages are sent from `support@wandb.com`.
 
 For organizations on the **Enterprise** plan:
+
 - All **Organization admins** and **Billing admins** receive spending alerts.
 - No spending alerts are configured by default.
 
-On the [Pro plan](https://wandb.ai/site/pricing/):
+On the Pro plan:
+
 - Only the **Billing admin** receives spending alerts.
-- By default, spending alerts are configured at &dollar;200, &dollar;450, &dollar;700, and &dollar;1000.
+- By default, spending alerts are configured at $200, $450, $700, and $1,000.
 
 <Note>
-You are not billed for tracked hours, which are unlimited for all plans. Tracked hours are displayed on the **Usage** page for monitoring purposes.
+You aren't billed for tracked hours, which are unlimited for all plans. Tracked hours are displayed on the **Usage** page for monitoring purposes.
 </Note>
 
 #### View spending alerts
+
 To view your organization's spending alerts:
 
-1. Click your user profile icon in the top right corner.
+1. In the top right corner, click your user profile icon.
 1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
 1. From the sidebar, select a category.
 1. Initially, the **Usage** tab displays. To view spending alerts, click **Spend alerts**. All configured spending alerts for the category display.
 
 #### Add or delete a spending alert
+
 To manage spending alerts:
-1. Click your user profile icon in the top right corner.
+
+1. In the top right corner, click your user profile icon.
 1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
 1. From the sidebar, select a category, such as **Storage**.
 1. To add an alert, click **Add alert**.
-    1. Enter a threshold amount in USD.
-    1. Click **Create alert**.
+    a. Enter a threshold amount in USD.
+    a. Click **Create alert**.
 1. To delete a spending alert, click the trash icon next to it.
 
 ## Payment methods
-This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
+
+The **Payment methods** section shows the payment methods on file for your organization. If you haven't added a payment method, you're prompted to do so when you upgrade your plan or add paid storage.
 
 ## Billing admin
-This section shows the current billing admin. The billing admin is an organization admin, receives all billing-related emails, and can view and manage payment methods.
+
+The **Billing admin** section shows the current billing admin. The billing admin is an organization admin, receives all billing-related emails, and can view and manage payment methods.
 
 <Note>
 In W&B Dedicated Cloud, multiple users can be billing admins. In W&B Multi-tenant Cloud, only one user at a time can be the billing admin.
@@ -106,6 +119,8 @@ To change the billing admin or assign the role to additional users:
 1. Read the summary, then click **Change billing user**.
 
 ## Invoices
-If you pay using a credit card, this section allows you to view monthly invoices.
-- For Enterprise accounts that pay via wire transfer, this section is blank. For questions, contact your account team.
+
+If you pay using a credit card, the **Invoices** section lets you view monthly invoices. The following exceptions apply:
+
+- For Enterprise accounts that pay through wire transfer, this section is blank. For questions, contact your account team.
 - If your organization incurs no charges, no invoice is generated.
