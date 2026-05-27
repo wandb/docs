@@ -3,9 +3,10 @@ title: "Available models"
 description: >
   Browse the foundation models available through Serverless Inference
 mode: wide
+keywords: ["model catalog", "DeepSeek", "Llama", "Qwen", "MoE", "multimodal models"]
 ---
 
-Serverless Inference provides access to several open-source foundation models. Each model has different strengths and use cases.
+Serverless Inference provides access to several open source foundation models. Each model has different strengths and use cases.
 
 ## Generally available models
 
@@ -57,9 +58,9 @@ The following models are [deprecated](/inference/lifecycle#model-lifecycle-stage
 _None currently_
 
 
-## Using model IDs
+## Use model IDs
 
-When using the API, specify the model using its `Model ID` from the table above. For example:
+To specify a model when calling the API, use its `Model ID` from the preceding tables. For example:
 
 ```python
 response = client.chat.completions.create(
@@ -70,6 +71,8 @@ response = client.chat.completions.create(
 
 ## Next steps
 
-- Check [usage limits and pricing](/inference/usage-limits/) for each model
-- See [API reference](/inference/api-reference/) for how to use these models
-- Try models in the [W&B Playground](/inference/ui-guide/)
+After you've chosen a model, continue with one of the following resources:
+
+- Check [usage limits and pricing](/inference/usage-limits/) for each model.
+- See the [API reference](/inference/api-reference/) for how to use these models.
+- Try models in the [W&B Playground](/inference/ui-guide/).

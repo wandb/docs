@@ -1,17 +1,18 @@
 ---
 title: "View reasoning information"
 description: How to return and view reasoning in your Serverless Inference responses
+keywords: ["chain-of-thought", "thinking mode", "reasoning field", "enable reasoning", "disable reasoning"]
 ---
 
-Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on Serverless Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it.
+Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on Serverless Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it. Use this guide to inspect a model's intermediate reasoning or to control whether reasoning appears in a response.
 
-To determine whether a model supports reasoning, check the following Supported models table or the Supported Features section of its catalog page in the UI.
+To determine whether a model supports reasoning, check the following Supported models table or the **Supported Features** section of its catalog page in the UI.
 
 Reasoning information appears in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
 
 ## Supported models with reasoning
 
-The following table lists the models on Serverless Inference that return reasoning output. Each supported model might always include reasoning, or might disable or enable reasoning by default:
+The following table lists the models on Serverless Inference that return reasoning output. Each supported model either always includes reasoning, or disables or enables reasoning by default:
 
 {/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
 | Model ID (for API usage)                       | Reasoning support   |
@@ -34,11 +35,11 @@ The following table lists the models on Serverless Inference that return reasoni
 
 ### Models with `Always on` reasoning
 
-If a model is listed as `Always on` in the preceding [Supported models](#supported-models) table, it always includes reasoning and this cannot be disabled.
+If a model is listed as `Always on` in the preceding [Supported models](#supported-models) table, it always includes reasoning, and you can't disable it.
 
 ### Disable reasoning
 
-If a model is listed as `Enabled by default` in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. To opt out of reasoning for a request, in `chat_template_kwargs`, set the `enable_thinking` flag to the value `False` (Python) or `false` (Bash):
+If a model is listed as `Enabled by default` in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. To opt out of reasoning for a request, in `chat_template_kwargs`, set the `enable_thinking` flag to `False` (Python) or `false` (Bash). After the request completes, the response omits the reasoning content:
 
 <Tabs>
   <Tab title="Python">
@@ -81,5 +82,5 @@ If a model is listed as `Enabled by default` in the preceding [Supported models]
 
 ### Enable reasoning
 
-If a model is listed as `Disabled by default` in the preceding [Supported models](#supported-models) table, you can enable reasoning by setting the `enable_thinking` flag to the value `True` (Python) or `true` (Bash) in the preceding code snippet.
+If a model is listed as `Disabled by default` in the preceding [Supported models](#supported-models) table, you can enable reasoning by setting the `enable_thinking` flag to `True` (Python) or `true` (Bash) in the preceding code snippet.
 
