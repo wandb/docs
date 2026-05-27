@@ -76,8 +76,8 @@ def download_weave_source(version="main"):
             "--single-branch"
         ]
         
-        # Add branch/tag specification
-        if version != "main":
+        # Default branch on wandb/weave is `master`; either alias clones HEAD.
+        if version not in ("main", "master"):
             clone_cmd.extend(["--branch", version])
         
         clone_cmd.extend([
@@ -104,36 +104,53 @@ def download_weave_source(version="main"):
         sys.exit(1)
 
 
+def _npm_install_args(sdk_path: Path) -> list[str]:
+    """
+    Build npm install args for doc generation.
+
+    --ignore-scripts: the SDK's `prepare` script runs `npm run build`, which
+        can fail on upstream type errors (for example Buffer vs BlobPart).
+        Doc generation does not need a build, only type information.
+    --legacy-peer-deps: needed when the SDK ships a pnpm lockfile but we
+        install with npm (the case on master).
+    """
+    args = ["npm", "install", "--ignore-scripts"]
+    if (sdk_path / "pnpm-lock.yaml").exists():
+        args.append("--legacy-peer-deps")
+    return args
+
+
 def setup_typescript_project(weave_source):
     """Set up the TypeScript project and install dependencies."""
     sdk_path = Path(weave_source) / "sdks" / "node"
-    
+
     if not sdk_path.exists():
         print(f"TypeScript SDK not found at {sdk_path}", file=sys.stderr)
         sys.exit(1)
-    
+
     print(f"\nSetting up TypeScript project...")
     os.chdir(sdk_path)
-    
+
     try:
-        # Install dependencies
         print("  Installing dependencies...")
-        subprocess.run(["npm", "install"], check=True)
-        
-        # Install typedoc and markdown plugin with compatible versions
+        subprocess.run(_npm_install_args(sdk_path), check=True)
+
         print("  Installing typedoc...")
-        subprocess.run([
-            "npm", "install", "--save-dev",
+        typedoc_install = ["npm", "install", "--save-dev", "--ignore-scripts"]
+        if (sdk_path / "pnpm-lock.yaml").exists():
+            typedoc_install.append("--legacy-peer-deps")
+        typedoc_install.extend([
             "typedoc@0.25.13",
-            "typedoc-plugin-markdown@3.17.1"
-        ], check=True)
-        
+            "typedoc-plugin-markdown@3.17.1",
+        ])
+        subprocess.run(typedoc_install, check=True)
+
         print("  ✓ Dependencies installed")
-        
+
     except subprocess.CalledProcessError as e:
         print(f"✗ Failed to install dependencies: {e}", file=sys.stderr)
         sys.exit(1)
-    
+
     return sdk_path
 
 
@@ -153,7 +170,10 @@ def generate_typedoc(sdk_path, output_path):
         "excludeProtected": True,
         "excludeInternal": True,
         "disableSources": False,
-        "cleanOutputDir": True
+        "cleanOutputDir": True,
+        # Skip TypeScript type checking so upstream SDK type errors
+        # (for example Buffer vs BlobPart in weaveClient.ts) do not block docs.
+        "skipErrorChecking": True,
     }
     
     config_path = sdk_path / "typedoc.json"
@@ -172,6 +192,48 @@ def generate_typedoc(sdk_path, output_path):
         # Clean up config file
         if config_path.exists():
             config_path.unlink()
+
+
+def escape_mdx_angle_brackets(content: str) -> str:
+    """
+    Escape raw angle brackets outside code so MDX does not parse them as JSX.
+
+    TypeDoc sometimes emits return descriptions like `Promise<boolean> - ...`
+    outside inline code. MDX interprets `<boolean>` as an HTML/JSX tag.
+    """
+    result_lines = []
+    in_fence = False
+    for line in content.split("\n"):
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            result_lines.append(line)
+            continue
+        if in_fence:
+            result_lines.append(line)
+            continue
+        result_lines.append(_escape_angle_brackets_outside_inline_code(line))
+    return "\n".join(result_lines)
+
+
+def _escape_angle_brackets_outside_inline_code(line: str) -> str:
+    parts = re.split(r"(`[^`]*`)", line)
+    escaped = []
+    for i, part in enumerate(parts):
+        if i % 2 == 1:
+            escaped.append(part)
+        else:
+            escaped.append(_escape_raw_angle_brackets(part))
+    return "".join(escaped)
+
+
+def _escape_raw_angle_brackets(text: str) -> str:
+    def repl(match: re.Match[str]) -> str:
+        inner = match.group(1)
+        if inner.startswith("/"):
+            return match.group(0)
+        return f"&lt;{inner}&gt;"
+
+    return re.sub(r"(?<!\\)(?<!&lt;)<([^>\n]+)>", repl, text)
 
 
 def convert_to_mintlify_format(docs_dir):
@@ -279,7 +341,9 @@ description: "TypeScript SDK reference"
             # Links like [Dataset](classes/Dataset.md) are already relative
             # Just ensure .md extension is removed (already done above)
             pass
-        
+
+        content = escape_mdx_angle_brackets(content)
+
         # Write as .mdx file with lowercase filename (avoid Git case sensitivity issues)
         lowercase_stem = md_file.stem.lower()
         mdx_file = md_file.parent / f"{lowercase_stem}.mdx"
@@ -356,6 +420,7 @@ description: "TypeScript SDK reference"
 ---
 
 {func_content.replace(f'### {func_name}', f'# {func_name}')}"""
+            func_file_content = escape_mdx_angle_brackets(func_file_content)
             
             # Write the function file with lowercase filename (avoid Git case sensitivity issues)
             func_filename = func_name.lower()
@@ -423,6 +488,7 @@ description: "TypeScript SDK reference"
 ---
 
 {alias_content.replace(f'### {alias_name}', f'# {alias_name}')}"""
+            alias_file_content = escape_mdx_angle_brackets(alias_file_content)
             
             # Write the type alias file with lowercase filename (avoid Git case sensitivity issues)
             alias_filename = alias_name.lower()
@@ -505,13 +571,20 @@ def cleanup_temp_dirs(*paths):
             shutil.rmtree(path, ignore_errors=True)
 
 
+def _resolve_weave_version() -> str:
+    """Resolve Weave ref from CLI arg, WEAVE_VERSION env var, or latest."""
+    if len(sys.argv) > 1:
+        return sys.argv[1]
+    return os.environ.get("WEAVE_VERSION", "latest")
+
+
 def main():
     """Main function."""
     # Check dependencies
     check_node_dependencies()
-    
-    # Get Weave version from environment or use latest
-    weave_version = os.environ.get("WEAVE_VERSION", "latest")
+
+    # Get Weave version from CLI arg, environment variable, or latest
+    weave_version = _resolve_weave_version()
     
     # Store the original working directory
     original_cwd = os.getcwd()
