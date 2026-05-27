@@ -517,8 +517,10 @@ def main():
     original_cwd = os.getcwd()
     
     # Download Weave source
-    weave_source = download_weave_source(weave_version)
-    
+    # weave_source = download_weave_source(weave_version)
+    # TODO: Remove. Just pointing to more recent branch than tag v0.52.41
+    weave_source = download_weave_source("05-27-chore_weave_ts_update_openai_move_to_devdependencies")
+
     try:
         # Set up TypeScript project
         sdk_path = setup_typescript_project(weave_source)

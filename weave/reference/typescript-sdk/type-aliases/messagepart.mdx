@@ -1,0 +1,14 @@
+---
+title: "MessagePart"
+description: "TypeScript SDK reference"
+---
+
+# MessagePart
+
+Ƭ **MessagePart**: \{ `content`: `string` ; `type`: ``"text"``  } \| \{ `content`: `string` ; `type`: ``"reasoning"``  } \| \{ `arguments?`: `string` ; `toolCallId`: `string` ; `toolName`: `string` ; `type`: ``"tool_call"``  } \| \{ `result?`: `string` ; `toolCallId`: `string` ; `type`: ``"tool_result"``  } \| \{ `fileId`: `string` ; `mimeType?`: `string` ; `modality`: [`Modality`](./modality) ; `type`: ``"file"``  } \| \{ `content`: `string` ; `mimeType`: `string` ; `modality`: [`Modality`](./modality) ; `type`: ``"blob"``  } \| \{ `modality`: [`Modality`](./modality) ; `type`: ``"uri"`` ; `uri`: `string`  }
+
+#### Defined in
+
+[genai/types.ts:17](https://github.com/wandb/weave/blob/6d1ea4600b8b01c98d2636433c2989c4d163539e/sdks/node/src/genai/types.ts#L17)
+
+___
