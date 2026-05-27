@@ -1,6 +1,7 @@
 ---
 title: When multiple jobs in a Docker queue download the same artifact, is any caching
   used, or is it re-downloaded every run?
+keywords: ["artifact caching", "Docker cache", "artifact download", "artifact mount"]
 ---
 
 Launch jobs share no cache. Each launch job runs independently. To share a cache, configure the queue or agent to mount one with Docker arguments in the queue configuration.
