@@ -1,50 +1,64 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.teams
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L25" />
 
 
 
 
-## <kbd>class</kbd> `Member`
+
+## Description
+
 A member of a team.
 
-### <kbd>method</kbd> `Member.__init__`
+
+
+## Args
+
+- **client**: The client instance to use
+- **team**: The name of the team this member belongs to
+- **attrs**: The member attributes
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> delete
 
 ```python
-__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+(self)
 ```
 
-**Args:**
- 
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
- - `team` (str):  The name of the team this member belongs to 
- - `attrs` (dict):  The member attributes 
+Remove a member from a team.
 
 
 
 
 
-
-
-
-
----
-
-### <kbd>method</kbd> `Member.delete`
+### <kbd>method</kbd> display
 
 ```python
-delete()
+self, height=420, hidden=False
 ```
 
-Remove a member from a team. 
+Display this object in jupyter.
+
+##### Properties
+
+- **height**: 
+- **hidden**: 
 
 
 
-**Returns:**
-  Boolean indicating success 
+
+
 

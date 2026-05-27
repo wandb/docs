@@ -1,67 +1,130 @@
 ---
 title: Histogram
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.histogram
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py#L21" />
 
 
-
-
-## <kbd>class</kbd> `Histogram`
-W&B class for histograms. 
-
-This object works just like numpy's histogram function https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html 
-
-
-
-**Attributes:**
- 
- - `bins` ([float]):  Edges of bins 
- - `histogram` ([int]):  Number of elements falling in each bin. 
-
-### <kbd>method</kbd> `Histogram.__init__`
 
 ```python
-__init__(
-    sequence: 'Sequence | None' = None,
-    np_histogram: 'NumpyHistogram | None' = None,
-    num_bins: 'int' = 64
-) → None
+sequence: 'Sequence | None' = None,
+np_histogram: 'NumpyHistogram | None' = None,
+num_bins: 'int' = 64
 ```
 
-Initialize a Histogram object. 
+## Description
+
+W&B class for histograms.
+
+This object works just like numpy's histogram function
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+
+Attributes:
+    bins ([float]): Edges of bins
+    histogram  ([int]): Number of elements falling in each bin.
 
 
 
-**Args:**
- sequence: Input data for histogram. np_histogram: Alternative input of a precomputed histogram. num_bins: Number of bins for the histogram.  The default number of bins  is 64. The maximum number of bins is 512. 
+## Args
+
+- **sequence**: 
+- **np_histogram**: 
+- **num_bins**: 
 
 
 
-**Examples:**
- Generate histogram from a sequence. 
+
+
+
+## Methods
+
+### <kbd>method</kbd> from_json
 
 ```python
-import wandb
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
 
-wandb.Histogram([1, 2, 3])
-``` 
+Deserialize a `json_obj` into it's class representation.
 
-Efficiently initialize from np.histogram. 
+If additional resources were stored in the `run_or_artifact` artifact during the
+`to_json` call, then those resources should be in the `source_artifact`.
+
+##### Properties
+
+- **json_obj**: A JSON dictionary to deserialize source_artifact
+- **source_artifact**: 
+
+
+
+
+### <kbd>method</kbd> init_from_json
 
 ```python
-import numpy as np
-import wandb
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
 
-hist = np.histogram(data)
-wandb.Histogram(np_histogram=hist)
-``` 
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+##### Properties
+
+- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
 
 
 
 
----
+### <kbd>method</kbd> to_data_array
+
+```python
+self
+```
+
+Convert the object to a list of primitives representing the underlying data.
+
+
+
+
+
+### <kbd>method</kbd> type_mapping
+
+
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+
+
+
+
+### <kbd>method</kbd> with_suffix
+
+```python
+name: 'str',
+filetype: 'str' = 'json'
+```
+
+Get the name with the appropriate suffix.
+
+##### Properties
+
+- **name**: the name of the file
+- **filetype**: the filetype to use. Defaults to "json".
+
+
+
+
+
 

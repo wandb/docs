@@ -1,52 +1,251 @@
 ---
 title: Object3D
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.object_3d
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L242" />
 
 
-
-
-## <kbd>class</kbd> `Object3D`
-W&B class for 3D point clouds. 
-
-### <kbd>method</kbd> `Object3D.__init__`
 
 ```python
-__init__(
-    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
-    caption: 'str | None' = None,
-    **kwargs: 'str | FileFormat3D | None'
-) → None
+data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-Creates a W&B Object3D object. 
+## Description
+
+W&B class for 3D point clouds.
 
 
 
-**Args:**
- 
- - `data_or_path`:  Object3D can be initialized from a file or a numpy array. 
- - `caption`:  Caption associated with the object for display. 
+## Args
 
-
-
-**Examples:**
- The shape of the numpy array must be one of either 
-
-```text
-[[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
-``` 
+- **data_or_path**: 
+- **caption**: 
+- **kwargs**: 
 
 
 
 
----
+
+
+## Methods
+
+### <kbd>method</kbd> bind_to_run
+
+```python
+self,
+run: 'wandb.Run',
+key: 'int | str',
+step: 'int | str',
+id_: 'int | str | None' = None,
+ignore_copy_err: 'bool | None' = None
+```
+
+Bind this object to a particular Run.
+
+Calling this function is necessary so that we have somewhere specific to put the
+file associated with this object, from which other Runs can refer to it.
+
+##### Properties
+
+- **run**: 
+- **key**: 
+- **step**: 
+- **id_**: 
+- **ignore_copy_err**: 
+
+
+
+
+### <kbd>method</kbd> captions
+
+```python
+media_items: 'Sequence[Media]'
+```
+
+
+
+##### Properties
+
+- **media_items**: 
+
+
+
+
+### <kbd>method</kbd> file_is_set
+
+```python
+self
+```
+
+
+
+
+
+
+
+### <kbd>method</kbd> from_file
+
+```python
+data_or_path: 'TextIO | str',
+file_type: 'FileFormat3D | None' = None
+```
+
+Initializes Object3D from a file or stream.
+
+##### Properties
+
+- **data_or_path**: A path to a file or a `TextIO` stream.
+- **file_type**: Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension.
+
+
+
+
+### <kbd>method</kbd> from_json
+
+```python
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
+
+Likely will need to override for any more complicated media objects.
+
+##### Properties
+
+- **json_obj**: 
+- **source_artifact**: 
+
+
+
+
+### <kbd>method</kbd> from_numpy
+
+```python
+data: 'np.ndarray'
+```
+
+Initializes Object3D from a numpy array.
+
+##### Properties
+
+- **data**: Each entry in the array will represent one point in the point cloud.
+
+
+
+
+### <kbd>method</kbd> from_point_cloud
+
+```python
+points: 'Sequence[Point]',
+boxes: 'Sequence[Box3D]',
+vectors: 'Sequence[Vector3D] | None' = None,
+point_cloud_type: 'PointCloudType' = 'lidar/beta'
+```
+
+Initializes Object3D from a python object.
+
+##### Properties
+
+- **points**: The points in the point cloud.
+- **boxes**: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
+- **vectors**: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
+- **point_cloud_type**: At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta".
+
+
+
+
+### <kbd>method</kbd> init_from_json
+
+```python
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
+
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+##### Properties
+
+- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+
+
+
+
+### <kbd>method</kbd> is_bound
+
+```python
+self
+```
+
+
+
+
+
+
+
+### <kbd>method</kbd> path_is_reference
+
+```python
+path: 'str | pathlib.Path | None'
+```
+
+
+
+##### Properties
+
+- **path**: 
+
+
+
+
+### <kbd>method</kbd> to_data_array
+
+```python
+self
+```
+
+Convert the object to a list of primitives representing the underlying data.
+
+
+
+
+
+### <kbd>method</kbd> type_mapping
+
+
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+
+
+
+
+### <kbd>method</kbd> with_suffix
+
+```python
+name: 'str',
+filetype: 'str' = 'json'
+```
+
+Get the name with the appropriate suffix.
+
+##### Properties
+
+- **name**: the name of the file
+- **filetype**: the filetype to use. Defaults to "json".
+
 
 
 
