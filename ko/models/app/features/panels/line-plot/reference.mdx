@@ -1,6 +1,7 @@
 ---
 title: 선형 플롯 레퍼런스
-description: "x축, y축, 평활화, 집계, 그룹화 옵션을 포함한 선형 플롯 패널 설정 레퍼런스"
+description: "x축, y축, 스무딩, 집계, 그룹화 옵션을 포함한 선형 플롯 패널 설정 레퍼런스"
+keywords: ["EMA 스무딩", "가우시안 스무딩", "full fidelity", "범례 템플릿", "표현식"]
 ---
 
 import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-groups.mdx";
@@ -10,6 +11,8 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 <div id="data-settings">
   ## 데이터 설정
 </div>
+
+데이터 설정에서는 플롯에 어떤 메트릭을 표시할지와 데이터 포인트를 샘플링, 스무딩, 집계하는 방식을 제어합니다.
 
 <div id="x-axis">
   ### X축
@@ -33,15 +36,13 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   ### Y축
 </div>
 
-`wandb.Run.log()`로 로깅한 임의의 정수 또는 부동소수점 값을 y축 변수로 설정할 수 있습니다. 단일 값, 값 배열 또는 값의 히스토그램을 지정할 수 있습니다. 변수에 대해 1500개가 넘는 포인트를 로깅한 경우, W&amp;B는 1500개 포인트로 다운샘플링합니다.
+`wandb.Run.log()`로 로깅한 임의의 정수 또는 부동소수점 값을 y축 변수로 설정할 수 있습니다. 단일 값, 값 배열 또는 값의 히스토그램을 지정할 수 있습니다. 변수에 대해 1,500개가 넘는 포인트를 로깅한 경우, W&amp;B는 1,500개 포인트로 다운샘플링합니다.
 
 <Note>
   Runs table에서 run 색상을 변경해 y축 선 색상을 사용자 지정할 수 있습니다.
 </Note>
 
-사용 가능한 y축 옵션:
-
-* **Y range**: 기본값은 메트릭의 가장 작은 양수 값(0 포함)부터 가장 큰 값까지입니다. 최소값과 최대값은 사용자 지정할 수 있습니다.
+**Y range** 옵션의 기본값은 메트릭의 가장 작은 양수 값(0 포함)부터 가장 큰 값까지입니다. 최소값과 최대값은 사용자 지정할 수 있습니다.
 
 <div id="point-aggregation-method">
   ### 포인트 집계 방법
@@ -60,12 +61,12 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 사용 가능한 스무딩 방법:
 
-* **시간 가중 EMA** (기본값): 이전 포인트의 가중치를 지수적으로 감소시켜 시계열 데이터를 스무딩하는 기법입니다.
+* **시간 가중 EMA** (기본값): 이전 포인트의 가중치를 지수적으로 감소시켜 시계열 데이터를 스무딩하는 지수 이동 평균(EMA) 기법입니다.
 * **이동 평균**: 지정된 x 값의 앞뒤 윈도우에 있는 포인트들의 평균값으로 해당 포인트를 대체합니다.
 * **가우시안**: 포인트의 가중 평균을 계산하며, 가중치는 스무딩 매개변수로 지정한 표준편차를 갖는 가우시안 분포를 따릅니다.
 * **스무딩 없음**
 
-자세한 내용은 [선형 플롯 스무딩](/ko/models/app/features/panels/line-plot/smoothing)을 참조하세요.
+자세한 내용은 [선형 플롯 스무딩](/ko/models/app/features/panels/line-plot/smoothing)을 참조하세요。
 
 <div id="ignore-outliers">
   ### 이상치 무시
@@ -83,7 +84,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 기본적으로 플롯에는 run 목록 또는 run 세트에서 처음 10개의 run 또는 run 그룹만 포함됩니다. 어떤 run 또는 그룹을 표시할지 제어하려면 정렬 순서를 변경하세요.
 
 <Note>
-  Workspace는 설정과 관계없이 최대 1000개의 run까지만 표시할 수 있습니다.
+  Workspace는 설정과 관계없이 최대 1,000개의 run까지만 표시할 수 있습니다.
 </Note>
 
 <div id="chart-type">
@@ -100,12 +101,12 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   <Frame>
     <img src="/images/app_ui/plot_style_area_plot.png" alt="영역 플롯 스타일" />
   </Frame>
-* **백분율 영역 플롯:**
+* **백분율 영역 플롯**
   <Frame>
     <img src="/images/app_ui/plot_style_percentage_plot.png" alt="백분율 플롯 스타일" />
   </Frame>
 
-**Data** 탭에서 차트 유형을 설정하세요. [](/ko/models/app/features/panels/line-plot#individual-line-plot)를 참고하세요.
+**Data** 탭에서 차트 유형을 설정하세요. [개별 선형 플롯](/ko/models/app/features/panels/line-plot#individual-line-plot)을 참고하세요.
 
 <div id="grouping-settings">
   ## 그룹화 설정
@@ -113,7 +114,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 그룹화를 켜면 모든 run을 집계할 수 있고, 개별 변수를 기준으로 그룹화할 수도 있습니다. Runs table에서 그룹화를 켜면 그룹이 그래프에 자동으로 반영됩니다.
 
-* **run 그룹화**: 플롯에서 run 그룹화를 켭니다. 아래 플롯에서 음영 범위를 설정하려면 이 옵션이 필요합니다.
+* **run 그룹화**: 플롯에서 run 그룹화를 켭니다. 플롯에서 음영 범위를 설정하려면 이 옵션이 필요합니다.
 * **그룹화 기준**: 필요에 따라 열을 선택합니다. 해당 열에서 같은 값을 가진 모든 run이 함께 그룹화됩니다.
 * **집계**: 그래프 선의 값을 지정합니다. 옵션은 그룹의 평균, 중앙값, 최솟값, 최댓값입니다.
 * **범위**: full fidelity 선형 플롯의 음영 영역을 설정합니다. 옵션은 Min/Max, Std Dev, Std Err 또는 None입니다.
@@ -184,7 +185,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 다음 섹션에서는 표현식에서 값을 레퍼런스하는 방법과 맞춤형 표현식에 사용할 수 있는 연산자 및 함수를 설명합니다. 선형 플롯에서는 x축, y축 또는 둘 다에 표현식을 사용할 수 있습니다.
 
-일반적인 사용 사례와 예시 표현식은 아래의 [예시 표현식](#example-expressions) section을 참조하세요.
+일반적인 사용 사례와 예시 표현식은 [예시 표현식](#example-expressions)을 참조하세요.
 
 <div id="create-new-line-plots-with-expressions">
   ### 표현식을 사용해 새 선형 플롯 만들기
@@ -229,11 +230,11 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 다음 표는 선형 플롯 표현식에서 로깅된 메트릭, 설정 파라미터, 요약 통계를 참조하는 방법을 설명합니다.
 
-| 유형      | 구문                     | 설명                                  | 예시                                                  |
-| ------- | ---------------------- | ----------------------------------- | --------------------------------------------------- |
-| 메트릭     | `${metric_name}`       | 이름으로 로깅된 메트릭을 참조합니다.                | `${val/accuracy}`, `${"accuracy"}`                  |
-| 설정 파라미터 | `${config:param_name}` | `${config:}` 접두사를 사용하여 설정 값을 참조합니다. | `${config:lr}`, `${config:batch_size}`              |
-| 요약 통계   | `${summary:stat_name}` | `summary:` 접두사를 사용하여 요약 필드를 참조합니다.  | `${summary:final_accuracy}`, `${summary:best_loss}` |
+| 유형      | 구문                     | 설명                                    | 예시                                                  |
+| ------- | ---------------------- | ------------------------------------- | --------------------------------------------------- |
+| 메트릭     | `${metric_name}`       | 이름으로 로깅된 메트릭을 참조합니다.                  | `${val/accuracy}`, `${"accuracy"}`                  |
+| 설정 파라미터 | `${config:param_name}` | `${config:}` 접두사를 사용하여 설정 값을 참조합니다.   | `${config:lr}`, `${config:batch_size}`              |
+| 요약 통계   | `${summary:stat_name}` | `${summary:}` 접두사를 사용하여 요약 필드를 참조합니다. | `${summary:final_accuracy}`, `${summary:best_loss}` |
 
 `/`, `-`, 공백 등 특수 문자가 포함된 메트릭 이름, 설정 파라미터 또는 요약 필드는 `${...}`를 사용해 이스케이프하세요.
 

@@ -1,11 +1,12 @@
 ---
 title: Utiliser le serveur MCP de W&B
 description: "Connectez votre IDE ou votre agent d’IA au serveur Model Context Protocol (MCP) de W&B pour interroger et analyser vos données et votre documentation W&B en langage naturel."
+keywords: ["outil MCP", "MCP Cursor", "MCP Claude", "intégration d’assistant d’IA", "requêtes en langage naturel"]
 ---
 
-Model Context Protocol (MCP) est une norme ouverte qui permet aux agents d’IA d’appeler des outils externes. Le serveur MCP de W&amp;B donne à votre IDE, à votre assistant de code ou à votre agent conversationnel un accès direct à vos données et à votre documentation W&amp;B, afin de répondre aux questions sur vos runs, traces, évaluations et artefacts sans avoir à faire de copier-coller. Pour obtenir la liste complète de ce que vous pouvez faire avec le serveur, consultez la section [fonctionnalités du serveur MCP de W&amp;B](#w\&b-mcp-server-capabilities).
+Model Context Protocol (MCP) est une norme ouverte qui permet aux agents d’IA d’appeler des outils externes. Le serveur MCP de W&amp;B donne à votre IDE, à votre assistant de code ou à votre agent conversationnel un accès direct à vos données et à votre documentation W&amp;B. Grâce à cet accès, votre agent peut répondre aux questions sur vos runs, traces, évaluations et artefacts sans avoir à faire de copier-coller. Pour obtenir la liste complète de ce que vous pouvez faire avec le serveur, consultez la section [capacités du serveur MCP de W&amp;B](#w\&b-mcp-server-capabilities).
 
-Il s’intègre nativement à la plupart des IDE, assistants de code et agents conversationnels, notamment :
+Il s’intègre directement à la plupart des IDE, assistants de code et agents conversationnels, notamment :
 
 * Cursor
 * Visual Studio Code (VS Code)
@@ -19,7 +20,7 @@ Il s’intègre nativement à la plupart des IDE, assistants de code et agents c
   ## Types de déploiement
 </div>
 
-Vous pouvez utiliser le serveur MCP hébergé ou configurer une version locale si vous avez besoin de davantage d’isolation et de flexibilité. L’utilisation de la version locale oblige votre client à utiliser une URL différente pour accéder au serveur.
+Le serveur MCP de W&amp;B est disponible en deux options de déploiement. Utilisez le serveur hébergé pour la configuration la plus rapide, ou configurez une version locale si vous avez besoin de davantage d’isolation et de flexibilité. La version locale oblige votre client à utiliser une URL différente pour accéder au serveur.
 
 <CardGroup cols={2}>
   <Card title="Serveur hébergé (recommandé)">
@@ -31,7 +32,7 @@ Vous pouvez utiliser le serveur MCP hébergé ou configurer une version locale s
   <Card title="Installation locale">
     Exécutez le serveur MCP sur votre propre machine via STDIO ou HTTP. À utiliser si vous avez besoin d’un fonctionnement isolé du réseau, de verrouiller une version précise, d’un comportement de serveur personnalisé, d’un développement actif du serveur ou de la prise en charge d’un client qui ne prend en charge que STDIO.
 
-    [Exécuter le serveur MCP localement](#run-the-mcp-server-locally)
+    [Exécuter le serveur MCP en local](#run-the-mcp-server-locally)
   </Card>
 </CardGroup>
 
@@ -43,7 +44,7 @@ Vous pouvez utiliser le serveur MCP hébergé ou configurer une version locale s
   ## Prérequis
 </div>
 
-Avant de configurer un client :
+Avant de configurer un client, assurez-vous de disposer des éléments suivants :
 
 * Créez une clé API W&amp;B sur [wandb.ai/authorize](https://wandb.ai/authorize).
 * Définissez cette clé comme variable d’environnement `WANDB_API_KEY`, ou transmettez-la à votre client sous forme de jeton Bearer.
@@ -64,18 +65,18 @@ L’URL dépend de votre type de déploiement W&amp;B :
 | Déploiement     | URL du serveur                  |
 | --------------- | ------------------------------- |
 | Cloud mutualisé | `https://mcp.withwandb.com/mcp` |
-| Cloud dédié     | `https://<your-instance>/mcp`   |
-| Autogéré        | `https://<your-instance>/mcp`   |
+| Cloud dédié     | `https://[YOUR-INSTANCE]/mcp`   |
+| Autogéré        | `https://[YOUR-INSTANCE]/mcp`   |
 
-Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par `https://<your-instance>/mcp` et laissez tout le reste inchangé. Les configurations client ci-dessous utilisent l’URL du Cloud mutualisé.
+Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par `https://[YOUR-INSTANCE]/mcp` et laissez tout le reste inchangé. Les configurations client suivantes utilisent l’URL du Cloud mutualisé.
 
 <Tabs>
   <Tab title="Claude Code">
-    Exécutez la commande suivante dans votre terminal, en remplaçant le jeton Bearer par votre clé API W&amp;B :
+    Enregistrez le serveur MCP W&amp;B dans Claude Code, en remplaçant le jeton Bearer par votre clé API W&amp;B :
 
     ```bash
     claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
-      --header "Authorization: Bearer <your-wandb-api-key>"
+      --header "Authorization: Bearer [YOUR-WANDB-API-KEY]"
     ```
 
     Ajoutez `--scope user` pour configurer Claude Code globalement. Omettez-le pour configurer uniquement le projet en cours.
@@ -93,7 +94,7 @@ Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par 
     * **macOS** : `~/Library/Application Support/Claude/claude_desktop_config.json`
     * **Windows** : `%APPDATA%\Claude\claude_desktop_config.json`
 
-    Ajoutez ce qui suit à l’objet JSON de votre fichier de configuration, en remplaçant `<your-wandb-api-key>` par votre clé API W&amp;B :
+    Ajoutez ce qui suit à l’objet JSON de votre fichier de configuration, en remplaçant `[YOUR-WANDB-API-KEY]` par votre clé API W&amp;B :
 
     ```json
     {
@@ -108,7 +109,7 @@ Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par 
             "Authorization:${AUTH_HEADER}"
           ],
           "env": {
-            "AUTH_HEADER": "Bearer <your-wandb-api-key>"
+            "AUTH_HEADER": "Bearer [YOUR-WANDB-API-KEY]"
           }
         }
       }
@@ -121,16 +122,16 @@ Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par 
   </Tab>
 
   <Tab title="Codex">
-    Exportez votre clé API W&amp;B en tant que variable d&#39;environnement, puis exécutez :
+    Exportez votre clé API W&amp;B en tant que variable d&#39;environnement, puis enregistrez le serveur dans Codex :
 
     ```bash
-    export WANDB_API_KEY=<your-wandb-api-key>
+    export WANDB_API_KEY=[YOUR-WANDB-API-KEY]
     codex mcp add wandb \
       --url https://mcp.withwandb.com/mcp \
       --bearer-token-env-var WANDB_API_KEY
     ```
 
-    Vérifiez la connexion en demandant `List my W&B entities.` L’agent doit appeler `list_entities_tool` et renvoyer votre nom d’utilisateur ainsi que les Teams dont vous faites partie. Si la connexion échoue, voir [Dépannage](#troubleshooting).
+    Vérifiez la connexion en demandant `List my W&B entities.` L&#39;agent doit appeler `list_entities_tool` et renvoyer votre nom d’utilisateur ainsi que les éventuelles Teams. Si la connexion échoue, voir [Résolution des problèmes](#troubleshooting).
   </Tab>
 
   <Tab title="Cursor">
@@ -153,7 +154,7 @@ Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par 
              "transport": "http",
              "url": "https://mcp.withwandb.com/mcp",
              "headers": {
-               "Authorization": "Bearer <your-wandb-api-key>",
+               "Authorization": "Bearer [YOUR-WANDB-API-KEY]",
                "Accept": "application/json, text/event-stream"
              }
            }
@@ -234,7 +235,7 @@ Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par 
           "type": "http",
           "url": "https://mcp.withwandb.com/mcp",
           "headers": {
-            "Authorization": "Bearer <your-wandb-api-key>"
+            "Authorization": "Bearer [YOUR-WANDB-API-KEY]"
           }
         }
       }
@@ -261,7 +262,7 @@ Raisons courantes d’exécuter le serveur en local :
 * **Développement actif** sur le serveur lui-même.
 * **Clients STDIO uniquement** ou clients nécessitant un processus local.
 
-Pour les utilisateurs de Cloud dédié ou Autogéré, la solution hébergée est à privilégier. Utilisez une installation locale depuis [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) uniquement si le serveur hébergé n’est pas encore activé sur votre instance ou si l’une des raisons ci-dessus s’applique. Définissez la variable d’environnement `WANDB_BASE_URL` avec l’URL de votre instance.
+Pour les utilisateurs de Cloud dédié ou Autogéré, privilégiez la solution hébergée. Utilisez une installation locale depuis [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) uniquement si le serveur hébergé n’est pas encore activé sur votre instance ou si l’une des raisons précédentes s’applique. Définissez la variable d’environnement `WANDB_BASE_URL` avec l’URL de votre instance.
 
 <div id="local-prerequisites">
   ### Prérequis locaux
@@ -310,15 +311,15 @@ Choisissez une méthode d’installation et exécutez la commande suivante pour 
   ### Configurez votre client
 </div>
 
-Sélectionnez votre client MCP, puis exécutez la configuration suivante en remplaçant `<your-wandb-api-key>` par votre clé API W&amp;B si nécessaire :
+Après avoir installé le serveur, configurez votre client pour le lancer. Sélectionnez votre client MCP, puis exécutez la configuration suivante en remplaçant `[YOUR-WANDB-API-KEY]` par votre clé API W&amp;B si nécessaire :
 
 <Tabs>
   <Tab title="Claude Code">
-    Exécutez la commande suivante. Ajoutez `--scope user` pour une configuration globale.
+    Enregistrez le serveur local dans Claude Code. Ajoutez `--scope user` pour une configuration globale.
 
     ```bash
     claude mcp add wandb \
-      -e WANDB_API_KEY=<your-wandb-api-key> \
+      -e WANDB_API_KEY=[YOUR-WANDB-API-KEY] \
       -e WANDB_BASE_URL=https://your-wandb-instance.example.com \
       -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
     ```
@@ -343,7 +344,7 @@ Sélectionnez votre client MCP, puis exécutez la configuration suivante en remp
             "wandb_mcp_server"
           ],
           "env": {
-            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_API_KEY": "[YOUR-WANDB-API-KEY]",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
           }
         }
@@ -357,7 +358,7 @@ Sélectionnez votre client MCP, puis exécutez la configuration suivante en remp
   <Tab title="Codex">
     ```bash
     codex mcp add wandb \
-      --env WANDB_API_KEY=<your-wandb-api-key> \
+      --env WANDB_API_KEY=[YOUR-WANDB-API-KEY] \
       --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
       -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
     ```
@@ -377,7 +378,7 @@ Sélectionnez votre client MCP, puis exécutez la configuration suivante en remp
             "wandb_mcp_server"
           ],
           "env": {
-            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_API_KEY": "[YOUR-WANDB-API-KEY]",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
           }
         }
@@ -402,7 +403,7 @@ Sélectionnez votre client MCP, puis exécutez la configuration suivante en remp
             "wandb_mcp_server"
           ],
           "env": {
-            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_API_KEY": "[YOUR-WANDB-API-KEY]",
             "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
           }
         }
@@ -466,7 +467,7 @@ Utilisez le serveur MCP pour analyser des Experiments, déboguer des traces, cr�
   ### Outils disponibles
 </div>
 
-Le serveur propose plusieurs outils à diverses fins. Le tableau suivant répertorie le nom de chaque outil, à quel moment l&#39;agent doit l&#39;utiliser, ainsi qu&#39;un prompt concret que vous pouvez utiliser pour invoquer cet outil.
+Le serveur propose plusieurs outils regroupés par usage. Le tableau suivant répertorie le nom de chaque outil, à quel moment l&#39;agent doit l&#39;utiliser, ainsi qu&#39;un prompt concret que vous pouvez utiliser pour invoquer cet outil.
 
 <Tabs>
   <Tab title="Découverte">
@@ -488,7 +489,7 @@ Le serveur propose plusieurs outils à diverses fins. Le tableau suivant répert
     | `query_wandb_tool`     | La question porte sur des runs, des sweeps, des configurations, des résumés ou des artefacts dans W&amp;B Models. Exécute une requête GraphQL.                                                                   | &quot;Montrez-moi les 5 meilleurs runs selon `eval/accuracy` dans `your-team/your-project`.&quot; |
     | `get_run_history_tool` | La question porte sur les courbes d&#39;entraînement, les tendances des métriques au fil du temps, ou toute série temporelle enregistrée pour un run.                                                            | &quot;Tracez la courbe de perte du run `abc123` dans `your-team/your-project`.&quot;              |
     | `compare_runs_tool`    | La question porte sur les modifications entre deux runs, ou sur lequel des deux est le meilleur. Renvoie la différence de configuration, l&#39;écart des métriques et, facultativement, l&#39;historique aligné. | &quot;Comparez les runs `abc123` et `def456` dans `your-team/your-project`.&quot;                 |
-    | `diagnose_run_tool`    | La question porte sur le fait de savoir si un run a convergé, est en surapprentissage ou a produit des valeurs NaN. Renvoie des recommandations concrètes.                                                       | &quot;Le run `abc123` dans `your-team/your-project` est-il en surapprentissage ?&quot;            |
+    | `diagnose_run_tool`    | La question porte sur le fait de savoir si un run a convergé, est en surapprentissage ou a produit des valeurs NaN. Renvoie des recommandations spécifiques.                                                     | &quot;Le run `abc123` dans `your-team/your-project` est-il en surapprentissage ?&quot;            |
   </Tab>
 
   <Tab title="Traces Weave">
@@ -550,7 +551,7 @@ Cette approche limite l’utilisation des jetons pour les questions générales 
   ## Conseils d’utilisation
 </div>
 
-Les pratiques et flux de travail ci-dessous vous aideront à obtenir de meilleurs résultats avec le serveur MCP de W&amp;B. Commencez par les pratiques générales, puis lisez la sous-section qui correspond à votre charge de travail pour obtenir des conseils plus précis et des enchaînements d’outils en plusieurs étapes.
+Les sections suivantes décrivent des pratiques et des flux de travail qui vous aideront à obtenir de meilleurs résultats avec le serveur MCP de W&amp;B. Commencez par les pratiques générales, puis lisez la section qui correspond à votre charge de travail pour obtenir des conseils plus précis et des enchaînements d’outils en plusieurs étapes.
 
 <div id="general-best-practices">
   ### Bonnes pratiques générales
@@ -569,12 +570,12 @@ Suivez ces pratiques, quel que soit votre cas d’utilisation :
 
 Suivez ces bonnes pratiques lorsque vous travaillez avec les traces Weave :
 
-* **Commencez par le schéma.** Appelez `infer_trace_schema_tool` avant `query_weave_traces_tool` afin que l’agent sache quels champs et quelles valeurs de filtre sont valides.
+* **Commencez par le schéma.** Appelez `infer_trace_schema_tool` avant `query_weave_traces_tool` pour fournir à l’agent les champs et les valeurs de filtre valides.
 * **Choisissez le bon `detail_level`.** Utilisez `schema` pour explorer, `summary` (par défaut) pour l’analyse, et `full` uniquement lorsque vous examinez en détail un petit nombre de traces spécifiques.
 * **Enchaînez avec `resolve_trace_roots_tool`.** Après une requête sur des traces enfants, transmettez la liste de `trace_id` obtenue à `resolve_trace_roots_tool` pour associer chaque trace à sa session racine en un seul appel groupé.
 * **Privilégiez `summarize_evaluation_tool` pour les évaluations.** Il agrège automatiquement la hiérarchie `Evaluation.evaluate` et `predict_and_score`. Ne revenez à `query_weave_traces_tool` que pour les données de trace brutes.
 
-Pour un flux de travail de bout en bout, voir [Triage des appels LLM en échec](#triage-failing-llm-calls).
+Pour un flux de travail de bout en bout, voir [analyser les appels LLM en échec](#triage-failing-llm-calls).
 
 <div id="for-run-heavy-workflows">
   ### Pour les flux de travail comportant beaucoup de runs
@@ -595,7 +596,7 @@ Pour les flux de travail de bout en bout, Voir [Diagnostiquer un run d’entraî
 
 Suivez ces pratiques pour les déploiements non multilocataires :
 
-* Préférez le serveur hébergé sur votre instance, à l&#39;adresse `https://<your-instance>/mcp`. Il expose les mêmes outils que le serveur multilocataire, sans nécessiter de `WANDB_BASE_URL` côté client. Ne recourez à une installation locale que si le serveur hébergé n&#39;est pas encore activé.
+* Préférez le serveur hébergé sur votre instance, à l&#39;adresse `https://[YOUR-INSTANCE]/mcp`. Il expose les mêmes outils que le serveur multilocataire, sans nécessiter de `WANDB_BASE_URL` côté client. Ne recourez à une installation locale que si le serveur hébergé n&#39;est pas encore activé.
 * Si vous l&#39;exécutez localement sur votre instance, définissez `WANDB_BASE_URL` avec l&#39;URL de votre instance dans le bloc `env` du client. Sans cela, le serveur cible `api.wandb.ai` et ne renvoie aucune donnée.
 * Les limites de débit sur Cloud dédié sont distinctes de celles du mode multilocataire. Voir [les limites de débit du Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits) pour connaître les valeurs par défaut et savoir comment demander des modifications.
 
@@ -613,7 +614,7 @@ Suivez ces bonnes pratiques lorsque vous exécutez le serveur sur votre propre m
   ## Flux de travail recommandés
 </div>
 
-La plupart des questions concrètes nécessitent plus d’un outil. Demandez à votre agent de suivre l’une de ces chaînes.
+La plupart des questions concrètes nécessitent plus d’un outil. Les flux de travail suivants présentent des enchaînements d’outils courants en plusieurs étapes que vous pouvez demander à votre agent d’exécuter.
 
 <div id="explore-an-unfamiliar-project">
   ### Explorer un projet inconnu
@@ -668,7 +669,7 @@ Utilisez le tableau suivant pour vous aider à diagnostiquer et à résoudre les
 | Symptôme                                                                  | Cause et correctif                                                                                                                                                                                                                                                                                           |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `401 Unauthorized` ou `Invalid API key`                                   | Votre clé API W&amp;B est absente, mal formée ou n&#39;est pas autorisée pour l&#39;entité ou l&#39;équipe cible. Générez une nouvelle clé sur [wandb.ai/authorize](https://wandb.ai/authorize) et vérifiez qu&#39;elle est transmise sous forme de jeton Bearer ou définie dans `WANDB_API_KEY`.            |
-| Résultats vides pour des requêtes qui devraient aboutir                   | Le nom de l&#39;équipe/de l&#39;entité ou du projet est incorrect, ou la clé API ne dispose pas de l&#39;accès nécessaire. Vérifiez les deux avec l&#39;agent, puis réessayez.                                                                                                                               |
-| `404 Not Found` ou `connection refused` sur `https://<your-instance>/mcp` | Le serveur MCP hébergé n&#39;est pas encore activé sur votre instance Cloud dédié ou Autogéré, ou le client pointe vers une URL incorrecte. Contactez l&#39;[assistance W&amp;B](mailto:support@wandb.com) pour demander l&#39;activation, puis vérifiez l&#39;URL dans [URL de connexion](#connection-url). |
+| Résultats vides pour des requêtes qui devraient aboutir                   | Le nom de l&#39;équipe, de l&#39;entité ou du projet est incorrect, ou la clé API ne dispose pas de l&#39;accès nécessaire. Vérifiez les deux avec l&#39;agent, puis réessayez.                                                                                                                              |
+| `404 Not Found` ou `connection refused` sur `https://[YOUR-INSTANCE]/mcp` | Le serveur MCP hébergé n&#39;est pas encore activé sur votre instance Cloud dédié ou Autogéré, ou le client pointe vers une URL incorrecte. Contactez l&#39;[assistance W&amp;B](mailto:support@wandb.com) pour demander l&#39;activation, puis vérifiez l&#39;URL dans [URL de connexion](#connection-url). |
 | `429 Too Many Requests` sur Cloud dédié                                   | Vous avez atteint les limites de débit de votre instance. Voir [limites de débit du Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits) pour savoir comment demander des limites plus élevées.                                                                                       |
 | Le serveur local ne parvient pas à trouver `uvx` dans Claude Desktop      | Utilisez le chemin complet vers `uvx` dans le champ `command` de `claude_desktop_config.json`.                                                                                                                                                                                                               |
