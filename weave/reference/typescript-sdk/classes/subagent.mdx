@@ -1,0 +1,102 @@
+---
+title: "Class: SubAgent"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / SubAgent
+
+
+
+A nested agent invocation — used when the current agent hands work to
+another named agent (e.g. a planner calling a researcher). Emits an
+`invoke_agent` span tagged with the sub-agent's name and (optionally)
+its model.
+
+Created by `weave.startSubagent()` (or `turn.startAgent()`, or
+`llm.startAgent()`) and terminated with `end()`.
+
+`Example`
+
+```ts
+const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
+try {
+  // ... orchestrate the sub-agent's LLM/Tool calls ...
+} finally {
+  sub.end();
+}
+```
+
+## Table of contents
+
+### Properties
+
+- [model](./subagent#model)
+- [name](./subagent#name)
+
+### Methods
+
+- [end](./subagent#end)
+- [create](./subagent#create)
+
+## Properties
+
+### model
+
+• `Readonly` **model**: `string`
+
+#### Defined in
+
+[genai/subagent.ts:41](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L41)
+
+___
+
+### name
+
+• `Readonly` **name**: `string`
+
+#### Defined in
+
+[genai/subagent.ts:40](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L40)
+
+## Methods
+
+### end
+
+▸ **end**(`opts?`): `void`
+
+Close the SubAgent span. Idempotent. Pass `error` to mark it as failed.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `Object` |
+| `opts.error?` | `Error` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[genai/subagent.ts:65](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L65)
+
+___
+
+### create
+
+▸ **create**(`opts`): [`SubAgent`](./subagent)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) & `ChildSpanContext` |
+
+#### Returns
+
+[`SubAgent`](./subagent)
+
+#### Defined in
+
+[genai/subagent.ts:44](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L44)
