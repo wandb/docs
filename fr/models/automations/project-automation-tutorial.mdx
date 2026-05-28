@@ -1,0 +1,90 @@
+---
+title: "Tutoriel : automatisation des alertes d’échec de run dans un projet"
+description: Créez une alerte d’échec de run qui envoie une notification Slack lorsqu’un run de votre projet échoue.
+---
+
+import TutorialDiagramProject from "/snippets/en/_includes/automations/tutorial-diagram-project.mdx";
+import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
+import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
+
+Ce tutoriel vous guide dans la création d&#39;une automatisation de **projet** déclenchée par le statut d&#39;un run : lorsqu&#39;un run de votre projet passe à **Failed**, W&amp;B envoie une notification Slack.
+
+<TutorialDiagramProject />
+
+<Tip>Pour savoir comment créer une automatisation du Registry, voir [Tutoriel : automatisation d&#39;alias d&#39;artefact du Registry](/fr/models/automations/registry-automation-tutorial).</Tip>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* Un projet W&amp;B.
+* Une [intégration Slack](/fr/models/automations/create-automations/slack#add-a-slack-integration) configurée dans **Team Settings**.
+
+<div id="create-a-project-automation">
+  ## Créer une automatisation de projet
+</div>
+
+Suivez ces instructions pour configurer une automatisation au niveau du projet : lorsqu’un run du projet passe à l’état **Failed**, W&amp;B envoie une notification Slack.
+
+{/* Onglet W&B App vs Python temporairement masqué en attendant un correctif du SDK Python pour `create_automation` / les automatisations d’état des runs (interne WB-34263). Restaurez-le lorsque le correctif de régression sera déployé.
+
+  <Tabs>
+  <Tab title="W&B App">
+  */}
+
+1. Ouvrez le projet et cliquez sur l’onglet **Automations** dans la barre latérale, puis sur **Create automation**.
+2. Choisissez l’événement **Run state change**. Définissez l’état sur **Failed**. Vous pouvez éventuellement ajouter un filtre sur le nom du run ou sur l’utilisateur pour limiter les runs qui déclenchent l’automatisation.
+3. Cliquez sur **Next step**. Définissez **Action type** sur **Slack notification** et sélectionnez le canal Slack.
+4. Cliquez sur **Next step**. Donnez un nom à l’automatisation (par exemple, &quot;Alerte d’échec de run&quot;) et ajoutez éventuellement une description, puis cliquez sur **Create automation**.
+
+Pour plus de détails, voir [Créer une automatisation Slack](/fr/models/automations/create-automations/slack#create-an-automation) (onglet Project).
+
+{/*
+  </Tab>
+  <Tab title="Python">
+  Utilisez l’API publique pour créer la même automatisation avec une portée de projet et un filtre sur l’état du run :
+
+  ```python
+  import wandb
+  from wandb.automations import OnRunState, RunEvent, SendNotification
+
+  api = wandb.Api()
+
+  project = api.project("my-project", entity="my-team")
+  slack_integration = next(api.slack_integrations(entity="my-team"))
+
+  event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["failed"]),
+  )
+  action = SendNotification.from_integration(slack_integration)
+
+  automation = api.create_automation(
+    event >> action,
+    name="run-failure-alert",
+    description="Notifier l’équipe lorsqu’un run échoue.",
+  )
+  ```
+  </Tab>
+  </Tabs>
+  */}
+
+<div id="test-the-automation">
+  ## Tester l’automatisation
+</div>
+
+Créez un run et enregistrez-le dans le projet, en l’indiquant explicitement comme ayant échoué :
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    run.log({"loss": 1.23})
+    run.finish(exit_code=1)
+```
+
+Au bout de quelques instants, vous devriez voir un message Slack avec le lien vers le run et son statut.
+
+<TutorialNotebook />
+
+<TutorialGoFurther />

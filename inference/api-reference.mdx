@@ -1,9 +1,10 @@
 ---
-title: "API Overview"
-description: "Explore the complete REST API reference for the W&B Inference service, including endpoints and authentication."
+title: "API overview"
+description: "Explore the complete REST API reference for the Serverless Inference service, including endpoints and authentication."
+keywords: ["REST API", "OpenAI-compatible", "W&B API key", "base URL", "API authentication"]
 ---
 
-Learn how to use the W&B Inference API to access foundation models programmatically.
+This reference describes the Serverless Inference REST API, which lets you call foundation models programmatically from your own applications. Use it to integrate hosted inference into services, scripts, or notebooks without managing model infrastructure.
 
 ## Base URL
 
@@ -13,37 +14,37 @@ Access the Inference service at:
 https://api.inference.wandb.ai/v1
 ```
 
-<Note>
-**Important**
+## Prerequisites
 
-To use this endpoint, you need:
-- A W&B account with Inference credits
-- A valid W&B API key
+To call the Inference API, you need:
+- A W&B account with Inference credits.
+- A valid W&B API key.
 
-If you belong to more than one team or want to attribute your usage to a project you will also need team and project IDs. In code samples, these appear as `<your-team>/<your-project>`. Your default entity and the project name `inference` will be used if unspecified.
-</Note>
+If you belong to more than one team, or want to attribute your usage to a project, you'll also need team and project IDs. In code samples, these appear as `[YOUR-TEAM]/[YOUR-PROJECT]`. If you don't specify these, W&B uses your default entity and the project name `inference`.
 
 ## Available methods
 
-The W&B Inference API provides OpenAI-compatible endpoints for interacting with foundation models:
+The Inference API provides OpenAI-compatible endpoints for interacting with foundation models. The following methods are available:
 
-- **[Chat Completions](/inference/api-reference/chat-completions)** - Create chat completions using various foundation models
-- **[List Models](/inference/api-reference/list-models)** - Get all available models and their IDs
+- **[Chat Completions](/inference/api-reference/chat-completions)**: Create chat completions using foundation models.
+- **[List Models](/inference/api-reference/list-models)**: Get all available models and their IDs.
 
 ## Authentication
 
 All API requests require authentication using your W&B API key. Create an API key at [wandb.ai/settings](https://wandb.ai/settings).
 
 Include your API key in the request headers:
-- For OpenAI SDK: Set as `api_key` parameter
-- For direct API calls: Use `Authorization: Bearer <your-api-key>`
+- For the OpenAI SDK, set the `api_key` parameter.
+- For direct API calls, use `Authorization: Bearer [YOUR-API-KEY]`.
 
 ## Error handling
 
-See [API Errors](/support/inference) for a complete list of error codes and how to resolve them.
+For a complete list of error codes and how to resolve them, see [API errors](/support/inference).
 
 ## Next steps
 
-- Try the [usage examples](/inference/examples) to see the API in action
-- Explore models in the [UI](/inference/ui-guide)
-- Check [usage limits](/inference/usage-limits) for your account
+After you have your API key, continue with one of the following:
+
+- Try the [usage examples](/inference/examples) to see how the API works.
+- Explore models in the [Inference UI](/inference/ui-guide).
+- Check [usage limits](/inference/usage-limits) for your account.

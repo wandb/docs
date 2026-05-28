@@ -1,10 +1,11 @@
 ---
-title: Quelles sont les exigences pour l’image de base de l’accélérateur ?
+title: Quelles sont les exigences de l’image de base de l’accélérateur ?
+keywords: ["image de base GPU", "version CUDA", "exigences de l’accélérateur", "pilote GPU"]
 ---
 
-Pour les jobs utilisant un accélérateur, fournissez une image de base qui inclut les composants nécessaires à l’accélérateur. Assurez-vous que l’image de l’accélérateur respecte les exigences suivantes :
+Pour les jobs W&amp;B Launch qui utilisent un accélérateur, fournissez une image de base qui inclut les composants d’accélération nécessaires. Cela garantit que votre job dispose des pilotes GPU requis, des bibliothèques d’exécution et des autres dépendances matérielles nécessaires pour s’exécuter. L’image de l’accélérateur doit respecter les exigences suivantes :
 
-* Compatibilité avec Debian (le Dockerfile Launch utilise `apt-get` pour installer Python)
-* Prise en charge du jeu d’instructions matérielles du CPU et du GPU (vérifiez la compatibilité de la version de CUDA avec le GPU visé)
-* Compatibilité entre la version de l’accélérateur fournie et les packages de l’algorithme de machine learning
-* Installation des packages qui nécessitent des étapes supplémentaires pour assurer la compatibilité matérielle
+* Compatibilité avec Debian (le Dockerfile de Launch utilise `apt-get` pour installer Python).
+* Prise en charge des jeux d’instructions matériels CPU et GPU (confirmez la compatibilité de la version CUDA avec le GPU cible).
+* Compatibilité entre la version de l’accélérateur fournie et les paquets de l’algorithme de machine learning.
+* Installation des paquets qui nécessitent des étapes supplémentaires pour assurer la compatibilité matérielle.

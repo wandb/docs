@@ -1,60 +1,60 @@
 ---
-title: W&B Inference
-description: "Utilisez W&B Inference avec Weave pour tracer et surveiller les appels aux modèles fondamentaux open source via l’API compatible OpenAI."
+title: Serverless Inference
+description: "Utilisez Serverless Inference avec Weave pour tracer et surveiller les appels aux modèles fondamentaux open source via l’API compatible OpenAI."
 ---
 
-<div id="wb-inference">
-  # W&amp;B Inference
+<div id="serverless-inference">
+  # Serverless Inference
 </div>
 
-*W&amp;B Inference* donne accès à des modèles fondamentaux open source de premier plan via W&amp;B Weave et une API compatible avec OpenAI. Avec W&amp;B Inference, vous pouvez :
+*Serverless Inference* donne accès à des modèles fondamentaux open source de premier plan via W&amp;B Weave et une API compatible avec OpenAI. Avec Serverless Inference, vous pouvez :
 
-* Développer des applications et des agents d&#39;IA sans vous inscrire auprès d&#39;un fournisseur d&#39;hébergement ni héberger vous-même un modèle.
+* Développer des applications et des agents d’IA sans vous inscrire auprès d’un fournisseur d’hébergement ni héberger vous-même un modèle.
 * Essayer les modèles pris en charge dans le Playground de W&amp;B Weave.
 
 <Warning>
-  Des crédits W&amp;B Inference sont inclus avec les plans Free, Pro et Academic pendant une durée limitée. La disponibilité peut varier pour Enterprise. Une fois les crédits consommés :
+  Des crédits Serverless Inference sont inclus avec les plans Free, Pro et Academic pendant une durée limitée. La disponibilité peut varier pour Enterprise. Une fois les crédits consommés :
 
   * Les comptes Free doivent passer à un plan Pro pour continuer à utiliser Inference.
-  * Les utilisateurs du plan Pro seront facturés mensuellement pour les dépassements de W&amp;B Inference, selon la tarification propre à chaque modèle.
+  * Les utilisateurs du plan Pro seront facturés mensuellement pour les dépassements de Serverless Inference, selon la tarification propre à chaque modèle.
 
-  Pour en savoir plus, voir la [page de tarification](https://wandb.ai/site/pricing/) et les [coûts des modèles W&amp;B Inference](https://wandb.ai/site/pricing/inference).
+  Pour en savoir plus, voir la [page de tarification](https://wandb.ai/site/pricing/) et les [coûts des modèles Serverless Inference](https://wandb.ai/site/pricing/inference).
 </Warning>
 
-Avec Weave, vous pouvez tracer, évaluer, surveiller et faire évoluer vos applications basées sur W&amp;B Inference.
+Avec Weave, vous pouvez tracer, évaluer, surveiller et faire évoluer vos applications basées sur Serverless Inference.
 
-| Modèle           | ID du modèle (pour l&#39;API)             | Type(s)       | Fenêtre de contexte | Paramètres                  | Description                                                                                                                              |
-| ---------------- | ----------------------------------------- | ------------- | ------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| DeepSeek R1-0528 | deepseek-ai/DeepSeek-R1-0528              | Texte         | 161K                | 37B - 680B (Actifs - Total) | Optimisé pour les tâches de raisonnement précis, notamment le code complexe, les mathématiques et l&#39;analyse de documents structurés. |
-| DeepSeek V3-0324 | deepseek-ai/DeepSeek-V3-0324              | Texte         | 161K                | 37B - 680B (Actifs - Total) | Modèle Mixture-of-Experts robuste, conçu pour le traitement du langage complexe et l&#39;analyse approfondie de documents.               |
-| Llama 3.1 8B     | meta-llama/Llama-3.1-8B-Instruct          | Texte         | 128K                | 8B (Total)                  | Modèle conversationnel efficace, optimisé pour des interactions multilingues rapides de type chatbot.                                    |
-| Llama 3.3 70B    | meta-llama/Llama-3.3-70B-Instruct         | Texte         | 128K                | 70B (Total)                 | Modèle multilingue excellent pour les tâches conversationnelles, le suivi précis des instructions et le code.                            |
-| Llama 4 Scout    | meta-llama/Llama-4-Scout-17B-16E-Instruct | Texte, Vision | 64K                 | 17B - 109B (Actifs - Total) | Modèle multimodal intégrant la compréhension du texte et des images, idéal pour les tâches visuelles et l&#39;analyse combinée.          |
-| Phi 4 Mini       | microsoft/Phi-4-mini-instruct             | Texte         | 128K                | 3.8B (Actifs - Total)       | Modèle compact et efficace, idéal pour fournir des réponses rapides dans des environnements aux ressources limitées.                     |
+| Modèle           | ID du modèle (pour l&#39;API)             | Type(s)       | Fenêtre de contexte | Paramètres                  | Description                                                                                                                          |
+| ---------------- | ----------------------------------------- | ------------- | ------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| DeepSeek R1-0528 | deepseek-ai/DeepSeek-R1-0528              | Texte         | 161K                | 37B - 680B (Actifs - Total) | Optimisé pour les tâches de raisonnement précis, notamment le code complexe, les mathématiques et l’analyse de documents structurés. |
+| DeepSeek V3-0324 | deepseek-ai/DeepSeek-V3-0324              | Texte         | 161K                | 37B - 680B (Actifs - Total) | Modèle Mixture-of-Experts robuste, conçu pour le traitement du langage complexe et l’analyse approfondie de documents.               |
+| Llama 3.1 8B     | meta-llama/Llama-3.1-8B-Instruct          | Texte         | 128K                | 8B (Total)                  | Modèle conversationnel efficace, optimisé pour des interactions multilingues rapides de type chatbot.                                |
+| Llama 3.3 70B    | meta-llama/Llama-3.3-70B-Instruct         | Texte         | 128K                | 70B (Total)                 | Modèle multilingue excellent pour les tâches conversationnelles, le suivi précis des instructions et le code.                        |
+| Llama 4 Scout    | meta-llama/Llama-4-Scout-17B-16E-Instruct | Texte, Vision | 64K                 | 17B - 109B (Actifs - Total) | Modèle multimodal intégrant la compréhension du texte et des images, idéal pour les tâches visuelles et l’analyse combinée.          |
+| Phi 4 Mini       | microsoft/Phi-4-mini-instruct             | Texte         | 128K                | 3.8B (Actifs - Total)       | Modèle compact et efficace, idéal pour fournir des réponses rapides dans des environnements aux ressources limitées.                 |
 
 Ce guide fournit les informations suivantes :
 
 * [Prérequis](#prerequisites)
-  * [Prérequis supplémentaires pour utiliser l&#39;API via Python](#additional-prerequisites-for-using-the-api-via-python)
-* [Spécification de l&#39;API](#api-specification)
+  * [Prérequis supplémentaires pour utiliser l’API via Python](#additional-prerequisites-for-using-the-api-via-python)
+* [Spécification de l’API](#api-specification)
   * [point de terminaison](#endpoint)
   * [Méthodes disponibles](#available-methods)
     * [Complétion de chat](#chat-completions)
     * [Lister les modèles pris en charge](#list-supported-models)
-* [Exemples d&#39;utilisation](#usage-examples)
+* [Exemples d’utilisation](#usage-examples)
 * [UI](#ui)
-  * [Accéder au service Inference](#access-the-inference-service)
+  * [Accéder au service d’Inférence](#access-the-inference-service)
   * [Essayer un modèle dans le Playground](#try-a-model-in-the-playground)
   * [Comparer plusieurs modèles](#compare-multiple-models)
-  * [Afficher les informations de facturation et d&#39;utilisation](#view-billing-and-usage-information)
-* [Informations d&#39;utilisation et limites ](#usage-information-and-limits)
-* [Erreurs d&#39;API](#api-errors)
+  * [Afficher les informations de facturation et d’utilisation](#view-billing-and-usage-information)
+* [Informations d’utilisation et limites ](#usage-information-and-limits)
+* [Erreurs d’API](#api-errors)
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Les prérequis suivants sont nécessaires pour accéder au service W&amp;B Inference via l’API ou l’interface W&amp;B Weave.
+Les prérequis suivants sont nécessaires pour accéder au service Serverless Inference via l’API ou l’interface W&amp;B Weave.
 
 1. Un compte W&amp;B. Inscrivez-vous [ici](https://app.wandb.ai/login?signup=true&_gl=1*1yze8dp*_ga*ODIxMjU5MTk3LjE3NDk0OTE2NDM.*_ga_GMYDGNGKDT*czE3NDk4NDYxMzgkbzEyJGcwJHQxNzQ5ODQ2MTM4JGo2MCRsMCRoMA..*_ga_JH1SJHJQXJ*czE3NDk4NDU2NTMkbzI1JGcxJHQxNzQ5ODQ2MTQ2JGo0NyRsMCRoMA..*_gcl_au*MTE4ODk1MzY1OC4xNzQ5NDkxNjQzLjk1ODA2MjQwNC4xNzQ5NTgyMTUzLjE3NDk1ODIxNTM.).
 2. Une clé API W&amp;B. Créez une clé API dans les [Paramètres utilisateur](https://wandb.ai/settings).
@@ -74,7 +74,7 @@ pip install openai weave
 <Note>
   La bibliothèque `weave` n&#39;est requise que si vous utilisez Weave pour tracer vos applications LLM. Pour savoir comment prendre en main Weave, voir le [Démarrage rapide de Weave](/fr/weave/quickstart).
 
-  Pour des exemples d&#39;utilisation montrant comment utiliser le service W&amp;B Inference avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
+  Pour des exemples d&#39;utilisation montrant comment utiliser le service de Serverless Inference avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
 </Note>
 
 <div id="api-specification">
@@ -111,10 +111,10 @@ Le service d’Inférence prend en charge les méthodes de l’API suivantes :
 * [Lister les modèles pris en charge](#list-supported-models)
 
 <div id="chat-completions">
-  #### Complétions de chat
+  #### Complétion de chat
 </div>
 
-La principale méthode d’API disponible est `/chat/completions`, qui prend en charge les formats de requête compatibles avec OpenAI pour envoyer des messages à un modèle pris en charge et obtenir une complétion. Pour des exemples d&#39;utilisation du service W&amp;B Inference avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
+La principale méthode d’API disponible est `/chat/completions`, qui prend en charge les formats de requête compatibles avec OpenAI pour envoyer des messages à un modèle pris en charge et obtenir une complétion. Pour des exemples d&#39;utilisation montrant comment utiliser le service Serverless Inference avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
 
 Pour créer une complétion de chat, vous aurez besoin de :
 
@@ -151,18 +151,18 @@ Pour créer une complétion de chat, vous aurez besoin de :
     import openai
 
     client = openai.OpenAI(
-        # L'URL de base personnalisée pointe vers W&B Inference
+        # L’URL de base personnalisée pointe vers Serverless Inference
         base_url='https://api.inference.wandb.ai/v1',
 
         # Créez une clé API sur https://wandb.ai/settings
-        # Pour plus de sécurité, envisagez plutôt de la définir dans l'environnement comme OPENAI_API_KEY
+        # Pour plus de sécurité, envisagez plutôt de la définir dans l’environnement sous OPENAI_API_KEY
         api_key="<your-api-key>",
 
-        # L'équipe et le projet sont requis pour le suivi de l'utilisation
+        # L’équipe et le projet sont requis pour le suivi de l’utilisation
         project="<your-team>/<your-project>",
     )
 
-    # Remplacez <model-id> par l'une des valeurs suivantes :
+    # Remplacez <model-id> par l’une des valeurs suivantes :
     # meta-llama/Llama-3.1-8B-Instruct
     # deepseek-ai/DeepSeek-V3-0324
     # meta-llama/Llama-3.3-70B-Instruct
@@ -221,7 +221,7 @@ Utilisez l’API pour récupérer tous les modèles actuellement disponibles et 
   ## Exemples d&#39;utilisation
 </div>
 
-Cette section présente plusieurs exemples montrant comment utiliser W&amp;B Inference avec Weave :
+Cette section présente plusieurs exemples montrant comment utiliser Serverless Inference avec Weave :
 
 * [Exemple de base : tracer Llama 3.1 8B avec Weave](#basic-example-trace-llama-31-8b-with-weave)
 * [Exemple avancé : utiliser les Évaluations et les classements de Weave avec le service d&#39;inférence](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service)
@@ -230,7 +230,7 @@ Cette section présente plusieurs exemples montrant comment utiliser W&amp;B Inf
   ### Exemple de base : tracer Llama 3.1 8B avec Weave
 </div>
 
-L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle **Llama 3.1 8B** à l&#39;aide de l&#39;API W&amp;B Inference et tracer l&#39;appel dans Weave. Le Tracing vous permet de capturer les entrées et sorties complètes de l&#39;appel au LLM, de surveiller les performances et d&#39;analyser les résultats dans Weave UI.
+L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle **Llama 3.1 8B** à l&#39;aide de l&#39;API Serverless Inference et tracer l&#39;appel dans Weave. Le Tracing vous permet de capturer les entrées et sorties complètes de l&#39;appel au LLM, de surveiller les performances et d&#39;analyser les résultats dans Weave UI.
 
 <Tip>
   Pour en savoir plus, consultez [le tracing dans Weave](../tracking/tracing.mdx).
@@ -238,7 +238,7 @@ L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle
 
 Dans cet exemple :
 
-* Vous définissez une fonction décorée avec `@weave.op()`, `run_chat`, qui effectue une requête de Chat Completion à l&#39;aide du client compatible OpenAI.
+* Vous définissez une fonction décorée avec `@weave.op()`, `run_chat`, qui effectue une requête de complétion de chat à l&#39;aide du client compatible OpenAI.
 * Vos traces sont enregistrées et associées à votre entité W&amp;B ainsi qu&#39;à votre projet `project="<your-team>/<your-project>`
 * La fonction est automatiquement tracée par Weave, de sorte que ses entrées, ses sorties, sa latence et ses métadonnées (comme l&#39;ID du modèle) sont enregistrées.
 * Le résultat est affiché dans le terminal, et la trace apparaît dans votre onglet **Traces** sur [https://wandb.ai](https://wandb.ai), sous le projet spécifié.
@@ -262,7 +262,7 @@ client = openai.OpenAI(
     project="wandb/inference-demo",
 )
 
-# Tracer l'appel du modèle dans Weave
+# Tracer l'appel au modèle dans Weave
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -286,9 +286,7 @@ Une fois l’exemple de code exécuté, vous pouvez consulter la trace dans Weav
 
 Ensuite, essayez l’[exemple avancé](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service).
 
-<Frame>
-  ![Affichage des traces](/weave/guides/integrations/imgs/image.png)
-</Frame>
+<Frame>![Affichage des traces](/weave/guides/integrations/imgs/image.png)</Frame>
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service">
   ### Exemple avancé : utilisez les évaluations et les classements de Weave avec le service d&#39;inférence
@@ -306,7 +304,7 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# Définir l'équipe et le projet Weave pour le tracing
+# Définir l'équipe et le projet Weave pour le suivi
 weave.init("<your-team>/<your-project>")
 
 dataset = [
@@ -325,9 +323,9 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Créer une clé API sur https://wandb.ai/settings
+            # Créez une clé API sur https://wandb.ai/settings
             api_key="<your-api-key>",
-            # Requis pour le suivi de l'utilisation de l'inférence W&B
+            # Requis pour le suivi d'utilisation de l'inférence W&B
             project="<your-team>/<your-project>",
         )
         resp = client.chat.completions.create(
@@ -422,8 +420,8 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
 </div>
 
 1. Dans la barre latérale gauche, sélectionnez **Playground**. L’interface de chat du Playground s’affiche.
-2. Dans la liste déroulante LLM, survolez **W&amp;B Inference**. Une liste déroulante affichant les modèles W&amp;B Inference disponibles apparaît à droite.
-3. Dans la liste déroulante des modèles W&amp;B Inference, vous pouvez :
+2. Dans la liste déroulante LLM, survolez **Serverless Inference**. Une liste déroulante affichant les modèles Serverless Inference disponibles apparaît à droite.
+3. Dans la liste déroulante des modèles Serverless Inference, vous pouvez :
    * Cliquer sur le nom de n’importe quel modèle disponible pour [l’essayer dans le Playground](#try-a-model-in-the-playground).
    * [Comparer un ou plusieurs modèles dans le Playground](#compare-multiple-models)
 
@@ -475,7 +473,7 @@ Vous pouvez maintenant comparer des modèles dans le Playground et utiliser n’
 </div>
 
 1. Dans la barre latérale gauche, sélectionnez **Playground**. L’interface de chat du Playground s’affiche.
-2. Dans la liste déroulante LLM, survolez **W&amp;B Inference**. Une liste déroulante des modèles W&amp;B Inference disponibles s’affiche à droite.
+2. Dans la liste déroulante LLM, survolez **Serverless Inference**. Une liste déroulante des modèles Serverless Inference disponibles s’affiche à droite.
 3. Dans la liste déroulante, sélectionnez **Compare**. L’onglet **Inférence** s’affiche.
 4. Pour sélectionner des modèles à comparer, cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle). La bordure de la carte de modèle se surligne en bleu pour indiquer la sélection.
 5. Répétez l’étape 4 pour chaque modèle que vous souhaitez comparer.
@@ -515,7 +513,7 @@ Le service d’Inférence est accessible uniquement depuis des zones géographiq
   ### Limites de concurrence
 </div>
 
-Pour garantir une utilisation équitable et des performances stables, la W&amp;B Inference API applique des limites de débit au niveau de l’utilisateur et du projet. Ces limites permettent de :
+Pour garantir une utilisation équitable et des performances stables, la API Serverless Inference applique des limites de débit au niveau de l’utilisateur et du projet. Ces limites permettent de :
 
 * Prévenir les abus et protéger la stabilité de l’API
 * Garantir l’accès à tous les utilisateurs

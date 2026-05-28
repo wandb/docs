@@ -9,7 +9,7 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-이 페이지에서는 W&amp;B [자동화](/ko/models/automations/)를 생성하고 관리하는 방법의 개요를 설명합니다. 자세한 지침은 [Slack 자동화 만들기](/ko/models/automations/create-automations/slack/) 또는 [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook/)를 참고하세요.
+이 페이지에서는 W&amp;B [자동화](/ko/models/automations)를 생성하고 관리하는 방법의 개요를 설명합니다. 자세한 지침은 [Slack 자동화 만들기](/ko/models/automations/create-automations/slack) 또는 [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook)를 참고하세요.
 
 <Note>
   자동화 관련 튜토리얼을 찾고 계신가요?
@@ -23,7 +23,7 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
   ## 요구 사항
 </div>
 
-* Team Admin은 팀의 Projects에 대한 자동화과 웹훅, 시크릿, Slack 인테그레이션 같은 자동화 컴포넌트를 생성하고 관리할 수 있습니다. [Team settings](/ko/platform/app/settings-page/teams/)를 참고하세요.
+* Team Admin은 팀의 Projects에 대한 자동화과 웹훅, 시크릿, Slack 인테그레이션 같은 자동화 컴포넌트를 생성하고 관리할 수 있습니다. [Team settings](/ko/platform/app/settings-page/teams)를 참고하세요.
 * 레지스트리 자동화를 생성하려면 레지스트리에 대한 액세스 권한이 있어야 합니다. [Configure Registry access](/ko/models/registry/configure_registry/#registry-roles)를 참고하세요.
 * Slack 자동화를 생성하려면 선택한 Slack 인스턴스와 채널에 게시할 권한이 있어야 합니다.
 
@@ -33,7 +33,7 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
 
 프로젝트 또는 레지스트리의 **Automations** 탭에서 자동화를 생성합니다. 자동화를 생성하는 전체 과정은 다음과 같습니다.
 
-1. 필요한 경우 access token, 비밀번호, SSH 키처럼 자동화에 필요한 각 민감한 문자열에 대해 [W&amp;B 시크릿을 생성](/ko/platform/secrets/)합니다. 시크릿은 **Team Settings**에서 정의합니다. 시크릿은 가장 일반적으로 웹훅 자동화에서 사용됩니다.
+1. 필요한 경우 access token, 비밀번호, SSH 키처럼 자동화에 필요한 각 민감한 문자열에 대해 [W&amp;B 시크릿을 생성](/ko/platform/secrets)합니다. 시크릿은 **Team Settings**에서 정의합니다. 시크릿은 가장 일반적으로 웹훅 자동화에서 사용됩니다.
 2. W&amp;B가 사용자를 대신해 Slack에 게시하거나 웹훅을 실행할 수 있도록 팀 수준의 웹훅 또는 Slack 인테그레이션을 설정합니다. 하나의 웹훅 또는 Slack 인테그레이션을 여러 자동화에서 사용할 수 있습니다. 이러한 작업은 **Team Settings**에서 정의합니다.
 3. 프로젝트 또는 레지스트리에서 자동화를 생성하고, 감지할 이벤트와 수행할 작업(예: Slack에 게시 또는 웹훅 실행)을 지정합니다. 웹훅 자동화를 생성할 때는 전송할 payload도 설정합니다.
 
@@ -48,8 +48,8 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
 
 자세한 내용은 다음을 참고하세요.
 
-* [Slack 자동화 생성](/ko/models/automations/create-automations/slack/)
-* [웹훅 자동화 생성](/ko/models/automations/create-automations/webhook/)
+* [Slack 자동화 만들기](/ko/models/automations/create-automations/slack)
+* [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook)
 
 <div id="view-and-manage-automations">
   ## 자동화 보기 및 관리
@@ -66,7 +66,12 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
   ## 다음 단계
 </div>
 
-* [자동화 이벤트 및 범위](/ko/models/automations/automation-events/)에 대해 자세히 알아보세요.
-* [Slack 자동화 만들기](/ko/models/automations/create-automations/slack/).
-* [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook/).
-* [시크릿 만들기](/ko/platform/secrets/).
+* [Automations 튜토리얼](/ko/models/automations/tutorial): W&amp;B App에서 [프로젝트 run 실패 Alert](/ko/models/automations/project-automation-tutorial) 또는 [레지스트리 별칭-웹훅 자동화](/ko/models/automations/registry-automation-tutorial)를 만들어 보세요.
+* [자동화 이벤트 및 범위](/ko/models/automations/automation-events).
+* [Slack 자동화 만들기](/ko/models/automations/create-automations/slack).
+* [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook).
+* [시크릿 만들기](/ko/platform/secrets).
+
+{/* Python SDK `create_automation` 회귀 이슈가 수정되면 복원합니다(내부 WB-34263):
+  - [API로 Automations 관리하기](/models/automations/api).
+  */}

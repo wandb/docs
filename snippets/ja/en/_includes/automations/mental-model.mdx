@@ -1,0 +1,12 @@
+---
+title: 基本的な考え方
+---
+
+W&amp;B Automations は、シンプルなパターンに従います。**イベント** が発生し、必要に応じて **条件** が満たされると、**アクション** が自動的に実行されます。たとえば次のとおりです。
+
+* run が失敗したとき (イベント) 、Slack チャンネルに通知します (アクション) 。
+  <TutorialDiagramProject />
+* artifact に `production` alias が追加されたとき (イベント) 、webhook を呼び出して deployment をトリガーします (アクション) 。
+  <TutorialDiagramRegistry />
+
+[project](/ja/models/automations/automation-events#project) スコープと [Registry](/ja/models/automations/automation-events#registry) スコープの Automations では、イベントと使用できる条件が異なります。[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。

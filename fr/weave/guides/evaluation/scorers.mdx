@@ -1,22 +1,22 @@
 ---
-title: "Aperçu des évaluateurs"
-description: "Évaluez les sorties de l’IA et renvoyez des métriques d’évaluation avec les évaluateurs Weave"
+title: "Aperçu des scorers"
+description: "Évaluez les sorties de l’IA et renvoyez des métriques d’évaluation avec les scorers Weave"
 ---
 
-Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à renvoyer des métriques d’évaluation. Ils prennent la sortie de l’IA, l’analysent et renvoient un dictionnaire de résultats. Les évaluateurs peuvent utiliser vos données d’entrée comme référence si nécessaire et produire également des informations supplémentaires, comme des explications ou le raisonnement issu de l’évaluation.
+Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer des métriques d’évaluation. Ils prennent la sortie de l’IA, l’analysent et renvoient un dictionnaire de résultats. Les scorers peuvent utiliser vos données d’entrée comme référence si nécessaire et produire également des informations supplémentaires, comme des explications ou le raisonnement issu de l’évaluation.
 
 <Tabs>
   <Tab title="Python">
-    Les évaluateurs sont transmis à un objet `weave.Evaluation` pendant l’évaluation. Il existe deux types d’évaluateurs dans Weave :
+    Les scorers sont transmis à un objet `weave.Evaluation` pendant l’évaluation. Il existe deux types de scorers dans Weave :
 
-    1. **évaluateurs basés sur des fonctions :** fonctions Python simples décorées avec `@weave.op`.
-    2. **évaluateurs basés sur des classes :** classes Python qui héritent de `weave.Scorer` pour des évaluations plus complexes.
+    1. **scorers basés sur des fonctions :** fonctions Python simples décorées avec `@weave.op`.
+    2. **scorers basés sur des classes :** classes Python qui héritent de `weave.Scorer` pour des évaluations plus complexes.
 
-    Les évaluateurs doivent renvoyer un dictionnaire et peuvent renvoyer plusieurs métriques, des métriques imbriquées et des valeurs non numériques, comme du texte renvoyé par un LLM-évaluateur sur son raisonnement.
+    Les scorers doivent renvoyer un dictionnaire et peuvent renvoyer plusieurs métriques, des métriques imbriquées et des valeurs non numériques, comme du texte renvoyé par un LLM-scorer sur son raisonnement.
   </Tab>
 
   <Tab title="TypeScript">
-    Les évaluateurs sont des ops spéciales transmises à un objet `weave.Evaluation` pendant l’évaluation.
+    Les scorers sont des ops spéciales transmises à un objet `weave.Evaluation` pendant l’évaluation.
   </Tab>
 </Tabs>
 
@@ -80,7 +80,7 @@ Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à ren
 </Tabs>
 
 <div id="class-based-scorers">
-  ### Scorers basés sur des classes
+  ### évaluateurs basés sur des classes
 </div>
 
 <Tabs>
@@ -124,11 +124,11 @@ Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à ren
 
         @weave.op
         def score(self, output: str, text: str) -> dict:
-            """Évalue la qualité du résumé.
+            """Évaluez la qualité de la synthèse.
 
             Arguments:
-                output: Le résumé généré par un système d'IA
-                text: Le texte original à résumer
+                output: La synthèse générée par un système d’IA
+                text: Le texte original en cours de synthèse
             """
             processed_text = self.some_complicated_preprocessing(text)
             eval_result = self.call_llm(summary=output, processed_text=processed_text)
@@ -187,7 +187,7 @@ Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à ren
     import weave
     from weave import Scorer
 
-    # Un jeu de données contenant des articles de presse à résumer
+    # Un jeu de données avec des articles de presse à résumer
     dataset = [
         {"news_article": "The news today was great...", "date": "2030-04-20", "source": "Bright Sky Network"},
         ...
@@ -199,12 +199,12 @@ Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à ren
         @weave.op
         def score(self, output, text) -> dict:
             """
-                output: résumé généré par un système de résumé par LLM
-                text: le texte à résumer
+                output: synthèse de sortie d’un système de synthèse par LLM
+                text: le texte en cours de synthèse
             """
-            ...  # évaluer la qualité du résumé
+            ...  # évaluer la qualité de la synthèse
 
-    # créer un scorer avec un mapping de colonnes associant l'argument `text` à la colonne de données `news_article`
+    # créer un scorer avec un mapping de colonne qui associe l’argument `text` à la colonne de données `news_article`
     scorer = SummarizationScorer(column_map={"text" : "news_article"})
     ```
 
@@ -221,8 +221,8 @@ Dans Weave, les évaluateurs servent à évaluer les sorties de l’IA et à ren
     class MySummarizationScorer(SummarizationScorer):
 
         @weave.op
-        def score(self, output: str, news_article: str) -> dict:  # Ajout d'annotations de type
-            # surcharger la méthode score et faire correspondre les colonnes manuellement
+        def score(self, output: str, news_article: str) -> dict:  # Ajout d’annotations de type
+            # surcharge la méthode score et mappe les colonnes manuellement
             return super().score(output=output, text=news_article)
     ```
   </Tab>
@@ -281,7 +281,7 @@ Pour une fonction comme :
 ```python
 @weave.op
 def summarize_article(article: str, max_length: int) -> str:
-    # Votre logique de résumé ici
+    # Votre logique de synthèse ici
     return summary
 ```
 
@@ -335,7 +335,7 @@ Renvoyez un objet JSON avec votre note et votre justification.
     ```python lines
     class MyBinaryScorer(Scorer):
         """
-        Renvoie True si la sortie complète correspond à la cible, sinon False
+        Renvoie True si la sortie complète correspond à la cible, False sinon
         """
 
         @weave.op
@@ -376,10 +376,10 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
     Voici un exemple simple :
 
     ```python lines
-    # Obtenir à la fois le résultat et l'objet Call
+    # Obtenir à la fois le résultat et l’objet Call
     result, call = generate_text.call("Say hello")
 
-    # Appliquer un scorer
+    # Appliquer un évaluateur
     score = await call.apply_scorer(MyScorer())
     ```
 
@@ -397,7 +397,7 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
 
     * Les résultats des évaluateurs sont automatiquement stockés dans la base de données de Weave
     * Les évaluateurs s’exécutent de manière asynchrone une fois l’opération principale terminée
-    * Vous pouvez consulter les résultats des évaluateurs dans l’UI ou les interroger via l’API
+    * Vous pouvez consulter les résultats des évaluateurs dans l’interface utilisateur ou les interroger via l’API
 
     Pour plus d’informations sur l’utilisation des évaluateurs comme garde-fous ou moniteurs, y compris les bonnes pratiques en production et des exemples complets, consultez notre guide [Guardrails and Monitors](./monitors).
   </Tab>
@@ -445,7 +445,7 @@ client = weave.init("my-project")
 # Obtenir un appel unique
 call = client.get_call("call-uuid-here")
 
-# Obtenir le feedback de l'appel qui contient les scores
+# Obtenir le feedback de l'appel, qui contient les scores
 feedback = list(call.feedback)
 ```
 
@@ -472,10 +472,10 @@ Pour récupérer plusieurs appels, vous pouvez utiliser la méthode `get_calls`.
 ```python lines
 client = weave.init("my-project")
 
-# Obtenir plusieurs appels - utilisez les filtres souhaités et incluez les retours
+# Obtenir plusieurs appels - utilisez les filtres de votre choix et incluez le feedback
 calls = client.get_calls(..., include_feedback=True)
 
-# Itérer sur les appels et accéder aux retours contenant les scores
+# Itérer sur les appels et accéder au feedback qui contient les scores
 for call in calls:
     feedback = list(call.feedback)
 ```
@@ -498,7 +498,7 @@ Les scores de plusieurs appels sont affichés dans le tableau des traces, dans l
   #### API de tous les appels par scorer
 </div>
 
-Pour récupérer tous les appels auxquels un scorer spécifique a attribué un score, vous pouvez utiliser la méthode `get_calls`.
+Pour récupérer tous les appels notés par un scorer spécifique, vous pouvez utiliser la méthode `get_calls`.
 
 ```python lines
 client = weave.init("my-project")
@@ -510,7 +510,7 @@ calls = client.get_calls(scored_by=["MyScorer"], include_feedback=True)
 # Les références peuvent être obtenues depuis l'objet scorer ou via l'interface utilisateur.
 calls = client.get_calls(scored_by=[myScorer.ref.uri()], include_feedback=True)
 
-# Parcourir les appels et accéder aux retours qui contiennent les scores
+# Parcourir les appels et accéder aux feedback contenant les scores
 for call in calls:
     feedback = list(call.feedback)
 ```

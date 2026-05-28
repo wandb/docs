@@ -32,7 +32,8 @@ __init__(
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
+    attrs: 'Mapping[str, Any] | None' = None,
+    service_api: 'ServiceApi'
 )
 ```
 
@@ -159,6 +160,7 @@ get(
     sid: 'str | None' = None,
     order: 'str | None' = None,
     query: 'Document | None' = None,
+    service_api: 'ServiceApi',
     **kwargs
 )
 ```
@@ -169,7 +171,8 @@ Execute a query against the cloud backend.
 
 **Args:**
  
- - `client`:  The client to use to execute the query. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for the returned sweep. 
  - `entity`:  The entity (username or team) that owns the project. 
  - `project`:  The name of the project to fetch sweep from. 
  - `sid`:  The sweep ID to query. 

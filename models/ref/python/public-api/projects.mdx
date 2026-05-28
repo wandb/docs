@@ -21,13 +21,15 @@ An iterable interface to access projects created and saved by the entity.
 __init__(
     client: 'RetryingClient',
     entity: 'str',
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    service_api: 'ServiceApi'
 ) → Projects
 ```
 
 **Args:**
  
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `entity` (str):  The entity name (username or team) to fetch projects for. 
  - `per_page` (int):  Number of projects to fetch per request (default is 50). 
 
@@ -55,7 +57,8 @@ An iterable collection of `Project` objects.
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `entity`:  The entity which owns the projects. 
  - `per_page`:  The number of projects to fetch per request to the API. 
 

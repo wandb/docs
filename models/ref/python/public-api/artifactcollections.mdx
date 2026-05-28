@@ -17,7 +17,8 @@ Artifact collections of a specific type in a project.
 
 **Args:**
  
- - `client`:  The client instance to use for querying W&B. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `entity`:  The entity (user or team) that owns the project. 
  - `project`:  The name of the project to query for artifact collections. 
  - `type_name`:  The name of the artifact type for which to fetch collections. 

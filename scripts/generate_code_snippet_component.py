@@ -69,7 +69,7 @@ def main():
     """Generate the CodeSnippet component."""
     script_dir = Path(__file__).parent
     docs_root = script_dir.parent
-    snippets_dir = docs_root / 'snippets' / 'en' / '_includes' / 'code-examples'
+    snippets_dir = docs_root / 'snippets' / '_includes' / 'code-examples'
     output_file = docs_root / 'snippets' / 'CodeSnippet.jsx'
     
     # Find all Python files

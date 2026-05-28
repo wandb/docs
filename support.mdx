@@ -1,10 +1,39 @@
 ---
 title: Support Home
-mode: "center"
+mode: "custom"
 ---
 
 import {Banner} from "/snippets/Banner.jsx";
 import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
+
+{/*
+  mode: "custom" strips Mintlify's default content chrome (sidebar, TOC,
+  footer) and the standard content padding. The wrapper below restores
+  spacing comparable to mode: "center" on Mint themes:
+    - max-w-4xl    constrain to a comfortable centered reading column
+                   (roughly the width Mintlify uses on landing pages and
+                   center-mode pages)
+    - mx-auto      horizontally center the column
+    - px-6 lg:px-8 horizontal gutters that scale up on wider viewports
+    - py-10        vertical breathing room between navbar and content
+                   (custom mode does not render the standard page header,
+                   so the body otherwise butts up against the navbar)
+  Per Mintlify guidance, layout uses Tailwind utility classes rather than
+  the style prop to avoid a layout shift on page load.
+*/}
+
+<div className="max-w-4xl mx-auto px-6 lg:px-8 py-10">
+
+{/*
+  In mode: "custom" Mintlify does not render the frontmatter title as an
+  on-page H1, and there is no prose wrapper around the body, so HTML
+  headings (<h1>/<h2>/<h3>) inherit browser defaults plus the project's
+  typography.css rule (serif family, weight 400). Mintlify's custom-layouts
+  guide handles this by writing raw HTML headings with explicit Tailwind
+  classes; do the same here so headings read like normal docs headings.
+*/}
+
+<h1 className="tracking-tight mb-8" style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}>Support Home</h1>
 
 <Banner title="How can we help?" background="/images/support/support_banner.png">
   Search for help from support articles, product documentation,<br/>
@@ -13,7 +42,7 @@ and the W&B community.
 
 <HelpQuestionForm />
 
-## Browse support articles by product
+<h2 className="tracking-tight mt-12 mb-4" style={{ fontSize: '1.5rem' }}>Browse support articles by product</h2>
 
 <CardGroup cols={3}>
 <Card title="W&B Models" href="/support/models" arrow="true" icon="/icons/cropped-models.svg">
@@ -26,7 +55,7 @@ and the W&B community.
   17 articles &middot; 8 tags
   {/* END AUTO-GENERATED: counts */}
 </Card>
-<Card title="W&B Inference" href="/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
+<Card title="Serverless Inference" href="/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
   {/* AUTO-GENERATED: counts */}
   9 articles &middot; 5 tags
   {/* END AUTO-GENERATED: counts */}
@@ -71,3 +100,5 @@ and the W&B community.
 >
   Contact support
 </Card>
+
+</div>

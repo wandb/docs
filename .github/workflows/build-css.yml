@@ -1,0 +1,76 @@
+name: Build CSS
+
+on:
+  pull_request:
+    # Only react to changes to the CSS source partials and bundler config —
+    # not the generated css/styles.css, which would otherwise cause this
+    # workflow to retrigger itself in a loop.
+    paths:
+      - 'scripts/css-minify/**'
+
+jobs:
+  build:
+    name: Bundle and push styles.css
+    # Only run on PRs from branches in this repository, not from forks. Forks
+    # cannot receive the App-token push and we should not expose the App
+    # credentials to untrusted PR code.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: docs
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v6
+        with:
+          # App token rather than the default GITHUB_TOKEN so the rebuild
+          # commit triggers downstream workflows (for example Validate MDX).
+          # Fork PRs are already excluded by the job-level `if` above.
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: scripts/css-minify/package-lock.json
+
+      - name: Install dependencies
+        working-directory: scripts/css-minify
+        run: npm ci
+
+      - name: Build styles.css
+        working-directory: scripts/css-minify
+        run: npm run build
+
+      - name: Commit and push if styles.css changed
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          if [[ -z "$(git status --porcelain css/styles.css)" ]]; then
+            echo "css/styles.css is already in sync with the partials — nothing to commit."
+            exit 0
+          fi
+          # Identify the commit author as the GitHub App's bot user. Calling
+          # /user with an installation token returns the bot's login
+          # (<app-slug>[bot]) and numeric id; the noreply email format
+          # <id>+<login>@users.noreply.github.com is what GitHub recognizes
+          # as authored by the App.
+          APP_LOGIN=$(gh api /user --jq '.login')
+          APP_ID=$(gh api /user --jq '.id')
+          git config user.name  "$APP_LOGIN"
+          git config user.email "${APP_ID}+${APP_LOGIN}@users.noreply.github.com"
+          git add css/styles.css
+          git commit -m "Rebuild css/styles.css from scripts/css-minify partials"
+          git push origin HEAD:${{ github.head_ref }}

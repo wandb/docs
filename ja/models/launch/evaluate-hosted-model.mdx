@@ -20,7 +20,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 2. 特定のベンチマークを実行するには、チーム管理者が必要な APIキー をチームスコープのシークレットとして追加しておく必要があります。評価ジョブの設定時には、どのチームメンバーでもそのシークレットを指定できます。
    * **OpenAPI APIキー**: スコアリングに OpenAI モデルを使用するベンチマークで使われます。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合は必須です。シークレット名は `OPENAI_API_KEY` である必要があります。
    * **Hugging Face ユーザーアクセストークン**: 1 つ以上の制限付き Hugging Face データセットへのアクセスが必要な `lingoly` や `lingoly2` など、一部のベンチマークで必須です。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合は必須です。APIキーには、該当するデータセットへのアクセス権が必要です。[ユーザーアクセストークン](https://huggingface.co/docs/hub/en/security-tokens)および[制限付きデータセットへのアクセス](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)については、Hugging Face のドキュメントを参照してください。
-   * [W&amp;B Inference](/ja/inference) が提供するモデルを評価するには、組織またはチーム管理者が `WANDB_API_KEY` を任意の値で作成する必要があります。このシークレットは実際には認証には使用されません。
+   * [Serverless Inference](/ja/inference) が提供するモデルを評価するには、組織またはチーム管理者が `WANDB_API_KEY` を任意の値で作成する必要があります。このシークレットは実際には認証には使用されません。
 3. 評価対象のモデルは、公開アクセス可能な URL で利用できる必要があります。組織またはチーム管理者は、認証用の APIキー を含むチームスコープのシークレットを作成する必要があります。
 4. 評価結果用に新しい[W&amp;B プロジェクト](/ja/models/track/project-page)を作成します。プロジェクトのサイドバーで **Create new project** をクリックします。
 5. 各ベンチマークの仕組みを理解し、個別の要件を確認するために、そのベンチマークのドキュメントを確認します。参考として、[利用可能な評価ベンチマーク](/ja/models/launch/evaluations)のリファレンスには関連リンクが含まれています。
@@ -31,11 +31,11 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
 次の手順に従って、評価ジョブを設定して起動します。
 
-1. W&amp;B にログインし、プロジェクトのサイドバーで **Launch** をクリックします。**LLM Evaluation Jobs** ページが表示されます。
-2. **Evaluate ホスト型 API モデル** をクリックして、評価を設定します。
+1. W&amp;B にログインし、プロジェクトのサイドバーで **Launch** をクリックします。**LLM 評価ジョブ** ページが表示されます。
+2. **ホスト型 API モデルを評価する** をクリックして、評価を設定します。
 3. 評価結果の保存先となるプロジェクトを選択します。
 4. **Model** セクションで、評価するベース URL とモデル名を指定し、認証に使用する APIキー を選択します。モデル名は、[AI Security Institute](https://inspect.aisi.org.uk/providers.html#openai-api) で定義されている OpenAI 互換形式で指定してください。たとえば、OpenAI モデルは次の構文で指定します: `openai/<model-name>`。hosted モデルプロバイダとモデルの一覧については、[AI Security Institute&#39;s model provider reference](https://inspect.aisi.org.uk/providers.html) を参照してください。
-   * [W&amp;B Inference](/ja/inference) が提供するモデルを評価するには、ベース URL を `https://api.inference.wandb.ai/v1` に設定し、モデル名を次の構文で指定します: `openai-api/wandb/<model_id>`。詳細は [Inference model catalog](/ja/inference/models) を参照してください。
+   * [Serverless Inference](/ja/inference) が提供するモデルを評価するには、ベース URL を `https://api.inference.wandb.ai/v1` に設定し、モデル名を次の構文で指定します: `openai-api/wandb/<model_id>`。詳細は [Inference model catalog](/ja/inference/models) を参照してください。
    * [OpenRouter](https://inspect.aisi.org.uk/providers.html#openrouter) プロバイダを使用するには、モデル名の先頭に `openrouter` を付けて、次の構文で指定します: `openrouter/<model-name>`。
    * カスタムの OpenAPI 準拠モデルを評価するには、モデル名を次の構文で指定します: `openai-api/wandb/<model-name>`。
 5. **Select evaluations** をクリックし、実行するベンチマークを最大 4 つまで選択します。

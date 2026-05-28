@@ -1,0 +1,39 @@
+---
+title: Serverless SFT
+description: Découvrez comment effectuer le fine-tuning de modèles à l'aide du fine-tuning supervisé (SFT) sur W&B
+---
+
+Utilisez Serverless SFT pour effectuer le fine-tuning de LLM avec un apprentissage supervisé sur des jeux de données sélectionnés. Serverless SFT est désormais disponible en préversion publique. W&amp;B fournit pour vous l&#39;infrastructure d&#39;entraînement ([sur CoreWeave](https://docs.coreweave.com/docs/platform)) tout en vous laissant une flexibilité totale dans la configuration de votre environnement. Vous bénéficiez d&#39;un accès immédiat à un cluster d&#39;entraînement géré, avec mise à l&#39;échelle automatique, pour prendre en charge vos charges de travail d&#39;entraînement.
+
+Serverless SFT est idéal pour des tâches telles que :
+
+* **Distillation** : transférer les connaissances d&#39;un modèle plus grand et plus performant vers un modèle plus petit et plus rapide
+* **Apprentissage du style et du format de sortie** : entraîner un modèle à respecter des formats de réponse, un ton ou une structure spécifiques
+* **Amorçage avant le RL** : préentraîner un modèle avec des exemples supervisés avant d&#39;appliquer l&#39;apprentissage par renforcement pour l&#39;affiner davantage
+
+Serverless SFT entraîne des adaptateurs de bas rang (LoRA) pour spécialiser un modèle pour votre tâche. W&amp;B stocke automatiquement les LoRA que vous entraînez comme artefacts dans votre compte. Vous pouvez également les enregistrer localement ou sur un service tiers à des fins de sauvegarde. Serverless Inference héberge aussi automatiquement les modèles que vous entraînez via Serverless SFT.
+
+Voir la [documentation ART sur Serverless SFT](https://art.openpipe.ai/fundamentals/sft-training) pour bien démarrer.
+
+<div id="why-serverless-sft">
+  ## Pourquoi Serverless SFT ?
+</div>
+
+Le fine-tuning supervisé (SFT) est une technique d&#39;entraînement dans laquelle un modèle apprend à partir d&#39;exemples d&#39;entrée-sortie sélectionnés. Serverless SFT sur W&amp;B offre les avantages suivants :
+
+* **Coûts d&#39;entraînement réduits** : en mutualisant l&#39;infrastructure entre de nombreux utilisateurs, en évitant le processus de configuration pour chaque tâche et en ramenant vos coûts GPU à 0 lorsque vous n&#39;êtes pas activement en entraînement, Serverless SFT réduit considérablement les coûts d&#39;entraînement.
+* **Entraînement plus rapide** : en provisionnant immédiatement l&#39;infrastructure d&#39;entraînement lorsque vous en avez besoin, Serverless SFT accélère vos tâches d&#39;entraînement et vous permet d&#39;itérer plus rapidement.
+* **Déploiement automatique** : Serverless SFT déploie automatiquement chaque point de contrôle que vous entraînez. Vous n&#39;avez donc pas besoin de configurer manuellement une infrastructure d&#39;hébergement. Vous pouvez accéder immédiatement aux modèles entraînés et les tester dans des environnements locaux, de préproduction ou de production.
+
+<div id="how-serverless-sft-uses-wb-services">
+  ## Comment Serverless SFT utilise les services W&amp;B
+</div>
+
+Serverless SFT utilise une combinaison des composants W&amp;B suivants pour fonctionner :
+
+* [Inference](/fr/inference) : Pour exécuter vos modèles
+* [Models](/fr/models) : Pour suivre les métriques de performances pendant l&#39;entraînement de l&#39;adaptateur LoRA
+* [Artifacts](/fr/models/artifacts) : Pour stocker et versionner les adaptateurs LoRA
+* [Weave (facultatif)](/fr/weave) : Pour bénéficier d&#39;une meilleure observabilité de la façon dont le modèle répond à chaque étape de la boucle d&#39;entraînement
+
+Serverless SFT est en préversion publique. Pendant cette période, W&amp;B vous facture uniquement l&#39;utilisation d&#39;Inference et le stockage des artefacts. W&amp;B ne facture pas l&#39;entraînement des adaptateurs pendant la période de préversion.

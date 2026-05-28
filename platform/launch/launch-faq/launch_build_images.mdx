@@ -1,6 +1,9 @@
 ---
-title: How does W&B Launch build images?
+title: How W&B Launch builds images
+keywords: ["image build process", "base image selection", "build steps", "container build process"]
 ---
+
+This page explains how W&B Launch builds container images for your jobs, so you can predict which build actions Launch performs and configure your queue or job accordingly.
 
 The steps for building an image depend on the job source and the specified accelerator base image in the resource configuration.
 
@@ -10,7 +13,7 @@ When configuring a queue or submitting a job, include a base accelerator image i
 {
     "builder": {
         "accelerator": {
-            "base_image": "image-name"
+            "base_image": "[IMAGE-NAME]"
         }
     }
 }

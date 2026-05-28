@@ -1,9 +1,9 @@
 ---
-title: "Quelles sont les bonnes pratiques pour gérer les erreurs de W&B Inference ?"
+title: "Quelles sont les bonnes pratiques pour gérer les erreurs de Serverless Inference ?"
 keywords: ["Inférence"]
 ---
 
-Suivez ces bonnes pratiques pour gérer efficacement les erreurs de W&amp;B Inference et garantir la fiabilité de vos applications.
+Suivez ces bonnes pratiques pour gérer efficacement les erreurs de Serverless Inference et garantir la fiabilité de vos applications.
 
 <div id="1-always-implement-error-handling">
   ## 1. Implémentez toujours une gestion des erreurs
@@ -21,7 +21,7 @@ try:
     )
 except Exception as e:
     print(f"Error: {e}")
-    # Gérer l'erreur de façon appropriée
+    # Gérer l'erreur de manière appropriée
 ```
 
 <div id="2-use-retry-logic-with-exponential-backoff">
@@ -52,7 +52,7 @@ def call_inference_with_retry(
             
             # Calculer le délai avec un backoff exponentiel
             delay = base_delay * (2 ** attempt)
-            print(f"Tentative {attempt + 1} échouée, nouvelle tentative dans {delay}s...")
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
             time.sleep(delay)
     
     return None
@@ -67,7 +67,7 @@ def call_inference_with_retry(
 * Enregistrez l’utilisation de l’API dans votre application
 
 <div id="4-handle-specific-error-codes">
-  ## 4. Gérez les codes d’erreur spécifiques
+  ## 4. Gérer les codes d&#39;erreur spécifiques
 </div>
 
 ```python
@@ -76,10 +76,10 @@ def handle_inference_error(error):
     
     if "401" in error_str:
         # Authentification invalide
-        raise ValueError("Vérifiez votre clé API et la configuration du projet")
+        raise ValueError("Check your API key and project configuration")
     elif "402" in error_str:
         # Crédits insuffisants
-        raise ValueError("Crédits insuffisants")
+        raise ValueError("Insufficient credits")
     elif "429" in error_str:
         # Limite de débit atteinte
         return "retry"

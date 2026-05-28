@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Layout — page background and structural Mintlify overrides
+   This file owns everything that paints the overall page chrome: the body's
+   background color + dot texture, plus overrides on Mintlify's own bg-painting
+   layers (<main>, the fixed full-viewport overlay, and the radial-gradient
+   span) so our texture is visible through them.
+   Per-component bgs (navbar, sidebar) live in their own files.
+   ========================================================================== */
+
+/* Page background — solid color (no gradient) plus a static dot-pattern PNG.
+   The PNG is a radial halftone (874×784 native), scaled and pushed right so
+   only the dense left portion of the pattern sits near the viewport edge and
+   fades leftward. background-attachment: fixed pins it against scrolling.
+   The image switches light/dark via --page-texture defined in colors.css. */
+html,
+body {
+  background-color: var(--color-page-bg) !important;
+  background-image: var(--page-texture) !important;
+  background-repeat: no-repeat !important;
+  background-size: 500px auto !important;
+  background-position: calc(100% + 375px) 200px !important;
+  background-attachment: fixed !important;
+}
+
+/* Mintlify's <main class="bg-background-light dark:bg-background-dark min-h-screen">
+   covers the body bg, hiding our texture. Force it transparent. */
+main {
+  background-color: transparent !important;
+}
+
+/* Full-viewport fixed overlay — Mintlify renders <span id="background-color"
+   class="fixed inset-0 bg-background-light ..."> at the end of the document.
+   Even at -z-10, this paints over body's background, hiding the texture. */
+#background-color {
+  background-color: transparent !important;
+}
+
+/* Radial gradient overlay — Mintlify injects two <span> elements (one for
+   light, one for dark via dark:block / dark:hidden) with an INLINE style of
+   background:radial-gradient(... rgba(252, 188, 50, 0.1) ...) — that's the
+   amber glow bleeding from under the banner. Match by inline style attribute
+   and kill it. */
+span[style*="radial-gradient"] {
+  background: none !important;
+}

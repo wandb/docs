@@ -24,13 +24,14 @@ __init__(
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    service_api: 'ServiceApi'
 )
 ```
 
 **Args:**
  
- - `client`:  The W&B API client. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this run. 
  - `entity`:  The entity associated with the run. 
  - `project`:  The project associated with the run. 
  - `run_id`:  The unique identifier for the run. 

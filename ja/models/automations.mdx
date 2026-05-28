@@ -1,37 +1,41 @@
 ---
-title: オートメーションの概要
-description: W&B のイベントに応じてワークフローをトリガーするには、W&B オートメーションを使用します
+title: オートメーション の概要
+sidebarTitle: 概要
+description: W&B で発生するイベントに応じてワークフローをトリガーするには、W&B オートメーション を使用します
 ---
 
-import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.mdx";
+import AutomationsMentalModel from "/snippets/en/_includes/automations/mental-model.mdx";
+import AutomationsActionsList from "/snippets/en/_includes/automations/actions-list.mdx";
+import AutomationsBestPractices from "/snippets/en/_includes/automations/best-practices.mdx";
+import AutomationsWhereToFind from "/snippets/en/_includes/automations/where-to-find-automations.mdx";
 
-<Info>
-  <EnterpriseCloudOnly />
-</Info>
+オートメーション は、**projects** と **レジストリ** の両方で利用できます。オートメーションを作成する場所、使用できるイベント、スコープの仕組みは、それぞれ異なります。スコープごとのイベントタイプについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
 
-このページでは、W&amp;B の*オートメーション*について説明します。[オートメーションを作成](/ja/models/automations/create-automations/)すると、W&amp;B 内のイベントをきっかけに、自動化されたモデルテストやデプロイなどのワークフローの step をトリガーできます。
+<AutomationsMentalModel />
 
-たとえば、オートメーションを使うと、新しいバージョンが作成されたときに Slack チャンネルへ通知したり、`production` エイリアスが artifact に追加されたときに自動テスト用 webhook をトリガーしたり、run の `損失` が許容範囲内にある場合にのみ検証ジョブを開始したりできます。
+```mermaid
+flowchart LR
+  Event[イベント] --> Condition[条件]
+  Condition --> Action[アクション]
+```
 
-<Info>
-  オートメーションに関する関連チュートリアルをお探しですか？
+**例:** run が失敗した (イベント) 場合に、必要に応じて run 名フィルター (条件) を指定し、Slack 通知 (アクション) を送信します。別の例: alias `production` が追加された (イベント) 場合に、webhook (アクション) を実行します。
 
-  * [モデルの評価とデプロイのために GitHub Action を自動でトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
-  * [モデルを SageMaker エンドポイントに自動デプロイするデモ動画を見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
-  * [オートメーションを紹介する動画シリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared).
-</Info>
-
-<div id="automation-events">
-  ## オートメーションイベント
+<div id="where-to-create-automations">
+  ## オートメーションを作成できる場所
 </div>
 
-オートメーションは、コレクション、プロジェクト、またはレジストリ内の run や artifact に関連するイベントによってトリガーされます。オートメーションは次の場合に開始できます。
+<AutomationsWhereToFind />
 
-* run のメトリクスが、定義された絶対または相対しきい値を満たしたとき。たとえば、run の `loss` が 0.01 未満になったときや、run の `accuracy` が 5% 向上したときにトリガーします。
-* run の z-score (標準スコア) が、平均から指定した量だけ乖離したとき。z-score が 0 の場合、結果が平均と一致していることを示します。z-score が +2 の場合、結果が平均より 2 標準偏差高いことを意味し、z-score が -2 の場合、結果が平均より 2 標準偏差低いことを意味します。
-* プロジェクトまたはレジストリでイベントが発生したとき。たとえば、モデル artifact の新しいバージョンが作成されたときや、`production` エイリアスがモデル artifact に追加されたときにトリガーします。
+<div id="use-cases">
+  ## 使用例
+</div>
 
-詳細については、[オートメーションイベントとスコープ](/ja/models/automations/automation-events/)を参照してください。
+* **run の監視とアラート**: run が失敗したときや、メトリクスがしきい値を超えたとき (たとえば、損失が NaN になる、または精度が低下する場合) にチームに通知します。
+* **Registry CI/CD**: 新しいモデル バージョンがリンクされたとき、または alias (`staging` や `production` など) が追加されたときに、webhook をトリガーしてテストを実行したり、デプロイしたりします。
+* **project の artifact ワークフロー**: 新しい artifact バージョンが作成されたとき、または project に alias が追加されたときに、後続のジョブを実行したり、Slack に投稿したりします。
+
+イベントとスコープの詳細については、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
 
 <div id="automation-actions">
   ## オートメーションアクション
@@ -39,34 +43,27 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
 
 イベントによってオートメーションがトリガーされると、次のいずれかのアクションを実行できます。
 
-<div id="slack-notification">
-  ### Slack 通知
-</div>
+<AutomationsActionsList />
 
-トリガーされたイベントの詳細を含むメッセージを Slack チャンネルに送信します。メッセージにはイベントの概要と、W&amp;B で詳細を確認するためのリンクが含まれます。
-
-<div id="webhook">
-  ### ウェブフック
-</div>
-
-トリガーとなったイベントに関する情報を含む JSON ペイロードを使って、ウェブフック URL を呼び出します。これにより、CI/CD パイプライン、モデルのデプロイサービス、カスタムワークフローなどの外部システムとのインテグレーションが可能になります。ウェブフック リクエストの本文には、JSON にシリアライズ可能な任意のペイロードを指定できます。
-
-実装の詳細については、以下を参照してください。
-
-* [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack/)
-* [ウェブフック オートメーションを作成する](/ja/models/automations/create-automations/webhook/)
+実装の詳細については、[Slack オートメーションの作成](/ja/models/automations/create-automations/slack) および [webhook オートメーションの作成](/ja/models/automations/create-automations/webhook) を参照してください。
 
 <div id="how-automations-work">
   ## オートメーションの動作
 </div>
 
-[オートメーションを作成](/ja/models/automations/create-automations/)するには、次の手順を行います。
+[オートメーションを作成](/ja/models/automations/create-automations)するには、次の手順を行います。
 
-1. 必要に応じて、アクセストークン、パスワード、機密性の高い設定の詳細など、オートメーションで必要になる機密文字列のために[シークレット](/ja/platform/secrets/)を設定します。シークレットは **Team Settings** で定義します。シークレットは、主にウェブフック オートメーションで、認証情報やトークンを平文で公開したり ウェブフック のペイロードにハードコードしたりすることなく、ウェブフック の外部サービスに安全に渡すために使用されます。
-2. チームレベルのウェブフック または Slack インテグレーションを設定して、W&amp;B が Slack に投稿したり、ユーザーに代わって ウェブフック を実行したりできるようにします。1 つのオートメーションアクション (ウェブフック または Slack 通知) を複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義します。
-3. プロジェクトまたは レジストリ で、オートメーションを作成します。
-   1. 監視する[イベント](#automation-events)を定義します。たとえば、新しい artifact バージョンが追加されたときです。
-   2. イベント発生時に実行するアクション (Slack チャンネルへの投稿や ウェブフック の実行) を定義します。ウェブフック の場合は、必要に応じて、アクセストークンに使用するシークレットや、ペイロードとともに送信するシークレットを指定します。
+1. 必要に応じて、アクセストークン、パスワード、機密性の高い設定の詳細など、オートメーションで必要になる機密文字列のために[シークレット](/ja/platform/secrets)を設定します。シークレットは **Team Settings** で定義します。シークレットは、主に webhook オートメーションで、認証情報やトークンを平文で公開したり webhook のペイロードにハードコードしたりすることなく、webhook の外部サービスに安全に渡すために使用されます。
+2. チームレベルの webhook または Slack インテグレーションを設定して、W&amp;B が Slack に投稿したり、ユーザーに代わって webhook を実行したりできるようにします。1 つのオートメーションアクション (webhook または Slack 通知) を複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義します。
+3. project または レジストリ で、オートメーションを作成します。
+   1. 監視する[イベント](/ja/models/automations/automation-events)を定義します。たとえば、新しい artifact バージョンが追加されたときです。
+   2. イベント発生時に実行するアクション (Slack チャンネルへの投稿や webhook の実行) を定義します。webhook の場合は、必要に応じて、アクセストークンに使用するシークレットや、ペイロードとともに送信するシークレットを指定します。
+
+<div id="recommendations">
+  ## 推奨事項
+</div>
+
+<AutomationsBestPractices />
 
 <div id="limitations">
   ## 制限事項
@@ -78,6 +75,19 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   ## 次のステップ
 </div>
 
-* [オートメーションを作成する](/ja/models/automations/create-automations/).
-* [Automation イベントとスコープ](/ja/models/automations/automation-events/) について確認する。
-* [シークレットを作成する](/ja/platform/secrets/).
+* [オートメーションのチュートリアル](/ja/models/automations/tutorial): run の失敗を通知する project オートメーションと、alias が追加されたときに webhook を実行する Registry オートメーションの作成方法を案内します。このチュートリアルでは W&amp;B App を使用します。
+* [オートメーションを作成](/ja/models/automations/create-automations)。
+* [オートメーションのイベントとスコープ](/ja/models/automations/automation-events)。
+* [シークレットを作成](/ja/platform/secrets)。
+
+{/* Python SDK の `create_automation` のリグレッションが修正されたら、上の Create の箇条書きの後に戻します（内部 WB-34263）:
+  - [API でオートメーションを管理](/models/automations/api).
+  */}
+
+<Info>
+  オートメーションに関する関連チュートリアルをお探しですか？
+
+  * [モデルの評価とデプロイのために GitHub Action を自動でトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
+  * [モデルを SageMaker エンドポイントに自動デプロイするデモ動画を見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
+  * [オートメーションを紹介する動画シリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared).
+</Info>

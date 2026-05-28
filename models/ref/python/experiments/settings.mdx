@@ -35,7 +35,7 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107855240>,
+    anonymous: 'object' = <object object at 0x10482d250>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -46,6 +46,7 @@ __init__(
     console_multipart: 'bool' = False,
     console_chunk_max_bytes: 'int' = 0,
     console_chunk_max_seconds: 'int' = 0,
+    capture_loggers: 'dict[str, str] | None' = None,
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
@@ -68,6 +69,8 @@ __init__(
     identity_token_file: 'str | None' = None,
     ignore_globs: 'Sequence' = (),
     init_timeout: 'float' = 90.0,
+    finish_timeout: 'float' = 0.0,
+    finish_timeout_raises: 'bool' = False,
     insecure_disable_ssl: 'bool' = False,
     job_name: 'str | None' = None,
     job_source: 'Literal['repo', 'artifact', 'image'] | None' = None,
@@ -107,6 +110,7 @@ __init__(
     show_warnings: 'bool' = True,
     silent: 'bool' = False,
     start_method: 'str | None' = None,
+    stop_on_fatal_error: 'bool' = False,
     strict: 'bool | None' = None,
     summary_timeout: 'int' = 60,
     summary_warnings: 'int' = 5,
@@ -161,7 +165,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 72322,
+    x_stats_pid: 'int' = 92619,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -178,6 +182,7 @@ __init__(
     x_stats_coreweave_metadata_base_url: 'str' = 'http://169.254.169.254',
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
     x_stats_track_process_tree: 'bool' = False,
+    x_stats_no_cgroup: 'bool' = False,
     x_sync: 'bool' = False,
     x_sync_dir_suffix: 'str' = '',
     x_update_finish_state: 'bool' = True
@@ -239,6 +244,28 @@ __init__(
    `True`.  May be used with `console_chunk_max_bytes`; the first limit
    reached closes the part. A value of `0` disables the time-based
    limit.
+ - `capture_loggers` (Optional[Dict[str, str]]): Names of Python loggers to capture into the run's Logs tab.
+   A mapping of logger name to minimum log level. When set, wandb installs a
+   logging.Handler on each named logger and removes it when the run finishes.
+   Log records emitted by those loggers are published as console output to the
+   run, similar to stdout/stderr capture.
+   Log records are formatted the same as `logging.basicConfig()`, like
+   `INFO:my_module:Some message.` This is not currently customizable.
+   To capture all logs, pass the name of the root logger, which is 'root'.
+   This is independent of the `console` setting: both can be active
+   simultaneously.
+   Example:
+   ```python
+   wandb.init(
+   settings=wandb.Settings(
+   console="off",
+   capture_loggers={
+   "my_app": "INFO",
+   "my_app.training": "ERROR",
+   },
+   ),
+   )
+   ```
  - `credentials_file` (str): Path to file for writing temporary access tokens.
  - `disable_code` (bool): Whether to disable capturing the code.
  - `disable_git` (bool): Whether to disable capturing the git state.
@@ -269,6 +296,29 @@ __init__(
  - `identity_token_file` (Optional[str]): Path to file containing an identity token (JWT) for authentication.
  - `ignore_globs` (Sequence): Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
  - `init_timeout` (float): Time in seconds to wait for the `wandb.init` call to complete before timing out.
+ - `finish_timeout` (float): Time in seconds to wait for data to upload at the end of a run.
+   Setting this can limit costs caused by slow uploads to W&B at the end of a
+   run, with the trade-off that the run will be marked crashed and may be
+   missing some data. The default is for `run.finish()` to block until all
+   data finishes uploading.
+   If this is set to a number greater than zero, W&B gives up on uploading a
+   run's data after this many seconds at the end of a run, unblocking your
+   script. After some time, the run becomes Crashed or Failed in the UI. Any
+   unuploaded data is still stored on disk and can be uploaded with `wandb
+   sync`.
+   Use the `finish_timeout_raises` setting to raise an error in addition to
+   printing a warning message.
+   Runs shut down by `wandb.teardown()` (which automatically runs at the end
+   of a script in an atexit hook) will also respect this setting.
+ - `finish_timeout_raises` (bool): Whether to raise a TimeoutError if finish_timeout expires.
+   Using this together with the `finish_timeout` setting causes `run.finish()`
+   to raise a TimeoutError after a timeout in addition to printing a message.
+   Note that `run.finish()` is called implicitly when using a Run as a context
+   manager:
+   with wandb.init() as run:
+   ...  # run.finish() executes at the end of the `with` block
+   This does not cause `wandb.teardown()` to raise an error (since it runs
+   at the end of a script anyway).
  - `insecure_disable_ssl` (bool): Whether to insecurely disable SSL verification.
  - `job_name` (Optional[str]): Name of the Launch job running the script.
  - `job_source` (Optional[Literal['repo', 'artifact', 'image']]): Source type for Launch.
@@ -344,6 +394,14 @@ __init__(
  - `show_warnings` (bool): Whether to display warning messages.
  - `silent` (bool): Flag to suppress all output.
 
+ - `stop_on_fatal_error` (bool): Whether to stop the run after a fatal error.
+   After W&B hits an unrecoverable error while uploading data, it prints
+   a message and stops uploading, but still allows logging more data.
+   This is usually desirable: your training metrics get stored on disk
+   and can be recovered using `wandb sync`, even if they aren't uploaded.
+   This is not useful if your files get deleted after training.
+   In that case, setting this to True will stop the run after a fatal error,
+   as if the stop button was pressed in the web UI.
  - `strict` (Optional[bool]): Whether to enable strict mode for validation and error checking.
  - `summary_timeout` (int): Time in seconds to wait for summary operations before timing out.
 
@@ -447,6 +505,7 @@ __init__(
    When `True`, the system monitor aggregates the RSS, CPU%, and thread count
    from the process with PID `x_stats_pid` and all of its descendants.
    This can have a performance overhead and is disabled by default.
+ - `x_stats_no_cgroup` (bool): Disable cgroup v2 CPU and memory limits for system metric percentages.
 
  - `x_sync_dir_suffix` (str): Suffix to add to the run's directory name (sync_dir).
    This is set in wandb.init() to avoid naming conflicts.

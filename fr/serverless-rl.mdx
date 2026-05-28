@@ -1,0 +1,46 @@
+---
+title: Serverless RL
+description: Découvrez comment post-entraîner plus efficacement vos modèles à l’aide de l’apprentissage par renforcement
+---
+
+Utilisez Serverless RL pour post-entraîner des LLM capables d’adopter de nouveaux comportements et d’améliorer la fiabilité, la rapidité et les coûts lors de l’exécution de tâches agentiques multi-tours. Serverless RL est désormais en préversion publique. W&amp;B met à votre disposition l’infrastructure d’entraînement ([sur CoreWeave](https://docs.coreweave.com/docs/platform)) tout en vous laissant une flexibilité totale dans la configuration de votre environnement. Vous bénéficiez d’un accès instantané à un cluster d’entraînement géré, avec mise à l’échelle automatique élastique jusqu’à plusieurs dizaines de GPU. Serverless RL sépare les flux de travail RL en phases d’inférence et d’entraînement, puis les multiplexe entre les jobs afin d’augmenter l’utilisation des GPU et de réduire votre temps d’entraînement ainsi que vos coûts.
+
+Serverless RL est idéal pour des tâches telles que :
+
+* Agents vocaux
+* Assistants de recherche avancée
+* Modèles sur site
+* Agents d’analyse du marketing de contenu
+
+Serverless RL entraîne des adaptateurs low-rank (LoRA) afin de spécialiser un modèle pour la tâche précise de votre agent. Cela étend les capacités du modèle d’origine grâce à l’expérience acquise en situation réelle. W&amp;B stocke automatiquement les LoRA que vous entraînez comme artefacts dans votre compte. Vous pouvez également les enregistrer localement ou sur un service tiers à des fins de sauvegarde. Serverless Inference héberge aussi automatiquement les modèles que vous entraînez via Serverless RL.
+
+Voir le [démarrage rapide](https://art.openpipe.ai/getting-started/quick-start) ART ou le [notebook Google Colab](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) pour commencer.
+
+<div id="why-serverless-rl">
+  ## Pourquoi Serverless RL ?
+</div>
+
+L&#39;apprentissage par renforcement (RL) regroupe de puissantes techniques d&#39;entraînement que vous pouvez utiliser dans de nombreux types de configurations d&#39;entraînement, y compris sur des GPU que vous possédez ou louez directement. Serverless RL peut offrir les avantages suivants pour votre post-entraînement en RL :
+
+* **Coûts d&#39;entraînement réduits** : en mutualisant une infrastructure partagée entre de nombreux utilisateurs, en évitant le processus de configuration pour chaque tâche et en ramenant vos coûts GPU à zéro lorsque vous n&#39;êtes pas activement en entraînement, Serverless RL réduit considérablement les coûts d&#39;entraînement.
+* **Entraînement plus rapide** : en répartissant les requêtes d&#39;inférence sur de nombreux GPU et en provisionnant immédiatement l&#39;infrastructure d&#39;entraînement lorsque vous en avez besoin, Serverless RL accélère vos tâches d&#39;entraînement et vous permet d&#39;itérer plus rapidement.
+* **Déploiement automatique** : Serverless RL déploie automatiquement chaque point de contrôle généré pendant l&#39;entraînement. Vous n&#39;avez donc pas besoin de configurer manuellement une infrastructure d&#39;hébergement. Vous pouvez accéder immédiatement aux modèles entraînés et les tester dans des environnements locaux, de préproduction ou de production.
+
+<div id="how-serverless-rl-uses-wb-services">
+  ## Comment Serverless RL utilise les services W&amp;B
+</div>
+
+Serverless RL utilise une combinaison des composants W&amp;B suivants pour fonctionner :
+
+* [Inference](/fr/inference) : pour exécuter vos modèles
+* [Models](/fr/models) : pour suivre les métriques de performance pendant l&#39;entraînement de l&#39;adaptateur LoRA
+* [Artifacts](/fr/models/artifacts) : pour stocker et versionner les adaptateurs LoRA
+* [Weave (facultatif)](/fr/weave) : pour bénéficier d&#39;une visibilité sur la façon dont le modèle répond à chaque étape de la boucle d&#39;entraînement
+
+Serverless RL est en préversion publique. Pendant cette phase, W&amp;B vous facture uniquement l&#39;utilisation de l&#39;inférence et le stockage des artefacts. W&amp;B ne facture pas l&#39;entraînement des adaptateurs pendant la période de préversion.
+
+<div id="serverless-sft">
+  ## Serverless SFT
+</div>
+
+En plus de l’apprentissage par renforcement, vous pouvez utiliser [Serverless SFT](/fr/serverless-rl/sft) pour affiner des modèles à l’aide de jeux de données soigneusement sélectionnés. Utilisez SFT pour la distillation, pour apprendre à un modèle un style et un format de sortie, ou pour le préparer avant d’appliquer le RL.

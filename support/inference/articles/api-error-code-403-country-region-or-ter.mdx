@@ -3,29 +3,29 @@ title: "API error code 403 - Country, region, or territory not supported"
 keywords: ["Authentication & Access"]
 ---
 
-A 403 error with the message "Country, region, or territory not supported" means you're accessing W&B Inference from an unsupported location.
+A `403` error with the message "Country, region, or territory not supported" means you're accessing Serverless Inference from an unsupported location. This article explains why the error occurs and how to regain access to the service.
 
 ## Why this happens
 
-W&B Inference has geographic restrictions due to compliance and regulatory requirements. The service is only accessible from supported geographic locations.
+Serverless Inference has geographic restrictions due to compliance and regulatory requirements. You can only access the service from supported geographic locations.
 
 ## What you can do
 
-1. **Check the geographic restrictions**
-   - Review the [geographic restrictions](/inference/usage-limits/#geographic-restrictions) for the current list of supported locations
+To resolve the error, work through the following options to confirm whether your location is supported and identify a path forward:
 
-2. **Use from a supported location**
-   - Access the service when in a supported country or region
-   - Consider using your organization's resources in supported locations
-
-3. **Contact your account team**
-   - Enterprise customers can discuss options with their account executive
-   - Some organizations may have special arrangements
+- **Check the geographic restrictions**: Review the [geographic restrictions](/inference/usage-limits/#geographic-restrictions) for the list of supported locations to confirm whether your country or region is eligible.
+- **Use from a supported location**:
+   - Access the service when in a supported country or region.
+   - Consider using your organization's resources in supported locations.
+- **Contact your account team**:
+   - Enterprise customers can discuss options with their account executive.
+   - Some organizations might have special arrangements.
 
 ## Error details
 
 When you see this error:
-```
+
+```json
 {
   "error": {
     "code": 403,
@@ -34,7 +34,7 @@ When you see this error:
 }
 ```
 
-This is determined by your IP address location at the time of the API request.
+Serverless Inference determines your location from your IP address at the time of the API request.
 
 ---
 

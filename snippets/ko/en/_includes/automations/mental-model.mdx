@@ -1,0 +1,12 @@
+---
+title: 개념적 모델
+---
+
+W&amp;B Automations는 단순한 패턴을 따릅니다. 즉, **이벤트**가 발생하고 선택 **조건**이 충족되면 **액션**이 자동으로 실행됩니다. 예를 들면 다음과 같습니다.
+
+* run이 실패하면(이벤트), Slack 채널로 알림을 보냅니다(액션).
+  <TutorialDiagramProject />
+* 아티팩트에 `production` 별칭이 추가되면(이벤트), 배포를 트리거하는 웹훅을 호출합니다(액션).
+  <TutorialDiagramRegistry />
+
+이벤트와 사용 가능한 조건은 [프로젝트](/ko/models/automations/automation-events#project) 범위인지 [레지스트리](/ko/models/automations/automation-events#registry) 범위인지에 따라 다릅니다. [Automation events and scopes](/ko/models/automations/automation-events)를 참조하세요.

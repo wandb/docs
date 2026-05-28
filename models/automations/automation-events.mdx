@@ -1,6 +1,7 @@
 ---
 title: Automation events and scopes
 description: "Learn about events and scopes that trigger W&B Automations, including artifact changes, run status, and metric conditions."
+keywords: ["automation triggers", "artifact alias", "run status", "metric threshold", "z-score"]
 ---
 import EnterpriseCloudOnly from "/snippets/_includes/enterprise-cloud-only.mdx";
 import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
@@ -9,41 +10,48 @@ import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.md
 <EnterpriseCloudOnly/>
 </Info>
 
-An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
+An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope, so you can choose the right trigger when you configure an automation. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
 ## Registry
-This section describes the scopes and events for an automation in a [Registry](/models/registry).
+
+The following sections describe the scopes and events for an automation in a [Registry](/models/registry).
 
 ### Scopes
+
 A [Registry](/models/registry) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
 ### Events <a id="registry-events" aria-label="Registry events"></a>
+
 A Registry automation can watch for these events:
-- **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
+- **A new version is linked to a collection**: Test and validate new models or datasets when they're added to a registry.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
 
 When the automation calls a webhook, it can access the same team-level webhook configurations and [team secrets](/platform/secrets) as project-scoped automations.
 
 ## Project
-This section describes the scopes and events for an automation in a [project](/models/track/project-page).
+
+The following sections describe the scopes and events for an automation in a [project](/models/track/project-page).
 
 ### Scopes
+
 A project-level automation watches for the event taking place on any collection in the project. Depending on the event you specify, you can further limit the scope of the automation.
 
 ### Artifact events
+
 This section describes the events related to an artifact that can trigger an automation.
 
 - **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a point in time.
-- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
+- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a time.
+- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Use artifact tags for grouping and filtering. You can assign the same tag to multiple artifact versions.
 
 ### Run events
-An automation can be triggered by a change in a [run's status](/models/runs/run-states) or a change in a [metric value](/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
+
+The following sections describe how to configure an automation that starts based on a change in a [run's status](/models/runs/run-states) or a change in a [run's metric value](/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
 
 #### Run status change
 <Note>
 - <MultiTenantCloudOnly/>
-- A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
+- A run with **Killed** status can't trigger an automation. This status indicates that an admin forcibly stopped the run.
 </Note>
 
 Trigger a workflow when a run changes its [status](/models/runs/run-states) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
@@ -63,12 +71,13 @@ Trigger a workflow based on a logged value for a metric, either a metric in a ru
 
 You can create a run metrics automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
 
-To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
+To set up a run metric automation, configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
 Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
 
 ##### Threshold
-For **Run metrics threshold met** events, you configure:
+
+Use a threshold event to start an automation when a metric crosses a fixed value. For **Run metrics threshold met** events, configure:
 1. The window of most recently logged values to consider (defaults to 5).
 1. Whether to evaluate the **Average**, **Min**, or **Max** value within the window.
 1. The comparison to make:
@@ -79,21 +88,22 @@ For **Run metrics threshold met** events, you configure:
       - Not equal to
       - Equal to
 
-For example, trigger an automation when average `accuracy` is above `.6`.
+For example, trigger an automation when average `accuracy` is above `0.6`.
 
 <Frame>
 ![Screenshot showing a run metrics threshold automation](/images/automations/run_metrics_threshold_automation.png)
 </Frame>
 
 ##### Change threshold
-For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
+
+Use a change threshold event to start an automation when a metric shifts between two recent windows of values. For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
 
 - The _current window_ of recently logged values to consider (defaults to 10).
 - The _prior window_ of recently logged values to consider (defaults to 50).
 
-The current and prior windows are consecutive and do not overlap.
+The current and prior windows are consecutive and don't overlap.
 
-To create the automation, you configure:
+To create the automation, configure:
 1. The current window of logged values (defaults to 10).
 1. The prior window of logged values (defaults to 50).
 1. Whether to evaluate the values as relative or absolute (defaults to **Relative**).
@@ -102,7 +112,7 @@ To create the automation, you configure:
       - Decreases by at least
       - Increases or decreases by at least
 
-For example, trigger an automation when average `loss` decreases by at least `.25`.
+For example, trigger an automation when average `loss` decreases by at least `0.25`.
 
 <Frame>
 ![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
@@ -113,7 +123,7 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 <MultiTenantCloudOnly/>
 </Note>
 
-W&B can trigger an automation when a metric’s z-score (standard score) exceeds a specified threshold. A z-score measures how many standard deviations the value is from the mean for that metric across a configurable window of runs in the project (defaults to 30 runs).
+W&B can trigger an automation when a metric's z-score (standard score) exceeds a specified threshold. A z-score measures how many standard deviations the value is from the mean for that metric across a configurable window of runs in the project (defaults to 30 runs).
 
 To use a z-score as an event trigger, select the **Run metrics z-score threshold met** event.
 
@@ -121,34 +131,41 @@ Automations based on z-score keep your team informed about unusual performance w
 
 You can create a run metrics z-score automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
 
-To create a z-score automation, you configure:
+To create a z-score automation, configure:
 1. The target z-score threshold, expressed as a positive float value (for example, 2.0).
 1. The window of logged values that determine the mean value (defaults to 30).
 1. The comparison to make:
-   - Above (trigger when performance is unusually high)
-   - Below (trigger when performance is unusually low)
-   - Either above or below
+   - Above (triggers when performance is unusually high).
+   - Below (triggers when performance is unusually low).
+   - Either above or below.
 
-For example, trigger an automation when `accuracy` has a z-score above 2, which means the run is performing significantly better than other runs in the project.
+For example, trigger an automation when `accuracy` has a z-score above 2, which means the run is performing well above other runs in the project.
 
-**Understanding z-score values:**
+Z-score values have the following meanings:
+
 - A z-score of 0 means the metric is at the average.
 - A z-score of +2.0 means the metric is 2 standard deviations above average.
 - A z-score of -2.0 means the metric is 2 standard deviations below average.
 - Values beyond ±2 are often considered statistically significant outliers.
 
-
 #### Run filters
+
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the automation when the event occurs. You can limit which runs trigger an automation by configuring one of the following filters: 
-  - **Filter to one user's runs**: Include only runs created by the specified user.
-  - **Filter on run name**: Include only runs whose names match the given regular expression.
+By default, any run in the project triggers the automation when the event occurs. You can limit which runs trigger an automation by configuring one of the following filters:
 
-  For details, see [Create automations](/models/automations/create-automations).
+| Filter | Description |
+|--------|-------------|
+| **Filter to one user's runs** | Include only runs created by the specified user. |
+| **Filter on run name** | Include only runs whose names match the given regular expression. |
+
+The automation evaluates each run as follows:
+
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
-- In a 24 hour period, a particular automation can fire at most once per run.
+- In a 24-hour period, a particular automation can fire at most once per run.
+
+For details, see [Create automations](/models/automations/create-automations).
 
 ## Next steps
 - [Create a Slack automation](/models/automations/create-automations/slack)

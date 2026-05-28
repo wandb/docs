@@ -397,7 +397,7 @@ def main():
     # Paths
     script_dir = Path(__file__).parent
     docs_root = script_dir.parent
-    py_snippets_dir = docs_root / 'snippets' / 'en' / '_includes' / 'code-examples'
+    py_snippets_dir = docs_root / 'snippets' / '_includes' / 'code-examples'
     output_dir = docs_root / 'models' / 'ref' / 'sdk-coding-cheat-sheet'
     landing_page = docs_root / 'models' / 'ref' / 'sdk-coding-cheat-sheet.mdx'
     

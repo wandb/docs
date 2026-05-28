@@ -26,7 +26,7 @@ Chat Completion을 생성하려면 다음이 필요합니다:
     import openai
 
     client = openai.OpenAI(
-        # 맞춤형 base URL은 W&B Inference를 가리킵니다
+        # 맞춤형 base URL은 Serverless Inference를 가리킵니다
         base_url='https://api.inference.wandb.ai/v1',
 
         # https://wandb.ai/settings 에서 API 키를 생성하세요
@@ -37,7 +37,7 @@ Chat Completion을 생성하려면 다음이 필요합니다:
         project="<your-team>/<your-project>",
     )
 
-    # <model-id>를 사용 가능한 모델 목록에 있는 아무 모델 ID로 바꾸세요
+    # <model-id>를 사용 가능한 모델 목록의 모델 ID로 바꾸세요
     response = client.chat.completions.create(
         model="<model-id>",
         messages=[

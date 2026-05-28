@@ -40,15 +40,15 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
   ## 画像をログする
 </div>
 
-以下の例では、画像を生成し、Weave の UI にログする方法を示します。
+次の例では、画像を生成して Weave の UI にログする方法を示します。
 
 <Frame>
-  ![pumpkin cat の Trace view のスクリーンショット](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
+  ![かぼちゃ帽子をかぶった猫の トレース view のスクリーンショット](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
 </Frame>
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content]` を関数の型注釈として使用するか、`Annotated[str, Content]` をファイルパスの型注釈として使用して、画像をログできます。
+    `Annotated[bytes, Content]` を関数のアノテーションとして使用するか、`Annotated[str, Content]` をファイルパスのアノテーションとして使用して、画像をログできます。
 
     次の例では、シンプルな画像を描画し、その後 `Content` アノテーションを使って Weave にログします。
 
@@ -66,13 +66,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     draw.text((50, 40), "Hello Weave!", fill='black')
     img.save("sample_image.png")
 
-    # 方法1: Contentアノテーション（推奨）
+    # 方法1: Content アノテーション（推奨）
     @weave.op
     def load_image_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
         with open(path, 'rb') as f:
             return f.read()
 
-    # 方法2: PIL Imageオブジェクト  
+    # 方法2: PIL Image オブジェクト  
     @weave.op
     def load_image_pil(path: Annotated[str, Content]) -> Image.Image:
         return Image.open(path)
@@ -115,7 +115,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     ### 高度な例: ログする前に大きな画像をリサイズする
 
-    UI の表示コストやストレージへの影響を抑えるため、ログする前に画像をリサイズしておくと便利です。画像をリサイズするには、`@weave.op` で `postprocess_output` を使用できます。
+    UI のレンダリングコストやストレージへの影響を抑えるため、ログする前に画像をリサイズしておくと便利です。画像をリサイズするには、`@weave.op` で `postprocess_output` を使用できます。
 
     ```python lines
     from dataclasses import dataclass
@@ -131,27 +131,27 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
         label: str
         image: Image.Image
 
-    # リサイズヘルパー
+    # リサイズ用ヘルパー
     def resize_image(image: Image.Image, max_size=(512, 512)) -> Image.Image:
         image = image.copy()
         image.thumbnail(max_size, Image.Resampling.LANCZOS)
         return image
 
-    # ログする前に画像をリサイズするための後処理出力
+    # ログする前に画像をリサイズするための後処理
     def postprocess_output(output: ImageResult) -> ImageResult:
         resized = resize_image(output.image)
         return ImageResult(label=output.label, image=resized)
 
     @weave.op(postprocess_output=postprocess_output)
     def generate_large_image() -> ImageResult:
-        # 処理するサンプル画像を作成（例：2000x2000の赤い正方形）
+        # 処理するサンプル画像を作成する（例: 2000x2000 の赤い正方形）
         img = Image.new("RGB", (2000, 2000), color="red")
         return ImageResult(label="big red square", image=img)
 
     generate_large_image()
     ```
 
-    Weave はサイズ変更した画像をログし、その画像を確認できる trace へのリンクを返します。
+    Weave はサイズ変更した画像をログし、その画像を確認できる トレース へのリンクを返します。
   </Tab>
 
   <Tab title="TypeScript">
@@ -164,13 +164,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     async function main() {
         await weave.init('your-team-name/your-project-name');
 
-        // weaveImageを使用して画像を読み込み、ログする
+        // weaveImage を使って画像を読み込んでログする
         const loadImage = weave.op(async function loadImage(path: string) {
             const data = fs.readFileSync(path);
             return weave.weaveImage({ data });
         });
 
-        // PNGイメージファイルが存在することを前提とする
+        // PNG 画像ファイルがあることを前提とする
         await loadImage('sample_image.png');
     }
 
@@ -226,7 +226,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 <Tabs>
   <Tab title="Python">
-    関数に `Annotated[bytes, Content]` 型のアノテーションを付けることで、動画をログできます。Weave は `mp4` 動画を自動的に処理します。以下は簡単な例です。
+    `Annotated[bytes, Content]` 型で関数にアノテーションを付けることで、動画をログできます。Weave は `mp4` 動画を自動的に処理します。以下は簡単な例です。
 
     ```python lines {15}
     import weave
@@ -237,7 +237,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     weave.init('your-team-name/your-project-name')
 
     def download_big_buck_bunny():
-        """Big Buck Bunny のサンプル動画をダウンロードする"""
+        """Big Buck Bunny のサンプル動画をダウンロードします"""
         url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         response = requests.get(url)
         with open("big_buck_bunny.mp4", "wb") as f:
@@ -245,7 +245,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     @weave.op
     def load_video_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
-        """ディスクから動画ファイルを読み込む"""
+        """ディスクから動画ファイルを読み込みます"""
         with open(path, 'rb') as f:
             return f.read()
 
@@ -253,11 +253,11 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     bunny_video = load_video_content("big_buck_bunny.mp4")
     ```
 
-    Weave は動画をログし、その動画を表示できるトレースへのリンクを返します。
+    Weave は動画をログし、動画を確認できるトレースへのリンクを返します。
 
-    ### 応用例: 動画解析プロジェクト内で動画をログする
+    ### 応用例: 動画解析 project で動画をログする
 
-    以下の例は、動画理解プロジェクト内で動画をログする方法を示しています。
+    次の例では、動画理解 project 内で動画をログする方法を示します。
 
     ```python lines {25}
     import weave
@@ -320,9 +320,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 以下の例では、ドキュメントを生成し、Weave の UI にログします。
 
-<Frame>
-  ![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)
-</Frame>
+<Frame>![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)</Frame>
 
 <Tabs>
   <Tab title="Python">
@@ -352,7 +350,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
         df = pd.DataFrame({
             'Name': ['Alice', 'Bob', 'Charlie'],
             'Age': [25, 30, 35],
-            'City': ['New York', 'London', 'Tokyo']
+            'City': ['New York', 'London', '東京']
         })
         df.to_csv("sample_data.csv", index=False)
 
@@ -385,7 +383,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     weave.init('your-team-name/your-project-name')
 
     def create_absurd_company_handbook():
-        """ばかげた規則を載せた架空の社員ハンドブックを作成する"""
+        """Create a fictional company handbook with ridiculous policies"""
         c = canvas.Canvas("company_handbook.pdf", pagesize=letter)
         
         c.drawString(100, 750, "ACME Corp Employee Handbook")
@@ -400,7 +398,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     @weave.op
     def create_and_query_document(pdf_path: Annotated[str, Content], question: str) -> str:
-        """PDF からテキストを抽出し、RAG を使って質問に回答する"""
+        """Extract text from PDF and use RAG to answer questions"""
         with open(pdf_path, 'rb') as file:
             pdf_reader = PyPDF2.PdfReader(file)
             text = ""
@@ -439,15 +437,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
   ## オーディオをログする
 </div>
 
-以下の例では、オーディオを Weave にログする方法を示します。
+次の例では、オーディオを Weave にログする方法を示します。
 
-<Frame>
-  ![オーディオの Trace view のスクリーンショット](/weave/guides/core-types/imgs/audio-trace.png)
-</Frame>
+<Frame>![オーディオ トレース view のスクリーンショット](/weave/guides/core-types/imgs/audio-trace.png)</Frame>
 
 <Tabs>
   <Tab title="Python">
-    関数に `Annotated[bytes, Content]` タイプの注釈を付けるか、`Annotated[str, Content[Literal['mp3']]]` でオーディオのタイプを指定すると、オーディオを Weave にログできます。
+    関数に `Annotated[bytes, Content]` タイプのアノテーションを付けるか、`Annotated[str, Content[Literal['mp3']]]` でオーディオのタイプを指定すると、オーディオを Weave にログできます。
 
     Weave は `mp3`、`wav`、`flac`、`ogg`、`m4a` のファイルタイプを自動的に処理します。`Annotated[str, Content]` を使って、ファイルパスからログすることもできます。
 
@@ -462,7 +458,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     weave.init('your-team-name/your-project-name')
 
-    # シンプルなビープ音のオーディオファイルを作成
+    # シンプルなビープ音のオーディオファイルを作成する
     frames = np.sin(2 * np.pi * 440 * np.linspace(0, 1, 44100))
     audio_data = (frames * 32767 * 0.3).astype(np.int16)
 
@@ -560,13 +556,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     async function main() {
         await weave.init('your-team-name/your-project-name');
 
-        // weaveAudioを使用してオーディオを読み込み、ログする
+        // weaveAudio を使用してオーディオを読み込み、ログする
         const loadAudio = weave.op(async function loadAudio(path: string) {
             const data = fs.readFileSync(path);
             return weave.weaveAudio({ data });
         });
 
-        // WAVオーディオファイルが存在することを前提とする
+        // WAV オーディオファイルがあることを前提とする
         await loadAudio('beep.wav');
     }
 
@@ -608,9 +604,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
   </Tab>
 </Tabs>
 
-<Tip>
-  [オーディオのログ](/ja/weave/cookbooks/audio_with_weave) のクックブックをお試しください。このクックブックには、Weave と統合された Real Time Audio API ベースのアシスタントの高度な例も含まれています。
-</Tip>
+<Tip>[Audio Logging](/ja/weave/cookbooks/audio_with_weave) の cookbook をお試しください。この cookbook には、Weave と統合された Real Time Audio API ベースのアシスタントの高度な例も含まれています。</Tip>
 
 <div id="log-html">
   ## HTML をログする
@@ -658,9 +652,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = create_simple_html()
     ```
 
-    ### 高度な例: W&amp;B Inference を使用して単体で完結する HTML ページを生成し、Weave にログする
+    ### 高度な例: Serverless Inference を使用して単体で完結する HTML ページを生成し、Weave にログする
 
-    この例では、[W&amp;B Inference](https://docs.wandb.ai/inference/) を使用して単体で完結する HTML ページを生成し、それらのページを Weave にログします。
+    この例では、[Serverless Inference](/ja/inference) を使用して単体で完結する HTML ページを生成し、それらのページを Weave にログします。
 
     ```python lines {21}
     import weave
@@ -743,8 +737,8 @@ def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Conten
     data = Path(path).read_bytes()
     return data
 
-# 入力と出力はどちらもWeaveでMP4ファイルとして表示されます
-# 入力は文字列で、戻り値はバイト列です
+# 入力と出力はどちらも Weave で MP4 ファイルとして表示されます
+# 入力は string、戻り値は bytes です
 bytes_data = content_annotation('./path/to/your/file.mp4')
 ```
 
@@ -758,7 +752,7 @@ bytes_data = content_annotation('./path/to/your/file.mp4')
 * モデルをJSONにダンプして、独自のblob storage (S3など) にアップロードする
 * `Content` blob に関連付けるカスタムメタデータ (その生成に使用したモデルなど) を渡す
 
-次のいずれかのmethodを使用して、対象のタイプからコンテンツを直接初期化できます:
+次のいずれかのメソッドを使用して、対象のタイプからコンテンツを直接初期化できます:
 
 * `Content.from_path` - ファイルパスから作成
 * `Content.from_bytes` - 生のバイト列から作成
@@ -776,7 +770,7 @@ def content_initialization(path: str) -> Content:
 # 入力はパス文字列として、出力はWeaveのPDFファイルとして表示されます
 content = content_initialization('./path/to/your/file.pdf')
 
-content.open()  # PDFビューアでファイルを開きます
+content.open()  # PDFビューアーでファイルを開きます
 content.model_dump()  # モデルの属性をJSONにダンプします
 ```
 
@@ -806,17 +800,17 @@ markdown_content('path/to/your/document.md')
 ```
 
 <div id="custom-mimetypes-with-direct-initialization">
-  #### 直接初期化でカスタムMIMEタイプを指定する
+  #### 直接初期化によるカスタムMIMEタイプ
 </div>
 
 ```python lines
 video_bytes = Path('/path/to/video.mp4').read_bytes()
 
-# 'mp4' や '.mp4' などの拡張子を extension パラメーターに渡す
+# 'mp4' や '.mp4' などの拡張子を extension パラメーターに渡します
 # (`from_path` では使用不可)
 content = Content.from_bytes(video_bytes, extension='.mp4')
 
-# 'video/mp4' などの MIMEタイプ を MIMEタイプ パラメーターに渡す
+# 'video/mp4' などの MIME タイプを mimetype パラメーターに渡します
 content = Content.from_bytes(video_bytes, mimetype='video/mp4')
 ```
 

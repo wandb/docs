@@ -1,6 +1,6 @@
 ---
 title: "Activer le mode JSON"
-description: "Configurez le mode JSON dans W&B Inference pour obtenir une sortie JSON structurée à partir des réponses du modèle, afin de faciliter l'analyse."
+description: "Configurez le mode JSON dans Serverless Inference pour obtenir une sortie JSON structurée à partir des réponses du modèle, afin de faciliter l'analyse."
 ---
 
 L&#39;activation du mode JSON demande au modèle de renvoyer la réponse dans un format JSON valide. Cependant, le schéma de la réponse peut ne pas être cohérent ni respecter une structure donnée. Pour obtenir des réponses JSON structurées cohérentes, nous vous recommandons d&#39;utiliser la [sortie structurée](/fr/inference/response-settings/structured-output) lorsque c&#39;est possible.
@@ -24,7 +24,7 @@ Pour activer le mode JSON, indiquez-le comme valeur de &quot;response&#95;format
             {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
             {"role": "user", "content": "Give me a list of three fruits with their colors."},
         ],
-        response_format={"type": "json_object"}  # Cela active le mode JSON
+        response_format={"type": "json_object"}  # Ceci active le mode JSON
     )
 
     content = response.choices[0].message.content

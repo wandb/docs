@@ -37,7 +37,7 @@ init(
     sync_tensorboard: 'bool | None' = None,
     monitor_gym: 'bool | None' = None,
     settings: 'Settings | dict[str, Any] | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x107855240>
+    anonymous: 'DoNotSet' = <object object at 0x10482d250>
 ) → Run
 ```
 
@@ -45,7 +45,11 @@ Démarrez un nouveau run pour suivre et journaliser dans W&amp;B.
 
 Dans un pipeline d&#39;entraînement ML, vous pouvez ajouter `wandb.init()` au début de votre script d&#39;entraînement ainsi que de votre script d&#39;évaluation, et chacun d&#39;eux sera suivi en tant que run dans W&amp;B.
 
-`wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run, et synchronise également les données avec [https://wandb.ai](https://wandb.ai) par défaut, afin que vous puissiez voir vos résultats en temps réel. Une fois que vous avez fini de journaliser des données, appelez `wandb.Run.finish()` pour mettre fin au run. Si vous n&#39;appelez pas `run.finish()`, le run se terminera lorsque votre script s&#39;arrêtera.
+`wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run, et synchronise également les données avec [https://wandb.ai](https://wandb.ai) par défaut, afin que vous puissiez voir vos résultats en temps réel. Une fois que vous avez fini de journaliser des données, appelez `run.finish()` pour mettre fin au run, ou utilisez le run comme gestionnaire de contexte pour l&#39;appeler automatiquement :
+
+with wandb.init() as run:  ...  # run.finish() s&#39;exécute à la fin du bloc
+
+Si vous n&#39;appelez pas `run.finish()`, le run se terminera lorsque votre script s&#39;arrêtera.
 
 Les ID de run ne doivent contenir aucun des caractères spéciaux suivants `/ \ # ? % :`
 

@@ -27,21 +27,21 @@ Weave에서 모니터를 생성하려면 다음 단계를 따르세요.
    * **Active monitor** 토글: 모니터를 켜거나 끕니다.
    * **Calls to monitor**:
      * **Operations**: 모니터링할 `@weave.op`를 하나 이상 선택합니다. 사용 가능한 op 목록에 표시되려면 먼저 해당 op를 사용하는 트레이스를 하나 이상 log해야 합니다.
-     * **Filter** (선택): 점수 산정 대상이 되는 call을 좁힙니다(예: `max_tokens` 또는 `top_p` 기준).
+     * **Filter** (선택): 점수화 대상이 되는 call을 좁힙니다(예: `max_tokens` 또는 `top_p` 기준).
      * **Sampling rate**: 점수를 매길 call의 비율입니다(0%~100%).
        <Tip>
-         샘플링 비율이 낮을수록 각 점수 산정 call에 비용이 발생하므로 전체 비용을 줄일 수 있습니다.
+         샘플링 비율이 낮을수록 각 점수화 call에 비용이 발생하므로 전체 비용을 줄일 수 있습니다.
        </Tip>
    * **LLM-as-a-judge 설정**:
      * **Scorer name**: 문자 또는 숫자로 시작해야 합니다. 문자, 숫자, 하이픈, 밑줄을 포함할 수 있습니다.
      * **Score Audio**: 사용 가능한 LLM 모델을 오디오 지원 모델만 표시하도록 필터링하고 Media Scoring JSON Paths 필드를 엽니다.
      * **Score Images**: 사용 가능한 LLM 모델을 이미지 지원 모델만 표시하도록 필터링하고 Media Scoring JSON Paths 필드를 엽니다.
-     * **Judge model**: op의 점수를 매길 모델을 선택합니다. 이 메뉴에는 W&amp;B 계정에서 설정한 상용 LLM 모델과 [W&amp;B Inference models](/ko/inference/models)이 포함됩니다. 오디오 지원 모델은 이름 옆에 **Audio Input** 레이블이 표시됩니다. 선택한 모델에 대해 다음 설정을 구성합니다.
+     * **Judge model**: op의 점수를 매길 모델을 선택합니다. 이 메뉴에는 W&amp;B 계정에서 설정한 상용 LLM 모델과 [Serverless Inference models](/ko/inference/models)이 포함됩니다. 오디오 지원 모델은 이름 옆에 **Audio Input** 레이블이 표시됩니다. 선택한 모델에 대해 다음 설정을 구성합니다.
        * **Configuration name**: 이 모델 설정의 이름입니다.
        * **System prompt**: 평가 모델의 역할과 페르소나를 정의합니다. 예: &quot;You are an impartial AI judge.&quot;
        * **Response format**: 평가자가 응답을 출력할 형식입니다(예: `json_object` 또는 일반 `text`).
-       * **Scoring prompt**: op의 점수를 매기는 데 사용하는 평가 작업입니다. 점수 산정 프롬프트에서 op의 [prompt variables](/ko/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts)를 참조할 수 있습니다. 예: &quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot;
-     * **Media Scoring JSON Paths**: 트레이스 데이터에서 미디어를 추출할 JSONPath 표현식(RFC 9535)을 지정합니다. 경로를 지정하지 않으면 사용자 메시지의 점수 산정 가능한 모든 미디어가 포함됩니다. 이 필드는 **Score Audio** 또는 **Score Images**를 활성화하면 표시됩니다.
+       * **Scoring prompt**: op의 점수를 매기는 데 사용하는 평가 작업입니다. 점수화 프롬프트에서 op의 [prompt variables](/ko/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts)를 참조할 수 있습니다. 예: &quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot;
+     * **Media Scoring JSON Paths**: 트레이스 데이터에서 미디어를 추출할 JSONPath 표현식(RFC 9535)을 지정합니다. 경로를 지정하지 않으면 사용자 메시지의 점수화 가능한 모든 미디어가 포함됩니다. 이 필드는 **Score Audio** 또는 **Score Images**를 활성화하면 표시됩니다.
 
 4. 모니터 필드 설정을 마쳤으면 **Create monitor**를 클릭합니다. 그러면 모니터가 Weave 프로젝트에 추가됩니다. 코드가 트레이스를 생성하기 시작하면 **Traces** 탭에서 모니터 이름을 선택하고 표시되는 패널의 데이터를 검토해 점수를 확인할 수 있습니다.
 

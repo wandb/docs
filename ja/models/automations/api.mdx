@@ -1,0 +1,19 @@
+---
+title: API でオートメーションを管理する
+description: Python API を使ったオートメーションのプログラム管理（一部のクライアント バージョンでは作成と更新が影響を受ける可能性があるため、SDK の修正版が提供されるまでは W&B App の使用を推奨します）。
+---
+
+<Note>
+  `wandb.Api().create_automation()` と関連ヘルパーを使ったオートメーションの **作成** と **更新** は、クライアント側の機能チェック (たとえば run-state オートメーション) が原因で、最近の `wandb` Python クライアントでは失敗することがあります。修正版の SDK が提供されるまでは、オートメーションの作成と編集には [W&amp;B App](/ja/models/automations/create-automations) を使用してください。お使いのバージョンによっては、一覧表示、取得、削除は引き続き利用できる場合があります。エラーが発生する場合は、W&amp;B App を使用してください。内部トラッキング: WB-34263。
+</Note>
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [オートメーション の概要](/ja/models/automations)
+* [オートメーションを作成する](/ja/models/automations/create-automations) (W&amp;B App)
+* [Automation events and scopes](/ja/models/automations/automation-events)
+* [オートメーション API リファレンス](/ja/models/ref/python/public-api/automations) (Python のタイプおよび `Api` メソッド)
+
+{/* Python SDK のリグレッションが修正されたら、git の履歴から list/get/create/update/delete の例を復元します（WB-34263）。以前の版では、オートメーション のチュートリアルノートブック（wandb/examples PR 618）へのリンクも含まれていました。 */}

@@ -1,49 +1,49 @@
 ---
-title: "Model Lifecycle"
+title: "Model lifecycle"
 linkTitle: "Lifecycle"
 description: >
-  Learn about W&B Inference model lifecycle and retirement
+  Learn about Serverless Inference model lifecycle and retirement
+keywords: ["model deprecation", "deprecated models", "retire model", "migration guide"]
 ---
 
-New models are frequently evaluated and released as part of the W&B Inference catalog.
+This page describes how models in the Serverless Inference catalog move through their lifecycle stages, how W&B notifies you of upcoming changes, and which models are deprecated or retired. Use this information to plan migrations away from models that are scheduled for removal.
 
-Older models are regularly reviewed and may be retired to prioritize the most in-demand and highest-quality offerings.
+W&B evaluates and releases new models as part of the Serverless Inference catalog on an ongoing basis.
+
+W&B reviews older models periodically and may retire them to prioritize the most in-demand and highest-quality offerings.
 
 ## Model lifecycle stages
 
-Models in W&B Inference use the following terminology for the stages of their lifecycle:
+Models in Serverless Inference use the following terminology for the stages of their lifecycle:
 
-* **Experimental**: The model is available for initial experimentation, but is not bound by our standard SLA or deprecation process.
-* **Generally available**: The model is fully supported and is recommended for use.
-* **Deprecated**: The model is scheduled for removal. Customers should update to a recommended replacement as soon as possible.
-* **Retired**: The model is no longer available. Any requests to retired models fail and return an `HTTP 404` status code for all requests.
+* **Experimental**: The model is available for initial experimentation, but isn't bound by our standard SLA or deprecation process.
+* **Generally available**: The model is fully supported and recommended for use.
+* **Deprecated**: The model is scheduled for removal. Update to a recommended replacement as soon as possible.
+* **Retired**: The model is no longer available. Any requests to retired models fail and return an `HTTP 404` status code.
 
 ## Deprecation process
 
-When deprecating a generally available model, W&B will provide at least two weeks of notice on this page before the model is retired.
+When W&B deprecates a generally available model, we provide at least two weeks of notice on this page before the model is retired.
 
-We additionally attempt to notify recent users of a deprecated model via email
-and provide recommendations for replacement models.
+We also attempt to notify recent users of a deprecated model through email and provide recommendations for replacement models.
 
 Models that are in the **deprecated** stage continue to serve requests.
 
-
 ## Deprecated models
-The following W&B Inference models are **deprecated**:
+
+The following Serverless Inference models are **deprecated**:
 
 {/* takeru lifecycle-deprecated - This table is automatically generated, do not edit manually. */}
-| Deprecation date | Retirement date | Model ID            | Recommended replacement |
-| ---------------- | --------------- | ------------------- | ----------------------- |
-| 2026-04-24       | 2026-05-11      | `zai-org/GLM-5-FP8` | `zai-org/GLM-5.1`       |
-
+_None currently_
 
 ## Retired models
 
-The following W&B Inference models are **retired**:
+The following Serverless Inference models are **retired**:
 
 {/* takeru lifecycle-retired - This table is automatically generated, do not edit manually. */}
 | Retirement date | Model ID                                    | Recommended replacement       |
 | --------------- | ------------------------------------------- | ----------------------------- |
+| 2026-05-11      | `zai-org/GLM-5-FP8`                         | `zai-org/GLM-5.1`             |
 | 2026-04-21      | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | `Qwen/Qwen3.5-35B-A3B`        |
 | 2026-03-04      | `deepseek-ai/DeepSeek-R1-0528`              |                               |
 | 2026-03-04      | `deepseek-ai/DeepSeek-V3-0324`              |                               |

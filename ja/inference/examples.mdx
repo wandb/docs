@@ -2,10 +2,10 @@
 title: "使用例"
 linkTitle: "例"
 description: >
-  実践的なコード例で W&B Inference の使い方を学べます
+  実践的なコード例で Serverless Inference の使い方を学べます
 ---
 
-以下の例では、トレース、評価、比較に Weave と W&amp;B Inference をどのように使うかを示します。
+以下の例では、トレース、評価、比較に Weave と Serverless Inference をどのように使うかを示します。
 
 <div id="basic-example-trace-llama-31-8b-with-weave">
   ## 基本例: Llama 3.1 8B を Weave でトレースする
@@ -30,20 +30,20 @@ description: >
 import weave
 import openai
 
-# トレース用のWeaveチームとプロジェクトを設定する
+# トレース用の Weave チームとプロジェクトを設定する
 weave.init("<your-team>/<your-project>")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # https://wandb.ai/settings でAPIキーを作成する
+    # https://wandb.ai/settings で API キーを作成する
     api_key="<your-api-key>",
 
     # オプション: 使用状況トラッキング用のチームとプロジェクト
     project="wandb/inference-demo",
 )
 
-# Weaveでモデルのcallをトレースする
+# Weave でモデルの call をトレースする
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -55,7 +55,7 @@ def run_chat():
     )
     return response.choices[0].message.content
 
-# トレースされたcallを実行してログする
+# トレースされた call を実行してログする
 output = run_chat()
 print(output)
 ```
@@ -81,7 +81,7 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# トレース用のWeaveチームとプロジェクトを設定する
+# トレース用の Weave チームとプロジェクトを設定する
 weave.init("<your-team>/<your-project>")
 
 dataset = [
@@ -100,7 +100,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # https://wandb.ai/settings でAPIキーを作成する
+            # https://wandb.ai/settings で APIキーを作成する
             api_key="<your-api-key>",
             # オプション: 使用状況トラッキング用のチームとプロジェクト
             project="<your-team>/<your-project>",

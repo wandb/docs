@@ -1,0 +1,109 @@
+---
+title: "Tutoriel : automatisation des alias d’artefact dans le registre"
+description: "Créez une automatisation qui déclenche un webhook lorsqu’un artefact du registre reçoit un alias spécifique, comme \"production\"."
+---
+
+import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
+import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
+import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
+
+Ce tutoriel vous montre comment créer une automatisation de **registre** déclenchée par les métadonnées d’un artefact : lorsqu’un artefact de votre **registre** reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête POST à votre webhook.
+
+<TutorialDiagramRegistry />
+
+<Tip>Pour savoir comment créer une automatisation de projet, voir [Tutoriel : automatisation d’alerte en cas d’échec d’un run de projet](/fr/models/automations/project-automation-tutorial).</Tip>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* Un [webhook](/fr/models/automations/create-automations/webhook#create-a-webhook) configuré dans **Team Settings**.
+* Un [registre](/fr/models/registry/create_registry) W&amp;B avec au moins une collection, ou réutilisez un registre existant.
+
+<div id="create-a-registry-automation">
+  ## Créer une automatisation du registre
+</div>
+
+Suivez ces instructions pour configurer une automatisation au niveau du registre : lorsqu’un artefact d’une collection de ce registre reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête POST à votre webhook.
+
+{/* Onglet W&B App/Python temporairement masqué dans l’attente d’un correctif du SDK Python pour `create_automation` (interne WB-34263). Le rétablir une fois la correction de la régression déployée.
+
+  <Tabs>
+  <Tab title="W&B App">
+  */}
+
+1. Ouvrez le registre et cliquez sur l’onglet **Automations**, puis sur **Create automation**.
+2. Choisissez l’événement **An artifact alias is added**. Saisissez une **Alias regex** correspondant à l’alias qui vous intéresse (par exemple, **production** ou **staging**).
+3. Cliquez sur **Next step**. Définissez **Action type** sur **Webhooks** et sélectionnez votre webhook. Si le webhook attend une charge utile, collez un corps JSON et utilisez des [variables de charge utile](/fr/models/automations/create-automations/webhook#payload-variables) telles que `${artifact_collection_name}` et `${artifact_version_string}`.
+4. Cliquez sur **Next step**. Donnez un nom à l’automatisation et, éventuellement, une description, puis cliquez sur **Create automation**.
+
+Pour plus de détails, voir [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook#create-an-automation) (onglet registre).
+
+{/*
+  </Tab>
+  <Tab title="Python">
+  Utilisez l’API publique pour créer la même automatisation avec une portée au niveau de la collection et un filtre sur l’alias :
+
+  ```python
+  import wandb
+  from wandb.automations import OnAddArtifactAlias, ArtifactEvent, SendWebhook
+
+  api = wandb.Api()
+
+  collection = api.artifact_collection(name="my-model", type_name="model")
+  webhook_integration = next(api.webhook_integrations(entity="my-team"))
+
+  event = OnAddArtifactAlias(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("production"),
+  )
+  action = SendWebhook.from_integration(
+    webhook_integration,
+    payload={
+        "event": "${event_type}",
+        "model": "${artifact_collection_name}",
+        "version": "${artifact_version_string}",
+    },
+  )
+
+  automation = api.create_automation(
+    event >> action,
+    name="production-alias-webhook",
+    description="Déclencher le webhook quand l’alias production est ajouté.",
+  )
+  ```
+  </Tab>
+  </Tabs>
+  */}
+
+<div id="test-the-automation">
+  ## Tester l’automatisation
+</div>
+
+Ajoutez l’alias (par exemple, **production**) à une version d’artefact dans le registre, à l’aide de l’application W&amp;B ou de l’API publique. Par exemple :
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    artifact = wandb.Artifact("my-model", type="model")
+    # ... enregistrer des fichiers ou des métadonnées dans l'artifact selon les besoins ...
+    run.log_artifact(artifact)
+    run.wait()  # S'assurer que l'artifact est enregistré avant de continuer
+
+# Ajouter un alias à la dernière version de la collection
+api = wandb.Api()
+collection = api.artifact_collection(name="my-model", type_name="model")
+version = next(collection.versions())  # Obtenir la dernière version
+
+version.aliases.append("production")
+version.save()
+print("Added alias 'production' to", version.name)
+
+```
+
+Dans quelques instants, votre point de terminaison webhook devrait recevoir une requête POST avec la charge utile que vous avez configurée.
+
+<TutorialNotebook />
+
+<TutorialGoFurther />

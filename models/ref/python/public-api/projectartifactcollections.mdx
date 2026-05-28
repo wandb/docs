@@ -17,7 +17,8 @@ Artifact collections in a project.
 
 **Args:**
  
- - `client`:  The client instance to use for querying W&B. 
+ - `client`:  Legacy GraphQL client retained for API compatibility. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `entity`:  The entity (user or team) that owns the project. 
  - `project`:  The name of the project to query for artifact collections. 
  - `filters`:  Optional mapping of filters to apply to the query. 
@@ -38,3 +39,10 @@ This value may be saved and passed as `start=` to a later paginated query to res
 ---
 
 ### <kbd>property</kbd> ProjectArtifactCollections.more
+
+
+
+
+
+
+

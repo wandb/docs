@@ -9,13 +9,13 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-이 페이지에서는 웹훅 [자동화](/ko/models/automations/)을 만드는 방법을 설명합니다. Slack 자동화를 만들려면 [Create a Slack automation](/ko/models/automations/create-automations/slack/)을 참고하세요.
+이 페이지에서는 웹훅 [자동화](/ko/models/automations)을 만드는 방법을 설명합니다. Slack 자동화를 만들려면 [Create a Slack automation](/ko/models/automations/create-automations/slack)을 참고하세요.
 
 웹훅 자동화를 만들려면 대략 다음 단계를 따릅니다.
 
-1. 필요한 경우 자동화에 필요한 각 민감한 문자열(예: 액세스 토큰, 비밀번호, SSH 키)마다 [W&amp;B 시크릿을 생성](/ko/platform/secrets/)합니다. 시크릿은 **Team Settings**에서 정의합니다.
+1. 필요한 경우 자동화에 필요한 각 민감한 문자열(예: 액세스 토큰, 비밀번호, SSH 키)마다 [W&amp;B 시크릿을 생성](/ko/platform/secrets)합니다. 시크릿은 **Team Settings**에서 정의합니다.
 2. [웹훅을 생성](#create-a-webhook)하여 엔드포인트와 인증 세부 정보를 정의하고, 인테그레이션에 필요한 시크릿에 대한 access 권한을 부여합니다.
-3. [자동화를 생성](#create-an-automation)하여 감시할 [이벤트](/ko/models/automations/automation-events/)와 W&amp;B가 전송할 페이로드를 정의합니다. 페이로드에 필요한 시크릿에 대한 access 권한을 자동화에 부여합니다.
+3. [자동화를 생성](#create-an-automation)하여 감시할 [이벤트](/ko/models/automations/automation-events)와 W&amp;B가 전송할 페이로드를 정의합니다. 페이로드에 필요한 시크릿에 대한 access 권한을 자동화에 부여합니다.
 
 <div id="create-a-webhook">
   ## 웹훅 만들기
@@ -31,7 +31,7 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
 2. **Webhooks** 섹션에서 **New webhook**을 클릭합니다.
 3. 웹훅 이름을 입력합니다.
 4. 웹훅의 엔드포인트 URL을 입력합니다.
-5. 웹훅에 Bearer 토큰이 필요한 경우, **Access token**을 해당 값을 포함하는 [시크릿](/ko/platform/secrets/)으로 설정합니다. 웹훅 자동화를 사용할 때 W&amp;B는 `Authorization: Bearer` HTTP 헤더에 액세스 토큰을 설정하며, `${ACCESS_TOKEN}` [페이로드 변수](#payload-variables)에서 해당 토큰에 액세스할 수 있습니다. W&amp;B가 웹훅 서비스로 보내는 `POST` 요청의 구조에 대한 자세한 내용은 [Troubleshoot your webhook](#troubleshoot-your-webhook)을 참조하세요.
+5. 웹훅에 Bearer 토큰이 필요한 경우, **Access token**을 해당 값을 포함하는 [시크릿](/ko/platform/secrets)으로 설정합니다. 웹훅 자동화를 사용할 때 W&amp;B는 `Authorization: Bearer` HTTP 헤더에 액세스 토큰을 설정하며, `${ACCESS_TOKEN}` [페이로드 변수](#payload-variables)에서 해당 토큰에 액세스할 수 있습니다. W&amp;B가 웹훅 서비스로 보내는 `POST` 요청의 구조에 대한 자세한 내용은 [Troubleshoot your webhook](#troubleshoot-your-webhook)을 참조하세요.
 6. 웹훅 페이로드에 비밀번호나 기타 민감한 문자열이 필요한 경우, **Secret**을 해당 값을 포함하는 시크릿으로 설정합니다. 웹훅을 사용하는 자동화를 설정할 때는 시크릿 이름 앞에 `$`를 붙여 [페이로드 변수](#payload-variables)로 액세스할 수 있습니다.
 
    웹훅의 액세스 토큰이 시크릿에 저장되어 있다면, 해당 시크릿을 액세스 토큰으로 지정하기 위해 *반드시* 다음 단계도 완료해야 합니다.
@@ -155,10 +155,10 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
 | `${tag}`                      | 자동화가 **An artifact tag is added** 이벤트로 트리거된 경우 artifact의 태그를 포함합니다. 다른 자동화에서는 이 변수가 비어 있습니다.                        |
 | `${artifact_collection_name}` | artifact 버전이 연결된 artifact collection의 이름입니다.                                                                        |
 | `${artifact_metadata.<KEY>}`  | 작업을 트리거한 artifact 버전의 임의의 최상위 메타데이터 키 값을 나타냅니다. `<KEY>`를 최상위 메타데이터 키 이름으로 바꾸세요. 웹훅 페이로드에서는 최상위 메타데이터 키만 사용할 수 있습니다. |
-| `${artifact_version}`         | 작업을 트리거한 artifact 버전의 [`Wandb.Artifact`](/ko/models/ref/python/experiments/artifact.md/) 표현입니다.                        |
+| `${artifact_version}`         | 작업을 트리거한 artifact 버전의 [`Wandb.Artifact`](/ko/models/ref/python/experiments/artifact) 표현입니다.                            |
 | `${artifact_version_string}`  | 작업을 트리거한 artifact 버전의 `string` 표현입니다.                                                                               |
 | `${ACCESS_TOKEN}`             | 액세스 토큰이 구성된 경우, [웹훅](#create-a-webhook)에 구성된 액세스 토큰의 값입니다. 액세스 토큰은 `Authorization: Bearer` HTTP 헤더로 자동 전달됩니다.       |
-| `${SECRET_NAME}`              | 구성된 경우, [웹훅](#create-a-webhook)에 구성된 시크릿의 값입니다. `SECRET_NAME`을 시크릿 이름으로 바꾸세요.                                 |
+| `${SECRET_NAME}`              | 구성된 경우, [웹훅](#create-a-webhook)에 구성된 시크릿의 값입니다. `SECRET_NAME`을 시크릿 이름으로 바꾸세요.                                       |
 
 <div id="payload-examples">
   ### 페이로드 예시
@@ -213,7 +213,7 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
     ${entity_name} --> "<entity>"
     ```
 
-    템플릿 문자열을 사용해 W&amp;B의 컨텍스트를 GitHub Actions 및 기타 도구에 동적으로 전달하세요. 이러한 도구가 Python 스크립트를 호출할 수 있다면 [W&amp;B API](/ko/models/artifacts/download-and-use-an-artifact/)를 통해 등록된 모델 artifact를 사용할 수 있습니다.
+    템플릿 문자열을 사용해 W&amp;B의 컨텍스트를 GitHub Actions 및 기타 도구에 동적으로 전달하세요. 이러한 도구가 Python 스크립트를 호출할 수 있다면 [W&amp;B API](/ko/models/artifacts/download-and-use-an-artifact)를 통해 등록된 모델 artifacts를 사용할 수 있습니다.
 
     * repository dispatch에 대한 자세한 내용은 [GitHub Marketplace의 공식 문서](https://github.com/marketplace/actions/repository-dispatch)를 참조하세요.
 
