@@ -646,7 +646,6 @@
                               "weave/guides/integrations/agents/google-adk",
                               "weave/guides/integrations/agents/openai-agents-sdk",
                               "weave/guides/integrations/agents/claude-agents-sdk",
-                              "weave/guides/integrations/agents/claude-code-harness",
                               "weave/guides/integrations/agents/codex-harness",
                               "weave/guides/integrations/agents/pi-dev-harness"
                             ]
