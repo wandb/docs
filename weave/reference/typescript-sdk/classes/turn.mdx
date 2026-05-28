@@ -40,7 +40,9 @@ try {
 
 ### Methods
 
+- [addEvent](./turn#addevent)
 - [end](./turn#end)
+- [setAttribute](./turn#setattribute)
 - [startLLM](./turn#startllm)
 - [startSubagent](./turn#startsubagent)
 - [startTool](./turn#starttool)
@@ -54,7 +56,7 @@ try {
 
 #### Defined in
 
-[genai/turn.ts:57](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L57)
+[genai/turn.ts:60](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L60)
 
 ___
 
@@ -64,9 +66,41 @@ ___
 
 #### Defined in
 
-[genai/turn.ts:58](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L58)
+[genai/turn.ts:61](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L61)
 
 ## Methods
+
+### addEvent
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Add a named event to the Turn span. Useful for marking non-span moments
+such as context compaction, tool-loop detection, or guardrail trips.
+No-op after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+| `attributes?` | `Attributes` |
+| `startTime?` | `TimeInput` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts
+turn.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Defined in
+
+[genai/turn.ts:152](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L152)
+
+___
 
 ### end
 
@@ -87,7 +121,38 @@ Close the Turn span. Idempotent. Pass `error` to mark it as failed.
 
 #### Defined in
 
-[genai/turn.ts:128](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L128)
+[genai/turn.ts:159](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L159)
+
+___
+
+### setAttribute
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+Set a single attribute on the Turn span. Useful for stamping running
+totals (e.g. cumulative cost, token usage) or other metadata that becomes
+known mid-turn. No-op after `end()`. Mirrors OTel `Span.setAttribute`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+| `value` | `AttributeValue` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts
+turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
+```
+
+#### Defined in
+
+[genai/turn.ts:138](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L138)
 
 ___
 
@@ -109,7 +174,7 @@ Start a child LLM span under this Turn.
 
 #### Defined in
 
-[genai/turn.ts:101](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L101)
+[genai/turn.ts:104](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L104)
 
 ___
 
@@ -131,7 +196,7 @@ Start a child SubAgent span under this Turn.
 
 #### Defined in
 
-[genai/turn.ts:119](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L119)
+[genai/turn.ts:122](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L122)
 
 ___
 
@@ -153,7 +218,7 @@ Start a child Tool span under this Turn.
 
 #### Defined in
 
-[genai/turn.ts:110](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L110)
+[genai/turn.ts:113](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L113)
 
 ___
 
@@ -173,4 +238,4 @@ ___
 
 #### Defined in
 
-[genai/turn.ts:61](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L61)
+[genai/turn.ts:64](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L64)
