@@ -1,21 +1,22 @@
 ---
 description: Learn about the keyboard shortcuts available in W&B.
 title: Keyboard shortcuts
+keywords: ["hotkeys", "LEET", "quick search", "undo redo", "panel navigation"]
 ---
 
-W&B supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This reference guide covers keyboard shortcuts for the W&B App and the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI.
+W&B supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This guide covers keyboard shortcuts for the W&B App and the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI.
 
 <Tabs>
 <Tab title="App">
 
-These keyboard shortcuts work in the W&B App.
+The following tables list keyboard shortcuts available in the W&B App, grouped by where they apply.
 
 ## Workspace management
 
 | Shortcut | Description |
 |----------|-------------|
 | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
-| **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | Redo a change you previously undid in the workspace. |
+| **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | Redo a change you undid in the workspace. |
 
 ## Navigation
 
@@ -31,9 +32,9 @@ These keyboard shortcuts work in the W&B App.
 
 | Shortcut | Description |
 |----------|-------------|
-| **Left Arrow / Right Arrow** | Step through panels in a section when in full screen mode. |
+| **Left Arrow / Right Arrow** | When in full-screen mode, step through panels in a section. |
 | **Esc** | Exit full-screen panel view and return to the workspace. |
-| **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br/>**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | When viewing a media panel in full screen mode, move the step slider. |
+| **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br/>**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | When viewing a media panel in full-screen mode, move the step slider. |
 
 ## Media panels
 
@@ -50,20 +51,22 @@ These keyboard shortcuts work in the W&B App.
 | Shortcut | Description |
 |----------|-------------|
 | **Delete / Backspace** | Remove the selected panel grid from the report. |
-| **Enter** | Insert a Markdown block after typing "/mark" in a report. |
+| **Enter** | Insert a Markdown block after typing `/mark` in a report. |
 | **Esc** | Exit the report editor. |
 | **Tab** | Navigate between interactive elements in a report. |
 
 ## Notes
 
+Keep the following points in mind when using keyboard shortcuts in the W&B App:
+
 - Most keyboard shortcuts use **Cmd** on macOS and **Ctrl** on Windows/Linux.
 - The W&B App implements custom handling for some browser default shortcuts.
-- Some shortcuts are context-sensitive and only work in specific areas of the application.
+- Some shortcuts are context-sensitive and only work in specific areas of the app.
 
 </Tab>
 <Tab title="LEET">
 
-These keyboard shortcuts work in the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI. To launch LEET, run `wandb beta leet` in your terminal. For more information, see [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet/).
+The following keyboard shortcuts work in the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI, which lets you explore experiments without leaving the command line. To launch LEET, run `wandb beta leet` in your terminal. For more information, see [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet/).
 
 {/* <LEETShortcuts /> */}
 

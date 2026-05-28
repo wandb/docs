@@ -1,11 +1,12 @@
 ---
 title: Limites de débit
 description: Limites de débit facultatives pour les instances Autogérées afin d’assurer la stabilité
+keywords: ["bridage de l’API", "limitation du débit", "limites de requêtes", "stabilité du serveur", "429 limite de débit"]
 ---
 
 import RateLimitsDefaultsAndNotification from "/snippets/fr/_includes/rate-limits-defaults-and-notification.mdx";
 
-Vous pouvez configurer des limites de débit sur votre instance W&amp;B Autogéré afin de préserver la stabilité et d’éviter qu’un utilisateur ou une charge de travail n’ait un impact négatif sur les autres. Ces limites sont facultatives. Si vous ne les définissez pas, l’instance n’applique pas les limites décrites ci-dessous.
+Vous pouvez configurer des limites de débit sur votre instance W&amp;B Autogéré afin de préserver la stabilité et d’éviter qu’un utilisateur ou une charge de travail n’affecte les autres. Ces limites sont facultatives. Si vous ne les définissez pas, l’instance n’applique aucune limite.
 
 <div id="default-limits-and-notification">
   ## Limites par défaut et notification
@@ -13,4 +14,4 @@ Vous pouvez configurer des limites de débit sur votre instance W&amp;B Autogér
 
 <RateLimitsDefaultsAndNotification />
 
-Ces valeurs par défaut sont recommandées pour des charges de production typiques. Si vos charges de travail dépassent régulièrement ces limites, vous pouvez les configurer (ou ne pas les définir) en fonction de la taille de votre instance et de l’usage partagé. Pour plus de détails sur la configuration, référez-vous à [Déployer W&amp;B avec l’opérateur Kubernetes](/fr/platform/hosting/self-managed/operator) ou contactez l’[assistance W&amp;B](mailto:support@wandb.com).
+W&amp;B recommande ces valeurs par défaut pour des charges de production typiques. Si vos charges de travail dépassent régulièrement ces limites, vous pouvez les configurer (ou ne pas les définir) en fonction de la taille de votre instance et de l’usage partagé. Pour plus de détails sur la configuration, voir [Déployer W&amp;B avec l’opérateur Kubernetes](/fr/platform/hosting/self-managed/operator) ou contactez l’[assistance W&amp;B](mailto:support@wandb.com).
