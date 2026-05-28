@@ -5,9 +5,6 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="Can I run wandb offline?" href="/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
-  Yes. If you train on an offline machine, follow these steps to upload your results to W&B: 1. Set the environment variab ...
-</Card>
 <Card title="Do environment variables overwrite the parameters passed to wandb.init()?" href="/support/models/articles/do-environment-variables-overwrite-the-p" arrow="true" horizontal>
   Arguments passed to wandb.init override environment variables. To respect a user-set environment variable while still pr ...
 </Card>
@@ -16,6 +13,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I handle the 'Failed to query for notebook' error?" href="/support/models/articles/how-do-i-handle-the-failed-to-query-for-" arrow="true" horizontal>
   If you encounter the error message "Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_N ...
+</Card>
+<Card title="How do I run W&B offline?" href="/support/models/articles/how-do-i-run-wandb-offline" arrow="true" horizontal>
+  If you train on a machine without internet access, save runs locally and sync them later: 1. Set the environment variabl ...
 </Card>
 <Card title="How do I silence W&B info messages?" href="/support/models/articles/how-do-i-silence-wb-info-messages" arrow="true" horizontal>
   W&B emits info-level log messages by default, which can clutter notebook output. This page describes two ways to reduce  ...

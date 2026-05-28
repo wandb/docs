@@ -8,12 +8,6 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="Can I just set the run name to the run ID?" href="/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
   Yes. To overwrite the run name with the run ID, use the following code snippet:
 </Card>
-<Card title="Can I log metrics on two different time scales?" href="/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
-  For example, you might want to log training accuracy per batch and validation accuracy per epoch. Yes, log indices like  ...
-</Card>
-<Card title="Can I run wandb offline?" href="/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
-  Yes. If you train on an offline machine, follow these steps to upload your results to W&B: 1. Set the environment variab ...
-</Card>
 <Card title="Does W&B use the `multiprocessing` library?" href="/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
   Yes, W&B uses the multiprocessing library. As a result, scripts that call W&B directly need to guard their entry point s ...
 </Card>
@@ -62,11 +56,17 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How do I log a list of values?" href="/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   You can log a list of values, such as per-step losses, with wandb.Run.log(). The following examples show two common appr ...
 </Card>
+<Card title="How do I log metrics on two different time scales?" href="/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
+  You might want to log training accuracy per batch and validation accuracy per epoch. Log each metric with its step index ...
+</Card>
 <Card title="How do I plot multiple lines on a plot with a legend?" href="/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
   Create a multi-line custom chart with wandb.plot.line_series(). Go to the project page to view the line chart. To add a  ...
 </Card>
 <Card title="How do I programmatically access the human-readable run name?" href="/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
   To access the .name attribute of a wandb.Run, use the following code:
+</Card>
+<Card title="How do I run W&B offline?" href="/support/models/articles/how-do-i-run-wandb-offline" arrow="true" horizontal>
+  If you train on a machine without internet access, save runs locally and sync them later: 1. Set the environment variabl ...
 </Card>
 <Card title="I didn't name my run. Where is the run name coming from?" href="/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
   If a run isn't explicitly named, W&B assigns a random name to identify it in your project. Examples of random names are  ...

@@ -3,16 +3,14 @@ title: "How do I fix an `anaconda 400 error` during a sweep?"
 keywords: ["Sweeps", "Metrics"]
 ---
 
-This article explains how to resolve an `anaconda 400 error` that occurs during a W&B sweep, so your sweep can continue optimizing as expected.
-
-The following error usually occurs when you don't log the metric you're optimizing:
+An `anaconda 400 error` during a sweep often means you didn't log the metric you're optimizing. You might see:
 
 ```text
 wandb: ERROR Error while calling W&B API: anaconda 400 error:
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-This error means the sweep controller can't find the metric required to evaluate runs. To fix this, make sure you log the exact metric specified in your sweep configuration. For example, if your sweep config specifies:
+The sweep controller can't find the metric it needs to compare runs. Log the exact metric named in your sweep configuration. For example, if your sweep config specifies:
 
 ```yaml
 metric:
@@ -20,10 +18,11 @@ metric:
   goal: minimize
 ```
 
-Your training code must then call:
+Add a matching `wandb.log` call in your training loop:
 
 ```python
-wandb.log({"validation_loss": value})
+# After you compute validation_loss for an epoch or step:
+# wandb.log({"validation_loss": value})
 ```
 
 The metric name must match exactly between your sweep configuration and your `wandb.log` call.
