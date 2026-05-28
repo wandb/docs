@@ -1,12 +1,15 @@
 ---
 title: Line plot reference
 description: "Reference for line plot panel settings including x-axis, y-axis, smoothing, aggregation, and grouping options."
+keywords: ["EMA smoothing", "Gaussian smoothing", "full fidelity", "legend template", "expressions"]
 ---
 import LinePlotCaptureGroups from "/snippets/_includes/line-plot-capture-groups.mdx";
 
 This page provides comprehensive details for line plot settings. For more details about working with line plots, see the [Line plots overview](/models/app/features/panels/line-plot).
 
 ## Data settings
+
+Data settings control which metrics appear on the plot and how data points are sampled, smoothed, and aggregated.
 
 ### X-axis
 
@@ -25,14 +28,13 @@ Available time-based x-axis options:
 
 ### Y-axis
 
-Set the y-axis variables to any integer or float value you logged with`wandb.Run.log()`. Specify a single value, array of values, or histogram of values. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
+Set the y-axis variables to any integer or float value you logged with `wandb.Run.log()`. Specify a single value, array of values, or histogram of values. If you logged more than 1,500 points for a variable, W&B samples down to 1,500 points.
 
 <Note>
 Customize the color of your y-axis lines by changing the run color in the runs table.
 </Note>
 
-Available y-axis options:
-* **Y range**: Default is from the smallest positive value of your metrics (inclusive of 0) to the largest value of your metrics. You can customize the minimum and maximum values.
+The **Y range** option defaults to the range from the smallest positive value of your metrics (inclusive of 0) to the largest value of your metrics. You can customize the minimum and maximum values.
 
 ### Point aggregation method
 
@@ -45,7 +47,7 @@ Choose the sampling mode for displaying data points:
 Set the [smoothing coefficient](/support/models/articles/what-formula-do-you-use-for-your-smoothi) between 0 and 1, where 0 is no smoothing and 1 is maximum smoothing.
 
 Available smoothing methods:
-* **Time weighted EMA** (default): a technique for smoothing time series data by exponentially decaying the weight of previous points.
+* **Time-weighted EMA** (default): an exponential moving average (EMA) technique for smoothing time series data by exponentially decaying the weight of previous points.
 * **Running average**: replaces a point with the average of points in a window before and after the given x value.
 * **Gaussian**: computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter.
 * **No smoothing**
@@ -64,7 +66,7 @@ Rescale the plot to exclude outliers from the default plot min and max scale. Th
 By default, plots include only the first 10 runs or groups of runs in the run list or run set. Change the sort order to control which runs or groups to display.
 
 <Note>
-A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+A workspace is limited to displaying a maximum of 1,000 runs, regardless of its configuration.
 </Note>
 
 ### Chart type
@@ -78,20 +80,20 @@ Choose the plot style:
     <Frame>
         <img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot style"  />
     </Frame>
-- **Percentage area plot:**
+- **Percentage area plot**
     <Frame>
         <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style"  />
     </Frame>
 
-Configure the chart type in the **Data** tab. Refer to [](/models/app/features/panels/line-plot#individual-line-plot).
+Configure the chart type in the **Data** tab. Refer to [Individual line plot](/models/app/features/panels/line-plot#individual-line-plot).
 
 ## Grouping settings
 Aggregate all runs by turning on grouping, or group over an individual variable. When you turn on grouping in the runs table, the groups automatically populate into the graph.
 
-- **Group runs**: Turn on run grouping in the plot. Required to configure the shaded range in the plot, below.
+- **Group runs**: Turn on run grouping in the plot. Required to configure the shaded range in the plot.
 - **Group by**: Optionally select a column. All runs with the same value in that column are grouped together.
 - **Aggregation**: The value of the line on the graph. Options are mean, median, min, and max of the group.
-- **Range**: Configure the shaded area of a full-fidelity line plot. Options are Min/Max, Std Dev, Std Err or None.
+- **Range**: Configure the shaded area of a full-fidelity line plot. Options are Min/Max, Std Dev, Std Err, or None.
 
 ## Chart settings
 Configure titles and legend visibility:
@@ -146,23 +148,23 @@ Supported values inside `[[ ]]`:
 
 Formulate math expressions to create or transform line plots from your logged metrics, config values, and summary statistics. For example, you can compute the difference between two metrics, rescale a metric by a config value, or plot the logarithm of a metric. Expressions are evaluated at each step that you log.
 
-The following sections show how to reference values in expressions and describe the operators and functions you can use in custom expressions. In a line plot, you can use an expression for the x axis, y axis, or both.
+The following sections show how to reference values in expressions and describe the operators and functions you can use in custom expressions. In a line plot, you can use an expression for the x-axis, y-axis, or both.
 
-See the [Example expressions](#example-expressions) section below for common use cases and example expressions.
+See [Example expressions](#example-expressions) for common use cases and example expressions.
 
 ### Create new line plots with expressions
 
 1. Navigate to your project's workspace.
 1. Click the **+ Add panel** button and select **Line plot**.
 1. Click the **Data** tab. Select the data you want to plot on the line plot for both the x and y axes.
-1. Click on the **Expressions** tab.
+1. Click the **Expressions** tab.
 1. In the **Y-axis** field or **X-axis** field, enter your expression.
 1. Click **Apply** to save your settings and view the line plot.
 
 ### Transform existing line plots with expressions
 1. Open the line plot you want to transform.
 1. Click the gear icon in the upper right corner of the plot to edit the panel.
-1. Click on the **Expressions** tab.
+1. Click the **Expressions** tab.
 1. In the **Y-axis** field or **X-axis** field, enter your expression.
 1. Click **Apply** to save your settings and view the updated line plot.
 
@@ -192,7 +194,7 @@ The following table describes how to reference logged metrics, config parameters
 | ---------------- |---------------------------------------|----------------------------------------| -------------------------------------- |
 | Metric           | `${metric_name}`                      | Reference a logged metric by name.                     | `${val/accuracy}`, `${"accuracy"}` |
 | Config parameter | `${config:param_name}`                | Reference config values using the `${config:}` prefix. | `${config:lr}`, `${config:batch_size}` |
-| Summary statistic | `${summary:stat_name}`               | Reference summary fields using the `summary: prefix`   | `${summary:final_accuracy}`, `${summary:best_loss}` |
+| Summary statistic | `${summary:stat_name}`               | Reference summary fields using the `${summary:}` prefix.   | `${summary:final_accuracy}`, `${summary:best_loss}` |
 
 
 Use `${...}` to escape any metric name, config parameter, or summary field that includes special characters or spaces such as `/`, `-`, or spaces. 
@@ -202,7 +204,7 @@ For example, if you log a metric named `val/accuracy`, reference it as `${val/ac
 
 #### Nested configs
 
-Acccess nested config values using dot notation and the following syntax: 
+Access nested config values using dot notation and the following syntax: 
 
 ```javascript
 ${config:parent.child.grandchild}

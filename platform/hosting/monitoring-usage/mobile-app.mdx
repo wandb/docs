@@ -1,6 +1,7 @@
 ---
 title: W&B Mobile App (iOS)
 description: From your iPhone or iPad, track training runs, review console logs, view line plots and system metrics, search project panels with regular expressions, and explore your W&B Models projects.
+keywords: ["iPhone app", "iPad app", "iOS app", "App Store", "mobile monitoring"]
 ---
 
 <Columns cols={4}>
@@ -18,13 +19,15 @@ description: From your iPhone or iPad, track training runs, review console logs,
   </Frame>
 </Columns>
 
-The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. From your iPhone or iPad, track training runs and read run logs in real time, view line plots and system metrics, explore project histories, and follow your team's progress.
+The W&B Mobile App for iOS keeps you connected to your W&B Models projects wherever you go. Use it on your iPhone or iPad to track training runs and read run logs in real time, view line plots and system metrics, explore project histories, and follow your team's progress so you can monitor experiments without opening your laptop. This page describes the app's features and shows you how to set up notifications.
 
 <Info>
-The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) accounts. It is not available for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments.
+The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) accounts. It isn't available for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-managed](/platform/hosting/hosting-options/self-managed) deployments.
 </Info>
 
 ## Download the app
+
+Install the app from the App Store to get started.
 
 <Card
   title="Download on the App Store"
@@ -34,6 +37,8 @@ The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/host
 
 
 ## Features
+
+The following features are available in the mobile app.
 
 - **Explore projects**: Browse and search across your W&B projects.
     - **Full project history**: Metric charts on project panels include data from _all runs_ in the project, not only the latest run.
@@ -47,25 +52,29 @@ The mobile app is only available for [Multi-tenant Cloud](/platform/hosting/host
     - **Search panels**: When viewing a run or a project, use the **panel search** field at the bottom of the screen to filter which runs appear in each chart. You can search with [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) to match patterns in run names.
     - **Chart tooltips**: On line charts, tooltips show metric values with up to four decimal places so you can read small changes accurately.
     - **Stop runs**: When viewing an in-progress run, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Stop run**.
-    - **View console logs**: View [console logs](/models/runs/view-logged-runs#logs) for active or completed runs, or download logs for completed runs. The app polls active runs for new log lines every 5 seconds. The most recent 10,000 lines display by default, and you can scroll backward to view older logs. Log search stays responsive even for very large outputs.
-- **Switch teams**: Use the **team picker** to change teams. The picker uses an updated layout for quicker navigation.
+    - **View console logs**: View [console logs](/models/runs/view-logged-runs#logs) for active or completed runs, or download logs for completed runs. The app polls active runs for new log lines every 5 seconds. The most recent 10,000 lines display by default, and you can scroll backward to view older logs. Log search stays responsive even for large outputs.
+- **Switch teams**: Use the **team picker** to change teams.
 - **Stay informed**: Get updates on your experiments without opening your laptop using notifications. **Remove alerts** you no longer need from the **Notifications** tab by swiping them away.
 
 ## Set up notifications
 
-You can configure notifications in two ways:
+Configure notifications to receive updates about your experiments on your mobile device. The following sections describe the two kinds of notifications you can configure.
 
-**Metric threshold alerts**
+### Metric threshold alerts
+
+Use metric threshold alerts to get notified when a metric crosses a value you specify.
 
 1. Navigate to a run.
 2. Tap the graph to enter fullscreen view.
-3. Tap the bell icon on the top-right.
+3. Tap the bell icon in the top right.
 4. Set notifications that trigger when future runs cross the specified metric threshold.
 
-**Run failure alerts**
+### Run failure alerts
+
+Use run failure alerts to get notified when runs in a project fail.
 
 1. Navigate to a project.
-2. Tap the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu on the top-right.
+2. Tap the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu in the top right.
 3. Select **Run failed alert** to receive notifications for future run failures in that project.
 
 The **Manage notifications** screen lists both kinds of settings in one place, with short descriptions that explain what each section controls.

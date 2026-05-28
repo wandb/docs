@@ -1,13 +1,16 @@
 ---
 title: Agrégation des points
 description: "Découvrez les deux modes d’agrégation de points pour les graphiques en courbes W&B : l’échantillonnage par bucket en mode de fidélité totale et l’échantillonnage aléatoire."
+keywords: ["fidélité totale", "échantillonnage aléatoire", "agrégation des graphiques en courbes", "échantillonnage par bucket", "sous-échantillonnage"]
 ---
 
-Utilisez les méthodes d’agrégation de points dans vos graphiques en courbes pour gagner en précision d’affichage des données et en performances. Il existe deux modes d’agrégation de points : la [fidélité totale](#full-fidelity) et l’[échantillonnage aléatoire](#random-sampling). W&amp;B utilise le mode de fidélité totale par défaut.
+Utilisez les méthodes d’agrégation de points dans vos graphiques en courbes pour gagner en précision d’affichage des données et en performances. Cette page explique les deux modes d’agrégation disponibles ainsi que la manière de configurer chacun d’eux, afin que vous puissiez choisir le bon compromis entre le niveau de détail et la vitesse de rendu pour votre espace de travail. Il existe deux modes d’agrégation de points disponibles : la [fidélité totale](#full-fidelity) et l’[échantillonnage aléatoire](#random-sampling). W&amp;B utilise le mode de fidélité totale par défaut.
 
 <div id="full-fidelity">
   ## Fidélité totale
 </div>
+
+La fidélité totale est la méthode d’agrégation par défaut et préserve les valeurs extrêmes dans vos données. Cette section explique comment fonctionne la fidélité totale, ses principaux avantages et comment l’activer pour un seul graphique ou pour un workspace entier.
 
 Lorsque vous utilisez le mode de fidélité totale, W&amp;B découpe le axe X en buckets dynamiques. Le nombre de points par ligne s&#39;adapte à la taille du graphique et au nombre de runs. Il calcule les valeurs minimale et maximale dans chaque bucket (utilisées pour un ombrage facultatif) et utilise la dernière valeur de chaque bucket (et non la moyenne) pour tracer la ligne principale.
 
@@ -15,7 +18,7 @@ L&#39;utilisation du mode de fidélité totale pour l&#39;agrégation des points
 
 * Préserver les valeurs extrêmes et les pics : conservez les valeurs extrêmes et les pics dans vos données.
 * Configurer le rendu des points minimum et maximum : utilisez le W&amp;B App pour choisir de manière interactive si vous souhaitez afficher les valeurs extrêmes (min/max) sous forme de zone ombrée.
-* Explorer vos données sans perte de fidélité : W&amp;B recalcule la taille des buckets du axe X lorsque vous zoomez sur des points de données spécifiques. Cela vous permet d&#39;explorer vos données sans perdre en précision. La mise en cache est utilisée pour stocker les agrégations précédemment calculées afin de réduire les temps de chargement, ce qui est particulièrement utile lorsque vous parcourez de grands jeux de données.
+* Explorer vos données sans perte de fidélité : W&amp;B recalcule la taille des buckets du axe X lorsque vous zoomez sur des points de données spécifiques. Cela vous permet d&#39;explorer vos données sans perdre en précision. W&amp;B met en cache les agrégations précédemment calculées afin de réduire les temps de chargement, ce qui est utile lorsque vous parcourez de grands jeux de données.
 
 <div id="turn-on-full-fidelity">
   ### Activer la fidélité totale
@@ -27,7 +30,7 @@ W&amp;B utilise le mode de fidélité totale par défaut. Pour le configurer man
   <Tab title="Tous les graphiques dans un Workspace">
     1. Accédez à votre Workspace.
     2. Sélectionnez l’icône d’engrenage dans le coin supérieur droit de l’écran, à gauche du bouton **Add panels**.
-    3. Dans le panneau de l’interface qui s’affiche, sélectionnez **graphique en courbes**
+    3. Dans le panneau de l’interface qui s’affiche, sélectionnez **graphique en courbes**.
     4. Choisissez **fidélité totale** dans la section **agrégation des points**.
     5. Configurez l’algorithme et les paramètres de **lissage**.
     6. Réglez **Aggregation** sur **Mean**, **Min** ou **Max**.
@@ -36,9 +39,9 @@ W&amp;B utilise le mode de fidélité totale par défaut. Pour le configurer man
 
   <Tab title="Graphique individuel dans un Workspace">
     1. Accédez à votre Workspace.
-    2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche
+    2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche.
     3. Survolez le panneau de graphique linéaire que vous souhaitez configurer, puis cliquez sur l’icône d’engrenage.
-    4. Dans la fenêtre modale qui s’affiche, définissez **Point aggregation method** sur **fidélité totale**.
+    4. Dans la fenêtre modale qui s’affiche, définissez **Méthode d’agrégation des points** sur **fidélité totale**.
     5. Configurez l’algorithme et les paramètres de **lissage**.
     6. Cliquez sur **Apply**.
   </Tab>
@@ -48,7 +51,7 @@ W&amp;B utilise le mode de fidélité totale par défaut. Pour le configurer man
   ### Configurer l’ombrage
 </div>
 
-Les zones ombrées d’un graphique en courbes en fidélité totale peuvent afficher :
+L’ombrage visualise la variabilité au sein de chaque bucket afin de vous permettre de voir dans quelle mesure les points s’écartent autour de la ligne. Les zones ombrées d’un graphique en courbes en fidélité totale peuvent afficher :
 
 * **Min/Max** : pour chaque point de l’axe X, la zone comprise entre les valeurs minimale et maximale est ombrée. La zone ombrée montre tous les points, de la valeur la plus faible à la plus élevée, dans chaque bucket :
   ```math
@@ -94,18 +97,18 @@ Analysez des zones spécifiques du jeu de données sans passer à côté de poin
   <img src="/images/app_ui/zoom_in.gif" alt="Fonctionnalité de zoom du graphique" />
 </Frame>
 
-W&amp;B utilise un partitionnement dynamique pour diviser l’axe des x en buckets. Le nombre de points affichés par ligne s’adapte à la taille du graphique et au nombre de Runs : des dimensions de graphique plus petites ou un plus grand nombre de Runs peuvent réduire le nombre de points par ligne afin que le graphique reste réactif et puisse afficher davantage de lignes. Pour chaque bucket, W&amp;B calcule les valeurs suivantes :
+W&amp;B utilise un partitionnement dynamique pour diviser l’axe X en buckets. Le nombre de points affichés par ligne s’adapte à la taille du graphique et au nombre de Runs : des dimensions de graphique plus petites ou un plus grand nombre de Runs peuvent réduire le nombre de points par ligne afin que le graphique reste réactif et puisse afficher davantage de lignes. Pour chaque bucket, W&amp;B calcule les valeurs suivantes :
 
 * **Minimum** : la valeur la plus basse de ce bucket (utilisée pour l’ombrage).
 * **Maximum** : la valeur la plus élevée de ce bucket (utilisée pour l’ombrage).
 * **Line value** : la dernière valeur de ce bucket, utilisée pour tracer la ligne.
 
-W&amp;B trace les valeurs par bucket de manière à préserver une représentation complète des données et à inclure les valeurs extrêmes dans chaque graphique. La ligne est tracée à partir de la dernière valeur de chaque bucket. Lorsque vous zoomez suffisamment, le mode de fidélité totale peut effectuer le rendu de chaque point de données sans agrégation supplémentaire ; le seuil exact dépend des dimensions actuelles du graphique et du nombre de Runs.
+W&amp;B trace les valeurs par bucket de manière à préserver une représentation complète des données et à inclure les valeurs extrêmes dans chaque graphique. La ligne est tracée à partir de la dernière valeur de chaque bucket. Lorsque vous zoomez suffisamment, le mode de fidélité totale peut effectuer le rendu de chaque point de données sans agrégation supplémentaire. Le seuil exact dépend des dimensions actuelles du graphique et du nombre de Runs.
 
 Pour zoomer sur un graphique en courbes, suivez ces étapes :
 
-1. Accédez à votre projet W&amp;B
-2. Sélectionnez l’icône **Workspace** dans la barre latérale gauche
+1. Accédez à votre projet W&amp;B.
+2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche.
 3. Si vous le souhaitez, ajoutez un panneau de graphique linéaire à votre Workspace ou accédez à un panneau de graphique linéaire existant.
 4. Cliquez et faites glisser pour sélectionner une zone spécifique sur laquelle zoomer.
 
@@ -114,8 +117,8 @@ Pour zoomer sur un graphique en courbes, suivez ces étapes :
 
   Lorsque vous utilisez le regroupement de graphiques en courbes, W&amp;B applique les éléments suivants selon le mode sélectionné :
 
-  * **Échantillonnage sans fenêtrage (regroupement)** : aligne les points entre les Runs sur l’axe des x. Une moyenne est calculée si plusieurs points partagent la même valeur x ; sinon, ils apparaissent comme des points distincts.
-  * **Échantillonnage fenêtré (regroupement et expressions)** : divise l’axe des x soit en 250 buckets, soit selon le nombre de points de la ligne la plus longue (la plus petite des deux valeurs étant retenue). W&amp;B calcule la moyenne des points dans chaque bucket.
+  * **Échantillonnage sans fenêtrage (regroupement)** : aligne les points entre les Runs sur l’axe X. Une moyenne est calculée si plusieurs points partagent la même valeur x ; sinon, ils apparaissent comme des points distincts.
+  * **Échantillonnage fenêtré (regroupement et expressions)** : divise l’axe X soit en 250 buckets, soit selon le nombre de points de la ligne la plus longue (la plus petite des deux valeurs étant retenue). W&amp;B calcule la moyenne des points dans chaque bucket.
   * **Fidélité totale (regroupement et expressions)** : similaire à l’échantillonnage sans fenêtrage, mais récupère jusqu’à 500 points par run afin d’équilibrer les performances et le niveau de détail.
 </Note>
 
@@ -123,10 +126,12 @@ Pour zoomer sur un graphique en courbes, suivez ces étapes :
   ## Échantillonnage aléatoire
 </div>
 
-L’échantillonnage aléatoire utilise 1 500 points choisis aléatoirement pour afficher les graphiques en courbes. Comme cet échantillonnage supprime certains points, il est plus difficile de repérer les valeurs aberrantes ou les pics.
+L’échantillonnage aléatoire est une méthode d’agrégation alternative qui privilégie la vitesse de rendu au détriment de la fidélité des données. Utilisez-la lorsque vous avez besoin de graphiques plus rapides et qu’il n’est pas nécessaire de conserver chaque valeur extrême.
+
+L’échantillonnage aléatoire utilise 1 500 points sélectionnés aléatoirement pour le rendu des graphiques en courbes. Comme l’échantillonnage supprime des points, il devient plus difficile de repérer les valeurs aberrantes ou les pics.
 
 <Warning>
-  L’échantillonnage aléatoire n’est pas déterministe. Cela signifie qu’il exclut parfois des valeurs aberrantes ou des pics importants dans les données, ce qui réduit la précision des données.
+  L’échantillonnage aléatoire est non déterministe. Par conséquent, il exclut parfois des valeurs aberrantes ou des pics dans les données, ce qui réduit la précision des données.
 </Warning>
 
 <div id="enable-random-sampling">
@@ -137,18 +142,18 @@ Par défaut, W&amp;B utilise le mode de fidélité totale. Pour activer l’éch
 
 <Tabs>
   <Tab title="Tous les graphiques d’un Workspace">
-    1. Accédez à votre projet W&amp;B
-    2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche
+    1. Accédez à votre projet W&amp;B.
+    2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche.
     3. Sélectionnez l’icône d’engrenage dans le coin supérieur droit de l’écran, à gauche du bouton **Add panels**.
-    4. Dans le volet qui s’affiche, sélectionnez **Graphiques en courbes**
-    5. Choisissez **Échantillonnage aléatoire** dans la section **Agrégation des points**
+    4. Dans le volet qui s’affiche, sélectionnez **Graphiques en courbes**.
+    5. Choisissez **Échantillonnage aléatoire** dans la section **Agrégation des points**.
   </Tab>
 
   <Tab title="Graphique individuel dans un Workspace">
-    1. Accédez à votre projet W&amp;B
-    2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche
-    3. Sélectionnez le panneau de graphique linéaire pour lequel vous souhaitez activer l’échantillonnage aléatoire
-    4. Dans la fenêtre modale qui s’affiche, sélectionnez **Échantillonnage aléatoire** dans la section **Méthode d’agrégation des points**
+    1. Accédez à votre projet W&amp;B.
+    2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche.
+    3. Sélectionnez le panneau de graphique linéaire pour lequel vous souhaitez activer l’échantillonnage aléatoire.
+    4. Dans la fenêtre modale qui s’affiche, sélectionnez **Échantillonnage aléatoire** dans la section **Méthode d’agrégation des points**.
   </Tab>
 </Tabs>
 
@@ -156,7 +161,7 @@ Par défaut, W&amp;B utilise le mode de fidélité totale. Pour activer l’éch
   ### Accéder aux données non échantillonnées
 </div>
 
-Vous pouvez accéder à l’historique complet des métriques enregistrées au cours d’un run à l’aide de la [W&amp;B Run API](/fr/models/ref/python/public-api/runs). L’exemple suivant montre comment récupérer et traiter les valeurs de perte d’un run spécifique :
+Si l’échantillonnage aléatoire supprime des points dont vous avez besoin, vous pouvez quand même accéder par programmation à l’historique complet des métriques non échantillonnées. Vous pouvez accéder à l’historique complet des métriques enregistrées au cours d’un run à l’aide de la [W&amp;B Run API](/fr/models/ref/python/public-api/runs). L’exemple suivant montre comment récupérer et traiter les valeurs de perte d’un run spécifique :
 
 ```python
 # Initialiser la W&B API
