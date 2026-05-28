@@ -1,6 +1,7 @@
 ---
 description: 메트릭을 시각화하고, 축을 사용자 지정하고, 플롯에서 여러 선을 비교합니다
 title: 선형 플롯 Overview
+keywords: ["선형 플롯", "다중 메트릭 패널", "run 비교기", "x축", "NaN"]
 ---
 
 import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-groups.mdx";
@@ -21,53 +22,53 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   ## 선형 플롯 추가
 </div>
 
-이 섹션에서는 단일 메트릭 또는 여러 메트릭에 대한 선형 플롯을 만드는 방법을 설명합니다.
+다음 섹션에서는 단일 메트릭 또는 여러 메트릭에 대한 선형 플롯을 만드는 방법을 설명합니다.
 
 <Tabs>
-  <Tab title="단일 메트릭용 선형 플롯">
-    [자동 워크스페이스](/ko/models/app/features/panels#workspace-modes)에서는 로깅된 각 메트릭에 대해 단일 메트릭 선형 플롯이 자동으로 생성됩니다. 자동 워크스페이스에서 삭제한 선형 플롯을 다시 추가하거나, 수동 워크스페이스에 선형 플롯을 추가하려면 다음 단계를 따르세요.
+  <Tab title="단일 메트릭 선형 플롯">
+    [자동 워크스페이스](/ko/models/app/features/panels#workspace-modes)에서는 로깅된 각 메트릭에 대해 W&amp;B가 단일 메트릭 선형 플롯을 자동으로 생성합니다. 자동 워크스페이스에서 삭제된 선형 플롯을 다시 추가하거나, 수동 워크스페이스에 선형 플롯을 추가하려면 다음 단계를 따르세요.
 
     1. 워크스페이스로 이동합니다.
-    2. 선형 플롯을 전체에 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭합니다.
-
-       대신 특정 섹션에 직접 선형 플롯을 추가하려면 섹션의 **action (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **+ Add panels**를 클릭합니다.
-    3. 기본 설정으로 단일 메트릭 플롯을 추가하려면 **Quick panel builder**를 클릭합니다.
-       1. **Single-key panels** 탭에서 메트릭 위에 마우스를 올린 다음 **Add**를 클릭합니다. 추가하려는 각 패널에 대해 이 단계를 반복합니다.
-       2. **Create &lt;number&gt; panels**를 클릭합니다.
-    4. 대신 맞춤형 선형 플롯을 추가하려면 **Line plot**을 클릭합니다.
-       1. 해당 탭을 사용해 선형 플롯의 데이터, 그룹화, 표시 설정을 구성합니다. 자세한 내용은 [선형 플롯 설정 편집](#edit-line-plot-settings)을 참조하세요.
-       2. x축 또는 y축에 계산식을 추가하려면 **Expressions**를 클릭합니다. [JavaScript 정규식](https://www.w3schools.com/js/js_regexp.asp)을 지원합니다.
-          chart와 같이 추가할 패널 유형을 선택합니다. 패널의 설정 세부 정보가 선택된 기본값과 함께 표시됩니다.
-    5. 선택적으로 패널과 표시 설정을 사용자 지정할 수 있습니다. 설정 옵션은 선택한 패널 유형에 따라 달라집니다. 각 패널 유형의 옵션에 대해 자세히 알아보려면 아래 관련 섹션(예: [Line plots](/ko/models/app/features/panels/line-plot/) 또는 [Bar plots](/ko/models/app/features/panels/bar-plot/))을 참고하세요.
-    6. **Apply**를 클릭합니다.
-  </Tab>
-
-  <Tab title="다중 메트릭 선형 플롯">
-    <Note>
-      이 기능은 프리뷰 상태이며 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE에 문의하세요.
-    </Note>
-
-    [automatic workspace](/ko/models/app/features/panels#workspace-modes)에서는 로깅된 각 메트릭에 대해 단일 메트릭 선형 플롯이 자동으로 생성됩니다. 이 섹션에서는 JavaScript 정규식으로 정의한 여러 메트릭을 함께 표시하는 단일 선형 플롯을 만드는 방법을 설명합니다. 필요에 따라 여러 단일 메트릭 플롯을 하나의 다중 메트릭 플롯으로 통합할 수도 있습니다. 이렇게 하면 로깅된 메트릭이 많은 workspace의 성능을 개선할 수 있으며, run 결과를 더 효율적으로 분석하는 데 도움이 됩니다.
-
-    1. workspace로 이동합니다.
-    2. 선형 플롯을 전역으로 추가하려면 패널 검색 필드 근처의 제어 막대에서 **Add panels**를 클릭합니다.
+    2. 선형 플롯을 워크스페이스 전체에 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭합니다.
 
        대신 선형 플롯을 특정 섹션에 직접 추가하려면 섹션의 **action (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **+ Add panels**를 클릭합니다.
+    3. 기본 설정으로 단일 메트릭 플롯을 추가하려면 **Quick panel builder**를 클릭합니다.
+       1. **Single-key panels** 탭에서 메트릭 위에 마우스를 올린 다음 **Add**를 클릭합니다. 추가하려는 각 패널에 대해 이 단계를 반복합니다.
+       2. **Create [NUMBER] panels**를 클릭합니다.
+    4. 맞춤형 선형 플롯을 추가하려면 **Line plot**을 클릭합니다.
+       1. 해당 탭에서 선형 플롯의 데이터, 그룹화, 표시 기본 설정을 구성합니다. 자세한 내용은 [Edit line plot settings](#edit-line-plot-settings)를 참조하세요.
+       2. x축 또는 y축에 계산된 표현식을 추가하려면 **Expressions**를 클릭합니다. [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) 을 지원합니다.
+    5. 차트와 같이 추가할 패널 유형을 선택합니다. 패널의 설정 세부 정보가 선택된 기본값과 함께 표시됩니다.
+    6. 필요에 따라 패널과 표시 기본 설정을 사용자 지정합니다. 설정 옵션은 선택한 패널 유형에 따라 다릅니다. 각 패널 유형의 옵션에 대한 자세한 내용은 [Line plots](/ko/models/app/features/panels/line-plot/) 또는 [Bar plots](/ko/models/app/features/panels/bar-plot/)를 참조하세요.
+    7. **Apply**를 클릭합니다.
+  </Tab>
+
+  <Tab title="여러 메트릭 선형 플롯">
+    <Note>
+      이 기능은 프리뷰 상태이며 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [support](mailto:support@wandb.com) 또는 AISE에 문의하세요.
+    </Note>
+
+    [automatic workspace](/ko/models/app/features/panels#workspace-modes)에서 W&amp;B는 로깅된 각 메트릭에 대해 단일 메트릭 선형 플롯을 자동으로 생성합니다. 이 섹션에서는 JavaScript 정규 표현식으로 정의한 여러 메트릭을 함께 표시하는 단일 선형 플롯을 만드는 방법을 설명합니다. 필요에 따라 여러 단일 메트릭 플롯을 하나의 다중 메트릭 플롯으로 통합할 수도 있습니다. 이렇게 하면 로깅된 메트릭이 많은 workspace의 성능을 개선할 수 있고, Runs 결과를 분석하는 데도 도움이 됩니다.
+
+    1. workspace로 이동합니다.
+    2. 선형 플롯을 전체에 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭합니다.
+
+       대신 선형 플롯을 특정 섹션에 직접 추가하려면 해당 섹션의 **action (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **+ Add panels**를 클릭합니다.
     3. **Quick panel builder**를 클릭한 다음 **Multi-metric panels** 탭을 클릭합니다.
-    4. **Regex**에 [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) 형식의 식을 입력합니다. 입력하는 동안 UI가 업데이트되어 어떤 메트릭이 식과 일치하는지 보여줍니다. 기본적으로 플롯 이름에는 해당 플롯에서 사용하는 정규식이 표시됩니다. 플롯에는 나중에 로깅되는 메트릭을 포함해 식과 일치하는 모든 메트릭의 선이 포함됩니다.
-    5. 다중 메트릭 플롯을 만들 때 중복된 단일 메트릭 패널을 선택적으로 제거하려면 **Clean up auto-generated panels**를 켭니다. 어떤 패널이 정리될지는 미리보기로 확인할 수 있습니다. <Note>이 옵션을 켜면 식과 일치하는 새로 로깅된 메트릭에 대해 단일 메트릭 플롯이 생성되지 않습니다. 대신 해당 메트릭은 이 다중 메트릭 플롯에만 포함됩니다.</Note>
-    6. **Create &lt;number&gt; panels**를 클릭합니다.
+    4. **Regex**에 [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) 형식의 표현식을 입력합니다. 입력하는 동안 UI가 업데이트되어 어떤 메트릭이 표현식과 일치하는지 보여줍니다. 기본적으로 플롯 이름에는 해당 플롯에서 사용하는 정규 표현식이 표시됩니다. 이 플롯에는 앞으로 로깅될 메트릭을 포함해, 표현식과 일치하는 모든 메트릭의 선이 포함됩니다.
+    5. 다중 메트릭 플롯이 생성될 때 중복된 단일 메트릭 패널을 선택적으로 제거하려면 **Clean up auto-generated panels**를 켭니다. 어떤 패널이 정리되는지는 미리보기에서 확인할 수 있습니다. <Note>이 옵션을 켜면 W&amp;B는 표현식과 일치하는 새로 로깅된 메트릭에 대해 단일 메트릭 플롯을 생성하지 않습니다. 대신 해당 메트릭은 이 다중 메트릭 플롯에만 표시됩니다.</Note>
+    6. **Create [NUMBER] panels**를 클릭합니다.
 
-    ### 다중 메트릭 정규식 자세히 보기
+    ### 다중 메트릭 정규 표현식
 
-    다중 메트릭 선형 플롯은 메트릭 이름과 일치하는 항목을 찾기 위해 [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)를 사용합니다. 이 섹션에서는 일반적인 사용 사례 몇 가지를 소개하고, 캡처 그룹이 생성되는 패널에 어떤 영향을 주는지 등 정규식이 작동하는 방식에 대해 자세히 설명합니다.
+    다중 메트릭 선형 플롯은 메트릭 이름과 일치시키기 위해 [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)를 사용합니다. 다음 섹션에서는 일반적인 사용 사례를 설명하고, 캡처 그룹이 W&amp;B가 생성하는 패널에 어떤 영향을 미치는지 등 정규 표현식이 작동하는 방식에 대한 자세한 내용을 제공합니다.
 
     #### 일반적인 사용 사례
 
-    이 섹션에서는 다중 메트릭 패널을 사용해 실험 결과를 분석하는 몇 가지 방법을 보여줍니다.
+    다음 예시는 다중 메트릭 패널을 사용해 실험 결과를 분석하는 몇 가지 방법을 보여줍니다.
 
-    **레이어 또는 모델 컴포넌트별 메트릭 비교**
-    각 레이어의 메트릭마다 별도의 패널을 만드는 대신, 하나의 패널에서 함께 볼 수 있습니다. 예를 들어 이 Python 예제 코드에서 `layer_0_loss`, `layer_1_loss`, `layer_2_loss`처럼 일관된 이름으로 메트릭을 로깅한다면, regex `layer_\d+_loss`를 사용해 모든 레이어의 loss를 하나의 플롯에 표시할 수 있습니다.
+    **레이어 또는 모델 컴포넌트 전반의 메트릭 비교**
+    각 레이어의 메트릭마다 별도의 패널을 만드는 대신 하나의 패널에서 함께 볼 수 있습니다. 예를 들어 이 Python 예시 코드에서 `layer_0_loss`, `layer_1_loss`, `layer_2_loss`처럼 일관된 이름으로 메트릭을 로깅한다면, 정규식 `layer_\d+_loss`를 사용해 모든 레이어의 loss를 하나의 플롯에 표시할 수 있습니다.
 
     ```python
     with wandb.init(project="multi-layer-model") as run:
@@ -80,16 +81,16 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
             })
     ```
 
-    **접두사 또는 접미사로 관련 메트릭 그룹화**
-    공통된 이름 패턴을 공유하는 모든 메트릭과 일치시킵니다. 예를 들면 다음과 같습니다.
+    **관련 메트릭을 접두사 또는 접미사로 그룹화하기**
+    공통된 이름 지정 패턴을 공유하는 모든 메트릭과 일치시킵니다. 예를 들면 다음과 같습니다.
 
-    * `train_.*`는 `train_loss`, `train_accuracy`, `train_f1_score`와 같은 모든 트레이닝 메트릭과 일치합니다
-    * `.*_accuracy`는 `train_accuracy`, `val_accuracy`, `test_accuracy`처럼 서로 다른 데이터셋의 정확도 메트릭과 일치합니다
+    * `train_.*`는 `train_loss`, `train_accuracy`, `train_f1_score`와 같은 모든 트레이닝 메트릭과 일치합니다.
+    * `.*_accuracy`는 `train_accuracy`, `val_accuracy`, `test_accuracy`처럼 서로 다른 데이터셋의 정확도 메트릭과 일치합니다.
 
-    **특정 메트릭 변형 일치**
-    원하는 메트릭만 일치시키려면 alternation을 사용합니다. 예를 들어, 비캡처 그룹 `(?:layer_0|layer_10)_loss`는 중간 레이어를 제외하고 첫 번째와 열 번째 레이어의 loss에만 일치합니다.
+    **특정 메트릭 변형 일치시키기**
+    원하는 메트릭만 일치시키려면 alternation을 사용하세요. 예를 들어, 비캡처 그룹 `(?:layer_0|layer_10)_loss`는 중간 레이어를 제외하고 첫 번째와 열 번째 레이어의 loss에만 일치합니다.
 
-    #### 캡처 그룹 이해하기
+    #### 캡처 그룹
 
     <LinePlotCaptureGroups />
   </Tab>
@@ -99,7 +100,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   ## 선형 플롯 설정 편집
 </div>
 
-이 섹션에서는 개별 선형 플롯 패널, 섹션의 모든 선형 플롯 패널 또는 워크스페이스의 모든 선형 플롯 패널 설정을 편집하는 방법을 설명합니다. 선형 플롯 설정에 대한 전체 설명은 [선형 플롯 레퍼런스](/ko/models/app/features/panels/line-plot/reference)를 참조하세요.
+다음 섹션에서는 개별 선형 플롯 패널, 섹션의 모든 선형 플롯 패널 또는 워크스페이스의 모든 선형 플롯 패널 설정을 편집하는 방법을 설명합니다. 선형 플롯 설정에 대한 자세한 내용은 [선형 플롯 레퍼런스](/ko/models/app/features/panels/line-plot/reference)를 참조하세요.
 
 <div id="individual-line-plot">
   ### 개별 선형 플롯
@@ -151,7 +152,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 서로 다른 여러 실험이 있고 플롯에서 값의 평균을 보고 싶다면 table의 Grouping 기능을 사용할 수 있습니다. run table 위의 &quot;Group&quot;을 클릭하고 &quot;All&quot;을 선택하면 그래프에 평균값이 표시됩니다.
 
-다음은 평균을 내기 전 그래프의 모습입니다.
+다음 이미지는 평균을 내기 전 그래프를 보여주며, run마다 선이 하나씩 있습니다:
 
 <Frame>
   <img src="/images/app_ui/demo_precision_lines.png" alt="개별 정밀도 선" />
@@ -167,7 +168,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   ## 플롯에서 NaN 값 시각화하기
 </div>
 
-`wandb.Run.log()`를 사용하면 PyTorch 텐서를 포함한 `NaN` 값도 선형 플롯에 표시할 수 있습니다. 예를 들면 다음과 같습니다:
+`NaN`을 반환하는 loss처럼 때때로 정의되지 않을 수 있는 메트릭을 추적하려면 해당 값을 로깅하면 되며, W&amp;B가 이를 선형 플롯에 표시합니다. `wandb.Run.log()`를 사용하면 PyTorch 텐서를 포함한 `NaN` 값도 선형 플롯에 표시할 수 있습니다. 예를 들면 다음과 같습니다:
 
 ```python
 with wandb.init() as run:
@@ -183,27 +184,29 @@ with wandb.init() as run:
   ## 하나의 차트에서 여러 메트릭 비교하기
 </div>
 
+하나 이상의 Runs에서 여러 메트릭을 나란히 비교하려면 워크스페이스에 **Run comparer** 패널을 추가하세요.
+
 <Frame>
   <img src="/images/app_ui/visualization_add.gif" alt="시각화 패널 추가" />
 </Frame>
 
 1. 워크스페이스로 이동합니다.
 2. 페이지 오른쪽 상단에서 **Add panels** 버튼을 선택합니다.
-3. 표시되는 드로어에서 Evaluation 드롭다운을 펼칩니다.
+3. 표시되는 드로어에서 **Evaluation** 드롭다운을 펼칩니다.
 4. **Run comparer**를 선택합니다.
 
 <div id="change-the-colors-of-the-lines">
   ## 선 색상 변경
 </div>
 
-기본 run 색상은 비교에 적합하지 않을 때가 있습니다. 이를 보완하기 위해 wandb는 색상을 수동으로 변경할 수 있는 두 가지 방법을 제공합니다.
+비교에 기본 Runs 색상이 도움이 되지 않는 경우, W&amp;B는 Runs 테이블 또는 차트의 범례 설정에서 색상을 변경하는 두 가지 방법을 제공합니다.
 
 <Tabs>
-  <Tab title="run 테이블에서">
-    각 run에는 초기화 시 기본적으로 임의의 색상이 지정됩니다.
+  <Tab title="Runs 테이블에서">
+    각 Runs에는 초기화 시 기본적으로 임의의 색상이 지정됩니다.
 
     <Frame>
-      <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="run에 지정된 임의 색상" />
+      <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Runs에 지정된 임의 색상" />
     </Frame>
 
     색상 중 하나를 클릭하면 색상 팔레트가 나타나며, 여기에서 원하는 색상을 직접 선택할 수 있습니다.
@@ -229,7 +232,7 @@ with wandb.init() as run:
   ## 서로 다른 x축으로 시각화하기
 </div>
 
-실험에 실제로 얼마나 시간이 걸렸는지 보거나, 실험이 어느 날짜에 실행되었는지 확인하려면 x축을 전환할 수 있습니다. 다음은 step에서 상대 시간으로, 그리고 wall time으로 전환하는 예시입니다.
+기본적으로 선형 플롯은 트레이닝 step을 x축으로 사용하지만, 다른 관점에서 데이터를 보기 위해 다른 x축으로 전환할 수 있습니다. 실험에 실제로 얼마나 시간이 걸렸는지 보거나, 실험이 어느 날짜에 실행되었는지 확인하려면 x축을 전환할 수 있습니다. 다음은 step에서 상대 시간으로, 그리고 wall time으로 전환하는 예시입니다.
 
 <Frame>
   <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X축 시간 옵션" />
@@ -249,7 +252,7 @@ with wandb.init() as run:
   ## 확대/축소
 </div>
 
-직사각형 영역을 클릭해 드래그하면 세로와 가로를 동시에 확대/축소할 수 있습니다. 그러면 x축과 y축의 확대/축소가 모두 변경됩니다.
+선형 플롯의 특정 영역을 더 자세히 보려면 두 축을 한 번에 확대/축소할 수 있습니다. 직사각형 영역을 클릭해 드래그하면 세로와 가로를 동시에 확대/축소할 수 있습니다. 그러면 x축과 y축의 확대/축소가 모두 변경됩니다.
 
 <Frame>
   <img src="/images/app_ui/line_plots_zoom.gif" alt="플롯 확대/축소 기능" />
@@ -259,7 +262,7 @@ with wandb.init() as run:
   ## 차트 범례 숨기기
 </div>
 
-다음의 간단한 표시/숨기기 옵션으로 선형 플롯의 범례를 끄세요:
+차트 범례가 플롯에 사용하려는 공간을 차지하는 경우, 범례를 끌 수 있습니다. 다음 표시/숨기기 옵션으로 선형 플롯의 범례를 끄세요:
 
 <Frame>
   <img src="/images/app_ui/demo_hide_legend.gif" alt="범례 숨기기 표시/숨기기" />
@@ -271,7 +274,7 @@ with wandb.init() as run:
 
 [Automations](/ko/models/automations/)을 사용하면 지정한 조건을 run 메트릭이 충족할 때 팀에 알림을 보낼 수 있습니다. automation은 Slack 채널에 게시하거나 웹훅을 실행할 수 있습니다.
 
-선형 플롯에서 표시된 메트릭에 대한 [run 메트릭 알림](/ko/models/automations/automation-events/#run-events)을 빠르게 만들 수 있습니다.
+선형 플롯에서 표시된 메트릭에 대한 [run 메트릭 알림](/ko/models/automations/automation-events/#run-events)을 만들 수 있습니다.
 
 1. 워크스페이스로 이동합니다.
 2. 패널 위에 마우스를 올린 다음 종 모양 아이콘을 클릭합니다.
