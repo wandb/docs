@@ -1,6 +1,7 @@
 ---
 description: Deploy W&B Platform with Kubernetes Operator on cloud or on-premises
 title: Deploy W&B with Kubernetes Operator
+keywords: ["W&B operator", "Helm chart", "Kubernetes CR", "operator install", "custom resource"]
 ---
 
 import SelfManagedMysqlRequirements from "/snippets/_includes/self-managed-mysql-requirements.mdx";
@@ -11,13 +12,15 @@ import SelfManagedVerifyInstallation from "/snippets/_includes/self-managed-veri
 
 ## Overview
 
+This page shows platform administrators how to deploy and manage W&B Server on Kubernetes (cloud or on-premises) using the W&B Kubernetes Operator. By the end, you have a running W&B Server installation that the operator manages and upgrades automatically. Use this guide if you self-manage a W&B deployment and need an installation method that works across cloud, on-premises, and air-gapped environments.
+
 The W&B Kubernetes Operator is the recommended way to deploy W&B Server on Kubernetes (cloud or on-premises). For an overview of the operator, why W&B uses it, and how configuration hierarchy works, see [Self-Managed](/platform/hosting/hosting-options/self-managed#about-the-wb-kubernetes-operator).
 
 ## Before you begin
 
 Before deploying W&B with the Kubernetes Operator, ensure your infrastructure meets all requirements:
 
-1. **Review infrastructure requirements**: See the [Self-Managed infrastructure requirements](/platform/hosting/self-managed/requirements/) page for comprehensive details on:
+1. **Review infrastructure requirements**: See the [Self-Managed infrastructure requirements](/platform/hosting/self-managed/requirements/) page for details on:
   - Software version requirements (Kubernetes, MySQL, Redis, Helm)
   - Hardware requirements (CPU architecture, sizing recommendations)
   - Kubernetes cluster configuration
@@ -27,7 +30,7 @@ Before deploying W&B with the Kubernetes Operator, ensure your infrastructure me
 
 For additional context, see the [reference architecture](/platform/hosting/self-managed/ref-arch/) page.
 
-### MySQL Database
+### MySQL database
 <SelfManagedMysqlRequirements/>
 
 For complete MySQL setup instructions including configuration parameters and database creation, see the [MySQL section in the requirements page](/platform/hosting/self-managed/requirements/#mysql-database).
@@ -54,7 +57,7 @@ W&B recommends you install with the official W&B Helm chart.
 
 #### Run the container as an un-privileged user
 
-By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
+OpenShift and similar orchestrators often reject containers that run as root, so W&B containers must be configured to run as a non-root user that still belongs to the root group. By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
 
 <Note>
 W&B must start as the root group (`$GID=0`) for file system permissions to function properly.
@@ -92,7 +95,7 @@ If needed, configure a custom security context for other components like `app` o
 ## Deploy W&B Server application
 
 <Note>
-**The W&B Kubernetes Operator with Helm is the recommended installation method** for all W&B Self-Managed deployments, including cloud, on-premises, and air-gapped environments.
+**The W&B Kubernetes Operator with Helm is the recommended installation method** for all W&B self-managed deployments, including cloud, on-premises, and air-gapped environments.
 </Note>
 
 Choose your deployment method:
@@ -100,7 +103,7 @@ Choose your deployment method:
 <Tabs>
 <Tab title="Helm CLI">
 
-W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD.
+W&B provides a Helm chart to deploy the W&B Kubernetes Operator to a Kubernetes cluster. This approach lets you deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD.
 
 For deployment-specific considerations, see [Environment-specific considerations](#environment-specific-considerations) and [Deploy with Terraform on public cloud](#deploy-with-terraform-on-public-cloud). For disconnected environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/).
 
@@ -152,19 +155,22 @@ Follow these steps to install the W&B Kubernetes Operator with Helm CLI:
 
 5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation](#verify-the-installation).
 
+After these steps complete, you have a W&B Kubernetes Operator running in the `wandb-cr` namespace and a W&B Server application that the operator manages from your `operator.yaml` custom resource.
+
 </Tab>
 
 <Tab title="Terraform">
 
 Deploy W&B using Terraform for infrastructure-as-code deployments. Choose between:
-- **Helm Terraform Module**: Deploys the operator to existing Kubernetes infrastructure
-- **Cloud Terraform Modules**: Complete infrastructure + application deployment for AWS, Google Cloud, and Azure
+
+- **Helm Terraform Module**: Deploys the operator to existing Kubernetes infrastructure.
+- **Cloud Terraform Modules**: Complete infrastructure plus application deployment for AWS, Google Cloud, and Azure.
 
 For deployment-specific considerations, see [Environment-specific considerations](#environment-specific-considerations) and [Deploy with Terraform on public cloud](#deploy-with-terraform-on-public-cloud). For disconnected environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/).
 
 #### Helm Terraform Module
 
-This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
+This method supports customized deployments tailored to specific requirements, using Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B [Helm-based Terraform Module](https://registry.terraform.io/modules/wandb/wandb/helm/latest) is available on the Terraform Registry. 
 
 Use the following code as a starting point. It includes all necessary configuration options for a production grade deployment: 
 
@@ -198,7 +204,7 @@ module "wandb" {
 }
 ```
 
-Note that the configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-server), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
+The configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-server), but the syntax must follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
 
 To see how W&B themselves use the Helm Terraform module to deploy Dedicated Cloud installations for customers, follow these links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
@@ -207,7 +213,7 @@ To see how W&B themselves use the Helm Terraform module to deploy Dedicated Clou
 
 #### Cloud Terraform Modules
 
-W&B provides a set of Terraform Modules for AWS, Google Cloud and Azure. These modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with these official W&B cloud-specific Terraform Modules with the following versions:
+W&B provides a set of Terraform Modules for AWS, Google Cloud, and Azure. These modules deploy the complete infrastructure, including Kubernetes clusters, load balancers, and MySQL databases, along with the W&B Server application. The W&B Kubernetes Operator is included in these official W&B cloud-specific Terraform Modules with the following versions:
 
 | Terraform Registry                                                  | Source Code                                      | Version |
 | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
@@ -215,9 +221,9 @@ W&B provides a set of Terraform Modules for AWS, Google Cloud and Azure. These m
 | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
 | [Google Cloud](https://github.com/wandb/terraform-google-wandb)     | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
 
-This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
+These modules install the W&B Kubernetes Operator as part of the deployment, so you can use it to manage W&B Server in your cloud environment without additional setup.
 
-For detailed instructions on using these cloud-specific modules, see [Deploy with Terraform on public cloud](#deploy-with-terraform-on-public-cloud) below.
+For detailed instructions on using these cloud-specific modules, see [Deploy with Terraform on public cloud](#deploy-with-terraform-on-public-cloud).
 
 </Tab>
 </Tabs>
@@ -236,14 +242,14 @@ For end-user client configuration and the tool catalog, see [Use the W&B MCP ser
 
 Make sure your deployment meets the following requirements before you enable the MCP server:
 
-- **Chart version**: `operator-wandb` `0.42.3` or later. The `mcp-server` subchart was introduced in `0.42.1`, but the Datadog and privacy fields used in the example below were added later.
+- **Chart version**: `operator-wandb` `0.42.3` or later. The `mcp-server` subchart was introduced in `0.42.1`, but the Datadog and privacy fields used in the following example were added later.
 - **Weave Traces enabled**: the MCP server depends on Weave Traces for trace tools and for the `WF_TRACE_SERVER_URL` default. Set `weave-trace.install: true`. If Weave Traces isn't enabled, the Helm render fails with `mcp-server requires weave-trace.install=true`.
 - **Reachable ingress**: `global.host` must already resolve and route to the W&B ingress. The MCP pod reads `WANDB_BASE_URL` from `global.host` and is available at `<global.host>/mcp`.
 - **Node capacity**: the MCP pod requests `500m` CPU and `1Gi` memory by default (limits `2` CPU and `4Gi` memory). Confirm your node pool has enough headroom before you enable the subchart.
 
 ### Enable the subchart
 
-Add the following to the `spec.values` block of your existing `WeightsAndBiases` custom resource (CR), alongside your existing `global`, `ingress`, and other overrides. The Datadog block is optional, but recommended when a Datadog Agent DaemonSet already collects pod logs and traces in your cluster.
+Enable the `mcp-server` subchart so that the operator deploys an in-cluster MCP server and extends your existing W&B ingress with a `/mcp` route. Add the following to the `spec.values` block of your existing `WeightsAndBiases` custom resource (CR), alongside your existing `global`, `ingress`, and other overrides. The Datadog block is optional, but recommended when a Datadog Agent DaemonSet already collects pod logs and traces in your cluster.
 
 ```yaml
 spec:
@@ -316,7 +322,7 @@ After the MCP server is healthy, configure your MCP client to use `https://<HOST
 
 ## Environment-specific considerations
 
-Kubernetes is the same whether it runs on-premises or in the cloud. The main differences are in naming and managed services (for example, MySQL vs RDS, or S3 vs on-premises object storage). This section covers considerations that vary by environment.
+Kubernetes is the same whether it runs on-premises or in the cloud. The main differences are in naming and managed services (for example, MySQL compared to RDS, or S3 compared to on-premises object storage). This section covers considerations that vary by environment.
 
 ### On-premises and bare metal
 
@@ -326,30 +332,30 @@ When deploying on on-premises or bare-metal Kubernetes, pay attention to the fol
 
 On-premises Kubernetes clusters typically require manual load balancer configuration. Options include:
 
-- **External load balancer**: Configure an existing hardware or software load balancer (F5, HAProxy, etc.)
-- **Nginx Ingress Controller**: Deploy nginx-ingress-controller with NodePort or host networking
-- **MetalLB**: For bare-metal Kubernetes clusters, MetalLB provides load balancer services
+- **External load balancer**: Configure an existing hardware or software load balancer, such as F5 or HAProxy.
+- **Nginx Ingress Controller**: Deploy nginx-ingress-controller with NodePort or host networking.
+- **MetalLB**: For bare-metal Kubernetes clusters, MetalLB provides load balancer services.
 
 For detailed load balancer configuration examples, see the [Reference Architecture networking section](/platform/hosting/self-managed/ref-arch#networking).
 
 #### Persistent storage
 
-Ensure your Kubernetes cluster has a StorageClass configured for persistent volumes. W&B components may require persistent storage for caching and temporary data.
+Ensure your Kubernetes cluster has a StorageClass configured for persistent volumes. W&B components might require persistent storage for caching and temporary data.
 
-Common on-premises storage options:
+Common on-premises storage options include:
 
 - NFS-based storage classes
 - Ceph/Rook storage
 - Local persistent volumes
-- Enterprise storage solutions (NetApp, Pure Storage, etc.)
+- Enterprise storage solutions such as NetApp or Pure Storage
 
 #### DNS and certificate management
 
-For on-premises deployments:
+For on-premises deployments, complete the following tasks:
 
-- Configure internal DNS records to point to your W&B hostname
-- Provision SSL/TLS certificates from your internal Certificate Authority (CA)
-- If using self-signed certificates, configure the operator to trust your CA certificate
+- Configure internal DNS records to point to your W&B hostname.
+- Provision SSL/TLS certificates from your internal Certificate Authority (CA).
+- If using self-signed certificates, configure the operator to trust your CA certificate.
 
 See the [SSL/TLS requirements](/platform/hosting/self-managed/requirements#ssl-tls) for certificate configuration details.
 
@@ -357,7 +363,7 @@ See the [SSL/TLS requirements](/platform/hosting/self-managed/requirements#ssl-t
 
 W&B fully supports deployment on OpenShift Kubernetes clusters. OpenShift deployments require additional security context configurations due to OpenShift's stricter security policies.
 
-For OpenShift-specific configuration details, see [OpenShift Kubernetes clusters](#openshift-kubernetes-clusters) above. For comprehensive OpenShift examples in air-gapped environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped#openshift-configuration).
+For OpenShift-specific configuration details, see [OpenShift Kubernetes clusters](#openshift-kubernetes-clusters). For OpenShift examples in air-gapped environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped#openshift-configuration).
 
 #### Object storage for on-premises and S3-compatible
 
@@ -365,7 +371,7 @@ After provisioning your object storage bucket (see [Object storage provisioning]
 
 **AWS S3 (on-premises)**
 
-For on-premises AWS S3 (via Outposts or compatible storage):
+For on-premises AWS S3 (through Outposts or compatible storage):
 
 ```yaml
 bucket:
@@ -376,7 +382,7 @@ bucket:
   region: <region>       # Example: us-east-1
 ```
 
-**S3-compatible storage (MinIO, Ceph, NetApp, etc.)**
+**S3-compatible storage such as MinIO, Ceph, or NetApp**
 
 For S3-compatible storage systems:
 
@@ -404,7 +410,7 @@ The certificate must be trusted. Self-signed certificates require additional con
 
 When running your own object storage, consider:
 
-1. **Storage capacity and performance**: Monitor disk capacity carefully. Average W&B usage results in tens to hundreds of gigabytes. Heavy usage could result in petabytes of storage consumption.
+1. **Storage capacity and performance**: Monitor disk capacity carefully. Average W&B usage results in tens to hundreds of gigabytes. Heavy usage can result in petabytes of storage consumption.
 2. **Fault tolerance**: At minimum, use RAID arrays for physical disks. For S3-compatible storage, use distributed or highly available configurations.
 3. **Availability**: Configure monitoring to ensure the storage remains available.
 
@@ -430,15 +436,15 @@ mc mb --region=us-east-1 local/wandb-files
 
 ### Public cloud with Terraform
 
-For full infrastructure-plus-application deployment on AWS, Google Cloud, or Azure, see [Deploy with Terraform on public cloud](#deploy-with-terraform-on-public-cloud) below.
+For full infrastructure-plus-application deployment on AWS, Google Cloud, or Azure, see [Deploy with Terraform on public cloud](#deploy-with-terraform-on-public-cloud).
 
 ## Deploy with Terraform on public cloud
 
 <Note>
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) deployment types. Fully managed services require little or no configuration.
 </Note>
 
-W&B provides Terraform modules for deploying the platform on public cloud providers. These modules automate the provisioning of infrastructure and installation of W&B Server.
+W&B provides Terraform modules for deploying the platform on public cloud providers. These modules automate the provisioning of infrastructure and installation of W&B Server, so you can stand up a complete environment without manually creating each cloud resource.
 
 Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state). The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
@@ -467,9 +473,9 @@ Optional components include:
 - Elastic Cache for Redis
 - SQS
 
-### Pre-requisite permissions
+### Prerequisite permissions
 
-The account that runs Terraform needs to be able to create all components described above and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+The account that runs Terraform must be able to create all components listed in the preceding section and have permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
 
 ### General steps
 
@@ -477,10 +483,10 @@ The steps in this section are common for any deployment option.
 
 1. Prepare the development environment.
    - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - W&B recommend creating a Git repository for version control.
+   - W&B recommends creating a Git repository for version control.
 2. Create the `terraform.tfvars` file.
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   Customize the `tvfars` file content according to the installation type. The minimum recommended content looks like the following example.
 
    ```bash
    namespace                  = "wandb"
@@ -493,15 +499,15 @@ The steps in this section are common for any deployment option.
    eks_cluster_version        = "1.29"
    ```
 
-   Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
+   Define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
 
-   The combination of `subdomain` and `domain` forms the FQDN for your W&B instance. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+   The combination of `subdomain` and `domain` forms the FQDN for your W&B instance. In the preceding example, the W&B FQDN is `wandb-aws.wandb.ml` and the DNS `zone_id` is where Terraform creates the FQDN record.
 
    Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The following example permits access from any source to the W&B installation.
 
-3. Create the file `versions.tf`
+3. Create the file `versions.tf`.
 
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS:
+   This file contains the Terraform and Terraform provider versions required to deploy W&B in AWS:
 
    ```bash
    provider "aws" {
@@ -520,13 +526,13 @@ The steps in this section are common for any deployment option.
 
    Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
-   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
+   W&B recommends that you also add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
 
 4. Create the file `variables.tf`
 
    For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
-   ```
+   ```hcl
    variable "namespace" {
      type        = string
      description = "Name prefix used for resources"
@@ -579,7 +585,7 @@ This is the most straightforward deployment option configuration that creates al
 
    In the same directory where you created the files in the General Steps, create a file `main.tf` with the following content:
 
-   ```
+   ```hcl
    module "wandb_infra" {
      source  = "wandb/wandb/aws"
      version = "~>7.0"
@@ -636,7 +642,7 @@ This is the most straightforward deployment option configuration that creates al
 
    To deploy W&B, execute the following commands:
 
-   ```
+   ```bash
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
@@ -645,7 +651,7 @@ This is the most straightforward deployment option configuration that creates al
 
 To use Redis to cache SQL queries and speed up the application response when loading metrics, add the option `create_elasticache_subnet = true` to the `main.tf` file:
 
-```
+```hcl
 module "wandb_infra" {
   source  = "wandb/wandb/aws"
   version = "~>7.0"
@@ -664,10 +670,10 @@ module "wandb_infra" {
 To enable an external message broker using SQS, add the option `use_internal_queue = false` to the `main.tf` file:
 
 <Note>
-This is optional because W&B includes an embedded broker. This option does not bring a performance improvement.
+This is optional because W&B includes an embedded broker. This option doesn't bring a performance improvement.
 </Note>
 
-```
+```hcl
 module "wandb_infra" {
   source  = "wandb/wandb/aws"
   version = "~>7.0"
@@ -694,7 +700,7 @@ module "wandb_infra" {
 
 W&B recommends using the [W&B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on Google Cloud.
 
-The module documentation is extensive and contains all available options that can be used.
+The module documentation lists all available options.
 
 Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend/remote) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state). The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
@@ -714,7 +720,7 @@ Optional components include:
 
 ### Prerequisite permissions
 
-The account that will run Terraform needs to have the role `roles/owner` in the Google Cloud project used.
+The account that runs Terraform must have the role `roles/owner` in the Google Cloud project used.
 
 ### General steps
 
@@ -722,12 +728,12 @@ The steps in this section are common for any deployment option.
 
 1. Prepare the development environment.
    - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
-   - W&B recommends creating a Git repository with the code that will be used, but you can keep your files locally.
+   - W&B recommends creating a Git repository for your code, but you can keep your files locally.
    - Create a project in [Google Cloud Console](https://console.cloud.google.com/).
-   - Authenticate with Google Cloud (make sure to [install gcloud](https://cloud.google.com/sdk/docs/install) before) using `gcloud auth application-default login`.
+   - Authenticate with Google Cloud (make sure to [install gcloud](https://cloud.google.com/sdk/docs/install) first) using `gcloud auth application-default login`.
 2. Create the `terraform.tfvars` file.
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   Customize the `tvfars` file content according to the installation type. The minimum recommended content looks like the following example.
 
    ```bash
    project_id  = "wandb-project"
@@ -739,15 +745,15 @@ The steps in this section are common for any deployment option.
    domain_name = "wandb.ml"
    ```
 
-   The variables defined here need to be decided before the deployment. The `namespace` variable will be a string that will prefix all resources created by Terraform.
+   You must decide the values for these variables before deployment. The `namespace` variable is a string that prefixes all resources created by Terraform.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-gcp.wandb.ml`.
+   The combination of `subdomain` and `domain` forms the FQDN that configures W&B. In the preceding example, the W&B FQDN is `wandb-gcp.wandb.ml`.
 
 3. Create the file `variables.tf`.
 
    For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
-   ```
+   ```hcl
    variable "project_id" {
      type        = string
      description = "Project ID"
@@ -792,7 +798,7 @@ This is the most straightforward deployment option configuration that creates al
 
    In the same directory where you created the files in the General Steps, create a file `main.tf` with the following content:
 
-   ```
+   ```hcl
    provider "google" {
     project = var.project_id
     region  = var.region
@@ -850,7 +856,7 @@ This is the most straightforward deployment option configuration that creates al
 
    To deploy W&B, execute the following commands:
 
-   ```
+   ```bash
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
@@ -859,7 +865,7 @@ This is the most straightforward deployment option configuration that creates al
 
 To use Redis to cache SQL queries and speed up the application response when loading metrics, add the option `create_redis = true` to the `main.tf` file:
 
-```
+```hcl
 [...]
 
 module "wandb" {
@@ -880,10 +886,10 @@ module "wandb" {
 To enable an external message broker using Pub/Sub, add the option `use_internal_queue = false` to the `main.tf` file:
 
 <Note>
-This is optional because W&B includes an embedded broker. This option does not bring a performance improvement.
+This is optional because W&B includes an embedded broker. This option doesn't bring a performance improvement.
 </Note>
 
-```
+```hcl
 [...]
 
 module "wandb" {
@@ -911,14 +917,14 @@ module "wandb" {
 
 W&B recommends using the [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) to deploy the platform on Azure.
 
-The module documentation is extensive and contains all available options that can be used.
+The module documentation lists all available options.
 
 The Terraform Module deploys the following mandatory components:
 
 - Azure Resource Group
 - Azure Virtual Network (VPC)
 - Azure MySQL Flexible Server
-- Azure Storage Account & Blob Storage
+- Azure Storage Account and Blob Storage
 - Azure Kubernetes Service
 - Azure Application Gateway
 
@@ -927,11 +933,11 @@ Optional components include:
 - Azure Cache for Redis
 - Azure Event Grid
 
-### Pre-requisite permissions
+### Prerequisite permissions
 
-The simplest way to get the AzureRM provider configured is via [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) but in case of automation using [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) can also be useful.
+The simplest way to configure the AzureRM provider is through the [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli). For automation, you can also use an [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret).
 
-Regardless of the authentication method used, the account that will run Terraform needs to be able to create all components described above.
+Regardless of the authentication method used, the account that runs Terraform must be able to create all components listed in the preceding section.
 
 ### General steps
 
@@ -939,11 +945,11 @@ The steps in this section are common for any deployment option.
 
 1. Prepare the development environment.
    - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - W&B recommends creating a Git repository with the code that will be used, but you can keep your files locally.
+   - W&B recommends creating a Git repository for your code, but you can keep your files locally.
 
 2. Create the `terraform.tfvars` file.
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   Customize the `tvfars` file content according to the installation type. The minimum recommended content looks like the following example.
 
    ```bash
     namespace     = "wandb"
@@ -953,13 +959,13 @@ The steps in this section are common for any deployment option.
     location      = "westeurope"
    ```
 
-   The variables defined here need to be decided before the deployment. The `namespace` variable will be a string that will prefix all resources created by Terraform.
+   You must decide the values for these variables before deployment. The `namespace` variable is a string that prefixes all resources created by Terraform.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-azure.wandb.ml`.
+   The combination of `subdomain` and `domain` forms the FQDN that configures W&B. In the preceding example, the W&B FQDN is `wandb-azure.wandb.ml`.
 
-3. Create the file `versions.tf`
+3. Create the file `versions.tf`.
 
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in Azure:
+   This file contains the Terraform and Terraform provider versions required to deploy W&B in Azure:
 
    ```bash
      terraform {
@@ -976,7 +982,7 @@ The steps in this section are common for any deployment option.
 
    Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs) to configure the Azure provider.
 
-   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
+   W&B recommends that you also add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
 
 4. Create the file `variables.tf`
 
@@ -1070,7 +1076,7 @@ This is the most straightforward deployment option configuration that creates al
 
    To deploy W&B, execute the following commands:
 
-   ```
+   ```bash
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
@@ -1101,7 +1107,7 @@ module "wandb" {
 To enable an external message broker using Azure Event Grid, add the option `use_internal_queue = false` to the `main.tf` file:
 
 <Note>
-This is optional because W&B includes an embedded broker. This option does not bring a performance improvement.
+This is optional because W&B includes an embedded broker. This option doesn't bring a performance improvement.
 </Note>
 
 ```bash
@@ -1139,15 +1145,16 @@ Refer to the module documentation for your cloud provider for the full list of a
 - [Google Cloud Module documentation](https://registry.terraform.io/modules/wandb/wandb/google/latest)
 - [Azure Module documentation](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
 
-## Access the W&B Management Console
-The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/console`.
+## Access the W&B management console
 
-There are two ways to log in to the management console:
+The W&B Kubernetes Operator comes with a management console where you can review deployment status, view component metrics, and adjust operator-level settings. It's available at `${HOST_URI}/console`, for example `https://wandb.company-name.com/console`.
+
+You can log in to the management console in two ways:
 
 <Tabs>
 <Tab title="Option 1 (Recommended)">
 1. Open the W&B application in the browser and log in. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
-2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
+2. Access the console. Click the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
     <Frame>
     <img src="/images/hosting/access_system_console_via_main_app.png" alt="System console access"  />
@@ -1155,10 +1162,10 @@ There are two ways to log in to the management console:
 </Tab>
 <Tab title="Option 2">
 <Note>
-W&B recommends you access the console using the following steps only if Option 1 does not work.
+W&B recommends you access the console using the following steps only if Option 1 doesn't work.
 </Note>
 
-1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
+1. Open the console application in your browser. Open the URL described in the preceding section, which redirects you to the login screen:
     <Frame>
     <img src="/images/hosting/access_system_console_directly.png" alt="Direct system console access"  />
     </Frame>
@@ -1171,34 +1178,37 @@ W&B recommends you access the console using the following steps only if Option 1
 </Tab>
 </Tabs>
 
-## Update the W&B Kubernetes operator
-This section describes how to update the W&B Kubernetes operator. 
+## Update the W&B Kubernetes Operator
+
+This section describes how to update the W&B Kubernetes Operator itself. Update the operator periodically so that you get bug fixes and new reconciliation features.
 
 <Note>
-* Updating the W&B Kubernetes operator does not update the W&B server application.
-* See the instructions [here](#migrate-Self-Managed-instances-to-wb-operator) if you use a Helm chart that does not use the W&B Kubernetes operator before you follow the following instructions to update the W&B operator.
+* Updating the W&B Kubernetes Operator doesn't update the W&B Server application.
+* If you use a Helm chart that doesn't use the W&B Kubernetes Operator, see the [migration instructions](#migrate-self-managed-instances-to-wb-operator) before following the steps in this section to update the W&B Operator.
 </Note>
 
-Copy and paste the code snippets below into your terminal. 
+Copy and paste the following code snippets into your terminal. 
 
-1. First, update the repo with [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/):
+1. Update the repo with [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/):
     ```shell
     helm repo update
     ```
 
-2. Next, update the Helm chart with [`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/):
+2. Update the Helm chart with [`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/):
     ```shell
     helm upgrade operator wandb/operator -n wandb-cr --reuse-values
     ```
 
 ## Update the W&B Server application
-You no longer need to update W&B Server application if you use the W&B Kubernetes operator.
+
+You no longer need to update W&B Server application if you use the W&B Kubernetes Operator.
 
 The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
 
 
-## Migrate Self-Managed instances to W&B Operator
-The following section describes how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
+## Migrate self-managed instances to W&B Operator
+
+The following section describes how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. Migrating lets the operator handle reconciliation and W&B Server upgrades automatically, so you no longer have to coordinate manifest changes or Helm upgrades for the application. The migration process depends on how you installed W&B Server:
 
 <Note>
 The W&B Operator is the default and recommended installation method for W&B Server. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
@@ -1208,33 +1218,33 @@ The W&B Operator is the default and recommended installation method for W&B Serv
   - [AWS](#migrate-to-operator-based-aws-terraform-modules)
   - [Google Cloud](#migrate-to-operator-based-google-cloud-terraform-modules)
   - [Azure](#migrate-to-operator-based-azure-terraform-modules)
-- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here](#migrate-to-operator-based-helm-chart).
-- If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here](#migrate-to-operator-based-terraform-helm-chart).
-- If you created the Kubernetes resources with manifests,  continue [here](#migrate-to-operator-based-helm-chart).
+- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb), see [Migrate to operator-based Helm chart](#migrate-to-operator-based-helm-chart).
+- If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest), see [Migrate to operator-based Terraform Helm chart](#migrate-to-operator-based-terraform-helm-chart).
+- If you created the Kubernetes resources with manifests, see [Migrate to operator-based Helm chart](#migrate-to-operator-based-helm-chart).
 
 
-### Migrate to Operator-based AWS Terraform Modules
+### Migrate to operator-based AWS Terraform modules
 
-For a detailed description of the migration process,  continue [here](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb).
+For a detailed description of the migration process, see the [operator-wandb chart documentation](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb).
 
-### Migrate to Operator-based Google Cloud Terraform Modules
-
-Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
-
-
-### Migrate to Operator-based Azure Terraform Modules
+### Migrate to operator-based Google Cloud Terraform modules
 
 Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
 
-### Migrate to Operator-based Helm chart
 
-Follow these steps to migrate to the Operator-based Helm chart:
+### Migrate to operator-based Azure Terraform modules
 
-1. Get the current W&B configuration. If W&B was deployed with an non-operator-based version of the Helm chart,  export the values like this:
+Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+
+### Migrate to operator-based Helm chart
+
+Follow these steps to migrate to the operator-based Helm chart:
+
+1. Get the current W&B configuration. If you deployed W&B with a non-operator-based version of the Helm chart, export the values like this:
     ```shell
     helm get values wandb
     ```
-    If W&B was deployed with Kubernetes manifests,  export the values like this:
+    If you deployed W&B with Kubernetes manifests, export the values like this:
     ```shell
     kubectl get deployment wandb -o yaml
     ```
@@ -1242,7 +1252,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 2. Create a file called `operator.yaml`. Follow the format described in the [Configuration Reference](#configuration-reference-for-wb-operator). Use the values from step 1.
 
-3. Scale the current deployment to 0 pods. This step is stops the current deployment.
+3. Scale the current deployment to 0 pods. This step stops the current deployment.
     ```shell
     kubectl scale --replicas=0 deployment wandb
     ```
@@ -1254,7 +1264,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
     ```shell
     helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
     ```
-6. Configure the new helm chart and trigger W&B application deployment. Apply the new configuration.
+6. Configure the new Helm chart and trigger W&B application deployment. Apply the new configuration.
     ```shell
     kubectl apply -f operator.yaml
     ```
@@ -1262,27 +1272,30 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
 
-8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
+8. Remove the old installation. Uninstall the old Helm chart or delete the resources that you created with manifests.
 
-### Migrate to Operator-based Terraform Helm chart
+### Migrate to operator-based Terraform Helm chart
 
-Follow these steps to migrate to the Operator-based Helm chart:
+Follow these steps to migrate to the operator-based Helm chart:
 
 
-1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here](#deploy-wb-with-helm-terraform-module). Set the same variables as before. Do not change .tfvars file if you have one.
-2. Execute Terraform run. Execute terraform init, plan and apply
+1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the code described in [Deploy W&B with Helm Terraform module](#deploy-wb-with-helm-terraform-module). Set the same variables as before. Do not change the `.tfvars` file if you have one.
+2. Execute Terraform run. Execute `terraform init`, `terraform plan`, and `terraform apply`.
 3. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
-4. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
+4. Remove the old installation. Uninstall the old Helm chart or delete the resources that you created with manifests.
 
 
 
-## Configuration Reference for W&B Server
+## Configuration reference for W&B Server
 
-This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
+This section is a reference for the configuration options that you set in your `WeightsAndBiases` custom resource. Use it to look up the YAML schema for a specific subsystem (for example, MySQL, Redis, ingress, or OIDC) as you build or update your `operator.yaml` file.
 
-The documentation has two lists of environment variables: [basic](/platform/hosting/env-vars/) and [advanced](/platform/hosting/iam/advanced_env_vars/). Only use environment variables if the configuration option that you need is not exposed using the Helm Chart.
+This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Some configuration options are exposed with the following configuration. You must set others as environment variables.
+
+The documentation has two lists of environment variables: [basic](/platform/hosting/env-vars/) and [advanced](/platform/hosting/iam/advanced_env_vars/). Only use environment variables if the configuration option that you need is not exposed using the Helm chart.
 
 ### Basic example
+
 This example defines the minimum set of values required for W&B. For a more realistic production example, see [Complete example](#complete-example).
 
 This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
@@ -1312,7 +1325,8 @@ spec:
 
 Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml). **Change only those values you need to override**.
 
-### Complete example 
+### Complete example
+
 This example configuration deploys W&B to Google Cloud Anthos using Google Cloud Storage:
 
 ```yaml
@@ -1472,7 +1486,7 @@ global:
 
 ### Ingress
 
-To identify the ingress class,  see this FAQ [entry](#how-to-identify-the-kubernetes-ingress-class).
+See [How to identify the Kubernetes ingress class](#how-to-identify-the-kubernetes-ingress-class).
 
 **Without TLS**
 
@@ -1507,15 +1521,15 @@ ingress:
         - <HOST_URI>
 ```
 
-In case of Nginx you might have to add the following annotation:
+For Nginx, you might have to add the following annotation:
 
-```
+```yaml
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 0
 ```
 
-### Custom Kubernetes ServiceAccounts
+### Custom Kubernetes service accounts
 
 Specify custom Kubernetes service accounts to run the W&B pods. 
 
@@ -1609,7 +1623,7 @@ To reference the `password` from a secret:
 kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
 ```
 
-Reference it in below configuration:
+Reference it in the following configuration:
 ```yaml
 redis:
   install: false
@@ -1682,7 +1696,7 @@ To create the config map you can use the following command:
 kubectl create configmap ldap-tls-cert --from-file=certificate.crt
 ```
 
-And use the config map in the YAML like the example below
+And use the config map in the YAML like the following example.
 
 ```yaml
 global:
@@ -1848,18 +1862,18 @@ app:
       allowPrivilegeEscalation: false 
 ```
 
-The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
+The same concept applies to `console`, `weave`, `weave-trace`, and `parquet`.
 
 ## Configuration reference for W&B Operator
 
-This section describes configuration options for W&B Kubernetes operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
+This section describes configuration options for W&B Kubernetes Operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
 
-By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required. For example, you might need a configuration file to specify custom certificate authorities, deploy in an air gap environment and so forth. 
+By default, the W&B Kubernetes Operator doesn't need a configuration file. Create a configuration file if required. For example, you might need a configuration file to specify custom certificate authorities, deploy in an air gap environment, and so forth. 
 
 Find the full list of spec customization [in the Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
 ### Custom CA
-A custom certificate authority (`customCACerts`), is a list and can take many certificates. Those certificate authorities when added only apply to the W&B Kubernetes operator (`wandb-controller-manager`). 
+A custom certificate authority (`customCACerts`) is a list and can take many certificates. Those certificate authorities, when added, only apply to the W&B Kubernetes Operator (`wandb-controller-manager`). 
 
 ```yaml
 customCACerts:
@@ -1909,17 +1923,21 @@ Each key in the ConfigMap must end with `.crt` (for example, `my-cert.crt` or `c
 
 ## FAQ
 
-### What is the purpose/role of each individual pod?
-* **`wandb-app`**: the core of W&B, including the GraphQL API and frontend application. It powers most of our platform's functionality.
-* **`wandb-console`**: the administration console, accessed via `/console`. 
+### Purpose and role of each pod
+
+A W&B Server deployment includes the following pods:
+
+* **`wandb-app`**: the core of W&B, including the GraphQL API and frontend application. It powers most of the W&B platform's functionality.
+* **`wandb-console`**: the administration console, accessed through `/console`. 
 * **`wandb-otel`**: the OpenTelemetry agent, which collects metrics and logs from resources at the Kubernetes layer for display in the administration console.
 * **`wandb-prometheus`**: the Prometheus server, which captures metrics from various components for display in the administration console.
 * **`wandb-parquet`**: a backend microservice separate from the `wandb-app` pod that exports database data to object storage in Parquet format.
 * **`wandb-weave`**: another backend microservice that loads query tables in the UI and supports various core app features.
-* **`wandb-weave-trace`**: a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. The framework is accessed via the `wandb-app` pod.
+* **`wandb-weave-trace`**: a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications. The framework is accessed through the `wandb-app` pod.
 
-### How to get the  W&B Operator Console password
-See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console).
+### How to get the W&B Operator Console password
+
+See [Access the W&B management console](#access-the-wb-management-console).
 
 
 ### How to access the W&B Operator Console if Ingress doesn't work
@@ -1932,7 +1950,7 @@ kubectl port-forward svc/wandb-console 8082
 
 Access the console in the browser with `https://localhost:8082/` console.
 
-See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console) on how to get the password (Option 2).
+For how to get the password (Option 2), see [Access the W&B management console](#access-the-wb-management-console).
 
 ### How to view W&B Server logs
 
