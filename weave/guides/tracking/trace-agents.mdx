@@ -9,11 +9,11 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-Learn how to instrument a multi-turn agentic application using the W&B Weave SDK so that you can view, debug, and evaluate your agent's behavior in the Weave **Agents** tab. This is intended for developers who are building or integrating agents and want structured visibility into sessions, turns, LLM calls, and tool executions.
+Learn how to instrument a multi-turn agentic application using the W&B Weave SDK so that you can view, debug, and evaluate your agent's behavior. This is intended for developers who are building or integrating agents and want structured visibility into sessions, turns, LLM calls, and tool executions.
 
-The Weave SDK for Agents models the full lifecycle of a multi-turn agent conversation: the session that groups turns together, each user-agent exchange (turn), the LLM calls within a turn, and the tool executions that an LLM triggers. If you are tracing individual functions as Ops with the `@weave.op` decorator, see [Trace LLM applications](/weave/guides/tracking/tracing) instead.
+The Weave SDK for Agents models the full lifecycle of a multi-turn agent conversation: the agent that owns many sessions, the session that groups turns together, each user-agent exchange (turn), the LLM calls within a turn, and the tool executions that an LLM triggers. Traces appear in the **Agents** tab of your Weave project. Each session shows a multi-turn timeline with nested tool calls, token usage, and feedback.
 
-Traces appear in the **Agents** tab of your Weave project. Each session shows a multi-turn timeline with nested tool calls, token usage, and feedback.
+If you are tracing individual functions as Ops with the `@weave.op` decorator, see [Trace LLM applications](/weave/guides/tracking/tracing) instead.
 
 ## Before you begin
 
@@ -60,28 +60,60 @@ Call `weave.init()` before any `startSession()`, `startTurn()`, `startLLM()`, or
 
 ## The agent data model
 
-Weave's agentic observability focuses on the following core concepts:
+Weave models agent behavior as a hierarchy of one-to-many relationships. Each agent can have many sessions, each session can have many turns, each turn can have many LLM calls, and each LLM call can trigger many tool calls.
 
 | Concept | Python class | OTel span type | Description |
 |---|---|---|---|
-| Session | `Session` | *(no span. Turns are grouped by `conversation_id`.)* | A conversation or run that contains one or more turns |
+| Agent | *(no class)* | *(no span; grouped by `agent_name`)* | An agentic application in the Agents tab; contains one or more sessions |
+| Session | `Session` | *(no span; turns are grouped by `conversation_id`)* | A conversation or run that contains one or more turns |
 | Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response |
 | LLM call | `LLM` | `chat` | One call to a language model API |
 | Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response |
 
-A session groups turns by a shared `conversation_id` attribute rather than a parent span, so each turn starts its own OTel trace. This design supports distributed tracing and parallel execution. The client sends spans directly to the OTel collector without any server-side aggregation.
+The following diagram shows how one agent spans many sessions, one session spans many turns, and so on.
 
-```plaintext
-Session (conversation_id, no span)
-└── Turn 1 (invoke_agent: root span, own trace)
-    ├── LLM call (chat)
-    │   └── Tool call (execute_tool)
-    └── LLM call (chat)
-└── Turn 2 (invoke_agent: root span, own trace)
-    └── LLM call (chat)
+```mermaid
+flowchart TB
+    Agent["Agent<br/>agent_name"]
+
+    Agent --> S1 & S2
+
+    S1["Session 1<br/>conversation_id<br/>(no OTel span)"]
+    S2["Session 2<br/>conversation_id<br/>(no OTel span)"]
+
+    S1 --> T1 & T2
+    S2 --> T3
+
+    T1["Turn 1<br/>invoke_agent<br/>(root span, own trace)"]
+    T2["Turn 2<br/>invoke_agent<br/>(root span, own trace)"]
+    T3["Turn 1<br/>invoke_agent<br/>(root span, own trace)"]
+
+    T1 --> L1 & L2
+    L1["LLM call<br/>chat"]
+    L2["LLM call<br/>chat"]
+
+    L1 --> Tool1["Tool call<br/>execute_tool"]
+
+    classDef agent fill:#DE72FF33,stroke:#454B52,stroke-width:2px
+    classDef session fill:#FFD95C33,stroke:#454B52,stroke-width:2px
+    classDef turn fill:#00CDDB33,stroke:#454B52,stroke-width:2px
+    classDef llm fill:#FFCBAD33,stroke:#454B52,stroke-width:2px
+    classDef tool fill:#f4f4f5,stroke:#454B52,stroke-width:2px
+
+    class Agent agent
+    class S1,S2 session
+    class T1,T2,T3 turn
+    class L1,L2 llm
+    class Tool1 tool
 ```
 
-## Agent tracing functions
+A session groups turns by a shared `conversation_id` attribute rather than a parent span, so each turn starts its own OTel trace. This design supports distributed tracing and parallel execution. The client sends spans directly to the OTel collector without any server-side aggregation.
+
+<Tip>
+**Using a third-party agent SDK or harness?** Start with the [Weave integrations](/weave/guides/integrations) page instead of manual SDK instrumentation. Weave autopatches supported agent SDKs (such as OpenAI Agents SDK) and agent harnesses (such as Claude Code) for built-in agentic observability.
+</Tip>
+
+## Agent tracing APIs
 
 Weave exposes the following top-level functions. Each function returns an object that works as a context manager (using `with` in Python, or `try/finally` in TypeScript) or that you can close manually by calling `.end()`.
 
@@ -97,7 +129,7 @@ The active session is stored in context (a Python `ContextVar` or Node.js `Async
 ```python lines
 session = weave.start_session(
     agent_name="my-agent",    # Required: identifies the agent in the UI.
-    session_id="",            # Optional: stable ID to group turns, auto-generated when empty.
+    session_id="",            # Optional: stable ID to group turns; auto-generated when empty.
     model="",                 # Optional: default model for turns in this session.
     session_name="",          # Optional: human-readable label shown in the UI.
     include_content=True,     # Optional: set False to omit message bodies from spans.
@@ -406,7 +438,7 @@ llm.usage = Usage(input_tokens=100, output_tokens=20)
 
 tool = weave.start_tool(name="get_weather", arguments='{"city": "Tokyo"}')
 tool.result = "24°C, sunny"
-tool.end()   # end() is idempotent: safe to call more than once.
+tool.end()   # end() is idempotent — safe to call more than once.
 
 llm.end()
 
