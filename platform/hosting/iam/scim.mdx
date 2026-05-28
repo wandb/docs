@@ -1,6 +1,7 @@
 ---
 title: Manage users, groups, and roles with SCIM
 description: "Use the SCIM API to manage users, groups, and custom roles in a W&B organization with automated provisioning."
+keywords: ["SCIM 2.0", "Okta provisioning", "automatic user sync", "group sync", "directory provisioning"]
 ---
 
 <Note>
@@ -9,71 +10,77 @@ Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3
 
 ## Overview
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B Teams.
+This page describes how instance and organization admins use the System for Cross-domain Identity Management (SCIM) API to automate identity management in W&B. With the SCIM API, you can provision and deprovision users, manage team membership, and define custom roles programmatically through an identity provider or CI/CD pipeline instead of clicking through the W&B App. SCIM groups map to W&B Teams.
 
-W&B's SCIM API is compatible with major identity providers including Okta, enabling automated user provisioning and deprovisioning. For SSO configuration with Okta and other identity providers, see the [SSO documentation](/platform/hosting/iam/sso/).
+W&B's SCIM API is compatible with identity providers such as Okta. For SSO configuration with Okta and other identity providers, see the [SSO documentation](/platform/hosting/iam/sso/).
 
-For practical Python examples demonstrating how to interact with the SCIM API, visit our [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
+For practical Python examples that demonstrate how to interact with the SCIM API, visit the [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
 
 ### Supported features
-- **Filtering**: The API supports filtering for `/Users` and `/Groups` endpoints
-- **PATCH Operations**: Supports PATCH for partial resource updates
-- **ETag Support**: Conditional updates using ETags for conflict detection  
-- **Service Account Authentication**: Organization service accounts can access the API
+
+The SCIM API supports the following features:
+
+- **Filtering**: The API supports filtering for `/Users` and `/Groups` endpoints.
+- **PATCH operations**: Supports `PATCH` for partial resource updates.
+- **ETag support**: Conditional updates using ETags for conflict detection.
+- **Service account authentication**: Organization service accounts can access the API.
 - **Service account lifecycle**: Provision and deprovision [team-scoped and organization-scoped service accounts](/platform/hosting/iam/service-accounts). Supported on **Multi-tenant Cloud** and on **Dedicated Cloud** and **Self-Managed** v0.81.0+.
 
 <Note>
-If you are an admin of multiple Enterprise [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**, then check the setting **Default API organization**.
+If you're an admin of multiple Enterprise [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) organizations, configure the organization that receives SCIM API requests so that requests made with your API key affect the correct organization. Click your profile image, click **User Settings**, then check the **Default API organization** setting.
 
-The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
+The chosen hosting option determines the value for the `[HOST-URL]` placeholder used in the examples on this page.
 
-In addition, examples use user IDs such as `abc` and `def`. Real requests and responses have hashed values for user IDs.
+Examples use user IDs such as `abc` and `def`. Real requests and responses use hashed values for user IDs.
 </Note>
 
 ## Authentication
 
-Organization admins can authenticate with a **Bearer token** or **HTTP Basic** credentials. Either style uses the _same API key string_ where a key applies. Choose a user identity or an organization-scoped service account after reviewing the key differences.
+Every SCIM request must be authenticated as an admin principal. Organization admins can authenticate with a **Bearer token** or **HTTP Basic** credentials. Either style uses the _same API key string_ where a key applies. Choose a user identity or an organization-scoped service account after reviewing the key differences in the following section.
 
 ### Key differences
-- Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
-- Credentials: Users send username and API key for Basic auth; service accounts send only an API key (no username) for Basic auth. For Bearer auth, send only the API key in the header (no username).
-- Bearer versus Basic: Bearer uses `Authorization: Bearer <API-KEY>` with the key verbatim. Basic uses `Authorization: Basic <base64(...)>` (users encode `username:API-KEY`; service accounts encode `:API-KEY` with a leading colon and empty username).
-- Scope and permissions: Use an API key from an instance or organization admin user, or from an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Keys from [team-scoped service accounts](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) cannot authenticate to the SCIM API. Service accounts that use SCIM are organization-scoped and headless, which supports clearer audit trails for automation.
-- Where to get credentials: Users copy their API key from User Settings; organization-scoped service account keys are in the organization dashboard under the **Service account** tab.
-- Multi-tenant Cloud: If you have access to more than one Multi-tenant Cloud organizations, you must set the Default API organization to ensure that SCIM API calls are routed to the intended organization.
+
+The following list compares user credentials and service account credentials for SCIM authentication:
+
+- Who should use it: Users are best for interactive, one-off admin actions. Service accounts are best for automation and integrations (CI/CD, provisioning tools).
+- Credentials: Users send username and API key for Basic auth. Service accounts send only an API key (no username) for Basic auth. For Bearer auth, send only the API key in the header (no username).
+- Bearer versus Basic: Bearer uses `Authorization: Bearer [API-KEY]` with the key verbatim. Basic uses `Authorization: Basic <base64(...)>` (users encode `username:API-KEY`, and service accounts encode `:API-KEY` with a leading colon and empty username).
+- Scope and permissions: Use an API key from an instance or organization admin user, or from an [organization-scoped service account](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts). Keys from [team-scoped service accounts](/platform/hosting/iam/service-accounts/#team-scoped-service-accounts) can't authenticate to the SCIM API. Service accounts that use SCIM are organization-scoped and headless, which supports clearer audit trails for automation.
+- Where to get credentials: Users copy their API key from User Settings. Organization-scoped service account keys are in the organization dashboard under the **Service account** tab.
+- Multi-tenant Cloud: If you have access to more than one Multi-tenant Cloud organization, you must set the Default API organization to ensure that SCIM API calls are routed to the intended organization.
 
 ### Bearer token
 
 Send the API key as a Bearer token:
 
 ```bash
-Authorization: Bearer <API-KEY>
+Authorization: Bearer [API-KEY]
 ```
 
-The `<API-KEY>` value is the same string you would use as the password in HTTP Basic authentication for that principal. You do not Base64-encode the key for Bearer requests.
+The `[API-KEY]` value is the same string you'd use as the password in HTTP Basic authentication for that principal. Don't Base64-encode the key for Bearer requests.
 
 <Note>
-Bearer authentication for the SCIM API is available in W&B Multi-tenant Cloud, and in Dedicated Cloud and Self-Managed v0.79.0 and above. 
+Bearer authentication for the SCIM API is available in W&B Multi-tenant Cloud, and in Dedicated Cloud and Self-Managed v0.79.0 and later.
 </Note>
 
-The following examples use `<YOUR_API_KEY>` as a placeholder. Replace it with a real key from an admin user or an organization-scoped service account.
+The following examples use `[API-KEY]` as a placeholder. Replace it with a real key from an admin user or an organization-scoped service account.
 
 **List users**
 
 ```bash
 curl -s -S \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer [API-KEY]" \
   -H "Content-Type: application/scim+json" \
-  "<host-url>/scim/Users"
+  "[HOST-URL]/scim/Users"
 ```
 
 **Create a user**
 
 ```bash
 curl -s -S -X POST \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer [API-KEY]" \
   -H "Content-Type: application/scim+json" \
-  "<host-url>/scim/Users" \
+  "[HOST-URL]/scim/Users" \
   -d '{
     "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
     "userName": "dev-user2",
@@ -81,11 +88,11 @@ curl -s -S -X POST \
   }'
 ```
 
-For more details, see [Create user](#create-user).
+For more information, see [Create user](#create-user).
 
 ### Users
 
-Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
+Use your personal admin credentials when you perform interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
 
 For example, authorize as `demo:p@55w0rd`:
 ```bash
@@ -103,7 +110,7 @@ Authorization: Basic OnNhLXBANTV3MHJk
 
 ## User management
 
-The SCIM user resource maps to W&B users and service accounts. Use these endpoints to manage users and service accounts in your organization.
+The SCIM user resource maps to W&B users and service accounts. Use the endpoints in this section to provision, update, and remove users and service accounts in your organization, for example, when you onboard new employees, rotate service credentials, or remove access for departing users.
 
 For service account concepts and UI workflows, see [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts).
 
@@ -122,11 +129,11 @@ Request bodies for creating or updating users already used the array form and ar
 
 Retrieves information for a specific user or service account in your organization by user ID, or for a user by email address.
 
-Service account responses include `accountType` (`SERVICE` for team-scoped service accounts, `ORG_SERVICE` for organization-scoped service accounts). Service accounts do not include `emails`.
+Service account responses include `accountType` (`SERVICE` for team-scoped service accounts, `ORG_SERVICE` for organization-scoped service accounts). Service accounts don't include `emails`.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: GET
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `GET`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -142,7 +149,7 @@ GET /scim/Users/abc
 ```
 </Tab>
 <Tab title="Get User Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -173,10 +180,12 @@ GET /scim/Users/abc
 ```
 
 The response includes details about the user's activity in the organization:
+
 - **`daysActive`**: Total number of days the user has been active in the organization.
-- **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user has never been active.
+- **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user hasn't been active.
 
 The definition of "active" differs by deployment type:
+
 - **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
 - **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
 
@@ -192,18 +201,19 @@ Retrieves a list of all users and service accounts in your organization. Each re
 
 The `/Users` endpoint supports filtering users by username or email:
 
-- `userName eq "value"` - Filter by username
-- `emails.value eq "value"` - Filter by email address
+- `userName eq "value"`: Filter by username.
+- `emails.value eq "value"`: Filter by email address.
 
 ##### Example
+
 ```bash
 GET /scim/Users?filter=userName eq "john.doe"
 GET /scim/Users?filter=emails.value eq "john@example.com"
 ```
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users`
-- **Method**: GET
+- **URL**: `[HOST-URL]/scim/Users`
+- **Method**: `GET`
 
 #### Example
 
@@ -214,7 +224,7 @@ GET /scim/Users
 ```
 </Tab>
 <Tab title="List Users Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -255,10 +265,12 @@ GET /scim/Users
 ```
 
 The response includes details about each user's activity in the organization:
+
 - **`daysActive`**: Total number of days the user has been active in the organization.
-- **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user has never been active.
+- **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user hasn't been active.
 
 The definition of "active" differs by deployment type:
+
 - **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
 - **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
 
@@ -270,16 +282,16 @@ The definition of "active" differs by deployment type:
 Creates a new user in your organization.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users`
-- **Method**: POST
+- **URL**: `[HOST-URL]/scim/Users`
+- **Method**: `POST`
 
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `emails` | array | Yes | Array of email objects. Must include a primary email |
 | `userName` | string | Yes | The username for the new user |
-| `modelsSeat` | string | No | Models seat level. One of `full`, `viewer`, or `none`. Defaults to `full`. **Dedicated Cloud and Self-Managed only.** |
-| `weaveRole` | string | No | Weave role level. One of `full`, `viewer`, or `none`. Defaults to `full`. **Dedicated Cloud and Self-Managed only.** |
+| `modelsSeat` | string | No | Models seat level. One of `full`, `viewer`, or `none`. Defaults to `full`. |
+| `weaveRole` | string | No | Weave role level. One of `full`, `viewer`, or `none`. Defaults to `full`. |
 
 #### Example
 
@@ -324,6 +336,8 @@ POST /scim/Users
         }
     ],
     "userName": "dev-user2",
+    "modelsSeat": "full",
+    "weaveRole": "full",
     "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
         "teams": ["my-team"]
     }
@@ -336,7 +350,7 @@ POST /scim/Users
 
 <Tabs>
 <Tab title="Create User Response (Dedicated/Self-Managed)">
-```bash
+```text
 (Status 201)
 ```
 
@@ -366,7 +380,7 @@ POST /scim/Users
 ```
 </Tab>
 <Tab title="Create User Response (Multi-tenant)">
-```bash
+```text
 (Status 201)
 ```
 
@@ -392,6 +406,8 @@ POST /scim/Users
     ],
     "userName": "dev-user2",
     "organizationRole": "member",
+    "modelsSeat": "full",
+    "weaveRole": "full",
     "teamRoles": [
         {
             "teamName": "my-team",
@@ -410,20 +426,20 @@ POST /scim/Users
 
 ### Provision service account
 
-Creates a team-scoped or organization-scoped service account in your organization. Omit `accountType` to create a regular user instead. See [Create user](#create-user).
+Creates a team-scoped or organization-scoped service account in your organization. Use this endpoint to create headless identities for automation, CI/CD, or integrations that shouldn't be tied to a human user. Omit `accountType` to create a regular user instead. See [Create user](#create-user).
 
 <Note>
 Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**.
 
-- Set `userName` to the service account name. The API uses `userName` for the account's display name; `displayName` in the request body is ignored.
-- `emails` are not required for service accounts.
-- `modelsSeat` and `weaveRole` are not supported on create and return `400 Bad Request` if present.
-- Service accounts cannot be updated with `PATCH` or `PUT`, cannot be deactivated, and cannot be assigned organization, team, or registry roles through SCIM. Create API keys in the W&B App after provisioning.
+- Set `userName` to the service account name. The API uses `userName` for the account's display name. The `displayName` field in the request body is ignored.
+- `emails` aren't required for service accounts.
+- `modelsSeat` and `weaveRole` aren't supported on create and return `400 Bad Request` if present.
+- Service accounts can't be updated with `PATCH` or `PUT`, can't be deactivated, and can't be assigned organization, team, or registry roles through SCIM. Create API keys in the W&B App after provisioning.
 </Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users`
-- **Method**: POST
+- **URL**: `[HOST-URL]/scim/Users`
+- **Method**: `POST`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -481,7 +497,7 @@ POST /scim/Users
 
 <Tabs>
 <Tab title="Provision Team Service Account Response">
-```bash
+```text
 (Status 201)
 ```
 
@@ -515,7 +531,7 @@ POST /scim/Users
 ```
 </Tab>
 <Tab title="Provision Org Service Account Response">
-```bash
+```text
 (Status 201)
 ```
 
@@ -555,23 +571,23 @@ For an organization-scoped service account, `accountType` is `ORG_SERVICE`.
 
 In **Self-Managed** deployments, `organizationRole` is `service` or `org_service` instead of `member`, matching the account type.
 
-If the response returns one of these errors, check the request for these common problems:
+If the response returns one of the following errors, check the request for these common problems:
 
 - `409 Conflict`: The request includes duplicate `userName` keys for the same service account.
-- `400 Bad Request`: The request is missing  `defaultTeam` or sets it to an invalid value.
+- `400 Bad Request`: The request is missing `defaultTeam` or sets it to an invalid value.
 
 
 ### Deprovision service account
 
-Permanently deletes a service account and its organization membership. This is a hard delete; the account cannot be reactivated through SCIM.
+Permanently deletes a service account and its organization membership. Use this endpoint when a service account is no longer needed (for example, after you retire an automation pipeline). This is a hard delete, and the account can't be reactivated through SCIM.
 
 <Note>
-Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**. Use the service account's SCIM user `id` from the provision response or from [Get user](#get-user). Deprovisioning does not delete API keys that were already issued; revoke keys separately in the W&B App if needed.
+Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**. Use the service account's SCIM user `id` from the provision response or from [Get user](#get-user). Deprovisioning doesn't delete API keys that were already issued. Revoke keys separately in the W&B App if needed.
 </Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: DELETE
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `DELETE`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -587,7 +603,7 @@ DELETE /scim/Users/xyz
 ```
 </Tab>
 <Tab title="Deprovision Service Account Response">
-```bash
+```text
 (Status 204)
 ```
 </Tab>
@@ -598,7 +614,7 @@ DELETE /scim/Users/xyz
 <Warning>
 **Maintain admin access**
 
-You must ensure that at least one admin user exists in your instance or organization at all times. Otherwise, no user will be able to configure or maintain your organization's W&B account. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
+Ensure that at least one admin user always exists in your instance or organization. Otherwise, no user can configure or maintain your organization's W&B account. If an organization uses SCIM or another automated process to deprovision users from W&B, a deprovisioning operation could inadvertently remove the last remaining admin from the instance or organization.
 
 For assistance with developing operational procedures, or to restore admin access, contact [support](mailto:support@wandb.com).
 </Warning>
@@ -606,8 +622,8 @@ For assistance with developing operational procedures, or to restore admin acces
 Fully deletes a user from your organization. To delete a service account, see [Deprovision service account](#deprovision-service-account).
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: DELETE
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `DELETE`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -623,23 +639,25 @@ DELETE /scim/Users/abc
 ```
 </Tab>
 <Tab title="Delete User Response">
-```bash
+```text
 (Status 204)
 ```
 </Tab>
 </Tabs>
 
 <Note>
-To temporarily deactivate the user, refer to [Deactivate user](#deactivate-user) API which uses the `PATCH` endpoint.
+To temporarily deactivate the user, refer to the [Deactivate user](#deactivate-user) API, which uses the `PATCH` endpoint.
 </Note>
 
 ### Update user email
+
 Updates a user's primary email address.
-**Not supported for Multi-tenant Cloud**, where a user's account is not managed by the organization.
+
+**Not supported for Multi-tenant Cloud**, where a user's account isn't managed by the organization.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -676,7 +694,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Update Email Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -709,11 +727,12 @@ PATCH /scim/Users/abc
 ### Update user display name
 
 Updates a user's display name.
-**Not supported for Multi-tenant Cloud**, where a user's account is not managed by the organization.
+
+**Not supported for Multi-tenant Cloud**, where a user's account isn't managed by the organization.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -745,7 +764,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Update Display Name Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -777,16 +796,16 @@ PATCH /scim/Users/abc
 
 ### Deactivate user
 
-Deactivates a user in your organization. The actual result differs by deployment type:
+Deactivates a user in your organization. The result differs by deployment type:
 
-- **Dedicated Cloud** / **Self-Managed**: Sets the user's `active` field to `false`. To restore a deactivated user's access your organization, see [Reactivate user](#reactivate-user).
-- **Multi-tenant Cloud**: Removes the user from the organization. To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization.
+- **Dedicated Cloud** / **Self-Managed**: Sets the user's `active` field to `false`. To restore a deactivated user's access to your organization, see [Reactivate user](#reactivate-user).
+- **Multi-tenant Cloud**: Removes the user from the organization. To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account isn't managed by the organization.
 
-<Note>This operation works for users only, not service accounts. Deactivating a service account is not supported. Manage team service accounts in the settings for the W&B Team.</Note>
+<Note>This operation works for users only, not service accounts. Deactivating a service account isn't supported. Manage team service accounts in the settings for the W&B Team.</Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -839,7 +858,7 @@ PATCH /scim/Users
 
 <Tabs>
 <Tab title="Deactivate User Response (Dedicated/Self-Managed)">
-```bash
+```text
 (Status 200)
 ```
 
@@ -868,7 +887,7 @@ PATCH /scim/Users
 ```
 </Tab>
 <Tab title="Deactivate User Response (Multi-tenant)">
-```bash
+```text
 (Status 200)
 ```
 ```json
@@ -890,9 +909,9 @@ PATCH /scim/Users
 Reactivates a previously deactivated user in your organization.
 
 <Note>
-- User reactivation works for users only, not service accounts. Reactivation is not supported for service accounts. Manage service accounts in the settings for the W&B Team.
+- User reactivation works for users only, not service accounts. Reactivation isn't supported for service accounts. Manage service accounts in the settings for the W&B Team.
 
-- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in an HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
+- User reactivation isn't supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account isn't managed by the organization. An attempt to reactivate a user results in an HTTP `400` error. The `detail` field in the response body is returned verbatim from the API and may still use legacy product wording:
     ```json
     {
         "schemas": [
@@ -905,8 +924,8 @@ Reactivates a previously deactivated user in your organization.
 </Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -935,7 +954,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Reactivate User Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -969,11 +988,11 @@ PATCH /scim/Users/abc
 
 Assigns an organization-level role to a user.
 
-<Note>This operation works for users only, not service accounts. Custom roles are not supported for service accounts.</Note>
+<Note>This operation works for users only, not service accounts. Custom roles aren't supported for service accounts.</Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -985,13 +1004,13 @@ Assigns an organization-level role to a user.
 
 <Note>
 The organization-scoped `viewer` role is deprecated and can no longer be assigned in the UI. If you use SCIM to assign the `viewer` role to a user:
-- They are assigned the `member` role in the organization.
+- They're assigned the `member` role in the organization.
 - Their `modelsSeat` is set to `viewer` instead of `full`. This allows view-only access to Models and full access to Registry. If no Models seats are available, a `Seat limit reached` error is returned. This can be updated later if a seat is available.
 - Their `weaveRole` is set to `viewer` instead of `full`. This allows view-only access to Weave.
 - All of their existing team and project roles are set to `viewer`.
-- They are assigned the Registry `viewer` role in registries that are visible at the organization level.
+- They're assigned the Registry `viewer` role in registries that are visible at the organization level.
 
-Assigning the `member` or `admin` organization role does not change the user's `modelsSeat` or `weaveRole`.
+Assigning the `member` or `admin` organization role doesn't change the user's `modelsSeat` or `weaveRole`.
 </Note>
 
 #### Example
@@ -1016,7 +1035,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Assign Org Role Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1055,11 +1074,11 @@ PATCH /scim/Users/abc
 
 ### Update Models seat
 
-Updates a user's Models seat. **Dedicated Cloud** and **Self-Managed** only.
+Updates a user's Models seat.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -1091,7 +1110,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Update Models Seat Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1126,11 +1145,11 @@ PATCH /scim/Users/abc
 
 ### Update Weave role
 
-Updates a user's Weave role. **Dedicated Cloud** and **Self-Managed** only.
+Updates a user's Weave role.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -1162,7 +1181,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Update Weave Role Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1199,11 +1218,11 @@ PATCH /scim/Users/abc
 
 Assigns a team-level role to a user.
 
-<Note>This operation works for users only, not service accounts. Custom roles are not supported for service accounts.</Note>
+<Note>This operation works for users only, not service accounts. Custom roles aren't supported for service accounts.</Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -1240,7 +1259,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Assign Team Role Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1282,11 +1301,11 @@ PATCH /scim/Users/abc
 
 Adds a user to a registry with an assigned registry-level role.
 
-<Note>This operation works for users only, not service accounts. Custom roles are not supported for service accounts.</Note>
+<Note>This operation works for users only, not service accounts. Custom roles aren't supported for service accounts.</Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -1324,7 +1343,7 @@ PATCH /scim/Users/abc
 </Tab>
 <Tab title="Add to Registry Response">
 
-```bash
+```text
 (Status 200)
 ```
 
@@ -1372,8 +1391,8 @@ Removes a user from a registry.
 </Note>
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Users/{id}`
-- **Method**: PATCH
+- **URL**: `[HOST-URL]/scim/Users/{id}`
+- **Method**: `PATCH`
 
 #### Parameters
 | Parameter | Type | Required | Description |
@@ -1403,7 +1422,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Remove from Registry Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1459,7 +1478,7 @@ PATCH /scim/Users/abc
 ```
 </Tab>
 <Tab title="Remove from ALL Registries Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1492,20 +1511,24 @@ PATCH /scim/Users/abc
 
 ## Group resource
 
-When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team. To configure custom storage during team creation, include `storageBucket` in the request.
+The SCIM group resource maps to a W&B Team. Use the endpoints in this section to create teams, manage team membership, and (optionally) configure team-level storage from your identity provider or automation. When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations act on the team. To configure custom storage during team creation, include `storageBucket` in the request.
 
-### Service Accounts
+### Service accounts
 
-When a W&B Team is created using SCIM, all organization-level service accounts are automatically added to the team, to maintain the service account's access to team resources.
+When you create a W&B Team using SCIM, all organization-level service accounts are automatically added to the team, to maintain the service account's access to team resources.
 
-### Filtering groups
+### Filter groups
 
-The `/Groups` endpoint supports filtering to search for specific teams:
+The `/Groups` endpoint supports filtering to search for specific teams.
 
-#### Supported Filters
-- `displayName eq "value"` - Filter by team display name
+#### Supported filters
+
+The `/Groups` endpoint supports the following filter:
+
+- `displayName eq "value"`: Filter by team display name.
 
 #### Example
+
 ```bash
 GET /scim/Groups?filter=displayName eq "engineering-team"
 ```
@@ -1515,8 +1538,8 @@ GET /scim/Groups?filter=displayName eq "engineering-team"
 Retrieve team information by providing the team's unique ID.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Groups/{id}`
-- **Method**: GET
+- **URL**: `[HOST-URL]/scim/Groups/{id}`
+- **Method**: `GET`
 
 #### Example
 
@@ -1527,7 +1550,7 @@ GET /scim/Groups/ghi
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1562,8 +1585,8 @@ GET /scim/Groups/ghi
 Retrieve a list of teams.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Groups`
-- **Method**: GET
+- **URL**: `[HOST-URL]/scim/Groups`
+- **Method**: `GET`
 
 #### Example
 
@@ -1574,7 +1597,7 @@ GET /scim/Groups
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1616,10 +1639,13 @@ GET /scim/Groups
 
 ### Create team
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: POST
-- **Description**: Create a new team resource.
-- **Supported Fields**:
+Creates a new team resource.
+
+#### Endpoint
+- **URL**: `[HOST-URL]/scim/Groups`
+- **Method**: `POST`
+
+#### Supported fields
 
 | Field | Type | Required |
 | --- | --- | --- |
@@ -1629,16 +1655,16 @@ GET /scim/Groups
 
 You can configure team-level [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) during team creation by including a `storageBucket` object. If omitted, the team uses default or instance-level storage. Provision the bucket (policy, CORS, credentials) and determine the storage address format per provider using the BYOB guide. The `storageBucket` object has the following sub-fields:
 
-- **Required**: `name` (bucket name), `provider` (one of `COREWEAVE`, `AWS`, `AZURE`, `GCP`, or `MINIO`). The value is case-sensitive; use uppercase as shown.
+- **Required**: `name` (bucket name), `provider` (one of `COREWEAVE`, `AWS`, `AZURE`, `GCP`, or `MINIO`). The value is case-sensitive. Use uppercase as shown.
 - **Optional**: `path` (path prefix within the bucket), `kmsKeyId` (KMS key for encryption, for example for AWS), `awsExternalId` (AWS cross-account access), `azureTenantId` (Azure tenant ID), `azureClientId` (Azure managed identity client ID).
 
-W&B validates that the bucket exists and is reachable before creating the team. If validation fails, the SCIM request fails and the team is not created.
+W&B validates that the bucket exists and is reachable before creating the team. If validation fails, the SCIM request fails and the team isn't created.
 
 An invalid `provider` value returns `400 Bad Request` with a SCIM error that lists the allowed values.
 
 #### Examples
 
-These examples show how to create a team without custom storage and with BYOB storage on a specific provider. Select a tab for the desired storage configuration for an example request, and select the **Response** tab for an example response.
+These examples show how to create a team without custom storage and with BYOB storage on a specific provider. Select a tab for the desired storage configuration to see an example request, and select the **Response** tab for an example response.
 
 <Tabs>
 <Tab title="Request (no BYOB)">
@@ -1764,7 +1790,7 @@ Content-Type: application/scim+json
 
 
 <Tab title="Response">
-```bash
+```text
 (Status 201)
 ```
 
@@ -1796,17 +1822,20 @@ Content-Type: application/scim+json
 
 ### Update team
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: PATCH
-- **Description**: Update an existing team's membership list.
-- **Supported Operations**: `add` member, `remove` member, `replace` members
+Updates an existing team's membership list.
+
+#### Endpoint
+- **URL**: `[HOST-URL]/scim/Groups/{id}`
+- **Method**: `PATCH`
+- **Supported operations**: `add` member, `remove` member, `replace` members.
 
 <Note>
 - The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
 
-    **User Identification**: The `{user_id}` in member operations can be either:
-    - A W&B user ID
-    - An email address (e.g., "user@example.com")
+    **User identification**: The `{user_id}` in member operations can be either of the following:
+
+    - A W&B user ID.
+    - An email address (for example, "user@example.com").
 - These operations work for users only, not service accounts. Update a team's service accounts in the settings for the W&B Team.
 </Note>
 
@@ -1821,9 +1850,9 @@ Replaces all members of a team with a new list.
 
 <Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: PUT
-- **Description**: Replace the entire team membership list.
+#### Endpoint
+- **URL**: `[HOST-URL]/scim/Groups/{id}`
+- **Method**: `PUT`
 
 <Tabs>
 <Tab title="Request">
@@ -1847,7 +1876,7 @@ PUT /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1883,9 +1912,9 @@ PUT /scim/Groups/{team_id}
 </Tab>
 </Tabs>
 
-**Adding a user to a team**
+### Add a user to a team
 
-Adding `dev-user2` to `acme-devs`:
+Adds `dev-user2` to `acme-devs`:
 
 <Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
 
@@ -1913,7 +1942,7 @@ PATCH /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -1949,9 +1978,9 @@ PATCH /scim/Groups/{team_id}
 </Tab>
 </Tabs>
 
-**Removing a specific user from a team**
+### Remove a specific user from a team
 
-Removing `dev-user2` from `acme-devs`:
+Removes `dev-user2` from `acme-devs`:
 
 <Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
 
@@ -1974,7 +2003,7 @@ PATCH /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -2002,9 +2031,9 @@ PATCH /scim/Groups/{team_id}
 </Tab>
 </Tabs>
 
-**Removing all users from a team**
+### Remove all users from a team
 
-Removing all users from `acme-devs`:
+Removes all users from `acme-devs`:
 
 <Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
 
@@ -2027,7 +2056,7 @@ PATCH /scim/Groups/{team_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -2052,19 +2081,19 @@ PATCH /scim/Groups/{team_id}
 
 ### Delete team
 
-- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the app to confirm you want everything deleted.
+The SCIM API doesn't support deleting teams because additional data is linked to teams. Delete teams from the W&B App to confirm you want everything deleted.
 
 ## Role resource
 
-The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, W&B adds `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+The SCIM role resource maps to W&B custom roles. Use the endpoints in this section to create and maintain custom roles programmatically (for example, to keep role definitions in sync with your access policies). The `/Roles` endpoints aren't part of the official SCIM schema. W&B adds `/Roles` endpoints to support automated management of custom roles in W&B organizations.
 
 ### Get custom role
 
 Retrieve information for a custom role by providing the role's unique ID.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Roles/{id}`
-- **Method**: GET
+- **URL**: `[HOST-URL]/scim/Roles/{id}`
+- **Method**: `GET`
 
 #### Example
 
@@ -2075,7 +2104,7 @@ GET /scim/Roles/abc
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -2117,8 +2146,8 @@ GET /scim/Roles/abc
 Retrieve information for all custom roles in the W&B organization.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Roles`
-- **Method**: GET
+- **URL**: `[HOST-URL]/scim/Roles`
+- **Method**: `GET`
 
 #### Example
 
@@ -2129,7 +2158,7 @@ GET /scim/Roles
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -2205,17 +2234,21 @@ GET /scim/Roles
 
 ### Create custom role
 
-- **Endpoint**: **`<host-url>/scim/Roles`**
-- **Method**: POST
-- **Description**: Create a new custom role in the W&B organization.
-- **Supported Fields**:
+Creates a new custom role in the W&B organization.
+
+#### Endpoint
+- **URL**: `[HOST-URL]/scim/Roles`
+- **Method**: `POST`
+
+#### Supported fields
 
 | Field | Type | Required |
 | --- | --- | --- |
 | `name` | String | Name of the custom role |
 | `description` | String | Description of the custom role |
 | `permissions` | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-| `inheritedFrom` | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
+| `inheritedFrom` | String | The predefined role that the custom role inherits from. It can be either `member` or `viewer`. |
+
 #### Example
 
 <Tabs>
@@ -2239,7 +2272,7 @@ POST /scim/Roles
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 201)
 ```
 
@@ -2278,11 +2311,15 @@ POST /scim/Roles
 
 ### Update custom role
 
+The following sections describe how to add or remove permissions on an existing custom role.
+
 #### Add permissions to role
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PATCH
-- **Description**: Add permissions to an existing custom role.
+Adds permissions to an existing custom role.
+
+##### Endpoint
+- **URL**: `[HOST-URL]/scim/Roles/{id}`
+- **Method**: `PATCH`
 
 <Tabs>
 <Tab title="Request">
@@ -2311,7 +2348,7 @@ PATCH /scim/Roles/{role_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -2321,9 +2358,11 @@ Returns the updated role with new permissions added.
 
 #### Remove a permission from a role
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PATCH
-- **Description**: Remove permissions from an existing custom role.
+Removes permissions from an existing custom role.
+
+##### Endpoint
+- **URL**: `[HOST-URL]/scim/Roles/{id}`
+- **Method**: `PATCH`
 
 <Tabs>
 <Tab title="Request">
@@ -2349,7 +2388,7 @@ PATCH /scim/Roles/{role_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
@@ -2359,9 +2398,11 @@ Returns the updated role with specified permissions removed.
 
 ### Replace custom role
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PUT
-- **Description**: Replace an entire custom role definition.
+Replaces an entire custom role definition.
+
+#### Endpoint
+- **URL**: `[HOST-URL]/scim/Roles/{id}`
+- **Method**: `PUT`
 
 <Tabs>
 <Tab title="Request">
@@ -2390,21 +2431,21 @@ PUT /scim/Roles/{role_id}
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 200)
 ```
 
-Returns the completely replaced role definition.
+Returns the replaced role definition.
 </Tab>
 </Tabs>
 
 ### Delete custom role
 
-Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited is now assigned to all users that were assigned the custom role before the operation.
+Delete a custom role in the W&B organization. **Use this operation with caution**. The predefined role that the custom role inherited from is reassigned to all users who held the custom role before the deletion.
 
 #### Endpoint
-- **URL**: `<host-url>/scim/Roles/{id}`
-- **Method**: DELETE
+- **URL**: `[HOST-URL]/scim/Roles/{id}`
+- **Method**: `DELETE`
 
 #### Example
 
@@ -2415,7 +2456,7 @@ DELETE /scim/Roles/abc
 ```
 </Tab>
 <Tab title="Response">
-```bash
+```text
 (Status 204 No Content)
 ```
 </Tab>
@@ -2423,20 +2464,22 @@ DELETE /scim/Roles/abc
 
 ## Advanced features
 
-### ETag Support
+The following sections describe optional capabilities (ETag-based concurrency control and standard error responses) that help SCIM integrations behave safely in production.
 
-The SCIM API supports ETags for conditional updates to prevent concurrent modification conflicts. ETags are returned in the `ETag` response header and the `meta.version` field.
+### ETag support
+
+The SCIM API supports ETags for conditional updates to prevent concurrent modification conflicts. This matters when multiple admins or automated systems update the same resource, because it ensures that one update doesn't silently overwrite another. ETags are returned in the `ETag` response header and the `meta.version` field.
 
 #### ETags
 
-To use Etags:
+To use ETags, follow these steps:
 
-1. **Get current ETag**: When you GET a resource, note the ETag header in the response
-2. **Conditional update**: Include the ETag in the `If-Match` header when updating
+1. **Get current ETag**: When you GET a resource, note the ETag header in the response.
+2. **Conditional update**: Include the ETag in the `If-Match` header when updating.
 
 #### Example
 
-```
+```text
 # Get user and note ETag
 GET /scim/Users/abc
 # Response includes: ETag: W/"xyz123"
@@ -2457,7 +2500,7 @@ If-Match: W/"xyz123"
 }
 ```
 
-A `412 Precondition Failed` error response indicates that the resources has been modified since you retrieved it.
+A `412 Precondition Failed` error response indicates that the resource has been modified since you retrieved it.
 
 ### Error handling
 
@@ -2468,17 +2511,17 @@ The SCIM API returns standard SCIM error responses:
 | `200` | Success |
 | `201` | Created |
 | `204` | No Content (successful deletion) |
-| `400` | Bad Request - Invalid parameters or request body |
-| `401` | Unauthorized - Authentication failed |
-| `403` | Forbidden - Insufficient permissions |
-| `404` | Not Found - Resource does not exist |
-| `409` | Conflict - Resource already exists |
-| `412` | Precondition Failed - ETag mismatch |
+| `400` | Bad Request: invalid parameters or request body |
+| `401` | Unauthorized: authentication failed |
+| `403` | Forbidden: insufficient permissions |
+| `404` | Not Found: resource doesn't exist |
+| `409` | Conflict: resource already exists |
+| `412` | Precondition Failed: ETag mismatch |
 | `500` | Internal Server Error |
 
 ### Implementation differences per deployment type
 
-W&B maintains two separate SCIM API implementations, and the features differ between them:
+W&B maintains two separate SCIM API implementations, and the features differ between them. Review the following table before you integrate with SCIM to confirm that the operations you rely on are available on your deployment type.
 
 | Feature                         | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
 |---------------------------------|-----------------|--------------|
@@ -2487,15 +2530,16 @@ W&B maintains two separate SCIM API implementations, and the features differ bet
 | User deactivation               |    &check;      |    &check;   |
 | User reactivation               |        -        |    &check;   |
 | Multiple emails per user        |    &check;      |      -       |
-| Set `modelsSeat` on create/update |    -    |    &check;   |
-| Set `weaveRole` on create/update  |    -    |    &check;   |
-| Provision service accounts (`POST` with `accountType`) | &check; | &check; (v0.81.0+) |
-| Deprovision service accounts (`DELETE` by id) | &check; | &check; (v0.81.0+) |
+| Set `modelsSeat` on create/update |    &check;    |    &check;   |
+| Set `weaveRole` on create/update  |    &check;    |    &check;   |
+
 
 ## Limitations
 
-- **Maximum results**: 9999 items per request.
+Keep the following constraints in mind when you design SCIM integrations:
+
+- **Maximum results**: 9,999 items per request.
 - **Dedicated Cloud and Self-Managed**: Only support one email per user.
-- **Team deletion**: Not supported via SCIM (use the W&B web interface).
+- **Team deletion**: Not supported through SCIM (use the W&B web interface).
 - **User reactivation**: Not supported in Multi-tenant Cloud environments.
 - **Seat limits**: Operations may fail if organization seat limits are reached.

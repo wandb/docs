@@ -1,6 +1,7 @@
 ---
 title: Self-Managed infrastructure requirements
 description: Infrastructure and software requirements for W&B Self-Managed deployments
+keywords: ["hardware requirements", "Kubernetes version", "MySQL version", "CPU memory requirements", "Redis requirements"]
 ---
 
 import SelfManagedVersionRequirements from "/snippets/_includes/self-managed-version-requirements.mdx";
@@ -15,10 +16,10 @@ import SelfManagedNetworkingRequirements from "/snippets/_includes/self-managed-
 import SelfManagedSslTlsRequirements from "/snippets/_includes/self-managed-ssl-tls-requirements.mdx";
 import SelfManagedObtainLicense from "/snippets/_includes/self-managed-obtain-license.mdx";
 
-This page provides a comprehensive overview of the infrastructure and software requirements for deploying W&B Self-Managed. Review these requirements before beginning your deployment.
+This page describes the infrastructure and software requirements for deploying W&B Self-Managed. It's intended for platform and infrastructure engineers planning a Self-Managed installation. Review these requirements before you begin your deployment to confirm that your environment can support W&B Server.
 
 <Note>
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) deployment types. W&B fully managed services are straightforward and secure to use, and require minimal to no configuration.
 </Note>
 
 For complete architectural guidance, see the [reference architecture](/platform/hosting/self-managed/ref-arch/).
@@ -35,12 +36,12 @@ For detailed sizing recommendations based on your use case (Models only, Weave o
 
 ## Kubernetes
 
-W&B Server is deployed as a [Kubernetes Operator](/platform/hosting/self-managed/operator/) that manages multiple pods. Your Kubernetes cluster must meet these requirements:
+W&B Server is deployed as a [Kubernetes Operator](/platform/hosting/self-managed/operator/) that manages multiple pods. Your Kubernetes cluster must meet the following requirements:
 
-- **Version**: See [Software version requirements](#software-version-requirements) above
-- **Ingress controller**: A fully-configured and functioning ingress controller (Nginx, Istio, Traefik, or cloud provider ingress)
-- **Persistent volumes**: Capability to provision persistent volumes
-- **CPU architecture**: Intel or AMD 64-bit (ARM is not supported)
+- **Version**: See the preceding [Software version requirements](#software-version-requirements) section.
+- **Ingress controller**: A fully configured and functioning ingress controller (Nginx, Istio, Traefik, or cloud provider ingress).
+- **Persistent volumes**: Capability to provision persistent volumes.
+- **CPU architecture**: Intel or AMD 64-bit (ARM is not supported).
 
 W&B supports deployment on [OpenShift Kubernetes clusters](https://www.redhat.com/en/technologies/cloud-computing/openshift) in cloud, on-premises, and air-gapped environments. For specific configuration instructions, see the [OpenShift section](/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) in the Operator guide.
 
@@ -52,13 +53,13 @@ For complete Kubernetes requirements, including load balancer and ingress config
 
 <SelfManagedMysqlRequirements/>
 
-**W&B strongly recommends using managed database services** such as AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL for production deployments. Managed services provide automated backups, monitoring, high availability, patching, and significantly reduce operational complexity.
+W&B recommends using managed database services such as AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL for production deployments. Managed services provide automated backups, monitoring, high availability, and patching, and they reduce operational complexity.
 
 ### MySQL configuration parameters
 
-If you are running your own MySQL instance, configure MySQL with these settings:
+If you're running your own MySQL instance, configure MySQL with the following settings for compatibility with W&B Server:
 
-```
+```ini
 binlog_format = 'ROW'
 binlog_row_image = 'MINIMAL'
 innodb_flush_log_at_trx_commit = 1
@@ -68,11 +69,11 @@ sort_buffer_size = '67108864'
 sync_binlog = 1
 ```
 
-These settings have been validated by W&B for optimal performance and reliability.
+W&B has validated these settings for performance and reliability.
 
 ### Database creation
 
-For instructions to manually create the MySQL database and user:
+If you aren't using a managed MySQL service that provisions the database automatically, follow these instructions to manually create the MySQL database and user that W&B Server uses:
 
 <SelfManagedMysqlDatabaseCreation/>
 
@@ -80,16 +81,20 @@ For additional considerations, including backups, performance, monitoring, and a
 
 ## Redis
 
+W&B Server uses Redis for caching and background job coordination.
+
 <SelfManagedRedisRequirements/>
 
-W&B can connect to a Redis instance in the following environments:
+W&B can connect to a Redis instance in any of the following environments:
 
-- [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
-- [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
-- [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
-- Redis deployment hosted in your cloud or on-premises infrastructure
+- [AWS Elasticache](https://aws.amazon.com/pm/elasticache/).
+- [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en).
+- [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
+- Redis deployment hosted in your cloud or on-premises infrastructure.
 
 ## Object storage
+
+W&B Server requires an object storage bucket to store artifacts, media, and run data.
 
 <SelfManagedObjectStorageRequirements/>
 
@@ -97,19 +102,21 @@ W&B can connect to a Redis instance in the following environments:
 
 ### Configure W&B to use your bucket
 
-After provisioning your bucket, configure W&B to use it through the Operator's Helm values. See the [Operator object storage configuration section](/platform/hosting/self-managed/operator/#object-storage-bucket) for details.
+After you provision your bucket, you must configure W&B to use it through the Operator's Helm values so that W&B Server can read from and write to the bucket. See the [Operator object storage configuration section](/platform/hosting/self-managed/operator/#object-storage-bucket) for details.
 
 ## Networking
+
+Networking configuration exposes W&B Server to users and machine-learning workloads. The following sections describe DNS, load balancer, and ingress requirements.
 
 <SelfManagedNetworkingRequirements/>
 
 ### DNS
 
-The fully-qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
+The fully qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress or load balancer using an A record.
 
 ### Load balancer and ingress
 
-The W&B Kubernetes Operator exposes services using a Kubernetes ingress controller, which routes to service endpoints based on URL paths. The ingress controller must be accessible by all machines that execute machine learning payloads or access the service through web browsers.
+The W&B Kubernetes Operator exposes services using a Kubernetes ingress controller, which routes to service endpoints based on URL paths. The ingress controller must be accessible by all machines that execute machine-learning payloads or access the service through web browsers.
 
 For detailed load balancer options, ingress controller requirements, and configuration examples, see the [reference architecture load balancer section](/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress).
 
@@ -119,14 +126,14 @@ For detailed load balancer options, ingress controller requirements, and configu
 
 ## License
 
-A valid W&B Server license is required for all Self-Managed deployments.
+All Self-Managed deployments require a valid W&B Server license. Without a license, W&B Server can't start.
 
 <SelfManagedObtainLicense/>
 
 ## Next steps
 
-After ensuring your infrastructure meets these requirements:
+After you confirm that your infrastructure meets these requirements, proceed to the deployment guide that matches your environment:
 
 - **Cloud and on-premises deployments**: See [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator) for Helm and Terraform deployment options.
 - **Air-gapped deployments**: See [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) for disconnected environments.
-- **All deployment methods**: See [Deploy with Kubernetes Operator](/platform/hosting/self-managed/operator) for the core operator deployment guide
+- **All deployment methods**: See [Deploy with Kubernetes Operator](/platform/hosting/self-managed/operator) for the core operator deployment guide.

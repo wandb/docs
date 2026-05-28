@@ -2,63 +2,64 @@
 title: "Cline with Serverless Inference"
 description: >
   Learn how to configure the Cline coding agent to use Serverless Inference.
+keywords: ["Cline CLI", "VS Code extension", "AI coding assistant", "cline auth", "open-weight models"]
 ---
 
-[Cline](https://cline.bot) is an AI-powered coding assistant. This tutorial demonstrates how to configure Cline to use models provided by Serverless Inference.
+[Cline](https://cline.bot) is an AI-powered coding assistant. This tutorial demonstrates how to configure Cline to use models provided by Serverless Inference, so that you can use open-weight models hosted on W&B Inference for your coding tasks.
 
-The Cline agent is available as a command line tool or as an integration with many IDEs. This page will show configuration with the Cline CLI and with Cline as a Visual Studio Code extension, but configuration in other IDEs should be similar.
+The Cline agent is available as a command line tool or as an integration with many IDEs. The following sections describe configuration with the Cline CLI and with Cline as a Visual Studio Code extension. Configuration in other IDEs is similar.
 
 ## Prerequisites
 
-You will need your [W&B API key](../prerequisites#set-up-your-wb-account-and-project).
+You need your [W&B API key](../prerequisites#set-up-your-wb-account-and-project).
 
 ## Set up Cline in the command line
 
 Install the [Cline CLI](https://docs.cline.bot/cline-cli/installation).
 
-```
+```bash
 npm install -g cline
 ```
 
 See [Cline's installation instructions](https://docs.cline.bot/cline-cli/installation) for troubleshooting.
 
-These instructions were tested with Cline CLI version `2.5.1`. You can run `cline version` to verify what you have installed.
+These instructions were tested with Cline CLI version `2.5.1`. Run `cline version` to verify what you have installed.
 
-Run the following command, substituting `<your_api_key>` with your W&B API key.
+Next, authenticate Cline against the Serverless Inference endpoint. The following command configures Cline to use the Serverless Inference OpenAI-compatible endpoint and the Kimi K2.5 model. Substitute `[YOUR-API-KEY]` with your W&B API key.
 
+```bash
+cline auth -k [YOUR-API-KEY] -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
 ```
-cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
-```
 
-This will configure Cline to use Serverless Inference's OpenAI-compatible endpoint and the Kimi K2.5 model. For model availability and pricing, see [our model catalog](https://wandb.ai/inference).
+For model availability and pricing, see the [W&B Inference model catalog](https://wandb.ai/inference).
 
-Run a simple test to verify everything is working:
+Run a test to verify everything is working:
 
-```
+```bash
 cline "What is 2 + 2?"
 ```
 
 If Cline responds with an answer, your installation and authentication are complete.
 
-For more information on using the Cline CLI, see the [Cline Quickstart](https://docs.cline.bot/cline-cli/installation#quick-start).
-
+For more information about using the Cline CLI, see the [Cline Quickstart](https://docs.cline.bot/cline-cli/installation#quick-start).
 
 ## Set up Cline in Visual Studio Code
-You can also install Cline as a Visual Studio Code extension. Search for **Cline** in the VS Code Extensions Marketplace, or install it from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev). 
 
-Click the `Install` button.
+If you prefer to use Cline inside an IDE, you can install it as a Visual Studio Code extension. Search for **Cline** in the VS Code Extensions Marketplace, or install it from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
+
+Click **Install**.
 
 <Frame>![VS Code extension installation](/images/inference/inference-tutorial-cline-install.png)</Frame>
 
-Click the newly added Cline icon in your Activity Bar to open the Cline sidebar.  If the Cline icon is not showing in the Activity Bar, click the dropdown to see more options.
+Click the newly added Cline icon in your Activity Bar to open the Cline sidebar. If the Cline icon isn't showing in the Activity Bar, click the dropdown to see more options.
 
 <img
   src="/images/inference/inference-tutorial-cline-activity-bar.png"
-  alt="VS Code extension installation"
+  alt="Cline icon in the VS Code Activity Bar"
   style={{width: "60px"}}
 />
 
-Select "Bring my own API key" and click the **Continue** button.
+Select **Bring my own API key** and click **Continue**.
 
 <img
   src="/images/inference/inference-tutorial-cline-byok.png"
@@ -66,18 +67,18 @@ Select "Bring my own API key" and click the **Continue** button.
   style={{width: "300px"}}
 />
 
-Specify the following values, substituting `<your_api_key>` with your W&B API key:
+Specify the following values, substituting `[YOUR-API-KEY]` with your W&B API key:
 
-| Setting                        | Value                               |
-| ------------------------------ | ----------------------------------- |
-| API Provider                   | OpenAI Compatible                   |
-| Base URL                       | https://api.inference.wandb.ai/v1   |
-| OpenAI Compatible API Key       | `<your_api_key>`                    |
-| Model ID                       | moonshotai/Kimi-K2.5              |
+| Setting                    | Value                               |
+| -------------------------- | ----------------------------------- |
+| API Provider               | `OpenAI Compatible`                 |
+| Base URL                   | `https://api.inference.wandb.ai/v1` |
+| OpenAI Compatible API Key  | `[API-KEY]`                         |
+| Model ID                   | `moonshotai/Kimi-K2.5`              |
 
-Specify pricing by expanding Model Configuration. For model availability and pricing, see [our model catalog](https://wandb.ai/inference).
+Specify pricing by expanding **Model Configuration**.
 
-Click the `Continue` button.
+Click **Continue**.
 
 Try submitting a prompt like "Write a Python program to compute the first 10 Fibonacci Numbers".
 
@@ -87,4 +88,4 @@ Try submitting a prompt like "Write a Python program to compute the first 10 Fib
   style={{width: "300px"}}
 />
 
-For more information on using Cline, see the [Cline Documentation](https://docs.cline.bot).
+For more information about using Cline, see the [Cline Documentation](https://docs.cline.bot).
