@@ -100,115 +100,140 @@ def get_service_api_endpoints():
     return sorted(endpoints)
 
 
+def _iter_nav_dicts(node):
+    """Yield every dict found while walking a navigation subtree.
+
+    Walks into both 'pages' and 'tabs' arrays, which Mintlify nests
+    at different depths depending on the navigation shape.
+    """
+    if isinstance(node, dict):
+        yield node
+        for child in node.get("pages", []):
+            yield from _iter_nav_dicts(child)
+        for child in node.get("tabs", []):
+            yield from _iter_nav_dicts(child)
+    elif isinstance(node, list):
+        for child in node:
+            yield from _iter_nav_dicts(child)
+
+
+def _find_english_group(docs, group_name):
+    """Return the first dict with group == group_name inside the English nav.
+
+    Resilient to changes in how `tab` and `group` levels are nested under
+    `navigation.languages[lang=en]`, so the regen workflow keeps working
+    even if the Reference / W&B Weave / SDK hierarchy is restructured.
+    """
+    languages = docs.get("navigation", {}).get("languages", [])
+    en_lang = next(
+        (lang for lang in languages if lang.get("language") == "en"),
+        None,
+    )
+    if en_lang is None:
+        return None
+    for node in _iter_nav_dicts(en_lang):
+        if isinstance(node, dict) and node.get("group") == group_name:
+            return node
+    return None
+
+
 def update_docs_json(python_modules, typescript_items, service_endpoints):
     """Update the docs.json file with all reference documentation."""
-    
+
     # Read current docs.json
     with open("docs.json", "r") as f:
         docs = json.load(f)
-    
-    # Navigate through the navigation structure
-    # The structure is: navigation.languages[0].tabs[x].tab="W&B Weave"
-    navigation = docs.get("navigation", {})
-    languages = navigation.get("languages", [])
-    if not languages:
+
+    if not docs.get("navigation", {}).get("languages"):
         print("⚠️  No languages found in navigation")
         return
-    
+
     updated = False
-    # Look for English navigation (first language)
-    for lang in languages:
-        if lang.get("language") == "en" and "tabs" in lang:
-            for tab in lang["tabs"]:
-                if tab.get("tab") == "W&B Weave":
-                    # Find the Reference group
-                    for group in tab.get("pages", []):
-                        if isinstance(group, dict) and group.get("group") == "Reference":
-                            reference_pages = group.get("pages", [])
-                            
-                            # Update Python SDK
-                            for page in reference_pages:
-                                if isinstance(page, dict) and page.get("group") == "Python SDK":
-                                    # Always start with the root page
-                                    new_pages = ["weave/reference/python-sdk"]
-                                    
-                                    # Add the grouped modules
-                                    if "Core" in python_modules and python_modules["Core"]:
-                                        new_pages.append({
-                                            "group": "Core",
-                                            "pages": python_modules["Core"]
-                                        })
-                                    
-                                    if "Trace Server" in python_modules and python_modules["Trace Server"]:
-                                        new_pages.append({
-                                            "group": "Trace Server",
-                                            "pages": python_modules["Trace Server"]
-                                        })
-                                    
-                                    if "Trace Server Bindings" in python_modules and python_modules["Trace Server Bindings"]:
-                                        new_pages.append({
-                                            "group": "Trace Server Bindings",
-                                            "pages": python_modules["Trace Server Bindings"]
-                                        })
-                                    
-                                    if "Other" in python_modules and python_modules["Other"]:
-                                        new_pages.append({
-                                            "group": "Other",
-                                            "pages": python_modules["Other"]
-                                        })
-                                    
-                                    page["pages"] = new_pages
-                                    print(f"✓ Updated Python SDK with {sum(len(m) for m in python_modules.values())} modules")
-                                    updated = True
-                            
-                            # Update TypeScript SDK
-                            for page in reference_pages:
-                                if isinstance(page, dict) and page.get("group") == "TypeScript SDK":
-                                    # Always start with the root page
-                                    new_pages = ["weave/reference/typescript-sdk"]
-                                    
-                                    # Add the categorized items with proper casing
-                                    if "classes" in typescript_items and typescript_items["classes"]:
-                                        new_pages.append({
-                                            "group": "Classes",
-                                            "pages": typescript_items["classes"]
-                                        })
-                                    
-                                    if "functions" in typescript_items and typescript_items["functions"]:
-                                        new_pages.append({
-                                            "group": "Functions",
-                                            "pages": typescript_items["functions"]
-                                        })
-                                    
-                                    if "interfaces" in typescript_items and typescript_items["interfaces"]:
-                                        new_pages.append({
-                                            "group": "Interfaces",
-                                            "pages": typescript_items["interfaces"]
-                                        })
-                                    
-                                    if "type-aliases" in typescript_items and typescript_items["type-aliases"]:
-                                        new_pages.append({
-                                            "group": "Type Aliases",
-                                            "pages": typescript_items["type-aliases"]
-                                        })
-                                    
-                                    page["pages"] = new_pages
-                                    print(f"✓ Updated TypeScript SDK with {sum(len(items) for items in typescript_items.values())} items")
-                                    updated = True
-                            
-                            # Note: Service API OpenAPI configuration is managed by sync_openapi_spec.py
-                            # We don't modify it here to preserve the local vs remote spec choice
-                            
-                            break
-                    break
-    
+
+    # Update Python SDK
+    python_group = _find_english_group(docs, "Python SDK")
+    if python_group is not None:
+        new_pages = ["weave/reference/python-sdk"]
+
+        if "Core" in python_modules and python_modules["Core"]:
+            new_pages.append({
+                "group": "Core",
+                "pages": python_modules["Core"]
+            })
+
+        if "Trace Server" in python_modules and python_modules["Trace Server"]:
+            new_pages.append({
+                "group": "Trace Server",
+                "pages": python_modules["Trace Server"]
+            })
+
+        if "Trace Server Bindings" in python_modules and python_modules["Trace Server Bindings"]:
+            new_pages.append({
+                "group": "Trace Server Bindings",
+                "pages": python_modules["Trace Server Bindings"]
+            })
+
+        if "Other" in python_modules and python_modules["Other"]:
+            new_pages.append({
+                "group": "Other",
+                "pages": python_modules["Other"]
+            })
+
+        python_group["pages"] = new_pages
+        print(f"✓ Updated Python SDK with {sum(len(m) for m in python_modules.values())} modules")
+        updated = True
+    else:
+        print("⚠️  Could not find 'Python SDK' group in English navigation")
+
+    # Update TypeScript SDK
+    typescript_group = _find_english_group(docs, "TypeScript SDK")
+    if typescript_group is not None:
+        new_pages = ["weave/reference/typescript-sdk"]
+
+        if "classes" in typescript_items and typescript_items["classes"]:
+            new_pages.append({
+                "group": "Classes",
+                "pages": typescript_items["classes"]
+            })
+
+        if "functions" in typescript_items and typescript_items["functions"]:
+            new_pages.append({
+                "group": "Functions",
+                "pages": typescript_items["functions"]
+            })
+
+        if "interfaces" in typescript_items and typescript_items["interfaces"]:
+            new_pages.append({
+                "group": "Interfaces",
+                "pages": typescript_items["interfaces"]
+            })
+
+        if "type-aliases" in typescript_items and typescript_items["type-aliases"]:
+            new_pages.append({
+                "group": "Type Aliases",
+                "pages": typescript_items["type-aliases"]
+            })
+
+        typescript_group["pages"] = new_pages
+        print(f"✓ Updated TypeScript SDK with {sum(len(items) for items in typescript_items.values())} items")
+        updated = True
+    else:
+        print("⚠️  Could not find 'TypeScript SDK' group in English navigation")
+
+    # Note: Service API OpenAPI configuration is managed by sync_openapi_spec.py
+    # We don't modify it here to preserve the local vs remote spec choice
+
     if updated:
-        # Write updated docs.json
+        # Write updated docs.json. Use ensure_ascii=False so we don't
+        # mangle non-ASCII characters in localized navigation entries
+        # (French, Japanese, Korean) into \uXXXX escape sequences.
         with open("docs.json", "w") as f:
-            json.dump(docs, f, indent=2)
+            json.dump(docs, f, indent=2, ensure_ascii=False)
         print("✓ Updated docs.json with all reference documentation")
     else:
-        print("⚠️  Could not find Reference sections to update in docs.json")
+        print("⚠️  No SDK groups were updated in docs.json. The navigation "
+              "structure may have changed - inspect docs.json and update "
+              "this script's group lookup if needed.")
 
 
 def main():
