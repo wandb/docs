@@ -1,5 +1,5 @@
 ---
-title: "Quickstart: Trace an OpenAI Agents SDK agent"
+title: "OpenAI Agents SDK"
 description: Trace an agent built with the OpenAI Agents SDK using Weave.
 ---
 
@@ -8,6 +8,10 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 <AgentsPreview />
 
 The [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) is a lightweight framework for building agents and multi-agent workflows on top of OpenAI's API. Weave automatically traces agents built with the OpenAI Agents SDK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
+
+<Note>
+The Weave TypeScript SDK does not support autopatching for the OpenAI Agents SDK.
+</Note>
 
 ## Trace OpenAI Agents SDK agents with Weave
 
@@ -18,6 +22,7 @@ The Weave SDK autopatches with the OpenAI Agents SDK, allowing you to capture tr
 - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
 - An [OpenAI API key](https://platform.openai.com/api-keys)
 - Python 3.10+
+- Set the following environment variable: `WEAVE_USE_OTEL_V2=true`. This allows Weave to use OTel to automatically group conversations in the Agents view.
 
 ### Install packages
 
