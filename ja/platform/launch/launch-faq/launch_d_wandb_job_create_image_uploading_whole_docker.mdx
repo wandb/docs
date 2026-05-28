@@ -1,20 +1,21 @@
 ---
-title: "`wandb launch -d` または `wandb job create image` では、Docker アーティファクト全体が upload され、レジストリから pull されないのですか？"
+title: "`wandb launch -d` または `wandb job create image` では Docker artifact 全体がアップロードされ、レジストリから pull されないのですか？"
+keywords: ["wandb launch -d", "Docker レジストリ", "イメージのアップロード", "レジストリへの push"]
 ---
 
-いいえ。`wandb launch -d` command では、イメージはレジストリに upload されません。イメージは別途レジストリに upload してください。次の step に従ってください:
+いいえ。`wandb launch -d` コマンドでイメージがレジストリにアップロードされることはありません。イメージは別途レジストリにアップロードしてください。次の step に従ってください。
 
-1. イメージを build します。
+1. イメージをビルドします。
 2. イメージをレジストリに push します。
 
-ワークフローは次のとおりです:
+ワークフローは次のとおりです。`[REPO-URL]` はレジストリの URL に、`[TAG]` はイメージタグに置き換えてください。
 
 ```bash
-docker build -t <repo-url>:<tag> .
-docker push <repo-url>:<tag>
-wandb launch -d <repo-url>:<tag>
+docker build -t [REPO-URL]:[TAG] .
+docker push [REPO-URL]:[TAG]
+wandb launch -d [REPO-URL]:[TAG]
 ```
 
-その後、Launch エージェントは指定されたコンテナーを参照するジョブを起動します。エージェントがコンテナーレジストリからイメージをプルできるようにアクセスを設定する例については、[高度なエージェント設定](/ja/platform/launch/setup-agent-advanced/#agent-configuration)を参照してください。
+次に、Launch エージェントは、指定されたコンテナーを使用するジョブを開始します。エージェントがコンテナーレジストリからイメージをプルできるようにアクセスを設定する例については、[高度なエージェントのセットアップ](/ja/platform/launch/setup-agent-advanced/#agent-configuration)を参照してください。
 
-Kubernetes では、Kubernetes クラスターの Pod が、イメージのプッシュ先のレジストリにアクセスできることを確認してください。
+Kubernetes の場合は、クラスター内の Pod が、イメージのプッシュ先であるレジストリにアクセスできることを確認してください。

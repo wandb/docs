@@ -2,9 +2,10 @@
 title: Panneaux
 sidebartitle: Aperçu
 description: Utilisez et personnalisez les panneaux du Workspace pour visualiser vos données enregistrées
+keywords: ["panneaux du Workspace", "ajout rapide", "mode plein écran", "sections de panneaux", "intégrer un panneau"]
 ---
 
-Utilisez les visualisations de panneaux du Workspace pour explorer vos [données enregistrées](/fr/models/ref/python/experiments/run.md/#method-runlog) selon leurs clés, visualiser les relations entre les hyperparamètres et les métriques de sortie, et bien plus encore.
+Utilisez les visualisations de panneaux du Workspace pour explorer vos [données enregistrées](/fr/models/ref/python/experiments/run.md/#method-runlog) selon leurs clés, visualiser les relations entre les hyperparamètres et les métriques de sortie, et bien plus encore. Cette page explique comment choisir un mode de Workspace, ajouter et configurer des panneaux, les organiser en sections et les partager avec des collaborateurs.
 
 <div id="workspace-modes">
   ## Modes de Workspace
@@ -12,22 +13,24 @@ Utilisez les visualisations de panneaux du Workspace pour explorer vos [données
 
 Les projets W&amp;B prennent en charge deux modes de Workspace différents. L’icône à côté du nom du Workspace indique son mode.
 
-| Icon                                                                                                  | Mode de Workspace                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="/images/app_ui/automated_workspace.svg" alt="icône de Workspace automatisé" width="32px" /> | **Les Workspaces automatisés** génèrent automatiquement des panneaux pour toutes les clés enregistrées dans le projet. Choisissez un Workspace automatique :<ul><li>Pour démarrer rapidement en visualisant toutes les données disponibles du projet.</li><li>Pour les projets de plus petite taille qui enregistrent moins de clés.</li><li>Pour une analyse plus globale.</li></ul>Si vous supprimez un panneau d’un Workspace automatique, vous pouvez utiliser [Quick add](#quick-add) pour le recréer.                                                                  |
-| <img src="/images/app_ui/manual_workspace.svg" alt="icône de Workspace manuel" width="32px" />        | **Les Workspaces manuels** démarrent comme des pages vierges et n’affichent que les panneaux ajoutés intentionnellement par les Users. Choisissez un Workspace manuel :<ul><li>Lorsque seule une partie des clés enregistrées dans le projet vous intéresse.</li><li>Pour une analyse plus ciblée.</li><li>Pour améliorer les performances d’un Workspace en évitant de charger des panneaux qui vous sont moins utiles.</li></ul>Utilisez [Quick add](#quick-add) pour remplir facilement et rapidement un Workspace manuel et ses sections avec des visualisations utiles. |
+| Icon                                                                                                  | Mode de Workspace                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img src="/images/app_ui/automated_workspace.svg" alt="icône de Workspace automatisé" width="32px" /> | **Les Workspaces automatisés** génèrent automatiquement des panneaux pour toutes les clés enregistrées dans le projet. Choisissez un Workspace automatique :<ul><li>Pour démarrer rapidement en visualisant toutes les données disponibles du projet.</li><li>Pour les projets de plus petite taille qui enregistrent moins de clés.</li><li>Pour une analyse plus globale.</li></ul>Si vous supprimez un panneau d’un Workspace automatique, vous pouvez utiliser [ajout rapide](#quick-add) pour le recréer.                                               |
+| <img src="/images/app_ui/manual_workspace.svg" alt="icône de Workspace manuel" width="32px" />        | **Les Workspaces manuels** démarrent comme des pages vierges et n’affichent que les panneaux que vous ajoutez intentionnellement. Choisissez un Workspace manuel :<ul><li>Lorsque seule une partie des clés enregistrées dans le projet vous intéresse.</li><li>Pour une analyse plus ciblée.</li><li>Pour améliorer les performances d’un Workspace en évitant de charger des panneaux qui vous sont moins utiles.</li></ul>Utilisez [ajout rapide](#quick-add) pour remplir rapidement un Workspace manuel et ses sections avec des visualisations utiles. |
 
 Pour modifier la façon dont un Workspace génère des panneaux, [réinitialisez le Workspace](#reset-a-workspace).
 
 <Note>
   **Annuler les modifications apportées à votre Workspace**
 
-  Pour annuler les modifications apportées à votre Workspace, cliquez sur le bouton Undo (flèche pointant vers la gauche) ou saisissez **CMD + Z** (macOS) ou **CTRL + Z** (Windows / Linux).
+  Pour annuler les modifications apportées à votre Workspace, cliquez sur le bouton Undo (flèche pointant vers la gauche) ou appuyez sur **Cmd+Z** (macOS) ou **Ctrl+Z** (Windows ou Linux).
 </Note>
 
 <div id="reset-a-workspace">
   ## Réinitialiser un Workspace
 </div>
+
+Réinitialisez un Workspace pour en modifier le mode ou effacer ses panneaux afin de repartir de zéro.
 
 Pour réinitialiser un Workspace :
 
@@ -38,7 +41,9 @@ Pour réinitialiser un Workspace :
   ## Configurer la mise en page du Workspace
 </div>
 
-Pour configurer la mise en page du Workspace, cliquez sur **Settings** en haut du Workspace, puis sur **Workspace layout**.
+Les paramètres de mise en page du Workspace contrôlent la manière dont les panneaux et les sections sont organisés et affichés dans l’ensemble du Workspace.
+
+Pour configurer la mise en page du Workspace, cliquez sur **Settings** en haut du Workspace, puis sur **Workspace layout**. Les paramètres suivants sont disponibles :
 
 * **Masquer les sections vides pendant la recherche** (activé par défaut)
 * **Trier les panneaux par ordre alphabétique** (désactivé par défaut)
@@ -52,7 +57,7 @@ Pour configurer les valeurs par défaut des graphiques en courbes du Workspace, 
   ### Configurer la mise en page d’une section
 </div>
 
-Pour configurer la mise en page d’une section, cliquez sur son icône d’engrenage, puis sur **Préférences d’affichage**.
+Pour configurer la mise en page d’une section, cliquez sur son icône d’engrenage, puis sur **Préférences d’affichage**. Les paramètres suivants sont disponibles :
 
 * **Activer ou désactiver les noms de run en couleur dans les infobulles** (activé par défaut)
 * **Afficher uniquement le run mis en surbrillance dans les infobulles du graphique associé** (désactivé par défaut)
@@ -63,7 +68,7 @@ Pour configurer la mise en page d’une section, cliquez sur son icône d’engr
   ## Afficher un panneau en mode plein écran
 </div>
 
-En mode plein écran, le sélecteur de run s’affiche et les panneaux utilisent des graphiques avec un échantillonnage en fidélité complète de 10 000 buckets, au lieu de 1 000 buckets sinon.
+Le mode plein écran donne plus d’espace à un panneau, ce qui est utile pour examiner vos données de plus près. En mode plein écran, le sélecteur de run s’affiche.
 
 Pour afficher un panneau en mode plein écran :
 
@@ -72,11 +77,14 @@ Pour afficher un panneau en mode plein écran :
    <Frame>
      <img src="/images/app_ui/panel_fullscreen.png" alt="Panneau en plein écran" />
    </Frame>
-3. Lorsque vous [partagez le panneau](#share-a-panel) tout en l’affichant en mode plein écran, le lien généré s’ouvre automatiquement en mode plein écran.
+
+Lorsque vous [partagez le panneau](#share-a-panel) tout en l’affichant en mode plein écran, le lien généré s’ouvre automatiquement en mode plein écran.
+
+Lorsque vous travaillez en mode plein écran, utilisez les conseils suivants :
 
 * Pour revenir au Workspace du panneau depuis le mode plein écran, cliquez sur la flèche pointant vers la gauche en haut de la page.
 * Pour naviguer entre les panneaux d’une section sans quitter le mode plein écran, utilisez soit les boutons **Précédent** et **Suivant** sous le panneau, soit les touches fléchées gauche et droite.
-* Pour libérer davantage d’espace pour le panneau, réduisez le sélecteur de run avec **Cmd+.** (macOS) ou **Ctrl+.** (Windows/Linux).
+* Pour libérer davantage d’espace pour le panneau, réduisez le sélecteur de run avec **Cmd+.** (macOS) ou **Ctrl+.** (Windows ou Linux).
 * Lorsque vous affichez une image d’un [panneau multimédia](/fr/models/app/features/panels/media) en mode plein écran, les raccourcis clavier permettent de zoomer ou dézoomer, de réinitialiser le zoom ou d’adapter le zoom à l’écran. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts#media-panels).
 
 Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour les autres raccourcis du mode plein écran et des panneaux.
@@ -85,7 +93,7 @@ Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour les autres rac
   ## Ajouter des panneaux
 </div>
 
-Cette section présente différentes manières d’ajouter des panneaux à votre Workspace.
+Les sections suivantes décrivent comment ajouter des panneaux à votre Workspace.
 
 <div id="add-a-panel-manually">
   ### Ajouter un panneau manuellement
@@ -96,7 +104,7 @@ Ajoutez des panneaux à votre Workspace, un à la fois, soit globalement, soit a
 1. Pour ajouter un panneau globalement, cliquez sur **Ajouter des panneaux** dans la barre de contrôle, près du champ de recherche de panneaux.
 2. Pour ajouter directement un panneau à une section, cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Ajouter des panneaux**.
 3. Sélectionnez le type de panneau à ajouter, par exemple un graphique. Les détails de configuration du panneau s&#39;affichent, avec les valeurs par défaut sélectionnées.
-4. Si vous le souhaitez, personnalisez le panneau et ses préférences d&#39;affichage. Les options de configuration dépendent du type de panneau sélectionné. Pour en savoir plus sur les options de chaque type de panneau, référez-vous à la section correspondante ci-dessous, par exemple [Graphiques en courbes](/fr/models/app/features/panels/line-plot/) ou [Graphiques à barres](/fr/models/app/features/panels/bar-plot/).
+4. Facultatif : personnalisez le panneau et ses préférences d&#39;affichage. Les options de configuration dépendent du type de panneau sélectionné. Pour en savoir plus sur les options de chaque type de panneau, référez-vous à la section correspondante, par exemple [Graphiques en courbes](/fr/models/app/features/panels/line-plot/) ou [Graphiques à barres](/fr/models/app/features/panels/bar-plot/).
 5. Cliquez sur **Appliquer**.
 
 <Frame>
@@ -107,26 +115,29 @@ Ajoutez des panneaux à votre Workspace, un à la fois, soit globalement, soit a
   ### Ajouter rapidement des panneaux
 </div>
 
-Utilisez **Quick add** pour ajouter automatiquement un panneau pour chaque clé que vous sélectionnez, soit à l’échelle globale, soit au niveau d’une section.
+Utilisez **ajout rapide** pour ajouter automatiquement un panneau pour chaque clé que vous sélectionnez, soit à l’échelle globale, soit au niveau d’une section.
 
 <Note>
-  Dans un Workspace automatisé sans panneau supprimé, l’option **Quick add** n’est pas visible, car le Workspace inclut déjà des panneaux pour toutes les clés enregistrées. Vous pouvez utiliser **Quick add** pour ajouter de nouveau un panneau que vous avez supprimé.
+  Dans un Workspace automatisé sans panneau supprimé, l’option **ajout rapide** n’est pas visible, car le Workspace inclut déjà des panneaux pour toutes les clés enregistrées. Vous pouvez utiliser **ajout rapide** pour ajouter de nouveau un panneau que vous avez supprimé.
 </Note>
 
-1. Pour utiliser **Quick add** afin d’ajouter un panneau globalement, cliquez sur **Ajouter des panneaux** dans la barre de contrôle, près du champ de recherche des panneaux, puis cliquez sur **Quick add**.
-2. Pour utiliser **Quick add** afin d’ajouter un panneau directement à une section, cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, cliquez sur **Ajouter des panneaux**, puis cliquez sur **Quick add**.
-3. Une liste de panneaux s’affiche. Chaque panneau coché est déjà inclus dans le Workspace.
-   * Pour ajouter tous les panneaux disponibles, cliquez sur le bouton **Add `<N>` panels** en haut de la liste. La liste **Quick Add** se ferme et les nouveaux panneaux s’affichent dans le Workspace.
-   * Pour ajouter un panneau individuel depuis la liste, survolez la ligne du panneau, puis cliquez sur **Add**. Répétez cette étape pour chaque panneau que vous souhaitez ajouter, puis cliquez sur le **X** en haut à droite pour fermer la liste **Quick Add**. Les nouveaux panneaux s’affichent dans le Workspace.
-4. Si vous le souhaitez, personnalisez les paramètres du panneau.
+Pour ouvrir **ajout rapide**, effectuez l’une des opérations suivantes :
+
+* Pour utiliser **ajout rapide** afin d’ajouter un panneau globalement, cliquez sur **Ajouter des panneaux** dans la barre de contrôle, près du champ de recherche des panneaux, puis cliquez sur **ajout rapide**.
+* Pour utiliser **ajout rapide** afin d’ajouter un panneau directement à une section, cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, cliquez sur **Ajouter des panneaux**, puis cliquez sur **ajout rapide**.
+
+Une liste de panneaux s’affiche. Chaque panneau coché est déjà inclus dans le Workspace. Pour ajouter des panneaux depuis la liste :
+
+* Pour ajouter tous les panneaux disponibles, cliquez sur le bouton **Add `[N]` panels** en haut de la liste. La liste **ajout rapide** se ferme et les nouveaux panneaux s’affichent dans le Workspace.
+* Pour ajouter un panneau individuel depuis la liste, survolez la ligne du panneau, puis cliquez sur **Add**. Répétez cette étape pour chaque panneau que vous souhaitez ajouter, puis cliquez sur le **X** en haut à droite pour fermer la liste **ajout rapide**. Les nouveaux panneaux s’affichent dans le Workspace.
+
+Facultatif : personnalisez les paramètres du panneau.
 
 <div id="share-a-panel">
   ## Partager un panneau
 </div>
 
-Cette section explique comment partager un panneau à l’aide d’un lien.
-
-Pour partager un panneau à l’aide d’un lien, vous pouvez :
+Partagez un panneau pour envoyer les collaborateurs directement vers une vue ciblée d’une visualisation spécifique sans passer par le Workspace complet. Pour partager un panneau à l’aide d’un lien, effectuez l’une des opérations suivantes :
 
 * Lorsque le panneau est affiché en mode plein écran, copiez l’URL dans le navigateur.
 * Cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)**, puis sélectionnez **Copier l’URL du panneau**.
@@ -139,10 +150,10 @@ Pour revenir au Workspace du panneau depuis le mode plein écran, cliquez sur la
   ### Composer par programmation le lien plein écran d’un panneau
 </div>
 
-Dans certaines situations, par exemple lors de la [création d’une automatisation](/fr/models/automations/), il peut être utile d’inclure l’URL du panneau en plein écran. Cette section présente le format de l’URL d’un panneau en plein écran. Dans l’exemple suivant, remplacez les noms de l’entité, du projet, du panneau et de la section entre crochets.
+Lorsque vous [créez une automatisation](/fr/models/automations/) ou un flux de travail similaire, il peut être utile d’inclure l’URL du panneau en plein écran. Le format suivant présente l’URL d’un panneau en plein écran. Dans l’exemple suivant, remplacez les noms de l’entité, du projet, du panneau et de la section entre crochets.
 
 ```text
-https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&panelSectionName=<SECTON_NAME>
+https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&panelSectionName=[SECTION_NAME]
 ```
 
 Si plusieurs panneaux d’une même section portent le même nom, cette URL ouvre le premier panneau portant ce nom.
@@ -170,7 +181,7 @@ Pour envoyer par e-mail un seul panneau sous forme de report autonome :
 2. Cliquez sur **Share panel in report**.
 3. Sélectionnez l&#39;onglet **Invite**.
 4. Saisissez une adresse e-mail ou un nom d&#39;utilisateur.
-5. Si vous le souhaitez, remplacez **can view** par **can edit**.
+5. Facultatif : remplacez **can view** par **can edit**.
 6. Cliquez sur **Invite**. W&amp;B envoie un e-mail à l&#39;utilisateur avec un lien vers le report contenant uniquement le panneau que vous partagez.
 
 Contrairement au [partage d&#39;un panneau](#share-a-panel), le destinataire ne peut pas accéder au Workspace depuis ce report.
@@ -178,6 +189,8 @@ Contrairement au [partage d&#39;un panneau](#share-a-panel), le destinataire ne 
 <div id="manage-panels">
   ## Gérer les panneaux
 </div>
+
+Après avoir ajouté des panneaux à un Workspace, vous pouvez les modifier, les déplacer, les dupliquer ou les supprimer pour que vos visualisations restent organisées et à jour.
 
 <div id="edit-a-panel">
   ### Modifier un panneau
@@ -187,7 +200,7 @@ Pour modifier un panneau :
 
 1. Cliquez sur son icône en forme de crayon.
 2. Modifiez les paramètres du panneau.
-3. Pour changer le type du panneau, sélectionnez le type, puis configurez les paramètres.
+3. Facultatif : pour changer le type du panneau, sélectionnez le type, puis configurez les paramètres.
 4. Cliquez sur **Appliquer**.
 
 <div id="move-a-panel">
@@ -196,7 +209,7 @@ Pour modifier un panneau :
 
 Pour déplacer un panneau vers une autre section, vous pouvez utiliser la poignée de déplacement du panneau. Pour sélectionner plutôt la nouvelle section dans une liste :
 
-1. Si nécessaire, créez une nouvelle section en cliquant sur **Add section** après la dernière section.
+1. Facultatif : créez une nouvelle section en cliquant sur **Add section** après la dernière section.
 2. Cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** du panneau.
 3. Cliquez sur **Move**, puis sélectionnez une nouvelle section.
 
@@ -219,8 +232,8 @@ Si vous le souhaitez, vous pouvez [personnaliser](#edit-a-panel) ou [déplacer](
 
 Pour supprimer un panneau :
 
-1. Placez le curseur sur le panneau.
-2. Sélectionnez le menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**.
+1. Survolez le panneau.
+2. Cliquez sur le menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**.
 3. Cliquez sur **Supprimer**.
 
 Pour supprimer tous les panneaux d’un Workspace manuel, cliquez sur son menu d’actions **(<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Effacer tous les panneaux**.
@@ -231,7 +244,7 @@ Pour supprimer tous les panneaux d’un Workspace automatique ou manuel, vous po
   ## Gérer les sections
 </div>
 
-Par défaut, les sections d’un Workspace reflètent la hiérarchie de logging de vos clés. Cependant, dans un Workspace manuel, les sections n’apparaissent qu’une fois que vous commencez à ajouter des panneaux.
+Les sections regroupent les panneaux associés, ce qui facilite la navigation dans les grands Workspaces. Par défaut, les sections d’un Workspace reflètent la hiérarchie de logging de vos clés. Cependant, dans un Workspace manuel, les sections n’apparaissent qu’une fois que vous commencez à ajouter des panneaux.
 
 <div id="add-a-section">
   ### Ajouter une section
@@ -242,22 +255,26 @@ Pour ajouter une section, cliquez sur **Add section** après la dernière sectio
 Pour ajouter une nouvelle section avant ou après une section existante, vous pouvez également cliquer sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **New section below** ou **New section above**.
 
 <Warning>
-  Ne donnez pas le nom « Section » à une section. Les panneaux de cette section ne s’afficheront pas tant que la section n’aura pas été renommée, en raison d’une limitation connue.
+  Ne donnez pas le nom « Section » à une section. En raison d’une limitation connue, les panneaux de cette section ne s’affichent pas tant que vous n’avez pas renommé la section.
 </Warning>
 
 <div id="manage-a-sections-panels">
   ### Gérer les panneaux d&#39;une section
 </div>
 
-Les sections comportant un grand nombre de panneaux sont paginées par défaut. Le nombre de panneaux affichés par défaut sur une page dépend de la configuration du panneau et de la taille des panneaux dans la section.
+Dans une section, vous pouvez redimensionner les panneaux, contrôler la pagination et supprimer des panneaux individuels. Les sections comportant un grand nombre de panneaux sont paginées par défaut. Le nombre de panneaux affichés par défaut sur une page dépend de la configuration du panneau et de la taille des panneaux dans la section.
 
-1. Pour redimensionner un panneau, survolez-le, cliquez sur la poignée de redimensionnement, puis faites-la glisser pour ajuster sa taille. Le redimensionnement d&#39;un panneau redimensionne tous les panneaux de la section.
-2. Si une section est paginée, vous pouvez personnaliser le nombre de panneaux à afficher sur une page :
-3. En haut de la section, cliquez sur **1 à `<X>` sur `<Y>`**, où `<X>` correspond au nombre de panneaux visibles et `<Y>` au nombre total de panneaux.
-4. Choisissez le nombre de panneaux à afficher par page, jusqu&#39;à 100.
-5. Pour supprimer un panneau d&#39;une section :
-6. Survolez le panneau, puis cliquez sur son menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)**.
-7. Cliquez sur **Supprimer**.
+Pour redimensionner un panneau, survolez-le, cliquez sur la poignée de redimensionnement, puis faites-la glisser pour ajuster sa taille. Le redimensionnement d&#39;un panneau redimensionne tous les panneaux de la section.
+
+Si une section est paginée, vous pouvez personnaliser le nombre de panneaux à afficher sur une page :
+
+1. En haut de la section, cliquez sur **1 à `[X]` sur `[Y]`**, où `[X]` correspond au nombre de panneaux visibles et `[Y]` au nombre total de panneaux.
+2. Choisissez le nombre de panneaux à afficher par page, jusqu&#39;à 100.
+
+Pour supprimer un panneau d&#39;une section :
+
+1. Survolez le panneau, puis cliquez sur son menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)**.
+2. Cliquez sur **Supprimer**.
 
 Si vous réinitialisez un Workspace pour revenir à un Workspace automatisé, tous les panneaux supprimés réapparaissent.
 
