@@ -1,6 +1,6 @@
 ---
 title: "API error code 422 - Invalid request parameters"
-keywords: ["Authentication & Access"]
+keywords: ["Server Errors"]
 ---
 
 A 422 error means the request was understood by the server but could not be processed because one or more parameters are invalid, missing, or out of range.
@@ -26,8 +26,10 @@ A 422 error means the request was understood by the server but could not be proc
 4. **Remove unsupported parameters**
    - If you are adapting code from another provider, remove any parameters that are not in the W&B Inference API reference. Extra parameters that the model does not support will trigger a 422.
 
+For more information, see [Serverless Inference](/inference/) and the [chat completions API reference](/inference/api-reference/chat-completions).
+
 ---
 
 {/* AUTO-GENERATED: tab badges */}
-<Badge stroke shape="pill" color="orange" size="md">[Authentication & Access](/support/inference/tags/authentication-access)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Server Errors](/support/inference/tags/server-errors)</Badge>
 {/* END AUTO-GENERATED: tab badges */}
