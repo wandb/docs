@@ -15,7 +15,7 @@ Data logged this way can be historical — no live session is needed. Set `sessi
 
 If you are building your own agent loop, use the real-time instrumentation APIs described in [Trace your agents](/weave/guides/tracking/trace-agents) instead.
 
-## `weave.log_turn`
+## Log a turn
 
 `weave.log_turn` accepts a fully-formed turn, including all LLM and tool spans.
 
@@ -75,7 +75,7 @@ This feature is not available in the TypeScript SDK yet.
 
 An optional `model` parameter on `log_turn` sets the model on the turn's own span, not on the child LLM spans. Each `LLM` span carries its own `model` independently. If a turn uses multiple models, set `model` on `log_turn` to whichever you consider the primary model for that turn.
 
-## `weave.log_session`
+## Log a session
 
 To bulk-import a complete, multi-turn session at once, use `weave.log_session`. The `turns` parameter accepts a list of `Turn` objects, each constructed the same way as the `log_turn` example above.
 
