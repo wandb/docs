@@ -3,6 +3,8 @@ title: Batch logging for your agent
 description: Manually log agent traces for frameworks that have already completed the LLM call and just need to record it.
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
@@ -17,7 +19,10 @@ If you are building your own agent loop, use the real-time instrumentation APIs 
 
 `weave.log_turn` accepts a fully-formed turn, including all LLM and tool spans.
 
-```python lines
+<Tabs>
+  <TabItem value="python" label="Python">
+
+```python lines highlight="1,3,28"
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 from weave.session.session import LLM, Message, Tool, Usage
@@ -56,6 +61,16 @@ weave.log_turn(
 )
 ```
 
+  </TabItem>
+  <TabItem value="typescript" label="TypeScript">
+
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+
+  </TabItem>
+</Tabs>
+
 `log_turn` returns a `LogResult` containing the trace IDs of the emitted spans.
 
 An optional `model` parameter on `log_turn` sets the model on the turn's own span, not on the child LLM spans. Each `LLM` span carries its own `model` independently. If a turn uses multiple models, set `model` on `log_turn` to whichever you consider the primary model for that turn.
@@ -64,6 +79,9 @@ An optional `model` parameter on `log_turn` sets the model on the turn's own spa
 
 To bulk-import a complete, multi-turn session at once, use `weave.log_session`. The `turns` parameter accepts a list of `Turn` objects, each constructed the same way as the `log_turn` example above.
 
+<Tabs>
+  <TabItem value="python" label="Python">
+
 ```python lines
 weave.log_session(
     session_id="my-session-abc",
@@ -71,3 +89,13 @@ weave.log_session(
     turns=[turn_1, turn_2],
 )
 ```
+
+  </TabItem>
+  <TabItem value="typescript" label="TypeScript">
+
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+
+  </TabItem>
+</Tabs>
