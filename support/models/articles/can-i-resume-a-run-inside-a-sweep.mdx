@@ -21,7 +21,7 @@ If you need fault tolerance for long sweep runs, consider these approaches:
 
 - **Mark a run as failed and requeue manually**: If a run crashes mid-way, the sweep controller will eventually mark it as failed and may assign the same configuration to a new agent depending on your sweep settings.
 
-If you need to continue an interrupted training job outside of a sweep, use `wandb.init(resume="allow", id="YOUR_RUN_ID")` in a standalone script instead.
+If you need to continue an interrupted training job outside of a sweep, use `wandb.init(resume="allow", id="YOUR_RUN_ID")` in a standalone script instead. See [Resume runs](/models/runs/resuming) and [Troubleshoot sweeps](/models/sweeps/troubleshoot-sweeps).
 
 ---
 

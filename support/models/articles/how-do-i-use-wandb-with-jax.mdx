@@ -3,100 +3,86 @@ title: "How do I use W&B with JAX?"
 keywords: ["Experiments", "Runs", "Metrics"]
 ---
 
-W&B does not have a JAX-specific integration, but works well with JAX training loops through direct calls to `wandb.log()`. The main consideration is that JAX device arrays must be converted to Python scalars before logging.
+W&B has no JAX-specific integration. Use `wandb.log()` in your training loop like any other Python workflow. Convert JAX device arrays to Python scalars before logging so values serialize correctly.
 
-**Basic setup**
+For experiment setup and logging patterns, see [Create an experiment](/models/track/create-an-experiment) and [Log objects and media](/models/track/log). For Flax checkpoints, see [Artifacts](/models/artifacts/).
+
+## Log metrics from a JAX training loop
 
 ```python
 import jax
-import jax.numpy as jnp
 import wandb
 
-wandb.init(project="my-jax-project", config={
-    "learning_rate": 1e-3,
-    "batch_size": 64,
-    "epochs": 50,
-})
+with wandb.init(
+    project="my-jax-project",
+    config={"learning_rate": 1e-3, "batch_size": 64, "epochs": 50},
+) as run:
+    lr = run.config.learning_rate
 
-# Access config
-lr = wandb.config.learning_rate
+    @jax.jit
+    def train_step(params, batch):
+        loss, grads = jax.value_and_grad(loss_fn)(params, batch)
+        params = update_params(params, grads)
+        return params, loss
+
+    for step, batch in enumerate(dataloader):
+        params, loss = train_step(params, batch)
+        run.log({"train/loss": float(loss)}, step=step)
 ```
 
-**Converting JAX arrays before logging**
+Values returned from `@jax.jit` are device arrays. Pass scalars to `run.log()` with `float(loss)` or `.item()` on 0-dimensional arrays. Logging a raw JAX array can fail serialization or record an unexpected value depending on your SDK version.
 
-JAX values returned from `jit`-compiled functions are device arrays. Call `.item()` or wrap in `float()` before passing to `wandb.log()`:
+## Log validation metrics
 
-```python
-@jax.jit
-def train_step(params, batch):
-    loss, grads = jax.value_and_grad(loss_fn)(params, batch)
-    params = update_params(params, grads)
-    return params, loss
-
-for step, batch in enumerate(dataloader):
-    params, loss = train_step(params, batch)
-
-    # loss is a JAX array — convert before logging
-    wandb.log({"train/loss": float(loss)}, step=step)
-```
-
-Passing a JAX device array directly to `wandb.log()` without conversion may cause serialization errors or silently log incorrect values.
-
-**Logging at epoch boundaries**
-
-For validation metrics that require a full pass over the validation set, aggregate in Python and log once per epoch:
+Aggregate validation metrics in Python and log once per epoch:
 
 ```python
 for epoch in range(num_epochs):
-    # training loop ...
-
     val_losses = []
     for val_batch in val_loader:
         val_loss = eval_step(params, val_batch)
         val_losses.append(float(val_loss))
 
-    wandb.log({
+    run.log({
         "epoch": epoch,
         "val/loss": sum(val_losses) / len(val_losses),
     })
 ```
 
-**Logging model checkpoints as artifacts**
+## Save checkpoints as artifacts
 
-Save JAX/Flax model parameters with `orbax` or `flax.serialization` and log them as W&B artifacts:
+Save JAX or Flax parameters with `orbax` or `flax.serialization`, then log them as artifacts:
 
 ```python
 import orbax.checkpoint as ocp
 
-# Save checkpoint to disk
 checkpointer = ocp.StandardCheckpointer()
 checkpointer.save("/tmp/checkpoint", params)
 
-# Log as a W&B artifact
 artifact = wandb.Artifact("jax-model", type="model")
 artifact.add_dir("/tmp/checkpoint")
-wandb.log_artifact(artifact)
+run.log_artifact(artifact)
 ```
 
-**Watching for NaNs**
+## Debug NaN values
 
-JAX does not raise errors on NaN values by default—they propagate silently. Log a NaN check alongside your loss so you can spot training instability early:
+JAX does not raise on NaN values by default. Log a NaN flag with your loss:
 
 ```python
-wandb.log({
+import jax.numpy as jnp
+
+run.log({
     "train/loss": float(loss),
     "train/loss_is_nan": bool(jnp.isnan(loss)),
 })
 ```
 
-You can also enable JAX's debug NaN checking globally during development (at a performance cost):
+During development you can enable JAX debug NaN checking (at a performance cost):
 
 ```python
 from jax import config
 config.update("jax_debug_nans", True)
 ```
-
-For more information, see [Create an experiment](/models/track/create-an-experiment/) and [Log objects and media](/models/track/log/).
 
 ---
 

@@ -23,7 +23,7 @@ wandb agent SWEEP_ID
 
 **The sweep is paused or stopped**
 
-Check the sweep status in the W&B UI (Sweeps → your sweep → Status). If the sweep was manually paused or stopped, agents will not receive new configurations until the sweep is resumed.
+Check the sweep status in the W&B UI (**Sweeps > your sweep > Status**). If the sweep was manually paused or stopped, agents will not receive new configurations until the sweep is resumed.
 
 **The agent is waiting for a crashed run to time out**
 
@@ -40,6 +40,8 @@ Some SDK versions between 0.19.6 and 0.19.10 introduced a regression where the s
 ```bash
 pip install --upgrade wandb
 ```
+
+For more causes and fixes, see [Troubleshoot sweeps](/models/sweeps/troubleshoot-sweeps). For SLURM distributed jobs, see [How do I run sweeps with distributed training on SLURM?](/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm).
 
 ---
 

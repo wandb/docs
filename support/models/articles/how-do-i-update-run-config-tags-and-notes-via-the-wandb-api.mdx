@@ -3,9 +3,9 @@ title: "How do I update run config, tags, and notes via the W&B API?"
 keywords: ["Runs", "Experiments", "API"]
 ---
 
-After a run finishes you can edit its config values, display name, tags, and notes using the Public API without re-running the experiment.
+After a run finishes, use the [Public API guide](/models/track/public-api-guide) to edit config, display name, tags, and notes without re-running the experiment. For tag concepts and UI workflows, see [Tags](/models/runs/tags). For config during a run, see [Configuration](/models/track/config).
 
-**Updating config values**
+The examples below use `run.update()` to persist pending changes in one API call.
 
 ```python
 import wandb
@@ -13,67 +13,28 @@ import wandb
 api = wandb.Api()
 run = api.run("my-entity/my-project/run_id_here")
 
-# Add or overwrite config keys
 run.config["post_hoc_label"] = "baseline-v2"
-run.config["dataset_version"] = 3
-run.update()
-```
-
-`run.update()` persists all pending changes (config, name, tags, notes) in a single API call.
-
-**Renaming a run**
-
-```python
-run = api.run("my-entity/my-project/run_id_here")
 run.name = "resnet50-lr1e-3-aug-v2"
-run.update()
-```
-
-**Adding and removing tags**
-
-```python
-run = api.run("my-entity/my-project/run_id_here")
-
-# Add tags
-run.tags.append("production-ready")
 run.tags.append("reviewed")
-run.update()
-
-# Remove a specific tag
-run.tags = [t for t in run.tags if t != "wip"]
+run.notes = "Final baseline. Val accuracy: 92.4%."
 run.update()
 ```
 
-**Updating run notes**
+## Bulk updates
 
-Notes appear in the run detail page and support Markdown:
-
-```python
-run = api.run("my-entity/my-project/run_id_here")
-run.notes = "Final baseline. Trained on v3 dataset with Aug-v2. Val accuracy: 92.4%."
-run.update()
-```
-
-**Bulk-updating many runs**
-
-To apply changes across a set of runs (e.g., tag all runs from a sweep as reviewed):
+To tag or annotate many runs (for example, all runs from a sweep), iterate with filters and call `update()` per run:
 
 ```python
-runs = api.runs(
-    "my-entity/my-project",
-    filters={"sweep": "sweep_id_here", "state": "finished"}
-)
-
-for run in runs:
+for run in api.runs("my-entity/my-project", filters={"sweep": "sweep_id_here"}):
     run.tags.append("sweep-reviewed")
     run.update()
 ```
 
-Iterate carefully — each `run.update()` is a separate API call. For very large sets, add a short sleep between calls to avoid hitting rate limits.
+Each `update()` is a separate API call. For large sets, add a short sleep between calls to avoid rate limits.
 
-**What you cannot change after a run finishes**
+## What you cannot change after a run finishes
 
-You cannot add new logged metrics (summary values or history) to a finished run via the API. The `summary` object is readable but not writable through the Public API. If you need to attach computed post-hoc metrics, use a new run with `wandb.init(job_type="evaluation")` and log there, then link it to the original via tags or artifact lineage.
+You cannot add new logged metrics (summary or history) to a finished run via the Public API. To attach post-hoc metrics, start a new run (for example `job_type="evaluation"`), log there, and link via tags or artifact lineage.
 
 ---
 

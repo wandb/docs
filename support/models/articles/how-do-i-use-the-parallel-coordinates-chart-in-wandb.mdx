@@ -3,43 +3,23 @@ title: "How do I use the parallel coordinates chart in W&B?"
 keywords: ["Runs", "Experiments", "Workspace", "Sweeps"]
 ---
 
-The parallel coordinates chart visualizes the relationship between hyperparameters and metrics across many runs. Each run is a line; each axis is a config parameter or metric. Lines that converge toward good metric values reveal which hyperparameter combinations work best.
+The parallel coordinates chart shows how hyperparameters relate to metrics across many runs. Each line is one run; each axis is a config key or summary metric. To add a panel, configure axes, colors, and brushes, see [Parallel coordinates](/models/app/features/panels/parallel-coordinates) and [Visualize sweep results](/models/sweeps/visualize-sweep-results).
 
-**Adding a parallel coordinates panel**
+## Reading the chart
 
-1. In your workspace, click **Add panel**.
-2. Select **Parallel coordinates** from the panel type list.
-3. The panel auto-populates axes using the config keys and summary metrics logged by your runs.
+- Lines that **cross** between adjacent axes suggest an inverse relationship between those parameters.
+- Lines that **run parallel** suggest a positive correlation.
+- A tight **bundle** of lines at a good metric value marks a promising hyperparameter region.
 
-**Choosing which axes to display**
+Color lines by a summary metric (for example `val/accuracy`) so strong runs stand out on a gradient from cool to warm colors.
 
-Click the pencil icon on the panel to open settings. Under **Columns**, add or remove axes:
-- Config keys (e.g., `learning_rate`, `batch_size`, `optimizer`) appear as categorical or continuous axes.
-- Summary metrics (e.g., `val/accuracy`, `val/loss`) appear as the outcome axes — usually placed on the right.
+## Filtering with brushes
 
-Drag axes to reorder them. The most useful layout puts hyperparameters on the left and the target metric on the right.
+Drag on an axis to brush a value range. Only runs in range stay highlighted. Brushing multiple axes narrows to runs that satisfy all ranges — useful for questions like which learning-rate and batch-size pairs exceed 90% accuracy.
 
-**Coloring lines by a metric**
+## Sweeps
 
-To make the best-performing runs visually stand out, set the **Color** option to a summary metric such as `val/accuracy`. Lines are colored on a gradient from worst (cool colors) to best (warm colors), making patterns immediately visible.
-
-**Filtering to a region of interest**
-
-Click and drag on any axis to create a selection brush. Only runs whose values fall within the brushed range on that axis are highlighted; others dim. Brushing multiple axes narrows the selection to runs that satisfy all brushed ranges simultaneously.
-
-This is the primary way to answer questions like "which combinations of learning rate and batch size produce accuracy above 90%?"
-
-**Reading the chart**
-
-- Lines that **cross** between two adjacent axes indicate an inverse relationship between those parameters.
-- Lines that **run parallel** between two axes indicate a positive correlation.
-- A tight **bundle of lines** converging on a good metric value marks the optimal hyperparameter region.
-
-**Using parallel coordinates with sweeps**
-
-Parallel coordinates are especially powerful after a sweep. All sweep trials appear as runs in the chart, making it easy to visualize the full search space explored and identify the most promising hyperparameter region for a follow-up targeted sweep.
-
-To see only sweep runs, apply a filter (**Filter → Sweep → your-sweep-id**) before opening or refreshing the panel.
+After a sweep, filter to the sweep (**Filter > Sweep > your-sweep-id**) so the panel shows trial runs only. Use the chart to see the explored space and plan a tighter follow-up sweep.
 
 ---
 

@@ -3,36 +3,24 @@ title: "Why do my workspace settings not persist between sessions?"
 keywords: ["Workspace", "Runs", "Experiments"]
 ---
 
-Workspace layout changes (panel positions, filters, grouping) are stored in your browser session by default. If you close the tab, refresh, or open the project in a different browser, the workspace reverts to its last *saved* view. The fix is to explicitly save a view before leaving.
+Workspace layout (panels, filters, grouping) persists _only_ when you save a view. Unsaved changes stay in your browser session. To create and manage views, see [Workspaces](/models/track/workspaces).
 
-**The most common cause: forgetting to save**
+## Unsaved changes
 
-W&B does not auto-save workspace state. After configuring filters, panel layout, or grouping, you must click **Views → Save view** (or **Save changes** on an existing view) for the configuration to persist. Unsaved changes are local to your current browser session.
+W&B does not auto-save workspace edits. After changing filters or panels, choose **Views > Save view** or **Save changes** on an existing view. The **Views** dropdown shows an asterisk (`*`) while changes are pending.
 
-**How to verify your view was saved**
+## Browser-only vs server-side settings
 
-The view name in the **Views** dropdown will show an asterisk (`*`) or a "unsaved changes" indicator if you have pending changes. Once saved, the indicator disappears and the configuration is stored server-side.
+| Setting | Stored |
+|---------|--------|
+| Panel layout, filters, grouping, run colors in a view | Server-side (saved view) |
+| Browser zoom, personally hidden runs | Local browser only |
 
-**Settings that don't persist per-user vs. per-project**
+Incognito or a different browser loads saved views correctly but not local-only preferences.
 
-Some settings are personal (stored in your browser's local storage) while others are project-wide (stored with the view):
+## Team projects and conflicting edits
 
-| Setting | Where it's stored |
-|---|---|
-| Panel layout and positions | View (server-side, persists everywhere) |
-| Active filters | View (server-side) |
-| Grouping configuration | View (server-side) |
-| Run color overrides | View (server-side) |
-| Browser zoom level | Local browser only |
-| Personally hidden runs | Local browser session only |
-
-**Different browsers or incognito mode**
-
-If you're seeing the workspace reset when switching browsers or using incognito mode, it's because browser-local settings (run color, personal overrides) don't carry over. The saved view structure itself will load correctly — only browser-local preferences are lost.
-
-**The workspace reverts to a different configuration on team projects**
-
-If multiple teammates edit the same default view, whoever saves last wins. To avoid conflicts, each team member should fork the shared view into a personal copy (**Views → Save as new view**) and work on their own copy, reserving the shared default view for the agreed-upon team layout.
+On shared projects, whoever saves last updates the default view. Use **Views > Save as new view** for a personal copy so teammates do not overwrite each other's layouts.
 
 ---
 

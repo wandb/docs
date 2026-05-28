@@ -5917,6 +5917,10 @@
       "destination": "/support/models/articles/how-do-i-change-my-billing-address"
     },
     {
+      "source": "/support/models/articles/how-do-i-connect-to-a-self-hosted-wb-server",
+      "destination": "/support/models/articles/how-do-i-connect-to-wandb-self-managed"
+    },
+    {
       "source": "/models/support/change_directory_sweep_logs_locally",
       "destination": "/support/models/articles/how-can-i-change-the-directory-my-sweep-"
     },
@@ -6114,7 +6118,11 @@
     },
     {
       "source": "/models/support/how_can_i_log_in_to_wb_server",
-      "destination": "/support/models/articles/how-can-i-log-in-to-wb-server"
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed"
+    },
+    {
+      "source": "/support/models/articles/how-can-i-log-in-to-wb-server",
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed"
     },
     {
       "source": "/models/support/how_can_i_overwrite_the_logs_from_previous_steps",

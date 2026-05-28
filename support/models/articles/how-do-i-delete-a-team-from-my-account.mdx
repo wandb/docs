@@ -3,22 +3,30 @@ title: "How do I delete a team from my account?"
 keywords: ["Administrator", "Team Management"]
 ---
 
-To delete a team from an account:
+## Delete a team
 
 1. Log in as a team admin.
-2. Go to **Team settings** (accessible from the team page in the W&B UI).
+2. Open **Team settings** from the team page in the W&B UI.
 3. Scroll to the bottom of the settings page and click **Delete team**.
 4. Confirm the deletion when prompted.
 
-**Warning: deleting your only team locks your account**
-
-W&B accounts must belong to at least one team to create projects and run experiments. If you delete the only team associated with your account — including the personal team that W&B creates automatically when you sign up — you will lose the ability to create a new team through the UI. You may also see a "rate limit exceeded" error loop when you try to log in.
-
-This state cannot be resolved without contacting W&B support to manually create a team for your account.
-
-If you want to rename your team rather than delete it, note that team names cannot be changed after creation. Contact support before deleting so the transition can be handled without service interruption.
+<Warning>
+If you delete your *only* team, your account is locked until [support@wandb.com](mailto:support@wandb.com) restores access. You may also see a "rate limit exceeded" error when you log in. W&B accounts must belong to at least one team to create projects and run experiments, including the personal team created at signup.
+</Warning>
 
 See [I deleted my team and now I can't create a new one — what do I do?](/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one) for recovery steps.
+
+## If you want a different team name
+
+Team names cannot be changed after creation. To use a new name without locking your account:
+
+1. [Create a new team](/support/models/articles/how-do-i-create-a-new-team-in-wandb) with the name you want.
+2. Move projects and runs to the new team as needed.
+3. Delete the old team *only if* you still belong to at least one other team (including your personal team).
+
+If the old team was your only team, contact [support@wandb.com](mailto:support@wandb.com) before deleting so support can help you transition without losing access.
+
+On [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed), contact your account team or support for rename requests before you delete a team.
 
 ---
 

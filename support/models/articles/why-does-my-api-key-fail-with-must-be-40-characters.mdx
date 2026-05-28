@@ -3,54 +3,41 @@ title: "Why does my API key fail with 'must be 40 characters long'?"
 keywords: ["API Keys", "Authentication", "SDK"]
 ---
 
-W&B introduced a new API key format that is approximately 92 characters long (format: `wandb_v1_<key_id>_<secret>`). Older versions of the `wandb` SDK validate that keys are exactly 40 characters and reject the new format with this error:
+W&B issues API keys in the `wandb_v1_` format (about 92 characters). Older `wandb` SDK versions validate exactly 40 characters and reject the new format:
 
-```
-ValueError: API key must be 40 characters long, yours was 92
-```
+`ValueError: API key must be 40 characters long, yours was 92`
 
-or, on some dedicated instances:
+On [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances, the message may instead be `ERROR API key must be 40 characters long, yours was 92`.
 
-```
-ERROR API key must be 40 characters long, yours was 92
-```
+For key formats and login steps, see [`wandb login`](/models/ref/cli/wandb-login).
 
-**Fix: upgrade the wandb SDK**
-
-The simplest fix is to upgrade to the latest `wandb` package, which accepts both the legacy 40-character format and the new 92-character format:
+## Upgrade the wandb SDK
 
 ```bash
 pip install -U wandb
-```
-
-After upgrading, re-authenticate with your new key:
-
-```bash
 wandb login --relogin
 ```
 
-**Note on the new key generation flow**
+## Save your API key at creation time
 
-When you generate a new key from [wandb.ai/authorize](https://wandb.ai/authorize), W&B now displays the key only once at creation time. Copy it immediately — you cannot retrieve it again after closing the dialog. If you lose it, you will need to generate a new key.
+Keys generated at [wandb.ai/authorize](https://wandb.ai/authorize) are shown *only once* at creation. Copy the key before you close the dialog. If you lose it, generate a new key.
 
-**If you cannot upgrade the SDK**
+## If you cannot upgrade the SDK
 
-If your environment requires a pinned SDK version that predates the new key format:
+- If a legacy 40-character key is still active on your account, keep using it. New-format keys do not automatically revoke legacy keys.
+- If you deleted the legacy key and cannot upgrade, contact [support@wandb.com](mailto:support@wandb.com). [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments may be able to issue a legacy-format key.
+- As a workaround, set `WANDB_API_KEY` in the environment instead of `wandb login`. Some older SDK versions skip local length checks:
 
-- Check whether your account still has an older-format key active. If so, keep using it — legacy 40-character keys continue to work and are not automatically revoked when the new format is issued.
-- If you have already deleted your legacy key and cannot upgrade the SDK, contact W&B support. In some cases a legacy-format key can be issued for dedicated or on-premises instances.
-- As a temporary workaround, you can pass the key via the `WANDB_API_KEY` environment variable rather than using `wandb login`, which may bypass the local validation in older SDK versions:
+    ```bash
+    export WANDB_API_KEY=<your-92-character-key>
+    python train.py
+    ```
 
-```bash
-export WANDB_API_KEY=<your-92-character-key>
-python train.py
-```
+## Different error: key reported as too short
 
-**Related error: key reported as too short (20 characters)**
+`API key must have 40+ characters, has 20` can appear when calling `wandb.Api().viewer.generate_api_key()` in certain SDK versions. This is separate from the `wandb_v1_` format migration. Upgrade the SDK. If the error persists after upgrading, contact [support@wandb.com](mailto:support@wandb.com).
 
-A separate error — `API key must have 40+ characters, has 20` — can appear when calling `wandb.Api().viewer.generate_api_key()` programmatically in certain SDK versions. This is a different issue from the key format migration. Upgrade the SDK to resolve it; if the error persists after upgrading, contact support.
-
-For more information, see [How do I find my API key?](/support/models/articles/how-do-i-find-my-api-key) and [SDK release notes](/release-notes/sdk-releases/).
+For more information, see [How do I find my API key?](/support/models/articles/how-do-i-find-my-api-key) and [SDK release notes](/release-notes/sdk-releases).
 
 ---
 
