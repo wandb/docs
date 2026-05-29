@@ -207,7 +207,7 @@ wait_duration: 'int | float | timedelta | None' = None
 
 Create an alert with the given title and text.
 
-##### Properties
+##### Arguments
 
 - **title**: The title of the alert, must be less than 64 characters long.
 - **text**: The text body of the alert.
@@ -232,7 +232,7 @@ overwrite: 'bool | None' = None
 
 Customize metrics logged with `wandb.Run.log()`.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the metric to customize.
 - **step_metric**: The name of another metric to serve as the X-axis for this metric in automatically generated charts.
@@ -255,7 +255,7 @@ hidden: 'bool' = False
 
 Display this run in Jupyter.
 
-##### Properties
+##### Arguments
 
 - **height**: 
 - **hidden**: 
@@ -283,7 +283,7 @@ Run States:
 - Failed: Run completed with errors (`exit_code!=0`).
 - Killed: Run was forcibly stopped before it could finish.
 
-##### Properties
+##### Arguments
 
 - **exit_code**: Integer indicating the run's exit status. Use 0 for success, any other value marks the run as failed.
 - **quiet**: Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.
@@ -306,7 +306,7 @@ Finishes a non-finalized artifact as output of a run.
 
 Subsequent "upserts" with the same distributed ID will result in a new version.
 
-##### Properties
+##### Arguments
 
 - **artifact_or_path**: A path to the contents of this artifact,
 - **name**: An artifact name. May be prefixed with entity/project.
@@ -334,7 +334,7 @@ does not duplicate artifacts when you link an artifact to a collection.
 
 View linked artifacts in the Registry UI for the specified collection.
 
-##### Properties
+##### Arguments
 
 - **artifact**: The artifact object to link to the collection.
 - **target_path**: The path of the collection. Path consists of the prefix "wandb-registry-" along with the registry name and the collection name `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
@@ -366,7 +366,7 @@ If not, create a new registered model with name 'registered_model_name'.
 - Link version of model artifact 'name' to registered model, 'registered_model_name'.
 - Attach aliases from 'aliases' list to the newly linked model artifact version.
 
-##### Properties
+##### Arguments
 
 - **path**: (str) A path to the contents of this model, can be in the
 - **registered_model_name**: The name of the registered model that the model is to be linked to. A registered model is a collection of model versions linked to the model registry, typically representing a team's specific ML Task. The entity that this registered model belongs to will be derived from the run.
@@ -482,7 +482,7 @@ with wandb.init() as run:
     run.log({"accuracy": 0.9}, step=current_step, commit=True)
 ```
 
-##### Properties
+##### Arguments
 
 - **data**: A `dict` with `str` keys and values that are serializable
 - **step**: The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description.
@@ -640,7 +640,7 @@ tags: 'list[str] | None' = None
 
 Declare an artifact as an output of a run.
 
-##### Properties
+##### Arguments
 
 - **artifact_or_path**: (str or Artifact) A path to the contents of this artifact,
 - **name**: (str, optional) An artifact name. Valid names can be in the following forms:
@@ -657,15 +657,15 @@ Declare an artifact as an output of a run.
 self,
 root: 'str | None' = '.',
 name: 'str | None' = None,
-include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x106c1b060>,
-exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1082c93a0>
+include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = _is_py_requirements_or_dockerfile,
+exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = exclude_wandb_fn
 ```
 
 Save the current state of your code to a W&B Artifact.
 
 By default, it walks the current directory and logs all files that end with `.py`.
 
-##### Properties
+##### Arguments
 
 - **root**: The relative (to `os.getcwd()`) or absolute path to recursively find code from.
 - **name**: (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that.
@@ -715,7 +715,7 @@ Logs a model artifact containing the contents inside the 'path' to a run and mar
 The name of model artifact can only contain alphanumeric characters,
 underscores, and hyphens.
 
-##### Properties
+##### Arguments
 
 - **path**: (str) A path to the contents of this model,
 - **name**: A name to assign to the model artifact that the file contents will be added to. This will default to the basename of the path prepended with the current run id if not specified.
@@ -754,7 +754,7 @@ Pinned keys appear prominently above Notes on the Run Overview page.
 String values are rendered as markdown; non-strings are rendered as
 plain text. Calling this again replaces the previously pinned list.
 
-##### Properties
+##### Arguments
 
 - **keys**: Config key names to pin, matching keys set via ``run.config``. These are exact key strings (dots and slashes are treated literally, not as path separators). Order is preserved and determines display order.
 
@@ -776,7 +776,7 @@ Download the specified file from cloud storage.
 File is placed into the current directory or run directory.
 By default, will only download the file if it doesn't already exist.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the file.
 - **run_path**: Optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required.
@@ -817,7 +817,7 @@ directory level is preserved as in the example above.
 Files are automatically deduplicated: calling `save()` multiple times
 on the same file without modifications will not re-upload it.
 
-##### Properties
+##### Arguments
 
 - **glob_str**: A relative or absolute path or Unix glob.
 - **base_path**: A path to use to infer a directory structure; see examples.
@@ -847,7 +847,7 @@ models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
 
 Remove pytorch model topology, gradient and parameter hooks.
 
-##### Properties
+##### Arguments
 
 - **models**: Optional list of pytorch models that have had watch called on them.
 
@@ -870,7 +870,7 @@ Declare (or append to) a non-finalized artifact as output of a run.
 Note that you must call run.finish_artifact() to finalize the artifact.
 This is useful when distributed jobs need to all contribute to the same artifact.
 
-##### Properties
+##### Arguments
 
 - **artifact_or_path**: A path to the contents of this artifact,
 - **name**: An artifact name. May be prefixed with "entity/project". Defaults to the basename of the path prepended with the current run ID
@@ -895,7 +895,7 @@ Declare an artifact as an input to a run.
 
 Call `download` or `file` on the returned object to get the contents locally.
 
-##### Properties
+##### Arguments
 
 - **artifact_or_name**: The name of the artifact to use. May be prefixed with the name of the project the artifact was logged to ("entity" or "entity/project"). If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms
 - **type**: The type of artifact to use.
@@ -941,7 +941,7 @@ name: 'str'
 
 Download the files logged in a model artifact 'name'.
 
-##### Properties
+##### Arguments
 
 - **name**: A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with `entity/project/`. Valid names can be in the following forms
 
@@ -967,7 +967,7 @@ Hook into given PyTorch model to monitor gradients and the model's computational
 
 This function can track parameters, gradients, or both during training.
 
-##### Properties
+##### Arguments
 
 - **models**: A single model or a sequence of models to be monitored.
 - **criterion**: The loss function being optimized (optional).
@@ -998,7 +998,7 @@ finished are silently ignored.
 Consider using the `capture_loggers` setting which integrates with
 Python's `logging` module.
 
-##### Properties
+##### Arguments
 
 - **text**: The text to write. A trailing newline is added if not present.
 

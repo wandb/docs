@@ -16,7 +16,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 allow_media_symlink: bool = False,
 allow_offline_artifacts: bool = True,
 allow_val_change: bool = False,
-anonymous: object = <object object at 0x10013d060>,
+anonymous: object = object(),
 api_key: str | None = None,
 azure_account_url_to_access_key: dict[str, str] | None = None,
 app_url_override: str | None = None,
@@ -146,7 +146,7 @@ x_service_transport: str | None = None,
 x_service_wait: float = 30.0,
 x_skip_transaction_log: bool = False,
 x_start_time: float | None = None,
-x_stats_pid: int = 2201,
+x_stats_pid: int = 50165,
 x_stats_sampling_interval: float = 15.0,
 x_stats_neuron_monitor_config_path: str | None = None,
 x_stats_dcgm_exporter: str | None = None,
@@ -451,7 +451,7 @@ _fields_set: 'set[str] | None' = None, **values: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **_fields_set**: 
 - **values**: 
@@ -482,7 +482,7 @@ data = {**data, **(update or {})}
 copied = self.model_validate(data)
 ```
 
-##### Properties
+##### Arguments
 
 - **include**: Optional set or mapping specifying which fields to include in the copied model.
 - **exclude**: Optional set or mapping specifying which fields to exclude in the copied model.
@@ -506,7 +506,7 @@ exclude_none: 'bool' = False
 
 
 
-##### Properties
+##### Arguments
 
 - **include**: 
 - **exclude**: 
@@ -526,7 +526,7 @@ obj: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **obj**: 
 
@@ -549,7 +549,7 @@ models_as_dict: 'bool' = PydanticUndefined, **dumps_kwargs: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **include**: 
 - **exclude**: 
@@ -582,7 +582,7 @@ Default values are respected, but no other validation is performed.
     Because no validation is performed with a call to `model_construct()`, having `model_config.extra == 'forbid'` does not result in
     an error if extra values are passed, but they will be ignored.
 
-##### Properties
+##### Arguments
 
 - **_fields_set**: A set of field names that were originally explicitly set during instantiation. If provided, this is directly used for the [`model_fields_set`][pydantic.BaseModel.model_fields_set] attribute. Otherwise, the field names from the `values` argument will be used.
 - **values**: Trusted or pre-validated data dictionary.
@@ -608,7 +608,7 @@ Returns a copy of the model.
     might have unexpected side effects if you store anything in it, on top of the model
     fields (e.g. the value of [cached properties][functools.cached_property]).
 
-##### Properties
+##### Arguments
 
 - **update**: Values to change/add in the new model. Note: the data is not validated before creating the new model. You should trust this data.
 - **deep**: Set to `True` to make a deep copy of the model.
@@ -639,7 +639,7 @@ serialize_as_any: 'bool' = False
 
 Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
-##### Properties
+##### Arguments
 
 - **mode**: The mode in which `to_python` should run. If mode is 'json', the output will only contain JSON serializable types. If mode is 'python', the output may contain non-JSON-serializable Python objects.
 - **include**: A set of fields to include in the output.
@@ -680,7 +680,7 @@ serialize_as_any: 'bool' = False
 
 Generates a JSON representation of the model using Pydantic's `to_json` method.
 
-##### Properties
+##### Arguments
 
 - **indent**: Indentation to use in the JSON output. If None is passed, the output will be compact.
 - **include**: Field(s) to include in the JSON output.
@@ -709,7 +709,7 @@ mode: 'JsonSchemaMode' = 'validation'
 
 Generates a JSON schema for a model class.
 
-##### Properties
+##### Arguments
 
 - **by_alias**: Whether to use attribute aliases or not.
 - **ref_template**: The reference template.
@@ -729,7 +729,7 @@ Compute the class name for parametrizations of generic classes.
 
 This method can be overridden to achieve a custom naming scheme for generic BaseModels.
 
-##### Properties
+##### Arguments
 
 - **params**: Tuple of types of the class. Given a generic class `Model` with 2 type variables and a concrete model `Model[str, int]`, the value `(str, int)` would be passed to `params`.
 
@@ -749,7 +749,7 @@ context: 'Any', /
 Override this method to perform additional initialization after `__init__` and `model_construct`.
 This is useful if you want to do some validation that requires the entire model to be initialized.
 
-##### Properties
+##### Arguments
 
 - **context**: 
 
@@ -771,7 +771,7 @@ Try to rebuild the pydantic-core schema for the model.
 This may be necessary when one of the annotations is a ForwardRef which could not be resolved during
 the initial attempt to build the schema, and automatic rebuilding fails.
 
-##### Properties
+##### Arguments
 
 - **force**: Whether to force the rebuilding of the model schema, defaults to `False`.
 - **raise_errors**: Whether to raise errors, defaults to `True`.
@@ -794,7 +794,7 @@ by_name: 'bool | None' = None
 
 Validate a pydantic model instance.
 
-##### Properties
+##### Arguments
 
 - **obj**: The object to validate.
 - **strict**: Whether to enforce types strictly.
@@ -824,7 +824,7 @@ by_name: 'bool | None' = None
 
 Validate the given JSON data against the Pydantic model.
 
-##### Properties
+##### Arguments
 
 - **json_data**: The JSON data to validate.
 - **strict**: Whether to enforce types strictly.
@@ -850,7 +850,7 @@ by_name: 'bool | None' = None
 
 Validate the given object with string data against the Pydantic model.
 
-##### Properties
+##### Arguments
 
 - **obj**: The object containing string data to validate.
 - **strict**: Whether to enforce types strictly.
@@ -873,7 +873,7 @@ allow_pickle: 'bool' = False
 
 
 
-##### Properties
+##### Arguments
 
 - **path**: 
 - **content_type**: 
@@ -892,7 +892,7 @@ obj: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **obj**: 
 
@@ -911,7 +911,7 @@ allow_pickle: 'bool' = False
 
 
 
-##### Properties
+##### Arguments
 
 - **b**: 
 - **content_type**: 
@@ -931,7 +931,7 @@ ref_template: 'str' = '#/$defs/{model}'
 
 
 
-##### Properties
+##### Arguments
 
 - **by_alias**: 
 - **ref_template**: 
@@ -949,7 +949,7 @@ ref_template: 'str' = '#/$defs/{model}', **dumps_kwargs: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **by_alias**: 
 - **ref_template**: 
@@ -966,7 +966,7 @@ ref_template: 'str' = '#/$defs/{model}', **dumps_kwargs: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **localns**: 
 
@@ -981,7 +981,7 @@ value: 'Any'
 
 
 
-##### Properties
+##### Arguments
 
 - **value**: 
 
@@ -996,7 +996,7 @@ value: 'object'
 
 
 
-##### Properties
+##### Arguments
 
 - **value**: 
 
@@ -1011,7 +1011,7 @@ value: 'object'
 
 
 
-##### Properties
+##### Arguments
 
 - **value**: 
 
@@ -1026,7 +1026,7 @@ value: 'object'
 
 
 
-##### Properties
+##### Arguments
 
 - **value**: 
 

@@ -257,7 +257,7 @@ overwrite: 'bool' = False
 
 Add wandb.WBValue `obj` to the artifact.
 
-##### Properties
+##### Arguments
 
 - **obj**: The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D
 - **name**: The path within the artifact to add the object.
@@ -282,7 +282,7 @@ merge: 'bool' = False
 
 Add a local directory to the artifact.
 
-##### Properties
+##### Arguments
 
 - **local_path**: The path of the local directory.
 - **name**: The subdirectory name within an artifact. The name you specify appears in the W&B App UI nested by artifact's `type`. Defaults to the root of the artifact.
@@ -311,7 +311,7 @@ overwrite: 'bool' = False
 
 Add a local file to the artifact.
 
-##### Properties
+##### Arguments
 
 - **local_path**: The path to the file being added.
 - **name**: The path within the artifact to use for the file being added. Defaults to the basename of the file.
@@ -362,7 +362,7 @@ By default, the following schemes are supported:
 For any other scheme, the digest is just a hash of the URI and the size is left
 blank.
 
-##### Properties
+##### Arguments
 
 - **uri**: The URI path of the reference to add. The URI path can be an object returned from `Artifact.get_entry` to store a reference to another artifact's entry.
 - **name**: The path within the artifact to place the contents of this reference.
@@ -387,7 +387,7 @@ Replace the specified root directory with the contents of the artifact.
 WARNING: This will delete all files in `root` that are not included in the
 artifact.
 
-##### Properties
+##### Arguments
 
 - **root**: The directory to replace with this artifact's files.
 
@@ -412,7 +412,7 @@ source artifact is unaffected.
 Use `Artifact.unlink()` instead of `Artifact.delete()` to remove a
 link between a source artifact and a collection.
 
-##### Properties
+##### Arguments
 
 - **delete_aliases**: If set to `True`, delete all aliases associated with the artifact. If `False`, raise an exception if the artifact has existing aliases. This parameter is ignored if the artifact is retrieved from a collection it is linked to.
 
@@ -439,7 +439,7 @@ Existing files located within `root` are not modified. Explicitly delete `root`
 before you call `download` if you want the contents of `root` to exactly match
 the artifact.
 
-##### Properties
+##### Arguments
 
 - **root**: The directory W&B stores the artifact's files.
 - **allow_missing_references**: If set to `True`, any invalid reference paths will be ignored while downloading referenced files.
@@ -462,7 +462,7 @@ root: 'str | None' = None
 
 Download a single file artifact to the directory you specify with `root`.
 
-##### Properties
+##### Arguments
 
 - **root**: The root directory to store the file. Defaults to `./artifacts/self.name/`.
 
@@ -484,7 +484,7 @@ start: 'str | None' = None
 
 Iterate over all files stored in this artifact.
 
-##### Properties
+##### Arguments
 
 - **names**: The filename paths relative to the root of the artifact you wish to list.
 - **per_page**: The number of files to return per request.
@@ -522,7 +522,7 @@ name: 'str'
 
 Get the WBValue object located at the artifact relative `name`.
 
-##### Properties
+##### Arguments
 
 - **name**: The artifact relative name to retrieve.
 
@@ -541,7 +541,7 @@ local_path: 'str'
 
 Get the artifact relative name of a file added by a local filesystem path.
 
-##### Properties
+##### Arguments
 
 - **local_path**: The local path to resolve into an artifact relative name.
 
@@ -557,7 +557,7 @@ name: 'StrPath'
 
 Get the entry with the given name.
 
-##### Properties
+##### Arguments
 
 - **name**: The artifact relative name to get
 
@@ -577,7 +577,7 @@ name: 'StrPath'
 
 Deprecated. Use `get_entry(name)`.
 
-##### Properties
+##### Arguments
 
 - **name**: 
 
@@ -618,7 +618,7 @@ aliases: 'Iterable[str] | None' = None
 
 Link this artifact to a collection.
 
-##### Properties
+##### Arguments
 
 - **target_path**: The path of the collection. Path consists of the prefix "wandb-registry-" along with the registry name and the collection name `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
 - **aliases**: Add one or more aliases to the linked artifact. The "latest" alias is automatically applied to the most recent artifact you link.
@@ -674,7 +674,7 @@ encoding: 'str | None' = None
 
 Open a new temporary file and add it to the artifact.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the new file to add to the artifact.
 - **mode**: The file access mode to use to open the new file.
@@ -695,7 +695,7 @@ item: 'StrPath | ArtifactManifestEntry'
 
 Remove an item from the artifact.
 
-##### Properties
+##### Arguments
 
 - **item**: The item to remove. Can be a specific manifest entry or the name of an artifact-relative path. If the item matches a directory all items in that directory will be removed.
 
@@ -719,7 +719,7 @@ Persist any changes made to the artifact.
 If currently in a run, that run will log this artifact. If not currently in a
 run, a run of type "auto" is created to track this artifact.
 
-##### Properties
+##### Arguments
 
 - **project**: A project to use for the artifact in the case that a run is not already in context.
 - **settings**: A settings object to use when initializing an automatic run. Most commonly used in testing harness.
@@ -770,7 +770,7 @@ Verify that the contents of an artifact match the manifest.
 All files in the directory are checksummed and the checksums are then
 cross-referenced against the artifact's manifest. References are not verified.
 
-##### Properties
+##### Arguments
 
 - **root**: The directory to verify. If None artifact will be downloaded to './artifacts/self.name/'.
 
@@ -790,7 +790,7 @@ timeout: 'int | None' = None
 
 If needed, wait for this artifact to finish logging.
 
-##### Properties
+##### Arguments
 
 - **timeout**: The time, in seconds, to wait.
 

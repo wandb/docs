@@ -56,7 +56,7 @@ https://docs.wandb.ai/models/tables
 
 Adds a column of data to the table.
 
-##### Properties
+##### Arguments
 
 - **name**: (str) - the unique name of the column
 - **data**: (list | np.array) - a column of homogeneous data
@@ -73,7 +73,7 @@ Adds a column of data to the table.
 
 Adds one or more computed columns based on existing data.
 
-##### Properties
+##### Arguments
 
 - **fn**: A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. - `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. - `row` is a dictionary keyed by existing columns
 
@@ -93,7 +93,7 @@ The maximum amount ofrows in a table is determined by
 
 The length of the data should match the length of the table column.
 
-##### Properties
+##### Arguments
 
 - **data**: 
 
@@ -108,7 +108,7 @@ The length of the data should match the length of the table column.
 
 Deprecated. Use `Table.add_data` method instead.
 
-##### Properties
+##### Arguments
 
 - **row**: 
 
@@ -123,7 +123,7 @@ media_items: 'Sequence[Media]'
 
 
 
-##### Properties
+##### Arguments
 
 - **media_items**: 
 
@@ -142,7 +142,7 @@ This can be one of the normal python classes, an internal W&B type,
 or an example object, like an instance of wandb.Image or
 wandb.Classes.
 
-##### Properties
+##### Arguments
 
 - **col_name**: The name of the column to cast.
 - **dtype**: The target dtype.
@@ -171,7 +171,7 @@ self
 
 Retrieves a column from the table and optionally converts it to a NumPy object.
 
-##### Properties
+##### Arguments
 
 - **name**: (str) - the name of the column
 - **convert_to**: (str, optional)
@@ -219,7 +219,7 @@ attribute to the passed in source artifact. This is critical for artifact
 bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
 make sure to properly set this `artifact_source` to avoid data duplication.
 
-##### Properties
+##### Arguments
 
 - **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
 - **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
@@ -247,7 +247,7 @@ path: 'str | pathlib.Path | None'
 
 
 
-##### Properties
+##### Arguments
 
 - **path**: 
 
@@ -285,7 +285,7 @@ filetype: 'str' = 'json'
 
 Get the name with the appropriate suffix.
 
-##### Properties
+##### Arguments
 
 - **name**: the name of the file
 - **filetype**: the filetype to use. Defaults to "json".

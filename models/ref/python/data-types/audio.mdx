@@ -44,7 +44,7 @@ W&B class for audio clips.
 
 Calculate the duration of the audio files.
 
-##### Properties
+##### Arguments
 
 - **audio_list**: 
 
@@ -79,7 +79,7 @@ attribute to the passed in source artifact. This is critical for artifact
 bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
 make sure to properly set this `artifact_source` to avoid data duplication.
 
-##### Properties
+##### Arguments
 
 - **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
 - **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
@@ -107,7 +107,7 @@ path: 'str | pathlib.Path | None'
 
 
 
-##### Properties
+##### Arguments
 
 - **path**: 
 
@@ -122,7 +122,7 @@ path: 'str | pathlib.Path | None'
 
 Get sample rates of the audio files.
 
-##### Properties
+##### Arguments
 
 - **audio_list**: 
 
@@ -160,7 +160,7 @@ filetype: 'str' = 'json'
 
 Get the name with the appropriate suffix.
 
-##### Properties
+##### Arguments
 
 - **name**: the name of the file
 - **filetype**: the filetype to use. Defaults to "json".

@@ -70,7 +70,7 @@ type: 'str | None' = None)
 
 Returns a single artifact.
 
-##### Properties
+##### Arguments
 
 - **name**: The artifact's name. The name of an artifact resembles a filepath that consists, at a minimum, the name of the project the artifact was logged to, the name of the artifact, and the artifact's version or alias. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If no entity is specified in the name, the Run or API setting's entity is used.
 - **type**: The type of artifact to fetch.
@@ -121,7 +121,7 @@ Returns a single artifact collection by type.
 You can use the returned `ArtifactCollection` object to retrieve
 information about specific artifacts in that collection, and more.
 
-##### Properties
+##### Arguments
 
 - **type_name**: The type of artifact collection to fetch.
 - **name**: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
@@ -160,7 +160,7 @@ type: 'str'
 
 Whether an artifact collection exists within a specified project and entity.
 
-##### Properties
+##### Arguments
 
 - **name**: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If entity or project is not specified, infer the collection from the override params if they exist. Otherwise, entity is pulled from the user settings and project will default to "uncategorized".
 - **type**: The type of artifact collection.
@@ -191,7 +191,7 @@ start: 'str | None' = None
 
 Returns a collection of matching artifact collections.
 
-##### Properties
+##### Arguments
 
 - **project_name**: The name of the project to filter on.
 - **type_name**: The name of the artifact type to filter on.
@@ -211,7 +211,7 @@ type: 'str | None' = None
 
 Whether an artifact version exists within the specified project and entity.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of artifact. Add the artifact's entity and project as a prefix. Append the version or the alias of the artifact with a colon. If the entity or project is not specified, W&B uses override parameters if populated. Otherwise, the entity is pulled from the user settings and the project is set to "Uncategorized".
 - **type**: The type of artifact.
@@ -243,7 +243,7 @@ project: 'str | None' = None
 
 Returns the matching `ArtifactType`.
 
-##### Properties
+##### Arguments
 
 - **type_name**: The name of the artifact type to retrieve.
 - **project**: If given, a project name or path to filter on.
@@ -261,7 +261,7 @@ start: 'str | None' = None
 
 Returns a collection of matching artifact types.
 
-##### Properties
+##### Arguments
 
 - **project**: The project name or path to filter on.
 - **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
@@ -277,7 +277,7 @@ Returns a collection of matching artifact types.
 
 Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
-##### Properties
+##### Arguments
 
 - **type_name**: 
 - **name**: 
@@ -299,7 +299,7 @@ start: 'str | None' = None
 
 Return an `Artifacts` collection.
 
-##### Properties
+##### Arguments
 
 - **type_name**: The type of artifacts to fetch.
 - **name**: The artifact's collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
@@ -363,7 +363,7 @@ entity: 'str | None' = None
 
 Returns the only Automation matching the parameters.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the automation to fetch.
 - **entity**: The entity to fetch the automation for.
@@ -406,7 +406,7 @@ Returns an iterator over all Automations that match the given parameters.
 If no parameters are provided, the returned iterator will contain all
 Automations that the user has access to.
 
-##### Properties
+##### Arguments
 
 - **entity**: The entity to fetch the automations for.
 - **name**: The name of the automation to fetch.
@@ -437,7 +437,7 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 Create a new Automation.
 
-##### Properties
+##### Arguments
 
 - **obj**: The automation to create.
 - **fetch_existing**: If True, and a conflicting automation already exists, attempt to fetch the existing automation instead of raising an error.
@@ -489,7 +489,7 @@ spec: 'str | dict'
 
 Create a custom chart preset and return its id.
 
-##### Properties
+##### Arguments
 
 - **entity**: The entity that owns the chart
 - **name**: Unique identifier for the chart preset
@@ -551,7 +551,7 @@ entity: 'str'
 
 Create a new project.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the new project.
 - **entity**: The entity of the new project.
@@ -572,7 +572,7 @@ artifact_types: 'list[str] | None' = None
 
 Create a new registry.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the registry. Name must be unique within the organization.
 - **visibility**: The visibility of the registry.
@@ -609,7 +609,7 @@ entity: 'str | None' = None
 
 Create a new run.
 
-##### Properties
+##### Arguments
 
 - **run_id**: The ID to assign to the run. If not specified, W&B creates a random ID.
 - **project**: The project where to log the run to. If no project is specified, log the run to a project called "Uncategorized".
@@ -632,7 +632,7 @@ template_variables: 'dict | None' = None
 
 Create a new run queue in W&B Launch.
 
-##### Properties
+##### Arguments
 
 - **name**: Name of the queue to create
 - **type**: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes","sagemaker", or "gcp-vertex".
@@ -654,7 +654,7 @@ admin_username: 'str | None' = None
 
 Create a new team.
 
-##### Properties
+##### Arguments
 
 - **team**: The name of the team
 - **admin_username**: Username of the admin user of the team. Defaults to the current user.
@@ -672,7 +672,7 @@ admin: 'bool | None' = False
 
 Create a new user.
 
-##### Properties
+##### Arguments
 
 - **email**: The email address of the user.
 - **admin**: Set user as a global instance administrator.
@@ -689,7 +689,7 @@ obj: 'Automation | str'
 
 Delete an automation.
 
-##### Properties
+##### Arguments
 
 - **obj**: The automation to delete, or its ID.
 
@@ -721,7 +721,7 @@ path: 'str')
 
 Return a run, sweep, project or report from a path.
 
-##### Properties
+##### Arguments
 
 - **path**: The path to the project, run, sweep or report
 
@@ -757,7 +757,7 @@ start: 'str | None' = None
 
 Return an iterator of all integrations for an entity.
 
-##### Properties
+##### Arguments
 
 - **entity**: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
 - **per_page**: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
@@ -776,7 +776,7 @@ path: 'str | None' = None
 
 Return a `Job` object.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the job.
 - **path**: The root path to download the job artifact.
@@ -794,7 +794,7 @@ project: 'str'
 
 Return a list of jobs, if any, for the given entity and project.
 
-##### Properties
+##### Arguments
 
 - **entity**: The entity for the listed jobs.
 - **project**: The project for the listed jobs.
@@ -812,7 +812,7 @@ entity: 'str | None' = None
 
 Return the `Project` with the given name (and entity, if given).
 
-##### Properties
+##### Arguments
 
 - **name**: The project name.
 - **entity**: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
@@ -830,7 +830,7 @@ per_page: 'int' = 200
 
 Get projects for a given entity.
 
-##### Properties
+##### Arguments
 
 - **entity**: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
 - **per_page**: Sets the page size for query pagination. Usually there is no reason to change this.
@@ -852,7 +852,7 @@ Return a single queued run based on the path.
 
 Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 
-##### Properties
+##### Arguments
 
 - **entity**: 
 - **project**: 
@@ -879,7 +879,7 @@ Returns a lazy iterator of `Registry` objects.
 Use the iterator to search and filter registries, collections,
 or artifact versions across your organization's registry.
 
-##### Properties
+##### Arguments
 
 - **organization**: (str, optional) The organization of the registry to fetch. If not specified, use the organization specified in the user's settings.
 - **filter**: (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator. Fields available to filter for registries are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata`
@@ -953,7 +953,7 @@ organization: 'str | None' = None
 
 Return a registry given a registry name.
 
-##### Properties
+##### Arguments
 
 - **name**: The name of the registry. This is without the `wandb-registry-` prefix.
 - **organization**: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
@@ -988,7 +988,7 @@ Get reports for a given project path.
 Note: `wandb.Api.reports()` API is in beta and will likely change in
 future releases.
 
-##### Properties
+##### Arguments
 
 - **path**: The path to the project the report resides in. Specify the entity that created the project as a prefix followed by a forward slash.
 - **name**: Name of the report requested.
@@ -1013,7 +1013,7 @@ wandb.Api.reports("entity/project")
 
 Return a single run by parsing path in the form `entity/project/run_id`.
 
-##### Properties
+##### Arguments
 
 - **path**: Path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id.
 
@@ -1032,7 +1032,7 @@ Return the named `RunQueue` for entity.
 
 See `Api.create_run_queue` for more information on how to create a run queue.
 
-##### Properties
+##### Arguments
 
 - **entity**: 
 - **name**: 
@@ -1086,7 +1086,7 @@ The following operations are supported:
 - `$exists`
 - `$regex`
 
-##### Properties
+##### Arguments
 
 - **path**: (str) path to project, should be in the form: "entity/project"
 - **filters**: (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc.
@@ -1154,7 +1154,7 @@ start: 'str | None' = None
 
 Returns an iterator of Slack integrations for an entity.
 
-##### Properties
+##### Arguments
 
 - **entity**: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
 - **per_page**: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
@@ -1193,7 +1193,7 @@ team_alert_integrations = [
 
 Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
-##### Properties
+##### Arguments
 
 - **path**: Path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id.
 
@@ -1208,7 +1208,7 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 Sync a local directory containing tfevent files to wandb.
 
-##### Properties
+##### Arguments
 
 - **root_dir**: 
 - **run_id**: 
@@ -1227,7 +1227,7 @@ team: 'str'
 
 Return the matching `Team` with the given name.
 
-##### Properties
+##### Arguments
 
 - **team**: The name of the team.
 
@@ -1244,7 +1244,7 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 Update an existing automation.
 
-##### Properties
+##### Arguments
 
 - **obj**: The automation to update.  Must be an existing automation.
 - **create_missing**: If True, and the automation does not exist, create it.
@@ -1300,7 +1300,7 @@ prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None)
 
 Upsert a run queue in W&B Launch.
 
-##### Properties
+##### Arguments
 
 - **name**: Name of the queue to create
 - **resource_config**: Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
@@ -1325,7 +1325,7 @@ Return a user from a username or email address.
 This function only works for local administrators. Use `api.viewer`
     to get your own user object.
 
-##### Properties
+##### Arguments
 
 - **username_or_email**: The username or email address of the user.
 
@@ -1344,7 +1344,7 @@ Return all users from a partial username or email address query.
 This function only works for local administrators. Use `api.viewer`
     to get your own user object.
 
-##### Properties
+##### Arguments
 
 - **username_or_email**: The prefix or suffix of the user you want to find.
 
@@ -1362,7 +1362,7 @@ start: 'str | None' = None
 
 Returns an iterator of webhook integrations for an entity.
 
-##### Properties
+##### Arguments
 
 - **entity**: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
 - **per_page**: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.

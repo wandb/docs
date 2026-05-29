@@ -104,7 +104,7 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 Adds users or teams to this registry.
 
-##### Properties
+##### Arguments
 
 - **members**: The users or teams to add to the registry. Accepts `User` objects, `Team` objects, or their string IDs.
 
@@ -144,7 +144,7 @@ start: 'str | None' = None
 
 Returns the collections belonging to the registry.
 
-##### Properties
+##### Arguments
 
 - **filter**: 
 - **per_page**: 
@@ -162,7 +162,7 @@ Create a new registry.
 The registry name must be unique within the organization.
 This function should be called using `api.create_registry()`
 
-##### Properties
+##### Arguments
 
 - **client**: Legacy GraphQL client retained for API compatibility.
 - **organization**: The name of the organization.
@@ -222,7 +222,7 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 Removes users or teams from this registry.
 
-##### Properties
+##### Arguments
 
 - **members**: The users or teams to remove from the registry. Accepts `User` objects, `Team` objects, or their string IDs.
 
@@ -285,7 +285,7 @@ role: 'MemberRole | str'
 
 Updates the role of a member  within this registry.
 
-##### Properties
+##### Arguments
 
 - **member**: The user or team to update the role of. Accepts a `User` object, `Team` object, or their string ID.
 - **role**: The new role to assign to the member. May be one of: - "admin" - "member" - "viewer" - "restricted_viewer" (if supported by the W&B server)
@@ -334,7 +334,7 @@ start: 'str | None' = None
 
 Returns the versions belonging to the registry.
 
-##### Properties
+##### Arguments
 
 - **filter**: 
 - **per_page**: 

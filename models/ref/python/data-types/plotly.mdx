@@ -48,7 +48,7 @@ Bind this object to a particular Run.
 Calling this function is necessary so that we have somewhere specific to put the
 file associated with this object, from which other Runs can refer to it.
 
-##### Properties
+##### Arguments
 
 - **run**: 
 - **key**: 
@@ -67,7 +67,7 @@ media_items: 'Sequence[Media]'
 
 
 
-##### Properties
+##### Arguments
 
 - **media_items**: 
 
@@ -95,7 +95,7 @@ source_artifact: 'Artifact'
 
 Likely will need to override for any more complicated media objects.
 
-##### Properties
+##### Arguments
 
 - **json_obj**: 
 - **source_artifact**: 
@@ -119,7 +119,7 @@ attribute to the passed in source artifact. This is critical for artifact
 bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
 make sure to properly set this `artifact_source` to avoid data duplication.
 
-##### Properties
+##### Arguments
 
 - **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
 - **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
@@ -147,7 +147,7 @@ path: 'str | pathlib.Path | None'
 
 
 
-##### Properties
+##### Arguments
 
 - **path**: 
 
@@ -185,7 +185,7 @@ filetype: 'str' = 'json'
 
 Get the name with the appropriate suffix.
 
-##### Properties
+##### Arguments
 
 - **name**: the name of the file
 - **filetype**: the filetype to use. Defaults to "json".
