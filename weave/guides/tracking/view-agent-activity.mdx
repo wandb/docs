@@ -1,6 +1,6 @@
 ---
-title: View agent activity
-description: Use W&B Weave's Agents view to understand what your agent did, how much it cost, and exactly where things went right or wrong.
+title: "View agent activity"
+description: "Use W&B Weave's Agents view to understand what your agent did, how much it cost, and exactly where things went right or wrong."
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
@@ -268,12 +268,8 @@ Click any row to select its trace and highlight all other spans that share the s
 
 Click a row in the **Spans** table to open a detail panel with two sub-tabs that are populated with data from the complete agent invocation.
 
- - **Chat** sub-tab shows the reconstructed conversation for the selected trace, giving
-narrative context for the spans you're inspecting.
-
- - **Spans** sub-tab shows the individual spans belonging to that trace with their
-operation, model, and duration. This is useful for comparing timings within a single
-trace without scrolling the full list.
+- **Chat** sub-tab shows the reconstructed conversation for the selected trace, giving narrative context for the spans you're inspecting.
+- **Spans** sub-tab shows the individual spans belonging to that trace with their operation, model, and duration. This is useful for comparing timings within a single trace without scrolling the full list.
 
 ## Signals tab
 
@@ -300,8 +296,25 @@ appear by default.
 | **Trend (24h)** | Score trend for this scorer over the past 24 hours. |
 | **When** | When the signal was scored. |
 
-- Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period.
-- To add or remove which signals are active for this project, select **Manage signals**.
-- To add a new scorer to your agent activity, select **+ New signal**.
+Use the time window selector and **Filter** bar to narrow results by scorer,
+agent, score range, or time period.
 
-For more details on configuring signals, see [Monitor using built-in signals](/weave/guides/evaluation/monitors).
+### Manage and edit signals
+
+Select **Manage signals** to open a drawer that lists all active signals for
+the project. From there you can toggle signals on or off, delete them, or
+click the edit icon on any signal to modify it.
+
+The signal editor has the following fields:
+
+| Field | Description |
+|---|---|
+| **Scorer type** | The scoring method. **Rating** emits a single numeric score in [0, 1] per agent turn. |
+| **Only score turns matching** | Optional filters to restrict which turns this signal scores. Multiple filters are AND-ed. Leave empty to score every turn. |
+| **Prompt template** | A preset template to use as a starting point for the scorer prompt. |
+| **Scorer prompt** | The full prompt sent to the scoring model. Supports template variables (`{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`) which are filled in at score time. |
+| **Scorer name** | The display name for this signal. |
+
+Select **+ New signal** to create a new scorer for your agent.
+
+For more information on built-in signals, see [Monitor using built-in signals](/weave/guides/evaluation/monitors).
