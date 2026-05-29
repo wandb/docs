@@ -1,0 +1,195 @@
+# ------------------------------------------------------------------
+# Readability delta check (DOCS-2626)
+# ------------------------------------------------------------------
+#
+# What this workflow does
+# -----------------------
+# Posts an informational, non-blocking PR comment describing how the PR affects
+# the readability of the English docs it touches. The scoring logic lives in the
+# coreweave/docs-skills submodule (.claude/scripts/_readability.py and
+# _docs_eval_lib.py); scripts/readability/pr_report.py is the wandb/docs glue
+# that diffs base..head, scores each changed .mdx file, and builds the Markdown.
+#
+# This check never fails a PR. Every step exits 0; the worst case is a comment
+# noting that scoring was unavailable.
+#
+# Auth
+# ----
+# - Main checkout uses the default GITHUB_TOKEN (the workflow runs in the
+#   wandb/docs PR context).
+# - The coreweave/docs-skills submodule is private and cross-org, so a separate
+#   step initializes it with DOCENGINE_TOKEN (the same x-access-token credential
+#   used for the gitsubmodule ecosystem in .github/dependabot.yml). That token
+#   needs no wandb/docs scope.
+# - The AI agent comprehension judge calls W&B Inference with the
+#   WANDB_DOCS_INFERENCE_API_KEY secret (a W&B key with Inference credits),
+#   passed to the scorer as WANDB_API_KEY. When that secret is absent the
+#   deterministic textstat delta still runs.
+#
+# Forks
+# -----
+# Fork PRs have no access to repo secrets, so neither the submodule fetch nor the
+# judge can run. The first step detects a fork and makes the whole job a no-op
+# (posts an Actions notice, exits 0). Forks are uncommon in wandb/docs and
+# coreweave repos cannot use forks at all, so the lost coverage is negligible.
+# ------------------------------------------------------------------
+
+name: Readability delta
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "**/*.mdx"
+  workflow_dispatch:
+
+concurrency:
+  group: readability-delta-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  readability:
+    name: Report readability delta
+    runs-on: ubuntu-latest
+    steps:
+      # Fork no-op guard: fork PRs cannot reach the private submodule or W&B
+      # Inference, so skip the whole check (still reports success).
+      - name: Skip on fork PRs
+        id: fork
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ] && \
+             [ "${{ github.event.pull_request.head.repo.fork }}" = "true" ]; then
+            echo "is_fork=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Readability check skipped: fork PRs have no access to the docs-skills submodule or W&B Inference."
+          else
+            echo "is_fork=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check out repository
+        if: steps.fork.outputs.is_fork != 'true'
+        uses: actions/checkout@v6
+        with:
+          # Need full history to diff base..head.
+          fetch-depth: 0
+          submodules: false
+
+      # The docs-skills submodule is a private repo in another org. Initialize it
+      # with DOCENGINE_TOKEN so the main checkout token needs no extra scope.
+      - name: Check out docs-skills submodule
+        if: steps.fork.outputs.is_fork != 'true'
+        env:
+          DOCENGINE_TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
+        run: |
+          git config --global url."https://x-access-token:${DOCENGINE_TOKEN}@github.com/".insteadOf "https://github.com/"
+          git submodule update --init --recursive .claude
+
+      - name: Set up Python 3.11
+        if: steps.fork.outputs.is_fork != 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip packages
+        if: steps.fork.outputs.is_fork != 'true'
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-readability-${{ hashFiles('scripts/readability/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-readability-
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        if: steps.fork.outputs.is_fork != 'true'
+        run: pip install -r scripts/readability/requirements.txt
+
+      # Resolve base and head SHAs. For pull_request, GitHub provides them. For
+      # workflow_dispatch, diff the merge-base of the current ref against the
+      # default branch.
+      - name: Resolve base and head
+        id: refs
+        if: steps.fork.outputs.is_fork != 'true'
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            echo "base=$PR_BASE" >> "$GITHUB_OUTPUT"
+            echo "head=$PR_HEAD" >> "$GITHUB_OUTPUT"
+          else
+            git fetch --no-tags --depth=200 origin "$DEFAULT_BRANCH" || true
+            BASE=$(git merge-base "origin/${DEFAULT_BRANCH}" HEAD || git rev-parse HEAD~1)
+            echo "base=$BASE" >> "$GITHUB_OUTPUT"
+            echo "head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build readability report
+        id: report
+        if: steps.fork.outputs.is_fork != 'true'
+        env:
+          # Optional: enables the AI agent comprehension judge via W&B Inference.
+          # The scorer reads WANDB_API_KEY; the repo secret is named
+          # WANDB_DOCS_INFERENCE_API_KEY (a W&B key with Inference credits).
+          WANDB_API_KEY: ${{ secrets.WANDB_DOCS_INFERENCE_API_KEY }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          JUDGE_FLAG=""
+          if [ -n "${WANDB_API_KEY:-}" ]; then
+            JUDGE_FLAG="--judge"
+          fi
+          # Never fail the PR: capture failures and fall back to a notice.
+          if python scripts/readability/pr_report.py \
+              --base "${{ steps.refs.outputs.base }}" \
+              --head "${{ steps.refs.outputs.head }}" \
+              --include-marker \
+              --run-url "${RUN_URL}" \
+              --run-id "${GITHUB_RUN_ID}" \
+              ${JUDGE_FLAG} \
+              > comment-body.md 2> report-errors.log; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Readability report failed to build; see logs."
+            cat report-errors.log || true
+            {
+              echo "<!-- readability-delta-report -->"
+              echo ""
+              echo "## Readability impact"
+              echo ""
+              echo "The readability check could not run for this push. This is informational and does not block the PR."
+            } > comment-body.md
+          fi
+
+      - name: Upsert readability report on PR
+        if: steps.fork.outputs.is_fork != 'true' && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          MARKER="<!-- readability-delta-report -->"
+          COMMENT_ID=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --paginate -q ".[] | select(.body | contains(\"${MARKER}\")) | .id" \
+          | head -n1)
+
+          if [ -n "${COMMENT_ID}" ]; then
+            gh api \
+              "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+              -X PATCH -F "body=@comment-body.md"
+            echo "Updated existing readability report comment ${COMMENT_ID}"
+          else
+            gh pr comment "${PR_NUMBER}" --body-file comment-body.md
+            echo "Created new readability report comment"
+          fi
+
+      - name: Write readability report to job summary
+        if: steps.fork.outputs.is_fork != 'true' && github.event_name == 'workflow_dispatch'
+        run: cat comment-body.md >> "${GITHUB_STEP_SUMMARY}"

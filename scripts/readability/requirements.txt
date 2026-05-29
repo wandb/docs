@@ -1,0 +1,9 @@
+# Dependencies for the readability delta CI check (scripts/readability/pr_report.py).
+#
+# Deterministic readability scoring (always used). Imported by the analyzer in
+# the coreweave/docs-skills submodule (.claude/scripts/_readability.py):
+textstat
+# AI agent comprehension judge (optional; only when WANDB_API_KEY is set).
+# Imported lazily from the submodule's _docs_eval_lib.py:
+openai
+weave
