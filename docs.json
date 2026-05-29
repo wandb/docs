@@ -533,9 +533,9 @@
                         "group": "Trace your agents",
                         "pages": [
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-sub-agents",
-                          "weave/guides/tracking/view-agent-activity",
                           "weave/guides/evaluation/monitors"
                         ]
                       },
