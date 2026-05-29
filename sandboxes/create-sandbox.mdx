@@ -1,14 +1,14 @@
 ---
 title: Create sandboxes
 description: Learn how to create Serverless Sandboxes.
-keywords: ["Sandbox.run", "SandboxDefaults", "sandbox session", "container image"]
+keywords: ["Sandbox.run", "SandboxDefaults", "Session"]
 ---
 
 <Warning>
 Serverless Sandboxes is in public preview.
 </Warning>
 
-This page shows you how to create Serverless Sandboxes with W&B. You learn how to start a single sandbox, run a main command inside it, and manage multiple sandboxes with a session. Each sandbox runs in its own container with its own [filesystem](/sandboxes/file-access), network, and process space, which gives you an isolated environment to run code.
+Create W&B Serverless Sandboxes to run code in isolated environments. Start a single sandbox, run commands in it, and manage multiple sandboxes with a session. Each sandbox runs in its own container, with its own [file system](/sandboxes/file-access), network, and process space.
 
 <Info>
 By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) or [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults). W&B supports public container images only.

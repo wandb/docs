@@ -10,7 +10,7 @@ Serverless Sandboxes is in public preview.
 
 This page describes the lifecycle of a Serverless Sandbox so that you can choose the right method for waiting on state changes, stopping a sandbox, and structuring code around its lifetime. Understanding the lifecycle helps you avoid race conditions, distinguish startup failures from runtime errors, and clean up resources predictably.
 
-A Serverless Sandbox goes through several states during its lifecycle. The sandbox's state determines which operations are available.
+A W&B Serverless Sandbox goes through several states during its lifecycle. The sandbox state determines which operations are available.
 
 Usually, a sandbox starts in `PENDING`, moves to `CREATING` while the container is provisioned, and then enters `RUNNING` when it's ready for use.
 
@@ -50,7 +50,7 @@ The following sections describe the two methods for waiting on sandbox state cha
 
 ### Wait for a sandbox to start
 
-Use `Sandbox.wait()` to wait for the sandbox to reach the `RUNNING` state. This method is useful for debugging startup problems or when you want to distinguish startup failures from errors in later commands.
+Use `Sandbox.wait()` to explicitly wait for the sandbox to reach the `RUNNING` state. This method is useful for debugging startup problems or when you want to distinguish startup failures from errors in later commands.
 
 For example, the following code creates a sandbox, waits for it to become ready, and then runs a command:
 
@@ -93,7 +93,7 @@ with Sandbox.run() as sandbox:
 
 ## Explicit lifecycle control
 
-Use methods such as `Sandbox.wait()` and `Sandbox.stop()` when you need explicit control over the sandbox lifecycle instead of relying on automatic behavior.
+Use methods such as `Sandbox.wait()` and `Sandbox.stop()` when you need explicit control over the sandbox lifecycle.
 
 Usually, you don't need to call these methods directly. Operations such as `Sandbox.exec()`, `Sandbox.read_file()`, and `Sandbox.write_file()` wait for readiness, and the context manager (`with Sandbox.run() as sandbox:`) stops the sandbox when the block exits.
 

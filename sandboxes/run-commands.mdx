@@ -1,7 +1,7 @@
 ---
 title: Run commands in a sandbox
 description: Learn how to run commands in a sandbox environment and read output and exit codes.
-keywords: ["Sandbox.exec", "Process.result", "SandboxExecutionError", "stdout stderr"]
+keywords: ["Sandbox.run", "Sandbox.exec", "Process.result", "SandboxExecutionError", "stdout", "stderr"]
 ---
 
 <Warning>
@@ -10,7 +10,7 @@ Serverless Sandboxes is in public preview.
 
 <br></br>
 
-This page shows you how to [run commands in a sandbox](#run-commands-in-a-sandbox), [read their output and exit code](#read-output-and-exit-codes), and [check for errors](#check-for-errors). Use these features to run scripts, training jobs, and other processes in a sandbox and programmatically check the results.
+[Run commands in a sandbox](#run-commands-in-a-sandbox), [read command output and exit codes](#read-output-and-exit-codes), and [check for errors](#check-for-sandbox-execution-errors). Use these features to run scripts, training jobs, and other processes in a W&B Serverless Sandbox and programmatically check the results.
 
 
 ## Run commands in a sandbox
@@ -74,7 +74,9 @@ with Sandbox.run("sleep", "infinity") as sandbox:
 
 ## Read output and exit codes
 
-After a command runs, you often need to read its output and check whether it succeeded. `Sandbox.exec()` returns a [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) object. Call `Process.result()` to wait for the command to finish and get its result. `Process.result()` includes the standard output (`stdout`), standard error (`stderr`), and exit code (`returncode`).
+After you run a command, you can read its output and check whether it succeeded. `Sandbox.exec()` returns a [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) object. To wait for the command to finish, call `Process.result()`.
+
+The result includes standard output (`stdout`), standard error (`stderr`), and the exit code (`returncode`).
 
 Use the exit code to determine whether the command succeeded. By convention, an exit code of 0 indicates success. The possible exit codes and their meanings depend on the command.
 
@@ -91,7 +93,7 @@ with Sandbox.run() as sandbox:
 
 ## Check for sandbox execution errors
 
-The `check` parameter raises an exception when a command fails, so you don't need to inspect exit codes manually. Specify `check=True` (`Sandbox.exec(check=True)`) to raise a [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) if the command exits with a non-zero exit code. This example runs a script `might_fail.py` and checks the result.
+Use `check=True` to raise an exception when a command fails instead of inspecting exit codes manually. If the command exits with a non-zero exit code, `Sandbox.exec(check=True)` raises a [SandboxExecutionError](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror).
 
 ```python
 from wandb.sandbox import Sandbox, SandboxExecutionError

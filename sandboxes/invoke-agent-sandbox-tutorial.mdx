@@ -1,20 +1,20 @@
 ---
 title: "Tutorial: Invoke an agent in a sandbox"
 description: "Learn how to invoke an OpenAI agent within a Serverless Sandbox environment"
-keywords: ["tool calls", "OPENAI_API_KEY", "AI agent execution", "function calling"]
+keywords: ["tutorial", "invoke agent in sandbox"]
 ---
 
 <Warning>
 Serverless Sandboxes is in public preview.
 </Warning>
 
-In this tutorial, you invoke an agent within a Serverless Sandbox environment. To do this, you start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script. The script creates and invokes an OpenAI agent that uses tool calls to get the weather for a location and respond with a punny weather forecast. This lets you test and iterate on agent behavior in a safe, isolated environment without affecting your local setup.
+In this tutorial, you invoke an agent in a W&B Serverless Sandbox. You start a sandbox with the required environment variables, install dependencies, and run a Python script that creates and invokes a simple OpenAI agent. The agent uses tool calls to get weather for a location and return a punny forecast.
 
 <Note>
 This tutorial uses OpenAI as the language model for the agent, which requires an OpenAI API key.
 </Note>
     
-{/* This lets you test and iterate on your agent's behavior in a safe and isolated environment, without affecting your local setup. */}
+{/* This allows you to test and iterate on your agent's behavior in a safe and isolated environment, without affecting your local setup. */}
 
 ## Prerequisites
 
@@ -57,7 +57,7 @@ With your prerequisites in place, save the agent code locally so you can run it 
 
 <Accordion title="OpenAI agent code">
 
-Copy and paste the following code into a file named `demo.py` in the same directory as this tutorial. The script defines an OpenAI agent that uses tool calls to fetch weather data and respond with a punny forecast.
+Copy the following code into a file named `demo.py` in the same directory as this tutorial. Then, run the previous code snippet to invoke an OpenAI agent in a sandbox.
 
 ```python title="demo.py"
 import json

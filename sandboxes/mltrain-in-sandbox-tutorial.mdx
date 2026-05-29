@@ -35,7 +35,7 @@ pip install wandb
 
 ### Log in and authenticate with W&B
 
-The Serverless Sandbox runs under your W&B account, so you must be authenticated before you can create one. If you haven't done so already, log in to W&B. Use the `wandb login` CLI command and follow the prompts to log in to your W&B account:
+W&B Serverless Sandboxes run under your W&B account, so you must authenticate before you create one. Use the `wandb login` CLI command and follow the prompts to log in:
 
 ```bash
 wandb login
@@ -45,7 +45,9 @@ See the [`wandb login`](/models/ref/cli/wandb-login) reference documentation for
 
 ## Copy the training script and dependencies
 
-In this step, you prepare the three files that the sandbox needs: a requirements file, a hyperparameters file, and the training script itself. Expand the following dropdown to access the code required for this tutorial. Copy and paste the code into three separate files in the same directory as this tutorial. In the next section, you run a script that reads in these files and trains a PyTorch model within a Serverless Sandbox environment.
+Prepare the three files required for this tutorial: a requirements file, a hyperparameters file, and a training script. Expand the following dropdown, then copy each code sample into a separate file in the same directory as this tutorial.
+
+In the next section, you run a script that reads these files and trains a PyTorch model in a W&B Serverless Sandbox.
 
 <Accordion title="PyTorch training model script">
 
@@ -183,7 +185,9 @@ if __name__ == "__main__":
 
 ## Create the sandbox and run the training script
 
-With your training files in place, you can now drive the sandbox from a single Python script. The following code snippet shows how to create a sandbox and copy the training script and dependencies into it. It then runs the training script and downloads the generated model file. The next section explains the code line by line.
+With your training files in place, create and manage a W&B Serverless Sandbox from a single Python script. The following code snippet creates a sandbox, copies the training script and dependencies into it, runs the training script, and downloads the generated model file.
+
+The next section explains the code line by line.
 
 Copy and paste the following code into a Python file and run it. Save it in the same directory as the `train.py`, `requirements.txt`, and `hyperparameters.yaml` files you created in the previous step.
 
