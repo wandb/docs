@@ -3,6 +3,10 @@ title: "Monitor using built-in signals"
 description: "W&B provides built-in scoring solutions for agents in production"
 ---
 
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
 In modern agent development, standard system metrics like latency, token count, and cost are insufficient for understanding complex agent behavior. Inspecting individual traces provides deep insight but doesn't scale to the millions of traces generated in a live environment.
 
 Signals provide a high-level monitoring solution to this problem by offering automated, behavioral scoring for agents in production:
@@ -54,7 +58,6 @@ Each signal uses an LLM-as-a-judge approach to classify traces:
  -  **Trace selection**: Quality signals evaluate successful root-level traces. Error signals evaluate failed traces. Child spans and intermediate calls are not scored.
  -  **Prompt construction**: Weave constructs a prompt that includes the trace metadata, inputs, outputs, exception details (if any), and the operation's source code. The signal's classifier prompt is appended with instructions for the specific issue to detect.
  - **LLM scoring**: For each signal, a Serverless Inference model performs a binary classification (whether that issue is present on the trace). Detected issues are returned as comma-delimited string tags (for example, `"Low-quality, User-frustration, Forgetful"`).
- - **Result storage**: Results are stored as feedback on the Call object and are queryable from the Traces tab.
 
 When multiple signals from the same group (Quality or Error) are active, Weave batches the signals into a single LLM call for efficiency. The model evaluates all active classifiers in one pass and returns results for each.
 
@@ -69,7 +72,7 @@ To enable signals:
 5. To enable multiple signals at once, select the **+ [X] more signals** button. This opens a drawer that lists all available signals grouped by category. 
 6. Select the signals you want to turn on, then select **Add signals**.
 
-After enabling signals, Weave scores incoming traces and stores the results as feedback on each Call object.
+After enabling signals, Weave automatically scores incoming traces.
 
 ## Manage active signals
 
@@ -82,7 +85,9 @@ Removing a signal stops scoring new traces. Existing scores from the signal are 
 
 ## Use built-in signals
 
-### See tagged traces in the Traces table 
+### See tagged Call traces on the Traces page
+If you are tracing individual functions as Ops with the `@weave.op` decorator, signal results are stored as feedback on the Call object and are queryable from the Traces tab.
+
 You can quickly scan your traces for certain behavior in the **Traces** tab using the **Signals** column.  The Signals column is populated with tags when their criteria is met, and you can hover-over these tags to see the confidence in the score and the reasoning. 
 ![Weave Traces view with hover-over of a Signals tag in the Signals column showing confidence and reasoning.](/weave/guides/evaluation/img/weave_signals_trace_hover.png)
 Using the trace table toolbar, you can filter the trace table to only show traces that have triggered certain signals.

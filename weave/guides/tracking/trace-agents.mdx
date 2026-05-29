@@ -3,8 +3,6 @@ title: Trace your agents
 description: Use the Weave SDK to instrument multi-turn agentic applications and view them in the Agents tab.
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
@@ -62,7 +60,7 @@ Call `weave.init()` before any `startSession()`, `startTurn()`, `startLLM()`, or
 
 Weave models agent behavior as a hierarchy of one-to-many relationships. Each agent can have many sessions, each session can have many turns, each turn can have many LLM calls, and each LLM call can trigger many tool calls.
 
-| Concept | Python class | OTel span type | Description |
+| Concept | Weave SDK class | OTel span type | Description |
 |---|---|---|---|
 | Agent | *(no class)* | *(no span; grouped by `agent_name`)* | An agentic application in the Agents tab; contains one or more sessions |
 | Session | `Session` | *(no span; turns are grouped by `conversation_id`)* | A conversation or run that contains one or more turns |
