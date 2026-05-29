@@ -1,149 +1,125 @@
 ---
 title: Project
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
 
 
 
-## <kbd>class</kbd> `Project`
+
+## Description
+
 A project is a namespace for runs.
 
-### <kbd>method</kbd> `Project.__init__`
+
+
+## Args
+
+- **client**: Legacy GraphQL client retained for API compatibility.
+- **entity**: The entity name that owns the project.
+- **project**: The name of the project.
+- **attrs**: A dictionary of project attributes, typically obtained from a GraphQL response.
+- **service_api**: Interface to the wandb-core service that performs W&B API calls for this project.
+
+
+
+
+## Properties
+
+### <kbd>property</kbd> owner
+
+Returns the project owner as a User object.
+
+### <kbd>property</kbd> path
+
+Returns the path of the project. The path is a list containing the
+entity and project name.
+
+### <kbd>property</kbd> url
+
+Returns the URL of the project.
+
+### <kbd>property</kbd> id
+
+Returns the unique identifier of the project.
+
+
+
+## Methods
+
+### <kbd>method</kbd> artifacts_types
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    attrs: 'Mapping[str, Any]',
-    service_api: 'ServiceApi'
-) → Project
+self,
+per_page: 'int' = 50
 ```
 
-**Args:**
- 
- - `client`:  Legacy GraphQL client retained for API compatibility. 
- - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this project. 
- - `name` (str):  The name of the project. 
- - `entity` (str):  The entity name that owns the project. 
+Returns all artifact types associated with this project.
 
+##### Arguments
 
-A single project associated with an entity. 
-
-
-
-**Args:**
- 
- - `client`:  Legacy GraphQL client retained for API compatibility. 
- - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this project. 
- - `entity`:  The entity which owns the project. 
- - `project`:  The name of the project to query. 
- - `attrs`:  The attributes of the project. 
-
-
----
-
-### <kbd>property</kbd> Project.id
+- **per_page**: 
 
 
 
 
-
----
-
-### <kbd>property</kbd> Project.owner
-
-Returns the project owner as a User object. 
-
-
-
-**Raises:**
- 
- - `ValueError`:  when no user information is found for the project. 
-
-
-
-**Returns:**
- - `public.User`: The owner property value.
----
-
-### <kbd>property</kbd> Project.path
-
-Returns the path of the project. The path is a list containing the entity and project name. 
-
-
-
-**Returns:**
- - `list[str]`: The path property value.
----
-
-### <kbd>property</kbd> Project.url
-
-Returns the URL of the project. 
-
-
-
-
-
-**Returns:**
- - `str`: The url property value.
----
-
-### <kbd>method</kbd> `Project.artifacts_types`
+### <kbd>method</kbd> collections
 
 ```python
-artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50
 ```
 
-Returns all artifact types associated with this project. 
+Returns all artifact collections associated with this project.
 
----
+##### Arguments
 
-### <kbd>method</kbd> `Project.collections`
+- **filters**: Optional mapping of filters to apply to the query.
+- **order**: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
+- **per_page**: The number of artifact collections to fetch per page. Default is 50.
+
+
+
+
+### <kbd>method</kbd> display
 
 ```python
-collections(
-    filters: 'Mapping[str, Any] | None' = None,
-    order: 'str | None' = None,
-    per_page: 'int' = 50
-) → public.ProjectArtifactCollections
+self, height=420, hidden=False
 ```
 
-Returns all artifact collections associated with this project. 
+Display this object in jupyter.
+
+##### Arguments
+
+- **height**: 
+- **hidden**: 
 
 
 
-**Args:**
- 
- - `filters`:  Optional mapping of filters to apply to the query. 
- - `order`:  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending. 
- - `per_page`:  The number of artifact collections to fetch per page.  Default is 50. 
 
----
-
-### <kbd>method</kbd> `Project.sweeps`
+### <kbd>method</kbd> sweeps
 
 ```python
-sweeps(per_page: 'int' = 50) → Sweeps
+self,
+per_page: 'int' = 50
 ```
 
-Return a paginated collection of sweeps in this project. 
+Return a paginated collection of sweeps in this project.
+
+##### Arguments
+
+- **per_page**: The number of sweeps to fetch per request to the API.
 
 
 
-**Args:**
- 
- - `per_page`:  The number of sweeps to fetch per request to the API. 
 
 
-
-**Returns:**
- A `Sweeps` object, which is an iterable collection of `Sweep` objects. 
-
----
 

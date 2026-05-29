@@ -1,115 +1,109 @@
 ---
 title: Team
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.teams
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L63" />
 
 
 
 
-## <kbd>class</kbd> `Team`
-A class that represents a W&B team. 
 
-This class provides methods to manage W&B teams, including creating teams, inviting members, and managing service accounts. It inherits from Attrs to handle team attributes.
+## Description
 
-### <kbd>method</kbd> `Team.__init__`
+A class that represents a W&B team.
 
-```python
-__init__(
-    client: 'RetryingClient',
-    name: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
-```
-
-**Args:**
- 
- - `client` (`wandb.apis.public.Api`):  The api instance to use 
- - `name` (str):  The name of the team 
- - `attrs` (dict):  Optional dictionary of team attributes 
+This class provides methods to manage W&B teams, including creating teams,
+inviting members, and managing service accounts. It inherits from Attrs
+to handle team attributes.
 
 
 
-**Note:**
+## Args
 
-> Team management requires appropriate permissions. 
+- **client**: The api instance to use
+- **name**: The name of the team
+- **attrs**: Optional dictionary of team attributes
 
 
 
 
 
 
+## Methods
 
-
-
----
-
-### <kbd>classmethod</kbd> `Team.create`
+### <kbd>method</kbd> create
 
 ```python
-create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
+api: 'Api',
+team: 'str',
+admin_username: 'str | None' = None
 ```
 
-Create a new team. 
+Create a new team.
+
+##### Arguments
+
+- **api**: (`Api`) The api instance to use
+- **team**: (str) The name of the team
+- **admin_username**: (str) optional username of the admin user of the team, defaults to the current user.
 
 
 
-**Args:**
- 
- - `api`:  (`Api`) The api instance to use 
- - `team`:  (str) The name of the team 
- - `admin_username`:  (str) optional username of the admin user of the team, defaults to the current user. 
 
-
-
-**Returns:**
- A `Team` object 
-
----
-
-### <kbd>method</kbd> `Team.create_service_account`
+### <kbd>method</kbd> create_service_account
 
 ```python
-create_service_account(description: 'str') → Member | None
+self,
+description: 'str'
 ```
 
-Create a service account for the team. 
+Create a service account for the team.
+
+##### Arguments
+
+- **description**: (str) A description for this service account
 
 
 
-**Args:**
- 
- - `description`:  (str) A description for this service account 
 
-
-
-**Returns:**
- The service account `Member` object, or None on failure 
-
----
-
-### <kbd>method</kbd> `Team.invite`
+### <kbd>method</kbd> display
 
 ```python
-invite(username_or_email: 'str', admin: 'bool' = False) → bool
+self, height=420, hidden=False
 ```
 
-Invite a user to a team. 
+Display this object in jupyter.
+
+##### Arguments
+
+- **height**: 
+- **hidden**: 
 
 
 
-**Args:**
- 
- - `username_or_email`:  (str) The username or email address of the user  you want to invite. 
- - `admin`:  (bool) Whether to make this user a team admin.  Defaults to `False`. 
+
+### <kbd>method</kbd> invite
+
+```python
+self,
+username_or_email: 'str',
+admin: 'bool' = False
+```
+
+Invite a user to a team.
+
+##### Arguments
+
+- **username_or_email**: (str) The username or email address of the user you want to invite.
+- **admin**: (bool) Whether to make this user a team admin. Defaults to `False`.
 
 
 
-**Returns:**
- `True` on success, `False` if user was already invited or didn't exist. 
 
----
+
 
