@@ -1,13 +1,14 @@
 ---
 title: "チュートリアル: Registry artifact エイリアス のオートメーション"
 description: Registry artifact に "production" などの特定の エイリアス が付いたときに webhook を実行するオートメーションを作成します。
+keywords: ["artifact エイリアス", "モデル の昇格", "MLOps webhook", "エイリアス regex", "モデル のライフサイクル"]
 ---
 
 import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
 import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
 import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
 
-このチュートリアルでは、artifact のメタデータによってトリガーされる **Registry** オートメーションの構築方法を説明します。Registry 内の artifact に特定のエイリアス (たとえば **本番**) が付与されると、W&amp;B は webhook に POST リクエストを送信します。
+このチュートリアルでは、artifact のメタデータによってトリガーされる **Registry** オートメーションの構築方法を説明します。Registry 内の artifact に特定のエイリアス (たとえば **本番**) が付与されると、W&amp;B は webhook に `POST` リクエストを送信します。モデルを既知のステージに昇格させるたびに、このパターンを使用して deployment パイプライン、ページングサービス、通知チャネルなどの下流システムに通知できます。このチュートリアルは、W&amp;B Registry でモデルのライフサイクルを管理する ML エンジニアや MLOps の実務担当者を対象としています。
 
 <TutorialDiagramRegistry />
 
@@ -24,7 +25,7 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
   ## Registry のオートメーションを作成する
 </div>
 
-次の手順に従って、Registry スコープのオートメーションを設定します。このオートメーションでは、その Registry 内の任意のコレクションにある artifact に特定の エイリアス (たとえば **production**) が付与されると、W&amp;B から webhook に POST リクエストが送信されます。
+Registry スコープのオートメーションを設定します。このオートメーションでは、その Registry 内の任意のコレクションにある artifact に特定の エイリアス (たとえば **production**) が付与されると、W&amp;B から webhook に `POST` リクエストが送信されます。
 
 {/* Python SDK の `create_automation` の修正が完了するまで、W&B App / Python タブは一時的に非表示にしています（内部 WB-34263）。このリグレッション修正がリリースされたら復元してください。
 
@@ -37,7 +38,7 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
 3. **Next step** をクリックします。**Action type** を **Webhooks** に設定し、webhook を選択します。webhook がペイロードを想定している場合は、JSON 本文を貼り付け、`${artifact_collection_name}` や `${artifact_version_string}` などの [payload variables](/ja/models/automations/create-automations/webhook#payload-variables) を使用します。
 4. **Next step** をクリックします。オートメーションの名前と任意の説明を入力し、**Create automation** をクリックします。
 
-詳細については、[Create a webhook automation](/ja/models/automations/create-automations/webhook#create-an-automation) (Registry タブ) を参照してください。
+詳細は、[Create a webhook automation](/ja/models/automations/create-automations/webhook#create-an-automation) (Registry タブ) を参照してください。
 
 {/*
   </Tab>
@@ -80,7 +81,7 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
   ## オートメーションをテストする
 </div>
 
-W&amp;B App または public API を使用して、Registry 内の artifact バージョンに エイリアス (たとえば **本番**) を追加します。例:
+オートメーションがエンドツーエンドで実行されることを確認するには、artifact バージョンにエイリアスを追加して、設定したイベントをトリガーします。W&amp;B App または public API を使用して、Registry 内の artifact バージョンに エイリアス (たとえば **本番**) を追加します。例:
 
 ```python
 import wandb
@@ -102,7 +103,7 @@ print("Added alias 'production' to", version.name)
 
 ```
 
-しばらくすると、webhook エンドポイントに、設定したペイロードを含む POST リクエストが届くはずです。
+しばらくすると、webhook エンドポイントは、設定したペイロードを含む `POST` を受信します。これで、この Registry 内の artifact に一致する エイリアス が適用されるたびに起動する Registry オートメーションが動作するようになりました。
 
 <TutorialNotebook />
 

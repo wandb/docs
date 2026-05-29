@@ -1,16 +1,21 @@
 ---
-description: Intégrez directement des Reports W&B dans Notion ou à l’aide d’un élément IFrame HTML.
+description: Intégrez directement des rapports W&B dans Notion ou à l’aide d’un élément HTML `iframe`.
 title: Intégrer un rapport
+keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 ---
 
+Intégrez un rapport W&amp;B dans une page ou un outil externe afin que votre équipe puisse consulter les résultats d’expérience en direct aux côtés d’autres documents. Cette page explique comment générer un code d’intégration à partir d’un rapport et l’utiliser dans HTML, Confluence, Notion ou Gradio.
+
 <div id="html-iframe-element">
-  ## Élément HTML iframe
+  ## Élément HTML `iframe`
 </div>
 
-Sélectionnez le bouton **Share** dans le coin supérieur droit d’un rapport. Une fenêtre modale s’affiche. Dans cette fenêtre, sélectionnez **Copy embed code**. Le code copié s’affichera dans un élément HTML Inline Frame (IFrame). Collez le code copié dans l’élément HTML iframe de votre choix.
+Utilisez un élément HTML `iframe` pour intégrer un rapport dans n’importe quelle page web qui accepte le HTML personnalisé. W&amp;B fournit un code d’intégration prédéfini que vous pouvez copier directement depuis le rapport.
+
+Sélectionnez le bouton **Share** en haut à droite d’un rapport pour ouvrir une boîte de dialogue, puis sélectionnez **Copy embed code**. L’extrait copié est un élément HTML `iframe` que vous pouvez coller dans n’importe quelle page qui accepte le HTML personnalisé.
 
 <Note>
-  Seuls les rapports **publics** sont visibles lorsqu’ils sont intégrés.
+  Seuls les rapports *publics* sont visibles lorsqu’ils sont intégrés.
 </Note>
 
 <Frame>
@@ -21,7 +26,7 @@ Sélectionnez le bouton **Share** dans le coin supérieur droit d’un rapport. 
   ## Confluence
 </div>
 
-L’animation ci-dessous montre comment insérer le lien direct vers le rapport dans une cellule IFrame de Confluence.
+L’animation ci-dessous montre comment insérer le lien direct vers le rapport dans une cellule `iframe` de Confluence.
 
 <Frame>
   <img src="/images/reports/embed_iframe_confluence.gif" alt="Intégration dans Confluence" />
@@ -31,7 +36,7 @@ L’animation ci-dessous montre comment insérer le lien direct vers le rapport 
   ## Notion
 </div>
 
-L&#39;animation suivante montre comment insérer un rapport dans un document Notion à l&#39;aide d&#39;un bloc Embed et du code d&#39;intégration du rapport.
+L&#39;animation suivante montre comment insérer un rapport dans un document Notion à l&#39;aide d&#39;un bloc **Embed** et du code d&#39;intégration du rapport.
 
 <Frame>
   <img src="/images/reports/embed_iframe_notion.gif" alt="Intégration dans Notion" />
@@ -41,7 +46,7 @@ L&#39;animation suivante montre comment insérer un rapport dans un document Not
   ## Gradio
 </div>
 
-Vous pouvez utiliser l’élément `gr.HTML` pour intégrer des Reports W&amp;B dans des applications Gradio et les utiliser au sein de Hugging Face Spaces.
+Pour intégrer un rapport W&amp;B dans une application Gradio, y compris une application hébergée sur Hugging Face Spaces, utilisez l’élément `gr.HTML` de Gradio pour afficher une `iframe` pointant vers l’URL du rapport.
 
 ```python
 import gradio as gr
@@ -58,6 +63,3 @@ with gr.Blocks() as demo:
     )
 demo.launch()
 ```
-
-
-##

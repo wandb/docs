@@ -1,13 +1,14 @@
 ---
 title: "튜토리얼: 레지스트리 아티팩트 별칭 자동화"
 description: 레지스트리 아티팩트에 \"production\"과 같은 특정 별칭이 지정되면 웹훅을 실행하는 자동화를 만드세요.
+keywords: ["아티팩트 별칭", "모델 프로모션", "MLOps 웹훅", "별칭 정규식", "모델 라이프사이클"]
 ---
 
 import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
 import TutorialNotebook from "/snippets/en/_includes/automations/tutorial-notebook.mdx";
 import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-further.mdx";
 
-이 튜토리얼에서는 아티팩트 메타데이터를 기반으로 트리거되는 **레지스트리** 자동화를 구축하는 방법을 안내합니다. 레지스트리의 아티팩트에 특정 별칭(예: **프로덕션**)이 추가되면 W&amp;B가 사용자의 웹훅으로 POST 요청을 보냅니다.
+이 튜토리얼에서는 아티팩트 메타데이터를 기반으로 트리거되는 **레지스트리** 자동화를 구축하는 방법을 안내합니다. 레지스트리의 아티팩트에 특정 별칭(예: **프로덕션**)이 추가되면 W&amp;B가 사용자의 웹훅으로 `POST` 요청을 보냅니다. 이 패턴을 사용하면 모델을 잘 알려진 단계로 승격할 때마다 배포 파이프라인, 페이징 서비스, 알림 채널과 같은 다운스트림 시스템에 알림을 보낼 수 있습니다. 이 튜토리얼은 W&amp;B Registry에서 모델 라이프사이클을 관리하는 ML 엔지니어와 MLOps 실무자를 대상으로 합니다.
 
 <TutorialDiagramRegistry />
 
@@ -24,7 +25,7 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
   ## 레지스트리 자동화 만들기
 </div>
 
-다음 지침에 따라 레지스트리 범위 자동화를 설정하세요. 해당 레지스트리의 어떤 컬렉션에 있는 아티팩트에 특정 별칭(예: **프로덕션**)이 지정되면 W&amp;B가 사용자의 웹훅으로 POST 요청을 보냅니다.
+레지스트리 범위 자동화를 설정하세요. 그러면 레지스트리의 어떤 컬렉션에 있는 아티팩트에 특정 별칭(예: **프로덕션**)이 지정될 때 W&amp;B가 사용자의 웹훅으로 `POST` 요청을 보냅니다.
 
 {/* `create_automation`에 대한 Python SDK 수정(내부 WB-34263)이 배포될 때까지 W&B App 및 Python 탭을 일시적으로 숨깁니다. 회귀 수정이 배포되면 다시 표시하세요.
 
@@ -80,7 +81,7 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
   ## 자동화 테스트하기
 </div>
 
-W&amp;B App 또는 공개 API를 사용해 레지스트리의 아티팩트 버전에 별칭(예: **프로덕션**)을 추가하세요. 예를 들어 다음과 같습니다:
+자동화가 엔드투엔드로 실행되는지 확인하려면, 아티팩트 버전에 별칭을 추가해 설정된 이벤트를 트리거하세요. W&amp;B App 또는 공개 API를 사용해 레지스트리의 아티팩트 버전에 별칭(예: **프로덕션**)을 추가하세요. 예를 들어 다음과 같습니다:
 
 ```python
 import wandb
@@ -102,7 +103,7 @@ print("Added alias 'production' to", version.name)
 
 ```
 
-잠시 후 웹훅 엔드포인트로 설정한 페이로드가 포함된 POST 요청이 도착해야 합니다.
+잠시 후 웹훅 엔드포인트로 설정한 페이로드가 포함된 `POST` 요청이 도착합니다. 이제 이 레지스트리에서 아티팩트에 일치하는 별칭이 적용될 때마다 실행되는 레지스트리 자동화가 정상적으로 작동합니다.
 
 <TutorialNotebook />
 
