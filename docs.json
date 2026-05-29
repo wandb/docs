@@ -1,72 +1,21 @@
 {
+  "theme": "aspen",
   "$schema": "https://mintlify.com/docs.json",
+  "name": "Weights & Biases Documentation",
+  "colors": {
+    "primary": "#FCBC32",
+    "light": "#FCBC32",
+    "dark": "#FCBC32"
+  },
+  "logo": {
+    "light": "/icons/Endorsed_primary_blackwhite.svg",
+    "dark": "/icons/Endorsed_primary_goldwhite.svg",
+    "href": "https://docs.wandb.ai/"
+  },
+  "favicon": "/favicon.png",
   "background": {
     "decoration": "gradient"
   },
-  "banner": {
-    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
-    "dismissible": true
-  },
-  "baseUrl": "https://docs.wandb.ai",
-  "colors": {
-    "dark": "#FCBC32",
-    "light": "#FCBC32",
-    "primary": "#FCBC32"
-  },
-  "contextual": {
-    "options": [
-      {
-        "description": "Set up the W&B MCP server in Claude Code, Codex, VS Code and or other LLM agents.",
-        "href": "/platform/mcp-server",
-        "icon": "plug",
-        "title": "Install W&B MCP"
-      },
-      {
-        "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
-        "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=",
-        "icon": "plug",
-        "title": "Install W&B MCP in Cursor"
-      },
-      "chatgpt",
-      "claude",
-      "copy",
-      "view"
-    ]
-  },
-  "favicon": "/favicon.png",
-  "fonts": {
-    "body": {
-      "family": "Source Sans 3",
-      "weight": 400
-    },
-    "heading": {
-      "family": "Source Serif 4",
-      "weight": 400
-    }
-  },
-  "footer": {
-    "socials": {
-      "discord": "https://discord.com/invite/RgB8CPk2ce",
-      "github": "https://github.com/wandb/docs",
-      "linkedin": "https://www.linkedin.com/company/wandb/",
-      "x": "https://x.com/weights_biases?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
-      "youtube": "https://www.youtube.com/c/WeightsBiases"
-    }
-  },
-  "integrations": {
-    "ga4": {
-      "measurementId": "G-5JYCHZZP7K"
-    },
-    "gtm": {
-      "tagId": "GTM-5BL5RTH"
-    }
-  },
-  "logo": {
-    "dark": "/icons/Endorsed_primary_goldwhite.svg",
-    "href": "https://docs.wandb.ai/",
-    "light": "/icons/Endorsed_primary_blackwhite.svg"
-  },
-  "name": "Weights & Biases Documentation",
   "navbar": {
     "links": [
       {
@@ -75,9 +24,9 @@
       }
     ],
     "primary": {
-      "href": "https://app.wandb.ai/login?signup=true&_gl=1*y15ckv*_ga*MTE3ODEwNDkyLjE3MzQwMjk0NjA.*_ga_JH1SJHJQXJ*MTczNDA2Mzc4OS4yLjEuMTczNDA2Mzk3MC42MC4wLjA.*_ga_GMYDGNGKDT*MTczNDA2Mzc4OS4zLjEuMTczNDA2Mzg2Ny4wLjAuMA..*_gcl_au*MTc0Mjk3ODgzMi4xNzM0MDI5NDYw",
+      "type": "button",
       "label": "Sign Up",
-      "type": "button"
+      "href": "https://app.wandb.ai/login?signup=true&_gl=1*y15ckv*_ga*MTE3ODEwNDkyLjE3MzQwMjk0NjA.*_ga_JH1SJHJQXJ*MTczNDA2Mzc4OS4yLjEuMTczNDA2Mzk3MC42MC4wLjA.*_ga_GMYDGNGKDT*MTczNDA2Mzc4OS4zLjEuMTczNDA2Mzg2Ny4wLjAuMA..*_gcl_au*MTc0Mjk3ODgzMi4xNzM0MDI5NDYw"
     }
   },
   "navigation": {
@@ -86,6 +35,7 @@
         "language": "en",
         "tabs": [
           {
+            "tab": "Products",
             "menu": [
               {
                 "item": "Docs Home",
@@ -843,19 +793,19 @@
                   }
                 ]
               }
-            ],
-            "tab": "Products"
+            ]
           },
           {
+            "tab": "Get Started",
             "pages": [
               "get-started",
               "examples",
               "platform/mcp-server",
               "platform/wb-skills"
-            ],
-            "tab": "Get Started"
+            ]
           },
           {
+            "tab": "Reference",
             "pages": [
               "reference",
               {
@@ -1193,8 +1143,8 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "directory": "weave/reference/service-api",
-                      "source": "weave/reference/service-api/openapi.json"
+                      "source": "weave/reference/service-api/openapi.json",
+                      "directory": "weave/reference/service-api"
                     },
                     "pages": [
                       "weave/cookbooks/weave_via_service_api",
@@ -1214,17 +1164,17 @@
               {
                 "group": "Serverless RL",
                 "openapi": {
-                  "directory": "serverless-rl/api-reference",
-                  "source": "serverless-rl/api-reference/openapi.json"
+                  "source": "serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
                 },
                 "pages": [
                   "serverless-rl/api-reference"
                 ]
               }
-            ],
-            "tab": "Reference"
+            ]
           },
           {
+            "tab": "Release Notes",
             "pages": [
               "release-notes",
               {
@@ -1242,10 +1192,10 @@
                 ]
               },
               "release-notes/release-policies"
-            ],
-            "tab": "Release Notes"
+            ]
           },
           {
+            "tab": "Support",
             "menu": [
               {
                 "item": "Support Home",
@@ -1317,10 +1267,10 @@
                   "support/inference/tags/server-errors"
                 ]
               }
-            ],
-            "tab": "Support"
+            ]
           },
           {
+            "tab": "W&B Launch",
             "hidden": true,
             "pages": [
               "platform/launch",
@@ -1391,8 +1341,7 @@
                   "platform/launch/launch-library/launchagent"
                 ]
               }
-            ],
-            "tab": "W&B Launch"
+            ]
           }
         ]
       },
@@ -1400,6 +1349,7 @@
         "language": "fr",
         "tabs": [
           {
+            "tab": "Produits",
             "menu": [
               {
                 "item": "Accueil de la documentation",
@@ -2157,19 +2107,19 @@
                   }
                 ]
               }
-            ],
-            "tab": "Produits"
+            ]
           },
           {
+            "tab": "Premiers pas",
             "pages": [
               "fr/get-started",
               "fr/examples",
               "fr/platform/mcp-server",
               "fr/platform/wb-skills"
-            ],
-            "tab": "Premiers pas"
+            ]
           },
           {
+            "tab": "Référence",
             "pages": [
               "fr/reference",
               {
@@ -2507,8 +2457,8 @@
                   {
                     "group": "API de service",
                     "openapi": {
-                      "directory": "fr/weave/reference/service-api",
-                      "source": "fr/weave/reference/service-api/openapi.json"
+                      "source": "fr/weave/reference/service-api/openapi.json",
+                      "directory": "fr/weave/reference/service-api"
                     },
                     "pages": [
                       "fr/weave/cookbooks/weave_via_service_api",
@@ -2528,17 +2478,17 @@
               {
                 "group": "Serverless RL",
                 "openapi": {
-                  "directory": "fr/serverless-rl/api-reference",
-                  "source": "fr/serverless-rl/api-reference/openapi.json"
+                  "source": "fr/serverless-rl/api-reference/openapi.json",
+                  "directory": "fr/serverless-rl/api-reference"
                 },
                 "pages": [
                   "fr/serverless-rl/api-reference"
                 ]
               }
-            ],
-            "tab": "Référence"
+            ]
           },
           {
+            "tab": "Notes de version",
             "pages": [
               "fr/release-notes",
               {
@@ -2556,10 +2506,10 @@
                 ]
               },
               "fr/release-notes/release-policies"
-            ],
-            "tab": "Notes de version"
+            ]
           },
           {
+            "tab": "Assistance",
             "menu": [
               {
                 "item": "Accueil de l’assistance",
@@ -2631,10 +2581,10 @@
                   "fr/support/inference/tags/server-errors"
                 ]
               }
-            ],
-            "tab": "Assistance"
+            ]
           },
           {
+            "tab": "W&B Launch",
             "hidden": true,
             "pages": [
               "fr/platform/launch",
@@ -2705,8 +2655,7 @@
                   "fr/platform/launch/launch-library/launchagent"
                 ]
               }
-            ],
-            "tab": "W&B Launch"
+            ]
           }
         ]
       },
@@ -2714,9 +2663,10 @@
         "language": "ja",
         "tabs": [
           {
+            "tab": "製品",
             "menu": [
               {
-                "item": "ドキュメント ホーム",
+                "item": "Docs Home",
                 "pages": [
                   "ja/index",
                   {
@@ -2727,7 +2677,7 @@
                     ]
                   },
                   {
-                    "group": "CoreWeave 提供",
+                    "group": "CoreWeave を利用",
                     "pages": [
                       "ja/product-inference",
                       "ja/product-serverless-rl",
@@ -2738,7 +2688,7 @@
                     "group": "プラットフォームの詳細",
                     "pages": [
                       {
-                        "group": "W&B を設定する",
+                        "group": "W&B の設定",
                         "pages": [
                           {
                             "group": "設定",
@@ -2753,7 +2703,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティとアクセス管理（IAM）",
+                            "group": "ID とアクセス管理 (IAM)",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -2793,7 +2743,7 @@
                         ]
                       },
                       {
-                        "group": "モニタリングと使用状況",
+                        "group": "監視と使用状況",
                         "pages": [
                           "ja/platform/hosting/monitoring-usage/audit-logging",
                           "ja/platform/hosting/monitoring-usage/slack-alerts",
@@ -2802,12 +2752,12 @@
                         ]
                       },
                       {
-                        "group": "デプロイオプション",
+                        "group": "デプロイメントオプション",
                         "pages": [
                           "ja/platform/hosting",
                           "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                           {
-                            "group": "専用クラウド",
+                            "group": "Dedicated Cloud",
                             "pages": [
                               "ja/platform/hosting/hosting-options/dedicated-cloud",
                               "ja/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
@@ -2816,7 +2766,7 @@
                             ]
                           },
                           {
-                            "group": "セルフマネージド",
+                            "group": "Self-Managed",
                             "pages": [
                               "ja/platform/hosting/hosting-options/self-managed",
                               "ja/platform/hosting/self-managed/ref-arch",
@@ -2861,7 +2811,7 @@
                           "ja/models/track/project-page",
                           "ja/models/track/workspaces",
                           {
-                            "group": "Runs とは？",
+                            "group": "run とは？",
                             "pages": [
                               "ja/models/runs",
                               "ja/models/runs/run-identifiers",
@@ -2887,7 +2837,7 @@
                             ]
                           },
                           {
-                            "group": "オブジェクトとメディアをログする",
+                            "group": "オブジェクトとメディアのログ",
                             "pages": [
                               "ja/models/track/log",
                               "ja/models/track/log/plots",
@@ -2914,7 +2864,7 @@
                           "ja/models/sweeps/walkthrough",
                           "ja/models/sweeps/add-w-and-b-to-your-code",
                           {
-                            "group": "sweep の設定を定義する",
+                            "group": "sweep 設定の定義",
                             "pages": [
                               "ja/models/sweeps/define-sweep-configuration",
                               "ja/models/sweeps/sweep-config-keys"
@@ -2954,7 +2904,7 @@
                           "ja/models/artifacts/create-a-new-artifact-version",
                           "ja/models/artifacts/track-external-files",
                           {
-                            "group": "データを管理する",
+                            "group": "データの管理",
                             "pages": [
                               "ja/models/artifacts/delete-artifacts",
                               "ja/models/artifacts/ttl",
@@ -3001,7 +2951,7 @@
                         "pages": [
                           "ja/models/automations",
                           {
-                            "group": "オートメーションを作成する",
+                            "group": "automation の作成",
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
@@ -3022,7 +2972,7 @@
                         ]
                       },
                       {
-                        "group": "LLM評価ジョブ",
+                        "group": "LLM 評価ジョブ",
                         "pages": [
                           "ja/models/launch",
                           "ja/models/launch/evaluate-model-checkpoint",
@@ -3055,7 +3005,7 @@
                               "ja/models/app/features/panels/parameter-importance",
                               "ja/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "クエリパネル",
                                 "pages": [
                                   "ja/models/app/features/panels/query-panels",
                                   "ja/models/app/features/panels/query-panels/embedding-projector"
@@ -3064,7 +3014,7 @@
                             ]
                           },
                           {
-                            "group": "カスタム チャート",
+                            "group": "カスタムチャート",
                             "pages": [
                               "ja/models/app/features/custom-charts",
                               "ja/models/app/features/custom-charts/walkthrough"
@@ -3111,7 +3061,7 @@
                         ]
                       },
                       {
-                        "group": "クラウド プラットフォーム",
+                        "group": "クラウドプラットフォーム",
                         "pages": [
                           "ja/models/integrations/azure-openai-fine-tuning",
                           "ja/models/integrations/openai-fine-tuning",
@@ -3146,7 +3096,7 @@
                 "pages": [
                   "ja/weave",
                   {
-                    "group": "スタートガイド",
+                    "group": "はじめに",
                     "pages": [
                       "ja/weave/quickstart",
                       "ja/weave/tutorial-eval",
@@ -3158,10 +3108,10 @@
                     "pages": [
                       "ja/weave/concepts/what-is-weave",
                       {
-                        "group": "アプリケーションをトレースする",
+                        "group": "アプリケーションのトレース",
                         "pages": [
                           {
-                            "group": "トレースの基本",
+                            "group": "トレーシングの基本",
                             "pages": [
                               "ja/weave/guides/tracking/tracing",
                               "ja/weave/guides/tracking/create-call",
@@ -3171,7 +3121,7 @@
                             ]
                           },
                           {
-                            "group": "高度な Ops",
+                            "group": "高度な操作",
                             "pages": [
                               "ja/weave/guides/tracking/trace-generator-func",
                               "ja/weave/tutorial-tracing_2",
@@ -3185,7 +3135,7 @@
                             ]
                           },
                           {
-                            "group": "Call を扱う",
+                            "group": "Call の操作",
                             "pages": [
                               "ja/weave/guides/tracking/update-call",
                               "ja/weave/guides/tracking/call-schema-reference",
@@ -3201,7 +3151,7 @@
                         ]
                       },
                       {
-                        "group": "アプリケーションを評価する",
+                        "group": "アプリケーションの評価",
                         "pages": [
                           "ja/weave/guides/core-types/evaluations",
                           "ja/weave/guides/core-types/datasets",
@@ -3216,7 +3166,7 @@
                         ]
                       },
                       {
-                        "group": "プロンプトとモデルを試す",
+                        "group": "プロンプトとモデルの実験",
                         "pages": [
                           "ja/weave/guides/tools/playground",
                           "ja/weave/guides/tools/evaluation_playground",
@@ -3224,7 +3174,7 @@
                         ]
                       },
                       {
-                        "group": "作業をバージョン管理する",
+                        "group": "作業のバージョン管理",
                         "pages": [
                           "ja/weave/tutorial-weave_models",
                           "ja/weave/guides/core-types/models",
@@ -3234,7 +3184,7 @@
                         ]
                       },
                       {
-                        "group": "監視とフィードバックの収集",
+                        "group": "モニタリングとフィードバックの収集",
                         "pages": [
                           {
                             "group": "アノテーション",
@@ -3252,13 +3202,13 @@
                         ]
                       },
                       {
-                        "group": "LLM provider とフレームワークを統合する",
+                        "group": "LLM プロバイダーとフレームワークとの統合",
                         "pages": [
                           "ja/weave/guides/integrations",
                           "ja/weave/guides/integrations/autopatching",
                           "ja/weave/guides/integrations/js",
                           {
-                            "group": "LLM provider",
+                            "group": "LLM プロバイダー",
                             "pages": [
                               "ja/weave/guides/integrations/bedrock",
                               "ja/weave/guides/integrations/anthropic",
@@ -3310,7 +3260,7 @@
                         ]
                       },
                       {
-                        "group": "デプロイしてスケールする",
+                        "group": "デプロイとスケール",
                         "pages": [
                           "ja/weave/guides/platform",
                           "ja/weave/guides/platform/weave-self-managed"
@@ -3321,18 +3271,18 @@
                     ]
                   },
                   {
-                    "group": "クックブック",
+                    "group": "Cookbooks",
                     "pages": [
                       "ja/weave/cookbooks",
                       {
-                        "group": "Weave の基本",
+                        "group": "Weave の基礎",
                         "pages": [
                           "ja/weave/cookbooks/Intro_to_Weave_Hello_Trace",
                           "ja/weave/cookbooks/Intro_to_Weave_Hello_Eval"
                         ]
                       },
                       {
-                        "group": "評価と Datasets",
+                        "group": "評価とデータセット",
                         "pages": [
                           "ja/weave/cookbooks/leaderboard_quickstart",
                           "ja/weave/cookbooks/hf_dataset_evals",
@@ -3340,7 +3290,7 @@
                         ]
                       },
                       {
-                        "group": "Models & Prompts",
+                        "group": "モデルとプロンプト",
                         "pages": [
                           "ja/weave/cookbooks/Models_and_Weave_Integration_Demo",
                           "ja/weave/cookbooks/chain_of_density",
@@ -3358,7 +3308,7 @@
                         ]
                       },
                       {
-                        "group": "本番と監視",
+                        "group": "本番環境とモニタリング",
                         "pages": [
                           "ja/weave/cookbooks/online_monitoring",
                           "ja/weave/cookbooks/feedback_prod",
@@ -3395,7 +3345,7 @@
                   "ja/inference/lifecycle",
                   "ja/inference/lora",
                   {
-                    "group": "Response Settings",
+                    "group": "レスポンス設定",
                     "pages": [
                       "ja/inference/response-settings/json-mode",
                       "ja/inference/response-settings/reasoning",
@@ -3448,7 +3398,7 @@
                 ]
               },
               {
-                "item": "Serverless サンドボックス",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "ja/sandboxes",
                   "ja/sandboxes/lifecycle",
@@ -3471,19 +3421,19 @@
                   }
                 ]
               }
-            ],
-            "tab": "プロダクト"
+            ]
           },
           {
+            "tab": "はじめに",
             "pages": [
               "ja/get-started",
               "ja/examples",
               "ja/platform/mcp-server",
               "ja/platform/wb-skills"
-            ],
-            "tab": "スタートガイド"
+            ]
           },
           {
+            "tab": "リファレンス",
             "pages": [
               "ja/reference",
               {
@@ -3494,7 +3444,7 @@
                     "group": "Python",
                     "pages": [
                       {
-                        "group": "SDK コーディング チートシート",
+                        "group": "SDK コーディングチートシート",
                         "pages": [
                           "ja/models/ref/sdk-coding-cheat-sheet",
                           "ja/models/ref/sdk-coding-cheat-sheet/runs",
@@ -3568,7 +3518,7 @@
                         ]
                       },
                       {
-                        "group": "カスタム チャート",
+                        "group": "カスタムチャート",
                         "pages": [
                           "ja/models/ref/python/custom-charts",
                           "ja/models/ref/python/custom-charts/bar",
@@ -3583,7 +3533,7 @@
                         ]
                       },
                       {
-                        "group": "Public API",
+                        "group": "パブリック API",
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
@@ -3615,7 +3565,7 @@
                     ]
                   },
                   {
-                    "group": "コマンドライン インターフェース (CLI)",
+                    "group": "コマンドラインインターフェース (CLI)",
                     "pages": [
                       "ja/models/ref/cli",
                       "ja/models/ref/cli/wandb-agent",
@@ -3624,7 +3574,7 @@
                         "pages": [
                           "ja/models/ref/cli/wandb-artifact",
                           {
-                            "group": "artifact キャッシュ",
+                            "group": "artifact cache",
                             "pages": [
                               "ja/models/ref/cli/wandb-artifact/wandb-artifact-cache",
                               "ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
@@ -3725,7 +3675,7 @@
                     ]
                   },
                   {
-                    "group": "Reports および Workspaces API",
+                    "group": "Reports と Workspaces API",
                     "pages": [
                       "ja/models/ref/wandb_workspaces/reports",
                       "ja/models/ref/wandb_workspaces/workspaces"
@@ -3819,10 +3769,10 @@
                     ]
                   },
                   {
-                    "group": "サービス API",
+                    "group": "Service API",
                     "openapi": {
-                      "directory": "ja/weave/reference/service-api",
-                      "source": "ja/weave/reference/service-api/openapi.json"
+                      "source": "weave/reference/service-api/openapi.json",
+                      "directory": "weave/reference/service-api"
                     },
                     "pages": [
                       "ja/weave/cookbooks/weave_via_service_api",
@@ -3842,17 +3792,17 @@
               {
                 "group": "Serverless RL",
                 "openapi": {
-                  "directory": "ja/serverless-rl/api-reference",
-                  "source": "ja/serverless-rl/api-reference/openapi.json"
+                  "source": "serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
                 },
                 "pages": [
                   "ja/serverless-rl/api-reference"
                 ]
               }
-            ],
-            "tab": "リファレンス"
+            ]
           },
           {
+            "tab": "リリースノート",
             "pages": [
               "ja/release-notes",
               {
@@ -3863,20 +3813,20 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
                   "ja/release-notes/sdk-releases",
                   "ja/release-notes/weave-sdk-releases"
                 ]
               },
               "ja/release-notes/release-policies"
-            ],
-            "tab": "リリースノート"
+            ]
           },
           {
+            "tab": "サポート",
             "menu": [
               {
-                "item": "サポート ホーム",
+                "item": "Support Home",
                 "pages": [
                   "ja/support"
                 ]
@@ -3945,21 +3895,21 @@
                   "ja/support/inference/tags/server-errors"
                 ]
               }
-            ],
-            "tab": "サポート"
+            ]
           },
           {
+            "tab": "W&B Launch",
             "hidden": true,
             "pages": [
               "ja/platform/launch",
               "ja/platform/launch/walkthrough",
               "ja/platform/launch/launch-terminology",
               {
-                "group": "Launch を設定する",
+                "group": "Launch のセットアップ",
                 "pages": [
                   "ja/platform/launch/set-up-launch",
                   {
-                    "group": "コンピュートリソースを設定する",
+                    "group": "コンピューティングリソースの設定",
                     "pages": [
                       "ja/platform/launch/setup-launch-docker",
                       "ja/platform/launch/setup-launch-kubernetes",
@@ -3972,7 +3922,7 @@
                 ]
               },
               {
-                "group": "ジョブを作成してデプロイする",
+                "group": "ジョブの作成とデプロイ",
                 "pages": [
                   "ja/platform/launch/create-and-deploy-jobs",
                   "ja/platform/launch/create-launch-job",
@@ -3982,7 +3932,7 @@
                 ]
               },
               {
-                "group": "詳細",
+                "group": "高度な設定",
                 "pages": [
                   "ja/platform/launch/sweeps-on-launch",
                   "ja/platform/launch/launch-queue-observability",
@@ -4012,15 +3962,14 @@
                 ]
               },
               {
-                "group": "Launch Library API リファレンス",
+                "group": "Launch ライブラリ API リファレンス",
                 "pages": [
                   "ja/platform/launch/launch-library/launch",
                   "ja/platform/launch/launch-library/launch_add",
                   "ja/platform/launch/launch-library/launchagent"
                 ]
               }
-            ],
-            "tab": "W&B Launch"
+            ]
           }
         ]
       },
@@ -4028,9 +3977,10 @@
         "language": "ko",
         "tabs": [
           {
+            "tab": "제품",
             "menu": [
               {
-                "item": "문서 홈",
+                "item": "Docs Home",
                 "pages": [
                   "ko/index",
                   {
@@ -4041,7 +3991,7 @@
                     ]
                   },
                   {
-                    "group": "CoreWeave 제공",
+                    "group": "CoreWeave 기반",
                     "pages": [
                       "ko/product-inference",
                       "ko/product-serverless-rl",
@@ -4049,10 +3999,10 @@
                     ]
                   },
                   {
-                    "group": "플랫폼 정보",
+                    "group": "플랫폼 세부 정보",
                     "pages": [
                       {
-                        "group": "W&B 설정",
+                        "group": "W&B 구성",
                         "pages": [
                           {
                             "group": "설정",
@@ -4067,7 +4017,7 @@
                             ]
                           },
                           {
-                            "group": "ID 및 액세스 관리(IAM)",
+                            "group": "ID 및 액세스 관리 (IAM)",
                             "pages": [
                               "ko/platform/hosting/iam/org_team_struct",
                               {
@@ -4107,7 +4057,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용",
+                        "group": "모니터링 및 사용량",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -4121,7 +4071,7 @@
                           "ko/platform/hosting",
                           "ko/platform/hosting/hosting-options/multi_tenant_cloud",
                           {
-                            "group": "Dedicated Cloud",
+                            "group": "전용 클라우드",
                             "pages": [
                               "ko/platform/hosting/hosting-options/dedicated-cloud",
                               "ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
@@ -4130,7 +4080,7 @@
                             ]
                           },
                           {
-                            "group": "Self-Managed",
+                            "group": "자체 관리",
                             "pages": [
                               "ko/platform/hosting/hosting-options/self-managed",
                               "ko/platform/hosting/self-managed/ref-arch",
@@ -4175,7 +4125,7 @@
                           "ko/models/track/project-page",
                           "ko/models/track/workspaces",
                           {
-                            "group": "Runs란 무엇인가요?",
+                            "group": "run이란 무엇인가요?",
                             "pages": [
                               "ko/models/runs",
                               "ko/models/runs/run-identifiers",
@@ -4228,7 +4178,7 @@
                           "ko/models/sweeps/walkthrough",
                           "ko/models/sweeps/add-w-and-b-to-your-code",
                           {
-                            "group": "스윕 설정 정의하기",
+                            "group": "sweep 구성 정의",
                             "pages": [
                               "ko/models/sweeps/define-sweep-configuration",
                               "ko/models/sweeps/sweep-config-keys"
@@ -4281,7 +4231,7 @@
                         ]
                       },
                       {
-                        "group": "레지스트리",
+                        "group": "Registry",
                         "pages": [
                           "ko/models/registry",
                           "ko/models/registry/create_registry",
@@ -4336,7 +4286,7 @@
                         ]
                       },
                       {
-                        "group": "LLM Evaluation 작업",
+                        "group": "LLM 평가 작업",
                         "pages": [
                           "ko/models/launch",
                           "ko/models/launch/evaluate-model-checkpoint",
@@ -4353,7 +4303,7 @@
                             "pages": [
                               "ko/models/app/features/panels",
                               {
-                                "group": "선형 플롯",
+                                "group": "선 그래프",
                                 "pages": [
                                   "ko/models/app/features/panels/line-plot",
                                   "ko/models/app/features/panels/line-plot/reference",
@@ -4369,7 +4319,7 @@
                               "ko/models/app/features/panels/parameter-importance",
                               "ko/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "쿼리 패널",
                                 "pages": [
                                   "ko/models/app/features/panels/query-panels",
                                   "ko/models/app/features/panels/query-panels/embedding-projector"
@@ -4378,7 +4328,7 @@
                             ]
                           },
                           {
-                            "group": "맞춤형 차트",
+                            "group": "커스텀 차트",
                             "pages": [
                               "ko/models/app/features/custom-charts",
                               "ko/models/app/features/custom-charts/walkthrough"
@@ -4391,7 +4341,7 @@
                     ]
                   },
                   {
-                    "group": "인테그레이션",
+                    "group": "통합",
                     "pages": [
                       "ko/models/integrations",
                       "ko/models/integrations/add-wandb-to-any-library",
@@ -4472,10 +4422,10 @@
                     "pages": [
                       "ko/weave/concepts/what-is-weave",
                       {
-                        "group": "애플리케이션 트레이스하기",
+                        "group": "애플리케이션 추적",
                         "pages": [
                           {
-                            "group": "트레이싱 기본 개념",
+                            "group": "추적 기본 사항",
                             "pages": [
                               "ko/weave/guides/tracking/tracing",
                               "ko/weave/guides/tracking/create-call",
@@ -4485,7 +4435,7 @@
                             ]
                           },
                           {
-                            "group": "고급 Ops",
+                            "group": "고급 작업",
                             "pages": [
                               "ko/weave/guides/tracking/trace-generator-func",
                               "ko/weave/tutorial-tracing_2",
@@ -4499,7 +4449,7 @@
                             ]
                           },
                           {
-                            "group": "Call 활용하기",
+                            "group": "Call 다루기",
                             "pages": [
                               "ko/weave/guides/tracking/update-call",
                               "ko/weave/guides/tracking/call-schema-reference",
@@ -4515,7 +4465,7 @@
                         ]
                       },
                       {
-                        "group": "애플리케이션 평가하기",
+                        "group": "애플리케이션 평가",
                         "pages": [
                           "ko/weave/guides/core-types/evaluations",
                           "ko/weave/guides/core-types/datasets",
@@ -4530,7 +4480,7 @@
                         ]
                       },
                       {
-                        "group": "프롬프트와 모델로 실험하기",
+                        "group": "프롬프트 및 모델 실험",
                         "pages": [
                           "ko/weave/guides/tools/playground",
                           "ko/weave/guides/tools/evaluation_playground",
@@ -4538,7 +4488,7 @@
                         ]
                       },
                       {
-                        "group": "작업 버전 관리하기",
+                        "group": "작업 버전 관리",
                         "pages": [
                           "ko/weave/tutorial-weave_models",
                           "ko/weave/guides/core-types/models",
@@ -4551,7 +4501,7 @@
                         "group": "모니터링 및 피드백 수집",
                         "pages": [
                           {
-                            "group": "어노테이션",
+                            "group": "주석 달기",
                             "pages": [
                               "ko/weave/guides/tracking/annotation-queues",
                               "ko/weave/guides/tracking/annotation-review",
@@ -4566,13 +4516,13 @@
                         ]
                       },
                       {
-                        "group": "LLM 공급자 및 프레임워크와 통합하기",
+                        "group": "LLM 제공자 및 프레임워크와 통합",
                         "pages": [
                           "ko/weave/guides/integrations",
                           "ko/weave/guides/integrations/autopatching",
                           "ko/weave/guides/integrations/js",
                           {
-                            "group": "LLM 공급자",
+                            "group": "LLM 제공자",
                             "pages": [
                               "ko/weave/guides/integrations/bedrock",
                               "ko/weave/guides/integrations/anthropic",
@@ -4635,18 +4585,18 @@
                     ]
                   },
                   {
-                    "group": "쿡북",
+                    "group": "Cookbooks",
                     "pages": [
                       "ko/weave/cookbooks",
                       {
-                        "group": "Weave 기본 개념",
+                        "group": "Weave 기본 사항",
                         "pages": [
                           "ko/weave/cookbooks/Intro_to_Weave_Hello_Trace",
                           "ko/weave/cookbooks/Intro_to_Weave_Hello_Eval"
                         ]
                       },
                       {
-                        "group": "Evaluations & Datasets",
+                        "group": "평가 및 데이터셋",
                         "pages": [
                           "ko/weave/cookbooks/leaderboard_quickstart",
                           "ko/weave/cookbooks/hf_dataset_evals",
@@ -4654,7 +4604,7 @@
                         ]
                       },
                       {
-                        "group": "Models & Prompts",
+                        "group": "모델 및 프롬프트",
                         "pages": [
                           "ko/weave/cookbooks/Models_and_Weave_Integration_Demo",
                           "ko/weave/cookbooks/chain_of_density",
@@ -4762,7 +4712,7 @@
                 ]
               },
               {
-                "item": "Serverless 샌드박스",
+                "item": "Serverless Sandboxes",
                 "pages": [
                   "ko/sandboxes",
                   "ko/sandboxes/lifecycle",
@@ -4785,19 +4735,19 @@
                   }
                 ]
               }
-            ],
-            "tab": "제품"
+            ]
           },
           {
+            "tab": "시작하기",
             "pages": [
               "ko/get-started",
               "ko/examples",
               "ko/platform/mcp-server",
               "ko/platform/wb-skills"
-            ],
-            "tab": "시작하기"
+            ]
           },
           {
+            "tab": "레퍼런스",
             "pages": [
               "ko/reference",
               {
@@ -4808,7 +4758,7 @@
                     "group": "Python",
                     "pages": [
                       {
-                        "group": "SDK 코딩 치트시트",
+                        "group": "SDK 코딩 치트 시트",
                         "pages": [
                           "ko/models/ref/sdk-coding-cheat-sheet",
                           "ko/models/ref/sdk-coding-cheat-sheet/runs",
@@ -4834,7 +4784,7 @@
                         ]
                       },
                       {
-                        "group": "데이터 유형",
+                        "group": "데이터 타입",
                         "pages": [
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
@@ -4882,7 +4832,7 @@
                         ]
                       },
                       {
-                        "group": "맞춤형 차트",
+                        "group": "커스텀 차트",
                         "pages": [
                           "ko/models/ref/python/custom-charts",
                           "ko/models/ref/python/custom-charts/bar",
@@ -4897,7 +4847,7 @@
                         ]
                       },
                       {
-                        "group": "Public API",
+                        "group": "공개 API",
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
@@ -4938,7 +4888,7 @@
                         "pages": [
                           "ko/models/ref/cli/wandb-artifact",
                           {
-                            "group": "아티팩트 캐시",
+                            "group": "artifact cache",
                             "pages": [
                               "ko/models/ref/cli/wandb-artifact/wandb-artifact-cache",
                               "ko/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
@@ -5009,7 +4959,7 @@
                     ]
                   },
                   {
-                    "group": "쿼리 표현식 언어",
+                    "group": "쿼리 표현 언어",
                     "pages": [
                       "ko/models/ref/query-panel",
                       "ko/models/ref/query-panel/artifact",
@@ -5039,7 +4989,7 @@
                     ]
                   },
                   {
-                    "group": "Reports 및 워크스페이스 API",
+                    "group": "Reports 및 Workspaces API",
                     "pages": [
                       "ko/models/ref/wandb_workspaces/reports",
                       "ko/models/ref/wandb_workspaces/workspaces"
@@ -5056,7 +5006,7 @@
                     "pages": [
                       "ko/weave/reference/python-sdk",
                       {
-                        "group": "코어",
+                        "group": "Core",
                         "pages": [
                           "ko/weave/reference/python-sdk/trace/feedback",
                           "ko/weave/reference/python-sdk/trace/op",
@@ -5065,13 +5015,13 @@
                         ]
                       },
                       {
-                        "group": "트레이스 서버",
+                        "group": "Trace Server",
                         "pages": [
                           "ko/weave/reference/python-sdk/trace_server/trace_server_interface"
                         ]
                       },
                       {
-                        "group": "트레이스 서버 바인딩",
+                        "group": "Trace Server 바인딩",
                         "pages": [
                           "ko/weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
@@ -5124,7 +5074,7 @@
                         ]
                       },
                       {
-                        "group": "유형 별칭",
+                        "group": "타입 별칭",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/type-aliases/op",
                           "ko/weave/reference/typescript-sdk/type-aliases/opdecorator"
@@ -5133,10 +5083,10 @@
                     ]
                   },
                   {
-                    "group": "서비스 API",
+                    "group": "Service API",
                     "openapi": {
-                      "directory": "ko/weave/reference/service-api",
-                      "source": "ko/weave/reference/service-api/openapi.json"
+                      "source": "weave/reference/service-api/openapi.json",
+                      "directory": "weave/reference/service-api"
                     },
                     "pages": [
                       "ko/weave/cookbooks/weave_via_service_api",
@@ -5146,7 +5096,7 @@
                 ]
               },
               {
-                "group": "Serverless Inference",
+                "group": "Serverless 추론",
                 "pages": [
                   "ko/inference/api-reference",
                   "ko/inference/api-reference/chat-completions",
@@ -5156,17 +5106,17 @@
               {
                 "group": "Serverless RL",
                 "openapi": {
-                  "directory": "ko/serverless-rl/api-reference",
-                  "source": "ko/serverless-rl/api-reference/openapi.json"
+                  "source": "serverless-rl/api-reference/openapi.json",
+                  "directory": "serverless-rl/api-reference"
                 },
                 "pages": [
                   "ko/serverless-rl/api-reference"
                 ]
               }
-            ],
-            "tab": "레퍼런스"
+            ]
           },
           {
+            "tab": "릴리스 노트",
             "pages": [
               "ko/release-notes",
               {
@@ -5177,20 +5127,20 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
                   "ko/release-notes/sdk-releases",
                   "ko/release-notes/weave-sdk-releases"
                 ]
               },
               "ko/release-notes/release-policies"
-            ],
-            "tab": "릴리스 노트"
+            ]
           },
           {
+            "tab": "지원",
             "menu": [
               {
-                "item": "지원 홈",
+                "item": "Support Home",
                 "pages": [
                   "ko/support"
                 ]
@@ -5259,10 +5209,10 @@
                   "ko/support/inference/tags/server-errors"
                 ]
               }
-            ],
-            "tab": "지원"
+            ]
           },
           {
+            "tab": "W&B Launch",
             "hidden": true,
             "pages": [
               "ko/platform/launch",
@@ -5273,7 +5223,7 @@
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
-                    "group": "컴퓨팅 리소스 설정",
+                    "group": "컴퓨팅 리소스 구성",
                     "pages": [
                       "ko/platform/launch/setup-launch-docker",
                       "ko/platform/launch/setup-launch-kubernetes",
@@ -5333,1360 +5283,1409 @@
                   "ko/platform/launch/launch-library/launchagent"
                 ]
               }
-            ],
-            "tab": "W&B Launch"
+            ]
           }
         ]
       }
     ]
   },
-  "redirects": [
-    {
-      "destination": "/:slug*",
-      "source": "/_print/:slug*"
-    },
-    {
-      "destination": "/models/app/:slug*",
-      "source": "/app/:slug*"
-    },
-    {
-      "destination": "/models/artifacts/:slug*",
-      "source": "/artifacts/:slug*"
-    },
-    {
-      "destination": "/platform/hosting/",
-      "source": "/deployment/*"
-    },
-    {
-      "destination": "/models",
-      "source": "/docs/*"
-    },
-    {
-      "destination": "/get-started/",
-      "source": "/getting-started/"
-    },
-    {
-      "destination": "/models/app/:slug*",
-      "source": "/guides/app/:slug*"
-    },
-    {
-      "destination": "/models/app/console-logs",
-      "source": "/guides/app/console-logs"
-    },
-    {
-      "destination": "/models/app/keyboard-shortcuts",
-      "source": "/guides/app/keyboard-shortcuts"
-    },
-    {
-      "destination": "/platform/app/settings-page/:slug*",
-      "source": "/guides/app/settings-page/:slug*"
-    },
-    {
-      "destination": "/models/artifacts/:slug*",
-      "source": "/guides/artifacts/:slug*"
-    },
-    {
-      "destination": "/models/automations/:slug*",
-      "source": "/guides/automations/:slug*"
-    },
-    {
-      "destination": "/models/:slug*",
-      "source": "/guides/core/:slug*"
-    },
-    {
-      "destination": "/platform/hosting/:slug*",
-      "source": "/guides/hosting/:slug*"
-    },
-    {
-      "destination": "/inference/:slug*",
-      "source": "/guides/inference/:slug*"
-    },
-    {
-      "destination": "/models/integrations/:slug*",
-      "source": "/guides/integrations/:slug*"
-    },
-    {
-      "destination": "/models/integrations",
-      "source": "/guides/integrations/pytorch"
-    },
-    {
-      "destination": "/platform/launch/:slug*",
-      "source": "/guides/launch/:slug*"
-    },
-    {
-      "destination": "/models/:slug*",
-      "source": "/guides/models/:slug*"
-    },
-    {
-      "destination": "/models/models_quickstart",
-      "source": "/guides/models_quickstart"
-    },
-    {
-      "destination": "/models/registry/:slug*",
-      "source": "/guides/registry/:slug*"
-    },
-    {
-      "destination": "/models/reports/:slug*",
-      "source": "/guides/reports/:slug*"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/reports/reports-faq/"
-    },
-    {
-      "destination": "/models/runs/:slug*",
-      "source": "/guides/runs/:slug*"
-    },
-    {
-      "destination": "/platform/secrets",
-      "source": "/guides/secrets"
-    },
-    {
-      "destination": "/platform/hosting/hosting-options/self-managed",
-      "source": "/guides/self-hosted/*"
-    },
-    {
-      "destination": "/models/sweeps/:slug*",
-      "source": "/guides/sweeps/:slug*"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/sweeps/faq/"
-    },
-    {
-      "destination": "/models/tables/:slug*",
-      "source": "/guides/tables/:slug*"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/technical-faq/admin/"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/technical-faq/general/"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/technical-faq/metrics-and-performance/"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/technical-faq/setup/"
-    },
-    {
-      "destination": "/support",
-      "source": "/guides/technical-faq/troubleshooting/"
-    },
-    {
-      "destination": "/models/track/:slug*",
-      "source": "/guides/track/:slug*"
-    },
-    {
-      "destination": "/serverless-rl/:slug*",
-      "source": "/guides/training/:slug*"
-    },
-    {
-      "destination": "/models/:slug*",
-      "source": "/guides/:slug*"
-    },
-    {
-      "destination": "/inference",
-      "source": "/inference/response-settings"
-    },
-    {
-      "destination": "/inference",
-      "source": "/inference/support"
-    },
-    {
-      "destination": "/models/track/jupyter",
-      "source": "/integrations/jupyter.html"
-    },
-    {
-      "destination": "/platform/launch/launch-library/:slug*",
-      "source": "/launch-library/:slug*"
-    },
-    {
-      "destination": "/models/ref/python/functions/init",
-      "source": "/library/init"
-    },
-    {
-      "destination": "/models/app/features/cascade-settings",
-      "source": "/models/app/pages/workspaces"
-    },
-    {
-      "destination": "/platform/app/settings-page/:slug*",
-      "source": "/models/app/settings-page/:slug*"
-    },
-    {
-      "destination": "/models",
-      "source": "/models/core"
-    },
-    {
-      "destination": "/models/integrations/openai-api",
-      "source": "/models/integrations/openai"
-    },
-    {
-      "destination": "/models/integrations",
-      "source": "/models/tutorials"
-    },
-    {
-      "destination": "/models/integrations/huggingface",
-      "source": "/models/tutorials/huggingface"
-    },
-    {
-      "destination": "/models/integrations",
-      "source": "/models/tutorials/minikube_gpu"
-    },
-    {
-      "destination": "/models/integrations",
-      "source": "/models/tutorials/monai_3d_segmentation"
-    },
-    {
-      "destination": "/models/integrations/lightning",
-      "source": "/models/tutorials/lightning"
-    },
-    {
-      "destination": "/models/integrations/tensorflow",
-      "source": "/models/tutorials/tensorflow"
-    },
-    {
-      "destination": "/models/sweeps",
-      "source": "/models/tutorials/tensorflow_sweeps"
-    },
-    {
-      "destination": "/models/sweeps",
-      "source": "/models/tutorials/xgboost_sweeps"
-    },
-    {
-      "destination": "/models/sweeps",
-      "source": "/models/sweeps/sweeps-ui"
-    },
-    {
-      "destination": "/models/sweeps",
-      "source": "/models/sweeps/sweeps-ui/"
-    },
-    {
-      "destination": "/models/integrations",
-      "source": "/models/tutorials/volcano"
-    },
-    {
-      "destination": "/models/integrations",
-      "source": "/models/tutorials/weave_models_registry"
-    },
-    {
-      "destination": "/models/integrations/pytorch",
-      "source": "/models/tutorials/pytorch"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/artifacts"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/experiments"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/keras"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/keras_models"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/keras_tables"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/sweeps"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/tables"
-    },
-    {
-      "destination": "/models/tutorials",
-      "source": "/models/tutorials/workspaces"
-    },
-    {
-      "destination": "/models/ref/python/functions/init",
-      "source": "/models/ref/python/init"
-    },
-    {
-      "destination": "/models/ref/cli",
-      "source": "/models/ref/cli/wandb-local"
-    },
-    {
-      "destination": "/models/ref/cli",
-      "source": "/models/ref/cli/wandb-off"
-    },
-    {
-      "destination": "/models/ref/cli",
-      "source": "/models/ref/cli/wandb-on"
-    },
-    {
-      "destination": "/models/ref/cli",
-      "source": "/models/ref/cli/wandb-projects"
-    },
-    {
-      "destination": "/models/registry",
-      "source": "/models/registry/model_registry/:slug*"
-    },
-    {
-      "destination": "/models/runs/initialize-run",
-      "source": "/models/runs/multiple-runs-per-process"
-    },
-    {
-      "destination": "/platform/hosting/:slug*",
-      "source": "/models/hosting/:slug*"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-rotate-or-revoke-access",
-      "source": "/models/support/rotate_revoke_access"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-find-my-api-key",
-      "source": "/models/support/find_api_key"
-    },
-    {
-      "destination": "/support/models/articles/can-i-get-an-academic-plan-as-a-student",
-      "source": "/models/support/academic_plan_student"
-    },
-    {
-      "destination": "/support/models/articles/who-has-access-to-my-artifacts",
-      "source": "/models/support/access_artifacts"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-access-the-data-logged-to-my-r",
-      "source": "/models/support/access_data_logged_runs_directly_programmatically"
-    },
-    {
-      "destination": "/support/models/articles/is-there-a-way-to-add-extra-values-to-a-",
-      "source": "/models/support/add_extra_values_sweep_start_new_one"
-    },
-    {
-      "destination": "/support/models/articles/is-there-a-way-to-add-more-seats",
-      "source": "/models/support/add_more_seats"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into",
-      "source": "/models/support/add_plotlybokeh_charts_tables"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-add-the-same-service-a",
-      "source": "/models/support/add_same_service_account_multiple_teams"
-    },
-    {
-      "destination": "/support/models/articles/adding-multiple-authors-to-a-report",
-      "source": "/models/support/adding_multiple_authors_report"
-    },
-    {
-      "destination": "/support/models/articles/if-i-am-the-admin-of-my-local-instance-h",
-      "source": "/models/support/admin_local_instance_manage"
-    },
-    {
-      "destination": "/support/models/articles/is-there-an-anaconda-package-for-weights",
-      "source": "/models/support/anaconda_package"
-    },
-    {
-      "destination": "/support/models/articles/what-are-features-that-are-not-available",
-      "source": "/models/support/anon_users_unavailable_features"
-    },
-    {
-      "destination": "/support/models/articles/how-much-storage-does-each-artifact-vers",
-      "source": "/models/support/artifact_storage_version"
-    },
-    {
-      "destination": "/support/models/articles/using-artifacts-with-multiple-architectu",
-      "source": "/models/support/artifacts_multiple_architectures_runs"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-best-log-models-from-runs-in-a-",
-      "source": "/models/support/best_log_models_runs_sweep"
-    },
-    {
-      "destination": "/support/models/articles/best-practices-to-organize-hyperparamete",
-      "source": "/models/support/best_practices_organize_hyperparameter_searches"
-    },
-    {
-      "destination": "/support/models/articles/do-you-have-a-bug-bounty-program",
-      "source": "/models/support/bounty_program"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-cancel-my-subscription",
-      "source": "/models/support/cancel_subscription"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-change-my-account-from-corpora",
-      "source": "/models/support/change_account_from_corporate_academic"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-change-my-billing-address",
-      "source": "/models/support/change_billing_address"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-change-the-directory-my-sweep-",
-      "source": "/models/support/change_directory_sweep_logs_locally"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-change-the-group-assig",
-      "source": "/models/support/change_group_after_completion"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-change-the-username",
-      "source": "/models/support/change_username"
-    },
-    {
-      "destination": "/support/models/articles/does-the-wb-client-support-python-2",
-      "source": "/models/support/client_support_python_2"
-    },
-    {
-      "destination": "/support/models/articles/does-the-wb-client-support-python-35",
-      "source": "/models/support/client_support_python_35"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-compare-images-or-media-across",
-      "source": "/models/support/compare_images_media_across_epochs_steps"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-configure-the-name-of-the-run-",
-      "source": "/models/support/configure_name_run_training_code"
-    },
-    {
-      "destination": "/support/models/articles/i-converted-my-report-to-wysiwyg-but-wan",
-      "source": "/models/support/convert_from_wysiwyg_markdown"
-    },
-    {
-      "destination": "/support/models/articles/if-wandb-crashes-will-it-possibly-crash-",
-      "source": "/models/support/crashes_crash_training_run"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-create-a-new-account-w",
-      "source": "/models/support/create_account_email_that_previously_used_deleted_account"
-    },
-    {
-      "destination": "/support/models/articles/who-can-create-a-team-who-can-add-or-del",
-      "source": "/models/support/create_team_add_delete_people_team"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-use-custom-cli-commands-with-sw",
-      "source": "/models/support/custom_cli_commands_sweeps"
-    },
-    {
-      "destination": "/support/models/articles/is-there-a-dark-mode",
-      "source": "/models/support/dark_mode"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-deal-with-network-issues",
-      "source": "/models/support/deal_network_issues"
-    },
-    {
-      "destination": "/support/models/articles/how-do-you-delete-a-custom-chart-preset",
-      "source": "/models/support/delete_custom_chart_preset"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-delete-my-organization-account",
-      "source": "/models/support/delete_organization_account"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-delete-a-panel-grid",
-      "source": "/models/support/delete_panel_grid"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-delete-a-team-from-my-account",
-      "source": "/models/support/delete_team_from_account"
-    },
-    {
-      "destination": "/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam",
-      "source": "/models/support/didnt_name_run_run_name_coming"
-    },
-    {
-      "destination": "/support/models/articles/what-is-the-difference-between-log-and-s",
-      "source": "/models/support/difference_log_summary"
-    },
-    {
-      "destination": "/support/models/articles/what-is-the-difference-between-team-and-",
-      "source": "/models/support/difference_team_entity_user_entity_mean_me"
-    },
-    {
-      "destination": "/support/models/articles/what-is-the-difference-between-team-and-_2",
-      "source": "/models/support/difference_team_organization"
-    },
-    {
-      "destination": "/support/models/articles/what-is-the-difference-between-wandbinit",
-      "source": "/models/support/difference_wandbinit_modes"
-    },
-    {
-      "destination": "/support/models/articles/how-is-wb-different-from-tensorboard",
-      "source": "/models/support/different_tensorboard"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-downgrade-my-subscription-plan",
-      "source": "/models/support/downgrade_subscription_plan"
-    },
-    {
-      "destination": "/support/models/articles/who-can-edit-and-share-reports",
-      "source": "/models/support/edit_share_reports"
-    },
-    {
-      "destination": "/support/models/articles/embedding-reports",
-      "source": "/models/support/embedding_reports"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-enable-code-logging-with-sweeps",
-      "source": "/models/support/enable_code_logging_sweeps"
-    },
-    {
-      "destination": "/support/models/articles/do-environment-variables-overwrite-the-p",
-      "source": "/models/support/environment_variables_overwrite_parameters"
-    },
-    {
-      "destination": "/support/models/articles/what-is-the-est-runs-column",
-      "source": "/models/support/est_runs_column"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-export-a-list-of-users-from-my-",
-      "source": "/models/support/export_list_users_account"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-fetch-these-version-ids-and-et",
-      "source": "/models/support/fetch_version_ids_etags_wb"
-    },
-    {
-      "destination": "/support/models/articles/which-files-should-i-check-when-my-code-",
-      "source": "/models/support/files_check_code_crashes"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-resolve-the-filestream-rate-li",
-      "source": "/models/support/filestream_rate_limit_exceeded_error"
-    },
-    {
-      "destination": "/support/models/articles/filter-and-delete-unwanted-reports",
-      "source": "/models/support/filter_delete_unwanted_reports"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-find-an-artifact-from-the-best-",
-      "source": "/models/support/find_artifact_best_run_sweep"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-find-the-artifacts-logged-or-c",
-      "source": "/models/support/find_artifacts_logged_consumed_run_find"
-    },
-    {
-      "destination": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa",
-      "source": "/models/support/flag_boolean_variables_hyperparameters"
-    },
-    {
-      "destination": "/support/models/articles/what-formula-do-you-use-for-your-smoothi",
-      "source": "/models/support/formula_smoothing_algorithm"
-    },
-    {
-      "destination": "/support/models/articles/what-really-good-functionalities-are-hid",
-      "source": "/models/support/functionalities_hidden_find"
-    },
-    {
-      "destination": "/support/models/articles/why-is-nothing-showing-up-in-my-graphs",
-      "source": "/models/support/graphs_nothing_showing"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-change-the-colors-of-each-run-",
-      "source": "/models/support/group_runs_custom_meter"
-    },
-    {
-      "destination": "/support/models/articles/can-you-group-runs-by-tags",
-      "source": "/models/support/group_runs_tags"
-    },
-    {
-      "destination": "/support/models/articles/can-i-group-runs-without-using-the-group",
-      "source": "/models/support/group_runs_without_group_feature"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-be-removed-from-a-team",
-      "source": "/models/support/how_can_i_be_removed_from_a_team"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-define-the-local-location-for-",
-      "source": "/models/support/how_can_i_define_the_local_folder_where_to_save_the_wandb_files"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-delete-multiple-runs-in-bulk-i",
-      "source": "/models/support/how_can_i_delete_multiple_runs_in_bulk_instead_of_one_at_a_time"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-delete-my-user-account",
-      "source": "/models/support/how_can_i_delete_my_user_account"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-disable-logging-of-system-metr",
-      "source": "/models/support/how_can_i_disable_logging_of_system_metrics_to_wb"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-log-in-to-wb-server",
-      "source": "/models/support/how_can_i_log_in_to_wb_server"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-overwrite-the-logs-from-previo",
-      "source": "/models/support/how_can_i_overwrite_the_logs_from_previous_steps"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-change-how-frequently-to-log-s",
-      "source": "/models/support/how_can_i_reduce_how_frequently_to_log_system_metrics"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-fix-an-error-like-attributeerr",
-      "source": "/models/support/how_can_i_resolve_the_attributeerror_module_wandb_has_no_attribute"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-see-files-that-do-not-appear-i",
-      "source": "/models/support/how_can_i_see_files_that_do_not_appear_in_the_files_tab"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru",
-      "source": "/models/support/how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist"
-    },
-    {
-      "destination": "/support/models/articles/incorporating-latex",
-      "source": "/models/support/incorporating_latex"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-fix-invalid-authentication-401-",
-      "source": "/models/support/inference_authentication_401_error"
-    },
-    {
-      "destination": "/support/models/articles/what-are-the-best-practices-for-handling",
-      "source": "/models/support/inference_error_handling_best_practices"
-    },
-    {
-      "destination": "/support/models/articles/why-am-i-getting-insufficient-quota-erro",
-      "source": "/models/support/inference_insufficient_quota_402_error"
-    },
-    {
-      "destination": "/support/models/articles/why-am-i-getting-rate-limit-errors-429-w",
-      "source": "/models/support/inference_rate_limit_429_error"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-fix-server-errors-500-503-with-",
-      "source": "/models/support/inference_server_errors_500_503"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-resolve-a-run-initialization-ti",
-      "source": "/models/support/initialization_timeout_error"
-    },
-    {
-      "destination": "/support/models/articles/initstarterror-error-communicating-with-",
-      "source": "/models/support/initstarterror_error_communicating_wandb_process"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-insert-a-table",
-      "source": "/models/support/insert_table"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-install-the-wandb-python-librar",
-      "source": "/models/support/install_wandb_python_library_environments_without_gcc"
-    },
-    {
-      "destination": "/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p",
-      "source": "/models/support/integrate_wb_project_dont_upload_any_images_media"
-    },
-    {
-      "destination": "/support/models/articles/what-happens-if-internet-connection-is-l",
-      "source": "/models/support/internet_connection_lost_while_im_training_model"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-get-added-to-a-team-on-wb",
-      "source": "/models/support/join_team"
-    },
-    {
-      "destination": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase",
-      "source": "/models/support/just_log_metrics_no_code_dataset_examples"
-    },
-    {
-      "destination": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i",
-      "source": "/models/support/just_set_run_name_run_id"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-kill-a-job-with-wandb",
-      "source": "/models/support/kill_job_wandb"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-launch-multiple-runs-from-one-s",
-      "source": "/models/support/launch_multiple_runs_one_script"
-    },
-    {
-      "destination": "/support/models/articles/on-a-local-instance-which-files-should-i",
-      "source": "/models/support/local_instance_files_check_issues"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-log-additional-metrics-after-a",
-      "source": "/models/support/log_additional_metrics_run_completes"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-log-an-artifact-to-an-existing-",
-      "source": "/models/support/log_artifact_existing_run"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-log-runs-launched-by-continuous",
-      "source": "/models/support/log_automated_runs_service_account"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-log-a-list-of-values",
-      "source": "/models/support/log_list_values"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-log-a-metric-that-doesnt-chang",
-      "source": "/models/support/log_metric_doesnt_change_time_such_final"
-    },
-    {
-      "destination": "/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba",
-      "source": "/models/support/log_metrics_batches_some_metrics_epochs"
-    },
-    {
-      "destination": "/support/models/articles/can-i-log-metrics-on-two-different-time-",
-      "source": "/models/support/log_metrics_two_different_time_scales_example_log_training"
-    },
-    {
-      "destination": "/support/models/articles/what-happens-when-i-log-millions-of-step",
-      "source": "/models/support/log_millions_steps_wb_rendered_browser"
-    },
-    {
-      "destination": "/support/models/articles/when-should-i-log-to-my-personal-entity-",
-      "source": "/models/support/log_personal_entity_team_entity"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-log-to-the-right-wandb-user-on-",
-      "source": "/models/support/log_shared_machine"
-    },
-    {
-      "destination": "/support/models/articles/does-logging-block-my-training",
-      "source": "/models/support/logging_block_training"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-turn-off-logging",
-      "source": "/models/support/logging_turn_off"
-    },
-    {
-      "destination": "/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c",
-      "source": "/models/support/metric-naming-graphql-limitations"
-    },
-    {
-      "destination": "/support/models/articles/is-there-a-monthly-subscription-option-f",
-      "source": "/models/support/monthly_subscription_option_teams_plan"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr",
-      "source": "/models/support/move_from_project_another"
-    },
-    {
-      "destination": "/support/models/articles/how-to-get-multiple-charts-with-differen",
-      "source": "/models/support/multiple_charts_different_selected_runs"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-use-wandb-with-multiprocessing",
-      "source": "/models/support/multiprocessing_eg_distributed_training"
-    },
-    {
-      "destination": "/support/models/articles/does-wb-use-the-multiprocessing-library",
-      "source": "/models/support/multiprocessing_library"
-    },
-    {
-      "destination": "/support/models/articles/do-i-need-to-provide-values-for-all-hype",
-      "source": "/models/support/need_provide_values_all_hyperparameters_part_wb_sweep_set"
-    },
-    {
-      "destination": "/support/models/articles/optimizing-multiple-metrics",
-      "source": "/models/support/optimizing_multiple_metrics"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-organize-my-logged-charts-and-",
-      "source": "/models/support/organize_logged_charts_media_wb_ui"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-fix-the-overflows-maximum-value",
-      "source": "/models/support/overflows_maximum_values_error"
-    },
-    {
-      "destination": "/support/models/articles/what-happens-if-i-pass-a-class-attribute",
-      "source": "/models/support/pass_class_attribute_wandblog"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr",
-      "source": "/models/support/plot_max_metric"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w",
-      "source": "/models/support/plot_multiple_lines_plot_legend"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-programmatically-access-the-hum",
-      "source": "/models/support/programmatically_access_humanreadable_run_name"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-change-the-privacy-of-my-proje",
-      "source": "/models/support/project_make_public"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-handle-the-failed-to-query-for-",
-      "source": "/models/support/query_notebook_failed"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-get-the-random-run-name-in-my-s",
-      "source": "/models/support/random_run_name_script"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-recover-an-artifact-af",
-      "source": "/models/support/recover_artifact_after_deleted"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-recover-deleted-runs",
-      "source": "/models/support/recover_deleted_runs"
-    },
-    {
-      "destination": "/support/models/articles/refreshing-data",
-      "source": "/models/support/refreshing_data"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-regain-access-to-my-account-if",
-      "source": "/models/support/regain_access_account_cannot_receive_password_reset_email"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-remove-projects-from-a-team-sp",
-      "source": "/models/support/remove_projects_from_team_space_without_admin_privileges"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-rename-a-project",
-      "source": "/models/support/rename_project"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-renew-my-expired-license",
-      "source": "/models/support/renew_expired_license"
-    },
-    {
-      "destination": "/support/models/articles/my-report-looks-different-after-converti",
-      "source": "/models/support/report_looks_different_converting_markdown"
-    },
-    {
-      "destination": "/support/models/articles/my-report-is-running-slowly-after-the-ch",
-      "source": "/models/support/report_slow_after_wysiwyg"
-    },
-    {
-      "destination": "/support/models/articles/can-i-use-markdown-in-my-reports",
-      "source": "/models/support/reports_markdown"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-request-the-complete-deletion-o",
-      "source": "/models/support/request_complete_deletion_account"
-    },
-    {
-      "destination": "/support/models/articles/can-i-rerun-a-grid-search",
-      "source": "/models/support/rerun_grid_search"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-resolve-login-issues-with-my-a",
-      "source": "/models/support/resolve_login_issues_with_account"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-resolve-permission-errors-when-",
-      "source": "/models/support/resolve_permission_errors_when_logging_wandb_entity"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-use-the-resume-parameter-when-r",
-      "source": "/models/support/resume_parameter"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-resume-a-sweep-using-python-co",
-      "source": "/models/support/resume_sweep_using_python_code"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-set-a-retention-or-expiration-p",
-      "source": "/models/support/retention_expiration_policy_artifact"
-    },
-    {
-      "destination": "/support/models/articles/do-run-finished-alerts-work-in-notebooks",
-      "source": "/models/support/run_finished_alerts"
-    },
-    {
-      "destination": "/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i",
-      "source": "/models/support/run_marked_crashed_wb’s_training_fine_locally"
-    },
-    {
-      "destination": "/support/models/articles/how-does-someone-without-an-account-see-",
-      "source": "/models/support/run_results_anonymous_mode"
-    },
-    {
-      "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
-      "source": "/models/support/run_sweeps_slurm"
-    },
-    {
-      "destination": "/support/models/articles/can-i-run-wandb-offline",
-      "source": "/models/support/run_wandb_offline"
-    },
-    {
-      "destination": "/support/models/articles/how-many-runs-can-i-create-per-project",
-      "source": "/models/support/runs_create_per_project"
-    },
-    {
-      "destination": "/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i",
-      "source": "/models/support/runs_state_crashed_ui_running_machine_get_data"
-    },
-    {
-      "destination": "/support/models/articles/why-is-the-same-metric-appearing-more-th",
-      "source": "/models/support/same_metric_appearing_more"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-save-code",
-      "source": "/models/support/save_code‌"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-save-the-git-commit-associated",
-      "source": "/models/support/save_git_commit_associated_run"
-    },
-    {
-      "destination": "/support/models/articles/is-it-possible-to-save-metrics-offline-a",
-      "source": "/models/support/save_metrics_offline_sync_them_wb_later"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-see-the-bytes-stored-bytes-tra",
-      "source": "/models/support/see_bytes_stored_bytes_tracked_tracked_hours_organization"
-    },
-    {
-      "destination": "/support/models/articles/why-am-i-seeing-fewer-data-points-than-i",
-      "source": "/models/support/seeing_fewer_data_points_logged"
-    },
-    {
-      "destination": "/support/models/articles/how-can-i-send-run-alerts-to-microsoft-t",
-      "source": "/models/support/send_alerts_microsoft_teams_using_wb"
-    },
-    {
-      "destination": "/support/models/articles/what-is-a-service-account-and-why-is-it-",
-      "source": "/models/support/service_account_useful"
-    },
-    {
-      "destination": "/support/models/articles/how-do-you-show-a-step-slider-in-a-custo",
-      "source": "/models/support/show_step_slider_custom_chart"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-silence-wb-info-messages",
-      "source": "/models/support/silence_info_messages"
-    },
-    {
-      "destination": "/support/models/articles/will-wandb-slow-down-my-training",
-      "source": "/models/support/slow_training"
-    },
-    {
-      "destination": "/support/models/articles/does-wb-support-sso-for-multi-tenant",
-      "source": "/models/support/sso_multitenant"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t",
-      "source": "/models/support/stop_wandb_writing_terminal_jupyter_notebook_output"
-    },
-    {
-      "destination": "/support/models/articles/why-does-the-storage-meter-not-update-af",
-      "source": "/models/support/storage_meter_update_after_deleting_runs"
-    },
-    {
-      "destination": "/support/models/articles/how-does-wandb-stream-logs-and-writes-to",
-      "source": "/models/support/stream_logs_writes_disk"
-    },
-    {
-      "destination": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast",
-      "source": "/models/support/sweeps_cloud_infrastructures_such_aws_batch_ecs"
-    },
-    {
-      "destination": "/support/models/articles/can-i-use-sweeps-and-sagemaker",
-      "source": "/models/support/sweeps_sagemaker"
-    },
-    {
-      "destination": "/support/models/articles/how-do-i-switch-between-accounts-on-the-",
-      "source": "/models/support/switch_accounts_same_machine"
-    },
-    {
-      "destination": "/support/models/articles/how-often-are-system-metrics-collected",
-      "source": "/models/support/system_metrics_collected"
-    },
-    {
-      "destination": "/support/models/articles/what-is-a-team-and-where-can-i-find-more",
-      "source": "/models/support/team_find_more_information"
-    },
-    {
-      "destination": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod",
-      "source": "/models/support/testing_code_turn_off"
-    },
-    {
-      "destination": "/support/models/articles/does-your-tool-track-or-store-training-d",
-      "source": "/models/support/tool_track_store_training_data"
-    },
-    {
-      "destination": "/support/models/articles/what-type-of-roles-are-available-and-wha",
-      "source": "/models/support/type_roles_available_differences"
-    },
-    {
-      "destination": "/support/models/articles/how-do-we-update-our-payment-method",
-      "source": "/models/support/update_payment_method"
-    },
-    {
-      "destination": "/support/models/articles/upload-a-csv-to-a-report",
-      "source": "/models/support/upload_csv_report"
-    },
-    {
-      "destination": "/support/models/articles/upload-an-image-to-a-report",
-      "source": "/models/support/upload_image_report"
-    },
-    {
-      "destination": "/support/models/articles/can-wb-team-members-see-my-data",
-      "source": "/models/support/wandb_see_data"
-    },
-    {
-      "destination": "/support/models/articles/is-there-a-wb-outage",
-      "source": "/models/support/wandb_status"
-    },
-    {
-      "destination": "/support/models/articles/what-does-wandbinit-do-to-my-training-pr",
-      "source": "/models/support/wandbinit_training_process"
-    },
-    {
-      "destination": "/support/models/articles/what-happens-if-i-edit-my-python-files-w",
-      "source": "/models/support/what_happens_if_i_edit_my_python_files_while_a_sweep_is_running"
-    },
-    {
-      "destination": "/support/models/articles/where-are-artifacts-downloaded-and-how-c",
-      "source": "/models/support/where_are_artifacts_downloaded_and_how_can_i_control_that"
-    },
-    {
-      "destination": "/support/models/articles/why-are-steps-missing-from-a-csv-metric-",
-      "source": "/models/support/why_are_steps_missing_from_a_csv_metric_export"
-    },
-    {
-      "destination": "/support/models/articles/does-this-only-work-for-python",
-      "source": "/models/support/work_python"
-    },
-    {
-      "destination": "/support/models/tags/run-crashes",
-      "source": "/models/support/crashing-and-hanging-runs"
-    },
-    {
-      "destination": "/support/inference/articles/api-error-code-403-country-region-or-ter",
-      "source": "/models/support/inference_geographic_restriction_403"
-    },
-    {
-      "destination": "/support/models/tags/:slug*",
-      "source": "/models/support/:slug*"
-    },
-    {
-      "destination": "/models/tables/evaluate-models",
-      "source": "/models/evaluate-models"
-    },
-    {
-      "destination": "/platform/launch",
-      "source": "/models/track/launch/*"
-    },
-    {
-      "destination": "/platform/hosting",
-      "source": "/platform/hosting/how-to-guides/*"
-    },
-    {
-      "destination": "/platform/hosting/data-security/secure-storage-connector",
-      "source": "/platform/hosting/secure-storage-connector"
-    },
-    {
-      "destination": "/platform/hosting/hosting-options/dedicated-cloud",
-      "source": "/platform/hosting/hosting-options/dedicated_cloud"
-    },
-    {
-      "destination": "/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
-      "source": "/platform/hosting/hosting-options/rate-limits-dedicated-cloud"
-    },
-    {
-      "destination": "/platform/hosting/hosting-options/dedicated-cloud/regions",
-      "source": "/platform/hosting/hosting-options/dedicated_regions"
-    },
-    {
-      "destination": "/platform/hosting/hosting-options/dedicated-cloud/export-data",
-      "source": "/platform/hosting/export-data-from-dedicated-cloud"
-    },
-    {
-      "destination": "/platform/hosting/self-managed",
-      "source": "/platform/hosting/self-managed/install-on-public-cloud"
-    },
-    {
-      "destination": "/models/quickstart",
-      "source": "/quickstart/"
-    },
-    {
-      "destination": "/models/ref/cli/:slug*",
-      "source": "/ref/cli/:slug*"
-    },
-    {
-      "destination": "/models/ref/python/data-types/",
-      "source": "/ref/data_types/"
-    },
-    {
-      "destination": "/models/ref/python/public-api/:slug*",
-      "source": "/ref/public-api/:slug*"
-    },
-    {
-      "destination": "/models/ref/python/:slug*",
-      "source": "/ref/python/:slug*"
-    },
-    {
-      "destination": "/models/ref/python/experiments/:slug*",
-      "source": "/ref/python/classes/:slug*"
-    },
-    {
-      "destination": "/models/ref/python",
-      "source": "/ref/python/sdk/*"
-    },
-    {
-      "destination": "/models/ref/wandb_workspaces/:slug*",
-      "source": "/ref/python/wandb_workspaces/:slug*"
-    },
-    {
-      "destination": "/models/ref/query-panel/:slug*",
-      "source": "/ref/query-panel/:slug*"
-    },
-    {
-      "destination": "/release-notes/",
-      "source": "/ref/release-notes/*"
-    },
-    {
-      "destination": "/release-notes/server-releases-archived/",
-      "source": "/ref/release-notes/0.3/*"
-    },
-    {
-      "destination": "/release-notes/server-releases-archived/",
-      "source": "/ref/release-notes/0.4/*"
-    },
-    {
-      "destination": "/release-notes/server-releases-archived/",
-      "source": "/ref/release-notes/0.5/*"
-    },
-    {
-      "destination": "/release-notes/server-releases-archived/",
-      "source": "/ref/release-notes/0.60.0/*"
-    },
-    {
-      "destination": "/release-notes/server-releases/",
-      "source": "/ref/release-notes/0.61.0/*"
-    },
-    {
-      "destination": "/release-notes/server-releases/",
-      "source": "/ref/release-notes/releases/*"
-    },
-    {
-      "destination": "/release-notes/server-releases-archived/",
-      "source": "/ref/release-notes/releases/archived/*"
-    },
-    {
-      "destination": "/serverless-rl/api-reference",
-      "source": "/ref/training"
-    },
-    {
-      "destination": "/models/ref/wandb_workspaces/:slug*",
-      "source": "/ref/wandb_workspaces/:slug*"
-    },
-    {
-      "destination": "/platform/hosting/hosting-options/self-managed",
-      "source": "/self-hosted/*"
-    },
-    {
-      "destination": "/support",
-      "source": "/support-tags"
-    },
-    {
-      "destination": "/support",
-      "source": "/models/support"
-    },
-    {
-      "destination": "/support/inference",
-      "source": "/inference/api-reference/errors"
-    },
-    {
-      "destination": "/support/weave",
-      "source": "/weave/guides/troubleshooting"
-    },
-    {
-      "destination": "/support",
-      "source": "/sweeps/faq/"
-    },
-    {
-      "destination": "/serverless-rl/api-reference/:slug*",
-      "source": "/training/api-reference/:slug*"
-    },
-    {
-      "destination": "/serverless-rl/api-reference",
-      "source": "/training/api-reference"
-    },
-    {
-      "destination": "/serverless-rl/usage",
-      "source": "/training/serverless-rl"
-    },
-    {
-      "destination": "/serverless-rl/:slug*",
-      "source": "/training/serverless-rl/:slug*"
-    },
-    {
-      "destination": "/serverless-rl/sft/usage",
-      "source": "/training/sft-training/sft-training"
-    },
-    {
-      "destination": "/serverless-rl/sft/:slug*",
-      "source": "/training/sft-training/:slug*"
-    },
-    {
-      "destination": "/serverless-rl/sft",
-      "source": "/training/sft-training"
-    },
-    {
-      "destination": "/serverless-rl/prerequisites",
-      "source": "/training/prerequisites"
-    },
-    {
-      "destination": "/serverless-rl",
-      "source": "/training"
-    },
-    {
-      "destination": "/serverless-rl/:slug*",
-      "source": "/training/:slug*"
-    },
-    {
-      "destination": "/models/tutorials/:slug*",
-      "source": "/tutorials/:slug*"
-    },
-    {
-      "destination": "/models/ref/python/",
-      "source": "/wandb/"
-    },
-    {
-      "destination": "/weave/cookbooks/:slug*",
-      "source": "/weave/reference/gen_notebooks/:slug*"
-    },
-    {
-      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace",
-      "source": "/weave/reference/gen_notebooks/intro_notebook"
-    },
-    {
-      "destination": "/support/weave/index",
-      "source": "/weave/guides/tracking/faqs"
-    },
-    {
-      "destination": "/support/weave",
-      "source": "/weave/details/faqs"
-    },
-    {
-      "destination": "/support/weave",
-      "source": "/weave/community"
-    },
-    {
-      "destination": "/support/weave",
-      "source": "/weave/open-source"
-    },
-    {
-      "destination": "/weave/details/limits",
-      "source": "/weave/guides/tools/limits"
-    },
-    {
-      "destination": "/weave/guides/evaluation/monitors",
-      "source": "/weave/guides/evaluation/guardrails_and_monitors"
-    },
-    {
-      "destination": "weave/concepts/what-is-weave",
-      "source": "weave/concepts/fundamental-components"
-    },
-    {
-      "destination": "weave/concepts/what-is-weave",
-      "source": "weave/guides/tracking"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/operator"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/self-managed/bare-metal"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
-      "source": "/platform/hosting/self-managed/operator-airgapped"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/self-managed/cloud-deployments/terraform"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/self-managed/aws-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/self-managed/gcp-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/platform/hosting/self-managed/azure-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ja/platform/hosting/operator"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ja/platform/hosting/self-managed/bare-metal"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
-      "source": "/ja/platform/hosting/self-managed/operator-airgapped"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ja/platform/hosting/self-managed/aws-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ja/platform/hosting/self-managed/gcp-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ja/platform/hosting/self-managed/azure-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ko/platform/hosting/operator"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ko/platform/hosting/self-managed/bare-metal"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
-      "source": "/ko/platform/hosting/self-managed/operator-airgapped"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ko/platform/hosting/self-managed/aws-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ko/platform/hosting/self-managed/gcp-tf"
-    },
-    {
-      "destination": "/platform/hosting/self-managed/operator",
-      "source": "/ko/platform/hosting/self-managed/azure-tf"
+  "footer": {
+    "socials": {
+      "discord": "https://discord.com/invite/RgB8CPk2ce",
+      "github": "https://github.com/wandb/docs",
+      "linkedin": "https://www.linkedin.com/company/wandb",
+      "x": "https://x.com/weights_biases?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
+      "youtube": "https://www.youtube.com/c/WeightsBiases"
     }
-  ],
+  },
   "seo": {
-    "indexing": "all",
     "metatags": {
       "canonical": "https://docs.wandb.ai"
+    },
+    "indexing": "all"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Source Serif 4",
+      "weight": 400
+    },
+    "body": {
+      "family": "Source Sans 3",
+      "weight": 400
     }
   },
   "styling": {
-    "eyebrows": "breadcrumbs",
-    "stylesheet": "/css/styles.css"
+    "eyebrows": "breadcrumbs"
   },
-  "theme": "aspen"
+  "redirects": [
+    {
+      "source": "/_print/:slug*",
+      "destination": "/:slug*"
+    },
+    {
+      "source": "/app/:slug*",
+      "destination": "/models/app/:slug*"
+    },
+    {
+      "source": "/artifacts/:slug*",
+      "destination": "/models/artifacts/:slug*"
+    },
+    {
+      "source": "/deployment/*",
+      "destination": "/platform/hosting/"
+    },
+    {
+      "source": "/docs/*",
+      "destination": "/models"
+    },
+    {
+      "source": "/getting-started/",
+      "destination": "/get-started/"
+    },
+    {
+      "source": "/guides/app/:slug*",
+      "destination": "/models/app/:slug*"
+    },
+    {
+      "source": "/guides/app/console-logs",
+      "destination": "/models/app/console-logs"
+    },
+    {
+      "source": "/guides/app/keyboard-shortcuts",
+      "destination": "/models/app/keyboard-shortcuts"
+    },
+    {
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/guides/artifacts/:slug*",
+      "destination": "/models/artifacts/:slug*"
+    },
+    {
+      "source": "/guides/automations/:slug*",
+      "destination": "/models/automations/:slug*"
+    },
+    {
+      "source": "/guides/core/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/guides/hosting/:slug*",
+      "destination": "/platform/hosting/:slug*"
+    },
+    {
+      "source": "/guides/inference/:slug*",
+      "destination": "/inference/:slug*"
+    },
+    {
+      "source": "/guides/integrations/:slug*",
+      "destination": "/models/integrations/:slug*"
+    },
+    {
+      "source": "/guides/integrations/pytorch",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/guides/launch/:slug*",
+      "destination": "/platform/launch/:slug*"
+    },
+    {
+      "source": "/guides/models/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/guides/models_quickstart",
+      "destination": "/models/models_quickstart"
+    },
+    {
+      "source": "/guides/registry/:slug*",
+      "destination": "/models/registry/:slug*"
+    },
+    {
+      "source": "/guides/reports/:slug*",
+      "destination": "/models/reports/:slug*"
+    },
+    {
+      "source": "/guides/reports/reports-faq/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/runs/:slug*",
+      "destination": "/models/runs/:slug*"
+    },
+    {
+      "source": "/guides/secrets",
+      "destination": "/platform/secrets"
+    },
+    {
+      "source": "/guides/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/guides/sweeps/:slug*",
+      "destination": "/models/sweeps/:slug*"
+    },
+    {
+      "source": "/guides/sweeps/faq/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/tables/:slug*",
+      "destination": "/models/tables/:slug*"
+    },
+    {
+      "source": "/guides/technical-faq/admin/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/technical-faq/general/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/technical-faq/metrics-and-performance/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/technical-faq/setup/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/technical-faq/troubleshooting/",
+      "destination": "/support"
+    },
+    {
+      "source": "/guides/track/:slug*",
+      "destination": "/models/track/:slug*"
+    },
+    {
+      "source": "/guides/training/:slug*",
+      "destination": "/serverless-rl/:slug*"
+    },
+    {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/inference/response-settings",
+      "destination": "/inference"
+    },
+    {
+      "source": "/inference/support",
+      "destination": "/inference"
+    },
+    {
+      "source": "/integrations/jupyter.html",
+      "destination": "/models/track/jupyter"
+    },
+    {
+      "source": "/launch-library/:slug*",
+      "destination": "/platform/launch/launch-library/:slug*"
+    },
+    {
+      "source": "/library/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/models/app/pages/workspaces",
+      "destination": "/models/app/features/cascade-settings"
+    },
+    {
+      "source": "/models/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/models/core",
+      "destination": "/models"
+    },
+    {
+      "source": "/models/integrations/openai",
+      "destination": "/models/integrations/openai-api"
+    },
+    {
+      "source": "/models/tutorials",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/huggingface",
+      "destination": "/models/integrations/huggingface"
+    },
+    {
+      "source": "/models/tutorials/minikube_gpu",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/monai_3d_segmentation",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/lightning",
+      "destination": "/models/integrations/lightning"
+    },
+    {
+      "source": "/models/tutorials/tensorflow",
+      "destination": "/models/integrations/tensorflow"
+    },
+    {
+      "source": "/models/tutorials/tensorflow_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui/",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/tutorials/volcano",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/weave_models_registry",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/pytorch",
+      "destination": "/models/integrations/pytorch"
+    },
+    {
+      "source": "/models/tutorials/artifacts",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/experiments",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras_models",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras_tables",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/sweeps",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/tables",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/workspaces",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/ref/python/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/models/ref/cli/wandb-local",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/ref/cli/wandb-off",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/ref/cli/wandb-on",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/ref/cli/wandb-projects",
+      "destination": "/models/ref/cli"
+    },
+    {
+      "source": "/models/registry/model_registry/:slug*",
+      "destination": "/models/registry"
+    },
+    {
+      "source": "/models/runs/multiple-runs-per-process",
+      "destination": "/models/runs/initialize-run"
+    },
+    {
+      "source": "/models/hosting/:slug*",
+      "destination": "/platform/hosting/:slug*"
+    },
+    {
+      "source": "/models/support/rotate_revoke_access",
+      "destination": "/support/models/articles/how-can-i-rotate-or-revoke-access"
+    },
+    {
+      "source": "/models/support/find_api_key",
+      "destination": "/support/models/articles/how-do-i-find-my-api-key"
+    },
+    {
+      "source": "/models/support/academic_plan_student",
+      "destination": "/support/models/articles/can-i-get-an-academic-plan-as-a-student"
+    },
+    {
+      "source": "/models/support/access_artifacts",
+      "destination": "/support/models/articles/who-has-access-to-my-artifacts"
+    },
+    {
+      "source": "/models/support/access_data_logged_runs_directly_programmatically",
+      "destination": "/support/models/articles/how-can-i-access-the-data-logged-to-my-r"
+    },
+    {
+      "source": "/models/support/add_extra_values_sweep_start_new_one",
+      "destination": "/support/models/articles/is-there-a-way-to-add-extra-values-to-a-"
+    },
+    {
+      "source": "/models/support/add_more_seats",
+      "destination": "/support/models/articles/is-there-a-way-to-add-more-seats"
+    },
+    {
+      "source": "/models/support/add_plotlybokeh_charts_tables",
+      "destination": "/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into"
+    },
+    {
+      "source": "/models/support/add_same_service_account_multiple_teams",
+      "destination": "/support/models/articles/is-it-possible-to-add-the-same-service-a"
+    },
+    {
+      "source": "/models/support/adding_multiple_authors_report",
+      "destination": "/support/models/articles/adding-multiple-authors-to-a-report"
+    },
+    {
+      "source": "/models/support/admin_local_instance_manage",
+      "destination": "/support/models/articles/if-i-am-the-admin-of-my-local-instance-h"
+    },
+    {
+      "source": "/models/support/anaconda_package",
+      "destination": "/support/models/articles/is-there-an-anaconda-package-for-weights"
+    },
+    {
+      "source": "/models/support/anon_users_unavailable_features",
+      "destination": "/support/models/articles/what-are-features-that-are-not-available"
+    },
+    {
+      "source": "/models/support/artifact_storage_version",
+      "destination": "/support/models/articles/how-much-storage-does-each-artifact-vers"
+    },
+    {
+      "source": "/models/support/artifacts_multiple_architectures_runs",
+      "destination": "/support/models/articles/using-artifacts-with-multiple-architectu"
+    },
+    {
+      "source": "/models/support/best_log_models_runs_sweep",
+      "destination": "/support/models/articles/how-do-i-best-log-models-from-runs-in-a-"
+    },
+    {
+      "source": "/models/support/best_practices_organize_hyperparameter_searches",
+      "destination": "/support/models/articles/best-practices-to-organize-hyperparamete"
+    },
+    {
+      "source": "/models/support/bounty_program",
+      "destination": "/support/models/articles/do-you-have-a-bug-bounty-program"
+    },
+    {
+      "source": "/models/support/cancel_subscription",
+      "destination": "/support/models/articles/how-do-i-cancel-my-subscription"
+    },
+    {
+      "source": "/models/support/change_account_from_corporate_academic",
+      "destination": "/support/models/articles/how-can-i-change-my-account-from-corpora"
+    },
+    {
+      "source": "/models/support/change_billing_address",
+      "destination": "/support/models/articles/how-do-i-change-my-billing-address"
+    },
+    {
+      "source": "/models/support/change_directory_sweep_logs_locally",
+      "destination": "/support/models/articles/how-can-i-change-the-directory-my-sweep-"
+    },
+    {
+      "source": "/models/support/change_group_after_completion",
+      "destination": "/support/models/articles/is-it-possible-to-change-the-group-assig"
+    },
+    {
+      "source": "/models/support/change_username",
+      "destination": "/support/models/articles/is-it-possible-to-change-the-username"
+    },
+    {
+      "source": "/models/support/client_support_python_2",
+      "destination": "/support/models/articles/does-the-wb-client-support-python-2"
+    },
+    {
+      "source": "/models/support/client_support_python_35",
+      "destination": "/support/models/articles/does-the-wb-client-support-python-35"
+    },
+    {
+      "source": "/models/support/compare_images_media_across_epochs_steps",
+      "destination": "/support/models/articles/how-can-i-compare-images-or-media-across"
+    },
+    {
+      "source": "/models/support/configure_name_run_training_code",
+      "destination": "/support/models/articles/how-can-i-configure-the-name-of-the-run-"
+    },
+    {
+      "source": "/models/support/convert_from_wysiwyg_markdown",
+      "destination": "/support/models/articles/i-converted-my-report-to-wysiwyg-but-wan"
+    },
+    {
+      "source": "/models/support/crashes_crash_training_run",
+      "destination": "/support/models/articles/if-wandb-crashes-will-it-possibly-crash-"
+    },
+    {
+      "source": "/models/support/create_account_email_that_previously_used_deleted_account",
+      "destination": "/support/models/articles/is-it-possible-to-create-a-new-account-w"
+    },
+    {
+      "source": "/models/support/create_team_add_delete_people_team",
+      "destination": "/support/models/articles/who-can-create-a-team-who-can-add-or-del"
+    },
+    {
+      "source": "/models/support/custom_cli_commands_sweeps",
+      "destination": "/support/models/articles/how-do-i-use-custom-cli-commands-with-sw"
+    },
+    {
+      "source": "/models/support/dark_mode",
+      "destination": "/support/models/articles/is-there-a-dark-mode"
+    },
+    {
+      "source": "/models/support/deal_network_issues",
+      "destination": "/support/models/articles/how-do-i-deal-with-network-issues"
+    },
+    {
+      "source": "/models/support/delete_custom_chart_preset",
+      "destination": "/support/models/articles/how-do-you-delete-a-custom-chart-preset"
+    },
+    {
+      "source": "/models/support/delete_organization_account",
+      "destination": "/support/models/articles/how-do-i-delete-my-organization-account"
+    },
+    {
+      "source": "/models/support/delete_panel_grid",
+      "destination": "/support/models/articles/how-do-i-delete-a-panel-grid"
+    },
+    {
+      "source": "/models/support/delete_team_from_account",
+      "destination": "/support/models/articles/how-do-i-delete-a-team-from-my-account"
+    },
+    {
+      "source": "/models/support/didnt_name_run_run_name_coming",
+      "destination": "/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam"
+    },
+    {
+      "source": "/models/support/difference_log_summary",
+      "destination": "/support/models/articles/what-is-the-difference-between-log-and-s"
+    },
+    {
+      "source": "/models/support/difference_team_entity_user_entity_mean_me",
+      "destination": "/support/models/articles/what-is-the-difference-between-team-and-"
+    },
+    {
+      "source": "/models/support/difference_team_organization",
+      "destination": "/support/models/articles/what-is-the-difference-between-team-and-_2"
+    },
+    {
+      "source": "/models/support/difference_wandbinit_modes",
+      "destination": "/support/models/articles/what-is-the-difference-between-wandbinit"
+    },
+    {
+      "source": "/models/support/different_tensorboard",
+      "destination": "/support/models/articles/how-is-wb-different-from-tensorboard"
+    },
+    {
+      "source": "/models/support/downgrade_subscription_plan",
+      "destination": "/support/models/articles/how-do-i-downgrade-my-subscription-plan"
+    },
+    {
+      "source": "/models/support/edit_share_reports",
+      "destination": "/support/models/articles/who-can-edit-and-share-reports"
+    },
+    {
+      "source": "/models/support/embedding_reports",
+      "destination": "/support/models/articles/embedding-reports"
+    },
+    {
+      "source": "/models/support/enable_code_logging_sweeps",
+      "destination": "/support/models/articles/how-do-i-enable-code-logging-with-sweeps"
+    },
+    {
+      "source": "/models/support/environment_variables_overwrite_parameters",
+      "destination": "/support/models/articles/do-environment-variables-overwrite-the-p"
+    },
+    {
+      "source": "/models/support/est_runs_column",
+      "destination": "/support/models/articles/what-is-the-est-runs-column"
+    },
+    {
+      "source": "/models/support/export_list_users_account",
+      "destination": "/support/models/articles/how-do-i-export-a-list-of-users-from-my-"
+    },
+    {
+      "source": "/models/support/fetch_version_ids_etags_wb",
+      "destination": "/support/models/articles/how-can-i-fetch-these-version-ids-and-et"
+    },
+    {
+      "source": "/models/support/files_check_code_crashes",
+      "destination": "/support/models/articles/which-files-should-i-check-when-my-code-"
+    },
+    {
+      "source": "/models/support/filestream_rate_limit_exceeded_error",
+      "destination": "/support/models/articles/how-can-i-resolve-the-filestream-rate-li"
+    },
+    {
+      "source": "/models/support/filter_delete_unwanted_reports",
+      "destination": "/support/models/articles/filter-and-delete-unwanted-reports"
+    },
+    {
+      "source": "/models/support/find_artifact_best_run_sweep",
+      "destination": "/support/models/articles/how-do-i-find-an-artifact-from-the-best-"
+    },
+    {
+      "source": "/models/support/find_artifacts_logged_consumed_run_find",
+      "destination": "/support/models/articles/how-can-i-find-the-artifacts-logged-or-c"
+    },
+    {
+      "source": "/models/support/flag_boolean_variables_hyperparameters",
+      "destination": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa"
+    },
+    {
+      "source": "/models/support/formula_smoothing_algorithm",
+      "destination": "/support/models/articles/what-formula-do-you-use-for-your-smoothi"
+    },
+    {
+      "source": "/models/support/functionalities_hidden_find",
+      "destination": "/support/models/articles/what-really-good-functionalities-are-hid"
+    },
+    {
+      "source": "/models/support/graphs_nothing_showing",
+      "destination": "/support/models/articles/why-is-nothing-showing-up-in-my-graphs"
+    },
+    {
+      "source": "/models/support/group_runs_custom_meter",
+      "destination": "/support/models/articles/how-can-i-change-the-colors-of-each-run-"
+    },
+    {
+      "source": "/models/support/group_runs_tags",
+      "destination": "/support/models/articles/can-you-group-runs-by-tags"
+    },
+    {
+      "source": "/models/support/group_runs_without_group_feature",
+      "destination": "/support/models/articles/can-i-group-runs-without-using-the-group"
+    },
+    {
+      "source": "/models/support/how_can_i_be_removed_from_a_team",
+      "destination": "/support/models/articles/how-can-i-be-removed-from-a-team"
+    },
+    {
+      "source": "/models/support/how_can_i_define_the_local_folder_where_to_save_the_wandb_files",
+      "destination": "/support/models/articles/how-can-i-define-the-local-location-for-"
+    },
+    {
+      "source": "/models/support/how_can_i_delete_multiple_runs_in_bulk_instead_of_one_at_a_time",
+      "destination": "/support/models/articles/how-can-i-delete-multiple-runs-in-bulk-i"
+    },
+    {
+      "source": "/models/support/how_can_i_delete_my_user_account",
+      "destination": "/support/models/articles/how-can-i-delete-my-user-account"
+    },
+    {
+      "source": "/models/support/how_can_i_disable_logging_of_system_metrics_to_wb",
+      "destination": "/support/models/articles/how-can-i-disable-logging-of-system-metr"
+    },
+    {
+      "source": "/models/support/how_can_i_log_in_to_wb_server",
+      "destination": "/support/models/articles/how-can-i-log-in-to-wb-server"
+    },
+    {
+      "source": "/models/support/how_can_i_overwrite_the_logs_from_previous_steps",
+      "destination": "/support/models/articles/how-can-i-overwrite-the-logs-from-previo"
+    },
+    {
+      "source": "/models/support/how_can_i_reduce_how_frequently_to_log_system_metrics",
+      "destination": "/support/models/articles/how-can-i-change-how-frequently-to-log-s"
+    },
+    {
+      "source": "/models/support/how_can_i_resolve_the_attributeerror_module_wandb_has_no_attribute",
+      "destination": "/support/models/articles/how-can-i-fix-an-error-like-attributeerr"
+    },
+    {
+      "source": "/models/support/how_can_i_see_files_that_do_not_appear_in_the_files_tab",
+      "destination": "/support/models/articles/how-can-i-see-files-that-do-not-appear-i"
+    },
+    {
+      "source": "/models/support/how_do_i_fix_the_error_resume_must_but_run_run_id_doesnt_exist",
+      "destination": "/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru"
+    },
+    {
+      "source": "/models/support/incorporating_latex",
+      "destination": "/support/models/articles/incorporating-latex"
+    },
+    {
+      "source": "/models/support/inference_authentication_401_error",
+      "destination": "/support/models/articles/how-do-i-fix-invalid-authentication-401-"
+    },
+    {
+      "source": "/models/support/inference_error_handling_best_practices",
+      "destination": "/support/models/articles/what-are-the-best-practices-for-handling"
+    },
+    {
+      "source": "/models/support/inference_insufficient_quota_402_error",
+      "destination": "/support/models/articles/why-am-i-getting-insufficient-quota-erro"
+    },
+    {
+      "source": "/models/support/inference_rate_limit_429_error",
+      "destination": "/support/models/articles/why-am-i-getting-rate-limit-errors-429-w"
+    },
+    {
+      "source": "/models/support/inference_server_errors_500_503",
+      "destination": "/support/models/articles/how-do-i-fix-server-errors-500-503-with-"
+    },
+    {
+      "source": "/models/support/initialization_timeout_error",
+      "destination": "/support/models/articles/how-do-i-resolve-a-run-initialization-ti"
+    },
+    {
+      "source": "/models/support/initstarterror_error_communicating_wandb_process",
+      "destination": "/support/models/articles/initstarterror-error-communicating-with-"
+    },
+    {
+      "source": "/models/support/insert_table",
+      "destination": "/support/models/articles/how-do-i-insert-a-table"
+    },
+    {
+      "source": "/models/support/install_wandb_python_library_environments_without_gcc",
+      "destination": "/support/models/articles/how-do-i-install-the-wandb-python-librar"
+    },
+    {
+      "source": "/models/support/integrate_wb_project_dont_upload_any_images_media",
+      "destination": "/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p"
+    },
+    {
+      "source": "/models/support/internet_connection_lost_while_im_training_model",
+      "destination": "/support/models/articles/what-happens-if-internet-connection-is-l"
+    },
+    {
+      "source": "/models/support/join_team",
+      "destination": "/support/models/articles/how-do-i-get-added-to-a-team-on-wb"
+    },
+    {
+      "source": "/models/support/just_log_metrics_no_code_dataset_examples",
+      "destination": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase"
+    },
+    {
+      "source": "/models/support/just_set_run_name_run_id",
+      "destination": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i"
+    },
+    {
+      "source": "/models/support/kill_job_wandb",
+      "destination": "/support/models/articles/how-do-i-kill-a-job-with-wandb"
+    },
+    {
+      "source": "/models/support/launch_multiple_runs_one_script",
+      "destination": "/support/models/articles/how-do-i-launch-multiple-runs-from-one-s"
+    },
+    {
+      "source": "/models/support/local_instance_files_check_issues",
+      "destination": "/support/models/articles/on-a-local-instance-which-files-should-i"
+    },
+    {
+      "source": "/models/support/log_additional_metrics_run_completes",
+      "destination": "/support/models/articles/how-can-i-log-additional-metrics-after-a"
+    },
+    {
+      "source": "/models/support/log_artifact_existing_run",
+      "destination": "/support/models/articles/how-do-i-log-an-artifact-to-an-existing-"
+    },
+    {
+      "source": "/models/support/log_automated_runs_service_account",
+      "destination": "/support/models/articles/how-do-i-log-runs-launched-by-continuous"
+    },
+    {
+      "source": "/models/support/log_list_values",
+      "destination": "/support/models/articles/how-do-i-log-a-list-of-values"
+    },
+    {
+      "source": "/models/support/log_metric_doesnt_change_time_such_final",
+      "destination": "/support/models/articles/how-can-i-log-a-metric-that-doesnt-chang"
+    },
+    {
+      "source": "/models/support/log_metrics_batches_some_metrics_epochs",
+      "destination": "/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba"
+    },
+    {
+      "source": "/models/support/log_metrics_two_different_time_scales_example_log_training",
+      "destination": "/support/models/articles/can-i-log-metrics-on-two-different-time-"
+    },
+    {
+      "source": "/models/support/log_millions_steps_wb_rendered_browser",
+      "destination": "/support/models/articles/what-happens-when-i-log-millions-of-step"
+    },
+    {
+      "source": "/models/support/log_personal_entity_team_entity",
+      "destination": "/support/models/articles/when-should-i-log-to-my-personal-entity-"
+    },
+    {
+      "source": "/models/support/log_shared_machine",
+      "destination": "/support/models/articles/how-do-i-log-to-the-right-wandb-user-on-"
+    },
+    {
+      "source": "/models/support/logging_block_training",
+      "destination": "/support/models/articles/does-logging-block-my-training"
+    },
+    {
+      "source": "/models/support/logging_turn_off",
+      "destination": "/support/models/articles/how-do-i-turn-off-logging"
+    },
+    {
+      "source": "/models/support/metric-naming-graphql-limitations",
+      "destination": "/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c"
+    },
+    {
+      "source": "/models/support/monthly_subscription_option_teams_plan",
+      "destination": "/support/models/articles/is-there-a-monthly-subscription-option-f"
+    },
+    {
+      "source": "/models/support/move_from_project_another",
+      "destination": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr"
+    },
+    {
+      "source": "/models/support/multiple_charts_different_selected_runs",
+      "destination": "/support/models/articles/how-to-get-multiple-charts-with-differen"
+    },
+    {
+      "source": "/models/support/multiprocessing_eg_distributed_training",
+      "destination": "/support/models/articles/how-can-i-use-wandb-with-multiprocessing"
+    },
+    {
+      "source": "/models/support/multiprocessing_library",
+      "destination": "/support/models/articles/does-wb-use-the-multiprocessing-library"
+    },
+    {
+      "source": "/models/support/need_provide_values_all_hyperparameters_part_wb_sweep_set",
+      "destination": "/support/models/articles/do-i-need-to-provide-values-for-all-hype"
+    },
+    {
+      "source": "/models/support/optimizing_multiple_metrics",
+      "destination": "/support/models/articles/optimizing-multiple-metrics"
+    },
+    {
+      "source": "/models/support/organize_logged_charts_media_wb_ui",
+      "destination": "/support/models/articles/how-can-i-organize-my-logged-charts-and-"
+    },
+    {
+      "source": "/models/support/overflows_maximum_values_error",
+      "destination": "/support/models/articles/how-do-i-fix-the-overflows-maximum-value"
+    },
+    {
+      "source": "/models/support/pass_class_attribute_wandblog",
+      "destination": "/support/models/articles/what-happens-if-i-pass-a-class-attribute"
+    },
+    {
+      "source": "/models/support/plot_max_metric",
+      "destination": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr"
+    },
+    {
+      "source": "/models/support/plot_multiple_lines_plot_legend",
+      "destination": "/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w"
+    },
+    {
+      "source": "/models/support/programmatically_access_humanreadable_run_name",
+      "destination": "/support/models/articles/how-do-i-programmatically-access-the-hum"
+    },
+    {
+      "source": "/models/support/project_make_public",
+      "destination": "/support/models/articles/how-can-i-change-the-privacy-of-my-proje"
+    },
+    {
+      "source": "/models/support/query_notebook_failed",
+      "destination": "/support/models/articles/how-do-i-handle-the-failed-to-query-for-"
+    },
+    {
+      "source": "/models/support/random_run_name_script",
+      "destination": "/support/models/articles/how-do-i-get-the-random-run-name-in-my-s"
+    },
+    {
+      "source": "/models/support/recover_artifact_after_deleted",
+      "destination": "/support/models/articles/is-it-possible-to-recover-an-artifact-af"
+    },
+    {
+      "source": "/models/support/recover_deleted_runs",
+      "destination": "/support/models/articles/how-can-i-recover-deleted-runs"
+    },
+    {
+      "source": "/models/support/refreshing_data",
+      "destination": "/support/models/articles/refreshing-data"
+    },
+    {
+      "source": "/models/support/regain_access_account_cannot_receive_password_reset_email",
+      "destination": "/support/models/articles/how-can-i-regain-access-to-my-account-if"
+    },
+    {
+      "source": "/models/support/remove_projects_from_team_space_without_admin_privileges",
+      "destination": "/support/models/articles/how-can-i-remove-projects-from-a-team-sp"
+    },
+    {
+      "source": "/models/support/rename_project",
+      "destination": "/support/models/articles/how-do-i-rename-a-project"
+    },
+    {
+      "source": "/models/support/renew_expired_license",
+      "destination": "/support/models/articles/how-do-i-renew-my-expired-license"
+    },
+    {
+      "source": "/models/support/report_looks_different_converting_markdown",
+      "destination": "/support/models/articles/my-report-looks-different-after-converti"
+    },
+    {
+      "source": "/models/support/report_slow_after_wysiwyg",
+      "destination": "/support/models/articles/my-report-is-running-slowly-after-the-ch"
+    },
+    {
+      "source": "/models/support/reports_markdown",
+      "destination": "/support/models/articles/can-i-use-markdown-in-my-reports"
+    },
+    {
+      "source": "/models/support/request_complete_deletion_account",
+      "destination": "/support/models/articles/how-do-i-request-the-complete-deletion-o"
+    },
+    {
+      "source": "/models/support/rerun_grid_search",
+      "destination": "/support/models/articles/can-i-rerun-a-grid-search"
+    },
+    {
+      "source": "/models/support/resolve_login_issues_with_account",
+      "destination": "/support/models/articles/how-can-i-resolve-login-issues-with-my-a"
+    },
+    {
+      "source": "/models/support/resolve_permission_errors_when_logging_wandb_entity",
+      "destination": "/support/models/articles/how-do-i-resolve-permission-errors-when-"
+    },
+    {
+      "source": "/models/support/resume_parameter",
+      "destination": "/support/models/articles/how-do-i-use-the-resume-parameter-when-r"
+    },
+    {
+      "source": "/models/support/resume_sweep_using_python_code",
+      "destination": "/support/models/articles/how-can-i-resume-a-sweep-using-python-co"
+    },
+    {
+      "source": "/models/support/retention_expiration_policy_artifact",
+      "destination": "/support/models/articles/how-do-i-set-a-retention-or-expiration-p"
+    },
+    {
+      "source": "/models/support/run_finished_alerts",
+      "destination": "/support/models/articles/do-run-finished-alerts-work-in-notebooks"
+    },
+    {
+      "source": "/models/support/run_marked_crashed_wb’s_training_fine_locally",
+      "destination": "/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i"
+    },
+    {
+      "source": "/models/support/run_results_anonymous_mode",
+      "destination": "/support/models/articles/how-does-someone-without-an-account-see-"
+    },
+    {
+      "source": "/models/support/run_sweeps_slurm",
+      "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm"
+    },
+    {
+      "source": "/models/support/run_wandb_offline",
+      "destination": "/support/models/articles/can-i-run-wandb-offline"
+    },
+    {
+      "source": "/models/support/runs_create_per_project",
+      "destination": "/support/models/articles/how-many-runs-can-i-create-per-project"
+    },
+    {
+      "source": "/models/support/runs_state_crashed_ui_running_machine_get_data",
+      "destination": "/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i"
+    },
+    {
+      "source": "/models/support/same_metric_appearing_more",
+      "destination": "/support/models/articles/why-is-the-same-metric-appearing-more-th"
+    },
+    {
+      "source": "/models/support/save_code‌",
+      "destination": "/support/models/articles/how-do-i-save-code"
+    },
+    {
+      "source": "/models/support/save_git_commit_associated_run",
+      "destination": "/support/models/articles/how-can-i-save-the-git-commit-associated"
+    },
+    {
+      "source": "/models/support/save_metrics_offline_sync_them_wb_later",
+      "destination": "/support/models/articles/is-it-possible-to-save-metrics-offline-a"
+    },
+    {
+      "source": "/models/support/see_bytes_stored_bytes_tracked_tracked_hours_organization",
+      "destination": "/support/models/articles/how-can-i-see-the-bytes-stored-bytes-tra"
+    },
+    {
+      "source": "/models/support/seeing_fewer_data_points_logged",
+      "destination": "/support/models/articles/why-am-i-seeing-fewer-data-points-than-i"
+    },
+    {
+      "source": "/models/support/send_alerts_microsoft_teams_using_wb",
+      "destination": "/support/models/articles/how-can-i-send-run-alerts-to-microsoft-t"
+    },
+    {
+      "source": "/models/support/service_account_useful",
+      "destination": "/support/models/articles/what-is-a-service-account-and-why-is-it-"
+    },
+    {
+      "source": "/models/support/show_step_slider_custom_chart",
+      "destination": "/support/models/articles/how-do-you-show-a-step-slider-in-a-custo"
+    },
+    {
+      "source": "/models/support/silence_info_messages",
+      "destination": "/support/models/articles/how-do-i-silence-wb-info-messages"
+    },
+    {
+      "source": "/models/support/slow_training",
+      "destination": "/support/models/articles/will-wandb-slow-down-my-training"
+    },
+    {
+      "source": "/models/support/sso_multitenant",
+      "destination": "/support/models/articles/does-wb-support-sso-for-multi-tenant"
+    },
+    {
+      "source": "/models/support/stop_wandb_writing_terminal_jupyter_notebook_output",
+      "destination": "/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t"
+    },
+    {
+      "source": "/models/support/storage_meter_update_after_deleting_runs",
+      "destination": "/support/models/articles/why-does-the-storage-meter-not-update-af"
+    },
+    {
+      "source": "/models/support/stream_logs_writes_disk",
+      "destination": "/support/models/articles/how-does-wandb-stream-logs-and-writes-to"
+    },
+    {
+      "source": "/models/support/sweeps_cloud_infrastructures_such_aws_batch_ecs",
+      "destination": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast"
+    },
+    {
+      "source": "/models/support/sweeps_sagemaker",
+      "destination": "/support/models/articles/can-i-use-sweeps-and-sagemaker"
+    },
+    {
+      "source": "/models/support/switch_accounts_same_machine",
+      "destination": "/support/models/articles/how-do-i-switch-between-accounts-on-the-"
+    },
+    {
+      "source": "/models/support/system_metrics_collected",
+      "destination": "/support/models/articles/how-often-are-system-metrics-collected"
+    },
+    {
+      "source": "/models/support/team_find_more_information",
+      "destination": "/support/models/articles/what-is-a-team-and-where-can-i-find-more"
+    },
+    {
+      "source": "/models/support/testing_code_turn_off",
+      "destination": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod"
+    },
+    {
+      "source": "/models/support/tool_track_store_training_data",
+      "destination": "/support/models/articles/does-your-tool-track-or-store-training-d"
+    },
+    {
+      "source": "/models/support/type_roles_available_differences",
+      "destination": "/support/models/articles/what-type-of-roles-are-available-and-wha"
+    },
+    {
+      "source": "/models/support/update_payment_method",
+      "destination": "/support/models/articles/how-do-we-update-our-payment-method"
+    },
+    {
+      "source": "/models/support/upload_csv_report",
+      "destination": "/support/models/articles/upload-a-csv-to-a-report"
+    },
+    {
+      "source": "/models/support/upload_image_report",
+      "destination": "/support/models/articles/upload-an-image-to-a-report"
+    },
+    {
+      "source": "/models/support/wandb_see_data",
+      "destination": "/support/models/articles/can-wb-team-members-see-my-data"
+    },
+    {
+      "source": "/models/support/wandb_status",
+      "destination": "/support/models/articles/is-there-a-wb-outage"
+    },
+    {
+      "source": "/models/support/wandbinit_training_process",
+      "destination": "/support/models/articles/what-does-wandbinit-do-to-my-training-pr"
+    },
+    {
+      "source": "/models/support/what_happens_if_i_edit_my_python_files_while_a_sweep_is_running",
+      "destination": "/support/models/articles/what-happens-if-i-edit-my-python-files-w"
+    },
+    {
+      "source": "/models/support/where_are_artifacts_downloaded_and_how_can_i_control_that",
+      "destination": "/support/models/articles/where-are-artifacts-downloaded-and-how-c"
+    },
+    {
+      "source": "/models/support/why_are_steps_missing_from_a_csv_metric_export",
+      "destination": "/support/models/articles/why-are-steps-missing-from-a-csv-metric-"
+    },
+    {
+      "source": "/models/support/work_python",
+      "destination": "/support/models/articles/does-this-only-work-for-python"
+    },
+    {
+      "source": "/models/support/crashing-and-hanging-runs",
+      "destination": "/support/models/tags/run-crashes"
+    },
+    {
+      "source": "/models/support/inference_geographic_restriction_403",
+      "destination": "/support/inference/articles/api-error-code-403-country-region-or-ter"
+    },
+    {
+      "source": "/models/support/:slug*",
+      "destination": "/support/models/tags/:slug*"
+    },
+    {
+      "source": "/models/evaluate-models",
+      "destination": "/models/tables/evaluate-models"
+    },
+    {
+      "source": "/models/track/launch/*",
+      "destination": "/platform/launch"
+    },
+    {
+      "source": "/platform/hosting/how-to-guides/*",
+      "destination": "/platform/hosting"
+    },
+    {
+      "source": "/platform/hosting/secure-storage-connector",
+      "destination": "/platform/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/dedicated_cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/rate-limits-dedicated-cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/rate-limits"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/dedicated_regions",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/regions"
+    },
+    {
+      "source": "/platform/hosting/export-data-from-dedicated-cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/export-data"
+    },
+    {
+      "source": "/platform/hosting/self-managed/install-on-public-cloud",
+      "destination": "/platform/hosting/self-managed"
+    },
+    {
+      "source": "/quickstart/",
+      "destination": "/models/quickstart"
+    },
+    {
+      "source": "/ref/cli/:slug*",
+      "destination": "/models/ref/cli/:slug*"
+    },
+    {
+      "source": "/ref/data_types/",
+      "destination": "/models/ref/python/data-types/"
+    },
+    {
+      "source": "/ref/public-api/:slug*",
+      "destination": "/models/ref/python/public-api/:slug*"
+    },
+    {
+      "source": "/ref/python/:slug*",
+      "destination": "/models/ref/python/:slug*"
+    },
+    {
+      "source": "/ref/python/classes/:slug*",
+      "destination": "/models/ref/python/experiments/:slug*"
+    },
+    {
+      "source": "/ref/python/sdk/*",
+      "destination": "/models/ref/python"
+    },
+    {
+      "source": "/ref/python/wandb_workspaces/:slug*",
+      "destination": "/models/ref/wandb_workspaces/:slug*"
+    },
+    {
+      "source": "/ref/query-panel/:slug*",
+      "destination": "/models/ref/query-panel/:slug*"
+    },
+    {
+      "source": "/ref/release-notes/*",
+      "destination": "/release-notes/"
+    },
+    {
+      "source": "/ref/release-notes/0.3/*",
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/release-notes/0.4/*",
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/release-notes/0.5/*",
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/release-notes/0.60.0/*",
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/release-notes/0.61.0/*",
+      "destination": "/release-notes/server-releases/"
+    },
+    {
+      "source": "/ref/release-notes/releases/*",
+      "destination": "/release-notes/server-releases/"
+    },
+    {
+      "source": "/ref/release-notes/releases/archived/*",
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/training",
+      "destination": "/serverless-rl/api-reference"
+    },
+    {
+      "source": "/ref/wandb_workspaces/:slug*",
+      "destination": "/models/ref/wandb_workspaces/:slug*"
+    },
+    {
+      "source": "/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/support-tags",
+      "destination": "/support"
+    },
+    {
+      "source": "/models/support",
+      "destination": "/support"
+    },
+    {
+      "source": "/inference/api-reference/errors",
+      "destination": "/support/inference"
+    },
+    {
+      "source": "/weave/guides/troubleshooting",
+      "destination": "/support/weave"
+    },
+    {
+      "source": "/sweeps/faq/",
+      "destination": "/support"
+    },
+    {
+      "source": "/training/api-reference/:slug*",
+      "destination": "/serverless-rl/api-reference/:slug*"
+    },
+    {
+      "source": "/training/api-reference",
+      "destination": "/serverless-rl/api-reference"
+    },
+    {
+      "source": "/training/serverless-rl",
+      "destination": "/serverless-rl/usage"
+    },
+    {
+      "source": "/training/serverless-rl/:slug*",
+      "destination": "/serverless-rl/:slug*"
+    },
+    {
+      "source": "/training/sft-training/sft-training",
+      "destination": "/serverless-rl/sft/usage"
+    },
+    {
+      "source": "/training/sft-training/:slug*",
+      "destination": "/serverless-rl/sft/:slug*"
+    },
+    {
+      "source": "/training/sft-training",
+      "destination": "/serverless-rl/sft"
+    },
+    {
+      "source": "/training/prerequisites",
+      "destination": "/serverless-rl/prerequisites"
+    },
+    {
+      "source": "/training",
+      "destination": "/serverless-rl"
+    },
+    {
+      "source": "/training/:slug*",
+      "destination": "/serverless-rl/:slug*"
+    },
+    {
+      "source": "/tutorials/:slug*",
+      "destination": "/models/tutorials/:slug*"
+    },
+    {
+      "source": "/wandb/",
+      "destination": "/models/ref/python/"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/:slug*",
+      "destination": "/weave/cookbooks/:slug*"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/intro_notebook",
+      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/guides/tracking/faqs",
+      "destination": "/support/weave/index"
+    },
+    {
+      "source": "/weave/details/faqs",
+      "destination": "/support/weave"
+    },
+    {
+      "source": "/weave/community",
+      "destination": "/support/weave"
+    },
+    {
+      "source": "/weave/open-source",
+      "destination": "/support/weave"
+    },
+    {
+      "source": "/weave/guides/tools/limits",
+      "destination": "/weave/details/limits"
+    },
+    {
+      "source": "/weave/guides/evaluation/guardrails_and_monitors",
+      "destination": "/weave/guides/evaluation/monitors"
+    },
+    {
+      "source": "weave/concepts/fundamental-components",
+      "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "weave/guides/tracking",
+      "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/platform/hosting/self-managed/cloud-deployments/terraform",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/on-premises-deployments/kubernetes",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    }
+  ],
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-5JYCHZZP7K"
+    },
+    "gtm": {
+      "tagId": "GTM-5BL5RTH"
+    }
+  },
+  "banner": {
+    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
+    "dismissible": true
+  },
+  "contextual": {
+    "options": [
+      {
+        "title": "Install W&B MCP",
+        "description": "Set up the W&B MCP server in Claude Code, Codex, VS Code and or other LLM agents.",
+        "icon": "plug",
+        "href": "/platform/mcp-server"
+      },
+      {
+        "title": "Install W&B MCP in Cursor",
+        "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
+        "icon": "plug",
+        "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0="
+      },
+      "chatgpt",
+      "claude",
+      "copy",
+      "view"
+    ],
+    "display": "header"
+  }
 }
