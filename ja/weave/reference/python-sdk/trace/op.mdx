@@ -11,19 +11,19 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L85" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L96" />
 
 ## <kbd>class</kbd> `DisplayNameFuncError`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L88" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L99" />
 
 ## <kbd>class</kbd> `OpCallError`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L204" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L215" />
 
 ## <kbd>class</kbd> `OpKwargs`
 
@@ -31,13 +31,13 @@ op() のキーワード引数を表す TypedDict。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L109" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L120" />
 
 ## <kbd>class</kbd> `Sentinel`
 
 Sentinel(package: &#39;str&#39;, path: &#39;str&#39;, name: &#39;str&#39;)
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/../../../../weave/trace/op/__init__" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/../../../../weave/trace/op/__init__" />
 
 ### <kbd>method</kbd> `__init__`
 
@@ -47,14 +47,13 @@ __init__(package: 'str', path: 'str', name: 'str') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L198" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L209" />
 
 ## <kbd>class</kbd> `WeaveKwargs`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1421" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1460" />
 
 ### <kbd>関数</kbd> `as_op`
 
@@ -74,8 +73,7 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1150" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1164" />
 
 ### <kbd>関数</kbd> `call`
 
@@ -106,8 +104,7 @@ result, call = add.call(1, 2)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1196" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1210" />
 
 ### <kbd>関数</kbd> `calls`
 
@@ -131,8 +128,7 @@ for call in calls:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1367" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1406" />
 
 ### <kbd>関数</kbd> `get_captured_code`
 
@@ -148,8 +144,7 @@ ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1413" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1452" />
 
 ### <kbd>関数</kbd> `is_op`
 
@@ -161,8 +156,7 @@ is_op(obj: 'Any') → TypeIs[Op]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L423" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L437" />
 
 ### <kbd>関数</kbd> `is_placeholder_call`
 
@@ -172,8 +166,7 @@ is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L391" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L405" />
 
 ### <kbd>関数</kbd> `is_tracing_setting_disabled`
 
@@ -183,8 +176,7 @@ is_tracing_setting_disabled() → bool
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1384" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1423" />
 
 ### <kbd>関数</kbd> `maybe_bind_method`
 
@@ -192,14 +184,13 @@ is_tracing_setting_disabled() → bool
 maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
 ```
 
-任意のobject (class でないものも含む) に関数をバインドします。
+任意のオブジェクト (class でないものも含む) に関数をバインドします。
 
 self が None の場合は、関数をそのまま返します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1396" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1435" />
 
 ### <kbd>関数</kbd> `maybe_unbind_method`
 
@@ -216,8 +207,7 @@ Op のような method または partial のバインドを解除し、通常の
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1220" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L1234" />
 
 ### <kbd>関数</kbd> `op`
 
@@ -243,8 +233,7 @@ op(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L416" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L430" />
 
 ### <kbd>関数</kbd> `placeholder_call`
 
@@ -254,8 +243,7 @@ placeholder_call() → Call
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L219" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L230" />
 
 ### <kbd>関数</kbd> `setup_dunder_weave_dict`
 
@@ -292,8 +280,7 @@ ops に WeaveKwargs を渡すために使用する &#95;&#95;weave dict を設�
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L402" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/op.py#L416" />
 
 ### <kbd>関数</kbd> `should_skip_tracing_for_op`
 

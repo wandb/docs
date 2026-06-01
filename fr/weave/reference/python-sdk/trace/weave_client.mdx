@@ -11,7 +11,7 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L183" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L200" />
 
 ## <kbd>classe</kbd> `CrossProjectRefError`
 
@@ -19,7 +19,7 @@ Levée lorsque le calcul de digest côté client rencontre une référence à un
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2606" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2778" />
 
 ## <kbd>classe</kbd> `FlushStatus`
 
@@ -27,7 +27,7 @@ Informations sur le statut de l’opération de vidage en cours.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L177" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L194" />
 
 ## <kbd>classe</kbd> `NoInternalProjectIDError`
 
@@ -35,7 +35,7 @@ Levée lorsque le calcul du digest côté client ne peut pas se poursuivre, car 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2596" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2768" />
 
 ## <kbd>classe</kbd> `PendingJobCounts`
 
@@ -43,11 +43,11 @@ Nombre de jobs en attente par type.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L320" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L336" />
 
 ## <kbd>classe</kbd> `WeaveClient`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L345" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L361" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -56,12 +56,15 @@ __init__(
     entity: 'str',
     project: 'str',
     server: 'TraceServerClientInterface',
-    ensure_project_exists: 'bool' = True
+    ensure_project_exists: 'bool' = True,
+    postprocess_inputs: 'PostprocessInputsFunc | None' = None,
+    postprocess_output: 'PostprocessOutputFunc | None' = None,
+    attributes: 'dict[str, Any] | None' = None,
+    api_key: 'str | None' = None
 )
 ```
 
 ***
-
 
 #### <kbd>propriété</kbd> num_outstanding_jobs
 
@@ -75,7 +78,11 @@ Cette propriété permet de suivre l’avancement des tâches en arrière-plan s
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1512" />
+#### <kbd>propriété</kbd> project_id
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1611" />
 
 ### <kbd>méthode</kbd> `add_cost`
 
@@ -114,8 +121,7 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1220" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1319" />
 
 ### <kbd>méthode</kbd> `add_tags`
 
@@ -129,8 +135,7 @@ Ajoutez des tags à une version d’objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1098" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1161" />
 
 ### <kbd>méthode</kbd> `clear_wandb_run_context`
 
@@ -156,7 +161,7 @@ client.clear_wandb_run_context()
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L735" />
 
 ### <kbd>méthode</kbd> `create_call`
 
@@ -189,8 +194,7 @@ Créer, journaliser et empiler un appel sur la pile d’exécution.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1174" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1237" />
 
 ### <kbd>méthode</kbd> `delete_all_object_versions`
 
@@ -208,8 +212,7 @@ Supprime toutes les versions d’un objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1402" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1501" />
 
 ### <kbd>méthode</kbd> `delete_all_op_versions`
 
@@ -227,8 +230,7 @@ Supprime toutes les versions d’une op.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1139" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1202" />
 
 ### <kbd>méthode</kbd> `delete_call`
 
@@ -238,8 +240,7 @@ delete_call(call: 'Call') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1148" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1211" />
 
 ### <kbd>méthode</kbd> `delete_calls`
 
@@ -255,8 +256,7 @@ La suppression d’un appel supprime également tous ses appels enfants.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1164" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1227" />
 
 ### <kbd>méthode</kbd> `delete_object_version`
 
@@ -266,8 +266,7 @@ delete_object_version(object: 'ObjectRef') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1193" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1256" />
 
 ### <kbd>méthode</kbd> `delete_object_versions`
 
@@ -288,8 +287,7 @@ Supprime des versions spécifiques d’un objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1392" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1491" />
 
 ### <kbd>méthode</kbd> `delete_op_version`
 
@@ -299,8 +297,7 @@ delete_op_version(op: 'OpRef') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1069" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1132" />
 
 ### <kbd>méthode</kbd> `fail_call`
 
@@ -312,8 +309,7 @@ Signale l&#39;échec d&#39;un appel avec une exception. Il s&#39;agit d&#39;une 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2410" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2574" />
 
 ### <kbd>méthode</kbd> `finish`
 
@@ -324,7 +320,7 @@ finish(
 ) → None
 ```
 
-Vide toutes les tâches en arrière-plan afin de s&#39;assurer qu&#39;elles sont traitées.
+Effectue le vidage de toutes les tâches en arrière-plan afin de s&#39;assurer qu&#39;elles sont traitées.
 
 Cette méthode bloque jusqu&#39;à ce que tous les jobs actuellement en file d&#39;attente soient traités, en affichant une barre de progression pour indiquer le statut des tâches en attente. Elle permet le traitement en parallèle pendant l&#39;exécution du thread principal et peut améliorer les performances lorsque le code utilisateur se termine avant que les données n&#39;aient été envoyées au serveur.
 
@@ -332,8 +328,7 @@ Cette méthode bloque jusqu&#39;à ce que tous les jobs actuellement en file d&#
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L893" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L960" />
 
 ### <kbd>méthode</kbd> `finish_call`
 
@@ -353,8 +348,7 @@ Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière r
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2442" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2612" />
 
 ### <kbd>méthode</kbd> `flush`
 
@@ -362,12 +356,11 @@ Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière r
 flush() → None
 ```
 
-Vide les tâches asynchrones en arrière-plan ; peut être appelée sans risque plusieurs fois.
+Effectue le vidage des tâches asynchrones en arrière-plan ; peut être appelée sans risque plusieurs fois.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L419" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L476" />
 
 ### <kbd>méthode</kbd> `get`
 
@@ -377,8 +370,7 @@ get(ref: 'ObjectRef', objectify: 'bool' = True) → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1349" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1448" />
 
 ### <kbd>méthode</kbd> `get_aliases`
 
@@ -399,8 +391,7 @@ Obtenir les alias d’une version d’objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L635" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L698" />
 
 ### <kbd>méthode</kbd> `get_call`
 
@@ -426,8 +417,7 @@ Obtenir un appel unique par son ID.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L555" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L615" />
 
 ### <kbd>méthode</kbd> `get_calls`
 
@@ -442,6 +432,7 @@ get_calls(
     include_feedback: 'bool' = False,
     include_storage_size: 'bool' = False,
     include_total_storage_size: 'bool' = False,
+    include_usernames: 'bool' = False,
     columns: 'list[str] | None' = None,
     expand_columns: 'list[str] | None' = None,
     return_expanded_column_values: 'bool' = True,
@@ -464,9 +455,10 @@ Conseil de performance : spécifiez `columns` et utilisez `filter` ou `query` p
 * <b>`sort_by`</b>:  Liste des champs selon lesquels trier les résultats (par exemple, `started_at desc`).
 * <b>`query`</b>:  Expression de type Mongo pour un filtrage avancé. Tous les opérateurs Mongo ne sont pas pris en charge.
 * <b>`include_costs`</b>:  Si True, inclut les informations de token/coût dans `summary.weave`.
-* <b>`include_feedback`</b>:  Si True, inclut les retours dans `summary.weave.feedback`.
+* <b>`include_feedback`</b>:  Si True, inclut les feedback dans `summary.weave.feedback`.
 * <b>`include_storage_size`</b>:  Si True, inclut la taille de stockage d’un appel.
 * <b>`include_total_storage_size`</b>:  Si True, inclut la taille de stockage totale d’une trace.
+* <b>`include_usernames`</b>:  Si True, tente de résoudre le `wb_user_id` de chaque appel en `wb_username`.
 * <b>`columns`</b>:  Liste des champs à renvoyer pour chaque appel. Réduire cette liste peut considérablement améliorer les performances.  (Certains champs comme `id`, `trace_id`, `op_name` et `started_at` sont toujours inclus.)
 * <b>`scored_by`</b>:  Filtre sur un ou plusieurs évaluateurs (nom ou URI de référence). Plusieurs évaluateurs sont combinés avec un ET.
 * <b>`page_size`</b>:  Nombre d’appels récupérés par page. Ajustez cette valeur pour optimiser les performances dans les requêtes volumineuses.
@@ -489,8 +481,7 @@ for call in calls:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L481" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L541" />
 
 ### <kbd>méthode</kbd> `get_evaluation`
 
@@ -527,8 +518,7 @@ print(evaluation.name)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L516" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L576" />
 
 ### <kbd>méthode</kbd> `get_evaluations`
 
@@ -554,8 +544,7 @@ for eval in evaluations:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1421" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1520" />
 
 ### <kbd>méthode</kbd> `get_feedback`
 
@@ -609,7 +598,7 @@ client.get_feedback(query=query)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1357" />
 
 ### <kbd>méthode</kbd> `get_tags`
 
@@ -627,8 +616,7 @@ Obtenir les tags d’une version d’objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1281" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1380" />
 
 ### <kbd>méthode</kbd> `get_tags_and_aliases`
 
@@ -646,8 +634,34 @@ Obtenir les tags et les alias d&#39;une version d&#39;objet en un appel unique.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1382" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1283" />
 
+### <kbd>méthode</kbd> `link_prompt_to_registry`
+
+```python
+link_prompt_to_registry(
+    prompt: 'LinkablePrompt',
+    target_path: 'str',
+    aliases: 'Sequence[str] | None' = None
+) → LinkAssetToRegistryRes
+```
+
+Liez une version de prompt publiée au Registry.
+
+**Arguments :**
+
+* <b>`prompt`</b>: Un prompt publié, une `ObjectRef` ou une chaîne d’URI Weave ///... pleinement qualifiée.
+
+* <b>`target_path`</b>: Chemin de destination dans le Registry au format `<registry_project>/<portfolio_name>`, par exemple `wandb-registry-prompts/my-prompt-collection`.
+
+* <b>`aliases`</b>: Alias facultatifs à associer à la version créée dans le Registry.
+  **Retourne :**
+
+* <b>`LinkAssetToRegistryRes`</b>: Réponse analysée du point de terminaison registry-link.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1481" />
 
 ### <kbd>méthode</kbd> `list_aliases`
 
@@ -662,8 +676,7 @@ Liste de tous les alias du projet sous forme de chaînes.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1372" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1471" />
 
 ### <kbd>méthode</kbd> `list_tags`
 
@@ -678,8 +691,7 @@ Liste de toutes les chaînes de caractères des tags du projet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1558" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1657" />
 
 ### <kbd>méthode</kbd> `purge_costs`
 
@@ -700,8 +712,7 @@ client.purge_costs(ids)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1582" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1681" />
 
 ### <kbd>méthode</kbd> `query_costs`
 
@@ -740,7 +751,7 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1427" />
 
 ### <kbd>méthode</kbd> `remove_aliases`
 
@@ -754,8 +765,7 @@ Supprimez un ou plusieurs alias d’un objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1239" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1338" />
 
 ### <kbd>méthode</kbd> `remove_tags`
 
@@ -771,8 +781,7 @@ Supprimez les tags d’une version d’objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L390" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L447" />
 
 ### <kbd>méthode</kbd> `save`
 
@@ -797,8 +806,7 @@ N’appelez pas directement cette méthode ; utilisez plutôt weave.publish().
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1306" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1405" />
 
 ### <kbd>méthode</kbd> `set_aliases`
 
@@ -812,8 +820,7 @@ Définissez un ou plusieurs alias pour une version d’objet.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L1074" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1137" />
 
 ### <kbd>méthode</kbd> `set_wandb_run_context`
 
@@ -847,7 +854,7 @@ client.set_wandb_run_context(run_id="my-run-id")
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L248" />
 
 ### <kbd>fonction</kbd> `get_obj_name`
 
@@ -857,8 +864,7 @@ get_obj_name(val: 'Any') → str
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2623" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2795" />
 
 ### <kbd>fonction</kbd> `get_parallelism_settings`
 
@@ -868,8 +874,7 @@ get_parallelism_settings() → tuple[int | None, int | None]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L262" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L279" />
 
 ### <kbd>fonction</kbd> `map_to_refs`
 
@@ -879,8 +884,7 @@ map_to_refs(obj: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L192" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L209" />
 
 ### <kbd>fonction</kbd> `print_call_link`
 
@@ -890,8 +894,7 @@ print_call_link(call: 'Call') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2662" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2836" />
 
 ### <kbd>fonction</kbd> `redact_sensitive_keys`
 
@@ -901,8 +904,7 @@ redact_sensitive_keys(obj: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L2698" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2872" />
 
 ### <kbd>fonction</kbd> `sanitize_object_name`
 

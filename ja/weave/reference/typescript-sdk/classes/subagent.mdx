@@ -1,0 +1,131 @@
+---
+title: "クラス: SubAgent"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / SubAgent
+
+ネストされたエージェント呼び出しです。現在のエージェントが
+別の名前付きエージェントに処理を引き継ぐ際に使用されます
+ (例: planner が researcher を呼び出す場合) 。サブエージェントの名と
+ (必要に応じて) そのモデルがタグ付けされた
+`invoke_agent` スパンを出力します。
+
+`weave.startSubagent()` (または `turn.startAgent()`、あるいは
+`llm.startAgent()`) で作成し、`end()` で終了します。
+
+`Example`
+
+```ts
+const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
+try {
+  // ... サブエージェントの LLM/Tool Call を調整する ...
+} finally {
+  sub.end();
+}
+```
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [モデル](./subagent#model)
+* [名](./subagent#name)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [end](./subagent#end)
+* [create](./subagent#create)
+
+## プロパティ
+
+<div id="model">
+  ### モデル
+</div>
+
+• `Readonly` **モデル**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[genai/subagent.ts:41](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L41)
+
+***
+
+<div id="name">
+  ### 名
+</div>
+
+• `Readonly` **name**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[genai/subagent.ts:40](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L40)
+
+## メソッド
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+SubAgent の span を終了します。冪等です。失敗としてマークするには、`error` を渡します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ      |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[genai/subagent.ts:65](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L65)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`SubAgent`](./subagent)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                                   |
+| :----- | :-------------------------------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[genai/subagent.ts:44](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/subagent.ts#L44)

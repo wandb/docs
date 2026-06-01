@@ -2084,6 +2084,11 @@
             "title": "Count",
             "type": "integer"
           },
+          "has_more": {
+            "default": false,
+            "title": "Has More",
+            "type": "boolean"
+          },
           "total_storage_size_bytes": {
             "anyOf": [
               {
@@ -3689,6 +3694,20 @@
       },
       "EvalResultsTrial": {
         "properties": {
+          "genai_span_ref": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GenAISpanRef"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genai Span Ref"
+          },
           "model_latency_seconds": {
             "anyOf": [
               {
@@ -5240,6 +5259,24 @@
           "total_size_bytes"
         ],
         "title": "FilesStatsRes",
+        "type": "object"
+      },
+      "GenAISpanRef": {
+        "properties": {
+          "span_id": {
+            "title": "Span Id",
+            "type": "string"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "trace_id",
+          "span_id"
+        ],
+        "title": "GenAISpanRef",
         "type": "object"
       },
       "Geolocation": {
@@ -7451,6 +7488,21 @@
             ],
             "description": "ID de run d’évaluation facultatif permettant de lier cette prédiction en tant qu’appel enfant",
             "title": "Evaluation Run Id"
+          },
+          "genai_span_ref": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GenAISpanRef"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Références facultatives aux spans GenAI générées par cette prédiction.",
+            "title": "Genai Span Ref"
           },
           "inputs": {
             "additionalProperties": true,

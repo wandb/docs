@@ -6,9 +6,6 @@
       "inferTitleFromFilename": true,
       "openapi": {
         "files": [
-          "./fr/serverless-rl/api-reference/openapi.json",
-          "./ja/serverless-rl/api-reference/openapi.json",
-          "./ko/serverless-rl/api-reference/openapi.json",
           "./serverless-training/api-reference/openapi.json",
           "./weave/reference/service-api/openapi.json"
         ]
@@ -46,15 +43,6 @@
       },
       "./weave/reference/service-api/openapi.json": {
         "preset": "openapi"
-      },
-      "./fr/serverless-rl/api-reference/openapi.json": {
-        "preset": "openapi"
-      },
-      "./ja/serverless-rl/api-reference/openapi.json": {
-        "preset": "openapi"
-      },
-      "./ko/serverless-rl/api-reference/openapi.json": {
-        "preset": "openapi"
       }
     },
     "docsUrlPattern": "/[locale]",
@@ -72,24 +60,9 @@
       "include": [
         "./docs.json",
         "./serverless-training/api-reference/openapi.json",
-        "./weave/reference/service-api/openapi.json",
-        "./fr/serverless-rl/api-reference/openapi.json",
-        "./ja/serverless-rl/api-reference/openapi.json",
-        "./ko/serverless-rl/api-reference/openapi.json"
+        "./weave/reference/service-api/openapi.json"
       ],
       "transform": [
-        {
-          "match": "^fr/serverless-rl/api-reference/openapi.json$",
-          "replace": "{locale}/fr/serverless-rl/api-reference/openapi.json"
-        },
-        {
-          "match": "^ja/serverless-rl/api-reference/openapi.json$",
-          "replace": "{locale}/ja/serverless-rl/api-reference/openapi.json"
-        },
-        {
-          "match": "^ko/serverless-rl/api-reference/openapi.json$",
-          "replace": "{locale}/ko/serverless-rl/api-reference/openapi.json"
-        },
         {
           "match": "^serverless-training/api-reference/openapi.json$",
           "replace": "{locale}/serverless-training/api-reference/openapi.json"

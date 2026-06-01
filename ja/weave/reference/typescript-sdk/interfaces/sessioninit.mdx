@@ -1,0 +1,63 @@
+---
+title: "インターフェース: SessionInit"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / SessionInit
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [agentName](./sessioninit#agentname)
+* [model](./sessioninit#model)
+* [sessionId](./sessioninit#sessionid)
+
+## プロパティ
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `任意` **agentName**: `string`
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[genai/session.ts:7](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L7)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Optional` **model**: `string`
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[genai/session.ts:8](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L8)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+• `Optional` **sessionId**: `string`
+
+このセッション配下のすべての span に対して、会話 ID が
+`gen_ai.conversation.id` として伝播されます。省略した場合は自動的に生成されます。
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[genai/session.ts:11](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L11)

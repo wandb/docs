@@ -1,0 +1,18 @@
+---
+title: "MessagePart"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="messagepart">
+  # MessagePart
+</div>
+
+Ƭ **MessagePart**: &#123; `content`: `string` ; `type`: `"text"`  &#125; | &#123; `content`: `string` ; `type`: `"reasoning"`  &#125; | &#123; `arguments?`: `string` ; `toolCallId`: `string` ; `toolName`: `string` ; `type`: `"tool_call"`  &#125; | &#123; `result?`: `string` ; `toolCallId`: `string` ; `type`: `"tool_result"`  &#125; | &#123; `fileId`: `string` ; `mimeType?`: `string` ; `modality`: [`Modality`](./modality) ; `type`: `"file"`  &#125; | &#123; `content`: `string` ; `mimeType`: `string` ; `modality`: [`Modality`](./modality) ; `type`: `"blob"`  &#125; | &#123; `modality`: [`Modality`](./modality) ; `type`: `"uri"` ; `uri`: `string`  &#125;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/types.ts:17](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/types.ts#L17)
+
+***

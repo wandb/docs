@@ -1,0 +1,166 @@
+---
+title: "Classe : Tool"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / Tool
+
+Un appel d’outil. Émet un span `execute_tool` contenant le nom de l’outil,
+les arguments encodés en JSON, l’identifiant de l’appel d’outil et le résultat.
+
+Créé par `weave.startTool()` (ou `turn.startTool()`, ou
+`llm.startTool()`) et terminé avec `end()`. Attribuez `result` avant
+d’appeler `end()` pour enregistrer le résultat de l’outil dans le span.
+
+`Exemple`
+
+```ts
+const tool = weave.startTool({
+  name: tc.function.name,
+  args: tc.function.arguments,
+  toolCallId: tc.id,
+});
+try {
+  tool.result = await wikipediaSearch(JSON.parse(tc.function.arguments));
+} finally {
+  tool.end();
+}
+```
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [args](./tool#args)
+* [name](./tool#name)
+* [result](./tool#result)
+* [toolCallId](./tool#toolcallid)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [end](./tool#end)
+* [create](./tool#create)
+
+## Propriétés
+
+<div id="args">
+  ### args
+</div>
+
+• `Readonly` **args**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/tool.ts:52](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/tool.ts#L52)
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+• `Readonly` **nom**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/tool.ts:51](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/tool.ts#L51)
+
+***
+
+<div id="result">
+  ### result
+</div>
+
+• `Facultatif` **result**: `string`
+
+Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen_ai.tool.call.result` à `end()`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/tool.ts:45](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/tool.ts#L45)
+
+***
+
+<div id="toolcallid">
+  ### toolCallId
+</div>
+
+• `Readonly` **toolCallId**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/tool.ts:53](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/tool.ts#L53)
+
+## Méthodes
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Vide `result` dans le span et le ferme. Idempotent. Passez `error` pour
+marquer le span comme ayant échoué.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type     |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/tool.ts:83](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/tool.ts#L83)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`Tool`](./tool)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                                          |
+| :----- | :------------------------------------------------------------ |
+| `opts` | [`ToolInit`](../interfaces/toolinit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/tool.ts:56](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/tool.ts#L56)

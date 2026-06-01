@@ -1,0 +1,40 @@
+---
+title: "startTool"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="starttool">
+  # startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](../classes/tool)
+
+Démarre un span d&#39;outil. Résolution du parent (correspond au principe de conception « plat par
+défaut, hiérarchique si vous imbriquez ») :
+
+* Si un LLM est actif, l&#39;outil y est imbriqué.
+* Sinon, l&#39;outil est au même niveau, sous le tour de conversation actuel.
+
+Lève une exception si aucun tour de conversation ni aucun LLM n&#39;est actif.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                 |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Tool`](../classes/tool)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/api.ts:50](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/api.ts#L50)
+
+***
