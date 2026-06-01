@@ -5,9 +5,6 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="Can I turn off wandb when testing my code?" href="/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod" arrow="true" horizontal>
-  To configure W&B as a no-op for testing, use wandb.init(mode="disabled") or set WANDB_MODE=disabled. Even when you use w ...
-</Card>
 <Card title="How can I fetch these Version IDs and ETags in W&B?" href="/support/models/articles/how-can-i-fetch-these-version-ids-and-et" arrow="true" horizontal>
   If you log an artifact reference with W&B and enable versioning on the buckets, the version IDs appear in the Amazon S3  ...
 </Card>
@@ -16,6 +13,9 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I best log models from runs in a sweep?" href="/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
   To log models in a sweep, create a model artifact for the sweep. Each version represents a different run from the sweep. ...
+</Card>
+<Card title="How do I disable W&B while testing my code?" href="/support/models/articles/how-do-i-disable-wandb-when-testing-my-code" arrow="true" horizontal>
+  To configure W&B as a no-op for testing, use wandb.init(mode="disabled") or set WANDB_MODE=disabled. Even when you use w ...
 </Card>
 <Card title="How do I find an artifact from the best run in a sweep?" href="/support/models/articles/how-do-i-find-an-artifact-from-the-best-" arrow="true" horizontal>
   To retrieve artifacts from the best-performing run in a sweep, use the following code. It sorts the sweep's runs by vali ...

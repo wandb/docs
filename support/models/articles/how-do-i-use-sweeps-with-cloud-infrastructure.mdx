@@ -1,9 +1,9 @@
 ---
-title: "Can you use W&B Sweeps with cloud infrastructure such as AWS Batch or ECS?"
+title: "How do I use W&B Sweeps with cloud infrastructure?"
 keywords: ["Sweeps", "AWS"]
 ---
 
-Yes. To run a W&B Sweep on cloud infrastructure, publish the `sweep_id` so that any W&B Sweep agent can access it, and implement a method for these agents to read and execute the `sweep_id`.
+To run a W&B Sweep on cloud infrastructure such as AWS Batch or ECS, publish the `sweep_id` so that any W&B Sweep agent can access it, and implement a method for these agents to read and execute the `sweep_id`.
 
 For example, launch an Amazon EC2 instance and execute `wandb agent` on it. Use an SQS queue to broadcast the `sweep_id` to multiple EC2 instances. Each instance then reads the `sweep_id` from the queue and starts the process.
 

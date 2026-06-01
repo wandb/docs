@@ -1,13 +1,10 @@
 ---
 title: "Metrics"
-tag: "18"
+tag: "19"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="Can I just log metrics, no code or dataset examples?" href="/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
-  To keep proprietary source code or training data out of W&B for privacy or compliance reasons, limit what W&B captures s ...
-</Card>
 <Card title="How can I change how frequently to log system metrics?" href="/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
   To configure the frequency to log system metrics, set _stats_sampling_interval to a number of seconds, expressed as a fl ...
 </Card>
@@ -26,11 +23,17 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
   An anaconda 400 error during a sweep often means you didn't log the metric you're optimizing. You might see: The sweep c ...
 </Card>
+<Card title="How do I log metrics on two different time scales?" href="/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
+  To log metrics on two different time scales, log indices like batch and epoch alongside your metrics. For example, you m ...
+</Card>
+<Card title="How do I log metrics without saving my code?" href="/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
+  To keep proprietary source code or training data out of W&B for privacy or compliance reasons, limit what W&B captures s ...
+</Card>
+<Card title="How do I plot the maximum of a metric?" href="/support/models/articles/how-do-i-plot-the-maximum-of-a-metric" arrow="true" horizontal>
+  To plot the running maximum of a metric: 1. Create a scatter plot of the metric. 2. Open the Edit menu and select Annota ...
+</Card>
 <Card title="How often are system metrics collected?" href="/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
   By default, system metrics are collected every 10 seconds. For higher-resolution metrics, email contact@wandb.com.
-</Card>
-<Card title="Is it possible to plot the max of a metric rather than plot step by step?" href="/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr" arrow="true" horizontal>
-  To plot the running maximum of a metric: 1. Create a scatter plot of the metric. 2. Open the Edit menu and select Annota ...
 </Card>
 <Card title="Is it possible to save metrics offline and sync them to W&B later?" href="/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
   By default, wandb.init starts a process that syncs metrics in real time to the cloud. If you need to run experiments wit ...
