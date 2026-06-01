@@ -15,14 +15,14 @@ Cette page décrit :
   ## Démarrage rapide de `Dataset`
 </div>
 
-Les exemples de code suivants montrent comment effectuer les opérations de base sur un `Dataset` en Python et en TypeScript. Avec les SDK, vous pouvez :
+Les exemples de code suivants montrent comment effectuer les opérations de base sur `Dataset` avec Python et TypeScript. Avec les SDK, vous pouvez :
 
 * Créer un `Dataset`
 * Publier le `Dataset`
 * Récupérer le `Dataset`
-* Accéder à un exemple précis dans le `Dataset`
+* Accéder à un exemple spécifique du `Dataset`
 
-Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeScript.
+Sélectionnez un onglet pour voir le code spécifique à Python et à TypeScript.
 
 <Tabs>
   <Tab title="Python">
@@ -32,7 +32,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     # Initialiser Weave
     weave.init('intro-example')
 
-    # Créer un jeu de données
+    # Créer un dataset
     dataset = Dataset(
         name='grammar',
         rows=[
@@ -42,13 +42,13 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
         ]
     )
 
-    # Publier le jeu de données
+    # Publier le dataset
     weave.publish(dataset)
 
-    # Récupérer le jeu de données
+    # Récupérer le dataset
     dataset_ref = weave.ref('grammar').get()
 
-    # Accéder à un exemple précis
+    # Accéder à un exemple spécifique
     example_label = dataset_ref.rows[2]['sentence']
     ```
   </Tab>
@@ -60,7 +60,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     // Initialiser Weave
     const client = await weave.init('intro-example');
 
-    // Créer un jeu de données
+    // Créer un dataset
     const dataset = new weave.Dataset({
         name: 'grammar',
         rows: [
@@ -70,10 +70,10 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
         ]
     });
 
-    // Publier le jeu de données
+    // Publier le dataset
     const ref = await dataset.save();
 
-    // Récupérer le jeu de données
+    // Récupérer le dataset
     const retrievedDataset = await client.get(ref);
 
     // Vous pouvez aussi le récupérer à l’aide d’une chaîne URI
@@ -81,7 +81,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     const refFromUri = weave.ObjectRef.fromUri(datasetUri);
     const retrievedDatasetFromUri = await client.get(refFromUri);
 
-    // Accéder à un exemple précis
+    // Accéder à un exemple spécifique
     const exampleLabel = retrievedDataset.getRow(2).sentence;
     ```
   </Tab>
@@ -93,11 +93,11 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
 
 <Tabs>
   <Tab title="Python">
-    En Python, les `Dataset` peuvent également être créés à partir d&#39;objets Weave courants comme les [appel](../tracking/tracing), ainsi que d&#39;objets Python comme les `pandas.DataFrame`. Cette fonctionnalité est utile si vous souhaitez créer un `Dataset` d&#39;exemple à partir d&#39;exemples précis.
+    En Python, les `Dataset` peuvent également être créés à partir d&#39;objets Weave courants comme les [appels](../tracking/tracing), ainsi que d&#39;objets Python comme les `pandas.DataFrame`. Cette fonctionnalité est utile si vous souhaitez créer un `Dataset` d&#39;exemple à partir d&#39;exemples précis.
 
     ### Call Weave
 
-    Pour créer un `Dataset` à partir d&#39;un ou de plusieurs appel Weave, récupérez le ou les objets call, puis ajoutez-les à une liste dans la méthode `from_calls`.
+    Pour créer un `Dataset` à partir d&#39;un ou de plusieurs appels Weave, récupérez le ou les objets call, puis ajoutez-les à une liste dans la méthode `from_calls`.
 
     ```python lines
     @weave.op
@@ -108,7 +108,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     res2, call2 = model.call(task="parse")
 
     dataset = Dataset.from_calls([call1, call2])
-    # Vous pouvez maintenant utiliser le jeu de données pour évaluer le modèle, etc.
+    # Vous pouvez maintenant utiliser le dataset pour évaluer le modèle, etc.
     ```
 
     ### DataFrame Pandas
@@ -309,13 +309,13 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
   <Tab title="Python">
     ### Sélection de lignes
 
-    Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` à partir de leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données.
+    Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` par leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données.
 
     ```python lines
     import weave
     from weave import Dataset
 
-    # Créer un exemple de jeu de données
+    # Créer un jeu de données d’exemple
     dataset = Dataset(rows=[
         {'col_a': 1, 'col_b': 'x'},
         {'col_a': 2, 'col_b': 'y'},
@@ -328,7 +328,7 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
     # subset_dataset contient maintenant uniquement la première et la troisième ligne
     # print(list(subset_dataset))
-    # Sortie : [{'col_a': 1, 'col_b': 'x'}, {'col_a': 3, 'col_b': 'z'}]
+    # Sortie : [{'col_a': 1, 'col_b': 'x'}, {'col_a': 3, 'col_b': 'z'}]
     ```
   </Tab>
 

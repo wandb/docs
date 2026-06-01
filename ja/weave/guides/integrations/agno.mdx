@@ -36,7 +36,7 @@ description: "OpenTelemetry を使用して Weave で Agno のマルチエージ
 Agno から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使って OTEL を設定します。エクスポーターには、認証とプロジェクト識別のための [正しいエンドポイントと HTTP ヘッダー](#required-configuration) を指定します。
 
 <note>
-  API キーやプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使って読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースに含めずに済みます。
+  APIキーやプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使って読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースに含めずに済みます。
 </note>
 
 <div id="required-configuration">
@@ -45,8 +45,8 @@ Agno から Weave にトレースを送信するには、`TracerProvider` と `O
 
 * **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`
 * **Headers:**
-  * `Authorization`: W&amp;B API キーを使用した Basic 認証
-  * `project_id`: W&amp;B エンティティ / プロジェクト名 (例: `myteam/myproject`) 
+  * `Authorization`: W&amp;B APIキーを使用した Basic 認証
+  * `project_id`: W&amp;B エンティティ / project名 (たとえば、`myteam/myproject`)
 
 <div id="send-otel-traces-from-agno-to-weave">
   ## Agno から Weave に OTEL トレースを送信する
@@ -71,9 +71,9 @@ from opentelemetry import trace
 
 # 環境変数から機密情報を読み込む
 WANDB_BASE_URL = "https://trace.wandb.ai"
-# W&B のエンティティ/プロジェクト名（例: "myteam/myproject"）
+# W&B の entity/project 名（例: "myteam/myproject"）
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
-# https://wandb.ai/settings で W&B の API キーを作成する
+# W&B APIキーは https://wandb.ai/settings で作成してください
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
@@ -84,17 +84,17 @@ OTEL_EXPORTER_OTLP_HEADERS = {
     "project_id": PROJECT_ID,
 }
 
-# エンドポイントとヘッダーを指定して OTLP スパンエクスポーターを作成する
+# エンドポイントとヘッダーを指定して OTLP span exporter を作成する
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
 )
 
-# トレーサープロバイダーを作成してエクスポーターを追加する
+# tracer provider を作成し、exporter を追加する
 tracer_provider = trace_sdk.TracerProvider()
 tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
 
-# Agno をインポート/使用する前にグローバルトレーサープロバイダーを設定する
+# Agno をインポート/使用する前にグローバル tracer provider を設定する
 trace.set_tracer_provider(tracer_provider)
 ```
 
@@ -135,7 +135,7 @@ finance_agent = Agent(
     markdown=True,
 )
 
-# エージェントを使用する - 自動的にトレースされる
+# エージェントを使用する - 自動的にトレースされます
 finance_agent.print_response(
     "What is the current stock price of Apple and what are the latest analyst recommendations?",
     stream=True
@@ -144,15 +144,13 @@ finance_agent.print_response(
 
 すべてのエージェントの操作は自動的にトレースされ Weave に送信されます。これにより、実行フロー、モデル呼び出し、推論ステップ、ツールの呼び出しを可視化できます。
 
-<Frame>
-  ![A trace visualization of an Agno agent](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
-</Frame>
+<Frame>![A trace visualization of an Agno agent](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)</Frame>
 
 <div id="trace-agno-tools-with-otel">
   ## OTEL で Agno ツールをトレースする
 </div>
 
-Agno でツールを定義して使用すると、これらのツール呼び出しもトレース内に記録されます。OTEL インテグレーションは、エージェントの思考プロセスと個々のツール実行の両方を自動的にインスツルメンテーションし、エージェントの挙動を包括的に把握できるようにします。
+Agno でツールを定義して使用すると、これらのツール呼び出しもトレース内に記録されます。OTEL インテグレーションは、エージェントの推論プロセスと個々のツール実行の両方を自動的にインストルメンテーションし、エージェントの挙動を包括的に把握できるようにします。
 
 複数のツールを用いた例を次に示します。
 
@@ -203,7 +201,7 @@ research_agent.print_response(
   ## OTEL でマルチエージェント チームをトレースする
 </div>
 
-Agno の強力なマルチエージェント アーキテクチャにより、コンテキストを共有しながら協調して動作するエージェント チームを作成できます。これらのチーム間のやり取りもすべてトレースされます。
+Agno の強力なマルチエージェント アーキテクチャを使うと、連携しながらコンテキストを共有できるエージェント チームを作成できます。こうしたチーム内のやり取りも、すべてトレースされます:
 
 ```python lines
 from agno.agent import Agent
@@ -214,13 +212,13 @@ from agno.tools.yfinance import YFinanceTools
 from dotenv import load_dotenv
 load_dotenv()
 
-# tracin.py ファイルから AgnoInstrumentor を読み込む
+# AgnoInstrumentor を tracin.py ファイルから読み込む
 from tracing import AgnoInstrumentor
 
 # Agno のインストルメンテーションを開始する
 AgnoInstrumentor().instrument()
 
-# 専門エージェントを作成する
+# 専用エージェントを作成する
 web_agent = Agent(
     name="Web Agent",
     role="Search the web for information",
@@ -257,17 +255,17 @@ agent_team.print_response(
 )
 ```
 
-このマルチエージェント trace は Weave 内の異なるエージェント間の連携を示し、タスクがエージェント チーム全体にどのように分散・実行されているかという点での公開範囲を提供します。
+このマルチエージェントのトレースでは、Weave 内のさまざまなエージェント間の連携を確認でき、タスクがエージェントチーム全体にどのように分担されて実行されるかを可視化できます。
 
 <Frame>
-  ![Agno マルチエージェント チームの trace の可視化](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
+  ![Agno マルチエージェントチームのトレース可視化](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
 </Frame>
 
 <div id="work-with-reasoning-agents">
-  ## Reasoning Agent の利用
+  ## 推論エージェントを使う
 </div>
 
-Agno には、エージェントが問題を段階的に考え進められるよう支援する組み込みの推論機能が備わっています。これらの推論プロセスは トレース にも記録されます。
+Agno には、エージェントが問題を順を追って考えられるようにする組み込みの推論機能があります。これらの推論プロセスはトレースにも取得されます。
 
 ```python lines
 from agno.agent import Agent
@@ -309,17 +307,17 @@ reasoning_agent.print_response(
 )
 ```
 
-推論の各ステップは トレース 上に表示され、エージェントが複雑な問題をどのように分解し、どのように意思決定しているかがわかります。
+推論のステップはトレースに表示され、エージェントが複雑な問題をどのように分解し、判断を下すかを確認できます。
 
 <Frame>
-  ![Agno reasoning agent の トレース 可視化](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
+  ![Agno 推論エージェントのトレース可視化](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
 </Frame>
 
 <div id="work-with-memory-and-knowledge">
-  ## メモリとナレッジの活用
+  ## メモリとナレッジを扱う
 </div>
 
-Agno エージェントはメモリを保持し、ナレッジベースへアクセスできます。これらの操作もトレース対象です。
+Agno エージェントは、メモリを保持し、ナレッジベースにアクセスできます。これらの操作もトレースされます。
 
 ```python lines
 from agno.agent import Agent
@@ -330,7 +328,7 @@ from agno.storage.sqlite import SqliteStorage
 from dotenv import load_dotenv
 load_dotenv()
 
-# AgnoInstrumentor を tracing.py ファイルから読み込む
+# AgnoInstrumentor を tracin.py ファイルから読み込む
 from tracing import AgnoInstrumentor
 
 # Agno のインストルメンテーションを開始する
@@ -351,18 +349,18 @@ memory_agent = Agent(
     markdown=True,
 )
 
-# 最初のインタラクション
+# 1回目のインタラクション
 memory_agent.print_response("My name is John and I'm interested in AI investing strategies.")
 
-# 2 回目のインタラクション - エージェントは前のコンテキストを記憶している
+# 2回目のインタラクション - エージェントは前のコンテキストを記憶している
 memory_agent.print_response("What specific AI companies would you recommend for my portfolio?")
 ```
 
 <Frame>
-  ![Agno メモリ使用状況のトレース可視化](/weave/guides/integrations/imgs/agno/agno_memory_use.png)
+  ![Agno のメモリ使用状況のトレース可視化](/weave/guides/integrations/imgs/agno/agno_memory_use.png)
 </Frame>
 
-会話履歴の保存や取得といったメモリ操作は、トレースに表示されます。
+会話履歴の保存や取得を含むメモリ操作は、トレース内に表示されます。
 
 <div id="learn-more">
   ## 詳細情報

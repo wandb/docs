@@ -35,7 +35,7 @@ Ce guide vous montre comment :
   ## Créer une base de connaissances
 </div>
 
-Commencez par calculer les embeddings des articles. En général, vous ne le faites qu&#39;une seule fois pour vos articles, puis vous stockez les embeddings et les métadonnées dans une base de données. Mais ici, par souci de simplicité, cette opération est effectuée à chaque exécution du script.
+Commencez par calculer les embeddings des articles. En général, vous ne feriez cela qu&#39;une seule fois pour vos articles, puis vous stockeriez les embeddings et les métadonnées dans une base de données, mais ici, pour plus de simplicité, cette opération est effectuée à chaque exécution du script.
 
 <Tabs>
   <Tab title="Python">
@@ -69,7 +69,7 @@ Commencez par calculer les embeddings des articles. En général, vous ne le fai
             document_embeddings.append(response)
         return document_embeddings
 
-    article_embeddings = docs_to_embeddings(articles) # Remarque : cette opération ne serait généralement effectuée qu'une seule fois avec vos articles, les embeddings et métadonnées étant ensuite stockés dans une base de données
+    article_embeddings = docs_to_embeddings(articles) # Remarque : en général, vous ne feriez cela qu'une seule fois pour vos articles et stockeriez les embeddings et métadonnées dans une base de données
     ```
   </Tab>
 
@@ -158,7 +158,7 @@ Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` a
         model_name: str = "gpt-3.5-turbo-1106"
 
         @weave.op()
-        def predict(self, question: str) -> dict: # remarque : `question` sera utilisé plus tard pour sélectionner des données dans nos lignes d'évaluation
+        def predict(self, question: str) -> dict: # remarque : `question` sera utilisé plus tard pour sélectionner des données à partir de nos lignes d'évaluation
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
@@ -180,7 +180,7 @@ Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` a
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
 
-    # Définissez vos noms de Team et de projet
+    # Définissez les noms de votre équipe et de votre projet
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
@@ -214,7 +214,7 @@ Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` a
             context: string;
         }> {
             const context = await this.getMostRelevantDocument(question);
-            
+
             const response = await this.openai.chat.completions.create({
                 model: this.modelName,
                 messages: [
@@ -328,7 +328,7 @@ Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-e
     });
 
     await evaluation.evaluate({
-        model: weave.op((args: { datasetRow: QuestionRow }) => 
+        model: weave.op((args: { datasetRow: QuestionRow }) =>
             model.predict(args.datasetRow.question)
         )
     });
@@ -340,7 +340,7 @@ Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-e
   ### Facultatif : définir une classe `Scorer`
 </div>
 
-Dans certaines applications, vous pouvez vouloir créer des classes d’évaluation personnalisées — par exemple lorsqu’il faut créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (p. ex. modèle de chat, prompt), une logique de score propre à chaque ligne et un calcul spécifique du score agrégé. Weave propose une liste de classes `Scorer` prêtes à l’emploi et permet aussi de créer facilement un `Scorer` personnalisé. L’exemple suivant montre comment créer une `class CorrectnessLLMJudge(Scorer)` personnalisée.
+Dans certaines applications, vous pouvez vouloir créer des classes d’évaluation personnalisées — par exemple lorsqu’il faut créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (par exemple, modèle de chat et prompt), une logique de score propre à chaque ligne et un calcul spécifique du score agrégé. Weave propose une liste de classes `Scorer` prêtes à l’emploi et permet aussi de créer facilement un `Scorer` personnalisé. L’exemple suivant montre comment créer une `class CorrectnessLLMJudge(Scorer)` personnalisée.
 
 Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont assez simples :
 
@@ -364,14 +364,14 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
         @weave.op()
         async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
             """Évalue l’exactitude des prédictions en comparant pred, query et target.
-            Args:
-                - output: le dict fourni par le modèle évalué
-                - query: la question posée, telle que définie dans le jeu de données
-                - answer: la réponse cible, telle que définie dans le jeu de données
-            Returns:
+            Arguments :
+                - output: le dict qui sera fourni par le modèle évalué
+                - query: la question posée - telle que définie dans le jeu de données
+                - answer: la réponse cible - telle que définie dans le jeu de données
+            Retourne :
                 - dict unique {nom de métrique: valeur d’évaluation unique}"""
 
-            # get_model est défini comme un récupérateur de modèle générique selon les paramètres fournis (OpenAI,HF...)
+            # get_model est défini comme une fonction générique de récupération de modèle basée sur les paramètres fournis (OpenAI,HF...)
             eval_model = get_model(
                 model_name = self.model_name,
                 prompt = self.prompt
@@ -385,7 +385,7 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
                     "result": output.get("result"),
                 }
             )
-            # analyse de la sortie - cela pourrait être fait de manière plus robuste avec pydantic
+            # analyse de la sortie - pourrait être effectuée de manière plus robuste avec pydantic
             evaluation = "incorrect" not in grade["text"].strip().lower()
 
             # le nom de colonne affiché dans Weave
@@ -394,9 +394,9 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
         @weave.op()
         def summarize(self, score_rows: list) -> Optional[dict]:
             """Agrège tous les scores calculés pour chaque ligne par la fonction de score.
-            Args:
+            Arguments :
                 - score_rows: une liste de dicts. Chaque dict contient des métriques et des scores
-            Returns:
+            Retourne :
                 - dict imbriqué avec la même structure que l’entrée"""
 
             # si rien n’est fourni, la fonction weave.flow.scorer.auto_summarize est utilisée
@@ -410,7 +410,7 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
             sample_variance = np.var(int_data) if int_data else 0
             sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
 
-            # la couche supplémentaire "correct" n’est pas nécessaire, mais ajoute de la structure dans l’UI
+            # la couche supplémentaire "correct" n’est pas nécessaire mais ajoute de la structure dans l’interface utilisateur
             return {
                 "correct": {
                     "true_count": count_true,
@@ -439,7 +439,7 @@ Pour l’utiliser comme scorer, vous devez l’initialiser et le passer à l’a
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n'est pas encore disponible en TypeScript.
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
     ```
   </Tab>
 </Tabs>
@@ -456,7 +456,7 @@ Pour obtenir le même résultat avec vos applications RAG :
 * Créez des fonctions de score qui évaluent un exemple
 * Utilisez la classe `Evaluation` pour exécuter des évaluations sur vos exemples
 
-**REMARQUE :** Il arrive que l’exécution asynchrone des évaluations atteigne la limite de débit des modèles d’OpenAI, Anthropic, etc. Pour l’éviter, vous pouvez définir une variable d’environnement afin de limiter le nombre de workers parallèles, par exemple `WEAVE_PARALLELISM=3`.
+**REMARQUE :** Il arrive que l’exécution asynchrone des évaluations atteigne la limite de débit des modèles d’OpenAI, Anthropic et d’autres. Pour l’éviter, vous pouvez définir une variable d’environnement afin de limiter le nombre de workers parallèles, par exemple `WEAVE_PARALLELISM=3`.
 
 Voici le code dans son intégralité.
 
@@ -493,7 +493,7 @@ Voici le code dans son intégralité.
             document_embeddings.append(response)
         return document_embeddings
 
-    article_embeddings = docs_to_embeddings(articles) # Remarque : cette opération ne serait généralement effectuée qu'une seule fois avec vos articles, les embeddings et métadonnées étant ensuite stockés dans une base de données
+    article_embeddings = docs_to_embeddings(articles) # Remarque : en général, vous ne feriez cela qu'une seule fois pour vos articles et stockeriez les embeddings et les métadonnées dans une base de données
 
     # Ajouter un décorateur à l'étape de récupération
     @weave.op()
@@ -513,7 +513,7 @@ Voici le code dans son intégralité.
         most_relevant_doc_index = np.argmax(similarities)
         return articles[most_relevant_doc_index]
 
-    # Créer une sous-classe Model avec les détails de l'application, ainsi qu'une fonction predict qui produit une réponse
+    # Créer une sous-classe de Model avec les détails de l'application, ainsi qu'une fonction predict qui produit une réponse
     class RAGModel(Model):
         system_message: str
         model_name: str = "gpt-3.5-turbo-1106"
@@ -523,7 +523,7 @@ Voici le code dans son intégralité.
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
-            query = f"""Utilisez les informations suivantes pour répondre à la question ci-dessous. Si la réponse est introuvable, écrivez « Je ne sais pas. »
+            query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
             Context:
             \"\"\"
             {context}
@@ -544,14 +544,14 @@ Voici le code dans son intégralité.
     # Définir les noms de votre équipe et de votre projet
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
-        system_message="Vous êtes un expert en finance et répondez aux questions relatives à la finance, aux services financiers et aux marchés financiers. Lorsque vous répondez en vous basant sur des informations fournies, veillez à citer la source."
+        system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
     )
 
-    # Voici notre fonction de scoring qui utilise notre question et la sortie pour produire un score
+    # Voici notre fonction de score qui utilise notre question et la sortie pour produire un score
     @weave.op()
     async def context_precision_score(question, output):
-        context_precision_prompt = """Étant donné la question, la réponse et le contexte, vérifiez si le contexte a été utile pour parvenir à la réponse donnée. Donnez un verdict « 1 » si utile et « 0 » sinon, avec une sortie JSON.
-        Sortie en format JSON valide uniquement.
+        context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+        Output in only valid JSON format.
 
         question: {question}
         context: {context}
@@ -577,16 +577,16 @@ Voici le code dans son intégralité.
         }
 
     questions = [
-        {"question": "Quel résultat significatif a été rapporté concernant l'essai sur l'obésité de Zealand Pharma ?"},
-        {"question": "De combien les niveaux de trésorerie de Berkshire Hathaway ont-ils augmenté au quatrième trimestre ?"},
-        {"question": "Quel est l'objectif de l'intégration par Highmark Health des technologies de Google Cloud et d'Epic Systems ?"},
-        {"question": "Quelles étaient les prévisions de production de véhicules de Rivian et Lucid pour 2024 ?"},
-        {"question": "Pourquoi le navire de croisière Norwegian Dawn s'est-il vu refuser l'accès à l'île Maurice ?"},
-        {"question": "Quelle entreprise a réalisé le premier alunissage américain depuis 1972 ?"},
-        {"question": "Quel problème le module lunaire d'Intuitive Machines a-t-il rencontré lors de son atterrissage sur la lune ?"}
+        {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
+        {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
+        {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
+        {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
+        {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
+        {"question": "Which company achieved the first U.S. moon landing since 1972?"},
+        {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
     ]
 
-    # Définir un objet Evaluation et lui passer des exemples de questions ainsi que des fonctions de scoring
+    # Définir un objet Evaluation et transmettre des exemples de questions ainsi que des fonctions de score
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
     asyncio.run(evaluation.evaluate(model))
     ```
@@ -767,7 +767,7 @@ Voici le code dans son intégralité.
             )
         });
         
-        console.log('Résultats de l\'évaluation :', results);
+        console.log('Evaluation results:', results);
     }
 
     if (require.main === module) {

@@ -17,7 +17,7 @@ Weave는 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)과 통
   ## 사전 요구 사항
 </div>
 
-시작하기 전에 AutoGen과 Weave가 설치되어 있는지 확인하세요. 또한 사용하려는 LLM 제공업체용 SDK도 필요합니다(예: OpenAI, Anthropic).
+시작하기 전에 AutoGen과 Weave가 설치되어 있는지 확인하세요. 또한 사용하려는 LLM 제공업체용 SDK도 필요합니다(예를 들어 OpenAI 또는 Anthropic).
 
 ```bash
 pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave 
@@ -50,10 +50,10 @@ weave.init("autogen-demo")
 Weave는 AutoGen 내의 모델 클라이언트에 직접 이루어지는 call을 트레이스할 수 있습니다.
 
 <div id="tracing-a-client-create-call">
-  ### 클라이언트 create Call 트레이싱
+  ### 클라이언트 create Call 트레이스
 </div>
 
-이 예제에서는 `OpenAIChatCompletionClient`의 단일 Call을 트레이싱하는 방법을 보여줍니다.
+이 예제에서는 `OpenAIChatCompletionClient`의 단일 Call을 트레이스하는 방법을 보여줍니다.
 
 ```python lines
 import asyncio
@@ -118,11 +118,11 @@ async def run_cache_client(model_name = "gpt-4o"):
       response = await cache_client.create(
           [UserMessage(content="Hello, how are you?", source="user")]
       )
-      print(response)  # OpenAI의 응답을 출력해야 함
+      print(response)  # OpenAI의 응답을 출력해야 합니다
       response = await cache_client.create(
           [UserMessage(content="Hello, how are you?", source="user")]
       )
-      print(response)  # 캐시된 응답을 출력해야 함
+      print(response)  # 캐시된 응답을 출력해야 합니다
 
 asyncio.run(run_cache_client())
 
@@ -165,7 +165,7 @@ asyncio.run(run_agent_with_tools())
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
 <div id="tracing-a-groupchat-round-robin">
-  ## GroupChat 트레이스 - 라운드 로빈
+  ## GroupChat 트레이싱 - 라운드 로빈
 </div>
 
 `RoundRobinGroupChat`과 같은 그룹 채팅에서의 상호작용은 Weave가 트레이스하므로, 에이전트 간 대화 흐름을 트레이스할 수 있습니다.
@@ -176,7 +176,7 @@ from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
 
 # 전체 그룹 채팅을 트레이스하기 위해 여기에 weave op를 추가합니다
-# 완전히 선택 사항이지만 사용을 강력히 권장합니다
+# 선택 사항이지만 사용하는 것을 강력히 권장합니다
 
 @weave.op
 async def run_round_robin_group_chat(model_name="gpt-4o"):
@@ -214,16 +214,16 @@ asyncio.run(run_round_robin_group_chat())
 [![round\_robin\_group\_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
 <div id="tracing-memory">
-  ## 메모리 트레이스
+  ## 메모리 트레이싱
 </div>
 
-AutoGen의 메모리 컴포넌트는 Weave로 트레이스할 수 있습니다. 가독성을 높이기 위해 `@weave.op()`를 사용해 메모리 오퍼레이션을 하나의 트레이스로 묶을 수 있습니다.
+AutoGen의 메모리 컴포넌트는 Weave로 트레이스할 수 있습니다. 가독성을 높이기 위해 `@weave.op()`를 사용하여 메모리 오퍼레이션을 하나의 트레이스로 묶을 수 있습니다.
 
 ```python lines
 
 from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
 
-# 메모리 add call과 memory get call을 단일 트레이스 아래에서 트레이스하기 위해
+# 메모리 add Call과 메모리 get Call을 단일 트레이스 아래에서 트레이스하기 위해
 # 여기에 weave op를 추가합니다.
 # 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다.
 
@@ -275,13 +275,13 @@ asyncio.run(run_memory_agent())
 [![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
 
 <div id="tracing-rag-workflows">
-  ## RAG 워크플로 트레이스
+  ## RAG 워크플로 트레이싱
 </div>
 
-`ChromaDBVectorMemory`와 같은 메모리 시스템을 사용한 문서 인덱싱 및 검색을 포함해, Retrieval Augmented Generation(RAG) 워크플로는 트레이스할 수 있습니다. RAG 프로세스에 `@weave.op()` 데코레이터를 적용하면 전체 흐름을 시각화하는 데 도움이 됩니다.
+`ChromaDBVectorMemory`와 같은 메모리 시스템을 사용한 문서 인덱싱 및 검색을 포함한 Retrieval Augmented Generation(RAG) 워크플로는 트레이싱할 수 있습니다. RAG 프로세스를 `@weave.op()`으로 데코레이팅하면 전체 흐름을 시각화하는 데 도움이 됩니다.
 
 <Note>
-  RAG 예제에는 `chromadb`가 필요합니다. `pip install chromadb`로 설치하세요.
+  이 RAG 예시를 사용하려면 `chromadb`가 필요합니다. `pip install chromadb`로 설치하세요.
 </Note>
 
 ```python lines {1,65}
@@ -346,7 +346,7 @@ class SimpleDocumentIndexer:
                     )
                 total_chunks += len(chunks)
             except Exception as e:
-                print(f"{source} 인덱싱 오류: {str(e)}")
+                print(f"Error indexing {source}: {str(e)}")
         return total_chunks
 
 @weave.op
@@ -368,11 +368,11 @@ async def run_rag_agent(model_name="gpt-4o"):
             "https://microsoft.github.io/autogen/dev/user-guide/agentchat-user-guide/tutorial/agents.html",
         ]
         chunks: int = await indexer.index_documents(sources)
-        print(f"{len(sources)}개의 AutoGen 문서에서 {chunks}개의 청크를 인덱싱했습니다")
+        print(f"Indexed {chunks} chunks from {len(sources)} AutoGen documents")
     
-    # collection이 비어 있거나 재인덱싱이 필요한 경우에만 인덱싱하세요
+    # 컬렉션이 비어 있거나 재인덱싱이 필요한 경우에만 인덱싱하세요
     # 데모 목적으로 매번 인덱싱하거나 이미 인덱싱되었는지 확인할 수 있습니다.
-    # 이 예제는 매 run마다 인덱싱을 시도합니다. 확인 로직 추가를 고려하세요.
+    # 이 예시는 run마다 인덱싱을 시도합니다. 확인 로직 추가를 고려하세요.
     await index_autogen_docs()
 
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -382,7 +382,7 @@ async def run_rag_agent(model_name="gpt-4o"):
         memory=[rag_memory],
     )
     
-    # 콘솔에 스트리밍 출력하려면:
+    # 콘솔에 스트리밍으로 출력하려면:
     # stream = rag_assistant.run_stream(task="What is AgentChat?")
     # await Console(stream)
     result = await rag_assistant.run(task="What is AgentChat?")
@@ -397,10 +397,10 @@ asyncio.run(run_rag_agent())
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
 <div id="tracing-agent-runtimes">
-  ## 에이전트 런타임 트레이스
+  ## 에이전트 런타임 트레이싱
 </div>
 
-Weave는 `SingleThreadedAgentRuntime`와 같은 AutoGen의 에이전트 런타임 내부 오퍼레이션을 트레이스할 수 있습니다. 런타임 실행 함수를 `@weave.op()`로 감싸면 관련 트레이스를 함께 묶을 수 있습니다.
+Weave는 `SingleThreadedAgentRuntime`와 같은 AutoGen의 에이전트 런타임 내부의 오퍼레이션을 트레이스할 수 있습니다. 런타임 실행 함수를 `@weave.op()`으로 감싸면 관련된 트레이스를 그룹화할 수 있습니다.
 
 ```python lines {50}
 from dataclasses import dataclass
@@ -448,9 +448,9 @@ class Checker(RoutedAgent):
         else:
             print(f"{'-'*80}\\nChecker:\\n{message.content} failed the check, stopping.")
 
-# 전체 agent 런타임 call을 단일 트레이스로 트레이스하기 위해
+# 전체 에이전트 런타임 호출을 단일 트레이스로 트레이스하기 위해
 # 여기에 weave op를 추가합니다
-# 완전히 선택 사항이지만 사용을 강력히 권장합니다
+# 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다
 
 @weave.op
 async def run_agent_runtime() -> None:
@@ -617,15 +617,15 @@ asyncio.run(run_agent_workflow())
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
 <div id="tracing-code-executor">
-  ## 코드 실행기 트레이스
+  ## 트레이싱 코드 실행기
 </div>
 
 <Warning>
   **Docker 필요**
-  이 예제는 Docker를 사용해 코드를 실행하므로 모든 환경에서 작동하지 않을 수 있습니다(예: Colab에서는 직접 실행되지 않을 수 있음). 사용해 보려면 로컬에서 Docker가 실행 중인지 확인하세요.
+  이 예시에는 Docker를 사용한 코드 실행이 포함되어 있어 모든 환경(예: Colab)에서 작동하지 않을 수 있습니다. 이 예시를 사용해 보려면 로컬에서 Docker가 실행 중인지 확인하세요.
 </Warning>
 
-Weave는 AutoGen 에이전트의 코드 생성과 실행을 트레이스합니다.
+Weave는 AutoGen 에이전트의 코드 생성 및 실행 과정을 트레이스합니다.
 
 ````python lines {69}
 
@@ -693,15 +693,15 @@ class Executor(RoutedAgent):
             await self.publish_message(CodeGenMessage(content=result.output), DefaultTopicId())
 
 # 전체 코드 생성 워크플로를 단일 트레이스로 트레이스하기 위해
-# 여기에 weave op를 추가합니다.
-# 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다.
+# 여기에 weave op를 추가합니다
+# 선택 사항이지만 사용하는 것을 강력히 권장합니다
 
 @weave.op(call_display_name="CodeGen Agent Workflow")
-async def run_codegen(model_name="gpt-4o"): # 업데이트된 모델
+async def run_codegen(model_name="gpt-4o"): # Updated model
     work_dir = tempfile.mkdtemp()
     runtime = SingleThreadedAgentRuntime()
 
-    # 이 예제를 실행하려면 Docker가 실행 중이어야 합니다.
+    # 이 예제를 실행하려면 Docker가 실행 중이어야 합니다
     try:
         async with DockerCommandLineCodeExecutor(work_dir=work_dir) as executor:
             model_client = OpenAIChatCompletionClient(model=model_name)
@@ -716,8 +716,8 @@ async def run_codegen(model_name="gpt-4o"): # 업데이트된 모델
             await runtime.stop_when_idle()
             await model_client.close()
     except Exception as e:
-        print(f"Docker 코드 실행기 예제를 실행할 수 없습니다: {e}")
-        print("Docker가 설치되어 있고 실행 중인지 확인하세요.")
+        print(f"Could not run Docker code executor example: {e}")
+        print("Please ensure Docker is installed and running.")
     finally:
         import shutil
         shutil.rmtree(work_dir)

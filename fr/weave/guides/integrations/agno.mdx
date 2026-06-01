@@ -33,7 +33,7 @@ Ce guide explique comment tracer les appels des agents et des outils Agno à l�
   ### Configurer le Tracing OTEL dans Weave
 </div>
 
-Pour envoyer des traces d’Agno vers Weave, configurez OTEL avec un `TracerProvider` et un `OTLPSpanExporter`. Configurez l’exportateur avec l’[endpoint approprié et les en-têtes HTTP requis pour l’authentification et l’identification du projet](#required-configuration).
+Pour envoyer des traces d’Agno vers Weave, configurez OTEL avec un `TracerProvider` et un `OTLPSpanExporter`. Configurez l’exportateur avec l’[point de terminaison approprié et les en-têtes HTTP requis pour l’authentification et l’identification du projet](#required-configuration).
 
 <note>
   Nous vous recommandons de stocker les variables d’environnement sensibles, comme votre clé API et les informations sur votre projet, dans un fichier d’environnement (par exemple `.env`), puis de les charger avec `os.environ`. Cela permet de sécuriser vos identifiants et de les garder hors de votre code.
@@ -43,10 +43,10 @@ Pour envoyer des traces d’Agno vers Weave, configurez OTEL avec un `TracerProv
   #### Configuration requise
 </div>
 
-* **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`
+* **Point de terminaison:** `https://trace.wandb.ai/otel/v1/traces`
 * **En-têtes :**
   * `Authorization` : authentification Basic avec votre clé API W&amp;B
-  * `project_id` : le nom de votre entité/projet W&amp;B (par ex. : `myteam/myproject`)
+  * `project_id` : le nom de votre entité/projet W&amp;B (par exemple : `myteam/myproject`)
 
 <div id="send-otel-traces-from-agno-to-weave">
   ## Envoyer des traces OTEL d’Agno vers Weave
@@ -84,7 +84,7 @@ OTEL_EXPORTER_OTLP_HEADERS = {
     "project_id": PROJECT_ID,
 }
 
-# Créer l'exportateur de spans OTLP avec l'endpoint et les en-têtes
+# Créer l'exportateur de spans OTLP avec le point de terminaison et les en-têtes
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
@@ -102,7 +102,7 @@ trace.set_tracer_provider(tracer_provider)
   ## Tracez les agents Agno avec OTEL
 </div>
 
-Après avoir configuré le fournisseur de traceurs, vous pouvez créer et exécuter des agents Agno avec le Tracing automatique. L’exemple suivant montre comment créer un agent simple avec des outils :
+Après avoir configuré le fournisseur de traceur, vous pouvez créer et exécuter des agents Agno avec le Tracing automatique. L’exemple suivant montre comment créer un agent simple avec des outils :
 
 ```python lines
 from agno.agent import Agent
@@ -135,24 +135,24 @@ finance_agent = Agent(
     markdown=True,
 )
 
-# Utiliser l'agent - cela sera automatiquement tracé
+# Utiliser l'agent - il sera automatiquement tracé
 finance_agent.print_response(
     "What is the current stock price of Apple and what are the latest analyst recommendations?",
     stream=True
 )
 ```
 
-Toutes les opérations de l’agent font automatiquement l’objet d’un traçage et sont envoyées à Weave, ce qui vous permet de visualiser le flux d’exécution, les appels au modèle, les étapes de raisonnement et les appels aux outils.
+Toutes les opérations de l’agent font automatiquement l’objet d’un traçage et sont envoyées à Weave, ce qui vous permet de visualiser le flux d’exécution, les appels au modèle, les étapes de raisonnement et les appels d’outil.
 
 <Frame>
-  ![Visualisation d’une trace d’un agent Agno](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
+  ![Visualisation de la trace d’un agent Agno](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
 </Frame>
 
 <div id="trace-agno-tools-with-otel">
   ## Tracez les outils Agno avec OTEL
 </div>
 
-Lorsque vous définissez et utilisez des outils avec Agno, les appels à ces outils sont également capturés dans la trace. L’intégration OTEL instrumente automatiquement à la fois le processus de raisonnement de l’agent et l’exécution de chaque outil, offrant une vue complète du comportement de votre agent.
+Lorsque vous définissez et utilisez des outils avec Agno, les appels d’outil sont également capturés dans la trace. L’intégration OTEL instrumente automatiquement à la fois le processus de raisonnement de l’agent et l’exécution de chaque outil, offrant une vue complète du comportement de votre agent.
 
 Voici un exemple avec plusieurs outils :
 
@@ -188,7 +188,7 @@ research_agent = Agent(
     markdown=True,
 )
 
-# Utiliser l'agent - les appels d'outils seront tracés
+# Utiliser l'agent - les appels d’outil seront tracés
 research_agent.print_response(
     "Research Tesla's recent performance and news. Include stock price and any recent developments.",
     stream=True
@@ -196,14 +196,14 @@ research_agent.print_response(
 ```
 
 <Frame>
-  ![Une visualisation de trace des appels d’outils Agno](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)
+  ![Une visualisation de la trace des appels d’outil Agno](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)
 </Frame>
 
 <div id="trace-multi-agent-teams-with-otel">
-  ## Tracez des équipes multi-agents avec OTEL
+  ## Tracez les équipes multi-agents avec OTEL
 </div>
 
-La puissante architecture multi-agents d&#39;Agno vous permet de créer des équipes d&#39;agents capables de collaborer et de partager du contexte. Ces interactions au sein des équipes sont elles aussi entièrement tracées :
+La puissante architecture multi-agent d&#39;Agno vous permet de créer des équipes d&#39;agents capables de collaborer et de partager un contexte commun. Ces interactions au sein de l&#39;équipe sont également entièrement tracées :
 
 ```python lines
 from agno.agent import Agent
@@ -257,17 +257,17 @@ agent_team.print_response(
 )
 ```
 
-Cette trace multi-agent montrera comment différents agents se coordonnent dans Weave, en vous donnant de la visibilité sur la façon dont les tâches sont réparties et exécutées au sein de votre équipe d&#39;agents.
+Cette trace multi-agents montrera comment les différents agents se coordonnent dans Weave, en vous offrant une visibilité sur la façon dont les tâches sont réparties et exécutées au sein de votre équipe d&#39;agents.
 
 <Frame>
-  ![Une visualisation de la trace de l'équipe multi-agent Agno](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
+  ![Une visualisation de la trace de l'équipe multi-agents Agno](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
 </Frame>
 
 <div id="work-with-reasoning-agents">
-  ## Travaillez avec des agents capables de raisonner
+  ## Utiliser des agents de raisonnement
 </div>
 
-Agno intègre des capacités de raisonnement qui aident les agents à analyser les problèmes étape par étape. Ces processus de raisonnement sont également capturés dans les traces :
+Agno fournit des capacités de raisonnement intégrées qui aident les agents à analyser les problèmes étape par étape. Ces processus de raisonnement sont également capturés dans les traces :
 
 ```python lines
 from agno.agent import Agent
@@ -309,17 +309,17 @@ reasoning_agent.print_response(
 )
 ```
 
-Les étapes du raisonnement seront visibles dans la trace, ce qui montre comment l’agent décompose des problèmes complexes et prend des décisions.
+Les étapes du raisonnement seront visibles dans la trace, qui montre comment l’agent décompose des problèmes complexes et prend des décisions.
 
 <Frame>
-  ![Une visualisation de la trace de l’agent de raisonnement Agno](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
+  ![Visualisation de la trace de l’agent de raisonnement Agno](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
 </Frame>
 
 <div id="work-with-memory-and-knowledge">
   ## Utiliser la mémoire et les connaissances
 </div>
 
-Les agents Agno peuvent conserver une mémoire et accéder à des bases de connaissances. Ces opérations font également l’objet d’une trace :
+Les agents Agno peuvent conserver une mémoire et accéder à des bases de connaissances. Ces opérations sont également tracées :
 
 ```python lines
 from agno.agent import Agent
@@ -362,7 +362,7 @@ memory_agent.print_response("What specific AI companies would you recommend for 
   ![Une visualisation de la trace de l’utilisation de la mémoire d’Agno](/weave/guides/integrations/imgs/agno/agno_memory_use.png)
 </Frame>
 
-Les opérations sur la mémoire, notamment le stockage et la récupération de l’historique des conversations, seront visibles dans la trace.
+Les opérations en mémoire, notamment l’enregistrement et la récupération de l’historique des conversations, apparaîtront dans la trace.
 
 <div id="learn-more">
   ## En savoir plus

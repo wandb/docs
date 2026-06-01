@@ -27,7 +27,7 @@ pip install opentelemetry-sdk OTELemetry-exporter-otlp-proto-http
   ### Weave에서 OTEL 트레이싱 구성하기
 </div>
 
-PydanticAI에서 Weave로 트레이스를 보내려면 `TracerProvider`와 `OTLPSpanExporter`를 사용해 OTEL을 설정하세요. exporter는 [인증 및 프로젝트 식별에 필요한 올바른 Endpoint와 HTTP 헤더](#required-configuration)로 설정하세요.
+PydanticAI에서 Weave로 트레이스를 보내려면 `TracerProvider`와 `OTLPSpanExporter`를 사용해 OTEL을 설정하세요. 익스포터는 [인증 및 프로젝트 식별에 필요한 올바른 엔드포인트와 HTTP 헤더](#required-configuration)로 설정하세요.
 
 <Warning>
   API 키와 프로젝트 정보 같은 민감한 환경 변수는 환경 파일(예: `.env`)에 저장하고 `os.environ`을 사용해 불러오는 것을 권장합니다. 이렇게 하면 자격 증명을 안전하게 보호하고 코드베이스에 포함되지 않도록 할 수 있습니다.
@@ -46,7 +46,7 @@ PydanticAI에서 Weave로 트레이스를 보내려면 `TracerProvider`와 `OTLP
   ### 설정 예시
 </div>
 
-다음 코드 스니펫은 PydanticAI 애플리케이션에서 Weave로 OTEL 트레이스를 전송할 수 있도록 OTLP span exporter와 tracer provider를 설정하는 방법을 보여줍니다.
+다음 코드 스니펫에서는 OTLP span 익스포터와 트레이서 프로바이더를 구성하여 PydanticAI 애플리케이션의 OTEL 트레이스를 Weave로 전송하는 방법을 보여줍니다.
 
 ```python lines
 import base64
@@ -68,7 +68,7 @@ OTEL_EXPORTER_OTLP_HEADERS = {
     "project_id": PROJECT_ID,
 }
 
-# 엔드포인트와 헤더로 OTLP 스팬 익스포터 생성
+# 엔드포인트와 헤더로 OTLP span 익스포터 생성
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
@@ -119,7 +119,7 @@ Weave는 OTEL로 계측된 모든 PydanticAI 오퍼레이션을 트레이스할 
 from pydantic_ai import Agent
 from pydantic_ai.models.instrumented import InstrumentationSettings
 
-# system prompt와 OTEL 트레이싱을 사용하여 PydanticAI 에이전트 생성
+# system prompt와 OTEL 트레이싱으로 PydanticAI 에이전트 생성
 agent = Agent(
     "openai:gpt-4o",
     system_prompt=(
@@ -132,7 +132,7 @@ agent = Agent(
 # 도구 정의
 @agent.tool_plain
 def multiply(a: int, b: int) -> int:
-    """두 숫자를 곱합니다."""
+    """Multiply two numbers."""
     return a * b
 
 # 에이전트에게 도구 사용 요청

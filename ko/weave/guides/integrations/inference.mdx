@@ -230,9 +230,11 @@ API를 사용해 현재 사용 가능한 모든 모델과 해당 ID를 조회합
   ### 기본 예제: Weave로 Llama 3.1 8B 트레이스하기
 </div>
 
-다음 Python 코드 샘플은 Serverless Inference API를 사용해 **Llama 3.1 8B** 모델에 프롬프트를 보내고, Weave에서 해당 call을 트레이스하는 방법을 보여줍니다. Tracing을 사용하면 LLM call의 전체 입력/출력을 캡처하고, 성능을 모니터링하고, Weave UI에서 결과를 분석할 수 있습니다.
+다음 Python 코드 샘플은 Serverless Inference API를 사용해 **Llama 3.1 8B** 모델에 프롬프트를 보내고, Weave에서 해당 call을 트레이스하는 방법을 보여줍니다. 트레이싱을 사용하면 LLM call의 전체 입력/출력을 캡처하고, 성능을 모니터링하고, Weave UI에서 결과를 분석할 수 있습니다.
 
-<Tip>[Weave의 tracing](../tracking/tracing.mdx)에 대해 자세히 알아보세요.</Tip>
+<Tip>
+  [Weave의 트레이싱](../tracking/tracing.mdx)에 대해 자세히 알아보세요.
+</Tip>
 
 이 예제에서는 다음을 수행합니다:
 
@@ -241,7 +243,7 @@ API를 사용해 현재 사용 가능한 모든 모델과 해당 ID를 조회합
 * 함수는 Weave에 의해 자동으로 트레이스되므로 입력, 출력, 지연 시간, 메타데이터(예: 모델 ID)가 로깅됩니다.
 * 결과는 터미널에 출력되며, 트레이스는 지정한 프로젝트 아래 [https://wandb.ai](https://wandb.ai)의 **Traces** 탭에 표시됩니다.
 
-이 예제를 사용하려면 [일반 사전 요구 사항](#prerequisites)과 [Python을 통해 API를 사용하기 위한 추가 사전 요구 사항](#additional-prerequisites-for-using-the-api-via-python)을 완료해야 합니다.
+이 예제를 사용하려면 [일반 사전 요구 사항](#prerequisites)과 [Python을 통해 API를 사용하기 위한 추가 사전 요구 사항](#additional-prerequisites-for-using-the-api-via-python)을 완료해야 합니다。
 
 ```python lines
 import weave
