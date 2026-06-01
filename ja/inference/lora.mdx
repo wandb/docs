@@ -74,7 +74,7 @@ LoRA アダプター は、2 つの方法で W&amp;B アカウントに追加し
   <Tab title="別の環境でトレーニングした LoRA アダプター をアップロードする">
     独自のカスタム LoRA アダプター ディレクトリを W&amp;B アーティファクト としてアップロードします。LoRA アダプター を別の環境 (ローカル環境、cloud provider、またはパートナーサービス) でトレーニングした場合は、この方法を使用します。
 
-    この Python コードは、ローカルに保存された LoRA アダプター の重みを、バージョン管理された アーティファクト として W&amp;B にアップロードします。必要なメタデータ (ベースモデル と storage region) を含む `lora` タイプの アーティファクト を作成し、ローカルディレクトリから LoRA アダプター ファイルを追加して、推論で使用できるよう W&amp;B プロジェクトにログします。
+    この Python コードは、ローカルに保存された LoRA アダプター の重みを、バージョン管理された アーティファクト として W&amp;B にアップロードします。必要なメタデータ (ベースモデル と storage region) を含む `lora` タイプの アーティファクト を作成し、ローカルディレクトリから LoRA アダプター ファイルを追加して、推論で使用できるよう W&amp;B のプロジェクトにログします。
 
     ```python
     import wandb
@@ -103,7 +103,7 @@ LoRA アダプター は、2 つの方法で W&amp;B アカウントに追加し
   </Tab>
 
   <Tab title="W&B で新しい LoRA アダプター をトレーニングする">
-    [Serverless RL](/ja/serverless-rl) を使用して新しい LoRA アダプター をトレーニングします。LoRA アダプター は自動的に W&amp;B アーティファクト となり、そのまま直接使用できます。
+    [Serverless RL](/ja/serverless-training) を使用して新しい LoRA アダプター をトレーニングします。LoRA アダプター は自動的に W&amp;B アーティファクト となり、そのまま直接使用できます。
 
     独自の LoRA アダプター をトレーニングする方法の詳細については、[OpenPipe&#39;s ART quickstart](https://art.openpipe.ai/getting-started/quick-start) を参照してください。
 

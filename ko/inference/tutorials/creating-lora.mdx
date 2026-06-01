@@ -5,13 +5,13 @@ description: >
 keywords: ["TRL 라이브러리", "지도 파인튜닝", "SFT", "사후학습(Post-training)", "아티팩트 업로드"]
 ---
 
-Serverless Inference를 사용하면 일부 기본 모델에서 커스텀 LoRA를 사용할 수 있습니다. 이 튜토리얼에서는 [TRL](https://huggingface.co/docs/trl/index) 라이브러리를 사용해 지도 사후학습으로 파인튜닝된 LoRA를 만든 다음, Serverless Inference API 또는 플레이그라운드에서 사용할 수 있도록 W&amp;B에 아티팩트로 업로드하는 과정을 안내합니다. 이 예시에서는 쿼리/응답 쌍으로 이루어진 데이터셋을 사용해 모델이 카우보이처럼 응답하도록 파인튜닝하지만, 같은 워크플로를 어떤 캐릭터나 작업에도 맞게 적용할 수 있습니다.
+Serverless Inference를 사용하면 일부 기본 모델에서 커스텀 LoRA를 사용할 수 있습니다. 이 튜토리얼에서는 [TRL](https://huggingface.co/docs/trl/index) 라이브러리를 사용해 지도 사후학습으로 파인튜닝된 LoRA를 만든 다음, Serverless Inference API 또는 플레이그라운드에서 사용할 수 있도록 W&amp;B에 아티팩트로 업로드하는 과정을 안내합니다. 이 예시에서는 쿼리/Response 쌍으로 이루어진 데이터셋을 사용해 모델이 카우보이처럼 응답하도록 파인튜닝하지만, 같은 워크플로를 어떤 캐릭터나 작업에도 맞게 적용할 수 있습니다.
 
 이 튜토리얼은 자체 추론 인프라를 관리하지 않고도 기본 모델의 동작을 사용자 지정하려는 개발자를 위한 것입니다.
 
-서버리스 강화학습을 제공하는 [Serverless RL](/ko/serverless-rl)을 사용해 LoRA를 만들 수도 있습니다.
+서버리스 강화학습을 제공하는 [Serverless RL](/ko/serverless-training)을 사용해 LoRA를 만들 수도 있습니다.
 
-이 튜토리얼은 세 부분으로 구성됩니다. 사후학습 데이터셋을 준비하고, LoRA를 생성하고 업로드하는 사후학습 스크립트를 실행한 다음, 완성된 LoRA를 플레이그라운드 또는 코드에서 사용해 봅니다.
+이 튜토리얼은 세 부분으로 구성됩니다. 사후학습 데이터셋을 준비하고, LoRA를 생성하고 업로드하는 사후학습 스크립트를 실행한 다음, 완성된 LoRA를 플레이그라운드 또는 코드에서 사용해 봅니다.&quot;
 
 <div id="post-training-dataset">
   ## 사후학습(Post-training) 데이터셋

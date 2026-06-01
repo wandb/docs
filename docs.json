@@ -1421,7 +1421,7 @@
                     "group": "Propulsé par CoreWeave",
                     "pages": [
                       "fr/product-inference",
-                      "fr/product-serverless-rl",
+                      "fr/product-serverless-training",
                       "fr/product-sandboxes"
                     ]
                   },
@@ -2115,25 +2115,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "fr/serverless-rl",
-                  "fr/serverless-rl/prerequisites",
-                  "fr/serverless-rl/usage",
-                  "fr/serverless-rl/available-models",
-                  "fr/serverless-rl/usage-limits",
-                  "fr/serverless-rl/use-trained-models",
+                  "fr/serverless-training",
+                  "fr/serverless-training/prerequisites",
+                  "fr/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "fr/serverless-training/usage",
+                      "fr/serverless-training/available-models",
+                      "fr/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "fr/serverless-rl/sft",
-                      "fr/serverless-rl/sft/usage"
+                      "fr/serverless-training/sft",
+                      "fr/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "Référence de l’API",
                     "pages": [
-                      "fr/serverless-rl/ref-link-api"
+                      "fr/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -2531,13 +2536,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "fr/serverless-rl/api-reference",
-                  "source": "fr/serverless-rl/api-reference/openapi.json"
+                  "directory": "fr/serverless-training/api-reference",
+                  "source": "fr/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "fr/serverless-rl/api-reference"
+                  "fr/serverless-training/api-reference"
                 ]
               }
             ],
@@ -2735,7 +2740,7 @@
                     "group": "CoreWeave 提供",
                     "pages": [
                       "ja/product-inference",
-                      "ja/product-serverless-rl",
+                      "ja/product-serverless-training",
                       "ja/product-sandboxes"
                     ]
                   },
@@ -3429,25 +3434,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "ja/serverless-rl",
-                  "ja/serverless-rl/prerequisites",
-                  "ja/serverless-rl/usage",
-                  "ja/serverless-rl/available-models",
-                  "ja/serverless-rl/usage-limits",
-                  "ja/serverless-rl/use-trained-models",
+                  "ja/serverless-training",
+                  "ja/serverless-training/prerequisites",
+                  "ja/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "ja/serverless-training/usage",
+                      "ja/serverless-training/available-models",
+                      "ja/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ja/serverless-rl/sft",
-                      "ja/serverless-rl/sft/usage"
+                      "ja/serverless-training/sft",
+                      "ja/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API リファレンス",
                     "pages": [
-                      "ja/serverless-rl/ref-link-api"
+                      "ja/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -3845,13 +3855,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "ja/serverless-rl/api-reference",
-                  "source": "ja/serverless-rl/api-reference/openapi.json"
+                  "directory": "ja/serverless-training/api-reference",
+                  "source": "ja/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "ja/serverless-rl/api-reference"
+                  "ja/serverless-training/api-reference"
                 ]
               }
             ],
@@ -4049,7 +4059,7 @@
                     "group": "CoreWeave 제공",
                     "pages": [
                       "ko/product-inference",
-                      "ko/product-serverless-rl",
+                      "ko/product-serverless-training",
                       "ko/product-sandboxes"
                     ]
                   },
@@ -4743,25 +4753,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "ko/serverless-rl",
-                  "ko/serverless-rl/prerequisites",
-                  "ko/serverless-rl/usage",
-                  "ko/serverless-rl/available-models",
-                  "ko/serverless-rl/usage-limits",
-                  "ko/serverless-rl/use-trained-models",
+                  "ko/serverless-training",
+                  "ko/serverless-training/prerequisites",
+                  "ko/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "ko/serverless-training/usage",
+                      "ko/serverless-training/available-models",
+                      "ko/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ko/serverless-rl/sft",
-                      "ko/serverless-rl/sft/usage"
+                      "ko/serverless-training/sft",
+                      "ko/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API 레퍼런스",
                     "pages": [
-                      "ko/serverless-rl/ref-link-api"
+                      "ko/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -5159,13 +5174,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "ko/serverless-rl/api-reference",
-                  "source": "ko/serverless-rl/api-reference/openapi.json"
+                  "directory": "ko/serverless-training/api-reference",
+                  "source": "ko/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "ko/serverless-rl/api-reference"
+                  "ko/serverless-training/api-reference"
                 ]
               }
             ],
