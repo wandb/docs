@@ -5,7 +5,7 @@ description: "Reference for patchRealtimeSession, which instruments the OpenAI R
 
 # patchRealtimeSession
 
-▸ **patchRealtimeSession**(): `void`
+▸ **patchRealtimeSession**(): `Promise`\<`boolean`\>
 
 Manually patch the `RealtimeSession` class from `@openai/agents-realtime` so that
 every new instance is automatically traced by Weave.
@@ -20,18 +20,21 @@ The function is idempotent — safe to call multiple times.
 
 #### Returns
 
-`void`
+`Promise`\<`boolean`\>
+
+`true` if the patch was applied (or was already in place), `false` if
+`@openai/agents-realtime` could not be loaded.
 
 `Example`
 
 ```typescript
 import { patchRealtimeSession } from 'weave';
-patchRealtimeSession();
+await patchRealtimeSession();
 // Every new RealtimeSession(...) is now auto-instrumented
 ```
 
 #### Defined in
 
-[integrations/openai.realtime.agent.ts:797](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.realtime.agent.ts#L797)
+[integrations/openai.realtime.agent.ts:808](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/integrations/openai.realtime.agent.ts#L808)
 
 ___
