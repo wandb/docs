@@ -3,7 +3,7 @@ title: "TypeScript SDK: third-party integration guide"
 description: "Integrate third-party libraries with the Weave TypeScript SDK"
 ---
 
-This guide describes how to integrate third-party libraries (e.g., OpenAI) with the Weave TypeScript SDK. Weave supports automatic instrumentation, making setup easier and reducing the need for manual configuration.
+This guide describes how to integrate third-party libraries (for example, OpenAI) with the Weave TypeScript SDK. Weave supports automatic instrumentation, making setup easier and reducing the need for manual configuration.
 
 <Warning>
 **What changed?**
@@ -187,7 +187,7 @@ This section covers edge cases and workarounds for when the TypeScript SDK's aut
 Use with `NODE_OPTIONS` with caution, as this affects all Node.js processes in the environment and may introduce side effects.
 </Warning>
 
-If you're using an ESM project and cannot pass CLI flags (e.g., due to constraints in CLI tools or frameworks), set the `NODE_OPTIONS` environment variable:
+If you're using an ESM project and cannot pass CLI flags (for example, due to constraints in CLI tools or frameworks), set the `NODE_OPTIONS` environment variable:
 
 ```bash
 export NODE_OPTIONS="--import=weave/instrument"
