@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Update the Serverless RL API landing page with the current endpoints from the OpenAPI spec.
+Update the Serverless Training API landing page with the current endpoints from the OpenAPI spec.
 
 Mirrors Mintlify's OpenAPI page path logic (@mintlify/scraping processOpenApiPath):
 - Slug folder from the first tag (prepareStringToBeValidFilename).
@@ -110,7 +110,7 @@ def build_method_path_to_href(spec: dict, out_dir: str) -> Dict[Tuple[str, str],
             if _is_excluded(operation) or _is_hidden(operation):
                 continue
 
-            # x-mint.href overrides are not used in the current Serverless RL spec; add
+            # x-mint.href overrides are not used in the current Serverless Training spec; add
             # handling here if Mintlify custom hrefs are introduced upstream.
             tags = operation.get("tags") or []
             group_name = tags[0] if tags else "API Reference"
@@ -219,15 +219,15 @@ def update_landing_page(endpoints_section: str) -> bool:
 
 
 def main() -> int:
-    print("Updating Serverless RL API landing page (Mintlify-aligned links)...")
+    print("Updating Serverless Training API landing page (Mintlify-aligned links)...")
     try:
         spec = fetch_openapi_spec()
         href_map = build_method_path_to_href(spec, DEFAULT_OPENAPI_DIRECTORY)
         section = generate_endpoints_section(spec, href_map, DEFAULT_OPENAPI_DIRECTORY)
         if update_landing_page(section):
-            print("✓ Serverless RL API landing page updated successfully!")
+            print("✓ Serverless Training API landing page updated successfully!")
         else:
-            print("✓ Serverless RL API landing page is already up to date")
+            print("✓ Serverless Training API landing page is already up to date")
     except Exception as e:
         print(f"  ✗ Error: {e}")
         return 1

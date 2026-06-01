@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Sync the Serverless RL API OpenAPI spec from the remote service.
+Sync the Serverless Training API OpenAPI spec from the remote service.
 
 This script:
-1. Downloads the latest OpenAPI spec from the Serverless RL training service
+1. Downloads the latest OpenAPI spec from the Serverless Training training service
 2. Compares it with the local copy (if exists)
 3. Updates the local copy if changed
 4. Can optionally update docs.json to use local spec for builds
@@ -18,7 +18,7 @@ from typing import Optional, Tuple
 
 
 def fetch_remote_spec(url: str = "https://api.training.wandb.ai/openapi.json") -> dict:
-    """Fetch the OpenAPI spec from the remote Serverless RL service."""
+    """Fetch the OpenAPI spec from the remote Serverless Training service."""
     print(f"  Fetching remote spec from {url}...")
     try:
         response = requests.get(url, timeout=10)
@@ -48,7 +48,7 @@ def patch_spec(spec: dict) -> dict:
     """
     Apply patches to the OpenAPI spec to fix known issues.
     
-    This is a workaround until the upstream Serverless RL API is fixed.
+    This is a workaround until the upstream Serverless Training API is fixed.
     """
     patched = False
     
@@ -123,7 +123,7 @@ def update_docs_json(use_local: bool = False):
     # The structure is complex, so let's search for it
     json_str = json.dumps(docs_config)
     
-    # Check if we can find the Serverless RL API configuration
+    # Check if we can find the Serverless Training API configuration
     if '"group": "API Reference"' in json_str and 'serverless-training/api-reference' in json_str:
         # Read the file again to modify it
         with open(docs_json_path, 'r') as f:
@@ -135,26 +135,26 @@ def update_docs_json(use_local: bool = False):
                 '"openapi": "https://api.training.wandb.ai/openapi.json"',
                 '"openapi": "serverless-training/api-reference/openapi.json"'
             )
-            print("  ✓ Updated docs.json to use local Serverless RL API spec")
+            print("  ✓ Updated docs.json to use local Serverless Training API spec")
         else:
             # Replace local path with remote URL
             content = content.replace(
                 '"openapi": "serverless-training/api-reference/openapi.json"',
                 '"openapi": "https://api.training.wandb.ai/openapi.json"'
             )
-            print("  ✓ Updated docs.json to use remote Serverless RL API spec")
+            print("  ✓ Updated docs.json to use remote Serverless Training API spec")
         
         with open(docs_json_path, 'w') as f:
             f.write(content)
         return True
     
-    print("  ✗ Could not find Serverless RL API configuration in docs.json")
+    print("  ✗ Could not find Serverless Training API configuration in docs.json")
     return False
 
 
 def main():
     """Main function."""
-    print("Syncing Serverless RL API OpenAPI specification...")
+    print("Syncing Serverless Training API OpenAPI specification...")
     
     local_spec_path = Path("serverless-training/api-reference/openapi.json")
     remote_url = "https://api.training.wandb.ai/openapi.json"
@@ -182,7 +182,7 @@ def main():
         is_different, changes = compare_specs(local_spec, remote_spec)
         
         if is_different:
-            print("  ⚠ Serverless RL API spec has changed:")
+            print("  ⚠ Serverless Training API spec has changed:")
             for change in changes:
                 print(change)
             
@@ -221,14 +221,14 @@ def main():
         using_local = '"openapi": "serverless-training/api-reference/openapi.json"' in json_str
         
         if using_local:
-            print(f"\n  ℹ Currently using local Serverless RL API spec ({local_spec_path})")
+            print(f"\n  ℹ Currently using local Serverless Training API spec ({local_spec_path})")
         else:
-            print("\n  ℹ Currently using remote Serverless RL API spec (https://api.training.wandb.ai/openapi.json)")
+            print("\n  ℹ Currently using remote Serverless Training API spec (https://api.training.wandb.ai/openapi.json)")
         
         print("\n  Tip: Use --use-local to configure docs.json to use the local spec")
         print("       Use --use-remote to configure docs.json to use the remote spec")
     
-    print("✓ Serverless RL API spec sync complete!")
+    print("✓ Serverless Training API spec sync complete!")
     return 0
 
 
