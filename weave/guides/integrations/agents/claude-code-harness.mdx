@@ -1,10 +1,9 @@
 ---
 title: Claude Code plugin
-description: Track Claude Code sessions in Weave for observability and debugging.
+description: Track Claude Code sessions in W&B Weave for observability and debugging.
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-import { Steps, Step } from "@mintlify/components";
 
 <AgentsPreview />
 
@@ -13,7 +12,7 @@ The Weave Claude Code plugin automatically traces every Claude Code session and 
 <Warning>
 This plugin sends Claude Code session data to Weave. That data can include user prompts, Claude responses, tool inputs and outputs, file contents read by Claude Code tools, shell commands and output, and fetched URLs and page content.
 
-PII scrubbing and sensitive-data redaction aren't yet implemented. If you can't send this data to Weave under your security or compliance requirements, don't install this plugin.
+PII scrubbing and sensitive-data redaction aren't implemented. If you can't send this data to Weave under your security or compliance requirements, don't install this plugin.
 </Warning>
 
 ## Prerequisites
@@ -78,7 +77,7 @@ Each user prompt produces one OTEL trace that follows the [GenAI semantic conven
 invoke_agent claude-code               (Root, one trace per user prompt.)
 ├─ chat <model>                        (Each LLM call within the turn.)
 ├─ execute_tool <tool_name>            (Each tool call such as Read, Bash, Grep.)
-└─ invoke_agent <subagent_type>        (Subagent dispatched via the Agent tool.)
+└─ invoke_agent <subagent_type>        (Subagent dispatched through the Agent tool.)
    ├─ chat <model>
    └─ execute_tool <tool_name>
 ```
