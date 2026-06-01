@@ -1,14 +1,14 @@
 ---
 title: "Classe : EvaluationLogger"
-description: "Référence du SDK TypeScript"
+description: "Référence de la classe EvaluationLogger de Weave pour TypeScript, qui met au journal les prédictions et les scores d’évaluation de manière incrémentielle."
 ---
 
 [weave](../) / EvaluationLogger
 
-EvaluationLogger permet la journalisation incrémentielle des prédictions et des scores.
+EvaluationLogger permet la mise au journal incrémentielle des prédictions et des scores.
 
 Contrairement à la classe Evaluation traditionnelle, qui nécessite un jeu de données défini à l’avance et un traitement par lots,
-EvaluationLogger vous permet d’enregistrer les prédictions au fur et à mesure, avec une attribution flexible des scores.
+EvaluationLogger vous permet de mettre au journal les prédictions au fur et à mesure, avec une attribution flexible des scores.
 
 `Exemple`
 
@@ -27,7 +27,6 @@ for (const example of streamingData) {
 
 await ev.logSummary();
 ```
-
 
 <div id="table-of-contents">
   ## Table des matières
@@ -115,7 +114,6 @@ scoreLogger.finish();
 await evalLogger.logSummary(); // Attend la fin de toutes les opérations
 ```
 
-
 <div id="defined-in">
   #### Défini dans
 </div>
@@ -154,12 +152,11 @@ Utilisez cette méthode si vous devez attendre l&#39;initialisation avant de con
 `Exemple`
 
 ```ts
-// Style awaitable
+// Style avec await
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
-
 
 <div id="defined-in">
   #### Défini dans

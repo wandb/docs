@@ -1,16 +1,16 @@
 ---
 title: "Classe : Dataset<R>"
-description: "Référence du SDK TypeScript"
+description: "Référence de la classe Dataset TypeScript de Weave utilisée pour stocker et réutiliser des lignes d’exemple pour les évaluations."
 ---
 
 [weave](../) / Dataset
 
-Objet Dataset avec enregistrement simple et gestion automatique des versions
+Objet Dataset avec sauvegarde facile et gestion des versions automatique
 
-`Exemple`
+`Example`
 
 ```ts
-// Créer un jeu de données
+// Créer un dataset
 const dataset = new Dataset({
   id: 'grammar-dataset',
   rows: [
@@ -23,10 +23,9 @@ const dataset = new Dataset({
 // Accéder à un exemple spécifique
 const exampleLabel = dataset.getRow(2).sentence;
 
-// Enregistrer le jeu de données
+// Sauvegarder le dataset
 const ref = await dataset.save()
 ```
-
 
 ## Paramètres de type
 

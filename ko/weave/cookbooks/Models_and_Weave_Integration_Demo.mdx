@@ -1,6 +1,6 @@
 ---
 title: "W&B Models와 함께 Weave 사용하기"
-description: "W&B Models와 함께 Weave를 사용하는 방법을 알아보세요"
+description: "W&B Models에서 Experiments를 추적하고 Weave에서 LLM 트레이스 및 평가를 함께 살펴보는 과정을 안내하는 대화형 노트북입니다."
 ---
 
 <Note>
@@ -38,7 +38,7 @@ from google.colab import userdata
 os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models and Weave
 os.environ["OPENAI_API_KEY"] = userdata.get(
     "OPENAI_API_KEY"
-)  # OpenAI - for retrieval embeddings
+)  # OpenAI - 검색 임베딩용
 os.environ["GEMINI_API_KEY"] = userdata.get(
     "GEMINI_API_KEY"
 )  # Gemini - 기본 채팅 모델용
@@ -59,7 +59,6 @@ ENTITY = "wandb-smle"
 
 weave.init(ENTITY + "/" + PROJECT)
 ```
-
 
 <div id="download-chatmodel-from-models-registry-and-implement-unslothlorachatmodel">
   ## Models Registry에서 `ChatModel`을 다운로드하고 `UnslothLoRAChatModel` 구현하기
@@ -85,8 +84,8 @@ import weave
 
 class UnslothLoRAChatModel(weave.Model):
     """
-    모델 이름 외에 더 많은 파라미터를 저장하고 버전 관리할 수 있도록 별도의 ChatModel 클래스를 정의합니다.
-    특히 특정 파라미터로 인해 fine-tuning(로컬 또는 aaS)을 고려하는 경우에 유용합니다.
+    We define an extra ChatModel class to be able store and version more parameters than just the model name.
+    Especially, relevant if we consider fine-tuning (locally or aaS) because of specific parameters.
     """
 
     chat_model: str
@@ -105,7 +104,7 @@ class UnslothLoRAChatModel(weave.Model):
         artifact = run.use_artifact(f"{self.chat_model}")
         model_path = artifact.download()
 
-        # unsloth 버전 (기본 2배 빠른 Inference 활성화)
+        # unsloth 버전 (기본 2배 빠른 추론 활성화)
         self._model, self._tokenizer = FastLanguageModel.from_pretrained(
             model_name=model_path,
             max_seq_length=self.cm_max_new_tokens,
@@ -144,7 +143,7 @@ max_seq_length = 2048  # 원하는 값을 선택하세요! 내부적으로 RoPE 
 dtype = (
     None  # 자동 감지는 None. Tesla T4, V100은 Float16, Ampere 이상은 Bfloat16
 )
-load_in_4bit = True  # 메모리 사용량 절감을 위해 4bit 양자화 사용. False로 설정 가능.
+load_in_4bit = True  # 메모리 사용량 절감을 위해 4비트 양자화 사용. False로 설정 가능.
 
 new_chat_model = UnslothLoRAChatModel(
     name="UnslothLoRAChatModelRag",
@@ -162,12 +161,11 @@ await new_chat_model.predict(
 )
 ```
 
-
 <div id="integrate-the-new-chatmodel-version-into-ragmodel">
   ## 새 `ChatModel` 버전을 `RagModel`에 통합하기
 </div>
 
-파인튜닝된 채팅 모델로 RAG 애플리케이션을 구축하면 전체 파이프라인을 다시 빌드하지 않고도 맞춤형 컴포넌트를 활용해 대화형 AI를 개선할 수 있습니다. 이 step에서는 Weave 프로젝트에서 기존 `RagModel`을 조회하고, 새로 미세 조정한 모델을 사용하도록 해당 `ChatModel`을 업데이트합니다. 이렇게 원활하게 교체하면 벡터 데이터베이스(VDB)와 프롬프트 같은 다른 컴포넌트는 그대로 유지되므로, 애플리케이션의 전체 구조를 보존하면서 성능을 향상시킬 수 있습니다.
+파인튜닝된 채팅 모델로 RAG 애플리케이션을 구축하면 전체 파이프라인을 다시 빌드하지 않고도 맞춤형 컴포넌트를 활용해 대화형 AI를 개선할 수 있습니다. 이 step에서는 Weave 프로젝트에서 기존 `RagModel`을 조회하고, 새로 파인튜닝된 모델을 사용하도록 해당 `ChatModel`을 업데이트합니다. 이렇게 원활하게 교체하면 벡터 데이터베이스(VDB)와 프롬프트 같은 다른 컴포넌트는 그대로 유지되므로, 애플리케이션의 전체 구조를 보존하면서 성능을 향상시킬 수 있습니다.
 
 아래 코드는 Weave 프로젝트의 레퍼런스를 사용해 `RagModel` 객체를 조회합니다. 그런 다음 `RagModel`의 `chat_model` 속성을 업데이트해 이전 step에서 생성한 새 `UnslothLoRAChatModel` 인스턴스를 사용하도록 합니다. 그 후 업데이트된 `RagModel`을 게시하여 새 버전을 생성합니다. 마지막으로 업데이트된 `RagModel`을 사용해 샘플 예측 쿼리를 실행하여 새 채팅 모델이 사용되고 있는지 확인합니다.
 
@@ -191,7 +189,6 @@ python
 await RagModel.predict("When was the first conference on climate change?")
 ```
 
-
 <div id="run-a-weaveevaluation">
   ## `weave.Evaluation` 실행
 </div>
@@ -200,7 +197,7 @@ await RagModel.predict("When was the first conference on climate change?")
 
 In Models:
 
-* 평가 summary는 파인튜닝된 채팅 모델을 다운로드하는 데 사용한 W&amp;B run에 로깅됩니다. 여기에는 분석을 위해 [workspace view](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9)에 표시되는 summary 메트릭과 그래프가 포함됩니다.
+* 평가 summary는 파인튜닝된 채팅 모델을 다운로드하는 데 사용한 W&amp;B run에 로깅됩니다. 여기에는 분석을 위해 [워크스페이스 뷰](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9)에 표시되는 summary 메트릭과 그래프가 포함됩니다.
 * 평가 트레이스 ID는 run의 설정에 추가되며, Model Team이 더 쉽게 추적할 수 있도록 Weave 페이지로 직접 연결됩니다.
 
 In Weave:
@@ -211,15 +208,15 @@ In Weave:
 아래 코드는 평가 객체를 조회하고, 업데이트된 `RagModel`을 사용해 평가를 실행한 뒤, 결과를 W&amp;B와 Weave에 모두 로깅하는 방법을 보여줍니다. 평가 레퍼런스(`WEAVE_EVAL`)가 프로젝트 설정과 일치하는지 확인하세요.
 
 ```python lines
-# MAGIC: eval 데이터셋과 scorer를 사용하여 evaluation을 간단히 조회하고 활용할 수 있습니다
+# MAGIC: 평가 데이터셋과 Scorer가 포함된 평가를 간단히 가져와 사용할 수 있습니다
 WEAVE_EVAL = "weave://wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 python
 with weave.attributes({"wandb-run-id": wandb.run.id}):
-    # .call 속성을 사용하여 결과와 call을 모두 조회한 후 eval 트레이스를 Models에 저장합니다
+    # .call 속성을 사용해 결과와 call을 모두 조회하여 평가 트레이스를 Models에 저장합니다
     summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, RagModel)
 python
-# Models에 로그 기록
+# models에 로깅
 wandb.run.log(pd.json_normalize(summary, sep="/").to_dict(orient="records")[0])
 wandb.run.config.update(
     {"weave_url": f"https://wandb.ai/wandb-smle/weave-cookboook-demo/r/call/{call.id}"}
@@ -227,14 +224,13 @@ wandb.run.config.update(
 wandb.run.finish()
 ```
 
-
 <div id="save-the-new-rag-model-to-the-registry">
   ## 새 RAG Model을 레지스트리에 저장
 </div>
 
 업데이트된 `RagModel`을 앞으로 Models 팀과 Apps 팀 모두가 사용할 수 있도록 W&amp;B Models Registry에 레퍼런스 아티팩트로 푸시합니다.
 
-아래 코드는 업데이트된 `RagModel`의 `weave` 객체 버전과 이름을 조회한 다음, 이를 사용해 레퍼런스 링크를 생성합니다. 이어서 모델의 Weave URL이 포함된 메타데이터와 함께 새 아티팩트를 W&amp;B에 생성합니다. 이 아티팩트는 W&amp;B Registry에 로깅되고 지정된 레지스트리 경로에 연결됩니다.
+아래 코드는 업데이트된 `RagModel`의 `weave` 객체 버전과 이름을 조회한 다음, 이를 사용해 레퍼런스 링크를 생성합니다. 이어서 모델의 Weave URL이 포함된 메타데이터와 함께 새 아티팩트를 W&amp;B에 생성합니다. 이 아티팩트는 W&amp;B 레지스트리에 로깅되고 지정된 레지스트리 경로에 연결됩니다.
 
 코드를 실행하기 전에 `ENTITY` 및 `PROJECT` 변수가 W&amp;B 설정과 일치하는지, 그리고 대상 레지스트리 경로가 올바르게 지정되었는지 확인하세요. 이 과정은 새 `RagModel`을 W&amp;B 생태계에 게시해 협업과 재사용을 쉽게 할 수 있도록 하여 워크플로를 마무리합니다.
 
@@ -248,16 +244,16 @@ models_link = (
 )
 
 with wandb.init(project=PROJECT, entity=ENTITY) as run:
-    # 새 Artifact 생성
+    # 새 아티팩트 생성
     artifact_model = wandb.Artifact(
         name="RagModel",
         type="model",
-        description="Weave의 RagModel에서 가져온 Models 링크",
+        description="Models Link from RagModel in Weave",
         metadata={"url": models_url},
     )
     artifact_model.add_reference(models_link, name="model", checksum=False)
 
-    # 새 아티팩트 로그
+    # 새 아티팩트 로깅
     run.log_artifact(artifact_model, aliases=[MODELS_OBJECT_VERSION])
 
     # 레지스트리에 연결

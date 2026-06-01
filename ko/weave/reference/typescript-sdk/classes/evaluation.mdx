@@ -1,6 +1,6 @@
 ---
 title: "클래스: Evaluation<R, E, M>"
-description: "TypeScript SDK 레퍼런스"
+description: "데이터셋에 대해 모델을 실행하고 Scorer 메트릭을 계산하는 Weave TypeScript Evaluation 클래스 레퍼런스"
 ---
 
 [weave](../) / Evaluation
@@ -14,7 +14,7 @@ scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 `예시`
 
 ```ts
-// 예시를 데이터셋에 수집합니다
+// 예시를 데이터셋으로 수집합니다
 const dataset = new weave.Dataset({
   id: 'my-dataset',
   rows: [
@@ -24,7 +24,7 @@ const dataset = new weave.Dataset({
   ],
 });
 
-// 맞춤형 채점 함수를 정의합니다
+// 맞춤형 점수화 함수를 정의합니다
 const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
   return modelOutput == datasetRow.expected;
 });
@@ -43,7 +43,6 @@ const evaluation = new weave.Evaluation({
 
 const results = await evaluation.evaluate({ model });
 ```
-
 
 ## 타입 매개변수
 

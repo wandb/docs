@@ -1,6 +1,6 @@
 ---
 title: "Utiliser Weave avec W&B Models"
-description: "Découvrez comment utiliser Weave avec W&B Models"
+description: "Notebook interactif qui vous guide dans le suivi des expériences dans W&B Models, ainsi que des traces et évaluations de LLM dans Weave."
 ---
 
 <Note>
@@ -60,7 +60,6 @@ ENTITY = "wandb-smle"
 weave.init(ENTITY + "/" + PROJECT)
 ```
 
-
 <div id="download-chatmodel-from-models-registry-and-implement-unslothlorachatmodel">
   ## Télécharger `ChatModel` depuis Models registre et implémenter `UnslothLoRAChatModel`
 </div>
@@ -85,8 +84,8 @@ import weave
 
 class UnslothLoRAChatModel(weave.Model):
     """
-    Nous définissons une classe ChatModel supplémentaire pour pouvoir stocker et versionner davantage de paramètres que le simple nom du modèle.
-    Particulièrement pertinent si l'on envisage le fine-tuning (en local ou en aaS) en raison de paramètres spécifiques.
+    We define an extra ChatModel class to be able store and version more parameters than just the model name.
+    Especially, relevant if we consider fine-tuning (locally or aaS) because of specific parameters.
     """
 
     chat_model: str
@@ -162,7 +161,6 @@ await new_chat_model.predict(
 )
 ```
 
-
 <div id="integrate-the-new-chatmodel-version-into-ragmodel">
   ## Intégrer la nouvelle version de `ChatModel` dans `RagModel`
 </div>
@@ -180,27 +178,26 @@ RagModel.chat_model.chat_model
 python
 await RagModel.predict("When was the first conference on climate change?")
 python
-# MAGIC : remplacement du chat_model et publication d'une nouvelle version (inutile de se soucier des autres composants RAG)
+# MAGIC: remplacer chat_model et publier une nouvelle version (pas besoin de se soucier des autres composants RAG)
 RagModel.chat_model = new_chat_model
 python
 RagModel.chat_model.chat_model
 python
-# publier d'abord la nouvelle version pour référencer la nouvelle version dans la prédiction
+# publier d'abord la nouvelle version afin de référencer la nouvelle version lors de la prédiction
 PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 python
 await RagModel.predict("When was the first conference on climate change?")
 ```
 
-
 <div id="run-a-weaveevaluation">
   ## Exécuter une `weave.Evaluation`
 </div>
 
-À l’étape suivante, nous évaluons les performances de notre `RagModel` mis à jour à l’aide d’une `weave.Evaluation` existante. Ce processus garantit que le nouveau modèle de chat affiné se comporte comme prévu dans l’application RAG. Pour simplifier l’intégration et permettre la collaboration entre les équipes Models et Apps, nous consignons les résultats de l’évaluation à la fois dans le run W&amp;B du modèle et dans le workspace Weave.
+À l’étape suivante, nous évaluons les performances de notre `RagModel` mis à jour à l’aide d’une `weave.Evaluation` existante. Ce processus garantit que le nouveau modèle de chat affiné se comporte comme prévu dans l’application RAG. Pour simplifier l’intégration et permettre la collaboration entre les équipes Models et Apps, nous enregistrons les résultats de l’évaluation à la fois dans le run W&amp;B du modèle et dans le workspace Weave.
 
 Dans Models :
 
-* Le résumé de l’évaluation est consigné dans le run W&amp;B utilisé pour télécharger le modèle de chat affiné. Cela inclut des métriques de synthèse et des graphiques affichés dans une [vue Workspace](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9) pour l’analyse.
+* Le résumé de l’évaluation est enregistré dans le run W&amp;B utilisé pour télécharger le modèle de chat affiné. Cela inclut des métriques de synthèse et des graphiques affichés dans une [vue Workspace](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9) pour l’analyse.
 * L’ID de trace de l’évaluation est ajouté à la configuration du run, avec un lien direct vers la page Weave afin de faciliter la traçabilité pour la Model Team.
 
 Dans Weave :
@@ -208,10 +205,10 @@ Dans Weave :
 * Le lien vers l’artifact ou le registre du `ChatModel` est stocké comme entrée du `RagModel`.
 * L’ID du run W&amp;B est enregistré comme colonne supplémentaire dans les traces d’évaluation pour fournir davantage de contexte.
 
-Le code ci-dessous montre comment récupérer un objet d’évaluation, exécuter l’évaluation avec le `RagModel` mis à jour, puis consigner les résultats à la fois dans W&amp;B et dans Weave. Assurez-vous que la référence de l’évaluation (`WEAVE_EVAL`) correspond à la configuration de votre projet.
+Le code ci-dessous montre comment récupérer un objet d’évaluation, exécuter l’évaluation avec le `RagModel` mis à jour, puis enregistrer les résultats à la fois dans W&amp;B et dans Weave. Assurez-vous que la référence de l’évaluation (`WEAVE_EVAL`) correspond à la configuration de votre projet.
 
 ```python lines
-# MAGIC : nous pouvons simplement obtenir une évaluation avec un jeu de données et des évaluateurs et les utiliser
+# MAGIC: nous pouvons simplement obtenir une évaluation avec un dataset d'évaluation et des évaluateurs, puis les utiliser
 WEAVE_EVAL = "weave://wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 python
@@ -219,7 +216,7 @@ with weave.attributes({"wandb-run-id": wandb.run.id}):
     # utiliser l'attribut .call pour récupérer à la fois le résultat et l'appel afin d'enregistrer la trace d'évaluation dans Models
     summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, RagModel)
 python
-# enregistrer dans models
+# enregistrer dans Models
 wandb.run.log(pd.json_normalize(summary, sep="/").to_dict(orient="records")[0])
 wandb.run.config.update(
     {"weave_url": f"https://wandb.ai/wandb-smle/weave-cookboook-demo/r/call/{call.id}"}
@@ -227,12 +224,11 @@ wandb.run.config.update(
 wandb.run.finish()
 ```
 
-
 <div id="save-the-new-rag-model-to-the-registry">
   ## Enregistrer le nouveau modèle RAG dans le registre
 </div>
 
-Pour rendre le `RagModel` mis à jour disponible pour une utilisation ultérieure par les équipes Models et Apps, nous le publions dans le registre Models de W&amp;B en tant qu&#39;artifact de référence.
+Pour rendre le `RagModel` mis à jour disponible pour une utilisation ultérieure par les équipes Models et Apps, nous le publions dans le W&amp;B Models registre en tant qu&#39;artifact de référence.
 
 Le code ci-dessous récupère la version et le nom de l&#39;objet `weave` du `RagModel` mis à jour, puis les utilise pour créer des liens de référence. Un nouvel artifact est ensuite créé dans W&amp;B avec des métadonnées contenant l&#39;URL Weave du modèle. Cet artifact est enregistré dans le registre W&amp;B et lié à un chemin de registre spécifié.
 
@@ -248,16 +244,16 @@ models_link = (
 )
 
 with wandb.init(project=PROJECT, entity=ENTITY) as run:
-    # créer un nouvel artifact
+    # créer un nouvel Artifact
     artifact_model = wandb.Artifact(
         name="RagModel",
         type="model",
-        description="Lien Models depuis RagModel dans Weave",
+        description="Models Link from RagModel in Weave",
         metadata={"url": models_url},
     )
     artifact_model.add_reference(models_link, name="model", checksum=False)
 
-    # journaliser le nouvel artifact
+    # enregistrer le nouvel artifact
     run.log_artifact(artifact_model, aliases=[MODELS_OBJECT_VERSION])
 
     # lier au registre

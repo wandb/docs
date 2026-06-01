@@ -68,7 +68,6 @@ from openai import OpenAI
 import weave
 ```
 
-
 <div id="audio-streaming-and-storage-example">
   ## Exemple de streaming et de stockage audio
 </div>
@@ -102,7 +101,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
         system_prompt = "You're the fastest counter in the world"
     if not user_prompt:
         user_prompt = "Count to 13 super super slow, enunciate each number with a dramatic flair, changing up accents as you go along. British, French, German, Spanish, etc."
-    # Requête à l'API OpenAI avec modalité audio
+    # Requête à l'API OpenAI avec la modalité audio
     completion = client.chat.completions.create(
         model="gpt-4o-audio-preview",
         modalities=["text", "audio"],
@@ -117,10 +116,10 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     # Ouvrir un fichier wave en écriture
     with wave.open("./output.wav", "wb") as wav_file:
         wav_file.setnchannels(1)  # Mono
-        wav_file.setsampwidth(2)  # 16 bits
+        wav_file.setsampwidth(2)  # 16-bit
         wav_file.setframerate(SAMPLE_RATE)  # Fréquence d'échantillonnage (à ajuster si nécessaire)
 
-        # Écrire les fragments au fur et à mesure de leur réception depuis l'API
+        # Écrire les fragments au fur et à mesure qu'ils sont diffusés depuis l'API
         for chunk in completion:
             if (
                 hasattr(chunk, "choices")
@@ -129,7 +128,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
                 and hasattr(chunk.choices[0].delta, "audio")
                 and chunk.choices[0].delta.audio.get("data") is not None
             ):
-                # Décoder les données audio encodées en base64
+                # Décoder les données audio en base64
                 audio_data = base64.b64decode(chunk.choices[0].delta.audio.get("data"))
 
                 # Écrire le fragment courant dans le fichier wave
@@ -158,7 +157,6 @@ prompt_endpoint_and_log_trace(
 # Afficher le flux audio mis à jour
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
-
 
 <div id="advanced-usage-realtime-audio-api-with-weave">
   ## Utilisation avancée : Realtime Audio API avec Weave
@@ -207,12 +205,11 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-
 <div id="microphone-configuration">
   ## Configuration du microphone
 </div>
 
-Exécutez la cellule suivante pour trouver tous les périphériques audio disponibles. Ensuite, renseignez `INPUT_DEVICE_INDEX` et `OUTPUT_DEVICE_INDEX` en fonction des périphériques répertoriés. Votre périphérique d’entrée aura au moins 1 canal d’entrée, et votre périphérique de sortie aura au moins 1 canal de sortie.
+Exécutez la cellule suivante pour trouver tous les périphériques audio disponibles. Ensuite, renseignez `INPUT_DEVICE_INDEX` et `OUTPUT_DEVICE_INDEX` à partir des périphériques répertoriés. Votre périphérique d’entrée doit disposer d’au moins 1 canal d’entrée, et votre périphérique de sortie d’au moins 1 canal de sortie.
 
 ```python lines
 # Obtenir la liste des périphériques depuis pyaudio pour configurer la cellule suivante
@@ -238,7 +235,7 @@ CHUNK = int(SAMPLE_RATE / 10)  # Échantillons par trame
 SAMPLE_WIDTH = p.get_sample_size(pyaudio.paInt16)  # Échantillons par trame pour le format
 CHUNK_DURATION = 0.3  # Secondes d'audio par fragment envoyé à l'API OAI
 OAI_SAMPLE_RATE = (
-    24000  # La fréquence d'échantillonnage OAI est de 24 kHz, nécessaire pour lire ou enregistrer l'audio de l'assistant
+    24000  # Le taux d'échantillonnage OAI est de 24 kHz, nécessaire pour lire ou enregistrer l'audio de l'assistant
 )
 OUTPUT_DEVICE_CHANNELS = 1  # Définir à 1 pour une sortie mono
 ```
@@ -261,7 +258,7 @@ from pydantic import BaseModel, Field, ValidationError
 
 class BaseEvent(BaseModel):
     type: Union["ClientEventTypes", "ServerEventTypes"]
-    event_id: Optional[str] = None  # Add event_id as an optional field for all events
+    event_id: Optional[str] = None  # Ajouter event_id en tant que champ facultatif pour tous les événements
 
     # def model_dump_json(self, *args, **kwargs):
     #     # Only include non-None fields
@@ -520,7 +517,7 @@ class ConversationItemDeleted(BaseEvent):
     )
     item_id: str
 
-#### Response
+#### Réponse
 class ResponseUsage(BaseModel):
     total_tokens: int
     input_tokens: int
@@ -608,7 +605,7 @@ class ResponseContentPartDone(BaseEvent):
     content_index: int
     part: ResponseContentPart
 
-#### Response Text
+#### Texte de réponse
 class ResponseTextDelta(BaseEvent):
     type: Literal[ServerEventTypes.RESPONSE_TEXT_DELTA] = (
         ServerEventTypes.RESPONSE_TEXT_DELTA
@@ -629,7 +626,7 @@ class ResponseTextDone(BaseEvent):
     content_index: int
     text: str
 
-#### Response Audio
+#### Audio de réponse
 class ResponseAudioTranscriptDone(BaseEvent):
     type: Literal[ServerEventTypes.RESPONSE_AUDIO_TRANSCRIPT_DONE] = (
         ServerEventTypes.RESPONSE_AUDIO_TRANSCRIPT_DONE
@@ -686,7 +683,7 @@ class InputAudioBufferSpeechStopped(BaseEvent):
     audio_end_ms: int
     item_id: str
 
-#### Function Calls
+#### Appels de fonction
 class ResponseFunctionCallArgumentsDelta(BaseEvent):
     type: Literal[ServerEventTypes.RESPONSE_FUNCTION_CALL_ARGUMENTS_DELTA] = (
         ServerEventTypes.RESPONSE_FUNCTION_CALL_ARGUMENTS_DELTA
@@ -707,7 +704,7 @@ class ResponseFunctionCallArgumentsDone(BaseEvent):
     call_id: str
     arguments: str
 
-#### Rate Limits
+#### Limites de débit
 class RateLimit(BaseModel):
     name: str
     limit: int
@@ -793,12 +790,12 @@ def parse_server_event(event_data: dict) -> ServerEvent:
 ```
 
 <div id="audio-stream-writer-to-disk-and-in-memory">
-  ## Enregistreur de flux audio (sur disque et en mémoire)
+  ## Module d’écriture de flux audio (sur disque et en mémoire)
 </div>
 
 ```python lines
 class StreamingWavWriter:
-    """Écrit des fragments audio entiers ou tableaux d'octets dans un fichier WAV."""
+    """Writes audio integer or byte array chunks to a WAV file."""
 
     wav_file = None
     buffer = None
@@ -834,7 +831,7 @@ class StreamingWavWriter:
         self.wav_file.close()
 
     def get_wav_buffer(self):
-        assert self.in_memory, "Le tampon n'est disponible que si le flux est en mémoire."
+        assert self.in_memory, "Buffer only available if stream is in memory."
         return self.buffer
 ```
 
@@ -865,19 +862,19 @@ Le modèle audio en temps réel (RT) utilise un WebSocket pour envoyer des évé
 
 ```python lines
 class RTAudioModel(weave.Model):
-    """Classe de modèle pour l'interaction avec le modèle audio e2e temps réel d'OpenAI avec transcription utilisateur Whisper pour la journalisation."""
+    """Model class for realtime e2e audio OpenAI model interaction with Whisper user transcription for logging."""
 
-    realtime_model_name: str = "gpt-4o-realtime-preview-2024-10-01"  # interaction avec le modèle audio e2e temps réel uniquement
+    realtime_model_name: str = "gpt-4o-realtime-preview-2024-10-01"  # interaction avec le modèle audio e2e en temps réel uniquement
 
     stop_event: Optional[threading.Event] = threading.Event()  # Événement pour arrêter le modèle
     ws: Optional[websocket.WebSocket] = None  # Websocket pour les communications OpenAI
 
     user_wav_writer: Optional[StreamingWavWriter] = (
-        None  # Flux pour l'écriture de la sortie utilisateur dans un fichier
+        None  # Flux pour écrire la sortie utilisateur dans un fichier
     )
     input_audio_buffer: Optional[np.ndarray] = None  # Tampon pour les fragments audio utilisateur
     assistant_outputs: dict[str, StreamingWavWriter] = (
-        None  # Sorties de l'assistant agrégées à envoyer à Weave
+        None  # Sorties de l'assistant agrégées pour envoi vers Weave
     )
     playback_stream: Optional[pyaudio.Stream] = (
         None  # Flux de lecture pour jouer les réponses de l'assistant
@@ -903,7 +900,7 @@ class RTAudioModel(weave.Model):
                 output_device_index=OUTPUT_DEVICE_INDEX,
             )
 
-        # Connexion au Websocket
+        # Connexion au WebSocket
         try:
             self.ws.connect(
                 f"wss://api.openai.com/v1/realtime?model={self.realtime_model_name}",
@@ -925,7 +922,7 @@ class RTAudioModel(weave.Model):
                         threshold=0.3,
                         prefix_padding_ms=300,
                         silence_duration_ms=600,
-                    ),  # VAD serveur pour la détection du silence
+                    ),  # VAD serveur pour détecter le silence
                 )
             )
             self.ws.send(config_event.model_dump_json(exclude_none=True))
@@ -937,7 +934,7 @@ class RTAudioModel(weave.Model):
             websocket_thread.start()
 
         except Exception as e:
-            print(f"Erreur de connexion au WebSocket : {e}")
+            print(f"Error connecting to WebSocket: {e}")
 
     ##### Intégration Weave et gestionnaires de messages #####
     def handle_assistant_response_audio_delta(self, data: ResponseAudioDelta):
@@ -963,7 +960,7 @@ class RTAudioModel(weave.Model):
             "assistant_audio": wave.open(wave_file_stream.get_wav_buffer(), "rb"),
             "assistant_transcript": data.response.output[0]
             .content[0]
-            .get("transcript", "Transcription indisponible."),
+            .get("transcript", "Transcript Unavailable."),
         }
         return weave_payload
 
@@ -973,7 +970,7 @@ class RTAudioModel(weave.Model):
     ):
         return {"user_transcript": data.transcript}
 
-    ##### Réception et envoi de messages #####
+    ##### Récepteur et émetteur de messages #####
     def receive_messages_thread(self):
         while not self.stop_event.is_set():
             try:
@@ -983,12 +980,12 @@ class RTAudioModel(weave.Model):
                 parsed_event = parse_server_event(data)
 
                 if parsed_event.type == ServerEventTypes.RESPONSE_AUDIO_TRANSCRIPT_DONE:
-                    print("Assistant : ", parsed_event.transcript)
+                    print("Assistant: ", parsed_event.transcript)
                 elif (
                     parsed_event.type
                     == ServerEventTypes.CONVERSATION_ITEM_INPUT_AUDIO_TRANSCRIPTION_COMPLETED
                 ):
-                    print("Utilisateur : ", parsed_event.transcript)
+                    print("User: ", parsed_event.transcript)
                     self.handle_user_transcription_done(parsed_event)
                 elif parsed_event.type == ServerEventTypes.RESPONSE_AUDIO_DELTA:
                     self.handle_assistant_response_audio_delta(parsed_event)
@@ -996,15 +993,15 @@ class RTAudioModel(weave.Model):
                     self.handle_assistant_response_done(parsed_event)
                 elif parsed_event.type == ServerEventTypes.ERROR:
                     print(
-                        f"\nErreur du serveur : {parsed_event.error.model_dump_json(exclude_none=True)}"
+                        f"\nError from server: {parsed_event.error.model_dump_json(exclude_none=True)}"
                     )
             except websocket.WebSocketConnectionClosedException:
-                print("\nConnexion WebSocket fermée")
+                print("\nWebSocket connection closed")
                 break
             except json.JSONDecodeError:
                 continue
             except Exception as e:
-                print(f"\nErreur dans receive_messages : {e}")
+                print(f"\nError in receive_messages: {e}")
                 break
 
     def send_audio(self, audio_chunk):
@@ -1036,10 +1033,10 @@ class RTAudioModel(weave.Model):
                 finally:
                     self.user_wav_writer.append_int16_chunk(self.input_audio_buffer)
 
-                    # Effacement du tampon audio
+                    # Réinitialisation du tampon audio
                     self.input_audio_buffer = np.array([], dtype=np.int16)
         else:
-            print("Erreur lors de l'envoi de l'audio : websocket non initialisé.")
+            print("Error sending audio: websocket not initialized.")
 
     ##### Fonctions utilitaires générales #####
     def log_ws_message(self, message, direction="Received"):
@@ -1066,7 +1063,7 @@ Nous utilisons un flux d’entrée pyaudio avec un gestionnaire associé à la m
 ```python lines
 # Flux de capture audio
 def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
-    """Configure un flux d'entrée Pyaudio et utilise le RTAudioModel comme rappel pour la diffusion des données."""
+    """Setup a Pyaudio input stream and use the RTAudioModel as a callback for streaming data."""
 
     def audio_callback(in_data, frame_count, time_info, status):
         realtime_model.send_audio(in_data)
@@ -1084,10 +1081,9 @@ def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
     )
     stream.start_stream()
 
-    print("Enregistrement démarré. Veuillez commencer à parler à votre assistant personnel...")
+    print("Recording started. Please begin speaking to your personal assistant...")
     return stream
 ```
-
 
 <div id="main-thread-run-me">
   ## Thread principal (Lancez-moi !)

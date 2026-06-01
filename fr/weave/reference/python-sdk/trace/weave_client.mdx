@@ -1,10 +1,9 @@
 ---
 title: "weave_client"
-description: "Référence du SDK Python pour weave.trace.weave_client"
+description: "Référence du module weave.trace.weave_client, y compris la classe WeaveClient, le statut de vidage et les types d’erreurs de trace."
 ---
 
 import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
-
 
 <div id="api-overview">
   # Aperçu de l’API
@@ -158,7 +157,6 @@ client.clear_wandb_run_context()
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
-
 
 ### <kbd>méthode</kbd> `create_call`
 
@@ -575,16 +573,16 @@ Interroger le projet pour obtenir des retours.
 **Exemples :**
 
 ```python
-# Récupère un objet de feedback spécifique.
+# Récupérer un objet de feedback spécifique.
 # Notez que cela renvoie toujours une collection, qui est censée
-# contenir zéro ou un élément(s).
+# contenir zéro ou un élément.
 client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# Trouve tous les objets de feedback ayant une réaction spécifique.
+# Trouver tous les objets de feedback avec une réaction spécifique.
 client.get_feedback(reaction="👍", limit=10)
 
-# Trouve tous les objets de feedback d'un type spécifique
-# via une requête de style mongo.
+# Trouver tous les objets de feedback avec un type de feedback spécifique
+# via une requête au format Mongo.
 from weave.trace_server.interface.query import Query
 
 query = Query(
@@ -612,7 +610,6 @@ client.get_feedback(query=query)
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
-
 
 ### <kbd>méthode</kbd> `get_tags`
 
@@ -728,7 +725,7 @@ Interroge le projet pour récupérer les coûts.
 # contenir zéro ou un élément.
 client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# Trouve tous les objets de coût avec une réaction spécifique.
+# Trouver tous les objets de coût avec une réaction spécifique.
 client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 ```
 
@@ -744,7 +741,6 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
-
 
 ### <kbd>méthode</kbd> `remove_aliases`
 
@@ -836,7 +832,7 @@ Cela vous permet d’associer des appels Weave à un run wandb spécifique qui n
 
 * <b>`run_id`</b>: L’ID du run (sans le préfixe entité/projet). Le client ajoutera automatiquement le préfixe entité/projet.
 
-* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si `None`, l’étape ne sera pas définie.
+* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si None, l’étape ne sera pas définie.
   **Exemples :**
 
 ```python
@@ -852,7 +848,6 @@ client.set_wandb_run_context(run_id="my-run-id")
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
-
 
 ### <kbd>fonction</kbd> `get_obj_name`
 

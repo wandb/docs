@@ -1,6 +1,6 @@
 ---
 title: "instrumentOpenAIAgents"
-description: "Référence du SDK TypeScript"
+description: "Référence pour instrumentOpenAIAgents, qui modifie le SDK OpenAI Agents pour envoyer des traces vers Weave."
 ---
 
 <div id="instrumentopenaiagents">
@@ -49,13 +49,13 @@ import { instrumentOpenAIAgents } from 'weave';
 
 const registered = await instrumentOpenAIAgents();
 if (!registered) {
-  console.log('OpenAI Agents introuvable - installez @openai/agents pour activer le tracing');
+  console.log('OpenAI Agents not found - install @openai/agents to enable tracing');
 }
 ```
 
 `Remarques`
 
-**Comment fonctionne l’instrumentation automatique** : Lorsque vous importez Weave, celui-ci enregistre des hooks de chargement de modules via `addCJSInstrumentation()` et `addESMInstrumentation()`. Lorsque votre code importe ensuite `@openai/agents`, ces hooks interceptent l’import et modifient automatiquement le module pour ajouter le tracing Weave. Cela se fait de manière transparente - aucune action de votre part n’est nécessaire !
+**Comment fonctionne l’instrumentation automatique** : Lorsque vous importez Weave, celui-ci enregistre des hooks du chargeur de modules via `addCJSInstrumentation()` et `addESMInstrumentation()`. Lorsque votre code importe ensuite `@openai/agents`, ces hooks interceptent l’import et modifient automatiquement le module pour ajouter le tracing Weave. Cela se fait de manière transparente - aucune action de votre part n’est nécessaire !
 
 **Quand utiliser cette fonction** : Utilisez-la uniquement si l’instrumentation automatique échoue, par exemple dans les cas suivants :
 
@@ -72,7 +72,6 @@ import { createOpenAIAgentsTracingProcessor } from 'weave';
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
 
 <div id="defined-in">
   #### Défini dans

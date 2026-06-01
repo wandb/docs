@@ -1,10 +1,9 @@
 ---
 title: "weave_client"
-description: "weave.trace.weave_client の Python SDK リファレンス"
+description: "WeaveClient クラス、フラッシュ ステータス、トレース エラータイプを含む、weave.trace.weave_client モジュールのリファレンス。"
 ---
 
 import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
-
 
 <div id="api-overview">
   # API 概要
@@ -150,15 +149,14 @@ wandb run コンテキストのオーバーライドをクリアします。
 ```python
 client = weave.init("my-project")
 client.set_wandb_run_context(run_id="my-run-id", step=5)
-# ... いくつかのcallsを実行 ...
+# ... いくつかの Call を実行 ...
 client.clear_wandb_run_context()
-# これ以降、callsはグローバルのwandb.runを使用する
+# これ以降の Call はグローバルな wandb.run を使用します
 ```
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L672" />
-
 
 ### <kbd>method</kbd> `create_call`
 
@@ -575,15 +573,16 @@ get_feedback(
 **例:**
 
 ```python
-# 特定のフィードバックオブジェクトを取得する。
-# これはcollectionを返すことに注意。0件または1件のアイテムが含まれることが想定される。
+# 特定のフィードバックオブジェクトを取得します。
+# これはコレクションを返すことに注意してください。コレクションには
+# 0 件または 1 件のアイテムが含まれることが想定されています。
 client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# 特定のリアクションを持つすべてのフィードバックオブジェクトを検索する。
+# 特定のリアクションを持つすべてのフィードバックオブジェクトを検索します。
 client.get_feedback(reaction="👍", limit=10)
 
-# mongoスタイルのクエリを使用して、特定のフィードバックタイプを持つ
-# すべてのフィードバックオブジェクトを検索する。
+# Mongoスタイルのクエリを使用して、特定のフィードバックタイプを持つ
+# すべてのフィードバックオブジェクトを検索します。
 from weave.trace_server.interface.query import Query
 
 query = Query(
@@ -606,12 +605,11 @@ client.get_feedback(query=query)
 * <b>`offset`</b>: フィードバックオブジェクトの取得を開始する位置のオフセットです。
 * <b>`limit`</b>: 取得するフィードバックオブジェクトの最大数です。
   **戻り値:**
-  FeedbackQuery オブジェクト。
+  FeedbackQuery オブジェクトです。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1258" />
-
 
 ### <kbd>method</kbd> `get_tags`
 
@@ -722,11 +720,11 @@ query_costs(
   **例:**
 
 ```python
-# 特定のコストオブジェクトを取得する。
-# これはcollectionを返すことに注意。0件または1件のアイテムが含まれることが想定される。
+# 特定の cost オブジェクトを取得します。
+# これはコレクションを返すことに注意してください。0 件または 1 件のアイテムが含まれることが想定されます。
 client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# 特定のreactionを持つすべてのコストオブジェクトを検索する。
+# 特定のリアクションを持つすべての cost オブジェクトを検索します。
 client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 ```
 
@@ -742,7 +740,6 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/telemetry/trace_sentry.py#L1328" />
-
 
 ### <kbd>method</kbd> `remove_aliases`
 
@@ -840,17 +837,16 @@ set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 ```python
 client = weave.init("my-project")
 client.set_wandb_run_context(run_id="my-run-id", step=5)
-# これ以降のすべてのcallsはstep 5のentity/project/my-run-idに関連付けられます
+# これで、すべての Call が step 5 の entity/project/my-run-id に関連付けられます
 
-# stepを指定しない場合
+# step を指定しない場合
 client.set_wandb_run_context(run_id="my-run-id")
-# callsはstepなしでentity/project/my-run-idに関連付けられます
+# Call は step なしで entity/project/my-run-id に関連付けられます
 ```
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/weave_client.py#L231" />
-
 
 ### <kbd>関数</kbd> `get_obj_name`
 

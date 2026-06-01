@@ -1,6 +1,6 @@
 ---
 title: "クラス: Dataset<R>"
-description: "TypeScript SDK リファレンス"
+description: "評価で使用するサンプルの行データを保存して再利用するための Weave TypeScript Dataset クラスのリファレンス。"
 ---
 
 [weave](../) / Dataset
@@ -20,13 +20,12 @@ const dataset = new Dataset({
   ]
 })
 
-// 特定の例にアクセスする
+// 特定のサンプルにアクセスする
 const exampleLabel = dataset.getRow(2).sentence;
 
 // データセットを保存する
 const ref = await dataset.save()
 ```
-
 
 ## 型パラメーター
 

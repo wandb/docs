@@ -1,6 +1,6 @@
 ---
 title: "patchRealtimeSession"
-description: "Référence du SDK TypeScript"
+description: "Référence pour patchRealtimeSession, qui instrumente la session de l’API Realtime d’OpenAI afin de capturer des traces dans Weave."
 ---
 
 <div id="patchrealtimesession">
@@ -31,9 +31,8 @@ La fonction est idempotente : vous pouvez l’appeler en toute sécurité à pl
 ```typescript
 import { patchRealtimeSession } from 'weave';
 patchRealtimeSession();
-// Chaque nouvelle RealtimeSession(...) est désormais instrumentée automatiquement
+// Chaque nouveau RealtimeSession(...) est désormais automatiquement instrumenté
 ```
-
 
 <div id="defined-in">
   #### Défini dans

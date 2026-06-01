@@ -1,6 +1,6 @@
 ---
 title: "클래스: EvaluationLogger"
-description: "TypeScript SDK 레퍼런스"
+description: "평가 예측과 점수를 점진적으로 로깅하는 Weave TypeScript EvaluationLogger 클래스의 레퍼런스입니다."
 ---
 
 [weave](../) / EvaluationLogger
@@ -27,7 +27,6 @@ for (const example of streamingData) {
 
 await ev.logSummary();
 ```
-
 
 <div id="table-of-contents">
   ## 목차
@@ -115,7 +114,6 @@ scoreLogger.finish();
 await evalLogger.logSummary(); // 모든 작업이 완료될 때까지 대기
 ```
 
-
 <div id="defined-in">
   #### 정의 위치
 </div>
@@ -159,7 +157,6 @@ const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output
 await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
-
 
 <div id="defined-in">
   #### 정의 위치

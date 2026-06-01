@@ -1,6 +1,6 @@
 ---
 title: "W&B ModelsでWeaveを使用する"
-description: "W&B ModelsでWeaveを使用する方法を学ぶ"
+description: "W&B Modelsでの実験のトラッキングを、WeaveでのLLMトレースや評価とあわせて行う方法を説明するインタラクティブなノートブック。"
 ---
 
 <Note>
@@ -24,7 +24,7 @@ description: "W&B ModelsでWeaveを使用する方法を学ぶ"
 python
 %%capture
 !pip install unsloth
-# 最新のナイトリー版 Unsloth も取得する！
+# 最新のナイトリー版 Unsloth も取得します！
 !pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
@@ -35,13 +35,13 @@ import os
 
 from google.colab import userdata
 
-os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models と Weave
+os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models and Weave
 os.environ["OPENAI_API_KEY"] = userdata.get(
     "OPENAI_API_KEY"
-)  # OpenAI - 検索埋め込み用
+)  # OpenAI - 検索用埋め込みのため
 os.environ["GEMINI_API_KEY"] = userdata.get(
     "GEMINI_API_KEY"
-)  # Gemini - ベースチャットモデル用
+)  # Gemini - ベースチャットモデルのため
 ```
 
 3. W&amp;B にログインし、新しいプロジェクトを作成します。
@@ -59,7 +59,6 @@ ENTITY = "wandb-smle"
 
 weave.init(ENTITY + "/" + PROJECT)
 ```
-
 
 <div id="download-chatmodel-from-models-registry-and-implement-unslothlorachatmodel">
   ## Models Registry から `ChatModel` をダウンロードし、`UnslothLoRAChatModel` を実装する
@@ -85,8 +84,8 @@ import weave
 
 class UnslothLoRAChatModel(weave.Model):
     """
-    モデル名だけでなく、より多くのパラメーターを保存してバージョン管理できるよう、追加のChatModelクラスを定義します。
-    特に、固有のパラメーターを持つファインチューニング（ローカルまたはaaS）を考慮する場合に有用です。
+    We define an extra ChatModel class to be able store and version more parameters than just the model name.
+    Especially, relevant if we consider fine-tuning (locally or aaS) because of specific parameters.
     """
 
     chat_model: str
@@ -100,12 +99,12 @@ class UnslothLoRAChatModel(weave.Model):
     _tokenizer: Any = PrivateAttr()
 
     def model_post_init(self, __context):
-        # レジストリの「Use」タブからそのままコピー＆ペーストできます
+        # registry の "Use" タブからそのまま貼り付けることができます
         run = wandb.init(project=PROJECT, job_type="model_download")
         artifact = run.use_artifact(f"{self.chat_model}")
         model_path = artifact.download()
 
-        # unslothバージョン（ネイティブで2倍高速な推論を有効化）
+        # unsloth バージョン（ネイティブで2倍高速な推論を有効化）
         self._model, self._tokenizer = FastLanguageModel.from_pretrained(
             model_name=model_path,
             max_seq_length=self.cm_max_new_tokens,
@@ -116,7 +115,7 @@ class UnslothLoRAChatModel(weave.Model):
 
     @weave.op()
     async def predict(self, query: list[str]) -> dict:
-        # add_generation_prompt = true - 生成時に必ず追加してください
+        # add_generation_prompt = true - 生成時は必ず追加してください
         input_ids = self._tokenizer.apply_chat_template(
             query,
             tokenize=True,
@@ -140,11 +139,11 @@ class UnslothLoRAChatModel(weave.Model):
 python
 MODEL_REG_URL = "wandb32/wandb-registry-RAG Chat Models/Finetuned Llama-3.2:v3"
 
-max_seq_length = 2048  # 任意の値を指定できます！内部でRoPEスケーリングを自動サポートしています！
+max_seq_length = 2048  # 任意の値を指定できます！内部で RoPE Scaling を自動サポートしています！
 dtype = (
-    None  # 自動検出はNone。Tesla T4・V100はFloat16、Ampere以降はBfloat16を使用
+    None  # 自動検出の場合は None。Tesla T4、V100 は Float16、Ampere 以降は Bfloat16
 )
-load_in_4bit = True  # メモリ使用量削減のため4bit量子化を使用します。Falseも指定可能です。
+load_in_4bit = True  # 4bit 量子化を使用してメモリ使用量を削減します。False にすることも可能です。
 
 new_chat_model = UnslothLoRAChatModel(
     name="UnslothLoRAChatModelRag",
@@ -161,7 +160,6 @@ await new_chat_model.predict(
     [{"role": "user", "content": "What is the capital of Germany?"}]
 )
 ```
-
 
 <div id="integrate-the-new-chatmodel-version-into-ragmodel">
   ## 新しい `ChatModel` バージョンを `RagModel` に統合する
@@ -180,17 +178,16 @@ RagModel.chat_model.chat_model
 python
 await RagModel.predict("When was the first conference on climate change?")
 python
-# MAGIC: chat_modelを差し替えて新しいバージョンを公開する（他のRAGコンポーネントは変更不要）
+# MAGIC: chat_model を差し替えて新しいバージョンを公開する（他の RAG コンポーネントは気にしなくてよい）
 RagModel.chat_model = new_chat_model
 python
 RagModel.chat_model.chat_model
 python
-# 予測時に新しいバージョンを参照できるよう、先に新しいバージョンを公開する
+# まず新しいバージョンを公開して、予測時に新しいバージョンを参照できるようにする
 PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 python
 await RagModel.predict("When was the first conference on climate change?")
 ```
-
 
 <div id="run-a-weaveevaluation">
   ## `weave.Evaluation` を実行する
@@ -211,12 +208,12 @@ Weave では:
 以下のコードは、評価オブジェクト を取得し、更新した `RagModel` を使用して評価を実行し、その結果を W&amp;B と Weave の両方にログする方法を示しています。評価 reference (`WEAVE_EVAL`) がプロジェクトの設定と一致していることを確認してください。
 
 ```python lines
-# MAGIC: 評価データセットとスコアラーを使って評価を取得し、そのまま使用できる
+# MAGIC: 評価データセットと Scorer を含む評価を取得して使用できます
 WEAVE_EVAL = "weave://wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 python
 with weave.attributes({"wandb-run-id": wandb.run.id}):
-    # .call 属性を使用して結果と call の両方を取得し、評価トレースを Models に保存する
+    # .call 属性を使用して結果と call の両方を取得し、評価トレースを Models に保存します
     summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, RagModel)
 python
 # Models にログする
@@ -238,7 +235,7 @@ wandb.run.finish()
 コードを実行する前に、`ENTITY` 変数と `PROJECT` 変数がご利用の W&amp;B 環境に合っていること、および対象の registry path が正しく指定されていることを確認してください。このプロセスにより、新しい `RagModel` が W&amp;B エコシステムに公開され、共同作業や再利用をしやすくしたうえで workflow が完了します。
 
 ```python lines
-MODELS_OBJECT_VERSION = PUB_REFERENCE.digest  # weave オブジェクトバージョン
+MODELS_OBJECT_VERSION = PUB_REFERENCE.digest  # weave オブジェクトのバージョン
 MODELS_OBJECT_NAME = PUB_REFERENCE.name  # weave オブジェクト名
 python
 models_url = f"https://wandb.ai/{ENTITY}/{PROJECT}/weave/objects/{MODELS_OBJECT_NAME}/versions/{MODELS_OBJECT_VERSION}"
@@ -247,19 +244,19 @@ models_link = (
 )
 
 with wandb.init(project=PROJECT, entity=ENTITY) as run:
-    # 新しい Artifact を作成する
+    # 新しい Artifact を作成
     artifact_model = wandb.Artifact(
         name="RagModel",
         type="model",
-        description="Weave の RagModel からの Models リンク",
+        description="Models Link from RagModel in Weave",
         metadata={"url": models_url},
     )
     artifact_model.add_reference(models_link, name="model", checksum=False)
 
-    # 新しい artifact をログする
+    # 新しい artifact をログ
     run.log_artifact(artifact_model, aliases=[MODELS_OBJECT_VERSION])
 
-    # registry にリンクする
+    # registry にリンク
     run.link_artifact(
         artifact_model, target_path="wandb32/wandb-registry-RAG Models/RAG Model"
     )
