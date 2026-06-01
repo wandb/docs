@@ -1158,6 +1158,7 @@
                         "group": "Functions",
                         "pages": [
                           "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "weave/reference/typescript-sdk/functions/createotelextension",
                           "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
@@ -1177,6 +1178,9 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "weave/reference/typescript-sdk/interfaces/query",
+                          "weave/reference/typescript-sdk/interfaces/sortby",
                           "weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
