@@ -136,7 +136,7 @@ Select a tab to see Python and TypeScript-specific code.
   pip install weave[huggingface]
   ```
 
-  Then, use the `from_hf` method. If you provide a `DatasetDict` with multiple splits (like 'train', 'test', 'validation'), Weave will automatically use the 'train' split and issue a warning. If the 'train' split is not present, it will raise an error. You can provide a specific split directly (e.g., `hf_dataset_dict['test']`).
+  Then, use the `from_hf` method. If you provide a `DatasetDict` with multiple splits (like 'train', 'test', 'validation'), Weave will automatically use the 'train' split and issue a warning. If the 'train' split is not present, it will raise an error. You can provide a specific split directly (for example, `hf_dataset_dict['test']`).
 
   To convert a `weave.Dataset` back to a Hugging Face `Dataset`, use the `to_hf` method.
 
