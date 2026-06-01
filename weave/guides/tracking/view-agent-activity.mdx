@@ -41,7 +41,7 @@ It is useful for scenarios such as:
   alongside a rising error rate may indicate a regression introduced in a recent
   deployment.
 - **Drilling into an agent.** Click any card to open the detail panel for that
-  agent, from which you can navigate to its conversations or spans.
+  agent, from which you can navigate to its conversations or spans:
 
 ![An agent card selected in the Agents tab, with the detail panel open on the right showing agent metadata and navigation options.](./imgs/agent-view-agent-detail.png)
 
@@ -181,7 +181,7 @@ delegation before reading the full message thread.
 
 ##### Scores
 
-If any signals are active for this project, a **Scores** section provides metrics for the conversation. It shows the signal scorer name, an overall numeric rating
+If any signals are active for the project, a **Scores** section provides metrics for the conversation. It shows the signal scorer name, an overall numeric rating
 from 0 to 1, a confidence percentage, and the individual rubric points that
 contributed to the score. Each rubric point also shows its own confidence. Use this to
 understand not just whether a turn scored well, but which specific rubric
@@ -228,7 +228,7 @@ LLM call, tool execution, and agent invocation as its own row. Use it to trace
 exactly which call was slow, which model consumed unexpected tokens, or which
 tool invocation failed.
 
-![The Spans tab with a trace selected, highlighting a group of related spans in the table and showing the Chat and Spans sub-tabs in the detail panel on the right.](./imgs/agent-view-spans-detail.png)
+![The Spans tab showing spans of the agent conversation.](./imgs/agent-view-spans.png)
 
 ### Spans table
 
@@ -266,10 +266,24 @@ Click any row to select its trace and highlight all other spans that share the s
 
 ### Agent invocation detail
 
-Click a row in the **Spans** table to open a detail panel with two sub-tabs that are populated with data from the complete agent invocation.
+Click a row in the **Spans** table to open a detail panel populated with data from the complete agent invocation.
 
-- **Chat** sub-tab shows the reconstructed conversation for the selected trace, giving narrative context for the spans you're inspecting.
-- **Spans** sub-tab shows the individual spans belonging to that trace with their operation, model, and duration. This is useful for comparing timings within a single trace without scrolling the full list.
+At the top of the detail panel, a flame graph shows the wall-clock
+position and relative duration of every span in the selected trace. Each span
+appears as a colored block scaled to its actual duration, positioned at its start
+time in milliseconds from the beginning of the trace. Use the timeline to:
+
+- **Spot the longest operation at a glance.** Wide blocks indicate spans that
+  dominated total latency.
+- **See parallelism.** Overlapping blocks indicate spans that executed
+  concurrently rather than sequentially.
+- **Inspect any span inline.** Click a block in the timeline to load that
+  span's details into view, including its input messages and output messages,
+  token counts, and other metadata.
+
+![The Spans tab with a trace selected, highlighting a group of related spans in the table and showing the flame graph in the detail panel on the right.](./imgs/agent-view-spans-detail.png)
+
+You can alternatively view the child spans as a hierarchical trace tree by selecting the `Show trace tree` icon in the detail panel header.
 
 ## Signals tab
 
@@ -310,7 +324,7 @@ The signal editor has the following fields:
 | Field | Description |
 |---|---|
 | **Scorer type** | The scoring method. **Rating** emits a single numeric score in [0, 1] per agent turn. |
-| **Only score turns matching** | Optional filters to restrict which turns this signal scores. Multiple filters are AND-ed. Leave empty to score every turn. |
+| **Only score turns matching** | Optional filters to restrict which turns this signal scores. Multiple filters are combined with AND logic. Leave empty to score every turn. |
 | **Prompt template** | A preset template to use as a starting point for the scorer prompt. |
 | **Scorer prompt** | The full prompt sent to the scoring model. Supports template variables (`{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`) which are filled in at score time. |
 | **Scorer name** | The display name for this signal. |
