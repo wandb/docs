@@ -520,9 +520,9 @@
                   {
                     "group": "Get Started",
                     "pages": [
+                      "weave/agents-quickstart",
                       "weave/quickstart",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/guides/integrations"
                     ]
                   },
                   {
@@ -530,7 +530,17 @@
                     "pages": [
                       "weave/concepts/what-is-weave",
                       {
-                        "group": "Trace your application",
+                        "group": "Trace your agents",
+                        "pages": [
+                          "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/view-agent-activity",
+                          "weave/guides/tracking/trace-agents-batch",
+                          "weave/guides/tracking/trace-sub-agents",
+                          "weave/guides/evaluation/monitors"
+                        ]
+                      },
+                      {
+                        "group": "Trace your applications",
                         "pages": [
                           {
                             "group": "Tracing basics",
@@ -573,9 +583,11 @@
                         ]
                       },
                       {
-                        "group": "Evaluate your application",
+                        "group": "Evaluate your agents and applications",
                         "pages": [
                           "weave/guides/core-types/evaluations",
+                          "weave/tutorial-eval",
+                          "weave/tutorial-rag",
                           "weave/guides/core-types/datasets",
                           "weave/guides/evaluation/scorers",
                           "weave/guides/evaluation/builtin_scorers",
@@ -618,6 +630,7 @@
                           },
                           "weave/guides/tracking/redact-pii",
                           "weave/guides/evaluation/monitors",
+                          "weave/guides/evaluation/custom-monitors",
                           "weave/guides/evaluation/automations",
                           "weave/guides/evaluation/guardrails",
                           "weave/guides/tracking/otel"
@@ -629,6 +642,18 @@
                           "weave/guides/integrations",
                           "weave/guides/integrations/autopatching",
                           "weave/guides/integrations/js",
+                          {
+                            "group": "Trace agents",
+                            "pages": [
+                              "weave/guides/integrations/agents/google-adk",
+                              "weave/guides/integrations/agents/openai-agents-sdk",
+                              "weave/guides/integrations/agents/claude-agents-sdk",
+                              "weave/guides/integrations/agents/claude-code-harness",
+                              "weave/guides/integrations/agents/codex-harness",
+                              "weave/guides/integrations/agents/openclaw-harness",
+                              "weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM Providers",
                             "pages": [
