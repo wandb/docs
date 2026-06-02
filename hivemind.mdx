@@ -1,0 +1,75 @@
+---
+title: "W&B HiveMind"
+description: "A shared dashboard for your team's AI coding sessions, synced automatically by a lightweight daemon."
+mode: wide
+---
+
+W&B HiveMind is a shared dashboard for AI coding sessions. A lightweight daemon runs on each developer's machine, watches for coding agent activity, and sends session transcripts to [hivemind.wandb.tools](https://hivemind.wandb.tools).
+
+Coding agents like Claude Code, Codex, Cursor, Gemini, and OpenCode all write transcripts to the local filesystem as they work. The HiveMind daemon wakes up every 30 seconds, checks for new activity, and uploads anything it finds. There's nothing to configure per agent. If the agent writes transcripts, HiveMind picks them up.
+
+## Get started
+
+<Tabs>
+  <Tab title="macOS (Homebrew)">
+    ```bash
+    brew install wandb/tap/hivemind
+    hivemind start
+    ```
+
+    The daemon starts in the background and authenticates via GitHub. That's it.
+  </Tab>
+  <Tab title="Linux">
+    If you don't have Homebrew, install via `uv`:
+
+    ```bash
+    uv tool install wandb-hivemind
+    hivemind install-service
+    hivemind start
+    ```
+
+    `install-service` sets up a systemd user service so the daemon starts automatically on login.
+  </Tab>
+</Tabs>
+
+Once the daemon is running, open any supported coding agent and start working. Within 30 seconds your session appears on the [dashboard](https://hivemind.wandb.tools). You can watch sessions in real time, review past conversations, and dig into individual tool calls.
+
+## Explore the docs
+
+<CardGroup cols={2}>
+  <Card title="Features" icon="grid" href="/hivemind/features">
+    Tour the dashboard, session detail views, and the GitHub and Slack integrations.
+  </Card>
+
+  <Card title="Permissions & privacy" icon="lock" href="/hivemind/permissions">
+    Control who can see your sessions, configure visibility, and set up SSO.
+  </Card>
+
+  <Card title="CLI reference" icon="terminal" href="/hivemind/cli">
+    Manage the daemon, search sessions, and configure HiveMind from the command line.
+  </Card>
+
+  <Card title="Bots & service accounts" icon="robot" href="/hivemind/bots">
+    Push sessions from CI, cloud agents, and headless environments with token or OIDC auth.
+  </Card>
+
+  <Card title="Deploy with MDM" icon="screwdriver-wrench" href="/hivemind/mdm">
+    Roll HiveMind out across a fleet with JAMF, Intune, and other MDM tools.
+  </Card>
+</CardGroup>
+
+## Supported agents
+
+HiveMind picks up transcripts from the coding agents you already use, with no per-agent setup.
+
+| Agent       | Transcript source                     |
+| ----------- | ------------------------------------- |
+| Claude Code | `~/.claude/projects/` JSONL files     |
+| Codex       | `~/.codex/` session logs              |
+| Cursor      | SQLite databases in Cursor's app data |
+| Gemini CLI  | `~/.gemini/` session history          |
+| OpenCode    | `~/.opencode/` session files          |
+
+## The HiveMind agent
+
+HiveMind also installs a coding agent skill. Type `@hivemind` inside a Claude Code session to ask questions about past coding sessions: what you worked on last week, how a bug was fixed, or where a particular change was made. It searches across your team's session history and pulls the answer into your current conversation.

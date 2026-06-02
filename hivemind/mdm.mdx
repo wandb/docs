@@ -1,0 +1,104 @@
+---
+title: "Deploy with MDM"
+description: "Roll HiveMind out across a fleet of macOS devices with JAMF, Intune, and other MDM tools using a signed, notarized .pkg."
+---
+
+For fleet rollouts (JAMF, Intune, Mosyle, Kandji, Workspace ONE), HiveMind ships as a signed, notarized macOS `.pkg`. It's a single file you push as a payload, with no interactive installer and no per-machine setup. This page walks through JAMF. The same `.pkg` works in any MDM that can deploy a package.
+
+## Get the package
+
+Download `hivemind-darwin-arm64.pkg` from the latest [release](https://github.com/wandb/homebrew-taps/releases). The package is signed and notarized by **Weights and Biases, Inc.** (Team ID `5DTHBP38WM`), so Gatekeeper accepts it on any managed Mac.
+
+It installs to a system location and registers a per-user background service:
+
+| Path                                             | What it is                       |
+| ------------------------------------------------ | -------------------------------- |
+| `/usr/local/hivemind/bin/hivemind`               | The daemon binary                |
+| `/Library/LaunchAgents/com.wandb.hivemind.plist` | LaunchAgent that runs the daemon |
+| `/etc/paths.d/hivemind`                          | Puts the binary on `PATH`        |
+| `/usr/local/hivemind/uninstall.sh`               | Bundled uninstaller              |
+
+The daemon runs as a background LaunchAgent in each logged-in user's session. Because the plist lives in the admin-owned `/Library/LaunchAgents/` (not a user's home folder), the install works unattended and the daemon starts at the next login for any user on the machine, with no login script or policy trigger needed.
+
+## Deploy with JAMF
+
+1. **Upload the package.** In JAMF Pro, go to **Settings > Computer Management > Packages** and add `hivemind-darwin-arm64.pkg`.
+2. **Create a policy.** Under **Computers > Policies**, create a new policy with the **Packages** payload and add the HiveMind package with action **Install**.
+3. **Set a trigger.** **Recurring Check-in** (or **Enrollment Complete** for new devices) installs it across the fleet without user interaction.
+4. **Scope it.** Target the smart or static computer group you want to cover, then save.
+
+That's the whole rollout. On a machine where a user is already logged in, the daemon starts immediately. Otherwise it starts at their next login.
+
+## Auto-upgrade is on by default
+
+Once installed via the package, the daemon keeps itself up to date. It checks for new releases on a timer and, when one is available, verifies the download's signature and Team ID before swapping the binary in place and restarting itself. You don't need to re-push the package for upgrades. Deploy once and devices stay current.
+
+<Note>
+In-place upgrades need the daemon's user to be able to write the install dir. When a user is logged in at install time the installer assigns it to them. An unattended push (nobody logged in) instead makes the dir **admin-group-writable**, so the primary user on a managed Mac, typically a local admin, still auto-upgrades with no further action. Only when the daemon runs as a **non-admin** user does it need a hand: `hivemind doctor` flags it and `hivemind doctor --fix` grants access. You can also skip auto-upgrade and manage versions by re-pushing the `.pkg`.
+</Note>
+
+To turn auto-upgrade off and manage versions yourself, set the daemon to notify-only or off on each device:
+
+```bash
+hivemind config set daemon.auto_upgrade off
+```
+
+| Value    | Behavior                                                              |
+| -------- | --------------------------------------------------------------------- |
+| `apply`  | Download and install upgrades automatically (default for the package) |
+| `notify` | Log that an upgrade is available, but don't install                   |
+| `off`    | Never check for upgrades                                              |
+
+## Suppress the background-item notification
+
+On macOS 13 and later, the first time the daemon's LaunchAgent loads, the user sees a **"Background items added"** notification. To pre-approve HiveMind across the fleet so this never appears, push a **Service Management - Managed Login Items** configuration profile that trusts the vendor.
+
+In JAMF, create a configuration profile with the **Service Management - Managed Login Items** payload and add a rule of one of these types:
+
+| Rule type           | Value                | Notes                                                        |
+| ------------------- | -------------------- | ------------------------------------------------------------ |
+| **Team Identifier** | `5DTHBP38WM`         | Trusts everything signed by Weights and Biases, most stable  |
+| **Label**           | `com.wandb.hivemind` | Pins to this specific background service                     |
+
+Scope the profile to the same computer group as the install policy. With it in place, the daemon's LaunchAgent loads silently and the user is never prompted.
+
+## Authentication
+
+The daemon authenticates each user against GitHub, trying silent methods first (SSH key signature, git credential helper, `gh` CLI) and falling back to a browser login only when none is available. On a typical developer Mac with GitHub already set up, no action is needed. For headless or shared machines, see [Bots & service accounts](/hivemind/bots) for token-based auth.
+
+## Uninstall
+
+The package bundles an uninstaller. Push it as a JAMF policy with a **Files and Processes > Execute Command** payload, or run it directly:
+
+```bash
+sudo /usr/local/hivemind/uninstall.sh
+```
+
+It removes the binary, the LaunchAgent, and the package receipt, while preserving each user's local state and credentials in `~/.hivemind/`. To remove that too:
+
+```bash
+rm -rf ~/.hivemind
+```
+
+## Verify a rollout
+
+On a sample device after the push:
+
+```bash
+# Binary present
+ls -l /usr/local/hivemind/bin/hivemind
+
+# LaunchAgent registered for the logged-in user
+launchctl print "gui/$(id -u)/com.wandb.hivemind" | head -5
+
+# Full health check
+hivemind doctor
+```
+
+If the `launchctl print` step reports "Could not find service," the user hasn't logged in since install yet. Wait for their next login, or run `hivemind doctor` for a fuller diagnosis. `hivemind doctor` also confirms auto-upgrade can write the install dir. If it can't (a non-admin user on an unattended install), `hivemind doctor --fix` repairs it.
+
+## What's next
+
+- [HiveMind CLI](/hivemind/cli): daemon management, logs, and `hivemind doctor`.
+- [Bots & service accounts](/hivemind/bots): token auth for headless and shared machines.
+- [Permissions & privacy](/hivemind/permissions): who can see your team's sessions.
