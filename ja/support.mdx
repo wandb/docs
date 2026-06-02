@@ -24,13 +24,13 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
 <div className="max-w-4xl mx-auto px-6 lg:px-8 py-10">
   {/*
-      "custom" モードでは、Mintlify は frontmatter の title をページ上の H1 としてレンダリングせず、
-      本文の周囲にも prose ラッパーがないため、HTML の
-      見出し（<h1>/<h2>/<h3>）には、ブラウザのデフォルトに加えて project の
-      typography.css のルール（serif ファミリー、weight 400）が適用されます。Mintlify の custom-layouts
-      ガイドでは、明示的な Tailwind
-      クラスを指定した生の HTML 見出しを記述することでこれに対応しています。ここでも同様にして、見出しが通常のドキュメント見出しのように見えるようにしてください。
-      */}
+        "custom" モードでは、Mintlify は frontmatter の title をページ上の H1 としてレンダリングせず、
+        本文の周囲にも prose ラッパーがないため、HTML の
+        見出し（<h1>/<h2>/<h3>）には、ブラウザのデフォルトに加えて project の
+        typography.css のルール（serif ファミリー、weight 400）が適用されます。Mintlify の custom-layouts
+        ガイドでは、明示的な Tailwind
+        クラスを指定した生の HTML 見出しを記述することでこれに対応しています。ここでも同様にして、見出しが通常のドキュメント見出しのように見えるようにしてください。
+        */}
 
   <h1 className="tracking-tight mb-8" style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}>サポートホーム</h1>
 
@@ -47,7 +47,7 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
     <Card title="W&B Models" href="/ja/support/models" arrow="true" icon="/icons/cropped-models.svg">
       {/* AUTO-GENERATED: counts */}
 
-      190 件の記事 · 33 個のタグ
+      190 件の記事 · 34 個のタグ
 
       {/* END AUTO-GENERATED: counts */}
     </Card>
@@ -76,25 +76,25 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
   ### W&amp;B Models
 
   <Card title="トレーニングコードで run 名を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-    トレーニングスクリプトの冒頭で、実験名を指定して wandb.init を呼び出します。例: wandb.init(name=&quot;my&#95;aweso ...
+    トレーニングスクリプトの冒頭で、run 名を指定して wandb.init を呼び出します。例: wandb.init(name=&quot;my&#95;awesome&#95;run&quot;) ...
 
     <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
   </Card>
 
   <Card title="Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-    トレーニング設定でコマンドライン引数を渡す場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。次の例では  ...
+    トレーニング設定でコマンドライン引数を渡す場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。これにより r ...
 
     <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
   </Card>
 
   <Card title="メトリクスをオフラインで保存し、後で W&B に Sync できますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-    デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定します ...
+    デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。Experiments を実行する必要がある場合 ...
 
     <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Metrics](/ja/support/models/tags/metrics)</Badge>
   </Card>
 
   <Card title="wandb.init はトレーニングプロセスに対して何を行いますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-    トレーニングスクリプトで wandb.init() が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、st ...
+    トレーニングスクリプトで wandb.init() が実行されると、API 呼び出しによって W&amp;B サーバー上に run オブジェクトが作成されます。新しいプロセスが開始されま ...
 
     <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
   </Card>

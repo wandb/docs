@@ -9,25 +9,25 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
 </div>
 
 <Card title="트레이닝 코드에서 run 이름을 어떻게 설정하나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  트레이닝 스크립트 시작 부분에서 wandb.init에 실험 이름을 지정해 call하세요. 예: wandb.init(name=&quot;my&#95;aweso ...
+  트레이닝 스크립트 시작 부분에서 wandb.init에 run 이름을 지정해 call하세요. 예: wandb.init(name=&quot;my&#95;awesome&#95;run&quot;) ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
 
 <Card title="sweeps에서 맞춤형 CLI 명령을 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 설정이 command-line argument를 전달하는 경우 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예시에서는  ...
+  트레이닝 설정이 command-line argument를 전달하는 경우 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 이를 통해 r ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
 </Card>
 
 <Card title="메트릭을 오프라인으로 저장한 뒤 나중에 W&B와 sync할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  기본적으로 wandb.init는 메트릭을 클라우드에 실시간으로 sync하는 프로세스를 시작합니다. 오프라인으로 사용하려면 환경 변수 두 개를 설정하세 ...
+  기본적으로 wandb.init는 메트릭을 클라우드에 실시간으로 sync하는 프로세스를 시작합니다. 실험을 오프라인으로 실행해야 하는 경우 ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 </Card>
 
 <Card title="wandb.init는 내 트레이닝 프로세스에서 어떤 역할을 하나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  트레이닝 스크립트에서 wandb.init()가 실행되면 API call이 서버에 run 객체를 생성합니다. 새 프로세스가 시작되어 st ...
+  트레이닝 스크립트에서 wandb.init()가 실행되면 API call이 W&amp;B 서버에 run 객체를 생성합니다. 새 프로세스가 시작되어 t ...
 
   <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
@@ -152,8 +152,12 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
   문서 12개
 </Card>
 
+<Card title="TensorBoard" href="/ko/support/models/tags/tensorboard" arrow="true">
+  문서 1개
+</Card>
+
 <Card title="Tensorboard" href="/ko/support/models/tags/tensorboard" arrow="true">
-  문서 2개
+  문서 1개
 </Card>
 
 <Card title="사용자 관리" href="/ko/support/models/tags/user-management" arrow="true">
