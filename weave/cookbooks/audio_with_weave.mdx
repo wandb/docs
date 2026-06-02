@@ -81,7 +81,7 @@ Here, we define the function `prompt_endpont_and_log_trace`. This function has t
    - We prompt the model to count to 13 slowly with varying accents.
    - We set the completion to "stream".
 
-2. We open a new output file to which the streamed data is writen chunk by chunk.
+2. We open a new output file to which the streamed data is written chunk by chunk.
 
 3. We return an open file handler to the audio file so Weave logs the audio data in the trace.
 
@@ -814,7 +814,7 @@ class StreamingWavWriter:
         return self.buffer
 ```
 
-## Realtime Audio Model
+## Realtime audio model
 
 The realtime (RT) audio model uses a websocket to send events to OpenAI's Realtime audio API. This works as follows:
 

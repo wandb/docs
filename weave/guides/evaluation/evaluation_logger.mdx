@@ -21,7 +21,7 @@ The `EvaluationLogger` offers flexibility while the standard framework offers st
 
 1. _Initialize the logger:_ Create an instance of `EvaluationLogger`, optionally providing metadata about the `model` and `dataset`. Defaults will be used if omitted.
     <Note>
-    To capture token usage and cost for LLM calls (e.g. OpenAI), initialize `EvaluationLogger` before any LLM invocations**. 
+    To capture token usage and cost for LLM calls (for example, OpenAI), initialize `EvaluationLogger` before any LLM invocations**. 
     If you call your LLM first and then log predictions afterward, token and cost data are not captured.
     </Note>
 2. _Log predictions:_ Call `log_prediction()` for each input/output pair from your system.
@@ -709,7 +709,7 @@ for (const model of models) {
 <Tabs>
 <Tab title="Python">
 - Call `finish()` promptly after each prediction.
-- Use `log_summary` to capture metrics not tied to single predictions (e.g., overall latency).
+- Use `log_summary` to capture metrics not tied to single predictions (for example, overall latency).
 - Rich media logging is great for qualitative analysis.
 </Tab>
 <Tab title="TypeScript">

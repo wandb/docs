@@ -1,0 +1,109 @@
+---
+title: "Class: Session"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / Session
+
+
+
+A Session groups Turns under a single `gen_ai.conversation.id`. It is not
+itself an OTel span — children stamp the conversation id onto theirs.
+
+## Table of contents
+
+### Properties
+
+- [agentName](./session#agentname)
+- [model](./session#model)
+- [sessionId](./session#sessionid)
+
+### Methods
+
+- [end](./session#end)
+- [startTurn](./session#startturn)
+- [create](./session#create)
+
+## Properties
+
+### agentName
+
+• `Readonly` **agentName**: `string`
+
+#### Defined in
+
+[genai/session.ts:22](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L22)
+
+___
+
+### model
+
+• `Readonly` **model**: `string`
+
+#### Defined in
+
+[genai/session.ts:23](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L23)
+
+___
+
+### sessionId
+
+• `Readonly` **sessionId**: `string`
+
+#### Defined in
+
+[genai/session.ts:24](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L24)
+
+## Methods
+
+### end
+
+▸ **end**(): `void`
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[genai/session.ts:51](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L51)
+
+___
+
+### startTurn
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+#### Returns
+
+[`Turn`](./turn)
+
+#### Defined in
+
+[genai/session.ts:43](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L43)
+
+___
+
+### create
+
+▸ **create**(`opts?`): [`Session`](./session)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`SessionInit`](../interfaces/sessioninit) |
+
+#### Returns
+
+[`Session`](./session)
+
+#### Defined in
+
+[genai/session.ts:27](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/session.ts#L27)

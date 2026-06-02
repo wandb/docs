@@ -1,0 +1,241 @@
+---
+title: "Class: Turn"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / Turn
+
+
+
+An agent invocation. Typically wraps the work to respond to a single
+user message. Emits an `invoke_agent` span and acts as the root of the
+trace for that turn: it is always started under `ROOT_CONTEXT` so it
+never accidentally inherits a parent from another OTel-instrumented
+library.
+
+Created by `weave.startTurn()` (or `session.startTurn()`) and
+terminated with `end()`. Only one Turn may be active in an async chain.
+Children (LLM, Tool, SubAgent) attach via the `startLLM`, `startTool`,
+`startSubagent` methods.
+
+`Example`
+
+```ts
+const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
+try {
+  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+## Table of contents
+
+### Properties
+
+- [agentName](./turn#agentname)
+- [model](./turn#model)
+
+### Methods
+
+- [addEvent](./turn#addevent)
+- [end](./turn#end)
+- [setAttribute](./turn#setattribute)
+- [startLLM](./turn#startllm)
+- [startSubagent](./turn#startsubagent)
+- [startTool](./turn#starttool)
+- [create](./turn#create)
+
+## Properties
+
+### agentName
+
+• `Readonly` **agentName**: `string`
+
+#### Defined in
+
+[genai/turn.ts:60](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L60)
+
+___
+
+### model
+
+• `Readonly` **model**: `string`
+
+#### Defined in
+
+[genai/turn.ts:61](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L61)
+
+## Methods
+
+### addEvent
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Add a named event to the Turn span. Useful for marking non-span moments
+such as context compaction, tool-loop detection, or guardrail trips.
+No-op after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+| `attributes?` | `Attributes` |
+| `startTime?` | `TimeInput` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts
+turn.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Defined in
+
+[genai/turn.ts:152](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L152)
+
+___
+
+### end
+
+▸ **end**(`opts?`): `void`
+
+Close the Turn span. Idempotent. Pass `error` to mark it as failed.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `Object` |
+| `opts.error?` | `Error` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[genai/turn.ts:159](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L159)
+
+___
+
+### setAttribute
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+Set a single attribute on the Turn span. Useful for stamping running
+totals (e.g. cumulative cost, token usage) or other metadata that becomes
+known mid-turn. No-op after `end()`. Mirrors OTel `Span.setAttribute`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+| `value` | `AttributeValue` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts
+turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
+```
+
+#### Defined in
+
+[genai/turn.ts:138](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L138)
+
+___
+
+### startLLM
+
+▸ **startLLM**(`opts`): [`LLM`](./llm)
+
+Start a child LLM span under this Turn.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+#### Returns
+
+[`LLM`](./llm)
+
+#### Defined in
+
+[genai/turn.ts:104](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L104)
+
+___
+
+### startSubagent
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+Start a child SubAgent span under this Turn.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+#### Returns
+
+[`SubAgent`](./subagent)
+
+#### Defined in
+
+[genai/turn.ts:122](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L122)
+
+___
+
+### startTool
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+Start a child Tool span under this Turn.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+#### Returns
+
+[`Tool`](./tool)
+
+#### Defined in
+
+[genai/turn.ts:113](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L113)
+
+___
+
+### create
+
+▸ **create**(`opts?`): [`Turn`](./turn)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) & \{ `conversationId?`: `string`  } |
+
+#### Returns
+
+[`Turn`](./turn)
+
+#### Defined in
+
+[genai/turn.ts:64](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/turn.ts#L64)
