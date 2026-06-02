@@ -5822,8 +5822,12 @@
       "source": "/models/support/add_extra_values_sweep_start_new_one"
     },
     {
-      "destination": "/support/models/articles/is-there-a-way-to-add-more-seats",
+      "destination": "/support/models/articles/how-do-i-add-more-seats",
       "source": "/models/support/add_more_seats"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-add-more-seats",
+      "source": "/support/models/articles/is-there-a-way-to-add-more-seats"
     },
     {
       "destination": "/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into",
@@ -5886,8 +5890,12 @@
       "source": "/models/support/change_directory_sweep_logs_locally"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-change-the-group-assig",
+      "destination": "/support/models/articles/how-do-i-change-the-group-of-a-completed-run",
       "source": "/models/support/change_group_after_completion"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-change-the-group-of-a-completed-run",
+      "source": "/support/models/articles/is-it-possible-to-change-the-group-assig"
     },
     {
       "destination": "/support/models/articles/is-it-possible-to-change-the-username",
@@ -5930,8 +5938,12 @@
       "source": "/models/support/custom_cli_commands_sweeps"
     },
     {
-      "destination": "/support/models/articles/is-there-a-dark-mode",
+      "destination": "/support/models/articles/how-do-i-enable-dark-mode",
       "source": "/models/support/dark_mode"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-enable-dark-mode",
+      "source": "/support/models/articles/is-there-a-dark-mode"
     },
     {
       "destination": "/support/models/articles/how-do-i-deal-with-network-issues",
@@ -6030,8 +6042,12 @@
       "source": "/models/support/find_artifacts_logged_consumed_run_find"
     },
     {
-      "destination": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa",
+      "destination": "/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters",
       "source": "/models/support/flag_boolean_variables_hyperparameters"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters",
+      "source": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa"
     },
     {
       "destination": "/support/models/articles/what-formula-do-you-use-for-your-smoothi",
@@ -6054,8 +6070,12 @@
       "source": "/models/support/group_runs_tags"
     },
     {
-      "destination": "/support/models/articles/can-i-group-runs-without-using-the-group",
+      "destination": "/support/models/articles/how-can-i-categorize-runs-without-the-group-feature",
       "source": "/models/support/group_runs_without_group_feature"
+    },
+    {
+      "destination": "/support/models/articles/how-can-i-categorize-runs-without-the-group-feature",
+      "source": "/support/models/articles/can-i-group-runs-without-using-the-group"
     },
     {
       "destination": "/support/models/articles/how-can-i-be-removed-from-a-team",
@@ -6154,12 +6174,20 @@
       "source": "/models/support/join_team"
     },
     {
-      "destination": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase",
+      "destination": "/support/models/articles/how-do-i-log-metrics-without-saving-code",
       "source": "/models/support/just_log_metrics_no_code_dataset_examples"
     },
     {
-      "destination": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i",
+      "destination": "/support/models/articles/how-do-i-log-metrics-without-saving-code",
+      "source": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-the-run-name-to-the-run-id",
       "source": "/models/support/just_set_run_name_run_id"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-the-run-name-to-the-run-id",
+      "source": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i"
     },
     {
       "destination": "/support/models/articles/how-do-i-kill-a-job-with-wandb",
@@ -6198,8 +6226,12 @@
       "source": "/models/support/log_metrics_batches_some_metrics_epochs"
     },
     {
-      "destination": "/support/models/articles/can-i-log-metrics-on-two-different-time-",
+      "destination": "/support/models/articles/how-do-i-log-metrics-on-two-time-scales",
       "source": "/models/support/log_metrics_two_different_time_scales_example_log_training"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-log-metrics-on-two-time-scales",
+      "source": "/support/models/articles/can-i-log-metrics-on-two-different-time-"
     },
     {
       "destination": "/support/models/articles/what-happens-when-i-log-millions-of-step",
@@ -6230,8 +6262,12 @@
       "source": "/models/support/monthly_subscription_option_teams_plan"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr",
+      "destination": "/support/models/articles/how-do-i-move-a-run-to-another-project",
       "source": "/models/support/move_from_project_another"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-move-a-run-to-another-project",
+      "source": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr"
     },
     {
       "destination": "/support/models/articles/how-to-get-multiple-charts-with-differen",
@@ -6246,8 +6282,12 @@
       "source": "/models/support/multiprocessing_library"
     },
     {
-      "destination": "/support/models/articles/do-i-need-to-provide-values-for-all-hype",
+      "destination": "/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep",
       "source": "/models/support/need_provide_values_all_hyperparameters_part_wb_sweep_set"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep",
+      "source": "/support/models/articles/do-i-need-to-provide-values-for-all-hype"
     },
     {
       "destination": "/support/models/articles/optimizing-multiple-metrics",
@@ -6266,8 +6306,12 @@
       "source": "/models/support/pass_class_attribute_wandblog"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr",
+      "destination": "/support/models/articles/how-do-i-plot-the-maximum-of-a-metric",
       "source": "/models/support/plot_max_metric"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-plot-the-maximum-of-a-metric",
+      "source": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr"
     },
     {
       "destination": "/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w",
@@ -6326,16 +6370,24 @@
       "source": "/models/support/report_slow_after_wysiwyg"
     },
     {
-      "destination": "/support/models/articles/can-i-use-markdown-in-my-reports",
+      "destination": "/support/models/articles/how-do-i-use-markdown-in-my-reports",
       "source": "/models/support/reports_markdown"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-markdown-in-my-reports",
+      "source": "/support/models/articles/can-i-use-markdown-in-my-reports"
     },
     {
       "destination": "/support/models/articles/how-do-i-request-the-complete-deletion-o",
       "source": "/models/support/request_complete_deletion_account"
     },
     {
-      "destination": "/support/models/articles/can-i-rerun-a-grid-search",
+      "destination": "/support/models/articles/how-do-i-rerun-a-grid-search",
       "source": "/models/support/rerun_grid_search"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-rerun-a-grid-search",
+      "source": "/support/models/articles/can-i-rerun-a-grid-search"
     },
     {
       "destination": "/support/models/articles/how-can-i-resolve-login-issues-with-my-a",
@@ -6374,8 +6426,12 @@
       "source": "/models/support/run_sweeps_slurm"
     },
     {
-      "destination": "/support/models/articles/can-i-run-wandb-offline",
+      "destination": "/support/models/articles/how-do-i-run-wandb-offline",
       "source": "/models/support/run_wandb_offline"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-run-wandb-offline",
+      "source": "/support/models/articles/can-i-run-wandb-offline"
     },
     {
       "destination": "/support/models/articles/how-many-runs-can-i-create-per-project",
@@ -6430,8 +6486,12 @@
       "source": "/models/support/slow_training"
     },
     {
-      "destination": "/support/models/articles/does-wb-support-sso-for-multi-tenant",
+      "destination": "/support/models/articles/how-do-i-set-up-sso-for-multi-tenant",
       "source": "/models/support/sso_multitenant"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-up-sso-for-multi-tenant",
+      "source": "/support/models/articles/does-wb-support-sso-for-multi-tenant"
     },
     {
       "destination": "/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t",
@@ -6446,12 +6506,20 @@
       "source": "/models/support/stream_logs_writes_disk"
     },
     {
-      "destination": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast",
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure",
       "source": "/models/support/sweeps_cloud_infrastructures_such_aws_batch_ecs"
     },
     {
-      "destination": "/support/models/articles/can-i-use-sweeps-and-sagemaker",
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure",
+      "source": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-sagemaker",
       "source": "/models/support/sweeps_sagemaker"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-sagemaker",
+      "source": "/support/models/articles/can-i-use-sweeps-and-sagemaker"
     },
     {
       "destination": "/support/models/articles/how-do-i-switch-between-accounts-on-the-",
@@ -6466,8 +6534,12 @@
       "source": "/models/support/team_find_more_information"
     },
     {
-      "destination": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod",
+      "destination": "/support/models/articles/how-do-i-disable-wandb-when-testing-my-code",
       "source": "/models/support/testing_code_turn_off"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-disable-wandb-when-testing-my-code",
+      "source": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod"
     },
     {
       "destination": "/support/models/articles/does-your-tool-track-or-store-training-d",

@@ -3,27 +3,29 @@ title: "How do I fix server errors (500, 503) with Serverless Inference?"
 keywords: ["Inference"]
 ---
 
-Server errors indicate temporary issues with the Serverless Inference service.
+Server errors indicate temporary issues with the Serverless Inference service. This page helps you identify these errors, handle them gracefully in your client code, and decide when to escalate to support.
 
 ## Error types
 
-### 500 - Internal Server Error
-**Message:** "The server had an error while processing your request"
+The following sections describe the error codes that indicate transient server-side problems rather than issues with your request.
 
-This is a temporary internal error on the server side.
+### 500 internal server error
 
-### 503 - Service Overloaded
-**Message:** "The engine is currently overloaded, please try again later"
+This is a temporary internal error on the server side. The response message is: "The server had an error while processing your request."
 
-The service is experiencing high traffic.
+### 503 service overloaded
 
-## How to handle server errors
+The service is experiencing high traffic. The response message is: "The engine is currently overloaded, please try again later."
 
-1. **Wait before retrying**
-   - 500 errors: Wait 30-60 seconds
-   - 503 errors: Wait 60-120 seconds
+## Handle server errors
 
-2. **Use exponential backoff**
+Because these errors are usually transient, the following techniques give the service time to recover before you retry.
+
+1. Wait before retrying. Use the following wait times:
+   - `500` errors: Wait 30 to 60 seconds.
+   - `503` errors: Wait 60 to 120 seconds.
+
+2. Use exponential backoff.
    ```python
    import time
    import openai
@@ -46,22 +48,24 @@ The service is experiencing high traffic.
                    raise
    ```
 
-3. **Set appropriate timeouts**
-   - Increase timeout values for your HTTP client
-   - Consider async operations for better handling
+3. Set appropriate timeouts. Apply the following adjustments:
+   - Increase timeout values for your HTTP client.
+   - Consider async operations for better handling.
 
-## When to contact support
+## Contact support
 
-Contact support if:
-- Errors persist for more than 10 minutes
-- You see patterns of failures at specific times
-- Error messages contain additional details
+If retries and backoff don't resolve the issue, contact support so the team can investigate further.
 
-Provide:
-- Error messages and codes
-- Time when errors occurred
-- Your code snippet (remove API keys)
-- W&B entity and project names
+Contact support if any of the following apply:
+- Errors persist for more than 10 minutes.
+- You see patterns of failures at specific times.
+- Error messages contain additional details.
+
+When you contact support, provide the following information:
+- Error messages and codes.
+- Time when errors occurred.
+- Your code snippet (remove API keys).
+- W&B entity and project names.
 
 ---
 

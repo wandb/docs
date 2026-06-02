@@ -3,10 +3,10 @@ title: "How do I log a list of values?"
 keywords: ["Logs", "Experiments"]
 ---
 
-These examples show logging losses a couple of different ways using [`wandb.Run.log()`](/models/ref/python/experiments/run/#method-runlog/).
+You can log a list of values, such as per-step losses, with [`wandb.Run.log()`](/models/ref/python/experiments/run/#method-runlog/). The following examples show two common approaches: log the list as a dictionary entry, or log it as a histogram to visualize its distribution.
 
 <Tabs>
-<Tab title="Using a dictionary">
+<Tab title="As a dictionary">
 ```python
 import wandb
 
@@ -31,7 +31,7 @@ with wandb.init(project="log-list-values", name="log-hist") as run:
 </Tab>
 </Tabs>
 
-For more, see [the documentation on logging](/models/track/log/).
+For more information, see [Log objects and media](/models/track/log/).
 
 ---
 

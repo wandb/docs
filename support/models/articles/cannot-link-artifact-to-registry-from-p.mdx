@@ -1,31 +1,33 @@
 ---
-title: "Why can't I link my artifact to the registry?"
+title: "Why can't I link my artifact to the Registry?"
 keywords: ["Artifacts"]
 ---
 
-If you cannot link an artifact to a W&B Registry, the most common cause is that the artifact was logged with a personal entity instead of a team entity. Only artifacts logged within an organization's team can be linked to the organization's registry.
+If you can't link an artifact to a W&B Registry, the most common cause is that the artifact was logged with a personal entity instead of a team entity. You can only link artifacts logged within an organization's team to the organization's Registry. This page explains how to log artifacts under a team entity so that you can link them to the Registry, and what to do if you already logged an artifact under a personal entity.
 
-## Fix: log artifacts with a team entity
+## Log artifacts with a team entity
 
-Specify your team as the `entity` when you initialize a run:
+To make an artifact eligible for linking to the Registry, you must log it under a team entity that belongs to your organization. Specify your team as the `entity` when you initialize a run.
+
+Replace `[TEAM-ENTITY]`, `[PROJECT-NAME]`, `[ARTIFACT-NAME]`, and `[TYPE]` with values for your team, project, and artifact:
 
 ```python
 import wandb
 
-with wandb.init(entity="<team_entity>", project="<project_name>") as run:
-    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+with wandb.init(entity="[TEAM-ENTITY]", project="[PROJECT-NAME]") as run:
+    artifact = wandb.Artifact(name="[ARTIFACT-NAME]", type="[TYPE]")
     # Add files and log the artifact
 ```
 
-If you do not specify `entity`, the run uses your default entity, which may be your personal account.
+If you don't specify `entity`, the run uses your default entity, which might be your personal account.
 
 ## Find your team entity
 
-Your team entity is the same as your team name. Confirm it by navigating to your team's W&B profile page. The URL has the form `https://wandb.ai/<team>`, where `<team>` is your team entity.
+Your team entity is the same as your team name. To confirm it, navigate to your team's W&B profile page. The URL has the form `https://wandb.ai/[TEAM]`, where `[TEAM]` is your team entity.
 
-## Already logged with a personal entity?
+## Re-log artifacts logged to a personal entity
 
-If an artifact was already logged to your personal entity, you need to re-log it to a team entity within your organization.
+If you already logged an artifact to your personal entity, re-log it to a team entity within your organization.
 
 For more information, see [Link a version to a collection](/models/registry/link_version/).
 
