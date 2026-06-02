@@ -327,7 +327,7 @@ As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define 
 
 ### Optional: Defining a `Scorer` class
 
-In some applications you may want to create custom evaluation classes - where for example a standardized `LLMJudge` class should be created with specific parameters (e.g. chat model, prompt), specific scoring of each row, and specific calculation of an aggregate score. Weave defines a list of ready-to-use `Scorer` classes and also makes it easy to create a custom `Scorer` - the following example shows how to create a custom `class CorrectnessLLMJudge(Scorer)`.
+In some applications you may want to create custom evaluation classes - where for example a standardized `LLMJudge` class should be created with specific parameters (for example, chat model and prompt), specific scoring of each row, and specific calculation of an aggregate score. Weave defines a list of ready-to-use `Scorer` classes and also makes it easy to create a custom `Scorer` - the following example shows how to create a custom `class CorrectnessLLMJudge(Scorer)`.
 
 On a high-level the steps to create custom Scorer are quite simple:
 
@@ -440,7 +440,7 @@ To get the same result for your RAG apps:
 - Create scoring functions that score one example
 - Use `Evaluation` class to run evaluations on your examples
 
-**NOTE:** Sometimes the async execution of Evaluations will trigger a rate limit on the models of OpenAI, Anthropic, etc. To prevent that you can set an environment variable to limit the amount of parallel workers e.g. `WEAVE_PARALLELISM=3`.
+**NOTE:** Sometimes the async execution of Evaluations will trigger a rate limit on the models of OpenAI, Anthropic, and others. To prevent that you can set an environment variable to limit the amount of parallel workers, for example, `WEAVE_PARALLELISM=3`.
 
 Here is the code in its entirety.
 

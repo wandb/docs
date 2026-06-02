@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Master script to generate and update Serverless RL API reference documentation.
+Master script to generate and update Serverless Training API reference documentation.
 
 This script:
 1. Syncs the OpenAPI spec
-2. Updates Serverless RL API landing page
+2. Updates Serverless Training API landing page
 """
 
 import subprocess
@@ -30,7 +30,7 @@ def run_command(cmd: list, description: str) -> bool:
 def main():
     """Main function to orchestrate all generation steps."""
     print("=" * 60)
-    print("Serverless RL API Reference Documentation Generation")
+    print("Serverless Training API Reference Documentation Generation")
     print("=" * 60)
     
     scripts_dir = Path(__file__).parent
@@ -43,16 +43,16 @@ def main():
     ):
         print("  ⚠ Warning: Could not sync OpenAPI spec, continuing with existing")
     
-    # Step 2: Update Serverless RL API landing page
-    print("\n2. Updating Serverless RL API landing page")
+    # Step 2: Update Serverless Training API landing page
+    print("\n2. Updating Serverless Training API landing page")
     if not run_command(
         [sys.executable, str(scripts_dir / "update_training_api_landing.py")],
-        "  Updating Serverless RL API endpoints list"
+        "  Updating Serverless Training API endpoints list"
     ):
-        print("  ⚠ Warning: Could not update Serverless RL API landing page")
+        print("  ⚠ Warning: Could not update Serverless Training API landing page")
     
     print("\n" + "=" * 60)
-    print("✓ Serverless RL API reference documentation generation complete!")
+    print("✓ Serverless Training API reference documentation generation complete!")
     print("=" * 60)
     
     print("\nNext steps:")
