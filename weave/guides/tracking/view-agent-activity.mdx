@@ -297,38 +297,56 @@ limiting or bugs, without requiring you to read individual traces.
 
 ### Signals table
 
-Each row represents one signal score applied to a turn. The following columns
-appear by default.
+Each row represents one signal score applied to a turn. The following columns appear by default.
 
 | Column | Description |
 |---|---|
-| **Type** | The level at which the signal was scored. |
-| **Scorer** | The name of the signal that produced this score (for example, **Response Quality** or **User Satisfaction**). |
+| **Type** | Linked to the flame graph details of the turn that generated the signal result. |
+| **Scorer** | The name of the signal that produced this score. |
 | **Last message** | A preview of the last message in the scored turn, with the role shown below. |
 | **Agent** | The agent associated with the scored turn. |
-| **Scores** | The numeric score from 0 to 1. Scores near 0 indicate a detected issue. Scores near 1 indicate no issue detected. |
-| **Trend (24h)** | Score trend for this scorer over the past 24 hours. |
+| **Scores** | The numeric score from 0 to 1, or a tag if matched. Scores near 0 indicate a detected issue. Scores near 1 indicate no issue detected. |
+| **Trend (24h)** | How scores for this signal have changed over the past 24 hours. |
 | **When** | When the signal was scored. |
 
-Use the time window selector and **Filter** bar to narrow results by scorer,
-agent, score range, or time period.
+Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period. The **Score volume** timeline shows counts of signals that have been evaluated for ratings or tagged. It reflects the rows shown in the table and supports drag-to-filter on the timeline.
+
+### Create a new signal
+
+Select **+ New signal** to create a new scorer for your agent.
+
+#### Scorer type
+
+Choose to create either a **Rating** scorer or a **Tags** scorer.
+
+- **Rating**: Ratings-based scorers assign a numeric value between 0 and 1 to each matching turn. Weave creates one Signals table row per matching turn.
+- **Tags**: Tags-based scorers assign a tag to each matching turn that meets your criteria (for example, detecting user frustration). Weave creates a Signals table row only when a turn matches the tag criteria. If you create a tag signal and see no rows, the scorer likely hasn't found a match yet.
+
+#### Only score turns matching
+
+A turn is one back-and-forth exchange with the agent. Use this selector to restrict which turns the signal scores, such as a specific `Agent name`, `Operation name`, `Tool name`, or `Request model`. Multiple filters are combined with `AND` logic.
+
+#### Prompt template
+
+Starter templates are provided for common evaluation goals, such as `User Frustration` or `Malicious Intent`. After you select a template, the prompt appears inline as **Scorer prompt** for immediate editing. The scorer prompt supports template variables (`{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`) that Weave fills in at score time.
+
+#### Scorer name
+
+Choose the display name for this signal.
+
+#### Advanced settings
+
+Under **Advanced**, configure the following options.
+
+- **Inference model**: Choose the model that runs the scorer prompt against agent turns. [Serverless Inference](/inference) is recommended and is the default when it is set up for your project. Otherwise, Weave falls back to the first configured third-party provider or any saved custom provider for the project.
+- **Sample rate**: For high-traffic agents, set a sample rate to score a fraction of turns instead of every turn and reduce cost.
 
 ### Manage and edit signals
 
-Select **Manage signals** to open a drawer that lists all active signals for
-the project. From there you can toggle signals on or off, delete them, or
-click the edit icon on any signal to modify it.
+Select **Manage signals** to open a drawer that lists all active signals for the project. From there you can toggle signals on or off, delete them, or edit any signal. The editor shows the same fields as **+ New signal**.
 
-The signal editor has the following fields:
+### Troubleshoot signals
 
-| Field | Description |
-|---|---|
-| **Scorer type** | The scoring method. **Rating** emits a single numeric score in [0, 1] per agent turn. |
-| **Only score turns matching** | Optional filters to restrict which turns this signal scores. Multiple filters are combined with AND logic. Leave empty to score every turn. |
-| **Prompt template** | A preset template to use as a starting point for the scorer prompt. |
-| **Scorer prompt** | The full prompt sent to the scoring model. Supports template variables (`{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`) which are filled in at score time. |
-| **Scorer name** | The display name for this signal. |
-
-Select **+ New signal** to create a new scorer for your agent.
+Signal activity itself appears under **Traces** in the project sidebar. If you do not see signal matches you expect, use the Traces table to debug. Check the scorer name and the `Status` column for error conditions.  Scorer execution errors show a red indicator for `Status` and include details for the error.
 
 For more information on built-in signals, see [Monitor using built-in signals](/weave/guides/evaluation/monitors).

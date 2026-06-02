@@ -62,6 +62,21 @@ Each signal uses an LLM-as-a-judge approach to classify traces:
 
 When multiple signals from the same group (Quality or Error) are active, Weave batches the signals into a single LLM call for efficiency. The model evaluates all active classifiers in one pass and returns results for each.
 
+## Use signals for agentic applications
+
+If you are tracing agentic applications, signal results appear in two places
+on the **Agents** page:
+
+- The **Signals** tab shows all scored turns across your agents, with the
+  scorer name, numeric score, and 24-hour trend for each.
+- The **Conversations** tab's conversation detail panel shows a **Scores** section in the Events
+  panel. This includes the rubric breakdown and per-criterion confidence for each
+  active scorer.
+
+<Note>
+If you are tracing agentic applications, we recommend using the **Signals** tab on the **Agents** page. For full details, see [View agent activity](/weave/guides/tracking/view-agent-activity#signals-tab).
+</Note>
+
 ## Enable signals from the Monitors page
 
 To enable signals:
@@ -85,19 +100,6 @@ To view or remove active signals:
 Removing a signal stops scoring new traces. Existing scores from the signal are preserved.
 
 ## Use built-in signals
-
-### See tagged agent traces on the Agents page
-
-If you are tracing agentic applications, signal results appear in two places
-on the **Agents** page:
-
-- The **Signals** tab shows all scored turns across your agents, with the
-  scorer name, numeric score, and 24-hour trend for each.
-- The **Conversations** tab's conversation detail panel shows a **Scores** section in the Events
-  panel. This includes the rubric breakdown and per-criterion confidence for each
-  active scorer.
-
-For full details, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 
 ### See tagged Call traces on the Traces page
 
