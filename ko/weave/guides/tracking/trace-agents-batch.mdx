@@ -20,7 +20,7 @@ LLM 호출은 이미 완료되었고 그 호출만 기록하면 되는 프레임
 `weave.log_turn`은 모든 LLM 및 도구 span을 포함하는 완전한 형태의 turn을 받습니다.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines highlight="1,3,28"
     weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
@@ -59,13 +59,13 @@ LLM 호출은 이미 완료되었고 그 호출만 기록하면 되는 프레임
         spans=[llm_span, tool_span, llm_span2],
     )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     이 기능은 아직 TypeScript SDK에서는 사용할 수 없습니다.
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 `log_turn`은 생성된 span의 트레이스 IDs가 포함된 `LogResult`를 반환합니다.
@@ -79,7 +79,7 @@ LLM 호출은 이미 완료되었고 그 호출만 기록하면 되는 프레임
 여러 턴으로 이루어진 전체 Session을 한 번에 일괄 임포트하려면 `weave.log_session`을 사용하세요. `turns` 매개변수는 `Turn` 객체 목록을 받으며, 각 객체는 위의 `log_turn` 예시와 같은 방식으로 생성됩니다.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     weave.log_session(
         session_id="my-session-abc",
@@ -87,11 +87,11 @@ LLM 호출은 이미 완료되었고 그 호출만 기록하면 되는 프레임
         turns=[turn_1, turn_2],
     )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
     ```
-  </TabItem>
+  </Tab>
 </Tabs>

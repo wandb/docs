@@ -22,7 +22,7 @@ Pour commencer, installez le package `weave` et initialisez votre projet. Cela p
 Installez Weave et initialisez votre projet :
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```bash lines
     pip install weave
     ```
@@ -36,9 +36,9 @@ Installez Weave et initialisez votre projet :
     ```
 
     Appelez `weave.init()` avant tout appel à `start_session()`, `start_turn()`, `start_llm()` ou `start_tool()`. Toutes les fonctions de traçage d’agent ne font silencieusement rien lorsque le traçage est désactivé ou que l’appel à init est absent. Vous pouvez donc laisser l’instrumentation dans le code de production et la contrôler via la configuration.
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```bash lines
     npm install weave
     ```
@@ -52,7 +52,7 @@ Installez Weave et initialisez votre projet :
     ```
 
     Appelez `weave.init()` avant tout appel à `startSession()`, `startTurn()`, `startLLM()` ou `startTool()`. Toutes les fonctions de traçage d’agent ne font silencieusement rien lorsque le traçage est désactivé ou que l’appel à init est absent. Vous pouvez donc laisser l’instrumentation dans le code de production et la contrôler via la configuration.
-  </TabItem>
+  </Tab>
 </Tabs>
 
 <div id="the-agent-data-model">
@@ -124,10 +124,10 @@ Weave expose les fonctions de premier niveau suivantes. Chaque fonction renvoie 
 
 `start_session()` / `startSession()` définit un attribut `conversation_id` sur tous les spans enfants afin de regrouper les tours de conversation dans l’onglet Agents. Si vous fournissez un `session_id`, il doit rester stable tout au long de la conversation. Réutilisez le même ID pour ajouter de nouveaux tours de conversation à une session existante. Si vous n’indiquez pas de `session_id`, le SDK génère automatiquement un UUID.
 
-La session active est stockée dans le contexte (un `ContextVar` en Python ou `AsyncLocalStorage` en Node.js). Ainsi, tout code exécuté dans le même contexte asynchrone peut la récupérer avec `weave.get_current_session()` / `weave.getCurrentSession()` sans avoir à passer explicitement l’objet session.
+La session active est stockée dans le contexte (un `ContextVar` en Python ou `AsyncLocalStorage` en Node.js), de sorte que tout code exécuté dans le même contexte asynchrone peut la récupérer avec `weave.get_current_session()` / `weave.getCurrentSession()` sans avoir à passer explicitement l’objet session.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     session = weave.start_session(
         agent_name="my-agent",    # Requis : identifie l’agent dans l’interface utilisateur.
@@ -138,9 +138,9 @@ La session active est stockée dans le contexte (un `ContextVar` en Python ou `A
         continue_parent_trace=False,  # Facultatif : rattache à une trace OTel existante au lieu d’en démarrer une nouvelle.
     )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines
     const session = weave.startSession({
       agentName: 'my-agent',  // Facultatif : identifie l’agent dans l’interface utilisateur.
@@ -148,7 +148,7 @@ La session active est stockée dans le contexte (un `ContextVar` en Python ou `A
       model: '',              // Facultatif : modèle par défaut pour les tours de conversation de cette session.
     });
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 <div id="start-a-turn">
@@ -160,7 +160,7 @@ La session active est stockée dans le contexte (un `ContextVar` en Python ou `A
 Lorsqu’elle est appelée comme fonction autonome, elle détermine la session active à partir du contexte et hérite de son ID de conversation. Si aucune session n’est active, le tour de conversation est créé sans `conversation_id` et ne sera pas regroupé avec d’autres tours de conversation.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     turn = weave.start_turn(
         user_message="What is the weather in Tokyo?",  # Texte saisi par l’utilisateur.
@@ -168,16 +168,16 @@ Lorsqu’elle est appelée comme fonction autonome, elle détermine la session a
         model="gpt-4o",          # Facultatif : modèle utilisé pour ce tour de conversation.
     )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines
     const turn = weave.startTurn({
       agentName: 'my-agent',  // Facultatif : redéfinit le nom de l’agent défini au niveau de la session.
       model: 'gpt-4o',        // Facultatif : modèle utilisé pour ce tour de conversation.
     });
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 <div id="start-an-llm-call">
@@ -187,7 +187,7 @@ Lorsqu’elle est appelée comme fonction autonome, elle détermine la session a
 `start_llm()` / `startLLM()` crée un span `chat` imbriqué sous le tour de conversation en cours. Weave utilise ce span pour afficher l’utilisation des jetons, le nom du modèle, les messages d’entrée et de sortie, ainsi que le raisonnement dans la vue Agents.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     llm = weave.start_llm(
         model="gpt-4o",             # L'ID du modèle.
@@ -195,22 +195,22 @@ Lorsqu’elle est appelée comme fonction autonome, elle détermine la session a
         system_instructions=["Be concise."],  # Facultatif : chaînes de caractères du prompt système.
     )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines
     const llm = weave.startLLM({
       model: 'gpt-4o',          // L'ID du modèle.
       providerName: 'openai',   // Facultatif : nom du fournisseur, par exemple "openai", "anthropic".
     });
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 Une fois l’appel LLM terminé, attribuez les données de réponse à l’objet `llm` avant qu’il ne se ferme :
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
         response = openai_client.chat.completions.create(...)
@@ -221,9 +221,9 @@ Une fois l’appel LLM terminé, attribuez les données de réponse à l’objet
             output_tokens=response.usage.completion_tokens,
         )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines
     const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
     try {
@@ -238,7 +238,7 @@ Une fois l’appel LLM terminé, attribuez les données de réponse à l’objet
       llm.end();
     }
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 Passez `provider_name` / `providerName` explicitement. Weave ne le déduit pas de la chaîne du modèle.
@@ -250,7 +250,7 @@ Passez `provider_name` / `providerName` explicitement. Weave ne le déduit pas d
 `start_tool()` / `startTool()` crée un span `execute_tool`. Le span devient l’enfant du span OTel actif dans le contexte (généralement le span `chat` de l’appel LLM qui a généré l’appel d’outil).
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     tool = weave.start_tool(
         name="get_weather",                  # Nom de l’outil tel que déclaré au LLM.
@@ -258,9 +258,9 @@ Passez `provider_name` / `providerName` explicitement. Weave ne le déduit pas d
         tool_call_id="call_abc123",          # Facultatif : identifiant de l’appel d’outil provenant de la réponse du LLM.
     )
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines
     const tool = weave.startTool({
       name: 'get_weather',            // Nom de l’outil tel que déclaré au LLM.
@@ -268,21 +268,21 @@ Passez `provider_name` / `providerName` explicitement. Weave ne le déduit pas d
       toolCallId: 'call_abc123',      // Facultatif : identifiant de l’appel d’outil provenant de la réponse du LLM.
     });
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 Attribuez le résultat de l’outil avant de le fermer :
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines
     with weave.start_tool(name="get_weather", arguments='{"city": "Tokyo"}') as tool:
         result = get_weather_api("Tokyo")
         tool.result = result  # Accepte un dictionnaire, une liste ou une chaîne. Encodé automatiquement en JSON.
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines
     const tool = weave.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
     try {
@@ -291,7 +291,7 @@ Attribuez le résultat de l’outil avant de le fermer :
       tool.end();
     }
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 <div id="usage-patterns-for-agent-tracing">
@@ -316,7 +316,7 @@ L’approche recommandée pour la plupart des agents consiste à utiliser un ges
 Weave stocke la session active, le tour de conversation et l’appel LLM dans le contexte. Ainsi, toute fonction appelée dans un bloc peut appeler `start_llm()` / `startLLM()` ou `start_tool()` / `startTool()` sans avoir à conserver de référence explicite au parent. Cela fonctionne d’un module à l’autre tant que le code s’exécute dans le même contexte asynchrone. Pour récupérer les objets actifs depuis n’importe quel point de la pile d’appels, utilisez `weave.get_current_session()` / `weave.getCurrentSession()`, `weave.get_current_turn()` / `weave.getCurrentTurn()`, et `weave.get_current_llm()` / `weave.getCurrentLLM()`.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines highlight="13,14,17,25,29"
     import weave
     from weave.session.session import Message, Usage
@@ -351,9 +351,9 @@ Weave stocke la session active, le tour de conversation et l’appel LLM dans le
                 llm.output("It is 24°C and sunny in Tokyo today.")
                 llm.usage = Usage(input_tokens=150, output_tokens=30)
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines highlight="11,13,16,24,35"
     import * as weave from 'weave';
     import type { Message, Usage } from 'weave';
@@ -404,7 +404,7 @@ Weave stocke la session active, le tour de conversation et l’appel LLM dans le
       session.end();
     }
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 <div id="manual-start-and-end-pattern">
@@ -414,7 +414,7 @@ Weave stocke la session active, le tour de conversation et l’appel LLM dans le
 Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs `with` ou à `try/finally`. Par exemple, lorsque des spans sont ouverts et fermés dans des appels de fonction distincts, ou lorsque vous gérez le cycle de vie asynchrone en dehors d&#39;une coroutine.
 
 <Tabs>
-  <TabItem value="python" label="Python">
+  <Tab title="Python">
     ```python lines highlight="1,2,4,9,15"
     session = weave.start_session(agent_name="weather-bot")
     turn = session.start_turn(user_message="What is the weather?")
@@ -438,9 +438,9 @@ Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs
     turn.end()
     session.end()
     ```
-  </TabItem>
+  </Tab>
 
-  <TabItem value="typescript" label="TypeScript">
+  <Tab title="TypeScript">
     ```typescript lines highlight="1,2,4,9,15"
     const session = weave.startSession({ agentName: 'weather-bot' });
     const turn = session.startTurn({ agentName: 'weather-bot' });
@@ -464,7 +464,7 @@ Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs
     turn.end();
     session.end();
     ```
-  </TabItem>
+  </Tab>
 </Tabs>
 
 <div id="semantic-conventions">
