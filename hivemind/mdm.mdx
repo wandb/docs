@@ -96,9 +96,3 @@ hivemind doctor
 ```
 
 If the `launchctl print` step reports "Could not find service," the user hasn't logged in since install yet. Wait for their next login, or run `hivemind doctor` for a fuller diagnosis. `hivemind doctor` also confirms auto-upgrade can write the install dir. If it can't (a non-admin user on an unattended install), `hivemind doctor --fix` repairs it.
-
-## What's next
-
-- [HiveMind CLI](/hivemind/cli): daemon management, logs, and `hivemind doctor`.
-- [Bots & service accounts](/hivemind/bots): token auth for headless and shared machines.
-- [Permissions & privacy](/hivemind/permissions): who can see your team's sessions.
