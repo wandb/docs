@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Update the Serverless RL API landing page with the current endpoints from the OpenAPI spec.
+Update the Serverless Training API landing page with the current endpoints from the OpenAPI spec.
 
 Mirrors Mintlify's OpenAPI page path logic (@mintlify/scraping processOpenApiPath):
 - Slug folder from the first tag (prepareStringToBeValidFilename).
@@ -8,12 +8,12 @@ Mirrors Mintlify's OpenAPI page path logic (@mintlify/scraping processOpenApiPat
 - Duplicate (tag, slug) pairs get "-1", "-2", ... suffixes (same order as Mint: spec path
   order, then OpenAPI HTTP method order get, put, post, delete, ...).
 
-See docs.json for the openapi `directory` (default: serverless-rl/api-reference).
+See docs.json for the openapi `directory` (default: serverless-training/api-reference).
 
 Endpoint links in the landing page use absolute https://docs.wandb.ai/... URLs on purpose:
 `mint broken-links` registers OpenAPI targets using a single default directory
 (`api-reference`, from @mintlify/link-rot getOpenApiPagePaths) and does not match
-per-nav paths like `/serverless-rl/api-reference/...`. Absolute links are checked
+per-nav paths like `/serverless-training/api-reference/...`. Absolute links are checked
 as external and still resolve to the real on-site paths under docs.wandb.ai.
 """
 from __future__ import annotations
@@ -26,9 +26,9 @@ from typing import Dict, List, Tuple
 # Same order as OpenAPIV3.HttpMethods / Mintlify's Object.values(HttpMethods)
 HTTP_METHODS_ORDER = ("get", "put", "post", "delete", "options", "head", "patch", "trace")
 
-DEFAULT_OPENAPI_DIRECTORY = "serverless-rl/api-reference"
+DEFAULT_OPENAPI_DIRECTORY = "serverless-training/api-reference"
 PUBLIC_DOCS_ORIGIN = "https://docs.wandb.ai"
-LANDING_PAGE = Path("serverless-rl/api-reference.mdx")
+LANDING_PAGE = Path("serverless-training/api-reference.mdx")
 
 # Display order for ### headings; unknown tags append after these.
 TAG_HEADING_ORDER = ["chat-completions", "models", "training-jobs", "health"]
@@ -36,7 +36,7 @@ TAG_HEADING_ORDER = ["chat-completions", "models", "training-jobs", "health"]
 
 def fetch_openapi_spec() -> dict:
     """Load OpenAPI spec from local file, or fetch remote if missing."""
-    local_spec = Path("serverless-rl/api-reference/openapi.json")
+    local_spec = Path("serverless-training/api-reference/openapi.json")
     if local_spec.exists():
         print(f"  Using local OpenAPI spec: {local_spec}")
         with open(local_spec, "r", encoding="utf-8") as f:
@@ -110,7 +110,7 @@ def build_method_path_to_href(spec: dict, out_dir: str) -> Dict[Tuple[str, str],
             if _is_excluded(operation) or _is_hidden(operation):
                 continue
 
-            # x-mint.href overrides are not used in the current Serverless RL spec; add
+            # x-mint.href overrides are not used in the current Serverless Training spec; add
             # handling here if Mintlify custom hrefs are introduced upstream.
             tags = operation.get("tags") or []
             group_name = tags[0] if tags else "API Reference"
@@ -219,15 +219,15 @@ def update_landing_page(endpoints_section: str) -> bool:
 
 
 def main() -> int:
-    print("Updating Serverless RL API landing page (Mintlify-aligned links)...")
+    print("Updating Serverless Training API landing page (Mintlify-aligned links)...")
     try:
         spec = fetch_openapi_spec()
         href_map = build_method_path_to_href(spec, DEFAULT_OPENAPI_DIRECTORY)
         section = generate_endpoints_section(spec, href_map, DEFAULT_OPENAPI_DIRECTORY)
         if update_landing_page(section):
-            print("✓ Serverless RL API landing page updated successfully!")
+            print("✓ Serverless Training API landing page updated successfully!")
         else:
-            print("✓ Serverless RL API landing page is already up to date")
+            print("✓ Serverless Training API landing page is already up to date")
     except Exception as e:
         print(f"  ✗ Error: {e}")
         return 1

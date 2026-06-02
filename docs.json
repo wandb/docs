@@ -102,7 +102,7 @@
                     "group": "Powered by CoreWeave",
                     "pages": [
                       "product-inference",
-                      "product-serverless-rl",
+                      "product-serverless-training",
                       "product-sandboxes"
                     ]
                   },
@@ -797,25 +797,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "serverless-rl",
-                  "serverless-rl/prerequisites",
-                  "serverless-rl/usage",
-                  "serverless-rl/available-models",
-                  "serverless-rl/usage-limits",
-                  "serverless-rl/use-trained-models",
+                  "serverless-training",
+                  "serverless-training/prerequisites",
+                  "serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "serverless-training/usage",
+                      "serverless-training/available-models",
+                      "serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "serverless-rl/sft",
-                      "serverless-rl/sft/usage"
+                      "serverless-training/sft",
+                      "serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API Reference",
                     "pages": [
-                      "serverless-rl/ref-link-api"
+                      "serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -1147,10 +1152,15 @@
                           "weave/reference/typescript-sdk/classes/dataset",
                           "weave/reference/typescript-sdk/classes/evaluation",
                           "weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "weave/reference/typescript-sdk/classes/llm",
                           "weave/reference/typescript-sdk/classes/messagesprompt",
                           "weave/reference/typescript-sdk/classes/objectref",
                           "weave/reference/typescript-sdk/classes/scorelogger",
+                          "weave/reference/typescript-sdk/classes/session",
                           "weave/reference/typescript-sdk/classes/stringprompt",
+                          "weave/reference/typescript-sdk/classes/subagent",
+                          "weave/reference/typescript-sdk/classes/tool",
+                          "weave/reference/typescript-sdk/classes/turn",
                           "weave/reference/typescript-sdk/classes/weaveclient",
                           "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -1159,6 +1169,14 @@
                         "group": "Functions",
                         "pages": [
                           "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "weave/reference/typescript-sdk/functions/createotelextension",
+                          "weave/reference/typescript-sdk/functions/endllm",
+                          "weave/reference/typescript-sdk/functions/endsession",
+                          "weave/reference/typescript-sdk/functions/endturn",
+                          "weave/reference/typescript-sdk/functions/flushotel",
+                          "weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "weave/reference/typescript-sdk/functions/getcurrentturn",
                           "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
@@ -1166,6 +1184,12 @@
                           "weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "weave/reference/typescript-sdk/functions/runisolated",
+                          "weave/reference/typescript-sdk/functions/startllm",
+                          "weave/reference/typescript-sdk/functions/startsession",
+                          "weave/reference/typescript-sdk/functions/startsubagent",
+                          "weave/reference/typescript-sdk/functions/starttool",
+                          "weave/reference/typescript-sdk/functions/startturn",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
                           "weave/reference/typescript-sdk/functions/withattributes",
@@ -1178,6 +1202,17 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "weave/reference/typescript-sdk/interfaces/llminit",
+                          "weave/reference/typescript-sdk/interfaces/message",
+                          "weave/reference/typescript-sdk/interfaces/query",
+                          "weave/reference/typescript-sdk/interfaces/reasoning",
+                          "weave/reference/typescript-sdk/interfaces/sessioninit",
+                          "weave/reference/typescript-sdk/interfaces/sortby",
+                          "weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "weave/reference/typescript-sdk/interfaces/toolinit",
+                          "weave/reference/typescript-sdk/interfaces/turninit",
+                          "weave/reference/typescript-sdk/interfaces/usage",
                           "weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -1185,8 +1220,11 @@
                       {
                         "group": "Type Aliases",
                         "pages": [
+                          "weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "weave/reference/typescript-sdk/type-aliases/modality",
                           "weave/reference/typescript-sdk/type-aliases/op",
-                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "weave/reference/typescript-sdk/type-aliases/role"
                         ]
                       }
                     ]
@@ -1213,13 +1251,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "serverless-rl/api-reference",
-                  "source": "serverless-rl/api-reference/openapi.json"
+                  "directory": "serverless-training/api-reference",
+                  "source": "serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "serverless-rl/api-reference"
+                  "serverless-training/api-reference"
                 ]
               }
             ],
@@ -5483,7 +5521,11 @@
       "source": "/guides/track/:slug*"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training",
+      "source": "/guides/training/serverless-rl"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
       "source": "/guides/training/:slug*"
     },
     {
@@ -6479,7 +6521,7 @@
       "source": "/ref/release-notes/releases/archived/*"
     },
     {
-      "destination": "/serverless-rl/api-reference",
+      "destination": "/serverless-training/api-reference",
       "source": "/ref/training"
     },
     {
@@ -6511,43 +6553,51 @@
       "source": "/sweeps/faq/"
     },
     {
-      "destination": "/serverless-rl/api-reference/:slug*",
+      "destination": "/serverless-training/api-reference/:slug*",
       "source": "/training/api-reference/:slug*"
     },
     {
-      "destination": "/serverless-rl/api-reference",
+      "destination": "/serverless-training/api-reference",
       "source": "/training/api-reference"
     },
     {
-      "destination": "/serverless-rl/usage",
+      "destination": "/serverless-training/usage",
       "source": "/training/serverless-rl"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training",
+      "source": "/serverless-rl"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
+      "source": "/serverless-rl/:slug*"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
       "source": "/training/serverless-rl/:slug*"
     },
     {
-      "destination": "/serverless-rl/sft/usage",
+      "destination": "/serverless-training/sft/usage",
       "source": "/training/sft-training/sft-training"
     },
     {
-      "destination": "/serverless-rl/sft/:slug*",
+      "destination": "/serverless-training/sft/:slug*",
       "source": "/training/sft-training/:slug*"
     },
     {
-      "destination": "/serverless-rl/sft",
+      "destination": "/serverless-training/sft",
       "source": "/training/sft-training"
     },
     {
-      "destination": "/serverless-rl/prerequisites",
+      "destination": "/serverless-training/prerequisites",
       "source": "/training/prerequisites"
     },
     {
-      "destination": "/serverless-rl",
+      "destination": "/serverless-training",
       "source": "/training"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training/:slug*",
       "source": "/training/:slug*"
     },
     {
