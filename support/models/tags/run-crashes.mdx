@@ -1,6 +1,6 @@
 ---
 title: "Run Crashes"
-tag: "10"
+tag: "11"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
@@ -34,4 +34,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Why is a run marked crashed in W&B when it’s training fine locally?" href="/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
   This indicates a connection problem. If the server loses internet access and data stops syncing to W&B, the system marks ...
+</Card>
+<Card title="Why is my run showing as crashed?" href="/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&B marks a run as Crashed when it stops receiving heartbeats from the process that called wandb.init(), without the pro ...
 </Card>

@@ -1,0 +1,44 @@
+---
+title: "Why does my Weave cost or token estimate differ from my provider?"
+keywords: ["Data Capture", "Trace Data"]
+---
+
+Weave displays cost and token usage estimates based on data captured from your LLM calls. Discrepancies between Weave's numbers and your provider's invoice or dashboard are common and have several causes.
+
+**Token counts come from the provider response, not Weave**
+
+For supported integrations (OpenAI, Anthropic, Google, etc.), Weave reads token usage directly from the API response object—the same `usage` field your code receives. If your provider reports a different count on their billing page, the difference is on the provider side (for example, they may aggregate tokens across streaming chunks differently than per-call reporting).
+
+**Weave cost estimates use a static pricing table**
+
+Weave calculates estimated cost by multiplying token counts by known per-token prices for each model. This table is updated periodically but may lag behind provider pricing changes. If a provider recently changed pricing for a model, Weave's estimate will be stale until the next SDK release that updates the table.
+
+To check the model pricing Weave is using, see the [pricing reference in the Weave source](https://github.com/wandb/weave/blob/master/weave/trace/util/inference_cost).
+
+**Custom or fine-tuned models may not have pricing entries**
+
+If you use a fine-tuned model or a model identifier that is not in Weave's pricing table, the cost column will show `—` or `$0.00`. You can see token counts but cost will not be estimated for unknown models.
+
+**Sampling reduces total captured tokens**
+
+If you set `tracing_sample_rate` on an op, only a fraction of calls are traced. The token totals in Weave reflect only the sampled calls, not your full usage:
+
+```python
+@weave.op(tracing_sample_rate=0.1)
+def my_llm_call(prompt):
+    ...
+```
+
+In this case Weave captures roughly 10% of calls, so the token and cost totals in the UI represent only that fraction.
+
+**Prompt caching and batch API calls**
+
+Some providers (for example, OpenAI with prompt caching enabled) apply discounts to cached input tokens. Weave captures the `usage` object as returned by the provider, which should reflect cached token pricing if the provider reports it in the response. However, Weave's static pricing table reflects standard (non-cached) prices for each token category. If you use prompt caching heavily, the gap between Weave's estimate and your actual bill will be larger.
+
+Batch API requests may report token usage differently than real-time requests; verify that your batch responses include standard `usage` fields if you expect Weave to capture them.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Data Capture](/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[Trace Data](/support/weave/tags/trace-data)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

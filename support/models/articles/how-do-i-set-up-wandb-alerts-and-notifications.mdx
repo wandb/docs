@@ -1,0 +1,40 @@
+---
+title: "How do I set up W&B alerts and notifications?"
+keywords: ["Alerts", "Experiments", "Runs"]
+---
+
+W&B supports automated alerts in User Settings (run finished, run crashed) and programmatic alerts from training code. For `run.alert()` setup, Slack connection, and examples, see [Send an alert](/models/runs/alert). For event-driven Slack notifications on artifacts or metrics, see [Automations](/models/automations/).
+
+## Automated alerts via User Settings
+
+Go to [wandb.ai/settings](https://wandb.ai/settings) and open **Alerts**. You can enable:
+
+- **Run finished** — notifies when a run completes successfully.
+- **Run crashed** — notifies when a run exits without calling `wandb.finish()`.
+
+Deliver to email, Slack, or both. **Run finished** alerts do not fire in Jupyter notebooks — use `run.alert()` in notebooks instead.
+
+Team-wide alerting (for example, a shared Slack channel when any teammate's run crashes) is not available in the UI today. Each member connects Slack in their own settings, or use `run.alert()` with a shared workflow.
+
+## Throttling programmatic alerts
+
+If the same `run.alert()` could fire every step, set `wait_duration` so repeated calls with the same title are skipped until the interval elapses:
+
+```python
+import datetime
+import wandb
+
+with wandb.init(project="my-project") as run:
+    run.alert(
+        title="High loss",
+        text=f"Loss is {loss:.2f}",
+        level=wandb.AlertLevel.WARN,
+        wait_duration=datetime.timedelta(minutes=30),
+    )
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Alerts](/support/models/tags/alerts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}
