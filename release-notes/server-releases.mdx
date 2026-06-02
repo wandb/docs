@@ -63,9 +63,14 @@ W&B Server 0.81.0 makes debugging and comparing runs easier with deeper, searcha
 - Improved the performance of queries on the **Evaluation Results** page by using server-side sorting, filtering, and pagination.
 - The Weave UI now displays cached tokens.
 
+## Performance improvements
+
+- Improved the performance of **Sweeps** pages by loading agents only as needed, rather than always loading all agents.
+- For large workspaces, improved the performance of opening the editor, changing axes, previewing updates, and applying changes.
+- Improved performance when adding runs to a workspace by cloning a hot path shallowly.
+
 ## Security
 
-- Fixed a privilege escalation bug that could allow a non-admin user to upgrade the deployment's subscription.
 - Added a boolean environment variable `GRAPHQL_REJECT_UNAUTHED_REQUESTS` to reject unauthorized requests if set to `true`.
 - Improved [SCIM](/platform/hosting/iam/scim) API compatibility when Okta is the IdP.
 - SCIM API now supports automatic account provisioning when Microsoft Entra is the IdP:
@@ -83,12 +88,6 @@ W&B Server 0.81.0 makes debugging and comparing runs easier with deeper, searcha
 - Upgraded `pillow` to 12.2.0 to fix [CVE-2026-25990](https://github.com/advisories/GHSA-cfh3-3jmp-rvhc) and [CVE-2026-40192](https://github.com/advisories/GHSA-whj4-6x5x-4v2j).
 - Upgraded `pyasn1` to 0.6.3 to fix [CVE-2026-23490](https://github.com/advisories/GHSA-63vm-454h-vhhq) and [CVE-2026-30922](https://github.com/advisories/GHSA-jr27-m4p2-rc6r).
 - Upgraded `python-multipart` to 0.0.22 to fix [CVE-2026-24486](https://github.com/advisories/GHSA-wp53-j4wj-2cfg).
-
-## Performance improvements
-
-- Improved the performance of **Sweeps** pages by loading agents only as needed, rather than always loading all agents.
-- For large workspaces, improved the performance of opening the editor, changing axes, previewing updates, and applying changes.
-- Improved performance when adding runs to a workspace by cloning a hot path shallowly.
 
 ## Fixes
 
