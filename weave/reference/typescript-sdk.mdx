@@ -1,6 +1,6 @@
 ---
 title: "weave"
-description: "TypeScript SDK reference"
+description: "API reference for the Weave TypeScript SDK, covering core classes, functions, and integrations for tracing LLM applications."
 ---
 
 weave
@@ -14,10 +14,15 @@ weave
 - [Dataset](./typescript-sdk/classes/dataset)
 - [Evaluation](./typescript-sdk/classes/evaluation)
 - [EvaluationLogger](./typescript-sdk/classes/evaluationlogger)
+- [LLM](./typescript-sdk/classes/llm)
 - [MessagesPrompt](./typescript-sdk/classes/messagesprompt)
 - [ObjectRef](./typescript-sdk/classes/objectref)
 - [ScoreLogger](./typescript-sdk/classes/scorelogger)
+- [Session](./typescript-sdk/classes/session)
 - [StringPrompt](./typescript-sdk/classes/stringprompt)
+- [SubAgent](./typescript-sdk/classes/subagent)
+- [Tool](./typescript-sdk/classes/tool)
+- [Turn](./typescript-sdk/classes/turn)
 - [WeaveClient](./typescript-sdk/classes/weaveclient)
 - [WeaveObject](./typescript-sdk/classes/weaveobject)
 
@@ -25,18 +30,40 @@ weave
 
 - [CallSchema](./typescript-sdk/interfaces/callschema)
 - [CallsFilter](./typescript-sdk/interfaces/callsfilter)
+- [GetCallsOptions](./typescript-sdk/interfaces/getcallsoptions)
+- [LLMInit](./typescript-sdk/interfaces/llminit)
+- [Message](./typescript-sdk/interfaces/message)
+- [Query](./typescript-sdk/interfaces/query)
+- [Reasoning](./typescript-sdk/interfaces/reasoning)
+- [SessionInit](./typescript-sdk/interfaces/sessioninit)
+- [SortBy](./typescript-sdk/interfaces/sortby)
+- [SubAgentInit](./typescript-sdk/interfaces/subagentinit)
+- [ToolInit](./typescript-sdk/interfaces/toolinit)
+- [TurnInit](./typescript-sdk/interfaces/turninit)
+- [Usage](./typescript-sdk/interfaces/usage)
 - [WeaveAudio](./typescript-sdk/interfaces/weaveaudio)
 - [WeaveImage](./typescript-sdk/interfaces/weaveimage)
 
 
 ### Type Aliases
 
+- [MessagePart](./typescript-sdk/type-aliases/messagepart)
+- [Modality](./typescript-sdk/type-aliases/modality)
 - [OpDecorator](./typescript-sdk/type-aliases/opdecorator)
 - [Op](./typescript-sdk/type-aliases/op)
+- [Role](./typescript-sdk/type-aliases/role)
 
 ### Functions
 
 - [createOpenAIAgentsTracingProcessor](./typescript-sdk/functions/createopenaiagentstracingprocessor)
+- [createOtelExtension](./typescript-sdk/functions/createotelextension)
+- [endLLM](./typescript-sdk/functions/endllm)
+- [endSession](./typescript-sdk/functions/endsession)
+- [endTurn](./typescript-sdk/functions/endturn)
+- [flushOTel](./typescript-sdk/functions/flushotel)
+- [getCurrentLLM](./typescript-sdk/functions/getcurrentllm)
+- [getCurrentSession](./typescript-sdk/functions/getcurrentsession)
+- [getCurrentTurn](./typescript-sdk/functions/getcurrentturn)
 - [init](./typescript-sdk/functions/init)
 - [instrumentOpenAIAgents](./typescript-sdk/functions/instrumentopenaiagents)
 - [login](./typescript-sdk/functions/login)
@@ -44,6 +71,12 @@ weave
 - [patchRealtimeSession](./typescript-sdk/functions/patchrealtimesession)
 - [requireCurrentCallStackEntry](./typescript-sdk/functions/requirecurrentcallstackentry)
 - [requireCurrentChildSummary](./typescript-sdk/functions/requirecurrentchildsummary)
+- [runIsolated](./typescript-sdk/functions/runisolated)
+- [startLLM](./typescript-sdk/functions/startllm)
+- [startSession](./typescript-sdk/functions/startsession)
+- [startSubagent](./typescript-sdk/functions/startsubagent)
+- [startTool](./typescript-sdk/functions/starttool)
+- [startTurn](./typescript-sdk/functions/startturn)
 - [weaveAudio](./typescript-sdk/functions/weaveaudio)
 - [weaveImage](./typescript-sdk/functions/weaveimage)
 - [withAttributes](./typescript-sdk/functions/withattributes)
@@ -51,5 +84,8 @@ weave
 - [wrapOpenAI](./typescript-sdk/functions/wrapopenai)
 
 ## Type Aliases
+
+
+
 
 

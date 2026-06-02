@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Serverless RL",
+    "title": "Serverless Training",
     "version": "1.0.0"
   },
   "paths": {
