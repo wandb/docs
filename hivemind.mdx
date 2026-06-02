@@ -6,7 +6,7 @@ mode: wide
 
 W&B HiveMind is a shared dashboard for AI coding sessions. A lightweight daemon runs on each developer's machine, watches for coding agent activity, and sends session transcripts to [hivemind.wandb.tools](https://hivemind.wandb.tools).
 
-Coding agents like Claude Code, Codex, Cursor, Gemini, and OpenCode all write transcripts to the local filesystem as they work. The HiveMind daemon wakes up every 30 seconds, checks for new activity, and uploads anything it finds. There's nothing to configure per agent. If the agent writes transcripts, HiveMind picks them up.
+Coding agents like Claude Code, Codex, Copilot, Cursor, Gemini, OpenCode, and Pi all write transcripts to the local filesystem as they work. The HiveMind daemon wakes up every 30 seconds, checks for new activity, and uploads anything it finds. There's nothing to configure per agent. If the agent writes transcripts, HiveMind picks them up.
 
 ## Get started
 
@@ -61,13 +61,15 @@ Once the daemon is running, open any supported coding agent and start working. W
 
 HiveMind picks up transcripts from the coding agents you already use, with no per-agent setup.
 
-| Agent       | Transcript source                     |
-| ----------- | ------------------------------------- |
-| Claude Code | `~/.claude/projects/` JSONL files     |
-| Codex       | `~/.codex/` session logs              |
-| Cursor      | SQLite databases in Cursor's app data |
-| Gemini CLI  | `~/.gemini/` session history          |
-| OpenCode    | `~/.opencode/` session files          |
+| Agent       | Transcript source                       |
+| ----------- | --------------------------------------- |
+| Claude Code | `~/.claude/projects/` JSONL files       |
+| Codex       | `~/.codex/` session logs                |
+| Copilot CLI | `~/.copilot/session-state/` event logs  |
+| Cursor      | SQLite databases in Cursor's app data   |
+| Gemini CLI  | `~/.gemini/` session history            |
+| OpenCode    | `~/.opencode/` session files            |
+| Pi          | `~/.pi/agent/sessions/` JSONL files     |
 
 ## The HiveMind agent
 
