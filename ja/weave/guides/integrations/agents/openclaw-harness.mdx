@@ -1,0 +1,192 @@
+---
+title: OpenClaw プラグイン
+description: W&B Weave で OpenClaw エージェントのセッションをトラッキングし、可観測性の向上とデバッグに役立てます。
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+Weave OpenClaw プラグインは、OpenClaw ゲートウェイ経由で実行されるすべてのエージェントセッションを自動的にトレースし、その構造化データを W&amp;B Weave に送信します。すべてのターン、モデル呼び出し、ツール実行が、アプリケーションコードを変更しなくてもログされます。これらのトレースを使用すると、セッションのデバッグ、ツール使用状況の監査、Runs 全体でのコストとレイテンシの監視を行えます。
+
+<Warning>
+  このプラグインは、OpenClaw のセッションデータを Weave に送信します。このデータには、ユーザーのプロンプト、モデルの応答、ツールの入力と出力、ツールの結果、会話履歴が含まれる場合があります。
+
+  このプラグインでは、PII のスクラビングや機密データのマスキングは実装されていません。コンテンツの取得を抑止する必要がある場合は、プラグインの設定で `captureContent: false` を指定してください。セキュリティ要件またはコンプライアンス要件上、このデータを Weave に送信できない場合は、このプラグインをインストールしないでください。
+</Warning>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* [Node.js](https://nodejs.org/) v22 以降。
+* プラグイン API を備えた [OpenClaw](https://openclaw.dev) &gt;= 2026.4.25。
+* W&amp;B アカウントと [APIキー](https://wandb.ai/authorize)。
+* トレースの受信先となる Weave プロジェクト (`[YOUR-TEAM]/[YOUR-PROJECT]`) 。
+
+<div id="install-the-plugin">
+  ## プラグインをインストールする
+</div>
+
+<Steps>
+  <Step title="パッケージをインストールします。">
+    ```bash lines
+    pnpm add weave-openclaw
+    ```
+
+    プラグインは OpenClaw ゲートウェイ が設定を通じて読み込みます。アプリケーションコードから `import` する必要はありません。
+  </Step>
+
+  <Step title="ゲートウェイ 設定にプラグインを追加します。">
+    デフォルトの設定ファイルの場所は `~/.openclaw/openclaw.json` です (JSON5 形式のため、コメントと末尾のカンマを使用できます) 。まだファイルがない場合は、`openclaw onboard` を実行してひな形を生成します。
+    ご利用の project に合わせて `[YOUR-TEAM]` と `[YOUR-PROJECT]` を更新してください。
+
+    ```json lines
+    {
+      diagnostics: { enabled: true },
+      plugins: {
+        allow: ["weave"],
+        entries: {
+          weave: {
+            enabled: true,
+            config: { entity: "YOUR-TEAM", project: "YOUR-PROJECT" },
+            hooks: { allowConversationAccess: true },
+          },
+        },
+      },
+    }
+    ```
+
+    設定例のとおり、ゲートウェイ 設定には次の 2 つの設定を含める必要があります。
+
+    * OpenClaw がプラグインで使用される診断イベントを出力できるように、**`diagnostics.enabled`** を **`true`** に設定します。
+    * OpenClaw がコンテンツを含む hooks (`llm_input`、`llm_output`、`agent_end`) を実行し、span に入出力テキスト、tool の引数、および結果が含まれるように、**`hooks.allowConversationAccess`** を **`true`** に設定します。
+  </Step>
+
+  <Step title="ゲートウェイ を再起動して確認します。">
+    OpenClaw ゲートウェイ を再起動し、その後、任意の OpenClaw チャット画面で `/weave status` を実行して、プラグインが有効になっていることを確認します。最初のエージェント run から数秒以内に、`wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` にトレースが表示されます。
+  </Step>
+</Steps>
+
+<div id="view-openclaw-traces-in-weave">
+  ## Weave で OpenClaw のトレースを表示する
+</div>
+
+少なくとも 1 つのエージェントセッションを実行した後、Weave UI で project を開きます。
+
+1. [https://wandb.ai](https://wandb.ai) にアクセスし、project を選択します。
+2. サイドバーで、マルチターンのチャットビューとエージェントごとのバージョン別グループ化を表示するには **Agents** を選択し、生の スパン ツリーを表示するには **Traces** を選択します。
+3. 会話を選択して、セッションツリー全体を確認します。
+
+Agents ビューの詳細については、[View agent activity](/ja/weave/guides/tracking/view-agent-activity) を参照してください。
+
+プラグインは、[OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) に従って スパン を出力します。
+
+| スパン                   | 出力タイミング        | 主な属性                                                                              |
+| ---------------------- | -------------- | --------------------------------------------------------------------------------- |
+| `invoke_agent <agent>` | 各エージェント run ごと | `gen_ai.agent.name`, `gen_ai.conversation.id`, 累積コスト、トークン使用量                      |
+| `chat <model>`         | 各モデル呼び出しごと     | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens` |
+| `execute_tool <tool>`  | 各ツール実行ごと       | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                         |
+
+<div id="configuration-reference">
+  ## 設定リファレンス
+</div>
+
+このセクションでは、`openclaw.json` 内の `weave` プラグイン エントリに関する完全な設定リファレンスを示します。
+
+`apiKey` フィールドでは、4 つの認証ソースを次の順序で解決します。
+
+1. `source: "env"` または `source: "file"` を持つ `SecretRef` オブジェクト (以下の例の 10 行目を参照) 。
+2. リテラルの `apiKey` string (サポートされていますが、推奨されません) 。
+3. `WANDB_API_KEY` 環境変数。
+4. Weave ホスト用の `~/.netrc` エントリ (`wandb login` によって設定されます) 。
+
+```json lines
+{
+  plugins: {
+    entries: {
+      weave: {
+        enabled: true,
+        config: {
+          entity: "YOUR-TEAM",
+          project: "YOUR-PROJECT",
+          // apiKey を省略した場合、env から WANDB_API_KEY を読み取ります。
+          // SecretRef は source: "env" または "file" をサポートします:
+          //   { source: "env",  provider: "default", id: "WANDB_API_KEY" }
+          //   { source: "file", provider: "default", id: "/run/secrets/wandb" }
+          // プレーン文字列はサポートされますが、推奨しません。
+          apiKey: { source: "env", provider: "default", id: "WANDB_API_KEY" },
+          serviceName: "openclaw-agent",
+          // 省略可能。Agents タブでのグループ化精度が向上します。
+          agentName: "my-agent",
+          agentVersion: "v1.0",
+          agentDescription: "What my agent does.",
+          // デフォルトは ON です。コンプライアンスや保持ポリシーに基づき
+          // 完全に無効化する場合は false を設定してください。プラグインは取得した
+          // 文字列をマスクしないため、必要に応じて上流で除去してください。
+          captureContent: true,
+          flushIntervalMs: 5000,
+        },
+        hooks: { allowConversationAccess: true },
+      },
+    },
+  },
+}
+```
+
+`captureContent` のデフォルト値は `true` です。`captureContent` が `true` の場合、入力メッセージと出力メッセージ、tool の引数、tool の結果も、`gen_ai.input.messages` / `gen_ai.output.messages` の payload 形式に従って出力されます。また、サブエージェント、compaction イベント、loop detection、retry attempts、context sizing は、追加の属性および span イベントとして付与されます。
+
+コンプライアンス要件または保持ポリシーのために取得を無効にするには、`captureContent` を `false` に設定します。
+
+<div id="wb-dedicated-cloud-or-self-hosted-instances">
+  ### W&amp;B Dedicated Cloud またはセルフホスト環境のインスタンス
+</div>
+
+このプラグインは、エンドポイントと認証を [Weave Node SDK](https://github.com/wandb/weave/tree/master/sdks/node) に委譲します。Weave Python SDK および Node SDK と同じ規則で、次の環境変数を読み取ります。
+
+| 変数                    | 説明                                                                                                   |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| `WANDB_BASE_URL`      | W&amp;B API のベース URL。デフォルト: `https://api.wandb.ai`。Dedicated Cloud またはセルフホスト環境にインストールする場合は、これを設定します。 |
+| `WF_TRACE_SERVER_URL` | trace-server の完全な URL を上書きします。セルフマネージド環境またはプロキシ経由の構成で使用します。                                          |
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+ゲートウェイ log は、`openclaw` を実行しているプロセスのターミナル出力、またはデーモン化している場合はプロセスマネージャーのログストリームを指します。
+
+<div id="plugin-loaded-but-no-spans-show-up">
+  ### プラグインは読み込まれているのに、スパン が表示されない
+</div>
+
+1. `/weave status` を実行します。lifecycle が `disabled`、`config-error`、または `not-started` の場合、プラグインは有効になっていません。ゲートウェイ のログに `weave: config.entity is required`、`weave: configuration error`、または `[weave] incompatible plugin SDK` が出ていないか確認してください。
+2. ゲートウェイ の設定で `diagnostics.enabled: true` になっていることを確認してください。
+3. entity と project が、確認中の Weave プロジェクトの URL スラッグと一致していることを確認してください。`/weave status` には `project=<entity>/<project>` と表示されるはずです。
+4. 認証の取得元を確認してください。`/weave status` には `auth=...` と表示されるはずです。`WANDB_API_KEY env` と表示されているのに、キーを別の環境変数に設定している場合は、プラグインが誤ったキーを読み取っています。
+
+<div id="spans-land-but-inputoutput-text-is-empty">
+  ### スパン は届くものの、input/output テキストが空です
+</div>
+
+gateway log で次を確認してください。
+
+```text
+[plugins] typed hook "llm_input"  blocked because non-bundled plugins must set
+                                  plugins.entries.weave.hooks.allowConversationAccess=true
+[plugins] typed hook "llm_output" blocked ...
+[plugins] typed hook "agent_end"  blocked ...
+```
+
+OpenClaw では、コンテンツを含む hook は operator が明示的に有効化した場合にのみ利用できます。設定で `plugins.entries.weave.hooks.allowConversationAccess: true` を設定し、ゲートウェイを再起動してください。スパン構造とコスト/使用量データは hook ではなく診断イベント経由で送信されるため、この設定を有効にしなくても引き続き動作します。
+
+<div id="errors-sending-traces-to-weave">
+  ### Weave へのトレース送信エラー
+</div>
+
+プラグインが有効でスパンも生成されているのに Weave に表示されない場合は、ゲートウェイ のログでエクスポートエラーを確認し、以下の表と照らし合わせてください。
+
+| 症状                             | 最も可能性の高い原因                           | 対処方法                                                                                                                              |
+| ------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `trace.wandb.ai` からの 401 / 403 | 無効な APIキー、またはスコープが制限された APIキー        | キーが有効で最新のものであること、およびチームが entity/project を所有していることを確認してください。`wandb login` を実行すると `~/.netrc` が更新されます。                               |
+| agents endpoint からの 404        | base URL または trace-server URL が誤っている | Dedicated 環境では、`WANDB_BASE_URL` をインストール先のホストに設定してください。セルフマネージド環境またはプロキシ環境では、`WF_TRACE_SERVER_URL` を trace-server の URL に設定してください。 |
+| 接続拒否 / DNS エラー                 | DNS、プロキシ、またはファイアウォール                 | ゲートウェイ ホストから `trace.wandb.ai` (クラウド) またはインストール先ホスト (Dedicated) の 443 番ポートに到達できることを確認してください。                                      |

@@ -1897,9 +1897,9 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
+                      "fr/weave/agents-quickstart",
                       "fr/weave/quickstart",
-                      "fr/weave/tutorial-eval",
-                      "fr/weave/tutorial-rag"
+                      "fr/weave/guides/integrations"
                     ]
                   },
                   {
@@ -1907,7 +1907,17 @@
                     "pages": [
                       "fr/weave/concepts/what-is-weave",
                       {
-                        "group": "Tracez votre application",
+                        "group": "Tracez vos agents",
+                        "pages": [
+                          "fr/weave/guides/tracking/trace-agents",
+                          "fr/weave/guides/tracking/view-agent-activity",
+                          "fr/weave/guides/tracking/trace-agents-batch",
+                          "fr/weave/guides/tracking/trace-sub-agents",
+                          "fr/weave/guides/evaluation/monitors"
+                        ]
+                      },
+                      {
+                        "group": "Tracez vos applications",
                         "pages": [
                           {
                             "group": "Notions de base du traçage",
@@ -1934,7 +1944,7 @@
                             ]
                           },
                           {
-                            "group": "Utilisez les appels",
+                            "group": "Travaillez avec les appels",
                             "pages": [
                               "fr/weave/guides/tracking/update-call",
                               "fr/weave/guides/tracking/call-schema-reference",
@@ -1950,9 +1960,11 @@
                         ]
                       },
                       {
-                        "group": "Évaluez votre application",
+                        "group": "Évaluez vos agents et applications",
                         "pages": [
                           "fr/weave/guides/core-types/evaluations",
+                          "fr/weave/tutorial-eval",
+                          "fr/weave/tutorial-rag",
                           "fr/weave/guides/core-types/datasets",
                           "fr/weave/guides/evaluation/scorers",
                           "fr/weave/guides/evaluation/builtin_scorers",
@@ -1973,7 +1985,7 @@
                         ]
                       },
                       {
-                        "group": "Gérez les versions de votre travail",
+                        "group": "Versionnez votre travail",
                         "pages": [
                           "fr/weave/tutorial-weave_models",
                           "fr/weave/guides/core-types/models",
@@ -1983,7 +1995,7 @@
                         ]
                       },
                       {
-                        "group": "Surveillez et recueillez des retours",
+                        "group": "Surveillez et recueillez le feedback",
                         "pages": [
                           {
                             "group": "Annotez",
@@ -1995,6 +2007,7 @@
                           },
                           "fr/weave/guides/tracking/redact-pii",
                           "fr/weave/guides/evaluation/monitors",
+                          "fr/weave/guides/evaluation/custom-monitors",
                           "fr/weave/guides/evaluation/automations",
                           "fr/weave/guides/evaluation/guardrails",
                           "fr/weave/guides/tracking/otel"
@@ -2007,7 +2020,19 @@
                           "fr/weave/guides/integrations/autopatching",
                           "fr/weave/guides/integrations/js",
                           {
-                            "group": "Fournisseurs de LLM",
+                            "group": "Traçage des agents",
+                            "pages": [
+                              "fr/weave/guides/integrations/agents/google-adk",
+                              "fr/weave/guides/integrations/agents/openai-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-code-harness",
+                              "fr/weave/guides/integrations/agents/codex-harness",
+                              "fr/weave/guides/integrations/agents/openclaw-harness",
+                              "fr/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
+                          {
+                            "group": "Fournisseurs LLM",
                             "pages": [
                               "fr/weave/guides/integrations/bedrock",
                               "fr/weave/guides/integrations/anthropic",
@@ -3249,15 +3274,25 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
+                      "ja/weave/agents-quickstart",
                       "ja/weave/quickstart",
-                      "ja/weave/tutorial-eval",
-                      "ja/weave/tutorial-rag"
+                      "ja/weave/guides/integrations"
                     ]
                   },
                   {
                     "group": "ガイド",
                     "pages": [
                       "ja/weave/concepts/what-is-weave",
+                      {
+                        "group": "エージェントをトレースする",
+                        "pages": [
+                          "ja/weave/guides/tracking/trace-agents",
+                          "ja/weave/guides/tracking/view-agent-activity",
+                          "ja/weave/guides/tracking/trace-agents-batch",
+                          "ja/weave/guides/tracking/trace-sub-agents",
+                          "ja/weave/guides/evaluation/monitors"
+                        ]
+                      },
                       {
                         "group": "アプリケーションをトレースする",
                         "pages": [
@@ -3302,9 +3337,11 @@
                         ]
                       },
                       {
-                        "group": "アプリケーションを評価する",
+                        "group": "エージェントとアプリケーションを評価する",
                         "pages": [
                           "ja/weave/guides/core-types/evaluations",
+                          "ja/weave/tutorial-eval",
+                          "ja/weave/tutorial-rag",
                           "ja/weave/guides/core-types/datasets",
                           "ja/weave/guides/evaluation/scorers",
                           "ja/weave/guides/evaluation/builtin_scorers",
@@ -3335,10 +3372,10 @@
                         ]
                       },
                       {
-                        "group": "監視とフィードバックの収集",
+                        "group": "監視してフィードバックを収集する",
                         "pages": [
                           {
-                            "group": "アノテーション",
+                            "group": "アノテーションする",
                             "pages": [
                               "ja/weave/guides/tracking/annotation-queues",
                               "ja/weave/guides/tracking/annotation-review",
@@ -3347,19 +3384,32 @@
                           },
                           "ja/weave/guides/tracking/redact-pii",
                           "ja/weave/guides/evaluation/monitors",
+                          "ja/weave/guides/evaluation/custom-monitors",
                           "ja/weave/guides/evaluation/automations",
                           "ja/weave/guides/evaluation/guardrails",
                           "ja/weave/guides/tracking/otel"
                         ]
                       },
                       {
-                        "group": "LLM provider とフレームワークを統合する",
+                        "group": "LLM プロバイダおよびフレームワークと統合する",
                         "pages": [
                           "ja/weave/guides/integrations",
                           "ja/weave/guides/integrations/autopatching",
                           "ja/weave/guides/integrations/js",
                           {
-                            "group": "LLM provider",
+                            "group": "エージェントをトレースする",
+                            "pages": [
+                              "ja/weave/guides/integrations/agents/google-adk",
+                              "ja/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-code-harness",
+                              "ja/weave/guides/integrations/agents/codex-harness",
+                              "ja/weave/guides/integrations/agents/openclaw-harness",
+                              "ja/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
+                          {
+                            "group": "LLM プロバイダ",
                             "pages": [
                               "ja/weave/guides/integrations/bedrock",
                               "ja/weave/guides/integrations/anthropic",
@@ -4601,9 +4651,9 @@
                   {
                     "group": "시작하기",
                     "pages": [
+                      "ko/weave/agents-quickstart",
                       "ko/weave/quickstart",
-                      "ko/weave/tutorial-eval",
-                      "ko/weave/tutorial-rag"
+                      "ko/weave/guides/integrations"
                     ]
                   },
                   {
@@ -4611,7 +4661,17 @@
                     "pages": [
                       "ko/weave/concepts/what-is-weave",
                       {
-                        "group": "애플리케이션 트레이스하기",
+                        "group": "에이전트를 트레이스하세요",
+                        "pages": [
+                          "ko/weave/guides/tracking/trace-agents",
+                          "ko/weave/guides/tracking/view-agent-activity",
+                          "ko/weave/guides/tracking/trace-agents-batch",
+                          "ko/weave/guides/tracking/trace-sub-agents",
+                          "ko/weave/guides/evaluation/monitors"
+                        ]
+                      },
+                      {
+                        "group": "애플리케이션을 트레이스하세요",
                         "pages": [
                           {
                             "group": "트레이싱 기본 개념",
@@ -4638,7 +4698,7 @@
                             ]
                           },
                           {
-                            "group": "Call 활용하기",
+                            "group": "Call 사용하기",
                             "pages": [
                               "ko/weave/guides/tracking/update-call",
                               "ko/weave/guides/tracking/call-schema-reference",
@@ -4654,9 +4714,11 @@
                         ]
                       },
                       {
-                        "group": "애플리케이션 평가하기",
+                        "group": "에이전트와 애플리케이션을 평가하세요",
                         "pages": [
                           "ko/weave/guides/core-types/evaluations",
+                          "ko/weave/tutorial-eval",
+                          "ko/weave/tutorial-rag",
                           "ko/weave/guides/core-types/datasets",
                           "ko/weave/guides/evaluation/scorers",
                           "ko/weave/guides/evaluation/builtin_scorers",
@@ -4669,7 +4731,7 @@
                         ]
                       },
                       {
-                        "group": "프롬프트와 모델로 실험하기",
+                        "group": "프롬프트와 모델로 실험하세요",
                         "pages": [
                           "ko/weave/guides/tools/playground",
                           "ko/weave/guides/tools/evaluation_playground",
@@ -4677,7 +4739,7 @@
                         ]
                       },
                       {
-                        "group": "작업 버전 관리하기",
+                        "group": "작업을 버전 관리하세요",
                         "pages": [
                           "ko/weave/tutorial-weave_models",
                           "ko/weave/guides/core-types/models",
@@ -4687,10 +4749,10 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 피드백 수집",
+                        "group": "모니터링하고 피드백을 수집하세요",
                         "pages": [
                           {
-                            "group": "어노테이션",
+                            "group": "주석 달기",
                             "pages": [
                               "ko/weave/guides/tracking/annotation-queues",
                               "ko/weave/guides/tracking/annotation-review",
@@ -4699,17 +4761,30 @@
                           },
                           "ko/weave/guides/tracking/redact-pii",
                           "ko/weave/guides/evaluation/monitors",
+                          "ko/weave/guides/evaluation/custom-monitors",
                           "ko/weave/guides/evaluation/automations",
                           "ko/weave/guides/evaluation/guardrails",
                           "ko/weave/guides/tracking/otel"
                         ]
                       },
                       {
-                        "group": "LLM 공급자 및 프레임워크와 통합하기",
+                        "group": "LLM 공급자 및 프레임워크와 통합하세요",
                         "pages": [
                           "ko/weave/guides/integrations",
                           "ko/weave/guides/integrations/autopatching",
                           "ko/weave/guides/integrations/js",
+                          {
+                            "group": "트레이스 에이전트",
+                            "pages": [
+                              "ko/weave/guides/integrations/agents/google-adk",
+                              "ko/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-code-harness",
+                              "ko/weave/guides/integrations/agents/codex-harness",
+                              "ko/weave/guides/integrations/agents/openclaw-harness",
+                              "ko/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM 공급자",
                             "pages": [
@@ -4763,7 +4838,7 @@
                         ]
                       },
                       {
-                        "group": "배포 및 확장",
+                        "group": "배포하고 확장하세요",
                         "pages": [
                           "ko/weave/guides/platform",
                           "ko/weave/guides/platform/weave-self-managed"

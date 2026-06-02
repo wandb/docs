@@ -277,9 +277,27 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
    Le `Dataset` est maintenant supprimé et n’est plus visible dans l’onglet **Datasets** de votre tableau de bord Weave.
 
-<div id="add-a-new-example-to-a-dataset">
-  ### Ajouter un nouvel exemple à un `Dataset`
+<div id="add-a-new-agent-trace-to-a-dataset">
+  ### Ajouter une nouvelle trace d’agent à un `Dataset`
 </div>
+
+Pour ajouter des traces d’agent, comme des sessions, des tours de conversation et des appels d’outil, à un `Dataset` :
+
+1. Accédez à [wandb.ai](http://wandb.ai) et sélectionnez votre projet.
+2. Dans la barre latérale du projet Weave, cliquez sur **Agents**.
+3. Dans la barre d’onglets supérieure, cliquez sur **Conversations**.
+4. Dans le tableau **Conversations**, sélectionnez une ligne de conversation pour afficher le panneau latéral des détails de la conversation. Ce panneau comporte un en-tête avec le nom de l’agent et un UUID.
+5. Dans l’en-tête du panneau latéral des détails de la conversation, cliquez sur l’icône de tableau à droite pour ouvrir le volet latéral **Add example to dataset**.
+   ![En-tête du panneau des détails de la conversation de l’agent montrant l’icône de tableau pour ajouter des éléments à un jeu de données.](/weave/guides/core-types/imgs/agent-conversation-details-header-add-dataset.png)
+6. Dans **Choisir un dataset**, utilisez la liste déroulante pour choisir le jeu de données auquel vous souhaitez ajouter des traces.
+7. Dans **Select context**, sélectionnez les messages à ajouter au jeu de données. Cliquez sur **Next**.
+8. Vérifiez vos sélections, puis cliquez sur **Add to dataset**.
+
+<div id="add-a-new-trace-to-a-dataset">
+  ### Ajouter une nouvelle trace à un `Dataset`
+</div>
+
+Pour ajouter à un `DataSet` des traces générées à partir d’opérations et d’appels :
 
 1. Accédez au projet Weave que vous souhaitez modifier.
 
@@ -299,7 +317,7 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
 9. Cliquez sur **Add to dataset**. Pour revenir à l’écran **Configure field mapping**, cliquez sur **Back**.
 
-10. Dans la fenêtre contextuelle de confirmation, cliquez sur **voir** pour voir les modifications. Vous pouvez aussi accéder à l’onglet **Datasets** pour voir les mises à jour apportées à votre `Dataset`.
+10. Dans la fenêtre contextuelle de confirmation, cliquez sur **Voir le dataset** pour voir les modifications. Vous pouvez aussi accéder à l’onglet **Datasets** pour voir les mises à jour apportées à votre `Dataset`.
 
 <div id="other-dataset-operations">
   ## Autres opérations sur les jeux de données

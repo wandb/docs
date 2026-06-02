@@ -1,0 +1,123 @@
+---
+title: "Google ADK"
+description: Google의 Agent Development Kit (ADK)로 빌드한 에이전트를 Weave로 트레이스하세요.
+---
+
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Google&#39;s Agent Development Kit (ADK)](https://google.github.io/adk-docs/)은 에이전트를 구축하고 오케스트레이션하는 데 사용할 수 있는 유연한 모델 불문 Python 프레임워크입니다. Gemini에 최적화되어 있지만, ADK는 모든 모델을 지원하며 단순한 작업부터 복잡한 멀티 에이전트 워크플로까지 처리할 수 있습니다. Weave는 ADK로 구축된 에이전트를 자동으로 트레이스하며, 각 에이전트 호출, 하위 에이전트 핸드오프, 모델 호출, 도구 Call을 모두 포함합니다. Weave는 캡처한 데이터를 프로젝트의 **Agents** 뷰에 표시합니다.
+
+<div id="trace-google-adk-agents-with-weave">
+  ## Weave로 Google ADK 에이전트 트레이스하기
+</div>
+
+Weave SDK는 Google ADK에 자동으로 패치되므로, 최소한의 설정만으로 ADK 에이전트의 트레이스를 캡처할 수 있습니다. 이 문서에서는 Weave를 초기화한 다음 Google ADK로 빌드한 멀티턴 리서치 에이전트를 실행해, Weave가 Session 전반에서 모든 에이전트 호출, 모델 호출, 도구 Call을 캡처하도록 하는 방법을 설명합니다.
+
+<div id="prerequisites">
+  ### 사전 요구 사항
+</div>
+
+* W&amp;B 계정 및 `WANDB_API_KEY` 환경 변수로 설정한 [API 키](https://wandb.ai/authorize)
+* Gemini용 [Google API 키](https://aistudio.google.com/apikey)
+* Python 3.10+
+
+<div id="install-packages">
+  ### 패키지 설치
+</div>
+
+개발 환경에 다음 패키지를 설치하세요:
+
+```bash
+pip install weave google-adk requests
+```
+
+<div id="initialize-weave-in-your-code">
+  ### 코드에서 Weave 초기화하기
+</div>
+
+코드에서 `weave.init`를 호출하고 W&amp;B 팀 이름과 프로젝트 이름을 함께 지정한 다음, 평소처럼 에이전트를 구축하세요. 다음 코드는 `gemini-2.5-flash`와 `wikipedia_search` 도구를 사용하는 `research_assistant` 에이전트를 생성하고, Weave가 트레이스를 캡처하는 동안 하나의 ADK Session에서 세 가지 질문을 실행합니다.
+
+```python lines
+import asyncio
+import requests
+import weave
+from google.adk.agents import Agent
+from google.adk.runners import InMemoryRunner
+from google.genai import types
+
+weave.init("<your-team>/<your-project-name>")
+
+def wikipedia_search(query: str) -> dict:
+    """Search Wikipedia for a topic and return its title and intro paragraph.
+
+    Args:
+        query: The topic to search for.
+
+    Returns:
+        A dictionary with the article title and intro extract.
+    """
+    r = requests.get(
+        "https://en.wikipedia.org/w/api.php",
+        params={
+            "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+            "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+        },
+        headers={"User-Agent": "weave-demo"},
+    ).json()
+    page = next(iter(r["query"]["pages"].values()))
+    return {"title": page["title"], "extract": page["extract"]}
+
+agent = Agent(
+    name="research_assistant",
+    model="gemini-2.5-flash",
+    instruction=(
+        "You are a research assistant. Use the wikipedia_search tool to look up "
+        "topics when needed, and cite the article titles you used."
+    ),
+    tools=[wikipedia_search],
+)
+
+async def main():
+    runner = InMemoryRunner(agent=agent, app_name="research-app")
+    session = await runner.session_service.create_session(
+        app_name="research-app", user_id="user-1"
+    )
+
+    questions = [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+    ]
+
+    for question in questions:
+        print(f"USER: {question}")
+        async for event in runner.run_async(
+            user_id="user-1",
+            session_id=session.id,
+            new_message=types.Content(
+                role="user",
+                parts=[types.Part(text=question)],
+            ),
+        ):
+            if event.is_final_response() and event.content:
+                print(f"AGENT: {event.content.parts[0].text}\n")
+
+asyncio.run(main())
+```
+
+이 예시는 하나의 ADK Session에서 세 번의 턴으로 진행됩니다. 처음 두 턴에서는 Wikipedia 조회가 트리거되고, 세 번째 턴에서는 도구 Call 없이 이전 대화 컨텍스트를 바탕으로 요약을 생성합니다.
+
+<div id="see-your-agent-traces-in-the-agents-view">
+  ### Agents 뷰에서 에이전트 트레이스를 확인하세요
+</div>
+
+`weave.init()`가 실행되면 프로젝트 링크가 출력됩니다. 다음 항목을 확인하려면 **Agents** 뷰를 여세요.
+
+* `research_assistant`에 대한 **Agents** 탭의 행 1개
+* 세 개의 턴이 포함된 단일 Session
+* 중첩된 모델 호출 및 도구 Call와 함께 `invoke_agent` span으로 렌더링되는 각 턴
+* 각 step의 전체 입력, 모델, 출력, token 사용량, 그리고 Wikipedia 결과
+
+Weave에서 Agents 데이터를 보는 방법에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

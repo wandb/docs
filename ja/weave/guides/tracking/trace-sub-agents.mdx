@@ -1,0 +1,167 @@
+---
+title: サブエージェントをトレース
+description: Weave sub-agent スパン を使用して、ネストされたエージェントやタスクを委任されたエージェントをトレースします。
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+サブエージェントは、ターン内で実行される、委任されたエージェント呼び出しです。あるエージェントが別のエージェントに処理を引き継ぐ場合、たとえばスーパーバイザー エージェントが専門エージェントをディスパッチする場合に、サブエージェントを使用します。
+
+Weave でインストルメントされると、サブエージェントは親ターンと同じトレース内にネストされた `invoke_agent` OTel スパンを出力します。**Agents** ビューでは、このネストはそれをトリガーしたターンの下にサブエージェント呼び出しとして表示され、その下にそのサブエージェント自身の LLM 呼び出し と tool calls がグループ化されます。
+
+<div id="sub-agent-data-model">
+  ## サブエージェントのデータモデル
+</div>
+
+`weave.start_subagent` スパン は OTel の `invoke_agent` スパン に対応しており、親 ターン と同じ operation 名を出力します。Weave では、trace 内での親子関係によってこの 2 つを区別します。
+
+```plaintext
+Turn (invoke_agent — root span)
+├── LLM call (chat)              ← 親エージェントの推論
+│   └── SubAgent (invoke_agent)  ← ここで委譲が発生
+│       ├── LLM call (chat)      ← サブエージェント自身のLLM呼び出し
+│       └── Tool call (execute_tool)
+└── LLM call (chat)              ← 親エージェントが最終回答を統合
+```
+
+サブエージェントはアクティブなセッションの `conversation_id` を継承するため、Agentsビューでは会話の他の部分と同じグループにまとめられます。
+
+```python lines
+sub = weave.start_subagent(
+    name="research-specialist",   # 必須: UI でこのサブエージェントを識別します。
+    model="gpt-4o",               # 省略可能: 空の場合、親セッションのモデルがデフォルトで使用されます。
+)
+```
+
+`weave.start_subagent` は `invoke_agent` スパン を作成します。この スパン は、OTel コンテキスト内で現在アクティブな スパン (通常は親 ターン や、委譲のきっかけとなった LLM call) の子として自動的に関連付けられます。親子関係は OTel コンテキストの伝播によって処理されるため、明示的に委譲を指定する必要はありません。
+
+<div id="trace-a-single-sub-agent">
+  ## 単一のサブエージェントをトレースする
+</div>
+
+次の例では、リクエストを受け取る supervisor agent を実行し、回答を見つけるために Wikipedia の検索ツールを使用するリサーチ専門のサブエージェントに処理を委任します。
+
+Weave は、会話全体を `weave.start_session` で、続いて `session.start_turn` でラップすることで、階層全体を取得します。次に Weave は、専門エージェント用の `weave.start_subagent` ブロックを使用し、各 LLM 呼び出しとツール実行を子スパンとして記録することで、サブエージェントのトレースを取得します。
+
+これらの例では、エージェント間のトレースに焦点を当てるため、ルーティング ロジックは意図的に省略しています。
+
+```python lines highlight="4,10,16,22,30"
+import weave
+from weave.session.session import Message, Usage
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+with weave.start_session(agent_name="supervisor") as session:
+    with session.start_turn(user_message="Research the founders of Anthropic.") as turn:
+
+        # スーパーバイザーの LLM 呼び出し: どのスペシャリストに委任するかを決定する。
+        with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
+            llm.input_messages = [Message(role="user", content="Research the founders of Anthropic.")]
+            llm.output("Delegating to the research specialist.")
+            llm.usage = Usage(input_tokens=80, output_tokens=10)
+
+        # リサーチスペシャリストにサブエージェントとして委任する。
+        with weave.start_subagent(name="research-specialist", model="gpt-4o") as sub:
+            with sub.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Find founders of Anthropic.")]
+                sub_llm.output("I should search for this.")
+                sub_llm.usage = Usage(input_tokens=120, output_tokens=15)
+
+                with weave.start_tool(name="wikipedia_search", arguments='{"query":"Anthropic"}') as tool:
+                    tool.result = "Anthropic was founded by Dario and Daniela Amodei in 2021."
+
+            with sub.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.output("Anthropic was founded by Dario and Daniela Amodei in 2021.")
+                sub_llm.usage = Usage(input_tokens=200, output_tokens=25)
+
+        # スーパーバイザーのターンに戻り、最終的な回答を統合する。
+        with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
+            llm.output("Anthropic was founded by Dario and Daniela Amodei in 2021.")
+            llm.usage = Usage(input_tokens=300, output_tokens=20)
+```
+
+Agents ビュー では、サブエージェントは turn 内でネストされた `invoke_agent` ブロックとして表示され、その配下にサブエージェント自身の LLM 呼び出し と tool calls がグループ化されます。スーパーバイザーが直接行う LLM 呼び出し は、サブエージェントと同じ階層に残ります。
+
+<div id="trace-multiple-sub-agents">
+  ## 複数のサブエージェントをトレースする
+</div>
+
+次の例では、1 つのリクエストを処理するために、3 つの兄弟サブエージェントに順番に委譲するコンテンツパイプライン エージェントを実行します。3 つのサブエージェントは、事実を収集する `researcher`、投稿の下書きを作成する `writer`、最終出力を仕上げる `reviewer` です。
+
+Weave は、各サブエージェントごとに個別の `weave.start_subagent` ブロックを開くことで、3 つすべてのサブエージェントを同じターン配下の兄弟として取得します。各サブエージェントはアクティブなターンの OTel コンテキストを継承するため、互いの配下ではなく、ターンの配下にネストされた対等な `invoke_agent` スパン として表示されます。
+
+```python lines highlight="1,5,11,15,22"
+with weave.start_session(agent_name="content-pipeline") as session:
+    with session.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
+
+        # Researcher サブエージェント: 事実を収集する。
+        with weave.start_subagent(name="researcher", model="gpt-4o") as researcher:
+            with researcher.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Find key facts about Anthropic.")]
+                sub_llm.output("I should search Wikipedia.")
+                sub_llm.usage = Usage(input_tokens=80, output_tokens=15)
+
+                with weave.start_tool(name="wikipedia_search", arguments='{"query":"Anthropic"}') as tool:
+                    tool.result = "Anthropic was founded by Dario and Daniela Amodei in 2021."
+
+        # Writer サブエージェント: 投稿の下書きを作成する。
+        with weave.start_subagent(name="writer", model="gpt-4o") as writer:
+            with writer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Draft a post using the research.")]
+                sub_llm.output("Anthropic, founded in 2021 by Dario and Daniela Amodei, builds AI safety research...")
+                sub_llm.usage = Usage(input_tokens=180, output_tokens=120)
+
+        # Reviewer サブエージェント: 下書きを仕上げる。
+        with weave.start_subagent(name="reviewer", model="gpt-4o") as reviewer:
+            with reviewer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Review and tighten the draft.")]
+                sub_llm.output("Final post: Anthropic, founded in 2021 by Dario and Daniela Amodei, builds AI safety research...")
+                sub_llm.usage = Usage(input_tokens=200, output_tokens=140)
+```
+
+Agents ビュー では、このターンに 3 つの兄弟関係にあるサブエージェント呼び出しが含まれており、それぞれの配下に独自の LLM 呼び出し がネストされています。また、`researcher` には tool call も含まれています。これらのサブエージェント同士に親子関係はありません。
+
+<div id="trace-nested-sub-agents">
+  ### ネストしたサブエージェントをトレースする
+</div>
+
+サブエージェントは、さらに別のサブエージェントに委譲することもできます。`start_subagent` の各呼び出しは、OTel コンテキストで現在アクティブなスパンの下にネストされます。
+
+```python lines highlight="1,2,4,5,11,16"
+with weave.start_session(agent_name="orchestrator") as session:
+    with session.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
+
+        with weave.start_subagent(name="research-coordinator") as coordinator:
+            with weave.start_subagent(name="anthropic-researcher") as r1:
+                with r1.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                    sub_llm.output("Anthropic facts...")
+                    sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
+
+                # ネスト: リサーチャーが自身のサマライザーサブエージェントに処理を委譲します。
+                with weave.start_subagent(name="anthropic-summarizer") as summarizer:
+                    with summarizer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                        sub_llm.output("Anthropic summary: ...")
+                        sub_llm.usage = Usage(input_tokens=80, output_tokens=20)
+
+            with weave.start_subagent(name="openai-researcher") as r2:
+                with r2.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                    sub_llm.output("OpenAI facts...")
+                    sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
+```
+
+この例では、turn の下に 3 階層のネストが作成されます。
+
+```plaintext
+turn (invoke_agent)
+└── research-coordinator (invoke_agent)
+    ├── anthropic-researcher (invoke_agent)
+    │   ├── chat
+    │   └── anthropic-summarizer (invoke_agent)   ← anthropic-researcher の配下にネスト
+    │       └── chat
+    └── openai-researcher (invoke_agent)          ← anthropic-researcher と同階層
+        └── chat
+```
+
+Agents ビュー では、`research-coordinator` はそのターンのサブエージェントとして表示され、`anthropic-researcher` と `openai-researcher` は `research-coordinator` 配下の並列するエージェントとして表示され、`anthropic-summarizer` は `anthropic-researcher` のサブエージェントとして表示されます。

@@ -1,0 +1,192 @@
+---
+title: Plugin OpenClaw
+description: Suivez les sessions de l’agent OpenClaw dans W&B Weave pour l’observabilité et le débogage.
+---
+
+import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+Le plugin Weave pour OpenClaw capture automatiquement les traces de chaque session d’agent exécutée via la passerelle OpenClaw et envoie les données structurées à W&amp;B Weave. Chaque tour de conversation, appel au modèle et exécution d’outil est enregistré sans qu’aucune modification du code de l’application soit nécessaire. Utilisez ces traces pour déboguer les sessions, auditer l’utilisation des outils et surveiller les coûts et la latence sur l’ensemble des runs.
+
+<Warning>
+  Ce plugin envoie les données de session OpenClaw à Weave. Ces données peuvent inclure les prompts des utilisateurs, les réponses du modèle, les entrées et sorties des outils, les résultats des outils et l’historique de la conversation.
+
+  Le nettoyage des PII et le masquage des données sensibles ne sont pas pris en charge par le plugin. Si vous devez empêcher la capture du contenu, définissez `captureContent: false` dans la configuration du plugin. Si vous ne pouvez pas envoyer ces données à Weave en raison de vos exigences de sécurité ou de conformité, n’installez pas ce plugin.
+</Warning>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* [Node.js](https://nodejs.org/) v22 ou version ultérieure.
+* [OpenClaw](https://openclaw.dev) &gt;= 2026.4.25 avec l&#39;API de plugin.
+* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize).
+* Un projet Weave (`[YOUR-TEAM]/[YOUR-PROJECT]`) pour recevoir des traces.
+
+<div id="install-the-plugin">
+  ## Installer le plugin
+</div>
+
+<Steps>
+  <Step title="Installer le package :">
+    ```bash lines
+    pnpm add weave-openclaw
+    ```
+
+    Le plugin est chargé par la passerelle OpenClaw via sa configuration. Vous ne l&#39;importez pas dans le code de l&#39;application.
+  </Step>
+
+  <Step title="Ajouter le plugin à la configuration de votre passerelle :">
+    L&#39;emplacement de configuration par défaut est `~/.openclaw/openclaw.json` (JSON5, donc les commentaires et les virgules finales sont autorisés). Exécutez `openclaw onboard` pour en générer le squelette si vous n&#39;en avez pas encore.
+    Remplacez `[YOUR-TEAM]` et `[YOUR-PROJECT]` par les valeurs de votre projet.
+
+    ```json lines
+    {
+      diagnostics: { enabled: true },
+      plugins: {
+        allow: ["weave"],
+        entries: {
+          weave: {
+            enabled: true,
+            config: { entity: "YOUR-TEAM", project: "YOUR-PROJECT" },
+            hooks: { allowConversationAccess: true },
+          },
+        },
+      },
+    }
+    ```
+
+    Comme indiqué dans l&#39;exemple de configuration, celle de votre passerelle doit inclure ces deux paramètres :
+
+    * Définissez **`diagnostics.enabled`** sur **`true`** afin qu&#39;OpenClaw émette les événements de diagnostic consommés par le plugin.
+    * Définissez **`hooks.allowConversationAccess`** sur **`true`** afin qu&#39;OpenClaw exécute les hooks avec contenu (`llm_input`, `llm_output`, `agent_end`) et que les spans incluent le texte d&#39;entrée/sortie ainsi que les arguments et résultats des outils.
+  </Step>
+
+  <Step title="Redémarrer la passerelle et vérifier :">
+    Redémarrez la passerelle OpenClaw, puis exécutez `/weave status` dans n&#39;importe quelle interface de chat OpenClaw pour confirmer que le plugin est actif. Les traces apparaîtront dans `wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` quelques secondes après la première exécution de votre agent.
+  </Step>
+</Steps>
+
+<div id="view-openclaw-traces-in-weave">
+  ## Afficher les traces OpenClaw dans Weave
+</div>
+
+Après avoir exécuté au moins une session d&#39;agent, ouvrez votre projet dans l&#39;interface Weave :
+
+1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
+2. Dans la barre latérale, sélectionnez **Agents** pour la vue de conversation multi-tour et le regroupement par version d&#39;agent, ou sélectionnez **Traces** pour l&#39;arborescence brute des spans.
+3. Sélectionnez une conversation pour examiner l&#39;arborescence complète de la session.
+
+Pour en savoir plus sur la vue Agents, voir [Afficher l&#39;activité de l&#39;agent](/fr/weave/guides/tracking/view-agent-activity).
+
+Le plugin émet des spans conformément aux [conventions sémantiques OTel GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/) :
+
+| Span                   | Émis pour                         | Attributs clés                                                                     |
+| ---------------------- | --------------------------------- | ---------------------------------------------------------------------------------- |
+| `invoke_agent <agent>` | Pour chaque exécution d&#39;agent | `gen_ai.agent.name`, `gen_ai.conversation.id`, coût cumulé, utilisation des jetons |
+| `chat <model>`         | Pour chaque appel au modèle       | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`  |
+| `execute_tool <tool>`  | Pour chaque exécution d&#39;outil | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                          |
+
+<div id="configuration-reference">
+  ## Référence de configuration
+</div>
+
+Cette section présente la référence de configuration complète de l’entrée du plugin `weave` dans `openclaw.json`.
+
+Le champ `apiKey` prend en charge quatre sources d’authentification, résolues dans cet ordre :
+
+1. Un objet `SecretRef` avec `source: "env"` ou `source: "file"` (voir la ligne 10 dans l’exemple suivant).
+2. Une chaîne littérale `apiKey` (prise en charge, mais non recommandée).
+3. La variable d’environnement `WANDB_API_KEY`.
+4. Une entrée `~/.netrc` pour l’hôte Weave, renseignée par `wandb login`.
+
+```json lines
+{
+  plugins: {
+    entries: {
+      weave: {
+        enabled: true,
+        config: {
+          entity: "YOUR-TEAM",
+          project: "YOUR-PROJECT",
+          // Lit WANDB_API_KEY depuis l'environnement si apiKey est omis.
+          // SecretRef prend en charge source: "env" ou "file" :
+          //   { source: "env",  provider: "default", id: "WANDB_API_KEY" }
+          //   { source: "file", provider: "default", id: "/run/secrets/wandb" }
+          // La chaîne littérale est prise en charge mais déconseillée.
+          apiKey: { source: "env", provider: "default", id: "WANDB_API_KEY" },
+          serviceName: "openclaw-agent",
+          // Facultatif, améliore le Grouping dans l'onglet Agents.
+          agentName: "my-agent",
+          agentVersion: "v1.0",
+          agentDescription: "What my agent does.",
+          // Activé par défaut. Définir à false pour désactiver complètement
+          // (conformité ou politique de rétention). Le plugin ne masque pas
+          // les chaînes capturées ; nettoyez en amont si nécessaire.
+          captureContent: true,
+          flushIntervalMs: 5000,
+        },
+        hooks: { allowConversationAccess: true },
+      },
+    },
+  },
+}
+```
+
+`captureContent` est défini sur `true` par défaut. Lorsque `captureContent` est `true`, les messages d’entrée et de sortie, les arguments des outils et les résultats des outils sont également émis selon le format de charge utile `gen_ai.input.messages` / `gen_ai.output.messages`. Les sous-agents, les événements de compactage, la détection de boucle, les tentatives de réessai et le dimensionnement du contexte sont consignés sous forme d’attributs supplémentaires et d’événements de span.
+
+Définissez `captureContent` sur `false` pour désactiver la capture afin de respecter les politiques de conformité ou de conservation.
+
+<div id="wb-dedicated-cloud-or-self-hosted-instances">
+  ### Cloud dédié de W&amp;B ou instances auto-hébergées
+</div>
+
+Le plugin délègue le point de terminaison et l&#39;authentification au [SDK Node de Weave](https://github.com/wandb/weave/tree/master/sdks/node). Il lit les variables d&#39;environnement suivantes selon les mêmes conventions que les SDK Python et Node de Weave :
+
+| Variable              | Description                                                                                                                                               |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `WANDB_BASE_URL`      | URL de base de l&#39;API W&amp;B. Par défaut : `https://api.wandb.ai`. Définissez cette variable pour les installations en Cloud dédié ou auto-hébergées. |
+| `WF_TRACE_SERVER_URL` | Remplacement complet de l&#39;URL du serveur de traces. À utiliser pour les configurations autogérées ou derrière un proxy.                               |
+
+<div id="troubleshooting">
+  ## Dépannage
+</div>
+
+Le journal de la passerelle correspond à la sortie du terminal du processus qui exécute `openclaw`, ou au flux de logs de votre gestionnaire de processus si vous l&#39;avez lancé en tant que démon.
+
+<div id="plugin-loaded-but-no-spans-show-up">
+  ### Le plugin est chargé, mais aucun span ne s’affiche
+</div>
+
+1. Exécutez `/weave status`. Si le cycle de vie est `disabled`, `config-error` ou `not-started`, le plugin ne s’est pas activé. Vérifiez le journal de la passerelle pour y trouver `weave: config.entity is required`, `weave: configuration error` ou `[weave] incompatible plugin SDK`.
+2. Vérifiez que `diagnostics.enabled: true` est défini dans la configuration de la passerelle.
+3. Vérifiez que l’entité et le projet correspondent au slug de l’URL du projet Weave que vous inspectez. `/weave status` doit afficher `project=<entity>/<project>`.
+4. Vérifiez la source d’authentification. `/weave status` doit afficher `auth=...`. Si `WANDB_API_KEY env` s’affiche alors que vous avez défini la clé dans une autre variable d’environnement, le plugin lit la mauvaise clé.
+
+<div id="spans-land-but-inputoutput-text-is-empty">
+  ### Les spans arrivent, mais le texte d’entrée et de sortie est vide
+</div>
+
+Recherchez dans le journal de la passerelle :
+
+```text
+[plugins] typed hook "llm_input"  blocked because non-bundled plugins must set
+                                  plugins.entries.weave.hooks.allowConversationAccess=true
+[plugins] typed hook "llm_output" blocked ...
+[plugins] typed hook "agent_end"  blocked ...
+```
+
+OpenClaw soumet les hooks qui donnent accès au contenu à une activation explicite par l’opérateur. Définissez `plugins.entries.weave.hooks.allowConversationAccess: true` dans votre configuration, puis redémarrez la passerelle. La structure des spans ainsi que les données de coût et d’utilisation transitent via des événements de diagnostic, et non via des hooks ; elles continuent donc de fonctionner même si cette option n’est pas activée.
+
+<div id="errors-sending-traces-to-weave">
+  ### Erreurs lors de l’envoi de traces vers Weave
+</div>
+
+Si le plugin est actif et que des spans sont générés mais n’apparaissent pas dans Weave, consultez les journaux de la passerelle pour repérer une erreur d’exportation et comparez-la au tableau ci-dessous.
+
+| Symptôme                                      | Cause la plus probable                        | Correctif                                                                                                                                                                                                       |
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 401 / 403 depuis `trace.wandb.ai`             | Clé API invalide ou à portée limitée          | Vérifiez que la clé est toujours valide et que l’équipe est propriétaire de l’entité/du project. `wandb login` actualise `~/.netrc`.                                                                            |
+| 404 depuis le point de terminaison des agents | URL de base ou URL du trace-server incorrecte | Pour les installations dédiées, définissez `WANDB_BASE_URL` sur l’hôte de votre installation. Pour une installation autogérée ou derrière un proxy, définissez `WF_TRACE_SERVER_URL` sur l’URL du trace-server. |
+| Connexion refusée / erreur DNS                | DNS, proxy ou pare-feu                        | Vérifiez que l’hôte de la passerelle peut joindre `trace.wandb.ai` (cloud) ou l’hôte de votre installation (dédiée) sur le port 443.                                                                            |

@@ -1,0 +1,109 @@
+---
+title: "Pi 확장"
+description: "Weave에서 Pi의 에이전트 기반 Session, LLM Call, 도구 실행을 트레이스합니다."
+---
+
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Pi](https://pi.dev/)는 터미널 기반 코딩 에이전트입니다. Weave는 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)을 준수하는 `createOtelExtension` 인테그레이션을 사용해 Pi Session, LLM Call, 도구 실행을 자동으로 트레이스합니다.
+
+<Note>
+  Pi는 Python 버전이 없는 TypeScript/Node.js 프레임워크입니다. Pi는 ESM 모듈 시스템이 필요하므로 프로젝트에서 `package.json`에 `"type": "module"`을 사용하거나 TypeScript를 ESM으로 컴파일해야 합니다. CommonJS 프로젝트에서는 오류가 발생합니다.  ESM 프로젝트 설정에 대한 자세한 내용은 [Typescript SDK integration](/ko/weave/guides/integrations/js#set-up-an-esm-project)을 참조하세요.
+</Note>
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* [Node.js](https://nodejs.org/) (v18 이상)
+* W&amp;B 계정 및 `WANDB_API_KEY` 환경 변수로 설정된 [API 키](https://wandb.ai/authorize)
+
+<div id="install-packages">
+  ## 패키지 설치
+</div>
+
+* Weave, Pi 및 Node 타입 정의를 로컬 프로젝트 의존성으로 설치하세요:
+
+```bash lines
+npm install weave @earendil-works/pi-coding-agent
+npm install --save-dev @types/node tsx typescript
+```
+
+<div id="trace-a-pi-prompt-and-response">
+  ## Pi 프롬프트와 응답 트레이스하기
+</div>
+
+에이전트 Session을 만들기 전에 `weave.init()`을 호출한 다음, `createOtelExtension()`을 확장 팩토리로 전달하세요. Weave는 Session, 각 프롬프트/응답 사이클(`invoke_agent`), 개별 LLM Call(`chat`), 도구 실행(`execute_tool`)을 포함한 에이전트의 전체 라이프사이클을 트레이스합니다. Session ID는 `SessionManager.inMemory()`에서 자동으로 생성됩니다.
+
+```typescript lines
+import {init, createOtelExtension} from 'weave';
+
+import {
+  createAgentSession,
+  DefaultResourceLoader,
+  SessionManager,
+  getAgentDir,
+} from '@earendil-works/pi-coding-agent';
+
+async function main() {
+  // 1. Weave 초기화 — 사용자의 Weave 프로젝트를 가리키는 OTEL TracerProvider를
+  //    설정합니다. createOtelExtension()으로 생성된 모든 span은
+  //    자동으로 여기에 내보내집니다.
+  await init('[YOUR-TEAM]/[YOUR-PROJECT]'); 
+
+// 2. 리소스 로더를 생성하고 Weave OTEL 확장을 주입합니다.
+//    리소스 로더는 에이전트 활동 트레이싱에 사용되는 Pi 런타임 환경과
+//    확장 라이프사이클을 제공합니다.
+  const resourceLoader = new DefaultResourceLoader({
+    cwd: process.cwd(),
+    agentDir: getAgentDir(),
+    extensionFactories: [createOtelExtension({})],
+  });
+
+  await resourceLoader.reload();
+
+  // 3. 에이전트 Session 시작
+  const {session} = await createAgentSession({
+    resourceLoader,
+    sessionManager: SessionManager.inMemory(),
+  });
+
+  // 4. 확장 바인딩 — session_start 이벤트를 트리거하여 OTEL 어댑터가
+  //    루트 Session span을 생성하고 대화 ID를 캡처합니다.
+  await session.bindExtensions({});
+
+  // 5. 어시스턴트 출력을 stdout으로 스트림
+  session.subscribe(event => {
+    if (
+      event.type === 'message_update' &&
+      event.assistantMessageEvent.type === 'text_delta'
+    ) {
+      process.stdout.write(event.assistantMessageEvent.delta);
+    }
+  });
+
+  // 6. 프롬프트 전송 후 전체 응답 대기
+  await session.prompt('What files are in the current directory?');
+  console.log();
+}
+
+main();
+```
+
+다음을 사용해 구축하고 run하세요:
+
+```bash
+npx tsx [filename].ts 
+```
+
+코드를 실행하면 Weave 프로젝트의 **Agents** 탭 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`에 트레이스가 표시됩니다.
+
+<div id="next-steps">
+  ### 다음 단계
+</div>
+
+추가 프롬프트를 더해 이 예제를 멀티턴 Session으로 확장할 수 있습니다. `session.prompt()`를 호출할 때마다 각각 별도의 `invoke_agent` span으로 트레이스되며, 모두 하나의 루트 span 아래에 중첩됩니다. 에이전트는 프롬프트 간 컨텍스트를 자동으로 유지합니다.
+
+코드를 실행한 후 **Agents** 탭에서 중첩된 LLM calls, 도구 실행, token 사용량, 비용이 포함된 전체 멀티턴 타임라인을 확인할 수 있습니다.

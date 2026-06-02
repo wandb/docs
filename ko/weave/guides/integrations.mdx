@@ -1,19 +1,65 @@
 ---
-title: 인테그레이션 Overview
-description: "OpenAI, Anthropic 등을 위한 Weave의 자동 패칭으로 30개 이상의 제공업체와 프레임워크 전반에서 LLM 호출을 트레이스하고 모니터링하세요."
+title: 인테그레이션 개요
+description: "널리 사용되는 에이전트 SDK, 하니스, LLM 공급자, 오케스트레이션 프레임워크를 위한 Weave 인테그레이션으로 에이전트와 LLM 애플리케이션을 트레이싱하세요."
 ---
 
-W&amp;B Weave는 널리 사용되는 LLM 제공업체와 오케스트레이션 프레임워크를 위한 로깅 인테그레이션을 제공합니다. 이러한 인테그레이션을 사용하면 다양한 라이브러리를 통해 이루어지는 호출을 원활하게 트레이스할 수 있어, AI 애플리케이션을 모니터링하고 분석하는 능력을 높일 수 있습니다.
+Weave는 AI 스택과 통합하는 두 가지 방법을 제공합니다:
 
-애플리케이션에서 LLM 제공업체 라이브러리(OpenAI, Anthropic, Cohere, Mistral 등)를 사용하는 경우, 해당 API 호출이 W&amp;B Weave에 트레이스된 Calls로 표시되기를 원할 것입니다. 여기에는 inputs, outputs, 지연 시간, token 사용량, 비용이 포함됩니다. 이를 지원하는 기능이 없으면 모든 `client.chat.completions.create()`(또는 이에 해당하는 호출)를 `@weave.op` 또는 수동 계측으로 감싸야 하며, 이는 번거롭고 빠뜨리기 쉽습니다.
+* **에이전트 트레이싱**: 에이전트 SDK(OpenAI Agents SDK, Google ADK 등)로 구축했거나 에이전트 하니스(Claude Code, Codex, Pi.dev 등) 내에서 실행되는 멀티턴 에이전트 애플리케이션용입니다. 이러한 인테그레이션은 세션, 턴, LLM Call, 도구 Call을 캡처하고 Weave **Agents** 뷰에 표시합니다.
+* **LLM 애플리케이션 트레이싱**: LLM 공급자(OpenAI, Anthropic, Bedrock 등)를 호출하거나 오케스트레이션 프레임워크(LangChain, LlamaIndex, DSPy 등)를 사용하는 코드용입니다. 이러한 인테그레이션은 개별 LLM Call과 파이프라인 step을 Weave **Calls**로 캡처하여 **Traces** 뷰에 표시합니다.
 
-Weave는 지원되는 LLM 클라이언트 라이브러리를 자동으로 가로채(패치)합니다. 애플리케이션 코드는 변경되지 않습니다. 평소처럼 제공업체 SDK를 사용하면 각 요청이 Weave Call로 기록됩니다. 최소한의 설정으로 전체 트레이싱을 이용할 수 있습니다.
+어느 경로를 선택해야 할지 잘 모르겠다면, 새로운 멀티턴 에이전트 작업은 [에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)부터 시작하고, 기존 LLM Call 워크플로는 [LLM 애플리케이션 트레이싱](/ko/weave/guides/tracking/tracing)을 사용하세요.
 
-<div id="llm-providers">
-  ## LLM 제공업체
+<div id="trace-agents">
+  ## 에이전트 트레이싱
 </div>
 
-LLM 제공업체는 예측을 생성할 수 있도록 대규모 언어 모델에 대한 액세스를 제공하는 벤더입니다. Weave는 이러한 제공업체와 통합되어 해당 API와의 상호작용을 로깅하고 트레이스합니다:
+Weave SDK는 멀티턴 에이전트의 전체 라이프사이클(세션, 턴, LLM Call, 도구 Call)을 모델링합니다. 지원되는 에이전트 SDK와 하니스의 경우 Weave가 프레임워크를 자동으로 패치하므로 `weave.init()`만 호출하면 됩니다. 그러면 모든 에이전트 호출, 하위 에이전트 핸드오프, 모델 호출, 도구 Call이 자동으로 캡처되어 **Agents** 뷰에 표시됩니다.
+
+맞춤형 에이전트의 경우 `weave.start_session`, `weave.start_turn`, `weave.start_llm`, `weave.start_tool`를 사용해 에이전트 코드를 직접 계측할 수 있습니다. 자세한 워크스루는 [에이전트 퀵스타트](/ko/weave/agents-quickstart)를 참조하세요.
+
+<div id="integrate-weave-with-agent-sdks">
+  ### 에이전트 SDK를 Weave와 통합하기
+</div>
+
+에이전트 SDK는 자체 애플리케이션 코드에서 에이전트와 멀티 에이전트 워크플로를 구축하기 위한 라이브러리입니다. Weave는 다음 SDK에 자동으로 패치를 적용합니다:
+
+* **[OpenAI Agents SDK](/ko/weave/guides/integrations/agents/openai-agents-sdk)**
+* **[Google Agent Development Kit (ADK)](/ko/weave/guides/integrations/agents/google-adk)**
+* **[Claude Agent SDK](/ko/weave/guides/integrations/agents/claude-agents-sdk)**
+
+<div id="integrate-weave-with-agent-harnesses">
+  ### 에이전트 하니스와 Weave 통합하기
+</div>
+
+에이전트 하니스는 Weave가 캡처할 수 있는 span을 생성하는 사용자용 에이전트 런타임(예: 코딩 에이전트 및 개발자 도구)입니다. 적절한 플러그인 또는 확장 프로그램을 설치하면 하니스 세션이 **Agents** 뷰로 전달됩니다:
+
+* **[Claude Code 플러그인](/ko/weave/guides/integrations/agents/claude-code-harness)**
+* **[Codex 플러그인](/ko/weave/guides/integrations/agents/codex-harness)**
+* **[OpenClaw 플러그인](/ko/weave/guides/integrations/agents/openclaw-harness)**
+* **[Pi 확장 프로그램](/ko/weave/guides/integrations/agents/pi-dev-harness)**
+
+<div id="build-your-own">
+  ### 직접 구축하기
+</div>
+
+Weave SDK를 직접 사용해 맞춤형 에이전트를 계측하세요. 여기에는 OpenTelemetry span을 내보내는 모든 에이전트가 포함됩니다. Weave는 모든 OTel span을 처리할 수 있으며, [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)를 특별히 처리하므로 span이 Weave UI의 **Agents** 뷰에 올바르게 표시됩니다.
+
+맞춤형 에이전트를 트레이스하는 방법은 [에이전트 트레이스 퀵스타트](/ko/weave/agents-quickstart)를 참조하세요.
+
+<div id="trace-llm-applications">
+  ## LLM 애플리케이션 트레이싱
+</div>
+
+애플리케이션이 LLM 공급자의 API를 직접 호출하거나 오케스트레이션 프레임워크를 사용하는 경우, Weave는 autopatching을 사용해 많이 사용되는 라이브러리와 프레임워크의 트레이스를 자동으로 가로챌 수 있습니다. 코드에 Weave SDK를 임포트하고 `weave.init`으로 초기화하면 각 요청이 입력, 출력, 지연 시간, 토큰 사용량, 비용과 함께 Weave **Call**로 기록됩니다.
+
+Weave가 autopatch하지 않는 라이브러리의 경우, 코드에 [Weave Ops](/ko/weave/guides/tracking/create-call#2-tracking-of-custom-functions)를 수동으로 적용해 트레이스를 캡처할 수 있습니다.
+
+<div id="llm-providers">
+  ### LLM 공급자
+</div>
+
+LLM 공급자는 예측을 생성할 수 있도록 대규모 언어 모델에 대한 액세스를 제공하는 벤더입니다. Weave는 이러한 공급자와 통합되어 해당 API와의 상호작용을 로깅하고 트레이스합니다:
 
 * **[Serverless Inference Service](/ko/inference)**
 * **[Amazon Bedrock](/ko/weave/guides/integrations/bedrock)**
@@ -34,13 +80,14 @@ LLM 제공업체는 예측을 생성할 수 있도록 대규모 언어 모델에
 **[로컬 모델](/ko/weave/guides/integrations/local_models)**: 자체 인프라에서 모델을 실행하는 경우에 사용합니다.
 
 <div id="frameworks">
-  ## 프레임워크
+  ### 프레임워크
 </div>
 
-프레임워크는 AI 애플리케이션에서 실제 실행 파이프라인을 오케스트레이션하는 데 도움을 줍니다. 복잡한 워크플로를 구축할 수 있도록 도구와 추상화 계층을 제공합니다. Weave는 이러한 프레임워크와 통합되어 전체 파이프라인을 트레이스합니다:
+프레임워크는 AI 애플리케이션에서 실행 파이프라인을 오케스트레이션하는 데 도움을 줍니다. 복잡한 워크플로를 구축할 수 있도록 도구와 추상화 계층을 제공합니다. Weave는 이러한 프레임워크와 통합되어 전체 파이프라인을 트레이스합니다:
 
-* **[OpenAI Agents SDK](/ko/weave/guides/integrations/openai_agents)**
-* **[Claude Code](/ko/weave/guides/integrations/claude_code)**
+* **[OpenAI Agents SDK (호출 수준 트레이싱)](/ko/weave/guides/integrations/openai_agents)**
+* **[Claude Agent SDK (호출 수준 트레이싱)](/ko/weave/guides/integrations/claude_agent)**
+* **[Claude Code (호출 수준 트레이싱)](/ko/weave/guides/integrations/claude_code)**
 * **[LangChain](/ko/weave/guides/integrations/langchain)**
 * **[LlamaIndex](/ko/weave/guides/integrations/llamaindex)**
 * **[Haystack](/ko/weave/guides/integrations/haystack)**
@@ -49,7 +96,7 @@ LLM 제공업체는 예측을 생성할 수 있도록 대규모 언어 모델에
 * **[CrewAI](/ko/weave/guides/integrations/crewai)**
 * **[Smolagents](/ko/weave/guides/integrations/smolagents)**
 * **[PydanticAI](/ko/weave/guides/integrations/pydantic_ai)**
-* **[Google Agent Development Kit (ADK)](/ko/weave/guides/integrations/google_adk)**
+* **[Google Agent Development Kit (ADK, 호출 수준 트레이싱)](/ko/weave/guides/integrations/google_adk)**
 * **[AutoGen](/ko/weave/guides/integrations/autogen)**
 * **[Verdict](/ko/weave/guides/integrations/verdict)**
 * **[TypeScript SDK](/ko/weave/guides/integrations/js)**
@@ -58,17 +105,15 @@ LLM 제공업체는 예측을 생성할 수 있도록 대규모 언어 모델에
 * **[Koog](/ko/weave/guides/integrations/koog)**
 
 <div id="rl-frameworks">
-  ## RL 프레임워크
+  ### RL 프레임워크
 </div>
 
 * **[검증 도구](/ko/weave/guides/integrations/verifiers)**
 
 <div id="protocols">
-  ## 프로토콜
+  ### 프로토콜
 </div>
 
 Weave는 AI 애플리케이션과 이를 지원하는 서비스 간의 통신을 가능하게 하는 표준화된 프로토콜과 통합됩니다.
 
 * **[Model Context Protocol (MCP)](/ko/weave/guides/integrations/mcp)**
-
-위 목록에서 인테그레이션을 선택해 선호하는 LLM 제공업체, 프레임워크 또는 프로토콜과 함께 Weave를 사용하는 방법을 자세히 알아보세요. LLM API에 직접 접근하든, 복잡한 파이프라인을 구축하든, 표준화된 프로토콜을 사용하든, Weave는 AI 애플리케이션을 효과적으로 트레이스하고 분석할 수 있는 도구를 제공합니다.

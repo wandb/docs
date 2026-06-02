@@ -277,9 +277,27 @@ UI에서 `Dataset`을 생성, 수정 및 삭제할 수 있습니다. Weave UI에
 
    이제 `Dataset`이 삭제되며, Weave 대시보드의 **Datasets** 탭에 더 이상 표시되지 않습니다.
 
-<div id="add-a-new-example-to-a-dataset">
-  ### `Dataset`에 새 예제 추가
+<div id="add-a-new-agent-trace-to-a-dataset">
+  ### `Dataset`에 새 에이전트 트레이스 추가
 </div>
+
+세션, 턴, 도구 Call과 같은 에이전트 트레이스를 `Dataset`에 추가하려면 다음 단계를 따르세요.
+
+1. [wandb.ai](http://wandb.ai) 로 이동한 다음 프로젝트를 선택하세요.
+2. Weave 프로젝트 sidebar에서 **Agents**를 클릭하세요.
+3. 상단 탭 바에서 **Conversations**를 클릭하세요.
+4. **Conversations** 테이블에서 대화 행을 선택해 대화 세부정보 사이드 패널을 여세요. 대화 세부정보 사이드 패널 헤더에는 에이전트 이름과 UUID가 표시됩니다.
+5. 대화 세부정보 사이드 패널 헤더에서 오른쪽의 테이블 아이콘을 클릭해 **Add example to dataset** drawer를 여세요.
+   ![데이터셋에 항목을 추가하는 테이블 아이콘이 표시된 에이전트 대화 세부정보 패널 헤더.](/weave/guides/core-types/imgs/agent-conversation-details-header-add-dataset.png)
+6. **Choose a dataset**에서 드롭다운을 사용해 트레이스를 추가할 데이터셋을 선택하세요.
+7. **Select context**에서 데이터셋에 추가할 메시지를 선택하세요. **Next**를 클릭하세요.
+8. 선택 내용을 검토한 다음 **Add to dataset**을 클릭하세요.
+
+<div id="add-a-new-trace-to-a-dataset">
+  ### `Dataset`에 새 트레이스 추가
+</div>
+
+Ops 및 Calls에서 생성된 트레이스를 `DataSet`에 추가하려면:
 
 1. 편집하려는 Weave 프로젝트로 이동합니다.
 

@@ -1,0 +1,97 @@
+---
+title: エージェントのトレースをバッチでログする
+description: すでに LLM 呼び出しが完了しており、その記録のみが必要なフレームワーク向けに、エージェントのトレースを手動でログします。
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+LLM 呼び出しがすでに完了していて、その記録だけが必要なフレームワークでは、`weave.log_turn` と `weave.log_session` を使用します。すべてのスパンは作成後すぐに終了し、コンテキストマネージャーを開いたままにしておく必要はありません。
+
+この方法でログしたデータは過去の履歴データでも問題ありません。ライブセッションは不要です。会話を一意に識別できる安定した任意の文字列を `session_id` に設定してください。同じ `session_id` を共有する turn は、**Agents** ビューで 1 つのセッションとしてグループ化されます。
+
+独自のエージェントループを構築している場合は、代わりに [Trace your agents](/ja/weave/guides/tracking/trace-agents) で説明されているリアルタイムのインストルメンテーション API を使用してください。
+
+<div id="log-a-turn">
+  ## ターンをログする
+</div>
+
+`weave.log_turn` は、すべての LLM スパンとツールスパンを含む、完全に構成されたターンを受け入れます。
+
+<Tabs>
+  <TabItem value="python" label="Python">
+    ```python lines highlight="1,3,28"
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    from weave.session.session import LLM, Message, Tool, Usage
+
+    llm_span = LLM(
+        model="gpt-4o",
+        provider_name="openai",
+        input_messages=[Message(role="user", content="What is the weather?")],
+        output_messages=[Message(role="assistant", content="Let me check.")],
+        usage=Usage(input_tokens=100, output_tokens=20),
+    )
+
+    tool_span = Tool(
+        name="get_weather",
+        arguments='{"city": "Tokyo"}',
+        result='"24°C, sunny"',
+    )
+
+    llm_span2 = LLM(
+        model="gpt-4o",
+        provider_name="openai",
+        input_messages=[Message(role="user", content="What is the weather?")],
+        output_messages=[Message(role="assistant", content="It is 24°C and sunny.")],
+        usage=Usage(input_tokens=150, output_tokens=30),
+    )
+
+    # すべてのスパンを含むターンをログします。
+    weave.log_turn(
+        session_id="my-session-abc",
+        agent_name="weather-bot",
+        messages=[
+            Message(role="user", content="What is the weather in Tokyo?"),
+            Message(role="assistant", content="It is 24°C and sunny in Tokyo."),
+        ],
+        spans=[llm_span, tool_span, llm_span2],
+    )
+    ```
+  </TabItem>
+
+  <TabItem value="typescript" label="TypeScript">
+    ```plaintext
+    この機能は、まだ TypeScript SDK では利用できません。
+    ```
+  </TabItem>
+</Tabs>
+
+`log_turn` は、出力されたスパンのトレース ID を含む `LogResult` を返します。
+
+`log_turn` のオプションの `model` パラメーターは、子 LLM スパンではなく、そのターン自体のスパンにモデルを設定します。各 `LLM` スパンは、それぞれ独立して独自の `model` を持ちます。ターンで複数のモデルを使用する場合は、そのターンの主要なモデルと見なすものを `log_turn` の `model` に設定してください。
+
+<div id="log-a-session">
+  ## セッションをログする
+</div>
+
+複数ターンのセッション全体をまとめてインポートするには、`weave.log_session` を使用します。`turns` パラメーターは `Turn` オブジェクトのリストを受け取り、各オブジェクトは上記の `log_turn` の例と同じ方法で作成します。
+
+<Tabs>
+  <TabItem value="python" label="Python">
+    ```python lines
+    weave.log_session(
+        session_id="my-session-abc",
+        agent_name="weather-bot",
+        turns=[turn_1, turn_2],
+    )
+    ```
+  </TabItem>
+
+  <TabItem value="typescript" label="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </TabItem>
+</Tabs>

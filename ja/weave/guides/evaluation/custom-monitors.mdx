@@ -1,0 +1,186 @@
+---
+title: "カスタムモニターを設定する"
+description: "本番トラフィックを受動的にスコアリングして、傾向や問題を明らかにします"
+---
+
+モニターでは、LLM ジャッジモデルを使用して本番トラフィックを受動的にスコアリングし、LLM アプリケーションにおける傾向や問題を明らかにできます。たとえば、アプリケーションの応答を正確性や有用性の観点でモニタリングしたり、ユーザー入力をモニタリングして、ユーザーがエージェントに何を尋ねているかの傾向を特定したりできます。モニターは、すべてのスコアリング結果を自動的に W&amp;B Weave のデータベースに保存するため、過去の傾向やパターンを分析できます。
+
+モニターでは、アプリケーションの入力と出力に含まれるテキスト、画像、オーディオをモニタリングできます。
+
+モニターを使うために、アプリケーションのコードを変更する必要はありません。W&amp;B Weave UI で設定できます。
+
+スコアに基づいてアプリケーションの動作に能動的に介入する必要がある場合は、代わりに [guardrails](/ja/weave/guides/evaluation/guardrails) を使用してください。
+
+<div id="when-to-use-signals-and-custom-monitors">
+  ### signals と カスタムモニター の使い分け
+</div>
+
+本番環境のモニタリングをすばやく始めるには、まず [signals](/ja/weave/guides/evaluation/monitors) を使用します。signals は、本番トレース向けにあらかじめ用意された自動 Scorer です。そのうえで、アプリケーション固有の評価基準に合わせて カスタムモニター を追加します。
+
+|                     | Signals                           | Custom monitors                      |
+| ------------------- | --------------------------------- | ------------------------------------ |
+| **Configuration**   | ワンクリックで有効化でき、prompt を作成する必要はありません | スコアリング用の prompt、モデル、パラメーターを完全に制御できます |
+| **Scope**           | 事前設定済みの品質分類器とエラー分類器               | 自分で定義した任意の評価基準                       |
+| **Trace selection** | 自動 (品質は成功したルートトレース、エラーは失敗したトレース)  | operations、フィルター、サンプリング率を設定可能        |
+| **Model**           | Serverless Inference (プリセット)      | 任意の商用モデルまたは Serverless Inference モデル |
+| **Use case**        | 実績のある分類器を使って本番モニタリングをすばやく開始したい場合  | アプリケーション固有のカスタム評価基準を使いたい場合           |
+
+<div id="how-to-create-a-monitor-in-weave">
+  ## Weave でモニターを作成する方法
+</div>
+
+Weave でカスタム モニターを作成するには、次の手順に従います。
+
+1. [W&amp;B UI](https://wandb.ai/home) を開き、Weave プロジェクトを開きます。
+
+2. Weave のサイドナビで **Monitors** を選択し、**+ New Monitor** ボタンを選択します。すると、**Create new monitor** モーダル ダイアログが開きます。
+
+3. Create new monitor メニューで、次のフィールドを設定します。
+   * **Name**: 先頭は英字または数字である必要があります。英字、数字、ハイフン、アンダースコアを使用できます。
+   * **Description** (任意): モニターの内容を説明します。
+   * **Active monitor** toggle: モニターのオン/オフを切り替えます。
+   * **Calls to monitor**:
+     * **Operations**: モニター対象の `@weave.op` を 1 つ以上選択します。利用可能な ops のリストに表示されるには、その op を使用するトレースを少なくとも 1 つログしておく必要があります。
+     * **Filter** (任意): 対象となる Call を絞り込みます (たとえば、`max_tokens` や `top_p` に基づいて絞り込めます) 。
+     * **Sampling rate**: スコアを付ける Call の割合 (0% ～ 100%) です。
+       <Tip>
+         サンプリング率を低くすると、各スコアリング Call にコストがかかるため、コストを削減できます。
+       </Tip>
+   * **LLM-as-a-judge configuration**:
+     * **Scorer name**: 先頭は英字または数字である必要があります。英字、数字、ハイフン、アンダースコアを使用できます。
+     * **Score Audio**: 利用可能な LLM モデルをフィルターして、オーディオ対応モデルのみを表示し、Media Scoring JSON Paths フィールドを開きます。
+     * **Score Images**: 利用可能な LLM モデルをフィルターして、画像対応モデルのみを表示し、Media Scoring JSON Paths フィールドを開きます。
+     * **Judge model**: ops のスコアリングに使用するモデルを選択します。このメニューには、W&amp;B アカウントで設定した商用 LLM モデルと、[Serverless Inference models](/ja/inference/models) の両方が含まれます。オーディオ対応モデルには、名前の横に **Audio Input** ラベルが表示されます。選択したモデルについて、次の設定を行います。
+       * **Configuration name**: このモデル設定の名前です。
+       * **System prompt**: 判定モデルの役割とペルソナを定義します。たとえば、&quot;You are an impartial AI judge.&quot; のように指定します。
+       * **Response format**: 判定モデルが応答を出力する形式です。たとえば、`json_object` やプレーン テキストの `text` があります。
+       * **Scoring prompt**: ops のスコアリングに使用する評価タスクです。スコアリング プロンプトでは、ops から [prompt variables](/ja/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) を参照できます。たとえば、&quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot; のように指定します。
+     * **Media Scoring JSON Paths**: JSONPath 式 (RFC 9535) を指定して、トレース データからメディアを抽出します。パスを指定しない場合は、ユーザー メッセージ内のスコアリング可能なすべてのメディアが含まれます。このフィールドは、**Score Audio** または **Score Images** を有効にすると表示されます。
+
+4. モニターの各フィールドを設定したら、**Create monitor** を選択します。これで、モニターが Weave プロジェクトに追加されます。コードがトレースの生成を開始すると、**Traces** タブでモニター名を選択し、表示されたパネルのデータを確認してスコアをレビューできます。
+
+また、Weave UI でモニターのトレース データを[比較](/ja/weave/guides/tools/comparison)して可視化したり、Traces タブのダウンロード ボタン (<Icon icon="download" iconType="regular" />) を使用して、さまざまな形式 (CSV や JSON など) でダウンロードしたりすることもできます。
+
+Weave は、すべての Scorer の結果を [Call](/ja/weave/guides/tracking/tracing#calls) オブジェクトの `feedback` フィールドに自動的に保存します。
+
+<div id="example-create-a-truthfulness-monitor">
+  ### 例: 真実性モニターを作成する
+</div>
+
+次の例では、生成された文の真実性を評価するモニターを作成します。
+
+1. 文を生成する関数を定義します。生成される文には、正しいものと正しくないものがあります。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    import random
+    import openai
+
+    weave.init("my-team/my-weave-project")
+
+    client = openai.OpenAI()
+
+    @weave.op()
+    def generate_statement(ground_truth: str) -> str:
+        if random.random() < 0.5:
+            response = client.chat.completions.create(
+                model="gpt-4.1",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": f"Generate a statement that is incorrect based on this fact: {ground_truth}"
+                    }
+                ]
+            )
+            return response.choices[0].message.content
+        else:
+            return ground_truth
+
+    generate_statement("The Earth revolves around the Sun.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    await weave.init('my-team/my-weave-project');
+
+    const client = new OpenAI();
+
+    const generateStatement = weave.op(async (ground_truth: string): Promise<string> => {
+      if (Math.random() < 0.5) {
+        const response = await client.chat.completions.create({
+          model: 'gpt-4.1',
+          messages: [
+            {
+              role: 'user',
+              content: `Generate a statement that is incorrect based on this fact: ${ground_truth}`,
+            },
+          ],
+        });
+        return response.choices[0]?.message?.content ?? '';
+      }
+      return ground_truth;
+    });
+
+    await generateStatement("The Earth revolves around the Sun.");
+    ```
+  </Tab>
+</Tabs>
+
+2. project にトレースをログするために、関数を少なくとも 1 回実行します。これにより、その op を W&amp;B UI でモニタリングできるようになります。
+
+3. W&amp;B UI で Weave プロジェクトを開き、サイドナビ から **Monitors** を選択します。次に、**New Monitor** を選択します。
+
+4. Create new monitor メニューで、次の値を使用して各フィールドを設定します。
+   * **Name**: `truthfulness-monitor`
+   * **Description**: `Evaluates the truthfulness of generated statements.`
+   * **Active monitor**: **オン** に切り替えます。
+   * **Operations**: `generate_statement` を選択します。
+   * **Sampling rate**: すべての call をスコアするため、`100%` に設定します。
+   * **Scorer name**: `truthfulness-scorer`
+   * **Judge model**: `o3-mini-2025-01-31`
+   * **System prompt**: `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
+   * **Response format**: `json_object`
+   * **Scoring prompt**:
+     ```text
+     出力文が入力文に基づいて正確かどうかを評価してください。
+
+     これは入力文です: {ground_truth}
+
+     これは出力文です: {output}
+
+     応答は次のフィールドを含む JSON オブジェクトにしてください。
+     - is_true: 出力文が入力文に基づいて真か偽かを示す boolean。
+     - reasoning: その文が真または偽である理由についての推論。
+     ```
+
+5. **Create Monitor** を選択します。これで、モニターが Weave プロジェクトに追加されます。
+
+6. スクリプトで、真実性の度合いが異なる文を使って関数を呼び出し、scoring function をテストします。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    generate_statement("The Earth revolves around the Sun.")
+    generate_statement("Water freezes at 0 degrees Celsius.")
+    generate_statement("The Great Wall of China was built over several centuries.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    await generateStatement("The Earth revolves around the Sun.");
+    await generateStatement("Water freezes at 0 degrees Celsius.");
+    await generateStatement("The Great Wall of China was built over several centuries.");
+    ```
+  </Tab>
+</Tabs>
+
+7. 複数の異なる文でスクリプトを実行した後、W&amp;B UI を開いて **Traces** タブにアクセスします。任意の **LLMAsAJudgeScorer.score** トレースを選択して、結果を確認します。
+
+![Monitor trace](/weave/guides/evaluation/img/monitors-4.png)

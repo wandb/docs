@@ -1,0 +1,376 @@
+---
+title: "Vue de l’activité de l’agent"
+description: "Utilisez la vue Agents de W&B Weave pour comprendre ce qu’a fait votre agent, combien cela a coûté et précisément où les choses ont bien ou mal tourné."
+---
+
+import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+La vue Agents vous donne un enregistrement, tour par tour, de chaque conversation menée par votre agent, ainsi que de l’utilisation des jetons, des invocations d’outils et des spans d’exécution.
+
+Les applications d’agents sont difficiles à déboguer, car le comportement intéressant se produit entre la requête de l’utilisateur et la réponse finale. La vue Agents dans W&amp;B Weave rend cette couche intermédiaire visible. Chaque conversation menée par votre agent est capturée ici, avec l’historique complet des messages, les détails d’exécution au niveau des spans et les coûts en jetons associés. Vous pouvez voir d’un coup d’œil si un agent a mené sa tâche à bien, combien d’appels d’outil il a effectués, et où le temps ou le budget ont été dépensés. Pour les équipes qui créent des agents et les font évoluer de manière itérative, c’est le point de départ pour comprendre le comportement en production.
+
+<div id="get-started">
+  ## Premiers pas
+</div>
+
+Pour accéder à la vue Agents :
+
+1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
+2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agents enregistrées dans votre projet.
+
+<div id="agents-tab">
+  ## Onglet Agents
+</div>
+
+L’onglet **Agents** vous offre une vue d’ensemble de tous les agents qui ont enregistré des
+traces dans ce projet. Utilisez-le pour repérer les agents actifs, comparer
+la latence et les taux d’erreur d’un agent à l’autre, et identifier ceux qui
+nécessitent une attention particulière avant d’examiner les conversations individuelles.
+
+![L’onglet Agents affichant une grille de cartes d’agent, chacune présentant le nombre de conversations, le nombre de spans, la latence moyenne et le taux d’erreur.](/weave/guides/tracking/imgs/agent-view-agent.png)
+
+Il est utile dans des scénarios tels que :
+
+* **Surveiller une flotte d’agents.** La grille de cartes vous permet de comparer la latence et
+  le taux d’erreur de tous les agents en un coup d’œil, sans ouvrir chaque conversation.
+  Un pic de latence ou un taux d’erreur qui passe au rouge sur une carte signale une régression
+  qui mérite d’être examinée.
+* **Identifier des agents inactifs.** Le tri par **Dernière activité** met en évidence les agents qui
+  n’ont pas enregistré d’activité récemment. Cela est utile pour confirmer qu’un déploiement
+  est bien en ligne ou pour repérer des agents qui ont pu cesser de journaliser des traces de façon inattendue.
+* **Comparer les versions.** Le nombre de versions sur chaque carte indique combien de
+  versions distinctes de cet agent ont été déployées. Un nombre élevé de versions,
+  associé à une hausse du taux d’erreur, peut indiquer une régression introduite dans un déploiement
+  récent.
+* **Examiner un agent.** Cliquez sur n’importe quelle carte pour ouvrir le panneau de détail de cet
+  agent, depuis lequel vous pouvez accéder à ses conversations ou à ses spans :
+
+![Une carte d’agent sélectionnée dans l’onglet Agents, avec le panneau de détail ouvert à droite affichant les métadonnées de l’agent et les options de navigation.](/weave/guides/tracking/imgs/agent-view-agent-detail.png)
+
+<div id="agent-cards">
+  ### Cartes des agents
+</div>
+
+Chaque agent est représenté par une carte indiquant :
+
+| Champ                          | Description                                                                                                           |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **Nom de l&#39;agent**         | Le nom enregistré avec les traces de l&#39;agent.                                                                     |
+| **Dernière activité**          | Le temps écoulé depuis la dernière activité enregistrée par l&#39;agent.                                              |
+| **Version**                    | Le nombre de valeurs `agent_version` distinctes enregistrées dans les spans de l&#39;agent.                           |
+| **Histogramme d&#39;activité** | Un graphique en barres du volume récent de conversations, qui donne un aperçu rapide des tendances d&#39;utilisation. |
+| **Conversations**              | Nombre total de conversations enregistrées.                                                                           |
+| **Spans**                      | Nombre total de spans enregistrés dans l&#39;ensemble des conversations.                                              |
+| **Latence (moy.)**             | Durée de bout en bout moyenne par invocation.                                                                         |
+| **Taux d&#39;erreur**          | Pourcentage d&#39;invocations ayant renvoyé une erreur. S&#39;affiche en rouge lorsqu&#39;il est supérieur à 0 %.     |
+
+<div id="find-and-sort-agents">
+  ### Trouver et trier les agents
+</div>
+
+Utilisez le champ **Recherche d’agents** pour filtrer les cartes par nom d’agent.
+
+Utilisez la liste déroulante de tri (par défaut : **Dernière activité**) pour réorganiser la grille. Les
+options de tri disponibles sont :
+
+* **Dernière activité** : les agents actifs le plus récemment s’affichent en premier.
+* **Le plus d’invocations** : le volume de conversations le plus élevé s’affiche en premier.
+* **Le plus de jetons d’entrée** : la consommation de jetons la plus élevée s’affiche en premier.
+* **Le plus d’erreurs** : le nombre d’erreurs le plus élevé s’affiche en premier.
+
+Le tri par **Le plus d’erreurs** est utile pour un contrôle de santé quotidien rapide : les agents
+avec un taux d’erreur non nul apparaissent immédiatement, et le taux d’erreur en rouge sur la
+carte permet de repérer d’un coup d’œil ceux qui nécessitent un examen plus approfondi.
+
+<div id="conversations-tab">
+  ## Onglet Conversations
+</div>
+
+L’onglet **Conversations** de la page Agents vous permet de parcourir, filtrer et
+inspecter les exécutions individuelles d’agent. Utilisez-le pour analyser les échecs, évaluer les
+coûts en jetons et comprendre la séquence des appels LLM et des exécutions d’outils qui
+constituent une exécution.
+
+Pour obtenir une vue d’ensemble de ce qu’un agent a dit et fait au fil d’une conversation, commencez par l’onglet Conversations.
+
+![L’onglet Conversations affichant une liste de conversations d’agent avec des colonnes pour le nom de l’agent, les invocations, les spans, le nombre de jetons et la dernière activité.](/weave/guides/tracking/imgs/agent-view-conversation.png)
+
+<div id="conversations-table">
+  ### Tableau des conversations
+</div>
+
+Le tableau des conversations affiche une ligne par conversation. Les colonnes suivantes
+s’affichent par défaut.
+
+| Colonne               | Description                                                                                                                   |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Conversation**      | L’identifiant de la conversation et un aperçu du premier message.                                                             |
+| **Dernier message**   | Un aperçu du message le plus récent, avec un indicateur de rôle.                                                              |
+| **Agent**             | Le nom du ou des agents impliqués.                                                                                            |
+| **Invocations**       | Le nombre de fois où l’agent a été invoqué pendant la conversation.                                                           |
+| **Spans**             | Nombre total de spans enregistrés. Un nombre de spans plus élevé indique davantage de branchements ou d’utilisation d’outils. |
+| **Jetons d’entrée**   | Tokens d’entrée consommés.                                                                                                    |
+| **Jetons de sortie**  | Tokens de sortie générés.                                                                                                     |
+| **Début**             | Le moment où la conversation a commencé.                                                                                      |
+| **Dernière activité** | Le temps écoulé depuis l’enregistrement du dernier message.                                                                   |
+
+Pour afficher ou masquer des colonnes supplémentaires, cliquez sur **Columns** dans la barre d’outils.
+
+<div id="filtering-and-time-window">
+  ### Filtrage et fenêtre temporelle
+</div>
+
+Utilisez la barre de **Filtre** pour affiner les résultats par agent, modèle, statut d&#39;erreur ou
+autres attributs.
+
+Utilisez le sélecteur de fenêtre temporelle (**1m**, **1h**, **6h**, **24h**, **7d**, ou
+**30d**) pour limiter la liste aux conversations actives au cours de cette
+période. L&#39;histogramme du volume de conversations au-dessus de la liste se met à jour en fonction de la
+fenêtre sélectionnée.
+
+Survolez l&#39;en-tête de n&#39;importe quelle colonne dans la liste des conversations pour filtrer cette colonne selon
+une valeur ou une plage spécifique.
+
+<div id="agent-conversation-detail">
+  ### Détail d’une conversation d’agent
+</div>
+
+Cliquez sur une ligne de conversation pour ouvrir un panneau de détail avec deux sous-onglets : tours de conversation et événements.
+
+![Une conversation sélectionnée dans l’onglet Conversations, avec le panneau de détail ouvert affichant le fil des messages tour par tour, les appels d’outil, le raisonnement et la chronologie des événements à droite.](/weave/guides/tracking/imgs/agent-view-conversation-detail.png)
+
+<div id="turns">
+  #### Tours de conversation
+</div>
+
+Dans le détail de la conversation, le panneau des tours de conversation affiche chaque tour dans l’ordre chronologique, numéroté à partir de 1.
+
+Chaque tour de conversation affiche le nombre de réponses intermédiaires et d’appels d’outil, ainsi
+que la durée totale écoulée. Développez un tour de conversation pour voir le fil de messages complet.
+
+<div id="messages">
+  ##### Messages
+</div>
+
+Au sein d’un tour de conversation, les messages sont regroupés par rôle.
+
+Les **messages utilisateur** affichent le texte du message ainsi que tous les médias ou références
+de contenu joints.
+
+Les **messages de l’assistant** affichent :
+
+* Le nom de l’agent et le modèle utilisé (par exemple, `gpt-5.5-2026-04-23`).
+* L’horodatage et la durée.
+* Le nombre de jetons en entrée et en sortie (par exemple, `16086 in  295 out`).
+* Une section **Raisonnement** dépliable lorsque le modèle a utilisé un raisonnement approfondi.
+* Le texte de la réponse, qui se replie automatiquement pour les réponses longues.
+
+Les **appels d’outil** affichent le nom de l’outil, l’horodatage et la durée. Si des données d’arguments ou de
+résultat sont disponibles, l’appel d’outil est dépliable et affiche **Args** et
+**Result** dans un tableau de paires clé-valeur. Si l’appel a échoué, un badge **ERROR**
+apparaît.
+
+<div id="error-states">
+  ##### États d&#39;erreur
+</div>
+
+Lorsqu&#39;un appel d&#39;outil renvoie un statut d&#39;erreur, un badge rouge **ERROR** apparaît à côté, en ligne.
+Dans la chronologie des événements, cet événement s&#39;affiche également en rouge, quel que soit
+son type.
+
+<div id="events">
+  #### Events
+</div>
+
+Le panneau **Events** à droite affiche une bande colorée qui représente
+la séquence des événements au sein du tour de conversation sélectionné.
+
+Dans la chronologie des événements, la couleur de chaque segment indique le type d’événement.
+
+| Couleur         | Type d’événement                        |
+| --------------- | --------------------------------------- |
+| Violet          | Message utilisateur                     |
+| Vert            | Message de l’assistant                  |
+| Bleu            | Appel d’outil                           |
+| Terre de Sienne | Invocation d’un sous-agent              |
+| Magenta         | Transfert entre agents                  |
+| Gris            | Compactage du contexte                  |
+| Rouge           | Tout événement ayant renvoyé une erreur |
+
+Utilisez la chronologie du panneau Events pour vous faire rapidement une idée de
+la structure d’un tour de conversation. Par exemple, vous pouvez voir s’il reposait
+surtout sur le LLM, surtout sur les outils, ou s’il impliquait une délégation à
+un sous-agent avant de lire le fil complet des messages.
+
+<div id="scores">
+  ##### Scores
+</div>
+
+Si des signaux sont actifs pour le projet, une section **Scores** fournit des métriques sur la conversation. Elle affiche le nom du scorer du signal, une note numérique globale
+de 0 à 1, un pourcentage de confiance, ainsi que les différents points de la grille d&#39;évaluation qui
+ont contribué au score. Chaque point de la grille affiche également son propre niveau de confiance. Utilisez ces informations pour
+comprendre non seulement si un tour de conversation a obtenu un bon score, mais aussi quels critères précis de la grille
+ont été validés ou non.
+
+<div id="meta-summary">
+  ##### Synthèse des métadonnées
+</div>
+
+La section **Synthèse des métadonnées** affiche des statistiques agrégées sur la
+conversation sélectionnée.
+
+| Champ                              | Description                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------------- |
+| **Jetons**                         | Nombre total de jetons d’entrée et de sortie.                                         |
+| **Appels d’outils**                | Nombre d’appels d’outils sur l’ensemble des tours de conversation.                    |
+| **Messages**                       | Nombre total de messages.                                                             |
+| **Durée de la session**            | Durée écoulée entre le premier et le dernier message.                                 |
+| **Page des tours de conversation** | Tours de conversation actuellement affichés et nombre total de tours de conversation. |
+
+<div id="token-breakdown">
+  ##### Répartition des jetons
+</div>
+
+La section **Répartition des jetons** affiche les détails du cache et du raisonnement pour la
+conversation sélectionnée.
+
+| Champ                       | Description                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Lecture du cache**        | Jetons issus du cache de prompt.                                                                     |
+| **Écriture dans le cache**  | Jetons écrits dans le cache de prompt.                                                               |
+| **Taux de succès du cache** | Pourcentage des jetons d&#39;entrée issus du cache. Un taux plus élevé réduit le coût et la latence. |
+| **Raisonnement**            | Jetons consacrés à un raisonnement approfondi.                                                       |
+| **Ratio de raisonnement**   | Pourcentage des jetons de sortie consacrés à un raisonnement approfondi.                             |
+
+<div id="participants">
+  ##### Participants
+</div>
+
+La section **Participants** répertorie les agents et les modèles impliqués dans la
+conversation. Dans les conversations multi-agent, des tours de conversation différents peuvent afficher différents
+noms de modèle ici.
+
+<div id="spans-tab">
+  ## Onglet Spans
+</div>
+
+L’onglet **Spans** affiche chaque span individuel enregistré dans l’ensemble de l’activité des agents du projet. Alors que l’onglet Conversations regroupe l’activité en lignes au niveau du dialogue, l’onglet Spans montre les opérations brutes sous-jacentes : chaque appel au LLM, chaque exécution d’outil et chaque invocation d’agent sur une ligne distincte. Utilisez-le pour identifier précisément quel appel a été lent, quel modèle a consommé un nombre inattendu de jetons ou quelle invocation d’outil a échoué.
+
+![L’onglet Spans affichant les spans de la conversation de l’agent.](/weave/guides/tracking/imgs/agent-view-spans.png)
+
+<div id="spans-table">
+  ### Tableau des spans
+</div>
+
+Le tableau des spans partage la plupart de ses colonnes avec le tableau Conversations (agent, modèle,
+outil, nombre de jetons, statut). Certaines colonnes propres à cette vue sont :
+
+| Colonne       | Description                                                                                                                                                                             |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Span**      | Le nom et l&#39;ID du span, avec son ID de trace en dessous.                                                                                                                            |
+| **Kind**      | Le type de span OpenTelemetry pour cette opération (par exemple `INTERNAL`, `SERVER` ou `CLIENT`).                                                                                      |
+| **Operation** | Le type d&#39;opération (par exemple `chat`, `execute_tool` ou `invoke_agent`).                                                                                                         |
+| **Finished**  | La raison de fin renvoyée par le modèle (par exemple `stop` ou `max_tokens`). Cette colonne n&#39;est renseignée que pour les spans `chat` lorsque le modèle indique une raison de fin. |
+
+Des colonnes supplémentaires pour le détail des jetons de cache, les jetons de raisonnement, les
+paramètres LLM et les métadonnées de run W&amp;B sont disponibles via le bouton **Columns**.
+
+L&#39;onglet Spans est particulièrement utile lorsque vous avez besoin d&#39;une précision au niveau des opérations que l&#39;onglet
+Conversations ne fournit pas :
+
+* **Identifier les appels coûteux.** Triez par jetons **In** ou **Out** pour trouver
+  quels appels LLM individuels génèrent les coûts, au lieu d&#39;afficher uniquement des totaux au
+  niveau de la conversation.
+* **Déboguer un type d&#39;opération spécifique.** Filtrez par **Operation** pour isoler
+  tous les spans `execute_tool` et vérifier les taux d&#39;erreur, ou tous les spans `chat` pour un
+  modèle spécifique.
+* **Examiner la troncature.** Filtrez **Finished** sur `max_tokens` pour trouver
+  les spans où le modèle a atteint sa limite de jetons au lieu de se terminer normalement.
+* **Établir une corrélation avec un run W&amp;B.** Des colonnes masquées par défaut exposent les ID de run W&amp;B
+  et les étapes du run, ce qui vous permet de relier un span spécifique à un run
+  d&#39;entraînement ou d&#39;évaluation dans W&amp;B.
+
+<div id="trace-grouping">
+  ### Regroupement par trace
+</div>
+
+Cliquez sur n’importe quelle ligne pour sélectionner la trace correspondante et mettre en surbrillance tous les autres spans qui partagent le même ID de trace. Cela vous montre l’ensemble des opérations exécutées dans le cadre d’une invocation d’un agent. Le regroupement s’effectue ici par trace, et non par conversation. Cela signifie qu’une même conversation peut contenir plusieurs traces si elle implique une délégation à un sous-agent.
+
+<div id="agent-invocation-detail">
+  ### Détail de l’invocation d’agent
+</div>
+
+Cliquez sur une ligne du tableau **Spans** pour ouvrir un panneau de détail contenant les données de l’invocation complète de l’agent.
+
+En haut du panneau de détail, un diagramme en flammes montre la
+position sur la chronologie et la durée relative de chaque span dans la trace sélectionnée. Chaque span
+apparaît sous la forme d’un bloc coloré mis à l’échelle selon sa durée réelle, positionné à son instant de début
+en millisecondes depuis le début de la trace. Utilisez la chronologie pour :
+
+* **Repérer l’opération la plus longue en un coup d’œil.** Les blocs larges indiquent les spans qui
+  ont le plus contribué à la latence totale.
+* **Voir le parallélisme.** Les blocs qui se chevauchent indiquent des spans qui se sont exécutés
+  simultanément plutôt que séquentiellement.
+* **Inspecter n’importe quel span directement.** Cliquez sur un bloc dans la chronologie pour afficher les détails de ce
+  span, y compris ses messages d’entrée et de sortie,
+  le nombre de jetons et d’autres métadonnées.
+
+![L’onglet Spans avec une trace sélectionnée, mettant en évidence un groupe de spans associés dans le tableau et affichant le diagramme en flammes dans le panneau de détail à droite.](/weave/guides/tracking/imgs/agent-view-spans-detail.png)
+
+Vous pouvez aussi afficher les spans enfants sous la forme d’une arborescence de trace hiérarchique en sélectionnant l’icône `Show trace tree` dans l’en-tête du panneau de détail.
+
+<div id="signals-tab">
+  ## Onglet Signals
+</div>
+
+L&#39;onglet **Signals** affiche les résultats du scoring comportemental automatisé appliqué
+aux tours de conversation de votre agent. Là où les onglets Conversations et Spans vous indiquent *ce qui*
+s&#39;est passé, Signals vous indiquent *dans quelle mesure cela s&#39;est bien* passé. Ils font ressortir des problèmes de qualité
+comme des réponses peu élaborées ou des hallucinations, ainsi que des erreurs comme des limitations de débit
+ou des bugs, sans que vous ayez à lire chaque trace individuellement.
+
+![L'onglet Signals affichant une liste de tours de conversation évalués pour l'agent.](/weave/guides/tracking/imgs/agent-view-signals.png)
+
+<div id="signals-table">
+  ### Tableau des signaux
+</div>
+
+Chaque ligne représente un score de signal appliqué à un tour de conversation. Les colonnes suivantes
+s&#39;affichent par défaut.
+
+| Colonne             | Description                                                                                                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Type**            | Le niveau auquel le signal a été noté.                                                                                                                           |
+| **Scorer**          | Le nom du signal qui a produit ce score (par exemple, **Response Quality** ou **User Satisfaction**).                                                            |
+| **Dernier message** | Un aperçu du dernier message du tour de conversation noté, avec le rôle affiché en dessous.                                                                      |
+| **Agent**           | L&#39;agent associé au tour de conversation noté.                                                                                                                |
+| **Scores**          | Le score numérique de 0 à 1. Les scores proches de 0 indiquent un problème détecté. Les scores proches de 1 indiquent qu&#39;aucun problème n&#39;a été détecté. |
+| **Tendance (24h)**  | L&#39;évolution du score pour ce scorer au cours des dernières 24 heures.                                                                                        |
+| **Date/heure**      | Le moment où le signal a été noté.                                                                                                                               |
+
+Utilisez le sélecteur de fenêtre temporelle et la barre **Filtre** pour affiner les résultats par scorer,
+agent, plage de scores ou période.
+
+<div id="manage-and-edit-signals">
+  ### Gérer et modifier les signaux
+</div>
+
+Sélectionnez **Manage signals** pour ouvrir un volet latéral qui répertorie tous les signaux actifs du
+projet. À partir de là, vous pouvez activer ou désactiver les signaux, les supprimer ou
+cliquer sur l’icône d’édition de n’importe quel signal pour le modifier.
+
+L’éditeur de signaux comporte les champs suivants :
+
+| Champ                                       | Description                                                                                                                                                                                                                  |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Type de Scorer**                          | La méthode de scoring. **Rating** produit un unique score numérique dans [0, 1] par tour de conversation d’agent.                                                                                                            |
+| **N’évaluer que les tours correspondant à** | Filtres facultatifs permettant de restreindre les tours évalués par ce signal. Plusieurs filtres sont combinés avec une logique ET. Laissez vide pour évaluer chaque tour.                                                   |
+| **Modèle de prompt**                        | Un modèle prédéfini à utiliser comme point de départ pour le prompt du scorer.                                                                                                                                               |
+| **Prompt du Scorer**                        | Le prompt complet envoyé au modèle de scoring. Prend en charge les variables de modèle (`{input_messages}`, `{output_messages}`, `{system_instructions}` et `{agent_name}`), qui sont renseignées au moment de l’évaluation. |
+| **Nom du Scorer**                           | Le nom d’affichage de ce signal.                                                                                                                                                                                             |
+
+Sélectionnez **+ New signal** pour créer un nouveau scorer pour votre agent.
+
+Pour plus d’informations sur les signaux intégrés, voir [Monitor using built-in signals](/fr/weave/guides/evaluation/monitors).

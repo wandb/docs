@@ -1,0 +1,109 @@
+---
+title: "Pi 拡張機能"
+description: "Weave で Pi のエージェント セッション、LLM Call、ツール実行をトレースします。"
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Pi](https://pi.dev/) は、ターミナルベースのコーディングエージェントです。Weave は、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) に準拠した `createOtelExtension` インテグレーションを使用して、Pi のセッション、LLM Call、ツールの実行を自動的にトレースします。
+
+<Note>
+  Pi は TypeScript/Node.js のフレームワークで、Python に相当するものはありません。Pi では ESM モジュールシステムが必要です。`package.json` で `"type": "module"` を使用するか、TypeScript を ESM 出力にコンパイルする必要があります。CommonJS プロジェクトではエラーが発生します。ESM プロジェクトの設定方法について詳しくは、[Typescript SDK integration](/ja/weave/guides/integrations/js#set-up-an-esm-project) を参照してください。
+</Note>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* [Node.js](https://nodejs.org/) (v18 以降)
+* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数に設定された [APIキー](https://wandb.ai/authorize)
+
+<div id="install-packages">
+  ## パッケージをインストール
+</div>
+
+* Weave、Pi、Node のタイプ定義を、ローカルの project の依存関係としてインストールします。
+
+```bash lines
+npm install weave @earendil-works/pi-coding-agent
+npm install --save-dev @types/node tsx typescript
+```
+
+<div id="trace-a-pi-prompt-and-response">
+  ## Pi のプロンプトと応答をトレースする
+</div>
+
+エージェントのセッションを作成する前に `weave.init()` を呼び出し、拡張機能ファクトリとして `createOtelExtension()` を渡します。Weave は、セッション、各プロンプト/応答サイクル (`invoke_agent`) 、個々の LLM Call (`chat`) 、およびツール実行 (`execute_tool`) を含む、エージェントのライフサイクル全体をトレースします。セッション ID は `SessionManager.inMemory()` によって自動的に自動生成されます。
+
+```typescript lines
+import {init, createOtelExtension} from 'weave';
+
+import {
+  createAgentSession,
+  DefaultResourceLoader,
+  SessionManager,
+  getAgentDir,
+} from '@earendil-works/pi-coding-agent';
+
+async function main() {
+  // 1. Weave を初期化 — OTEL TracerProvider を設定して Weave プロジェクトに向けます。
+  //    createOtelExtension() で作成されたすべての span は
+  //    自動的にここにエクスポートされます。
+  await init('[YOUR-TEAM]/[YOUR-PROJECT]'); 
+
+// 2. リソースローダーを作成し、Weave OTEL 拡張機能を注入します。
+//    リソースローダーは Pi ランタイム環境と、
+//    エージェントアクティビティのトレースに使用する拡張機能のライフサイクルを提供します。
+  const resourceLoader = new DefaultResourceLoader({
+    cwd: process.cwd(),
+    agentDir: getAgentDir(),
+    extensionFactories: [createOtelExtension({})],
+  });
+
+  await resourceLoader.reload();
+
+  // 3. エージェントセッションを開始する
+  const {session} = await createAgentSession({
+    resourceLoader,
+    sessionManager: SessionManager.inMemory(),
+  });
+
+  // 4. 拡張機能をバインド — session_start イベントをトリガーし、OTEL アダプターが
+  //    ルートセッション span を作成して会話 ID を取得します。
+  await session.bindExtensions({});
+
+  // 5. アシスタントの出力を stdout にストリーミングする
+  session.subscribe(event => {
+    if (
+      event.type === 'message_update' &&
+      event.assistantMessageEvent.type === 'text_delta'
+    ) {
+      process.stdout.write(event.assistantMessageEvent.delta);
+    }
+  });
+
+  // 6. プロンプトを送信し、応答が完了するまで待機する
+  await session.prompt('What files are in the current directory?');
+  console.log();
+}
+
+main();
+```
+
+以下を使用してビルドし、run します:
+
+```bash
+npx tsx [filename].ts 
+```
+
+コードを実行すると、トレースが Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。
+
+<div id="next-steps">
+  ### 次のステップ
+</div>
+
+プロンプトを追加すると、この例をマルチターンのセッションにできます。`session.prompt()` を呼び出すたびに、それぞれが単一のルート span の下にネストされた個別の `invoke_agent` span としてトレースされます。エージェントはプロンプト間で自動的にコンテキストを保持します。
+
+コードを実行すると、**Agents** タブに、ネストされた LLM Call、tool の実行、token 使用量、コストを含む、マルチターンの完全なタイムラインが表示されます。

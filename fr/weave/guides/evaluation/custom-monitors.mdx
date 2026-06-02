@@ -1,0 +1,186 @@
+---
+title: "Configurer des moniteurs personnalisés"
+description: "Évaluer passivement le trafic de production pour mettre en évidence les tendances et les problèmes"
+---
+
+Les moniteurs utilisent des juges LLM pour évaluer passivement le trafic de production afin de mettre en évidence les tendances et les problèmes dans vos applications LLM. Par exemple, vous pouvez surveiller les réponses de votre application pour en vérifier l&#39;exactitude ou l&#39;utilité, ou surveiller les entrées utilisateur pour identifier les tendances dans les questions posées à vos agents. Les moniteurs stockent automatiquement tous les résultats d&#39;évaluation dans la base de données de W&amp;B Weave, ce qui vous permet d&#39;analyser les tendances et les schémas historiques.
+
+Vous pouvez surveiller le texte, les images et l&#39;audio dans les entrées et les sorties de votre application.
+
+Les moniteurs ne nécessitent aucune modification du code de votre application. Configurez-les à l&#39;aide de l&#39;interface Weave.
+
+Si vous devez intervenir activement sur le comportement de votre application en fonction des scores, utilisez plutôt les [guardrails](/fr/weave/guides/evaluation/guardrails).
+
+<div id="when-to-use-signals-and-custom-monitors">
+  ### Quand utiliser les signaux et les moniteurs personnalisés
+</div>
+
+Utilisez les [signaux](/fr/weave/guides/evaluation/monitors), des évaluateurs automatisés prédéfinis pour les traces de production, pour mettre rapidement en place une surveillance en production, puis ajoutez des moniteurs personnalisés pour des critères d’évaluation propres à votre application.
+
+|                          | Signaux                                                                                | Moniteurs personnalisés                                                  |
+| ------------------------ | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Configuration**        | Activation en un clic, sans rédaction de prompt                                        | Contrôle complet sur le prompt d’évaluation, le modèle et les paramètres |
+| **Portée**               | Classificateurs prédéfinis de qualité et d’erreurs                                     | Tous les critères d’évaluation que vous définissez                       |
+| **Sélection des traces** | Automatique (traces racine réussies pour la qualité, traces en échec pour les erreurs) | Opérations, filtres et taux d’échantillonnage configurables              |
+| **Modèle**               | Serverless Inference (prédéfini)                                                       | Tout modèle commercial ou modèle Serverless Inference                    |
+| **Cas d’utilisation**    | Surveillance rapide en production avec des classificateurs éprouvés                    | Critères d’évaluation personnalisés propres à votre application          |
+
+<div id="how-to-create-a-monitor-in-weave">
+  ## Comment créer un moniteur dans Weave
+</div>
+
+Pour créer un moniteur personnalisé dans Weave :
+
+1. Ouvrez l’[interface W&amp;B](https://wandb.ai/home), puis ouvrez votre projet Weave.
+
+2. Dans la barre latérale de navigation de Weave, sélectionnez **Monitors**, puis le bouton **+ New Monitor**. Cela ouvre la boîte de dialogue modale **Create new monitor**.
+
+3. Dans le menu **Create new monitor**, configurez les champs suivants :
+   * **Name** : doit commencer par une lettre ou un chiffre. Peut contenir des lettres, des chiffres, des traits d’union et des caractères de soulignement.
+   * **Description** (facultatif) : expliquez ce que fait le moniteur.
+   * Bouton bascule **Active monitor** : activez ou désactivez le moniteur.
+   * **Calls to monitor** :
+     * **Operations** : choisissez une ou plusieurs `@weave.op` à surveiller. Vous devez journaliser au moins une trace qui utilise l’op pour qu’elle apparaisse dans la liste des ops disponibles.
+     * **Filter** (facultatif) : affinez les appels éligibles (par exemple, selon `max_tokens` ou `top_p`).
+     * **Sampling rate** : le pourcentage d’appels à évaluer (de 0 % à 100 %).
+       <Tip>
+         Un taux d’échantillonnage plus faible réduit les coûts, car chaque appel d’évaluation entraîne un coût.
+       </Tip>
+   * **LLM-as-a-judge configuration** :
+     * **Scorer name** : doit commencer par une lettre ou un chiffre. Peut contenir des lettres, des chiffres, des traits d’union et des caractères de soulignement.
+     * **Score Audio** : filtre les modèles LLM disponibles pour n’afficher que ceux compatibles avec l’audio, et ouvre le champ **Media Scoring JSON Paths**.
+     * **Score Images** : filtre les modèles LLM disponibles pour n’afficher que ceux compatibles avec les images, et ouvre le champ **Media Scoring JSON Paths**.
+     * **Judge model** : sélectionnez le modèle à utiliser pour évaluer vos ops. Le menu contient les modèles LLM commerciaux que vous avez configurés dans votre compte W&amp;B, ainsi que les [modèles Serverless Inference](/fr/inference/models). Les modèles compatibles avec l’audio affichent le libellé **Audio Input** à côté de leur nom. Pour le modèle sélectionné, configurez les paramètres suivants :
+       * **Configuration name** : un nom pour cette configuration de modèle.
+       * **System prompt** : définit le rôle et la personnalité du modèle juge, par exemple, &quot;You are an impartial AI judge.&quot;
+       * **Response format** : le format dans lequel le juge doit produire sa réponse, par exemple un `json_object` ou du `text` brut.
+       * **Scoring prompt** : la tâche d’évaluation utilisée pour évaluer vos ops. Vous pouvez référencer des [variables de prompt](/fr/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) issues de vos ops dans vos prompts d’évaluation. Par exemple, &quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot;
+     * **Media Scoring JSON Paths** : spécifiez des expressions JSONPath (RFC 9535) pour extraire les médias de vos données de trace. Si aucun chemin n’est spécifié, tous les médias évaluables des messages utilisateur seront inclus. Ce champ apparaît lorsque vous activez **Score Audio** ou **Score Images**.
+
+4. Une fois les champs du moniteur configurés, sélectionnez **Create monitor**. Cela ajoute le moniteur à votre projet Weave. Lorsque votre code commence à générer des traces, vous pouvez consulter les scores dans l’onglet **Traces** en sélectionnant le nom du moniteur et en examinant les données dans le panneau correspondant.
+
+Vous pouvez également [comparer](/fr/weave/guides/tools/comparison) et visualiser les données de trace du moniteur dans l’interface Weave, ou les télécharger dans différents formats (comme CSV et JSON) à l’aide du bouton de téléchargement (<Icon icon="download" iconType="regular" />) dans l’onglet **Traces**.
+
+Weave stocke automatiquement tous les résultats des évaluateurs dans le champ `feedback` de l’objet [Call](/fr/weave/guides/tracking/tracing#calls).
+
+<div id="example-create-a-truthfulness-monitor">
+  ### Exemple : créer un moniteur de véracité
+</div>
+
+L&#39;exemple suivant crée un moniteur qui évalue la véracité des énoncés générés.
+
+1. Définissez une fonction qui génère des énoncés. Certains sont vrais, d&#39;autres non :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    import random
+    import openai
+
+    weave.init("my-team/my-weave-project")
+
+    client = openai.OpenAI()
+
+    @weave.op()
+    def generate_statement(ground_truth: str) -> str:
+        if random.random() < 0.5:
+            response = client.chat.completions.create(
+                model="gpt-4.1",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": f"Generate a statement that is incorrect based on this fact: {ground_truth}"
+                    }
+                ]
+            )
+            return response.choices[0].message.content
+        else:
+            return ground_truth
+
+    generate_statement("The Earth revolves around the Sun.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    await weave.init('my-team/my-weave-project');
+
+    const client = new OpenAI();
+
+    const generateStatement = weave.op(async (ground_truth: string): Promise<string> => {
+      if (Math.random() < 0.5) {
+        const response = await client.chat.completions.create({
+          model: 'gpt-4.1',
+          messages: [
+            {
+              role: 'user',
+              content: `Generate a statement that is incorrect based on this fact: ${ground_truth}`,
+            },
+          ],
+        });
+        return response.choices[0]?.message?.content ?? '';
+      }
+      return ground_truth;
+    });
+
+    await generateStatement("The Earth revolves around the Sun.");
+    ```
+  </Tab>
+</Tabs>
+
+2. Exécutez la fonction au moins une fois pour enregistrer une trace dans votre projet. Cela rend l&#39;op disponible pour le monitoring dans l&#39;interface W&amp;B.
+
+3. Ouvrez votre projet Weave dans l&#39;interface W&amp;B et sélectionnez **Monitors** dans la barre latérale de navigation. Sélectionnez ensuite **New Monitor**.
+
+4. Dans le menu Create new monitor, configurez les champs avec les valeurs suivantes :
+   * **Name** : `truthfulness-monitor`
+   * **Description** : `Evaluates the truthfulness of generated statements.`
+   * **Active monitor** : basculez sur **on**.
+   * **Operations** : sélectionnez `generate_statement`.
+   * **Sampling rate** : définissez `100%` pour attribuer un score à chaque appel.
+   * **Scorer name** : `truthfulness-scorer`
+   * **Judge model** : `o3-mini-2025-01-31`
+   * **System prompt** : `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
+   * **Response format** : `json_object`
+   * **Scoring prompt** :
+     ```text
+     Evaluate whether the output statement is accurate based on the input statement.
+
+     This is the input statement: {ground_truth}
+
+     This is the output statement: {output}
+
+     The response should be a JSON object with the following fields:
+     - is_true: a boolean stating whether the output statement is true or false based on the input statement.
+     - reasoning: your reasoning as to why the statement is true or false.
+     ```
+
+5. Sélectionnez **Create Monitor**. Cela ajoute le moniteur à votre projet Weave.
+
+6. Dans votre script, appelez votre fonction avec des énoncés présentant différents degrés de véracité afin de tester la fonction de score :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    generate_statement("The Earth revolves around the Sun.")
+    generate_statement("Water freezes at 0 degrees Celsius.")
+    generate_statement("The Great Wall of China was built over several centuries.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    await generateStatement("The Earth revolves around the Sun.");
+    await generateStatement("Water freezes at 0 degrees Celsius.");
+    await generateStatement("The Great Wall of China was built over several centuries.");
+    ```
+  </Tab>
+</Tabs>
+
+7. Après avoir exécuté le script avec plusieurs énoncés différents, ouvrez l&#39;interface W&amp;B et accédez à l&#39;onglet **Traces**. Sélectionnez n&#39;importe quelle trace **LLMAsAJudgeScorer.score** pour voir les résultats.
+
+![Trace du moniteur](/weave/guides/evaluation/img/monitors-4.png)
