@@ -27,10 +27,10 @@ PII scrubbing and sensitive-data redaction aren't implemented by the plugin. If 
 <Steps>
   <Step title="Install the package:">
     ```bash lines
-    pnpm add weave-openclaw
+    openclaw plugins install weave-openclaw
     ```
 
-    The plugin is loaded by the OpenClaw gateway through its config. You don't import it from application code.
+    Use the full name `weave-openclaw` (`weave` on its own is the W&B SDK, not this plugin). The plugin is loaded by the OpenClaw gateway through its config. You don't import it from application code.
   </Step>
 
   <Step title="Add the plugin to your gateway config:">
@@ -39,7 +39,6 @@ PII scrubbing and sensitive-data redaction aren't implemented by the plugin. If 
 
     ```json lines
     {
-      diagnostics: { enabled: true },
       plugins: {
         allow: ["weave"],
         entries: {
@@ -53,14 +52,13 @@ PII scrubbing and sensitive-data redaction aren't implemented by the plugin. If 
     }
     ```
 
-    As shown in the example config, your gateway config must include these two settings:
+    Set **`hooks.allowConversationAccess`** to **`true`** so OpenClaw runs the content-bearing hooks (`llm_input`, `llm_output`, `agent_end`) and spans include input/output text and tool arguments and results.
 
-    - Set **`diagnostics.enabled`** to **`true`** so OpenClaw emits the diagnostic events the plugin consumes.
-    - Set **`hooks.allowConversationAccess`** to **`true`** so OpenClaw runs the content-bearing hooks (`llm_input`, `llm_output`, `agent_end`) and spans include input/output text and tool arguments and results.
+    `diagnostics.enabled` is on by default. Only set it explicitly if you need to turn it off.
   </Step>
 
   <Step title="Restart the gateway and verify:">
-    Restart the OpenClaw gateway, then run `/weave status` in any OpenClaw chat surface to confirm the plugin is active. Traces will appear at `wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` within a few seconds of your first agent run.
+    Restart the OpenClaw gateway, then run `/weave status` in any OpenClaw chat surface to confirm the plugin is active. Traces will appear at `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` within a few seconds of your first agent run.
   </Step>
 </Steps>
 
@@ -117,7 +115,7 @@ The `apiKey` field supports four auth sources, resolved in this order:
           // retention policy). The plugin does not redact captured
           // strings; scrub upstream if needed.
           captureContent: true,
-          flushIntervalMs: 5000,
+          flushIntervalMs: 1000,
         },
         hooks: { allowConversationAccess: true },
       },
@@ -146,8 +144,8 @@ The gateway log is the terminal output from the process running `openclaw`, or y
 ### Plugin loaded but no spans show up
 
 1. Run `/weave status`. If lifecycle is `disabled`, `config-error`, or `not-started`, the plugin did not activate. Check the gateway log for `weave: config.entity is required`, `weave: configuration error`, or `[weave] incompatible plugin SDK`.
-2. Confirm `diagnostics.enabled: true` in the gateway config.
-3. Confirm the entity and project match the URL slug of the Weave project you're inspecting. `/weave status` should print `project=<entity>/<project>`.
+2. Check you haven't set `diagnostics.enabled: false` in the gateway config.
+3. Confirm the entity and project match the URL slug of the Weave project you're inspecting. `/weave status` should print `project=[YOUR-TEAM]/[YOUR-PROJECT]`.
 4. Confirm the auth source. `/weave status` should print `auth=...`. If it says `WANDB_API_KEY env` but you set the key in a different environment variable, the plugin is reading the wrong key.
 
 ### Spans land but input/output text is empty
