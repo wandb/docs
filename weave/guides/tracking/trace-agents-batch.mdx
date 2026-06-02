@@ -1,0 +1,99 @@
+---
+title: Batch logging for your agent
+description: Manually log agent traces for frameworks that have already completed the LLM call and just need to record it.
+---
+
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+For frameworks that have already completed the LLM call and just need to record it, use `weave.log_turn` and `weave.log_session`. All spans are created and ended immediately without keeping any context managers open.
+
+Data logged this way can be historical — no live session is needed. Set `session_id` to any stable string that uniquely identifies the conversation. Turns that share the same `session_id` are grouped as a single session in the **Agents** view.
+
+If you are building your own agent loop, use the real-time instrumentation APIs described in [Trace your agents](/weave/guides/tracking/trace-agents) instead.
+
+## Log a turn
+
+`weave.log_turn` accepts a fully-formed turn, including all LLM and tool spans.
+
+<Tabs>
+  <TabItem value="python" label="Python">
+
+```python lines highlight="1,3,28"
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+from weave.session.session import LLM, Message, Tool, Usage
+
+llm_span = LLM(
+    model="gpt-4o",
+    provider_name="openai",
+    input_messages=[Message(role="user", content="What is the weather?")],
+    output_messages=[Message(role="assistant", content="Let me check.")],
+    usage=Usage(input_tokens=100, output_tokens=20),
+)
+
+tool_span = Tool(
+    name="get_weather",
+    arguments='{"city": "Tokyo"}',
+    result='"24°C, sunny"',
+)
+
+llm_span2 = LLM(
+    model="gpt-4o",
+    provider_name="openai",
+    input_messages=[Message(role="user", content="What is the weather?")],
+    output_messages=[Message(role="assistant", content="It is 24°C and sunny.")],
+    usage=Usage(input_tokens=150, output_tokens=30),
+)
+
+# Log a turn with all its spans.
+weave.log_turn(
+    session_id="my-session-abc",
+    agent_name="weather-bot",
+    messages=[
+        Message(role="user", content="What is the weather in Tokyo?"),
+        Message(role="assistant", content="It is 24°C and sunny in Tokyo."),
+    ],
+    spans=[llm_span, tool_span, llm_span2],
+)
+```
+
+  </TabItem>
+  <TabItem value="typescript" label="TypeScript">
+
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+
+  </TabItem>
+</Tabs>
+
+`log_turn` returns a `LogResult` containing the trace IDs of the emitted spans.
+
+An optional `model` parameter on `log_turn` sets the model on the turn's own span, not on the child LLM spans. Each `LLM` span carries its own `model` independently. If a turn uses multiple models, set `model` on `log_turn` to whichever you consider the primary model for that turn.
+
+## Log a session
+
+To bulk-import a complete, multi-turn session at once, use `weave.log_session`. The `turns` parameter accepts a list of `Turn` objects, each constructed the same way as the `log_turn` example above.
+
+<Tabs>
+  <TabItem value="python" label="Python">
+
+```python lines
+weave.log_session(
+    session_id="my-session-abc",
+    agent_name="weather-bot",
+    turns=[turn_1, turn_2],
+)
+```
+
+  </TabItem>
+  <TabItem value="typescript" label="TypeScript">
+
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+
+  </TabItem>
+</Tabs>
