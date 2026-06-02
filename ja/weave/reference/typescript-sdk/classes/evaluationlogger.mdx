@@ -1,6 +1,6 @@
 ---
 title: "クラス: EvaluationLogger"
-description: "評価の予測とスコアを段階的にログする Weave TypeScript EvaluationLogger クラスのリファレンス。"
+description: "TypeScript SDK リファレンス"
 ---
 
 [weave](../) / EvaluationLogger
@@ -10,7 +10,7 @@ EvaluationLogger を使うと、予測とスコアを段階的にログできま
 事前にデータセットを用意してバッチ処理を行う必要がある従来の Evaluation クラスとは異なり、
 EvaluationLogger では、予測が発生したタイミングで、柔軟にスコアリングしながらログできます。
 
-`Example`
+`例`
 
 ```ts
 const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
@@ -72,7 +72,7 @@ await ev.logSummary();
   #### 定義元
 </div>
 
-[evaluationLogger.ts:570](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/evaluationLogger.ts#L570)
+[evaluationLogger.ts:570](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L570)
 
 ## メソッド
 
@@ -118,7 +118,7 @@ await evalLogger.logSummary(); // すべての処理が完了するまで待機
   #### 定義元
 </div>
 
-[evaluationLogger.ts:657](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/evaluationLogger.ts#L657)
+[evaluationLogger.ts:657](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L657)
 
 ***
 
@@ -162,7 +162,7 @@ await scoreLogger.finish();
   #### 定義元
 </div>
 
-[evaluationLogger.ts:682](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/evaluationLogger.ts#L682)
+[evaluationLogger.ts:682](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L682)
 
 ***
 
@@ -196,4 +196,4 @@ summarize call を作成し、evaluate call を完了します。
   #### 定義元
 </div>
 
-[evaluationLogger.ts:783](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/evaluationLogger.ts#L783)
+[evaluationLogger.ts:783](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L783)

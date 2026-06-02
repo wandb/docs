@@ -1,6 +1,6 @@
 ---
 title: "weave_client"
-description: "WeaveClient クラス、フラッシュ ステータス、トレース エラータイプを含む、weave.trace.weave_client モジュールのリファレンス。"
+description: "weave.trace.weave_client の Python SDK リファレンス"
 ---
 
 import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
@@ -11,15 +11,15 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L200" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L214" />
 
 ## <kbd>class</kbd> `CrossProjectRefError`
 
-クライアント側でダイジェストを計算する際に、内部 ID に解決できない別のプロジェクトへの ref に遭遇した場合に発生します。
+クライアント側でダイジェストを計算する際に、内部 ID に解決できない別のprojectへの ref に遭遇した場合に発生します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2778" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L2955" />
 
 ## <kbd>class</kbd> `FlushStatus`
 
@@ -27,15 +27,15 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L194" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L208" />
 
 ## <kbd>class</kbd> `NoInternalProjectIDError`
 
-内部プロジェクト ID がまだ解決されていないため、クライアント側でダイジェストを計算できない場合に発生します。
+内部project ID がまだ解決されていないため、クライアント側でダイジェストを計算できない場合に発生します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2768" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L2945" />
 
 ## <kbd>class</kbd> `PendingJobCounts`
 
@@ -43,11 +43,11 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L336" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L350" />
 
 ## <kbd>class</kbd> `WeaveClient`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L361" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L375" />
 
 ### <kbd>method</kbd> `__init__`
 
@@ -82,7 +82,25 @@ __init__(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1611" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L836" />
+
+### <kbd>method</kbd> `add_calls_to_annotation_queue`
+
+```python
+add_calls_to_annotation_queue(
+    queue_id: 'str',
+    call_ids: 'list[str]',
+    display_fields: 'list[str]'
+) → AnnotationQueueAddCallsRes
+```
+
+Call をアノテーションキューに追加します。
+
+**引数:**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L1775" />
 
 ### <kbd>method</kbd> `add_cost`
 
@@ -98,9 +116,12 @@ add_cost(
 ) → CostCreateRes
 ```
 
-現在のプロジェクトにコストを追加します。
+現在のprojectにコストを追加します。
 
-**例:**
+* <b>`queue_id`</b>: アノテーションキューの ID。
+* <b>`call_ids`</b>: キューに追加する Call ID。
+* <b>`display_fields`</b>: `inputs.prompt` や `output.text` など、レビュアーに表示する JSON パス。
+  **例:**
 
 ```python
 client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=1, completion_token_cost=2)
@@ -117,11 +138,11 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 * <b>`prompt_token_cost_unit`</b>: プロンプトトークンのコスト単位。デフォルトは &quot;USD&quot; です。 (現在は未使用ですが、将来的にはコストの通貨タイプを指定するために使用されます。例: &quot;tokens&quot; または &quot;time&quot;)
 * <b>`completion_token_cost_unit`</b>: 補完トークンのコスト単位。デフォルトは &quot;USD&quot; です。 (現在は未使用ですが、将来的にはコストの通貨タイプを指定するために使用されます。例: &quot;tokens&quot; または &quot;time&quot;)
   **戻り値:**
-  `CostCreateRes` オブジェクト。`ids` という名前のタプルのリストを 1 つのフィールドとして持ちます。各タプルには `llm_id` と、作成されたコストオブジェクトの ID が含まれます。
+  `CostCreateRes` オブジェクト。`ids` という名前のタプルのリストを 1 つのフィールドとして持ちます。各タプルには `llm&#95;id` と、作成されたコストオブジェクトの ID が含まれます。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1319" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1483" />
 
 ### <kbd>method</kbd> `add_tags`
 
@@ -135,7 +156,7 @@ add_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1161" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L1325" />
 
 ### <kbd>method</kbd> `clear_wandb_run_context`
 
@@ -161,7 +182,31 @@ client.clear_wandb_run_context()
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L735" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L749" />
+
+### <kbd>method</kbd> `create_annotation_queue`
+
+```python
+create_annotation_queue(
+    name: 'str',
+    scorer_refs: 'list[str]',
+    description: 'str' = ''
+) → str
+```
+
+このprojectのアノテーションキューを作成します。
+
+**引数:**
+
+* <b>`name`</b>: キューの表示名。
+* <b>`scorer_refs`</b>: レビュー担当者が入力する scorer / アノテーションフィールドの Weave ref。
+* <b>`description`</b>: 任意のレビュー担当者向けガイドライン、またはキューの説明。
+  **戻り値:**
+  作成したアノテーションキューの ID。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L898" />
 
 ### <kbd>method</kbd> `create_call`
 
@@ -182,7 +227,7 @@ Call を作成し、ログし、ランタイムスタックにプッシュしま
 
 **引数:**
 
-* <b>`op`</b>: Call を生成する操作、または無名の操作の名前。
+* <b>`op`</b>: Call を生成する op、または無名の op の名前。
 * <b>`inputs`</b>: 操作への入力。
 * <b>`parent`</b>: 親 Call。parent が指定されていない場合は、現在の run が親として使用されます。
 * <b>`display_name`</b>: Call の表示名。デフォルトは None です。
@@ -194,7 +239,7 @@ Call を作成し、ログし、ランタイムスタックにプッシュしま
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1237" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1401" />
 
 ### <kbd>method</kbd> `delete_all_object_versions`
 
@@ -212,7 +257,7 @@ delete_all_object_versions(object_name: 'str') → int
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1501" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1665" />
 
 ### <kbd>method</kbd> `delete_all_op_versions`
 
@@ -230,7 +275,19 @@ op のすべてのバージョンを削除します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1202" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L828" />
+
+### <kbd>method</kbd> `delete_annotation_queue`
+
+```python
+delete_annotation_queue(queue_id: 'str') → AnnotationQueueSchema
+```
+
+アノテーションキューを論理削除します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1366" />
 
 ### <kbd>method</kbd> `delete_call`
 
@@ -240,7 +297,7 @@ delete_call(call: 'Call') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1211" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1375" />
 
 ### <kbd>method</kbd> `delete_calls`
 
@@ -256,7 +313,7 @@ Call を削除すると、そのすべての子 Call も削除されます。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1227" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1391" />
 
 ### <kbd>method</kbd> `delete_object_version`
 
@@ -266,7 +323,7 @@ delete_object_version(object: 'ObjectRef') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1256" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1420" />
 
 ### <kbd>method</kbd> `delete_object_versions`
 
@@ -287,7 +344,7 @@ delete_object_versions(object_name: 'str', digests: 'list[str]') → int
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1491" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1655" />
 
 ### <kbd>method</kbd> `delete_op_version`
 
@@ -297,7 +354,7 @@ delete_op_version(op: 'OpRef') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1132" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1296" />
 
 ### <kbd>method</kbd> `fail_call`
 
@@ -309,7 +366,7 @@ fail_call(call: 'Call', exception: 'BaseException') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2574" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L2751" />
 
 ### <kbd>method</kbd> `finish`
 
@@ -328,7 +385,7 @@ finish(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L960" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1124" />
 
 ### <kbd>method</kbd> `finish_call`
 
@@ -348,7 +405,7 @@ Call を完了し、その結果を永続化します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2612" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L2789" />
 
 ### <kbd>method</kbd> `flush`
 
@@ -360,7 +417,7 @@ flush() → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L476" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L490" />
 
 ### <kbd>method</kbd> `get`
 
@@ -370,9 +427,9 @@ get(ref: 'ObjectRef', objectify: 'bool' = True) → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1448" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1612" />
 
-### <kbd>method</kbd> `get_aliases`
+### <kbd>メソッド</kbd> `get_aliases`
 
 ```python
 get_aliases(obj_ref: 'ObjectRef | str') → list[str]
@@ -391,9 +448,35 @@ get_aliases(obj_ref: 'ObjectRef | str') → list[str]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L698" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L777" />
 
-### <kbd>method</kbd> `get_call`
+### <kbd>メソッド</kbd> `get_annotation_queue`
+
+```python
+get_annotation_queue(queue_id: 'str') → AnnotationQueueSchema
+```
+
+ID を指定して単一のアノテーションキューを取得します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L888" />
+
+### <kbd>メソッド</kbd> `get_annotation_queue_stats`
+
+```python
+get_annotation_queue_stats(
+    queue_ids: 'list[str]'
+) → list[AnnotationQueueStatsSchema]
+```
+
+アノテーションキュー内の項目の完了統計を取得します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L712" />
+
+### <kbd>メソッド</kbd> `get_call`
 
 ```python
 get_call(
@@ -417,9 +500,9 @@ IDを指定して単一のCallを取得します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L615" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L629" />
 
-### <kbd>method</kbd> `get_calls`
+### <kbd>メソッド</kbd> `get_calls`
 
 ```python
 get_calls(
@@ -441,9 +524,9 @@ get_calls(
 ) → CallsIter
 ```
 
-このプロジェクトのトレースされた Call (操作) のリストを取得します。
+このprojectのトレースされた Call (操作) のリストを取得します。
 
-この method は、トレースデータをクエリするための強力で柔軟なインターフェースを提供します。ページネーション、フィルタリング、ソート、フィールド射影、スコアリングメタデータをサポートしており、カスタムのトレース UI や分析ツールの実装に使用できます。
+このメソッドは、トレースデータをクエリするための強力で柔軟なインターフェースを提供します。ページネーション、フィルタリング、ソート、フィールド射影、スコアリングメタデータをサポートしており、カスタムのトレース UI や分析ツールの実装に使用できます。
 
 パフォーマンスのヒント: `columns` を指定し、`filter` または `query` を使用して結果サイズを小さくしてください。
 
@@ -481,9 +564,9 @@ for call in calls:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L541" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L555" />
 
-### <kbd>method</kbd> `get_evaluation`
+### <kbd>メソッド</kbd> `get_evaluation`
 
 ```python
 get_evaluation(uri: 'str') → Evaluation
@@ -518,19 +601,19 @@ print(evaluation.name)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L576" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L590" />
 
-### <kbd>method</kbd> `get_evaluations`
+### <kbd>メソッド</kbd> `get_evaluations`
 
 ```python
 get_evaluations() → list[Evaluation]
 ```
 
-現在のプロジェクト内のすべての評価オブジェクトを取得します。
+現在のproject内のすべての評価オブジェクトを取得します。
 
 **戻り値:**
 
-* <b>`list[Evaluation]`</b>: 現在のプロジェクト内にあるすべての評価オブジェクトのリスト。評価が見つからない場合、またはすべての変換に失敗した場合は、空のリストを返します。
+* <b>`list[Evaluation]`</b>: 現在のproject内にあるすべての評価オブジェクトのリスト。評価が見つからない場合、またはすべての変換に失敗した場合は、空のリストを返します。
 
 **例:**
 
@@ -544,9 +627,9 @@ for eval in evaluations:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1520" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L1684" />
 
-### <kbd>method</kbd> `get_feedback`
+### <kbd>メソッド</kbd> `get_feedback`
 
 ```python
 get_feedback(
@@ -557,7 +640,7 @@ get_feedback(
 ) → FeedbackQuery
 ```
 
-フィードバックを取得するためにプロジェクトをクエリします。
+フィードバックを取得するためにprojectをクエリします。
 
 **例:**
 
@@ -598,9 +681,9 @@ client.get_feedback(query=query)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1357" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1521" />
 
-### <kbd>method</kbd> `get_tags`
+### <kbd>メソッド</kbd> `get_tags`
 
 ```python
 get_tags(obj_ref: 'ObjectRef | str') → list[str]
@@ -616,9 +699,9 @@ get_tags(obj_ref: 'ObjectRef | str') → list[str]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1380" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1544" />
 
-### <kbd>method</kbd> `get_tags_and_aliases`
+### <kbd>メソッド</kbd> `get_tags_and_aliases`
 
 ```python
 get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
@@ -630,11 +713,11 @@ get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
 
 * <b>`obj_ref`</b>: オブジェクトのバージョンへの参照です。ObjectRef または weave /// URI 文字列のいずれかを指定します。
   **戻り値:**
-  `(タグ, aliases)` のタプルを返します。どちらも文字列のリストです。オブジェクトのバージョンに タグ またはエイリアスがない場合は、空のリストを返します。
+  `(タグ, エイリアス)` のタプルを返します。どちらも文字列のリストです。オブジェクトのバージョンに タグ またはエイリアスがない場合は、空のリストを返します。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1283" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1447" />
 
 ### <kbd>メソッド</kbd> `link_prompt_to_registry`
 
@@ -661,45 +744,81 @@ link_prompt_to_registry(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1481" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1645" />
 
-### <kbd>method</kbd> `list_aliases`
+### <kbd>メソッド</kbd> `list_aliases`
 
 ```python
 list_aliases() → list[str]
 ```
 
-プロジェクト内の重複しないエイリアスをすべて一覧表示します。
+project内の重複しないエイリアスをすべて一覧表示します。
 
 **戻り値:**
-プロジェクト内のすべてのエイリアス文字列のリスト。
+project内のすべてのエイリアス文字列のリスト。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1471" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L863" />
 
-### <kbd>method</kbd> `list_tags`
+### <kbd>メソッド</kbd> `list_annotation_queue_items`
+
+```python
+list_annotation_queue_items(
+    queue_id: 'str',
+    filter: 'AnnotationQueueItemsFilter | None' = None,
+    sort_by: 'list[SortBy] | None' = None,
+    limit: 'int | None' = None,
+    offset: 'int | None' = None,
+    include_position: 'bool' = False
+) → list[AnnotationQueueItemSchema]
+```
+
+アノテーションキューに割り当てられた Call の一覧を表示します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L785" />
+
+### <kbd>メソッド</kbd> `list_annotation_queues`
+
+```python
+list_annotation_queues(
+    name: 'str | None' = None,
+    sort_by: 'list[SortBy] | None' = None,
+    limit: 'int | None' = None,
+    offset: 'int | None' = None
+) → list[AnnotationQueueSchema]
+```
+
+この project のアノテーションキューを一覧表示します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1635" />
+
+### <kbd>メソッド</kbd> `list_tags`
 
 ```python
 list_tags() → list[str]
 ```
 
-プロジェクト内の重複のないすべての タグ を一覧表示します。
+project内の重複のないすべての タグ を一覧表示します。
 
 **戻り値:**
-プロジェクト内のすべての タグ 文字列のリスト。
+project内のすべての タグ 文字列のリスト。
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1657" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L1821" />
 
-### <kbd>method</kbd> `purge_costs`
+### <kbd>メソッド</kbd> `purge_costs`
 
 ```python
 purge_costs(ids: 'list[str] | str') → None
 ```
 
-現在のプロジェクトのコストを削除します。
+現在のprojectのコストを削除します。
 
 **例:**
 
@@ -712,9 +831,9 @@ client.purge_costs(ids)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1681" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L1845" />
 
-### <kbd>method</kbd> `query_costs`
+### <kbd>メソッド</kbd> `query_costs`
 
 ```python
 query_costs(
@@ -725,7 +844,7 @@ query_costs(
 ) → list[CostQueryOutput]
 ```
 
-プロジェクトのコストをクエリします。
+projectのコストをクエリします。
 
 * <b>`ids`</b>: 削除するコスト ID。単一の ID または複数の ID を指定できます。
   **例:**
@@ -750,9 +869,9 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1427" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1591" />
 
-### <kbd>method</kbd> `remove_aliases`
+### <kbd>メソッド</kbd> `remove_aliases`
 
 ```python
 remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
@@ -764,9 +883,9 @@ remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1338" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1502" />
 
-### <kbd>method</kbd> `remove_tags`
+### <kbd>メソッド</kbd> `remove_tags`
 
 ```python
 remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
@@ -780,9 +899,9 @@ remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L447" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L461" />
 
-### <kbd>method</kbd> `save`
+### <kbd>メソッド</kbd> `save`
 
 ```python
 save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
@@ -805,9 +924,9 @@ save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/telemetry/trace_sentry.py#L1405" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L1569" />
 
-### <kbd>method</kbd> `set_aliases`
+### <kbd>メソッド</kbd> `set_aliases`
 
 ```python
 set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
@@ -819,9 +938,9 @@ set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L1137" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L1301" />
 
-### <kbd>method</kbd> `set_wandb_run_context`
+### <kbd>メソッド</kbd> `set_wandb_run_context`
 
 ```python
 set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
@@ -836,7 +955,7 @@ set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 * <b>`alias`</b>: 設定する エイリアス 名、または エイリアス 名のリスト (例: &quot;production&quot;)。
   **引数:**
 
-* <b>`run_id`</b>: run ID (entity/プロジェクト のプレフィックスを含まない) 。クライアントが entity/プロジェクト のプレフィックスを自動的に追加します。
+* <b>`run_id`</b>: run ID (entity/project のプレフィックスを含まない) 。クライアントが entity/project のプレフィックスを自動的に追加します。
 
 * <b>`step`</b>: Call に使用する step 番号。None の場合、step は設定されません。
   **例:**
@@ -853,7 +972,24 @@ client.set_wandb_run_context(run_id="my-run-id")
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L248" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/telemetry/trace_sentry.py#L807" />
+
+### <kbd>メソッド</kbd> `update_annotation_queue`
+
+```python
+update_annotation_queue(
+    queue_id: 'str',
+    name: 'str | None' = None,
+    description: 'str | None' = None,
+    scorer_refs: 'list[str] | None' = None
+) → AnnotationQueueSchema
+```
+
+アノテーションキューのメタデータを更新します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L262" />
 
 ### <kbd>関数</kbd> `get_obj_name`
 
@@ -863,7 +999,7 @@ get_obj_name(val: 'Any') → str
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2795" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L2972" />
 
 ### <kbd>関数</kbd> `get_parallelism_settings`
 
@@ -873,7 +1009,7 @@ get_parallelism_settings() → tuple[int | None, int | None]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L279" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L293" />
 
 ### <kbd>関数</kbd> `map_to_refs`
 
@@ -883,7 +1019,7 @@ map_to_refs(obj: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L209" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L223" />
 
 ### <kbd>関数</kbd> `print_call_link`
 
@@ -893,7 +1029,7 @@ print_call_link(call: 'Call') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2836" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L3013" />
 
 ### <kbd>関数</kbd> `redact_sensitive_keys`
 
@@ -903,7 +1039,7 @@ redact_sensitive_keys(obj: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.41/weave/trace/weave_client.py#L2872" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/weave_client.py#L3049" />
 
 ### <kbd>関数</kbd> `sanitize_object_name`
 

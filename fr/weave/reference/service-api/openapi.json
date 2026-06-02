@@ -3076,6 +3076,18 @@
             "title": "Project Id",
             "type": "string"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
           "summary": {
             "$ref": "#/components/schemas/SummaryInsertMap"
           },
@@ -4077,6 +4089,18 @@
             "description": "Référence au modèle (URI weave://)",
             "title": "Model",
             "type": "string"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID du run d’évaluation source si ce run a été créé par recalcul du score — lien de provenance",
+            "title": "Source Evaluation Run Id"
           }
         },
         "required": [
@@ -4177,6 +4201,18 @@
             "description": "Référence au modèle (URI weave://)",
             "title": "Model",
             "type": "string"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID du run d’évaluation source si ce run a été créé par recalcul du score",
+            "title": "Source Evaluation Run Id"
           },
           "started_at": {
             "anyOf": [
@@ -4498,6 +4534,85 @@
               "weave:///entity/project/op/name:digest"
             ],
             "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "confiance (0-1) par note, avec le nom de la note comme clé",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ],
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "texte explicatif par note, avec le nom de la note comme clé",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ],
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "notes numériques (0-1), avec le nom de la note comme clé",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ],
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "confiance (0-1) par tag, avec le nom du tag comme clé",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ],
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "texte explicatif par tag, avec le nom du tag comme clé",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ],
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "description": "Tags appliqués à la ref par un scorer",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
           },
           "trigger_ref": {
             "anyOf": [
@@ -4973,6 +5088,85 @@
               "weave:///entity/project/op/name:digest"
             ],
             "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "confiance (0-1) par note, avec le nom de la note comme clé",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ],
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "texte explicatif par note, avec le nom de la note comme clé",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ],
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "notes numériques (0-1), avec le nom de la note comme clé",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ],
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "confiance (0-1) par tag, avec le nom du tag comme clé",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ],
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "texte explicatif par tag, avec le nom du tag comme clé",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ],
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "description": "Tags appliqués à la ref par un scorer",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
           },
           "trigger_ref": {
             "anyOf": [
@@ -7943,9 +8137,8 @@
             "type": "string"
           },
           "value": {
-            "description": "La valeur du score",
-            "title": "Value",
-            "type": "number"
+            "description": "La sortie brute du scorer",
+            "title": "Value"
           }
         },
         "required": [
@@ -8009,9 +8202,8 @@
             "type": "string"
           },
           "value": {
-            "description": "La valeur du score",
-            "title": "Value",
-            "type": "number"
+            "description": "La sortie brute du scorer",
+            "title": "Value"
           },
           "wb_user_id": {
             "anyOf": [

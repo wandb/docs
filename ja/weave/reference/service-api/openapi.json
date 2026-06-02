@@ -3076,6 +3076,18 @@
             "title": "Project Id",
             "type": "string"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
           "summary": {
             "$ref": "#/components/schemas/SummaryInsertMap"
           },
@@ -4077,6 +4089,18 @@
             "description": "モデルへの参照（weave:// URI）",
             "title": "Model",
             "type": "string"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "この run が再スコアリングによって作成された場合のソース評価 run ID — 来歴リンク",
+            "title": "Source Evaluation Run Id"
           }
         },
         "required": [
@@ -4177,6 +4201,18 @@
             "description": "モデルへの参照（weave:// URI）",
             "title": "Model",
             "type": "string"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "この run が再スコアリングによって作成された場合のソース評価 run ID",
+            "title": "Source Evaluation Run Id"
           },
           "started_at": {
             "anyOf": [
@@ -4498,6 +4534,85 @@
               "weave:///entity/project/op/name:digest"
             ],
             "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "レーティング名をキーとする、レーティングごとの信頼度 (0-1)",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ],
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "レーティング名をキーとする、レーティングごとの理由テキスト",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ],
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "レーティング名をキーとする数値評価 (0-1)",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ],
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "タグ名をキーとする、タグごとの信頼度 (0-1)",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ],
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "タグ名をキーとする、タグごとの理由テキスト",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ],
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "description": "scorer が ref に適用したタグ",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
           },
           "trigger_ref": {
             "anyOf": [
@@ -4973,6 +5088,85 @@
               "weave:///entity/project/op/name:digest"
             ],
             "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "レーティング名をキーとする、レーティングごとの信頼度 (0-1)",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ],
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "レーティング名をキーとする、レーティングごとの理由テキスト",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ],
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "レーティング名をキーとする数値評価 (0-1)",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ],
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "タグ名をキーとする、タグごとの信頼度 (0-1)",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ],
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "タグ名をキーとする、タグごとの理由テキスト",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ],
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "description": "scorer が ref に適用したタグ",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
           },
           "trigger_ref": {
             "anyOf": [
@@ -7943,9 +8137,8 @@
             "type": "string"
           },
           "value": {
-            "description": "score の値",
-            "title": "Value",
-            "type": "number"
+            "description": "scorer の生の出力",
+            "title": "Value"
           }
         },
         "required": [
@@ -8009,9 +8202,8 @@
             "type": "string"
           },
           "value": {
-            "description": "score の値",
-            "title": "Value",
-            "type": "number"
+            "description": "scorer の生の出力",
+            "title": "Value"
           },
           "wb_user_id": {
             "anyOf": [

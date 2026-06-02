@@ -3076,6 +3076,18 @@
             "title": "Project Id",
             "type": "string"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
           "summary": {
             "$ref": "#/components/schemas/SummaryInsertMap"
           },
@@ -4077,6 +4089,18 @@
             "description": "모델 레퍼런스 (weave:// URI)",
             "title": "Model",
             "type": "string"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 run이 재점수화로 생성된 경우의 source evaluation Run ID — 계보 링크",
+            "title": "Source Evaluation Run Id"
           }
         },
         "required": [
@@ -4177,6 +4201,18 @@
             "description": "모델 레퍼런스 (weave:// URI)",
             "title": "Model",
             "type": "string"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 run이 재점수화로 생성된 경우의 source evaluation Run ID",
+            "title": "Source Evaluation Run Id"
           },
           "started_at": {
             "anyOf": [
@@ -4498,6 +4534,85 @@
               "weave:///entity/project/op/name:digest"
             ],
             "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "평점 이름을 키로 하는 평점별 신뢰도(0-1)",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ],
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "평점 이름을 키로 하는 평점별 이유 텍스트",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ],
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "평점 이름을 키로 하는 숫자 평점(0-1)",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ],
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "태그 이름을 키로 하는 태그별 신뢰도(0-1)",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ],
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "태그 이름을 키로 하는 태그별 이유 텍스트",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ],
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "description": "Scorer가 ref에 적용한 Tags",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
           },
           "trigger_ref": {
             "anyOf": [
@@ -4973,6 +5088,85 @@
               "weave:///entity/project/op/name:digest"
             ],
             "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "평점 이름을 키로 하는 평점별 신뢰도(0-1)",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ],
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "평점 이름을 키로 하는 평점별 이유 텍스트",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ],
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "평점 이름을 키로 하는 숫자 평점(0-1)",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ],
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "태그 이름을 키로 하는 태그별 신뢰도(0-1)",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ],
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "태그 이름을 키로 하는 태그별 이유 텍스트",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ],
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "description": "Scorer가 ref에 적용한 Tags",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
           },
           "trigger_ref": {
             "anyOf": [
@@ -7943,9 +8137,8 @@
             "type": "string"
           },
           "value": {
-            "description": "점수 값",
-            "title": "Value",
-            "type": "number"
+            "description": "Scorer의 원시 출력",
+            "title": "Value"
           }
         },
         "required": [
@@ -8009,9 +8202,8 @@
             "type": "string"
           },
           "value": {
-            "description": "점수 값",
-            "title": "Value",
-            "type": "number"
+            "description": "Scorer의 원시 출력",
+            "title": "Value"
           },
           "wb_user_id": {
             "anyOf": [
