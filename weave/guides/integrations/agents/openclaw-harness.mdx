@@ -144,7 +144,7 @@ The gateway log is the terminal output from the process running `openclaw`, or y
 ### Plugin loaded but no spans show up
 
 1. Run `/weave status`. If lifecycle is `disabled`, `config-error`, or `not-started`, the plugin did not activate. Check the gateway log for `weave: config.entity is required`, `weave: configuration error`, or `[weave] incompatible plugin SDK`.
-2. Check you haven't set `diagnostics.enabled: false` in the gateway config.
+2. Check you haven't set `diagnostics.enabled: false` in the gateway config. This field should be `true`.
 3. Confirm the entity and project match the URL slug of the Weave project you're inspecting. `/weave status` should print `project=[YOUR-TEAM]/[YOUR-PROJECT]`.
 4. Confirm the auth source. `/weave status` should print `auth=...`. If it says `WANDB_API_KEY env` but you set the key in a different environment variable, the plugin is reading the wrong key.
 
