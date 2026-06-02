@@ -18,9 +18,9 @@ uv tool install wandb-hivemind
 ## Quick start
 
 ```bash
-hivemind login                           # Authenticate with GitHub
-brew services start wandb/tap/hivemind   # Start the daemon
-hivemind status                          # Check that it's running
+hivemind login    # Authenticate with GitHub
+hivemind start    # Start the daemon
+hivemind status   # Check that it's running
 ```
 
 ## Commands
@@ -39,10 +39,10 @@ hivemind status                          # Check that it's running
 
 #### Starting the daemon
 
-The daemon picks the right service manager for your platform:
+`hivemind start` picks the right service manager for your platform and sets it up for you:
 
-- **macOS**: Homebrew services (`brew services start wandb/tap/hivemind`)
-- **Linux**: systemd user service (`systemctl --user start hivemind`)
+- **macOS**: Homebrew services
+- **Linux**: systemd user service
 - **Fallback**: plain background process
 
 ```bash
@@ -220,7 +220,7 @@ hivemind api /stats/active-users --raw
 | Daemon won't start ("lock held") | `hivemind doctor --fix`                               |
 | Stale lock after a crash         | `rm ~/.hivemind/daemon.lock`                          |
 | "Not authenticated" after login  | `hivemind doctor --fix && hivemind login`             |
-| Homebrew service not responding  | `brew services restart wandb/tap/hivemind`            |
+| Daemon not responding            | `hivemind restart`                                    |
 | Permission errors on stop        | `hivemind doctor && hivemind stop --force`            |
 | systemd fails to start           | Check the logs: `journalctl --user -t hivemind -n 50` |
 
