@@ -305,8 +305,8 @@ Each row represents one signal score applied to a turn. The following columns ap
 | **Scorer** | The name of the signal that produced this score. |
 | **Last message** | A preview of the last message in the scored turn, with the role shown below. |
 | **Agent** | The agent associated with the scored turn. |
-| **Scores** | The numeric score from 0 to 1, or a tag if matched. Scores near 0 indicate a detected issue. Scores near 1 indicate no issue detected. |
-| **Trend (24h)** | How scores for this signal have changed over the past 24 hours. |
+| **Scores** | The numeric score from 0.0 to 1.0, or a tag if matched. Scores near 0 indicate a detected issue. Scores near 1 indicate no issue detected. |
+| **Trend (24h)** | Shows a sparkline of how scores for this signal have changed over the past 24 hours. |
 | **When** | When the signal was scored. |
 
 Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period. The **Score volume** timeline shows counts of signals that have been evaluated for ratings or tagged. It reflects the rows shown in the table and supports drag-to-filter on the timeline.
@@ -347,6 +347,6 @@ Select **Manage signals** to open a drawer that lists all active signals for the
 
 ### Troubleshoot signals
 
-Signal activity itself appears under **Traces** in the project sidebar. If you do not see signal matches you expect, use the Traces table to debug. Check the scorer name and the `Status` column for error conditions.  Scorer execution errors show a red indicator for `Status` and include details for the error.
+Signal activity appears under **Traces** in the project sidebar. If you do not see the expected signal matches, debug using the **Traces** table. For example, check the scorer name and the **Status** column for error conditions.  Scorer execution errors show a red indicator for **Status** and include details for the error.
 
 For more information on built-in signals, see [Monitor using built-in signals](/weave/guides/evaluation/monitors).
