@@ -3,9 +3,10 @@ title: "Monitor using built-in signals"
 description: "W&B provides built-in scoring solutions for agents in production"
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+<Note>
+When tracing agentic applications, use the **Signals** tab on the **Agents** page. See [Signals for agents](/weave/guides/tracking/view-agent-signals).
+</Note>
 
-<AgentsPreview />
 
 In modern agent development, standard system metrics like latency, token count, and cost are insufficient for understanding complex agent behavior. Inspecting individual traces provides deep insight but doesn't scale to the millions of traces generated in a live environment.
 
@@ -62,18 +63,18 @@ Each signal uses an LLM-as-a-judge approach to classify traces:
 
 When multiple signals from the same group (Quality or Error) are active, Weave batches the signals into a single LLM call for efficiency. The model evaluates all active classifiers in one pass and returns results for each.
 
-## Enable signals from the Monitors page
+## Add a signal from the Monitors page
 
 To enable signals:
 
 1. Navigate to [wandb.ai](https://wandb.ai/) and then open your Weave project.
 2. In the Weave project sidebar, select **Monitors**.
 3. At the top of the Monitors page, a row of suggested signal cards appears. Each card shows the signal name, a description, and an **+ Add signal** button.
-4. To enable a single signal, select the **+ Add signal** button on the signal card. The signal begins scoring new traces immediately.
-5. To enable multiple signals at once, select the **+ [X] more signals** button. This opens a drawer that lists all available signals grouped by category.
+4. To add a signal, select the **Add signal** button on the signal card. The signal begins scoring new traces immediately.
+5. To add multiple signals at once, select the **[X] more signals** button. This opens a drawer that lists all available signals grouped by category.
 6. Select the signals you want to turn on, then select **Add signals**.
 
-After enabling signals, Weave automatically scores incoming traces.
+After adding signals, Weave automatically scores incoming traces.
 
 ## Manage active signals
 
@@ -85,19 +86,6 @@ To view or remove active signals:
 Removing a signal stops scoring new traces. Existing scores from the signal are preserved.
 
 ## Use built-in signals
-
-### See tagged agent traces on the Agents page
-
-If you are tracing agentic applications, signal results appear in two places
-on the **Agents** page:
-
-- The **Signals** tab shows all scored turns across your agents, with the
-  scorer name, numeric score, and 24-hour trend for each.
-- The **Conversations** tab's conversation detail panel shows a **Scores** section in the Events
-  panel. This includes the rubric breakdown and per-criterion confidence for each
-  active scorer.
-
-For full details, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 
 ### See tagged Call traces on the Traces page
 
