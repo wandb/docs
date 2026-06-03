@@ -5,35 +5,35 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="시스템 메트릭 기록 빈도는 어떻게 변경하나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
-  시스템 메트릭 기록 빈도를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자로 설정하세요. 자세한 내용은 생략되었습니다 ...
+<Card title="시스템 메트릭 로깅 빈도는 어떻게 변경하나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  시스템 메트릭 로깅 빈도를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자로 설정하세요. 자세한 내용은 생략되었습니다 ...
 </Card>
 
-<Card title="W&B에 시스템 메트릭이 기록되지 않게 하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
-  시스템 메트릭 기록을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
+<Card title="W&B에 시스템 메트릭이 로깅되지 않게 하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  시스템 메트릭 로깅을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
 </Card>
 
-<Card title="run이 완료된 후 메트릭을 추가로 기록하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
+<Card title="run이 완료된 후 메트릭을 추가로 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
   이미 종료된 run에 메트릭을 추가하려면 워크플로 복잡도에 따라 W&amp;B에서 여러 가지 방법을 제공합니다 ...
 </Card>
 
 <Card title="이전 step의 로그를 덮어쓰려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
-  이전 step의 로그를 덮어쓰려면 forking과 rewind를 사용하세요.
+  이전 step의 로그를 덮어쓰려면 forking과 rewind를 사용하세요. run을 fork하거나 rewind하는 기능은 현재 활발히 개발 중입 ...
 </Card>
 
-<Card title="메트릭 기록 시 `Rate limit exceeded` 오류는 어떻게 해결하나요?" href="/ko/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
-  wandb.log()를 호출할 때 HTTP 429 Rate limit exceeded 오류가 발생한다면 메트릭 기록에 대한 요청 속도 제한 할당량을 초과한 것입니다 ...
+<Card title="메트릭 로깅 시 `Rate limit exceeded` 오류는 어떻게 해결하나요?" href="/ko/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  wandb.log()를 호출할 때 HTTP 429 Rate limit exceeded 오류가 발생한다면 메트릭 로깅에 대한 요청 속도 제한 할당량을 초과한 것입니다 ...
 </Card>
 
 <Card title="스윕 중 `anaconda 400 error`는 어떻게 해결하나요?" href="/ko/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
-  스윕 중 anaconda 400 오류는 대개 최적화 대상 메트릭을 기록하지 않았다는 뜻입니다. 다음과 같은 메시지가 표시될 수 있습니다: The sweep c ...
+  스윕 중 anaconda 400 오류는 대개 최적화 대상 메트릭을 로깅하지 않았다는 뜻입니다. 다음과 같은 메시지가 표시될 수 있습니다: The sweep c ...
 </Card>
 
-<Card title="서로 다른 두 시간 척도로 메트릭을 기록하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
-  서로 다른 두 시간 척도로 메트릭을 기록하려면 메트릭과 함께 batch 및 에포크 같은 인덱스를 기록하세요. 예를 들어, 다음과 같이 할 수 있습 ...
+<Card title="서로 다른 두 시간 척도로 메트릭을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
+  서로 다른 두 시간 척도로 메트릭을 로깅하려면 메트릭과 함께 batch 및 에포크 같은 인덱스를 로깅하세요. 예를 들어, 다음과 같이 할 수 있습 ...
 </Card>
 
-<Card title="코드를 저장하지 않고 메트릭을 기록하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
+<Card title="코드를 저장하지 않고 메트릭을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
   개인정보 보호 또는 규정 준수상의 이유로 독점 소스 코드나 트레이닝 데이터를 W&amp;B에 포함하지 않으려면 W&amp;B가 캡처하는 범위를 제한하세요 ...
 </Card>
 
@@ -53,12 +53,12 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   W&amp;B Sweeps는 단일 목표 메트릭을 최적화합니다. 단일 run에서 여러 메트릭을 최적화하려면 이를 가중치가 적용된 ...로 결합하세요
 </Card>
 
-<Card title="W&B에 수백만 개의 step을 기록하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?" href="/ko/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+<Card title="W&B에 수백만 개의 step을 로깅하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?" href="/ko/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
   전송되는 포인트 수는 UI에서 그래프 로딩 시간에 영향을 줍니다. 1,000개 포인트를 초과하는 선의 경우 백엔드는 sa ...
 </Card>
 
-<Card title="일부 메트릭은 batch 단위로, 일부는 에포크 단위로만 기록하려면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  각 batch에서 특정 메트릭을 기록하고 플롯을 표준화하려면 원하는 x축 값을 메트릭과 함께 기록하세요. In the ...
+<Card title="일부 메트릭은 batch 단위로, 일부는 에포크 단위로만 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  각 batch에서 특정 메트릭을 로깅하고 플롯을 표준화하려면 원하는 x축 값을 메트릭과 함께 로깅하세요. In the ...
 </Card>
 
 <Card title="로깅한 것보다 데이터 포인트가 적게 보이는 이유는 무엇인가요?" href="/ko/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
