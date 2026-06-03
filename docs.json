@@ -521,8 +521,7 @@
                     "group": "Get Started",
                     "pages": [
                       "weave/agents-quickstart",
-                      "weave/quickstart",
-                      "weave/guides/integrations"
+                      "weave/quickstart"
                     ]
                   },
                   {
@@ -533,10 +532,11 @@
                         "group": "Trace your agents",
                         "pages": [
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agent-integrations",
                           "weave/guides/tracking/view-agent-activity",
+                          "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-batch",
-                          "weave/guides/tracking/trace-sub-agents",
-                          "weave/guides/evaluation/monitors"
+                          "weave/guides/tracking/trace-sub-agents"
                         ]
                       },
                       {
