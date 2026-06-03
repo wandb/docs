@@ -3,7 +3,7 @@ title: "My run's state is `crashed` on the UI but is still running on my machine
 keywords: ["Experiments", "Run Crashes"]
 ---
 
-You likely lost connection to your machine during training. Recover data by running [`wandb sync [PATH_TO_RUN]`](/models/ref/cli/wandb-sync). The path to your run is a folder in your `wandb` directory that matches the Run ID of the ongoing run.
+This state usually means you lost connection to your machine during training. To recover your data, run [`wandb sync [PATH_TO_RUN]`](/models/ref/cli/wandb-sync). The path to your run is the folder in your `wandb` directory whose name matches the run ID of the ongoing run.
 
 ---
 

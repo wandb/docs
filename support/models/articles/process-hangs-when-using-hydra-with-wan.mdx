@@ -1,19 +1,19 @@
 ---
-title: "Why does my process hang when using Hydra with W&B?"
+title: "Why does my process stop responding when using Hydra with W&B?"
 keywords: ["Experiments", "Run Crashes"]
 ---
 
-If your process hangs when started with Hydra, this is likely caused by a multiprocessing conflict between Hydra and W&B.
+This page explains how to resolve unresponsive processes that occur when you start a process with Hydra alongside W&B. If your process stops responding when you start it with Hydra, the likely cause is a multiprocessing conflict between Hydra and W&B.
 
-To fix this, change W&B's multiprocessing protocol to `"thread"`. You can do this in one of two ways:
+To fix this, change W&B's multiprocessing protocol to `"thread"`. This avoids the conflict so your process can start cleanly. You can do this in one of two ways:
 
-**Option 1**: Pass a settings parameter to `wandb.init()`:
+## Pass a settings parameter to wandb.init
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
-**Option 2**: Set a global environment variable:
+## Set a global environment variable
 
 ```bash
 export WANDB_START_METHOD=thread
