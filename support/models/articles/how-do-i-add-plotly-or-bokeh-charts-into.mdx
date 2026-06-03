@@ -3,10 +3,10 @@ title: "How do I add Plotly or Bokeh Charts into Tables?"
 keywords: ["Experiments", "Tables", "Charts"]
 ---
 
-Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
+Direct integration of Plotly or Bokeh figures into tables isn't supported. Instead, export the figures to HTML and include the HTML in the table. The following examples show how to do this with interactive Plotly and Bokeh charts.
 
 <Tabs>
-<Tab title="Using Plotly">
+<Tab title="Plotly">
 ```python
 import wandb
 import plotly.express as px
@@ -35,7 +35,7 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
 ```
 </Tab>
-<Tab title="Using Bokeh">
+<Tab title="Bokeh">
 ```python
 from scipy.signal import spectrogram
 import holoviews as hv

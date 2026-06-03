@@ -1,0 +1,101 @@
+---
+title: "Pi extension"
+description: "Trace Pi agentic sessions, LLM calls, and tool executions in Weave."
+---
+
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Pi](https://pi.dev/) is a terminal-based coding agent. Weave traces Pi sessions, LLM calls, and tool executions automatically using the `createOtelExtension` integration, which conforms to the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/).
+
+<Note>
+Pi is a TypeScript/Node.js framework with no Python equivalent. Pi requires the ESM module system — your project must use `"type": "module"` in `package.json`, or compile TypeScript to ESM output. CommonJS projects will error.  For more information on setting up an ESM project, see [Typescript SDK integration](/weave/guides/integrations/js#set-up-an-esm-project).
+</Note>
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or later)
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
+
+## Install packages
+- Install Weave, Pi, and Node type definitions as local project dependencies:
+
+```bash lines
+npm install weave @earendil-works/pi-coding-agent
+npm install --save-dev @types/node tsx typescript
+```
+
+## Trace a Pi prompt and response
+
+Call `weave.init()` before creating your agent session, then pass `createOtelExtension()` as an extension factory. Weave traces the full agent lifecycle: the session, each prompt/response cycle (`invoke_agent`), individual LLM calls (`chat`), and tool executions (`execute_tool`). The session ID is generated automatically by `SessionManager.inMemory()`.
+
+```typescript lines
+import {init, createOtelExtension} from 'weave';
+
+import {
+  createAgentSession,
+  DefaultResourceLoader,
+  SessionManager,
+  getAgentDir,
+} from '@earendil-works/pi-coding-agent';
+
+async function main() {
+  // 1. Initialize Weave — sets up the OTEL TracerProvider pointing at your
+  //    Weave project. All spans created by createOtelExtension() are
+  //    automatically exported here.
+  await init('[YOUR-TEAM]/[YOUR-PROJECT]'); 
+
+// 2. Create a resource loader and inject the Weave OTEL extension.
+//    The resource loader provides the Pi runtime environment and
+//    extension lifecycle used for tracing agent activity.
+  const resourceLoader = new DefaultResourceLoader({
+    cwd: process.cwd(),
+    agentDir: getAgentDir(),
+    extensionFactories: [createOtelExtension({})],
+  });
+
+  await resourceLoader.reload();
+
+  // 3. Start the agent session
+  const {session} = await createAgentSession({
+    resourceLoader,
+    sessionManager: SessionManager.inMemory(),
+  });
+
+  // 4. Bind extensions — triggers session_start event so the OTEL adapter
+  //    creates the root session span and captures the conversation ID.
+  await session.bindExtensions({});
+
+  // 5. Stream assistant output to stdout
+  session.subscribe(event => {
+    if (
+      event.type === 'message_update' &&
+      event.assistantMessageEvent.type === 'text_delta'
+    ) {
+      process.stdout.write(event.assistantMessageEvent.delta);
+    }
+  });
+
+  // 6. Send a prompt and wait for the full response
+  await session.prompt('What files are in the current directory?');
+  console.log();
+}
+
+main();
+```
+
+Build and run using:
+```bash
+npx tsx [filename].ts 
+```
+
+When you run your code, your traces appear in the **Agents** tab of your Weave project at `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`.
+
+### Next steps
+
+You can turn this example into a multi-turn session by adding additional prompts.  Each call to `session.prompt()` is traced as a separate `invoke_agent` span, all nested under a single root span. The agent retains context across prompts automatically.
+
+After running the code, the **Agents** tab shows the full multi-turn timeline with nested LLM calls, tool executions, token usage, and cost.
+
+

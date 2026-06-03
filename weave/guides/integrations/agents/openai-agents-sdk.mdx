@@ -1,0 +1,96 @@
+---
+title: "OpenAI Agents SDK"
+description: Trace an agent built with the OpenAI Agents SDK using Weave.
+---
+
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+The [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) is a lightweight framework for building agents and multi-agent workflows on top of OpenAI's API. Weave automatically traces agents built with the OpenAI Agents SDK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
+
+<Note>
+The Weave TypeScript SDK does not support autopatching for the OpenAI Agents SDK.
+</Note>
+
+## Trace OpenAI Agents SDK agents with Weave
+
+The Weave SDK autopatches with the OpenAI Agents SDK, allowing you to capture traces from your agents with minimal set up. This doc shows how to initialize Weave and then run a multi-turn research agent built with the OpenAI Agents SDK so that Weave captures every agent invocation, model call, and tool call across the session.
+
+### Prerequisites
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
+- An [OpenAI API key](https://platform.openai.com/api-keys)
+- Python 3.10+
+
+### Install packages
+
+Install the following packages in your developer environment:
+
+```bash
+pip install weave openai-agents requests
+```
+
+### Initialize Weave in your code
+
+Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
+
+```python lines
+import asyncio
+import requests
+import weave
+from agents import Agent, Runner, function_tool
+
+weave.init("<your-team>/<your-project-name>")
+
+@function_tool
+def wikipedia_search(query: str) -> str:
+    """Search Wikipedia for a topic and return its title and intro paragraph."""
+    r = requests.get(
+        "https://en.wikipedia.org/w/api.php",
+        params={
+            "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+            "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+        },
+        headers={"User-Agent": "weave-demo"},
+    ).json()
+    page = next(iter(r["query"]["pages"].values()))
+    return f"{page['title']}: {page['extract']}"
+
+agent = Agent(
+    name="Research assistant",
+    instructions=(
+        "You are a research assistant. Use the wikipedia_search tool to look up "
+        "topics when needed, and cite the article titles you used."
+    ),
+    tools=[wikipedia_search],
+)
+
+async def main():
+    history = []
+    for question in [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+    ]:
+        history.append({"role": "user", "content": question})
+        print(f"USER: {question}")
+        result = await Runner.run(agent, input=history)
+        print(f"AGENT: {result.final_output}\n")
+        history = result.to_input_list()
+
+asyncio.run(main())
+```
+
+The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `Runner.run` continues the conversation by passing the previous result's input list back as the next request.
+
+### See your agent traces in the Agents view
+
+`weave.init()` prints a link to your project when it runs. Open the **Agents** view to inspect:
+
+- A row in the **Agents** tab for `Research assistant`
+- A session containing three turns
+- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls
+- The full input, model, output, token usage, and Wikipedia results at each step
+
+For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
