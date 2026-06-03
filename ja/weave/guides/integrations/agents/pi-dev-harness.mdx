@@ -9,16 +9,22 @@ import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
 
 [Pi](https://pi.dev/) は、ターミナルベースのコーディングエージェントです。Weave は、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) に準拠した `createOtelExtension` インテグレーションを使用して、Pi のセッション、LLM Call、ツールの実行を自動的にトレースします。
 
-<Note>
-  Pi は TypeScript/Node.js のフレームワークで、Python に相当するものはありません。Pi では ESM モジュールシステムが必要です。`package.json` で `"type": "module"` を使用するか、TypeScript を ESM 出力にコンパイルする必要があります。CommonJS プロジェクトではエラーが発生します。ESM プロジェクトの設定方法について詳しくは、[Typescript SDK integration](/ja/weave/guides/integrations/js#set-up-an-esm-project) を参照してください。
-</Note>
+<Warning>
+  このインテグレーションは、Pi のセッションデータを Weave に送信します。このデータには、ユーザーのプロンプト、モデルの応答、ツールの入力と出力、Pi ツールが読み取った file の内容、シェルコマンドとその出力、取得した URL やページの内容が含まれる場合があります。
+
+  PII の除去や機密データのマスキングは実装されていません。セキュリティ要件またはコンプライアンス要件のためにこのデータを Weave に送信できない場合は、Pi アプリケーションで Weave のトレースを有効にしないでください。
+</Warning>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 事前準備
 </div>
 
 * [Node.js](https://nodejs.org/) (v18 以降)
-* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数に設定された [APIキー](https://wandb.ai/authorize)
+* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)
+
+<Note>
+  Pi は TypeScript/Node.js のフレームワークで、Python に相当するものはありません。Pi では ESM モジュールシステムが必要です。`package.json` で `"type": "module"` を使用するか、TypeScript を ESM 出力にコンパイルする必要があります。CommonJS プロジェクトではエラーが発生します。ESM プロジェクトの設定方法について詳しくは、[Typescript SDK integration](/ja/weave/guides/integrations/js#set-up-an-esm-project) を参照してください。
+</Note>
 
 <div id="install-packages">
   ## パッケージをインストール

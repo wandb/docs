@@ -106,10 +106,10 @@ flowchart TB
     class Tool1 tool
 ```
 
-세션은 상위 span이 아니라 공통 `conversation_id` 속성을 기준으로 turn을 그룹화하므로, 각 turn이 자체 OTel 트레이스를 시작합니다. 이 설계는 분산 트레이싱과 병렬 실행을 지원합니다. 클라이언트는 서버 측 집계 없이 span을 OTel collector로 직접 전송합니다.
+Session은 상위 span이 아니라 공통 `conversation_id` 속성을 기준으로 turn을 그룹화하므로, 각 turn이 자체 OTel 트레이스를 시작합니다. 이 설계는 분산 트레이싱과 병렬 실행을 지원합니다. 클라이언트는 서버 측 집계 없이 span을 OTel collector로 직접 전송합니다.
 
 <Tip>
-  **서드파티 agent SDK 또는 harness를 사용 중이신가요?** 수동 SDK 계측 대신 [Weave 인테그레이션](/ko/weave/guides/integrations) 페이지부터 시작하세요. Weave는 기본 제공 agent 관측성을 위해 지원되는 agent SDK(예: OpenAI Agents SDK)와 agent harness(예: Claude Code)에 자동 patch를 적용합니다.
+  Claude Agent SDK 또는 Codex와 같은 널리 사용되는 SDK나 하니스와 Weave를 통합하려면 [Trace agent integrations](/ko/weave/guides/tracking/trace-agent-integrations)를 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 널리 사용되는 에이전트 구축 SDK와 에이전트 하니스에 자동 patch를 적용합니다.
 </Tip>
 
 <div id="agent-tracing-apis">

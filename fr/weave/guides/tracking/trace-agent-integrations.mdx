@@ -1,0 +1,39 @@
+---
+title: Intégrations de traçage pour les agents
+description: Connectez W&B Weave à des SDK d’agents, à des harness d’agents et à des agents personnalisés pour que les sessions s’affichent dans la vue Agents.
+---
+
+import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+W&amp;B Weave peut tracer des applications à agents sur plusieurs tours de conversation sans avoir à instrumenter manuellement chaque tour de conversation. Pour les SDK d’agents et les harnesses pris en charge, appelez `weave.init()` et Weave applique automatiquement un patch au framework. Les sessions, les tours de conversation, les appels LLM et les appels d’outil sont automatiquement capturés et affichés dans la vue **Agents**.
+
+<div id="agent-harnesses">
+  ## Harness d’agents
+</div>
+
+Les harness d’agents sont des environnements d’exécution d’agents côté utilisateur final (comme les agents de code et les outils de développement) qui produisent des spans que Weave peut capturer. Installez le plugin ou l’extension approprié, et les sessions de votre harness sont acheminées vers la vue **Agents** :
+
+* **[plugin Claude Code](/fr/weave/guides/integrations/agents/claude-code-harness)**
+* **[plugin Codex](/fr/weave/guides/integrations/agents/codex-harness)**
+* **[plugin OpenClaw](/fr/weave/guides/integrations/agents/openclaw-harness)**
+* **[extension Pi](/fr/weave/guides/integrations/agents/pi-dev-harness)**
+
+<div id="agent-sdks">
+  ## SDK d&#39;agents
+</div>
+
+Les SDK d&#39;agents sont des bibliothèques qui permettent de créer des agents et des flux de travail multi-agents dans le code de votre application. Weave applique automatiquement un patch aux SDK suivants :
+
+* **[SDK OpenAI Agents](/fr/weave/guides/integrations/agents/openai-agents-sdk)**
+* **[Google Agent Development Kit (ADK)](/fr/weave/guides/integrations/agents/google-adk)**
+* **[Claude Agent SDK](/fr/weave/guides/integrations/agents/claude-agents-sdk)**
+
+<div id="custom-agents-and-opentelemetry">
+  ## Agents personnalisés et OpenTelemetry
+</div>
+
+Utilisez directement le SDK Weave pour instrumenter des agents personnalisés, notamment tout agent qui émet des spans OpenTelemetry. Weave accepte n’importe quel span OTel et applique un traitement spécifique aux [attributs de convention sémantique GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) afin que vos spans soient correctement affichés dans la vue **Agents**.
+
+Pour savoir comment instrumenter directement des agents personnalisés avec le SDK Weave, voir [Tracez vos agents](/fr/weave/guides/tracking/trace-agents) ou le [Démarrage rapide : tracer un agent](/fr/weave/agents-quickstart) pour un guide pas à pas.

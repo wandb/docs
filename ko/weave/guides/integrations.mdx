@@ -14,38 +14,7 @@ Weave는 AI 스택과 통합하는 두 가지 방법을 제공합니다:
   ## 에이전트 트레이싱
 </div>
 
-Weave SDK는 멀티턴 에이전트의 전체 라이프사이클(세션, 턴, LLM Call, 도구 Call)을 모델링합니다. 지원되는 에이전트 SDK와 하니스의 경우 Weave가 프레임워크를 자동으로 패치하므로 `weave.init()`만 호출하면 됩니다. 그러면 모든 에이전트 호출, 하위 에이전트 핸드오프, 모델 호출, 도구 Call이 자동으로 캡처되어 **Agents** 뷰에 표시됩니다.
-
-맞춤형 에이전트의 경우 `weave.start_session`, `weave.start_turn`, `weave.start_llm`, `weave.start_tool`를 사용해 에이전트 코드를 직접 계측할 수 있습니다. 자세한 워크스루는 [에이전트 퀵스타트](/ko/weave/agents-quickstart)를 참조하세요.
-
-<div id="integrate-weave-with-agent-sdks">
-  ### 에이전트 SDK를 Weave와 통합하기
-</div>
-
-에이전트 SDK는 자체 애플리케이션 코드에서 에이전트와 멀티 에이전트 워크플로를 구축하기 위한 라이브러리입니다. Weave는 다음 SDK에 자동으로 패치를 적용합니다:
-
-* **[OpenAI Agents SDK](/ko/weave/guides/integrations/agents/openai-agents-sdk)**
-* **[Google Agent Development Kit (ADK)](/ko/weave/guides/integrations/agents/google-adk)**
-* **[Claude Agent SDK](/ko/weave/guides/integrations/agents/claude-agents-sdk)**
-
-<div id="integrate-weave-with-agent-harnesses">
-  ### 에이전트 하니스와 Weave 통합하기
-</div>
-
-에이전트 하니스는 Weave가 캡처할 수 있는 span을 생성하는 사용자용 에이전트 런타임(예: 코딩 에이전트 및 개발자 도구)입니다. 적절한 플러그인 또는 확장 프로그램을 설치하면 하니스 세션이 **Agents** 뷰로 전달됩니다:
-
-* **[Claude Code 플러그인](/ko/weave/guides/integrations/agents/claude-code-harness)**
-* **[Codex 플러그인](/ko/weave/guides/integrations/agents/codex-harness)**
-* **[OpenClaw 플러그인](/ko/weave/guides/integrations/agents/openclaw-harness)**
-* **[Pi 확장 프로그램](/ko/weave/guides/integrations/agents/pi-dev-harness)**
-
-<div id="build-your-own">
-  ### 직접 구축하기
-</div>
-
-Weave SDK를 직접 사용해 맞춤형 에이전트를 계측하세요. 여기에는 OpenTelemetry span을 내보내는 모든 에이전트가 포함됩니다. Weave는 모든 OTel span을 처리할 수 있으며, [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)를 특별히 처리하므로 span이 Weave UI의 **Agents** 뷰에 올바르게 표시됩니다.
-
-맞춤형 에이전트를 트레이스하는 방법은 [에이전트 트레이스 퀵스타트](/ko/weave/agents-quickstart)를 참조하세요.
+**Agents** 뷰에 표시되는 에이전트 SDK, 하니스 및 맞춤형 계측에 대해서는 [에이전트 트레이싱 인테그레이션](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요.
 
 <div id="trace-llm-applications">
   ## LLM 애플리케이션 트레이싱

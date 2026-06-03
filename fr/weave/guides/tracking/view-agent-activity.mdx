@@ -15,7 +15,7 @@ Les applications d’agents sont difficiles à déboguer, car le comportement in
   ## Premiers pas
 </div>
 
-Pour accéder à la vue Agents :
+Pour afficher l’activité des agents :
 
 1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
 2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agents enregistrées dans votre projet.
@@ -325,52 +325,6 @@ Vous pouvez aussi afficher les spans enfants sous la forme d’une arborescence 
   ## Onglet Signals
 </div>
 
-L&#39;onglet **Signals** affiche les résultats du scoring comportemental automatisé appliqué
-aux tours de conversation de votre agent. Là où les onglets Conversations et Spans vous indiquent *ce qui*
-s&#39;est passé, Signals vous indiquent *dans quelle mesure cela s&#39;est bien* passé. Ils font ressortir des problèmes de qualité
-comme des réponses peu élaborées ou des hallucinations, ainsi que des erreurs comme des limitations de débit
-ou des bugs, sans que vous ayez à lire chaque trace individuellement.
+L’onglet **Signals** affiche des tags et des évaluations pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité pour signaler des problèmes, repérer des tendances et attirer votre attention sur les traces qui en ont besoin. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter lorsqu’un utilisateur est frustré ou signaler du contenu NSFW.
 
-![L'onglet Signals affichant une liste de tours de conversation évalués pour l'agent.](/weave/guides/tracking/imgs/agent-view-signals.png)
-
-<div id="signals-table">
-  ### Tableau des signaux
-</div>
-
-Chaque ligne représente un score de signal appliqué à un tour de conversation. Les colonnes suivantes
-s&#39;affichent par défaut.
-
-| Colonne             | Description                                                                                                                                                      |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Type**            | Le niveau auquel le signal a été noté.                                                                                                                           |
-| **Scorer**          | Le nom du signal qui a produit ce score (par exemple, **Response Quality** ou **User Satisfaction**).                                                            |
-| **Dernier message** | Un aperçu du dernier message du tour de conversation noté, avec le rôle affiché en dessous.                                                                      |
-| **Agent**           | L&#39;agent associé au tour de conversation noté.                                                                                                                |
-| **Scores**          | Le score numérique de 0 à 1. Les scores proches de 0 indiquent un problème détecté. Les scores proches de 1 indiquent qu&#39;aucun problème n&#39;a été détecté. |
-| **Tendance (24h)**  | L&#39;évolution du score pour ce scorer au cours des dernières 24 heures.                                                                                        |
-| **Date/heure**      | Le moment où le signal a été noté.                                                                                                                               |
-
-Utilisez le sélecteur de fenêtre temporelle et la barre **Filtre** pour affiner les résultats par scorer,
-agent, plage de scores ou période.
-
-<div id="manage-and-edit-signals">
-  ### Gérer et modifier les signaux
-</div>
-
-Sélectionnez **Manage signals** pour ouvrir un volet latéral qui répertorie tous les signaux actifs du
-projet. À partir de là, vous pouvez activer ou désactiver les signaux, les supprimer ou
-cliquer sur l’icône d’édition de n’importe quel signal pour le modifier.
-
-L’éditeur de signaux comporte les champs suivants :
-
-| Champ                                       | Description                                                                                                                                                                                                                  |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Type de Scorer**                          | La méthode de scoring. **Rating** produit un unique score numérique dans [0, 1] par tour de conversation d’agent.                                                                                                            |
-| **N’évaluer que les tours correspondant à** | Filtres facultatifs permettant de restreindre les tours évalués par ce signal. Plusieurs filtres sont combinés avec une logique ET. Laissez vide pour évaluer chaque tour.                                                   |
-| **Modèle de prompt**                        | Un modèle prédéfini à utiliser comme point de départ pour le prompt du scorer.                                                                                                                                               |
-| **Prompt du Scorer**                        | Le prompt complet envoyé au modèle de scoring. Prend en charge les variables de modèle (`{input_messages}`, `{output_messages}`, `{system_instructions}` et `{agent_name}`), qui sont renseignées au moment de l’évaluation. |
-| **Nom du Scorer**                           | Le nom d’affichage de ce signal.                                                                                                                                                                                             |
-
-Sélectionnez **+ New signal** pour créer un nouveau scorer pour votre agent.
-
-Pour plus d’informations sur les signaux intégrés, voir [Monitor using built-in signals](/fr/weave/guides/evaluation/monitors).
+Pour en savoir plus, voir [Surveillez vos agents avec des signaux](/fr/weave/guides/tracking/view-agent-signals).

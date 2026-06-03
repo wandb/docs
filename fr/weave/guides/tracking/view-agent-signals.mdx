@@ -1,0 +1,124 @@
+---
+title: "Surveillez vos agents avec des signaux"
+description: "Utilisez les signaux de W&B Weave pour évaluer les tours de conversation des agents, appliquer des tags et mettre en évidence les problèmes de qualité et de sécurité en production."
+---
+
+import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+Dans [Agents view](/fr/weave/guides/tracking/view-agent-activity) de W&amp;B Weave, l&#39;onglet Signals affiche des tags et des scores pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité afin de repérer les anomalies, d’identifier des tendances et de mettre en avant les traces qui nécessitent votre attention. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter quand un utilisateur est frustré ou signaler du contenu NSFW.
+
+<div id="get-started">
+  ## Premiers pas
+</div>
+
+Pour afficher les signaux de votre projet :
+
+1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
+2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agent enregistrées dans votre projet.
+3. Dans la barre d’onglets, cliquez sur **Signals**.
+
+![L’onglet Signals affichant une liste des tours de conversation évalués pour l’agent.](/weave/guides/tracking/imgs/agent-view-signals.png)
+
+<div id="key-terms">
+  ## Termes clés
+</div>
+
+* **Tour de conversation** : Un échange aller-retour entre l’utilisateur et l’agent.
+* **Score** : Un score numérique entre 0,0 et 1,0 attribué à un span correspondant.
+* **Tags** : Des tags attribués aux spans correspondants, comme &quot;user-frustration&quot; ou &quot;nsfw&quot;.
+
+<div id="signals-table">
+  ## Tableau des signaux
+</div>
+
+Chaque ligne représente le résultat de l’un de vos moniteurs de signaux. Les colonnes suivantes s’affichent par défaut.
+
+| Colonne             | Description                                                                                                                                                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Type**            | La partie de la conversation en cours d’évaluation. Actuellement, seul « turn » est pris en charge.                                                                                                                                                          |
+| **Scorer**          | Le nom du signal qui a produit ce score.                                                                                                                                                                                                                     |
+| **Dernier message** | Un aperçu du dernier message du tour de conversation évalué, avec le rôle affiché en dessous.                                                                                                                                                                |
+| **Agent**           | L’agent associé au tour de conversation évalué.                                                                                                                                                                                                              |
+| **Scores**          | Le score numérique de 0,0 à 1,0, ou un tag s’il y a correspondance. Nous vous recommandons d’utiliser une échelle cohérente où 1 indique un bon résultat et 0 un mauvais, mais vos évaluateurs peuvent utiliser n’importe quelle échelle que vous définissez. |
+| **Tendance**        | Affiche un graphique intégré montrant l’évolution de ce signal au fil du temps. Affiche soit la valeur moyenne (pour les scores), soit le nombre d’occurrences (pour les tags).                                                                              |
+| **Quand**           | Le moment où le signal a été évalué.                                                                                                                                                                                                                         |
+
+Utilisez le sélecteur de fenêtre temporelle et la barre **Filtre** pour affiner les résultats par évaluateur, agent, plage de score ou période. La chronologie **Volume de scores** affiche le nombre de signaux qui ont été évalués avec un score ou tagués. Elle reflète les lignes affichées dans le tableau et prend en charge le filtrage par glisser-déposer sur la chronologie.
+
+<div id="create-a-new-signal">
+  ## Créer un nouveau signal
+</div>
+
+Sélectionnez **+ New signal** pour créer un nouveau scorer pour votre agent.
+
+<div id="scorer-type">
+  ### Type de scorer
+</div>
+
+Choisissez de créer un scorer **Rating** ou un scorer **Tags**.
+
+* **Rating** : attribue un score entre 0 et 1 à chaque span correspondant.
+* **Tags** : attribue jusqu&#39;à 10 tags à chaque span correspondant. L&#39;interface utilisateur Signals affiche uniquement des lignes pour les spans correspondant à au moins un tag. Votre scorer de tags peut donc fonctionner même si vous ne voyez aucun résultat.
+
+<div id="only-score-turns-matching">
+  ### Attribuez un score uniquement aux tours de conversation correspondants
+</div>
+
+Utilisez ce sélecteur pour limiter les tours de conversation évalués par le signal, par exemple à un `Agent name`, un `Operation name`, un `Tool name` ou un `Request model` spécifique. Plusieurs filtres sont combinés avec une logique `AND`. Pour attribuer un score à chaque tour de conversation, sélectionnez le **x** à la fin de la ligne de filtre pour le supprimer.
+
+<div id="prompt-template">
+  ### Modèle de prompt
+</div>
+
+Choisissez un modèle de départ dans les listes ci-dessous, puis ajustez le prompt affiché directement sous **Scorer prompt**. Weave résout les variables du modèle, telles que `{input_messages}`, `{output_messages}` et `{system_instructions}`, lors de l’évaluation.
+
+<div id="rating-templates">
+  #### Modèles de notation
+</div>
+
+| Modèle                               | Ce qu’il évalue                                                                                                                                                   |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Satisfaction de l’utilisateur**    | Si l’utilisateur est satisfait (feedback positif, poursuite de l’échange, tâche accomplie) ou insatisfait (plaintes, reformulations répétées, abandon).           |
+| **Bonne intention de l’utilisateur** | Si l’intention de l’utilisateur est bénigne et légitime, par opposition aux tentatives de jailbreak, aux requêtes malveillantes ou à l’injection de prompt.       |
+| **Safe-for-Work**                    | Si la conversation est appropriée dans un contexte professionnel, par opposition à un contenu explicite, violent ou autrement inapproprié sur le lieu de travail. |
+| **Qualité de la réponse**            | Si la réponse de l’agent est exacte, complète et répond directement à la requête de l’utilisateur.                                                                |
+
+<div id="tags-templates">
+  #### Modèles de tags
+</div>
+
+| Modèle                                    | Ce qu’il détecte                                                                                                                                                                                                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frustration de l’utilisateur**          | L’utilisateur montre des signes de frustration, de colère, de confusion ou d’insatisfaction.                                                                                                                                                                         |
+| **Intention malveillante (Jailbreaking)** | L’utilisateur tente de contourner les protections du système, d’extraire du contenu restreint, d’effectuer une injection de prompt, d’utiliser des techniques de jeu de rôle abusives, ou de manipuler l’agent d’une autre manière pour qu’il ignore ses garde-fous. |
+| **NSFW**                                  | L’entrée de l’utilisateur ou la sortie de l’agent contient du contenu sexuel explicite, de la violence explicite ou d’autres éléments inappropriés dans un cadre professionnel.                                                                                      |
+| **Réponse de faible qualité**             | Sortie de l’agent factuellement incorrecte, hors sujet, évasive, répétitive, refusant sans justification, ou ne répondant pas correctement à la requête de l’utilisateur.                                                                                            |
+
+<div id="scorer-name">
+  ### Nom du scorer
+</div>
+
+Choisissez le nom d’affichage de ce signal.
+
+<div id="advanced-settings">
+  ### Paramètres avancés
+</div>
+
+Dans **Advanced**, configurez les options suivantes.
+
+* **Modèle d&#39;inférence** : le LLM à utiliser pour l&#39;évaluation. [Serverless Inference](/fr/inference/) est l&#39;option par défaut recommandée lorsqu&#39;elle est disponible.
+* **Taux d&#39;échantillonnage** : pour les agents à fort trafic, définissez un taux d&#39;échantillonnage afin d&#39;évaluer seulement une partie des tours de conversation, plutôt que chaque tour de conversation, et de réduire les coûts.
+
+<div id="manage-and-edit-signals">
+  ## Gérer et modifier les signaux
+</div>
+
+Sélectionnez **Manage signals** pour ouvrir un volet latéral qui répertorie tous les signaux actifs du projet. Vous pouvez ensuite activer ou désactiver les signaux, les supprimer ou modifier n’importe quel signal. L’éditeur affiche les mêmes champs que **+ New signal**.
+
+<div id="troubleshoot-signals">
+  ## Résoudre les problèmes liés aux signaux
+</div>
+
+L’activité des signaux s’affiche sous **Traces** dans la barre latérale du projet. Si vous ne voyez pas les correspondances attendues pour les signaux, utilisez le tableau **Traces** pour le diagnostic. Par exemple, vérifiez le nom du scorer ainsi que la colonne **Status** afin de repérer d’éventuelles erreurs. En cas d’erreur d’exécution du scorer, **Status** affiche un indicateur rouge et inclut des détails sur l’erreur.

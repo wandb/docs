@@ -1898,8 +1898,7 @@
                     "group": "Premiers pas",
                     "pages": [
                       "fr/weave/agents-quickstart",
-                      "fr/weave/quickstart",
-                      "fr/weave/guides/integrations"
+                      "fr/weave/quickstart"
                     ]
                   },
                   {
@@ -1910,10 +1909,11 @@
                         "group": "Tracez vos agents",
                         "pages": [
                           "fr/weave/guides/tracking/trace-agents",
+                          "fr/weave/guides/tracking/trace-agent-integrations",
                           "fr/weave/guides/tracking/view-agent-activity",
+                          "fr/weave/guides/tracking/view-agent-signals",
                           "fr/weave/guides/tracking/trace-agents-batch",
-                          "fr/weave/guides/tracking/trace-sub-agents",
-                          "fr/weave/guides/evaluation/monitors"
+                          "fr/weave/guides/tracking/trace-sub-agents"
                         ]
                       },
                       {
@@ -3275,8 +3275,7 @@
                     "group": "スタートガイド",
                     "pages": [
                       "ja/weave/agents-quickstart",
-                      "ja/weave/quickstart",
-                      "ja/weave/guides/integrations"
+                      "ja/weave/quickstart"
                     ]
                   },
                   {
@@ -3287,10 +3286,11 @@
                         "group": "エージェントをトレースする",
                         "pages": [
                           "ja/weave/guides/tracking/trace-agents",
+                          "ja/weave/guides/tracking/trace-agent-integrations",
                           "ja/weave/guides/tracking/view-agent-activity",
+                          "ja/weave/guides/tracking/view-agent-signals",
                           "ja/weave/guides/tracking/trace-agents-batch",
-                          "ja/weave/guides/tracking/trace-sub-agents",
-                          "ja/weave/guides/evaluation/monitors"
+                          "ja/weave/guides/tracking/trace-sub-agents"
                         ]
                       },
                       {
@@ -4652,8 +4652,7 @@
                     "group": "시작하기",
                     "pages": [
                       "ko/weave/agents-quickstart",
-                      "ko/weave/quickstart",
-                      "ko/weave/guides/integrations"
+                      "ko/weave/quickstart"
                     ]
                   },
                   {
@@ -4664,10 +4663,11 @@
                         "group": "에이전트를 트레이스하세요",
                         "pages": [
                           "ko/weave/guides/tracking/trace-agents",
+                          "ko/weave/guides/tracking/trace-agent-integrations",
                           "ko/weave/guides/tracking/view-agent-activity",
+                          "ko/weave/guides/tracking/view-agent-signals",
                           "ko/weave/guides/tracking/trace-agents-batch",
-                          "ko/weave/guides/tracking/trace-sub-agents",
-                          "ko/weave/guides/evaluation/monitors"
+                          "ko/weave/guides/tracking/trace-sub-agents"
                         ]
                       },
                       {

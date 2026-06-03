@@ -9,16 +9,22 @@ import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
 
 [Pi](https://pi.dev/) est un agent de codage en ligne de commande. Weave trace automatiquement les sessions Pi, les appels LLM et les exécutions d’outils à l’aide de l’intégration `createOtelExtension`, qui est conforme aux [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/).
 
-<Note>
-  Pi est un framework TypeScript/Node.js sans équivalent en Python. Pi nécessite le système de modules ESM — votre projet doit utiliser `"type": "module"` dans `package.json`, ou compiler TypeScript en sortie ESM. Les projets CommonJS généreront une erreur.  Pour plus d’informations sur la configuration d’un projet ESM, voir [l’intégration du SDK TypeScript](/fr/weave/guides/integrations/js#set-up-an-esm-project).
-</Note>
+<Warning>
+  Cette intégration envoie les données de session Pi vers Weave. Ces données peuvent inclure les prompts des utilisateurs, les réponses du modèle, les entrées et sorties des outils, le contenu des fichiers lus par les outils Pi, les commandes shell et leur sortie, ainsi que les URL récupérées et le contenu des pages.
+
+  Le nettoyage des PII et le masquage des données sensibles ne sont pas implémentés. Si vous ne pouvez pas envoyer ces données à Weave au regard de vos exigences de sécurité ou de conformité, n’activez pas le tracing Weave dans votre application Pi.
+</Warning>
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
 * [Node.js](https://nodejs.org/) (v18 ou version ultérieure)
-* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie dans la variable d&#39;environnement `WANDB_API_KEY`
+* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie comme variable d’environnement `WANDB_API_KEY`
+
+<Note>
+  Pi est un framework TypeScript/Node.js sans équivalent en Python. Pi nécessite le système de modules ESM — votre projet doit utiliser `"type": "module"` dans `package.json`, ou compiler TypeScript en sortie ESM. Les projets CommonJS généreront une erreur.  Pour plus d’informations sur la configuration d’un projet ESM, voir [l’intégration du SDK TypeScript](/fr/weave/guides/integrations/js#set-up-an-esm-project).
+</Note>
 
 <div id="install-packages">
   ## Installer les paquets

@@ -1,11 +1,11 @@
 ---
 title: "Surveiller avec les signaux intégrés"
-description: "W&B fournit des solutions de scoring intégrées pour les agents en production"
+description: "W&B fournit des solutions d’évaluation intégrées pour les agents en production"
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
+<Note>
+  Pour le tracing des applications agentiques, utilisez l’onglet **Signals** de la page **Agents**. Voir [Signals pour les agents](/fr/weave/guides/tracking/view-agent-signals).
+</Note>
 
 Dans le développement moderne des agents, les métriques système standard comme la latence, le nombre de jetons et le coût ne suffisent pas à comprendre le comportement complexe des agents. L’inspection de traces individuelles apporte des informations précieuses, mais ne passe pas à l’échelle face aux millions de traces générées dans un environnement de production.
 
@@ -72,8 +72,8 @@ Chaque signal utilise une approche de type LLM-as-a-judge pour classifier les tr
 
 Lorsque plusieurs signaux du même groupe (Qualité ou Erreur) sont actifs, Weave les regroupe dans un seul appel au LLM pour plus d’efficacité. Le modèle évalue tous les classificateurs actifs en une seule passe et renvoie les résultats pour chacun.
 
-<div id="enable-signals-from-the-monitors-page">
-  ## Activez les signaux depuis la page Monitors
+<div id="add-a-signal-from-the-monitors-page">
+  ## Ajoutez un signal depuis la page Monitors
 </div>
 
 Pour activer des signaux :
@@ -81,11 +81,11 @@ Pour activer des signaux :
 1. Accédez à [wandb.ai](https://wandb.ai/), puis ouvrez votre projet Weave.
 2. Dans la barre latérale du projet Weave, sélectionnez **Monitors**.
 3. En haut de la page Monitors, une rangée de cartes de signaux suggérés s’affiche. Chaque carte affiche le nom du signal, une description et un bouton **+ Add signal**.
-4. Pour activer un signal, sélectionnez le bouton **+ Add signal** sur la carte correspondante. Le signal commence immédiatement à attribuer des scores aux nouvelles traces.
-5. Pour activer plusieurs signaux à la fois, sélectionnez le bouton **+ [X] more signals**. Un volet latéral s’ouvre alors et répertorie tous les signaux disponibles, regroupés par catégorie.
+4. Pour ajouter un signal, sélectionnez le bouton **Add signal** sur la carte correspondante. Le signal commence immédiatement l’évaluation des nouvelles traces.
+5. Pour ajouter plusieurs signaux à la fois, sélectionnez le bouton **[X] more signals**. Un volet latéral s’ouvre alors et répertorie tous les signaux disponibles, regroupés par catégorie.
 6. Sélectionnez les signaux que vous souhaitez activer, puis sélectionnez **Add signals**.
 
-Après l’activation des signaux, Weave attribue automatiquement des scores aux traces entrantes.
+Après l’ajout des signaux, Weave effectue automatiquement l’évaluation des traces entrantes.
 
 <div id="manage-active-signals">
   ## Gérer les signaux actifs
@@ -101,21 +101,6 @@ La suppression d&#39;un signal interrompt l&#39;évaluation des nouvelles traces
 <div id="use-built-in-signals">
   ## Utiliser les signaux intégrés
 </div>
-
-<div id="see-tagged-agent-traces-on-the-agents-page">
-  ### Voir les traces d’agent taguées sur la page Agents
-</div>
-
-Si vous utilisez le tracing pour des applications agentiques, les résultats des signaux apparaissent à deux endroits
-sur la page **Agents** :
-
-* L’onglet **Signals** affiche tous les tours de conversation évalués de vos agents, avec le
-  nom du scorer, le score numérique et la tendance sur 24 heures pour chacun.
-* Le panneau de détails de la conversation de l’onglet **Conversations** affiche une section **Scores** dans le panneau **Events**.
-  Cela inclut le détail du barème et le niveau de confiance pour chaque critère de chaque
-  scorer actif.
-
-Pour plus de détails, voir [Voir l’activité des agents](/fr/weave/guides/tracking/view-agent-activity).
 
 <div id="see-tagged-call-traces-on-the-traces-page">
   ### Voir les traces d’Appel taguées sur la page Traces

@@ -9,16 +9,22 @@ import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
 
 [Pi](https://pi.dev/)는 터미널 기반 코딩 에이전트입니다. Weave는 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)을 준수하는 `createOtelExtension` 인테그레이션을 사용해 Pi Session, LLM Call, 도구 실행을 자동으로 트레이스합니다.
 
-<Note>
-  Pi는 Python 버전이 없는 TypeScript/Node.js 프레임워크입니다. Pi는 ESM 모듈 시스템이 필요하므로 프로젝트에서 `package.json`에 `"type": "module"`을 사용하거나 TypeScript를 ESM으로 컴파일해야 합니다. CommonJS 프로젝트에서는 오류가 발생합니다.  ESM 프로젝트 설정에 대한 자세한 내용은 [Typescript SDK integration](/ko/weave/guides/integrations/js#set-up-an-esm-project)을 참조하세요.
-</Note>
+<Warning>
+  이 인테그레이션은 Pi Session 데이터를 Weave로 전송합니다. 이 데이터에는 사용자 프롬프트, 모델 응답, 도구 입력과 출력, Pi 도구가 읽은 파일 내용, 셸 명령과 출력, 가져온 URL 및 페이지 콘텐츠가 포함될 수 있습니다.
+
+  PII 스크러빙과 민감한 데이터 마스킹은 아직 구현되어 있지 않습니다. 보안 또는 규정 준수 요구 사항상 이 데이터를 Weave로 보낼 수 없다면 Pi 애플리케이션에서 Weave 트레이싱을 활성화하지 마세요.
+</Warning>
 
 <div id="prerequisites">
   ## 사전 요구 사항
 </div>
 
 * [Node.js](https://nodejs.org/) (v18 이상)
-* W&amp;B 계정 및 `WANDB_API_KEY` 환경 변수로 설정된 [API 키](https://wandb.ai/authorize)
+* `WANDB_API_KEY` 환경 변수로 설정한 W&amp;B 계정 및 [API 키](https://wandb.ai/authorize)
+
+<Note>
+  Pi는 Python 버전이 없는 TypeScript/Node.js 프레임워크입니다. Pi는 ESM 모듈 시스템이 필요하므로 프로젝트에서 `package.json`에 `"type": "module"`을 사용하거나 TypeScript를 ESM으로 컴파일해야 합니다. CommonJS 프로젝트에서는 오류가 발생합니다.  ESM 프로젝트 설정에 대한 자세한 내용은 [Typescript SDK integration](/ko/weave/guides/integrations/js#set-up-an-esm-project)을 참조하세요.
+</Note>
 
 <div id="install-packages">
   ## 패키지 설치

@@ -109,7 +109,7 @@ flowchart TB
 Une session regroupe les tours de conversation à l’aide d’un attribut `conversation_id` partagé plutôt que d’un span parent. Ainsi, chaque tour de conversation démarre sa propre trace OTel. Cette conception prend en charge le traçage distribué et l’exécution en parallèle. Le client envoie les spans directement au collecteur OTel, sans agrégation côté serveur.
 
 <Tip>
-  **Vous utilisez un SDK d’agent tiers ou un harness ?** Commencez par la page des [intégrations Weave](/fr/weave/guides/integrations) plutôt que par une instrumentation manuelle du SDK. Weave applique automatiquement des patchs aux SDK d’agents pris en charge (comme OpenAI Agents SDK) et aux harnesses d’agents (comme Claude Code) pour fournir une observabilité intégrée des agents.
+  Si vous cherchez à intégrer Weave à des SDK ou harnesses populaires, comme le Claude Agent SDK ou Codex, voir [Intégrations de traçage des agents](/fr/weave/guides/tracking/trace-agent-integrations). Weave applique automatiquement des patchs à plusieurs SDK populaires de création d’agents et harnesses d’agents pour une intégration rapide.
 </Tip>
 
 <div id="agent-tracing-apis">

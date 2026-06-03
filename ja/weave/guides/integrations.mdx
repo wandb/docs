@@ -14,38 +14,7 @@ Weave では、AI スタックと統合する方法が 2 つあります。
   ## エージェントをトレースする
 </div>
 
-Weave SDK は、マルチターン エージェントのライフサイクル全体 (セッション、ターン、LLM Call、tool call) をモデル化しています。サポートされるエージェント SDK とハーネスでは、Weave がフレームワークに自動的にパッチを適用するため、`weave.init()` を呼び出すだけで済みます。すべてのエージェント呼び出し、サブエージェントへのハンドオフ、モデル呼び出し、tool call は自動的に取得され、**Agents** ビューに表示されます。
-
-カスタム エージェントでは、`weave.start_session`、`weave.start_turn`、`weave.start_llm`、`weave.start_tool` を使用して、任意のエージェントコードを手動で計装できます。詳しい手順については、[エージェントのクイックスタート](/ja/weave/agents-quickstart)をご覧ください。
-
-<div id="integrate-weave-with-agent-sdks">
-  ### Weave をエージェント SDK と統合する
-</div>
-
-エージェント SDK は、自身のアプリケーションコード内でエージェントやマルチエージェント ワークフローを構築するためのライブラリです。Weave は次の SDK に自動でパッチを適用します。
-
-* **[OpenAI Agents SDK](/ja/weave/guides/integrations/agents/openai-agents-sdk)**
-* **[Google Agent Development Kit (ADK)](/ja/weave/guides/integrations/agents/google-adk)**
-* **[Claude Agent SDK](/ja/weave/guides/integrations/agents/claude-agents-sdk)**
-
-<div id="integrate-weave-with-agent-harnesses">
-  ### エージェントハーネスと Weave を統合する
-</div>
-
-エージェントハーネスは、Weave が取得できる span を生成する、エンドユーザー向けのエージェントランタイム (コーディングエージェントや開発者ツールなど) です。適切なプラグインまたは拡張機能をインストールすると、ハーネスのセッションが **Agents** view に送られて表示されます。
-
-* **[Claude Code plugin](/ja/weave/guides/integrations/agents/claude-code-harness)**
-* **[Codex plugin](/ja/weave/guides/integrations/agents/codex-harness)**
-* **[OpenClaw plugin](/ja/weave/guides/integrations/agents/openclaw-harness)**
-* **[Pi extension](/ja/weave/guides/integrations/agents/pi-dev-harness)**
-
-<div id="build-your-own">
-  ### 独自に実装する
-</div>
-
-Weave SDK を直接使用して、OpenTelemetry span を出力するものを含むカスタム エージェントをインストルメントできます。Weave は任意の OTel span を受け付け、[GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) に特別に対応しているため、span が Weave UI の **Agents** ビューで正しく表示されます。
-
-カスタム エージェントをトレースする方法については、[エージェントをトレースするクイックスタート](/ja/weave/agents-quickstart) を参照してください。
+**Agents** ビューに表示されるエージェント SDK、ハーネス、カスタム インストルメンテーションについては、[エージェントのトレース向けインテグレーション](/ja/weave/guides/tracking/trace-agent-integrations)を参照してください。
 
 <div id="trace-llm-applications">
   ## LLM アプリケーションをトレースする

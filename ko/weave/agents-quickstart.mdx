@@ -1,6 +1,6 @@
 ---
 title: "퀵스타트: 에이전트 트레이스하기"
-description: Weave SDK로 멀티턴 에이전트를 트레이스하세요. 세션, 턴, LLM calls, 도구 Call이 프로젝트의 Agents 뷰에 표시됩니다.
+description: Weave SDK로 멀티턴 에이전트를 트레이스하세요. Session, 턴, LLM calls, 도구 Call이 프로젝트의 Agents 뷰에 표시됩니다.
 ---
 
 import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
@@ -9,9 +9,9 @@ import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
 
 [Colab에서 사용해 보기](https://colab.research.google.com/github/wandb/weave/blob/master/docs/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub 원본](https://github.com/wandb/weave/blob/master/docs/weave/cookbooks/source/agents-quickstart.ipynb)
 
-Weave SDK를 사용하면 널리 사용되는 SDK나 맞춤형 하니스로 구축한 에이전트를 트레이스할 수 있습니다. 이 퀵스타트에서는 OpenTelemetry span을 생성하고 캡처할 수 있도록, 맞춤형 멀티턴 에이전트에 Weave를 수동으로 통합하는 방법을 안내합니다.
+Weave SDK를 사용하면 널리 사용되는 SDK나 맞춤형 하니스로 구축한 에이전트를 트레이스할 수 있습니다. 이 퀵스타트에서는 OpenTelemetry span을 생성하고 캡처할 수 있도록, 맞춤형 멀티턴 에이전트에 Weave를 수동으로 통합하는 방법을 안내합니다. 에이전트용 Weave의 개념을 이해하려면 [에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)을 참조하세요.
 
-Claude Agent SDK나 Codex처럼 널리 사용되는 SDK 또는 하니스에 Weave를 통합하려는 경우 [Weave 인테그레이션 섹션](/ko/weave/guides/integrations)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 널리 사용되는 에이전트 구축 SDK와 에이전트 하니스에 자동으로 패치됩니다.
+Claude Agent SDK나 Codex처럼 널리 사용되는 SDK 또는 하니스에 Weave를 통합하려는 경우 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 널리 사용되는 에이전트 구축 SDK와 에이전트 하니스에 자동으로 패치됩니다.
 
 <div id="what-youll-learn">
   ## 학습할 내용
@@ -355,4 +355,4 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 </div>
 
 * [Weave로 에이전트를 트레이스하는 방법](weave/guides/tracking/trace-agents)과 Weave SDK에서 사용 가능한 특성과 옵션을 더 잘 이해하세요.
-* 에이전트에 Weave를 통합하는 더 많은 옵션은 [인테그레이션 섹션](/ko/weave/guides/integrations)을 참조하세요.
+* 에이전트에 Weave를 통합하는 더 많은 옵션은 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요.
