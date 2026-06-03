@@ -60,7 +60,8 @@ Customize the panel's overall appearance and behavior:
   - Set **Stride length** to the number of steps to advance for each click of the slider.
   - Turn on or off **Snap to existing step**. If it's turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that doesn't align with an existing step.
 - **Images**: Turn on or off smoothing.
-- **3D objects**: Configure the background color and point color.
+- **Videos**: Configure the video seek step interval, which controls how far forward or backward to skip when using the left and right arrow keys.
+- **3d objects**: Configure the background color and point color.
 
 ### Layout
 
@@ -73,7 +74,9 @@ Customize the display of the panel's individual items:
     - **Grid**: Specify the number of columns, the x axis (defaults to **Log Step**), and the y axis (defaults to **Run**).
     - **Compare**: Compare up to four media items side by side, optionally fanning out by step or index. See [Compare mode](#compare-mode) for details.
 - **Use original size**: If off (default), W&B scales images and videos in the panel to appear the same size. No effect in **Compare** mode.
-- **Fit to available space**: If on (default), W&B scales images and videos in the panel to take up as much room as possible in the panel. In **Gallery** mode, each image fills the panel width. In **Grid** mode, each image fills the grid width. No effect in **Compare** mode.
+- Configure media fit and scaling behavior:
+    - **Images**: Choose one of **Original image**, **Original size**, or **Fit to available space**. With the latter, W&B scales images in the panel to take up as much room as possible. In **Gallery** mode, each image fills the panel width. In **Grid** mode, each image fills the grid width. No effect in **Compare** mode.
+    - **Videos**: Toggle **Use original size** to control whether to scale media to appear the same size. If inactive (default), W&B scales videos in the panel to take up as much room as possible. In **Gallery** mode, each video fills the panel width. In **Grid** mode, each video fills the grid width. No effect in **Compare** mode.
 - **Right-handed system**: If on, point clouds use the right-handed system for plotting points, rather than the default left-handed system.
 
 ### All media panels in a section
@@ -156,6 +159,6 @@ After you add and configure a media panel, use the following interactions to ste
 - Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
 - To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
 - When viewing an image in full-screen mode, click the zoom control at the top right to zoom in or out. By default, images zoom to fit. Click and drag to pan a zoomed-in image. You can also zoom in, zoom out, reset to 100% zoom, or zoom to fit using keyboard shortcuts. See [Keyboard shortcuts](/models/app/keyboard-shortcuts#media-panels).
-- For an image logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
-- For an image or point cloud logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
-- Use the media controls to play, pause, or stop video playback. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.
+- For an image that was logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
+- For an image or point cloud that was logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
+- Use the media controls to play, pause, or stop video playback. Use the left and right arrow keys to skip forward or backward by the configured **video seek step**. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.

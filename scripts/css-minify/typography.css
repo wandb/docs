@@ -64,6 +64,26 @@ h1 {
   font-size: var(--font-size-xl); /* 40px */
 }
 
+/* Inline bold emphasis — Markdown `**text**` (and any literal <b>) render as
+   <strong>/<b>. Mintlify's Aspen theme leaves these at the inherited body
+   weight, so emphasized text read no heavier than the surrounding copy across
+   the whole site, release notes included (DOCS-2705). Apply the design
+   system's bold token — the same 650 the token comment above earmarks for
+   "emphasis", and that active nav (topbar.css) and card headings (cards.css)
+   already use. !important plus our load-order advantage beats Aspen's base
+   rule, exactly like the h1–h6 override above.
+
+   docs.json pins Source Sans 3 to a single weight (400), so the browser never
+   downloads a dedicated bold face. font-synthesis-weight:auto is the browser
+   default; we set it explicitly on the element so an upstream
+   `font-synthesis: none` cannot suppress the synthesized heavier weight. This
+   is the same mechanism the existing 650-weight nav and card rules already
+   rely on, so emphasis now renders to match them. */
+strong, b {
+  font-weight: var(--font-weight-bold) !important;
+  font-synthesis-weight: auto;
+}
+
 /* Drop the prose plugin's h2 top margin. Mintlify's @tailwindcss/typography
    build emits
      .prose :where(h2):not(:where([class~=not-prose],[class~=not-prose] *))
