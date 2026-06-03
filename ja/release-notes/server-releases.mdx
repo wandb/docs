@@ -14,6 +14,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.81.1" description="2026年6月3日">
+  **2026年6月3日**
+
+  ## 修正
+
+  * Workspace でのパネル検索のパフォーマンスを改善しました。特に、正規表現ベースの検索で効果があります。
+  * ユーザーが現在アクセス可能なコンテキスト外まで権限チェックが評価されていたため、アーティファクト が複数のレジストリにリンクされている場合に アーティファクト のダウンロードが失敗することがあるバグを修正しました。
+  * すでにリンクされている アーティファクト を再リンクすると、アーティファクト-link オートメーションが意図せずトリガーされることがあるバグを修正しました。
+  * project 名の変更後に、`project [storage_key] not found` エラーによりストレージエンジンの読み取りが失敗することがあるバグを修正しました。
+  * サポートされていないレスポンス形式が原因で、OpenAI のオーディオ対応モデルに対する Weave scoring の Call が失敗することがあるバグを修正しました。
+</Update>
+
 <Update label="v0.81.0" description="2026年6月2日">
   **2026年6月2日**
 

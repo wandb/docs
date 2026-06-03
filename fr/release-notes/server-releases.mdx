@@ -14,6 +14,18 @@ Cette page inclut les notes de version des versions de W&amp;B Server prises en 
 
 <EolReminder />
 
+<Update label="v0.81.1" description="3 juin 2026">
+  **3 juin 2026**
+
+  ## Correctifs
+
+  * Amélioration des performances de la recherche de panneaux dans les Workspace, en particulier pour les recherches basées sur des expressions régulières.
+  * Correctif d’un bug où le téléchargement d’artifacts pouvait échouer lorsqu’un artifact était lié dans plusieurs registres, car les vérifications des autorisations étaient effectuées au-delà du contexte actuellement accessible à l’utilisateur.
+  * Correctif d’un bug où le fait de lier à nouveau un artifact déjà lié pouvait déclencher de manière inattendue des automatisations de liaison d’artifact.
+  * Correctif d’un bug où les lectures du moteur de stockage pouvaient échouer après le renommage d’un projet avec l’erreur `project [storage_key] not found`.
+  * Correctif d’un bug où les appels d’évaluation Weave pouvaient échouer pour les modèles OpenAI compatibles audio en raison d’un format de réponse non pris en charge.
+</Update>
+
 <Update label="v0.81.0" description="2 juin 2026">
   **2 juin 2026**
 

@@ -14,6 +14,18 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.81.1" description="2026년 6월 3일">
+  **2026년 6월 3일**
+
+  ## 수정 사항
+
+  * 워크스페이스에서 패널 검색 성능이 개선되었으며, 특히 정규식 기반 검색에서 더욱 향상되었습니다.
+  * 아티팩트가 여러 레지스트리에 연결된 경우, 사용자가 현재 액세스할 수 있는 컨텍스트를 벗어나 권한 검사가 수행되어 아티팩트 다운로드가 실패할 수 있던 버그를 수정했습니다.
+  * 이미 연결된 아티팩트를 다시 연결할 때 아티팩트 연결 자동화가 예기치 않게 트리거될 수 있던 버그를 수정했습니다.
+  * 프로젝트 이름을 변경한 후 `project [storage_key] not found` 오류와 함께 저장소 엔진 조회가 실패할 수 있던 버그를 수정했습니다.
+  * 지원되지 않는 응답 형식으로 인해 OpenAI 오디오 지원 모델에 대한 Weave 점수화 Call이 실패할 수 있던 버그를 수정했습니다.
+</Update>
+
 <Update label="v0.81.0" description="2026년 6월 2일">
   **2026년 6월 2일**
 
