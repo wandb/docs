@@ -14,16 +14,6 @@ If you're not sure which path to take, start with [Trace your agents](/weave/gui
 
 The Weave SDK models the full lifecycle of a multi-turn agent: sessions, turns, LLM calls, and tool calls. For supported agent SDKs and harnesses, Weave autopatches the framework so you only need to call `weave.init()` — every agent invocation, sub-agent handoff, model call, and tool call is captured automatically and rendered in the **Agents** view.
 
-For custom agents, you can instrument any agent code by hand using `weave.start_session`, `weave.start_turn`, `weave.start_llm`, and `weave.start_tool`. See the [agents quickstart](/weave/agents-quickstart) for a walkthrough.
-
-### Integrate Weave with agent SDKs
-
-Agent SDKs are libraries for building agents and multi-agent workflows in your own application code. Weave autopatches the following SDKs:
-
-- **[OpenAI Agents SDK](/weave/guides/integrations/agents/openai-agents-sdk)**
-- **[Google Agent Development Kit (ADK)](/weave/guides/integrations/agents/google-adk)**
-- **[Claude Agent SDK](/weave/guides/integrations/agents/claude-agents-sdk)**
-
 ### Integrate Weave with agent harnesses
 
 Agent harnesses are end-user agent runtimes (such as coding agents and developer tools) that produce spans Weave can capture. Install the appropriate plugin or extension and your harness sessions are routed to the **Agents** view:
@@ -33,11 +23,21 @@ Agent harnesses are end-user agent runtimes (such as coding agents and developer
 - **[OpenClaw plugin](/weave/guides/integrations/agents/openclaw-harness)**
 - **[Pi extension](/weave/guides/integrations/agents/pi-dev-harness)**
 
+### Integrate Weave with agent SDKs
+
+Agent SDKs are libraries for building agents and multi-agent workflows in your own application code. Weave autopatches the following SDKs:
+
+- **[OpenAI Agents SDK](/weave/guides/integrations/agents/openai-agents-sdk)**
+- **[Google Agent Development Kit (ADK)](/weave/guides/integrations/agents/google-adk)**
+- **[Claude Agent SDK](/weave/guides/integrations/agents/claude-agents-sdk)**
+
 ### Build your own
 
 Use the Weave SDK directly to instrument custom agents, including any agent that emits OpenTelemetry spans. Weave accepts any OTel span and has special handling for [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) so your spans render correctly in the **Agents** view of the Weave UI.
 
-See the the [Trace an agent quickstart](/weave/agents-quickstart) for information on how to trace custom agents.
+For custom agents, you can instrument any agent code by hand using `weave.start_session`, `weave.start_turn`, `weave.start_llm`, and `weave.start_tool`. 
+
+See the [Trace an agent quickstart](/weave/agents-quickstart) for a walkthrough on how to trace custom agents.
 
 ## Trace LLM applications
 
