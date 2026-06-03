@@ -2,11 +2,12 @@
 description: Delete artifacts interactively with the App UI or programmatically with
   the W&B Python SDK.
 title: Delete an artifact
+keywords: ["soft delete", "garbage collection", "artifact retention", "delete collection", "protected aliases"]
 ---
 
-Delete artifacts interactively with the W&B App or programmatically with the W&B Python SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
+This page shows you how to delete W&B artifacts so you can remove unneeded data, free up storage, and manage retention. Delete artifacts interactively with the W&B App or programmatically with the W&B Python SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, W&B marks the artifact for deletion but doesn't immediately delete files from storage.
 
-The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if a previous or subsequent artifact version doesn't use the artifact and its associated files.
 
 <Note>
 Garbage collection is **best-effort**. W&B does not guarantee how quickly freed space appears in your object storage after you delete an artifact. Large deployments or backlogs can take longer than expected. For how this fits with run data, retention settings, and optional operator actions, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
@@ -14,7 +15,7 @@ Garbage collection is **best-effort**. W&B does not guarantee how quickly freed 
 
 ## Artifact garbage collection workflow
 
-The following diagram illustrates the complete artifact garbage collection process:
+This section provides a visual overview of how artifact deletion flows through soft-delete and garbage collection before files are permanently removed. The following diagram illustrates the complete artifact garbage collection process:
 
 ```mermaid
 graph TB
@@ -46,12 +47,12 @@ graph TB
     style KeepFiles fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
     style DeleteFiles fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
     style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
-``` 
+```
 
 You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl).
 
 <Note>
-Artifacts deleted by a TTL policy, the W&B Python SDK, or the W&B App are first soft-deleted. Soft-deleted artifacts are then garbage-collected before they are permanently deleted.
+Artifacts deleted by a TTL policy, the W&B Python SDK, or the W&B App are first soft-deleted. Soft-deleted artifacts are then garbage-collected before they're permanently deleted.
 </Note>
 
 <Note>
@@ -94,7 +95,7 @@ artifact.delete(delete_aliases=True)
 
 ## Delete multiple artifact versions
 
-The following code example shows how to delete multiple artifact versions. Provide the entity, project name, and run ID that created the artifact as arguments to `wandb.Api.run()`. This returns a run object that you can use to access all artifact versions created by that run. Next, iterate through the artifact versions and delete the ones that match your criteria.
+Use this approach when you want to clean up several artifact versions logged by a single run in one operation, rather than deleting each version individually. The following code example shows how to delete multiple artifact versions. Provide the entity, project name, and run ID that created the artifact as arguments to `wandb.Api.run()`. This returns a run object that you can use to access all artifact versions created by that run. Next, iterate through the artifact versions and delete the versions that match your criteria.
 
 <Tip>
 Set the `delete_aliases` parameter to `True` (`wandb.Artifact.delete(delete_aliases=True)`) to delete an artifact version and any aliases associated with it.
@@ -125,7 +126,7 @@ for artifact in run.logged_artifacts():
 
 ## Delete multiple artifact versions with a specific alias
 
-The following code demonstrates how to delete multiple artifact versions that have a specific alias. 
+To remove only versions tagged with a particular alias (for example, an obsolete release tag), filter on the alias before deleting. The following code demonstrates how to delete multiple artifact versions that have a specific alias.
 
 Replace the `<entity>`, `<project>`, `<run_id>`, `<artifact_name>`, and `<alias>` placeholders with your own values:
 
@@ -144,7 +145,7 @@ artifact_name = "<artifact_name>"
 # Specify the alias to filter artifact versions for deletion
 desired_alias = "<alias>"
 
-# Delete artifacts logged to run with alias 'v3' and 'v4
+# Delete artifacts logged to run with alias 'v3' and 'v4'
 for artifact in run.logged_artifacts():
     print(f"Found artifact: {artifact.name}")
     if (artifact.name.split(":")[0] == artifact_name) and (desired_alias in artifact.aliases):
@@ -153,18 +154,20 @@ for artifact in run.logged_artifacts():
 
 ## Delete an artifact collection
 
+Deleting a collection removes the collection and all artifact versions it contains. Deleted versions follow the same soft-delete and garbage collection workflow described in the preceding sections.
+
 <Tabs>
 <Tab title="W&B App" value="ui">
 To delete an artifact collection:
 
 1. Navigate to the artifact collection you want to delete.
-3. Select the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu next to the artifact collection name.
-4. From the dropdown menu, select **Delete**.
+2. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu next to the artifact collection name.
+3. From the dropdown menu, select **Delete**.
 
 </Tab>
 <Tab title="W&B Python SDK" value="sdk">
 
-Delete artifact collection programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method. 
+Delete artifact collection programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method.
 
 Provide the full path of the artifact collection to `wandb.Api.artifact_collection(name="")`. The full path consists of `<entity>/<project>/<artifact_collection_name>`.
 
@@ -192,9 +195,9 @@ Artifacts with protected aliases have special deletion restrictions. [Protected 
 
 <Note>
 **Important considerations for protected aliases:**
-- Artifacts with protected aliases cannot be deleted by non-registry admins.
-- Within a registry, registry admins can unlink protected artifact versions and delete collections/registries that contain protected aliases.
-- For source artifacts: if a source artifact is linked to a registry with a protected alias, it cannot be deleted by any user
+- Non-registry admins can't delete artifacts with protected aliases.
+- Within a registry, registry admins can unlink protected artifact versions and delete collections and registries that contain protected aliases.
+- For source artifacts: if a source artifact is linked to a registry with a protected alias, no user can delete it.
 - Registry admins can remove the protected aliases from source artifacts and then delete them.
 </Note>
 
@@ -203,17 +206,15 @@ Artifacts with protected aliases have special deletion restrictions. [Protected 
 
 <Note>Garbage collection timing is not guaranteed. See [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage) for details.</Note>
 
-Garbage collection is active by default if you use W&B Multi-tenant Cloud. In W&B Dedicated and Self-Managed, you might need to take these additional steps to activate garbage collection.
+Whether garbage collection is active by default depends on your W&B deployment type, so the steps to enable it vary. Garbage collection is active by default if you use W&B Multi-tenant Cloud. In W&B Dedicated and Self-Managed, you might need to take the following steps to activate garbage collection.
 
 
 1. **W&B Self-Managed**: Set `GORILLA_ARTIFACT_GC_ENABLED=true`.
 1. **Dedicated Cloud**: Contact support to verify that garbage collection is active.
-1. Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview), which is equivalent to bucket versioning.
+1. Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/object-versioning), or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview), which is equivalent to bucket versioning.
 
 
-The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
-
-The `X` indicates you must satisfy the requirement:
+Use the following table to confirm which requirements apply to your deployment. An `X` indicates you must satisfy the requirement:
 
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
@@ -225,6 +226,5 @@ The `X` indicates you must satisfy the requirement:
 
 
 <Note>
-note
-Secure storage connector is currently only available for Google Cloud Platform and Amazon Web Services.
+Secure storage connector is available only for Google Cloud Platform and Amazon Web Services.
 </Note>
