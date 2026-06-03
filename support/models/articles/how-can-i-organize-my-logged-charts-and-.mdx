@@ -3,7 +3,11 @@ title: "How can I organize my logged charts and media in the W&B UI?"
 keywords: ["Experiments"]
 ---
 
-The `/` character separates logged panels in the W&B UI. By default, the segment of the logged item's name before the `/` defines a group of panels known as a "Panel Section."
+Organize logged charts and media into related groups by naming logged items with a shared prefix, which makes it easier to scan and compare metrics in the W&B UI.
+
+The `/` character separates logged panels in the W&B UI. By default, the segment of the logged item's name before the `/` defines a group of panels known as a **Panel Section**.
+
+For example, the following code logs metrics into two panel sections, `val` and `train`:
 
 ```python
 import wandb
@@ -14,7 +18,7 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-In the [Workspace](/models/track/project-page#workspace-tab) settings, adjust the grouping of panels based on either the first segment or all segments separated by `/`.
+To change how W&B groups panels, use the [Workspace](/models/track/project-page#workspace-tab) settings to group panels based on either the first segment or all segments separated by `/`.
 
 ---
 

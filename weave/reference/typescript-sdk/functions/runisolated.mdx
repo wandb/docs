@@ -14,13 +14,12 @@ to the outer async chain.
 
 Use this to safely run parallel GenAI work:
 
-
   ```typescript
   await Promise.all([
     weave.runIsolated(async () => { ... }),
     weave.runIsolated(async () => { ... }),
   ]);
-  ```
+ ```
 
 Sequential single-flight usage doesn't require this wrapper — the
 process-wide default state handles it.
@@ -43,6 +42,6 @@ process-wide default state handles it.
 
 #### Defined in
 
-[genai/context.ts:88](https://github.com/wandb/weave/blob/a383d080ca97801c327ddeac4a2fc17875cabe2f/sdks/node/src/genai/context.ts#L88)
+[genai/context.ts:90](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/context.ts#L90)
 
 ___

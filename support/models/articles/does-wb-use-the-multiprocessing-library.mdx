@@ -3,14 +3,14 @@ title: "Does W&B use the `multiprocessing` library?"
 keywords: ["Experiments"]
 ---
 
-Yes, W&B uses the `multiprocessing` library. An error message like the following indicates a possible issue:
+Yes, W&B uses the `multiprocessing` library. As a result, scripts that call W&B directly need to guard their entry point so that child processes don't re-run the top-level code. The following error message indicates this issue:
 
 ```
 An attempt has been made to start a new process before the current process 
 has finished its bootstrapping phase.
 ```
 
-To resolve this, add an entry point protection with `if __name__ == "__main__":`. This protection is necessary when running W&B directly from the script.
+To resolve this error, add entry point protection with `if __name__ == "__main__":`. You need this protection when you run W&B directly from the script. It ensures that worker processes spawned by `multiprocessing` don't re-run your training code.
 
 ---
 
