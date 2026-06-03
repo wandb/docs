@@ -79,7 +79,7 @@ W&B recommends using a mix of built-in and external service accounts across your
 
 ### Determine the Subject value for your identity provider
 
-The value you enter for **Subject** must exactly match the `sub` (subject) claim in the JWTs that your identity provider issues for the service account. W&B verifies this as part of [JWT validation](#jwt-validation), using the same check for every identity provider. The match is exact, case-sensitive, and whitespace-sensitive, so even a trailing space or a difference in capitalization causes authentication to fail.
+The value you enter for **Subject** must exactly match the `sub` (subject) claim in the JWTs that your identity provider issues for the service account. W&B applies the same comparison for every identity provider. The match is exact, case-sensitive, and whitespace-sensitive, so even a trailing space or a difference in capitalization causes authentication to fail.
 
 The W&B UI accepts any non-empty **Subject** without validating its value, so an incorrect value isn't caught when you create the service account. Instead, authentication fails later, when the service account presents its JWT.
 
