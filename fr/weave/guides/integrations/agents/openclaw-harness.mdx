@@ -31,10 +31,10 @@ Le plugin Weave pour OpenClaw capture automatiquement les traces de chaque sessi
 <Steps>
   <Step title="Installer le package :">
     ```bash lines
-    pnpm add weave-openclaw
+    openclaw plugins install weave-openclaw
     ```
 
-    Le plugin est chargé par la passerelle OpenClaw via sa configuration. Vous ne l&#39;importez pas dans le code de l&#39;application.
+    Utilisez le nom complet `weave-openclaw` (`weave` seul correspond au SDK W&amp;B, pas à ce plugin). Le plugin est chargé par la passerelle OpenClaw via sa configuration. Vous ne l&#39;importez pas dans le code de l&#39;application.
   </Step>
 
   <Step title="Ajouter le plugin à la configuration de votre passerelle :">
@@ -43,7 +43,6 @@ Le plugin Weave pour OpenClaw capture automatiquement les traces de chaque sessi
 
     ```json lines
     {
-      diagnostics: { enabled: true },
       plugins: {
         allow: ["weave"],
         entries: {
@@ -57,14 +56,13 @@ Le plugin Weave pour OpenClaw capture automatiquement les traces de chaque sessi
     }
     ```
 
-    Comme indiqué dans l&#39;exemple de configuration, celle de votre passerelle doit inclure ces deux paramètres :
+    Définissez **`hooks.allowConversationAccess`** sur **`true`** afin qu&#39;OpenClaw exécute les hooks avec contenu (`llm_input`, `llm_output`, `agent_end`) et que les spans incluent le texte d&#39;entrée/sortie ainsi que les arguments et résultats des outils.
 
-    * Définissez **`diagnostics.enabled`** sur **`true`** afin qu&#39;OpenClaw émette les événements de diagnostic consommés par le plugin.
-    * Définissez **`hooks.allowConversationAccess`** sur **`true`** afin qu&#39;OpenClaw exécute les hooks avec contenu (`llm_input`, `llm_output`, `agent_end`) et que les spans incluent le texte d&#39;entrée/sortie ainsi que les arguments et résultats des outils.
+    `diagnostics.enabled` est activé par défaut. Définissez-le explicitement uniquement si vous devez le désactiver.
   </Step>
 
   <Step title="Redémarrer la passerelle et vérifier :">
-    Redémarrez la passerelle OpenClaw, puis exécutez `/weave status` dans n&#39;importe quelle interface de chat OpenClaw pour confirmer que le plugin est actif. Les traces apparaîtront dans `wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` quelques secondes après la première exécution de votre agent.
+    Redémarrez la passerelle OpenClaw, puis exécutez `/weave status` dans n&#39;importe quelle interface de chat OpenClaw pour confirmer que le plugin est actif. Les traces apparaîtront dans `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` quelques secondes après la première exécution de votre agent.
   </Step>
 </Steps>
 
@@ -110,22 +108,22 @@ Le champ `apiKey` prend en charge quatre sources d’authentification, résolues
         config: {
           entity: "YOUR-TEAM",
           project: "YOUR-PROJECT",
-          // Lit WANDB_API_KEY depuis l'environnement si apiKey est omis.
-          // SecretRef prend en charge source: "env" ou "file" :
+          // Reads WANDB_API_KEY from env if apiKey is omitted.
+          // SecretRef supports source: "env" or "file":
           //   { source: "env",  provider: "default", id: "WANDB_API_KEY" }
           //   { source: "file", provider: "default", id: "/run/secrets/wandb" }
-          // La chaîne littérale est prise en charge mais déconseillée.
+          // Plain string is supported but discouraged.
           apiKey: { source: "env", provider: "default", id: "WANDB_API_KEY" },
           serviceName: "openclaw-agent",
-          // Facultatif, améliore le Grouping dans l'onglet Agents.
+          // Optional, improves Agents tab grouping.
           agentName: "my-agent",
           agentVersion: "v1.0",
           agentDescription: "What my agent does.",
-          // Activé par défaut. Définir à false pour désactiver complètement
-          // (conformité ou politique de rétention). Le plugin ne masque pas
-          // les chaînes capturées ; nettoyez en amont si nécessaire.
+          // ON by default. Set to false for a hard off (compliance or
+          // retention policy). The plugin does not redact captured
+          // strings; scrub upstream if needed.
           captureContent: true,
-          flushIntervalMs: 5000,
+          flushIntervalMs: 1000,
         },
         hooks: { allowConversationAccess: true },
       },
@@ -160,8 +158,8 @@ Le journal de la passerelle correspond à la sortie du terminal du processus qui
 </div>
 
 1. Exécutez `/weave status`. Si le cycle de vie est `disabled`, `config-error` ou `not-started`, le plugin ne s’est pas activé. Vérifiez le journal de la passerelle pour y trouver `weave: config.entity is required`, `weave: configuration error` ou `[weave] incompatible plugin SDK`.
-2. Vérifiez que `diagnostics.enabled: true` est défini dans la configuration de la passerelle.
-3. Vérifiez que l’entité et le projet correspondent au slug de l’URL du projet Weave que vous inspectez. `/weave status` doit afficher `project=<entity>/<project>`.
+2. Vérifiez que vous n’avez pas défini `diagnostics.enabled: false` dans la configuration de la passerelle. Ce champ doit être défini sur `true`.
+3. Vérifiez que l’entité et le projet correspondent au slug de l’URL du projet Weave que vous inspectez. `/weave status` doit afficher `project=[YOUR-TEAM]/[YOUR-PROJECT]`.
 4. Vérifiez la source d’authentification. `/weave status` doit afficher `auth=...`. Si `WANDB_API_KEY env` s’affiche alors que vous avez défini la clé dans une autre variable d’environnement, le plugin lit la mauvaise clé.
 
 <div id="spans-land-but-inputoutput-text-is-empty">
