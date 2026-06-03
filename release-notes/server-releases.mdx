@@ -17,12 +17,12 @@ This page includes release notes for supported releases of W&B Server.
 
 ## Fixes
 
-- Fixed a bug where artifact downloads could fail when an artifact was linked in multiple registries because permission checks were evaluated beyond the user’s current accessible context.
-- Fixed a bug where re-linking an already-linked artifact could trigger artifact-link automations unexpectedly.
-- Fixed a bug where storage engine reads could fail after a project rename with the error `project [storage_key] not found`.
 - Improved panel search performance in workspaces, especially for regex-based searches.
 - Improved performance and responsiveness when loading run history data.
 - Improved reliability when loading line plots by reducing cases where slow queries could return partial results prematurely.
+- Fixed a bug where artifact downloads could fail when an artifact was linked in multiple registries because permission checks were evaluated beyond the user’s current accessible context.
+- Fixed a bug where re-linking an already-linked artifact could trigger artifact-link automations unexpectedly.
+- Fixed a bug where storage engine reads could fail after a project rename with the error `project [storage_key] not found`.
 - Fixed a bug where Weave scoring calls could fail for OpenAI audio-enabled models due to an unsupported response format.
 
 </Update>
