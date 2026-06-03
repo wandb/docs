@@ -287,26 +287,28 @@ You can alternatively view the child spans as a hierarchical trace tree by selec
 
 ## Signals tab
 
-The **Signals** tab shows the output of automated behavioral scoring applied
-to your agent's turns. Where the Conversations and Spans tabs tell you *what*
-happened, Signals tell you *how well* it happened. They surface quality issues
-like low-effort responses or hallucinations, and error conditions like rate
-limiting or bugs, without requiring you to read individual traces.
+The **Signals** tab shows tags and ratings for your agent's conversations. Signals surface quality and safety issues to flag problems, find patterns, and highlight the traces that need your attention. Use signals to automatically score the quality of your agent's responses, notice when a user is frustrated, or flag NSFW content.
 
 ![The Signals tab showing a list of scored turns for the agent.](./imgs/agent-view-signals.png)
 
+### Key terms
+
+- **Turn**: One back-and-forth exchange between the user and the agent.
+- **Rating**: A numeric score between 0.0 and 1.0 that a signal monitor assigns to evaluate a matching span.
+- **Tags**: Labels that a signal monitor assigns to categorize matching spans, such as detecting user frustration or NSFW content.
+
 ### Signals table
 
-Each row represents one signal score applied to a turn. The following columns appear by default.
+Each row represents the output of one of your signal monitors. The following columns appear by default.
 
 | Column | Description |
 |---|---|
-| **Type** | Linked to the flame graph details of the turn that generated the signal result. |
+| **Type** | The part of the conversation being scored. Currently only "turn" is supported. |
 | **Scorer** | The name of the signal that produced this score. |
 | **Last message** | A preview of the last message in the scored turn, with the role shown below. |
 | **Agent** | The agent associated with the scored turn. |
-| **Scores** | The numeric score from 0.0 to 1.0, or a tag if matched. Scores near 0 indicate a detected issue. Scores near 1 indicate no issue detected. |
-| **Trend (24h)** | Shows a sparkline of how scores for this signal have changed over the past 24 hours. |
+| **Scores** | The numeric rating from 0.0 to 1.0, or a tag if matched. We recommend using consistent ratings where 1 indicates good and 0 indicates bad, but your scorers can use any scale you define. |
+| **Trend** | Displays an inline chart showing how this signal is trending over time. Shows either the average value (for ratings) or the count (for tags). |
 | **When** | When the signal was scored. |
 
 Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period. The **Score volume** timeline shows counts of signals that have been evaluated for ratings or tagged. It reflects the rows shown in the table and supports drag-to-filter on the timeline.
@@ -319,16 +321,34 @@ Select **+ New signal** to create a new scorer for your agent.
 
 Choose to create either a **Rating** scorer or a **Tags** scorer.
 
-- **Rating**: Ratings-based scorers assign a numeric value between 0 and 1 to each matching turn. Weave creates one Signals table row per matching turn.
-- **Tags**: Tags-based scorers assign a tag to each matching turn that meets your criteria (for example, detecting user frustration). Weave creates a Signals table row only when a turn matches the tag criteria. If you create a tag signal and see no rows, the scorer likely hasn't found a match yet.  Multiple tags can be assigned per scorer.
+- **Rating**: Assigns a score between 0 and 1 to each matching span.
+- **Tags**: Assigns up to 10 tags to each matching span. The signals UI only displays rows for spans that matched at least one tag, so your tag scorer might be working even if you don't see any output.
 
 #### Only score turns matching
 
-A turn is one back-and-forth exchange with the agent. Use this selector to restrict which turns the signal scores, such as a specific `Agent name`, `Operation name`, `Tool name`, or `Request model`. Multiple filters are combined with `AND` logic. To score every turn, select the **x** at the end of the filter row to remove it.
+Use this selector to restrict which turns the signal scores, such as a specific `Agent name`, `Operation name`, `Tool name`, or `Request model`. Multiple filters are combined with `AND` logic. To score every turn, select the **x** at the end of the filter row to remove it.
 
 #### Prompt template
 
-Choose a starter template that aligns with a common evaluation goal like `User Frustration` or `Malicious Intent`, then adjust the prompt that appears inline as **Scorer prompt**. Weave resolves the template variables `{input_messages}`, `{output_messages}`, `{system_instructions}` during scoring.
+Choose a starter template from the lists below, then adjust the prompt that appears inline as **Scorer prompt**. Weave resolves the template variables `{input_messages}`, `{output_messages}`, `{system_instructions}` during scoring.
+
+##### Rating templates
+
+| Template | What it evaluates |
+|--------|----------------|
+| **User Satisfaction** | Whether the user is satisfied (positive feedback, follow-up engagement, task completion) or dissatisfied (complaints, repeated rephrasing, abandonment). |
+| **User Good Intent** | Whether the user's intent is benign and legitimate, versus jailbreak attempts, harmful requests, or prompt injection. |
+| **Safe-for-Work** | Whether the conversation is appropriate for any professional setting, versus explicit, violent, or otherwise inappropriate workplace content. |
+| **Response Quality** | Whether the agent's response is accurate, complete, and directly addresses the user's request. |
+
+##### Tags templates
+
+| Template | What it detects |
+|--------|----------------|
+| **User Frustration** | User shows signs of frustration, anger, confusion, or dissatisfaction. |
+| **Malicious Intent (Jailbreaking)** | User attempts to jailbreak the system, extract restricted content, perform prompt injection, use role-play exploits, or otherwise manipulate the agent into ignoring its guardrails. |
+| **NSFW** | User input or agent output contains explicit sexual content, graphic violence, or other material inappropriate for a workplace setting. |
+| **Low Quality Response** | Agent output that is factually wrong, off-topic, evasive, repetitive, refuses without justification, or otherwise fails to address the user's request. |
 
 #### Scorer name
 
@@ -338,7 +358,7 @@ Choose the display name for this signal.
 
 Under **Advanced**, configure the following options.
 
-- **Inference model**: Choose the model that runs the scorer prompt against agent turns. [Serverless Inference](/inference) is recommended and is the default when it is set up for your project. Otherwise, Weave falls back to the first configured third-party provider or any saved custom provider for the project.
+- **Inference model**: The LLM to use for scoring. [Serverless Inference](/inference/) is the recommended default when available.
 - **Sample rate**: For high-traffic agents, set a sample rate to score a fraction of turns instead of every turn and reduce cost.
 
 ### Manage and edit signals
@@ -347,6 +367,4 @@ Select **Manage signals** to open a drawer that lists all active signals for the
 
 ### Troubleshoot signals
 
-Signal activity appears under **Traces** in the project sidebar. If you do not see the expected signal matches, debug using the **Traces** table. For example, check the scorer name and the **Status** column for error conditions.  Scorer execution errors show a red indicator for **Status** and include details for the error.
-
-For more information on built-in signals, see [Monitor using built-in signals](/weave/guides/evaluation/monitors).
+Signal activity appears under **Traces** in the project sidebar. If you don't see the expected signal matches, debug using the **Traces** table. For example, check the scorer name and the **Status** column for error conditions. Scorer execution errors show a red indicator for **Status** and include details for the error.
