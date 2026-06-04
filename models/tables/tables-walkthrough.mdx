@@ -1,18 +1,20 @@
 ---
-description: Explore how to use W&B Tables with this 5 minute Quickstart.
-title: 'Tutorial: Log tables, visualize and query data'
+description: Explore how to use W&B Tables with this 5-minute Quickstart.
+title: 'Tutorial: Log tables, visualize, and query data'
+keywords: ["wandb.Table", "Pandas DataFrame", "cross-run comparison", "table visualization"]
 ---
 
-The following Quickstart demonstrates how to log data tables, visualize data, and query data.
+This Quickstart walks you through logging data tables to W&B, visualizing them in your project workspace, and comparing results across runs. By the end, you have a logged table that you can explore and query in the W&B App.
 
-Select the button below to try a PyTorch Quickstart example project on MNIST data. 
+Select the button below to try a PyTorch Quickstart example project on MNIST data.
 
-## 1. Log a table
-Log a table with W&B. You can either construct a new table or pass a Pandas Dataframe.
+## Log a table
+
+In this step, you create a table and log it to W&B so that it's available for visualization later in the walkthrough. You can either construct a new table or pass a Pandas DataFrame.
 
 <Tabs>
 <Tab title="Construct a table">
-To construct and log a new Table, you will use:
+To construct and log a new table, use the following:
 - [`wandb.init()`](/models/ref/python/functions/init): Create a [run](/models/runs/) to track results.
 - [`wandb.Table()`](/models/ref/python/data-types/table): Create a new table object.
   - `columns`: Set the column names.
@@ -29,8 +31,8 @@ with wandb.init(project="table-test") as run:
     run.log({"Table Name": my_table})
 ```
 </Tab>
-<Tab title="Pandas Dataframe">
-Pass a Pandas Dataframe to `wandb.Table()` to create a new table.
+<Tab title="Pandas DataFrame">
+Pass a Pandas DataFrame to `wandb.Table()` to create a new table.
 
 ```python
 import wandb
@@ -50,29 +52,31 @@ For more information on supported data types, see the [`wandb.Table`](/models/re
 </Tabs>
 
 
-## 2. Visualize tables in your project workspace
+## Visualize tables in your project workspace
 
-View the resulting table in your workspace. 
+After logging a table, you can view it in the W&B App to confirm W&B recorded it correctly and to explore its contents.
 
 1. Navigate to your project in the W&B App.
-2. Select the name of your run in your project workspace. A new panel is added for each unique table key. 
+2. Select the name of your run in your project workspace. W&B adds a new panel for each unique table key.
 
 <Frame>
-    <img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="Sample table logged"  />
+    <img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="Sample table logged" />
 </Frame>
 
-In this example, `my_table`, is logged under the key `"Table Name"`.
+In this example, `my_table` is logged under the key `"Table Name"`.
 
-## 3. Compare across model versions
+## Compare across model versions
 
-Log sample tables from multiple W&B Runs and compare results in the project workspace. In this [example workspace](https://wandb.ai/carey/table-test?workspace=user-carey), we show how to combine rows from multiple different versions in the same table.
+After you have logged tables from more than one run, you can use the project workspace to compare results side by side and evaluate how model versions differ.
+
+Log sample tables from multiple W&B Runs and compare results in the project workspace. This [example workspace](https://wandb.ai/carey/table-test?workspace=user-carey) shows how to combine rows from multiple different versions in the same table.
 
 <Frame>
-    <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="Cross-run table comparison"  />
+    <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="Cross-run table comparison" />
 </Frame>
 
 Use the table filter, sort, and grouping features to explore and evaluate model results.
 
 <Frame>
-    <img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="Table filtering"  />
+    <img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="Table filtering" />
 </Frame>
