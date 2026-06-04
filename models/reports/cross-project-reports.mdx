@@ -8,7 +8,9 @@ Watch a [video demonstrating comparing runs across projects](https://www.youtube
 </Note>
 
 
-Cross-project reports let you compare runs from two different projects side by side, which is useful when you want to evaluate experiments tracked under separate W&B projects without duplicating data. Use the project selector in the run set table to pick a project.
+Cross-project reports let you compare runs from two different projects side by side. This is useful when you want to evaluate experiments tracked under separate W&B projects without duplicating data. This page describes how to pull runs from another project into a report and how to share that report with collaborators who don't have W&B accounts.
+
+To compare runs across projects, use the project selector in the run set table to pick a project.
 
 <Frame>
     <img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="Compare runs across different projects"  />
@@ -22,20 +24,20 @@ If you need to compare runs from two projects and the columns aren't working, ad
 
 ## View-only report links
 
-When you need to share a report with someone outside your project (such as a stakeholder who doesn't have a W&B account), use a view-only link. Share a view-only link to a report that is in a private project or team project.
+After you've built a cross-project report, you might want to share it with collaborators who don't have access to the underlying projects. When you need to share a report with someone outside your project (such as a stakeholder who doesn't have a W&B account), use a view-only link. Share a view-only link to a report that is in a private project or team project.
 
 <Frame>
     <img src="/images/reports/magic-links.gif" alt="View-only report links"  />
 </Frame>
 
-View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local](/platform/hosting/) private cloud installations, these links remain behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link can view the report.
+View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. Anyone can use the magic link to view the report without logging in first. For customers on [W&B Local](/platform/hosting/) private cloud installations, these links remain behind your firewall. Only team members who have both access to your private instance and access to the view-only link can view the report.
 
-In **view-only mode**, someone who isn't logged in can see the charts and mouse over to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. When in view mode, they can't create new charts or new table queries to explore the data. View-only visitors to the report link can't click a run to get to the run page. Also, view-only visitors can't see the share modal. Instead, they see a tooltip on hover that says: `Sharing not available for view only access`.
+In view-only mode, someone who isn't logged in can see the charts and hover over them to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. They can't create new charts or new table queries to explore the data. View-only visitors can't click a run to get to the run page, and they can't see the share modal. Instead, they see a tooltip on hover that says **Sharing not available for view only access**.
 
 <Info>
-The magic links are only available for "Private" and "Team" projects. For "Public" (anyone can view) or "Open" (anyone can view and contribute runs) projects, you can't turn the links on or off because the project is public, meaning it's already available to anyone with the link.
+The magic links are only available for Private and Team projects. For Public projects (anyone can view) or Open projects (anyone can view and contribute runs), you can't turn the links on or off. The project is already public, so the report is already available to anyone with the link.
 </Info>
 
 ## Send a graph to a report
 
-If you want to preserve a chart from a workspace alongside related analysis, you can send it directly to a report. Send a graph from your workspace to a report to keep track of your progress. Click the dropdown menu on the chart or panel you'd like to copy to a report and click **Add to report** to select the destination report.
+You can also populate a report with charts you've already built in a workspace, rather than recreating them. To preserve a chart from a workspace alongside related analysis, send it directly to a report. Click the dropdown menu on the chart or panel you want to copy, then click **Add to report** to select the destination report.
