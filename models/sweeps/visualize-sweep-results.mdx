@@ -1,33 +1,45 @@
 ---
 description: Visualize the results of your W&B Sweeps with the W&B App UI.
 title: Visualize sweep results
+keywords: ["parallel coordinates", "parameter importance", "sweep UI", "hyperparameter visualization"]
 ---
 
-Visualize the results of your W&B Sweeps with the W&B App. Navigate to the [W&B App](https://wandb.ai/home). Choose the project that you specified when you initialized a sweep. You will be redirected to your project [workspace](/models/track/workspaces/). Select the **Sweep icon** in the project sidebar (broom icon). From the Sweep UI, select the name of your Sweep from the list.
+Visualize the results of your W&B Sweeps with the W&B App. The Sweep UI provides charts and controls that help you compare runs, understand which hyperparameters matter most, and manage sweep execution. Use this page to find the sweep view in the App, interpret the default charts, and customize them.
 
-The sweep list shows each sweep's state (**State**), creation time (**Created**), who started it (**Creator**), how many runs finished (**Run count**), and total **Compute time**. For a grid search over a discrete search space, W&B also shows **Est. Runs** (the expected number of runs). Open a sweep from the list to pause, resume, stop, or kill it from the app. For the same controls with the CLI, see [Manage sweeps](/models/sweeps/pause-resume-and-cancel-sweeps/).
+## Open the sweep UI
 
-By default, W&B will automatically create a parallel coordinates plot, a parameter importance plot, and a scatter plot when you start a W&B Sweep job.
+To open the Sweep UI, navigate to the [W&B App](https://wandb.ai/home). Choose the project that you specified when you initialized a sweep. W&B redirects you to your project [workspace](/models/track/workspaces/). Select the broom (**Sweep**) icon in the project sidebar. From the Sweep UI, select the name of your sweep from the list. The Sweep UI lists every sweep in the project and serves as the entry point for inspecting an individual sweep's runs and charts.
+
+The sweep list shows each sweep's state (**State**), creation time (**Created**), who started it (**Creator**), how many runs finished (**Run count**), and total **Compute time**. For a grid search over a discrete search space, W&B also shows **Est. Runs** (the expected number of runs). Open a sweep from the list to pause, resume, stop, or cancel it from the app. For the same controls with the CLI, see [Manage sweeps](/models/sweeps/pause-resume-and-cancel-sweeps/).
 
 <Frame>
     <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="Sweep UI in project sidebar"  />
 </Frame>
 
-Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance. For more information on parallel coordinates plots, see [Parallel coordinates](/models/app/features/panels/parallel-coordinates/).
+## Default visualizations
+
+By default, W&B creates a parallel coordinates plot, a parameter importance plot, and a scatter plot when you start a sweep job. The following sections describe each of these default visualizations and how to customize them.
+
+### Parallel coordinates plot
+
+Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance. For more information about parallel coordinates plots, see [Parallel coordinates](/models/app/features/panels/parallel-coordinates/).
 
 <Frame>
-    <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="Example parallel coordinates plot."  />
+    <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="Example parallel coordinates plot"  />
 </Frame>
 
-The scatter plot(left) compares the W&B Runs that were generated during the Sweep. For more information about scatter plots, see [Scatter Plots](/models/app/features/panels/scatter-plot/).
+### Scatter plot and parameter importance
 
-The parameter importance plot(right) lists the hyperparameters that were the best predictors of, and highly correlated to desirable values of your metrics. For more information on parameter importance plots, see [Parameter Importance](/models/app/features/panels/parameter-importance/).
+The scatter plot (left) compares the runs generated during the sweep. For more information about scatter plots, see [Scatter Plots](/models/app/features/panels/scatter-plot/).
+
+The parameter importance plot (right) lists the hyperparameters that are the best predictors of, and highly correlated with, desirable values of your metrics. For more information about parameter importance plots, see [Parameter Importance](/models/app/features/panels/parameter-importance/).
 
 <Frame>
     <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="Scatter plot and parameter importance"  />
 </Frame>
 
+## Customize panels
 
-You can alter the dependent and independent values (x and y axis) that are automatically used. Within each panel there is a pencil icon called **Edit panel**. Choose **Edit panel**. A model will appear. Within the modal, you can alter the behavior of the graph.
+If the default axes don't show the comparison you need, you can alter the dependent and independent values (x-axis and y-axis) that W&B uses automatically. Each panel has a pencil icon called **Edit panel**. Choose **Edit panel** to open a modal where you can alter the behavior of the graph.
 
-For more information on all default W&B visualization options, see [Panels](/models/app/features/panels/). See the [Data Visualization docs](/models/tables/) for information on how to create plots from W&B Runs that are not part of a W&B Sweep.
+For more information about all default W&B visualization options, see [Panels](/models/app/features/panels/). See the [Data Visualization docs](/models/tables/) for information about how to create plots from runs that are not part of a sweep.

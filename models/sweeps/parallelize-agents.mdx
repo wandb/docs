@@ -1,32 +1,35 @@
 ---
 description: Parallelize W&B Sweep agents on multi-core or multi-GPU machine.
 title: Parallelize agents
+keywords: ["CUDA_VISIBLE_DEVICES", "wandb agent", "multi-GPU", "hyperparameter"]
 ---
 
 
-Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before you get started, ensure you have initialized your W&B Sweep. For more information on how to initialize a W&B Sweep, see [Initialize sweeps](./initialize-sweeps).
+Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine to run multiple sweep runs at the same time. Parallelization reduces the time needed to explore your hyperparameter space. This page shows you how to launch parallel agents on multi-CPU and multi-GPU machines so you can use all available compute on a single host.
 
-### Parallelize on a multi-CPU machine
+Before you start, you must initialize your sweep. For more information about how to initialize a sweep, see [Initialize sweeps](./initialize-sweeps).
 
-Depending on your use case, explore the following tabs to learn how to parallelize W&B Sweep agents using the CLI or within a Jupyter Notebook.
+## Parallelize on a multi-CPU machine
+
+The following tabs describe how to run multiple sweep agents in parallel on a machine with multiple CPU cores. Choose the tab for the CLI or a Jupyter Notebook based on your workflow.
 
 
 <Tabs>
 <Tab title="CLI">
-Use the [`wandb agent`](/models/ref/cli/wandb-agent) command to parallelize your sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps). 
+Use the [`wandb agent`](/models/ref/cli/wandb-agent) command to parallelize your sweep agent across multiple CPUs with the terminal. Provide the sweep ID that W&B returned when you [initialized the sweep](./initialize-sweeps).
 
 1. Open more than one terminal window on your local machine.
-2. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
+2. Copy and paste the following code snippet and replace `[SWEEP-ID]` with your sweep ID:
 
 ```bash
-wandb agent sweep_id
+wandb agent [SWEEP-ID]
 ```
 </Tab>
 <Tab title="Jupyter Notebook">
-Use the W&B Python SDK library to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps).  In addition, provide the name of the function the sweep will execute for the `function` parameter:
+Use the W&B Python SDK library to parallelize your sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that W&B returned when you [initialized the sweep](./initialize-sweeps). Also provide the name of the function the sweep executes for the `function` parameter:
 
 1. Open more than one Jupyter Notebook.
-2. Copy and paste the W&B Sweep ID on multiple Jupyter Notebooks to parallelize a W&B Sweep. For example, you can paste the following code snippet on multiple jupyter notebooks to parallelize your sweep if you have the sweep ID stored in a variable called `sweep_id` and the name of the function is `function_name`: 
+2. Copy and paste the sweep ID on multiple Jupyter Notebooks to parallelize a sweep. For example, if you have the sweep ID stored in a variable called `sweep_id` and the name of the function is `function_name`, paste the following code snippet on multiple Jupyter Notebooks to parallelize your sweep:
 
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
@@ -36,25 +39,25 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
 
 
 
-### Parallelize on a multi-GPU machine
+## Parallelize on a multi-GPU machine
 
-Follow the procedure outlined to parallelize your W&B Sweep agent across multiple GPUs with a terminal using CUDA Toolkit:
+The following procedure describes how to run sweep agents in parallel across multiple GPUs on the same machine, using a terminal with CUDA Toolkit. Assign each agent to a different GPU so the agents run in parallel without competing for the same device:
 
 1. Open more than one terminal window on your local machine.
-2. Specify the GPU instance to use with `CUDA_VISIBLE_DEVICES` when you start a W&B Sweep job ([`wandb agent`](/models/ref/cli/wandb-agent)). Assign `CUDA_VISIBLE_DEVICES` an integer value corresponding to the GPU instance to use.
+2. Specify the GPU instance to use with `CUDA_VISIBLE_DEVICES` when you start a sweep job ([`wandb agent`](/models/ref/cli/wandb-agent)). Assign `CUDA_VISIBLE_DEVICES` an integer value that corresponds to the GPU instance to use.
 
-For example, suppose you have two NVIDIA GPUs on your local machine. Open a terminal window and set `CUDA_VISIBLE_DEVICES` to `0` (`CUDA_VISIBLE_DEVICES=0`). Replace `sweep_ID` in the following example with the W&B Sweep ID that is returned when you initialized a W&B Sweep:
+For example, suppose you have two NVIDIA GPUs on your local machine. Open a terminal window and set `CUDA_VISIBLE_DEVICES` to `0` (`CUDA_VISIBLE_DEVICES=0`). Replace `[SWEEP-ID]` in the following example with the sweep ID that W&B returns when you initialize a sweep:
 
-Terminal 1
+**Terminal 1:**
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
+CUDA_VISIBLE_DEVICES=0 wandb agent [SWEEP-ID]
 ```
 
-Open a second terminal window. Set `CUDA_VISIBLE_DEVICES` to `1` (`CUDA_VISIBLE_DEVICES=1`). Paste the same W&B Sweep ID for the `sweep_ID` mentioned in the following code snippet:
+Open a second terminal window. Set `CUDA_VISIBLE_DEVICES` to `1` (`CUDA_VISIBLE_DEVICES=1`). Paste the same sweep ID for the `[SWEEP-ID]` mentioned in the following code snippet:
 
-Terminal 2
+**Terminal 2:**
 
 ```bash
-CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID
+CUDA_VISIBLE_DEVICES=1 wandb agent [SWEEP-ID]
 ```

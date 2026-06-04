@@ -1,10 +1,13 @@
 ---
 description: Learn how to create configuration files for sweeps.
 title: Overview
+keywords: ["hyperparameter search", "Bayesian optimization", "Hyperband", "YAML", "early termination"]
 ---
 
 
-A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+A W&B sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+
+This guide shows you how to author a sweep configuration that specifies which hyperparameters to search, which search strategy to use, and how to evaluate each run. Use it when you're setting up a new sweep or adapting an existing configuration to a different search method or parameter space.
 
 Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
 
@@ -12,21 +15,21 @@ Define a sweep configuration either in a [Python dictionary](https://docs.python
 Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or notebook.
 </Note>
 
-The following guide describes how to format your sweep configuration. See [Sweep configuration options](./sweep-config-keys) for a comprehensive list of top-level sweep configuration keys.
+The following sections describe how to format your sweep configuration. See [Sweep configuration options](./sweep-config-keys) for a comprehensive list of top-level sweep configuration keys.
 
 ## Basic structure
 
-Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures. 
+Both sweep configuration format options (YAML and Python dictionary) use key-value pairs and nested structures.
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys) key), the parameters to search through ([`parameters`](./sweep-config-keys#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key), and more. 
+Use top-level keys within your sweep configuration to define qualities of your sweep search. These qualities include the name of the sweep ([`name`](./sweep-config-keys) key), the parameters to search through ([`parameters`](./sweep-config-keys#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key), and more.
 
 
-For example, the following code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
+For example, the following code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. The sweep configuration specifies five top-level keys: `program`, `name`, `method`, `metric`, and `parameters`.
 
 
 <Tabs>
 <Tab title="CLI">
-Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI)
+Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI).
 
 ```yaml title="config.yaml"
 program: train.py
@@ -48,7 +51,7 @@ parameters:
 ```
 </Tab>
 <Tab title="Python script or notebook">
-Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or notebook. 
+Define a sweep in a Python dictionary data structure if you define your training algorithm in a Python script or notebook.
 
 The following code snippet stores a sweep configuration in a variable named `sweep_configuration`:
 
@@ -69,20 +72,20 @@ sweep_configuration = {
 </Tabs>
 
 
-Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](./sweep-config-keys#parameters) section in [Sweep configuration options](./sweep-config-keys). 
+The top-level `parameters` key nests the following keys: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each nested key you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](./sweep-config-keys#parameters) section in [Sweep configuration options](./sweep-config-keys).
 
 
 ## Double nested parameters
 
-Sweep configurations support nested parameters. To define a nested parameter, include an additional `parameters` key under the top-level parameter name.
+Use nested parameters when you want to group related hyperparameters together or when your training code expects a nested configuration structure. To define a nested parameter, include an additional `parameters` key under the top-level parameter name.
 
 The following example shows a sweep configuration with three nested parameters: `nested_category_1`, `nested_category_2`, and `nested_category_3`. Each nested parameter includes two additional parameters: `momentum` and `weight_decay`.
 
-<Note>  
-`nested_category_1`, `nested_category_2`, and `nested_category_3` are placeholders. Replace them with names that fit your use case.  
+<Note>
+`nested_category_1`, `nested_category_2`, and `nested_category_3` are placeholders. Replace them with names that fit your use case.
 </Note>
 
-The following code snippets show how to define nested parameters in both a YAML file and a Python dictionary. 
+The following code snippets show how to define nested parameters in both a YAML file and a Python dictionary:
 
 <Tabs>
 <Tab title="CLI">
@@ -258,42 +261,43 @@ sweep_configuration = {
     },
 }
 
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="[PROJECT]")
 wandb.agent(sweep_id, function=main, count=4)
 ```
 
 During a sweep run, `run.config["nested_param"]` reflects the subtree defined by the
-sweep (`learning_rate`, `double_nested_param`) config and does not include `manual_key` defined
+sweep (`learning_rate`, `double_nested_param`) config and doesn't include `manual_key` defined
 in `wandb.init(config=...)`.
 </Warning>
 
 ## Sweep configuration template
 
+Use this template as a starting point when authoring a new sweep configuration. It illustrates the most common parameter and early-termination patterns so you can copy it and fill in the values for your own search.
 
-The following template shows how you can configure parameters and specify search constraints. Replace `hyperparameter_name` with the name of your hyperparameter and any values enclosed in `<>`.
+The following template shows how you can configure parameters and specify search constraints. Replace `hyperparameter_name` with the name of your hyperparameter and any values enclosed in brackets.
 
 ```yaml title="config.yaml"
-program: <insert>
-method: <insert>
+program: [INSERT]
+method: [INSERT]
 parameter:
   hyperparameter_name0:
     value: 0  
   hyperparameter_name1: 
     values: [0, 0, 0]
   hyperparameter_name: 
-    distribution: <insert>
-    value: <insert>
+    distribution: [INSERT]
+    value: [INSERT]
   hyperparameter_name2:  
-    distribution: <insert>
-    min: <insert>
-    max: <insert>
-    q: <insert>
+    distribution: [INSERT]
+    min: [INSERT]
+    max: [INSERT]
+    q: [INSERT]
   hyperparameter_name3: 
-    distribution: <insert>
+    distribution: [INSERT]
     values:
-      - <list_of_values>
-      - <list_of_values>
-      - <list_of_values>
+      - [LIST-OF-VALUES]
+      - [LIST-OF-VALUES]
+      - [LIST-OF-VALUES]
 early_terminate:
   type: hyperband
   s: 0
@@ -306,9 +310,11 @@ command:
 - ${Command macro}      
 ```
 
-To express a numeric value using scientific notation, add the YAML `!!float` operator, which casts the value to a floating point number. For example, `min: !!float 1e-5`. See [Command example](#command-example).
+To express a numeric value using scientific notation, add the YAML `!!float` operator, which casts the value to a floating-point number. For example, `min: !!float 1e-5`. For more information, see [Macro and custom command arguments example](#macro-and-custom-command-arguments-example).
 
 ## Sweep configuration examples
+
+The following examples show complete sweep configurations for common scenarios. Use them as references when adapting a sweep to your own training script.
 
 <Tabs>
 <Tab title="CLI">
@@ -365,6 +371,8 @@ sweep_config = {
 
 ### Bayes hyperband example
 
+The following example combines Bayesian search with Hyperband early termination so that underperforming runs stop early, freeing resources for more promising configurations.
+
 ```yaml
 program: train.py
 method: bayes
@@ -399,7 +407,7 @@ The following tabs show how to specify either a minimum or maximum number of ite
 
 <Tabs>
 <Tab title="Maximum number of iterations">
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
+The brackets for this example are `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.
 
 ```yaml
 early_terminate:
@@ -408,7 +416,7 @@ early_terminate:
 ```
 </Tab>
 <Tab title="Minimum number of iterations">
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
+The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
 
 ```yaml
 early_terminate:
@@ -423,7 +431,9 @@ early_terminate:
 
 ### Macro and custom command arguments example
 
-For more complex command line arguments, you can use macros to pass environment variables, the Python interpreter, and additional arguments. [W&B supports pre defined macros](./sweep-config-keys#command-macros) and custom command line arguments that you can specify in your sweep configuration.
+This example shows how to construct the command that the sweep agent runs for each trial when you need finer control than the default invocation provides.
+
+For more complex command-line arguments, you can use macros to pass environment variables, the Python interpreter, and additional arguments. [W&B supports predefined macros](./sweep-config-keys#command-macros) and custom command-line arguments that you can specify in your sweep configuration.
 
 For example, the following sweep configuration (`sweep.yaml`) defines a command that runs a Python script (`run.py`) with the `${env}`, `${interpreter}`, and `${program}` macros replaced with the appropriate values when the sweep runs.
 
@@ -446,7 +456,7 @@ command:
   - "--optimizer=${optimizer}"
   - "--test=True"
 ```
-The associated Python script (`run.py`) can then parse these command line arguments using the `argparse` module. 
+The associated Python script (`run.py`) can then parse these command-line arguments using the `argparse` module:
 
 ```python title="run.py"
 # run.py  
@@ -464,13 +474,15 @@ with wandb.init('test-project') as run:
     run.log({'validation_loss':1})
 ```
 
-See the [Command macros](./sweep-config-keys#command-macros) section in [Sweep configuration options](./sweep-config-keys) for a list of pre-defined macros you can use in your sweep configuration. 
+See the [Command macros](./sweep-config-keys#command-macros) section in [Sweep configuration options](./sweep-config-keys) for a list of predefined macros you can use in your sweep configuration.
 
 #### Boolean arguments
 
-The `argparse` module does not support boolean arguments by default. To define a boolean argument, you can use the [`action`](https://docs.python.org/3/library/argparse.html#action) parameter or use a custom function to convert the string representation of the boolean value to a boolean type.
+If your sweep passes boolean flags through command arguments, your training script needs extra handling because `argparse` doesn't interpret boolean strings by default.
 
-As an example, you can use the following code snippet to define a boolean argument. Pass `store_true` or `store_false` as an argument to `ArgumentParser`. 
+The `argparse` module doesn't support boolean arguments by default. To define a boolean argument, use the [`action`](https://docs.python.org/3/library/argparse.html#action) parameter or use a custom function to convert the string representation of the boolean value to a boolean type.
+
+For example, you can use the following code snippet to define a boolean argument. Pass `store_true` or `store_false` as an argument to `ArgumentParser`:
 
 ```python
 import wandb
@@ -483,12 +495,12 @@ args = parser.parse_args()
 args.test  # This will be True if --test is passed, otherwise False
 ```
 
-You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value. 
+You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value:
 
 ```python
 def str2bool(v: str) -> bool:
   """Convert a string to a boolean. This is required because
-  argparse does not support boolean arguments by default.
+  argparse doesn't support boolean arguments by default.
   """
   if isinstance(v, bool):
       return v
