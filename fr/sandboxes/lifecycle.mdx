@@ -1,17 +1,20 @@
 ---
-title: Cycle de vie d’un Sandbox
-description: Découvrez le cycle de vie d’un Serverless Sandbox, notamment ses états, comment attendre les changements d’état et comment arrêter un sandbox.
+title: Cycle de vie d’un sandbox
+description: Découvrez le cycle de vie d’un Serverless Sandbox, y compris ses états, comment attendre les changements d’état et comment arrêter un sandbox.
+keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "expiration du sandbox", "nettoyage des ressources"]
 ---
 
 <Warning>
   Serverless Sandboxes est en préversion publique.
 </Warning>
 
-Un Serverless Sandbox passe par plusieurs états au cours de son cycle de vie. L’état du sandbox détermine les opérations disponibles.
+Cette page décrit le cycle de vie d’un Serverless Sandbox afin de vous aider à choisir la bonne méthode pour attendre les changements d’état, arrêter un sandbox et structurer votre code en fonction de sa durée de vie. Comprendre ce cycle de vie vous aide à éviter les conditions de concurrence, à distinguer les échecs au démarrage des erreurs d’exécution et à nettoyer les ressources de manière prévisible.
 
-Dans la plupart des cas, un sandbox commence dans l’état `PENDING`, passe à `CREATING` pendant l’approvisionnement du conteneur, puis entre dans l’état `RUNNING` lorsqu’il est prêt à être utilisé.
+Un Serverless Sandbox W&amp;B passe par plusieurs états au cours de son cycle de vie. L’état du sandbox détermine les opérations disponibles.
 
-Si vous démarrez un sandbox avec une commande principale, cette commande devient le processus principal du sandbox. Lorsque le processus principal se termine, le sandbox passe à un état terminal tel que `COMPLETED` (code de sortie `0`) ou `FAILED` (erreur lors du démarrage ou de l’exécution). Un sandbox peut également passer à l’état `TERMINATED` s’il est arrêté de l’extérieur ou s’il dépasse sa durée de vie maximale.
+En général, un sandbox démarre dans l’état `PENDING`, passe à `CREATING` pendant l’approvisionnement du conteneur, puis entre dans l’état `RUNNING` lorsqu’il est prêt à être utilisé.
+
+Si vous démarrez un sandbox avec une commande principale, cette commande devient le processus principal du sandbox. Lorsque le processus principal se termine, le sandbox entre dans un état terminal tel que `COMPLETED` (code de sortie `0`) ou `FAILED` (erreur au démarrage ou pendant l’exécution). Un sandbox peut également entrer dans l’état `TERMINATED` s’il est arrêté de l’extérieur ou dépasse sa durée de vie maximale.
 
 ```text
 PENDING -> CREATING -> RUNNING -> COMPLETED
@@ -19,32 +22,32 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
                                -> TERMINATED
 ```
 
-Les sections suivantes décrivent les états des sandboxes, comment attendre qu’un sandbox soit prêt ou qu’il se termine, et comment arrêter un sandbox. Pour plus d’informations sur la création de sandboxes et l’exécution de commandes, voir [Créer des sandboxes](/fr/sandboxes/create-sandbox) et [Exécuter des commandes](/fr/sandboxes/run-commands).
+Les sections suivantes décrivent les états des sandboxes, comment attendre qu’un sandbox soit prêt ou qu’il se termine, et comment arrêter un sandbox. Pour en savoir plus sur la création de sandboxes et l’exécution de commandes, voir [Créer des sandboxes](/fr/sandboxes/create-sandbox) et [Exécuter des commandes](/fr/sandboxes/run-commands).
 
 <div id="sandbox-states">
   ## États du sandbox
 </div>
 
-Le tableau suivant résume les différents états d’un sandbox :
+Le tableau suivant récapitule les états d’un sandbox :
 
-| État       | Description                                                                                             |
-| ---------- | ------------------------------------------------------------------------------------------------------- |
-| PENDING    | La requête de sandbox a été acceptée et est en attente de planification.                                |
-| CREATING   | Le conteneur est en cours de provisionnement.                                                           |
-| RUNNING    | Le sandbox est prêt à être utilisé.                                                                     |
-| COMPLETED  | Le processus principal s’est terminé avec succès avec le code 0.                                        |
-| FAILED     | Le sandbox ou son processus principal a rencontré une erreur au démarrage ou pendant l’exécution.       |
-| TERMINATED | Le sandbox a été arrêté de l’extérieur ou s’est terminé parce qu’il a dépassé sa durée de vie maximale. |
+| État         | Description                                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `PENDING`    | La requête de création du sandbox a été acceptée et attend d’être planifiée.                                        |
+| `CREATING`   | Le conteneur est en cours de provisionnement.                                                                       |
+| `RUNNING`    | Le sandbox est prêt pour les opérations.                                                                            |
+| `COMPLETED`  | Le processus principal s’est terminé normalement avec le code `0`.                                                  |
+| `FAILED`     | Le sandbox ou son processus principal a rencontré une erreur au démarrage ou pendant l’exécution.                   |
+| `TERMINATED` | Un processus externe a arrêté le sandbox, ou celui-ci s’est terminé parce qu’il a dépassé sa durée de vie maximale. |
 
-La plupart des opérations exigent que le sandbox soit à l’état RUNNING. Cependant, nombre d’entre elles attendent automatiquement que le sandbox soit prêt avant de continuer.
+La plupart des opérations exigent que le sandbox soit à l’état `RUNNING`. Cependant, de nombreuses opérations attendent que le sandbox soit prêt avant de continuer.
 
-Une fois qu’un sandbox atteint un état terminal, il n’est plus disponible pour exécuter d’autres tâches.
+Une fois qu’un sandbox entre dans un état terminal, il n’est plus disponible pour des opérations supplémentaires.
 
 <div id="wait-for-readiness-or-completion">
   ## Attendre que le sandbox soit prêt ou terminé
 </div>
 
-Utilisez différentes méthodes d’attente en fonction de vos besoins :
+Les sections suivantes décrivent les deux méthodes permettant d’attendre les changements d’état du sandbox et précisent quand utiliser chacune d’elles. Utilisez différentes méthodes d’attente en fonction de vos besoins :
 
 * Utilisez `Sandbox.wait()` pour [attendre que le sandbox soit prêt à l’emploi](/fr/sandboxes/lifecycle#wait-for-a-sandbox-to-start).
 * Utilisez `Sandbox.wait_until_complete()` pour [attendre la fin du processus principal du sandbox](/fr/sandboxes/lifecycle#wait-for-a-sandbox-to-complete).
@@ -53,7 +56,7 @@ Utilisez différentes méthodes d’attente en fonction de vos besoins :
   ### Attendre qu’un sandbox démarre
 </div>
 
-Utilisez `Sandbox.wait()` pour attendre explicitement que le sandbox atteigne l’état RUNNING. Cela est utile pour diagnostiquer les problèmes de démarrage ou lorsque vous souhaitez distinguer les échecs de démarrage des erreurs survenant dans des commandes ultérieures.
+Utilisez `Sandbox.wait()` pour attendre explicitement que le sandbox atteigne l’état `RUNNING`. Cette méthode est utile pour diagnostiquer les problèmes de démarrage ou lorsque vous souhaitez distinguer les échecs de démarrage des erreurs survenant dans des commandes ultérieures.
 
 Par exemple, le code suivant crée un sandbox, attend qu’il soit prêt, puis exécute une commande :
 
@@ -83,7 +86,7 @@ print(f"Exit code: {sandbox.returncode}")
 
 Ce schéma est utile lorsque vous démarrez un sandbox avec une commande principale telle que `Sandbox.run("python", "train.py")` et souhaitez que le cycle de vie du sandbox corresponde à l’exécution de cette commande.
 
-Lorsque le processus principal se termine, le sandbox passe à un état terminal. Une exécution réussie se termine généralement par COMPLETED. Si le processus échoue, le sandbox peut passer à FAILED.
+Lorsque le processus principal se termine, le sandbox passe à un état terminal. Une exécution réussie se termine généralement par `COMPLETED`. Si le processus échoue, le sandbox peut passer à `FAILED`.
 
 Si vous devez plutôt exécuter des commandes de manière interactive, utilisez un gestionnaire de contexte avec `Sandbox.exec()` :
 
@@ -102,7 +105,7 @@ with Sandbox.run() as sandbox:
 
 Utilisez des méthodes telles que `Sandbox.wait()` et `Sandbox.stop()` lorsque vous avez besoin de contrôler explicitement le cycle de vie du sandbox.
 
-Dans la plupart des cas, vous n’avez pas besoin d’appeler ces méthodes directement. Des opérations telles que `Sandbox.exec()`, `Sandbox.read_file()` et `Sandbox.write_file()` attendent automatiquement que le sandbox soit prêt, et le gestionnaire de contexte (`with Sandbox.run() as sandbox:`) arrête automatiquement le sandbox à la fin du bloc.
+En général, vous n’avez pas besoin d’appeler ces méthodes directement. Des opérations telles que `Sandbox.exec()`, `Sandbox.read_file()` et `Sandbox.write_file()` attendent que le sandbox soit prêt, et le gestionnaire de contexte (`with Sandbox.run() as sandbox:`) arrête le sandbox à la fin du bloc.
 
 <div id="stop-a-sandbox">
   ### Arrêter le sandbox
