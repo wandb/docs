@@ -1,22 +1,26 @@
 ---
 title: Delete registry
 description: "Delete a W&B Registry as a Team admin or Registry admin using the Python SDK or the W&B App UI."
+keywords: ["registry deletion", "api.registry", "Team admin", "Registry admin"]
 ---
 
-This page shows how a Team admin or Registry admin can delete a registry.
+This page shows how a Team admin or Registry admin can delete a registry, either programmatically with the Python SDK or interactively in the W&B App UI. Delete a registry when it's no longer needed so that it doesn't clutter your organization's Registry list.
+
+Permissions to delete a registry depend on your role:
 
 - A Team admin can delete any registry in the organization.
 - A Registry admin can delete a registry that they created.
 
-Deleting a registry also deletes collections that belong to that registry, but does not delete artifacts linked to the registry.  Such an artifact remains in the original project that the artifact was logged to.
-
+Deleting a registry also deletes collections that belong to that registry, but doesn't delete artifacts linked to the registry. Such artifacts remain in the original project that they were logged to.
 
 <Tabs>
 <Tab title="Python SDK">
-Use the `wandb` API's `delete()` method to delete a registry programmatically.  The following example illustrates how to:
+Use the `wandb` API's `delete()` method to delete a registry programmatically. The following example illustrates how to:
 
 1. Fetch the registry you want to delete with `api.registry()`.
-1. Call the `delete()` method on the returned registry object to delete the registry.
+2. Call the `delete()` method on the returned registry object to delete the registry.
+
+Replace `[REGISTRY-NAME]` with the name of your registry.
 
 ```python
 import wandb
@@ -25,7 +29,7 @@ import wandb
 api = wandb.Api()
 
 # Fetch the registry you want to delete
-fetched_registry = api.registry("<registry_name>")
+fetched_registry = api.registry("[REGISTRY-NAME]")
 
 # Deleting a registry
 fetched_registry.delete()
@@ -34,8 +38,8 @@ fetched_registry.delete()
 <Tab title="W&B App">
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Select the registry you want to delete.
-3. Click the gear icon in the upper right corner to view the registry's settings.
-4. To delete the registry, click the trash can icon in the upper right corner of the settings page.
+3. Click the gear icon in the upper-right corner to view the registry's settings.
+4. To delete the registry, click the trash can icon in the upper-right corner of the settings page.
 5. Confirm the registry to delete by entering its name in the modal that appears, then click **Delete**.
 </Tab>
 </Tabs>

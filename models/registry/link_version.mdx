@@ -1,23 +1,26 @@
 ---
 title: Link an artifact version to a collection
 description: "Link an artifact version to a collection in W&B Registry to share it across your organization."
+keywords: ["link artifact", "link_artifact", "registry collection", "target_path", "publish model"]
 ---
 
 
-To make an artifact version available to your organization, *link* it to a [collection](/models/registry/create_collection) in
+This page describes how to publish an artifact version to a registry collection so that other teams in your organization can discover and use it. Use this workflow when you have a trained model, dataset, or other artifact that's ready to share beyond the project where it was logged.
+
+To make an artifact version available to your organization, link it to a [collection](/models/registry/create_collection) in
 the W&B Registry. Linking moves the version from a [private, project-level scope to a shared, organization-level scope](/models/registry/create_registry#visibility-types). You
-can link an artifact version [programmatically by using the W&B Python SDK or interactively in the W&B App](/models/registry/link_version#link-an-artifact-to-a-collection).
+can link an artifact version [programmatically with the W&B Python SDK or interactively in the W&B App](/models/registry/link_version#link-an-artifact-to-a-collection).
 
 When you link an artifact, W&B creates a reference between the source artifact and the collection entry. The linked version points to the source artifact version that was logged to a run within a project. You can view both the linked version in the collection and the source version in the project where it was logged.
 
 
 ## Link an artifact to a collection
 
-Based on your use case, follow the instructions described in the tabs below to link an artifact version.
+You can link an artifact version programmatically with the W&B Python SDK or interactively in the W&B App. Based on your use case, follow the instructions described in the following tabs to link an artifact version.
 
 <Note>
 Before you start, check the following:
-* The types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection).
+* The types of artifacts that the collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection).
 * The registry that the collection belongs to already exists. To check that the registry exists, navigate to the [Registry App and search for](/models/registry/search_registry) the name of the registry.
 </Note>
 
@@ -37,7 +40,7 @@ Programmatically link an artifact version to a collection with [`wandb.Run.link_
 
 
 <Note>
-Use `wandb.Run.link_artifact()` to link an artifact version [within the context of a run](#link-an-artifact-version-within-the-context-of-a-run). Use `wandb.Artifact.link()` to link an *existing artifact version* [outside the context of a run](#link-an-artifact-version-outside-the-context-of-a-run).
+Use `wandb.Run.link_artifact()` to link an artifact version [within the context of a run](#link-an-artifact-version-within-the-context-of-a-run). Use `wandb.Artifact.link()` to link an existing artifact version [outside the context of a run](#link-an-artifact-version-outside-the-context-of-a-run).
 </Note>
 
 
@@ -45,14 +48,14 @@ Use `wandb.Run.link_artifact()` to link an artifact version [within the context 
 `wandb.Artifact.link()` does not require you to initialize a run with `wandb.init()`. `wandb.Run.link_artifact()` requires you to initialize a run with `wandb.init()`.
 </Note> */}
 
-For both approaches, specify the name of the artifact (`wandb.Artifact(name="<name>"`), the type  of artifact (`wandb.Artifact(type="<type>"`), and the `target_path` (`wandb.Artifact(target_path="<target_path>"`)) of the collection and registry you want to link the artifact version to.
+For both approaches, specify the name of the artifact (`wandb.Artifact(name="[NAME]"`), the type of artifact (`wandb.Artifact(type="[TYPE]"`), and the `target_path` (`wandb.Artifact(target_path="[TARGET-PATH]"`)) of the collection and registry you want to link the artifact version to.
 
-The target path consists of the prefix `"wandb-registry"`, the name of the registry, and the name of the collection separated by a forward slashes:
+The target path consists of the prefix `"wandb-registry"`, the name of the registry, and the name of the collection, separated by forward slashes:
 
 {/* Use the `target_path` parameter to specify the collection and registry you want to link the artifact version to. The target path consists of the prefix "wandb-registry", the name of the registry, and the name of the collection separated by a forward slashes: */}
 
 ```text
-wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+wandb-registry-[REGISTRY-NAME]/[COLLECTION-NAME]
 ```
 
 ### Link an artifact version within the context of a run
@@ -60,15 +63,15 @@ wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 Use `wandb.Run.link_artifact()` to link an artifact version within the context of a run. To do so,
 first initialize a run with `wandb.init()`. Next, create an artifact object and add files to it. Finally, use the `wandb.Run.link_artifact()` method to link the artifact version to the collection.
 
-When you use this approach, a run is created in your W&B project. The artifact version is linked to the collection and is associated with that run.
+When you use this approach, W&B creates a run in your project. The artifact version is linked to the collection and associated with that run.
 
-Copy and paste the code snippet below. Replace values enclosed in `<>` with your own:
+Copy and paste the following code snippet. Replace values enclosed in `[]` with your own:
 
 ```python
 import wandb
 
-entity = "<team_entity>"          # Your team entity
-project = "<project_name>"        # The name of the project that contains your artifact
+entity = "[TEAM-ENTITY]"          # Your team entity
+project = "[PROJECT-NAME]"        # The name of the project that contains your artifact
 
 # Initialize a run
 with wandb.init(entity = entity, project = project) as run:
@@ -76,15 +79,15 @@ with wandb.init(entity = entity, project = project) as run:
   # Create an artifact object
   # The type parameter specifies both the type of the 
   # artifact object and the collection type
-  artifact = wandb.Artifact(name = "<name>", type = "<type>")
+  artifact = wandb.Artifact(name = "[NAME]", type = "[TYPE]")
 
   # Add the file to the artifact object. 
   # Specify the path to the file on your local machine.
-  artifact.add_file(local_path = "<local_path_to_artifact>")
+  artifact.add_file(local_path = "[LOCAL-PATH-TO-ARTIFACT]")
 
   # Specify the collection and registry to link the artifact to
-  REGISTRY_NAME = "<registry_name>"  
-  COLLECTION_NAME = "<collection_name>"
+  REGISTRY_NAME = "[REGISTRY-NAME]"  
+  COLLECTION_NAME = "[COLLECTION-NAME]"
   target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
   # Link the artifact to the collection
@@ -94,12 +97,12 @@ with wandb.init(entity = entity, project = project) as run:
 ### Link an artifact version outside the context of a run
 
 Use `wandb.Artifact.link()` to link an existing artifact version outside the context of a run. With this approach,
-you do not need to initialize a run with `wandb.init()`. This means that a run is not created in your W&B project. In other
+you don't need to initialize a run with `wandb.init()`. This means that W&B doesn't create a run in your project. In other
 words, the artifact version is linked to the collection without being associated with a run.
 
 First, create an artifact object and add files to it. Next, use the `wandb.Artifact.link()` method to link the artifact version to the collection.
 
-Copy and paste the code snippet below. Replace values enclosed in `<>` with your own:
+Copy and paste the following code snippet. Replace values enclosed in `[]` with your own:
 
 ```python
 import wandb
@@ -107,15 +110,15 @@ import wandb
 # Create an artifact object
 # The type parameter specifies both the type of the 
 # artifact object and the collection type
-artifact = wandb.Artifact(name = "<name>", type = "<type>")
+artifact = wandb.Artifact(name = "[NAME]", type = "[TYPE]")
 
 # Add the file to the artifact object. 
 # Specify the path to the file on your local machine.
-artifact.add_file(local_path = "<local_path_to_artifact>")
+artifact.add_file(local_path = "[LOCAL-PATH-TO-ARTIFACT]")
 
 # Specify the collection and registry to link the artifact to
-REGISTRY_NAME = "<registry_name>"  
-COLLECTION_NAME = "<collection_name>"
+REGISTRY_NAME = "[REGISTRY-NAME]"  
+COLLECTION_NAME = "[COLLECTION-NAME]"
 target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
 # Link the artifact to the collection
@@ -134,20 +137,20 @@ artifact.link(target_path = target_path)
 3. Select the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu next to **View details**.
 4. From the dropdown, select **Link new version**.
 5. From the sidebar that appears, select the name of a team from the **Team** dropdown.
-5. From the **Project** dropdown, select the name of the project that contains your artifact. 
-6. From the **Artifact** dropdown, select the name of the artifact. 
-7. From the **Version** dropdown, select the artifact version you want to link to the collection.
+6. From the **Project** dropdown, select the name of the project that contains your artifact. 
+7. From the **Artifact** dropdown, select the name of the artifact. 
+8. From the **Version** dropdown, select the artifact version you want to link to the collection.
 
 {/* TO DO insert gif */}
 </Tab>
 <Tab title="Artifact browser">
-1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
+1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/[ENTITY]/[PROJECT]/artifacts`
 2. Select the Artifacts icon in the project sidebar.
-3. Click on the artifact version you want to link to your registry.
+3. Click the artifact version you want to link to your registry.
 4. Within the **Version overview** section, click the **Link to registry** button.
-5. From the modal that appears on the right of the screen, select an artifact from the **Select a register model** menu dropdown. 
+5. From the modal that appears, select an artifact from the **Select a register model** menu dropdown. 
 6. Click **Next step**.
-7. (Optional) Select an alias from the **Aliases** dropdown. 
+7. Optional: Select an alias from the **Aliases** dropdown. 
 8. Click **Link to registry**. 
 
 {/* Update this gif */}
@@ -166,34 +169,34 @@ artifact.link(target_path = target_path)
 * Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
 </Note> */}
 
-You can [view a linked artifact's metadata, version data, usage, lineage information](/models/registry/link_version#view-linked-artifacts-in-a-registry") and more in the Registry App.
+You can [view a linked artifact's metadata, version data, usage, and lineage information](/models/registry/link_version#view-linked-artifacts-in-a-registry) in the Registry App.
   
 ## View linked artifacts in a registry
 
-View information about linked artifacts such as metadata, lineage, and usage information in the W&B Registry.
+After you link an artifact version, it becomes available to your organization through the registry. View information about linked artifacts such as metadata, lineage, and usage information in the W&B Registry.
 
 1. Navigate to the W&B Registry.
 2. Select the name of the registry that you linked the artifact to.
 3. Select the name of the collection.
 4. If the collection's artifacts log metrics, compare metrics across versions by clicking **Show metrics**.
-4. From the list of artifact versions, select the version you want to access. Version numbers are incrementally assigned to each linked artifact version starting with `v0`.
-5. To view details about an artifact version, click the version. From the tabs in this page, you can view that version's metadata (including logged metrics), lineage, and usage information.
+5. From the list of artifact versions, select the version you want to access. W&B assigns version numbers incrementally to each linked artifact version, starting with `v0`.
+6. To view details about an artifact version, click the version. From the tabs on this page, you can view that version's metadata (including logged metrics), lineage, and usage information.
 
-Make note of the **Full Name** field within the **Version** tab. The full name of a linked artifact consists of the registry, collection name, and the alias or index of the artifact version.
+Record the **Full Name** field within the **Version** tab. The full name of a linked artifact consists of the registry, collection name, and the alias or index of the artifact version.
 
 ```text title="Full name of a linked artifact"
-wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
+wandb-registry-[REGISTRY-NAME]/[COLLECTION-NAME]:v[INTEGER]
 ```
 
 You need the full name of a linked artifact to access the artifact version programmatically.
 
-## Troubleshooting 
+## Troubleshooting
 
-Below are some common things to double check if you are not able to link an artifact. 
+If you can't link an artifact, the following sections describe common causes and how to resolve them.
 
-### Logging artifacts from a personal account
+### Artifacts logged from a personal account
 
-Artifacts logged to W&B with a personal entity can not be linked to the registry. Make sure that you log artifacts using a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
+You can't link artifacts logged to W&B with a personal entity to the registry. Make sure that you log artifacts with a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
 
 
 <Note>
@@ -203,41 +206,41 @@ Ensure that you log an artifact with a team entity if you want to link that arti
 
 #### Find your team entity
 
-W&B uses the name of your team as the team's entity. For example, if your team is called **team-awesome**, your team entity is `team-awesome`.
+W&B uses the name of your team as the team's entity. For example, if your team is called `team-awesome`, your team entity is `team-awesome`.
 
-You can confirm the name of your team by:
+To confirm the name of your team, follow these steps:
 
 1. Navigate to your team's W&B profile page.
-2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
+2. Copy the site's URL. It has the form `https://wandb.ai/[TEAM]`, where `[TEAM]` is both the name of your team and the team's entity.
 
 #### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity.
+1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init). If you don't specify the `entity` when you initialize a run, the run uses your default entity, which may or may not be your team entity.
 
     ```python 
     import wandb   
 
-    with wandb.init(entity='<team_entity>', project='<project_name>') as run:
+    with wandb.init(entity='[TEAM-ENTITY]', project='[PROJECT-NAME]') as run:
         # Log your artifact here
     ```
 
 2. Log the artifact to the run either with `wandb.Run.log_artifact()` or by creating an Artifact object and then adding files to it with:
 
     ```python
-    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    artifact = wandb.Artifact(name="[ARTIFACT-NAME]", type="[TYPE]")
     ```
     To log artifacts, see [Construct artifacts](/models/artifacts/construct-an-artifact/).
-3. If an artifact is logged to your personal entity, you will need to re-log it to an entity within your organization.
+3. If you logged an artifact to your personal entity, you need to re-log it to an entity within your organization.
 
 ### Confirm the path of a registry in the W&B App UI
 
-There are two ways to confirm the path of a registry with the UI: create an empty collection and view the collection details or copy and paste the autogenerated code on the collection's homepage.
+If you're unsure of the exact path to use as your `target_path`, you can confirm it from the W&B App UI in two ways: create an empty collection and view the collection details, or copy and paste the autogenerated code on the collection's homepage.
 
 #### Copy and paste autogenerated code
 
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Click the registry you want to link an artifact to.
-3. At the top of the page, you will see an autogenerated code block. 
-4. Copy and paste this into your code, ensure to replace the last part of the path with the name of your collection.
+3. At the top of the page, you see an autogenerated code block.
+4. Copy and paste this into your code, and replace the last part of the path with the name of your collection.
 
 <Frame>
     <img src="/images/registry/get_autogenerated_code.gif" alt="Auto-generated code snippet"  />
@@ -247,22 +250,22 @@ There are two ways to confirm the path of a registry with the UI: create an empt
 
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Click the registry you want to link an artifact to.
-4. Click on the empty collection. If an empty collection does not exist, create a new collection.
-5. Within the code snippet that appears, identify the `target_path` field within `.link_artifact()`.
-6. (Optional) Delete the collection.
+3. Click the empty collection. If an empty collection doesn't exist, create a new collection.
+4. Within the code snippet that appears, identify the `target_path` field within `.link_artifact()`.
+5. Optional: Delete the collection.
 
 <Frame>
     <img src="/images/registry/check_empty_collection.gif" alt="Create an empty collection"  />
 </Frame>
 
-For example, after completing the steps outlined, you find the code block with the `target_path` parameter:
+For example, after you complete the preceding steps, you find the code block with the `target_path` parameter:
 
 ```python
 target_path = 
       "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
 ```
 
-Breaking this down into its components, you can see what you will need to use to create the path to link your artifact programmatically:
+Break this down into its components to see what you need to use to create the path to link your artifact programmatically:
 
 ```python
 ORG_ENTITY_NAME = "smle-registries-bug-bash"
