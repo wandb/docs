@@ -1,17 +1,18 @@
 ---
 title: Add labels to runs with tags
 description: "Add, update, and remove tags on W&B runs using the Python SDK, Public API, or the W&B App UI for organization."
+keywords: [wandb.init tags, run.tags, filter runs by tag, bulk tag runs]
 ---
 
-Add tags to label runs with particular features that might not be obvious from the logged metrics or artifact data. 
+This page describes how to add, update, and remove tags on W&B runs so you can organize and identify runs by characteristics that logged metrics or artifact data don't capture.
 
-For example, you can add a tag to a run to indicated that run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
+Add tags to label runs with particular features that might not be apparent from the logged metrics or artifact data.
+
+For example, you can add a tag to a run to indicate that the run's model is `in_production`, that the run is `preemptible`, or that the run represents the `baseline`.
 
 ## Add tags to one or more runs
 
-Programmatically or interactively add tags to your runs.
-
-Based on your use case, select a tab below that best fits your needs:
+You can add tags to runs programmatically with the W&B Python SDK or Public API, or interactively from the W&B App UI. Select the tab that best fits your use case.
 
 <Tabs>
 <Tab title="W&B Python SDK">
@@ -21,75 +22,77 @@ Use `wandb.init()` to add tags when you initialize a run. Pass a list of strings
 import wandb
 
 with wandb.init(
-  entity="<entity>",
-  project="<project>",
-  tags=["<tag1>", "<tag2>"]
+  entity="[ENTITY]",
+  project="[PROJECT]",
+  tags=["[TAG1]", "[TAG2]"]
 ) as run:
-    # Your training code here
+    # Your training code here.
 ```
 
-You can also add or update an existing tag during an active run by updating the `tags` attribute of the run object (`wandb.Run.tags`). The `tags` attribute accepts a tuple of strings. Concatenate one or more tags to the existing run tag property to add new tags after you initialize the run: 
+You can also add or update an existing tag during an active run by updating the `tags` attribute of the run object (`wandb.Run.tags`). The `tags` attribute accepts a tuple of strings. Concatenate one or more tags to the existing run tag property to add new tags after you initialize the run:
 
 ```python
 import wandb
 
-with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>"]) as run:
-  # Training loop logic here
+with wandb.init(entity="[ENTITY]", project="[PROJECT]", tags=["[TAG1]"]) as run:
+  # Training loop logic here.
 
-  # Add a new tag to the run object
-  run.tags += ("<new_tag>",)
+  # Add a new tag to the run object.
+  run.tags += ("[NEW_TAG]",)
 ```
 </Tab>
 <Tab title="Public API">
 
-Use the [W&B Public API](/models/ref/python/public-api) to add or update tags to a previously saved run.
+Use the [W&B Public API](/models/ref/python/public-api) to add or update tags on a previously saved run.
 
-To update tags on an existing run, access the `wandb.Run.tags` property. `wandb.Run.tags` property consists of a list of strings. Concatenate the new tag or tags to the existing tags and then call `wandb.Run.update()` to update the run with the new tags. For example:
+To update tags on an existing run, access the `wandb.Run.tags` property. The `wandb.Run.tags` property consists of a list of strings. Concatenate the new tag or tags to the existing tags and then call `wandb.Run.update()` to update the run with the new tags. For example:
 
 ```python
-with wandb.Api().run("{entity}/{project}/{run-id}") as run:
-  run.tags.append("<tag1>")
+with wandb.Api().run("[ENTITY]/[PROJECT]/[RUN-ID]") as run:
+  run.tags.append("[TAG1]")
   run.update()
 ```
 </Tab>
 <Tab title="Project page">
-This method is best suited to tagging large numbers of runs with the same tag or tags.
+This method is best suited to tagging many runs with the same tags.
 
 1. Navigate to your project workspace.
 2. Select **Runs** from the project sidebar.
 3. Select one or more runs from the table.
-4. Once you select one or more runs, select the **Tag** button above the table.
+4. After you select one or more runs, select the **Tag** button above the table.
 5. Type the tag you want to add and select the **Create new tag** checkbox to add the tag.
 </Tab>
 <Tab title="Run page">
-This method is best suited to applying a tag or tags to a single run manually.
+This method is best suited to manually applying tags to a single run.
 
 1. Navigate to your project workspace.
 2. Click a run to open it. The run page opens with the **Overview** tab shown by default.
-3. Select the gray plus icon (**+**) button next to **Tags**.
+3. Select the plus icon (**+**) button next to **Tags**.
 4. Type a tag you want to add and select **Add** below the text box to add a new tag.
 </Tab>
 </Tabs>
 
-
+After you complete the steps in the tab you selected, the specified tags appear on the runs you targeted.
 
 ## Remove tags from one or more runs
 
-Follow these steps to remove tags from a run in the W&B App.
+Follow these steps to remove tags from a run in the W&B App. Select the tab that matches whether you want to remove tags from many runs at once or from a single run.
 
 <Tabs>
 <Tab title="Project page">
-This method is best suited to removing tags from a large numbers of runs.
+This method is best suited to removing tags from many runs.
 
-1. In the Run sidebar of the project, select the table icon in the upper-right. This will expand the sidebar into the full runs table.
-2. Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox to select all runs.
-3. Select the checkbox to enable bulk actions. 
-4. Select the runs you want to remove tags.
+1. In the run sidebar of the project, select the table icon in the upper right. This expands the sidebar into the full runs table.
+2. Hover over a run in the table to see a checkbox, or use the checkbox in the header row to select all runs.
+3. Select the checkbox to enable bulk actions.
+4. Select the runs you want to remove tags from.
 5. Select the **Tag** button above the rows of runs.
 6. Select the checkbox next to a tag to remove it from the run.
 </Tab>
 <Tab title="Run page">
-1. In the left sidebar of the Run page, select the top **Overview** tab. The tags on the run are visible here.
-2. Hover over a tag and select the "x" to remove it from the run.
+1. In the left sidebar of the run page, select the top **Overview** tab. The tags on the run are visible here.
+2. Hover over a tag and select the **x** to remove it from the run.
 </Tab>
 </Tabs>
+
+After you complete the steps in the tab you selected, the specified tags no longer appear on the runs you targeted.

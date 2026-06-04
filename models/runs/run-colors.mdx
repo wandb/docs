@@ -1,13 +1,16 @@
 ---
 description: "Customize, randomize, and reset the colors assigned to individual runs in your W&B project workspace."
 title: Customize run colors
+keywords: ["run colors", "color palette", "hex code", "randomize colors"]
 ---
 
-W&B automatically assigns a color to each run that you create in your project. You can change the default color of a run to help you visually distinguish it from other runs in the table and graphs. Reset your project workspace to restore the default colors for all runs in the table.
+W&B automatically assigns a color to each run that you create in your project. The following sections describe how to change, randomize, or reset run colors. Custom colors help you visually distinguish runs in the table and graphs in your project workspace.
 
-Run colors are locally scoped. On the project page, custom colors apply only to your own workspace. In reports, custom colors for runs apply only at the section level. You can visualize the same run in different sections, which can use different custom colors per section.
+Run colors are locally scoped. On the project page, custom colors apply only to your own workspace. In reports, custom colors for runs apply only at the section level. You can visualize the same run in different sections, and each section can use different custom colors.
 
 ## Edit default run colors
+
+To change the color assigned to an individual run so that it stands out from other runs in the table and graphs:
 
 1. Click the **Runs** tab from the project sidebar.
 2. Click the dot color next to the run name in the **Name** column.
@@ -23,15 +26,15 @@ To randomize the colors of all runs in the table:
 2. Hover over the **Name** column header, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, and select **Randomize run colors** from the dropdown menu.
 
 <Note>
-The option to randomize run colors is available only after modify the run's table in some way, such as by sorting, filtering, searching, or grouping.
+The option to randomize run colors is available only after you modify the run table by sorting, filtering, searching, or grouping.
 </Note>
 
 
 ## Reset run colors
 
-{/* The option to randomize run colors is only available if there are at least two runs in the table or selector, and you have made some kind of modification to the view (sorting, filtering, searching, or grouping). */}
+{/* The option to randomize run colors is only available if the table or selector contains at least two runs and you have modified the view by sorting, filtering, searching, or grouping. */}
 
-To restore the default colors for all runs in the table:
+To discard your custom run colors and restore the default colors W&B assigned to all runs in the table:
 
 1. Click the **Runs** tab from the project sidebar.
 2. Hover over the **Name** column header, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, and select **Reset colors** from the dropdown menu.

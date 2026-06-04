@@ -1,32 +1,37 @@
 ---
 description: Rewind a run to correct or modify its history without losing original data.
 title: Rewind a run
+keywords: ["resume_from", "run history", "archived run", "rewind"]
 ---
 
-Rewind a run to modify the history of a run. When you rewind a run, W&B resets the state of the run to the specified step while maintaining the same run ID. 
+Rewind a run to modify its history. When you rewind a run, W&B resets the state of the run to the specified step while maintaining the same run ID. Use rewind to correct logged data or change the trajectory of an experiment from a specific point without starting a new run or losing the run's identity.
 
 <Note>
 The ability to rewind a run is in active development. It is in preview for Multi-tenant Cloud and Dedicated Cloud, and not yet available in Self-Managed.
 
-Due to known performance limitations with rewind, W&B typically recommends [Forking](./forking) as an alternative.
+Because of known performance limitations with rewind, W&B typically recommends [forking](./forking) as an alternative.
 </Note>
 
 ### Prerequisites
+
 Before you rewind a run, ensure you meet the following prerequisites:
 
-* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
-* You must use monotonically increasing steps. This does not work with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) because it disrupts the required chronological order of run history.
+- To rewind a run, you must have the [W&B Python SDK](https://pypi.org/project/wandb/) version `>=0.17.1`.
+- You must use monotonically increasing steps. Rewind doesn't work with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) because non-monotonic steps disrupt the required chronological order of run history and system metrics.
 
 ### Limitations
-Rewind does not support the following:
-* **Log rewind**: Logs are reset in the new run segment.
-* **System metrics rewind**: W&B logs only new system metrics after the rewind point.
-* **Artifact association**: W&B associates artifacts with the source run that produces them.
 
-W&B recomputes the summary metrics for the run you rewind based on the newly logged history, with the following results:
-- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
-- **Summary metrics**: Recomputed based on the newly logged history.
-- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
+Rewind doesn't support the following:
+
+- **Log rewind**: W&B resets logs in the new run segment.
+- **System metrics rewind**: W&B logs only new system metrics after the rewind point.
+- **Artifact association**: W&B associates artifacts with the source run that produced them.
+
+W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This produces the following behavior:
+
+- **History truncation**: W&B truncates the history to the rewind point, which allows new data logging.
+- **Summary metrics**: W&B recomputes summary metrics based on the newly logged history.
+- **Configuration preservation**: W&B preserves the original configurations, and you can merge new configurations.
 
 {/* When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
 
@@ -37,39 +42,39 @@ W&B recomputes the summary metrics for the run you rewind based on the newly log
 
 Forking complements a rewind.
 
-When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
+When you fork from a run, W&B creates a new branch off a run at a specific point so you can try different parameters or models.
 
-When you rewind a run, W&B lets you correct or modify the run history itself.
+When you rewind a run, you can correct or modify the run history itself.
 
 ## Rewind a run
 
-Rewind a run from a specific step and log new data from that point in time. Pass both the run ID and the step you want to rewind from as arguments to the `resume_from` parameter in [`wandb.init()`](/models/ref/python/functions/init). The `resume_from` parameter accepts a string in the format of `<run ID>?_step=<step>`, where `<run ID>` is the run ID of the run you want to rewind and `<step>` is the step you want to rewind from.
+To rewind a run from a specific step and log new data from that point, pass the run ID and step to the `resume_from` parameter in [`wandb.init()`](/models/ref/python/functions/init). The `resume_from` parameter accepts a string in the format `[RUN-ID]?_step=[STEP]`, where `[RUN-ID]` is the ID of the run you want to rewind and `[STEP]` is the step to rewind from.
 
-Suppose you log a linear line for 300 steps:
+The following example demonstrates the rewind workflow. Suppose you log a linear line for 300 steps:
 
 ```python
 import wandb
 
 # Initialize the first run and log some metrics
-with wandb.init(project="<project>", entity="wandb") as run:
+with wandb.init(project="[PROJECT]", entity="wandb") as run:
     for i in range(300):
         # Plot a linear line
         run.log({"metric": i, "step": i})
 ```
 
-Within your project's workspace, you see a line plot from step 0 to step 300:
+In your project's workspace, you see a line plot from step 0 to step 300:
 
 <img src="/images/runs/rewind_run_original.png" alt="Line plot of the original run"/>
 
-At a later time, you want to rewind the run from step 200 and you want to log a new metric called `additional_metric` that logs `i*1.1` from step 200 to step 300. From step 250 you want to log a new subtle wavy pattern (`i**2 + 2*sin(i/3)`) instead of a linear line:
+Later, you want to rewind the run from step 200 and log a metric called `additional_metric` that logs `i*1.1` from step 200 to step 300. From step 250, you want to log a subtle wavy pattern (`i**2 + 2*sin(i/3)`) instead of a linear line:
 
 ```python
 import math
 
-run_ID = "<run_ID>" # Replace with the run ID of the run you want to rewind
+run_ID = "[RUN-ID]" # Replace with the run ID of the run you want to rewind
 
 # Rewind from the first run at a specific step and log the metric starting from step 200
-with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_step=200") as run:
+with wandb.init(project="[PROJECT]", entity="wandb", resume_from=f"{run_ID}?_step=200") as run:
 
     # For the first few steps, log the metric as is from run
     # After step 250, start logging the wavy pattern
@@ -84,33 +89,35 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
         run.log({"additional_metric": i * 1.1, "step": i})
 ```
 
-The following image shows the updated project's workspace. Note the following changes in the plot after the rewind:
+The following image shows the updated project's workspace. The plot shows these changes after the rewind:
 
-- The line plot shows the original linear line from step 0 to step 200 and the new subtle wavy pattern starts from step 250 (left image).
-- W&B created a new plot (right plot) labeled `additional_metric` that starts from step 200.
+- The line plot shows the original linear line from step 0 to step 200, and the subtle wavy pattern starts from step 250.
+- W&B creates a plot labeled `additional_metric` that starts from step 200.
 
-<img src="/images/runs/rewind_run_step200_wmetric.png" alt="From left to right: original linear line and additional metric"/>
+<img src="/images/runs/rewind_run_step200_wmetric.png" alt="Original linear line plot alongside the additional_metric plot starting from step 200"/>
+
+The run now contains the corrected history from step 200 onward while preserving the original run ID. W&B also archives the original run so you can revisit it later.
 
 ## View an archived run
 
-After you rewind a run, you can explore the original archived run in the W&B App. Follow these steps to view an archived run:
+After you rewind a run, W&B preserves the original run as an archived resumption that you can revisit at any time. Viewing the archived run lets you compare pre-rewind history with the current state and trace the sequence of rewinds applied to a run. To view an archived run in the W&B App:
 
-1. **Access the Overview Tab:** Navigate to the [**Overview** tab](./#overview-tab) on the run's page. This tab provides a comprehensive view of the run's details and history.
-2. **Locate the Forked From field:** Within the **Overview** tab, find the `Forked From` field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
+1. Navigate to the [**Overview** tab](./#overview-tab) on the run's page. This tab provides a view of the run's details and history.
+2. In the **Overview** tab, find the **Forked From** field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, so you can trace back to the original run and review the entire rewind history.
 
-By using the `Forked From` field, you can effortlessly navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind. 
+Use the **Forked From** field to navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind.
 
 ## Fork from a run that you rewind
 
-To fork from a rewound run, use the [`fork_from`](/models/runs/forking/) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
+After you rewind a run, you can branch off the corrected history to explore alternate trajectories without modifying the rewound run itself. This is useful when you want to test alternate parameters or models from a known-good point in the corrected history. To fork from a rewound run, use the [`fork_from`](/models/runs/forking/) argument in `wandb.init()` and specify the source run ID and the step to fork from:
 
-```python 
+```python
 import wandb
 
 # Fork the run from a specific step
 forked_run = wandb.init(
-    project="<project>",
-    entity="<entity>",
+    project="[PROJECT]",
+    entity="[ENTITY]",
     fork_from=f"{rewind_run.id}?_step=500",
 )
 
