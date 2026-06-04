@@ -1,0 +1,70 @@
+---
+title: "W&B HiveMind"
+description: "Track AI coding-agent activity and spend across Claude Code, Cursor, Codex, Gemini, and more, from one shared dashboard."
+sidebarTitle: "HiveMind"
+---
+
+W&B HiveMind is a shared dashboard for AI coding sessions. A lightweight daemon runs on each developer's machine, watches for coding-agent activity, and sends session transcripts to a central service. From there, your team can see what agents are doing, what that work costs, and what it produces, across every supported agent in one place.
+
+HiveMind and its documentation live on a dedicated site: [hivemind.wandb.tools](https://hivemind.wandb.tools).
+
+## Who it's for
+
+- **Developers and AI practitioners** who want to review past sessions, search their team's history, and improve how they work with coding agents.
+- **Engineering leaders** who need to understand AI coding adoption, spend, and outcomes across teams and repositories.
+
+## What you can do
+
+- **See sessions across agents.** One daemon captures sessions from every supported agent, with no per-agent configuration.
+- **Track spend and usage.** View estimated cost over time, cost by model and team, token usage, and cost per merged pull request. Cost figures are estimates from published model pricing and session token counts, not billed amounts from your AI vendors.
+- **Measure outcomes.** Connect agent activity to pull requests, merge rates, and how much agent-written code survives.
+- **Reuse past work.** Search your team's session history and bring relevant context into your current coding agent.
+
+## Supported agents
+
+HiveMind captures sessions from these coding agents, with nothing to configure per agent:
+
+- Claude Code
+- Codex
+- Cursor
+- Gemini CLI
+- OpenCode
+- GitHub Copilot CLI
+- Pi
+
+## Get started
+
+Install the client, authenticate, and start the daemon. Choose the method that fits your platform.
+
+**macOS (Homebrew):**
+
+```bash
+brew install wandb/taps/hivemind
+hivemind login
+hivemind start
+```
+
+**macOS or Linux (`uv`):**
+
+```bash
+uv tool install wandb-hivemind
+hivemind login
+hivemind start
+```
+
+`hivemind start` registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
+
+**Standalone installer (macOS Apple Silicon or Linux):**
+
+If you'd rather not use Homebrew or `uv`, the standalone installer downloads a signed binary to `~/.local/bin`, registers the background service, and does not require `sudo`:
+
+```bash
+curl -fsSL https://hivemind.wandb.tools/install | sh
+hivemind login
+```
+
+Within about 30 seconds of using a supported agent, your session appears on the dashboard.
+
+<Note>
+  HiveMind runs as a separate product at [hivemind.wandb.tools](https://hivemind.wandb.tools). For full setup, permissions, the CLI reference, troubleshooting, and deployment guides, see the [HiveMind documentation](https://hivemind.wandb.tools/docs/overview).
+</Note>
