@@ -1,18 +1,23 @@
 ---
 description: Create and track plots from machine learning experiments.
 title: Create and track plots from experiments
+keywords: ["wandb.plot", "custom charts", "matplotlib", "Plotly", "Bokeh"]
 ---
+
+This page shows you how to create and log plots from your machine learning experiments so that you can visualize metrics, evaluate models, and share interactive charts in W&B. It's for users who already log runs with `wandb` and want to add custom or built-in visualizations to their experiments.
 
 In W&B Models, methods in `wandb.plot` let you track charts with `wandb.Run.log()`, including charts that change over time during training. To learn more about the custom charting framework, see the [custom charts walkthrough](/models/app/features/custom-charts/walkthrough/).
 
-### Basic charts
+## Basic charts
+
+This section covers the general workflow for creating a W&B chart and provides examples of common chart types (line, scatter, bar, histogram, and multi-line plots) that you can use to visualize metrics and results.
 
 To create a W&B chart:
 1. Create a `wandb.Table` object and add the data you want to visualize.
-1. Generate a plot using one of the W&B's built-in [helper functions](/models/ref/python/custom-charts)
-1. Log the plot with `wandb.Run.log()`.
+2. Generate a plot using one of W&B's built-in [helper functions](/models/ref/python/custom-charts).
+3. Log the plot with `wandb.Run.log()`.
 
-The following basic charts can be used to construct basic visualizations of metrics and results.
+Use the following basic charts to construct basic visualizations of metrics and results.
 
 <Tabs>
 <Tab title="Line">
@@ -33,7 +38,7 @@ with wandb.init() as run:
     )
 ```
 
-You can use this to log curves on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
+Use this to log curves on any two dimensions. If you plot two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
 
 <Frame>
     <img src="/images/track/line_plot.png" alt="Custom line plot"  />
@@ -55,7 +60,7 @@ with wandb.init() as run:
     run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 ```
 
-You can use this to log scatter points on any two dimensions. If you're plotting two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
+Use this to log scatter points on any two dimensions. If you plot two lists of values against each other, the number of values in the lists must match exactly. For example, each point must have an x and a y.
 
 <Frame>
     <img src="/images/track/demo_scatter_plot.png" alt="Custom scatter plot"  />
@@ -66,7 +71,7 @@ For more information, see the [Creating Custom Scatter Plots With W&B](https://w
 [Run the code](https://tiny.cc/custom-charts)
 </Tab>
 <Tab title="Bar">
-Log a custom bar chart (a list of labeled values as bars) natively in a few lines:
+Log a custom bar chart (a list of labeled values as bars) in a few lines:
 
 ```python
 import wandb
@@ -83,7 +88,7 @@ with wandb.init() as run:
     )
 ```
 
-You can use this to log arbitrary bar charts. The number of labels and values in the lists must match exactly. Each data point must have both.
+Use this to log arbitrary bar charts. The number of labels and values in the lists must match exactly. Each data point must have both.
 
 <Frame>
     <img src="/images/track/basic_charts_bar.png" alt="Custom bar chart"  />
@@ -94,7 +99,7 @@ For more information, see the [Custom Bar Charts](https://wandb.ai/wandb/plots/r
 [Run the code](https://tiny.cc/custom-charts)
 </Tab>
 <Tab title="Histogram">
-Log a custom histogram (sort a list of values into bins by count or frequency of occurrence) natively in a few lines. If you have a list of prediction confidence scores (`scores`), you can visualize the distribution like this:
+Log a custom histogram (sort a list of values into bins by count or frequency of occurrence) in a few lines. If you have a list of prediction confidence scores (`scores`), you can visualize the distribution like this:
 
 ```python
 import wandb
@@ -105,7 +110,7 @@ with wandb.init() as run:
     run.log({"my_histogram": wandb.plot.histogram(table, "scores", title="Histogram")})
 ```
 
-You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
+Use this to log arbitrary histograms. `data` is a list of lists, which supports a 2D array of rows and columns.
 
 <Frame>
     <img src="/images/track/demo_custom_chart_histogram.png" alt="Custom histogram"  />
@@ -135,7 +140,7 @@ with wandb.init() as run:
     )
 ```
 
-Note that the number of x and y points must match exactly. You can supply one list of x values to match multiple lists of y values, or a separate list of x values for each list of y values.
+The number of x and y points must match exactly. You can supply one list of x values to match multiple lists of y values, or a separate list of x values for each list of y values.
 
 <Frame>
     <img src="/images/track/basic_charts_histogram.png" alt="Multi-line plot"  />
@@ -147,9 +152,11 @@ For more information, see the [Custom Multi-Line Plots](https://wandb.ai/wandb/p
 
 
 
-### Model evaluation charts
+## Model evaluation charts
 
-These preset charts have built-in `wandb.plot()` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
+This section describes preset charts you can use to evaluate model performance, including precision-recall curves, ROC curves, and confusion matrices.
+
+These preset charts have built-in `wandb.plot()` methods that let you log charts directly from your script and see the information you want in the UI.
 
 <Tabs>
 <Tab title="Precision-recall curves">
@@ -240,7 +247,9 @@ For more information, see the [Confusion Matrix: Usage and Examples](https://wan
 </Tabs>
 
 
-### Interactive custom charts
+## Interactive custom charts
+
+This section describes how to log data to a custom chart preset so that you can fully control how the chart is rendered in the W&B UI.
 
 For full customization, tweak a built-in [Custom Chart preset](/models/app/features/custom-charts/walkthrough/) or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
 
@@ -269,7 +278,9 @@ with wandb.init() as run:
 
 [Run the code](https://tiny.cc/custom-charts)
 
-### Matplotlib and Plotly plots
+## Matplotlib and Plotly plots
+
+This section describes how to log charts that you have already generated with matplotlib or Plotly, instead of building charts with the W&B custom charts framework.
 
 Instead of using W&B [Custom Charts](/models/app/features/custom-charts/walkthrough/) with `wandb.plot()`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
 
@@ -287,17 +298,19 @@ with wandb.init() as run:
     run.log({"chart": plt})
 ```
 
-Just pass a `matplotlib` plot or figure object to `wandb.Run.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
+Pass a `matplotlib` plot or figure object to `wandb.Run.log()`. By default, W&B converts the plot into a [Plotly](https://plot.ly/) plot. To log the plot as an image instead, pass the plot into `wandb.Image`. W&B also accepts Plotly charts directly.
 
 <Note>
 If you get an error like "You attempted to log an empty plot", store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `wandb.Run.log()`.
 </Note>
 
-### Log custom HTML to W&B Tables
+## Log custom HTML to W&B Tables
 
-W&B supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
+This section describes how to embed interactive charts inside a W&B Table by logging them as HTML. Use this approach when you want to keep chart interactivity alongside other tabular data.
 
-#### Log Plotly figures to Tables as HTML
+W&B supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables. The following sections describe how to log Plotly and Bokeh figures.
+
+### Log Plotly figures to Tables as HTML
 
 You can log interactive Plotly charts to W&B Tables by converting them to HTML.
 
@@ -329,7 +342,7 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     run.log({"test_table": table})
 ```
 
-#### Log Bokeh figures to Tables as HTML
+### Log Bokeh figures to Tables as HTML
 
 You can log interactive Bokeh charts to W&B Tables by converting them to HTML.
 

@@ -1,6 +1,7 @@
 ---
 title: Customize log axes
 description: "Use define_metric() to set a custom x-axis for logged metrics instead of the default W&B step counter."
+keywords: ["define_metric", "custom x-axis", "step_metric", "metric globs"]
 ---
 
 Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `wandb.Run.log()` API call. 
@@ -19,23 +20,23 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `wandb.Run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
+In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `wandb.Run.log()` is called. From the previous code, the x-axis shows the step numbers from 0 to 9.
 
 <Frame>
     <img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis."  />
 </Frame>
 
-In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`](/models/ref/python/experiments/run/#define_metric) method to use any metric you log  as a custom x-axis.
+Sometimes you want to log metrics against a different x-axis, such as a logarithmic scale. Use the [`define_metric()`](/models/ref/python/experiments/run/#define_metric) method to use any metric you log as a custom x-axis.
 
 Specify the metric that you want to appear as the y-axis with the `name` parameter. The `step_metric` parameter specifies the metric you want to use as the x-axis. When you log a custom metric, specify a value for both the x-axis and the y-axis as key-value pairs in a dictionary. 
 
-Copy and paste the following code snippet to set a custom x-axis metric. Replace the values within `<>` with your own values:
+To set a custom x-axis metric, use the following code snippet. Replace the values within `[]` with your own values:
 
 ```python
 import wandb
 
-custom_step = "<custom_step>"  # Name of custom x-axis
-metric_name = "<metric>"  # Name of y-axis metric
+custom_step = "[CUSTOM-STEP]"  # Name of custom x-axis
+metric_name = "[METRIC-NAME]"  # Name of y-axis metric
 
 with wandb.init() as run:
     # Specify the step metric (x-axis) and the metric to log against it (y-axis)
@@ -49,7 +50,7 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-As an example, the following code snippet creates a custom x-axis called `x_axis_squared`. The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The y-axis consists of mock values for validation loss (`"validation_loss"`) using Python's built-in `random` module: 
+For example, the following code snippet creates a custom x-axis called `x_axis_squared`. The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The y-axis consists of mock values for validation loss (`"validation_loss"`) using Python's built-in `random` module: 
 
 ```python
 import wandb
@@ -66,13 +67,13 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-The following image shows the resulting plot in the W&B App UI. The `validation_loss` metric is plotted against the custom x-axis `x_axis_squared`, which is the square of the for loop index `i`. Note that the x-axis values are `0, 1, 4, 9, 16, 25, 36, 49, 64, 81`, which correspond to the squares of `0, 1, 2, ..., 9` respectively.
+The following image shows the resulting plot in the W&B App UI. The `validation_loss` metric is plotted against the custom x-axis `x_axis_squared`, which is the square of the for loop index `i`. The x-axis values `0, 1, 4, 9, 16, 25, 36, 49, 64, 81` are the squares of `0` through `9`.
 
 <Frame>
     <img src="/images/experiments/custom_x_axes.png" alt="Line plot panel that uses a custom x axis. Values are logged to W&B as the square of the loop number."  />
 </Frame>
 
-You can set a custom x-axis for multiple metrics using `globs` with string prefixes. As an example, the following code snippet plots logged metrics with the prefix `train/*` to the x-axis `train/step`:
+You can set a custom x-axis for multiple metrics using `globs` with string prefixes. For example, the following code snippet plots logged metrics with the prefix `train/*` to the x-axis `train/step`:
 
 ```python
 import wandb
