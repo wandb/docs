@@ -117,9 +117,10 @@ The following code snippet shows how to set a TTL policy for an artifact:
 import wandb
 from datetime import timedelta
 
-artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
-artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
-artifact.save()
+with wandb.init(project="[MY-PROJECT]") as run:
+    artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
+    artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
+    artifact.save()
 ```
 
 The preceding code example sets the TTL policy to two years.
@@ -127,7 +128,7 @@ The preceding code example sets the TTL policy to two years.
 <Tab title="W&B App">
 1. Navigate to your W&B project in the W&B App UI.
 2. Select the artifact icon in the project sidebar.
-3. From the list of artifacts, expand the artifact type you 
+3. From the list of artifacts, expand the artifact type that contains your artifact.
 4. Select the artifact version you want to edit the TTL policy for.
 5. Click the **Version** tab.
 6. From the dropdown, select **Edit TTL policy**.
@@ -168,6 +169,9 @@ Use the public API to retrieve an artifact without fetching a run, and set the T
 The following code sample shows how to fetch an artifact using the public API and set the TTL policy.
 
 ```python
+import wandb
+from datetime import timedelta
+
 api = wandb.Api()
 
 artifact = api.artifact("[ENTITY]/[PROJECT]/[ARTIFACT]:[ALIAS]")
@@ -192,15 +196,18 @@ Artifacts with TTL turned off don't inherit an artifact collection's TTL. Refer 
 
 The following code snippet shows how to deactivate a TTL policy for an artifact:
 ```python
-artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
-artifact.ttl = None
-artifact.save()
+import wandb
+
+with wandb.init(project="[MY-PROJECT]") as run:
+    artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
+    artifact.ttl = None
+    artifact.save()
 ```
 </Tab>
 <Tab title="W&B App">
 1. Navigate to your W&B project in the W&B App UI.
 2. Select the artifact icon in the project sidebar.
-3. From the list of artifacts, expand the artifact type you 
+3. From the list of artifacts, expand the artifact type that contains your artifact.
 4. Select the artifact version you want to edit the TTL policy for.
 5. Click the **Version** tab.
 6. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu next to the **Link to registry** button.
@@ -223,8 +230,11 @@ View TTL policies for artifacts with the Python SDK or with the W&B App UI to co
 Use a print statement to view an artifact's TTL policy. The following example shows how to retrieve an artifact and view its TTL policy:
 
 ```python
-artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
-print(artifact.ttl)
+import wandb
+
+with wandb.init(project="[MY-PROJECT]") as run:
+    artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
+    print(artifact.ttl)
 ```
 </Tab>
 <Tab title="W&B App">

@@ -75,7 +75,7 @@ with wandb.init(project="my-project") as run:
 Within the W&B App, you can browse the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. The W&B App doesn't render rich media such as images or audio because the artifact doesn't contain the data itself.
 
 <Note>
-W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave Storage and MinIO. The following scripts work without modification with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave Storage or MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave AI Object Storage and MinIO. The following scripts work without modification with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave AI Object Storage or MinIO server.
 </Note>
 
 <Warning>
@@ -106,7 +106,7 @@ If versioning is enabled, W&B can retrieve the correct version of the file when 
 Based on your use case, read the instructions to enable object versioning: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable).
 </Note>
 
-## Add and download an external from a bucket
+## Add and download an external file from a bucket
 
 The following code sample uploads a dataset to an Amazon S3 bucket, tracks it with a reference artifact, then downloads it:
 

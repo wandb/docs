@@ -21,7 +21,7 @@ You can create a new artifact version in two ways: from a single run and from di
 
 W&B creates a new artifact and assigns it a `v0` alias if you pass a name to the `wandb.Artifact` API that doesn't exist in your project. W&B checksums the contents when you log again to the same artifact. If the artifact changed, W&B saves a new version `v1`.  
 
-W&B retrieves an existing artifact if you pass a name and artifact type to the `wandb.Artifact` API that matches an existing artifact in your project. The retrieved artifact has a version greater than 1. 
+W&B retrieves an existing artifact if you pass a name and artifact type to the `wandb.Artifact` API that matches an existing artifact in your project. The retrieved artifact already has at least one version (`v0` or later). 
 
 <Frame>
     <img src="/images/artifacts/single_distributed_artifacts.png" alt="Artifact workflow comparison"  />
@@ -55,7 +55,7 @@ with wandb.init() as run:
 <Tab title="Outside of a run">
 Create an artifact version outside of a W&B run:
 
-1. Create a new artifact or retrieve an existing one with `wanb.Artifact`.
+1. Create a new artifact or retrieve an existing one with `wandb.Artifact`.
 2. Add files to the artifact with `.add_file`.
 3. Save the artifact with `.save`.
 

@@ -16,7 +16,7 @@ Construct a [W&B artifact](/models/ref/python/experiments/artifact) in three ste
 
 1. [Create an artifact Python object with `wandb.Artifact()`](/models/artifacts/construct-an-artifact#1-create-an-artifact-python-object-with-wandb-artifact)
 2. [Add one or more files to the artifact](/models/artifacts/construct-an-artifact#2-add-one-or-more-files-to-the-artifact)
-3. [Save your artifact to the W&B server](/models/artifacts/construct-an-artifact#3-save-your-artifact-to-the-w&b-server)
+3. [Save your artifact to the W&B server](/models/artifacts/construct-an-artifact#3-save-your-artifact-to-the-wb-server)
 
 ### 1. Create an artifact Python object with `wandb.Artifact()`
 
@@ -194,7 +194,7 @@ import wandb
 artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 
 # Add a local directory to the artifact
-artifact.add_dir(local_path="path/file.format", name="optional-prefix")
+artifact.add_dir(local_path="path/to/directory", name="optional-prefix")
 ```
 
 The following table shows how different API calls produce different artifact contents:

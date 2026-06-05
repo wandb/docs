@@ -4,7 +4,7 @@ title: Update an artifact
 keywords: ["wandb.Api", "Public API", "artifact metadata", "artifact aliases", "artifact collection"]
 ---
 
-This page describes how to update the `description`, `metadata`, and `alias` of an existing artifact. Update an artifact when you want to refine its documentation, adjust its metadata, or manage its aliases without creating a new version. To update an artifact from a previously logged run, use the W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api)). Use `wandb.Run.save()` to update an artifact when it's first initialized and still active.
+This page describes how to update the `description`, `metadata`, and `alias` of an existing artifact. Update an artifact when you want to refine its documentation, adjust its metadata, or manage its aliases without creating a new version. To update an artifact from a previously logged run, use the W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api)). To update an artifact while its run is still active, use the [`wandb.Artifact`](/models/ref/python/experiments/artifact) class and call `Artifact.save()`.
 
 <Note>
 **When to use wandb.Artifact.save() or wandb.Run.log_artifact()**

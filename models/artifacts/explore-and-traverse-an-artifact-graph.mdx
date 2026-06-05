@@ -39,7 +39,7 @@ Nodes with green icons represent runs. Nodes with blue icons represent artifacts
 Artifact nodes display the artifact's name along with the version of the artifact in the form `[ARTIFACT_NAME]:[VERSION]`. The artifact's type appears above the name of the artifact.
 
 <Note>
-You can view the type and the name of artifact in both the left sidebar and in the lineage graph node.
+You can view the type and the name of an artifact in both the left sidebar and in the lineage graph node.
 </Note>
 
 
@@ -90,7 +90,7 @@ with wandb.init() as run:
 
 ## Enable lineage graph tracking
 
-To enable lineage graph tracking, you must mark artifacts as [inputs](/models/artifacts/explore-and-traverse-an-artifact-graph) or
+To enable lineage graph tracking, you must mark artifacts as [inputs](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run) or
 [outputs](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) of a run using the W&B Python SDK. The following sections describe how to mark each.
 
 ### Track the input of a run
@@ -107,7 +107,7 @@ import wandb
 # Initialize a run
 with wandb.init(entity="[ENTITY]", project="[PROJECT]") as run:
   # Get artifact, mark it as a dependency
-  artifact = run.use_artifact(artifact_or_name="[NAME]", aliases="[ALIAS]")
+  artifact = run.use_artifact(artifact_or_name="[NAME]:[ALIAS]")
 ```
 
 
