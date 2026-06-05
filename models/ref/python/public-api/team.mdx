@@ -19,7 +19,7 @@ This class provides methods to manage W&B teams, including creating teams, invit
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     name: 'str',
     attrs: 'Mapping[str, Any] | None' = None
 )
@@ -27,7 +27,7 @@ __init__(
 
 **Args:**
  
- - `client` (`wandb.apis.public.Api`):  The api instance to use 
+ - `service_api`:  The service API instance to use for querying W&B. 
  - `name` (str):  The name of the team 
  - `attrs` (dict):  Optional dictionary of team attributes 
 
@@ -50,7 +50,7 @@ __init__(
 ### <kbd>classmethod</kbd> `Team.create`
 
 ```python
-create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
+create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Team
 ```
 
 Create a new team. 
