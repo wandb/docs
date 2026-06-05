@@ -1,17 +1,12 @@
 ---
-title: Événements et champs d’application des Automations
-description: "Découvrez les événements et les champs d’application qui déclenchent les Automations W&B, notamment les changements d’artifact, le statut du run et les conditions sur les métriques."
+title: Événements et portées des Automations
+description: "Découvrez les événements et les portées qui déclenchent les Automations W&B, notamment les changements d’artifact, le statut du run et les conditions sur les métriques."
 keywords: ["déclencheurs d’automatisation", "alias d’artifact", "statut du run", "seuil de métrique", "score z"]
 ---
 
-import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
-import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only.mdx";
+import MultiTenantAndDedicatedCloudOnly from "/snippets/fr/_includes/multi-tenant-and-dedicated-cloud-only.mdx";
 
-<Info>
-  <EnterpriseCloudOnly />
-</Info>
-
-Une automatisation peut démarrer lorsqu’un événement spécifique se produit dans un projet ou un registre. Cette page décrit les événements pouvant déclencher une automatisation dans chacun de ces contextes, afin que vous puissiez choisir le bon déclencheur lors de la configuration d’une automatisation. Pour en savoir plus sur les automatisations, consultez l’[Aperçu des automatisations](/fr/models/automations) ou [Créer une automatisation](/fr/models/automations/create-automations).
+Une automatisation peut démarrer lorsqu’un événement spécifique se produit dans un projet ou un registre. Cette page décrit les événements pouvant déclencher une automatisation dans chacune de ces portées, afin que vous puissiez choisir le bon déclencheur lors de la configuration d’une automatisation. Pour en savoir plus sur les automatisations, consultez l’[Aperçu des automatisations](/fr/models/automations) ou [Créer une automatisation](/fr/models/automations/create-automations).
 
 <div id="registry">
   ## Registre
@@ -65,11 +60,11 @@ Les sections suivantes décrivent comment configurer une automatisation qui se d
 </div>
 
 <Note>
-  * <MultiTenantCloudOnly />
+  * <MultiTenantAndDedicatedCloudOnly />
   * Un run ayant le statut **Killed** ne peut pas déclencher d&#39;automatisation. Ce statut indique qu&#39;un administrateur a arrêté le run de force.
 </Note>
 
-Déclenchez un flux de travail lorsqu&#39;un run change de [statut](/fr/models/runs/run-states) et passe à **Running**, **Finished** ou **Failed**. Vous pouvez également restreindre les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou le nom de l&#39;exécution.
+Déclenchez un flux de travail lorsqu&#39;un run change de [statut](/fr/models/runs/run-states) et passe à **Running**, **Finished** ou **Failed**. Vous pouvez également restreindre les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou le nom du run.
 
 <Frame>
   ![Capture d'écran montrant une automatisation de changement du statut d'un run](/images/automations/run_status_change.png)
@@ -82,16 +77,16 @@ Comme le statut d&#39;un run est une propriété du run dans son ensemble, vous 
 </div>
 
 <Note>
-  <MultiTenantCloudOnly />
+  <MultiTenantAndDedicatedCloudOnly />
 </Note>
 
 Déclenchez un flux de travail en fonction d&#39;une valeur enregistrée pour une métrique, qu&#39;il s&#39;agisse d&#39;une métrique de l&#39;historique d&#39;un run ou d&#39;une [métrique système](/fr/models/ref/python/experiments/system-metrics) telle que `cpu`, qui indique le pourcentage d&#39;utilisation du CPU. W&amp;B enregistre automatiquement les métriques système toutes les 15 secondes.
 
-Vous pouvez créer une automatisation de métriques de run depuis l&#39;onglet **Automations** du projet ou directement depuis un panneau de graphique en courbes dans un Workspace.
+Vous pouvez créer une automatisation de métriques de run depuis l&#39;onglet **Automations** du projet ou directement depuis un panneau de graphique linéaire dans un Workspace.
 
 Pour configurer une automatisation de métrique de run, définissez comment comparer la valeur de la métrique au seuil que vous spécifiez. Les options proposées dépendent du type d&#39;événement et des filtres que vous définissez.
 
-Vous pouvez également limiter davantage les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou sur le nom de l&#39;exécution.
+Vous pouvez également limiter davantage les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou sur le nom du run.
 
 <div id="threshold">
   ##### Seuil
@@ -147,7 +142,7 @@ Par exemple, déclenchez une automatisation lorsque la moyenne de `loss` diminue
 </div>
 
 <Note>
-  <MultiTenantCloudOnly />
+  <MultiTenantAndDedicatedCloudOnly />
 </Note>
 
 W&amp;B peut déclencher une automatisation lorsque le z-score (score standard) d’une métrique dépasse un seuil spécifié. Un z-score mesure de combien d’écarts types une valeur s’écarte de la moyenne de cette métrique sur une fenêtre configurable de runs dans le projet (30 runs par défaut).
