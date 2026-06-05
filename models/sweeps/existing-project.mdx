@@ -24,13 +24,13 @@ After this initial run completes, you have a baseline project in W&B that the sw
 
 ## Create a sweep
 
-With a baseline project in place, you can configure a sweep over its runs. From your project page, open the [**Sweep** tab](./visualize-sweep-results) in the project sidebar and select **Create Sweep**.
+With a baseline project in place, you can configure a sweep over its runs. From your project page, open the [**Sweep** tab](/models/sweeps/visualize-sweep-results) in the project sidebar and select **Create Sweep**.
 
 <Frame>
     <img src="/images/sweeps/sweep1.png" alt="W&B project page with the Sweep tab open and the Create Sweep button highlighted" />
 </Frame>
 
-The auto-generated configuration suggests values to sweep over based on the runs you've completed. Edit the configuration to specify what ranges of hyperparameters you want to try. When you launch the sweep, it starts a new process on the hosted W&B sweep server. This centralized service coordinates the agents (the machines that run the training jobs).
+The auto-generated configuration suggests values to sweep over based on the runs you've completed. Edit the configuration to specify what ranges of hyperparameters you want to try. When you launch the sweep, it starts a new process on W&B's hosted sweep server. This centralized service coordinates the agents (the machines that run the training jobs).
 
 <Frame>
     <img src="/images/sweeps/sweep2.png" alt="Auto-generated sweep configuration editor showing hyperparameter ranges" />
@@ -47,7 +47,7 @@ After you configure the sweep, launch one or more agents locally to execute the 
 You now have a running sweep that coordinates training jobs across your agents and reports results back to W&B. The following image shows what the dashboard looks like as the example sweep job runs.
 
 <Frame>
-    <img src="/images/sweeps/sweep4.png" alt="W&B sweep dashboard plotting metrics across parallel training runs" />
+    <img src="/images/sweeps/sweep4.png" alt="Sweep dashboard plotting metrics across parallel training runs" />
 </Frame>
 
 ## Seed a new sweep with existing runs

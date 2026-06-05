@@ -1,11 +1,11 @@
 ---
 title: Sweep configuration options
-description: "Reference for all W&B Sweep configuration keys including method, metric, parameters, early termination, and command."
+description: "Reference for all sweep configuration keys including method, metric, parameters, early termination, and command."
 keywords: ["hyperparameter search", "Bayesian", "grid search", "Hyperband", "YAML"]
 ---
 
 
-A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search, such as the parameters to search through ([`parameters`](./sweep-config-keys#parameters) key) and the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key).
+A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search, such as the parameters to search through ([`parameters`](#parameters) key) and the methodology to search the parameter space ([`method`](#method) key).
 
 The following table lists top-level sweep configuration keys and a brief description. For more information about each key, see the respective sections.
 
@@ -24,7 +24,7 @@ The following table lists top-level sweep configuration keys and a brief descrip
 | [`command`](#command) | Command structure for invoking and passing arguments to the training script |
 | `run_cap` | Maximum number of runs for this sweep |
 
-For more information about how to structure your sweep configuration, see the [Sweep configuration structure](./sweep-config-keys).
+For more information, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
 {/* ## `program`
 
@@ -89,7 +89,7 @@ Grid search executes forever if it searches within a continuous search space.
 
 ### Random search
 
-Random search chooses a random, uninformed set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your Python script, or from [the W&B App](/models/sweeps/visualize-sweep-results/).
+Random search chooses a random, uninformed set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your Python script, or from [the W&B App](/models/sweeps/visualize-sweep-results).
 
 If you choose random search (`method: random`), specify the distribution for each hyperparameter in the `parameters` key.
 
@@ -99,7 +99,7 @@ In contrast to [random](#random-search) and [grid](#grid-search) search, Bayesia
 
 {/* There are different Bayesian optimization methods. W&B uses a Gaussian process to model the relationship between hyperparameters and the model metric. For more information, see this paper. [LINK] */}
 
-Bayesian search runs forever unless you stop the process from the command line, within your Python script, or from [the W&B App](/models/sweeps/visualize-sweep-results/).
+Bayesian search runs forever unless you stop the process from the command line, within your Python script, or from [the W&B App](/models/sweeps/visualize-sweep-results).
 
 ### Distribution options for random and Bayesian search
 
