@@ -223,7 +223,7 @@ After you initialize a run, you can attach a configuration dictionary that recor
 
 Provide a configuration dictionary when you initialize your run to log hyperparameters and other metadata to W&B.
 
-Use the W&B App to compare runs based on their config parameters and filter them in the Runs table. You can also use these parameters to group runs together in the W&B App.
+Use W&B to compare runs based on their config parameters and filter them in the Runs table. You can also use these parameters to group runs together in W&B.
 
 For example, in the following image, the batch size (`batch_size`) is defined as a config parameter and is visible (see first column) in the Runs table. This lets users filter and compare runs based on their batch size:
 
@@ -276,7 +276,7 @@ for epoch in range(NUM_EPOCHS):
         run.log(metrics)
 ```
 
-Use metric name prefixes to group related metrics in the W&B App. Common prefixes include `train/` and `val/` for training and validation metrics, respectively, but you can use any prefix that makes sense for your use case.
+Use metric name prefixes to group related metrics in W&B. Common prefixes include `train/` and `val/` for training and validation metrics, respectively, but you can use any prefix that makes sense for your use case.
 
 This creates separate sections in your project's workspace for your training and validation metrics, or other metric types you'd like to separate:
 
@@ -420,4 +420,4 @@ For more information, see [Download and use artifacts](/models/artifacts/downloa
 
 ## Tune hyperparameters
 
-If your library supports hyperparameter tuning, you can integrate [W&B Sweeps](/models/sweeps/) to manage and visualize experiments. Sweeps coordinate multiple runs across a defined search space and surface the results in the W&B App so users can compare configurations side by side.
+If your library supports hyperparameter tuning, you can integrate [W&B Sweeps](/models/sweeps/) to manage and visualize experiments. Sweeps coordinate multiple runs across a defined search space and surface the results in W&B so users can compare configurations side by side.
