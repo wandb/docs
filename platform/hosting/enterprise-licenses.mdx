@@ -45,7 +45,7 @@ Request an Enterprise license:
 
 <Info>This section is relevant only for W&B Self-Managed. Dedicated Cloud deployments don't require manual configuration.</Info>
 
-After you [obtain an Enterprise license](#obtain-an-enterprise-license), you can configure it programmatically as part of your deployment or in the W&B App after deployment. Select the tab that matches your deployment method.
+After you [obtain an Enterprise license](#obtain-an-enterprise-license), you can configure it programmatically as part of your deployment or in W&B after deployment. Select the tab that matches your deployment method.
 
 <Tabs>
 <Tab title="Kubernetes Operator">
@@ -77,7 +77,7 @@ After you [obtain an Enterprise license](#obtain-an-enterprise-license), you can
     terraform apply -var="license=$LICENSE_KEY"
     ```
 </Tab>
-<Tab title="W&B App">
+<Tab title="W&B">
 For existing deployments without environment variable configuration:
 
 1. Log in as an admin user.
@@ -105,7 +105,7 @@ Next, [verify your Enterprise license](#verify-and-manage-an-enterprise-license)
 
 After you configure a license, verify that it's active and review its entitlements. As an instance or organization admin, follow these steps:
 
-1. In the W&B App, click your user profile icon in the top right, then click **System Console**.
+1. In W&B, click your user profile icon in the top right, then click **System Console**.
 2. Go to the **License** tab. A dashboard summarizes the license entitlements, expiration, and usage over time. If you see an error, see [Common issues](#common-issues).
 3. For detailed information about the license and its entitlements, click **View license online**.
 

@@ -4,7 +4,7 @@ description: "Configure LDAP-based SSO authentication for W&B Server including c
 keywords: ["Active Directory", "LDAP bind", "directory service", "distinguished name", "anonymous bind"]
 ---
 
-This guide is for W&B Admins who enable LDAP-based single sign-on (SSO) for W&B Server, so that users can authenticate against an existing LDAP directory instead of managing separate W&B credentials. It explains how to configure the LDAP connection from the W&B App system settings UI or with environment variables. It also describes the required and optional configuration parameters, including the address, base distinguished name, and attributes. You can set up either an anonymous bind, or bind with an administrator DN and password.
+This guide is for W&B Admins who enable LDAP-based single sign-on (SSO) for W&B Server, so that users can authenticate against an existing LDAP directory instead of managing separate W&B credentials. It explains how to configure the LDAP connection from the W&B system settings UI or with environment variables. It also describes the required and optional configuration parameters, including the address, base distinguished name, and attributes. You can set up either an anonymous bind, or bind with an administrator DN and password.
 
 {/* <Note>
 As a W&B Team Admin, you can set up either an anonymous bind, or bind with an administrator DN and password.
@@ -16,13 +16,13 @@ Only W&B Admin roles can enable and configure LDAP authentication.
 
 ## Configure LDAP connection
 
-Choose one of the following methods to configure the LDAP connection. Use the W&B App tab to configure LDAP through the system settings UI, or use the Environment variable tab to configure LDAP at deployment time.
+Choose one of the following methods to configure the LDAP connection. Use the W&B tab to configure LDAP through the system settings UI, or use the Environment variable tab to configure LDAP at deployment time.
 
 <Tabs>
-<Tab title="W&B App">
-To configure LDAP through the W&B App:
+<Tab title="W&B">
+To configure LDAP through W&B:
 
-1. Go to the W&B App.
+1. Go to W&B.
 2. Select your profile icon, then select **System Settings**.
 3. Toggle **Configure LDAP Client**.
 4. Add the details in the form. For more information about each input, see [Configuration parameters](#configuration-parameters).

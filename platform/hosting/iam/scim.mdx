@@ -10,7 +10,7 @@ Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3
 
 ## Overview
 
-This page describes how instance and organization admins use the System for Cross-domain Identity Management (SCIM) API to automate identity management in W&B. With the SCIM API, you can provision and deprovision users, manage team membership, and define custom roles programmatically through an identity provider or CI/CD pipeline instead of clicking through the W&B App. SCIM groups map to W&B Teams.
+This page describes how instance and organization admins use the System for Cross-domain Identity Management (SCIM) API to automate identity management in W&B. With the SCIM API, you can provision and deprovision users, manage team membership, and define custom roles programmatically through an identity provider or CI/CD pipeline instead of clicking through W&B. SCIM groups map to W&B Teams.
 
 W&B's SCIM API is compatible with identity providers such as Okta. For SSO configuration with Okta and other identity providers, see the [SSO documentation](/platform/hosting/iam/sso/).
 
@@ -186,7 +186,7 @@ The response includes details about the user's activity in the organization:
 
 The definition of "active" differs by deployment type:
 
-- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
+- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in W&B, log runs, use the SDK, or interact with the W&B server in any way.
 - **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
 
 </Tab>
@@ -271,7 +271,7 @@ The response includes details about each user's activity in the organization:
 
 The definition of "active" differs by deployment type:
 
-- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
+- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in W&B, log runs, use the SDK, or interact with the W&B server in any way.
 - **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
 
 </Tab>
@@ -434,7 +434,7 @@ Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-te
 - Set `userName` to the service account name. The API uses `userName` for the account's display name. The `displayName` field in the request body is ignored.
 - `emails` aren't required for service accounts.
 - `modelsSeat` and `weaveRole` aren't supported on create and return `400 Bad Request` if present.
-- Service accounts can't be updated with `PATCH` or `PUT`, can't be deactivated, and can't be assigned organization, team, or registry roles through SCIM. Create API keys in the W&B App after provisioning.
+- Service accounts can't be updated with `PATCH` or `PUT`, can't be deactivated, and can't be assigned organization, team, or registry roles through SCIM. Create API keys in W&B after provisioning.
 </Note>
 
 #### Endpoint
@@ -582,7 +582,7 @@ If the response returns one of the following errors, check the request for these
 Permanently deletes a service account and its organization membership. Use this endpoint when a service account is no longer needed (for example, after you retire an automation pipeline). This is a hard delete, and the account can't be reactivated through SCIM.
 
 <Note>
-Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**. Use the service account's SCIM user `id` from the provision response or from [Get user](#get-user). Deprovisioning doesn't delete API keys that were already issued. Revoke keys separately in the W&B App if needed.
+Available in **Dedicated Cloud** and **Self-Managed** v0.81.0+ and in **Multi-tenant Cloud**. Use the service account's SCIM user `id` from the provision response or from [Get user](#get-user). Deprovisioning doesn't delete API keys that were already issued. Revoke keys separately in W&B if needed.
 </Note>
 
 #### Endpoint
@@ -2081,7 +2081,7 @@ PATCH /scim/Groups/{team_id}
 
 ### Delete team
 
-The SCIM API doesn't support deleting teams because additional data is linked to teams. Delete teams from the W&B App to confirm you want everything deleted.
+The SCIM API doesn't support deleting teams because additional data is linked to teams. Delete teams from W&B to confirm you want everything deleted.
 
 ## Role resource
 

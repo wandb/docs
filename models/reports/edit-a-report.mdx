@@ -33,7 +33,7 @@ pip install wandb wandb-workspaces
 Plots let you visualize run data inside a report. Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data appears on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="W&B">
 Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that W&B supports, including a line plot, scatter plot, or parallel coordinates chart.
 
 <Frame>
@@ -79,7 +79,7 @@ For more information about available plots and charts you can add to a report pr
 Add run sets from projects interactively with the App UI or the W&B SDK.
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="W&B">
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. W&B automatically imports the run set from the project the report was created from.
 
 If you import a panel into a report, run names are inherited from the project. In the report, you can optionally [rename a run](/models/runs/#rename-a-run) to give the reader more context. The run is renamed only in the individual panel. If you clone the panel in the same report, the run is also renamed in the cloned panel.
@@ -280,12 +280,12 @@ runset = wr.Runset(
 <Note>
 The name of the run is the name you specify in the `wandb.init(name=)` parameter. If you don't specify a name, W&B generates a random name for the run.
 
-You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
+You can find the name of the run in the **Overview** page of a run in W&B or programmatically with `Api.runs().run.name`.
 </Note>
 
 ### Group runs by summary metrics
 
-The following examples demonstrate how to group runs by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
+The following examples demonstrate how to group runs by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in W&B under the **Summary** section of a run's **Overview** page.
 
 The syntax for grouping runs by summary metrics is `summary.[KEY]`, where `[KEY]` is the name of the summary metric you want to group by.
 
@@ -336,7 +336,7 @@ In this expression, `[KEY]` is the name of the filter, `operation` is a comparis
 | ---|---| --- |
 |`Config('[KEY]')` | Filter by config values | Values specified in `config` parameter in `wandb.init(config=)`. |
 |`SummaryMetric('[KEY]')` | Filter by summary metrics | Values you log to a run with `wandb.Run.log()`. |
-|`Tags('[KEY]')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
+|`Tags('[KEY]')` | Filter by tags | Tag values that you add to your run (programmatically or with W&B). |
 |`Metric('[KEY]')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
 
 After you define your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information about how to add various elements to a report programmatically.
@@ -443,7 +443,7 @@ runset = wr.Runset(
 ```
 
 <Note>
-You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
+You can find the name of the run in the **Overview** page of a run in W&B or programmatically with `Api.runs().run.name`.
 </Note>
 
 The following examples demonstrate how to filter a runset by the run's state (`finished`, `crashed`, or `running`):
@@ -467,7 +467,7 @@ runset = wr.Runset(
 
 ### SummaryMetric filters
 
-The following examples demonstrate how to filter a run set by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
+The following examples demonstrate how to filter a run set by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in W&B under the **Summary** section of a run's **Overview** page.
 
 ```python
 runset = wr.Runset(
@@ -487,7 +487,7 @@ runset = wr.Runset(
 
 ### Tags filters
 
-The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with the W&B App).
+The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with W&B).
 
 ```python
 runset = wr.Runset(

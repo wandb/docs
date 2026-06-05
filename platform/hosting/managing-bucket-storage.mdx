@@ -14,7 +14,7 @@ W&B stores several categories of data in your configured object storage. The [BY
 
 ## How W&B removes data from storage
 
-Deletion in the W&B App or [Public API](/models/ref/python/public-api/api) updates W&B metadata first. Removing a run, artifact, or file from the product doesn't guarantee an immediate drop in reported bucket usage. Object storage cleanup runs as background work that can lag, especially on busy instances.
+Deletion in W&B or [Public API](/models/ref/python/public-api/api) updates W&B metadata first. Removing a run, artifact, or file from the product doesn't guarantee an immediate drop in reported bucket usage. Object storage cleanup runs as background work that can lag, especially on busy instances.
 
 ### Artifacts
 
@@ -36,7 +36,7 @@ This section describes the recommended order of operations for freeing space in 
 
 Use supported product flows first:
 
-- [Delete runs in the W&B App](/models/runs/delete-runs#ui) or [with Python](/models/runs/delete-runs#python) when you no longer need them.
+- [Delete runs in W&B](/models/runs/delete-runs#ui) or [with Python](/models/runs/delete-runs#python) when you no longer need them.
 - [Delete artifacts](/models/artifacts/delete-artifacts) you no longer need, and use [Artifact TTL](/models/artifacts/ttl) where it fits your workflow.
 
 If you must reclaim space immediately, operators with access to the bucket may delete specific object keys directly in cloud storage.
@@ -53,7 +53,7 @@ For high-level usage in W&B Multi-tenant Cloud, organization admins can review s
 
 ## Troubleshooting
 
-If deletions don't appear correctly in the W&B App after you use the Public API, upgrade the W&B Python SDK to a current release and retry. Large per-run file counts can increase how long background cleanup takes across the instance.
+If deletions don't appear correctly in W&B after you use the Public API, upgrade the W&B Python SDK to a current release and retry. Large per-run file counts can increase how long background cleanup takes across the instance.
 
 For scripted cleanup patterns that match your deployment, contact [W&B Support](mailto:support@wandb.ai) or your account team.
 

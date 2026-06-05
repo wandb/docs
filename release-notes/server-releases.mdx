@@ -107,7 +107,7 @@ W&B Server 0.81.0 makes debugging and comparing runs easier with deeper, searcha
 - Reduced the risk of deadlocks during artifact creation, deletion, and garbage collection.
 - Fixed a memory caching bug in the storage engine that could significantly under-report the actual heap retained by cache entries.
 - Fixed bugs where if the workspace or section's **Panel settings** configure a specific x-axis or step size, users could not override the settings for an individual panel. Instead, the workspace or section setting forced its value onto the panel.
-- Improved the display of long aliases and tags in the W&B App.
+- Improved the display of long aliases and tags in W&B.
 - Fixed a bug that caused jumbled characters to appear when filtering runs by regular expression.
 - Fixed an infinite loading page when opening a link to a nonexistent run group.
 - Fixed a bug where discarding a report draft would redirect to the list of reports instead of the source report.
@@ -173,7 +173,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
       ![Media panel compare mode grid](/images/release-notes/v0-80-0/media-compare-mode.png)
     </Frame>
 
-- The W&B App’s home page has been improved.
+- W&B’s home page has been improved.
     - View, search, or filter recent activity, both your own and that of your colleagues.
     - Access recent reports directly in the home page.
     - Starred projects are no longer displayed on the home page, but appear at the top of the Projects page and in the left navigation.
@@ -195,7 +195,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     - **Dim non-frontier points**: Optionally reduce the weight of non-frontier points.
 - You can now play audio in a table panel while it is downloading.
 - For manually-added custom panels, position overrides are now preserved across reloads.
-- Access release notes for your deployment’s current version from within the W&B App. In the top navigation, click **?** to open the **Resources & Help** menu, then click **Release Notes**.
+- Access release notes for your deployment’s current version from within W&B. In the top navigation, click **?** to open the **Resources & Help** menu, then click **Release Notes**.
 - Improved Lineage DAG navigation: you can now filter lineage by artifact type and upstream/downstream hops. Filtered or hidden nodes now remain visible as placeholders, which should make it easier to understand graph structure while iterating on filters.
 - When you share an artifact’s lineage view by URL, the recipient now sees the exact same graph configuration, including filters, hidden nodes, manual positions, viewports, and zoom levels.
 
@@ -260,7 +260,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 ## Security
 
 - When creating a service account, you are now automatically guided to create an API key for it.
-- Confirmation is now required to delete a service account or an API key from the W&B App.
+- Confirmation is now required to delete a service account or an API key from W&B.
 - The backend now escapes column names in filters to help prevent SQL injection.
 - Email addresses that contain [diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) are now blocked from user registration or login.
 
@@ -484,7 +484,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - When viewing an artifact version, you can now create a new registry and link the artifact version to it in a single operation.
 
 ### Weave
-- Weave onboarding pages in the empty state in the W&B App now include TypeScript example code alongside the Python example code.
+- Weave onboarding pages in the empty state in W&B now include TypeScript example code alongside the Python example code.
 - Weave call logs now support continuous scrolling by default. Previously, you could view only the most recent 10,000 lines of logs.
 - Bar charts and radar charts in the [Evaluation](/weave/guides/core-types/evaluations) comparison page now support resizing and displaying in full-screen view, and when you hover over an area of the chart, a tooltip displays details.
 - [Weave Playground](https://wandb.ai/site/playground/) includes new models:
@@ -773,7 +773,7 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
 - Fixed a bug on mobile displays where scrolling could cause logged videos to automatically play in full screen.
 
 ## Other changes
-- The custom grid layout was removed from W&B Workspaces with Server release v0.73.0. Previously, custom grid layout allowed you to adjust the size of individual panels within a section. Now, resizing a panel in a workspace section resizes all panels in that section, whether you configure the workspace using the [W&B App](/models/app/features/panels/#manage-a-sections-panels) or the [Workspace API](/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings). Custom grid layout remains available in [W&B Reports](/models/reports) and the [Reports API](/models/ref/wandb_workspaces/reports).
+- The custom grid layout was removed from W&B Workspaces with Server release v0.73.0. Previously, custom grid layout allowed you to adjust the size of individual panels within a section. Now, resizing a panel in a workspace section resizes all panels in that section, whether you configure the workspace using [W&B](/models/app/features/panels/#manage-a-sections-panels) or the [Workspace API](/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings). Custom grid layout remains available in [W&B Reports](/models/reports) and the [Reports API](/models/ref/wandb_workspaces/reports).
 </Update>
 
 <Update label="v0.72.0" description="August 6, 2025">

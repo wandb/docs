@@ -41,7 +41,7 @@ with wandb.init(project="table-demo") as run:
 
 ## Logging modes
 
-The [`wandb.Table`](/models/ref/python/data-types/table) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in the W&B App.
+The [`wandb.Table`](/models/ref/python/data-types/table) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in W&B.
 
 The following describes the three logging modes, the high-level differences, and common use case for each mode:
 
@@ -106,7 +106,7 @@ If you only want to add new batches of rows (no columns) incrementally like in a
 In incremental mode, you log batches of rows to a table during the machine learning experiment. This is ideal for monitoring long-running jobs or when working with large tables that would be inefficient to log during the run for updates. Within the UI, the table is updated with new rows as they are logged, allowing you to view the latest data without having to wait for the entire run to finish. You can also step through the increments to view the table at different points in time.
 
 <Note>
-Run workspaces in the W&B App have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
+Run workspaces in W&B have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
 </Note>
 
 The following example creates a table in `INCREMENTAL` mode, logs it, and then adds new rows to it. Note that the table is logged once per training step (`step`).
@@ -141,7 +141,7 @@ with wandb.init(project="incremental-table-demo") as run:
         run.log({"training_table": table}, step=step)
 ```
 
-Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, the W&B App may not render all rows in the table if you log a large number of increments. If your goal is to update and view your table data while your run is ongoing and to have all the data available for analysis, consider using two tables. One with `INCREMENTAL` log mode and one with `IMMUTABLE` log mode. 
+Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, W&B may not render all rows in the table if you log a large number of increments. If your goal is to update and view your table data while your run is ongoing and to have all the data available for analysis, consider using two tables. One with `INCREMENTAL` log mode and one with `IMMUTABLE` log mode. 
 
 The following example shows how to combine `INCREMENTAL` and `IMMUTABLE` logging modes to achieve this.
 
@@ -173,7 +173,7 @@ with wandb.init(project="combined-logging-example") as run:
     run.log({"table": final_table})
 ```
 
-In this example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This allows you to log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and it enables you to view all rows in the W&B App. 
+In this example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This allows you to log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and it enables you to view all rows in W&B. 
 
 ## Examples 
 

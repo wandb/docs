@@ -21,7 +21,7 @@ We recommend you create a sweep on launch using the `basic` method if you're a f
 </Note>
 
 ## Create a sweep with a W&B standard scheduler
-This section describes how to create W&B Sweeps with Launch using the standard scheduling engine. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI.
+This section describes how to create W&B Sweeps with Launch using the standard scheduling engine. You can create a sweep interactively with W&B or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI.
 
 <Note>
 Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](/platform/launch/create-launch-job/) page for more information.
@@ -29,9 +29,9 @@ Before you create a sweep with W&B Launch, ensure that you first create a job to
 
 <Tabs>
 <Tab title="W&B app">
-Create a sweep interactively with the W&B App.
+Create a sweep interactively with W&B.
 
-1. Navigate to your W&B project on the W&B App.
+1. Navigate to your W&B project on W&B.
 2. Select the sweeps icon in the project sidebar (broom image).
 3. Select the **Create Sweep** button.
 4. Click the **Configure Launch** button.
@@ -222,7 +222,7 @@ Create a launch sweep using Optuna's scheduling logic with a job.
 If the initial sweep used a training job with an alias like `latest`, resuming can lead to different results if the latest job version has changed since the last run.
 </Note>
 
-  1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight-character string (for example, `hhd16935`) that you can find in your project on the W&B App.
+  1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight-character string (for example, `hhd16935`) that you can find in your project on W&B.
   2. If you change the scheduler parameters, construct an updated config file.
   3. In your terminal, execute the following command. Replace content wrapped in `[` and `]` with your information:
 

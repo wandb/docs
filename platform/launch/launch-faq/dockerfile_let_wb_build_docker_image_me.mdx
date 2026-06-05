@@ -12,7 +12,7 @@ After you configure the Dockerfile, specify it to W&B in one of the following wa
 
 * Use `Dockerfile.wandb`
 * Use W&B CLI
-* Use W&B App
+* Use W&B
 
 <Tabs>
 <Tab title="Dockerfile.wandb">
@@ -25,12 +25,12 @@ To queue a job, use the `--dockerfile` flag with the `wandb launch` command:
 wandb launch --dockerfile path/to/Dockerfile
 ```
 </Tab>
-<Tab title="W&B App">
-When you add a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path as the value.
+<Tab title="W&B">
+When you add a job to a queue in W&B, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path as the value.
 
 The following JSON shows how to include a Dockerfile from a local directory:
 
-```json title="Launch job W&B App"
+```json title="Launch job W&B"
 {
   "args": [],
   "run_config": {
