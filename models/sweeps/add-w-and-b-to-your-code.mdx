@@ -90,7 +90,7 @@ parameters:
     values: [5, 10, 15]
 ```
 
-For more information about how to create a sweep configuration, see [Define sweep configuration](/models/sweeps/define-sweep-configuration/).
+For more information, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
 You must provide the name of your Python script for the `program` key
 in your YAML file.
@@ -145,38 +145,35 @@ def main():
 main()
 ```
 
-In your CLI, you can set a maximum number of runs for the sweep
-agent. This step is optional. This example sets the
-maximum to five.
+After you update your training script, initialize and start the sweep from your CLI:
 
-```bash
-NUM=5
-```
+1. Optionally, set a maximum number of runs for the sweep agent to try. This example sets the maximum to five:
 
-Next, initialize the sweep with the [`wandb sweep`](/models/ref/cli/wandb-sweep) command. Provide the name of the YAML file. Optionally, provide the name of the project for the project flag (`--project`):
+   ```bash
+   NUM=5
+   ```
 
-```bash
-wandb sweep --project sweep-demo-cli config.yaml
-```
+2. Initialize the sweep with the [`wandb sweep`](/models/ref/cli/wandb-sweep) command. Provide the name of the YAML file. Optionally, provide the name of the project for the project flag (`--project`):
 
-This returns a sweep ID. For more information about how to initialize sweeps, see
-[Initialize sweeps](./initialize-sweeps).
+   ```bash
+   wandb sweep --project sweep-demo-cli config.yaml
+   ```
 
-Copy the sweep ID and replace `[SWEEP-ID]` in the following code snippet to start
-the sweep job with the [`wandb agent`](/models/ref/cli/wandb-agent)
-command. Replace `[YOUR-ENTITY]` with your W&B entity name.
+   This returns a sweep ID. For more information, see [Initialize sweeps](/models/sweeps/initialize-sweeps).
 
-```bash
-wandb agent --count $NUM [YOUR-ENTITY]/sweep-demo-cli/[SWEEP-ID]
-```
+3. Copy the sweep ID and replace `[SWEEP-ID]` in the following command to start the sweep job with the [`wandb agent`](/models/ref/cli/wandb-agent) command. Replace `[YOUR-ENTITY]` with your W&B entity name:
 
-The sweep agent runs your training script repeatedly, each time with a different combination of hyperparameter values from your YAML configuration, and logs the results to W&B. For more information, see [Start sweep jobs](./start-sweep-agents).
+   ```bash
+   wandb agent --count $NUM [YOUR-ENTITY]/sweep-demo-cli/[SWEEP-ID]
+   ```
+
+The sweep agent runs your training script repeatedly, each time with a different combination of hyperparameter values from your YAML configuration, and logs the results to W&B. For more information, see [Start sweep jobs](/models/sweeps/start-sweep-agents).
 </Tab>
 <Tab title="Python script or notebook">
 Follow these steps to add W&B to your Python script:
 
-1. Create a dictionary object where the key-value pairs define a [sweep configuration](/models/sweeps/define-sweep-configuration/). The sweep configuration defines the hyperparameters you want W&B to explore on your behalf along with the metric you want to optimize. Continuing from the previous example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) are the hyperparameters to vary during each sweep. You want to maximize the accuracy of the validation score, so set `"goal": "maximize"` and the name of the variable you want to optimize for, in this case `val_acc` (`"name": "val_acc"`).
-2. Pass the sweep configuration dictionary to [`wandb.sweep()`](/models/ref/python/functions/sweep). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information about how to initialize sweeps, see [Initialize sweeps](./initialize-sweeps).
+1. Create a dictionary object where the key-value pairs define a [sweep configuration](/models/sweeps/define-sweep-configuration). The sweep configuration defines the hyperparameters you want W&B to explore on your behalf along with the metric you want to optimize. Continuing from the previous example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) are the hyperparameters to vary during each sweep. You want to maximize the accuracy of the validation score, so set `"goal": "maximize"` and the name of the variable you want to optimize for, in this case `val_acc` (`"name": "val_acc"`).
+2. Pass the sweep configuration dictionary to [`wandb.sweep()`](/models/ref/python/functions/sweep). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps](/models/sweeps/initialize-sweeps).
 3. At the top of your script, import the W&B Python SDK (`wandb`).
 4. Within your `main` function, use [`wandb.init()`](/models/ref/python/functions/init) to generate a background process to sync and log data as a [W&B Run](/models/ref/python/experiments/run). Pass the project name as a parameter to the `wandb.init()` method. If you don't pass a project name, W&B uses the default project name.
 5. Fetch the hyperparameter values from the `wandb.Run.config` object. This lets you use the hyperparameter values defined in the sweep configuration dictionary instead of hardcoded values.

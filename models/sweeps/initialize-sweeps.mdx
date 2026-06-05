@@ -1,19 +1,19 @@
 ---
-description: "Initialize a W&B sweep using the Python SDK or CLI to start hyperparameter searches with your sweep configuration."
+description: "Initialize a sweep using the Python SDK or CLI to start hyperparameter searches with your sweep configuration."
 title: Initialize a sweep
 keywords: ["sweep ID", "sweep controller", "wandb.sweep", "wandb sweep CLI", "agent coordination"]
 ---
 
-Initialize a W&B sweep to register your sweep configuration with W&B and return a sweep ID that agents use to fetch run instructions. Initialize a sweep after you define a sweep configuration and before you launch agents, so that you have a sweep ready to coordinate hyperparameter searches across one or more machines.
+Initialize a sweep to register your sweep configuration with W&B and return a sweep ID that agents use to fetch run instructions. Initialize a sweep after you define a sweep configuration and before you launch agents, so that you have a sweep ready to coordinate hyperparameter searches across one or more machines.
 
-W&B uses a _sweep controller_ to manage sweeps on the cloud (standard) or locally across one or more machines. After a run completes, the sweep controller issues a new set of instructions describing a new run to execute. _Agents_ pick up these instructions and perform the runs. In a typical W&B sweep, the controller lives on the W&B server. Agents live on your machines.
+W&B uses a _sweep controller_ to manage sweeps on the cloud (standard) or locally across one or more machines. After a run completes, the sweep controller issues a new set of instructions describing a new run to execute. _Agents_ pick up these instructions and perform the runs. In a typical sweep, the controller lives on the W&B server. Agents live on your machines.
 
-Before you initialize a sweep, you must have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information, see [Define sweep configuration](/models/sweeps/define-sweep-configuration/).
+Before you initialize a sweep, you must have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
 The following code snippets show how to initialize sweeps with the CLI and within a Jupyter notebook or Python script. Choose the method that matches your workflow.
 
 <Warning>
-Both the sweep and the run must be in the same project. The project name you provide when you initialize W&B ([`wandb.init()`](/models/ref/python/functions/init)) must match the project name you provide when you initialize a sweep ([`wandb.sweep()`](/models/ref/python/functions/sweep)).
+The sweep and the run must be in the same project. The project name you provide when you initialize W&B ([`wandb.init()`](/models/ref/python/functions/init)) must match the project name you provide when you initialize a sweep ([`wandb.sweep()`](/models/ref/python/functions/sweep)).
 </Warning>
 
 <Tabs>
