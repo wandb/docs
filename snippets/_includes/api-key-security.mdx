@@ -27,7 +27,7 @@ If an API key is exposed, delete the API key from your W&B account immediately a
 When you use API keys in your code, pass them through environment variables:
 
 ```bash
-export WANDB_API_KEY="[YOUR-API-KEY]"
+export WANDB_API_KEY="<your-api-key>"
 ```
 
 This approach keeps keys out of your source code and makes it easier to rotate them when needed.
@@ -37,7 +37,7 @@ Avoid setting the environment variable in line with the command, because it's vi
 
 ```bash
 # Avoid this pattern, which can expose the API key in process managers
-export WANDB_API_KEY="[YOUR-API-KEY]" ./my-script.sh
+WANDB_API_KEY="<your-api-key>" ./my-script.sh
 ```
 </Warning>
 
