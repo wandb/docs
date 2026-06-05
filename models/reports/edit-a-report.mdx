@@ -85,7 +85,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 If you import a panel into a report, run names inherit from the project. In the report, you can optionally [rename a run](/models/runs/#rename-a-run) to give the reader more context. The rename applies only to the individual panel. If you clone the panel in the same report, the cloned panel also reflects the new name.
 
 1. In the report, click the pencil icon to open the report editor.
-2. In the run set, find the run to rename. Hover over the report name and click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Select one of the following choices, then submit the form.
+2. In the run set, find the run to rename. Hover over the run name and click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Select one of the following choices, then submit the form.
 
     - **Rename run for project**: Rename the run across the entire project. To generate a new random name, leave the field blank.
     - **Rename run for panel grid**: Rename the run only in the report, preserving the existing name in other contexts. You can't generate a new random name with this option.
@@ -566,7 +566,7 @@ Add markdown to format narrative text, headings, and inline emphasis in your rep
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Markdown**.
 </Tab>
 <Tab title="Report and Workspace API">
-Use the `wandb.apis.reports.MarkdownBlock` class to create a markdown block programmatically. Pass a string to the `text` parameter:
+Use the `wr.MarkdownBlock` class to create a markdown block programmatically. Pass a string to the `text` parameter:
 
 ```python
 import wandb
@@ -597,7 +597,7 @@ Add HTML elements such as headings and lists to structure your report. You can a
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
 </Tab>
 <Tab title="Report and Workspace API">
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
+Pass a list of one or more HTML elements to the report's `blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
 
 ```python
 import wandb
@@ -656,7 +656,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 </Frame>
 </Tab>
 <Tab title="Report and Workspace API">
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
+Pass a list of one or more embedded media objects to the report's `blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
 
 ```python
 import wandb
