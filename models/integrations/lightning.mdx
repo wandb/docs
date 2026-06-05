@@ -191,13 +191,13 @@ wandb.config.update()
 
 ## Log gradients, parameter histogram and model topology
 
-Pass your model object to `wandblogger.watch()` to monitor your model's gradients and parameters as you train. See the PyTorch Lightning `WandbLogger` documentation.
+Pass your model object to `wandb_logger.watch()` to monitor your model's gradients and parameters as you train. See the PyTorch Lightning `WandbLogger` documentation.
 
 ## Log metrics
 
 <Tabs>
 <Tab title="PyTorch Logger">
-To log your metrics to W&B when using the `WandbLogger`, call `self.log('my_metric_name', metric_vale)` within your `LightningModule`, such as in your `training_step` or `validation_step` methods.
+To log your metrics to W&B when using the `WandbLogger`, call `self.log('my_metric_name', metric_value)` within your `LightningModule`, such as in your `training_step` or `validation_step` methods.
 
 The following code snippet shows how to define your `LightningModule` to log your metrics and your `LightningModule` hyperparameters. This example uses the [`torchmetrics`](https://github.com/Lightning-AI/torchmetrics) library to calculate your metrics.
 
