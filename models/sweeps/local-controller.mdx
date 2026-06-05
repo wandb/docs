@@ -54,12 +54,12 @@ wandb sweep config.yaml
 wandb controller [USER]/[ENTITY]/[SWEEP-ID]
 ```
 
-After you specify that you want to use a local controller, start one or more sweep agents to run the sweep. Start a sweep the same way you usually do. For more information, see [Start sweep agents](/models/sweeps/start-sweep-agents).
+After you specify that you want to use a local controller, start one or more sweep agents to run the sweep, the same way you usually do. For more information, see [Start sweep agents](/models/sweeps/start-sweep-agents).
 
 Replace `[SWEEP-ID]` with the sweep ID returned by `wandb sweep`:
 
 ```bash
-wandb sweep [SWEEP-ID]
+wandb agent [SWEEP-ID]
 ```
 
 ## Run a local controller with W&B Python SDK
