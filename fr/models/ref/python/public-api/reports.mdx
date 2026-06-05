@@ -17,18 +17,16 @@ Reports est un itérateur différé d’objets `BetaReport`.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     project: 'Project',
     name: 'str | None' = None,
     entity: 'str | None' = None,
-    per_page: 'int' = 50,
-    service_api: 'ServiceApi'
+    per_page: 'int' = 50
 )
 ```
 
 **Arguments :**
 
-* `client` :  Client GraphQL existant conservé pour la compatibilité de l’API.
 * `service_api` :  Interface vers le service wandb-core qui effectue les appels d’API W&amp;B pour cette collection.
 * `project` (`wandb.sdk.internal.Project`) :  Le projet depuis lequel récupérer les Reports.
 * `name` (str, facultatif) :  Le nom du rapport à utiliser pour le filtrage. Si `None`, récupère tous les Reports.

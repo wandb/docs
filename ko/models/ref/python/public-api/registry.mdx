@@ -17,12 +17,11 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None,
-    service_api: 'ServiceApi | None' = None
+    attrs: 'RegistryFragment | None' = None
 )
 ```
 
@@ -233,13 +232,12 @@ collections(
 
 ```python
 create(
-    client: 'RetryingClient',
+    api: 'Api',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None,
-    service_api: 'ServiceApi | None' = None
+    artifact_types: 'list[str] | None' = None
 ) → Self
 ```
 
@@ -249,13 +247,12 @@ create(
 
 **매개변수:**
 
-* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
-* `service_api`:  생성된 레지스트리에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
+* `api`:  W&amp;B API 인스턴스입니다.
 * `organization`:  조직 이름입니다.
 * `name`:  레지스트리 이름입니다(`wandb-registry-` 접두사 제외).
 * `visibility`:  공개 범위입니다(&#39;organization&#39; 또는 &#39;restricted&#39;).
 * `description`:  레지스트리에 대한 선택 설명입니다.
-* `artifact_types`:  허용되는 artifact 유형의 선택 목록입니다.
+* `artifact_types`:  허용되는 아티팩트 유형의 선택 목록입니다.
 
 **반환값:**
 
