@@ -1,19 +1,19 @@
 ---
-description: Start or stop a W&B sweep agent on one or more machines.
+description: Start or stop a sweep agent on one or more machines.
 title: Start a sweep agent
 keywords: [wandb agent, sweep ID, hyperparameter search, run count, signal forwarding]
 ---
 
 This page explains how to start a sweep agent on one or more machines so that W&B can run your hyperparameter search. Sweep agents use the sweep configuration that you define when you [initialize a sweep](/models/sweeps/initialize-sweeps) to explore different hyperparameter combinations. W&B creates a new run for each hyperparameter combination that the sweep agent runs.
 
-After your agents are running, see [Manage sweeps](/models/sweeps/pause-resume-and-cancel-sweeps) to learn how to pause, resume, stop, or cancel a sweep.
+See [Manage sweeps](/models/sweeps/pause-resume-and-cancel-sweeps) to learn how to pause, resume, stop, or cancel a running sweep agent.
 
-Before you continue, make sure you:
+Before you continue:
 
-* Have configured your training script to create and track hyperparameter combinations with W&B. For more information, see [Add W&B to your code](./add-w-and-b-to-your-code#training-script-with-w%26b-python-sdk).
-* Have a [configuration file](./define-sweep-configuration) defined for your sweep.
+* Configure your training script to create and track hyperparameter combinations with W&B. See [Add W&B to your code](/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) for examples.
+* Define a [configuration file](/models/sweeps/define-sweep-configuration) for your sweep.
 
-You can start a sweep agent with the W&B CLI or from within a Jupyter notebook or Python script. The following code snippets demonstrate both methods. For either method, provide the sweep ID that W&B returns when you initialize the sweep. The sweep ID has the form:
+These examples show how to start a sweep agent with the W&B CLI or from Python. You need the sweep ID that W&B returns when you initialize the sweep. The sweep ID has the form:
 
 ```bash
 entity/project/sweep_ID
@@ -72,12 +72,12 @@ For more information about multiprocessing, see [Python standard library `multip
 By default, random and Bayesian searches run indefinitely, so cap how many runs an agent attempts. Specify the number of runs a sweep agent should try to bound its work. The following code snippets demonstrate how to set a maximum number of [runs](/models/ref/python/experiments/run) with the CLI and within a Jupyter notebook or Python script.
 
 <Warning>
-Random and Bayesian searches run indefinitely. If you don't set a run count, you must stop the process from the command line, from within your Python script, or from the [Sweeps UI](./visualize-sweep-results).
+Random and Bayesian searches run indefinitely. If you don't set a run count, you must stop the process from the command line, from within your Python script, or from the [Sweeps UI](/models/sweeps/visualize-sweep-results).
 </Warning>
 
 <Tabs>
 <Tab title="CLI">
-First, initialize your sweep with the [`wandb sweep`](/models/ref/cli/wandb-sweep) command. For more information, see [Initialize sweeps](./initialize-sweeps).
+First, initialize your sweep with the [`wandb sweep`](/models/ref/cli/wandb-sweep) command. For more information, see [Initialize sweeps](/models/sweeps/initialize-sweeps).
 
 ```bash
 wandb sweep config.yaml
@@ -92,7 +92,7 @@ wandb agent --count $NUM $SWEEPID
 ```
 </Tab>
 <Tab title="Python script or notebook">
-First, initialize your sweep. For more information, see [Initialize sweeps](./initialize-sweeps).
+First, initialize your sweep. For more information, see [Initialize sweeps](/models/sweeps/initialize-sweeps).
 
 ```python
 sweep_id = wandb.sweep(sweep_config)
