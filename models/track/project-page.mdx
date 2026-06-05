@@ -326,7 +326,10 @@ From a team's landing page:
 To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, W&B creates it automatically and assigns ownership to the specified entity. For example:
 
 ```python
-import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+import wandb
+
+with wandb.init(entity="<entity>", project="<project_name>") as run:
+    run.log({"accuracy": 0.95})
 ```
 
 Refer to the [`wandb.init()` API reference](/models/ref/python/functions/init/#examples).

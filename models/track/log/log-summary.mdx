@@ -99,15 +99,17 @@ The following code example demonstrates one way to retrieve the summary values l
 
 ```python
 import wandb
-import pandas
+import pandas as pd
 
 entity = "[YOUR-ENTITY]"
 project = "[YOUR-PROJECT]"
 run_name = "[YOUR-RUN-NAME]" # Name of run with summary values
 
+api = wandb.Api()
+
 all_runs = []
 
-for run in api.runs(f"{entity}/{project_name}"):
+for run in api.runs(f"{entity}/{project}"):
     print("Fetching details for run: ", run.id, run.name)
     run_data = {
               "id": run.id,
