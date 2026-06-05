@@ -27,7 +27,7 @@ The following examples assume you already have a configuration file and a traini
 
 ## Run the local controller from the command line
 
-Initialize a sweep the same way you do when you use hyperparameter controllers hosted by W&B as a cloud service. Specify the controller flag (`controller`) to indicate that you want to use the local controller for sweep jobs:
+Initialize a sweep the same way you do when you use hyperparameter controllers hosted by W&B as a cloud service. Specify the `--controller` flag to indicate that you want to use the local controller for sweep jobs:
 
 ```bash
 wandb sweep --controller config.yaml
@@ -48,10 +48,10 @@ Next, initialize the sweep:
 wandb sweep config.yaml
 ```
 
-`wandb sweep` generates a sweep ID. After you initialize the sweep, start a controller with `wandb controller`. Replace `[USER]`, `[ENTITY]`, and `[SWEEP-ID]` with your W&B username, entity, and the generated sweep ID:
+`wandb sweep` generates a sweep ID. After you initialize the sweep, start a controller with `wandb controller`. Replace `[SWEEP-ID]` with the sweep ID that `wandb sweep` generated. You can pass the short sweep ID or include the entity and project as a path (`[ENTITY]/[PROJECT]/[SWEEP-ID]`):
 
 ```bash
-wandb controller [USER]/[ENTITY]/[SWEEP-ID]
+wandb controller [SWEEP-ID]
 ```
 
 After you specify that you want to use a local controller, start one or more sweep agents to run the sweep, the same way you usually do. For more information, see [Start sweep agents](/models/sweeps/start-sweep-agents).

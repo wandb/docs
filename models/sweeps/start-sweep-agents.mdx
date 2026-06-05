@@ -13,7 +13,7 @@ Before you continue:
 * Configure your training script to create and track hyperparameter combinations with W&B. See [Add W&B to your code](/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) for examples.
 * Define a [configuration file](/models/sweeps/define-sweep-configuration) for your sweep.
 
-These examples show how to start a sweep agent with the W&B CLI or from Python. You need the sweep ID that W&B returns when you initialize the sweep. The sweep ID has the form:
+These examples show how to start a sweep agent with the W&B CLI or from Python. You need the sweep ID that W&B returns when you initialize the sweep. You can use the short sweep ID on its own (for example, `dtzl1o7u`), or include the entity and project as a path:
 
 ```bash
 entity/project/sweep_ID

@@ -72,7 +72,7 @@ sweep_configuration = {
 </Tabs>
 
 
-The top-level `parameters` key nests the following keys: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each nested key you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](/models/sweeps/sweep-config-keys#parameters) section in [Sweep configuration options](/models/sweeps/sweep-config-keys).
+The top-level `parameters` key nests the following keys: `learning_rate`, `batch_size`, `epochs`, and `optimizer`. For each nested key you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](/models/sweeps/sweep-config-keys#parameters) section in [Sweep configuration options](/models/sweeps/sweep-config-keys).
 
 
 ## Double nested parameters
@@ -294,9 +294,9 @@ parameters:
       - [LIST-OF-VALUES]
 early_terminate:
   type: hyperband
-  s: 0
-  eta: 0
-  max_iter: 0
+  s: [INSERT]
+  eta: [INSERT]
+  max_iter: [INSERT]
 command:
 - ${Command macro}
 - ${Command macro}
@@ -400,7 +400,7 @@ early_terminate:
 The following tabs show how to specify either a minimum or maximum number of iterations for `early_terminate`:
 
 <Tabs>
-<Tab title="Maximum number of iterations">
+<Tab title="Minimum number of iterations">
 The brackets for this example are `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.
 
 ```yaml
@@ -409,7 +409,7 @@ early_terminate:
   min_iter: 3
 ```
 </Tab>
-<Tab title="Minimum number of iterations">
+<Tab title="Maximum number of iterations">
 The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
 
 ```yaml
@@ -458,15 +458,25 @@ The associated Python script (`run.py`) can then parse these command-line argume
 import wandb
 import argparse
 
+
+def str2bool(v: str) -> bool:
+    """Convert a string such as "True" to a boolean, because argparse
+    doesn't support boolean arguments by default.
+    """
+    if isinstance(v, bool):
+        return v
+    return v.lower() in ('yes', 'true', 't', '1')
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', type=int)
 parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
 parser.add_argument('--test', type=str2bool, default=False)
 args = parser.parse_args()
 
-# Initialize a W&B Run
-with wandb.init('test-project') as run:
-    run.log({'validation_loss':1})
+# Initialize a W&B run
+with wandb.init(project="test-project") as run:
+    run.log({'validation_loss': 1})
 ```
 
 See the [Command macros](/models/sweeps/sweep-config-keys#command-macros) section in [Sweep configuration options](/models/sweeps/sweep-config-keys) for a list of predefined macros you can use in your sweep configuration.

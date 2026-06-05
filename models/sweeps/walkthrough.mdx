@@ -76,7 +76,7 @@ With the training function in place, the next step is to tell W&B which hyperpar
 
 Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
-The following example shows a sweep configuration that uses a random search (`'method':'random'`). The sweep randomly selects a set of values listed in the configuration for the batch size, epoch, and the learning rate.
+The following example shows a sweep configuration that uses a random search (`'method':'random'`). The sweep randomly selects a set of values listed in the configuration for the `x` and `y` parameters.
 
 W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B optimizes for minimizing the metric `score` (`"name": "score"`).
 
