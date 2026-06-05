@@ -17,18 +17,16 @@ Reports is a lazy iterator of `BetaReport` objects.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     project: 'Project',
     name: 'str | None' = None,
     entity: 'str | None' = None,
-    per_page: 'int' = 50,
-    service_api: 'ServiceApi'
+    per_page: 'int' = 50
 )
 ```
 
 **Args:**
  
- - `client`:  Legacy GraphQL client retained for API compatibility. 
  - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `project` (`wandb.sdk.internal.Project`):  The project to fetch reports from. 
  - `name` (str, optional):  The name of the report to filter by. If `None`,  fetches all reports. 

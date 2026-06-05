@@ -220,12 +220,49 @@ jobs:
         run: |
           echo "::notice::Fork PR: auto-commit is skipped. Push regenerated files from scripts/knowledgebase-nav (see README) or a maintainer can run the generator after merge."
 
-      # Commits only if the generator changed files; file_pattern limits
-      # which paths are staged. docs.json is excluded so generator runs never
-      # mutate it. Skipped for fork PRs and unnecessary for pushes with no
-      # diff (action is a no-op).
-      - name: Commit generated changes
+      # git-auto-commit-action stages files by running `git add <file_pattern>`,
+      # which exits 128 ("pathspec ... did not match any files") when ANY pattern
+      # in the list matches nothing. A candidate pattern matches nothing whenever
+      # the tree has no file of that kind yet -- for example before any product
+      # has a tag page, or after the generator removes the last article a pattern
+      # covered. That made the commit step fail even when the generator produced
+      # no changes.
+      #
+      # Filter the candidates down to the patterns git can actually stage, using
+      # `git add --dry-run` so git's own pathspec matching decides. --dry-run
+      # makes no index changes, and it keeps deletions: a stale tag page removed
+      # by the generator still matches through the index even though no file
+      # remains on disk (a plain shell glob would miss that and drop the removal).
+      # Keep this list in sync with the generator's outputs (see
+      # scripts/knowledgebase-nav/README.md). docs.json is intentionally never staged.
+      - name: Resolve support file patterns to stage
+        id: nav_patterns
         if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) }}
+        # Uses bash arrays, so pin the shell rather than relying on the runner default.
+        shell: bash
+        run: |
+          CANDIDATES=(
+            "support.mdx"
+            "support/*/articles/*.mdx"
+            "support/*/tags/*.mdx"
+            "support/*.mdx"
+          )
+          MATCHED=()
+          for pattern in "${CANDIDATES[@]}"; do
+            if git add --dry-run -- "${pattern}" >/dev/null 2>&1; then
+              MATCHED+=("${pattern}")
+            fi
+          done
+          echo "file_pattern=${MATCHED[*]}" >> "${GITHUB_OUTPUT}"
+          echo "Patterns to stage: ${MATCHED[*]:-<none matched>}"
+
+      # Commits only if the generator changed files; file_pattern (resolved by
+      # the step above to just the patterns that match) limits which paths are
+      # staged. docs.json is excluded so generator runs never mutate it. Skipped
+      # for fork PRs, when no candidate pattern matched, and a no-op for pushes
+      # with no diff.
+      - name: Commit generated changes
+        if: ${{ (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false)) && steps.nav_patterns.outputs.file_pattern != '' }}
         uses: stefanzweifel/git-auto-commit-action@v7
         env:
           # Same as calibreapp-image-actions / build-css: App token push so
@@ -233,4 +270,4 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           commit_message: "chore: regenerate support tag pages"
-          file_pattern: "support.mdx support/*/articles/*.mdx support/*/tags/*.mdx support/*.mdx"
+          file_pattern: ${{ steps.nav_patterns.outputs.file_pattern }}
