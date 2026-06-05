@@ -11,7 +11,7 @@ A W&B Table is a two-dimensional grid of data where each column has a single typ
 
 A W&B Table is a specialized [data type](/models/ref/python/data-types/) in W&B, logged as an [artifact](/models/artifacts/) object.
 
-You [create and log table objects](#create-and-log-a-new-table) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode](#table-logging-modes). The mode determines how the table is logged and updated during your ML experiments, which affects performance, what you can change after logging, and how the table appears in the W&B App.
+You [create and log table objects](#create-and-log-a-table) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode](#logging-modes). The mode determines how the table is logged and updated during your ML experiments, which affects performance, what you can change after logging, and how the table appears in the W&B App.
 
 <Note>
 `INCREMENTAL` mode is supported on W&B Server v0.70.0 and above.

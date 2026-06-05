@@ -8,7 +8,7 @@ Like all W&B artifacts, you can convert Tables into pandas DataFrames for data e
 
 ## Convert a table to an artifact
 
-First, convert the table to an artifact so that you can retrieve it as a `Table` object to manipulate. To do this, use `artifact.get(table, "table_name")`:
+First, add the table to an artifact and log it, then retrieve the table as a `Table` object you can manipulate. Use `artifact.add(table, "my_table")` to add the table to the artifact and `artifact.get("my_table")` to retrieve it later:
 
 ```python
 # Create and log a new table.

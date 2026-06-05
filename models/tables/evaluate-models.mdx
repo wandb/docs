@@ -105,7 +105,7 @@ Create evaluation metrics tailored to your use case:
 
 ```python
 @weave.op()
-def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
+async def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
     prompt = f"Is this answer correct? Expected: {expected}, Got: {output}"
     judgment = await judge_model.predict(prompt)
     return {"judge_score": judgment}
