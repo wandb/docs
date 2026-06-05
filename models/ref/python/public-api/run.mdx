@@ -17,20 +17,19 @@ A single run associated with an entity and project.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi'
+    api_key: 'str | None' = None
 )
 ```
 
 **Args:**
  
- - `client`:  Legacy GraphQL client retained for API compatibility. 
  - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this run. 
  - `entity`:  The entity associated with the run. 
  - `project`:  The project associated with the run. 
@@ -245,27 +244,12 @@ beta_scan_history(
     min_step: 'int' = 0,
     max_step: 'int | None' = None,
     use_cache: 'bool' = True
-) → public.BetaHistoryScan
+) → public.HistoryScan
 ```
 
-Returns an iterable collection of all history records for a run. 
-
-This function is still in development and may not work as expected. It uses wandb-core to read history from a run's exported parquet history locally. 
 
 
 
-**Args:**
- 
- - `keys`:  list of metrics to read from the run's history.  if no keys are provided then all metrics will be returned. 
- - `page_size`:  the number of history records to read at a time. 
- - `min_step`:  The minimum step to start reading history from (inclusive). 
- - `max_step`:  The maximum step to read history up to (exclusive). 
- - `use_cache`:  When set to True, checks the WANDB_CACHE_DIR for a run history.  If the run history is not found in the cache, it will be downloaded from the server.  If set to False, the run history will be downloaded every time. 
-
-
-
-**Returns:**
- A BetaHistoryScan object, which can be iterator over to get history records. 
 
 ---
 
@@ -581,9 +565,10 @@ Persist changes to the run object to the W&B backend.
 scan_history(
     keys: 'list[str] | None' = None,
     page_size: 'int' = 1000,
-    min_step: 'int | None' = None,
-    max_step: 'int | None' = None
-) → Iterator[dict[str, Any]]
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.HistoryScan
 ```
 
 Returns an iterable collection of all history records for a run. 
@@ -592,26 +577,16 @@ Returns an iterable collection of all history records for a run.
 
 **Args:**
  
- - `keys` ([str], optional):  only fetch these keys, and only fetch rows that have all of keys defined. 
- - `page_size` (int, optional):  size of pages to fetch from the api. 
- - `min_step` (int, optional):  the minimum number of pages to scan at a time. 
- - `max_step` (int, optional):  the maximum number of pages to scan at a time. 
+ - `keys`:  list of metrics to read from the run's history.  if no keys are provided then all metrics will be returned. 
+ - `page_size`:  the number of history records to read at a time. 
+ - `min_step`:  The minimum step to start reading history from (inclusive). 
+ - `max_step`:  The maximum step to read history up to (exclusive). 
+ - `use_cache`:  When set to True, checks the WANDB_CACHE_DIR for a run history.  If the run history is not found in the cache, it will be downloaded from the server.  If set to False, the run history will be downloaded every time. 
 
 
 
 **Returns:**
- An iterable collection over history records (dict). 
-
-
-
-**Example:**
- Export all the loss values for an example run 
-
-```python
-run = api.run("entity/project-name/run-id")
-history = run.scan_history(keys=["Loss"])
-losses = [row["Loss"] for row in history]
-``` 
+ A HistoryScan object, which can be iterator over to get history records. 
 
 ---
 
