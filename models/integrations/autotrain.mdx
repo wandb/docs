@@ -1,11 +1,10 @@
 ---
 title: Hugging Face AutoTrain
 description: "Use W&B experiment tracking with Hugging Face AutoTrain for no-code model training with a single CLI parameter."
-keywords: ["no-code NLP", "tabular AutoML", "AutoML training"]
 ---
 [Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training models for Natural Language Processing (NLP), Computer Vision (CV), Speech, and Tabular tasks.
 
-[W&B](https://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. You only need a single parameter in the CLI command for your experiments.
+Hugging Face AutoTrain integrates directly with W&B for experiment tracking and config management. You only need a single parameter in the CLI command for your experiments.
 
 This page shows you how to enable W&B experiment tracking when you train a model with Hugging Face AutoTrain. You can capture metrics and configuration for every run without writing additional code. This page is for users who are already familiar with AutoTrain and want to add observability to their training workflows.
 
@@ -44,7 +43,7 @@ However, the [MetaMathQA dataset](https://huggingface.co/datasets/meta-math/Meta
 
 With your environment and dataset ready, you can now start training. Start training with the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [run](/models/runs/). The `--log wandb` argument enables the W&B integration for this run.
 
-Replace `[HUGGINGFACE-TOKEN]` with your Hugging Face access token and `[HUGGINGFACE-REPOSITORY-ADDRESS]` with the target repository address (for example, `your-username/your-repo`).
+Replace `<huggingface-token>` with your Hugging Face access token and `<huggingface-repository-address>` with the target repository address (for example, `your-username/your-repo`).
 
 <Tabs>
 <Tab title="Command Line">
@@ -72,8 +71,8 @@ autotrain llm \
     --use-int4 \
     --merge-adapter \
     --push-to-hub \
-    --token [HUGGINGFACE-TOKEN] \
-    --repo-id [HUGGINGFACE-REPOSITORY-ADDRESS]
+    --token <huggingface-token> \
+    --repo-id <huggingface-repository-address>
 ```
 </Tab>
 <Tab title="Notebook">

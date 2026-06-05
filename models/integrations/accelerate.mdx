@@ -1,7 +1,6 @@
 ---
 description: Training and inference at scale made simple, efficient, and adaptable
 title: Hugging Face Accelerate
-keywords: ["multi-GPU", "mixed precision", "DeepSpeed", "FSDP"]
 ---
 
 Hugging Face Accelerate is a library that enables the same PyTorch code to run across any distributed configuration, to simplify model training and inference at scale.
@@ -38,7 +37,7 @@ accelerator.end_training()
 In more detail:
 1. Pass `log_with="wandb"` when you initialize the `Accelerator` class.
 2. Call the [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) method and pass it:
-   - A project name via `project_name`.
+   - A project name through `project_name`.
    - Any parameters you want to pass to [`wandb.init()`](/models/ref/python/functions/init) through a nested dict to `init_kwargs`.
    - Any other experiment config information you want to log to your wandb run, through `config`.
 3. Use the `wandb.Run.log()` method to log to W&B. The `step` argument is optional.

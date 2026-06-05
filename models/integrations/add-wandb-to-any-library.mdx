@@ -1,7 +1,6 @@
 ---
 title: Add W&B to a Python library
 description: Best practices for integrating W&B into your Python library for experiment tracking, system monitoring, and model management.
-keywords: ["library integration", "WandbCallback pattern", "publish integration"]
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
@@ -14,15 +13,15 @@ Follow these recommendations if you're integrating W&B into a complex codebase (
 If you're new to W&B, review the core guides (for example, [Experiment Tracking](/models/track/)) before continuing.
 </Tip>
 
-The following sections walk through the major integration decisions in order: how users install W&B, how they authenticate, how to start and configure runs, how to log metrics and artifacts, and how to support distributed training and hyperparameter sweeps.
+The following sections walk through the major integration decisions in order: how to install W&B, how to authenticate, how to start and configure runs, how to log metrics and artifacts, and how to support distributed training and hyperparameter sweeps.
 
 ## Decide how users install W&B
 
-Before you start, decide whether W&B should be a required dependency or an optional feature of your library. This choice affects how you import `wandb`, how you document installation, and how you handle environments where `wandb` isn't present.
+Before you start, decide whether W&B should be a required dependency or an optional feature of your library. This choice affects how you import the W&B Python SDK (`wandb`), how you document installation, and how you handle environments where `wandb` isn't present.
 
 ### Require W&B as a dependency
 
-If W&B is central to your library's functionality, add the W&B Python SDK (`wandb`) to your dependencies so that it's installed automatically alongside your library:
+If W&B is central to your library's functionality, add `wandb` to your dependencies so that it's installed automatically alongside your library:
 
 ```txt
 torch==1.8.0 
@@ -90,10 +89,10 @@ After you have an API key, install the `wandb` library locally and log in so tha
 
 <Tabs>
 <Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key:
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
-    export WANDB_API_KEY=[YOUR-API-KEY]
+    export WANDB_API_KEY=<your_api_key>
     ```
 
 1. Install the `wandb` library and log in:
@@ -136,10 +135,10 @@ After you set up authentication, the next step is to start a W&B run so that you
 
 A *run* represents a single unit of computation, such as a training experiment. Most libraries create one run per training job. For more information about runs, see [W&B Runs](/models/runs/).
 
-Initialize a run with [`wandb.init()`](/models/ref/python/functions/init) and specify a name for your project and your team entity (team name). If you don't specify a project, W&B stores your run in a default project called "uncategorized":
+Initialize a run with [`wandb.init()`](/models/ref/python/functions/init) and specify a name for your project and your team entity (team name). If you don't specify a project, W&B stores your run in a default project called "uncategorized". Replace values enclosed in `<>` with your own:
 
 ```python
-with wandb.init(project="[PROJECT-NAME]", entity="[ENTITY]") as run:
+with wandb.init(project="<project_name>", entity="<entity>") as run:
     ...
 ```
 
@@ -300,7 +299,7 @@ For more information, see [`wandb.Run.log()`](/models/ref/python/experiments/run
 
 ### Control the x-axis
 
-By default, the `wandb` SDK manages its own step counter, which might not match the step semantics of your training loop. If you perform multiple calls to `wandb.Run.log()` for the same training step, the `wandb` SDK increments an internal step counter for each call to `wandb.Run.log()`. This counter might not align with the training step in your training loop.
+By default, the W&B Python SDK manages its own step counter, which might not match the step semantics of your training loop. If you perform multiple calls to `wandb.Run.log()` for the same training step, the `wandb` SDK increments an internal step counter for each call to `wandb.Run.log()`. This counter might not align with the training step in your training loop.
 
 To avoid this situation, define your x-axis step explicitly with `wandb.Run.define_metric()`, one time, immediately after you call `wandb.init()`:
 
@@ -324,7 +323,7 @@ for step, (input, ground_truth) in enumerate(data):
     run.log({"global_step": step, "eval/loss": 0.2})
 ```
 
-If you don't have access to the independent step variable (for example, `global_step` isn't available during your validation loop), `wandb` automatically uses the previously logged value for `global_step`. In this case, ensure you log an initial value for the metric so that it's defined when it's needed.
+If you don't have access to the independent step variable (for example, `global_step` isn't available during your validation loop), W&B automatically uses the previously logged value for `global_step`. In this case, ensure you log an initial value for the metric so that it's defined when it's needed.
 
 ### Log media and structured data
 
@@ -382,7 +381,7 @@ aliases = ["best", "epoch_10"]
 run.log_artifact(artifact, aliases=aliases)
 ```
 
-The preceding snippet logs a model checkpoint as an artifact with metadata such as evaluation accuracy and training steps. The artifact's name includes the unique run ID, and it's tagged with [custom aliases](/models/artifacts/create-a-custom-alias/) for quick reference.
+The previous snippet logs a model checkpoint as an artifact with metadata such as evaluation accuracy and training steps. The artifact's name includes the unique run ID, and it's tagged with [custom aliases](/models/artifacts/create-a-custom-alias/) for quick reference.
 
 
 ### Log input artifacts
@@ -395,13 +394,13 @@ dataset.add_file("flowers.npy")
 run.use_artifact(dataset)
 ```
 
-The preceding snippet creates an artifact for a dataset called "flowers" and adds a file to it. The `run.use_artifact()` call associates the artifact with the current run so that W&B can track the lineage of the dataset used in the run.
+The previous snippet creates an artifact for a dataset called "flowers" and adds a file to it. The `wandb.Run.use_artifact()` call associates the artifact with the current run so that W&B can track the lineage of the dataset used in the run.
 
 ### Download artifacts
 
-After you log artifacts, your library (or its users) can download previously logged artifacts from W&B to use in training or inference code. The right approach depends on whether you already have an active run.
+After you log artifacts, you can download previously logged artifacts from W&B to use in training or inference code. The right approach depends on whether you already have an active run.
 
-If you have a run context, use [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run) to reference an artifact in W&B and then call [`wandb.Artifact.download()`](/models/ref/python/experiments/artifact) to download it to a local directory. Using `use_artifact()` also records the artifact as an input to the current run, preserving lineage.
+If you have a run context, use [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run) to reference an artifact in W&B and then call [`wandb.Artifact.download()`](/models/ref/python/experiments/artifact) to download it to a local directory. Using `wandb.Run.use_artifact()` also records the artifact as an input to the current run, preserving lineage.
 
 ```python
 with wandb.init(...) as run:

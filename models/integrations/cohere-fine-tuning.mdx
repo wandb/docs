@@ -1,9 +1,8 @@
 ---
 description: "Fine-tune Cohere models with W&B experiment tracking to log training metrics and monitor model performance."
 title: Cohere fine-tuning
-keywords: ["command model", "rerank fine-tune", "Cohere train API"]
 ---
-With W&B, you can log your Cohere model's fine-tuning metrics and configuration to analyze your models' performance and share results with your colleagues. This page shows you how to connect a Cohere fine-tuning run to a W&B project so that W&B captures training and validation metrics, hyperparameters, and run metadata automatically in your workspace. It's intended for users who are already fine-tuning Cohere models and want centralized experiment tracking.
+With W&B, you can log your Cohere model's fine-tuning metrics and configuration to analyze your model performance and share results with your colleagues. Connect a Cohere fine-tuning run to a W&B project, and W&B automatically captures training and validation metrics, hyperparameters, and run metadata in your workspace. Use this guide if you are already fine-tuning Cohere models and want centralized experiment tracking.
 
 For a full example of how to start a fine-tuning run, see the [Cohere fine-tuning guide](https://docs.cohere.com/page/convfinqa-finetuning-wandb), and refer to the [Cohere API reference for the `wandb` setting](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb).
 
@@ -11,7 +10,7 @@ For a full example of how to start a fine-tuning run, see the [Cohere fine-tunin
 
 To add Cohere fine-tuning logging to your W&B workspace, do the following:
 
-1. Create a `WandbConfig` with your W&B API key, W&B `entity`, and `project` name. The API key authenticates the Cohere job with W&B, and the entity and project determine where W&B logs your runs. Create an API key in your [W&B user settings](https://wandb.ai/settings). Replace `[WANDB-API-KEY]` in the following example with your API key.
+1. Create a `WandbConfig` with your W&B API key, W&B `entity`, and `project` name. The API key authenticates the Cohere job with W&B, and the entity and project determine where W&B logs your runs. Create an API key in your [W&B user settings](https://wandb.ai/settings). Replace `<wandb-api-key>` in the following example with your API key.
 
 2. Pass this config to the `FinetunedModel` object along with your model name, dataset, and hyperparameters to start your fine-tuning run. The `wandb` setting configures Cohere to stream metrics to your W&B project during the run.
 
@@ -21,7 +20,7 @@ To add Cohere fine-tuning logging to your W&B workspace, do the following:
 
     # create a config with your W&B details
     wandb_ft_config = WandbConfig(
-        api_key="[WANDB-API-KEY]",
+        api_key="<wandb-api-key>",
         entity="my-entity", # must be a valid enitity associated with the provided API key
         project="cohere-ft",
     )

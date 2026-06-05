@@ -1,7 +1,6 @@
 ---
 description: "Integrate W&B with Skorch to log scikit-learn compatible PyTorch model training metrics and hyperparameters."
 title: Skorch
-keywords: ["NeuralNetClassifier", "skorch net", "epoch callback"]
 ---
 
 This page shows you how to use W&B with [Skorch](https://skorch.readthedocs.io/) so you can track Skorch model training without writing custom logging code. When you integrate the two, W&B automatically logs the model with the best performance, along with all model performance metrics, the model topology, and compute resources after each epoch. W&B automatically logs every file you save in `wandb_run.dir`.

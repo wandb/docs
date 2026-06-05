@@ -1,19 +1,18 @@
 ---
 description: State-of-the-art algorithms to train your neural networks
 title: MosaicML Composer
-keywords: ["speed method", "Trainer.fit", "MPT training"]
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" />
 
-[Composer](https://github.com/mosaicml/composer) is a library for training neural networks better, faster, and cheaper. It contains many state-of-the-art methods for accelerating neural network training and improving generalization, along with an optional [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API for _composing_ many different enhancements.
+[Composer](https://github.com/mosaicml/composer) is a library for training neural networks better, faster, and cheaper. It includes methods for accelerating training and improving generalization. Composer also has an optional [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API for composing many different enhancements.
 
-This page shows you how to use W&B with Composer so you can track, visualize, and compare your training runs. W&B provides a wrapper for logging your ML experiments, but you don't need to combine the two yourself: the Composer library incorporates W&B directly through the [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts). This guide is for Composer users who want to log metrics, artifacts, and prediction samples to W&B.
+Use W&B with Composer to track, visualize, and compare your training runs. Composer includes built-in W&B logging through [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
 
 ## Start logging to W&B
 
-To start logging your Composer training runs to W&B, pass a `WandBLogger` instance to the `Trainer`:
+To start logging your Composer training runs to W&B, pass a `composer.loggers.WandBLogger` instance to the `composer.Trainer`:
 
 ```python
 from composer import Trainer
@@ -39,18 +38,7 @@ trainer = Trainer(logger=wandb_logger)
 
 ## Logger arguments
 
-The following table describes the most common parameters you can use to customize how `WandBLogger` records your runs. For a full list and description, see the [Composer documentation](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html).
-
-| Parameter                       | Description                                                                                                                                                                                                                                                                                                                                                              |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `project`                 | W&B project name (`str`, optional)
-| `group`                   | W&B group name (`str`, optional)
-| `name`                   | W&B run name. If not specified, uses the `State.run_name` (`str`, optional)
-| `entity`                   | W&B entity name, such as your username or W&B Team name (`str`, optional)
-| `tags`                   | W&B tags (`List[str]`, optional)
-| `log_artifacts`                 | Whether to log checkpoints to W&B. Default: `False` (`bool`, optional)|
-| `rank_zero_only`         | Whether to log only on the rank-zero process. When logging artifacts, log on all ranks. W&B doesn't store artifacts from ranks 1 and higher, which can discard relevant information. For example, when using Deepspeed ZeRO, you can't restore from checkpoints without artifacts from all ranks. Default: `True` (`bool`, optional)
-| `init_kwargs`                   | Parameters to pass to `wandb.init()`, such as your W&B `config`. For the parameters that `wandb.init()` accepts, see [`wandb.init()` parameters](/models/ref/python/functions/init).
+For the parameters you can use to customize how `WandBLogger` records your runs, see the [Composer documentation](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html).
 
 The following example shows a typical usage that passes run notes and a config dictionary through `init_kwargs`:
 
@@ -66,7 +54,7 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 
 ## Log prediction samples
 
-In addition to scalar metrics, you can log rich media such as model predictions to W&B for qualitative review. You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to W&B through the `WandBLogger`. The following example logs a sample of the validation images and predictions:
+In addition to scalar metrics, you can log rich media such as model predictions to W&B for qualitative review. You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to W&B with `WandBLogger`. The following example logs a sample of the validation images and predictions:
 
 ```python
 import wandb
