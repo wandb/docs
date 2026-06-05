@@ -5,7 +5,7 @@ keywords: ["hyperparameter search", "Bayesian", "grid search", "Hyperband", "YAM
 ---
 
 
-A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search, such as the parameters to search through ([`parameter`](./sweep-config-keys#parameters) key) and the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key).
+A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search, such as the parameters to search through ([`parameters`](./sweep-config-keys#parameters) key) and the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key).
 
 The following table lists top-level sweep configuration keys and a brief description. For more information about each key, see the respective sections.
 
@@ -91,7 +91,7 @@ Grid search executes forever if it searches within a continuous search space.
 
 Random search chooses a random, uninformed set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your Python script, or from [the W&B App](/models/sweeps/visualize-sweep-results/).
 
-If you choose random search (`method: random`), specify the distribution space with the metric key.
+If you choose random search (`method: random`), specify the distribution for each hyperparameter in the `parameters` key.
 
 ### Bayesian search
 
@@ -103,7 +103,7 @@ Bayesian search runs forever unless you stop the process from the command line, 
 
 ### Distribution options for random and Bayesian search
 
-Within the `parameter` key, nest the name of the hyperparameter. Next, specify the `distribution` key and specify a distribution for the value.
+Within the `parameters` key, nest the name of the hyperparameter. Next, specify the `distribution` key and specify a distribution for the value.
 
 The following table lists distributions W&B supports.
 
