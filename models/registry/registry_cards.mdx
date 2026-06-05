@@ -38,7 +38,7 @@ After you've decided what to document, add a description to the collection so th
 <Tab title="Python SDK">
 Use the [`wandb.Api().artifact_collection()`](/models/ref/python/public-api/api#artifact_collection) method to access a collection's description. Use the returned object's `description` property to add or update a description to the collection.
 
-Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's name consists of the prefix `wandb-registry`, the name of the registry, and the name of the collection separated by forward slashes:
+Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's full name prepends the prefix `wandb-registry-` to the registry name, followed by a forward slash and the collection name:
 
 ```text
 wandb-registry-[REGISTRY-NAME]/[COLLECTION-NAME]

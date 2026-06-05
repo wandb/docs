@@ -92,7 +92,7 @@ import wandb
 
 registry_name = "[REGISTRY-NAME]"
 artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").artifact_types()
-print(artifact_type.name for artifact_type in artifact_types)
+print([artifact_type.name for artifact_type in artifact_types])
 ```
 
 <Note>
