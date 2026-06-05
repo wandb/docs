@@ -1074,7 +1074,7 @@ A set of runs to display in a panel grid.
  - `query` (str):  A query string to filter runs.
  - `filters` (Union[str, LList[expr.FilterExpr]]):  Filters to apply to runs. Can be:
         - A string expression: e.g., "Config('lr') = 0.001 and State = 'finished'"
- - `Supports operators`:  =, ==, !=, <, >, <=, >=, in, not in
+ - `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
         - A list of FilterExpr objects: e.g., [expr.Config('lr') == 0.001]
  - `groupby` (LList[str]):  A list of metric names to group by. Supported formats are:
         - "group" or "run.group" to group by a run attribute

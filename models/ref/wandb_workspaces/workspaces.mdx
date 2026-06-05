@@ -74,7 +74,7 @@ Settings for the runset (the left bar containing runs) in a workspace.
  - `filters` (Union[str, LList[FilterExpr], Or, And]):  Filters for the runset.
         - As a list of FilterExpr: filters are AND'd together.
         - As a string: Python-like expressions, e.g., "Config('lr') = 0.001 and State = 'finished'"
- - `Supports operators`:  =, ==, !=, <, >, <=, >=, in, not in, and, or
+ - `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
         - As an Or/And combinator: allows OR logic and nested groups. e.g., Or(And(Config("lr") == 0.01, Metric("State") == "finished"), Config("lr") == 0.1)
  - `groupby` (LList[expr.MetricType]):  A list of metrics to group by in the runset. Set to  `Metric`, `Summary`, `Config`, `Tags`, or `KeysInfo`.
  - `order` (LList[expr.Ordering]):  A list of metrics and ordering to apply to the runset.
