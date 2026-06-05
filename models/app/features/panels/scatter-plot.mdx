@@ -1,13 +1,14 @@
 ---
 title: Scatter plots
 description: "Create and customize scatter plots in W&B to compare runs and visualize relationships between experiment metrics."
+keywords: ["frontier line", "hyperparameter comparison", "run comparison", "panel settings"]
 ---
 
-This page shows how to use scatter plots in W&B.
+Use scatter plots in W&B to compare runs and visualize relationships between experiment metrics. Scatter plots help you spot trends, outliers, and trade-offs across many runs, which is useful when tuning hyperparameters or comparing model variants.
 
-## Use case 
+## Use case
 
-Use scatter plots to compare multiple runs and visualize the performance of an experiment:
+Use scatter plots to compare multiple runs and visualize the performance of an experiment. With a scatter plot, you can:
 
 - Plot lines for minimum, maximum, and average values.
 - Customize metadata tooltips.
@@ -18,12 +19,12 @@ Use scatter plots to compare multiple runs and visualize the performance of an e
 
 ## Example
 
-The following example shows a scatter plot displaying validation accuracy for different models over several weeks of experimentation. The tooltip includes batch size, dropout, and axis values. A line also shows the running average of validation accuracy. 
+The following example shows a scatter plot displaying validation accuracy for different models over several weeks of experimentation. The tooltip includes batch size, dropout, and axis values. A line also shows the running average of validation accuracy.
 
 [See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
 <Frame>
-    <img src="/images/general/scatter-plots-1.png" alt="Validation accuracy scatter plot"  />
+    <img src="/images/general/scatter-plots-1.png" alt="Validation accuracy scatter plot" />
 </Frame>
 
 ## Create a scatter plot
@@ -36,17 +37,20 @@ To create a scatter plot in the W&B UI:
 4. In the **Add panels** menu, select **Scatter plot**.
 5. Set the `x` and `y` axes to plot the data you want to view. Optionally, set maximum and minimum ranges for your axes or add a `z` axis.
 6. Click **Apply** to create the scatter plot.
-7. View the new scatter plot in the Charts panel.
+
+The new scatter plot appears in the **Charts** panel, displaying the data you configured.
 
 ## Frontier line display options
 
-The _frontier line_ on a scatter plot is a line that connects the highest and lowest y-axis values seen so far for the data in the plot. You can tune how that line and the surrounding points appear from the plot settings.
+The _frontier line_ on a scatter plot connects the highest and lowest y-axis values observed so far for the data in the plot. You can tune how the line and the surrounding points appear from the plot settings to emphasize the frontier.
 
 To configure frontier line display options:
 
 1. Hover over the scatter plot panel, then click the gear icon to open the panel settings drawer.
-1. Select the **Annotations** tab.
-1. Set the desired options:
+2. Select the **Annotations** tab.
+3. Set the options:
    - **Show run labels**: Toggle whether to show a label with the run name or group name.
-   - **Dim non-frontier points**: Toggle whether to reduce the visual weight of points that are not on the frontier line so the frontier stands out.
-1. Click **Apply** to save your changes.
+   - **Dim non-frontier points**: Toggle whether to reduce the visual weight of points that aren't on the frontier line so the frontier stands out.
+4. Click **Apply** to save your changes.
+
+The scatter plot updates to reflect your annotation choices.

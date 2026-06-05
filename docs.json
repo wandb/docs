@@ -102,7 +102,7 @@
                     "group": "Powered by CoreWeave",
                     "pages": [
                       "product-inference",
-                      "product-serverless-rl",
+                      "product-serverless-training",
                       "product-sandboxes"
                     ]
                   },
@@ -520,9 +520,8 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/quickstart",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/agents-quickstart",
+                      "weave/quickstart"
                     ]
                   },
                   {
@@ -530,7 +529,18 @@
                     "pages": [
                       "weave/concepts/what-is-weave",
                       {
-                        "group": "Trace your application",
+                        "group": "Trace your agents",
+                        "pages": [
+                          "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agent-integrations",
+                          "weave/guides/tracking/view-agent-activity",
+                          "weave/guides/tracking/view-agent-signals",
+                          "weave/guides/tracking/trace-agents-batch",
+                          "weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
+                        "group": "Trace your applications",
                         "pages": [
                           {
                             "group": "Tracing basics",
@@ -573,9 +583,11 @@
                         ]
                       },
                       {
-                        "group": "Evaluate your application",
+                        "group": "Evaluate your agents and applications",
                         "pages": [
                           "weave/guides/core-types/evaluations",
+                          "weave/tutorial-eval",
+                          "weave/tutorial-rag",
                           "weave/guides/core-types/datasets",
                           "weave/guides/evaluation/scorers",
                           "weave/guides/evaluation/builtin_scorers",
@@ -618,6 +630,7 @@
                           },
                           "weave/guides/tracking/redact-pii",
                           "weave/guides/evaluation/monitors",
+                          "weave/guides/evaluation/custom-monitors",
                           "weave/guides/evaluation/automations",
                           "weave/guides/evaluation/guardrails",
                           "weave/guides/tracking/otel"
@@ -629,6 +642,18 @@
                           "weave/guides/integrations",
                           "weave/guides/integrations/autopatching",
                           "weave/guides/integrations/js",
+                          {
+                            "group": "Trace agents",
+                            "pages": [
+                              "weave/guides/integrations/agents/google-adk",
+                              "weave/guides/integrations/agents/openai-agents-sdk",
+                              "weave/guides/integrations/agents/claude-agents-sdk",
+                              "weave/guides/integrations/agents/claude-code-harness",
+                              "weave/guides/integrations/agents/codex-harness",
+                              "weave/guides/integrations/agents/openclaw-harness",
+                              "weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM Providers",
                             "pages": [
@@ -796,25 +821,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "serverless-rl",
-                  "serverless-rl/prerequisites",
-                  "serverless-rl/usage",
-                  "serverless-rl/available-models",
-                  "serverless-rl/usage-limits",
-                  "serverless-rl/use-trained-models",
+                  "serverless-training",
+                  "serverless-training/prerequisites",
+                  "serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "serverless-training/usage",
+                      "serverless-training/available-models",
+                      "serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "serverless-rl/sft",
-                      "serverless-rl/sft/usage"
+                      "serverless-training/sft",
+                      "serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API Reference",
                     "pages": [
-                      "serverless-rl/ref-link-api"
+                      "serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -930,10 +960,15 @@
                           "models/ref/python/automations/metricthresholdfilter",
                           "models/ref/python/automations/newautomation",
                           "models/ref/python/automations/onaddartifactalias",
+                          "models/ref/python/automations/onaddartifacttag",
+                          "models/ref/python/automations/onaddcollectiontag",
                           "models/ref/python/automations/oncreateartifact",
                           "models/ref/python/automations/onlinkartifact",
+                          "models/ref/python/automations/onremoveartifacttag",
+                          "models/ref/python/automations/onremovecollectiontag",
                           "models/ref/python/automations/onrunmetric",
                           "models/ref/python/automations/onrunstate",
+                          "models/ref/python/automations/onunlinkartifact",
                           "models/ref/python/automations/runstatefilter",
                           "models/ref/python/automations/sendnotification",
                           "models/ref/python/automations/sendwebhook"
@@ -1146,10 +1181,15 @@
                           "weave/reference/typescript-sdk/classes/dataset",
                           "weave/reference/typescript-sdk/classes/evaluation",
                           "weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "weave/reference/typescript-sdk/classes/llm",
                           "weave/reference/typescript-sdk/classes/messagesprompt",
                           "weave/reference/typescript-sdk/classes/objectref",
                           "weave/reference/typescript-sdk/classes/scorelogger",
+                          "weave/reference/typescript-sdk/classes/session",
                           "weave/reference/typescript-sdk/classes/stringprompt",
+                          "weave/reference/typescript-sdk/classes/subagent",
+                          "weave/reference/typescript-sdk/classes/tool",
+                          "weave/reference/typescript-sdk/classes/turn",
                           "weave/reference/typescript-sdk/classes/weaveclient",
                           "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -1158,6 +1198,14 @@
                         "group": "Functions",
                         "pages": [
                           "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "weave/reference/typescript-sdk/functions/createotelextension",
+                          "weave/reference/typescript-sdk/functions/endllm",
+                          "weave/reference/typescript-sdk/functions/endsession",
+                          "weave/reference/typescript-sdk/functions/endturn",
+                          "weave/reference/typescript-sdk/functions/flushotel",
+                          "weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "weave/reference/typescript-sdk/functions/getcurrentturn",
                           "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
@@ -1165,6 +1213,12 @@
                           "weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "weave/reference/typescript-sdk/functions/runisolated",
+                          "weave/reference/typescript-sdk/functions/startllm",
+                          "weave/reference/typescript-sdk/functions/startsession",
+                          "weave/reference/typescript-sdk/functions/startsubagent",
+                          "weave/reference/typescript-sdk/functions/starttool",
+                          "weave/reference/typescript-sdk/functions/startturn",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
                           "weave/reference/typescript-sdk/functions/withattributes",
@@ -1177,6 +1231,17 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "weave/reference/typescript-sdk/interfaces/llminit",
+                          "weave/reference/typescript-sdk/interfaces/message",
+                          "weave/reference/typescript-sdk/interfaces/query",
+                          "weave/reference/typescript-sdk/interfaces/reasoning",
+                          "weave/reference/typescript-sdk/interfaces/sessioninit",
+                          "weave/reference/typescript-sdk/interfaces/sortby",
+                          "weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "weave/reference/typescript-sdk/interfaces/toolinit",
+                          "weave/reference/typescript-sdk/interfaces/turninit",
+                          "weave/reference/typescript-sdk/interfaces/usage",
                           "weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -1184,8 +1249,11 @@
                       {
                         "group": "Type Aliases",
                         "pages": [
+                          "weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "weave/reference/typescript-sdk/type-aliases/modality",
                           "weave/reference/typescript-sdk/type-aliases/op",
-                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "weave/reference/typescript-sdk/type-aliases/role"
                         ]
                       }
                     ]
@@ -1212,13 +1280,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "serverless-rl/api-reference",
-                  "source": "serverless-rl/api-reference/openapi.json"
+                  "directory": "serverless-training/api-reference",
+                  "source": "serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "serverless-rl/api-reference"
+                  "serverless-training/api-reference"
                 ]
               }
             ],
@@ -5482,7 +5550,11 @@
       "source": "/guides/track/:slug*"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training",
+      "source": "/guides/training/serverless-rl"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
       "source": "/guides/training/:slug*"
     },
     {
@@ -5666,8 +5738,12 @@
       "source": "/models/support/add_extra_values_sweep_start_new_one"
     },
     {
-      "destination": "/support/models/articles/is-there-a-way-to-add-more-seats",
+      "destination": "/support/models/articles/how-do-i-add-more-seats",
       "source": "/models/support/add_more_seats"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-add-more-seats",
+      "source": "/support/models/articles/is-there-a-way-to-add-more-seats"
     },
     {
       "destination": "/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into",
@@ -5730,8 +5806,12 @@
       "source": "/models/support/change_directory_sweep_logs_locally"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-change-the-group-assig",
+      "destination": "/support/models/articles/how-do-i-change-the-group-of-a-completed-run",
       "source": "/models/support/change_group_after_completion"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-change-the-group-of-a-completed-run",
+      "source": "/support/models/articles/is-it-possible-to-change-the-group-assig"
     },
     {
       "destination": "/support/models/articles/is-it-possible-to-change-the-username",
@@ -5774,8 +5854,12 @@
       "source": "/models/support/custom_cli_commands_sweeps"
     },
     {
-      "destination": "/support/models/articles/is-there-a-dark-mode",
+      "destination": "/support/models/articles/how-do-i-enable-dark-mode",
       "source": "/models/support/dark_mode"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-enable-dark-mode",
+      "source": "/support/models/articles/is-there-a-dark-mode"
     },
     {
       "destination": "/support/models/articles/how-do-i-deal-with-network-issues",
@@ -5874,8 +5958,12 @@
       "source": "/models/support/find_artifacts_logged_consumed_run_find"
     },
     {
-      "destination": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa",
+      "destination": "/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters",
       "source": "/models/support/flag_boolean_variables_hyperparameters"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters",
+      "source": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa"
     },
     {
       "destination": "/support/models/articles/what-formula-do-you-use-for-your-smoothi",
@@ -5898,8 +5986,12 @@
       "source": "/models/support/group_runs_tags"
     },
     {
-      "destination": "/support/models/articles/can-i-group-runs-without-using-the-group",
+      "destination": "/support/models/articles/how-can-i-categorize-runs-without-the-group-feature",
       "source": "/models/support/group_runs_without_group_feature"
+    },
+    {
+      "destination": "/support/models/articles/how-can-i-categorize-runs-without-the-group-feature",
+      "source": "/support/models/articles/can-i-group-runs-without-using-the-group"
     },
     {
       "destination": "/support/models/articles/how-can-i-be-removed-from-a-team",
@@ -5998,12 +6090,20 @@
       "source": "/models/support/join_team"
     },
     {
-      "destination": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase",
+      "destination": "/support/models/articles/how-do-i-log-metrics-without-saving-code",
       "source": "/models/support/just_log_metrics_no_code_dataset_examples"
     },
     {
-      "destination": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i",
+      "destination": "/support/models/articles/how-do-i-log-metrics-without-saving-code",
+      "source": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-the-run-name-to-the-run-id",
       "source": "/models/support/just_set_run_name_run_id"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-the-run-name-to-the-run-id",
+      "source": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i"
     },
     {
       "destination": "/support/models/articles/how-do-i-kill-a-job-with-wandb",
@@ -6042,8 +6142,12 @@
       "source": "/models/support/log_metrics_batches_some_metrics_epochs"
     },
     {
-      "destination": "/support/models/articles/can-i-log-metrics-on-two-different-time-",
+      "destination": "/support/models/articles/how-do-i-log-metrics-on-two-time-scales",
       "source": "/models/support/log_metrics_two_different_time_scales_example_log_training"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-log-metrics-on-two-time-scales",
+      "source": "/support/models/articles/can-i-log-metrics-on-two-different-time-"
     },
     {
       "destination": "/support/models/articles/what-happens-when-i-log-millions-of-step",
@@ -6074,8 +6178,12 @@
       "source": "/models/support/monthly_subscription_option_teams_plan"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr",
+      "destination": "/support/models/articles/how-do-i-move-a-run-to-another-project",
       "source": "/models/support/move_from_project_another"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-move-a-run-to-another-project",
+      "source": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr"
     },
     {
       "destination": "/support/models/articles/how-to-get-multiple-charts-with-differen",
@@ -6090,8 +6198,12 @@
       "source": "/models/support/multiprocessing_library"
     },
     {
-      "destination": "/support/models/articles/do-i-need-to-provide-values-for-all-hype",
+      "destination": "/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep",
       "source": "/models/support/need_provide_values_all_hyperparameters_part_wb_sweep_set"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep",
+      "source": "/support/models/articles/do-i-need-to-provide-values-for-all-hype"
     },
     {
       "destination": "/support/models/articles/optimizing-multiple-metrics",
@@ -6110,8 +6222,12 @@
       "source": "/models/support/pass_class_attribute_wandblog"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr",
+      "destination": "/support/models/articles/how-do-i-plot-the-maximum-of-a-metric",
       "source": "/models/support/plot_max_metric"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-plot-the-maximum-of-a-metric",
+      "source": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr"
     },
     {
       "destination": "/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w",
@@ -6170,16 +6286,24 @@
       "source": "/models/support/report_slow_after_wysiwyg"
     },
     {
-      "destination": "/support/models/articles/can-i-use-markdown-in-my-reports",
+      "destination": "/support/models/articles/how-do-i-use-markdown-in-my-reports",
       "source": "/models/support/reports_markdown"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-markdown-in-my-reports",
+      "source": "/support/models/articles/can-i-use-markdown-in-my-reports"
     },
     {
       "destination": "/support/models/articles/how-do-i-request-the-complete-deletion-o",
       "source": "/models/support/request_complete_deletion_account"
     },
     {
-      "destination": "/support/models/articles/can-i-rerun-a-grid-search",
+      "destination": "/support/models/articles/how-do-i-rerun-a-grid-search",
       "source": "/models/support/rerun_grid_search"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-rerun-a-grid-search",
+      "source": "/support/models/articles/can-i-rerun-a-grid-search"
     },
     {
       "destination": "/support/models/articles/how-can-i-resolve-login-issues-with-my-a",
@@ -6218,8 +6342,12 @@
       "source": "/models/support/run_sweeps_slurm"
     },
     {
-      "destination": "/support/models/articles/can-i-run-wandb-offline",
+      "destination": "/support/models/articles/how-do-i-run-wandb-offline",
       "source": "/models/support/run_wandb_offline"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-run-wandb-offline",
+      "source": "/support/models/articles/can-i-run-wandb-offline"
     },
     {
       "destination": "/support/models/articles/how-many-runs-can-i-create-per-project",
@@ -6274,8 +6402,12 @@
       "source": "/models/support/slow_training"
     },
     {
-      "destination": "/support/models/articles/does-wb-support-sso-for-multi-tenant",
+      "destination": "/support/models/articles/how-do-i-set-up-sso-for-multi-tenant",
       "source": "/models/support/sso_multitenant"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-up-sso-for-multi-tenant",
+      "source": "/support/models/articles/does-wb-support-sso-for-multi-tenant"
     },
     {
       "destination": "/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t",
@@ -6290,12 +6422,20 @@
       "source": "/models/support/stream_logs_writes_disk"
     },
     {
-      "destination": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast",
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure",
       "source": "/models/support/sweeps_cloud_infrastructures_such_aws_batch_ecs"
     },
     {
-      "destination": "/support/models/articles/can-i-use-sweeps-and-sagemaker",
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure",
+      "source": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-sagemaker",
       "source": "/models/support/sweeps_sagemaker"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-sagemaker",
+      "source": "/support/models/articles/can-i-use-sweeps-and-sagemaker"
     },
     {
       "destination": "/support/models/articles/how-do-i-switch-between-accounts-on-the-",
@@ -6310,8 +6450,12 @@
       "source": "/models/support/team_find_more_information"
     },
     {
-      "destination": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod",
+      "destination": "/support/models/articles/how-do-i-disable-wandb-when-testing-my-code",
       "source": "/models/support/testing_code_turn_off"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-disable-wandb-when-testing-my-code",
+      "source": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod"
     },
     {
       "destination": "/support/models/articles/does-your-tool-track-or-store-training-d",
@@ -6478,7 +6622,7 @@
       "source": "/ref/release-notes/releases/archived/*"
     },
     {
-      "destination": "/serverless-rl/api-reference",
+      "destination": "/serverless-training/api-reference",
       "source": "/ref/training"
     },
     {
@@ -6510,43 +6654,51 @@
       "source": "/sweeps/faq/"
     },
     {
-      "destination": "/serverless-rl/api-reference/:slug*",
+      "destination": "/serverless-training/api-reference/:slug*",
       "source": "/training/api-reference/:slug*"
     },
     {
-      "destination": "/serverless-rl/api-reference",
+      "destination": "/serverless-training/api-reference",
       "source": "/training/api-reference"
     },
     {
-      "destination": "/serverless-rl/usage",
+      "destination": "/serverless-training/usage",
       "source": "/training/serverless-rl"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training",
+      "source": "/serverless-rl"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
+      "source": "/serverless-rl/:slug*"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
       "source": "/training/serverless-rl/:slug*"
     },
     {
-      "destination": "/serverless-rl/sft/usage",
+      "destination": "/serverless-training/sft/usage",
       "source": "/training/sft-training/sft-training"
     },
     {
-      "destination": "/serverless-rl/sft/:slug*",
+      "destination": "/serverless-training/sft/:slug*",
       "source": "/training/sft-training/:slug*"
     },
     {
-      "destination": "/serverless-rl/sft",
+      "destination": "/serverless-training/sft",
       "source": "/training/sft-training"
     },
     {
-      "destination": "/serverless-rl/prerequisites",
+      "destination": "/serverless-training/prerequisites",
       "source": "/training/prerequisites"
     },
     {
-      "destination": "/serverless-rl",
+      "destination": "/serverless-training",
       "source": "/training"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training/:slug*",
       "source": "/training/:slug*"
     },
     {

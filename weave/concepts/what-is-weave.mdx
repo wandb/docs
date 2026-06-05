@@ -10,7 +10,7 @@ Building LLM applications is fundamentally different from traditional software d
 ## The main threads of Weave
 Weave provides the following core functionality:
 
-- **Visibility** into every LLM call, input, and output in your application.
+- **Visibility** into agent sessions and multi-turn conversations, or into individual function calls and outputs in application code.
 - **Systematic evaluation** to measure performance against curated test cases.
 - **Version tracking** for prompts, models, and data so you can understand what changed.
 - **Experimentation** with different prompt and model comparisons.
@@ -18,20 +18,30 @@ Weave provides the following core functionality:
 - **Monitoring** in production using guardrails and scorers for LLM safety and quality.
 
 
-### Traces
-Track end-to-end how data flows through your LLM application.
+### Agentic tracing
 
-- See inputs and outputs of each application usage.
+Weave provides agentic observability for the full lifecycle of agent conversations including: sessions, LLM calls, and tool executions.
+
+If you're building an agent, follow the [agent tracing quickstart](weave/agents-quickstart.mdx) or learn to use the Weave SDK to [trace your agents](/weave/guides/tracking/trace-agents). 
+
+If you're using a supported third-party agent harness, such as Claude Code or OpenAI Agent SDK, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
+
+
+### Application Tracing
+If you want to trace individual function calls, application code, or custom logic, use Weave Ops and Calls. Add one line to any function to track inputs, outputs, cost, token count, and latency.
+
+- Track end-to-end how data flows through your LLM application.
 - See source documents used to produce the LLM feedback.
-- See cost, token count, and latency of LLM calls.
 - Drill down into specific prompts and how answers are produced.
-- Collect feedback on responses from users.
-- In your code, you can use Weave [ops and calls](/weave/guides/tracking/tracing) to track what your functions are doing.
 
-[Get started with tracing](/weave/quickstart)
+To trace individual functions, follow the Weave [Op tracing quickstart](/weave/quickstart) or learn to use the Weave [Ops and Calls](/weave/guides/tracking/tracing). 
+
+If you're using a supported third-party agent framework, such as Claude Code, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
+
+
 
 ### Evaluations
-Systematically benchmark your LLM application's performance to gain confidence when deploying to production.
+Systematically benchmark and monitor your LLM application's performance with evaluations to iteratively improve quality and reliability.
 
 - Easily track which versions of model/prompt resulted in what performance.
 - Define metrics to evaluate responses using one or more scoring functions.
@@ -81,41 +91,23 @@ pip install weave
 npm install weave
 ```
 </CodeGroup>
-3. In your script, import Weave and initialize a project:
+3. In your script, import Weave and initialize a project.
+
+Replace `[YOUR-TEAM]` with your W&B team name and `[YOUR-PROJECT]` with your W&B project name.
 <CodeGroup>
 ```Python Python
 import weave
-client = weave.init('your-team/your-project-name')
+client = weave.init('[YOUR-TEAM]/[YOUR-PROJECT]')
 ```
 
 ```TypeScript Typescript
 import * as weave from 'weave';
-const client = await weave.init('your-team/your-project-name');
+const client = await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 ```
 </CodeGroup>
 You're now ready to use Weave.
-Weave integrates with popular LLM providers and frameworks.  When you use a [supported integration](/weave/guides/integrations/), Weave automatically traces LLM calls without additional code changes.
 
-4. Beyond relying on the supported integrations, you can also use Weave to log traces for custom functions by adding one line to your call function. 
 
-When you decorate a function with `@weave.op()` (in Python), or wrap it with `weave.op()` (in TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata. 
-<CodeGroup>
-```python Python
-    @weave.op
-    async def my_function(){
-      ...  }
-```
-
-```typescript Typescript
-function myFunction() {
-    ...
-}
-
-const myFunctionOp = weave.op(myFunction)
-```
-</CodeGroup>
-
-To try it out with a guided tutorial, see [Get started with tracing](/weave/quickstart).
 
 
 
