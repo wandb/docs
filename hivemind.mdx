@@ -59,6 +59,9 @@ hivemind login
 hivemind start
 ```
 
+- When you run `hivemind start`, it registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
+- Upgrade using `brew update; brew install wandb/taps/hivemind`.
+
 </Tab>
 <Tab title="uv (macOS or Linux)">
 Install with `uv` on macOS or Linux:
@@ -69,8 +72,9 @@ hivemind login
 hivemind start
 ```
 
-`uv` automatically selects the correct binary for the oerating system.
-
+- `uv` automatically selects the correct binary for the operating system.
+- When you run `hivemind start`, it registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
+- Upgrade using `uv tool upgrade wandb-hivemind`.
 </Tab>
 <Tab title="Standalone binary (macOS or Linux)">
 
@@ -81,14 +85,14 @@ curl -fsSL https://hivemind.wandb.tools/install | sh
 hivemind login
 ```
 
-Privileged access (`sudo`) is not required.
+- Privileged access (`sudo`) is not required.
+- The installer registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
+- The binary detects and applies upgrades automatically.
 
 <Tip>For details about distributing and installing the standalone binary with fleet rollout tools like JAMF, Intune, Mosyle, Kandji, or Workspace ONE, see [MDM](https://hivemind.wandb.tools/docs/mdm) in the HiveMind documentation.</Tip>
 </Tab>
 
 </Tabs>
-
-`hivemind start` registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
 
 With the daemon running, your session appears on the dashboard within around 30 seconds of using a supported agent.
 
