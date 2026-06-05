@@ -32,7 +32,7 @@ The following resources show the integration in practice before you wire it into
 
 ## Track experiments
 
-The remainder of this page walks through how to set up an API key, install the `wandb` library, and enable logging for either a `TorchModel` or `KerasModel`.
+The rest of this page explains how to set up an API key, install the `wandb` library, and enable logging for either a `TorchModel` or `KerasModel`.
 
 Set up W&B for DeepChem models of type [KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) or [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models).
 
@@ -53,10 +53,10 @@ To install the `wandb` library locally and log in:
 
 <Tabs>
 <Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
-    export WANDB_API_KEY=[YOUR_API_KEY]
+    export WANDB_API_KEY=<your_api_key>
     ```
 
 1. Install the `wandb` library and log in.

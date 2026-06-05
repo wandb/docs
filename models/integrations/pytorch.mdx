@@ -14,7 +14,7 @@ Use [W&B](https://wandb.ai) for machine learning experiment tracking, dataset ve
 
 ## What this notebook covers
 
-This tutorial walks you through integrating W&B with your PyTorch training code so you can track experiments, log metrics and gradients, and version models. It's intended for PyTorch users who want to add experiment tracking to an existing pipeline.
+This tutorial explains how to integrate W&B with your PyTorch training code so you can track experiments, log metrics and gradients, and version models. It's intended for PyTorch users who want to add experiment tracking to an existing pipeline.
 
 <Frame>
     <img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram"  />
@@ -384,7 +384,7 @@ model = model_pipeline(config)
 
 This example only looked at a single set of hyperparameters. An important part of most ML workflows is iterating over several hyperparameters.
 
-You can use W&B Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies. This lets you scale beyond the preceding single-configuration run.
+You can use W&B Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies. This lets you scale beyond the previous single-configuration run.
 
 Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/sweeps-colab).
 
@@ -407,7 +407,7 @@ Explore examples of projects tracked and visualized with W&B in the [Gallery](ht
 
 ## Advanced setup
 
-The following options can extend the preceding basic workflow for production, offline, or managed environments:
+The following options can extend the previous basic workflow for production, offline, or managed environments:
 - [Environment variables](/platform/hosting/env-vars/): Set API keys in environment variables so you can run training on a managed cluster.
 - [Offline mode](/support/models/articles/can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
 - [On-premises](/platform/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure.

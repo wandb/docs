@@ -72,10 +72,10 @@ To install the `wandb` library locally and log in:
 
 <Tabs>
 <Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
-    export WANDB_API_KEY=[YOUR-API-KEY]
+    export WANDB_API_KEY=<your_api_key>
     ```
 
 2. Install the `wandb` library and log in.
@@ -359,8 +359,8 @@ The `latest` and `best` aliases are set automatically to make it easier to retri
 
 ```python
 # reference can be retrieved in artifacts panel
-# "VERSION" can be a version (for example, "v2") or an alias ("latest" or "best")
-checkpoint_reference = "[USER]/[PROJECT]/[MODEL-RUN_ID]:[VERSION]"
+# <version> can be a version (for example, "v2") or an alias ("latest" or "best")
+checkpoint_reference = "<user>/<project>/<model-run_id>:<version>"
 ```
 
 <Tabs>
@@ -566,7 +566,7 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=4)
 
     model = MNISTClassifier()
-    wandb_logger = WandbLogger(project="[PROJECT-NAME]")
+    wandb_logger = WandbLogger(project="<project-name>")
     callbacks = [
         ModelCheckpoint(
             dirpath="checkpoints",

@@ -52,7 +52,7 @@ tuner = tune.Tuner(
     run_config=train.RunConfig(
         callbacks=[
             WandbLoggerCallback(
-                project="[YOUR-PROJECT]", api_key="[YOUR-API-KEY]", log_config=True
+                project="<your-project>", api_key="<your-api-key>", log_config=True
             )
         ]
     ),

@@ -130,7 +130,7 @@ The following sections answer common questions about sharing, organizing, and re
 Log your fine-tune jobs to your team account with:
 
 ```python
-WandbLogger.sync(entity="[YOUR-TEAM-NAME]")
+WandbLogger.sync(entity="<your-team-name>")
 ```
 
 ### Organize your runs
@@ -148,12 +148,12 @@ W&B logs the fine-tuned model ID as artifacts (`model_metadata.json`) and as con
 ```python
 import wandb
     
-with wandb.init(project="OpenAI-Fine-Tune", entity="[YOUR-TEAM-NAME]") as run:
-    ft_artifact = run.use_artifact("[ENTITY]/[PROJECT]/model_metadata:[VERSION]")
+with wandb.init(project="OpenAI-Fine-Tune", entity="<your-team-name>") as run:
+    ft_artifact = run.use_artifact("<entity>/<project>/model_metadata:<version>")
     artifact_dir = ft_artifact.download()
 ```
 
-The `[VERSION]` placeholder is one of the following:
+The `<version>` placeholder is one of the following:
 
 * A version number such as `v2`.
 * The fine-tune ID such as `ft-xxxxxxxxx`.
@@ -167,7 +167,7 @@ If a fine-tune wasn't logged to W&B successfully, use `overwrite=True` and pass 
 
 ```python
 WandbLogger.sync(
-    fine_tune_job_id="[FINE-TUNE-JOB-ID]",
+    fine_tune_job_id="<fine-tune-job-id>",
     overwrite=True,
 )
 ```

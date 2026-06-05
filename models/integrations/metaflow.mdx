@@ -16,7 +16,7 @@ This integration lets you apply decorators to Metaflow [steps and flows](https:/
 
 ## Quickstart
 
-The following sections walk you through authenticating with W&B, installing the required libraries, and adding the `wandb_log` decorator to your Metaflow steps and flows.
+The following sections explain how to authenticate with W&B, install the required libraries, and add the `wandb_log` decorator to your Metaflow steps and flows.
 
 ### Sign up and create an API key
 
@@ -40,10 +40,10 @@ For `wandb` version 0.19.8 or below, install `fastcore` version 1.8.0 or below (
 
 <Tabs>
 <Tab title="Command line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
-    export WANDB_API_KEY=[YOUR-API-KEY]
+    export WANDB_API_KEY=<your_api_key>
     ```
 
 1. Install the `wandb` library and log in.

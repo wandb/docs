@@ -19,8 +19,9 @@ The `wandb` library has a `WandbCallback` callback that logs metrics, configs, a
 To log XGBoost metrics, configs, and booster models to W&B, pass the `WandbCallback` to XGBoost:
 
 ```python
+import wandb
 from wandb.integration.xgboost import WandbCallback
-import xgboost as XGBClassifier
+from xgboost import XGBClassifier
 
 ...
 # Start a wandb run

@@ -15,7 +15,7 @@ This guide shows you how to connect the Hugging Face `Trainer` to W&B. Your trai
 ## Quick start
 
 ```python
-os.environ["WANDB_PROJECT"] = "[MY-PROJECT-NAME]"  # name your W&B project
+os.environ["WANDB_PROJECT"] = "<my-project-name>"  # name your W&B project
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 from transformers import TrainingArguments, Trainer
@@ -33,7 +33,7 @@ If you'd rather dive straight into working code, check out this [Google Colab](h
 
 ## Get started: track experiments
 
-This section walks you through authenticating to W&B, installing the client library, naming your project, and turning on logging in your `Trainer` so that your first training run shows up in the W&B Dashboard.
+This section explains how to authenticate to W&B, install the client library, name your project, and turn on logging in your `Trainer` so that your first training run shows up in the W&B Dashboard.
 
 ### Sign up and create an API key
 
@@ -50,10 +50,10 @@ To install the `wandb` library locally and log in:
 
 <Tabs>
 <Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
-    export WANDB_API_KEY=[YOUR-API-KEY]
+    export WANDB_API_KEY=<your_api_key>
     ```
 
 1. Install the `wandb` library and log in.
@@ -301,7 +301,7 @@ with wandb.init(
 
     # reinitialize your model and trainer
     model = AutoModelForSequenceClassification.from_pretrained(
-        "[MODEL-NAME]", num_labels=num_labels
+        "<model-name>", num_labels=num_labels
     )
     # your training arguments here.
     training_args = TrainingArguments()

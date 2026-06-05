@@ -24,10 +24,10 @@ To install the `wandb` library locally and log in:
 
 <Tabs>
 <Tab title="Command line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
-    export WANDB_API_KEY=[YOUR-API-KEY]
+    export WANDB_API_KEY=<your_api_key>
     ```
 
 1. Install the `wandb` library and log in.
@@ -67,13 +67,13 @@ Use the `--logger wandb` command-line argument to turn on logging with `wandb`. 
 
 Replace the following placeholders before you run the command:
 
-- `[PROJECT-NAME]`: The name of your W&B project.
-- `[ENTITY]`: Your W&B entity (username or team name).
-- `[RUN-NAME]`: A name for this training run.
-- `[RUN-ID]`: A unique identifier for this run.
-- `[SAVE-DIR]`: The directory where YOLOX saves checkpoints and logs.
-- `[NUM-IMAGES]`: The number of validation images to log.
-- `[BOOL]`: Whether to log checkpoints (`true` or `false`).
+- `<project-name>`: The name of your W&B project.
+- `<entity>`: Your W&B entity (username or team name).
+- `<run-name>`: A name for this training run.
+- `<run-id>`: A unique identifier for this run.
+- `<save-dir>`: The directory where YOLOX saves checkpoints and logs.
+- `<num-images>`: The number of validation images to log.
+- `<bool>`: Whether to log checkpoints (`true` or `false`).
 
 ```shell
 # Log in to W&B
@@ -81,13 +81,13 @@ wandb login
 
 # Call your YOLOX training script with the wandb logger argument
 python tools/train.py .... --logger wandb \
-                wandb-project [PROJECT-NAME] \
-                wandb-entity [ENTITY] \
-                wandb-name [RUN-NAME] \
-                wandb-id [RUN-ID] \
-                wandb-save_dir [SAVE-DIR] \
-                wandb-num_eval_imges [NUM-IMAGES] \
-                wandb-log_checkpoints [BOOL]
+                wandb-project <project-name> \
+                wandb-entity <entity> \
+                wandb-name <run-name> \
+                wandb-id <run-id> \
+                wandb-save_dir <save-dir> \
+                wandb-num_eval_imges <num-images> \
+                wandb-log_checkpoints <bool>
 ```
 
 ## Example
