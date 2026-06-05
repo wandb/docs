@@ -9,6 +9,8 @@ LEET reads local `.wandb` run files, so you can inspect runs before syncing them
 
 ## Examples
 
+The following examples show common ways to launch LEET against local run data.
+
 Open the default workspace:
 
 ```bash
@@ -47,11 +49,11 @@ wandb beta leet config
 
 ## Views
 
-LEET has three main views: workspace, single-run, and SYMON.
+LEET has three main views: workspace, single-run, and SYMON. Each view is tailored to a different exploration task, from comparing many runs to focusing on a single run or monitoring system resources in isolation.
 
-### Workspace View
+### Workspace view
 
-Workspace view is the default LEET experience. It is built for comparing multiple runs from the same local `wandb/` directory.
+Workspace view is the default LEET experience. It's built to compare multiple runs from the same local `wandb/` directory.
 
 Workspace view includes:
 
@@ -62,13 +64,13 @@ Workspace view includes:
 - A console logs pane.
 - A run overview sidebar with state, ID, name, project, tags, notes, environment, config, and summary values.
 
-Use `space` to select or deselect a run. Selecting a run adds it to the overlaid metric charts and loads its run-specific data. Use `p` to pin or unpin a run. Pinning keeps that run's metric series on top in overlaid metric charts; the run overview, system metrics, media, and console logs panes follow the run highlighted in the runs sidebar. Press `enter` on the highlighted run to open it in single-run view.
+Use `space` to select or deselect a run. Selecting a run adds it to the overlaid metric charts and loads its run-specific data. Use `p` to pin or unpin a run. Pinning keeps that run's metric series on top in overlaid metric charts. The run overview, system metrics, media, and console logs panes follow the run highlighted in the runs sidebar. Press `enter` on the highlighted run to open it in single-run view.
 
 Selected live runs continue updating in the workspace, so you can use LEET for both post-run analysis and live monitoring.
 
-### Single-Run View
+### Single-run view
 
-Single-run view focuses on one run. It uses the same chart engine as workspace view, but is arranged around that run:
+Single-run view focuses on one run. It uses the same chart engine as workspace view, but the layout centers on that run:
 
 - The main metrics grid is centered.
 - The run overview sidebar is on the left.
@@ -83,9 +85,9 @@ Press `esc` to return from single-run view to the workspace.
 
 ### SYMON
 
-`wandb beta leet symon` opens a standalone system monitor that is not tied to a W&B run.
+`wandb beta leet symon` opens a standalone system monitor that isn't tied to a W&B run.
 
-Use SYMON to watch local CPU, memory, disk, network, GPU, TPU, IPU, and Trainium metrics while another process is running. It uses the same system metrics chart engine as the workspace and single-run views.
+Use SYMON to watch local CPU, memory, disk, network, GPU, TPU, IPU, and Trainium metrics while another process runs. It uses the same system metrics chart engine as the workspace and single-run views.
 
 Set the sampling cadence with `--interval`:
 
@@ -99,15 +101,17 @@ wandb beta leet symon --interval 1m
     <img src="/images/leet/leet-system-metrics-heatmap.png" alt="W&B LEET system metrics view with GPU charts and bucketed heatmap mode." />
 </Frame>
 
-## Key Features
+## Key features
 
-### Multi-Run Comparison
+The following sections describe LEET's main capabilities and how to use them.
 
-Workspace mode lets you select multiple local runs and compare their metric series on the same charts. Each selected run gets a stable color. LEET also avoids base color collisions so visible runs are easier to distinguish.
+### Multi-run comparison
 
-The runs list uses distinct markers for unselected, selected, and pinned runs. Pinning is useful when many runs are selected and you want one run's metric series to render on top.
+Workspace mode lets you select multiple local runs and compare their metric series on the same charts. Each selected run receives a stable color. LEET also avoids base color collisions so visible runs are easier to distinguish.
 
-### Run Filtering
+The runs list uses distinct markers for unselected, selected, and pinned runs. Pinning is useful when you select many runs and want one run's metric series to render on top.
+
+### Run filtering
 
 Press `f` in workspace view to filter the runs sidebar. Bare terms search across run key, display name, run ID, project, tags, and notes.
 
@@ -139,9 +143,9 @@ has:notes -tag:debug
 project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
 ```
 
-While editing a filter, press `tab` to switch between regex and glob modes. Regex mode behaves like a case-insensitive substring search unless the query contains regex metacharacters. Glob mode supports `*` for any sequence and `?` for any single character.
+While you edit a filter, press `tab` to switch between regex and glob modes. Regex mode behaves like a case-insensitive substring search unless the query contains regex metacharacters. Glob mode supports `*` for any sequence and `?` for any single character.
 
-### Metrics and System Metrics
+### Metrics and system metrics
 
 LEET renders scalar metrics as terminal line charts. Use `/` to filter run metrics and `\` to filter system metrics. Press `ctrl+/` to clear the metrics filter and `ctrl+\` to clear the system metrics filter.
 
@@ -153,17 +157,17 @@ Press `y` on a focused chart to cycle chart modes:
 - System metric charts toggle log-scale Y.
 - Percentage-based system metric charts can also switch into bucketed heatmap mode.
 
-Use the mouse wheel to zoom the focused chart. On live system metric charts, LEET defaults to a rolling tail window, which is 10 minutes by default. Zooming out reveals more history.
+Use the mouse wheel to zoom the focused chart. On live system metric charts, LEET defaults to a rolling 10-minute tail window. Zoom out to reveal more history.
 
 Right-click and drag on a chart to inspect the nearest point. Hold `alt` while right-clicking and dragging to inspect all visible charts at the same X position.
 
-### Media Pane
+### Media pane
 
-The media pane renders `wandb.Image` data as ANSI thumbnails directly in the terminal. It is available in both workspace and single-run views.
+The media pane renders `wandb.Image` data as ANSI thumbnails directly in the terminal. It's available in both workspace and single-run views.
 
 Open or close the media pane with `3`. When the media pane is focused:
 
-- `w`, `a`, `s`, `d` moves between media tiles.
+- `w`, `a`, `s`, `d` move between media tiles.
 - Arrow keys scrub the selected media series along the X-axis.
 - `up` and `down` scrub by larger steps.
 - `home` and `end` scrub to the first or latest frame.
@@ -176,13 +180,13 @@ Open or close the media pane with `3`. When the media pane is focused:
     <img src="/images/leet/leet-media-workspace.png" alt="W&B LEET workspace view with the media pane showing several image series." />
 </Frame>
 
-### Console Logs
+### Console logs
 
 Open or close the console logs pane with `4`. The pane shows console output for the open run in single-run view, or for the highlighted run in workspace view.
 
 LEET assembles raw terminal output into readable log lines, including output that contains ANSI escape codes, partial lines, and carriage returns.
 
-### Run Overview
+### Run overview
 
 The run overview sidebar shows run metadata and logged values:
 
@@ -193,7 +197,7 @@ The run overview sidebar shows run metadata and logged values:
 
 Press `o` to filter overview items. Press `ctrl+o` to clear the overview filter.
 
-### System Metrics Coverage
+### System metrics coverage
 
 The system metrics pane and SYMON can display host and accelerator metrics when those metrics are available from the local run file or live sampler. Supported chart definitions include:
 
@@ -211,13 +215,15 @@ The system metrics pane and SYMON can display host and accelerator metrics when 
 
 ## Configuration
 
+LEET reads its settings from a JSON config file. Use the built-in editor to change defaults such as startup view, grid sizes, visible panes, and color palettes.
+
 Run the config editor with:
 
 ```bash
 wandb beta leet config
 ```
 
-LEET stores configuration in `wandb-leet.json`. By default, the file is written under:
+LEET stores configuration in `wandb-leet.json`. By default, LEET writes the file to:
 
 ```text
 ~/.config/wandb/wandb-leet.json
@@ -248,7 +254,7 @@ You can also resize the focused grid from inside LEET:
 
 After pressing `c` or `r`, press a digit from `1` to `9`, or press `esc` to cancel.
 
-### Common Config Keys
+### Common config keys
 
 | Key | Default | Description |
 | --- | --- | --- |
@@ -284,9 +290,9 @@ Available color schemes include `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`,
 
 `dusk-shore` and `clear-signal` are colorblind-friendly palettes. Sequential palettes such as `viridis`, `plasma`, `inferno`, `magma`, `cividis`, and `traffic-light` work well for bucketed heatmaps.
 
-## Keyboard Shortcuts
+## Keyboard shortcuts
 
-Press `h` or `?` inside LEET to open the in-app help screen. Shortcuts vary slightly by view.
+Because LEET is keyboard-driven, the following tables list every shortcut grouped by view. Press `h` or `?` inside LEET to open the in-app help screen. Shortcuts vary slightly by view.
 
 ### Workspace
 
@@ -323,7 +329,7 @@ Press `h` or `?` inside LEET to open the in-app help screen. Shortcuts vary slig
 | `home` | Jump to first item, first page, or first media frame. |
 | `end` | Jump to last item, last page, or latest media frame. |
 
-### Single-Run
+### Single-run
 
 | Key | Action |
 | --- | --- |
@@ -390,5 +396,5 @@ The following table summarizes LEET changes by version. For more details, see th
 | `0.23.1` | Regex filters for metrics and the run overview, chart inspection with right-click drag, synchronized chart inspection with `alt`, and better negative Y-axis tick display and system metric units. |
 | `0.25.0` | Multi-run workspace view and `wandb beta leet config` editor. |
 | `0.25.1` | Console logs pane, workspace system metrics pane, and system metrics filtering. |
-| `0.26.0` | Metadata-aware run filtering, tags and notes in overview, per-chart log Y, SYMON, bucketed heatmaps, colorblind-friendly palettes, media pane, improved system metrics overlays/inspection/zoom, and workspace run color collision prevention. |
+| `0.26.0` | Metadata-aware run filtering, tags and notes in overview, per-chart log Y, SYMON, bucketed heatmaps, colorblind-friendly palettes, media pane, improved system metrics (overlays, inspection, and zoom), and workspace run color collision prevention. |
 | `0.26.1` | Unified navigation across focused panes with `w`/`a`/`s`/`d`, arrows, `home`, `end`, `pgup`, and `pgdown`. |
