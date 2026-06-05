@@ -10,7 +10,7 @@ The ability to fork a run is in active development. It is in preview for Multi-t
 
 To explore different hyperparameters or models from a specific point in an experiment without impacting the original run, fork from an existing W&B run.
 
-When you fork from a run, W&B creates a new run using the source run's [unique ID](/models/runs/run-identifiers#unique-run-identifiers) and a specified step. W&B copies summary metrics from the source run to the forked run. The forked run shares all history and files from the source run up to the specified step.
+When you fork from a run, W&B creates a new run using the source run's [unique ID](/models/runs/run-identifiers#run-id) and a specified step. W&B copies summary metrics from the source run to the forked run. The forked run shares all history and files from the source run up to the specified step.
 
 After the fork step, you can log new data to the forked run independently of the original run. This lets you compare alternative training trajectories side by side without rerunning earlier steps or overwriting the original run's history.
 

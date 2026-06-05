@@ -37,7 +37,7 @@ If a run is stopped, crashes, or fails, you can resume it using the same run ID.
 The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
-with wandb.init(entity="[ENTITY]", project="[PROJECT]", resume="must") as run:
+with wandb.init(entity="[ENTITY]", project="[PROJECT]", id="[RUN-ID]", resume="must") as run:
         # Your training code here
 ```
 
@@ -99,7 +99,7 @@ Automatic resuming only works if the process is restarted on top of the same fil
 To illustrate why the same filesystem matters, suppose you execute a Python script called `train.py` in a directory called `Users/Employee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Next, suppose the training script stops. To resume this run, you must restart your `train.py` script within `Users/Employee/Desktop/ImageClassify/training/`.
 
 <Note>
-If you can't share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs](./#custom-run-ids) section in the "What are runs?" page for more information about run IDs.
+If you can't share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See [Create a custom run ID](/models/runs/run-identifiers#create-a-custom-run-id) for more information about run IDs.
 </Note>
 
 

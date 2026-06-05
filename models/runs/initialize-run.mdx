@@ -89,8 +89,8 @@ You can set the `reinit` value in several ways. Choose the option that best fits
 
    ```python
    import wandb
-   with wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
-        # Your code here
+   wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>"))
+   # Your code here
    ```
 
 - Specify the desired value for `reinit` in the environment variable `WANDB_REINIT`. Defining an environment variable applies the `reinit` option to all `wandb.init()` calls.
@@ -109,16 +109,16 @@ wandb.setup(wandb.Settings(reinit="create_new"))
 with wandb.init() as experiment_results_run:
     # This run logs the results of each experiment.
     # You can think of this as a parent run that collects results
-      with wandb.init() as run:
-         # The do_experiment() function logs fine-grained metrics
-         # to the given run and returns result metrics that
-         # you want to track separately.
-         experiment_results = do_experiment(run)
+    with wandb.init() as run:
+        # The do_experiment() function logs fine-grained metrics
+        # to the given run and returns result metrics that
+        # you want to track separately.
+        experiment_results = do_experiment(run)
 
-         # After each experiment, log its results to a parent
-         # run. Each point in the parent run's charts corresponds
-         # to one experiment's results.
-         experiment_results_run.log(experiment_results)
+        # After each experiment, log its results to a parent
+        # run. Each point in the parent run's charts corresponds
+        # to one experiment's results.
+        experiment_results_run.log(experiment_results)
 ```
 
 ### Example: Concurrent processes
