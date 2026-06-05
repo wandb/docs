@@ -37,7 +37,7 @@ Avoid setting the environment variable in line with the command, because it's vi
 
 ```bash
 # Avoid this pattern, which can expose the API key in process managers
-WANDB_API_KEY="<your-api-key>" ./my-script.sh
+export WANDB_API_KEY="<your-api-key>" ./my-script.sh
 ```
 </Warning>
 
