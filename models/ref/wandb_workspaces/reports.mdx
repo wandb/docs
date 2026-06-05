@@ -34,6 +34,10 @@ report.blocks = blocks
 report.save()
 ```
 
+## <kbd>class</kbd> `Base`
+
+---
+
 
 
 ## <kbd>class</kbd> `BarPlot`
@@ -561,6 +565,11 @@ A panel object with 2D line plots.
  - `legend_fields` (Optional[LList[str]]):  The fields to include in the legend.
  - `metric_regex` (Optional[str]):  Regular expression pattern to match y-axis metrics.  The backend will use this pattern to select matching metrics.
  - `point_visualization_method` (Optional[PointVizMethod]):  The method used to aggregate  points when there are too many to display. Options include "bucketing-gorilla" (buckets  data points and shows min, max, avg per bucket to preserve outliers and spikes) or  "sampling" (randomly samples points for faster rendering but may miss outliers).
+ - `line_titles` (Optional[Dict[str, str]]):  Per-series display titles. Keys use the format "{runId}:{metricName}".
+ - `line_colors` (Optional[Dict[str, Any]]):  Per-series colors. Keys use the format "{runId}:{metricName}".
+ - `line_widths` (Optional[Dict[str, float]]):  Per-series line widths. Keys use the format "{runId}:{metricName}".
+ - `line_marks` (Optional[Dict[str, Mark]]):  Per-series dash styles. Keys use the format "{runId}:{metricName}".
+ - `Valid values`:  "solid", "dashed", "dotted", "dotdash", "dotdotdash", "points".
 
 
 
@@ -1065,7 +1074,7 @@ A set of runs to display in a panel grid.
  - `query` (str):  A query string to filter runs.
  - `filters` (Union[str, LList[expr.FilterExpr]]):  Filters to apply to runs. Can be:
         - A string expression: e.g., "Config('lr') = 0.001 and State = 'finished'"
- - `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+ - `Supports operators`:  =, ==, !=, <, >, <=, >=, in, not in
         - A list of FilterExpr objects: e.g., [expr.Config('lr') == 0.001]
  - `groupby` (LList[str]):  A list of metric names to group by. Supported formats are:
         - "group" or "run.group" to group by a run attribute
@@ -1074,6 +1083,23 @@ A set of runs to display in a panel grid.
  - `order` (LList[OrderBy]):  A list of `OrderBy` objects to order by.
  - `custom_run_colors` (dict):  A dictionary mapping run IDs (or `RunsetGroup` keys for  grouped runs) to colors. For simple per-run colors, prefer using `run_settings`.
  - `run_settings` (Dict[str, RunSettings]):  Per-run display settings keyed by run ID.  Use this to set colors and/or hide individual runs. See `RunSettings`.
+ - `pinned_columns` (LList[str]):  Column accessors to pin to the left of
+ - `the runs table (e.g. `["summary`: accuracy", "config:lr.value"]`). Cols also in `hidden_columns` are stripped on save.
+ - `visible_columns` (LList[str]):  Column accessors to force-show. Use with  `lock_columns=True` to curate the visible set. On reload, this  also includes cols set only via `column_order`.
+ - `hidden_columns` (LList[str]):  Column accessors to hide. Takes  precedence over `pinned_columns`, `visible_columns`, and  `column_order`. On reload, may include server-seeded entries
+ - `like `run`: name`.
+ - `column_order` (LList[str]):  Left-to-right column order. Under  `lock_columns=True`, entries not in `pinned_columns` or  `visible_columns` are dropped.
+ - `column_widths` (Dict[str, int]):  Per-column pixel widths.
+ - `lock_columns` (Optional[bool]):  Opt-in lock for the runs-table column  set. `True` shows only `pinned_columns` and `visible_columns`;  `False` or `None` (default) is permissive. Matches the lock icon  in the runs-table toolbar.
+
+Column format:
+ - `Columns are addressed as `"<section>`: <name>"`:
+        - `run:<attr>`: built-in run properties (e.g. `run:state`)
+        - `config:<key>.value`: config keys (note the `.value` suffix)
+        - `summary:<key>`: summary metrics
+        - `tags:__ALL__`: run tags
+
+Column limit: The FE runs-table displays at most 500 columns. When the visible set (pinned + visible + column_order, minus hidden) reaches or exceeds 500, the SDK emits a warning on save; hidden columns don't count. The SDK does not truncate — the full set is sent and the frontend enforces the limit on render.
 
 
 
@@ -1107,7 +1133,7 @@ A set of runs to display in a panel grid.
 convert_filterexpr_list_to_string()
 ```
 
-Convert FilterExpr list to string expression for internal processing.
+Convert FilterExpr list to string expression.
 
 ---
 
