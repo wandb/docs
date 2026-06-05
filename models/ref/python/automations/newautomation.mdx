@@ -27,9 +27,9 @@ __init__(
 
 **Args:**
  
- - `name` (Optional[str]): The name of this automation.
- - `description` (Optional[str]): An optional description of this automation.
- - `enabled` (Optional[bool]): Whether this automation is enabled.  Only enabled automations will trigger.
+ - `name` (str | None): The name of this automation.
+ - `description` (str | None): An optional description of this automation.
+ - `enabled` (bool | None): Whether this automation is enabled.  Only enabled automations will trigger.
  - `event` (Optional[Annotated]): The event that will trigger this automation.
  - `action` (Optional[Annotated]): The action that will execute when this automation is triggered.
 
@@ -41,4 +41,4 @@ __init__(
 The scope in which the triggering event must occur.
 
 **Returns:**
- - `Optional[AutomationScope]`: The scope property value.
+ - `AutomationScope | None`: The scope property value.
