@@ -29,12 +29,12 @@ If you do not specify a project name, W&B stores the run in a project called `Un
 
 Each run has a state that describes the current status of the run. See [Run states](/models/runs/run-states) for a full list of possible run states.
 
-[View runs and their properties](/models/runs/view-logged-runs) within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`](/models/ref/python/experiments/run) object.
+[View runs and their properties](/models/runs/view-logged-runs) within the run's project workspace on W&B. You can also programmatically access run properties with the [`wandb.Api.Run`](/models/ref/python/experiments/run) object.
 
 As an example, consider the following code snippet that initializes a W&B run and logs some metrics to it:
 
 <Note>
-Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. You can find it in the URL of your W&B App workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
+Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. You can find it in the URL of your W&B workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
 </Note>
 
 ```python
@@ -125,7 +125,7 @@ wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 
 W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init()` method only once.
 
-Copy and paste the URL that W&B prints from the previous output into your browser. The URL directs you to the run's workspace in the W&B App UI. For example, the following image shows the workspace for the run `jolly-haze-4`:
+Copy and paste the URL that W&B prints from the previous output into your browser. The URL directs you to the run's workspace in W&B. For example, the following image shows the workspace for the run `jolly-haze-4`:
 
 <Frame>
     <img src="/images/runs/run_log_example_2.png" alt="Training run with logged metrics"  />

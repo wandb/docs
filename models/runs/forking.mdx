@@ -52,7 +52,7 @@ with wandb.init(
 
 ## Fork from a run in the same script
 
-The following code snippet shows how to create a run and fork from that run within the same script. This might occur if you want to fork from a run that you just created without having to look up the run ID in the W&B App.
+The following code snippet shows how to create a run and fork from that run within the same script. This might occur if you want to fork from a run that you just created without having to look up the run ID in W&B.
 
 First, initialize a run and log some data. Next, use the original run object's `id` property to obtain the run ID of that run. Finally, initialize a new run and pass the original run's ID and the step you want to fork from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
 

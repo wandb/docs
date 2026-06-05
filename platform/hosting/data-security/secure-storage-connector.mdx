@@ -87,12 +87,12 @@ After you [verify availability](#availability-matrix), you're ready to provision
 For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/buckets/create-bucket) in the CoreWeave documentation.
 
 1. <a id="coreweave-org-id"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
-    1. Log in to the [W&B App](https://wandb.ai/site).
+    1. Log in to [W&B](https://wandb.ai/site).
     1. In the left navigation, click **Create a new team**.
     1. In the drawer that opens, copy the W&B organization ID, which appears above **Invite team members**.
     1. Leave this page open. You use it to [configure W&B](#configure-byob).
 1. <a id="coreweave-customer-namespace" aria-label="CoreWeave customer namespace"></a>**Dedicated Cloud** / **Self-Managed**: Obtain your customer namespace, which is required for your bucket policy.
-    1. In the W&B App, click your user profile icon, then click **System Console**.
+    1. In W&B, click your user profile icon, then click **System Console**.
     1. Click the **Authentication** tab.
     1. At the bottom of the page, copy the value for **Customer Namespace**. Keep this value for configuring the bucket policy.
     1. You can close the System Console.
@@ -472,7 +472,7 @@ For CoreWeave AI Object Storage at the instance level, contact [W&B support](mai
 
 For **Dedicated Cloud**: Share the bucket details with your W&B team, who configures your Dedicated Cloud instance.
 
-For **Self-Managed**, you can configure instance level BYOB using the W&B App:
+For **Self-Managed**, you can configure instance level BYOB using W&B:
 1. Log in to W&B as a user with the `admin` role.
 1. Click the user icon at the top, then click **System Console**.
 1. Navigate to **Settings** > **System Connections**.
@@ -486,7 +486,7 @@ After you save, W&B uses the configured bucket as the default storage destinatio
 
 ### Team level BYOB
 
-You can configure team level BYOB when you create a team in the W&B App or using the [SCIM API](/platform/hosting/iam/scim#create-team) (POST Groups with optional `storageBucket`). You have two options:
+You can configure team level BYOB when you create a team in W&B or using the [SCIM API](/platform/hosting/iam/scim#create-team) (POST Groups with optional `storageBucket`). You have two options:
 - **Use an existing bucket**: You must [determine the storage location](#determine-the-storage-address) for your bucket first.
 - **Create a new bucket** (Multi-tenant Cloud only): W&B can automatically create a bucket in your cloud provider when you create the team. W&B supports this for CoreWeave, AWS, and Google Cloud.
 

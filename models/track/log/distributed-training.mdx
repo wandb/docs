@@ -7,7 +7,7 @@ During a distributed training experiment, you train a model using multiple machi
 
 * **Track a single process**: Track a rank 0 process (also known as a "leader" or "coordinator") with W&B. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. 
 * **Track multiple processes**: For multiple processes, you can either:
-   * Track each process separately using one run per process. You can optionally group them together in the W&B App UI.
+   * Track each process separately using one run per process. You can optionally group them together in W&B.
    * Track all processes to a single run.
 
 <Tip>
@@ -104,13 +104,13 @@ if __name__ == "__main__":
     run.finish()  # mark the run as finished
 ```
 
-Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
+Explore W&B to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
 
 <Frame>
     <img src="/images/experiments/dashboard_grouped_runs.png" alt="Grouped distributed runs"  />
 </Frame>
 
-The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
+The preceding image demonstrates W&B dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
 ### Organize distributed runs
 
@@ -159,12 +159,12 @@ To track multiple processes to a single run, you must have:
 - W&B Server v0.68 or newer.
 </Note>
 
-In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
+In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in W&B.
 
 Within the primary node, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
 
 1. The `mode` parameter set to `"shared"` to enable shared mode.
-2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
+2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in W&B. If left unspecified, W&B creates a label for you using the hostname and a random hash.
 3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
 4. Optionally provide a list of GPU indexes ([0,1,2]) to `x_stats_gpu_device_ids` to specify which GPUs W&B tracks metrics for. If you do not provide a list, W&B tracks metrics for all GPUs on the machine.
 
@@ -177,7 +177,7 @@ Make note of the run ID of the primary node. Each worker node needs the run ID o
 For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init) and provide the following:
 1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
    * The `mode` parameter set to `"shared"` to enable shared mode.
-   * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
+   * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in W&B. If left unspecified, W&B creates a label for you using the hostname and a random hash.
    * Set the `x_primary` parameter to `False` to indicate that this is a worker node.
 2. Pass the run ID used by the primary node to the `id` parameter.
 3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/runs/run-states#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
@@ -249,7 +249,7 @@ You can filter console logs based on the labels you provide for `x_label` in the
 
 See [Console logs](/models/app/console-logs/) for more information.
 
-W&B aggregates system metrics from all nodes and displays them in the W&B App UI. For example, the following image shows a sample dashboard with system metrics from multiple nodes. Each node possesses a unique label (`rank_0`, `rank_1`, `rank_2`) that you specify in the `x_label` parameter.
+W&B aggregates system metrics from all nodes and displays them in W&B. For example, the following image shows a sample dashboard with system metrics from multiple nodes. Each node possesses a unique label (`rank_0`, `rank_1`, `rank_2`) that you specify in the `x_label` parameter.
 
 <Frame>
     <img src="/images/track/multi_node_system_metrics.png" alt="Multi-node system metrics"  />

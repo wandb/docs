@@ -22,10 +22,10 @@ This tutorial walks you through building a **registry** automation triggered by 
 
 Set up a registry-scoped automation so that when an artifact in any collection in the registry gets a specific alias (for example, **production**), W&B sends a `POST` request to your webhook.
 
-{/* W&B App vs Python tab temporarily hidden pending Python SDK fix for `create_automation` (internal WB-34263). Restore when the regression is shipped.
+{/* W&B vs Python tab temporarily hidden pending Python SDK fix for `create_automation` (internal WB-34263). Restore when the regression is shipped.
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="W&B">
 */}
 1. Open the registry and click the **Automations** tab, then click **Create automation**.
 1. Choose the event **An artifact alias is added**. Enter an **Alias regex** that matches the alias you care about (for example, **production** or **staging**).
@@ -72,7 +72,7 @@ automation = api.create_automation(
 
 ## Test the automation
 
-To confirm that the automation fires end-to-end, trigger the configured event by adding the alias to an artifact version. Add the alias (for example, **production**) to an artifact version in the registry, using the W&B App or the public API. For example:
+To confirm that the automation fires end-to-end, trigger the configured event by adding the alias to an artifact version. Add the alias (for example, **production**) to an artifact version in the registry, using W&B or the public API. For example:
 
 ```python
 import wandb

@@ -1,13 +1,13 @@
 ---
 title: Manage automations with the API
-description: Programmatic automation management with the Python API. Create and update may be affected on some client versions. Prefer the W&B App until the SDK fix ships.
+description: Programmatic automation management with the Python API. Create and update may be affected on some client versions. Prefer W&B until the SDK fix ships.
 keywords: ["Python API", "programmatic automation", "wandb.Api", "automation scripting", "SDK"]
 ---
 
-Manage W&B automations programmatically with the `wandb` Python API when you script automation workflows instead of using the W&B App.
+Manage W&B automations programmatically with the `wandb` Python API when you script automation workflows instead of using W&B.
 
 <Note>
-Programmatic **create** and **update** for automations through `wandb.Api().create_automation()` and related helpers can fail on some `wandb` Python client versions because of a client-side feature check (for example, run-state automations). Until a fixed SDK ships, use the [W&B App](/models/automations/create-automations) to create and edit automations. The `list`, `get`, and `delete` methods aren't affected. Internal tracking: WB-34263.
+Programmatic **create** and **update** for automations through `wandb.Api().create_automation()` and related helpers can fail on some `wandb` Python client versions because of a client-side feature check (for example, run-state automations). Until a fixed SDK ships, use [W&B](/models/automations/create-automations) to create and edit automations. The `list`, `get`, and `delete` methods aren't affected. Internal tracking: WB-34263.
 </Note>
 
 ## Next steps
@@ -15,7 +15,7 @@ Programmatic **create** and **update** for automations through `wandb.Api().crea
 Refer to the following resources to manage automations and learn more about how they work:
 
 - [Automations overview](/models/automations)
-- [Create an automation](/models/automations/create-automations) (W&B App)
+- [Create an automation](/models/automations/create-automations) (W&B)
 - [Automation events and scopes](/models/automations/automation-events)
 - [Automations API reference](/models/ref/python/public-api/automations) (Python types and `Api` methods)
 

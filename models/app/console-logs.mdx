@@ -4,25 +4,25 @@ description: "View and debug console log messages including info, warnings, and 
 keywords: ["run logs", "wandb logging", "debug runs", "log filtering", "stdout capture"]
 ---
 
-When you run an experiment, you might notice messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your experiment.
+When you run an experiment, you might notice messages printed to your console. W&B captures console logs and displays them in W&B. Use these messages to debug and monitor the behavior of your experiment.
 
 The following sections describe how to view, configure, search, filter, download, and copy console logs for your runs.
 
 ## View console logs
 
-Access console logs for a run in the W&B App to inspect messages produced during the run.
+Access console logs for a run in W&B to inspect messages produced during the run.
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 
 <Note>
-W&B stores a maximum of 100,000 lines of your logs for a run. In the W&B App, a maximum of 10,000 lines of your logs display at once. To view all stored lines, scroll through the logs to display older lines.
+W&B stores a maximum of 100,000 lines of your logs for a run. In W&B, a maximum of 10,000 lines of your logs display at once. To view all stored lines, scroll through the logs to display older lines.
 </Note>
 
 {/* ## Console log fields
 
-Within the W&B App you can modify the fields shown in the console logs table. */}
+Within W&B you can modify the fields shown in the console logs table. */}
 
 ## Types of console logs
 
@@ -44,9 +44,9 @@ The following example shows how to configure these settings:
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # Show error messages in the W&B App
+    show_errors=True,  # Show error messages in W&B
     silent=False,      # Disable all W&B console output
-    show_warnings=True # Show warning messages in the W&B App
+    show_warnings=True # Show warning messages in W&B
 )
 
 with wandb.init(settings=settings) as run:
@@ -116,18 +116,18 @@ with wandb.init(
 
 ## Download console logs
 
-To save logs locally for offline analysis or sharing, download console logs for a run in the W&B App:
+To save logs locally for offline analysis or sharing, download console logs for a run in W&B:
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 4. Click the download button on the console logs page.
 
 ## Copy console logs
 
-To paste logs into another tool or message, copy console logs for a run in the W&B App:
+To paste logs into another tool or message, copy console logs for a run in W&B:
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 4. Click the copy button on the console logs page.

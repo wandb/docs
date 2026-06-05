@@ -1,13 +1,13 @@
 ---
 title: Delete runs
-description: Delete runs from a W&B project using the W&B App or the Public API, and learn how deleted run data is removed from storage.
+description: Delete runs from a W&B project using W&B or the Public API, and learn how deleted run data is removed from storage.
 ---
 
 ## Delete runs
-Delete runs from a project with the W&B App or the Python API.
+Delete runs from a project with W&B or the Python API.
 
 <Tabs>
-<Tab title="W&B App" value="ui">
+<Tab title="W&B" value="ui">
 1. Navigate to the project that contains the runs you want to delete.
 2. Select the **Runs** tab.
 3. Select the checkbox next to the runs you want to delete.
@@ -81,5 +81,5 @@ Setting or changing `GORILLA_DATA_RETENTION_PERIOD` is irreversible for data pas
 Even after run or file deletion and retention processing, **bucket usage can lag** while background jobs catch up. W&B does not guarantee immediate reclamation of object storage. For a full overview of artifacts versus run data, timing expectations, and optional operator actions, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
 
 <Note>
-If deletions do not appear as expected in the W&B App when using the Public API, upgrade the W&B Python SDK to a current release and retry.
+If deletions do not appear as expected in W&B when using the Public API, upgrade the W&B Python SDK to a current release and retry.
 </Note>

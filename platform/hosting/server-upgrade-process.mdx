@@ -107,9 +107,9 @@ For more information, see the [upgrade guide](https://github.com/wandb/helm-char
 
 ## Update with admin UI
 
-Use the admin UI to rotate your license key from within the W&B App, without changing your deployment configuration. This method only works for updating licenses that aren't set with an environment variable in the W&B server container, typically in self-managed Docker installations. This method updates the license only. It doesn't change the running W&B Server version.
+Use the admin UI to rotate your license key from within W&B, without changing your deployment configuration. This method only works for updating licenses that aren't set with an environment variable in the W&B server container, typically in self-managed Docker installations. This method updates the license only. It doesn't change the running W&B Server version.
 
 1. Obtain a new license from the [W&B Deployment Page](https://deploy.wandb.ai/), ensuring it matches the correct organization and deployment ID for the deployment you want to upgrade.
-2. Access the **License** page in the W&B App. Click **Settings** > **License** or browse to `HOST_URL/console/settings/license`, where `HOST_URL` is your W&B Server host URL.
+2. Access the **License** page in W&B. Click **Settings** > **License** or browse to `HOST_URL/console/settings/license`, where `HOST_URL` is your W&B Server host URL.
 3. Navigate to the license management section.
 4. Enter the new license key and save your changes.

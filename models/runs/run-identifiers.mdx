@@ -11,7 +11,7 @@ A run's ID uniquely identifies the run. By default, W&B generates a [random and 
 
 ### Find a run's ID
 
-Find a run's unique ID programmatically with the W&B Python SDK or interactively in the W&B App.
+Find a run's unique ID programmatically with the W&B Python SDK or interactively in W&B.
 
 
 <Tabs>
@@ -36,10 +36,10 @@ wandb: 🚀 View run at https://wandb.ai/nico/awesome-project/runs/1jx1ud12
 
 The last part of the run URL (`1jx1ud12`) is the unique run ID.
 </Tab>
-<Tab title="W&B App">
-You can also find a run's unique ID in the W&B App:
+<Tab title="W&B">
+You can also find a run's unique ID in W&B:
 
-1. Navigate to the [W&B App](https://wandb.ai/home).
+1. Navigate to [W&B](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within your project's workspace, select either the  **Workspace** or **Runs** tab.
 4. Select the run you want to view.
@@ -56,9 +56,9 @@ For example, in the following image, the unique run ID is `9mxi1arc`:
 </Tabs>
 
 <Tip>
-Use a run's unique ID to directly navigate to that run's overview page in the W&B App. The following code block shows the format of a URL path for a run:
+Use a run's unique ID to directly navigate to that run's overview page in W&B. The following code block shows the format of a URL path for a run:
 
-```text title="W&B App URL for a specific run"
+```text title="W&B URL for a specific run"
 https://wandb.ai/<entity>/<project>/<run-id>
 ```
 
@@ -101,7 +101,7 @@ with wandb.init(entity="<project>", project="<project>", name="<run-name>") as r
 
 ### Rename a run
 
-Rename a run after initializing it programmatically with the Python SDK or interactively in the W&B App.
+Rename a run after initializing it programmatically with the Python SDK or interactively in W&B.
 
 <Tabs>
 <Tab title="Python SDK">
@@ -125,7 +125,7 @@ run.update()
 
 
 </Tab>
-<Tab title="W&B App">
+<Tab title="W&B">
 
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab.
@@ -150,7 +150,7 @@ Use the run display name to override the run name displayed in that workspace wi
 
 ### Rename a run's display name
 
-Change a run's display name from the W&B App:
+Change a run's display name from W&B:
 
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab.

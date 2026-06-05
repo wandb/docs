@@ -14,7 +14,7 @@ Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variabl
 
 ## Organize runs into groups
 
-You can add runs to a group programmatically using the W&B Python SDK or interactively in the W&B App.
+You can add runs to a group programmatically using the W&B Python SDK or interactively in W&B.
 
 <Note>
 W&B stores group names as a run [`wandb.Run.group`](/models/ref/python/experiments/run#property-run-group) property.
@@ -23,7 +23,7 @@ W&B stores group names as a run [`wandb.Run.group`](/models/ref/python/experimen
 
 <Tabs>
 <Tab title="Python SDK">
-Programmatically add one or more runs to a group with the W&B Python SDK. Pass the name of your group as an argument to the `group` parameter when you initialize a run with `wandb.init(group="")`. You can use group names to organize and filter runs in the W&B App.
+Programmatically add one or more runs to a group with the W&B Python SDK. Pass the name of your group as an argument to the `group` parameter when you initialize a run with `wandb.init(group="")`. You can use group names to organize and filter runs in W&B.
 
 The following example creates three groups named `A`, `B`, and `C`. Each group contains three runs.
 
@@ -50,7 +50,7 @@ In the project's workspace, you can view runs organized by group. The following 
     <img src="/images/runs/group_name_3_groups.png" alt="Runs table grouped by group name"  />
 </Frame>
 </Tab>
-<Tab title="W&B App">
+<Tab title="W&B">
 
 1. Navigate to your W&B project.
 2. Select the **Runs** tab from the project sidebar.
@@ -64,7 +64,7 @@ In the project's workspace, you can view runs organized by group. The following 
 
 ### View groups
 
-View runs organized by group in the W&B App:
+View runs organized by group in W&B:
 
 1. In your project sidebar, select the **Runs** tab.
 2. Above the list of runs, click the **Group** button.
@@ -127,7 +127,7 @@ The following image shows runs organized by job type:
 
 ### View runs organized by job type
 
-View runs organized by group in the W&B App:
+View runs organized by group in W&B:
 
 1. In your project sidebar, select the **Runs** tab.
 2. Above the list of runs, click the **Group** button.

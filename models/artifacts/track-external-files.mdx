@@ -7,7 +7,7 @@ Use *reference artifacts* to track and use files saved outside of W&B servers. C
 
 Reference artifacts behave similar to non-reference artifacts. The key difference is that the reference artifacts only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
-You can interact with reference artifact similarly to non-reference artifacts. In the W&B App, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI cannot render rich media such as images, audio, because the data itself is not contained within the artifact.
+You can interact with reference artifact similarly to non-reference artifacts. In W&B, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI cannot render rich media such as images, audio, because the data itself is not contained within the artifact.
 
 <Note>
 If you log an artifact that does not track external files, W&B saves the artifact's files to W&B servers. This is the default behavior when you log artifacts with the W&B Python SDK.
@@ -71,7 +71,7 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
+Within W&B, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. W&B does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
 
 <Note>
 W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave Storage and MinIO. The scripts described below work as-is with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave Storage or MinIO server.
@@ -154,7 +154,7 @@ W&B uses the default mechanism to look for credentials based on the cloud provid
 For AWS, if the bucket is not located in the configured user's default region, you must set the `AWS_REGION` environment variable to match the bucket region.
 
 <Warning>
-Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow the W&B App to properly render such rich media.
+Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow W&B to properly render such rich media.
 
 If rich media such as images, audio, video, and point clouds does not render in the App UI, ensure that `app.wandb.ai` is allowlisted in your bucket's CORS policy.
 </Warning>

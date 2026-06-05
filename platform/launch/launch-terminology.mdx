@@ -4,7 +4,7 @@ description: "Learn key W&B Launch concepts including jobs, queues, target resou
 keywords: ["launch glossary", "launch concepts", "queue definition", "agent concepts", "target resource"]
 ---
 
-This page defines the core terms and concepts used throughout the W&B Launch documentation. Use it as a reference when you encounter unfamiliar terms in setup guides, tutorials, or the W&B App.
+This page defines the core terms and concepts used throughout the W&B Launch documentation. Use it as a reference when you encounter unfamiliar terms in setup guides, tutorials, or W&B.
 
 With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are Python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute them on target resources. W&B tracks Launch jobs similarly to how it tracks [runs](/models/runs/).
 
@@ -30,11 +30,11 @@ The three main kinds of job definitions are:
 Although Launch jobs can perform activities not related to model training (for example, deploying a model to a Triton inference server), all jobs must call `wandb.init()` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
 </Note>
 
-Find jobs you created in the W&B App under the **Jobs** tab of your project workspace. From there, you can configure jobs and send them to a [Launch queue](#launch-queue) to execute on different [target resources](#target-resources).
+Find jobs you created in W&B under the **Jobs** tab of your project workspace. From there, you can configure jobs and send them to a [Launch queue](#launch-queue) to execute on different [target resources](#target-resources).
 
 ## Launch queue
 
-Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out (FIFO). No practical limit applies to the number of queues you can have, but a good guideline is one queue per target resource. You can enqueue jobs with the W&B App UI, W&B CLI, or Python SDK. You can then configure one or more Launch agents to pull items from the queue and execute them on the queue's target resource.
+Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out (FIFO). No practical limit applies to the number of queues you can have, but a good guideline is one queue per target resource. You can enqueue jobs with W&B, W&B CLI, or Python SDK. You can then configure one or more Launch agents to pull items from the queue and execute them on the queue's target resource.
 
 ## Target resources
 

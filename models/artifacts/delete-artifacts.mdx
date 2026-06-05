@@ -4,7 +4,7 @@ description: Delete artifacts interactively with the App UI or programmatically 
 title: Delete an artifact
 ---
 
-Delete artifacts interactively with the W&B App or programmatically with the W&B Python SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
+Delete artifacts interactively with W&B or programmatically with the W&B Python SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
 
@@ -20,7 +20,7 @@ The following diagram illustrates the complete artifact garbage collection proce
 graph TB
     Start([Artifact Deletion Initiated]) --> DeleteMethod{Deletion Method}
     
-    DeleteMethod -->|UI| UIDelete[Delete via W&B App]
+    DeleteMethod -->|UI| UIDelete[Delete via W&B]
     DeleteMethod -->|SDK| SDKDelete[Delete via W&B Python SDK]
     DeleteMethod -->|TTL| TTLDelete[TTL Policy Expires]
     
@@ -51,7 +51,7 @@ graph TB
 You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl).
 
 <Note>
-Artifacts deleted by a TTL policy, the W&B Python SDK, or the W&B App are first soft-deleted. Soft-deleted artifacts are then garbage-collected before they are permanently deleted.
+Artifacts deleted by a TTL policy, the W&B Python SDK, or W&B are first soft-deleted. Soft-deleted artifacts are then garbage-collected before they are permanently deleted.
 </Note>
 
 <Note>
@@ -60,10 +60,10 @@ Deleting an entity, project, or artifact collection triggers the artifact deleti
 
 ## Delete an artifact version
 
-Delete an artifact version interactively with the W&B App or programmatically with the W&B Python SDK.
+Delete an artifact version interactively with W&B or programmatically with the W&B Python SDK.
 
 <Tabs>
-<Tab title="W&B App" value="ui">
+<Tab title="W&B" value="ui">
 To delete an artifact version:
 
 1. Navigate to the project that contains the artifact version you want to delete.
@@ -154,7 +154,7 @@ for artifact in run.logged_artifacts():
 ## Delete an artifact collection
 
 <Tabs>
-<Tab title="W&B App" value="ui">
+<Tab title="W&B" value="ui">
 To delete an artifact collection:
 
 1. Navigate to the artifact collection you want to delete.
