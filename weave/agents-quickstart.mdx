@@ -1,6 +1,7 @@
 ---
 title: "Quickstart: Trace an agent"
 description: Trace a multi-turn agent with the Weave SDK. Sessions, turns, LLM calls, and tool calls render in the Agents view of your project.
+keywords: ["OpenTelemetry", "OTel spans", "multi-turn agent", "tool calls", "tracing"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
@@ -9,21 +10,23 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 [Try in Colab](https://colab.research.google.com/github/wandb/weave/blob/master/docs/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub source](https://github.com/wandb/weave/blob/master/docs/weave/cookbooks/source/agents-quickstart.ipynb)
 
-The Weave SDK allows you to trace agents built with popular SDKs or custom harnesses. This quickstart guides you through how to manually integrate Weave into a custom-built multi-turn agent to emit and capture OpenTelemetry spans. For conceptual understanding on Weave for agents, see [Trace your agents](/weave/guides/tracking/trace-agents).
+The Weave SDK lets you trace agents built with popular SDKs or custom harnesses. This quickstart shows you how to manually integrate Weave into a custom-built multi-turn agent to emit and capture OpenTelemetry spans. For conceptual understanding about Weave for agents, see [Trace your agents](/weave/guides/tracking/trace-agents).
 
-If you are looking to integrate Weave with popular SDKs or harnesses, such as the Claude Agent SDK or Codex, see [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations). Weave autopatches into several popular agent-building SDKs and agent harnesses for quick integration.
+If you're looking to integrate Weave with SDKs or harnesses such as the Claude Agent SDK or Codex, see [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations). Weave autopatches into several agent-building SDKs and agent harnesses for quick integration.
 
 ## What you'll learn
 
-The code in this guide sets up a small research agent that can look things up on Wikipedia. It asks three questions (three turns), lets the AI decide when to search Wikipedia for an answer, and uses Weave to record every step (the conversation, each question, each AI response, and each Wikipedia lookup) so you can see exactly what happened in the Weave Agents view.
+By the end of this quickstart, you'll have a working multi-turn agent that emits Weave-compatible OTel spans. You'll also understand how Weave maps sessions, turns, LLM calls, and tool calls onto your agent code so you can apply the same pattern to your own custom agents.
+
+The code in this guide sets up a small research agent that can look things up on Wikipedia. It asks three questions (three turns) and uses the LLM to choose when to search Wikipedia for an answer. Weave records every step (the conversation, each question, each AI response, and each Wikipedia lookup) so you can see what happened in the Weave Agents view.
 
 This guide shows you how to:
 
-- Initialize Weave for agent tracing with `weave.init()`
-- Open a session and a turn with `start_session` / `startSession` and `start_turn` / `startTurn`
-- Wrap LLM calls with `start_llm` / `startLLM` and record usage
-- Wrap tool executions with `start_tool` / `startTool` and record results
-- View the resulting session, turns, and tool calls in the Agents view
+- Initialize Weave for agent tracing with `weave.init()`.
+- Open a session and a turn with `start_session` / `startSession` and `start_turn` / `startTurn`.
+- Wrap LLM calls with `start_llm` / `startLLM` and record usage.
+- Wrap tool executions with `start_tool` / `startTool` and record results.
+- View the resulting session, turns, and tool calls in the Agents view.
 
 ## How the Weave SDK works with agents
 
@@ -31,21 +34,21 @@ The Weave SDK includes a generic OTel ingest system for agents, meaning that Wea
 
 | Concept | Python | TypeScript | OTel span |
 | --- | --- | --- | --- |
-| A conversation | `weave.start_session(...)` | `weave.startSession(...)` | (no span — groups turns) |
-| One user / agent exchange | `weave.start_turn(...)` | `weave.startTurn(...)` | `invoke_agent` |
+| A conversation | `weave.start_session(...)` | `weave.startSession(...)` | (no span, groups turns) |
+| One user or agent exchange | `weave.start_turn(...)` | `weave.startTurn(...)` | `invoke_agent` |
 | One LLM API call | `weave.start_llm(...)` | `weave.startLLM(...)` | `chat` |
 | One tool execution | `weave.start_tool(...)` | `weave.startTool(...)` | `execute_tool` |
 
-In Python, all four functions work as context managers (`with weave.start_*(...) as obj:`). On exit, they end the span and flush attributes, including on exceptions. In TypeScript, call `.end()` on each returned object — use `try { ... } finally { obj.end(); }` to guarantee cleanup on exceptions.
+In Python, all four functions work as context managers (`with weave.start_*(...) as obj:`). On exit, they end the span and flush attributes, including on exceptions. In TypeScript, call `.end()` on each returned object. Use `try { ... } finally { obj.end(); }` to guarantee cleanup on exceptions.
 
-Other [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/), such as `gen_ai.usage.*` and `gen_ai.agent.name`, enable additional rendering, but they are optional.
+Other [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/), such as `gen_ai.usage.*` and `gen_ai.agent.name`, enable additional rendering, but they're optional.
 
 ## Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize)
-- An OpenAI API key
-- Python 3.10+ (for the Python examples)
-- Node.js 18+ (for the TypeScript examples — built-in `fetch` is required)
+- A W&B account and [API key](https://wandb.ai/authorize).
+- An OpenAI API key.
+- Python 3.10+ (for the Python examples).
+- Node.js 18+ (the TypeScript examples require built-in `fetch`).
 
 ## Install packages
 
@@ -63,7 +66,7 @@ npm install weave openai
 
 ## Initialize Weave
 
-`weave.init()` authenticates with W&B and configures the OTel exporter that sends agent spans to the **Agents** view. If the project does not exist on your team, Weave creates it the first time you write to it.
+`weave.init()` authenticates with W&B and configures the OTel exporter that sends agent spans to the **Agents** view. If the project doesn't exist on your team, Weave creates it the first time you write to it.
 
 <CodeGroup>
 ```python lines Python
@@ -90,7 +93,7 @@ await weave.init(`[YOUR-TEAM]/[YOUR-PROJECT]`);
 
 ## Define a tool
 
-The following code defines the agent's Wikipedia search tool and an OpenAI tool schema to determine when and how to use the tool.
+The following code defines the agent's Wikipedia search tool along with an OpenAI tool schema that specifies when and how to use the tool.
 
 <CodeGroup>
 ```python lines Python
@@ -159,11 +162,13 @@ const wikipediaToolSchema = {
 
 ## Run a traced multi-turn agent
 
-The example below runs three turns in a single session. Each turn:
+With the tool and Weave initialization in place, the next step combines them into a complete agent loop. This loop shows how sessions, turns, LLM calls, and tool calls nest together.
 
-1. Opens a `chat` span and lets the LLM decide whether to call the tool
-2. If the LLM requested a tool, opens an `execute_tool` span around the call and feeds the result back to the LLM
-3. Opens a second `chat` span to produce the final answer
+The following example runs three turns in a single session. Each turn:
+
+1. Opens a `chat` span and prompts the LLM to choose whether to call the tool.
+2. If the LLM requests a tool, opens an `execute_tool` span around the call and feeds the result back to the LLM.
+3. Opens a second `chat` span to produce the final answer.
 
 <CodeGroup>
 ```python lines highlight="9,11,17,29,42,46,53" Python
@@ -176,7 +181,7 @@ def run_turn(history, user_message):
     history.append({"role": "user", "content": user_message})
 
     with weave.start_turn(user_message=user_message, model=MODEL):
-        # LLM call 1 — the model may decide to use a tool.
+        # LLM call 1: the model may decide to use a tool.
         with weave.start_llm(model=MODEL, provider_name="openai") as llm:
             resp = openai_client.chat.completions.create(
                 model=MODEL, messages=history, tools=[wikipedia_tool_schema],
@@ -207,7 +212,7 @@ def run_turn(history, user_message):
                     "content": tool.result,
                 })
 
-        # LLM call 2 — synthesize the final answer.
+        # LLM call 2: synthesize the final answer.
         with weave.start_llm(model=MODEL, provider_name="openai") as llm:
             resp = openai_client.chat.completions.create(model=MODEL, messages=history)
             msg = resp.choices[0].message
@@ -242,7 +247,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
 
   const turn = weave.startTurn({ userMessage, model: MODEL });
   try {
-    // LLM call 1 — the model may decide to use a tool.
+    // LLM call 1: the model may decide to use a tool.
     const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
     let msg;
     try {
@@ -283,7 +288,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
       }
     }
 
-    // LLM call 2 — synthesize the final answer.
+    // LLM call 2: synthesize the final answer.
     const llm2 = weave.startLLM({ model: MODEL, providerName: 'openai' });
     try {
       const resp = await openaiClient.chat.completions.create({
@@ -327,14 +332,14 @@ try {
 
 When `weave.init()` runs, it prints a link to your project where you can see:
 
-- A row in the **Agents** tab for `research-bot`
-- One session containing three turns
-- Each turn (`invoke_agent`) with two `chat` spans and an `execute_tool` span nested inside
-- Token counts, latency, model, and the full message exchange on each `chat`
+- A row in the **Agents** tab for `research-bot`.
+- One session containing three turns.
+- Each turn (`invoke_agent`) with two `chat` spans and an `execute_tool` span nested inside.
+- Token counts, latency, model, and the full message exchange on each `chat`.
 
-Click into any turn to inspect the inputs, outputs, tool arguments, and tool results.
+Click any turn to inspect the inputs, outputs, tool arguments, and tool results.
 
 ## Next steps
 
-* Get a better understanding of how to [trace agents with Weave](weave/guides/tracking/trace-agents) and what features and options are available in the Weave SDK.
-* See [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations) for more options on how to integrate Weave with your agents.
+- Learn how to [trace agents with Weave](/weave/guides/tracking/trace-agents) and what features and options are available in the Weave SDK.
+- See [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations) for more options about how to integrate Weave with your agents.

@@ -1,6 +1,7 @@
 ---
 title: "Cerebras"
 description: "Use Weave to trace and log LLM calls made via the Cerebras Cloud SDK"
+keywords: ["Cerebras inference", "LLM observability", "llama3.1", "weave ops"]
 ---
 
 Weave automatically tracks and logs LLM calls made via the [Cerebras Cloud SDK](https://inference-docs.cerebras.ai/introduction).
@@ -33,13 +34,13 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Weave will now track and log all LLM calls made through the Cerebras SDK. You can view the traces in the Weave web interface, including details like token usage and response time.
+Weave now tracks and logs all LLM calls made through the Cerebras SDK. You can view the traces in the Weave web interface, including details like token usage and response time.
 
-[![cerebras_calls.png](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
+[![Weave trace view showing Cerebras LLM calls](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
 
-## Wrapping with your own ops
+## Wrap with your own ops
 
-Weave ops offer a powerful way to enhance reproducibility and traceability in your experiments. By automatically versioning your code and capturing inputs and outputs. Here's an example of how you can leverage Weave ops with the Cerebras SDK:
+Weave ops enhance reproducibility and traceability in your experiments by automatically versioning your code and capturing inputs and outputs. Here's an example of how to use Weave ops with the Cerebras SDK:
 
 ```python lines
 import os
@@ -69,7 +70,7 @@ animal_speedster("human", "llama3.1-8b")
 
 ## Create a `Model` for easier experimentation
 
-The [Model](/weave/guides/core-types/models) class in Weave helps you organize and compare different iterations of your app. This is particularly useful when experimenting with Cerebras models. Here's an example:
+The [Model](/weave/guides/core-types/models) class in Weave helps you organize and compare different iterations of your app. This is useful when experimenting with Cerebras models. Here's an example:
 
 
 ```python lines
@@ -105,6 +106,6 @@ result = speed_model.predict(animal="cheetah")
 print(result)
 ```
 
-With this setup, you can easily experiment with different models and parameters, all while keeping track of your Cerebras-powered inferences!
+With this setup, you can experiment with different models and parameters while tracking your Cerebras-powered inferences.
 
-[![cerebras_model.png](/weave/guides/integrations/imgs/cerebras_model.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
+[![Weave Model traces for Cerebras experiments](/weave/guides/integrations/imgs/cerebras_model.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)

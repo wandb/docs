@@ -1,36 +1,31 @@
 ---
 title: "Codegen"
 description: "Build and evaluate code generation pipelines with W&B Weave to trace prompts, outputs, and quality metrics."
+keywords: ["HumanEval", "structured outputs", "Pydantic", "code generation", "OpenAI"]
 ---
 
 <Note>
-This is an interactive notebook. You can run it locally or use the links below:
+This is an interactive notebook. You can run it locally or use the following links:
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/codegen.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/codegen.ipynb)
 </Note>
 
-## 
-
-# Code Generation using Weave and OpenAI
-
-Generating high-quality code with proper structure, documentation, and tests is a challenging task. This guide demonstrates how to implement a code generation pipeline. You'll learn to create a code generation pipeline that produces high-quality Python functions against the humaneval test suite.
-
-We'll use Weave for evaluation comparison and tracking, and OpenAI's GPT models for code generation using structured outputs.
+Generating high-quality code with proper structure, documentation, and tests is a challenging task. This guide is for developers who want to build an LLM-powered code generation workflow and measure its quality systematically. You'll learn to create a code generation pipeline that produces Python functions evaluated against the HumanEval test suite. The pipeline uses Weave for evaluation comparison and tracking and OpenAI's GPT models for code generation with structured outputs.
 
 <Frame>
-![Evaluation](/media/codegen/eval_dash.png)
+![Weave evaluation dashboard comparing code generation runs](/media/codegen/eval_dash.png)
 </Frame>
 
-## Why use Weave?
+## Why use Weave
 
-In this tutorial, we'll use Weave to implement and evaluate a code generation pipeline. You'll learn how to:
+This tutorial uses Weave to implement and evaluate a code generation pipeline. You learn how to:
 
-1. **Track your LLM pipeline**: Log inputs, outputs, and intermediate steps of your code generation process.
-2. **Evaluate LLM outputs**: Create and compare evaluations of your generated code with rich debugging tools and visualizations.
+- **Track your LLM pipeline**: Log inputs, outputs, and intermediate steps of your code generation process.
+- **Evaluate LLM outputs**: Create and compare evaluations of your generated code with debugging tools and visualizations.
 
 ## Set up the environment
 
-First, let's set up our environment and import the necessary libraries:
+Set up your environment and import the necessary libraries. These dependencies provide the formatting tools, dataset loader, and OpenAI and Weave clients used throughout the pipeline.
 
 ```python lines
 !pip install -qU autopep8 autoflake weave isort openai set-env-colab-kaggle-dotenv datasets
@@ -72,18 +67,18 @@ selected_examples = human_eval["test"][:3]
 ```
 
 <Note>
-Weave automatically tracks OpenAI API calls, including inputs, outputs, and metadata. This means you don't need to add any additional logging code for your OpenAI interactions – Weave handles it seamlessly in the background.
+Weave automatically tracks OpenAI API calls, including inputs, outputs, and metadata. You don't need to add any additional logging code for your OpenAI interactions. Weave handles it in the background.
 </Note>
 
-## Leveraging structured outputs and Pydantic models
+## Structured outputs and Pydantic models
 
-In this code generation pipeline, we utilize OpenAI's [structured outputs mode](https://platform.openai.com/docs/guides/structured-outputs) and Pydantic models to ensure consistent and well-formatted responses from the language model. This approach offers several advantages:
+This code generation pipeline uses OpenAI's [structured outputs mode](https://platform.openai.com/docs/guides/structured-outputs) and Pydantic models to produce consistent and well-formatted responses from the language model. This approach offers several advantages:
 
-1. **Type Safety**: By defining Pydantic models for our expected outputs, we enforce a strict structure for the generated code, program runners, and unit tests.
-2. **Easier Parsing**: The structured output mode allows us to directly parse the model's response into our predefined Pydantic models, reducing the need for complex post-processing.
-3. **Improved Reliability**: By specifying the exact format we expect, we reduce the likelihood of unexpected or malformed outputs from the language model.
+- **Type safety**: Defining Pydantic models for the expected outputs enforces a strict structure for the generated code, program runners, and unit tests.
+- **Easier parsing**: The structured output mode parses the model's response directly into the predefined Pydantic models, reducing the need for complex post-processing.
+- **Improved reliability**: Specifying the exact format you expect reduces the likelihood of unexpected or malformed outputs from the language model.
 
-Here's an example of how we define our Pydantic models and use them with OpenAI's structured outputs:
+The following example defines Pydantic models and uses them with OpenAI's structured outputs:
 
 ```python lines
 class GeneratedCode(BaseModel):
@@ -95,9 +90,9 @@ class FormattedGeneratedCode(BaseModel):
     full_code: str
 ```
 
-## Implementing a code formatter
+## Implement a code formatter
 
-To ensure consistent and clean code output, we implement a `CodeFormatter` class using Weave operations. This formatter applies various linting and styling rules to the generated code, program runner, and unit tests.
+To produce consistent and clean code output, implement a `CodeFormatter` class using Weave operations. This formatter applies linting and styling rules to the generated code, program runner, and unit tests.
 
 ```python lines
 class CodeFormatter(BaseModel):
@@ -190,21 +185,21 @@ class CodeFormatter(BaseModel):
 
 This `CodeFormatter` class provides several Weave operations to clean and format the generated code:
 
-- Replacing escaped newlines with actual newlines
-- Removing unused imports and variables
-- Sorting imports
-- Applying PEP 8 formatting
-- Adding missing imports
+- Replacing escaped newlines with actual newlines.
+- Removing unused imports and variables.
+- Sorting imports.
+- Applying PEP 8 formatting.
+- Adding missing imports.
 
-## Define the CodeGenerationPipeline
+## Define the `CodeGenerationPipeline`
 
 <Frame>
-![Code Generation Pipeline](/media/codegen/codegen_trace.png)
+![Weave trace of a code generation pipeline run](/media/codegen/codegen_trace.png)
 </Frame>
 
-Now, let's implement the core code generation logic:
+With the formatter in place, the next step is to implement the core code generation logic that ties the prompt, the LLM call, and the formatter together.
 
-We're using a `weave.Model` so that it's automatically versioned when it changes. We're also keeping the `model_name` as an attribute so that we can experiment with it and easily diff & compare it in Weave. We're tracking our function calls with `@weave.op` so the inputs & outputs are logged to help with error tracking and debugging.
+This example uses a `weave.Model` so that the model is automatically versioned when it changes. The `model_name` is kept as an attribute so that you can experiment with it and diff and compare it in Weave. Function calls are tracked with `@weave.op` so the inputs and outputs are logged to help with error tracking and debugging.
 
 ```python lines
 class CodeGenerationPipeline(weave.Model):
@@ -247,17 +242,17 @@ class CodeGenerationPipeline(weave.Model):
             raise ValueError(message.refusal)
 ```
 
-This `CodeGenerationPipeline` class encapsulates our code generation logic as a Weave Model, providing several key benefits:
+This `CodeGenerationPipeline` class encapsulates the code generation logic as a Weave Model, providing several benefits:
 
-1. Automatic experiment tracking: Weave captures inputs, outputs, and parameters for each run of the model.
-2. Versioning: Changes to the model's attributes or code are automatically versioned, creating a clear history of how your code generation pipeline evolves over time.
-3. Reproducibility: The versioning and tracking make it easy to reproduce any previous result or configuration of your code generation pipeline.
-4. Hyperparameter management: Model attributes (like `model_name`) are clearly defined and tracked across different runs, facilitating experimentation.
-5. Integration with Weave ecosystem: Using `weave.Model` allows seamless integration with other Weave tools, such as evaluations and serving capabilities.
+- Automatic experiment tracking: Weave captures inputs, outputs, and parameters for each run of the model.
+- Versioning: Changes to the model's attributes or code are automatically versioned, creating a history of how your code generation pipeline evolves over time.
+- Reproducibility: The versioning and tracking let you reproduce any previous result or configuration of your code generation pipeline.
+- Hyperparameter management: Model attributes (like `model_name`) are defined and tracked across different runs, facilitating experimentation.
+- Integration with Weave ecosystem: Using `weave.Model` connects your pipeline to other Weave tools, such as evaluations and serving capabilities.
 
 ## Implement evaluation metrics
 
-To assess the quality of our generated code, we'll implement simple evaluation metrics using a `weave.Scorer` subclass. This will run `score` on every `model_output` from our dataset. `model_output` comes from the output of the `predict` function in our `weave.Model`. `prompt` is taken from our dataset `human-eval`.
+To assess the quality of the generated code, implement evaluation metrics using a `weave.Scorer` subclass. This runs `score` on every `model_output` from the dataset. `model_output` comes from the output of the `predict` function in the `weave.Model`. `prompt` is taken from the `human-eval` dataset.
 
 ```python lines
 CODE_TEMPLATE = """
@@ -318,12 +313,12 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
 These evaluation functions run the generated code and return a boolean value indicating whether the code passed the test provided from the dataset.
 
 <Frame>
-![Evaluation](/media/codegen/eval_trace.png)
+![Weave trace of a HumanEval scorer evaluating generated code](/media/codegen/eval_trace.png)
 </Frame>
 
 ## Create a Weave Dataset and run evaluation
 
-To evaluate our pipeline, we'll create a Weave Dataset and run an evaluation:
+With the pipeline and scorer defined, the final step is to assemble the evaluation dataset and run it end-to-end. To evaluate the pipeline, create a Weave Dataset and run an evaluation:
 
 ```python lines
 formatted_selected_examples = [
@@ -375,21 +370,21 @@ for model_name in ["gpt-4o-2024-08-06"]:
         results = await evaluation.evaluate(pipeline)
 ```
 
-This code creates a dataset with our sample prompts, defines our humaneval test scorer, and runs an evaluation of our code generation pipeline.
+This code creates a dataset with the sample prompts, defines the HumanEval test scorer, and runs an evaluation of the code generation pipeline. After the evaluation completes, results are available in the Weave UI for inspection and comparison across runs.
 
 <Frame>
-![Final Evaluation](/media/codegen/eval_dash.png)
+![Weave evaluation dashboard showing HumanEval scorer results](/media/codegen/eval_dash.png)
 </Frame>
 
 ## Conclusion
 
-In this example, we've demonstrated how to implement a code generation pipeline using Weave and OpenAI's language models. We've shown how to:
+This example demonstrates how to implement a code generation pipeline using Weave and OpenAI's language models. You learned how to:
 
-1. Create Weave operations for each step of the code generation process
-2. Wrap the pipeline in a Weave Model for easy tracking and evaluation
-3. Implement custom evaluation metrics using Weave operations
-4. Create a dataset and run an evaluation of the pipeline
+- Create Weave operations for each step of the code generation process.
+- Wrap the pipeline in a Weave Model for streamlined tracking and evaluation.
+- Implement custom evaluation metrics using Weave operations.
+- Create a dataset and run an evaluation of the pipeline.
 
-Weave's seamless integration allows us to track inputs, outputs, and intermediate steps throughout the code generation process, making it easier to debug, optimize, and evaluate our LLM application.
+Weave tracks inputs, outputs, and intermediate steps throughout the code generation process, making it easier to debug, optimize, and evaluate your LLM application.
 
-For more information on Weave and its capabilities, check out the [Weave documentation](/weave). You can extend this example to handle larger datasets, implement more sophisticated evaluation metrics, or integrate with other LLM workflows.
+For more information about Weave and its capabilities, see the [Weave documentation](/weave). You can extend this example to handle larger datasets, implement more sophisticated evaluation metrics, or integrate with other LLM workflows.

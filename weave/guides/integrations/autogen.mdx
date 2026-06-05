@@ -1,52 +1,55 @@
 ---
 title: "AutoGen"
 description: "Use Weave to track and monitor AutoGen agents and multi-agent systems"
+keywords: ["AutoGen", "multi-agent", "agent tracing", "GroupChat", "RAG"]
 ---
 
 {/* TODO: Add a Colab notebook for this guide with a badge link here. */}
 
-AutoGen is a framework from Microsoft for building AI agents and applications. It simplifies the creation of complex multi-agent systems, offering components for conversational AI (`AgentChat`), core multi-agent functionalities (`Core`), and integrations with external services (`Extensions`). AutoGen also provides a `Studio` for no-code agent prototyping. For more details, visit the [official AutoGen documentation](https://microsoft.github.io/autogen/stable//index.html).
+AutoGen is a framework from Microsoft for building AI agents and applications. It simplifies the creation of complex multi-agent systems. AutoGen offers components for conversational AI (`AgentChat`), core multi-agent functionalities (`Core`), and integrations with external services (`Extensions`). AutoGen also provides a `Studio` for no-code agent prototyping. For more details, visit the [official AutoGen documentation](https://microsoft.github.io/autogen/stable//index.html).
 
 
 <Note>
 This guide assumes you have a basic understanding of [AutoGen](https://microsoft.github.io/autogen/stable/index.html).
 </Note>
 
-Weave integrates with [AutoGen](https://microsoft.github.io/autogen/stable/index.html) to help you trace and visualize the execution of your multi-agent applications. By simply initializing Weave, you can automatically track interactions within `autogen_agentchat`, `autogen_core`, and `autogen_ext`. This guide will walk you through various examples of how to use Weave with AutoGen.
+Weave integrates with [AutoGen](https://microsoft.github.io/autogen/stable/index.html) to help you trace and visualize the execution of your multi-agent applications. When you initialize Weave, it automatically tracks interactions within `autogen_agentchat`, `autogen_core`, and `autogen_ext`. This guide walks you through how to configure Weave with AutoGen and shows worked examples that cover model clients, agents with tools, group chats, memory, RAG workflows, agent runtimes, sequential workflows, and code executors. By the end, you can capture detailed traces of your AutoGen applications in Weave to debug agent behavior, monitor LLM usage, and understand how agents interact across complex workflows.
 
 ## Prerequisites
 
-Before you begin, ensure you have AutoGen and Weave installed. You'll also need any SDKs for the LLM providers you intend to use (for example, OpenAI or Anthropic).
+Before you begin, you must have AutoGen and Weave installed. You also need any SDKs for the LLM providers you intend to use (for example, OpenAI or Anthropic).
 
 ```bash
-pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave 
+pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave
 ```
 
-Set up your API keys as environment variables:
+Set up your API keys as environment variables so the model clients can authenticate with the LLM providers used in the examples that follow:
 
 ```python lines
 import os
 
-os.environ["OPENAI_API_KEY"] = "<your-openai-api-key>"
-os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
+os.environ["ANTHROPIC_API_KEY"] = "[YOUR-ANTHROPIC-API-KEY]"
 ```
 
-## Basic Setup
+## Basic setup
 
-Initialize Weave at the beginning of your script to start capturing traces.
+Initialize Weave at the beginning of your script to start capturing traces. After you initialize Weave, it automatically instruments AutoGen calls in the rest of your script.
 
 ```python lines {2}
 import weave
 weave.init("autogen-demo")
 ```
 
-## Tracing a simple model client
+After you run this snippet, Weave is configured to send traces to the `autogen-demo` project, and Weave automatically captures any subsequent AutoGen activity in your script.
 
-Weave can trace calls made directly to model clients within AutoGen.
+## Traces for a model client
 
-### Tracing a client create call
+The following sections describe how Weave traces calls made directly to model clients within AutoGen, including single calls, streamed responses, and cached responses.
 
-This example demonstrates tracing a single call to an `OpenAIChatCompletionClient`.
+### Traces for a client create call
+
+This example demonstrates tracing a call to an `OpenAIChatCompletionClient`.
 
 ```python lines
 import asyncio
@@ -73,7 +76,7 @@ asyncio.run(simple_client_call())
 
 [![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
 
-### Tracing a client create call with streaming
+### Traces for a client create call with streaming
 
 Weave also supports tracing streamed responses.
 
@@ -92,9 +95,9 @@ asyncio.run(simple_client_call_stream())
 
 [![autogen-streaming-client.png](/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee0e-24be-7523-b15e-04f87c03ac68%3FhideTraceTree%3D0)
 
-### Weave records cached calls
+### Traces for cached client calls
 
-You can use AutoGen's `ChatCompletionCache`, and Weave traces these interactions, showing whether a response came from the cache or a new call.
+You can use AutoGen's `ChatCompletionCache`, and Weave traces these interactions to show whether a response came from the cache or a new call.
 
 ```python lines
 
@@ -120,9 +123,9 @@ asyncio.run(run_cache_client())
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
 
-## Tracing an agent with tool calls
+## Traces for an agent with tool calls
 
-Weave traces agents and their tool usage, providing visibility into how agents select and execute tools.
+This section shows how Weave traces agents and their tool usage to give you visibility into how agents select and execute tools. The following example defines a weather tool and attaches it to an `AssistantAgent`.
 
 ```python lines
 from autogen_agentchat.agents import AssistantAgent
@@ -152,9 +155,9 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-## Tracing a GroupChat - round robin
+## Traces for a round-robin GroupChat
 
-Interactions within group chats, such as `RoundRobinGroupChat`, are traced by Weave, allowing you to follow the conversation flow between agents.
+Weave traces interactions within group chats, such as `RoundRobinGroupChat`, so you can follow the conversation flow between agents. To group all agent turns under a single parent trace for streamlined inspection, wrap the group chat function with `@weave.op`. This step is optional but recommended.
 
 ```python lines
 
@@ -199,9 +202,9 @@ asyncio.run(run_round_robin_group_chat())
 
 [![round_robin_group_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
-## Tracing memory
+## Traces for memory
 
-AutoGen's memory components can be traced with Weave. You can use `@weave.op()` to group memory operations under a single trace for better readability.
+Weave can trace AutoGen's memory components. Use `@weave.op()` to group memory operations under a single trace for better readability, so that memory add and retrieval calls appear together with the agent run that uses them.
 
 ```python lines
 
@@ -258,9 +261,9 @@ asyncio.run(run_memory_agent())
 
 [![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
 
-## Tracing RAG Workflows
+## Traces for RAG workflows
 
-Retrieval Augmented Generation (RAG) workflows, including document indexing and retrieval with memory systems like `ChromaDBVectorMemory`, are traceable. Decorating the RAG process with `@weave.op()` helps in visualizing the entire flow.
+Weave can trace Retrieval Augmented Generation (RAG) workflows, including document indexing and retrieval with memory systems like `ChromaDBVectorMemory`. To visualize the entire flow so that indexing, retrieval, and the resulting LLM call appear together in a single trace, decorate the RAG process with `@weave.op()`.
 
 <Note>
 The RAG example requires `chromadb`. Install it with `pip install chromadb`.
@@ -378,9 +381,9 @@ asyncio.run(run_rag_agent())
 
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
-## Tracing agent runtimes
+## Traces for agent runtimes
 
-Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Using `@weave.op()` around the runtime execution function can group related traces.
+Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Wrap the runtime execution function with `@weave.op()` to group related traces so you can see the full sequence of message handlers that fire during a runtime run.
 
 ```python lines {50}
 from dataclasses import dataclass
@@ -458,9 +461,9 @@ asyncio.run(run_agent_runtime())
 
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
-## Tracing workflows (sequential)
+## Traces for sequential workflows
 
-You can trace complex agent workflows that define sequences of agent interactions. Use `@weave.op()` to provide a high-level trace for the entire workflow.
+You can trace complex agent workflows that define sequences of agent interactions. Use `@weave.op()` to provide a high-level trace for the entire workflow so that each agent's contribution is nested under a single parent call. The following example chains a concept extractor, a writer, a format-and-proof agent, and a user agent to produce a polished marketing copy.
 
 ```python lines {108}
 
@@ -596,14 +599,14 @@ asyncio.run(run_agent_workflow())
 
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
-## Tracing code executor
+## Traces for code executors
 
 <Warning>
-**Docker Required**
-This example involves code execution using Docker and may not work in all environments (for example, Colab directly). Ensure Docker is running locally if you try this.
+**Docker required**
+This example involves code execution that uses Docker and might not work in all environments (for example, Colab directly). Ensure Docker is running locally if you try this.
 </Warning>
 
-Weave traces the generation and execution of code by AutoGen agents.
+Weave traces the generation and execution of code by AutoGen agents. You can inspect both the code an assistant agent produces and the output an executor agent returns when that code runs.
 
 ```python lines {69}
 
@@ -708,11 +711,13 @@ asyncio.run(run_codegen())
 
 ## Learn more
 
+With the patterns covered in the previous sections, you now have working examples that trace model clients, agents, group chats, memory, RAG, runtimes, sequential workflows, and code executors with AutoGen and Weave. Use the following references to go deeper.
+
 - **Weave**:
-    - [Tracing Guide](/weave/guides/tracking/tracing)
-    - [Op Decorator](/weave/guides/tracking/ops)
+    - [Tracing guide](/weave/guides/tracking/tracing)
+    - [Op decorator](/weave/guides/tracking/ops)
 - **AutoGen**:
-    - [Official Documentation](https://microsoft.github.io/autogen/stable//index.html)
+    - [Official documentation](https://microsoft.github.io/autogen/stable//index.html)
     - [AutoGen GitHub](https://github.com/microsoft/autogen)
 
 This guide provides a starting point for integrating Weave with AutoGen. Explore the Weave UI to see detailed traces of your agent interactions, model calls, and tool usage.

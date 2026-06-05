@@ -1,29 +1,28 @@
 ---
 title: "Send OpenTelemetry Traces to Weave"
-description: "Ingest OpenTelemetry compatible trace data through a dedicated endpoint"
+description: "Import OpenTelemetry compatible trace data through a dedicated endpoint"
+keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "threads"]
 ---
 
-## Overview
-Weave supports ingestion of OpenTelemetry compatible trace data through a dedicated endpoint. This endpoint allows you to send OTLP (OpenTelemetry Protocol) formatted trace data directly to your Weave project.
+Weave supports import of OpenTelemetry compatible trace data through a dedicated endpoint. This endpoint lets you send OTLP (OpenTelemetry Protocol) formatted trace data directly to your Weave project. Use this integration when you want to instrument your application with the OpenTelemetry standard and have those traces appear alongside your other Weave data, without replacing your existing OTel-based observability pipeline.
+
+This page covers the endpoint details, authentication, end-to-end examples in Python and TypeScript, how to forward traces through an OpenTelemetry Collector, how to organize traces into Weave threads, and the attribute mappings Weave applies to incoming spans.
 
 ## Endpoint details
 
 **Path**: `/otel/v1/traces`
-**Method**: POST
+**Method**: `POST`
 **Content-Type**: `application/x-protobuf`
 **Base URL**: The base URL for the OTel trace endpoint depends on your W&B deployment type:
 
-- Multi-tenant Cloud:  
-  `https://trace.wandb.ai/otel/v1/traces`
-
-- Dedicated Cloud and Self-Managed instances:  
-  `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`
+- Multi-tenant Cloud: `https://trace.wandb.ai/otel/v1/traces`.
+- Dedicated Cloud and Self-Managed instances: `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
 
 Replace `<your-subdomain>` with your organization's unique W&B domain, for example, `acme.wandb.io`.
 
 ## Authentication and routing
 
-Pass your W&B API key in the `wandb-api-key` header, then specify the following keys as OpenTelemetry Resource attributes in your `TracerProvider` class:
+Weave uses the `wandb-api-key` header to authenticate requests and resource attributes on your `TracerProvider` to route spans to the correct entity and project. Pass your W&B API key in the `wandb-api-key` header, then specify the following keys as OpenTelemetry Resource attributes in your `TracerProvider` class:
 
 - `wandb.entity`: Your W&B team or user name.
 - `wandb.project`: The project name to send traces to.
@@ -86,18 +85,18 @@ const provider = new NodeTracerProvider({
 
 ## Examples
 
-The following examples show how to send OpenTelemetry traces to Weave using Python and TypeScript.
+The following examples show how to send OpenTelemetry traces to Weave using Python and TypeScript. Each example covers a different approach: using the OpenInference instrumentation library, using OpenLLMetry instrumentation, or using the OpenTelemetry SDK directly without an instrumentation package.
 
-Before running the code samples below, set the following fields:
+Before running the following code samples, set the following fields:
 
-1. `WANDB_API_KEY`: You can get this from [User Settings](https://wandb.ai/settings).
-2. Entity: You can only log traces to the project under an entity that you have access to. You can find your entity name by visiting your W&B dashboard at [https://wandb.ai/home], and checking the **Teams** field in the left sidebar.
-3. Project Name: Choose a fun name!
-4. `OPENAI_API_KEY`: You can obtain this from the [OpenAI dashboard](https://platform.openai.com/api-keys).
+- `WANDB_API_KEY`: You can get this from [User Settings](https://wandb.ai/settings).
+- Entity: You can only log traces to the project under an entity that you have access to. To find your entity name, visit your [W&B dashboard](https://wandb.ai/home) and check the **Teams** field in the left sidebar.
+- Project name: Choose a name.
+- `OPENAI_API_KEY`: You can obtain this from the [OpenAI dashboard](https://platform.openai.com/api-keys).
 
-### OpenInference Instrumentation
+### OpenInference instrumentation
 
-This example shows how to use the OpenAI instrumentation. There are many more available which you can find in the [official repository](https://github.com/Arize-ai/openinference).
+[OpenInference](https://github.com/Arize-ai/openinference) is an open source instrumentation library from Arize AI that captures LLM calls as OpenTelemetry spans. This example shows how to use the OpenAI instrumentation. Additional instrumentations are available in the [official repository](https://github.com/Arize-ai/openinference).
 
 First, install the required dependencies:
 
@@ -119,7 +118,7 @@ npm install openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @
 </Tabs>
 
 <Warning>
-**Performance Recommendation**: Always use `BatchSpanProcessor` instead of `SimpleSpanProcessor` when sending traces to Weave. `SimpleSpanProcessor` exports spans synchronously, potentially impacting the performance of other workloads. These examples illustrate `BatchSpanProcessor`, which is recommended in production because it batches spans asynchronously and efficiently.
+**Performance recommendation**: Always use `BatchSpanProcessor` instead of `SimpleSpanProcessor` when sending traces to Weave. `SimpleSpanProcessor` exports spans synchronously, which can impact the performance of other workloads. These examples illustrate `BatchSpanProcessor`, which is recommended in production because it batches spans asynchronously and efficiently.
 </Warning>
 
 <Tabs>
@@ -275,9 +274,9 @@ npx ts-node openinference_example.ts
 </Tab>
 </Tabs>
 
-### OpenLLMetry Instrumentation
+### OpenLLMetry instrumentation
 
-The following example shows how to use the OpenAI instrumentation. Additional examples are available in the [OpenLLMetry repository](https://github.com/traceloop/openllmetry).
+[OpenLLMetry](https://github.com/traceloop/openllmetry) is an open source observability library from Traceloop that provides OpenTelemetry instrumentation for popular LLM providers and frameworks. The following example shows how to use its OpenAI instrumentation. Additional examples are available in the [OpenLLMetry repository](https://github.com/traceloop/openllmetry).
 
 First, install the required dependencies:
 
@@ -301,7 +300,7 @@ npm install openai @traceloop/instrumentation-openai @opentelemetry/sdk-trace-no
 <Tabs>
 <Tab title="Python">
 
-Paste the following code into a Python file such as `openllmetry_example.py`. Note that this is the same code as above, except the `OpenAIInstrumentor` is imported from `opentelemetry.instrumentation.openai` instead of `openinference.instrumentation.openai`:
+Paste the following code into a Python file such as `openllmetry_example.py`. This is the same code as the preceding example, except the `OpenAIInstrumentor` is imported from `opentelemetry.instrumentation.openai` instead of `openinference.instrumentation.openai`:
 
 ```python lines
 import os
@@ -364,7 +363,7 @@ python openllmetry_example.py
 </Tab>
 <Tab title="TypeScript">
 
-Paste the following code into a TypeScript file such as `openllmetry_example.ts`. Note that this uses the Traceloop OpenAI instrumentation package:
+Paste the following code into a TypeScript file such as `openllmetry_example.ts`. This uses the Traceloop OpenAI instrumentation package:
 
 ```typescript lines
 import OpenAI from "openai";
@@ -453,7 +452,7 @@ npx ts-node openllmetry_example.ts
 
 ### Without instrumentation
 
-If you would prefer to use OTel directly instead of an instrumentation package, you may do so. Span attributes will be parsed according to the OpenTelemetry semantic conventions described at [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
+If you prefer to use OTel directly instead of an instrumentation package, you can do so. This approach gives you full control over which attributes are set on each span. Weave parses span attributes according to the OpenTelemetry semantic conventions described at [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
 
 First, install the required dependencies:
 
@@ -643,15 +642,15 @@ npx ts-node opentelemetry_example.ts
 </Tab>
 </Tabs>
 
-The span attribute prefixes `gen_ai` and `openinference` are used to determine which convention to use, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
+Weave uses the span attribute prefixes `gen_ai` and `openinference` to determine which convention to apply, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
 
 ## Use an OpenTelemetry Collector
 
-The examples above export traces directly from your application to Weave. In production, you can use an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as an intermediary between your application and Weave. The collector receives traces from your app, then forwards them to one or more backends.
+The previous examples export traces directly from your application to Weave. In production, you can use an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as an intermediary between your application and Weave. The collector receives traces from your app, then forwards them to one or more backends. This pattern centralizes authentication, batching, and routing logic outside of your application code, and lets you fan traces out to multiple observability backends from a single pipeline.
 
 ### Set up a collector
 
-The following example shows how to:
+This section walks through running a local OpenTelemetry Collector in Docker and configuring an application to send traces to it. The following example shows how to:
 - Set up a Docker configuration file that deploys a local server (collector) that listens for OTLP traces, batches them, and forwards them to Weave.
 - Locally run the collector using Docker.
 - Send a basic call to OpenAI that forwards traces to the collector running in the Docker container.
@@ -711,7 +710,7 @@ docker run \
   otel/opentelemetry-collector-contrib:latest
 ```
 
-Once the collector is running, configure your application to export traces to it by setting the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable. The OTel SDK reads this variable automatically, so you do not need to pass the endpoint to the exporter.
+Once the collector is running, configure your application to export traces to it by setting the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable. The OTel SDK reads this variable automatically, so you don't need to pass the endpoint to the exporter.
 
 If you set `wandb.entity` or `wandb.project` as resource attributes in your application's `TracerProvider`, they take precedence over the defaults defined in the collector config.
 
@@ -787,7 +786,7 @@ async function main() {
 ```
 </CodeGroup>
 
-The `OpenAIInstrumentor` automatically wraps OpenAI calls, creates traces, and exports them to the collector. The collector handles authentication and routing to Weave.
+The `OpenAIInstrumentor` wraps OpenAI calls, creates traces, and exports them to the collector. The collector handles authentication and routing to Weave.
 
 After running the script, you can [view the traces](/weave/guides/tracking/trace-tree) in the Weave UI.
 
@@ -795,14 +794,14 @@ To send traces to additional backends, add more exporters and include them in th
 
 ## Organize OTel traces into threads
 
-Add specific span attributes to organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads), then use Weave's Thread UI to analyze related operations like multi-turn conversations or user sessions in Weave's thread UI.
+[Weave threads](/weave/guides/tracking/threads) let you group related traces so you can analyze multi-turn conversations or user sessions as a single unit. Add specific span attributes to organize your OpenTelemetry traces into threads, then use Weave's Thread UI to analyze related operations such as multi-turn conversations or user sessions.
 
 Add the following attributes to your OTel spans to enable thread grouping:
 
-- `wandb.thread_id`: Groups spans into a specific thread
-- `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
+- `wandb.thread_id`: Groups spans into a specific thread.
+- `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view).
 
-The following examples show how to organize OTel traces into Weave threads. They use `wandb.thread_id` to group related operations and `wandb.is_turn` to mark high-level operations that appear as rows in the thread view. 
+The following examples show how to organize OTel traces into Weave threads. They use `wandb.thread_id` to group related operations and `wandb.is_turn` to mark high-level operations that appear as rows in the thread view.
 
 
 <Accordion title="Initial set up">
@@ -1304,24 +1303,24 @@ main();
 
 </Accordion>
 
-After sending these traces, you can view them in the Weave UI under the **Threads** tab, where they'll be grouped by `thread_id` and each turn will appear as a separate row.
+After sending these traces, you can view them in the Weave UI under the **Threads** tab, where they're grouped by `thread_id` and each turn appears as a separate row.
 
 ## Attribute mappings
 
-Weave automatically maps OpenTelemetry span attributes from various instrumentation frameworks to its internal data model. When multiple attribute names map to the same field, Weave applies them in priority order, allowing frameworks to coexist in the same traces.
+Weave maps OpenTelemetry span attributes from various instrumentation frameworks to its internal data model. This mapping means you don't need to rename or transform attributes from your existing instrumentation to get a rich view in Weave. When multiple attribute names map to the same field, Weave applies them in priority order, which lets frameworks coexist in the same traces.
 
 ### Supported frameworks
 
 Weave supports attribute conventions from the following observability frameworks and SDKs:
 
-- **OpenTelemetry GenAI**: Standard semantic conventions for generative AI (`gen_ai.*`)
-- **OpenInference**: Arize AI's instrumentation library (`input.value`, `output.value`, `llm.*`, `openinference.*`)
-- **Vercel AI SDK**: Vercel's AI SDK attributes (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)
-- **MLflow**: MLflow tracking attributes (`mlflow.spanInputs`, `mlflow.spanOutputs`)
-- **Traceloop**: OpenLLMetry instrumentation (`traceloop.entity.*`, `traceloop.span.kind`)
-- **Google Vertex AI**: Vertex AI agent attributes (`gcp.vertex.agent.*`)
-- **OpenLit**: OpenLit observability attributes (`gen_ai.content.completion`)
-- **Langfuse**: Langfuse tracing attributes (`langfuse.startTime`, `langfuse.endTime`)
+- **OpenTelemetry GenAI**: Standard semantic conventions for generative AI (`gen_ai.*`).
+- **OpenInference**: Arize AI's instrumentation library (`input.value`, `output.value`, `llm.*`, `openinference.*`).
+- **Vercel AI SDK**: Vercel's AI SDK attributes (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`).
+- **MLflow**: MLflow tracking attributes (`mlflow.spanInputs`, `mlflow.spanOutputs`).
+- **Traceloop**: OpenLLMetry instrumentation (`traceloop.entity.*`, `traceloop.span.kind`).
+- **Google Vertex AI**: Vertex AI agent attributes (`gcp.vertex.agent.*`).
+- **OpenLit**: OpenLit observability attributes (`gen_ai.content.completion`).
+- **Langfuse**: Langfuse tracing attributes (`langfuse.startTime`, `langfuse.endTime`).
 
 ### Attribute reference
 
@@ -1380,4 +1379,4 @@ Weave supports attribute conventions from the following observability frameworks
 
 ## Limitations
 
-* The Weave UI does not support rendering OTel trace tool calls the Chat view. They appear as raw JSON instead.
+The Weave UI does not support rendering OTel trace tool calls in the Chat view. They appear as raw JSON instead.

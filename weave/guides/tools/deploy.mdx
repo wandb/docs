@@ -1,22 +1,23 @@
 ---
 title: "Deploy to Google Cloud"
 description: "Deploy Weave models and ops to cloud platforms as production-ready API endpoints for inference and serving."
+keywords: ["gcloud", "weave deploy", "model serving", "inference endpoint"]
 ---
 
-## Deploy to Google Cloud
+Use the `weave deploy` command to deploy a Weave model to Google Cloud as a production-ready API endpoint that you can call for inference.
 
 <Note>
-`weave deploy` requires your machine to have `gcloud` installed and configured. `weave deploy gcp` will use pre-configured configuration when not directly specified by command line arguments.
+`weave deploy` requires your machine to have `gcloud` installed and configured. `weave deploy gcp` uses your existing `gcloud` configuration when you don't specify settings directly with command-line arguments.
 </Note>
 
 To deploy a Weave model to Google Cloud, run:
 
-```
-weave deploy gcp <ref>
+```bash
+weave deploy gcp [REF]
 ```
 
-Once deployed, the terminal returns a URL using the following schema:
+After deployment, the command outputs a URL using the following schema. Visit the `/docs` path of the URL to interact with your deployed model.
 
-``` 
+```text
 Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!
 ```

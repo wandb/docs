@@ -1,6 +1,7 @@
 ---
 title: Codex plugin
 description: Trace Codex agentic sessions, LLM calls, and tool executions in W&B Weave.
+keywords: ["OpenAI Codex", "OTEL", "agent tracing", "Stop hook", "rollout"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
@@ -12,7 +13,7 @@ The Weave Codex plugin automatically traces every Codex turn and sends the struc
 The plugin reads Codex's own rollout session files (`~/.codex/sessions/**/rollout-*.jsonl`) to reconstruct spans. It runs entirely off Codex's critical path through a fire-and-forget Stop hook, so Codex never waits on the network.
 
 <Warning>
-By default, this plugin captures span content: your prompts, the model's responses and reasoning, tool-call arguments, and tool results (which include shell commands, command output, and file contents). This data is sent to your W&B Weave instance.
+By default, this plugin captures span content: your prompts, the model's responses and reasoning, tool-call arguments, and tool results. Tool results include shell commands, command output, and file contents. This data is sent to your Weave instance.
 
 PII scrubbing and sensitive-data redaction aren't implemented. To send structure, token usage, model, and timing only (with no prompts, code, or output), set `WEAVE_CODEX_CAPTURE_CONTENT=0`. If you can't send this data to Weave under your security or compliance requirements, don't install this plugin.
 </Warning>
@@ -20,20 +21,20 @@ PII scrubbing and sensitive-data redaction aren't implemented. To send structure
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) v20 or later.
-- [OpenAI Codex CLI](https://github.com/openai/codex) with the hooks system (recent versions).
+- [OpenAI Codex CLI](https://github.com/openai/codex) with the hooks system.
 - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
 - A Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) to receive traces.
 
 ## Install the plugin
 
 <Steps>
-  <Step title="Install the package:">
+  <Step title="Install the package">
     ```bash lines
     npm install -g weave-codex
     ```
   </Step>
 
-  <Step title="Set credentials and project:">
+  <Step title="Set credentials and project">
     ```bash lines
     wandb login
     export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
@@ -42,16 +43,16 @@ PII scrubbing and sensitive-data redaction aren't implemented. To send structure
     You can also set `WANDB_API_KEY` directly as an environment variable instead of using `wandb login`. See [Credential resolution order](#credential-resolution-order) for full precedence rules.
   </Step>
 
-  <Step title="Install the Stop hook:">
+  <Step title="Install the Stop hook">
     ```bash lines
     weave-codex install
     ```
 
-    This merges a Stop hook into `~/.codex/hooks.json`. The hook spawns a detached worker when each Codex turn completes, reads new rollout lines since a per-session cursor, reconstructs spans, and exports them to Weave.
+    This merges a Stop hook into `~/.codex/hooks.json`. When each Codex turn completes, the hook spawns a detached worker that reads new rollout lines since a per-session cursor, reconstructs spans, and exports them to Weave.
   </Step>
 
-  <Step title="Approve the hook in Codex:">
-    Codex marks newly-added hooks as untrusted and won't run them until you approve. On your next `codex` launch, approve the `weave-codex` hook when prompted.
+  <Step title="Approve the hook in Codex">
+    Codex marks newly added hooks as untrusted and won't run them until you approve. On your next `codex` launch, approve the `weave-codex` hook when prompted.
 
     Alternatively, set `bypass_hook_trust = true` in `~/.codex/config.toml` to skip the prompt.
 
@@ -63,7 +64,7 @@ Now you can run Codex normally, and each completed turn appears in Weave within 
 
 ## View Codex traces in Weave
 
-After running at least one Codex session, open your project in the Weave UI:
+After installing the plugin and running at least one Codex session, you can inspect the captured traces in the Weave UI. To open your project:
 
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
 2. In the sidebar, select **Agents** for the multi-turn chat view and per-agent version grouping, or select **Traces** for the raw span tree.
@@ -75,7 +76,7 @@ The plugin emits one OTEL trace per Codex turn, following the [GenAI semantic co
 
 | Span | Emitted on | Key attributes |
 |---|---|---|
-| `invoke_agent codex` | Per turn (root span) | Agent name/version, `gen_ai.conversation.id`, model, summed token usage, user prompt and final answer (when content capture is on) |
+| `invoke_agent codex` | Per turn (root span) | Agent name or version, `gen_ai.conversation.id`, model, summed token usage, user prompt and final answer (when content capture is on) |
 | `chat <model>` | Per model call | `gen_ai.usage.*` (input, output, cached, reasoning tokens), finish reason, `server.address`, assistant output (when content capture is on) |
 | `execute_tool <name>` | Per tool execution | `gen_ai.tool.name`, `gen_ai.tool.call.id`, arguments and result (when content capture is on), and MCP calls also carry `mcp.server.name` |
 
@@ -86,12 +87,12 @@ Traces also render in any OTEL-compatible backend, since all attributes follow t
 ### Known limitations
 
 - The `codex` (interactive TUI) and `codex exec` commands are supported. The `codex mcp` and `app-server` commands are not covered because they fire no hooks.
-- A spawned subagent appears as its `spawn_agent` tool call only. Its own model calls and tool executions are not yet captured.
-- The Stop hook does not fire on aborted or errored turns, so those are not captured.
+- A spawned subagent appears as its `spawn_agent` tool call only. Its own model calls and tool executions aren't captured.
+- The Stop hook doesn't fire on aborted or errored turns, so those aren't captured.
 
 ## Configuration reference
 
-Configuration and runtime files are stored in `~/.weave-codex/`, including `settings.json`, the hook shim, per-session cursors, and the log file at `logs/collector.log`.
+This section lists the settings you can use to customize plugin behavior. Configuration and runtime files are stored in `~/.weave-codex/`, including `settings.json`, the hook shim, per-session cursors, and the log file at `logs/collector.log`.
 
 | Setting | Environment variable | `settings.json` key | Default |
 |---|---|---|---|
@@ -103,7 +104,7 @@ Configuration and runtime files are stored in `~/.weave-codex/`, including `sett
 
 ### Credential resolution order
 
-Credentials are resolved in this order:
+The plugin resolves credentials in this order:
 
 1. Environment variables (`WANDB_API_KEY`, `WEAVE_PROJECT`).
 2. `~/.weave-codex/settings.json`.
@@ -125,7 +126,7 @@ You can use these CLI commands to check plugin status or troubleshoot issues:
 weave-codex status
 ```
 
-Each line shows `✓` (OK), `✗` (action needed), or `-` (not yet active but not an error). If turns aren't appearing in Weave, check the collector log:
+Each line shows `✓` (OK), `✗` (action needed), or `-` (not yet active but not an error). If turns don't appear in Weave, check the collector log:
 
 ```bash lines
 cat ~/.weave-codex/logs/collector.log
@@ -133,22 +134,22 @@ cat ~/.weave-codex/logs/collector.log
 
 ## Troubleshooting
 
-The collector log at `~/.weave-codex/logs/collector.log` is the primary diagnostic source. Errors are always logged regardless of the `debug` setting.
+The following sections describe common issues and how to resolve them. The collector log at `~/.weave-codex/logs/collector.log` is the primary diagnostic source. The plugin always logs errors regardless of the `debug` setting.
 
 ### No traces appear after running Codex
 
 1. Run `weave-codex status`. Confirm all checks pass.
 2. Confirm the hook is trusted. If you skipped the approval prompt on first launch, run `codex` again and approve when prompted, or set `bypass_hook_trust = true` in `~/.codex/config.toml`.
 3. Confirm `WEAVE_PROJECT` is set to a valid `entity/project` slug. `weave-codex status` prints the resolved project.
-4. Confirm the auth source. `weave-codex status` prints the resolved credential source. If it shows `WANDB_API_KEY env` but you set the key elsewhere, the plugin is reading the wrong value.
+4. Confirm the auth source. `weave-codex status` prints the resolved credential source. If it shows `WANDB_API_KEY env` but you set the key elsewhere, the plugin reads the wrong value.
 
 ### Turns appear but input/output text is empty
 
-Content capture may be disabled. Check that `WEAVE_CODEX_CAPTURE_CONTENT` is not set to `0` and that `capture_content` is not set to `false` in `~/.weave-codex/settings.json`.
+Content capture may be disabled. Check that `WEAVE_CODEX_CAPTURE_CONTENT` isn't set to `0` and that `capture_content` isn't set to `false` in `~/.weave-codex/settings.json`.
 
 ### Errors sending traces to Weave
 
-If the plugin is active and spans are being generated but not appearing in Weave, check the collector log for an export error and match it against the table below.
+If the plugin is active and generates spans that don't appear in Weave, check the collector log for an export error and match it against this table.
 
 | Symptom | Most likely cause | Fix |
 |---|---|---|

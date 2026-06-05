@@ -1,19 +1,24 @@
 ---
 title: "Disable tracing"
 description: "Learn options to disable or conditionally turn off W&B Weave tracing"
+keywords: ["WEAVE_DISABLED", "tracing_disabled", "context manager", "disabled flag"]
 ---
 
-There are different options available to control the level of Weave tracing in your application, depending on your environment and needs.
+This page describes how to disable W&B Weave tracing in your application. Use these options when you want to prevent traces from being logged, for example, during local development, in test environments, or for specific code paths where tracing isn't needed. Choose the approach that best matches the scope of control you need: program-wide, per-client, or per-code-block.
 
 ## Environment variable
 
-In situations where you want to unconditionally disable tracing for the entire program, you can set the environment variable `WEAVE_DISABLED=true`.
+Use an environment variable when you want to disable tracing for the entire program without modifying application code.
 
-`WEAVE_DISABLED` is read only once, at function-definition time. This variable cannot be used to toggle tracing at runtime.
+To unconditionally disable tracing for the entire program, set the environment variable `WEAVE_DISABLED=true`.
+
+`WEAVE_DISABLED` is read only once, at function-definition time. You can't use this variable to toggle tracing at runtime.
 
 ## Client initialization
 
-Sometimes, you may want to conditionally enable tracing for a specific initialization based on some condition. In this case, you can initialize the client with the `disabled` flag in init settings.
+Use the client `disabled` setting when you want to control tracing based on runtime conditions at the point where you initialize the Weave client.
+
+To conditionally enable tracing for a specific initialization based on a runtime condition, initialize the client with the `disabled` flag in init settings.
 
 <Tabs>
   <Tab title="Python">
@@ -33,7 +38,9 @@ client = weave.init(..., settings={"disabled": True})
 
 ## Context manager
 
-To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. Use it in application code to scope which calls should not be logged.
+Use the context manager when you want fine-grained control over tracing within a specific block of code, while leaving tracing enabled elsewhere in your application.
+
+To conditionally disable tracing for a specific block of code, use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. Use it in application code to scope which calls shouldn't be logged.
 
 <Tabs>
   <Tab title="Python">
@@ -58,7 +65,7 @@ with tracing_disabled():
   </Tab>
 </Tabs>
 
-Although tracing behavior is fixed when functions are defined, this can be used for runtime control when combined with application logic. For example, you can wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
+Although tracing behavior is fixed when functions are defined, you can use this for runtime control when you combine it with application logic. For example, wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
 
 <Tabs>
   <Tab title="Python">

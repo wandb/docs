@@ -3,7 +3,9 @@ title: "Haystack"
 description: "Trace Deepset Haystack pipelines with W&B Weave using the WeaveConnector integration."
 ---
 
-[Haystack](https://haystack.deepset.ai/) is an open source framework for building search and LLM applications. Deepset maintains a WeaveConnector component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
+[Haystack](https://haystack.deepset.ai/) is an open-source framework for building search and LLM applications. Deepset maintains a WeaveConnector component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
+
+This guide is for Haystack developers who want to add observability to their pipelines. After you complete it, you have a Haystack pipeline that emits traces to a W&B Weave project, where you can debug component behavior and monitor LLM calls.
 
 For full API details and additional examples, see these Deepset resources:
 
@@ -13,9 +15,9 @@ For full API details and additional examples, see these Deepset resources:
 
 ## Prerequisites
 
-Before you begin:
+Before you begin, you must complete the following:
 
-- Set `WANDB_API_KEY` in your environment using your W&B [API key](https://wandb.ai/settings).
+- Set `WANDB_API_KEY` in your environment using your W&B [API key](https://wandb.ai/settings). This authenticates the connector with W&B Weave.
 - Set `HAYSTACK_CONTENT_TRACING_ENABLED` to `true` before you run a pipeline so Haystack emits tracing data the connector can forward.
 
 ## Install
@@ -30,7 +32,7 @@ The package declares compatible versions of `haystack-ai` and `weave` as depende
 
 ## Trace a Haystack pipeline with Weave
 
-The following example adds Haystack's `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) and integrates with W&B Weave for tracing and monitoring your pipeline components. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
+The following example adds Haystack's `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) and integrates with W&B Weave to trace and monitor your pipeline components. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
 
 In your Haystack pipeline, don't connect `WeaveConnector` to other components.
 

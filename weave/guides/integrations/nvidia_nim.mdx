@@ -1,9 +1,10 @@
 ---
 title: "NVIDIA NIM"
-description: "Use Weave to trace and log LLM calls made via the ChatNVIDIA library"
+description: "Use Weave to trace and log LLM calls made through the ChatNVIDIA library"
+keywords: ["ChatNVIDIA", "langchain-nvidia-ai-endpoints", "LLM tracing", "NIM"]
 ---
 
-Weave automatically tracks and logs LLM calls made via the [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) library, after `weave.init()` is called.
+Weave automatically tracks and logs LLM calls made through the [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) library after you call `weave.init()`. This guide shows Python developers using ChatNVIDIA how to capture traces, wrap their own functions as ops, and organize experiments with Weave's `Model` class so they can debug, iterate on, and compare LLM applications more efficiently.
 
 <Tip>
 For the latest tutorials, visit [Weights & Biases on NVIDIA](https://wandb.ai/site/partners/nvidia).
@@ -11,13 +12,13 @@ For the latest tutorials, visit [Weights & Biases on NVIDIA](https://wandb.ai/si
 
 ## Tracing
 
-It’s important to store traces of LLM applications in a central database, both during development and in production. You’ll use these traces for debugging and to help build a dataset of tricky examples to evaluate against while improving your application.
+Storing traces of LLM applications in a central database, both during development and in production, helps you debug issues and build a dataset of tricky examples to evaluate against while you improve your application. The following section shows how to enable automatic tracing for ChatNVIDIA calls.
 
 <Tabs>
   <Tab title="Python">
-    Weave can automatically capture traces for the [ChatNVIDIA python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
+    Weave can automatically capture traces for the [ChatNVIDIA Python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
 
-    Start capturing by calling `weave.init(<project-name>)` with a project name your choice.
+    Start capturing by calling `weave.init([PROJECT-NAME])` with a project name of your choice.
 
     ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
@@ -33,6 +34,8 @@ It’s important to store traces of LLM applications in a central database, both
 
     response = client.invoke(messages)
     ```
+
+    After you run this code, Weave captures the ChatNVIDIA call under the project name you specified, where you can inspect the inputs, outputs, and metadata.
 
   </Tab>
   <Tab title="TypeScript">
@@ -50,11 +53,11 @@ It’s important to store traces of LLM applications in a central database, both
 
 <Tabs>
   <Tab title="Python">
-Wrapping a function with `@weave.op` starts capturing inputs, outputs and app logic so you can debug how data flows through your app. You can deeply nest ops and build a tree of functions that you want to track. This also starts automatically versioning code as you experiment to capture ad-hoc details that haven't been committed to git.
+Wrapping a function with `@weave.op` starts capturing inputs, outputs, and app logic so you can debug how data flows through your app. You can deeply nest ops and build a tree of functions that you want to track. This also starts automatic code versioning as you experiment to capture ad-hoc details that you haven't committed to Git.
 
-Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops) that calls into [ChatNVIDIA python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
+Create a function decorated with [`@weave.op`](/weave/guides/tracking/ops) that calls into [ChatNVIDIA Python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
 
-In the example below, we have 2 functions wrapped with op. This helps us see how intermediate steps, like the retrieval step in a RAG app, are affecting how our app behaves.
+In the following example, two functions are wrapped with op. This shows you how intermediate steps, like the retrieval step in a RAG app, affect how your app behaves.
 
     ```python lines {1,9,11,29,31,33}
     import weave
@@ -104,7 +107,7 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
 
-Navigate to Weave and you can click `get_pokemon_data` in the UI to see the inputs & outputs of that step.
+Navigate to Weave and click `get_pokemon_data` in the UI to see the inputs and outputs of that step.
 </Tab>
 <Tab title="TypeScript">
     ```plaintext
@@ -121,11 +124,11 @@ Navigate to Weave and you can click `get_pokemon_data` in the UI to see the inpu
 
 <Tabs>
   <Tab title="Python">
-    Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app.
+    Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps you organize and compare different iterations of your app.
 
-    In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application’s behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
+    In addition to versioning code and capturing inputs and outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application's behavior, making it straightforward to find what parameters worked best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
 
-    In the example below, you can experiment with `model` and `system_message`. Every time you change one of these, you'll get a new _version_ of `GrammarCorrectorModel`.
+    In the following example, you can experiment with `model` and `system_message`. Every time you change one of these, you get a new _version_ of `GrammarCorrectorModel`.
 
     ```python lines
     import weave
@@ -173,5 +176,7 @@ Navigate to Weave and you can click `get_pokemon_data` in the UI to see the inpu
 
 ## Usage info
 
-The ChatNVIDIA integration supports `invoke`, `stream` and their async variants. It also supports tool use. 
-As ChatNVIDIA is meant to be used with many types of models, it does not have function calling support.
+The following notes describe what the ChatNVIDIA integration supports.
+
+The ChatNVIDIA integration supports `invoke`, `stream`, and their async variants. It also supports tool use.
+Because ChatNVIDIA is meant for use with many types of models, it doesn't have function calling support.

@@ -1,19 +1,22 @@
 ---
 title: Trace sub-agents
-description: Trace nested agents and agents that have been delegated tasks using Weave the Weave sub-agent span.
+description: Trace nested agents and agents delegated tasks using the Weave sub-agent span.
+keywords: ["sub-agents", "invoke_agent", "OTel spans", "multi-agent", "start_subagent"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
+This guide shows you how to use W&B Weave to trace sub-agents so that delegated agent invocations appear as nested spans in the same trace as the parent turn. Tracing sub-agents lets you see the full hierarchy of an agent's reasoning, including which specialist agents the parent called, what they did, and how they contributed to the final answer. This guide is for developers instrumenting multi-agent systems with Weave.
+
 A sub-agent is a delegated agent invocation that runs inside a turn. Use sub-agents when one agent hands off to another, such as when a supervisor agent dispatches a specialist agent.
 
-When instrumented using Weave, sub-agents emit a nested `invoke_agent` OTel span in the same trace as the parent turn. In the **Agents** view, this nesting renders as a sub-agent invocation under the turn that triggered it, with its own LLM calls and tool calls grouped beneath.
+When you instrument them with Weave, sub-agents emit a nested `invoke_agent` OpenTelemetry (OTel) span in the same trace as the parent turn. In the **Agents** view, this nesting renders as a sub-agent invocation under the turn that triggered it, with its own LLM calls and tool calls grouped beneath.
 
 ## Sub-agent data model
 
-The `weave.start_subagent` span maps to the OTel `invoke_agent` span and emits the same operation name as the parent turn. Weave distinguishes the two by their parent-child relationship in the trace:
+Before instrumenting your code, it helps to understand how Weave represents sub-agents in a trace. The `weave.start_subagent` span maps to the OTel `invoke_agent` span and emits the same operation name as the parent turn. Weave distinguishes the two by their parent-child relationship in the trace:
 
 ```plaintext
 Turn (invoke_agent — root span)
@@ -24,7 +27,7 @@ Turn (invoke_agent — root span)
 └── LLM call (chat)              ← parent agent synthesizes the final answer
 ```
 
-Sub-agents inherit the active session's `conversation_id`, so they're grouped with the rest of the conversation in the Agents view.
+Sub-agents inherit the active session's `conversation_id`, so they're grouped with the rest of the conversation in the **Agents** view.
 
 ```python lines
 sub = weave.start_subagent(
@@ -33,16 +36,15 @@ sub = weave.start_subagent(
 )
 ```
 
-`weave.start_subagent` creates an `invoke_agent` span that automatically becomes a child of whatever span is currently active in OTel context, typically the parent turn or the LLM call that triggered the delegation. OTel context propagation handles the parent-child relationship, so no explicit delegation is needed.
+`weave.start_subagent` creates an `invoke_agent` span that automatically becomes a child of whatever span is currently active in OTel context, typically the parent turn or the LLM call that triggered the delegation. OTel context propagation handles the parent-child relationship, so you don't need explicit delegation.
 
 ## Trace a single sub-agent
 
-The following example runs a supervisor agent that receives a request and delegates it a research-specialist sub-agent that uses a Wikipedia search tool to find the answer.
+The following example runs a supervisor agent that receives a request and delegates it to a research-specialist sub-agent that uses a Wikipedia search tool to find the answer.
 
-Weave captures the full hierarchy by wrapping the conversation in `weave.start_session` and then a `session.start_turn`. Weave then captures the sub-agent trace using the `weave.start_subagent` block for the specialist, and recording each LLM call and tool execution as child spans.
+Weave captures the full hierarchy by wrapping the conversation in `weave.start_session` and then a `session.start_turn`. Weave then captures the sub-agent trace using the `weave.start_subagent` block for the specialist, and records each LLM call and tool execution as child spans.
 
-We have intentionally omitted the routing logic in these examples to focus on the tracing between agents.
-
+The routing logic is intentionally omitted from these examples to focus on the tracing between agents.
 
 ```python lines highlight="4,10,16,22,30"
 import weave
@@ -79,13 +81,13 @@ with weave.start_session(agent_name="supervisor") as session:
             llm.usage = Usage(input_tokens=300, output_tokens=20)
 ```
 
-In the Agents view, the sub-agent appears as a nested `invoke_agent` block inside the turn, with its own LLM calls and tool calls grouped beneath. The supervisor's direct LLM calls remain siblings of the sub-agent.
+In the **Agents** view, the sub-agent appears as a nested `invoke_agent` block inside the turn, with its own LLM calls and tool calls grouped beneath. The supervisor's direct LLM calls remain siblings of the sub-agent.
 
 ## Trace multiple sub-agents
 
 The following example runs a content-pipeline agent that handles a single request by delegating to three sibling sub-agents in sequence: a `researcher` that gathers facts, a `writer` that drafts the post, and a `reviewer` that polishes the final output.
 
-Weave captures all three sub-agents as siblings under the same turn by opening a separate `weave.start_subagent` block for each. Because each sub-agent inherits the active turn's OTel context, they appear as peer `invoke_agent` spans nested under the turn rather than under each other.
+Weave captures all three sub-agents as siblings under the same turn by opening a separate `weave.start_subagent` block for each. Because each sub-agent inherits the active turn's OTel context, the sub-agents appear as peer `invoke_agent` spans nested under the turn rather than under each other.
 
 ```python lines highlight="1,5,11,15,22"
 with weave.start_session(agent_name="content-pipeline") as session:
@@ -116,9 +118,9 @@ with weave.start_session(agent_name="content-pipeline") as session:
                 sub_llm.usage = Usage(input_tokens=200, output_tokens=140)
 ```
 
-In the Agents view, the turn contains three sibling sub-agent invocations, each with its own LLM call nested beneath, and the `researcher` includes its tool call. None of the sub-agents are children of each other.
+In the **Agents** view, the turn contains three sibling sub-agent invocations, each with its own LLM call nested beneath, and the `researcher` includes its tool call. None of the sub-agents are children of each other.
 
-### Trace nested sub-agents
+## Trace nested sub-agents
 
 A sub-agent can itself delegate to another sub-agent. Each `start_subagent` call nests under whatever span is currently active in OTel context.
 
@@ -157,4 +159,4 @@ turn (invoke_agent)
         └── chat
 ```
 
-In the Agents view, `research-coordinator` appears as a sub-agent of the turn, `anthropic-researcher` and `openai-researcher` appear as siblings under the coordinator, and `anthropic-summarizer` appears as a sub-agent of `anthropic-researcher`.
+In the **Agents** view, `research-coordinator` appears as a sub-agent of the turn, `anthropic-researcher` and `openai-researcher` appear as siblings under the coordinator, and `anthropic-summarizer` appears as a sub-agent of `anthropic-researcher`.
