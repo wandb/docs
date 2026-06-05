@@ -6,7 +6,7 @@ keywords: ["wandb.init", "run.log", "log_artifact", "hyperparameters", "training
 
 Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](/models/ref/python/public-api/).
 
-This guide describes how to use W&B building blocks to create a W&B Experiment so you can capture hyperparameters, log metrics, and save model artifacts for later analysis and comparison. It's intended for users who train machine learning models in Python and want to track their work with W&B.
+This guide describes how to use W&B building blocks to create a W&B Experiment so you can capture hyperparameters, log metrics, and save model artifacts for later analysis and comparison. This page is for you if you train machine learning models in Python and want to track your work with W&B.
 
 ## Create a W&B Experiment
 
@@ -86,7 +86,7 @@ Learn more about [Artifacts](/models/artifacts/) or about versioning models in [
 
 ### Complete example
 
-The following script combines the preceding code snippets into a complete experiment that initializes a run, captures configuration, logs metrics, and saves a model artifact:
+The following script combines the previous code snippets into a complete experiment that initializes a run, captures configuration, logs metrics, and saves a model artifact:
 
 ```python
 import wandb
@@ -142,7 +142,7 @@ The following are some suggested guidelines to consider when you create experime
 - **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags. You can edit tags later on the Overview section of your project's dashboard on the W&B App.
 - **Create multiple run sets to compare experiments**: When you compare experiments, create multiple run sets to make metrics easy to compare. You can toggle run sets on or off on the same chart or group of charts.
 
-The following code snippet demonstrates how to define a W&B Experiment using the preceding best practices:
+The following code snippet demonstrates how to define a W&B Experiment using the previous best practices:
 
 ```python
 import wandb

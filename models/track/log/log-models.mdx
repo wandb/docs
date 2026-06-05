@@ -9,7 +9,7 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 # Log models
 
-This guide shows you how to log model files to a W&B run as a model artifact, and how to retrieve and reuse those files in later runs. Logging models to a run lets you track which experiment produced a given model, capture its lineage, and make it available for downstream use. This page is for users who want lightweight model tracking as part of an experiment tracking workflow.
+This guide shows you how to log model files to a W&B run as a model artifact, and how to retrieve and reuse those files in later runs. Logging models to a run lets you track which experiment produced a given model, capture its lineage, and make it available for downstream use. Use this page if you want lightweight model tracking as part of an experiment tracking workflow.
 
 <Note>
 The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to log models to a run, and to access metrics, tables, media, and other objects.
@@ -137,7 +137,7 @@ with wandb.init(project="[YOUR-PROJECT]", entity="[YOUR-ENTITY]") as run:
     downloaded_model_path = run.use_model(name="[YOUR-MODEL-NAME]")
 ```
 
-The [`use_model`](/models/ref/python/experiments/run#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+The [`use_model`](/models/ref/python/experiments/run#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the previous code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 

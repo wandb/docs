@@ -55,14 +55,14 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-The `wandb.init()` API spawns a new background process to log data to a run, and it synchronizes data to `wandb.ai` by default. View live visualizations on your W&B Workspace Dashboard. The following image shows the output of the preceding code snippet.
+The `wandb.init()` API spawns a new background process to log data to a run, and it synchronizes data to `wandb.ai` by default. View live visualizations on your W&B Workspace Dashboard. The following image shows the output of the previous code snippet.
 
 <Frame>
     <img src="/images/track/import_csv_tutorial.png" alt="CSV file imported into W&B Dashboard" />
 </Frame>
 
 
-The full script with the preceding code snippets follows:
+The full script with the previous code snippets follows:
 
 ```python
 import wandb
@@ -175,7 +175,7 @@ run.summary.update(summaries)
 
 For more information about summary metrics, see [Log summary metrics](./log-summary).
 
-The following full example script converts the preceding sample table into a [W&B Dashboard](/models/track/workspaces/):
+The following full example script converts the previous sample table into a [W&B Dashboard](/models/track/workspaces/):
 
 ```python
 FILENAME = "experiments.csv"

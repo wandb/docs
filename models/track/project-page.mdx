@@ -323,7 +323,7 @@ From a team's landing page:
 1. Click **Create project**.
 </Tab>
 <Tab title="Python SDK">
-To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, it is created automatically, and is owned by the specified entity. For example:
+To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, W&B creates it automatically and assigns ownership to the specified entity. For example:
 
 ```python
 import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})

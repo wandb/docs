@@ -45,25 +45,25 @@ Use these optional environment variables to do things such as set up authenticat
 | `WANDB_DATA_DIR` | Where to upload staging artifacts. The default location depends on your platform, because it uses the value of `user_data_dir` from the `platformdirs` Python package. Make sure this directory exists and the running user has permission to write to it. |
 | `WANDB_DIR` | Where to store all generated files. If unset, defaults to the `wandb` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This doesn't control the location of downloaded artifacts, which you can set using the `WANDB_ARTIFACT_DIR` environment variable. |
 | `WANDB_ARTIFACT_DIR` | Where to store all downloaded artifacts. If unset, defaults to the `artifacts` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This doesn't control the location of generated metadata files, which you can set using the `WANDB_DIR` environment variable. |
-| `WANDB_DISABLE_GIT` | Prevents `wandb` from probing for a Git repository and capturing the latest commit and diff. |
-| `WANDB_DISABLE_CODE` | Set this to `true` to prevent `wandb` from saving notebooks or Git diffs. `wandb` still saves the current commit if you're in a Git repo. |
+| `WANDB_DISABLE_GIT` | Prevents W&B from probing for a Git repository and capturing the latest commit and diff. |
+| `WANDB_DISABLE_CODE` | Set this to `true` to prevent W&B from saving notebooks or Git diffs. W&B still saves the current commit if you're in a Git repo. |
 | `WANDB_DOCKER` | Set this to a Docker image digest to enable restoring of runs. This is set automatically with the `wandb docker` command. You can obtain an image digest by running `wandb docker [IMAGE_NAME]:[TAG] --digest`. |
-| `WANDB_ENTITY` | The entity associated with your run. If you have run `wandb init` in the directory of your training script, `wandb` creates a directory named `wandb` and saves a default entity, which you can check into source control. If you don't want to create that file or want to override the file, use the environment variable. |
-| `WANDB_ERROR_REPORTING` | Set this to `false` to prevent `wandb` from logging fatal errors to its error tracking system. |
-| `WANDB_HOST` | Set this to the hostname you want to see in the `wandb` interface if you don't want to use the system-provided hostname. |
-| `WANDB_IGNORE_GLOBS` | Set this to a comma-separated list of file globs to ignore. `wandb` doesn't sync these files to the cloud. |
-| `WANDB_JOB_NAME` | Specifies a name for any jobs created by `wandb`. |
+| `WANDB_ENTITY` | The entity associated with your run. If you have run `wandb init` in the directory of your training script, W&B creates a directory named `wandb` and saves a default entity, which you can check into source control. If you don't want to create that file or want to override the file, use the environment variable. |
+| `WANDB_ERROR_REPORTING` | Set this to `false` to prevent W&B from logging fatal errors to its error tracking system. |
+| `WANDB_HOST` | Set this to the hostname you want to see in the W&B interface if you don't want to use the system-provided hostname. |
+| `WANDB_IGNORE_GLOBS` | Set this to a comma-separated list of file globs to ignore. W&B doesn't sync these files to the cloud. |
+| `WANDB_JOB_NAME` | Specifies a name for any jobs created by W&B. |
 | `WANDB_JOB_TYPE` | Specifies the job type, such as `training` or `evaluation`, to indicate different types of runs. See [grouping](/models/runs/grouping/) for more info. |
-| `WANDB_MODE` | If you set this to `offline`, `wandb` saves your run metadata locally and doesn't sync to the server. If you set this to `disabled`, `wandb` turns off completely. |
-| `WANDB_NAME` | The human-readable name of your run. If not set, `wandb` randomly generates it for you. |
-| `WANDB_NOTEBOOK_NAME` | If you're running in Jupyter, you can set the name of the notebook with this variable. `wandb` attempts to autodetect this. |
+| `WANDB_MODE` | If you set this to `offline`, W&B saves your run metadata locally and doesn't sync to the server. If you set this to `disabled`, W&B turns off completely. |
+| `WANDB_NAME` | The human-readable name of your run. If not set, W&B randomly generates it for you. |
+| `WANDB_NOTEBOOK_NAME` | If you're running in Jupyter, you can set the name of the notebook with this variable. W&B attempts to autodetect this. |
 | `WANDB_NOTES` | Longer notes about your run. Markdown is allowed, and you can edit this later in the UI. |
 | `WANDB_PROJECT` | The project associated with your run. You can also set this with `wandb init`, but the environment variable overrides the value. |
-| `WANDB_RESUME` | By default, this is set to `never`. If set to `auto`, `wandb` automatically resumes failed runs. If set to `must`, forces the run to exist on startup. If you want to always generate your own unique IDs, set this to `allow` and always set `WANDB_RUN_ID`. |
+| `WANDB_RESUME` | By default, this is set to `never`. If set to `auto`, W&B automatically resumes failed runs. If set to `must`, forces the run to exist on startup. If you want to always generate your own unique IDs, set this to `allow` and always set `WANDB_RUN_ID`. |
 | `WANDB_RUN_GROUP` | Specifies the experiment name to automatically group runs together. See [grouping](/models/runs/grouping/) for more info. |
-| `WANDB_RUN_ID` | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. `wandb` converts all non-word characters to dashes. You can use this to resume an existing run in cases of failure. |
-| `WANDB_QUIET` | Set this to `true` to limit statements logged to standard output to critical statements only. If this is set, `wandb` writes all logs to `$WANDB_DIR/debug.log`. |
-| `WANDB_SILENT` | Set this to `true` to silence `wandb` log statements. This is useful for scripted commands. If this is set, `wandb` writes all logs to `$WANDB_DIR/debug.log`. |
+| `WANDB_RUN_ID` | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. W&B converts all non-word characters to dashes. You can use this to resume an existing run in cases of failure. |
+| `WANDB_QUIET` | Set this to `true` to limit statements logged to standard output to critical statements only. If this is set, W&B writes all logs to `$WANDB_DIR/debug.log`. |
+| `WANDB_SILENT` | Set this to `true` to silence `wandb` log statements. This is useful for scripted commands. If this is set, W&B writes all logs to `$WANDB_DIR/debug.log`. |
 | `WANDB_SHOW_RUN` | Set this to `true` to automatically open a browser with the run URL if your operating system supports it. |
 | `WANDB_SWEEP_ID` | Adds sweep ID tracking to `Run` objects and related classes, and displays it in the UI. |
 | `WANDB_TAGS` | A comma-separated list of tags to apply to the run. |
@@ -72,7 +72,7 @@ Use these optional environment variables to do things such as set up authenticat
 
 ## Singularity environments
 
-If you're running containers in [Singularity](https://singularity.lbl.gov/index.html), you can pass environment variables by prepending any of the preceding variables with `SINGULARITYENV_`. For more details about Singularity environment variables, see the [Singularity documentation](https://singularity.lbl.gov/docs-environment-metadata#environment).
+If you're running containers in [Singularity](https://singularity.lbl.gov/index.html), you can pass environment variables by prepending any of the previous variables with `SINGULARITYENV_`. For more details about Singularity environment variables, see the [Singularity documentation](https://singularity.lbl.gov/docs-environment-metadata#environment).
 
 ## Run on AWS
 

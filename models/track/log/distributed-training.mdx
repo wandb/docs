@@ -4,7 +4,7 @@ title: Log distributed training experiments
 keywords: ["DDP", "PyTorch distributed", "multi-node training", "shared mode", "rank 0"]
 ---
 
-During a distributed training experiment, you train a model using multiple machines or clients in parallel. W&B can help you track distributed training experiments so that you can monitor metrics, system utilization, and model behavior across all participating processes. This guide is for ML practitioners running distributed training jobs who want to log experiment data with W&B.
+During a distributed training experiment, you train a model using multiple machines or clients in parallel. W&B can help you track distributed training experiments so that you can monitor metrics, system utilization, and model behavior across all participating processes. Use this guide if you run distributed training jobs and want to log experiment data with W&B.
 
 Based on your use case, track distributed training experiments using one of the following approaches:
 
@@ -20,7 +20,7 @@ Each concurrent connection takes compute, memory, and network resources. Even em
 
 W&B recommends that you limit the maximum number of concurrent client connections as appropriate for your workload and that you monitor resource usage over time. W&B has tested with a hard limit of 300 concurrent client connections in Dedicated Cloud.
 
-In Multi-tenant Cloud organizations, client connections for distributed training are subject to the same [rate limits](/models/track/limits#rate-limits) as regular training runs. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
+In Multi-tenant Cloud organizations, client connections for distributed training are subject to the same [rate limits](/models/track/limits#rate-limits) as regular training runs. On [Teams and Enterprise plans](https://wandb.ai/site/pricing), you receive higher rate limits than on the Free plan.
 </Tip>
 
 {/* The following examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
@@ -115,7 +115,7 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
     <img src="/images/experiments/dashboard_grouped_runs.png" alt="Grouped distributed runs"  />
 </Frame>
 
-The preceding image demonstrates the W&B App UI dashboard. The sidebar shows two experiments: one labeled "null" and a second (bound by a yellow box) called "DPP". Expand the group (select the **Group** dropdown) to see the runs associated with that experiment.
+The previous image demonstrates the W&B App UI dashboard. The sidebar shows two experiments: one labeled "null" and a second (bound by a yellow box) called "DPP". Expand the group (select the **Group** dropdown) to see the runs associated with that experiment.
 
 ### Organize distributed runs
 
@@ -317,7 +317,7 @@ The following sections describe two common issues you might encounter when using
 - **Becoming unresponsive at the beginning of training**: A `wandb` process can stop responding if the `wandb` multiprocessing interferes with the multiprocessing from distributed training.
 - **Becoming unresponsive at the end of training**: A training job might stop responding if the `wandb` process can't determine when to exit. Call the `wandb.Run.finish()` API at the end of your Python script to signal W&B that the run finished. The `wandb.Run.finish()` API finishes uploading data and causes W&B to exit.
 
-W&B recommends using `wandb service` command to improve the reliability of your distributed jobs. Both of the preceding training issues commonly occur in versions of the W&B SDK where `wandb service` is unavailable.
+W&B recommends using `wandb service` command to improve the reliability of your distributed jobs. Both of the previous training issues commonly occur in versions of the W&B SDK where `wandb service` is unavailable.
 
 ### Enable W&B Service
 

@@ -296,7 +296,7 @@ Calling `api.runs` returns a `Runs` object that is iterable and acts like a list
 
 ### Error handling
 
-If errors occur while communicating with W&B servers, a `wandb.CommError` is raised. To introspect the original exception, use the `exc` attribute.
+If errors occur while communicating with W&B servers, W&B raises a `wandb.CommError`. To introspect the original exception, use the `exc` attribute.
 
 ### Get the latest git commit through the API
 

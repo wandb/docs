@@ -6,7 +6,7 @@ keywords: ["run.summary", "define_metric", "best accuracy", "summary dictionary"
 
 In addition to values that change over time during training, it's often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B run's `summary` dictionary. A run's summary dictionary can handle numpy arrays, PyTorch tensors, or TensorFlow tensors. When a value is one of these types, W&B persists the entire tensor in a binary file and stores high-level metrics in the summary object, such as min, mean, variance, and percentiles.
 
-The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B run. If you modify a summary metric dictionary, the previous value is lost.
+The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B run. If you modify a summary metric dictionary, you lose the previous value.
 
 The following code snippet demonstrates how to provide a custom summary metric to W&B:
 

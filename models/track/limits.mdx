@@ -418,7 +418,7 @@ For Multi-tenant Cloud:
 * Authorized requests are rate-limited per user.
 * Some SDK requests that specify a project path can also be limited per project based on database query time.
 
-Teams and Enterprise plans have higher limits than Free plans.
+If you're on a Teams or Enterprise plan, you have higher limits than on the Free plan.
 
 If you're making many public API requests, wait at least 1 second between requests when possible. If you receive HTTP `429 Rate limit exceeded` or see `RateLimit-Remaining=0`, wait for the number of seconds in `RateLimit-Reset` before retrying.
 
