@@ -13,7 +13,7 @@ Agent applications are hard to debug because the interesting behavior happens be
 
 ## Get started
 
-To enter the Agents view:
+To view agent activity:
 
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
 2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
@@ -287,48 +287,6 @@ You can alternatively view the child spans as a hierarchical trace tree by selec
 
 ## Signals tab
 
-The **Signals** tab shows the output of automated behavioral scoring applied
-to your agent's turns. Where the Conversations and Spans tabs tell you *what*
-happened, Signals tell you *how well* it happened. They surface quality issues
-like low-effort responses or hallucinations, and error conditions like rate
-limiting or bugs, without requiring you to read individual traces.
+The **Signals** tab shows tags and ratings for your agent's conversations. Signals surface quality and safety issues to flag problems, find patterns, and highlight the traces that need your attention. Use signals to automatically score the quality of your agent's responses, notice when a user is frustrated, or flag NSFW content.
 
-![The Signals tab showing a list of scored turns for the agent.](./imgs/agent-view-signals.png)
-
-### Signals table
-
-Each row represents one signal score applied to a turn. The following columns
-appear by default.
-
-| Column | Description |
-|---|---|
-| **Type** | The level at which the signal was scored. |
-| **Scorer** | The name of the signal that produced this score (for example, **Response Quality** or **User Satisfaction**). |
-| **Last message** | A preview of the last message in the scored turn, with the role shown below. |
-| **Agent** | The agent associated with the scored turn. |
-| **Scores** | The numeric score from 0 to 1. Scores near 0 indicate a detected issue. Scores near 1 indicate no issue detected. |
-| **Trend (24h)** | Score trend for this scorer over the past 24 hours. |
-| **When** | When the signal was scored. |
-
-Use the time window selector and **Filter** bar to narrow results by scorer,
-agent, score range, or time period.
-
-### Manage and edit signals
-
-Select **Manage signals** to open a drawer that lists all active signals for
-the project. From there you can toggle signals on or off, delete them, or
-click the edit icon on any signal to modify it.
-
-The signal editor has the following fields:
-
-| Field | Description |
-|---|---|
-| **Scorer type** | The scoring method. **Rating** emits a single numeric score in [0, 1] per agent turn. |
-| **Only score turns matching** | Optional filters to restrict which turns this signal scores. Multiple filters are combined with AND logic. Leave empty to score every turn. |
-| **Prompt template** | A preset template to use as a starting point for the scorer prompt. |
-| **Scorer prompt** | The full prompt sent to the scoring model. Supports template variables (`{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`) which are filled in at score time. |
-| **Scorer name** | The display name for this signal. |
-
-Select **+ New signal** to create a new scorer for your agent.
-
-For more information on built-in signals, see [Monitor using built-in signals](/weave/guides/evaluation/monitors).
+To learn more, see [Monitor your agents with signals](/weave/guides/tracking/view-agent-signals).
