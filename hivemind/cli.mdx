@@ -1,0 +1,234 @@
+---
+title: "HiveMind CLI"
+description: "The hivemind CLI manages the background daemon that syncs your coding sessions to HiveMind."
+---
+
+The `hivemind` CLI manages the background daemon that syncs your coding sessions to HiveMind.
+
+## Installation
+
+```bash
+# Homebrew (macOS / Linux)
+brew install wandb/tap/hivemind
+
+# pip / uv
+uv tool install wandb-hivemind
+```
+
+## Quick start
+
+```bash
+hivemind login    # Authenticate with GitHub
+hivemind start    # Start the daemon
+hivemind status   # Check that it's running
+```
+
+## Commands
+
+### Daemon management
+
+| Command            | Description                                  |
+| ------------------ | -------------------------------------------- |
+| `hivemind start`   | Start the daemon                             |
+| `hivemind stop`    | Stop the daemon                              |
+| `hivemind restart` | Stop and restart                             |
+| `hivemind status`  | Show PID, uptime, session counts             |
+| `hivemind logs`    | View daemon logs                             |
+| `hivemind doctor`  | Find and fix common problems                 |
+| `hivemind run`     | Run in foreground (used by service managers) |
+
+#### Starting the daemon
+
+`hivemind start` picks the right service manager for your platform and sets it up for you:
+
+- **macOS**: Homebrew services
+- **Linux**: systemd user service
+- **Fallback**: plain background process
+
+```bash
+# Normal start (uses your platform's service manager)
+hivemind start
+
+# Run in foreground for debugging
+hivemind start --foreground
+```
+
+#### Checking status
+
+```bash
+hivemind status
+```
+
+This prints a table with the PID, uptime, tracked sessions, pending events, and log file path. Add `--json` for machine-readable output.
+
+#### Viewing logs
+
+```bash
+# Recent logs
+hivemind logs
+
+# Follow in real-time
+hivemind logs -f
+
+# Last 50 lines
+hivemind logs -n 50
+```
+
+Where the log file lives depends on your setup:
+
+- **macOS (Homebrew)**: `$(brew --prefix)/var/log/hivemind.log`
+- **macOS (other)**: `~/Library/Logs/hivemind/hivemind.log`
+- **Linux**: `~/.local/state/hivemind/hivemind.log` or syslog
+
+#### Diagnosing issues
+
+```bash
+# See what's wrong
+hivemind doctor
+
+# Try to fix it automatically
+hivemind doctor --fix
+```
+
+This checks for stale lock files, corrupted credentials, and service state mismatches.
+
+### Authentication
+
+| Command           | Description                  |
+| ----------------- | ---------------------------- |
+| `hivemind login`  | Log in with GitHub           |
+| `hivemind logout` | Remove stored credentials    |
+| `hivemind whoami` | Show who you're logged in as |
+
+### Sessions
+
+| Command               | Description                   |
+| --------------------- | ----------------------------- |
+| `hivemind search`     | Search sessions by keyword    |
+| `hivemind transcript` | View a session transcript     |
+| `hivemind import`     | Bulk import existing sessions |
+| `hivemind export`     | Export session data           |
+| `hivemind resume`     | Resume a previous session     |
+| `hivemind insights`   | View session insights         |
+
+#### Searching sessions
+
+```bash
+# Search by keyword
+hivemind search "authentication bug"
+
+# Filter by repo
+hivemind search --repo myorg/myapp "refactor"
+```
+
+#### Importing sessions
+
+If you started using HiveMind after you already had agent sessions on disk, `import` backfills them:
+
+```bash
+# Import sessions from the last 90 days (default)
+hivemind import
+
+# Import everything, no matter how old
+hivemind config set import.max_age_days 0
+hivemind import
+```
+
+### Configuration
+
+All config lives in `~/.hivemind/config.toml`.
+
+| Command                         | Description                                 |
+| ------------------------------- | ------------------------------------------- |
+| `hivemind config show`          | Print all settings and where they came from |
+| `hivemind config get KEY`       | Get a single value                          |
+| `hivemind config set KEY VALUE` | Set a value                                 |
+| `hivemind config add KEY VALUE` | Append to a list                            |
+| `hivemind config reset KEY`     | Reset to default                            |
+| `hivemind config path`          | Print the config file path                  |
+
+#### Config reference
+
+| Key                          | Type   | Default                        | Description                         |
+| ---------------------------- | ------ | ------------------------------ | ----------------------------------- |
+| `server.endpoint`            | string | `https://hivemind.wandb.tools` | Backend API URL                     |
+| `dev.debug`                  | bool   | `false`                        | Enable debug logging                |
+| `web_sessions.enabled`       | bool   | `true`                         | Sync Claude web sessions            |
+| `web_sessions.poll_interval` | int    | `1800`                         | Web session poll interval (seconds) |
+| `import.max_age_days`        | int    | `90`                           | Max age for bulk import (0 = all)   |
+| `sessions.private`           | bool   | `false`                        | Make sessions private by default    |
+| `sessions.org_repos`         | list   | `[]`                           | Repos always visible to org         |
+| `sessions.private_repos`     | list   | `[]`                           | Repos always private                |
+
+#### Example config
+
+```toml
+# ~/.hivemind/config.toml
+
+[server]
+endpoint = "https://hivemind.wandb.tools"
+
+[dev]
+debug = false
+
+[web_sessions]
+enabled = true
+poll_interval = 1800
+
+[import]
+max_age_days = 90
+
+[sessions]
+private = false
+org_repos = ["myorg/shared-project"]
+private_repos = ["myorg/secret-project"]
+```
+
+### API command
+
+You can hit the backend API directly for debugging. The CLI handles auth for you.
+
+```bash
+# List sessions
+hivemind api /sessions
+
+# Get a specific session
+hivemind api /sessions/SESSION_ID
+
+# Query with parameters
+hivemind api /sessions -q limit=10 -q user_id=abc123
+
+# PUT request
+hivemind api -X PUT /sessions/SESSION_ID/summary
+
+# Raw JSON (no pretty-printing)
+hivemind api /stats/active-users --raw
+```
+
+| Flag            | Description                                 |
+| --------------- | ------------------------------------------- |
+| `-X, --method`  | HTTP method (GET, POST, PUT, DELETE, PATCH) |
+| `-q, --query`   | Query parameter as `key=value` (repeatable) |
+| `-d, --data`    | Request body (JSON string)                  |
+| `--raw`         | Skip pretty-printing, output raw JSON       |
+| `-v, --verbose` | Show request details                        |
+
+## Troubleshooting
+
+| Problem                          | Fix                                                   |
+| -------------------------------- | ----------------------------------------------------- |
+| Daemon won't start ("lock held") | `hivemind doctor --fix`                               |
+| Stale lock after a crash         | `rm ~/.hivemind/daemon.lock`                          |
+| "Not authenticated" after login  | `hivemind doctor --fix && hivemind login`             |
+| Daemon not responding            | `hivemind restart`                                    |
+| Permission errors on stop        | `hivemind doctor && hivemind stop --force`            |
+| systemd fails to start           | Check the logs: `journalctl --user -t hivemind -n 50` |
+
+## File locations
+
+| File                           | What it's for                                  |
+| ------------------------------ | ---------------------------------------------- |
+| `~/.hivemind/config.toml`      | Configuration                                  |
+| `~/.hivemind/credentials.json` | Auth tokens                                    |
+| `~/.hivemind/state.json`       | Sync state (which sessions have been uploaded) |
+| `~/.hivemind/daemon.lock`      | PID lock file                                  |

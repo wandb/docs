@@ -95,7 +95,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "product-models",
-                      "product-weave"
+                      "product-weave",
+                      "product-hivemind"
                     ]
                   },
                   {
@@ -781,6 +782,17 @@
                       "weave/details/support-weave"
                     ]
                   }
+                ]
+              },
+              {
+                "item": "W&B HiveMind",
+                "pages": [
+                  "hivemind",
+                  "hivemind/features",
+                  "hivemind/permissions",
+                  "hivemind/cli",
+                  "hivemind/bots",
+                  "hivemind/mdm"
                 ]
               },
               {
