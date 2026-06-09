@@ -1,15 +1,18 @@
 ---
 title: Nuages de points
 description: "Créez et personnalisez des nuages de points dans W&B pour comparer des runs et visualiser les relations entre les métriques d’expérience."
+keywords: ["ligne frontière", "comparaison d’hyperparamètres", "comparaison de runs", "paramètres du panneau"]
 ---
 
-Cette page explique comment utiliser les nuages de points dans W&amp;B.
+Utilisez les nuages de points dans W&amp;B pour comparer des runs et visualiser les relations entre les métriques d’expérience. Les nuages de points vous aident à repérer des tendances, des valeurs aberrantes et des compromis entre de nombreux runs, ce qui est utile pour ajuster les hyperparamètres ou comparer des variantes de modèle.
 
 <div id="use-case">
   ## Cas d’usage
 </div>
 
-Utilisez des nuages de points pour comparer plusieurs runs et visualiser les performances d’une expérience :
+Utilisez des nuages de points pour comparer plusieurs runs et visualiser les performances d’une expérience.
+
+Avec un nuage de points, vous pouvez :
 
 * Affichez des lignes pour les valeurs minimales, maximales et moyennes.
 * Personnalisez les infobulles des métadonnées.
@@ -42,19 +45,22 @@ Pour créer un nuage de points dans l’interface W&amp;B :
 4. Dans le menu **Add panels**, sélectionnez **Scatter plot**.
 5. Définissez les axes `x` et `y` pour tracer les données que vous souhaitez afficher. Vous pouvez également définir des valeurs minimale et maximale pour vos axes ou ajouter un axe `z`.
 6. Cliquez sur **Apply** pour créer le nuage de points.
-7. Affichez le nouveau nuage de points dans le panneau **Charts**.
+
+Le nouveau nuage de points apparaît dans le panneau **Charts**, avec les données que vous avez configurées.
 
 <div id="frontier-line-display-options">
   ## Options d’affichage de la ligne frontière
 </div>
 
-Sur un nuage de points, la *ligne frontière* relie les valeurs les plus hautes et les plus basses de l’axe Y observées jusque-là dans les données du graphique. Vous pouvez ajuster l’apparence de cette ligne et des points environnants dans les paramètres du graphique.
+Sur un nuage de points, la *ligne frontière* relie les valeurs les plus hautes et les plus basses de l’axe Y observées jusque-là dans les données du graphique. Vous pouvez ajuster l’apparence de cette ligne et des points environnants dans les paramètres du graphique pour mettre en évidence la frontière.
 
 Pour configurer les options d’affichage de la ligne frontière :
 
 1. Survolez le panneau du nuage de points, puis cliquez sur l’icône d’engrenage pour ouvrir le volet latéral des paramètres du panneau.
 2. Sélectionnez l’onglet **Annotations**.
-3. Définissez les options souhaitées :
+3. Définissez les options :
    * **Show run labels** : Basculez l’affichage d’une étiquette contenant le nom du run ou du groupe.
    * **Dim non-frontier points** : Basculez l’atténuation visuelle des points qui ne se trouvent pas sur la ligne frontière afin de mieux faire ressortir celle-ci.
 4. Cliquez sur **Apply** pour enregistrer vos modifications.
+
+Le nuage de points se met à jour pour refléter vos choix d’annotation.

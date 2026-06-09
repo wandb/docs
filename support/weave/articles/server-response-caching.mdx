@@ -3,37 +3,37 @@ title: "Server response caching"
 keywords: ["Performance"]
 ---
 
-Weave provides server response caching to improve performance when making repeated queries or working with limited network bandwidth. While currently disabled by default, this feature is expected to become the default behavior in a future release.
+Weave provides server response caching to improve performance when you run repeated queries or work with limited network bandwidth. This article explains when caching helps, how to enable it, which requests Weave caches, and how the cache uses disk space, so you can decide whether to turn it on and plan for its storage footprint. The feature is deactivated by default.
 
-### When to use caching
+## When to use caching
 
-Server response caching is particularly beneficial when:
+Server response caching is helpful when:
 
-- You frequently run the same queries
-- You have limited network bandwidth
-- You're working in an environment with high latency
-- You're developing offline and want to cache responses for later use
+- You frequently run the same queries.
+- You have limited network bandwidth.
+- You're working in an environment with high latency.
+- You're developing offline and want to cache responses for later use.
 
-This feature is especially useful when running repeated evaluations on a dataset, as it allows caching the dataset between runs.
+This feature is useful when you run repeated evaluations on a dataset, because Weave can cache the dataset between runs.
 
-### How to enable caching
+## Enable caching
 
-To enable caching, you can set the following environment variables:
+To enable caching, set the following environment variables. `WEAVE_USE_SERVER_CACHE` turns the cache on, and the other variables let you tune its size and location.
 
 ```bash
 # Enable server response caching
 export WEAVE_USE_SERVER_CACHE=true
 
-# Set cache size limit (default is 1GB)
+# Set cache size limit (default is 1 GB)
 export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
 
 # Set cache directory (optional, defaults to temporary directory)
 export WEAVE_SERVER_CACHE_DIR=/path/to/cache
 ```
 
-### Caching behavior
+## Caching behavior
 
-Technically, this feature will cache idempotent requests against the server. Specifically, we cache:
+This section describes which server requests Weave caches, so you can predict which operations benefit from caching. The feature caches idempotent requests against the server. Weave caches the following requests:
 
 - `obj_read`
 - `table_query`
@@ -41,23 +41,23 @@ Technically, this feature will cache idempotent requests against the server. Spe
 - `refs_read_batch`
 - `file_content_read`
 
-### Cache size and storage details
+## Cache size and storage details
 
-The cache size is controlled by `WEAVE_SERVER_CACHE_SIZE_LIMIT` (in bytes). The actual disk space used consists of three components:
+Use this section to estimate the disk space the cache requires, so you can size `WEAVE_SERVER_CACHE_SIZE_LIMIT` for your environment. `WEAVE_SERVER_CACHE_SIZE_LIMIT` (in bytes) controls the cache size. The actual disk space used consists of three components:
 
-1. A constant 32KB checksum file
-2. A Write-Ahead Log (WAL) file up to ~4MB per running client (automatically removed when the program exits)
-3. The main database file, which is at least 32KB and at most `WEAVE_SERVER_CACHE_SIZE_LIMIT`
+- A constant 32 KB checksum file.
+- A Write-Ahead Log (WAL) file up to ~4 MB per running client. Weave removes the WAL file automatically when the program exits.
+- The main database file, which is at least 32 KB and at most `WEAVE_SERVER_CACHE_SIZE_LIMIT`.
 
 Total disk space used:
 
-- While running >= 32KB + ~4MB + cache size
-- After exit >= 32KB + cache size
+- While running >= 32 KB + ~4 MB + cache size.
+- After exit >= 32 KB + cache size.
 
-For example, with a 5MB cache limit:
+For example, with a 5 MB cache limit:
 
-- While running: ~9MB maximum
-- After exit: ~5MB maximum
+- While running: ~9 MB maximum.
+- After exit: ~5 MB maximum.
 
 ---
 

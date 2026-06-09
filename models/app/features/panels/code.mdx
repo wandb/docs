@@ -1,6 +1,7 @@
 ---
 title: Save and diff code
 description: "Enable code saving, compare code across W&B runs with the code comparer, and capture Jupyter session history."
+keywords: ["log_code", "code_dir", "code comparer", "Jupyter notebook history", "reproducibility"]
 ---
 
 {/* By default, W&B only saves the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI. */}
@@ -126,7 +127,7 @@ W&B saves the history of code executed in your Jupyter notebook session. When yo
     <img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter session history"  />
 </Frame>
 
-This displays the cells that were run in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible W&B also saves the most recent version of the notebook which you would find in the code directory as well.
+This displays the cells that ran in your session along with any outputs created by calling IPython's `display` method. This lets you see exactly what code ran within Jupyter in a given run. When possible, W&B also saves the most recent version of the notebook, which you find in the code directory as well.
 
 <Frame>
     <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output"  />

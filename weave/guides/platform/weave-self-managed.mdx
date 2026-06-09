@@ -48,7 +48,7 @@ Self-managed Weave instances require the following resources:
 
 - **Kubernetes Cluster**: Version 1.29+
 - **Kubernetes Nodes**: Multi-node cluster (minimum 3 nodes recommended for high availability)
-- **Storage Class**: A working StorageClass for persistent volumes (e.g., `gp3`, `standard`, `nfs-csi`)
+- **Storage Class**: A working StorageClass for persistent volumes (for example, `gp3`, `standard`, or `nfs-csi`)
 - **S3 Bucket**: Pre-configured S3 or S3-compatible bucket with appropriate access permissions
 - **W&B Platform**: Already installed and running (see [W&B Self-Managed Deployment Guide](https://docs.wandb.ai/guides/hosting/hosting-options/self-managed/))
 - **W&B License**: Weave-enabled license from W&B Support
@@ -594,11 +594,11 @@ The Keeper node hostnames in the `zookeeper.nodes` section follow a specific pat
 Where:
 
 - `chk` = ClickHouseKeeperInstallation prefix (fixed)
-- `{installation-name}` = The `metadata.name` from ch-keeper.yaml (e.g., `wandb`)
-- `{cluster-name}` = The `configuration.clusters[0].name` from ch-keeper.yaml (e.g., `keeper`)
+- `{installation-name}` = The `metadata.name` from ch-keeper.yaml (for example, `wandb`)
+- `{cluster-name}` = The `configuration.clusters[0].name` from ch-keeper.yaml (for example, `keeper`)
 - `{cluster-index}` = Cluster index, typically `0` for single cluster
 - `{replica-index}` = Replica number: `0`, `1`, `2` for 3 replicas
-- `{namespace}` = Kubernetes namespace (e.g., `clickhouse`)
+- `{namespace}` = Kubernetes namespace (for example, `clickhouse`)
 
 **Example with default names**:
 
@@ -608,7 +608,7 @@ chk-wandb-keeper-0-1.clickhouse.svc.cluster.local
 chk-wandb-keeper-0-2.clickhouse.svc.cluster.local
 ```
 
-**If you customize the Keeper installation name** (e.g., `metadata.name: myweave`):
+**If you customize the Keeper installation name** (for example, `metadata.name: myweave`):
 
 ```
 chk-myweave-keeper-0-0.clickhouse.svc.cluster.local
@@ -616,7 +616,7 @@ chk-myweave-keeper-0-1.clickhouse.svc.cluster.local
 chk-myweave-keeper-0-2.clickhouse.svc.cluster.local
 ```
 
-**If you customize the Keeper cluster name** (e.g., `clusters[0].name: coordination`):
+**If you customize the Keeper cluster name** (for example, `clusters[0].name: coordination`):
 
 ```
 chk-wandb-coordination-0-0.clickhouse.svc.cluster.local
