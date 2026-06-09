@@ -1777,7 +1777,7 @@ spec:
         GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL: "50"
         GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
         GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS: "1"
-        GORILLA_LIMITER: "redis://redis-service:6379?ttlInSeconds=900"
+        GORILLA_LIMITER: "redis://[redis-service-address]:6379?ttlInSeconds=900"
 ```
 
 Refer to the following table for more detail:
