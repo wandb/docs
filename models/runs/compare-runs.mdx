@@ -2,9 +2,9 @@
 description: Learn how to use pinned and baseline runs to keep track of important runs and efficiently evaluate model experiments.
 title: Pin and compare runs
 ---
-It can be difficult to keep track of runs that are your best performers, production models, failed experiments, or important reference points. You can use the W&B App to help organize and compare runs with:
+Use the W&B App to organize, identify, and compare important runs, such as top performers, production models, failed experiments, and reference runs. To accomplish this, you can organize and compare runs with:
 
-- **Pinned runs**: Pin runs from the current or different projects in the same workspace to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
+- **Pinned runs**: Pin runs from any project in your workspace to keep them visible at the top of the runs list. You can pin up to 20 runs in a workspace, including runs from other projects.
 - **Baseline run**: Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list. In the runs table, summary metric deltas show how each run compares to the baseline. In line plots, the baseline appears with visually distinct styling to help with comparison.
 
 ![Line plot with baseline and pinned runs](/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png)
@@ -36,7 +36,7 @@ You can pin up to 20 runs in a workspace. If you have a baseline run, you can pi
 
 To unpin a run, click the pin icon, or follow the procedure to pin the run, but select **Unpin run** instead.
 
-Runs that you pin to a project only impact your [personal workspace view](/models/track/workspaces#saved-workspace-views), including [runs pinned from another project](/models/runs/compare-runs#compare-runs-across-projects).
+Runs that you pin to a project only impact your [personal or saved workspace view](/models/track/workspaces#saved-workspace-views), including [runs pinned from another project](/models/runs/compare-runs#compare-runs-across-projects).
 
 ## Compare runs across projects
 
@@ -55,7 +55,7 @@ View runs that you pin from another project in the run selector or runs table. P
 
 Artifacts, logs, and other details for pinned runs link back to the original run. W&B does not import this data into the current project or workspace. To view the details for a run pinned from another project, click the run. W&B opens the original run details in a new browser tab.
 
-W&B does not currently support [Run Comparer](/models/app/features/panels/run-comparer#add-a-run-comparer-panel) panels for runs pinned from another project. To compare runs from different projects, pin the runs you want to compare, then use line plots to visually compare them.
+To compare runs from different projects, pin the runs you want to compare, then use [line plots](/models/app/features/panels/line-plot) to visually compare them.
 
 ## Manage and compare a baseline run
 
