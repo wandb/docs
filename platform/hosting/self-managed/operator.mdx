@@ -1759,6 +1759,36 @@ global:
     GLOBAL_ENV: "example"
 ```
 
+### Set rate limits
+
+For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. This example shows the default value when the variable is not set.
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL: "50"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS: "1"
+```
+
+Refer to the following table for more detail:
+
+| Environment variable | Default | Description |
+| --- | --- | --- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT` | `5` | Filestream requests per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per per run per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE` | `10` | Filestream ingestion limit in MB per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL` | `50` | GraphQL requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT` | `10` | Run metadata update requests per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS` | `1` | SDK GraphQL query seconds budget. |
+
 ### Custom certificate authority
 `customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
 
