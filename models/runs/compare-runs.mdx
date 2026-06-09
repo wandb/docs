@@ -22,7 +22,15 @@ See [Limitations](#limitations).
 
 ## Pin runs
 
-<PinRunsCondensed/>
+Pin runs to keep them easily accessible at the top of your workspace. To hide a pinned or baseline run, click the <i class="fa-regular fa-eye"></i> icon. To show a hidden run, click the <i class="fa-solid fa-eye-closed"></i> icon. Pinned runs appear at the top of the run selector with a circular pin icon, separated from other runs by a visual divider.
+
+To pin a run:
+
+1. Navigate to your workspace.
+2. In the run selector or runs table, find the run you want to pin.
+3. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then select **Pin run**.
+
+You can pin up to 20 runs in a workspace. If you have a baseline run, you can pin up to 19 runs because the baseline is implicitly pinned.
 
 <Frame>
 ![Runs table with pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
@@ -30,17 +38,26 @@ See [Limitations](#limitations).
 
 To unpin a run, click the pin icon, or follow the procedure to pin the run, but select **Unpin run** instead.
 
+Runs that you pin to a project only impact your [personal workspace view](/models/track/workspaces#saved-workspace-views), including [runs pinned from another project](/models/runs/compare-runs#compare-runs-across-projects).
+
 ## Compare runs across projects
 
 Compare runs from different projects by selecting runs from another project and pinning them to your current workspace.
 
 1. Navigate to your project's workspace.
-2. Click on the **Select runs from another project** button (small square box with rounded corners and a diagonal arrow).
+2. Click on the **Select runs from another project** button (small square box with rounded corners and a diagonal arrow) at the top of your workspace's run selector or the runs table.
+  <Frame>
+  ![Runs table with pinned runs from another project](/images/runs/compare_runs_ui_element.png)
+  </Frame>
 3. In the modal, select a project from the **Source project** dropdown.
 4. Search the source project’s runs to find the run you want to compare. You can search by run name or unique ID.
 5. Select the checkbox next to each run you want to compare, then click **Pin runs**.
 
-W&B shows pinned runs in your project's run selector and runs table. Hover your mouse over the pinned run's name to see the project the run is from. Runs from other projects have an open circle icon next to their name.
+W&B shows pinned runs in your project’s run selector and runs table. To see which project a pinned run comes from, hover over the run name. Runs from other projects have an open circle icon next to their name.
+
+Artifacts, logs, and other details for pinned runs link back to the original run. W&B does not import this data into the current project or workspace.
+
+To view the details for a run pinned from another project, click the run. W&B opens the original run details in a new browser tab.
 
 
 ## Manage and compare a baseline run
