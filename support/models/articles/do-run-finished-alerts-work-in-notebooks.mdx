@@ -3,9 +3,9 @@ title: "Do 'Run Finished' alerts work in notebooks?"
 keywords: ["Alerts", "Notebooks"]
 ---
 
-No. **Run Finished** alerts (activated with the **Run Finished** setting in User Settings) operate only with Python scripts and remain turned off in Jupyter Notebook environments to avoid notifications for each cell execution. 
+No. **Run Finished** alerts only work with Python scripts. Even if you've enabled the **Run Finished** setting in **User Settings**, the alerts stay off in Jupyter notebooks to prevent notifications after each cell runs.
 
-Use `run.alert()` in notebook environments instead.
+Use `run.alert()` in notebooks instead.
 
 ---
 

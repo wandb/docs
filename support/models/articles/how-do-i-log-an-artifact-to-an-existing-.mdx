@@ -3,7 +3,7 @@ title: "How do I log an artifact to an existing run?"
 keywords: ["Artifacts"]
 ---
 
-Occasionally, it is necessary to mark an artifact as the output of a previously logged run. In this case, reinitialize the old run and log new artifacts as follows:
+Sometimes you need to mark an artifact as the output of a previously logged run. For example, you might generate a new model checkpoint or dataset that should be associated with an earlier training run. The following code reinitializes a run by ID and logs a new artifact to it:
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:

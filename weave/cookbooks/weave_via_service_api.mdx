@@ -204,7 +204,7 @@ The following code demonstrates how to add a child span to the complex parent tr
 The child trace is initiated with the `payload_child_start` object, which includes:
 - `trace_id`: Links this child span to the parent trace.
 - `parent_id`: Associates the child span with the parent operation.
-- `inputs`: Logs the search query, e.g., 
+- `inputs`: Logs the search query, for example, 
   `"This is a search query of the documents I'm looking for."`
 
 On a successful call to the `url_start` endpoint, the code outputs a message indicating that the child call was started and completed:
@@ -362,7 +362,7 @@ else:
 
 ### End a complex trace
 
-The following code demonstrates how to finalize the parent trace, marking the completion of the entire workflow. This step aggregates the results of all child spans (e.g., RAG lookup and LLM completion) and logs the final output and metadata.
+The following code demonstrates how to finalize the parent trace, marking the completion of the entire workflow. This step aggregates the results of all child spans (for example, RAG lookup and LLM completion) and logs the final output and metadata.
 
 The trace is finalized using the `payload_parent_end` object, which includes:
 - `id`: The `parent_call_id` from the initial parent trace start.
