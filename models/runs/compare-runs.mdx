@@ -4,15 +4,17 @@ title: Pin and compare runs
 ---
 import PinRunsCondensed from '/snippets/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
 
-In a workspace with many runs, it can be difficult to keep track of your best performers, production models, failed experiments, or important reference points. The W&B App provides features to help organize and compare runs:
+It can be difficult to keep track of runs that are your best performers, production models, failed experiments, or important reference points. You can use the W&B App to help organize and compare runs with:
 
-- **Pinned runs**: Pin up to 6 runs to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
+- **Pinned runs**: Pin runs from the current or different projects in the same workspace to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
 - **Baseline run**: Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list. In the runs table, summary metric deltas show how each run compares to the baseline. In line plots, the baseline appears with visually distinct styling to help with comparison.
 
 ![Line plot with baseline and pinned runs](/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png)
 
 These features are particularly useful for:
 - Comparing new experiments against your production model.
+- [Comparing runs across projects](/models/runs/compare-runs#compare-runs-across-projects).
+- [Creating a baseline for your experiments to evaluate how new runs perform against it.](/models/runs/compare-runs#manage-and-compare-a-baseline-run)
 - Tracking multiple candidate models during experimentation.
 - Evaluating whether new runs improve on your best results.
 
@@ -28,7 +30,20 @@ See [Limitations](#limitations).
 
 To unpin a run, click the pin icon, or follow the procedure to pin the run, but select **Unpin run** instead.
 
-## Manage the baseline run
+## Compare runs across projects
+
+Compare runs from different projects by selecting runs from another project and pinning them to your current workspace.
+
+1. Navigate to your project's workspace.
+2. Click on the **Select runs from another project** button (small square box with rounded corners and a diagonal arrow).
+3. In the modal, select a project from the **Source project** dropdown.
+4. Search the source project’s runs to find the run you want to compare. You can search by run name or unique ID.
+5. Select the checkbox next to each run you want to compare, then click **Pin runs**.
+
+W&B shows pinned runs in your project's run selector and runs table. Hover your mouse over the pinned run's name to see the project the run is from. Runs from other projects have an open circle icon next to their name.
+
+
+## Manage and compare a baseline run
 
 You can designate one run as the baseline for the workspace to use it as a reference point for evaluating other runs in your workspace.
 
@@ -69,7 +84,8 @@ To remove the baseline designation:
 3. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then select **Remove baseline**. <Note>If the menu item is inactive, ensure that you have at least one pinning slot available. If necessary, unpin a pinned run by clicking the circular pin icon next to a pinned run.</Note>
 4. The previous baseline is automatically pinned so you can find it easily. Optionally, unpin it by clicking its pin icon.
 
-## Compare runs to the baseline
+
+### Compare runs to the baseline
 The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
 
 - Hover over a part of the plot to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
@@ -109,7 +125,6 @@ By default, a workspace with a baseline run always displays summary metric delta
 1. In the drawer that appears, click **Runs**.
 1. In the **Baseline** tab, toggle **Show value deltas in the runs table**.
 1. Close the workspace settings drawer.
-
 
 ## Use cases
 This section describes some scenarios where pinned and baseline runs can help guide your experiments.
