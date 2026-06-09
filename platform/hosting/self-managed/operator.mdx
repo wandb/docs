@@ -1763,6 +1763,8 @@ global:
 
 For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. This example shows the default value when the variable is not set.
 
+<Important>You must set `GORILLA_LIMITER` to the address of your Redis server.</Important>
+
 ```yaml
 spec:
   values:
@@ -1775,6 +1777,7 @@ spec:
         GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL: "50"
         GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
         GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS: "1"
+        GORILLA_LIMITER: "redis://redis-service:6379?ttlInSeconds=900"
 ```
 
 Refer to the following table for more detail:
