@@ -23,21 +23,22 @@ LEET and the W&B App show the same underlying run data when that data exists loc
 
 ## Prerequisites
 
-Install or upgrade the W&B CLI. LEET requires `wandb-core` and ships with the CLI package.
+Install or upgrade the W&B CLI to the latest release using `pip` or `uv`:
 
+<Tabs>
+<Tab title="`pip`">
 ```bash
 pip install --upgrade wandb
 ```
-
-LEET was introduced in W&B CLI `0.23.0`. Multi-run workspaces, the config editor, SYMON, media panes, and unified pane navigation require newer releases. For the features described on this page, use CLI `0.26.0` or later.
-
-Verify that `wandb-core` is available:
-
+</Tab>
+<Tab title="`uv`">
 ```bash
-wandb beta leet --help
+uv pip install --upgrade wandb
 ```
+</Tab>
+</Tabs>
 
-If the command fails with a core availability error, reinstall or upgrade `wandb` so the bundled core binary is present.
+This guide tracks the latest CLI behavior. For version-by-version changes, see the changelog in the [`wandb beta leet` CLI reference](/models/ref/cli/wandb-beta/wandb-beta-leet).
 
 <Note>
 `wandb beta leet` is a beta command. Its flags, shortcuts, and behavior may change between releases. The SDK team plans to graduate LEET out of `wandb beta`; watch [SDK release notes](/release-notes/sdk-releases) for updates.
@@ -45,13 +46,13 @@ If the command fails with a core availability error, reinstall or upgrade `wandb
 
 ## Launch LEET
 
-From the directory that contains your `wandb/` folder, open the default workspace for the latest local run:
+From the directory that contains your `wandb/` folder, open the default workspace and auto-select the latest local run:
 
 ```bash
 wandb beta leet
 ```
 
-You can also pass a workspace directory, a specific run directory, or a `.wandb` file:
+You can pass an optional `PATH` that points to a workspace directory, a specific run directory, or a `.wandb` file:
 
 ```bash
 wandb beta leet ./wandb
@@ -59,9 +60,9 @@ wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns
 wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
 ```
 
-`wandb beta leet run` accepts the same optional `PATH` argument and launches the same TUI.
+If you do not pass `PATH`, LEET looks for the latest local run.
 
-Open the standalone system monitor (SYMON) when you need host metrics without a run context:
+Open the standalone system monitor (SYMON) to view host metrics without a run context:
 
 ```bash
 wandb beta leet symon --interval 2s
