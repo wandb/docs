@@ -3,9 +3,11 @@ title: "How do I resolve a run initialization timeout error in wandb?"
 keywords: ["Connectivity", "Run Crashes"]
 ---
 
-To resolve a run initialization timeout error, follow these steps:
+A run initialization timeout error means `wandb.init()` can't establish a connection to the W&B service within the allotted time. This page helps you diagnose and resolve the error so your run can start successfully.
 
-- **Retry initialization**: Attempt to restart the run.
+To resolve the error, try the following steps:
+
+- **Retry initialization**: Restart the run. Transient network or service issues often clear on a second attempt.
 - **Check network connection**: Confirm a stable internet connection.
 - **Update wandb version**: Install the latest version of wandb.
 - **Increase timeout settings**: Modify the `WANDB_INIT_TIMEOUT` environment variable:
@@ -14,7 +16,7 @@ To resolve a run initialization timeout error, follow these steps:
   os.environ['WANDB_INIT_TIMEOUT'] = '600'
   ```
 - **Enable debugging**: Set `WANDB_DEBUG=true` and `WANDB_CORE_DEBUG=true` for detailed logs.
-- **Verify configuration**: Check that the API key and project settings are correct.
+- **Verify configuration**: Confirm that the API key and project settings are correct.
 - **Review logs**: Inspect `debug.log`, `debug-internal.log`, `debug-core.log`, and `output.log` for errors.
 
 ---

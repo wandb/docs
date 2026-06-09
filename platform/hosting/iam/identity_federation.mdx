@@ -67,7 +67,9 @@ To configure an external service account, a team admin must:
 
 1. Navigate to the **Service Accounts** tab for your team.
 2. Click **New service account**.
-3. Provide a name for the service account, select **Federated Identity** as the **Authentication Method**, provide a **Subject**, and click **Create**.
+3. Provide a name for the service account.
+4. Select **Federated Identity** as the **Authentication Method**, then provide a **Subject**. See [Determine the Subject value for your identity provider](#determine-the-subject-value-for-your-identity-provider).
+5. Click **Create**.
 
 After this step, the external service account is registered with the team and can use JWTs issued by the configured identity provider to access W&B. The `sub` claim in the external service account's JWT must equal the subject configured by the team admin in the team-level **Service Accounts** tab. W&B verifies that claim as part of [JWT validation](#jwt-validation). The `aud` claim requirement is similar to that for human user JWTs.
 
@@ -76,3 +78,18 @@ When [using an external service account's JWT to access W&B](#use-the-jwt-to-acc
 <Note>
 W&B recommends using a mix of built-in and external service accounts across your AI workloads with different levels of data sensitivity. This mix strikes a balance between flexibility and simplicity.
 </Note>
+
+### Determine the Subject value for your identity provider
+
+The value you enter for **Subject** must exactly match the `sub` (subject) claim in JWTs issued by your IdP for the service account. W&B applies the same comparison for every identity provider. The match is exact, case-sensitive, and whitespace-sensitive, so even a trailing space or a difference in capitalization causes authentication to fail.
+
+The W&B App accepts any non-empty **Subject** without validating its value, since the value is entirely dependent on the IdP. W&B can't detect an incorrect value when you create the service account. Instead, authentication fails later, when the service account presents its JWT.
+
+The most reliable way to determine the correct value is to read it from a real token. Obtain a sample JWT issued for the service account, base64url-decode its payload (the middle segment, between the two dots) locally, and copy the `sub` value verbatim into the **Subject** field. Don't paste JWTs into third-party online decoders, because a JWT is a credential.
+
+The value differs by provider. The following are typical, but always confirm them against an actual token:
+
+| Identity provider | Where to find the `sub` value |
+| ----- | ----- |
+| Microsoft Entra ID | The service principal's **Object ID**, found under **Enterprise Applications** in the [Microsoft Entra admin center](https://entra.microsoft.com). Use the **Enterprise Application** (service principal) Object ID, not the **App registration** Object ID. For app-only (client credentials) tokens, this is typically the value Entra ID places in `sub`. |
+| Google Cloud (GCP) | The `sub` value from the ID token that Google issues for the service account. |

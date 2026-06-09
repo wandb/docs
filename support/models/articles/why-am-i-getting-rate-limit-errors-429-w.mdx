@@ -3,19 +3,24 @@ title: "Why am I getting rate limit errors (429) with Serverless Inference?"
 keywords: ["Inference"]
 ---
 
-Rate limit errors (429) occur when you exceed concurrency limits.
+This page explains why Serverless Inference returns `429` rate limit errors and how to resolve them so your requests succeed within the allowed concurrency limits.
+
+Rate limit errors (`429`) occur when you exceed concurrency limits.
 
 **Error:** "Concurrency limit reached for requests"
 
-**Solution:**
-- Reduce the number of parallel requests
-- Add delays between requests
-- Implement exponential backoff
-- Note: Rate limits apply per W&B project
+**Solution:** To resolve the error, do one of the following:
+- Reduce the number of parallel requests.
+- Add delays between requests.
+- Implement exponential backoff.
+
+Note: Rate limits apply per W&B project.
 
 ## Best practices to avoid rate limits
 
-1. **Implement retry logic with exponential backoff:**
+The following practices help your application stay within concurrency limits and recover gracefully when it hits limits.
+
+- **Implement retry logic with exponential backoff:** Backoff spaces out retries so transient `429` responses clear before the next attempt.
    ```python
    import time
 
@@ -30,14 +35,16 @@ Rate limit errors (429) occur when you exceed concurrency limits.
                    raise
    ```
 
-2. **Use batch processing instead of parallel requests**
+- **Use batch processing instead of parallel requests.**
 
-3. **Monitor your usage in the W&B Billing page**
+- **Monitor your usage on the W&B Billing page.**
 
 ## Default spending caps
 
-- **Pro accounts:** $6,000/month
-- **Enterprise accounts:** $700,000/year
+Accounts also have default spending caps that bound overall Inference usage:
+
+- **Pro accounts:** $6,000 per month
+- **Enterprise accounts:** $700,000 per year
 
 Contact your account executive or support to adjust limits.
 

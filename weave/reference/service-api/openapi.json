@@ -8805,6 +8805,18 @@
             "format": "date-time",
             "title": "Ended At"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
           "exception": {
             "anyOf": [
               {
@@ -9826,6 +9838,18 @@
             "type": "string",
             "title": "Model",
             "description": "Reference to the model (weave:// URI)"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Evaluation Run Id",
+            "description": "Source evaluation run ID if this run was created by rescoring \u2014 provenance link"
           }
         },
         "type": "object",
@@ -9964,6 +9988,18 @@
             ],
             "title": "Summary",
             "description": "Summary data for the evaluation run"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Evaluation Run Id",
+            "description": "Source evaluation run ID if this run was created by rescoring"
           }
         },
         "type": "object",
@@ -10266,6 +10302,85 @@
             "description": "The annotation queue ID this feedback was created from. References annotation_queues.id. NULL when feedback is created outside of queues.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
+            ]
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Tags",
+            "description": "Tags applied to the ref by a scorer",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ]
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Tag Reasons",
+            "description": "reason text per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ]
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Tag Confidences",
+            "description": "confidence (0-1) per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ]
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Ratings",
+            "description": "numeric ratings (0-1) keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ]
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Rating Reasons",
+            "description": "reason text per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ]
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Rating Confidences",
+            "description": "confidence (0-1) per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
             ]
           },
           "wb_user_id": {
@@ -10737,6 +10852,85 @@
             "description": "The annotation queue ID this feedback was created from. References annotation_queues.id. NULL when feedback is created outside of queues.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
+            ]
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Tags",
+            "description": "Tags applied to the ref by a scorer",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ]
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Tag Reasons",
+            "description": "reason text per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ]
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Tag Confidences",
+            "description": "confidence (0-1) per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ]
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Ratings",
+            "description": "numeric ratings (0-1) keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ]
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Rating Reasons",
+            "description": "reason text per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ]
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Rating Confidences",
+            "description": "confidence (0-1) per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
             ]
           },
           "wb_user_id": {
@@ -13679,9 +13873,8 @@
             "description": "The scorer reference (weave:// URI)"
           },
           "value": {
-            "type": "number",
             "title": "Value",
-            "description": "The value of the score"
+            "description": "The raw output of the scorer"
           },
           "evaluation_run_id": {
             "anyOf": [
@@ -13746,9 +13939,8 @@
             "description": "The scorer reference (weave:// URI)"
           },
           "value": {
-            "type": "number",
             "title": "Value",
-            "description": "The value of the score"
+            "description": "The raw output of the scorer"
           },
           "evaluation_run_id": {
             "anyOf": [
