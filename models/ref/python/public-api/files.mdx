@@ -25,8 +25,8 @@ from wandb.apis.public.api import Api
 # Example run object
 run = Api().run("entity/project/run-id")
 
-# Create a Files object to iterate over files in the run
-files = Files(api.client, run)
+# Get the files for the run
+files = run.files()
 
 # Iterate over files
 for file in files:
@@ -42,7 +42,7 @@ for file in files:
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     run: 'Run',
     names: 'list[str] | None' = None,
     per_page: 'int' = 50,
@@ -59,7 +59,7 @@ Files are retrieved in pages from the W&B server as needed.
 
 **Args:**
  
- - `client`:  The run object that contains the files 
+ - `service_api`:  The service API instance to use for querying W&B. 
  - `run`:  The run object that contains the files 
  - `names` (list, optional):  A list of file names to filter the files 
  - `per_page` (int, optional):  The number of files to fetch per page 
