@@ -1221,29 +1221,16 @@ These steps describe the sequence from W&B's perspective. For how to upgrade MyS
 Plan a maintenance window and notify users before you begin. Contact [Customer Support](mailto:support@wandb.com) or your W&B team if you have questions about compatibility or your deployment topology.
 </Note>
 
-Before you upgrade MySQL, you can run the [MySQL Shell upgrade checker](https://dev.mysql.com/doc/mysql-shell/8.4/en/mysql-shell-utilities-upgrade.html) against your database to surface compatibility issues for your target version. Resolve any errors or warnings in the checker output before you proceed, following the MySQL documentation for your distribution.
-
 1. Review MySQL release notes and documentation for your target version and any intervening versions for requirements and other details.
-2. Drain and shut down your W&B deployment so the application is not writing to the database during the upgrade.
-    ```bash
-    # Scale down the `wandb-operator` deployment to 0 replicas
-    kubectl scale deployment wandb-operator -n <NAMESPACE> --replicas=0
+1. Prepare for maintenance.
 
-    # Scale down the `wandb-server` deployment to 0 replicas
-    kubectl scale deployment wandb-server -n <NAMESPACE> --replicas=0
-    ```
-3. Take a full backup of your MySQL database according to your MySQL distribution's documentation.
+    Before you start the upgrade, you can run the [MySQL Shell upgrade checker](https://dev.mysql.com/doc/mysql-shell/8.4/en/mysql-shell-utilities-upgrade.html) against your database to surface and fix compatibility issues for your target version. Resolve any errors or warnings in the checker output before you proceed. Refer to the documentation for your MySQL distribution.
+3. Shut down MySQL and take a full backup of your MySQL database according to your MySQL distribution's documentation.
+
+    You must shut down MySQL to upgrade it. During MySQL unavailability, W&B client applications can't connect and will experience temporary errors.
 4. Upgrade MySQL to 8.4.x according to your MySQL distribution's documentation.
 5. Restart MySQL and verify that it is operational.
-6. When MySQL is up, scale your W&B deployment to its original size. In each command, replace `[N]` with the desired number of replicas. These commands are similar to those in step 2, run in reverse order.
-    ```bash
-    # Scale the `wandb-server` deployment to the original number of replicas
-    kubectl scale deployment wandb-server -n <NAMESPACE> --replicas=[N]
-
-    # Scale the `wandb-operator` deployment to the original number of replicas
-    kubectl scale deployment wandb-operator -n <NAMESPACE> --replicas=[N]
-    ```
-7. Run `wandb verify` to validate your deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
+6. When MySQL is up, run `wandb verify` to validate your W&B deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
 8. After validation completes, users can resume normal operations.
 
 ## Migrate self-managed instances to W&B Operator
