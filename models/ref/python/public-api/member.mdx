@@ -16,12 +16,12 @@ A member of a team.
 ### <kbd>method</kbd> `Member.__init__`
 
 ```python
-__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
 ```
 
 **Args:**
  
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
+ - `service_api`:  The service API instance to use for querying W&B. 
  - `team` (str):  The name of the team this member belongs to 
  - `attrs` (dict):  The member attributes 
 
