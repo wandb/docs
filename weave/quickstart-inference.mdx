@@ -44,14 +44,14 @@ When you run this code, Weave:
 import weave
 import openai
 
-# Initialize Weave. Replace with your-team/your-project
+# Initialize Weave. Replace with [YOUR-TEAM] with your team name.
 weave.init("[TEAM-NAME]/inference-quickstart")
 
 # Create an OpenAI-compatible client pointing to Serverless Inference
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
-    project="[TEAM-NAME]/my-first-weave-project",  # Required for usage tracking
+    project="[YOUR-TEAM]/my-first-weave-project",  # Required for usage tracking
 )
 
 # Decorate your function to enable tracing. Use the standard OpenAI client
@@ -77,7 +77,7 @@ import * as weave from 'weave';
 import OpenAI from 'openai';
 
 // Initialize Weave. Replace values enclosed in "[]" with your own.
-await weave.init("[TEAM-NAME]/inference-quickstart")
+await weave.init("[YOUR-TEAM]/inference-quickstart")
 
 // Create an OpenAI-compatible client pointing to Serverless Inference
 const client = new OpenAI({
@@ -117,12 +117,12 @@ import weave
 import openai
 
 # Initialize Weave. Replace values enclosed in "[]" with your own.
-weave.init("[TEAM-NAME]/inference-quickstart")
+weave.init("[YOUR-TEAM]/inference-quickstart")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
-    project="[TEAM-NAME]/my-first-weave-project",  # Required for usage tracking
+    project="[YOUR-TEAM]/my-first-weave-project",  # Required for usage tracking
 )
 
 @weave.op()
@@ -181,7 +181,7 @@ import * as weave from 'weave';
 import OpenAI from 'openai';
 
 // Initialize Weave. Replace with your-team/your-project
-await weave.init('[TEAM-NAME]/inference-quickstart');
+await weave.init('[YOUR-TEAM]/inference-quickstart');
 
 const client = new OpenAI({
 baseURL: 'https://api.inference.wandb.ai/v1',
@@ -249,12 +249,12 @@ import weave
 import openai
 
 # Initialize Weave. Replace with your-team/your-project
-weave.init("[TEAM-NAME]/inference-quickstart")
+weave.init("[YOUR-TEAM]/inference-quickstart")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="YOUR_WANDB_API_KEY",  # Replace with your actual API key
-    project="[TEAM-NAME]/my-first-weave-project",  # Required for usage tracking
+    project="[YOUR-TEAM]/my-first-weave-project",  # Required for usage tracking
 )
 
 # Define a Model class to compare different LLMs
@@ -291,7 +291,7 @@ import * as weave from 'weave';
 import OpenAI from 'openai';
 
 // Initialize Weave. Replace with your-team/your-project
-await weave.init("[TEAM-NAME]/inference-quickstart")
+await weave.init("[YOUR-TEAM]/inference-quickstart")
 
 const client = new OpenAI({
   baseURL: 'https://api.inference.wandb.ai/v1',
