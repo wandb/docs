@@ -38,9 +38,7 @@ client = weave.init(..., settings={"disabled": True})
 
 ## Context manager
 
-Use the context manager when you want fine-grained control over tracing within a specific block of code, while leaving tracing enabled elsewhere in your application.
-
-To conditionally disable tracing for a specific block of code, use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. Use it in application code to scope which calls shouldn't be logged.
+To conditionally disable tracing only within a specific block of code, use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. Use it in application code to scope which calls shouldn't be logged.
 
 <Tabs>
   <Tab title="Python">
