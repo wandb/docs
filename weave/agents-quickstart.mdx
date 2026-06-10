@@ -166,7 +166,7 @@ With the tool and Weave initialization in place, the next step combines them int
 
 The following example runs three turns in a single session. Each turn:
 
-1. Opens a `chat` span and prompts the LLM to choose whether to call the tool.
+1. Opens a `chat` span and lets the LLM choose whether to call the tool.
 2. If the LLM requests a tool, opens an `execute_tool` span around the call and feeds the result back to the LLM.
 3. Opens a second `chat` span to produce the final answer.
 
