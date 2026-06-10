@@ -7,7 +7,7 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-For frameworks that have already completed the LLM call and need to record it, use `weave.log_turn` and `weave.log_session`. All spans are created and ended immediately without keeping any context managers open.
+For frameworks that have already completed the LLM call and only need to record it, use `weave.log_turn` and `weave.log_session`. All spans are created and ended immediately without keeping any context managers open.
 
 Data logged this way can be historical. No live session is needed. Set `session_id` to any stable string that uniquely identifies the conversation. Turns that share the same `session_id` are grouped as a single session in the **Agents** view.
 
