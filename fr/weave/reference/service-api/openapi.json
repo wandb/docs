@@ -1,6 +1,3091 @@
 {
   "components": {
     "schemas": {
+      "AgentChatAgentHandoff": {
+        "description": "Charge utile pour un futur événement de transfert d’agent à agent.",
+        "properties": {},
+        "title": "AgentChatAgentHandoff",
+        "type": "object"
+      },
+      "AgentChatAgentStart": {
+        "description": "Charge utile pour une limite du cycle de vie d’un agent.",
+        "properties": {
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "system_instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "System Instructions"
+          },
+          "tool_definitions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Definitions"
+          }
+        },
+        "title": "AgentChatAgentStart",
+        "type": "object"
+      },
+      "AgentChatAssistantMessage": {
+        "description": "Charge utile pour du texte d’assistant émis par un agent ou un span LLM.",
+        "properties": {
+          "content_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Content Refs",
+            "type": "array"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Tokens"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "output_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Tokens"
+          },
+          "reasoning_content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Content"
+          },
+          "reasoning_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Tokens"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "AgentChatAssistantMessage",
+        "type": "object"
+      },
+      "AgentChatContextCompacted": {
+        "description": "Charge utile pour un événement de compactage de la fenêtre de contexte.",
+        "properties": {
+          "compaction_items_after": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compaction Items After"
+          },
+          "compaction_items_before": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compaction Items Before"
+          },
+          "compaction_summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compaction Summary"
+          }
+        },
+        "title": "AgentChatContextCompacted",
+        "type": "object"
+      },
+      "AgentChatMessage": {
+        "description": "Un élément unique de la trajectoire structurée de l’agent / vue de chat.\n\nLes champs d’événement communs se trouvent au niveau supérieur. Les champs propres au type sont\ngroupés sous la charge utile correspondant à `type`, et une seule charge utile doit être\ndéfinie. Cela permet de rendre explicite la nullabilité des sous-types tout en conservant un\nmodèle unique de chronologie ordonnée pour les appelants.",
+        "properties": {
+          "agent_handoff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentChatAgentHandoff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "agent_start": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentChatAgentStart"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "assistant_message": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentChatAssistantMessage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context_compacted": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentChatContextCompacted"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "feedback": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback"
+          },
+          "span_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Span Id"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "tool_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentChatToolCall"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": {
+            "enum": [
+              "user_message",
+              "assistant_message",
+              "tool_call",
+              "agent_handoff",
+              "agent_start",
+              "context_compacted"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "user_message": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentChatUserMessage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "AgentChatMessage",
+        "type": "object"
+      },
+      "AgentChatToolCall": {
+        "description": "Charge utile pour un événement de chronologie d’appel d’outil.",
+        "properties": {
+          "content_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Content Refs",
+            "type": "array"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "tool_arguments": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Arguments"
+          },
+          "tool_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Name"
+          },
+          "tool_result": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Result"
+          }
+        },
+        "title": "AgentChatToolCall",
+        "type": "object"
+      },
+      "AgentChatUserMessage": {
+        "description": "Charge utile pour un prompt utilisateur dans la chronologie du chat.",
+        "properties": {
+          "content_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Content Refs",
+            "type": "array"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "AgentChatUserMessage",
+        "type": "object"
+      },
+      "AgentConversationChatReq": {
+        "description": "Requête permettant d’obtenir la vue de chat sur plusieurs tours de conversation pour une conversation.",
+        "properties": {
+          "conversation_id": {
+            "title": "Conversation Id",
+            "type": "string"
+          },
+          "include_feedback": {
+            "default": false,
+            "title": "Include Feedback",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Nombre maximum de tours de conversation à renvoyer.",
+            "maximum": 50,
+            "minimum": 0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "Nombre de tours les plus récents à ignorer. Les résultats sont renvoyés par ordre chronologique dans la page sélectionnée.",
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "conversation_id"
+        ],
+        "title": "AgentConversationChatReq",
+        "type": "object"
+      },
+      "AgentConversationChatRes": {
+        "description": "Vue de chat sur plusieurs tours de conversation : liste ordonnée des réponses de chat par tour.\n\nChaque entrée de `turns` correspond à un trace_id, que Weave considère comme\nun tour de conversation. Il ne s’agit pas nécessairement d’un span `invoke_agent` :\nun tour peut contenir zéro, une ou plusieurs invocations d’agent. Le frontend peut\nafficher des séparateurs de numéro de tour entre les entrées tout en réutilisant le\nrendu `AgentTraceChatRes` pour chaque tour individuel.",
+        "properties": {
+          "conversation_id": {
+            "title": "Conversation Id",
+            "type": "string"
+          },
+          "feedback": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback"
+          },
+          "has_more": {
+            "default": false,
+            "title": "Has More",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 50,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total_turns": {
+            "default": 0,
+            "title": "Total Turns",
+            "type": "integer"
+          },
+          "turns": {
+            "items": {
+              "$ref": "#/components/schemas/AgentTraceChatRes"
+            },
+            "title": "Turns",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversation_id"
+        ],
+        "title": "AgentConversationChatRes",
+        "type": "object"
+      },
+      "AgentConversationMessagePreview": {
+        "description": "Extrait tronqué du premier ou du dernier message pour une ligne de conversation groupée.\n\n`role` est le type de message de la chronologie du chat (par ex. \"user_message\",\n\"assistant_message\") afin que les clients puissent le styliser de manière cohérente avec la vue de\nchat complète ; `text` est le contenu d’aperçu tronqué et limité en longueur.",
+        "properties": {
+          "role": {
+            "default": "",
+            "title": "Role",
+            "type": "string"
+          },
+          "text": {
+            "default": "",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "title": "AgentConversationMessagePreview",
+        "type": "object"
+      },
+      "AgentCustomAttrSchemaItem": {
+        "description": "Une clé/un type d’attribut personnalisé observé dans les spans correspondants.",
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "source": {
+            "enum": [
+              "custom_attrs_string",
+              "custom_attrs_int",
+              "custom_attrs_float",
+              "custom_attrs_bool"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "span_count": {
+            "title": "Span Count",
+            "type": "integer"
+          },
+          "value_type": {
+            "enum": [
+              "string",
+              "int",
+              "float",
+              "bool"
+            ],
+            "title": "Value Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "key",
+          "value_type",
+          "span_count"
+        ],
+        "title": "AgentCustomAttrSchemaItem",
+        "type": "object"
+      },
+      "AgentCustomAttrsSchemaReq": {
+        "description": "Requête permettant de découvrir les clés d’attributs personnalisés typées pour les spans correspondants.",
+        "properties": {
+          "limit": {
+            "default": 200,
+            "maximum": 2000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Query"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "started_after": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started After"
+          },
+          "started_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started Before"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "title": "AgentCustomAttrsSchemaReq",
+        "type": "object"
+      },
+      "AgentCustomAttrsSchemaRes": {
+        "description": "Clés d’attributs personnalisés typées disponibles pour les API de requête, de regroupement et de statistiques des spans.",
+        "properties": {
+          "attributes": {
+            "items": {
+              "$ref": "#/components/schemas/AgentCustomAttrSchemaItem"
+            },
+            "title": "Attributes",
+            "type": "array"
+          },
+          "has_more": {
+            "default": false,
+            "title": "Has More",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 200,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "title": "AgentCustomAttrsSchemaRes",
+        "type": "object"
+      },
+      "AgentGroupByRef": {
+        "description": "Référence à un champ ou à une clé de map selon lequel les spans doivent être regroupés.\n\n`source=\"field\"` cible un champ sémantique de span (`agent.name`) ou une colonne\nde span directe (`agent_name`), autorisés côté serveur. `source=\"column\"` est\naccepté pour les appelants existants.\nLes autres sources ciblent des clés à l’intérieur des colonnes Map d’attributs personnalisés typés,\nqui acceptent des clés arbitraires définies par l’utilisateur.",
+        "properties": {
+          "alias": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alias"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "source": {
+            "default": "field",
+            "enum": [
+              "field",
+              "column",
+              "custom_attrs_string",
+              "custom_attrs_int",
+              "custom_attrs_float",
+              "custom_attrs_bool"
+            ],
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key"
+        ],
+        "title": "AgentGroupByRef",
+        "type": "object"
+      },
+      "AgentSchema": {
+        "description": "Statistiques agrégées par agent issues du tableau des agents.",
+        "properties": {
+          "agent_name": {
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "error_count": {
+            "title": "Error Count",
+            "type": "integer"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Seen"
+          },
+          "invocation_count": {
+            "title": "Invocation Count",
+            "type": "integer"
+          },
+          "last_seen": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Seen"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "span_count": {
+            "title": "Span Count",
+            "type": "integer"
+          },
+          "total_duration_ms": {
+            "title": "Total Duration Ms",
+            "type": "integer"
+          },
+          "total_input_tokens": {
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "title": "Total Output Tokens",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "project_id",
+          "agent_name",
+          "invocation_count",
+          "span_count",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_duration_ms",
+          "error_count",
+          "first_seen",
+          "last_seen"
+        ],
+        "title": "AgentSchema",
+        "type": "object"
+      },
+      "AgentSearchConversationResult": {
+        "description": "Une conversation contenant des messages correspondant à la requête de recherche.",
+        "properties": {
+          "agent_name": {
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "conversation_id": {
+            "title": "Conversation Id",
+            "type": "string"
+          },
+          "conversation_name": {
+            "title": "Conversation Name",
+            "type": "string"
+          },
+          "last_activity": {
+            "format": "date-time",
+            "title": "Last Activity",
+            "type": "string"
+          },
+          "matched_messages": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSearchMatchedMessage"
+            },
+            "title": "Matched Messages",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversation_id",
+          "conversation_name",
+          "agent_name",
+          "matched_messages",
+          "last_activity"
+        ],
+        "title": "AgentSearchConversationResult",
+        "type": "object"
+      },
+      "AgentSearchMatchedMessage": {
+        "description": "Un message unique correspondant à la requête de recherche.",
+        "properties": {
+          "content_digest": {
+            "title": "Content Digest",
+            "type": "string"
+          },
+          "content_preview": {
+            "title": "Content Preview",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "",
+              "user",
+              "assistant",
+              "system",
+              "tool",
+              "tool_call",
+              "tool_result"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "span_id": {
+            "title": "Span Id",
+            "type": "string"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "span_id",
+          "trace_id",
+          "role",
+          "content_preview",
+          "content_digest",
+          "started_at"
+        ],
+        "title": "AgentSearchMatchedMessage",
+        "type": "object"
+      },
+      "AgentSearchReq": {
+        "description": "Recherche en texte intégral dans le contenu des messages et les métadonnées des spans.\n\nAnalyse le tableau `messages` (une ligne par occurrence de message, alimentée\npar une vue matérialisée à partir des spans) et renvoie les correspondances au niveau du span. L’appelant\neffectue le regroupement par conversation pour la forme de la réponse.",
+        "properties": {
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "conversation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversation Id"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 1000,
+            "minimum": 0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "provider_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider Name"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "request_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Model"
+          },
+          "roles": {
+            "anyOf": [
+              {
+                "items": {
+                  "enum": [
+                    "",
+                    "user",
+                    "assistant",
+                    "system",
+                    "tool",
+                    "tool_call",
+                    "tool_result"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roles"
+          },
+          "started_after": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started After"
+          },
+          "started_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started Before"
+          }
+        },
+        "required": [
+          "project_id",
+          "query"
+        ],
+        "title": "AgentSearchReq",
+        "type": "object"
+      },
+      "AgentSearchRes": {
+        "description": "Réponse à une recherche en texte intégral dans les messages d’agent.",
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSearchConversationResult"
+            },
+            "title": "Results",
+            "type": "array"
+          },
+          "total_conversations": {
+            "default": 0,
+            "title": "Total Conversations",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "results"
+        ],
+        "title": "AgentSearchRes",
+        "type": "object"
+      },
+      "AgentSortBy": {
+        "description": "Spécification de tri pour les points de terminaison de requête d’agent.",
+        "properties": {
+          "direction": {
+            "default": "desc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "title": "Direction",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field"
+        ],
+        "title": "AgentSortBy",
+        "type": "object"
+      },
+      "AgentSpanGroupDistributionBin": {
+        "description": "Un compartiment d’histogramme numérique pour un attribut personnalisé dans un groupe de spans.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "max": {
+            "title": "Max",
+            "type": "number"
+          },
+          "min": {
+            "title": "Min",
+            "type": "number"
+          }
+        },
+        "required": [
+          "index",
+          "min",
+          "max",
+          "count"
+        ],
+        "title": "AgentSpanGroupDistributionBin",
+        "type": "object"
+      },
+      "AgentSpanGroupDistributionItem": {
+        "description": "Données de distribution pour une paire groupe de spans/attribut personnalisé.",
+        "properties": {
+          "alias": {
+            "title": "Alias",
+            "type": "string"
+          },
+          "bins": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanGroupDistributionBin"
+            },
+            "title": "Bins",
+            "type": "array"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "missing_count": {
+            "default": 0,
+            "title": "Missing Count",
+            "type": "integer"
+          },
+          "other_count": {
+            "default": 0,
+            "title": "Other Count",
+            "type": "integer"
+          },
+          "present_count": {
+            "default": 0,
+            "title": "Present Count",
+            "type": "integer"
+          },
+          "source": {
+            "enum": [
+              "custom_attrs_string",
+              "custom_attrs_int",
+              "custom_attrs_float",
+              "custom_attrs_bool"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "total_count": {
+            "default": 0,
+            "title": "Total Count",
+            "type": "integer"
+          },
+          "value_type": {
+            "enum": [
+              "string",
+              "int",
+              "float",
+              "bool"
+            ],
+            "title": "Value Type",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanGroupDistributionValue"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "alias",
+          "source",
+          "key",
+          "value_type"
+        ],
+        "title": "AgentSpanGroupDistributionItem",
+        "type": "object"
+      },
+      "AgentSpanGroupDistributionSpec": {
+        "description": "Une distribution d’attribut personnalisé à calculer pour chaque groupe de spans renvoyé.",
+        "properties": {
+          "alias": {
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+            "title": "Alias",
+            "type": "string"
+          },
+          "bins": {
+            "default": 12,
+            "maximum": 50,
+            "minimum": 1,
+            "title": "Bins",
+            "type": "integer"
+          },
+          "top_n": {
+            "default": 5,
+            "maximum": 20,
+            "minimum": 1,
+            "title": "Top N",
+            "type": "integer"
+          },
+          "value": {
+            "$ref": "#/components/schemas/AgentSpanValueRef"
+          }
+        },
+        "required": [
+          "alias",
+          "value"
+        ],
+        "title": "AgentSpanGroupDistributionSpec",
+        "type": "object"
+      },
+      "AgentSpanGroupDistributionValue": {
+        "description": "Nombre de valeurs d’un attribut personnalisé catégoriel dans un groupe de spans.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "count"
+        ],
+        "title": "AgentSpanGroupDistributionValue",
+        "type": "object"
+      },
+      "AgentSpanGroupFilter": {
+        "description": "Filtre de plage sur une mesure de span groupée.",
+        "properties": {
+          "group_by": {
+            "items": {
+              "$ref": "#/components/schemas/AgentGroupByRef"
+            },
+            "title": "Group By",
+            "type": "array"
+          },
+          "max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max"
+          },
+          "measure": {
+            "$ref": "#/components/schemas/AgentSpanMeasureSpec"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min"
+          }
+        },
+        "required": [
+          "measure"
+        ],
+        "title": "AgentSpanGroupFilter",
+        "type": "object"
+      },
+      "AgentSpanGroupRow": {
+        "description": "Une ligne unique dans une réponse de requête de spans groupés.\n\n`group_keys` associe l'alias de chaque référence `group_by` à sa valeur pour cette ligne.\nLes champs restants constituent un ensemble fixe d'agrégats calculés pour chaque groupe.",
+        "properties": {
+          "agent_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Agent Names",
+            "type": "array"
+          },
+          "agent_versions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Agent Versions",
+            "type": "array"
+          },
+          "conversation_count": {
+            "default": 0,
+            "title": "Conversation Count",
+            "type": "integer"
+          },
+          "conversation_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Conversation Names",
+            "type": "array"
+          },
+          "distributions": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AgentSpanGroupDistributionItem"
+            },
+            "title": "Distributions",
+            "type": "object"
+          },
+          "error_count": {
+            "default": 0,
+            "title": "Error Count",
+            "type": "integer"
+          },
+          "first_message": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentConversationMessagePreview"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Seen"
+          },
+          "group_keys": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Group Keys",
+            "type": "object"
+          },
+          "invocation_count": {
+            "default": 0,
+            "title": "Invocation Count",
+            "type": "integer"
+          },
+          "last_message": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentConversationMessagePreview"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_seen": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Seen"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
+          "provider_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Provider Names",
+            "type": "array"
+          },
+          "request_models": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Request Models",
+            "type": "array"
+          },
+          "span_count": {
+            "default": 0,
+            "title": "Span Count",
+            "type": "integer"
+          },
+          "total_cache_creation_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Creation Input Tokens",
+            "type": "integer"
+          },
+          "total_cache_read_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Read Input Tokens",
+            "type": "integer"
+          },
+          "total_duration_ms": {
+            "default": 0,
+            "title": "Total Duration Ms",
+            "type": "integer"
+          },
+          "total_input_tokens": {
+            "default": 0,
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "default": 0,
+            "title": "Total Output Tokens",
+            "type": "integer"
+          },
+          "total_reasoning_tokens": {
+            "default": 0,
+            "title": "Total Reasoning Tokens",
+            "type": "integer"
+          }
+        },
+        "title": "AgentSpanGroupRow",
+        "type": "object"
+      },
+      "AgentSpanMeasureSpec": {
+        "description": "Une mesure agrégée calculée sur les spans d'un groupe ou d'un bucket.",
+        "properties": {
+          "aggregation": {
+            "enum": [
+              "sum",
+              "avg",
+              "min",
+              "max",
+              "count",
+              "count_distinct",
+              "count_true",
+              "count_false"
+            ],
+            "title": "Aggregation",
+            "type": "string"
+          },
+          "alias": {
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+            "title": "Alias",
+            "type": "string"
+          },
+          "filter": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Query"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSpanValueRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "value_type": {
+            "anyOf": [
+              {
+                "enum": [
+                  "datetime",
+                  "number",
+                  "boolean",
+                  "string"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Type"
+          }
+        },
+        "required": [
+          "alias",
+          "aggregation"
+        ],
+        "title": "AgentSpanMeasureSpec",
+        "type": "object"
+      },
+      "AgentSpanSchema": {
+        "description": "Un span d'agent normalisé renvoyé par les API de requête.",
+        "properties": {
+          "agent_description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Description"
+          },
+          "agent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Id"
+          },
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "agent_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Version"
+          },
+          "artifact_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Artifact Refs",
+            "type": "array"
+          },
+          "cache_creation_input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Creation Input Tokens"
+          },
+          "cache_read_input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Read Input Tokens"
+          },
+          "compaction_items_after": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compaction Items After"
+          },
+          "compaction_items_before": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compaction Items Before"
+          },
+          "compaction_summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compaction Summary"
+          },
+          "content_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Content Refs",
+            "type": "array"
+          },
+          "conversation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversation Id"
+          },
+          "conversation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversation Name"
+          },
+          "custom_attrs_bool": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "title": "Custom Attrs Bool",
+            "type": "object"
+          },
+          "custom_attrs_float": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Custom Attrs Float",
+            "type": "object"
+          },
+          "custom_attrs_int": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Custom Attrs Int",
+            "type": "object"
+          },
+          "custom_attrs_string": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Custom Attrs String",
+            "type": "object"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
+          "error_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Type"
+          },
+          "finish_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Finish Reasons",
+            "type": "array"
+          },
+          "input_messages": {
+            "items": {
+              "$ref": "#/components/schemas/NormalizedMessage"
+            },
+            "title": "Input Messages",
+            "type": "array"
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Tokens"
+          },
+          "object_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Object Refs",
+            "type": "array"
+          },
+          "operation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operation Name"
+          },
+          "output_messages": {
+            "items": {
+              "$ref": "#/components/schemas/NormalizedMessage"
+            },
+            "title": "Output Messages",
+            "type": "array"
+          },
+          "output_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Tokens"
+          },
+          "output_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Type"
+          },
+          "parent_span_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Span Id"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "provider_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider Name"
+          },
+          "raw_span_dump": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Span Dump"
+          },
+          "reasoning_content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Content"
+          },
+          "reasoning_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Tokens"
+          },
+          "request_choice_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Choice Count"
+          },
+          "request_frequency_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Frequency Penalty"
+          },
+          "request_max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Max Tokens"
+          },
+          "request_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Model"
+          },
+          "request_presence_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Presence Penalty"
+          },
+          "request_seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Seed"
+          },
+          "request_stop_sequences": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Request Stop Sequences",
+            "type": "array"
+          },
+          "request_temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Temperature"
+          },
+          "request_top_p": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Top P"
+          },
+          "response_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Id"
+          },
+          "response_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Model"
+          },
+          "server_address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Server Address"
+          },
+          "server_port": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Server Port"
+          },
+          "span_id": {
+            "title": "Span Id",
+            "type": "string"
+          },
+          "span_kind": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSPECIFIED",
+                  "INTERNAL",
+                  "SERVER",
+                  "CLIENT",
+                  "PRODUCER",
+                  "CONSUMER"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Span Kind"
+          },
+          "span_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Span Name"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Code"
+          },
+          "status_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Message"
+          },
+          "system_instructions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "System Instructions",
+            "type": "array"
+          },
+          "tool_call_arguments": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Arguments"
+          },
+          "tool_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Id"
+          },
+          "tool_call_result": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Result"
+          },
+          "tool_definitions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Definitions"
+          },
+          "tool_description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Description"
+          },
+          "tool_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Name"
+          },
+          "tool_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Type"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          },
+          "wb_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Id"
+          },
+          "wb_run_step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step"
+          },
+          "wb_run_step_end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step End"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          }
+        },
+        "required": [
+          "project_id",
+          "trace_id",
+          "span_id"
+        ],
+        "title": "AgentSpanSchema",
+        "type": "object"
+      },
+      "AgentSpanStatsColumn": {
+        "description": "Métadonnées décrivant une colonne dans une ligne de résultat de statistiques de span d'agent.",
+        "properties": {
+          "aggregation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aggregation"
+          },
+          "metric": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metric"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "time",
+              "bucket",
+              "group",
+              "metric"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "value_type": {
+            "enum": [
+              "datetime",
+              "number",
+              "boolean",
+              "string"
+            ],
+            "title": "Value Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "role",
+          "value_type"
+        ],
+        "title": "AgentSpanStatsColumn",
+        "type": "object"
+      },
+      "AgentSpanStatsMetricSpec": {
+        "description": "Métrique à extraire de chaque span correspondant et à agréger dans les lignes du graphique.",
+        "properties": {
+          "aggregations": {
+            "items": {
+              "enum": [
+                "sum",
+                "avg",
+                "min",
+                "max",
+                "count",
+                "count_distinct",
+                "count_true",
+                "count_false"
+              ],
+              "type": "string"
+            },
+            "title": "Aggregations",
+            "type": "array"
+          },
+          "alias": {
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+            "title": "Alias",
+            "type": "string"
+          },
+          "percentiles": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Percentiles",
+            "type": "array"
+          },
+          "value": {
+            "$ref": "#/components/schemas/AgentSpanValueRef"
+          },
+          "value_type": {
+            "enum": [
+              "datetime",
+              "number",
+              "boolean",
+              "string"
+            ],
+            "title": "Value Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "alias",
+          "value_type",
+          "value"
+        ],
+        "title": "AgentSpanStatsMetricSpec",
+        "type": "object"
+      },
+      "AgentSpanStatsNumericBucketSpec": {
+        "description": "Répartir les lignes de statistiques en buckets selon des plages d'un span numérique ou d'une valeur groupée.",
+        "properties": {
+          "alias": {
+            "default": "value",
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+            "title": "Alias",
+            "type": "string"
+          },
+          "bins": {
+            "default": 24,
+            "maximum": 200,
+            "minimum": 1,
+            "title": "Bins",
+            "type": "integer"
+          },
+          "group_by": {
+            "items": {
+              "$ref": "#/components/schemas/AgentGroupByRef"
+            },
+            "title": "Group By",
+            "type": "array"
+          },
+          "max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max"
+          },
+          "measure": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSpanMeasureSpec"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min"
+          },
+          "type": {
+            "const": "number",
+            "default": "number",
+            "title": "Type",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSpanValueRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "AgentSpanStatsNumericBucketSpec",
+        "type": "object"
+      },
+      "AgentSpanStatsReq": {
+        "description": "Demande une agrégation prête pour les graphiques sur les spans d’agent GenAI.",
+        "properties": {
+          "bucket_by": {
+            "anyOf": [
+              {
+                "discriminator": {
+                  "mapping": {
+                    "number": "#/components/schemas/AgentSpanStatsNumericBucketSpec",
+                    "time": "#/components/schemas/AgentSpanStatsTimeBucketSpec"
+                  },
+                  "propertyName": "type"
+                },
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AgentSpanStatsTimeBucketSpec"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AgentSpanStatsNumericBucketSpec"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bucket By"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity"
+          },
+          "group_by": {
+            "items": {
+              "$ref": "#/components/schemas/AgentGroupByRef"
+            },
+            "title": "Group By",
+            "type": "array"
+          },
+          "group_filters": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanGroupFilter"
+            },
+            "title": "Group Filters",
+            "type": "array"
+          },
+          "group_limit": {
+            "default": 50,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Group Limit",
+            "type": "integer"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanStatsMetricSpec"
+            },
+            "title": "Metrics",
+            "type": "array"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Query"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          },
+          "timezone": {
+            "default": "UTC",
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "AgentSpanStatsReq",
+        "type": "object"
+      },
+      "AgentSpanStatsRes": {
+        "description": "Réponse contenant des lignes de statistiques de span d'agent prêtes pour les graphiques.",
+        "properties": {
+          "bucket_type": {
+            "default": "time",
+            "enum": [
+              "time",
+              "number"
+            ],
+            "title": "Bucket Type",
+            "type": "string"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanStatsColumn"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "end": {
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity"
+          },
+          "rows": {
+            "items": {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "object"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "timezone"
+        ],
+        "title": "AgentSpanStatsRes",
+        "type": "object"
+      },
+      "AgentSpanStatsTimeBucketSpec": {
+        "description": "Répartir les lignes de statistiques en buckets selon des intervalles de temps `started_at`.",
+        "properties": {
+          "type": {
+            "const": "time",
+            "default": "time",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "AgentSpanStatsTimeBucketSpec",
+        "type": "object"
+      },
+      "AgentSpanValueRef": {
+        "description": "Référence à un champ de span ou à une valeur dans un mappage typé d'attributs personnalisés.",
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "source": {
+            "default": "field",
+            "enum": [
+              "field",
+              "derived",
+              "custom_attrs_string",
+              "custom_attrs_int",
+              "custom_attrs_float",
+              "custom_attrs_bool"
+            ],
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key"
+        ],
+        "title": "AgentSpanValueRef",
+        "type": "object"
+      },
+      "AgentSpansQueryReq": {
+        "description": "Requête permettant d'interroger les spans d'agent pour un projet.\n\nLorsque `group_by` est vide (ou omis), renvoie des lignes de span brutes dans le champ `spans` de la réponse. Lorsque `group_by` n'est pas vide, renvoie des lignes de groupe agrégées dans le champ `groups` de la réponse.",
+        "properties": {
+          "custom_attr_columns": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanValueRef"
+            },
+            "title": "Custom Attr Columns",
+            "type": "array"
+          },
+          "group_by": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AgentGroupByRef"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Group By"
+          },
+          "group_distributions": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanGroupDistributionSpec"
+            },
+            "maxItems": 20,
+            "title": "Group Distributions",
+            "type": "array"
+          },
+          "group_filters": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanGroupFilter"
+            },
+            "title": "Group Filters",
+            "type": "array"
+          },
+          "include_details": {
+            "default": false,
+            "title": "Include Details",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 10000,
+            "minimum": 0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "measures": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanMeasureSpec"
+            },
+            "title": "Measures",
+            "type": "array"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Query"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sort_by": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AgentSortBy"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort By"
+          },
+          "started_after": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started After"
+          },
+          "started_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started Before"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "title": "AgentSpansQueryReq",
+        "type": "object"
+      },
+      "AgentSpansQueryRes": {
+        "description": "Réponse à une requête sur des spans.\n\nUn seul des champs `spans` ou `groups` sera renseigné, selon que la requête spécifie `group_by` ou non.",
+        "properties": {
+          "groups": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanGroupRow"
+            },
+            "title": "Groups",
+            "type": "array"
+          },
+          "spans": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSpanSchema"
+            },
+            "title": "Spans",
+            "type": "array"
+          },
+          "total_count": {
+            "default": 0,
+            "title": "Total Count",
+            "type": "integer"
+          }
+        },
+        "title": "AgentSpansQueryRes",
+        "type": "object"
+      },
+      "AgentTraceChatReq": {
+        "description": "Requête permettant d'obtenir la vue structurée de chat / trajectoire pour une trace.",
+        "properties": {
+          "include_feedback": {
+            "default": false,
+            "title": "Include Feedback",
+            "type": "boolean"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "trace_id"
+        ],
+        "title": "AgentTraceChatReq",
+        "type": "object"
+      },
+      "AgentTraceChatRes": {
+        "description": "Vue de chat structurée : une séquence linéaire de messages représentant la trajectoire de l'agent pour une seule trace.",
+        "properties": {
+          "feedback": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/AgentChatMessage"
+            },
+            "title": "Messages",
+            "type": "array"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
+          "root_span_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Root Span Name"
+          },
+          "total_duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Durée réelle du span racine de la trace, en millisecondes. Il ne s'agit pas d'une somme des durées des spans enfants.",
+            "title": "Total Duration Ms"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "trace_id"
+        ],
+        "title": "AgentTraceChatRes",
+        "type": "object"
+      },
+      "AgentVersionSchema": {
+        "description": "Statistiques agrégées par version issues de l'AMT `agent_versions`.",
+        "properties": {
+          "agent_name": {
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "agent_version": {
+            "title": "Agent Version",
+            "type": "string"
+          },
+          "error_count": {
+            "title": "Error Count",
+            "type": "integer"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Seen"
+          },
+          "invocation_count": {
+            "title": "Invocation Count",
+            "type": "integer"
+          },
+          "last_seen": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Seen"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "span_count": {
+            "title": "Span Count",
+            "type": "integer"
+          },
+          "total_duration_ms": {
+            "title": "Total Duration Ms",
+            "type": "integer"
+          },
+          "total_input_tokens": {
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "title": "Total Output Tokens",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "project_id",
+          "agent_name",
+          "invocation_count",
+          "span_count",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_duration_ms",
+          "error_count",
+          "first_seen",
+          "last_seen",
+          "agent_version"
+        ],
+        "title": "AgentVersionSchema",
+        "type": "object"
+      },
+      "AgentVersionsQueryReq": {
+        "description": "Requête permettant de lister les versions d'un agent.",
+        "properties": {
+          "agent_name": {
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 10000,
+            "minimum": 0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "sort_by": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AgentSortBy"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort By"
+          }
+        },
+        "required": [
+          "project_id",
+          "agent_name"
+        ],
+        "title": "AgentVersionsQueryReq",
+        "type": "object"
+      },
+      "AgentVersionsQueryRes": {
+        "description": "Réponse contenant des statistiques de version d'agent.",
+        "properties": {
+          "total_count": {
+            "default": 0,
+            "title": "Total Count",
+            "type": "integer"
+          },
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/AgentVersionSchema"
+            },
+            "title": "Versions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "versions"
+        ],
+        "title": "AgentVersionsQueryRes",
+        "type": "object"
+      },
+      "AgentsQueryFilters": {
+        "description": "Filtres facultatifs pour interroger les agents.",
+        "properties": {
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          }
+        },
+        "title": "AgentsQueryFilters",
+        "type": "object"
+      },
+      "AgentsQueryReq": {
+        "description": "Requête permettant de lister les agents avec des statistiques agrégées pour un projet.",
+        "properties": {
+          "filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentsQueryFilters"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 10000,
+            "minimum": 0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "sort_by": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AgentSortBy"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort By"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "title": "AgentsQueryReq",
+        "type": "object"
+      },
+      "AgentsQueryRes": {
+        "description": "Réponse contenant des statistiques d'agent agrégées.",
+        "properties": {
+          "agents": {
+            "items": {
+              "$ref": "#/components/schemas/AgentSchema"
+            },
+            "title": "Agents",
+            "type": "array"
+          },
+          "total_count": {
+            "default": 0,
+            "title": "Total Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "agents"
+        ],
+        "title": "AgentsQueryRes",
+        "type": "object"
+      },
       "AggregationType": {
         "description": "Fonctions d’agrégation prises en charge par les métriques de feedback et les statistiques d’appel.",
         "enum": [
@@ -2216,6 +5301,22 @@
           }
         },
         "title": "CallsUsageRes",
+        "type": "object"
+      },
+      "CatalogModelsRes": {
+        "properties": {
+          "models": {
+            "items": {
+              "$ref": "#/components/schemas/LLMModelDetails"
+            },
+            "title": "Models",
+            "type": "array"
+          }
+        },
+        "required": [
+          "models"
+        ],
+        "title": "CatalogModelsRes",
         "type": "object"
       },
       "ContainsOperation": {
@@ -6079,6 +9180,222 @@
         "title": "LLMAggregatedUsage",
         "type": "object"
       },
+      "LLMModelDetails": {
+        "properties": {
+          "apiStyle": {
+            "title": "Apistyle",
+            "type": "string"
+          },
+          "availableIn": {
+            "items": {
+              "enum": [
+                "cw-prod",
+                "cw-qa"
+              ],
+              "type": "string"
+            },
+            "title": "Availablein",
+            "type": "array"
+          },
+          "contextWindow": {
+            "title": "Contextwindow",
+            "type": "integer"
+          },
+          "descriptionMedium": {
+            "title": "Descriptionmedium",
+            "type": "string"
+          },
+          "descriptionShort": {
+            "title": "Descriptionshort",
+            "type": "string"
+          },
+          "downloadsHuggingFace": {
+            "title": "Downloadshuggingface",
+            "type": "integer"
+          },
+          "featureJsonMode": {
+            "title": "Featurejsonmode",
+            "type": "boolean"
+          },
+          "featureLoRA": {
+            "title": "Featurelora",
+            "type": "boolean"
+          },
+          "featureReasoning": {
+            "title": "Featurereasoning",
+            "type": "boolean"
+          },
+          "featureStructuredOutput": {
+            "title": "Featurestructuredoutput",
+            "type": "boolean"
+          },
+          "featureToolCalling": {
+            "title": "Featuretoolcalling",
+            "type": "boolean"
+          },
+          "featureTrainableServerlessRL": {
+            "title": "Featuretrainableserverlessrl",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "idHuggingFace": {
+            "title": "Idhuggingface",
+            "type": "string"
+          },
+          "idPlayground": {
+            "title": "Idplayground",
+            "type": "string"
+          },
+          "isAvailableOpenRouter": {
+            "title": "Isavailableopenrouter",
+            "type": "boolean"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "labelOpenRouter": {
+            "title": "Labelopenrouter",
+            "type": "string"
+          },
+          "launchDate": {
+            "title": "Launchdate",
+            "type": "string"
+          },
+          "launchedQuarter": {
+            "title": "Launchedquarter",
+            "type": "string"
+          },
+          "license": {
+            "title": "License",
+            "type": "string"
+          },
+          "lifecycleStage": {
+            "enum": [
+              "general-availability",
+              "experimental",
+              "retired"
+            ],
+            "title": "Lifecyclestage",
+            "type": "string"
+          },
+          "likesHuggingFace": {
+            "title": "Likeshuggingface",
+            "type": "integer"
+          },
+          "modalities": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Modalities",
+            "type": "array"
+          },
+          "modalitiesInput": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Modalitiesinput",
+            "type": "array"
+          },
+          "modalitiesOutput": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Modalitiesoutput",
+            "type": "array"
+          },
+          "parameterCountActive": {
+            "title": "Parametercountactive",
+            "type": "integer"
+          },
+          "parameterCountTotal": {
+            "title": "Parametercounttotal",
+            "type": "integer"
+          },
+          "priceCentsPerBillionTokensCached": {
+            "title": "Pricecentsperbilliontokenscached",
+            "type": "integer"
+          },
+          "priceCentsPerBillionTokensInput": {
+            "title": "Pricecentsperbilliontokensinput",
+            "type": "integer"
+          },
+          "priceCentsPerBillionTokensOutput": {
+            "title": "Pricecentsperbilliontokensoutput",
+            "type": "integer"
+          },
+          "provider": {
+            "title": "Provider",
+            "type": "string"
+          },
+          "quantization": {
+            "enum": [
+              "int4",
+              "int8",
+              "fp4",
+              "fp6",
+              "fp8",
+              "fp16",
+              "bf16",
+              "fp32"
+            ],
+            "title": "Quantization",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "required": [
+          "provider",
+          "id",
+          "idPlayground",
+          "idHuggingFace",
+          "label",
+          "labelOpenRouter",
+          "status",
+          "lifecycleStage",
+          "availableIn",
+          "launchedQuarter",
+          "descriptionShort",
+          "descriptionMedium",
+          "launchDate",
+          "featureReasoning",
+          "featureJsonMode",
+          "featureStructuredOutput",
+          "featureToolCalling",
+          "featureLoRA",
+          "featureTrainableServerlessRL",
+          "parameterCountTotal",
+          "contextWindow",
+          "quantization",
+          "priceCentsPerBillionTokensInput",
+          "priceCentsPerBillionTokensCached",
+          "priceCentsPerBillionTokensOutput",
+          "isAvailableOpenRouter",
+          "apiStyle",
+          "modalities",
+          "modalitiesInput",
+          "modalitiesOutput",
+          "tags",
+          "likesHuggingFace",
+          "downloadsHuggingFace",
+          "license"
+        ],
+        "title": "LLMModelDetails",
+        "type": "object"
+      },
       "LLMUsageSchema": {
         "additionalProperties": true,
         "properties": {
@@ -6583,6 +9900,30 @@
           "source_code"
         ],
         "title": "ModelReadRes",
+        "type": "object"
+      },
+      "NormalizedMessage": {
+        "description": "Un message unique normalisé à partir de n'importe quel format de fournisseur.\n\nCorrespond au `Tuple(role String, content String, finish_reason String)` de ClickHouse.\n\n- role : rôle du message (utilisateur, assistant, outil, system)\n- content : texte brut pour les messages simples, ou tableau de parties sérialisé en JSON\n  pour les messages multimodaux/structurés\n- finish_reason : motif de fin du message (messages de sortie uniquement)",
+        "properties": {
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "finish_reason": {
+            "default": "",
+            "title": "Finish Reason",
+            "type": "string"
+          },
+          "role": {
+            "default": "",
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "title": "NormalizedMessage",
         "type": "object"
       },
       "NotOperation": {
@@ -7974,6 +11315,69 @@
         "title": "RefsReadBatchRes",
         "type": "object"
       },
+      "RescoreReq": {
+        "description": "Requête de rescorage complète, y compris les champs définis par le serveur.",
+        "properties": {
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "scorer_refs": {
+            "description": "Références de scorer (URI `weave://`) à appliquer ; ne doit pas être vide",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Scorer Refs",
+            "type": "array"
+          },
+          "source_evaluation_run_id": {
+            "description": "L'ID du run d'évaluation dont les prédictions seront rescorées",
+            "title": "Source Evaluation Run Id",
+            "type": "string"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement.",
+            "title": "Wb User Id"
+          }
+        },
+        "required": [
+          "source_evaluation_run_id",
+          "scorer_refs",
+          "project_id"
+        ],
+        "title": "RescoreReq",
+        "type": "object"
+      },
+      "RescoreRes": {
+        "description": "Réponse à une requête de rescorage.",
+        "properties": {
+          "call_id": {
+            "description": "ID d'appel pour l'interrogation de `/evaluations/status`",
+            "title": "Call Id",
+            "type": "string"
+          },
+          "evaluation_run_id": {
+            "description": "L'ID du nouvel EvaluationRun créé",
+            "title": "Evaluation Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "call_id",
+          "evaluation_run_id"
+        ],
+        "title": "RescoreRes",
+        "type": "object"
+      },
       "RouterOpenRouterModel": {
         "properties": {
           "context_length": {
@@ -8002,6 +11406,10 @@
             ],
             "description": "Date d’obsolescence du modèle (AAAA-MM-JJ). Omise de la sortie si elle n’est pas définie.",
             "title": "Deprecation Date"
+          },
+          "hugging_face_id": {
+            "title": "Hugging Face Id",
+            "type": "string"
           },
           "id": {
             "title": "Id",
@@ -8080,6 +11488,7 @@
         },
         "required": [
           "id",
+          "hugging_face_id",
           "name",
           "created",
           "input_modalities",
@@ -9467,6 +12876,421 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/agents/agent-versions/query": {
+      "post": {
+        "operationId": "genai_agent_versions_query_agents_agent_versions_query_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentVersionsQueryReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentVersionsQueryRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Requête sur les versions d’agent Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/conversations/chat": {
+      "post": {
+        "operationId": "genai_conversation_chat_agents_conversations_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentConversationChatReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentConversationChatRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Chat de la conversation Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/otel/v1/traces": {
+      "post": {
+        "description": "Ingérer des spans OTel dans le système d’observabilité GenAI.",
+        "operationId": "export_genai_trace_agents_otel_v1_traces_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Réponse réussie"
+          }
+        },
+        "summary": "Exporter la trace Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/query": {
+      "post": {
+        "operationId": "genai_agents_query_agents_query_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentsQueryReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentsQueryRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Requête sur les agents Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/search": {
+      "post": {
+        "operationId": "genai_search_agents_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentSearchReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentSearchRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Recherche Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/spans/custom-attrs/schema": {
+      "post": {
+        "description": "Découvrir les clés d’attributs personnalisés typées sur les spans d’agent correspondants.",
+        "operationId": "genai_custom_attrs_schema_agents_spans_custom_attrs_schema_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentCustomAttrsSchemaReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentCustomAttrsSchemaRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Schéma des attributs personnalisés Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/spans/query": {
+      "post": {
+        "description": "Interroger les spans d’agent, soit sous forme de lignes brutes, soit sous forme d’agrégats regroupés.",
+        "operationId": "genai_spans_query_agents_spans_query_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentSpansQueryReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentSpansQueryRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Requête sur les spans Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/spans/stats": {
+      "post": {
+        "description": "Interroger des agrégations prêtes pour les graphiques sur les spans d’agent.",
+        "operationId": "genai_spans_stats_agents_spans_stats_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentSpanStatsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentSpanStatsRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Statistiques des spans Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/traces/chat": {
+      "post": {
+        "operationId": "genai_traces_chat_agents_traces_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentTraceChatReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentTraceChatRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Chat des traces Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
     "/aliases": {
       "get": {
         "description": "Lister tous les alias d’un projet.",
@@ -9507,6 +13331,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Liste des alias",
@@ -9554,6 +13381,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création de file d'attente d'annotation",
@@ -9599,6 +13429,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Flux de requête des files d'attente d'annotation",
@@ -9646,6 +13479,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statistiques des files d'attente d'annotation",
@@ -9703,6 +13539,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Suppression de la file d’annotation",
@@ -9758,6 +13597,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire la file d'attente d'annotation",
@@ -9814,6 +13656,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Mise à jour de la file d’annotation",
@@ -9872,6 +13717,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Ajouter des calls à la file d'attente d'annotation",
@@ -9930,6 +13778,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Requête des éléments de la file d'attente d'annotation",
@@ -9997,6 +13848,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Mise à jour de la progression d'un élément de la file d'attente d'annotation",
@@ -10043,6 +13897,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Fin de l’appel",
@@ -10089,6 +13946,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire l’appel",
@@ -10135,6 +13995,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Début de l’appel",
@@ -10181,6 +14044,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Mettre à jour l’appel",
@@ -10227,6 +14093,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Début de lot d’appels",
@@ -10273,6 +14142,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer des appels",
@@ -10319,6 +14191,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statistiques des requêtes d’appels",
@@ -10365,6 +14240,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Score des appels",
@@ -10411,6 +14289,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statistiques des appels",
@@ -10467,6 +14348,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Flux de requêtes d’appels",
@@ -10514,6 +14398,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Utilisation des appels",
@@ -10560,6 +14447,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création de coût",
@@ -10606,6 +14496,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Purge de coût",
@@ -10652,6 +14545,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Requête de coût",
@@ -10698,9 +14594,62 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Évaluer le modèle",
+        "tags": [
+          "Evaluations"
+        ]
+      }
+    },
+    "/evaluations/rescore": {
+      "post": {
+        "description": "Réévalue un run d’évaluation existant avec un ou plusieurs scorer(s) différents.\n\nApplique le ou les scorer(s) fournis aux prédictions de source_evaluation_run_id\net renvoie un nouvel evaluation_run_id. Les ID d’appel de prédiction d’origine sont conservés.",
+        "operationId": "rescore_evaluation_evaluations_rescore_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RescoreReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RescoreRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Recalculer le score de l’évaluation",
         "tags": [
           "Evaluations"
         ]
@@ -10744,6 +14693,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statut de l'évaluation",
@@ -10791,6 +14743,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création par lot de feedback",
@@ -10838,6 +14793,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création de feedback",
@@ -10885,6 +14843,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Schéma de payload de feedback",
@@ -10932,6 +14893,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Purge de feedback",
@@ -10979,6 +14943,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Requête de feedback",
@@ -11025,6 +14992,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Remplacement de feedback",
@@ -11072,6 +15042,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statistiques de feedback",
@@ -11116,6 +15089,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Contenu du fichier",
@@ -11162,6 +15138,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un fichier",
@@ -11208,6 +15187,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statistiques des fichiers",
@@ -11328,6 +15310,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création d'image",
@@ -11353,6 +15338,29 @@
           }
         },
         "summary": "Modèles Artificial Analysis pour l’inférence",
+        "tags": [
+          "Inference"
+        ],
+        "x-exclude": true
+      }
+    },
+    "/inference/catalog/models": {
+      "get": {
+        "description": "Renvoie une liste des modèles Serverless Inference disponibles.\n\nCette API est disponible sans authentification.",
+        "operationId": "inference_catalog_models_inference_catalog_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogModelsRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          }
+        },
+        "summary": "Modèles du catalogue d’inférence",
         "tags": [
           "Inference"
         ],
@@ -11471,6 +15479,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lien vers le Registry",
@@ -11517,6 +15528,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un objet",
@@ -11563,6 +15577,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer l’objet",
@@ -11609,6 +15626,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire l’objet",
@@ -11655,6 +15675,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Requête sur les objets",
@@ -11713,6 +15736,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Obj Définir des alias",
@@ -11771,6 +15797,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Obj Supprimer des alias",
@@ -11838,6 +15867,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Obj Ajouter des tags",
@@ -11905,6 +15937,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Obj Supprimer des tags",
@@ -11970,6 +16005,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lecture par lot des références",
@@ -12041,6 +16079,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Informations sur Projects",
@@ -12087,6 +16128,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un tableau",
@@ -12133,6 +16177,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un tableau à partir de condensés",
@@ -12179,6 +16226,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Requête sur le tableau",
@@ -12225,6 +16275,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Statistiques des requêtes sur le tableau",
@@ -12271,6 +16324,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lot de statistiques des requêtes sur le tableau",
@@ -12317,6 +16373,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Mettre à jour le tableau",
@@ -12365,6 +16424,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Liste des tags",
@@ -12409,6 +16471,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Flux de requête des threads",
@@ -12456,6 +16521,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Utilisation de la trace",
@@ -12547,6 +16615,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Liste des jeux de données",
@@ -12612,6 +16683,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création de jeu de données",
@@ -12699,6 +16773,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Suppression du jeu de données",
@@ -12774,6 +16851,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire le jeu de données",
@@ -12841,6 +16921,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Requête sur les résultats d’évaluation",
@@ -12912,6 +16995,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer le run d’évaluation",
@@ -13069,6 +17155,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lister les runs d’évaluation",
@@ -13134,6 +17223,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un run d’évaluation",
@@ -13200,6 +17292,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire le run d’évaluation",
@@ -13276,6 +17371,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Terminer le run d’évaluation",
@@ -13331,6 +17429,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lister les évaluations",
@@ -13396,6 +17497,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer une évaluation",
@@ -13483,6 +17587,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer l’évaluation",
@@ -13558,6 +17665,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire l’évaluation",
@@ -13649,6 +17759,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lister les modèles",
@@ -13714,6 +17827,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un modèle",
@@ -13801,6 +17917,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer le modèle",
@@ -13876,6 +17995,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire le modèle",
@@ -13967,6 +18089,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Liste des op",
@@ -14032,6 +18157,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création d'op",
@@ -14119,6 +18247,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Suppression de l'op",
@@ -14206,6 +18337,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire l'op",
@@ -14277,6 +18411,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer la prédiction",
@@ -14389,6 +18526,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lister les prédictions",
@@ -14454,6 +18594,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer une prédiction",
@@ -14520,6 +18663,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire la prédiction",
@@ -14586,6 +18732,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Terminer la prédiction",
@@ -14641,6 +18790,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Liste des scorers",
@@ -14706,6 +18858,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Création de scorer",
@@ -14793,6 +18948,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Suppression du scorer",
@@ -14868,6 +19026,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire le scorer",
@@ -14939,6 +19100,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Supprimer le score",
@@ -15051,6 +19215,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lister les scores",
@@ -15116,6 +19283,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Créer un score",
@@ -15182,6 +19352,9 @@
         "security": [
           {
             "HTTPBasic": []
+          },
+          {
+            "HTTPBearer": []
           }
         ],
         "summary": "Lire le score",

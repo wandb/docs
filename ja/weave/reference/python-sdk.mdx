@@ -234,7 +234,7 @@ from_path(path: 'str | bytes | Path | PathLike') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/flow/monitor.py#L92" />
 
-### <kbd>method</kbd> `activate`
+### <kbd>メソッド</kbd> `activate`
 
 ```python
 activate() → ObjectRef
@@ -249,7 +249,7 @@ activate() → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/flow/monitor.py#L102" />
 
-### <kbd>method</kbd> `deactivate`
+### <kbd>メソッド</kbd> `deactivate`
 
 ```python
 deactivate() → ObjectRef
@@ -1007,7 +1007,7 @@ def match_score1(expected: str, model_output: dict) -> dict:
 
 @weave.op
 def function_to_evaluate(question: str):
-     # ここに LLM の呼び出しを追加して出力を返す
+     # ここに LLM Call を追加して出力を返す
      return  {'generated_text': 'Paris'}
 
 # スコアリング関数を使ってサンプルをスコアリングする
@@ -1027,7 +1027,7 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
 * `dataset`: `<class 'dataset.dataset.Dataset'>`
-* `scorers`: `list[typing.Annotated[trace.op_protocol.Op | flow.scorer.Scorer, BeforeValidator(func=<function cast_to_scorer at 0x7f6af79307c0>, json_schema_input_type=PydanticUndefined)]] | None`
+* `scorers`: `list[typing.Annotated[trace.op_protocol.Op | flow.scorer.Scorer, BeforeValidator(func=<function cast_to_scorer at 0x7f1615b1b600>, json_schema_input_type=PydanticUndefined)]] | None`
 * `preprocess_model_input`: `collections.abc.Callable[[dict], dict] | None`
 * `trials`: `<class 'int'>`
 * `metadata`: `dict[str, typing.Any] | None`
@@ -3996,7 +3996,7 @@ turn を作成してアクティブ化します。利用可能な場合は、現
 
 ```python
 thread(
-    thread_id: 'str | object | None' = <object object at 0x7f6af7dc0980>
+    thread_id: 'str | object | None' = <object object at 0x7f1615fc8990>
 ) → Iterator[ThreadContext]
 ```
 
@@ -4022,7 +4022,7 @@ with weave.thread(None) as t:
 
 **引数:**
 
-* <b>`thread_id`</b>: このコンテキストで Call に関連付けるスレッド識別子。指定しない場合は、UUID v7 が自動生成されます。`None` の場合は、スレッドのトラッキングが無効化されます。
+* <b>`thread_id`</b>: このコンテキストで Call に関連付けるスレッド識別子。指定しない場合は、UUID v7 が自動生成されます。`None` の場合は、スレッドの tracking が無効化されます。
   **返される値:**
 
 * <b>`ThreadContext`</b>: `thread&#95;id` と現在の `turn&#95;id` にアクセスできるオブジェクト。
