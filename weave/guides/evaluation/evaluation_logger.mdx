@@ -118,13 +118,13 @@ print("Evaluation logging complete. View results in the Weave UI.")
 <Tab title="TypeScript">
 The TypeScript SDK provides two API patterns:
 
-- Fire-and-forget API (recommended for most cases): Use `logPrediction()` without `await` for synchronous, non-blocking logging.
-- Awaitable API: Use `logPredictionAsync()` with `await` when you need to ensure operations complete before proceeding.
+- **Fire-and-forget API (recommended for most cases)**: Use `logPrediction()` without `await` for synchronous, non-blocking logging.
+- **Awaitable API**: Use `logPredictionAsync()` with `await` when you need to ensure operations complete before proceeding.
 
 Use fire-and-forget for:
-- High throughput: Process multiple predictions in parallel without waiting for each logging operation.
-- Minimal code disruption: Add evaluation logging without restructuring your existing async/await flow.
-- Simplicity: Less boilerplate code and cleaner syntax for most evaluation scenarios.
+- **High throughput**: Process multiple predictions in parallel without waiting for each logging operation.
+- **Minimal code disruption**: Add evaluation logging without restructuring your existing async/await flow.
+- **Simplicity**: Less boilerplate code and cleaner syntax for most evaluation scenarios.
 
 The fire-and-forget pattern is safe because `logSummary()` automatically waits for all pending operations to complete before aggregating results.
 
