@@ -118,7 +118,7 @@ Weave exposes the following top-level functions. Each function returns an object
 
 ### Start a session
 
-`start_session()` / `startSession()` sets a `conversation_id` attribute on all child spans so that Weave groups turns in the Agents tab. If you pass a `session_id`, it must be stable across the lifetime of the conversation. Reuse the same ID to add new turns to an existing session. When you omit `session_id`, the SDK generates a UUID automatically.
+`start_session()` / `startSession()` sets a `conversation_id` attribute on all child spans so that turns are grouped in the Agents tab. If you pass a `session_id`, it must be stable across the lifetime of the conversation. Reuse the same ID to add new turns to an existing session. When you omit `session_id`, the SDK generates a UUID automatically.
 
 The active session is stored in context (a Python `ContextVar` or Node.js `AsyncLocalStorage`), so any code running in the same async context can retrieve it with `weave.get_current_session()` / `weave.getCurrentSession()` without passing the session object explicitly.
 
