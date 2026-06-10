@@ -181,7 +181,7 @@ def run_turn(history, user_message):
     history.append({"role": "user", "content": user_message})
 
     with weave.start_turn(user_message=user_message, model=MODEL):
-        # LLM call 1: the model may decide to use a tool.
+        # LLM call 1: the model might decide to use a tool.
         with weave.start_llm(model=MODEL, provider_name="openai") as llm:
             resp = openai_client.chat.completions.create(
                 model=MODEL, messages=history, tools=[wikipedia_tool_schema],
@@ -247,7 +247,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
 
   const turn = weave.startTurn({ userMessage, model: MODEL });
   try {
-    // LLM call 1: the model may decide to use a tool.
+    // LLM call 1: the model might decide to use a tool.
     const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
     let msg;
     try {
