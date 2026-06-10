@@ -10,9 +10,9 @@ This is an interactive notebook. You can run it locally or use the links below:
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
 </Note>
 
-Automatically evaluating a generated LLM response is often hard. Depending on your risk tolerance, you can gather direct user feedback to find areas to improve.
+Automatically evaluating a generated LLM response can be difficult. To better evaluate and improve responses, you can additionally gather direct user feedback to identify problem areas.
 
-In this tutorial, you use a custom chatbot as an example app from which to collect user feedback. You use Streamlit to build the interface and capture the LLM interactions and feedback in W&B Weave. By the end, you have a running chatbot that logs each response to Weave alongside thumbs-up or thumbs-down reactions and free-text feedback from your users, so you can review production interactions and identify areas for improvement.
+This notebook demonstrates how to collect user feedback about the responses from a custom chatbot. It uses Streamlit to build the interface and capture the LLM interactions and feedback in W&B Weave. By the end, you have a running chatbot that logs each response to Weave, along with thumbs-up or thumbs-down reactions and free-text feedback from your users, so you can review production interactions and identify areas for improvement.
 
 ## Setup
 
@@ -208,7 +208,7 @@ with weave.attributes(
     result = predict(input_data="your data here")  # user question through the App UI
 ```
 
-To attach feedback, you need the `call` object, which you obtain by using the `.call()` method _instead of calling the function as normal_:
+To attach feedback, you need the `call` object, which you obtain by using the `.call()` method instead of calling the function as normal:
 
 ```python lines
 result, call = predict.call(input_data="your data here")

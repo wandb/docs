@@ -12,11 +12,11 @@ This is an interactive notebook. You can run it locally or use the following lin
 
 ## Import traces from third-party systems
 
-This cookbook shows you how to import historical conversation traces from a CSV file into W&B Weave so you can analyze them, compare model behavior, and run evaluations on data that was generated outside of a Weave-instrumented application.
+This notebook shows you how to import historical conversation traces from a CSV file into W&B Weave so you can analyze them, compare model behavior, and run evaluations on data that was generated outside of a Weave-instrumented application.
 
 Sometimes you can't instrument your Python or JavaScript code with the Weave integration to obtain real-time traces of your GenAI application. Often, these traces are available to you later in CSV or JSON format.
 
-This cookbook uses the lower-level Weave Python API to extract data from a CSV file and import it into Weave so you can analyze and evaluate it.
+This notebook uses the lower-level Weave Python API to extract data from a CSV file and import it into Weave so you can analyze and evaluate it.
 
 The sample dataset assumed in this cookbook has the following structure:
 
@@ -31,9 +31,9 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 ```
 
-To understand the decisions for import in this cookbook, remember that Weave traces have parent-child relationships that are 1:Many and continuous. A single parent can have multiple children, and that parent can itself be a child of another parent.
+To understand the decisions for import in this notebook, remember that Weave traces have parent-child relationships that are 1:Many and continuous. A single parent can have multiple children, and that parent can itself be a child of another parent.
 
-This cookbook uses `conversation_id` as the parent identifier and `turn_index` as the child identifier to provide complete conversation logging.
+This notebook uses `conversation_id` as the parent identifier and `turn_index` as the child identifier to provide complete conversation logging.
 
 You must modify the variables in the following sections to match your own dataset, file paths, and W&B project.
 
@@ -45,7 +45,7 @@ Set `WANDB_API_KEY` in your environment so that you can log in with `wandb.login
 Set the name of the file you upload to Colab in `name_of_file`, and set the W&B project you want to log into in `name_of_wandb_project`.
 
 <Note>
-`name_of_wandb_project` can also be in the format `{team_name}/{project_name}` to specify a team to log the traces into.
+`name_of_wandb_project` can also be in the format `[TEAM_NAME]/[PROJECT_NAME]` to specify a team to log the traces into.
 </Note>
 
 Then, fetch a Weave client by calling `weave.init()`.
