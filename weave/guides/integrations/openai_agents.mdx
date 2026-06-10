@@ -61,6 +61,10 @@ if __name__ == "__main__":
 ## View traces
 
 When the above code sample is run, a link to the Weave dashboard is generated. Open the link to inspect traces from your agent run.
+
+## Realtime API with the Python Agents SDK
+
+For tracing realtime voice agents built with `RealtimeAgent` and `RealtimeRunner` from the OpenAI Agents Python SDK, follow [OpenAI Realtime API](/weave/guides/integrations/openai-realtime-audio). That guide uses `patch_openai_realtime()` with Weave.
 </Tab>
 
 <Tab title="TypeScript">
@@ -125,7 +129,6 @@ main();
 
 In CommonJS, the `import * as weave from "weave"` statement must appear **before** `import { Agent, run, tool } from "@openai/agents"` for automatic instrumentation. If your code cannot follow this ordering, use the manual instrumentation technique that follows.
 
-
 ### Manual instrumentation
 
 Manual instrumentation is only needed in cases where the module loader hook cannot run, such as:
@@ -154,6 +157,83 @@ import { createOpenAIAgentsTracingProcessor } from "weave";
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
+
+## OpenAI Realtime API with the OpenAI Agents SDK
+
+The examples above use the Agents SDK in a request-response style. You call `run()` with a list of messages and read `finalOutput`, which aligns with patterns such as the OpenAI [Responses API](https://platform.openai.com/docs/guides/responses).
+
+The [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/realtime/) targets long-lived streaming sessions over a persistent connection (audio and text). The programming model is different from sending a single inference-style request and receiving one structured result.
+
+Weave can trace Realtime usage from multiple integration paths. The [OpenAI Realtime API](/weave/guides/integrations/openai-realtime-audio) guide focuses on Python and direct WebSocket clients. This section describes **TypeScript** with `RealtimeAgent` and `RealtimeSession` from `@openai/agents/realtime`, backed by automatic instrumentation for `@openai/agents-realtime` ([pull request #6315](https://github.com/wandb/weave/pull/6315), [Graphite stack](https://app.graphite.com/github/pr/wandb/weave/6315)).
+
+Use the same `npm install` command as in the Installation section of this tab. Realtime types and classes are exported from `@openai/agents/realtime`.
+
+Weave patches `@openai/agents-realtime` through the same module loader hooks as `@openai/agents`. Import Weave before agent modules, and start Node with `--import=weave/instrument` when you use ESM. If hooks cannot run (for example in bundled apps or with dynamic imports that bypass the loader), call [`patchRealtimeSession()`](/weave/reference/typescript-sdk/functions/patchrealtimesession) once at startup before constructing any `RealtimeSession`.
+
+The following example initializes Weave, connects a session, sends a text message, and prints the assistant reply. Set `OPENAI_API_KEY` in your environment.
+
+```typescript
+import * as weave from "weave";
+import { RealtimeAgent, RealtimeSession, tool } from "@openai/agents/realtime";
+import { z } from "zod";
+
+const getWeatherTool = tool({
+  name: "get_weather",
+  description: "Get the current weather for a given city.",
+  parameters: z.object({
+    city: z.string().describe("The name of the city"),
+  }),
+  async execute({ city }) {
+    const weather: Record<string, string> = {
+      "San Francisco": "65°F, foggy",
+      "New York": "72°F, sunny",
+      London: "55°F, cloudy",
+    };
+    return weather[city] ?? "70°F, clear";
+  },
+});
+
+const agent = new RealtimeAgent({
+  name: "Assistant",
+  instructions:
+    "You are a helpful assistant. Keep responses concise. This is a realtime session.",
+  tools: [getWeatherTool],
+});
+
+async function main() {
+  await weave.init("your-team-name/your-project-name");
+
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error("OPENAI_API_KEY is required");
+
+  const session = new RealtimeSession(agent);
+
+  session.on("history_updated", (history) => {
+    const last = history[history.length - 1];
+    if (last?.type === "message" && last.role === "assistant") {
+      const text = (last.content ?? [])
+        .filter((c) => c.type === "output_text")
+        .map((c) => ("text" in c ? String(c.text) : ""))
+        .join("");
+      if (text) console.log(`\nAssistant: ${text}`);
+    }
+  });
+
+  session.on("error", (event) => {
+    console.error("[error]", event.error);
+  });
+
+  await session.connect({ apiKey });
+  session.sendMessage("What is the weather like in San Francisco?");
+
+  await new Promise((resolve) => setTimeout(resolve, 10_000));
+  session.close();
+}
+
+main().catch(console.error);
+```
+
+A full runnable script, including notes on running it from the Weave repo, is in [`openaiAgentsRealtime.ts`](https://github.com/wandb/weave/blob/master/sdks/node/examples/openaiAgentsRealtime.ts) ([pull request #6322](https://github.com/wandb/weave/pull/6322)).
 
 </Tab>
 </Tabs>
