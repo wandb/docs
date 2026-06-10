@@ -311,9 +311,6 @@ Return a JSON object with your rating and reasoning.
 <Tabs>
   <Tab title="Python">
     During evaluation, Weave computes the scorer for each row of your dataset. To provide a final score for the evaluation, Weave runs `auto_summarize` based on the return type of the output.
-    - Weave computes averages for numerical columns.
-    - Weave reports count and fraction for boolean columns.
-    - Weave ignores other column types.
 
     You can override the `summarize` method on the `Scorer` class and provide your own way to compute the final scores. The `summarize` function expects:
 
