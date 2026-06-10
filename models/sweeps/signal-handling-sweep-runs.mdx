@@ -1,7 +1,6 @@
 ---
 description: Learn how W&B Sweeps handle UNIX signals, exit codes, and preemption in sweep runs.
 title: Signal handling and sweep runs
-keywords: ["SIGTERM", "SIGKILL", "preemption", "SLURM", "mark_preempting"]
 ---
 
 This page provides details about how W&B Sweeps handle system signals and process exit codes. Use this information to run sweeps reliably in preemptible environments such as SLURM, EC2 Spot, or Google Cloud preemptible VMs. The following sections describe how to interrupt runs cleanly from the keyboard and give details to help you understand and predict run requeue behavior. This page targets users who run sweeps on preemptible infrastructure or who need fine-grained control over run lifecycle and cleanup. For details about how W&B requeues runs when they're preempted, see [Resume preemptible Sweeps runs](/models/runs/resuming#resume-preemptible-sweeps-runs).
