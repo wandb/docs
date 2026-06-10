@@ -346,9 +346,6 @@ Return a JSON object with your rating and reasoning.
   </Tab>
   <Tab title="TypeScript">
     During evaluation, Weave computes the scorer for each row of your dataset. To provide a final score, Weave uses an internal `summarizeResults` function that aggregates depending on the output type.
-    - Weave computes averages for numerical columns.
-    - Weave reports count and fraction for boolean columns.
-    - Weave ignores other column types.
 
     Weave doesn't support custom summarization.
 
