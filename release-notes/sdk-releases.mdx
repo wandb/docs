@@ -17,10 +17,8 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
 
 ## Changed
 - `wandb.Api` GraphQL operations now route through `wandb-core` instead of the legacy Python GraphQL client.
-- Failures from `wandb.Api` GraphQL operations now raise `WandbApiFailedError` instead of `requests` HTTP exceptions.
-- `Run.scan_history()` now reads from exported parquet history when available, which can significantly improve throughput for runs with large history.
-
-    This capability was introduced under `beta_scan_history` in SDK `v0.23.1`.
+    - Failures from `wandb.Api` GraphQL operations now raise `WandbApiFailedError` instead of `requests` HTTP exceptions.
+- `Run.scan_history()` now reads from exported parquet history when available, which can significantly improve throughput for runs with large history. This capability was introduced under `beta_scan_history` in SDK `v0.23.1`.
 
 ## Removed
 - Removed the unsupported `wandb.apis.importers` API.
