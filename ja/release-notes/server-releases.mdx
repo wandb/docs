@@ -14,6 +14,12 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.81.3" description="2026年6月9日">
+  ## 修正
+
+  * サポートされていない内部 API endpoint を削除しました。
+</Update>
+
 <Update label="v0.81.2" description="2026年6月8日">
   **2026年6月8日**
 
@@ -27,7 +33,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * Workspace でのパネル検索のパフォーマンスを改善しました。特に、正規表現ベースの検索で効果があります。
+  * Workspace での panel search のパフォーマンスを改善しました。特に、正規表現ベースの検索で効果があります。
   * ユーザーが現在アクセス可能なコンテキスト外まで権限チェックが評価されていたため、アーティファクト が複数のレジストリにリンクされている場合に アーティファクト のダウンロードが失敗することがあるバグを修正しました。
   * すでにリンクされている アーティファクト を再リンクすると、アーティファクト-link オートメーションが意図せずトリガーされることがあるバグを修正しました。
   * project 名の変更後に、`project [storage_key] not found` エラーによりストレージエンジンの読み取りが失敗することがあるバグを修正しました。
