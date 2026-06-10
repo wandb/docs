@@ -6,7 +6,7 @@ keywords: [scorers, LLM-as-a-judge, column_map, apply_scorer, evaluation metrics
 
 In Weave, Scorers evaluate AI outputs and return evaluation metrics. They take the AI's output, analyze it, and return a dictionary of results. Scorers can use your input data as reference if needed and can also output extra information, such as explanations or reasoning from the evaluation.
 
-This guide is for developers who want to measure the quality of their AI system's outputs. It explains how Scorers fit into Weave evaluations, how to build your own Scorers, how to apply Scorers to individual calls, and how to analyze the resulting scores. By the end, you'll understand which type of Scorer to use for a given evaluation task and how to access the scores it produces.
+This guide is for developers who want to measure the quality of their AI system's outputs. It explains how Scorers fit into Weave evaluations, how to build your own Scorers, how to apply Scorers to individual calls, and how to analyze the resulting scores.
 
 <Tabs>
   <Tab title="Python">
@@ -60,7 +60,7 @@ Although this guide shows you how to create custom scorers, Weave comes with [pr
 
   </Tab>
   <Tab title="TypeScript">
-    These are functions wrapped with `weave.op` that accept an object with `modelOutput` and optionally `datasetRow`. They work well for straightforward evaluations like:
+    These are functions wrapped with `weave.op` that accept an object with `modelOutput` and optionally `datasetRow`. They work well for straightforward evaluations like the following example:
     ```typescript lines
     import * as weave from 'weave'
 

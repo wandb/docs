@@ -12,21 +12,19 @@ This is an interactive notebook. You can run it locally or use the links below:
 
 ## Integrate with Weave: production dashboard
 
-The GenAI tooling landscape changes often. New frameworks, tools, and applications are emerging all the time. Weave aims to be a single solution for all your GenAI monitoring and evaluation needs. This also means that sometimes you need to integrate with existing platforms or extend Weave to fit the specific needs of your project or organization.
-
-This cookbook demonstrates how to use Weave's APIs and functions to create a custom dashboard for production monitoring as an extension to the Traces view in Weave. This guide is intended for developers and ML engineers who run LLM applications in production and want tailored visibility into performance, cost, and user feedback beyond what the default Traces view provides. This cookbook focuses on:
+This notebook demonstrates how to use Weave's APIs and functions to create a custom dashboard for production monitoring as an extension to the Traces view in Weave. This guide is intended for developers and ML engineers who run LLM applications in production and want tailored visibility into performance, cost, and user feedback beyond what the default Traces view provides. This notebook focuses on:
 
 - Fetching traces, costs, feedback, and other metrics from Weave.
 - Creating aggregate views for user feedback and cost distribution.
 - Creating visualizations for token usage and latency over time.
 
-By the end of this cookbook, you have a working custom dashboard that aggregates trace data, costs, and feedback from your Weave project into a single view. You can try the dashboard with your own Weave project by installing `streamlit` and running the [production dashboard script](https://github.com/NiWaRe/agent-dev-collection).
+By the end of this notebook, you will have a working custom dashboard that aggregates trace data, costs, and feedback from your Weave project into a single view. You can try the dashboard with your own Weave project by installing `streamlit` and running the [production dashboard script](https://github.com/NiWaRe/agent-dev-collection).
 
 <img src="https://github.com/NiWaRe/knowledge-worker-weave/blob/master/screenshots/dashboard_weave_preview.jpg?raw=true" width="1000" alt="Example Production Dashboard with Weave" />
 
 ## Setup
 
-To follow along with this tutorial, install the following packages:
+To begin, install the following packages:
 
 ```python lines
 !pip install streamlit pandas plotly weave
@@ -40,8 +38,8 @@ The following sections walk through initializing the Weave client, fetching call
 
 First, set up a function to initialize the Weave client and add costs for each model. This step is required so that downstream cost queries can attribute per-token pricing to each call.
 
-- W&B includes the standard costs for many standard models, and also lets you add your own custom costs and custom models. The following example shows how to add custom costs for a few models and use the standard costs for the rest.
-- The costs are calculated based on the tracked tokens for each call in Weave. For many LLM vendor libraries, Weave automatically tracks the token usage, but you can also return custom token counts for any call. For more information about defining the token count and cost calculation for a custom model, see the [custom cost cookbook](/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
+W&B includes the standard costs for many standard models, and also lets you add your own custom costs and custom models. The following example shows how to add custom costs for a few models and use the standard costs for the rest.
+The costs are calculated based on the tracked tokens for each call in Weave. For many LLM vendor libraries, Weave automatically tracks the token usage, but you can also return custom token counts for any call. For more information about defining the token count and cost calculation for a custom model, see the [custom cost cookbook](/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
 
 ```python lines
 PROJECT_NAME = "wandb-smle/weave-cookboook-demo"

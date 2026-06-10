@@ -6,8 +6,6 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "incremental evalu
 
 This guide shows you how to use `EvaluationLogger` to record predictions and scores from your existing Python or TypeScript code, so you can evaluate model performance in Weave without first defining a full dataset and scorer suite.
 
-The `EvaluationLogger` provides a flexible, incremental way to log evaluation data directly from your Python or TypeScript code. You don't need deep knowledge of Weave's internal data types. Instantiate a logger and use its methods (`log_prediction`, `log_score`, `log_summary`) to record evaluation steps.
-
 This approach is helpful in complex workflows where the entire dataset or all scorers might not be defined upfront.
 
 In contrast to the standard `Evaluation` object, which requires a predefined `Dataset` and list of `Scorer` objects, the `EvaluationLogger` lets you log individual predictions and their associated scores incrementally as they become available.
@@ -38,7 +36,7 @@ Following these steps records a complete evaluation in Weave, with per-predictio
 After calling `finish()` on a prediction, no more scores can be logged for it.
 </Warning>
 
-For a Python code example that demonstrates this workflow, see the [Basic example](#basic-example). If the output and all scores are available at once, Python users can combine steps 2 through 4 into a single call using [`log_example()`](#simplified-logging-with-log_example).
+For a Python example that demonstrates this workflow, see the [Basic example](#basic-example). If the output and all scores are available at once, Python users can combine steps 2 through 4 into a single call using [`log_example()`](#simplified-logging-with-log_example).
 
 ## Basic example
 
@@ -722,7 +720,7 @@ The following tips help you get the most out of `EvaluationLogger`:
 - Rich media logging is useful for qualitative analysis.
 </Tab>
 <Tab title="TypeScript">
-- Auto-finish behavior: Although you should explicitly call `finish()` on each prediction for clarity, `logSummary()` automatically finishes any unfinished predictions. However, once the script calls `finish()`, it can't log any more scores.
-- Configuration options: Use configuration options, including `name`, `description`, `dataset`, `model`, `scorers`, and `attributes` to organize and filter your evaluations in the Weave UI.
+- **Auto-finish behavior**: While we recommend explicitly calling `finish()` on each prediction for clarity, `logSummary()` automatically finishes any unfinished predictions. However, once the script calls `finish()`, it can't log any more scores.
+- **Configuration options**: Use configuration options, including `name`, `description`, `dataset`, `model`, `scorers`, and `attributes` to organize and filter your evaluations in the Weave UI.
 </Tab>
 </Tabs>
