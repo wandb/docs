@@ -124,7 +124,7 @@ You can instantiate `Model` objects like this:
   <Tab title="Python">
   ```python lines
   # Set your team and project name
-  weave.init('[TEAM-NAME]/eval_pipeline_quickstart')
+  weave.init('[YOUR-TEAM]/eval_pipeline_quickstart')
 
   model = ExtractFruitsModel(
       model_name='gpt-3.5-turbo-1106',
@@ -153,7 +153,7 @@ You can instantiate `Model` objects like this:
 
 ## Create a dataset
 
-With a `Model` defined, you now need a dataset to evaluate it against. A [`Dataset` is a collection of examples stored as a Weave object](/weave/guides/core-types/datasets). Publishing the dataset to Weave versions it and makes it reusable across evaluation runs.
+With a `Model` defined, you now need a dataset to evaluate it against. A [`Dataset`](/weave/guides/core-types/datasets) is a collection of examples stored as a Weave object. Publishing the dataset to Weave versions it and makes it reusable across evaluation runs.
 
 The following example dataset defines three example input sentences and their correct answers (`labels`), and then formats them in a JSON table format that scoring functions can read.
 
