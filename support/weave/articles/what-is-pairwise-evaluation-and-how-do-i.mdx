@@ -3,13 +3,13 @@ title: "What is pairwise evaluation and how do I do it?"
 keywords: ["Evaluation"]
 ---
 
-When [scoring](/weave/guides/evaluation/scorers) models in a Weave [evaluation](/weave/guides/core-types/evaluations), absolute value metrics (e.g. `9/10` for Model A and `8/10` for Model B) are typically harder to assign than relative ones (e.g. Model A performs better than Model B). _Pairwise evaluation_ allows you to compare the outputs of two models by ranking them relative to each other. This approach is particularly useful when you want to determine which model performs better for subjective tasks such as text generation, summarization, or question answering. With pairwise evaluation, you can obtain a relative preference ranking that reveals which model is best for specific inputs.
+When you [score](/weave/guides/evaluation/scorers) models in a Weave [evaluation](/weave/guides/core-types/evaluations), absolute value metrics (for example, `9/10` for Model A and `8/10` for Model B) are typically harder to assign than relative ones (for example, Model A performs better than Model B). _Pairwise evaluation_ lets you compare the outputs of two models by ranking them relative to each other. This approach is useful when you want to determine which model performs better for subjective tasks such as text generation, summarization, or question answering. With pairwise evaluation, you get a relative preference ranking that shows which model is best for specific inputs.
 
 <Warning>
-This approach is a workaround and may change in future releases. We are actively working on a more robust API to support pairwise evaluations. Stay tuned for updates!
+This approach is a workaround and might change in future releases. A more robust API to support pairwise evaluations is planned.
 </Warning>
 
-The following code sample demonstrates how to implement a pairwise evaluation in Weave by creating a [class-based scorer](/weave/guides/evaluation/scorers#class-based-scorers) called `PreferenceScorer`. The `PreferenceScorer` compares two models, `ModelA` and `ModelB`, and returns a relative score of the model outputs based on explicit hints in the input text.
+The following code sample shows how to implement a pairwise evaluation in Weave by creating a [class-based scorer](/weave/guides/evaluation/scorers#class-based-scorers) called `PreferenceScorer`. The `PreferenceScorer` compares two models, `ModelA` and `ModelB`, and returns a relative score of the model outputs based on explicit hints in the input text.
 
 ```python lines
 from weave import Model, Evaluation, Scorer, Dataset
@@ -89,6 +89,8 @@ pref_scorer = PreferenceScorer(other_model=model_b)
 evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
 evaluation.evaluate(model_a)
 ```
+
+After you run this evaluation, you have a relative preference ranking between `ModelA` and `ModelB` based on the `PreferenceScorer` results.
 
 ---
 

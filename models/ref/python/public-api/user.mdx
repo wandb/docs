@@ -19,7 +19,7 @@ This allows managing a user's API keys and accessing information like team membe
 
 **Args:**
  
- - `client`:  The GraphQL client to use for network operations. 
+ - `service_api`:  The service API instance to use for querying W&B. 
  - `attrs`:  A subset of the User type in the GraphQL schema. 
 
 
@@ -27,7 +27,7 @@ This allows managing a user's API keys and accessing information like team membe
 
 Names of the user's API keys. 
 
-This property returns the names of the API keys, *not* the secret associated with the key. The name of the key cannot be used as an API key.
+This property returns the names of the the API keys, *not* the secret associated with the key. The name of the key cannot be used as an API key. 
 
 The list is empty if the user has no API keys or if API keys have not been loaded. 
 

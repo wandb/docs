@@ -33,7 +33,7 @@ for sweep in sweeps:
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     per_page: 'int' = 50
@@ -46,7 +46,7 @@ An iterable collection of `Sweep` objects.
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
+ - `service_api`:  The service API used to query W&B. 
  - `entity`:  The entity which owns the sweeps. 
  - `project`:  The project which contains the sweeps. 
  - `per_page`:  The number of sweeps to fetch per request to the API. 

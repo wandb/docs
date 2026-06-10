@@ -2975,6 +2975,52 @@
         ]
       }
     },
+    "/link_to_registry": {
+      "post": {
+        "tags": [
+          "Registry"
+        ],
+        "summary": "Link To Registry",
+        "operationId": "link_to_registry_link_to_registry_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAndLinkPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAndLinkWeaveAssetRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/v2/{entity}/{project}/ops": {
       "post": {
         "tags": [
@@ -7040,6 +7086,19 @@
             ],
             "title": "Deleted At"
           },
+          "expire_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expire At",
+            "description": "Expiration timestamp for this call. None = no TTL configured for the project (the row will not be expired)."
+          },
           "storage_size_bytes": {
             "anyOf": [
               {
@@ -7774,6 +7833,11 @@
             "type": "integer",
             "title": "Count"
           },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "default": false
+          },
           "total_storage_size_bytes": {
             "anyOf": [
               {
@@ -8115,6 +8179,16 @@
           "completion_token_cost": {
             "type": "number",
             "title": "Completion Token Cost"
+          },
+          "cache_read_input_token_cost": {
+            "type": "number",
+            "title": "Cache Read Input Token Cost",
+            "default": 0
+          },
+          "cache_creation_input_token_cost": {
+            "type": "number",
+            "title": "Cache Creation Input Token Cost",
+            "default": 0
           },
           "prompt_token_cost_unit": {
             "anyOf": [
@@ -8495,6 +8569,75 @@
         ],
         "title": "CostQueryRes"
       },
+      "CreateAndLinkPayload": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Ref"
+          },
+          "target": {
+            "$ref": "#/components/schemas/CreateAndLinkTarget"
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "ref",
+          "target"
+        ],
+        "title": "CreateAndLinkPayload"
+      },
+      "CreateAndLinkTarget": {
+        "properties": {
+          "portfolio_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Portfolio Name"
+          },
+          "entity_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Entity Name"
+          },
+          "project_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Project Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "portfolio_name",
+          "entity_name",
+          "project_name"
+        ],
+        "title": "CreateAndLinkTarget"
+      },
+      "CreateAndLinkWeaveAssetRes": {
+        "properties": {
+          "version_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version Index"
+          }
+        },
+        "type": "object",
+        "title": "CreateAndLinkWeaveAssetRes"
+      },
       "Datacenter": {
         "properties": {
           "country_code": {
@@ -8661,6 +8804,18 @@
             "type": "string",
             "format": "date-time",
             "title": "Ended At"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
           },
           "exception": {
             "anyOf": [
@@ -8890,6 +9045,33 @@
         ],
         "title": "EvalResultsEvaluationSummary"
       },
+      "EvalResultsFilter": {
+        "properties": {
+          "evaluation_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Call Id",
+            "description": "When set, filter fields are scoped to this evaluation's data."
+          },
+          "query": {
+            "$ref": "#/components/schemas/Query",
+            "description": "Filter expression. Supported field prefixes: scores.<name>, inputs.<path>, outputs.<path>."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "title": "EvalResultsFilter",
+        "description": "A filter scoped to an optional evaluation."
+      },
       "EvalResultsQueryBody": {
         "properties": {
           "evaluation_call_ids": {
@@ -8963,6 +9145,42 @@
             ],
             "title": "Summary Require Intersection",
             "description": "Optional intersection behavior for the summary section. When null, the value of `require_intersection` is used."
+          },
+          "include_predict_and_score_children": {
+            "type": "boolean",
+            "title": "Include Predict And Score Children",
+            "description": "When true (default), fetch child calls (predict/score) of each predict_and_score call to populate predict_call_id, scorer_call_ids, and more precise latency/token data. When false, these fields are derived from the predict_and_score call itself (predict_call_id and scorer_call_ids will be null/empty).",
+            "default": true
+          },
+          "sort_by": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/EvalResultsSortBy"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort By",
+            "description": "Sort specification for result rows. Supported field prefixes: scores.<name>, inputs.<path>, outputs.<path>. When null, rows are sorted by row_digest ASC."
+          },
+          "filters": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/EvalResultsFilter"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filters",
+            "description": "Filters applied to grouped rows. Multiple filters are AND'd together."
           },
           "limit": {
             "anyOf": [
@@ -9171,6 +9389,52 @@
         "title": "EvalResultsScorerStats",
         "description": "Stats for a single flattened score dimension (scorer_key or scorer_key.path.to.leaf)."
       },
+      "EvalResultsSortBy": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "title": "Direction"
+          },
+          "evaluation_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Call Id",
+            "description": "Scope the sort to a specific evaluation's scores."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "value",
+              "difference"
+            ],
+            "title": "Mode",
+            "description": "When 'value', sort by the field value for the specified evaluation. When 'difference', sort by max-min spread of the field across all evaluations (evaluation_call_id is ignored).",
+            "default": "value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "field",
+          "direction"
+        ],
+        "title": "EvalResultsSortBy",
+        "description": "Sort specification for evaluation results, extending SortBy"
+      },
       "EvalResultsSummaryRes": {
         "properties": {
           "row_count": {
@@ -9248,6 +9512,20 @@
             },
             "type": "object",
             "title": "Scorer Call Ids"
+          },
+          "genai_span_ref": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GenAISpanRef"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genai Span Ref"
           }
         },
         "type": "object",
@@ -9560,6 +9838,18 @@
             "type": "string",
             "title": "Model",
             "description": "Reference to the model (weave:// URI)"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Evaluation Run Id",
+            "description": "Source evaluation run ID if this run was created by rescoring \u2014 provenance link"
           }
         },
         "type": "object",
@@ -9698,6 +9988,18 @@
             ],
             "title": "Summary",
             "description": "Summary data for the evaluation run"
+          },
+          "source_evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Evaluation Run Id",
+            "description": "Source evaluation run ID if this run was created by rescoring"
           }
         },
         "type": "object",
@@ -10000,6 +10302,85 @@
             "description": "The annotation queue ID this feedback was created from. References annotation_queues.id. NULL when feedback is created outside of queues.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
+            ]
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Tags",
+            "description": "Tags applied to the ref by a scorer",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ]
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Tag Reasons",
+            "description": "reason text per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ]
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Tag Confidences",
+            "description": "confidence (0-1) per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ]
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Ratings",
+            "description": "numeric ratings (0-1) keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ]
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Rating Reasons",
+            "description": "reason text per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ]
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Rating Confidences",
+            "description": "confidence (0-1) per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
             ]
           },
           "wb_user_id": {
@@ -10473,6 +10854,85 @@
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
           },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Tags",
+            "description": "Tags applied to the ref by a scorer",
+            "examples": [
+              [
+                "nsfw",
+                "high-quality"
+              ]
+            ]
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Tag Reasons",
+            "description": "reason text per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": "Contains explicit language"
+              }
+            ]
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Tag Confidences",
+            "description": "confidence (0-1) per tag, keyed by tag name",
+            "examples": [
+              {
+                "nsfw": 0.92
+              }
+            ]
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Ratings",
+            "description": "numeric ratings (0-1) keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.87
+              }
+            ]
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Rating Reasons",
+            "description": "reason text per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": "very confident response"
+              }
+            ]
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Rating Confidences",
+            "description": "confidence (0-1) per rating, keyed by rating name",
+            "examples": [
+              {
+                "_rating_": 0.92
+              }
+            ]
+          },
           "wb_user_id": {
             "anyOf": [
               {
@@ -10743,6 +11203,24 @@
           "total_size_bytes"
         ],
         "title": "FilesStatsRes"
+      },
+      "GenAISpanRef": {
+        "properties": {
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "span_id": {
+            "type": "string",
+            "title": "Span Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trace_id",
+          "span_id"
+        ],
+        "title": "GenAISpanRef"
       },
       "Geolocation": {
         "properties": {
@@ -11291,6 +11769,16 @@
             "title": "Total Tokens",
             "default": 0
           },
+          "cache_read_input_tokens": {
+            "type": "integer",
+            "title": "Cache Read Input Tokens",
+            "default": 0
+          },
+          "cache_creation_input_tokens": {
+            "type": "integer",
+            "title": "Cache Creation Input Tokens",
+            "default": 0
+          },
           "prompt_tokens_total_cost": {
             "anyOf": [
               {
@@ -11312,6 +11800,28 @@
               }
             ],
             "title": "Completion Tokens Total Cost"
+          },
+          "cache_read_input_tokens_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Read Input Tokens Total Cost"
+          },
+          "cache_creation_input_tokens_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Creation Input Tokens Total Cost"
           }
         },
         "type": "object",
@@ -11385,6 +11895,28 @@
               }
             ],
             "title": "Total Tokens"
+          },
+          "cache_creation_input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Creation Input Tokens"
+          },
+          "cache_read_input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Read Input Tokens"
           }
         },
         "additionalProperties": true,
@@ -12913,6 +13445,21 @@
             ],
             "title": "Evaluation Run Id",
             "description": "Optional evaluation run ID to link this prediction as a child call"
+          },
+          "genai_span_ref": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GenAISpanRef"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genai Span Ref",
+            "description": "Optional GenAI span reference(s) produced by this prediction."
           }
         },
         "type": "object",
@@ -13326,9 +13873,8 @@
             "description": "The scorer reference (weave:// URI)"
           },
           "value": {
-            "type": "number",
             "title": "Value",
-            "description": "The value of the score"
+            "description": "The raw output of the scorer"
           },
           "evaluation_run_id": {
             "anyOf": [
@@ -13393,9 +13939,8 @@
             "description": "The scorer reference (weave:// URI)"
           },
           "value": {
-            "type": "number",
             "title": "Value",
-            "description": "The value of the score"
+            "description": "The raw output of the scorer"
           },
           "evaluation_run_id": {
             "anyOf": [
@@ -14582,6 +15127,8 @@
               "input_tokens",
               "output_tokens",
               "total_tokens",
+              "cache_read_input_tokens",
+              "cache_creation_input_tokens",
               "input_cost",
               "output_cost",
               "total_cost"

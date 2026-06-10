@@ -136,7 +136,7 @@ Select a tab to see Python and TypeScript-specific code.
   pip install weave[huggingface]
   ```
 
-  Then, use the `from_hf` method. If you provide a `DatasetDict` with multiple splits (like 'train', 'test', 'validation'), Weave will automatically use the 'train' split and issue a warning. If the 'train' split is not present, it will raise an error. You can provide a specific split directly (e.g., `hf_dataset_dict['test']`).
+  Then, use the `from_hf` method. If you provide a `DatasetDict` with multiple splits (like 'train', 'test', 'validation'), Weave will automatically use the 'train' split and issue a warning. If the 'train' split is not present, it will raise an error. You can provide a specific split directly (for example, `hf_dataset_dict['test']`).
 
   To convert a `weave.Dataset` back to a Hugging Face `Dataset`, use the `to_hf` method.
 
@@ -266,7 +266,22 @@ You can create, edit, and delete `Dataset`s in the UI. Creating datasets in the 
 
    Now, the `Dataset` is deleted, and no longer visible in the **Datasets** tab in your Weave dashboard.
 
-### Add a new example to a `Dataset`
+### Add a new agent trace to a `Dataset`
+To add agent traces such as sessions, turns, and tool calls to a `Dataset`:
+
+1. Navigate to [wandb.ai](http://wandb.ai) and select your project.
+1. In the Weave project sidebar, click **Agents**.
+1. In the top tab bar, click **Conversations**.
+1. In the Conversations table, select a conversation row to load the conversation details side panel.  The conversation details side panel has a header with a agent name and a UUID.
+1. In the conversation details side panel header, click the table icon to the right to open the **Add example to dataset** drawer.
+![Agent conversation details panel header showing table icon to add items to a dataaset.](./imgs/agent-conversation-details-header-add-dataset.png)
+1. In **Choose a dataset**, use the dropdown to choose the dataset you want to add traces to.
+1. In **Select context**, select which messages to add to the dataset. Click **Next**.
+1. Review your selections and click **Add to dataset**.
+
+
+### Add a new trace to a `Dataset`
+To add traces generated from Ops and Calls to a `DataSet`:
 
 1. Navigate to the Weave project you want to edit.
 

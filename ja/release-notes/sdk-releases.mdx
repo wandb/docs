@@ -6,6 +6,26 @@ rss: true
 
 このページには、W&amp;B Models で使用する W&amp;B Python SDK (`wandb` パッケージ) のリリースノートが含まれています。Weave Python SDK (`weave` パッケージ) については、[Weave SDK releases](/ja/release-notes/weave-sdk-releases)を参照してください。W&amp;B Server については、[W&amp;B Server release notes](/ja/release-notes/server-releases)を参照してください。
 
+<Update label="0.27.0" description="2026年5月13日">
+  ## 主な変更
+
+  このバージョンでは、Python 3.9 および Pydantic v1 のサポートを終了しました。Pydantic v2.6 以降が必須になりました。
+
+  ## 追加
+
+  * [Serverless Sandboxes](/ja/sandboxes) を使用するための新しいパッケージ `wandb.sandbox` と `wandb beta sandbox` CLI が追加されました。
+  * 新しい設定 `stop_on_fatal_error` と環境変数 `WANDB_STOP_ON_FATAL_ERROR` により、メトリクスをアップロードできなくなる致命的なエラーが発生した場合に run を停止できます。
+  * 新しい設定 `finish_timeout` と対応する環境変数 `WANDB_FINISH_TIMEOUT` により、run の終了時にデータのアップロードを何秒待機するかを指定できます。run がタイムアウトすると、警告メッセージが出力されます。警告メッセージの出力に加えてエラーも発生させるには、真偽値の設定 `finish_timeout_raises` または対応する環境変数 `WANDB_FINISH_TIMEOUT_RAISES` を使用します。
+  * 新しい設定 `capture_loggers` により、ロガー名から最小ログレベルへのマッピングを使用して、run の **Logs** タブに取得する Python ロガーを指定できます。これらのロガーから出力されるログレコードは、`stdout`/`stderr` の取得と同様に、コンソール出力として run に公開されます。
+  * 新しいメソッド `run.write_logs()` により、`stdout`/`stderr` の自動取得に依存せず、テキストを run の **Logs** タブに直接書き込めます。
+
+  ## 変更
+
+  * Linux コンテナー内の runs のシステムメトリクスは、ホスト全体の合計ではなく、コンテナーの cgroup v2 の制限に対する CPU とメモリの使用量を報告するようになりました。
+  * Python 3.9 はサポートが終了しました。
+  * Pydantic 2.6 以上が必須になりました。Pydantic v1 はサポートが終了しました。
+</Update>
+
 <Update label="0.26.1" description="2026年4月23日">
   ## 追加
 

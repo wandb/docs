@@ -1,17 +1,19 @@
 ---
 title: Limites de débit
 description: Limites de débit par défaut sur Cloud dédié et comment demander leur modification
+keywords: ["limite de débit de l'API", "limite de débit", "limitation du SDK", "erreur 429", "augmentation de la limite de débit"]
 ---
 
 import RateLimitsDefaultsAndNotification from "/snippets/fr/_includes/rate-limits-defaults-and-notification.mdx";
 
-W&amp;B Cloud dédié applique des limites de débit pour maintenir la stabilité de l&#39;instance. W&amp;B peut ajuster ces limites lorsque vous augmentez la capacité de l&#39;entraînement ou avez besoin d&#39;un débit plus élevé.
-
+W&amp;B Cloud dédié applique des limites de débit pour maintenir la stabilité de l&#39;instance. W&amp;B peut ajuster ces limites lorsque vous augmentez la capacité de l&#39;entraînement ou avez besoin d&#39;un débit plus élevé. Utilisez cette page pour comprendre les limites par défaut qui s&#39;appliquent à votre instance de Cloud dédié et savoir comment demander une augmentation si vos charges de travail nécessitent davantage de capacité.
 
 <div id="default-limits-and-notification">
   ## Limites par défaut et notification
 </div>
 
+La section suivante présente les limites de débit par défaut et décrit le comportement du SDK W&amp;B lorsque vous dépassez une limite.
+
 <RateLimitsDefaultsAndNotification />
 
-Ces valeurs par défaut sont recommandées pour des charges de travail de production typiques. Si vos charges de travail dépassent régulièrement ces limites, contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre Account Solutions Engineer (AISE) pour demander des limites plus élevées. Précisez votre configuration expérimentale et vos habitudes d’utilisation.
+W&amp;B recommande ces valeurs par défaut pour des charges de travail de production typiques. Si vos charges de travail dépassent régulièrement ces limites, contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre Account Solutions Engineer (AISE) pour demander des limites plus élevées. Précisez votre configuration expérimentale et vos habitudes d’utilisation afin que W&amp;B puisse déterminer l’ajustement approprié.
