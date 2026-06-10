@@ -18,7 +18,7 @@ The WAL is especially useful in environments where processes might be interrupte
 For short-lived environments like serverless functions, also consider calling `weave.flush()` or `weave.finish()` before the process exits to ensure all data is uploaded. For more information, see [Trace data loss in worker processes](/support/weave/articles/trace-data-loss-in-worker-processes).
 
 <Note>
-The write-ahead log is opt-in.
+The write-ahead log is opt-in. It will be enabled by default in a future release.
 </Note>
 
 ## Enable the write-ahead log
