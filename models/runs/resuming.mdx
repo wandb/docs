@@ -1,7 +1,6 @@
 ---
 description: "Resume paused, stopped, or crashed W&B runs using the resume parameter options in wandb.init()."
 title: Resume a run
-keywords: ["run ID", "preemption", "mark_preempting", "sweeps"]
 ---
 
 This page shows you how to configure W&B to resume a run that was paused, stopped, or crashed, so you can continue logging from where you left off instead of starting over. To specify how W&B responds if a run stops or crashes, set the `resume` parameter in `wandb.init()`. When you initialize a run, W&B checks whether the run ID already exists and applies the behavior defined by the `resume` value.
