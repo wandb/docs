@@ -104,6 +104,8 @@ import warnings
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+import unicodedata
+import hashlib
 
 import yaml
 from jinja2 import Environment, FileSystemLoader
@@ -681,9 +683,15 @@ def tag_slug(tag_name: str) -> str:
     >>> tag_slug("AWS")
     'aws'
     """
-    # Replace any run of non-alphanumeric characters with a single hyphen,
-    # then strip leading/trailing hyphens.
-    return re.sub(r"[^a-z0-9]+", "-", tag_name.lower()).strip("-")
+    # Normalize and remove diacritics
+    normalized = unicodedata.normalize("NFKD", tag_name)
+    ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+    if not slug:
+        # Fallback to a deterministic slug derived from the tag name
+        h = hashlib.sha1(tag_name.encode("utf-8")).hexdigest()[:8]
+        slug = f"tag-{h}"
+    return slug
 
 
 # ---------------------------------------------------------------------------
