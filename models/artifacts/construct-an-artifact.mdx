@@ -14,11 +14,11 @@ For information on how to track external files, such as files stored in Amazon S
 
 Construct a [W&B artifact](/models/ref/python/experiments/artifact) in three steps:
 
-1. [Create an artifact Python object with `wandb.Artifact()`](/models/artifacts/construct-an-artifact#1-create-an-artifact-python-object-with-wandb-artifact)
-2. [Add one or more files to the artifact](/models/artifacts/construct-an-artifact#2-add-one-or-more-files-to-the-artifact)
-3. [Save your artifact to the W&B server](/models/artifacts/construct-an-artifact#3-save-your-artifact-to-the-wb-server)
+1. [Create an artifact Python object with `wandb.Artifact()`](/models/artifacts/construct-an-artifact#create-an-artifact-python-object-with-wandb-artifact)
+2. [Add one or more files to the artifact](/models/artifacts/construct-an-artifact#add-one-or-more-files-to-the-artifact)
+3. [Save your artifact to the W&B server](/models/artifacts/construct-an-artifact#save-your-artifact-to-the-wb-server)
 
-### 1. Create an artifact Python object with `wandb.Artifact()`
+### Create an artifact Python object with `wandb.Artifact()`
 
 Initialize the [`wandb.Artifact()`](/models/ref/python/experiments/artifact) class to create an artifact object. Specify the following parameters:
 
@@ -46,7 +46,7 @@ import wandb
 artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 ```
 
-### 2. Add one or more files to the artifact
+### Add one or more files to the artifact
 
 [Add files, directories, external URI references (such as Amazon S3) and more](/models/artifacts/construct-an-artifact#add-files-to-an-artifact) to your artifact object.
 
@@ -64,7 +64,7 @@ artifact.add_dir(local_path="path/to/directory", name="[NAME]")
 
 See the next section, [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information about how to add different file types to an artifact.
 
-### 3. Save your artifact to the W&B server
+### Save your artifact to the W&B server
 
 When you save the artifact, W&B uploads its contents and registers it with the run, which makes the artifact available for downstream use and versioning. Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 

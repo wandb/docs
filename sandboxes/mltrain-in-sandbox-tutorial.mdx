@@ -1,17 +1,20 @@
 ---
 title: "Tutorial: Train a PyTorch model"
 description: "Learn how to train a PyTorch model in a Serverless Sandbox environment with this step-by-step tutorial."
+keywords: ["W&B experiment tracking", "UCI Zoo dataset", "neural network", "isolated ML training", "wandb logging"]
 ---
 
 <Warning>
 Serverless Sandboxes is in public preview.
 </Warning>
 
-In this tutorial you will train a PyTorch model in a Serverless Sandbox environment. To do this, you will start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script that trains a simple neural network on the UCI Zoo dataset.
+In this tutorial, you train a PyTorch model in a Serverless Sandbox environment. To do this, you start a sandbox with the appropriate environment variables, install the necessary dependencies, and run a Python script. The script trains a neural network on the UCI Zoo dataset.
+
+By the end of this tutorial, you have a trained PyTorch model file saved locally. This demonstrates how to use a Serverless Sandbox to run isolated ML training workloads without configuring local infrastructure. This tutorial is intended for ML practitioners and developers who want to evaluate Serverless Sandboxes for reproducible training jobs.
 
 ## Prerequisites
 
-Before you get started, make sure you have the following:
+Before you get started, complete the following setup steps.
 
 {/* ### (Recommended) Create a Python virtual environment
 
@@ -22,27 +25,29 @@ python -m venv venv
 source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 ```  */}
 
-### Install W&B Python SDK
+### Install the W&B Python SDK
 
-Install the W&B Python SDK. You can do this using `pip`:
+The W&B Python SDK provides the `Sandbox` interface you use later to create and interact with the Serverless Sandbox. Install it using `pip`:
 
 ```bash 
 pip install wandb
 ```
 
-## Log in and authenticate with W&B
+### Log in and authenticate with W&B
 
-If you have not done so already, log in to W&B. Use the `wandb login` CLI command and follow the prompts to log in to your W&B account:
+W&B Serverless Sandboxes run under your W&B account, so you must authenticate before you create one. Use the `wandb login` CLI command and follow the prompts to log in:
 
 ```bash
 wandb login
 ```
 
-See [`wandb login`](/models/ref/cli/wandb-login) reference documentation for more information on how W&B searches for credentials.
+See the [`wandb login`](/models/ref/cli/wandb-login) reference documentation for more information about how W&B searches for credentials.
 
-### Copy the training script and dependencies
+## Copy the training script and dependencies
 
-Expand the following dropdown to acess the code required for this tutorial. Copy and paste the code into three separate files in the same directory as this tutorial. In the next section, you will run a script that reads in these files and trains a PyTorch model within a Serverless Sandbox environment.
+Prepare the three files required for this tutorial: a requirements file, a hyperparameters file, and a training script. Expand the following dropdown, then copy each code sample into a separate file in the same directory as this tutorial.
+
+In the next section, you run a script that reads these files and trains a PyTorch model in a W&B Serverless Sandbox.
 
 <Accordion title="PyTorch training model script">
 
@@ -64,7 +69,7 @@ epochs: 1000
 model_type: Multivariate_neural_network_classifier
 ```
 
-Copy and paste the following code into a file named `train.py`. This script trains a simple PyTorch model on the UCI Zoo dataset and saves the trained model to a file named `zoo_wandb.pth`.
+Copy and paste the following code into a file named `train.py`. This script trains a PyTorch model on the UCI Zoo dataset and saves the trained model to a file named `zoo_wandb.pth`.
 
 ```python title="train.py"
 import argparse
@@ -180,7 +185,9 @@ if __name__ == "__main__":
 
 ## Create the sandbox and run the training script
 
-The following code snippet shows how to create a sandbox, copy the training script and dependencies into it, run the training script, and download the generated model file. The next section provides a line-by-line explanation of the code.
+With your training files in place, create and manage a W&B Serverless Sandbox from a single Python script. The following code snippet creates a sandbox, copies the training script and dependencies into it, runs the training script, and downloads the generated model file.
+
+The next section explains the code line by line.
 
 Copy and paste the following code into a Python file and run it. Save it in the same directory as the `train.py`, `requirements.txt`, and `hyperparameters.yaml` files you created in the previous step.
 
@@ -224,10 +231,12 @@ with Sandbox.run(
 
 The previous code snippet does the following:
 
-1. (Lines 6 - 9) Lists the files to mount to the sandbox: `train.py` and `requirements.txt`. 
+1. (Lines 6-9) List the files to mount to the sandbox: `train.py` and `requirements.txt`.
 2. (Line 12) Start the sandbox. The sandbox is configured to use the `python:3.13` container image, have internet access, and a maximum lifetime of 3600 seconds (1 hour).
-3. (Line 18) Write the `hyperparameters.yaml` file to the sandbox. This allows the training script (`train.py`) to access the hyperparameters when it runs.
-4. (Line 22) Install dependencies. You run the command `pip install -r requirements.txt` inside the sandbox to install the necessary dependencies for the training script.
-5. (Line 26) Run the training script. You execute the command `python train.py --config hyperparameters.yaml` inside the sandbox to start the training process. The script trains a PyTorch model on the UCI Zoo dataset and saves the trained model to a file named `zoo_wandb.pth`.
-6. (Lines 27-29) Print the output and exit code. After the training script finishes executing, you print the standard output, standard error, and exit code to the console for debugging and verification purposes.
-7. (Lines 33-34) Download the generated model file. You read the `zoo_wandb.pth` file from the sandbox using the `read_file()` method and save it locally.
+3. (Line 18) Write the `hyperparameters.yaml` file to the sandbox. This lets the training script (`train.py`) access the hyperparameters when it runs.
+4. (Line 22) Install dependencies. The command `pip install -r requirements.txt` runs inside the sandbox to install the necessary dependencies for the training script.
+5. (Line 26) Run the training script. The command `python train.py --config hyperparameters.yaml` runs inside the sandbox to start the training process. The script trains a PyTorch model on the UCI Zoo dataset and saves the trained model to a file named `zoo_wandb.pth`.
+6. (Lines 27-29) Print the output and exit code. After the training script finishes, the standard output, standard error, and exit code are printed to the console for debugging and verification.
+7. (Lines 33-34) Download the generated model file. The `read_file()` method reads `zoo_wandb.pth` from the sandbox, and the script saves it locally.
+
+After the script completes, you have a trained PyTorch model saved as `zoo_wandb.pth` in your working directory. The sandbox that produced it is created, used, and torn down on demand.

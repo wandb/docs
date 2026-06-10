@@ -37,6 +37,7 @@ products:
     allowed_keywords:
       - Academic
       - Administrator
+      - Agents
       - Alerts
       - Anonymous
       - Artifacts
@@ -64,7 +65,8 @@ products:
       - Sweeps
       - Tables
       - Team Management
-      - Tensorboard
+      - TensorBoard
+      - Tracing
       - User Management
       - Workspaces
       - Wysiwyg

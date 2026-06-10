@@ -33,11 +33,10 @@ Provides access to report attributes (name, description, user, spec, timestamps)
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     attrs: 'dict',
     entity: 'str | None' = None,
-    project: 'str | None' = None,
-    service_api: 'ServiceApi'
+    project: 'str | None' = None
 )
 ```
 
