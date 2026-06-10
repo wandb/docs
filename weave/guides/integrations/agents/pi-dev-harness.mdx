@@ -9,14 +9,22 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 [Pi](https://pi.dev/) is a terminal-based coding agent. Weave traces Pi sessions, LLM calls, and tool executions automatically using the `createOtelExtension` integration, which conforms to the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/).
 
-<Note>
-Pi is a TypeScript/Node.js framework with no Python equivalent. Pi requires the ESM module system — your project must use `"type": "module"` in `package.json`, or compile TypeScript to ESM output. CommonJS projects will error.  For more information on setting up an ESM project, see [Typescript SDK integration](/weave/guides/integrations/js#set-up-an-esm-project).
-</Note>
+<Warning>
+This integration sends Pi session data to Weave. That data can include user prompts, model responses, tool inputs and outputs, file contents read by Pi tools, shell commands and output, and fetched URLs and page content.
+
+PII scrubbing and sensitive-data redaction aren't implemented. If you can't send this data to Weave under your security or compliance requirements, don't enable Weave tracing in your Pi application.
+</Warning>
+
+
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (v18 or later)
 - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
+
+<Note>
+Pi is a TypeScript/Node.js framework with no Python equivalent. Pi requires the ESM module system — your project must use `"type": "module"` in `package.json`, or compile TypeScript to ESM output. CommonJS projects will error.  For more information on setting up an ESM project, see [Typescript SDK integration](/weave/guides/integrations/js#set-up-an-esm-project).
+</Note>
 
 ## Install packages
 - Install Weave, Pi, and Node type definitions as local project dependencies:
