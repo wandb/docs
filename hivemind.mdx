@@ -22,7 +22,7 @@ HiveMind and its documentation live on a dedicated site: [hivemind.wandb.tools](
 These screenshots show example pages in the HiveMind dashboard: a usage report, a leaderboard, and the detailed view of a session. Click a screenshot to view details.
 
 <Columns cols={2}>
-<Frame>![HiveMind Usage dasbboard with charts](/images/hivemind/hivemind-dashboard-usage.png)</Frame>
+<Frame>![HiveMind Usage dashboard with charts](/images/hivemind/hivemind-dashboard-usage.png)</Frame>
 <Frame>![HiveMind Leaderboard showing the top 15 users](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
 </Columns>
 <Columns cols={1}>
@@ -79,7 +79,8 @@ hivemind start
 Download and install HiveMind using the signed standalone binary:
 
 ```bash
-curl -fsSL https://hivemind.wandb.tools/install | sh
+curl -fsSL https://hivemind.wandb.tools/install -o hivemind-install.sh
+sh hivemind-install.sh
 hivemind login
 ```
 
