@@ -1,28 +1,30 @@
 ---
 title: "Update and delete Calls"
 description: "Modify display names, add feedback, and delete Calls in W&B Weave"
+keywords: ["mutate Call", "rename trace", "delete trace", "set_display_name", "delete_calls"]
 ---
 
 
-Most Call properties are immutable after creation. The following mutations are supported:
-* [Set display name](#set-display-name)
-* [Add feedback](#add-feedback)
-* [Delete a Call](#delete-a-call)
+This page describes how to modify Calls in W&B Weave after they've been created. Most Call properties are immutable after creation, but Weave supports the following mutations:
 
-You can perform all of these mutations from the UI by navigating to the Call detail page:
-To update a Call in the web app:
+- [Set display name](#set-display-name)
+- [Add feedback](#add-feedback)
+- [Delete a Call](#delete-a-call)
+
+You can perform all of these mutations from the UI by navigating to the Call detail page. To update a Call in the web app:
+
 1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
-1. In the Weave project sidebar, click **Traces**.
-1. Find the Call you want to view in the table.
-1. Click on the Call to open its details page.
-1. Click the `Feedback` tab in the Call detail's tab bar.
+2. In the Weave project sidebar, click **Traces**.
+3. Find the Call you want to view in the table.
+4. Click the Call to open its details page.
+5. Click the **Feedback** tab in the Call detail's tab bar.
 
-Here you can edit the display name of the Call, add feedback, or delete the Call.
+From the Call detail page, you can edit the display name of the Call, add feedback, or delete the Call.
 <Frame>
 ![Weave Traces page excerpt of a selected Call details panel showing how you can rename or delete a Call](/images/call_edit_screenshot.png)
 </Frame>
 
-### Set display name
+## Set display name
 
 <Tabs>
 <Tab title="Python">
@@ -73,11 +75,11 @@ curl -L 'https://trace.wandb.ai/call/update' \
 
 You can also [set a Call's display name at execution](/weave/guides/tracking/get-call-object).
 
-### Add feedback
+## Add feedback
 
-Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for more details.
+For more information, see [Collect feedback and use annotations](/weave/guides/tracking/feedback).
 
-### Delete a Call
+## Delete a Call
 
 <Tabs>
 <Tab title="Python">
@@ -119,14 +121,14 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
 </Tab>
 </Tabs>
 
-### Delete multiple Calls
+## Delete multiple Calls
 
 <Tabs>
     <Tab title="Python">
     To delete batches of Calls using the Python API, pass a list of Call IDs to `delete_calls()`.
 
     <Important>
-    - The maximum amount of Calls that can be deleted is `1000`.
+    - You can delete a maximum of `1000` Calls at a time.
     - Deleting a Call also deletes all of its children.
     </Important>
 

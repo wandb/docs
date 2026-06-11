@@ -273,6 +273,18 @@ with wandb.init(config=config_dictionary) as run:
     ...
 ```
 
+## View config values in the W&B App
+
+View your config values in the **Config** section of a run's Overview tab. The config values are also available in the **References** section if you pin them.
+
+1. Navigate to your project in the W&B App.
+2. Click the run you want to view the config values for.
+3. Select the **Overview** tab.
+4. Scroll to the **Config** section.
+5. (Optional) Click on **View raw data** to view config values in JSON format.
+
+The raw JSON format is useful when you write expressions to create or transform line plots from config values, logged metrics, or summary values. See [Expressions](/models/app/features/panels/line-plot/reference#expressions) for more details. 
+
 ## TensorFlow v1 flags
 
 If you use TensorFlow v1, you can pass TensorFlow flags into the `wandb.Run.config` object directly.
