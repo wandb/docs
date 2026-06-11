@@ -1,40 +1,45 @@
 ---
 title: OpenClaw plugin
 description: Track OpenClaw agent sessions in W&B Weave for observability and debugging.
+keywords: ["OpenClaw", "gateway plugin", "agent tracing", "OTel GenAI", "weave-openclaw"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-The Weave OpenClaw plugin automatically traces every agent session running through the OpenClaw gateway and sends the structured data to W&B Weave. Every turn, model call, and tool execution is logged with no application code changes required. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
+The Weave OpenClaw plugin automatically traces every agent session running through the OpenClaw gateway and sends the structured data to W&B Weave. The plugin logs every turn, model call, and tool execution without requiring any application code changes. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
+
+This guide is for OpenClaw gateway operators who want to enable Weave tracing for the agents running behind the gateway. It walks you through how to install the plugin, configure it, view the resulting traces, and troubleshoot common issues.
 
 <Warning>
 This plugin sends OpenClaw session data to Weave. That data can include user prompts, model responses, tool inputs and outputs, tool results, and conversation history.
 
-PII scrubbing and sensitive-data redaction aren't implemented by the plugin. If you need to suppress content capture, set `captureContent: false` in the plugin config. If you can't send this data to Weave under your security or compliance requirements, don't install this plugin.
+The plugin doesn't implement personally identifiable information (PII) scrubbing or sensitive-data redaction. If you need to suppress content capture, set `captureContent: false` in the plugin config. If you can't send this data to Weave under your security or compliance requirements, don't install this plugin.
 </Warning>
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) v22.14 or later.
-- [OpenClaw](https://openclaw.dev) >= 2026.4.25 with the plugin API.
+- [OpenClaw](https://openclaw.dev) `2026.4.25` or later with the plugin API.
 - A W&B account and [API key](https://wandb.ai/authorize).
 - A Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) to receive traces.
 
 ## Install the plugin
 
+Complete the following steps to install the plugin, register it with the OpenClaw gateway, and confirm that traces reach your Weave project.
+
 <Steps>
-  <Step title="Install the package:">
+  <Step title="Install the package">
     ```bash lines
     openclaw plugins install weave-openclaw
     ```
 
-    Use the full name `weave-openclaw` (`weave` on its own is the W&B SDK, not this plugin). The plugin is loaded by the OpenClaw gateway through its config. You don't import it from application code.
+    Use the full name `weave-openclaw` (`weave` on its own is the W&B SDK, not this plugin). The OpenClaw gateway loads the plugin through its config. You don't import it from application code.
   </Step>
 
-  <Step title="Add the plugin to your gateway config:">
-    The default config location is `~/.openclaw/openclaw.json` (JSON5, so comments and trailing commas are allowed). Run `openclaw onboard` to scaffold one if you don't have it yet.
+  <Step title="Add the plugin to your gateway config">
+    The default config location is `~/.openclaw/openclaw.json` (JSON5, which allows comments and trailing commas). Run `openclaw onboard` to scaffold one if you don't have it yet.
     Update `[YOUR-TEAM]` and `[YOUR-PROJECT]` for your project.
 
     ```json lines
@@ -52,27 +57,27 @@ PII scrubbing and sensitive-data redaction aren't implemented by the plugin. If 
     }
     ```
 
-    Set **`hooks.allowConversationAccess`** to **`true`** so OpenClaw runs the content-bearing hooks (`llm_input`, `llm_output`, `agent_end`) and spans include input/output text and tool arguments and results.
+    Set **`hooks.allowConversationAccess`** to **`true`** so OpenClaw runs the content-bearing hooks (`llm_input`, `llm_output`, `agent_end`) and spans include input and output text, tool arguments, and tool results.
 
     `diagnostics.enabled` is on by default. Only set it explicitly if you need to turn it off.
   </Step>
 
-  <Step title="Restart the gateway and verify:">
-    Restart the OpenClaw gateway, then run `/weave status` in any OpenClaw chat surface to confirm the plugin is active. Traces will appear at `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` within a few seconds of your first agent run.
+  <Step title="Restart the gateway and verify">
+    Restart the OpenClaw gateway, then run `/weave status` in any OpenClaw chat surface to confirm the plugin is active. Traces appear at `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]` within a few seconds of your first agent run.
   </Step>
 </Steps>
 
 ## View OpenClaw traces in Weave
 
-After running at least one agent session, open your project in the Weave UI:
+Once the plugin is active, each agent session produces a trace you can inspect in the Weave UI. After running at least one agent session, open your project in the Weave UI:
 
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
 2. In the sidebar, select **Agents** for the multi-turn chat view and per-agent version grouping, or select **Traces** for the raw span tree.
 3. Select a conversation to inspect the full session tree.
 
-For more on the Agents view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+For more information about the Agents view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 
-The plugin emits spans per the [OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/):
+The plugin emits spans per the [OpenTelemetry (OTel) GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/):
 
 | Span | Emitted on | Key attributes |
 |---|---|---|
@@ -124,7 +129,7 @@ The `apiKey` field supports four auth sources, resolved in this order:
 }
 ```
 
-`captureContent` is `true` by default. When `captureContent` is `true`, input and output messages, tool arguments, and tool results are also emitted following the `gen_ai.input.messages` / `gen_ai.output.messages` payload shape. Subagents, compaction events, loop detection, retry attempts, and context sizing are stamped as additional attributes and span events.
+`captureContent` is `true` by default. When `captureContent` is `true`, the plugin also emits input and output messages, tool arguments, and tool results following the `gen_ai.input.messages` and `gen_ai.output.messages` payload shape. The plugin stamps subagents, compaction events, loop detection, retry attempts, and context sizing as additional attributes and span events.
 
 Set `captureContent` to `false` to turn off capture for compliance or retention policies.
 
@@ -139,11 +144,13 @@ The plugin delegates endpoint and auth to the [Weave Node SDK](https://github.co
 
 ## Troubleshooting
 
+If traces aren't reaching Weave or content fields are empty, use the following sections to diagnose the most common causes.
+
 The gateway log is the terminal output from the process running `openclaw`, or your process manager's log stream if you daemonized it.
 
 ### Plugin loaded but no spans show up
 
-1. Run `/weave status`. If lifecycle is `disabled`, `config-error`, or `not-started`, the plugin did not activate. Check the gateway log for `weave: config.entity is required`, `weave: configuration error`, or `[weave] incompatible plugin SDK`.
+1. Run `/weave status`. If lifecycle is `disabled`, `config-error`, or `not-started`, the plugin didn't activate. Check the gateway log for `weave: config.entity is required`, `weave: configuration error`, or `[weave] incompatible plugin SDK`.
 2. Check you haven't set `diagnostics.enabled: false` in the gateway config. This field should be `true`.
 3. Confirm the entity and project match the URL slug of the Weave project you're inspecting. `/weave status` should print `project=[YOUR-TEAM]/[YOUR-PROJECT]`.
 4. Confirm the auth source. `/weave status` should print `auth=...`. If it says `WANDB_API_KEY env` but you set the key in a different environment variable, the plugin is reading the wrong key.
@@ -159,14 +166,14 @@ Look in the gateway log for:
 [plugins] typed hook "agent_end"  blocked ...
 ```
 
-OpenClaw gates content-bearing hooks behind an operator opt-in. Set `plugins.entries.weave.hooks.allowConversationAccess: true` in your config and restart the gateway. Span structure and cost/usage data come through diagnostic events, not hooks, so those keep working even without the gate flipped.
+OpenClaw gates content-bearing hooks behind an operator opt-in. Set `plugins.entries.weave.hooks.allowConversationAccess: true` in your config and restart the gateway. Span structure and cost and usage data come through diagnostic events, not hooks, so those keep working even when `allowConversationAccess` is `false`.
 
 ### Errors sending traces to Weave
 
-If the plugin is active and spans are being generated but not appearing in Weave, check the gateway log for an export error and match it against the table below.
+If the plugin is active and generating spans but they don't appear in Weave, check the gateway log for an export error and match it against the following table.
 
 | Symptom | Most likely cause | Fix |
 |---|---|---|
-| 401 / 403 from `trace.wandb.ai` | Invalid or scope-limited API key | Verify the key is current and the team owns the entity/project. `wandb login` refreshes `~/.netrc`. |
-| 404 from the agents endpoint | Wrong base or trace-server URL | For dedicated installs, set `WANDB_BASE_URL` to your install host. For self-managed or proxy, set `WF_TRACE_SERVER_URL` to the trace-server URL. |
-| Connection refused / DNS error | DNS, proxy, or firewall | Confirm the gateway host can reach `trace.wandb.ai` (cloud) or your install host (dedicated) on 443. |
+| `401` or `403` from `trace.wandb.ai` | Invalid or scope-limited API key | Verify the key is current and the team owns the entity and project. `wandb login` refreshes `~/.netrc`. |
+| `404` from the agents endpoint | Wrong base or trace-server URL | For dedicated installs, set `WANDB_BASE_URL` to your install host. For self-managed or proxy, set `WF_TRACE_SERVER_URL` to the trace-server URL. |
+| Connection refused or DNS error | DNS, proxy, or firewall | Confirm the gateway host can reach `trace.wandb.ai` (cloud) or your install host (dedicated) on `443`. |

@@ -1,9 +1,10 @@
 ---
 title: "Define and log attributes"
-description: "Use attributes to add meta data to your traces and evaluations."
+description: "Use attributes to add metadata to your traces and evaluations."
+keywords: ["weave.attributes", "global_attributes", "trace metadata", "get_current_call", "withAttributes"]
 ---
 
-Attributes in Weave allow you to attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
+Attributes in Weave let you attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
 
 Attributes are especially helpful when you need to group or filter traces by:
 * Deployments
@@ -12,26 +13,28 @@ Attributes are especially helpful when you need to group or filter traces by:
 
 Weave provides two ways to add attributes:
 
-* **Per-call attributes**: Use the `weave.attributes()` to add metadata to specific operations or code blocks
-* **Global attributes**: Use the `global_attributes` field to set attributes at initialization that apply to all traces and evaluations in your project
+* **Per-call attributes**: Use the `weave.attributes()` context manager to add metadata to specific operations or code blocks.
+* **Global attributes**: Use the `global_attributes` field to set attributes at initialization that apply to all traces and evaluations in your project.
 
-You can view all attributes logged during traces and evaluation in the UI. You can then use them to filter and group data.
+You can view all attributes logged during traces and evaluations in the UI. You can then use them to filter and group data.
 
-<Tip>
-`call.attributes` cannot be modified once the call starts. Use this
-context manager to set any metadata before invoking the op.
-</Tip>
+This guide is for Weave users who want to enrich their traces and evaluations with custom metadata. It covers how to attach attributes to individual calls, set project-wide defaults at initialization, combine the two approaches, and read the current attribute set during execution.
 
 ## Per-call attributes
 
-The `weave.attributes()` context manager allows you to add metadata to specific traced operations. This allows you to tag particular function calls or evaluation runs with contextual information.
+The `weave.attributes()` context manager lets you add metadata to specific traced operations. Use it to tag particular function calls or evaluation runs with contextual information.
+
+<Tip>
+You can't modify `call.attributes` once the call starts. Use this
+context manager to set any metadata before invoking the op.
+</Tip>
 
 <Tabs>
 <Tab title="Python">
 ```python lines
 import weave
 
-weave.init("<your-team-name/your-project-name>")
+weave.init("[TEAM-NAME]/[PROJECT-NAME]")
 
 @weave.op
 def my_function(name: str):
@@ -136,7 +139,7 @@ main().catch(console.error);
 
 ## Global attributes
 
-When you set global attributes during Weave initialization, they automatically apply to **all** traces and evaluations in your project. This is useful for propagating project-wide metadata like environment, deployment version, or team information.
+When you set global attributes during Weave initialization, they automatically apply to all traces and evaluations in your project. This is useful for propagating project-wide metadata like environment, deployment version, or team information.
 
 <Tabs>
 <Tab title="Python">
@@ -255,7 +258,7 @@ main().catch(console.error);
 
 ## Get attributes during execution
 
-Return the current set of attributes logged to your call. This can help you debug your calls or context for conditional logic.
+At runtime, you can inspect the attributes currently in effect for a Call. This is useful when you want to debug which metadata Weave attaches, or when your code needs to branch on contextual information set by an outer caller.
 
 <Tabs>
 <Tab title="Python">
@@ -291,18 +294,18 @@ with weave.attributes({
 ```
 
 This outputs:
-```shell
+```text
 Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
 Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'experiment': 'exp-456'}
 ```
 
 <Note>
-`weave.get_current_call()` only works **inside** a `@weave.op` decorated function. Outside of an op, it returns `None`.
+`weave.get_current_call()` only works inside a `@weave.op` decorated function. Outside of an op, it returns `None`.
 </Note>
 </Tab>
 <Tab title="TypeScript">
 
-Using the Weave TypeScript SDK, you can get the current attributes using `client.getCurrentAttributes()`. Unlike the Weave Python SDK, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
+With the Weave TypeScript SDK, you can get the current attributes with `client.getCurrentAttributes()`. Unlike the Weave Python SDK, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
 
 ```typescript lines
 import * as weave from 'weave';
@@ -348,7 +351,7 @@ main().catch(console.error);
 ```
 
 This outputs:
-```shell
+```text
 Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }
 Attributes inside op: { env: 'production', version: '1.0.0', region: 'us-west-2' }
 Nested attributes: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
