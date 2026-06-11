@@ -22,7 +22,7 @@ Registry admins can add individual users or entire teams to a registry. To add a
     <img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry"  />
 </Frame>
 
-Learn more about [configuring user roles in a registry](/models/registry/configure_registry/#configure-registry-roles), or [registry role permissions](/models/registry/configure_registry/#registry-permissions) . 
+Learn more about [configuring user roles in a registry](/models/registry/configure_registry/#configure-registry-roles), or [registry role permissions](/models/registry/configure_registry#role-permissions) . 
 
 ### Remove a user or team
 A registry admin can remove individual users or entire teams from a registry. To remove a user or team from a registry:
@@ -87,7 +87,7 @@ See [Configure user roles in a registry](/models/registry/configure_registry/#co
 
 ### Service account access
 
-Service accounts cannot have **Viewer** or **Restricted Viewer** roles, their access to a registry is determined as follows:
+Service accounts cannot have **Viewer** or **Restricted Viewer** roles. W&B determines a service account's access to a registry with the following rules:
 
 - **Registries with Organization visibility**: a service account automatically has **Member** access.
 - **Registries with Restricted visibility**: service acount access depends on the role assigned to the service account's team:
