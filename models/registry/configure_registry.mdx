@@ -90,7 +90,7 @@ See [Configure user roles in a registry](/models/registry/configure_registry/#co
 Service accounts cannot have **Viewer** or **Restricted Viewer** roles, their access to a registry is determined as follows:
 
 - **Registries with Organization visibility**: a service account automatically has **Member** access.
-- **Registries with Restricted visibility**: access depends on the role assigned to the service account's team:
+- **Registries with Restricted visibility**: service acount access depends on the role assigned to the service account's team:
   - If the team is added to the registry as a **Member** or **Admin**, the service account automatically receives **Member** access.
   - If the team is a **Viewer** or **Restricted Viewer**, the service account does *not* receive access automatically. A registry admin must [add the service account to the registry manually](/models/registry/configure_registry/#add-a-user-or-a-team).
 
