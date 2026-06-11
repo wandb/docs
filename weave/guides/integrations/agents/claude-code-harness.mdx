@@ -1,13 +1,16 @@
 ---
 title: Claude Code plugin
 description: Track Claude Code sessions in W&B Weave for observability and debugging.
+keywords: ["Claude Code", "OTEL", "tracing", "agents", "plugin"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-The Weave Claude Code plugin automatically traces every Claude Code session and sends the structured data to W&B Weave. Every turn, tool call, and subagent is logged with no code changes required. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
+The Weave Claude Code plugin automatically traces every Claude Code session and sends the structured data to W&B Weave. The plugin logs every turn, tool call, and subagent with no code changes required. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
+
+This guide walks you through installing the plugin, viewing your Claude Code traces in Weave, configuring the plugin, and managing its lifecycle.
 
 <Warning>
 This plugin sends Claude Code session data to Weave. That data can include user prompts, Claude responses, tool inputs and outputs, file contents read by Claude Code tools, shell commands and output, and fetched URLs and page content.
@@ -24,14 +27,16 @@ PII scrubbing and sensitive-data redaction aren't implemented. If you can't send
 
 ## Install the plugin
 
+Install the CLI, run the installer to register the plugin with Claude Code, then start a Claude Code session to begin tracing.
+
 <Steps>
-  <Step title="Install the CLI:">
+  <Step title="Install the CLI">
     ```bash lines
     npm install -g weave-claude-code
     ```
   </Step>
 
-  <Step title="Run the installer:">
+  <Step title="Run the installer">
     ```bash lines
     weave-claude-code install
     ```
@@ -52,12 +57,12 @@ PII scrubbing and sensitive-data redaction aren't implemented. If you can't send
     In non-interactive mode, the installer still creates the config file and registers the plugin. It uses `WEAVE_PROJECT` and `WANDB_API_KEY` from the environment and warns if either is missing.
   </Step>
 
-  <Step title="Start Claude Code:">
+  <Step title="Start Claude Code">
     ```bash lines
     claude
     ```
 
-    Sessions are traced automatically from this point. Run a prompt or two, then open your Weave project to see the traces appear.
+    The plugin traces sessions automatically from this point. Run a prompt or two, then open your Weave project to see the traces appear.
   </Step>
 </Steps>
 
@@ -69,7 +74,7 @@ After running at least one Claude Code session, open your project in the Weave U
 2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
 3. Select a conversation to inspect the full session tree.
 
-For more on the Agents view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+For more information about the Agents view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 
 Each user prompt produces one OTEL trace that follows the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). The trace shows a full turn hierarchy:
 
@@ -82,9 +87,11 @@ invoke_agent claude-code               (Root, one trace per user prompt.)
    └─ execute_tool <tool_name>
 ```
 
-Multi-turn conversations are linked server-side by session ID, so you can follow a full conversation across multiple traces. Each span includes token usage, model name, tool inputs and outputs, timing, and the textual content of prompts and responses. For full details, see [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) in GitHub.
+Multi-turn conversations are linked server-side by session ID, so you can follow a conversation across multiple traces. Each span includes token usage, model name, tool inputs and outputs, timing, and the textual content of prompts and responses. For more information about traced data, see [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) in GitHub.
 
 ## Configure the plugin
+
+Use the `weave-claude-code config` commands to view or update plugin settings after installation:
 
 ```bash lines
 # Show all current settings.
@@ -110,7 +117,7 @@ After installation, three Weave-specific skills are available directly inside an
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| Install | `/weave:weave-install` | Walks through the full installation and configuration flow interactively. Use this on a fresh machine or to diagnose a broken setup. |
+| Install | `/weave:weave-install` | Walks through the installation and configuration flow interactively. Use this on a fresh machine or to diagnose a broken setup. |
 | Status | `/weave:weave-status` | Checks the current plugin status and explains any issues. Equivalent to running `weave-claude-code status`, but Claude interprets the output and tells you what to fix. |
 | Config | `/weave:weave-config` | Read or update plugin configuration without leaving Claude Code. |
 
@@ -153,16 +160,18 @@ If you use W&B Dedicated Cloud or a self-hosted instance, set `WANDB_BASE_URL` b
 export WANDB_BASE_URL=https://[YOUR-INSTANCE].wandb.io
 ```
 
-The plugin runs a background daemon that reads `WANDB_BASE_URL` at startup. If the daemon is already running when you set the variable, it won't pick up the change. To restart the daemon:
+The plugin runs a background daemon that reads `WANDB_BASE_URL` at startup. If the daemon is already running when you set the variable, it won't detect the change. To restart the daemon:
 
 1. Shut down the daemon:
    ```bash lines
    printf '{"command":"shutdown"}' | nc -U -w1 ~/.weave-claude-code/daemon.sock
    ```
 2. Set `WANDB_BASE_URL`, or run `wandb login --host https://[YOUR-INSTANCE].wandb.io` to persist the setting across sessions.
-3. Launch Claude Code again. The daemon restarts automatically and picks up the correct URL.
+3. Launch Claude Code again. The daemon restarts automatically and uses the correct URL.
 
 ## Uninstall
+
+To remove the plugin from Claude Code, run:
 
 ```bash lines
 weave-claude-code uninstall
