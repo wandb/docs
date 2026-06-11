@@ -1,8 +1,12 @@
 ---
 title: "Get a handle to the Call object during execution"
-description: "Access the W&B Weave Call object at runtime for feedback, display names, and other metadata"
+description: "Access the W&B Weave `Call` object at runtime for feedback, display names, and other metadata"
+keywords: [call object, op.call, runtime metadata, feedback, tracing]
 ---
-In Weave, when you use an Op, you can call the functions directly as you would any function:
+
+This guide shows how to get a handle to the Weave `Call` object while your code runs, so you can inspect inputs and outputs, update metadata, or attach feedback at runtime. It's intended for developers who already use Weave Ops and want to interact with the underlying `Call` object programmatically.
+
+When you use an Op in Weave, you can call it directly as you would any function:
 <CodeGroup>
 ```python Python lines
 @weave.op
@@ -20,7 +24,7 @@ const myFunctionOp = weave.op(myFunction)
 ```
 </CodeGroup>
 
-However, you can instead get access to the Call object directly by invoking the `op.call` method, which returns both the result and the `Call` object.
+To access the `Call` object directly, invoke the `op.call` method, which returns both the result and the `Call` object:
 <Tabs>
   <Tab title="Python">
     
@@ -31,9 +35,9 @@ def my_op():
 
 output, call = my_op.call()
     ```
-From here, the `call` object contains all the information about the Call, including the inputs, outputs, and other metadata. You can use `call` to set, update, fetch additional properties, or add feedback.
+The `call` object contains all the information about the `Call`, including the inputs, outputs, and other metadata. Use `call` to set, update, fetch additional properties, or add feedback.
 
-If your Op is a method on a class, you need to pass the instance of the class as the first argument to `call`. The following example shows getting a handle to a Call object that is a method on a class:
+If your Op is a method on a class, pass the class instance as the first argument to `call`:
     ```python lines
     import weave
 
@@ -53,7 +57,7 @@ If your Op is a method on a class, you need to pass the instance of the class as
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     This feature is not available in the TypeScript SDK yet.
     ```
   </Tab>

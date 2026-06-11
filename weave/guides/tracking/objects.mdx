@@ -1,7 +1,10 @@
 ---
 title: "Track and version objects"
 description: "Track and version any JSON-serializable object in W&B Weave"
+keywords: ["objects", "versioning", "refs", "weave.publish", "weave.ref"]
 ---
+This page explains how to publish, retrieve, delete, and reference versioned objects in W&B Weave. Use it when you need to track structured data such as datasets, models, or prompts across runs and over time.
+
 ## Objects
 
 An **Object** is versioned, serializable data. Weave automatically versions objects when they change and creates an immutable history. Objects include:
@@ -21,7 +24,7 @@ dataset = weave.Dataset(
 weave.publish(dataset)
 ```
 
-## Publishing an object
+## Publish an object
 
 Weave's serialization layer saves and versions objects.
 
@@ -37,7 +40,7 @@ Weave's serialization layer saves and versions objects.
 
   </Tab>
   <Tab title="TypeScript">
-    Publishing in TypeScript is still early, so not all objects are fully supported yet.
+    TypeScript publishing support is limited. Not all objects are supported.
 
     ```typescript lines
     import * as weave from 'weave'
@@ -51,13 +54,15 @@ Weave's serialization layer saves and versions objects.
   </Tab>
 </Tabs>
 
-When you save an object with a name, Weave creates the first version of that object if it does not exist.
+When you save an object with a name, Weave creates the first version of that object if it doesn't exist.
 
 ## Get an object back
 
+After publishing, you can fetch a stored object using its reference.
+
 <Tabs>
   <Tab title="Python">
-    `weave.publish()` returns a Ref. You can call `.get()` on any Ref to get the object back.
+    `weave.publish()` returns a Ref. Call `.get()` on any Ref to get the object back.
 
     You can construct a ref and then fetch the object back.
 
@@ -69,16 +74,18 @@ When you save an object with a name, Weave creates the first version of that obj
   </Tab>
   <Tab title="TypeScript">
     ```plaintext lines
-    This feature is not available in TypeScript yet.
+    This feature isn't available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
 ## Delete an object
 
+If you no longer need a specific version of an object, you can remove it using its ref.
+
 <Tabs>
   <Tab title="Python">
-    To delete a version of an object, call `.delete()` on the object ref.
+    To delete a version of an object, call `.delete()` on the object's ref.
 
     ```python lines
     weave.init("your-team-name/your-project-name")
@@ -86,30 +93,32 @@ When you save an object with a name, Weave creates the first version of that obj
     cat_names_ref.delete()
     ```
 
-    Accessing a deleted object returns an error. Resolving an object that has a reference to a deleted object returns a `DeletedRef` in place of the deleted object.
+    Accessing a deleted object returns an error. Resolving an object that references a deleted object returns a `DeletedRef` in place of the deleted object.
 
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.
+    This feature isn't available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
-## Constructing object refs
+## Construct object refs
+
+Refs uniquely identify a stored object and version. The following sections describe the URI structure and the ways you can construct a ref.
 
 In Weave, a fully qualified object ref URI looks like this:
 
 ```text
-weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
+weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSION]
 ```
-- _your-team-name_: W&B entity (username or team name)
-- _your-project-name_: W&B project
-- _object_name_: object name
-- _object_version_: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias.
+- `[YOUR-TEAM-NAME]`: W&B entity (username or team name)
+- `[YOUR-PROJECT-NAME]`: W&B project
+- `[OBJECT-NAME]`: object name
+- `[OBJECT-VERSION]`: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias.
 
 You can construct refs with a few different styles:
 
-- `weave.ref(<name>)`: Retrieves the `:latest` version of an object. Requires calling `weave.init(...)`.
-- `weave.ref(<name>:<version>)`:  Retrieves the specified version of an object. Requires calling `weave.init(...)`.
-- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the object located at the specified fully qualified object ref URI.  Does not require calling `weave.init()`.
+- `weave.ref([NAME])`: retrieves the `:latest` version of an object. Requires calling `weave.init(...)`.
+- `weave.ref([NAME]:[VERSION])`: retrieves the specified version of an object. Requires calling `weave.init(...)`.
+- `weave.ref([FULLY-QUALIFIED-REF-URI])`: retrieves the object located at the specified fully qualified object ref URI. Doesn't require calling `weave.init()`.
