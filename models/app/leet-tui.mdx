@@ -38,7 +38,7 @@ uv pip install --upgrade wandb
 </Tab>
 </Tabs>
 
-This guide tracks the latest CLI behavior. For version-by-version changes, see the changelog in the [`wandb beta leet` CLI reference](/models/ref/cli/wandb-beta/wandb-beta-leet).
+This guide tracks the latest CLI behavior. For version-by-version changes, see the [changelog](#changelog) on this page.
 
 <Note>
 `wandb beta leet` is a beta command. Its flags, shortcuts, and behavior may change between releases. The SDK team plans to graduate LEET out of `wandb beta`; watch [SDK release notes](/release-notes/sdk-releases) for updates.
@@ -112,7 +112,33 @@ SYMON watches local CPU, memory, disk, network, and accelerator metrics. It uses
 
 Select multiple runs in workspace view to compare scalar metrics on shared charts. Each run gets a stable color, and LEET reduces base color collisions so overlaid series stay distinguishable. Pinning is useful when many runs are selected and you want one series to render above the rest.
 
-Press `f` to filter the runs list by name, project, tags, notes, config values, and other metadata. See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for the full query syntax.
+Press `f` to filter the runs list by name, project, tags, notes, config values, and other metadata. Bare terms search across run key, display name, run ID, project, tags, and notes. The filter also supports fielded queries:
+
+| Query | Matches |
+| --- | --- |
+| `project:vision` | Project name. |
+| `name:baseline` | Display name. Aliases: `run_name`, `display`, `display_name`. |
+| `id:abc123` | Run ID. Alias: `run_id`. |
+| `key:offline-run` | Run directory key. Aliases: `run_key`, `path`. |
+| `tag:prod` | Tags. Alias: `tags`. |
+| `note:debug` | Notes. Alias: `notes`. |
+| `config:adamw` or `cfg:adamw` | Any flattened config key or value. |
+| `cfg.lr>=1e-3` | A specific nested config path. `config.lr` also works. |
+| `has:notes` or `exists:cfg.dataset` | Existence check. |
+
+Supported operators are `:`, `=`, `!=`, `>`, `>=`, `<`, and `<=`. Numeric comparisons are useful for config values such as learning rate, batch size, or number of layers.
+
+Use whitespace or `AND` for conjunction, `OR` or `|` for alternatives, and `-`, `!`, or `NOT` for negation. Use quotes for phrases with spaces.
+
+```text
+transformer
+project:vision tag:baseline
+cfg.lr>=1e-3 cfg.optimizer=adamw
+has:notes -tag:debug
+project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
+```
+
+While editing a filter, press `tab` to switch between regex and glob modes. Regex mode behaves like a case-insensitive substring search unless the query contains regex metacharacters. Glob mode supports `*` for any sequence and `?` for any single character.
 
 ### Metrics and system metrics
 
@@ -146,7 +172,41 @@ LEET writes `wandb-leet.json` under `~/.config/wandb/` by default, or under `WAN
   <img src="/images/leet/leet-config-editor.png" alt="W&B LEET config editor showing grid settings, color schemes, visibility settings, and palette selection." />
 </Frame>
 
-See the [CLI reference](/models/ref/cli/wandb-beta/wandb-beta-leet) for common config keys and color scheme names.
+### Common config keys
+
+| Key | Default | Description |
+| --- | --- | --- |
+| `startup_mode` | `workspace_latest` | Initial view when launched without a run path. |
+| `metrics_grid.rows`, `metrics_grid.cols` | `4`, `3` | Single-run metrics grid size. |
+| `system_grid.rows`, `system_grid.cols` | `6`, `2` | Single-run system metrics sidebar grid size. |
+| `media_grid.rows`, `media_grid.cols` | `1`, `2` | Single-run media grid size. |
+| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3` | Workspace metrics grid size. |
+| `workspace_system_grid.rows`, `workspace_system_grid.cols` | `3`, `3` | Workspace system metrics grid size. |
+| `workspace_media_grid.rows`, `workspace_media_grid.cols` | `1`, `2` | Workspace media grid size. |
+| `symon_grid.rows`, `symon_grid.cols` | `3`, `3` | SYMON grid size. |
+| `color_scheme` | `wandb-vibe-10` | Palette for workspace run metrics and run list colors. |
+| `per_plot_color_scheme` | `sunset-glow` | Palette for single-run charts when `single_run_color_mode` is `per_plot`. |
+| `tag_color_scheme` | `wandb-vibe-10` | Palette for tag badges in the overview sidebar. |
+| `system_color_scheme` | `wandb-vibe-10` | Palette for system metric charts. |
+| `french_fries_color_scheme` | `viridis` | Palette for bucketed heatmap charts. |
+| `single_run_color_mode` | `per_series` | Color single-run charts per series or per plot. |
+| `system_color_mode` | `per_series` | Color system charts per series or per plot. |
+| `system_tail_window_minutes` | `10` | Default live tail window for system charts. |
+| `heartbeat_interval_seconds` | `15` | Polling heartbeat for live runs. |
+| `workspace_overview_visible` | `true` | Show the workspace run overview sidebar by default. |
+| `workspace_metrics_grid_visible` | `true` | Show the workspace metrics grid by default. |
+| `workspace_system_metrics_visible` | `false` | Show the workspace system metrics pane by default. |
+| `workspace_console_logs_visible` | `false` | Show the workspace console logs pane by default. |
+| `workspace_media_visible` | `false` | Show the workspace media pane by default. |
+| `left_sidebar_visible` | `true` | Show the single-run overview sidebar by default. |
+| `right_sidebar_visible` | `true` | Show the single-run system metrics sidebar by default. |
+| `metrics_grid_visible` | `true` | Show the single-run metrics grid by default. |
+| `console_logs_visible` | `false` | Show the single-run console logs pane by default. |
+| `media_visible` | `false` | Show the single-run media pane by default. |
+
+Available color schemes: `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma`, and `cividis`.
+
+`dusk-shore` and `clear-signal` are colorblind-friendly palettes. Sequential palettes such as `viridis`, `plasma`, `inferno`, `magma`, `cividis`, and `traffic-light` work well for bucketed heatmaps.
 
 ## Navigate with the keyboard
 
@@ -160,7 +220,7 @@ Across workspace and single-run views:
 - `1`, `2`, `3`, and `4` toggle the metrics grid, system metrics, media, and console logs panes.
 - `[` and `]` toggle sidebars (runs list, run overview, or system metrics depending on the view).
 
-For the full shortcut tables for workspace, single-run, SYMON, and mouse actions, see [Keyboard shortcuts](/models/app/keyboard-shortcuts) (LEET tab) and [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet).
+For the full shortcut tables for workspace, single-run, SYMON, and mouse actions, see [Keyboard shortcuts](/models/app/keyboard-shortcuts) (LEET tab).
 
 ## Limitations compared to the W&B App
 
@@ -177,9 +237,22 @@ LEET complements the W&B App but does not replicate every workspace capability.
 
 If you need artifacts, sweep analysis, or panel types that LEET does not provide, open the run in the [W&B App](/models/runs/view-logged-runs) after syncing.
 
+## Changelog
+
+The following table summarizes LEET changes by version. For more details, see the [SDK release notes](/release-notes/sdk-releases).
+
+| Version | LEET changes |
+| --- | --- |
+| `0.23.0` | Initial experimental `wandb beta leet` command for local run metrics and system health. |
+| `0.23.1` | Regex filters for metrics and the run overview, chart inspection with right-click drag, synchronized chart inspection with `alt`, and better negative Y-axis tick display and system metric units. |
+| `0.25.0` | Multi-run workspace view and `wandb beta leet config` editor. |
+| `0.25.1` | Console logs pane, workspace system metrics pane, and system metrics filtering. |
+| `0.26.0` | Metadata-aware run filtering, tags and notes in overview, per-chart log Y, SYMON, bucketed heatmaps, colorblind-friendly palettes, media pane, improved system metrics overlays/inspection/zoom, and workspace run color collision prevention. |
+| `0.26.1` | Unified navigation across focused panes with `w`/`a`/`s`/`d`, arrows, `home`, `end`, `pgup`, and `pgdown`. |
+
 ## Related resources
 
 - [View a specific run](/models/runs/view-logged-runs) — open runs in the W&B App or LEET.
 - [Keyboard shortcuts](/models/app/keyboard-shortcuts) — LEET and App shortcut reference.
-- [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) — launch syntax, filtering, configuration keys, and changelog.
+- [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) — launch syntax and subcommands.
 - [SDK release notes](/release-notes/sdk-releases) — LEET feature history by CLI version.
