@@ -11,15 +11,15 @@ For information on how to track external files, such as files stored in Amazon S
 
 Construct a [W&B Artifact](/models/ref/python/experiments/artifact) in three steps:
 
-1. [Create an artifact Python object with `wandb.Artifact()`](/models/artifacts/construct-an-artifact#1-create-an-artifact-python-object-with-wandb-artifact)
-2. [Add one or more files to the artifact](/models/artifacts/construct-an-artifact#2-add-one-more-files-to-the-artifact)
-3. [Save your artifact to the W&B server](/models/artifacts/construct-an-artifact#3-save-your-artifact-to-the-w&b-server)
+1. [Create an artifact Python object with `wandb.Artifact()`](/models/artifacts/construct-an-artifact#create-an-artifact-python-object-with-wandb-artifact)
+2. [Add one or more files to the artifact](/models/artifacts/construct-an-artifact#add-one-or-more-files-to-the-artifact)
+3. [Save your artifact to the W&B server](/models/artifacts/construct-an-artifact#save-your-artifact-to-the-w&b-server)
 
-### 1. Create an artifact Python object with `wandb.Artifact()`
+### Create an artifact Python object with `wandb.Artifact()`
 
 Initialize the [`wandb.Artifact()`](/models/ref/python/experiments/artifact) class to create an artifact object. Specify the following parameters:
 
-* **Name**: The name of your artifact. The name should be unique, descriptive, and easy to remember.
+* **Name**: The name of your artifact. The name should be unique, descriptive, and memorable.
 * **Type**: The type of artifact. The type should be simple, descriptive, and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
 
@@ -43,7 +43,7 @@ import wandb
 artifact = wandb.Artifact(name="<name>", type="<type>")
 ```
 
-### 2. Add one more files to the artifact
+### Add one or more files to the artifact
 
 [Add files, directories, external URI references (such as Amazon S3) and more](/models/artifacts/construct-an-artifact#add-files-to-an-artifact) to your artifact object.
 
@@ -61,7 +61,7 @@ artifact.add_dir(local_path="path/to/directory", name="<name>")
 
 See the next section, [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information on how to add different file types to an artifact.
 
-### 3. Save your artifact to the W&B server
+### Save your artifact to the W&B server
 
 Save your artifact to the W&B server. Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 
@@ -109,14 +109,14 @@ with wandb.init() as run:
         run.log_artifact(a)
 ```
 
-The artifact version **v0** is NOT guaranteed to have an index of 0 in its metadata because artifacts may be logged in an arbitrary order.
+The artifact version **v0** might not have an index of 0 in its metadata because artifacts may be logged in an arbitrary order.
 </Warning>
 
 ## Add files to an artifact
 
 The following sections demonstrate how to add different types of objects to an artifact. Assume you have a directory with the following structure as you read through the examples:
 
-```
+```text
 root-directory
 | - hello.txt
 | - images/
@@ -150,7 +150,7 @@ artifact.add_file("hello.txt")
 
 The artifact now has the following content:
 
-```
+```text
 hello.txt
 ```
 
@@ -165,7 +165,7 @@ artifact.add_file(
 
 The artifact is stored as:
 
-```
+```text
 new/path/hello_world.txt
 ```
 
@@ -203,7 +203,7 @@ The following table show how different API calls produce different artifact cont
 
 ### Add a URI reference
 
-Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
+Artifacts track checksums and other information for reproducibility if the URI has a scheme that the W&B library supports.
 
 Add an external URI reference to an artifact with the [`wandb.Artifact.add_reference()`](/models/ref/python/experiments/artifact#method-artifact-add-reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
@@ -212,7 +212,7 @@ Add an external URI reference to an artifact with the [`wandb.Artifact.add_refer
 artifact.add_reference(uri="uri", name="optional-name")
 ```
 
-Artifacts currently support the following URI schemes:
+Artifacts support the following URI schemes:
 
 * `http(s)://`: A path to a file accessible over HTTP. The artifact will track checksums in the form of etags and size metadata if the HTTP server supports the `ETag` and `Content-Length` response headers.
 * `s3://`: A path to an object or object prefix in S3. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
