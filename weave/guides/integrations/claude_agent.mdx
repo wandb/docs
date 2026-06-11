@@ -1,20 +1,23 @@
 ---
 title: "Claude Agent SDK"
 description: "Use W&B Weave with the Claude Agent SDK to trace your agent's queries, tool calls, and multi-turn conversations."
+keywords: ["Claude Agent SDK", "Anthropic", "MCP", "agent tracing", "multi-turn conversations"]
 ---
 
 The [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) is a Python SDK by Anthropic for building agent applications with Claude. W&B Weave automatically traces Claude Agent SDK calls when you call `weave.init()`, capturing queries, tool use, and multi-turn conversations.
 
+This guide shows you how to instrument a Claude Agent SDK application with Weave so you can inspect every query, tool invocation, and conversation turn in the Weave UI. It's intended for developers building Claude-based agents who want end-to-end observability without writing custom tracing code.
+
 ## Prerequisites
 
-Before running the code example:
- - Update `your-team-name` appropriately for calling `weave.init()` on code line 109.
- - Set `WANDB_API_KEY` and `ANTHROPIC_API_KEY` in your environment.
-   - For more information on W&B API keys, see [API keys](/platform/app/settings-page/user-settings#api-keys).
+Before you run the code example, complete the following setup so Weave can authenticate and route traces to your project:
+
+- Replace `your-team-name` in the call to `weave.init()` with your W&B team name.
+- Set `WANDB_API_KEY` and `ANTHROPIC_API_KEY` in your environment. For more information on W&B API keys, see [API keys](/platform/app/settings-page/user-settings#api-keys).
 
 ## Installation
 
-Install the required dependencies using `pip`:
+Install the required dependencies with `pip` so both Weave and the Claude Agent SDK are available in your environment:
 
 ```bash
 pip install weave claude-agent-sdk
@@ -22,18 +25,17 @@ pip install weave claude-agent-sdk
 
 ## Get started
 
-Weave automatically patches the SDK and traces every query when `weave.init()` is called before using the Claude Agent SDK. 
+This section walks through a complete example that demonstrates how Weave traces different Claude Agent SDK usage patterns in a single run.
+
+When you call `weave.init()` before you use the Claude Agent SDK, Weave automatically patches the SDK and traces every query.
 
 The following example showcases three capabilities:
 
-- **Simple one-shot queries** using the `query()` function, including model responses and cost.
+- **Simple one-shot queries** with the `query()` function, including model responses and cost.
 - **MCP tool use** with `ClaudeSDKClient`. The Claude Agent SDK supports custom tools through in-process MCP servers.
   - Weave traces tool definitions, tool invocations, and results alongside the agent's queries.
   - The MCP demo defines two MCP tools and runs a query that uses them.
-- **Multi-turn conversations** grouped into a single trace with `weave.thread()`, so you can see the full conversation flow in the Weave UI.
-  - Weave captures each turn as a child of the thread, so you can see the full conversation flow in the Weave UI.
-
-
+- **Multi-turn conversations** that `weave.thread()` groups into a single trace. Weave captures each turn as a child of the thread, so you can see the full conversation flow in the Weave UI.
 
 ```python lines
 """Weave + Claude Agent SDK: tracing queries, tools, and conversations.
@@ -149,5 +151,7 @@ if __name__ == "__main__":
 ```
 
 ## View traces
+
+After you run the example, Weave records a set of traces in your project that you can use to debug and analyze your agent's behavior.
 
 When you run the example, Weave prints links to the Weave dashboard. Follow the links to see your traces, including query inputs, model responses, tool invocations, and conversation threads.
