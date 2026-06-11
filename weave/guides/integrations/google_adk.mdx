@@ -45,7 +45,7 @@ Store sensitive environment variables like your API key and project information 
 
 ## Send OTEL traces from ADK to Weave
 
-With the prerequisites in place, you can wire up the OTEL exporter and tracer provider that forward span data to Weave. The following code snippet demonstrates how to configure an OTLP span exporter and tracer provider to send OTEL traces from an ADK application to Weave.
+With the prerequisites in place, you can set up the OTEL exporter and tracer provider that forward span data to Weave. The following code snippet demonstrates how to configure an OTLP span exporter and tracer provider to send OTEL traces from an ADK application to Weave.
 
 <Warning>
 To ensure that Weave traces ADK properly, set the global tracer provider _before_ using ADK components in your code.

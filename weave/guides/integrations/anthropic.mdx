@@ -77,7 +77,7 @@ By including `weave.init()` in the code, Weave automatically captures tracing in
 
 ## Wrap with your own ops
 
-While `weave.init()` alone captures Anthropic SDK calls, wrapping your own functions as ops gives you richer traces that include your application logic around each model call.
+While `weave.init()` alone captures Anthropic SDK calls, decorating your own functions with ops gives you richer traces that include your application logic around each model call.
 
 Weave ops automatically version your code as you experiment, and capture its inputs and outputs. Decorate a function with [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) in Python or wrap it with [`weave.op()`](/weave/reference/typescript-sdk/functions/op) in TypeScript to call [`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), and Weave tracks the inputs and outputs for you.
 
@@ -156,7 +156,7 @@ console.log(await generateJoke('cars'));
   </Tab>
 </Tabs>
 
-When you decorate or wrap a function with `weave.op()`, Weave captures the function's code, input, and output. You can use ops to track any function you want, including nested functions.
+When you decorate a function with `weave.op()`, Weave captures the function's code, input, and output. You can use ops to track any function you want, including nested functions.
 
 [![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 

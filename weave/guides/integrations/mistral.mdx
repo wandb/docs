@@ -50,7 +50,7 @@ Weave now tracks and logs all LLM calls made through the MistralAI library. You 
 
 ## Wrap calls with your own ops
 
-Once basic tracing works, you can wrap your MistralAI calls in Weave ops to make them reproducible across experiments. Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion), and Weave tracks the inputs and outputs for you. The following example shows how to do this for a cheese recommender:
+Once basic tracing works, you can wrap your MistralAI calls in Weave Ops to make them reproducible across experiments. Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion), and Weave tracks the inputs and outputs for you. The following example shows how to do this for a cheese recommender:
 
 ```python lines {1}
 @weave.op()
