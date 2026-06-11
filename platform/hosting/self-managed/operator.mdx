@@ -1213,7 +1213,7 @@ The operator automatically updates your W&B Server application when a new versio
 
 ## Upgrade MySQL to 8.4.x
 
-MySQL 8.0.x is end of life. Self-Managed deployments must run a supported MySQL version that receives security patches and critical bug fixes. Install or upgrade to **MySQL 8.4.x** or a managed service your provider documents as compatible with MySQL 8.4.x (for example Amazon RDS for MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL). W&B has validated the platform against MySQL 8.4.0 and current 8.4.x releases.
+MySQL 8.0.x is end of life. Self-Managed deployments must run a supported MySQL version that receives security patches and critical bug fixes. If you run community MySQL, install or upgrade to **MySQL 8.4.x**. If you use a managed service, run an engine version your provider documents as supported and patched (for example Amazon RDS for MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL). W&B has validated the platform against MySQL 8.4.0 and current 8.4.x releases.
 
 These steps describe the sequence from W&B's perspective. For how to upgrade MySQL itself, including backups and version paths, follow your MySQL distribution's or cloud provider's documentation. The same sequence applies to [standard](/platform/hosting/self-managed/operator) and [air-gapped](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) Operator deployments. In air-gapped environments, obtain MySQL 8.4.x software through your internal distribution process before you upgrade the database.
 
