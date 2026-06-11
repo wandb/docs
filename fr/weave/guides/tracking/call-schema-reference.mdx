@@ -1,18 +1,19 @@
 ---
-title: "Référence du schéma de l’objet Appel"
-description: "Référence de la structure et des propriétés de l’objet Appel"
+title: "Référence du schéma de Appel"
+description: "Référence sur la structure et les propriétés de l'objet Appel"
+keywords: ["CallSchema", "synthèse", "trace", "latency_ms", "utilisation"]
 ---
 
-Cette référence décrit le schéma de l’objet Appel dans W&amp;B Weave. Pour plus d’informations sur les requêtes portant sur les appels, voir [Interroger et exporter des appels](/fr/weave/guides/tracking/querying-calls).
+Cette référence décrit le schéma de l&#39;objet Appel dans W&amp;B Weave, notamment ses propriétés, la manière d&#39;écrire des données personnalisées dans le dictionnaire `summary` pendant l&#39;exécution, et comment lire les données de synthèse une fois un Appel terminé. Utilisez cette page lorsque vous devez inspecter, filtrer ou enrichir les données que Weave enregistre pour chaque Appel. Pour plus d&#39;informations sur la requête d&#39;appels, voir [Interroger et exporter les appels](/fr/weave/guides/tracking/querying-calls).
 
 <div id="call-properties">
   ## Propriétés de l’Appel
 </div>
 
-Le tableau ci-dessous présente les principales propriétés d’un Appel dans Weave. Pour l’implémentation complète, voir ce qui suit :
+Le tableau suivant présente les principales propriétés d’un Appel dans Weave. Pour l’implémentation complète, voir ce qui suit :
 
-* [classe : CallSchema](/fr/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) dans le SDK Python.
-* [Interface : CallSchema](/fr/weave/reference/typescript-sdk/interfaces/callschema) dans le SDK TypeScript.
+* [classe : CallSchema](/fr/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) dans le SDK Python
+* [Interface : CallSchema](/fr/weave/reference/typescript-sdk/interfaces/callschema) dans le SDK TypeScript
 
 | Propriété      | Type                  | Description                                                                                                                             |
 | -------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -50,7 +51,7 @@ Ensemble, ces propriétés permettent un suivi et une analyse détaillés des ap
   ## Utiliser la synthèse d’un Appel
 </div>
 
-La propriété `summary` est un dictionnaire dans lequel vous pouvez écrire pendant l’exécution d’un Appel. Lorsque l’Appel se termine, Weave fusionne en profondeur vos valeurs avec ses propres données calculées et stocke le résultat.
+Utilisez la propriété `summary` pour associer à un Appel des données personnalisées que vous pourrez analyser après l’exécution, en parallèle des métriques intégrées de Weave. La propriété `summary` est un dictionnaire dans lequel vous pouvez écrire pendant l’exécution d’un Appel. Lorsque l’Appel se termine, Weave fusionne en profondeur vos valeurs avec ses propres données calculées et stocke le résultat.
 
 Le dictionnaire comporte deux zones :
 
@@ -117,7 +118,7 @@ Vous pouvez ajouter des données personnalisées pendant votre Appel à l’aide
   ### Lire les données de synthèse
 </div>
 
-Utilisez `getCall` pour récupérer un appel unique par son ID, ou `getCalls` pour récupérer plusieurs appels. Dans les deux cas, `summary` correspond au même dictionnaire fusionné.
+Utilisez `getCall` pour récupérer un Appel unique par son ID, ou `getCalls` pour récupérer plusieurs appels. Dans les deux cas, `summary` correspond au même dictionnaire fusionné.
 
 <Tabs>
   <Tab title="Python">
@@ -125,8 +126,8 @@ Utilisez `getCall` pour récupérer un appel unique par son ID, ou `getCalls` po
     import weave
     client = weave.init("my-team/my-project")
 
-    # Récupérer un appel unique par son ID.
-    call = client.get_call("<call-id>")
+    # Récupérer un Appel unique par son ID.
+    call = client.get_call("[CALL-ID]")
     weave_summary = (call.summary or {}).get("weave", {})
 
     print(weave_summary.get("status"))       # Énumération TraceStatus : SUCCESS, ERROR, RUNNING ou DESCENDANT_ERROR.
@@ -148,8 +149,8 @@ Utilisez `getCall` pour récupérer un appel unique par son ID, ou `getCalls` po
     import * as weave from 'weave';
     const client = await weave.init('my-team/my-project');
 
-    // Récupérer un appel unique par son ID.
-    const call = await client.getCall('<call-id>');
+    // Récupérer un Appel unique par son ID.
+    const call = await client.getCall('[CALL-ID]');
     const weaveSummary = call.summary?.weave;
 
     console.log(weaveSummary?.status);       // "success", "error", "running" ou "descendant_error".

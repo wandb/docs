@@ -1,6 +1,7 @@
 ---
 title: Plugin Codex
 description: Tracez les sessions d'agent Codex, les appels LLM et les exécutions d'outils dans W&B Weave.
+keywords: ["OpenAI Codex", "OTEL", "traçage des agents", "hook Stop", "rollout"]
 ---
 
 import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
@@ -12,7 +13,7 @@ Le plugin Weave Codex trace automatiquement chaque tour de conversation Codex et
 Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**/rollout-*.jsonl`) pour reconstruire les spans. Il s&#39;exécute entièrement en dehors du chemin critique de Codex via un hook Stop en fire-and-forget, de sorte que Codex n&#39;est jamais bloqué par le réseau.
 
 <Warning>
-  Par défaut, ce plugin capture le contenu des spans : vos prompts, les réponses et le raisonnement du modèle, les arguments des appels d&#39;outil et les résultats des outils (y compris les commandes shell, leur sortie et le contenu des fichiers). Ces données sont envoyées à votre instance W&amp;B Weave.
+  Par défaut, ce plugin capture le contenu des spans : vos prompts, les réponses et le raisonnement du modèle, les arguments des appels d&#39;outil et les résultats des outils. Les résultats des outils incluent les commandes shell, leur sortie et le contenu des fichiers. Ces données sont envoyées à votre instance Weave.
 
   La suppression des PII et le masquage des données sensibles ne sont pas implémentés. Pour n&#39;envoyer que la structure, l&#39;utilisation des jetons, le modèle et les informations de timing (sans prompts, code ni sortie), définissez `WEAVE_CODEX_CAPTURE_CONTENT=0`. Si vous ne pouvez pas envoyer ces données vers Weave en raison de vos exigences de sécurité ou de conformité, n&#39;installez pas ce plugin.
 </Warning>
@@ -22,7 +23,7 @@ Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**
 </div>
 
 * [Node.js](https://nodejs.org/) v20 ou version ultérieure.
-* [OpenAI Codex CLI](https://github.com/openai/codex) avec le système de hooks (versions récentes).
+* [OpenAI Codex CLI](https://github.com/openai/codex) avec le système de hooks.
 * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie dans la variable d&#39;environnement `WANDB_API_KEY`.
 * Un projet Weave (`[YOUR-TEAM]/[YOUR-PROJECT]`) pour recevoir des traces.
 
@@ -31,13 +32,13 @@ Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**
 </div>
 
 <Steps>
-  <Step title="Installer le package :">
+  <Step title="Installer le package">
     ```bash lines
     npm install -g weave-codex
     ```
   </Step>
 
-  <Step title="Configurer les identifiants et le projet :">
+  <Step title="Configurer les identifiants et le projet">
     ```bash lines
     wandb login
     export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
@@ -46,15 +47,15 @@ Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**
     Vous pouvez aussi définir directement `WANDB_API_KEY` comme variable d&#39;environnement au lieu d&#39;utiliser `wandb login`. Voir [Credential resolution order](#credential-resolution-order) pour connaître les règles de priorité complètes.
   </Step>
 
-  <Step title="Installer le hook Stop :">
+  <Step title="Installer le hook Stop">
     ```bash lines
     weave-codex install
     ```
 
-    Cette commande fusionne un hook Stop dans `~/.codex/hooks.json`. Le hook lance un processus détaché à la fin de chaque tour de conversation Codex, lit les nouvelles lignes de rollout à partir d&#39;un curseur par session, reconstruit les spans et les exporte vers Weave.
+    Cette commande fusionne un hook Stop dans `~/.codex/hooks.json`. À la fin de chaque tour de conversation Codex, le hook lance un processus détaché qui lit les nouvelles lignes de rollout à partir d&#39;un curseur par session, reconstruit les spans et les exporte vers Weave.
   </Step>
 
-  <Step title="Approuver le hook dans Codex :">
+  <Step title="Approuver le hook dans Codex">
     Codex marque les hooks nouvellement ajoutés comme non fiables et ne les exécute pas tant que vous ne les avez pas approuvés. Au prochain lancement de `codex`, approuvez le hook `weave-codex` lorsque l&#39;invite s&#39;affiche.
 
     Vous pouvez aussi définir `bypass_hook_trust = true` dans `~/.codex/config.toml` pour ignorer l&#39;invite.
@@ -81,8 +82,8 @@ Le plugin émet une trace OTEL par tour de conversation Codex, conformément aux
 
 | Span                  | Émis pour                              | Attributs clés                                                                                                                                                                     |
 | --------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `invoke_agent codex`  | Par tour de conversation (span racine) | Nom/version de l’agent, `gen_ai.conversation.id`, modèle, utilisation totale des jetons, prompt utilisateur et réponse finale (lorsque la capture de contenu est activée)           |
-| `chat <model>`        | Par appel au modèle                     | `gen_ai.usage.*` (jetons d’entrée, de sortie, mis en cache et de raisonnement), raison de fin, `server.address`, sortie de l’assistant (lorsque la capture de contenu est activée) |
+| `invoke_agent codex`  | Par tour de conversation (span racine) | Nom ou version de l’agent, `gen_ai.conversation.id`, modèle, utilisation totale des jetons, prompt utilisateur et réponse finale (lorsque la capture de contenu est activée)       |
+| `chat <model>`        | Par appel au modèle                    | `gen_ai.usage.*` (jetons d’entrée, de sortie, mis en cache et de raisonnement), raison de fin, `server.address`, sortie de l’assistant (lorsque la capture de contenu est activée) |
 | `execute_tool <name>` | Par exécution d’outil                  | `gen_ai.tool.name`, `gen_ai.tool.call.id`, arguments et résultat (lorsque la capture de contenu est activée) ; les appels MCP incluent également `mcp.server.name`                 |
 
 Weave regroupe les tours de conversation en une seule conversation dans la vue Agents à l’aide de `gen_ai.conversation.id`, défini sur l’ID de session Codex pour chaque span. Les horodatages des spans sont antidatés à partir des horodatages des fichiers de rollout, de sorte que les durées reflètent le temps d’exécution réel.
@@ -94,14 +95,14 @@ Les traces s’affichent également dans tout backend compatible OTEL, puisque t
 </div>
 
 * Les commandes `codex` (TUI interactif) et `codex exec` sont prises en charge. Les commandes `codex mcp` et `app-server` ne sont pas couvertes, car elles ne déclenchent aucun hook.
-* Un sous-agent généré n’apparaît que sous la forme de son appel d’outil `spawn_agent`. Ses propres appels au modèle et exécutions d’outils ne sont pas encore capturés.
+* Un sous-agent généré n’apparaît que sous la forme de son appel d’outil `spawn_agent`. Ses propres appels au modèle et exécutions d’outils ne sont pas capturés.
 * Le hook Stop ne se déclenche pas pour les tours de conversation interrompus ou ayant échoué ; ils ne sont donc pas capturés.
 
 <div id="configuration-reference">
   ## Référence de configuration
 </div>
 
-Les fichiers de configuration et d’exécution sont stockés dans `~/.weave-codex/`, notamment `settings.json`, le shim du hook, les curseurs par session et le fichier journal situé dans `logs/collector.log`.
+Cette section répertorie les paramètres que vous pouvez utiliser pour personnaliser le comportement du plugin. Les fichiers de configuration et d’exécution sont stockés dans `~/.weave-codex/`, notamment `settings.json`, le shim du hook, les curseurs par session et le fichier journal situé dans `logs/collector.log`.
 
 | Paramètre                  | Variable d’environnement      | Clé `settings.json` | Par défaut                                          |
 | -------------------------- | ----------------------------- | ------------------- | --------------------------------------------------- |
@@ -112,10 +113,10 @@ Les fichiers de configuration et d’exécution sont stockés dans `~/.weave-cod
 | Journalisation de débogage | `WEAVE_CODEX_DEBUG`           | `debug`             | Désactivée (les erreurs sont toujours journalisées) |
 
 <div id="credential-resolution-order">
-  ### Ordre de résolution des informations d&#39;authentification
+  ### Ordre de résolution des identifiants d’authentification
 </div>
 
-Les informations d&#39;authentification sont résolues dans cet ordre :
+Le plugin résout les identifiants d’authentification dans cet ordre :
 
 1. Variables d&#39;environnement (`WANDB_API_KEY`, `WEAVE_PROJECT`).
 2. `~/.weave-codex/settings.json`.
@@ -151,7 +152,7 @@ cat ~/.weave-codex/logs/collector.log
   ## Dépannage
 </div>
 
-Le journal du collecteur situé à l’emplacement `~/.weave-codex/logs/collector.log` constitue la principale source de diagnostic. Les erreurs sont toujours journalisées, quel que soit le paramètre `debug`.
+Les sections suivantes décrivent les problèmes courants et expliquent comment les résoudre. Le journal du collecteur situé à l’emplacement `~/.weave-codex/logs/collector.log` constitue la principale source de diagnostic. Le plugin journalise toujours les erreurs, quel que soit le paramètre `debug`.
 
 <div id="no-traces-appear-after-running-codex">
   ### Aucune trace n’apparaît après l’exécution de Codex
@@ -160,7 +161,7 @@ Le journal du collecteur situé à l’emplacement `~/.weave-codex/logs/collecto
 1. Exécutez `weave-codex status`. Vérifiez que tous les contrôles sont réussis.
 2. Vérifiez que le hook est approuvé. Si vous avez ignoré l’invite d’approbation lors du premier lancement, exécutez à nouveau `codex` et approuvez-le lorsque l’invite s’affiche, ou définissez `bypass_hook_trust = true` dans `~/.codex/config.toml`.
 3. Vérifiez que `WEAVE_PROJECT` est défini sur un slug `entity/project` valide. `weave-codex status` affiche le projet résolu.
-4. Vérifiez la source d’authentification. `weave-codex status` affiche la source d’identification résolue. Si `WANDB_API_KEY env` s’affiche alors que vous avez défini la clé ailleurs, le plugin lit la mauvaise valeur.
+4. Vérifiez la source d’authentification. `weave-codex status` affiche la source d’identifiant d’authentification résolue. Si `WANDB_API_KEY env` s’affiche alors que vous avez défini la clé ailleurs, le plugin lit la mauvaise valeur.
 
 <div id="turns-appear-but-inputoutput-text-is-empty">
   ### Les tours de conversation apparaissent, mais le texte d’entrée et de sortie est vide
@@ -172,7 +173,7 @@ La capture du contenu est peut-être désactivée. Vérifiez que `WEAVE_CODEX_CA
   ### Erreurs lors de l&#39;envoi de traces vers Weave
 </div>
 
-Si le plugin est actif et que des spans sont générés mais n&#39;apparaissent pas dans Weave, consultez le journal du collecteur pour repérer une erreur d&#39;exportation et comparez-la au tableau ci-dessous.
+Si le plugin est actif et génère des spans qui n&#39;apparaissent pas dans Weave, consultez le journal du collecteur pour repérer une erreur d&#39;exportation et comparez-la à ce tableau.
 
 | Symptôme                                      | Cause la plus probable                         | Correctif                                                                                                                                                               |
 | --------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

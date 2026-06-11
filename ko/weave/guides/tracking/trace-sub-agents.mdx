@@ -1,21 +1,24 @@
 ---
 title: 하위 에이전트 트레이스
-description: Weave sub-agent span을 사용해 중첩된 에이전트와 작업을 위임받은 에이전트를 트레이스하세요.
+description: Weave의 하위 에이전트 span을 사용하여 하위 에이전트 위임을 추적하고 중첩된 에이전트 호출을 확인하세요.
+keywords: ["하위 에이전트", "invoke_agent", "OTel spans", "멀티 에이전트", "start_subagent"]
 ---
 
 import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-하위 에이전트는 turn 내에서 실행되는 위임된 에이전트 호출입니다. 한 에이전트가 다른 에이전트에 작업을 넘길 때, 예를 들어 supervisor 에이전트가 specialist 에이전트에 작업을 할당하는 경우 하위 에이전트를 사용하세요.
+이 가이드에서는 W&amp;B Weave를 사용해 하위 에이전트를 트레이스하여, 위임된 에이전트 호출이 부모 turn과 동일한 트레이스 내에 중첩된 span으로 표시되도록 하는 방법을 설명합니다. 하위 에이전트를 트레이싱하면 부모가 어떤 전문 에이전트를 호출했는지, 각 에이전트가 무엇을 했는지, 그리고 최종 응답에 어떻게 기여했는지를 포함해 에이전트 추론의 전체 계층 구조를 확인할 수 있습니다. 이 가이드는 Weave로 멀티 에이전트 시스템을 계측하는 개발자를 위한 것입니다.
 
-Weave로 계측하면 하위 에이전트는 부모 turn과 동일한 트레이스에 중첩된 `invoke_agent` OTel span을 생성합니다. **Agents** 뷰에서는 이 중첩이 이를 트리거한 turn 아래의 하위 에이전트 호출로 표시되며, 그 아래에 자체 LLM Calls와 tool calls가 그룹화되어 나타납니다.
+하위 에이전트는 turn 내부에서 실행되는 위임된 에이전트 호출입니다. 한 에이전트가 다른 에이전트에 작업을 넘길 때, 예를 들어 감독 에이전트가 전문 에이전트에 작업을 할당하는 경우 하위 에이전트를 사용하세요.
+
+Weave로 이를 계측하면 하위 에이전트는 부모 turn과 동일한 트레이스 내에 중첩된 `invoke_agent` OpenTelemetry (OTel) span을 생성합니다. **Agents** 뷰에서는 이 중첩 구조가 이를 트리거한 turn 아래의 하위 에이전트 호출로 렌더링되며, 그 아래에 해당 하위 에이전트의 LLM Call과 도구 Call이 그룹화되어 표시됩니다.
 
 <div id="sub-agent-data-model">
   ## 하위 에이전트 데이터 모델
 </div>
 
-`weave.start_subagent` span은 OTel `invoke_agent` span에 매핑되며, 상위 turn과 동일한 오퍼레이션 이름을 생성합니다. Weave는 트레이스의 부모-자식 관계를 통해 이 둘을 구분합니다:
+코드에 트레이싱을 계측하기 전에 Weave가 트레이스에서 하위 에이전트를 어떻게 표현하는지 이해해 두면 도움이 됩니다. `weave.start_subagent` span은 OTel `invoke_agent` span에 매핑되며, 상위 turn과 동일한 오퍼레이션 이름을 생성합니다. Weave는 트레이스의 부모-자식 관계를 통해 이 둘을 구분합니다:
 
 ```plaintext
 Turn (invoke_agent — root span)
@@ -26,7 +29,7 @@ Turn (invoke_agent — root span)
 └── LLM call (chat)              ← 상위 에이전트가 최종 답변 합성
 ```
 
-하위 에이전트는 현재 활성 세션의 `conversation_id`를 상속하므로 Agents 뷰에서 나머지 대화와 함께 그룹화됩니다.
+하위 에이전트는 현재 활성 세션의 `conversation_id`를 상속하므로 **Agents** 뷰에서 나머지 대화와 함께 그룹화됩니다.
 
 ```python lines
 sub = weave.start_subagent(
@@ -82,7 +85,7 @@ with weave.start_session(agent_name="supervisor") as session:
             llm.usage = Usage(input_tokens=300, output_tokens=20)
 ```
 
-Agents 뷰에서 하위 에이전트는 turn 내부에 중첩된 `invoke_agent` 블록으로 표시되며, 그 아래에 자체 LLM Calls와 tool calls가 함께 그룹화되어 나타납니다. supervisor의 직접 LLM Calls는 하위 에이전트와 같은 계층에 그대로 표시됩니다.
+**Agents** 뷰에서 하위 에이전트는 turn 내부에 중첩된 `invoke_agent` 블록으로 표시되며, 그 아래에 자체 LLM Calls와 도구 Calls가 함께 그룹화되어 나타납니다. supervisor의 직접 LLM Calls는 하위 에이전트와 같은 계층에 그대로 표시됩니다.
 
 <div id="trace-multiple-sub-agents">
   ## 여러 하위 에이전트 트레이스
@@ -121,10 +124,10 @@ with weave.start_session(agent_name="content-pipeline") as session:
                 sub_llm.usage = Usage(input_tokens=200, output_tokens=140)
 ```
 
-Agents 뷰에서는 turn에 서로 형제 관계인 세 개의 하위 에이전트 호출이 있으며, 각각 그 아래에 자체 LLM Call이 중첩되어 있고 `researcher`에는 도구 Call도 포함됩니다. 어느 하위 에이전트도 다른 하위 에이전트의 자식이 아닙니다.
+**Agents** 뷰에서는 turn에 서로 형제 관계인 세 개의 하위 에이전트 호출이 있으며, 각각 그 아래에 자체 LLM Call이 중첩되어 있고 `researcher`에는 도구 Call도 포함됩니다. 어느 하위 에이전트도 다른 하위 에이전트의 자식이 아닙니다.
 
 <div id="trace-nested-sub-agents">
-  ### 중첩된 하위 에이전트 트레이스
+  ## 중첩된 하위 에이전트 트레이스
 </div>
 
 하위 에이전트는 다시 다른 하위 에이전트에 작업을 위임할 수 있습니다. 각 `start_subagent` 호출은 OTel 컨텍스트에서 현재 활성 상태인 span 아래에 중첩됩니다.
@@ -139,7 +142,7 @@ with weave.start_session(agent_name="orchestrator") as session:
                     sub_llm.output("Anthropic facts...")
                     sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
 
-                # 중첩: 연구자가 자체 요약기 하위 에이전트에 작업을 위임합니다.
+                # 중첩: 연구자가 자체 요약용 하위 에이전트에 작업을 위임합니다.
                 with weave.start_subagent(name="anthropic-summarizer") as summarizer:
                     with summarizer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
                         sub_llm.output("Anthropic summary: ...")

@@ -1,13 +1,14 @@
 ---
 title: "OpenAI Agents SDK"
 description: "W&B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케이션을 추적하고 모니터링하세요"
+keywords: [openai-agents, multi-agent workflows, tracing processor, agent instrumentation]
 ---
 
-W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케이션의 트레이스를 수집하고 모니터링할 수 있습니다.
+W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케이션의 트레이스를 수집하고 모니터링할 수 있습니다. 이 가이드에서는 인테그레이션을 설치하고, 에이전트 코드에서 Weave를 초기화하고, Weave 대시보드에서 생성된 트레이스를 확인해 멀티 에이전트 워크플로를 디버그하고 평가하는 방법을 안내합니다.
 
 <Tabs>
   <Tab title="Python">
-    [OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python)는 멀티 에이전트 워크플로를 구축할 때 사용할 수 있는 가볍고 강력한 프레임워크입니다.
+    [OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python)는 멀티 에이전트 워크플로를 구축할 때 사용할 수 있는 가벼운 프레임워크입니다.
 
     ## 설치
 
@@ -21,11 +22,11 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
 
     OpenAI Agents SDK를 Weave와 함께 사용하려면 다음과 같이 합니다.
 
-    * 프로젝트 이름으로 Weave를 초기화합니다.
-    * 에이전트에 Weave 트레이싱 프로세서를 추가합니다.
-    * 평소처럼 에이전트를 생성하고 실행합니다.
+    1. 프로젝트 이름으로 Weave를 초기화합니다.
+    2. 에이전트에 Weave 트레이싱 프로세서를 추가합니다.
+    3. 평소처럼 에이전트를 생성하고 실행합니다.
 
-    다음 코드 예제는 OpenAI Agent를 생성하고, 트레이스를 추적할 수 있도록 Weave와 통합하는 방법을 보여줍니다. Weave 프로젝트를 초기화하고 실행 트레이스를 수집하도록 `WeaveTracingProcessor`를 설정합니다. `Weather` 데이터 모델은 날씨 정보를 나타냅니다. `get_weather` 함수는 에이전트가 사용할 수 있는 도구로 데코레이터가 적용되며, 예시 날씨 리포트를 반환합니다. `Hello world`라는 이름의 에이전트는 기본 지침과 날씨 도구를 사용할 수 있도록 구성됩니다. `main` 함수는 예시 입력(`What's the weather in Tokyo?`)으로 에이전트를 비동기적으로 실행하고 최종 응답을 출력합니다.
+    다음 코드 예제는 OpenAI Agent를 생성하고, 트레이스를 추적할 수 있도록 Weave와 통합하는 방법을 보여줍니다. Weave 프로젝트를 초기화하고 실행 트레이스를 수집하도록 `WeaveTracingProcessor`를 설정합니다. `Weather` 데이터 모델은 날씨 정보를 나타냅니다. `get_weather` 함수는 에이전트가 사용할 수 있는 도구로 데코레이터가 적용되며, 예시 날씨 리포트를 반환합니다. `Hello world`라는 이름의 에이전트는 기본 지침과 날씨 도구에 대한 액세스 권한을 사용합니다. `main` 함수는 예시 입력(`What's the weather in Tokyo?`)으로 에이전트를 비동기적으로 실행하고 최종 응답을 출력합니다.
 
     ```python lines
     from pydantic import BaseModel
@@ -61,11 +62,11 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
 
     ## 트레이스 보기
 
-    위 코드 샘플을 실행하면 Weave 대시보드 링크가 생성됩니다. 링크를 열어 에이전트 run의 트레이스를 확인하세요.
+    이전 코드 샘플을 실행하면 Weave 대시보드 링크가 생성됩니다. 링크를 열어 에이전트 run의 트레이스를 확인하세요.
   </Tab>
 
   <Tab title="TypeScript">
-    [OpenAI Agents Node SDK](https://github.com/openai/openai-node)는 멀티 에이전트 워크플로를 구축하기 위한 가볍고 강력한 프레임워크입니다.
+    [OpenAI Agents Node SDK](https://github.com/openai/openai-node)는 멀티 에이전트 워크플로를 구축하기 위한 가벼운 프레임워크입니다.
 
     ## 설치
 
@@ -124,7 +125,7 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
     main();
     ```
 
-    CommonJS에서는 자동 계측을 위해 `import * as weave from "weave"` 구문이 `import { Agent, run, tool } from "@openai/agents"`보다 **앞에** 와야 합니다. 코드가 이 순서를 따를 수 없다면, 아래의 수동 계측 방법을 사용하세요.
+    CommonJS에서는 자동 계측을 위해 `import * as weave from "weave"` 구문이 `import { Agent, run, tool } from "@openai/agents"`보다 앞에 와야 합니다. 코드가 이 순서를 따를 수 없다면, 아래의 수동 계측 방법을 사용하세요.
 
     ### 수동 계측
 
@@ -134,7 +135,7 @@ W&amp;B Weave를 OpenAI Agents SDK와 함께 사용해 에이전트 애플리케
     * Node CLI 플래그를 전달할 수 없는 환경.
     * 로더 훅을 우회하는 동적 모듈 로딩 패턴.
 
-    이 경우 `instrumentOpenAIAgents()`를 사용해 계측을 명시적으로 등록할 수 있습니다.
+    이 경우 `instrumentOpenAIAgents()`로 계측을 명시적으로 등록할 수 있습니다:
 
     ```typescript lines
     import * as weave from "weave";

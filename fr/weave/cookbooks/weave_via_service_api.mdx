@@ -1,20 +1,17 @@
 ---
-title: "Utiliser l'API de service Weave pour le Tracing"
-description: "Découvrez comment utiliser le Tracing Weave via l'API de service de W&B Weave"
+title: "Utiliser l’API de service de Weave pour le traçage"
+description: "Découvrez comment utiliser le traçage Weave via l’API de service avec W&B Weave"
+keywords: [API de service Weave, journalisation des traces, traçage RAG, requête de flux, observabilité LLM]
 ---
 
 <Note>
-  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter en local ou utiliser les liens ci-dessous :
+  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter localement ou utiliser les liens suivants :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
-  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
+  * [voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
 </Note>
 
-<div id="use-the-service-api-to-log-and-query-traces">
-  # Utiliser l’API de service pour enregistrer et interroger des traces
-</div>
-
-Dans le guide suivant, vous apprendrez comment utiliser l’API de service de Weave pour enregistrer des traces. Plus précisément, vous utiliserez l’API de service pour :
+Dans le notebook suivant, vous apprendrez comment utiliser l’API de service de W&amp;B Weave pour enregistrer des traces afin de :
 
 1. [Créer une simulation d’un appel et d’une réponse LLM simples, et l’enregistrer dans Weave.](#simple-trace)
 2. [Créer une simulation d’un appel et d’une réponse LLM plus complexes, et l’enregistrer dans Weave.](#complex-trace)
@@ -24,13 +21,15 @@ Dans le guide suivant, vous apprendrez comment utiliser l’API de service de We
 >
 > Vous pouvez consulter toutes les traces Weave créées lorsque vous exécutez le code de ce guide en accédant à l’onglet **Traces** de votre projet Weave (spécifié par `team_id\project_id`), puis en sélectionnant le nom de la trace.
 
-Avant de commencer, consultez les [prérequis](#prerequisites-set-variables-and-endpoints)
+Avant de commencer, consultez les [prérequis](#prerequisites-set-variables-and-endpoints).
 
 <div id="prerequisites-set-variables-and-endpoints">
   ## Prérequis : définir les variables et les endpoints
 </div>
 
-Le code suivant définit les URL des endpoints qui seront utilisées pour accéder à l’API de service :
+Avant de journaliser des traces, vous devez configurer les endpoints de l’API de service et vous authentifier avec vos identifiants W&amp;B.
+
+Le code suivant définit les URL des endpoints utilisées pour accéder à l’API de service :
 
 * [`https://trace.wandb.ai/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)
 * [`https://trace.wandb.ai/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)
@@ -64,7 +63,7 @@ wandb_token = ""
   ## Trace simple
 </div>
 
-Les sections suivantes expliquent comment créer une trace simple.
+Les sections suivantes expliquent comment créer une trace simple :
 
 1. [Démarrer une trace simple](#start-a-simple-trace)
 2. [Terminer une trace simple](#end-a-simple-trace)
@@ -75,7 +74,7 @@ Les sections suivantes expliquent comment créer une trace simple.
 
 Le code suivant crée un exemple d’appel LLM `payload_start` et le journalise dans Weave via l’endpoint `url_start`. L’objet `payload_start` simule un appel à `gpt-4o` d’OpenAI avec la requête `Why is the sky blue?`.
 
-En cas de succès, ce code affichera un message indiquant que la trace a été démarrée :
+En cas de succès, ce code affiche un message indiquant que la trace a été démarrée :
 
 ```
 Call started. ID: 01939cdc-38d2-7d61-940d-dcca0a56c575, Trace ID: 01939cdc-38d2-7d61-940d-dcd0e76c5f34
@@ -116,7 +115,7 @@ else:
 
 Pour terminer la trace simple, le code suivant crée un exemple de charge utile d&#39;appel LLM, `payload_end`, et le journalise dans Weave à l&#39;aide de l&#39;endpoint `url_end`. L&#39;objet `payload_end` imite la réponse de `gpt-4o` d&#39;OpenAI à la requête `Why is the sky blue?`. L&#39;objet est formaté de sorte que les informations récapitulatives de tarification et la chat complétion soient générées dans la vue de trace du tableau de bord Weave.
 
-En cas de réussite, ce code affichera un message indiquant que la trace est terminée :
+En cas de réussite, ce code affiche un message indiquant que la trace est terminée :
 
 ```
 Call ended.
@@ -166,7 +165,7 @@ else:
   ## Trace complexe
 </div>
 
-Les sections suivantes vous guident dans la création d&#39;une trace plus complexe avec des spans enfants, semblable à une recherche RAG en plusieurs opérations.
+Maintenant que vous avez enregistré une trace simple en une seule étape, les sections suivantes vous guident dans la création d&#39;une trace plus complexe avec des spans enfants, semblable à une recherche RAG en plusieurs opérations.
 
 1. [Démarrer une trace complexe](#start-a-complex-trace)
 2. [Ajouter un span enfant pour une recherche de document RAG](#add-a-child-span-for-a-rag-document-lookup)
@@ -177,11 +176,11 @@ Les sections suivantes vous guident dans la création d&#39;une trace plus compl
   ### Démarrer une trace complexe
 </div>
 
-Le code suivant montre comment créer une trace plus complexe avec plusieurs spans. Un exemple serait une recherche de type Retrieval-Augmented Generation (RAG), suivie d&#39;un Appel à un LLM. La première partie initialise une trace parente (`payload_parent_start`) qui représente l&#39;opération globale. Dans ce cas, l&#39;opération consiste à traiter la requête utilisateur `Can you summarize the key points of this document?`.
+Le code suivant montre comment créer une trace plus complexe avec plusieurs spans. Un exemple serait une recherche de type Retrieval-Augmented Generation (RAG), suivie d&#39;un Appel à un LLM. La première partie initialise une trace parente (`payload_parent_start`) qui représente l&#39;opération. Dans ce cas, l&#39;opération traite la requête utilisateur `Can you summarize the key points of this document?`.
 
 L&#39;objet `payload_parent_start` reproduit l&#39;étape initiale d&#39;un flux de travail à plusieurs étapes, en journalisant l&#39;opération dans Weave à l&#39;aide de l&#39;endpoint `url_start`.
 
-En cas de réussite, ce code affichera un message indiquant que l&#39;Appel parent a été journalisé :
+En cas de réussite, ce code affiche un message indiquant que l&#39;Appel parent est journalisé :
 
 ```
 Parent call started. ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
@@ -218,7 +217,7 @@ else:
   ### Ajouter un span enfant pour une recherche de document RAG
 </div>
 
-Le code suivant montre comment ajouter un span enfant à la trace parente complexe démarrée à l’étape précédente. Cette étape modélise la sous-opération de recherche de document RAG dans le flux de travail global.
+Le code suivant montre comment ajouter un span enfant à la trace parente complexe démarrée à l’étape précédente. Cette étape modélise la sous-opération de recherche de document RAG dans le flux de travail.
 
 La trace enfant est initiée avec l’objet `payload_child_start`, qui inclut :
 
@@ -290,22 +289,22 @@ else:
   ### Ajouter un span enfant pour un appel de complétion LLM
 </div>
 
-Le code suivant montre comment ajouter un autre span enfant à la trace parente complexe pour représenter un appel de complétion LLM. Cette étape modélise la génération de la réponse de l’IA à partir du contexte documentaire récupéré lors de l’opération RAG précédente.
+Le code suivant montre comment ajouter un autre span enfant à la trace parente complexe pour représenter un appel de complétion LLM. Cette étape modélise la génération de la réponse du LLM à partir du contexte documentaire récupéré lors de l’opération RAG précédente.
 
 La trace de complétion LLM est lancée avec l’objet `payload_child_start`, qui comprend :
 
 * `trace_id` : relie ce span enfant à la trace parente.
-* `parent_id` : associe le span enfant au flux de travail global.
+* `parent_id` : associe le span enfant au flux de travail parent.
 * `inputs` : journalise les messages d’entrée pour le LLM, y compris la requête de l’utilisateur et le contexte documentaire ajouté.
 * `model` : spécifie le modèle utilisé pour l’opération (`gpt-4o`).
 
-En cas de réussite, le code affiche un message indiquant que la trace du span enfant LLM a démarré et s’est terminée :
+En cas de réussite, le code affiche un message indiquant que la trace du span enfant LLM a démarré :
 
 ```
 Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
 ```
 
-Une fois l’opération terminée, l’objet `payload_child_end` met fin à la trace en journalisant la réponse générée par le LLM dans le champ `output`. Les informations récapitulatives d’utilisation sont également journalisées.
+Une fois l’opération terminée, l’objet `payload_child_end` met fin à la trace en journalisant la réponse générée par le LLM dans le champ `output`. Le code journalise également des informations récapitulatives d’utilisation.
 
 En cas de réussite, le code affiche un message indiquant que la trace du span enfant du LLM a démarré puis s’est terminée :
 
@@ -387,13 +386,13 @@ else:
   ### Terminer une trace complexe
 </div>
 
-Le code suivant montre comment finaliser la trace parente afin de marquer l’achèvement de l’ensemble du flux de travail. Cette étape agrège les résultats de toutes les spans enfants (par exemple, la recherche RAG et la complétion LLM) et journalise la sortie finale ainsi que les métadonnées.
+Le code suivant montre comment finaliser la trace parente afin de marquer l’achèvement du flux de travail. Cette étape agrège les résultats de toutes les spans enfants (par exemple, la recherche RAG et la complétion LLM) et journalise la sortie finale ainsi que les métadonnées.
 
 La trace est finalisée à l’aide de l’objet `payload_parent_end`, qui comprend :
 
 * `id` : le `parent_call_id` du démarrage initial de la trace parente.
-* `output` : représente la sortie finale de l’ensemble du flux de travail.
-* `summary` : consolide les données d’utilisation pour l’ensemble du flux de travail.
+* `output` : représente la sortie finale du flux de travail.
+* `summary` : consolide les données d’utilisation pour le flux de travail.
 * `prompt_tokens` : nombre total de tokens utilisés pour tous les prompts.
 * `completion_tokens` : nombre total de tokens générés dans toutes les réponses.
 * `total_tokens` : nombre total combiné de tokens pour le flux de travail.
@@ -445,7 +444,7 @@ else:
   ## Exécuter une requête de recherche
 </div>
 
-Le code suivant montre comment interroger les traces créées dans les exemples précédents, en filtrant uniquement celles pour lesquelles le champ `inputs.model` est égal à `gpt-4o`.
+Une fois les traces enregistrées dans Weave, vous pouvez utiliser l’API de service pour les interroger par programmation. Le code suivant montre comment interroger les traces créées dans les exemples précédents, en filtrant uniquement celles pour lesquelles le champ `inputs.model` est égal à `gpt-4o`.
 
 L&#39;objet `query_payload` comprend :
 
@@ -459,7 +458,7 @@ L&#39;objet `query_payload` comprend :
 * `sort_by` : trie les résultats selon l&#39;horodatage `started_at`, par ordre décroissant.
 * `include_feedback` : exclut les données de feedback des résultats.
 
-Si la requête aboutit, la réponse inclura les données de trace correspondant aux paramètres de la requête :
+Si la requête aboutit, la réponse inclut les données de trace correspondant aux paramètres de la requête :
 
 ```
 {'id': '01939cf3-541f-76d3-ade3-50cfae068b39', 'project_id': 'cool-new-team/uncategorized', 'op_name': 'simple_trace', 'display_name': None, 'trace_id': '01939cf3-541f-76d3-ade3-50d5cfabe2db', 'parent_id': None, 'started_at': '2024-12-06T17:10:12.590000Z', 'attributes': {}, 'inputs': {'messages': [{'role': 'user', 'content': 'Why is the sky blue?'}], 'model': 'gpt-4o'}, 'ended_at': '2024-12-06T17:47:08.553000Z', 'exception': None, 'output': {'choices': [{'message': {'content': 'It’s due to Rayleigh scattering, where shorter blue wavelengths of sunlight scatter in all directions.'}}]}, 'summary': {'usage': {'gpt-4o': {'prompt_tokens': 10, 'completion_tokens': 20, 'requests': 1, 'total_tokens': 30}}, 'weave': {'status': 'success', 'trace_name': 'simple_trace', 'latency_ms': 2215963}}, 'wb_user_id': 'VXNlcjoyMDk5Njc0', 'wb_run_id': None, 'deleted_at': None}

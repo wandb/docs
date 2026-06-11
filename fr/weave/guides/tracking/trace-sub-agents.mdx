@@ -1,21 +1,24 @@
 ---
 title: Tracer les sous-agents
-description: Tracez les agents imbriqués et les agents auxquels des tâches ont été déléguées à l’aide du span de sous-agent de Weave.
+description: Utilisez le span de sous-agent de Weave pour tracer les délégations à des sous-agents et afficher les invocations d'agents imbriquées.
+keywords: ["sous-agents", "invoke_agent", "spans OTel", "multi-agent", "start_subagent"]
 ---
 
 import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-Un sous-agent correspond à l’appel délégué d’un agent, exécuté au sein d’un tour de conversation. Utilisez des sous-agents lorsqu’un agent passe le relais à un autre, par exemple lorsqu’un agent superviseur délègue à un agent spécialiste.
+Ce guide vous montre comment utiliser W&amp;B Weave pour tracer des sous-agents afin que les invocations d’agent déléguées apparaissent comme des spans imbriqués dans la même trace que le tour de conversation parent. Le traçage des sous-agents vous permet de voir la hiérarchie complète du raisonnement d’un agent, notamment les agents spécialistes auxquels l’agent parent a fait appel, ce qu’ils ont fait et comment ils ont contribué à la réponse finale. Ce guide s’adresse aux développeurs qui instrumentent des systèmes multi-agent avec Weave.
 
-Lorsqu’ils sont instrumentés avec Weave, les sous-agents émettent un span OTel `invoke_agent` imbriqué dans la même trace que le tour de conversation parent. Dans la vue **Agents**, cet imbriquement apparaît comme une invocation de sous-agent sous le tour de conversation qui l’a déclenchée, avec ses propres appels LLM et appels d’outil regroupés en dessous.
+Un sous-agent est une invocation d’agent déléguée qui s’exécute à l’intérieur d’un tour de conversation. Utilisez des sous-agents lorsqu’un agent transmet la tâche à un autre, par exemple lorsqu’un agent superviseur délègue à un agent spécialiste.
+
+Lorsque vous les instrumentez avec Weave, les sous-agents émettent un span OpenTelemetry (OTel) `invoke_agent` imbriqué dans la même trace que le tour de conversation parent. Dans la vue **Agents**, cet emboîtement apparaît comme une invocation de sous-agent sous le tour de conversation qui l’a déclenchée, avec ses propres appels LLM et appels d’outil regroupés en dessous.
 
 <div id="sub-agent-data-model">
   ## Modèle de données du sous-agent
 </div>
 
-Le span `weave.start_subagent` correspond au span OTel `invoke_agent` et utilise le même nom d’opération que le tour de conversation parent. Weave distingue les deux par leur relation parent-enfant dans la trace :
+Avant d’instrumenter votre code, il est utile de comprendre comment Weave représente les sous-agents dans une trace. Le span `weave.start_subagent` correspond au span OTel `invoke_agent` et utilise le même nom d’opération que le tour de conversation parent. Weave distingue les deux par leur relation parent-enfant dans la trace :
 
 ```plaintext
 Turn (invoke_agent — root span)
@@ -26,7 +29,7 @@ Turn (invoke_agent — root span)
 └── LLM call (chat)              ← l'agent parent synthétise la réponse finale
 ```
 
-Les sous-agents héritent du `conversation_id` de la session active ; ils sont donc regroupés avec le reste de la conversation dans la vue Agents.
+Les sous-agents héritent du `conversation_id` de la session active ; ils sont donc regroupés avec le reste de la conversation dans la vue **Agents**.
 
 ```python lines
 sub = weave.start_subagent(
@@ -35,17 +38,17 @@ sub = weave.start_subagent(
 )
 ```
 
-`weave.start_subagent` crée un span `invoke_agent` qui devient automatiquement un span enfant du span actuellement actif dans le contexte OTel, généralement le tour de conversation parent ou l’appel LLM qui a déclenché la délégation. La propagation du contexte OTel gère la relation parent-enfant, donc aucune délégation explicite n’est nécessaire.
+`weave.start_subagent` crée un span `invoke_agent` qui devient automatiquement un span enfant du span actuellement actif dans le contexte OTel, généralement le tour de conversation parent ou l’appel LLM qui a déclenché la délégation. La propagation du contexte OTel gère la relation parent-enfant, vous n’avez donc pas besoin de délégation explicite.
 
 <div id="trace-a-single-sub-agent">
   ## Tracer un seul sous-agent
 </div>
 
-L&#39;exemple suivant exécute un agent superviseur qui reçoit une requête et la délègue à un sous-agent spécialiste de la recherche, qui utilise un outil de recherche Wikipédia pour trouver la réponse.
+L’exemple suivant exécute un agent superviseur qui reçoit une requête et la délègue à un sous-agent spécialiste de la recherche, qui utilise un outil de recherche Wikipédia pour trouver la réponse.
 
-Weave capture la hiérarchie complète en enveloppant la conversation dans `weave.start_session`, puis dans un `session.start_turn`. Weave capture ensuite la trace du sous-agent à l&#39;aide du bloc `weave.start_subagent` pour le spécialiste, en enregistrant chaque appel au LLM et chaque exécution d&#39;outil comme des spans enfants.
+Weave capture la hiérarchie complète en enveloppant la conversation dans `weave.start_session`, puis dans un `session.start_turn`. Weave capture ensuite la trace du sous-agent à l’aide du bloc `weave.start_subagent` pour le spécialiste, et enregistre chaque appel au LLM et chaque exécution d’outil comme des spans enfants.
 
-Nous avons volontairement omis la logique de routage dans ces exemples afin de nous concentrer sur le traçage entre les agents.
+La logique de routage est volontairement omise de ces exemples afin de se concentrer sur le traçage entre les agents.
 
 ```python lines highlight="4,10,16,22,30"
 import weave
@@ -82,15 +85,15 @@ with weave.start_session(agent_name="supervisor") as session:
             llm.usage = Usage(input_tokens=300, output_tokens=20)
 ```
 
-Dans la vue Agents, le sous-agent apparaît sous la forme d’un bloc `invoke_agent` imbriqué dans le tour de conversation, avec ses propres appels LLM et appels d’outil regroupés en dessous. Les appels LLM directs du superviseur restent au même niveau que le sous-agent.
+Dans la vue **Agents**, le sous-agent apparaît sous la forme d’un bloc `invoke_agent` imbriqué dans le tour de conversation, avec ses propres appels LLM et appels d’outil regroupés en dessous. Les appels LLM directs du superviseur restent au même niveau que le sous-agent.
 
 <div id="trace-multiple-sub-agents">
   ## Tracer plusieurs sous-agents
 </div>
 
-L’exemple suivant exécute un agent de pipeline de contenu qui traite une seule requête en la déléguant, en séquence, à trois sous-agents pairs : un `researcher` qui recueille des informations, un `writer` qui rédige le billet, et un `reviewer` qui peaufine le résultat final.
+L&#39;exemple suivant exécute un agent de pipeline de contenu qui traite une seule requête en la déléguant, en séquence, à trois sous-agents pairs : un `researcher` qui recueille des informations, un `writer` qui rédige le billet, et un `reviewer` qui peaufine le résultat final.
 
-Weave capture ces trois sous-agents comme des pairs sous le même tour de conversation en ouvrant un bloc `weave.start_subagent` distinct pour chacun d’eux. Comme chaque sous-agent hérite du contexte OTel du tour de conversation actif, ils apparaissent comme des spans `invoke_agent` au même niveau, imbriqués sous le tour de conversation plutôt que les uns sous les autres.
+Weave capture ces trois sous-agents comme des pairs sous le même tour de conversation en ouvrant un bloc `weave.start_subagent` distinct pour chacun d&#39;eux. Comme chaque sous-agent hérite du contexte OTel du tour de conversation actif, les sous-agents apparaissent comme des spans `invoke_agent` au même niveau, imbriqués sous le tour de conversation plutôt que les uns sous les autres.
 
 ```python lines highlight="1,5,11,15,22"
 with weave.start_session(agent_name="content-pipeline") as session:
@@ -121,10 +124,10 @@ with weave.start_session(agent_name="content-pipeline") as session:
                 sub_llm.usage = Usage(input_tokens=200, output_tokens=140)
 ```
 
-Dans la vue Agents, le tour de conversation contient trois invocations de sous-agents au même niveau, chacune avec son propre appel LLM imbriqué en dessous, et `researcher` inclut son appel d&#39;outil. Aucun des sous-agents n&#39;est l&#39;enfant d&#39;un autre.
+Dans la vue **Agents**, le tour de conversation contient trois invocations de sous-agents au même niveau, chacune avec son propre appel LLM imbriqué en dessous, et `researcher` inclut son appel d&#39;outil. Aucun des sous-agents n&#39;est l&#39;enfant d&#39;un autre.
 
 <div id="trace-nested-sub-agents">
-  ### Tracer des sous-agents imbriqués
+  ## Tracer des sous-agents imbriqués
 </div>
 
 Un sous-agent peut lui-même déléguer à un autre sous-agent. Chaque appel à `start_subagent` est imbriqué dans le span actuellement actif du contexte OTel.

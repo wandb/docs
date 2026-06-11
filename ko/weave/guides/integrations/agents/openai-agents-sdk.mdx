@@ -17,21 +17,23 @@ import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
   ## Weave로 OpenAI Agents SDK 에이전트 트레이스하기
 </div>
 
-Weave SDK는 OpenAI Agents SDK와 자동으로 패치되어, 최소한의 설정만으로 에이전트의 트레이스를 캡처할 수 있습니다. 이 문서에서는 Weave를 초기화한 다음 OpenAI Agents SDK로 구축한 멀티턴 리서치 에이전트를 실행하여, Weave가 Session 전반에서 모든 에이전트 호출, 모델 Call, 도구 Call을 캡처하도록 설정하는 방법을 설명합니다.
+Weave SDK는 OpenAI Agents SDK와 자동으로 패치되어, 최소한의 설정만으로 에이전트의 트레이스를 캡처할 수 있습니다. 이 가이드에서는 Weave를 초기화한 다음 OpenAI Agents SDK로 구축한 멀티턴 리서치 에이전트를 실행하여, Weave가 Session 전반에서 모든 에이전트 호출, 모델 Call, 도구 Call을 캡처하도록 설정하는 방법을 설명합니다.
 
 <div id="prerequisites">
   ### 사전 요구 사항
 </div>
 
-* W&amp;B 계정과 `WANDB_API_KEY` 환경 변수로 설정된 [API 키](https://wandb.ai/authorize)
-* [OpenAI API 키](https://platform.openai.com/api-keys)
-* Python 3.10+
+시작하기 전에 다음 사항이 준비되어 있는지 확인하세요:
+
+* W&amp;B 계정과 `WANDB_API_KEY` 환경 변수로 설정된 [API 키](https://wandb.ai/authorize).
+* [OpenAI API 키](https://platform.openai.com/api-keys).
+* Python 3.10+.
 
 <div id="install-packages">
   ### 패키지 설치
 </div>
 
-개발 환경에 다음 패키지를 설치하세요:
+스크립트에서 Weave 및 OpenAI Agents SDK를 사용할 수 있도록 개발 환경에 다음 패키지를 설치하세요:
 
 ```bash
 pip install weave openai-agents requests
@@ -96,7 +98,7 @@ asyncio.run(main())
   ### Agents 뷰에서 에이전트 트레이스 확인하기
 </div>
 
-`weave.init()`가 실행되면 프로젝트 링크가 출력됩니다. **Agents** 뷰를 열어 다음 항목을 확인하세요.
+스크립트가 실행된 후 Weave에서 캡처된 활동을 검토할 수 있습니다. `weave.init()`가 실행되면 프로젝트 링크가 출력됩니다. **Agents** 뷰를 열어 다음 항목을 확인하세요.
 
 * `Research assistant`에 해당하는 **Agents** 탭의 행
 * 세 개의 turn이 포함된 Session

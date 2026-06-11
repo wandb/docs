@@ -1,21 +1,24 @@
 ---
 title: サブエージェントをトレース
-description: Weave sub-agent スパン を使用して、ネストされたエージェントやタスクを委任されたエージェントをトレースします。
+description: Weave のサブエージェント スパンを使用して、サブエージェントへの委譲をトレースし、ネストされたエージェント呼び出しを確認します。
+keywords: ["サブエージェント", "invoke_agent", "OTel スパン", "マルチエージェント", "start_subagent"]
 ---
 
 import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-サブエージェントは、ターン内で実行される、委任されたエージェント呼び出しです。あるエージェントが別のエージェントに処理を引き継ぐ場合、たとえばスーパーバイザー エージェントが専門エージェントをディスパッチする場合に、サブエージェントを使用します。
+このガイドでは、委任されたエージェント呼び出しが親 ターン と同じ トレース 内でネストされた スパン として表示されるように、W&amp;B Weave で サブエージェント をトレースする方法を説明します。サブエージェント をトレースすると、親エージェントがどの専門エージェントを呼び出したか、それらが何を実行したか、そして最終的な回答にどう貢献したかを含め、エージェントの推論の階層全体を確認できます。このガイドは、Weave で multi-agent システムのインストルメンテーションを行う開発者を対象としています。
 
-Weave でインストルメントされると、サブエージェントは親ターンと同じトレース内にネストされた `invoke_agent` OTel スパンを出力します。**Agents** ビューでは、このネストはそれをトリガーしたターンの下にサブエージェント呼び出しとして表示され、その下にそのサブエージェント自身の LLM 呼び出し と tool calls がグループ化されます。
+サブエージェント は、ターン 内で実行される委任されたエージェント呼び出しです。あるエージェントが別のエージェントに処理を引き継ぐ場合、たとえば supervisor agent が specialist agent にディスパッチするような場合に、サブエージェント を使用します。
+
+Weave でこれらをインストルメンテーションすると、サブエージェント は親 ターン と同じ トレース 内にネストされた `invoke_agent` OpenTelemetry (OTel) スパン を出力します。**Agents** ビューでは、このネストは、それをトリガーした ターン の下に サブエージェント 呼び出しとして表示され、その配下に固有の LLM Calls と tool calls がグループ化されます。
 
 <div id="sub-agent-data-model">
   ## サブエージェントのデータモデル
 </div>
 
-`weave.start_subagent` スパン は OTel の `invoke_agent` スパン に対応しており、親 ターン と同じ operation 名を出力します。Weave では、trace 内での親子関係によってこの 2 つを区別します。
+コードをインストルメンテーションする前に、Weave が トレース 内でサブエージェントをどのように表現するかを理解しておくと役立ちます。`weave.start_subagent` スパン は OTel の `invoke_agent` スパン に対応しており、親 ターン と同じ operation 名を出力します。Weave では、トレース 内での親子関係によってこの 2 つを区別します。
 
 ```plaintext
 Turn (invoke_agent — root span)
@@ -26,7 +29,7 @@ Turn (invoke_agent — root span)
 └── LLM call (chat)              ← 親エージェントが最終回答を統合
 ```
 
-サブエージェントはアクティブなセッションの `conversation_id` を継承するため、Agentsビューでは会話の他の部分と同じグループにまとめられます。
+サブエージェントはアクティブなセッションの `conversation_id` を継承するため、**Agents**ビューでは会話の他の部分と同じグループにまとめられます。
 
 ```python lines
 sub = weave.start_subagent(
@@ -35,7 +38,7 @@ sub = weave.start_subagent(
 )
 ```
 
-`weave.start_subagent` は `invoke_agent` スパン を作成します。この スパン は、OTel コンテキスト内で現在アクティブな スパン (通常は親 ターン や、委譲のきっかけとなった LLM call) の子として自動的に関連付けられます。親子関係は OTel コンテキストの伝播によって処理されるため、明示的に委譲を指定する必要はありません。
+`weave.start_subagent` は `invoke_agent` スパン を作成します。この スパン は、OTel コンテキスト内で現在アクティブな スパン (通常は親 ターン や、委譲のきっかけとなった LLM Call) の子として自動的に関連付けられます。親子関係は OTel コンテキストの伝播によって処理されるため、明示的に委譲を指定する必要はありません。
 
 <div id="trace-a-single-sub-agent">
   ## 単一のサブエージェントをトレースする
@@ -43,7 +46,7 @@ sub = weave.start_subagent(
 
 次の例では、リクエストを受け取る supervisor agent を実行し、回答を見つけるために Wikipedia の検索ツールを使用するリサーチ専門のサブエージェントに処理を委任します。
 
-Weave は、会話全体を `weave.start_session` で、続いて `session.start_turn` でラップすることで、階層全体を取得します。次に Weave は、専門エージェント用の `weave.start_subagent` ブロックを使用し、各 LLM 呼び出しとツール実行を子スパンとして記録することで、サブエージェントのトレースを取得します。
+Weave は、会話全体を `weave.start_session` で、続いて `session.start_turn` でラップすることで、階層全体を取得します。次に Weave は、専門エージェント用の `weave.start_subagent` ブロックを使用し、各 LLM Call とツール実行を子スパンとして記録することで、サブエージェントのトレースを取得します。
 
 これらの例では、エージェント間のトレースに焦点を当てるため、ルーティング ロジックは意図的に省略しています。
 
@@ -56,7 +59,7 @@ weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 with weave.start_session(agent_name="supervisor") as session:
     with session.start_turn(user_message="Research the founders of Anthropic.") as turn:
 
-        # スーパーバイザーの LLM 呼び出し: どのスペシャリストに委任するかを決定する。
+        # スーパーバイザーの LLM Call: どのスペシャリストに委任するかを決定する。
         with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
             llm.input_messages = [Message(role="user", content="Research the founders of Anthropic.")]
             llm.output("Delegating to the research specialist.")
@@ -82,7 +85,7 @@ with weave.start_session(agent_name="supervisor") as session:
             llm.usage = Usage(input_tokens=300, output_tokens=20)
 ```
 
-Agents ビュー では、サブエージェントは turn 内でネストされた `invoke_agent` ブロックとして表示され、その配下にサブエージェント自身の LLM 呼び出し と tool calls がグループ化されます。スーパーバイザーが直接行う LLM 呼び出し は、サブエージェントと同じ階層に残ります。
+Agents ビュー では、サブエージェントは ターン 内でネストされた `invoke_agent` ブロックとして表示され、その配下にサブエージェント自身の LLM Calls と tool calls がグループ化されます。スーパーバイザーが直接行う LLM Calls は、サブエージェントと同じ階層に残ります。
 
 <div id="trace-multiple-sub-agents">
   ## 複数のサブエージェントをトレースする
@@ -90,7 +93,7 @@ Agents ビュー では、サブエージェントは turn 内でネストされ
 
 次の例では、1 つのリクエストを処理するために、3 つの兄弟サブエージェントに順番に委譲するコンテンツパイプライン エージェントを実行します。3 つのサブエージェントは、事実を収集する `researcher`、投稿の下書きを作成する `writer`、最終出力を仕上げる `reviewer` です。
 
-Weave は、各サブエージェントごとに個別の `weave.start_subagent` ブロックを開くことで、3 つすべてのサブエージェントを同じターン配下の兄弟として取得します。各サブエージェントはアクティブなターンの OTel コンテキストを継承するため、互いの配下ではなく、ターンの配下にネストされた対等な `invoke_agent` スパン として表示されます。
+Weave は、各サブエージェントごとに個別の `weave.start_subagent` ブロックを開くことで、3 つすべてのサブエージェントを同じターン配下の兄弟として取得します。各サブエージェントはアクティブなターンの OTel コンテキストを継承するため、サブエージェントは互いの配下ではなく、ターンの配下にネストされた対等な `invoke_agent` スパン として表示されます。
 
 ```python lines highlight="1,5,11,15,22"
 with weave.start_session(agent_name="content-pipeline") as session:
@@ -121,10 +124,10 @@ with weave.start_session(agent_name="content-pipeline") as session:
                 sub_llm.usage = Usage(input_tokens=200, output_tokens=140)
 ```
 
-Agents ビュー では、このターンに 3 つの兄弟関係にあるサブエージェント呼び出しが含まれており、それぞれの配下に独自の LLM 呼び出し がネストされています。また、`researcher` には tool call も含まれています。これらのサブエージェント同士に親子関係はありません。
+Agents ビュー では、このターンに 3 つの兄弟関係にあるサブエージェント呼び出しが含まれており、それぞれの配下に独自の LLM Call がネストされています。また、`researcher` には tool call も含まれています。これらのサブエージェント同士に親子関係はありません。
 
 <div id="trace-nested-sub-agents">
-  ### ネストしたサブエージェントをトレースする
+  ## ネストしたサブエージェントをトレースする
 </div>
 
 サブエージェントは、さらに別のサブエージェントに委譲することもできます。`start_subagent` の各呼び出しは、OTel コンテキストで現在アクティブなスパンの下にネストされます。
@@ -139,7 +142,7 @@ with weave.start_session(agent_name="orchestrator") as session:
                     sub_llm.output("Anthropic facts...")
                     sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
 
-                # ネスト: リサーチャーが自身のサマライザーサブエージェントに処理を委譲します。
+                # ネスト: リサーチャーは自身の要約用サブエージェントに処理を委譲します。
                 with weave.start_subagent(name="anthropic-summarizer") as summarizer:
                     with summarizer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
                         sub_llm.output("Anthropic summary: ...")
@@ -151,7 +154,7 @@ with weave.start_session(agent_name="orchestrator") as session:
                     sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
 ```
 
-この例では、turn の下に 3 階層のネストが作成されます。
+この例では、ターン の下に 3 階層のネストが作成されます。
 
 ```plaintext
 turn (invoke_agent)

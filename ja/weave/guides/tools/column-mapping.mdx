@@ -1,6 +1,7 @@
 ---
 title: "データセットの列を別名にマッピングする"
 description: "データセットの列を別の名前にマッピングします。これにより、データセット内の列名を scorer が想定する列名に合わせられます。"
+keywords: ["column_map", "columnMapping", "scorer parameters", "EmbeddingSimilarityScorer"]
 ---
 
 <Tabs>
@@ -16,11 +17,11 @@ description: "データセットの列を別の名前にマッピングします
 
     similarity_scorer.column_map = {
         "output": "model_output",  # モデルが生成したテキスト
-        "target": "answer"         # 期待される応答、または参照用の応答
+        "target": "answer"         # 期待される応答または参照応答
     }
     ```
 
-    scorer の列マッピングの詳細については、[`column_map` を使った列名のマッピング](../evaluation/scorers#mapping-column-names-with-column_map)を参照してください。
+    scorer の列マッピングについて詳しくは、[`column_map` を使った列名のマッピング](../evaluation/scorers#mapping-column-names-with-column_map)を参照してください。
   </Tab>
 
   <Tab title="TypeScript">
@@ -46,6 +47,6 @@ description: "データセットの列を別の名前にマッピングします
     });
     ```
 
-    TypeScript の scorer 引数の詳細については、[Scorer のキーワード引数](../evaluation/scorers#scorer-keyword-arguments)を参照してください。
+    TypeScript の scorer 引数について詳しくは、[Scorer のキーワード引数](../evaluation/scorers#scorer-keyword-arguments)を参照してください。
   </Tab>
 </Tabs>

@@ -1,31 +1,31 @@
 ---
 title: "Mettre à jour et supprimer des Appels"
 description: "Modifiez les noms d’affichage, ajoutez du feedback et supprimez des Appels dans W&B Weave"
+keywords: ["mutate Call", "rename trace", "delete trace", "set_display_name", "delete_calls"]
 ---
 
-La plupart des propriétés d’un Appel sont immuables après sa création. Les modifications suivantes sont prises en charge :
+Cette page décrit comment modifier des Appels dans W&amp;B Weave après leur création. La plupart des propriétés d’un Appel sont immuables après sa création, mais Weave prend en charge les modifications suivantes :
 
 * [Définir le nom d’affichage](#set-display-name)
 * [Ajouter du feedback](#add-feedback)
 * [Supprimer un Appel](#delete-a-call)
 
-Vous pouvez effectuer toutes ces modifications depuis l’UI en accédant à la page de détails de l’Appel :
-Pour mettre à jour un Appel dans l’application web :
+Vous pouvez effectuer toutes ces modifications depuis l’UI en accédant à la page de détails de l’Appel. Pour mettre à jour un Appel dans l’application web :
 
 1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
 2. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
 3. Recherchez dans le tableau l’Appel que vous souhaitez consulter.
 4. Cliquez sur l’Appel pour ouvrir sa page de détails.
-5. Cliquez sur l’onglet `Feedback` dans la barre d’onglets des détails de l’Appel.
+5. Cliquez sur l’onglet **Feedback** dans la barre d’onglets des détails de l’Appel.
 
-Vous pouvez y modifier le nom d’affichage de l’Appel, ajouter du feedback ou supprimer l’Appel.
+Depuis la page de détails de l’Appel, vous pouvez modifier le nom d’affichage de l’Appel, ajouter du feedback ou supprimer l’Appel.
 
 <Frame>
   ![Extrait de la page Weave Traces montrant le panneau des détails de l’appel sélectionné, avec les options pour renommer ou supprimer un Appel](/images/call_edit_screenshot.png)
 </Frame>
 
 <div id="set-display-name">
-  ### Définir le nom d’affichage
+  ## Définir le nom d’affichage
 </div>
 
 <Tabs>
@@ -41,7 +41,7 @@ Vous pouvez y modifier le nom d’affichage de l’Appel, ajouter du feedback ou
     # Obtenir un Appel spécifique par son ID
     call = client.get_call("call-uuid-here")
 
-    # Définir le nom d'affichage de l'Appel
+    # Définir le nom d’affichage de l’Appel
     call.set_display_name("My Custom Display Name")
     ```
   </Tab>
@@ -55,7 +55,7 @@ Vous pouvez y modifier le nom d’affichage de l’Appel, ajouter du feedback ou
     // Initialiser le client
     const client = await weave.init('your-project-name')
 
-    // Mettre à jour le nom d'affichage d'un Appel à partir de son ID
+    // Mettre à jour le nom d’affichage d’un Appel à partir de son ID
     await client.updateCall('call-uuid-here', 'My Custom Display Name')
     ```
   </Tab>
@@ -79,13 +79,13 @@ Vous pouvez y modifier le nom d’affichage de l’Appel, ajouter du feedback ou
 Vous pouvez également [définir le nom d’affichage d’un Appel au moment de l’exécution](/fr/weave/guides/tracking/get-call-object).
 
 <div id="add-feedback">
-  ### Ajouter un feedback
+  ## Ajouter un feedback
 </div>
 
-Veuillez consulter la [documentation sur les feedbacks](/fr/weave/guides/tracking/feedback) pour plus de détails.
+Pour plus d&#39;informations, voir [Collecter des feedbacks et utiliser des annotations](/fr/weave/guides/tracking/feedback).
 
 <div id="delete-a-call">
-  ### Supprimer un appel
+  ## Supprimer un appel
 </div>
 
 <Tabs>
@@ -130,7 +130,7 @@ Veuillez consulter la [documentation sur les feedbacks](/fr/weave/guides/trackin
 </Tabs>
 
 <div id="delete-multiple-calls">
-  ### Supprimer plusieurs appels
+  ## Supprimer plusieurs appels
 </div>
 
 <Tabs>
@@ -138,7 +138,7 @@ Veuillez consulter la [documentation sur les feedbacks](/fr/weave/guides/trackin
     Pour supprimer des lots d’appels avec l’API Python, passez une liste d’ID d’appel à `delete_calls()`.
 
     <Important>
-      * Le nombre maximal d’appels pouvant être supprimés est de `1000`.
+      * Vous pouvez supprimer un maximum de `1000` appels à la fois.
       * La suppression d’un appel supprime également tous ses enfants.
     </Important>
 

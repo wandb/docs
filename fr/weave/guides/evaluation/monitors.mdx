@@ -1,13 +1,14 @@
 ---
 title: "Surveiller avec les signaux intégrés"
 description: "W&B fournit des solutions d’évaluation intégrées pour les agents en production"
+keywords: ["signaux", "surveillance", "LLM-as-a-judge", "hallucination", "évaluation en production"]
 ---
 
 <Note>
   Pour le tracing des applications agentiques, utilisez l’onglet **Signals** de la page **Agents**. Voir [Signals pour les agents](/fr/weave/guides/tracking/view-agent-signals).
 </Note>
 
-Dans le développement moderne des agents, les métriques système standard comme la latence, le nombre de jetons et le coût ne suffisent pas à comprendre le comportement complexe des agents. L’inspection de traces individuelles apporte des informations précieuses, mais ne passe pas à l’échelle face aux millions de traces générées dans un environnement de production.
+Les métriques système standard comme la latence, le nombre de jetons et le coût ne suffisent pas à comprendre le comportement complexe des agents. L’inspection de traces individuelles apporte des informations précieuses, mais ne passe pas à l’échelle face aux millions de traces générées dans un environnement de production.
 
 Les signaux apportent une solution de surveillance de haut niveau à ce problème en fournissant une évaluation comportementale automatisée des agents en production :
 
@@ -23,9 +24,9 @@ En utilisant les signaux en production, vous pouvez :
   ## Signaux disponibles
 </div>
 
-W&amp;B Weave propose des moniteurs avec des signaux intégrés : des évaluateurs prédéfinis qui analysent les traces de production afin de détecter les problèmes de qualité courants et les erreurs, sans configuration personnalisée. Chaque signal intégré utilise un prompt de LLM benchmarké pour classer les traces et enregistre les résultats sous forme de tags séparés par des virgules représentant les problèmes détectés.
+W&amp;B Weave propose des moniteurs avec des signaux intégrés : des évaluateurs prédéfinis qui analysent par défaut les traces de production afin de détecter les problèmes de qualité courants et les erreurs, sans configuration personnalisée. Chaque signal intégré utilise un prompt de LLM benchmarké pour classer les traces et enregistre les résultats sous forme de tags séparés par des virgules représentant les problèmes détectés.
 
-Les signaux utilisent un modèle [Serverless Inference](/fr/inference/) pour évaluer les traces, donc aucune clé API externe n&#39;est requise.
+Les signaux utilisent un modèle [Serverless Inference](/fr/inference/) pour évaluer les traces, vous n’avez donc pas besoin de clé API externe.
 
 W&amp;B Weave fournit 13 signaux prédéfinis organisés en deux groupes.
 
@@ -54,10 +55,10 @@ Les signaux d’erreur classent les traces en échec selon leur cause première 
 | Signal                | Ce qu’il détecte                                                                                               |
 | --------------------- | -------------------------------------------------------------------------------------------------------------- |
 | **Network Error**     | Échecs DNS, délais d’expiration, réinitialisations de connexion et autres problèmes de connectivité            |
-| **Ratelimited**       | Réponses HTTP 429, épuisement des quotas et limitation du débit par les API en amont                           |
+| **Ratelimited**       | Réponses HTTP `429`, épuisement des quotas et limitation du débit par les API en amont                         |
 | **Request Too Large** | Requêtes dépassant les limites de taille ou de jetons, par exemple lorsque la fenêtre de contexte est dépassée |
-| **Bad Request**       | Erreurs côté client pour lesquelles le serveur rejette la requête (4xx, sauf 429)                              |
-| **Bad Response**      | Réponses invalides, inattendues ou inutilisables provenant de services distants (5xx)                          |
+| **Bad Request**       | Erreurs côté client pour lesquelles le serveur rejette la requête (`4xx` sauf `429`)                           |
+| **Bad Response**      | Réponses invalides, inattendues ou inutilisables provenant de services distants (`5xx`)                        |
 | **Bug**               | Défauts dans le code de l’application, tels que `KeyError`, `TypeError` ou des erreurs de logique              |
 
 <div id="how-signals-work">
@@ -66,17 +67,17 @@ Les signaux d’erreur classent les traces en échec selon leur cause première 
 
 Chaque signal utilise une approche de type LLM-as-a-judge pour classifier les traces :
 
-* **Sélection des traces** : les signaux de qualité évaluent les traces racine réussies. Les signaux d’erreur évaluent les traces en échec. Les spans enfants et les appels intermédiaires ne sont pas évalués.
-* **Construction du prompt** : Weave construit un prompt qui inclut les métadonnées de la trace, les entrées, les sorties, les détails de l’exception (le cas échéant) et le code source de l’opération. Le prompt du classificateur du signal est complété par des instructions propres au problème à détecter.
+* **Sélection des traces** : les signaux de qualité évaluent les traces racine réussies. Les signaux d’erreur évaluent les traces en échec. Weave n’évalue pas les spans enfants ni les appels intermédiaires.
+* **Construction du prompt** : Weave construit un prompt qui inclut les métadonnées de la trace, les entrées, les sorties, les détails de l’exception (le cas échéant) et le code source de l’opération. Weave complète le prompt du classificateur du signal avec des instructions propres au problème à détecter.
 * **Évaluation par le LLM** : pour chaque signal, un modèle Serverless Inference effectue une classification binaire (selon que le problème est présent ou non dans la trace). Les problèmes détectés sont renvoyés sous forme de tags de chaîne délimités par des virgules (par exemple, `"Low-quality, User-frustration, Forgetful"`).
 
-Lorsque plusieurs signaux du même groupe (Qualité ou Erreur) sont actifs, Weave les regroupe dans un seul appel au LLM pour plus d’efficacité. Le modèle évalue tous les classificateurs actifs en une seule passe et renvoie les résultats pour chacun.
+Lorsque plusieurs signaux du même groupe (Qualité ou Erreur) sont actifs, Weave les regroupe dans un seul appel au LLM. Le modèle évalue tous les classificateurs actifs en une seule passe et renvoie un résultat pour chacun.
 
 <div id="add-a-signal-from-the-monitors-page">
   ## Ajoutez un signal depuis la page Monitors
 </div>
 
-Pour activer des signaux :
+L’ajout d’un signal active l’évaluation automatisée afin que Weave évalue les nouvelles traces de production selon les critères de ce signal. Pour activer des signaux :
 
 1. Accédez à [wandb.ai](https://wandb.ai/), puis ouvrez votre projet Weave.
 2. Dans la barre latérale du projet Weave, sélectionnez **Monitors**.
@@ -85,34 +86,36 @@ Pour activer des signaux :
 5. Pour ajouter plusieurs signaux à la fois, sélectionnez le bouton **[X] more signals**. Un volet latéral s’ouvre alors et répertorie tous les signaux disponibles, regroupés par catégorie.
 6. Sélectionnez les signaux que vous souhaitez activer, puis sélectionnez **Add signals**.
 
-Après l’ajout des signaux, Weave effectue automatiquement l’évaluation des traces entrantes.
+Après avoir ajouté des signaux, Weave effectue automatiquement l’évaluation des traces entrantes.
 
 <div id="manage-active-signals">
   ## Gérer les signaux actifs
 </div>
 
-Pour afficher ou supprimer les signaux actifs :
+Une fois vos signaux en cours d’exécution, vous pouvez vérifier lesquels sont actifs ou désactiver les signaux dont vous n’avez plus besoin. Pour afficher ou supprimer les signaux actifs :
 
 1. Depuis la page Monitors, sélectionnez le bouton **Manage signals** (<Icon icon="gear" iconType="light" />). Cela ouvre un volet latéral qui répertorie tous les signaux actuellement actifs, regroupés par catégorie.
 2. Survolez un signal et sélectionnez le bouton **Remove signal** (<Icon icon="trash-can" iconType="light" />) pour désactiver ce signal.
 
-La suppression d&#39;un signal interrompt l&#39;évaluation des nouvelles traces. Les scores existants de ce signal sont conservés.
+La suppression d&#39;un signal interrompt l&#39;évaluation des nouvelles traces. Weave conserve les scores existants de ce signal.
 
 <div id="use-built-in-signals">
   ## Utiliser les signaux intégrés
 </div>
 
+Une fois les signaux activés et en train d’évaluer vos traces, vous pouvez consulter les résultats à plusieurs endroits dans Weave. Vous pouvez également configurer des alertes lorsque Weave détecte des problèmes. Les sections suivantes expliquent où trouver les résultats des signaux et comment réagir.
+
 <div id="see-tagged-call-traces-on-the-traces-page">
   ### Voir les traces d’Appel taguées sur la page Traces
 </div>
 
-Si vous tracez des fonctions individuelles en tant qu’Ops avec le décorateur `@weave.op`, les résultats des signaux sont stockés comme feedback sur l’objet Appel et peuvent être consultés depuis la page **Traces**.
+Si vous tracez des fonctions individuelles en tant qu’Ops avec le décorateur `@weave.op`, Weave stocke les résultats des signaux comme feedback sur l’objet Appel. Vous pouvez interroger ces résultats depuis la page **Traces**.
 
-Vous pouvez parcourir rapidement vos traces pour repérer certains comportements sur la page **Traces** à l’aide de la colonne **Signals**. La colonne **Signals** affiche des tags lorsque leurs critères sont remplis, et vous pouvez survoler ces tags pour voir le niveau de confiance associé au score ainsi que le raisonnement.
+Vous pouvez parcourir vos traces pour repérer certains comportements sur la page **Traces** à l’aide de la colonne **Signals**. La colonne **Signals** affiche des tags lorsque leurs critères sont remplis. Vous pouvez survoler ces tags pour voir le niveau de confiance associé au score ainsi que le raisonnement.
 
 ![Vue Weave Traces avec survol d’un tag Signals dans la colonne Signals affichant le niveau de confiance et le raisonnement.](/weave/guides/evaluation/img/weave_signals_trace_hover.png)
 
-À l’aide de la barre d’outils du tableau des traces, vous pouvez filtrer le tableau des traces pour n’afficher que les traces ayant déclenché certains signaux.
+Utilisez la barre d’outils du tableau des traces pour filtrer le tableau des traces afin de n’afficher que les traces ayant déclenché certains signaux.
 
 Vous pouvez afficher des détails supplémentaires sur les signaux dans la page Traces en sélectionnant l’Appel du classificateur généré par le signal et en examinant la vue **Trace Details**. Sous **Output** de l’Appel, examinez `classifier_meta` pour le raisonnement. Par exemple, la capture d’écran suivante montre un signal `Quality-classifiers` avec une correspondance `Low-quality`, un niveau de confiance (0.9) et une raison associée à cette évaluation.
 
@@ -136,7 +139,7 @@ Dans le panneau de projet Monitor Scores, vous pouvez voir des graphiques montra
   ### Recevoir des alertes sur les signaux
 </div>
 
-Vous pouvez configurer des déclencheurs automatisés qui notifient votre équipe via des outils comme Slack lorsque les performances d&#39;un agent passent sous un certain seuil.
+En plus d’examiner les signaux dans l’interface utilisateur, Weave peut vous notifier lorsqu’un signal est déclenché. Vous pouvez configurer des déclencheurs automatisés qui notifient votre équipe via des outils comme Slack lorsque les performances d&#39;un agent passent sous un certain seuil.
 
 Pour être notifié lorsqu&#39;un signal est déclenché, configurez une [automatisation](/fr/weave/guides/evaluation/automations).
 

@@ -17,21 +17,23 @@ Le [SDK OpenAI Agents](https://github.com/openai/openai-agents-python) est un fr
   ## Tracer des agents du SDK OpenAI Agents avec Weave
 </div>
 
-Le SDK Weave effectue un patching automatique avec le SDK OpenAI Agents, ce qui vous permet de capturer les traces de vos agents avec une configuration minimale. Cette documentation montre comment initialiser Weave, puis exécuter un agent de recherche multitour créé avec le SDK OpenAI Agents afin que Weave capture chaque invocation d’agent, chaque appel de modèle et chaque appel d’outil pendant toute la session.
+Le SDK Weave effectue un patching automatique avec le SDK OpenAI Agents, ce qui vous permet de capturer les traces de vos agents avec une configuration minimale. Ce guide explique comment initialiser Weave, puis exécuter un agent de recherche multitour créé avec le SDK OpenAI Agents afin que Weave capture chaque appel d’agent, chaque appel de modèle et chaque appel d’outil pendant toute la session.
 
 <div id="prerequisites">
   ### Prérequis
 </div>
 
-* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) configurée comme variable d&#39;environnement `WANDB_API_KEY`
-* Une [clé API OpenAI](https://platform.openai.com/api-keys)
-* Python 3.10+
+Avant de commencer, assurez-vous de disposer des éléments suivants :
+
+* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) configurée comme variable d’environnement `WANDB_API_KEY`.
+* Une [clé API OpenAI](https://platform.openai.com/api-keys).
+* Python 3.10+.
 
 <div id="install-packages">
   ### Installer les packages
 </div>
 
-Installez les packages suivants dans votre environnement de développement :
+Installez les packages suivants dans votre environnement de développement afin que Weave et le SDK OpenAI Agents soient disponibles pour votre script :
 
 ```bash
 pip install weave openai-agents requests
@@ -41,7 +43,7 @@ pip install weave openai-agents requests
   ### Initialisez Weave dans votre code
 </div>
 
-Ajoutez `weave.init` à votre projet, avec les noms de votre équipe W&amp;B et de votre projet, puis créez un agent comme vous le feriez normalement. Le code suivant définit une fonction-outil `wikipedia_search` et un agent `Research assistant`, puis exécute trois questions via le `Runner` du SDK OpenAI Agents, tandis que Weave capture la trace.
+Ajoutez `weave.init` à votre projet, avec les noms de votre équipe W&amp;B et de votre projet, puis créez votre agent comme d’habitude. Le code suivant définit une fonction-outil `wikipedia_search` et un agent `Research assistant`, puis exécute trois questions via le `Runner` du SDK OpenAI Agents, tandis que Weave capture la trace.
 
 ```python lines
 import asyncio
@@ -96,11 +98,11 @@ L’exemple exécute trois tours de conversation au sein d’une même conversat
   ### Voir les traces de votre agent dans la vue Agents
 </div>
 
-`weave.init()` affiche un lien vers votre projet lors de son exécution. Ouvrez la vue **Agents** pour examiner :
+Une fois le script exécuté, vous pouvez consulter l&#39;activité capturée dans Weave. `weave.init()` affiche un lien vers votre projet lors de son exécution. Ouvrez la vue **Agents** pour examiner :
 
-* Une ligne dans l’onglet **Agents** pour `Research assistant`
-* Une session contenant trois tours de conversation
-* Chaque tour de conversation affiché sous la forme d’un span `invoke_agent` avec des appels au modèle et des appels d’outil imbriqués
-* L’entrée complète, le modèle, la sortie, l’utilisation des jetons et les résultats Wikipédia à chaque étape
+* Une ligne dans l&#39;onglet **Agents** pour `Research assistant`.
+* Une session contenant trois tours de conversation.
+* Chaque tour de conversation affiché sous la forme d&#39;un span `invoke_agent` avec des appels au modèle et des appels d&#39;outil imbriqués.
+* L&#39;entrée complète, le modèle, la sortie, l&#39;utilisation des jetons et les résultats Wikipédia à chaque étape.
 
-Pour en savoir plus sur la consultation des données Agents dans Weave, voir [Voir l’activité des agents](/fr/weave/guides/tracking/view-agent-activity).
+Pour en savoir plus sur la consultation des données Agents dans Weave, voir [Voir l&#39;activité des agents](/fr/weave/guides/tracking/view-agent-activity).

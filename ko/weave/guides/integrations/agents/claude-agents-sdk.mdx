@@ -1,6 +1,7 @@
 ---
 title: "Claude Agent SDK"
 description: Weave로 Claude Agent SDK로 만든 에이전트를 트레이스하세요.
+keywords: ["Claude Agent SDK", "Anthropic", "MCP tools", "agent tracing", "autopatching"]
 ---
 
 import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
@@ -17,21 +18,21 @@ Weave는 에이전트 쿼리, 모델 응답, 도구 사용, 멀티턴 대화를 
 
 Weave SDK는 Claude Agent SDK를 자동으로 패치하므로, 최소한의 설정만으로 Claude 에이전트의 트레이스를 캡처할 수 있습니다.
 
-이 문서에서는 Weave를 초기화한 다음 `ClaudeSDKClient`를 통해 MCP 도구와 함께 Claude 에이전트를 실행하여, Weave가 대화, 모델 Call, 도구 Call을 전체 흐름에 걸쳐 자동으로 트레이스하는 방법을 설명합니다.
+이 문서에서는 Weave를 초기화하고 `ClaudeSDKClient`를 통해 MCP 도구와 함께 Claude 에이전트를 실행하는 방법을 설명합니다. Weave가 대화, 모델 Call, 도구 Call을 전체 흐름에 걸쳐 자동으로 트레이스합니다. 완료되면 프로젝트의 **Agents** 뷰에서 에이전트의 쿼리, 모델 응답, 도구 호출에 대한 전체 트레이스를 확인할 수 있습니다.
 
 <div id="prerequisites">
   ### 사전 요구 사항
 </div>
 
-* W&amp;B 계정과 [API 키](https://wandb.ai/authorize)를 `WANDB_API_KEY` 환경 변수로 설정
-* Anthropic API 키를 `ANTHROPIC_API_KEY` 환경 변수로 설정
-* Python 3.10+
+* W&amp;B 계정과 [API 키](https://wandb.ai/authorize)를 `WANDB_API_KEY` 환경 변수로 설정.
+* Anthropic API 키를 `ANTHROPIC_API_KEY` 환경 변수로 설정.
+* Python 3.10+.
 
 <div id="install-packages">
   ### 패키지 설치
 </div>
 
-개발 환경에 다음 패키지를 설치하세요:
+개발 환경에 다음 패키지를 설치하세요. `weave` 패키지는 트레이스를 캡처하고, `claude-agent-sdk`는 에이전트 런타임을 제공합니다.
 
 ```bash
 pip install weave claude-agent-sdk
@@ -41,7 +42,7 @@ pip install weave claude-agent-sdk
   ### 코드에서 Weave 초기화하기
 </div>
 
-프로젝트에 `weave.init`를 추가하고, W&amp;B 팀 이름과 프로젝트 이름을 업데이트한 뒤, 평소처럼 에이전트를 구축하세요.
+프로젝트에 `weave.init`를 추가하고, W&amp;B 팀 이름과 프로젝트 이름을 업데이트한 뒤, 평소처럼 에이전트를 구축하세요. `weave.init`는 Claude Agent SDK의 트레이스를 캡처하는 자동 패칭을 활성화합니다.
 
 다음 코드는 MCP 수학 도구 두 개를 사용하는 Claude 에이전트를 생성하고, Weave가 해당 트레이스를 캡처하도록 한 상태에서 실행합니다.
 
@@ -92,6 +93,6 @@ async def main():
 anyio.run(main) 
 ```
 
-`weave.init()`가 실행되면 프로젝트 링크를 출력합니다.
+스크립트가 실행되면 `weave.init()`가 프로젝트 링크를 출력합니다. 링크를 열어 에이전트의 쿼리, 모델 응답, 도구 Call이 캡처된 트레이스를 확인하세요.
 
 Weave에서 에이전트 데이터를 확인하는 방법에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

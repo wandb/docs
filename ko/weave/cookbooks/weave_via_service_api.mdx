@@ -1,20 +1,17 @@
 ---
 title: "Weave Service API를 사용해 트레이스하기"
-description: "W&B Weave에서 Service API를 통해 Weave 트레이싱을 사용하는 방법을 알아보세요"
+description: "W&B Weave에서 Service API를 통해 Weave tracing을 사용하는 방법을 알아보세요"
+keywords: [Weave Service API, trace logging, RAG tracing, stream query, LLM observability]
 ---
 
 <Note>
-  이 문서는 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+  이것은 대화형 노트북입니다. 로컬에서 실행하거나 다음 링크를 사용할 수 있습니다.
 
   * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
   * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
 </Note>
 
-<div id="use-the-service-api-to-log-and-query-traces">
-  # Service API를 사용해 트레이스를 로깅하고 쿼리하기
-</div>
-
-다음 가이드에서는 Weave Service API를 사용해 트레이스를 로깅하는 방법을 알아봅니다. 구체적으로는 Service API로 다음 작업을 수행합니다.
+다음 노트북에서는 W&amp;B Weave Service API를 사용해 트레이스를 로깅하는 방법을 알아봅니다.
 
 1. [단순한 LLM call과 response의 mock을 만들어 Weave에 로깅합니다.](#simple-trace)
 2. [더 복잡한 LLM call과 response의 mock을 만들어 Weave에 로깅합니다.](#complex-trace)
@@ -29,6 +26,8 @@ description: "W&B Weave에서 Service API를 통해 Weave 트레이싱을 사용
 <div id="prerequisites-set-variables-and-endpoints">
   ## 사전 요구 사항: 변수 및 엔드포인트 설정
 </div>
+
+트레이스를 로깅하기 전에 Service API 엔드포인트를 구성하고 W&amp;B 자격 증명으로 인증해야 합니다.
 
 다음 코드는 Service API에 액세스하는 데 사용할 URL 엔드포인트를 설정합니다.
 
@@ -64,7 +63,7 @@ wandb_token = ""
   ## 단순한 트레이스
 </div>
 
-다음 섹션에서는 단순한 트레이스를 생성하는 방법을 안내합니다.
+다음 섹션에서는 단순한 트레이스를 생성하는 방법을 안내합니다:
 
 1. [단순한 트레이스 시작하기](#start-a-simple-trace)
 2. [단순한 트레이스 종료하기](#end-a-simple-trace)
@@ -166,7 +165,7 @@ else:
   ## 복잡한 트레이스
 </div>
 
-다음 섹션에서는 다중 오퍼레이션 RAG 조회와 유사하게, 하위 span이 있는 더 복잡한 트레이스를 만드는 방법을 안내합니다.
+이제 단순한 단일 step 트레이스를 로깅했으므로, 다음 섹션에서는 다중 오퍼레이션 RAG 조회와 유사하게, 하위 span이 있는 더 복잡한 트레이스를 만드는 방법을 안내합니다.
 
 1. [복잡한 트레이스 시작하기](#start-a-complex-trace)
 2. [RAG 문서 조회용 하위 span 추가](#add-a-child-span-for-a-rag-document-lookup)
@@ -177,7 +176,7 @@ else:
   ### 복잡한 트레이스 시작
 </div>
 
-다음 코드는 여러 span이 포함된 더 복잡한 트레이스를 생성하는 방법을 보여줍니다. 예를 들어 Retrieval-Augmented Generation(RAG) 조회 후 LLM call을 수행하는 경우가 있습니다. 첫 번째 부분에서는 전체 오퍼레이션을 나타내는 상위 트레이스(`payload_parent_start`)를 초기화합니다. 이 경우 오퍼레이션은 사용자 쿼리 `Can you summarize the key points of this document?`를 처리하는 것입니다.
+다음 코드는 여러 span이 포함된 더 복잡한 트레이스를 생성하는 방법을 보여줍니다. 예를 들어 Retrieval-Augmented Generation(RAG) 조회 후 LLM call을 수행하는 경우가 있습니다. 첫 번째 부분에서는 오퍼레이션을 나타내는 상위 트레이스(`payload_parent_start`)를 초기화합니다. 이 경우 오퍼레이션은 사용자 쿼리 `Can you summarize the key points of this document?`를 처리합니다.
 
 `payload_parent_start` 객체는 다단계 워크플로의 첫 번째 step을 나타내며, `url_start` 엔드포인트를 사용해 Weave에 오퍼레이션을 로깅합니다.
 
@@ -218,7 +217,7 @@ else:
   ### RAG 문서 조회용 하위 span 추가
 </div>
 
-다음 코드는 이전 step에서 시작한 복합 상위 트레이스에 하위 span을 추가하는 방법을 보여줍니다. 이 step은 전체 워크플로에서 RAG 문서 조회 하위 오퍼레이션을 나타냅니다.
+다음 코드는 이전 step에서 시작한 복합 상위 트레이스에 하위 span을 추가하는 방법을 보여줍니다. 이 step은 워크플로에서 RAG 문서 조회 하위 오퍼레이션을 나타냅니다.
 
 자식 트레이스는 `payload_child_start` 객체로 시작되며, 여기에는 다음이 포함됩니다:
 
@@ -290,16 +289,16 @@ else:
   ### LLM completion call에 대한 하위 span 추가
 </div>
 
-다음 코드는 복합 부모 트레이스에 또 다른 하위 span을 추가해 LLM completion call을 나타내는 방법을 보여줍니다. 이 step은 이전 RAG 오퍼레이션에서 조회한 문서 컨텍스트를 기반으로 AI의 응답 생성 과정을 모델링합니다.
+다음 코드는 복합 상위 트레이스에 또 다른 하위 span을 추가해 LLM completion call을 나타내는 방법을 보여줍니다. 이 step은 이전 RAG 오퍼레이션에서 조회한 문서 컨텍스트를 기반으로 LLM 응답 생성 과정을 모델링합니다.
 
 LLM completion 트레이스는 `payload_child_start` 객체로 시작되며, 여기에는 다음이 포함됩니다:
 
-* `trace_id`: 이 하위 span을 부모 트레이스에 연결합니다.
-* `parent_id`: 이 하위 span을 상위 워크플로에 연결합니다.
+* `trace_id`: 이 하위 span을 상위 트레이스에 연결합니다.
+* `parent_id`: 이 하위 span을 부모 워크플로에 연결합니다.
 * `inputs`: 사용자 쿼리와 추가된 문서 컨텍스트를 포함한 LLM 입력 메시지를 로깅합니다.
 * `model`: 오퍼레이션에 사용된 모델(`gpt-4o`)을 지정합니다.
 
-성공하면 코드는 LLM 하위 span 트레이스가 시작되고 종료되었음을 나타내는 메시지를 출력합니다:
+성공하면 코드는 LLM 하위 span 트레이스가 시작되었음을 나타내는 메시지를 출력합니다:
 
 ```
 Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
@@ -387,13 +386,13 @@ else:
   ### 복잡한 트레이스 종료
 </div>
 
-다음 코드는 상위 트레이스를 최종 완료하여 전체 워크플로가 끝났음을 표시하는 방법을 보여줍니다. 이 step에서는 모든 하위 span(예: RAG 조회 및 LLM 응답 생성)의 결과를 집계하고 최종 출력과 메타데이터를 로깅합니다.
+다음 코드는 상위 트레이스를 최종 완료하여 워크플로가 끝났음을 표시하는 방법을 보여줍니다. 이 step에서는 모든 하위 span(예: RAG 조회 및 LLM 응답 생성)의 결과를 집계하고 최종 출력과 메타데이터를 로깅합니다.
 
 트레이스는 `payload_parent_end` 객체로 완료되며, 여기에는 다음이 포함됩니다.
 
 * `id`: 최초 상위 트레이스 시작 시의 `parent_call_id`
-* `output`: 전체 워크플로의 최종 출력을 나타냅니다.
-* `summary`: 전체 워크플로의 사용 데이터를 통합합니다.
+* `output`: 워크플로의 최종 출력을 나타냅니다.
+* `summary`: 워크플로의 사용 데이터를 통합합니다.
 * `prompt_tokens`: 모든 프롬프트에 사용된 총 토큰 수입니다.
 * `completion_tokens`: 모든 응답에서 생성된 총 토큰 수입니다.
 * `total_tokens`: 워크플로 전체의 총 토큰 수입니다.
@@ -445,7 +444,7 @@ else:
   ## lookup 쿼리 실행
 </div>
 
-다음 코드는 앞선 예제에서 생성한 트레이스를 조회하는 방법을 보여주며, `inputs.model` 필드가 `gpt-4o`인 트레이스만 필터링합니다.
+Weave에 트레이스가 로깅되면 Service API를 사용해 이를 프로그래밍 방식으로 쿼리할 수 있습니다. 다음 코드는 앞선 예제에서 생성한 트레이스를 조회하는 방법을 보여주며, `inputs.model` 필드가 `gpt-4o`인 트레이스만 필터링합니다.
 
 `query_payload` 객체에는 다음이 포함됩니다:
 

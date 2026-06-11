@@ -1,6 +1,6 @@
 ---
 title: Journalisation par lot pour votre agent
-description: Enregistrez manuellement les traces de l’agent pour les frameworks qui ont déjà effectué l’appel au LLM et n’ont plus qu’à le consigner.
+description: Enregistrez manuellement les traces de l’agent pour les frameworks qui ont déjà effectué l’appel au LLM et doivent le consigner.
 ---
 
 import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
@@ -11,13 +11,13 @@ Pour les frameworks qui ont déjà effectué l’appel au LLM et doivent simplem
 
 Les données enregistrées de cette façon peuvent être historiques — aucune session en direct n’est nécessaire. Définissez `session_id` sur n’importe quelle chaîne stable qui identifie de manière unique la conversation. Les tours de conversation qui partagent le même `session_id` sont regroupés en une seule session dans la vue **Agents**.
 
-Si vous implémentez votre propre boucle d’agent, utilisez plutôt les API d’instrumentation en temps réel décrites dans [Tracez vos agents](/fr/weave/guides/tracking/trace-agents).
+Si vous implémentez votre propre boucle d’agent, utilisez plutôt les API d’instrumentation en temps réel décrites dans [Tracez vos agents](/fr/weave/guides/tracking/trace-agents) à la place.
 
 <div id="log-a-turn">
   ## Enregistrer un tour de conversation
 </div>
 
-`weave.log_turn` accepte un tour de conversation entièrement formé, y compris tous les spans LLM et d’outil.
+Pour enregistrer un tour de conversation terminé une fois qu’il a eu lieu, utilisez `weave.log_turn`. Il accepte un tour de conversation entièrement formé, y compris tous les spans LLM et d’outil.
 
 <Tabs>
   <Tab title="Python">
@@ -76,7 +76,7 @@ Un paramètre `model` facultatif de `log_turn` définit le modèle sur le span p
   ## Enregistrer une session
 </div>
 
-Pour importer en bloc une session complète à plusieurs tours de conversation, utilisez `weave.log_session`. Le paramètre `turns` accepte une liste d&#39;objets `Turn`, chacun étant construit de la même manière que dans l&#39;exemple `log_turn` ci-dessus.
+Pour importer en bloc une session complète à plusieurs tours de conversation, utilisez `weave.log_session`. Le paramètre `turns` accepte une liste d&#39;objets `Turn`, chacun étant construit de la même manière que dans l&#39;exemple `log_turn` précédent.
 
 <Tabs>
   <Tab title="Python">

@@ -1,33 +1,34 @@
 ---
 title: "Google ADK"
 description: Weave を使用して、Google の Agent Development Kit（ADK）で構築したエージェントをトレースします。
+keywords: ["ADK", "Gemini", "エージェント トレース", "マルチエージェント", "autopatch"]
 ---
 
 import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-[Google の Agent Development Kit (ADK) ](https://google.github.io/adk-docs/) は、エージェントの構築とオーケストレーションのための、柔軟でモデル非依存の Python フレームワークです。Gemini 向けに最適化されていますが、ADK はあらゆるモデルをサポートしており、シンプルなタスクから複雑なマルチエージェント ワークフローまで対応します。Weave は、ADK で構築されたエージェントを自動的にトレースし、各エージェント呼び出し、サブエージェントへのハンドオフ、モデル呼び出し、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
+[Google の Agent Development Kit (ADK) ](https://google.github.io/adk-docs/) は、エージェントの構築とオーケストレーションのための、柔軟でモデル非依存の Python フレームワークです。Gemini 向けに最適化されていますが、ADK はあらゆるモデルをサポートしており、シンプルなタスクから複雑なマルチエージェント ワークフローまで対応します。Weave は、ADK で構築されたエージェントを自動的にトレースし、各エージェント呼び出し、サブエージェントへのハンドオフ、モデルの Call、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
 
 <div id="trace-google-adk-agents-with-weave">
   ## Weave で Google ADK エージェントをトレースする
 </div>
 
-Weave SDK は Google ADK を自動的にパッチするため、最小限の設定で ADK エージェントのトレースを取得できます。このドキュメントでは、Weave を初期化したうえで、Google ADK で構築したマルチターンのリサーチエージェントを実行し、セッション全体にわたるすべてのエージェント呼び出し、モデル呼び出し、ツール呼び出しを Weave で取得する方法を説明します。
+Weave SDK は Google ADK を自動的にパッチするため、最小限の設定で ADK エージェントのトレースを取得できます。このガイドでは、Weave を初期化したうえで、Google ADK で構築したマルチターンのリサーチエージェントを実行し、セッション全体にわたるすべてのエージェント呼び出し、モデルの Call、ツール呼び出しを Weave で取得する方法を説明します。
 
 <div id="prerequisites">
   ### 前提条件
 </div>
 
-* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数に設定した [APIキー](https://wandb.ai/authorize)
-* Gemini 用の [Google API key](https://aistudio.google.com/apikey)
-* Python 3.10 以降
+* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数に設定した [APIキー](https://wandb.ai/authorize)。
+* Gemini 用の [Google API key](https://aistudio.google.com/apikey)。
+* Python 3.10 以降。
 
 <div id="install-packages">
   ### パッケージをインストールする
 </div>
 
-開発用の環境に、次のパッケージをインストールします。
+開発用の環境に、次のパッケージをインストールします。これらのパッケージに、Weave SDK、Google ADK フレームワーク、およびサンプルツールで使用する HTTP クライアントが含まれます。
 
 ```bash
 pip install weave google-adk requests
@@ -39,7 +40,7 @@ pip install weave google-adk requests
 
 `weave.init` をprojectに追加し、W&amp;B のチーム名とproject名を指定してから、通常どおりエージェントを構築します。次のコードでは、`gemini-2.5-flash` と `wikipedia_search` ツールを使用する `research_assistant` エージェントを作成し、Weave でトレースを取得しながら、1 つの ADK セッション内で 3 つの質問を実行します。
 
-```python lines
+```python
 import asyncio
 import requests
 import weave
@@ -47,7 +48,7 @@ from google.adk.agents import Agent
 from google.adk.runners import InMemoryRunner
 from google.genai import types
 
-weave.init("<your-team>/<your-project-name>")
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT-NAME]")
 
 def wikipedia_search(query: str) -> dict:
     """Search Wikipedia for a topic and return its title and intro paragraph.
@@ -113,11 +114,11 @@ asyncio.run(main())
   ### Agents ビューでエージェントのトレースを確認する
 </div>
 
-`weave.init()` を実行すると、project へのリンクが出力されます。**Agents** ビューを開くと、次の内容を確認できます。
+スクリプトの実行後、Weave がセッションを取得できていることを確認するために、project の **Agents** ビューを開いてください。`weave.init()` は実行時に、project へのリンクを出力します。**Agents** ビューでは、次の内容を確認します。
 
-* **Agents** タブに `research_assistant` の行が表示される
-* 3 つの ターン を含む 1 つの セッション
-* 各 ターン は、ネストされたモデルの Call と tool call を含む `invoke_agent` span として表示される
-* 各 step における入力全体、モデル、出力、token usage、Wikipedia の結果
+* **Agents** タブに `research_assistant` の行があること。
+* 3 つのターンを含む 1 つのセッションがあること。
+* 各ターンが `invoke_agent` span として表示され、その中にモデルの Call とツール呼び出しがネストされていること。
+* 各 step で、入力全体、モデル、出力、token 使用量、Wikipedia の結果を確認できること。
 
-Weave で Agents データを表示する方法の詳細については、[エージェント アクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity)を参照してください。
+Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity)を参照してください。

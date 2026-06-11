@@ -1,6 +1,7 @@
 ---
 title: "Vue de l’activité de l’agent"
 description: "Utilisez la vue Agents de W&B Weave pour comprendre ce qu’a fait votre agent, combien cela a coûté et précisément où les choses ont bien ou mal tourné."
+keywords: ["observabilité des agents", "traces de conversation", "spans", "utilisation des jetons", "débogage des agents"]
 ---
 
 import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
@@ -15,18 +16,20 @@ Les applications d’agents sont difficiles à déboguer, car le comportement in
   ## Premiers pas
 </div>
 
-Pour afficher l’activité des agents :
+Pour ouvrir la vue Agents de votre projet :
 
 1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
 2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agents enregistrées dans votre projet.
+
+La vue Agents s’ouvre sur l’onglet **Agents**, où chaque agent ayant enregistré des traces dans le projet apparaît sous forme de carte. À partir de là, vous pouvez examiner en détail les conversations, spans et signaux individuels à l’aide des onglets décrits dans les sections suivantes.
 
 <div id="agents-tab">
   ## Onglet Agents
 </div>
 
 L’onglet **Agents** vous offre une vue d’ensemble de tous les agents qui ont enregistré des
-traces dans ce projet. Utilisez-le pour repérer les agents actifs, comparer
-la latence et les taux d’erreur d’un agent à l’autre, et identifier ceux qui
+traces dans ce projet. Utilisez-le pour repérer les agents actifs et comparer
+la latence et les taux d’erreur d’un agent à l’autre. Il vous aide également à identifier ceux qui
 nécessitent une attention particulière avant d’examiner les conversations individuelles.
 
 ![L’onglet Agents affichant une grille de cartes d’agent, chacune présentant le nombre de conversations, le nombre de spans, la latence moyenne et le taux d’erreur.](/weave/guides/tracking/imgs/agent-view-agent.png)
@@ -102,7 +105,7 @@ Pour obtenir une vue d’ensemble de ce qu’un agent a dit et fait au fil d’u
 </div>
 
 Le tableau des conversations affiche une ligne par conversation. Les colonnes suivantes
-s’affichent par défaut.
+s’affichent par défaut :
 
 | Colonne               | Description                                                                                                                   |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -111,15 +114,15 @@ s’affichent par défaut.
 | **Agent**             | Le nom du ou des agents impliqués.                                                                                            |
 | **Invocations**       | Le nombre de fois où l’agent a été invoqué pendant la conversation.                                                           |
 | **Spans**             | Nombre total de spans enregistrés. Un nombre de spans plus élevé indique davantage de branchements ou d’utilisation d’outils. |
-| **Jetons d’entrée**   | Tokens d’entrée consommés.                                                                                                    |
-| **Jetons de sortie**  | Tokens de sortie générés.                                                                                                     |
+| **Jetons d’entrée**   | Jetons d’entrée consommés.                                                                                                    |
+| **Jetons de sortie**  | Jetons de sortie générés.                                                                                                     |
 | **Début**             | Le moment où la conversation a commencé.                                                                                      |
 | **Dernière activité** | Le temps écoulé depuis l’enregistrement du dernier message.                                                                   |
 
 Pour afficher ou masquer des colonnes supplémentaires, cliquez sur **Columns** dans la barre d’outils.
 
-<div id="filtering-and-time-window">
-  ### Filtrage et fenêtre temporelle
+<div id="filters-and-time-window">
+  ### Filtres et fenêtre temporelle
 </div>
 
 Utilisez la barre de **Filtre** pour affiner les résultats par agent, modèle, statut d&#39;erreur ou
@@ -137,7 +140,7 @@ une valeur ou une plage spécifique.
   ### Détail d’une conversation d’agent
 </div>
 
-Cliquez sur une ligne de conversation pour ouvrir un panneau de détail avec deux sous-onglets : tours de conversation et événements.
+Cliquez sur une ligne de conversation pour ouvrir un panneau de détail avec deux sous-onglets : **Tours de conversation** et **Événements**.
 
 ![Une conversation sélectionnée dans l’onglet Conversations, avec le panneau de détail ouvert affichant le fil des messages tour par tour, les appels d’outil, le raisonnement et la chronologie des événements à droite.](/weave/guides/tracking/imgs/agent-view-conversation-detail.png)
 
@@ -159,7 +162,7 @@ Au sein d’un tour de conversation, les messages sont regroupés par rôle.
 Les **messages utilisateur** affichent le texte du message ainsi que tous les médias ou références
 de contenu joints.
 
-Les **messages de l’assistant** affichent :
+Les **messages de l’assistant** affichent les éléments suivants :
 
 * Le nom de l’agent et le modèle utilisé (par exemple, `gpt-5.5-2026-04-23`).
 * L’horodatage et la durée.
@@ -184,10 +187,10 @@ son type.
   #### Events
 </div>
 
-Le panneau **Events** à droite affiche une bande colorée qui représente
+Le panneau **Événements** à droite affiche une bande colorée qui représente
 la séquence des événements au sein du tour de conversation sélectionné.
 
-Dans la chronologie des événements, la couleur de chaque segment indique le type d’événement.
+Dans la chronologie Événements, la couleur de chaque segment indique le type d’événement.
 
 | Couleur         | Type d’événement                        |
 | --------------- | --------------------------------------- |
@@ -199,7 +202,7 @@ Dans la chronologie des événements, la couleur de chaque segment indique le ty
 | Gris            | Compactage du contexte                  |
 | Rouge           | Tout événement ayant renvoyé une erreur |
 
-Utilisez la chronologie du panneau Events pour vous faire rapidement une idée de
+Utilisez la chronologie du panneau Événements pour vous faire rapidement une idée de
 la structure d’un tour de conversation. Par exemple, vous pouvez voir s’il reposait
 surtout sur le LLM, surtout sur les outils, ou s’il impliquait une délégation à
 un sous-agent avant de lire le fil complet des messages.
@@ -256,7 +259,7 @@ noms de modèle ici.
   ## Onglet Spans
 </div>
 
-L’onglet **Spans** affiche chaque span individuel enregistré dans l’ensemble de l’activité des agents du projet. Alors que l’onglet Conversations regroupe l’activité en lignes au niveau du dialogue, l’onglet Spans montre les opérations brutes sous-jacentes : chaque appel au LLM, chaque exécution d’outil et chaque invocation d’agent sur une ligne distincte. Utilisez-le pour identifier précisément quel appel a été lent, quel modèle a consommé un nombre inattendu de jetons ou quelle invocation d’outil a échoué.
+L’onglet **Spans** affiche chaque span individuel enregistré dans l’ensemble de l’activité des agents du projet. L’onglet Conversations regroupe l’activité en lignes au niveau du dialogue. L’onglet Spans montre les opérations brutes sous-jacentes : chaque appel au LLM, chaque exécution d’outil et chaque invocation d’agent sur une ligne distincte. Utilisez-le pour identifier précisément quel appel a été lent, quel modèle a consommé un nombre inattendu de jetons ou quelle invocation d’outil a échoué.
 
 ![L’onglet Spans affichant les spans de la conversation de l’agent.](/weave/guides/tracking/imgs/agent-view-spans.png)
 
@@ -292,8 +295,8 @@ Conversations ne fournit pas :
   et les étapes du run, ce qui vous permet de relier un span spécifique à un run
   d&#39;entraînement ou d&#39;évaluation dans W&amp;B.
 
-<div id="trace-grouping">
-  ### Regroupement par trace
+<div id="trace-groups">
+  ### Groupes de traces
 </div>
 
 Cliquez sur n’importe quelle ligne pour sélectionner la trace correspondante et mettre en surbrillance tous les autres spans qui partagent le même ID de trace. Cela vous montre l’ensemble des opérations exécutées dans le cadre d’une invocation d’un agent. Le regroupement s’effectue ici par trace, et non par conversation. Cela signifie qu’une même conversation peut contenir plusieurs traces si elle implique une délégation à un sous-agent.
@@ -319,7 +322,7 @@ en millisecondes depuis le début de la trace. Utilisez la chronologie pour :
 
 ![L’onglet Spans avec une trace sélectionnée, mettant en évidence un groupe de spans associés dans le tableau et affichant le diagramme en flammes dans le panneau de détail à droite.](/weave/guides/tracking/imgs/agent-view-spans-detail.png)
 
-Vous pouvez aussi afficher les spans enfants sous la forme d’une arborescence de trace hiérarchique en sélectionnant l’icône `Show trace tree` dans l’en-tête du panneau de détail.
+Vous pouvez aussi afficher les spans enfants sous la forme d’une arborescence de trace hiérarchique en sélectionnant l’icône **Show trace tree** dans l’en-tête du panneau de détail.
 
 <div id="signals-tab">
   ## Onglet Signals
@@ -327,4 +330,4 @@ Vous pouvez aussi afficher les spans enfants sous la forme d’une arborescence 
 
 L’onglet **Signals** affiche des tags et des évaluations pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité pour signaler des problèmes, repérer des tendances et attirer votre attention sur les traces qui en ont besoin. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter lorsqu’un utilisateur est frustré ou signaler du contenu NSFW.
 
-Pour en savoir plus, voir [Surveillez vos agents avec des signaux](/fr/weave/guides/tracking/view-agent-signals).
+Pour la configuration et l’utilisation détaillée, voir [Surveillez vos agents avec des signaux](/fr/weave/guides/tracking/view-agent-signals).

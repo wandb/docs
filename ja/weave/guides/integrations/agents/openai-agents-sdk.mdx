@@ -17,21 +17,23 @@ import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
   ## OpenAI Agents SDK のエージェントを Weave でトレースする
 </div>
 
-Weave SDK は OpenAI Agents SDK に自動でパッチを適用するため、最小限の設定でエージェントのトレースを取得できます。このドキュメントでは、Weave を初期化したうえで、OpenAI Agents SDK で構築したマルチターンのリサーチエージェントを実行し、セッション全体を通じたすべてのエージェント呼び出し、モデル呼び出し、ツール呼び出しを Weave で取得する方法を説明します。
+Weave SDK は OpenAI Agents SDK に自動でパッチを適用するため、最小限の設定でエージェントのトレースを取得できます。このガイドでは、Weave を初期化したうえで、OpenAI Agents SDK で構築したマルチターンのリサーチエージェントを実行し、セッション全体を通じたすべてのエージェント呼び出し、モデル呼び出し、ツール呼び出しを Weave で取得する方法を説明します。
 
 <div id="prerequisites">
   ### 前提条件
 </div>
 
-* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)
-* [OpenAI APIキー](https://platform.openai.com/api-keys)
-* Python 3.10+
+始める前に、以下が揃っていることを確認してください。
+
+* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
+* [OpenAI APIキー](https://platform.openai.com/api-keys)。
+* Python 3.10+。
 
 <div id="install-packages">
   ### パッケージをインストールする
 </div>
 
-開発環境に次のパッケージをインストールします。
+スクリプトで Weave と OpenAI Agents SDK を利用できるように、開発環境に次のパッケージをインストールします。
 
 ```bash
 pip install weave openai-agents requests
@@ -96,11 +98,11 @@ asyncio.run(main())
   ### Agents ビューでエージェントのトレースを確認する
 </div>
 
-`weave.init()` は、実行時に project へのリンクを表示します。次の内容を確認するには、**Agents** ビューを開きます。
+スクリプトの実行後、Weave で取得されたアクティビティを確認できます。`weave.init()` は、実行時に project へのリンクを表示します。次の内容を確認するには、**Agents** ビューを開きます。
 
-* **Agents** タブ内にある `Research assistant` の行
-* 3 つのターンを含むセッション
-* ネストされたモデルの Call とツールの Call を含む `invoke_agent` span として表示される各ターン
-* 各ステップでの完全な入力、モデル、出力、トークン使用量、Wikipedia の結果
+* **Agents** タブ内にある `Research assistant` の行。
+* 3 つのターンを含むセッション。
+* ネストされたモデルの Call とツールの Call を含む `invoke_agent` span として表示される各ターン。
+* 各ステップでの完全な入力、モデル、出力、トークン使用量、Wikipedia の結果。
 
 Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。

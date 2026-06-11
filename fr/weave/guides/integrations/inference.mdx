@@ -1,29 +1,30 @@
 ---
 title: Serverless Inference
 description: "Utilisez Serverless Inference avec Weave pour tracer et surveiller les appels aux modèles fondamentaux open source via l’API compatible OpenAI."
+keywords: ["Llama", "DeepSeek", "Phi", "Playground", "chat completions"]
 ---
 
 <div id="serverless-inference">
-  # Serverless Inference
+  # Serverless Inférence
 </div>
 
-*Serverless Inference* donne accès à des modèles fondamentaux open source de premier plan via W&amp;B Weave et une API compatible avec OpenAI. Avec Serverless Inference, vous pouvez :
+*Serverless Inférence* donne accès à des modèles fondamentaux open source via W&amp;B Weave et une API compatible avec OpenAI. Ce guide explique comment appeler Serverless Inférence à l’aide de l’API et de l’interface Weave, et comment tracer, évaluer et surveiller ces appels avec Weave. Avec Serverless Inférence, vous pouvez :
 
 * Développer des applications et des agents d’IA sans vous inscrire auprès d’un fournisseur d’hébergement ni héberger vous-même un modèle.
-* Essayer les modèles pris en charge dans le Playground de W&amp;B Weave.
+* Essayer les modèles pris en charge dans le Weave Playground.
 
 <Warning>
-  Des crédits Serverless Inference sont inclus avec les plans Free, Pro et Academic pendant une durée limitée. La disponibilité peut varier pour Enterprise. Une fois les crédits consommés :
+  Des crédits Serverless Inférence sont inclus avec les plans Free, Pro et Academic pendant une durée limitée. La disponibilité peut varier pour Enterprise. Après consommation des crédits :
 
-  * Les comptes Free doivent passer à un plan Pro pour continuer à utiliser Inference.
-  * Les utilisateurs du plan Pro seront facturés mensuellement pour les dépassements de Serverless Inference, selon la tarification propre à chaque modèle.
+  * Les comptes Free doivent passer à un plan Pro pour continuer à utiliser Inférence.
+  * Les utilisateurs du plan Pro seront facturés mensuellement pour les dépassements de Serverless Inférence, selon la tarification propre à chaque modèle.
 
-  Pour en savoir plus, voir la [page de tarification](https://wandb.ai/site/pricing/) et les [coûts des modèles Serverless Inference](https://wandb.ai/site/pricing/inference).
+  Pour en savoir plus, voir la [page de tarification](https://wandb.ai/site/pricing/) et les [coûts des modèles Serverless Inférence](https://wandb.ai/site/pricing/inference).
 </Warning>
 
-Avec Weave, vous pouvez tracer, évaluer, surveiller et faire évoluer vos applications basées sur Serverless Inference.
+Avec Weave, vous pouvez tracer, évaluer, surveiller et faire évoluer vos applications basées sur Serverless Inférence.
 
-| Modèle           | ID du modèle (pour l&#39;API)             | Type(s)       | Fenêtre de contexte | Paramètres                  | Description                                                                                                                          |
+| Modèle           | ID du modèle (pour l&#39;API)             | Types         | Fenêtre de contexte | Paramètres                  | Description                                                                                                                          |
 | ---------------- | ----------------------------------------- | ------------- | ------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | DeepSeek R1-0528 | deepseek-ai/DeepSeek-R1-0528              | Texte         | 161K                | 37B - 680B (Actifs - Total) | Optimisé pour les tâches de raisonnement précis, notamment le code complexe, les mathématiques et l’analyse de documents structurés. |
 | DeepSeek V3-0324 | deepseek-ai/DeepSeek-V3-0324              | Texte         | 161K                | 37B - 680B (Actifs - Total) | Modèle Mixture-of-Experts robuste, conçu pour le traitement du langage complexe et l’analyse approfondie de documents.               |
@@ -47,25 +48,25 @@ Ce guide fournit les informations suivantes :
   * [Essayer un modèle dans le Playground](#try-a-model-in-the-playground)
   * [Comparer plusieurs modèles](#compare-multiple-models)
   * [Afficher les informations de facturation et d’utilisation](#view-billing-and-usage-information)
-* [Informations d’utilisation et limites ](#usage-information-and-limits)
+* [Informations d’utilisation et limites](#usage-information-and-limits)
 * [Erreurs d’API](#api-errors)
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Les prérequis suivants sont nécessaires pour accéder au service Serverless Inference via l’API ou l’interface W&amp;B Weave.
+Avant de pouvoir accéder au service d’Inférence via l’API ou l’interface Weave, vous devez disposer des éléments suivants :
 
-1. Un compte W&amp;B. Inscrivez-vous [ici](https://app.wandb.ai/login?signup=true&_gl=1*1yze8dp*_ga*ODIxMjU5MTk3LjE3NDk0OTE2NDM.*_ga_GMYDGNGKDT*czE3NDk4NDYxMzgkbzEyJGcwJHQxNzQ5ODQ2MTM4JGo2MCRsMCRoMA..*_ga_JH1SJHJQXJ*czE3NDk4NDU2NTMkbzI1JGcxJHQxNzQ5ODQ2MTQ2JGo0NyRsMCRoMA..*_gcl_au*MTE4ODk1MzY1OC4xNzQ5NDkxNjQzLjk1ODA2MjQwNC4xNzQ5NTgyMTUzLjE3NDk1ODIxNTM.).
+1. Un compte W&amp;B. [Inscrivez-vous pour créer un compte](https://app.wandb.ai/login?signup=true&_gl=1*1yze8dp*_ga*ODIxMjU5MTk3LjE3NDk0OTE2NDM.*_ga_GMYDGNGKDT*czE3NDk4NDYxMzgkbzEyJGcwJHQxNzQ5ODQ2MTM4JGo2MCRsMCRoMA..*_ga_JH1SJHJQXJ*czE3NDk4NDU2NTMkbzI1JGcxJHQxNzQ5ODQ2MTQ2JGo0NyRsMCRoMA..*_gcl_au*MTE4ODk1MzY1OC4xNzQ5NDkxNjQzLjk1ODA2MjQwNC4xNzQ5NTgyMTUzLjE3NDk1ODIxNTM.).
 2. Une clé API W&amp;B. Créez une clé API dans les [Paramètres utilisateur](https://wandb.ai/settings).
 3. Un projet W&amp;B.
-4. Si vous utilisez le service Inference via Python, voir [Prérequis supplémentaires pour utiliser l’API via Python](#additional-prerequisites-for-using-the-api-via-python).
+4. Si vous utilisez le service d’Inférence via Python, voir [Prérequis supplémentaires pour utiliser l’API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
 <div id="additional-prerequisites-for-using-the-api-via-python">
   ### Prérequis supplémentaires pour utiliser l’API via Python
 </div>
 
-Pour utiliser l’API d’Inférence via Python, commencez par suivre les prérequis généraux. Installez ensuite les bibliothèques `openai` et `weave` dans votre environnement local :
+Pour utiliser l’API d’Inférence via Python, commencez par suivre les prérequis généraux. Installez ensuite les bibliothèques `openai` et `weave` dans votre environnement local. La bibliothèque `openai` fournit le client compatible avec OpenAI que vous utiliserez pour appeler le point de terminaison d’Inférence, et la bibliothèque `weave` vous permet de tracer et d’évaluer ces appels.
 
 ```bash
 pip install openai weave
@@ -81,14 +82,14 @@ pip install openai weave
   ## Spécification de l&#39;API
 </div>
 
-La section suivante présente les informations de spécification de l&#39;API ainsi que des exemples d&#39;utilisation de l&#39;API.
+Les sections suivantes présentent les informations de spécification de l&#39;API ainsi que des exemples d&#39;utilisation de l&#39;API, afin que vous puissiez appeler le service d’Inférence par programmation à partir de votre propre application ou de vos scripts.
 
 * [point de terminaison](#endpoint)
 * [Méthodes disponibles](#available-methods)
 * [Exemples d&#39;utilisation](#usage-examples)
 
 <div id="endpoint">
-  ### Endpoint
+  ### point de terminaison
 </div>
 
 Le service d’Inférence est accessible via le point de terminaison suivant :
@@ -98,7 +99,7 @@ https://api.inference.wandb.ai/v1
 ```
 
 <Warning>
-  Pour accéder à ce point de terminaison, vous devez disposer d&#39;un compte W&amp;B auquel des crédits de service Inférence ont été attribués, d&#39;une clé API W&amp;B valide, ainsi que d&#39;une entité W&amp;B (également appelée &quot;team&quot;) et d&#39;un projet. Dans les exemples de code de ce guide, l&#39;entité (team) et le projet sont indiqués sous la forme `<your-team>\<your-project>`.
+  Pour accéder à ce point de terminaison, vous devez disposer d&#39;un compte W&amp;B auquel des crédits de service Inférence ont été attribués, d&#39;une clé API W&amp;B valide, ainsi que d&#39;une entité W&amp;B (également appelée &quot;team&quot;) et d&#39;un projet. Dans les exemples de code de ce guide, l&#39;entité (team) et le projet sont indiqués sous la forme `<your-team>/<your-project>`.
 </Warning>
 
 <div id="available-methods">
@@ -114,11 +115,11 @@ Le service d’Inférence prend en charge les méthodes de l’API suivantes :
   #### Complétion de chat
 </div>
 
-La principale méthode d’API disponible est `/chat/completions`, qui prend en charge les formats de requête compatibles avec OpenAI pour envoyer des messages à un modèle pris en charge et obtenir une complétion. Pour des exemples d&#39;utilisation montrant comment utiliser le service Serverless Inference avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
+La principale méthode d’API disponible est `/chat/completions`, qui prend en charge les formats de requête compatibles avec OpenAI pour envoyer des messages à un modèle pris en charge et obtenir une complétion. Pour des exemples d&#39;utilisation montrant comment utiliser le service Serverless Inférence avec Weave, voir les [exemples d&#39;utilisation de l&#39;API](#usage-examples).
 
-Pour créer une complétion de chat, vous aurez besoin de :
+Pour créer une complétion de chat, vous avez besoin de :
 
-* L’URL de base du service W&amp;B Inference `https://api.inference.wandb.ai/v1`
+* L’URL de base du service W&amp;B Inférence `https://api.inference.wandb.ai/v1`
 * Votre clé API W&amp;B `<your-api-key>`
 * Les noms de votre entité et de votre projet W&amp;B `<your-team>/<your-project>`
 * L’ID du modèle que vous souhaitez utiliser, parmi :
@@ -187,7 +188,7 @@ Pour créer une complétion de chat, vous aurez besoin de :
   #### Lister les modèles pris en charge
 </div>
 
-Utilisez l’API pour récupérer tous les modèles actuellement disponibles et leurs identifiants. C’est utile pour sélectionner des modèles dynamiquement ou voir ce qui est disponible dans votre environnement.
+Utilisez l’API pour récupérer tous les modèles disponibles et leurs identifiants. C’est utile pour sélectionner des modèles dynamiquement ou voir ce qui est disponible dans votre environnement.
 
 <Tabs>
   <Tab title="Bash">
@@ -221,7 +222,7 @@ Utilisez l’API pour récupérer tous les modèles actuellement disponibles et 
   ## Exemples d&#39;utilisation
 </div>
 
-Cette section présente plusieurs exemples montrant comment utiliser Serverless Inference avec Weave :
+Les sections suivantes présentent plusieurs exemples montrant comment utiliser Serverless Inference avec Weave. Commencez par l&#39;exemple de base pour tracer un seul appel de modèle, puis passez à l&#39;exemple avancé pour évaluer et comparer plusieurs modèles.
 
 * [Exemple de base : tracer Llama 3.1 8B avec Weave](#basic-example-trace-llama-31-8b-with-weave)
 * [Exemple avancé : utiliser les Évaluations et les classements de Weave avec le service d&#39;inférence](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service)
@@ -230,7 +231,7 @@ Cette section présente plusieurs exemples montrant comment utiliser Serverless 
   ### Exemple de base : tracer Llama 3.1 8B avec Weave
 </div>
 
-L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle **Llama 3.1 8B** à l&#39;aide de l&#39;API Serverless Inference et tracer l&#39;appel dans Weave. Le traçage vous permet de capturer les entrées et sorties complètes de l&#39;appel au LLM, de surveiller les performances et d&#39;analyser les résultats dans Weave UI.
+L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle **Llama 3.1 8B** à l&#39;aide de l&#39;API Serverless Inférence et tracer l&#39;appel dans Weave. Le traçage vous permet de capturer les entrées et sorties complètes de l&#39;appel au LLM, de surveiller les performances et d&#39;analyser les résultats dans l’interface Weave.
 
 <Tip>
   Pour en savoir plus, consultez [le traçage dans Weave](../tracking/tracing.mdx).
@@ -239,8 +240,8 @@ L&#39;exemple de code Python suivant montre comment envoyer un prompt au modèle
 Dans cet exemple :
 
 * Vous définissez une fonction décorée avec `@weave.op()`, `run_chat`, qui effectue une requête de complétion de chat à l&#39;aide du client compatible OpenAI.
-* Vos traces sont enregistrées et associées à votre entité W&amp;B ainsi qu&#39;à votre projet `project="<your-team>/<your-project>`
-* La fonction est automatiquement tracée par Weave, de sorte que ses entrées, ses sorties, sa latence et ses métadonnées (comme l&#39;ID du modèle) sont enregistrées.
+* Weave enregistre vos traces et les associe à votre entité W&amp;B ainsi qu&#39;à votre projet `project="<your-team>/<your-project>"`.
+* Weave trace automatiquement la fonction, en enregistrant ses entrées, ses sorties, sa latence et ses métadonnées (comme l&#39;ID du modèle).
 * Le résultat est affiché dans le terminal, et la trace apparaît dans votre onglet **Traces** sur [https://wandb.ai](https://wandb.ai), sous le projet spécifié.
 
 Pour utiliser cet exemple, vous devez satisfaire aux [prérequis généraux](#prerequisites) et aux [prérequis supplémentaires pour utiliser l&#39;API via Python](#additional-prerequisites-for-using-the-api-via-python).
@@ -279,12 +280,12 @@ output = run_chat()
 print(output)
 ```
 
-Une fois l’exemple de code exécuté, vous pouvez consulter la trace dans Weave en cliquant sur le lien affiché dans le terminal (par exemple, `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`), ou :
+Une fois l’exemple de code exécuté, la réponse du modèle s’affiche dans le terminal et l’appel est enregistré comme une trace Weave. Pour consulter la trace dans Weave, cliquez sur le lien affiché dans le terminal (par exemple, `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`), ou :
 
 1. Accédez à [https://wandb.ai](https://wandb.ai).
 2. Sélectionnez l’onglet **Traces** pour afficher vos traces Weave.
 
-Ensuite, essayez l’[exemple avancé](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service).
+Ensuite, essayez l’[exemple avancé](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service) pour évaluer et comparer plusieurs modèles.
 
 <Frame>
   ![Affichage des traces](/weave/guides/integrations/imgs/image.png)
@@ -294,7 +295,7 @@ Ensuite, essayez l’[exemple avancé](#advanced-example-use-weave-evaluations-a
   ### Exemple avancé : utilisez les évaluations et les classements de Weave avec le service d&#39;inférence
 </div>
 
-En plus d&#39;utiliser Weave avec le service d&#39;inférence pour [tracer les appels de modèle](../tracking/tracing.mdx), vous pouvez aussi [évaluer les performances](../core-types/evaluations.mdx) et [publier un classement](../core-types/leaderboards.mdx). L&#39;exemple de code Python suivant compare deux modèles sur un jeu de données simple de questions-réponses.
+Vous pouvez également utiliser Weave avec le service d&#39;inférence pour [tracer les appels de modèle](../tracking/tracing.mdx), [évaluer les performances](../core-types/evaluations.mdx) et [publier un classement](../core-types/leaderboards.mdx). L&#39;exemple de code Python suivant compare deux modèles sur un jeu de données de questions-réponses.
 
 Pour utiliser cet exemple, vous devez remplir les [prérequis généraux](#prerequisites) et les [prérequis supplémentaires pour utiliser l&#39;API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
@@ -370,11 +371,11 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-Après avoir exécuté l’exemple de code suivant, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et :
+Après avoir exécuté l’exemple de code précédent, Weave publie les résultats d’évaluation, les traces et un leaderboard comparant les deux modèles dans votre projet W&amp;B. Pour consulter les résultats publiés, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et :
 
-* Accédez à l’onglet **Traces** pour [consulter vos traces](../tracking/tracing.mdx)
-* Accédez à l’onglet **Evals** pour [consulter les évaluations de votre modèle](../core-types/evaluations.mdx)
-* Accédez à l’onglet **Leaders** pour [consulter le classement généré](../core-types/leaderboards.mdx)
+* Accédez à l’onglet **Traces** pour [consulter vos traces](../tracking/tracing.mdx).
+* Accédez à l’onglet **Evals** pour [consulter les évaluations de votre modèle](../core-types/evaluations.mdx).
+* Accédez à l’onglet **Leaders** pour [consulter le classement généré](../core-types/leaderboards.mdx).
 
 <Frame>
   ![Consulter les évaluations de votre modèle](/weave/guides/integrations/imgs/inference-advanced-evals.png)
@@ -388,13 +389,13 @@ Après avoir exécuté l’exemple de code suivant, accédez à votre compte W&a
   ## UI
 </div>
 
-La section suivante décrit comment utiliser le service d’Inférence depuis l’interface utilisateur W&amp;B. Avant de pouvoir accéder au service d’Inférence via l’interface utilisateur, assurez-vous d’avoir rempli les [prérequis](#prerequisites).
+Les sections suivantes décrivent comment utiliser le service d’Inférence depuis l’interface W&amp;B. Avant de pouvoir accéder au service d’Inférence via l’interface utilisateur, assurez-vous d’avoir rempli les [prérequis](#prerequisites).
 
 <div id="access-the-inference-service">
   ### Accéder au service d’Inférence
 </div>
 
-Vous pouvez accéder au service d’Inférence depuis la Weave UI à partir de deux emplacements différents :
+Vous pouvez accéder au service d’Inférence depuis l’interface Weave à partir des emplacements suivants :
 
 * [Lien direct](#direct-link)
 * [Depuis l’onglet Inférence](#from-the-inference-tab)
@@ -425,7 +426,7 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
 2. Dans la liste déroulante LLM, survolez **Serverless Inference**. Une liste déroulante affichant les modèles Serverless Inference disponibles apparaît à droite.
 3. Dans la liste déroulante des modèles Serverless Inference, vous pouvez :
    * Cliquer sur le nom de n’importe quel modèle disponible pour [l’essayer dans le Playground](#try-a-model-in-the-playground).
-   * [Comparer un ou plusieurs modèles dans le Playground](#compare-multiple-models)
+   * [Comparer un ou plusieurs modèles dans le Playground](#compare-multiple-models).
 
 <Frame>
   ![La liste déroulante des modèles d’Inférence dans le Playground](/weave/guides/integrations/imgs/inference-playground.png)
@@ -435,7 +436,7 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
   ### Essayer un modèle dans le Playground
 </div>
 
-Une fois que vous avez [sélectionné un modèle via l’une des options d’accès](#access-the-inference-service), vous pouvez l’essayer dans le Playground. Les actions suivantes sont disponibles :
+Après avoir [sélectionné un modèle via l’une des options d’accès](#access-the-inference-service), vous pouvez l’essayer dans le Playground. Les actions suivantes sont disponibles :
 
 * [Personnaliser les paramètres et réglages du modèle](../tools/playground#customize-settings)
 * [Ajouter, réessayer, modifier et supprimer des messages](../tools/playground#message-controls)
@@ -450,7 +451,7 @@ Une fois que vous avez [sélectionné un modèle via l’une des options d’acc
   ### Comparer plusieurs modèles
 </div>
 
-Vous pouvez comparer plusieurs modèles d’Inférence dans le Playground. La vue Compare est accessible à deux emplacements :
+Vous pouvez comparer plusieurs modèles d’Inférence dans le Playground. Accédez à la vue Compare depuis deux emplacements différents :
 
 * [Accéder à la vue Compare depuis l’onglet Inférence ](#access-the-compare-view-from-the-inference-tab)
 * [Accéder à la vue Compare depuis l’onglet Playground](#access-the-compare-view-from-the-playground-tab)
@@ -460,9 +461,9 @@ Vous pouvez comparer plusieurs modèles d’Inférence dans le Playground. La vu
 </div>
 
 1. Dans la barre latérale gauche, sélectionnez **Inférence**. Une page affichant les modèles disponibles et les informations sur les modèles s’ouvre.
-2. Pour sélectionner les modèles à comparer, cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle). La bordure de la carte de modèle est surlignée en bleu pour indiquer la sélection.
+2. Pour sélectionner les modèles à comparer, cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle). La bordure de la carte de modèle se surligne en bleu pour indiquer la sélection.
 3. Répétez l’étape 2 pour chaque modèle que vous souhaitez comparer.
-4. Sur l’une des cartes sélectionnées, cliquez sur le bouton **Comparer N modèles dans le Playground** (`N` correspond au nombre de modèles que vous comparez. Par exemple, lorsque 3 modèles sont sélectionnés, le bouton s’affiche sous la forme **Comparer 3 modèles dans le Playground**). La vue de comparaison s’ouvre.
+4. Sur l’une des cartes sélectionnées, cliquez sur le bouton **Comparer N modèles dans le Playground** (`N` correspond au nombre de modèles que vous comparez. Par exemple, lorsque vous sélectionnez 3 modèles, le bouton s’affiche sous la forme **Comparer 3 modèles dans le Playground**). La vue de comparaison s’ouvre.
 
 Vous pouvez maintenant comparer des modèles dans le Playground et utiliser n’importe laquelle des fonctionnalités décrites dans [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
 
@@ -479,7 +480,7 @@ Vous pouvez maintenant comparer des modèles dans le Playground et utiliser n’
 3. Dans la liste déroulante, sélectionnez **Compare**. L’onglet **Inférence** s’affiche.
 4. Pour sélectionner des modèles à comparer, cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle). La bordure de la carte de modèle se surligne en bleu pour indiquer la sélection.
 5. Répétez l’étape 4 pour chaque modèle que vous souhaitez comparer.
-6. Dans l’une des cartes sélectionnées, cliquez sur le bouton **Comparer N modèles dans le Playground** (`N` correspond au nombre de modèles que vous comparez. Par exemple, lorsque 3 modèles sont sélectionnés, le bouton s’affiche sous la forme **Comparer 3 modèles dans le Playground**). La vue de comparaison s’ouvre.
+6. Dans l’une des cartes sélectionnées, cliquez sur le bouton **Comparer N modèles dans le Playground** (`N` correspond au nombre de modèles que vous comparez. Par exemple, lorsque vous sélectionnez 3 modèles, le bouton s’affiche sous la forme **Comparer 3 modèles dans le Playground**). La vue de comparaison s’ouvre.
 
 Vous pouvez maintenant comparer des modèles dans le Playground et utiliser toutes les fonctionnalités décrites dans [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
 
@@ -491,19 +492,18 @@ Les Administrateurs de l’organisation peuvent suivre directement dans l’inte
 
 1. Dans l’interface W&amp;B, accédez à la page **Billing** de W&amp;B.
 2. Dans l’angle inférieur droit, la carte d’informations de facturation d’Inférence s’affiche. Depuis cette carte, vous pouvez :
-
-* Cliquer sur le bouton **View usage** dans la carte d’informations de facturation d’Inférence pour consulter votre utilisation au fil du temps.
-* Si vous utilisez un plan payant, consulter vos prochains frais d’inférence.
+   * Cliquer sur le bouton **View usage** dans la carte d’informations de facturation d’Inférence pour consulter votre utilisation au fil du temps.
+   * Si vous utilisez un plan payant, consulter vos prochains frais d’inférence.
 
 <Tip>
-  Consultez la [page de tarification de l’Inférence pour obtenir le détail des tarifs par modèle](https://wandb.ai/site/pricing/inference)
+  Consultez la [page de tarification de l’Inférence pour obtenir le détail des tarifs par modèle](https://wandb.ai/site/pricing/inference).
 </Tip>
 
 <div id="usage-information-and-limits">
   ## Informations d’utilisation et limites
 </div>
 
-La section suivante présente des informations importantes sur l’utilisation et les limites. Prenez-en connaissance avant d’utiliser le service.
+Les sections suivantes présentent des informations importantes sur l’utilisation et les limites, notamment les restrictions géographiques, les limites de concurrence et la tarification. Prenez-en connaissance avant d’utiliser le service.
 
 <div id="geographic-restrictions">
   ### Restrictions géographiques
@@ -517,9 +517,9 @@ Le service d’Inférence est accessible uniquement depuis des zones géographiq
 
 Pour garantir une utilisation équitable et des performances stables, la API Serverless Inference applique des limites de débit au niveau de l’utilisateur et du projet. Ces limites permettent de :
 
-* Prévenir les abus et protéger la stabilité de l’API
-* Garantir l’accès à tous les utilisateurs
-* Gérer efficacement la charge de l’infrastructure
+* Prévenir les abus et protéger la stabilité de l’API.
+* Garantir l’accès à tous les utilisateurs.
+* Gérer efficacement la charge de l’infrastructure.
 
 Si une limite de débit est dépassée, l’API renvoie une réponse `429 Concurrency limit reached for requests`. Pour résoudre cette erreur, réduisez le nombre de requêtes simultanées.
 
@@ -532,6 +532,8 @@ Pour connaître la tarification des modèles, consultez [https://wandb.ai/site/p
 <div id="api-errors">
   ## Erreurs d’API
 </div>
+
+Le tableau suivant répertorie les erreurs que l’API d’Inférence peut renvoyer, ainsi que leurs causes et les solutions recommandées.
 
 | Code d’erreur | Message                                                                                             | Cause                                                                                        | Solution                                                                                                     |
 | ------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |

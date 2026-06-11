@@ -1,13 +1,16 @@
 ---
 title: Plugin pour Claude Code
 description: Suivez les sessions de Claude Code dans W&B Weave pour l’observabilité et le débogage.
+keywords: ["Claude Code", "OTEL", "tracing", "agents", "plugin"]
 ---
 
 import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-Le plugin Weave Claude Code trace automatiquement chaque session Claude Code et envoie les données structurées à W&amp;B Weave. Chaque tour de conversation, appel d’outil et sous-agent est enregistré sans aucune modification du code. Utilisez ces traces pour déboguer les sessions, auditer l’utilisation des outils et surveiller le coût et la latence sur l’ensemble des runs.
+Le plugin Weave Claude Code trace automatiquement chaque session Claude Code et envoie les données structurées à W&amp;B Weave. Le plugin enregistre chaque tour de conversation, appel d’outil et sous-agent sans aucune modification du code. Utilisez ces traces pour déboguer les sessions, auditer l’utilisation des outils et surveiller le coût et la latence sur l’ensemble des runs.
+
+Ce guide vous accompagne dans l’installation du plugin, la consultation de vos traces Claude Code dans Weave, la configuration du plugin et la gestion de son cycle de vie.
 
 <Warning>
   Ce plugin envoie à Weave les données des sessions Claude Code. Ces données peuvent inclure les prompts des utilisateurs, les réponses de Claude, les entrées et sorties des outils, le contenu des fichiers lus par les outils Claude Code, les commandes shell et leur sortie, ainsi que les URL récupérées et le contenu des pages.
@@ -28,14 +31,16 @@ Le plugin Weave Claude Code trace automatiquement chaque session Claude Code et 
   ## Installez le plugin
 </div>
 
+Installez le CLI, exécutez le programme d’installation pour enregistrer le plugin auprès de Claude Code, puis démarrez une session Claude Code pour commencer le traçage.
+
 <Steps>
-  <Step title="Installez le CLI :">
+  <Step title="Installez le CLI">
     ```bash lines
     npm install -g weave-claude-code
     ```
   </Step>
 
-  <Step title="Exécutez le programme d’installation :">
+  <Step title="Exécutez le programme d’installation">
     ```bash lines
     weave-claude-code install
     ```
@@ -57,12 +62,12 @@ Le plugin Weave Claude Code trace automatiquement chaque session Claude Code et 
     En mode non interactif, le programme d’installation crée toujours le fichier de configuration et enregistre le plugin. Il récupère `WEAVE_PROJECT` et `WANDB_API_KEY` depuis l’environnement et affiche un avertissement si l’une des deux valeurs est absente.
   </Step>
 
-  <Step title="Démarrez Claude Code :">
+  <Step title="Démarrez Claude Code">
     ```bash lines
     claude
     ```
 
-    Les sessions sont automatiquement tracées à partir de ce point. Exécutez un ou deux prompts, puis ouvrez votre projet Weave pour voir les traces apparaître.
+    Le plugin trace automatiquement les sessions à partir de ce point. Exécutez un ou deux prompts, puis ouvrez votre projet Weave pour voir les traces apparaître.
   </Step>
 </Steps>
 
@@ -76,7 +81,7 @@ Après avoir exécuté au moins une session Claude Code, ouvrez votre projet dan
 2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agent enregistrées dans votre projet.
 3. Sélectionnez une conversation pour examiner l’arborescence complète de la session.
 
-Pour en savoir plus sur la vue Agents, voir [Afficher l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).
+Pour plus d’informations sur la vue Agents, voir [Afficher l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).
 
 Chaque prompt utilisateur produit une trace OTEL conforme aux [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/). La trace affiche une hiérarchie complète des tours de conversation :
 
@@ -89,11 +94,13 @@ invoke_agent claude-code               (Racine, une trace par prompt utilisateur
    └─ execute_tool <tool_name>
 ```
 
-Les conversations comportant plusieurs tours de conversation sont associées côté serveur via l&#39;ID de session, afin que vous puissiez suivre une conversation complète à travers plusieurs traces. Chaque span inclut l&#39;utilisation des jetons, le nom du modèle, les entrées et sorties des outils, les informations de temporisation, ainsi que le contenu textuel des prompts et des réponses. Pour plus de détails, voir [Ce qui est tracé](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) sur GitHub.
+Les conversations comportant plusieurs tours de conversation sont associées côté serveur via l&#39;ID de session, afin que vous puissiez suivre une conversation à travers plusieurs traces. Chaque span inclut l&#39;utilisation des jetons, le nom du modèle, les entrées et sorties des outils, les informations de temporisation, ainsi que le contenu textuel des prompts et des réponses. Pour plus d’informations sur les données tracées, voir [Ce qui est tracé](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) sur GitHub.
 
 <div id="configure-the-plugin">
   ## Configurer le plugin
 </div>
+
+Utilisez les commandes `weave-claude-code config` pour afficher ou mettre à jour les paramètres du plugin après l’installation :
 
 ```bash lines
 # Afficher tous les paramètres actuels.
@@ -121,7 +128,7 @@ Après l&#39;installation, trois compétences propres à Weave sont disponibles 
 
 | Skill         | Command                | Description                                                                                                                                                                                                      |
 | ------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Installation  | `/weave:weave-install` | Vous guide de manière interactive tout au long du processus complet d&#39;installation et de configuration. À utiliser sur une nouvelle machine ou pour diagnostiquer une installation défectueuse.              |
+| Installation  | `/weave:weave-install` | Vous guide de manière interactive tout au long du processus d&#39;installation et de configuration. À utiliser sur une nouvelle machine ou pour diagnostiquer une installation défectueuse.                      |
 | Statut        | `/weave:weave-status`  | Vérifie le statut actuel du plugin et explique les éventuels problèmes. Équivalent à l&#39;exécution de `weave-claude-code status`, mais Claude interprète la sortie et vous indique ce qu&#39;il faut corriger. |
 | Configuration | `/weave:weave-config`  | Permet de lire ou de mettre à jour la configuration du plugin sans quitter Claude Code.                                                                                                                          |
 
@@ -175,11 +182,13 @@ Le plugin exécute un démon en arrière-plan qui lit `WANDB_BASE_URL` au démar
    printf '{"command":"shutdown"}' | nc -U -w1 ~/.weave-claude-code/daemon.sock
    ```
 2. Définissez `WANDB_BASE_URL`, ou exécutez `wandb login --host https://[YOUR-INSTANCE].wandb.io` pour conserver ce paramètre d’une session à l’autre.
-3. Relancez Claude Code. Le démon redémarre automatiquement et prend en compte l’URL correcte.
+3. Relancez Claude Code. Le démon redémarre automatiquement et utilise l’URL correcte.
 
 <div id="uninstall">
   ## Désinstallation
 </div>
+
+Pour désinstaller le plugin de Claude Code, exécutez :
 
 ```bash lines
 weave-claude-code uninstall

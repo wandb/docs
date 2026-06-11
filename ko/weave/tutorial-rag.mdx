@@ -1,6 +1,7 @@
 ---
 title: "RAG 애플리케이션 평가하기"
 description: "Weave와 LLM 기반 평가자를 사용해 RAG 애플리케이션을 구축하고 평가합니다"
+keywords: [검색 증강 생성, LLM judge, 컨텍스트 정밀도, Scorer, 임베딩]
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
@@ -13,27 +14,31 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
 </div>
 
-검색 증강 생성(RAG)은 맞춤형 지식 베이스를 활용할 수 있는 생성형 AI 애플리케이션을 구축하는 일반적인 방법입니다.
+검색 증강 생성(RAG)은 맞춤형 지식 베이스를 활용할 수 있는 생성형 AI 애플리케이션을 구축하는 일반적인 방법입니다. 이 튜토리얼에서는 RAG 애플리케이션을 구축하고, Weave를 사용해 검색 step을 추적하고, LLM 기반 평가자로 응답을 평가하는 방법을 안내합니다. 이를 통해 애플리케이션이 반환하는 답변의 품질을 측정하고 개선할 수 있습니다.
+
+이 가이드는 파이프라인에 관측성과 체계적인 평가를 추가하려는 RAG 애플리케이션 개발자를 위한 것입니다.
 
 ![Evals 대표 이미지](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## 학습할 내용:
+  ## 학습할 내용
 </div>
 
 이 가이드에서는 다음을 설명합니다:
 
-* 지식 베이스 구축
-* 관련 문서를 찾는 검색 step이 포함된 RAG 애플리케이션 만들기
-* Weave로 검색 step 추적
-* 컨텍스트 정밀도를 측정하기 위해 LLM 기반 평가자를 사용해 RAG 애플리케이션 평가
-* 맞춤형 점수 함수 정의
+* 지식 베이스 구축.
+* 관련 문서를 찾는 검색 step이 포함된 RAG 애플리케이션 만들기.
+* Weave로 검색 step 추적.
+* 컨텍스트 정밀도를 측정하기 위해 LLM 기반 평가자를 사용해 RAG 애플리케이션 평가.
+* 맞춤형 점수 함수 정의.
 
 <WeaveQuickstartPrereqs />
 
 <div id="build-a-knowledge-base">
   ## 지식 베이스 구축하기
 </div>
+
+지식 베이스는 RAG 애플리케이션이 쿼리 시점에 검색하는 코퍼스입니다. 이 섹션에서는 소규모 아티클 집합에 대한 벡터 임베딩을 계산하여, 나중에 주어진 질문에 가장 관련성이 높은 아티클을 가져올 수 있도록 합니다.
 
 먼저 아티클의 임베딩을 계산합니다. 일반적으로는 아티클별로 이 작업을 한 번만 수행한 뒤 임베딩과 메타데이터를 데이터베이스에 저장하지만, 여기서는 단순화를 위해 스크립트를 실행할 때마다 수행합니다.
 
@@ -125,7 +130,9 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   ## RAG 앱 만들기
 </div>
 
-다음으로, 검색 함수 `get_most_relevant_document`를 `weave.op()` 데코레이터로 래핑하고 `Model` 클래스를 만듭니다. `weave.init('<team-name>/rag-quickstart')`를 호출해 나중에 확인할 수 있도록 함수의 모든 inputs와 outputs 추적을 시작합니다. 팀 이름을 지정하지 않으면 출력은 [W&amp;B 기본 team 또는 entity](/ko/platform/app/settings-page/user-settings#default-team)에 기록됩니다.
+지식 베이스가 준비되었으므로 이제 RAG 애플리케이션 자체를 구축할 수 있습니다. 이 섹션에서는 검색 단계와 LLM Call을 결합하고, 둘 다 Weave로 래핑하여 모든 입력과 출력이 자동으로 추적되도록 합니다.
+
+다음으로, 검색 함수 `get_most_relevant_document`를 `weave.op()` 데코레이터로 래핑하고 `Model` 클래스를 만듭니다. 검색 함수를 `weave.op()`로 래핑하면 Weave가 모든 call에 대한 inputs와 outputs를 캡처할 수 있으며, 이로써 나중에 검색 step을 검사할 수 있게 됩니다. `weave.init('<team-name>/rag-quickstart')`를 호출해 나중에 확인할 수 있도록 함수의 모든 inputs와 outputs 추적을 시작합니다. 팀 이름을 지정하지 않으면 출력은 [W&amp;B 기본 team 또는 entity](/ko/platform/app/settings-page/user-settings#default-team)에 기록됩니다.
 
 <Tabs>
   <Tab title="Python">
@@ -239,17 +246,19 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-<div id="evaluating-with-an-llm-judge">
-  ## LLM Judge로 평가하기
+<div id="evaluate-with-an-llm-judge">
+  ## LLM 기반 평가자로 평가하기
 </div>
 
-애플리케이션을 평가할 단순한 방법이 없을 때는, LLM을 사용해 애플리케이션의 일부 측면을 평가하는 것도 한 가지 방법입니다. 다음은 주어진 답변에 도달하는 데 컨텍스트가 유용했는지 확인하도록 프롬프트해, 컨텍스트 정밀도를 측정해 보려는 LLM 기반 평가자 사용 예시입니다. 이 프롬프트는 널리 사용되는 [RAGAS 프레임워크](https://docs.ragas.io/en/stable/)를 바탕으로 보강되었습니다.
+이제 RAG 애플리케이션이 실행되고 Weave로 추적되고 있으므로, 다음 단계는 질문에 얼마나 잘 답하는지 평가하는 것입니다. 이 섹션에서는 LLM을 자동 평가자로 사용하는 방법을 보여주므로, 레이블을 수동으로 작성하지 않고도 애플리케이션의 응답에 점수를 매길 수 있습니다.
 
-<div id="defining-a-scoring-function">
+애플리케이션을 평가할 단순한 방법이 없을 때는, LLM을 사용해 애플리케이션의 일부 측면을 평가하는 것도 한 가지 방법입니다. 다음은 주어진 답변에 도달하는 데 컨텍스트가 유용했는지 확인하도록 프롬프트해, 컨텍스트 정밀도를 측정하는 LLM 기반 평가자 사용 예시입니다. 이 프롬프트는 널리 사용되는 [RAGAS 프레임워크](https://docs.ragas.io/en/stable/)를 바탕으로 보강되었습니다.
+
+<div id="define-a-scoring-function">
   ### 점수 함수 정의하기
 </div>
 
-[Build an Evaluation pipeline tutorial](/ko/weave/tutorial-eval)과 마찬가지로, 앱을 테스트할 예시 행 집합과 점수 함수를 정의합니다. 점수 함수는 각 행을 하나씩 받아 평가합니다. 입력 매개변수는 해당 행의 키와 일치해야 하므로, 여기서 `question`은 행 딕셔너리에서 가져옵니다. `output`은 모델의 출력입니다. 모델 입력도 입력 인수에 따라 예시에서 가져오므로, 여기서 역시 `question`이 사용됩니다. 이 예제는 `async` 함수를 사용하므로 병렬로 빠르게 실행됩니다. async에 대한 간단한 소개가 필요하면 [여기](https://docs.python.org/3/library/asyncio.html)를 참고하세요.
+[Build an Evaluation pipeline tutorial](/ko/weave/tutorial-eval)과 마찬가지로, 앱을 테스트할 예시 행 집합과 점수 함수를 정의합니다. 점수 함수는 각 행을 하나씩 받아 평가합니다. 입력 매개변수는 해당 행의 키와 일치해야 하므로, 여기서 `question`은 행 딕셔너리에서 가져옵니다. `output`은 모델의 출력입니다. 모델 입력도 입력 인수에 따라 예시에서 가져오므로, 여기서 역시 `question`이 사용됩니다. 이 예제는 `async` 함수를 사용하므로 병렬로 실행됩니다. async에 대한 간단한 소개는 [Python `asyncio` 문서](https://docs.python.org/3/library/asyncio.html)를 참고하세요.
 
 <Tabs>
   <Tab title="Python">
@@ -336,19 +345,21 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-<div id="optional-defining-a-scorer-class">
+<div id="optional-define-a-scorer-class">
   ### 선택 사항: `Scorer` 클래스 정의하기
 </div>
 
+이전 섹션의 점수 함수는 단순한 경우에는 잘 작동하지만, 여러 평가에서 동일한 judge를 재사용하거나 점수 집계 방식을 사용자 지정하려는 경우에는 `Scorer` 클래스가 유용합니다. 다음 단계에서는 이를 언제, 어떻게 정의하는지 보여줍니다.
+
 일부 애플리케이션에서는 맞춤형 평가 클래스를 만들고 싶을 수 있습니다. 예를 들어 특정 매개변수(예: chat model 및 prompt), 각 행에 대한 특정 채점 방식, 집계 점수의 특정 계산 방식을 갖는 표준화된 `LLMJudge` 클래스를 만들어야 할 수 있습니다. Weave는 바로 사용할 수 있는 `Scorer` 클래스 목록을 제공하며, 맞춤형 `Scorer`를 쉽게 만들 수 있도록 지원합니다. 다음 예제는 맞춤형 `class CorrectnessLLMJudge(Scorer)`를 만드는 방법을 보여줍니다.
 
-개략적으로 보면 맞춤형 Scorer를 만드는 단계는 매우 단순합니다:
+개략적으로 보면 맞춤형 Scorer를 만드는 단계는 다음과 같습니다:
 
-1. `weave.flow.scorer.Scorer`를 상속하는 맞춤형 클래스를 정의합니다
-2. `score` 함수를 재정의하고, 함수의 각 call을 추적하려면 `@weave.op()`을 추가합니다
-   * 이 함수는 모델의 예측 결과가 전달될 `output` 인수를 정의해야 합니다. 모델이 &quot;None&quot;을 반환할 수 있다면 유형을 `Optional[dict]`로 정의하세요.
-   * 나머지 인수는 일반 `Any` 또는 `dict`일 수도 있고, `weave.Evaluate` 클래스를 사용해 모델을 평가할 때 사용하는 데이터셋에서 특정 column을 선택할 수도 있습니다. 이 인수들의 이름은 column 이름과 정확히 같아야 하며, `preprocess_model_input`을 사용하는 경우에는 그 처리를 거친 뒤 단일 행의 키 이름과 정확히 일치해야 합니다.
-3. *선택 사항:* 집계 점수 계산을 사용자 지정하려면 `summarize` 함수를 재정의합니다. 기본적으로 맞춤형 함수를 정의하지 않으면 Weave는 `weave.flow.scorer.auto_summarize` 함수를 사용합니다.
+1. `weave.flow.scorer.Scorer`를 상속하는 맞춤형 클래스를 정의합니다.
+2. `score` 함수를 재정의하고, 함수의 각 call을 추적하려면 `@weave.op()`을 추가합니다.
+   * 이 함수는 모델의 예측 결과가 전달될 `output` 인수를 정의해야 합니다. 모델이 &quot;None&quot;을 반환하는 경우를 대비해 유형을 `Optional[dict]`로 정의하세요.
+   * 나머지 인수는 일반 `Any` 또는 `dict`일 수도 있고, `weave.Evaluate` 클래스를 사용해 모델을 평가하는 데 사용되는 데이터셋에서 특정 column을 선택할 수도 있습니다. 이 인수들의 이름은 column 이름과 정확히 같아야 하며, `preprocess_model_input`을 사용하는 경우에는 그 처리를 거친 뒤 단일 행의 키 이름과 정확히 일치해야 합니다.
+3. 선택 사항: 집계 점수 계산을 사용자 지정하려면 `summarize` 함수를 재정의합니다. 기본적으로 맞춤형 함수를 정의하지 않으면 Weave는 `weave.flow.scorer.auto_summarize` 함수를 사용합니다.
    * 이 함수에는 `@weave.op()` decorator가 있어야 합니다.
 
 <Tabs>
@@ -428,7 +439,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-이것을 scorer로 사용하려면 초기화한 다음 `Evaluation`의 `scorers` 인수에 다음과 같이 전달합니다:
+이를 Scorer로 사용하려면 먼저 초기화한 후, 다음과 같이 `Evaluation`의 `scorers` 인수로 전달하세요:
 
 <Tabs>
   <Tab title="Python">
@@ -444,21 +455,23 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-<div id="pulling-it-all-together">
-  ## 전체 흐름 정리
+<div id="put-it-all-together">
+  ## 전체를 한데 모아보기
 </div>
+
+이 섹션에서는 앞선 단계의 모든 내용을 하나의 엔드투엔드 예시로 통합해, 각 요소가 어떻게 맞물리는지 보여주고 이를 자신의 RAG 애플리케이션에 맞게 조정할 수 있도록 합니다.
 
 RAG 앱에서 동일한 결과를 얻으려면 다음을 수행하세요.
 
-* LLM call과 검색 step 함수를 `weave.op()`으로 감싸기
-* (선택) `predict` 함수와 앱 정보를 포함한 `Model` 하위 클래스 만들기
-* 평가할 예제 수집하기
-* 단일 예제를 채점하는 `점수 함수` 만들기
-* `Evaluation` 클래스를 사용해 예제에 대한 평가 실행하기
+* LLM Call과 검색 단계 함수를 `weave.op()`으로 래핑하세요.
+* 선택: `predict` 함수와 앱 세부 정보를 포함하는 `Model` 하위 클래스를 만드세요.
+* 평가할 예시를 수집하세요.
+* 하나의 예시에 점수를 매기는 점수 함수를 만드세요.
+* `Evaluation` 클래스를 사용해 예시에 대해 평가를 실행하세요.
 
-**참고:** 경우에 따라 `Evaluation`이 비동기로 실행되면서 OpenAI, Anthropic 및 기타 모델에서 요청 속도 제한이 트리거될 수 있습니다. 이를 방지하려면 병렬 worker 수를 제한하는 환경 변수를 설정하면 됩니다. 예를 들어 `WEAVE_PARALLELISM=3`입니다.
+**참고:** 경우에 따라 Evaluation의 비동기 실행으로 인해 OpenAI, Anthropic 등의 모델 API에서 요청 속도 제한에 걸릴 수 있습니다. 이를 방지하려면 병렬 워커 수를 제한하는 환경 변수를 설정할 수 있습니다. 예: `WEAVE_PARALLELISM=3`.
 
-전체 코드는 다음과 같습니다.
+다음은 전체 코드입니다.
 
 <Tabs>
   <Tab title="Python">
@@ -781,10 +794,10 @@ RAG 앱에서 동일한 결과를 얻으려면 다음을 수행하세요.
   ## 결론
 </div>
 
-이 튜토리얼에서는 이 예제의 검색 step처럼 애플리케이션의 여러 단계에 observability를 적용하는 방법을 살펴보았습니다. 또한 애플리케이션 응답을 자동으로 평가하기 위해 LLM 기반 평가자와 같은 더 복잡한 점수 함수를 만드는 방법도 배웠습니다.
+이 튜토리얼에서는 이 예제의 검색 step처럼 애플리케이션의 여러 단계에 관측성을 적용하는 방법을 살펴보았습니다. 또한 애플리케이션 응답을 자동으로 평가하기 위해 LLM 기반 평가자와 같은 더 복잡한 점수 함수를 만드는 방법도 배웠습니다.
 
 <div id="next-steps">
   ## 다음 단계
 </div>
 
-엔지니어를 위한 실용적인 RAG 기법을 한층 더 깊이 있게 다루는 [RAG++ 과정](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs)을 확인해 보세요. 이 과정에서는 Weights &amp; Biases, Cohere, Weaviate가 제공하는 프로덕션 환경에 바로 적용할 수 있는 솔루션을 통해 성능을 최적화하고, 비용을 절감하며, 애플리케이션의 정확도와 관련성을 높이는 방법을 배울 수 있습니다.
+엔지니어를 위한 실용적인 RAG 기법을 한층 더 깊이 있게 다루는 [RAG++ 과정](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs)을 확인해 보세요. 이 과정에서는 W&amp;B, Cohere, Weaviate가 제공하는 프로덕션 환경에 바로 적용할 수 있는 솔루션을 통해 성능을 최적화하고, 비용을 절감하며, 애플리케이션의 정확도와 관련성을 높이는 방법을 배울 수 있습니다.
