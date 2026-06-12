@@ -3,24 +3,24 @@ title: "How can I change the privacy of my project?"
 keywords: ["Privacy", "Projects"]
 ---
 
+import ProjectVisibilityScopesTable from "/snippets/_includes/project-visibility-scopes-table.mdx";
+
 A project's privacy setting controls who can view, edit, or submit runs to the project. To change a project's privacy (visibility):
 
-1. In the W&B App, from any page in the project, click **Overview** in the project sidebar.
-1. At the top right, click **Edit**.
-1. Choose a new value for **Project visibility**:
+1. Navigate to your W&B project.
+2. From the top of any project page, click the icon next to the project name to edit the project's visibility. The icon reflects the current visibility scope: **Open**, **Public**, **Team**, or **Restricted**. See [Visibility scopes](#visibility-scopes).
+3. From the **Project Visibility** dropdown, select the desired scope, then click **Save**.
 
-    - **Team** (default): Only your team can view and edit the project.
-    - **Restricted**: Only invited members can access the project, and public access is turned off.
-    - **Open**: Anyone can submit runs or create reports, but only your team can edit it. Appropriate only for classroom settings, public benchmark competitions, or other non-durable contexts.
-    - **Public**: Anyone can view the project, but only your team can edit it.
+    <ProjectVisibilityScopesTable />
 
-        <Note>
-        If your W&B admins have turned off **Public** visibility, you can't choose it. Instead, you can share a view-only [W&B Report](/models/reports/collaborate-on-reports#share-a-report), or contact your W&B organization's admins for assistance.
-        </Note>
+    <Note>
+    If your W&B admins have turned off **Public** visibility, you can't choose it. Instead, you can share a view-only [W&B Report](/models/reports/collaborate-on-reports#share-a-report), or contact your W&B organization's admins for assistance.
+    </Note>
 1. Click **Save**.
     
 The project now uses the privacy setting you selected. If you update a project to a stricter privacy setting, you may need to re-invite individual users to restore their ability to access the project.
 
+For details, see [Manage access control for projects](platform/hosting/iam/access-management/restricted-projects).
 ---
 
 {/* AUTO-GENERATED: tab badges */}
