@@ -87,6 +87,8 @@ invoke_agent claude-code               (Root, one trace per user prompt.)
    └─ execute_tool <tool_name>
 ```
 
+The root `invoke_agent claude-code` span uses the top-level agent name, which defaults to `claude-code`. You can change it with the `agent_name` setting or the `WEAVE_AGENT_NAME` environment variable (see [Configure the plugin](#configure-the-plugin)). Subagents keep their own type names.
+
 Multi-turn conversations are linked server-side by session ID, so you can follow a conversation across multiple traces. Each span includes token usage, model name, tool inputs and outputs, timing, and the textual content of prompts and responses. For more information about traced data, see [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) in GitHub.
 
 ## Configure the plugin
@@ -102,13 +104,19 @@ weave-claude-code config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
 
 # Set your W&B API key.
 weave-claude-code config set wandb_api_key [YOUR-API-KEY]
+
+# (Optional) Customize the agent name shown in the Agents view.
+weave-claude-code config set agent_name [YOUR-AGENT-NAME]
 ```
+
+By default, sessions appear under the agent name `claude-code` in the Agents view. Set `agent_name` to use a different name, for example to distinguish teams or projects. The name can't be empty, and surrounding whitespace is trimmed.
 
 Environment variables take precedence over the settings file:
 
 ```bash lines
 export WEAVE_PROJECT=[YOUR-TEAM]/[YOUR-PROJECT]
 export WANDB_API_KEY=[YOUR-API-KEY]
+export WEAVE_AGENT_NAME=[YOUR-AGENT-NAME]
 ```
 
 ## Weave skills
@@ -126,6 +134,7 @@ You can use the `weave:weave-config` skill to set Weave values from within Claud
 ```text
 /weave:weave-config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
 /weave:weave-config set wandb_api_key [YOUR-API-KEY]
+/weave:weave-config set agent_name [YOUR-AGENT-NAME]
 ```
 
 ## Check plugin status
