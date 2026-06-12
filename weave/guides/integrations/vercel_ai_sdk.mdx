@@ -38,7 +38,8 @@ Next.js applications use an `instrumentation.ts` file to set up OTel. This file 
 
 To integrate Weave with Vercel's OTeL's functionality, create an `instrumentation.ts` file in your project root and add the following code to it, updating the `resourceFromAttributes()` function with your team and project names:
 
-```typescript instrumentation.ts lines {17-19}
+```typescript twoslash instrumentation.ts lines {17-19}
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
@@ -72,7 +73,8 @@ This creates an OTLP exporter configured to send trace data to Weave's OTel endp
 
 Once you've added the instrumentation, use Vercel's `experimental_telemetry` option on any AI SDK function call to emit OTel spans:
 
-```typescript route.ts lines {10}
+```typescript twoslash route.ts lines {10}
+// @noErrors
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
@@ -98,7 +100,8 @@ For standalone Node.js applications (without Next.js), configure the tracer prov
 
 After meeting the prerequisites, you can run this example and generate spans without any additional configuration.
 
-```typescript lines {11-14,18-19,31} title="test-app.ts"
+```typescript twoslash lines {11-14,18-19,31} title="test-app.ts"
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";

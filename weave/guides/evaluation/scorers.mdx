@@ -57,7 +57,8 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   </Tab>
   <Tab title="TypeScript">
     These are functions wrapped with `weave.op` that accept an object with `modelOutput` and optionally `datasetRow`.  They're great for simple evaluations like:
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     const evaluateUppercase = weave.op(
@@ -221,7 +222,8 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     You can easily access relevant columns from the dataset row by adding a `datasetRow` keyword argument to your scorer definition.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -243,7 +245,8 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Example:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;

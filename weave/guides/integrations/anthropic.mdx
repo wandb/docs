@@ -43,7 +43,8 @@ print(message.content)
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
 import { wrapAnthropic } from 'weave';
@@ -114,7 +115,8 @@ print(generate_joke("cars"))
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
 import { wrapAnthropic } from 'weave';
@@ -247,7 +249,8 @@ print(message)
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 const message = await client.messages.create({
     max_tokens: 1024,
     messages: [

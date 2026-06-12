@@ -34,7 +34,8 @@ To export Calls:
   </Tab>
   <Tab title="TypeScript">
   To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method.
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave'
 
   // Initialize the client
@@ -162,7 +163,8 @@ response = requests.post(url, json=payload, auth=("api", API_KEY))
 print(json.dumps(response.json(), indent=2))
 ```
 
-```typescript TypeScript lines {6-7,13-20}
+```typescript twoslash TypeScript lines {6-7,13-20}
+// @noErrors
 const url = "https://trace.wandb.ai/calls/stats";
 
 const payload = {

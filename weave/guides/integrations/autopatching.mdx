@@ -94,7 +94,8 @@ Additionally, the TypeScript SDK does not support:
 
 For edge cases where automatic patching does not work (ESM, bundlers like Next.js), use explicit wrapping:
 
-```typescript
+```typescript twoslash
+// @noErrors
 import OpenAI from 'openai'
 import * as weave from 'weave'
 import { wrapOpenAI } from 'weave'

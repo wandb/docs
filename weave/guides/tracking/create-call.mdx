@@ -40,7 +40,8 @@ Import the LLM or framework library, initialize your Weave project, and then Wea
   </Tab>
   <Tab title="TypeScript">
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
 
@@ -98,7 +99,8 @@ Often LLM applications have additional logic (such as pre/post processing, promp
   <Tab title="TypeScript">
     Weave allows you to manually track these Calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/functions/op). For example:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     await weave.init('intro-example')
@@ -112,13 +114,15 @@ Often LLM applications have additional logic (such as pre/post processing, promp
 
     You can also define the wrapping inline:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
     ```
 
     This works for both functions as well as methods on classes:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class MyClass {
         constructor() {
             this.myMethod = weave.op(this.myMethod)
@@ -171,7 +175,8 @@ You can also track class and object methods. You can track any method in a class
 
     You can apply `@weave.op` to instance methods for tracing.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class Foo {
         @weave.op
         async predict(prompt: string) {
@@ -182,7 +187,8 @@ You can also track class and object methods. You can track any method in a class
 
     You can also apply `@weave.op` to static methods to monitor utility functions within a class.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class MathOps {
         @weave.op
         static square(n: number): number {

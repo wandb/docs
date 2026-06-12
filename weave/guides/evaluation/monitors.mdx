@@ -82,7 +82,8 @@ generate_statement("The Earth revolves around the Sun.")
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
 
@@ -151,7 +152,8 @@ generate_statement("The Great Wall of China was built over several centuries.")
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 await generateStatement("The Earth revolves around the Sun.");
 await generateStatement("Water freezes at 0 degrees Celsius.");
 await generateStatement("The Great Wall of China was built over several centuries.");

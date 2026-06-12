@@ -9,7 +9,8 @@ This guide describes how to integrate third-party libraries (e.g., OpenAI) with 
 **What changed?**
 As of [PR #4554](https://github.com/wandb/weave/pull/4554), supported libraries such as OpenAI are automatically patched when Weave is loaded. You no longer need to manually wrap them, as was the case previously:
 
-```ts lines
+```ts twoslash lines
+// @noErrors
 weave.wrapOpenAI(new OpenAI());
 ```
 
@@ -222,7 +223,8 @@ Manual patching is the legacy approach. Only use it when auto-patching doesn't w
 
 In some cases, you may still need to use manual instrumentation:
 
-```ts lines
+```ts twoslash lines
+// @noErrors
 import { wrapOpenAI } from 'weave';
 const client = wrapOpenAI(new OpenAI());
 ```

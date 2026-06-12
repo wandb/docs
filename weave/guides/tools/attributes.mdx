@@ -43,7 +43,8 @@ with weave.attributes({'env': 'production', 'user_id': '12345'}):
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -95,7 +96,8 @@ with weave.attributes({
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -166,7 +168,8 @@ asyncio.run(evaluation.evaluate(model))  # Has all global attributes
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -223,7 +226,8 @@ with weave.attributes({'env': 'staging', 'experiment': 'A'}):
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -304,7 +308,8 @@ Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'ex
 
 Using the Weave TypeScript SDK, you can get the current attributes using `client.getCurrentAttributes()`. Unlike the Weave Python SDK, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from 'weave';
 import { withAttributes } from 'weave';
 

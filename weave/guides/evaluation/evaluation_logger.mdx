@@ -124,7 +124,8 @@ The fire-and-forget pattern is safe because `logSummary()` automatically waits f
 
 The following example evaluates model predictions with the fire-and-forget pattern. It sets up an evaluation logger, runs a simple model on three test samples, and then logs the prediction without using await:
 
-```typescript lines {36,50}
+```typescript twoslash lines {36,50}
+// @noErrors
 import weave, {EvaluationLogger} from 'weave';
 import OpenAI from 'openai';
 
@@ -183,7 +184,8 @@ Use awaitable API when you need to ensure each operation completes before procee
 
 In the following example, instead of calling `logPrediction()` without `await`, it uses `logPredictionAsync()` with `await` to ensure each operation completes before proceeding to the next one:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 // Use logPredictionAsync instead of logPrediction
 const scoreLogger = await evalLogger.logPredictionAsync(inputs, modelOutput);
 
@@ -309,7 +311,8 @@ TypeScript doesn't have Python's `with` statement pattern for context managers. 
 
 The following example logs a prediction, adds simple scores and an LLM judge score, then finalizes the prediction with `finish()`:
 
-```typescript lines {43}
+```typescript twoslash lines {43}
+// @noErrors
 import weave from 'weave';
 import OpenAI from 'openai';
 import {EvaluationLogger} from 'weave/evaluationLogger';
@@ -397,7 +400,8 @@ dataset = weave.ref("my_eval_dataset").get()
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 import weave, {EvaluationLogger, Dataset} from 'weave';
 
 await weave.init('your-team-name/your-project-name');
@@ -449,7 +453,8 @@ The fire-and-forget pattern excels when processing multiple predictions in paral
 
 The following example batch-processes evaluations in parallel by creating multiple concurrent instances of the `EvaluationLogger`:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 // Initialize EvaluationLogger BEFORE calling the model to ensure token tracking
 const ev = new EvaluationLogger({
   name: 'parallel-eval',
@@ -558,7 +563,8 @@ ev.log_summary()
 <Tab title="TypeScript">
 The TypeScript SDK supports logging images and audio using the `weaveImage` and `weaveAudio` functions. The following example loads image and audio files, processes them through a model, and logs the results with scores.
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import weave, {EvaluationLogger} from 'weave';
 import * as fs from 'fs';
 
@@ -657,7 +663,8 @@ for model in models:
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import weave from 'weave';
 import {EvaluationLogger} from 'weave/evaluationLogger';
 import {WeaveObject} from 'weave/weaveObject';
