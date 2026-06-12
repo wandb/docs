@@ -3,25 +3,27 @@ title: Find registry items
 description: "Learn how to search for registries, collections, and artifact versions in the W&B Registry using the global search bar or queries."
 ---
 
+This page describes how to locate registry items, either interactively through the W&B App or programmatically through the W&B Python SDK. Use these techniques to find a specific registry, collection, or artifact version. You can also filter a large set of items to those that match specific criteria.
+
 Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use queries to [filter registries, collections, and artifact versions](/models/registry/search_registry#query-registry-items) based on specific criteria using the W&B Python SDK.
 
 <Info>
-The syntax and available operators you can use to query W&B Registry is similar, but not identical, to MongoDB queries.
+The syntax and available operators you can use to query W&B Registry are similar, but not identical, to MongoDB queries.
 </Info>
 
 Only items that you have permission to view appear in the search results.
 
 ## Search for registry items
 
-Use the W&B App to search for a registry item:
+The following steps describe how to use the W&B App to search for a registry item:
 
 1. Navigate to the W&B Registry.
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
 
-Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
+Search results appear if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
 
 <Frame>
-    <img src="/images/registry/search_registry.gif" alt="Searching within a Registry"  />
+    <img src="/images/registry/search_registry.gif" alt="Searching within a Registry" />
 </Frame>
 
 ## Query registry items
@@ -44,15 +46,15 @@ The following sections describe the available registry [query names](/models/reg
 
 The following table lists query names you can use based on the type of item you want to filter:
 
-| | query name |
+| Item type | Query name |
 | ----- | ----- |
-| registries | `name`, `description`, `created_at`, `updated_at` |
-| collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
-| versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
+| Registries | `name`, `description`, `created_at`, `updated_at` |
+| Collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
+| Versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
 ### Supported operators
 
-W&B supports the following comparison and logical operators for filtering registry items:
+Use operators within a query predicate to express the comparison or logical relationship between a field and its value. W&B supports the following comparison and logical operators for filtering registry items.
 
 #### Comparison operators
 
@@ -79,14 +81,15 @@ W&B supports the following comparison and logical operators for filtering regist
 | Operator | Description |
 | ----- | ----- |
 | `$regex` | Regular expression pattern matching |
-| `$exists` | Field exists/doesn't exist |
+| `$exists` | Field exists or doesn't exist |
 | `$contains` | String contains value |
 
 ### Example queries
 
-The following code examples demonstrate some common search scenarios. 
+The following code examples demonstrate some common search scenarios. Use them as starting points and adapt the filters to match your own registry items.
 
-To use the `wandb.Api().registries()` method, first import the W&B Python SDK ([`wandb`](/models/ref/python/)) library:
+To use the `wandb.Api().registries()` method, first import the W&B Python SDK ([`wandb`](/models/ref/python/)) library so that the API client is available in your environment:
+
 ```python
 import wandb
 
@@ -106,11 +109,11 @@ registry_filters = {
 registries = api.registries(filter=registry_filters)
 ```
 
-Filter all collections, independent of registry, that contains the string `yolo` in the collection name:
+Filter all collections, independent of registry, that contain the string `yolo` in the collection name:
 
 ```python
 # Filter all collections, independent of registry, that 
-# contains the string `yolo` in the collection name
+# contain the string `yolo` in the collection name
 collection_filters = {
     "name": {"$regex": "yolo"}
 }
@@ -119,11 +122,11 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-Filter all collections, independent of registry, that contains the string `yolo` in the collection name and possesses `cnn` as a tag:
+Filter all collections, independent of registry, that contain the string `yolo` in the collection name and have `cnn` as a tag:
 
 ```python
-# Filter all collections, independent of registry, that contains the
-# string `yolo` in the collection name and possesses `cnn` as a tag
+# Filter all collections, independent of registry, that contain the
+# string `yolo` in the collection name and have `cnn` as a tag
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
@@ -133,11 +136,11 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-Find all artifact versions that contains the string `model` and has either the tag `image-classification` or an `latest` alias:
+Find all artifact versions that contain the string `model` and have either the tag `image-classification` or the `production` alias:
 
 ```python
-# Find all artifact versions that contains the string `model` and 
-# has either the tag `image-classification` or an `latest` alias
+# Find all artifact versions that contain the string `model` and 
+# have either the tag `image-classification` or the `production` alias
 registry_filters = {
     "name": {"$regex": "model"}
 }
@@ -154,26 +157,27 @@ version_filters = {
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-Each item in the `artifacts` iterable in the previous code snippet is an instance of the `Artifact` class. This means that you can access each artifact's attributes, such as `name`, `collection`, `aliases`, `tags`, `created_at`, and more:
+Each item in the `artifacts` iterable is an instance of the `Artifact` class. This means that you can access each artifact's attributes, such as `name`, `collection`, `aliases`, `tags`, and `created_at`:
 
 ```python
 for art in artifacts:
     print(f"artifact name: {art.name}")
-    print(f"collection artifact belongs to: { art.collection.name}")
+    print(f"collection artifact belongs to: {art.collection.name}")
     print(f"artifact aliases: {art.aliases}")
     print(f"tags attached to artifact: {art.tags}")
     print(f"artifact created at: {art.created_at}\n")
 ```
-For a complete list of an artifact object's attributes, see the [Artifacts Class](/models/ref/python/experiments/artifact/) in the API Reference docs. 
+
+For more information about an artifact object's attributes, see [Artifact](/models/ref/python/experiments/artifact/).
 
 Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:
 
 ```python
-# Find all artifact versions created between 2024-01-08 and 2025-03-04 at 13:10 UTC. 
+# Find all artifact versions created between 2024-01-08 and 2025-03-04 at 13:10 UTC.
 
 artifact_filters = {
     "alias": "latest",
-    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
+    "created_at": {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
 }
 
 # Returns an iterable of all artifact versions that match the filters
