@@ -4,7 +4,7 @@ description: "Utilisez les évaluateurs prédéfinis de Weave pour évaluer vos 
 keywords: [évaluateurs, évaluation, hallucination, synthèse, RAGAS]
 ---
 
-Weave propose plusieurs évaluateurs prédéfinis pour évaluer vos applications d&#39;IA, comme la [détection des hallucinations](#hallucinationfreescorer) et la [qualité des résumés](#summarizationscorer). Ils peuvent être utiles pour définir rapidement une évaluation et attribuer un score aux résultats de votre application. Cette page décrit chaque évaluateur intégré, ce qu&#39;il mesure et comment l&#39;utiliser dans une évaluation.
+W&amp;B Weave propose plusieurs évaluateurs prédéfinis pour évaluer vos applications d&#39;IA, comme la [détection des hallucinations](#hallucinationfreescorer) et la [qualité des résumés](#summarizationscorer). Ils peuvent être utiles pour définir rapidement une évaluation et attribuer un score aux sorties de votre application. Cette page décrit chaque évaluateur intégré, ce qu&#39;il mesure et comment l&#39;utiliser dans une évaluation.
 
 <Note>
   Les évaluateurs locaux sont disponibles uniquement pour le SDK Python de Weave. Ils ne sont pas encore disponibles pour le SDK TypeScript de Weave.
@@ -358,7 +358,7 @@ pydantic_scorer = PydanticScorer(model=FinancialReport)
   ## RAGAS - `ContextEntityRecallScorer`
 </div>
 
-Le `ContextEntityRecallScorer` estime le rappel du contexte en extrayant les entités à la fois de la sortie du système d’IA et du contexte fourni, puis en calculant le score de rappel. Il s’appuie sur la bibliothèque d’évaluation [RAGAS](https://github.com/explodinggradients/ragas).
+Le `ContextEntityRecallScorer` estime le rappel du contexte en extrayant les entités à la fois de la sortie du système d’IA et du contexte fourni, puis en calculant le score de rappel. Il s’appuie sur la bibliothèque d’évaluation Retrieval Augmented Generation Assessment ([RAGAS](https://github.com/explodinggradients/ragas)).
 
 ```python lines
 from weave.scorers import ContextEntityRecallScorer
@@ -384,7 +384,7 @@ entity_recall_scorer = ContextEntityRecallScorer(
   ## RAGAS - `ContextRelevancyScorer`
 </div>
 
-Le `ContextRelevancyScorer` évalue la pertinence du contexte fourni par rapport à la sortie du système d’IA. Il est basé sur la bibliothèque d’évaluation [RAGAS](https://github.com/explodinggradients/ragas).
+Le `ContextRelevancyScorer` évalue la pertinence du contexte fourni par rapport à la sortie du système d’IA. Il est basé sur la bibliothèque d’évaluation RAGAS.
 
 ```python lines
 from weave.scorers import ContextRelevancyScorer
