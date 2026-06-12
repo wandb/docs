@@ -1,0 +1,185 @@
+---
+title: LEET terminal UI
+description: Explore and compare local W&B runs from the terminal with the LEET (Lightweight Experiment Exploration Tool) TUI.
+---
+
+W&B LEET (Lightweight Experiment Exploration Tool) is a keyboard-driven terminal UI for exploring runs logged on the machine where you work. Use LEET to compare metrics, inspect system utilization, browse logged images, and tail console output without opening a browser. LEET reads local `.wandb` transaction logs, so you can inspect runs before they sync to the cloud.
+
+<Frame>
+  <img src="/images/leet/leet-workspace-all-panes.png" alt="W&B LEET workspace view with runs, metrics, system metrics, media, console logs, and run overview panes." />
+</Frame>
+
+## When to use LEET
+
+LEET is built for engineers who spend most of their time in a terminal, especially on remote machines, clusters, or SSH sessions where a graphical browser is slow or unavailable.
+
+| Surface | Best for |
+| --- | --- |
+| **LEET** | Local run folders on the machine that logged them; fast keyboard navigation; live monitoring while a job is still writing logs; SSH and `tmux` workflows. |
+| **[W&B App](/models/runs/view-logged-runs)** | Full project workspaces, team collaboration, reports, sweeps, artifacts, and rich panel types across synced cloud runs. |
+| **[W&B mobile app](/platform/hosting/monitoring-usage/mobile-app)** | Lightweight monitoring and alerts for synced cloud projects on a phone (Multi-tenant Cloud only). |
+
+LEET and the W&B App show the same underlying run data when that data exists locally and has been synced. LEET does not replace a project workspace in the browser. It is a different interface over local run files and live updates from an active training process.
+
+## Prerequisites
+
+Install or upgrade the W&B CLI to the latest release using `pip` or `uv`:
+
+<Tabs>
+<Tab title="pip">
+```bash
+pip install --upgrade wandb
+```
+</Tab>
+<Tab title="uv">
+```bash
+uv pip install --upgrade wandb
+```
+</Tab>
+</Tabs>
+
+This guide tracks the latest CLI behavior. For version-by-version changes, see the changelog in the [`wandb beta leet` CLI reference](/models/ref/cli/wandb-beta/wandb-beta-leet).
+
+<Note>
+`wandb beta leet` is a beta command. Its flags, shortcuts, and behavior may change between releases. The SDK team plans to graduate LEET out of `wandb beta`; watch [SDK release notes](/release-notes/sdk-releases) for updates.
+</Note>
+
+## Launch LEET
+
+From the directory that contains your `wandb/` folder, open the default workspace and auto-select the latest local run:
+
+```bash
+wandb beta leet
+```
+
+You can pass an optional `PATH` that points to a workspace directory, a specific run directory, or a `.wandb` file:
+
+```bash
+wandb beta leet ./wandb
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns
+wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+
+Open the standalone system monitor (SYMON) to view host metrics without a run context:
+
+```bash
+wandb beta leet symon --interval 2s
+```
+
+For command syntax and subcommands, see [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) in the CLI reference.
+
+## Views and pane layout
+
+LEET has three main views: **workspace**, **single-run**, and **SYMON**.
+
+### Workspace view
+
+Workspace view is the default. It is designed to compare multiple runs from the same local `wandb/` directory.
+
+Typical panes include:
+
+- **Runs sidebar** — browse and filter local run folders.
+- **Metrics grid** — overlay selected runs on the same scalar charts.
+- **System metrics** — charts for the highlighted run.
+- **Media** — `wandb.Image` thumbnails rendered in the terminal.
+- **Console logs** — assembled stdout and stderr for the highlighted run.
+- **Run overview** — state, IDs, tags, notes, config, and summary values.
+
+Use `space` to select or deselect a run for overlaid metrics. Use `p` to pin a run so its series stays on top in metric charts. Press `enter` on the highlighted run to open **single-run view**. Live runs keep updating in the workspace, so you can use LEET for both post-run analysis and monitoring an active job.
+
+### Single-run view
+
+Single-run view focuses on one run with a metrics grid in the center, run overview on the left, and system metrics on the right. Media and console log panes open below the metrics grid when toggled on.
+
+<Frame>
+  <img src="/images/leet/leet-single-run-view.png" alt="W&B LEET single-run view with run overview, metric charts, and system metrics panes." />
+</Frame>
+
+Press `esc` to return to workspace view.
+
+### SYMON
+
+SYMON watches local CPU, memory, disk, network, and accelerator metrics. It uses the same chart engine as run-backed system metrics panes but is not tied to a W&B run file.
+
+<Frame>
+  <img src="/images/leet/leet-system-metrics-heatmap.png" alt="W&B LEET system metrics view with GPU charts and bucketed heatmap mode." />
+</Frame>
+
+## Key features
+
+### Multi-run comparison
+
+Select multiple runs in workspace view to compare scalar metrics on shared charts. Each run gets a stable color, and LEET reduces base color collisions so overlaid series stay distinguishable. Pinning is useful when many runs are selected and you want one series to render above the rest.
+
+Press `f` to filter the runs list by name, project, tags, notes, config values, and other metadata. See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for the full query syntax.
+
+### Metrics and system metrics
+
+LEET renders scalar metrics as terminal line charts. Filter run metrics with `/` and system metrics with `\`. Press `y` on a focused chart to cycle modes such as log-scale Y or bucketed heatmap views for percentage-based system metrics.
+
+Use the mouse wheel to zoom the focused chart. On live system metric charts, LEET defaults to a rolling tail window (10 minutes by default). Right-click and drag on a chart to inspect the nearest point. Hold `alt` while dragging to inspect all visible charts at the same X position.
+
+### Media and console logs
+
+The media pane shows `wandb.Image` series as ANSI thumbnails. Toggle it with `3` in workspace or single-run view.
+
+<Frame>
+  <img src="/images/leet/leet-media-workspace.png" alt="W&B LEET workspace view with the media pane showing several image series." />
+</Frame>
+
+Toggle console logs with `4`. LEET rebuilds readable log lines from raw terminal output, including ANSI escape codes and carriage-return progress lines.
+
+For console log behavior in the W&B App, see [Console logs](/models/app/console-logs).
+
+### Configuration
+
+Persist layout, colors, default panes, and startup mode with the config editor:
+
+```bash
+wandb beta leet config
+```
+
+LEET writes `wandb-leet.json` under `~/.config/wandb/` by default, or under `WANDB_CONFIG_DIR` when that variable is set. You can also resize grids from inside LEET with `c` and `r`.
+
+<Frame>
+  <img src="/images/leet/leet-config-editor.png" alt="W&B LEET config editor showing grid settings, color schemes, visibility settings, and palette selection." />
+</Frame>
+
+See the [CLI reference](/models/ref/cli/wandb-beta/wandb-beta-leet) for common config keys and color scheme names.
+
+## Navigate with the keyboard
+
+LEET is designed for keyboard and mouse input. Press `h` or `?` inside LEET to open the in-app help overlay for the current view.
+
+Across workspace and single-run views:
+
+- `tab` and `shift+tab` cycle focus between visible panes.
+- `w`, `a`, `s`, `d` and the arrow keys move within the focused pane (except in the media pane, where arrows scrub the X-axis and WASD moves between tiles).
+- `home`, `end`, `pgup`, and `pgdown` jump within lists, chart pages, or media frames.
+- `1`, `2`, `3`, and `4` toggle the metrics grid, system metrics, media, and console logs panes.
+- `[` and `]` toggle sidebars (runs list, run overview, or system metrics depending on the view).
+
+For the full shortcut tables for workspace, single-run, SYMON, and mouse actions, see [Keyboard shortcuts](/models/app/keyboard-shortcuts) (LEET tab) and [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet).
+
+## Limitations compared to the W&B App
+
+LEET complements the W&B App but does not replicate every workspace capability.
+
+| Capability | LEET | W&B App |
+| --- | --- | --- |
+| Data source | Local `wandb/` directories and `.wandb` files on the current machine | Synced cloud projects and teams |
+| Run comparison | Multiple local runs in one directory | Full workspace tables, grouping, and saved views |
+| Panel types | Scalar line charts, system metrics, `wandb.Image` media, console logs | Line, bar, scatter, parallel coordinates, media, code, query panels, custom charts, and more |
+| Collaboration | Single-user terminal session | Sharing, comments, reports, and team features |
+| Artifacts and files | Not available | Artifacts, Files, and Code tabs per run |
+| Sweeps and registry | Not available | Sweep dashboards, registry, and automations |
+
+If you need artifacts, sweep analysis, or panel types that LEET does not provide, open the run in the [W&B App](/models/runs/view-logged-runs) after syncing.
+
+## Related resources
+
+- [View a specific run](/models/runs/view-logged-runs) — open runs in the W&B App or LEET.
+- [Keyboard shortcuts](/models/app/keyboard-shortcuts) — LEET and App shortcut reference.
+- [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) — launch syntax, filtering, configuration keys, and changelog.
+- [SDK release notes](/release-notes/sdk-releases) — LEET feature history by CLI version.
