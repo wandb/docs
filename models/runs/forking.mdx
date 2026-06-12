@@ -7,43 +7,45 @@ title: Fork a run
 The ability to fork a run is in active development. It is in preview for Multi-tenant Cloud and Dedicated Cloud, and not yet available in Self-Managed.
 </Note>
 
-You can explore different hyperparameters or models from a specific point in an experiment without impacting the original run. To do this, fork from an existing W&B run.
+To explore different hyperparameters or models from a specific point in an experiment without impacting the original run, fork from an existing W&B run.
 
-When you fork from a run, W&B creates a new run using the source run’s [unique ID](/models/runs/run-identifiers#unique-run-identifiers) and a specified step. Summary metrics from the source run are copied to the forked run. The forked run shares all history and files from the source run up to the specified step.
+When you fork from a run, W&B creates a new run using the source run's [unique ID](/models/runs/run-identifiers#run-id) and a specified step. W&B copies summary metrics from the source run to the forked run. The forked run shares all history and files from the source run up to the specified step.
 
-After the fork step, you can log new data to the forked run independently of the original run.
+After the fork step, you can log new data to the forked run independently of the original run. This lets you compare alternative training trajectories side by side without rerunning earlier steps or overwriting the original run's history.
 
-View a [live demo](https://wandb.ai/wandb/test-fork-run/workspace?nw=nwuserjuliarose) of a forked run produced by the code below.
+View a [live demo](https://wandb.ai/wandb/test-fork-run/workspace?nw=nwuserjuliarose) of a forked run produced by the following code.
 
 
 <Note>
-* Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You cannot fork from a run that uses non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric). Non-monotonic steps break the chronological order of run history and system metrics.
+* Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version 0.16.5 or later.
+* Forking a run requires monotonically increasing steps. You can't fork from a run that uses non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric). Non-monotonic steps break the chronological order of run history and system metrics.
 </Note>
 
-Specify the source run's unique `run ID` and the `step` you want to start the forked run from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init). 
+Specify the source run's unique run ID and the step you want to start the forked run from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
+
+The following sections describe two common ways to fork a run: fork from a run that already exists in W&B, and fork from a run that you create in the same script.
 
 ## Fork from a previously logged run
 
-The following code snippet shows how to fork from a run that was previously logged to W&B.
+Use this approach when the source run already exists in W&B (for example, a completed training run whose ID you can look up in the W&B App). The following code snippet shows how to fork from a run that you previously logged to W&B.
 
-First, obtain the run ID of the run you want to fork from. Next, specify the run ID and the step you want to fork from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
+First, obtain the run ID of the run you want to fork from. Next, specify the run ID and the step you want to fork from as arguments to `fork_from` in `wandb.init()`.
 
-Copy and paste the following code into a Python script or notebook cell. Replace `<source-run-id>`, `<project>`, and `<entity>` with your own values:
+Copy and paste the following code into a Python script or notebook cell. Replace `[SOURCE-RUN-ID]`, `[PROJECT]`, and `[ENTITY]` with your own values.
 
 ```python
 import wandb
 
 # The unique ID of the source run to fork from
-source_run_id = "<source-run-id>"
+source_run_id = "[SOURCE-RUN-ID]"
 
 # Specify the step to fork from
 fork_step = 200
 
 # Fork the run
 with wandb.init(
-    project="<project>",
-    entity="<entity>",
+    project="[PROJECT]",
+    entity="[ENTITY]",
     fork_from=f"{source_run_id}?_step={fork_step}",
 ) as forked_run:
     pass
@@ -52,28 +54,28 @@ with wandb.init(
 
 ## Fork from a run in the same script
 
-The following code snippet shows how to create a run and fork from that run within the same script. This might occur if you want to fork from a run that you just created without having to look up the run ID in the W&B App.
+Use this approach when you want to fork from a run that you just created without looking up the run ID in the W&B App. The following code snippet shows how to create a run and fork from that run within the same script.
 
-First, initialize a run and log some data. Next, use the original run object's `id` property to obtain the run ID of that run. Finally, initialize a new run and pass the original run's ID and the step you want to fork from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
+First, initialize a run and log some data. Next, use the original run object's `id` property to obtain the run ID of that run. Finally, initialize a new run and pass the original run's ID and the step you want to fork from as arguments to `fork_from` in `wandb.init()`.
 
 ```python
 import wandb
 
 # Initialize a run
 with wandb.init(
-    project="<project>",
-    entity="<entity>"
+    project="[PROJECT]",
+    entity="[ENTITY]"
 ) as original_run:
     # ...training logic goes here ...
     pass
 
 # Specify the step to fork from
-fork_step = int("<num>")
+fork_step = int("[NUM]")
 
 # Use the original run's ID and specify the step to fork from
 with wandb.init(
-    project="<project>",
-    entity="<entity>",
+    project="[PROJECT]",
+    entity="[ENTITY]",
     fork_from=f"{original_run.id}?_step={fork_step}",
 ) as forked_run:
     # ...training logic goes here ...
@@ -87,9 +89,9 @@ Use the `original_run.id` property to obtain the unique run ID of the original r
 
 ### Example script
 
-For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200. 
+The following end-to-end example shows how to first fork a run and then log metrics to the forked run starting from a training step of 200. It demonstrates a full workflow that you can run as-is to see forking in action.
 
-Copy and paste the following code into a Python script or notebook cell. Replace `<project>` and `<entity>` with your own values.
+Copy and paste the following code into a Python script or notebook cell. Replace `[PROJECT]` and `[ENTITY]` with your own values.
 
 ```python
 import wandb
@@ -97,8 +99,8 @@ import math
 
 # Initialize the first run and log some metrics
 with wandb.init(
-    project="<project>",
-    entity="<entity>"
+    project="[PROJECT]",
+    entity="[ENTITY]"
 ) as run1:
     for i in range(300):
         run1.log({"metric": i})
@@ -106,8 +108,8 @@ with wandb.init(
 # Fork from the first run at a specific step and log the
 # metric starting from step 200
 with wandb.init(
-    project="<project>", 
-    entity="<entity>", 
+    project="[PROJECT]",
+    entity="[ENTITY]",
     fork_from=f"{run1.id}?_step=200"
 ) as run2:
     # Continue logging in the new run
@@ -129,12 +131,14 @@ with wandb.init(
         })
 ```
 
+After you run the example, you have two runs in your project: the original run (`run1`) with the full training history, and the forked run (`run2`) that branches from step 200 and logs its own diverging metrics from there.
+
 <Note>
 **Rewind and forking compatibility**
 
-Forking complements a [`rewind`](/models/runs/rewind/) by providing more flexibility in managing and experimenting with your runs. 
+Forking complements a [rewind](/models/runs/rewind/) by providing more flexibility to manage and experiment with your runs.
 
-When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
+When you fork from a run, W&B creates a new branch off a run at a specific point so you can try different parameters or models.
 
-When you rewind a run, W&B lets you correct or modify the run history itself.
+When you rewind a run, you can correct or modify the run history itself.
 </Note>
