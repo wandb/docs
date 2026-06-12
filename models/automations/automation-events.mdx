@@ -3,12 +3,7 @@ title: Automation events and scopes
 description: "Learn about events and scopes that trigger W&B Automations, including artifact changes, run status, and metric conditions."
 keywords: ["automation triggers", "artifact alias", "run status", "metric threshold", "z-score"]
 ---
-import EnterpriseCloudOnly from "/snippets/_includes/enterprise-cloud-only.mdx";
-import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
-
-<Info>
-<EnterpriseCloudOnly/>
-</Info>
+import MultiTenantAndDedicatedCloudOnly from "/snippets/_includes/multi-tenant-and-dedicated-cloud-only.mdx";
 
 An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope, so you can choose the right trigger when you configure an automation. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
@@ -50,7 +45,7 @@ The following sections describe how to configure an automation that starts based
 
 #### Run status change
 <Note>
-- <MultiTenantCloudOnly/>
+- <MultiTenantAndDedicatedCloudOnly/>
 - A run with **Killed** status can't trigger an automation. This status indicates that an admin forcibly stopped the run.
 </Note>
 
@@ -64,7 +59,7 @@ Because run status is a property of the entire run, you can create a run status 
 
 #### Run metrics change
 <Note>
-<MultiTenantCloudOnly/>
+<MultiTenantAndDedicatedCloudOnly/>
 </Note>
 
 Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric](/models/ref/python/experiments/system-metrics) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
@@ -120,7 +115,7 @@ For example, trigger an automation when average `loss` decreases by at least `0.
 
 #### Run metrics z-score change
 <Note>
-<MultiTenantCloudOnly/>
+<MultiTenantAndDedicatedCloudOnly/>
 </Note>
 
 W&B can trigger an automation when a metric's z-score (standard score) exceeds a specified threshold. A z-score measures how many standard deviations the value is from the mean for that metric across a configurable window of runs in the project (defaults to 30 runs).

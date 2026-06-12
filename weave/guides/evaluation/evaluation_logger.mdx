@@ -1,13 +1,14 @@
 ---
 title: "Log evaluation data from your code"
 description: "Flexible, incremental way to log evaluation data from Python and TypeScript code"
+keywords: ["EvaluationLogger", "log_prediction", "log_score", "incremental evaluation", "rich media logging"]
 ---
 
-The `EvaluationLogger` provides a flexible, incremental way to log evaluation data directly from your Python or TypeScript code. You don't need deep knowledge of Weave's internal data types; simply instantiate a logger and use its methods (`log_prediction`, `log_score`, `log_summary`) to record evaluation steps.
+This guide shows you how to use `EvaluationLogger` to record predictions and scores from your existing Python or TypeScript code, so you can evaluate model performance in Weave without first defining a full dataset and scorer suite.
 
-This approach is particularly helpful in complex workflows where the entire dataset or all scorers might not be defined upfront.
+This approach is helpful in complex workflows where the entire dataset or all scorers might not be defined upfront.
 
-In contrast to the standard `Evaluation` object, which requires a predefined `Dataset` and list of `Scorer` objects, the `EvaluationLogger` allows you to log individual predictions and their associated scores incrementally as they become available.
+In contrast to the standard `Evaluation` object, which requires a predefined `Dataset` and list of `Scorer` objects, the `EvaluationLogger` lets you log individual predictions and their associated scores incrementally as they become available.
 
 <Info>
 **Prefer a more structured evaluation?**
@@ -19,12 +20,14 @@ The `EvaluationLogger` offers flexibility while the standard framework offers st
 
 ## Basic workflow
 
-1. _Initialize the logger:_ Create an instance of `EvaluationLogger`, optionally providing metadata about the `model` and `dataset`. Defaults will be used if omitted.
+Following these steps records a complete evaluation in Weave, with per-prediction scores and an aggregated summary that you can review in the Weave UI.
+
+1. _Initialize the logger:_ Create an instance of `EvaluationLogger`, optionally providing metadata about the `model` and `dataset`. Weave uses defaults if omitted.
     <Note>
-    To capture token usage and cost for LLM calls (e.g. OpenAI), initialize `EvaluationLogger` before any LLM invocations**. 
-    If you call your LLM first and then log predictions afterward, token and cost data are not captured.
+    To capture token usage and cost for LLM calls (for example, OpenAI), initialize `EvaluationLogger` before any LLM invocations.
+    If you call your LLM first and then log predictions afterward, Weave doesn't capture token and cost data.
     </Note>
-2. _Log predictions:_ Call `log_prediction()` for each input/output pair from your system.
+2. _Log predictions:_ Call `log_prediction()` for each input and output pair from your system.
 3. _Log scores:_ Use the returned `ScoreLogger` to `log_score()` for the prediction. Multiple scores per prediction are supported.
 4. _Finish prediction:_ Always call `finish()` after logging scores for a prediction to finalize it.
 5. _Log summary:_ After all predictions are processed, call `log_summary()` to aggregate scores and add optional custom metrics.
@@ -33,7 +36,7 @@ The `EvaluationLogger` offers flexibility while the standard framework offers st
 After calling `finish()` on a prediction, no more scores can be logged for it.
 </Warning>
 
-For a Python code demonstrating the described workflow, see the [Basic example](#basic-example). If the output and all scores are available at once, Python users can combine steps 2–4 into a single call using [`log_example()`](#simplified-logging-with-log_example).
+For a Python example that demonstrates this workflow, see the [Basic example](#basic-example). If the output and all scores are available at once, Python users can combine steps 2 through 4 into a single call using [`log_example()`](#simplified-logging-with-log_example).
 
 ## Basic example
 
@@ -44,8 +47,9 @@ The following example shows how to use `EvaluationLogger` to log predictions and
 The `user_model` model function is defined and applied to a list of inputs. For each example:
 
 - The input and output are logged using `log_prediction`.
-- A simple correctness score (`correctness_score`) is logged via `log_score`.
+- A correctness score (`correctness_score`) is logged through `log_score`.
 - `finish()` finalizes logging for that prediction.
+
 Finally, `log_summary` records any aggregate metrics and triggers automatic score summarization in Weave.
 
 ```python lines
@@ -112,17 +116,17 @@ print("Evaluation logging complete. View results in the Weave UI.")
 <Tab title="TypeScript">
 The TypeScript SDK provides two API patterns:
 
-1. **Fire-and-forget API** (recommended for most cases): Use `logPrediction()` without `await` for synchronous, non-blocking logging
-2. **Awaitable API**: Use `logPredictionAsync()` with `await` when you need to ensure operations complete before proceeding
+- **Fire-and-forget API (recommended for most cases)**: Use `logPrediction()` without `await` for synchronous, non-blocking logging.
+- **Awaitable API**: Use `logPredictionAsync()` with `await` when you need to ensure operations complete before proceeding.
 
-We recommend **fire-and-forget** for:
-- **High throughput**: Process multiple predictions in parallel without waiting for each logging operation
-- **Minimal code disruption**: Add evaluation logging without restructuring your existing async/await flow
-- **Simplicity**: Less boilerplate code and cleaner syntax for most evaluation scenarios
+Use fire-and-forget for:
+- **High throughput**: Process multiple predictions in parallel without waiting for each logging operation.
+- **Minimal code disruption**: Add evaluation logging without restructuring your existing async/await flow.
+- **Simplicity**: Less boilerplate code and cleaner syntax for most evaluation scenarios.
 
 The fire-and-forget pattern is safe because `logSummary()` automatically waits for all pending operations to complete before aggregating results.
 
-The following example evaluates model predictions with the fire-and-forget pattern. It sets up an evaluation logger, runs a simple model on three test samples, and then logs the prediction without using await:
+The following example evaluates model predictions with the fire-and-forget pattern. It sets up an evaluation logger, runs a model on three test samples, and then logs the prediction without using await:
 
 ```typescript twoslash lines {36,50}
 // @noErrors
@@ -180,7 +184,7 @@ await evalLogger.logSummary(summaryStats);
 console.log('Evaluation logging complete. View results in the Weave UI.');
 ```
 
-Use awaitable API when you need to ensure each operation completes before proceeding, such as when managing error handling or sequential dependencies. 
+Use the awaitable API when you need to ensure each operation completes before proceeding, such as when managing error handling or sequential dependencies. 
 
 In the following example, instead of calling `logPrediction()` without `await`, it uses `logPredictionAsync()` with `await` to ensure each operation completes before proceeding to the next one:
 
@@ -198,7 +202,7 @@ await scoreLogger.finish();
 
 ## Simplified logging with `log_example()`
 
-Use `log_example()` to log inputs, an output, and scores in a single call. This convenience method combines `log_prediction()`, `log_score()`, and `finish()` into one step, and is useful when you already have the inputs, model outputs, and scores ready to log, such as during batch or offline evaluations.
+Use `log_example()` to log inputs, an output, and scores in a single call. This convenience method combines `log_prediction()`, `log_score()`, and `finish()` into one step, and it's useful when you already have the inputs, model outputs, and scores ready to log, such as during batch or offline evaluations.
 
 ```python lines
 import weave
@@ -230,7 +234,7 @@ for sample in eval_samples:
 eval_logger.log_summary({"avg_score": 1.0})
 ```
 
-The `log_example()` call above is equivalent to:
+The previous `log_example()` call is equivalent to:
 
 ```python
 pred = eval_logger.log_prediction(inputs=inputs, output=output)
@@ -244,16 +248,16 @@ pred.finish()
 
 ## Advanced usage
 
-The `EvaluationLogger` offers flexible patterns beyond the basic workflow to accommodate more complex evaluation scenarios. This section covers advanced techniques including using context managers for automatic resource management, separating model execution from logging, working with rich media data, and comparing multiple model evaluations side-by-side.
+The `EvaluationLogger` offers flexible patterns beyond the basic workflow to accommodate more complex evaluation scenarios. The following sections describe advanced techniques, including how to use context managers for automatic resource management, separate model execution from logging, work with rich media data, and compare multiple model evaluations side by side.
 
-### Using context managers
+### Use context managers
 
 The `EvaluationLogger` supports context managers (`with` statements) for both predictions and scores. This can provide cleaner code, automatic resource cleanup, and better tracking of nested operations like LLM judge calls.
 
 Using `with` statements in this context provides:
-- Automatic `finish()` calls when exiting the context
-- Better token/cost tracking for nested LLM calls
-- Setting output after model execution within the prediction context
+- Automatic `finish()` calls when exiting the context.
+- Better token and cost tracking for nested LLM calls.
+- Setting output after model execution within the prediction context.
 
 <Tabs>
 <Tab title="Python">
@@ -309,7 +313,7 @@ This pattern ensures that all nested operations are tracked and attributed to th
 <Tab title="TypeScript">
 TypeScript doesn't have Python's `with` statement pattern for context managers. Instead, use the fire-and-forget pattern with explicit `finish()` calls.
 
-The following example logs a prediction, adds simple scores and an LLM judge score, then finalizes the prediction with `finish()`:
+The following example logs a prediction, adds scores and an LLM judge score, then finalizes the prediction with `finish()`:
 
 ```typescript twoslash lines {43}
 // @noErrors
@@ -370,9 +374,9 @@ While TypeScript doesn't have automatic cleanup with context managers, `logSumma
 
 ### Link to an existing dataset
 
-When you pass raw datasets as `inputs` to `log_prediction`, Weave re-ingests the data with every evaluation run. This stores duplicate data, which may waste space if the dataset is large or if a large number of evaluations reuse it.
+When you pass raw datasets as `inputs` to `log_prediction`, Weave reimports the data with every evaluation run. This stores duplicate data, which can waste space if the dataset is large or if many evaluations reuse it.
 
-To avoid this duplication, publish your dataset to Weave before running any evaluations, then pass the published dataset's rows as `inputs`. Weave resolves references to published rows using internal references instead of re-ingesting the data. This technique gives you the same linked experience as the standard [Evaluation framework](../core-types/evaluations), where each prediction links back to a specific dataset row in the Weave UI.
+To avoid this duplication, publish your dataset to Weave before running any evaluations, then pass the published dataset's rows as `inputs`. Weave resolves references to published rows using internal references instead of reimporting the data. This technique gives you the same linked experience as the standard [Evaluation framework](../core-types/evaluations), where each prediction links back to a specific dataset row in the Weave UI.
 
 The following example publishes a dataset and links to it in the `EvaluationLogger`, before retrieving and iterating over it like any other dataset.
 
@@ -426,7 +430,7 @@ const published = await datasetRef.get();
 
 ### Get outputs before logging
 
-You can first compute your model outputs, then separately log predictions and scores. This allows for better separation of evaluation and logging logic.
+You can first compute your model outputs, then separately log predictions and scores. This separates evaluation and logging logic, which can make code easier to test and maintain when different parts of your system handle prediction generation and scoring.
 
 <Tabs>
 <Tab title="Python">
@@ -490,7 +494,7 @@ You can use the fire-and-forget pattern to process as many evaluations in parall
 
 ### Log rich media
 
-Inputs, outputs, and scores can include rich media such as images, videos, audio, or structured tables. Simply pass a dict or media object into the `log_prediction` or `log_score` methods.
+Inputs, outputs, and scores can include rich media such as images, videos, audio, or structured tables. Logging rich media lets you inspect the actual content alongside scores in the Weave UI, which is helpful for qualitative analysis of multimodal models. Pass a dict or media object into the `log_prediction` or `log_score` methods.
 
 <Tabs>
 <Tab title="Python">
@@ -619,17 +623,17 @@ await ev.logSummary();
 
 ### Log and compare multiple evaluations
 
-With `EvaluationLogger`, you can log and compare multiple evaluations.
+With `EvaluationLogger`, you can log and compare multiple evaluations side by side in the Weave UI. This is useful for assessing how different models perform on the same dataset.
 
-1. Run the code sample shown below.
+1. Run the following code sample.
 2. In the Weave UI, navigate to the `Evals` tab.
 3. Select the evals that you want to compare.
 4. Click the **Compare** button. In the Compare view, you can:
-   - Choose which Evals to add or remove
-   - Choose which metrics to show or hide
-   - Page through specific examples to see how different models performed for the same input on a given dataset
+   - Choose which Evals to add or remove.
+   - Choose which metrics to show or hide.
+   - Page through specific examples to see how different models performed for the same input on a given dataset.
 
-   For more information on comparisons, see [Comparisons](../tools/comparison)
+For more information about comparisons, see [Comparisons](../tools/comparison).
 
 <Tabs>
 <Tab title="Python">
@@ -711,16 +715,19 @@ for (const model of models) {
 <Frame>
 ![The Comparison view](/weave/guides/evaluation/img/comparison.png)
 </Frame>
+
 ## Usage tips
+
+The following tips help you get the most out of `EvaluationLogger`:
 
 <Tabs>
 <Tab title="Python">
 - Call `finish()` promptly after each prediction.
-- Use `log_summary` to capture metrics not tied to single predictions (e.g., overall latency).
-- Rich media logging is great for qualitative analysis.
+- Use `log_summary` to capture metrics not tied to single predictions (for example, overall latency).
+- Rich media logging is useful for qualitative analysis.
 </Tab>
 <Tab title="TypeScript">
-- **Auto-finish behavior**: While we recommend explicitly calling `finish()` on each prediction for clarity, `logSummary()` automatically finishes any unfinished predictions. However, once the script calls `finish()`, it cannot log anymore scores.
+- **Auto-finish behavior**: While we recommend explicitly calling `finish()` on each prediction for clarity, `logSummary()` automatically finishes any unfinished predictions. However, once the script calls `finish()`, it can't log any more scores.
 - **Configuration options**: Use configuration options, including `name`, `description`, `dataset`, `model`, `scorers`, and `attributes` to organize and filter your evaluations in the Weave UI.
 </Tab>
 </Tabs>

@@ -1,16 +1,17 @@
 ---
 title: "Call schema reference"
 description: "Reference for the Call object structure and properties"
+keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 ---
 
-This reference describes the Call object schema in W&B Weave. For information on querying calls, see [Query and export calls](/weave/guides/tracking/querying-calls).
+This reference describes the Call object schema in W&B Weave, including its properties, how to write custom data to the `summary` dictionary during execution, and how to read summary data after a Call completes. Use this page when you need to inspect, filter, or extend the data Weave records for each Call. For information about querying calls, see [Query and export calls](/weave/guides/tracking/querying-calls).
 
 ## Call properties
 
-The table below outlines the key properties of a Call in Weave. For the complete implementation, see the following:
+The following table outlines the key properties of a Call in Weave. For the complete implementation, see the following:
 
-- [class: CallSchema](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) in the Python SDK.
-- [Interface: CallSchema](/weave/reference/typescript-sdk/interfaces/callschema) in the TypeScript SDK.
+- [class: CallSchema](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) in the Python SDK
+- [Interface: CallSchema](/weave/reference/typescript-sdk/interfaces/callschema) in the TypeScript SDK
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -44,7 +45,7 @@ Together, these properties support detailed tracking and analysis of Calls throu
 
 ## Use Call summary
 
-The `summary` property is a dictionary you can write to during a Call's execution. When the Call finishes, Weave deep-merges your values with its own computed data and stores the result.
+Use the `summary` property to attach custom, post-execution data to a Call so you can analyze it later alongside Weave's built-in metrics. It's a dictionary you can write to during a Call's execution. When the Call finishes, Weave deep-merges your values with its own computed data and stores the result.
 
 The dictionary has two zones:
 
@@ -118,11 +119,11 @@ import weave
 client = weave.init("my-team/my-project")
 
 # Fetch a single Call by ID.
-call = client.get_call("<call-id>")
+call = client.get_call("[CALL-ID]")
 weave_summary = (call.summary or {}).get("weave", {})
 
 print(weave_summary.get("status"))       # TraceStatus enum: SUCCESS, ERROR, RUNNING, or DESCENDANT_ERROR.
-print(weave_summary.get("latency_ms"))   # Is null if the Call is still running.
+print(weave_summary.get("latency_ms"))   # Null if the Call is still running.
 print(weave_summary.get("costs"))        # Cost breakdown per model.
 print(call.summary.get("usage"))         # Raw token counts from the LLM provider.
 print(call.summary.get("accuracy"))      # Your custom field.
@@ -141,11 +142,11 @@ import * as weave from 'weave';
 const client = await weave.init('my-team/my-project');
 
 // Fetch a single Call by ID.
-const call = await client.getCall('<call-id>');
+const call = await client.getCall('[CALL-ID]');
 const weaveSummary = call.summary?.weave;
 
 console.log(weaveSummary?.status);       // "success", "error", "running", or "descendant_error".
-console.log(weaveSummary?.latency_ms);   // Is undefined if the Call is still running.
+console.log(weaveSummary?.latency_ms);   // Undefined if the Call is still running.
 console.log(weaveSummary?.costs);        // Cost breakdown per model.
 console.log(call.summary?.usage);        // Raw token counts from the LLM provider.
 console.log(call.summary?.accuracy);     // Your custom field.

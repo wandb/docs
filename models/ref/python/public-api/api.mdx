@@ -46,16 +46,6 @@ Initialize the API.
 
 ---
 
-### <kbd>property</kbd> Api.client
-
-Returns the client object. 
-
-
-
-**Returns:**
- - `RetryingClient`: The client property value.
----
-
 ### <kbd>property</kbd> Api.default_entity
 
 Returns the default W&B entity. 
@@ -85,7 +75,7 @@ Returns the viewer object.
 **Raises:**
  
  - `ValueError`:  If viewer data is not able to be fetched from W&B. 
- - `requests.RequestException`:  If an error occurs while making the graphql request. 
+ - `WandbApiFailedError`:  If an error occurs while making the GraphQL request. 
 
 
 

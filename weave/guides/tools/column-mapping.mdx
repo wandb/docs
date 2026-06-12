@@ -1,6 +1,7 @@
 ---
 title: "Map columns in datasets"
 description: "Map columns in datasets to different names. This helps you align the column names in your dataset with the column names expected by the scorer."
+keywords: ["column_map", "columnMapping", "scorer parameters", "EmbeddingSimilarityScorer"]
 ---
 
 
@@ -21,10 +22,10 @@ description: "Map columns in datasets to different names. This helps you align t
     }
     ```
 
-    For more details on scorer column mapping, see [Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
+    For more information about scorer column mapping, see [Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
   </Tab>
   <Tab title="TypeScript">
-    In the Weave TypeScript SDK, column mapping is configured on the `Evaluation` object using the `columnMapping` option, not on individual scorers. The mapping format is `{scorer_key: dataset_column}`.
+    In the Weave TypeScript SDK, you configure column mapping on the `Evaluation` object using the `columnMapping` option, not on individual scorers. The mapping format is `{scorer_key: dataset_column}`.
 
     The following example maps `expectedOutputTimesTwo` (used by the scorer) to the `expected` column in the dataset:
 
@@ -47,6 +48,6 @@ description: "Map columns in datasets to different names. This helps you align t
     });
     ```
 
-    For more details on TypeScript scorer arguments, see [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments).
+    For more information about TypeScript scorer arguments, see [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments).
   </Tab>
 </Tabs>
