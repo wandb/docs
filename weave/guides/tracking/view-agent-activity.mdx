@@ -1,6 +1,7 @@
 ---
 title: "View agent activity"
 description: "Use W&B Weave's Agents view to understand what your agent did, how much it cost, and exactly where things went right or wrong."
+keywords: ["agent observability", "conversation traces", "spans", "token usage", "agent debugging"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
@@ -13,21 +14,23 @@ Agent applications are hard to debug because the interesting behavior happens be
 
 ## Get started
 
-To view agent activity:
+To open the Agents view for your project:
 
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
 2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
 
+The Agents view opens on the **Agents** tab, where each agent that has logged traces to the project appears as a card. From here, you can drill into individual conversations, spans, and signals using the tabs described in the following sections.
+
 ## Agents tab
 
 The **Agents** tab gives you a high-level view of all agents that have logged
-traces to this project. Use it to spot which agents are active, compare
-latency and error rates across agents, and identify agents that need
+traces to this project. Use it to spot which agents are active and to compare
+latency and error rates across agents. It also helps you identify agents that need
 attention before drilling into individual conversations.
 
 ![The Agents tab showing a grid of agent cards, each displaying conversation count, span count, average latency, and error rate.](./imgs/agent-view-agent.png)
 
-It is useful for scenarios such as:
+It's useful for scenarios such as:
 
 - **Monitoring a fleet of agents.** The card grid lets you compare latency and
   error rate across all agents at once without opening individual conversations.
@@ -36,7 +39,7 @@ It is useful for scenarios such as:
 - **Identifying stale agents.** Sorting by **Last seen** highlights agents that
   haven't recorded activity recently. This is useful for confirming a deployment
   is live or spotting agents that may have stopped logging traces unexpectedly.
-- **Comparing versions.** The version count on each card tells you how many
+- **Comparing versions.** The version count on each card shows how many
   distinct versions of that agent have been deployed. A high version count
   alongside a rising error rate may indicate a regression introduced in a recent
   deployment.
@@ -90,7 +93,7 @@ For high-level questions about what an agent said and did across a conversation,
 ### Conversations table
 
 The conversation table shows one row per conversation. The following columns
-appear by default.
+appear by default:
 
 | Column | Description |
 |---|---|
@@ -106,7 +109,7 @@ appear by default.
 
 To show or hide additional columns, click **Columns** in the toolbar.
 
-### Filtering and time window
+### Filters and time window
 
 Use the **Filter** bar to narrow results by agent, model, error status, or
 other attributes.
@@ -121,7 +124,7 @@ a specific value or range.
 
 ### Agent conversation detail
 
-Click a conversation row to open a detail panel with two sub-tabs: turns and events.
+Click a conversation row to open a detail panel with two sub-tabs: **Turns** and **Events**.
 
 ![A conversation selected in the Conversations tab, with the detail panel open showing the turn-by-turn message thread, tool calls, reasoning, and the Events timeline on the right.](./imgs/agent-view-conversation-detail.png)
 
@@ -139,11 +142,11 @@ Within a turn, messages are grouped by role.
 **User messages** show the message text and any attached media or content
 references.
 
-**Assistant messages** show:
+**Assistant messages** show the following:
 
 - The agent name and the model used (for example, `gpt-5.5-2026-04-23`).
 - Timestamp and duration.
-- Input and output token counts (for example, `16086 in  295 out`).
+- Input and output token counts (for example, `16086 in 295 out`).
 - An expandable **Reasoning** section when the model used extended thinking.
 - The response text, which collapses automatically for long responses.
 
@@ -163,7 +166,7 @@ of its type.
 The **Events** panel on the right shows a color-coded strip that represents
 the sequence of events within the selected turn.
 
-In the events timeline, each segment's color indicates the event type.
+In the Events timeline, each segment's color indicates the event type.
 
 | Color | Event type |
 |---|---|
@@ -222,8 +225,8 @@ model names here.
 ## Spans tab
 
 The **Spans** tab shows every individual span recorded across all agent
-activity in the project. Where the Conversations tab aggregates activity into
-dialogue-level rows, the Spans tab exposes the raw operations underneath: each
+activity in the project. The Conversations tab aggregates activity into
+dialogue-level rows. The Spans tab exposes the raw operations underneath: each
 LLM call, tool execution, and agent invocation as its own row. Use it to trace
 exactly which call was slow, which model consumed unexpected tokens, or which
 tool invocation failed.
@@ -260,9 +263,9 @@ Conversations tab doesn't provide:
   and run steps, letting you link a specific span back to a training or
   evaluation run in W&B.
 
-### Trace grouping
+### Trace groups
 
-Click any row to select its trace and highlight all other spans that share the same trace ID. This shows you the full set of operations that were executed as part of one agent invocation. Grouping here is by trace, not by conversation. This means a single conversation may contain multiple traces if it involved sub-agent delegation.
+Click any row to select its trace and highlight all other spans that share the same trace ID. This shows you the full set of operations that ran as part of one agent invocation. Grouping here is by trace, not by conversation. This means a single conversation may contain multiple traces if it involved sub-agent delegation.
 
 ### Agent invocation detail
 
@@ -283,10 +286,10 @@ time in milliseconds from the beginning of the trace. Use the timeline to:
 
 ![The Spans tab with a trace selected, highlighting a group of related spans in the table and showing the flame graph in the detail panel on the right.](./imgs/agent-view-spans-detail.png)
 
-You can alternatively view the child spans as a hierarchical trace tree by selecting the `Show trace tree` icon in the detail panel header.
+You can alternatively view the child spans as a hierarchical trace tree by selecting the **Show trace tree** icon in the detail panel header.
 
 ## Signals tab
 
 The **Signals** tab shows tags and ratings for your agent's conversations. Signals surface quality and safety issues to flag problems, find patterns, and highlight the traces that need your attention. Use signals to automatically score the quality of your agent's responses, notice when a user is frustrated, or flag NSFW content.
 
-To learn more, see [Monitor your agents with signals](/weave/guides/tracking/view-agent-signals).
+For setup and detailed usage, see [Monitor your agents with signals](/weave/guides/tracking/view-agent-signals).
