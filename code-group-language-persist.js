@@ -18,9 +18,10 @@
  *
  * How it works:
  * - Remember: a capture-phase pointerdown/click listener stores the chosen
- *   tab's label in localStorage when the label names a language (see LANGUAGES;
- *   the whitelist stops descriptive tabs like "Web App" or "Summary metrics"
- *   from clobbering the saved language).
+ *   tab's label in localStorage when the label is an SDK language (see
+ *   LANGUAGES — only Python/TypeScript). The whitelist stops both descriptive
+ *   tabs ("Web App", "Summary metrics") and incidental code tabs ("Bash",
+ *   "cURL") from clobbering the saved language.
  * - Restore: on load, after hydration, and on SPA route changes (a
  *   MutationObserver), any tab whose label matches the saved language (compared
  *   case-insensitively) is selected. Tabs already active are skipped, so this
@@ -42,18 +43,21 @@
   var STORAGE_KEY = 'wandb.docs.codeLanguage';
 
   /**
-   * Tab labels we treat as a language choice worth remembering, compared
-   * lower-cased. Kept broad so new languages work without edits; any label not
-   * listed (a descriptive tab title) is ignored so it cannot overwrite the
-   * saved preference.
+   * The SDK languages whose choice should follow the reader from page to page,
+   * compared lower-cased. Deliberately limited to Python and TypeScript — the
+   * two W&B SDK languages and the only genuine cross-page preference.
+   *
+   * Incidental code tabs (Bash, shell, cURL, YAML, JSON, …) are intentionally
+   * NOT listed: persisting them would let a click on, say, a Bash tab overwrite
+   * the saved Python/TypeScript choice, and a later page whose tabs are only
+   * Python/TypeScript has no Bash match — so it would silently fall back to its
+   * first tab, defeating the persistence. Restore is case-insensitive, so the
+   * canonical labels here cover "python"/"Python"/"TypeScript" alike; short
+   * aliases (py/ts) are omitted on purpose — storing "ts" would not match a
+   * "TypeScript" tab and would reintroduce that same fall-back bug.
    */
   var LANGUAGES = {
-    python: 1, py: 1, typescript: 1, ts: 1, javascript: 1, js: 1, jsx: 1,
-    tsx: 1, node: 1, 'node.js': 1, nodejs: 1, bash: 1, shell: 1, sh: 1,
-    zsh: 1, powershell: 1, go: 1, golang: 1, rust: 1, java: 1, kotlin: 1,
-    ruby: 1, php: 1, c: 1, 'c++': 1, cpp: 1, 'c#': 1, csharp: 1, swift: 1,
-    scala: 1, r: 1, julia: 1, sql: 1, yaml: 1, yml: 1, json: 1, toml: 1,
-    html: 1, css: 1, curl: 1, http: 1, graphql: 1, dockerfile: 1
+    python: 1, typescript: 1
   };
 
   /** Read the saved language, tolerant of disabled/throwing localStorage. */
