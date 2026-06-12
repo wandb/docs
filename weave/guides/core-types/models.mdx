@@ -1,17 +1,20 @@
 ---
 title: "Track application versions with models"
 description: "Track versions of your application with structured models that combine data and code."
+keywords: ["weave.Model", "model versioning", "predict op", "weave serve", "production tracking"]
 ---
 
 A `Model` is a combination of data (which can include configuration, trained model weights, or other information) and code that defines how the model operates. By structuring your code to be compatible with this API, you benefit from a structured way to version your application so you can more systematically keep track of your experiments.
+
+This guide shows you how to define a Weave `Model`, call it to capture inputs and outputs, take advantage of automatic versioning when your code or parameters change, serve the model behind a local API, and tag production calls for filtering. It's for developers who build LLM-powered applications with Weave and want a repeatable way to track and compare iterations of their app.
 
 <Tabs>
   <Tab title="Python">
     To create a model in Weave, you need the following:
 
-    - a class that inherits from `weave.Model`
-    - type definitions on all parameters
-    - a typed `predict` function with `@weave.op()` decorator
+    - A class that inherits from `weave.Model`
+    - Type definitions on all parameters
+    - A typed `predict` function with `@weave.op()` decorator
 
     ```python lines
     from weave import Model
@@ -38,14 +41,14 @@ A `Model` is a combination of data (which can include configuration, trained mod
     model.predict('world')
     ```
 
-    This tracks the model settings along with the inputs and outputs anytime you call `predict()`.
+    This tracks the model settings along with the inputs and outputs anytime you call `predict()`. You now have a versioned Weave `Model` that records every prediction it makes, which the following sections build on.
 
     ## Automatic versioning of models
 
-    When you change the parameters or the code that defines your model, these changes will be logged and the version will be updated.
-    This ensures that you can compare the predictions across different versions of your model. Use this to iterate on prompts or to try the latest LLM and compare predictions across different settings.
+    When you change the parameters or the code that defines your model, Weave logs these changes and updates the version.
+    This lets you compare predictions across versions of your model. Use this to iterate on prompts or to try a different LLM and compare predictions across settings.
 
-    For example, here we create a new model:
+    For example, here you create a new model:
 
     ```python lines
     import weave
@@ -55,21 +58,21 @@ A `Model` is a combination of data (which can include configuration, trained mod
     model.predict('world')
     ```
 
-    After calling this, you will see that you now have two versions of this Model in the UI, each with different tracked calls.
+    After calling this, you see that you now have two versions of this model in the UI, each with different tracked calls.
 
     ## Serve models
 
-    To serve a model, you can easily spin up a FastAPI server by calling:
+    Serving a model exposes its `predict` function over HTTP, which is useful for testing it from other applications or sharing it with teammates without distributing the underlying code. To start a FastAPI server for a Weave model, replace `[MODEL-REF]` with the reference to your model and run:
 
     ```bash
-    weave serve <your model ref>
+    weave serve [MODEL-REF]
     ```
 
     For additional instructions, see [serve](/weave/guides/tools/serve).
 
     ## Track production calls
 
-    To separate production calls, you can add an additional attribute to the predictions for easy filtering in the UI or API.
+    Once you use your model in more than one environment, it helps to distinguish production traffic from development or evaluation runs so you can analyze them separately. To separate production calls, add an attribute to the predictions for filtering in the UI or API.
 
     ```python lines
     with weave.attributes({'env': 'production'}):
@@ -78,8 +81,8 @@ A `Model` is a combination of data (which can include configuration, trained mod
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    ```text
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
