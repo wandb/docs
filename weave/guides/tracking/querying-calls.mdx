@@ -1,25 +1,35 @@
 ---
 title: "Query and export Calls"
 description: "Filter, sort, and export Weave call data using the Python SDK, REST API, or the Weave UI for custom analysis."
+keywords: ["export traces", "stream_query", "call metrics", "calls stats", "trace export"]
 ---
 
-In the Weave UI, you can export your data in multiple formats.  It also shows the Python and cURL code that you can use to export the rows programatically. 
+This page shows you how to query and export Weave Calls so you can analyze trace data outside of Weave. For example, you can build custom dashboards, share results with collaborators, or run offline analysis. You can export Calls from the Weave UI, fetch them programmatically with the Python or TypeScript SDKs, or query them directly using the Service API.
+
+## Export Calls from the Weave UI
+
+In the Weave UI, you can export your data in multiple formats. The UI also shows the Python and cURL code that you can use to export the rows programmatically.
+
 To export Calls:
+
 1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
 1. In the Weave project sidebar, click **Traces**.
 1. Select multiple Calls that you want to export by checking the row.
-1. In the **Traces** table toolbar, click the export/download button.
-1. In the **Export** modal, choose **Selected rows** or **All rows**. Click Export.
+1. In the **Traces** table toolbar, click the export or download button.
+1. In the **Export** modal, choose **Selected rows** or **All rows**.
+1. Click **Export**.
 
 <Frame>
 ![Traces page showing selected Calls ready for export in the Export modal.](/weave/guides/tracking/imgs/trace_export_modal.png)
 </Frame>
 
-## Fetch calls programmatically
+## Fetch Calls programmatically
+
+To filter, sort, or process Calls outside of the UI, fetch them with one of the Weave SDKs or the Service API. Choose the interface that best matches your workflow.
 
 <Tabs>
   <Tab title="Python">
-  To fetch calls using the Python API, you can use the [`client.get_calls`](/weave/reference/python-sdk/trace/weave_client#method-get_calls) method:
+  To fetch Calls using the Python API, use the [`client.get_calls`](/weave/reference/python-sdk/trace/weave_client#method-get_calls) method:
 
   ```python lines
   import weave
@@ -33,7 +43,7 @@ To export Calls:
 
   </Tab>
   <Tab title="TypeScript">
-  To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method.
+  To fetch Calls using the TypeScript API, use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method:
   ```typescript lines
   import * as weave from 'weave'
 
@@ -45,7 +55,7 @@ To export Calls:
   ```
   </Tab>
   <Tab title="HTTP API">
-  The most powerful query layer is at the Service API. To fetch calls using the Service API, you can make a request to the [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) endpoint.
+  The Service API exposes the full query layer. To fetch Calls using the Service API, make a request to the [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) endpoint:
 
   ```bash
   curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -104,12 +114,13 @@ To export Calls:
   </Tab>
 </Tabs>
 
-For complete details on call properties and fields, see the [Call schema reference](/weave/guides/tracking/call-schema-reference).
+For complete details about Call properties and fields, see the [Call schema reference](/weave/guides/tracking/call-schema-reference).
 
+## Export Call metrics
 
-## Export call metrics
+When you need aggregate insights, such as cost or latency trends, rather than the underlying Call records, use the metrics endpoint described in this section.
 
-You can also use the Weave Service API's [POST `/calls/stats` endpoint](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) to retrieve metrics about your Calls without retrieving the Call data itself. This allows you to quickly and efficiently retrieve information about your Calls, such as latency and cost, and aggregate them by sum, average, minimum, maximum, and count. For example, you can retrieve:
+You can also use the Weave Service API's [POST `/calls/stats` endpoint](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) to retrieve metrics about your Calls without retrieving the Call data itself. You can retrieve information about your Calls, such as latency and cost, and aggregate them by sum, average, minimum, maximum, and count. For example, you can retrieve:
 
 * Total token usage
 * Average latency
@@ -117,14 +128,14 @@ You can also use the Weave Service API's [POST `/calls/stats` endpoint](https://
 * Total cost
 * Minimum input tokens
 
-The endpoint provides several filtering options that allow you to target Calls made within specified time periods, and by other properties, such as:
+The endpoint provides several filtering options so you can target Calls made within specified times, and by other properties, such as:
 
 * Op name
 * Trace ID
 * Thread ID
 * User ID
 
-The following example demonstrates how to retrieve Calls generated from an Op named `web_app` over a two-day period:
+The following example demonstrates how to retrieve Calls generated from an Op named `web_app` over two days. Replace `[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]` with your team and project names:
 
 <CodeGroup>
 ```python Python lines {10-11,16-24}
@@ -135,7 +146,7 @@ import os
 url = "https://trace.wandb.ai/calls/stats"
 
 payload = {
-    "project_id": "<your-team-name/your-project-name>",
+    "project_id": "[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]",
     "start": "2026-03-01T00:00:00Z",
 # Specify the size of the buckets, in seconds.
     "granularity": 86400,
@@ -166,7 +177,7 @@ print(json.dumps(response.json(), indent=2))
 const url = "https://trace.wandb.ai/calls/stats";
 
 const payload = {
-  project_id: "<your-team-name/your-project-name>",
+  project_id: "[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]",
   start: "2026-03-01T00:00:00Z",
 // Specify the size of the buckets, in seconds.
   granularity: 86400,
@@ -204,7 +215,7 @@ console.log(JSON.stringify(data, null, 2));
 
 The request also specifies how to aggregate the metrics. You can aggregate metrics by `sum`, `count`, `avg`, `min`, `max`, and `count`.
 
-The endpoint returns a JSON object. The following example response shows two days' worth of metrics. Each day (bucket) is broken up into its own object in the `usage_buckets` and `call_buckets` arrays. Each array breaks down the metrics differently:
+The endpoint returns a JSON object. The following example response shows two days' worth of metrics. Each day (bucket) appears as its own object in the `usage_buckets` and `call_buckets` arrays. Each array breaks down the metrics differently:
 
 * `usage_buckets`: Groups Call metrics for each day by the model used.
 * `call_buckets`: Groups Call metrics for each day regardless of the model used.
@@ -284,4 +295,4 @@ Set the granularity field (in seconds) in the request to change the bucket size.
 }
 ```
 
-You can query metrics for a maximum time range of 31 days. See the [Service API reference](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) for more details and available options.
+You can query metrics for a maximum time range of 31 days. For more information about available options, see the [Service API reference](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats).
