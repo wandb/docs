@@ -3,10 +3,11 @@ description: "Export W&B Table data to pandas DataFrames and CSV files for offli
 title: Export table data
 ---
 
-Like all W&B Artifacts, Tables can be converted into pandas dataframes for easy data exporting. 
+Like all W&B artifacts, you can convert Tables into pandas DataFrames for data export. This page shows you how to export the data in a W&B Table to a pandas DataFrame and then to a CSV file, so that you can analyze or process the data outside of W&B.
 
-## Convert `table` to `artifact`
-First, you'll need to convert the table to an artifact. The easiest way to do this using `artifact.get(table, "table_name")`:
+## Convert a table to an artifact
+
+First, add the table to an artifact and log it, then retrieve the table as a `Table` object you can manipulate. Use `artifact.add(table, "my_table")` to add the table to the artifact and `artifact.get("my_table")` to retrieve it later:
 
 ```python
 # Create and log a new table.
@@ -24,8 +25,9 @@ with wandb.init() as r:
     table = artifact.get("my_table")
 ```
 
-## Convert `artifact` to Dataframe
-Then, convert the table into a dataframe:
+## Convert the artifact to a DataFrame
+
+With the table retrieved from the artifact, convert it into a pandas DataFrame so that you can use DataFrame operations:
 
 ```python
 # Following from the last code example:
@@ -33,14 +35,18 @@ df = table.get_dataframe()
 ```
 
 ## Export data
-Now you can export using any method dataframe supports:
+
+With your data in a DataFrame, you can export it using any method that pandas supports. For example, the following exports the data to a CSV file:
 
 ```python
-# Converting the table data to .csv
+# Convert the table data to .csv
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
-# Next Steps
-- Check out the [reference documentation](/models/artifacts/construct-an-artifact/) on `artifacts`.
-- Go through our [Tables Walkthrough](/models/tables/tables-walkthrough/) guide.
-- Check out the [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) reference docs.
+## Next steps
+
+For more information, see the following resources:
+
+- [Construct an artifact](/models/artifacts/construct-an-artifact/) for reference documentation on artifacts.
+- [Tables walkthrough](/models/tables/tables-walkthrough/) for a guided tutorial.
+- [pandas DataFrame reference](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) for DataFrame API documentation.
