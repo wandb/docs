@@ -8,6 +8,11 @@ runbooks/
 node_modules/
 .github/
 
+# wandb/examples submodule: example code kept current by Dependabot, not doc
+# pages. Excluded so Mintlify does not parse or publish its files. To surface
+# specific example content in the docs, narrow this pattern accordingly.
+snippets/_includes/examples/
+
 # Top-level config and assets (not doc pages)
 # Note: Do not exclude .js or .css. Mintlify loads
 # these automatically if present in the content root.
